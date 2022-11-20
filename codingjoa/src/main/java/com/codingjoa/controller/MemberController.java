@@ -88,6 +88,11 @@ public class MemberController {
 		return "member/find-account";
 	}
 	
+	@GetMapping("/showAccount")
+	public String showAccount() {
+		return "member/show-account";
+	}
+	
 	@GetMapping("/findPassword")
 	public String findPassword() {
 		return "member/find-password";
