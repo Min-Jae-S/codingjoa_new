@@ -1,0 +1,39 @@
+@charset "UTF-8";
+
+body {
+	padding-top: 80px; 
+	padding-bottom: 80px;
+	/* padding-top: 56px; 
+	padding-bottom: 56px; */
+}
+
+.join-container {
+	margin-top: 4rem;
+}
+
+.login-container,
+.info-container,
+.check-password-container,
+.update-password-container,
+.find-account-container,
+.find-password-container {
+	margin-top: 6.5rem;
+}
+
+.security-container {
+	margin-top: 10rem;
+}
+
+input::placeholder {
+	font-size: 14px;
+}
+
+.error {
+	color: red;
+	font-size: 13px;
+}
+
+.success {
+	color: green;
+	font-size: 13px;
+}
