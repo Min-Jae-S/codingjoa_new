@@ -62,10 +62,12 @@ public class EmailValidator implements Validator {
 		if (type == Type.JOIN) {
 			if (memberService.isEmailExist(memberEmail)) {
 				errors.rejectValue("memberEmail", "EmailExist");
-				return;
 			}
 			
-		} else if (type == Type.BEFORE_UPDATE) {
+			return;
+		} 
+		
+		if (type == Type.BEFORE_UPDATE) {
 			if (memberService.isMyEmail(memberEmail, getCurrentId())) {
 				errors.rejectValue("memberEmail", "NotMyEmail");
 				return;
@@ -76,55 +78,52 @@ public class EmailValidator implements Validator {
 				return;
 			}
 			
-		} else if (type == Type.UPDATE) {
+			return;
+		}
+		
+		if (type == Type.BEFORE_FIND_ACCOUNT) {
+			if (!memberService.isEmailExist(memberEmail)) {
+				errors.rejectValue("memberEmail", "NotEmailExist");
+			}
+			
+			return;
+		} 
+		
+		String authCode = emailDto.getAuthCode();
+		
+		if (type == Type.UPDATE) {
+			validateEmailWithAuthCode(memberEmail, authCode, errors);
+			return;
+		} 
+		
+		if (type == Type.FIND_ACCOUNT) {
 			if (memberService.isMyEmail(memberEmail, getCurrentId())) {
 				errors.rejectValue("memberEmail", "NotMyEmail");
 				return;
 			} 
 			
-			if (memberService.isEmailExist(memberEmail)) {
-				errors.rejectValue("memberEmail", "EmailExist");
-				return;
-			} 
-			
-			String authCode = emailDto.getAuthCode();
-			
-			if (!StringUtils.hasText(authCode)) {
-				errors.rejectValue("authCode", "NotBlank");
-				return;
-			} 
-			
-			if (!redisService.isAuthCodeValid(memberEmail, authCode)) {
-				errors.rejectValue("authCode", "NotValid");
-				return;
-			}
-			
-		} else if (type == Type.BEFORE_FIND_ACCOUNT) {
-			if (!memberService.isEmailExist(memberEmail)) {
-				errors.rejectValue("memberEmail", "NotEmailExist");
-				return;
-			}
-			
-		} else if (type == Type.FIND_ACCOUNT) {
-			if (!memberService.isEmailExist(memberEmail)) {
-				errors.rejectValue("memberEmail", "NotEmailExist");
-				return;
-			}
-			
-			String authCode = emailDto.getAuthCode();
-			
-			if (!StringUtils.hasText(authCode)) {
-				errors.rejectValue("authCode", "NotBlank");
-				return;
-			} 
-			
-			if (!redisService.isAuthCodeValid(memberEmail, authCode)) {
-				errors.rejectValue("authCode", "NotValid");
-				return;
-			}
+			validateEmailWithAuthCode(memberEmail, authCode, errors);
+			return;
 		}
 	}
-
+	
+	private void validateEmailWithAuthCode(String memberEmail, String authCode, Errors errors) {
+		if (memberService.isEmailExist(memberEmail)) {
+			errors.rejectValue("memberEmail", "EmailExist");
+			return;
+		} 
+		
+		if (!StringUtils.hasText(authCode)) {
+			errors.rejectValue("authCode", "NotBlank");
+			return;
+		} 
+		
+		if (!redisService.isAuthCodeValid(memberEmail, authCode)) {
+			errors.rejectValue("authCode", "NotValid");
+			return;
+		}
+	}
+	
 	private String getCurrentId() {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 

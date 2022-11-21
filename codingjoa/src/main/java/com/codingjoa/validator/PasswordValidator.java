@@ -11,7 +11,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 import com.codingjoa.dto.PasswordDto;
-import com.codingjoa.dto.UpdatePasswordDto;
+import com.codingjoa.enumclass.Type;
 import com.codingjoa.security.dto.UserDetailsDto;
 import com.codingjoa.service.MemberService;
 
@@ -35,18 +35,29 @@ public class PasswordValidator implements Validator {
 	public void validate(Object target, Errors errors) {
 		log.info("============== PasswordValidator ==============");
 
-		String objectName = errors.getObjectName();
-
-		if (objectName.equals("passwordDto")) {
-			PasswordDto passwordDto = (PasswordDto) target;
-			checkPassword(passwordDto.getMemberPassword(), errors);
-		} else if (objectName.equals("updatePasswordDto")) {
-			UpdatePasswordDto updatePasswordDto = (UpdatePasswordDto) target;
-			checkPasswords(updatePasswordDto.getMemberPassword(), updatePasswordDto.getConfirmPassword(), errors);
+		PasswordDto passwordDto = (PasswordDto) target;
+		Type type = passwordDto.getType();
+		
+		if (type == null) {
+			errors.rejectValue("memberPassword", "NotValidAccess");
+			return;
+		}
+		
+		String memberPassword = passwordDto.getMemberPassword();
+		String confrimPassword = passwordDto.getConfirmPassword();
+		
+		if (type == Type.BEFORE_UPDATE) {
+			validatePassword(memberPassword, errors);
+			return;
+		}
+		
+		if (type == Type.UPDATE) {
+			validatePassword(memberPassword, confrimPassword, errors);
+			return;
 		}
 	}
 
-	private void checkPassword(String memberPassword, Errors errors) {
+	private void validatePassword(String memberPassword, Errors errors) {
 		if (!StringUtils.hasText(memberPassword)) {
 			errors.rejectValue("memberPassword", "NotBlank");
 			return;
@@ -58,7 +69,7 @@ public class PasswordValidator implements Validator {
 		}
 	}
 
-	private void checkPasswords(String memberPassword, String confirmPassword, Errors errors) {
+	private void validatePassword(String memberPassword, String confirmPassword, Errors errors) {
 		if (!StringUtils.hasText(memberPassword)) {
 			errors.rejectValue("memberPassword", "NotBlank");
 		} else if (!Pattern.matches(PASSWORD_REGEXP, memberPassword)) {

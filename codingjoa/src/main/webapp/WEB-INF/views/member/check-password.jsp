@@ -109,12 +109,15 @@
 	});
 	
 	function checkPassword() {
+		var obj = {
+			memberPassword : $("#memberPassword").val(),
+			type : "before_update"
+		}
+		
 		$.ajax({
 			type : "POST",
 			url : "${contextPath}/member/checkPassword",
-			data : JSON.stringify({
-				memberPassword : $("#memberPassword").val()
-			}),
+			data : JSON.stringify(obj),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
 			success : function(result) {

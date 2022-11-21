@@ -122,6 +122,7 @@
 		var obj = {
 			memberPassword : $("#memberPassword").val(),
 			confirmPassword : $("#confirmPassword").val(),
+			type : "update"
 		};
 		
 		$.ajax({
