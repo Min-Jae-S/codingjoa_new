@@ -33,4 +33,9 @@ public class RedisServiceImpl implements RedisService {
 		
 		return authCode.equals(value);
 	}
+
+	@Override
+	public void delete(String key) {
+		redisTemplate.delete(key);
+	}
 }

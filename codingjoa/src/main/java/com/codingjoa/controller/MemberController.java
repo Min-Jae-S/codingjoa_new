@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.codingjoa.dto.JoinDto;
 import com.codingjoa.dto.LoginDto;
 import com.codingjoa.service.MemberService;
+import com.codingjoa.service.RedisService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -27,6 +28,9 @@ public class MemberController {
 
 	@Autowired
 	private MemberService memberService;
+	
+	@Autowired
+	private RedisService redisService;
 
 	@Resource(name = "joinValidator")
 	private Validator joinValidator;
@@ -52,7 +56,9 @@ public class MemberController {
 		}
 
 		memberService.register(joinDto);
-
+		
+		redisService.delete(joinDto.getMemberEmail());
+		
 		return "member/join-success";
 	}
 

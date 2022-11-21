@@ -31,6 +31,7 @@ import com.codingjoa.error.SuccessResponse;
 import com.codingjoa.security.dto.UserDetailsDto;
 import com.codingjoa.service.EmailService;
 import com.codingjoa.service.MemberService;
+import com.codingjoa.service.RedisService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -48,6 +49,9 @@ public class MemberRestController {
 	@Autowired
 	private EmailService emailService;
 	
+	@Autowired
+	private RedisService redisService;
+	
 	@Resource(name = "emailValidator")
 	private Validator emailValidator;
 	
@@ -59,7 +63,7 @@ public class MemberRestController {
 		binder.addValidators(emailValidator);
 	}
 	
-	@InitBinder(value = {"passwordDto", "updatePasswordDto"})
+	@InitBinder("passwordDto")
 	public void InitBinderPassword(WebDataBinder binder) {
 		binder.addValidators(passwordValidator);
 	}
@@ -90,6 +94,8 @@ public class MemberRestController {
 		
 		String memberId = principal.getMember().getMemberId();
 		memberService.updateEmail(emailDto, memberId);
+		
+		redisService.delete(emailDto.getMemberEmail());
 		
 		resetAuthentication(memberId);
 		Authentication newAuth = SecurityContextHolder.getContext().getAuthentication();

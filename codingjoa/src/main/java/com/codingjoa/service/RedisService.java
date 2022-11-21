@@ -7,4 +7,6 @@ public interface RedisService {
 	public boolean hasAuthCode(String key);
 	
 	public boolean isAuthCodeValid(String key, String authCode);
+	
+	public void delete(String key);
 }

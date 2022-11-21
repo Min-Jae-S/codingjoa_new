@@ -30,7 +30,7 @@ public class MemberServiceImpl implements MemberService {
 
 	@Autowired
 	private ModelMapper modelMapper;
-
+	
 	@Override
 	public void register(JoinDto joinDto) {
 		String rawPassword = joinDto.getMemberPassword();
@@ -38,17 +38,11 @@ public class MemberServiceImpl implements MemberService {
 		joinDto.setMemberPassword(encPassword);
 		
 		Member member = modelMapper.map(joinDto, Member.class);
-		log.info("joinDto ==> {}", member);
+		memberMapper.registerMember(member);
 		
-		int result = memberMapper.registerMember(member);
-		
-		if(result == 1) {
-			Auth auth = new Auth();
-			auth.setMemberId(member.getMemberId());
-			log.info("auth = {}", auth);
-	
-			memberMapper.registerAuth(auth);
-		}
+		Auth auth = new Auth();
+		auth.setMemberId(member.getMemberId());
+		memberMapper.registerAuth(auth);
 	}
 
 	@Override
@@ -91,7 +85,6 @@ public class MemberServiceImpl implements MemberService {
 	public void updatePassword(PasswordDto passwordDto, String memberId) {
 		String rawPassword = passwordDto.getMemberPassword();
 		String encPassword = passwordEncoder.encode(rawPassword);
-		
 		memberMapper.updatePassword(encPassword, memberId);
 	}
 
