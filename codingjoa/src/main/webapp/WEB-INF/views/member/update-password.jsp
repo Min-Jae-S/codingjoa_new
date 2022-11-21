@@ -134,7 +134,7 @@
 			success : function(result) {
 				console.log(result);
 				alert(result.message);
-				location.href = "${contextPath}" + result.data;
+				location.href = "${contextPath}/member/security";
 			},
 			error : function(e) {
 				console.log(e.responseText);

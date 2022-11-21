@@ -146,8 +146,7 @@ public class MemberRestController {
 		
 		session.setAttribute("CHECK_PASSWORD", true);
 		
-		return ResponseEntity.ok(SuccessResponse.create()
-				.message("success.checkPassword").data("/member/updatePassword"));
+		return ResponseEntity.ok(SuccessResponse.create().message("success.checkPassword"));
 	}
 	
 	@PutMapping("/updatePassword")
@@ -165,8 +164,7 @@ public class MemberRestController {
 		
 		resetAuthentication(memberId);
 		
-		return ResponseEntity.ok(SuccessResponse.create()
-				.message("success.updatePassword").data("/member/security"));
+		return ResponseEntity.ok(SuccessResponse.create().message("success.updatePassword"));
 	}
 	
 	@PostMapping("/findAccount")
@@ -181,8 +179,7 @@ public class MemberRestController {
 		session.setAttribute("FIND_ACCOUNT", true);
 		session.setAttribute("FIND_ACCOUNT.ACCOUNT", memberService.findAccount(emailDto));
 		
-		return ResponseEntity.ok(SuccessResponse.create()
-				.message("success.findAccount").data("/member/showPassword"));
+		return ResponseEntity.ok(SuccessResponse.create().message("success.findAccount"));
 	}
 	
 	private void resetAuthentication(String memberId) {
