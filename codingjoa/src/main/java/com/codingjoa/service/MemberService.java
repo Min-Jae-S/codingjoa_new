@@ -4,7 +4,7 @@ import com.codingjoa.dto.AddrDto;
 import com.codingjoa.dto.AgreeDto;
 import com.codingjoa.dto.EmailDto;
 import com.codingjoa.dto.JoinDto;
-import com.codingjoa.dto.UpdatePasswordDto;
+import com.codingjoa.dto.PasswordDto;
 
 public interface MemberService {
 
@@ -24,6 +24,6 @@ public interface MemberService {
 	
 	public boolean isMyPassword(String memberPassword, String memberId);
 	
-	public void updatePassword(UpdatePasswordDto updatePasswordDto, String memberId);
+	public void updatePassword(PasswordDto passwordDto, String memberId);
 	
 }

@@ -27,7 +27,6 @@ import com.codingjoa.dto.AddrDto;
 import com.codingjoa.dto.AgreeDto;
 import com.codingjoa.dto.EmailDto;
 import com.codingjoa.dto.PasswordDto;
-import com.codingjoa.dto.UpdatePasswordDto;
 import com.codingjoa.error.SuccessResponse;
 import com.codingjoa.security.dto.UserDetailsDto;
 import com.codingjoa.service.EmailService;
@@ -142,17 +141,17 @@ public class MemberRestController {
 	}
 	
 	@PutMapping("/updatePassword")
-	public ResponseEntity<Object> updatePassword(@Valid @RequestBody UpdatePasswordDto updatePasswordDto, 
+	public ResponseEntity<Object> updatePassword(@Valid @RequestBody PasswordDto passwordDto, 
 			BindingResult bindingResult, @AuthenticationPrincipal UserDetailsDto principal) 
 					throws MethodArgumentNotValidException {
-		log.info("updatePassword, {}", updatePasswordDto);
+		log.info("updatePassword, {}", passwordDto);
 		
 		if(bindingResult.hasErrors()) {
 			throw new MethodArgumentNotValidException(null, bindingResult);		
 		}
 		
 		String memberId = principal.getMember().getMemberId();
-		memberService.updatePassword(updatePasswordDto, memberId);
+		memberService.updatePassword(passwordDto, memberId);
 		
 		resetAuthentication(memberId);
 		

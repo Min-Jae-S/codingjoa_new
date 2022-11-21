@@ -9,7 +9,7 @@ import com.codingjoa.dto.AddrDto;
 import com.codingjoa.dto.AgreeDto;
 import com.codingjoa.dto.EmailDto;
 import com.codingjoa.dto.JoinDto;
-import com.codingjoa.dto.UpdatePasswordDto;
+import com.codingjoa.dto.PasswordDto;
 import com.codingjoa.entity.Auth;
 import com.codingjoa.entity.Member;
 import com.codingjoa.mapper.MemberMapper;
@@ -88,8 +88,8 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public void updatePassword(UpdatePasswordDto updatePasswordDto, String memberId) {
-		String rawPassword = updatePasswordDto.getMemberPassword();
+	public void updatePassword(PasswordDto passwordDto, String memberId) {
+		String rawPassword = passwordDto.getMemberPassword();
 		String encPassword = passwordEncoder.encode(rawPassword);
 		
 		memberMapper.updatePassword(encPassword, memberId);

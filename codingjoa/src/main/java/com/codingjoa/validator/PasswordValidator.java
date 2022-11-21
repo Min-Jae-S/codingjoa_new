@@ -28,7 +28,7 @@ public class PasswordValidator implements Validator {
 
 	@Override
 	public boolean supports(Class<?> clazz) {
-		return (PasswordDto.class.isAssignableFrom(clazz) || UpdatePasswordDto.class.isAssignableFrom(clazz));
+		return PasswordDto.class.isAssignableFrom(clazz);
 	}
 
 	@Override
