@@ -177,8 +177,7 @@ public class MemberRestController {
 		
 		String account = memberService.findAccount(emailDto);
 		
-		return ResponseEntity.ok(SuccessResponse.create()
-				.message("success.findAccount").data(account));
+		return ResponseEntity.ok(SuccessResponse.create().message("success.findAccount"));
 	}
 	
 	private void resetAuthentication(String memberId) {
