@@ -64,7 +64,6 @@ public class EmailValidator implements Validator {
 			if (memberService.isEmailExist(memberEmail)) {
 				errors.rejectValue("memberEmail", "EmailExist");
 			}
-			
 			return;
 		} 
 		
@@ -78,7 +77,6 @@ public class EmailValidator implements Validator {
 				errors.rejectValue("memberEmail", "EmailExist");
 				return;
 			}
-			
 			return;
 		}
 		
@@ -102,7 +100,6 @@ public class EmailValidator implements Validator {
 				errors.rejectValue("authCode", "NotValid");
 				return;
 			}
-			
 			return;
 		} 
 		
@@ -110,7 +107,6 @@ public class EmailValidator implements Validator {
 			if (!memberService.isEmailExist(memberEmail)) {
 				errors.rejectValue("memberEmail", "NotEmailExist");
 			}
-			
 			return;
 		} 
 		
@@ -128,7 +124,6 @@ public class EmailValidator implements Validator {
 				errors.rejectValue("authCode", "NotValid");
 				return;
 			}
-			
 			return;
 		}
 	}

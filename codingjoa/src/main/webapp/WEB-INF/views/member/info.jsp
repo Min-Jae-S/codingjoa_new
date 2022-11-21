@@ -322,6 +322,7 @@
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
 			success : function(result) {
+				alert(result.message);
 				var member = result.data.member;
 				$("#editEmail").find("form").html("<input type='text' id='memberEmail' name='memberEmail' value='" + member.memberEmail + "' readonly>");
 				$("#showEmail").find("span").text(member.memberEmail);
@@ -355,6 +356,7 @@
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
 			success : function(result) {
+				alert(result.message);
 				var member = result.data.member;
 				$("#editZipcode").find("form").html("<input type='text' id='memberZipcode' name='memberZipcode' value='" + member.memberZipcode + "' readonly>");
 				$("#showZipcode").find("span").text(member.memberZipcode);
@@ -388,6 +390,7 @@
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
 			success : function(result) {
+				alert(result.message);
 				var member = result.data.member;
 				var check_value = (member.memberAgree == true) ? "checked" : "";
 				$("#editAgree").find("label").html("<input class='form-check-input' type='checkbox' id='memberAgree' name='memberAgree' " + check_value + "><span class='inner-text'>이메일 광고 수신에 동의합니다.<span/>");

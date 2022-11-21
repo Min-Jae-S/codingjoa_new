@@ -94,7 +94,8 @@ public class MemberRestController {
 		resetAuthentication(memberId);
 		Authentication newAuth = SecurityContextHolder.getContext().getAuthentication();
 		
-		return ResponseEntity.ok(SuccessResponse.create().data(newAuth.getPrincipal()));
+		return ResponseEntity.ok(SuccessResponse.create()
+				.message("success.updateEmail").data(newAuth.getPrincipal()));
 	}
 	
 	@PutMapping("/updateAddr")
@@ -108,7 +109,8 @@ public class MemberRestController {
 		resetAuthentication(memberId);
 		Authentication newAuth = SecurityContextHolder.getContext().getAuthentication();
 		
-		return ResponseEntity.ok(SuccessResponse.create().data(newAuth.getPrincipal()));
+		return ResponseEntity.ok(SuccessResponse.create()
+				.message("success.updateAddr").data(newAuth.getPrincipal()));
 	}
 	
 	@PutMapping("/updateAgree")
@@ -122,7 +124,8 @@ public class MemberRestController {
 		resetAuthentication(memberId);
 		Authentication newAuth = SecurityContextHolder.getContext().getAuthentication();
 		
-		return ResponseEntity.ok(SuccessResponse.create().data(newAuth.getPrincipal()));
+		return ResponseEntity.ok(SuccessResponse.create()
+				.message("success.updateAgree").data(newAuth.getPrincipal()));
 	}
 	
 	@PostMapping("/checkPassword")
