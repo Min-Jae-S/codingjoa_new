@@ -15,9 +15,6 @@ import com.codingjoa.entity.Member;
 import com.codingjoa.mapper.MemberMapper;
 import com.codingjoa.service.MemberService;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 //@Transactional
 @Service
 public class MemberServiceImpl implements MemberService {

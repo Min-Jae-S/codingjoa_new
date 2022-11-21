@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.codingjoa.dto.AddrDto;
 import com.codingjoa.dto.AgreeDto;
@@ -169,17 +168,17 @@ public class MemberRestController {
 	
 	@PostMapping("/findAccount")
 	public ResponseEntity<Object> findAccount(@Valid @RequestBody EmailDto emailDto, 
-			BindingResult bindingResult, HttpSession session) throws MethodArgumentNotValidException {
+			BindingResult bindingResult) throws MethodArgumentNotValidException {
 		log.info("findAccount, {}", emailDto);
 		
 		if(bindingResult.hasErrors()) {
 			throw new MethodArgumentNotValidException(null, bindingResult);
 		}
 		
-		session.setAttribute("FIND_ACCOUNT", true);
-		session.setAttribute("FIND_ACCOUNT.ACCOUNT", memberService.findAccount(emailDto));
+		String account = memberService.findAccount(emailDto);
 		
-		return ResponseEntity.ok(SuccessResponse.create().message("success.findAccount"));
+		return ResponseEntity.ok(SuccessResponse.create()
+				.message("success.findAccount").data(account));
 	}
 	
 	private void resetAuthentication(String memberId) {
