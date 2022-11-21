@@ -36,5 +36,7 @@ public interface MemberMapper {
 	
 	public void updatePassword(@Param("memberPassword") String memberPassword, @Param("memberId") String memberId);
 	
+	public String findIdbyEmail(String memberEmail);
+	
 	
 }

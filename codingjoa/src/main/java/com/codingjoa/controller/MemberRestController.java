@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.codingjoa.dto.AddrDto;
 import com.codingjoa.dto.AgreeDto;
@@ -143,7 +144,7 @@ public class MemberRestController {
 			throw new MethodArgumentNotValidException(null, bindingResult);
 		}
 		
-		session.setAttribute("passwordCheck", true);
+		session.setAttribute("CHECK_PASSWORD", true);
 		
 		return ResponseEntity.ok(SuccessResponse.create()
 				.message("success.checkPassword").data("/member/updatePassword"));
@@ -177,7 +178,8 @@ public class MemberRestController {
 			throw new MethodArgumentNotValidException(null, bindingResult);
 		}
 		
-		//session.setAttribute("passwordCheck", true);
+		session.setAttribute("FIND_ACCOUNT", true);
+		session.setAttribute("FIND_ACCOUNT.ACCOUNT", memberService.findAccount(emailDto));
 		
 		return ResponseEntity.ok(SuccessResponse.create()
 				.message("success.findAccount").data("/member/showPassword"));

@@ -50,5 +50,4 @@ public class ServletConfig implements WebMvcConfigurer {
 				.addPathPatterns("/member/updatePassword");
 	}
 	
-	
 }

@@ -88,6 +88,11 @@ public class MemberServiceImpl implements MemberService {
 		memberMapper.updatePassword(encPassword, memberId);
 	}
 
+	@Override
+	public String findAccount(EmailDto emailDto) {
+		return memberMapper.findIdbyEmail(emailDto.getMemberEmail());
+	}
+
 
 
 }

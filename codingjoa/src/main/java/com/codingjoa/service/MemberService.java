@@ -26,4 +26,6 @@ public interface MemberService {
 	
 	public void updatePassword(PasswordDto passwordDto, String memberId);
 	
+	public String findAccount(EmailDto emailDto);
+	
 }

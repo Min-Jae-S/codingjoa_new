@@ -161,5 +161,14 @@
 			member_id = #{memberId}
 	</update>
 	
+	<select id="findIdbyEmail" parameterType="string" resultType="string">
+		SELECT
+			member_id
+		FROM
+			member
+		WHERE
+			member_email = #{memberEmail}
+	</select>
+	
 	
 </mapper>

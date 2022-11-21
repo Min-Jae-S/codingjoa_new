@@ -20,29 +20,23 @@ public class BeforeShowAccountInterceptor implements HandlerInterceptor {
 			throws Exception {
 		log.info("============== BeforeShowAccountInterceptor - preHandle ==============");
 
-//		HttpSession session = request.getSession();
-//		Object obj = session.getAttribute("passwordCheck");
-//
-//		if(obj != null) {
-//			boolean passwordCheck = (boolean) obj;
-//			
-//			if(passwordCheck) {
-//				session.setAttribute("passwordCheck", false);
-//				return true;
-//			}
-//		}
-//
-//		response.setContentType("text/html; charset=utf-8");
-//		
-//		PrintWriter out = response.getWriter();
-//		out.println("<script>");
-//		out.println("alert('" + MessageUtils.getMessage("error.NotPasswordCheck") + "');");
-//		out.println("location.href='" +  request.getContextPath() + "/member/checkPassword';");
-//		out.println("</script>");
-//
-//		return false;
+		HttpSession session = request.getSession();
+		Object obj = session.getAttribute("FIND_ACCOUNT");
+
+		if(obj != null && (boolean) obj) {
+			session.setAttribute("FIND_ACCOUNT", false);
+			return true;
+		}
+
+		response.setContentType("text/html; charset=utf-8");
 		
-		return true;
+		PrintWriter out = response.getWriter();
+		out.println("<script>");
+		out.println("alert('" + MessageUtils.getMessage("error.NotFindAccount") + "');");
+		out.println("location.href='" +  request.getContextPath() + "/member/findAccount';");
+		out.println("</script>");
+
+		return false;
 	}
 	
 }

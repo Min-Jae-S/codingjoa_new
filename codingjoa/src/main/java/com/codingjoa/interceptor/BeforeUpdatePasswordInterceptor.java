@@ -20,27 +20,23 @@ public class BeforeUpdatePasswordInterceptor implements HandlerInterceptor {
 			throws Exception {
 		log.info("============== BeforeUpdatePasswordInterceptor - preHandle ==============");
 
-		if(request.getMethod().equals("PUT")) {
-			return true;
+		if(!request.getMethod().equals("PUT")) {
+			return false;
 		}
 		
 		HttpSession session = request.getSession();
-		Object obj = session.getAttribute("passwordCheck");
+		Object obj = session.getAttribute("CHECK_PASSWORD");
 
-		if(obj != null) {
-			boolean passwordCheck = (boolean) obj;
-			
-			if(passwordCheck) {
-				session.setAttribute("passwordCheck", false);
-				return true;
-			}
+		if(obj != null && (boolean) obj) {
+			session.setAttribute("CHECK_PASSWORD", false);
+			return true;
 		}
 
 		response.setContentType("text/html; charset=utf-8");
 		
 		PrintWriter out = response.getWriter();
 		out.println("<script>");
-		out.println("alert('" + MessageUtils.getMessage("error.NotPasswordCheck") + "');");
+		out.println("alert('" + MessageUtils.getMessage("error.NotCheckPassword") + "');");
 		out.println("location.href='" +  request.getContextPath() + "/member/checkPassword';");
 		out.println("</script>");
 
