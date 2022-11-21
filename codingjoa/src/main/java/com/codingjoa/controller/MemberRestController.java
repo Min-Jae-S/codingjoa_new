@@ -168,14 +168,15 @@ public class MemberRestController {
 	
 	@PostMapping("/findAccount")
 	public ResponseEntity<Object> findAccount(@Valid @RequestBody EmailDto emailDto, 
-			BindingResult bindingResult) throws MethodArgumentNotValidException {
+			BindingResult bindingResult, HttpSession session) throws MethodArgumentNotValidException {
 		log.info("findAccount, {}", emailDto);
 		
 		if(bindingResult.hasErrors()) {
 			throw new MethodArgumentNotValidException(null, bindingResult);
 		}
 		
-		String account = memberService.findAccount(emailDto);
+		session.setAttribute("FIND_ACCOUNT", true);
+		session.setAttribute("ACCOUNT", memberService.findAccount(emailDto));
 		
 		return ResponseEntity.ok(SuccessResponse.create().message("success.findAccount"));
 	}
