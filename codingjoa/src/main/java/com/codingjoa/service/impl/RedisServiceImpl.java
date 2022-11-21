@@ -22,6 +22,11 @@ public class RedisServiceImpl implements RedisService {
 	}
 
 	@Override
+	public boolean hasAuthCode(String key) {
+		return redisTemplate.hasKey(key);
+	}
+	
+	@Override
 	public boolean isAuthCodeValid(String key, String authCode) {
 		ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
 		String value = valueOperations.get(key);

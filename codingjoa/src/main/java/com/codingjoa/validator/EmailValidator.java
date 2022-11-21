@@ -91,6 +91,11 @@ public class EmailValidator implements Validator {
 				return;
 			}
 			
+			if (!redisService.hasAuthCode(memberEmail)) {
+				errors.reject("memberEmail", "NotAuthCodeExist");
+				return;
+			}
+			
 			if (!StringUtils.hasText(authCode)) {
 				errors.rejectValue("authCode", "NotBlank");
 				return;
@@ -113,6 +118,11 @@ public class EmailValidator implements Validator {
 		if (type == Type.FIND_ACCOUNT) {
 			if (!memberService.isEmailExist(memberEmail)) {
 				errors.rejectValue("memberEmail", "NotEmailExist");
+			}
+			
+			if (!redisService.hasAuthCode(memberEmail)) {
+				errors.reject("memberEmail", "NotAuthCodeExist");
+				return;
 			}
 			
 			if (!StringUtils.hasText(authCode)) {

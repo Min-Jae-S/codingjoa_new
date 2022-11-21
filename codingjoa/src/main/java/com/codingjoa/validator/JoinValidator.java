@@ -101,6 +101,11 @@ public class JoinValidator implements Validator {
 			return;
 		}
 		
+		if (!redisService.hasAuthCode(memberEmail)) {
+			errors.reject("memberEmail", "NotAuthCodeExist");
+			return;
+		}
+		
 		if (!StringUtils.hasText(authCode)) {
 			errors.rejectValue("authCode", "NotBlank");
 			return;

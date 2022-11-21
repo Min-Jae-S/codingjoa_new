@@ -121,10 +121,12 @@
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
 			success : function(result) {
+				console.log(result);
 				alert(result.message);
 				location.href = "${contextPath}" + result.data;
 			},
 			error : function(e) {
+				console.log(e);
 				$("#memberPassword\\.errors").remove();
 				
 				if(e.status == 422) {

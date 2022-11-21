@@ -136,6 +136,7 @@
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
 			success : function(result) {
+				console.log(result);
 				$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
 				$("#authCode").closest("div").after("<span class='success'>" + result.message + "</span>");
 				$("#authCode").val("");

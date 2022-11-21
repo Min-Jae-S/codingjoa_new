@@ -289,13 +289,14 @@
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
 			success : function(result) {
+				console.log(result);
 				$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
 				$("#authCode").closest("dd").after("<dd class='success'>" + result.message + "</dd>");
 				$("#authCode").val("");
 				$("#authCode").focus();
 			},
 			error : function(e) {
-				console.log(e.responseText);
+				console.log(e);
 				$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
 				
 				if(e.status == 422) {
@@ -322,6 +323,7 @@
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
 			success : function(result) {
+				console.log(result);
 				alert(result.message);
 				var member = result.data.member;
 				$("#editEmail").find("form").html("<input type='text' id='memberEmail' name='memberEmail' value='" + member.memberEmail + "' readonly>");
@@ -329,7 +331,7 @@
 				$("#resetEmailBtn").click();
 			},
 			error : function(e) {
-				console.log(e.responseText);
+				console.log(e);
 				$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
 				
 				if(e.status == 422) {
@@ -356,6 +358,7 @@
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
 			success : function(result) {
+				console.log(result);
 				alert(result.message);
 				var member = result.data.member;
 				$("#editZipcode").find("form").html("<input type='text' id='memberZipcode' name='memberZipcode' value='" + member.memberZipcode + "' readonly>");
@@ -367,7 +370,7 @@
 				$("#resetAllAddrBtn").click();
 			},
 			error : function(e) {
-				console.log(e.responseText);
+				console.log(e);
 				$("#memberZipcode\\.errors, #memberAddr\\.errors, #memberAddrDetail\\.errors").remove();
 
 				if(e.status == 422) {
@@ -390,6 +393,7 @@
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
 			success : function(result) {
+				console.log(result);
 				alert(result.message);
 				var member = result.data.member;
 				var check_value = (member.memberAgree == true) ? "checked" : "";
@@ -398,7 +402,7 @@
 				$("#resetAgreeBtn").click();
 			},
 			error : function(e) {
-				console.log(e.responseText);
+				console.log(e);
 				$("#memberAgree\\.errors").remove();
 				
 				if(e.status == 422) {
