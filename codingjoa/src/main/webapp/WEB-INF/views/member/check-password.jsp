@@ -126,7 +126,7 @@
 				location.href = "${contextPath}" + result.data;
 			},
 			error : function(e) {
-				console.log(e);
+				console.log(e.responseText);
 				$("#memberPassword\\.errors").remove();
 				
 				if(e.status == 422) {

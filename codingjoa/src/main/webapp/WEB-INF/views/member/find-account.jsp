@@ -131,6 +131,7 @@
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
 			success : function(result) {
+				console.log(result);
 				$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
 				$("#authCode").closest("dd").after("<dd class='success'>" + result.message + "</dd>");
 				$("#authCode").val("");
@@ -164,10 +165,12 @@
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
 			success : function(result) {
+				console.log(result);
 				alert(result.message);
 				location.href = "${contextPath}" + result.data;
 			},
 			error : function(e) {
+				console.log(e.responseText);
 				$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
 				
 				if(e.status == 422) {

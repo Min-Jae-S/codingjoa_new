@@ -92,7 +92,7 @@ public class EmailValidator implements Validator {
 			}
 			
 			if (!redisService.hasAuthCode(memberEmail)) {
-				errors.reject("memberEmail", "NotAuthCodeExist");
+				errors.rejectValue("memberEmail", "NotAuthCodeExist");
 				return;
 			}
 			
@@ -121,7 +121,7 @@ public class EmailValidator implements Validator {
 			}
 			
 			if (!redisService.hasAuthCode(memberEmail)) {
-				errors.reject("memberEmail", "NotAuthCodeExist");
+				errors.rejectValue("memberEmail", "NotAuthCodeExist");
 				return;
 			}
 			

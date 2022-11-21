@@ -296,7 +296,7 @@
 				$("#authCode").focus();
 			},
 			error : function(e) {
-				console.log(e);
+				console.log(e.responseText);
 				$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
 				
 				if(e.status == 422) {
@@ -331,7 +331,7 @@
 				$("#resetEmailBtn").click();
 			},
 			error : function(e) {
-				console.log(e);
+				console.log(e.responseText);
 				$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
 				
 				if(e.status == 422) {
@@ -370,7 +370,7 @@
 				$("#resetAllAddrBtn").click();
 			},
 			error : function(e) {
-				console.log(e);
+				console.log(e.responseText);
 				$("#memberZipcode\\.errors, #memberAddr\\.errors, #memberAddrDetail\\.errors").remove();
 
 				if(e.status == 422) {
@@ -402,7 +402,7 @@
 				$("#resetAgreeBtn").click();
 			},
 			error : function(e) {
-				console.log(e);
+				console.log(e.responseText);
 				$("#memberAgree\\.errors").remove();
 				
 				if(e.status == 422) {
