@@ -2,10 +2,8 @@ package com.codingjoa.config;
 
 import javax.servlet.Filter;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
-import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import com.codingjoa.security.config.SecurityConfig;
 
@@ -33,10 +31,5 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 		encodingFilter.setForceEncoding(true);
 
 		return new Filter[] { encodingFilter };
-	}
-	
-	@Bean
-	public MappingJackson2JsonView jsonView() {
-		return new MappingJackson2JsonView();
 	}
 }
