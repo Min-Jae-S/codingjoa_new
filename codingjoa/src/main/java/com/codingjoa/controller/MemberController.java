@@ -112,7 +112,7 @@ public class MemberController {
 		log.info("showAccount, FIND_ACCOUNT = {}", obj);
 		
 		if(obj != null) {
-			model.addAttribute("find_account", session.getAttribute("FIND_ACCOUNT"));
+			model.addAttribute("find_account", obj);
 			session.removeAttribute("FIND_ACCOUNT");
 			return "member/show-account";
 		}
