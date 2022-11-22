@@ -90,6 +90,11 @@ public class MemberServiceImpl implements MemberService {
 		return memberMapper.findIdbyEmail(emailAuthDto.getMemberEmail());
 	}
 
+	@Override
+	public boolean isAccountExist(String memberId, String memberEmail) {
+		return memberMapper.isAccountExist(memberId, memberEmail);
+	}
+
 
 
 }

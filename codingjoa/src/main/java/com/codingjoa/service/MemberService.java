@@ -28,4 +28,6 @@ public interface MemberService {
 	
 	public String findAccount(EmailAuthDto emailAuthDto);
 	
+	public boolean isAccountExist(String memberId, String memberEmail);
+	
 }

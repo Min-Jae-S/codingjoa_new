@@ -38,10 +38,10 @@ public class PasswordValidator implements Validator {
 		PasswordDto passwordDto = (PasswordDto) target;
 		Type type = passwordDto.getType();
 		
-		if (type == null) {
-			errors.rejectValue("memberPassword", "NotValidAccess");
-			return;
-		}
+//		if (type == null) {
+//			errors.rejectValue("memberPassword", "NotValidAccess");
+//			return;
+//		}
 		
 		String memberPassword = passwordDto.getMemberPassword();
 		String confrimPassword = passwordDto.getConfirmPassword();

@@ -72,7 +72,7 @@
 	
 	<select id="isIdExist" parameterType="string" resultType="boolean">
 		SELECT
-			COUNT(member_id)
+			COUNT(*)
 		FROM
 			member
 		WHERE
@@ -81,7 +81,7 @@
 
 	<select id="isEmailExist" parameterType="string" resultType="boolean">
 		SELECT
-			COUNT(member_email)
+			COUNT(*)
 		FROM
 			member
 		WHERE
@@ -168,6 +168,15 @@
 			member
 		WHERE
 			member_email = #{memberEmail}
+	</select>
+	
+	<select id="isAccountExist" parameterType="string" resultType="boolean">
+		SELECT
+			COUNT(*)
+		FROM
+			member
+		WHERE
+			member_id = #{member_id} AND member_email = #{member_email}
 	</select>
 	
 	

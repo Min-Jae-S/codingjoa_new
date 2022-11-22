@@ -134,14 +134,16 @@
 			dataType : "json",
 			success : function(result) {
 				console.log(result);
-				$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
+				//$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
+				$(".error, .success").remove();
 				$("#authCode").closest("dd").after("<dd class='success'>" + result.message + "</dd>");
 				$("#authCode").val("");
 				$("#authCode").focus();
 			},
 			error : function(e) {
 				console.log(e.responseText);
-				$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
+				//$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
+				$(".error, .success").remove();
 				
 				if(e.status == 422) {
 					var errorMap = JSON.parse(e.responseText).errorMap;
@@ -173,7 +175,8 @@
 			},
 			error : function(e) {
 				console.log(e.responseText);
-				$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
+				//$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
+				$(".error, .success").remove();
 				
 				if(e.status == 422) {
 					var errorMap = JSON.parse(e.responseText).errorMap;

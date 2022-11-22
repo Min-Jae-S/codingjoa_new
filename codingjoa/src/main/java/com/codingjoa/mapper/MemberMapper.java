@@ -38,5 +38,7 @@ public interface MemberMapper {
 	
 	public String findIdbyEmail(String memberEmail);
 	
+	public boolean isAccountExist(@Param("memberId") String memberId, @Param("memberEmail") String memberEmail);
+	
 	
 }

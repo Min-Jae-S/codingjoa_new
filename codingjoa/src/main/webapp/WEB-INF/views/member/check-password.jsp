@@ -128,7 +128,8 @@
 			},
 			error : function(e) {
 				console.log(e.responseText);
-				$("#memberPassword\\.errors").remove();
+				//$("#memberPassword\\.errors").remove();
+				$(".error").remove();
 				
 				if(e.status == 422) {
 					var errorMap = JSON.parse(e.responseText).errorMap;

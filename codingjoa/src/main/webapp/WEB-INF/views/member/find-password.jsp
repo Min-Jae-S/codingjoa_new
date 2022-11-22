@@ -129,9 +129,9 @@
 	
 	function sendAuthEmail() {
 		var obj = {
-			memberEmail : $("#memberEmail").val(),
 			memberId : $("#memberId").val(),
-			//type : "before_find_password"
+			memberEmail : $("#memberEmail").val(),
+			type : "before_find_password"
 		};
 		
 		$.ajax({
@@ -142,14 +142,16 @@
 			dataType : "json",
 			success : function(result) {
 				console.log(result);
-				$("#memberId\\.errors, #memberEmail\\.errors, #authCode\\.errors, .success").remove();
+				//$("#memberId\\.errors, #memberEmail\\.errors, #authCode\\.errors, .success").remove();
+				$(".error, .success").remove();
 				$("#authCode").closest("dd").after("<dd class='success'>" + result.message + "</dd>");
 				$("#authCode").val("");
 				$("#authCode").focus();
 			},
 			error : function(e) {
 				console.log(e.responseText);
-				$("#memberId\\.errors, #memberEmail\\.errors, #authCode\\.errors, .success").remove();
+				//$("#memberId\\.errors, #memberEmail\\.errors, #authCode\\.errors, .success").remove();
+				$(".error, .success").remove();
 				
 				if(e.status == 422) {
 					var errorMap = JSON.parse(e.responseText).errorMap;
@@ -181,7 +183,8 @@
 			},
 			error : function(e) {
 				console.log(e.responseText);
-				$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
+				//$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
+				$(".error, .success").remove();
 				
 				if(e.status == 422) {
 					var errorMap = JSON.parse(e.responseText).errorMap;

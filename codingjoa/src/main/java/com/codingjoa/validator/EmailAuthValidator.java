@@ -40,12 +40,133 @@ public class EmailAuthValidator implements Validator {
 		log.info("============== EmailAuthValidator ==============");
 
 		EmailAuthDto emailAuthDto = (EmailAuthDto) target;
+		Type type = emailAuthDto.getType();
+
+//		if (type == null) {
+//			errors.rejectValue("memberEmail", "NotValidAccess");
+//			return;
+//		}
 		
 		String memberId = emailAuthDto.getMemberId();
 		String memberEmail = emailAuthDto.getMemberEmail();
 		String authCode = emailAuthDto.getAuthCode();
-		Type type = emailAuthDto.getType();
 		
+		if (type == Type.JOIN) {
+			valdiateCommon(memberEmail, errors);
+			
+			if (memberService.isEmailExist(memberEmail)) {
+				errors.rejectValue("memberEmail", "EmailExist");
+				return;
+			}
+			
+			return;
+		} 
+		
+		if (type == Type.BEFORE_UPDATE) {
+			valdiateCommon(memberEmail, errors);
+			
+			if (memberService.isMyEmail(memberEmail, getCurrentId())) {
+				errors.rejectValue("memberEmail", "NotMyEmail");
+				return;
+			}
+			
+			if (memberService.isEmailExist(memberEmail)) {
+				errors.rejectValue("memberEmail", "EmailExist");
+				return;
+			}
+			
+			return;
+		}
+		
+		if (type == Type.UPDATE) {
+			valdiateCommon(memberEmail, errors);
+			
+			if (memberService.isMyEmail(memberEmail, getCurrentId())) {
+				errors.rejectValue("memberEmail", "NotMyEmail");
+				return;
+			}
+			
+			if (memberService.isEmailExist(memberEmail)) {
+				errors.rejectValue("memberEmail", "EmailExist");
+				return;
+			}
+			
+			if (!redisService.hasAuthCode(memberEmail)) {
+				errors.rejectValue("memberEmail", "NotAuthCodeExist");
+				return;
+			}
+			
+			if (!StringUtils.hasText(authCode)) {
+				errors.rejectValue("authCode", "NotBlank");
+				return;
+			} 
+			
+			if (!redisService.isAuthCodeValid(memberEmail, authCode)) {
+				errors.rejectValue("authCode", "NotValid");
+				return;
+			}
+			
+			return;
+		} 
+		
+		if (type == Type.BEFORE_FIND_ACCOUNT) {
+			valdiateCommon(memberEmail, errors);
+			
+			if (!memberService.isEmailExist(memberEmail)) {
+				errors.rejectValue("memberEmail", "NotEmailExist");
+				return;
+			}
+			
+			return;
+		} 
+		
+		if (type == Type.FIND_ACCOUNT) {
+			valdiateCommon(memberEmail, errors);
+			
+			if (!memberService.isEmailExist(memberEmail)) {
+				errors.rejectValue("memberEmail", "NotEmailExist");
+				return;
+			}
+			
+			if (!redisService.hasAuthCode(memberEmail)) {
+				errors.rejectValue("memberEmail", "NotAuthCodeExist");
+				return;
+			}
+			
+			if (!StringUtils.hasText(authCode)) {
+				errors.rejectValue("authCode", "NotBlank");
+				return;
+			} 
+			
+			if (!redisService.isAuthCodeValid(memberEmail, authCode)) {
+				errors.rejectValue("authCode", "NotValid");
+				return;
+			}
+			
+			return;
+		}
+		
+		if (type == Type.BEFORE_FIND_PASSWORD) {
+			if (!StringUtils.hasText(memberId)) {
+				errors.rejectValue("memberId", "NotBlank");
+				return;
+			}
+			
+			valdiateCommon(memberEmail, errors);
+			
+			if(!memberService.isAccountExist(memberId, memberEmail)) {
+				errors.rejectValue("memberId", "NotIdOrEmailExist");
+				return;
+			}
+				
+				
+			return;
+		}
+		
+		
+	}
+	
+	private void valdiateCommon(String memberEmail, Errors errors) {
 		if (!StringUtils.hasText(memberEmail)) {
 			errors.rejectValue("memberEmail", "NotBlank");
 			return;
@@ -55,89 +176,6 @@ public class EmailAuthValidator implements Validator {
 			errors.rejectValue("memberEmail", "Pattern");
 			return;
 		}
-
-		if (type == Type.JOIN) {
-			if (memberService.isEmailExist(memberEmail)) {
-				errors.rejectValue("memberEmail", "EmailExist");
-			}
-			return;
-		} 
-		
-		if (type == Type.BEFORE_UPDATE) {
-			if (memberService.isMyEmail(memberEmail, getCurrentId())) {
-				errors.rejectValue("memberEmail", "NotMyEmail");
-				return;
-			}
-			
-			if (memberService.isEmailExist(memberEmail)) {
-				errors.rejectValue("memberEmail", "EmailExist");
-				return;
-			}
-			return;
-		}
-		
-		if (type == Type.UPDATE) {
-			if (memberService.isMyEmail(memberEmail, getCurrentId())) {
-				errors.rejectValue("memberEmail", "NotMyEmail");
-				return;
-			}
-			
-			if (memberService.isEmailExist(memberEmail)) {
-				errors.rejectValue("memberEmail", "EmailExist");
-				return;
-			}
-			
-			if (!redisService.hasAuthCode(memberEmail)) {
-				errors.rejectValue("memberEmail", "NotAuthCodeExist");
-				return;
-			}
-			
-			if (!StringUtils.hasText(authCode)) {
-				errors.rejectValue("authCode", "NotBlank");
-				return;
-			} 
-			
-			if (!redisService.isAuthCodeValid(memberEmail, authCode)) {
-				errors.rejectValue("authCode", "NotValid");
-				return;
-			}
-			return;
-		} 
-		
-		if (type == Type.BEFORE_FIND_ACCOUNT) {
-			if (!memberService.isEmailExist(memberEmail)) {
-				errors.rejectValue("memberEmail", "NotEmailExist");
-			}
-			return;
-		} 
-		
-		if (type == Type.FIND_ACCOUNT) {
-			if (!memberService.isEmailExist(memberEmail)) {
-				errors.rejectValue("memberEmail", "NotEmailExist");
-				return;
-			}
-			
-			if (!redisService.hasAuthCode(memberEmail)) {
-				errors.rejectValue("memberEmail", "NotAuthCodeExist");
-				return;
-			}
-			
-			if (!StringUtils.hasText(authCode)) {
-				errors.rejectValue("authCode", "NotBlank");
-				return;
-			} 
-			
-			if (!redisService.isAuthCodeValid(memberEmail, authCode)) {
-				errors.rejectValue("authCode", "NotValid");
-				return;
-			}
-			return;
-		}
-		
-		if (type == Type.BEFORE_FIND_PASSWORD) {
-			return;
-		}
-		
 	}
 	
 	private String getCurrentId() {

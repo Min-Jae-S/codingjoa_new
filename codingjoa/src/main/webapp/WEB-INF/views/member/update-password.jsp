@@ -139,7 +139,8 @@
 			},
 			error : function(e) {
 				console.log(e.responseText);
-				$("#memberPassword\\.errors, #confirmPassword\\.errors").remove();
+				//$("#memberPassword\\.errors, #confirmPassword\\.errors").remove();
+				$(".error").remove();
 				
 				if(e.status == 422) {
 					var errorMap = JSON.parse(e.responseText).errorMap;
