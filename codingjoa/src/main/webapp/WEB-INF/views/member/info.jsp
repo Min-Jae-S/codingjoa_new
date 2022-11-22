@@ -47,7 +47,7 @@
 		font-weight: bold;
 	}
 	
-	dd.error {
+	dd.error, dd.success {
 		padding-left: 7px;
 	}
 	

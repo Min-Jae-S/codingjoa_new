@@ -31,7 +31,7 @@
 		font-weight: bold;
 	}
 	
-	dd.error {
+	dd.error, dd.success {
 		padding-left: 7px;
 	}
 	
@@ -167,7 +167,7 @@
 			success : function(result) {
 				console.log(result);
 				alert(result.message);
-				location.href = "${contextPath}/member/showAccount";
+				location.href = "${contextPath}/member/findAccountResult";
 			},
 			error : function(e) {
 				console.log(e.responseText);
