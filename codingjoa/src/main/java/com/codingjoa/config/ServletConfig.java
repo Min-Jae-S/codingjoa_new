@@ -13,8 +13,6 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import com.codingjoa.interceptor.BeforeUpdatePasswordInterceptor;
-
 @Configuration
 @EnableWebMvc
 @ComponentScan("com.codingjoa.controller")
@@ -46,8 +44,8 @@ public class ServletConfig implements WebMvcConfigurer {
 
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(new BeforeUpdatePasswordInterceptor())
-				.addPathPatterns("/member/updatePassword");
+//		registry.addInterceptor(new BeforeUpdatePasswordInterceptor())
+//				.addPathPatterns("/member/updatePassword");
 	}
 	
 }

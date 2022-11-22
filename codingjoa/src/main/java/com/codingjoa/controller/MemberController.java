@@ -1,10 +1,12 @@
 package com.codingjoa.controller;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.WebDataBinder;
@@ -18,6 +20,7 @@ import com.codingjoa.dto.JoinDto;
 import com.codingjoa.dto.LoginDto;
 import com.codingjoa.service.MemberService;
 import com.codingjoa.service.RedisService;
+import com.codingjoa.util.MessageUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -84,8 +87,18 @@ public class MemberController {
 	}
 
 	@GetMapping("/updatePassword")
-	public String updatePassword() {
-		return "member/update-password";
+	public String updatePassword(HttpSession session, Model model) {
+		Object obj = session.getAttribute("CHECK_PASSWORD");
+		log.info("updatePassword, CHECK_PASSWORD = {}", obj);
+		
+		if(obj != null && (boolean) obj) {
+			session.removeAttribute("CHECK_PASSWORD");
+			return "member/update-password";
+		}
+		
+		model.addAttribute("message", MessageUtils.getMessage("error.NotCheckPassword"));
+		
+		return "member/not-check-password";
 	}
 	
 	@GetMapping("/findAccount")
