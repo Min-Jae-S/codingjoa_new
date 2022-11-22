@@ -163,8 +163,9 @@
 		});
 	}
 	
-	function findAccount() {
+	function findPassword() {
 		var obj = {
+			memberId : $("#memberId").val(),
 			memberEmail : $("#memberEmail").val(),
 			authCode : $("#authCode").val(),
 			type : "FIND_PASSWORD"		
@@ -172,14 +173,14 @@
 		
 		$.ajax({
 			type : "POST",
-			url : "${contextPath}/member/findAccount",
+			url : "${contextPath}/member/findPassword",
 			data : JSON.stringify(obj),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
 			success : function(result) {
 				console.log(result);
 				alert(result.message);
-				location.href = "${contextPath}/member/findAccountResult";
+				location.href = "${contextPath}/member/findPasswordResult";
 			},
 			error : function(e) {
 				console.log(e.responseText);

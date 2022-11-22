@@ -105,15 +105,15 @@ public class EmailAuthValidator implements Validator {
 				return;
 			}
 			
-			if (memberService.isMyEmail(memberEmail, getCurrentId())) {
-				errors.rejectValue("memberEmail", "NotMyEmail");
-				return;
-			}
-			
-			if (memberService.isEmailExist(memberEmail)) {
-				errors.rejectValue("memberEmail", "EmailExist");
-				return;
-			}
+//			if (memberService.isMyEmail(memberEmail, getCurrentId())) {
+//				errors.rejectValue("memberEmail", "NotMyEmail");
+//				return;
+//			}
+//			
+//			if (memberService.isEmailExist(memberEmail)) {
+//				errors.rejectValue("memberEmail", "EmailExist");
+//				return;
+//			}
 			
 			if (!redisService.hasAuthCode(memberEmail)) {
 				errors.rejectValue("memberEmail", "NotAuthCodeExist");
@@ -163,10 +163,10 @@ public class EmailAuthValidator implements Validator {
 				return;
 			}
 			
-			if (!memberService.isEmailExist(memberEmail)) {
-				errors.rejectValue("memberEmail", "NotEmailExist");
-				return;
-			}
+//			if (!memberService.isEmailExist(memberEmail)) {
+//				errors.rejectValue("memberEmail", "NotEmailExist");
+//				return;
+//			}
 			
 			if (!redisService.hasAuthCode(memberEmail)) {
 				errors.rejectValue("memberEmail", "NotAuthCodeExist");
@@ -227,11 +227,11 @@ public class EmailAuthValidator implements Validator {
 				return;
 			}
 			
-			if(!memberService.isAccountExist(memberId, memberEmail)) {
-				errors.rejectValue("memberId", "NotIdOrEmailExist");
-				errors.rejectValue("memberEmail", "NotIdOrEmailExist");
-				return;
-			}
+//			if(!memberService.isAccountExist(memberId, memberEmail)) {
+//				errors.rejectValue("memberId", "NotIdOrEmailExist");
+//				errors.rejectValue("memberEmail", "NotIdOrEmailExist");
+//				return;
+//			}
 			
 			if (!redisService.hasAuthCode(memberEmail)) {
 				errors.rejectValue("memberEmail", "NotAuthCodeExist");
