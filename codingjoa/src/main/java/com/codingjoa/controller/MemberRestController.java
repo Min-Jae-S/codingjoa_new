@@ -182,6 +182,7 @@ public class MemberRestController {
 		
 		String account = memberService.findAccount(emailAuthDto);
 		session.setAttribute("FIND_ACCOUNT", account);
+		
 		redisService.delete(emailAuthDto.getMemberEmail());
 		
 		return ResponseEntity.ok(SuccessResponse.create().message("success.findAccount"));
@@ -196,7 +197,7 @@ public class MemberRestController {
 			throw new MethodArgumentNotValidException(null, bindingResult);
 		}
 		
-		session.setAttribute("FIND_PASSWORD", true);
+		//session.setAttribute("FIND_PASSWORD", true);
 		redisService.delete(emailAuthDto.getMemberEmail());
 		
 		return ResponseEntity.ok(SuccessResponse.create().message("success.findPassword"));
