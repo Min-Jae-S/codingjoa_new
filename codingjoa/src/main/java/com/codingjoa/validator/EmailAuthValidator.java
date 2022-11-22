@@ -51,8 +51,16 @@ public class EmailAuthValidator implements Validator {
 		String memberEmail = emailAuthDto.getMemberEmail();
 		String authCode = emailAuthDto.getAuthCode();
 		
-		if (type == Type.JOIN) {
-			valdiateCommon(memberEmail, errors);
+		if (type == Type.BEFORE_JOIN) {
+			if (!StringUtils.hasText(memberEmail)) {
+				errors.rejectValue("memberEmail", "NotBlank");
+				return;
+			} 
+			
+			if (!Pattern.matches(EMAIL_REGEXP, memberEmail)) {
+				errors.rejectValue("memberEmail", "Pattern");
+				return;
+			}
 			
 			if (memberService.isEmailExist(memberEmail)) {
 				errors.rejectValue("memberEmail", "EmailExist");
@@ -63,7 +71,15 @@ public class EmailAuthValidator implements Validator {
 		} 
 		
 		if (type == Type.BEFORE_UPDATE) {
-			valdiateCommon(memberEmail, errors);
+			if (!StringUtils.hasText(memberEmail)) {
+				errors.rejectValue("memberEmail", "NotBlank");
+				return;
+			} 
+			
+			if (!Pattern.matches(EMAIL_REGEXP, memberEmail)) {
+				errors.rejectValue("memberEmail", "Pattern");
+				return;
+			}
 			
 			if (memberService.isMyEmail(memberEmail, getCurrentId())) {
 				errors.rejectValue("memberEmail", "NotMyEmail");
@@ -79,7 +95,15 @@ public class EmailAuthValidator implements Validator {
 		}
 		
 		if (type == Type.UPDATE) {
-			valdiateCommon(memberEmail, errors);
+			if (!StringUtils.hasText(memberEmail)) {
+				errors.rejectValue("memberEmail", "NotBlank");
+				return;
+			} 
+			
+			if (!Pattern.matches(EMAIL_REGEXP, memberEmail)) {
+				errors.rejectValue("memberEmail", "Pattern");
+				return;
+			}
 			
 			if (memberService.isMyEmail(memberEmail, getCurrentId())) {
 				errors.rejectValue("memberEmail", "NotMyEmail");
@@ -110,7 +134,15 @@ public class EmailAuthValidator implements Validator {
 		} 
 		
 		if (type == Type.BEFORE_FIND_ACCOUNT) {
-			valdiateCommon(memberEmail, errors);
+			if (!StringUtils.hasText(memberEmail)) {
+				errors.rejectValue("memberEmail", "NotBlank");
+				return;
+			} 
+			
+			if (!Pattern.matches(EMAIL_REGEXP, memberEmail)) {
+				errors.rejectValue("memberEmail", "Pattern");
+				return;
+			}
 			
 			if (!memberService.isEmailExist(memberEmail)) {
 				errors.rejectValue("memberEmail", "NotEmailExist");
@@ -121,7 +153,15 @@ public class EmailAuthValidator implements Validator {
 		} 
 		
 		if (type == Type.FIND_ACCOUNT) {
-			valdiateCommon(memberEmail, errors);
+			if (!StringUtils.hasText(memberEmail)) {
+				errors.rejectValue("memberEmail", "NotBlank");
+				return;
+			} 
+			
+			if (!Pattern.matches(EMAIL_REGEXP, memberEmail)) {
+				errors.rejectValue("memberEmail", "Pattern");
+				return;
+			}
 			
 			if (!memberService.isEmailExist(memberEmail)) {
 				errors.rejectValue("memberEmail", "NotEmailExist");
@@ -152,13 +192,20 @@ public class EmailAuthValidator implements Validator {
 				return;
 			}
 			
-			valdiateCommon(memberEmail, errors);
+			if (!StringUtils.hasText(memberEmail)) {
+				errors.rejectValue("memberEmail", "NotBlank");
+				return;
+			} 
+			
+			if (!Pattern.matches(EMAIL_REGEXP, memberEmail)) {
+				errors.rejectValue("memberEmail", "Pattern");
+				return;
+			}
 			
 			if(!memberService.isAccountExist(memberId, memberEmail)) {
 				errors.rejectValue("memberId", "NotIdOrEmailExist");
 				return;
 			}
-				
 				
 			return;
 		}
@@ -166,17 +213,17 @@ public class EmailAuthValidator implements Validator {
 		
 	}
 	
-	private void valdiateCommon(String memberEmail, Errors errors) {
-		if (!StringUtils.hasText(memberEmail)) {
-			errors.rejectValue("memberEmail", "NotBlank");
-			return;
-		} 
-		
-		if (!Pattern.matches(EMAIL_REGEXP, memberEmail)) {
-			errors.rejectValue("memberEmail", "Pattern");
-			return;
-		}
-	}
+//	private void valdiateCommon(String memberEmail, Errors errors) {
+//		if (!StringUtils.hasText(memberEmail)) {
+//			errors.rejectValue("memberEmail", "NotBlank");
+//			return;
+//		} 
+//		
+//		if (!Pattern.matches(EMAIL_REGEXP, memberEmail)) {
+//			errors.rejectValue("memberEmail", "Pattern");
+//			return;
+//		}
+//	}
 	
 	private String getCurrentId() {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();

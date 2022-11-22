@@ -6,7 +6,7 @@ import lombok.ToString;
 
 @ToString
 public enum Type {
-	JOIN, 
+	BEFORE_JOIN, 
 	BEFORE_UPDATE,
 	UPDATE,
 	BEFORE_FIND_ACCOUNT,

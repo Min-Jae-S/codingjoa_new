@@ -123,7 +123,7 @@
 	function sendAuthEmail() {
 		var obj = {
 			memberEmail : $("#memberEmail").val(),
-			type : "before_find_account"		
+			type : "BEFORE_FIND_ACCOUNT"		
 		};
 		
 		$.ajax({
@@ -159,7 +159,7 @@
 		var obj = {
 			memberEmail : $("#memberEmail").val(),
 			authCode : $("#authCode").val(),
-			type : "find_account"		
+			type : "FIND_ACCOUNT"		
 		};
 		
 		$.ajax({

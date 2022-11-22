@@ -131,7 +131,7 @@
 		var obj = {
 			memberId : $("#memberId").val(),
 			memberEmail : $("#memberEmail").val(),
-			type : "before_find_password"
+			type : "BEFORE_FIND_PASSWORD"
 		};
 		
 		$.ajax({
@@ -167,7 +167,7 @@
 		var obj = {
 			memberEmail : $("#memberEmail").val(),
 			authCode : $("#authCode").val(),
-			type : "find_account"		
+			type : "FIND_PASSWORD"		
 		};
 		
 		$.ajax({
