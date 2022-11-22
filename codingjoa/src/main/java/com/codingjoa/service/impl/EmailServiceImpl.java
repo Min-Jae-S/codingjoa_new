@@ -3,7 +3,6 @@ package com.codingjoa.service.impl;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
-import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -13,13 +12,9 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
-import com.codingjoa.dto.EmailDto;
 import com.codingjoa.service.EmailService;
 import com.codingjoa.service.RedisService;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @EnableAsync
 @Service
 public class EmailServiceImpl implements EmailService {
@@ -35,11 +30,7 @@ public class EmailServiceImpl implements EmailService {
 	
 	@Async // Async Config
 	@Override
-	public void sendAuthEmail(EmailDto emailDto) {
-		String memberEmail = emailDto.getMemberEmail();
-		String authCode = RandomStringUtils.randomAlphanumeric(10);
-		log.info("authCode = {}", authCode);
-		
+	public void sendAuthEmail(String memberEmail, String authCode) {
 		String html = buildTemplate(authCode);
 		
 		try {

@@ -4,6 +4,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -86,10 +87,15 @@ public class MemberRestController {
 			throw new MethodArgumentNotValidException(null, bindingResult);
 		}
 		
-		emailService.sendAuthEmail(emailDto);
+		String authCode = makeAuthCode(6);
+		log.info("authCode = {}", authCode);
+		
+		emailService.sendAuthEmail(emailDto.getMemberEmail(), authCode);
 		
 		return ResponseEntity.ok(SuccessResponse.create().message("success.sendAuthEmail"));
 	}
+	
+	@PostMapping("/sendAuthEmail")
 	
 	@PutMapping("/updateEmail")
 	public ResponseEntity<Object> updateEmail(@Valid @RequestBody EmailDto emailDto, 
@@ -202,7 +208,11 @@ public class MemberRestController {
 		// ...
 		
 		return ResponseEntity.ok(SuccessResponse.create().message("success.findPassword"));
-	} 
+	}
+	
+	private String makeAuthCode(int count) {
+		return RandomStringUtils.randomAlphanumeric(count);
+	}
 	
 	private void resetAuthentication(String memberId) {
 		UserDetails userDetails = userDetailsService.loadUserByUsername(memberId);
