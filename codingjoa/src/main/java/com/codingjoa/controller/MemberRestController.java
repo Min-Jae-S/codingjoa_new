@@ -87,7 +87,7 @@ public class MemberRestController {
 			throw new MethodArgumentNotValidException(null, bindingResult);
 		}
 		
-		String authCode = makeAuthCode(6);
+		String authCode = RandomStringUtils.randomAlphanumeric(6);
 		log.info("authCode = {}", authCode);
 		
 		emailService.sendAuthEmail(emailDto.getMemberEmail(), authCode);
@@ -208,10 +208,6 @@ public class MemberRestController {
 		// ...
 		
 		return ResponseEntity.ok(SuccessResponse.create().message("success.findPassword"));
-	}
-	
-	private String makeAuthCode(int count) {
-		return RandomStringUtils.randomAlphanumeric(count);
 	}
 	
 	private void resetAuthentication(String memberId) {
