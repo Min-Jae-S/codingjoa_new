@@ -107,8 +107,19 @@ public class MemberController {
 	}
 	
 	@GetMapping("/showAccount")
-	public String showAccount() {
-		return "member/show-account";
+	public String showAccount(HttpSession session, Model model) {
+		Object obj = session.getAttribute("FIND_ACCOUNT");
+		log.info("showAccount, FIND_ACCOUNT = {}", obj);
+		
+		if(obj != null) {
+			model.addAttribute("find_account", session.getAttribute("FIND_ACCOUNT"));
+			session.removeAttribute("FIND_ACCOUNT");
+			return "member/show-account";
+		}
+		
+		model.addAttribute("message", MessageUtils.getMessage("error.NotFindAccount"));
+		
+		return "member/not-find-account";
 	}
 	
 	@GetMapping("/findPassword")

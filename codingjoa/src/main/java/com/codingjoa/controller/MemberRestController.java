@@ -175,8 +175,7 @@ public class MemberRestController {
 			throw new MethodArgumentNotValidException(null, bindingResult);
 		}
 		
-		session.setAttribute("FIND_ACCOUNT", true);
-		session.setAttribute("ACCOUNT", memberService.findAccount(emailDto));
+		session.setAttribute("FIND_ACCOUNT", memberService.findAccount(emailDto));
 		
 		return ResponseEntity.ok(SuccessResponse.create().message("success.findAccount"));
 	}

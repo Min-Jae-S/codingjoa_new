@@ -167,8 +167,7 @@
 			success : function(result) {
 				console.log(result);
 				alert(result.message);
-				
-				$(".find-account-container").load()
+				location.href = "${contextPath}/member/showAccount";
 			},
 			error : function(e) {
 				console.log(e.responseText);
