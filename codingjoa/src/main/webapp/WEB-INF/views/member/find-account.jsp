@@ -111,11 +111,11 @@
 			findAccount();
 		});
 		
-		$("#memberEmail, #authCode").on("focus", function() {
+		$("input").on("focus", function() {
 			$(this).closest("dd").css("border-bottom", "1px solid #868e96");
 		});
 	
-		$("#memberEmail, #authCode").on("blur", function() {
+		$("input").on("blur", function() {
 			$(this).closest("dd").css("border-bottom", "1px solid #dee2e6");
 		});
 	});
