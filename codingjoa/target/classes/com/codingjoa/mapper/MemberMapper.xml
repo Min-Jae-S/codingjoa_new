@@ -176,7 +176,7 @@
 		FROM
 			member
 		WHERE
-			member_id = #{member_id} AND member_email = #{member_email}
+			member_id = #{memberId} AND member_email = #{memberEmail}
 	</select>
 	
 	
