@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.codingjoa.dto.AddrDto;
 import com.codingjoa.dto.AgreeDto;
-import com.codingjoa.dto.EmailDto;
+import com.codingjoa.dto.EmailAuthDto;
 import com.codingjoa.dto.PasswordDto;
 import com.codingjoa.error.SuccessResponse;
 import com.codingjoa.security.dto.UserDetailsDto;
@@ -53,15 +53,15 @@ public class MemberRestController {
 	@Autowired
 	private RedisService redisService;
 	
-	@Resource(name = "emailValidator")
-	private Validator emailValidator;
+	@Resource(name = "emailAuthValidator")
+	private Validator emailAuthValidator;
 	
 	@Resource(name = "passwordValidator")
 	private Validator passwordValidator;
 	
-	@InitBinder("emailDto")
+	@InitBinder("emailAuthDto")
 	public void InitBinderEmail(WebDataBinder binder) {
-		binder.addValidators(emailValidator);
+		binder.addValidators(emailAuthValidator);
 	}
 	
 	@InitBinder("passwordDto")
@@ -70,9 +70,9 @@ public class MemberRestController {
 	}
 
 	@PostMapping("/sendAuthEmail")
-	public ResponseEntity<Object> sendAuthEmail(@Valid @RequestBody EmailDto emailDto, 
+	public ResponseEntity<Object> sendAuthEmail(@Valid @RequestBody EmailAuthDto emailAuthDto, 
 			BindingResult bindingResult) throws MethodArgumentNotValidException {
-		log.info("sendAuthEmail, {}", emailDto);
+		log.info("sendAuthEmail, {}", emailAuthDto);
 
 		if(bindingResult.hasErrors()) {
 			throw new MethodArgumentNotValidException(null, bindingResult);
@@ -81,25 +81,25 @@ public class MemberRestController {
 		String authCode = RandomStringUtils.randomAlphanumeric(6);
 		log.info("authCode = {}", authCode);
 		
-		emailService.sendAuthEmail(emailDto.getMemberEmail(), authCode);
+		emailService.sendAuthEmail(emailAuthDto.getMemberEmail(), authCode);
 		
 		return ResponseEntity.ok(SuccessResponse.create().message("success.sendAuthEmail"));
 	}
 	
 	@PutMapping("/updateEmail")
-	public ResponseEntity<Object> updateEmail(@Valid @RequestBody EmailDto emailDto, 
+	public ResponseEntity<Object> updateEmail(@Valid @RequestBody EmailAuthDto emailAuthDto, 
 			BindingResult bindingResult, @AuthenticationPrincipal UserDetailsDto principal) 
 					throws MethodArgumentNotValidException {
-		log.info("updateEmail, {}", emailDto);
+		log.info("updateEmail, {}", emailAuthDto);
 		
 		if(bindingResult.hasErrors()) {
 			throw new MethodArgumentNotValidException(null, bindingResult);
 		}
 		
 		String memberId = principal.getMember().getMemberId();
-		memberService.updateEmail(emailDto, memberId);
+		memberService.updateEmail(emailAuthDto, memberId);
 		
-		redisService.delete(emailDto.getMemberEmail());
+		redisService.delete(emailAuthDto.getMemberEmail());
 		
 		resetAuthentication(memberId);
 		Authentication newAuth = SecurityContextHolder.getContext().getAuthentication();
@@ -171,16 +171,16 @@ public class MemberRestController {
 	}
 	
 	@PostMapping("/findAccount")
-	public ResponseEntity<Object> findAccount(@Valid @RequestBody EmailDto emailDto, 
+	public ResponseEntity<Object> findAccount(@Valid @RequestBody EmailAuthDto emailAuthDto, 
 			BindingResult bindingResult, HttpSession session) throws MethodArgumentNotValidException {
-		log.info("findAccount, {}", emailDto);
+		log.info("findAccount, {}", emailAuthDto);
 		
 		if(bindingResult.hasErrors()) {
 			throw new MethodArgumentNotValidException(null, bindingResult);
 		}
 		
-		session.setAttribute("FIND_ACCOUNT", memberService.findAccount(emailDto));
-		redisService.delete(emailDto.getMemberEmail());
+		session.setAttribute("FIND_ACCOUNT", memberService.findAccount(emailAuthDto));
+		redisService.delete(emailAuthDto.getMemberEmail());
 		
 		return ResponseEntity.ok(SuccessResponse.create().message("success.findAccount"));
 	}

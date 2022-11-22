@@ -10,7 +10,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import com.codingjoa.dto.EmailDto;
+import com.codingjoa.dto.EmailAuthDto;
 import com.codingjoa.enumclass.Type;
 import com.codingjoa.security.dto.UserDetailsDto;
 import com.codingjoa.service.MemberService;
@@ -19,8 +19,8 @@ import com.codingjoa.service.RedisService;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@Component(value = "emailValidator")
-public class EmailValidator implements Validator {
+@Component(value = "emailAuthValidator")
+public class EmailAuthValidator implements Validator {
 
 	private final String EMAIL_REGEXP = "^[_a-z0-9-]+(.[_a-z0-9-]+)*@(?:\\w+\\.)+\\w+$";
 
@@ -32,23 +32,23 @@ public class EmailValidator implements Validator {
 
 	@Override
 	public boolean supports(Class<?> clazz) {
-		return EmailDto.class.isAssignableFrom(clazz);
+		return EmailAuthDto.class.isAssignableFrom(clazz);
 	}
 
 	@Override
 	public void validate(Object target, Errors errors) {
-		log.info("============== EmailValidator ==============");
+		log.info("============== EmailAuthValidator ==============");
 
-		EmailDto emailDto = (EmailDto) target;
-		Type type = emailDto.getType();
+		EmailAuthDto emailAuthDto = (EmailAuthDto) target;
+		Type type = emailAuthDto.getType();
 		
 		if (type == null) {
 			errors.rejectValue("memberEmail", "NotValidAccess");
 			return;
 		}
 		
-		String memberEmail = emailDto.getMemberEmail();
-		String authCode = emailDto.getAuthCode();
+		String memberEmail = emailAuthDto.getMemberEmail();
+		String authCode = emailAuthDto.getAuthCode();
 		
 		if (!StringUtils.hasText(memberEmail)) {
 			errors.rejectValue("memberEmail", "NotBlank");
@@ -136,6 +136,9 @@ public class EmailValidator implements Validator {
 			}
 			return;
 		}
+		
+		
+		
 	}
 	
 	private String getCurrentId() {
