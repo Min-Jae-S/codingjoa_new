@@ -114,8 +114,8 @@
 			sendAuthEmail();
 		});
 		
-		$("#findAccountBtn").on("click", function() {
-			findAccount();
+		$("#findPasswordBtn").on("click", function() {
+			findPassword();
 		});
 		
 		$("#memberId, #memberEmail, #authCode").on("focus", function() {
@@ -130,7 +130,7 @@
 	function sendAuthEmail() {
 		var obj = {
 			memberEmail : $("#memberEmail").val(),
-			type : "before_find_account"		
+			type : "before_find_password"		
 		};
 		
 		$.ajax({
@@ -141,14 +141,14 @@
 			dataType : "json",
 			success : function(result) {
 				console.log(result);
-				$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
+				$("#memberId\\.errors, #memberEmail\\.errors, #authCode\\.errors, .success").remove();
 				$("#authCode").closest("dd").after("<dd class='success'>" + result.message + "</dd>");
 				$("#authCode").val("");
 				$("#authCode").focus();
 			},
 			error : function(e) {
 				console.log(e.responseText);
-				$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
+				$("#memberId\\.errors, #memberEmail\\.errors, #authCode\\.errors, .success").remove();
 				
 				if(e.status == 422) {
 					var errorMap = JSON.parse(e.responseText).errorMap;
