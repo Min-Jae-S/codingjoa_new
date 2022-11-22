@@ -81,7 +81,9 @@ public class MemberRestController {
 		String authCode = RandomStringUtils.randomAlphanumeric(6);
 		log.info("authCode = {}", authCode);
 		
-		emailService.sendAuthEmail(emailAuthDto.getMemberEmail(), authCode);
+		String memberEmail = emailAuthDto.getMemberEmail();
+		emailService.sendAuthEmail(memberEmail, authCode);
+		redisService.saveAuthCode(memberEmail, authCode);
 		
 		return ResponseEntity.ok(SuccessResponse.create().message("success.sendAuthEmail"));
 	}
@@ -98,7 +100,6 @@ public class MemberRestController {
 		
 		String memberId = principal.getMember().getMemberId();
 		memberService.updateEmail(emailAuthDto, memberId);
-		
 		redisService.delete(emailAuthDto.getMemberEmail());
 		
 		resetAuthentication(memberId);
@@ -179,10 +180,26 @@ public class MemberRestController {
 			throw new MethodArgumentNotValidException(null, bindingResult);
 		}
 		
-		session.setAttribute("FIND_ACCOUNT", memberService.findAccount(emailAuthDto));
+		String account = memberService.findAccount(emailAuthDto);
+		session.setAttribute("FIND_ACCOUNT", account);
 		redisService.delete(emailAuthDto.getMemberEmail());
 		
 		return ResponseEntity.ok(SuccessResponse.create().message("success.findAccount"));
+	}
+	
+	@PostMapping("/findPassword")
+	public ResponseEntity<Object> findPassword(@Valid @RequestBody EmailAuthDto emailAuthDto, 
+			BindingResult bindingResult, HttpSession session) throws MethodArgumentNotValidException {
+		log.info("findPassword, {}", emailAuthDto);
+		
+		if(bindingResult.hasErrors()) {
+			throw new MethodArgumentNotValidException(null, bindingResult);
+		}
+		
+		session.setAttribute("FIND_PASSWORD", true);
+		redisService.delete(emailAuthDto.getMemberEmail());
+		
+		return ResponseEntity.ok(SuccessResponse.create().message("success.findPassword"));
 	}
 	
 	private void resetAuthentication(String memberId) {

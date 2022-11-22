@@ -13,7 +13,6 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
 import com.codingjoa.service.EmailService;
-import com.codingjoa.service.RedisService;
 
 @EnableAsync
 @Service
@@ -24,9 +23,6 @@ public class EmailServiceImpl implements EmailService {
 	
 	@Autowired
 	private TemplateEngine templateEngine;
-	
-	@Autowired
-	private RedisService redisService;
 	
 	@Async // Async Config
 	@Override
@@ -46,7 +42,7 @@ public class EmailServiceImpl implements EmailService {
 			e.printStackTrace();
 		}
 		
-		redisService.saveAuthCode(memberEmail, authCode);
+		//redisService.saveAuthCode(memberEmail, authCode);
 		
 		//return authCode; because @Async --> null
 	}

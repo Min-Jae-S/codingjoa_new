@@ -211,6 +211,30 @@ public class EmailAuthValidator implements Validator {
 			return;
 		}
 		
+		if (type == Type.FIND_PASSWORD) {
+			if (!StringUtils.hasText(memberId)) {
+				errors.rejectValue("memberId", "NotBlank");
+				return;
+			}
+			
+			if (!StringUtils.hasText(memberEmail)) {
+				errors.rejectValue("memberEmail", "NotBlank");
+				return;
+			} 
+			
+			if (!Pattern.matches(EMAIL_REGEXP, memberEmail)) {
+				errors.rejectValue("memberEmail", "Pattern");
+				return;
+			}
+			
+			if(!memberService.isAccountExist(memberId, memberEmail)) {
+				errors.rejectValue("memberId", "NotIdOrEmailExist");
+				errors.rejectValue("memberEmail", "NotIdOrEmailExist");
+				return;
+			}
+			
+			return;
+		}
 		
 	}
 	
