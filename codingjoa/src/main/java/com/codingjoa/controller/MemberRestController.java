@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.codingjoa.dto.AddrDto;
 import com.codingjoa.dto.AgreeDto;
 import com.codingjoa.dto.EmailDto;
+import com.codingjoa.dto.FindPasswordDto;
 import com.codingjoa.dto.PasswordDto;
 import com.codingjoa.error.SuccessResponse;
 import com.codingjoa.security.dto.UserDetailsDto;
@@ -57,6 +58,9 @@ public class MemberRestController {
 	
 	@Resource(name = "passwordValidator")
 	private Validator passwordValidator;
+	
+	@Resource(name = "findPasswordValidator")
+	private Validator findPasswordValidator;
 
 	@InitBinder("emailDto")
 	public void InitBinderEmail(WebDataBinder binder) {
@@ -66,6 +70,11 @@ public class MemberRestController {
 	@InitBinder("passwordDto")
 	public void InitBinderPassword(WebDataBinder binder) {
 		binder.addValidators(passwordValidator);
+	}
+	
+	@InitBinder("findPasswordDto")
+	public void InitBinderFindPassword(WebDataBinder binder) {
+		binder.addValidators(findPasswordValidator);
 	}
 
 	@PostMapping("/sendAuthEmail")
@@ -180,6 +189,20 @@ public class MemberRestController {
 		
 		return ResponseEntity.ok(SuccessResponse.create().message("success.findAccount"));
 	}
+	
+	@PostMapping("/findPassword")
+	public ResponseEntity<Object> findPassword(@Valid @RequestBody FindPasswordDto findPasswordDto, 
+			BindingResult bindingResult, HttpSession session) throws MethodArgumentNotValidException {
+		log.info("findPassword, {}", findPasswordDto);
+		
+		if(bindingResult.hasErrors()) {
+			throw new MethodArgumentNotValidException(null, bindingResult);
+		}
+		
+		// ...
+		
+		return ResponseEntity.ok(SuccessResponse.create().message("success.findPassword"));
+	} 
 	
 	private void resetAuthentication(String memberId) {
 		UserDetails userDetails = userDetailsService.loadUserByUsername(memberId);

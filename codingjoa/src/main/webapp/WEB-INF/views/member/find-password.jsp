@@ -130,7 +130,8 @@
 	function sendAuthEmail() {
 		var obj = {
 			memberEmail : $("#memberEmail").val(),
-			type : "before_find_password"		
+			memberId : $("#memberId").val(),
+			//type : "before_find_password"
 		};
 		
 		$.ajax({
