@@ -84,14 +84,14 @@
 				<dl class="form-group mb-5">
 					<dt><i class="fa-solid fa-check mr-2"></i>비밀번호</dt>
 					<dd class="input-group">
-						<input type="password" id="memberPassword" name="memberPassword" placeholder="새로운 비밀번호"/>
+						<input type="password" id="memberPassword" name="memberPassword" placeholder="새로운 비밀번호 입력"/>
 					</dd>
 				</dl>
 				
 				<dl class="form-group mb-5">
 					<dt><i class="fa-solid fa-check mr-2"></i>비밀번호 확인</dt>
 					<dd class="input-group">
-						<input type="password" id="confirmPassword" name="confirmPassword" placeholder="비밀번호 확인"/>
+						<input type="password" id="confirmPassword" name="confirmPassword" placeholder="비밀번호 확인 입력"/>
 					</dd>
 				</dl>
 				<button type="button" class="btn btn-primary btn-block" id="updatePasswordBtn">확인</button>

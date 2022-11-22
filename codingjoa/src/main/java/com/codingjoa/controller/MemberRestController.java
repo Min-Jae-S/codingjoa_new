@@ -176,6 +176,7 @@ public class MemberRestController {
 		}
 		
 		session.setAttribute("FIND_ACCOUNT", memberService.findAccount(emailDto));
+		redisService.delete(emailDto.getMemberEmail());
 		
 		return ResponseEntity.ok(SuccessResponse.create().message("success.findAccount"));
 	}

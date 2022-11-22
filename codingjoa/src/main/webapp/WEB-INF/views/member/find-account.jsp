@@ -75,7 +75,7 @@
 			<h5>계정 찾기</h5>
 			<div class="pt-3" style="border-top: 1px solid black;">
 				<p class="title">
-					<span>등록한 이메일로 인증을 진행해 주세요.</span><br/>
+					<span>코딩조아(Codingjoa) 계정에 등록한 이메일로 인증을 진행해 주세요.</span><br/>
 					<span>등록한 이메일 주소와 입력한 이메일 주소가 같아야, 인증코드를 받을 수 있습니다.</span>
 				</p>
 				<dl class="form-group mb-5">
@@ -90,7 +90,9 @@
 						<input type="text" id="authCode" name="authCode" placeholder="인증코드를 입력하세요.">
 					</dd>
 				</dl>
-				<button type="button" class="btn btn-primary btn-block" id="findAccountBtn">계정 찾기</button>
+				<div class="pt-3">
+					<button type="button" class="btn btn-primary btn-block" id="findAccountBtn">계정 찾기</button>
+				</div>
 			</div>
 		</div>
 		<div class="col-sm-3"></div>

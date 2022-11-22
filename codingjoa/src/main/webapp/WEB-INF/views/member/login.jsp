@@ -63,11 +63,11 @@
 					<form:form action="${contextPath}/member/loginProc" method="POST" modelAttribute="loginDto">
 						<div class="form-group mb-4">
 							<form:label path="memberId" class="font-weight-bold">아이디</form:label>
-							<form:input path="memberId" class="form-control" placeholder="아이디"/>
+							<form:input path="memberId" class="form-control" placeholder="아이디 입력"/>
 						</div>
 						<div class="form-group mb-4">
 							<form:label path="memberPassword" class="font-weight-bold">비밀번호</form:label>
-							<form:password path="memberPassword" class="form-control" placeholder="비밀번호" showPassword="true"/>
+							<form:password path="memberPassword" class="form-control" placeholder="비밀번호 입력" showPassword="true"/>
 						</div>
 						<c:if test="${not empty errorResponse}">
 							<div class="error">${errorResponse.errorMessage}</div>
