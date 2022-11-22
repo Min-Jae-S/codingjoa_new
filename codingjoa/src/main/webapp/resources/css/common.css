@@ -8,15 +8,15 @@ body {
 }
 
 .join-container,
+.check-password-container,
+.update-password-container,
 .find-account-container, 
 .find-password-container {
 	margin-top: 4rem;
 }
 
 .login-container,
-.info-container,
-.check-password-container,
-.update-password-container {
+.info-container {
 	margin-top: 6.5rem;
 }
 

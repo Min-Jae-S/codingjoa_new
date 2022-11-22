@@ -77,14 +77,15 @@
 						<span class="inner-text"><c:out value="${principal.member.memberId}"/></span>
 					</dd>
 				</dl>
-				
 				<dl class="form-group mb-5">
 					<dt><i class="fa-solid fa-check mr-2"></i>비밀번호</dt>
 					<dd class="input-group">
 						<input type="password" id="memberPassword" name="memberPassword" placeholder="현재 비밀번호"/>
 					</dd>
 				</dl>
-				<button type="button" class="btn btn-primary btn-block" id="checkPasswordBtn">확인</button>
+				<div class="pt-3">
+					<button type="button" class="btn btn-primary btn-block" id="checkPasswordBtn">확인</button>
+				</div>
 			</div>
 		</div>
 		<div class="col-sm-3"></div>
