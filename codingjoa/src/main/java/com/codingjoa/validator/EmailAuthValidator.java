@@ -40,15 +40,11 @@ public class EmailAuthValidator implements Validator {
 		log.info("============== EmailAuthValidator ==============");
 
 		EmailAuthDto emailAuthDto = (EmailAuthDto) target;
-		Type type = emailAuthDto.getType();
 		
-		if (type == null) {
-			errors.rejectValue("memberEmail", "NotValidAccess");
-			return;
-		}
-		
+		String memberId = emailAuthDto.getMemberId();
 		String memberEmail = emailAuthDto.getMemberEmail();
 		String authCode = emailAuthDto.getAuthCode();
+		Type type = emailAuthDto.getType();
 		
 		if (!StringUtils.hasText(memberEmail)) {
 			errors.rejectValue("memberEmail", "NotBlank");
@@ -118,6 +114,7 @@ public class EmailAuthValidator implements Validator {
 		if (type == Type.FIND_ACCOUNT) {
 			if (!memberService.isEmailExist(memberEmail)) {
 				errors.rejectValue("memberEmail", "NotEmailExist");
+				return;
 			}
 			
 			if (!redisService.hasAuthCode(memberEmail)) {
@@ -137,7 +134,9 @@ public class EmailAuthValidator implements Validator {
 			return;
 		}
 		
-		
+		if (type == Type.BEFORE_FIND_PASSWORD) {
+			return;
+		}
 		
 	}
 	
