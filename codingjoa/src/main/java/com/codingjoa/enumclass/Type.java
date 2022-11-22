@@ -10,7 +10,9 @@ public enum Type {
 	BEFORE_UPDATE,
 	UPDATE,
 	BEFORE_FIND_ACCOUNT,
-	FIND_ACCOUNT;
+	FIND_ACCOUNT,
+	BEFORE_FIND_PASSWORD,
+	FIND_PASSWORD;
 	
 	@JsonCreator
 	public static Type from(String s) {

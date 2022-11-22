@@ -9,6 +9,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 import com.codingjoa.dto.FindPasswordDto;
+import com.codingjoa.enumclass.Type;
 import com.codingjoa.service.MemberService;
 import com.codingjoa.service.RedisService;
 
@@ -36,6 +37,13 @@ public class FindPasswordValidator implements Validator {
 		log.info("============== FindPasswordValidator ==============");
 
 		FindPasswordDto findPasswordDto = (FindPasswordDto) target;
+		Type type = findPasswordDto.getType();
+		
+		if (type == null) {
+			errors.rejectValue("memberId", "NotValidAccess");
+			return;
+		}
+		
 		String memberId = findPasswordDto.getMemberId();
 		
 		

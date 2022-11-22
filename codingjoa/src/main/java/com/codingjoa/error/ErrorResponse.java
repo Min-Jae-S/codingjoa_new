@@ -28,6 +28,7 @@ public class ErrorResponse {
 		return new ErrorResponse();
 	}
 	
+	// simple message - LoginFailureHandler
 	public ErrorResponse errorCode (String errorCode) {
 		errorMessage = MessageUtils.getMessage(errorCode);
 		return this;
