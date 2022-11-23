@@ -145,6 +145,8 @@ public class MemberController {
 			return "member/invalid-access";
 		}
 		
+		sessionDto.setFindPasswordResult(false);
+		
 		return "member/update-password";
 	}
 
