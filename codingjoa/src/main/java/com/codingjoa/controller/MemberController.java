@@ -129,5 +129,17 @@ public class MemberController {
 	public String findPassword() {
 		return "member/find-password";
 	}
+	
+	@GetMapping("/findPasswordResult")
+	public String findPasswordResult(Model model) {
+		log.info("{}", sessionDto);
+		
+		if(!sessionDto.isFindPasswordResult()) {
+			model.addAttribute("message", MessageUtils.getMessage("error.NotFindPassword"));
+			return "member/not-find-password";
+		}
+		
+		return "member/update-password";
+	}
 
 }

@@ -6,7 +6,7 @@ import lombok.Data;
 public class SessionDto {
 
 	private boolean checkPasswordResult;
-	private boolean findPasswordResult;
 	private String findAccountResult;
+	private boolean findPasswordResult;
 	
 }

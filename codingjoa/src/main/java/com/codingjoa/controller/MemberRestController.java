@@ -205,7 +205,8 @@ public class MemberRestController {
 			throw new MethodArgumentNotValidException(null, bindingResult);
 		}
 		
-		//session.setAttribute("FIND_PASSWORD", true);
+		sessionDto.setFindPasswordResult(true);
+		
 		redisService.delete(emailAuthDto.getMemberEmail());
 		
 		return ResponseEntity.ok(SuccessResponse.create().message("success.findPassword"));
