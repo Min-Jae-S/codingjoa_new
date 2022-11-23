@@ -91,7 +91,7 @@ public class MemberController {
 
 	@GetMapping("/updatePassword")
 	public String updatePassword(Model model) {
-		log.info("updatePassword, sessionDto = {}", sessionDto);
+		log.info("updatePassword, {}", sessionDto);
 		
 		if(!sessionDto.isCheckPasswordResult()) {
 			model.addAttribute("message", MessageUtils.getMessage("error.NotCheckPassword"));
@@ -110,7 +110,7 @@ public class MemberController {
 	
 	@GetMapping("/findAccountResult")
 	public String findAccountResult(Model model) {
-		log.info("findAccountResult, sessionDto = {}", sessionDto);
+		log.info("findAccountResult, {}", sessionDto);
 		
 		String findAccountResult = sessionDto.getFindAccountResult();
 		
