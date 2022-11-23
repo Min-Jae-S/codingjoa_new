@@ -4,5 +4,5 @@
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />    
 <script>
 	alert("${message}");
-	location.href = "${contextPath}/member/checkPassword";
+	location.href = "${contextPath}/member/${path}" ;
 </script>
