@@ -73,7 +73,7 @@
 	<div class="row">
 		<div class="col-sm-3"></div>
 		<div class="col-sm-6">
-			<h5>비밀번호 변경</h5>
+			<h5>비밀번호 재설정</h5>
 			<div class="pt-3" style="border-top: 1px solid black;">
 				<p class="title">새로운 비밀번호를 입력해주세요.</p>
 				<p class="description"> 
@@ -82,7 +82,7 @@
 				</p>
 				
 				<dl class="form-group mb-5">
-					<dt><i class="fa-solid fa-check mr-2"></i>비밀번호</dt>
+					<dt><i class="fa-solid fa-check mr-2"></i>새로운 비밀번호</dt>
 					<dd class="input-group">
 						<input type="password" id="memberPassword" name="memberPassword" placeholder="새로운 비밀번호 입력"/>
 					</dd>

@@ -104,7 +104,7 @@ public class MemberRestController {
 		
 		String memberId = principal.getMember().getMemberId();
 		memberService.updateEmail(emailAuthDto, memberId);
-		
+
 		redisService.delete(emailAuthDto.getMemberEmail());
 		
 		resetAuthentication(memberId);
@@ -155,7 +155,6 @@ public class MemberRestController {
 		}
 		
 		sessionDto.setCheckPasswordResult(true);
-		log.info("No validation error, {}", sessionDto);
 		
 		return ResponseEntity.ok(SuccessResponse.create().message("success.checkPassword"));
 	}
@@ -190,7 +189,6 @@ public class MemberRestController {
 		
 		String account = memberService.findAccount(emailAuthDto);
 		sessionDto.setFindAccountResult(account);
-		log.info("No validation error, {}", sessionDto);
 		
 		redisService.delete(emailAuthDto.getMemberEmail());
 		
