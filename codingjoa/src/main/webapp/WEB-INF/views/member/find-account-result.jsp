@@ -46,7 +46,7 @@
 
 <c:import url="/WEB-INF/views/include/top-menu.jsp"/>
 
-<div class="container find-account-container">
+<div class="container find-account-result-container">
 	<div class="row">
 		<div class="col-sm-3"></div>
 		<div class="col-sm-6">
@@ -55,7 +55,7 @@
 				<p class="title">입력한 정보와 일치하는 코딩조아(Codingjoa) 계정을 확인해 주세요.</p>
 				<p class="content">
 					<span class="mr-3">계정 :</span>
-					<span><c:out value="${find_account}"/></span>
+					<span><c:out value="${account}"/></span>
 				</p>
 				<div class="pt-3">
 					<button type="button" class="btn btn-primary btn-block" id="loginBtn">로그인</button>

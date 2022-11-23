@@ -1,7 +1,6 @@
 package com.codingjoa.controller;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.codingjoa.dto.JoinDto;
 import com.codingjoa.dto.LoginDto;
+import com.codingjoa.dto.SessionDto;
 import com.codingjoa.service.MemberService;
 import com.codingjoa.service.RedisService;
 import com.codingjoa.util.MessageUtils;
@@ -37,6 +37,9 @@ public class MemberController {
 
 	@Resource(name = "joinValidator")
 	private Validator joinValidator;
+	
+	@Resource(name = "sessionDto")
+	private SessionDto sessionDto;
 
 	@InitBinder("joinDto")
 	public void initBinderJoin(WebDataBinder binder) {
@@ -87,18 +90,17 @@ public class MemberController {
 	}
 
 	@GetMapping("/updatePassword")
-	public String updatePassword(HttpSession session, Model model) {
-		Object obj = session.getAttribute("CHECK_PASSWORD");
-		log.info("updatePassword, CHECK_PASSWORD = {}", obj);
+	public String updatePassword(Model model) {
+		log.info("updatePassword, sessionDto = {}", sessionDto);
 		
-		if(obj != null && (boolean) obj) {
-			session.removeAttribute("CHECK_PASSWORD");
-			return "member/update-password";
+		if(!sessionDto.isCheckPasswordResult()) {
+			model.addAttribute("message", MessageUtils.getMessage("error.NotCheckPassword"));
+			return "member/not-check-password";
 		}
 		
-		model.addAttribute("message", MessageUtils.getMessage("error.NotCheckPassword"));
+		sessionDto.setCheckPasswordResult(false);
 		
-		return "member/not-check-password";
+		return "member/update-password";
 	}
 	
 	@GetMapping("/findAccount")
@@ -107,19 +109,20 @@ public class MemberController {
 	}
 	
 	@GetMapping("/findAccountResult")
-	public String findAccountResult(HttpSession session, Model model) {
-		Object obj = session.getAttribute("FIND_ACCOUNT");
-		log.info("findAccountResult, FIND_ACCOUNT = {}", obj);
+	public String findAccountResult(Model model) {
+		log.info("findAccountResult, sessionDto = {}", sessionDto);
 		
-		if(obj != null) {
-			model.addAttribute("find_account", obj);
-			session.removeAttribute("FIND_ACCOUNT");
-			return "member/find-account-result";
+		String findAccountResult = sessionDto.getFindAccountResult();
+		
+		if(findAccountResult == null) {
+			model.addAttribute("message", MessageUtils.getMessage("error.NotFindAccount"));
+			return "member/not-find-account";
 		}
 		
-		model.addAttribute("message", MessageUtils.getMessage("error.NotFindAccount"));
+		model.addAttribute("account", findAccountResult);
+		sessionDto.setFindAccountResult(null);
 		
-		return "member/not-find-account";
+		return "member/find-account-result";
 	}
 	
 	@GetMapping("/findPassword")

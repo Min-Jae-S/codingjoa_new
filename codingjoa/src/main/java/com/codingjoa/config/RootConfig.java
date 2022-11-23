@@ -16,7 +16,9 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.web.context.annotation.SessionScope;
 
+import com.codingjoa.dto.SessionDto;
 import com.codingjoa.util.MessageUtils;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -99,6 +101,12 @@ public class RootConfig {
 	@Bean
 	public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
 		return new PropertySourcesPlaceholderConfigurer();
+	}
+	
+	@Bean
+	@SessionScope
+	public SessionDto sessionDto() {
+		return new SessionDto();
 	}
 	
 }
