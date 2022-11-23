@@ -48,14 +48,14 @@ public class MemberController {
 
 	@GetMapping("/join")
 	public String join(@ModelAttribute JoinDto joinDto) {
-		log.info("join, {}", joinDto);
+		log.info("{}", joinDto);
 
 		return "member/join";
 	}
 
 	@PostMapping("/joinProc")
 	public String joinProc(@Valid @ModelAttribute JoinDto joinDto, BindingResult bindingResult) {
-		log.info("joinProc, {}", joinDto);
+		log.info("{}", joinDto);
 
 		if (bindingResult.hasErrors()) {
 			return "member/join";
@@ -69,7 +69,7 @@ public class MemberController {
 
 	@RequestMapping("/login")
 	public String login(@ModelAttribute LoginDto loginDto) {
-		log.info("login, {}", loginDto);
+		log.info("{}", loginDto);
 
 		return "member/login";
 	}
@@ -91,7 +91,7 @@ public class MemberController {
 
 	@GetMapping("/updatePassword")
 	public String updatePassword(Model model) {
-		log.info("updatePassword, {}", sessionDto);
+		log.info("{}", sessionDto);
 		
 		if(!sessionDto.isCheckPasswordResult()) {
 			model.addAttribute("message", MessageUtils.getMessage("error.NotCheckPassword"));
@@ -110,7 +110,7 @@ public class MemberController {
 	
 	@GetMapping("/findAccountResult")
 	public String findAccountResult(Model model) {
-		log.info("findAccountResult, {}", sessionDto);
+		log.info("{}", sessionDto);
 		
 		String findAccountResult = sessionDto.getFindAccountResult();
 		

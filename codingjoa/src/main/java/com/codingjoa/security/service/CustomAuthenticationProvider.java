@@ -40,7 +40,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 		}
 		
 		UserDetails userDetails = userDetailsService.loadUserByUsername(memberId);
-		log.info("userDetails = {}", userDetails);
+		log.info("{}", userDetails);
 		
 		if(!passwordEncoder.matches(memberPassword, userDetails.getPassword())) {
 			throw new BadCredentialsException("error.UsernameNotFoundOrBadCredentials");

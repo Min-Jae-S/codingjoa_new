@@ -18,7 +18,7 @@ public class ErrorHandler {
 		//log.info("MethodArgumentNotValidException", e);
 		
 		ErrorResponse respone = ErrorResponse.create().bindingResult(e.getBindingResult());
-		log.info("ErrorResponse = {}", respone);
+		log.info("{}", respone);
 		
 		return ResponseEntity.unprocessableEntity().body(respone);
 	}

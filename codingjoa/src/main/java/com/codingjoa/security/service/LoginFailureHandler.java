@@ -35,7 +35,7 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
 			errorCode = e.getMessage();
 		}
 		
-		log.info("Exception = {}", e.getClass());
+		log.info("{}", e.getClass());
 		log.info("ErrorCode = {}", errorCode);
 		
 		request.setAttribute("errorResponse", ErrorResponse.create().errorCode(errorCode));
