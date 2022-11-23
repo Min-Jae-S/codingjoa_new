@@ -97,7 +97,7 @@ public class MemberController {
 			model.addAttribute("message", MessageUtils.getMessage("error.NotCheckPassword"));
 			model.addAttribute("path", "checkPassword");
 			
-			return "member/access-denied";
+			return "member/invalid-access";
 		}
 		
 		sessionDto.setCheckPasswordResult(false);
@@ -120,7 +120,7 @@ public class MemberController {
 			model.addAttribute("message", MessageUtils.getMessage("error.NotFindAccount"));
 			model.addAttribute("path", "findAccount");
 			
-			return "member/access-denied";
+			return "member/invalid-access";
 		}
 		
 		model.addAttribute("account", findAccountResult);
@@ -142,7 +142,7 @@ public class MemberController {
 			model.addAttribute("message", MessageUtils.getMessage("error.NotFindPassword"));
 			model.addAttribute("path", "findPassword");
 			
-			return "member/access-denied";
+			return "member/invalid-access";
 		}
 		
 		return "member/update-password";
