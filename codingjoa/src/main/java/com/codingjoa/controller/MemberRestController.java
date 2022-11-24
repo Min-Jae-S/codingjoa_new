@@ -6,6 +6,7 @@ import javax.validation.Valid;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -61,6 +62,7 @@ public class MemberRestController {
 	private Validator passwordValidator;
 	
 	@Resource(name = "sessionDto")
+	@Lazy
 	private SessionDto sessionDto;
 	
 	@InitBinder("emailAuthDto")
