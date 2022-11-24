@@ -210,15 +210,32 @@ public class MemberRestController {
 			throw new MethodArgumentNotValidException(null, bindingResult);
 		}
 		
-		Map<String, Object> map = new HashMap<>();
-		map.put("result", true);
-		map.put("memberId", emailAuthDto.getMemberId());
-		map.put("memberEmail", emailAuthDto.getMemberEmail());
-		sessionDto.setFindPasswordResult(map);
+		Map<String, Object> resultMap = new HashMap<>();
+		resultMap.put("result", true);
+		resultMap.put("memberId", emailAuthDto.getMemberId());
+		resultMap.put("memberEmail", emailAuthDto.getMemberEmail());
+		sessionDto.setFindPasswordResult(resultMap);
 		
 		redisService.delete(emailAuthDto.getMemberEmail());
 		
 		return ResponseEntity.ok(SuccessResponse.create().message("success.findPassword"));
+	}
+	
+	@PutMapping("/resetPassword")
+	public ResponseEntity<Object> resetPassword(@Valid @RequestBody PasswordDto passwordDto, 
+			BindingResult bindingResult, @AuthenticationPrincipal UserDetailsDto principal) 
+					throws MethodArgumentNotValidException {
+		log.info("{}", passwordDto);
+		
+		if(bindingResult.hasErrors()) {
+			throw new MethodArgumentNotValidException(null, bindingResult);		
+		}
+		
+		//String memberId = principal.getMember().getMemberId();
+		//memberService.updatePassword(passwordDto, memberId);
+		
+		
+		return ResponseEntity.ok(SuccessResponse.create().message("success.resetPassword"));
 	}
 	
 	private void resetAuthentication(String memberId) {

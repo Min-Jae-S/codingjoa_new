@@ -46,12 +46,12 @@ public class PasswordValidator implements Validator {
 		String memberPassword = passwordDto.getMemberPassword();
 		String confrimPassword = passwordDto.getConfirmPassword();
 		
-		if (type == Type.BEFORE_UPDATE) {
+		if (type == Type.BEFORE_UPDATE_PASSWORD) {
 			validatePassword(memberPassword, errors);
 			return;
 		}
 		
-		if (type == Type.UPDATE) {
+		if (type == Type.UPDATE_PASSWORD || type == Type.RESET_PASSWORD) {
 			validatePassword(memberPassword, confrimPassword, errors);
 			return;
 		}

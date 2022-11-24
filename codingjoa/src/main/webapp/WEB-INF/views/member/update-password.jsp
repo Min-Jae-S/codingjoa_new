@@ -7,7 +7,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>계정 정보</title>
+<title>비밀번호 변경</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
@@ -73,7 +73,7 @@
 	<div class="row">
 		<div class="col-sm-3"></div>
 		<div class="col-sm-6">
-			<h5>비밀번호 재설정</h5>
+			<h5>비밀번호 변경</h5>
 			<div class="pt-3" style="border-top: 1px solid black;">
 				<p class="title">새로운 비밀번호를 입력해주세요.</p>
 				<p class="description"> 
@@ -123,7 +123,7 @@
 		var obj = {
 			memberPassword : $("#memberPassword").val(),
 			confirmPassword : $("#confirmPassword").val(),
-			type : "update"
+			type : "UPDATE_PASSWORD"
 		};
 		
 		$.ajax({

@@ -3,11 +3,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
-<c:set var="principal" value="${SPRING_SECURITY_CONTEXT.authentication.principal}" />
 <!DOCTYPE html>
 <html>
 <head>
-<title>계정 정보</title>
+<title>비밀번호 재설정</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
@@ -26,7 +25,7 @@
 	input[type="password"]:focus {
 		outline: none;
 	}
-	
+
 	.inner-text {
 		width: 100%;
 		color: #545454;
@@ -50,9 +49,14 @@
 	}
 	
 	p.title {
-		margin-bottom: 40px;
+		margin-bottom: 5px;
 		font-size: 14px;
 		font-weight: bold;
+	}
+	
+	p.description {
+		margin-bottom: 40px;
+		font-size: 12px;
 	}
 	
 	h5 {
@@ -64,28 +68,33 @@
 
 <c:import url="/WEB-INF/views/include/top-menu.jsp"/>
 
-<div class="container check-password-container">
+<div class="container update-password-container">
 	<div class="row">
 		<div class="col-sm-3"></div>
 		<div class="col-sm-6">
-			<h5>비밀번호 확인</h5>
+			<h5>비밀번호 재설정</h5>
 			<div class="pt-3" style="border-top: 1px solid black;">
-				<p class="title">비밀번호 변경을 위해서 현재 비밀번호를 확인해주세요.</p>
+				<p class="title">새로운 비밀번호를 입력해주세요.</p>
+				<p class="description"> 
+					<span>- 비밀번호는 8-16자 영문자, 숫자, 특수문자를 사용하세요.</span><br/>
+					<span>- 보안 정책에 따라 현재 비밀번호와 동일한 비밀번호로 변경할 수 없습니다.</span>
+				</p>
+				
 				<dl class="form-group mb-5">
-					<dt><i class="fa-solid fa-check mr-2"></i>아이디</dt>
+					<dt><i class="fa-solid fa-check mr-2"></i>새로운 비밀번호</dt>
 					<dd class="input-group">
-						<span class="inner-text"><c:out value="${principal.member.memberId}"/></span>
+						<input type="password" id="memberPassword" name="memberPassword" placeholder="새로운 비밀번호 입력"/>
 					</dd>
 				</dl>
 				<dl class="form-group mb-5">
-					<dt><i class="fa-solid fa-check mr-2"></i>비밀번호</dt>
+					<dt><i class="fa-solid fa-check mr-2"></i>비밀번호 확인</dt>
 					<dd class="input-group">
-						<input type="password" id="memberPassword" name="memberPassword" placeholder="현재 비밀번호"/>
+						<input type="password" id="confirmPassword" name="confirmPassword" placeholder="비밀번호 확인 입력"/>
 					</dd>
 				</dl>
 				<div class="pt-3">
-					<button type="button" class="btn btn-primary btn-block" id="checkPasswordBtn">확인</button>
-				</div>
+					<button type="button" class="btn btn-primary btn-block" id="resetPasswordBtn">확인</button>
+				</div>				
 			</div>
 		</div>
 		<div class="col-sm-3"></div>
@@ -96,8 +105,8 @@
 
 <script>
 	$(function() {
-		$("#checkPasswordBtn").on("click", function() {
-			checkPassword();
+		$("#resetPasswordBtn").on("click", function() {
+			resetPassword();
 		});
 		
 		$("input").on("focus", function() {
@@ -109,26 +118,27 @@
 		});
 	});
 	
-	function checkPassword() {
+	function resetPassword() {
 		var obj = {
 			memberPassword : $("#memberPassword").val(),
-			type : "BEFORE_UPDATE_PASSWORD"
-		}
+			confirmPassword : $("#confirmPassword").val(),
+			type : "RESET_PASSWORD"
+		};
 		
 		$.ajax({
-			type : "POST",
-			url : "${contextPath}/member/checkPassword",
+			type : "PUT",
+			url : "${contextPath}/member/resetPassword",
 			data : JSON.stringify(obj),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
 			success : function(result) {
 				console.log(result);
 				alert(result.message);
-				location.href = "${contextPath}/member/updatePassword";
+				location.href = "${contextPath}/member/login";
 			},
 			error : function(e) {
 				console.log(e.responseText);
-				//$("#memberPassword\\.errors").remove();
+				//$("#memberPassword\\.errors, #confirmPassword\\.errors").remove();
 				$(".error").remove();
 				
 				if(e.status == 422) {

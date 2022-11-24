@@ -70,7 +70,7 @@ public class EmailAuthValidator implements Validator {
 			return;
 		} 
 		
-		if (type == Type.BEFORE_UPDATE) {
+		if (type == Type.BEFORE_UPDATE_EMAIL) {
 			if (!StringUtils.hasText(memberEmail)) {
 				errors.rejectValue("memberEmail", "NotBlank");
 				return;
@@ -94,7 +94,7 @@ public class EmailAuthValidator implements Validator {
 			return;
 		}
 		
-		if (type == Type.UPDATE) {
+		if (type == Type.UPDATE_EMAIL) {
 			if (!StringUtils.hasText(memberEmail)) {
 				errors.rejectValue("memberEmail", "NotBlank");
 				return;

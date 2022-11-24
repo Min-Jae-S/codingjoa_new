@@ -279,7 +279,7 @@
 	function sendAuthEmail() {
 		var obj = {
 			memberEmail : $("#memberEmail").val(),
-			type : "BEFORE_UPDATE"
+			type : "BEFORE_UPDATE_EMAIL"
 		};
 		
 		$.ajax({
@@ -313,7 +313,7 @@
 		var obj = {
 			memberEmail : $("#memberEmail").val(),
 			authCode : $("#authCode").val(),
-			type : "UPDATE"
+			type : "UPDATE_EMAIL"
 		};
 		
 		$.ajax({

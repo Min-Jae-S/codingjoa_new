@@ -142,19 +142,19 @@ public class MemberController {
 	public String findPasswordResult(Model model) {
 		log.info("{}", sessionDto);
 		
-		Map<String, Object> findPasswordResult = sessionDto.getFindPasswordResult();
+		Map<String, Object> resultMap = sessionDto.getFindPasswordResult();
 		
-		if(findPasswordResult == null || !(boolean) findPasswordResult.get("result")) {
+		if(resultMap == null || !(boolean) resultMap.get("result")) {
 			model.addAttribute("message", MessageUtils.getMessage("error.NotFindPassword"));
 			model.addAttribute("path", "findPassword");
 			
 			return "member/invalid-access";
 		}
 		
-		findPasswordResult.put("result", false);
-		sessionDto.setFindPasswordResult(findPasswordResult);
+		resultMap.put("result", false);
+		sessionDto.setFindPasswordResult(resultMap);
 		
-		return "member/update-password";
+		return "member/reset-password";
 	}
 
 }
