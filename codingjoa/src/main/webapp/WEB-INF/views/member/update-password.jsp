@@ -2,12 +2,13 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <c:set var="principal" value="${SPRING_SECURITY_CONTEXT.authentication.principal}" />
 <!DOCTYPE html>
 <html>
 <head>
-<title>비밀번호 변경</title>
+<title>비밀번호 재설정</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
@@ -73,7 +74,7 @@
 	<div class="row">
 		<div class="col-sm-3"></div>
 		<div class="col-sm-6">
-			<h5>비밀번호 변경</h5>
+			<h5>비밀번호 재설정</h5>
 			<div class="pt-3" style="border-top: 1px solid black;">
 				<p class="title">새로운 비밀번호를 입력해주세요.</p>
 				<p class="description"> 
@@ -94,7 +95,12 @@
 					</dd>
 				</dl>
 				<div class="pt-3">
-					<button type="button" class="btn btn-primary btn-block" id="updatePasswordBtn">확인</button>
+					<sec:authorize access="isAuthenticated()">
+						<button type="button" class="btn btn-primary btn-block" id="updatePasswordBtn">확인</button>
+					</sec:authorize>
+					<sec:authorize access="isAnonymous()">
+						<button type="button" class="btn btn-primary btn-block" id="resetPasswordBtn">확인</button>
+					</sec:authorize>
 				</div>				
 			</div>
 		</div>
@@ -108,6 +114,10 @@
 	$(function() {
 		$("#updatePasswordBtn").on("click", function() {
 			updatePassword();
+		});
+		
+		$("#resetPasswordBtn").on("click", function() {
+			resetPassword();
 		});
 		
 		$("input").on("focus", function() {
@@ -136,6 +146,40 @@
 				console.log(result);
 				alert(result.message);
 				location.href = "${contextPath}/member/security";
+			},
+			error : function(e) {
+				console.log(e.responseText);
+				//$("#memberPassword\\.errors, #confirmPassword\\.errors").remove();
+				$(".error").remove();
+				
+				if(e.status == 422) {
+					var errorMap = JSON.parse(e.responseText).errorMap;
+					
+					$.each(errorMap, function(errorField, errorMessage) {
+						$("#" + errorField).closest("dd").after("<dd id='" + errorField + ".errors' class='error'>" + errorMessage + "</dd>");
+					});
+				}
+			}
+		});
+	}
+	
+	function resetPassword() {
+		var obj = {
+			memberPassword : $("#memberPassword").val(),
+			confirmPassword : $("#confirmPassword").val(),
+			type : "RESET_PASSWORD"
+		};
+		
+		$.ajax({
+			type : "PUT",
+			url : "${contextPath}/member/resetPassword",
+			data : JSON.stringify(obj),
+			contentType : "application/json; charset=utf-8",
+			dataType : "json",
+			success : function(result) {
+				console.log(result);
+				alert(result.message);
+				location.href = "${contextPath}/member/login";
 			},
 			error : function(e) {
 				console.log(e.responseText);

@@ -12,8 +12,7 @@ body {
 .update-password-container,
 .find-account-container,
 .find-account-result-container, 
-.find-password-container,
-.reset-password-container {
+.find-password-container {
 	margin-top: 4rem;
 }
 

@@ -154,7 +154,7 @@ public class MemberController {
 		resultMap.put("result", false);
 		sessionDto.setFindPasswordResult(resultMap);
 		
-		return "member/reset-password";
+		return "member/update-password";
 	}
 
 }
