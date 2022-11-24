@@ -1,5 +1,7 @@
 package com.codingjoa.dto;
 
+import java.util.Map;
+
 import lombok.Data;
 
 @Data
@@ -7,6 +9,6 @@ public class SessionDto {
 
 	private boolean checkPasswordResult;
 	private String findAccountResult;
-	private boolean findPasswordResult;
+	private Map<String, Object> findPasswordResult;
 	
 }

@@ -1,5 +1,8 @@
 package com.codingjoa.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -207,7 +210,11 @@ public class MemberRestController {
 			throw new MethodArgumentNotValidException(null, bindingResult);
 		}
 		
-		sessionDto.setFindPasswordResult(true);
+		Map<String, Object> map = new HashMap<>();
+		map.put("result", true);
+		map.put("memberId", emailAuthDto.getMemberId());
+		map.put("memberEmail", emailAuthDto.getMemberEmail());
+		sessionDto.setFindPasswordResult(map);
 		
 		redisService.delete(emailAuthDto.getMemberEmail());
 		

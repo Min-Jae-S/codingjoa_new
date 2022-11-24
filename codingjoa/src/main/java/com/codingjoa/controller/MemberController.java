@@ -1,5 +1,7 @@
 package com.codingjoa.controller;
 
+import java.util.Map;
+
 import javax.annotation.Resource;
 import javax.validation.Valid;
 
@@ -140,14 +142,17 @@ public class MemberController {
 	public String findPasswordResult(Model model) {
 		log.info("{}", sessionDto);
 		
-		if(!sessionDto.isFindPasswordResult()) {
+		Map<String, Object> findPasswordResult = sessionDto.getFindPasswordResult();
+		
+		if(findPasswordResult == null || !(boolean) findPasswordResult.get("result")) {
 			model.addAttribute("message", MessageUtils.getMessage("error.NotFindPassword"));
 			model.addAttribute("path", "findPassword");
 			
 			return "member/invalid-access";
 		}
 		
-		sessionDto.setFindPasswordResult(false);
+		findPasswordResult.put("result", false);
+		sessionDto.setFindPasswordResult(findPasswordResult);
 		
 		return "member/update-password";
 	}
