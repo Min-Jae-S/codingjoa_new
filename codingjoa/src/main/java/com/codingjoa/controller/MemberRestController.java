@@ -223,17 +223,18 @@ public class MemberRestController {
 	
 	@PutMapping("/resetPassword")
 	public ResponseEntity<Object> resetPassword(@Valid @RequestBody PasswordDto passwordDto, 
-			BindingResult bindingResult, @AuthenticationPrincipal UserDetailsDto principal) 
-					throws MethodArgumentNotValidException {
+			BindingResult bindingResult) throws MethodArgumentNotValidException {
 		log.info("{}", passwordDto);
 		
 		if(bindingResult.hasErrors()) {
 			throw new MethodArgumentNotValidException(null, bindingResult);		
 		}
 		
-		//String memberId = principal.getMember().getMemberId();
-		//memberService.updatePassword(passwordDto, memberId);
+		Map<String, Object> resultMap = sessionDto.getFindPasswordResult();
+		String memberId = (String) resultMap.get("memberId");
+		String memberEmail = (String) resultMap.get("memberEmail");
 		
+		//memberService.resetPassword(passwordDto, memberId, memberEmail);
 		
 		return ResponseEntity.ok(SuccessResponse.create().message("success.resetPassword"));
 	}
