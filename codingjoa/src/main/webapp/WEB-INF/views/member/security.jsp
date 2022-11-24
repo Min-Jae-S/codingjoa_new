@@ -79,7 +79,7 @@
 					<span class="mr-4"><i class="fa-solid fa-lock"></i></span>
 					<div class="item">
 						<span>계정 보안</span>
-						<p>비밀번호를 재설정합니다.</p>
+						<p>비밀번호를 변경합니다.</p>
 					</div>
 					<span class="ml-4"><i class="fa-solid fa-angle-right"></i></span>
 				</div>
