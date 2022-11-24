@@ -87,7 +87,7 @@ public class MemberRestController {
 			throw new MethodArgumentNotValidException(null, bindingResult);
 		}
 		
-		String authCode = RandomStringUtils.randomAlphanumeric(6);
+		String authCode = RandomStringUtils.randomNumeric(6);
 		log.info("authCode = {}", authCode);
 		
 		String memberEmail = emailAuthDto.getMemberEmail();
