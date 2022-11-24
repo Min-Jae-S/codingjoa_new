@@ -232,6 +232,8 @@ public class MemberRestController {
 		String memberId = (String) sessionDto.getFindPasswordResult().get("memberId");
 		memberService.updatePassword(passwordDto, memberId);
 		
+		sessionDto.setFindPasswordResult(null);
+		
 		return ResponseEntity.ok(SuccessResponse.create().message("success.resetPassword"));
 	}
 	
