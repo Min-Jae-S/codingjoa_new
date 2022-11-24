@@ -213,7 +213,6 @@ public class MemberRestController {
 		Map<String, Object> resultMap = new HashMap<>();
 		resultMap.put("result", true);
 		resultMap.put("memberId", emailAuthDto.getMemberId());
-		resultMap.put("memberEmail", emailAuthDto.getMemberEmail());
 		sessionDto.setFindPasswordResult(resultMap);
 		
 		redisService.delete(emailAuthDto.getMemberEmail());
@@ -230,11 +229,8 @@ public class MemberRestController {
 			throw new MethodArgumentNotValidException(null, bindingResult);		
 		}
 		
-		Map<String, Object> resultMap = sessionDto.getFindPasswordResult();
-		String memberId = (String) resultMap.get("memberId");
-		String memberEmail = (String) resultMap.get("memberEmail");
-		
-		//memberService.resetPassword(passwordDto, memberId, memberEmail);
+		String memberId = (String) sessionDto.getFindPasswordResult().get("memberId");
+		memberService.updatePassword(passwordDto, memberId);
 		
 		return ResponseEntity.ok(SuccessResponse.create().message("success.resetPassword"));
 	}

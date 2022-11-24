@@ -2,7 +2,10 @@ package com.codingjoa.validator;
 
 import java.util.regex.Pattern;
 
+import javax.annotation.Resource;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -11,6 +14,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 import com.codingjoa.dto.PasswordDto;
+import com.codingjoa.dto.SessionDto;
 import com.codingjoa.enumclass.Type;
 import com.codingjoa.security.dto.UserDetailsDto;
 import com.codingjoa.service.MemberService;
@@ -25,6 +29,10 @@ public class PasswordValidator implements Validator {
 
 	@Autowired
 	MemberService memberService;
+	
+	@Resource(name = "sessionDto")
+	@Lazy
+	private SessionDto sessionDto;
 
 	@Override
 	public boolean supports(Class<?> clazz) {
@@ -44,58 +52,86 @@ public class PasswordValidator implements Validator {
 //		}
 		
 		String memberPassword = passwordDto.getMemberPassword();
-		String confrimPassword = passwordDto.getConfirmPassword();
+		String confirmPassword = passwordDto.getConfirmPassword();
 		
 		if (type == Type.BEFORE_UPDATE_PASSWORD) {
-			validatePassword(memberPassword, errors);
+			if (!StringUtils.hasText(memberPassword)) {
+				errors.rejectValue("memberPassword", "NotBlank");
+				return;
+			} 
+			
+			if (!memberService.isMyPassword(memberPassword, getCurrentId())) {
+				errors.rejectValue("memberPassword", "BadCredentials");
+				return;
+			}
+			
 			return;
 		}
 		
-		if (type == Type.UPDATE_PASSWORD || type == Type.RESET_PASSWORD) {
-			validatePassword(memberPassword, confrimPassword, errors);
+		if (type == Type.UPDATE_PASSWORD) {
+			if (!StringUtils.hasText(memberPassword)) {
+				errors.rejectValue("memberPassword", "NotBlank");
+			} else if (!Pattern.matches(PASSWORD_REGEXP, memberPassword)) {
+				errors.rejectValue("memberPassword", "Pattern");
+			}
+
+			if (!StringUtils.hasText(confirmPassword)) {
+				errors.rejectValue("confirmPassword", "NotBlank");
+			} else if (!Pattern.matches(PASSWORD_REGEXP, confirmPassword)) {
+				errors.rejectValue("confirmPassword", "Pattern");
+			}
+
+			if (errors.hasFieldErrors("memberPassword") || errors.hasFieldErrors("confirmPassword")) {
+				return;
+			}
+
+			if (!memberPassword.equals(confirmPassword)) {
+				errors.rejectValue("memberPassword", "NotEquals");
+				errors.rejectValue("confirmPassword", "NotEquals");
+				return;
+			}
+
+			if (memberService.isMyPassword(memberPassword, getCurrentId())) {
+				errors.rejectValue("memberPassword", "NotSafe");
+				return;
+			}
+			
 			return;
 		}
-	}
-
-	private void validatePassword(String memberPassword, Errors errors) {
-		if (!StringUtils.hasText(memberPassword)) {
-			errors.rejectValue("memberPassword", "NotBlank");
-			return;
-		} 
 		
-		if (!memberService.isMyPassword(memberPassword, getCurrentId())) {
-			errors.rejectValue("memberPassword", "BadCredentials");
+		if (type == Type.RESET_PASSWORD) {
+			if (!StringUtils.hasText(memberPassword)) {
+				errors.rejectValue("memberPassword", "NotBlank");
+			} else if (!Pattern.matches(PASSWORD_REGEXP, memberPassword)) {
+				errors.rejectValue("memberPassword", "Pattern");
+			}
+
+			if (!StringUtils.hasText(confirmPassword)) {
+				errors.rejectValue("confirmPassword", "NotBlank");
+			} else if (!Pattern.matches(PASSWORD_REGEXP, confirmPassword)) {
+				errors.rejectValue("confirmPassword", "Pattern");
+			}
+
+			if (errors.hasFieldErrors("memberPassword") || errors.hasFieldErrors("confirmPassword")) {
+				return;
+			}
+
+			if (!memberPassword.equals(confirmPassword)) {
+				errors.rejectValue("memberPassword", "NotEquals");
+				errors.rejectValue("confirmPassword", "NotEquals");
+				return;
+			}
+			
+			String memberId = (String) sessionDto.getFindPasswordResult().get("memberId");
+			
+			if (memberService.isMyPassword(memberPassword, memberId)) {
+				errors.rejectValue("memberPassword", "NotSafe");
+				return;
+			}
+			
 			return;
 		}
-	}
-
-	private void validatePassword(String memberPassword, String confirmPassword, Errors errors) {
-		if (!StringUtils.hasText(memberPassword)) {
-			errors.rejectValue("memberPassword", "NotBlank");
-		} else if (!Pattern.matches(PASSWORD_REGEXP, memberPassword)) {
-			errors.rejectValue("memberPassword", "Pattern");
-		}
-
-		if (!StringUtils.hasText(confirmPassword)) {
-			errors.rejectValue("confirmPassword", "NotBlank");
-		} else if (!Pattern.matches(PASSWORD_REGEXP, confirmPassword)) {
-			errors.rejectValue("confirmPassword", "Pattern");
-		}
-
-		if (errors.hasFieldErrors("memberPassword") || errors.hasFieldErrors("confirmPassword")) {
-			return;
-		}
-
-		if (!memberPassword.equals(confirmPassword)) {
-			errors.rejectValue("memberPassword", "NotEquals");
-			errors.rejectValue("confirmPassword", "NotEquals");
-			return;
-		}
-
-		if (memberService.isMyPassword(memberPassword, getCurrentId())) {
-			errors.rejectValue("memberPassword", "NotSafe");
-			return;
-		}
+		
 	}
 
 	private String getCurrentId() {
