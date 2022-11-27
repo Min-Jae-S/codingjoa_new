@@ -156,5 +156,5 @@ public class MemberController {
 		
 		return "member/update-password";
 	}
-
+	
 }

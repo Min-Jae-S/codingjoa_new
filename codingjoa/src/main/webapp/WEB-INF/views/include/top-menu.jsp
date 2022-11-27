@@ -5,7 +5,7 @@
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <c:set var="principal" value="${SPRING_SECURITY_CONTEXT.authentication.principal}" />
 <!-- 상단 메뉴 -->
-<nav class="navbar navbar-expand-md bg-dark navbar-dark fixed-top">
+<nav class="navbar navbar-custom navbar-expand-md">
 	<div class="container-fluid pl-5 pr-5">
 		<a class="navbar-brand font-weight-bold" href="${contextPath}">Codingjoa</a>
 		<div class="collapse navbar-collapse" id="navMenu">
@@ -32,10 +32,9 @@
 						<img src="${contextPath}/resources/image/person.png" style="width: 40px; padding: 0.25rem;">
 					</li>
 					<li class="nav-item">
-						<span class="nav-link text-white">
+						<a class="nav-link text-dark" href="${contextPath}/member/info">
 							<span class="font-weight-bold">${principal.member.memberId}</span>
-							<span>님</span>
-						</span>
+						</a>
 					</li>
 					<li class="nav-item">
 						<span class="nav-link" style="pointer-events: none;">|</span>
