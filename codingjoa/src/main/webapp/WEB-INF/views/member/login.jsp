@@ -17,14 +17,14 @@
 <style>
 	.info-member {
 		overflow: hidden;
-		font-size: 80%;
+		font-size: 85%;
     	font-weight: 400;
 	}
 	
 	.info-member a {
 		text-decoration-line: none;
-		color: #495057;
-		font-weight: bold; 
+		/*color: #495057;*/
+		color: grey;
 	}
 
 	.link-join {
@@ -46,7 +46,8 @@
 		content: "|";
 		margin-right: 10px;
 		margin-left: 10px;
-		color: #adb5bd;
+		/*color: #adb5bd;*/
+		color: grey;
 	}
 </style>
 </head>
