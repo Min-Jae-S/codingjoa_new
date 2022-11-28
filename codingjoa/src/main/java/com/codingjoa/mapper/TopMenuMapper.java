@@ -10,4 +10,6 @@ import com.codingjoa.entity.Category;
 public interface TopMenuMapper {
 
 	public List<Category> getParentCategory();
+	
+	public List<Category> findCategoryByParent(int parentCategoryCode);
 }

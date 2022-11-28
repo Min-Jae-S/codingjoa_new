@@ -8,4 +8,6 @@ public interface TopMenuService {
 	
 	public List<Category> getParentCategory();
 	
+	public List<Category> findCategoryByParent(int parentCategoryCode);
+	
 }

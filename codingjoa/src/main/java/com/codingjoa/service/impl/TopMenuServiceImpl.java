@@ -18,4 +18,9 @@ public class TopMenuServiceImpl implements TopMenuService {
 	public List<Category> getParentCategory() {
 		return categoryMapper.getParentCategory();
 	}
+
+	@Override
+	public List<Category> findCategoryByParent(int parentCategoryCode) {
+		return categoryMapper.findCategoryByParent(parentCategoryCode);
+	}
 }

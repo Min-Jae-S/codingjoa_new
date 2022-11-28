@@ -12,7 +12,7 @@
 			<ul class="navbar-nav">
 				<c:forEach var="parentCategory" items="${parentCategory}">
 					<li class="nav-item">
-						<a href="#" class="nav-link">${parentCategory.categoryName}</a>
+						<a href="#" class="nav-link" data-category="${parentCategory.categoryCode}">${parentCategory.categoryName}</a>
 					</li>
 				</c:forEach>
 			</ul>
@@ -49,3 +49,7 @@
 		</div>
 	</div>
 </nav>
+
+<script>
+
+</script>
