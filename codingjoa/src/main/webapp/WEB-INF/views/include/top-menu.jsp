@@ -59,19 +59,19 @@
 			var a_tag = $(this);
 
 			$.getJSON("${contextPath}/category/" + category, function(data) {
-				var html = "<div class='dropdown-menu'>";
-				
-				$.each(data, function(index, value) {
-					html += "<button class='dropdown-item' type='button'>";
-					html += data[index].categoryName;
-					html += "</button>";
-				});
-				
-				html += "</div>";
-				a_tag.after(html);
-				$(".dropdown-menu").addClass("show");
+				if(data.length != 0) {
+					var html = "<div class='dropdown-menu show'>";
+					
+					$.each(data, function(index, value) {
+						html += "<button class='dropdown-item' type='button'>";
+						html += data[index].categoryName;
+						html += "</button>";
+					});
+					
+					html += "</div>";
+					a_tag.after(html);
+				}
 			});
-			
 		});
 		
 /*  	$(".dropdown").on("mouseleave", function() {
@@ -84,9 +84,10 @@
 			dropdown_menu.empty(); 
 		}); */
 		
-		$(".dropdown-menu").on("mouseleave", function() {
-			console.log(".dropdown-menu mouse leave...");
-			$(this).remove();
+		$(".dropdown-menu").on("click", function() {
+			console.log("clicked...");
+			//console.log(".dropdown-menu mouse out...");
+			//$(this).remove();
 		});
 		
 		

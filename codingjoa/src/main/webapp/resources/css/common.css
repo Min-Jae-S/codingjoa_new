@@ -31,7 +31,7 @@ body {
 	background-clip: border-box;
 	border-radius: 0;
 	margin-top: 5px;
-	z-index: 9999;
+	z-index: 1000;
 }
 
 .home-container {
