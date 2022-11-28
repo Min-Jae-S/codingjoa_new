@@ -13,7 +13,7 @@ public class ErrorHandler {
 
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	protected ResponseEntity<Object> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
-		log.info("============== handleMethodArgumentNotValidException ==============");
+		log.info("============== ErrorHandler ==============");
 		//log.info("MethodArgumentNotValidException", e);
 		
 		ErrorResponse respone = ErrorResponse.create().bindingResult(e.getBindingResult());
