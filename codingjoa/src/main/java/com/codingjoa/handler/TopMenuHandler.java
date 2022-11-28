@@ -14,11 +14,13 @@ import lombok.extern.slf4j.Slf4j;
 public class TopMenuHandler {
 
 	@Autowired
-	private TopMenuService categoryService;
+	private TopMenuService topMenuService;
 	
 	@ModelAttribute
 	public void getParentCategory(Model model) {
-		model.addAttribute("parentCategory", categoryService.getParentCategory());
+		log.info("============== TopMenuHandler ==============");
+		
+		model.addAttribute("parentCategory", topMenuService.getParentCategory());
 	}
 	
 }
