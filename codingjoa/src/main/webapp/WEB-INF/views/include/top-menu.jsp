@@ -12,9 +12,7 @@
 			<ul class="navbar-nav">
 				<c:forEach var="parentCategory" items="${parentCategory}">
 					<li class="nav-item dropdown" data-category="${parentCategory.categoryCode}">
-						<a href="#" class="nav-link">${parentCategory.categoryName}</a>
-						<div class='dropdown-menu d-block'>
-						</div>
+						<a href="#" class="nav-link" data-toggle="dropdown">${parentCategory.categoryName}</a>
 					</li>
 				</c:forEach>
 			</ul>
@@ -54,13 +52,14 @@
 
 <script>
 	$(function() {
-		/*
-		$(".dropdown").on("mouseover", function() {
+		$(".dropdown").on("mouseenter", function() {
+			console.log(".dropdown mouse enter...");
+			
 			var category = $(this).data("category");
-			var dropdown_menu = $(this).children(".dropdown-menu");
+			var a_tag = $(this).children("a");
 
 			$.getJSON("${contextPath}/category/" + category, function(data) {
-				var html = "";
+				var html = "<div class='dropdown-menu'>";
 				
 				$.each(data, function(index, value) {
 					html += "<button class='dropdown-item' type='button'>";
@@ -68,21 +67,29 @@
 					html += "</button>";
 				});
 				
-				dropdown_menu.html(html);
-				dropdown_menu.addClass("d-block");
+				html += "</div>";
+				a_tag.after(html);
+				$(".dropdown-menu").addClass("show");
 			});
-		});
-
-		$(".dropdown").on("mouseleave", function() {
-			var dropdown_menu = $(this).children(".dropdown-menu");
-			dropdown_menu.removeClass("d-block");
-			dropdown_menu.empty();
+			
 		});
 		
+/* 		$(".dropdown").on("mouseout", function() {
+			$(this).children(".dropdown-menu").remove();
+		});  */
+
+/* 		$(".dropdown").on("mouseleave", function() {
+			var dropdown_menu = $(this).children(".dropdown-menu");
+			dropdown_menu.removeClass("d-block");
+			dropdown_menu.empty(); 
+		}); */
+		
 		$(".dropdown-menu").on("mouseleave", function() {
-			$(this).removeClass("d-block");
-			$(this).empty();
+			console.log(".dropdown-menu mouse leave...");
+			$(this).remove();
 		});
-		*/
+		
+		
+		
 	});
 </script>
