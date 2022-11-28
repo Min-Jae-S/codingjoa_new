@@ -49,10 +49,20 @@
 		</div>
 	</div>
 </nav>
-
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script>
 	$(function() {
-		$(".dropdown-item").on("hover", function() {
+		$(".dropdown-item").mouseover(function() {
+			console.log(".dropdown-item hover...");
+			$(this).addClass("active");
+		});
+		
+		$(".dropdown-item").on("mouseenter", function() {
+			console.log(".dropdown-item hover...");
+			$(this).addClass("active");
+		});
+
+		$(".dropdown-item").on("mouseover", function() {
 			console.log(".dropdown-item hover...");
 			$(this).addClass("active");
 		});
