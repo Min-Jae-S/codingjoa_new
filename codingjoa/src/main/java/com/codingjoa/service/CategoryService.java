@@ -8,6 +8,6 @@ public interface CategoryService {
 	
 	public List<Category> getParentCategory();
 	
-	public List<Category> findCategoryByParent(int parentCategoryCode);
+	public List<Category> findCategoryByParent(int categoryCode);
 	
 }

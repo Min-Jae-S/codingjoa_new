@@ -22,7 +22,11 @@ public class TopMenuController {
 	
 	@ResponseBody
 	@GetMapping("/{categoryCode}")
-	public ResponseEntity<List<Category>> findCategoryByParent(@PathVariable int categoryCode) {
+	public ResponseEntity<List<Category>> findCategoryByParent(@PathVariable("categoryCode") int categoryCode) {
 		return ResponseEntity.ok(categoryService.findCategoryByParent(categoryCode));
 	}
+	
+	
+	
+	
 }

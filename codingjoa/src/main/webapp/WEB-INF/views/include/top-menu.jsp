@@ -11,7 +11,7 @@
 		<div class="collapse navbar-collapse">
 			<ul class="navbar-nav">
 				<c:forEach var="parentCategory" items="${parentCategory}">
-					<li class="nav-item dropdown-parent" data-categoryCode="${parentCategory.categoryCode}">
+					<li class="nav-item dropdown-parent" data-code="${parentCategory.categoryCode}">
 						<a href="#" class="nav-link">${parentCategory.categoryName}</a>
 					</li>
 				</c:forEach>
@@ -53,10 +53,10 @@
 <script>
 	$(function() {
 		$(".dropdown-parent").on("mouseover", function() {
-			var categoryCode = $(this).data("category");
-			console.log(categoryCode);
+			var code = $(this).data("code");
+			console.log(code);
 			
-			$.getJSON("${contextPath}/topMenu/" + categoryCode, function(data) {
+			$.getJSON("${contextPath}/topMenu/" + code, function(data) {
 				console.log(data);
 			});
 		});

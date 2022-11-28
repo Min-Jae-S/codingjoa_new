@@ -30,7 +30,7 @@
 		FROM 
 			category
 		WHERE
-			category_parent_code = {parentCategoryCode}
+			category_parent_code = #{categoryCode}
 	</select>
 	
 </mapper>
