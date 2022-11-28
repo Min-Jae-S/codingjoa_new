@@ -11,9 +11,6 @@
 		<div class="collapse navbar-collapse" id="navMenu">
 			<ul class="navbar-nav">
 				<li class="nav-item">
-					<a href="${contextPath}" class="nav-link">HOME</a>
-				</li>
-				<li class="nav-item">
 					<a href="#" class="nav-link">게시판</a>
 				</li>
 			</ul>

@@ -31,7 +31,6 @@ body {
 	margin-top: 4rem;
 }
 
-.join-container,
 .check-password-container,
 .update-password-container,
 .find-account-container,
@@ -41,6 +40,7 @@ body {
 	margin-bottom: 4rem;
 }
 
+.join-container,
 .login-container,
 .info-container {
 	margin-top: 6.5rem;

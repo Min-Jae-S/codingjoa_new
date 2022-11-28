@@ -33,6 +33,10 @@
 	input[name="memberAddr"] {
 		cursor: pointer;
 	}
+	
+	.join-container .card-body {
+		padding: 3.5rem;
+	}
 </style>
 </head>
 <body>
@@ -44,7 +48,7 @@
 		<div class="col-sm-3"></div>
 		<div class="col-sm-6">
 			<div class="card shadow">
-				<div class="card-body p-5">
+				<div class="card-body">
 					<form:form action="${contextPath}/member/joinProc" method="POST" modelAttribute="joinDto">
 						<div class="form-group mb-4">
 							<form:label path="memberId" class="font-weight-bold">아이디</form:label>
