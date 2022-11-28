@@ -11,8 +11,10 @@
 		<div class="collapse navbar-collapse">
 			<ul class="navbar-nav">
 				<c:forEach var="parentCategory" items="${parentCategory}">
-					<li class="nav-item dropdown-parent" data-code="${parentCategory.categoryCode}">
+					<li class="nav-item dropdown" data-category="${parentCategory.categoryCode}">
 						<a href="#" class="nav-link">${parentCategory.categoryName}</a>
+						<div class='dropdown-menu d-block'>
+						</div>
 					</li>
 				</c:forEach>
 			</ul>
@@ -52,13 +54,35 @@
 
 <script>
 	$(function() {
-		$(".dropdown-parent").on("mouseover", function() {
-			var code = $(this).data("code");
-			console.log(code);
-			
-			$.getJSON("${contextPath}/topMenu/" + code, function(data) {
-				console.log(data);
+		/*
+		$(".dropdown").on("mouseover", function() {
+			var category = $(this).data("category");
+			var dropdown_menu = $(this).children(".dropdown-menu");
+
+			$.getJSON("${contextPath}/category/" + category, function(data) {
+				var html = "";
+				
+				$.each(data, function(index, value) {
+					html += "<button class='dropdown-item' type='button'>";
+					html += data[index].categoryName;
+					html += "</button>";
+				});
+				
+				dropdown_menu.html(html);
+				dropdown_menu.addClass("d-block");
 			});
 		});
+
+		$(".dropdown").on("mouseleave", function() {
+			var dropdown_menu = $(this).children(".dropdown-menu");
+			dropdown_menu.removeClass("d-block");
+			dropdown_menu.empty();
+		});
+		
+		$(".dropdown-menu").on("mouseleave", function() {
+			$(this).removeClass("d-block");
+			$(this).empty();
+		});
+		*/
 	});
 </script>

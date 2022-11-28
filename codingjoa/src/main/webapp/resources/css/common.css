@@ -27,6 +27,12 @@ body {
 	color: grey;
 }
 
+.dropdown-menu {
+	background-clip: border-box;
+	border-radius: 0;
+	margin-top: 5px;
+}
+
 .home-container {
 	margin-top: 4rem;
 }

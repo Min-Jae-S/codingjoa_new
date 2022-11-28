@@ -6,13 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.codingjoa.entity.Category;
 import com.codingjoa.service.CategoryService;
 
-@RequestMapping("/topMenu")
 @Controller
 public class TopMenuController {
 	
@@ -20,7 +18,7 @@ public class TopMenuController {
 	private CategoryService categoryService;
 	
 	@ResponseBody
-	@GetMapping("/{categoryCode}")
+	@GetMapping("/category/{categoryCode}")
 	public List<Category> findCategoryByParent(@PathVariable("categoryCode") int categoryCode) {
 		return categoryService.findCategoryByParent(categoryCode);
 	}
