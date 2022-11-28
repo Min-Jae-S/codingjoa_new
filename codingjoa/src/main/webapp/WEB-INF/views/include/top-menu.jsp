@@ -8,11 +8,11 @@
 <nav class="navbar navbar-custom navbar-expand-md">
 	<div class="container-fluid pl-5 pr-5">
 		<a class="navbar-brand font-weight-bold" href="${contextPath}">Codingjoa</a>
-		<div class="collapse navbar-collapse" id="navMenu">
+		<div class="collapse navbar-collapse">
 			<ul class="navbar-nav">
 				<c:forEach var="parentCategory" items="${parentCategory}">
-					<li class="nav-item">
-						<a href="#" class="nav-link" data-category="${parentCategory.categoryCode}">${parentCategory.categoryName}</a>
+					<li class="nav-item dropdown-parent" data-category="${parentCategory.categoryCode}">
+						<a href="#" class="nav-link">${parentCategory.categoryName}</a>
 					</li>
 				</c:forEach>
 			</ul>
@@ -51,5 +51,14 @@
 </nav>
 
 <script>
-
+	$(function() {
+		$(".dropdown-parent").on("mouseover", function() {
+			var category = $(this).data("category");
+			console.log(category);
+			
+			$.getJSON("${contextPath}/topMenu/" + category, function(data) {
+				console.log(data);
+			});
+		});
+	});
 </script>

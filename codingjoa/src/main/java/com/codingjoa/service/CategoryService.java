@@ -1,15 +1,13 @@
-package com.codingjoa.mapper;
+package com.codingjoa.service;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Mapper;
-
 import com.codingjoa.entity.Category;
 
-@Mapper
-public interface TopMenuMapper {
-
+public interface CategoryService {
+	
 	public List<Category> getParentCategory();
 	
 	public List<Category> findCategoryByParent(int parentCategoryCode);
+	
 }

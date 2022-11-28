@@ -6,14 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.codingjoa.entity.Category;
-import com.codingjoa.mapper.TopMenuMapper;
-import com.codingjoa.service.TopMenuService;
+import com.codingjoa.mapper.CategoryMapper;
+import com.codingjoa.service.CategoryService;
 
 @Service
-public class TopMenuServiceImpl implements TopMenuService {
+public class CategoryServiceImpl implements CategoryService {
 	
 	@Autowired
-	TopMenuMapper categoryMapper;
+	CategoryMapper categoryMapper;
 	
 	public List<Category> getParentCategory() {
 		return categoryMapper.getParentCategory();
