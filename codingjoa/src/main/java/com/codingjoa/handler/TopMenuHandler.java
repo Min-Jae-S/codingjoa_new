@@ -14,13 +14,13 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @ControllerAdvice(basePackages = "com.codingjoa.controller")
-public class CategoryHandler {
+public class TopMenuHandler {
 
 	@Autowired
 	private CategoryService categoryService;
 	
 	@ModelAttribute
-	public void getCategory(Model model) {
+	public void getCategoryList(Model model) {
 		List<Category> categoryList = categoryService.getCategoryList();
 		log.info("{}", categoryList);
 		
