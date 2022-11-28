@@ -4,10 +4,8 @@ import java.util.List;
 
 import com.codingjoa.entity.Category;
 
-public interface CategoryService {
+public interface TopMenuService {
 	
-	public List<Category> getCategoryList();
-	
-	
+	public List<Category> getParentCategory();
 	
 }

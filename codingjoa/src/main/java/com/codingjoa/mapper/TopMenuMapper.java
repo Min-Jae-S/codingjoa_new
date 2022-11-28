@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import com.codingjoa.entity.Category;
 
 @Mapper
-public interface CategoryMapper {
+public interface TopMenuMapper {
 
-	public List<Category> getCategoryList();
+	public List<Category> getParentCategory();
 }

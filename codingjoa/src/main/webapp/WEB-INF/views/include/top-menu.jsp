@@ -10,12 +10,10 @@
 		<a class="navbar-brand font-weight-bold" href="${contextPath}">Codingjoa</a>
 		<div class="collapse navbar-collapse" id="navMenu">
 			<ul class="navbar-nav">
-				<c:forEach var="category" items="${categoryList}">
-					<c:if test="${empty category.categoryParentCode}">
-						<li class="nav-item">
-							<a href="#" class="nav-link">${category.categoryName}</a>
-						</li>
-					</c:if>
+				<c:forEach var="parentCategory" items="${parentCategory}">
+					<li class="nav-item">
+						<a href="#" class="nav-link">${parentCategory.categoryName}</a>
+					</li>
 				</c:forEach>
 			</ul>
 			

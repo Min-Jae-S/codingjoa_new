@@ -1,14 +1,11 @@
 package com.codingjoa.handler;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
-import com.codingjoa.entity.Category;
-import com.codingjoa.service.CategoryService;
+import com.codingjoa.service.TopMenuService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -17,14 +14,11 @@ import lombok.extern.slf4j.Slf4j;
 public class TopMenuHandler {
 
 	@Autowired
-	private CategoryService categoryService;
+	private TopMenuService categoryService;
 	
 	@ModelAttribute
-	public void getCategoryList(Model model) {
-		List<Category> categoryList = categoryService.getCategoryList();
-		log.info("{}", categoryList);
-		
-		model.addAttribute("categoryList", categoryList);
+	public void getParentCategory(Model model) {
+		model.addAttribute("parentCategory", categoryService.getParentCategory());
 	}
 	
 }
