@@ -12,7 +12,7 @@
 			<ul class="navbar-nav">
 				<c:forEach var="parentCategory" items="${parentCategory}">
 					<li class="nav-item dropdown" data-category="${parentCategory.categoryCode}">
-						<a href="#" class="nav-link" data-toggle="dropdown">${parentCategory.categoryName}</a>
+						<a href="#" class="nav-link">${parentCategory.categoryName}</a>
 					</li>
 				</c:forEach>
 			</ul>
@@ -52,11 +52,11 @@
 
 <script>
 	$(function() {
-		$(".dropdown").on("mouseenter", function() {
-			console.log(".dropdown mouse enter...");
+		$(".dropdown a").on("mouseenter", function() {
+			console.log(".dropdown a mouse enter");
 			
-			var category = $(this).data("category");
-			var a_tag = $(this).children("a");
+			var category = $(this).parent(".dropdown").data("category");
+			var a_tag = $(this);
 
 			$.getJSON("${contextPath}/category/" + category, function(data) {
 				var html = "<div class='dropdown-menu'>";
@@ -74,9 +74,9 @@
 			
 		});
 		
-/* 		$(".dropdown").on("mouseout", function() {
+/*  	$(".dropdown").on("mouseleave", function() {
 			$(this).children(".dropdown-menu").remove();
-		});  */
+		});   */
 
 /* 		$(".dropdown").on("mouseleave", function() {
 			var dropdown_menu = $(this).children(".dropdown-menu");
