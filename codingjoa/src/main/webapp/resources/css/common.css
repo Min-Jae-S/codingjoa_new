@@ -9,10 +9,10 @@ body {
 	position: sticky;
 	top: 0;
 	border-bottom: 1px solid #dedede !important;
-	padding-top: 5px;
-	padding-bottom: 5px;
 	background-color: white;
 	z-index: 999;
+	padding-top: 0;
+	padding-bottom: 0;
 }
 
 .navbar-custom .navbar-brand {
@@ -27,10 +27,20 @@ body {
 	color: grey;
 }
 
+.dropdown .nav-link {
+	padding: 0.75rem 1rem;
+} 
+
 .dropdown-menu {
 	background-clip: border-box;
 	border-radius: 0;
-	margin-top: 5px;
+	margin-top: 0;
+	font-size: 15px;
+}
+
+.dropdown-item {
+	padding: 0.25rem 1.25rem;
+	z-index: 999;
 }
 
 .home-container {

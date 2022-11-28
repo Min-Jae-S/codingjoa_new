@@ -49,29 +49,20 @@
 		</div>
 	</div>
 </nav>
-<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+
 <script>
 	$(function() {
-		$(".dropdown-item").mouseover(function() {
-			console.log(".dropdown-item hover...");
-			$(this).addClass("active");
-		});
-		
 		$(".dropdown-item").on("mouseenter", function() {
-			console.log(".dropdown-item hover...");
 			$(this).addClass("active");
 		});
 
-		$(".dropdown-item").on("mouseover", function() {
-			console.log(".dropdown-item hover...");
-			$(this).addClass("active");
+		$(".dropdown-item").on("mouseleave", function() {
+			$(this).removeClass("active");
 		});
 		
-		$(".dropdown a").on("mouseenter", function() {
-			console.log(".dropdown a mouse enter...");
-			
-			var category = $(this).parent(".dropdown").data("category");
-			var a_tag = $(this);
+		$(".dropdown").on("mouseenter", function() {
+			var category = $(this).data("category");
+			var children = $(this).children("a");
 
 			$.getJSON("${contextPath}/category/" + category, function(data) {
 				if(data.length != 0) {
@@ -84,27 +75,14 @@
 					});
 					
 					html += "</div>";
-					a_tag.after(html);
+					children.after(html);
 				}
 			});
 		});
 		
-/*  	$(".dropdown").on("mouseleave", function() {
+		$(".dropdown").on("mouseleave", function() {
 			$(this).children(".dropdown-menu").remove();
-		});   */
-
-/* 		$(".dropdown").on("mouseleave", function() {
-			var dropdown_menu = $(this).children(".dropdown-menu");
-			dropdown_menu.removeClass("d-block");
-			dropdown_menu.empty(); 
-		}); */
-		
-		$(".dropdown-menu").on("click", function() {
-			console.log("clicked...");
-			//console.log(".dropdown-menu mouse out...");
-			//$(this).remove();
-		});
-		
+		});  
 		
 		
 	});
