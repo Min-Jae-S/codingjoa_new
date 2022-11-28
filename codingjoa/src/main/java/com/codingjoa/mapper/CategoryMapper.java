@@ -9,7 +9,7 @@ import com.codingjoa.entity.Category;
 @Mapper
 public interface CategoryMapper {
 
-	public List<Category> getParentCategory();
+	public List<Category> findParentCategory();
 	
 	public List<Category> findCategoryByParent(int categoryCode);
 }

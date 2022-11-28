@@ -15,8 +15,8 @@ public class CategoryServiceImpl implements CategoryService {
 	@Autowired
 	CategoryMapper categoryMapper;
 	
-	public List<Category> getParentCategory() {
-		return categoryMapper.getParentCategory();
+	public List<Category> findParentCategory() {
+		return categoryMapper.findParentCategory();
 	}
 
 	@Override

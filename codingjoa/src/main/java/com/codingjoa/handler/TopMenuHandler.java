@@ -19,10 +19,10 @@ public class TopMenuHandler {
 	private CategoryService categoryService;
 	
 	@ModelAttribute("parentCategory")
-	public List<Category> getParentCategory() {
+	public List<Category> findParentCategory() {
 		log.info("============== TopMenuHandler ==============");
 		
-		return categoryService.getParentCategory();
+		return categoryService.findParentCategory();
 	}
 	
 }

@@ -12,7 +12,7 @@
 	);
 	-->
 	
-	<select id="getParentCategory" resultType="category">
+	<select id="findParentCategory" resultType="category">
 		SELECT
 			category_code,
 			category_name
@@ -25,7 +25,6 @@
 	<select id="findCategoryByParent" parameterType="int" resultType="category">
 		SELECT
 			category_code,
-			category_parent_code,
 			category_name 
 		FROM 
 			category

@@ -6,7 +6,7 @@ import com.codingjoa.entity.Category;
 
 public interface CategoryService {
 	
-	public List<Category> getParentCategory();
+	public List<Category> findParentCategory();
 	
 	public List<Category> findCategoryByParent(int categoryCode);
 	
