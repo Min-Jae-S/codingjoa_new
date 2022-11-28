@@ -3,7 +3,6 @@ package com.codingjoa.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,8 +21,8 @@ public class TopMenuController {
 	
 	@ResponseBody
 	@GetMapping("/{categoryCode}")
-	public ResponseEntity<List<Category>> findCategoryByParent(@PathVariable("categoryCode") int categoryCode) {
-		return ResponseEntity.ok(categoryService.findCategoryByParent(categoryCode));
+	public List<Category> findCategoryByParent(@PathVariable("categoryCode") int categoryCode) {
+		return categoryService.findCategoryByParent(categoryCode);
 	}
 	
 	

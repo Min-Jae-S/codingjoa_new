@@ -3,12 +3,8 @@ package com.codingjoa.handler;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.codingjoa.entity.Category;
 import com.codingjoa.service.CategoryService;
@@ -24,7 +20,7 @@ public class TopMenuHandler {
 	
 	@ModelAttribute("parentCategory")
 	public List<Category> getParentCategory() {
-		log.info("============== ErrorHandler ==============");
+		log.info("============== TopMenuHandler ==============");
 		
 		return categoryService.getParentCategory();
 	}
