@@ -52,8 +52,13 @@
 
 <script>
 	$(function() {
+		$(".dropdown-item").on("hover", function() {
+			console.log(".dropdown-item hover...");
+			$(this).addClass("active");
+		});
+		
 		$(".dropdown a").on("mouseenter", function() {
-			console.log(".dropdown a mouse enter");
+			console.log(".dropdown a mouse enter...");
 			
 			var category = $(this).parent(".dropdown").data("category");
 			var a_tag = $(this);
