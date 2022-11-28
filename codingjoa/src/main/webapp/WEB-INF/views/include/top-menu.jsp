@@ -52,6 +52,8 @@
 
 <script>
 	$(function() {
+		
+		/*
 		$(".dropdown-item").on("mouseenter", function() {
 			$(this).addClass("active");
 		});
@@ -59,6 +61,7 @@
 		$(".dropdown-item").on("mouseleave", function() {
 			$(this).removeClass("active");
 		});
+		*/
 		
 		$(".dropdown").on("mouseenter", function() {
 			var category = $(this).data("category");
