@@ -12,7 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
 
-import com.codingjoa.error.ErrorResponse;
+import com.codingjoa.handler.ErrorResponse;
 import com.codingjoa.security.exception.LoginRequireFieldException;
 
 import lombok.extern.slf4j.Slf4j;

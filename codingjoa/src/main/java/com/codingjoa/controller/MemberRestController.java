@@ -33,7 +33,7 @@ import com.codingjoa.dto.AgreeDto;
 import com.codingjoa.dto.EmailAuthDto;
 import com.codingjoa.dto.PasswordDto;
 import com.codingjoa.dto.SessionDto;
-import com.codingjoa.error.SuccessResponse;
+import com.codingjoa.handler.SuccessResponse;
 import com.codingjoa.security.dto.UserDetailsDto;
 import com.codingjoa.service.EmailService;
 import com.codingjoa.service.MemberService;
