@@ -12,7 +12,7 @@
 	);
 	-->
 	
-	<select id="getCategoryList" resultType="list">
+	<select id="getCategoryList" resultType="category">
 		SELECT * FROM category
 	</select>
 	
