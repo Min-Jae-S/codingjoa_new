@@ -22,8 +22,4 @@ public class TopMenuController {
 	public List<Category> findCategoryByParent(@PathVariable("categoryCode") int categoryCode) {
 		return categoryService.findCategoryByParent(categoryCode);
 	}
-	
-	
-	
-	
 }

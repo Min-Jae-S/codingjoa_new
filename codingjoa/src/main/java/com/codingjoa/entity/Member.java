@@ -4,7 +4,6 @@ import java.util.Date;
 
 import lombok.Data;
 
-
 /*
  	member_idx              NUMBER,
     member_id               VARCHAR2(50)    UNIQUE  NOT NULL,
