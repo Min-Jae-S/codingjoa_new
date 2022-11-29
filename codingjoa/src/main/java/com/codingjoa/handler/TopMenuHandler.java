@@ -22,7 +22,11 @@ public class TopMenuHandler {
 	public List<Category> findParentCategory() {
 		log.info("============== TopMenuHandler ==============");
 		
-		return categoryService.findParentCategory();
+		List<Category> list = categoryService.findParentCategory();
+		log.info("{}", list);
+		
+		return list;
+		//return categoryService.findParentCategory();
 	}
 	
 }

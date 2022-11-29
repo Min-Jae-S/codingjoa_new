@@ -10,9 +10,9 @@
 		<a class="navbar-brand font-weight-bold" href="${contextPath}">Codingjoa</a>
 		<div class="collapse navbar-collapse">
 			<ul class="navbar-nav">
-				<c:forEach var="parentCategory" items="${parentCategory}">
-					<li class="nav-item dropdown mx-2" data-category="${parentCategory.categoryCode}">
-						<a href="#" class="nav-link">${parentCategory.categoryName}</a>
+				<c:forEach var="category" items="${parentCategory}">
+					<li class="nav-item dropdown mx-2" data-category="${category.categoryCode}" data-path="${category.categoryPath}">
+						<a href="${contextPath}${category.categoryPath}" class="nav-link">${category.categoryName}</a>
 					</li>
 				</c:forEach>
 			</ul>
@@ -57,25 +57,30 @@
 			var a_tag = $(this).find("a");
 			
 			$.getJSON("${contextPath}/category/" + category, function(data) {
-				if(data.length == 0) return;
+				if (data.length == 0) return;
 				
 				var html = "<div class='dropdown-menu show'>";
 				$.each(data, function(index, value) {
-					html += "<button class='dropdown-item' type='button' data-category='";
-					html += data[index].categoryCode + "'>" + data[index].categoryName;
-					html += "</button>";
+					html += "<button class='dropdown-item' type='button' data-path='";
+					
+					if (data[index].categoryCode == data[index].categoryPath) 
+						html += "?categoryCode=" + data[index].categoryCode;
+					else 
+						html +=  data[index].categoryPath;
+					
+					html += "'>" + data[index].categoryName + "</button>";
 				});
 				html += "</div>";
-					
+				
 				a_tag.css("color", "black").css("font-weight", "bold");
 				a_tag.after(html);
 			});
 		});
 		
-		$(".dropdown").on("mouseleave", function() {
+		/* $(".dropdown").on("mouseleave", function() {
 			$(this).find("a").css("color", "grey").css("font-weight", "400");
 			$(this).find(".dropdown-menu").remove();
-		});
+		}); */
 		
 		$(document).on("mouseenter", "button.dropdown-item", function() {
 			$(this).css("color", "black").css("font-weight", "bold")
@@ -87,11 +92,9 @@
 		});
 		
 		$(document).on("click", "button.dropdown-item", function() {
-			var categoryParentCode = $(this).closest(".dropdown").data("category");
-			var categoryCode = $(this).data("category");
+			var parent_path = $(this).closest(".dropdown").data("path");
 			
-			console.log("categoryParentCode : " + categoryParentCode);
-			console.log("categoryCode : " + categoryCode);
+			location.href = "${contextPath}" + parent_path + $(this).data("path");
 		});
 	});
 </script>
