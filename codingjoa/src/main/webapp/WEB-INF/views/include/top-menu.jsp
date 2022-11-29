@@ -57,34 +57,41 @@
 			var a_tag = $(this).find("a");
 			
 			$.getJSON("${contextPath}/category/" + category, function(data) {
-				if(data.length != 0) {
-					var html = "<div class='dropdown-menu show'>";
-					$.each(data, function(index, value) {
-						html += "<button class='dropdown-item' type='button'>";
-						html += data[index].categoryName;
-						html += "</button>";
-					});
-					html += "</div>";
+				if(data.length == 0) return;
+				
+				var html = "<div class='dropdown-menu show'>";
+				$.each(data, function(index, value) {
+					html += "<button class='dropdown-item' type='button' data-category='";
+					html += data[index].categoryCode + "'>" + data[index].categoryName;
+					html += "</button>";
+				});
+				html += "</div>";
 					
-					a_tag.css("color", "black").css("font-weight", "bold");
-					a_tag.after(html);
-				}
+				a_tag.css("color", "black").css("font-weight", "bold");
+				a_tag.after(html);
 			});
 		});
 		
 		$(".dropdown").on("mouseleave", function() {
 			$(this).find("a").css("color", "grey").css("font-weight", "400");
 			$(this).find(".dropdown-menu").remove();
-		}); 
+		});
 		
 		$(document).on("mouseenter", "button.dropdown-item", function() {
-			$(this).css("color", "black").css("font-weight", "bold").css("background-color", "transparent");
+			$(this).css("color", "black").css("font-weight", "bold")
+				.css("background-color", "transparent");
 		});
 
 		$(document).on("mouseleave", "button.dropdown-item", function() {
 			$(this).css("color", "grey").css("font-weight", "400");
 		});
 		
-		
+		$(document).on("click", "button.dropdown-item", function() {
+			var categoryParentCode = $(this).closest(".dropdown").data("category");
+			var categoryCode = $(this).data("category");
+			
+			console.log("categoryParentCode : " + categoryParentCode);
+			console.log("categoryCode : " + categoryCode);
+		});
 	});
 </script>
