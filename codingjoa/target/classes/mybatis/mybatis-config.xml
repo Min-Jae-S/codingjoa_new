@@ -10,5 +10,6 @@
 		<typeAlias type="com.codingjoa.entity.Member" alias="member" />
 		<typeAlias type="com.codingjoa.entity.Auth" alias="auth" />
 		<typeAlias type="com.codingjoa.entity.Category" alias="category" />
+		<typeAlias type="com.codingjoa.entity.Board" alias="board" />
 	</typeAliases>
 </configuration>
