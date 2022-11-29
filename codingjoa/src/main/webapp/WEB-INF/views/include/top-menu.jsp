@@ -55,25 +55,20 @@
 		$(".dropdown").on("mouseenter", function() {
 			var category = $(this).data("category");
 			var a_tag = $(this).find("a");
+			a_tag.css("color", "black").css("font-weight", "bold");
 			
 			$.getJSON("${contextPath}/category/" + category, function(data) {
 				if (data.length == 0) return;
 
 				var html = "<div class='dropdown-menu show'>";
-				$.each(data, function(index, value) {
+				$.each(data, function(i, value) {
 					html += "<button class='dropdown-item' type='button' data-path='";
-
-					if (data[index].categoryCode == data[index].categoryPath) {
-						html += "?categoryCode=" + data[index].categoryCode;
-					} else {
-						html +=  data[index].categoryPath;
-					}
-					
-					html += "'>" + data[index].categoryName + "</button>";
+					html += (data[i].categoryCode == data[i].categoryPath) ? 
+								"?categoryCode=" + data[i].categoryCode : data[i].categoryPath;
+					html += "'>" + data[i].categoryName + "</button>";
 				});
 				html += "</div>";
 				
-				a_tag.css("color", "black").css("font-weight", "bold");
 				a_tag.after(html);
 			});
 		});
@@ -84,8 +79,9 @@
 		});
 		
 		$(document).on("mouseenter", "button.dropdown-item", function() {
-			$(this).css("color", "black").css("font-weight", "bold")
-				.css("background-color", "transparent");
+			$(this).css("color", "black")
+				   .css("font-weight", "bold")
+				   .css("background-color", "transparent");
 		});
 
 		$(document).on("mouseleave", "button.dropdown-item", function() {
@@ -94,7 +90,6 @@
 		
 		$(document).on("click", "button.dropdown-item", function() {
 			var parent_path = $(this).closest(".dropdown").data("path");
-			
 			location.href = "${contextPath}" + parent_path + $(this).data("path");
 		});
 	});
