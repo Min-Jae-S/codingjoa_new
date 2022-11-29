@@ -83,11 +83,14 @@
 		}); 
 		
 		$(document).on("mouseenter", "button.dropdown-item", function() {
-			$(this).addClass("active");
+			$(this).css("color", "black");
+			$(this).css("font-weight", "bold");
+			$(this).css("background-color", "transparent");
 		});
 
 		$(document).on("mouseleave", "button.dropdown-item", function() {
-			$(this).removeClass("active");
+			$(this).css("font-weight", "400");
+			$(this).css("color", "grey");
 		});
 		
 		

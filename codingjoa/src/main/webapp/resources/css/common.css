@@ -40,8 +40,8 @@ body {
 
 button.dropdown-item {
 	padding: 0.25rem 1rem;
-	z-index: 9999;
 	font-size: 13px;
+	color: grey;
 }
 
 .home-container {
