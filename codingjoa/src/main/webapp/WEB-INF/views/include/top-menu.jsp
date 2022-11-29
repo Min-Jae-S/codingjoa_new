@@ -58,15 +58,16 @@
 			
 			$.getJSON("${contextPath}/category/" + category, function(data) {
 				if (data.length == 0) return;
-				
+
 				var html = "<div class='dropdown-menu show'>";
 				$.each(data, function(index, value) {
 					html += "<button class='dropdown-item' type='button' data-path='";
-					
-					if (data[index].categoryCode == data[index].categoryPath) 
+
+					if (data[index].categoryCode == data[index].categoryPath) {
 						html += "?categoryCode=" + data[index].categoryCode;
-					else 
+					} else {
 						html +=  data[index].categoryPath;
+					}
 					
 					html += "'>" + data[index].categoryName + "</button>";
 				});
@@ -77,10 +78,10 @@
 			});
 		});
 		
-		/* $(".dropdown").on("mouseleave", function() {
+		$(".dropdown").on("mouseleave", function() {
 			$(this).find("a").css("color", "grey").css("font-weight", "400");
 			$(this).find(".dropdown-menu").remove();
-		}); */
+		});
 		
 		$(document).on("mouseenter", "button.dropdown-item", function() {
 			$(this).css("color", "black").css("font-weight", "bold")

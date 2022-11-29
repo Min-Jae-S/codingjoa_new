@@ -13,8 +13,8 @@ public class BoardController {
 	
 	
 	@RequestMapping("")
-	public String board(@RequestParam("categoryCode") int categoryCode) {
-		log.info("{}", categoryCode);
+	public String board(@RequestParam(name = "categoryCode", defaultValue = "0") int boardCategoryCode) {
+		log.info("{}", boardCategoryCode);
 		
 		return null;
 	}
