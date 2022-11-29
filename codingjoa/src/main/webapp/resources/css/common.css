@@ -24,7 +24,8 @@ body {
 }
 
 .navbar-custom .navbar-nav .nav-link:hover {
-	color: grey;
+	color: black;
+	font-weight: bold;
 }
 
 .dropdown .nav-link {
@@ -35,12 +36,12 @@ body {
 	background-clip: border-box;
 	border-radius: 0;
 	margin-top: 0;
-	font-size: 15px;
 }
 
-.dropdown-item {
-	padding: 0.25rem 1.25rem;
-	z-index: 999;
+button.dropdown-item {
+	padding: 0.25rem 1rem;
+	z-index: 9999;
+	font-size: 13px;
 }
 
 .home-container {

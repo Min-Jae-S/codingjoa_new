@@ -19,10 +19,10 @@
 			
 			<ul class="navbar-nav ml-auto">
 				<sec:authorize access="isAnonymous()">
-					<li class="nav-item">
+					<li class="nav-item mx-2">
 						<a href="${contextPath}/member/join" class="nav-link">회원가입</a>
 					</li>
-					<li class="nav-item">
+					<li class="nav-item mx-2">
 						<a href="${contextPath}/member/login" class="nav-link">로그인</a>
 					</li>
 				</sec:authorize>
@@ -41,7 +41,7 @@
 					<li class="nav-item mx-2">
 						<a href="${contextPath}/member/security" class="nav-link">계정 관리</a>
 					</li>
-					<li class="nav-item">
+					<li class="nav-item mx-2">
 						<a href="${contextPath}/member/logout" class="nav-link">로그아웃</a>
 					</li>
 				</sec:authorize>
@@ -52,20 +52,12 @@
 
 <script>
 	$(function() {
-		
-		/*
-		$(".dropdown-item").on("mouseenter", function() {
-			$(this).addClass("active");
-		});
-
-		$(".dropdown-item").on("mouseleave", function() {
-			$(this).removeClass("active");
-		});
-		*/
-		
 		$(".dropdown").on("mouseenter", function() {
 			var category = $(this).data("category");
-			var children = $(this).children("a");
+			var attached = $(this).find("a");
+			
+			attached.css("color", "black");
+			attached.css("font-weight", "bold");
 
 			$.getJSON("${contextPath}/category/" + category, function(data) {
 				if(data.length != 0) {
@@ -78,14 +70,25 @@
 					});
 					
 					html += "</div>";
-					children.after(html);
+					attached.after(html);
 				}
 			});
 		});
 		
 		$(".dropdown").on("mouseleave", function() {
-			$(this).children(".dropdown-menu").remove();
-		});  
+			var attached = $(this).find("a");
+			attached.css("color", "grey");
+			attached.css("font-weight", "400");
+			$(this).find(".dropdown-menu").remove();
+		}); 
+		
+		$(document).on("mouseenter", "button.dropdown-item", function() {
+			$(this).addClass("active");
+		});
+
+		$(document).on("mouseleave", "button.dropdown-item", function() {
+			$(this).removeClass("active");
+		});
 		
 		
 	});
