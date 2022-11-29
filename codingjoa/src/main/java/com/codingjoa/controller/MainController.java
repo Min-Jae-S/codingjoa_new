@@ -16,6 +16,11 @@ public class MainController {
 		return "access-denied";
 	}
 	
+	@GetMapping("/board")
+	public String board() {
+		return "board/all-board";
+	}
+	
 
 //	@GetMapping("/test")
 //	public String test(Authentication authentication) {
