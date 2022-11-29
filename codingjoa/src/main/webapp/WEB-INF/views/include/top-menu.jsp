@@ -11,7 +11,7 @@
 		<div class="collapse navbar-collapse">
 			<ul class="navbar-nav">
 				<c:forEach var="parentCategory" items="${parentCategory}">
-					<li class="nav-item dropdown" data-category="${parentCategory.categoryCode}">
+					<li class="nav-item dropdown mx-2" data-category="${parentCategory.categoryCode}">
 						<a href="#" class="nav-link">${parentCategory.categoryName}</a>
 					</li>
 				</c:forEach>
@@ -30,7 +30,7 @@
 					<li class="nav-item">
 						<img src="${contextPath}/resources/image/person.png" style="width: 40px; padding: 0.25rem;">
 					</li>
-					<li class="nav-item">
+					<li class="nav-item mr-2">
 						<a class="nav-link text-dark" href="${contextPath}/member/info">
 							<span class="font-weight-bold">${principal.member.memberId}</span>
 						</a>
@@ -38,7 +38,7 @@
 					<li class="nav-item">
 						<span class="nav-link" style="pointer-events: none;">|</span>
 					</li>
-					<li class="nav-item">
+					<li class="nav-item mx-2">
 						<a href="${contextPath}/member/security" class="nav-link">계정 관리</a>
 					</li>
 					<li class="nav-item">
