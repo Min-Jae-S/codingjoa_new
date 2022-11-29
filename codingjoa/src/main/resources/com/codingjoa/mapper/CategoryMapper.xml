@@ -5,8 +5,9 @@
 	<!--  
 	CREATE TABLE category (
         category_code            NUMBER,                      
-        category_parent_code     NUMBER          NULL,         
-        category_name            VARCHAR2(50)    NOT NULL,
+        category_parent_code     NUMBER          	NULL,         
+        category_name            VARCHAR2(50)    	NOT NULL,
+        category_path            VARCHAR2(1000)     NOT NULL,
         CONSTRAINT pk_category PRIMARY KEY(category_code)
         FOREIGN KEY(cate_parent_code) REFERENCES cate_tbl(cate_code)
 	);
