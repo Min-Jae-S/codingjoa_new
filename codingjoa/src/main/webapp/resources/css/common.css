@@ -5,6 +5,43 @@ body {
 	padding-bottom: 56px; */
 }
 
+.home-container {
+	margin-top: 4rem;
+}
+
+.join-container,
+.login-container,
+.info-container,
+.check-password-container,
+.update-password-container,
+.find-account-container,
+.find-account-result-container, 
+.find-password-container {
+	margin-top: 6.5rem;
+	margin-bottom: 6.5rem;
+}
+
+
+.security-container {
+	margin-top: 10rem;
+	margin-bottom: 10rem;
+}
+
+
+input::placeholder {
+	font-size: 14px;
+}
+
+.error {
+	color: red;
+	font-size: 13px;
+}
+
+.success {
+	color: green;
+	font-size: 13px;
+}
+
 .navbar-custom {
 	position: sticky;
 	top: 0;
@@ -42,43 +79,4 @@ button.dropdown-item {
 	padding: 0.25rem 1rem;
 	font-size: 13px;
 	color: grey;
-}
-
-.home-container {
-	margin-top: 4rem;
-}
-
-.check-password-container,
-.update-password-container,
-.find-account-container,
-.find-account-result-container, 
-.find-password-container {
-	margin-top: 4rem;
-	margin-bottom: 4rem;
-}
-
-.join-container,
-.login-container,
-.info-container {
-	margin-top: 6.5rem;
-	margin-bottom: 6.5rem;
-}
-
-.security-container {
-	margin-top: 10rem;
-	margin-bottom: 10rem;
-}
-
-input::placeholder {
-	font-size: 14px;
-}
-
-.error {
-	color: red;
-	font-size: 13px;
-}
-
-.success {
-	color: green;
-	font-size: 13px;
 }
