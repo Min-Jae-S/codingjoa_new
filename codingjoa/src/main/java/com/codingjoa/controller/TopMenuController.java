@@ -19,7 +19,7 @@ public class TopMenuController {
 	
 	@ResponseBody
 	@GetMapping("/category/{categoryParentCode}")
-	public List<Category> findCategoryByParent(@PathVariable("categoryParentCode") int categoryParentCode) {
+	public List<Category> findCategoryListByParent(@PathVariable("categoryParentCode") int categoryParentCode) {
 		return categoryService.findCategoryListByParent(categoryParentCode);
 	}
 }

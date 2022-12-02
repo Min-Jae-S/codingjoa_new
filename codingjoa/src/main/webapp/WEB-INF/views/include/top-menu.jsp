@@ -93,9 +93,9 @@
 			$(this).css("color", "grey").css("font-weight", "400");
 		});
 		
-		$(document).on("click", "button.dropdown-item", function() {
+		$(document).on("click", "button.dropdown-item", function(e) {
 			var parent_path = $(this).closest(".dropdown").data("path");
-			//location.href = "${contextPath}" + parent_path + $(this).data("path");
+			location.href = "${contextPath}" + parent_path + $(this).data("path");
 		});
 	});
 </script>
