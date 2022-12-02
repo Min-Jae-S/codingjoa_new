@@ -17,14 +17,14 @@ body {
 .find-account-container,
 .find-account-result-container, 
 .find-password-container {
-	margin-top: 6.5rem;
-	margin-bottom: 6.5rem;
+	margin-top: 7rem;
+	margin-bottom: 7rem;
 }
 
 .board-main-container,
 .board-write-container {
-	margin-top: 4rem;
-	margin-bottom: 4rem;	
+	margin-top: 7rem;
+	margin-bottom: 7rem;	
 }
 
 .security-container {

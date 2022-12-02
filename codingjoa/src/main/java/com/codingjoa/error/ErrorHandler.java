@@ -1,4 +1,4 @@
-package error;
+package com.codingjoa.error;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
