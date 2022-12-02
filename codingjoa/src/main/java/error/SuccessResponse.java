@@ -1,4 +1,4 @@
-package com.codingjoa.handler;
+package error;
 
 import java.time.LocalDateTime;
 
