@@ -39,7 +39,7 @@
 <script>
 	$(function() {
 		$("#writeBtn").on("click", function() {
-			location.href = "${contextPath}/board/write?categoryParentCode=${category.categoryParentCode}";
+			location.href = "${contextPath}/board/write";
 		});
 	});
 </script>	

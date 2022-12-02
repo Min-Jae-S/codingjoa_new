@@ -18,11 +18,16 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 public class BoardController {
 	
+	@Autowired 
+	private CategoryService categoryService;
+
 	@Autowired
 	private BoardService boardService;
 	
-	@Autowired 
-	private CategoryService categoryService;
+	@GetMapping("/all")
+	public String all() {
+		return "board/all";
+	}
 	
 	@GetMapping("/main")
 	public String main(@RequestParam("categoryCode") int categoryCode, Model model) {
@@ -39,9 +44,7 @@ public class BoardController {
 	}
 	
 	@GetMapping("/write")
-	public String write(@RequestParam("categoryParentCode") int categoryParentCode, Model model) {
-		log.info("categoryParentCode = {}", categoryParentCode);
-		
+	public String write() {
 		return "board/write";
 	}
 	

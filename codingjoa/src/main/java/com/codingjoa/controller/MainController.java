@@ -18,7 +18,7 @@ public class MainController {
 	
 	@GetMapping("/board")
 	public String board() {
-		return "board/all-board";
+		return "redirect:/board/all";
 	}
 	
 
