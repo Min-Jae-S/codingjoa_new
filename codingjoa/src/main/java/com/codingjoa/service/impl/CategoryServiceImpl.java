@@ -20,7 +20,12 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public List<Category> findCategoryByParent(int categoryCode) {
-		return categoryMapper.findCategoryByParent(categoryCode);
+	public List<Category> findCategoryByParent(int categoryParentCode) {
+		return categoryMapper.findCategoryByParent(categoryParentCode);
+	}
+
+	@Override
+	public String findCategoryName(int categoryCode) {
+		return categoryMapper.findCategoryName(categoryCode);
 	}
 }

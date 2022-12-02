@@ -7,13 +7,13 @@ import lombok.Data;
 @Data
 public class BoardDto {
 	
-	private Long boardIdx;
+	private int boardIdx;
 	private String boardTitle;
 	private String boardContent;
 	private String boardFile;
-	private Long boardWriterIdx;
-	private Long boardViews;
-	private Long boardCategoryCode;
+	private int boardWriterIdx;
+	private int boardViews;
+	private int boardCategoryCode;
 	private Date regdate;
 	private Date modddate;
 }

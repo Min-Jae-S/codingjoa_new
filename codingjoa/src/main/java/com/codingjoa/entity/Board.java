@@ -19,13 +19,13 @@ import lombok.Data;
 @Data
 public class Board {
 
-	private Long boardIdx;
+	private Integer boardIdx;
 	private String boardTitle;
 	private String boardContent;
 	private String boardFile;
-	private Long boardWriterIdx;
-	private Long boardView;
-	private Long boardCategoryCode;
+	private Integer boardWriterIdx;
+	private Integer boardViews;
+	private Integer boardCategoryCode;
 	private Date regdate;
 	private Date modddate;
 	

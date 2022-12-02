@@ -89,7 +89,7 @@
 	<div class="row">
 		<div class="col-sm-3"></div>
 		<div class="col-sm-6">
-			<h5><b>계정 정보</b></h5>
+			<h5 class="font-weight-bold">계정 정보</h5>
 			<div class="pt-4" style="border-top: 1px solid black;">
 				<dl class="form-group mb-5">
 					<dt><i class="fa-solid fa-check mr-2"></i>아이디</dt>

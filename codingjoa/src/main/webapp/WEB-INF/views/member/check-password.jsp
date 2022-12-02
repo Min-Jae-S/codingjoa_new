@@ -54,10 +54,6 @@
 		font-size: 14px;
 		font-weight: bold;
 	}
-	
-	h5 {
-		font-weight: bold;
-	}
 </style>
 </head>
 <body>
@@ -68,7 +64,7 @@
 	<div class="row">
 		<div class="col-sm-3"></div>
 		<div class="col-sm-6">
-			<h5>비밀번호 확인</h5>
+			<h5 class="font-weight-bold">비밀번호 확인</h5>
 			<div class="pt-3" style="border-top: 1px solid black;">
 				<p class="title">비밀번호 변경을 위해서 현재 비밀번호를 확인해주세요.</p>
 				<dl class="form-group mb-5">

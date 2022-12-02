@@ -6,11 +6,36 @@
 <!DOCTYPE html>
 <html>
 <head>
+<title>${categoryName}</title>
 <meta charset="UTF-8">
-<title>게시판</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="${contextPath}/resources/css/common.css">
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+<style>
+</style>
 </head>
 <body>
-	<h1>board</h1>
-	<h1>boardCategoryCode : ${boardCategoryCode}</h1>
+	
+<c:import url="/WEB-INF/views/include/top-menu.jsp"/>
+
+<div class="container board-main-container">
+	<div class="row">
+		<div class="col-sm-3"></div>
+		<div class="col-sm-6">
+			<h5 class="font-weight-bold">${categoryName}</h5>
+			<div class="pt-3" style="border-top: 1px solid black;">
+			
+			
+			</div>
+		</div>		
+		<div class="col-sm-3"></div>
+	</div>
+</div>
+
+<c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
+	
 </body>
 </html>

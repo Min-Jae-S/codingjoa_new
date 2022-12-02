@@ -20,7 +20,7 @@ import lombok.Data;
 @Data
 public class Member {
 
-	private Long memberIdx;
+	private Integer memberIdx;
 	private String memberId;
 	private String memberPassword;
 	private String memberEmail;

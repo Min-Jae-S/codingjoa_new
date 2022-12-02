@@ -21,7 +21,16 @@
 		FROM 
 			category
 		WHERE
-			category_parent_code = #{categoryCode}
+			category_parent_code = #{categoryParentCode}
+	</select>
+	
+	<select id="findCategoryName" parameterType="int" resultType="string">
+		SELECT
+			category_name
+		FROM
+			category
+		WHERE
+			category_code = #{categoryCode}	
 	</select>
 	
 </mapper>

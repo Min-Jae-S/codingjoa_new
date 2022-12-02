@@ -52,10 +52,6 @@
 		font-weight: bold;
 	}
 	
-	h5 {
-		font-weight: bold;
-	}
-	
 	.btn-sm {
 		font-size: 0.75rem;
 		border-radius: 0.5rem;
@@ -72,7 +68,7 @@
 	<div class="row">
 		<div class="col-sm-3"></div>
 		<div class="col-sm-6">
-			<h5>비밀번호 찾기</h5>
+			<h5 class="font-weight-bold">비밀번호 찾기</h5>
 			<div class="pt-3" style="border-top: 1px solid black;">
 				<p class="title">
 					<span>비밀번호 재설정을 위해 사용자 인증이 필요합니다.</span><br/>

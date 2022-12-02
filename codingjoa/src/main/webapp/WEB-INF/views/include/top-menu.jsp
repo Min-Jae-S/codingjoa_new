@@ -52,31 +52,36 @@
 
 <script>
 	$(function() {
+		var delay = 100, timer;
+		
 		$(".dropdown").on("mouseenter", function() {
-			var category = $(this).data("category");
+			var parent_category = $(this).data("category");
 			var a_tag = $(this).find("a");
 			a_tag.css("color", "black").css("font-weight", "bold");
 			
-			$.getJSON("${contextPath}/category/" + category, function(data) {
-				if (data.length == 0) return;
+			timer = setTimeout(function() {
+				$.getJSON("${contextPath}/category/" + parent_category, function(data) {
+					if (data.length == 0) return;
 
-				var html = "<div class='dropdown-menu show'>";
-				$.each(data, function(i, value) {
-					html += "<button class='dropdown-item' type='button' data-path='";
-					html += (data[i].categoryCode == data[i].categoryPath) ? 
-								"/main?categoryCode=" + data[i].categoryCode : data[i].categoryPath;
-					html += "'>" + data[i].categoryName + "</button>";
+					var html = "<div class='dropdown-menu show'>";
+					$.each(data, function(i, value) {
+						html += "<button class='dropdown-item' type='button' data-path='";
+						html += (data[i].categoryCode == data[i].categoryPath) ? 
+									"/main?categoryCode=" + data[i].categoryCode : data[i].categoryPath;
+						html += "'>" + data[i].categoryName + "</button>";
+					});
+					html += "</div>";
+					
+					a_tag.after(html);
 				});
-				html += "</div>";
-				
-				a_tag.after(html);
-			});
+			}, delay);
 		});
-		
+			
 		$(".dropdown").on("mouseleave", function() {
+			clearTimeout(timer);
+			$(".dropdown-menu").remove();
 			$(this).find("a").css("color", "grey").css("font-weight", "400");
-			$(this).find(".dropdown-menu").remove();
-		});
+		}); 
 		
 		$(document).on("mouseenter", "button.dropdown-item", function() {
 			$(this).css("color", "black")

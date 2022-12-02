@@ -60,10 +60,6 @@
 		margin-bottom: 40px;
 		font-size: 12px;
 	}
-	
-	h5 {
-		font-weight: bold;
-	}
 </style>
 </head>
 <body>
@@ -74,7 +70,7 @@
 	<div class="row">
 		<div class="col-sm-3"></div>
 		<div class="col-sm-6">
-			<h5>비밀번호 재설정</h5>
+			<h5 class="font-weight-bold">비밀번호 재설정</h5>
 			<div class="pt-3" style="border-top: 1px solid black;">
 				<p class="title">새로운 비밀번호를 입력해주세요.</p>
 				<p class="description"> 

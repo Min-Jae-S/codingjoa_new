@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.codingjoa.service.BoardService;
+import com.codingjoa.service.CategoryService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -20,27 +21,30 @@ public class BoardController {
 	@Autowired
 	private BoardService boardService;
 	
+	@Autowired 
+	private CategoryService categoryService;
+	
 	@GetMapping("/main")
-	public String main(@RequestParam("categoryCode") int boardCategoryCode, Model model) {
-		log.info("{}", boardCategoryCode);
+	public String main(@RequestParam("categoryCode") int categoryCode, Model model) {
+		log.info("categoryCode = {}", categoryCode);
 		
-		model.addAttribute("boardCategoryCode", boardCategoryCode);
+		model.addAttribute("categoryName", categoryService.findCategoryName(categoryCode));
 		
 		return "board/main";
 	}
 	
 	@GetMapping("/read")
 	public String read() {
-		return "";
+		return "board/read";
 	}
 	
 	@GetMapping("/write")
 	public String write() {
-		return "";
+		return "board/write";
 	}
 	
 	@PostMapping("/writeProc")
 	public String writeProc() {
-		return "";
+		return "board/write-success";
 	}
 }
