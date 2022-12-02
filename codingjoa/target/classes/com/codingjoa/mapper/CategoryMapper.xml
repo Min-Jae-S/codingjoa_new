@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.codingjoa.mapper.CategoryMapper">
 
-	<select id="findParentCategory" resultType="category">
+	<select id="findParentCategoryList" resultType="category">
 		SELECT
 			category_code,
 			category_name,
@@ -13,7 +13,7 @@
 			category_parent_code IS NULL 
 	</select>
 	
-	<select id="findCategoryByParent" parameterType="int" resultType="category">
+	<select id="findCategoryListByParent" parameterType="int" resultType="category">
 		SELECT
 			category_code,
 			category_name,

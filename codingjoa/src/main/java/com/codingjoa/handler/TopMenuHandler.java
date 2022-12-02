@@ -15,9 +15,9 @@ public class TopMenuHandler {
 	@Autowired
 	private CategoryService categoryService;
 	
-	@ModelAttribute("parentCategory")
+	@ModelAttribute("parentCategoryList")
 	public List<Category> findParentCategory() {
-		return categoryService.findParentCategory();
+		return categoryService.findParentCategoryList();
 	}
 	
 }

@@ -10,9 +10,9 @@
 		<a class="navbar-brand font-weight-bold" href="${contextPath}">Codingjoa</a>
 		<div class="collapse navbar-collapse">
 			<ul class="navbar-nav">
-				<c:forEach var="category" items="${parentCategory}">
-					<li class="nav-item dropdown mx-2" data-category="${category.categoryCode}" data-path="${category.categoryPath}">
-						<a href="${contextPath}${category.categoryPath}" class="nav-link">${category.categoryName}</a>
+				<c:forEach var="parentCategory" items="${parentCategoryList}">
+					<li class="nav-item dropdown mx-2" data-category="${parentCategory.categoryCode}" data-path="${parentCategory.categoryPath}">
+						<a href="${contextPath}${parentCategory.categoryPath}" class="nav-link">${parentCategory.categoryName}</a>
 					</li>
 				</c:forEach>
 			</ul>
@@ -95,7 +95,7 @@
 		
 		$(document).on("click", "button.dropdown-item", function() {
 			var parent_path = $(this).closest(".dropdown").data("path");
-			location.href = "${contextPath}" + parent_path + $(this).data("path");
+			//location.href = "${contextPath}" + parent_path + $(this).data("path");
 		});
 	});
 </script>

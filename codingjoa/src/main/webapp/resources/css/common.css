@@ -21,6 +21,12 @@ body {
 	margin-bottom: 6.5rem;
 }
 
+.board-main-container,
+.board-write-container {
+	margin-top: 4rem;
+	margin-bottom: 4rem;	
+}
+
 .security-container {
 	margin-top: 10rem;
 	margin-bottom: 10rem;

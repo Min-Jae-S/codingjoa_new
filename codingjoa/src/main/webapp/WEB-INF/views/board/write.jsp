@@ -23,15 +23,14 @@
 
 <div class="container board-write-container">
 	<div class="row">
-		<div class="col-sm-3"></div>
-		<div class="col-sm-6">
+		<div class="col-sm-2"></div>
+		<div class="col-sm-8">
 			<h5 class="font-weight-bold">게시판 글쓰기</h5>
 			<div class="pt-3" style="border-top: 1px solid black;">
 			
-			
 			</div>
 		</div>
-		<div class="col-sm-3"></div>
+		<div class="col-sm-2"></div>
 	</div>
 </div>
 

@@ -9,9 +9,9 @@ import com.codingjoa.entity.Category;
 @Mapper
 public interface CategoryMapper {
 
-	public List<Category> findParentCategory();
+	public List<Category> findParentCategoryList();
 	
-	public List<Category> findCategoryByParent(int categoryParentCode);
+	public List<Category> findCategoryListByParent(int categoryParentCode);
 	
 	public String findCategoryName(int categoryCode);
 }
