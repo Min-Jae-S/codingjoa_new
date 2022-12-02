@@ -10,7 +10,7 @@ import lombok.Data;
 	board_content           LONG                        NOT NULL,
 	board_file              VARCHAR2(500),
     board_writer_idx        NUMBER                      NOT NULL,
-    board_view              NUMBER          DEFAULT 0   NOT NULL,
+    board_views             NUMBER          DEFAULT 0   NOT NULL,
 	board_category_code     NUMBER                      NOT NULL,
 	regdate                 DATE                        NOT NULL,
     moddate                 DATE                        NOT NULL,
