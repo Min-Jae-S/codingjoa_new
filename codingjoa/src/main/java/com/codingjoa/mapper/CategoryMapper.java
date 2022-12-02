@@ -13,5 +13,5 @@ public interface CategoryMapper {
 	
 	public List<Category> findCategoryListByParent(int categoryParentCode);
 	
-	public String findCategoryName(int categoryCode);
+	public Category findCategory(int categoryCode);
 }

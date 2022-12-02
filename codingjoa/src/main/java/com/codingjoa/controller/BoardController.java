@@ -28,7 +28,7 @@ public class BoardController {
 	public String main(@RequestParam("categoryCode") int categoryCode, Model model) {
 		log.info("categoryCode = {}", categoryCode);
 		
-		model.addAttribute("categoryName", categoryService.findCategoryName(categoryCode));
+		model.addAttribute("category", categoryService.findCategory(categoryCode));
 		
 		return "board/main";
 	}
@@ -39,7 +39,9 @@ public class BoardController {
 	}
 	
 	@GetMapping("/write")
-	public String write() {
+	public String write(@RequestParam("categoryParentCode") int categoryParentCode, Model model) {
+		log.info("categoryParentCode = {}", categoryParentCode);
+		
 		return "board/write";
 	}
 	

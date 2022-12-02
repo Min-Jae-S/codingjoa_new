@@ -6,7 +6,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>${categoryName}</title>
+<title>${category.categoryName}</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
@@ -25,7 +25,7 @@
 	<div class="row">
 		<div class="col-sm-2"></div>
 		<div class="col-sm-8">
-			<h5 class="font-weight-bold">${categoryName}</h5>
+			<h5 class="font-weight-bold">${category.categoryName}</h5>
 			<div class="pt-3" style="border-top: 1px solid black;">
 				<button class="btn btn-primary" id="writeBtn">글쓰기</button>
 			</div>
@@ -39,7 +39,7 @@
 <script>
 	$(function() {
 		$("#writeBtn").on("click", function() {
-			location.href = "${contextPath}/board/write";
+			location.href = "${contextPath}/board/write?categoryParentCode=${category.categoryParentCode}";
 		});
 	});
 </script>	
