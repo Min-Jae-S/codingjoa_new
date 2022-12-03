@@ -50,10 +50,7 @@ public class BoardController {
 	public String write(@RequestParam("categoryCode") int categoryCode, Model model) {
 		log.info("categoryCode = {}", categoryCode);
 		
-		List<Category> list = categoryService.findCategoryOfSameParent(categoryCode);
-		log.info("{}", list);
-		
-		model.addAttribute("list", list);
+		model.addAttribute("categoryList", categoryService.findCategoryOfSameParent(categoryCode));
 		
 		return "board/write";
 	}
