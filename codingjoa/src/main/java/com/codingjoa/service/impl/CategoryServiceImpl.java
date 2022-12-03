@@ -28,4 +28,9 @@ public class CategoryServiceImpl implements CategoryService {
 	public Category findCategory(int categoryCode) {
 		return categoryMapper.findCategory(categoryCode);
 	}
+
+	@Override
+	public List<Category> findCategoryOfSameParent(int categoryCode) {
+		return categoryMapper.findCategoryOfSameParent(categoryCode);
+	}
 }

@@ -11,4 +11,6 @@ public interface CategoryService {
 	public List<Category> findCategoryListByParent(int categoryParentCode);
 	
 	public Category findCategory(int categoryCode);
+	
+	public List<Category> findCategoryOfSameParent(int categoryCode);
 }
