@@ -85,3 +85,7 @@ button.dropdown-item {
 	color: grey;
 }
 
+button.dropdown-item:focus {
+	outline: 0;
+}
+

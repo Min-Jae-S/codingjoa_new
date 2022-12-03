@@ -52,7 +52,7 @@
 
 <script>
 	$(function() {
-		var timer;
+		var timer, delay=200;
 		
 		$(".dropdown").on("mouseenter", function() {
 			var parent_category = $(this).data("category");
@@ -74,14 +74,14 @@
 					
 					a_tag.after(html);
 				});
-			}, 200);
+			}, delay);
 		});
 			
 		$(".dropdown").on("mouseleave", function() {
-			clearTimeout(timer);
 			$(".dropdown-menu").remove();
 			$(this).find("a").css("color", "grey").css("font-weight", "400");
-		}); 
+			clearTimeout(timer);
+		});
 		
 		$(document).on("mouseenter", "button.dropdown-item", function() {
 			$(this).css("color", "black")
@@ -96,6 +96,6 @@
 		$(document).on("click", "button.dropdown-item", function(e) {
 			var parent_path = $(this).closest(".dropdown").data("path");
 			location.href = "${contextPath}" + parent_path + $(this).data("path");
-		});
+		}); 
 	});
 </script>

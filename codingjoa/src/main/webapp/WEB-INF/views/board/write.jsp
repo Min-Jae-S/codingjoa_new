@@ -15,6 +15,9 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 <style>
+	select.form-control {
+		font-size: 0.9rem;
+	}
 </style>
 </head>
 <body>
@@ -29,8 +32,8 @@
 			<div class="pt-3" style="border-top: 1px solid black;">
 				<select class="form-control">
 					<c:forEach var="category" items="${categoryList}">
-						<option value="${category.categoryCode}" ${category.categoryCode eq categoryCode ? "selected" : ""}>
-						${category.categoryName}</option>
+						<option value="${category.categoryCode}" 
+						${category.categoryCode eq categoryCode ? "selected" : ""}>${category.categoryName}</option>
 					</c:forEach>
 				</select>
 			</div>
