@@ -52,7 +52,7 @@
 
 <script>
 	$(function() {
-		var delay = 100, timer;
+		var timer;
 		
 		$(".dropdown").on("mouseenter", function() {
 			var parent_category = $(this).data("category");
@@ -74,7 +74,7 @@
 					
 					a_tag.after(html);
 				});
-			}, delay);
+			}, 200);
 		});
 			
 		$(".dropdown").on("mouseleave", function() {

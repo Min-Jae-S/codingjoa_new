@@ -1,7 +1,5 @@
 package com.codingjoa.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,7 +8,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.codingjoa.entity.Category;
 import com.codingjoa.service.BoardService;
 import com.codingjoa.service.CategoryService;
 
@@ -50,6 +47,7 @@ public class BoardController {
 	public String write(@RequestParam("categoryCode") int categoryCode, Model model) {
 		log.info("categoryCode = {}", categoryCode);
 		
+		model.addAttribute("categoryCode", categoryCode);
 		model.addAttribute("categoryList", categoryService.findCategoryOfSameParent(categoryCode));
 		
 		return "board/write";

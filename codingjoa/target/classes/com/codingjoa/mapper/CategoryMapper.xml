@@ -38,10 +38,10 @@
 	
 	<select id="findCategoryOfSameParent" parameterType="int" resultType="category">
 		SELECT
-			b.category_code,
-			b.category_parent_code,
-			b.category_name,
-			b.category_path
+			a.category_code,
+			a.category_parent_code,
+			a.category_name,
+			a.category_path
 		FROM
 			category a
 		INNER JOIN
@@ -49,7 +49,7 @@
 		ON
 			a.category_parent_code = b.category_parent_code
 		WHERE
-			a.category_code = #{categoryCode}
+			b.category_code = #{categoryCode}
 	</select>
 	
 </mapper>

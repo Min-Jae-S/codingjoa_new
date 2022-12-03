@@ -27,9 +27,12 @@
 		<div class="col-sm-8">
 			<h5 class="font-weight-bold">게시판 글쓰기</h5>
 			<div class="pt-3" style="border-top: 1px solid black;">
-				<c:forEach var="category" items="${categoryList}">
-					<p>${category.categoryName}</p>
-				</c:forEach>
+				<select class="form-control">
+					<c:forEach var="category" items="${categoryList}">
+						<option value="${category.categoryCode}" ${category.categoryCode eq categoryCode ? "selected" : ""}>
+						${category.categoryName}</option>
+					</c:forEach>
+				</select>
 			</div>
 		</div>
 		<div class="col-sm-2"></div>
