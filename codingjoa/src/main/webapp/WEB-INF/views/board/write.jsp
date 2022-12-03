@@ -18,6 +18,10 @@
 	select.form-control {
 		font-size: 0.9rem;
 	}
+	
+	.form-group button {
+		font-size: 0.9rem;
+	} 
 </style>
 </head>
 <body>
@@ -30,12 +34,27 @@
 		<div class="col-sm-8">
 			<h5 class="font-weight-bold">게시판 글쓰기</h5>
 			<div class="pt-3" style="border-top: 1px solid black;">
-				<select class="form-control">
-					<c:forEach var="category" items="${categoryList}">
-						<option value="${category.categoryCode}" 
-						${category.categoryCode eq categoryCode ? "selected" : ""}>${category.categoryName}</option>
-					</c:forEach>
-				</select>
+				<form>
+					<div class="form-row">
+						<div class="form-group col-md-8">
+							<select class="form-control">
+								<c:forEach var="category" items="${categoryList}">
+									<option value="${category.categoryCode}" 
+									${category.categoryCode eq categoryCode ? "selected" : ""}>${category.categoryName}</option>
+								</c:forEach>
+							</select>
+						</div>
+						<div class="form-group col-md-2">
+							<button class="btn btn-primary btn-block">등록</button>
+						</div>
+						<div class="form-group col-md-2">
+							<button type="reset" class="btn btn-secondary btn-block">취소</button>
+						</div>
+					</div>
+					<div class="form-group">
+						<input type="text" class="form-control" id="" placeholder="제목을 입력하세요.">
+					</div>
+				</form>
 			</div>
 		</div>
 		<div class="col-sm-2"></div>
