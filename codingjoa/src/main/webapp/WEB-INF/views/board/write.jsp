@@ -57,9 +57,7 @@
 						<input type="text" class="form-control" id="" placeholder="제목을 입력하세요.">
 					</div>
 					<div class="form-group">
-						<!--  
-							CKeditor...
-						-->
+						<!-- CKeditor -->
 					</div>
 				</form>
 			</div>
