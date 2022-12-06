@@ -41,8 +41,9 @@
 						<div class="form-group col-md-8">
 							<select class="form-control">
 								<c:forEach var="category" items="${categoryList}">
-									<option value="${category.categoryCode}" 
-									${category.categoryCode eq categoryCode ? "selected" : ""}>${category.categoryName}</option>
+									<option value="${category.categoryCode}" ${category.categoryCode eq categoryCode ? "selected" : ""}>
+										${category.categoryName}
+									</option>
 								</c:forEach>
 							</select>
 						</div>
