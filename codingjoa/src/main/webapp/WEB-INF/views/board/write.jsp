@@ -28,8 +28,6 @@
 
 <c:import url="/WEB-INF/views/include/top-menu.jsp"/>
 
-
-
 <div class="container board-write-container">
 	<div class="row">
 		<div class="col-sm-2"></div>
