@@ -21,7 +21,12 @@
 	
 	.form-group button {
 		font-size: 0.9rem;
-	} 
+	}
+	
+	span.error, span.success {
+		display: inline-block;
+		padding-top: 7px;
+	}
 </style>
 </head>
 <body>
@@ -34,31 +39,33 @@
 		<div class="col-sm-8">
 			<h5 class="font-weight-bold">게시판 글쓰기</h5>
 			<div class="pt-3" style="border-top: 1px solid black;">
-				<form>
+				<form:form action="${contextPath}/board/writeProc" method="POST" modelAttribute="boardDto">
+					<form:hidden path="boardCategoryCode" />
 					<div class="form-row">
 						<div class="form-group col-md-8">
-							<select class="form-control">
+							<select class="form-control" name="boardCategoryCode">
 								<c:forEach var="category" items="${categoryList}">
-									<option value="${category.categoryCode}" ${category.categoryCode eq categoryCode ? "selected" : ""}>
+									<option value="${category.categoryCode}" ${category.categoryCode eq boardDto.boardCategoryCode ? "selected" : ""}>
 										${category.categoryName}
 									</option>
 								</c:forEach>
 							</select>
 						</div>
 						<div class="form-group col-md-2">
-							<button class="btn btn-primary btn-block">등록</button>
+							<form:button class="btn btn-primary btn-block">등록</form:button>
 						</div>
 						<div class="form-group col-md-2">
 							<button type="reset" class="btn btn-secondary btn-block">취소</button>
 						</div>
 					</div>
 					<div class="form-group">
-						<input type="text" class="form-control" id="" placeholder="제목을 입력하세요.">
+						<form:input path="boardTitle" class="form-control" placeholder="제목을 입력하세요."/>
+						<form:errors path="boardTitle" cssClass="error"/>
 					</div>
 					<div class="form-group">
 						<!-- CKeditor -->
 					</div>
-				</form>
+				</form:form>
 			</div>
 		</div>
 		<div class="col-sm-2"></div>

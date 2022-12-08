@@ -1,13 +1,18 @@
 package com.codingjoa.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.codingjoa.dto.BoardDto;
 import com.codingjoa.service.BoardService;
 import com.codingjoa.service.CategoryService;
 
@@ -44,17 +49,29 @@ public class BoardController {
 	}
 	
 	@GetMapping("/write")
-	public String write(@RequestParam("categoryCode") int categoryCode, Model model) {
+	public String write(@RequestParam("categoryCode") int categoryCode, 
+						@ModelAttribute BoardDto boardDto, Model model) {
 		log.info("categoryCode = {}", categoryCode);
+		log.info("{}", boardDto);
 		
-		model.addAttribute("categoryCode", categoryCode);
+		boardDto.setBoardCategoryCode(categoryCode);
 		model.addAttribute("categoryList", categoryService.findCategoryOfSameParent(categoryCode));
 		
 		return "board/write";
 	}
 	
 	@PostMapping("/writeProc")
-	public String writeProc() {
+	public String writeProc(@ModelAttribute @Valid BoardDto boardDto, 
+							BindingResult bindingResult, Model model) {
+		log.info("{}", boardDto);
+		
+		if(bindingResult.hasErrors()) {
+			int categoryCode = boardDto.getBoardCategoryCode();
+			model.addAttribute("categoryList", categoryService.findCategoryOfSameParent(categoryCode));
+			
+			return "board/write";
+		}
+		
 		return "board/write-success";
 	}
 }
