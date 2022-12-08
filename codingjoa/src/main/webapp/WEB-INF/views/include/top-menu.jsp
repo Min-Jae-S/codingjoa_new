@@ -52,7 +52,7 @@
 
 <script>
 	$(function() {
-		var timer, delay=200;
+		var timer, delay=100;
 		
 		$(".dropdown").on("mouseenter", function() {
 			var parent_category = $(this).data("category");
