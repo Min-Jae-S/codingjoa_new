@@ -7,9 +7,7 @@ import javax.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
-public class BoardDto {
-	
-	private int boardIdx;
+public class WriteBoardDto {
 	
 	@NotBlank
 	private String boardTitle;

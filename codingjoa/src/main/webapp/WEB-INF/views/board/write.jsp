@@ -23,7 +23,7 @@
 		font-size: 0.9rem;
 	}
 	
-	span.error, span.success {
+	span.error {
 		display: inline-block;
 		padding-top: 7px;
 	}
@@ -39,7 +39,7 @@
 		<div class="col-sm-8">
 			<h5 class="font-weight-bold">게시판 글쓰기</h5>
 			<div class="pt-3" style="border-top: 1px solid black;">
-				<form:form action="${contextPath}/board/writeProc" method="POST" modelAttribute="boardDto">
+				<form:form action="${contextPath}/board/writeProc" method="POST" modelAttribute="writeBoardDto">
 					<div class="form-row">
 						<div class="form-group col-md-8">
 							<form:select class="form-control" path="boardCategoryCode">

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.codingjoa.dto.BoardDto;
+import com.codingjoa.dto.WriteBoardDto;
 import com.codingjoa.service.BoardService;
 import com.codingjoa.service.CategoryService;
 
@@ -50,7 +50,7 @@ public class BoardController {
 	
 	@GetMapping("/write")
 	public String write(@RequestParam("categoryCode") int categoryCode, 
-						@ModelAttribute BoardDto boardDto, Model model) {
+						@ModelAttribute WriteBoardDto boardDto, Model model) {
 		log.info("categoryCode = {}", categoryCode);
 		log.info("{}", boardDto);
 		
@@ -61,7 +61,7 @@ public class BoardController {
 	}
 	
 	@PostMapping("/writeProc")
-	public String writeProc(@ModelAttribute @Valid BoardDto boardDto, 
+	public String writeProc(@ModelAttribute @Valid WriteBoardDto boardDto, 
 							BindingResult bindingResult, Model model) {
 		log.info("{}", boardDto);
 		
