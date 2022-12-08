@@ -40,16 +40,16 @@
 			<h5 class="font-weight-bold">게시판 글쓰기</h5>
 			<div class="pt-3" style="border-top: 1px solid black;">
 				<form:form action="${contextPath}/board/writeProc" method="POST" modelAttribute="boardDto">
-					<form:hidden path="boardCategoryCode" />
+					<input type="hidden" value="${categoryCode}" />
 					<div class="form-row">
 						<div class="form-group col-md-8">
-							<select class="form-control" name="boardCategoryCode">
+							<form:select class="form-control" path="boardCategoryCode">
 								<c:forEach var="category" items="${categoryList}">
-									<option value="${category.categoryCode}" ${category.categoryCode eq boardDto.boardCategoryCode ? "selected" : ""}>
+									<option value="${category.categoryCode}" ${category.categoryCode eq categoryCode ? "selected" : ""}>
 										${category.categoryName}
 									</option>
 								</c:forEach>
-							</select>
+							</form:select>
 						</div>
 						<div class="form-group col-md-2">
 							<form:button class="btn btn-primary btn-block">등록</form:button>

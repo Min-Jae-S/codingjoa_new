@@ -54,7 +54,7 @@ public class BoardController {
 		log.info("categoryCode = {}", categoryCode);
 		log.info("{}", boardDto);
 		
-		boardDto.setBoardCategoryCode(categoryCode);
+		model.addAttribute("categoryCode", categoryCode);
 		model.addAttribute("categoryList", categoryService.findCategoryOfSameParent(categoryCode));
 		
 		return "board/write";
