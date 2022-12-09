@@ -14,7 +14,8 @@
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
-<script src="//cdn.ckeditor.com/4.20.1/standard/ckeditor.js"></script>
+<script src="${contextPath}/resources/ckeditor5/ckeditor.js"></script>
+<script src="${contextPath}/resources/ckeditor5/translations/ko.js"></script>
 <style>
 	select.form-control {
 		font-size: 0.9rem;
@@ -55,7 +56,7 @@
 							<form:button class="btn btn-primary btn-block">등록</form:button>
 						</div>
 						<div class="form-group col-md-2">
-							<button type="reset" class="btn btn-secondary btn-block">취소</button>
+							<button type="button" class="btn btn-secondary btn-block" id="resetBtn">취소</button>
 						</div>
 					</div>
 					<div class="form-group">
@@ -76,9 +77,24 @@
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 
 <script>
-	$(function () {
-		CKEDITOR.replace("boardContent", {
-			filebrowserUploadUrl : '${contextPath}/board/fileupload.do'
+	let CKEDITOR;
+	
+	ClassicEditor
+    	.create(document.querySelector("#boardContent"), {
+    		language: "ko"
+    	})
+    	.then(editor => {
+       		console.log("CKEditor is ready");
+       		CKEDITOR = editor;
+    	})
+    	.catch(error => {
+       		console.log("Error: " + error); 
+    	});
+	
+	$(function() {
+		$("#resetBtn").on("click", function() {
+			$("form")[0].reset();
+			CKEDITOR.setData("");
 		});
 	});
 </script>
