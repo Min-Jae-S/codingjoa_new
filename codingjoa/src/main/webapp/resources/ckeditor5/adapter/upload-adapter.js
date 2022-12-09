@@ -4,10 +4,10 @@ export default class UploadAdapter {
     }
 
     upload() {
-        return this.loader.file.then( file => new Promise(((resolve, reject) => {
+        return this.loader.file.then(file => new Promise(((resolve, reject) => {
             this._initRequest();
-            this._initListeners( resolve, reject, file );
-            this._sendRequest( file );
+            this._initListeners(resolve, reject, file);
+            this._sendRequest(file);
         })))
     }
 
