@@ -94,6 +94,7 @@
 <script>
 	ClassicEditor
     	.create(document.querySelector("#boardContent"), {
+    		//removePlugins: ["MediaEmbedToolbar"],
     		fontFamily: {
     			options: ["defalut", "Arial", "궁서체", "바탕", "돋움"],
     			supportAllValues: true
