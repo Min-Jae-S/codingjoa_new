@@ -1,4 +1,10 @@
-import UploadAdapter from '/ckeditor5/adapter/upload-adapter.js'
+import UploadAdapter from '../ckeditor5/adapter/upload-adapter.js'
+
+function UploadAdapterPlugin(editor) {
+    editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
+        return new UploadAdapter(loader)
+    }
+}
 
 export default function makeEditor(target) {
 	return ClassicEditor
@@ -26,10 +32,4 @@ export default function makeEditor(target) {
 					console.error(error); 
 				});
 				*/
-}
-
-function UploadAdapterPlugin(editor) {
-    editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
-        return new UploadAdapter(loader)
-    }
 }

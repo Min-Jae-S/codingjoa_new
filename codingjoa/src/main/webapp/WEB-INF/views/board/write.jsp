@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<c:set var="contextPath" value="${pageContext.request.contextPath}" />    
+<c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,7 +15,7 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="${contextPath}/resources/ckeditor5/build/ckeditor.js"></script>
-<script src="${contextPath}/resources/js/upload-adapter.js" type="module"></script>
+<script src="${contextPath}/resources/js/editor.js" type="module"></script>
 <style>
 	select.form-control {
 		font-size: 0.9rem;
@@ -93,12 +93,12 @@
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 
 <script type="module">
-	import editor from '/js/editor.js'
+	import makeEditor from '${contextPath}/resources/js/editor.js'
 	
 	let CKEDITOR;
 	
 	$(function() {
-		editor("#boardContent").then(editor => {
+		makeEditor("#boardContent").then(editor => {
 			console.log("CKEditor READY");
 			CKEDITOR = editor;
 		});

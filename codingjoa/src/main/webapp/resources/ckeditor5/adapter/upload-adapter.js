@@ -1,9 +1,3 @@
-/**
- * https://ckeditor.com/docs/ckeditor5/latest/framework/guides/deep-dive/upload-adapter.html
- * https://jjong-factory.tistory.com/85
- * 
- */
-
 export default class UploadAdapter {
     constructor(loader) {
         this.loader = loader;
