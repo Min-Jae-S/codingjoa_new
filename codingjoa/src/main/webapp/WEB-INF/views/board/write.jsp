@@ -30,6 +30,10 @@
 		padding-top: 7px;
 	}
 	
+	textarea {
+		display: none;
+	}
+	
 	.ck-editor__editable[role="textbox"] {
 		min-height: 300px;
 		font-size: 14px;
