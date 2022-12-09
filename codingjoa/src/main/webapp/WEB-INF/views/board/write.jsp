@@ -14,8 +14,8 @@
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
-<script src="${contextPath}/resources/ckeditor5/ckeditor.js"></script>
-<script src="${contextPath}/resources/ckeditor5/translations/ko.js"></script>
+<script src="${contextPath}/resources/ckeditor/ckeditor.js"></script>
+<script src="${contextPath}/resources/ckeditor/translations/ko.js"></script>
 <style>
 	select.form-control {
 		font-size: 0.9rem;
@@ -30,8 +30,13 @@
 		padding-top: 7px;
 	}
 	
-	.ck-editor__editable { 
-		height: 300px; 
+	.ck-editor__editable[role="textbox"] {
+		min-height: 300px;
+	}
+    
+    .ck-content .image {
+		max-width: 80%;
+		margin: 20px auto;
 	}
 </style>
 </head>
@@ -85,14 +90,42 @@
 	
 	ClassicEditor
     	.create(document.querySelector("#boardContent"), {
-    		language: "ko"
+    		toolbar: {
+    			items: [
+	    			"heading", "|",
+	    			"fontSize", "fontFamily", "fontColor", "fontBackgroundColor", "|",
+	    			"bold", "italic", "underline", "|",
+	    			"alignment", "numberedList", "bulletList", "|",
+	    			"indent", "outdent", "|",
+	    			"todoList", "imageUpload", "insertTable", "mediaEmbed", "|",
+	    			"undo", "redo"
+	    		],
+	    		shouldNotGroupWhenFull: true
+    		},
+    		fontFamily: {
+    			options: [
+    				"defalut",
+    				"Arial",
+    				"궁서체",
+    				"바탕",
+    				"돋움"
+    			],
+    			supportAllValues: true
+    		},
+    		fontSize: {
+                options: [ 10, 12, 14, 'default', 18, 20, 22 ],
+                supportAllValues: true
+            },
+    		language: "ko",
+    		placeholder: "내용을 입력하세요."
     	})
     	.then(editor => {
-       		console.log("CKEditor is ready");
+       		//console.log(editor);
+       		console.log(Array.from(editor.ui.componentFactory.names()));
        		CKEDITOR = editor;
     	})
     	.catch(error => {
-       		console.log("Error: " + error); 
+       		console.error(error); 
     	});
 	
 	$(function() {
