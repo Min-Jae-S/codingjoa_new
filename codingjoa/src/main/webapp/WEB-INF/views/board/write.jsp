@@ -15,6 +15,7 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="${contextPath}/resources/ckeditor5/build/ckeditor.js"></script>
+<script src="${contextPath}/resources/js/upload-adapter.js" type="module"></script>
 <style>
 	select.form-control {
 		font-size: 0.9rem;
@@ -91,34 +92,20 @@
 
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 
-<script>
-	ClassicEditor
-    	.create(document.querySelector("#boardContent"), {
-    		//removePlugins: ["MediaEmbedToolbar"],
-    		fontFamily: {
-    			options: ["defalut", "Arial", "궁서체", "바탕", "돋움"],
-    			supportAllValues: true
-    		},
-    		fontSize: {
-                options: [ 10, 12, "default", 16, 18, 20, 22 ],
-                supportAllValues: true
-            },
-    		placeholder: "내용을 입력하세요."
-    		//language: "ko"
-    	})
-    	.then(editor => {
-       		//console.log(editor);
-       		//console.log(Array.from(editor.ui.componentFactory.names()));
-       		window.editor = editor;
-    	})
-    	.catch(error => {
-       		console.error(error); 
-    	});
+<script type="module">
+	import editor from '/js/editor.js'
+	
+	let CKEDITOR;
 	
 	$(function() {
+		editor("#boardContent").then(editor => {
+			console.log("CKEditor READY");
+			CKEDITOR = editor;
+		});
+		
 		$("#resetBtn").on("click", function() {
 			$("form")[0].reset();
-			window.editor.setData("");
+			CKEDITOR.setData("");
 		});
 	});
 </script>
