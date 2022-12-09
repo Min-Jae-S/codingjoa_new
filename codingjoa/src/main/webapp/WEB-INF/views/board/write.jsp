@@ -15,7 +15,7 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="${contextPath}/resources/ckeditor5/build/ckeditor.js"></script>
-<script src="${contextPath}/resources/js/make-editor.js" type="module"></script>
+<script src="${contextPath}/resources/js/create-editor.js" type="module"></script>
 <style>
 	select.form-control {
 		font-size: 0.9rem;
@@ -93,16 +93,21 @@
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 
 <script type="module">
-	import makeEditor from '${contextPath}/resources/js/make-editor.js'
-	
+	import createEditor from '${contextPath}/resources/js/create-editor.js'
+
 	let CKEDITOR;
-	
-	$(function() {
-		makeEditor("#boardContent").then(editor => {
-			console.log("CKEditor READY");
+
+	createEditor("#boardContent")
+		.then(editor => {
+			//console.log(editor);
+			//console.log(Array.from(editor.ui.componentFactory.names()));
 			CKEDITOR = editor;
+		})
+		.catch(error => {
+			console.error(error); 
 		});
-		
+
+	$(function() {
 		$("#resetBtn").on("click", function() {
 			$("form")[0].reset();
 			CKEDITOR.setData("");

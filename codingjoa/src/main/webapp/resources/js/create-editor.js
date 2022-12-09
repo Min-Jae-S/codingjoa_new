@@ -6,7 +6,7 @@ function UploadAdapterPlugin(editor) {
     }
 }
 
-export default function makeEditor(target) {
+export default function createEditor(target) {
 	return ClassicEditor
 				.create(document.querySelector(target), {
 					//removePlugins: ["MediaEmbedToolbar"],
@@ -22,14 +22,4 @@ export default function makeEditor(target) {
 					placeholder: "내용을 입력하세요."
 					//language: "ko"
 				})
-				/*
-				.then(editor => {
-					console.log(editor);
-					console.log(Array.from(editor.ui.componentFactory.names()));
-					CKEDITOR = editor;
-				})
-				.catch(error => {
-					console.error(error); 
-				});
-				*/
 }
