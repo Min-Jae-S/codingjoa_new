@@ -14,6 +14,7 @@
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="${contextPath}/resources/ckeditor5/build/ckeditor.js"></script>
 <style>
 	select.form-control {
 		font-size: 0.9rem;
@@ -29,7 +30,7 @@
 	}
 	
 	.ck-editor__editable[role="textbox"] {
-		min-height: 350px;
+		min-height: 300px;
 		font-size: 14px;
 		padding-left: 0.75rem;
 		padding-right: 0.75rem;
@@ -90,10 +91,7 @@
 
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 
-<script src="${contextPath}/resources/ckeditor5/build/ckeditor.js"></script>
 <script>
-	let CKEDITOR;
-	
 	ClassicEditor
     	.create(document.querySelector("#boardContent"), {
     		fontFamily: {
@@ -110,7 +108,7 @@
     	.then(editor => {
        		//console.log(editor);
        		//console.log(Array.from(editor.ui.componentFactory.names()));
-       		CKEDITOR = editor;
+       		window.editor = editor;
     	})
     	.catch(error => {
        		console.error(error); 
@@ -119,7 +117,7 @@
 	$(function() {
 		$("#resetBtn").on("click", function() {
 			$("form")[0].reset();
-			CKEDITOR.setData("");
+			window.editor.setData("");
 		});
 	});
 </script>
