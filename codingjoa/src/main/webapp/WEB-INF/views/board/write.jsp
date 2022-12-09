@@ -14,8 +14,6 @@
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
-<script src="${contextPath}/resources/ckeditor/ckeditor.js"></script>
-<script src="${contextPath}/resources/ckeditor/translations/ko.js"></script>
 <style>
 	select.form-control {
 		font-size: 0.9rem;
@@ -31,12 +29,19 @@
 	}
 	
 	.ck-editor__editable[role="textbox"] {
-		min-height: 300px;
+		min-height: 350px;
+		font-size: 14px;
+		padding-left: 0.75rem;
+		padding-right: 0.75rem;
 	}
     
     .ck-content .image {
 		max-width: 80%;
 		margin: 20px auto;
+	}
+	
+	.ck-placeholder {
+		font-size: 14px;
 	}
 </style>
 </head>
@@ -85,43 +90,26 @@
 
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 
+<script src="${contextPath}/resources/ckeditor5/build/ckeditor.js"></script>
 <script>
 	let CKEDITOR;
 	
 	ClassicEditor
     	.create(document.querySelector("#boardContent"), {
-    		toolbar: {
-    			items: [
-	    			"heading", "|",
-	    			"fontSize", "fontFamily", "fontColor", "fontBackgroundColor", "|",
-	    			"bold", "italic", "underline", "|",
-	    			"alignment", "numberedList", "bulletList", "|",
-	    			"indent", "outdent", "|",
-	    			"todoList", "imageUpload", "insertTable", "mediaEmbed", "|",
-	    			"undo", "redo"
-	    		],
-	    		shouldNotGroupWhenFull: true
-    		},
     		fontFamily: {
-    			options: [
-    				"defalut",
-    				"Arial",
-    				"궁서체",
-    				"바탕",
-    				"돋움"
-    			],
+    			options: ["defalut", "Arial", "궁서체", "바탕", "돋움"],
     			supportAllValues: true
     		},
     		fontSize: {
-                options: [ 10, 12, 14, 'default', 18, 20, 22 ],
+                options: [ 10, 12, "default", 16, 18, 20, 22 ],
                 supportAllValues: true
             },
-    		language: "ko",
     		placeholder: "내용을 입력하세요."
+    		//language: "ko"
     	})
     	.then(editor => {
        		//console.log(editor);
-       		console.log(Array.from(editor.ui.componentFactory.names()));
+       		//console.log(Array.from(editor.ui.componentFactory.names()));
        		CKEDITOR = editor;
     	})
     	.catch(error => {
