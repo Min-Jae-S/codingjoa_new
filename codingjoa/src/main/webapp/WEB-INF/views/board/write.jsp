@@ -29,6 +29,10 @@
 		display: inline-block;
 		padding-top: 7px;
 	}
+	
+	.ck-editor__editable { 
+		height: 300px; 
+	}
 </style>
 </head>
 <body>

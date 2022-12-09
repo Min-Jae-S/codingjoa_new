@@ -12,7 +12,9 @@ public class WriteBoardDto {
 	@NotBlank
 	private String boardTitle;
 	
+	@NotBlank
 	private String boardContent;
+	
 	private String boardFile;
 	private int boardWriterIdx;
 	private int boardViews;
