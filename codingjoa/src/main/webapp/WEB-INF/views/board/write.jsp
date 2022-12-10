@@ -15,7 +15,6 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="${contextPath}/resources/ckeditor5/build/ckeditor.js"></script>
-<script src="${contextPath}/resources/js/create-editor.js" type="module"></script>
 <style>
 	select.form-control {
 		font-size: 0.9rem;
@@ -28,10 +27,6 @@
 	span.error {
 		display: inline-block;
 		padding-top: 7px;
-	}
-	
-	textarea {
-		display: none;
 	}
 	
 	.ck-editor__editable[role="textbox"] {
@@ -96,27 +91,87 @@
 
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 
-<script type="module">
-	import createEditor from '${contextPath}/resources/js/create-editor.js'
-
-	let CKEDITOR;
-
-	createEditor("#boardContent")
+<script>
+	let CKEditor;
+	
+	ClassicEditor
+		.create(document.querySelector("#boardContent"), {
+			extraPlugins: [UploadAdapterPlugin],
+			fontFamily: {
+				options: ["defalut", "Arial", "궁서체", "바탕", "돋움"],
+				supportAllValues: true
+			},
+			fontSize: {
+				options: [ 10, 12, "default", 16, 18, 20, 22 ],
+				supportAllValues: true
+			},
+			placeholder: "내용을 입력하세요."
+		})
 		.then(editor => {
-			//console.log(editor);
-			//console.log(Array.from(editor.ui.componentFactory.names()));
-			CKEDITOR = editor;
+			CKEditor = editor;
 		})
 		.catch(error => {
-			console.error(error); 
+			console.error(error);
 		});
 
 	$(function() {
 		$("#resetBtn").on("click", function() {
 			$("form")[0].reset();
-			CKEDITOR.setData("");
+			CKEditor.setData("");
 		});
 	});
+	
+	function UploadAdapterPlugin(editor) {
+	    editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
+	        return new UploadAdapter(loader);
+	    };
+	}
+	
+	class UploadAdapter {
+	    constructor(loader) {
+	        this.loader = loader;
+	        this.url = '${contextPath}/board/uploadImage';
+	    }
+
+	    upload() {
+	        return this.loader.file.then(file => new Promise(((resolve, reject) => {
+	            this._initRequest();
+	            this._initListeners(resolve, reject, file);
+	            this._sendRequest(file);
+	        })))
+	    }
+
+	    _initRequest() {
+	        const xhr = this.xhr = new XMLHttpRequest();
+	        xhr.open('POST', this.url, true);
+	        xhr.responseType = 'json';
+	    }
+
+	    _initListeners(resolve, reject, file) {
+	        const xhr = this.xhr;
+	        const loader = this.loader;
+	        const genericErrorText = '파일을 업로드 할 수 없습니다.'
+	
+	        xhr.addEventListener('error', () => {reject(genericErrorText)})
+	        xhr.addEventListener('abort', () => reject())
+	        xhr.addEventListener('load', () => {
+	            const response = xhr.response
+	            if(!response || response.error) {
+	                return reject( response && response.error ? response.error.message : genericErrorText );
+	            }
+	
+	            resolve({
+	                default: response.url //업로드 파일 주소
+	            })
+	        })
+	    }
+
+	    _sendRequest(file) {
+	        const data = new FormData()
+	        data.append('upload',file)
+	        this.xhr.send(data)
+	    }
+	}
 </script>
 
 </body>

@@ -1,6 +1,7 @@
 export default class UploadAdapter {
     constructor(loader) {
         this.loader = loader;
+        this.url = 'http://localhost:8890/codingjoa/board/uploadImage';
     }
 
     upload() {
@@ -13,13 +14,13 @@ export default class UploadAdapter {
 
     _initRequest() {
         const xhr = this.xhr = new XMLHttpRequest();
-        xhr.open('POST', 'http://localhost:8890/codingjoa/board/uploadImage', true);
+        xhr.open('POST', this.url, true);
         xhr.responseType = 'json';
     }
 
     _initListeners(resolve, reject, file) {
         const xhr = this.xhr;
-        const loader = this.loader;
+        const loader = this.loader;s
         const genericErrorText = '파일을 업로드 할 수 없습니다.'
 
         xhr.addEventListener('error', () => {reject(genericErrorText)})
