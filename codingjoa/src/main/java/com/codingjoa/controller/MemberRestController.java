@@ -82,7 +82,7 @@ public class MemberRestController {
 			BindingResult bindingResult) throws MethodArgumentNotValidException {
 		log.info("{}", emailAuthDto);
 
-		if(bindingResult.hasErrors()) {
+		if (bindingResult.hasErrors()) {
 			throw new MethodArgumentNotValidException(null, bindingResult);
 		}
 		
@@ -102,7 +102,7 @@ public class MemberRestController {
 					throws MethodArgumentNotValidException {
 		log.info("{}", emailAuthDto);
 		
-		if(bindingResult.hasErrors()) {
+		if (bindingResult.hasErrors()) {
 			throw new MethodArgumentNotValidException(null, bindingResult);
 		}
 		
@@ -154,7 +154,7 @@ public class MemberRestController {
 		log.info("{}", passwordDto);
 		log.info("{}", sessionDto);
 		
-		if(bindingResult.hasErrors()) {
+		if (bindingResult.hasErrors()) {
 			throw new MethodArgumentNotValidException(null, bindingResult);
 		}
 		
@@ -169,7 +169,7 @@ public class MemberRestController {
 					throws MethodArgumentNotValidException {
 		log.info("{}", passwordDto);
 		
-		if(bindingResult.hasErrors()) {
+		if (bindingResult.hasErrors()) {
 			throw new MethodArgumentNotValidException(null, bindingResult);		
 		}
 		
@@ -187,7 +187,7 @@ public class MemberRestController {
 		log.info("{}", emailAuthDto);
 		log.info("{}", sessionDto);
 		
-		if(bindingResult.hasErrors()) {
+		if (bindingResult.hasErrors()) {
 			throw new MethodArgumentNotValidException(null, bindingResult);
 		}
 		
@@ -205,7 +205,7 @@ public class MemberRestController {
 		log.info("{}", emailAuthDto);
 		log.info("{}", sessionDto);
 		
-		if(bindingResult.hasErrors()) {
+		if (bindingResult.hasErrors()) {
 			throw new MethodArgumentNotValidException(null, bindingResult);
 		}
 		
@@ -224,7 +224,7 @@ public class MemberRestController {
 			BindingResult bindingResult) throws MethodArgumentNotValidException {
 		log.info("{}", passwordDto);
 		
-		if(bindingResult.hasErrors()) {
+		if (bindingResult.hasErrors()) {
 			throw new MethodArgumentNotValidException(null, bindingResult);		
 		}
 		
