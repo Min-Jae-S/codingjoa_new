@@ -182,7 +182,7 @@
 
 	    _sendRequest(file) {
 	        const data = new FormData();
-	        data.append('upload', file);
+	        data.append("boardFile", file);
 	        
 	     	// Important note: This is the right place to implement security mechanisms
 	        // like authentication and CSRF protection. For instance, you can use

@@ -13,8 +13,8 @@ import lombok.extern.slf4j.Slf4j;
 public class BoardRestController {
 	
 	@PostMapping("/uploadImage")
-	public String uploadImage(MultipartFile upload) {
-		log.info("{}", upload);
+	public String uploadImage(MultipartFile boardFile) {
+		log.info("{}", boardFile);
 		
 		// MultipartFile	// ??
 		// MultipartRequest // cos.jar
