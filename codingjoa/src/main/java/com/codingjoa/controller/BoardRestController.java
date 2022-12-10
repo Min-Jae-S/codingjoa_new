@@ -16,6 +16,9 @@ public class BoardRestController {
 	public String uploadImage(MultipartFile upload) {
 		log.info("{}", upload);
 		
+		// MultipartFile	// ??
+		// MultipartRequest // cos.jar
+		
 		return "";
 	}
 	
