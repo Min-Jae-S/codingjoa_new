@@ -79,7 +79,7 @@ public class MemberRestController {
 	}
 
 	@PostMapping("/sendAuthEmail")
-	public ResponseEntity<Object> sendAuthEmail(@Valid @RequestBody EmailAuthDto emailAuthDto, 
+	public ResponseEntity<Object> sendAuthEmail(@RequestBody @Valid EmailAuthDto emailAuthDto, 
 			BindingResult bindingResult) throws MethodArgumentNotValidException {
 		log.info("{}", emailAuthDto);
 
@@ -98,7 +98,7 @@ public class MemberRestController {
 	}
 	
 	@PutMapping("/updateEmail")
-	public ResponseEntity<Object> updateEmail(@Valid @RequestBody EmailAuthDto emailAuthDto, 
+	public ResponseEntity<Object> updateEmail(@RequestBody @Valid EmailAuthDto emailAuthDto, 
 			BindingResult bindingResult, @AuthenticationPrincipal UserDetailsDto principal) 
 					throws MethodArgumentNotValidException {
 		log.info("{}", emailAuthDto);
@@ -120,7 +120,7 @@ public class MemberRestController {
 	}
 	
 	@PutMapping("/updateAddr")
-	public ResponseEntity<Object> updateAddr(@Valid @RequestBody AddrDto addrDto, 
+	public ResponseEntity<Object> updateAddr(@RequestBody @Valid AddrDto addrDto, 
 											 @AuthenticationPrincipal UserDetailsDto principal) {
 		log.info("{}", addrDto);
 		
@@ -150,7 +150,7 @@ public class MemberRestController {
 	}
 	
 	@PostMapping("/checkPassword")
-	public ResponseEntity<Object> checkPassword(@Valid @RequestBody PasswordDto passwordDto, 
+	public ResponseEntity<Object> checkPassword(@RequestBody @Valid PasswordDto passwordDto, 
 			BindingResult bindingResult) throws MethodArgumentNotValidException {
 		log.info("{}", passwordDto);
 		log.info("{}", sessionDto);
@@ -165,7 +165,7 @@ public class MemberRestController {
 	}
 	
 	@PutMapping("/updatePassword")
-	public ResponseEntity<Object> updatePassword(@Valid @RequestBody PasswordDto passwordDto, 
+	public ResponseEntity<Object> updatePassword(@RequestBody @Valid PasswordDto passwordDto, 
 			BindingResult bindingResult, @AuthenticationPrincipal UserDetailsDto principal) 
 					throws MethodArgumentNotValidException {
 		log.info("{}", passwordDto);
@@ -183,7 +183,7 @@ public class MemberRestController {
 	}
 	
 	@PostMapping("/findAccount")
-	public ResponseEntity<Object> findAccount(@Valid @RequestBody EmailAuthDto emailAuthDto, 
+	public ResponseEntity<Object> findAccount(@RequestBody @Valid EmailAuthDto emailAuthDto, 
 			BindingResult bindingResult) throws MethodArgumentNotValidException {
 		log.info("{}", emailAuthDto);
 		log.info("{}", sessionDto);
@@ -201,8 +201,8 @@ public class MemberRestController {
 	}
 	
 	@PostMapping("/findPassword")
-	public ResponseEntity<Object> findPassword(@Valid @RequestBody EmailAuthDto emailAuthDto, 
-			BindingResult bindingResult, HttpSession session) throws MethodArgumentNotValidException {
+	public ResponseEntity<Object> findPassword(@RequestBody @Valid EmailAuthDto emailAuthDto, 
+			BindingResult bindingResult) throws MethodArgumentNotValidException {
 		log.info("{}", emailAuthDto);
 		log.info("{}", sessionDto);
 		
@@ -221,7 +221,7 @@ public class MemberRestController {
 	}
 	
 	@PutMapping("/resetPassword")
-	public ResponseEntity<Object> resetPassword(@Valid @RequestBody PasswordDto passwordDto, 
+	public ResponseEntity<Object> resetPassword(@RequestBody @Valid PasswordDto passwordDto, 
 			BindingResult bindingResult) throws MethodArgumentNotValidException {
 		log.info("{}", passwordDto);
 		

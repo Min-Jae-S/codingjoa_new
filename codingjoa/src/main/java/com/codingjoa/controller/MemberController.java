@@ -58,7 +58,7 @@ public class MemberController {
 	}
 
 	@PostMapping("/joinProc")
-	public String joinProc(@Valid @ModelAttribute JoinDto joinDto, BindingResult bindingResult) {
+	public String joinProc(@ModelAttribute @Valid JoinDto joinDto, BindingResult bindingResult) {
 		log.info("{}", joinDto);
 
 		if (bindingResult.hasErrors()) {
