@@ -21,6 +21,8 @@ public class BoardRestController {
 	@PostMapping("/uploadImage")
 	public String uploadImage(@ModelAttribute @Valid UploadFileDto uploadFileDto, 
 			BindingResult bindingResult) {
+		log.info("count");
+		
 		MultipartFile file = uploadFileDto.getFile();
 		log.info("originalFilename = {}", file.getOriginalFilename());
 		log.info("contentType = {}", file.getContentType());
