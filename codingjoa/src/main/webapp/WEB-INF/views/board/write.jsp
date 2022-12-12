@@ -109,8 +109,8 @@
 	    _initRequest() {
 	        const xhr = this.xhr = new XMLHttpRequest();
 	        
-	        console.log('_initRequest image_upload  xhr::');
-	        console.log(xhr)
+	        console.log('## _initRequest');
+	        console.log("xhr.readyState: " + xhr.readyState);
 	        
 	     	// Note that your request may look different. It is up to you and your editor
 	        // integration to choose the right communication channel. This example uses
@@ -119,11 +119,8 @@
 	        xhr.open('POST', '${contextPath}/board/uploadImage', true);
 	        xhr.responseType = 'json';
 	        
-	        console.log('-1 xhr.readyState::');
-	        console.log(xhr.readyState);
-	        console.log('xhr::');
-	        console.log(xhr);
-
+	        console.log("## after xhr.open and xhr.responstType");
+	        console.log("xhr.readyState: " + xhr.readyState);
 	    }
 
 	    _initListeners(resolve, reject, file) {
@@ -135,20 +132,9 @@
 	        xhr.addEventListener('abort', () => reject());
 	        xhr.addEventListener('load', () => {
 	            const response = xhr.response;
-	            console.log('xhr::')
-	            console.log(xhr)
-	            console.log('-2 xhr.readyState::')
-	            console.log(xhr.readyState)
-	            console.log('response::')
-	            console.log(response)
-	            
-	            //console.log("response.url : " + response.url);
-	            //console.log("response.error: " + response.error);
-	            
-	            // success
-	            console.log("response.responseDateTime: " + response.responseDateTime);
-	            console.log("response.data: " + response.data);
-	            console.log("response.message: " + response.message);
+	            console.log("## xhr.addEventListener('load')");
+		        console.log("xhr.readyState: " + xhr.readyState);
+	            console.log(response);
 	            
 	         	// This example assumes the XHR server's "response" object will come with
 	            // an "error" which has its own "message" that can be passed to reject() in the upload promise.
