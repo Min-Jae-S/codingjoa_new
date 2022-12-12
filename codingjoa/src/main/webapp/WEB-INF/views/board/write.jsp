@@ -109,25 +109,41 @@
 	    _initRequest() {
 	        const xhr = this.xhr = new XMLHttpRequest();
 	        
+	        console.log('_initRequest image_upload  xhr::');
+	        console.log(xhr)
+	        
 	     	// Note that your request may look different. It is up to you and your editor
 	        // integration to choose the right communication channel. This example uses
 	        // a POST request with JSON as a data structure but your configuration
 	        // could be different.
 	        xhr.open('POST', '${contextPath}/board/uploadImage', true);
 	        xhr.responseType = 'json';
+	        
+	        console.log('-1 xhr.readyState::');
+	        console.log(xhr.readyState);
+	        console.log('xhr::');
+	        console.log(xhr);
+
 	    }
 
 	    _initListeners(resolve, reject, file) {
 	        const xhr = this.xhr;
 	        const loader = this.loader;
-	        const genericErrorText = '파일을 업로드 할 수 없습니다.';
+	        const genericErrorText = "파일을 업로드 할 수 없습니다: " + file.name + ".";
 	
 	        xhr.addEventListener('error', () => reject(genericErrorText));
 	        xhr.addEventListener('abort', () => reject());
 	        xhr.addEventListener('load', () => {
 	            const response = xhr.response;
-	            console.log("response.url : " + response.url);
-	            console.log("response.error: " + response.error);
+	            console.log('xhr::')
+	            console.log(xhr)
+	            console.log('-2 xhr.readyState::')
+	            console.log(xhr.readyState)
+	            console.log('response::')
+	            console.log(response)
+	            
+	            //console.log("response.url : " + response.url);
+	            //console.log("response.error: " + response.error);
 	            
 	            // success
 	            console.log("response.responseDateTime: " + response.responseDateTime);
