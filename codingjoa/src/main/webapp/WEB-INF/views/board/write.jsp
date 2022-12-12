@@ -109,7 +109,7 @@
 	    _initRequest() {
 	        const xhr = this.xhr = new XMLHttpRequest();
 	        
-	        console.log('## _initRequest');
+	        console.log("## _initRequest");
 	        console.log("xhr.readyState: " + xhr.readyState);
 	        
 	     	// Note that your request may look different. It is up to you and your editor
@@ -132,7 +132,7 @@
 	        xhr.addEventListener('abort', () => reject());
 	        xhr.addEventListener('load', () => {
 	            const response = xhr.response;
-	            console.log("## xhr.addEventListener('load')");
+	            console.log("## after load");
 		        console.log("xhr.readyState: " + xhr.readyState);
 	            console.log(response);
 	            
@@ -197,6 +197,8 @@
 		});
 	
 	$(function() {
+		$("input[type='file']").removeAttr("accept").removeAttr("multiple");
+		
 		$("#resetBtn").on("click", function() {
 			$("form")[0].reset();
 			CKEditor.setData("");
