@@ -133,11 +133,13 @@
 	    }
 
 	    upload() {
-	        return this.loader.file.then(file => new Promise((resolve, reject) => {
-	            this._initRequest();
-	            this._initListeners(resolve, reject, file);
-	            this._sendRequest(file);
-	        }));
+	        return this.loader.file.then(file => 
+	        	new Promise((resolve, reject) => {
+	            	this._initRequest();
+	            	this._initListeners(resolve, reject, file);
+	            	this._sendRequest(file);
+	        	})
+	        );
 	    }
 
 	    _initRequest() {
@@ -167,7 +169,7 @@
 	            // Your integration may handle upload errors in a different way so make sure
 	            // it is done properly. The reject() function must be called when the upload fails.
 	            if(!response || response.error) {
-	                return reject(response && response.error ? response.error.message : defaultErrorMessage);
+	                return reject(response && response.error ? response.error.message : genericErrorText);
 	            }
 				
 	         	// If the upload is successful, resolve the upload promise with an object containing

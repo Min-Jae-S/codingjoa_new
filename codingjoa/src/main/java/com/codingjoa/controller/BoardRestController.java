@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.codingjoa.dto.UploadFileDto;
 
@@ -33,15 +32,10 @@ public class BoardRestController {
 	@PostMapping("/uploadImage")
 	public String uploadImage(@ModelAttribute @Valid UploadFileDto uploadFileDto, 
 			BindingResult bindingResult) {
-		log.info("count");
-		
-		MultipartFile file = uploadFileDto.getFile();
-		log.info("originalFilename = {}", file.getOriginalFilename());
-		log.info("contentType = {}", file.getContentType());
-		
-		if(bindingResult.hasErrors()) {
-			log.info("error");
-		}
+		uploadFileDto.getFile().forEach(file -> {
+			log.info("originalFilename = {}", file.getOriginalFilename());
+			log.info("contentType = {}", file.getContentType());
+		});
 		
 		return "";
 	}

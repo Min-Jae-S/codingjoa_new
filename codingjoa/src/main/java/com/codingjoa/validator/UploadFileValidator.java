@@ -1,5 +1,7 @@
 package com.codingjoa.validator;
 
+import java.util.List;
+
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -23,10 +25,16 @@ public class UploadFileValidator implements Validator {
 		log.info("============== UploadFileValidator ==============");
 		
 		UploadFileDto uploadFileDto = (UploadFileDto) target;
-		MultipartFile file = uploadFileDto.getFile();
+		List<MultipartFile> file = uploadFileDto.getFile();
+		
+		if (file == null) {
+			errors.reject("");
+			return;
+		}
 		
 		if (file.isEmpty()) {
-			errors.rejectValue("boardContent", "NotExist");
+			//errors.rejectValue("boardContent", "NotExist");
+			errors.reject("error.");
 			return;
 		} 
 	}
