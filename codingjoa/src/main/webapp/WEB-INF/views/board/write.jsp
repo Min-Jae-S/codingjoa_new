@@ -92,54 +92,18 @@
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 
 <script>
-	let CKEditor;
-	
-	ClassicEditor
-		.create(document.querySelector("#boardContent"), {
-			extraPlugins: [UploadAdapterPlugin],
-			fontFamily: {
-				options: ["defalut", "Arial", "궁서체", "바탕", "돋움"],
-				supportAllValues: true
-			},
-			fontSize: {
-				options: [ 10, 12, "default", 16, 18, 20, 22 ],
-				supportAllValues: true
-			},
-			placeholder: "내용을 입력하세요."
-		})
-		.then(editor => {
-			CKEditor = editor;
-		})
-		.catch(error => {
-			console.error(error);
-		});
-
-	$(function() {
-		$("#resetBtn").on("click", function() {
-			$("form")[0].reset();
-			CKEditor.setData("");
-		});
-	});
-	
-	function UploadAdapterPlugin(editor) {
-	    editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
-	        return new UploadAdapter(loader);
-	    };
-	}
-	
 	class UploadAdapter {
 	    constructor(loader) {
 	        this.loader = loader;
 	    }
 
 	    upload() {
-	        return this.loader.file.then(file => 
-	        	new Promise((resolve, reject) => {
+	        return this.loader.file
+	        	.then(file => new Promise((resolve, reject) => {
 	            	this._initRequest();
 	            	this._initListeners(resolve, reject, file);
 	            	this._sendRequest(file);
-	        	})
-	        );
+	        	}));
 	    }
 
 	    _initRequest() {
@@ -162,7 +126,13 @@
 	        xhr.addEventListener('abort', () => reject());
 	        xhr.addEventListener('load', () => {
 	            const response = xhr.response;
-	            console.log("xhr.response : " + response);
+	            console.log("response.url : " + response.url);
+	            console.log("response.error: " + response.error);
+	            
+	            // success
+	            console.log("response.responseDateTime: " + response.responseDateTime);
+	            console.log("response.data: " + response.data);
+	            console.log("response.message: " + response.message);
 	            
 	         	// This example assumes the XHR server's "response" object will come with
 	            // an "error" which has its own "message" that can be passed to reject() in the upload promise.
@@ -195,6 +165,41 @@
 	        this.xhr.send(data);
 	    }
 	}
+	
+	function UploadAdapterPlugin(editor) {
+	    editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
+	        return new UploadAdapter(loader);
+	    };
+	}
+	
+	let CKEditor;
+	
+	ClassicEditor
+		.create(document.querySelector("#boardContent"), {
+			extraPlugins: [UploadAdapterPlugin],
+			fontFamily: {
+				options: ["defalut", "Arial", "궁서체", "바탕", "돋움"],
+				supportAllValues: true
+			},
+			fontSize: {
+				options: [ 10, 12, "default", 16, 18, 20, 22 ],
+				supportAllValues: true
+			},
+			placeholder: "내용을 입력하세요."
+		})
+		.then(editor => {
+			CKEditor = editor;
+		})
+		.catch(error => {
+			console.error(error);
+		});
+	
+	$(function() {
+		$("#resetBtn").on("click", function() {
+			$("form")[0].reset();
+			CKEditor.setData("");
+		});
+	});
 </script>
 
 </body>

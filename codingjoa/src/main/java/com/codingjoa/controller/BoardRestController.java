@@ -1,8 +1,11 @@
 package com.codingjoa.controller;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 import javax.validation.Valid;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.WebDataBinder;
@@ -11,8 +14,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.codingjoa.dto.UploadFileDto;
+import com.codingjoa.error.SuccessResponse;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -30,14 +35,21 @@ public class BoardRestController {
 	}
 	
 	@PostMapping("/uploadImage")
-	public String uploadImage(@ModelAttribute @Valid UploadFileDto uploadFileDto, 
+	public ResponseEntity<Object> uploadImage(@ModelAttribute @Valid UploadFileDto uploadFileDto, 
 			BindingResult bindingResult) {
-		uploadFileDto.getFile().forEach(file -> {
-			log.info("originalFilename = {}", file.getOriginalFilename());
-			log.info("contentType = {}", file.getContentType());
-		});
+//		List<MultipartFile> files = uploadFileDto.getFile();
+//		log.info("{}", files.size());
+//		
+//		files.forEach(file -> {
+//			log.info("originalFilename = {}", file.getOriginalFilename());
+//			log.info("contentType = {}", file.getContentType());
+//		});
 		
-		return "";
+		MultipartFile file = uploadFileDto.getFile();
+		log.info("originalFilename = {}", file.getOriginalFilename());
+		log.info("contentType = {}", file.getContentType());
+		
+		return ResponseEntity.ok(SuccessResponse.create().message("success.uploadImage"));
 	}
 	
 }

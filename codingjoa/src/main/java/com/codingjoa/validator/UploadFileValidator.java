@@ -25,18 +25,19 @@ public class UploadFileValidator implements Validator {
 		log.info("============== UploadFileValidator ==============");
 		
 		UploadFileDto uploadFileDto = (UploadFileDto) target;
-		List<MultipartFile> file = uploadFileDto.getFile();
+		//List<MultipartFile> file = uploadFileDto.getFile();
+		//MultipartFile file = uploadFileDto.getFile();
 		
-		if (file == null) {
-			errors.reject("");
-			return;
-		}
+//		if (file == null) {
+//			errors.reject("");
+//			return;
+//		}
 		
-		if (file.isEmpty()) {
-			//errors.rejectValue("boardContent", "NotExist");
-			errors.reject("error.");
-			return;
-		} 
+//		if (file.isEmpty()) {
+//			//errors.rejectValue("boardContent", "NotExist");
+//			errors.reject("error.");
+//			return;
+//		} 
 	}
 
 }
