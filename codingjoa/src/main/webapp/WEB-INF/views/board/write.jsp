@@ -137,14 +137,20 @@
 	            console.log("## After load ##");
 		        console.log("xhr.readyState: " + readyStatus);
 	            console.log("xhr.status: " + status);
+	            console.log("xhr.response: ");
+	            console.log(response);
 				
 	         	// This example assumes the XHR server's "response" object will come with
 	            // an "error" which has its own "message" that can be passed to reject() in the upload promise.
 	            // Your integration may handle upload errors in a different way so make sure
 	            // it is done properly. The reject() function must be called when the upload fails.
 	            if (!response || response.errorMap) {
-	                return reject(response && response.errorMap && status == "422" ? response.errorMap.file : genericErrorText);
+	                return reject(response && response.errorMap ? response.errorMap.file : genericErrorText);
 	            }
+	         	
+	         	if (response.errorMessage) {
+	         		return reject(response.errorMessage);
+	         	}
 				
 	         	// If the upload is successful, resolve the upload promise with an object containing
 	            // at least the "default" URL, pointing to the image on the server.

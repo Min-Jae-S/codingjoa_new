@@ -17,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 @Component(value = "uploadFileValidator")
 public class UploadFileValidator implements Validator {
 
-	private static long MAX_FILE_SIZE = 10 * 1024 * 1024;
+	private static long MAX_FILE_SIZE = 20 * 1024 * 1024;
 	
 	@Override
 	public boolean supports(Class<?> clazz) {
@@ -55,11 +55,11 @@ public class UploadFileValidator implements Validator {
 	}
 	
 	private boolean isPermittedMimeType(String mimeType) {
-		if(!StringUtils.hasText(mimeType)) {
+		if (!StringUtils.hasText(mimeType)) {
 			return false;
 		}
 		
-		if(!mimeType.startsWith("image")) {
+		if (!mimeType.startsWith("image")) {
 			return false;
 		}
 		
