@@ -1,7 +1,5 @@
 package com.codingjoa.controller;
 
-import java.util.List;
-
 import javax.annotation.Resource;
 import javax.validation.Valid;
 
@@ -39,8 +37,8 @@ public class BoardRestController {
 			BindingResult bindingResult) {
 		
 		MultipartFile file = uploadFileDto.getFile();
-		log.info("originalFilename = {}", file.getOriginalFilename());
-		log.info("contentType = {}", file.getContentType());
+		log.info("file.getOriginalFilename() = {}", file.getOriginalFilename());
+		log.info("file.getContentType() = {}", file.getContentType());
 		
 		if (bindingResult.hasErrors()) {
 			bindingResult.getAllErrors().forEach(ObjectError -> {
