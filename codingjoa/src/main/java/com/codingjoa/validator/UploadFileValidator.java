@@ -30,9 +30,10 @@ public class UploadFileValidator implements Validator {
 		
 		UploadFileDto uploadFileDto = (UploadFileDto) target;
 		MultipartFile file = uploadFileDto.getFile();
+		String originalFilename = file.getOriginalFilename();
 		
 		if (file.isEmpty()) {
-			errors.rejectValue("file", "Required");
+			errors.rejectValue("file", "Required", new Object[] {originalFilename}, null);
 			return;
 		}
 		
@@ -41,7 +42,7 @@ public class UploadFileValidator implements Validator {
 			String mimeType = tika.detect(file.getInputStream());
 			
 			if (!isPermittedMimeType(mimeType)) {
-				errors.rejectValue("file", "InvalidType");
+				errors.rejectValue("file", "InvalidType", new Object[] {originalFilename, mimeType}, null);
 				return;
 			}
 		} catch (IOException e) {
@@ -49,7 +50,8 @@ public class UploadFileValidator implements Validator {
 		}
 		
 		if (file.getSize() > MAX_FILE_SIZE) {
-			errors.rejectValue("file", "ExceededSize");
+			errors.rejectValue("file", "ExceededSize", 
+					new Object[] {MAX_FILE_SIZE, originalFilename, file.getSize()}, null);
 			return;
 		}
 	}

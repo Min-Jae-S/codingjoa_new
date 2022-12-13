@@ -205,7 +205,7 @@
 		});
 	
 	$(function() {
-		$("input[type='file']").removeAttr("accept").removeAttr("multiple");
+		$("input[type='file']").removeAttr("accept"); /*.removeAttr("multiple");*/
 		
 		$("#resetBtn").on("click", function() {
 			$("form")[0].reset();

@@ -13,4 +13,8 @@ public class MessageUtils {
 	public static String getMessage(String code) {
 		return accessor.getMessage(code);
 	}
+	
+	public static String getMessage(String code, Object[] args) {
+		return accessor.getMessage(code, args);
+	}
 }

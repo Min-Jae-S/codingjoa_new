@@ -45,8 +45,13 @@ public class ErrorResponse {
 		bindingResult.getFieldErrors().forEach(fieldError -> {
 			String errorField = fieldError.getField();
 			String errorCode = fieldError.getCodes()[0];
+			Object[] args = fieldError.getArguments();
 			
-			errorMap.put(errorField, MessageUtils.getMessage(errorCode));
+			if (args != null) {
+				errorMap.put(errorField, MessageUtils.getMessage(errorCode, args));
+			} else {
+				errorMap.put(errorField, MessageUtils.getMessage(errorCode));
+			}
 		});
 	}
 }
