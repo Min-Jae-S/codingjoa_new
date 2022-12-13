@@ -6,6 +6,7 @@ import javax.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -34,17 +35,14 @@ public class BoardRestController {
 	
 	@PostMapping("/uploadImage")
 	public ResponseEntity<Object> uploadImage(@ModelAttribute @Valid UploadFileDto uploadFileDto, 
-			BindingResult bindingResult) {
-		
-		MultipartFile file = uploadFileDto.getFile();
-		log.info("file.getOriginalFilename() = {}", file.getOriginalFilename());
-		log.info("file.getContentType() = {}", file.getContentType());
+			BindingResult bindingResult) throws MethodArgumentNotValidException {
+		log.info("{}", uploadFileDto);
 		
 		if (bindingResult.hasErrors()) {
-			bindingResult.getAllErrors().forEach(ObjectError -> {
-				log.info("{}", ObjectError.getCodes()[0]);
-			});
+			throw new MethodArgumentNotValidException(null, bindingResult);
 		}
+		
+		// 업로드 
 		
 		return ResponseEntity.ok(SuccessResponse.create().message("success.uploadImage"));
 	}

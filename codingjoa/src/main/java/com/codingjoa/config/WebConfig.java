@@ -11,7 +11,7 @@ import com.codingjoa.security.config.SecurityConfig;
 
 public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitializer {
 	
-	private static long MAX_FILE_SIZE = 10 * 1024 * 1024;
+	private static long MAX_FILE_SIZE = 50 * 1024 * 1024;
 	
 	@Override
 	protected Class<?>[] getRootConfigClasses() {

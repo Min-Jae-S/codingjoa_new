@@ -140,7 +140,7 @@
 	            // an "error" which has its own "message" that can be passed to reject() in the upload promise.
 	            // Your integration may handle upload errors in a different way so make sure
 	            // it is done properly. The reject() function must be called when the upload fails.
-	            if(!response || response.error) {
+	            if (!response || response.error) {
 	                return reject(response && response.error ? response.error.message : genericErrorText);
 	            }
 				
