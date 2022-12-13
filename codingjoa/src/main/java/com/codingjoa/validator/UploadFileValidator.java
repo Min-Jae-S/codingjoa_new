@@ -41,7 +41,7 @@ public class UploadFileValidator implements Validator {
 			String mimeType = tika.detect(file.getInputStream());
 			
 			if (!isPermittedMimeType(mimeType)) {
-				errors.rejectValue("file","InvalidType");
+				errors.rejectValue("file", "InvalidType");
 				return;
 			}
 		} catch (IOException e) {
@@ -49,7 +49,7 @@ public class UploadFileValidator implements Validator {
 		}
 		
 		if (file.getSize() > MAX_FILE_SIZE) {
-			errors.reject("file", "ExceededSize");
+			errors.rejectValue("file", "ExceededSize");
 			return;
 		}
 	}
@@ -62,6 +62,7 @@ public class UploadFileValidator implements Validator {
 		if(!mimeType.startsWith("image")) {
 			return false;
 		}
+		
 		return true;
 	}
 

@@ -39,7 +39,7 @@ public class BoardRestController {
 		log.info("{}", uploadFileDto);
 		
 		if (bindingResult.hasErrors()) {
-			throw new MethodArgumentNotValidException(null, bindingResult);
+			 throw new MethodArgumentNotValidException(null, bindingResult);
 		}
 		
 		// 업로드 
