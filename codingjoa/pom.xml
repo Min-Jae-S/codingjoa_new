@@ -252,11 +252,11 @@
 			<version>2.4.0</version>
 		</dependency>
 		
-		<!-- Tika -->
+		<!-- https://mvnrepository.com/artifact/org.apache.tika/tika-core -->
 		<dependency>
 		    <groupId>org.apache.tika</groupId>
 		    <artifactId>tika-core</artifactId>
-		    <version>1.14</version>
+		    <version>2.5.0</version>
 		</dependency>
 
 	</dependencies>

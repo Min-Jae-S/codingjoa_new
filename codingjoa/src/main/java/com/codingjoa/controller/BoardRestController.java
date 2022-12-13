@@ -37,17 +37,16 @@ public class BoardRestController {
 	@PostMapping("/uploadImage")
 	public ResponseEntity<Object> uploadImage(@ModelAttribute @Valid UploadFileDto uploadFileDto, 
 			BindingResult bindingResult) {
-//		List<MultipartFile> files = uploadFileDto.getFile();
-//		log.info("{}", files.size());
-//		
-//		files.forEach(file -> {
-//			log.info("originalFilename = {}", file.getOriginalFilename());
-//			log.info("contentType = {}", file.getContentType());
-//		});
 		
 		MultipartFile file = uploadFileDto.getFile();
 		log.info("originalFilename = {}", file.getOriginalFilename());
 		log.info("contentType = {}", file.getContentType());
+		
+		if (bindingResult.hasErrors()) {
+			bindingResult.getAllErrors().forEach(ObjectError -> {
+				log.info("{}", ObjectError.getCodes()[0]);
+			});
+		}
 		
 		return ResponseEntity.ok(SuccessResponse.create().message("success.uploadImage"));
 	}

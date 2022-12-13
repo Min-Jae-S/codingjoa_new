@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.apache.tika.Tika;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,6 +17,8 @@ import lombok.extern.slf4j.Slf4j;
 @Component(value = "uploadFileValidator")
 public class UploadFileValidator implements Validator {
 
+	private static long MAX_FILE_SIZE = 10 * 1024 * 1024;
+	
 	@Override
 	public boolean supports(Class<?> clazz) {
 		return UploadFileDto.class.isAssignableFrom(clazz);
@@ -29,22 +32,37 @@ public class UploadFileValidator implements Validator {
 		MultipartFile file = uploadFileDto.getFile();
 		
 		if (file.isEmpty()) {
-			//errors.rejectValue("boardContent", "NotExist");
-			//errors.reject("...");
-			log.info("file.getSize == 0");
+			errors.reject("Required");
 			return;
 		}
 		
 		Tika tika = new Tika();
-		String mimeTypeA = tika.detect(file.getOriginalFilename());
-		log.info("mimeType(detected by name) = {}", mimeTypeA);
-		
 		try {
-			String mimeTypeB = tika.detect(file.getInputStream());
-			log.info("mimeType(detected by input stream) = {}", mimeTypeB);
+			String mimeType = tika.detect(file.getInputStream());
+			
+			if (!isPermittedMimeType(mimeType)) {
+				errors.reject("InvalidType");
+				return;
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		if (file.getSize() > MAX_FILE_SIZE) {
+			errors.reject("ExceededSize");
+			return;
+		}
+	}
+	
+	private boolean isPermittedMimeType(String mimeType) {
+		if(!StringUtils.hasText(mimeType)) {
+			return false;
+		}
+		
+		if(!mimeType.startsWith("image")) {
+			return false;
+		}
+		return true;
 	}
 
 }
