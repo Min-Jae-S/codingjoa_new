@@ -109,6 +109,7 @@
 			placeholder: "내용을 입력하세요."
 		})
 		.then(editor => {
+			console.log("## CKEditor was initialized");
 			CKEditor = editor;
 		})
 		.catch(error => {
