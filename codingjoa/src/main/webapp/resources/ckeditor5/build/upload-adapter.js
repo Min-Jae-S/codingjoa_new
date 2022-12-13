@@ -19,6 +19,7 @@ class UploadAdapter {
 
     _initRequest() {
         const xhr = this.xhr = new XMLHttpRequest();
+        
         console.log("## _initRequest ##");
         console.log("xhr.readyState: " + xhr.readyState);
         
@@ -28,7 +29,7 @@ class UploadAdapter {
         // could be different.
         xhr.open('POST', getContextPath() + "/board/uploadImage", true);
         xhr.responseType = 'json';
-        
+
         console.log("## After xhr.open and xhr.responstType ##");
         console.log("xhr.readyState: " + xhr.readyState);
     }
@@ -44,10 +45,11 @@ class UploadAdapter {
         	const response = xhr.response;
         	const readyStatus = xhr.readyState;
         	const status = xhr.status;
+        	
         	console.log("## After load ##");
+        	console.log("xhr.readyState: " + readyStatus + "xhr.status: " + status);
+        	console.log("xhr.response: ");
         	console.log(response);
-	        console.log("xhr.readyState: " + readyStatus);
-	        console.log("xhr.status: " + status);
             
             if (status == "422") {
             	return reject(response.errorMap ? response.errorMap.file : genericErrorText);
