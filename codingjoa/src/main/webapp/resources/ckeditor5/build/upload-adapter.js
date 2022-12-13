@@ -20,7 +20,7 @@ class UploadAdapter {
     _initRequest() {
         const xhr = this.xhr = new XMLHttpRequest();
         
-        console.log("## _initRequest ##");
+        console.log("## _initRequest");
         console.log("xhr.readyState: " + xhr.readyState);
         
      	// Note that your request may look different. It is up to you and your editor
@@ -30,7 +30,7 @@ class UploadAdapter {
         xhr.open('POST', getContextPath() + "/board/uploadImage", true);
         xhr.responseType = 'json';
 
-        console.log("## After xhr.open and xhr.responstType ##");
+        console.log("## After xhr.open and xhr.responstType");
         console.log("xhr.readyState: " + xhr.readyState);
     }
 
@@ -47,7 +47,7 @@ class UploadAdapter {
         	const status = xhr.status;
         	
         	console.log("## After load ##");
-        	console.log("xhr.readyState: " + readyStatus + "xhr.status: " + status);
+        	console.log("xhr.readyState: " + readyStatus + ", xhr.status: " + status);
         	console.log("xhr.response: ");
         	console.log(response);
             
