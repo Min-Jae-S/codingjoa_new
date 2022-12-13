@@ -67,5 +67,4 @@ public class UploadFileValidator implements Validator {
 		
 		return true;
 	}
-
 }

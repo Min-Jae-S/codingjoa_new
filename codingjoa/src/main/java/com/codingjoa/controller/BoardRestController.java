@@ -36,7 +36,7 @@ public class BoardRestController {
 	@PostMapping("/uploadImage")
 	public ResponseEntity<Object> uploadImage(@ModelAttribute @Valid UploadFileDto uploadFileDto, 
 			BindingResult bindingResult) throws MethodArgumentNotValidException {
-		log.info("{}", uploadFileDto);
+		log.info("originalFilename = {}", uploadFileDto.getFile().getOriginalFilename());
 		
 		if (bindingResult.hasErrors()) {
 			 throw new MethodArgumentNotValidException(null, bindingResult);
@@ -44,7 +44,7 @@ public class BoardRestController {
 		
 		// 업로드 
 		
-		return ResponseEntity.ok(SuccessResponse.create().message("success.uploadImage"));
+		return ResponseEntity.ok(SuccessResponse.create().data("person.png"));
 	}
 	
 }
