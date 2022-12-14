@@ -42,7 +42,7 @@ public class BoardRestController {
 			 throw new MethodArgumentNotValidException(null, bindingResult);
 		}
 		
-		// 업로드 
+		// uploadService
 		
 		return ResponseEntity.ok(SuccessResponse.create().data("person.png"));
 	}
