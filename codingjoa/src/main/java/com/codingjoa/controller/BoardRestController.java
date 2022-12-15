@@ -1,5 +1,7 @@
 package com.codingjoa.controller;
 
+import java.io.File;
+
 import javax.annotation.Resource;
 import javax.validation.Valid;
 
@@ -62,7 +64,7 @@ public class BoardRestController {
 		log.info("uploadPath = {}", uploadPath);
 		log.info("uploadFilename = {}", uploadFilename);
 		
-		return ResponseEntity.ok(SuccessResponse.create().data(uploadPath + uploadFilename));
+		return ResponseEntity.ok(SuccessResponse.create().data(uploadPath + File.separator + uploadFilename));
 	}
 	
 }
