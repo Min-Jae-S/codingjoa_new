@@ -3,6 +3,7 @@ package com.codingjoa.controller;
 import javax.annotation.Resource;
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
@@ -17,6 +18,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.codingjoa.dto.UploadFileDto;
 import com.codingjoa.error.SuccessResponse;
+import com.codingjoa.service.BoardService;
+import com.codingjoa.util.UploadFileUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -24,6 +27,9 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/board")
 @RestController
 public class BoardRestController {
+	
+	@Autowired
+	private BoardService boardService;
 	
 	@Resource(name = "uploadFileValidator")
 	private Validator uploadFileValidator;
@@ -36,13 +42,18 @@ public class BoardRestController {
 	@PostMapping("/uploadImage")
 	public ResponseEntity<Object> uploadImage(@ModelAttribute @Valid UploadFileDto uploadFileDto, 
 			BindingResult bindingResult) throws MethodArgumentNotValidException {
-		log.info("originalFilename = {}", uploadFileDto.getFile().getOriginalFilename());
+		log.info("{}", uploadFileDto);
 		
 		if (bindingResult.hasErrors()) {
 			 throw new MethodArgumentNotValidException(null, bindingResult);
 		}
 		
-		// uploadService
+		MultipartFile file = uploadFileDto.getFile();
+		log.info("originalFilename = {}", file.getOriginalFilename());
+		log.info("contentType = {}", file.getContentType());
+		
+		String uploadFilename = UploadFileUtils.upload(file);
+		log.info("uploadFilename = {}", uploadFilename);
 		
 		return ResponseEntity.ok(SuccessResponse.create().data("person.png"));
 	}
