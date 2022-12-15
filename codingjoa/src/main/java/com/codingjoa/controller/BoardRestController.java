@@ -5,6 +5,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
@@ -25,6 +26,7 @@ import com.codingjoa.util.UploadFileUtils;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@PropertySource("/WEB-INF/properties/upload.properties")
 @RequestMapping("/board")
 @RestController
 public class BoardRestController {
@@ -53,10 +55,12 @@ public class BoardRestController {
 		}
 		
 		MultipartFile file = uploadFileDto.getFile();
-		log.info("originalFilename = {}, contentType = {}", file.getOriginalFilename(), file.getContentType());
+		log.info("originalFilename = {}", file.getOriginalFilename());
+		log.info("contentType = {}", file.getContentType());
 		
 		String uploadFilename = UploadFileUtils.upload(uploadPath, file);
-		log.info("uploadPath = {}, uploadFilename = {}", uploadPath, uploadFilename);
+		log.info("uploadPath = {}", uploadPath);
+		log.info("uploadFilename = {}", uploadFilename);
 		
 		return ResponseEntity.ok(SuccessResponse.create().data(uploadPath + uploadFilename));
 	}
