@@ -1,7 +1,6 @@
 package com.codingjoa.util;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.UUID;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -22,11 +21,11 @@ public class UploadFileUtils {
 		File uploadFile = new File(parentFolder, uploadFilename);
 		log.info("{}", uploadFile.getAbsolutePath());
 		
-//		try {
-//			file.transferTo(uploadFile);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
+		try {
+			file.transferTo(uploadFile);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 		return uploadFilename;
 	}
