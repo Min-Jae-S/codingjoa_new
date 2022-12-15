@@ -21,11 +21,11 @@ public class UploadFileUtils {
 		File uploadFile = new File(parentFolder, uploadFilename);
 		log.info("{}", uploadFile);
 		
-		try {
-			file.transferTo(uploadFile);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+//		try {
+//			file.transferTo(uploadFile);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
 		
 		return uploadFilename;
 	}
