@@ -20,7 +20,7 @@ public class UploadFileUtils {
 		
 		String uploadFilename = UUID.randomUUID() + "_" +  file.getOriginalFilename();
 		File uploadFile = new File(parentFolder, uploadFilename);
-		log.info("{}", uploadFile);
+		log.info("{}", uploadFile.getAbsolutePath());
 		
 //		try {
 //			file.transferTo(uploadFile);
