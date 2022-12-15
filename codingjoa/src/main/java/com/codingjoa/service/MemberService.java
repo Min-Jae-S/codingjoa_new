@@ -8,26 +8,26 @@ import com.codingjoa.dto.PasswordDto;
 
 public interface MemberService {
 
-	public void register(JoinDto joinDto); // member, auth
+	void register(JoinDto joinDto); // member, auth
 	
-	public boolean isIdExist(String memberId);
+	boolean isIdExist(String memberId);
 	
-	public boolean isEmailExist(String memberEmail);
+	boolean isEmailExist(String memberEmail);
 	
-	public void updateEmail(EmailAuthDto emailAuthDto, String memberId);
+	void updateEmail(EmailAuthDto emailAuthDto, String memberId);
 	
-	public void updateAddr(AddrDto addrDto, String memberId);
+	void updateAddr(AddrDto addrDto, String memberId);
 	
-	public boolean isMyEmail(String memberEmail, String memberId);
+	boolean isMyEmail(String memberEmail, String memberId);
 	
-	public void updateAgree(AgreeDto agreeDto, String memberId);
+	void updateAgree(AgreeDto agreeDto, String memberId);
 	
-	public boolean isMyPassword(String memberPassword, String memberId);
+	boolean isMyPassword(String memberPassword, String memberId);
 	
-	public void updatePassword(PasswordDto passwordDto, String memberId);
+	void updatePassword(PasswordDto passwordDto, String memberId);
 	
-	public String findAccount(EmailAuthDto emailAuthDto);
+	String findAccount(EmailAuthDto emailAuthDto);
 	
-	public boolean isAccountExist(String memberId, String memberEmail);
+	boolean isAccountExist(String memberId, String memberEmail);
 	
 }

@@ -9,11 +9,11 @@ import com.codingjoa.entity.Category;
 @Mapper
 public interface CategoryMapper {
 
-	public List<Category> findParentCategoryList();
+	List<Category> findParentCategoryList();
 	
-	public List<Category> findCategoryListByParent(int categoryParentCode);
+	List<Category> findCategoryListByParent(int categoryParentCode);
 	
-	public Category findCategory(int categoryCode);
+	Category findCategory(int categoryCode);
 	
-	public List<Category> findCategoryOfSameParent(int categoryParentCode); // Self Join
+	List<Category> findCategoryOfSameParent(int categoryParentCode); // Self Join
 }

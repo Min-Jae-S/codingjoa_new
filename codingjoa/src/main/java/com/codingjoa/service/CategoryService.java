@@ -6,11 +6,11 @@ import com.codingjoa.entity.Category;
 
 public interface CategoryService {
 	
-	public List<Category> findParentCategoryList();
+	List<Category> findParentCategoryList();
 	
-	public List<Category> findCategoryListByParent(int categoryParentCode);
+	List<Category> findCategoryListByParent(int categoryParentCode);
 	
-	public Category findCategory(int categoryCode);
+	Category findCategory(int categoryCode);
 	
-	public List<Category> findCategoryOfSameParent(int categoryCode);
+	List<Category> findCategoryOfSameParent(int categoryCode);
 }
