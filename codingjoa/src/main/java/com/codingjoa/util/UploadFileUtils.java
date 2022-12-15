@@ -6,7 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class UploadFileUtils {
 	
-	public static String upload(MultipartFile file) {
+	public static String upload(String uploadPath, MultipartFile file) {
 		String uploadFilename = UUID.randomUUID() + "_" +  file.getOriginalFilename();
 		
 		

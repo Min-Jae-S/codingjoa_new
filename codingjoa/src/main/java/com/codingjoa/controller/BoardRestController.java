@@ -4,6 +4,7 @@ import javax.annotation.Resource;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
@@ -34,6 +35,9 @@ public class BoardRestController {
 	@Resource(name = "uploadFileValidator")
 	private Validator uploadFileValidator;
 	
+	@Value("${upload.path}")
+	private String uploadPath;
+	
 	@InitBinder("uploadFileDto")
 	public void initBinderJoin(WebDataBinder binder) {
 		binder.addValidators(uploadFileValidator);
@@ -49,11 +53,10 @@ public class BoardRestController {
 		}
 		
 		MultipartFile file = uploadFileDto.getFile();
-		log.info("originalFilename = {}", file.getOriginalFilename());
-		log.info("contentType = {}", file.getContentType());
+		log.info("originalFilename = {}, contentType = {}", file.getOriginalFilename(), file.getContentType());
 		
-		String uploadFilename = UploadFileUtils.upload(file);
-		log.info("uploadFilename = {}", uploadFilename);
+		String uploadFilename = UploadFileUtils.upload(uploadPath, file);
+		log.info("uploadPath = {}, uploadFilename = {}", uploadPath, uploadFilename);
 		
 		return ResponseEntity.ok(SuccessResponse.create().data("person.png"));
 	}
