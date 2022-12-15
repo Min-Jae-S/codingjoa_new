@@ -58,7 +58,7 @@ public class BoardRestController {
 		String uploadFilename = UploadFileUtils.upload(uploadPath, file);
 		log.info("uploadPath = {}, uploadFilename = {}", uploadPath, uploadFilename);
 		
-		return ResponseEntity.ok(SuccessResponse.create().data("person.png"));
+		return ResponseEntity.ok(SuccessResponse.create().data(uploadPath + uploadFilename));
 	}
 	
 }
