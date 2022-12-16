@@ -2,7 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.codingjoa.mapper.BoardMapper">
 	
-	<insert id="insertUpload" parameterType="map">
+	<insert id="insertUpload" parameterType="upload">
+		<selectKey keyProperty="uploadIdx" resultType="int" order="BEFORE">
+			SELECT seq_upload.NEXTVAL FROM DUAL
+		</selectKey>
+		
 		INSERT INTO upload (
 			upload_idx,
 			upload_member_idx,
@@ -10,9 +14,9 @@
 			upload_use,
 			regdate
 		) VALUES (
-			seq_upload.NEXTVAL,
-			#{memberIdx},
-			#{uploadFilename},
+			#{uploadIdx},
+			#{uploadMemberIdx},
+			#{uploadFile},
 			#{uploadUse},
 			SYSDATE
 		)

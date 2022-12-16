@@ -4,13 +4,12 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.codingjoa.entity.Board;
+import com.codingjoa.entity.Upload;
 
 @Mapper
 public interface BoardMapper {
 	
-	void insertUpload(@Param("uploadFilename") String uploadFilename, 
-					  @Param("memberIdx") int memberIdx, 
-					  @Param("uploadUse") boolean uploadUse);
+	int insertUpload(Upload upload);
 	
 	void insertBoard(Board board);
 	

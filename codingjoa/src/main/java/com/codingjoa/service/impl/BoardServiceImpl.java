@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.codingjoa.dto.WriteBoardDto;
 import com.codingjoa.entity.Board;
+import com.codingjoa.entity.Upload;
 import com.codingjoa.mapper.BoardMapper;
 import com.codingjoa.service.BoardService;
 
@@ -23,8 +24,13 @@ public class BoardServiceImpl implements BoardService {
 	private ModelMapper modelMapper;
 	
 	@Override
-	public void uploadTempImage(String uploadFilename, int memberIdx) {
-		boardMapper.insertUpload(uploadFilename, memberIdx, false);
+	public int uploadTempImage(String uploadFilename, int memberIdx) {
+		Upload upload = new Upload();
+		upload.setUploadFile(uploadFilename);
+		upload.setUploadIdx(memberIdx);
+		upload.setUploadUse(false);
+		
+		return boardMapper.insertUpload(upload);
 	}
 
 	@Override
