@@ -1,5 +1,7 @@
 package com.codingjoa.controller;
 
+import java.util.HashMap;
+
 import javax.annotation.Resource;
 import javax.validation.Valid;
 
@@ -67,7 +69,11 @@ public class BoardRestController {
 		String returnUrl = uploadUrl + uploadFilename;
 		log.info("returnUrl = {}", returnUrl);	// 	/upload/6db5c891-4f87-432d-ba13-d912a21b09d3_profile.jpg
 		
-		return ResponseEntity.ok(SuccessResponse.create().data(returnUrl));
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("uploadIdx", uploadIdx);
+		map.put("returnUrl", returnUrl);
+		
+		return ResponseEntity.ok(SuccessResponse.create().data(map));
 	}
 	
 }
