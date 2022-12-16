@@ -6,5 +6,9 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface BoardMapper {
 	
-	void uploadTempImage(@Param("uploadFilename") String uploadFilename, @Param("memberIdx") int memberIdx);
+	void insertUpload(@Param("uploadFilename") String uploadFilename, 
+					  @Param("memberIdx") int memberIdx, 
+					  @Param("uploadUse") boolean uploadUse);
+	
+	
 }

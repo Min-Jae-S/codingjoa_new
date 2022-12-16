@@ -60,10 +60,15 @@ public class BoardRestController {
 		}
 		
 		String uploadFilename = UploadFileUtils.upload(uploadPath, uploadFileDto.getFile());
-		boardService.uploadTempImage(uploadFilename, principal.getMember().getMemberIdx());
+		log.info("uploadFilename = {}", uploadFilename);
+
+		int memberIdx = principal.getMember().getMemberIdx();
+		log.info("memberIdx = {}", memberIdx);
+		
+		boardService.uploadTempImage(uploadFilename, memberIdx);
 		
 		String returnUrl = uploadUrl + uploadFilename;
-		log.info("{}", returnUrl);	// 	/upload/6db5c891-4f87-432d-ba13-d912a21b09d3_profile.jpg
+		log.info("returnUrl = {}", returnUrl);	// 	/upload/6db5c891-4f87-432d-ba13-d912a21b09d3_profile.jpg
 		
 		return ResponseEntity.ok(SuccessResponse.create().data(returnUrl));
 	}
