@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.codingjoa.mapper.BoardMapper">
-
+	
+	<insert id="uploadTempImage" parameterType="map">
+		INSERT INTO upload (
+			upload_idx,
+			upload_memeber_idx,
+			upload_file,
+			upload_use,
+			regdate
+		) VALUES (
+			seq_upload.NEXTVAL,
+			#{uploadFilename},
+			#{memberIdx},
+			FALSE,
+			SYSDATE
+		)
+	</insert>
 
 </mapper>

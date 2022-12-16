@@ -11,6 +11,11 @@ public class BoardServiceImpl implements BoardService {
 
 	@Autowired
 	private BoardMapper boardMapper;
+
+	@Override
+	public void uploadTempImage(String uploadFilename, int memberIdx) {
+		boardMapper.uploadTempImage(uploadFilename, memberIdx);
+	}
 	
 	
 }

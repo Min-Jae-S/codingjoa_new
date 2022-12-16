@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.codingjoa.dto.UploadFileDto;
 import com.codingjoa.error.SuccessResponse;
+import com.codingjoa.security.dto.UserDetailsDto;
 import com.codingjoa.service.BoardService;
 import com.codingjoa.util.UploadFileUtils;
 
@@ -47,9 +49,10 @@ public class BoardRestController {
 		binder.addValidators(uploadFileValidator);
 	}
 	
-	@PostMapping("/uploadImage")
-	public ResponseEntity<Object> uploadImage(@ModelAttribute @Valid UploadFileDto uploadFileDto, 
-			BindingResult bindingResult) throws MethodArgumentNotValidException {
+	@PostMapping("/uploadTempImage")
+	public ResponseEntity<Object> uploadTempImage(@ModelAttribute @Valid UploadFileDto uploadFileDto, 
+			BindingResult bindingResult, @AuthenticationPrincipal UserDetailsDto principal) 
+					throws MethodArgumentNotValidException {
 		log.info("{}", uploadFileDto);
 		
 		if (bindingResult.hasErrors()) {
@@ -57,9 +60,10 @@ public class BoardRestController {
 		}
 		
 		String uploadFilename = UploadFileUtils.upload(uploadPath, uploadFileDto.getFile());
+		boardService.uploadTempImage(uploadFilename, principal.getMember().getMemberIdx());
 		
 		String returnUrl = uploadUrl + uploadFilename;
-		log.info("{}", returnUrl);	// /upload/ + 6db5c891-4f87-432d-ba13-d912a21b09d3_profile.jpg
+		log.info("{}", returnUrl);	// 	/upload/6db5c891-4f87-432d-ba13-d912a21b09d3_profile.jpg
 		
 		return ResponseEntity.ok(SuccessResponse.create().data(returnUrl));
 	}
