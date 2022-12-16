@@ -29,9 +29,11 @@
 			moddate
 		) VALUES (
 			seq_board.NEXTVAL,
-			#{memberIdx},
-			#{uploadFilename},
-			#{uploadUse},
+			#{boardTitle},
+			#{boardContent},
+			#{boardWriterIdx},
+			#{boardCategoryCode},
+			SYSDATE,
 			SYSDATE
 		)
 	

@@ -3,6 +3,7 @@ package com.codingjoa.controller;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.codingjoa.dto.WriteBoardDto;
+import com.codingjoa.security.dto.UserDetailsDto;
 import com.codingjoa.service.BoardService;
 import com.codingjoa.service.CategoryService;
 
@@ -49,12 +51,15 @@ public class BoardController {
 	}
 	
 	@GetMapping("/write")
-	public String write(@RequestParam("categoryCode") int categoryCode, 
-						@ModelAttribute WriteBoardDto writeBoardDto, Model model) {
+	public String write(@RequestParam("categoryCode") int categoryCode, @ModelAttribute WriteBoardDto writeBoardDto, 
+						@AuthenticationPrincipal UserDetailsDto principal, Model model) {
 		log.info("categoryCode = {}", categoryCode);
 		log.info("{}", writeBoardDto);
 		
+		writeBoardDto.setBoardWriterIdx(principal.getMember().getMemberIdx());
 		writeBoardDto.setBoardCategoryCode(categoryCode);
+		log.info("after set, {}", writeBoardDto);
+
 		model.addAttribute("categoryList", categoryService.findCategoryOfSameParent(categoryCode));
 		
 		return "board/write";
@@ -65,7 +70,7 @@ public class BoardController {
 							BindingResult bindingResult, Model model) {
 		log.info("{}", writeBoardDto);
 		
-		if(bindingResult.hasErrors()) {
+		if (bindingResult.hasErrors()) {
 			int categoryCode = writeBoardDto.getBoardCategoryCode();
 			model.addAttribute("categoryList", categoryService.findCategoryOfSameParent(categoryCode));
 			

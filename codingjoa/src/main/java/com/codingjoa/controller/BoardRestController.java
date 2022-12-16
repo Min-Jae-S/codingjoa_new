@@ -62,11 +62,10 @@ public class BoardRestController {
 		String uploadFilename = UploadFileUtils.upload(uploadPath, uploadFileDto.getFile());
 		log.info("uploadFilename = {}", uploadFilename);
 
-		//int memberIdx = principal.getMember().getMemberIdx();
-		//log.info("memberIdx = {}", memberIdx);
+		int memberIdx = principal.getMember().getMemberIdx();
+		log.info("memberIdx = {}", memberIdx);
 		
-		//boardService.uploadTempImage(uploadFilename, memberIdx);
-		boardService.uploadTempImage(uploadFilename, 41);
+		boardService.uploadTempImage(uploadFilename, memberIdx);
 		
 		String returnUrl = uploadUrl + uploadFilename;
 		log.info("returnUrl = {}", returnUrl);	// 	/upload/6db5c891-4f87-432d-ba13-d912a21b09d3_profile.jpg
