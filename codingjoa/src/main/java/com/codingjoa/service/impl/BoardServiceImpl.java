@@ -21,7 +21,7 @@ public class BoardServiceImpl implements BoardService {
 	
 	@Autowired
 	private ModelMapper modelMapper;
-
+	
 	@Override
 	public void uploadTempImage(String uploadFilename, int memberIdx) {
 		boardMapper.insertUpload(uploadFilename, memberIdx, false);
@@ -33,6 +33,8 @@ public class BoardServiceImpl implements BoardService {
 		log.info("{}", board);
 		
 		boardMapper.insertBoard(board);
+		
+		// upload_use: false --> true
 	}
 	
 	

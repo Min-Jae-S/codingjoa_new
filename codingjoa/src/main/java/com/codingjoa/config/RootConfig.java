@@ -4,6 +4,7 @@ import javax.sql.DataSource;
 
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Value;
@@ -72,11 +73,6 @@ public class RootConfig {
 	}
 	
 	@Bean
-	public ModelMapper modelMapper() {
-		return new ModelMapper();
-	}
-	
-	@Bean
 	public MessageSource messageSource() {
 		ReloadableResourceBundleMessageSource source = new ReloadableResourceBundleMessageSource();
 		source.setDefaultEncoding("UTF-8");
@@ -96,6 +92,14 @@ public class RootConfig {
 		messageUtils.setMessageSourceAccessor(messageSourceAccessor());
 		
 		return messageUtils;
+	}
+	
+	@Bean
+	public ModelMapper modelMapper() {
+		ModelMapper modelMapper = new ModelMapper();
+		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+		
+		return modelMapper;
 	}
 	
 	@Bean

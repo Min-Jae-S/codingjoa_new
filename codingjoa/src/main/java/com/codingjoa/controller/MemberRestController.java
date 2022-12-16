@@ -108,6 +108,7 @@ public class MemberRestController {
 		
 		String memberId = principal.getMember().getMemberId();
 		memberService.updateEmail(emailAuthDto, memberId);
+		
 		redisService.delete(emailAuthDto.getMemberEmail());
 		
 		resetAuthentication(memberId);
