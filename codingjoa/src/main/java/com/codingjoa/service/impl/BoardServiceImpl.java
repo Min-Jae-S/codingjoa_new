@@ -27,10 +27,13 @@ public class BoardServiceImpl implements BoardService {
 	public int uploadTempImage(String uploadFilename, int memberIdx) {
 		Upload upload = new Upload();
 		upload.setUploadFile(uploadFilename);
-		upload.setUploadIdx(memberIdx);
+		upload.setUploadMemberIdx(memberIdx);
 		upload.setUploadUse(false);
+		log.info("{}", upload);
 		
-		return boardMapper.insertUpload(upload);
+		boardMapper.insertUpload(upload);
+		
+		return upload.getUploadIdx();
 	}
 
 	@Override

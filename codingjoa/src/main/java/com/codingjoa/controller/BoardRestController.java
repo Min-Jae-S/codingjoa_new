@@ -60,6 +60,7 @@ public class BoardRestController {
 		}
 		
 		String uploadFilename = UploadFileUtils.upload(uploadPath, uploadFileDto.getFile());
+
 		int uploadIdx = boardService.uploadTempImage(uploadFilename, principal.getMember().getMemberIdx());
 		log.info("uploadIdx = {}", uploadIdx);
 		

@@ -1,7 +1,6 @@
 package com.codingjoa.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 
 import com.codingjoa.entity.Board;
 import com.codingjoa.entity.Upload;
