@@ -5,7 +5,7 @@
 	<insert id="insertUpload" parameterType="map">
 		INSERT INTO upload (
 			upload_idx,
-			upload_memeber_idx,
+			upload_member_idx,
 			upload_file,
 			upload_use,
 			regdate
