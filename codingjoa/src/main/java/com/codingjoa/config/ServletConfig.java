@@ -3,9 +3,11 @@ package com.codingjoa.config;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.web.multipart.MultipartResolver;
@@ -16,10 +18,14 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+@PropertySource("/WEB-INF/properties/upload.properties")
 @Configuration
 @EnableWebMvc
 @ComponentScan("com.codingjoa.controller")
 public class ServletConfig implements WebMvcConfigurer {
+	
+	@Value("${upload.path}")
+	private String uploadPath;
 
 	@Override
 	public void configureViewResolvers(ViewResolverRegistry registry) {
@@ -30,9 +36,10 @@ public class ServletConfig implements WebMvcConfigurer {
 
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		// TODO Auto-generated method stub
-		WebMvcConfigurer.super.addResourceHandlers(registry);
-		registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
+		registry.addResourceHandler("/resources/**")
+				.addResourceLocations("/resources/");
+		registry.addResourceHandler("/upload/**")
+				.addResourceLocations("file:///" + uploadPath);
 	}
 
 	@Override

@@ -1,7 +1,5 @@
 package com.codingjoa.controller;
 
-import java.io.File;
-
 import javax.annotation.Resource;
 import javax.validation.Valid;
 
@@ -18,7 +16,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.codingjoa.dto.UploadFileDto;
 import com.codingjoa.error.SuccessResponse;
@@ -42,6 +39,9 @@ public class BoardRestController {
 	@Value("${upload.path}")
 	private String uploadPath;
 	
+	@Value("${upload.url}")
+	private String uploadUrl;
+	
 	@InitBinder("uploadFileDto")
 	public void initBinderJoin(WebDataBinder binder) {
 		binder.addValidators(uploadFileValidator);
@@ -56,15 +56,11 @@ public class BoardRestController {
 			 throw new MethodArgumentNotValidException(null, bindingResult);
 		}
 		
-		MultipartFile file = uploadFileDto.getFile();
-		log.info("originalFilename = {}", file.getOriginalFilename());
-		log.info("contentType = {}", file.getContentType());
+		String uploadFilename = UploadFileUtils.upload(uploadPath, uploadFileDto.getFile());
+		log.info("uploadPath = {}", uploadPath);			//	C:/Portpolio/upload/
+		log.info("uploadFilename = {}", uploadFilename);	//	6db5c891-4f87-432d-ba13-d912a21b09d3_profile.jpg
 		
-		String uploadFilename = UploadFileUtils.upload(uploadPath, file);
-		log.info("uploadPath = {}", uploadPath);
-		log.info("uploadFilename = {}", uploadFilename);
-		
-		return ResponseEntity.ok(SuccessResponse.create().data(uploadPath + File.separator + uploadFilename));
+		return ResponseEntity.ok(SuccessResponse.create().data(uploadUrl + uploadFilename));
 	}
 	
 }
