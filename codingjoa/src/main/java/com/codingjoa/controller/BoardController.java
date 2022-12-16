@@ -51,15 +51,12 @@ public class BoardController {
 	}
 	
 	@GetMapping("/write")
-	public String write(@RequestParam("categoryCode") int categoryCode, @ModelAttribute WriteBoardDto writeBoardDto, 
-						@AuthenticationPrincipal UserDetailsDto principal, Model model) {
+	public String write(@RequestParam("categoryCode") int categoryCode, 
+						@ModelAttribute WriteBoardDto writeBoardDto, Model model) {
 		log.info("categoryCode = {}", categoryCode);
 		log.info("{}", writeBoardDto);
 		
-		writeBoardDto.setBoardWriterIdx(principal.getMember().getMemberIdx());
 		writeBoardDto.setBoardCategoryCode(categoryCode);
-		log.info("after set, {}", writeBoardDto);
-
 		model.addAttribute("categoryList", categoryService.findCategoryOfSameParent(categoryCode));
 		
 		return "board/write";
@@ -67,7 +64,7 @@ public class BoardController {
 	
 	@PostMapping("/writeProc")
 	public String writeProc(@ModelAttribute @Valid WriteBoardDto writeBoardDto, 
-							BindingResult bindingResult, Model model) {
+			BindingResult bindingResult, @AuthenticationPrincipal UserDetailsDto principal, Model model) {
 		log.info("{}", writeBoardDto);
 		
 		if (bindingResult.hasErrors()) {
@@ -76,6 +73,10 @@ public class BoardController {
 			
 			return "board/write";
 		}
+		
+		int boardWriterIdx = principal.getMember().getMemberIdx();
+		writeBoardDto.setBoardWriterIdx(boardWriterIdx);
+		log.info("{}", writeBoardDto);
 		
 		boardService.writeBoard(writeBoardDto);
 		
