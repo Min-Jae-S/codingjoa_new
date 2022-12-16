@@ -15,6 +15,9 @@ import com.codingjoa.entity.Member;
 import com.codingjoa.mapper.MemberMapper;
 import com.codingjoa.service.MemberService;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 //@Transactional
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -35,6 +38,8 @@ public class MemberServiceImpl implements MemberService {
 		joinDto.setMemberPassword(encPassword);
 		
 		Member member = modelMapper.map(joinDto, Member.class);
+		log.info("{}", member);
+		
 		memberMapper.registerMember(member);
 		
 		Auth auth = new Auth();

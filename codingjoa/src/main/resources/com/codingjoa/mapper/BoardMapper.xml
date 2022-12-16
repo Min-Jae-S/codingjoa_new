@@ -17,5 +17,24 @@
 			SYSDATE
 		)
 	</insert>
+	
+	<insert id="insertBoard" parameterType="board">
+		INSERT INTO board (
+			board_idx,
+			board_title,
+			board_content,
+			board_writer_idx,
+			board_category_code,
+			regdate,
+			moddate
+		) VALUES (
+			seq_board.NEXTVAL,
+			#{memberIdx},
+			#{uploadFilename},
+			#{uploadUse},
+			SYSDATE
+		)
+	
+	</insert>
 
 </mapper>

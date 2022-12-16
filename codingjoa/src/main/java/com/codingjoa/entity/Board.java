@@ -27,6 +27,6 @@ public class Board {
 	private Integer boardViews;
 	private Integer boardCategoryCode;
 	private Date regdate;
-	private Date modddate;
+	private Date moddate;
 	
 }
