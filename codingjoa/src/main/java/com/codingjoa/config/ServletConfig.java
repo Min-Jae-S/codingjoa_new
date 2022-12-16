@@ -18,9 +18,9 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-@PropertySource("/WEB-INF/properties/upload.properties")
 @Configuration
 @EnableWebMvc
+@PropertySource("/WEB-INF/properties/upload.properties")
 @ComponentScan("com.codingjoa.controller")
 public class ServletConfig implements WebMvcConfigurer {
 	

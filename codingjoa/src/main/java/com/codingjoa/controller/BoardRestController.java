@@ -58,6 +58,7 @@ public class BoardRestController {
 		
 		String uploadFilename = UploadFileUtils.upload(uploadPath, uploadFileDto.getFile());
 		log.info("uploadPath = {}", uploadPath);			//	C:/Portpolio/upload/
+		log.info("uploadUrl = {}", uploadUrl);				//	/upload/
 		log.info("uploadFilename = {}", uploadFilename);	//	6db5c891-4f87-432d-ba13-d912a21b09d3_profile.jpg
 		
 		return ResponseEntity.ok(SuccessResponse.create().data(uploadUrl + uploadFilename));
