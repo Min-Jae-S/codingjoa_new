@@ -110,23 +110,19 @@
 		})
 		.then(editor => {
 			CKEditor = editor;
-			console.log("## editor was initialized");
+			console.log("## Editor was initialized");
 			
 			CKEditor.plugins.get("ImageUploadEditing").on("uploadComplete", (evt, {data, imageElement}) => {
-				console.log("## upload completed");
-				console.log("1. imageElement: ");
-				console.log(imageElement);
-				console.log("2. idx: " + data.idx);
+				console.log("## Upload completed");
+				console.log("1. idx: " + data.idx);
 				
 				// https://ckeditor.com/docs/ckeditor5/latest/api/module_image_imageupload_imageuploadediting-ImageUploadEditing.html#event-uploadComplete
 				CKEditor.model.change(writer => {
-					console.log("3. hasAttribute: " + imageElement.hasAttribute("idx"));
-					console.log("4. getAttribute: " + imageElement.getAttribute("idx"));
+					console.log("2. Before set attribute");
+					console.log("3. getAttribute('idx'): " + imageElement.getAttribute("idx"));
 					writer.setAttribute("idx",  data.idx, imageElement);
-					console.log("5. after set attribute, imageElement: ");
-					console.log(imageElement);
-					console.log("6. hasAttribute: " + imageElement.hasAttribute("idx"));
-					console.log("7. getAttribute: " + imageElement.getAttribute("idx"));
+					console.log("4. After set attribute");
+					console.log("5. getAttribute('idx'): " + imageElement.getAttribute("idx"));
 				});
 			});
 		})
@@ -151,10 +147,7 @@
 
 		$("#writeBtn").on("click", function(e) {
 			e.preventDefault();
-			console.log("writeBtn clicked");
 		});
-		
-		
 		
 		
 	});
