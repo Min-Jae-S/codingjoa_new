@@ -46,7 +46,7 @@ class UploadAdapter {
         	const readyStatus = xhr.readyState;
         	const status = xhr.status;
         	
-        	console.log("## After load ##");
+        	console.log("## After load");
         	console.log("xhr.readyState: " + readyStatus + ", xhr.status: " + status);
         	console.log("xhr.response: ");
         	console.log(response);
@@ -69,9 +69,9 @@ class UploadAdapter {
             // UploadAdapter#upload documentation.
             resolve({
             	urls: {
-            		default: getContextPath() + response.data.returnUrl
+            		default: response.data.returnUrl,
             	},
-            	uploadIdx: response.data.returnUrl
+            	idx: response.data.uploadIdx
             });
         });
     }

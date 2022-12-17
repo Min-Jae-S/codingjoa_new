@@ -109,8 +109,22 @@
 			placeholder: "내용을 입력하세요."
 		})
 		.then(editor => {
-			console.log("## CKEditor was initialized");
 			CKEditor = editor;
+			console.log("## editor was initialized");
+			
+			const imageUploadEditing = CKEditor.plugins.get("ImageUploadEditing");
+			
+			imageUploadEditing.on('uploadComplete', (event, {data, imageElement}) => {
+				console.log("## upload completed");
+				console.log("urls.default: " + data.urls.default);
+				console.log("idx: " + data.idx);
+				
+				CKEditor.model.change(writer => {
+					writer.setAttribute( 'someAttribute', 'foo', imageElement );
+					/* writer.setAttribute("src", "${contextPath}" + data.urls.default, imageElement);
+					writer.setAttribute('data-idx', data.idx, imageElement); */
+				});
+			});
 		})
 		.catch(error => {
 			console.error(error);
@@ -123,6 +137,8 @@
 			$("form")[0].reset();
 			CKEditor.setData("");
 		});
+		
+		
 	});
 	
 	function UploadAdapterPlugin(editor) {
