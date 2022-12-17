@@ -30,8 +30,8 @@ class UploadAdapter {
         xhr.open('POST', getContextPath() + "/board/uploadTempImage", true);
         xhr.responseType = 'json';
 
-        console.log("3 After xhr.open and xhr.responstType");
-        console.log("2. xhr.readyState: " + xhr.readyState);
+        console.log("2. After open xhr and set responstType");
+        console.log("3. xhr.readyState: " + xhr.readyState);
     }
 
     _initListeners(resolve, reject, file) {
@@ -73,7 +73,7 @@ class UploadAdapter {
             	urls: {
             		default: getContextPath() + response.data.returnUrl
             	},
-            	idx: response.data.uploadIdx
+            	uploadIdx: response.data.uploadIdx
             });
         });
     }
