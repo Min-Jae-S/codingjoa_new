@@ -116,7 +116,7 @@
 			
 			imageUploadEditing.on('uploadComplete', (event, {data, imageElement}) => {
 				console.log("## upload completed");
-				console.log("urls.default: " + data.urls.default);
+				console.log("url: " + data.url);
 				console.log("idx: " + data.idx);
 				
 				CKEditor.model.change(writer => {

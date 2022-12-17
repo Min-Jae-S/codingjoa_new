@@ -68,9 +68,8 @@ class UploadAdapter {
             // This URL will be used to display the image in the content. Learn more in the
             // UploadAdapter#upload documentation.
             resolve({
-            	urls: {
-            		default: response.data.returnUrl,
-            	},
+            	// https://ckeditor.com/docs/ckeditor5/latest/framework/guides/deep-dive/upload-adapter.html
+            	url: response.data.returnUrl,
             	idx: response.data.uploadIdx
             });
         });
