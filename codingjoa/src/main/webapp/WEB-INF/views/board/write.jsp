@@ -112,16 +112,14 @@
 			CKEditor = editor;
 			console.log("## editor was initialized");
 			
-			const imageUploadEditing = CKEditor.plugins.get("ImageUploadEditing");
-			
-			imageUploadEditing.on('uploadComplete', (event, {data, imageElement}) => {
+			CKEditor.plugins.get("ImageUploadEditing").on("uploadComplete", (evt, {data, imageElement}) => {
 				console.log("## upload completed");
-				console.log("uploadIdx: " + data.uploadIdx);
+				console.log("url: " + data.url);
+				console.log("idx: " + data.idx);
 				
 				// https://ckeditor.com/docs/ckeditor5/latest/api/module_image_imageupload_imageuploadediting-ImageUploadEditing.html#event-uploadComplete
-				// writer object ?
 				CKEditor.model.change(writer => {
-					writer.setAttribute( 'someAttribute', 'foo', imageElement );
+					writer.setAttribute("src",  data.url, imageElement);
 				});
 			});
 		})
