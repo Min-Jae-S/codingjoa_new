@@ -111,6 +111,19 @@
 		.then(editor => {
 			CKEditor = editor;
 			console.log("## editor was initialized");
+			
+			const imageUploadEditing = CKEditor.plugins.get("ImageUploadEditing");
+			
+			imageUploadEditing.on('uploadComplete', (event, {data, imageElement}) => {
+				console.log("## upload completed");
+				console.log("uploadIdx: " + data.uploadIdx);
+				
+				// https://ckeditor.com/docs/ckeditor5/latest/api/module_image_imageupload_imageuploadediting-ImageUploadEditing.html#event-uploadComplete
+				// writer object ?
+				CKEditor.model.change(writer => {
+					writer.setAttribute( 'someAttribute', 'foo', imageElement );
+				});
+			});
 		})
 		.catch(error => {
 			console.error(error);
@@ -123,13 +136,7 @@
 	}
 	
 	$(function() {
-		const imageUploadEditing = CKEditor.plugins.get("ImageUploadEditing");
-		
-		imageUploadEditing.on('uploadComplete', (event, {data, imageElement}) => {
-			console.log("## upload completed");
-			console.log("uploadIdx: " + data.uploadIdx);
-		});
-		
+		// https://ckeditor.com/docs/ckeditor5/latest/api/module_image_imageupload_imageuploadui-ImageUploadUI.html
 		$("input[type='file']").removeAttr("accept"); /*.removeAttr("multiple");*/
 		
 		$("#resetBtn").on("click", function() {
