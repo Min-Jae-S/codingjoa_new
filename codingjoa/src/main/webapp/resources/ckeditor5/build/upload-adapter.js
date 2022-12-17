@@ -20,8 +20,8 @@ class UploadAdapter {
     _initRequest() {
         const xhr = this.xhr = new XMLHttpRequest();
         
-        console.log("## _initRequest");
-        console.log("xhr.readyState: " + xhr.readyState);
+        console.log("## _initRequest called");
+        console.log("1. xhr.readyState: " + xhr.readyState);
         
      	// Note that your request may look different. It is up to you and your editor
         // integration to choose the right communication channel. This example uses
@@ -30,8 +30,8 @@ class UploadAdapter {
         xhr.open('POST', getContextPath() + "/board/uploadTempImage", true);
         xhr.responseType = 'json';
 
-        console.log("## After xhr.open and xhr.responstType");
-        console.log("xhr.readyState: " + xhr.readyState);
+        console.log("2. After xhr.open and xhr.responstType");
+        console.log("3. xhr.readyState: " + xhr.readyState);
     }
 
     _initListeners(resolve, reject, file) {
@@ -47,8 +47,8 @@ class UploadAdapter {
         	const status = xhr.status;
         	
         	console.log("## After load");
-        	console.log("xhr.readyState: " + readyStatus + ", xhr.status: " + status);
-        	console.log("xhr.response: ");
+        	console.log("1. xhr.readyState: " + readyStatus + ", xhr.status: " + status);
+        	console.log("2. xhr.response: ");
         	console.log(response);
             
             if (status == "422") {
@@ -69,7 +69,9 @@ class UploadAdapter {
             // UploadAdapter#upload documentation.
             resolve({
             	// https://ckeditor.com/docs/ckeditor5/latest/framework/guides/deep-dive/upload-adapter.html
-            	url: getContextPath() + response.data.returnUrl,
+            	urls: {
+            		default: getContextPath() + response.data.returnUrl
+            	},
             	idx: response.data.uploadIdx
             });
         });

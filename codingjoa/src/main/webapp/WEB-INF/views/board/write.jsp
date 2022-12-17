@@ -69,7 +69,7 @@
 							</form:select>
 						</div>
 						<div class="form-group col-md-2">
-							<form:button class="btn btn-primary btn-block">등록</form:button>
+							<form:button class="btn btn-primary btn-block" id="writeBtn">등록</form:button>
 						</div>
 						<div class="form-group col-md-2">
 							<button type="button" class="btn btn-secondary btn-block" id="resetBtn">취소</button>
@@ -114,12 +114,19 @@
 			
 			CKEditor.plugins.get("ImageUploadEditing").on("uploadComplete", (evt, {data, imageElement}) => {
 				console.log("## upload completed");
-				console.log("url: " + data.url);
-				console.log("idx: " + data.idx);
+				console.log("1. imageElement: ");
+				console.log(imageElement);
+				console.log("2. idx: " + data.idx);
 				
 				// https://ckeditor.com/docs/ckeditor5/latest/api/module_image_imageupload_imageuploadediting-ImageUploadEditing.html#event-uploadComplete
 				CKEditor.model.change(writer => {
-					writer.setAttribute("src",  data.url, imageElement);
+					console.log("3. hasAttribute: " + imageElement.hasAttribute("idx"));
+					console.log("4. getAttribute: " + imageElement.getAttribute("idx"));
+					writer.setAttribute("idx",  data.idx, imageElement);
+					console.log("5. after set attribute, imageElement: ");
+					console.log(imageElement);
+					console.log("6. hasAttribute: " + imageElement.hasAttribute("idx"));
+					console.log("7. getAttribute: " + imageElement.getAttribute("idx"));
 				});
 			});
 		})
@@ -128,7 +135,7 @@
 		});
 	
 	function UploadAdapterPlugin(editor) {
-	    editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
+	    editor.plugins.get("FileRepository").createUploadAdapter = (loader) => {
 	        return new UploadAdapter(loader);
 	    };
 	}
@@ -141,6 +148,14 @@
 			$("form")[0].reset();
 			CKEditor.setData("");
 		});
+
+		$("#writeBtn").on("click", function(e) {
+			e.preventDefault();
+			console.log("writeBtn clicked");
+		});
+		
+		
+		
 		
 	});
 </script>
