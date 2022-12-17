@@ -111,26 +111,25 @@
 		.then(editor => {
 			CKEditor = editor;
 			console.log("## editor was initialized");
-			
-			const imageUploadEditing = CKEditor.plugins.get("ImageUploadEditing");
-			
-			imageUploadEditing.on('uploadComplete', (event, {data, imageElement}) => {
-				console.log("## upload completed");
-				console.log("url: " + data.url);
-				console.log("idx: " + data.idx);
-				
-				CKEditor.model.change(writer => {
-					writer.setAttribute( 'someAttribute', 'foo', imageElement );
-					/* writer.setAttribute("src", "${contextPath}" + data.urls.default, imageElement);
-					writer.setAttribute('data-idx', data.idx, imageElement); */
-				});
-			});
 		})
 		.catch(error => {
 			console.error(error);
 		});
 	
+	function UploadAdapterPlugin(editor) {
+	    editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
+	        return new UploadAdapter(loader);
+	    };
+	}
+	
 	$(function() {
+		const imageUploadEditing = CKEditor.plugins.get("ImageUploadEditing");
+		
+		imageUploadEditing.on('uploadComplete', (event, {data, imageElement}) => {
+			console.log("## upload completed");
+			console.log("uploadIdx: " + data.uploadIdx);
+		});
+		
 		$("input[type='file']").removeAttr("accept"); /*.removeAttr("multiple");*/
 		
 		$("#resetBtn").on("click", function() {
@@ -138,14 +137,7 @@
 			CKEditor.setData("");
 		});
 		
-		
 	});
-	
-	function UploadAdapterPlugin(editor) {
-	    editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
-	        return new UploadAdapter(loader);
-	    };
-	}
 </script>
 
 </body>
