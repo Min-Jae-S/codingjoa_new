@@ -6,19 +6,17 @@ import lombok.Data;
 
 /*
 	upload_idx              NUMBER,
-	upload_member_idx       NUMBER              NOT NULL,
+	upload_board_idx        NUMBER              NULL,
 	upload_file             VARCHAR2(500)       NOT NULL,
-    upload_use              CHAR(1)             NOT NULL,
-	regdate                 DATE                NOT NULL, 
+	regdate                 DATE                NOT NULL,
 */
 
 @Data
 public class Upload {
 	
 	private Integer uploadIdx;
-	private Integer uploadMemberIdx;
+	private Integer uploadBoardIdx;
 	private String uploadFile;
-	private Boolean uploadUse;
 	private Date regdate;
 	
 }

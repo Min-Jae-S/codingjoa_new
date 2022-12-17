@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -22,7 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.codingjoa.dto.UploadFileDto;
 import com.codingjoa.error.SuccessResponse;
-import com.codingjoa.security.dto.UserDetailsDto;
 import com.codingjoa.service.BoardService;
 import com.codingjoa.util.UploadFileUtils;
 
@@ -53,8 +51,7 @@ public class BoardRestController {
 	
 	@PostMapping("/uploadTempImage")
 	public ResponseEntity<Object> uploadTempImage(@ModelAttribute @Valid UploadFileDto uploadFileDto, 
-			BindingResult bindingResult, @AuthenticationPrincipal UserDetailsDto principal) 
-					throws MethodArgumentNotValidException {
+			BindingResult bindingResult) throws MethodArgumentNotValidException {
 		log.info("{}", uploadFileDto);
 		
 		if (bindingResult.hasErrors()) {
@@ -63,7 +60,7 @@ public class BoardRestController {
 		
 		String uploadFilename = UploadFileUtils.upload(uploadPath, uploadFileDto.getFile());
 
-		int uploadIdx = boardService.uploadTempImage(uploadFilename, principal.getMember().getMemberIdx());
+		int uploadIdx = boardService.uploadTempImage(uploadFilename);
 		log.info("uploadIdx = {}", uploadIdx);
 		
 		String returnUrl = uploadUrl + uploadFilename;

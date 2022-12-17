@@ -9,15 +9,13 @@
 		
 		INSERT INTO upload (
 			upload_idx,
-			upload_member_idx,
+			upload_board_idx,
 			upload_file,
-			upload_use,
 			regdate
 		) VALUES (
 			#{uploadIdx},
-			#{uploadMemberIdx},
+			#{uploadBoardIdx},
 			#{uploadFile},
-			#{uploadUse},
 			SYSDATE
 		)
 	</insert>
@@ -40,7 +38,6 @@
 			SYSDATE,
 			SYSDATE
 		)
-	
 	</insert>
 
 </mapper>

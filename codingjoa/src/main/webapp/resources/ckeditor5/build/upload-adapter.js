@@ -68,7 +68,10 @@ class UploadAdapter {
             // This URL will be used to display the image in the content. Learn more in the
             // UploadAdapter#upload documentation.
             resolve({
-            	default : getContextPath() + response.data.returnUrl
+            	urls: {
+            		default: getContextPath() + response.data.returnUrl
+            	},
+            	uploadIdx: response.data.returnUrl
             });
         });
     }

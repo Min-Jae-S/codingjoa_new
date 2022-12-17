@@ -24,12 +24,9 @@ public class BoardServiceImpl implements BoardService {
 	private ModelMapper modelMapper;
 	
 	@Override
-	public int uploadTempImage(String uploadFilename, int memberIdx) {
+	public int uploadTempImage(String uploadFilename) {
 		Upload upload = new Upload();
 		upload.setUploadFile(uploadFilename);
-		upload.setUploadMemberIdx(memberIdx);
-		upload.setUploadUse(false);
-		log.info("{}", upload);
 		
 		boardMapper.insertUpload(upload);
 		

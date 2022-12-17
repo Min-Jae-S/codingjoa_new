@@ -4,7 +4,7 @@ import com.codingjoa.dto.WriteBoardDto;
 
 public interface BoardService {
 	
-	int uploadTempImage(String uploadFilename, int memberIdx);
+	int uploadTempImage(String uploadFilename);
 	
 	void writeBoard(WriteBoardDto writeBoardDto);
 }
