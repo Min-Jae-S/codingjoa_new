@@ -112,6 +112,41 @@
 			console.log("## Editor initialize");
 			myEditor = editor;
 			
+			// https://github.com/ckeditor/ckeditor5/issues/5204
+			console.log("## Allow attribute");
+			myEditor.model.schema.extend("imageBlock", { allowAttributes: "dataIdx" });
+			myEditor.model.schema.extend("imageInline", { allowAttributes: "dataIdx" });
+			
+			console.log("## view-to-model converter");
+			myEditor.conversion.for("upcast").attributeToAttribute({
+	            view: "data-idx",
+	            model: "dataIdx"
+	        });
+			
+			console.log("## model-to-view converter");
+			myEditor.conversion.for("downcast").add(dispatcher => { // downcastDispatcher
+	            dispatcher.on("attribute:dataIdx", (evt, data, conversionApi) => {
+	            	console.log(data);
+	            	
+	            	if (!data.item.name.startsWith("image")) { // convert imageBlock, imageInline only
+	            		console.log("not image --> return");
+	            		return;
+	            	}
+	            	
+	                const viewWriter = conversionApi.writer;
+	                const figure = conversionApi.mapper.toViewElement(data.item);
+	                const img = figure.getChild(0);
+	                
+	                console.log(viewWriter);
+	                
+	                if (data.attributeNewValue) {
+	                	viewWriter.setAttribute("data-idx", data.attributeNewValue, img);
+	                } else {
+	                	viewWriter.removeAttribute("data-idx", img);
+	                }
+	            });
+	        });
+			
 			myEditor.plugins.get("ImageUploadEditing").on("uploadComplete", (evt, {data, imageElement}) => {
 				console.log("## Upload completed");
 
@@ -121,9 +156,6 @@
 					writer.setAttribute("src", "${contextPath}" + data.url, imageElement);
 					writer.setAttribute("dataIdx", data.idx, imageElement);
 				});
-				
-				allowAttirubute(myEditor, "dataIdx");
-				convertAttribute(myEditor, "dataIdx", "data-idx");
 			});
 		})
 		.catch(error => {
@@ -141,45 +173,38 @@
 		const schema = editor.model.schema;
 		
 		// https://github.com/ckeditor/ckeditor5/issues/5204
-		schema.extend("imageBlock", { allowAttributes: attribute });
-		schema.extend("imageInline", { allowAttributes: attribute });
+		schema.extend("imageBlock", { allowAttributes: "dataIdx" });
+		schema.extend("imageInline", { allowAttributes: "dataIdx" });
 	}
 	
 	function convertAttribute(editor, oldAttribute, newAttribute) {
-		console.log("## Convert Attribute: " + oldAttribute + " -> " + newAttribute);
+		console.log("## Convert Attribute: " + oldAttribute + " --> " + newAttribute);
 		
 		editor.conversion.for("upcast").attributeToAttribute({
             view: newAttribute,
             model: oldAttribute
         });
 
-		/* editor.conversion.for("downcast").add(dispatcher => { // downcastDispatcher
-            dispatcher.on("attribute:" + oldAttribute + ":imageBlock", (evt, data, conversionApi) => {
-            	if (!conversionApi.consumable.consume(data.item, evt.name)) {
-                    return;
-                }
+		editor.conversion.for("downcast").add(dispatcher => { // downcastDispatcher
+            dispatcher.on("attribute", (evt, data, conversionApi) => {
+            	console.log(data);
+            	
+            	if (!data.item.name.startsWith("image")) { // imageBlock, imageInline
+            		return;
+            	}
 			
                 const viewWriter = conversionApi.writer;
                 const figure = conversionApi.mapper.toViewElement(data.item);
-                const img = figure.getChild(0);
-
-                viewWriter.setAttribute(newAttribute, data.attributeNewValue, img);
-            });
-        }); */
-
-		editor.conversion.for("downcast").add(dispatcher => { // downcastDispatcher
-            dispatcher.on("attribute:" + oldAttribute + ":imageInline", (evt, data, conversionApi) => {
-            	if (!conversionApi.consumable.consume(data.item, evt.name)) {
-                    return;
-                }
-			
-           	 	const viewWriter = conversionApi.writer;
-                const figure = conversionApi.mapper.toViewElement(data.item);
+                console.log(figure);
+                
                 const img = figure.getChild(0);
                 
-                viewWriter.setAttribute(newAttribute, data.attributeNewValue, img);
+                if (data.attributeNewValue) {
+                	viewWriter.setAttribute(data.attributeKey, data.attributeNewValue, img);
+                }
             });
         });
+
 	}
 	
 	$(function() {
@@ -191,7 +216,7 @@
 			$("#writeBoardDto").trigger("reset");
 			myEditor.setData("");
 		});
-
+		
 		$("#writeBtn").on("click", function(e) {
 			e.preventDefault();
 			let form = $("#writeBoardDto");
@@ -205,7 +230,8 @@
 				form.append(input);
 			});
 			
-			/* const range = myEditor.model.createRangeIn(myEditor.model.document.getRoot());
+			/*
+			const range = myEditor.model.createRangeIn(myEditor.model.document.getRoot());
 			for (const value of range.getWalker({ ignoreElementEnd: true })) {
 				// value --> TreeWalker instance
 				// Position iterator class. It allows to iterate forward and backward over the document.
@@ -220,8 +246,12 @@
 			    let input = $("<input>").attr("type", "hidden").attr("name", "uploadIdxList");
 				input.val(value.item.getAttribute("dataIdx"));
 				form.append(input);
-			} */
+			}
+			*/
+			
 			console.log(myEditor.getData());
+			return;
+			
 			//form.submit();
 		});
 	});
