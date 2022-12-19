@@ -93,7 +93,7 @@
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 
 <script>
-	var CKEditor;
+	let myEditor;
 	
 	ClassicEditor
 		.create(document.querySelector("#boardContent"), {
@@ -110,20 +110,20 @@
 		})
 		.then(editor => {
 			console.log("## Editor initialize");
-			CKEditor = editor;
+			myEditor = editor;
 			
-			CKEditor.plugins.get("ImageUploadEditing").on("uploadComplete", (evt, {data, imageElement}) => {
+			myEditor.plugins.get("ImageUploadEditing").on("uploadComplete", (evt, {data, imageElement}) => {
 				console.log("## Upload completed");
 
 				// https://ckeditor.com/docs/ckeditor5/latest/api/module_image_imageupload_imageuploadediting-ImageUploadEditing.html#event-uploadComplete
-				CKEditor.model.change(writer => {
+				myEditor.model.change(writer => {
 					evt.stop();
 					writer.setAttribute("src", "${contextPath}" + data.url, imageElement);
 					writer.setAttribute("dataIdx", data.idx, imageElement);
 				});
 				
-				allowAttirubute(CKEditor, "dataIdx");
-				convertAttribute(CKEditor, "dataIdx", "data-idx");
+				allowAttirubute(myEditor, "dataIdx");
+				convertAttribute(myEditor, "dataIdx", "data-idx");
 			});
 		})
 		.catch(error => {
@@ -143,6 +143,10 @@
 		editor.model.schema.extend("imageBlock", { 
 			allowAttributes: attribute
 		});
+
+		editor.model.schema.extend("imageInline", { 
+			allowAttributes: attribute
+		});
 	}
 	
 	function convertAttribute(editor, oldAttribute, newAttribute) {
@@ -153,8 +157,20 @@
             model: oldAttribute
         });
 
-		editor.conversion.for("downcast").add(dispatcher => {
+		editor.conversion.for("downcast").add(dispatcher => { // downcastDispatcher
             dispatcher.on("attribute:" + oldAttribute + ":imageBlock", (evt, data, conversionApi) => {
+            	if (!conversionApi.consumable.consume(data.item, evt.name)) {
+                    return;
+                }
+			
+                const viewWriter = conversionApi.writer;
+                const figure = conversionApi.mapper.toViewElement(data.item);
+                const img = figure.getChild(0);
+
+                viewWriter.setAttribute(newAttribute, data.attributeNewValue, img);
+            });
+		
+            dispatcher.on("attribute:" + oldAttribute + ":imageInline", (evt, data, conversionApi) => {
             	if (!conversionApi.consumable.consume(data.item, evt.name)) {
                     return;
                 }
@@ -173,20 +189,35 @@
 		$("input[type='file']").removeAttr("accept"); /*.removeAttr("multiple");*/
 		
 		$("#resetBtn").on("click", function() {
+			//$("form")[0].reset();
 			$("#writeBoardDto").trigger("reset");
-			CKEditor.setData("");
+			myEditor.setData("");
 		});
 
 		$("#writeBtn").on("click", function(e) {
 			e.preventDefault();
 			let form = $("#writeBoardDto");
-			let arr = [1, 2, 3, 4, 5];
 			
-			$.each(arr, function(index, item) {
-				let input = $("<input>").attr("type", "hidden").attr("name", "uploadIdxList");
-				input.val(item);
+			
+			
+			
+			/* const range = myEditor.model.createRangeIn(myEditor.model.document.getRoot());
+			for (const value of range.getWalker({ ignoreElementEnd: true })) {
+				// value --> TreeWalker instance
+				// Position iterator class. It allows to iterate forward and backward over the document.
+			    if (!value.item.is("element")) {
+			    	continue;
+			    }
+			    
+			    if (value.item.name != "imageBlock" && value.item.name != "imageInline") {
+			    	continue;
+			    }
+			    
+			    let input = $("<input>").attr("type", "hidden").attr("name", "uploadIdxList");
+				input.val(value.item.getAttribute("dataIdx"));
 				form.append(input);
-			});
+			} */
+			
 			
 			form.submit();
 		});
