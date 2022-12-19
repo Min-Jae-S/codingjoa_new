@@ -109,8 +109,8 @@
 			placeholder: "내용을 입력하세요."
 		})
 		.then(editor => {
+			console.log("## Editor initialize");
 			CKEditor = editor;
-			console.log("## Editor was initialized");
 			
 			CKEditor.plugins.get("ImageUploadEditing").on("uploadComplete", (evt, {data, imageElement}) => {
 				console.log("## Upload completed");
@@ -119,10 +119,35 @@
 				CKEditor.model.change(writer => {
 					evt.stop();
 					writer.setAttribute("src", "${contextPath}" + data.url, imageElement);
-					writer.setAttribute("data-idx",  data.idx, imageElement);
-					console.log(imageElement);
+					writer.setAttribute("dataIdx", data.idx, imageElement);
 				});
 			});
+			
+			CKEditor.model.schema.extend("imageBlock", { 
+				allowAttributes: "dataIdx"
+			});
+
+			CKEditor.conversion.for("upcast").attributeToAttribute({
+	            view: "data-idx",
+	            model: "dataIdx"
+	        });
+
+			CKEditor.conversion.for("downcast").add(dispatcher => {
+	            dispatcher.on("attribute:dataIdx:imageBlock", (evt, data, conversionApi) => {
+	            	console.log("data.item: " + data.item);
+	            	console.log("data.attributeNewValue: " + data.attributeNewValue);
+	            	
+	            	if (!conversionApi.consumable.consume(data.item, evt.name)) {
+	                    return;
+	                }
+				
+	                const viewWriter = conversionApi.writer;
+	                const figure = conversionApi.mapper.toViewElement(data.item);
+	                const img = figure.getChild(0);
+
+	                viewWriter.setAttribute("data-idx", data.attributeNewValue, img);
+	            });
+	        });    
 		})
 		.catch(error => {
 			console.error(error);
