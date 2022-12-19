@@ -117,13 +117,13 @@
 			myEditor.model.schema.extend("imageBlock", { allowAttributes: "dataIdx" });
 			myEditor.model.schema.extend("imageInline", { allowAttributes: "dataIdx" });
 			
-			console.log("## view-to-model converter");
+			// view-to-model converter
 			myEditor.conversion.for("upcast").attributeToAttribute({
 	            view: "data-idx",
 	            model: "dataIdx"
 	        });
 			
-			console.log("## model-to-view converter");
+			// model-to-view converter
 			myEditor.conversion.for("downcast").add(dispatcher => { // downcastDispatcher
 	            dispatcher.on("attribute:dataIdx", (evt, data, conversionApi) => {
 	            	console.log(data);
