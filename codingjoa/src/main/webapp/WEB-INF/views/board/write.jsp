@@ -121,34 +121,10 @@
 					writer.setAttribute("src", "${contextPath}" + data.url, imageElement);
 					writer.setAttribute("dataIdx", data.idx, imageElement);
 				});
-			});
-			
-			// https://github.com/ckeditor/ckeditor5/issues/5204
-			CKEditor.model.schema.extend("imageBlock", { 
-				allowAttributes: "dataIdx"
-			});
-
-			CKEditor.conversion.for("upcast").attributeToAttribute({
-	            view: "data-idx",
-	            model: "dataIdx"
-	        });
-
-			CKEditor.conversion.for("downcast").add(dispatcher => {
-	            dispatcher.on("attribute:dataIdx:imageBlock", (evt, data, conversionApi) => {
-	            	console.log("data: ");
-	            	console.log(data);
-	            	
-	            	if (!conversionApi.consumable.consume(data.item, evt.name)) {
-	                    return;
-	                }
 				
-	                const viewWriter = conversionApi.writer;
-	                const figure = conversionApi.mapper.toViewElement(data.item);
-	                const img = figure.getChild(0);
-
-	                viewWriter.setAttribute("data-idx", data.attributeNewValue, img);
-	            });
-	        });    
+				allowAttirubute(CKEditor, "dataIdx");
+				convertAttribute(CKEditor, "dataIdx", "data-idx");
+			});
 		})
 		.catch(error => {
 			console.error(error);
@@ -158,6 +134,38 @@
 	    editor.plugins.get("FileRepository").createUploadAdapter = (loader) => {
 	        return new UploadAdapter(loader);
 	    };
+	}
+	
+	function allowAttirubute(editor, attribute) {
+		console.log("## Allow Attribute: " + attribute);
+		
+		// https://github.com/ckeditor/ckeditor5/issues/5204
+		editor.model.schema.extend("imageBlock", { 
+			allowAttributes: attribute
+		});
+	}
+	
+	function convertAttribute(editor, oldAttribute, newAttribute) {
+		console.log("## Convert Attribute: " + oldAttribute + " -> " + newAttribute);
+		
+		editor.conversion.for("upcast").attributeToAttribute({
+            view: newAttribute,
+            model: oldAttribute
+        });
+
+		editor.conversion.for("downcast").add(dispatcher => {
+            dispatcher.on("attribute:" + oldAttribute + ":imageBlock", (evt, data, conversionApi) => {
+            	if (!conversionApi.consumable.consume(data.item, evt.name)) {
+                    return;
+                }
+			
+                const viewWriter = conversionApi.writer;
+                const figure = conversionApi.mapper.toViewElement(data.item);
+                const img = figure.getChild(0);
+
+                viewWriter.setAttribute(newAttribute, data.attributeNewValue, img);
+            });
+        }); 
 	}
 	
 	$(function() {
