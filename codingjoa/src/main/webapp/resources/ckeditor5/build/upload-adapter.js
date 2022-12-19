@@ -70,10 +70,11 @@ class UploadAdapter {
             // UploadAdapter#upload documentation.
             resolve({
             	// https://ckeditor.com/docs/ckeditor5/latest/framework/guides/deep-dive/upload-adapter.html
-            	urls: {
-            		default: getContextPath() + response.data.returnUrl
-            	},
-            	uploadIdx: response.data.uploadIdx
+//            	urls: {
+//            		default: getContextPath() + response.data.returnUrl
+//            	},
+            	url: response.data.returnUrl,
+            	idx: response.data.uploadIdx
             });
         });
     }

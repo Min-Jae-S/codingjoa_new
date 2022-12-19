@@ -114,15 +114,13 @@
 			
 			CKEditor.plugins.get("ImageUploadEditing").on("uploadComplete", (evt, {data, imageElement}) => {
 				console.log("## Upload completed");
-				console.log("1. uploadIdx: " + data.uploadIdx);
-				
+
 				// https://ckeditor.com/docs/ckeditor5/latest/api/module_image_imageupload_imageuploadediting-ImageUploadEditing.html#event-uploadComplete
 				CKEditor.model.change(writer => {
-					console.log("2. Before set attribute");
-					console.log("3. getAttribute('uploadIdx'): " + imageElement.getAttribute("uploadIdx"));
-					writer.setAttribute("uploadIdx",  data.uploadIdx, imageElement);
-					console.log("4. After set attribute");
-					console.log("5. getAttribute('uploadIdx'): " + imageElement.getAttribute("uploadIdx"));
+					evt.stop();
+					writer.setAttribute("src", "${contextPath}" + data.url, imageElement);
+					writer.setAttribute("data-idx",  data.idx, imageElement);
+					console.log(imageElement);
 				});
 			});
 		})
@@ -148,6 +146,7 @@
 		$("#writeBtn").on("click", function(e) {
 			e.preventDefault();
 			console.log("writeBtn clicked");
+			console.log(CKEditor.getData());
 		});
 		
 		
