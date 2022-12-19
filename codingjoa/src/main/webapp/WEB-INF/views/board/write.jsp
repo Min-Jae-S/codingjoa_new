@@ -93,7 +93,7 @@
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 
 <script>
-	let CKEditor;
+	var CKEditor;
 	
 	ClassicEditor
 		.create(document.querySelector("#boardContent"), {
@@ -173,16 +173,23 @@
 		$("input[type='file']").removeAttr("accept"); /*.removeAttr("multiple");*/
 		
 		$("#resetBtn").on("click", function() {
-			$("form")[0].reset();
+			$("#writeBoardDto").trigger("reset");
 			CKEditor.setData("");
 		});
 
 		$("#writeBtn").on("click", function(e) {
 			e.preventDefault();
-			console.log("writeBtn clicked");
+			let form = $("#writeBoardDto");
+			let arr = [1, 2, 3, 4, 5];
+			
+			$.each(arr, function(index, item) {
+				let input = $("<input>").attr("type", "hidden").attr("name", "uploadIdxList");
+				input.val(item);
+				form.append(input);
+			});
+			
+			form.submit();
 		});
-		
-		
 	});
 </script>
 

@@ -1,5 +1,7 @@
 package com.codingjoa.dto;
 
+import java.util.List;
+
 import javax.validation.constraints.NotBlank;
 
 import lombok.Data;
@@ -15,5 +17,6 @@ public class WriteBoardDto {
 	
 	private int boardWriterIdx;
 	private int boardCategoryCode;
+	private List<Integer> uploadIdxList;
 	
 }
