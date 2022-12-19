@@ -138,15 +138,11 @@
 	
 	function allowAttirubute(editor, attribute) {
 		console.log("## Allow Attribute: " + attribute);
+		const schema = editor.model.schema;
 		
 		// https://github.com/ckeditor/ckeditor5/issues/5204
-		editor.model.schema.extend("imageBlock", { 
-			allowAttributes: attribute
-		});
-
-		editor.model.schema.extend("imageInline", { 
-			allowAttributes: attribute
-		});
+		schema.extend("imageBlock", { allowAttributes: attribute });
+		schema.extend("imageInline", { allowAttributes: attribute });
 	}
 	
 	function convertAttribute(editor, oldAttribute, newAttribute) {
@@ -157,31 +153,33 @@
             model: oldAttribute
         });
 
-		editor.conversion.for("downcast").add(dispatcher => { // downcastDispatcher
+		/* editor.conversion.for("downcast").add(dispatcher => { // downcastDispatcher
             dispatcher.on("attribute:" + oldAttribute + ":imageBlock", (evt, data, conversionApi) => {
             	if (!conversionApi.consumable.consume(data.item, evt.name)) {
                     return;
                 }
 			
-                const viewWriterA = conversionApi.writer;
-                const figureA = conversionApi.mapper.toViewElement(data.item);
-                const imgA = figureA.getChild(0);
+                const viewWriter = conversionApi.writer;
+                const figure = conversionApi.mapper.toViewElement(data.item);
+                const img = figure.getChild(0);
 
-                viewWriterA.setAttribute(newAttribute, data.attributeNewValue, imgA);
+                viewWriter.setAttribute(newAttribute, data.attributeNewValue, img);
             });
-		
+        }); */
+
+		editor.conversion.for("downcast").add(dispatcher => { // downcastDispatcher
             dispatcher.on("attribute:" + oldAttribute + ":imageInline", (evt, data, conversionApi) => {
             	if (!conversionApi.consumable.consume(data.item, evt.name)) {
                     return;
                 }
 			
-                const viewWriterB = conversionApi.writer;
-                const figureB = conversionApi.mapper.toViewElement(data.item);
-                const imgB = figureB.getChild(0);
-
-                viewWriterB.setAttribute(newAttribute, data.attributeNewValue, imgB);
+           	 	const viewWriter = conversionApi.writer;
+                const figure = conversionApi.mapper.toViewElement(data.item);
+                const img = figure.getChild(0);
+                
+                viewWriter.setAttribute(newAttribute, data.attributeNewValue, img);
             });
-        }); 
+        });
 	}
 	
 	$(function() {
