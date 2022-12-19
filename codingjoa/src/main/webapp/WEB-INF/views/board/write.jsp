@@ -123,6 +123,7 @@
 				});
 			});
 			
+			// https://github.com/ckeditor/ckeditor5/issues/5204
 			CKEditor.model.schema.extend("imageBlock", { 
 				allowAttributes: "dataIdx"
 			});
@@ -134,8 +135,8 @@
 
 			CKEditor.conversion.for("downcast").add(dispatcher => {
 	            dispatcher.on("attribute:dataIdx:imageBlock", (evt, data, conversionApi) => {
-	            	console.log("data.item: " + data.item);
-	            	console.log("data.attributeNewValue: " + data.attributeNewValue);
+	            	console.log("data: ");
+	            	console.log(data);
 	            	
 	            	if (!conversionApi.consumable.consume(data.item, evt.name)) {
 	                    return;
@@ -171,7 +172,6 @@
 		$("#writeBtn").on("click", function(e) {
 			e.preventDefault();
 			console.log("writeBtn clicked");
-			console.log(CKEditor.getData());
 		});
 		
 		
