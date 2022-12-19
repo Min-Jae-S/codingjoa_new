@@ -163,11 +163,11 @@
                     return;
                 }
 			
-                const viewWriter = conversionApi.writer;
-                const figure = conversionApi.mapper.toViewElement(data.item);
-                const img = figure.getChild(0);
+                const viewWriterA = conversionApi.writer;
+                const figureA = conversionApi.mapper.toViewElement(data.item);
+                const imgA = figureA.getChild(0);
 
-                viewWriter.setAttribute(newAttribute, data.attributeNewValue, img);
+                viewWriterA.setAttribute(newAttribute, data.attributeNewValue, imgA);
             });
 		
             dispatcher.on("attribute:" + oldAttribute + ":imageInline", (evt, data, conversionApi) => {
@@ -175,11 +175,11 @@
                     return;
                 }
 			
-                const viewWriter = conversionApi.writer;
-                const figure = conversionApi.mapper.toViewElement(data.item);
-                const img = figure.getChild(0);
+                const viewWriterB = conversionApi.writer;
+                const figureB = conversionApi.mapper.toViewElement(data.item);
+                const imgB = figureB.getChild(0);
 
-                viewWriter.setAttribute(newAttribute, data.attributeNewValue, img);
+                viewWriterB.setAttribute(newAttribute, data.attributeNewValue, imgB);
             });
         }); 
 	}
@@ -197,9 +197,15 @@
 		$("#writeBtn").on("click", function(e) {
 			e.preventDefault();
 			let form = $("#writeBoardDto");
+			let images = $(".ck-content .image, .ck-content .image-inline").find("img");
 			
-			
-			
+			$.each(images, function(index, item) {
+				let input = $("<input>").attr("type", "hidden").attr("name", "uploadIdxList");
+				let idx = $(this).data("idx");
+				
+				input.val(idx);
+				form.append(input);
+			});
 			
 			/* const range = myEditor.model.createRangeIn(myEditor.model.document.getRoot());
 			for (const value of range.getWalker({ ignoreElementEnd: true })) {
@@ -217,9 +223,8 @@
 				input.val(value.item.getAttribute("dataIdx"));
 				form.append(input);
 			} */
-			
-			
-			form.submit();
+			console.log(myEditor.getData());
+			//form.submit();
 		});
 	});
 </script>
