@@ -100,7 +100,13 @@
 	ClassicEditor
 		.create(document.querySelector("#boardContent"), {
 			extraPlugins: [UploadAdapterPlugin],
-			allowedContent: true,
+			htmlSupport: {
+				allow: [
+					{
+						attributes: true
+					}
+				]
+			},
 			fontFamily: {
 				options: ["defalut", "Arial", "궁서체", "바탕", "돋움"],
 				supportAllValues: true
@@ -124,7 +130,7 @@
 			console.log("## Register view-to-model converter");
 			myEditor.conversion.for("upcast").attributeToAttribute({
 	            view: "data-idx",
-	            model: "dataIdx"
+	            model: "dataIdx",
 	        });
 
 			// model-to-view converter

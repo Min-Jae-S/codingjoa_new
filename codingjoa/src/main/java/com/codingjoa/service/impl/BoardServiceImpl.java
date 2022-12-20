@@ -40,7 +40,7 @@ public class BoardServiceImpl implements BoardService {
 		
 		boardMapper.insertBoard(board);
 		
-		// upload_use: false --> true
+		// upload_board_idx: null --> int
 	}
 	
 	
