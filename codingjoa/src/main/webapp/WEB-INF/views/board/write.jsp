@@ -135,7 +135,6 @@
 	            model: "dataIdx"
 	        });
 			
-			
 			// model-to-view converter
 			/*
 			myEditor.conversion.for("dataDowncast").attributeToAttribute({
@@ -148,6 +147,8 @@
 			myEditor.conversion.for("dataDowncast").add(dispatcher => {
 				dispatcher.on("attribute:dataIdx", (evt, data, conversionApi) => { 
 					console.log("## dataDowncast");
+					console.log("data:: ")
+	            	console.log(data);
 					const modelElement = data.item;
 					const name = data.item.name;
 	            	
@@ -160,7 +161,7 @@
 	                
 	                console.log("modelElement	: " + modelElement.name);
 	             	
-	                // figure: imgaeblock, span: imageinline
+	                // figure: imgaeBlock, span: imageInline
 	                //const imageElement = name === "imageBlock" ? imageContainer.getChild(0) : imageContainer;
 	                const imageContainer = conversionApi.mapper.toViewElement(modelElement); 
 	                console.log("imageContainer	: " + imageContainer.name);
@@ -182,6 +183,8 @@
 			myEditor.conversion.for("editingDowncast").add(dispatcher => { // downcastDispatcher
 	            dispatcher.on("attribute:dataIdx", (evt, data, conversionApi) => {
 	            	console.log("## editingDowncast");
+	            	console.log("data:: ")
+	            	console.log(data);
 	            	const modelElement = data.item;
 	            	const name = data.item.name;
 	            	
@@ -192,9 +195,12 @@
 	            	
 	                const viewWriter = conversionApi.writer;
 	                
-	             	// figure: imgaeblock, span: imageinline
+	             	// figure: imgaeBlock, span: imageInline
 	                const imageContainer = conversionApi.mapper.toViewElement(modelElement);
 	                const imageElement = imageContainer.getChild(0);
+	                console.log("modelElement	: " + modelElement.name);
+	                console.log("imageContainer	: " + imageContainer.name);
+	                console.log("imageElement	: " + imageElement.name);
 	                
 	                if (data.attributeNewValue !== null) {
 	                	viewWriter.setAttribute("data-idx", data.attributeNewValue, imageElement);
@@ -204,8 +210,10 @@
 	            });
 	        });
 			
-			console.log("## Register event listener(uloadComplete)");
+			console.log("## Register event listener(uploadComplete)");
 			myEditor.plugins.get("ImageUploadEditing").on("uploadComplete", (evt, {data, imageElement}) => {
+				console.log("## Upload complete");
+				
 				// https://ckeditor.com/docs/ckeditor5/latest/api/module_image_imageupload_imageuploadediting-ImageUploadEditing.html#event-uploadComplete
 				myEditor.model.change(writer => {
 					evt.stop();
