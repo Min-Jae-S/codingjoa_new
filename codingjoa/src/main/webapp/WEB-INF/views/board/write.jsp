@@ -119,12 +119,14 @@
 			myEditor.model.schema.extend("imageInline", { allowAttributes: "dataIdx" });
 			
 			// view-to-model converter
+			console.log("## Register view-to-model converter");
 			myEditor.conversion.for("upcast").attributeToAttribute({
 	            view: "data-idx",
 	            model: "dataIdx"
 	        });
 
 			// model-to-view converter
+			console.log("## Register model-to-view converter: data downcast");
 			myEditor.conversion.for("dataDowncast").add(dispatcher => {
 				dispatcher.on("attribute:dataIdx", (evt, data, conversionApi) => { 
 					const modelElement = data.item;
@@ -136,26 +138,20 @@
 	            	
 	            	const viewWriter = conversionApi.writer;
 	                const viewElement = conversionApi.mapper.toViewElement(modelElement); // figure(block), span(inline)
-	                
+	                const img = name === "imageBlock" ? viewElement.getChild(0) : viewElement;
+	                		
 	                if (data.attributeNewValue !== null) {
-	                	if (name === "imageBlock") {
-		                	viewWriter.setAttribute("data-idx", data.attributeNewValue, viewElement.getChild(0));
-	                	} else if (name === "imageInline")
-	                		viewWriter.setAttribute("data-idx", data.attributeNewValue, viewElement);
+		                viewWriter.setAttribute("data-idx", data.attributeNewValue, img);
 	                } else {
-	                	if (name === "imageBlock") {
-	                		viewWriter.removeAttribute("data-idx", viewElement.getChild(0));
-	                	} else if (name === "imageInline") {
-	                		viewWriter.removeAttribute("data-idx", viewElement);
-	                	}
+	                	viewWriter.removeAttribute("data-idx", viewElement.getChild(0));
 	                }
 				});
 			})
 			
 			// model-to-view converter
-			// dataDonwcast problem occurs in inlineImage
 			// https://stackoverflow.com/questions/56402202/ckeditor5-create-element-image-with-attributes
 			// https://gitlab-new.bap.jp/chinhnc2/ckeditor5/-/blob/690049ec7b8e95ba840ab1c882b5680f3a3d1dc4/packages/ckeditor5-engine/docs/framework/guides/deep-dive/conversion-preserving-custom-content.md
+			console.log("## Register model-to-view converter: editing downcast");
 			myEditor.conversion.for("editingDowncast").add(dispatcher => { // downcastDispatcher
 	            dispatcher.on("attribute:dataIdx", (evt, data, conversionApi) => {
 	            	const modelElement = data.item;
@@ -165,7 +161,7 @@
 	            	}
 	            	
 	                const viewWriter = conversionApi.writer;
-	                const viewElement = conversionApi.mapper.toViewElement(modelElement); // figure(block), span(inline)
+	                const viewElement = conversionApi.mapper.toViewElement(modelElement); // figure(Imgeblock), span(Imageinline)
 	                const img = viewElement.getChild(0);
 	                
 	                if (data.attributeNewValue !== null) {
@@ -176,9 +172,8 @@
 	            });
 	        });
 			
+			console.log("## Register upload complete event");
 			myEditor.plugins.get("ImageUploadEditing").on("uploadComplete", (evt, {data, imageElement}) => {
-				console.log("## Upload completed");
-
 				// https://ckeditor.com/docs/ckeditor5/latest/api/module_image_imageupload_imageuploadediting-ImageUploadEditing.html#event-uploadComplete
 				myEditor.model.change(writer => {
 					evt.stop();
