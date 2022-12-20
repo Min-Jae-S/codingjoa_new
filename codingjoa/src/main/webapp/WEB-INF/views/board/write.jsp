@@ -84,6 +84,8 @@
 						<form:errors path="boardContent" cssClass="error"/>
 					</div>
 				</form:form>
+				<button class="btn btn-info btn-block" id="getDataBtn">myEditor.getData()</button>
+				<button class="btn btn-warning btn-block" id="setDataBtn">myEditor.setData()</button>
 			</div>
 		</div>
 		<div class="col-sm-2"></div>
@@ -126,18 +128,21 @@
 	        });
 
 			// model-to-view converter
-			console.log("## Register model-to-view converter: data downcast");
+			console.log("## Register model-to-view converter(data downcast)");
 			myEditor.conversion.for("dataDowncast").add(dispatcher => {
 				dispatcher.on("attribute:dataIdx", (evt, data, conversionApi) => { 
 					const modelElement = data.item;
 					const name = modelElement.name;
 	            	
-	            	if (!name.startsWith("image")) { // convert imageBlock, imageInline only
+					// convert imageBlock, imageInline only
+	            	if (!name.startsWith("image")) { 
 	            		return;
 	            	}
 	            	
 	            	const viewWriter = conversionApi.writer;
-	                const viewElement = conversionApi.mapper.toViewElement(modelElement); // figure(block), span(inline)
+	            	
+	            	// figure: imgaeblock, span: imageinline
+	                const viewElement = conversionApi.mapper.toViewElement(modelElement); 
 	                const img = name === "imageBlock" ? viewElement.getChild(0) : viewElement;
 	                		
 	                if (data.attributeNewValue !== null) {
@@ -151,17 +156,20 @@
 			// model-to-view converter
 			// https://stackoverflow.com/questions/56402202/ckeditor5-create-element-image-with-attributes
 			// https://gitlab-new.bap.jp/chinhnc2/ckeditor5/-/blob/690049ec7b8e95ba840ab1c882b5680f3a3d1dc4/packages/ckeditor5-engine/docs/framework/guides/deep-dive/conversion-preserving-custom-content.md
-			console.log("## Register model-to-view converter: editing downcast");
+			console.log("## Register model-to-view converter(editing downcast)");
 			myEditor.conversion.for("editingDowncast").add(dispatcher => { // downcastDispatcher
 	            dispatcher.on("attribute:dataIdx", (evt, data, conversionApi) => {
 	            	const modelElement = data.item;
 	            	
-	            	if (!modelElement.name.startsWith("image")) { // convert imageBlock, imageInline only
+	            	// convert imageBlock, imageInline only
+	            	if (!modelElement.name.startsWith("image")) { 
 	            		return;
 	            	}
 	            	
 	                const viewWriter = conversionApi.writer;
-	                const viewElement = conversionApi.mapper.toViewElement(modelElement); // figure(Imgeblock), span(Imageinline)
+	                
+	             	// figure: imgaeblock, span: imageinline
+	                const viewElement = conversionApi.mapper.toViewElement(modelElement); 
 	                const img = viewElement.getChild(0);
 	                
 	                if (data.attributeNewValue !== null) {
@@ -172,7 +180,7 @@
 	            });
 	        });
 			
-			console.log("## Register upload complete event");
+			console.log("## Register event listener(uloadComplete)");
 			myEditor.plugins.get("ImageUploadEditing").on("uploadComplete", (evt, {data, imageElement}) => {
 				// https://ckeditor.com/docs/ckeditor5/latest/api/module_image_imageupload_imageuploadediting-ImageUploadEditing.html#event-uploadComplete
 				myEditor.model.change(writer => {
@@ -193,9 +201,22 @@
 	}
 	
 	$(function() {
+		alert('${writeBoardDto.boardContent}');
+		
 		// https://ckeditor.com/docs/ckeditor5/latest/api/module_image_imageupload_imageuploadui-ImageUploadUI.html
 		$("input[type='file']").removeAttr("accept"); /*.removeAttr("multiple");*/
 		
+		$("#getDataBtn").on("click", function() {
+			console.log(myEditor.getData());
+		});
+
+		$("#setDataBtn").on("click", function() {
+			editorData = myEditor.getData();
+			myEditor.setData(editorData);
+			
+			console.log(myEditor.getData());
+		});
+
 		$("#resetBtn").on("click", function() {
 			//$("form")[0].reset();
 			$("#writeBoardDto").trigger("reset");
@@ -215,9 +236,7 @@
 				form.append(input);
 			});
 			
-			console.log(myEditor.getData());
-			
-			//form.submit();
+			form.submit();
 		});
 	});
 </script>
