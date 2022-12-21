@@ -135,6 +135,7 @@
 	            model: "dataIdx"
 	        });
 			
+			
 			// model-to-view converter
 			/*
 			myEditor.conversion.for("dataDowncast").attributeToAttribute({
@@ -142,6 +143,7 @@
 	            view: "data-idx"
 			});
 			*/
+			
 
 			// model-to-view converter
 			myEditor.conversion.for("dataDowncast").add(dispatcher => {
@@ -172,7 +174,7 @@
 	                if (data.attributeNewValue !== null) {
 		                viewWriter.setAttribute("data-idx", data.attributeNewValue, imageElement);
 	                } else {
-	                	viewWriter.removeAttribute("data-idx", img);
+	                	viewWriter.removeAttribute("data-idx", imageElement);
 	                }
 				});
 			})
