@@ -153,7 +153,7 @@
 	                const imageElement = imageContainer.getChild(0);
 	                console.log("modelElement	: " + modelElement.name);
 	                console.log("imageContainer	: " + imageContainer.name);
-	                console.log("imageElement	: " + imageElement.name);
+	                //console.log("imageElement	: " + imageElement.name);
 	                
 	                if (data.attributeNewValue !== null) {
 	                	viewWriter.setAttribute("data-idx", data.attributeNewValue, imageElement);
@@ -163,38 +163,27 @@
 	            });
 	        }); 
 			
-			/*
 			// model-to-view converter
 			myEditor.conversion.for("dataDowncast").add(dispatcher => {
 				dispatcher.on("attribute:dataIdx", (evt, data, conversionApi) => { 
-					evt.stop();
-					
 					console.log("## dataDowncast");
 					const modelElement = data.item;
 					const name = data.item.name;
 	            	
-					// convert imageBlock, imageInline only
 	            	if (!conversionApi.consumable.consume(modelElement, evt.name)) {
                     	return;
                 	}
 	            	
 	            	const viewWriter = conversionApi.writer;
-	                
-	            	// modelElement.name = { imageBlock, imageInline }
+	                const imageContainer = conversionApi.mapper.toViewElement(modelElement);
 	                console.log("modelElement	: " + modelElement.name);
-	             	
-	                // toViewElement( imageBlock  ) ==> figure 
-	                // toViewElement( imageInline ) ==> image
-	                const imageContainer = conversionApi.mapper.toViewElement(modelElement); 
 	                console.log("imageContainer	: " + imageContainer.name);
-	                
-	                
 
 	                return;
 	                
 	                //const imageElement = (name === "imageBlock") ? imageContainer.getChild(0) : imageContainer;
-	                const imageElement = imageContainer.getChild(0);
-	                console.log("imageElement	: " + imageElement.name);
+	                //const imageElement = imageContainer.getChild(0);
+	                //console.log("imageElement	: " + imageElement.name);
 	                
 	                if (data.attributeNewValue !== null) {
 		                viewWriter.setAttribute("data-idx", data.attributeNewValue, imageElement);
@@ -203,7 +192,6 @@
 	                }
 				});
 			});
-			*/
 			
 			console.log("## Register event listener(uploadComplete)");
 			myEditor.plugins.get("ImageUploadEditing").on("uploadComplete", (evt, {data, imageElement}) => {
@@ -232,6 +220,7 @@
 		$("input[type='file']").removeAttr("accept"); /*.removeAttr("multiple");*/
 		
 		$("#getDataBtn").on("click", function() {
+			//myEditor.getData();
 			console.log(myEditor.getData());
 		});
 
