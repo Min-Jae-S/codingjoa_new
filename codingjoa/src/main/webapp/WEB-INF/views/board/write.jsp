@@ -135,69 +135,20 @@
 	            model: "dataIdx"
 	        });
 			
-			
-			// model-to-view converter
-			/*
-			myEditor.conversion.for("dataDowncast").attributeToAttribute({
-				model: "dataIdx",
-	            view: "data-idx"
-			});
-			*/
-			
-
-			// model-to-view converter
-			myEditor.conversion.for("dataDowncast").add(dispatcher => {
-				dispatcher.on("attribute:dataIdx", (evt, data, conversionApi) => { 
-					console.log("## dataDowncast");
-					console.log("data:: ")
-	            	console.log(data);
-					const modelElement = data.item;
-					const name = data.item.name;
-	            	
-					// convert imageBlock, imageInline only
-	            	if (!conversionApi.consumable.consume(modelElement, evt.name)) {
-                    	return;
-                	}
-	            	
-	            	const viewWriter = conversionApi.writer;
-	                
-	                console.log("modelElement	: " + modelElement.name);
-	             	
-	                // figure: imgaeBlock, span: imageInline
-	                //const imageElement = name === "imageBlock" ? imageContainer.getChild(0) : imageContainer;
-	                const imageContainer = conversionApi.mapper.toViewElement(modelElement); 
-	                console.log("imageContainer	: " + imageContainer.name);
-
-	                const imageElement = imageContainer.getChild(0);
-	                console.log("imageElement	: " + imageElement.name);
-	                		
-	                if (data.attributeNewValue !== null) {
-		                viewWriter.setAttribute("data-idx", data.attributeNewValue, imageElement);
-	                } else {
-	                	viewWriter.removeAttribute("data-idx", imageElement);
-	                }
-				});
-			})
-			
 			// model-to-view converter
 			// https://stackoverflow.com/questions/56402202/ckeditor5-create-element-image-with-attributes
 			// https://gitlab-new.bap.jp/chinhnc2/ckeditor5/-/blob/690049ec7b8e95ba840ab1c882b5680f3a3d1dc4/packages/ckeditor5-engine/docs/framework/guides/deep-dive/conversion-preserving-custom-content.md
 			myEditor.conversion.for("editingDowncast").add(dispatcher => { // downcastDispatcher
 	            dispatcher.on("attribute:dataIdx", (evt, data, conversionApi) => {
 	            	console.log("## editingDowncast");
-	            	console.log("data:: ")
-	            	console.log(data);
 	            	const modelElement = data.item;
 	            	const name = data.item.name;
 	            	
-	            	// convert imageBlock, imageInline only
 	            	if (!conversionApi.consumable.consume(modelElement, evt.name)) {
                     	return;
                 	}
 	            	
 	                const viewWriter = conversionApi.writer;
-	                
-	             	// figure: imgaeBlock, span: imageInline
 	                const imageContainer = conversionApi.mapper.toViewElement(modelElement);
 	                const imageElement = imageContainer.getChild(0);
 	                console.log("modelElement	: " + modelElement.name);
@@ -210,7 +161,49 @@
 	                	viewWriter.removeAttribute("data-idx", imageElement);
 	                }
 	            });
-	        });
+	        }); 
+			
+			/*
+			// model-to-view converter
+			myEditor.conversion.for("dataDowncast").add(dispatcher => {
+				dispatcher.on("attribute:dataIdx", (evt, data, conversionApi) => { 
+					evt.stop();
+					
+					console.log("## dataDowncast");
+					const modelElement = data.item;
+					const name = data.item.name;
+	            	
+					// convert imageBlock, imageInline only
+	            	if (!conversionApi.consumable.consume(modelElement, evt.name)) {
+                    	return;
+                	}
+	            	
+	            	const viewWriter = conversionApi.writer;
+	                
+	            	// modelElement.name = { imageBlock, imageInline }
+	                console.log("modelElement	: " + modelElement.name);
+	             	
+	                // toViewElement( imageBlock  ) ==> figure 
+	                // toViewElement( imageInline ) ==> image
+	                const imageContainer = conversionApi.mapper.toViewElement(modelElement); 
+	                console.log("imageContainer	: " + imageContainer.name);
+	                
+	                
+
+	                return;
+	                
+	                //const imageElement = (name === "imageBlock") ? imageContainer.getChild(0) : imageContainer;
+	                const imageElement = imageContainer.getChild(0);
+	                console.log("imageElement	: " + imageElement.name);
+	                
+	                if (data.attributeNewValue !== null) {
+		                viewWriter.setAttribute("data-idx", data.attributeNewValue, imageElement);
+	                } else {
+	                	viewWriter.removeAttribute("data-idx", imageElement);
+	                }
+				});
+			});
+			*/
 			
 			console.log("## Register event listener(uploadComplete)");
 			myEditor.plugins.get("ImageUploadEditing").on("uploadComplete", (evt, {data, imageElement}) => {
@@ -268,7 +261,7 @@
 				form.append(input);
 			});
 			
-			//form.submit();
+			form.submit();
 		});
 	});
 </script>
