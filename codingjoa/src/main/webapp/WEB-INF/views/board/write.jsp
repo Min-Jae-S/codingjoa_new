@@ -121,6 +121,7 @@
 		})
 		.then(editor => {
 			console.log("## Editor initialize");
+			console.log(editor.getData());
 			myEditor = editor;
 			
 			// https://github.com/ckeditor/ckeditor5/issues/5204
@@ -136,7 +137,60 @@
 	        });
 			
 			console.log("## Register editing downcast");
-			registerEditingDowncast();
+			// model-to-view converter
+			// https://stackoverflow.com/questions/56402202/ckeditor5-create-element-image-with-attributes
+			// https://gitlab-new.bap.jp/chinhnc2/ckeditor5/-/blob/690049ec7b8e95ba840ab1c882b5680f3a3d1dc4/packages/ckeditor5-engine/docs/framework/guides/deep-dive/conversion-preserving-custom-content.md
+			myEditor.conversion.for("editingDowncast").add(dispatcher => { // downcastDispatcher
+	            dispatcher.on("attribute:dataIdx", (evt, data, conversionApi) => {
+	            	console.log("## editingDowncast");
+	            	const modelElement = data.item;
+	            	const name = data.item.name;
+	            	
+	            	if (!conversionApi.consumable.consume(modelElement, evt.name)) {
+	                	return;
+	            	}
+	            	
+	                const viewWriter = conversionApi.writer;
+	                const imageContainer = conversionApi.mapper.toViewElement(modelElement);
+	                const imageElement = imageContainer.getChild(0);
+	                console.log("modelElement	: " + modelElement.name);
+	                console.log("imageContainer	: " + imageContainer.name);
+	                console.log("imageElement	: " + imageElement.name);
+	                
+	                if (data.attributeNewValue !== null) {
+	                	viewWriter.setAttribute("data-idx", data.attributeNewValue, imageElement);
+	                } else {
+	                	viewWriter.removeAttribute("data-idx", imageElement);
+	                }
+	            });
+	        });
+			
+			console.log("## Register data downcast");
+			// model-to-view converter
+			myEditor.conversion.for("dataDowncast").add(dispatcher => {
+				dispatcher.on("attribute:dataIdx", (evt, data, conversionApi) => { 
+					console.log("## dataDowncast");
+					const modelElement = data.item;
+					const name = data.item.name;
+	            	
+	            	if (!conversionApi.consumable.consume(modelElement, evt.name)) {
+	                	return;
+	            	}
+	            	
+	            	const viewWriter = conversionApi.writer;
+	                const imageContainer = conversionApi.mapper.toViewElement(modelElement);
+	                const imageElement = (name === "imageBlock") ? imageContainer.getChild(0) : imageContainer;
+	                console.log("modelElement	: " + modelElement.name);
+	                console.log("imageContainer	: " + imageContainer.name);
+	                console.log("imageElement	: " + imageElement.name);
+	                
+	                if (data.attributeNewValue !== null) {
+		                viewWriter.setAttribute("data-idx", data.attributeNewValue, imageElement);
+	                } else {
+	                	viewWriter.removeAttribute("data-idx", imageElement);
+	                }
+				});
+			});	
 			
 			console.log("## Register event listener(uploadComplete)");
 			myEditor.plugins.get("ImageUploadEditing").on("uploadComplete", (evt, {data, imageElement}) => {
@@ -161,77 +215,25 @@
 	}
 	
 	function registerEditingDowncast() {
-		// model-to-view converter
-		// https://stackoverflow.com/questions/56402202/ckeditor5-create-element-image-with-attributes
-		// https://gitlab-new.bap.jp/chinhnc2/ckeditor5/-/blob/690049ec7b8e95ba840ab1c882b5680f3a3d1dc4/packages/ckeditor5-engine/docs/framework/guides/deep-dive/conversion-preserving-custom-content.md
-		myEditor.conversion.for("editingDowncast").add(dispatcher => { // downcastDispatcher
-            dispatcher.on("attribute:dataIdx", (evt, data, conversionApi) => {
-            	console.log("## editingDowncast");
-            	const modelElement = data.item;
-            	const name = data.item.name;
-            	
-            	if (!conversionApi.consumable.consume(modelElement, evt.name)) {
-                	return;
-            	}
-            	
-                const viewWriter = conversionApi.writer;
-                const imageContainer = conversionApi.mapper.toViewElement(modelElement);
-                const imageElement = imageContainer.getChild(0);
-                console.log("modelElement	: " + modelElement.name);
-                console.log("imageContainer	: " + imageContainer.name);
-                console.log("imageElement	: " + imageElement.name);
-                
-                if (data.attributeNewValue !== null) {
-                	viewWriter.setAttribute("data-idx", data.attributeNewValue, imageElement);
-                } else {
-                	viewWriter.removeAttribute("data-idx", imageElement);
-                }
-            });
-        });
 	}
 	
 	function registerDataDowncast() {
-		// model-to-view converter
-		myEditor.conversion.for("dataDowncast").add(dispatcher => {
-			dispatcher.on("attribute:dataIdx", (evt, data, conversionApi) => { 
-				console.log("## dataDowncast");
-				const modelElement = data.item;
-				const name = data.item.name;
-            	
-            	if (!conversionApi.consumable.consume(modelElement, evt.name)) {
-                	return;
-            	}
-            	
-            	const viewWriter = conversionApi.writer;
-                const imageContainer = conversionApi.mapper.toViewElement(modelElement);
-                const imageElement = (name === "imageBlock") ? imageContainer.getChild(0) : imageContainer;
-                console.log("modelElement	: " + modelElement.name);
-                console.log("imageContainer	: " + imageContainer.name);
-                console.log("imageElement	: " + imageElement.name);
-                
-                if (data.attributeNewValue !== null) {
-	                viewWriter.setAttribute("data-idx", data.attributeNewValue, imageElement);
-                } else {
-                	viewWriter.removeAttribute("data-idx", imageElement);
-                }
-			});
-		});	
+		
 	}
 	
 	$(function() {
+		let editorData;
+		
 		// https://ckeditor.com/docs/ckeditor5/latest/api/module_image_imageupload_imageuploadui-ImageUploadUI.html
 		$("input[type='file']").removeAttr("accept"); /*.removeAttr("multiple");*/
 		
 		$("#getDataBtn").on("click", function() {
-			//myEditor.getData();
-			console.log(myEditor.getData());
+			editorData = myEditor.getData();
+			console.log(editorData);
 		});
 
 		$("#setDataBtn").on("click", function() {
-			editorData = myEditor.getData();
 			myEditor.setData(editorData);
-			
-			console.log(myEditor.getData());
 		});
 
 		$("#resetBtn").on("click", function() {
@@ -252,8 +254,6 @@
 				input.val(idx);
 				form.append(input);
 			});
-			
-			registerDataDowncast();
 			
 			form.submit();
 		});
