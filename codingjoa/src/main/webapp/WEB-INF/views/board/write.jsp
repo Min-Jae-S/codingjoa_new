@@ -102,7 +102,7 @@
 			extraPlugins: [
 				uploadAdapterPlugin, 
 				uploadCompleteListener, 
-				allowCustomAttribute,
+				extendAttribute,
 				viewToModelConverter, 
 				modelToViewEditingConverter, 
 				modelToViewDataConverter
@@ -136,7 +136,6 @@
 	
 	function uploadAdapterPlugin(editor) {
 		console.log("## Register upload adapter");
-		
 	    editor.plugins.get("FileRepository").createUploadAdapter = (loader) => {
 	        return new UploadAdapter(loader);
 	    };
@@ -147,7 +146,6 @@
 		
 		editor.plugins.get("ImageUploadEditing").on("uploadComplete", (evt, {data, imageElement}) => {
 			console.log("## Upload complete");
-			
 			// https://ckeditor.com/docs/ckeditor5/latest/api/module_image_imageupload_imageuploadediting-ImageUploadEditing.html#event-uploadComplete
 			editor.model.change(writer => {
 				evt.stop();
@@ -157,10 +155,9 @@
 		});
 	}
 	
-	function allowCustomAttribute(editor) {
+	function extendAttribute(editor) {
 		// https://github.com/ckeditor/ckeditor5/issues/5204
 		console.log("## Allow custom attribute ==> blockObject, inlineOjbect");
-	
 		editor.model.schema.extend("$blockObject", { allowAttributes: "dataIdx" });
 		editor.model.schema.extend("$inlineObject", { allowAttributes: "dataIdx" });
 	}
@@ -168,7 +165,6 @@
 	// view-to-model converter
 	function viewToModelConverter(editor) {
 		console.log("## Register view-to-model converter ==> upcast");
-		
 		editor.conversion.for("upcast").attributeToAttribute({
             view: "data-idx",
             model: "dataIdx"
@@ -185,7 +181,6 @@
             dispatcher.on("attribute:dataIdx", (evt, data, conversionApi) => {
             	console.log("## Editing downcast");
             	const modelElement = data.item;
-            	const name = data.item.name;
             	
             	if (!conversionApi.consumable.consume(modelElement, evt.name)) {
                 	return;
@@ -215,8 +210,7 @@
 			dispatcher.on("attribute:dataIdx", (evt, data, conversionApi) => { 
 				console.log("## Data downcast");
 				const modelElement = data.item;
-				const name = data.item.name;
-            	
+				
             	if (!conversionApi.consumable.consume(modelElement, evt.name)) {
                 	return;
             	}
@@ -243,8 +237,8 @@
 		
 		$("#getDataBtn").on("click", function() {
 			console.log(myEditor.getData());
-			
 			const range = myEditor.model.createRangeIn(myEditor.model.document.getRoot());
+			
 			for (const value of range.getWalker({ ignoreElementEnd: true })) { // TreeWalker instance
 				// Position iterator class. It allows to iterate forward and backward over the document.
 				const item = value.item;
