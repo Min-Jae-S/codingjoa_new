@@ -103,9 +103,9 @@
 				uploadAdapterPlugin, 
 				uploadCompleteListener, 
 				allowCustomAttribute,
-				registerEditingDowncast, 
-				registerDataDowncast, 
-				registerUpcast
+				viewToModelConverter, 
+				modelToViewEditingConverter, 
+				modelToViewDataConverter
 			],
 			htmlSupport: { // https://ckeditor.com/docs/ckeditor5/latest/features/general-html-support.html
 				allow: [
@@ -135,6 +135,8 @@
 		});
 	
 	function uploadAdapterPlugin(editor) {
+		console.log("## Register upload adapter");
+		
 	    editor.plugins.get("FileRepository").createUploadAdapter = (loader) => {
 	        return new UploadAdapter(loader);
 	    };
@@ -142,8 +144,10 @@
 	
 	function uploadCompleteListener(editor) {
 		console.log("## Register event listener(uploadComplete)");
+		
 		editor.plugins.get("ImageUploadEditing").on("uploadComplete", (evt, {data, imageElement}) => {
 			console.log("## Upload complete");
+			
 			// https://ckeditor.com/docs/ckeditor5/latest/api/module_image_imageupload_imageuploadediting-ImageUploadEditing.html#event-uploadComplete
 			editor.model.change(writer => {
 				evt.stop();
@@ -155,19 +159,31 @@
 	
 	function allowCustomAttribute(editor) {
 		// https://github.com/ckeditor/ckeditor5/issues/5204
-		console.log("## Allow custom attribute");
+		console.log("## Allow custom attribute ==> blockObject, inlineOjbect");
+	
 		editor.model.schema.extend("$blockObject", { allowAttributes: "dataIdx" });
 		editor.model.schema.extend("$inlineObject", { allowAttributes: "dataIdx" });
 	}
 	
-	function registerEditingDowncast(editor) {
-		console.log("## Register editing downcast");
-		// model-to-view converter
+	// view-to-model converter
+	function viewToModelConverter(editor) {
+		console.log("## Register view-to-model converter ==> upcast");
+		
+		editor.conversion.for("upcast").attributeToAttribute({
+            view: "data-idx",
+            model: "dataIdx"
+        });
+	}
+	
+	// model-to-view converter
+	function modelToViewEditingConverter(editor) {
+		console.log("## Register model-to-view converter ==> Editing downcast");
+		
 		// https://stackoverflow.com/questions/56402202/ckeditor5-create-element-image-with-attributes
 		// https://gitlab-new.bap.jp/chinhnc2/ckeditor5/-/blob/690049ec7b8e95ba840ab1c882b5680f3a3d1dc4/packages/ckeditor5-engine/docs/framework/guides/deep-dive/conversion-preserving-custom-content.md
 		editor.conversion.for("editingDowncast").add(dispatcher => { // downcastDispatcher
             dispatcher.on("attribute:dataIdx", (evt, data, conversionApi) => {
-            	console.log("## editingDowncast");
+            	console.log("## Editing downcast");
             	const modelElement = data.item;
             	const name = data.item.name;
             	
@@ -191,21 +207,13 @@
         });
 	}
 	
-	function registerUpcast(editor) {
-		// view-to-model converter
-		console.log("## Register view-to-model converter");
-		editor.conversion.for("upcast").attributeToAttribute({
-            view: "data-idx",
-            model: "dataIdx"
-        });
-	}
-	
-	function registerDataDowncast(editor) {
-		console.log("## Register data downcast");
-		// model-to-view converter
+	// model-to-view converter
+	function modelToViewDataConverter(editor) {
+		console.log("## Register model-to-view converter ==> Data downcast");
+		
 		editor.conversion.for("dataDowncast").add(dispatcher => {
 			dispatcher.on("attribute:dataIdx", (evt, data, conversionApi) => { 
-				console.log("## dataDowncast");
+				console.log("## Data downcast");
 				const modelElement = data.item;
 				const name = data.item.name;
             	
@@ -238,6 +246,25 @@
 		$("#getDataBtn").on("click", function() {
 			editorData = myEditor.getData();
 			console.log(editorData);
+			
+			const range = myEditor.model.createRangeIn(myEditor.model.document.getRoot());
+			for (const value of range.getWalker({ ignoreElementEnd: true })) { // TreeWalker instance
+				// Position iterator class. It allows to iterate forward and backward over the document.
+				const item = value.item;
+				const name = value.item.name;
+				
+			    if (!item.is("element")) {
+			    	continue;
+			    }
+			    
+			    if (name !== "imageBlock" && name !== "imageInline") {
+			    	continue;
+			    }
+			    
+			    let input = $("<input>").attr("type", "hidden").attr("name", "uploadIdxList");
+			    let dataIdx = item.getAttribute("dataIdx");
+			    console.log("dataIdx: " + dataIdx);
+			}
 		});
 
 		$("#setDataBtn").on("click", function() {
@@ -252,16 +279,30 @@
 		
 		$("#writeBtn").on("click", function(e) {
 			e.preventDefault();
-			let form = $("#writeBoardDto");
-			let images = $(".ck-content .image, .ck-content .image-inline").find("img");
 			
-			$.each(images, function(index, item) {
-				let input = $("<input>").attr("type", "hidden").attr("name", "uploadIdxList");
-				let idx = $(this).data("idx");
+			let form = $("#writeBoardDto");
+			const range = myEditor.model.createRangeIn(myEditor.model.document.getRoot());
+			
+			for (const value of range.getWalker({ ignoreElementEnd: true })) { // TreeWalker instance
+				// Position iterator class. It allows to iterate forward and backward over the document.
+				const item = value.item;
+				const name = value.item.name;
 				
-				input.val(idx);
+			    if (!item.is("element")) {
+			    	continue;
+			    }
+			    
+			    if (name !== "imageBlock" && name !== "imageInline") {
+			    	continue;
+			    }
+			    
+			    let input = $("<input>").attr("type", "hidden").attr("name", "uploadIdxList");
+			    let dataIdx = item.getAttribute("dataIdx");
+			    console.log("dataIdx: " + dataIdx);
+				
+				input.val(dataIdx);
 				form.append(input);
-			});
+			}
 			
 			form.submit();
 		});
