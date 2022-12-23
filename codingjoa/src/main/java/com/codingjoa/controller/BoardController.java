@@ -90,7 +90,9 @@ public class BoardController {
 		int boardWriterIdx = 41;
 		writeBoardDto.setBoardWriterIdx(boardWriterIdx);
 		
-		boardService.writeBoard(writeBoardDto);
+		int boardIdx = boardService.writeBoard(writeBoardDto);
+		writeBoardDto.setBoardIdx(boardIdx);
+		
 		boardService.activateTempImage(writeBoardDto);
 		
 		return "board/write-success";

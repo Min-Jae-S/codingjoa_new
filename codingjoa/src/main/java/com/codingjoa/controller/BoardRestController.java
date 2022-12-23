@@ -59,13 +59,13 @@ public class BoardRestController {
 		}
 		
 		String uploadFilename = UploadFileUtils.upload(uploadPath, uploadFileDto.getFile());
+		
 		int uploadIdx = boardService.uploadTempImage(uploadFilename);
-		String returnUrl = uploadUrl + uploadFilename; // 	/upload/ + 6db5c891-4f87-432d-ba13-d912a21b09d3_profile.jpg
-		log.info("uploadIdx = {}, returnUrl = {}", uploadIdx, returnUrl);	
+		log.info("uploadIdx = {}", uploadIdx);	
 		
 		HashMap<String, Object> map = new HashMap<>();
 		map.put("uploadIdx", uploadIdx);
-		map.put("returnUrl", returnUrl);
+		map.put("returnUrl", uploadUrl + uploadFilename);
 		
 		return ResponseEntity.ok(SuccessResponse.create().data(map));
 	}
