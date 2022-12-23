@@ -163,7 +163,7 @@
 		editor.model.schema.extend("$inlineObject", { allowAttributes: "dataIdx" });
 	}
 	
-	// view-to-model converter
+	// view-to-model converter(upcast)
 	function viewToModelConverter(editor) {
 		console.log("## Register view-to-model converter ==> upcast");
 		editor.conversion.for("upcast").attributeToAttribute({
@@ -172,7 +172,7 @@
         });
 	}
 	
-	// model-to-view converter
+	// model-to-view converter(editing downcast)
 	// https://stackoverflow.com/questions/56402202/ckeditor5-create-element-image-with-attributes
 	// https://gitlab-new.bap.jp/chinhnc2/ckeditor5/-/blob/690049ec7b8e95ba840ab1c882b5680f3a3d1dc4/packages/ckeditor5-engine/docs/framework/guides/deep-dive/conversion-preserving-custom-content.md
 	function modelToViewEditingConverter(editor) {
@@ -203,7 +203,7 @@
         });
 	}
 	
-	// model-to-view converter
+	// model-to-view converter(data downcast)
 	function modelToViewDataConverter(editor) {
 		console.log("## Register model-to-view converter ==> Data downcast");
 		
