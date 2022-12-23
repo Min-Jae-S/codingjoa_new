@@ -87,8 +87,9 @@ public class BoardController {
 		}
 		
 //		int boardWriterIdx = principal.getMember().getMemberIdx();
-		int boardWriterIdx = 42;
+		int boardWriterIdx = 41;
 		writeBoardDto.setBoardWriterIdx(boardWriterIdx);
+		log.info("after set boardWriterIdx, {}", writeBoardDto);
 		
 		boardService.writeBoard(writeBoardDto);
 		log.info("after write board, {}", writeBoardDto);

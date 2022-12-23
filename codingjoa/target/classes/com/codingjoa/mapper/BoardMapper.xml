@@ -52,5 +52,14 @@
 		WHERE
 			upload_idx = #{uploadIdx} AND upload_board_idx IS NULL
 	</select>
+	
+	<update id="updateTempImage" parameterType="map">
+		UPDATE 
+			upload
+		SET
+			upload_board_idx = #{boardIdx},
+		WHERE
+			upload_idx = #{uploadIdx}
+	</update>
 
 </mapper>
