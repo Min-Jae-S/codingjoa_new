@@ -250,7 +250,7 @@
 			    if (!value.item.name.startsWith("image")) { 
 			    	continue;
 			    }
-			    console.log("dataIdx: " + item.getAttribute("dataIdx"));
+			    console.log("dataIdx: " + value.item.getAttribute("dataIdx"));
 			}
 		});
 
@@ -277,7 +277,8 @@
 			    }
 			    
 			    let input = $("<input>").attr("type", "hidden").attr("name", "uploadIdxList");
-			    input.val(item.getAttribute("dataIdx"));
+			    let dataIdx = value.item.getAttribute("dataIdx");
+			    input.val(dataIdx);
 				form.append(input);
 			}
 			
