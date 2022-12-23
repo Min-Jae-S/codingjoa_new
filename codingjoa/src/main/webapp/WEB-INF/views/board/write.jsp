@@ -298,9 +298,8 @@
 			    
 			    let input = $("<input>").attr("type", "hidden").attr("name", "uploadIdxList");
 			    let dataIdx = item.getAttribute("dataIdx");
-			    console.log("dataIdx: " + dataIdx);
-				
-				input.val(dataIdx);
+			    input.val(dataIdx);
+			    
 				form.append(input);
 			}
 			
