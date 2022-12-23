@@ -36,7 +36,7 @@ public class JoinValidator implements Validator {
 
 	@Override
 	public void validate(Object target, Errors errors) {
-		log.info("============== JoinValidator ==============");
+		log.info("============== JoinValidator validate ==============");
 
 		JoinDto joinDto = (JoinDto) target;
 		checkId(joinDto.getMemberId(), errors);
