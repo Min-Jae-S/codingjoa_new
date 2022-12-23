@@ -7,7 +7,9 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +19,7 @@ import com.codingjoa.dto.WriteBoardDto;
 import com.codingjoa.security.dto.UserDetailsDto;
 import com.codingjoa.service.BoardService;
 import com.codingjoa.service.CategoryService;
+import com.codingjoa.validator.WriteBoardValidator;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -30,6 +33,12 @@ public class BoardController {
 
 	@Autowired
 	private BoardService boardService;
+	
+	@InitBinder("writeBoardDto")
+	public void initBinderWriteBoard(WebDataBinder binder) {
+		binder.addValidators(new WriteBoardValidator());
+	}
+	
 	
 	@GetMapping("/all")
 	public String all() {

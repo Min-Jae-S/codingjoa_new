@@ -189,9 +189,9 @@
                 const viewWriter = conversionApi.writer;
                 const imageContainer = conversionApi.mapper.toViewElement(modelElement);
                 const imageElement = imageContainer.getChild(0);
-                console.log("modelElement	: " + modelElement.name);
-                console.log("imageContainer	: " + imageContainer.name);
-                console.log("imageElement	: " + imageElement.name);
+                //console.log("modelElement	: " + modelElement.name);
+                //console.log("imageContainer	: " + imageContainer.name);
+                //console.log("imageElement	: " + imageElement.name);
                 
                 if (data.attributeNewValue !== null) {
                 	viewWriter.setAttribute("data-idx", data.attributeNewValue, imageElement);
@@ -218,9 +218,9 @@
             	const viewWriter = conversionApi.writer;
                 const imageContainer = conversionApi.mapper.toViewElement(modelElement);
                 const imageElement = (name === "imageBlock") ? imageContainer.getChild(0) : imageContainer;
-                console.log("modelElement	: " + modelElement.name);
-                console.log("imageContainer	: " + imageContainer.name);
-                console.log("imageElement	: " + imageElement.name);
+                //console.log("modelElement	: " + modelElement.name);
+                //console.log("imageContainer	: " + imageContainer.name);
+                //console.log("imageElement	: " + imageElement.name);
                 
                 if (data.attributeNewValue !== null) {
 	                viewWriter.setAttribute("data-idx", data.attributeNewValue, imageElement);

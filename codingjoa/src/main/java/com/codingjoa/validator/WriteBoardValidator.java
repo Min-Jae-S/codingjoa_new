@@ -26,7 +26,6 @@ public class WriteBoardValidator implements Validator {
 		
 		WriteBoardDto writeBoardDto = (WriteBoardDto) target;
 		int boardCategoryCode = writeBoardDto.getBoardCategoryCode();
-		List<Integer> uploadIdxList = writeBoardDto.getUploadIdxList();
 		
 		if (!StringUtils.hasText(writeBoardDto.getBoardTitle())) {
 			errors.rejectValue("boardTitle", "NotBlank");
@@ -34,8 +33,16 @@ public class WriteBoardValidator implements Validator {
 		}
 
 		if (!StringUtils.hasText(writeBoardDto.getBoardContent())) {
-			errors.rejectValue("boardboardContent", "NotBlank");
+			errors.rejectValue("boardContent", "NotBlank");
 			return;
+		}
+		
+		List<Integer> uploadIdxList = writeBoardDto.getUploadIdxList();
+		
+		if(uploadIdxList != null) {
+			uploadIdxList.forEach(uploadIdx -> {
+				log.info("uploadIdx = {}", uploadIdx);
+			});
 		}
 		
 	}
