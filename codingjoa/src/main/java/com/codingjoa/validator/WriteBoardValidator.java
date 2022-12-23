@@ -9,7 +9,6 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 import com.codingjoa.dto.WriteBoardDto;
-import com.codingjoa.entity.Upload;
 import com.codingjoa.service.BoardService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -31,7 +30,7 @@ public class WriteBoardValidator implements Validator {
 		log.info("============== WriteBoardValidator validate ==============");
 		
 		WriteBoardDto writeBoardDto = (WriteBoardDto) target;
-		int boardCategoryCode = writeBoardDto.getBoardCategoryCode();
+		//int boardCategoryCode = writeBoardDto.getBoardCategoryCode();
 		
 		if (!StringUtils.hasText(writeBoardDto.getBoardTitle())) {
 			errors.rejectValue("boardTitle", "NotBlank");
@@ -47,7 +46,7 @@ public class WriteBoardValidator implements Validator {
 		
 		if (uploadIdxList != null) {
 			for (int uploadIdx : uploadIdxList) {
-				if (!boardService.isTmepImageUploaded(uploadIdx)) {
+				if (!boardService.isTempImageUploaded(uploadIdx)) {
 					errors.rejectValue("boardContent", "NotTempImage");
 					return;
 				}

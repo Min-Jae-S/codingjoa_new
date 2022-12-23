@@ -1,5 +1,6 @@
 package com.codingjoa.controller;
 
+import javax.annotation.Resource;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -19,7 +21,6 @@ import com.codingjoa.dto.WriteBoardDto;
 import com.codingjoa.security.dto.UserDetailsDto;
 import com.codingjoa.service.BoardService;
 import com.codingjoa.service.CategoryService;
-import com.codingjoa.validator.WriteBoardValidator;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -34,11 +35,13 @@ public class BoardController {
 	@Autowired
 	private BoardService boardService;
 	
+	@Resource(name = "writeBoardValidator")
+	private Validator writeBoardValidator;
+	
 	@InitBinder("writeBoardDto")
 	public void initBinderWriteBoard(WebDataBinder binder) {
-		binder.addValidators(new WriteBoardValidator());
+		binder.addValidators(writeBoardValidator);
 	}
-	
 	
 	@GetMapping("/all")
 	public String all() {
@@ -86,9 +89,13 @@ public class BoardController {
 //		int boardWriterIdx = principal.getMember().getMemberIdx();
 //		writeBoardDto.setBoardWriterIdx(boardWriterIdx);
 //		log.info("{}", writeBoardDto);
-//		
-//		boardService.writeBoard(writeBoardDto);
 		
+		boardService.writeBoard(writeBoardDto);
+		log.info("after write board, {}", writeBoardDto);
+		
+		boardService.activateTempImage(writeBoardDto);
+		
+		//return "board/write";
 		return "board/write-success";
 	}
 }

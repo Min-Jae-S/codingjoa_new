@@ -21,6 +21,10 @@
 	</insert>
 	
 	<insert id="insertBoard" parameterType="board">
+		<selectKey keyProperty="boardIdx" resultType="int" order="BEFORE">
+			SELECT seq.board.NEXTVAL FROM DUAL
+		</selectKey>
+	
 		INSERT INTO board (
 			board_idx,
 			board_title,
@@ -30,7 +34,7 @@
 			regdate,
 			moddate
 		) VALUES (
-			seq_board.NEXTVAL,
+			#{boardIdx}
 			#{boardTitle},
 			#{boardContent},
 			#{boardWriterIdx},
@@ -40,7 +44,7 @@
 		)
 	</insert>
 	
-	<select id="isTmepImageUploaded" parameterType="int" resultType="boolean">
+	<select id="isTempImageUploaded" parameterType="int" resultType="boolean">
 		SELECT
 			COUNT(*)
 		FROM

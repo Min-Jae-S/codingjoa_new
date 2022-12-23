@@ -83,6 +83,7 @@
 						<form:textarea path="boardContent"/>
 						<form:errors path="boardContent" cssClass="error"/>
 					</div>
+					<form:input path="uploadIdxList" type="hidden" value="2"/>
 				</form:form>
 				<button class="btn btn-info btn-block" id="getDataBtn">myEditor.getData()</button>
 				<button class="btn btn-warning btn-block" id="setDataBtn">myEditor.setData()</button>
@@ -241,14 +242,11 @@
 			
 			for (const value of range.getWalker({ ignoreElementEnd: true })) { // TreeWalker instance
 				// Position iterator class. It allows to iterate forward and backward over the document.
-				const item = value.item;
-				const name = value.item.name;
-				
-			    if (!item.is("element")) {
+			    if (!value.item.is("element")) {
 			    	continue;
 			    }
 			    
-			    if (name !== "imageBlock" && name !== "imageInline") {
+			    if (!value.item.name.startsWith("image")) { // imageBlock, imageInlne
 			    	continue;
 			    }
 			    

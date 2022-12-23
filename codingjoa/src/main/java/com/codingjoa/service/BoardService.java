@@ -8,5 +8,7 @@ public interface BoardService {
 	
 	void writeBoard(WriteBoardDto writeBoardDto);
 	
-	boolean isTmepImageUploaded(int uploadIdx);
+	boolean isTempImageUploaded(int uploadIdx);
+	
+	void activateTempImage(WriteBoardDto writeBoardDto);
 }

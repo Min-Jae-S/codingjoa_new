@@ -38,7 +38,7 @@ public class MemberServiceImpl implements MemberService {
 		joinDto.setMemberPassword(encPassword);
 		
 		Member member = modelMapper.map(joinDto, Member.class);
-		log.info("{}", member);
+		log.info("joinDto ==> {}", member);
 		
 		memberMapper.registerMember(member);
 		

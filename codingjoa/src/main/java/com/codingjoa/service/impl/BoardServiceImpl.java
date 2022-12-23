@@ -36,16 +36,23 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public void writeBoard(WriteBoardDto writeBoardDto) {
 		Board board = modelMapper.map(writeBoardDto, Board.class);
-		log.info("{}", board);
+		log.info("writeBoardDto ==> {}", board);
 		
 		boardMapper.insertBoard(board);
-		
-		// upload_board_idx: null --> int
 	}
 
 	@Override
-	public boolean isTmepImageUploaded(int uploadIdx) {
-		return boardMapper.isTmepImageUploaded(uploadIdx);
+	public boolean isTempImageUploaded(int uploadIdx) {
+		return boardMapper.isTempImageUploaded(uploadIdx);
+	}
+
+	@Override
+	public void activateTempImage(WriteBoardDto writeBoardDto) {
+		int boardIdx = writeBoardDto.getBoardIdx();
+
+		writeBoardDto.getUploadIdxList().forEach(uploadIdx -> {
+			boardMapper.updateTempImage(boardIdx, uploadIdx);
+		});
 	}
 	
 	

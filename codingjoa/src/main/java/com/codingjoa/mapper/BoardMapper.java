@@ -1,6 +1,7 @@
 package com.codingjoa.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.codingjoa.entity.Board;
 import com.codingjoa.entity.Upload;
@@ -12,6 +13,8 @@ public interface BoardMapper {
 	
 	void insertBoard(Board board);
 	
-	boolean isTmepImageUploaded(int uploadIdx);
+	boolean isTempImageUploaded(int uploadIdx);
+	
+	void updateTempImage(@Param("boardIdx") int boardIdx, @Param("uploadIdx") int uploadIdx);
 	
 }
