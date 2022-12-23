@@ -52,7 +52,6 @@ public class WriteBoardValidator implements Validator {
 				}
 			}
 		}
-		
 	}
 
 }

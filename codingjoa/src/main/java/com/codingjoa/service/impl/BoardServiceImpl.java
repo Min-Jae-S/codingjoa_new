@@ -39,6 +39,7 @@ public class BoardServiceImpl implements BoardService {
 		log.info("writeBoardDto ==> {}", board);
 		
 		boardMapper.insertBoard(board);
+		writeBoardDto.setBoardIdx(board.getBoardIdx());
 	}
 
 	@Override

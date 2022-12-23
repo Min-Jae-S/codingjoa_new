@@ -22,7 +22,7 @@
 	
 	<insert id="insertBoard" parameterType="board">
 		<selectKey keyProperty="boardIdx" resultType="int" order="BEFORE">
-			SELECT seq.board.NEXTVAL FROM DUAL
+			SELECT seq_board.NEXTVAL FROM DUAL
 		</selectKey>
 	
 		INSERT INTO board (
@@ -34,7 +34,7 @@
 			regdate,
 			moddate
 		) VALUES (
-			#{boardIdx}
+			#{boardIdx},
 			#{boardTitle},
 			#{boardContent},
 			#{boardWriterIdx},
@@ -57,7 +57,7 @@
 		UPDATE 
 			upload
 		SET
-			upload_board_idx = #{boardIdx},
+			upload_board_idx = #{boardIdx}
 		WHERE
 			upload_idx = #{uploadIdx}
 	</update>

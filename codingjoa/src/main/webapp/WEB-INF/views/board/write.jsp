@@ -83,7 +83,6 @@
 						<form:textarea path="boardContent"/>
 						<form:errors path="boardContent" cssClass="error"/>
 					</div>
-					<form:input path="uploadIdxList" type="hidden" value="2"/>
 				</form:form>
 				<button class="btn btn-info btn-block" id="getDataBtn">myEditor.getData()</button>
 				<button class="btn btn-warning btn-block" id="setDataBtn">myEditor.setData()</button>
@@ -108,7 +107,8 @@
 				modelToViewEditingConverter, 
 				modelToViewDataConverter
 			],
-			htmlSupport: { // https://ckeditor.com/docs/ckeditor5/latest/features/general-html-support.html
+			// https://ckeditor.com/docs/ckeditor5/latest/features/general-html-support.html
+			htmlSupport: { 
 				allow: [
 					{
 						attributes: [
@@ -142,12 +142,12 @@
 	    };
 	}
 	
+	// https://ckeditor.com/docs/ckeditor5/latest/api/module_image_imageupload_imageuploadediting-ImageUploadEditing.html#event-uploadComplete
 	function uploadCompleteListener(editor) {
 		console.log("## Register event listener(uploadComplete)");
 		
 		editor.plugins.get("ImageUploadEditing").on("uploadComplete", (evt, {data, imageElement}) => {
 			console.log("## Upload complete");
-			// https://ckeditor.com/docs/ckeditor5/latest/api/module_image_imageupload_imageuploadediting-ImageUploadEditing.html#event-uploadComplete
 			editor.model.change(writer => {
 				evt.stop();
 				writer.setAttribute("src", "${contextPath}" + data.url, imageElement);
@@ -156,8 +156,8 @@
 		});
 	}
 	
+	// https://github.com/ckeditor/ckeditor5/issues/5204
 	function extendAttribute(editor) {
-		// https://github.com/ckeditor/ckeditor5/issues/5204
 		console.log("## Allow custom attribute ==> blockObject, inlineOjbect");
 		editor.model.schema.extend("$blockObject", { allowAttributes: "dataIdx" });
 		editor.model.schema.extend("$inlineObject", { allowAttributes: "dataIdx" });
@@ -173,11 +173,11 @@
 	}
 	
 	// model-to-view converter
+	// https://stackoverflow.com/questions/56402202/ckeditor5-create-element-image-with-attributes
+	// https://gitlab-new.bap.jp/chinhnc2/ckeditor5/-/blob/690049ec7b8e95ba840ab1c882b5680f3a3d1dc4/packages/ckeditor5-engine/docs/framework/guides/deep-dive/conversion-preserving-custom-content.md
 	function modelToViewEditingConverter(editor) {
 		console.log("## Register model-to-view converter ==> Editing downcast");
 		
-		// https://stackoverflow.com/questions/56402202/ckeditor5-create-element-image-with-attributes
-		// https://gitlab-new.bap.jp/chinhnc2/ckeditor5/-/blob/690049ec7b8e95ba840ab1c882b5680f3a3d1dc4/packages/ckeditor5-engine/docs/framework/guides/deep-dive/conversion-preserving-custom-content.md
 		editor.conversion.for("editingDowncast").add(dispatcher => { // downcastDispatcher
             dispatcher.on("attribute:dataIdx", (evt, data, conversionApi) => {
             	console.log("## Editing downcast");
@@ -246,17 +246,16 @@
 			    	continue;
 			    }
 			    
-			    if (!value.item.name.startsWith("image")) { // imageBlock, imageInlne
+			 	// imageBlock, imageInlne
+			    if (!value.item.name.startsWith("image")) { 
 			    	continue;
 			    }
-			    
 			    console.log("dataIdx: " + item.getAttribute("dataIdx"));
 			}
 		});
 
 		$("#resetBtn").on("click", function() {
-			//$("form")[0].reset();
-			$("#writeBoardDto").trigger("reset");
+			$("#writeBoardDto").trigger("reset"); //$("form")[0].reset();
 			myEditor.setData("");
 		});
 		
@@ -268,20 +267,17 @@
 			
 			for (const value of range.getWalker({ ignoreElementEnd: true })) { // TreeWalker instance
 				// Position iterator class. It allows to iterate forward and backward over the document.
-				const item = value.item;
-				const name = value.item.name;
-				
-			    if (!item.is("element")) {
+			    if (!value.item.is("element")) {
 			    	continue;
 			    }
 			    
-			    if (name !== "imageBlock" && name !== "imageInline") {
+			 	// imageBlock, imageInlne
+			    if (!value.item.name.startsWith("image")) { 
 			    	continue;
 			    }
 			    
 			    let input = $("<input>").attr("type", "hidden").attr("name", "uploadIdxList");
 			    input.val(item.getAttribute("dataIdx"));
-			    
 				form.append(input);
 			}
 			
