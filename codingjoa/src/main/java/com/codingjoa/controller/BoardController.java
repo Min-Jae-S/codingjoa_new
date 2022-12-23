@@ -87,15 +87,14 @@ public class BoardController {
 		}
 		
 //		int boardWriterIdx = principal.getMember().getMemberIdx();
-//		writeBoardDto.setBoardWriterIdx(boardWriterIdx);
-//		log.info("{}", writeBoardDto);
+		int boardWriterIdx = 42;
+		writeBoardDto.setBoardWriterIdx(boardWriterIdx);
 		
 		boardService.writeBoard(writeBoardDto);
 		log.info("after write board, {}", writeBoardDto);
 		
 		boardService.activateTempImage(writeBoardDto);
 		
-		//return "board/write";
 		return "board/write-success";
 	}
 }

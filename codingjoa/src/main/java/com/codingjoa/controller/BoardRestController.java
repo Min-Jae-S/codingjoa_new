@@ -63,8 +63,8 @@ public class BoardRestController {
 		int uploadIdx = boardService.uploadTempImage(uploadFilename);
 		log.info("uploadIdx = {}", uploadIdx);
 		
-		String returnUrl = uploadUrl + uploadFilename;
-		log.info("returnUrl = {}", returnUrl);	// 	/upload/6db5c891-4f87-432d-ba13-d912a21b09d3_profile.jpg
+		String returnUrl = uploadUrl + uploadFilename; // 	/upload/6db5c891-4f87-432d-ba13-d912a21b09d3_profile.jpg
+		log.info("returnUrl = {}", returnUrl);	
 		
 		HashMap<String, Object> map = new HashMap<>();
 		map.put("uploadIdx", uploadIdx);
