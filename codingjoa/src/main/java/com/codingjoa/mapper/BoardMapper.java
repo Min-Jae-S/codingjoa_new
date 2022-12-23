@@ -12,4 +12,6 @@ public interface BoardMapper {
 	
 	void insertBoard(Board board);
 	
+	boolean isTmepImageUploaded(int uploadIdx);
+	
 }

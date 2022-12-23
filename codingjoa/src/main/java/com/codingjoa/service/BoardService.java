@@ -7,4 +7,6 @@ public interface BoardService {
 	int uploadTempImage(String uploadFilename);
 	
 	void writeBoard(WriteBoardDto writeBoardDto);
+	
+	boolean isTmepImageUploaded(int uploadIdx);
 }

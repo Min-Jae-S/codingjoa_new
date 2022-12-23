@@ -42,6 +42,11 @@ public class BoardServiceImpl implements BoardService {
 		
 		// upload_board_idx: null --> int
 	}
+
+	@Override
+	public boolean isTmepImageUploaded(int uploadIdx) {
+		return boardMapper.isTmepImageUploaded(uploadIdx);
+	}
 	
 	
 }

@@ -39,5 +39,14 @@
 			SYSDATE
 		)
 	</insert>
+	
+	<select id="isTmepImageUploaded" parameterType="int" resultType="boolean">
+		SELECT
+			COUNT(*)
+		FROM
+			upload
+		WHERE
+			upload_idx = #{uploadIdx} AND upload_board_idx IS NULL
+	</select>
 
 </mapper>

@@ -2,12 +2,15 @@ package com.codingjoa.validator;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 import com.codingjoa.dto.WriteBoardDto;
+import com.codingjoa.entity.Upload;
+import com.codingjoa.service.BoardService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -15,6 +18,9 @@ import lombok.extern.slf4j.Slf4j;
 @Component(value = "writeBoardValidator")
 public class WriteBoardValidator implements Validator {
 
+	@Autowired
+	private BoardService boardService;
+	
 	@Override
 	public boolean supports(Class<?> clazz) {
 		return WriteBoardDto.class.isAssignableFrom(clazz);
@@ -39,10 +45,13 @@ public class WriteBoardValidator implements Validator {
 		
 		List<Integer> uploadIdxList = writeBoardDto.getUploadIdxList();
 		
-		if(uploadIdxList != null) {
-			uploadIdxList.forEach(uploadIdx -> {
-				log.info("uploadIdx = {}", uploadIdx);
-			});
+		if (uploadIdxList != null) {
+			for (int uploadIdx : uploadIdxList) {
+				if (!boardService.isTmepImageUploaded(uploadIdx)) {
+					errors.rejectValue("boardContent", "NotTempImage");
+					return;
+				}
+			}
 		}
 		
 	}

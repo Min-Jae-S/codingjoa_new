@@ -83,11 +83,11 @@ public class BoardController {
 			return "board/write";
 		}
 		
-		int boardWriterIdx = principal.getMember().getMemberIdx();
-		writeBoardDto.setBoardWriterIdx(boardWriterIdx);
-		log.info("{}", writeBoardDto);
-		
-		boardService.writeBoard(writeBoardDto);
+//		int boardWriterIdx = principal.getMember().getMemberIdx();
+//		writeBoardDto.setBoardWriterIdx(boardWriterIdx);
+//		log.info("{}", writeBoardDto);
+//		
+//		boardService.writeBoard(writeBoardDto);
 		
 		return "board/write-success";
 	}
