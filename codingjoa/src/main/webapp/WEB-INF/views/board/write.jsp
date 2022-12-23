@@ -238,14 +238,11 @@
 	}
 	
 	$(function() {
-		let editorData;
-		
 		// https://ckeditor.com/docs/ckeditor5/latest/api/module_image_imageupload_imageuploadui-ImageUploadUI.html
 		$("input[type='file']").removeAttr("accept"); /*.removeAttr("multiple");*/
 		
 		$("#getDataBtn").on("click", function() {
-			editorData = myEditor.getData();
-			console.log(editorData);
+			console.log(myEditor.getData());
 			
 			const range = myEditor.model.createRangeIn(myEditor.model.document.getRoot());
 			for (const value of range.getWalker({ ignoreElementEnd: true })) { // TreeWalker instance
@@ -261,14 +258,8 @@
 			    	continue;
 			    }
 			    
-			    let input = $("<input>").attr("type", "hidden").attr("name", "uploadIdxList");
-			    let dataIdx = item.getAttribute("dataIdx");
-			    console.log("dataIdx: " + dataIdx);
+			    console.log("dataIdx: " + item.getAttribute("dataIdx"));
 			}
-		});
-
-		$("#setDataBtn").on("click", function() {
-			myEditor.setData(editorData);
 		});
 
 		$("#resetBtn").on("click", function() {
@@ -297,8 +288,7 @@
 			    }
 			    
 			    let input = $("<input>").attr("type", "hidden").attr("name", "uploadIdxList");
-			    let dataIdx = item.getAttribute("dataIdx");
-			    input.val(dataIdx);
+			    input.val(item.getAttribute("dataIdx"));
 			    
 				form.append(input);
 			}
