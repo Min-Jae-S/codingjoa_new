@@ -9,7 +9,9 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 import com.codingjoa.dto.WriteBoardDto;
+import com.codingjoa.entity.Category;
 import com.codingjoa.service.BoardService;
+import com.codingjoa.service.CategoryService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -19,6 +21,9 @@ public class WriteBoardValidator implements Validator {
 
 	@Autowired
 	private BoardService boardService;
+	
+	@Autowired
+	private CategoryService categoryService;
 	
 	@Override
 	public boolean supports(Class<?> clazz) {
@@ -30,7 +35,25 @@ public class WriteBoardValidator implements Validator {
 		log.info("============== WriteBoardValidator validate ==============");
 		
 		WriteBoardDto writeBoardDto = (WriteBoardDto) target;
-		//int boardCategoryCode = writeBoardDto.getBoardCategoryCode();
+		Category category = categoryService.findCategory(writeBoardDto.getBoardCategoryCode());
+		log.info("{}", category);
+		
+		if (category == null) {
+			errors.rejectValue("boardCategoryCode", "NotCategory");
+			return;
+		}
+		
+		Integer categoryCode = category.getCategoryCode();
+		
+		if (categoryCode == null) {
+			errors.rejectValue("boardCategoryCode", "NotBoard");
+			return;
+		}
+		
+		if (categoryCode != 1) {
+			errors.rejectValue("boardCategoryCode", "NotBoard");
+			return;
+		}
 		
 		if (!StringUtils.hasText(writeBoardDto.getBoardTitle())) {
 			errors.rejectValue("boardTitle", "NotBlank");

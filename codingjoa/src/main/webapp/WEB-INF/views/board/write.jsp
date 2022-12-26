@@ -67,6 +67,7 @@
 									</option>
 								</c:forEach>
 							</form:select>
+							<form:errors path="boardCategoryCode" cssClass="error"/>
 						</div>
 						<div class="form-group col-md-2">
 							<form:button class="btn btn-primary btn-block" id="writeBtn">등록</form:button>
@@ -84,8 +85,6 @@
 						<form:errors path="boardContent" cssClass="error"/>
 					</div>
 				</form:form>
-				<button class="btn btn-info btn-block" id="getDataBtn">myEditor.getData()</button>
-				<button class="btn btn-warning btn-block" id="setDataBtn">myEditor.setData()</button>
 			</div>
 		</div>
 		<div class="col-sm-2"></div>
