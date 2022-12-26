@@ -38,4 +38,21 @@ public class CategoryServiceImpl implements CategoryService {
 	public List<Category> findBoardCategoryList() {
 		return categoryMapper.findBoardCategoryList();
 	}
+
+	@Override
+	public boolean isBoardCategory(int categoryCode) {
+		Category category = categoryMapper.findCategory(categoryCode);
+		
+		if (category == null) {
+			return false;
+		}
+		
+		if (!"/board".equals(category.getCategoryPath())) {
+			return false;
+		}
+		
+		return true;
+	}
+	
+	
 }
