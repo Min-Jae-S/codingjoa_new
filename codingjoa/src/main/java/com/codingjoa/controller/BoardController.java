@@ -82,6 +82,10 @@ public class BoardController {
 		log.info("{}", writeBoardDto);
 		
 		if (bindingResult.hasErrors()) {
+			bindingResult.getAllErrors().forEach(objectError -> {
+				log.info("error code = {}", objectError.getCodes()[0]);
+			});
+			
 			//int categoryCode = writeBoardDto.getBoardCategoryCode();
 			//model.addAttribute("categoryList", categoryService.findCategoryOfSameParent(1));
 			model.addAttribute("categoryList", categoryService.findBoardCategoryList());

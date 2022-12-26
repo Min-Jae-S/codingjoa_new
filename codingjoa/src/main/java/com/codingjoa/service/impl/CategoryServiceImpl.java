@@ -9,6 +9,9 @@ import com.codingjoa.entity.Category;
 import com.codingjoa.mapper.CategoryMapper;
 import com.codingjoa.service.CategoryService;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class CategoryServiceImpl implements CategoryService {
 	
@@ -42,6 +45,7 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public boolean isBoardCategory(int categoryCode) {
 		String parentCategoryPath = categoryMapper.findParentCategoryPath(categoryCode);
+		log.info("parentCategoryPath = {}", parentCategoryPath);
 		
 		if (!"/board".equals(parentCategoryPath)) {
 			return false;
