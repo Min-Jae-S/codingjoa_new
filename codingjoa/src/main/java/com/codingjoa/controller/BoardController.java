@@ -69,7 +69,9 @@ public class BoardController {
 		log.info("{}", writeBoardDto);
 		
 		writeBoardDto.setBoardCategoryCode(categoryCode);
-		model.addAttribute("categoryList", categoryService.findCategoryOfSameParent(categoryCode));
+		//model.addAttribute("categoryList", categoryService.findCategoryOfSameParent(categoryCode));
+		model.addAttribute("categoryList", categoryService.findBoardCategoryList());
+		log.info("{}", categoryService.findBoardCategoryList());
 		
 		return "board/write";
 	}
@@ -80,8 +82,9 @@ public class BoardController {
 		log.info("{}", writeBoardDto);
 		
 		if (bindingResult.hasErrors()) {
-			int categoryCode = writeBoardDto.getBoardCategoryCode();
-			model.addAttribute("categoryList", categoryService.findCategoryOfSameParent(categoryCode));
+			//int categoryCode = writeBoardDto.getBoardCategoryCode();
+			//model.addAttribute("categoryList", categoryService.findCategoryOfSameParent(1));
+			model.addAttribute("categoryList", categoryService.findBoardCategoryList());
 			
 			return "board/write";
 		}

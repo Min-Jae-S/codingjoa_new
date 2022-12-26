@@ -35,22 +35,21 @@ public class WriteBoardValidator implements Validator {
 		log.info("============== WriteBoardValidator validate ==============");
 		
 		WriteBoardDto writeBoardDto = (WriteBoardDto) target;
-		Category category = categoryService.findCategory(writeBoardDto.getBoardCategoryCode());
-		log.info("{}", category);
 		
+		Category category = categoryService.findCategory(writeBoardDto.getBoardCategoryCode());
 		if (category == null) {
 			errors.rejectValue("boardCategoryCode", "NotCategory");
 			return;
 		}
 		
-		Integer categoryCode = category.getCategoryCode();
+		Integer cateogyParentCode = category.getCategoryParentCode();
 		
-		if (categoryCode == null) {
+		if (cateogyParentCode == null) {
 			errors.rejectValue("boardCategoryCode", "NotBoard");
 			return;
 		}
 		
-		if (categoryCode != 1) {
+		if (cateogyParentCode != 1) {
 			errors.rejectValue("boardCategoryCode", "NotBoard");
 			return;
 		}

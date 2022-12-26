@@ -36,10 +36,10 @@
 			category_code = #{categoryCode}	
 	</select>
 	
-	<select id="findCategoryOfSameParent" parameterType="int" resultType="category">
+	<!-- <select id="findCategoryOfSameParent" parameterType="int" resultType="category">
 		SELECT
 			a.category_code,
-			a.category_parent_code,
+			a.category_parent_code, 
 			a.category_name,
 			a.category_path
 		FROM
@@ -50,6 +50,21 @@
 			a.category_parent_code = b.category_parent_code
 		WHERE
 			b.category_code = #{categoryCode}
+	</select> -->
+	
+	<select id="findBoardCategoryList" resultType="category">
+		SELECT
+			category_code,
+			category_name
+		FROM
+			category
+		WHERE
+			category_parent_code = ( SELECT 
+										category_code 
+									 FROM 
+									 	category 
+									 WHERE 
+									 	category_path = '/board' )
 	</select>
 	
 </mapper>

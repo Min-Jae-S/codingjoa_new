@@ -29,8 +29,13 @@ public class CategoryServiceImpl implements CategoryService {
 		return categoryMapper.findCategory(categoryCode);
 	}
 
+//	@Override
+//	public List<Category> findCategoryOfSameParent(int categoryCode) {
+//		return categoryMapper.findCategoryOfSameParent(categoryCode);
+//	}
+
 	@Override
-	public List<Category> findCategoryOfSameParent(int categoryCode) {
-		return categoryMapper.findCategoryOfSameParent(categoryCode);
+	public List<Category> findBoardCategoryList() {
+		return categoryMapper.findBoardCategoryList();
 	}
 }

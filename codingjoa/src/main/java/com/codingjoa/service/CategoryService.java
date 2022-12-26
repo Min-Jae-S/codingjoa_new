@@ -12,5 +12,7 @@ public interface CategoryService {
 	
 	Category findCategory(int categoryCode);
 	
-	List<Category> findCategoryOfSameParent(int categoryCode);
+	//List<Category> findCategoryOfSameParent(int categoryCode);
+	
+	List<Category> findBoardCategoryList();
 }
