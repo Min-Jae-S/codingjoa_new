@@ -93,7 +93,7 @@ public class BoardController {
 			return "board/write";
 		}
 		
-//		int boardWriterIdx = principal.getMember().getMemberIdx();
+		//int boardWriterIdx = principal.getMember().getMemberIdx();
 		int boardWriterIdx = 41;
 		writeBoardDto.setBoardWriterIdx(boardWriterIdx);
 		

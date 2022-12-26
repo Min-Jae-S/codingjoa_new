@@ -15,7 +15,7 @@ public interface CategoryMapper {
 	
 	Category findCategory(int categoryCode);
 	
-	//List<Category> findCategoryOfSameParent(int categoryParentCode); // Self Join
+	//List<Category> findCategoryOfSameParent(int categoryParentCode); // self join
 	
 	List<Category> findBoardCategoryList();
 	
