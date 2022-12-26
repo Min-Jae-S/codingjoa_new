@@ -67,6 +67,7 @@
 									</option>
 								</c:forEach>
 							</form:select>
+							<form:errors path="boardCategoryCode" cssClass="error"/>
 						</div>
 						<div class="form-group col-md-2">
 							<form:button class="btn btn-primary btn-block" id="writeBtn">등록</form:button>
@@ -74,7 +75,7 @@
 						<div class="form-group col-md-2">
 							<button type="button" class="btn btn-secondary btn-block" id="resetBtn">취소</button>
 						</div>
-						<form:errors path="boardCategoryCode" cssClass="error"/>
+						
 					</div>
 					<div class="form-group">
 						<form:input path="boardTitle" class="form-control" placeholder="제목을 입력하세요."/>
