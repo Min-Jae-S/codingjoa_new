@@ -75,7 +75,6 @@
 						<div class="form-group col-md-2">
 							<button type="button" class="btn btn-secondary btn-block" id="resetBtn">취소</button>
 						</div>
-						
 					</div>
 					<div class="form-group">
 						<form:input path="boardTitle" class="form-control" placeholder="제목을 입력하세요."/>
@@ -250,6 +249,7 @@
 			    if (!value.item.name.startsWith("image")) { 
 			    	continue;
 			    }
+			 	
 			    console.log("dataIdx: " + value.item.getAttribute("dataIdx"));
 			}
 		});
@@ -278,6 +278,7 @@
 			    
 			    let input = $("<input>").attr("type", "hidden").attr("name", "uploadIdxList");
 			    let dataIdx = value.item.getAttribute("dataIdx");
+			    
 			    input.val(dataIdx);
 				form.append(input);
 			}
