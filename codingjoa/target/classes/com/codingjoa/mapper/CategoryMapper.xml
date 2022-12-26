@@ -67,4 +67,18 @@
 									 	category_path = '/board' )
 	</select>
 	
+	<select id="findParentCategoryPath" parameterType="int" resultType="string">
+		SELECT
+			category_path
+		FROM
+			category
+		WHERE
+			category_code = ( SELECT 
+								category_parent_code 
+							  FROM 
+								category 
+							  WHERE 
+								category_code = #{categoryCode} )
+	</select>
+	
 </mapper>

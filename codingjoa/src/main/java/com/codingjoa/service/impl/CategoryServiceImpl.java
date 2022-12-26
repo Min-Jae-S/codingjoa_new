@@ -41,13 +41,9 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Override
 	public boolean isBoardCategory(int categoryCode) {
-		Category category = categoryMapper.findCategory(categoryCode);
+		String parentCategoryPath = categoryMapper.findParentCategoryPath(categoryCode);
 		
-		if (category == null) {
-			return false;
-		}
-		
-		if (!"/board".equals(category.getCategoryPath())) {
+		if (!"/board".equals(parentCategoryPath)) {
 			return false;
 		}
 		

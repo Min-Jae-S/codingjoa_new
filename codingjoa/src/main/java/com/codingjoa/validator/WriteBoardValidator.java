@@ -9,7 +9,6 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 import com.codingjoa.dto.WriteBoardDto;
-import com.codingjoa.entity.Category;
 import com.codingjoa.service.BoardService;
 import com.codingjoa.service.CategoryService;
 
