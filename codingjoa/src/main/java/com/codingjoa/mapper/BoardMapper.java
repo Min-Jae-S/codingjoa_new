@@ -1,5 +1,8 @@
 package com.codingjoa.mapper;
 
+import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -16,5 +19,7 @@ public interface BoardMapper {
 	boolean isTempImageUploaded(int uploadIdx);
 	
 	void updateTempImage(@Param("boardIdx") int boardIdx, @Param("uploadIdx") int uploadIdx);
+	
+	List<Map<String, Object>> findBoardDetailsList();
 	
 }

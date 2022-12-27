@@ -1,9 +1,14 @@
 package com.codingjoa.service.impl;
 
+import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.codingjoa.dto.BoardDetailsDto;
 import com.codingjoa.dto.WriteBoardDto;
 import com.codingjoa.entity.Board;
 import com.codingjoa.entity.Upload;
@@ -55,6 +60,13 @@ public class BoardServiceImpl implements BoardService {
 		writeBoardDto.getUploadIdxList().forEach(uploadIdx -> {
 			boardMapper.updateTempImage(boardIdx, uploadIdx);
 		});
+	}
+
+	@Override
+	public List<BoardDetailsDto> findBoardDetailsList() {
+		return boardMapper.findBoardDetailsList().stream()
+				.map(boardDetailsMap -> modelMapper.map(boardDetailsMap, BoardDetailsDto.class))
+				.collect(Collectors.toList());
 	}
 	
 	

@@ -1,5 +1,8 @@
 package com.codingjoa.service;
 
+import java.util.List;
+
+import com.codingjoa.dto.BoardDetailsDto;
 import com.codingjoa.dto.WriteBoardDto;
 
 public interface BoardService {
@@ -11,4 +14,6 @@ public interface BoardService {
 	boolean isTempImageUploaded(int uploadIdx);
 	
 	void activateTempImage(WriteBoardDto writeBoardDto);
+	
+	List<BoardDetailsDto> findBoardDetailsList();
 }

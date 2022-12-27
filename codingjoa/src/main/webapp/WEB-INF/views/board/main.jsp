@@ -27,7 +27,7 @@
 		<div class="col-sm-8">
 			<h5 class="font-weight-bold">${category.categoryName}</h5>
 			<div class="pt-3" style="border-top: 1px solid black;">
-				<button class="btn btn-primary" id="writeBtn">글쓰기</button>
+				<a class="btn btn-primary" href="${contextPath}/board/write?categoryCode=${category.categoryCode}">글쓰기</a>
 			</div>
 		</div>		
 		<div class="col-sm-2"></div>
@@ -38,9 +38,7 @@
 
 <script>
 	$(function() {
-		$("#writeBtn").on("click", function() {
-			location.href = "${contextPath}/board/write?categoryCode=${category.categoryCode}";
-		});
+		
 	});
 </script>	
 </body>

@@ -53,6 +53,8 @@ public class BoardController {
 		log.info("categoryCode = {}", categoryCode);
 		
 		model.addAttribute("category", categoryService.findCategory(categoryCode));
+		model.addAttribute("boardDetailsList", boardService.findBoardDetailsList());
+		log.info("{}", boardService.findBoardDetailsList());
 		
 		return "board/main";
 	}
