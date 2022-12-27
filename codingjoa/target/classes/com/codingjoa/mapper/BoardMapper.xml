@@ -84,7 +84,7 @@
 			upload_idx = #{uploadIdx}
 	</update>
 	
-	<select id="findBoardDetailsList" resultMap="boardDetailsMap">
+	<select id="findBoardDetailsList" parameterType="int" resultMap="boardDetailsMap">
 		SELECT 
 			a.board_idx, 
 			a.board_title, 
@@ -101,6 +101,8 @@
 			member b
 		ON
 			a.board_writer_idx = b.member_idx
+		WHERE
+			a.board_category_code = #{boardCategoryCode}
 	</select>
 
 </mapper>

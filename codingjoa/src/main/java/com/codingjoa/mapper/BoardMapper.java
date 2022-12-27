@@ -20,6 +20,6 @@ public interface BoardMapper {
 	
 	void updateTempImage(@Param("boardIdx") int boardIdx, @Param("uploadIdx") int uploadIdx);
 	
-	List<Map<String, Object>> findBoardDetailsList();
+	List<Map<String, Object>> findBoardDetailsList(int categoryCode);
 	
 }
