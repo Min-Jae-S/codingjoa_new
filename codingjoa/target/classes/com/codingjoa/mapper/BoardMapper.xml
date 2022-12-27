@@ -13,7 +13,7 @@
 -->
 
 	<resultMap type="map" id="boardDetailsMap">
-		<result property="boardIdx" column="board_idx"/>
+		<id property="boardIdx" column="board_idx"/>
 		<result property="boardTitle" column="board_title"/>
 		<result property="boardContent" column="board_content"/>
 		<result property="boardWriterIdx" column="board_writer_idx"/>

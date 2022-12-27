@@ -27,6 +27,28 @@
 		<div class="col-sm-8">
 			<h5 class="font-weight-bold">${category.categoryName}</h5>
 			<div class="pt-3" style="border-top: 1px solid black;">
+				<table class="table table-hover" id='board_list'>
+					<thead>
+						<tr>
+							<th class="text-center d-none d-md-table-cell">글번호</th>
+							<th class="w-50">제목</th>
+							<th class="text-center d-none d-md-table-cell">작성자</th>
+							<th class="text-center d-none d-md-table-cell">작성일</th>
+							<th class="text-center d-none d-md-table-cell">조회</th>
+						</tr>
+					</thead>
+					<tbody>
+						<c:forEach var='boardDetailsDto' items="${boardDetailsList}">
+							<tr>
+								<td class="text-center d-none d-md-table-cell">${boardDetailsDto.boardIdx}</td>
+								<td><a href='${contextPath}/board/read?boardIdx=${boardDetailsDto.boardIdx}'>${boardDetailsDto.boardTitle}</a></td>
+								<td class="text-center d-none d-md-table-cell">${boardDetailsDto.memberId}</td>
+								<td class="text-center d-none d-md-table-cell">${boardDetailsDto.regdate}</td>
+								<td class="text-center d-none d-md-table-cell">${boardDetailsDto.boardViews}</td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
 				<a class="btn btn-primary" href="${contextPath}/board/write?categoryCode=${category.categoryCode}">글쓰기</a>
 			</div>
 		</div>		
