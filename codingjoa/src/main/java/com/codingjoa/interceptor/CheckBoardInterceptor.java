@@ -18,34 +18,34 @@ public class CheckBoardInterceptor implements HandlerInterceptor {
 
 	@Autowired
 	private CategoryService categoryService;
-	
+
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		log.info("============== CheckBoardInterceptor ==============");
-		
+
 		String categoryCode = request.getParameter("categoryCode");
-		
-		if(!isNumeric(categoryCode) || !categoryService.isBoardCategory(Integer.parseInt(categoryCode))) {
+
+		if (!isNumeric(categoryCode) || !categoryService.isBoardCategory(Integer.parseInt(categoryCode))) {
 			response.setContentType("text/html;charset=utf-8");
-			
+
 			String referer = request.getHeader("Referer");
 			String redirectUrl = referer != null ? referer : request.getContextPath();
 			log.info("redirectUrl = {}", redirectUrl);
-			
+
 			PrintWriter out = response.getWriter();
 			out.print("<script>");
 			out.print("alert('" + MessageUtils.getMessage("error.NotBoard") + "');");
-			out.print("location.href='" +  redirectUrl + "';");
+			out.print("location.href='" + redirectUrl + "';");
 			out.print("</script>");
 			out.close();
-			
+
 			return false;
 		}
-		
+
 		return true;
 	}
-	
+
 	private boolean isNumeric(String categoryCode) {
 		try {
 			Integer.parseInt(categoryCode);
@@ -55,5 +55,5 @@ public class CheckBoardInterceptor implements HandlerInterceptor {
 			return false;
 		}
 	}
-	
+
 }
