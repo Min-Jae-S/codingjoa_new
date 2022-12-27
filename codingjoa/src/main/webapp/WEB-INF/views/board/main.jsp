@@ -22,12 +22,14 @@
 	}
 
 	.table thead th {
+		text-align: center;
 		vertical-align: middle;
 		border-top: 1px solid black;
 		border-bottom: 1px solid #dee2e6;
 	}
 
 	.table td {
+		text-align: center;
 		vertical-align: middle;
 		border-top: none;
 		border-bottom: 1px solid #dee2e6;
@@ -51,23 +53,23 @@
 				<table class="table">
 					<thead>
 						<tr>
-							<th class="text-center d-none d-md-table-cell">번호</th>
-							<th class="text-center d-none d-md-table-cell w-50">제목</th>
-							<th class="text-center d-none d-md-table-cell">작성자</th>
-							<th class="text-center d-none d-md-table-cell">작성일</th>
-							<th class="text-center d-none d-md-table-cell">조회</th>
+							<th class="d-md-table-cell">번호</th>
+							<th class="d-md-table-cell w-50">제목</th>
+							<th class="d-md-table-cell">작성자</th>
+							<th class="d-md-table-cell">작성일</th>
+							<th class="d-md-table-cell">조회</th>
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach var='boardDetailsDto' items="${boardDetailsList}">
+						<c:forEach var='boardDetails' items="${boardDetailsList}">
 							<tr>
-								<td class="text-center d-none d-md-table-cell">${boardDetailsDto.boardIdx}</td>
-								<td><a href='${contextPath}/board/read?boardIdx=${boardDetailsDto.boardIdx}'>${boardDetailsDto.boardTitle}</a></td>
-								<td class="text-center d-none d-md-table-cell">${boardDetailsDto.memberId}</td>
-								<td class="text-center d-none d-md-table-cell">
-									<fmt:formatDate value="${boardDetailsDto.regdate}" type="date"/>
+								<td class="d-md-table-cell">${boardDetails.boardIdx}</td>
+								<td class="d-md-table-cell text-left">
+									<a href='${contextPath}/board/read?boardIdx=${boardDetails.boardIdx}'>${boardDetails.boardTitle}</a>
 								</td>
-								<td class="text-center d-none d-md-table-cell">${boardDetailsDto.boardViews}</td>
+								<td class="d-md-table-cell">${boardDetails.memberId}</td>
+								<td class="d-md-table-cell"><fmt:formatDate value="${boardDetails.regdate}" type="date"/></td>
+								<td class="d-md-table-cell">${boardDetails.boardViews}</td>
 							</tr>
 						</c:forEach>
 					</tbody>
