@@ -29,17 +29,20 @@ public class CheckBoardInterceptor implements HandlerInterceptor {
 		
 		if (!categoryService.isBoardCategory(categoryCode)) {
 			response.setContentType("text/html;charset=utf-8");
-			PrintWriter writer = response.getWriter();
 			
+			String referer = request.getHeader("Referer");
+			log.info("referer = {}", referer);
+			
+			String redirectUrl = referer == null ? request.getContextPath() : referer;
+			log.info("redirectUrl = {}", redirectUrl);
+			
+			PrintWriter writer = response.getWriter();
 			writer.println("<script>");
 			writer.println("alert('" + MessageUtils.getMessage("error.NotBoard") + "');");
-			writer.println("location.href='" +  request.getContextPath() + "/member/checkPassword';");
+			writer.println("location.href='" +  redirectUrl + "';");
 			writer.println("</script>");
 			writer.close();
-			
-			String uri = request.getHeader("Referer");
-			log.info("previous uri = {}", uri);
-			
+
 			return false;
 		}
 		
