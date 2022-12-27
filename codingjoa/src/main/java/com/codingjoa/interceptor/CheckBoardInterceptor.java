@@ -24,30 +24,36 @@ public class CheckBoardInterceptor implements HandlerInterceptor {
 			throws Exception {
 		log.info("============== CheckBoardInterceptor ==============");
 		
-		int categoryCode = Integer.parseInt(request.getParameter("categoryCode"));
-		log.info("categoryCode = {}", categoryCode);
-		
-		if (!categoryService.isBoardCategory(categoryCode)) {
-			response.setContentType("text/html;charset=utf-8");
+		try {
+			int categoryCode = Integer.parseInt(request.getParameter("categoryCode"));
 			
-			String referer = request.getHeader("Referer");
-			log.info("referer = {}", referer);
-			
-			String redirectUrl = referer == null ? request.getContextPath() : referer;
-			log.info("redirectUrl = {}", redirectUrl);
-			
-			PrintWriter writer = response.getWriter();
-			writer.println("<script>");
-			writer.println("alert('" + MessageUtils.getMessage("error.NotBoard") + "');");
-			writer.println("location.href='" +  redirectUrl + "';");
-			writer.println("</script>");
-			writer.close();
-
+			if (!categoryService.isBoardCategory(categoryCode)) {
+				handleRespone(request, response);
+				return false;
+			}
+		} catch (NumberFormatException e) {
+			handleRespone(request, response);
 			return false;
 		}
 		
 		return true;
 	}
-
+	
+	private void handleRespone(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		response.setContentType("text/html;charset=utf-8");
+		
+		String referer = request.getHeader("Referer");
+		log.info("referer = {}", referer);
+		
+		String redirectUrl = referer == null ? request.getContextPath() : referer;
+		log.info("redirectUrl = {}", redirectUrl);
+		
+		PrintWriter out = response.getWriter();
+		out.print("<script>");
+		out.print("alert('" + MessageUtils.getMessage("error.NotBoard") + "');");
+		out.print("location.href='" +  redirectUrl + "';");
+		out.print("</script>");
+		out.close();
+	}
 	
 }
