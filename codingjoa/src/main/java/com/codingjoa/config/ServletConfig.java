@@ -12,11 +12,14 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
+import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import com.codingjoa.interceptor.CheckBoardInterceptor;
 
 @Configuration
 @EnableWebMvc
@@ -56,6 +59,9 @@ public class ServletConfig implements WebMvcConfigurer {
 	public void addInterceptors(InterceptorRegistry registry) {
 //		registry.addInterceptor(new BeforeUpdatePasswordInterceptor())
 //				.addPathPatterns("/member/updatePassword");
+		registry.addInterceptor(checkBoardInterceptor())
+				.addPathPatterns("/board/main", "/board/write");
+		
 	}
 	
 	// MultipartResolver : StandardServletMultipartResolver, CommonsMultipartResolver
@@ -63,6 +69,11 @@ public class ServletConfig implements WebMvcConfigurer {
 	@Bean
 	public MultipartResolver multipartResolver() {
 		return new StandardServletMultipartResolver();
+	}
+	
+	@Bean
+	public HandlerInterceptor checkBoardInterceptor() {
+		return new CheckBoardInterceptor();
 	}
 	
 }
