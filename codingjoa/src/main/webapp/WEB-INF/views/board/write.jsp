@@ -17,7 +17,7 @@
 <script src="${contextPath}/resources/ckeditor5/build/ckeditor.js"></script>
 <script src="${contextPath}/resources/ckeditor5/build/upload-adapter.js"></script>
 <style>
-	select.form-control {
+	.custom-select {
 		font-size: 0.9rem;
 	}
 	
@@ -60,7 +60,7 @@
 				<form:form action="${contextPath}/board/writeProc" method="POST" modelAttribute="writeBoardDto">
 					<div class="form-row">
 						<div class="form-group col-md-8">
-							<form:select class="form-control" path="boardCategoryCode">
+							<form:select class="custom-select" path="boardCategoryCode">
 								<c:forEach var="category" items="${categoryList}">
 									<option value="${category.categoryCode}" ${category.categoryCode eq writeBoardDto.boardCategoryCode ? "selected" : ""}>
 										${category.categoryName}

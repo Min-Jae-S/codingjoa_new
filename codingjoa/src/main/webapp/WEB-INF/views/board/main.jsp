@@ -50,14 +50,20 @@
 		<div class="col-sm-8">
 			<h5 class="font-weight-bold">${category.categoryName}</h5>
 			<div class="pt-3">
-	        	<form:form action="" method="POST" modelAttribute="pageDto" cssClass="form-inline">
-					<form:select path="searchType" cssClass="custom-select ml-auto">
-				    	<option selected>Custom Select Menu</option>
-				    	<option value="volvo">Volvo</option>
-				    	<option value="fiat">Fiat</option>
-				    	<option value="audi">Audi</option>
-				  	</form:select>
-				</form:form>
+	        	<form class="form-inline">
+					<select name="searchType" class="custom-select custom-select-sm mr-2">
+				    	<option value="">제목</option>
+				    	<option value="">내용</option>
+				    	<option value="">작성자</option>
+				    	<option value="">제목 + 내용</option>
+				  	</select>
+					<div class="input-group">
+					  	<input type="text" class="form-control form-control-sm">
+					  	<div class="input-group-append">
+					  		<button class="btn btn-outline-secondary btn-sm" type="button" id="inputGroupFileAddon04">Button</button>
+					  	</div>
+	        		</div>
+				</form>
 			</div>
 			<div class="pt-3">
 				<table class="table">
