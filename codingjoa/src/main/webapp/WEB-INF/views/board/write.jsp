@@ -51,7 +51,7 @@
 
 <c:import url="/WEB-INF/views/include/top-menu.jsp"/>
 
-<div class="container board-write-container">
+<div class="container write-board-container">
 	<div class="row">
 		<div class="col-sm-2"></div>
 		<div class="col-sm-8">
