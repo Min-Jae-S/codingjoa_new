@@ -24,36 +24,41 @@ public class CheckBoardInterceptor implements HandlerInterceptor {
 			throws Exception {
 		log.info("============== CheckBoardInterceptor ==============");
 		
-		try {
-			int categoryCode = Integer.parseInt(request.getParameter("categoryCode"));
+		String categoryCode = request.getParameter("categoryCode");
+		
+		if(!isNumeric(categoryCode) || !categoryService.isBoardCategory(Integer.parseInt(categoryCode))) {
+			response.setContentType("text/html;charset=utf-8");
 			
-			if (!categoryService.isBoardCategory(categoryCode)) {
-				handleRespone(request, response);
-				return false;
-			}
-		} catch (NumberFormatException e) {
-			handleRespone(request, response);
+			String referer = request.getHeader("Referer");
+			log.info("referer = {}", referer);
+			
+			String origin = request.getHeader("Origin");
+			log.info("origin = {}", origin);
+			
+			String redirectUrl = referer == null ? request.getContextPath() : referer;
+			log.info("redirectUrl = {}", redirectUrl);
+			
+			PrintWriter out = response.getWriter();
+			out.print("<script>");
+			out.print("alert('" + MessageUtils.getMessage("error.NotBoard") + "');");
+			out.print("location.href='" +  redirectUrl + "';");
+			out.print("</script>");
+			out.close();
+			
 			return false;
 		}
 		
 		return true;
 	}
 	
-	private void handleRespone(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		response.setContentType("text/html;charset=utf-8");
-		
-		String referer = request.getHeader("Referer");
-		log.info("referer = {}", referer);
-		
-		String redirectUrl = referer == null ? request.getContextPath() : referer;
-		log.info("redirectUrl = {}", redirectUrl);
-		
-		PrintWriter out = response.getWriter();
-		out.print("<script>");
-		out.print("alert('" + MessageUtils.getMessage("error.NotBoard") + "');");
-		out.print("location.href='" +  redirectUrl + "';");
-		out.print("</script>");
-		out.close();
+	private boolean isNumeric(String categoryCode) {
+		try {
+			Integer.parseInt(categoryCode);
+			return true;
+		} catch (NumberFormatException e) {
+			log.info("NumberFormatException");
+			return false;
+		}
 	}
 	
 }
