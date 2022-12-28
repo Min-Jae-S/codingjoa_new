@@ -10,6 +10,7 @@ public class SearchDto {
 	private int recordPerPage;
 	
 	public SearchDto() {
+		this.searchType = "T";
 		this.recordPerPage = 15;
 	}
 	
