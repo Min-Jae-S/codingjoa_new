@@ -85,7 +85,7 @@ public class BoardController {
 		
 		if (bindingResult.hasErrors()) {
 			bindingResult.getAllErrors().forEach(objectError -> {
-				log.info("{}", objectError.getCodes()[0]);
+				log.info("errorCode={}", objectError.getCodes()[0]);
 			});
 			
 			model.addAttribute("categoryList", categoryService.findBoardCategoryList());

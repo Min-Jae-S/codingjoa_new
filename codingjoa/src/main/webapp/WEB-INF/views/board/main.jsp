@@ -59,7 +59,7 @@
 				    	<option value="TC" ${searchDto.searchType eq 'TC' ? 'selected' : ''}>제목 + 내용</option>
 				  	</select>
 					<div class="input-group">
-					  	<input type="text" class="form-control form-control-sm" name="searchKeyword" value="${searchDto.searchKeyword}">
+					  	<input type="text" class="form-control form-control-sm" name="searchKeyword" value="${searchDto.searchKeyword}" placeholder="검색어를 입력해주세요">
 					  	<div class="input-group-append">
 					  		<button class="btn btn-outline-secondary btn-sm">검색</button>
 					  	</div>
@@ -100,7 +100,11 @@
 								</c:forEach>
 							</c:when>
 							<c:otherwise>
-								<p>등록된 게시글이 없습니다.</p>
+								<tr>
+									<td colspan="6">
+										<div class="no_board">등록된 게시글이 없습니다.</div>
+									</td>
+								</tr>
 							</c:otherwise>
 						</c:choose>
 					</tbody>
