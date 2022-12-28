@@ -16,7 +16,6 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="${contextPath}/resources/ckeditor5/build/ckeditor.js"></script>
-<%-- <script src="${contextPath}/resources/ckeditor5/build/upload-adapter.js"></script> --%>
 <style>
 	.custom-select {
 		font-size: 0.9rem;
@@ -44,6 +43,10 @@
 		margin: 20px auto;
 	}
 	*/
+	
+	.ck.ck-editor__main>.ck-editor__editable:not(.ck-focused) {
+		border: none;
+	}
 </style>
 </head>
 <body>
@@ -62,8 +65,10 @@
 					<p>작성일: <fmt:formatDate value="${boardDetails.regdate}" pattern="yyyy. MM. dd. HH:mm"/></p>
 					<p>변경일: <fmt:formatDate value="${boardDetails.regdate}" pattern="yyyy. MM. dd. HH:mm"/></p>
 				</div>
-				<div class="card-body" id="boardContent">
-					${boardDetails.boardContent}
+				<div class="card-body">
+					<div id="boardContent">
+						${boardDetails.boardContent}
+					</div>
 				</div>
 			</div>
 		</div>
