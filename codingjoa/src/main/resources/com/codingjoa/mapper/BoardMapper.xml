@@ -102,7 +102,9 @@
 		ON
 			a.board_writer_idx = b.member_idx
 		WHERE
-			a.board_idx = #{boardIdx}
+			a.board_idx = #{boardIdx} 
+		ORDER BY 
+			a.board_idx DESC
 	</select>
 	
 	<select id="findBoardDetailsList" parameterType="int" resultMap="boardDetailsMap">

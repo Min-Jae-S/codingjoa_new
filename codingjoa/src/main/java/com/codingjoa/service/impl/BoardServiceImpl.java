@@ -65,6 +65,7 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public BoardDetailsDto getBoardDetails(int boardIdx) {
 		Map<String, Object> boardDetailsMap = boardMapper.findBoardDetails(boardIdx);
+		
 		return modelMapper.map(boardDetailsMap, BoardDetailsDto.class);
 	}
 	
