@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.codingjoa.dto.BoardDetailsDto;
 import com.codingjoa.dto.SearchDto;
 import com.codingjoa.dto.WriteBoardDto;
 import com.codingjoa.security.dto.UserDetailsDto;
@@ -61,12 +62,14 @@ public class BoardController {
 	}
 	
 	@GetMapping("/read")
-	public String read(@RequestParam("categoryCode") int categoryCode, 
-					   @RequestParam("boardIdx") int boardIdx, Model model) {
-		log.info("categoryCode={}, boardIdx={}", categoryCode, boardIdx);
+	public String read(@RequestParam("boardIdx") int boardIdx, Model model) {
+		log.info("boardIdx={}", boardIdx);
 		
+		BoardDetailsDto boardDetails = boardService.getBoardDetails(boardIdx);
+		model.addAttribute("boardDetails", boardDetails);
+		
+		int categoryCode = boardDetails.getBoardCategoryCode();
 		model.addAttribute("category", categoryService.findCategory(categoryCode));
-		model.addAttribute("boardDetails", boardService.getBoardDetails(boardIdx));
 		
 		return "board/read";
 	}
