@@ -87,7 +87,7 @@ public class MemberRestController {
 		}
 		
 		String authCode = RandomStringUtils.randomNumeric(6);
-		log.info("authCode = {}", authCode);
+		log.info("authCode={}", authCode);
 		
 		String memberEmail = emailAuthDto.getMemberEmail();
 		emailService.sendAuthEmail(memberEmail, authCode);

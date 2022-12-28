@@ -61,7 +61,7 @@ public class BoardRestController {
 		String uploadFilename = UploadFileUtils.upload(uploadPath, uploadFileDto.getFile());
 		
 		int uploadIdx = boardService.uploadTempImage(uploadFilename);
-		log.info("uploadIdx = {}", uploadIdx);	
+		log.info("uploadIdx={}", uploadIdx);	
 		
 		HashMap<String, Object> map = new HashMap<>();
 		map.put("uploadIdx", uploadIdx);

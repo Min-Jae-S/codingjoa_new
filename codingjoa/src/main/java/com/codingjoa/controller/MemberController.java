@@ -97,7 +97,7 @@ public class MemberController {
 	public String updatePassword(Model model) {
 		log.info("{}", sessionDto);
 		
-		if(!sessionDto.isCheckPasswordResult()) {
+		if (!sessionDto.isCheckPasswordResult()) {
 			model.addAttribute("message", MessageUtils.getMessage("error.NotCheckPassword"));
 			model.addAttribute("path", "checkPassword");
 			
@@ -120,7 +120,7 @@ public class MemberController {
 		
 		String findAccountResult = sessionDto.getFindAccountResult();
 		
-		if(findAccountResult == null) {
+		if (findAccountResult == null) {
 			model.addAttribute("message", MessageUtils.getMessage("error.NotFindAccount"));
 			model.addAttribute("path", "findAccount");
 			
@@ -144,7 +144,7 @@ public class MemberController {
 		
 		Map<String, Object> resultMap = sessionDto.getFindPasswordResult();
 		
-		if(resultMap == null || !(boolean) resultMap.get("result")) {
+		if (resultMap == null || !(boolean) resultMap.get("result")) {
 			model.addAttribute("message", MessageUtils.getMessage("error.NotFindPassword"));
 			model.addAttribute("path", "findPassword");
 			
