@@ -69,7 +69,7 @@
 			<div class="pt-3">
 	        	<form class="form-inline" action="${contextPath}/board/main" method="GET">
 	        		<input type="hidden" name="categoryCode" value="${category.categoryCode}">
-					<select name="searchType" class="custom-select custom-select-sm mr-2">
+					<select class="custom-select custom-select-sm mr-2" name="searchType">
 				    	<option value="T" ${searchDto.searchType eq 'T' ? 'selected' : ''}>제목</option>
 				    	<option value="C" ${searchDto.searchType eq 'C' ? 'selected' : ''}>내용</option>
 				    	<option value="W" ${searchDto.searchType eq 'W' ? 'selected' : ''}>작성자</option>
@@ -81,7 +81,7 @@
 					  		<button class="btn btn-outline-secondary btn-sm">검색</button>
 					  	</div>
 	        		</div>
-	        		<select name="recordPerPage" class="custom-select custom-select-sm ml-auto">
+	        		<select class="custom-select custom-select-sm ml-auto" name="recordPerPage">
 				    	<option value="5" ${searchDto.recordPerPage eq 5 ? 'selected' : ''}>5개씩</option>
 				    	<option value="10" ${searchDto.recordPerPage eq 10 ? 'selected' : ''}>10개씩</option>
 				    	<option value="15" ${searchDto.recordPerPage eq 15 ? 'selected' : ''}>15개씩</option>
@@ -103,7 +103,7 @@
 					</thead>
 					<tbody>
 						<c:choose>
-							<c:when test="${!empty boardDetailsList}">
+							<c:when test="${not empty boardDetailsList}">
 								<c:forEach var='boardDetails' items="${boardDetailsList}">
 									<tr>
 										<td class="d-md-table-cell">${boardDetails.boardIdx}</td>
@@ -111,7 +111,9 @@
 											<a href='${contextPath}/board/read?boardIdx=${boardDetails.boardIdx}'>${boardDetails.boardTitle}</a>
 										</td>
 										<td class="d-md-table-cell">${boardDetails.memberId}</td>
-										<td class="d-md-table-cell"><fmt:formatDate value="${boardDetails.regdate}" type="date"/></td>
+										<td class="d-md-table-cell">
+											<fmt:formatDate value="${boardDetails.regdate}" type="date"/>
+										</td>
 										<td class="d-md-table-cell">${boardDetails.boardViews}</td>
 									</tr>
 								</c:forEach>
