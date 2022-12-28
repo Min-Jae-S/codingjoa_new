@@ -60,11 +60,11 @@
 				<div class="card-header">
 					<div class="board-title">${boardDetails.boardTitle}</div>
 					<div class="writer-info">${boardDetails.memberId}</div>
-					<div class="board-regdate"><fmt:formatDate value="${boardDetails.regdate}" pattern="yyyy-MM-dd HH:mm:ss"/></div>
-					<div class="board-moddate"><fmt:formatDate value="${boardDetails.moddate}" pattern="yyyy-MM-dd HH:mm:ss"/></div>
+					<div class="board-regdate"><fmt:formatDate value="${boardDetails.regdate}" pattern="yyyy. MM. dd. HH:mm"/></div>
+					<div class="board-moddate"><fmt:formatDate value="${boardDetails.moddate}" pattern="yyyy. MM. dd. HH:mm"/></div>
 				</div>
 				<div class="card-body">
-					
+					${boardDetails.boardContent}
 				</div>
 			</div>
 		</div>
