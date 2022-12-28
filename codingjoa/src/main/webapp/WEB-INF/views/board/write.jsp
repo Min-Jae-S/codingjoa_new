@@ -85,6 +85,7 @@
 						<form:errors path="boardContent" cssClass="error"/>
 					</div>
 				</form:form>
+				<button type="button" class="btn btn-warning btn-block" id="getDataBtn">getData() Button</button>
 			</div>
 		</div>
 		<div class="col-sm-2"></div>
@@ -235,9 +236,8 @@
 		// https://ckeditor.com/docs/ckeditor5/latest/api/module_image_imageupload_imageuploadui-ImageUploadUI.html
 		$("input[type='file']").removeAttr("accept"); /*.removeAttr("multiple");*/
 		
-		// test btn	
 		$("#getDataBtn").on("click", function() {
-			console.log("getDataBtn clicked..");
+			console.log("myEditor.getData ==>");
 			console.log(myEditor.getData());
 			const range = myEditor.model.createRangeIn(myEditor.model.document.getRoot());
 			
