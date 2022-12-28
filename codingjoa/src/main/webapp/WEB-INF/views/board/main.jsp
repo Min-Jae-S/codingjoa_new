@@ -35,9 +35,9 @@
 		border-bottom: 1px solid #dee2e6;
 	}
 	
-	/* .table tr:last-child td {
-		border-bottom: none !important;
-	} */
+	.custom-select {
+		display: flex;
+	}	
 </style>
 </head>
 <body>
@@ -48,21 +48,27 @@
 	<div class="row">
 		<div class="col-sm-2"></div>
 		<div class="col-sm-8">
-			<h5 class="font-weight-bold">${category.categoryName}</h5>
+			<h4 class="font-weight-bold mb-4">${category.categoryName}</h4>
 			<div class="pt-3">
 	        	<form class="form-inline">
 					<select name="searchType" class="custom-select custom-select-sm mr-2">
-				    	<option value="">제목</option>
-				    	<option value="">내용</option>
-				    	<option value="">작성자</option>
-				    	<option value="">제목 + 내용</option>
+				    	<option value="T">제목</option>
+				    	<option value="C">내용</option>
+				    	<option value="W">작성자</option>
+				    	<option value="TC">제목 + 내용</option>
 				  	</select>
 					<div class="input-group">
-					  	<input type="text" class="form-control form-control-sm">
+					  	<input type="text" class="form-control form-control-sm" name="serachKeyword">
 					  	<div class="input-group-append">
-					  		<button class="btn btn-outline-secondary btn-sm" type="button" id="inputGroupFileAddon04">Button</button>
+					  		<button class="btn btn-outline-secondary btn-sm" type="button">검색</button>
 					  	</div>
 	        		</div>
+	        		<select name="recordPerPage" class="custom-select custom-select-sm ml-auto">
+				    	<option value="5">5개씩</option>
+				    	<option value="10">10개씩</option>
+				    	<option value="15">15개씩</option>
+				    	<option value="20">20개씩</option>
+				  	</select>
 				</form>
 			</div>
 			<div class="pt-3">
