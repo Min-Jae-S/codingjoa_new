@@ -61,7 +61,7 @@
 	
 <c:import url="/WEB-INF/views/include/top-menu.jsp"/>
 
-<div class="container main-board-container">
+<div class="container board-container">
 	<div class="row">
 		<div class="col-sm-2"></div>
 		<div class="col-sm-8">
@@ -108,7 +108,7 @@
 									<tr>
 										<td class="d-md-table-cell">${boardDetails.boardIdx}</td>
 										<td class="d-md-table-cell text-left">
-											<a href='${contextPath}/board/read?boardIdx=${boardDetails.boardIdx}'>${boardDetails.boardTitle}</a>
+											<a href='${contextPath}/board/read?categoryCode=${boardDetails.boardCategoryCode}&boardIdx=${boardDetails.boardIdx}'>${boardDetails.boardTitle}</a>
 										</td>
 										<td class="d-md-table-cell">${boardDetails.memberId}</td>
 										<td class="d-md-table-cell">

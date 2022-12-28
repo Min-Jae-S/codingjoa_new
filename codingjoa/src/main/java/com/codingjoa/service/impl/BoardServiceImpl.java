@@ -1,6 +1,7 @@
 package com.codingjoa.service.impl;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -62,11 +63,18 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
+	public BoardDetailsDto getBoardDetails(int boardIdx) {
+		Map<String, Object> boardDetailsMap = boardMapper.findBoardDetails(boardIdx);
+		return modelMapper.map(boardDetailsMap, BoardDetailsDto.class);
+	}
+	
+	@Override
 	public List<BoardDetailsDto> getBoardDetailsList(int categoryCode) {
 		return boardMapper.findBoardDetailsList(categoryCode).stream()
 				.map(boardDetailsMap -> modelMapper.map(boardDetailsMap, BoardDetailsDto.class))
 				.collect(Collectors.toList());
 	}
+
 	
 	
 }

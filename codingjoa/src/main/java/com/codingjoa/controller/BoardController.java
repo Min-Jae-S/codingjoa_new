@@ -61,7 +61,13 @@ public class BoardController {
 	}
 	
 	@GetMapping("/read")
-	public String read() {
+	public String read(@RequestParam("categoryCode") int categoryCode, 
+					   @RequestParam("boardIdx") int boardIdx, Model model) {
+		log.info("categoryCode={}, boardIdx={}", categoryCode, boardIdx);
+		
+		model.addAttribute("category", categoryService.findCategory(categoryCode));
+		model.addAttribute("boardDetails", boardService.getBoardDetails(boardIdx));
+		
 		return "board/read";
 	}
 	

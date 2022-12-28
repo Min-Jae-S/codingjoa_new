@@ -6,7 +6,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>글쓰기</title>
+<title>${boardDetails.boardTitle}</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
@@ -55,36 +55,13 @@
 	<div class="row">
 		<div class="col-sm-2"></div>
 		<div class="col-sm-8">
-			<h5 class="font-weight-bold">게시판 글쓰기</h5>
-			<div class="pt-3" style="border-top: 1px solid black;">
-				<form:form action="${contextPath}/board/writeProc" method="POST" modelAttribute="writeBoardDto">
-					<div class="form-row">
-						<div class="form-group col-md-8">
-							<form:select class="custom-select" path="boardCategoryCode">
-								<c:forEach var="category" items="${categoryList}">
-									<option value="${category.categoryCode}" ${category.categoryCode eq writeBoardDto.boardCategoryCode ? "selected" : ""}>
-										${category.categoryName}
-									</option>
-								</c:forEach>
-							</form:select>
-							<form:errors path="boardCategoryCode" cssClass="error"/>
-						</div>
-						<div class="form-group col-md-2">
-							<form:button class="btn btn-primary btn-block" id="writeBtn">등록</form:button>
-						</div>
-						<div class="form-group col-md-2">
-							<button type="button" class="btn btn-secondary btn-block" id="resetBtn">취소</button>
-						</div>
-					</div>
-					<div class="form-group">
-						<form:input path="boardTitle" class="form-control" placeholder="제목을 입력하세요."/>
-						<form:errors path="boardTitle" cssClass="error"/>
-					</div>
-					<div class="form-group">
-						<form:textarea path="boardContent"/>
-						<form:errors path="boardContent" cssClass="error"/>
-					</div>
-				</form:form>
+			<div class="card">
+				<div class="card-headeer">
+				
+				</div>
+				<div class="card-body">
+					
+				</div>
 			</div>
 		</div>
 		<div class="col-sm-2"></div>

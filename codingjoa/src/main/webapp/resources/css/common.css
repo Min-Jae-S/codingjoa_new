@@ -21,9 +21,8 @@ body {
 	margin-bottom: 7rem;
 }
 
-.all-board-container,
-.main-board-container,
-.write-board-container {
+
+.board-container {
 	margin-top: 7rem;
 	margin-bottom: 7rem;	
 }

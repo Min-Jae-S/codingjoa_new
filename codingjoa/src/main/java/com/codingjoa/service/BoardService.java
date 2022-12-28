@@ -15,5 +15,7 @@ public interface BoardService {
 	
 	void activateTempImage(WriteBoardDto writeBoardDto);
 	
+	BoardDetailsDto getBoardDetails(int boardIdx);
+	
 	List<BoardDetailsDto> getBoardDetailsList(int categoryCode);
 }
