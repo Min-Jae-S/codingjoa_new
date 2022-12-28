@@ -55,9 +55,14 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public void activateTempImage(WriteBoardDto writeBoardDto) {
-		int boardIdx = writeBoardDto.getBoardIdx();
+		List<Integer> uploadIdxList = writeBoardDto.getUploadIdxList();
 
-		writeBoardDto.getUploadIdxList().forEach(uploadIdx -> {
+		if (uploadIdxList == null) {
+			return;
+		}
+		
+		int boardIdx= writeBoardDto.getBoardIdx();
+		uploadIdxList.forEach(uploadIdx -> {
 			boardMapper.updateTempImage(boardIdx, uploadIdx);
 		});
 	}
