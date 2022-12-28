@@ -4,5 +4,5 @@
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />    
 <script>
 	alert("게시글이 등록되었습니다.");
-	location.href = "${contextPath}/member/write";
+	location.href = "${contextPath}";
 </script>

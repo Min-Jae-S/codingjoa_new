@@ -17,7 +17,7 @@
 <script src="${contextPath}/resources/ckeditor5/build/ckeditor.js"></script>
 <script src="${contextPath}/resources/ckeditor5/build/upload-adapter.js"></script>
 <style>
-	.custom-select {
+	.custom-select, input#boardTitle.form-control {
 		font-size: 0.9rem;
 	}
 	
@@ -114,7 +114,7 @@
 							{ key: "data-idx", value: true }
 						]
 					}
-				],
+				]
 			},
 			fontFamily: {
 				options: ["defalut", "Arial", "궁서체", "바탕", "돋움"],
@@ -217,7 +217,7 @@
             	
             	const viewWriter = conversionApi.writer;
                 const imageContainer = conversionApi.mapper.toViewElement(modelElement);
-                const imageElement = (name === "imageBlock") ? imageContainer.getChild(0) : imageContainer;
+                const imageElement = (modelElement.name === "imageBlock") ? imageContainer.getChild(0) : imageContainer;
                 //console.log("modelElement	: " + modelElement.name);
                 //console.log("imageContainer	: " + imageContainer.name);
                 //console.log("imageElement	: " + imageElement.name);
@@ -235,7 +235,9 @@
 		// https://ckeditor.com/docs/ckeditor5/latest/api/module_image_imageupload_imageuploadui-ImageUploadUI.html
 		$("input[type='file']").removeAttr("accept"); /*.removeAttr("multiple");*/
 		
+		// test btn	
 		$("#getDataBtn").on("click", function() {
+			console.log("getDataBtn clicked..");
 			console.log(myEditor.getData());
 			const range = myEditor.model.createRangeIn(myEditor.model.document.getRoot());
 			
