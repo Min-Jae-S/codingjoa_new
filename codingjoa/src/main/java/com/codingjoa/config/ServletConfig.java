@@ -60,7 +60,7 @@ public class ServletConfig implements WebMvcConfigurer {
 //		registry.addInterceptor(new BeforeUpdatePasswordInterceptor())
 //				.addPathPatterns("/member/updatePassword");
 		registry.addInterceptor(checkBoardInterceptor())
-				.addPathPatterns("/board/main", "/board/write");
+				.addPathPatterns("/board/main", "/board/write", "/board/read");
 		
 	}
 	

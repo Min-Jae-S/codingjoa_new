@@ -80,8 +80,6 @@
 	ClassicEditor
 		.create(document.querySelector("#boardContent"), {
 			extraPlugins: [
-				uploadAdapterPlugin, 
-				uploadCompleteListener, 
 				extendAttribute,
 				viewToModelConverter, 
 				modelToViewEditingConverter, 
@@ -114,27 +112,6 @@
 		.catch(error => {
 			console.error(error);
 		});
-	
-	function uploadAdapterPlugin(editor) {
-		console.log("## Register upload adapter");
-	    editor.plugins.get("FileRepository").createUploadAdapter = (loader) => {
-	        return new UploadAdapter(loader);
-	    };
-	}
-	
-	// https://ckeditor.com/docs/ckeditor5/latest/api/module_image_imageupload_imageuploadediting-ImageUploadEditing.html#event-uploadComplete
-	function uploadCompleteListener(editor) {
-		console.log("## Register event listener(uploadComplete)");
-		
-		editor.plugins.get("ImageUploadEditing").on("uploadComplete", (evt, {data, imageElement}) => {
-			console.log("## Upload complete");
-			editor.model.change(writer => {
-				evt.stop();
-				writer.setAttribute("src", "${contextPath}" + data.url, imageElement);
-				writer.setAttribute("dataIdx", data.idx, imageElement);
-			});
-		});
-	}
 	
 	// https://github.com/ckeditor/ckeditor5/issues/5204
 	function extendAttribute(editor) {
@@ -213,59 +190,7 @@
 	}
 	
 	$(function() {
-		// https://ckeditor.com/docs/ckeditor5/latest/api/module_image_imageupload_imageuploadui-ImageUploadUI.html
-		$("input[type='file']").removeAttr("accept"); /*.removeAttr("multiple");*/
 		
-		$("#getDataBtn").on("click", function() {
-			console.log(myEditor.getData());
-			const range = myEditor.model.createRangeIn(myEditor.model.document.getRoot());
-			
-			for (const value of range.getWalker({ ignoreElementEnd: true })) { // TreeWalker instance
-				// Position iterator class. It allows to iterate forward and backward over the document.
-			    if (!value.item.is("element")) {
-			    	continue;
-			    }
-			    
-			 	// imageBlock, imageInlne
-			    if (!value.item.name.startsWith("image")) { 
-			    	continue;
-			    }
-			 	
-			    console.log("dataIdx: " + value.item.getAttribute("dataIdx"));
-			}
-		});
-
-		$("#resetBtn").on("click", function() {
-			$("#writeBoardDto").trigger("reset"); //$("form")[0].reset();
-			myEditor.setData("");
-		});
-		
-		$("#writeBtn").on("click", function(e) {
-			e.preventDefault();
-			
-			let form = $("#writeBoardDto");
-			const range = myEditor.model.createRangeIn(myEditor.model.document.getRoot());
-			
-			for (const value of range.getWalker({ ignoreElementEnd: true })) { // TreeWalker instance
-				// Position iterator class. It allows to iterate forward and backward over the document.
-			    if (!value.item.is("element")) {
-			    	continue;
-			    }
-			    
-			 	// imageBlock, imageInlne
-			    if (!value.item.name.startsWith("image")) { 
-			    	continue;
-			    }
-			    
-			    let input = $("<input>").attr("type", "hidden").attr("name", "uploadIdxList");
-			    let dataIdx = value.item.getAttribute("dataIdx");
-			    
-			    input.val(dataIdx);
-				form.append(input);
-			}
-			
-			form.submit();
-		});
 	});
 </script>
 
