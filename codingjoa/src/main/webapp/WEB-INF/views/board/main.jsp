@@ -59,7 +59,7 @@
 				    	<option value="TC" ${searchDto.searchType eq 'TC' ? 'selected' : ''}>제목 + 내용</option>
 				  	</select>
 					<div class="input-group">
-					  	<input type="text" class="form-control form-control-sm" name="serachKeyword" value="${searchDto.serachKeyword}">
+					  	<input type="text" class="form-control form-control-sm" name="searchKeyword" value="${searchDto.searchKeyword}">
 					  	<div class="input-group-append">
 					  		<button class="btn btn-outline-secondary btn-sm">검색</button>
 					  	</div>
@@ -85,17 +85,24 @@
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach var='boardDetails' items="${boardDetailsList}">
-							<tr>
-								<td class="d-md-table-cell">${boardDetails.boardIdx}</td>
-								<td class="d-md-table-cell text-left">
-									<a href='${contextPath}/board/read?boardIdx=${boardDetails.boardIdx}'>${boardDetails.boardTitle}</a>
-								</td>
-								<td class="d-md-table-cell">${boardDetails.memberId}</td>
-								<td class="d-md-table-cell"><fmt:formatDate value="${boardDetails.regdate}" type="date"/></td>
-								<td class="d-md-table-cell">${boardDetails.boardViews}</td>
-							</tr>
-						</c:forEach>
+						<c:choose>
+							<c:when test="${!empty boardDetailsList}">
+								<c:forEach var='boardDetails' items="${boardDetailsList}">
+									<tr>
+										<td class="d-md-table-cell">${boardDetails.boardIdx}</td>
+										<td class="d-md-table-cell text-left">
+											<a href='${contextPath}/board/read?boardIdx=${boardDetails.boardIdx}'>${boardDetails.boardTitle}</a>
+										</td>
+										<td class="d-md-table-cell">${boardDetails.memberId}</td>
+										<td class="d-md-table-cell"><fmt:formatDate value="${boardDetails.regdate}" type="date"/></td>
+										<td class="d-md-table-cell">${boardDetails.boardViews}</td>
+									</tr>
+								</c:forEach>
+							</c:when>
+							<c:otherwise>
+								<p>등록된 게시글이 없습니다.</p>
+							</c:otherwise>
+						</c:choose>
 					</tbody>
 				</table>
 			</div>
