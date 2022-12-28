@@ -107,6 +107,15 @@
 			a.board_idx DESC
 	</select>
 	
+	<update id="updateBoardViews" parameterType="int">
+		UPDATE
+			board
+		SET
+			board_views = board_views + 1
+		WHERE
+			board_idx = #{boardIdx}
+	</update>
+	
 	<select id="findBoardDetailsList" parameterType="int" resultMap="boardDetailsMap">
 		SELECT 
 			a.board_idx, 

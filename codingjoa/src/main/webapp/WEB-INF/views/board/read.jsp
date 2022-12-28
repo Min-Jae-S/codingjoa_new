@@ -58,13 +58,15 @@
 		<div class="col-sm-8">
 			<div class="card">
 				<div class="card-header">
-					<div class="board-title">${boardDetails.boardTitle}</div>
-					<div class="writer-info">${boardDetails.memberId}</div>
-					<div class="board-regdate"><fmt:formatDate value="${boardDetails.regdate}" pattern="yyyy. MM. dd. HH:mm"/></div>
-					<div class="board-moddate"><fmt:formatDate value="${boardDetails.moddate}" pattern="yyyy. MM. dd. HH:mm"/></div>
+					<p>제목: ${boardDetails.boardTitle}</p>
+					<p>작성자: ${boardDetails.memberId}</p>
+					<p>조회수: ${boardDetails.boardViews}</p>
+					<p>작성일: <fmt:formatDate value="${boardDetails.regdate}" pattern="yyyy. MM. dd. HH:mm"/></p>
+					<p>변경일: <fmt:formatDate value="${boardDetails.regdate}" pattern="yyyy. MM. dd. HH:mm"/></p>
 				</div>
 				<div class="card-body">
-					${boardDetails.boardContent}
+					<p>내용:</p>
+					<div>${boardDetails.boardContent}</div>
 				</div>
 			</div>
 		</div>

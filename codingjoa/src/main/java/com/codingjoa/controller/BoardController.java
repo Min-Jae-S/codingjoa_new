@@ -65,6 +65,8 @@ public class BoardController {
 	public String read(@RequestParam("boardIdx") int boardIdx, Model model) {
 		log.info("boardIdx={}", boardIdx);
 		
+		boardService.updateBoardViews(boardIdx);
+		
 		BoardDetailsDto boardDetails = boardService.getBoardDetails(boardIdx);
 		model.addAttribute("boardDetails", boardDetails);
 		

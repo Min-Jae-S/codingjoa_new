@@ -22,6 +22,8 @@ public interface BoardMapper {
 	
 	Map<String, Object> findBoardDetails(int boardIdx);
 	
+	void updateBoardViews(int boardIdx);
+	
 	List<Map<String, Object>> findBoardDetailsList(int categoryCode);
 	
 }
