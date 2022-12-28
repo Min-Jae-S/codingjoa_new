@@ -50,7 +50,8 @@
 		<div class="col-sm-8">
 			<h4 class="font-weight-bold mb-4">${category.categoryName}</h4>
 			<div class="pt-3">
-	        	<form class="form-inline">
+	        	<form class="form-inline" action="${contextPath}/board/main" method="GET">
+	        		<input type="hidden" name="categoryCode" value="${category.categoryCode}">
 					<select name="searchType" class="custom-select custom-select-sm mr-2">
 				    	<option value="T">제목</option>
 				    	<option value="C">내용</option>
@@ -68,6 +69,7 @@
 				    	<option value="10">10개씩</option>
 				    	<option value="15">15개씩</option>
 				    	<option value="20">20개씩</option>
+				    	<option value="25">25개씩</option>
 				  	</select>
 				</form>
 			</div>

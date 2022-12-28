@@ -50,8 +50,7 @@ public class BoardController {
 	}
 	
 	@GetMapping("/main")
-	public String main(@RequestParam("categoryCode") int categoryCode,
-					   @ModelAttribute PageDto pageDto, Model model) {
+	public String main(@RequestParam("categoryCode") int categoryCode, Model model) {
 		log.info("categoryCode = {}", categoryCode);
 		
 		model.addAttribute("category", categoryService.findCategory(categoryCode));

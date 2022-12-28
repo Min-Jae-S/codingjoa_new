@@ -30,6 +30,8 @@ public class CheckBoardInterceptor implements HandlerInterceptor {
 			response.setContentType("text/html;charset=utf-8");
 
 			String referer = request.getHeader("Referer");
+			log.info("referer = {}", referer);
+			
 			String redirectUrl = referer != null ? referer : request.getContextPath();
 			log.info("redirectUrl = {}", redirectUrl);
 
