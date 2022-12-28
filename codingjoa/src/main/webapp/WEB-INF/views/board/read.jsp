@@ -16,7 +16,7 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="${contextPath}/resources/ckeditor5/build/ckeditor.js"></script>
-<script src="${contextPath}/resources/ckeditor5/build/upload-adapter.js"></script>
+<%-- <script src="${contextPath}/resources/ckeditor5/build/upload-adapter.js"></script> --%>
 <style>
 	.custom-select {
 		font-size: 0.9rem;
@@ -33,19 +33,17 @@
 	
 	.ck-editor__editable[role="textbox"] {
 		min-height: 300px;
-		font-size: 14px;
+		font-size: 0.9rem;
 		padding-left: 0.75rem;
 		padding-right: 0.75rem;
 	}
     
+    /*
     .ck-content .image {
 		max-width: 80%;
 		margin: 20px auto;
 	}
-	
-	.ck-placeholder {
-		font-size: 14px;
-	}
+	*/
 </style>
 </head>
 <body>
@@ -64,7 +62,7 @@
 					<p>작성일: <fmt:formatDate value="${boardDetails.regdate}" pattern="yyyy. MM. dd. HH:mm"/></p>
 					<p>변경일: <fmt:formatDate value="${boardDetails.regdate}" pattern="yyyy. MM. dd. HH:mm"/></p>
 				</div>
-				<div class="card-body">
+				<div class="card-body" id="boardContent">
 					${boardDetails.boardContent}
 				</div>
 			</div>
@@ -76,6 +74,83 @@
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 
 <script>
+	let readEditor;
+	
+	ClassicEditor
+		.create(document.querySelector("#boardContent"), {
+			extraPlugins: [
+				extendAttribute,
+				viewToModelConverter, 
+				modelToViewEditingConverter
+			],
+			htmlSupport: { 
+				allow: [
+					{
+						attributes: [
+							{ key: "data-idx", value: true }
+						]
+					}
+				]
+			}
+		})
+		.then(editor => {
+			editor.enableReadOnlyMode("#boardContent");
+			const toolbarElement = editor.ui.view.toolbar.element;
+			toolbarElement.style.display = "none";
+			readEditor = editor;
+			console.log("## readEditor initialize");
+		})
+		.catch(error => {
+			console.error(error);
+		});
+	
+	// https://github.com/ckeditor/ckeditor5/issues/5204
+	function extendAttribute(editor) {
+		console.log("## Allow custom attribute ==> blockObject, inlineOjbect");
+		editor.model.schema.extend("$blockObject", { allowAttributes: "dataIdx" });
+		editor.model.schema.extend("$inlineObject", { allowAttributes: "dataIdx" });
+	}
+	
+	// view-to-model converter(upcast)
+	function viewToModelConverter(editor) {
+		console.log("## Register view-to-model converter ==> upcast");
+		editor.conversion.for("upcast").attributeToAttribute({
+            view: "data-idx",
+            model: "dataIdx"
+        });
+	}
+	
+	// model-to-view converter(editing downcast)
+	// https://stackoverflow.com/questions/56402202/ckeditor5-create-element-image-with-attributes
+	// https://gitlab-new.bap.jp/chinhnc2/ckeditor5/-/blob/690049ec7b8e95ba840ab1c882b5680f3a3d1dc4/packages/ckeditor5-engine/docs/framework/guides/deep-dive/conversion-preserving-custom-content.md
+	function modelToViewEditingConverter(editor) {
+		console.log("## Register model-to-view converter ==> Editing downcast");
+		
+		editor.conversion.for("editingDowncast").add(dispatcher => { // downcastDispatcher
+            dispatcher.on("attribute:dataIdx", (evt, data, conversionApi) => {
+            	console.log("## Editing downcast");
+            	const modelElement = data.item;
+            	
+            	if (!conversionApi.consumable.consume(modelElement, evt.name)) {
+                	return;
+            	}
+            	
+                const viewWriter = conversionApi.writer;
+                const imageContainer = conversionApi.mapper.toViewElement(modelElement);
+                const imageElement = imageContainer.getChild(0);
+                //console.log("modelElement	: " + modelElement.name);
+                //console.log("imageContainer	: " + imageContainer.name);
+                //console.log("imageElement	: " + imageElement.name);
+                
+                if (data.attributeNewValue !== null) {
+                	viewWriter.setAttribute("data-idx", data.attributeNewValue, imageElement);
+                } else {
+                	viewWriter.removeAttribute("data-idx", imageElement);
+                }
+            });
+        });
+	}
+	
 	$(function() {
 		
 	});

@@ -32,19 +32,21 @@
 	
 	.ck-editor__editable[role="textbox"] {
 		min-height: 300px;
-		font-size: 14px;
+		font-size: 0.9rem;
 		padding-left: 0.75rem;
 		padding-right: 0.75rem;
 	}
+	
+	.ck-placeholder {
+		font-size: 0.9rem;
+	}
     
+    /*
     .ck-content .image {
 		max-width: 80%;
 		margin: 20px auto;
 	}
-	
-	.ck-placeholder {
-		font-size: 14px;
-	}
+	*/
 </style>
 </head>
 <body>
@@ -128,8 +130,8 @@
 			placeholder: "내용을 입력하세요."
 		})
 		.then(editor => {
-			console.log("## Editor initialize");
 			writeEditor = editor;
+			console.log("## writeEditor initialize");
 		})
 		.catch(error => {
 			console.error(error);
