@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.codingjoa.dto.PageDto;
+import com.codingjoa.dto.SearchDto;
 import com.codingjoa.dto.WriteBoardDto;
 import com.codingjoa.security.dto.UserDetailsDto;
 import com.codingjoa.service.BoardService;
@@ -50,8 +51,10 @@ public class BoardController {
 	}
 	
 	@GetMapping("/main")
-	public String main(@RequestParam("categoryCode") int categoryCode, Model model) {
+	public String main(@RequestParam("categoryCode") int categoryCode, 
+					   @ModelAttribute SearchDto searchDto, Model model) {
 		log.info("categoryCode = {}", categoryCode);
+		log.info("{}", searchDto);
 		
 		model.addAttribute("category", categoryService.findCategory(categoryCode));
 		model.addAttribute("boardDetailsList", boardService.getBoardDetailsList(categoryCode));

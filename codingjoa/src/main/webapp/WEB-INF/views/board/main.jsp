@@ -61,13 +61,13 @@
 					<div class="input-group">
 					  	<input type="text" class="form-control form-control-sm" name="serachKeyword">
 					  	<div class="input-group-append">
-					  		<button class="btn btn-outline-secondary btn-sm" type="button">검색</button>
+					  		<button class="btn btn-outline-secondary btn-sm">검색</button>
 					  	</div>
 	        		</div>
 	        		<select name="recordPerPage" class="custom-select custom-select-sm ml-auto">
 				    	<option value="5">5개씩</option>
 				    	<option value="10">10개씩</option>
-				    	<option value="15">15개씩</option>
+				    	<option value="15" selected>15개씩</option>
 				    	<option value="20">20개씩</option>
 				    	<option value="25">25개씩</option>
 				  	</select>

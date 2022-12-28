@@ -7,5 +7,12 @@ public class SearchDto {
 
 	private String searchType;
 	private String searchKeyword;
+	private int recordPerPage;
+	
+	public SearchDto() {
+		this.recordPerPage = 15;
+	}
+	
+	
 	
 }
