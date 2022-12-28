@@ -37,7 +37,24 @@
 	
 	.custom-select {
 		display: flex;
-	}	
+		font-size: 0.8rem;
+	}
+	
+	.input-group input::placeholder {
+		font-size: 0.8rem;
+	}
+	
+	.input-group input[type="text"] {
+		font-size: 0.8rem;
+	}
+	
+	.input-group-append .btn-sm {
+		font-size: 0.8rem;
+	}
+	
+	.no-board {
+		font-size: 0.8rem;
+	}
 </style>
 </head>
 <body>
@@ -48,7 +65,7 @@
 	<div class="row">
 		<div class="col-sm-2"></div>
 		<div class="col-sm-8">
-			<h4 class="font-weight-bold mb-4">${category.categoryName}</h4>
+			<h5 class="font-weight-bold mb-4">${category.categoryName}</h5>
 			<div class="pt-3">
 	        	<form class="form-inline" action="${contextPath}/board/main" method="GET">
 	        		<input type="hidden" name="categoryCode" value="${category.categoryCode}">
@@ -101,8 +118,8 @@
 							</c:when>
 							<c:otherwise>
 								<tr>
-									<td colspan="6">
-										<div class="no_board">등록된 게시글이 없습니다.</div>
+									<td colspan="5">
+										<div class="no-board">등록된 게시글이 없습니다.</div>
 									</td>
 								</tr>
 							</c:otherwise>
