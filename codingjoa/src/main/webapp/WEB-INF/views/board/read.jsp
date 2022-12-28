@@ -44,8 +44,9 @@
 	}
 	*/
 	
-	.ck.ck-editor__main>.ck-editor__editable:not(.ck-focused) {
-		border: none;
+	.ck.ck-editor__main>.ck-editor__editable {
+		border: none !important;
+		box-shadow: none !important;
 	}
 </style>
 </head>
