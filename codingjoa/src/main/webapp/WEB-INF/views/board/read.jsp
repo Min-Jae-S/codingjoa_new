@@ -65,8 +65,7 @@
 					<p>변경일: <fmt:formatDate value="${boardDetails.regdate}" pattern="yyyy. MM. dd. HH:mm"/></p>
 				</div>
 				<div class="card-body">
-					<p>내용:</p>
-					<div>${boardDetails.boardContent}</div>
+					${boardDetails.boardContent}
 				</div>
 			</div>
 		</div>

@@ -95,7 +95,7 @@
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 
 <script>
-	let myEditor;
+	let writeEditor;
 	
 	ClassicEditor
 		.create(document.querySelector("#boardContent"), {
@@ -129,7 +129,7 @@
 		})
 		.then(editor => {
 			console.log("## Editor initialize");
-			myEditor = editor;
+			writeEditor = editor;
 		})
 		.catch(error => {
 			console.error(error);
@@ -237,9 +237,9 @@
 		$("input[type='file']").removeAttr("accept"); /*.removeAttr("multiple");*/
 		
 		$("#getDataBtn").on("click", function() {
-			console.log("myEditor.getData ==>");
-			console.log(myEditor.getData());
-			const range = myEditor.model.createRangeIn(myEditor.model.document.getRoot());
+			console.log("writeEditor.getData ==>");
+			console.log(writeEditor.getData());
+			const range = writeEditor.model.createRangeIn(writeEditor.model.document.getRoot());
 			
 			for (const value of range.getWalker({ ignoreElementEnd: true })) { // TreeWalker instance
 				// Position iterator class. It allows to iterate forward and backward over the document.
@@ -258,14 +258,14 @@
 
 		$("#resetBtn").on("click", function() {
 			$("#writeBoardDto").trigger("reset"); //$("form")[0].reset();
-			myEditor.setData("");
+			writeEditor.setData("");
 		});
 		
 		$("#writeBtn").on("click", function(e) {
 			e.preventDefault();
 			
 			let form = $("#writeBoardDto");
-			const range = myEditor.model.createRangeIn(myEditor.model.document.getRoot());
+			const range = writeEditor.model.createRangeIn(writeEditor.model.document.getRoot());
 			
 			for (const value of range.getWalker({ ignoreElementEnd: true })) { // TreeWalker instance
 				// Position iterator class. It allows to iterate forward and backward over the document.
