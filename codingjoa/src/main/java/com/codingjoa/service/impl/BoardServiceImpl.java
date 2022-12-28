@@ -61,7 +61,7 @@ public class BoardServiceImpl implements BoardService {
 			return;
 		}
 		
-		int boardIdx= writeBoardDto.getBoardIdx();
+		int boardIdx = writeBoardDto.getBoardIdx();
 		uploadIdxList.forEach(uploadIdx -> {
 			boardMapper.updateTempImage(boardIdx, uploadIdx);
 		});
