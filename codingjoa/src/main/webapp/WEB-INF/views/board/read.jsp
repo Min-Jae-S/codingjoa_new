@@ -61,7 +61,7 @@
 	
 	.header-group .category a::after {
 		content: ">";
-		margin-left: 5px;
+		margin-left: 0.25rem;
 	}
 	
 	.title {
@@ -70,7 +70,7 @@
 	}
 	
 	.header-group .header-meta {
-	    font-size: 0.75em;
+	    font-size: 0.9rem;
     	color: #b2b2b2;
 	}
 	
