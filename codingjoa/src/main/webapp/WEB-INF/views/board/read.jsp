@@ -60,15 +60,15 @@
 		<div class="col-sm-8">
 			<div class="card">
 				<div class="card-header">
-					<p>제목: ${boardDetails.boardTitle}</p>
-					<p>작성자: ${boardDetails.memberId}</p>
-					<p>조회수: ${boardDetails.boardViews}</p>
+					<p>제목: <c:out value="${boardDetails.boardTitle}"/></p>
+					<p>작성자: <c:out value="${boardDetails.memberId}"/></p>
+					<p>조회수: <c:out value="${boardDetails.boardViews}"/></p>
 					<p>작성일: <fmt:formatDate value="${boardDetails.regdate}" pattern="yyyy. MM. dd. HH:mm"/></p>
 					<p>변경일: <fmt:formatDate value="${boardDetails.regdate}" pattern="yyyy. MM. dd. HH:mm"/></p>
 				</div>
 				<div class="card-body">
 					<div id="boardContent">
-						${boardDetails.boardContent}
+						<c:out value="${boardDetails.boardContent}" escapeXml="false"/>
 					</div>
 				</div>
 			</div>
@@ -108,11 +108,11 @@
 			}
 		})
 		.then(editor => {
-			editor.enableReadOnlyMode("#boardContent");
+			console.log("## readEditor initialize");
 			const toolbarElement = editor.ui.view.toolbar.element;
 			toolbarElement.style.display = "none";
+			editor.enableReadOnlyMode("#boardContent");
 			readEditor = editor;
-			console.log("## readEditor initialize");
 		})
 		.catch(error => {
 			console.error(error);
