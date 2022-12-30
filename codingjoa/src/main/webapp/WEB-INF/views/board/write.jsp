@@ -130,8 +130,8 @@
 			placeholder: "내용을 입력하세요."
 		})
 		.then(editor => {
-			writeEditor = editor;
 			console.log("## writeEditor initialize");
+			writeEditor = editor;
 		})
 		.catch(error => {
 			console.error(error);

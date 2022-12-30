@@ -48,6 +48,32 @@
 		border: none !important;
 		box-shadow: none !important;
 	}
+	
+	.header-group {
+		border-bottom: 1px solid rgba(0,0,0,.125);
+	}
+	
+	.header-group .category a {
+		color: black;
+		font-weight: bold;
+		text-decoration: none;
+	}
+	
+	.header-group .category a::after {
+		content: ">";
+		margin-left: 5px;
+	}
+	
+	.title {
+		color: #7a583a;
+		font-weight: bold;
+	}
+	
+	.header-group .header-meta {
+	    font-size: 0.75em;
+    	color: #b2b2b2;
+	}
+	
 </style>
 </head>
 <body>
@@ -58,15 +84,19 @@
 	<div class="row">
 		<div class="col-sm-2"></div>
 		<div class="col-sm-8">
-			<div class="card">
-				<div class="card-header">
-					<p>제목: <c:out value="${boardDetails.boardTitle}"/></p>
-					<p>작성자: <c:out value="${boardDetails.memberId}"/></p>
-					<p>조회수: <c:out value="${boardDetails.boardViews}"/></p>
-					<p>작성일: <fmt:formatDate value="${boardDetails.regdate}" pattern="yyyy. MM. dd. HH:mm"/></p>
-					<p>변경일: <fmt:formatDate value="${boardDetails.regdate}" pattern="yyyy. MM. dd. HH:mm"/></p>
+			<div class="card p-4">
+				<div class="header-group mb-4">
+					<div class="category mb-2">
+						<a href="${contextPath}/board/main?categoryCode=${category.categoryCode}"><c:out value="${category.categoryName}"/></a>
+					</div>
+					<h3 class="title mb-2"><c:out value="${boardDetails.boardTitle}"/></h3>
+					<div class="header-meta">
+						<span class="author"><c:out value="${boardDetails.memberId}"/></span>
+						<span class="date"><fmt:formatDate value="${boardDetails.regdate}" pattern="yyyy. MM. dd. HH:mm"/></span>
+						<span class="views"><c:out value="${boardDetails.boardViews}"/></span>
+					</div>
 				</div>
-				<div class="card-body">
+				<div class="content-group">
 					<div id="boardContent">
 						<c:out value="${boardDetails.boardContent}" escapeXml="false"/>
 					</div>
