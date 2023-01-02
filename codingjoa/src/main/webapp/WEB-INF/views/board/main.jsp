@@ -110,22 +110,22 @@
 							<c:when test="${not empty boardDetailsList}">
 								<c:forEach var='boardDetails' items="${boardDetailsList}">
 									<tr>
-										<td class="d-md-table-cell">${boardDetails.boardIdx}</td>
+										<td class="d-md-table-cell"><c:out value="${boardDetails.boardIdx}"/></td>
 										<td class="d-md-table-cell text-left">
-											<a href='${contextPath}/board/read?boardIdx=${boardDetails.boardIdx}'>${boardDetails.boardTitle}</a>
+											<a href='${contextPath}/board/read?boardIdx=${boardDetails.boardIdx}'><c:out value="${boardDetails.boardTitle}"/></a>
 										</td>
-										<td class="d-md-table-cell">${boardDetails.memberId}</td>
+										<td class="d-md-table-cell"><c:out value="${boardDetails.memberId}"/></td>
 										<td class="d-md-table-cell">
 											<fmt:formatDate value="${boardDetails.regdate}" type="date"/>
 										</td>
-										<td class="d-md-table-cell">${boardDetails.boardViews}</td>
+										<td class="d-md-table-cell"><c:out value="${boardDetails.boardViews}"/></td>
 									</tr>
 								</c:forEach>
 							</c:when>
 							<c:otherwise>
 								<tr>
 									<td colspan="5">
-										<div class="no-board">등록된 게시글이 없습니다.</div>
+										<div class="no-board py-5">등록된 게시글이 없습니다.</div>
 									</td>
 								</tr>
 							</c:otherwise>
@@ -133,8 +133,21 @@
 					</tbody>
 				</table>
 			</div>
-			<a class="btn btn-primary btn-sm mr-1" href="${contextPath}/board/write?categoryCode=${category.categoryCode}">글쓰기</a>
-			<a class="btn btn-secondary btn-sm" href="${contextPath}/board/write?categoryCode=${category.categoryCode}">목록</a>
+			<div class="mb-4">
+				<a class="btn btn-primary btn-sm mr-1" href="${contextPath}/board/write?categoryCode=${category.categoryCode}">글쓰기</a>
+				<a class="btn btn-secondary btn-sm" href="${contextPath}/board/write?categoryCode=${category.categoryCode}">목록</a>
+			</div>
+			<nav aria-label="Page navigation example">
+				<ul class="pagination justify-content-center">
+					<li class="page-item disabled"><a class="page-link" href="#"
+						tabindex="-1">Previous</a></li>
+					<li class="page-item"><a class="page-link" href="#">1</a></li>
+					<li class="page-item"><a class="page-link" href="#">2</a></li>
+					<li class="page-item"><a class="page-link" href="#">3</a></li>
+					<li class="page-item"><a class="page-link" href="#">Next</a>
+					</li>
+				</ul>
+			</nav>
 		</div>		
 		<div class="col-sm-2"></div>
 	</div>
