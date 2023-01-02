@@ -86,6 +86,11 @@ public class BoardServiceImpl implements BoardService {
 				.collect(Collectors.toList());
 	}
 
+	@Override
+	public boolean isBoardIdxExist(int boardIdx) {
+		return boardMapper.isBoardIdxExist(boardIdx);
+	}
+
 	
 	
 }

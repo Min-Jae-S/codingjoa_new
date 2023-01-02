@@ -26,4 +26,6 @@ public interface BoardMapper {
 	
 	List<Map<String, Object>> findBoardDetailsList(int categoryCode);
 	
+	boolean isBoardIdxExist(int boardIdx);
+	
 }

@@ -133,7 +133,7 @@
 					</tbody>
 				</table>
 			</div>
-			<a class="btn btn-primary btn-sm" href="${contextPath}/board/write?categoryCode=${category.categoryCode}">글쓰기</a>
+			<a class="btn btn-primary btn-sm mr-1" href="${contextPath}/board/write?categoryCode=${category.categoryCode}">글쓰기</a>
 			<a class="btn btn-secondary btn-sm" href="${contextPath}/board/write?categoryCode=${category.categoryCode}">목록</a>
 		</div>		
 		<div class="col-sm-2"></div>

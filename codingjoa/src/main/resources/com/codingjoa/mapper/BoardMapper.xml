@@ -136,5 +136,14 @@
 		WHERE
 			a.board_category_code = #{boardCategoryCode}
 	</select>
+	
+	<select id="isBoardIdxExist" parameterType="int" resultType="boolean">
+		SELECT
+			COUNT(*)
+		FROM
+			board
+		WHERE
+			board_idx = #{boardIdx}
+	</select>
 
 </mapper>

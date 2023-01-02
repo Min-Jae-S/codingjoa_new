@@ -19,6 +19,7 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import com.codingjoa.interceptor.CheckBoardIdxInterceptor;
 import com.codingjoa.interceptor.CheckBoardInterceptor;
 
 @Configuration
@@ -61,6 +62,8 @@ public class ServletConfig implements WebMvcConfigurer {
 //				.addPathPatterns("/member/updatePassword");
 		registry.addInterceptor(checkBoardInterceptor())
 				.addPathPatterns("/board/main", "/board/write");
+		registry.addInterceptor(checkBoardIdxInterceptor())
+				.addPathPatterns("/board/read");
 		
 	}
 	
@@ -74,6 +77,11 @@ public class ServletConfig implements WebMvcConfigurer {
 	@Bean
 	public HandlerInterceptor checkBoardInterceptor() {
 		return new CheckBoardInterceptor();
+	}
+	
+	@Bean
+	public HandlerInterceptor checkBoardIdxInterceptor() {
+		return new CheckBoardIdxInterceptor();
 	}
 	
 }

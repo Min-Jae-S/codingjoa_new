@@ -72,7 +72,7 @@
 	
 	.header-group .header-meta {
 	    font-size: 0.9rem;
-    	color: #868e96;
+    	color: #757575;
 	}
 </style>
 </head>

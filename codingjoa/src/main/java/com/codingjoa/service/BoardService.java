@@ -20,4 +20,6 @@ public interface BoardService {
 	void updateBoardViews(int boardIdx);
 	
 	List<BoardDetailsDto> getBoardDetailsList(int categoryCode);
+	
+	boolean isBoardIdxExist(int boardIdx);
 }
