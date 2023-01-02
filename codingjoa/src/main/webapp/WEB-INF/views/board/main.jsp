@@ -37,9 +37,10 @@
 	
 	.custom-select {
 		display: flex;
-		font-size: 0.8rem;
+		/* font-size: 0.8rem; */
 	}
 	
+	/*
 	.input-group input::placeholder {
 		font-size: 0.8rem;
 	}
@@ -55,10 +56,7 @@
 	.no-board {
 		font-size: 0.8rem;
 	}
-	
-	a.btn-sm {
-		font-size: 0.8rem;
-	}
+	*/
 </style>
 </head>
 <body>
@@ -133,19 +131,17 @@
 					</tbody>
 				</table>
 			</div>
-			<div class="mb-4">
+			<div class="mb-3">
 				<a class="btn btn-primary btn-sm mr-1" href="${contextPath}/board/write?categoryCode=${category.categoryCode}">글쓰기</a>
 				<a class="btn btn-secondary btn-sm" href="${contextPath}/board/write?categoryCode=${category.categoryCode}">목록</a>
 			</div>
-			<nav aria-label="Page navigation example">
+			<nav class="pt-3">
 				<ul class="pagination justify-content-center">
-					<li class="page-item disabled"><a class="page-link" href="#"
-						tabindex="-1">Previous</a></li>
-					<li class="page-item"><a class="page-link" href="#">1</a></li>
-					<li class="page-item"><a class="page-link" href="#">2</a></li>
+					<li class="page-item disabled"><a class="page-link" href="#" tabindex="-1">Previous</a></li>
+					<li class="page-item"><a class="page-link"  href="#">1</a></li>
+					<li class="page-item active"><a class="page-link" href="#">2</a></li>
 					<li class="page-item"><a class="page-link" href="#">3</a></li>
-					<li class="page-item"><a class="page-link" href="#">Next</a>
-					</li>
+					<li class="page-item"><a class="page-link" href="#">Next</a></li>
 				</ul>
 			</nav>
 		</div>		
