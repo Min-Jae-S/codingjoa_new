@@ -115,4 +115,22 @@ public class BoardController {
 		
 		return "board/write-success";
 	}
+	
+	@GetMapping("/modify")
+	public String modify() {
+		
+		return null;
+	}
+	
+	@PostMapping("/modifyProc")
+	public String modifyProc() {
+		
+		return null;
+	}
+	
+	@GetMapping("/delete")
+	public String delete() {
+		
+		return null;
+	}
 }
