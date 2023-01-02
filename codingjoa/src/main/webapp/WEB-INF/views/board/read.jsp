@@ -56,6 +56,7 @@
 	.header-group .category a {
 		color: #007bff;
 		font-weight: bold;
+		font-size: 0.9rem;
 		text-decoration: none;
 	}
 	
@@ -88,7 +89,7 @@
 					<div class="category mb-2">
 						<a href="${contextPath}/board/main?categoryCode=${category.categoryCode}"><c:out value="${category.categoryName}"/></a>
 					</div>
-					<h3 class="title mb-2"><c:out value="${boardDetails.boardTitle}"/></h3>
+					<h3 class="title mb-4"><c:out value="${boardDetails.boardTitle}"/></h3>
 					<div class="header-meta mb-2 d-flex">
 						<span class="author mr-4"><c:out value="${boardDetails.memberId}"/></span>
 						<span class="date"><fmt:formatDate value="${boardDetails.regdate}" pattern="yyyy. MM. dd. HH:mm"/></span>

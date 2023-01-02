@@ -87,7 +87,7 @@
 						<form:errors path="boardContent" cssClass="error"/>
 					</div>
 				</form:form>
-				<button type="button" class="btn btn-warning btn-block" id="getDataBtn">getData() Button</button>
+				<!-- <button type="button" class="btn btn-warning btn-block" id="getDataBtn">getData() Button</button> -->
 			</div>
 		</div>
 		<div class="col-sm-2"></div>
