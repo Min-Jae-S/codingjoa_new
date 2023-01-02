@@ -54,7 +54,7 @@
 	}
 	
 	.header-group .category a {
-		color: black;
+		color: #007bff;
 		font-weight: bold;
 		text-decoration: none;
 	}
@@ -65,15 +65,14 @@
 	}
 	
 	.title {
-		color: #7a583a;
+		color: black;
 		font-weight: bold;
 	}
 	
 	.header-group .header-meta {
 	    font-size: 0.9rem;
-    	color: #b2b2b2;
+    	color: #868e96;
 	}
-	
 </style>
 </head>
 <body>
@@ -90,10 +89,10 @@
 						<a href="${contextPath}/board/main?categoryCode=${category.categoryCode}"><c:out value="${category.categoryName}"/></a>
 					</div>
 					<h3 class="title mb-2"><c:out value="${boardDetails.boardTitle}"/></h3>
-					<div class="header-meta">
-						<span class="author"><c:out value="${boardDetails.memberId}"/></span>
+					<div class="header-meta mb-2 d-flex">
+						<span class="author mr-4"><c:out value="${boardDetails.memberId}"/></span>
 						<span class="date"><fmt:formatDate value="${boardDetails.regdate}" pattern="yyyy. MM. dd. HH:mm"/></span>
-						<span class="views"><c:out value="${boardDetails.boardViews}"/></span>
+						<span class="views ml-auto">조회 <c:out value="${boardDetails.boardViews}"/></span>
 					</div>
 				</div>
 				<div class="content-group">
