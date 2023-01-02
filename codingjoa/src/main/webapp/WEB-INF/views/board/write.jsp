@@ -57,8 +57,8 @@
 	<div class="row">
 		<div class="col-sm-2"></div>
 		<div class="col-sm-8">
-			<h5 class="font-weight-bold">게시판 글쓰기</h5>
-			<div class="pt-3" style="border-top: 1px solid black;">
+			<h4 class="font-weight-bold mb-3">게시판 글쓰기</h4>
+			<div class="pt-4" style="border-top: 1px solid black;">
 				<form:form action="${contextPath}/board/writeProc" method="POST" modelAttribute="writeBoardDto">
 					<div class="form-row">
 						<div class="form-group col-md-8">

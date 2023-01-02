@@ -55,6 +55,10 @@
 	.no-board {
 		font-size: 0.8rem;
 	}
+	
+	a.btn-sm {
+		font-size: 0.8rem;
+	}
 </style>
 </head>
 <body>
@@ -65,7 +69,7 @@
 	<div class="row">
 		<div class="col-sm-2"></div>
 		<div class="col-sm-8">
-			<h5 class="font-weight-bold mb-4">${category.categoryName}</h5>
+			<h4 class="font-weight-bold mb-4">${category.categoryName}</h4>
 			<div class="pt-3">
 	        	<form class="form-inline" action="${contextPath}/board/main" method="GET">
 	        		<input type="hidden" name="categoryCode" value="${category.categoryCode}">

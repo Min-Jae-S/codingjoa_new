@@ -90,7 +90,7 @@
 						<a href="${contextPath}/board/main?categoryCode=${category.categoryCode}"><c:out value="${category.categoryName}"/></a>
 					</div>
 					<h3 class="title mb-4"><c:out value="${boardDetails.boardTitle}"/></h3>
-					<div class="header-meta mb-2 d-flex">
+					<div class="header-meta d-flex mb-2">
 						<span class="author mr-4"><c:out value="${boardDetails.memberId}"/></span>
 						<span class="date"><fmt:formatDate value="${boardDetails.regdate}" pattern="yyyy. MM. dd. HH:mm"/></span>
 						<span class="views ml-auto">조회 <c:out value="${boardDetails.boardViews}"/></span>
