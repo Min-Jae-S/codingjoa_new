@@ -94,8 +94,11 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public void mapModifyBoard(int boardIdx, ModifyBoardDto modifyBoardDto) {
-		Map<String, Object> boardDetailsMap = boardMapper.findBoardDetails(boardIdx);
-		modelMapper.map(boardDetailsMap, modifyBoardDto);
+		Board board = boardMapper.findBoardByIdx(boardIdx);
+		modelMapper.map(board, modifyBoardDto);
+		
+		List<Integer> uploadIdxList = modifyBoardDto.getUploadIdxList();
+		boardMapper.findUploadIdx(boardIdx).forEach(uploadIdx -> uploadIdxList.add(uploadIdx));
 	}
 
 	

@@ -28,4 +28,9 @@ public interface BoardMapper {
 	
 	boolean isBoardIdxExist(int boardIdx);
 	
+	Board findBoardByIdx(int boardIdx);
+	
+	List<Integer> findUploadIdx(int boardIdx);
+	
+	
 }

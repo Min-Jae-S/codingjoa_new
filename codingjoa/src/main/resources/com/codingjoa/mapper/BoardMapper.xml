@@ -145,5 +145,14 @@
 		WHERE
 			board_idx = #{boardIdx}
 	</select>
+	
+	<select id="findUploadIdx" parameterType="int" resultType="list">
+		SELECT
+			upload_idx
+		FROM
+			upload
+		WHERE
+			upload_board_idx = #{boardIdx}
+	</select>
 
 </mapper>
