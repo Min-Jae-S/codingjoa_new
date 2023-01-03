@@ -98,7 +98,7 @@ public class BoardServiceImpl implements BoardService {
 		modelMapper.map(board, modifyBoardDto);
 		
 		List<Integer> uploadIdxList = modifyBoardDto.getUploadIdxList();
-		boardMapper.findUploadIdx(boardIdx).forEach(uploadIdx -> uploadIdxList.add(uploadIdx));
+		boardMapper.findUploadIdxList(boardIdx).forEach(uploadIdx -> uploadIdxList.add(uploadIdx));
 	}
 
 	
