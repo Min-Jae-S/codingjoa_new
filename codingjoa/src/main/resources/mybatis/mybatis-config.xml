@@ -13,4 +13,8 @@
 		<typeAlias type="com.codingjoa.entity.Board" alias="board" />
 		<typeAlias type="com.codingjoa.entity.Upload" alias="upload" />
 	</typeAliases>
+	
+	<typeHandlers>
+		<typeHandler handler="com.codingjoa.handler.ClobTypeHandler" javaType="String" jdbcType="LONGVARCHAR"/>
+	</typeHandlers>
 </configuration>

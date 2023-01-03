@@ -146,6 +146,15 @@
 			board_idx = #{boardIdx}
 	</select>
 	
+	<select id="findBoardByIdx" parameterType="int" resultType="board">
+		SELECT
+			* 
+		FROM 
+			board 
+		WHERE
+			board_idx = #{boardIdx}
+	</select>
+	
 	<select id="findUploadIdx" parameterType="int" resultType="list">
 		SELECT
 			upload_idx
