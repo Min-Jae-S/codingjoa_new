@@ -92,7 +92,7 @@
 				  	</select>
 				</form>
 			</div>
-			<div class="pt-3">
+			<div class="pt-3 mb-3">
 				<table class="table">
 					<thead>
 						<tr>
@@ -132,8 +132,7 @@
 				</table>
 			</div>
 			<div class="mb-3">
-				<a class="btn btn-primary btn-sm mr-1" href="${contextPath}/board/write?categoryCode=${category.categoryCode}">글쓰기</a>
-				<a class="btn btn-secondary btn-sm" href="${contextPath}/board/write?categoryCode=${category.categoryCode}">목록</a>
+				<a class="btn btn-primary" href="${contextPath}/board/write?categoryCode=${category.categoryCode}">글쓰기</a>
 			</div>
 			<nav class="pt-3">
 				<ul class="pagination justify-content-center">

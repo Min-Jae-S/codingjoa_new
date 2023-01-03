@@ -116,6 +116,9 @@ public class BoardController {
 						 @ModelAttribute ModifyBoardDto modifyBoardDto, Model model) {
 		log.info("boardIdx={}, {}", boardIdx, modifyBoardDto);
 		
+		boardService.mapModifyBoard(boardIdx, modifyBoardDto);
+		log.info("after mapping {}", modifyBoardDto);
+		
 		model.addAttribute("categoryList", categoryService.findBoardCategoryList());
 		
 		return "board/modify";

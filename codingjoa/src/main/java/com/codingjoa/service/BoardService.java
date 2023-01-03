@@ -3,6 +3,7 @@ package com.codingjoa.service;
 import java.util.List;
 
 import com.codingjoa.dto.BoardDetailsDto;
+import com.codingjoa.dto.ModifyBoardDto;
 import com.codingjoa.dto.WriteBoardDto;
 
 public interface BoardService {
@@ -22,4 +23,6 @@ public interface BoardService {
 	List<BoardDetailsDto> getBoardDetailsList(int categoryCode);
 	
 	boolean isBoardIdxExist(int boardIdx);
+	
+	void mapModifyBoard(int boardIdx, ModifyBoardDto modifyBoardDto);
 }

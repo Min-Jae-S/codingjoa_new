@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.codingjoa.dto.BoardDetailsDto;
+import com.codingjoa.dto.ModifyBoardDto;
 import com.codingjoa.dto.WriteBoardDto;
 import com.codingjoa.entity.Board;
 import com.codingjoa.entity.Upload;
@@ -89,6 +90,12 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public boolean isBoardIdxExist(int boardIdx) {
 		return boardMapper.isBoardIdxExist(boardIdx);
+	}
+
+	@Override
+	public void mapModifyBoard(int boardIdx, ModifyBoardDto modifyBoardDto) {
+		Map<String, Object> boardDetailsMap = boardMapper.findBoardDetails(boardIdx);
+		modelMapper.map(boardDetailsMap, modifyBoardDto);
 	}
 
 	

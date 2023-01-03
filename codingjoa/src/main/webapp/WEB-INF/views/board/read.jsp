@@ -84,8 +84,8 @@
 	<div class="row">
 		<div class="col-sm-2"></div>
 		<div class="col-sm-8">
-			<div class="card p-4">
-				<div class="header-group mb-4">
+			<div class="card p-4 mb-3">
+				<div class="header-group mb-3">
 					<div class="category mb-2">
 						<a href="${contextPath}/board/main?categoryCode=${category.categoryCode}"><c:out value="${category.categoryName}"/></a>
 					</div>
@@ -101,6 +101,10 @@
 						<c:out value="${boardDetails.boardContent}" escapeXml="false"/>
 					</div>
 				</div>
+			</div>
+			<div>
+				<a class="btn btn-primary mr-1" href="${contextPath}/board/modify?boardIdx=${boardDetails.boardIdx}">수정</a>
+				<a class="btn btn-secondary" href="#">목록</a>
 			</div>
 		</div>
 		<div class="col-sm-2"></div>
