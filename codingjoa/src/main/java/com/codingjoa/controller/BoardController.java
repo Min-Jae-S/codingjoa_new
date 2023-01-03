@@ -40,10 +40,18 @@ public class BoardController {
 	
 	@Resource(name = "writeBoardValidator")
 	private Validator writeBoardValidator;
+
+	@Resource(name = "modifyBoardValidator")
+	private Validator modifyBoardValidator;
 	
 	@InitBinder("writeBoardDto")
 	public void initBinderWriteBoard(WebDataBinder binder) {
 		binder.addValidators(writeBoardValidator);
+	}
+
+	@InitBinder("modifyBoardDto")
+	public void initBinderModifyBoard(WebDataBinder binder) {
+		binder.addValidators(modifyBoardValidator);
 	}
 	
 	@GetMapping("/all")
@@ -53,7 +61,7 @@ public class BoardController {
 	
 	@GetMapping("/main")
 	public String main(@RequestParam("categoryCode") int categoryCode, 
-			@ModelAttribute SearchDto searchDto, Model model) {
+					   @ModelAttribute SearchDto searchDto, Model model) {
 		log.info("categoryCode={}, {}", categoryCode, searchDto);
 		
 		model.addAttribute("category", categoryService.findCategory(categoryCode));
@@ -79,11 +87,9 @@ public class BoardController {
 	
 	@GetMapping("/write")
 	public String write(@RequestParam("categoryCode") int categoryCode, 
-			@ModelAttribute WriteBoardDto writeBoardDto, @AuthenticationPrincipal UserDetailsDto principal, Model model) {
+						@ModelAttribute WriteBoardDto writeBoardDto, Model model) {
 		log.info("categoryCode={}, {}", categoryCode, writeBoardDto);
 		
-		int boardWriterIdx = principal.getMember().getMemberIdx();
-		writeBoardDto.setBoardWriterIdx(boardWriterIdx);
 		writeBoardDto.setBoardCategoryCode(categoryCode);
 		
 		//model.addAttribute("categoryList", categoryService.findCategoryOfSameParent(categoryCode));
@@ -94,13 +100,16 @@ public class BoardController {
 	
 	@PostMapping("/writeProc")
 	public String writeProc(@ModelAttribute @Valid WriteBoardDto writeBoardDto, 
-			BindingResult bindingResult, Model model) {
+			BindingResult bindingResult, @AuthenticationPrincipal UserDetailsDto principal, Model model) {
 		log.info("{}", writeBoardDto);
 		
 		if (bindingResult.hasErrors()) { // TypeMismatch, objectError.getCodes()[0]
 			model.addAttribute("categoryList", categoryService.findBoardCategoryList());
 			return "board/write";
 		}
+		
+		int boardWriterIdx = principal.getMember().getMemberIdx();
+		writeBoardDto.setBoardWriterIdx(boardWriterIdx);
 		
 		int boardIdx = boardService.writeBoard(writeBoardDto);
 		writeBoardDto.setBoardIdx(boardIdx);
@@ -112,7 +121,7 @@ public class BoardController {
 	
 	@GetMapping("/modify")
 	public String modify(@RequestParam("boardIdx") int boardIdx, 
-			@ModelAttribute ModifyBoardDto modifyBoardDto, Model model) {
+						 @ModelAttribute ModifyBoardDto modifyBoardDto, Model model) {
 		log.info("boardIdx={}, {}", boardIdx, modifyBoardDto);
 		
 		boardService.mapModifyBoard(boardIdx, modifyBoardDto);
