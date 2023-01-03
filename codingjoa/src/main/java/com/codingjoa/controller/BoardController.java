@@ -134,7 +134,7 @@ public class BoardController {
 	
 	@PostMapping("/modifyProc")
 	public String modifyProc(@ModelAttribute ModifyBoardDto modifyBoardDto, 
-			BindingResult bindingResult, Model model) {
+							 BindingResult bindingResult, Model model) {
 		log.info("{}", modifyBoardDto);
 		
 		if (bindingResult.hasErrors()) {

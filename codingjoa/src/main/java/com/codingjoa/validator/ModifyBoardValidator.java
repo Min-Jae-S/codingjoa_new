@@ -32,7 +32,7 @@ public class ModifyBoardValidator implements Validator {
 
 	@Override
 	public void validate(Object target, Errors errors) {
-		log.info("============== WriteBoardValidator validate ==============");
+		log.info("============== ModifyBoardValidator validate ==============");
 		
 		ModifyBoardDto modifyBoardDto = (ModifyBoardDto) target;
 		int categoryCode = modifyBoardDto.getBoardCategoryCode();
