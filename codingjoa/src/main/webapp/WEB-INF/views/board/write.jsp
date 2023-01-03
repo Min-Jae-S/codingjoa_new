@@ -63,11 +63,14 @@
 					<div class="form-row">
 						<div class="form-group col-md-8">
 							<form:select class="custom-select" path="boardCategoryCode">
+								<form:options items="${categoryList}" itemValue="categoryCode" itemLabel="categoryName"/>
+								<!--  
 								<c:forEach var="category" items="${categoryList}">
 									<option value="${category.categoryCode}" ${category.categoryCode eq writeBoardDto.boardCategoryCode ? "selected" : ""}>
 										${category.categoryName}
 									</option>
 								</c:forEach>
+								-->
 							</form:select>
 							<form:errors path="boardCategoryCode" cssClass="error"/>
 						</div>

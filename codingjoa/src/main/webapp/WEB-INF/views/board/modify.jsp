@@ -6,7 +6,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>[수정] <c:out value="${modifyBoardDto.boardTitle}"/></title>
+<title>(수정) <c:out value="${modifyBoardDto.boardTitle}"/></title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
@@ -63,9 +63,7 @@
 					<div class="form-row">
 						<div class="form-group col-md-8">
 							<form:select class="custom-select" path="boardCategoryCode">
-								<c:forEach var="category" items="${categoryList}">
-									<option value="${category.categoryCode}">${category.categoryName}</option>
-								</c:forEach>
+								<form:options items="${categoryList}" itemValue="categoryCode" itemLabel="categoryName"/>
 							</form:select>
 							<form:errors path="boardCategoryCode" cssClass="error"/>
 						</div>
@@ -85,7 +83,6 @@
 						<form:errors path="boardContent" cssClass="error"/>
 					</div>
 				</form:form>
-				<!-- <button type="button" class="btn btn-warning btn-block" id="getDataBtn">getData() Button</button> -->
 			</div>
 		</div>
 		<div class="col-sm-2"></div>
@@ -233,27 +230,6 @@
 		// https://ckeditor.com/docs/ckeditor5/latest/api/module_image_imageupload_imageuploadui-ImageUploadUI.html
 		$("input[type='file']").removeAttr("accept"); /*.removeAttr("multiple");*/
 		
-		$("#getDataBtn").on("click", function() {
-			console.log("writeEditor.getData ==>");
-			console.log(writeEditor.getData());
-			const range = writeEditor.model.createRangeIn(writeEditor.model.document.getRoot());
-			
-			// TreeWalker instance
-			for (const value of range.getWalker({ ignoreElementEnd: true })) { 
-				// Position iterator class. It allows to iterate forward and backward over the document.
-			    if (!value.item.is("element")) {
-			    	continue;
-			    }
-			    
-			 	// imageBlock, imageInlne
-			    if (!value.item.name.startsWith("image")) { 
-			    	continue;
-			    }
-			 	
-			    console.log("dataIdx: " + value.item.getAttribute("dataIdx"));
-			}
-		});
-
 		$("#resetBtn").on("click", function() {
 			$("#modifyBoardDto").trigger("reset");
 			modifyEditor.setData(editorData);
@@ -280,7 +256,7 @@
 			    let dataIdx = value.item.getAttribute("dataIdx");
 			    
 			    input.val(dataIdx);
-				form.append(input);
+			    form.append(input);
 			}
 			
 			form.submit();
