@@ -53,7 +53,7 @@ public class BoardController {
 	
 	@GetMapping("/main")
 	public String main(@RequestParam("categoryCode") int categoryCode, 
-					   @ModelAttribute SearchDto searchDto, Model model) {
+			@ModelAttribute SearchDto searchDto, Model model) {
 		log.info("categoryCode={}, {}", categoryCode, searchDto);
 		
 		model.addAttribute("category", categoryService.findCategory(categoryCode));
@@ -79,9 +79,11 @@ public class BoardController {
 	
 	@GetMapping("/write")
 	public String write(@RequestParam("categoryCode") int categoryCode, 
-						@ModelAttribute WriteBoardDto writeBoardDto, Model model) {
+			@ModelAttribute WriteBoardDto writeBoardDto, @AuthenticationPrincipal UserDetailsDto principal, Model model) {
 		log.info("categoryCode={}, {}", categoryCode, writeBoardDto);
 		
+		int boardWriterIdx = principal.getMember().getMemberIdx();
+		writeBoardDto.setBoardWriterIdx(boardWriterIdx);
 		writeBoardDto.setBoardCategoryCode(categoryCode);
 		
 		//model.addAttribute("categoryList", categoryService.findCategoryOfSameParent(categoryCode));
@@ -92,16 +94,13 @@ public class BoardController {
 	
 	@PostMapping("/writeProc")
 	public String writeProc(@ModelAttribute @Valid WriteBoardDto writeBoardDto, 
-			BindingResult bindingResult, @AuthenticationPrincipal UserDetailsDto principal, Model model) {
+			BindingResult bindingResult, Model model) {
 		log.info("{}", writeBoardDto);
 		
 		if (bindingResult.hasErrors()) { // TypeMismatch, objectError.getCodes()[0]
 			model.addAttribute("categoryList", categoryService.findBoardCategoryList());
 			return "board/write";
 		}
-		
-		int boardWriterIdx = principal.getMember().getMemberIdx();
-		writeBoardDto.setBoardWriterIdx(boardWriterIdx);
 		
 		int boardIdx = boardService.writeBoard(writeBoardDto);
 		writeBoardDto.setBoardIdx(boardIdx);
@@ -113,7 +112,7 @@ public class BoardController {
 	
 	@GetMapping("/modify")
 	public String modify(@RequestParam("boardIdx") int boardIdx, 
-						 @ModelAttribute ModifyBoardDto modifyBoardDto, Model model) {
+			@ModelAttribute ModifyBoardDto modifyBoardDto, Model model) {
 		log.info("boardIdx={}, {}", boardIdx, modifyBoardDto);
 		
 		boardService.mapModifyBoard(boardIdx, modifyBoardDto);
@@ -125,9 +124,16 @@ public class BoardController {
 	}
 	
 	@PostMapping("/modifyProc")
-	public String modifyProc() {
+	public String modifyProc(@ModelAttribute ModifyBoardDto modifyBoardDto, 
+			BindingResult bindingResult, Model model) {
+		log.info("{}", modifyBoardDto);
 		
-		return null;
+		if (bindingResult.hasErrors()) {
+			model.addAttribute("categoryList", categoryService.findBoardCategoryList());
+			return "board/modify";
+		}
+		
+		return "board/modify-success";
 	}
 	
 	@GetMapping("/delete")
