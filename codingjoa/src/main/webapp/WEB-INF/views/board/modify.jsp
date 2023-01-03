@@ -6,7 +6,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>[수정] ${boardDetails.boardTitle}</title>
+<title>[수정] <c:out value="${modifyBoardDto.boardTitle}"/></title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
@@ -57,7 +57,7 @@
 	<div class="row">
 		<div class="col-sm-2"></div>
 		<div class="col-sm-8">
-			<h4 class="font-weight-bold mb-3">게시판 수정하기</h4>
+			<h4 class="font-weight-bold mb-3">게시글 수정하기</h4>
 			<div class="pt-4" style="border-top: 1px solid black;">
 				<form:form action="${contextPath}/board/modifyProc" method="POST" modelAttribute="modifyBoardDto">
 					<div class="form-row">
@@ -73,7 +73,7 @@
 							<form:button class="btn btn-primary btn-block" id="modifyBtn">수정</form:button>
 						</div>
 						<div class="form-group col-md-2">
-							<button type="reset" class="btn btn-secondary btn-block" id="resetBtn">취소</button>
+							<button type="button" class="btn btn-secondary btn-block" id="resetBtn">취소</button>
 						</div>
 					</div>
 					<div class="form-group">
@@ -96,6 +96,7 @@
 
 <script>
 	let modifyEditor;
+	let editorData;
 	
 	ClassicEditor
 		.create(document.querySelector("#boardContent"), {
@@ -129,6 +130,7 @@
 		.then(editor => {
 			console.log("## modifyEditor initialize");
 			modifyEditor = editor;
+			editorData = editor.getData();
 		})
 		.catch(error => {
 			console.error(error);
@@ -254,6 +256,7 @@
 
 		$("#resetBtn").on("click", function() {
 			$("#modifyBoardDto").trigger("reset");
+			modifyEditor.setData(editorData);
 		});
 		
 		$("#modifyBtn").on("click", function(e) {

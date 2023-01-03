@@ -75,7 +75,7 @@
 							<form:button class="btn btn-primary btn-block" id="writeBtn">등록</form:button>
 						</div>
 						<div class="form-group col-md-2">
-							<button type="button" class="btn btn-secondary btn-block" id="resetBtn">취소</button>
+							<button type="reset" class="btn btn-secondary btn-block" id="resetBtn">취소</button>
 						</div>
 					</div>
 					<div class="form-group">
@@ -87,7 +87,6 @@
 						<form:errors path="boardContent" cssClass="error"/>
 					</div>
 				</form:form>
-				<!-- <button type="button" class="btn btn-warning btn-block" id="getDataBtn">getData() Button</button> -->
 			</div>
 		</div>
 		<div class="col-sm-2"></div>

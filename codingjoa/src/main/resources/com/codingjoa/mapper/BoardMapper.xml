@@ -155,7 +155,7 @@
 			board_idx = #{boardIdx}
 	</select>
 	
-	<select id="findUploadIdxList" parameterType="int" resultType="list">
+	<select id="findUploadIdxList" parameterType="int" resultType="int">
 		SELECT
 			upload_idx
 		FROM
