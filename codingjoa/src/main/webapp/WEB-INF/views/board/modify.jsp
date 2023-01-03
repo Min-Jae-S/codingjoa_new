@@ -6,7 +6,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>글쓰기</title>
+<title>[수정] ${boardDetails.boardTitle}</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
@@ -57,25 +57,23 @@
 	<div class="row">
 		<div class="col-sm-2"></div>
 		<div class="col-sm-8">
-			<h4 class="font-weight-bold mb-3">게시판 글쓰기</h4>
+			<h4 class="font-weight-bold mb-3">게시판 수정하기</h4>
 			<div class="pt-4" style="border-top: 1px solid black;">
-				<form:form action="${contextPath}/board/writeProc" method="POST" modelAttribute="writeBoardDto">
+				<form:form action="${contextPath}/board/modifyProc" method="POST" modelAttribute="modifyBoardDto">
 					<div class="form-row">
 						<div class="form-group col-md-8">
 							<form:select class="custom-select" path="boardCategoryCode">
 								<c:forEach var="category" items="${categoryList}">
-									<option value="${category.categoryCode}" ${category.categoryCode eq writeBoardDto.boardCategoryCode ? "selected" : ""}>
-										${category.categoryName}
-									</option>
+									<option value="${category.categoryCode}">${category.categoryName}</option>
 								</c:forEach>
 							</form:select>
 							<form:errors path="boardCategoryCode" cssClass="error"/>
 						</div>
 						<div class="form-group col-md-2">
-							<form:button class="btn btn-primary btn-block" id="writeBtn">등록</form:button>
+							<form:button class="btn btn-primary btn-block" id="modifyBtn">수정</form:button>
 						</div>
 						<div class="form-group col-md-2">
-							<button type="button" class="btn btn-secondary btn-block" id="resetBtn">취소</button>
+							<button type="reset" class="btn btn-secondary btn-block" id="resetBtn">취소</button>
 						</div>
 					</div>
 					<div class="form-group">
@@ -97,7 +95,7 @@
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 
 <script>
-	let writeEditor;
+	let modifyEditor;
 	
 	ClassicEditor
 		.create(document.querySelector("#boardContent"), {
@@ -109,7 +107,6 @@
 				modelToViewEditingConverter, 
 				modelToViewDataConverter
 			],
-			// https://ckeditor.com/docs/ckeditor5/latest/features/general-html-support.html
 			htmlSupport: { 
 				allow: [
 					{
@@ -130,8 +127,8 @@
 			placeholder: "내용을 입력하세요."
 		})
 		.then(editor => {
-			console.log("## writeEditor initialize");
-			writeEditor = editor;
+			console.log("## modifyEditor initialize");
+			modifyEditor = editor;
 		})
 		.catch(error => {
 			console.error(error);
@@ -144,7 +141,6 @@
 	    };
 	}
 	
-	// https://ckeditor.com/docs/ckeditor5/latest/api/module_image_imageupload_imageuploadediting-ImageUploadEditing.html#event-uploadComplete
 	function uploadCompleteListener(editor) {
 		console.log("## Register event listener(uploadComplete)");
 		
@@ -158,7 +154,6 @@
 		});
 	}
 	
-	// https://github.com/ckeditor/ckeditor5/issues/5204
 	function extendAttribute(editor) {
 		console.log("## Allow custom attribute ==> blockObject, inlineOjbect");
 		editor.model.schema.extend("$blockObject", { allowAttributes: "dataIdx" });
@@ -175,8 +170,6 @@
 	}
 	
 	// model-to-view converter(editing downcast)
-	// https://stackoverflow.com/questions/56402202/ckeditor5-create-element-image-with-attributes
-	// https://gitlab-new.bap.jp/chinhnc2/ckeditor5/-/blob/690049ec7b8e95ba840ab1c882b5680f3a3d1dc4/packages/ckeditor5-engine/docs/framework/guides/deep-dive/conversion-preserving-custom-content.md
 	function modelToViewEditingConverter(editor) {
 		console.log("## Register model-to-view converter ==> Editing downcast");
 		
@@ -260,15 +253,14 @@
 		});
 
 		$("#resetBtn").on("click", function() {
-			$("#writeBoardDto").trigger("reset"); //$("form")[0].reset();
-			writeEditor.setData("");
+			$("#modifyBoardDto").trigger("reset");
 		});
 		
-		$("#writeBtn").on("click", function(e) {
+		$("#modifyBtn").on("click", function(e) {
 			e.preventDefault();
 			
-			let form = $("#writeBoardDto");
-			const range = writeEditor.model.createRangeIn(writeEditor.model.document.getRoot());
+			let form = $("#modifyBoardDto");
+			const range = modifyEditor.model.createRangeIn(modifyEditor.model.document.getRoot());
 			
 			for (const value of range.getWalker({ ignoreElementEnd: true })) { // TreeWalker instance
 				// Position iterator class. It allows to iterate forward and backward over the document.

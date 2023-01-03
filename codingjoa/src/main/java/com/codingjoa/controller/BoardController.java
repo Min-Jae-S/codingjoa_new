@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.codingjoa.dto.BoardDetailsDto;
+import com.codingjoa.dto.ModifyBoardDto;
 import com.codingjoa.dto.SearchDto;
 import com.codingjoa.dto.WriteBoardDto;
 import com.codingjoa.security.dto.UserDetailsDto;
@@ -94,18 +95,12 @@ public class BoardController {
 			BindingResult bindingResult, @AuthenticationPrincipal UserDetailsDto principal, Model model) {
 		log.info("{}", writeBoardDto);
 		
-		if (bindingResult.hasErrors()) {
-			bindingResult.getAllErrors().forEach(objectError -> {
-				log.info("errorCode={}", objectError.getCodes()[0]);
-			});
-			
+		if (bindingResult.hasErrors()) { // TypeMismatch, objectError.getCodes()[0]
 			model.addAttribute("categoryList", categoryService.findBoardCategoryList());
-			
 			return "board/write";
 		}
 		
-		//int boardWriterIdx = principal.getMember().getMemberIdx();
-		int boardWriterIdx = 41;
+		int boardWriterIdx = principal.getMember().getMemberIdx();
 		writeBoardDto.setBoardWriterIdx(boardWriterIdx);
 		
 		int boardIdx = boardService.writeBoard(writeBoardDto);
@@ -117,9 +112,13 @@ public class BoardController {
 	}
 	
 	@GetMapping("/modify")
-	public String modify() {
+	public String modify(@RequestParam("boardIdx") int boardIdx, 
+						 @ModelAttribute ModifyBoardDto modifyBoardDto, Model model) {
+		log.info("boardIdx={}, {}", boardIdx, modifyBoardDto);
 		
-		return null;
+		model.addAttribute("categoryList", categoryService.findBoardCategoryList());
+		
+		return "board/modify";
 	}
 	
 	@PostMapping("/modifyProc")
