@@ -163,5 +163,14 @@
 		WHERE
 			upload_board_idx = #{boardIdx}
 	</select>
+	
+	<select id="isMyBoard" parameterType="map" resultType="boolean">
+		SELECT
+			COUNT(*)
+		FROM 
+			board
+		WHERE
+			board_idx = #{boardIdx} AND board_writer_idx = #{boardWriterIdx}
+	</select>
 
 </mapper>

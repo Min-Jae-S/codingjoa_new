@@ -62,6 +62,11 @@ public class ModifyBoardValidator implements Validator {
 				}
 			}
 		}
+		
+		
+		
+		
+		
 	}
 
 }
