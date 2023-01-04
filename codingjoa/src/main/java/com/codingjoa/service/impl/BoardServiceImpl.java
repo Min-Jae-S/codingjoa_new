@@ -107,12 +107,13 @@ public class BoardServiceImpl implements BoardService {
 	public void activateTempImageUsingMerge(BoardDto modifyBoardDto) {
 		List<Integer> uploadIdxList = modifyBoardDto.getUploadIdxList();
 
-		if (uploadIdxList == null) return;
+		if (uploadIdxList != null) {
+			int boardIdx = modifyBoardDto.getBoardIdx();
+			uploadIdxList.forEach(uploadIdx -> {
+				boardMapper.updateTempImageUsingMerge(boardIdx, uploadIdx);
+			});
+		}
 		
-		int boardIdx = modifyBoardDto.getBoardIdx();
-		uploadIdxList.forEach(uploadIdx -> {
-			boardMapper.updateTempImageUsingMerge(boardIdx, uploadIdx);
-		});
 	}
 
 	

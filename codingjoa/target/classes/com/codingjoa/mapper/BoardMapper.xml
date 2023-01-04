@@ -76,14 +76,23 @@
 	</select>
 	
 	<update id="updateTempImage" parameterType="map">
-		<foreach collection="uploadIdxList" item="uploadIdx" separator=";" open="DECLARE BEGIN" close="; END;">
+			UPDATE 
+				upload
+			SET
+				upload_board_idx = #{boardIdx}
+			WHERE
+				upload_idx IN 
+				<foreach collection="uploadIdxList" item="uploadIdx" separator="," open="(" close=")">	
+					#{uploadIdx}
+				</foreach>
+		<!-- <foreach collection="uploadIdxList" item="uploadIdx" separator=";" open="DECLARE BEGIN" close="; END;">
 			UPDATE 
 				upload
 			SET
 				upload_board_idx = #{boardIdx}
 			WHERE
 				upload_idx = #{uploadIdx}
-		</foreach>
+		</foreach> -->
 	</update>
 	
 	<select id="findBoardDetails" parameterType="int" resultMap="boardDetailsMap">
