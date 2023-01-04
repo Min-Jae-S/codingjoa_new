@@ -32,7 +32,5 @@ public interface BoardMapper {
 	
 	List<Integer> findUploadIdxList(int boardIdx);
 	
-	boolean isMyBoard(@Param("boardIdx") int boardIdx, @Param("boardWriterIdx") int boardWriterIdx);
-	
 	
 }

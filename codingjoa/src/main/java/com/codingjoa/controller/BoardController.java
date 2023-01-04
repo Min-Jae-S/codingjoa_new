@@ -125,6 +125,8 @@ public class BoardController {
 		log.info("{}", modifyBoardDto);
 		
 		boardService.bindModifyBoard(modifyBoardDto);
+		log.info("After binding, {}", modifyBoardDto);
+		
 		model.addAttribute("categoryList", categoryService.findBoardCategoryList());
 		
 		return "board/modify";
