@@ -32,5 +32,4 @@ public interface BoardMapper {
 	
 	List<Integer> findUploadIdxList(int boardIdx);
 	
-	
 }

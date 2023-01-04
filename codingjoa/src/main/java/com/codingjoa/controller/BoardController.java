@@ -54,6 +54,11 @@ public class BoardController {
 		binder.addValidators(modifyBoardValidator);
 	}
 	
+	@ModelAttribute
+	public void categoryList(Model model) {
+		model.addAttribute("categoryList", categoryService.findBoardCategoryList());
+	}
+	
 	@GetMapping("/all")
 	public String all() {
 		return "board/all";
@@ -86,15 +91,11 @@ public class BoardController {
 	}
 	
 	@GetMapping("/write")
-	public String write(@RequestParam int categoryCode, 
-						@ModelAttribute WriteBoardDto writeBoardDto, Model model) {
+	public String write(@RequestParam int categoryCode, @ModelAttribute WriteBoardDto writeBoardDto, Model model) {
 		log.info("categoryCode={}", categoryCode);
 		
 		writeBoardDto.setBoardCategoryCode(categoryCode);
 		log.info("{}", writeBoardDto);
-		
-		//model.addAttribute("categoryList", categoryService.findCategoryOfSameParent(categoryCode));
-		model.addAttribute("categoryList", categoryService.findBoardCategoryList());
 		
 		return "board/write";
 	}
@@ -105,7 +106,6 @@ public class BoardController {
 		log.info("{}", writeBoardDto);
 		
 		if (bindingResult.hasErrors()) { // TypeMismatch, objectError.getCodes()[0]
-			model.addAttribute("categoryList", categoryService.findBoardCategoryList());
 			return "board/write";
 		}
 		
@@ -127,20 +127,20 @@ public class BoardController {
 		boardService.bindModifyBoard(modifyBoardDto);
 		log.info("After binding, {}", modifyBoardDto);
 		
-		model.addAttribute("categoryList", categoryService.findBoardCategoryList());
-		
 		return "board/modify";
 	}
 	
 	@PostMapping("/modifyProc")
-	public String modifyProc(@ModelAttribute ModifyBoardDto modifyBoardDto, 
-							 BindingResult bindingResult, Model model) {
+	public String modifyProc(@ModelAttribute @Valid ModifyBoardDto modifyBoardDto, 
+			BindingResult bindingResult, @AuthenticationPrincipal UserDetailsDto principal, Model model) {
 		log.info("{}", modifyBoardDto);
 		
 		if (bindingResult.hasErrors()) {
-			model.addAttribute("categoryList", categoryService.findBoardCategoryList());
 			return "board/modify";
 		}
+		
+		//int boardWriterIdx = principal.getMember().getMemberIdx();
+		//modifyBoardDto.setBoardWriterIdx(boardWriterIdx);
 		
 		return "board/modify-success";
 	}

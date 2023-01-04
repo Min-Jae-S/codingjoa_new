@@ -3,6 +3,8 @@ package com.codingjoa.validator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
@@ -10,6 +12,7 @@ import org.springframework.validation.Validator;
 
 import com.codingjoa.dto.ModifyBoardDto;
 import com.codingjoa.dto.WriteBoardDto;
+import com.codingjoa.security.dto.UserDetailsDto;
 import com.codingjoa.service.BoardService;
 import com.codingjoa.service.CategoryService;
 
@@ -64,8 +67,7 @@ public class ModifyBoardValidator implements Validator {
 		
 		
 		
-		
-		
 	}
+	
 
 }
