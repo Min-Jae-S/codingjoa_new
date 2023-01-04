@@ -93,7 +93,9 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public void mapModifyBoard(int boardIdx, ModifyBoardDto modifyBoardDto) {
+	public void bindModifyBoard(ModifyBoardDto modifyBoardDto) {
+		int boardIdx = modifyBoardDto.getBoardIdx();
+		
 		Board board = boardMapper.findBoardByIdx(boardIdx);
 		modelMapper.map(board, modifyBoardDto);
 		

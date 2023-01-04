@@ -35,9 +35,8 @@ public class ModifyBoardValidator implements Validator {
 		log.info("============== ModifyBoardValidator validate ==============");
 		
 		ModifyBoardDto modifyBoardDto = (ModifyBoardDto) target;
-		int categoryCode = modifyBoardDto.getBoardCategoryCode();
 		
-		if (!categoryService.isBoardCategory(categoryCode)) {
+		if (!categoryService.isBoardCategory(modifyBoardDto.getBoardCategoryCode())) {
 			errors.rejectValue("boardCategoryCode", "NotBoard");
 			return;
 		}

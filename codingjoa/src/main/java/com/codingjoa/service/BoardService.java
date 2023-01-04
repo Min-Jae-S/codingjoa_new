@@ -24,7 +24,7 @@ public interface BoardService {
 	
 	boolean isBoardIdxExist(int boardIdx);
 	
-	void mapModifyBoard(int boardIdx, ModifyBoardDto modifyBoardDto);
+	void bindModifyBoard(ModifyBoardDto modifyBoardDto);
 	
 	boolean isMyBoard(int boardIdx, int boardWriterIdx);
 }

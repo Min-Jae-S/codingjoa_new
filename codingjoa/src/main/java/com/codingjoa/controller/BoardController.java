@@ -86,11 +86,12 @@ public class BoardController {
 	}
 	
 	@GetMapping("/write")
-	public String write(@RequestParam("categoryCode") int categoryCode, 
+	public String write(@RequestParam int categoryCode, 
 						@ModelAttribute WriteBoardDto writeBoardDto, Model model) {
-		log.info("categoryCode={}, {}", categoryCode, writeBoardDto);
+		log.info("categoryCode={}", categoryCode);
 		
 		writeBoardDto.setBoardCategoryCode(categoryCode);
+		log.info("{}", writeBoardDto);
 		
 		//model.addAttribute("categoryList", categoryService.findCategoryOfSameParent(categoryCode));
 		model.addAttribute("categoryList", categoryService.findBoardCategoryList());
@@ -120,13 +121,10 @@ public class BoardController {
 	}
 	
 	@GetMapping("/modify")
-	public String modify(@RequestParam("boardIdx") int boardIdx, 
-						 @ModelAttribute ModifyBoardDto modifyBoardDto, Model model) {
-		log.info("boardIdx={}, {}", boardIdx, modifyBoardDto);
+	public String modify(@ModelAttribute ModifyBoardDto modifyBoardDto, Model model) {
+		log.info("{}", modifyBoardDto);
 		
-		boardService.mapModifyBoard(boardIdx, modifyBoardDto);
-		log.info("After mapping, {}", modifyBoardDto);
-		
+		boardService.bindModifyBoard(modifyBoardDto);
 		model.addAttribute("categoryList", categoryService.findBoardCategoryList());
 		
 		return "board/modify";
