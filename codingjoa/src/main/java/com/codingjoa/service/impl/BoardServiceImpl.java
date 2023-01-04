@@ -39,13 +39,12 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public int writeBoard(BoardDto writeBoardDto) {
+	public void writeBoard(BoardDto writeBoardDto) {
 		Board board = modelMapper.map(writeBoardDto, Board.class);
 		log.info("writeBoardDto ==> {}", board);
 		
 		boardMapper.insertBoard(board);
-		
-		return board.getBoardIdx();
+		writeBoardDto.setBoardIdx(board.getBoardIdx());
 	}
 
 	@Override

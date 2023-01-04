@@ -103,8 +103,6 @@
 			a.board_writer_idx = b.member_idx
 		WHERE
 			a.board_idx = #{boardIdx} 
-		ORDER BY 
-			a.board_idx DESC
 	</select>
 	
 	<update id="updateBoardViews" parameterType="int">
@@ -135,6 +133,8 @@
 			a.board_writer_idx = b.member_idx
 		WHERE
 			a.board_category_code = #{boardCategoryCode}
+		ORDER BY 
+			a.board_idx DESC
 	</select>
 	
 	<select id="isBoardIdxExist" parameterType="int" resultType="boolean">

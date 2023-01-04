@@ -38,7 +38,7 @@ public class BoardController {
 	@Resource(name = "boardValidator")
 	private Validator boardValidator;
 	
-	@InitBinder(value = { "writeBoadDto", "modifyBoardDto" })
+	@InitBinder(value = { "writeBoardDto", "modifyBoardDto" })
 	public void initBinderBoard(WebDataBinder binder) {
 		binder.addValidators(boardValidator);
 	}
@@ -65,7 +65,7 @@ public class BoardController {
 	}
 	
 	@GetMapping("/read")
-	public String read(@RequestParam("sboardIdx") int boardIdx, Model model) {
+	public String read(@RequestParam("boardIdx") int boardIdx, Model model) {
 		log.info("boardIdx={}", boardIdx);
 		
 		boardService.updateBoardViews(boardIdx);
@@ -99,8 +99,8 @@ public class BoardController {
 			return "board/write";
 		}
 		
-		int boardIdx = boardService.writeBoard(writeBoardDto);
-		writeBoardDto.setBoardIdx(boardIdx);
+		boardService.writeBoard(writeBoardDto);
+		log.info("After write, {}", writeBoardDto);
 		
 		boardService.activateTempImage(writeBoardDto);
 		
