@@ -5,7 +5,7 @@ import java.util.List;
 import lombok.Data;
 
 @Data
-public class WriteBoardDto {
+public class BoardDto {
 	
 	private int boardIdx;
 	private int boardCategoryCode;

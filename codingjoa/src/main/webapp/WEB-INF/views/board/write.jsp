@@ -270,8 +270,9 @@
 			e.preventDefault();
 			
 			let form = $("#writeBoardDto");
-			const range = writeEditor.model.createRangeIn(writeEditor.model.document.getRoot());
+			form.append($("<input/>", {type: "hidden", name: "boardWriterIdx", value: "${SPRING_SECURITY_CONTEXT.authentication.principal.member.memberIdx}"}));
 			
+			const range = writeEditor.model.createRangeIn(writeEditor.model.document.getRoot());
 			for (const value of range.getWalker({ ignoreElementEnd: true })) { // TreeWalker instance
 				// Position iterator class. It allows to iterate forward and backward over the document.
 			    if (!value.item.is("element")) {

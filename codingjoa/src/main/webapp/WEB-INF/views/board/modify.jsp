@@ -60,7 +60,6 @@
 			<h4 class="font-weight-bold mb-3">게시글 수정하기</h4>
 			<div class="pt-4" style="border-top: 1px solid black;">
 				<form:form action="${contextPath}/board/modifyProc" method="POST" modelAttribute="modifyBoardDto">
-					<form:hidden path="boardIdx"/>
 					<div class="form-row">
 						<div class="form-group col-md-8">
 							<form:select class="custom-select" path="boardCategoryCode">
@@ -240,8 +239,10 @@
 			e.preventDefault();
 			
 			let form = $("#modifyBoardDto");
-			const range = modifyEditor.model.createRangeIn(modifyEditor.model.document.getRoot());
+			form.append($("<input/>", {type: "hidden", name: "boardIdx", value: "${modifyBoardDto.boardIdx}"}));
+			form.append($("<input/>", {type: "hidden", name: "boardWriterIdx", value: "${modifyBoardDto.boardWriterIdx}"}));
 			
+			const range = modifyEditor.model.createRangeIn(modifyEditor.model.document.getRoot());
 			for (const value of range.getWalker({ ignoreElementEnd: true })) { // TreeWalker instance
 				// Position iterator class. It allows to iterate forward and backward over the document.
 			    if (!value.item.is("element")) {

@@ -9,8 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.codingjoa.dto.BoardDetailsDto;
-import com.codingjoa.dto.ModifyBoardDto;
-import com.codingjoa.dto.WriteBoardDto;
+import com.codingjoa.dto.BoardDto;
 import com.codingjoa.entity.Board;
 import com.codingjoa.entity.Upload;
 import com.codingjoa.mapper.BoardMapper;
@@ -40,7 +39,7 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public int writeBoard(WriteBoardDto writeBoardDto) {
+	public int writeBoard(BoardDto writeBoardDto) {
 		Board board = modelMapper.map(writeBoardDto, Board.class);
 		log.info("writeBoardDto ==> {}", board);
 		
@@ -55,7 +54,7 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public void activateTempImage(WriteBoardDto writeBoardDto) {
+	public void activateTempImage(BoardDto writeBoardDto) {
 		List<Integer> uploadIdxList = writeBoardDto.getUploadIdxList();
 
 		if (uploadIdxList == null) {
@@ -93,7 +92,7 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public void bindModifyBoard(ModifyBoardDto modifyBoardDto) {
+	public void bindModifyBoard(BoardDto modifyBoardDto) {
 		int boardIdx = modifyBoardDto.getBoardIdx();
 		
 		Board board = boardMapper.findBoardByIdx(boardIdx);

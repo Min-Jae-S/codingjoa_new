@@ -3,18 +3,17 @@ package com.codingjoa.service;
 import java.util.List;
 
 import com.codingjoa.dto.BoardDetailsDto;
-import com.codingjoa.dto.ModifyBoardDto;
-import com.codingjoa.dto.WriteBoardDto;
+import com.codingjoa.dto.BoardDto;
 
 public interface BoardService {
 	
 	int uploadTempImage(String uploadFilename);
 	
-	int writeBoard(WriteBoardDto writeBoardDto);
+	int writeBoard(BoardDto writeBoardDto);
 	
 	boolean isTempImageUploaded(int uploadIdx);
 	
-	void activateTempImage(WriteBoardDto writeBoardDto);
+	void activateTempImage(BoardDto writeBoardDto);
 	
 	BoardDetailsDto getBoardDetails(int boardIdx);
 	
@@ -24,5 +23,5 @@ public interface BoardService {
 	
 	boolean isBoardIdxExist(int boardIdx);
 	
-	void bindModifyBoard(ModifyBoardDto modifyBoardDto);
+	void bindModifyBoard(BoardDto modifyBoardDto);
 }

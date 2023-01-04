@@ -4,7 +4,6 @@ import javax.annotation.Resource;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,10 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.codingjoa.dto.BoardDetailsDto;
-import com.codingjoa.dto.ModifyBoardDto;
+import com.codingjoa.dto.BoardDto;
 import com.codingjoa.dto.SearchDto;
-import com.codingjoa.dto.WriteBoardDto;
-import com.codingjoa.security.dto.UserDetailsDto;
 import com.codingjoa.service.BoardService;
 import com.codingjoa.service.CategoryService;
 
@@ -38,20 +35,12 @@ public class BoardController {
 	@Autowired
 	private BoardService boardService;
 	
-	@Resource(name = "writeBoardValidator")
-	private Validator writeBoardValidator;
-
-	@Resource(name = "modifyBoardValidator")
-	private Validator modifyBoardValidator;
+	@Resource(name = "boardValidator")
+	private Validator boardValidator;
 	
-	@InitBinder("writeBoardDto")
-	public void initBinderWriteBoard(WebDataBinder binder) {
-		binder.addValidators(writeBoardValidator);
-	}
-
-	@InitBinder("modifyBoardDto")
-	public void initBinderModifyBoard(WebDataBinder binder) {
-		binder.addValidators(modifyBoardValidator);
+	@InitBinder(value = { "writeBoadDto", "modifyBoardDto" })
+	public void initBinderBoard(WebDataBinder binder) {
+		binder.addValidators(boardValidator);
 	}
 	
 	@ModelAttribute
@@ -76,7 +65,7 @@ public class BoardController {
 	}
 	
 	@GetMapping("/read")
-	public String read(@RequestParam("boardIdx") int boardIdx, Model model) {
+	public String read(@RequestParam("sboardIdx") int boardIdx, Model model) {
 		log.info("boardIdx={}", boardIdx);
 		
 		boardService.updateBoardViews(boardIdx);
@@ -91,7 +80,8 @@ public class BoardController {
 	}
 	
 	@GetMapping("/write")
-	public String write(@RequestParam int categoryCode, @ModelAttribute WriteBoardDto writeBoardDto, Model model) {
+	public String write(@RequestParam int categoryCode, 
+			@ModelAttribute("writeBoardDto") BoardDto writeBoardDto, Model model) {
 		log.info("categoryCode={}", categoryCode);
 		
 		writeBoardDto.setBoardCategoryCode(categoryCode);
@@ -101,16 +91,13 @@ public class BoardController {
 	}
 	
 	@PostMapping("/writeProc")
-	public String writeProc(@ModelAttribute @Valid WriteBoardDto writeBoardDto, 
-			BindingResult bindingResult, @AuthenticationPrincipal UserDetailsDto principal, Model model) {
+	public String writeProc(@Valid @ModelAttribute("writeBoardDto") BoardDto writeBoardDto, 
+			BindingResult bindingResult, Model model) {
 		log.info("{}", writeBoardDto);
 		
 		if (bindingResult.hasErrors()) { // TypeMismatch, objectError.getCodes()[0]
 			return "board/write";
 		}
-		
-		int boardWriterIdx = principal.getMember().getMemberIdx();
-		writeBoardDto.setBoardWriterIdx(boardWriterIdx);
 		
 		int boardIdx = boardService.writeBoard(writeBoardDto);
 		writeBoardDto.setBoardIdx(boardIdx);
@@ -121,7 +108,7 @@ public class BoardController {
 	}
 	
 	@GetMapping("/modify")
-	public String modify(@ModelAttribute ModifyBoardDto modifyBoardDto, Model model) {
+	public String modify(@ModelAttribute("modifyBoardDto") BoardDto modifyBoardDto, Model model) {
 		log.info("{}", modifyBoardDto);
 		
 		boardService.bindModifyBoard(modifyBoardDto);
@@ -131,8 +118,8 @@ public class BoardController {
 	}
 	
 	@PostMapping("/modifyProc")
-	public String modifyProc(@ModelAttribute @Valid ModifyBoardDto modifyBoardDto, 
-			BindingResult bindingResult, @AuthenticationPrincipal UserDetailsDto principal, Model model) {
+	public String modifyProc(@Valid @ModelAttribute("modifyBoardDto") BoardDto modifyBoardDto, 
+			BindingResult bindingResult, Model model) {
 		log.info("{}", modifyBoardDto);
 		
 		if (bindingResult.hasErrors()) {
