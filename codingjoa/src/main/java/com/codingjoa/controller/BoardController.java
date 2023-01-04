@@ -81,7 +81,7 @@ public class BoardController {
 	
 	@GetMapping("/write")
 	public String write(@RequestParam int categoryCode, 
-			@ModelAttribute("writeBoardDto") BoardDto writeBoardDto, Model model) {
+						@ModelAttribute("writeBoardDto") BoardDto writeBoardDto, Model model) {
 		log.info("categoryCode={}", categoryCode);
 		
 		writeBoardDto.setBoardCategoryCode(categoryCode);
@@ -92,7 +92,7 @@ public class BoardController {
 	
 	@PostMapping("/writeProc")
 	public String writeProc(@Valid @ModelAttribute("writeBoardDto") BoardDto writeBoardDto, 
-			BindingResult bindingResult, Model model) {
+							BindingResult bindingResult, Model model) {
 		log.info("{}", writeBoardDto);
 		
 		if (bindingResult.hasErrors()) { // TypeMismatch, objectError.getCodes()[0]
@@ -119,15 +119,15 @@ public class BoardController {
 	
 	@PostMapping("/modifyProc")
 	public String modifyProc(@Valid @ModelAttribute("modifyBoardDto") BoardDto modifyBoardDto, 
-			BindingResult bindingResult, Model model) {
+							 BindingResult bindingResult, Model model) {
 		log.info("{}", modifyBoardDto);
 		
 		if (bindingResult.hasErrors()) {
 			return "board/modify";
 		}
 		
-		//int boardWriterIdx = principal.getMember().getMemberIdx();
-		//modifyBoardDto.setBoardWriterIdx(boardWriterIdx);
+		boardService.modifyBoard(modifyBoardDto);
+		
 		
 		return "board/modify-success";
 	}

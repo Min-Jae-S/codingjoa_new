@@ -76,12 +76,14 @@
 	</select>
 	
 	<update id="updateTempImage" parameterType="map">
-		UPDATE 
-			upload
-		SET
-			upload_board_idx = #{boardIdx}
-		WHERE
-			upload_idx = #{uploadIdx}
+		<foreach collection="uploadIdxList" item="uploadIdx" separator=";" open="DECLARE BEGIN" close="; END;">
+			UPDATE 
+				upload
+			SET
+				upload_board_idx = #{boardIdx}
+			WHERE
+				upload_idx = #{uploadIdx}
+		</foreach>
 	</update>
 	
 	<select id="findBoardDetails" parameterType="int" resultMap="boardDetailsMap">
@@ -163,5 +165,33 @@
 		WHERE
 			upload_board_idx = #{boardIdx}
 	</select>
+	
+	<update id="updateBoard" parameterType="board">
+		UPDATE
+			board
+		SET
+			board_title = #{boardTitle},
+			board_content = #{boardContent},
+			board_category_code = #{boardCategoryCode},
+			moddate = SYSDATE
+		WHERE
+			board_idx = #{boardIdx} AND board_writer_idx = #{boardWriterIdx}
+	</update>
+	
+	<update id="updateTempImageUsingMerge">
+		MERGE INTO
+			update a
+		USING
+			board b
+		ON
+		
+		WHEN MATCHED THEN
+			UPDATE SET
+		
+		WHEN NOT MATCHED THEN
+			UPDATE SET
+	
+	</update>
+	
 	
 </mapper>

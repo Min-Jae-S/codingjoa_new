@@ -55,21 +55,15 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public void activateTempImage(BoardDto writeBoardDto) {
 		List<Integer> uploadIdxList = writeBoardDto.getUploadIdxList();
-
-		if (uploadIdxList == null) {
-			return;
-		}
 		
-		int boardIdx = writeBoardDto.getBoardIdx();
-		uploadIdxList.forEach(uploadIdx -> {
-			boardMapper.updateTempImage(boardIdx, uploadIdx);
-		});
+		if (uploadIdxList != null) {
+			boardMapper.updateTempImage(writeBoardDto.getBoardIdx(), uploadIdxList);
+		}
 	}
 
 	@Override
 	public BoardDetailsDto getBoardDetails(int boardIdx) {
 		Map<String, Object> boardDetailsMap = boardMapper.findBoardDetails(boardIdx);
-		
 		return modelMapper.map(boardDetailsMap, BoardDetailsDto.class);
 	}
 	
@@ -99,6 +93,26 @@ public class BoardServiceImpl implements BoardService {
 		
 		List<Integer> uploadIdxList = boardMapper.findUploadIdxList(boardIdx);
 		modifyBoardDto.setUploadIdxList(uploadIdxList);
+	}
+
+	@Override
+	public void modifyBoard(BoardDto modifyBoardDto) {
+		Board board = modelMapper.map(modifyBoardDto, Board.class);
+		log.info("modifyBoardDto ==> {}", board);
+		
+		boardMapper.updateBoard(board);
+	}
+
+	@Override
+	public void activateTempImageUsingMerge(BoardDto modifyBoardDto) {
+		List<Integer> uploadIdxList = modifyBoardDto.getUploadIdxList();
+
+		if (uploadIdxList == null) return;
+		
+		int boardIdx = modifyBoardDto.getBoardIdx();
+		uploadIdxList.forEach(uploadIdx -> {
+			boardMapper.updateTempImageUsingMerge(boardIdx, uploadIdx);
+		});
 	}
 
 	

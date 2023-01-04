@@ -50,8 +50,8 @@ public class UploadFileValidator implements Validator {
 		}
 
 		if (file.getSize() > MAX_FILE_SIZE) {
-			errors.rejectValue("file", "ExceededSize", new Object[] { MAX_FILE_SIZE, originalFilename, file.getSize() },
-					null);
+			errors.rejectValue("file", "ExceededSize", 
+					new Object[] { MAX_FILE_SIZE, originalFilename, file.getSize() }, null);
 			return;
 		}
 	}

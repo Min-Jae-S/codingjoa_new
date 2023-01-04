@@ -24,4 +24,9 @@ public interface BoardService {
 	boolean isBoardIdxExist(int boardIdx);
 	
 	void bindModifyBoard(BoardDto modifyBoardDto);
+	
+	void modifyBoard(BoardDto modifyBoardDto);
+	
+	void activateTempImageUsingMerge(BoardDto modifyBoardDto);
+	
 }
