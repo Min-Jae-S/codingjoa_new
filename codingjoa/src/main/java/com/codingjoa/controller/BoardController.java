@@ -128,7 +128,6 @@ public class BoardController {
 		
 		boardService.modifyBoard(modifyBoardDto);
 		
-		
 		return "board/modify-success";
 	}
 	
