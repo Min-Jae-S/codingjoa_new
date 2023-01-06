@@ -128,6 +128,11 @@ public class BoardController {
 		
 		boardService.modifyBoard(modifyBoardDto);
 		
+		// uploadIdx: 새로 업로드된 이미지, 이미 존재하는 이미지, 삭제된 이미지
+		// 1. 새로 업로드된 이미지 -->  
+		// 2. 이미 존재하는 이미지 -->
+		// 3. 삭제된 이미지
+		
 		return "board/modify-success";
 	}
 	
