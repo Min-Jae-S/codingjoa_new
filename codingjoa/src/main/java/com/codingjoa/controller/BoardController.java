@@ -129,9 +129,11 @@ public class BoardController {
 		boardService.modifyBoard(modifyBoardDto);
 		
 		// uploadIdx: 새로 업로드된 이미지, 이미 존재하는 이미지, 삭제된 이미지
-		// 1. 새로 업로드된 이미지 -->  
-		// 2. 이미 존재하는 이미지 -->
-		// 3. 삭제된 이미지
+		// 	- 새로 업로드된 이미지, 이미 존재하는 이미지 --> update upload_board_idx  
+		// 	- 삭제된 이미지	--> update upload_board_idx null
+		// [DB]  uploadIdxList<Integer> : [ 22, 23 ]
+		// [NEW] uploadIdxList<Integer> : [ 23. 24 ]
+		// 22(삭제된 이미지), 23(존재하는 이미지), 24(새로 업로드된 이미지)
 		
 		return "board/modify-success";
 	}
