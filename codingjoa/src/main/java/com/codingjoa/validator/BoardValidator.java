@@ -59,14 +59,13 @@ public class BoardValidator implements Validator {
 		
 		List<Integer> uploadIdxList = writeBoardDto.getUploadIdxList();
 		
-		if (uploadIdxList != null) {
-			for (int uploadIdx : uploadIdxList) {
-				if (!boardService.isTempImageUploaded(uploadIdx)) {
-					errors.rejectValue("boardContent", "NotTempImage");
-					return;
-				}
+		if (uploadIdxList == null) return;
+		
+		for (int uploadIdx : uploadIdxList) {
+			if (!boardService.isTempImageUploaded(uploadIdx)) {
+				errors.rejectValue("boardContent", "NotTempImage");
+				return;
 			}
 		}
 	}
-
 }
