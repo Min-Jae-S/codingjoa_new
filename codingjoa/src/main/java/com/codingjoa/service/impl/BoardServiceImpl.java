@@ -58,7 +58,7 @@ public class BoardServiceImpl implements BoardService {
 		
 		if (uploadIdxList == null) return;
 		
-		boardMapper.updateTempImage(writeBoardDto.getBoardIdx(), uploadIdxList);
+		boardMapper.activateTempImage(writeBoardDto.getBoardIdx(), uploadIdxList);
 	}
 
 	@Override

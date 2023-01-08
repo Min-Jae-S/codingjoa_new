@@ -131,9 +131,9 @@ public class BoardController {
 		// uploadIdx: 새로 업로드된 이미지, 이미 존재하는 이미지, 삭제된 이미지
 		// 	- 새로 업로드된 이미지, 이미 존재하는 이미지 --> update upload_board_idx  
 		// 	- 삭제된 이미지	--> update upload_board_idx null
-		// [DB]  uploadIdxList<Integer> : [ 22, 23 ]
-		// [NEW] uploadIdxList<Integer> : [ 23. 24 ]
-		// 22(삭제된 이미지), 23(존재하는 이미지), 24(새로 업로드된 이미지)
+		// [DB]  uploadIdxList<Integer> : [ 22, 23 ] null null
+		// [NEW] uploadIdxList<Integer> : [ 23. 24 ] boardidx board
+		// 22(삭제된 이미지, null), 23(존재하는 이미지, boardidx), 24(새로 업로드된 이미지)
 		
 		return "board/modify-success";
 	}

@@ -18,7 +18,7 @@ public interface BoardMapper {
 	
 	boolean isTempImageUploaded(int uploadIdx);
 	
-	void updateTempImage(@Param("boardIdx") int boardIdx, @Param("uploadIdxList") List<Integer> uploadIdxList);
+	void activateTempImage(@Param("boardIdx") int boardIdx, @Param("uploadIdxList") List<Integer> uploadIdxList);
 	
 	Map<String, Object> findBoardDetails(int boardIdx);
 	
