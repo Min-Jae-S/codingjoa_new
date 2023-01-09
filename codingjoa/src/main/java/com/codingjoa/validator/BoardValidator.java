@@ -31,41 +31,43 @@ public class BoardValidator implements Validator {
 
 	@Override
 	public void validate(Object target, Errors errors) {
-		String objectName = errors.getObjectName();
 		
-		if (objectName.equals("writeBoardDto")) {
-			log.info("============== WriteBoardValidator validate ==============");
-		} else if (objectName.equals("modifyBoardDto")) {
-			log.info("============== ModifyBoardValidator validate ==============");
-		}
-		
-		BoardDto writeBoardDto = (BoardDto) target;
-		int categoryCode = writeBoardDto.getBoardCategoryCode();
+		BoardDto boardDto = (BoardDto) target;
+		int categoryCode = boardDto.getBoardCategoryCode();
 		
 		if (!categoryService.isBoardCategory(categoryCode)) {
 			errors.rejectValue("boardCategoryCode", "NotBoard");
 			return;
 		}
 		
-		if (!StringUtils.hasText(writeBoardDto.getBoardTitle())) {
+		if (!StringUtils.hasText(boardDto.getBoardTitle())) {
 			errors.rejectValue("boardTitle", "NotBlank");
 			return;
 		}
 
-		if (!StringUtils.hasText(writeBoardDto.getBoardContent())) {
+		if (!StringUtils.hasText(boardDto.getBoardContent())) {
 			errors.rejectValue("boardContent", "NotBlank");
 			return;
 		}
 		
-		List<Integer> uploadIdxList = writeBoardDto.getUploadIdxList();
+		String objectName = errors.getObjectName();
 		
-		if (uploadIdxList == null) return;
-		
-		for (int uploadIdx : uploadIdxList) {
-			if (!boardService.isTempImageUploaded(uploadIdx)) {
-				errors.rejectValue("boardContent", "NotTempImage");
-				return;
+		if (objectName.equals("writeBoardDto")) {
+			log.info("============== WriteBoardValidator validate ==============");
+			
+			List<Integer> uploadIdxList = boardDto.getUploadIdxList();
+			
+			if (uploadIdxList == null) return;
+			
+			for (int uploadIdx : uploadIdxList) {
+				if (!boardService.isTempImageUploaded(uploadIdx)) {
+					errors.rejectValue("boardContent", "NotTempImage");
+					return;
+				}
 			}
+		} else if (objectName.equals("modifyBoardDto")) {
+			log.info("============== ModifyBoardValidator validate ==============");
 		}
+		
 	}
 }
