@@ -13,7 +13,7 @@ public interface BoardService {
 	
 	boolean isTempImageUploaded(int uploadIdx);
 	
-	void activateImage(BoardDto boardDto);
+	void activateImage(BoardDto boardDto); // writeBoardDto, modifyBoardDto
 	
 	BoardDetailsDto getBoardDetails(int boardIdx);
 	

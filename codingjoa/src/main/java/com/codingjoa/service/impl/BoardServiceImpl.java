@@ -59,12 +59,7 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public void activateImage(BoardDto boardDto) {
-		List<Integer> uploadIdxList = boardDto.getUploadIdxList();
-		
-		if (uploadIdxList == null) return;
-		
-		uploadMapper.activateImage(boardDto.getBoardIdx(), uploadIdxList);
-		
+		uploadMapper.activateImage(boardDto.getBoardIdx(), boardDto.getUploadIdxList());
 	}
 
 	@Override
@@ -103,11 +98,7 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public void deactivateImage(BoardDto boardDto) {
-		List<Integer> uploadIdxList = boardDto.getUploadIdxList();
-		
-		if (uploadIdxList == null) return;
-		
-		uploadMapper.deactivateImage(uploadIdxList);
+		uploadMapper.deactivateImage(boardDto.getUploadIdxList());
 	}
 
 	@Override

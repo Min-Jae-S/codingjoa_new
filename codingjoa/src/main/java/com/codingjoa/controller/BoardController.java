@@ -102,8 +102,10 @@ public class BoardController {
 		int boardIdx = boardService.writeBoard(writeBoardDto);
 		log.info("boardIdx={}", boardIdx);
 		
-		writeBoardDto.setBoardIdx(boardIdx);
-		boardService.activateImage(writeBoardDto);
+		if (writeBoardDto.getUploadIdxList() != null) {
+			writeBoardDto.setBoardIdx(boardIdx);
+			boardService.activateImage(writeBoardDto);
+		}
 		
 		return "board/write-success";
 	}
@@ -130,8 +132,9 @@ public class BoardController {
 		boardService.deactivateImage(modifyBoardDto);
 		boardService.modifyBoard(modifyBoardDto);
 		
-		
-		boardService.activateImage(modifyBoardDto);
+		if (modifyBoardDto.getUploadIdxList() != null) {
+			boardService.activateImage(modifyBoardDto);
+		}
 		
 		return "board/modify-success";
 	}
