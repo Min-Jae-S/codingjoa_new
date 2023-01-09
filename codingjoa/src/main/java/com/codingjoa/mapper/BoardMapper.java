@@ -10,13 +10,7 @@ import com.codingjoa.entity.Board;
 @Mapper
 public interface BoardMapper {
 	
-	//int insertUpload(Upload upload);
-	
 	void insertBoard(Board board);
-	
-	//boolean isTempImageUploaded(int uploadIdx);
-	
-	//void activateImage(@Param("boardIdx") int boardIdx, @Param("uploadIdxList") List<Integer> uploadIdxList);
 	
 	Map<String, Object> findBoardDetails(int boardIdx);
 	
@@ -27,10 +21,6 @@ public interface BoardMapper {
 	boolean isBoardIdxExist(int boardIdx);
 	
 	Board findBoardByIdx(int boardIdx);
-	
-	//List<Integer> findUploadIdxList(int boardIdx);
-	
-	//void deactivateImage(List<Integer> uploadIdxList);
 	
 	void updateBoard(Board board);
 	

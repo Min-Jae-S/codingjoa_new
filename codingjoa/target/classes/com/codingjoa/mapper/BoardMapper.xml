@@ -24,24 +24,6 @@
 		<result property="memberId" column="member_id"/>
 	</resultMap>
 	
-	<insert id="insertUpload" parameterType="upload">
-		<selectKey keyProperty="uploadIdx" resultType="int" order="BEFORE">
-			SELECT seq_upload.NEXTVAL FROM DUAL
-		</selectKey>
-		
-		INSERT INTO upload (
-			upload_idx,
-			upload_board_idx,
-			upload_file,
-			regdate
-		) VALUES (
-			#{uploadIdx},
-			#{uploadBoardIdx},
-			#{uploadFile},
-			SYSDATE
-		)
-	</insert>
-	
 	<insert id="insertBoard" parameterType="board">
 		<selectKey keyProperty="boardIdx" resultType="int" order="BEFORE">
 			SELECT seq_board.NEXTVAL FROM DUAL
@@ -65,35 +47,6 @@
 			SYSDATE
 		)
 	</insert>
-	
-	<select id="isTempImageUploaded" parameterType="int" resultType="boolean">
-		SELECT
-			COUNT(*)
-		FROM
-			upload
-		WHERE
-			upload_idx = #{uploadIdx} AND upload_board_idx IS NULL
-	</select>
-	
-	<update id="activateImage" parameterType="map">
-			UPDATE 
-				upload
-			SET
-				upload_board_idx = #{boardIdx}
-			WHERE
-				upload_idx IN 
-				<foreach collection="uploadIdxList" item="uploadIdx" separator="," open="(" close=")">	
-					#{uploadIdx}
-				</foreach>
-		<!-- <foreach collection="uploadIdxList" item="uploadIdx" separator=";" open="DECLARE BEGIN" close="; END;">
-			UPDATE 
-				upload
-			SET
-				upload_board_idx = #{boardIdx}
-			WHERE
-				upload_idx = #{uploadIdx}
-		</foreach> -->
-	</update>
 	
 	<select id="findBoardDetails" parameterType="int" resultMap="boardDetailsMap">
 		SELECT 
@@ -165,16 +118,7 @@
 		WHERE
 			board_idx = #{boardIdx}
 	</select>
-	
-	<select id="findUploadIdxList" parameterType="int" resultType="int">
-		SELECT
-			upload_idx
-		FROM
-			upload
-		WHERE
-			upload_board_idx = #{boardIdx}
-	</select>
-	
+
 	<update id="updateBoard" parameterType="board">
 		UPDATE
 			board
