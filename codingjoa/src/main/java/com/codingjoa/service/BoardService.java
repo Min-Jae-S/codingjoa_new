@@ -25,7 +25,7 @@ public interface BoardService {
 	
 	void bindModifyBoard(BoardDto modifyBoardDto);
 	
-	void deactivateImage(BoardDto boardDto);
+	void deactivateImage(int uploadBoardIdx);
 
 	void modifyBoard(BoardDto modifyBoardDto);
 	

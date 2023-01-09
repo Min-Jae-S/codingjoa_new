@@ -97,8 +97,8 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public void deactivateImage(BoardDto boardDto) {
-		uploadMapper.deactivateImage(boardDto.getUploadIdxList());
+	public void deactivateImage(int uploadBoardIdx) {
+		uploadMapper.deactivateImage(uploadBoardIdx);
 	}
 
 	@Override

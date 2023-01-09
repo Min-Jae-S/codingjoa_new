@@ -14,10 +14,11 @@ public interface UploadMapper {
 	
 	boolean isTempImageUploaded(int uploadIdx);
 	
-	void activateImage(@Param("boardIdx") int boardIdx, @Param("uploadIdxList") List<Integer> uploadIdxList);
+	void activateImage(@Param("uploadBoardIdx") int uploadBoardIdx, 
+					   @Param("uploadIdxList") List<Integer> uploadIdxList);
 	
 	List<Integer> findUploadIdxList(int boardIdx);
 	
-	void deactivateImage(List<Integer> uploadIdxList);
+	void deactivateImage(int uploadBoardIdx);
 	
 }

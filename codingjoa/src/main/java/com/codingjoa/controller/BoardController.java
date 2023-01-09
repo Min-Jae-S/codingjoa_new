@@ -129,7 +129,7 @@ public class BoardController {
 			return "board/modify";
 		}
 		
-		boardService.deactivateImage(modifyBoardDto);
+		boardService.deactivateImage(modifyBoardDto.getBoardIdx());
 		boardService.modifyBoard(modifyBoardDto);
 		
 		if (modifyBoardDto.getUploadIdxList() != null) {
