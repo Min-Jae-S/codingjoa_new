@@ -31,6 +31,7 @@ public class BoardValidator implements Validator {
 
 	@Override
 	public void validate(Object target, Errors errors) {
+		log.info("============== JoinValidator validate: {} ==============", errors.getObjectName());
 		
 		BoardDto boardDto = (BoardDto) target;
 		int categoryCode = boardDto.getBoardCategoryCode();
@@ -50,23 +51,15 @@ public class BoardValidator implements Validator {
 			return;
 		}
 		
-		String objectName = errors.getObjectName();
+		List<Integer> uploadIdxList = boardDto.getUploadIdxList();
 		
-		if (objectName.equals("writeBoardDto")) {
-			log.info("============== WriteBoardValidator validate ==============");
-			
-			List<Integer> uploadIdxList = boardDto.getUploadIdxList();
-			
-			if (uploadIdxList == null) return;
-			
-			for (int uploadIdx : uploadIdxList) {
-				if (!boardService.isTempImageUploaded(uploadIdx)) {
-					errors.rejectValue("boardContent", "NotTempImage");
-					return;
-				}
+		if (uploadIdxList == null) return;
+		
+		for (int uploadIdx : uploadIdxList) {
+			if (!boardService.isImageUploaded(uploadIdx)) {
+				errors.rejectValue("boardContent", "NotUploadImage");
+				return;
 			}
-		} else if (objectName.equals("modifyBoardDto")) {
-			log.info("============== ModifyBoardValidator validate ==============");
 		}
 		
 	}

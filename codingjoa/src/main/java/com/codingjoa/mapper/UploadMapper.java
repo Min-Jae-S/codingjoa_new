@@ -12,7 +12,7 @@ public interface UploadMapper {
 
 	int insertUpload(Upload upload);
 	
-	boolean isTempImageUploaded(int uploadIdx);
+	boolean isImageUploaded(int uploadIdx);
 	
 	void activateImage(@Param("uploadBoardIdx") int uploadBoardIdx, 
 					   @Param("uploadIdxList") List<Integer> uploadIdxList);

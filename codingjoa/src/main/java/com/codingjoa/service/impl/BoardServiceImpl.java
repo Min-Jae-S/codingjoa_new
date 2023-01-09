@@ -53,8 +53,8 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public boolean isTempImageUploaded(int uploadIdx) {
-		return uploadMapper.isTempImageUploaded(uploadIdx);
+	public boolean isImageUploaded(int uploadIdx) {
+		return uploadMapper.isImageUploaded(uploadIdx);
 	}
 
 	@Override

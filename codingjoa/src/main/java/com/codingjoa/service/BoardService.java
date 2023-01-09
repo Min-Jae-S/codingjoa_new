@@ -11,7 +11,7 @@ public interface BoardService {
 	
 	int writeBoard(BoardDto writeBoardDto);
 	
-	boolean isTempImageUploaded(int uploadIdx);
+	boolean isImageUploaded(int uploadIdx);
 	
 	void activateImage(BoardDto boardDto); // writeBoardDto, modifyBoardDto
 	

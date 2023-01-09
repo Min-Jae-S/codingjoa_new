@@ -26,13 +26,13 @@
 		)
 	</insert>
 	
-	<select id="isTempImageUploaded" parameterType="int" resultType="boolean">
+	<select id="isImageUploaded" parameterType="int" resultType="boolean">
 		SELECT
 			COUNT(*)
 		FROM
 			upload
 		WHERE
-			upload_idx = #{uploadIdx} AND upload_board_idx IS NULL
+			upload_idx = #{uploadIdx}
 	</select>
 	
 	<update id="activateImage" parameterType="map">
