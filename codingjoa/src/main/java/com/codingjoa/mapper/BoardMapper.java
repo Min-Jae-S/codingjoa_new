@@ -4,21 +4,19 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 
 import com.codingjoa.entity.Board;
-import com.codingjoa.entity.Upload;
 
 @Mapper
 public interface BoardMapper {
 	
-	int insertUpload(Upload upload);
+	//int insertUpload(Upload upload);
 	
 	void insertBoard(Board board);
 	
-	boolean isTempImageUploaded(int uploadIdx);
+	//boolean isTempImageUploaded(int uploadIdx);
 	
-	void activateImage(@Param("boardIdx") int boardIdx, @Param("uploadIdxList") List<Integer> uploadIdxList);
+	//void activateImage(@Param("boardIdx") int boardIdx, @Param("uploadIdxList") List<Integer> uploadIdxList);
 	
 	Map<String, Object> findBoardDetails(int boardIdx);
 	
@@ -30,9 +28,9 @@ public interface BoardMapper {
 	
 	Board findBoardByIdx(int boardIdx);
 	
-	List<Integer> findUploadIdxList(int boardIdx);
+	//List<Integer> findUploadIdxList(int boardIdx);
 	
-	void deactivateImage(List<Integer> uploadIdxList);
+	//void deactivateImage(List<Integer> uploadIdxList);
 	
 	void updateBoard(Board board);
 	

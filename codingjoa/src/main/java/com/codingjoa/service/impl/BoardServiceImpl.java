@@ -13,6 +13,7 @@ import com.codingjoa.dto.BoardDto;
 import com.codingjoa.entity.Board;
 import com.codingjoa.entity.Upload;
 import com.codingjoa.mapper.BoardMapper;
+import com.codingjoa.mapper.UploadMapper;
 import com.codingjoa.service.BoardService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +27,9 @@ public class BoardServiceImpl implements BoardService {
 	private BoardMapper boardMapper;
 	
 	@Autowired
+	private UploadMapper uploadMapper;
+	
+	@Autowired
 	private ModelMapper modelMapper;
 	
 	@Override
@@ -33,7 +37,7 @@ public class BoardServiceImpl implements BoardService {
 		Upload upload = new Upload();
 		upload.setUploadFile(uploadFilename);
 		
-		boardMapper.insertUpload(upload);
+		uploadMapper.insertUpload(upload);
 		
 		return upload.getUploadIdx();
 	}
@@ -50,7 +54,7 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public boolean isTempImageUploaded(int uploadIdx) {
-		return boardMapper.isTempImageUploaded(uploadIdx);
+		return uploadMapper.isTempImageUploaded(uploadIdx);
 	}
 
 	@Override
@@ -59,7 +63,8 @@ public class BoardServiceImpl implements BoardService {
 		
 		if (uploadIdxList == null) return;
 		
-		boardMapper.activateImage(boardDto.getBoardIdx(), uploadIdxList);
+		uploadMapper.activateImage(boardDto.getBoardIdx(), uploadIdxList);
+		
 	}
 
 	@Override
@@ -92,7 +97,7 @@ public class BoardServiceImpl implements BoardService {
 		Board board = boardMapper.findBoardByIdx(boardIdx);
 		modelMapper.map(board, modifyBoardDto);
 		
-		List<Integer> uploadIdxList = boardMapper.findUploadIdxList(boardIdx);
+		List<Integer> uploadIdxList = uploadMapper.findUploadIdxList(boardIdx);
 		modifyBoardDto.setUploadIdxList(uploadIdxList);
 	}
 
@@ -102,7 +107,7 @@ public class BoardServiceImpl implements BoardService {
 		
 		if (uploadIdxList == null) return;
 		
-		boardMapper.deactivateImage(uploadIdxList);
+		uploadMapper.deactivateImage(uploadIdxList);
 	}
 
 	@Override
