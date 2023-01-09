@@ -32,6 +32,8 @@ public interface BoardMapper {
 	
 	List<Integer> findUploadIdxList(int boardIdx);
 	
+	void deactivateImage(List<Integer> uploadIdxList);
+	
 	void updateBoard(Board board);
 	
 }

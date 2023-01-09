@@ -39,12 +39,13 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public void writeBoard(BoardDto writeBoardDto) {
+	public int writeBoard(BoardDto writeBoardDto) {
 		Board board = modelMapper.map(writeBoardDto, Board.class);
 		log.info("writeBoardDto ==> {}", board);
 		
 		boardMapper.insertBoard(board);
-		writeBoardDto.setBoardIdx(board.getBoardIdx());
+		
+		return board.getBoardIdx();
 	}
 
 	@Override
@@ -97,7 +98,11 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public void deactivateImage(BoardDto boardDto) {
-		// TODO Auto-generated method stub
+		List<Integer> uploadIdxList = boardDto.getUploadIdxList();
+		
+		if (uploadIdxList == null) return;
+		
+		boardMapper.deactivateImage(uploadIdxList);
 	}
 
 	@Override

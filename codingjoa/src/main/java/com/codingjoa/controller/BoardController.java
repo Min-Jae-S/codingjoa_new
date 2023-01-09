@@ -99,9 +99,10 @@ public class BoardController {
 			return "board/write";
 		}
 		
-		boardService.writeBoard(writeBoardDto);
-		log.info("After write, {}", writeBoardDto);
+		int boardIdx = boardService.writeBoard(writeBoardDto);
+		log.info("boardIdx={}", boardIdx);
 		
+		writeBoardDto.setBoardIdx(boardIdx);
 		boardService.activateImage(writeBoardDto);
 		
 		return "board/write-success";
@@ -126,7 +127,10 @@ public class BoardController {
 			return "board/modify";
 		}
 		
+		boardService.deactivateImage(modifyBoardDto);
 		boardService.modifyBoard(modifyBoardDto);
+		
+		
 		boardService.activateImage(modifyBoardDto);
 		
 		return "board/modify-success";
