@@ -175,31 +175,23 @@
 			upload_board_idx = #{boardIdx}
 	</select>
 	
-	<update id="updateBoard" parameterType="board">
+	<update id="updateBoardAndUpload" parameterType="board">
 		UPDATE
-			board
+			board a,
+			upload b
 		SET
-			board_title = #{boardTitle},
-			board_content = #{boardContent},
-			board_category_code = #{boardCategoryCode},
-			moddate = SYSDATE
+			a.board_title = #{boardTitle},
+			a.board_content = #{boardContent},
+			a.board_category_code = #{boardCategoryCode},
+			moddate = SYSDATE,
+			b.upload_board_idx = ''
 		WHERE
-			board_idx = #{boardIdx} AND board_writer_idx = #{boardWriterIdx}
-	</update>
-	
-	<update id="updateTempImageUsingMerge">
-		MERGE INTO
-			update a
-		USING
-			board b
-		ON
-		
-		WHEN MATCHED THEN
-			UPDATE SET
-		
-		WHEN NOT MATCHED THEN
-			UPDATE SET
-	
+			a.board_idx = #{boardIdx} 
+		AND 
+			b.upload_idx IN
+			<foreach collection="uploadIdxList" item="uploadIdx" separator="," open="(" close=")">	
+				#{uploadIdx}
+			</foreach>
 	</update>
 	
 	

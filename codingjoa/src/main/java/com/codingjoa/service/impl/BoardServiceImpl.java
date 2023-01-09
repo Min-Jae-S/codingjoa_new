@@ -53,12 +53,12 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public void activateTempImage(BoardDto writeBoardDto) {
-		List<Integer> uploadIdxList = writeBoardDto.getUploadIdxList();
+	public void activateTempImage(BoardDto boardDto) {
+		List<Integer> uploadIdxList = boardDto.getUploadIdxList();
 		
 		if (uploadIdxList == null) return;
 		
-		boardMapper.activateTempImage(writeBoardDto.getBoardIdx(), uploadIdxList);
+		boardMapper.updateTempImage(boardDto.getBoardIdx(), uploadIdxList);
 	}
 
 	@Override
@@ -96,27 +96,12 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public void modifyBoard(BoardDto modifyBoardDto) {
+	public void modifyBoardAndUpload(BoardDto modifyBoardDto) {
 		Board board = modelMapper.map(modifyBoardDto, Board.class);
 		log.info("modifyBoardDto ==> {}", board);
 		
-		boardMapper.updateBoard(board);
+		boardMapper.updateBoardAndUpload(board);
 	}
-
-	@Override
-	public void activateTempImageUsingMerge(BoardDto modifyBoardDto) {
-		List<Integer> uploadIdxList = modifyBoardDto.getUploadIdxList();
-		
-		if (uploadIdxList != null) {
-			int boardIdx = modifyBoardDto.getBoardIdx();
-			uploadIdxList.forEach(uploadIdx -> {
-				boardMapper.updateTempImageUsingMerge(boardIdx, uploadIdx);
-			});
-		}
-		
-	}
-
-
 
 	
 	

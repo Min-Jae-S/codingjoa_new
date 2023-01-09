@@ -13,7 +13,7 @@ public interface BoardService {
 	
 	boolean isTempImageUploaded(int uploadIdx);
 	
-	void activateTempImage(BoardDto writeBoardDto);
+	void activateTempImage(BoardDto boardDto);
 	
 	BoardDetailsDto getBoardDetails(int boardIdx);
 	
@@ -25,8 +25,6 @@ public interface BoardService {
 	
 	void bindModifyBoard(BoardDto modifyBoardDto);
 	
-	void modifyBoard(BoardDto modifyBoardDto);
-	
-	void activateTempImageUsingMerge(BoardDto modifyBoardDto);
+	void modifyBoardAndUpload(BoardDto modifyBoardDto);
 	
 }
