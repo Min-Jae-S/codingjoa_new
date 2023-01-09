@@ -49,8 +49,8 @@ public class BoardRestController {
 		binder.addValidators(uploadFileValidator);
 	}
 	
-	@PostMapping("/uploadTempImage")
-	public ResponseEntity<Object> uploadTempImage(@ModelAttribute @Valid UploadFileDto uploadFileDto, 
+	@PostMapping("/uploadImage")
+	public ResponseEntity<Object> uploadImage(@ModelAttribute @Valid UploadFileDto uploadFileDto, 
 			BindingResult bindingResult) throws MethodArgumentNotValidException {
 		log.info("{}", uploadFileDto);
 		
@@ -60,7 +60,7 @@ public class BoardRestController {
 		
 		String uploadFilename = UploadFileUtils.upload(uploadPath, uploadFileDto.getFile());
 		
-		int uploadIdx = boardService.uploadTempImage(uploadFilename);
+		int uploadIdx = boardService.uploadImage(uploadFilename);
 		log.info("uploadIdx={}", uploadIdx);	
 		
 		HashMap<String, Object> map = new HashMap<>();

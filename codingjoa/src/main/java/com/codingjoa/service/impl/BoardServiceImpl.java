@@ -33,7 +33,7 @@ public class BoardServiceImpl implements BoardService {
 	private ModelMapper modelMapper;
 	
 	@Override
-	public int uploadTempImage(String uploadFilename) {
+	public int uploadImage(String uploadFilename) {
 		Upload upload = new Upload();
 		upload.setUploadFile(uploadFilename);
 		
@@ -58,8 +58,12 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public void activateImage(BoardDto boardDto) {
-		uploadMapper.activateImage(boardDto.getBoardIdx(), boardDto.getUploadIdxList());
+	public void activateImage(BoardDto writeBoardDto) {
+		List<Integer> uploadIdxList = writeBoardDto.getUploadIdxList();
+		
+		if (uploadIdxList != null) {
+			uploadMapper.activateImage(writeBoardDto.getBoardIdx(), uploadIdxList);
+		}
 	}
 
 	@Override
@@ -97,17 +101,23 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public void deactivateImage(int uploadBoardIdx) {
-		uploadMapper.deactivateImage(uploadBoardIdx);
-	}
-
-	@Override
 	public void modifyBoard(BoardDto modifyBoardDto) {
 		Board board = modelMapper.map(modifyBoardDto, Board.class);
 		log.info("modifyBoardDto ==> {}", board);
 		
 		boardMapper.updateBoard(board);
 	}
-	
+
+	@Override
+	public void modifyUpload(BoardDto modifyBoardDto) {
+		int boardIdx = modifyBoardDto.getBoardIdx();
+		uploadMapper.deactivateImage(boardIdx);
+		
+		List<Integer> uploadIdxList = modifyBoardDto.getUploadIdxList();
+		
+		if (uploadIdxList != null) {
+			uploadMapper.activateImage(boardIdx, uploadIdxList);
+		}
+	}
 	
 }

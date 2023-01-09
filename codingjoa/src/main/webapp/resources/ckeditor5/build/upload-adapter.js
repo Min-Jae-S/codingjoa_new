@@ -27,7 +27,7 @@ class UploadAdapter {
         // integration to choose the right communication channel. This example uses
         // a POST request with JSON as a data structure but your configuration
         // could be different.
-        xhr.open('POST', getContextPath() + "/board/uploadTempImage", true);
+        xhr.open('POST', getContextPath() + "/board/uploadImage", true);
         xhr.responseType = 'json';
 
         //console.log("2. After open xhr and set responstType");

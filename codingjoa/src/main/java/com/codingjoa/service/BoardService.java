@@ -7,13 +7,13 @@ import com.codingjoa.dto.BoardDto;
 
 public interface BoardService {
 	
-	int uploadTempImage(String uploadFilename);
+	int uploadImage(String uploadFilename);
 	
 	int writeBoard(BoardDto writeBoardDto);
 	
 	boolean isImageUploaded(int uploadIdx);
 	
-	void activateImage(BoardDto boardDto); // writeBoardDto, modifyBoardDto
+	void activateImage(BoardDto writeBoardDto);
 	
 	BoardDetailsDto getBoardDetails(int boardIdx);
 	
@@ -25,8 +25,8 @@ public interface BoardService {
 	
 	void bindModifyBoard(BoardDto modifyBoardDto);
 	
-	void deactivateImage(int uploadBoardIdx);
-
 	void modifyBoard(BoardDto modifyBoardDto);
+	
+	void modifyUpload(BoardDto modifyBoardDto);
 	
 }
