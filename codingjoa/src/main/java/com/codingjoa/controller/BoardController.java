@@ -102,7 +102,7 @@ public class BoardController {
 		boardService.writeBoard(writeBoardDto);
 		log.info("After write, {}", writeBoardDto);
 		
-		boardService.activateTempImage(writeBoardDto);
+		boardService.activateImage(writeBoardDto);
 		
 		return "board/write-success";
 	}
@@ -126,8 +126,8 @@ public class BoardController {
 			return "board/modify";
 		}
 		
-		boardService.modifyBoardAndUpload(modifyBoardDto);
-		boardService.activateTempImage(modifyBoardDto);
+		boardService.modifyBoard(modifyBoardDto);
+		boardService.activateImage(modifyBoardDto);
 		
 		return "board/modify-success";
 	}

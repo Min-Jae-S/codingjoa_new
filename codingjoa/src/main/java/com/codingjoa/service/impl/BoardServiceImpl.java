@@ -53,12 +53,12 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public void activateTempImage(BoardDto boardDto) {
+	public void activateImage(BoardDto boardDto) {
 		List<Integer> uploadIdxList = boardDto.getUploadIdxList();
 		
 		if (uploadIdxList == null) return;
 		
-		boardMapper.updateTempImage(boardDto.getBoardIdx(), uploadIdxList);
+		boardMapper.activateImage(boardDto.getBoardIdx(), uploadIdxList);
 	}
 
 	@Override
@@ -96,13 +96,17 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public void modifyBoardAndUpload(BoardDto modifyBoardDto) {
+	public void deactivateImage(BoardDto boardDto) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void modifyBoard(BoardDto modifyBoardDto) {
 		Board board = modelMapper.map(modifyBoardDto, Board.class);
 		log.info("modifyBoardDto ==> {}", board);
 		
-		boardMapper.updateBoardAndUpload(board);
+		boardMapper.updateBoard(board);
 	}
-
 	
 	
 }

@@ -18,7 +18,7 @@ public interface BoardMapper {
 	
 	boolean isTempImageUploaded(int uploadIdx);
 	
-	void updateTempImage(@Param("boardIdx") int boardIdx, @Param("uploadIdxList") List<Integer> uploadIdxList);
+	void activateImage(@Param("boardIdx") int boardIdx, @Param("uploadIdxList") List<Integer> uploadIdxList);
 	
 	Map<String, Object> findBoardDetails(int boardIdx);
 	
@@ -32,6 +32,6 @@ public interface BoardMapper {
 	
 	List<Integer> findUploadIdxList(int boardIdx);
 	
-	void updateBoardAndUpload(Board board);
+	void updateBoard(Board board);
 	
 }

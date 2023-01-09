@@ -75,7 +75,7 @@
 			upload_idx = #{uploadIdx} AND upload_board_idx IS NULL
 	</select>
 	
-	<update id="updateTempImage" parameterType="map">
+	<update id="activateImage" parameterType="map">
 			UPDATE 
 				upload
 			SET
@@ -175,23 +175,16 @@
 			upload_board_idx = #{boardIdx}
 	</select>
 	
-	<update id="updateBoardAndUpload" parameterType="board">
+	<update id="updateBoard" parameterType="board">
 		UPDATE
-			board a,
-			upload b
+			board
 		SET
-			a.board_title = #{boardTitle},
-			a.board_content = #{boardContent},
-			a.board_category_code = #{boardCategoryCode},
+			board_title = #{boardTitle},
+			board_content = #{boardContent},
+			board_category_code = #{boardCategoryCode},
 			moddate = SYSDATE,
-			b.upload_board_idx = ''
 		WHERE
-			a.board_idx = #{boardIdx} 
-		AND 
-			b.upload_idx IN
-			<foreach collection="uploadIdxList" item="uploadIdx" separator="," open="(" close=")">	
-				#{uploadIdx}
-			</foreach>
+			board_idx = #{boardIdx} 
 	</update>
 	
 	
