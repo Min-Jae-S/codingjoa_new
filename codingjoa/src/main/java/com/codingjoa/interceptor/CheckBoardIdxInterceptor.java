@@ -27,10 +27,22 @@ public class CheckBoardIdxInterceptor implements HandlerInterceptor {
 
 		String boardIdx = request.getParameter("boardIdx");
 
-		if (!isNumeric(boardIdx) || !boardService.isBoardIdxExist(Integer.parseInt(boardIdx))) {
+		if (!isNumeric(boardIdx)) {
+			log.info("boardIdx is not numeric");
 			request.getRequestDispatcher("/error/errorPage").forward(request, response);
 			return false;
 		}
+		
+		if (!boardService.isBoardIdxExist(Integer.parseInt(boardIdx))) {
+			log.info("boardIdx doesn't exsit");
+			request.getRequestDispatcher("/error/errorPage").forward(request, response);
+			return false;
+		}
+		
+//		if (!isNumeric(boardIdx) || !boardService.isBoardIdxExist(Integer.parseInt(boardIdx))) {
+//			request.getRequestDispatcher("/error/errorPage").forward(request, response);
+//			return false;
+//		}
 
 		return true;
 	}
