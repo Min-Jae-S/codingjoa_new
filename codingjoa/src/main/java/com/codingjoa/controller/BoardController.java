@@ -98,9 +98,6 @@ public class BoardController {
 		log.info("{}", writeBoardDto);
 		
 		if (bindingResult.hasErrors()) {
-			bindingResult.getAllErrors().forEach(objectError -> {
-				log.info("errorCode={}", objectError.getCodes()[0]);
-			});
 			return "board/write";
 		}
 		
@@ -132,9 +129,6 @@ public class BoardController {
 		log.info("{}", modifyBoardDto);
 		
 		if (bindingResult.hasErrors()) {
-			bindingResult.getAllErrors().forEach(objectError -> {
-				log.info("errorCode={}", objectError.getCodes()[0]);
-			});
 			return "board/modify";
 		}
 		

@@ -32,9 +32,7 @@
 					</li>
 					<li class="nav-item mr-2">
 						<a class="nav-link text-dark" href="${contextPath}/member/info">
-							<span class="font-weight-bold">
-								<sec:authentication property="principal.member.memberId"/>
-							</span>
+							<span class="font-weight-bold"><sec:authentication property="principal.member.memberId"/></span>
 						</a>
 					</li>
 					<li class="nav-item">
