@@ -24,7 +24,7 @@ public class CheckBoardCategoryInterceptor implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		log.info("============== CheckBoardCategoryInterceptor ==============");
-		log.info("requestURI={}", request.getRequestURI());
+		log.info("{}", getFullURL(request));
 		
 		String method = request.getMethod();
 		String categoryCode = null;
@@ -50,6 +50,18 @@ public class CheckBoardCategoryInterceptor implements HandlerInterceptor {
 		} catch (NumberFormatException e) {
 			return false; 
 		}
+	}
+	
+	private String getFullURL(HttpServletRequest request) {
+		StringBuilder requestURL = new StringBuilder(request.getRequestURL().toString());
+	    String queryString = request.getQueryString();
+	    
+	    if (queryString == null) {
+	        return requestURL.toString();
+	    } else {
+	        return requestURL.append('?').append(queryString).toString();
+	    }
+
 	}
 
 }

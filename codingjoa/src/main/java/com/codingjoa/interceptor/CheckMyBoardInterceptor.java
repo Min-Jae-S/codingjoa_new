@@ -26,7 +26,7 @@ public class CheckMyBoardInterceptor implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		log.info("============== CheckMyBoardInterceptor ==============");
-		log.info("requestURI={}", request.getRequestURI());
+		log.info("{}", getFullURL(request));
 
 		String boardIdx = request.getParameter("boardIdx");
 		
@@ -63,6 +63,18 @@ public class CheckMyBoardInterceptor implements HandlerInterceptor {
 		}
 
 		return currentWriterIdx;
+	}
+	
+	private String getFullURL(HttpServletRequest request) {
+		StringBuilder requestURL = new StringBuilder(request.getRequestURL().toString());
+	    String queryString = request.getQueryString();
+	    
+	    if (queryString == null) {
+	        return requestURL.toString();
+	    } else {
+	        return requestURL.append('?').append(queryString).toString();
+	    }
+
 	}
 
 }
