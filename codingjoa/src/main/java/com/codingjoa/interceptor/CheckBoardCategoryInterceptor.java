@@ -1,5 +1,8 @@
 package com.codingjoa.interceptor;
 
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -36,13 +39,13 @@ public class CheckBoardCategoryInterceptor implements HandlerInterceptor {
 		}
 		
 		if (!isNumeric(categoryCode)) {
-			log.info("categoryCode is not numeric");
+			log.info("ERROR: categoryCode is not numeric");
 			request.getRequestDispatcher("/error/errorPage").forward(request, response);
 			return false;
 		}
 		
 		if (!categoryService.isBoardCategory(Integer.parseInt(categoryCode))) {
-			log.info("categoryCode is not boardCategory");
+			log.info("ERROR: categoryCode is not boardCategory");
 			request.getRequestDispatcher("/error/errorPage").forward(request, response);
 			return false;
 		}
@@ -71,7 +74,7 @@ public class CheckBoardCategoryInterceptor implements HandlerInterceptor {
 	    if (queryString == null) {
 	        return requestURL.toString();
 	    } else {
-	        return requestURL.append('?').append(queryString).toString();
+	    	return requestURL.append('?').append(URLDecoder.decode(queryString, StandardCharsets.UTF_8)).toString();
 	    }
 
 	}

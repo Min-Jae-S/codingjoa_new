@@ -1,5 +1,8 @@
 package com.codingjoa.interceptor;
 
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -28,13 +31,13 @@ public class CheckBoardIdxInterceptor implements HandlerInterceptor {
 		String boardIdx = request.getParameter("boardIdx");
 
 		if (!isNumeric(boardIdx)) {
-			log.info("boardIdx is not numeric");
+			log.info("ERROR: boardIdx is not numeric");
 			request.getRequestDispatcher("/error/errorPage").forward(request, response);
 			return false;
 		}
 		
 		if (!boardService.isBoardIdxExist(Integer.parseInt(boardIdx))) {
-			log.info("boardIdx doesn't exsit");
+			log.info("ERROR: boardIdx doesn't exist");
 			request.getRequestDispatcher("/error/errorPage").forward(request, response);
 			return false;
 		}
@@ -63,7 +66,7 @@ public class CheckBoardIdxInterceptor implements HandlerInterceptor {
 	    if (queryString == null) {
 	        return requestURL.toString();
 	    } else {
-	        return requestURL.append('?').append(queryString).toString();
+	        return requestURL.append('?').append(URLDecoder.decode(queryString, StandardCharsets.UTF_8)).toString();
 	    }
 
 	}
