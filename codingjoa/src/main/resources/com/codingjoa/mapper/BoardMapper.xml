@@ -135,7 +135,7 @@
 			board_title = #{boardTitle},
 			board_content = #{boardContent},
 			board_category_code = #{boardCategoryCode},
-			moddate = SYSDATE,
+			moddate = SYSDATE
 		WHERE
 			board_idx = #{boardIdx} 
 	</update>
