@@ -61,7 +61,6 @@
 			<div class="pt-4" style="border-top: 1px solid black;">
 				<form:form action="${contextPath}/board/modifyProc" method="POST" modelAttribute="modifyBoardDto">
 					<form:hidden path="boardIdx"/>
-					<form:errors path="boardIdx" cssClass="error"/>
 					<div class="form-row">
 						<div class="form-group col-md-8">
 							<form:select class="custom-select" path="boardCategoryCode">

@@ -24,7 +24,7 @@ public class CheckBoardIdxInterceptor implements HandlerInterceptor {
 		String boardIdx = request.getParameter("boardIdx");
 
 		if (!isNumeric(boardIdx) || !boardService.isBoardIdxExist(Integer.parseInt(boardIdx))) {
-			request.getRequestDispatcher(request.getContextPath() + "/error/errorPage").forward(request, response);
+			request.getRequestDispatcher("/error/errorPage").forward(request, response);
 			return false;
 		}
 

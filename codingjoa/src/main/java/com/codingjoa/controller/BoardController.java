@@ -4,6 +4,7 @@ import javax.annotation.Resource;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.codingjoa.dto.BoardDetailsDto;
 import com.codingjoa.dto.BoardDto;
 import com.codingjoa.dto.SearchDto;
+import com.codingjoa.security.dto.UserDetailsDto;
 import com.codingjoa.service.BoardService;
 import com.codingjoa.service.CategoryService;
 
@@ -93,12 +95,15 @@ public class BoardController {
 	
 	@PostMapping("/writeProc")
 	public String writeProc(@Valid @ModelAttribute("writeBoardDto") BoardDto writeBoardDto, 
-							BindingResult bindingResult, Model model) {
+			BindingResult bindingResult, @AuthenticationPrincipal UserDetailsDto principal, Model model) {
 		log.info("{}", writeBoardDto);
 		
 		if (bindingResult.hasErrors()) { // TypeMismatch, objectError.getCodes()[0]
 			return "board/write";
 		}
+		
+		int boardWriterIdx = principal.getMember().getMemberIdx();
+		writeBoardDto.setBoardWriterIdx(boardWriterIdx);
 		
 		int boardIdx = boardService.writeBoard(writeBoardDto);
 		log.info("boardIdx={}", boardIdx);
@@ -121,15 +126,15 @@ public class BoardController {
 	
 	@PostMapping("/modifyProc")
 	public String modifyProc(@Valid @ModelAttribute("modifyBoardDto") BoardDto modifyBoardDto, 
-							 BindingResult bindingResult, Model model) {
+			BindingResult bindingResult, @AuthenticationPrincipal UserDetailsDto principal, Model model) {
 		log.info("{}", modifyBoardDto);
 		
 		if (bindingResult.hasErrors()) {
-			bindingResult.getAllErrors().forEach(objectError -> {
-				log.info("{}", objectError.getCodes()[0]);
-			});
 			return "board/modify";
 		}
+		
+		int boardWriterIdx = principal.getMember().getMemberIdx();
+		modifyBoardDto.setBoardWriterIdx(boardWriterIdx);
 		
 		boardService.modifyBoard(modifyBoardDto);
 		boardService.modifyUpload(modifyBoardDto);

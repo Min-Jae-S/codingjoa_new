@@ -120,7 +120,7 @@ public class MemberRestController {
 	
 	@PutMapping("/updateAddr")
 	public ResponseEntity<Object> updateAddr(@RequestBody @Valid AddrDto addrDto, 
-											 @AuthenticationPrincipal UserDetailsDto principal) {
+			@AuthenticationPrincipal UserDetailsDto principal) {
 		log.info("{}", addrDto);
 		
 		String memberId = principal.getMember().getMemberId();
@@ -135,7 +135,7 @@ public class MemberRestController {
 	
 	@PutMapping("/updateAgree")
 	public ResponseEntity<Object> updateAgree(@RequestBody AgreeDto agreeDto, 
-											  @AuthenticationPrincipal UserDetailsDto principal) {
+			@AuthenticationPrincipal UserDetailsDto principal) {
 		log.info("{}", agreeDto);
 		
 		String memberId = principal.getMember().getMemberId();

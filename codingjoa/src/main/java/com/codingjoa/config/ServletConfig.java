@@ -21,6 +21,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.codingjoa.interceptor.CheckBoardIdxInterceptor;
 import com.codingjoa.interceptor.CheckBoardInterceptor;
+import com.codingjoa.interceptor.CheckMyBoardInterceptor;
 
 @Configuration
 @EnableWebMvc
@@ -63,7 +64,9 @@ public class ServletConfig implements WebMvcConfigurer {
 		registry.addInterceptor(checkBoardInterceptor())
 				.addPathPatterns("/board/main", "/board/write");
 		registry.addInterceptor(checkBoardIdxInterceptor())
-				.addPathPatterns("/board/read", "/board/modify", "/board/modifyProc");
+				.addPathPatterns("/board/read", "/board/modify");
+		registry.addInterceptor(checkMyBoardInterceptor())
+				.addPathPatterns("/board/modifyProc");
 		
 	}
 	
@@ -82,6 +85,11 @@ public class ServletConfig implements WebMvcConfigurer {
 	@Bean
 	public HandlerInterceptor checkBoardIdxInterceptor() {
 		return new CheckBoardIdxInterceptor();
+	}
+
+	@Bean
+	public HandlerInterceptor checkMyBoardInterceptor() {
+		return new CheckMyBoardInterceptor();
 	}
 	
 }
