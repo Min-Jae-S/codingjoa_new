@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html>
@@ -103,7 +104,12 @@
 				</div>
 			</div>
 			<div>
-				<a class="btn btn-primary mr-1" href="${contextPath}/board/modify?boardIdx=${boardDetails.boardIdx}">수정</a>
+				<sec:authorize access="isAuthenticated()">
+				<sec:authentication property="principal.member.memberIdx" var="memberIdx"/>
+					<c:if test="${memberIdx eq boardDetails.boardWriterIdx}">
+						<a class="btn btn-primary mr-1" href="${contextPath}/board/modify?boardIdx=${boardDetails.boardIdx}">수정</a>
+					</c:if>
+				</sec:authorize>
 				<a class="btn btn-secondary" href="#">목록</a>
 			</div>
 		</div>

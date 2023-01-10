@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
-<c:set var="principal" value="${SPRING_SECURITY_CONTEXT.authentication.principal}" />
+<%-- <c:set var="principal" value="${SPRING_SECURITY_CONTEXT.authentication.principal}" /> --%>
 <!-- 상단 메뉴 -->
 <nav class="navbar navbar-custom navbar-expand-md">
 	<div class="container-fluid pl-5 pr-5">
@@ -32,7 +32,9 @@
 					</li>
 					<li class="nav-item mr-2">
 						<a class="nav-link text-dark" href="${contextPath}/member/info">
-							<span class="font-weight-bold">${principal.member.memberId}</span>
+							<span class="font-weight-bold">
+								<sec:authentication property="principal.member.memberId"/>
+							</span>
 						</a>
 					</li>
 					<li class="nav-item">

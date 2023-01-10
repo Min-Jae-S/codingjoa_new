@@ -24,7 +24,7 @@ public class CheckBoardInterceptor implements HandlerInterceptor {
 		log.info("============== CheckBoardInterceptor ==============");
 
 		String categoryCode = request.getParameter("categoryCode");
-
+		
 		if (!isNumeric(categoryCode) || !categoryService.isBoardCategory(Integer.parseInt(categoryCode))) {
 			request.getRequestDispatcher("/error/errorPage").forward(request, response);
 			return false;
