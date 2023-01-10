@@ -20,7 +20,7 @@ import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.codingjoa.interceptor.CheckBoardIdxInterceptor;
-import com.codingjoa.interceptor.CheckBoardInterceptor;
+import com.codingjoa.interceptor.CheckBoardCategoryInterceptor;
 import com.codingjoa.interceptor.CheckMyBoardInterceptor;
 import com.codingjoa.service.BoardService;
 import com.codingjoa.service.CategoryService;
@@ -69,7 +69,7 @@ public class ServletConfig implements WebMvcConfigurer {
 	public void addInterceptors(InterceptorRegistry registry) {
 //		registry.addInterceptor(new BeforeUpdatePasswordInterceptor())
 //				.addPathPatterns("/member/updatePassword");
-		registry.addInterceptor(new CheckBoardInterceptor(categoryService))
+		registry.addInterceptor(new CheckBoardCategoryInterceptor(categoryService))
 				.addPathPatterns("/board/main", "/board/write");
 		registry.addInterceptor(new CheckBoardIdxInterceptor(boardService))
 				.addPathPatterns("/board/read");

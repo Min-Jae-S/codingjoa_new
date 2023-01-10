@@ -10,18 +10,18 @@ import com.codingjoa.service.CategoryService;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class CheckBoardInterceptor implements HandlerInterceptor {
+public class CheckBoardCategoryInterceptor implements HandlerInterceptor {
 
 	private CategoryService categoryService;
 	
-	public CheckBoardInterceptor(CategoryService categoryService) {
+	public CheckBoardCategoryInterceptor(CategoryService categoryService) {
 		this.categoryService = categoryService;
 	}
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		log.info("============== CheckBoardInterceptor ==============");
+		log.info("============== CheckBoardCategoryInterceptor ==============");
 
 		String categoryCode = request.getParameter("categoryCode");
 		
