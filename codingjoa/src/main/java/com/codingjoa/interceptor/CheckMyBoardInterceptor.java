@@ -12,6 +12,7 @@ import com.codingjoa.service.BoardService;
 
 import lombok.extern.slf4j.Slf4j;
 
+// "/board/modify", "/board/modifyProc"
 @Slf4j
 public class CheckMyBoardInterceptor implements HandlerInterceptor {
 

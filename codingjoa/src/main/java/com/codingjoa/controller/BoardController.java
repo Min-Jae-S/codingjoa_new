@@ -97,7 +97,10 @@ public class BoardController {
 			BindingResult bindingResult, @AuthenticationPrincipal UserDetailsDto principal, Model model) {
 		log.info("{}", writeBoardDto);
 		
-		if (bindingResult.hasErrors()) { // TypeMismatch, objectError.getCodes()[0]
+		if (bindingResult.hasErrors()) {
+			bindingResult.getAllErrors().forEach(objectError -> {
+				log.info("errorCode={}", objectError.getCodes()[0]);
+			});
 			return "board/write";
 		}
 		
@@ -129,6 +132,9 @@ public class BoardController {
 		log.info("{}", modifyBoardDto);
 		
 		if (bindingResult.hasErrors()) {
+			bindingResult.getAllErrors().forEach(objectError -> {
+				log.info("errorCode={}", objectError.getCodes()[0]);
+			});
 			return "board/modify";
 		}
 		

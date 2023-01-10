@@ -9,6 +9,7 @@ import com.codingjoa.service.BoardService;
 
 import lombok.extern.slf4j.Slf4j;
 
+// "/board/read"
 @Slf4j
 public class CheckBoardIdxInterceptor implements HandlerInterceptor {
 

@@ -9,6 +9,7 @@ import com.codingjoa.service.CategoryService;
 
 import lombok.extern.slf4j.Slf4j;
 
+// "/board/main", "/board/write"
 @Slf4j
 public class CheckBoardCategoryInterceptor implements HandlerInterceptor {
 
