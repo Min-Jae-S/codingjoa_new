@@ -99,6 +99,11 @@ public class BoardServiceImpl implements BoardService {
 		List<Integer> uploadIdxList = uploadMapper.findUploadIdxList(boardIdx);
 		modifyBoardDto.setUploadIdxList(uploadIdxList);
 	}
+	
+	@Override
+	public boolean isMyBoard(int boardIdx, int boardWriterIdx) {
+		return boardMapper.isMyBoard(boardIdx, boardWriterIdx);
+	}
 
 	@Override
 	public void modifyBoard(BoardDto modifyBoardDto) {

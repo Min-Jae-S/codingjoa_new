@@ -34,20 +34,22 @@ public class BoardValidator implements Validator {
 
 	@Override
 	public void validate(Object target, Errors errors) {
-		log.info("============== BoardValidator validate: {} ==============", errors.getObjectName());
-		
+		log.info("============== BoardValidator validate ==============");
+
 		BoardDto boardDto = (BoardDto) target;
-		String objectName = errors.getObjectName();
+		boardDto.setBoardWriterIdx(getCurrentWriterIdx());
 		
-		if (objectName.equals("writeBoardDto")) {
-			
-		} else if (objectName.equals("modifyBoardDto")) {
-			
+		String objectName = errors.getObjectName();
+		log.info("objectName={}", objectName);
+		
+		if (objectName.equals("modifyBoardDto")) {
+			if (!boardService.isMyBoard(boardDto.getBoardIdx(), boardDto.getBoardWriterIdx())) {
+				errors.rejectValue("boardIdx", "NotMyBoard");
+				return;
+			}
 		}
 		
-		int categoryCode = boardDto.getBoardCategoryCode();
-		
-		if (!categoryService.isBoardCategory(categoryCode)) {
+		if (!categoryService.isBoardCategory(boardDto.getBoardCategoryCode())) {
 			errors.rejectValue("boardCategoryCode", "NotBoard");
 			return;
 		}
@@ -75,21 +77,21 @@ public class BoardValidator implements Validator {
 		
 	}
 	
-	private Integer getCurrentIdx() {
+	private Integer getCurrentWriterIdx() {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
 		if (auth == null) return null;
 
 		Object principal = auth.getPrincipal();
-		Integer currentIdx = null;
+		Integer currentWriterIdx = null;
 
 		if (principal instanceof UserDetailsDto) {
 			UserDetailsDto userDetailsDto = (UserDetailsDto) principal;
-			currentIdx = userDetailsDto.getMember().getMemberIdx();
+			currentWriterIdx = userDetailsDto.getMember().getMemberIdx();
 		} else if (principal instanceof String) {
-			currentIdx = null; // principal = anonymousUser
+			currentWriterIdx = null; // principal = anonymousUser
 		}
 
-		return currentIdx;
+		return currentWriterIdx;
 	}
 }

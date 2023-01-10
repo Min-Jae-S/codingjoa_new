@@ -25,6 +25,8 @@ public interface BoardService {
 	
 	void bindModifyBoard(BoardDto modifyBoardDto);
 	
+	boolean isMyBoard(int boardIdx, int boardWriterIdx);
+	
 	void modifyBoard(BoardDto modifyBoardDto);
 	
 	void modifyUpload(BoardDto modifyBoardDto);
