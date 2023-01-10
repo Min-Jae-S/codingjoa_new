@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
+import org.springframework.validation.FieldError;
 import org.springframework.validation.Validator;
 
 import com.codingjoa.dto.BoardDto;
@@ -31,9 +32,14 @@ public class BoardValidator implements Validator {
 
 	@Override
 	public void validate(Object target, Errors errors) {
-		log.info("============== BoardValidator validate ==============");
-		log.info("objectName={}", errors.getObjectName());
+		log.info("============== BoardValidator, objectName={} ==============", errors.getObjectName());
 
+		FieldError fieldError = errors.getFieldError("boardCategoryCode");
+
+		if (fieldError != null && fieldError.isBindingFailure()) { // typeMismatch
+			return;
+		}
+		
 		BoardDto boardDto = (BoardDto) target;
 		
 		if (!categoryService.isBoardCategory(boardDto.getBoardCategoryCode())) {

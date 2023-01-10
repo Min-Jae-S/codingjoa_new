@@ -37,7 +37,7 @@ public class EmailAuthValidator implements Validator {
 
 	@Override
 	public void validate(Object target, Errors errors) {
-		log.info("============== EmailAuthValidator validate ==============");
+		log.info("============== EmailAuthValidator ==============");
 
 		EmailAuthDto emailAuthDto = (EmailAuthDto) target;
 		Type type = emailAuthDto.getType();
