@@ -3,7 +3,6 @@ package com.codingjoa.interceptor;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -16,8 +15,11 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class CheckMyBoardInterceptor implements HandlerInterceptor {
 
-	@Autowired
 	private BoardService boardService;
+	
+	public CheckMyBoardInterceptor(BoardService boardService) {
+		this.boardService = boardService;
+	}
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)

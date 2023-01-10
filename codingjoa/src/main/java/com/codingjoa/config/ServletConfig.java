@@ -3,6 +3,7 @@ package com.codingjoa.config;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -22,6 +23,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import com.codingjoa.interceptor.CheckBoardIdxInterceptor;
 import com.codingjoa.interceptor.CheckBoardInterceptor;
 import com.codingjoa.interceptor.CheckMyBoardInterceptor;
+import com.codingjoa.service.BoardService;
+import com.codingjoa.service.CategoryService;
 
 @Configuration
 @EnableWebMvc
@@ -31,7 +34,13 @@ public class ServletConfig implements WebMvcConfigurer {
 	
 	@Value("${upload.path}")
 	private String uploadPath;
-
+	
+	@Autowired
+	private CategoryService categoryService;
+	
+	@Autowired
+	private BoardService boardService;
+	
 	@Override
 	public void configureViewResolvers(ViewResolverRegistry registry) {
 		// TODO Auto-generated method stub
@@ -61,11 +70,11 @@ public class ServletConfig implements WebMvcConfigurer {
 	public void addInterceptors(InterceptorRegistry registry) {
 //		registry.addInterceptor(new BeforeUpdatePasswordInterceptor())
 //				.addPathPatterns("/member/updatePassword");
-		registry.addInterceptor(checkBoardInterceptor())
+		registry.addInterceptor(new CheckBoardInterceptor(categoryService))
 				.addPathPatterns("/board/main", "/board/write");
-		registry.addInterceptor(checkBoardIdxInterceptor())
+		registry.addInterceptor(new CheckBoardIdxInterceptor(boardService))
 				.addPathPatterns("/board/read", "/board/modify");
-		registry.addInterceptor(checkMyBoardInterceptor())
+		registry.addInterceptor(new CheckMyBoardInterceptor(boardService))
 				.addPathPatterns("/board/modifyProc");
 		
 	}
@@ -75,21 +84,6 @@ public class ServletConfig implements WebMvcConfigurer {
 	@Bean
 	public MultipartResolver multipartResolver() {
 		return new StandardServletMultipartResolver();
-	}
-	
-	@Bean
-	public HandlerInterceptor checkBoardInterceptor() {
-		return new CheckBoardInterceptor();
-	}
-	
-	@Bean
-	public HandlerInterceptor checkBoardIdxInterceptor() {
-		return new CheckBoardIdxInterceptor();
-	}
-
-	@Bean
-	public HandlerInterceptor checkMyBoardInterceptor() {
-		return new CheckMyBoardInterceptor();
 	}
 	
 }
