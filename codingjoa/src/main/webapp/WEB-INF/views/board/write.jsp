@@ -72,7 +72,6 @@
 								</c:forEach>
 								-->
 							</form:select>
-							<form:errors path="boardCategoryCode" cssClass="error"/>
 						</div>
 						<div class="form-group col-md-2">
 							<form:button class="btn btn-primary btn-block" id="writeBtn">등록</form:button>

@@ -66,7 +66,6 @@
 							<form:select class="custom-select" path="boardCategoryCode">
 								<form:options items="${categoryList}" itemValue="categoryCode" itemLabel="categoryName"/>
 							</form:select>
-							<form:errors path="boardCategoryCode" cssClass="error"/>
 						</div>
 						<div class="form-group col-md-2">
 							<form:button class="btn btn-primary btn-block" id="modifyBtn">수정</form:button>
