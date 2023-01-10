@@ -38,22 +38,10 @@ public class CheckBoardCategoryInterceptor implements HandlerInterceptor {
 			categoryCode = request.getParameter("boardCategoryCode");
 		}
 		
-		if (!isNumeric(categoryCode)) {
-			log.info("ERROR: categoryCode is not numeric");
+		if (!isNumeric(categoryCode) || !categoryService.isBoardCategory(Integer.parseInt(categoryCode))) {
 			request.getRequestDispatcher("/error/errorPage").forward(request, response);
 			return false;
 		}
-		
-		if (!categoryService.isBoardCategory(Integer.parseInt(categoryCode))) {
-			log.info("ERROR: categoryCode is not boardCategory");
-			request.getRequestDispatcher("/error/errorPage").forward(request, response);
-			return false;
-		}
-		
-//		if (!isNumeric(categoryCode) || !categoryService.isBoardCategory(Integer.parseInt(categoryCode))) {
-//			request.getRequestDispatcher("/error/errorPage").forward(request, response);
-//			return false;
-//		}
 		
 		return true;
 	}

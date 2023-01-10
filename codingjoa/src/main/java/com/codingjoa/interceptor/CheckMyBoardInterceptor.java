@@ -33,22 +33,10 @@ public class CheckMyBoardInterceptor implements HandlerInterceptor {
 
 		String boardIdx = request.getParameter("boardIdx");
 		
-		if (!isNumeric(boardIdx)) {
-			log.info("ERROR: boardIdx is not numeric");
+		if (!isNumeric(boardIdx) || !boardService.isMyBoard(Integer.parseInt(boardIdx), getCurrentWriterIdx())) {
 			request.getRequestDispatcher("/error/errorPage").forward(request, response);
 			return false;
 		}
-		
-		if (!boardService.isMyBoard(Integer.parseInt(boardIdx), getCurrentWriterIdx())) {
-			log.info("ERROR: boardIdx is not my board");
-			request.getRequestDispatcher("/error/errorPage").forward(request, response);
-			return false;
-		}
-		
-//		if (!isNumeric(boardIdx) || !boardService.isMyBoard(Integer.parseInt(boardIdx), getCurrentWriterIdx())) {
-//			request.getRequestDispatcher("/error/errorPage").forward(request, response);
-//			return false;
-//		}
 		
 		return true;
 	}
