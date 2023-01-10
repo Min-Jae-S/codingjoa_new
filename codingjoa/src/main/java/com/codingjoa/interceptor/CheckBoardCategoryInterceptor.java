@@ -24,6 +24,7 @@ public class CheckBoardCategoryInterceptor implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		log.info("============== CheckBoardCategoryInterceptor ==============");
+		log.info("requestURI={}", request.getRequestURI());
 		
 		String method = request.getMethod();
 		String categoryCode = null;

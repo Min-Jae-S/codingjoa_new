@@ -23,6 +23,7 @@ public class CheckBoardIdxInterceptor implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		log.info("============== CheckBoardIdxInterceptor ==============");
+		log.info("requestURI={}", request.getRequestURI());
 
 		String boardIdx = request.getParameter("boardIdx");
 
