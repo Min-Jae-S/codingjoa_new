@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />    
 <!DOCTYPE html>
 <html>
@@ -132,7 +133,9 @@
 				</table>
 			</div>
 			<div class="mb-3">
-				<a class="btn btn-primary" href="${contextPath}/board/write?categoryCode=${category.categoryCode}">글쓰기</a>
+				<sec:authorize access="isAuthenticated()">
+					<a class="btn btn-primary" href="${contextPath}/board/write?categoryCode=${category.categoryCode}">글쓰기</a>
+				</sec:authorize>
 			</div>
 			<nav class="pt-3">
 				<ul class="pagination justify-content-center">
