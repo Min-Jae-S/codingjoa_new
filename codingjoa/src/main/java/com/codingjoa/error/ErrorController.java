@@ -1,4 +1,4 @@
-package com.codingjoa.controller;
+package com.codingjoa.error;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

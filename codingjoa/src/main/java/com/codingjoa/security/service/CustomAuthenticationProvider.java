@@ -33,7 +33,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 		String memberId = (String) authentication.getPrincipal();
 		String memberPassword = (String) authentication.getCredentials();
 		
-		if("".equals(memberId)) {
+		if ("".equals(memberId)) {
 			throw new LoginRequireFieldException("error.LoginRequireField.memberId");
 		} else if(!StringUtils.hasText(memberPassword)) {
 			throw new LoginRequireFieldException("error.LoginRequireField.memberPassword");
@@ -42,7 +42,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 		UserDetails userDetails = userDetailsService.loadUserByUsername(memberId);
 		log.info("{}", userDetails);
 		
-		if(!passwordEncoder.matches(memberPassword, userDetails.getPassword())) {
+		if (!passwordEncoder.matches(memberPassword, userDetails.getPassword())) {
 			throw new BadCredentialsException("error.UsernameNotFoundOrBadCredentials");
 		}
 		

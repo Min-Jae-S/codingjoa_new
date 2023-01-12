@@ -108,6 +108,7 @@
 				<sec:authentication property="principal.member.memberIdx" var="memberIdx"/>
 					<c:if test="${memberIdx eq boardDetails.boardWriterIdx}">
 						<a class="btn btn-primary mr-1" href="${contextPath}/board/modify?boardIdx=${boardDetails.boardIdx}">수정</a>
+						<a class="btn btn-warning mr-1" href="${contextPath}/delete?boardIdx=${boardDetails.boardIdx}">삭제</a>
 					</c:if>
 				</sec:authorize>
 				<a class="btn btn-secondary" href="#">목록</a>
