@@ -58,7 +58,8 @@ public class BoardController {
 	@GetMapping("/main")
 	public String main(@RequestParam("categoryCode") int categoryCode, 
 					   @ModelAttribute SearchDto searchDto, Model model) {
-		log.info("categoryCode={}, {}", categoryCode, searchDto);
+		log.info("categoryCode={}", categoryCode);
+		log.info("{}", searchDto);
 		
 		model.addAttribute("category", categoryService.findCategory(categoryCode));
 		model.addAttribute("boardDetailsList", boardService.getBoardDetailsList(categoryCode));
@@ -145,6 +146,6 @@ public class BoardController {
 	public String deleteProc(@RequestParam("boardIdx") int boardIdx, Model model) {
 		log.info("boardIdx={}", boardIdx);
 		
-		return null;
+		return "board/delete-success";
 	}
 }

@@ -84,7 +84,7 @@
 					  		<button class="btn btn-outline-secondary btn-sm">검색</button>
 					  	</div>
 	        		</div>
-	        		<select class="custom-select custom-select-sm ml-auto" name="recordPerPage">
+	        		<select class="custom-select custom-select-sm ml-auto" name="recordsPerPage">
 				    	<option value="5" ${searchDto.recordPerPage eq 5 ? 'selected' : ''}>5개씩</option>
 				    	<option value="10" ${searchDto.recordPerPage eq 10 ? 'selected' : ''}>10개씩</option>
 				    	<option value="15" ${searchDto.recordPerPage eq 15 ? 'selected' : ''}>15개씩</option>
