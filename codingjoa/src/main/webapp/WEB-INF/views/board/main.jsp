@@ -72,24 +72,22 @@
 			<div class="pt-3">
 	        	<form class="form-inline" action="${contextPath}/board/main" method="GET">
 	        		<input type="hidden" name="categoryCode" value="${category.categoryCode}">
-					<select class="custom-select custom-select-sm mr-2" name="searchType">
-				    	<option value="T" ${searchDto.searchType eq 'T' ? 'selected' : ''}>제목</option>
-				    	<option value="C" ${searchDto.searchType eq 'C' ? 'selected' : ''}>내용</option>
-				    	<option value="W" ${searchDto.searchType eq 'W' ? 'selected' : ''}>작성자</option>
+					<select class="custom-select custom-select-sm mr-2" name="type">
+				    	<option value="T"  ${searchDto.searchType eq 'T'  ? 'selected' : ''}>제목</option>
+				    	<option value="C"  ${searchDto.searchType eq 'C'  ? 'selected' : ''}>내용</option>
+				    	<option value="W"  ${searchDto.searchType eq 'W'  ? 'selected' : ''}>작성자</option>
 				    	<option value="TC" ${searchDto.searchType eq 'TC' ? 'selected' : ''}>제목 + 내용</option>
 				  	</select>
 					<div class="input-group">
-					  	<input type="text" class="form-control form-control-sm" name="searchKeyword" value="${searchDto.searchKeyword}" placeholder="검색어를 입력해주세요">
+					  	<input type="text" class="form-control form-control-sm" name="keyword" value="${searchDto.searchKeyword}" placeholder="검색어를 입력해주세요">
 					  	<div class="input-group-append">
 					  		<button class="btn btn-outline-secondary btn-sm">검색</button>
 					  	</div>
 	        		</div>
-	        		<select class="custom-select custom-select-sm ml-auto" name="recordsPerPage">
-				    	<option value="5" ${searchDto.recordPerPage eq 5 ? 'selected' : ''}>5개씩</option>
+	        		<select class="custom-select custom-select-sm ml-auto" name="recordSize">
 				    	<option value="10" ${searchDto.recordPerPage eq 10 ? 'selected' : ''}>10개씩</option>
-				    	<option value="15" ${searchDto.recordPerPage eq 15 ? 'selected' : ''}>15개씩</option>
 				    	<option value="20" ${searchDto.recordPerPage eq 20 ? 'selected' : ''}>20개씩</option>
-				    	<option value="25" ${searchDto.recordPerPage eq 25 ? 'selected' : ''}>25개씩</option>
+				    	<option value="30" ${searchDto.recordPerPage eq 30 ? 'selected' : ''}>30개씩</option>
 				  	</select>
 				</form>
 			</div>

@@ -5,15 +5,13 @@ import lombok.Data;
 @Data
 public class SearchDto {
 
-	private String searchType;
-	private String searchKeyword;
-	private int recordPerPage;
+	private String type;
+	private String keyword;
+	private int recordSize;
 	
 	public SearchDto() {
-		this.searchType = "T";
-		this.recordPerPage = 15;
+		this.type = "T";
+		this.recordSize = 10;
 	}
-	
-	
 	
 }
