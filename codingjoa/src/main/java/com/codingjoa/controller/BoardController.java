@@ -141,8 +141,9 @@ public class BoardController {
 		return "board/modify-success";
 	}
 	
-	@GetMapping("/delete")
-	public String delete() {
+	@GetMapping("/deleteProc")
+	public String deleteProc(@RequestParam("boardIdx") int boardIdx, Model model) {
+		log.info("boardIdx={}", boardIdx);
 		
 		return null;
 	}

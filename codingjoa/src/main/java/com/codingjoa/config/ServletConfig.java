@@ -75,7 +75,7 @@ public class ServletConfig implements WebMvcConfigurer {
 				.addPathPatterns("/board/read");
 		registry.addInterceptor(new CheckMyBoardInterceptor(boardService))
 				.order(-1)
-				.addPathPatterns("/board/modify", "/board/modifyProc");
+				.addPathPatterns("/board/modify", "/board/modifyProc", "/board/deleteProc");
 		
 	}
 	
