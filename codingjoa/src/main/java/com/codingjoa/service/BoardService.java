@@ -23,7 +23,7 @@ public interface BoardService {
 	
 	Pagination getPagination(int categoryCode, Criteria cri);
 	
-	List<BoardDetailsDto> getBoardDetailsList(int categoryCode, Pagination pagination);
+	List<BoardDetailsDto> getPagedBoardList(int categoryCode, Pagination pagination);
 	
 	boolean isBoardIdxExist(int boardIdx);
 	

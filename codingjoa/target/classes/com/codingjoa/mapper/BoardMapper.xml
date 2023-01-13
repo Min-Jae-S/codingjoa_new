@@ -78,7 +78,7 @@
 			board_idx = #{boardIdx}
 	</update>
 	
-	<select id="findBoardDetailsListCnt" parameterType="int" resultType="int">
+	<select id="findBoardListCnt" parameterType="int" resultType="int">
 		SELECT
 			COUNT(*)
 		FROM
@@ -87,7 +87,7 @@
 			board_category_code = #{boardCategoryCode}
 	</select>
 	
-	<select id="findBoardDetailsList" parameterType="map" resultMap="boardDetailsMap">
+	<select id="findPagedBoardList" parameterType="map" resultMap="boardDetailsMap">
 		SELECT 
 			a.board_idx, 
 			a.board_title, 

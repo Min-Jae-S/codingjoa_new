@@ -104,8 +104,8 @@
 					</thead>
 					<tbody>
 						<c:choose>
-							<c:when test="${not empty boardDetailsList}">
-								<c:forEach var='boardDetails' items="${boardDetailsList}">
+							<c:when test="${not empty boardList}">
+								<c:forEach var='boardDetails' items="${boardList}">
 									<tr>
 										<td class="d-md-table-cell"><c:out value="${boardDetails.boardIdx}"/></td>
 										<td class="d-md-table-cell text-left">
