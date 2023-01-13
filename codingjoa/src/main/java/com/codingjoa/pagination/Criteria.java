@@ -11,7 +11,6 @@ public class Criteria {
 	
 	private int page;
 	private int recordSize;
-	private int categoryCode;
 	private String keyword;
 	private String type;
 	

@@ -80,15 +80,14 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
-	public Pagination getPagination(Criteria cri) {
-		int total = boardMapper.findBoardDetailsListCnt(cri.getCategoryCode());
+	public Pagination getPagination(int categoryCode, Criteria cri) {
+		int total = boardMapper.findBoardDetailsListCnt(categoryCode);
 		return new Pagination(total, cri);
 	}
 	
 	@Override
-	public List<BoardDetailsDto> getBoardDetailsList(Pagination pagination) {
-		int categoryCode = pagination.getCri().getCategoryCode();
-		return boardMapper.findBoardDetailsList(categoryCode).stream()
+	public List<BoardDetailsDto> getBoardDetailsList(int categoryCode, Pagination pagination) {
+		return boardMapper.findBoardDetailsList(categoryCode, pagination).stream()
 				.map(boardDetailsMap -> modelMapper.map(boardDetailsMap, BoardDetailsDto.class))
 				.collect(Collectors.toList());
 	}

@@ -87,7 +87,7 @@
 			board_category_code = #{boardCategoryCode}
 	</select>
 	
-	<select id="findBoardDetailsList" parameterType="int" resultMap="boardDetailsMap">
+	<select id="findBoardDetailsList" parameterType="map" resultMap="boardDetailsMap">
 		SELECT 
 			a.board_idx, 
 			a.board_title, 

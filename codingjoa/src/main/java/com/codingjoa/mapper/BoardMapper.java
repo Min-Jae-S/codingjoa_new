@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.codingjoa.entity.Board;
+import com.codingjoa.pagination.Pagination;
 
 @Mapper
 public interface BoardMapper {
@@ -19,7 +20,7 @@ public interface BoardMapper {
 	
 	int findBoardDetailsListCnt(int categoryCode);
 	
-	List<Map<String, Object>> findBoardDetailsList(int categoryCode);
+	List<Map<String, Object>> findBoardDetailsList(int categoryCode, Pagination pagination);
 	
 	boolean isBoardIdxExist(int boardIdx);
 	
