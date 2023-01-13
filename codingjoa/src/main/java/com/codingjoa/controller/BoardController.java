@@ -1,5 +1,7 @@
 package com.codingjoa.controller;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 import javax.validation.Valid;
 
@@ -62,10 +64,13 @@ public class BoardController {
 		log.info("categoryCode={}", categoryCode);
 		log.info("{}", cri);
 		
+		model.addAttribute("category", categoryService.findCategory(categoryCode));
+
 		Pagination pagination = boardService.getPagination(categoryCode, cri);
 		model.addAttribute("pagination", pagination);
-		model.addAttribute("boardDetailsList", boardService.getBoardDetailsList(categoryCode, pagination));
-		model.addAttribute("category", categoryService.findCategory(categoryCode));
+		
+		List<BoardDetailsDto> boardDetailsList = boardService.getBoardDetailsList(categoryCode, pagination);
+		model.addAttribute("boardDetailsList", boardDetailsList);
 		
 		return "board/main";
 	}
