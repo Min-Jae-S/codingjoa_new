@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.codingjoa.dto.BoardDetailsDto;
 import com.codingjoa.dto.BoardDto;
 import com.codingjoa.pagination.Criteria;
+import com.codingjoa.pagination.PageDto;
 import com.codingjoa.security.dto.UserDetailsDto;
 import com.codingjoa.service.BoardService;
 import com.codingjoa.service.CategoryService;
@@ -63,8 +64,8 @@ public class BoardController {
 		
 		model.addAttribute("category", categoryService.findCategory(categoryCode));
 		
-		
-		
+		int total = boardService.getBoardDetailsListCnt(categoryCode);
+		PageDto pageDto = new PageDto(cri, total);
 		
 		model.addAttribute("boardDetailsList", boardService.getBoardDetailsList(categoryCode));
 		
