@@ -3,7 +3,7 @@ package com.codingjoa.pagination;
 import lombok.Data;
 
 @Data
-public class PageDto {
+public class Pagination {
 
 	private int startPage;			// 각 페이지 범위에서의 시작 번호
 	private int endPage;			// 각 페이지 범위에서의 끝 번호
@@ -14,11 +14,11 @@ public class PageDto {
 	private Criteria cri;			// 현재 페이지(page), 페이지 당 레코드 개수(recordSize)
 									// 검색 유형(type), 검색어(keyword)
 	
-	public PageDto(int total, Criteria cri) {
+	public Pagination(int total, Criteria cri) {
 		this.total = total;
 		this.cri = cri;
 		this.pageSize = 10;
 		
-		
+		// ...
 	}
 }

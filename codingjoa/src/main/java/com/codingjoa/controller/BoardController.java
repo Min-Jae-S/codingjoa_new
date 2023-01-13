@@ -19,8 +19,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.codingjoa.dto.BoardDetailsDto;
 import com.codingjoa.dto.BoardDto;
+import com.codingjoa.entity.Category;
 import com.codingjoa.pagination.Criteria;
-import com.codingjoa.pagination.PageDto;
+import com.codingjoa.pagination.Pagination;
 import com.codingjoa.security.dto.UserDetailsDto;
 import com.codingjoa.service.BoardService;
 import com.codingjoa.service.CategoryService;
@@ -57,16 +58,15 @@ public class BoardController {
 	}
 	
 	@GetMapping("/main")
-	public String main(@RequestParam("categoryCode") int categoryCode, 
-					   @ModelAttribute("cri") Criteria cri, Model model) {
-		log.info("categoryCode={}", categoryCode);
+	public String main(@ModelAttribute("cri") Criteria cri, Model model) {
 		log.info("{}", cri);
 		
-		model.addAttribute("category", categoryService.findCategory(categoryCode));
+		Category category = categoryService.findCategory(cri.getCategoryCode());
+		model.addAttribute("category", category);
 		
-		PageDto pageDto = boardService.getPageDto(categoryCode, cri);
-		model.addAttribute("pageDto", pageDto);
-		model.addAttribute("boardDetailsList", boardService.getBoardDetailsList(categoryCode, pageDto));
+		Pagination pagination = boardService.getPagination(cri);
+		model.addAttribute("pagination", pagination);
+		model.addAttribute("boardDetailsList", boardService.getBoardDetailsList(pagination));
 		
 		return "board/main";
 	}

@@ -15,7 +15,7 @@ import com.codingjoa.entity.Upload;
 import com.codingjoa.mapper.BoardMapper;
 import com.codingjoa.mapper.UploadMapper;
 import com.codingjoa.pagination.Criteria;
-import com.codingjoa.pagination.PageDto;
+import com.codingjoa.pagination.Pagination;
 import com.codingjoa.service.BoardService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -80,13 +80,14 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
-	public PageDto getPageDto(int categoryCode, Criteria cri) {
-		int total = boardMapper.findBoardDetailsListCnt(categoryCode);
-		return new PageDto(total, cri);
+	public Pagination getPagination(Criteria cri) {
+		int total = boardMapper.findBoardDetailsListCnt(cri.getCategoryCode());
+		return new Pagination(total, cri);
 	}
 	
 	@Override
-	public List<BoardDetailsDto> getBoardDetailsList(int categoryCode, PageDto pageDto) {
+	public List<BoardDetailsDto> getBoardDetailsList(Pagination pagination) {
+		int categoryCode = pagination.getCri().getCategoryCode();
 		return boardMapper.findBoardDetailsList(categoryCode).stream()
 				.map(boardDetailsMap -> modelMapper.map(boardDetailsMap, BoardDetailsDto.class))
 				.collect(Collectors.toList());
