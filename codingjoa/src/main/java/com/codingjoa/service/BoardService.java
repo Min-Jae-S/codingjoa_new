@@ -19,6 +19,8 @@ public interface BoardService {
 	
 	void updateBoardViews(int boardIdx);
 	
+	int getBoardDetailsListCnt(int categoryCode);
+	
 	List<BoardDetailsDto> getBoardDetailsList(int categoryCode);
 	
 	boolean isBoardIdxExist(int boardIdx);
@@ -30,5 +32,7 @@ public interface BoardService {
 	void modifyBoard(BoardDto modifyBoardDto);
 	
 	void modifyUpload(BoardDto modifyBoardDto);
+	
+	
 	
 }

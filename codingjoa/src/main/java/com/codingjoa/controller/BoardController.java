@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.codingjoa.dto.BoardDetailsDto;
 import com.codingjoa.dto.BoardDto;
-import com.codingjoa.dto.SearchDto;
+import com.codingjoa.pagination.Criteria;
 import com.codingjoa.security.dto.UserDetailsDto;
 import com.codingjoa.service.BoardService;
 import com.codingjoa.service.CategoryService;
@@ -57,11 +57,15 @@ public class BoardController {
 	
 	@GetMapping("/main")
 	public String main(@RequestParam("categoryCode") int categoryCode, 
-					   @ModelAttribute SearchDto searchDto, Model model) {
+					   @ModelAttribute("cri") Criteria cri, Model model) {
 		log.info("categoryCode={}", categoryCode);
-		log.info("{}", searchDto);
+		log.info("{}", cri);
 		
 		model.addAttribute("category", categoryService.findCategory(categoryCode));
+		
+		
+		
+		
 		model.addAttribute("boardDetailsList", boardService.getBoardDetailsList(categoryCode));
 		
 		return "board/main";

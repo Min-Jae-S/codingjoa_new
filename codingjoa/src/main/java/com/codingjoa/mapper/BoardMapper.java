@@ -17,6 +17,8 @@ public interface BoardMapper {
 	
 	void updateBoardViews(int boardIdx);
 	
+	int findBoardDetailsListCnt(int categoryCode);
+	
 	List<Map<String, Object>> findBoardDetailsList(int categoryCode);
 	
 	boolean isBoardIdxExist(int boardIdx);

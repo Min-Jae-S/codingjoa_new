@@ -78,6 +78,15 @@
 			board_idx = #{boardIdx}
 	</update>
 	
+	<select id="findBoardDetailsListCnt" parameterType="int" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			board
+		WHERE
+			board_category_code = #{#{boardCategoryCode}
+	</select>
+	
 	<select id="findBoardDetailsList" parameterType="int" resultMap="boardDetailsMap">
 		SELECT 
 			a.board_idx, 

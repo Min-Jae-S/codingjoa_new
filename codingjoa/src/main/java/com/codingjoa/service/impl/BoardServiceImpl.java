@@ -78,6 +78,11 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
+	public int getBoardDetailsListCnt(int categoryCode) {
+		return boardMapper.findBoardDetailsListCnt(categoryCode);
+	}
+	
+	@Override
 	public List<BoardDetailsDto> getBoardDetailsList(int categoryCode) {
 		return boardMapper.findBoardDetailsList(categoryCode).stream()
 				.map(boardDetailsMap -> modelMapper.map(boardDetailsMap, BoardDetailsDto.class))
@@ -124,5 +129,7 @@ public class BoardServiceImpl implements BoardService {
 			uploadMapper.activateImage(boardIdx, uploadIdxList);
 		}
 	}
+
+	
 	
 }
