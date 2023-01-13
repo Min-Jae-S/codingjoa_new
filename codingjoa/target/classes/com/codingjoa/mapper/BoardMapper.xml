@@ -109,6 +109,51 @@
 		ORDER BY 
 			a.board_idx DESC
 	</select>
+
+	<select id="findPagedBoardList" parameterType="map" resultMap="boardDetailsMap">
+		SELECT 
+			a.board_idx, 
+			a.board_title, 
+			a.board_content, 
+			a.board_writer_idx, 
+			a.board_views, 
+			a.board_category_code, 
+			a.regdate, 
+			a.moddate,
+			b.member_id
+		FROM (
+			SELECT
+				/*+ INDEX_DESC(lect_tbl pk_lect_tbl) */ 
+				ROWNUM rn, 
+				a.board_idx, 
+				a.board_title, 
+				a.board_content, 
+				a.board_writer_idx, 
+				a.board_views, 
+				a.board_category_code, 
+				a.regdate, 
+				a.moddate,
+				b.member_id
+			FROM
+				board a
+			INNER JOIN
+				member b
+			ON
+				
+		)
+			
+		
+		
+			board a
+		INNER JOIN
+			member b
+		ON
+			a.board_writer_idx = b.member_idx
+		WHERE
+			a.board_category_code = #{categoryCode}
+		ORDER BY 
+			a.board_idx DESC
+	</select>
 	
 	<select id="isBoardIdxExist" parameterType="int" resultType="boolean">
 		SELECT
