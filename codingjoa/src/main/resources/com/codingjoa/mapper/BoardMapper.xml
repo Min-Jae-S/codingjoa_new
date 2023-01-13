@@ -123,7 +123,7 @@
 			b.member_id
 		FROM (
 			SELECT
-				/*+ INDEX_DESC(lect_tbl pk_lect_tbl) */ 
+				/*+ INDEX_DESC(board pk_board) */ 
 				ROWNUM rn, 
 				a.board_idx, 
 				a.board_title, 
@@ -139,20 +139,18 @@
 			INNER JOIN
 				member b
 			ON
-				
-		)
-			
-		
-		
-			board a
-		INNER JOIN
-			member b
-		ON
-			a.board_writer_idx = b.member_idx
+				a.board_writer_idx = b.member_idx
+			WHERE
+				a.board_category_code = #{categoryCode} 
+				AND
+				<![CDATA[
+				ROWNUM <= ( #{pagination.cri.page} * #{pagination.cri.recordSize} )
+				]]>
+			)
 		WHERE
-			a.board_category_code = #{categoryCode}
-		ORDER BY 
-			a.board_idx DESC
+			<![CDATA[
+			rn > ( (#{pagination.cri.page} - 1) * #{pagination.cri.recordSize} )
+			]]>
 	</select>
 	
 	<select id="isBoardIdxExist" parameterType="int" resultType="boolean">
