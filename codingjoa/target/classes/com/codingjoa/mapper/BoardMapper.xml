@@ -144,12 +144,12 @@
 				a.board_category_code = #{categoryCode} 
 				AND
 				<![CDATA[
-				ROWNUM <= ( #{pagination.cri.page} * #{pagination.cri.recordSize} )
+				ROWNUM <= ( #{cri.page} * #{cri.recordSize} )
 				]]>
 			)
 		WHERE
 			<![CDATA[
-			rn > ( (#{pagination.cri.page} - 1) * #{pagination.cri.recordSize} )
+			rn > ( ( #{cri.page} - 1 ) * #{cri.recordSize} )
 			]]>
 	</select>
 	
