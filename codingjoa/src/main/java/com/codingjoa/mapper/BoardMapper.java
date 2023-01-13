@@ -20,7 +20,8 @@ public interface BoardMapper {
 	
 	int findBoardDetailsListCnt(int categoryCode);
 	
-	List<Map<String, Object>> findBoardDetailsList(int categoryCode, Pagination pagination);
+	List<Map<String, Object>> findBoardDetailsList(@Param("categoryCode")int categoryCode, 
+												   @Param("pagination") Pagination pagination);
 	
 	boolean isBoardIdxExist(int boardIdx);
 	

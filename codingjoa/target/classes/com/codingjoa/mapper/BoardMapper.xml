@@ -105,7 +105,7 @@
 		ON
 			a.board_writer_idx = b.member_idx
 		WHERE
-			a.board_category_code = #{boardCategoryCode}
+			a.board_category_code = #{categoryCode}
 		ORDER BY 
 			a.board_idx DESC
 	</select>
