@@ -64,10 +64,9 @@ public class BoardController {
 		
 		model.addAttribute("category", categoryService.findCategory(categoryCode));
 		
-		int total = boardService.getBoardDetailsListCnt(categoryCode);
-		PageDto pageDto = new PageDto(cri, total);
-		
-		model.addAttribute("boardDetailsList", boardService.getBoardDetailsList(categoryCode));
+		PageDto pageDto = boardService.getPageDto(categoryCode, cri);
+		model.addAttribute("pageDto", pageDto);
+		model.addAttribute("boardDetailsList", boardService.getBoardDetailsList(categoryCode, pageDto));
 		
 		return "board/main";
 	}

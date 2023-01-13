@@ -14,6 +14,8 @@ import com.codingjoa.entity.Board;
 import com.codingjoa.entity.Upload;
 import com.codingjoa.mapper.BoardMapper;
 import com.codingjoa.mapper.UploadMapper;
+import com.codingjoa.pagination.Criteria;
+import com.codingjoa.pagination.PageDto;
 import com.codingjoa.service.BoardService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -78,12 +80,13 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
-	public int getBoardDetailsListCnt(int categoryCode) {
-		return boardMapper.findBoardDetailsListCnt(categoryCode);
+	public PageDto getPageDto(int categoryCode, Criteria cri) {
+		int total = boardMapper.findBoardDetailsListCnt(categoryCode);
+		return new PageDto(total, cri);
 	}
 	
 	@Override
-	public List<BoardDetailsDto> getBoardDetailsList(int categoryCode) {
+	public List<BoardDetailsDto> getBoardDetailsList(int categoryCode, PageDto pageDto) {
 		return boardMapper.findBoardDetailsList(categoryCode).stream()
 				.map(boardDetailsMap -> modelMapper.map(boardDetailsMap, BoardDetailsDto.class))
 				.collect(Collectors.toList());
@@ -129,6 +132,8 @@ public class BoardServiceImpl implements BoardService {
 			uploadMapper.activateImage(boardIdx, uploadIdxList);
 		}
 	}
+
+	
 
 	
 	

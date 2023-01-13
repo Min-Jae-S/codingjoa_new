@@ -14,8 +14,11 @@ public class PageDto {
 	private Criteria cri;			// 현재 페이지(page), 페이지 당 레코드 개수(recordSize)
 									// 검색 유형(type), 검색어(keyword)
 	
-	public PageDto(Criteria cri, int total) {
+	public PageDto(int total, Criteria cri) {
 		this.total = total;
 		this.cri = cri;
+		this.pageSize = 10;
+		
+		
 	}
 }

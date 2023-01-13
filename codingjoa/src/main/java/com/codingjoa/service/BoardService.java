@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.codingjoa.dto.BoardDetailsDto;
 import com.codingjoa.dto.BoardDto;
+import com.codingjoa.pagination.Criteria;
+import com.codingjoa.pagination.PageDto;
 
 public interface BoardService {
 	
@@ -19,9 +21,9 @@ public interface BoardService {
 	
 	void updateBoardViews(int boardIdx);
 	
-	int getBoardDetailsListCnt(int categoryCode);
+	PageDto getPageDto(int categoryCode, Criteria cri);
 	
-	List<BoardDetailsDto> getBoardDetailsList(int categoryCode);
+	List<BoardDetailsDto> getBoardDetailsList(int categoryCode, PageDto pageDto);
 	
 	boolean isBoardIdxExist(int boardIdx);
 	

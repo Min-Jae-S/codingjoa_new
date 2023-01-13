@@ -84,7 +84,7 @@
 		FROM
 			board
 		WHERE
-			board_category_code = #{#{boardCategoryCode}
+			board_category_code = #{boardCategoryCode}
 	</select>
 	
 	<select id="findBoardDetailsList" parameterType="int" resultMap="boardDetailsMap">
