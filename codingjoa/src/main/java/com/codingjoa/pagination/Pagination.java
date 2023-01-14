@@ -11,7 +11,7 @@ public class Pagination {
 	private int nextPage;		// 다음 페이지 번호
 	private int page;			// 현재 페이지 번호
 	private int pageCnt;		// 전체 페이지 개수
-	private boolean prev, next;
+	private boolean prev, next; // 이전, 다음 페이지 이동 가능 여부
 	
 	// totalCnt 	: 전체 글 개수
 	// page			: 현제 페이지 번호
