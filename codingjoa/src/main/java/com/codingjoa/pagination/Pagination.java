@@ -5,8 +5,8 @@ import lombok.Data;
 @Data
 public class Pagination {
 
-	private int minPage;		// 최소 페이지 번호
-	private int maxPage;		// 최대 페이지 번호
+	private int startPage;		// 각 페이지에서 시작 번호
+	private int endPage;		// 각 페이지에서 끝 번호
 	private int prevPage;		// 이전 페이지 번호
 	private int nextPage;		// 다음 페이지 번호
 	private int page;			// 현재 페이지 번호
@@ -25,6 +25,28 @@ public class Pagination {
 			pageCnt++;
 		}
 		
+		//	RANGE	|	START	|		END		
+		// ------------------------------------------
+		// 1  -	10	|	  1		|	1  + 10 - 1 = 10
+		// 11 -	20	|	  11	|	11 + 10 - 1 = 20
+		// 21 -	30	|	  21	|	21 + 10 - 1 = 30
+		startPage = ((page - 1) / recordSize) * recordSize + 1;
 		
+		// endPage - startPage = recordSize - 1
+		endPage = startPage + recordSize - 1;
+		
+		if (endPage > pageCnt) {
+			endPage = pageCnt;
+		}
+		
+		prevPage = startPage - 1;
+		if (prevPage < 1) {
+			prevPage = startPage;
+		}
+		
+		nextPage = endPage + 1;
+		if (nextPage > pageCnt) {
+			nextPage = pageCnt;
+		}
 	}
 }
