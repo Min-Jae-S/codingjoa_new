@@ -10,7 +10,7 @@ import lombok.ToString;
 public class Criteria {
 	
 	private int page;
-	private int recordSize;
+	private int recordCnt;
 	private String keyword;
 	private String type;
 	
@@ -18,9 +18,9 @@ public class Criteria {
 		this(1, 10);
 	}
 	
-	public Criteria(int page, int recordSize) {
+	public Criteria(int page, int recordCnt) {
 		this.page = page;
-		this.recordSize = recordSize;
+		this.recordCnt = recordCnt;
 	}
 	
 	

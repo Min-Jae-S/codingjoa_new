@@ -78,7 +78,7 @@
 			board_idx = #{boardIdx}
 	</update>
 	
-	<select id="findBoardListCnt" parameterType="int" resultType="int">
+	<select id="findBoardListTotalCnt" parameterType="int" resultType="int">
 		SELECT
 			COUNT(*)
 		FROM
@@ -116,14 +116,14 @@
 			WHERE
 				board_category_code = #{categoryCode} 
 				AND
-				ROWNUM <= ( #{cri.page} * #{cri.recordSize} )
+				ROWNUM <= ( #{cri.page} * #{cri.recordCnt} )
 			) a
 		INNER JOIN
 			member b
 		ON
 			a.board_writer_idx = b.member_idx
 		WHERE
-			rn > ( ( #{cri.page} - 1 ) * #{cri.recordSize} )
+			rn > ( ( #{cri.page} - 1 ) * #{cri.recordCnt} )
 		]]>			
 	</select>
 	
