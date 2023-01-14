@@ -84,32 +84,9 @@
 		FROM
 			board
 		WHERE
-			board_category_code = #{boardCategoryCode}
+			board_category_code = #{categoryCode}
 	</select>
 	
-	<select id="findPagedBoardList" parameterType="map" resultMap="boardDetailsMap">
-		SELECT 
-			a.board_idx, 
-			a.board_title, 
-			a.board_content, 
-			a.board_writer_idx, 
-			a.board_views, 
-			a.board_category_code, 
-			a.regdate, 
-			a.moddate,
-			b.member_id
-		FROM
-			board a
-		INNER JOIN
-			member b
-		ON
-			a.board_writer_idx = b.member_idx
-		WHERE
-			a.board_category_code = #{categoryCode}
-		ORDER BY 
-			a.board_idx DESC
-	</select>
-
 	<select id="findPagedBoardList" parameterType="map" resultMap="boardDetailsMap">
 		SELECT 
 			a.board_idx, 
@@ -125,28 +102,27 @@
 			SELECT
 				/*+ INDEX_DESC(board pk_board) */ 
 				ROWNUM rn, 
-				a.board_idx, 
-				a.board_title, 
-				a.board_content, 
-				a.board_writer_idx, 
-				a.board_views, 
-				a.board_category_code, 
-				a.regdate, 
-				a.moddate,
-				b.member_id
+				board_idx, 
+				board_title, 
+				board_content, 
+				board_writer_idx, 
+				board_views, 
+				board_category_code, 
+				regdate, 
+				moddate
 			FROM
-				board a
-			INNER JOIN
-				member b
-			ON
-				a.board_writer_idx = b.member_idx
+				board 
 			WHERE
-				a.board_category_code = #{categoryCode} 
+				board_category_code = #{categoryCode} 
 				AND
 				<![CDATA[
 				ROWNUM <= ( #{cri.page} * #{cri.recordSize} )
 				]]>
-			)
+			) a
+		INNER JOIN
+			member b
+		ON
+			a.board_writer_idx = b.member_idx
 		WHERE
 			<![CDATA[
 			rn > ( ( #{cri.page} - 1 ) * #{cri.recordSize} )

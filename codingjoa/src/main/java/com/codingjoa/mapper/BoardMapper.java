@@ -8,7 +8,6 @@ import org.apache.ibatis.annotations.Param;
 
 import com.codingjoa.entity.Board;
 import com.codingjoa.pagination.Criteria;
-import com.codingjoa.pagination.Pagination;
 
 @Mapper
 public interface BoardMapper {
