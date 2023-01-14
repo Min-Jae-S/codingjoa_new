@@ -11,6 +11,7 @@ public class Pagination {
 	private int nextPage;		// 다음 페이지 번호
 	private int page;			// 현재 페이지 번호
 	private int pageCnt;		// 전체 페이지 개수
+	private boolean prev, next;
 	
 	// totalCnt 	: 전체 글 개수
 	// page			: 현제 페이지 번호
@@ -19,6 +20,9 @@ public class Pagination {
 	public Pagination(int totalCnt, int page, int recordCnt, int pageRange) {
 		this.page = page;
 		this.pageCnt = totalCnt / recordCnt;
+		
+		prev = true;
+		next = true;
 		
 		// 556/10 = 55 --> 56
 		if (totalCnt % recordCnt > 0) {
@@ -42,11 +46,13 @@ public class Pagination {
 		prevPage = startPage - 1;
 		if (prevPage < 1) {
 			prevPage = startPage;
+			prev = false;
 		}
 		
 		nextPage = endPage + 1;
 		if (nextPage > pageCnt) {
 			nextPage = pageCnt;
+			next = false;
 		}
 	}
 }

@@ -137,8 +137,8 @@
 			</div>
 			<div class="pt-3">
 				<ul class="pagination justify-content-center">
-					<li class="page-item disabled">
-						<a class="page-link" href="#" tabindex="-1">Previous</a>
+					<li class="page-item ${pagination.prev ? '' : 'd-none'}">
+						<a class="page-link" href="${contextPath}/board/main?categoryCode=${category.categoryCode}&page=${pagination.prevPage}" tabindex="-1">Previous</a>
 					</li>
 					
 					<c:forEach var="item" begin="${pagination.startPage}" end="${pagination.endPage}">
@@ -147,8 +147,8 @@
 						</li>
 					</c:forEach>
 					
-					<li class="page-item">
-						<a class="page-link" href="#">Next</a>
+					<li class="page-item ${pagination.next ? '' : 'd-none'}">
+						<a class="page-link" href="${contextPath}/board/main?categoryCode=${category.categoryCode}&page=${pagination.nextPage}">Next</a>
 					</li>
 				</ul>
 			</div>
