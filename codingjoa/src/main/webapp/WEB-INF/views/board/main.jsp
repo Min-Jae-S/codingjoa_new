@@ -84,10 +84,10 @@
 					  		<button class="btn btn-outline-secondary btn-sm">검색</button>
 					  	</div>
 	        		</div>
-	        		<select class="custom-select custom-select-sm ml-auto" name="recordSize">
-				    	<option value="10" ${cri.recordSize eq 10 ? 'selected' : ''}>10개씩</option>
-				    	<option value="20" ${cri.recordSize eq 20 ? 'selected' : ''}>20개씩</option>
-				    	<option value="30" ${cri.recordSize eq 30 ? 'selected' : ''}>30개씩</option>
+	        		<select class="custom-select custom-select-sm ml-auto" name="recordCnt">
+				    	<option value="10" ${cri.recordCnt eq 10 ? 'selected' : ''}>10개씩</option>
+				    	<option value="20" ${cri.recordCnt eq 20 ? 'selected' : ''}>20개씩</option>
+				    	<option value="30" ${cri.recordCnt eq 30 ? 'selected' : ''}>30개씩</option>
 				  	</select>
 				</form>
 			</div>
@@ -135,15 +135,23 @@
 					<a class="btn btn-primary" href="${contextPath}/board/write?categoryCode=${category.categoryCode}">글쓰기</a>
 				</sec:authorize>
 			</div>
-			<nav class="pt-3">
+			<div class="pt-3">
 				<ul class="pagination justify-content-center">
-					<li class="page-item disabled"><a class="page-link" href="#" tabindex="-1">Previous</a></li>
-					<li class="page-item"><a class="page-link"  href="#">1</a></li>
-					<li class="page-item active"><a class="page-link" href="#">2</a></li>
-					<li class="page-item"><a class="page-link" href="#">3</a></li>
-					<li class="page-item"><a class="page-link" href="#">Next</a></li>
+					<li class="page-item disabled">
+						<a class="page-link" href="#" tabindex="-1">Previous</a>
+					</li>
+					
+					<c:forEach var="item" begin="${pagination.startPage}" end="${pagination.endPage}">
+						<li class="page-item ${item eq pagination.page ? 'active' : ''}">
+							<a class="page-link" href="${contextPath}/board/main?categoryCode=${category.categoryCode}&page=${pagination.page}">${item}</a>
+						</li>
+					</c:forEach>
+					
+					<li class="page-item">
+						<a class="page-link" href="#">Next</a>
+					</li>
 				</ul>
-			</nav>
+			</div>
 		</div>		
 		<div class="col-sm-2"></div>
 	</div>
