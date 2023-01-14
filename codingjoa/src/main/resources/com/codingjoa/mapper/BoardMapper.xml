@@ -88,6 +88,7 @@
 	</select>
 	
 	<select id="findPagedBoardList" parameterType="map" resultMap="boardDetailsMap">
+		<![CDATA[
 		SELECT 
 			a.board_idx, 
 			a.board_title, 
@@ -115,18 +116,15 @@
 			WHERE
 				board_category_code = #{categoryCode} 
 				AND
-				<![CDATA[
 				ROWNUM <= ( #{cri.page} * #{cri.recordSize} )
-				]]>
 			) a
 		INNER JOIN
 			member b
 		ON
 			a.board_writer_idx = b.member_idx
 		WHERE
-			<![CDATA[
 			rn > ( ( #{cri.page} - 1 ) * #{cri.recordSize} )
-			]]>
+		]]>			
 	</select>
 	
 	<select id="isBoardIdxExist" parameterType="int" resultType="boolean">
