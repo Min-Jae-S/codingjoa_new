@@ -5,20 +5,26 @@ import lombok.Data;
 @Data
 public class Pagination {
 
-	private int startPage;			// 각 페이지 범위에서의 시작 번호
-	private int endPage;			// 각 페이지 범위에서의 끝 번호
-	private int pageSize;			// 보이는 페이지 개수, 페이지 범위
-	private int listCnt;			// 전체 목록 개수
-	private boolean prev, next; 	// 이전, 다음페이지 여부
+	private int minPage;		// 최소 페이지 번호
+	private int maxPage;		// 최대 페이지 번호
+	private int prevPage;		// 이전 페이지 번호
+	private int nextPage;		// 다음 페이지 번호
+	private int page;			// 현재 페이지 번호
+	private int pageCnt;		// 전체 페이지 개수
 	
-	private Criteria cri;			// 현재 페이지(page), 페이지 당 레코드 개수(recordSize)
-									// 검색 유형(type), 검색어(keyword)
-	
-	public Pagination(int listCnt, Criteria cri) {
-		this.pageSize = 10;
-		this.listCnt = listCnt;
-		this.cri = cri;
+	// listCnt 		: 전체 글 개수
+	// page			: 현제 페이지 번호
+	// recordSize 	: 페이지 당 글 개수
+	// pageRange	: 페이지 범위, 페이지 버튼 개수
+	public Pagination(int listCnt, int page, int recordSize, int pageRange) {
+		this.page = page;
+		this.pageCnt = listCnt / recordSize;
 		
-		// ...
+		// 556/10 = 55 --> 56
+		if (listCnt % recordSize > 0) {
+			pageCnt++;
+		}
+		
+		
 	}
 }
