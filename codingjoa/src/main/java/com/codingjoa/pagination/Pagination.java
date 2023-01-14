@@ -19,12 +19,12 @@ public class Pagination {
 	// pageRange	: 페이지 범위, 페이지 버튼 개수
 	public Pagination(int totalCnt, int page, int recordCnt, int pageRange) {
 		this.page = page;
-		this.pageCnt = totalCnt / recordCnt;
-		
 		prev = true;
 		next = true;
 		
 		// 556/10 = 55 --> 56
+		pageCnt = totalCnt / recordCnt;
+		
 		if (totalCnt % recordCnt > 0) {
 			pageCnt++;
 		}
@@ -44,12 +44,14 @@ public class Pagination {
 		}
 		
 		prevPage = startPage - 1;
+		
 		if (prevPage < 1) {
 			prevPage = startPage;
 			prev = false;
 		}
 		
 		nextPage = endPage + 1;
+		
 		if (nextPage > pageCnt) {
 			nextPage = pageCnt;
 			next = false;
