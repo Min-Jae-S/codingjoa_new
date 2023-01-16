@@ -14,7 +14,10 @@
 		<typeAlias type="com.codingjoa.entity.Upload" alias="upload" />
 	</typeAliases>
 	
+	<!-- <typeHandlers>
+		<typeHandler handler="com.codingjoa.mybatis.ClobTypeHandler" javaType="String" jdbcType="LONGVARCHAR"/>
+	</typeHandlers> -->
 	<typeHandlers>
-		<typeHandler handler="com.codingjoa.handler.ClobTypeHandler" javaType="String" jdbcType="LONGVARCHAR"/>
+		<typeHandler handler="com.codingjoa.mybatis.ClobTypeHandler" javaType="String" jdbcType="CLOB"/>
 	</typeHandlers>
 </configuration>
