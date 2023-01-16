@@ -143,7 +143,7 @@
 					
 					<c:forEach var="item" begin="${pagination.startPage}" end="${pagination.endPage}">
 						<li class="page-item ${item eq pagination.page ? 'active' : ''}">
-							<a class="page-link" href="${contextPath}/board/main?categoryCode=${category.categoryCode}&page=${pagination.page}">${item}</a>
+							<a class="page-link" href="${contextPath}/board/main?categoryCode=${category.categoryCode}&page=${item}">${item}</a>
 						</li>
 					</c:forEach>
 					
