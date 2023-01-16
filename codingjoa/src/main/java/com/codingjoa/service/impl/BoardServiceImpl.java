@@ -88,7 +88,7 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public List<BoardDetailsDto> getPagedBoardList(int categoryCode, Criteria cri) {
 		return boardMapper.findPagedBoardList(categoryCode, cri).stream()
-				.map( boardDetailsMap -> modelMapper.map(boardDetailsMap, BoardDetailsDto.class) )
+				.map(boardDetailsMap -> modelMapper.map(boardDetailsMap, BoardDetailsDto.class))
 				.collect(Collectors.toList());
 	}
 
