@@ -144,7 +144,7 @@
 			a.board_writer_idx = b.member_idx
 		WHERE
 			<include refid="search"/>
-			rn > ( ( #{cri.page} - 1 ) * #{cri.recordCnt} )
+			a.rn > ( ( #{cri.page} - 1 ) * #{cri.recordCnt} )
 	</select>
 	
 	<select id="isBoardIdxExist" parameterType="int" resultType="boolean">
