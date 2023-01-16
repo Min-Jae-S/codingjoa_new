@@ -127,7 +127,7 @@
 			<if test="cri.keyword != null">
 				<trim suffix="AND">
 					<foreach collection="cri.keyword.split('')" item="item">
-					
+						a.board_category_code = #{categoryCode}
 					</foreach>
 				</trim>
 			</if>
