@@ -129,22 +129,19 @@
 			a.board_writer_idx = b.member_idx
 		WHERE
 			<include refid="search"/>
-			
-			<if test="cri.type != null">
-				<trim prefix="(" suffix=") AND" suffixOverrides="OR">
-					<foreach collection='cri.type.split("")' item="item">
-						<if test='item.equals("T")'>
-							a.board_title like '%' || #{cri.keyword} || '%' OR
-						</if>
-						<if test='item.equals("C")'>
-							a.board_content like '%' || #{cri.keyword} || '%' OR
-						</if>
-						<if test='item.equals("W")'>
-							b.member_id like '%' || #{cri.keyword} || '%' OR
-						</if>
-					</foreach>
-				</trim>
-			</if>
+			<trim prefix="(" suffix=") AND" suffixOverrides="OR">
+				<foreach collection='cri.type.split("")' item="item">
+					<if test='item.equals("T")'>
+						a.board_title like '%' || #{cri.keyword} || '%' OR
+					</if>
+					<if test='item.equals("C")'>
+						a.board_content like '%' || #{cri.keyword} || '%' OR
+					</if>
+					<if test='item.equals("W")'>
+						b.member_id like '%' || #{cri.keyword} || '%' OR
+					</if>
+				</foreach>
+			</trim>
 			rn > ( ( #{cri.page} - 1 ) * #{cri.recordCnt} )
 	</select>
 	
