@@ -72,7 +72,6 @@
 			<div class="pt-3">
 	        	<form class="form-inline" action="${contextPath}/board/main" method="GET">
 	        		<input type="hidden" name="categoryCode" value="${category.categoryCode}">
-	        		<input type="hidden" name="page" value="${pagination.page}">
 					<select class="custom-select custom-select-sm mr-2" name="type">
 				    	<option value="T"  ${cri.type eq 'T'  ? 'selected' : ''}>제목</option>
 				    	<option value="C"  ${cri.type eq 'C'  ? 'selected' : ''}>내용</option>
@@ -138,7 +137,7 @@
 			</div>
 			<div class="pt-3">
 				<ul class="pagination justify-content-center">
-					<li class="page-item ${pagination.prev ? '' : 'd-none'}">
+					<li class="page-item mr-5 ${pagination.prev ? '' : 'disabled'}">
 						<a class="page-link" href="${contextPath}/board/main?categoryCode=${category.categoryCode}&page=${pagination.prevPage}" tabindex="-1">Previous</a>
 					</li>
 					
@@ -148,7 +147,7 @@
 						</li>
 					</c:forEach>
 					
-					<li class="page-item ${pagination.next ? '' : 'd-none'}">
+					<li class="page-item ml-5 ${pagination.next ? '' : 'disabled'}">
 						<a class="page-link" href="${contextPath}/board/main?categoryCode=${category.categoryCode}&page=${pagination.nextPage}">Next</a>
 					</li>
 				</ul>
