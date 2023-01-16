@@ -87,6 +87,10 @@
 			board_category_code = #{categoryCode}
 	</select>
 	
+	<sql id="search">
+	
+	</sql>
+	
 	<select id="findPagedBoardList" parameterType="map" resultMap="boardDetailsMap">
 		SELECT 
 			a.board_idx, 
@@ -124,16 +128,18 @@
 		ON
 			a.board_writer_idx = b.member_idx
 		WHERE
+			<include refid="search"/>
+			
 			<if test="cri.type != null">
-				<trim suffix="AND" suffixOverrides="OR">
-					<foreach collection="cri.type.split('')" item="item">
-						<if test="'T' eq item.toString()">
+				<trim prefix="(" suffix=") AND" suffixOverrides="OR">
+					<foreach collection='cri.type.split("")' item="item">
+						<if test='item.equals("T")'>
 							a.board_title like '%' || #{cri.keyword} || '%' OR
 						</if>
-						<if test="'C' eq item.toString()">
+						<if test='item.equals("C")'>
 							a.board_content like '%' || #{cri.keyword} || '%' OR
 						</if>
-						<if test="'W' eq item.toString()">
+						<if test='item.equals("W")'>
 							b.member_id like '%' || #{cri.keyword} || '%' OR
 						</if>
 					</foreach>
