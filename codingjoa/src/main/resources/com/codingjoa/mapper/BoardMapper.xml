@@ -125,13 +125,16 @@
 			a.board_writer_idx = b.member_idx
 		WHERE
 			<if test="cri.type != null">
-				<trim suffix="AND">
+				<trim suffix="AND" suffixOverrides="OR">
 					<foreach collection="cri.type.split('')" item="item">
 						<if test="'T' eq item.toString()">
+							a.board_title like '%' || #{cri.keyword} || '%' OR
 						</if>
 						<if test="'C' eq item.toString()">
+							a.board_content like '%' || #{cri.keyword} || '%' OR
 						</if>
 						<if test="'W' eq item.toString()">
+							b.member_id like '%' || #{cri.keyword} || '%' OR
 						</if>
 					</foreach>
 				</trim>
