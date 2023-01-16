@@ -124,10 +124,15 @@
 		ON
 			a.board_writer_idx = b.member_idx
 		WHERE
-			<if test="cri.keyword != null">
+			<if test="cri.type != null">
 				<trim suffix="AND">
-					<foreach collection="cri.keyword.split('')" item="item">
-						a.board_category_code = #{categoryCode}
+					<foreach collection="cri.type.split('')" item="item">
+						<if test="'T' eq item.toString()">
+						</if>
+						<if test="'C' eq item.toString()">
+						</if>
+						<if test="'W' eq item.toString()">
+						</if>
 					</foreach>
 				</trim>
 			</if>
