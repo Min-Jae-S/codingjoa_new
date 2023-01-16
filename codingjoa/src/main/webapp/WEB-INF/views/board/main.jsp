@@ -72,6 +72,7 @@
 			<div class="pt-3">
 	        	<form class="form-inline" action="${contextPath}/board/main" method="GET">
 	        		<input type="hidden" name="categoryCode" value="${category.categoryCode}">
+	        		<input type="hidden" name="page" value="${pagination.page}">
 					<select class="custom-select custom-select-sm mr-2" name="type">
 				    	<option value="T"  ${cri.type eq 'T'  ? 'selected' : ''}>제목</option>
 				    	<option value="C"  ${cri.type eq 'C'  ? 'selected' : ''}>내용</option>
