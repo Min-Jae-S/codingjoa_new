@@ -79,15 +79,6 @@
 			board_idx = #{boardIdx}
 	</update>
 	
-	<select id="findBoardListTotalCnt" parameterType="int" resultType="int">
-		SELECT
-			COUNT(*)
-		FROM
-			board
-		WHERE
-			board_category_code = #{categoryCode}
-	</select>
-	
 	<sql id="search">
 		<if test="cri.type != null">
 			<trim prefix="(" suffix=") AND" suffixOverrides="OR">
@@ -107,6 +98,20 @@
 			</trim>
 		</if>
 	</sql>
+	
+	<select id="findPagedBoardListTotalCnt" parameterType="int" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			board a
+		INNER JOIN
+			member b
+		ON
+			a.board_writer_idx = b.member_idx
+		WHERE
+			<include refid="search"/>
+			a.board_category_code = #{categoryCode}
+	</select>
 	
 	<select id="findPagedBoardList" parameterType="map" resultMap="boardDetailsMap">
 		SELECT 

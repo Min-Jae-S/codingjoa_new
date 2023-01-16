@@ -137,7 +137,7 @@
 			</div>
 			<div class="pt-3">
 				<ul class="pagination justify-content-center">
-					<li class="page-item mr-5 ${pagination.prev ? '' : 'disabled'}">
+					<li class="page-item ${pagination.prev ? '' : 'disabled'}">
 						<a class="page-link" href="${contextPath}/board/main?categoryCode=${category.categoryCode}&page=${pagination.prevPage}" tabindex="-1">Previous</a>
 					</li>
 					
@@ -147,7 +147,7 @@
 						</li>
 					</c:forEach>
 					
-					<li class="page-item ml-5 ${pagination.next ? '' : 'disabled'}">
+					<li class="page-item ${pagination.next ? '' : 'disabled'}">
 						<a class="page-link" href="${contextPath}/board/main?categoryCode=${category.categoryCode}&page=${pagination.nextPage}">Next</a>
 					</li>
 				</ul>
