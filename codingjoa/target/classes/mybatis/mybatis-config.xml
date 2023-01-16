@@ -12,12 +12,13 @@
 		<typeAlias type="com.codingjoa.entity.Category" alias="category" />
 		<typeAlias type="com.codingjoa.entity.Board" alias="board" />
 		<typeAlias type="com.codingjoa.entity.Upload" alias="upload" />
+		
+		
+		<!-- <typeAlias type="com.codingjoa.mybatis.ClobHandler" alias="clobHandler" /> -->
 	</typeAliases>
 	
 	<!-- <typeHandlers>
-		<typeHandler handler="com.codingjoa.mybatis.ClobTypeHandler" javaType="String" jdbcType="LONGVARCHAR"/>
+		<typeHandler handler="com.codingjoa.mybatis.ClobHandler" javaType="String" jdbcType="LONGVARCHAR"/>
+		<typeHandler handler="com.codingjoa.mybatis.ClobHandler" javaType="String" jdbcType="CLOB"/>
 	</typeHandlers> -->
-	<typeHandlers>
-		<typeHandler handler="com.codingjoa.mybatis.ClobTypeHandler" javaType="String" jdbcType="CLOB"/>
-	</typeHandlers>
 </configuration>

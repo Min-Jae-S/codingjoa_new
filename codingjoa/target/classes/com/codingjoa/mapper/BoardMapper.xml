@@ -4,7 +4,7 @@
 <!--  
 	board_idx               NUMBER,
 	board_title             VARCHAR2(500)               NOT NULL,
-	board_content           LONG                        NOT NULL,
+	board_content           CLOB                       NOT NULL,
     board_writer_idx        NUMBER                      NOT NULL,
     board_views             NUMBER          DEFAULT 0   NOT NULL,
 	board_category_code     NUMBER                      NOT NULL,
@@ -15,7 +15,8 @@
 	<resultMap type="map" id="boardDetailsMap">
 		<id property="boardIdx" column="board_idx"/>
 		<result property="boardTitle" column="board_title"/>
-		<result property="boardContent" column="board_content"/>
+		<!-- <result property="boardContent" column="board_content" typeHandler="clobHandler"/> -->
+		<result property="boardContent" column="board_content" jdbcType="CLOB" javaType="java.lang.String" />
 		<result property="boardWriterIdx" column="board_writer_idx"/>
 		<result property="boardViews" column="board_views"/>
 		<result property="boardCategoryCode" column="board_category_code"/>
