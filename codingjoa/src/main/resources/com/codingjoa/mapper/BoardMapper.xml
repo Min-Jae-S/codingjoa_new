@@ -92,15 +92,17 @@
 		<if test="cri.type != null">
 			<trim prefix="(" suffix=") AND" suffixOverrides="OR">
 				<foreach collection='cri.type.split("")' item="item">
-					<if test='item.equals("T")'>
-						a.board_title like '%' || #{cri.keyword} || '%' OR
-					</if>
-					<if test='item.equals("C")'>
-						a.board_content like '%' || #{cri.keyword} || '%' OR
-					</if>
-					<if test='item.equals("W")'>
-						b.member_id like '%' || #{cri.keyword} || '%' OR
-					</if> 
+					<trim suffix="OR">
+						<if test='item.equals("T")'>
+							a.board_title like '%' || #{cri.keyword} || '%'
+						</if>
+						<if test='item.equals("C")'>
+							a.board_content like '%' || #{cri.keyword} || '%'
+						</if>
+						<if test='item.equals("W")'>
+							b.member_id like '%' || #{cri.keyword} || '%'
+						</if> 
+					</trim>
 				</foreach>
 			</trim>
 		</if>
