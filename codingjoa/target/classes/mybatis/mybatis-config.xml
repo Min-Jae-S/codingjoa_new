@@ -14,11 +14,18 @@
 		<typeAlias type="com.codingjoa.entity.Upload" alias="upload" />
 		
 		
-		<!-- <typeAlias type="com.codingjoa.mybatis.ClobHandler" alias="clobHandler" /> -->
+		<!-- <typeAlias type="com.codingjoa.mybatis.ClobTypeHandler" alias="clobTypeHandler" /> -->
 	</typeAliases>
 	
+	
+	<!--
+	# CLOB을 String으로 반환하는 방법
+		- TypeHander 등록해서 사용하기 
+		- 별도의 타입핸들러 등록없이 사용하기 (Oracle 10g 이상), javaType과 jdbcType 설정 필요
+	-->
+	
 	<!-- <typeHandlers>
-		<typeHandler handler="com.codingjoa.mybatis.ClobHandler" javaType="String" jdbcType="LONGVARCHAR"/>
-		<typeHandler handler="com.codingjoa.mybatis.ClobHandler" javaType="String" jdbcType="CLOB"/>
+		<typeHandler handler="com.codingjoa.mybatis.ClobTypeHandler" javaType="String" jdbcType="LONGVARCHAR"/>
+		<typeHandler handler="com.codingjoa.mybatis.ClobTypeHandler" javaType="String" jdbcType="CLOB"/>
 	</typeHandlers> -->
 </configuration>

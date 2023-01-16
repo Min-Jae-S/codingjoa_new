@@ -12,7 +12,7 @@ import org.apache.ibatis.type.TypeHandler;
 // MyBatis-3.0.3-User-Guide.pdf, 17/64
 // getCLOB not implemented for class oracle.jdbc.driver.T4CLongAccessor
 // mybatis에서 ORACLE LONGVARCHAR를 처리 못하는 오류
-public class ClobHandler implements TypeHandler<Object> {
+public class ClobTypeHandler implements TypeHandler<Object> {
 	
 	@Override
 	public void setParameter(PreparedStatement ps, int i, Object parameter, JdbcType jdbcType) 

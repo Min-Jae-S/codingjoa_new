@@ -4,7 +4,7 @@
 <!--  
 	board_idx               NUMBER,
 	board_title             VARCHAR2(500)               NOT NULL,
-	board_content           CLOB                       NOT NULL,
+	board_content           CLOB                       	NOT NULL,
     board_writer_idx        NUMBER                      NOT NULL,
     board_views             NUMBER          DEFAULT 0   NOT NULL,
 	board_category_code     NUMBER                      NOT NULL,
@@ -15,7 +15,7 @@
 	<resultMap type="map" id="boardDetailsMap">
 		<id property="boardIdx" column="board_idx"/>
 		<result property="boardTitle" column="board_title"/>
-		<!-- <result property="boardContent" column="board_content" typeHandler="clobHandler"/> -->
+		<!-- <result property="boardContent" column="board_content" typeHandler="clobTypeHandler"/> -->
 		<result property="boardContent" column="board_content" jdbcType="CLOB" javaType="java.lang.String" />
 		<result property="boardWriterIdx" column="board_writer_idx"/>
 		<result property="boardViews" column="board_views"/>
@@ -89,7 +89,21 @@
 	</select>
 	
 	<sql id="search">
-	
+		<if test="cri.type != null">
+			<trim prefix="(" suffix=") AND" suffixOverrides="OR">
+				<foreach collection='cri.type.split("")' item="item">
+					<if test='item.equals("T")'>
+						a.board_title like '%' || #{cri.keyword} || '%' OR
+					</if>
+					<if test='item.equals("C")'>
+						a.board_content like '%' || #{cri.keyword} || '%' OR
+					</if>
+					<if test='item.equals("W")'>
+						b.member_id like '%' || #{cri.keyword} || '%' OR
+					</if> 
+				</foreach>
+			</trim>
+		</if>
 	</sql>
 	
 	<select id="findPagedBoardList" parameterType="map" resultMap="boardDetailsMap">
@@ -129,23 +143,7 @@
 		ON
 			a.board_writer_idx = b.member_idx
 		WHERE
-			<!-- <include refid="search"/> -->
-			
-			<if test="cri.type != null">
-				<trim prefix="(" suffix=") AND" suffixOverrides="OR">
-					<foreach collection='cri.type.split("")' item="item">
-						<if test='item.equals("T")'>
-							a.board_title like '%' || #{cri.keyword} || '%' OR
-						</if>
-						<if test='item.equals("C")'>
-							a.board_content like '%' || #{cri.keyword} || '%' OR
-						</if>
-						<if test='item.equals("W")'>
-							b.member_id like '%' || #{cri.keyword} || '%' OR
-						</if> 
-					</foreach>
-				</trim>
-			</if>
+			<include refid="search"/>
 			rn > ( ( #{cri.page} - 1 ) * #{cri.recordCnt} )
 	</select>
 	
