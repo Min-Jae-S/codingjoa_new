@@ -6,6 +6,7 @@ import java.nio.charset.StandardCharsets;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import com.codingjoa.service.BoardService;
@@ -29,8 +30,13 @@ public class CheckBoardIdxInterceptor implements HandlerInterceptor {
 		log.info("{}", getFullURL(request));
 
 		String boardIdx = request.getParameter("boardIdx");
-
-		if (!isNumeric(boardIdx) || !boardService.isBoardIdxExist(Integer.parseInt(boardIdx))) {
+		
+		if (!StringUtils.isNumeric(boardIdx)) {
+			request.getRequestDispatcher("/error/errorPage").forward(request, response);
+			return false;
+		}
+		
+		if (!boardService.isBoardIdxExist(Integer.parseInt(boardIdx))) {
 			request.getRequestDispatcher("/error/errorPage").forward(request, response);
 			return false;
 		}
@@ -38,15 +44,6 @@ public class CheckBoardIdxInterceptor implements HandlerInterceptor {
 		return true;
 	}
 
-	private boolean isNumeric(String param) {
-		try {
-			Integer.parseInt(param);
-			return true;
-		} catch (NumberFormatException e) {
-			return false; 
-		}
-	}
-	
 	private String getFullURL(HttpServletRequest request) {
 		StringBuilder requestURL = new StringBuilder(request.getRequestURL().toString());
 	    String queryString = request.getQueryString();
@@ -54,9 +51,8 @@ public class CheckBoardIdxInterceptor implements HandlerInterceptor {
 	    if (queryString == null) {
 	        return requestURL.toString();
 	    } else {
-	        return requestURL.append('?').append(URLDecoder.decode(queryString, StandardCharsets.UTF_8)).toString();
+	    	return requestURL.append('?').append(URLDecoder.decode(queryString, StandardCharsets.UTF_8)).toString();
 	    }
-
 	}
-
+	
 }

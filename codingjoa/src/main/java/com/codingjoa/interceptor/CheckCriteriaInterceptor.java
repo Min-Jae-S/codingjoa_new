@@ -6,6 +6,7 @@ import java.nio.charset.StandardCharsets;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import lombok.extern.slf4j.Slf4j;
@@ -20,19 +21,24 @@ public class CheckCriteriaInterceptor implements HandlerInterceptor {
 		log.info("============== CheckCriteriaInterceptor ==============");
 		log.info("{}", getFullURL(request));
 		
+		// Criteria (page, recordCnt, keyword, type)
+		String page = request.getParameter("page");
+		
+		if (!StringUtils.isNumeric(page)) {
+			request.getRequestDispatcher("/error/errorPage").forward(request, response);
+			return false;
+		}
+
+		String recordCnt = request.getParameter("recordCnt");
+		
+		if (!StringUtils.isNumeric(recordCnt)) {
+			request.getRequestDispatcher("/error/errorPage").forward(request, response);
+			return false;
+		}
 		
 		return true;
 	}
 
-	private boolean isNumeric(String param) {
-		try {
-			Integer.parseInt(param);
-			return true;
-		} catch (NumberFormatException e) {
-			return false; 
-		}
-	}
-	
 	private String getFullURL(HttpServletRequest request) {
 		StringBuilder requestURL = new StringBuilder(request.getRequestURL().toString());
 	    String queryString = request.getQueryString();
@@ -42,7 +48,6 @@ public class CheckCriteriaInterceptor implements HandlerInterceptor {
 	    } else {
 	    	return requestURL.append('?').append(URLDecoder.decode(queryString, StandardCharsets.UTF_8)).toString();
 	    }
-
 	}
-
+	
 }

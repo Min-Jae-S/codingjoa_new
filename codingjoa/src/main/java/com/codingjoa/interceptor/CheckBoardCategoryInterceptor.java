@@ -6,6 +6,7 @@ import java.nio.charset.StandardCharsets;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import com.codingjoa.service.CategoryService;
@@ -38,7 +39,12 @@ public class CheckBoardCategoryInterceptor implements HandlerInterceptor {
 			categoryCode = request.getParameter("boardCategoryCode");
 		}
 		
-		if (!isNumeric(categoryCode) || !categoryService.isBoardCategory(Integer.parseInt(categoryCode))) {
+		if (!StringUtils.isNumeric(categoryCode)) {
+			request.getRequestDispatcher("/error/errorPage").forward(request, response);
+			return false;
+		}
+		
+		if (!categoryService.isBoardCategory(Integer.parseInt(categoryCode))) {
 			request.getRequestDispatcher("/error/errorPage").forward(request, response);
 			return false;
 		}
@@ -46,14 +52,14 @@ public class CheckBoardCategoryInterceptor implements HandlerInterceptor {
 		return true;
 	}
 
-	private boolean isNumeric(String param) {
-		try {
-			Integer.parseInt(param);
-			return true;
-		} catch (NumberFormatException e) {
-			return false; 
-		}
-	}
+//	private boolean isNumeric(String param) {
+//		try {
+//			Integer.parseInt(param);
+//			return true;
+//		} catch (NumberFormatException e) {
+//			return false; 
+//		}
+//	}
 	
 	private String getFullURL(HttpServletRequest request) {
 		StringBuilder requestURL = new StringBuilder(request.getRequestURL().toString());
@@ -64,7 +70,6 @@ public class CheckBoardCategoryInterceptor implements HandlerInterceptor {
 	    } else {
 	    	return requestURL.append('?').append(URLDecoder.decode(queryString, StandardCharsets.UTF_8)).toString();
 	    }
-
 	}
 
 }

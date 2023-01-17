@@ -6,6 +6,7 @@ import java.nio.charset.StandardCharsets;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -33,7 +34,12 @@ public class CheckMyBoardInterceptor implements HandlerInterceptor {
 
 		String boardIdx = request.getParameter("boardIdx");
 		
-		if (!isNumeric(boardIdx) || !boardService.isMyBoard(Integer.parseInt(boardIdx), getCurrentWriterIdx())) {
+		if (!StringUtils.isNumeric(boardIdx)) {
+			request.getRequestDispatcher("/error/errorPage").forward(request, response);
+			return false;
+		}
+		
+		if (!boardService.isMyBoard(Integer.parseInt(boardIdx), getCurrentWriterIdx())) {
 			request.getRequestDispatcher("/error/errorPage").forward(request, response);
 			return false;
 		}
@@ -41,15 +47,6 @@ public class CheckMyBoardInterceptor implements HandlerInterceptor {
 		return true;
 	}
 
-	private boolean isNumeric(String param) {
-		try {
-			Integer.parseInt(param);
-			return true;
-		} catch (NumberFormatException e) {
-			return false; 
-		}
-	}
-	
 	private Integer getCurrentWriterIdx() {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
@@ -77,7 +74,6 @@ public class CheckMyBoardInterceptor implements HandlerInterceptor {
 	    } else {
 	    	return requestURL.append('?').append(URLDecoder.decode(queryString, StandardCharsets.UTF_8)).toString();
 	    }
-
 	}
 
 }
