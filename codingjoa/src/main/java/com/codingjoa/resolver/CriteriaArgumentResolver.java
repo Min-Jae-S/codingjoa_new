@@ -15,8 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 public class CriteriaArgumentResolver implements HandlerMethodArgumentResolver {
 
 	private final int DEFAULT_PAGE = 1;
-	private final int DEFAULT_RECORD_CNT = 10;
-	private final String DEFAULT_TYPE = "T";
+	private final String[] DEFAULT_RECORD_CNT_ARR = { "10", "20", "30" };
 	private final String[] DEFAULT_TYPE_ARR = { "T", "C", "W", "TW" };
 	
 	@Override
@@ -35,11 +34,21 @@ public class CriteriaArgumentResolver implements HandlerMethodArgumentResolver {
 		String type = webRequest.getParameter("type");
 		
 		return new Criteria(
-			!StringUtils.isNumeric(page) ? DEFAULT_PAGE : Integer.parseInt(page), 
-			!StringUtils.isNumeric(recordCnt) ? DEFAULT_RECORD_CNT : Integer.parseInt(recordCnt),
+			StringUtils.isNumeric(page) ? Integer.parseInt(page) : DEFAULT_PAGE, 
+			isRecordCnt(recordCnt) ? Integer.parseInt(recordCnt) : Integer.parseInt(DEFAULT_RECORD_CNT_ARR[0]),
 			StringUtils.trim(keyword),
-			!isType(type) ? DEFAULT_TYPE : type
+			isType(type) ? type : DEFAULT_TYPE_ARR[0] 
 		);
+	}
+	
+	private boolean isRecordCnt(String recordCnt) {
+		for (String s : DEFAULT_RECORD_CNT_ARR) {
+			if (s.equals(recordCnt)) {
+				return true;
+			}
+		}
+		
+		return false;
 	}
 	
 	private boolean isType(String type) {
