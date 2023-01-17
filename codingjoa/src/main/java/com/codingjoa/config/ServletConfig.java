@@ -94,7 +94,12 @@ public class ServletConfig implements WebMvcConfigurer {
 
 	@Override
 	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
-		resolvers.add(new CriteriaArgumentResolver());
+		resolvers.add(criteriaArgumentResolver());
+	}
+	
+	@Bean
+	public HandlerMethodArgumentResolver criteriaArgumentResolver() {
+		return new CriteriaArgumentResolver();
 	}
 	
 }
