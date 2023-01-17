@@ -48,11 +48,6 @@ public class BoardController {
 		binder.addValidators(boardValidator);
 	}
 	
-	@InitBinder("cri")
-	public void InitBinderCriteria(WebDataBinder binder) {
-		
-	}
-	
 	@ModelAttribute
 	public void categoryList(Model model) {
 		model.addAttribute("categoryList", categoryService.findBoardCategoryList());
