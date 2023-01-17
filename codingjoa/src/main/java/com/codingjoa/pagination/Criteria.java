@@ -14,14 +14,14 @@ public class Criteria {
 	private String keyword;
 	private String type;
 	
-	public Criteria() {
-		this(1, 10);
-	}
-	
-	public Criteria(int page, int recordCnt) {
-		this.page = page;
-		this.recordCnt = recordCnt;
-	}
+//	public Criteria() {
+//		this(1, 10);
+//	}
+//	
+//	public Criteria(int page, int recordCnt) {
+//		this.page = page;
+//		this.recordCnt = recordCnt;
+//	}
 	
 	
 }
