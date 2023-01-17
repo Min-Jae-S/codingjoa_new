@@ -23,10 +23,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import com.codingjoa.interceptor.CheckBoardCategoryInterceptor;
 import com.codingjoa.interceptor.CheckBoardIdxInterceptor;
 import com.codingjoa.interceptor.CheckMyBoardInterceptor;
+import com.codingjoa.resolver.CriteriaArgumentResolver;
 import com.codingjoa.service.BoardService;
 import com.codingjoa.service.CategoryService;
-
-import resolver.CriteriaArgumentResolver;
 
 @Configuration
 @EnableWebMvc
