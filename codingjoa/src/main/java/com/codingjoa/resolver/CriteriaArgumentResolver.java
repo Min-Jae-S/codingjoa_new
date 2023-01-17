@@ -47,7 +47,6 @@ public class CriteriaArgumentResolver implements HandlerMethodArgumentResolver {
 				return true;
 			}
 		}
-		
 		return false;
 	}
 	
@@ -57,7 +56,6 @@ public class CriteriaArgumentResolver implements HandlerMethodArgumentResolver {
 				return true;
 			}
 		}
-		
 		return false;
 	}
 
