@@ -115,43 +115,44 @@
 	
 	<select id="findPagedBoardList" parameterType="map" resultMap="boardDetailsMap">
 		SELECT 
-			a.board_idx, 
-			a.board_title, 
-			a.board_content, 
-			a.board_writer_idx, 
-			a.board_views, 
-			a.board_category_code, 
-			a.regdate, 
-			a.moddate,
-			b.member_id
+			board_idx, 
+			board_title, 
+			board_content, 
+			board_writer_idx, 
+			board_views, 
+			board_category_code, 
+			regdate, 
+			moddate,
+			member_id
 		FROM (
 			SELECT
-				/*+ INDEX_DESC(board pk_board) */ 
+				/*+ INDEX_DESC(a pk_board) */ 
 				ROWNUM rn, 
-				board_idx, 
-				board_title, 
-				board_content, 
-				board_writer_idx, 
-				board_views, 
-				board_category_code, 
-				regdate, 
-				moddate
+				a.board_idx, 
+				a.board_title, 
+				a.board_content, 
+				a.board_writer_idx, 
+				a.board_views, 
+				a.board_category_code, 
+				a.regdate, 
+				a.moddate,
+				b.member_id
 			FROM
-				board 
+				board a
+			INNER JOIN
+				member b
+			ON
+				a.board_writer_idx = b.member_idx
 			WHERE
 				board_category_code = #{categoryCode} 
 				AND
 				<![CDATA[
 				ROWNUM <= ( #{cri.page} * #{cri.recordCnt} )
 				]]>
-			) a
-		INNER JOIN
-			member b
-		ON
-			a.board_writer_idx = b.member_idx
+			) 
 		WHERE
 			<include refid="search"/>
-			a.rn > ( ( #{cri.page} - 1 ) * #{cri.recordCnt} )
+			rn > ( ( #{cri.page} - 1 ) * #{cri.recordCnt} )
 	</select>
 	
 	<select id="isBoardIdxExist" parameterType="int" resultType="boolean">
