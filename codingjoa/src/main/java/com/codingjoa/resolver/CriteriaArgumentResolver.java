@@ -41,7 +41,6 @@ public class CriteriaArgumentResolver implements HandlerMethodArgumentResolver {
 		);
 	}
 	
-	
 	private boolean isRecordCnt(String recordCnt) {
 		for (String s : DEFAULT_RECORD_CNT_ARR) {
 			if (s.equals(recordCnt)) {
