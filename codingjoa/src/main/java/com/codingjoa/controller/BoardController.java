@@ -49,7 +49,7 @@ public class BoardController {
 	}
 	
 	@InitBinder("cri")
-	public void InitBinderCri(WebDataBinder binder) {
+	public void InitBinderCriteria(WebDataBinder binder) {
 		
 	}
 	

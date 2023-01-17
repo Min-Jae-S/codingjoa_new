@@ -4,6 +4,7 @@ import javax.servlet.Filter;
 import javax.servlet.MultipartConfigElement;
 import javax.servlet.ServletRegistration.Dynamic;
 
+import org.springframework.context.annotation.Configuration;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
@@ -47,5 +48,6 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 		MultipartConfigElement config = new MultipartConfigElement(null, MAX_FILE_SIZE, MAX_FILE_SIZE, 0);
 		registration.setMultipartConfig(config);
 	}
+	
 	
 }
