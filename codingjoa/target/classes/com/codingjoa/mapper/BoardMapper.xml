@@ -99,7 +99,7 @@
 		</if>
 	</sql>
 	
-	<select id="findPagedBoardListTotalCnt" parameterType="int" resultType="int">
+	<select id="findPagedBoardListTotalCnt" parameterType="map" resultType="int">
 		SELECT
 			COUNT(*)
 		FROM

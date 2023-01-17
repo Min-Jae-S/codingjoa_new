@@ -65,12 +65,12 @@ public class BoardController {
 		
 		model.addAttribute("category", categoryService.findCategory(categoryCode));
 
+		List<BoardDetailsDto> boardList = boardService.getPagedBoardList(categoryCode, cri);
+		model.addAttribute("boardList", boardList);
+		
 		Pagination pagination = boardService.getPagination(categoryCode, cri);
 		model.addAttribute("pagination", pagination);
 		log.info("{}", pagination);
-		
-		List<BoardDetailsDto> boardList = boardService.getPagedBoardList(categoryCode, cri);
-		model.addAttribute("boardList", boardList);
 		
 		return "board/main";
 	}
