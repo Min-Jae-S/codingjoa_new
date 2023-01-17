@@ -81,7 +81,7 @@
 	
 	<sql id="search">
 		<if test="cri.type != null">
-			<trim prefix="(" suffix=") AND" suffixOverrides="OR">
+			<trim prefix="(" suffix=") AND " suffixOverrides="OR">
 				<foreach collection='cri.type.split("")' item="item">
 					<trim suffix="OR">
 						<if test='item.equals("T")'>
@@ -144,14 +144,14 @@
 			ON
 				a.board_writer_idx = b.member_idx
 			WHERE
-				board_category_code = #{categoryCode} 
+				<include refid="search"/>
+				a.board_category_code = #{categoryCode} 
 				AND
 				<![CDATA[
 				ROWNUM <= ( #{cri.page} * #{cri.recordCnt} )
 				]]>
 			) 
 		WHERE
-			<include refid="search"/>
 			rn > ( ( #{cri.page} - 1 ) * #{cri.recordCnt} )
 	</select>
 	
