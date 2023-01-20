@@ -1,6 +1,6 @@
 package com.codingjoa.resolver;
 
-import java.util.Arrays;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.MethodParameter;
@@ -9,12 +9,11 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
+import com.codingjoa.annotation.Cri;
 import com.codingjoa.pagination.Criteria;
 
 import lombok.extern.slf4j.Slf4j;
 
-// annotation으로 만들어 놓기
-// ?
 @Slf4j
 public class CriteriaArgumentResolver implements HandlerMethodArgumentResolver {
 
@@ -24,7 +23,8 @@ public class CriteriaArgumentResolver implements HandlerMethodArgumentResolver {
 	
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
-		return parameter.getParameterType().equals(Criteria.class);
+		return parameter.getParameterType().equals(Criteria.class) &&
+				parameter.hasParameterAnnotation(Cri.class);
 	}
 
 	@Override
@@ -32,10 +32,12 @@ public class CriteriaArgumentResolver implements HandlerMethodArgumentResolver {
 			NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
 		log.info("============== CriteriaArgumentResolver ==============");
 		
-		String page = webRequest.getParameter("page");
-		String recordCnt = webRequest.getParameter("recordCnt");
-		String keyword = webRequest.getParameter("keyword");
-		String type = webRequest.getParameter("type");
+		HttpServletRequest request = (HttpServletRequest) webRequest;
+
+		String page = request.getParameter("page");
+		String recordCnt = request.getParameter("recordCnt");
+		String keyword = request.getParameter("keyword");
+		String type = request.getParameter("type");
 		
 		return new Criteria(
 			StringUtils.isNumeric(page) ? Integer.parseInt(page) : DEFAULT_PAGE,
@@ -53,6 +55,7 @@ public class CriteriaArgumentResolver implements HandlerMethodArgumentResolver {
 				return true;
 			}
 		}
+		
 		return false;
 	}
 	
@@ -62,6 +65,7 @@ public class CriteriaArgumentResolver implements HandlerMethodArgumentResolver {
 				return true;
 			}
 		}
+		
 		return false;
 	}
 

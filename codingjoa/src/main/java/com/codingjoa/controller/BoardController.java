@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.codingjoa.annotation.Cri;
 import com.codingjoa.dto.BoardDetailsDto;
 import com.codingjoa.dto.BoardDto;
 import com.codingjoa.pagination.Criteria;
@@ -59,7 +60,7 @@ public class BoardController {
 	}
 	
 	@GetMapping("/main")
-	public String main(@RequestParam("categoryCode") int categoryCode, Criteria cri, Model model) {
+	public String main(@RequestParam("categoryCode") int categoryCode, @Cri Criteria cri, Model model) {
 		log.info("categoryCode={}, {}", categoryCode, cri);
 		
 		//model.addAttribute("cri", cri);
