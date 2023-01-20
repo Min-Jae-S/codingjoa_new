@@ -269,6 +269,12 @@
 		$("#writeBtn").on("click", function(e) {
 			e.preventDefault();
 			let form = $("#writeBoardDto");
+			let textArea = $("<textarea>").attr("type", "hidden").attr("name", "boardContentText");
+			let plainText = viewToPlainText(writeEditor.editing.view.document.getRoot());
+			
+			textArea.val(plainText);
+			form.append(textArea);
+			
 			const range = writeEditor.model.createRangeIn(writeEditor.model.document.getRoot());
 			
 			for (const value of range.getWalker({ ignoreElementEnd: true })) { // TreeWalker instance
@@ -288,6 +294,7 @@
 			    input.val(dataIdx);
 				form.append(input);
 			}
+			
 			form.submit();
 		});
 	});
