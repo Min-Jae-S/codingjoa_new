@@ -1,7 +1,5 @@
 package com.codingjoa.resolver;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -32,12 +30,11 @@ public class CriteriaArgumentResolver implements HandlerMethodArgumentResolver {
 			NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
 		log.info("============== CriteriaArgumentResolver ==============");
 		
-		HttpServletRequest request = (HttpServletRequest) webRequest;
-
-		String page = request.getParameter("page");
-		String recordCnt = request.getParameter("recordCnt");
-		String keyword = request.getParameter("keyword");
-		String type = request.getParameter("type");
+		//HttpServletRequest request = (HttpServletRequest) webRequest;
+		String page = webRequest.getParameter("page");
+		String recordCnt = webRequest.getParameter("recordCnt");
+		String keyword = webRequest.getParameter("keyword");
+		String type = webRequest.getParameter("type");
 		
 		return new Criteria(
 			StringUtils.isNumeric(page) ? Integer.parseInt(page) : DEFAULT_PAGE,

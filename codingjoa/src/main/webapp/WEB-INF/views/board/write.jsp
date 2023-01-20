@@ -16,6 +16,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="${contextPath}/resources/ckeditor5/build/ckeditor.js"></script>
 <script src="${contextPath}/resources/ckeditor5/build/upload-adapter.js"></script>
+<script src="${contextPath}/resources/ckeditor5/build/viewtoplaintext.js"></script>
 <style>
 	.custom-select, input#boardTitle.form-control {
 		font-size: 0.9rem;
@@ -82,6 +83,8 @@
 						<form:errors path="boardContent" cssClass="error"/>
 					</div>
 				</form:form>
+				<button class="btn btn-info btn-block" id="getDataBtn">getData()</button>
+				<button class="btn btn-warning btn-block" id="plainTextBtn">plainText</button>
 			</div>
 		</div>
 		<div class="col-sm-2"></div>
@@ -231,6 +234,11 @@
 	$(function() {
 		// https://ckeditor.com/docs/ckeditor5/latest/api/module_image_imageupload_imageuploadui-ImageUploadUI.html
 		$("input[type='file']").removeAttr("accept"); /*.removeAttr("multiple");*/
+		
+		$("#plainTextBtn").on("click", function() {
+			console.log("plainText ==>");
+			console.log(viewToPlainText(writeEditor.editing.view.document.getRoot()));
+		});
 		
 		$("#getDataBtn").on("click", function() {
 			console.log("writeEditor.getData ==>");

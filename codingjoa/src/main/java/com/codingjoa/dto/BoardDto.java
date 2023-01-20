@@ -11,6 +11,7 @@ public class BoardDto {
 	private int boardCategoryCode;
 	private String boardTitle;
 	private String boardContent;
+	private String boardContentText;
 	private int boardWriterIdx;
 	private List<Integer> uploadIdxList;
 	
