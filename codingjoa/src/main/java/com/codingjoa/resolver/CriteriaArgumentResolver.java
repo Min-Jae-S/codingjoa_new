@@ -1,5 +1,7 @@
 package com.codingjoa.resolver;
 
+import java.util.Arrays;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -36,12 +38,14 @@ public class CriteriaArgumentResolver implements HandlerMethodArgumentResolver {
 		String type = webRequest.getParameter("type");
 		
 		return new Criteria(
-			StringUtils.isNumeric(page) ? Integer.parseInt(page) : DEFAULT_PAGE, 
+			StringUtils.isNumeric(page) ? Integer.parseInt(page) : DEFAULT_PAGE,
 			isRecordCnt(recordCnt) ? Integer.parseInt(recordCnt) : Integer.parseInt(DEFAULT_RECORD_CNT_ARR[0]),
 			StringUtils.trim(keyword),
 			isType(type) ? type : DEFAULT_TYPE_ARR[0] 
 		);
 	}
+	
+	// Arrays.asList(array).contains(value)
 	
 	private boolean isRecordCnt(String recordCnt) {
 		for (String s : DEFAULT_RECORD_CNT_ARR) {
