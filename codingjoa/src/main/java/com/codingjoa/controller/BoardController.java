@@ -63,8 +63,8 @@ public class BoardController {
 	public String main(@RequestParam("categoryCode") int categoryCode, @Cri Criteria cri, Model model) {
 		log.info("categoryCode={}, {}", categoryCode, cri);
 		
-		//model.addAttribute("cri", cri);
 		model.addAttribute("category", categoryService.findCategory(categoryCode));
+		model.addAttribute("cri", cri);
 
 		List<BoardDetailsDto> boardList = boardService.getPagedBoardList(categoryCode, cri);
 		model.addAttribute("boardList", boardList);

@@ -117,12 +117,10 @@
 		SELECT 
 			board_idx, 
 			board_title, 
-			board_content, 
 			board_writer_idx, 
 			board_views, 
 			board_category_code, 
 			regdate, 
-			moddate,
 			member_id
 		FROM (
 			SELECT
@@ -130,12 +128,10 @@
 				ROWNUM rn, 
 				a.board_idx, 
 				a.board_title, 
-				a.board_content, 
 				a.board_writer_idx, 
 				a.board_views, 
 				a.board_category_code, 
 				a.regdate, 
-				a.moddate,
 				b.member_id
 			FROM
 				board a
