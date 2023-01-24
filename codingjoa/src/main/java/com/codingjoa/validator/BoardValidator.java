@@ -20,12 +20,10 @@ public class BoardValidator implements Validator {
 	@Autowired
 	private BoardService boardService;
 	
-	
 	@Override
 	public boolean supports(Class<?> clazz) {
 		return BoardDto.class.isAssignableFrom(clazz);
 	}
-
 	
 	@Override
 	public void validate(Object target, Errors errors) {

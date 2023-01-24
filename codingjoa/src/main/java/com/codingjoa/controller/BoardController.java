@@ -76,7 +76,6 @@ public class BoardController {
 		return "board/main";
 	}
 	
-	
 	@GetMapping("/read")
 	public String read(@RequestParam("boardIdx") int boardIdx, Model model) {
 		log.info("boardIdx={}", boardIdx);
@@ -91,7 +90,6 @@ public class BoardController {
 		
 		return "board/read";
 	}
-	
 	
 	@GetMapping("/write")
 	public String write(@RequestParam int categoryCode, 
