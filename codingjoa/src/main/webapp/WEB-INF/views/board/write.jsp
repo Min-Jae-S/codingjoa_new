@@ -83,7 +83,6 @@
 						<form:errors path="boardContent" cssClass="error"/>
 					</div>
 				</form:form>
-				<button class="btn btn-warning btn-block" id="testBtn">TEST</button>
 			</div>
 		</div>
 		<div class="col-sm-2"></div>
@@ -132,6 +131,59 @@
 		.catch(error => {
 			console.error(error);
 		});
+	
+	$(function() {
+		// https://ckeditor.com/docs/ckeditor5/latest/api/module_image_imageupload_imageuploadui-ImageUploadUI.html
+		$("input[type='file']").removeAttr("accept"); /*.removeAttr("multiple");*/
+		
+		// test
+		$("#testBtn").on("click", function() {
+			console.log("===============================");
+			console.log("## getData");
+			console.log(writeEditor.getData());
+			console.log("## plainText");
+			console.log(viewToPlainText(writeEditor.editing.view.document.getRoot()));
+			console.log("===============================");
+		});
+		
+		$("#resetBtn").on("click", function() {
+			$("#writeBoardDto").trigger("reset"); //$("form")[0].reset();
+			writeEditor.setData("");
+		});
+		
+		$("#writeBtn").on("click", function(e) {
+			e.preventDefault();
+			let form = $("#writeBoardDto");
+			let textArea = $("<textarea>").attr("style", "display:none;").attr("name", "boardContentText");
+			let plainText = viewToPlainText(writeEditor.editing.view.document.getRoot());
+			
+			textArea.val(plainText);
+			form.append(textArea);
+			
+			const range = writeEditor.model.createRangeIn(writeEditor.model.document.getRoot());
+			
+			for (const value of range.getWalker({ ignoreElementEnd: true })) { // TreeWalker instance
+				// Position iterator class. It allows to iterate forward and backward over the document.
+			    if (!value.item.is("element")) {
+			    	continue;
+			    }
+			    
+			 	// imageBlock, imageInlne
+			    if (!value.item.name.startsWith("image")) { 
+			    	continue;
+			    }
+			    
+			    let input = $("<input>").attr("type", "hidden").attr("name", "uploadIdxList");
+			    let dataIdx = value.item.getAttribute("dataIdx");
+			    
+			    input.val(dataIdx);
+				form.append(input);
+			}
+			
+			form.submit();
+		});
+	});
+	
 	
 	function uploadAdapterPlugin(editor) {
 		console.log("## Register upload adapter");
@@ -229,57 +281,6 @@
 			});
 		});	
 	}
-	
-	$(function() {
-		// https://ckeditor.com/docs/ckeditor5/latest/api/module_image_imageupload_imageuploadui-ImageUploadUI.html
-		$("input[type='file']").removeAttr("accept"); /*.removeAttr("multiple");*/
-		
-		$("#testBtn").on("click", function() {
-			console.log("===============================");
-			console.log("## getData");
-			console.log(writeEditor.getData());
-			console.log("## plainText");
-			console.log(viewToPlainText(writeEditor.editing.view.document.getRoot()));
-			console.log("===============================");
-		});
-		
-		$("#resetBtn").on("click", function() {
-			$("#writeBoardDto").trigger("reset"); //$("form")[0].reset();
-			writeEditor.setData("");
-		});
-		
-		$("#writeBtn").on("click", function(e) {
-			e.preventDefault();
-			let form = $("#writeBoardDto");
-			let textArea = $("<textarea>").attr("style", "display:none;").attr("name", "boardContentText");
-			let plainText = viewToPlainText(writeEditor.editing.view.document.getRoot());
-			
-			textArea.val(plainText);
-			form.append(textArea);
-			
-			const range = writeEditor.model.createRangeIn(writeEditor.model.document.getRoot());
-			
-			for (const value of range.getWalker({ ignoreElementEnd: true })) { // TreeWalker instance
-				// Position iterator class. It allows to iterate forward and backward over the document.
-			    if (!value.item.is("element")) {
-			    	continue;
-			    }
-			    
-			 	// imageBlock, imageInlne
-			    if (!value.item.name.startsWith("image")) { 
-			    	continue;
-			    }
-			    
-			    let input = $("<input>").attr("type", "hidden").attr("name", "uploadIdxList");
-			    let dataIdx = value.item.getAttribute("dataIdx");
-			    
-			    input.val(dataIdx);
-				form.append(input);
-			}
-			
-			form.submit();
-		});
-	});
 </script>
 
 </body>
