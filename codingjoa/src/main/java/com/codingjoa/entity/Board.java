@@ -7,7 +7,8 @@ import lombok.Data;
 /*
 	board_idx               NUMBER,
 	board_title             VARCHAR2(500)               NOT NULL,
-	board_content           LONG                        NOT NULL,
+	board_content           CLOB                        NOT NULL,
+	board_content_text      CLOB                        NOT NULL,
     board_writer_idx        NUMBER                      NOT NULL,
     board_views             NUMBER          DEFAULT 0   NOT NULL,
 	board_category_code     NUMBER                      NOT NULL,
@@ -21,6 +22,7 @@ public class Board {
 	private Integer boardIdx;
 	private String boardTitle;
 	private String boardContent;
+	private String boardContentText;
 	private Integer boardWriterIdx;
 	private Integer boardViews;
 	private Integer boardCategoryCode;

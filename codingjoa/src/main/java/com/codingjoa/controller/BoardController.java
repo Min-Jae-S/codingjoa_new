@@ -111,11 +111,11 @@ public class BoardController {
 			return "board/write";
 		}
 		
-//		int boardWriterIdx = principal.getMember().getMemberIdx();
-//		writeBoardDto.setBoardWriterIdx(boardWriterIdx);
-//		
-//		int boardIdx = boardService.writeBoard(writeBoardDto);
-//		log.info("boardIdx={}", boardIdx);
+		int boardWriterIdx = principal.getMember().getMemberIdx();
+		writeBoardDto.setBoardWriterIdx(boardWriterIdx);
+		
+		int boardIdx = boardService.writeBoard(writeBoardDto);
+		log.info("boardIdx={}", boardIdx);
 //		
 //		writeBoardDto.setBoardIdx(boardIdx);
 //		boardService.activateImage(writeBoardDto);
