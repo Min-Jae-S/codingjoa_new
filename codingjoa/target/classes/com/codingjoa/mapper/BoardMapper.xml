@@ -148,7 +148,7 @@
 				<![CDATA[
 				ROWNUM <= ( #{cri.page} * #{cri.recordCnt} )
 				]]>
-			) 
+		)
 		WHERE
 			rn > ( ( #{cri.page} - 1 ) * #{cri.recordCnt} )
 	</select>
