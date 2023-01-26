@@ -235,10 +235,12 @@
 		$("input[type='file']").removeAttr("accept"); /*.removeAttr("multiple");*/
 		
 		$("#testBtn").on("click", function() {
-			console.log("getData ==>");
+			console.log("===============================");
+			console.log("## getData");
 			console.log(writeEditor.getData());
-			console.log("plainText ==>");
+			console.log("## plainText");
 			console.log(viewToPlainText(writeEditor.editing.view.document.getRoot()));
+			console.log("===============================");
 		});
 		
 		$("#resetBtn").on("click", function() {
@@ -249,7 +251,7 @@
 		$("#writeBtn").on("click", function(e) {
 			e.preventDefault();
 			let form = $("#writeBoardDto");
-			let textArea = $("<textarea>").attr("type", "hidden").attr("name", "boardContentText");
+			let textArea = $("<textarea>").attr("style", "display:none;").attr("name", "boardContentText");
 			let plainText = viewToPlainText(writeEditor.editing.view.document.getRoot());
 			
 			textArea.val(plainText);
