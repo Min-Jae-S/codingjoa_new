@@ -81,7 +81,7 @@
 			board_idx = #{boardIdx}
 	</update>
 	
-	<sql id="search">
+	<sql id="searchCriteria">
 		<if test="cri.type != null">
 			<trim prefix="(" suffix=") AND " suffixOverrides="OR">
 				<foreach collection='cri.type.split("")' item="item">
@@ -90,7 +90,7 @@
 							a.board_title like '%' || #{cri.keyword} || '%'
 						</if>
 						<if test='item.equals("C")'>
-							a.board_content like '%' || #{cri.keyword} || '%'
+							a.board_content_text like '%' || #{cri.keyword} || '%'
 						</if>
 						<if test='item.equals("W")'>
 							b.member_id like '%' || #{cri.keyword} || '%'
@@ -111,7 +111,7 @@
 		ON
 			a.board_writer_idx = b.member_idx
 		WHERE
-			<include refid="search"/>
+			<include refid="searchCriteria"/>
 			a.board_category_code = #{categoryCode}
 	</select>
 	
@@ -142,7 +142,7 @@
 			ON
 				a.board_writer_idx = b.member_idx
 			WHERE
-				<include refid="search"/>
+				<include refid="searchCriteria"/>
 				a.board_category_code = #{categoryCode} 
 				AND
 				<![CDATA[
