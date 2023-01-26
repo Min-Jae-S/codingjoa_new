@@ -116,9 +116,9 @@ public class BoardController {
 		
 		int boardIdx = boardService.writeBoard(writeBoardDto);
 		log.info("boardIdx={}", boardIdx);
-//		
-//		writeBoardDto.setBoardIdx(boardIdx);
-//		boardService.activateImage(writeBoardDto);
+		
+		writeBoardDto.setBoardIdx(boardIdx);
+		boardService.activateImage(writeBoardDto);
 		
 		return "board/write-success";
 	}

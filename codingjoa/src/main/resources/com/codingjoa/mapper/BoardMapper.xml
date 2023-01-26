@@ -34,6 +34,7 @@
 			board_idx,
 			board_title,
 			board_content,
+			board_content_text,
 			board_writer_idx,
 			board_category_code,
 			regdate,
@@ -42,6 +43,7 @@
 			#{boardIdx},
 			#{boardTitle},
 			#{boardContent},
+			#{boardContentText},
 			#{boardWriterIdx},
 			#{boardCategoryCode},
 			SYSDATE,
@@ -184,6 +186,7 @@
 		SET
 			board_title = #{boardTitle},
 			board_content = #{boardContent},
+			board_content_text = #{boardContentText},
 			board_category_code = #{boardCategoryCode},
 			moddate = SYSDATE
 		WHERE

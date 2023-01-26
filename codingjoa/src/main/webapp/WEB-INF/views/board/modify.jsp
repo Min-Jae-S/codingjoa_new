@@ -16,6 +16,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="${contextPath}/resources/ckeditor5/build/ckeditor.js"></script>
 <script src="${contextPath}/resources/ckeditor5/build/upload-adapter.js"></script>
+<script src="${contextPath}/resources/ckeditor5/build/viewtoplaintext.js"></script>
 <style>
 	.custom-select, input#boardTitle.form-control {
 		font-size: 0.9rem;
@@ -133,6 +134,48 @@
 			console.error(error);
 		});
 	
+	$(function() {
+		// https://ckeditor.com/docs/ckeditor5/latest/api/module_image_imageupload_imageuploadui-ImageUploadUI.html
+		$("input[type='file']").removeAttr("accept"); /*.removeAttr("multiple");*/
+		
+		$("#resetBtn").on("click", function() {
+			$("#modifyBoardDto").trigger("reset");
+			modifyEditor.setData(editorData);
+		});
+		
+		$("#modifyBtn").on("click", function(e) {
+			e.preventDefault();
+			let form = $("#modifyBoardDto");
+			let textArea = $("<textarea>").attr("style", "display:none;").attr("name", "boardContentText");
+			let plainText = viewToPlainText(writeEditor.editing.view.document.getRoot());
+			
+			textArea.val(plainText);
+			form.append(textArea);
+			
+			const range = modifyEditor.model.createRangeIn(modifyEditor.model.document.getRoot());
+			
+			for (const value of range.getWalker({ ignoreElementEnd: true })) { // TreeWalker instance
+				// Position iterator class. It allows to iterate forward and backward over the document.
+			    if (!value.item.is("element")) {
+			    	continue;
+			    }
+			    
+			 	// imageBlock, imageInlne
+			    if (!value.item.name.startsWith("image")) { 
+			    	continue;
+			    }
+			    
+			    let input = $("<input>").attr("type", "hidden").attr("name", "uploadIdxList");
+			    let dataIdx = value.item.getAttribute("dataIdx");
+			    
+			    input.val(dataIdx);
+			    form.append(input);
+			}
+			
+			form.submit();
+		});
+	});
+	
 	function uploadAdapterPlugin(editor) {
 		console.log("## Register upload adapter");
 	    editor.plugins.get("FileRepository").createUploadAdapter = (loader) => {
@@ -225,41 +268,6 @@
 			});
 		});	
 	}
-	
-	$(function() {
-		// https://ckeditor.com/docs/ckeditor5/latest/api/module_image_imageupload_imageuploadui-ImageUploadUI.html
-		$("input[type='file']").removeAttr("accept"); /*.removeAttr("multiple");*/
-		
-		$("#resetBtn").on("click", function() {
-			$("#modifyBoardDto").trigger("reset");
-			modifyEditor.setData(editorData);
-		});
-		
-		$("#modifyBtn").on("click", function(e) {
-			e.preventDefault();
-			let form = $("#modifyBoardDto");
-			const range = modifyEditor.model.createRangeIn(modifyEditor.model.document.getRoot());
-			
-			for (const value of range.getWalker({ ignoreElementEnd: true })) { // TreeWalker instance
-				// Position iterator class. It allows to iterate forward and backward over the document.
-			    if (!value.item.is("element")) {
-			    	continue;
-			    }
-			    
-			 	// imageBlock, imageInlne
-			    if (!value.item.name.startsWith("image")) { 
-			    	continue;
-			    }
-			    
-			    let input = $("<input>").attr("type", "hidden").attr("name", "uploadIdxList");
-			    let dataIdx = value.item.getAttribute("dataIdx");
-			    
-			    input.val(dataIdx);
-			    form.append(input);
-			}
-			form.submit();
-		});
-	});
 </script>
 
 </body>
