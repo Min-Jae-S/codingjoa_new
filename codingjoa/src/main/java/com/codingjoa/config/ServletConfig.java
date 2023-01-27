@@ -41,10 +41,10 @@ public class ServletConfig implements WebMvcConfigurer {
 	@Value("${criteria.page}") 
 	private int defaultPage;
 	
-	@Value("${criteria.recordCntMap}") 
+	@Value("#{${criteria.recordCntMap}}") 
 	private Map<String, Object> recordCntMap; 
 	
-	@Value("${criteria.typeMap}") 
+	@Value("#{${criteria.typeMap}}") 
 	private Map<String, Object> typeMap;
 	
 	@Autowired
