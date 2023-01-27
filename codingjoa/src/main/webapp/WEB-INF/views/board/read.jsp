@@ -159,6 +159,15 @@
 			console.error(error);
 		});
 	
+	$(function() {
+		
+		
+		
+		
+		
+		
+	});
+	
 	// https://github.com/ckeditor/ckeditor5/issues/5204
 	function extendAttribute(editor) {
 		console.log("## Allow custom attribute ==> blockObject, inlineOjbect");
@@ -205,10 +214,6 @@
             });
         });
 	}
-	
-	$(function() {
-		
-	});
 </script>
 
 </body>
