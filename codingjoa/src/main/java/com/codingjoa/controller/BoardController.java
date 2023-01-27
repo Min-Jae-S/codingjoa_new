@@ -76,6 +76,8 @@ public class BoardController {
 		
 		model.addAttribute("recordCntMap", recordCntMap);
 		model.addAttribute("typeMap", typeMap);
+		log.info("{}, {}", recordCntMap, typeMap);
+		
 		model.addAttribute("category", categoryService.findCategory(categoryCode));
 
 		List<BoardDetailsDto> boardList = boardService.getPagedBoardList(categoryCode, cri);
