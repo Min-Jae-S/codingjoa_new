@@ -45,6 +45,7 @@ public class CriteriaArgumentResolver implements HandlerMethodArgumentResolver {
 	public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
 			NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
 		log.info("============== CriteriaArgumentResolver ==============");
+		log.info("recordCntMap={}, typeMap={}", recordCntMap, typeMap);
 		
 		//HttpServletRequest request = (HttpServletRequest) webRequest;
 		String page = webRequest.getParameter("page");
