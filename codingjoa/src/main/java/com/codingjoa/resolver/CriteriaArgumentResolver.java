@@ -18,11 +18,11 @@ import lombok.extern.slf4j.Slf4j;
 public class CriteriaArgumentResolver implements HandlerMethodArgumentResolver {
 
 	private final int defaultPage;
-	private final Map<String, String> recordCntMap;
-	private final Map<String, String> typeMap;
+	private final Map<String, Object> recordCntMap;
+	private final Map<String, Object> typeMap;
 	
 	public CriteriaArgumentResolver(int defaultPage, 
-			Map<String, String> recordCntMap, Map<String, String> typeMap) {
+			Map<String, Object> recordCntMap, Map<String, Object> typeMap) {
 		this.defaultPage = defaultPage;
 		this.recordCntMap = recordCntMap;
 		this.typeMap = typeMap;

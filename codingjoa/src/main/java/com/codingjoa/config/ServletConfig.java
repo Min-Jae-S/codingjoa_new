@@ -32,10 +32,7 @@ import com.codingjoa.service.CategoryService;
 @EnableWebMvc
 @PropertySource("/WEB-INF/properties/upload.properties")
 @PropertySource("/WEB-INF/properties/criteria.properties")
-@ComponentScan(basePackages = {
-	"com.codingjoa.controller",
-	"com.codingjoa.resolver"
-})
+@ComponentScan(basePackages = { "com.codingjoa.controller", "com.codingjoa.resolver" })
 public class ServletConfig implements WebMvcConfigurer {
 	
 	@Value("${upload.path}")
@@ -44,11 +41,11 @@ public class ServletConfig implements WebMvcConfigurer {
 	@Value("${criteria.page}") 
 	private int defaultPage;
 	
-	@Value("#{${criteria.recordCntMap}}") 
-	private Map<String, String> recordCntMap; 
+	@Value("${criteria.recordCntMap}") 
+	private Map<String, Object> recordCntMap; 
 	
-	@Value("#{${criteria.typeMap}}") 
-	private Map<String, String> typeMap;
+	@Value("${criteria.typeMap}") 
+	private Map<String, Object> typeMap;
 	
 	@Autowired
 	private CategoryService categoryService;

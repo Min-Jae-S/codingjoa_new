@@ -49,10 +49,10 @@ public class BoardController {
 	private Validator boardValidator;
 	
 	@Value("#{${criteria.recordCntMap}}") 
-	private Map<Integer, String> recordCntMap; 
+	private Map<String, Object> recordCntMap; 
 	
 	@Value("#{${criteria.typeMap}}") 
-	private Map<String, String> typeMap;
+	private Map<String, Object> typeMap;
 	
 	@InitBinder(value = { "writeBoardDto", "modifyBoardDto" })
 	public void initBinderBoard(WebDataBinder binder) {
