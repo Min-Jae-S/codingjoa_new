@@ -1,7 +1,8 @@
 package com.codingjoa.resolver;
 
+import java.util.Map;
+
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
@@ -14,17 +15,17 @@ import com.codingjoa.pagination.Criteria;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@PropertySource("/WEB-INF/properties/criteria.properties")
 public class CriteriaArgumentResolver implements HandlerMethodArgumentResolver {
 
 	private final int defaultPage;
-	private final int[] recordCntArr;
-	private final String[] typeArr;
+	private final Map<String, String> recordCntMap;
+	private final Map<String, String> typeMap;
 	
-	public CriteriaArgumentResolver(int defaultPage, int[] recordCntArr, String[] typeArr) {
+	public CriteriaArgumentResolver(int defaultPage, 
+			Map<String, String> recordCntMap, Map<String, String> typeMap) {
 		this.defaultPage = defaultPage;
-		this.recordCntArr = recordCntArr;
-		this.typeArr = typeArr;
+		this.recordCntMap = recordCntMap;
+		this.typeMap = typeMap;
 	}
 
 	@Override
@@ -46,36 +47,11 @@ public class CriteriaArgumentResolver implements HandlerMethodArgumentResolver {
 		
 		return new Criteria(
 			StringUtils.isNumeric(page) ? Integer.parseInt(page) : defaultPage,
-			isRecordCnt(recordCnt) ? Integer.parseInt(recordCnt) : recordCntArr[0],
-			isType(type) ? type : typeArr[0], 
+			recordCntMap.containsKey(recordCnt) ? Integer.parseInt(recordCnt) : 10,
+			typeMap.containsKey(type) ? type : "T",
 			StringUtils.trim(keyword)
 		);
 	}
 	
-	// Arrays.asList(array).contains(value)
-	
-	private boolean isRecordCnt(String recordCnt) {
-		if (!StringUtils.isNumeric(recordCnt)) {
-			return false;
-		}
-		
-		for (int i : recordCntArr) {
-			if (i == Integer.parseInt(recordCnt)) {
-				return true;
-			}
-		}
-		
-		return false;
-	}
-	
-	private boolean isType(String type) {
-		for (String s : typeArr) {
-			if (s.equals(type)) {
-				return true;
-			}
-		}
-		
-		return false;
-	}
 
 }

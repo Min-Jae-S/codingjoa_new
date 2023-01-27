@@ -1,6 +1,7 @@
 package com.codingjoa.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
@@ -47,11 +48,11 @@ public class BoardController {
 	@Resource(name = "boardValidator")
 	private Validator boardValidator;
 	
-	@Value("${criteria.recordCnt}") 
-	private int[] recordCntArr; 
+	@Value("#{${criteria.recordCntMap}}") 
+	private Map<Integer, String> recordCntMap; 
 	
-	@Value("${criteria.type}") 
-	private String[] typeArr;
+	@Value("#{${criteria.typeMap}}") 
+	private Map<String, String> typeMap;
 	
 	@InitBinder(value = { "writeBoardDto", "modifyBoardDto" })
 	public void initBinderBoard(WebDataBinder binder) {
@@ -73,8 +74,8 @@ public class BoardController {
 			@Cri @ModelAttribute("cri") Criteria cri, Model model) {
 		log.info("categoryCode={}, {}", categoryCode, cri);
 		
-		model.addAttribute("recordCntArr", recordCntArr);
-		model.addAttribute("typeArr", typeArr);
+		model.addAttribute("recordCntMap", recordCntMap);
+		model.addAttribute("typeMap", typeMap);
 		model.addAttribute("category", categoryService.findCategory(categoryCode));
 
 		List<BoardDetailsDto> boardList = boardService.getPagedBoardList(categoryCode, cri);

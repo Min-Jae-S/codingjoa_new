@@ -80,7 +80,7 @@
 				    	<option value="TC" ${cri.type eq 'TC' ? 'selected' : ''}>제목 + 내용</option>
 				  	</select> --%>
 				  	<form:select path="type" class="custom-select custom-select-sm mr-2">
-				  		<form:options items="${typeArr}" itemValue="" itemLabel=""/>
+				  		<form:options items="${typeMap}"/>
 				  	</form:select>
 					<div class="input-group">
 					  	<%-- <input type="text" class="form-control form-control-sm" name="keyword" value="${cri.keyword}" placeholder="검색어를 입력해주세요"> --%>
@@ -90,7 +90,7 @@
 					  	</div>
 	        		</div>
 	        		<form:select path="recordCnt" class="custom-select custom-select-sm ml-auto">
-						<form:options items="${recordCntArr}" itemValue="" itemLabel=""/>
+						<form:options items="${recordCntMap}"/>
 	        		</form:select>
 	        		
 	        		<%-- <select class="custom-select custom-select-sm ml-auto" name="recordCnt">

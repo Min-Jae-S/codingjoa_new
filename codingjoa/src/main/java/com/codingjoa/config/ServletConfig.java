@@ -2,6 +2,7 @@ package com.codingjoa.config;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -43,11 +44,11 @@ public class ServletConfig implements WebMvcConfigurer {
 	@Value("${criteria.page}") 
 	private int defaultPage;
 	
-	@Value("${criteria.recordCnt}") 
-	private int[] recordCntArr; 
+	@Value("#{${criteria.recordCntMap}}") 
+	private Map<String, String> recordCntMap; 
 	
-	@Value("${criteria.type}") 
-	private String[] typeArr;
+	@Value("#{${criteria.typeMap}}") 
+	private Map<String, String> typeMap;
 	
 	@Autowired
 	private CategoryService categoryService;
@@ -108,7 +109,7 @@ public class ServletConfig implements WebMvcConfigurer {
 	
 	@Bean
 	public HandlerMethodArgumentResolver criteriaArgumentResolver() {
-		return new CriteriaArgumentResolver(defaultPage, recordCntArr, typeArr);
+		return new CriteriaArgumentResolver(defaultPage, recordCntMap, typeMap);
 	}
 	
 }
