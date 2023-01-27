@@ -30,6 +30,7 @@ import com.codingjoa.service.CategoryService;
 @Configuration
 @EnableWebMvc
 @PropertySource("/WEB-INF/properties/upload.properties")
+@PropertySource("/WEB-INF/properties/criteria.properties")
 @ComponentScan(basePackages = {
 	"com.codingjoa.controller",
 	"com.codingjoa.resolver"
@@ -38,6 +39,15 @@ public class ServletConfig implements WebMvcConfigurer {
 	
 	@Value("${upload.path}")
 	private String uploadPath;
+	
+	@Value("${criteria.page}") 
+	private int defaultPage;
+	
+	@Value("${criteria.recordCnt}") 
+	private int[] recordCntArr; 
+	
+	@Value("${criteria.type}") 
+	private String[] typeArr;
 	
 	@Autowired
 	private CategoryService categoryService;
@@ -98,7 +108,7 @@ public class ServletConfig implements WebMvcConfigurer {
 	
 	@Bean
 	public HandlerMethodArgumentResolver criteriaArgumentResolver() {
-		return new CriteriaArgumentResolver();
+		return new CriteriaArgumentResolver(defaultPage, recordCntArr, typeArr);
 	}
 	
 }

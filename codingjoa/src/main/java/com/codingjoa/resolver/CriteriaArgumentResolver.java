@@ -1,6 +1,7 @@
 package com.codingjoa.resolver;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
@@ -13,12 +14,19 @@ import com.codingjoa.pagination.Criteria;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@PropertySource("/WEB-INF/properties/criteria.properties")
 public class CriteriaArgumentResolver implements HandlerMethodArgumentResolver {
 
-	private final int DEFAULT_PAGE = 1;
-	private final String[] DEFAULT_RECORD_CNT_ARR = { "10", "20", "30" };
-	private final String[] DEFAULT_TYPE_ARR = { "T", "C", "W", "TW" };
+	private final int defaultPage;
+	private final int[] recordCntArr;
+	private final String[] typeArr;
 	
+	public CriteriaArgumentResolver(int defaultPage, int[] recordCntArr, String[] typeArr) {
+		this.defaultPage = defaultPage;
+		this.recordCntArr = recordCntArr;
+		this.typeArr = typeArr;
+	}
+
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
 		return parameter.getParameterType().equals(Criteria.class) &&
@@ -37,9 +45,9 @@ public class CriteriaArgumentResolver implements HandlerMethodArgumentResolver {
 		String keyword = webRequest.getParameter("keyword");
 		
 		return new Criteria(
-			StringUtils.isNumeric(page) ? Integer.parseInt(page) : DEFAULT_PAGE,
-			isRecordCnt(recordCnt) ? Integer.parseInt(recordCnt) : Integer.parseInt(DEFAULT_RECORD_CNT_ARR[0]),
-			isType(type) ? type : DEFAULT_TYPE_ARR[0], 
+			StringUtils.isNumeric(page) ? Integer.parseInt(page) : defaultPage,
+			isRecordCnt(recordCnt) ? Integer.parseInt(recordCnt) : recordCntArr[0],
+			isType(type) ? type : typeArr[0], 
 			StringUtils.trim(keyword)
 		);
 	}
@@ -47,8 +55,12 @@ public class CriteriaArgumentResolver implements HandlerMethodArgumentResolver {
 	// Arrays.asList(array).contains(value)
 	
 	private boolean isRecordCnt(String recordCnt) {
-		for (String s : DEFAULT_RECORD_CNT_ARR) {
-			if (s.equals(recordCnt)) {
+		if (!StringUtils.isNumeric(recordCnt)) {
+			return false;
+		}
+		
+		for (int i : recordCntArr) {
+			if (i == Integer.parseInt(recordCnt)) {
 				return true;
 			}
 		}
@@ -57,7 +69,7 @@ public class CriteriaArgumentResolver implements HandlerMethodArgumentResolver {
 	}
 	
 	private boolean isType(String type) {
-		for (String s : DEFAULT_TYPE_ARR) {
+		for (String s : typeArr) {
 			if (s.equals(type)) {
 				return true;
 			}

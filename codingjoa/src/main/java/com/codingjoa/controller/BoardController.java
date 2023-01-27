@@ -6,6 +6,8 @@ import javax.annotation.Resource;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,6 +33,7 @@ import com.codingjoa.service.CategoryService;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@PropertySource("/WEB-INF/properties/criteria.properties")
 @RequestMapping("/board")
 @Controller
 public class BoardController {
@@ -43,6 +46,12 @@ public class BoardController {
 	
 	@Resource(name = "boardValidator")
 	private Validator boardValidator;
+	
+	@Value("${criteria.recordCnt}") 
+	private int[] recordCntArr; 
+	
+	@Value("${criteria.type}") 
+	private String[] typeArr;
 	
 	@InitBinder(value = { "writeBoardDto", "modifyBoardDto" })
 	public void initBinderBoard(WebDataBinder binder) {
@@ -63,8 +72,10 @@ public class BoardController {
 	public String main(@RequestParam("categoryCode") int categoryCode, @Cri Criteria cri, Model model) {
 		log.info("categoryCode={}, {}", categoryCode, cri);
 		
-		model.addAttribute("category", categoryService.findCategory(categoryCode));
+		model.addAttribute("recordCntArr", recordCntArr);
+		model.addAttribute("typeArr", typeArr);
 		model.addAttribute("cri", cri);
+		model.addAttribute("category", categoryService.findCategory(categoryCode));
 
 		List<BoardDetailsDto> boardList = boardService.getPagedBoardList(categoryCode, cri);
 		model.addAttribute("boardList", boardList);
