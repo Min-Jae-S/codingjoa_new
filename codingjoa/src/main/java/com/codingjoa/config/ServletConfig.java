@@ -2,7 +2,6 @@ package com.codingjoa.config;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,21 +30,11 @@ import com.codingjoa.service.CategoryService;
 @Configuration
 @EnableWebMvc
 @PropertySource("/WEB-INF/properties/upload.properties")
-@PropertySource("/WEB-INF/properties/criteria.properties")
 @ComponentScan(basePackages = { "com.codingjoa.controller", "com.codingjoa.resolver" })
 public class ServletConfig implements WebMvcConfigurer {
 	
 	@Value("${upload.path}")
 	private String uploadPath;
-	
-	@Value("${criteria.page}") 
-	private int defaultPage;
-	
-	@Value("#{${criteria.recordCntMap}}") 
-	private Map<String, Object> recordCntMap; 
-	
-	@Value("#{${criteria.typeMap}}") 
-	private Map<String, Object> typeMap;
 	
 	@Autowired
 	private CategoryService categoryService;
@@ -106,7 +95,7 @@ public class ServletConfig implements WebMvcConfigurer {
 	
 	@Bean
 	public HandlerMethodArgumentResolver criteriaArgumentResolver() {
-		return new CriteriaArgumentResolver(defaultPage, recordCntMap, typeMap);
+		return new CriteriaArgumentResolver();
 	}
 	
 }

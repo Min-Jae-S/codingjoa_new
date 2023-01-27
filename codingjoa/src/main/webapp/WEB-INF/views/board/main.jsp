@@ -73,18 +73,11 @@
 			<div class="pt-3">
 	        	<form:form class="form-inline" action="${contextPath}/board/main" method="GET" modelAttribute="cri">
 	        		<input type="hidden" name="categoryCode" value="${category.categoryCode}">
-					<%-- <select class="custom-select custom-select-sm mr-2" name="type">
-				    	<option value="T"  ${cri.type eq 'T'  ? 'selected' : ''}>제목</option>
-				    	<option value="C"  ${cri.type eq 'C'  ? 'selected' : ''}>내용</option>
-				    	<option value="W"  ${cri.type eq 'W'  ? 'selected' : ''}>작성자</option>
-				    	<option value="TC" ${cri.type eq 'TC' ? 'selected' : ''}>제목 + 내용</option>
-				  	</select> --%>
 				  	<form:select path="type" class="custom-select custom-select-sm mr-2">
 				  		<form:options items="${typeMap}"/>
 				  	</form:select>
 					<div class="input-group">
-					  	<%-- <input type="text" class="form-control form-control-sm" name="keyword" value="${cri.keyword}" placeholder="검색어를 입력해주세요"> --%>
-						<form:input path="keyword" class="form-control form-control-sm"/>
+						<form:input path="keyword" class="form-control form-control-sm" placeholder="검색어를 입력해주세요"/>
 					  	<div class="input-group-append">
 					  		<form:button class="btn btn-outline-secondary btn-sm">검색</form:button>
 					  	</div>
@@ -92,12 +85,6 @@
 	        		<form:select path="recordCnt" class="custom-select custom-select-sm ml-auto">
 						<form:options items="${recordCntMap}"/>
 	        		</form:select>
-	        		
-	        		<%-- <select class="custom-select custom-select-sm ml-auto" name="recordCnt">
-				    	<option value="10" ${cri.recordCnt eq 10 ? 'selected' : ''}>10개씩</option>
-				    	<option value="20" ${cri.recordCnt eq 20 ? 'selected' : ''}>20개씩</option>
-				    	<option value="30" ${cri.recordCnt eq 30 ? 'selected' : ''}>30개씩</option>
-				  	</select> --%>
 				</form:form>
 			</div>
 			<div class="pt-3 mb-3">

@@ -3,6 +3,8 @@ package com.codingjoa.resolver;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
@@ -15,19 +17,24 @@ import com.codingjoa.pagination.Criteria;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@PropertySource("/WEB-INF/properties/criteria.properties")
 public class CriteriaArgumentResolver implements HandlerMethodArgumentResolver {
-
-	private final int defaultPage;
-	private final Map<String, Object> recordCntMap;
-	private final Map<String, Object> typeMap;
 	
-	public CriteriaArgumentResolver(int defaultPage, 
-			Map<String, Object> recordCntMap, Map<String, Object> typeMap) {
-		this.defaultPage = defaultPage;
-		this.recordCntMap = recordCntMap;
-		this.typeMap = typeMap;
-	}
-
+	@Value("${criteria.page}") 
+	private int defaultPage;
+	
+	@Value("${criteria.recordCnt}") 
+	private int defaultRecordCnt;
+	
+	@Value("${criteria.type}") 
+	private String defaultType;
+	
+	@Value("#{${criteria.recordCntMap}}") 
+	private Map<String, Object> recordCntMap; 
+	
+	@Value("#{${criteria.typeMap}}") 
+	private Map<String, Object> typeMap;
+	
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
 		return parameter.getParameterType().equals(Criteria.class) &&
@@ -47,8 +54,8 @@ public class CriteriaArgumentResolver implements HandlerMethodArgumentResolver {
 		
 		return new Criteria(
 			StringUtils.isNumeric(page) ? Integer.parseInt(page) : defaultPage,
-			recordCntMap.containsKey(recordCnt) ? Integer.parseInt(recordCnt) : 10,
-			typeMap.containsKey(type) ? type : "T",
+			recordCntMap.containsKey(recordCnt) ? Integer.parseInt(recordCnt) : defaultRecordCnt,
+			typeMap.containsKey(type) ? type : defaultType,
 			StringUtils.trim(keyword)
 		);
 	}
