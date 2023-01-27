@@ -140,19 +140,19 @@
 				<ul class="pagination justify-content-center">
 					<c:if test="${pagination.prev}">
 						<li class="page-item">
-							<a class="page-link" href="${contextPath}/board/main?categoryCode=${category.categoryCode}&page=${pagination.prevPage}&recordCnt=${cri.recordCnt}&type=${cri.type}&keyword=${cri.keyword}"><i class="fa-solid fa-chevron-left"></i></a>
+							<a class="page-link" href="${contextPath}/board/main?categoryCode=${category.categoryCode}&page=${pagination.prevPage}&type=${cri.type}&keyword=${cri.keyword}&recordCnt=${cri.recordCnt}"><i class="fa-solid fa-chevron-left"></i></a>
 						</li>
 					</c:if>
 					
 					<c:forEach var="item" begin="${pagination.startPage}" end="${pagination.endPage}">
 						<li class="page-item ${item eq pagination.page ? 'active' : ''}">
-							<a class="page-link" href="${contextPath}/board/main?categoryCode=${category.categoryCode}&page=${item}&recordCnt=${cri.recordCnt}&type=${cri.type}&keyword=${cri.keyword}">${item}</a>
+							<a class="page-link" href="${contextPath}/board/main?categoryCode=${category.categoryCode}&page=${item}&type=${cri.type}&keyword=${cri.keyword}&recordCnt=${cri.recordCnt}">${item}</a>
 						</li>
 					</c:forEach>
 					
 					<c:if test="${pagination.next}">
 						<li class="page-item">
-							<a class="page-link" href="${contextPath}/board/main?categoryCode=${category.categoryCode}&page=${pagination.nextPage}&recordCnt=${cri.recordCnt}&type=${cri.type}&keyword=${cri.keyword}"><i class="fa-solid fa-chevron-right"></i></a>
+							<a class="page-link" href="${contextPath}/board/main?categoryCode=${category.categoryCode}&page=${pagination.nextPage}&type=${cri.type}&keyword=${cri.keyword}&recordCnt=${cri.recordCnt}"><i class="fa-solid fa-chevron-right"></i></a>
 						</li>
 					</c:if>
 				</ul>
