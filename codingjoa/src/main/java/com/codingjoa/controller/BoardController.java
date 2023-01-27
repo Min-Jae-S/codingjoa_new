@@ -69,12 +69,12 @@ public class BoardController {
 	}
 	
 	@GetMapping("/main")
-	public String main(@RequestParam("categoryCode") int categoryCode, @Cri Criteria cri, Model model) {
+	public String main(@RequestParam("categoryCode") int categoryCode, 
+			@Cri @ModelAttribute("cri") Criteria cri, Model model) {
 		log.info("categoryCode={}, {}", categoryCode, cri);
 		
 		model.addAttribute("recordCntArr", recordCntArr);
 		model.addAttribute("typeArr", typeArr);
-		model.addAttribute("cri", cri);
 		model.addAttribute("category", categoryService.findCategory(categoryCode));
 
 		List<BoardDetailsDto> boardList = boardService.getPagedBoardList(categoryCode, cri);
