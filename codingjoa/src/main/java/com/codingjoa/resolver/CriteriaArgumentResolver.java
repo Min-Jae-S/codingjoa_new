@@ -6,6 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.MethodParameter;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
@@ -18,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @PropertySource("/WEB-INF/properties/criteria.properties")
+@Component
 public class CriteriaArgumentResolver implements HandlerMethodArgumentResolver {
 	
 	@Value("${criteria.page}") 
@@ -34,7 +36,7 @@ public class CriteriaArgumentResolver implements HandlerMethodArgumentResolver {
 	
 	@Value("#{${criteria.typeMap}}") 
 	private Map<String, Object> typeMap;
-	
+
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
 		return parameter.getParameterType().equals(Criteria.class) &&

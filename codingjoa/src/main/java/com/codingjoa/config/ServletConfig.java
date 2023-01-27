@@ -23,7 +23,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import com.codingjoa.interceptor.CheckBoardCategoryInterceptor;
 import com.codingjoa.interceptor.CheckBoardIdxInterceptor;
 import com.codingjoa.interceptor.CheckMyBoardInterceptor;
-import com.codingjoa.resolver.CriteriaArgumentResolver;
 import com.codingjoa.service.BoardService;
 import com.codingjoa.service.CategoryService;
 
@@ -41,6 +40,9 @@ public class ServletConfig implements WebMvcConfigurer {
 	
 	@Autowired
 	private BoardService boardService;
+	
+	@Autowired
+	private HandlerMethodArgumentResolver criteriaArgumentResolver;
 	
 	@Override
 	public void configureViewResolvers(ViewResolverRegistry registry) {
@@ -90,12 +92,7 @@ public class ServletConfig implements WebMvcConfigurer {
 
 	@Override
 	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
-		resolvers.add(criteriaArgumentResolver());
-	}
-	
-	@Bean
-	public HandlerMethodArgumentResolver criteriaArgumentResolver() {
-		return new CriteriaArgumentResolver();
+		resolvers.add(criteriaArgumentResolver);
 	}
 	
 }
