@@ -33,14 +33,14 @@ public class CriteriaArgumentResolver implements HandlerMethodArgumentResolver {
 		//HttpServletRequest request = (HttpServletRequest) webRequest;
 		String page = webRequest.getParameter("page");
 		String recordCnt = webRequest.getParameter("recordCnt");
-		String keyword = webRequest.getParameter("keyword");
 		String type = webRequest.getParameter("type");
+		String keyword = webRequest.getParameter("keyword");
 		
 		return new Criteria(
 			StringUtils.isNumeric(page) ? Integer.parseInt(page) : DEFAULT_PAGE,
 			isRecordCnt(recordCnt) ? Integer.parseInt(recordCnt) : Integer.parseInt(DEFAULT_RECORD_CNT_ARR[0]),
-			StringUtils.trim(keyword),
-			isType(type) ? type : DEFAULT_TYPE_ARR[0] 
+			isType(type) ? type : DEFAULT_TYPE_ARR[0], 
+			StringUtils.trim(keyword)
 		);
 	}
 	

@@ -16,6 +16,7 @@
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://kit.fontawesome.com/c503d71f81.js"></script>
 <style>
 	.table {
 		border-spacing: 0px;
@@ -137,19 +138,23 @@
 			</div>
 			<div class="pt-3">
 				<ul class="pagination justify-content-center">
-					<li class="page-item ${pagination.prev ? '' : 'disabled'}">
-						<a class="page-link" href="${contextPath}/board/main?categoryCode=${category.categoryCode}&page=${pagination.prevPage}" tabindex="-1">Previous</a>
-					</li>
+					<c:if test="${pagination.prev}">
+						<li class="page-item">
+							<a class="page-link" href="${contextPath}/board/main?categoryCode=${category.categoryCode}&page=${pagination.prevPage}&recordCnt=${cri.recordCnt}&type=${cri.type}&keyword=${cri.keyword}"><i class="fa-solid fa-chevron-left"></i></a>
+						</li>
+					</c:if>
 					
 					<c:forEach var="item" begin="${pagination.startPage}" end="${pagination.endPage}">
 						<li class="page-item ${item eq pagination.page ? 'active' : ''}">
-							<a class="page-link" href="${contextPath}/board/main?categoryCode=${category.categoryCode}&page=${item}">${item}</a>
+							<a class="page-link" href="${contextPath}/board/main?categoryCode=${category.categoryCode}&page=${item}&recordCnt=${cri.recordCnt}&type=${cri.type}&keyword=${cri.keyword}">${item}</a>
 						</li>
 					</c:forEach>
 					
-					<li class="page-item ${pagination.next ? '' : 'disabled'}">
-						<a class="page-link" href="${contextPath}/board/main?categoryCode=${category.categoryCode}&page=${pagination.nextPage}">Next</a>
-					</li>
+					<c:if test="${pagination.next}">
+						<li class="page-item">
+							<a class="page-link" href="${contextPath}/board/main?categoryCode=${category.categoryCode}&page=${pagination.nextPage}&recordCnt=${cri.recordCnt}&type=${cri.type}&keyword=${cri.keyword}"><i class="fa-solid fa-chevron-right"></i></a>
+						</li>
+					</c:if>
 				</ul>
 			</div>
 		</div>		

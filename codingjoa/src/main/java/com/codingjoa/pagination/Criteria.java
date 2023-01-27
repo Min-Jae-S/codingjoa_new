@@ -11,17 +11,17 @@ public class Criteria {
 	
 	private int page;
 	private int recordCnt;
-	private String keyword;
 	private String type;
+	private String keyword;
 	
 	public Criteria() {
 		this(1, 10, null, null);
 	}
 
-	public Criteria(int page, int recordCnt, String keyword, String type) {
+	public Criteria(int page, int recordCnt, String type, String keyword) {
 		this.page = page;
 		this.recordCnt = recordCnt;
-		this.keyword = keyword;
 		this.type = type;
+		this.keyword = keyword;
 	}
 }

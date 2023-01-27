@@ -6,6 +6,8 @@ import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
 import com.codingjoa.dto.BoardDetailsDto;
@@ -22,6 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 //@Transactional
+@PropertySource("/WEB-INF/properties/pagination.properties")
 @Service
 public class BoardServiceImpl implements BoardService {
 
@@ -33,6 +36,9 @@ public class BoardServiceImpl implements BoardService {
 	
 	@Autowired
 	private ModelMapper modelMapper;
+	
+	@Value("${pagination.pageRange}")
+	private int pageRange;
 	
 	@Override
 	public int uploadImage(String uploadFilename) {
@@ -82,7 +88,7 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public Pagination getPagination(int categoryCode, Criteria cri) {
 		int totalCnt = boardMapper.findPagedBoardListTotalCnt(categoryCode, cri);
-		return new Pagination(totalCnt, cri.getPage(), cri.getRecordCnt(), 10);
+		return new Pagination(totalCnt, cri.getPage(), cri.getRecordCnt(), pageRange);
 	}
 	
 	@Override
