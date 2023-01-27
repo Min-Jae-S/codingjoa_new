@@ -49,14 +49,14 @@ public class CriteriaArgumentResolver implements HandlerMethodArgumentResolver {
 		log.info("============== CriteriaArgumentResolver ==============");
 		log.info("recordCntMap={}, typeMap={}", recordCntMap, typeMap);
 		
+		mavContainer.addAttribute("recordCntMap", recordCntMap);
+		mavContainer.addAttribute("typeMap", typeMap);
+		
 		//HttpServletRequest request = (HttpServletRequest) webRequest;
 		String page = webRequest.getParameter("page");
 		String recordCnt = webRequest.getParameter("recordCnt");
 		String type = webRequest.getParameter("type");
 		String keyword = webRequest.getParameter("keyword");
-		
-		mavContainer.addAttribute("recordCntMap", recordCntMap);
-		mavContainer.addAttribute("typeMap", typeMap);
 		
 		return new Criteria(
 			StringUtils.isNumeric(page) ? Integer.parseInt(page) : defaultPage,
