@@ -147,7 +147,7 @@
 			e.preventDefault();
 			let form = $("#modifyBoardDto");
 			let textArea = $("<textarea>").attr("style", "display:none;").attr("name", "boardContentText");
-			let plainText = viewToPlainText(writeEditor.editing.view.document.getRoot());
+			let plainText = viewToPlainText(modifyEditor.editing.view.document.getRoot());
 			
 			textArea.val(plainText);
 			form.append(textArea);
