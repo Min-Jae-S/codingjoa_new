@@ -48,6 +48,12 @@ public class BoardController {
 	@Resource(name = "boardValidator")
 	private Validator boardValidator;
 	
+//	@Value("#{${criteria.recordCntMap}}") 
+//	private Map<String, Object> recordCntMap; 
+//	
+//	@Value("#{${criteria.typeMap}}") 
+//	private Map<String, Object> typeMap;
+	
 	@InitBinder(value = { "writeBoardDto", "modifyBoardDto" })
 	public void initBinderBoard(WebDataBinder binder) {
 		binder.addValidators(boardValidator);
@@ -68,6 +74,8 @@ public class BoardController {
 					   @Cri @ModelAttribute("cri") Criteria cri, Model model) {
 		log.info("categoryCode={}, {}", categoryCode, cri);
 		
+//		model.addAttribute("recordCntMap", recordCntMap);
+//		model.addAttribute("typeMap", typeMap);
 		model.addAttribute("category", categoryService.findCategory(categoryCode));
 
 		List<BoardDetailsDto> boardList = boardService.getPagedBoardList(categoryCode, cri);
