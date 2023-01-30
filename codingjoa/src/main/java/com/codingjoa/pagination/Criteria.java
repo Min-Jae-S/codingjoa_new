@@ -35,7 +35,4 @@ public class Criteria {
 				.queryParam("keyword", this.keyword)
 				.toUriString();
 	}
-
-	
-
 }
