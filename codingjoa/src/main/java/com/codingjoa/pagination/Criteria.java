@@ -32,7 +32,7 @@ public class Criteria {
 				.queryParam("page", page)
 				.queryParam("recordCnt", this.recordCnt)
 				.queryParam("type", this.type)
-				.queryParam("keyword", this.keyword)
+				.queryParam("keyword", this.getKeyword())
 				.toUriString();
 	}
 }

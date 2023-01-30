@@ -29,14 +29,13 @@ public class Pagination {
 			pageCnt++;
 		}
 		
-		//	RANGE	|	START	|		END		
+		// | 	 RANGE		|	START	|	 END	|
 		// ------------------------------------------
-		// 1  -	10	|	  1		|	1  + 10 - 1 = 10
-		// 11 -	20	|	  11	|	11 + 10 - 1 = 20
-		// 21 -	30	|	  21	|	21 + 10 - 1 = 30
-		startPage = ((page - 1) / recordCnt) * recordCnt + 1;
+		// |  	1  - 10		|	  1		|	 10		|
+		// |  	11 - 20		|	  11	|	 20		|
+		// |  	21 - 30		|	  21	|	 30		|
 		
-		// endPage - startPage = pageRange - 1
+		startPage = ((page - 1) / pageRange) * pageRange + 1;
 		endPage = startPage + pageRange - 1;
 		
 		if (endPage > pageCnt) {
