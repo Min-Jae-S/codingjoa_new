@@ -126,7 +126,7 @@
 					</tbody>
 				</table>
 			</div>
-			<div class="mb-3" style="height: 38px">
+			<div class="mb-3" style="height: 38px;">
 				<sec:authorize access="isAuthenticated()">
 					<a class="btn btn-primary" href="${contextPath}/board/write?categoryCode=${category.categoryCode}">글쓰기</a>
 				</sec:authorize>

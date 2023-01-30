@@ -62,6 +62,7 @@ public class BoardController {
 	@GetMapping("/main")
 	public String main(@RequestParam("categoryCode") int categoryCode, @Cri Criteria cri, Model model) {
 		log.info("categoryCode={}, {}", categoryCode, cri);
+		log.info("query={}", cri.getQuery());
 		
 		model.addAttribute("cri", cri);
 		model.addAttribute("category", categoryService.findCategory(categoryCode));
