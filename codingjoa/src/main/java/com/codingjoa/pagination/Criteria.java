@@ -26,15 +26,15 @@ public class Criteria {
 		this.keyword = keyword;
 	}
 	
-	public String makeQuery() {
-		UriComponentsBuilder builder = ServletUriComponentsBuilder.fromCurrentContextPath()
+	public String makeQuery(int page) {
+		return ServletUriComponentsBuilder.fromCurrentContextPath()
 				.path("/board/main")
 				.queryParam("categoryCode", this.categoryCode)
+				.queryParam("page", page)
 				.queryParam("recordCnt", this.recordCnt)
 				.queryParam("type", this.type)
-				.queryParam("keyword", this.keyword);
-
-		return builder.toUriString();
+				.queryParam("keyword", this.keyword)
+				.toUriString();
 	}
 
 	

@@ -63,7 +63,6 @@ public class BoardController {
 	@GetMapping("/main")
 	public String main(@Cri Criteria cri, Model model) {
 		log.info("{}", cri);
-		log.info("query={}", cri.makeQuery());
 		
 		model.addAttribute("cri", cri);
 		
@@ -75,6 +74,7 @@ public class BoardController {
 		
 		Pagination pagination = boardService.getPagination(cri);
 		model.addAttribute("pagination", pagination);
+		
 		log.info("{}", pagination);
 		
 		return "board/main";

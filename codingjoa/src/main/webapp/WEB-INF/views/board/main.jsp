@@ -135,19 +135,19 @@
 				<ul class="pagination justify-content-center">
 					<c:if test="${pagination.prev}">
 						<li class="page-item">
-							<a class="page-link" href="${cri.makeQuery}page=${pagination.prevPage}"><i class="fa-solid fa-chevron-left"></i></a>
+							<a class="page-link" href="${cri.makeQuery(pagination.prevPage)}"><i class="fa-solid fa-chevron-left"></i></a>
 						</li>
 					</c:if>
 					
 					<c:forEach var="item" begin="${pagination.startPage}" end="${pagination.endPage}" >
 						<li class="page-item ${item eq pagination.page ? 'active' : ''}">
-							<a class="page-link" href="${cri.makeQuery}&page=${item}">${item}</a>
+							<a class="page-link" href="${cri.makeQuery(item)}">${item}</a>
 						</li>
 					</c:forEach>
 					
 					<c:if test="${pagination.next}">
 						<li class="page-item">
-							<a class="page-link" href="${cri.makeQuery}&page=${pagination.nextPage}"><i class="fa-solid fa-chevron-right"></i></a>
+							<a class="page-link" href="${cri.makeQuery(pagination.nextPage)"><i class="fa-solid fa-chevron-right"></i></a>
 						</li>
 					</c:if>
 				</ul>
@@ -161,9 +161,7 @@
 
 <script>
 	$(function() {
-		let query = '${cri.makeQuery}';
-		console.log("query");
-		console.log(query);
+		
 	});
 </script>	
 </body>
