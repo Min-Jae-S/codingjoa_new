@@ -21,9 +21,9 @@ public interface BoardService {
 	
 	void updateBoardViews(int boardIdx);
 	
-	Pagination getPagination(int categoryCode, Criteria cri);
-	
-	List<BoardDetailsDto> getPagedBoardList(int categoryCode, Criteria cri);
+	List<BoardDetailsDto> getPagedBoardList(Criteria cri);
+
+	Pagination getPagination(Criteria cri);
 	
 	boolean isBoardIdxExist(int boardIdx);
 	

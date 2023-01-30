@@ -69,10 +69,10 @@
 	<div class="row">
 		<div class="col-sm-2"></div>
 		<div class="col-sm-8">
-			<h4 class="font-weight-bold mb-4">${category.categoryName}</h4>
+			<h4 class="font-weight-bold mb-4">${categoryName}</h4>
 			<div class="pt-3">
 	        	<form:form class="form-inline" action="${contextPath}/board/main" method="GET" modelAttribute="cri">
-	        		<input type="hidden" name="categoryCode" value="${category.categoryCode}">
+	        		<form:hidden path="categoryCode"/>
 				  	<form:select path="type" class="custom-select custom-select-sm mr-2">
 				  		<form:options items="${typeMap}"/>
 				  	</form:select>
@@ -128,7 +128,7 @@
 			</div>
 			<div class="mb-3" style="height: 38px;">
 				<sec:authorize access="isAuthenticated()">
-					<a class="btn btn-primary" href="${contextPath}/board/write?categoryCode=${category.categoryCode}">글쓰기</a>
+					<a class="btn btn-primary" href="${contextPath}/board/write?categoryCode=${cri.categoryCode}">글쓰기</a>
 				</sec:authorize>
 			</div>
 			<div class="pt-3">

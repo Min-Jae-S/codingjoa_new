@@ -82,18 +82,18 @@
 	</update>
 	
 	<sql id="searchCriteria">
-		<if test="cri.type != null">
+		<if test="type != null">
 			<trim prefix="(" suffix=") AND " suffixOverrides="OR">
-				<foreach collection='cri.type.split("")' item="item">
+				<foreach collection='type.split("")' item="item">
 					<trim suffix="OR">
 						<if test='item.equals("T")'>
-							a.board_title like '%' || #{cri.keyword} || '%'
+							a.board_title like '%' || #{keyword} || '%'
 						</if>
 						<if test='item.equals("C")'>
-							a.board_content_text like '%' || #{cri.keyword} || '%'
+							a.board_content_text like '%' || #{keyword} || '%'
 						</if>
 						<if test='item.equals("W")'>
-							b.member_id like '%' || #{cri.keyword} || '%'
+							b.member_id like '%' || #{keyword} || '%'
 						</if> 
 					</trim>
 				</foreach>
@@ -101,21 +101,7 @@
 		</if>
 	</sql>
 	
-	<select id="findPagedBoardListTotalCnt" parameterType="map" resultType="int">
-		SELECT
-			COUNT(*)
-		FROM
-			board a
-		INNER JOIN
-			member b
-		ON
-			a.board_writer_idx = b.member_idx
-		WHERE
-			<include refid="searchCriteria"/>
-			a.board_category_code = #{categoryCode}
-	</select>
-	
-	<select id="findPagedBoardList" parameterType="map" resultMap="boardDetailsMap">
+	<select id="findPagedBoardList" parameterType="cri" resultMap="boardDetailsMap">
 		SELECT 
 			board_idx, 
 			board_title, 
@@ -146,11 +132,25 @@
 				a.board_category_code = #{categoryCode} 
 				AND
 				<![CDATA[
-				ROWNUM <= ( #{cri.page} * #{cri.recordCnt} )
+				ROWNUM <= ( #{page} * #{recordCnt} )
 				]]>
 		)
 		WHERE
-			rn > ( ( #{cri.page} - 1 ) * #{cri.recordCnt} )
+			rn > ( ( #{page} - 1 ) * #{recordCnt} )
+	</select>
+	
+	<select id="findPagedBoardListTotalCnt" parameterType="cri" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			board a
+		INNER JOIN
+			member b
+		ON
+			a.board_writer_idx = b.member_idx
+		WHERE
+			<include refid="searchCriteria"/>
+			a.board_category_code = #{categoryCode}
 	</select>
 	
 	<select id="isBoardIdxExist" parameterType="int" resultType="boolean">

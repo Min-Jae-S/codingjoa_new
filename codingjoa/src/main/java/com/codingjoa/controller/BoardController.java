@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.codingjoa.annotation.Cri;
 import com.codingjoa.dto.BoardDetailsDto;
 import com.codingjoa.dto.BoardDto;
+import com.codingjoa.entity.Category;
 import com.codingjoa.pagination.Criteria;
 import com.codingjoa.pagination.Pagination;
 import com.codingjoa.security.dto.UserDetailsDto;
@@ -60,17 +61,19 @@ public class BoardController {
 	}
 	
 	@GetMapping("/main")
-	public String main(@RequestParam("categoryCode") int categoryCode, @Cri Criteria cri, Model model) {
-		log.info("categoryCode={}, {}", categoryCode, cri);
+	public String main(@Cri Criteria cri, Model model) {
+		log.info("{}", cri);
 		log.info("query={}", cri.getQuery());
 		
 		model.addAttribute("cri", cri);
-		model.addAttribute("category", categoryService.findCategory(categoryCode));
+		
+		Category category = categoryService.findCategory(cri.getCategoryCode());
+		model.addAttribute("categoryName", category.getCategoryName());
 
-		List<BoardDetailsDto> boardList = boardService.getPagedBoardList(categoryCode, cri);
+		List<BoardDetailsDto> boardList = boardService.getPagedBoardList(cri);
 		model.addAttribute("boardList", boardList);
 		
-		Pagination pagination = boardService.getPagination(categoryCode, cri);
+		Pagination pagination = boardService.getPagination(cri);
 		model.addAttribute("pagination", pagination);
 		log.info("{}", pagination);
 		

@@ -12,6 +12,7 @@
 		<typeAlias type="com.codingjoa.entity.Category" alias="category" />
 		<typeAlias type="com.codingjoa.entity.Board" alias="board" />
 		<typeAlias type="com.codingjoa.entity.Upload" alias="upload" />
+		<typeAlias type="com.codingjoa.pagination.Criteria" alias="cri" />
 		<!-- <typeAlias type="com.codingjoa.mybatis.ClobTypeHandler" alias="clobTypeHandler" /> -->
 	</typeAliases>
 	

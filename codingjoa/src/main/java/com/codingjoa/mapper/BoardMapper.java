@@ -18,9 +18,9 @@ public interface BoardMapper {
 	
 	void updateBoardViews(int boardIdx);
 	
-	int findPagedBoardListTotalCnt(@Param("categoryCode")int categoryCode, @Param("cri") Criteria cri);
-	
-	List<Map<String, Object>> findPagedBoardList(@Param("categoryCode")int categoryCode, @Param("cri") Criteria cri);
+	List<Map<String, Object>> findPagedBoardList(Criteria cri);
+
+	int findPagedBoardListTotalCnt(Criteria cri);
 	
 	boolean isBoardIdxExist(int boardIdx);
 	
