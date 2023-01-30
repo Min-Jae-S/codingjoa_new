@@ -1,5 +1,6 @@
 package com.codingjoa.pagination;
 
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import lombok.Getter;
@@ -26,9 +27,9 @@ public class Criteria {
 	}
 	
 	public String getQuery() {
-		UriComponentsBuilder builder = UriComponentsBuilder.fromPath("")
+		UriComponentsBuilder builder = ServletUriComponentsBuilder.fromCurrentContextPath()
+				.path("/board/main")
 				.queryParam("categoryCode", this.categoryCode)
-				.queryParam("page", this.page)
 				.queryParam("recordCnt", this.recordCnt)
 				.queryParam("type", this.type)
 				.queryParam("keyword", this.keyword);
