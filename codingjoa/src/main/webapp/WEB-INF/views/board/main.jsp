@@ -139,15 +139,15 @@
 						</li>
 					</c:if>
 					
-					<c:forEach var="item" begin="${pagination.startPage}" end="${pagination.endPage}" >
+					<%-- <c:forEach var="item" begin="${pagination.startPage}" end="${pagination.endPage}">
 						<li class="page-item ${item eq pagination.page ? 'active' : ''}">
 							<a class="page-link" href="${cri.makeQuery(item)}">${item}</a>
 						</li>
-					</c:forEach>
+					</c:forEach> --%>
 					
 					<c:if test="${pagination.next}">
 						<li class="page-item">
-							<a class="page-link" href="${cri.makeQuery(pagination.nextPage)"><i class="fa-solid fa-chevron-right"></i></a>
+							<a class="page-link" href="${cri.makeQuery(pagination.nextPage)}"><i class="fa-solid fa-chevron-right"></i></a>
 						</li>
 					</c:if>
 				</ul>
