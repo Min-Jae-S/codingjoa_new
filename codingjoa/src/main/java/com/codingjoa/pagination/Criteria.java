@@ -26,7 +26,7 @@ public class Criteria {
 		this.keyword = keyword;
 	}
 	
-	public String getQuery() {
+	public String makeQuery() {
 		UriComponentsBuilder builder = ServletUriComponentsBuilder.fromCurrentContextPath()
 				.path("/board/main")
 				.queryParam("categoryCode", this.categoryCode)
