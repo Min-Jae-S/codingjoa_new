@@ -111,7 +111,7 @@
 						<a class="btn btn-warning mr-1" href="${contextPath}/board/deleteProc?boardIdx=${boardDetails.boardIdx}">삭제</a>
 					</c:if>
 				</sec:authorize>
-				<a class="btn btn-secondary" href="#">목록</a>
+				<a class="btn btn-secondary" href="${contextPath}/board/main${cri.makeQueryString(cri.page)}">목록</a>
 			</div>
 		</div>
 		<div class="col-sm-2"></div>

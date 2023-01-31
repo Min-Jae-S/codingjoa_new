@@ -65,9 +65,7 @@ public class BoardController {
 		log.info("{}", cri);
 		
 		model.addAttribute("cri", cri);
-		
-		Category category = categoryService.findCategory(cri.getCategoryCode());
-		model.addAttribute("categoryName", category.getCategoryName());
+		model.addAttribute("category", categoryService.findCategory(cri.getCategoryCode()));
 
 		List<BoardDetailsDto> boardList = boardService.getPagedBoardList(cri);
 		model.addAttribute("boardList", boardList);
@@ -81,16 +79,17 @@ public class BoardController {
 	}
 	
 	@GetMapping("/read")
-	public String read(@RequestParam("boardIdx") int boardIdx, Model model) {
+	public String read(@RequestParam("boardIdx") int boardIdx, @Cri Criteria cri, Model model) {
 		log.info("boardIdx={}", boardIdx);
+		log.info("{}", cri);
 		
 		boardService.updateBoardViews(boardIdx);
+
+		model.addAttribute("cri", cri);
+		model.addAttribute("category", categoryService.findCategory(cri.getCategoryCode()));
 		
 		BoardDetailsDto boardDetails = boardService.getBoardDetails(boardIdx);
 		model.addAttribute("boardDetails", boardDetails);
-		
-		int categoryCode = boardDetails.getBoardCategoryCode();
-		model.addAttribute("category", categoryService.findCategory(categoryCode));
 		
 		return "board/read";
 	}

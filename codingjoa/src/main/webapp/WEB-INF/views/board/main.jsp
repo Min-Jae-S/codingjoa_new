@@ -69,7 +69,7 @@
 	<div class="row">
 		<div class="col-sm-2"></div>
 		<div class="col-sm-8">
-			<h4 class="font-weight-bold mb-4">${categoryName}</h4>
+			<h4 class="font-weight-bold mb-4">${category.categoryName}</h4>
 			<div class="pt-3">
 	        	<form:form class="form-inline" action="${contextPath}/board/main" method="GET" modelAttribute="cri">
 	        		<form:hidden path="categoryCode"/>
