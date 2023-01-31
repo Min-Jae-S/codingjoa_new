@@ -1,8 +1,5 @@
 package com.codingjoa.interceptor;
 
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -27,7 +24,6 @@ public class CheckBoardIdxInterceptor implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		log.info("============== CheckBoardIdxInterceptor ==============");
-		log.info("{}", getFullURL(request));
 
 		String boardIdx = request.getParameter("boardIdx");
 		
@@ -44,15 +40,4 @@ public class CheckBoardIdxInterceptor implements HandlerInterceptor {
 		return true;
 	}
 
-	private String getFullURL(HttpServletRequest request) {
-		StringBuilder requestURL = new StringBuilder(request.getRequestURL().toString());
-	    String queryString = request.getQueryString();
-	    
-	    if (queryString == null) {
-	        return requestURL.toString();
-	    } else {
-	    	return requestURL.append('?').append(URLDecoder.decode(queryString, StandardCharsets.UTF_8)).toString();
-	    }
-	}
-	
 }
