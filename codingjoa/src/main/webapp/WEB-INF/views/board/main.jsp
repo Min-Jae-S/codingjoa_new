@@ -164,7 +164,7 @@
 		$("#recordCnt").on("change", function() {
 			let url = new URL(location.href);
 			url.searchParams.set("page", "1");
-			url.searchParams.set("recordCnt", this.value);
+			url.searchParams.set("recordCnt", $(this).val());
 			location.href = url;
 		});
 	});
