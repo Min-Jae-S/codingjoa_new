@@ -1,5 +1,7 @@
 package com.codingjoa.pagination;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import lombok.Getter;
@@ -33,6 +35,13 @@ public class Criteria {
 				.queryParam("recordCnt", this.recordCnt)
 				.queryParam("type", this.type)
 				.queryParam("keyword", this.getKeyword())
+				.toUriString();
+	}
+	
+	public String replaceQuery(HttpServletRequest request, int recordCnt) {
+		return ServletUriComponentsBuilder.fromRequest(request)
+				.replaceQueryParam("recordCnt", recordCnt)
+				.replaceQueryParam("page", 1)
 				.toUriString();
 	}
 }

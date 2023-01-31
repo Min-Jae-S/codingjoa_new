@@ -161,7 +161,9 @@
 
 <script>
 	$(function() {
-		
+		$("#recordCnt").on("change", function() {
+			console.log(location.href);
+		});
 	});
 </script>	
 </body>
