@@ -72,7 +72,7 @@
 			<h4 class="font-weight-bold mb-4">${category.categoryName}</h4>
 			<div class="pt-3">
 	        	<form:form class="form-inline" action="${contextPath}/board/main" method="GET" modelAttribute="cri">
-	        		<form:hidden path="categoryCode"/>
+	        		<form:hidden path="boardCategoryCode"/>
 				  	<form:select path="type" class="custom-select custom-select-sm mr-2">
 				  		<form:options items="${typeMap}"/>
 				  	</form:select>

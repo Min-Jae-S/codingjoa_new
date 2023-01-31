@@ -67,7 +67,7 @@
 					$.each(data, function(i, value) {
 						html += "<button class='dropdown-item' type='button' data-path='";
 						html += (data[i].categoryCode == data[i].categoryPath) ? 
-									"/main?categoryCode=" + data[i].categoryCode : data[i].categoryPath;
+									"/main?boardCategoryCode=" + data[i].categoryCode : data[i].categoryPath;
 						html += "'>" + data[i].categoryName + "</button>";
 					});
 					html += "</div>";
@@ -93,7 +93,7 @@
 			$(this).css("color", "grey").css("font-weight", "400");
 		});
 		
-		$(document).on("click", "button.dropdown-item", function(e) {
+		$(document).on("click", "button.dropdown-item", function() {
 			var parent_path = $(this).closest(".dropdown").data("path");
 			location.href = "${contextPath}" + parent_path + $(this).data("path");
 		}); 
