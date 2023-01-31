@@ -46,4 +46,13 @@ public class Criteria {
 				.queryParam("keyword", this.keyword)
 				.toUriString();
 	}
+	
+	public String makeQueryString(int page) {
+		return ServletUriComponentsBuilder.newInstance()
+				.queryParam("categoryCode", this.categoryCode)
+				.queryParam("page", page)
+				.queryParam("recordCnt", this.recordCnt)
+				.queryParam("type", this.type)
+				.queryParam("keyword", this.keyword).toUriString();
+	}
 }

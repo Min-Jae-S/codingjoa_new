@@ -105,7 +105,7 @@
 									<tr>
 										<td class="d-md-table-cell"><c:out value="${boardDetails.boardIdx}"/></td>
 										<td class="d-md-table-cell text-left">
-											<a href='${contextPath}/board/read?boardIdx=${boardDetails.boardIdx}'><c:out value="${boardDetails.boardTitle}"/></a>
+											<a href='${contextPath}/board/read${cri.makeQueryString(cri.page)}&boardIdx=${boardDetails.boardIdx}'><c:out value="${boardDetails.boardTitle}"/></a>
 										</td>
 										<td class="d-md-table-cell"><c:out value="${boardDetails.memberId}"/></td>
 										<td class="d-md-table-cell">
@@ -128,26 +128,26 @@
 			</div>
 			<div class="mb-3" style="height: 38px;">
 				<sec:authorize access="isAuthenticated()">
-					<a class="btn btn-primary" href="${contextPath}/board/write?categoryCode=${cri.categoryCode}">글쓰기</a>
+					<a class="btn btn-primary" href="${contextPath}/board/write${cri.makeQueryString(cri.page)}">글쓰기</a>
 				</sec:authorize>
 			</div>
 			<div class="pt-3">
 				<ul class="pagination justify-content-center">
 					<c:if test="${pagination.prev}">
 						<li class="page-item">
-							<a class="page-link" href="${cri.makeQuery(pagination.prevPage)}"><i class="fa-solid fa-chevron-left"></i></a>
+							<a class="page-link" href="${contextPath}/board/main${cri.makeQueryString(pagination.prevPage)}"><i class="fa-solid fa-chevron-left"></i></a>
 						</li>
 					</c:if>
 					
 					<c:forEach var="item" begin="${pagination.startPage}" end="${pagination.endPage}">
 						<li class="page-item ${item eq pagination.page ? 'active' : ''}">
-							<a class="page-link" href="${cri.makeQuery(item)}">${item}</a>
+							<a class="page-link" href="${contextPath}/board/main${cri.makeQueryString(item)}">${item}</a>
 						</li>
 					</c:forEach>
 					
 					<c:if test="${pagination.next}">
 						<li class="page-item">
-							<a class="page-link" href="${cri.makeQuery(pagination.nextPage)}"><i class="fa-solid fa-chevron-right"></i></a>
+							<a class="page-link" href="${contextPath}/board/main${cri.makeQueryString(pagination.nextPage)}"><i class="fa-solid fa-chevron-right"></i></a>
 						</li>
 					</c:if>
 				</ul>
@@ -160,6 +160,8 @@
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 
 <script>
+	console.log("${cri.makeQueryString(1)}");
+	
 	$(function() {
 		$("#recordCnt").on("change", function() {
 			let url = new URL(location.href);
