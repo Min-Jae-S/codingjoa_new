@@ -94,11 +94,7 @@ public class BoardController {
 	}
 	
 	@GetMapping("/write")
-	public String write(@RequestParam int categoryCode, 
-						@ModelAttribute("writeBoardDto") BoardDto writeBoardDto, Model model) {
-		log.info("categoryCode={}", categoryCode);
-		
-		writeBoardDto.setBoardCategoryCode(categoryCode);
+	public String write(@ModelAttribute("writeBoardDto") BoardDto writeBoardDto, Model model) {
 		log.info("{}", writeBoardDto);
 		
 		return "board/write";
