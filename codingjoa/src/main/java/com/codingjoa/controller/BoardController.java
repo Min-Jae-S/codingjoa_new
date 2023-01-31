@@ -64,7 +64,7 @@ public class BoardController {
 		log.info("{}", cri);
 		
 		model.addAttribute("cri", cri);
-		model.addAttribute("category", categoryService.findCategory(cri.getCategoryCode()));
+		model.addAttribute("category", categoryService.findCategory(cri.getBoardCategoryCode()));
 
 		List<BoardDetailsDto> boardList = boardService.getPagedBoardList(cri);
 		model.addAttribute("boardList", boardList);
@@ -85,7 +85,7 @@ public class BoardController {
 		boardService.updateBoardViews(boardIdx);
 
 		model.addAttribute("cri", cri);
-		model.addAttribute("category", categoryService.findCategory(cri.getCategoryCode()));
+		model.addAttribute("category", categoryService.findCategory(cri.getBoardCategoryCode()));
 		
 		BoardDetailsDto boardDetails = boardService.getBoardDetails(boardIdx);
 		model.addAttribute("boardDetails", boardDetails);

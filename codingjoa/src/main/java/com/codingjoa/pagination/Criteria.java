@@ -11,14 +11,14 @@ import lombok.ToString;
 @Setter
 public class Criteria {
 	
-	private int categoryCode;
+	private int boardCategoryCode;
 	private int page;
 	private int recordCnt;
 	private String type;
 	private String keyword;
 	
-	public Criteria(int categoryCode, int page, int recordCnt, String type, String keyword) {
-		this.categoryCode = categoryCode;
+	public Criteria(int boardCategoryCode, int page, int recordCnt, String type, String keyword) {
+		this.boardCategoryCode = boardCategoryCode;
 		this.page = page;
 		this.recordCnt = recordCnt;
 		this.type = type;
@@ -27,7 +27,7 @@ public class Criteria {
 	
 	public String makeQueryString(int page) {
 		return ServletUriComponentsBuilder.newInstance()
-				.queryParam("categoryCode", this.categoryCode)
+				.queryParam("boardCategoryCode", this.boardCategoryCode)
 				.queryParam("page", page)
 				.queryParam("recordCnt", this.recordCnt)
 				.queryParam("type", this.type)

@@ -129,7 +129,7 @@
 				a.board_writer_idx = b.member_idx
 			WHERE
 				<include refid="searchCriteria"/>
-				a.board_category_code = #{categoryCode} 
+				a.board_category_code = #{boardCategoryCode} 
 				AND
 				<![CDATA[
 				ROWNUM <= ( #{page} * #{recordCnt} )
@@ -150,7 +150,7 @@
 			a.board_writer_idx = b.member_idx
 		WHERE
 			<include refid="searchCriteria"/>
-			a.board_category_code = #{categoryCode}
+			a.board_category_code = #{boardCategoryCode}
 	</select>
 	
 	<select id="isBoardIdxExist" parameterType="int" resultType="boolean">

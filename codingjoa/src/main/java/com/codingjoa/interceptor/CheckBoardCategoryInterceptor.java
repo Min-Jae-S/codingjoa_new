@@ -13,8 +13,8 @@ import com.codingjoa.service.CategoryService;
 
 import lombok.extern.slf4j.Slf4j;
 
-// "/board/main", "/board/read", "/board/write" --> Criteria(categoryCode)
-// "/board/writeProc", "/board/modifyProc"		--> BoardDto(boardCategoryCode)
+// "/board/main", "/board/read"									--> Criteria(boardCategoryCode)
+// "/board/write", "/board/writeProc", "/board/modifyProc"		--> BoardDto(boardCategoryCode)
 @Slf4j
 public class CheckBoardCategoryInterceptor implements HandlerInterceptor {
 
@@ -30,16 +30,14 @@ public class CheckBoardCategoryInterceptor implements HandlerInterceptor {
 		log.info("============== CheckBoardCategoryInterceptor ==============");
 		log.info("URL={}", getFullURL(request));
 		
-		String param1 = request.getParameter("categoryCode");
-		String param2 = request.getParameter("boardCategoryCode");
-		String categoryCode = (param1 != null) ? param1 : param2;
+		String boardCategoryCode = request.getParameter("boardCategoryCode");
 		
-		if (!StringUtils.isNumeric(categoryCode)) {
+		if (!StringUtils.isNumeric(boardCategoryCode)) {
 			request.getRequestDispatcher("/error/errorPage").forward(request, response);
 			return false;
 		}
 		
-		if (!categoryService.isBoardCategory(Integer.parseInt(categoryCode))) {
+		if (!categoryService.isBoardCategory(Integer.parseInt(boardCategoryCode))) {
 			request.getRequestDispatcher("/error/errorPage").forward(request, response);
 			return false;
 		}
