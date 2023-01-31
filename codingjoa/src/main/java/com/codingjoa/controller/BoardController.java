@@ -63,8 +63,6 @@ public class BoardController {
 	@GetMapping("/main")
 	public String main(@Cri Criteria cri, Model model) {
 		log.info("{}", cri);
-		log.info("makeQuery 	==> {}", cri.makeQuery(cri.getPage()));
-		log.info("makeQuery2	==> {}", cri.makeQuery2(cri.getPage()));
 		
 		model.addAttribute("cri", cri);
 		
