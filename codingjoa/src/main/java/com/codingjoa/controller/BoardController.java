@@ -94,7 +94,7 @@ public class BoardController {
 	}
 	
 	@GetMapping("/write")
-	public String write(@ModelAttribute("writeBoardDto") BoardDto writeBoardDto, Model model) {
+	public String write(@ModelAttribute("writeBoardDto") BoardDto writeBoardDto) {
 		log.info("{}", writeBoardDto);
 		
 		return "board/write";
