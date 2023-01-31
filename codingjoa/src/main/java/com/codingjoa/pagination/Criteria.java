@@ -25,6 +25,17 @@ public class Criteria {
 		this.keyword = keyword;
 	}
 	
+	public String makeQuery() {
+		return ServletUriComponentsBuilder.fromCurrentContextPath()
+				.path("/board/read")
+				.queryParam("categoryCode", this.categoryCode)
+				.queryParam("page", this.page)
+				.queryParam("recordCnt", this.recordCnt)
+				.queryParam("type", this.type)
+				.queryParam("keyword", this.keyword)
+				.toUriString();
+	}
+	
 	public String makeQuery(int page) {
 		return ServletUriComponentsBuilder.fromCurrentContextPath()
 				.path("/board/main")
