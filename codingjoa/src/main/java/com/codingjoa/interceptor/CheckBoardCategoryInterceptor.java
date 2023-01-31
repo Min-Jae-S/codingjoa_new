@@ -30,14 +30,9 @@ public class CheckBoardCategoryInterceptor implements HandlerInterceptor {
 		log.info("============== CheckBoardCategoryInterceptor ==============");
 		log.info("URL={}", getFullURL(request));
 		
-		String method = request.getMethod();
-		String categoryCode = null;
-		
-		if (method.equals("GET")) {			// "/board/main", "/board/read", "/board/write"
-			categoryCode = request.getParameter("categoryCode");
-		} else if (method.equals("POST")) { // "/board/writeProc", "/board/modifyProc"
-			categoryCode = request.getParameter("boardCategoryCode");
-		}
+		String param1 = request.getParameter("categoryCode");
+		String param2 = request.getParameter("boardCategoryCode");
+		String categoryCode = (param1 != null) ? param1 : param2; 
 		
 		if (!StringUtils.isNumeric(categoryCode)) {
 			request.getRequestDispatcher("/error/errorPage").forward(request, response);
