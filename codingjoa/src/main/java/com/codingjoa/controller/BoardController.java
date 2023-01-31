@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.codingjoa.annotation.Cri;
 import com.codingjoa.dto.BoardDetailsDto;
 import com.codingjoa.dto.BoardDto;
-import com.codingjoa.entity.Category;
 import com.codingjoa.pagination.Criteria;
 import com.codingjoa.pagination.Pagination;
 import com.codingjoa.security.dto.UserDetailsDto;
