@@ -13,8 +13,7 @@ import com.codingjoa.service.CategoryService;
 
 import lombok.extern.slf4j.Slf4j;
 
-// "/board/main"											--> Criteria(boardCategoryCode)
-// "/board/write", "/board/writeProc", "/board/modifyProc"	--> BoardDto(boardCategoryCode)
+// "/board/main", "/board/write", "/board/writeProc", "/board/modifyProc"
 @Slf4j
 public class CheckBoardCategoryInterceptor implements HandlerInterceptor {
 

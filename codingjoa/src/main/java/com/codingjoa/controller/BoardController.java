@@ -102,7 +102,7 @@ public class BoardController {
 	
 	@PostMapping("/writeProc")
 	public String writeProc(@Valid @ModelAttribute("writeBoardDto") BoardDto writeBoardDto, 
-			BindingResult bindingResult, @AuthenticationPrincipal UserDetailsDto principal, Model model) {
+			BindingResult bindingResult, @AuthenticationPrincipal UserDetailsDto principal) {
 		log.info("{}", writeBoardDto);
 		
 		if (bindingResult.hasErrors()) {
@@ -122,7 +122,7 @@ public class BoardController {
 	}
 	
 	@GetMapping("/modify")
-	public String modify(@ModelAttribute("modifyBoardDto") BoardDto modifyBoardDto, Model model) {
+	public String modify(@ModelAttribute("modifyBoardDto") BoardDto modifyBoardDto) {
 		log.info("{}", modifyBoardDto);
 		
 		boardService.bindModifyBoard(modifyBoardDto);
@@ -133,7 +133,7 @@ public class BoardController {
 	
 	@PostMapping("/modifyProc")
 	public String modifyProc(@Valid @ModelAttribute("modifyBoardDto") BoardDto modifyBoardDto, 
-			BindingResult bindingResult, @AuthenticationPrincipal UserDetailsDto principal, Model model) {
+			BindingResult bindingResult, @AuthenticationPrincipal UserDetailsDto principal) {
 		log.info("{}", modifyBoardDto);
 		
 		if (bindingResult.hasErrors()) {
@@ -150,7 +150,7 @@ public class BoardController {
 	}
 	
 	@GetMapping("/deleteProc")
-	public String deleteProc(@RequestParam("boardIdx") int boardIdx, Model model) {
+	public String deleteProc(@RequestParam("boardIdx") int boardIdx) {
 		log.info("boardIdx={}", boardIdx);
 		
 		return "board/delete-success";
