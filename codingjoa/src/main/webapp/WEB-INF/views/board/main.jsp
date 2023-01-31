@@ -160,8 +160,6 @@
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 
 <script>
-	console.log("${cri.makeQueryString(1)}");
-	
 	$(function() {
 		$("#recordCnt").on("change", function() {
 			let url = new URL(location.href);
