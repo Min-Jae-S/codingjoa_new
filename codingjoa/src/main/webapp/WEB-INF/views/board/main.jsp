@@ -162,7 +162,10 @@
 <script>
 	$(function() {
 		$("#recordCnt").on("change", function() {
-			console.log(location.href);
+			let url = new URL(location.href);
+			url.searchParams.set("page", "1");
+			url.searchParams.set("recordCnt", this.value);
+			location.href = url;
 		});
 	});
 </script>	
