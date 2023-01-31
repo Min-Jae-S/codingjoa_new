@@ -160,10 +160,6 @@
 		});
 	
 	$(function() {
-		if ("${msg}" != null) {
-			alert("${msg}");
-		}
-		
 		
 	});
 	

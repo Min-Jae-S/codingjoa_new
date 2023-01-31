@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.codingjoa.annotation.Cri;
@@ -103,7 +102,7 @@ public class BoardController {
 	}
 	
 	@PostMapping("/writeProc")
-	public String writeProc(RedirectAttributes rttr, @Valid @ModelAttribute("writeBoardDto") BoardDto writeBoardDto, 
+	public String writeProc(@Valid @ModelAttribute("writeBoardDto") BoardDto writeBoardDto, 
 			BindingResult bindingResult, @AuthenticationPrincipal UserDetailsDto principal) {
 		log.info("{}", writeBoardDto);
 		
@@ -120,12 +119,9 @@ public class BoardController {
 		writeBoardDto.setBoardIdx(boardIdx);
 		boardService.activateImage(writeBoardDto);
 		
-		rttr.addFlashAttribute("msg", "write success");
-		
 		return "redirect:/board/read" + UriComponentsBuilder.newInstance()
-														.queryParam("boardIdx", boardIdx)
-														.queryParam("boardCategoryCode", writeBoardDto.getBoardCategoryCode())
-														.toUriString();
+											.queryParam("boardIdx", boardIdx)
+											.queryParam("boardCategoryCode", writeBoardDto.getBoardCategoryCode()).toUriString();
 	}
 	
 	@GetMapping("/modify")
