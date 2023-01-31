@@ -22,7 +22,7 @@ public interface BoardMapper {
 
 	int findPagedBoardListTotalCnt(Criteria cri);
 	
-	boolean isBoardIdxExist(int boardIdx);
+	boolean isBoardIdxExist(@Param("boardIdx") int boardIdx, @Param("boardCategoryCode") int boardCategoryCode);
 	
 	Board findBoardByIdx(int boardIdx);
 	

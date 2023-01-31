@@ -153,13 +153,13 @@
 			a.board_category_code = #{boardCategoryCode}
 	</select>
 	
-	<select id="isBoardIdxExist" parameterType="int" resultType="boolean">
+	<select id="isBoardIdxExist" parameterType="map" resultType="boolean">
 		SELECT
 			COUNT(*)
 		FROM
 			board
 		WHERE
-			board_idx = #{boardIdx}
+			board_idx = #{boardIdx} AND board_category_code = #{boardCategoryCode}
 	</select>
 	
 	<select id="findBoardByIdx" parameterType="int" resultType="board">

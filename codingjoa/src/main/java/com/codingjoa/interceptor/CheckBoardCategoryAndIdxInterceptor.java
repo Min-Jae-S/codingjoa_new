@@ -12,27 +12,28 @@ import lombok.extern.slf4j.Slf4j;
 
 // "/board/read"
 @Slf4j
-public class CheckBoardIdxInterceptor implements HandlerInterceptor {
+public class CheckBoardCategoryAndIdxInterceptor implements HandlerInterceptor {
 
 	private BoardService boardService;
 	
-	public CheckBoardIdxInterceptor(BoardService boardService) {
+	public CheckBoardCategoryAndIdxInterceptor(BoardService boardService) {
 		this.boardService = boardService;
 	}
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		log.info("============== CheckBoardIdxInterceptor ==============");
+		log.info("============== CheckBoardCategoryAndIdxInterceptor ==============");
 
 		String boardIdx = request.getParameter("boardIdx");
+		String boardCategoryCode = request.getParameter("boardCategoryCode");
 		
-		if (!StringUtils.isNumeric(boardIdx)) {
+		if (!StringUtils.isNumeric(boardIdx) || !StringUtils.isNumeric(boardCategoryCode)) {
 			request.getRequestDispatcher("/error/errorPage").forward(request, response);
 			return false;
 		}
 		
-		if (!boardService.isBoardIdxExist(Integer.parseInt(boardIdx))) {
+		if (!boardService.isBoardIdxExist(Integer.parseInt(boardIdx), Integer.parseInt(boardCategoryCode))) {
 			request.getRequestDispatcher("/error/errorPage").forward(request, response);
 			return false;
 		}

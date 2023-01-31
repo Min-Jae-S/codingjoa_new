@@ -99,8 +99,8 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
-	public boolean isBoardIdxExist(int boardIdx) {
-		return boardMapper.isBoardIdxExist(boardIdx);
+	public boolean isBoardIdxExist(int boardIdx, int boardCategoryCode) {
+		return boardMapper.isBoardIdxExist(boardIdx, boardCategoryCode);
 	}
 
 	@Override

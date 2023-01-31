@@ -88,7 +88,7 @@
 			<div class="card p-4 mb-3">
 				<div class="header-group mb-3">
 					<div class="category mb-2">
-						<a href="${contextPath}/board/main?categoryCode=${category.categoryCode}"><c:out value="${category.categoryName}"/></a>
+						<a href="${contextPath}/board/main?boardCategoryCode=${category.categoryCode}"><c:out value="${category.categoryName}"/></a>
 					</div>
 					<h3 class="title mb-4"><c:out value="${boardDetails.boardTitle}"/></h3>
 					<div class="header-meta d-flex mb-2">

@@ -1,6 +1,6 @@
 package com.codingjoa.pagination;
 
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -26,7 +26,7 @@ public class Criteria {
 	}
 	
 	public String makeQueryString(int page) {
-		return ServletUriComponentsBuilder.newInstance()
+		return UriComponentsBuilder.newInstance()
 				.queryParam("boardCategoryCode", this.boardCategoryCode)
 				.queryParam("page", page)
 				.queryParam("recordCnt", this.recordCnt)
