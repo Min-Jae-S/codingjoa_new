@@ -108,7 +108,8 @@
 				<sec:authentication property="principal.member.memberIdx" var="memberIdx"/>
 					<c:if test="${memberIdx eq boardDetails.boardWriterIdx}">
 						<a class="btn btn-primary mr-1" href="${contextPath}/board/modify?boardIdx=${boardDetails.boardIdx}">수정</a>
-						<a class="btn btn-warning mr-1" href="${contextPath}/board/deleteProc?boardIdx=${boardDetails.boardIdx}">삭제</a>
+						<a class="btn btn-warning mr-1" href="${contextPath}/board/deleteProc?boardIdx=${boardDetails.boardIdx}"
+							onclick="return confirm('게시글을 삭제하시겠습니까?');">삭제</a>
 					</c:if>
 				</sec:authorize>
 				<a class="btn btn-secondary" href="${contextPath}/board/main${cri.makeQueryString()}">목록</a>
@@ -158,10 +159,6 @@
 		.catch(error => {
 			console.error(error);
 		});
-	
-	$(function() {
-		
-	});
 	
 	// https://github.com/ckeditor/ckeditor5/issues/5204
 	function extendAttribute(editor) {
