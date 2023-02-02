@@ -140,20 +140,14 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public int deleteBoard(int boardIdx) {
-		Board board = boardMapper.findBoardByIdx(boardIdx);
-		boardMapper.deleteBoard(boardIdx);
-		
-		return board.getBoardCategoryCode();
+	public int getBoardCategoryCode(int boardIdx) {
+		return boardMapper.findBoardCategoryCode(boardIdx);
 	}
 
 	@Override
-	public void deleteImage(int boardIdx) {
-		List<String> uploadFileList = uploadMapper.findUploadFileList(boardIdx);
-		
-		uploadMapper.deleteUpload(boardIdx); 
+	public void deleteBoard(int boardIdx) {
+		boardMapper.deleteBoard(boardIdx);
 	}
 
-	
 	
 }

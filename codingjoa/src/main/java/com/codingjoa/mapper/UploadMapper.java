@@ -21,8 +21,4 @@ public interface UploadMapper {
 	
 	void deactivateImage(int uploadBoardIdx);
 	
-	List<String> findUploadFileList(int uploadBoardIdx);
-	
-	void deleteUpload(int uploadBoardIdx);
-	
 }

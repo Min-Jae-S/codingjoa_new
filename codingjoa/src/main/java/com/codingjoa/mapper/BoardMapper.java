@@ -29,6 +29,8 @@ public interface BoardMapper {
 	boolean isMyBoard(@Param("boardIdx")int boardIdx, @Param("boardWriterIdx") int boardWriterIdx);
 	
 	void updateBoard(Board board);
+
+	int findBoardCategoryCode(int boardIdx);
 	
 	void deleteBoard(int boardIdx);
 	

@@ -162,10 +162,10 @@ public class BoardController {
 	public String deleteProc(@RequestParam("boardIdx") int boardIdx) {
 		log.info("boardIdx={}", boardIdx);
 		
-		int boardCategoryCode = boardService.deleteBoard(boardIdx);
-		log.info("After delete, boardCategoryCode={}", boardCategoryCode);
+		int boardCategoryCode = boardService.getBoardCategoryCode(boardIdx);
 		
-		boardService.deleteImage(boardIdx);
+		// ON DELETE CASCADE, ON DELETE SET NULL
+		boardService.deleteBoard(boardIdx);
 		
 		return "redirect:/board/main" + UriComponentsBuilder.newInstance()
 											.queryParam("boardCategoryCode", boardCategoryCode)

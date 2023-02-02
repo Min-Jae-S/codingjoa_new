@@ -193,6 +193,15 @@
 			board_idx = #{boardIdx} 
 	</update>
 	
+	<select id="findBoardCategoryCode" parameterType="int" resultType="int">
+		SELECT
+			board_category_code
+		FROM
+			board
+		WHERE
+			board_idx = #{boardIdx} 
+	</select>
+	
 	<delete id="deleteBoard" parameterType="int">
 		DELETE FROM
 			board
