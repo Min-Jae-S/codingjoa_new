@@ -86,10 +86,10 @@ public class BoardController {
 		model.addAttribute("cri", cri);
 		model.addAttribute("boardName", categoryService.findCategoryName(cri.getBoardCategoryCode()));
 		
+		boardService.updateBoardViews(boardIdx);
+		
 		BoardDetailsDto boardDetails = boardService.getBoardDetails(boardIdx);
 		model.addAttribute("boardDetails", boardDetails);
-		
-		boardService.updateBoardViews(boardIdx);
 		
 		return "board/read";
 	}
