@@ -8,7 +8,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>${category.categoryName}</title>
+<title><c:out value="${boardName}"/></title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
@@ -69,7 +69,7 @@
 	<div class="row">
 		<div class="col-sm-2"></div>
 		<div class="col-sm-8">
-			<h4 class="font-weight-bold mb-4">${category.categoryName}</h4>
+			<h4 class="font-weight-bold mb-4"><c:out value="${boardName}"/></h4>
 			<div class="pt-3">
 	        	<form:form class="form-inline" action="${contextPath}/board/main" method="GET" modelAttribute="cri">
 	        		<form:hidden path="boardCategoryCode"/>
@@ -127,7 +127,7 @@
 				</table>
 			</div>
 			<div class="mb-3" style="height: 38px;">
-				<a class="btn btn-primary" href="${contextPath}/board/write?boardCategoryCode=${category.categoryCode}">글쓰기</a>
+				<a class="btn btn-primary" href="${contextPath}/board/write?boardCategoryCode=${cri.boardCategoryCode}">글쓰기</a>
 			</div>
 			<div class="pt-3">
 				<ul class="pagination justify-content-center">

@@ -8,7 +8,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>${boardDetails.boardTitle}</title>
+<title><c:out value="${boardName}"/></title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
@@ -88,7 +88,7 @@
 			<div class="card p-4 mb-3">
 				<div class="header-group mb-3">
 					<div class="category mb-2">
-						<a href="${contextPath}/board/main?boardCategoryCode=${category.categoryCode}"><c:out value="${category.categoryName}"/></a>
+						<a href="${contextPath}/board/main?boardCategoryCode=${cri.boardCategoryCode}"><c:out value="${boardName}"/></a>
 					</div>
 					<h3 class="title mb-4"><c:out value="${boardDetails.boardTitle}"/></h3>
 					<div class="header-meta d-flex mb-2">
