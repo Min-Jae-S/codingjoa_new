@@ -9,8 +9,12 @@ body {
 	margin-top: 4rem;
 }
 
+.login-container {
+	margin-top: 8.5rem;
+	margin-bottom: 8.5rem;
+}
+
 .join-container,
-.login-container,
 .info-container,
 .check-password-container,
 .update-password-container,
@@ -23,13 +27,13 @@ body {
 
 
 .board-container {
-	margin-top: 7rem;
-	margin-bottom: 7rem;	
+	margin-top: 6rem;
+	margin-bottom: 6rem;	
 }
 
 .security-container {
-	margin-top: 10rem;
-	margin-bottom: 10rem;
+	margin-top: 11.5rem;
+	margin-bottom: 11.5rem;
 }
 
 input::placeholder {
