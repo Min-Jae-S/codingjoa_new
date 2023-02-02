@@ -86,10 +86,12 @@ public class BoardController {
 		model.addAttribute("cri", cri);
 		model.addAttribute("boardName", categoryService.findCategoryName(cri.getBoardCategoryCode()));
 		
-		boardService.updateBoardViews(boardIdx);
-		
 		BoardDetailsDto boardDetails = boardService.getBoardDetails(boardIdx);
 		model.addAttribute("boardDetails", boardDetails);
+		
+		// 쿠키를 이용하여 조회수 중복 방지 추가 예정
+		// https://mighty96.github.io/til/view
+		boardService.updateBoardViews(boardIdx);
 		
 		return "board/read";
 	}
