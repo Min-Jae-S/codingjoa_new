@@ -17,8 +17,12 @@ public interface UploadMapper {
 	void activateImage(@Param("uploadBoardIdx") int uploadBoardIdx, 
 					   @Param("uploadIdxList") List<Integer> uploadIdxList);
 	
-	List<Integer> findUploadIdxList(int boardIdx);
+	List<Integer> findUploadIdxList(int uploadBoardIdx);
 	
 	void deactivateImage(int uploadBoardIdx);
+	
+	List<String> findUploadFileList(int uploadBoardIdx);
+	
+	void deleteUpload(int uploadBoardIdx);
 	
 }

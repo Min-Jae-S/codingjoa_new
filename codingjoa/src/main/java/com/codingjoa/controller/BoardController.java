@@ -89,7 +89,7 @@ public class BoardController {
 		BoardDetailsDto boardDetails = boardService.getBoardDetails(boardIdx);
 		model.addAttribute("boardDetails", boardDetails);
 		
-		// 쿠키를 이용하여 조회수 중복 방지 추가 예정
+		// 쿠키를 이용하여 조회수 중복 방지 추가하기
 		// https://mighty96.github.io/til/view
 		boardService.updateBoardViews(boardIdx);
 		
@@ -164,6 +164,8 @@ public class BoardController {
 		
 		int boardCategoryCode = boardService.deleteBoard(boardIdx);
 		log.info("After delete, boardCategoryCode={}", boardCategoryCode);
+		
+		boardService.deleteImage(boardIdx);
 		
 		return "redirect:/board/main" + UriComponentsBuilder.newInstance()
 											.queryParam("boardCategoryCode", boardCategoryCode)

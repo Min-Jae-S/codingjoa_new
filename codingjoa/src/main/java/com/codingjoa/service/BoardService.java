@@ -37,6 +37,6 @@ public interface BoardService {
 	
 	int deleteBoard(int boardIdx);
 	
-	
+	void deleteImage(int boardIdx);
 	
 }

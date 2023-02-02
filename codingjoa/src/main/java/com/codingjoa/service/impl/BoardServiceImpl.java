@@ -147,6 +147,13 @@ public class BoardServiceImpl implements BoardService {
 		return board.getBoardCategoryCode();
 	}
 
+	@Override
+	public void deleteImage(int boardIdx) {
+		List<String> uploadFileList = uploadMapper.findUploadFileList(boardIdx);
+		
+		uploadMapper.deleteUpload(boardIdx); 
+	}
+
 	
 	
 }

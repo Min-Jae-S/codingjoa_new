@@ -61,7 +61,7 @@
 		FROM
 			upload
 		WHERE
-			upload_board_idx = #{boardIdx}
+			upload_board_idx = #{uploadBoardIdx}
 	</select>
 	
 	<update id="deactivateImage" parameterType="int">
@@ -72,5 +72,14 @@
 		WHERE
 			upload_board_idx = #{uploadBoadIdx} 
 	</update>
+	
+	<select id="findUploadFileList" parameterType="int" resultType="list">
+		SELECT
+			upload_file
+		FROM
+			upload
+		WHERE
+			upload_board_idx = #{boardIdx}
+	</select>
 	
 </mapper>
