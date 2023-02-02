@@ -112,7 +112,7 @@
 							onclick="return confirm('게시글을 삭제하시겠습니까?');">삭제</a>
 					</c:if>
 				</sec:authorize>
-				<a class="btn btn-secondary" href="${contextPath}/board/main${cri.makeQueryString()}">목록</a>
+				<a class="btn btn-secondary" href="${contextPath}/board/main${cri.getQueryString()}">목록</a>
 			</div>
 		</div>
 		<div class="col-sm-2"></div>

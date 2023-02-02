@@ -25,8 +25,8 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public Category findCategory(int categoryCode) {
-		return categoryMapper.findCategory(categoryCode);
+	public String findCategoryName(int categoryCode) {
+		return categoryMapper.findCategoryName(categoryCode);
 	}
 
 //	@Override

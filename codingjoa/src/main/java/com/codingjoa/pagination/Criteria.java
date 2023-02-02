@@ -25,7 +25,7 @@ public class Criteria {
 		this.keyword = keyword;
 	}
 	
-	public String makeQueryString() {
+	public String getQueryString() {
 		return UriComponentsBuilder.newInstance()
 				.queryParam("boardCategoryCode", this.boardCategoryCode)
 				.queryParam("page", this.page)
@@ -35,7 +35,7 @@ public class Criteria {
 				.toUriString();
 	}
 	
-	public String makeQueryString(int page) {
+	public String getQueryString(int page) {
 		return UriComponentsBuilder.newInstance()
 				.queryParam("boardCategoryCode", this.boardCategoryCode)
 				.queryParam("page", page)
