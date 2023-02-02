@@ -51,13 +51,16 @@ public class BoardController {
 	}
 	
 	@ModelAttribute
-	public void categoryList(Model model) {
+	public void boardCategoryList(Model model) {
 		model.addAttribute("categoryList", categoryService.findBoardCategoryList());
+		model.addAttribute("boardCategoryList", categoryService.findBoardCategoryList());
 	}
 	
 	@GetMapping("/all")
-	public String all() {
-		return "board/all";
+	public String all(Model model) {
+		
+		
+		return "board/all-board";
 	}
 	
 	@GetMapping("/main")

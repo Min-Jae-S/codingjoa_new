@@ -12,7 +12,7 @@
 			<ul class="navbar-nav">
 				<c:forEach var="parentCategory" items="${parentCategoryList}">
 					<li class="nav-item dropdown mx-2" data-category="${parentCategory.categoryCode}" data-path="${parentCategory.categoryPath}">
-						<a href="${contextPath}${parentCategory.categoryPath}" class="nav-link">${parentCategory.categoryName}</a>
+						<a href="${contextPath}${parentCategory.categoryPath}" class="nav-link"><c:out value="${parentCategory.categoryName}"/></a>
 					</li>
 				</c:forEach>
 			</ul>

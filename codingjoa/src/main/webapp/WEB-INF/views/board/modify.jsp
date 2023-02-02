@@ -65,7 +65,7 @@
 					<div class="form-row">
 						<div class="form-group col-md-8">
 							<form:select class="custom-select" path="boardCategoryCode">
-								<form:options items="${categoryList}" itemValue="categoryCode" itemLabel="categoryName"/>
+								<form:options items="${boardCategoryList}" itemValue="categoryCode" itemLabel="categoryName"/>
 							</form:select>
 						</div>
 						<div class="form-group col-md-2">
