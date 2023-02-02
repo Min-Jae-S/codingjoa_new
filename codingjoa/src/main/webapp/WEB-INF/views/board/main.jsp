@@ -127,9 +127,7 @@
 				</table>
 			</div>
 			<div class="mb-3" style="height: 38px;">
-				<sec:authorize access="isAuthenticated()">
-					<a class="btn btn-primary" href="${contextPath}/board/write?boardCategoryCode=${category.categoryCode}">글쓰기</a>
-				</sec:authorize>
+				<a class="btn btn-primary" href="${contextPath}/board/write?boardCategoryCode=${category.categoryCode}">글쓰기</a>
 			</div>
 			<div class="pt-3">
 				<ul class="pagination justify-content-center">
