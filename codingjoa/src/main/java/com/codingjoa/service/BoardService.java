@@ -35,6 +35,8 @@ public interface BoardService {
 	
 	void modifyUpload(BoardDto modifyBoardDto);
 	
+	int deleteBoard(int boardIdx);
+	
 	
 	
 }

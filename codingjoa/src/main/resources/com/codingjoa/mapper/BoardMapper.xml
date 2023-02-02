@@ -193,5 +193,12 @@
 			board_idx = #{boardIdx} 
 	</update>
 	
+	<delete id="deleteBoard" parameterType="int">
+		DELETE FROM
+			board
+		WHERE
+			board_idx = #{boardIdx} 
+	</delete>
+	
 	
 </mapper>

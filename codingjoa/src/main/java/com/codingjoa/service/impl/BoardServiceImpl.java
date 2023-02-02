@@ -139,6 +139,14 @@ public class BoardServiceImpl implements BoardService {
 		}
 	}
 
+	@Override
+	public int deleteBoard(int boardIdx) {
+		Board board = boardMapper.findBoardByIdx(boardIdx);
+		boardMapper.deleteBoard(boardIdx);
+		
+		return board.getBoardCategoryCode();
+	}
+
 	
 	
 }

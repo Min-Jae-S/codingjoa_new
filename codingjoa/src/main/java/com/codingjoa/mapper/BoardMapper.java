@@ -30,4 +30,6 @@ public interface BoardMapper {
 	
 	void updateBoard(Board board);
 	
+	void deleteBoard(int boardIdx);
+	
 }

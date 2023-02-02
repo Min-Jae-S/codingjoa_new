@@ -83,13 +83,13 @@ public class BoardController {
 		log.info("boardIdx={}", boardIdx);
 		log.info("{}", cri);
 		
-		boardService.updateBoardViews(boardIdx);
-
 		model.addAttribute("cri", cri);
 		model.addAttribute("category", categoryService.findCategory(cri.getBoardCategoryCode()));
 		
 		BoardDetailsDto boardDetails = boardService.getBoardDetails(boardIdx);
 		model.addAttribute("boardDetails", boardDetails);
+		
+		boardService.updateBoardViews(boardIdx);
 		
 		return "board/read";
 	}
@@ -157,9 +157,11 @@ public class BoardController {
 	}
 	
 	@GetMapping("/deleteProc")
-	public String deleteProc(@RequestParam("boardIdx") int boardIdx, 
-			@RequestParam("boardCategoryCode") int boardCategoryCode) {
-		log.info("boardIdx={}, boardCategoryCode={}", boardIdx, boardCategoryCode);
+	public String deleteProc(@RequestParam("boardIdx") int boardIdx) {
+		log.info("boardIdx={}", boardIdx);
+		
+		int boardCategoryCode = boardService.deleteBoard(boardIdx);
+		log.info("boardCategoryCode={}", boardCategoryCode);
 		
 		return "redirect:/board/main" + UriComponentsBuilder.newInstance()
 											.queryParam("boardCategoryCode", boardCategoryCode)
