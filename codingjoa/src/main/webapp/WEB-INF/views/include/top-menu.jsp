@@ -20,10 +20,10 @@
 			<ul class="navbar-nav ml-auto">
 				<sec:authorize access="isAnonymous()">
 					<li class="nav-item mx-2">
-						<a href="${contextPath}/member/join" class="nav-link">회원가입</a>
+						<a href="${contextPath}/member/login" class="nav-link">로그인</a>
 					</li>
 					<li class="nav-item mx-2">
-						<a href="${contextPath}/member/login" class="nav-link">로그인</a>
+						<a href="${contextPath}/member/join" class="nav-link">회원가입</a>
 					</li>
 				</sec:authorize>
 				<sec:authorize access="isAuthenticated()">

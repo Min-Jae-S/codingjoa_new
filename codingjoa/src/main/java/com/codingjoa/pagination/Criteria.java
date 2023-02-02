@@ -25,12 +25,23 @@ public class Criteria {
 		this.keyword = keyword;
 	}
 	
+	public String makeQueryString() {
+		return UriComponentsBuilder.newInstance()
+				.queryParam("boardCategoryCode", this.boardCategoryCode)
+				.queryParam("page", this.page)
+				.queryParam("recordCnt", this.recordCnt)
+				.queryParam("type", this.type)
+				.queryParam("keyword", this.keyword)
+				.toUriString();
+	}
+	
 	public String makeQueryString(int page) {
 		return UriComponentsBuilder.newInstance()
 				.queryParam("boardCategoryCode", this.boardCategoryCode)
 				.queryParam("page", page)
 				.queryParam("recordCnt", this.recordCnt)
 				.queryParam("type", this.type)
-				.queryParam("keyword", this.keyword).toUriString();
+				.queryParam("keyword", this.keyword)
+				.toUriString();
 	}
 }

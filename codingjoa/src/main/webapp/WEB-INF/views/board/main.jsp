@@ -105,7 +105,7 @@
 									<tr>
 										<td class="d-md-table-cell"><c:out value="${boardDetails.boardIdx}"/></td>
 										<td class="d-md-table-cell text-left">
-											<a href='${contextPath}/board/read${cri.makeQueryString(cri.page)}&boardIdx=${boardDetails.boardIdx}'><c:out value="${boardDetails.boardTitle}"/></a>
+											<a href='${contextPath}/board/read${cri.makeQueryString()}&boardIdx=${boardDetails.boardIdx}'><c:out value="${boardDetails.boardTitle}"/></a>
 										</td>
 										<td class="d-md-table-cell"><c:out value="${boardDetails.memberId}"/></td>
 										<td class="d-md-table-cell">

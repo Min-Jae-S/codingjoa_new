@@ -121,7 +121,8 @@ public class BoardController {
 		
 		return "redirect:/board/read" + UriComponentsBuilder.newInstance()
 											.queryParam("boardIdx", boardIdx)
-											.queryParam("boardCategoryCode", writeBoardDto.getBoardCategoryCode()).toUriString();
+											.queryParam("boardCategoryCode", writeBoardDto.getBoardCategoryCode())
+											.toUriString();
 	}
 	
 	@GetMapping("/modify")
@@ -149,13 +150,19 @@ public class BoardController {
 		boardService.modifyBoard(modifyBoardDto);
 		boardService.modifyUpload(modifyBoardDto);
 		
-		return "board/modify-success";
+		return "redirect:/board/read" + UriComponentsBuilder.newInstance()
+											.queryParam("boardIdx", modifyBoardDto.getBoardIdx())
+											.queryParam("boardCategoryCode", modifyBoardDto.getBoardCategoryCode())
+											.toUriString();
 	}
 	
 	@GetMapping("/deleteProc")
-	public String deleteProc(@RequestParam("boardIdx") int boardIdx) {
-		log.info("boardIdx={}", boardIdx);
+	public String deleteProc(@RequestParam("boardIdx") int boardIdx, 
+			@RequestParam("boardCategoryCode") int boardCategoryCode) {
+		log.info("boardIdx={}, boardCategoryCode={}", boardIdx, boardCategoryCode);
 		
-		return "board/delete-success";
+		return "redirect:/board/main" + UriComponentsBuilder.newInstance()
+											.queryParam("boardCategoryCode", boardCategoryCode)
+											.toUriString();
 	}
 }
