@@ -130,7 +130,7 @@ public class BoardController {
 		log.info("{}", modifyBoardDto);
 		
 		boardService.bindModifyBoard(modifyBoardDto);
-		log.info("After binding, {}", modifyBoardDto);
+		log.info("After bind, {}", modifyBoardDto);
 		
 		return "board/modify";
 	}
@@ -161,7 +161,7 @@ public class BoardController {
 		log.info("boardIdx={}", boardIdx);
 		
 		int boardCategoryCode = boardService.deleteBoard(boardIdx);
-		log.info("boardCategoryCode={}", boardCategoryCode);
+		log.info("After delete, boardCategoryCode={}", boardCategoryCode);
 		
 		return "redirect:/board/main" + UriComponentsBuilder.newInstance()
 											.queryParam("boardCategoryCode", boardCategoryCode)
