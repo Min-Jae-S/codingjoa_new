@@ -119,7 +119,9 @@
 	</div>
 </div>
 
+
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
+
 
 <script>
 	let readEditor;
