@@ -46,7 +46,6 @@ public class CategoryServiceImpl implements CategoryService {
 		if (!"/board".equals(parentCategoryPath)) {
 			return false;
 		}
-		
 		return true;
 	}
 	
