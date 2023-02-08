@@ -11,13 +11,12 @@
 	<logger name="org.springframework" level="INFO" />
 	<logger name="org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor" level="DEBUG" />
 	<logger name="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping" level="WARN" />
-	
 	<logger name="jdbc.sqlonly" level="OFF"/> 
   	<logger name="jdbc.sqltiming" level="INFO"/> 
   	<logger name="jdbc.resultsettable" level="INFO"/>
   	<logger name="jdbc.audit" level="OFF"/>
   	<logger name="jdbc.resultset" level="OFF"/>
- 	 <logger name="jdbc.connection" level="OFF"/>
+ 	<logger name="jdbc.connection" level="OFF"/>
 	
 	<root level="INFO">
 		<appender-ref ref="STDOUT" />
