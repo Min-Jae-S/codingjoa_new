@@ -1,5 +1,6 @@
 package com.codingjoa.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -58,9 +59,14 @@ public class BoardController {
 	
 	@GetMapping("/all")
 	public String all(Model model) {
+		ArrayList<List<BoardDetailsDto>> boardListContainer = new ArrayList<List<BoardDetailsDto>>();
 		
+		categoryService.findBoardCategoryList().forEach(category -> {
+			List<BoardDetailsDto> boardList = boardService.getRecentBoardList(category.getCategoryCode());
+			boardListContainer.add(boardList);
+		});
 		
-		return "board/all-board";
+		return "board/all";
 	}
 	
 	@GetMapping("/main")

@@ -149,5 +149,12 @@ public class BoardServiceImpl implements BoardService {
 		boardMapper.deleteBoard(boardIdx);
 	}
 
+	@Override
+	public List<BoardDetailsDto> getRecentBoardList(int boardCategoryCode) {
+		return boardMapper.findRecentBoardList(boardCategoryCode).stream()
+				.map(boardDetailsMap -> modelMapper.map(boardDetailsMap, BoardDetailsDto.class))
+				.collect(Collectors.toList());
+	}
+
 	
 }

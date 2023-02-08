@@ -34,4 +34,6 @@ public interface BoardMapper {
 	
 	void deleteBoard(int boardIdx);
 	
+	List<Map<String, Object>> findRecentBoardList(int boardCategoryCode);
+	
 }

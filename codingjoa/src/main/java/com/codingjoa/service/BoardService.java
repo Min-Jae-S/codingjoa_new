@@ -39,4 +39,6 @@ public interface BoardService {
 	
 	void deleteBoard(int boardIdx);
 	
+	List<BoardDetailsDto> getRecentBoardList(int boardCategoryCode);
+	
 }

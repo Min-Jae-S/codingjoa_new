@@ -94,4 +94,7 @@
 									 	category_path = '/board' AND category_parent_code IS NULL )
 	</select>
 	
+	
+	
+	
 </mapper>
