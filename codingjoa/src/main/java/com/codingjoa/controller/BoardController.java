@@ -62,9 +62,9 @@ public class BoardController {
 		ArrayList<List<BoardDetailsDto>> boardListContainer = new ArrayList<List<BoardDetailsDto>>();
 		
 		categoryService.findBoardCategoryList().forEach(category -> {
-			List<BoardDetailsDto> boardList = boardService.getRecentBoardList(category.getCategoryCode());
-			log.info("{}", boardList);
-			boardListContainer.add(boardList);
+			Criteria cri = new Criteria(category.getCategoryCode(), 1, 5, null, null);
+			List<BoardDetailsDto> recentBoardList = boardService.getPagedBoardList(cri);
+			boardListContainer.add(recentBoardList);
 		});
 		
 		model.addAttribute("boardListContainer", boardListContainer);
