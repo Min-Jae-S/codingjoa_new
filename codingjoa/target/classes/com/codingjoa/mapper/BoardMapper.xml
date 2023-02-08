@@ -101,7 +101,7 @@
 		</if>
 	</sql>
 	
-	<select id="findPagedBoardList" parameterType="cri" resultMap="boardDetailsMap">
+	<select id="findPagedBoard" parameterType="cri" resultMap="boardDetailsMap">
 		SELECT 
 			board_idx, 
 			board_title, 
@@ -139,7 +139,7 @@
 			rn > ( ( #{page} - 1 ) * #{recordCnt} )
 	</select>
 	
-	<select id="findPagedBoardListTotalCnt" parameterType="cri" resultType="int">
+	<select id="findPagedBoardTotalCnt" parameterType="cri" resultType="int">
 		SELECT
 			COUNT(*)
 		FROM

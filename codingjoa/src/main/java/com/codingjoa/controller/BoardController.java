@@ -62,8 +62,8 @@ public class BoardController {
 		
 		categoryService.findBoardCategoryList().forEach(category -> {
 			Criteria cri = new Criteria(category.getCategoryCode(), 1, 5, null, null);
-			List<BoardDetailsDto> recentBoardList = boardService.getPagedBoardList(cri);
-			boardListContainer.add(recentBoardList);
+			List<BoardDetailsDto> recentBoard = boardService.getPagedBoard(cri);
+			boardListContainer.add(recentBoard);
 		});
 		
 		model.addAttribute("boardListContainer", boardListContainer);
@@ -78,8 +78,8 @@ public class BoardController {
 		model.addAttribute("cri", cri);
 		model.addAttribute("boardName", categoryService.findCategoryName(cri.getBoardCategoryCode()));
 
-		List<BoardDetailsDto> boardList = boardService.getPagedBoardList(cri);
-		model.addAttribute("boardList", boardList);
+		List<BoardDetailsDto> board = boardService.getPagedBoard(cri);
+		model.addAttribute("board", board);
 		
 		Pagination pagination = boardService.getPagination(cri);
 		model.addAttribute("pagination", pagination);
