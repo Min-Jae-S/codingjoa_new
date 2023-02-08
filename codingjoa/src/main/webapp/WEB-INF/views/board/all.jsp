@@ -63,7 +63,7 @@
 										<tr>
 											<td class="d-md-table-cell"><c:out value="${boardDetails.boardIdx}"/></td>
 											<td class="d-md-table-cell text-left">
-												<a href='${contextPath}/board/read${cri.getQueryString()}&boardIdx=${boardDetails.boardIdx}'><c:out value="${boardDetails.boardTitle}"/></a>
+												<a href='${contextPath}/board/read?boardCategoryCode=${boardDetails.boardCategoryCode}&boardIdx=${boardDetails.boardIdx}'><c:out value="${boardDetails.boardTitle}"/></a>
 											</td>
 											<td class="d-md-table-cell"><c:out value="${boardDetails.memberId}"/></td>
 											<td class="d-md-table-cell">
