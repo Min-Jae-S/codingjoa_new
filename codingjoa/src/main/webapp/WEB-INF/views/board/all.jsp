@@ -6,7 +6,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>All Boards</title>
+<title>게시판</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
@@ -15,6 +15,24 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 <style>
+	.table {
+		border-spacing: 0px;
+		border-collapse: separate;
+	}
+
+	.table thead th {
+		text-align: center;
+		vertical-align: middle;
+		border-top: 1px solid black;
+		border-bottom: 1px solid #dee2e6;
+	}
+
+	.table td {
+		text-align: center;
+		vertical-align: middle;
+		border-top: none;
+		border-bottom: 1px solid #dee2e6;
+	}
 </style>
 </head>
 <body>
@@ -25,10 +43,47 @@
 	<div class="row">
 		<div class="col-sm-2"></div>
 		<div class="col-sm-8">
-			<h5 class="font-weight-bold">All Boards</h5>
-			<div class="pt-3" style="border-top: 1px solid black;">
+			<h4 class="font-weight-bold">게시판</h4>
+			<div class="pt-3">
 			
-			
+				<table class="table">
+					<thead>
+						<tr>
+							<th class="d-md-table-cell">번호</th>
+							<th class="d-md-table-cell w-50">제목</th>
+							<th class="d-md-table-cell">작성자</th>
+							<th class="d-md-table-cell">작성일</th>
+							<th class="d-md-table-cell">조회</th>
+						</tr>
+					</thead>
+					<tbody>
+						<c:choose>
+							<c:when test="${not empty boardList}">
+								<c:forEach var='boardDetails' items="${boardList}">
+									<tr>
+										<td class="d-md-table-cell"><c:out value="${boardDetails.boardIdx}"/></td>
+										<td class="d-md-table-cell text-left">
+											<a href='${contextPath}/board/read${cri.getQueryString()}&boardIdx=${boardDetails.boardIdx}'><c:out value="${boardDetails.boardTitle}"/></a>
+										</td>
+										<td class="d-md-table-cell"><c:out value="${boardDetails.memberId}"/></td>
+										<td class="d-md-table-cell">
+											<fmt:formatDate value="${boardDetails.regdate}" type="date"/>
+										</td>
+										<td class="d-md-table-cell"><c:out value="${boardDetails.boardViews}"/></td>
+									</tr>
+								</c:forEach>
+							</c:when>
+							<c:otherwise>
+								<tr>
+									<td colspan="5">
+										<div class="no-board py-5">등록된 게시글이 없습니다.</div>
+									</td>
+								</tr>
+							</c:otherwise>
+						</c:choose>
+					</tbody>
+				</table>
+				
 			</div>
 		</div>
 		<div class="col-sm-2"></div>

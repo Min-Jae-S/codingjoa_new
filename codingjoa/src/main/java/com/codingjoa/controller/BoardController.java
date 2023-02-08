@@ -53,7 +53,6 @@ public class BoardController {
 	
 	@ModelAttribute
 	public void boardCategoryList(Model model) {
-		model.addAttribute("categoryList", categoryService.findBoardCategoryList());
 		model.addAttribute("boardCategoryList", categoryService.findBoardCategoryList());
 	}
 	
