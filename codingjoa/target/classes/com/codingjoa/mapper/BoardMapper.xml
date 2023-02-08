@@ -109,21 +109,23 @@
 	</sql> -->
 
 	<sql id="searchCriteria">
-		<trim prefix="(" suffix=") AND " suffixOverrides="OR">
-			<foreach collection='type.split("")' item="item">
-				<trim suffix="OR">
-					<if test='item.equals("T")'>
-						a.board_title like '%' || #{keyword} || '%'
-					</if>
-					<if test='item.equals("C")'>
-						a.board_content_text like '%' || #{keyword} || '%'
-					</if>
-					<if test='item.equals("W")'>
-						b.member_id like '%' || #{keyword} || '%'
-					</if> 
-				</trim>
-			</foreach>
-		</trim>
+		<if test="type != null">
+			<trim prefix="(" suffix=") AND " suffixOverrides="OR">
+				<foreach collection='type.split("")' item="item">
+					<trim suffix="OR">
+						<if test='item.equals("T")'>
+							a.board_title like '%' || #{keyword} || '%'
+						</if>
+						<if test='item.equals("C")'>
+							a.board_content_text like '%' || #{keyword} || '%'
+						</if>
+						<if test='item.equals("W")'>
+							b.member_id like '%' || #{keyword} || '%'
+						</if> 
+					</trim>
+				</foreach>
+			</trim>
+		</if>
 	</sql>
 	
 	<!-- <select id="findPagedBoard" parameterType="cri" resultMap="boardDetailsMap">
