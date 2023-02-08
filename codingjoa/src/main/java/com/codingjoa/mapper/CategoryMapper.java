@@ -19,5 +19,7 @@ public interface CategoryMapper {
 	
 	List<Category> findBoardCategoryList();
 	
-	String findParentCategoryPath(int categoryCode);
+	//String findParentCategoryPath(int categoryCode);
+	
+	boolean isBoardCategory(int categoryCode);
 }

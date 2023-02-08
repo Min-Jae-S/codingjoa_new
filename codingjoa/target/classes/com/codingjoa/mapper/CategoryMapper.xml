@@ -61,10 +61,10 @@
 									 FROM 
 									 	category 
 									 WHERE 
-									 	category_path = '/board' )
+									 	category_path = '/board' AND category_parent_code IS NULL )
 	</select>
 	
-	<select id="findParentCategoryPath" parameterType="int" resultType="string">
+	<!-- <select id="findParentCategoryPath" parameterType="int" resultType="string">
 		SELECT
 			category_path
 		FROM
@@ -76,6 +76,22 @@
 								category 
 							  WHERE 
 								category_code = #{categoryCode} )
+	</select> -->
+	
+	<select id="isBoardCategory" parameterType="int" resultType="boolean">
+		SELECT
+			COUNT(*)
+		FROM
+			category
+		WHERE
+			category_code = #{categoryCode}
+			AND
+			category_parent_code = ( SELECT 
+										category_code 
+									 FROM 
+									 	category 
+									 WHERE 
+									 	category_path = '/board' AND category_parent_code IS NULL )
 	</select>
 	
 </mapper>
