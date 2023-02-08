@@ -139,7 +139,7 @@
 			b.member_id
 		FROM (
 			SELECT
-				/*+ INDEX_DESC(a pk_board) */ 
+				/*+ INDEX_DESC(board pk_board) */ 
 				ROWNUM rn, 
 				board_idx, 
 				board_title, 
