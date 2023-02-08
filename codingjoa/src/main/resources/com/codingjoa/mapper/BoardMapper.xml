@@ -87,14 +87,19 @@
 				<foreach collection='type.split("")' item="item">
 					<trim suffix="OR">
 						<if test='item.equals("T")'>
-							board_title like '%' || #{keyword} || '%'
+							board_title LIKE '%' || #{keyword} || '%'
 						</if>
 						<if test='item.equals("C")'>
-							board_content_text like '%' || #{keyword} || '%'
+							board_content_text LIKE '%' || #{keyword} || '%'
 						</if>
 						<if test='item.equals("W")'>
 							board_writer_idx IN (
-							
+								SELECT
+									member_idx
+								FROM
+									member
+								WHERE
+									member_id LIKE '%' || #{keyword} || '%'
 							)
 						</if> 
 					</trim>
@@ -146,7 +151,7 @@
 				board
 			WHERE
 				<include refid="searchCriteria"/>
-				a.board_category_code = #{boardCategoryCode} 
+				board_category_code = #{boardCategoryCode} 
 				AND
 				<![CDATA[
 				ROWNUM <= ( #{page} * #{recordCnt} )
