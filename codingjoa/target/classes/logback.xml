@@ -12,7 +12,7 @@
 	<logger name="org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor" level="DEBUG" />
 	<logger name="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping" level="WARN" />
 	<logger name="jdbc.sqlonly" level="OFF"/> 
-  	<logger name="jdbc.sqltiming" level="INFO"/> 
+  	<logger name="jdbc.sqltiming" level="WARN"/> 
   	<logger name="jdbc.resultsettable" level="INFO"/>
   	<logger name="jdbc.audit" level="OFF"/>
   	<logger name="jdbc.resultset" level="OFF"/>
