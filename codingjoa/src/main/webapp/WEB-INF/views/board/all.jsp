@@ -52,7 +52,7 @@
 	<div class="row">
 		<div class="col-sm-2"></div>
 		<div class="col-sm-8">
-			<c:forEach var="board" items="${boardContainer}" varStatus="status">
+			<c:forEach var="board" items="${boardList}" varStatus="status">
 				<h4 class="font-weight-bold"><c:out value="${boardCategoryList[status.index].categoryName}"/></h4>
 				<div class="table-container">
 					<table class="table">
