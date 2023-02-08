@@ -61,14 +61,8 @@ public class BoardController {
 		ArrayList<List<BoardDetailsDto>> boardList = new ArrayList<List<BoardDetailsDto>>();
 		
 		categoryService.findBoardCategoryList().forEach(category -> {
-			log.info("=================================================================");
-			log.info("boardCategoryCode={}", category.getCategoryCode());
-			
 			Criteria cri = new Criteria(category.getCategoryCode(), 1, 5, null, null);
 			List<BoardDetailsDto> recentBoard = boardService.getPagedBoard(cri);
-			recentBoard.forEach(dto -> 
-				log.info("boardIdx={}", dto.getBoardIdx())
-			);
 			boardList.add(recentBoard);
 		});
 		
