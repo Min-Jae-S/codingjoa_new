@@ -16,6 +16,14 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 <style>
+	.table-container {
+		padding-top: 1rem;
+	}
+	
+	.table-container:not(:last-child) {
+		margin-bottom: 6rem;
+	}
+
 	.table {
 		border-spacing: 0px;
 		border-collapse: separate;
@@ -44,8 +52,9 @@
 	<div class="row">
 		<div class="col-sm-2"></div>
 		<div class="col-sm-8">
-			<c:forEach var="board" items="${boardContainer}">
-				<div class="pt-3">
+			<c:forEach var="board" items="${boardContainer}" varStatus="status">
+				<h4 class="font-weight-bold"><c:out value="${boardCategoryList[status.index].categoryName}"/></h4>
+				<div class="table-container">
 					<table class="table">
 						<thead>
 							<tr>
@@ -83,6 +92,9 @@
 							</c:choose>
 						</tbody>
 					</table>
+					<c:if test="${not empty board}">
+						<a href="${contextPath}/board/main?boardCategoryCode=${boardCategoryList[status.index].categoryCode}" class="btn btn-primary">게시글 더보기</a>
+					</c:if>
 				</div>
 			</c:forEach>
 		</div>

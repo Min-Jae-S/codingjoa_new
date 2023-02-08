@@ -5,6 +5,7 @@
 	<select id="findParentCategoryList" resultType="category">
 		SELECT
 			category_code,
+			category_parent_code,
 			category_name,
 			category_path
 		FROM 
@@ -16,6 +17,7 @@
 	<select id="findCategoryListByParent" parameterType="int" resultType="category">
 		SELECT
 			category_code,
+			category_parent_code,
 			category_name,
 			category_path
 		FROM 
@@ -52,7 +54,9 @@
 	<select id="findBoardCategoryList" resultType="category">
 		SELECT
 			category_code,
-			category_name
+			category_parent_code,
+			category_name,
+			category_path
 		FROM
 			category
 		WHERE
