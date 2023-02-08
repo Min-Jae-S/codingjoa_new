@@ -63,8 +63,11 @@ public class BoardController {
 		
 		categoryService.findBoardCategoryList().forEach(category -> {
 			List<BoardDetailsDto> boardList = boardService.getRecentBoardList(category.getCategoryCode());
+			log.info("{}", boardList);
 			boardListContainer.add(boardList);
 		});
+		
+		model.addAttribute("boardListContainer", boardListContainer);
 		
 		return "board/all";
 	}

@@ -151,7 +151,7 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public List<BoardDetailsDto> getRecentBoardList(int boardCategoryCode) {
-		return boardMapper.findRecentBoardList(boardCategoryCode).stream()
+		return boardMapper.findPagedBoardList(new Criteria(boardCategoryCode, 1, 5, null, null)).stream()
 				.map(boardDetailsMap -> modelMapper.map(boardDetailsMap, BoardDetailsDto.class))
 				.collect(Collectors.toList());
 	}
