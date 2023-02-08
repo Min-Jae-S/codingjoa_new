@@ -58,15 +58,17 @@ public class BoardController {
 	
 	@GetMapping("/all")
 	public String all(Model model) {
-		ArrayList<List<BoardDetailsDto>> boardListContainer = new ArrayList<List<BoardDetailsDto>>();
+		ArrayList<List<BoardDetailsDto>> boardContainer = new ArrayList<List<BoardDetailsDto>>();
 		
 		categoryService.findBoardCategoryList().forEach(category -> {
 			Criteria cri = new Criteria(category.getCategoryCode(), 1, 5, null, null);
+			model.addAttribute("cri", cri);
+			
 			List<BoardDetailsDto> recentBoard = boardService.getPagedBoard(cri);
-			boardListContainer.add(recentBoard);
+			boardContainer.add(recentBoard);
 		});
 		
-		model.addAttribute("boardListContainer", boardListContainer);
+		model.addAttribute("boardContainer", boardContainer);
 		
 		return "board/all";
 	}
