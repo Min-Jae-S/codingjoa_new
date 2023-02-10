@@ -84,24 +84,19 @@
 	<sql id="searchCriteria">
 		<if test="type != null">
 			<trim prefix="(" suffix=") AND " suffixOverrides="OR">
-				<foreach collection='type.split("")' item="item">
+				<foreach collection='type.split("_")' item="item">
 					<trim suffix="OR">
-						<if test='item.equals("T")'>
+						<if test='item.equals("title")'>
 							a.board_title LIKE '%' || #{keyword} || '%'
 						</if>
-						<if test='item.equals("C")'>
+						<if test='item.equals("content")'>
 							a.board_content_text LIKE '%' || #{keyword} || '%'
 						</if>
-						<if test='item.equals("W")'>
+						<if test='item.equals("writer")'>
 							b.member_id LIKE '%' || #{keyword} || '%'
 						</if> 
 					</trim>
 				</foreach>
-			</trim>
-		</if>
-		<if test="type == null">
-			<trim prefix="(" suffix=") AND ">
-				a.board_idx > 0
 			</trim>
 		</if>
 	</sql>

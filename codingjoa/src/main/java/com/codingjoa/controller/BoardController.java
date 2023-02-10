@@ -24,6 +24,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import com.codingjoa.annotation.Cri;
 import com.codingjoa.dto.BoardDetailsDto;
 import com.codingjoa.dto.BoardDto;
+import com.codingjoa.entity.Category;
 import com.codingjoa.pagination.Criteria;
 import com.codingjoa.pagination.Pagination;
 import com.codingjoa.security.dto.UserDetailsDto;
@@ -58,16 +59,17 @@ public class BoardController {
 	
 	@GetMapping("/all")
 	public String all(Model model) {
-		ArrayList<List<BoardDetailsDto>> boardList = new ArrayList<List<BoardDetailsDto>>();
+		List<Category> boardCategoryList = categoryService.findBoardCategoryList();
+		model.addAttribute("boardCategoryList", boardCategoryList);
 		
-		categoryService.findBoardCategoryList().forEach(category -> {
+		ArrayList<List<BoardDetailsDto>> boardList = new ArrayList<List<BoardDetailsDto>>();
+		boardCategoryList.forEach(category -> {
 			Criteria cri = new Criteria(category.getCategoryCode(), 1, 5, null, null);
 			List<BoardDetailsDto> recentBoard = boardService.getPagedBoard(cri);
 			boardList.add(recentBoard);
 		});
 		
 		model.addAttribute("boardList", boardList);
-		model.addAttribute("boardCategoryList", categoryService.findBoardCategoryList());
 		
 		return "board/all";
 	}
