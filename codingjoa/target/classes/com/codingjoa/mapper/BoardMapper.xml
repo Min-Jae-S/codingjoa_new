@@ -99,6 +99,11 @@
 				</foreach>
 			</trim>
 		</if>
+		<if test="type == null">
+			<trim prefix="(" suffix=") AND ">
+				a.board_idx > 0
+			</trim>
+		</if>
 	</sql>
 	
 	<select id="findPagedBoard" parameterType="cri" resultMap="boardDetailsMap">
@@ -129,8 +134,7 @@
 				a.board_writer_idx = b.member_idx
 			WHERE
 				<include refid="searchCriteria"/>
-				a.board_category_code = #{boardCategoryCode} 
-				AND
+				a.board_category_code = #{boardCategoryCode} AND
 				<![CDATA[
 				ROWNUM <= ( #{page} * #{recordCnt} )
 				]]>

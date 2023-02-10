@@ -67,6 +67,7 @@ public class BoardController {
 		});
 		
 		model.addAttribute("boardList", boardList);
+		model.addAttribute("boardCategoryList", categoryService.findBoardCategoryList());
 		
 		return "board/all";
 	}
