@@ -18,6 +18,8 @@ public interface BoardMapper {
 	
 	void updateBoardViews(int boardIdx);
 	
+	List<Integer> findMemberIdxByKeyword(String keyword);
+	
 	List<Map<String, Object>> findPagedBoard(Criteria cri);
 
 	int findPagedBoardTotalCnt(Criteria cri);

@@ -81,7 +81,36 @@
 			board_idx = #{boardIdx}
 	</update>
 	
+	<select id="findMemberIdxByKeyword" parameterType="string" resultType="list">
+		SELECT
+			member_idx
+		FROM
+			member
+		WHERE
+			member_id LIKE '%' || #{keyword} || '%'
+	</select>
+	
 	<sql id="searchCriteria">
+		<if test="type != null">
+			<trim prefix="(" suffix=") AND " suffixOverrides="OR">
+				<foreach collection='type.split("_")' item="item">
+					<trim suffix="OR">
+						<if test='item.equals("title")'>
+							board_title LIKE '%' || #{keyword} || '%'
+						</if>
+						<if test='item.equals("content")'>
+							board_content_text LIKE '%' || #{keyword} || '%'
+						</if>
+						<if test='item.equals("writer")'>
+							member_id LIKE '%' || #{keyword} || '%'
+						</if> 
+					</trim>
+				</foreach>
+			</trim>
+		</if>
+	</sql>
+
+	<!-- <sql id="searchCriteria">
 		<if test="type != null">
 			<trim prefix="(" suffix=") AND " suffixOverrides="OR">
 				<foreach collection='type.split("_")' item="item">
@@ -99,9 +128,40 @@
 				</foreach>
 			</trim>
 		</if>
-	</sql>
+	</sql> -->
 	
 	<select id="findPagedBoard" parameterType="cri" resultMap="boardDetailsMap">
+		SELECT 
+			board_idx, 
+			board_title, 
+			board_writer_idx, 
+			board_views, 
+			board_category_code, 
+			regdate 
+		FROM (
+			SELECT
+				/*+ INDEX_DESC(board pk_board) */ 
+				ROWNUM rn, 
+				board_idx, 
+				board_title, 
+				board_writer_idx, 
+				board_views, 
+				board_category_code, 
+				regdate 
+			FROM
+				board 
+			WHERE
+				<include refid="searchCriteria"/>
+				board_category_code = #{boardCategoryCode} AND
+				<![CDATA[
+				ROWNUM <= ( #{page} * #{recordCnt} )
+				]]>
+		)
+		WHERE
+			rn > ( ( #{page} - 1 ) * #{recordCnt} )
+	</select>
+	
+	<!-- <select id="findPagedBoard" parameterType="cri" resultMap="boardDetailsMap">
 		SELECT 
 			board_idx, 
 			board_title, 
@@ -136,9 +196,19 @@
 		)
 		WHERE
 			rn > ( ( #{page} - 1 ) * #{recordCnt} )
-	</select>
+	</select> -->
 
 	<select id="findPagedBoardTotalCnt" parameterType="cri" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			board
+		WHERE
+			<include refid="searchCriteria"/>
+			board_category_code = #{boardCategoryCode}
+	</select>
+
+	<!-- <select id="findPagedBoardTotalCnt" parameterType="cri" resultType="int">
 		SELECT
 			COUNT(*)
 		FROM
@@ -150,7 +220,7 @@
 		WHERE
 			<include refid="searchCriteria"/>
 			a.board_category_code = #{boardCategoryCode}
-	</select>
+	</select> -->
 	
 	<select id="isBoardIdxExist" parameterType="map" resultType="boolean">
 		SELECT
