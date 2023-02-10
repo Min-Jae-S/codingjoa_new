@@ -88,6 +88,8 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public List<BoardDetailsDto> getPagedBoard(Criteria cri) {
 		if ("writer".equals(cri.getType())) {
+			log.info("boardMapper.findMemberIdxByKeyword(cri.getKeyword())={}", boardMapper.findMemberIdxByKeyword(cri.getKeyword()));
+			
 			String newKeyword = boardMapper.findMemberIdxByKeyword(cri.getKeyword()).stream()
 					.map(memberIdx -> memberIdx.toString())
 					.collect(Collectors.joining("_"));
@@ -95,6 +97,8 @@ public class BoardServiceImpl implements BoardService {
 			
 			cri.setKeyword(newKeyword);
 		}
+		
+		log.info("boardMapper.findPagedBoard(cri)={}", boardMapper.findPagedBoard(cri));
 		
 		return boardMapper.findPagedBoard(cri).stream()
 				.map(boardDetailsMap -> modelMapper.map(boardDetailsMap, BoardDetailsDto.class))
