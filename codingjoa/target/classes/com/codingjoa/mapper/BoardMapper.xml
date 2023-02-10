@@ -114,13 +114,13 @@
 				<foreach collection='type.split("")' item="item">
 					<trim suffix="OR">
 						<if test='item.equals("T")'>
-							a.board_title like '%' || #{keyword} || '%'
+							a.board_title LIKE '%' || #{keyword} || '%'
 						</if>
 						<if test='item.equals("C")'>
-							a.board_content_text like '%' || #{keyword} || '%'
+							a.board_content_text LIKE '%' || #{keyword} || '%'
 						</if>
 						<if test='item.equals("W")'>
-							b.member_id like '%' || #{keyword} || '%'
+							b.member_id LIKE '%' || #{keyword} || '%'
 						</if> 
 					</trim>
 				</foreach>

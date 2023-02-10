@@ -51,19 +51,20 @@ public class BoardController {
 		binder.addValidators(boardValidator);
 	}
 	
-	@ModelAttribute
-	public void boardCategoryList(Model model) {
-		model.addAttribute("boardCategoryList", categoryService.findBoardCategoryList());
-	}
+//	@ModelAttribute
+//	public void boardCategoryList(Model model) {
+//		model.addAttribute("boardCategoryList", categoryService.findBoardCategoryList());
+//	}
 	
 	@GetMapping("/all")
 	public String all(Model model) {
 		ArrayList<List<BoardDetailsDto>> boardList = new ArrayList<List<BoardDetailsDto>>();
 		
 		categoryService.findBoardCategoryList().forEach(category -> {
-			//Criteria cri = new Criteria(category.getCategoryCode(), 1, 5, "T", null);
 			Criteria cri = new Criteria(category.getCategoryCode(), 1, 5, null, null);
+			Criteria cri2 = new Criteria(category.getCategoryCode(), 1, 5, "T", null);
 			List<BoardDetailsDto> recentBoard = boardService.getPagedBoard(cri);
+			List<BoardDetailsDto> recentBoard2 = boardService.getPagedBoard(cri2);
 			boardList.add(recentBoard);
 		});
 		
@@ -108,18 +109,20 @@ public class BoardController {
 	}
 	
 	@GetMapping("/write")
-	public String write(@ModelAttribute("writeBoardDto") BoardDto writeBoardDto) {
+	public String write(@ModelAttribute("writeBoardDto") BoardDto writeBoardDto, Model model) {
 		log.info("{}", writeBoardDto);
+		model.addAttribute("boardCategoryList", categoryService.findBoardCategoryList());
 		
 		return "board/write";
 	}
 	
 	@PostMapping("/writeProc")
 	public String writeProc(@Valid @ModelAttribute("writeBoardDto") BoardDto writeBoardDto, 
-			BindingResult bindingResult, @AuthenticationPrincipal UserDetailsDto principal) {
+			BindingResult bindingResult, @AuthenticationPrincipal UserDetailsDto principal, Model model) {
 		log.info("{}", writeBoardDto);
 		
 		if (bindingResult.hasErrors()) {
+			model.addAttribute("boardCategoryList", categoryService.findBoardCategoryList());
 			return "board/write";
 		}
 		
@@ -139,9 +142,10 @@ public class BoardController {
 	}
 	
 	@GetMapping("/modify")
-	public String modify(@ModelAttribute("modifyBoardDto") BoardDto modifyBoardDto) {
+	public String modify(@ModelAttribute("modifyBoardDto") BoardDto modifyBoardDto, Model model) {
 		log.info("{}", modifyBoardDto);
 		
+		model.addAttribute("boardCategoryList", categoryService.findBoardCategoryList());
 		boardService.bindModifyBoard(modifyBoardDto);
 		log.info("After bind, {}", modifyBoardDto);
 		
@@ -150,10 +154,11 @@ public class BoardController {
 	
 	@PostMapping("/modifyProc")
 	public String modifyProc(@Valid @ModelAttribute("modifyBoardDto") BoardDto modifyBoardDto, 
-			BindingResult bindingResult, @AuthenticationPrincipal UserDetailsDto principal) {
+			BindingResult bindingResult, @AuthenticationPrincipal UserDetailsDto principal, Model model) {
 		log.info("{}", modifyBoardDto);
 		
 		if (bindingResult.hasErrors()) {
+			model.addAttribute("boardCategoryList", categoryService.findBoardCategoryList());
 			return "board/modify";
 		}
 		
