@@ -81,10 +81,12 @@ public class BoardController {
 		model.addAttribute("cri", cri);
 		model.addAttribute("boardName", categoryService.findCategoryName(cri.getBoardCategoryCode()));
 
-		List<BoardDetailsDto> board = boardService.getPagedBoard(cri);
+		Criteria newCri = boardService.makeNewCri(cri);
+		
+		List<BoardDetailsDto> board = boardService.getPagedBoard(newCri);
 		model.addAttribute("board", board);
 		
-		Pagination pagination = boardService.getPagination(cri);
+		Pagination pagination = boardService.getPagination(newCri);
 		model.addAttribute("pagination", pagination);
 		
 		log.info("{}", pagination);

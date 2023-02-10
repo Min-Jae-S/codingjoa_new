@@ -21,6 +21,8 @@ public interface BoardService {
 	
 	void updateBoardViews(int boardIdx);
 	
+	Criteria makeNewCri(Criteria cri);
+	
 	List<BoardDetailsDto> getPagedBoard(Criteria cri);
 
 	Pagination getPagination(Criteria cri);

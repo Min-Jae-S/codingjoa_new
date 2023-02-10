@@ -86,42 +86,31 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
-	public List<BoardDetailsDto> getPagedBoard(Criteria cri) {
-		Criteria newCri = null;
+	public Criteria makeNewCri(Criteria cri) {
+		Criteria newCri = new Criteria(cri);
 		
 		if ("writer".equals(cri.getType())) {
 			String newKeyword = boardMapper.findMemberIdxByKeyword(cri.getKeyword()).stream()
 					.map(memberIdx -> memberIdx.toString())
 					.collect(Collectors.joining("_"));
 			
-			newCri = new Criteria(cri);
 			newCri.setKeyword(newKeyword);
-		} else {
-			newCri = cri;
-		}
+		} 
 		
-		return boardMapper.findPagedBoard(newCri).stream()
+		return newCri;
+	}
+	
+	@Override
+	public List<BoardDetailsDto> getPagedBoard(Criteria cri) {
+		return boardMapper.findPagedBoard(cri).stream()
 				.map(boardDetailsMap -> modelMapper.map(boardDetailsMap, BoardDetailsDto.class))
 				.collect(Collectors.toList());
 	}
 
 	@Override
 	public Pagination getPagination(Criteria cri) {
-		Criteria newCri = null;
-		
-		if ("writer".equals(cri.getType())) {
-			String newKeyword = boardMapper.findMemberIdxByKeyword(cri.getKeyword()).stream()
-					.map(memberIdx -> memberIdx.toString())
-					.collect(Collectors.joining("_"));
-			
-			newCri = new Criteria(cri);
-			newCri.setKeyword(newKeyword);
-		} else {
-			newCri = cri;
-		}
-		
-		int totalCnt = boardMapper.findPagedBoardTotalCnt(newCri);
-		return new Pagination(totalCnt, newCri.getPage(), newCri.getRecordCnt(), pageRange);
+		int totalCnt = boardMapper.findPagedBoardTotalCnt(cri);
+		return new Pagination(totalCnt, cri.getPage(), cri.getRecordCnt(), pageRange);
 	}
 	
 	@Override
@@ -174,6 +163,7 @@ public class BoardServiceImpl implements BoardService {
 	public void deleteBoard(int boardIdx) {
 		boardMapper.deleteBoard(boardIdx);
 	}
+
 
 	
 }
