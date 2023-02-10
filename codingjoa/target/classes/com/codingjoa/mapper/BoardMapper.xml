@@ -101,8 +101,11 @@
 						<if test='item.equals("content")'>
 							board_content_text LIKE '%' || #{keyword} || '%'
 						</if>
-						<if test='item.equals("writer")'>
-							member_id LIKE '%' || #{keyword} || '%'
+						<if test='item.equals("writer") and keyword != null'>
+							board_writer_idx IN 
+							<foreach collection='keyword.split("_")' item="item" separator="," open="(" close=")">
+								#{item}
+							</foreach>
 						</if> 
 					</trim>
 				</foreach>
