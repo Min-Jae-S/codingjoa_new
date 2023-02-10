@@ -87,28 +87,41 @@ public class BoardServiceImpl implements BoardService {
 	
 	@Override
 	public List<BoardDetailsDto> getPagedBoard(Criteria cri) {
+		Criteria newCri = null;
+		
 		if ("writer".equals(cri.getType())) {
-			log.info("boardMapper.findMemberIdxByKeyword(cri.getKeyword())={}", boardMapper.findMemberIdxByKeyword(cri.getKeyword()));
-			
 			String newKeyword = boardMapper.findMemberIdxByKeyword(cri.getKeyword()).stream()
 					.map(memberIdx -> memberIdx.toString())
 					.collect(Collectors.joining("_"));
-			log.info("newKeyword={}", newKeyword);
 			
-			cri.setKeyword(newKeyword);
+			newCri = new Criteria(cri);
+			newCri.setKeyword(newKeyword);
+		} else {
+			newCri = cri;
 		}
 		
-		log.info("boardMapper.findPagedBoard(cri)={}", boardMapper.findPagedBoard(cri));
-		
-		return boardMapper.findPagedBoard(cri).stream()
+		return boardMapper.findPagedBoard(newCri).stream()
 				.map(boardDetailsMap -> modelMapper.map(boardDetailsMap, BoardDetailsDto.class))
 				.collect(Collectors.toList());
 	}
 
 	@Override
 	public Pagination getPagination(Criteria cri) {
-		int totalCnt = boardMapper.findPagedBoardTotalCnt(cri);
-		return new Pagination(totalCnt, cri.getPage(), cri.getRecordCnt(), pageRange);
+		Criteria newCri = null;
+		
+		if ("writer".equals(cri.getType())) {
+			String newKeyword = boardMapper.findMemberIdxByKeyword(cri.getKeyword()).stream()
+					.map(memberIdx -> memberIdx.toString())
+					.collect(Collectors.joining("_"));
+			
+			newCri = new Criteria(cri);
+			newCri.setKeyword(newKeyword);
+		} else {
+			newCri = cri;
+		}
+		
+		int totalCnt = boardMapper.findPagedBoardTotalCnt(newCri);
+		return new Pagination(totalCnt, newCri.getPage(), newCri.getRecordCnt(), pageRange);
 	}
 	
 	@Override

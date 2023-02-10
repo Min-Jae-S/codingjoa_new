@@ -81,7 +81,7 @@
 			board_idx = #{boardIdx}
 	</update>
 	
-	<select id="findMemberIdxByKeyword" parameterType="string" resultType="list">
+	<select id="findMemberIdxByKeyword" parameterType="string" resultType="int">
 		SELECT
 			member_idx
 		FROM
@@ -101,7 +101,7 @@
 						<if test='item.equals("content")'>
 							board_content_text LIKE '%' || #{keyword} || '%'
 						</if>
-						<if test='item.equals("writer") and keyword != null'>
+						<if test='item.equals("writer") and keyword != null and keyword != ""'>
 							board_writer_idx IN 
 							<foreach collection='keyword.split("_")' item="item" separator="," open="(" close=")">
 								#{item}
