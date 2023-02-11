@@ -91,6 +91,7 @@ public class BoardController {
 		
 		log.info("{}", pagination);
 		
+		
 		return "board/main";
 	}
 	
