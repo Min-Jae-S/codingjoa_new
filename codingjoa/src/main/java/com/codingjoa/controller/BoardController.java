@@ -78,18 +78,24 @@ public class BoardController {
 	public String main(@Cri Criteria cri, Model model) {
 		log.info("{}", cri);
 		
+		
 		model.addAttribute("cri", cri);
 		model.addAttribute("boardName", categoryService.findCategoryName(cri.getBoardCategoryCode()));
 
+		
 		Criteria newCri = boardService.makeNewCri(cri);
+		
 		
 		List<BoardDetailsDto> board = boardService.getPagedBoard(newCri);
 		model.addAttribute("board", board);
 		
+		
 		Pagination pagination = boardService.getPagination(newCri);
-		model.addAttribute("pagination", pagination);
+		model.addAttribute("pagi"
+				+ "nation", pagination);
 		
 		log.info("{}", pagination);
+		
 		
 		return "board/main";
 	}
