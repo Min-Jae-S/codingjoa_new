@@ -87,8 +87,7 @@ public class BoardController {
 		model.addAttribute("board", board);
 		
 		Pagination pagination = boardService.getPagination(newCri);
-		model.addAttribute("pagi"
-				+ "nation", pagination);
+		model.addAttribute("pagination", pagination);
 		
 		log.info("{}", pagination);
 		
