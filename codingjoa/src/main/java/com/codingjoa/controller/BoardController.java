@@ -82,7 +82,7 @@ public class BoardController {
 		model.addAttribute("boardName", categoryService.findCategoryName(cri.getBoardCategoryCode()));
 
 		Criteria newCri = boardService.makeNewCri(cri);
-		log.info("{}", newCri);
+		log.info("newCri={}", newCri);
 		
 		List<BoardDetailsDto> board = boardService.getPagedBoard(newCri);
 		model.addAttribute("board", board);
