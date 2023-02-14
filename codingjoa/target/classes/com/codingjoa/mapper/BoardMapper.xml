@@ -91,7 +91,7 @@
 	</select>
 	
 	<sql id="searchCriteria">
-		<if test="type != null">
+		<if test="type != null and keyword != null">
 			<trim prefix="(" suffix=") AND " suffixOverrides="OR">
 				<foreach collection='type.split("_")' item="item">
 					<trim suffix="OR">
@@ -101,7 +101,7 @@
 						<if test='item.equals("content")'>
 							board_content_text LIKE '%' || #{keyword} || '%'
 						</if>
-						<if test='item.equals("writer") and keyword != null'>
+						<if test='item.equals("writer")'>
 							board_writer_idx IN 
 							<foreach collection='keyword.split("_")' item="item" separator="," open="(" close=")">
 								#{item}

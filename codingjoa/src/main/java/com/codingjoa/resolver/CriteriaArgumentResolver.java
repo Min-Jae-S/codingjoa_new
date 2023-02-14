@@ -61,10 +61,10 @@ public class CriteriaArgumentResolver implements HandlerMethodArgumentResolver {
 		
 		return new Criteria(
 			Integer.parseInt(boardCategoryCode),
-			StringUtils.isNumeric(page) ? Integer.parseInt(page) : defaultPage,
+			StringUtils.isNumeric(page) 		? Integer.parseInt(page) : defaultPage,
 			recordCntMap.containsKey(recordCnt) ? Integer.parseInt(recordCnt) : defaultRecordCnt,
-			typeMap.containsKey(type) ? type : defaultType,
-			StringUtils.trim(keyword)
+			typeMap.containsKey(type) 			? type : defaultType,
+			StringUtils.trimToNull(keyword)
 		);
 	}
 	
