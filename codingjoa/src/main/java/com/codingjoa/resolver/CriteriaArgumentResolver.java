@@ -47,10 +47,10 @@ public class CriteriaArgumentResolver implements HandlerMethodArgumentResolver {
 	public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
 			NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
 		log.info("============== CriteriaArgumentResolver ==============");
-		log.info("recordCntMap={}, typeMap={}", recordCntMap, typeMap);
 		
 		mavContainer.addAttribute("recordCntMap", recordCntMap);
 		mavContainer.addAttribute("typeMap", typeMap);
+		log.info("recordCntMap={}, typeMap={}", recordCntMap, typeMap);
 		
 		//HttpServletRequest request = (HttpServletRequest) webRequest;
 		String boardCategoryCode = webRequest.getParameter("boardCategoryCode");
