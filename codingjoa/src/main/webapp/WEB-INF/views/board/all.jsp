@@ -93,7 +93,7 @@
 						</tbody>
 					</table>
 					<c:if test="${not empty board}">
-						<a href="${contextPath}/board/main?boardCategoryCode=${boardCategoryList[status.index].categoryCode}" class="btn btn-primary">게시글 더보기</a>
+						<a class="btn btn-primary" href="${contextPath}/board/main?boardCategoryCode=${boardCategoryList[status.index].categoryCode}">게시글 더보기</a>
 					</c:if>
 				</div>
 			</c:forEach>
