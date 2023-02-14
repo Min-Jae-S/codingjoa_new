@@ -169,6 +169,4 @@ public class BoardServiceImpl implements BoardService {
 		boardMapper.deleteBoard(boardIdx);
 	}
 
-
-	
 }
