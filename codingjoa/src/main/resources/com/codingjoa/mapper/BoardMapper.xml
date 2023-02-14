@@ -134,34 +134,34 @@
 	</sql> -->
 	
 	<select id="findPagedBoard" parameterType="cri" resultMap="boardDetailsMap">
-		SELECT 
-			board_idx, 
-			board_title, 
-			board_writer_idx, 
-			board_views, 
-			board_category_code, 
-			regdate 
+		SELECT
+    		/*+ LEADING(b) INDEX_DESC(a pk_board) */ 
+			a.*,
+    		b.member_id
 		FROM (
-			SELECT
-				/*+ INDEX_DESC(board pk_board) */ 
-				ROWNUM rn, 
-				board_idx, 
-				board_title, 
-				board_writer_idx, 
-				board_views, 
-				board_category_code, 
-				regdate 
-			FROM
-				board 
-			WHERE
-				<include refid="searchCriteria"/>
+		    SELECT
+		        ROWNUM rn, 
+		        board_idx, 
+		        board_title, 
+		        board_content, 
+		        board_writer_idx, 
+		        board_views, 
+		        regdate 
+		    FROM 
+		        board
+		    WHERE
+		        <include refid="searchCriteria"/>
 				board_category_code = #{boardCategoryCode} AND
 				<![CDATA[
 				ROWNUM <= ( #{page} * #{recordCnt} )
 				]]>
-		)
-		WHERE
-			rn > ( ( #{page} - 1 ) * #{recordCnt} )
+		) a
+		INNER JOIN
+			member b
+		ON 
+			a.board_writer_idx = b.member_idx 
+		WHERE 
+			a.rn > ( ( #{page} - 1 ) * #{recordCnt} )
 	</select>
 	
 	<!-- <select id="findPagedBoard" parameterType="cri" resultMap="boardDetailsMap">
