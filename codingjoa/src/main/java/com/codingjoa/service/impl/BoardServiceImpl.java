@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import com.codingjoa.dto.BoardDetailsDto;
 import com.codingjoa.dto.BoardDto;
@@ -89,14 +90,14 @@ public class BoardServiceImpl implements BoardService {
 	public Criteria makeNewCri(Criteria cri) {
 		Criteria newCri = new Criteria(cri);
 		
-		if ("writer".equals(cri.getType())) {
-			String newKeyword = boardMapper.findMemberIdxByKeyword(cri.getKeyword()).stream()
-					.map(memberIdx -> memberIdx.toString())
-					.collect(Collectors.joining("_"));
-			log.info("newKeyword={}", newKeyword);
-
-			newCri.setKeyword(newKeyword);
-		} 
+		if (!"writer".equals(cri.getType()) || !StringUtils.hasText(cri.getKeyword())) {
+			return newCri;
+		}
+		
+		String newKeyword = boardMapper.findMemberIdxByKeyword(cri.getKeyword()).stream()
+				.map(memberIdx -> memberIdx.toString())
+				.collect(Collectors.joining("_"));
+		newCri.setKeyword(newKeyword);
 		
 		return newCri;
 	}
