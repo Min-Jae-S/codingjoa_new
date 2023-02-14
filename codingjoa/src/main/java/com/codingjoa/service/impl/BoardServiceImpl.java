@@ -97,8 +97,9 @@ public class BoardServiceImpl implements BoardService {
 		String newKeyword = boardMapper.findMemberIdxByKeyword(cri.getKeyword()).stream()
 				.map(memberIdx -> memberIdx.toString())
 				.collect(Collectors.joining("_"));
-		newCri.setKeyword(newKeyword);
+		log.info("newKeyword={}", newKeyword);
 		
+		newCri.setKeyword(newKeyword);
 		return newCri;
 	}
 	
