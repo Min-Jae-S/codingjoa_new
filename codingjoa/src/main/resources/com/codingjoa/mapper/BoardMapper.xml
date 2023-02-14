@@ -96,14 +96,18 @@
 				<foreach collection='type.split("_")' item="item">
 					<trim suffix="OR">
 						<if test='item.equals("title")'>
-							board_title LIKE '%' || #{keyword} || '%'
+							<foreach collection='keyword.split("\\s*,\\s*")' item="item">
+								board_title LIKE '%' || #{item} || '%'
+							</foreach>
 						</if>
 						<if test='item.equals("content")'>
-							board_content_text LIKE '%' || #{keyword} || '%'
+							<foreach collection='keyword.split("\\s*,\\s*")' item="item">
+								board_content_text LIKE '%' || #{item} || '%'
+							</foreach>
 						</if>
 						<if test='item.equals("writer")'>
 							board_writer_idx IN 
-							<foreach collection='keyword.split("_")' item="item" separator="," open="(" close=")">
+							<foreach collection='keyword.split("\\s*,\\s*")' item="item" separator="," open="(" close=")">
 								#{item}
 							</foreach>
 						</if> 
