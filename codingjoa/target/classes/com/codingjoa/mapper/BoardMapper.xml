@@ -91,7 +91,7 @@
 	</select>
 	
 	<sql id="searchCriteria">
-		<if test="type != null and keyword != null and keyword != ''">
+		<if test="type != null">
 			<trim prefix="(" suffix=") AND " suffixOverrides="OR">
 				<foreach collection='type.split("_")' item="item">
 					<trim suffix="OR">
