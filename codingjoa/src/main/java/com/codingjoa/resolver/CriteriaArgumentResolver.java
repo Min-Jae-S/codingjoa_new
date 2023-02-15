@@ -64,7 +64,7 @@ public class CriteriaArgumentResolver implements HandlerMethodArgumentResolver {
 			StringUtils.isNumeric(page) ? Integer.parseInt(page) : defaultPage,
 			recordCntMap.containsKey(recordCnt) ? Integer.parseInt(recordCnt) : defaultRecordCnt,
 			typeMap.containsKey(type) ? type : defaultType,
-			StringUtils.trim(keyword)
+			keyword
 		);
 	}
 	

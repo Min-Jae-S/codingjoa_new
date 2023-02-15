@@ -52,4 +52,8 @@ public class Criteria {
 				.queryParam("keyword", this.keyword)
 				.toUriString();
 	}
+	
+	public String getKeywordRegex() {
+		return String.join("|", keyword.trim().split("\\s+"));
+	}
 }

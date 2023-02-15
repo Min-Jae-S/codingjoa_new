@@ -96,21 +96,15 @@
 				<foreach collection='type.split("_")' item="item">
 					<trim suffix="OR">
 						<if test='item.equals("title")'>
-							REGEXP_LIKE(board_title,
-							<foreach collection='keyword.split(" ")' item="board_title" separator="|" close=")">
-								#{board_title}
-							</foreach>
+							REGEXP_LIKE(board_title, #{keywordRegex})
 						</if>
 						<if test='item.equals("content")'>
-							REGEXP_LIKE(board_content_text,
-							<foreach collection='keyword.split(" ")' item="board_content_text" separator="|" close=")">
-								#{board_content_text}
-							</foreach>
+							REGEXP_LIKE(board_content_text, #{keywordRegex})
 						</if>
 						<if test='item.equals("writer")'>
 							board_writer_idx IN 
-							<foreach collection='keyword.split(" ")' item="board_writer_idx" separator="," open="(" close=")">
-								#{board_writer_idx}
+							<foreach collection='keyword.split("_")' item="item" separator="," open="(" close=")">
+								#{item}
 							</foreach>
 						</if> 
 					</trim>
