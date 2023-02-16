@@ -54,7 +54,6 @@ public class Criteria {
 	}
 	
 	public String getKeywordRegexp() {
-		return keyword == null ? 
-				keyword : String.join("|", keyword.split("\\s+"));
+		return keyword == null ? null : String.join("|", keyword.split("\\s+"));
 	}
 }
