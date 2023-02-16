@@ -96,10 +96,10 @@
 				<foreach collection='type.split("_")' item="item">
 					<trim suffix="OR">
 						<if test='item.equals("title")'>
-							REGEXP_LIKE(board_title, #{keywordRegex})
+							REGEXP_LIKE(board_title, #{keywordRegexp})
 						</if>
 						<if test='item.equals("content")'>
-							REGEXP_LIKE(board_content_text, #{keywordRegex})
+							REGEXP_LIKE(board_content_text, #{keywordRegexp})
 						</if>
 						<if test='item.equals("writer")'>
 							board_writer_idx IN 

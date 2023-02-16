@@ -53,8 +53,8 @@ public class Criteria {
 				.toUriString();
 	}
 	
-	public String getKeywordRegex() {
+	public String getKeywordRegexp() {
 		return keyword == null ? 
-				keyword : String.join("|", keyword.trim().split("\\s+"));
+				keyword : String.join("|", keyword.split("\\s+"));
 	}
 }
