@@ -82,12 +82,14 @@
 	</update>
 	
 	<select id="findMemberIdxByKeyword" parameterType="string" resultType="int">
-		SELECT
-			member_idx
-		FROM
-			member
-		WHERE
-			member_id LIKE '%' || #{keyword} || '%'
+		<if test='keyword != null and keyword != ""'>
+			SELECT
+				member_idx
+			FROM
+				member
+			WHERE
+				member_id LIKE '%' || #{keyword} || '%'
+		</if>
 	</select>
 	
 	<sql id="searchCriteria">
