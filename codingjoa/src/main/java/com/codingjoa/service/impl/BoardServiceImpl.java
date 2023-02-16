@@ -88,17 +88,15 @@ public class BoardServiceImpl implements BoardService {
 	
 	@Override
 	public Criteria makeNewCri(Criteria cri) {
-		Criteria newCri = new Criteria(cri);
-		String keyword = cri.getKeyword();
-		
-		if (!"writer".equals(cri.getType()) || !StringUtils.hasText(keyword)) {
-			return newCri;
+		if (!"writer".equals(cri.getType())) {
+			return cri;
 		}
 		
-		String newKeyword = boardMapper.findMemberIdxByKeyword(keyword).stream()
+		Criteria newCri = new Criteria(cri);
+		String newKeyword = boardMapper.findMemberIdxByKeyword(newCri.getKeyword()).stream()
 				.map(memberIdx -> memberIdx.toString())
 				.collect(Collectors.joining("_"));
-		log.info("keyword={}, newKeyword={}", keyword, newKeyword);
+		log.info("newKeyword={}", newKeyword);
 		
 		newCri.setKeyword(newKeyword);
 		
