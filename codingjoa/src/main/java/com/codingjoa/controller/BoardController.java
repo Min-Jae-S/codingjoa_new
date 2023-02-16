@@ -90,7 +90,6 @@ public class BoardController {
 		
 		Pagination pagination = boardService.getPagination(newCri);
 		model.addAttribute("pagination", pagination);
-		
 		log.info("{}", pagination);
 		
 		return "board/main";
