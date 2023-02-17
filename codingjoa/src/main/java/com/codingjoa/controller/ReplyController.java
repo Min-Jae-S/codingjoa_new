@@ -14,7 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 public class ReplyController {
 
 	@GetMapping("/board/{boardIdx}/replies")
-	public String getReplies(@PathVariable int boardIdx, Model model) {
+	public String readReplies(@PathVariable int boardIdx, Model model) {
 		log.info("boardIdx={}", boardIdx);
 		
 		model.addAttribute("boardIdx", boardIdx);
