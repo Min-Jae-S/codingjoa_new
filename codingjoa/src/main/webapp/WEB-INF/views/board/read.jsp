@@ -213,8 +213,11 @@
 
 <script>
 	$(function() {
-		$(".board-reply").load("${contextPath}/reply/board/${boardDetails.boardIdx}/replies", function() {
-			console.log("get replies");
+		$(".board-reply").load("${contextPath}/reply/board/${boardDetails.boardIdx}/replies", 
+				function(responseTxt, statusTxt, xhr) {
+			console.log(responseTxt);
+			console.log(statusTxt);
+			console.log(xhr);
 		});
 	});
 </script>
