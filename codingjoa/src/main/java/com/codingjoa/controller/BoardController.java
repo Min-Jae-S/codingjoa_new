@@ -58,7 +58,7 @@ public class BoardController {
 //	}
 	
 	@GetMapping("/all")
-	public String all(Model model) {
+	public String getBoards(Model model) {
 		List<Category> boardCategoryList = categoryService.findBoardCategoryList();
 		model.addAttribute("boardCategoryList", boardCategoryList);
 		

@@ -105,7 +105,7 @@
 			</div>
 			<div>
 				<sec:authorize access="isAuthenticated()">
-				<sec:authentication property="principal.member.memberIdx" var="memberIdx"/>
+					<sec:authentication property="principal.member.memberIdx" var="memberIdx"/>
 					<c:if test="${memberIdx eq boardDetails.boardWriterIdx}">
 						<a class="btn btn-primary mr-1" href="${contextPath}/board/modify?boardIdx=${boardDetails.boardIdx}">수정</a>
 						<a class="btn btn-warning mr-1" href="${contextPath}/board/deleteProc?boardIdx=${boardDetails.boardIdx}"
@@ -113,6 +113,9 @@
 					</c:if>
 				</sec:authorize>
 				<a class="btn btn-secondary" href="${contextPath}/board/main${cri.getQueryString()}">목록</a>
+			</div>
+			<div class="board-reply">
+			
 			</div>
 		</div>
 		<div class="col-sm-2"></div>
@@ -206,6 +209,14 @@
             });
         });
 	}
+</script>
+
+<script>
+	$(function() {
+		$(".board-reply").load("${contextPath}/reply/board/${boardDetails.boardIdx}/replies", function() {
+
+		});
+	});
 </script>
 
 </body>
