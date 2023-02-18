@@ -18,6 +18,7 @@ public class ReplyController {
 		log.info("boardIdx={}", boardIdx);
 		
 		model.addAttribute("boardIdx", boardIdx);
+		
 		model.addAttribute("msg", "댓글 리스트 입니다.");
 		
 		return "reply/board-reply";
