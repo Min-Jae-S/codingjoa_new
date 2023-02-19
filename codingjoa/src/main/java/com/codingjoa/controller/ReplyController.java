@@ -17,8 +17,8 @@ public class ReplyController {
 	public String readReplies(@PathVariable int boardIdx, Model model) {
 		log.info("boardIdx={}", boardIdx);
 		
-		//model.addAttribute("boardIdx", boardIdx);
-		//model.addAttribute("msg", "댓글 리스트 입니다.");
+		model.addAttribute("boardIdx", boardIdx);
+		model.addAttribute("msg", "댓글 리스트 입니다.");
 		
 		return "reply/board-reply";
 	}
