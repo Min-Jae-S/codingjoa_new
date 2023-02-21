@@ -58,15 +58,15 @@ public class BoardController {
 //	}
 	
 	@GetMapping("/all")
-	public String all(Model model) {
+	public String getAllBoard(Model model) {
 		List<Category> boardCategoryList = categoryService.findBoardCategoryList();
 		model.addAttribute("boardCategoryList", boardCategoryList);
 		
 		ArrayList<List<BoardDetailsDto>> boardList = new ArrayList<List<BoardDetailsDto>>();
 		boardCategoryList.forEach(category -> {
 			Criteria cri = new Criteria(category.getCategoryCode(), 1, 5, null, null);
-			List<BoardDetailsDto> recentBoard = boardService.getPagedBoard(cri);
-			boardList.add(recentBoard);
+			List<BoardDetailsDto> board = boardService.getPagedBoard(cri);
+			boardList.add(board);
 		});
 		
 		model.addAttribute("boardList", boardList);
@@ -75,7 +75,7 @@ public class BoardController {
 	}
 	
 	@GetMapping("/main")
-	public String main(@Cri Criteria cri, Model model) {
+	public String getBoard(@Cri Criteria cri, Model model) {
 		log.info("{}", cri);
 		
 		model.addAttribute("cri", cri);
