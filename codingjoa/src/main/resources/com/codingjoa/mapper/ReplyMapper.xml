@@ -22,6 +22,28 @@
 		<result property="memberId" column="member_id"/>
 	</resultMap>
 	
+	<insert id="insertReply" parameterType="reply">
+		<selectKey keyProperty="replyIdx" resultType="int" order="BEFORE">
+			SELECT seq_reply.NEXTVAL FROM DUAL
+		</selectKey>
+	
+		INSERT INTO reply (
+			reply_idx,
+			reply_writer_idx,
+			reply_board_idx,
+			reply_content,
+			regdate,
+			moddate
+		) VALUES (
+			#{replyIdx},
+			#{replyWriterIdx},
+			#{replyBoardIdx},
+			#{replyContent},
+			SYSDATE,
+			SYSDATE
+		)
+	</insert>
+	
 	<select id="findPagedReply" resultMap="replyDetailsMap">
 		SELECT
     		/*+ LEADING(b) INDEX_DESC(a pk_reply) */ 
