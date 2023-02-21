@@ -7,6 +7,7 @@
 	reply_board_idx        NUMBER                       NOT NULL,
 	reply_content          VARCHAR2(2000)               NOT NULL,
     reply_like             NUMBER           DEFAULT 0   NOT NULL,
+    reply_use              CHAR(1)                      NOT NULL,
 	regdate                DATE                         NOT NULL,
     moddate                DATE                         NOT NULL,
 -->
@@ -17,6 +18,7 @@
 		<result property="replyBoardIdx" column="reply_board_idx"/>
 		<result property="replyContent" column="reply_content"/>
 		<result property="replyLike" column="reply_like"/>
+		<result property="replyUse" column="reply_use"/>
 		<result property="regdate" column="regdate"/>
 		<result property="moddate" column="moddate"/>
 		<result property="memberId" column="member_id"/>
@@ -32,6 +34,7 @@
 			reply_writer_idx,
 			reply_board_idx,
 			reply_content,
+			reply_use,
 			regdate,
 			moddate
 		) VALUES (
@@ -39,6 +42,7 @@
 			#{replyWriterIdx},
 			#{replyBoardIdx},
 			#{replyContent},
+			#{replyUse},
 			SYSDATE,
 			SYSDATE
 		)
@@ -52,6 +56,7 @@
 			a.reply_board_idx,
 			a.reply_content,
 			a.reply_like
+			a.reply_use,
 	        a.regdate,
 	        a.moddate,
     		b.member_id
@@ -63,6 +68,7 @@
 		        reply_board_idx,
 		        reply_content, 
 		        reply_like, 
+		        reply_use,
 		        regdate,
 		        moddate
 		    FROM 

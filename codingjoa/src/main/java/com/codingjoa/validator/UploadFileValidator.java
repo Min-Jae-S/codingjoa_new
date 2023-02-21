@@ -40,7 +40,6 @@ public class UploadFileValidator implements Validator {
 		Tika tika = new Tika();
 		try {
 			String mimeType = tika.detect(file.getInputStream());
-
 			if (!isPermittedMimeType(mimeType)) {
 				errors.rejectValue("file", "InvalidType", new Object[] { originalFilename, mimeType }, null);
 				return;

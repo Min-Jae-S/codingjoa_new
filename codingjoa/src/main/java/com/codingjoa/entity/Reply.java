@@ -10,6 +10,7 @@ import lombok.Data;
 	reply_board_idx        NUMBER                       NOT NULL,
 	reply_content          VARCHAR2(2000)               NOT NULL,
     reply_like             NUMBER           DEFAULT 0   NOT NULL,
+    reply_use              CHAR(1)                      NOT NULL,
 	regdate                DATE                         NOT NULL,
     moddate                DATE                         NOT NULL,
 */
@@ -22,6 +23,7 @@ public class Reply {
 	private Integer replyBoardIdx;
 	private String replyContent;
 	private Integer replyLike;
+	private Boolean replyUse;
 	private Date regdate;
 	private Date moddate;
 	

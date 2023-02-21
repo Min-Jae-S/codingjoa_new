@@ -9,5 +9,5 @@ public class ReplyDto {
 	private int replyWriterIdx;
 	private int replyBoardIdx;
 	private String replyContent;
-	
+	private boolean replyUse;
 }
