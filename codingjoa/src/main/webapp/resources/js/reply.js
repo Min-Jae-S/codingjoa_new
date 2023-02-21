@@ -8,7 +8,7 @@ let replyService = (function() {
 			url : url,
 			dataType : "json",
 			success : function(result) {
-				callback(result.data);
+				callback(result);
 			},
 			error : function(e) {
 				console.log(e.responseText);
@@ -16,6 +16,23 @@ let replyService = (function() {
 		});
 	}
 	
-	return {getReplyList:getReplyList};
+	function writeReply(url, obj, callback) {
+		$.ajax({
+			type : "POST",
+			url : url,
+			data : JSON.stringify(obj),
+			contentType : "application/json; charset=utf-8",
+			dataType : "json",
+			success : function(result) {
+				callback(result);
+			},
+			error : function(e) {
+				console.log(e.responseText);
+			}
+		});
+	}
+	
+	return {getReplyList:getReplyList,
+			writeReply:writeReply};
 	
 })();

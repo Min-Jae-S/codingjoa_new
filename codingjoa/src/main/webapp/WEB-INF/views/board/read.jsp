@@ -122,14 +122,12 @@
 			</div>
 			<div class="reply">
 				<div class="reply-input">
-					<form action="${contextPath}/reply" method="POST">
-						<div class="input-group">
-							<textarea class="form-control" id="replyContent" name="replyContent"></textarea>
-							<div class="input-group-append">
-								<button class="btn btn-outline-primary">등록</button>
-							</div>
+					<div class="input-group">
+						<textarea class="form-control" id="replyContent" name="replyContent"></textarea>
+						<div class="input-group-append">
+							<button class="btn btn-outline-primary" id="writeReplyBtn">등록</button>
 						</div>
-					</form>
+					</div>
 				</div>
 				<div class="reply-list">
 				
@@ -181,12 +179,10 @@
 			console.error(error);
 		});
 	
-	replyService.getReplyList("${contextPath}/reply/board/${boardDetails.boardIdx}", 
+	/* replyService.getReplyList("${contextPath}/reply/board/${boardDetails.boardIdx}", 
 			function(list) {
 		console.log(list);
-	});
-	
-	
+	}); */
 	
 	
 	
@@ -240,7 +236,19 @@
 
 <script>
 	$(function() {
-
+		$("#writeReplyBtn").on("click", function() {
+			console.log("writeReplyBtn clicked...");
+			
+			let obj = {
+				replyBoardIdx : "${boardDetails.boardIdx}",
+				replyContent : $("#replyContent").val(),
+			};
+			
+			replyService.writeReply("${contextPath}/reply", obj, function(result) {
+				console.log(result);
+			});
+			
+		});
 	});
 </script>
 

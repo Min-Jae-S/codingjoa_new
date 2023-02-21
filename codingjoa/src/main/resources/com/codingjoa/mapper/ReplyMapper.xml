@@ -55,7 +55,7 @@
 			a.reply_writer_idx, 
 			a.reply_board_idx,
 			a.reply_content,
-			a.reply_like
+			a.reply_like,
 			a.reply_use,
 	        a.regdate,
 	        a.moddate,
@@ -74,6 +74,7 @@
 		    FROM 
 		        reply
 		    WHERE
+		    	reply_board_idx = 4118 AND
 				<![CDATA[
 				ROWNUM <= 10
 				]]>
