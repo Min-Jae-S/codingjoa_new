@@ -1,5 +1,13 @@
-console.log("## reply module");
+console.log("## Reply module");
 
 let replyService = (function() {
-	console.log("## reply service");
+	
+	function getReplyList(url) {
+		$.getJSON(url, function(data) {
+			callback(data);
+		});
+	}
+	
+	return {getReplyList:getReplyList};
+	
 })();
