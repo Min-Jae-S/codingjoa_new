@@ -62,7 +62,7 @@
 		text-decoration: none;
 	}
 	
-	.header-group .category a::after {
+	.header-group .category a:after {
 		content: ">";
 		margin-left: 0.25rem;
 	}
@@ -77,10 +77,22 @@
     	color: #757575;
 	}
 	
+	.foot-group a {
+		margin-right: 0.25rem;
+	}
+	
 	.reply-input textarea {
 		min-height: 6.125rem;
 		resize: none;
 	}
+	
+	.form-control:focus {
+		border: 1px solid #868e96;
+		border-right-color: #007bff;;
+		box-shadow: none !important;
+	}
+} 
+	
 </style>
 </head>
 <body>
@@ -91,7 +103,7 @@
 	<div class="row">
 		<div class="col-sm-2"></div>
 		<div class="col-sm-8">
-			<div class="card p-4 mb-3">
+			<div class="card p-4 mb-5">
 				<div class="header-group mb-3">
 					<div class="category mb-2">
 						<a href="${contextPath}/board/main?boardCategoryCode=${cri.boardCategoryCode}"><c:out value="${boardName}"/></a>
@@ -103,24 +115,24 @@
 						<span class="views ml-auto">조회 <c:out value="${boardDetails.boardViews}"/></span>
 					</div>
 				</div>
-				<div class="content-group">
+				<div class="content-group mb-3">
 					<div id="boardContent">
 						<c:out value="${boardDetails.boardContent}" escapeXml="false"/>
 					</div>
 				</div>
+				<div class="foot-group">
+					<a class="btn btn-secondary" href="${contextPath}/board/main${cri.getQueryString()}">목록</a>
+					<sec:authorize access="isAuthenticated()">
+						<sec:authentication property="principal.member.memberIdx" var="memberIdx"/>
+						<c:if test="${memberIdx eq boardDetails.boardWriterIdx}">
+							<a class="btn btn-primary" href="${contextPath}/board/modify?boardIdx=${boardDetails.boardIdx}">수정</a>
+							<a class="btn btn-warning" href="${contextPath}/board/deleteProc?boardIdx=${boardDetails.boardIdx}"
+								onclick="return confirm('게시글을 삭제하시겠습니까?');">삭제</a>
+						</c:if>
+					</sec:authorize>
+				</div>
 			</div>
-			<div class="mb-3">
-				<sec:authorize access="isAuthenticated()">
-					<sec:authentication property="principal.member.memberIdx" var="memberIdx"/>
-					<c:if test="${memberIdx eq boardDetails.boardWriterIdx}">
-						<a class="btn btn-primary mr-1" href="${contextPath}/board/modify?boardIdx=${boardDetails.boardIdx}">수정</a>
-						<a class="btn btn-warning mr-1" href="${contextPath}/board/deleteProc?boardIdx=${boardDetails.boardIdx}"
-							onclick="return confirm('게시글을 삭제하시겠습니까?');">삭제</a>
-					</c:if>
-				</sec:authorize>
-				<a class="btn btn-secondary" href="${contextPath}/board/main${cri.getQueryString()}">목록</a>
-			</div>
-			<div class="reply">
+			<div class="reply mb-3">
 				<div class="reply-input">
 					<div class="input-group">
 						<textarea class="form-control" id="replyContent" name="replyContent"></textarea>
