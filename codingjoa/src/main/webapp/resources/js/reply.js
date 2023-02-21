@@ -2,9 +2,17 @@ console.log("## Reply module");
 
 let replyService = (function() {
 	
-	function getReplyList(url) {
-		$.getJSON(url, function(data) {
-			callback(data);
+	function getReplyList(url, callback) {
+		$.ajax({
+			type : "GET",
+			url : url,
+			dataType : "json",
+			success : function(result) {
+				callback(result.data);
+			},
+			error : function(e) {
+				console.log(e.responseText);
+			}
 		});
 	}
 	

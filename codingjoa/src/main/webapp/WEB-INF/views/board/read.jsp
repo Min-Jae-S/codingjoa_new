@@ -164,8 +164,9 @@
 			console.error(error);
 		});
 	
-	replyService.getReplyList("${contextPath}/reply/${boardDetails.boardIdx}/replies", function(data) {
-		console.log(data);
+	replyService.getReplyList("${contextPath}/reply/${boardDetails.boardIdx}/replies", 
+			function(list) {
+		console.log(list);
 	});
 	
 	
