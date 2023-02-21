@@ -68,7 +68,6 @@ public class BoardController {
 			List<BoardDetailsDto> board = boardService.getPagedBoard(cri);
 			boardList.add(board);
 		});
-		
 		model.addAttribute("boardList", boardList);
 		
 		return "board/all";
@@ -78,9 +77,6 @@ public class BoardController {
 	public String getBoard(@Cri Criteria cri, Model model) {
 		log.info("{}", cri);
 		
-		model.addAttribute("cri", cri);
-		model.addAttribute("boardName", categoryService.findCategoryName(cri.getBoardCategoryCode()));
-
 		Criteria newCri = boardService.makeNewCri(cri);
 		log.info("newCri={}", newCri);
 		
@@ -91,6 +87,8 @@ public class BoardController {
 		log.info("{}", pagination);
 
 		model.addAttribute("pagination", pagination);
+		model.addAttribute("cri", cri);
+		model.addAttribute("boardName", categoryService.findCategoryName(cri.getBoardCategoryCode()));
 		
 		return "board/main";
 	}
@@ -100,14 +98,14 @@ public class BoardController {
 		log.info("boardIdx={}", boardIdx);
 		log.info("{}", cri);
 		
-		model.addAttribute("cri", cri);
-		model.addAttribute("boardName", categoryService.findCategoryName(cri.getBoardCategoryCode()));
-		
 		BoardDetailsDto boardDetails = boardService.getBoardDetails(boardIdx);
 		model.addAttribute("boardDetails", boardDetails);
 		
 		// 쿠키를 이용하여 조회수 중복 방지 추가하기 (https://mighty96.github.io/til/view)
 		boardService.updateBoardViews(boardIdx);
+		
+		model.addAttribute("cri", cri);
+		model.addAttribute("boardName", categoryService.findCategoryName(cri.getBoardCategoryCode()));
 		
 		return "board/read";
 	}
@@ -115,6 +113,7 @@ public class BoardController {
 	@GetMapping("/write")
 	public String write(@ModelAttribute("writeBoardDto") BoardDto writeBoardDto, Model model) {
 		log.info("{}", writeBoardDto);
+		
 		model.addAttribute("boardCategoryList", categoryService.findBoardCategoryList());
 		
 		return "board/write";
@@ -149,9 +148,10 @@ public class BoardController {
 	public String modify(@ModelAttribute("modifyBoardDto") BoardDto modifyBoardDto, Model model) {
 		log.info("{}", modifyBoardDto);
 		
-		model.addAttribute("boardCategoryList", categoryService.findBoardCategoryList());
 		boardService.bindModifyBoard(modifyBoardDto);
 		log.info("After bind, {}", modifyBoardDto);
+		
+		model.addAttribute("boardCategoryList", categoryService.findBoardCategoryList());
 		
 		return "board/modify";
 	}
