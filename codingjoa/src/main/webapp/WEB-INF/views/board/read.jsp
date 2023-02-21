@@ -237,17 +237,14 @@
 <script>
 	$(function() {
 		$("#writeReplyBtn").on("click", function() {
-			console.log("writeReplyBtn clicked...");
-			
-			let obj = {
+			let reply = {
 				replyBoardIdx : "${boardDetails.boardIdx}",
 				replyContent : $("#replyContent").val(),
 			};
 			
-			replyService.writeReply("${contextPath}/reply", obj, function(result) {
+			replyService.writeReply("${contextPath}/reply", reply, function(result) {
 				console.log(result);
 			});
-			
 		});
 	});
 </script>
