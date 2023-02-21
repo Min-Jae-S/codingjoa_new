@@ -43,6 +43,7 @@ public class ReplyRestController {
 		
 		int replyWriterIdx = principal.getMember().getMemberIdx();
 		replyDto.setReplyWriterIdx(replyWriterIdx);
+		replyDto.setReplyUse(true);
 		
 		replyService.writeReply(replyDto);
 		
@@ -55,7 +56,8 @@ public class ReplyRestController {
 		
 		List<ReplyDetailsDto> replyList = replyService.getPagedReply();
 		
-		return ResponseEntity.ok(SuccessResponse.create().data(replyList));
+		return null;
+		//return ResponseEntity.ok(SuccessResponse.create().data(replyList));
 	}
 	
 }

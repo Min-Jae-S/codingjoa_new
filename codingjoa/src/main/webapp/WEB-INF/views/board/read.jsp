@@ -76,6 +76,11 @@
 	    font-size: 0.9rem;
     	color: #757575;
 	}
+	
+	.reply-input textarea {
+		min-height: 6.125rem;
+		resize: none;
+	}
 </style>
 </head>
 <body>
@@ -104,7 +109,7 @@
 					</div>
 				</div>
 			</div>
-			<div>
+			<div class="mb-3">
 				<sec:authorize access="isAuthenticated()">
 					<sec:authentication property="principal.member.memberIdx" var="memberIdx"/>
 					<c:if test="${memberIdx eq boardDetails.boardWriterIdx}">
@@ -115,8 +120,20 @@
 				</sec:authorize>
 				<a class="btn btn-secondary" href="${contextPath}/board/main${cri.getQueryString()}">목록</a>
 			</div>
-			<div class="board-reply">
-			
+			<div class="reply">
+				<div class="reply-input">
+					<form action="${contextPath}/reply" method="POST">
+						<div class="input-group">
+							<textarea class="form-control" id="replyContent" name="replyContent"></textarea>
+							<div class="input-group-append">
+								<button class="btn btn-outline-primary">등록</button>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="reply-list">
+				
+				</div>
 			</div>
 		</div>
 		<div class="col-sm-2"></div>
@@ -168,12 +185,6 @@
 			function(list) {
 		console.log(list);
 	});
-	
-	
-	
-	
-	
-	
 	
 	
 	

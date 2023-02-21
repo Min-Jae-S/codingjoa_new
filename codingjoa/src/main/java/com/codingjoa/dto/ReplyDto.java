@@ -10,4 +10,5 @@ public class ReplyDto {
 	private int replyBoardIdx;
 	private String replyContent;
 	private boolean replyUse;
+	
 }
