@@ -17,6 +17,7 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="${contextPath}/resources/ckeditor5/build/ckeditor.js"></script>
+<script src="${contextPath}/resources/js/reply.js"></script>
 <style>
 	.custom-select {
 		font-size: 0.9rem;
@@ -209,18 +210,11 @@
             });
         });
 	}
-	
-	
 </script>
 
 <script>
 	$(function() {
-		/* $(".board-reply").load("${contextPath}/reply/board/${boardDetails.boardIdx}/replies", 
-				function(responseTxt, statusTxt, xhr) {
-			console.log(responseTxt);
-			console.log(statusTxt);
-			console.log(xhr);
-		}); */
+
 	});
 </script>
 
