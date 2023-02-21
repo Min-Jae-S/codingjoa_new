@@ -1,5 +1,7 @@
 package com.codingjoa.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,7 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.codingjoa.dto.ReplyDto;
+import com.codingjoa.dto.ReplyDetailsDto;
 import com.codingjoa.error.SuccessResponse;
 import com.codingjoa.service.ReplyService;
 
@@ -23,11 +25,12 @@ public class ReplyRestController {
 	private ReplyService replyService;
 
 	@GetMapping("/{boardIdx}/replies")
-	public ResponseEntity<Object> readReplies(@PathVariable int boardIdx) {
+	public ResponseEntity<Object> main(@PathVariable int boardIdx) {
 		log.info("boardIdx={}", boardIdx);
 		
-		return ResponseEntity.ok(SuccessResponse.create()
-				.data(new ReplyDto(boardIdx)));
+		List<ReplyDetailsDto> replyList = replyService.getPagedReply();
+		
+		return ResponseEntity.ok(SuccessResponse.create().data(replyList));
 	}
 	
 	@PostMapping("")

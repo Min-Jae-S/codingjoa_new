@@ -11,6 +11,52 @@
     moddate                DATE                         NOT NULL,
 -->
 
+	<resultMap type="map" id="replyDetailsMap">
+		<id property="replyIdx" column="reply_idx"/>
+		<result property="replyWriterIdx" column="reply_writer_idx"/>
+		<result property="replyBoardIdx" column="reply_board_idx"/>
+		<result property="replyContent" column="reply_content"/>
+		<result property="replyLike" column="reply_like"/>
+		<result property="regdate" column="regdate"/>
+		<result property="moddate" column="moddate"/>
+		<result property="memberId" column="member_id"/>
+	</resultMap>
+	
+	<select id="findPagedReply" resultMap="replyDetailsMap">
+		SELECT
+    		/*+ LEADING(b) INDEX_DESC(a pk_reply) */ 
+			a.reply_idx,
+			a.reply_writer_idx, 
+			a.reply_board_idx,
+			a.reply_content,
+			a.reply_like
+	        a.regdate,
+	        a.moddate,
+    		b.member_id
+		FROM (
+		    SELECT
+		        ROWNUM rn, 
+		        reply_idx,
+		        reply_writer_idx,
+		        reply_board_idx,
+		        reply_content, 
+		        reply_like, 
+		        regdate,
+		        moddate
+		    FROM 
+		        reply
+		    WHERE
+				<![CDATA[
+				ROWNUM <= 10
+				]]>
+		) a
+		INNER JOIN
+			member b
+		ON 
+			a.reply_writer_idx = b.member_idx 
+		WHERE 
+			a.rn > 0
+	</select>
 
 	
 	
