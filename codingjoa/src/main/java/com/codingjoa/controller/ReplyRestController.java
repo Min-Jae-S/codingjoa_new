@@ -38,6 +38,7 @@ public class ReplyRestController {
 		log.info("{}", replyDto);
 		
 		if (bindingResult.hasErrors()) {
+		
 			
 		}
 		
