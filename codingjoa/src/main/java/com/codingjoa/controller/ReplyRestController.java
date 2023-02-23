@@ -57,8 +57,8 @@ public class ReplyRestController {
 		
 		List<ReplyDetailsDto> replyList = replyService.getPagedReply();
 		
-		return null;
-		//return ResponseEntity.ok(SuccessResponse.create().data(replyList));
+		//return null;
+		return ResponseEntity.ok(SuccessResponse.create().data(replyList));
 	}
 	
 }
