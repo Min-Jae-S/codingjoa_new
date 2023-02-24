@@ -2,47 +2,46 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.codingjoa.mapper.ReplyMapper">
 <!--  
- 	reply_idx              NUMBER,
-    reply_writer_idx       NUMBER                       NOT NULL,
-	reply_board_idx        NUMBER                       NOT NULL,
-	reply_content          VARCHAR2(2000)               NOT NULL,
-    reply_like             NUMBER           DEFAULT 0   NOT NULL,
-    reply_use              CHAR(1)                      NOT NULL,
-	regdate                DATE                         NOT NULL,
-    moddate                DATE                         NOT NULL,
+	comment_idx              NUMBER,
+    comment_writer_idx       NUMBER                       NOT NULL,
+	comment_board_idx        NUMBER                       NOT NULL,
+	comment_content          VARCHAR2(2000)               NOT NULL,
+    comment_use              CHAR(1)                      NOT NULL,
+	regdate                  DATE                         NOT NULL,
+    moddate                  DATE                         NOT NULL,
 -->
 
 	<resultMap type="map" id="commentDetailsMap">
-		<id property="replyIdx" column="reply_idx"/>
-		<result property="replyWriterIdx" column="reply_writer_idx"/>
-		<result property="replyBoardIdx" column="reply_board_idx"/>
-		<result property="replyContent" column="reply_content"/>
-		<result property="replyLike" column="reply_like"/>
-		<result property="replyUse" column="reply_use"/>
+		<id property="commentIdx" column="comment_idx"/>
+		<result property="commentWriterIdx" column="comment_writer_idx"/>
+		<result property="commentBoardIdx" column="comment_board_idx"/>
+		<result property="commentContent" column="comment_content"/>
+		<result property="commentUse" column="comment_use"/>
 		<result property="regdate" column="regdate"/>
 		<result property="moddate" column="moddate"/>
 		<result property="memberId" column="member_id"/>
+		<result property="commentLikes" column=""/>
 	</resultMap>
 	
 	<insert id="insertComment" parameterType="comment">
-		<selectKey keyProperty="replyIdx" resultType="int" order="BEFORE">
-			SELECT seq_reply.NEXTVAL FROM DUAL
+		<selectKey keyProperty="commentIdx" resultType="int" order="BEFORE">
+			SELECT seq_comment.NEXTVAL FROM DUAL
 		</selectKey>
 	
 		INSERT INTO reply (
-			reply_idx,
-			reply_writer_idx,
-			reply_board_idx,
-			reply_content,
-			reply_use,
+			comment_idx,
+			comment_writer_idx,
+			comment_board_idx,
+			comment_content,
+			comment_use,
 			regdate,
 			moddate
 		) VALUES (
-			#{replyIdx},
-			#{replyWriterIdx},
-			#{replyBoardIdx},
-			#{replyContent},
-			#{replyUse},
+			#{commentIdx},
+			#{commentWriterIdx},
+			#{commentBoardIdx},
+			#{commentContent},
+			#{commentUse},
 			SYSDATE,
 			SYSDATE
 		)
@@ -50,31 +49,29 @@
 	
 	<select id="findPagedComment" resultMap="commentDetailsMap">
 		SELECT
-    		/*+ LEADING(b) INDEX_DESC(a pk_reply) */ 
-			a.reply_idx,
-			a.reply_writer_idx, 
-			a.reply_board_idx,
-			a.reply_content,
-			a.reply_like,
-			a.reply_use,
+    		/*+ LEADING(b) INDEX_DESC(a pk_comment) */ 
+			a.comment_idx,
+			a.comment_writer_idx, 
+			a.comment_board_idx,
+			a.comment_content,
+			a.comment_use,
 	        a.regdate,
 	        a.moddate,
     		b.member_id
 		FROM (
 		    SELECT
 		        ROWNUM rn, 
-		        reply_idx,
-		        reply_writer_idx,
-		        reply_board_idx,
-		        reply_content, 
-		        reply_like, 
-		        reply_use,
+		        comment_idx,
+		        comment_writer_idx,
+		        comment_board_idx,
+		        comment_content, 
+		        comment_use,
 		        regdate,
 		        moddate
 		    FROM 
-		        reply
+		        comment
 		    WHERE
-		    	reply_board_idx = 4118 AND
+		    	comment_board_idx = 4118 AND
 				<![CDATA[
 				ROWNUM <= 10
 				]]>
@@ -82,7 +79,7 @@
 		INNER JOIN
 			member b
 		ON 
-			a.reply_writer_idx = b.member_idx 
+			a.comment_writer_idx = b.member_idx 
 		WHERE 
 			a.rn > 0
 	</select>

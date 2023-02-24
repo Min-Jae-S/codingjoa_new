@@ -7,14 +7,15 @@ import lombok.Data;
 @Data
 public class CommentDetailsDto {
 
-	private int replyIdx;
-	private int replyWriterIdx;
-	private int replyBoardIdx;
-	private String replyContent;
-	private int replyLike;
-	private boolean replyUse;
+	private int commentIdx;
+	private int commentWriterIdx;
+	private int commentBoardIdx;
+	private String commentContent;
+	private boolean commentUse;
 	private Date regdate;
 	private Date moddate;
+	
 	private String memberId;
+	private int commentLikes;
 	
 }

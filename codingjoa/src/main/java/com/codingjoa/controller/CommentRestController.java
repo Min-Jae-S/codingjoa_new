@@ -46,7 +46,7 @@ public class CommentRestController {
 		commentDto.setCommentWriterIdx(commentWriterIdx);
 		commentDto.setCommentUse(true);
 		
-		commentService.writeReply(commentDto);
+		commentService.writeComment(commentDto);
 		
 		return null;
 	}
@@ -55,7 +55,7 @@ public class CommentRestController {
 	public ResponseEntity<Object> getBoardComment(@PathVariable int boardIdx) {
 		log.info("boardIdx={}", boardIdx);
 		
-		List<CommentDetailsDto> commentList = commentService.getPagedReply();
+		List<CommentDetailsDto> commentList = commentService.getPagedComment();
 		
 		//return null;
 		return ResponseEntity.ok(SuccessResponse.create().data(commentList));

@@ -7,7 +7,7 @@ import com.codingjoa.dto.CommentDto;
 
 public interface CommentService {
 
-	void writeComment(CommentDto replyDto);
+	void writeComment(CommentDto commentDto);
 	
 	List<CommentDetailsDto> getPagedComment();
 }
