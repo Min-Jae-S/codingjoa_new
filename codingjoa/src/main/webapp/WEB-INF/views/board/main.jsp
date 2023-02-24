@@ -132,7 +132,6 @@
 											<c:if test="${boardDetails.commentCnt ne 0}">
 												<span class="comment-cnt"><c:out value="${boardDetails.commentCnt}"/></span>
 											</c:if>
-											<span class="comment-cnt"><c:out value="${boardDetails.commentCnt}"/></span>
 										</td>
 										<td class="d-md-table-cell"><c:out value="${boardDetails.memberId}"/></td>
 										<td class="d-md-table-cell">

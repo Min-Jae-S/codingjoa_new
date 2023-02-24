@@ -179,8 +179,8 @@
 		) c
 		ON 
 			a.board_idx = c.comment_board_idx
-		LEFT OUTER JOIN (
-    		SELECT 
+		LEFT OUTER JOIN ( 
+			SELECT 
     			board_idx, COUNT(*) cnt
     		FROM 
     			board_likes
