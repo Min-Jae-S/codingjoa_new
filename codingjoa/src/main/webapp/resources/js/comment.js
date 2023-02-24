@@ -1,8 +1,8 @@
-console.log("## Reply module");
+console.log("## comment module");
 
-let replyService = (function() {
+let commentService = (function() {
 	
-	function getReplyList(url, callback) {
+	function getCommentList(url, callback) {
 		$.ajax({
 			type : "GET",
 			url : url,
@@ -16,11 +16,11 @@ let replyService = (function() {
 		});
 	}
 	
-	function writeReply(url, obj, callback) {
+	function writeComment(url, comment, callback) {
 		$.ajax({
 			type : "POST",
 			url : url,
-			data : JSON.stringify(obj),
+			data : JSON.stringify(comment),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
 			success : function(result) {
@@ -32,7 +32,7 @@ let replyService = (function() {
 		});
 	}
 	
-	return {getReplyList:getReplyList,
-			writeReply:writeReply};
+	return {getCommentList:getCommentList,
+			writeComment:writeComment};
 	
 })();

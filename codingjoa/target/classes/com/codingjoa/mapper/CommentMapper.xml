@@ -20,7 +20,7 @@
 		<result property="regdate" column="regdate"/>
 		<result property="moddate" column="moddate"/>
 		<result property="memberId" column="member_id"/>
-		<result property="commentLikes" column=""/>
+		<!-- <result property="commentLikes" column=""/> -->
 	</resultMap>
 	
 	<insert id="insertComment" parameterType="comment">
@@ -28,7 +28,7 @@
 			SELECT seq_comment.NEXTVAL FROM DUAL
 		</selectKey>
 	
-		INSERT INTO reply (
+		INSERT INTO "comment" (
 			comment_idx,
 			comment_writer_idx,
 			comment_board_idx,
@@ -69,7 +69,7 @@
 		        regdate,
 		        moddate
 		    FROM 
-		        comment
+		        "comment"
 		    WHERE
 		    	comment_board_idx = 4118 AND
 				<![CDATA[

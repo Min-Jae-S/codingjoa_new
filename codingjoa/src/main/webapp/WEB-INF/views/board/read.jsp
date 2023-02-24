@@ -17,7 +17,7 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="${contextPath}/resources/ckeditor5/build/ckeditor.js"></script>
-<script src="${contextPath}/resources/js/reply.js"></script>
+<script src="${contextPath}/resources/js/comment.js"></script>
 <style>
 	.custom-select {
 		font-size: 0.9rem;
@@ -81,7 +81,7 @@
 		margin-right: 0.25rem;
 	}
 	
-	.reply-input textarea {
+	.comment-input textarea {
 		min-height: 6.125rem;
 		resize: none;
 	}
@@ -132,16 +132,16 @@
 					</sec:authorize>
 				</div>
 			</div>
-			<div class="reply mb-3">
-				<div class="reply-input">
+			<div class="comment mb-3">
+				<div class="comment-input">
 					<div class="input-group">
-						<textarea class="form-control" id="replyContent" name="replyContent"></textarea>
+						<textarea class="form-control" id="commentContent" name="commentContent"></textarea>
 						<div class="input-group-append">
-							<button class="btn btn-outline-primary" id="writeReplyBtn">등록</button>
+							<button class="btn btn-outline-primary" id="writeCommentBtn">등록</button>
 						</div>
 					</div>
 				</div>
-				<div class="reply-list">
+				<div class="comment-list">
 				
 				</div>
 			</div>
@@ -191,7 +191,7 @@
 			console.error(error);
 		});
 	
-	/* replyService.getReplyList("${contextPath}/reply/board/${boardDetails.boardIdx}", 
+	/* commentService.getCommentList("${contextPath}/comment/board/${boardDetails.boardIdx}", 
 			function(list) {
 		console.log(list);
 	}); */
@@ -248,13 +248,13 @@
 
 <script>
 	$(function() {
-		$("#writeReplyBtn").on("click", function() {
-			let reply = {
-				replyBoardIdx : "${boardDetails.boardIdx}",
-				replyContent : $("#replyContent").val(),
+		$("#writeCommentBtn").on("click", function() {
+			let comment = {
+				commentBoardIdx : "${boardDetails.boardIdx}",
+				commentContent : $("#commentContent").val(),
 			};
 			
-			replyService.writeReply("${contextPath}/reply", reply, function(result) {
+			commentService.writeComment("${contextPath}/comment", comment, function(result) {
 				console.log(result);
 			});
 		});

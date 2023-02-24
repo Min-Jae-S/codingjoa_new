@@ -38,8 +38,7 @@ public class CommentRestController {
 		log.info("{}", commentDto);
 		
 		if (bindingResult.hasErrors()) {
-		
-			
+			// ...
 		}
 		
 		int commentWriterIdx = principal.getMember().getMemberIdx();
