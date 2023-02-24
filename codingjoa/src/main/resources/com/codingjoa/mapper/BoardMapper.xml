@@ -70,9 +70,50 @@
 			member b
 		ON
 			a.board_writer_idx = b.member_idx
+		LEFT OUTER JOIN (
+			SELECT 
+				comment_board_idx, COUNT(*) cnt
+			FROM
+				"comment"
+			GROUP BY 
+				comment_board_idx
+		) c
+		ON 
+			a.board_idx = c.comment_board_idx
+		LEFT OUTER JOIN ( 
+			SELECT 
+    			board_idx, COUNT(*) cnt
+    		FROM 
+    			board_likes
+    		GROUP BY 
+    			board_idx 
+    	) d
+		ON 
+			a.board_idx = d.board_idx
 		WHERE
 			a.board_idx = #{boardIdx} 
 	</select>
+
+	<!-- <select id="findBoardDetails" parameterType="int" resultMap="boardDetailsMap">
+		SELECT 
+			a.board_idx, 
+			a.board_title, 
+			a.board_content, 
+			a.board_writer_idx, 
+			a.board_views, 
+			a.board_category_code, 
+			a.regdate, 
+			a.moddate,
+			b.member_id
+		FROM
+			board a
+		INNER JOIN
+			member b
+		ON
+			a.board_writer_idx = b.member_idx
+		WHERE
+			a.board_idx = #{boardIdx} 
+	</select> -->
 	
 	<update id="updateBoardViews" parameterType="int">
 		UPDATE
