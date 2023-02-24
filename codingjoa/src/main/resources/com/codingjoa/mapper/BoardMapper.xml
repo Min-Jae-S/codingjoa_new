@@ -63,7 +63,9 @@
 			a.board_category_code, 
 			a.regdate, 
 			a.moddate,
-			b.member_id
+			b.member_id,
+			NVL(c.cnt, 0) AS comment_cnt,
+    		NVL(d.cnt, 0) AS board_likes_cnt
 		FROM
 			board a
 		INNER JOIN
