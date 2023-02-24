@@ -15,7 +15,7 @@ public class CommentDetailsDto {
 	private Date regdate;
 	private Date moddate;
 	
-	private String memberId;
-	private int commentLikes;
+	private String memberId;		// member
+	private int commentLikes;		// comment_likes
 	
 }

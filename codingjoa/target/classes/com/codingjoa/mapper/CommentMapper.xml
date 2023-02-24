@@ -24,10 +24,6 @@
 	</resultMap>
 	
 	<insert id="insertComment" parameterType="comment">
-		<selectKey keyProperty="commentIdx" resultType="int" order="BEFORE">
-			SELECT seq_comment.NEXTVAL FROM DUAL
-		</selectKey>
-	
 		INSERT INTO "comment" (
 			comment_idx,
 			comment_writer_idx,
@@ -37,7 +33,7 @@
 			regdate,
 			moddate
 		) VALUES (
-			#{commentIdx},
+			seq_comment.NEXTVAL,
 			#{commentWriterIdx},
 			#{commentBoardIdx},
 			#{commentContent},

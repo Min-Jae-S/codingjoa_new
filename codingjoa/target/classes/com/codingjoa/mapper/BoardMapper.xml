@@ -23,6 +23,8 @@
 		<result property="regdate" column="regdate"/>
 		<result property="moddate" column="moddate"/>
 		<result property="memberId" column="member_id"/>
+		<!-- <result property="commentCnt" column="comment_cnt"/>
+		<result property="boardLikes" column="board_likes"/> -->
 	</resultMap>
 	
 	<insert id="insertBoard" parameterType="board">

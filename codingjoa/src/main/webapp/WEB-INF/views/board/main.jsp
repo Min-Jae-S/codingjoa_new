@@ -59,6 +59,8 @@
 		font-size: 0.8rem;
 	}
 	*/
+	
+	
 </style>
 </head>
 <body>
@@ -67,8 +69,8 @@
 
 <div class="container board-container">
 	<div class="row">
-		<div class="col-sm-2"></div>
-		<div class="col-sm-8">
+		<div class="col-sm-1"></div>
+		<div class="col-sm-10">
 			<h4 class="font-weight-bold mb-4"><c:out value="${boardName}"/></h4>
 			<div class="pt-3">
 	        	<form:form class="form-inline" action="${contextPath}/board/main" method="GET" modelAttribute="cri">
@@ -95,6 +97,7 @@
 							<th class="d-md-table-cell w-50">제목</th>
 							<th class="d-md-table-cell">작성자</th>
 							<th class="d-md-table-cell">작성일</th>
+							<th class="d-md-table-cell">추천</th>
 							<th class="d-md-table-cell">조회</th>
 						</tr>
 					</thead>
@@ -105,11 +108,18 @@
 									<tr>
 										<td class="d-md-table-cell"><c:out value="${boardDetails.boardIdx}"/></td>
 										<td class="d-md-table-cell text-left">
-											<a href='${contextPath}/board/read${cri.getQueryString()}&boardIdx=${boardDetails.boardIdx}'><c:out value="${boardDetails.boardTitle}"/></a>
+											<a class="" href='${contextPath}/board/read${cri.getQueryString()}&boardIdx=${boardDetails.boardIdx}'>
+												<span><c:out value="${boardDetails.boardTitle}"/></span>
+												<span class="board-comment-cnt"><c:out value="${boardDetails.commentCnt}"/></span>
+											</a>
 										</td>
 										<td class="d-md-table-cell"><c:out value="${boardDetails.memberId}"/></td>
 										<td class="d-md-table-cell">
 											<fmt:formatDate value="${boardDetails.regdate}" type="date"/>
+										</td>
+										<td class="d-md-table-cell">
+											<span></span>
+											<span><c:out value="${boardDetails.boardLikes}"/></span>
 										</td>
 										<td class="d-md-table-cell"><c:out value="${boardDetails.boardViews}"/></td>
 									</tr>
@@ -151,7 +161,7 @@
 				</ul>
 			</div>
 		</div>		
-		<div class="col-sm-2"></div>
+		<div class="col-sm-1"></div>
 	</div>
 </div>
 
