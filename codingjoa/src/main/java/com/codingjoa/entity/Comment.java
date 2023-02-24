@@ -16,7 +16,7 @@ import lombok.Data;
 */
 
 @Data
-public class Reply {
+public class Comment {
 			
 	private Integer replyIdx;
 	private Integer replyWriterIdx;

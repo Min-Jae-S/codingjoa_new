@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.codingjoa.dto.ReplyDetailsDto;
-import com.codingjoa.dto.ReplyDto;
+import com.codingjoa.dto.CommentDetailsDto;
+import com.codingjoa.dto.CommentDto;
 import com.codingjoa.error.SuccessResponse;
 import com.codingjoa.security.dto.UserDetailsDto;
-import com.codingjoa.service.ReplyService;
+import com.codingjoa.service.CommentService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -27,15 +27,15 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
-public class ReplyRestController {
+public class CommentRestController {
 	
 	@Autowired
-	private ReplyService replyService;
+	private CommentService commentService;
 
 	@PostMapping("/reply")
-	public ResponseEntity<Object> writeReply(@Valid @RequestBody ReplyDto replyDto,
+	public ResponseEntity<Object> writeReply(@Valid @RequestBody CommentDto commentDto,
 			BindingResult bindingResult, @AuthenticationPrincipal UserDetailsDto principal) {
-		log.info("{}", replyDto);
+		log.info("{}", commentDto);
 		
 		if (bindingResult.hasErrors()) {
 		
@@ -43,10 +43,10 @@ public class ReplyRestController {
 		}
 		
 		int replyWriterIdx = principal.getMember().getMemberIdx();
-		replyDto.setReplyWriterIdx(replyWriterIdx);
-		replyDto.setReplyUse(true);
+		commentDto.setReplyWriterIdx(replyWriterIdx);
+		commentDto.setReplyUse(true);
 		
-		replyService.writeReply(replyDto);
+		commentService.writeReply(commentDto);
 		
 		return null;
 	}
@@ -55,7 +55,7 @@ public class ReplyRestController {
 	public ResponseEntity<Object> getBoardReply(@PathVariable int boardIdx) {
 		log.info("boardIdx={}", boardIdx);
 		
-		List<ReplyDetailsDto> replyList = replyService.getPagedReply();
+		List<CommentDetailsDto> replyList = commentService.getPagedReply();
 		
 		//return null;
 		return ResponseEntity.ok(SuccessResponse.create().data(replyList));

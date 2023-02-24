@@ -5,7 +5,7 @@ import java.util.Date;
 import lombok.Data;
 
 @Data
-public class ReplyDetailsDto {
+public class CommentDetailsDto {
 
 	private int replyIdx;
 	private int replyWriterIdx;

@@ -5,12 +5,12 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.codingjoa.entity.Reply;
+import com.codingjoa.entity.Comment;
 
 @Mapper
-public interface ReplyMapper {
+public interface CommentMapper {
 	
-	void insertReply(Reply reply);
+	void insertReply(Comment reply);
 
 	List<Map<String, Object>> findPagedReply(); 
 }

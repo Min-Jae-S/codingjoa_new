@@ -3,7 +3,7 @@ package com.codingjoa.dto;
 import lombok.Data;
 
 @Data
-public class ReplyDto {
+public class CommentDto {
 
 	private int replyIdx;
 	private int replyWriterIdx;
