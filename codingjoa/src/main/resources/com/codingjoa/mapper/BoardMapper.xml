@@ -23,8 +23,8 @@
 		<result property="regdate" column="regdate"/>
 		<result property="moddate" column="moddate"/>
 		<result property="memberId" column="member_id"/>
-		<result property="boardLikesCnt" column="board_likes_cnt"/>
 		<result property="commentCnt" column="comment_cnt"/>
+		<result property="boardLikesCnt" column="board_likes_cnt"/>
 	</resultMap>
 	
 	<insert id="insertBoard" parameterType="board">
@@ -144,7 +144,6 @@
 	        a.board_views,
 	        a.board_category_code, 
 	        a.regdate,
-    		(SELECT member_id FROM member b WHERE b.member_idx = a.board_writer_idx) AS member_id
 		FROM (
 		    SELECT
 		        ROWNUM rn, 
