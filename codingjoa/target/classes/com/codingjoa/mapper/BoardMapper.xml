@@ -144,6 +144,63 @@
 	        a.board_views,
 	        a.board_category_code, 
 	        a.regdate,
+    		b.member_id,
+    		NVL(c.cnt, 0) AS commentCnt,
+    		NVL(d.cnt, 0) AS boardLikesCnt
+		FROM (
+		    SELECT
+		        ROWNUM rn, 
+		        board_idx, 
+		        board_title, 
+		        board_writer_idx, 
+		        board_views,
+		        board_category_code, 
+		        regdate 
+		    FROM 
+		        board
+		    WHERE
+		        <include refid="searchCriteria"/>
+				board_category_code = #{boardCategoryCode} AND
+				<![CDATA[
+				ROWNUM <= ( #{page} * #{recordCnt} )
+				]]>
+		) a
+		INNER JOIN
+			member b
+		ON 
+			a.board_writer_idx = b.member_idx
+		LEFT OUTER JOIN (
+			SELECT 
+				comment_board_idx, COUNT(*) cnt
+			FROM
+				"comment"
+			GROUP BY comment_board_idx
+		) c
+		ON 
+			a.board_idx = c.comment_board_idx
+		LEFT OUTER JOIN (
+    		SELECT 
+    			board_idx, COUNT(*) cnt
+    		FROM 
+    			board_likes
+    		GROUP BY 
+    			board_idx
+		) d
+		ON 
+			a.board_idx = d.board_idx
+		WHERE 
+			a.rn > ( ( #{page} - 1 ) * #{recordCnt} )
+	</select>
+
+	<!-- <select id="findPagedBoard" parameterType="cri" resultMap="boardDetailsMap">
+		SELECT
+    		/*+ LEADING(b) INDEX_DESC(a pk_board) */ 
+			a.board_idx, 
+		    a.board_title,
+		    a.board_writer_idx,
+	        a.board_views,
+	        a.board_category_code, 
+	        a.regdate,
     		b.member_id
 		FROM (
 		    SELECT
@@ -169,7 +226,7 @@
 			a.board_writer_idx = b.member_idx 
 		WHERE 
 			a.rn > ( ( #{page} - 1 ) * #{recordCnt} )
-	</select>
+	</select> -->
 	
 	<!-- <select id="findPagedBoard" parameterType="cri" resultMap="boardDetailsMap">
 		SELECT 
