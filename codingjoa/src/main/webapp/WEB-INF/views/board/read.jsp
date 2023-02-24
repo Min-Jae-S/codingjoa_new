@@ -34,7 +34,6 @@
 	
 	.ck-editor__editable[role="textbox"] {
 		min-height: 300px;
-		font-size: 0.9rem;
 		padding-left: 0.75rem;
 		padding-right: 0.75rem;
 	}
@@ -83,10 +82,12 @@
 	
 	.comment-input textarea {
 		min-height: 6.125rem;
+		padding: 1rem;
+		font-size: 0.85rem;
 		resize: none;
 	}
 	
-	.form-control:focus {
+	.comment-input textarea:focus {
 		border: 1px solid #868e96;
 		border-right-color: #007bff;;
 		box-shadow: none !important;
@@ -195,8 +196,6 @@
 			function(list) {
 		console.log(list);
 	}); */
-	
-	
 	
 	// https://github.com/ckeditor/ckeditor5/issues/5204
 	function extendAttribute(editor) {
