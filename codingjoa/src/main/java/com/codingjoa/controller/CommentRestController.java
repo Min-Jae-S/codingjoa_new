@@ -32,8 +32,8 @@ public class CommentRestController {
 	@Autowired
 	private CommentService commentService;
 
-	@PostMapping("/reply")
-	public ResponseEntity<Object> writeReply(@Valid @RequestBody CommentDto commentDto,
+	@PostMapping("/comment")
+	public ResponseEntity<Object> writeComment(@Valid @RequestBody CommentDto commentDto,
 			BindingResult bindingResult, @AuthenticationPrincipal UserDetailsDto principal) {
 		log.info("{}", commentDto);
 		
@@ -42,23 +42,23 @@ public class CommentRestController {
 			
 		}
 		
-		int replyWriterIdx = principal.getMember().getMemberIdx();
-		commentDto.setReplyWriterIdx(replyWriterIdx);
-		commentDto.setReplyUse(true);
+		int commentWriterIdx = principal.getMember().getMemberIdx();
+		commentDto.setCommentWriterIdx(commentWriterIdx);
+		commentDto.setCommentUse(true);
 		
 		commentService.writeReply(commentDto);
 		
 		return null;
 	}
 	
-	@GetMapping("/reply/board/{boardIdx}")
-	public ResponseEntity<Object> getBoardReply(@PathVariable int boardIdx) {
+	@GetMapping("/comment/board/{boardIdx}")
+	public ResponseEntity<Object> getBoardComment(@PathVariable int boardIdx) {
 		log.info("boardIdx={}", boardIdx);
 		
-		List<CommentDetailsDto> replyList = commentService.getPagedReply();
+		List<CommentDetailsDto> commentList = commentService.getPagedReply();
 		
 		//return null;
-		return ResponseEntity.ok(SuccessResponse.create().data(replyList));
+		return ResponseEntity.ok(SuccessResponse.create().data(commentList));
 	}
 	
 }

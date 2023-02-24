@@ -21,23 +21,23 @@ import lombok.extern.slf4j.Slf4j;
 public class CommentServiceImpl implements CommentService {
 
 	@Autowired
-	private CommentMapper replyMapper;
+	private CommentMapper commentMapper;
 	
 	@Autowired
 	private ModelMapper modelMapper;
 
 	@Override
-	public void writeReply(CommentDto replyDto) {
-		Comment reply = modelMapper.map(replyDto, Comment.class);
-		log.info("replyDto ==> {}", reply);
+	public void writeComment(CommentDto commentDto) {
+		Comment comment = modelMapper.map(commentDto, Comment.class);
+		log.info("commentDto ==> {}", comment);
 		
-		replyMapper.insertReply(reply);
+		commentMapper.insertComment(comment);
 	}
 	
 	@Override
-	public List<CommentDetailsDto> getPagedReply() {
-		return replyMapper.findPagedReply().stream()
-				.map(replyDetailsMap -> modelMapper.map(replyDetailsMap, CommentDetailsDto.class))
+	public List<CommentDetailsDto> getPagedComment() {
+		return commentMapper.findPagedComment().stream()
+				.map(commentDetailsMap -> modelMapper.map(commentDetailsMap, CommentDetailsDto.class))
 				.collect(Collectors.toList());
 	}
 	

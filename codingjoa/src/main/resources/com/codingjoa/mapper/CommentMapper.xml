@@ -12,7 +12,7 @@
     moddate                DATE                         NOT NULL,
 -->
 
-	<resultMap type="map" id="replyDetailsMap">
+	<resultMap type="map" id="commentDetailsMap">
 		<id property="replyIdx" column="reply_idx"/>
 		<result property="replyWriterIdx" column="reply_writer_idx"/>
 		<result property="replyBoardIdx" column="reply_board_idx"/>
@@ -24,7 +24,7 @@
 		<result property="memberId" column="member_id"/>
 	</resultMap>
 	
-	<insert id="insertReply" parameterType="reply">
+	<insert id="insertComment" parameterType="comment">
 		<selectKey keyProperty="replyIdx" resultType="int" order="BEFORE">
 			SELECT seq_reply.NEXTVAL FROM DUAL
 		</selectKey>
@@ -48,7 +48,7 @@
 		)
 	</insert>
 	
-	<select id="findPagedReply" resultMap="replyDetailsMap">
+	<select id="findPagedComment" resultMap="commentDetailsMap">
 		SELECT
     		/*+ LEADING(b) INDEX_DESC(a pk_reply) */ 
 			a.reply_idx,

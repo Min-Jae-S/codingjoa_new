@@ -10,7 +10,7 @@ import com.codingjoa.entity.Comment;
 @Mapper
 public interface CommentMapper {
 	
-	void insertReply(Comment reply);
+	void insertComment(Comment comment);
 
-	List<Map<String, Object>> findPagedReply(); 
+	List<Map<String, Object>> findPagedComment(); 
 }
