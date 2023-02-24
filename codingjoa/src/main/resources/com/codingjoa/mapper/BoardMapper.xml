@@ -23,8 +23,8 @@
 		<result property="regdate" column="regdate"/>
 		<result property="moddate" column="moddate"/>
 		<result property="memberId" column="member_id"/>
-		<!-- <result property="commentCnt" column="comment_cnt"/>
-		<result property="boardLikes" column="board_likes"/> -->
+		<result property="boardLikesCnt" column="board_likes_cnt"/>
+		<result property="commentCnt" column="comment_cnt"/>
 	</resultMap>
 	
 	<insert id="insertBoard" parameterType="board">
@@ -144,6 +144,38 @@
 	        a.board_views,
 	        a.board_category_code, 
 	        a.regdate,
+    		(SELECT member_id FROM member b WHERE b.member_idx = a.board_writer_idx) AS member_id
+		FROM (
+		    SELECT
+		        ROWNUM rn, 
+		        board_idx, 
+		        board_title, 
+		        board_writer_idx, 
+		        board_views,
+		        board_category_code, 
+		        regdate 
+		    FROM 
+		        board
+		    WHERE
+		        <include refid="searchCriteria"/>
+				board_category_code = #{boardCategoryCode} AND
+				<![CDATA[
+				ROWNUM <= ( #{page} * #{recordCnt} )
+				]]>
+		) a
+		WHERE 
+			a.rn > ( ( #{page} - 1 ) * #{recordCnt} )
+	</select>
+	
+	<!-- <select id="findPagedBoard" parameterType="cri" resultMap="boardDetailsMap">
+		SELECT
+    		/*+ LEADING(b) INDEX_DESC(a pk_board) */ 
+			a.board_idx, 
+		    a.board_title,
+		    a.board_writer_idx,
+	        a.board_views,
+	        a.board_category_code, 
+	        a.regdate,
     		b.member_id
 		FROM (
 		    SELECT
@@ -169,7 +201,7 @@
 			a.board_writer_idx = b.member_idx 
 		WHERE 
 			a.rn > ( ( #{page} - 1 ) * #{recordCnt} )
-	</select>
+	</select> -->
 	
 	<!-- <select id="findPagedBoard" parameterType="cri" resultMap="boardDetailsMap">
 		SELECT 

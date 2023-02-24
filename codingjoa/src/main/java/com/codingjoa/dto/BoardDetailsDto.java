@@ -16,8 +16,8 @@ public class BoardDetailsDto {
 	private Date regdate;
 	private Date moddate;
 	
-	private String memberId;	// member
-	private int commentCnt;		// comment
-	private int boardLikes;		// board_likes
+	private String memberId;		// member
+	private int boardLikesCnt;		// board_likes
+	private int commentCnt;			// comment
 	
 }

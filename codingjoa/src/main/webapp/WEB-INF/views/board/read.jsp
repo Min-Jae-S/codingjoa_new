@@ -255,6 +255,7 @@
 			
 			commentService.writeComment("${contextPath}/comment", comment, function(result) {
 				console.log(result);
+				alert(result.message);
 			});
 		});
 	});
