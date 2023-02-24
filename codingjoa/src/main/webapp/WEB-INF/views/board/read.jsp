@@ -132,6 +132,10 @@
 						</c:if>
 					</sec:authorize>
 				</div>
+				<div class="mt-3">
+					<h5>댓글수: <c:out value="${boardDetails.commentCnt}"/></h5>
+					<h5>좋아요: <c:out value="${boardDetails.boardLikesCnt}"/></h5>
+				</div>
 			</div>
 			<div class="comment mb-3">
 				<div class="comment-input">
