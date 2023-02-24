@@ -41,13 +41,14 @@ public class CommentRestController {
 			// ...
 		}
 		
-		int commentWriterIdx = principal.getMember().getMemberIdx();
-		commentDto.setCommentWriterIdx(commentWriterIdx);
+		//int commentWriterIdx = principal.getMember().getMemberIdx();
+		//commentDto.setCommentWriterIdx(commentWriterIdx);
+		commentDto.setCommentWriterIdx(41); // smj20228
 		commentDto.setCommentUse(true);
 		
 		commentService.writeComment(commentDto);
 		
-		return null;
+		return ResponseEntity.ok(SuccessResponse.create().message("success.writeComment"));
 	}
 	
 	@GetMapping("/comment/board/{boardIdx}")
