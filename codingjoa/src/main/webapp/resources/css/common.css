@@ -93,3 +93,6 @@ button.dropdown-item:focus {
 	outline: 0;
 }
 
+.w-40 {
+	width: 40% !important;	
+}

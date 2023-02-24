@@ -37,6 +37,10 @@
 		border-bottom: 1px solid #dee2e6;
 	}
 	
+	.table td:not(:first-child) {
+		color: #757575;
+	}
+	
 	.custom-select {
 		display: flex;
 		/* font-size: 0.8rem; */
@@ -60,7 +64,21 @@
 	}
 	*/
 	
+	.board_title, .board_title:hover {
+		color: black;
+	}
 	
+	.comment-cnt {
+		color: red;
+	}
+	
+	.comment-cnt:before {
+		content: "(";
+	}
+
+	.comment-cnt:after {
+		content: ")";
+	}
 </style>
 </head>
 <body>
@@ -94,7 +112,7 @@
 					<thead>
 						<tr>
 							<th class="d-md-table-cell">번호</th>
-							<th class="d-md-table-cell w-50">제목</th>
+							<th class="d-md-table-cell w-40">제목</th>
 							<th class="d-md-table-cell">작성자</th>
 							<th class="d-md-table-cell">작성일</th>
 							<th class="d-md-table-cell">추천</th>
@@ -108,18 +126,20 @@
 									<tr>
 										<td class="d-md-table-cell"><c:out value="${boardDetails.boardIdx}"/></td>
 										<td class="d-md-table-cell text-left">
-											<a class="" href='${contextPath}/board/read${cri.getQueryString()}&boardIdx=${boardDetails.boardIdx}'>
-												<span><c:out value="${boardDetails.boardTitle}"/></span>
-												<span class="board-comment-cnt"><c:out value="${boardDetails.commentCnt}"/></span>
+											<a class="board_title" href='${contextPath}/board/read${cri.getQueryString()}&boardIdx=${boardDetails.boardIdx}'>
+												<c:out value="${boardDetails.boardTitle}"/>
 											</a>
+											<c:if test="${boardDetails.commentCnt ne 0}">
+												<span class="comment-cnt"><c:out value="${boardDetails.commentCnt}"/></span>
+											</c:if>
 										</td>
 										<td class="d-md-table-cell"><c:out value="${boardDetails.memberId}"/></td>
 										<td class="d-md-table-cell">
 											<fmt:formatDate value="${boardDetails.regdate}" type="date"/>
 										</td>
 										<td class="d-md-table-cell">
-											<span></span>
-											<span><c:out value="${boardDetails.boardLikes}"/></span>
+											<i class="fa-solid fa-heart mr-1"></i>
+											<c:out value="${boardDetails.boardLikes}"/>
 										</td>
 										<td class="d-md-table-cell"><c:out value="${boardDetails.boardViews}"/></td>
 									</tr>
