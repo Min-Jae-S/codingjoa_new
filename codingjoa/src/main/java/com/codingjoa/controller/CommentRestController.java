@@ -2,13 +2,17 @@ package com.codingjoa.controller;
 
 import java.util.List;
 
+import javax.annotation.Resource;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,6 +35,14 @@ public class CommentRestController {
 	
 	@Autowired
 	private CommentService commentService;
+	
+	@Resource(name = "commentValidator")
+	private Validator commentValidator;
+	
+	@InitBinder(value = { "writeCommentDto", "modifyCommentDto" })
+	public void initBinderBoard(WebDataBinder binder) {
+		binder.addValidators(commentValidator);
+	}
 
 	@PostMapping("/comment")
 	public ResponseEntity<Object> writeComment(@Valid @RequestBody CommentDto commentDto,
