@@ -28,14 +28,14 @@ public class CommentValidator implements Validator {
 		log.info("============== CommentValidator ==============");
 		
 		CommentDto commentDto = (CommentDto) target;
-		int boardIdx = commentDto.getCommentBoardIdx();
+		int commentBoardIdx = commentDto.getCommentBoardIdx();
 		int boardCategoryCode = commentDto.getBoardCategoryCode();
 		
-//		if (!StringUtils.isNumeric(boardIdx) || !StringUtils.isNumeric(boardCategoryCode)) {
+//		if (!StringUtils.isNumeric(commentBoardIdx) || !StringUtils.isNumeric(boardCategoryCode)) {
 //			...
 //		}
 		
-		if (!boardService.isBoardIdxExist(boardIdx, boardCategoryCode)) {
+		if (!boardService.isBoardIdxExist(commentBoardIdx, boardCategoryCode)) {
 			errors.rejectValue("commentBoardIdx", "NotBoardIdxExist");
 			return;
 		}
