@@ -45,18 +45,18 @@ public class CommentRestController {
 	}
 
 	@PostMapping("/comment")
-	public ResponseEntity<Object> writeComment(@Valid @RequestBody CommentDto commentDto,
+	public ResponseEntity<Object> writeComment(@Valid @RequestBody CommentDto writeCommentDto,
 			BindingResult bindingResult, @AuthenticationPrincipal UserDetailsDto principal) {
-		log.info("{}", commentDto);
+		log.info("{}", writeCommentDto);
 		
 		if (bindingResult.hasErrors()) {
 			// ...
 		}
 		
 		//int commentWriterIdx = principal.getMember().getMemberIdx();
-		//commentDto.setCommentWriterIdx(commentWriterIdx);
-		commentDto.setCommentWriterIdx(41); // smj20228
-		commentDto.setCommentUse(true);
+		//writeCommentDto.setCommentWriterIdx(commentWriterIdx);
+		writeCommentDto.setCommentWriterIdx(41); // smj20228
+		writeCommentDto.setCommentUse(true);
 		
 		//commentService.writeComment(commentDto);
 		

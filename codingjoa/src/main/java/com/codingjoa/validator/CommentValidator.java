@@ -2,10 +2,12 @@ package com.codingjoa.validator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 import com.codingjoa.dto.CommentDto;
+import com.codingjoa.service.BoardService;
 import com.codingjoa.service.CommentService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +16,9 @@ import lombok.extern.slf4j.Slf4j;
 @Component(value = "commentValidator")
 public class CommentValidator implements Validator {
 
+	@Autowired
+	private BoardService boardService;
+	
 	@Autowired
 	private CommentService commentService;
 	
@@ -24,11 +29,19 @@ public class CommentValidator implements Validator {
 
 	@Override
 	public void validate(Object target, Errors errors) {
-		log.info("============== CommentValidator, {} ==============", errors.getObjectName());
+		log.info("============== CommentValidator ==============");
 		
 		CommentDto commentDto = (CommentDto) target;
+		int boardIdx = commentDto.getCommentIdx();
+		int boardCategoryCode = commentDto.getBoardCategoryCode();
 		
+//		if (!StringUtils.isNumeric(boardIdx) || !StringUtils.isNumeric(boardCategoryCode)) {
+//			...
+//		}
 		
+		if (!boardService.isBoardIdxExist(boardIdx, boardCategoryCode)) {
+			return;
+		}
 		
 		
 		

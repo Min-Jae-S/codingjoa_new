@@ -254,6 +254,7 @@
 		$("#writeCommentBtn").on("click", function() {
 			let comment = {
 				commentBoardIdx : "${boardDetails.boardIdx}",
+				boardCategoryCode : "${boardDetails.boardCategoryCode}",
 				commentContent : $("#commentContent").val(),
 			};
 			
