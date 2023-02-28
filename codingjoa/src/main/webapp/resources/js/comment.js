@@ -16,7 +16,7 @@ let commentService = (function() {
 		});
 	}
 	
-	function writeComment(url, comment, callback) {
+	function writeComment(url, comment) {
 		$.ajax({
 			type : "POST",
 			url : url,
@@ -24,11 +24,19 @@ let commentService = (function() {
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
 			success : function(result) {
-				callback(result);
+				console.log(result);
+				alert(result.message);
 			},
 			error : function(e) {
-				callback(e);
-				//console.log(e.responseText);
+				console.log(e.responseText);
+				
+				if(e.status == 422) {
+					var errorMap = JSON.parse(e.responseText).errorMap;
+					
+					$.each(errorMap, function(errorField, errorMessage) {
+						alert(errorMessage);
+					});
+				}
 			}
 		});
 	}

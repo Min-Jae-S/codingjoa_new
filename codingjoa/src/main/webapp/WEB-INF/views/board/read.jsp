@@ -258,9 +258,7 @@
 				commentContent : $("#commentContent").val(),
 			};
 			
-			commentService.writeComment("${contextPath}/comment", comment, function(result) {
-				console.log(result);
-			});
+			commentService.writeComment("${contextPath}/comment", comment);
 		});
 	});
 </script>
