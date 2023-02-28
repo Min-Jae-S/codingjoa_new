@@ -24,7 +24,13 @@ public class CommentValidator implements Validator {
 
 	@Override
 	public void validate(Object target, Errors errors) {
-
+		log.info("============== CommentValidator, {} ==============", errors.getObjectName());
+		
+		CommentDto commentDto = (CommentDto) target;
+		
+		
+		
+		
 		
 	}
 

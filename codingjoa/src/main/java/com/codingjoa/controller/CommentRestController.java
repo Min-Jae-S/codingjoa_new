@@ -39,7 +39,7 @@ public class CommentRestController {
 	@Resource(name = "commentValidator")
 	private Validator commentValidator;
 	
-	@InitBinder(value = { "writeCommentDto", "modifyCommentDto" })
+	@InitBinder(value = "commentDto")
 	public void initBinderBoard(WebDataBinder binder) {
 		binder.addValidators(commentValidator);
 	}
@@ -58,7 +58,7 @@ public class CommentRestController {
 		commentDto.setCommentWriterIdx(41); // smj20228
 		commentDto.setCommentUse(true);
 		
-		commentService.writeComment(commentDto);
+		//commentService.writeComment(commentDto);
 		
 		return ResponseEntity.ok(SuccessResponse.create().message("success.writeComment"));
 	}
