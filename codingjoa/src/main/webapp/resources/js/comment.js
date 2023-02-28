@@ -41,7 +41,6 @@ let commentService = (function() {
 		});
 	}
 	
-	
 	return {writeComment:writeComment,
 			getCommentList:getCommentList};
 	
