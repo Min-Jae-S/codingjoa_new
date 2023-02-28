@@ -28,7 +28,7 @@ public class CommentValidator implements Validator {
 		log.info("============== CommentValidator ==============");
 		
 		CommentDto commentDto = (CommentDto) target;
-		int boardIdx = commentDto.getCommentIdx();
+		int boardIdx = commentDto.getCommentBoardIdx();
 		int boardCategoryCode = commentDto.getBoardCategoryCode();
 		
 //		if (!StringUtils.isNumeric(boardIdx) || !StringUtils.isNumeric(boardCategoryCode)) {
@@ -41,6 +41,7 @@ public class CommentValidator implements Validator {
 		}
 		
 		if (!StringUtils.hasText(commentDto.getCommentContent())) {
+			errors.rejectValue("commentContent", "NotBlank");
 			return;
 		}
 		
