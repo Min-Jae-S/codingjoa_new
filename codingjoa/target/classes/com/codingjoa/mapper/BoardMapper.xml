@@ -180,7 +180,7 @@
 	
 	<select id="findPagedBoard" parameterType="cri" resultMap="boardDetailsMap">
 		SELECT
-			/*+ USE_NL(a b) USE_NL(a c) USE_NL(a d) */
+			/*+ ORDERED USE_NL(b) USE_NL(c) USE_NL(d) */
 			a.*,
 			b.member_id,
     		NVL(c.cnt, 0) AS comment_cnt,
