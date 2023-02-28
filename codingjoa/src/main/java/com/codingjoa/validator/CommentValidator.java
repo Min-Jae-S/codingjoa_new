@@ -8,7 +8,6 @@ import org.springframework.validation.Validator;
 
 import com.codingjoa.dto.CommentDto;
 import com.codingjoa.service.BoardService;
-import com.codingjoa.service.CommentService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -37,6 +36,7 @@ public class CommentValidator implements Validator {
 //		}
 		
 		if (!boardService.isBoardIdxExist(boardIdx, boardCategoryCode)) {
+			errors.rejectValue("commentBoardIdx", "NotBoardIdxExist");
 			return;
 		}
 		

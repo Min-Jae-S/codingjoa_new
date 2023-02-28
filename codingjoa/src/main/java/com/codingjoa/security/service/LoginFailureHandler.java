@@ -36,7 +36,7 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
 		}
 		
 		log.info("{}", e.getClass());
-		log.info("ErrorCode = {}", errorCode);
+		log.info("errorCode = {}", errorCode);
 		
 		request.setAttribute("errorResponse", ErrorResponse.create().errorCode(errorCode));
 		request.getRequestDispatcher(DEFAULT_FAILURE_URL).forward(request, response);
