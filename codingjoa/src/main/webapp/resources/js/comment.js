@@ -27,7 +27,8 @@ let commentService = (function() {
 				callback(result);
 			},
 			error : function(e) {
-				console.log(e.responseText);
+				callback(e);
+				//console.log(e.responseText);
 			}
 		});
 	}

@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -46,11 +47,12 @@ public class CommentRestController {
 
 	@PostMapping("/comment")
 	public ResponseEntity<Object> writeComment(@Valid @RequestBody CommentDto writeCommentDto,
-			BindingResult bindingResult, @AuthenticationPrincipal UserDetailsDto principal) {
+			BindingResult bindingResult, @AuthenticationPrincipal UserDetailsDto principal) 
+					throws MethodArgumentNotValidException {
 		log.info("{}", writeCommentDto);
 		
 		if (bindingResult.hasErrors()) {
-			// ...
+			throw new MethodArgumentNotValidException(null, bindingResult);
 		}
 		
 		//int commentWriterIdx = principal.getMember().getMemberIdx();

@@ -19,9 +19,6 @@ public class CommentValidator implements Validator {
 	@Autowired
 	private BoardService boardService;
 	
-	@Autowired
-	private CommentService commentService;
-	
 	@Override
 	public boolean supports(Class<?> clazz) {
 		return CommentDto.class.isAssignableFrom(clazz);
@@ -43,7 +40,9 @@ public class CommentValidator implements Validator {
 			return;
 		}
 		
-		
+		if (!StringUtils.hasText(commentDto.getCommentContent())) {
+			return;
+		}
 		
 	}
 
