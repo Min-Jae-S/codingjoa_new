@@ -187,7 +187,12 @@
     		NVL(d.cnt, 0) AS board_likes_cnt
 		FROM (
 		    SELECT
-		    	a_depth.*
+		    	a_depth.board_idx, 
+	        	a_depth.board_title, 
+	        	a_depth.board_writer_idx, 
+	        	a_depth.board_views,
+	        	a_depth.board_category_code, 
+	        	a_depth.regdate 
 		    FROM (
 				SELECT
 					/*+ INDEX_DESC(board pk_board) */
@@ -202,8 +207,7 @@
 		        	board
 		    	WHERE
 		        <include refid="searchCriteria"/>
-				board_category_code = #{boardCategoryCode} 
-				AND
+				board_category_code = #{boardCategoryCode} AND
 				<![CDATA[
 				ROWNUM <= ( #{page} * #{recordCnt} )
 				]]>
