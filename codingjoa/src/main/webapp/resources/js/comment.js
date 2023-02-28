@@ -2,20 +2,6 @@ console.log("## comment module");
 
 let commentService = (function() {
 	
-	function getCommentList(url, callback) {
-		$.ajax({
-			type : "GET",
-			url : url,
-			dataType : "json",
-			success : function(result) {
-				callback(result);
-			},
-			error : function(e) {
-				console.log(e.responseText);
-			}
-		});
-	}
-	
 	function writeComment(url, comment) {
 		$.ajax({
 			type : "POST",
@@ -41,7 +27,22 @@ let commentService = (function() {
 		});
 	}
 	
-	return {getCommentList:getCommentList,
-			writeComment:writeComment};
+	function getCommentList(url, callback) {
+		$.ajax({
+			type : "GET",
+			url : url,
+			dataType : "json",
+			success : function(result) {
+				callback(result);
+			},
+			error : function(e) {
+				console.log(e.responseText);
+			}
+		});
+	}
+	
+	
+	return {writeComment:writeComment,
+			getCommentList:getCommentList};
 	
 })();
