@@ -22,7 +22,7 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
-	AuthenticationProvider authenticationProvider;
+	AuthenticationProvider customAuthenticationProvider;
 	
 	@Autowired
 	AuthenticationSuccessHandler loginSuccessHandler;
@@ -46,7 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.authenticationProvider(authenticationProvider);
+		auth.authenticationProvider(customAuthenticationProvider);
 	}
 
 	@Override
@@ -72,6 +72,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/board/write", "/board/writeProc").authenticated()
 				.antMatchers("/board/modify", "/board/modifyProc").authenticated()
 				.antMatchers("/board/deleteProc").authenticated()
+				.antMatchers("/comment").authenticated()
 				.anyRequest().permitAll()
 				.and()
 			.formLogin()

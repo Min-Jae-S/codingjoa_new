@@ -55,12 +55,11 @@ public class CommentRestController {
 			throw new MethodArgumentNotValidException(null, bindingResult);
 		}
 		
-		//int commentWriterIdx = principal.getMember().getMemberIdx();
-		//commentDto.setCommentWriterIdx(commentWriterIdx);
-		commentDto.setCommentWriterIdx(41); // smj20228
+		int commentWriterIdx = principal.getMember().getMemberIdx();
+		commentDto.setCommentWriterIdx(commentWriterIdx);
 		commentDto.setCommentUse(true);
 		
-		//commentService.writeComment(commentDto);
+		commentService.writeComment(commentDto);
 		
 		return ResponseEntity.ok(SuccessResponse.create().message("success.writeComment"));
 	}

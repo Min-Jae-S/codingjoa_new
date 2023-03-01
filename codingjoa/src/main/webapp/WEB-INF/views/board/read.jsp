@@ -260,6 +260,9 @@
 			
 			commentService.writeComment("${contextPath}/comment", comment);
 		});
+		
+		
+		
 	});
 </script>
 

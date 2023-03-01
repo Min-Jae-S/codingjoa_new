@@ -129,7 +129,6 @@
 				
 				if(e.status == 422) {
 					var errorMap = JSON.parse(e.responseText).errorMap;
-					
 					$.each(errorMap, function(errorField, errorMessage) {
 						$("#" + errorField).closest("dd").after("<dd id='" + errorField + ".errors' class='error'>" + errorMessage + "</dd>");
 					});
