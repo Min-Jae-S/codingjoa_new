@@ -77,7 +77,7 @@ public class MemberController {
 
 		return "member/login";
 	}
-
+	
 	@GetMapping("/security")
 	public String security() {
 		return "member/security";

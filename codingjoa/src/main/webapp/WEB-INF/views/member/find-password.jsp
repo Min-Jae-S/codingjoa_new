@@ -107,11 +107,24 @@
 <script>
 	$(function() {
 		$("#sendAuthEmailBtn").on("click", function() {
-			sendAuthEmail();
+			let obj = {
+				memberId : $("#memberId").val(),
+				memberEmail : $("#memberEmail").val(),
+				type : "BEFORE_FIND_PASSWORD"
+			};
+			
+			sendAuthEmail("${contextPath}/member/sendAuthEmail", obj);
 		});
 		
 		$("#findPasswordBtn").on("click", function() {
-			findPassword();
+			let obj = {
+				memberId : $("#memberId").val(),
+				memberEmail : $("#memberEmail").val(),
+				authCode : $("#authCode").val(),
+				type : "FIND_PASSWORD"		
+			};
+			
+			findPassword("${contextPath}/member/findPassword", obj);
 		});
 		
 		$("input").on("focus", function() {
@@ -123,16 +136,10 @@
 		});
 	});
 	
-	function sendAuthEmail() {
-		var obj = {
-			memberId : $("#memberId").val(),
-			memberEmail : $("#memberEmail").val(),
-			type : "BEFORE_FIND_PASSWORD"
-		};
-		
+	function sendAuthEmail(url, obj) {
 		$.ajax({
 			type : "POST",
-			url : "${contextPath}/member/sendAuthEmail",
+			url : url,
 			data : JSON.stringify(obj),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
@@ -144,13 +151,13 @@
 				$("#authCode").val("");
 				$("#authCode").focus();
 			},
-			error : function(e) {
-				console.log(e.responseText);
+			error : function(jqXHR) {
+				console.log(jqXHR);
 				//$("#memberId\\.errors, #memberEmail\\.errors, #authCode\\.errors, .success").remove();
 				$(".error, .success").remove();
 				
-				if(e.status == 422) {
-					var errorMap = JSON.parse(e.responseText).errorMap;
+				if(jqXHR.status == 422) {
+					var errorMap = JSON.parse(jqXHR.responseText).errorMap;
 					$.each(errorMap, function(errorField, errorMessage) {
 						$("#" + errorField).closest("dd").after("<dd id='" + errorField + ".errors' class='error'>" + errorMessage + "</dd>");
 					});
@@ -159,17 +166,10 @@
 		});
 	}
 	
-	function findPassword() {
-		var obj = {
-			memberId : $("#memberId").val(),
-			memberEmail : $("#memberEmail").val(),
-			authCode : $("#authCode").val(),
-			type : "FIND_PASSWORD"		
-		};
-		
+	function findPassword(url, obj) {
 		$.ajax({
 			type : "POST",
-			url : "${contextPath}/member/findPassword",
+			url : url,
 			data : JSON.stringify(obj),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
@@ -178,13 +178,13 @@
 				alert(result.message);
 				location.href = "${contextPath}/member/findPasswordResult";
 			},
-			error : function(e) {
-				console.log(e.responseText);
+			error : function(jqXHR) {
+				console.log(jqXHR);
 				//$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
 				$(".error, .success").remove();
 				
-				if(e.status == 422) {
-					var errorMap = JSON.parse(e.responseText).errorMap;
+				if(jqXHR.status == 422) {
+					var errorMap = JSON.parse(jqXHR.responseText).errorMap;
 					$.each(errorMap, function(errorField, errorMessage) {
 						$("#" + errorField).closest("dd").after("<dd id='" + errorField + ".errors' class='error'>" + errorMessage + "</dd>");
 					});

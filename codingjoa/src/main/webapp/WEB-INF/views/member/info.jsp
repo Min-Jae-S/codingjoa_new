@@ -209,22 +209,43 @@
 		});
 		
 		$("#sendAuthEmailBtn").on("click", function() {
-			sendAuthEmail();
+			let obj = {
+				memberEmail : $("#memberEmail").val(),
+				type : "BEFORE_UPDATE_EMAIL"
+			};
+			
+			sendAuthEmail("${contextPath}/member/sendAuthEmail", obj);
 		});
 		
 		/* 이메일 - 확인 버튼 */
 		$("#readEmailBtn").on("click", function() {
-			updateEmail();
+			let obj = {
+				memberEmail : $("#memberEmail").val(),
+				authCode : $("#authCode").val(),
+				type : "UPDATE_EMAIL"
+			};
+			
+			updateEmail("${contextPath}/member/updateEmail", obj);
 		});
 
 		/* 주소 - 확인 버튼 */
 		$("#readAllAddrBtn").on("click", function() {
-			updateAddr();
+			let obj = {
+				memberZipcode : $("#memberZipcode").val(),
+				memberAddr : $("#memberAddr").val(),
+				memberAddrDetail : $("#memberAddrDetail").val() 	
+			};
+			
+			updateAddr("${contextPath}/member/updateAddr", obj);
 		});
 
 		/* 이메일 동의 - 확인 버튼 */
 		$("#readAgreeBtn").on("click", function() {
-			updateAgree();
+			let obj = {
+				memberAgree : $("#memberAgree").prop("checked")	
+			};
+			
+			updateAgree("${contextPath}/member/updateAgree", obj);
 		});
 		
 		/* 이메일 - 수정 버튼 */
@@ -276,15 +297,10 @@
 		
 	});
 	
-	function sendAuthEmail() {
-		var obj = {
-			memberEmail : $("#memberEmail").val(),
-			type : "BEFORE_UPDATE_EMAIL"
-		};
-		
+	function sendAuthEmail(url, obj) {
 		$.ajax({
 			type : "POST",
-			url : "${contextPath}/member/sendAuthEmail",
+			url : url,
 			data : JSON.stringify(obj),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
@@ -295,12 +311,12 @@
 				$("#authCode").val("");
 				$("#authCode").focus();
 			},
-			error : function(e) {
-				console.log(e.responseText);
+			error : function(jqXHR) {
+				console.log(jqXHR);
 				$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
 				
-				if(e.status == 422) {
-					var errorMap = JSON.parse(e.responseText).errorMap;
+				if(jqXHR.status == 422) {
+					var errorMap = JSON.parse(jqXHR.responseText).errorMap;
 					$.each(errorMap, function(errorField, errorMessage) {
 						$("#" + errorField).closest("dd").after("<dd id='" + errorField + ".errors' class='error'>" + errorMessage + "</dd>");
 					});
@@ -309,16 +325,10 @@
 		});
 	}
 	
-	function updateEmail() {
-		var obj = {
-			memberEmail : $("#memberEmail").val(),
-			authCode : $("#authCode").val(),
-			type : "UPDATE_EMAIL"
-		};
-		
+	function updateEmail(url, obj) {
 		$.ajax({
 			type : "PUT",
-			url : "${contextPath}/member/updateEmail",
+			url : url,
 			data : JSON.stringify(obj),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
@@ -330,12 +340,12 @@
 				$("#showEmail").find("span").text(member.memberEmail);
 				$("#resetEmailBtn").click();
 			},
-			error : function(e) {
-				console.log(e.responseText);
+			error : function(jqXHR) {
+				console.log(jqXHR);
 				$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
 				
-				if(e.status == 422) {
-					var errorMap = JSON.parse(e.responseText).errorMap;
+				if(jqXHR.status == 422) {
+					var errorMap = JSON.parse(jqXHR.responseText).errorMap;
 					$.each(errorMap, function(errorField, errorMessage) {
 						$("#" + errorField).closest("dd").after("<dd id='" + errorField + ".errors' class='error'>" + errorMessage + "</dd>");
 					});
@@ -344,16 +354,10 @@
 		});
 	}
 	
-	function updateAddr() {
-		var obj = {
-			memberZipcode : $("#memberZipcode").val(),
-			memberAddr : $("#memberAddr").val(),
-			memberAddrDetail : $("#memberAddrDetail").val() 	
-		};
-		
+	function updateAddr(url, obj) {
 		$.ajax({
 			type : "PUT",
-			url : "${contextPath}/member/updateAddr",
+			url : url,
 			data : JSON.stringify(obj),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
@@ -369,12 +373,12 @@
 				$("#showAddrDetail").find("span").text(member.memberAddrDetail);
 				$("#resetAllAddrBtn").click();
 			},
-			error : function(e) {
-				console.log(e.responseText);
+			error : function(jqXHR) {
+				console.log(jqXHR);
 				$("#memberZipcode\\.errors, #memberAddr\\.errors, #memberAddrDetail\\.errors").remove();
 
-				if(e.status == 422) {
-					var errorMap = JSON.parse(e.responseText).errorMap;
+				if(jqXHR.status == 422) {
+					var errorMap = JSON.parse(jqXHR.responseText).errorMap;
 					$.each(errorMap, function(errorField, errorMessage) {
 						$("#" + errorField).closest("dd").after("<dd id='" + errorField + ".errors' class='error'>" + errorMessage + "</dd>");
 					});
@@ -383,13 +387,11 @@
 		});
 	}
 	
-	function updateAgree() {
+	function updateAgree(url, obj) {
 		$.ajax({
 			type : "PUT",
-			url : "${contextPath}/member/updateAgree",
-			data : JSON.stringify({
-				memberAgree : $("#memberAgree").prop("checked")
-			}),
+			url : url,
+			data : JSON.stringify(obj),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
 			success : function(result) {
@@ -401,12 +403,12 @@
 				$("#showAgree").find("input").prop("checked", member.memberAgree);
 				$("#resetAgreeBtn").click();
 			},
-			error : function(e) {
-				console.log(e.responseText);
+			error : function(jqXHR) {
+				console.log(jqXHR);
 				$("#memberAgree\\.errors").remove();
 				
-				if(e.status == 422) {
-					var errorMap = JSON.parse(e.responseText).errorMap;
+				if(jqXHR.status == 422) {
+					var errorMap = JSON.parse(jqXHR).errorMap;
 					$.each(errorMap, function(errorField, errorMessage) {
 						$("#" + errorField).closest("dd").after("<dd id='" + errorField + ".errors' class='error'>" + errorMessage + "</dd>");
 					});
