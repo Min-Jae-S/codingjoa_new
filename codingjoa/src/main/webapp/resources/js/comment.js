@@ -13,11 +13,11 @@ let commentService = (function() {
 				console.log(result);
 				alert(result.message);
 			},
-			error : function(e) {
-				console.log(e.responseText);
+			error : function(jqXHR) {
+				console.log(jqXHR);
 				
-				if(e.status == 422) {
-					var errorMap = JSON.parse(e.responseText).errorMap;
+				if(jqXHR.status == 422) {
+					let errorMap = JSON.parse(jqXHR.responseText).errorMap;
 					$.each(errorMap, function(errorField, errorMessage) {
 						alert(errorMessage);
 					});
@@ -34,8 +34,8 @@ let commentService = (function() {
 			success : function(result) {
 				callback(result);
 			},
-			error : function(e) {
-				callback(e.responseText);
+			error : function(jqXHR) {
+				callback(jqXHR.responseText);
 			}
 		});
 	}
