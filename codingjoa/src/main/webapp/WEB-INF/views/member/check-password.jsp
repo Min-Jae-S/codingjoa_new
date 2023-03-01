@@ -93,7 +93,12 @@
 <script>
 	$(function() {
 		$("#checkPasswordBtn").on("click", function() {
-			checkPassword();
+			let obj = {
+				memberPassword : $("#memberPassword").val(),
+				type : "BEFORE_UPDATE_PASSWORD"
+			};
+			
+			checkPassword("${contextPath}/member/checkPassword", obj);
 		});
 		
 		$("input").on("focus", function() {
@@ -105,15 +110,10 @@
 		});
 	});
 	
-	function checkPassword() {
-		var obj = {
-			memberPassword : $("#memberPassword").val(),
-			type : "BEFORE_UPDATE_PASSWORD"
-		}
-		
+	function checkPassword(url, obj) {
 		$.ajax({
 			type : "POST",
-			url : "${contextPath}/member/checkPassword",
+			url : url,
 			data : JSON.stringify(obj),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
@@ -122,13 +122,13 @@
 				alert(result.message);
 				location.href = "${contextPath}/member/updatePassword";
 			},
-			error : function(e) {
-				console.log(e.responseText);
+			error : function(jqXHR) {
+				console.log(jqXHR);
 				//$("#memberPassword\\.errors").remove();
 				$(".error").remove();
 				
-				if(e.status == 422) {
-					var errorMap = JSON.parse(e.responseText).errorMap;
+				if(jqXHR.status == 422) {
+					var errorMap = JSON.parse(jqXHR.responseText).errorMap;
 					$.each(errorMap, function(errorField, errorMessage) {
 						$("#" + errorField).closest("dd").after("<dd id='" + errorField + ".errors' class='error'>" + errorMessage + "</dd>");
 					});
