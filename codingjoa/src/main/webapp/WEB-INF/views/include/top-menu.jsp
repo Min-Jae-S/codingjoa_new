@@ -52,7 +52,7 @@
 
 <script>
 	$(function() {
-		var timer, delay=100;
+		let timer, delay=100;
 		
 		$(".dropdown").on("mouseenter", function() {
 			var parent_category = $(this).data("category");
@@ -63,7 +63,7 @@
 				$.getJSON("${contextPath}/category/" + parent_category, function(data) {
 					if (data.length == 0) return;
 
-					var html = "<div class='dropdown-menu show'>";
+					let html = "<div class='dropdown-menu show'>";
 					$.each(data, function(i, value) {
 						html += "<button class='dropdown-item' type='button' data-path='";
 						html += (data[i].categoryCode == data[i].categoryPath) ? 
@@ -94,7 +94,7 @@
 		});
 		
 		$(document).on("click", "button.dropdown-item", function() {
-			var parent_path = $(this).closest(".dropdown").data("path");
+			let parent_path = $(this).closest(".dropdown").data("path");
 			location.href = "${contextPath}" + parent_path + $(this).data("path");
 		}); 
 	});

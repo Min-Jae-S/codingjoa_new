@@ -92,8 +92,6 @@
 		border-right-color: #007bff;;
 		box-shadow: none !important;
 	}
-} 
-	
 </style>
 </head>
 <body>
