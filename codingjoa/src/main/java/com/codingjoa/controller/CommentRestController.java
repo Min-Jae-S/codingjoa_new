@@ -46,19 +46,19 @@ public class CommentRestController {
 	}
 
 	@PostMapping("/comment")
-	public ResponseEntity<Object> writeComment(@Valid @RequestBody CommentDto writeCommentDto,
+	public ResponseEntity<Object> writeComment(@Valid @RequestBody CommentDto commentDto,
 			BindingResult bindingResult, @AuthenticationPrincipal UserDetailsDto principal) 
 					throws MethodArgumentNotValidException {
-		log.info("{}", writeCommentDto);
+		log.info("{}", commentDto);
 		
 		if (bindingResult.hasErrors()) {
 			throw new MethodArgumentNotValidException(null, bindingResult);
 		}
 		
 		//int commentWriterIdx = principal.getMember().getMemberIdx();
-		//writeCommentDto.setCommentWriterIdx(commentWriterIdx);
-		writeCommentDto.setCommentWriterIdx(41); // smj20228
-		writeCommentDto.setCommentUse(true);
+		//commentDto.setCommentWriterIdx(commentWriterIdx);
+		commentDto.setCommentWriterIdx(41); // smj20228
+		commentDto.setCommentUse(true);
 		
 		//commentService.writeComment(commentDto);
 		

@@ -1,4 +1,4 @@
-console.log("## comment module");
+console.log("## Comment service");
 
 let commentService = (function() {
 	
@@ -18,7 +18,6 @@ let commentService = (function() {
 				
 				if(e.status == 422) {
 					var errorMap = JSON.parse(e.responseText).errorMap;
-					
 					$.each(errorMap, function(errorField, errorMessage) {
 						alert(errorMessage);
 					});
