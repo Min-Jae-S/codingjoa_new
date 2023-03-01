@@ -11,7 +11,7 @@ import lombok.Data;
 @Data
 public class Auth {
 
-	private Long authIdx;
+	private Integer authIdx;
 	private String memberId;
 	private String memberRole;
 	
