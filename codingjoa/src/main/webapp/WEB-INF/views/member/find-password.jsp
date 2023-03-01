@@ -157,7 +157,7 @@
 				$(".error, .success").remove();
 				
 				if(jqXHR.status == 422) {
-					var errorMap = JSON.parse(jqXHR.responseText).errorMap;
+					let errorMap = JSON.parse(jqXHR.responseText).errorMap;
 					$.each(errorMap, function(errorField, errorMessage) {
 						$("#" + errorField).closest("dd").after("<dd id='" + errorField + ".errors' class='error'>" + errorMessage + "</dd>");
 					});
@@ -184,7 +184,7 @@
 				$(".error, .success").remove();
 				
 				if(jqXHR.status == 422) {
-					var errorMap = JSON.parse(jqXHR.responseText).errorMap;
+					let errorMap = JSON.parse(jqXHR.responseText).errorMap;
 					$.each(errorMap, function(errorField, errorMessage) {
 						$("#" + errorField).closest("dd").after("<dd id='" + errorField + ".errors' class='error'>" + errorMessage + "</dd>");
 					});

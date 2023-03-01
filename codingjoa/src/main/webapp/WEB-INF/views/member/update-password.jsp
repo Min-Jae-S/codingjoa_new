@@ -109,11 +109,23 @@
 <script>
 	$(function() {
 		$("#updatePasswordBtn").on("click", function() {
-			updatePassword();
+			let obj = {
+				memberPassword : $("#memberPassword").val(),
+				confirmPassword : $("#confirmPassword").val(),
+				type : "UPDATE_PASSWORD"
+			};
+			
+			updatePassword("${contextPath}/member/updatePassword", obj);
 		});
 		
 		$("#resetPasswordBtn").on("click", function() {
-			resetPassword();
+			let obj = {
+				memberPassword : $("#memberPassword").val(),
+				confirmPassword : $("#confirmPassword").val(),
+				type : "RESET_PASSWORD"
+			};
+			
+			resetPassword("${contextPath}/member/resetPassword", obj);
 		});
 		
 		$("input").on("focus", function() {
@@ -125,16 +137,10 @@
 		});
 	});
 	
-	function updatePassword() {
-		var obj = {
-			memberPassword : $("#memberPassword").val(),
-			confirmPassword : $("#confirmPassword").val(),
-			type : "UPDATE_PASSWORD"
-		};
-		
+	function updatePassword(url, obj) {
 		$.ajax({
 			type : "PUT",
-			url : "${contextPath}/member/updatePassword",
+			url : url,
 			data : JSON.stringify(obj),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
@@ -143,14 +149,13 @@
 				alert(result.message);
 				location.href = "${contextPath}/member/security";
 			},
-			error : function(e) {
-				console.log(e.responseText);
+			error : function(jqXHR) {
+				console.log(jqXHR);
 				//$("#memberPassword\\.errors, #confirmPassword\\.errors").remove();
 				$(".error").remove();
 				
-				if(e.status == 422) {
-					var errorMap = JSON.parse(e.responseText).errorMap;
-					
+				if(jqXHR.status == 422) {
+					let errorMap = JSON.parse(jqXHR.responseText).errorMap;
 					$.each(errorMap, function(errorField, errorMessage) {
 						$("#" + errorField).closest("dd").after("<dd id='" + errorField + ".errors' class='error'>" + errorMessage + "</dd>");
 					});
@@ -159,16 +164,10 @@
 		});
 	}
 	
-	function resetPassword() {
-		var obj = {
-			memberPassword : $("#memberPassword").val(),
-			confirmPassword : $("#confirmPassword").val(),
-			type : "RESET_PASSWORD"
-		};
-		
+	function resetPassword(url, obj) {
 		$.ajax({
 			type : "PUT",
-			url : "${contextPath}/member/resetPassword",
+			url : url,
 			data : JSON.stringify(obj),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
@@ -177,14 +176,13 @@
 				alert(result.message);
 				location.href = "${contextPath}/member/login";
 			},
-			error : function(e) {
-				console.log(e.responseText);
+			error : function(jqXHR) {
+				console.log(jqXHR);
 				//$("#memberPassword\\.errors, #confirmPassword\\.errors").remove();
 				$(".error").remove();
 				
-				if(e.status == 422) {
-					var errorMap = JSON.parse(e.responseText).errorMap;
-					
+				if(jqXHR.status == 422) {
+					let errorMap = JSON.parse(jqXHR.responseText).errorMap;
 					$.each(errorMap, function(errorField, errorMessage) {
 						$("#" + errorField).closest("dd").after("<dd id='" + errorField + ".errors' class='error'>" + errorMessage + "</dd>");
 					});
