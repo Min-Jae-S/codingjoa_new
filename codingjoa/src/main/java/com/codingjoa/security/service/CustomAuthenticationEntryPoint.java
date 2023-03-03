@@ -31,7 +31,6 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
 			AuthenticationException authException) throws IOException, ServletException {
 		log.info("============== CustomAuthenticationEntryPoint ==============");
 		
-		
 	}
 
 }
