@@ -15,8 +15,8 @@ import com.codingjoa.util.MessageUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @Component
+@Slf4j
 public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 	
 	@Override

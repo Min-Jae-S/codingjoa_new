@@ -16,8 +16,8 @@ import com.codingjoa.security.exception.LoginRequireFieldException;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @Component
+@Slf4j
 public class CustomAuthenticationProvider implements AuthenticationProvider {
 	
 	@Autowired

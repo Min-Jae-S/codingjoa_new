@@ -14,8 +14,8 @@ import com.codingjoa.security.dto.UserDetailsDto;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @Component
+@Slf4j
 public class UserDetailsServiceImpl implements UserDetailsService {
 
 	@Autowired
