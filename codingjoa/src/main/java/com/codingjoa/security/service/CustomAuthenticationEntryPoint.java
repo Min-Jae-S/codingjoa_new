@@ -30,6 +30,10 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
 	public void commence(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException authException) throws IOException, ServletException {
 		log.info("============== CustomAuthenticationEntryPoint ==============");
+		log.info("[default] response.getContentType()={}", response.getContentType());
+		
+		// 401(Unauthorized) vs 403(Forbidden), https://mangkyu.tistory.com/146
+		//response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 		
 	}
 

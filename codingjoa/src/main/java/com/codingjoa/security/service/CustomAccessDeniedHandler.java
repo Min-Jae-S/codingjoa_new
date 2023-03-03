@@ -28,6 +28,8 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 			AccessDeniedException accessDeniedException) throws IOException, ServletException {
 		log.info("============== CustomAccessDeniedHandler ==============");
 		
+		
+		
 	}
 
 }
