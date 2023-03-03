@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h1>Error Page</h1>
+	<h1>Admin Test...</h1>
 </body>
 </html>

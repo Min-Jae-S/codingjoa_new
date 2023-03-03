@@ -37,6 +37,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
 	AuthenticationEntryPoint customAuthenticationEntryPoint;
+	
+	@Bean
+	public CharacterEncodingFilter encodingFilter() {
+		CharacterEncodingFilter encodingFilter = new CharacterEncodingFilter();
+		encodingFilter.setEncoding("UTF-8");
+		encodingFilter.setForceEncoding(true);
+		
+		return encodingFilter;
+	}
+	
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -84,25 +98,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.invalidateHttpSession(true)
 				.and()
 			.exceptionHandling()
-				//.accessDeniedHandler(customAccessDeniedHandler)
-				.accessDeniedPage("/accessDenied")
+				// authentication
+				// Handles an access denied failure(AccessDeniedException)
+				.authenticationEntryPoint(customAuthenticationEntryPoint)	
 				.and()
 			.exceptionHandling()
-				.authenticationEntryPoint(customAuthenticationEntryPoint);
-	}
-	
-	@Bean
-	public CharacterEncodingFilter encodingFilter() {
-		CharacterEncodingFilter encodingFilter = new CharacterEncodingFilter();
-		encodingFilter.setEncoding("UTF-8");
-		encodingFilter.setForceEncoding(true);
-		
-		return encodingFilter;
-	}
-	
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
+				// authorization
+				// Commences an authentication scheme
+				.accessDeniedHandler(customAccessDeniedHandler);			 
+				
 	}
 	
 }
