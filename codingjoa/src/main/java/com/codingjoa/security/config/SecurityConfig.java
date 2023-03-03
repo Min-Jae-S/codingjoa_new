@@ -19,7 +19,7 @@ import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
 @Configuration
-@EnableWebSecurity//(debug = true)
+@EnableWebSecurity //(debug = true)
 @ComponentScan("com.codingjoa.security.service")
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -62,13 +62,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 		/*	FilterChain
 		 * 
-		 *	Browser HTTP Request
-		 *		--> SecurityContextPersistenceFilter 
-		 * 		--> HeaderWriterFilter
-		 * 		--> CsrfFilter
-		 * 		--> LogoutFilter
-		 * 		--> UsernamePasswordAuthenticationFilter
-		 * 		--> ...
+		 *	Browser HTTP Request --> Security filter chain: [
+		 *		WebAsyncManagerIntegrationFilter
+		 * 		SecurityContextPersistenceFilter
+		 * 		HeaderWriterFilter
+		 * 		CharacterEncodingFilter
+		 * 		LogoutFilter
+		 * 		UsernamePasswordAuthenticationFilter
+		 * 		RequestCacheAwareFilter
+		 * 		SecurityContextHolderAwareRequestFilter
+		 * 		AnonymousAuthenticationFilter		
+		 * 		SessionManagementFilter
+		 * 		ExceptionTranslationFilter
+		 * 		FilterSecurityInterceptor
+		 * 
 		 */
 		
 		http
@@ -81,6 +88,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/board/modify", "/board/modifyProc").authenticated()
 				.antMatchers("/board/deleteProc").authenticated()
 				.antMatchers("/comment").authenticated()
+				.antMatchers("/admin/**").hasAnyRole("ADMIN")
 				.anyRequest().permitAll()
 				.and()
 			.formLogin()
