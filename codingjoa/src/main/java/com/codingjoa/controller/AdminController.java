@@ -17,4 +17,6 @@ public class AdminController {
 		
 		return "admin/test";
 	}
+	
+	
 }
