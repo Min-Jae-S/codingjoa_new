@@ -12,9 +12,14 @@ import org.springframework.stereotype.Component;
 
 import lombok.extern.slf4j.Slf4j;
 
-/*
+/*	
+ * 	인증이 되지 않았을 경우(비로그인)
+ * 
+ * 	AuthenticationEntryPoint, Commences an authentication scheme.
+ * 
  * 	Implementations should modify the headers on the <code>ServletResponse</code> as
  *  necessary to commence the authentication process.
+ *  
  */
 
 @Component

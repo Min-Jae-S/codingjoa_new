@@ -61,6 +61,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 
 		/*	FilterChain
+		 * 	https://gngsn.tistory.com/160
 		 * 
 		 *	Browser HTTP Request --> Security filter chain: [
 		 *		WebAsyncManagerIntegrationFilter
@@ -73,7 +74,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		 * 		SecurityContextHolderAwareRequestFilter
 		 * 		AnonymousAuthenticationFilter		
 		 * 		SessionManagementFilter
-		 * 		ExceptionTranslationFilter
+		 * 		ExceptionTranslationFilter(AuthenticationEntryPoint, AccessDeniedHandler)
 		 * 		FilterSecurityInterceptor
 		 * 
 		 */
@@ -106,13 +107,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.invalidateHttpSession(true)
 				.and()
 			.exceptionHandling()
-				// authentication
-				// Handles an access denied failure(AccessDeniedException)
 				.authenticationEntryPoint(customAuthenticationEntryPoint)	
 				.and()
 			.exceptionHandling()
-				// authorization
-				// Commences an authentication scheme
 				.accessDeniedHandler(customAccessDeniedHandler);			 
 				
 	}
