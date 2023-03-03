@@ -16,7 +16,11 @@ let commentService = (function() {
 			error : function(jqXHR) {
 				console.log(jqXHR);
 				
-				if(jqXHR.status == 422) {
+				if (jqXHR.status == 401) {
+					alert(jqXHR.responseText);
+				}
+				
+				if (jqXHR.status == 422) {
 					let errorMap = JSON.parse(jqXHR.responseText).errorMap;
 					$.each(errorMap, function(errorField, errorMessage) {
 						alert(errorMessage);

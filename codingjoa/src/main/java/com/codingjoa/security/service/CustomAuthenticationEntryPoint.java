@@ -6,11 +6,14 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 
 import com.codingjoa.error.ErrorResponse;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -54,9 +57,12 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
 		log.info("ajax={}", ajax);
 		
 		if (ajax) {
-			// 401(Unauthorized) vs 403(Forbidden)
-			// https://mangkyu.tistory.com/146
-			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+			response.setStatus(HttpStatus.UNAUTHORIZED.value());
+			response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+			
+			ObjectMapper objectMapper = new ObjectMapper();
+			objectMapper.writeValue(response.getWriter(), ErrorResponse.create().errorCode("error.NotLogin"));
+			
 		} else {
 			request.getRequestDispatcher(DEFAULT_FAILURE_URL).forward(request, response);
 		}

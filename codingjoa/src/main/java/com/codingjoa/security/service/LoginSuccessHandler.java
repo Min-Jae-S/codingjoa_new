@@ -27,12 +27,12 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 		
 		response.setContentType("text/html; charset=utf-8");
 		
-		PrintWriter out = response.getWriter();
-		out.println("<script>");
-		out.println("alert('" + MessageUtils.getMessage("success.onAuthenticationSuccess") + "');");
-		out.println("location.href='" +  request.getContextPath() + "';");
-		out.println("</script>");
-		out.flush();
+		PrintWriter writer = response.getWriter();
+		writer.println("<script>");
+		writer.println("alert('" + MessageUtils.getMessage("success.onAuthenticationSuccess") + "');");
+		writer.println("location.href='" +  request.getContextPath() + "';");
+		writer.println("</script>");
+		writer.flush();
 	}
 
 }
