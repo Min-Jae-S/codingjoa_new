@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.csrf.CsrfFilter;
@@ -30,6 +31,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
 	AuthenticationFailureHandler loginFailureHandler;
+	
+	@Autowired
+	AccessDeniedHandler customAccessDeniedHandler;
 	
 	@Autowired
 	AuthenticationEntryPoint customAuthenticationEntryPoint;
@@ -80,7 +84,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.invalidateHttpSession(true)
 				.and()
 			.exceptionHandling()
-				.accessDeniedPage("/accessDenied");
+				//.accessDeniedHandler(customAccessDeniedHandler)
+				.accessDeniedPage("/accessDenied")
+				.and()
+			.exceptionHandling()
+				.authenticationEntryPoint(customAuthenticationEntryPoint);
 	}
 	
 	@Bean
