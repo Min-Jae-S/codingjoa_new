@@ -17,7 +17,8 @@ let commentService = (function() {
 				console.log(jqXHR);
 				
 				if (jqXHR.status == 401) {
-					alert(jqXHR.responseText);
+					let errorMessage = JSON.parse(jqXHR.responseText).errorMessage;
+					alert(errorMessage);
 				}
 				
 				if (jqXHR.status == 422) {

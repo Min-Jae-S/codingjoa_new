@@ -62,7 +62,6 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
 			
 			ObjectMapper objectMapper = new ObjectMapper();
 			objectMapper.writeValue(response.getWriter(), ErrorResponse.create().errorCode("error.NotLogin"));
-			
 		} else {
 			request.getRequestDispatcher(DEFAULT_FAILURE_URL).forward(request, response);
 		}
