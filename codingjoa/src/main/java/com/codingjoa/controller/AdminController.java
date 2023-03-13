@@ -14,7 +14,6 @@ public class AdminController {
 	@GetMapping("/test")
 	public String test() {
 		log.info("admin test...");
-		
 		return "admin/test";
 	}
 	
