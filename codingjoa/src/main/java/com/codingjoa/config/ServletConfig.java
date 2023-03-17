@@ -83,7 +83,7 @@ public class ServletConfig implements WebMvcConfigurer {
 		
 	}
 	
-	// MultipartResolver : StandardServletMultipartResolver, CommonsMultipartResolver
+	// MultipartResolver: StandardServletMultipartResolver, CommonsMultipartResolver
 	// CommonsMultipartResolver 사용시 commons-fileupload 라이브러리 추가
 	@Bean
 	public MultipartResolver multipartResolver() {

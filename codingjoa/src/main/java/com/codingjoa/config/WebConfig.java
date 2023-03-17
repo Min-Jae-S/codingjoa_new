@@ -11,8 +11,6 @@ import com.codingjoa.security.config.SecurityConfig;
 
 public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitializer {
 	
-	private final static long MAX_FILE_SIZE = 50 * 1024 * 1024;
-	
 	@Override
 	protected Class<?>[] getRootConfigClasses() {
 		return new Class[] { RootConfig.class, SecurityConfig.class, EmailConfig.class, RedisConfig.class };
@@ -44,8 +42,12 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 		// maxFileSize			: 업로드 하는 파일의 최대 용량(byte 단위)
 		// maxRequestSize		: 파일 데이터를 포함한 전체 요청 용량
 		// fileSizeThreshold	: 파일 임계값
-		MultipartConfigElement multipartConfig = new MultipartConfigElement(null, MAX_FILE_SIZE, MAX_FILE_SIZE, 0);
+		MultipartConfigElement multipartConfig = 
+				new MultipartConfigElement("D:\\Dev\\upload\\temp", 20971520, 41943040, 20971520); // 20MB, 40MB, 20MB
+		
+		//StandardServletMultipartResolver.cleanupMultipart(94) - Failed to perform cleanup of multipart items
 		registration.setMultipartConfig(multipartConfig);
+		
 	}
 	
 	
