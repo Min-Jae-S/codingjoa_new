@@ -45,6 +45,8 @@ public class MemberServiceImpl implements MemberService {
 		Auth auth = new Auth();
 		auth.setMemberId(joinDto.getMemberId());
 		auth.setMemberRole("ROLE_MEMBER");
+		log.info("{}", auth);
+		
 		memberMapper.registerAuth(auth);
 	}
 

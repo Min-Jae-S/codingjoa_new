@@ -52,7 +52,7 @@
 		) VALUES (
 			seq_auth.NEXTVAL,
 			#{memberId},
-			#{memeberRole}
+			#{memberRole}
 		)
 	</insert>
 	
