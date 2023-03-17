@@ -44,8 +44,8 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 		// maxFileSize			: 업로드 하는 파일의 최대 용량(byte 단위)
 		// maxRequestSize		: 파일 데이터를 포함한 전체 요청 용량
 		// fileSizeThreshold	: 파일 임계값
-		MultipartConfigElement config = new MultipartConfigElement(null, MAX_FILE_SIZE, MAX_FILE_SIZE, 0);
-		registration.setMultipartConfig(config);
+		MultipartConfigElement multipartConfig = new MultipartConfigElement(null, MAX_FILE_SIZE, MAX_FILE_SIZE, 0);
+		registration.setMultipartConfig(multipartConfig);
 	}
 	
 	
