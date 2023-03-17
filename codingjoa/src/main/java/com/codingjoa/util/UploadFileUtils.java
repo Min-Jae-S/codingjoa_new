@@ -15,10 +15,10 @@ public class UploadFileUtils {
 		}
 		
 		String uploadFilename = UUID.randomUUID() + "_" +  file.getOriginalFilename();
-		File uploadFile = new File(uploadFolder, uploadFilename);
+		File saveFile = new File(uploadFolder, uploadFilename);
 		
 		try {
-			file.transferTo(uploadFile);
+			file.transferTo(saveFile);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
