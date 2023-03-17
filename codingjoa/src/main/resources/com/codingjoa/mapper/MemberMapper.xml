@@ -47,10 +47,12 @@
 	<insert id="registerAuth" parameterType="auth">
 		INSERT INTO auth (
 			auth_idx,
-			member_id
+			member_id,
+			member_role
 		) VALUES (
 			seq_auth.NEXTVAL,
-			#{memberId}
+			#{memberId},
+			#{memeberRole}
 		)
 	</insert>
 	
