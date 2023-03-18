@@ -104,6 +104,7 @@ public class BoardController {
 		// 쿠키를 이용하여 조회수 중복 방지 추가하기 (https://mighty96.github.io/til/view)
 		boardService.updateBoardViews(boardIdx);
 		
+		
 		model.addAttribute("cri", cri);
 		model.addAttribute("boardName", categoryService.findCategoryName(cri.getBoardCategoryCode()));
 		
