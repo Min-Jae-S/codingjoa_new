@@ -184,7 +184,8 @@ public class BoardController {
 		
 		int boardCategoryCode = boardService.getBoardCategoryCode(boardIdx);
 		
-		// ON DELETE CASCADE, ON DELETE SET NULL
+		// ON DELETE CASCADE
+		// ON DELETE SET NULL
 		boardService.deleteBoard(boardIdx);
 		
 		return "redirect:/board/main" + UriComponentsBuilder.newInstance()
