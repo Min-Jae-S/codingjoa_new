@@ -36,8 +36,7 @@ public class BoardValidator implements Validator {
 			return;
 		}
 
-		if (!StringUtils.hasText(boardDto.getBoardContent())
-				|| !StringUtils.hasText(boardDto.getBoardContentText())) {
+		if (!StringUtils.hasText(boardDto.getBoardContent())) {
 			errors.rejectValue("boardContent", "NotBlank");
 			return;
 		}

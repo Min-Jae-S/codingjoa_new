@@ -168,7 +168,7 @@
 			    	continue;
 			    }
 			    
-			 	// imageBlock, imageInlne
+			 	// imageBlock, imageInline
 			    if (!value.item.name.startsWith("image")) { 
 			    	continue;
 			    }
