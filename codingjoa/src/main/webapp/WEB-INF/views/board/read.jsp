@@ -50,6 +50,14 @@
 		box-shadow: none !important;
 	}
 	
+	.ck .ck-widget.ck-widget_selected, .ck .ck-widget.ck-widget_selected:hover {
+		outline: none;
+	}
+	
+	.ck.ck-widget__selection-handle {
+  		display: none;
+	}
+	
 	.header-group {
 		border-bottom: 1px solid rgba(0,0,0,.125);
 	}
