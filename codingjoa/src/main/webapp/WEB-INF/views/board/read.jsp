@@ -90,7 +90,7 @@
 	}
 	
 	.comment-input textarea {
-		padding: 1rem;
+		padding: 30px 20px 30px 20px;
 		font-size: 0.85rem;
 		resize: none;
 		overflow: hidden;
@@ -165,7 +165,7 @@ l	<div class="row">
 				</div>
 				<div class="comment-input">
 					<div class="input-group">
-						<textarea class="form-control" id="commentContent" name="commentContent" placeholder="댓글을 남겨보세요"></textarea>
+						<textarea class="form-control" id="commentContent" name="commentContent" placeholder="댓글을 남겨보세요" rows="1"></textarea>
 						<div class="input-group-append">
 							<button class="btn btn-outline-primary" id="writeCommentBtn">등록</button>
 						</div>
@@ -277,17 +277,19 @@ l	<div class="row">
 <script>
 	$(function() {
 		let originalScrollHeight = $("#commentContent").prop("scrollHeight");
+		console.log("originalScrollHeight:" + originalScrollHeight);
 		
 		$("#commentContent").on("keydown keyup", function() {
 			$(this).height("auto");
-			
-			let currentScrollHeight = $(this).prop("scrollHeight");
-			if (currentScrollHeight > originalScrollHeight) {
-				$(this).attr("rows", 1);
-				$(this).height(currentScrollHeight + "px");
-			} else {
-				$(this).attr("rows", 2);
-			}				
+			let scrollHeight = $(this).prop("scrollHeight");
+			if (scrollHeight > originalScrollHeight) {
+				$(this).height(scrollHeight + "px");
+			}
+		});
+		
+		$("#commentContent").on("focus", function() {
+			console.log("current height: " + $(this).height());
+			console.log("current scrollHeight: " + $(this).prop("scrollHeight"));
 		});
 		
 		$("#writeCommentBtn").on("click", function() {
