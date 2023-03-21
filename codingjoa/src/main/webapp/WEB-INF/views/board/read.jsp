@@ -16,6 +16,7 @@
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://kit.fontawesome.com/c503d71f81.js"></script>
 <script src="${contextPath}/resources/ckeditor5/build/ckeditor.js"></script>
 <script src="${contextPath}/resources/js/comment.js"></script>
 <style>
@@ -117,9 +118,14 @@
 					</div>
 					<h3 class="title mb-4"><c:out value="${boardDetails.boardTitle}"/></h3>
 					<div class="header-meta d-flex mb-2">
-						<span class="author mr-4"><c:out value="${boardDetails.memberId}"/></span>
-						<span class="date"><fmt:formatDate value="${boardDetails.regdate}" pattern="yyyy. MM. dd. HH:mm"/></span>
-						<span class="views ml-auto">조회 <c:out value="${boardDetails.boardViews}"/></span>
+						<span class="mr-3"><c:out value="${boardDetails.memberId}"/></span>
+						<span><fmt:formatDate value="${boardDetails.regdate}" pattern="yyyy. MM. dd. HH:mm"/></span>
+						<div class="ml-auto">
+							<span>조회</span>
+							<span class="mr-3"><c:out value="${boardDetails.boardViews}"/></span>
+							<span><i class="fa-regular fa-heart mr-1" style="color: red;"></i>좋아요</span>
+							<span><c:out value="${boardDetails.boardLikesCnt}"/></span>
+						</div>
 					</div>
 				</div>
 				<div class="content-group mb-3">

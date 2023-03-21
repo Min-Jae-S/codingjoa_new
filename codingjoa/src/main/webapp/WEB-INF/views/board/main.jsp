@@ -115,8 +115,8 @@
 							<th class="d-md-table-cell w-40">제목</th>
 							<th class="d-md-table-cell">작성자</th>
 							<th class="d-md-table-cell">작성일</th>
-							<th class="d-md-table-cell">추천</th>
 							<th class="d-md-table-cell">조회</th>
+							<th class="d-md-table-cell">좋아요</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -129,7 +129,7 @@
 											<a class="board_title" href='${contextPath}/board/read${cri.getQueryString()}&boardIdx=${boardDetails.boardIdx}'>
 												<c:out value="${boardDetails.boardTitle}"/>
 											</a>
-											<c:if test="${boardDetails.commentCnt ne 0}">
+											<c:if test="${boardDetails.commentCnt > 0}">
 												<span class="comment-cnt"><c:out value="${boardDetails.commentCnt}"/></span>
 											</c:if>
 										</td>
@@ -137,11 +137,11 @@
 										<td class="d-md-table-cell">
 											<fmt:formatDate value="${boardDetails.regdate}" type="date"/>
 										</td>
+										<td class="d-md-table-cell"><c:out value="${boardDetails.boardViews}"/></td>
 										<td class="d-md-table-cell">
-											<i class="fa-solid fa-heart mr-1"></i>
+											<i class="fa-regular fa-heart mr-1" style="color: red;"></i>
 											<c:out value="${boardDetails.boardLikesCnt}"/>
 										</td>
-										<td class="d-md-table-cell"><c:out value="${boardDetails.boardViews}"/></td>
 									</tr>
 								</c:forEach>
 							</c:when>
@@ -166,13 +166,11 @@
 							<a class="page-link" href="${contextPath}/board/main${cri.getQueryString(pagination.prevPage)}"><i class="fa-solid fa-chevron-left"></i></a>
 						</li>
 					</c:if>
-					
 					<c:forEach var="item" begin="${pagination.startPage}" end="${pagination.endPage}">
 						<li class="page-item ${item eq pagination.page ? 'active' : ''}">
 							<a class="page-link" href="${contextPath}/board/main${cri.getQueryString(item)}">${item}</a>
 						</li>
 					</c:forEach>
-					
 					<c:if test="${pagination.next}">
 						<li class="page-item">
 							<a class="page-link" href="${contextPath}/board/main${cri.getQueryString(pagination.nextPage)}"><i class="fa-solid fa-chevron-right"></i></a>
