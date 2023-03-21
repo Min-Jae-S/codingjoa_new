@@ -226,13 +226,13 @@
 	// https://stackoverflow.com/questions/56402202/ckeditor5-create-element-image-with-attributes
 	// https://gitlab-new.bap.jp/chinhnc2/ckeditor5/-/blob/690049ec7b8e95ba840ab1c882b5680f3a3d1dc4/packages/ckeditor5-engine/docs/framework/guides/deep-dive/conversion-preserving-custom-content.md
 	function modelToViewEditingConverter(editor) {
-		console.log("## Register model-to-view converter ==> Editing downcast");
+		console.log("## Register model-to-view converter ==> downcast(editng)");
 		
 		editor.conversion.for("editingDowncast").add(dispatcher => { // downcastDispatcher
             dispatcher.on("attribute:dataIdx", (evt, data, conversionApi) => {
-            	console.log("## Editing downcast");
-            	const modelElement = data.item;
+            	console.log(data);
             	
+            	const modelElement = data.item;
             	if (!conversionApi.consumable.consume(modelElement, evt.name)) {
                 	return;
             	}
@@ -255,7 +255,7 @@
 	
 	// model-to-view converter(data downcast)
 	function modelToViewDataConverter(editor) {
-		console.log("## Register model-to-view converter ==> Data downcast");
+		console.log("## Register model-to-view converter ==> downcast(data)");
 		
 		editor.conversion.for("dataDowncast").add(dispatcher => {
 			dispatcher.on("attribute:dataIdx", (evt, data, conversionApi) => { 

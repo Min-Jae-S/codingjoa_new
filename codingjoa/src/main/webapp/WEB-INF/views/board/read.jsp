@@ -119,10 +119,10 @@
 					<h3 class="title mb-4"><c:out value="${boardDetails.boardTitle}"/></h3>
 					<div class="header-meta d-flex mb-2">
 						<span class="mr-3"><c:out value="${boardDetails.memberId}"/></span>
-						<span><fmt:formatDate value="${boardDetails.regdate}" pattern="yyyy. MM. dd. HH:mm"/></span>
+						<span class="mr-3"><fmt:formatDate value="${boardDetails.regdate}" pattern="yyyy. MM. dd. HH:mm"/></span>
+						<span class="mr-1">조회</span>
+						<span><c:out value="${boardDetails.boardViews}"/></span>
 						<div class="ml-auto">
-							<span>조회</span>
-							<span class="mr-3"><c:out value="${boardDetails.boardViews}"/></span>
 							<span><i class="fa-regular fa-heart mr-1" style="color: red;"></i>좋아요</span>
 							<span><c:out value="${boardDetails.boardLikesCnt}"/></span>
 						</div>
@@ -146,7 +146,6 @@
 				</div>
 				<div class="mt-3">
 					<h5>댓글수: <c:out value="${boardDetails.commentCnt}"/></h5>
-					<h5>좋아요: <c:out value="${boardDetails.boardLikesCnt}"/></h5>
 				</div>
 			</div>
 			<div class="comment mb-3">
@@ -233,13 +232,13 @@
 	// https://stackoverflow.com/questions/56402202/ckeditor5-create-element-image-with-attributes
 	// https://gitlab-new.bap.jp/chinhnc2/ckeditor5/-/blob/690049ec7b8e95ba840ab1c882b5680f3a3d1dc4/packages/ckeditor5-engine/docs/framework/guides/deep-dive/conversion-preserving-custom-content.md
 	function modelToViewEditingConverter(editor) {
-		console.log("## Register model-to-view converter ==> Editing downcast");
+		console.log("## Register model-to-view converter ==> downcast(editing)");
 		
 		editor.conversion.for("editingDowncast").add(dispatcher => { // downcastDispatcher
             dispatcher.on("attribute:dataIdx", (evt, data, conversionApi) => {
-            	console.log("## Editing downcast");
-            	const modelElement = data.item;
+            	console.log(data);
             	
+            	const modelElement = data.item;
             	if (!conversionApi.consumable.consume(modelElement, evt.name)) {
                 	return;
             	}
