@@ -126,7 +126,7 @@
 			placeholder: "내용을 입력하세요."
 		})
 		.then(editor => {
-			console.log("## modifyEditor initialize");
+			console.log("## ModifyEditor initialized");
 			modifyEditor = editor;
 			editorData = editor.getData();
 		})
@@ -213,13 +213,13 @@
 	
 	// model-to-view converter(editing downcast)
 	function modelToViewEditingConverter(editor) {
-		console.log("## Register model-to-view converter ==> Editing downcast");
+		console.log("## Register model-to-view converter ==> downcast(editing)");
 		
 		editor.conversion.for("editingDowncast").add(dispatcher => { // downcastDispatcher
             dispatcher.on("attribute:dataIdx", (evt, data, conversionApi) => {
-            	console.log("## Editing downcast");
-            	const modelElement = data.item;
+				console.log(data);
             	
+            	const modelElement = data.item;
             	if (!conversionApi.consumable.consume(modelElement, evt.name)) {
                 	return;
             	}

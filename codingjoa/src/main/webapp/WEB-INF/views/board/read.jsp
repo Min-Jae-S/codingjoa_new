@@ -197,7 +197,7 @@
 			}
 		})
 		.then(editor => {
-			console.log("## readEditor initialize");
+			console.log("## ReadEditor initialized");
 			const toolbarElement = editor.ui.view.toolbar.element;
 			toolbarElement.style.display = "none";
 			editor.enableReadOnlyMode("#boardContent");
