@@ -90,20 +90,28 @@
 	}
 	
 	.comment-input textarea {
-		min-height: 6.125rem;
 		padding: 1rem;
 		font-size: 0.85rem;
 		resize: none;
+		overflow: hidden;
 	}
 	
+	.comment-input textarea::placeholder {
+		color: #868e96;
+	}
+
 	.comment-input textarea:focus {
 		border: 1px solid #868e96;
 		border-right-color: #007bff;;
 		box-shadow: none !important;
 	}
+
+	.comment-input textarea:focus::placeholder {
+		color: #ced4da;
+	}
 	
 	.comment-cnt {
-		font-size: 1.4rem;
+		font-size: 1.35rem;
 		font-weight: bold;
 	}
 </style>
@@ -113,7 +121,7 @@
 <c:import url="/WEB-INF/views/include/top-menu.jsp"/>
 
 <div class="container board-container">
-	<div class="row">
+l	<div class="row">
 		<div class="col-sm-2"></div>
 		<div class="col-sm-8">
 			<div class="card p-4 mb-5">
@@ -157,7 +165,7 @@
 				</div>
 				<div class="comment-input">
 					<div class="input-group">
-						<textarea class="form-control" id="commentContent" name="commentContent"></textarea>
+						<textarea class="form-control" id="commentContent" name="commentContent" placeholder="댓글을 남겨보세요"></textarea>
 						<div class="input-group-append">
 							<button class="btn btn-outline-primary" id="writeCommentBtn">등록</button>
 						</div>
@@ -268,6 +276,20 @@
 
 <script>
 	$(function() {
+		let originalScrollHeight = $("#commentContent").prop("scrollHeight");
+		
+		$("#commentContent").on("keydown keyup", function() {
+			$(this).height("auto");
+			
+			let currentScrollHeight = $(this).prop("scrollHeight");
+			if (currentScrollHeight > originalScrollHeight) {
+				$(this).attr("rows", 1);
+				$(this).height(currentScrollHeight + "px");
+			} else {
+				$(this).attr("rows", 2);
+			}				
+		});
+		
 		$("#writeCommentBtn").on("click", function() {
 			let comment = {
 				commentBoardIdx : "${boardDetails.boardIdx}",
