@@ -101,6 +101,11 @@
 		border-right-color: #007bff;;
 		box-shadow: none !important;
 	}
+	
+	.comment-cnt {
+		font-size: 1.4rem;
+		font-weight: bold;
+	}
 </style>
 </head>
 <body>
@@ -144,11 +149,12 @@
 						</c:if>
 					</sec:authorize>
 				</div>
-				<div class="mt-3">
-					<h5>댓글수: <c:out value="${boardDetails.commentCnt}"/></h5>
-				</div>
 			</div>
 			<div class="comment mb-3">
+				<div class="comment-cnt mb-3">
+					<span class="mr-1">댓글</span>
+					<span><c:out value="${boardDetails.commentCnt}"/></span>
+				</div>
 				<div class="comment-input">
 					<div class="input-group">
 						<textarea class="form-control" id="commentContent" name="commentContent"></textarea>
