@@ -298,7 +298,7 @@
 				$(this).height("auto");
 				$(this).height($(this).prop("scrollHeight") + "px");
 				
-				if($(this).val() != "") {
+				if ($(this).val() != "") {
 					$(".comment-container .btn").addClass("btn-success");
 				} else {
 					$(".comment-container .btn").removeClass("btn-success");
@@ -321,13 +321,10 @@
 					$.each(errorResponse.errorMap, function(errorField, errorMessage) {
 						alert(errorMessage);
 					});
+					$(this).focus();
 				}
-				
-				$(this).focus();
 			});
 		});
-		
-		
 		
 	});
 </script>
