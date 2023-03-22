@@ -81,32 +81,45 @@
 	}
 	
 	.header-group .header-meta {
-	    font-size: 0.9rem;
-    	color: #757575;
+		font-size: 0.9rem;
+		color: #757575;
 	}
 	
 	.foot-group a {
 		margin-right: 0.25rem;
 	}
 	
-	.comment-input textarea {
-		padding: 30px 20px 30px 20px;
+	.comment-container {
+		padding: 1.5rem 1.5rem 1.2rem 1.5rem;
+		height: 100%;
+	}
+	
+	.comment-container textarea {
+		border: none;
+		width: 100%;
 		font-size: 0.85rem;
 		resize: none;
 		overflow: hidden;
+		margin: 0;
+		padding: 0;
+		max-height: 150px;
 	}
 	
-	.comment-input textarea::placeholder {
+	.comment-container .btn {
+		float: right;
+		font-size: 0.85rem;
+		box-shadow: none !important;
+	}
+	
+	.comment-container textarea:focus {
+		outline: none;
+	}
+	
+	.comment-container textarea::placeholder {
 		color: #868e96;
 	}
 
-	.comment-input textarea:focus {
-		border: 1px solid #868e96;
-		border-right-color: #007bff;;
-		box-shadow: none !important;
-	}
-
-	.comment-input textarea:focus::placeholder {
+	.comment-container textarea:focus::placeholder {
 		color: #ced4da;
 	}
 	
@@ -121,7 +134,7 @@
 <c:import url="/WEB-INF/views/include/top-menu.jsp"/>
 
 <div class="container board-container">
-l	<div class="row">
+	<div class="row">
 		<div class="col-sm-2"></div>
 		<div class="col-sm-8">
 			<div class="card p-4 mb-5">
@@ -136,7 +149,7 @@ l	<div class="row">
 						<span class="mr-1">조회</span>
 						<span><c:out value="${boardDetails.boardViews}"/></span>
 						<div class="ml-auto">
-							<span><i class="fa-regular fa-heart mr-1" style="color: red;"></i>좋아요</span>
+							<span class="mr-1"><i class="fa-regular fa-heart" style="color: red;"></i></span>
 							<span><c:out value="${boardDetails.boardLikesCnt}"/></span>
 						</div>
 					</div>
@@ -163,12 +176,10 @@ l	<div class="row">
 					<span class="mr-1">댓글</span>
 					<span><c:out value="${boardDetails.commentCnt}"/></span>
 				</div>
-				<div class="comment-input">
-					<div class="input-group">
-						<textarea class="form-control" id="commentContent" name="commentContent" placeholder="댓글을 남겨보세요" rows="1"></textarea>
-						<div class="input-group-append">
-							<button class="btn btn-outline-primary" id="writeCommentBtn">등록</button>
-						</div>
+				<div class="input-group">
+					<div class="comment-container form-control">
+						<textarea id="commentContent" name="commentContent" placeholder="댓글을 남겨보세요" rows="1"></textarea>
+						<button class="btn btn-sm mt-2" id="writeCommentBtn">등록</button>
 					</div>
 				</div>
 				<div class="comment-list">
@@ -276,21 +287,37 @@ l	<div class="row">
 
 <script>
 	$(function() {
-		let originalScrollHeight = $("#commentContent").prop("scrollHeight");
-		console.log("originalScrollHeight:" + originalScrollHeight);
-		
-		$("#commentContent").on("keydown keyup", function() {
-			$(this).height("auto");
-			let scrollHeight = $(this).prop("scrollHeight");
-			if (scrollHeight > originalScrollHeight) {
-				$(this).height(scrollHeight + "px");
+		$("#commentContent").on({
+			"focus":function() {
+				$(".comment-container").css("border", "1px solid #868e96");	
+			},
+			"blur":function() {
+				$(".comment-container").removeAttr("style");
+			},
+			"input":function() {
+				$(this).height("auto");
+				$(this).height($(this).prop("scrollHeight") + "px");
+				
+				if($(this).val() != "") {
+					$(".comment-container .btn").addClass("btn-success");
+				} else {
+					$(".comment-container .btn").removeClass("btn-success");
+				}
 			}
 		});
 		
-		$("#commentContent").on("focus", function() {
-			console.log("current height: " + $(this).height());
-			console.log("current scrollHeight: " + $(this).prop("scrollHeight"));
+		/* $("#commentContent").on("focus", function() {
+			$(".comment-container").css("border", "1px solid #868e96");
 		});
+		
+		$("#commentContent").on("blur", function() {
+			$(".comment-container").removeAttr("style");
+		});
+		
+		$("#commentContent").on("input", function() {
+			$(this).height("auto");
+			$(this).height($(this).prop("scrollHeight") + "px");
+		}); */
 		
 		$("#writeCommentBtn").on("click", function() {
 			let comment = {
