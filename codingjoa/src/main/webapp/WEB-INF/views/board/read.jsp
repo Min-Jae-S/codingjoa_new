@@ -160,12 +160,12 @@
 					</div>
 				</div>
 				<div class="foot-group">
-					<a class="btn btn-secondary" href="${contextPath}/board/main${cri.getQueryString()}">목록</a>
+					<a class="btn btn-secondary btn-sm" href="${contextPath}/board/main${cri.getQueryString()}">목록</a>
 					<sec:authorize access="isAuthenticated()">
 						<sec:authentication property="principal.member.memberIdx" var="memberIdx"/>
 						<c:if test="${memberIdx eq boardDetails.boardWriterIdx}">
-							<a class="btn btn-primary" href="${contextPath}/board/modify?boardIdx=${boardDetails.boardIdx}">수정</a>
-							<a class="btn btn-warning" href="${contextPath}/board/deleteProc?boardIdx=${boardDetails.boardIdx}"
+							<a class="btn btn-primary btn-sm" href="${contextPath}/board/modify?boardIdx=${boardDetails.boardIdx}">수정</a>
+							<a class="btn btn-warning btn-sm" href="${contextPath}/board/deleteProc?boardIdx=${boardDetails.boardIdx}"
 								onclick="return confirm('게시글을 삭제하시겠습니까?');">삭제</a>
 						</c:if>
 					</sec:authorize>
@@ -183,7 +183,7 @@
 					</div>
 				</div>
 				<div class="comment-list">
-				
+					<!-- ... -->
 				</div>
 			</div>
 		</div>
