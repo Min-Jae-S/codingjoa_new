@@ -10,7 +10,6 @@ let commentService = (function() {
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
 			success : function(result) {
-				console.log(result);
 				alert(result.message);
 			},
 			error : function(jqXHR) {

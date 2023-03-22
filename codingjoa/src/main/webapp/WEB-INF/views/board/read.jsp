@@ -314,8 +314,6 @@
 			};
 			
 			commentService.writeComment("${contextPath}/comment", comment, function(jqXHR) {
-				console.log(jqXHR);
-				
 				let errorResponse = JSON.parse(jqXHR.responseText);
 				if (jqXHR.status == 401) {
 					alert(errorResponse.errorMessage)
@@ -323,7 +321,8 @@
 					$.each(errorResponse.errorMap, function(errorField, errorMessage) {
 						alert(errorMessage);
 					});
-				} 
+				}
+				
 				$(this).focus();
 			});
 		});
