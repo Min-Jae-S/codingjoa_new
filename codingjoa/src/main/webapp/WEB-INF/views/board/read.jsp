@@ -306,19 +306,6 @@
 			}
 		});
 		
-		/* $("#commentContent").on("focus", function() {
-			$(".comment-container").css("border", "1px solid #868e96");
-		});
-		
-		$("#commentContent").on("blur", function() {
-			$(".comment-container").removeAttr("style");
-		});
-		
-		$("#commentContent").on("input", function() {
-			$(this).height("auto");
-			$(this).height($(this).prop("scrollHeight") + "px");
-		}); */
-		
 		$("#writeCommentBtn").on("click", function() {
 			let comment = {
 				commentBoardIdx : "${boardDetails.boardIdx}",
@@ -326,7 +313,19 @@
 				commentContent : $("#commentContent").val(),
 			};
 			
-			commentService.writeComment("${contextPath}/comment", comment);
+			commentService.writeComment("${contextPath}/comment", comment, function(jqXHR) {
+				console.log(jqXHR);
+				
+				let errorResponse = JSON.parse(jqXHR.responseText);
+				if (jqXHR.status == 401) {
+					alert(errorResponse.errorMessage)
+				} else if (jqXHR.status == 422) {
+					$.each(errorResponse.errorMap, function(errorField, errorMessage) {
+						alert(errorMessage);
+					});
+				} 
+				$(this).focus();
+			});
 		});
 		
 		

@@ -1,8 +1,8 @@
-console.log("## Comment service");
+console.log("## Comment Module Ready");
 
 let commentService = (function() {
 	
-	function writeComment(url, comment) {
+	function writeComment(url, comment, callback) {
 		$.ajax({
 			type : "POST",
 			url : url,
@@ -14,8 +14,8 @@ let commentService = (function() {
 				alert(result.message);
 			},
 			error : function(jqXHR) {
-				console.log(jqXHR);
-				
+				callback(jqXHR);
+				/*
 				if (jqXHR.status == 401) {
 					let errorMessage = JSON.parse(jqXHR.responseText).errorMessage;
 					alert(errorMessage);
@@ -27,6 +27,7 @@ let commentService = (function() {
 						alert(errorMessage);
 					});
 				}
+				*/
 			}
 		});
 	}
