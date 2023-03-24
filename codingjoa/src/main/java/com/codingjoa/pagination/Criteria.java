@@ -12,8 +12,6 @@ import lombok.ToString;
 @ToString
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
 public class Criteria {
 	
 	private int boardCategoryCode;
@@ -21,6 +19,16 @@ public class Criteria {
 	private int recordCnt;
 	private String type;
 	private String keyword;
+	
+	public Criteria() { }
+	
+	public Criteria(int boardCategoryCode, int page, int recordCnt, String type, String keyword) {
+		this.boardCategoryCode = boardCategoryCode;
+		this.page = page;
+		this.recordCnt = recordCnt;
+		this.type = type;
+		this.keyword = keyword;
+	}
 	
 	public Criteria(Criteria criteria) {
 		this.boardCategoryCode = criteria.boardCategoryCode;
@@ -54,4 +62,5 @@ public class Criteria {
 		return StringUtils.hasText(keyword) ? 
 				String.join("|", keyword.split("\\s+")) : null;
 	}
+
 }

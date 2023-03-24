@@ -65,7 +65,7 @@ public class CommentRestController {
 		return ResponseEntity.ok(SuccessResponse.create().message("success.writeComment"));
 	}
 	
-	@GetMapping("/board/{boardIdx}/comment?page={page}")
+	@GetMapping("/board/{boardIdx}/comment")
 	public ResponseEntity<Object> getComment(@CommentCri CommentCriteria commentCri) {
 		log.info("{}", commentCri);
 
