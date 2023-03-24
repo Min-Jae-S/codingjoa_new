@@ -232,10 +232,10 @@
 			console.error(error);
 		});
 	
-	/* commentService.getCommentList("${contextPath}/comment/board/${boardDetails.boardIdx}", 
+	commentService.getCommentList("${contextPath}/comment/board/${boardDetails.boardIdx}", 
 			function(list) {
 		console.log(list);
-	});  */
+	});
 	
 	// https://github.com/ckeditor/ckeditor5/issues/5204
 	function extendAttribute(editor) {
@@ -316,6 +316,11 @@
 			commentService.writeComment("${contextPath}/comment", comment, function(result) {
 				console.log(result);
 				alert(result.message);
+				
+				commentService.getCommentList("${contextPath}/comment/board/${boardDetails.boardIdx}", 
+						function(list) {
+					console.log(list);
+				});
 			});
 		});
 		

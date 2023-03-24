@@ -1,4 +1,4 @@
-console.log("## Comment Module Ready");
+console.log("## Comment Service Ready");
 
 let commentService = (function() {
 	
@@ -55,6 +55,8 @@ let commentService = (function() {
 	}
 	
 	function getCommentList(url, callback) {
+		console.log("Comment List Loading...");
+		
 		$.ajax({
 			type : "GET",
 			url : url,
@@ -63,7 +65,7 @@ let commentService = (function() {
 				callback(result);
 			},
 			error : function(jqXHR) {
-				callback(jqXHR.responseText);
+				console.log(jqXHR);
 			}
 		});
 	}
