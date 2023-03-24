@@ -39,6 +39,7 @@ public class CommentCriteriaArgumentResolver implements HandlerMethodArgumentRes
 		
 		String boardIdx = webRequest.getParameter("boardIdx");
 		String page = webRequest.getParameter("page");
+		log.info("boardIdx={}, page={}", boardIdx, page);
 		
 		return new CommentCriteria(
 			Integer.parseInt(boardIdx),
