@@ -25,7 +25,7 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
 @Configuration
-@ComponentScan(basePackages = { "com.codingjoa.service", "com.codingjoa.validator", "com.codingjoa.error"})
+@ComponentScan(basePackages = { "com.codingjoa.service", "com.codingjoa.validator", "com.codingjoa.response" })
 @MapperScan("com.codingjoa.mapper")
 @PropertySource("/WEB-INF/properties/db.properties")
 public class RootConfig {
