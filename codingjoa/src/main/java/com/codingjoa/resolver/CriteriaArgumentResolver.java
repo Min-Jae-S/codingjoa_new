@@ -50,7 +50,6 @@ public class CriteriaArgumentResolver implements HandlerMethodArgumentResolver {
 		
 		mavContainer.addAttribute("recordCntMap", recordCntMap);
 		mavContainer.addAttribute("typeMap", typeMap);
-		log.info("recordCntMap={}, typeMap={}", recordCntMap, typeMap);
 		
 		//HttpServletRequest request = (HttpServletRequest) webRequest;
 		String boardCategoryCode = webRequest.getParameter("boardCategoryCode");
