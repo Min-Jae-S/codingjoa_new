@@ -3,13 +3,17 @@ package com.codingjoa.pagination;
 import org.springframework.util.StringUtils;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
 @ToString
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Criteria {
 	
 	private int boardCategoryCode;
@@ -17,14 +21,6 @@ public class Criteria {
 	private int recordCnt;
 	private String type;
 	private String keyword;
-	
-	public Criteria(int boardCategoryCode, int page, int recordCnt, String type, String keyword) {
-		this.boardCategoryCode = boardCategoryCode;
-		this.page = page;
-		this.recordCnt = recordCnt;
-		this.type = type;
-		this.keyword = keyword;
-	}
 	
 	public Criteria(Criteria criteria) {
 		this.boardCategoryCode = criteria.boardCategoryCode;

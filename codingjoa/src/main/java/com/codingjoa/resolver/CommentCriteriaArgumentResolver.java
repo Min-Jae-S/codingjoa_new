@@ -1,5 +1,6 @@
 package com.codingjoa.resolver;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.MethodParameter;
@@ -11,6 +12,7 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 
 import com.codingjoa.annotation.CommentCri;
 import com.codingjoa.pagination.CommentCriteria;
+import com.codingjoa.pagination.Criteria;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -39,8 +41,10 @@ public class CommentCriteriaArgumentResolver implements HandlerMethodArgumentRes
 		String boardIdx = webRequest.getParameter("boardIdx");
 		String page = webRequest.getParameter("page");
 		
-		return null;
+		return new CommentCriteria(
+			Integer.parseInt(boardIdx), 
+			StringUtils.isNumeric(page) ? Integer.parseInt(page) : defaultPage, 
+			defaultRecordCnt
+		);
 	}
-
-
 }

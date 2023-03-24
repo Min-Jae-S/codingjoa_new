@@ -284,7 +284,7 @@
 	$(function() {
 		let boardIdx = "<c:out value='${boardDetails.boardIdx}'/>";
 		let boardCategoryCode = "<c:out value='${boardDetails.boardCategoryCode}'/>";
-		let url = "${contextPath}/comment/board/" + boardIdx + "/page/1";
+		let url = "${contextPath}/board/" + boardIdx + "/comment?page=1"; 
 		
 		commentService.getCommentList(url, function(list) {
 			console.log(list);

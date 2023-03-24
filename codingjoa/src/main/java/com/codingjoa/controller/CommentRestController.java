@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.codingjoa.annotation.CommentCri;
 import com.codingjoa.dto.CommentDetailsDto;
 import com.codingjoa.dto.CommentDto;
 import com.codingjoa.pagination.CommentCriteria;
@@ -64,8 +65,8 @@ public class CommentRestController {
 		return ResponseEntity.ok(SuccessResponse.create().message("success.writeComment"));
 	}
 	
-	@GetMapping("/comment/board/{boardIdx}/page/{page}")
-	public ResponseEntity<Object> getCommentList(CommentCriteria commentCri) {
+	@GetMapping("/board/{boardIdx}/comment?page={page}")
+	public ResponseEntity<Object> getComment(@CommentCri CommentCriteria commentCri) {
 		log.info("{}", commentCri);
 
 		List<CommentDetailsDto> commentList = commentService.getPagedComment(commentCri);
