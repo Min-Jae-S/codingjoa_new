@@ -55,7 +55,7 @@ let commentService = (function() {
 	}
 	
 	function getCommentList(url, callback) {
-		console.log("Comment List Loading...");
+		console.log("## Comment List Loading...");
 		
 		$.ajax({
 			type : "GET",

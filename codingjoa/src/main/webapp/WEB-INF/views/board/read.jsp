@@ -173,7 +173,7 @@
 			</div>
 			<div class="comment mb-3">
 				<div class="comment-cnt mb-3">
-					<span class="mr-1">댓글</span>
+					<span>댓글</span>
 					<span><c:out value="${boardDetails.commentCnt}"/></span>
 				</div>
 				<div class="input-group">
@@ -232,11 +232,6 @@
 			console.error(error);
 		});
 	
-	commentService.getCommentList("${contextPath}/comment/board/${boardDetails.boardIdx}", 
-			function(list) {
-		console.log(list);
-	});
-	
 	// https://github.com/ckeditor/ckeditor5/issues/5204
 	function extendAttribute(editor) {
 		console.log("## Allow custom attribute ==> blockObject, inlineOjbect");
@@ -285,8 +280,16 @@
 	}
 </script>
 
-<script>
+<script>	
 	$(function() {
+		let boardIdx = "<c:out value='${boardDetails.boardIdx}'/>";
+		let boardCategoryCode = "<c:out value='${boardDetails.boardCategoryCode}'/>";
+		
+		commentService.getCommentList("${contextPath}/comment/board/" + boardIdx, 
+				function(list) {
+			console.log(list);
+		});
+		
 		$("#commentContent").on({
 			"focus":function() {
 				$(".comment-container").css("border", "1px solid #868e96");	
@@ -308,8 +311,8 @@
 		
 		$("#writeCommentBtn").on("click", function() {
 			let comment = {
-				commentBoardIdx : "${boardDetails.boardIdx}",
-				boardCategoryCode : "${boardDetails.boardCategoryCode}",
+				commentBoardIdx : boardIdx,
+				boardCategoryCode : boardCategoryCode,
 				commentContent : $("#commentContent").val(),
 			};
 			
@@ -317,7 +320,7 @@
 				console.log(result);
 				alert(result.message);
 				
-				commentService.getCommentList("${contextPath}/comment/board/${boardDetails.boardIdx}", 
+				commentService.getCommentList("${contextPath}/comment/board/" + boardIdx, 
 						function(list) {
 					console.log(list);
 				});
