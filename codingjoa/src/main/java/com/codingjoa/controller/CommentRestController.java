@@ -69,6 +69,7 @@ public class CommentRestController {
 		log.info("boardIdx={}", boardIdx);
 		
 		List<CommentDetailsDto> commentList = commentService.getPagedComment();
+		log.info("commentList={}", commentList);
 		
 		//return null;
 		return ResponseEntity.ok(SuccessResponse.create().data(commentList));
