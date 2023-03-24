@@ -6,11 +6,12 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.codingjoa.entity.Comment;
+import com.codingjoa.pagination.CommentCriteria;
 
 @Mapper
 public interface CommentMapper {
 	
 	void insertComment(Comment comment);
 
-	List<Map<String, Object>> findPagedComment(); 
+	List<Map<String, Object>> findPagedComment(CommentCriteria commentCri); 
 }

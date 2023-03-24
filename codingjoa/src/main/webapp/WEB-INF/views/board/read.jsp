@@ -284,9 +284,9 @@
 	$(function() {
 		let boardIdx = "<c:out value='${boardDetails.boardIdx}'/>";
 		let boardCategoryCode = "<c:out value='${boardDetails.boardCategoryCode}'/>";
+		let url = "${contextPath}/comment/board/" + boardIdx + "/page/1";
 		
-		commentService.getCommentList("${contextPath}/comment/board/" + boardIdx, 
-				function(list) {
+		commentService.getCommentList(url, function(list) {
 			console.log(list);
 		});
 		
@@ -320,8 +320,7 @@
 				console.log(result);
 				alert(result.message);
 				
-				commentService.getCommentList("${contextPath}/comment/board/" + boardIdx, 
-						function(list) {
+				commentService.getCommentList(url, function(list) {
 					console.log(list);
 				});
 			});

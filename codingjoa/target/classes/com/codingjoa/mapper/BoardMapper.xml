@@ -77,6 +77,8 @@
 				comment_board_idx, COUNT(*) cnt
 			FROM
 				"comment"
+			WHERE
+				comment_use = '1'
 			GROUP BY 
 				comment_board_idx
 		) c

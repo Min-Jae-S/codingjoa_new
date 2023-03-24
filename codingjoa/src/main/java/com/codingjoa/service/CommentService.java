@@ -4,10 +4,11 @@ import java.util.List;
 
 import com.codingjoa.dto.CommentDetailsDto;
 import com.codingjoa.dto.CommentDto;
+import com.codingjoa.pagination.CommentCriteria;
 
 public interface CommentService {
 
 	void writeComment(CommentDto commentDto);
 	
-	List<CommentDetailsDto> getPagedComment();
+	List<CommentDetailsDto> getPagedComment(CommentCriteria commentCri);
 }

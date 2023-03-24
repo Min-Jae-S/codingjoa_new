@@ -15,6 +15,7 @@
 		<typeAlias type="com.codingjoa.entity.Comment" alias="comment" />
 		
 		<typeAlias type="com.codingjoa.pagination.Criteria" alias="cri" />
+		<typeAlias type="com.codingjoa.pagination.CommentCriteria" alias="commentCri" />
 		
 		<!-- <typeAlias type="com.codingjoa.mybatis.ClobTypeHandler" alias="clobTypeHandler" /> -->
 	</typeAliases>

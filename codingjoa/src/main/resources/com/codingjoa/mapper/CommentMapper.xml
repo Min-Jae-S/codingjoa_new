@@ -43,7 +43,7 @@
 		)
 	</insert>
 	
-	<select id="findPagedComment" resultMap="commentDetailsMap">
+	<select id="findPagedComment" parameterType="commentCri" resultMap="commentDetailsMap">
 		SELECT
     		/*+ LEADING(b) INDEX_DESC(a pk_comment) */ 
 			a.comment_idx,
@@ -67,7 +67,7 @@
 		    FROM 
 		        "comment"
 		    WHERE
-		    	comment_board_idx = 4118 AND
+		    	comment_board_idx = #{boardIdx} AND
 				<![CDATA[
 				ROWNUM <= 10
 				]]>

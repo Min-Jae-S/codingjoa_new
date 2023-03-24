@@ -14,7 +14,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.codingjoa.dto.CommentDetailsDto;
 import com.codingjoa.dto.CommentDto;
 import com.codingjoa.error.SuccessResponse;
+import com.codingjoa.pagination.CommentCriteria;
 import com.codingjoa.security.dto.UserDetailsDto;
 import com.codingjoa.service.CommentService;
 
@@ -64,14 +64,13 @@ public class CommentRestController {
 		return ResponseEntity.ok(SuccessResponse.create().message("success.writeComment"));
 	}
 	
-	@GetMapping("/comment/board/{boardIdx}")
-	public ResponseEntity<Object> getBoardComment(@PathVariable int boardIdx) {
-		log.info("boardIdx={}", boardIdx);
-		
-		List<CommentDetailsDto> commentList = commentService.getPagedComment();
+	@GetMapping("/comment/board/{boardIdx}/page/{page}")
+	public ResponseEntity<Object> getBoardComment(CommentCriteria commentCri) {
+		log.info("{}", commentCri);
+
+		List<CommentDetailsDto> commentList = commentService.getPagedComment(commentCri);
 		log.info("commentList={}", commentList);
 		
-		//return null;
 		return ResponseEntity.ok(SuccessResponse.create().data(commentList));
 	}
 	

@@ -11,6 +11,7 @@ import com.codingjoa.dto.CommentDetailsDto;
 import com.codingjoa.dto.CommentDto;
 import com.codingjoa.entity.Comment;
 import com.codingjoa.mapper.CommentMapper;
+import com.codingjoa.pagination.CommentCriteria;
 import com.codingjoa.service.CommentService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -35,8 +36,8 @@ public class CommentServiceImpl implements CommentService {
 	}
 	
 	@Override
-	public List<CommentDetailsDto> getPagedComment() {
-		return commentMapper.findPagedComment().stream()
+	public List<CommentDetailsDto> getPagedComment(CommentCriteria commentCri) {
+		return commentMapper.findPagedComment(commentCri).stream()
 				.map(commentDetailsMap -> modelMapper.map(commentDetailsMap, CommentDetailsDto.class))
 				.collect(Collectors.toList());
 	}

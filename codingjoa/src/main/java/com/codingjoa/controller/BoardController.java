@@ -77,6 +77,8 @@ public class BoardController {
 	public String getBoard(@Cri Criteria cri, Model model) {
 		log.info("{}", cri);
 		
+		model.addAttribute("cri", cri);
+
 		Criteria newCri = boardService.makeNewCri(cri);
 		log.info("newCri={}", newCri);
 		
@@ -85,10 +87,10 @@ public class BoardController {
 		
 		Pagination pagination = boardService.getPagination(newCri);
 		log.info("{}", pagination);
-
 		model.addAttribute("pagination", pagination);
-		model.addAttribute("cri", cri);
-		model.addAttribute("boardName", categoryService.findCategoryName(cri.getBoardCategoryCode()));
+		
+		String boardName = categoryService.findCategoryName(cri.getBoardCategoryCode());
+		model.addAttribute("boardName", boardName);
 		
 		return "board/main";
 	}
@@ -98,14 +100,16 @@ public class BoardController {
 		log.info("boardIdx={}", boardIdx);
 		log.info("{}", cri);
 		
+		model.addAttribute("cri", cri);
+
 		BoardDetailsDto boardDetails = boardService.getBoardDetails(boardIdx);
 		model.addAttribute("boardDetails", boardDetails);
 		
+		String boardName = categoryService.findCategoryName(cri.getBoardCategoryCode());
+		model.addAttribute("boardName", boardName);
+
 		// 쿠키를 이용하여 조회수 중복 방지 추가하기 (https://mighty96.github.io/til/view)
 		boardService.updateBoardViews(boardIdx);
-		
-		model.addAttribute("cri", cri);
-		model.addAttribute("boardName", categoryService.findCategoryName(cri.getBoardCategoryCode()));
 		
 		return "board/read";
 	}

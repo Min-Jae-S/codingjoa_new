@@ -191,6 +191,8 @@
 			let url = new URL(location.href);
 			url.searchParams.set("page", "1");
 			url.searchParams.set("recordCnt", $(this).val());
+			console.log(url);
+			
 			location.href = url;
 		});
 	});
