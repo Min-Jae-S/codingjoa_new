@@ -20,8 +20,8 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import com.codingjoa.interceptor.CheckBoardCategoryInterceptor;
 import com.codingjoa.interceptor.CheckBoardCategoryAndIdxInterceptor;
+import com.codingjoa.interceptor.CheckBoardCategoryInterceptor;
 import com.codingjoa.interceptor.CheckMyBoardInterceptor;
 import com.codingjoa.resolver.CommentCriteriaArgumentResolver;
 import com.codingjoa.resolver.CriteriaArgumentResolver;
