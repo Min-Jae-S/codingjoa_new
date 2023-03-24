@@ -14,7 +14,7 @@ public class MyNumberUtils {
 			return false;
 		}
 		
-		for (int i=1; i<str.length(); i++) {
+		for (int i = 1; i < str.length(); i++) {
 			tmp = str.charAt(i);
 			if(tmp < '0' || tmp > '9') {
 				return false;
