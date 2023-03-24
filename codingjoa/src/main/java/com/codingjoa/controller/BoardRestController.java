@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codingjoa.dto.UploadFileDto;
-import com.codingjoa.error.SuccessResponse;
+import com.codingjoa.response.SuccessResponse;
 import com.codingjoa.service.BoardService;
 import com.codingjoa.util.UploadFileUtils;
 

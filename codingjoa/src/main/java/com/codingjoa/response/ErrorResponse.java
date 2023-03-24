@@ -1,4 +1,4 @@
-package com.codingjoa.error;
+package com.codingjoa.response;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;

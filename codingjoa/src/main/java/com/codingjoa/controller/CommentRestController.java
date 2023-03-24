@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.codingjoa.dto.CommentDetailsDto;
 import com.codingjoa.dto.CommentDto;
-import com.codingjoa.error.SuccessResponse;
 import com.codingjoa.pagination.CommentCriteria;
+import com.codingjoa.response.SuccessResponse;
 import com.codingjoa.security.dto.UserDetailsDto;
 import com.codingjoa.service.CommentService;
 
@@ -65,7 +65,7 @@ public class CommentRestController {
 	}
 	
 	@GetMapping("/comment/board/{boardIdx}/page/{page}")
-	public ResponseEntity<Object> getBoardComment(CommentCriteria commentCri) {
+	public ResponseEntity<Object> getCommentList(CommentCriteria commentCri) {
 		log.info("{}", commentCri);
 
 		List<CommentDetailsDto> commentList = commentService.getPagedComment(commentCri);
