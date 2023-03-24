@@ -2,8 +2,6 @@ package com.codingjoa.resolver;
 
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -45,11 +43,11 @@ public class CommentCriteriaArgumentResolver implements HandlerMethodArgumentRes
 		
 		String boardIdx = getUriTemplateVariables(webRequest).get("boardIdx");
 		String page = webRequest.getParameter("page");
-		log.info("Raw boardIdx={}, page={}", boardIdx, boardIdx);
+		log.info("Raw boardIdx={}, page={}", boardIdx, page);
 		
 		return new CommentCriteria(
 			Integer.parseInt(boardIdx),
-			StringUtils.isNumeric(page) ? Integer.parseInt(page) : defaultPage, 
+			StringUtils.isNumeric(page) ? Integer.parseInt(page) : defaultPage,
 			defaultRecordCnt
 		);
 	}

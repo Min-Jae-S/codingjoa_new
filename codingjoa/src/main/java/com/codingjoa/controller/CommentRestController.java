@@ -66,7 +66,7 @@ public class CommentRestController {
 	}
 	
 	@GetMapping("/board/{boardIdx}/comment")
-	public ResponseEntity<Object> getComment(@CommentCri CommentCriteria commentCri) {
+	public ResponseEntity<Object> getCommentList(@CommentCri CommentCriteria commentCri) {
 		log.info("{}", commentCri);
 
 		List<CommentDetailsDto> commentList = commentService.getPagedComment(commentCri);
