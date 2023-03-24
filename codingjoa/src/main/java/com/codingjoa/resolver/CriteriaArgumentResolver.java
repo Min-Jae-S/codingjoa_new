@@ -14,6 +14,7 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 
 import com.codingjoa.annotation.Cri;
 import com.codingjoa.pagination.Criteria;
+import com.codingjoa.util.MyNumberUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -60,7 +61,7 @@ public class CriteriaArgumentResolver implements HandlerMethodArgumentResolver {
 		
 		return new Criteria(
 			Integer.parseInt(boardCategoryCode),
-			StringUtils.isNumeric(page) ? Integer.parseInt(page) : defaultPage,
+			MyNumberUtils.isNaturalNumber(page) ? Integer.parseInt(page) : defaultPage,
 			recordCntMap.containsKey(recordCnt) ? Integer.parseInt(recordCnt) : defaultRecordCnt,
 			typeMap.containsKey(type) ? type : defaultType,
 			keyword == null ? null : keyword.trim()

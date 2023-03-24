@@ -16,6 +16,7 @@ import org.springframework.web.servlet.HandlerMapping;
 
 import com.codingjoa.annotation.CommentCri;
 import com.codingjoa.pagination.CommentCriteria;
+import com.codingjoa.util.MyNumberUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -47,7 +48,7 @@ public class CommentCriteriaArgumentResolver implements HandlerMethodArgumentRes
 		
 		return new CommentCriteria(
 			Integer.parseInt(boardIdx),
-			StringUtils.isNumeric(page) ? Integer.parseInt(page) : defaultPage,
+			MyNumberUtils.isNaturalNumber(page) ? Integer.parseInt(page) : defaultPage,
 			defaultRecordCnt
 		);
 	}
