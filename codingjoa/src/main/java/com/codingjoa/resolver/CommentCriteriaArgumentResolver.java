@@ -54,7 +54,7 @@ public class CommentCriteriaArgumentResolver implements HandlerMethodArgumentRes
 	}
 	
 	@SuppressWarnings("unchecked")
-	private Map<String, String> getUriTemplateVariables(NativeWebRequest webRequest) {
+	private Map<String, String> getUriTemplateVariables(NativeWebRequest webRequest) { // @PathVariable
 		return (Map<String, String>) webRequest.getAttribute(
 				HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE, RequestAttributes.SCOPE_REQUEST);
 	}
