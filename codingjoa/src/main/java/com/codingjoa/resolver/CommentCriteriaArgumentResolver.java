@@ -51,6 +51,7 @@ public class CommentCriteriaArgumentResolver implements HandlerMethodArgumentRes
 			MyNumberUtils.isNaturalNumber(page) ? Integer.parseInt(page) : defaultPage,
 			defaultRecordCnt
 		);
+		
 	}
 	
 	@SuppressWarnings("unchecked")
