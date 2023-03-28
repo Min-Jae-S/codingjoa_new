@@ -192,11 +192,6 @@
 				</sec:authorize>
 				<a class="btn btn-secondary float-right" href="${contextPath}/board/main${cri.getQueryString()}">목록</a>
 			</div>
-			
-			<div class="mt-5">
-				<button class="btn btn-primary" id="test1Btn">test1 button</button>
-				<button class="btn btn-secondary" id="test2Btn">test2 button</button>
-			</div>
 		</div>
 		<div class="col-sm-2"></div>
 	</div>

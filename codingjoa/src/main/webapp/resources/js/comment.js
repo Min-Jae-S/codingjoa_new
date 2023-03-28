@@ -63,6 +63,7 @@ let commentService = (function() {
 			url : url,
 			dataType : "json",
 			success : function(result) {
+				console.log(result);
 				callback(result);
 			},
 			error : function(jqXHR) {
