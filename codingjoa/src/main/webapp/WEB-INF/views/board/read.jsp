@@ -178,7 +178,7 @@
 					<sec:authentication property="principal.member.memberIdx" var="memberIdx"/>
 					<c:if test="${memberIdx eq boardDetails.boardWriterIdx}">
 						<a class="btn btn-primary mr-1" href="${contextPath}/board/modify?boardIdx=${boardDetails.boardIdx}">수정</a>
-						<a class="btn btn-warning" href="${contextPath}/board/deleteProc?boardIdx=${boardDetails.boardIdx}"
+						<a class="btn btn-warning text-white" href="${contextPath}/board/deleteProc?boardIdx=${boardDetails.boardIdx}"
 							onclick="return confirm('게시글을 삭제하시겠습니까?');">삭제</a>
 					</c:if>
 				</sec:authorize>
@@ -286,9 +286,16 @@
 		
 		commentService.getCommentList(url, function(result) {
 			let commentList = result.data;
+			if (commentList.length == 0) {
+				return;
+			}
+
+			let html = "";
 			$.each(commentList, function(index, comment) {
-				let html = "";
+				console.log(comment);
+				html += "";
 			});
+			$(".comment-list").html(html);
 		});
 		
 		$("#commentContent").on({
