@@ -314,6 +314,7 @@
 				html += "</li>";
 			});
 			html += "</ul>";
+			
 			$(".comment-list").html(html);
 		});
 		
@@ -347,31 +348,37 @@
 				commentContent : $("#commentContent").val(),
 			};
 			
-			commentService.getCommentList(url, function(result) {
-				let commentList = result.data;
-				if (commentList.length == 0) {
-					return;
-				}
+			commentService.writeComment("${contextPath}/comment", comment, function(result) {
+				console.log(result);
+				alert(result.message);
+				
+				commentService.getCommentList(url, function(result) {
+					let commentList = result.data;
+					if (commentList.length == 0) {
+						return;
+					}
 
-				let html = "<ul class='list-group list-group-flush mt-3'>";
-				$.each(commentList, function(index, comment) {
-					html += "<li class='list-group-item' comment-idx='" + comment.commentIdx + "'>";
-					html += "<div class='comment-area'>";
-					html += "<div class='comment-writer'>";
-					html += "<span>" + comment.memberId + "</span>";
-					html += "</div>";
-					html += "<div class='comment-content'>";
-					html += "<span>" + comment.commentContent + "</span>";
-					html += "</div>";
-					html += "<div class='comment-info'>";
-					html += "<span class='comment-regdate'>" + comment.regdate + "</span>";
-					html += "<span class='comment-moddate d-none'>" + comment.moddate + "</span>";
-					html += "</div>";
-					html += "<div>";
-					html += "</li>";
+					let html = "<ul class='list-group list-group-flush mt-3'>";
+					$.each(commentList, function(index, comment) {
+						html += "<li class='list-group-item' comment-idx='" + comment.commentIdx + "'>";
+						html += "<div class='comment-area'>";
+						html += "<div class='comment-writer'>";
+						html += "<span>" + comment.memberId + "</span>";
+						html += "</div>";
+						html += "<div class='comment-content'>";
+						html += "<span>" + comment.commentContent + "</span>";
+						html += "</div>";
+						html += "<div class='comment-info'>";
+						html += "<span class='comment-regdate'>" + comment.regdate + "</span>";
+						html += "<span class='comment-moddate d-none'>" + comment.moddate + "</span>";
+						html += "</div>";
+						html += "<div>";
+						html += "</li>";
+					});
+					html += "</ul>";
+					
+					$(".comment-list").html(html);
 				});
-				html += "</ul>";
-				$(".comment-list").html(html);
 			});
 		});
 		
