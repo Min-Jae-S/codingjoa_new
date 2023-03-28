@@ -10,6 +10,7 @@ let commentService = (function() {
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
 			success : function(result) {
+				console.log(result);
 				callback(result);
 			},
 			error : function(jqXHR) {
@@ -22,7 +23,6 @@ let commentService = (function() {
 					$.each(errorResponse.errorMap, function(errorField, errorMessage) {
 						alert(errorMessage);
 					});
-					//$(this).focus();
 				}
 				
 			}
@@ -47,7 +47,6 @@ let commentService = (function() {
 						$.each(errorResponse.errorMap, function(errorField, errorMessage) {
 							alert(errorMessage);
 						});
-						$(this).focus();
 					}
 					
 				}

@@ -148,8 +148,7 @@
 					<div class="header-meta d-flex mb-2">
 						<span class="mr-3"><c:out value="${boardDetails.memberId}"/></span>
 						<span class="mr-3">
-							<%-- <fmt:formatDate value="${boardDetails.regdate}" pattern="yyyy.MM.dd. HH:mm"/> --%>
-							<c:out value="${boardDetails.regdate}"/>
+							<fmt:formatDate value="${boardDetails.regdate}" pattern="yyyy.MM.dd. HH:mm"/>
 						</span>
 						<span class="mr-1">조회</span>
 						<span><c:out value="${boardDetails.boardViews}"/></span>

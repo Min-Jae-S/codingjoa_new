@@ -135,8 +135,7 @@
 										</td>
 										<td class="d-md-table-cell"><c:out value="${boardDetails.memberId}"/></td>
 										<td class="d-md-table-cell">
-											<fmt:formatDate value="${boardDetails.regdate}" type="date"/><br>
-											<c:out value="${boardDetails.regdate}"/>
+											<fmt:formatDate value="${boardDetails.regdate}" type="date"/>
 										</td>
 										<td class="d-md-table-cell"><c:out value="${boardDetails.boardViews}"/></td>
 										<td class="d-md-table-cell">
