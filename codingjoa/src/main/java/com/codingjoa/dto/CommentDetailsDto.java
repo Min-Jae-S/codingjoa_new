@@ -15,10 +15,10 @@ public class CommentDetailsDto {
 	private String commentContent;
 	private boolean commentUse;
 	
-	@JsonFormat(pattern = "yyyy.MM.dd. HH:mm:ss")
+	@JsonFormat(pattern = "yyyy.MM.dd. HH:mm")
 	private Date regdate;
 	
-	@JsonFormat(pattern = "yyyy.MM.dd. HH:mm:ss")
+	@JsonFormat(pattern = "yyyy.MM.dd. HH:mm")
 	private Date moddate;
 	
 	private String memberId;		// member

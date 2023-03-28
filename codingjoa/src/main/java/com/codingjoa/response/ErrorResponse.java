@@ -21,7 +21,7 @@ public class ErrorResponse {
 	private String errorMessage;
 	private Map<String, Object> errorMap; // key = errorField, value = errorMessage
 	
-	@JsonFormat(pattern = "yyyy.MM.dd. HH:mm:ss")
+	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
 	private LocalDateTime responseDateTime = LocalDateTime.now();
 	
 	public static ErrorResponse create() {

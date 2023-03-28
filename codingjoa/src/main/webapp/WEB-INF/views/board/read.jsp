@@ -129,6 +129,11 @@
 		font-size: 1.3rem;
 		font-weight: bold;
 	}
+	
+	.comment-list .list-group-item {
+		padding-left: 0.5rem;
+		padding-right: 0.5rem;
+	}
 </style>
 </head>
 <body>
