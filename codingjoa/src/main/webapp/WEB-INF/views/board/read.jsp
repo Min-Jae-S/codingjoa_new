@@ -85,7 +85,7 @@
 		color: #757575;
 	}
 	
-	.foot-group a {
+	.card-bottom a {
 		margin-right: 0.25rem;
 	}
 	
@@ -124,7 +124,7 @@
 	}
 	
 	.comment-cnt {
-		font-size: 1.35rem;
+		font-size: 1.2rem;
 		font-weight: bold;
 	}
 </style>
@@ -137,8 +137,8 @@
 	<div class="row">
 		<div class="col-sm-2"></div>
 		<div class="col-sm-8">
-			<div class="card p-4 mb-5">
-				<div class="header-group mb-3">
+			<div class="card p-4 mb-4">
+				<div class="header-group mb-4">
 					<div class="category mb-2">
 						<a href="${contextPath}/board/main?boardCategoryCode=${cri.boardCategoryCode}"><c:out value="${boardName}"/></a>
 					</div>
@@ -159,32 +159,34 @@
 						<c:out value="${boardDetails.boardContent}" escapeXml="false"/>
 					</div>
 				</div>
-				<div class="foot-group">
-					<a class="btn btn-secondary btn-sm" href="${contextPath}/board/main${cri.getQueryString()}">목록</a>
-					<sec:authorize access="isAuthenticated()">
-						<sec:authentication property="principal.member.memberIdx" var="memberIdx"/>
-						<c:if test="${memberIdx eq boardDetails.boardWriterIdx}">
-							<a class="btn btn-primary btn-sm" href="${contextPath}/board/modify?boardIdx=${boardDetails.boardIdx}">수정</a>
-							<a class="btn btn-warning btn-sm" href="${contextPath}/board/deleteProc?boardIdx=${boardDetails.boardIdx}"
-								onclick="return confirm('게시글을 삭제하시겠습니까?');">삭제</a>
+				<div class="comment-group">
+					<div class="comment-cnt mb-3">
+						<span>댓글</span>
+						<c:if test="${boardDetails.commentCnt > 0}">
+							<span><c:out value="${boardDetails.commentCnt}"/></span>
 						</c:if>
-					</sec:authorize>
-				</div>
-			</div>
-			<div class="comment mb-3">
-				<div class="comment-cnt mb-3">
-					<span>댓글</span>
-					<span><c:out value="${boardDetails.commentCnt}"/></span>
-				</div>
-				<div class="input-group">
-					<div class="comment-input form-control">
-						<textarea id="commentContent" name="commentContent" placeholder="댓글을 남겨보세요" rows="1"></textarea>
-						<button class="btn btn-sm mt-2" id="writeCommentBtn">등록</button>
+					</div>
+					<div class="input-group">
+						<div class="comment-input form-control">
+							<textarea id="commentContent" name="commentContent" placeholder="댓글을 남겨보세요" rows="1"></textarea>
+							<button class="btn btn-sm mt-2" id="writeCommentBtn">등록</button>
+						</div>
+					</div>
+					<div class="comment-list">
+						<!-- ... -->
 					</div>
 				</div>
-				<div class="comment-list">
-					<!-- ... -->
-				</div>
+			</div>
+			<div class="card-bottom">
+				<a class="btn btn-secondary" href="${contextPath}/board/main${cri.getQueryString()}">목록</a>
+				<sec:authorize access="isAuthenticated()">
+					<sec:authentication property="principal.member.memberIdx" var="memberIdx"/>
+					<c:if test="${memberIdx eq boardDetails.boardWriterIdx}">
+						<a class="btn btn-primary" href="${contextPath}/board/modify?boardIdx=${boardDetails.boardIdx}">수정</a>
+						<a class="btn btn-warning" href="${contextPath}/board/deleteProc?boardIdx=${boardDetails.boardIdx}"
+							onclick="return confirm('게시글을 삭제하시겠습니까?');">삭제</a>
+					</c:if>
+				</sec:authorize>
 			</div>
 		</div>
 		<div class="col-sm-2"></div>
@@ -286,8 +288,11 @@
 		let boardCategoryCode = "<c:out value='${boardDetails.boardCategoryCode}'/>";
 		let url = "${contextPath}/board/" + boardIdx + "/comment"; 
 		
-		commentService.getCommentList(url, function(list) {
-			console.log(list);
+		commentService.getCommentList(url, function(result) {
+			let commentList = result.data;
+			$.each(commentList, function(index, comment) {
+				let html = "";
+			});
 		});
 		
 		$("#commentContent").on({
@@ -324,8 +329,8 @@
 				console.log(result);
 				alert(result.message);
 				
-				commentService.getCommentList(url, function(list) {
-					console.log(list);
+				commentService.getCommentList(url, function(result) {
+					
 				});
 			});
 		});
