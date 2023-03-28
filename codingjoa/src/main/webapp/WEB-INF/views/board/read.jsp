@@ -89,12 +89,12 @@
 		margin-right: 0.25rem;
 	}
 	
-	.comment-container {
+	.comment-input {
 		padding: 1.5rem 1.5rem 1.2rem 1.5rem;
 		height: 100%;
 	}
 	
-	.comment-container textarea {
+	.comment-input textarea {
 		border: none;
 		width: 100%;
 		font-size: 0.85rem;
@@ -105,21 +105,21 @@
 		max-height: 150px;
 	}
 	
-	.comment-container .btn {
+	.comment-input .btn {
 		float: right;
 		font-size: 0.85rem;
 		box-shadow: none !important;
 	}
 	
-	.comment-container textarea:focus {
+	.comment-input textarea:focus {
 		outline: none;
 	}
 	
-	.comment-container textarea::placeholder {
+	.comment-input textarea::placeholder {
 		color: #868e96;
 	}
 
-	.comment-container textarea:focus::placeholder {
+	.comment-input textarea:focus::placeholder {
 		color: #ced4da;
 	}
 	
@@ -177,7 +177,7 @@
 					<span><c:out value="${boardDetails.commentCnt}"/></span>
 				</div>
 				<div class="input-group">
-					<div class="comment-container form-control">
+					<div class="comment-input form-control">
 						<textarea id="commentContent" name="commentContent" placeholder="댓글을 남겨보세요" rows="1"></textarea>
 						<button class="btn btn-sm mt-2" id="writeCommentBtn">등록</button>
 					</div>
@@ -292,21 +292,25 @@
 		
 		$("#commentContent").on({
 			"focus":function() {
-				$(".comment-container").css("border", "1px solid #868e96");	
+				$(".comment-input").css("border", "1px solid #868e96");	
 			},
 			"blur":function() {
-				$(".comment-container").removeAttr("style");
+				$(".comment-input").removeAttr("style");
 			},
 			"input":function() {
 				$(this).height("auto");
 				$(this).height($(this).prop("scrollHeight") + "px");
 				
 				if ($(this).val() != null && $(this).val() != "") {
-					$(".comment-container .btn").addClass("btn-success");
+					$(".comment-input .btn").addClass("btn-success");
 				} else {
-					$(".comment-container .btn").removeClass("btn-success");
+					$(".comment-input .btn").removeClass("btn-success");
 				}
 			}
+		});
+		
+		$(".comment-input").on("click", function() {
+			$("#commentContent").focus();
 		});
 		
 		$("#writeCommentBtn").on("click", function() {
