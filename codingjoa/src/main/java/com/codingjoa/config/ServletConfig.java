@@ -68,12 +68,12 @@ public class ServletConfig implements WebMvcConfigurer {
 	public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
 		// StringHttpMessageConverter defaults to ISO-8859-1
 		WebMvcConfigurer.super.extendMessageConverters(converters);
-//		ObjectMapper mapper = Jackson2ObjectMapperBuilder
+//		ObjectMapper objectMapper = Jackson2ObjectMapperBuilder
 //				.json()
 //				.deserializerByType(LocalDateTime.class, 
 //						new LocalDateTimeDeserializer(DateTimeFormatter.ISO_DATE_TIME))
 //				.build();
-//		converters.add(0, new MappingJackson2HttpMessageConverter(mapper));
+//		converters.add(0, new MappingJackson2HttpMessageConverter(objectMapper));
 		
 		converters.stream()
 			.filter(converter -> converter instanceof StringHttpMessageConverter)

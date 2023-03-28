@@ -63,10 +63,10 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
 			response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE); 	// application/json;charset=UTF-8
 			
 			ErrorResponse errorResponse = ErrorResponse.create().errorCode("error.NotLogin");
-			ObjectMapper mapper = new ObjectMapper();
-			mapper.registerModule(new JavaTimeModule());
+			ObjectMapper objectMapper = new ObjectMapper();
+			objectMapper.registerModule(new JavaTimeModule());
 			
-			response.getWriter().write(mapper.writeValueAsString(errorResponse));
+			response.getWriter().write(objectMapper.writeValueAsString(errorResponse));
 		} else {
 			request.getRequestDispatcher(DEFAULT_FAILURE_URL).forward(request, response);
 		}
