@@ -84,13 +84,13 @@
 		font-weight: bold;
 	}
 	
-	.header-group .header-meta {
+	.header-group .header-meta, .comment-info {
 		font-size: 0.9rem;
 		color: #757575;
 	}
 	
 	.comment-input {
-		padding: 1.5rem 1.5rem 1.2rem 1.5rem;
+		padding: 1.3rem 1.3rem 1rem 1.3rem;
 		height: 100%;
 	}
 	
@@ -154,13 +154,13 @@
 						</div>
 					</div>
 				</div>
-				<div class="content-group mb-3">
+				<div class="content-group mb-4">
 					<div id="boardContent">
 						<c:out value="${boardDetails.boardContent}" escapeXml="false"/>
 					</div>
 				</div>
-				<div class="comment-group">
-					<div class="comment-cnt my-3">
+				<div class="comment-group pt-4">
+					<div class="comment-cnt mb-3">
 						<span>댓글</span>
 						<c:if test="${boardDetails.commentCnt > 0}">
 							<span><c:out value="${boardDetails.commentCnt}"/></span>
@@ -173,7 +173,7 @@
 						</div>
 					</div>
 					<div class="comment-list">
-						<!-- ... -->
+						<!-- comment -->
 					</div>
 				</div>
 			</div>
@@ -294,14 +294,20 @@
 				return;
 			}
 
-			let html = "<ul class='mt-3'>";
+			let html = "<ul class='list-group list-group-flush mt-3'>";
 			$.each(commentList, function(index, comment) {
-				html += "<li comment-idx='" + comment.commentIdx + "' ";
-				html += "comment-writer-idx='" + comment.commentWriterIdx + "'>";
-				html += "<div>";
-				html += "<p>" + comment.memberId + "</p>";
-				html += "<p>" + comment.commentContent + "</p>";
-				html += "<p>" + comment.regdate + "</p>";
+				html += "<li class='list-group-item' comment-idx='" + comment.commentIdx + "'>";
+				html += "<div class='comment-area'>";
+				html += "<div class='comment-writer'>";
+				html += "<span>" + comment.memberId + "</span>";
+				html += "</div>";
+				html += "<div class='comment-content'>";
+				html += "<span>" + comment.commentContent + "</span>";
+				html += "</div>";
+				html += "<div class='comment-info'>";
+				html += "<span class='comment-regdate'>" + comment.regdate + "</span>";
+				html += "<span class='comment-moddate d-none'>" + comment.moddate + "</span>";
+				html += "</div>";
 				html += "<div>";
 				html += "</li>";
 			});
@@ -321,7 +327,7 @@
 				$(this).height("auto");
 				$(this).height($(this).prop("scrollHeight") + "px");
 				
-				if ($(this).val() != null && $(this).val() != "") {
+				if ($(this).val() != "") {
 					$(".comment-input .btn").addClass("btn-success");
 				} else {
 					$(".comment-input .btn").removeClass("btn-success");
