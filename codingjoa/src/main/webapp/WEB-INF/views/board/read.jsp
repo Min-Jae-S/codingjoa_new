@@ -294,12 +294,18 @@
 				return;
 			}
 
-			let html = "";
+			let html = "<ul class='mt-3'>";
 			$.each(commentList, function(index, comment) {
-				console.log(comment);
-				html += "";
+				html += "<li comment-idx='" + comment.commentIdx + "' ";
+				html += "comment-writer-idx='" + comment.commentWriterIdx + "'>";
+				html += "<div>";
+				html += "<p>" + comment.memberId + "</p>";
+				html += "<p>" + comment.commentContent + "</p>";
+				html += "<p>" + comment.regdate + "</p>";
+				html += "<div>";
+				html += "</li>";
 			});
-			html += "";
+			html += "</ul>";
 			
 			$(".comment-list").html(html);
 		});
