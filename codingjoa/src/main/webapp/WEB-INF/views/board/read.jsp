@@ -85,10 +85,6 @@
 		color: #757575;
 	}
 	
-	.card-bottom a {
-		margin-right: 0.25rem;
-	}
-	
 	.comment-input {
 		padding: 1.5rem 1.5rem 1.2rem 1.5rem;
 		height: 100%;
@@ -124,7 +120,7 @@
 	}
 	
 	.comment-cnt {
-		font-size: 1.2rem;
+		font-size: 1.3rem;
 		font-weight: bold;
 	}
 </style>
@@ -178,15 +174,15 @@
 				</div>
 			</div>
 			<div class="card-bottom">
-				<a class="btn btn-secondary" href="${contextPath}/board/main${cri.getQueryString()}">목록</a>
 				<sec:authorize access="isAuthenticated()">
 					<sec:authentication property="principal.member.memberIdx" var="memberIdx"/>
 					<c:if test="${memberIdx eq boardDetails.boardWriterIdx}">
-						<a class="btn btn-primary" href="${contextPath}/board/modify?boardIdx=${boardDetails.boardIdx}">수정</a>
+						<a class="btn btn-primary mr-1" href="${contextPath}/board/modify?boardIdx=${boardDetails.boardIdx}">수정</a>
 						<a class="btn btn-warning" href="${contextPath}/board/deleteProc?boardIdx=${boardDetails.boardIdx}"
 							onclick="return confirm('게시글을 삭제하시겠습니까?');">삭제</a>
 					</c:if>
 				</sec:authorize>
+				<a class="btn btn-secondary float-right" href="${contextPath}/board/main${cri.getQueryString()}">목록</a>
 			</div>
 		</div>
 		<div class="col-sm-2"></div>
