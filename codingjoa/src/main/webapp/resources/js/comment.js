@@ -14,13 +14,15 @@ let commentService = (function() {
 			},
 			error : function(jqXHR) {
 				let errorResponse = JSON.parse(jqXHR.responseText);
+				console.log(errorResponse);
+				
 				if (jqXHR.status == 401) {
 					alert(errorResponse.errorMessage)
 				} else if (jqXHR.status == 422) {
 					$.each(errorResponse.errorMap, function(errorField, errorMessage) {
 						alert(errorMessage);
 					});
-					$(this).focus();
+					//$(this).focus();
 				}
 				
 			}
