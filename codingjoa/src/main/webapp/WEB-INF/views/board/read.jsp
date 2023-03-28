@@ -63,6 +63,10 @@
 		border-bottom: 1px solid rgba(0,0,0,.125);
 	}
 	
+	.comment-group {
+		border-top: 1px solid rgba(0,0,0,.125);
+	}
+	
 	.header-group .category a {
 		color: #007bff;
 		font-weight: bold;
@@ -156,7 +160,7 @@
 					</div>
 				</div>
 				<div class="comment-group">
-					<div class="comment-cnt mb-3">
+					<div class="comment-cnt my-3">
 						<span>댓글</span>
 						<c:if test="${boardDetails.commentCnt > 0}">
 							<span><c:out value="${boardDetails.commentCnt}"/></span>
@@ -295,6 +299,8 @@
 				console.log(comment);
 				html += "";
 			});
+			html += "";
+			
 			$(".comment-list").html(html);
 		});
 		
