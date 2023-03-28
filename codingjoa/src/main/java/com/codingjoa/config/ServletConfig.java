@@ -74,6 +74,7 @@ public class ServletConfig implements WebMvcConfigurer {
 //						new LocalDateTimeDeserializer(DateTimeFormatter.ISO_DATE_TIME))
 //				.build();
 //		converters.add(0, new MappingJackson2HttpMessageConverter(mapper));
+		
 		converters.stream()
 			.filter(converter -> converter instanceof StringHttpMessageConverter)
 			.forEach(converter -> ((StringHttpMessageConverter) converter).setDefaultCharset(StandardCharsets.UTF_8));
