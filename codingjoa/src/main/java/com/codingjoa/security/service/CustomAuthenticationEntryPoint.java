@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import com.codingjoa.response.ErrorResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -44,7 +45,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
 		
 		 	1. header: x-requested-with(key) --> XMLHttpRequest(value) 
 				- x: Non-standard
-				- jquery나 대중성 있는 라이브러리들이 ajax전송시 기본으로 추가하여 전송
+				- jQuery나 대중성 있는 라이브러리들이 ajax 전송시 기본으로 추가하여 전송
 		
 		 	2. custom header
 				beforeSend: function(xmlHttpRequest) {
@@ -53,15 +54,19 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
 				...
 		*/
 		
-		boolean ajax = "XMLHttpRequest".equals(request.getHeader("x-requested-with")) ? true : false;
+		String header = request.getHeader("x-requested-with");
+		boolean ajax = "XMLHttpRequest".equals(header) ? true : false;
 		log.info("ajax={}", ajax);
 		
 		if (ajax) {
-			response.setStatus(HttpStatus.UNAUTHORIZED.value());
-			response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+			response.setStatus(HttpStatus.UNAUTHORIZED.value());				// 401
+			response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE); 	// application/json;charset=UTF-8
 			
-			ObjectMapper objectMapper = new ObjectMapper();
-			objectMapper.writeValue(response.getWriter(), ErrorResponse.create().errorCode("error.NotLogin"));
+			ErrorResponse errorResponse = ErrorResponse.create().errorCode("error.NotLogin");
+			ObjectMapper mapper = new ObjectMapper();
+			mapper.registerModule(new JavaTimeModule());
+			
+			response.getWriter().write(mapper.writeValueAsString(errorResponse));
 		} else {
 			request.getRequestDispatcher(DEFAULT_FAILURE_URL).forward(request, response);
 		}

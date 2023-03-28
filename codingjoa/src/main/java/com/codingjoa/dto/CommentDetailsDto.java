@@ -2,6 +2,8 @@ package com.codingjoa.dto;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.Data;
 
 @Data
@@ -12,7 +14,11 @@ public class CommentDetailsDto {
 	private int commentBoardIdx;
 	private String commentContent;
 	private boolean commentUse;
+	
+	@JsonFormat(pattern = "yyyy.MM.dd. HH:mm:ss")
 	private Date regdate;
+	
+	@JsonFormat(pattern = "yyyy.MM.dd. HH:mm:ss")
 	private Date moddate;
 	
 	private String memberId;		// member

@@ -14,11 +14,11 @@ import lombok.ToString;
 @NoArgsConstructor
 public class SuccessResponse {
 	
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	private LocalDateTime responseDateTime = LocalDateTime.now();
-	
 	private Object data;
 	private String message;
+	
+	@JsonFormat(pattern = "yyyy.MM.dd. HH:mm:ss")
+	private LocalDateTime responseDateTime = LocalDateTime.now();
 	
 	public static SuccessResponse create() {
 		return new SuccessResponse();

@@ -18,11 +18,11 @@ import lombok.ToString;
 @NoArgsConstructor
 public class ErrorResponse {
 	
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	private LocalDateTime responseDateTime = LocalDateTime.now();
-	
 	private String errorMessage;
 	private Map<String, Object> errorMap; // key = errorField, value = errorMessage
+	
+	@JsonFormat(pattern = "yyyy.MM.dd. HH:mm:ss")
+	private LocalDateTime responseDateTime = LocalDateTime.now();
 	
 	public static ErrorResponse create() {
 		return new ErrorResponse();
