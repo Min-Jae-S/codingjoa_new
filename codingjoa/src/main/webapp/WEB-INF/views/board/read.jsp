@@ -20,19 +20,19 @@
 <script src="${contextPath}/resources/ckeditor5/build/ckeditor.js"></script>
 <script src="${contextPath}/resources/js/comment.js"></script>
 <style>
-	.custom-select {
-		font-size: 0.9rem;
+	.custom-select { 
+		font-size: 0.9rem; 
 	}
 	
-	.form-group button {
-		font-size: 0.9rem;
+	.form-group button { 
+		font-size: 0.9rem; 
 	}
-	
+
 	span.error {
 		display: inline-block;
 		padding-top: 7px;
 	}
-	
+
 	.ck-editor__editable[role="textbox"] {
 		min-height: 300px;
 		padding-left: 0.75rem;
@@ -52,22 +52,22 @@
 	}
 	
 	.ck .ck-widget.ck-widget_selected, 
-	.ck .ck-widget.ck-widget_selected:hover {
-		outline: none;
+	.ck .ck-widget.ck-widget_selected:hover { 
+		outline: none; 
 	}
 	
-	.ck.ck-widget__selection-handle {
-  		display: none;
+	.ck.ck-widget__selection-handle { 
+		display: none; 
 	}
 	
-	.header-group {
-		border-bottom: 1px solid rgba(0,0,0,.125);
+	.header-group { 
+		border-bottom: 1px solid rgba(0,0,0,.125); 
 	}
 	
-	.comment-group {
+	.comment-group { 
 		border-top: 1px solid rgba(0,0,0,.125);
 	}
-	
+
 	.header-group .category a {
 		color: #007bff;
 		font-weight: bold;
@@ -86,9 +86,18 @@
 	}
 	
 	.header-group .header-meta, 
-	.comment-info {
-		font-size: 0.9rem;
-		color: #757575;
+	.comment-regdate {
+		font-size: 14px;
+		color: #979797;
+		/* color: #757575; */
+	}
+	
+	.comment-regdate::before {
+		content: "(";
+	}
+
+	.comment-regdate::after {
+		content: ")";
 	}
 	
 	.comment-input {
@@ -113,16 +122,16 @@
 		box-shadow: none !important;
 	}
 	
-	.comment-input textarea:focus {
-		outline: none;
+	.comment-input textarea:focus { 
+		outline: none; 
 	}
 	
-	.comment-input textarea::placeholder {
-		color: #868e96;
+	.comment-input textarea::placeholder { 
+		color: #868e96; 
 	}
-
-	.comment-input textarea:focus::placeholder {
-		color: #ced4da;
+	
+	.comment-input textarea:focus::placeholder { 
+		color: #ced4da; 
 	}
 	
 	.comment-cnt {
@@ -130,9 +139,32 @@
 		font-weight: bold;
 	}
 	
+	.comment-list { 
+		font-size: 16px; 
+	}
+	
 	.comment-list .list-group-item {
 		padding-left: 0.5rem;
 		padding-right: 0.5rem;
+	}
+	
+	.comment-info { 
+		margin-bottom: 0.5rem; 
+	}
+	
+	.comment-writer {
+		font-weight: bold;
+		margin-right: 0.25rem;
+	}
+	
+	.comment-likes {
+		float: right;
+		color: #007acf;
+		margin-right: 1.3rem;
+	}
+	
+	.comment-content { 
+		margin-bottom: 0.5rem; 
 	}
 </style>
 </head>
@@ -289,6 +321,28 @@
             });
         });
 	}
+	
+	function makeCommentHtml(list) {
+		let html = "<ul class='list-group list-group-flush mt-3'>";
+		$.each(list, function(index, comment) {
+			html += "<li class='list-group-item' comment-idx='" + comment.commentIdx + "'>";
+			html += "<div class='comment-area'>";
+			html += "<div class='comment-info'>";
+			html += "<span class='comment-writer'>" + comment.memberId + "</span>";
+			html += "<span class='comment-regdate'>" + comment.regdate + "</span>";
+			html += "<span class='comment-moddate d-none'>" + comment.moddate + "</span>";
+			html += "<span class='comment-likes'><i class='fa-regular fa-thumbs-up mr-1'></i>" + comment.commentLikes + "</span>";
+			html += "</div>";
+			html += "<div class='comment-content'>";
+			html += "<span>" + comment.commentContent + "</span>";
+			html += "</div>";
+			html += "<div>";
+			html += "</li>";
+		});
+		html += "</ul>";
+		
+		return html;
+	}
 </script>
 
 <script>	
@@ -302,25 +356,8 @@
 			if (commentList.length == 0) {
 				return;
 			}
-
-			let html = "<ul class='list-group list-group-flush mt-3'>";
-			$.each(commentList, function(index, comment) {
-				html += "<li class='list-group-item' comment-idx='" + comment.commentIdx + "'>";
-				html += "<div class='comment-area'>";
-				html += "<div class='comment-writer'>";
-				html += "<span>" + comment.memberId + "</span>";
-				html += "</div>";
-				html += "<div class='comment-content'>";
-				html += "<span>" + comment.commentContent + "</span>";
-				html += "</div>";
-				html += "<div class='comment-info'>";
-				html += "<span class='comment-regdate'>" + comment.regdate + "</span>";
-				html += "<span class='comment-moddate d-none'>" + comment.moddate + "</span>";
-				html += "</div>";
-				html += "<div>";
-				html += "</li>";
-			});
-			html += "</ul>";
+			
+			let html = makeCommentHtml(commentList);
 			$(".comment-list").html(html);
 		});
 		
@@ -336,9 +373,9 @@
 				$(this).height($(this).prop("scrollHeight") + "px");
 				
 				if ($(this).val() != "") {
-					$(".comment-input .btn").addClass("btn-success");
+					$(".comment-input .btn").addClass("btn-primary");
 				} else {
-					$(".comment-input .btn").removeClass("btn-success");
+					$(".comment-input .btn").removeClass("btn-primary");
 				}
 			}
 		});
@@ -360,24 +397,7 @@
 						return;
 					}
 
-					let html = "<ul class='list-group list-group-flush mt-3'>";
-					$.each(commentList, function(index, comment) {
-						html += "<li class='list-group-item' comment-idx='" + comment.commentIdx + "'>";
-						html += "<div class='comment-area'>";
-						html += "<div class='comment-writer'>";
-						html += "<span>" + comment.memberId + "</span>";
-						html += "</div>";
-						html += "<div class='comment-content'>";
-						html += "<span>" + comment.commentContent + "</span>";
-						html += "</div>";
-						html += "<div class='comment-info'>";
-						html += "<span class='comment-regdate'>" + comment.regdate + "</span>";
-						html += "<span class='comment-moddate d-none'>" + comment.moddate + "</span>";
-						html += "</div>";
-						html += "<div>";
-						html += "</li>";
-					});
-					html += "</ul>";
+					let html = makeCommentHtml(commentList);
 					$(".comment-list").html(html);
 				});
 			});
