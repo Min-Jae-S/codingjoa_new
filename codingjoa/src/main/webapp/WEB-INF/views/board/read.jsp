@@ -148,8 +148,7 @@
 	}
 	
 	.comment-list .list-group-item {
-		padding-left: 0.5rem;
-		padding-right: 0.5rem;
+		padding: 1.25rem 0.5rem 1.25rem 0.5rem;
 	}
 	
 	.comment-info { 
@@ -165,10 +164,6 @@
 		float: right;
 		color: #007acf;
 		margin-right: 1.3rem;
-	}
-	
-	.comment-content { 
-		margin-bottom: 0.5rem; 
 	}
 </style>
 </head>
