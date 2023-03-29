@@ -160,6 +160,10 @@
 		margin-right: 0.25rem;
 	}
 	
+	.icon-writer {
+		margin-right: 0.25rem;
+	}
+	
 	.comment-likes {
 		float: right;
 		color: #007acf;
@@ -226,8 +230,8 @@
 					<sec:authentication property="principal.member.memberIdx" var="memberIdx"/>
 					<c:if test="${memberIdx eq boardDetails.boardWriterIdx}">
 						<a class="btn btn-primary mr-1" href="${contextPath}/board/modify?boardIdx=${boardDetails.boardIdx}">수정</a>
-						<a class="btn btn-warning text-white" href="${contextPath}/board/deleteProc?boardIdx=${boardDetails.boardIdx}"
-							onclick="return confirm('게시글을 삭제하시겠습니까?');">삭제</a>
+						<a class="btn btn-warning text-white" id="deleteBtn" 
+							href="${contextPath}/board/deleteProc?boardIdx=${boardDetails.boardIdx}">삭제</a>
 					</c:if>
 				</sec:authorize>
 				<a class="btn btn-secondary float-right" href="${contextPath}/board/main${cri.getQueryString()}">목록</a>
@@ -347,7 +351,7 @@
 			html += "<div class='comment-info'>";
 			html += "<span class='comment-writer'>" + commentDetails.memberId + "</span>";
 			if (commentDetails.commentWriterIdx == "<c:out value='${boardDetails.boardWriterIdx}'/>") {
-				html += "<img class='mr-1' src='${contextPath}/resources/image/icon-writer.png'>";
+				html += "<img class='icon-writer' src='${contextPath}/resources/image/icon-writer.png'>";
 			}
 			html += "<span class='comment-regdate'>" + commentDetails.regdate + "</span>";
 			html += "<span class='comment-moddate d-none'>" + commentDetails.moddate + "</span>";
@@ -379,6 +383,10 @@
 			
 			let html = makeCommentHtml(commentList);
 			$(".comment-list").html(html);
+		});
+		
+		$("#deleteBtn").on("click", function() {
+			return confirm("게시글을 삭제하시겠습니까?");
 		});
 		
 		$("#commentContent").on({
