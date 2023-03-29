@@ -165,6 +165,10 @@
 		color: #007acf;
 		margin-right: 1.3rem;
 	}
+	
+	.deleted-comment .comment-content {
+		color: #868e96;
+	}
 </style>
 </head>
 <body>
@@ -323,19 +327,36 @@
 	
 	function makeCommentHtml(list) {
 		let html = "<ul class='list-group list-group-flush mt-3'>";
-		$.each(list, function(index, comment) {
-			html += "<li class='list-group-item' comment-idx='" + comment.commentIdx + "'>";
+		$.each(list, function(index, commentDetails) {
+			if (!commentDetails.commentUse) {
+				html += "<li class='list-group-item deleted-comment' comment-idx='" + commentDetails.commentIdx + "'>";
+				html += "<div class='comment-area'>";
+				html += "<div class='comment-info'>";
+				html += "<span class='comment-writer'>삭제된 댓글</span>";
+				html += "</div>";
+				html += "<div class='comment-content'>";
+				html += "<span>삭제된 댓글입니다.</span>";
+				html += "</div>";
+				html += "</div>";
+				html += "</li>";
+				return true;
+			}
+			
+			html += "<li class='list-group-item' comment-idx='" + commentDetails.commentIdx + "'>";
 			html += "<div class='comment-area'>";
 			html += "<div class='comment-info'>";
-			html += "<span class='comment-writer'>" + comment.memberId + "</span>";
-			html += "<span class='comment-regdate'>" + comment.regdate + "</span>";
-			html += "<span class='comment-moddate d-none'>" + comment.moddate + "</span>";
-			html += "<span class='comment-likes'><i class='fa-regular fa-thumbs-up mr-1'></i>" + comment.commentLikes + "</span>";
+			html += "<span class='comment-writer'>" + commentDetails.memberId + "</span>";
+			if (commentDetails.commentWriterIdx == "<c:out value='${boardDetails.boardWriterIdx}'/>") {
+				html += "<img class='mr-1' src='${contextPath}/resources/image/icon-writer.png'>";
+			}
+			html += "<span class='comment-regdate'>" + commentDetails.regdate + "</span>";
+			html += "<span class='comment-moddate d-none'>" + commentDetails.moddate + "</span>";
+			html += "<span class='comment-likes'><i class='fa-regular fa-thumbs-up mr-1'></i>" + commentDetails.commentLikes + "</span>";
 			html += "</div>";
 			html += "<div class='comment-content'>";
-			html += "<span>" + comment.commentContent + "</span>";
+			html += "<span>" + commentDetails.commentContent + "</span>";
 			html += "</div>";
-			html += "<div>";
+			html += "</div>";
 			html += "</li>";
 		});
 		html += "</ul>";
