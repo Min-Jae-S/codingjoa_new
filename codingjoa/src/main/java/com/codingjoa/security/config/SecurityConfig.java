@@ -45,7 +45,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		encodingFilter.setForceEncoding(true);
 		
 		return encodingFilter;
-	}
+	} 
 	
 	@Bean
 	public PasswordEncoder passwordEncoder() {

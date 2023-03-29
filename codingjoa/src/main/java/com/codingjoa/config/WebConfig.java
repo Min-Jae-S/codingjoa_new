@@ -1,5 +1,7 @@
 package com.codingjoa.config;
 
+import java.nio.charset.StandardCharsets;
+
 import javax.servlet.Filter;
 import javax.servlet.MultipartConfigElement;
 import javax.servlet.ServletRegistration.Dynamic;
@@ -29,7 +31,7 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 	@Override
 	protected Filter[] getServletFilters() {
 		CharacterEncodingFilter encodingFilter = new CharacterEncodingFilter();
-		encodingFilter.setEncoding("UTF-8");
+		encodingFilter.setEncoding(StandardCharsets.UTF_8.name());
 		encodingFilter.setForceEncoding(true);
 
 		return new Filter[] { encodingFilter };

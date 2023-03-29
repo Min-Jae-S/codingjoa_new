@@ -3,7 +3,6 @@ package com.codingjoa.response;
 import java.time.LocalDateTime;
 
 import com.codingjoa.util.MessageUtils;
-import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,8 +15,6 @@ public class SuccessResponse {
 	
 	private Object data;
 	private String message;
-	
-	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
 	private LocalDateTime responseDateTime = LocalDateTime.now();
 	
 	public static SuccessResponse create() {

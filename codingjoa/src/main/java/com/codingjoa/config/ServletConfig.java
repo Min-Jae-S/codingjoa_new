@@ -1,6 +1,8 @@
 package com.codingjoa.config;
 
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
@@ -27,6 +31,8 @@ import com.codingjoa.resolver.CommentCriteriaArgumentResolver;
 import com.codingjoa.resolver.CriteriaArgumentResolver;
 import com.codingjoa.service.BoardService;
 import com.codingjoa.service.CategoryService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 
 @Configuration
 @EnableWebMvc
@@ -68,12 +74,13 @@ public class ServletConfig implements WebMvcConfigurer {
 	public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
 		// StringHttpMessageConverter defaults to ISO-8859-1
 		WebMvcConfigurer.super.extendMessageConverters(converters);
-//		ObjectMapper objectMapper = Jackson2ObjectMapperBuilder
-//				.json()
-//				.deserializerByType(LocalDateTime.class, 
-//						new LocalDateTimeDeserializer(DateTimeFormatter.ISO_DATE_TIME))
-//				.build();
-//		converters.add(0, new MappingJackson2HttpMessageConverter(objectMapper));
+		
+		ObjectMapper objectMapper = Jackson2ObjectMapperBuilder
+				.json()
+				.serializerByType(LocalDateTime.class, 
+						new LocalDateTimeSerializer(DateTimeFormatter.ISO_LOCAL_DATE_TIME)) // yyyy-MM-dd'T'HH:ss:mm
+				.build();
+		converters.add(0, new MappingJackson2HttpMessageConverter(objectMapper));
 		
 		converters.stream()
 			.filter(converter -> converter instanceof StringHttpMessageConverter)
@@ -107,5 +114,7 @@ public class ServletConfig implements WebMvcConfigurer {
 		resolvers.add(criteriaArgumentResolver);
 		resolvers.add(commentCriteriaArgumentResolver);
 	}
+	
+	
 	
 }
