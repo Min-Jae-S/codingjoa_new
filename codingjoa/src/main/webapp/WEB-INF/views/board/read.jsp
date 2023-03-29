@@ -330,7 +330,9 @@
 	}
 	
 	function makeCommentHtml(list) {
+		let boardWriterIdx = "<c:out value='${boardDetails.boardWriterIdx}'/>";
 		let html = "<ul class='list-group list-group-flush mt-3'>";
+		
 		$.each(list, function(index, commentDetails) {
 			if (!commentDetails.commentUse) {
 				html += "<li class='list-group-item deleted-comment' comment-idx='" + commentDetails.commentIdx + "'>";
@@ -350,7 +352,7 @@
 			html += "<div class='comment-area'>";
 			html += "<div class='comment-info'>";
 			html += "<span class='comment-writer'>" + commentDetails.memberId + "</span>";
-			if (commentDetails.commentWriterIdx == "<c:out value='${boardDetails.boardWriterIdx}'/>") {
+			if (commentDetails.commentWriterIdx == boardWriterIdx) {
 				html += "<img class='icon-writer' src='${contextPath}/resources/image/icon-writer.png'>";
 			}
 			html += "<span class='comment-regdate'>" + commentDetails.regdate + "</span>";
