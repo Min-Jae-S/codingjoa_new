@@ -8,7 +8,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
@@ -18,7 +17,6 @@ import org.springframework.stereotype.Component;
 
 import com.codingjoa.response.ErrorResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 
 import lombok.extern.slf4j.Slf4j;
@@ -68,11 +66,12 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
 			response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE); 	// application/json;charset=UTF-8
 			
 			ErrorResponse errorResponse = ErrorResponse.create().errorCode("error.NotLogin");
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:ss:mm");
 			ObjectMapper objectMapper = Jackson2ObjectMapperBuilder
 					.json()
-					.serializerByType(LocalDateTime.class, 
-							new LocalDateTimeSerializer(DateTimeFormatter.ISO_LOCAL_DATE_TIME)) // yyyy-MM-dd'T'HH:ss:mm
+					.serializerByType(LocalDateTime.class, new LocalDateTimeSerializer(formatter))
 					.build();
+			
 			response.getWriter().write(objectMapper.writeValueAsString(errorResponse));
 		} else {
 			request.getRequestDispatcher(DEFAULT_FAILURE_URL).forward(request, response);

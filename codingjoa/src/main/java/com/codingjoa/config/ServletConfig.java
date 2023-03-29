@@ -74,11 +74,10 @@ public class ServletConfig implements WebMvcConfigurer {
 	public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
 		// StringHttpMessageConverter defaults to ISO-8859-1
 		WebMvcConfigurer.super.extendMessageConverters(converters);
-		
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:ss:mm");
 		ObjectMapper objectMapper = Jackson2ObjectMapperBuilder
 				.json()
-				.serializerByType(LocalDateTime.class, 
-						new LocalDateTimeSerializer(DateTimeFormatter.ISO_LOCAL_DATE_TIME)) // yyyy-MM-dd'T'HH:ss:mm
+				.serializerByType(LocalDateTime.class, new LocalDateTimeSerializer(formatter))
 				.build();
 		converters.add(0, new MappingJackson2HttpMessageConverter(objectMapper));
 		
