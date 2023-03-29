@@ -91,6 +91,10 @@
 		/* color: #757575; */
 	}
 	
+	.header-group .header-meta .ml-auto {
+		color: black;
+	}
+	
 	.comment-regdate {
 		font-size: 13px;
 		color: #979797;
@@ -169,6 +173,10 @@
 	.deleted-comment .comment-content {
 		color: #868e96;
 	}
+	
+	.fa-heart {
+		color: red;
+	}
 </style>
 </head>
 <body>
@@ -193,8 +201,9 @@
 						<span class="mr-1">조회</span>
 						<span><c:out value="${boardDetails.boardViews}"/></span>
 						<div class="ml-auto">
-							<span class="mr-1"><i class="fa-regular fa-heart" style="color: red;"></i></span>
-							<span>추천</span>
+							<span><i class="fa-regular fa-comment-dots mr-1"></i>댓글</span>
+							<span class="mr-3"><c:out value="${boardDetails.commentCnt}"/></span>
+							<span><i class="fa-regular fa-heart mr-1"></i>좋아요</span>
 							<span><c:out value="${boardDetails.boardLikesCnt}"/></span>
 						</div>
 					</div>
