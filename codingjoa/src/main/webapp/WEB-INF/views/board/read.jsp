@@ -160,10 +160,6 @@
 		margin-right: 0.25rem;
 	}
 	
-	.icon-writer {
-		margin-right: 0.25rem;
-	}
-	
 	.comment-likes {
 		float: right;
 		color: #007acf;
@@ -198,6 +194,7 @@
 						<span><c:out value="${boardDetails.boardViews}"/></span>
 						<div class="ml-auto">
 							<span class="mr-1"><i class="fa-regular fa-heart" style="color: red;"></i></span>
+							<span>추천</span>
 							<span><c:out value="${boardDetails.boardLikesCnt}"/></span>
 						</div>
 					</div>
@@ -353,7 +350,7 @@
 			html += "<div class='comment-info'>";
 			html += "<span class='comment-writer'>" + commentDetails.memberId + "</span>";
 			if (commentDetails.commentWriterIdx == boardWriterIdx) {
-				html += "<img class='icon-writer' src='${contextPath}/resources/image/icon-writer.png'>";
+				html += "<span class='badge badge-pill badge-danger mr-1'>작성자</span>"
 			}
 			html += "<span class='comment-regdate'>" + commentDetails.regdate + "</span>";
 			html += "<span class='comment-moddate d-none'>" + commentDetails.moddate + "</span>";
