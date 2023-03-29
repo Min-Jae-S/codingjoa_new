@@ -4,6 +4,7 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.TimeZone;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -77,6 +78,7 @@ public class ServletConfig implements WebMvcConfigurer {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:ss:mm");
 		ObjectMapper objectMapper = Jackson2ObjectMapperBuilder
 				.json()
+				.timeZone(TimeZone.getTimeZone("Asia/Seoul")) // @JsonFormat(timezone = "Asia/Seoul")
 				.serializerByType(LocalDateTime.class, new LocalDateTimeSerializer(formatter))
 				.build();
 		converters.add(0, new MappingJackson2HttpMessageConverter(objectMapper));

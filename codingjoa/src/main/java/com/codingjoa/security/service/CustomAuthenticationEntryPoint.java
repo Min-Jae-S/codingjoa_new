@@ -3,6 +3,7 @@ package com.codingjoa.security.service;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.TimeZone;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -65,13 +66,14 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
 			response.setStatus(HttpStatus.UNAUTHORIZED.value());				// 401
 			response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE); 	// application/json;charset=UTF-8
 			
-			ErrorResponse errorResponse = ErrorResponse.create().errorCode("error.NotLogin");
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:ss:mm");
 			ObjectMapper objectMapper = Jackson2ObjectMapperBuilder
 					.json()
+					.timeZone(TimeZone.getTimeZone("Asia/Seoul"))
 					.serializerByType(LocalDateTime.class, new LocalDateTimeSerializer(formatter))
 					.build();
 			
+			ErrorResponse errorResponse = ErrorResponse.create().errorCode("error.NotLogin");
 			response.getWriter().write(objectMapper.writeValueAsString(errorResponse));
 		} else {
 			request.getRequestDispatcher(DEFAULT_FAILURE_URL).forward(request, response);

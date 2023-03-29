@@ -85,11 +85,15 @@
 		font-weight: bold;
 	}
 	
-	.header-group .header-meta, 
-	.comment-regdate {
+	.header-group .header-meta {
 		font-size: 14px;
 		color: #979797;
 		/* color: #757575; */
+	}
+	
+	.comment-regdate {
+		font-size: 13px;
+		color: #979797;
 	}
 	
 	.comment-regdate::before {
@@ -140,7 +144,7 @@
 	}
 	
 	.comment-list { 
-		font-size: 16px; 
+		font-size: 15px; 
 	}
 	
 	.comment-list .list-group-item {
@@ -153,7 +157,7 @@
 	}
 	
 	.comment-writer {
-		font-weight: bold;
+		font-weight: 700;
 		margin-right: 0.25rem;
 	}
 	
