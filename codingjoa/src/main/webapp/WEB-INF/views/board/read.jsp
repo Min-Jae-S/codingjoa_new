@@ -80,6 +80,10 @@
 		margin-left: 0.25rem;
 	}
 	
+	.header-group .category .board-utils {
+		float: right;
+	}
+	
 	.title {
 		color: black;
 		font-weight: bold;
@@ -152,22 +156,16 @@
 	}
 	
 	.comment-list .list-group-item {
-		padding: 1.25rem 0.5rem 1.25rem 0.5rem;
+		padding: 1.25rem 0.5rem;
 	}
 	
 	.comment-info { 
-		margin-bottom: 0.5rem; 
+		margin-bottom: 1rem; 
 	}
 	
 	.comment-writer {
 		font-weight: 700;
 		margin-right: 0.25rem;
-	}
-	
-	.comment-likes {
-		float: right;
-		color: #007acf;
-		margin-right: 1.3rem;
 	}
 	
 	.deleted-comment .comment-content {
@@ -176,6 +174,26 @@
 	
 	.fa-heart {
 		color: red;
+	}
+	
+	.comment-area {
+		display: flex;
+	}
+	
+	.comment-area .comment-area-footer {
+		display: flex;
+		flex-direction: column;
+		margin-left: auto;
+		padding-right: 1.3rem;
+	}
+	
+	.comment-utils {
+		text-align: right;
+	}
+	
+	.comment-likes {
+		margin-top: auto;
+		color: #007acf;
 	}
 </style>
 </head>
@@ -190,7 +208,15 @@
 			<div class="card p-4 mb-4">
 				<div class="header-group mb-4">
 					<div class="category mb-2">
-						<a href="${contextPath}/board/main?boardCategoryCode=${cri.boardCategoryCode}"><c:out value="${boardName}"/></a>
+						<a href="${contextPath}/board/main?boardCategoryCode=${cri.boardCategoryCode}">
+							<c:out value="${boardName}"/>
+						</a>
+						<sec:authorize access="isAuthenticated()">
+							<sec:authentication property="principal.member.memberIdx" var="memberIdx"/>
+							<c:if test="${memberIdx eq boardDetails.boardWriterIdx}">
+								<span class="board-utils"><i class="fa-solid fa-ellipsis-vertical"></i></span>
+							</c:if>
+						</sec:authorize>
 					</div>
 					<h3 class="title mb-4"><c:out value="${boardDetails.boardTitle}"/></h3>
 					<div class="header-meta d-flex mb-2">
@@ -343,11 +369,13 @@
 			if (!commentDetails.commentUse) {
 				html += "<li class='list-group-item deleted-comment' comment-idx='" + commentDetails.commentIdx + "'>";
 				html += "<div class='comment-area'>";
+				html += "<div class='comment-area-header'>";
 				html += "<div class='comment-info'>";
 				html += "<span class='comment-writer'>삭제된 댓글</span>";
 				html += "</div>";
 				html += "<div class='comment-content'>";
 				html += "<span>삭제된 댓글입니다.</span>";
+				html += "</div>";
 				html += "</div>";
 				html += "</div>";
 				html += "</li>";
@@ -356,6 +384,7 @@
 			
 			html += "<li class='list-group-item' comment-idx='" + commentDetails.commentIdx + "'>";
 			html += "<div class='comment-area'>";
+			html += "<div class='comment-area-header'>";
 			html += "<div class='comment-info'>";
 			html += "<span class='comment-writer'>" + commentDetails.memberId + "</span>";
 			if (commentDetails.commentWriterIdx == boardWriterIdx) {
@@ -363,11 +392,20 @@
 			}
 			html += "<span class='comment-regdate'>" + commentDetails.regdate + "</span>";
 			html += "<span class='comment-moddate d-none'>" + commentDetails.moddate + "</span>";
-			html += "<span class='comment-likes'><i class='fa-regular fa-thumbs-up mr-1'></i>" + commentDetails.commentLikes + "</span>";
 			html += "</div>";
 			html += "<div class='comment-content'>";
 			html += "<span>" + commentDetails.commentContent + "</span>";
 			html += "</div>";
+			html += "</div>";
+			html += "<div class='comment-area-footer'>";
+			html += "<div class='comment-utils'>";
+			html += "<span><i class='fa-solid fa-ellipsis-vertical'></i></span>";
+			html += "</div>";
+			html += "<div class='comment-likes'>";
+			html += "<span><i class='fa-regular fa-thumbs-up mr-1'></i>" + commentDetails.commentLikes + "</span>";
+			html += "</div>";
+			html += "</div>";
+			
 			html += "</div>";
 			html += "</li>";
 		});
