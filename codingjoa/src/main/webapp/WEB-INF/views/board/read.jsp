@@ -68,20 +68,37 @@
 		border-top: 1px solid rgba(0,0,0,.125);
 	}
 
-	.header-group .category a {
+	.board-category {
 		color: #007bff;
 		font-weight: bold;
 		font-size: 0.9rem;
 		text-decoration: none;
 	}
 	
-	.header-group .category a:after {
+	.board-category:after {
 		content: ">";
 		margin-left: 0.25rem;
 	}
 	
-	.header-group .category .board-utils {
+	.board-utils {
 		float: right;
+	}
+	
+	.category .dropdown-item {
+		font-size: 0.9rem;
+	}
+	
+	.category .dropdown-header {
+		color: black;
+		font-weight: bold;
+	}
+	
+	.category .dropdown-divider {
+		margin: 0.25rem 0;
+	}
+	
+	.category .dropdown-menu {
+		padding: 0.25rem 0;
 	}
 	
 	.title {
@@ -207,14 +224,22 @@
 		<div class="col-sm-8">
 			<div class="card p-4 mb-4">
 				<div class="header-group mb-4">
-					<div class="category mb-2">
-						<a href="${contextPath}/board/main?boardCategoryCode=${cri.boardCategoryCode}">
+					<div class="category dropright mb-2">
+						<a class="board-category" href="${contextPath}/board/main?boardCategoryCode=${cri.boardCategoryCode}">
 							<c:out value="${boardName}"/>
 						</a>
 						<sec:authorize access="isAuthenticated()">
 							<sec:authentication property="principal.member.memberIdx" var="memberIdx"/>
 							<c:if test="${memberIdx eq boardDetails.boardWriterIdx}">
-								<span class="board-utils"><i class="fa-solid fa-ellipsis-vertical"></i></span>
+								<span class="board-utils" data-toggle="dropdown" data-offset="0,10">
+									<i class="fa-solid fa-ellipsis-vertical"></i>
+								</span>
+								<div class="dropdown-menu">
+									<h6 class="dropdown-header">게시글 관리</h6>
+									<div class="dropdown-divider"></div>
+									<a class="dropdown-item" href="#">수정하기</a>
+							      	<a class="dropdown-item" href="#">삭제하기</a>
+							    </div>
 							</c:if>
 						</sec:authorize>
 					</div>
