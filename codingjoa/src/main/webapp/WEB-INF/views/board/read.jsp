@@ -278,9 +278,7 @@
 						</div>
 					</div>
 					<div class="comment-list">
-						
 						<!-- comment -->
-						
 					</div>
 				</div>
 			</div>
