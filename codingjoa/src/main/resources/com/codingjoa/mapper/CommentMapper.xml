@@ -79,7 +79,32 @@
 		WHERE 
 			a.rn > 0
 	</select>
-
 	
+	<select id="findCommentDetails" parameterType="int" resultMap="commentDetailsMap">
+		SELECT
+			a.comment_idx,
+			a.comment_writer_idx, 
+			a.comment_board_idx,
+			a.comment_content,
+			a.comment_use,
+	        a.regdate,
+	        a.moddate,
+    		b.member_id
+		FROM
+			"comment" a
+		INNER JOIN
+			member b
+		ON
+			a.comment_writer_idx = b.member_idx
+		WHERE
+			a.comment_idx = {commentIdx}
+	</select>
+
+	<delete id="deleteComment" parameterType="int">
+		DELETE FROM
+			"comment"
+		WHERE
+			comment_idx = #{commentIdx} 
+	</delete>
 	
 </mapper>

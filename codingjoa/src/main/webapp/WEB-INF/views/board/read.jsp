@@ -519,10 +519,9 @@
 		});
 		
 		$(document).on("click", "button[name=modifyCommentBtn]", function() {
-			console.log("## modifyCommentBtn clicked...");
-			
-			
-			
+			commentService.getComment("${contextPath}/comment/3", function(result) {
+				
+			});
 		});
 
 		$(document).on("click", "button[name=deleteCommentBtn]", function() {

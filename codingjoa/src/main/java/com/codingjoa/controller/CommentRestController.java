@@ -77,11 +77,21 @@ public class CommentRestController {
 		return ResponseEntity.ok(SuccessResponse.create().data(commentList));
 	}
 	
+	@GetMapping("/comment/{commentIdx}")
+	public ResponseEntity<Object> getComment(@PathVariable int commentIdx) {
+		log.info("commentIdx={}", commentIdx);
+
+		CommentDetailsDto commentDetails = commentService.getCommentDetails(commentIdx);
+		log.info("commentDetails={}", commentDetails);
+		
+		return ResponseEntity.ok(SuccessResponse.create().data(commentDetails));
+	} 
+	
 	@DeleteMapping("/comment/{commentIdx}")
 	public ResponseEntity<Object> deleteComment(@PathVariable int commentIdx) {
 		log.info("commentIdx={}", commentIdx);
 		
-		// ...
+		commentService.deleteComment(commentIdx);
 		
 		return ResponseEntity.ok(SuccessResponse.create().message("success.deleteComment"));
 	}

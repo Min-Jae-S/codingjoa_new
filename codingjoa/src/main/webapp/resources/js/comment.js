@@ -24,6 +24,8 @@ let commentService = (function() {
 					$.each(errorResponse.errorMap, function(errorField, errorMessage) {
 						alert(errorMessage);
 					});
+				} else {
+					alert("오류가 발생하였습니다");
 				}
 				
 			}
@@ -48,6 +50,8 @@ let commentService = (function() {
 						$.each(errorResponse.errorMap, function(errorField, errorMessage) {
 							alert(errorMessage);
 						});
+					} else {
+						alert("오류가 발생하였습니다");
 					}
 					
 				}
@@ -58,6 +62,22 @@ let commentService = (function() {
 	
 	function getCommentList(url, callback) {
 		console.log("## Request Comment List");
+		$.ajax({
+			type : "GET",
+			url : url,
+			dataType : "json",
+			success : function(result) {
+				console.log(result);
+				callback(result);
+			},
+			error : function(jqXHR) {
+				console.log(jqXHR);
+			}
+		});
+	}
+
+	function getComment(url, callback) {
+		console.log("## Request Single Comment");
 		$.ajax({
 			type : "GET",
 			url : url,
@@ -92,8 +112,9 @@ let commentService = (function() {
 					$.each(errorResponse.errorMap, function(errorField, errorMessage) {
 						alert(errorMessage);
 					});
+				} else {
+					alert("오류가 발생하였습니다.");
 				}
-				
 			}
 		});
 	}

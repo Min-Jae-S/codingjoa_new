@@ -1,6 +1,7 @@
 package com.codingjoa.service.impl;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -41,6 +42,18 @@ public class CommentServiceImpl implements CommentService {
 				.map(commentDetailsMap -> modelMapper.map(commentDetailsMap, CommentDetailsDto.class))
 				.collect(Collectors.toList());
 	}
+
+	@Override
+	public CommentDetailsDto getCommentDetails(int commentIdx) {
+		Map<String, Object> commentDetailsMap = commentMapper.findCommentDetails(commentIdx);
+		return modelMapper.map(commentDetailsMap, CommentDetailsDto.class);
+	}
+	
+	@Override
+	public void deleteComment(int commentIdx) {
+		commentMapper.deleteComment(commentIdx);
+	}
+
 	
 	
 }

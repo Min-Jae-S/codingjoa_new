@@ -13,5 +13,9 @@ public interface CommentMapper {
 	
 	void insertComment(Comment comment);
 
-	List<Map<String, Object>> findPagedComment(CommentCriteria commentCri); 
+	List<Map<String, Object>> findPagedComment(CommentCriteria commentCri);
+	
+	Map<String, Object> findCommentDetails(int commentIdx);
+	
+	void deleteComment(int commentIdx);
 }

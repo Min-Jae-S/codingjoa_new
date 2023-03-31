@@ -11,4 +11,8 @@ public interface CommentService {
 	void writeComment(CommentDto commentDto);
 	
 	List<CommentDetailsDto> getPagedComment(CommentCriteria commentCri);
+	
+	CommentDetailsDto getCommentDetails(int commentIdx);
+	
+	void deleteComment(int commentIdx);
 }
