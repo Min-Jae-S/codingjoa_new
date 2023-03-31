@@ -11,6 +11,7 @@ let commentService = (function() {
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
 			success : function(result) {
+				console.log(result);
 				callback(result);
 			},
 			error : function(jqXHR) {
@@ -56,12 +57,13 @@ let commentService = (function() {
 	}
 	
 	function getCommentList(url, callback) {
-		console.log("## Comment List Loading...");
+		console.log("## Request Comment List");
 		$.ajax({
 			type : "GET",
 			url : url,
 			dataType : "json",
 			success : function(result) {
+				console.log(result);
 				callback(result);
 			},
 			error : function(jqXHR) {
@@ -77,6 +79,7 @@ let commentService = (function() {
 			url : url,
 			dataType : "json",
 			success : function(result) {
+				console.log(result);
 				callback(result);
 			},
 			error : function(jqXHR) {
@@ -95,8 +98,10 @@ let commentService = (function() {
 		});
 	}
 	
-	return {writeComment:writeComment,
-			getCommentList:getCommentList,
-			deleteComment:deleteComment};
+	return {
+		writeComment:writeComment,
+		getCommentList:getCommentList,
+		deleteComment:deleteComment
+	};
 	
 })();

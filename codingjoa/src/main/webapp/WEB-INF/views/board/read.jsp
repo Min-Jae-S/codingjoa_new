@@ -229,7 +229,8 @@
 			<div class="card p-4 mb-3">
 				<div class="header-group mb-4">
 					<div class="category dropright mb-2">
-						<a class="board-category" href="${contextPath}/board/main?boardCategoryCode=${cri.boardCategoryCode}">
+						<a class="board-category" 
+							href="${contextPath}/board/main?boardCategoryCode=${cri.boardCategoryCode}">
 							<c:out value="${boardName}"/>
 						</a>
 						<sec:authorize access="isAuthenticated()">
@@ -285,7 +286,7 @@
 									<sec:authentication property="principal.member.memberId" />
 								</p>
 							</sec:authorize>
-							<textarea id="commentContent" name="commentContent" placeholder="댓글을 남겨보세요" rows="1"></textarea>
+							<textarea id="commentContent" placeholder="댓글을 남겨보세요" rows="1"></textarea>
 							<button class="btn btn-sm mt-2" id="writeCommentBtn">등록</button>
 						</div>
 					</div>
@@ -296,7 +297,7 @@
 			</div>
 			<div class="card-bottom">
 				<a class="btn btn-secondary" href="${contextPath}/board/main${cri.getQueryString()}">목록</a>
-				<button class="btn btn-warning font-weight-bold" id="testBtn">TEST BUTTON</button>
+				<button class="btn btn-warning font-weight-bold" id="testBtn">TestBtn</button>
 			</div>
 		</div>
 		<div class="col-sm-2"></div>
@@ -459,13 +460,9 @@
 		
 		$("#testBtn").on("click", function() {
 			console.log("## testBtn clicked...");
-			console.log("boardIdx=" + boardIdx);
-			console.log("boardCategoryCode=" + boardCategoryCode);
-			console.log("commentListURL=" + commentListURL);
 		});
 		
 		commentService.getCommentList(commentListURL , function(result) {
-			console.log(result);
 			let commentList = result.data;
 			if (commentList.length == 0) {
 				return;
@@ -506,8 +503,8 @@
 			};
 			
 			commentService.writeComment("${contextPath}/comment", comment, function(result) {
-				console.log(result);
 				alert(result.message);
+				$("#commentContent").val("");
 				
 				commentService.getCommentList(commentListURL, function(result) {
 					let commentList = result.data;
@@ -523,18 +520,18 @@
 		
 		$(document).on("click", "button[name=modifyCommentBtn]", function() {
 			console.log("## modifyCommentBtn clicked...");
+			
+			
+			
 		});
 
 		$(document).on("click", "button[name=deleteCommentBtn]", function() {
-			console.log("## deleteCommentBtn clicked...");
 			if (!confirm("댓글을 삭제하시겠습니까?")) {
 				return;
 			}
 			
 			commentService.deleteComment("${contextPath}/comment/3", function(result) {
-				console.log(result);
 				alert(result.message);
-				
 				commentService.getCommentList(commentListURL, function(result) {
 					let commentList = result.data;
 					if (commentList.length == 0) {
