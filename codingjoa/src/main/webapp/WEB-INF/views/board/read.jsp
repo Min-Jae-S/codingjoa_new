@@ -296,6 +296,7 @@
 			</div>
 			<div class="card-bottom">
 				<a class="btn btn-secondary" href="${contextPath}/board/main${cri.getQueryString()}">목록</a>
+				<button class="btn btn-warning font-weight-bold" id="TestBtn">TEST BUTTON</button>
 			</div>
 		</div>
 		<div class="col-sm-2"></div>
@@ -452,6 +453,12 @@
 
 <script>	
 	$(function() {
+		
+		$("#TestBtn").on("click", function() {
+			console.log("TestBtn clicked...");
+			
+		});
+		
 		let boardIdx = "<c:out value='${boardDetails.boardIdx}'/>";
 		let boardCategoryCode = "<c:out value='${boardDetails.boardCategoryCode}'/>";
 		let url = "${contextPath}/board/" + boardIdx + "/comment"; 
