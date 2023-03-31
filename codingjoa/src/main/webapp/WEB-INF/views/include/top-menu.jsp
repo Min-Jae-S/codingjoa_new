@@ -12,7 +12,9 @@
 			<ul class="navbar-nav">
 				<c:forEach var="parentCategory" items="${parentCategoryList}">
 					<li class="nav-item dropdown mx-2" data-category="${parentCategory.categoryCode}" data-path="${parentCategory.categoryPath}">
-						<a href="${contextPath}${parentCategory.categoryPath}" class="nav-link"><c:out value="${parentCategory.categoryName}"/></a>
+						<a href="${contextPath}${parentCategory.categoryPath}" class="nav-link">
+							<c:out value="${parentCategory.categoryName}"/>
+						</a>
 					</li>
 				</c:forEach>
 			</ul>
@@ -56,9 +58,9 @@
 	$(function() {
 		let timer, delay=100;
 		
-		$(".dropdown").on("mouseenter", function() {
-			var parent_category = $(this).data("category");
-			var a_tag = $(this).find("a");
+		$(".navbar-nav .dropdown").on("mouseenter", function() {
+			let parent_category = $(this).data("category");
+			let a_tag = $(this).find("a");
 			a_tag.css("color", "black").css("font-weight", "bold");
 			
 			timer = setTimeout(function() {
@@ -79,8 +81,8 @@
 			}, delay);
 		});
 			
-		$(".dropdown").on("mouseleave", function() {
-			$(".dropdown-menu").remove();
+		$(".navbar-nav .dropdown").on("mouseleave", function() {
+			$(this).find(".dropdown-menu").remove();
 			$(this).find("a").css("color", "grey").css("font-weight", "400");
 			clearTimeout(timer);
 		});
