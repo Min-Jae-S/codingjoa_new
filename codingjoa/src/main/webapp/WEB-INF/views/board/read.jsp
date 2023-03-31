@@ -90,7 +90,7 @@
 		font-size: 0.9rem;
 	}
 	
-	.category .dropdown-header
+	.category .dropdown-header,
 	.comment-area-footer .dropdown-header {
 		color: black;
 		font-weight: bold;
