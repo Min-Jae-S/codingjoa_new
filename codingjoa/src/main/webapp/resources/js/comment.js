@@ -102,7 +102,7 @@ let commentService = (function() {
 	}
 	
 	return {writeComment:writeComment,
-			getCommentList:getCommentList
+			getCommentList:getCommentList,
 			deleteComment:deleteComment};
 	
 })();
