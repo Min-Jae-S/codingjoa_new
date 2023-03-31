@@ -90,13 +90,9 @@
 		font-size: 0.9rem;
 	}
 	
+	.title,
 	.category .dropdown-header,
 	.comment-area-footer .dropdown-header {
-		color: black;
-		font-weight: bold;
-	}
-	
-	.title {
 		color: black;
 		font-weight: bold;
 	}
@@ -225,8 +221,8 @@
 							<c:out value="${boardName}"/>
 						</a>
 						<sec:authorize access="isAuthenticated()">
-							<sec:authentication property="principal.member.memberIdx" var="memberIdx"/>
-							<c:if test="${memberIdx eq boardDetails.boardWriterIdx}">
+							<sec:authentication property="principal.member" var="member"/>
+							<c:if test="${member.memberIdx eq boardDetails.boardWriterIdx}">
 								<span class="board-utils" data-toggle="dropdown" data-offset="0,10">
 									<i class="fa-solid fa-ellipsis-vertical"></i>
 								</span>
@@ -273,6 +269,10 @@
 					</div>
 					<div class="input-group">
 						<div class="comment-input form-control">
+							<sec:authorize access="isAuthenticated()">
+								<sec:authentication property="principal.member" var="member"/>
+								<p class="font-weight-bold mb-2">${member.memberId}</p>
+							</sec:authorize>
 							<textarea id="commentContent" name="commentContent" placeholder="댓글을 남겨보세요" rows="1"></textarea>
 							<button class="btn btn-sm mt-2" id="writeCommentBtn">등록</button>
 						</div>
@@ -430,7 +430,6 @@
 			html += "<span><i class='fa-regular fa-thumbs-up mr-1'></i>" + commentDetails.commentLikes + "</span>";
 			html += "</div>";
 			html += "</div>";
-			
 			html += "</div>";
 			html += "</li>";
 		});
