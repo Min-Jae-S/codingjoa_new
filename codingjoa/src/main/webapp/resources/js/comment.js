@@ -77,7 +77,7 @@ let commentService = (function() {
 	}
 
 	function getComment(url, callback) {
-		console.log("## Request Single Comment");
+		console.log("## Request Comment");
 		$.ajax({
 			type : "GET",
 			url : url,

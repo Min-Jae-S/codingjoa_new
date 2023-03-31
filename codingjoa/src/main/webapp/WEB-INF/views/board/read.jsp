@@ -478,8 +478,8 @@
 		html += "<p class='font-weight-bold mb-2'>" + commentDetails.memberId + "</p>";
 		html += "<textarea rows='1'>" + commentDetails.commentContent + "</textarea>";
 		html += "<div class='mt-2'>";
-		html += "<button class='btn btn-sm mr-2' name='modifyCommentBtn'>수정</button>";
-		html += "<button class='btn btn-sm' name='closeEditCommentBtn'>취소</button>";
+		html += "<button class='btn btn-outline-primary btn-sm mr-2' name='modifyCommentBtn'>수정</button>";
+		html += "<button class='btn btn-outline-secondary btn-sm' name='closeEditCommentBtn'>취소</button>";
 		html += "</div>";		
 		html += "</div>";			
 		html += "</div>";			
@@ -524,9 +524,9 @@
 				$(this).height($(this).prop("scrollHeight") + "px");
 				
 				if ($(this).val() != "") {
-					$(this).closest("div").find("button").addClass("btn-primary");
+					$(this).closest("div").find("button").addClass("btn-outline-primary");
 				} else {
-					$(this).closest("div").find("button").removeClass("btn-primary");
+					$(this).closest("div").find("button").removeClass("btn-outline-primary");
 				}
 			}
 		});
@@ -547,9 +547,9 @@
 			$(this).height($(this).prop("scrollHeight") + "px");
 			
 			if ($(this).val() != "") {
-				$(this).closest("div").find("button").addClass("btn-primary");
+				$(this).closest("div").find("button[name='modifyCommentBtn']").addClass("btn-outline-primary");
 			} else {
-				$(this).closest("div").find("button").removeClass("btn-primary");
+				$(this).closest("div").find("button[name='modifyCommentBtn']").removeClass("btn-outline-primary");
 			}
 		});
 		
@@ -589,6 +589,12 @@
 					alert("삭제된 댓글은 수정할 수 없습니다.");
 				} */
 			});
+		});
+
+		$(document).on("click", "button[name=closeEditCommentBtn]", function() {
+			let $li =  $(this).closest("li");
+			$li.find("div.comment-area").removeClass("d-none")
+				.next("div.input-group").remove();
 		});
 
 		$(document).on("click", "button[name=deleteCommentBtn]", function() {
