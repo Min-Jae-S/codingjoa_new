@@ -4,7 +4,6 @@ let commentService = (function() {
 	
 	function writeComment(url, comment, callback) {
 		console.log("## Write Comment");
-		
 		$.ajax({
 			type : "POST",
 			url : url,
@@ -59,7 +58,6 @@ let commentService = (function() {
 	
 	function getCommentList(url, callback) {
 		console.log("## Comment List Loading...");
-		
 		$.ajax({
 			type : "GET",
 			url : url,
@@ -76,7 +74,6 @@ let commentService = (function() {
 	
 	function deleteComment(url, callback) {
 		console.log("## Delete Comment");
-		
 		$.ajax({
 			type : "DELETE",
 			url : url,

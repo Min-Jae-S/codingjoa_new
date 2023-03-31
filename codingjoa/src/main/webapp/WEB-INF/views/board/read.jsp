@@ -296,7 +296,7 @@
 			</div>
 			<div class="card-bottom">
 				<a class="btn btn-secondary" href="${contextPath}/board/main${cri.getQueryString()}">목록</a>
-				<button class="btn btn-warning font-weight-bold" id="TestBtn">TEST BUTTON</button>
+				<button class="btn btn-warning font-weight-bold" id="testBtn">TEST BUTTON</button>
 			</div>
 		</div>
 		<div class="col-sm-2"></div>
@@ -453,17 +453,18 @@
 
 <script>	
 	$(function() {
-		
-		$("#TestBtn").on("click", function() {
-			console.log("TestBtn clicked...");
-			
-		});
-		
 		let boardIdx = "<c:out value='${boardDetails.boardIdx}'/>";
 		let boardCategoryCode = "<c:out value='${boardDetails.boardCategoryCode}'/>";
-		let url = "${contextPath}/board/" + boardIdx + "/comment"; 
+		let commentListURL = "${contextPath}/board/" + boardIdx "/comment";
 		
-		commentService.getCommentList(url, function(result) {
+		$("#testBtn").on("click", function() {
+			console.log("testBtn clicked...");
+			console.log("boardIdx = " + boardIdx);
+			console.log("boardCategoryCode = " + boardCategoryCode);
+			console.log("getCommentURL = " + commentListURL);
+		});
+		
+		commentService.getCommentList(commentListURL , function(result) {
 			let commentList = result.data;
 			if (commentList.length == 0) {
 				return;
@@ -507,7 +508,7 @@
 				console.log(result);
 				alert(result.message);
 				
-				commentService.getCommentList(url, function(result) {
+				commentService.getCommentList(commentListURL, function(result) {
 					let commentList = result.data;
 					if (commentList.length == 0) {
 						return;
@@ -520,16 +521,29 @@
 		});
 		
 		$(document).on("click", "button[name=modifyCommentBtn]", function() {
-			console.log("댓글 수정하기 click");
+			console.log("modifyCommentBtn clicked...");
 		});
 
 		$(document).on("click", "button[name=deleteCommentBtn]", function() {
-			console.log("댓글 삭제하기 click");
+			console.log("deleteCommentBtn clicked...");
 			if (!confirm("댓글을 삭제하시겠습니까?")) {
 				return;
 			}
 			
-			console.log("댓글이 삭제되었습니다.");
+			commentService.deleteComment("${contextPath}/comment/3", function(result) {
+				console.log(result);
+				alert(result.message);
+				
+				commentService.getCommentList(commentListURL, function(result) {
+					let commentList = result.data;
+					if (commentList.length == 0) {
+						return;
+					}
+
+					let html = makeCommentHtml(commentList);
+					$(".comment-list").html(html);
+				});
+			});
 		});
 		
 	});
