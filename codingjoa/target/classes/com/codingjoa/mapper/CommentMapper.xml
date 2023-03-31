@@ -97,7 +97,7 @@
 		ON
 			a.comment_writer_idx = b.member_idx
 		WHERE
-			a.comment_idx = {commentIdx}
+			a.comment_idx = #{commentIdx}
 	</select>
 
 	<delete id="deleteComment" parameterType="int">

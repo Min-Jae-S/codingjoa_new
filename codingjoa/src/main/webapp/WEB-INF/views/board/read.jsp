@@ -132,14 +132,23 @@
 	}
 	
 	.comment-input {
+		margin-left: 0.5rem;
+		margin-right: 0.5rem;
 		padding: 1.3rem 1.3rem 1rem 1.3rem;
 		height: 100%;
 	}
 	
-	.comment-input textarea {
+	.comment-edit {
+		margin: 0;
+		padding: 1.3rem 1.3rem 1rem 1.3rem;
+		height: 100%;
+	}
+	
+	.comment-input textarea,
+	.comment-edit textarea {
 		border: none;
 		width: 100%;
-		font-size: 0.85rem;
+		font-size: 15px;
 		resize: none;
 		overflow: hidden;
 		margin: 0;
@@ -147,13 +156,15 @@
 		max-height: 150px;
 	}
 	
-	.comment-input .btn {
+	.comment-input .btn,
+	.comment-edit .btn {
 		float: right;
 		font-size: 0.85rem;
 		box-shadow: none !important;
 	}
 	
-	.comment-input textarea:focus { 
+	.comment-input textarea:focus,
+	.comment-edit textarea:focus { 
 		outline: none; 
 	}
 	
@@ -435,7 +446,7 @@
 			html += "</span>";
 			html += "<div class='dropdown-menu'>";
 			html += "<h6 class='dropdown-header'>댓글 관리</h6>";
-			html += "<button class='dropdown-item' type='button' name='modifyCommentBtn'>수정하기</button>";
+			html += "<button class='dropdown-item' type='button' name='editCommentBtn'>수정하기</button>";
 			html += "<button class='dropdown-item' type='button' name='deleteCommentBtn'>삭제하기</button>";
 			html += "</div>";
 			html += "</div>";
@@ -447,6 +458,18 @@
 			html += "</li>";
 		});
 		html += "</ul>";
+		
+		return html;
+	}
+	
+	function makeEditCommentHtml(commentDetails) {
+		let html = "<div class='input-group'>";
+		html += "<div class='comment-edit form-control'>";
+		html += "<p class='font-weight-bold mb-2'>" + commentDetails.memberId + "</p>";
+		html += "<textarea id='commentContent' rows='1'>" + commentDetails.commentContent + "</textarea>";
+		html += "<button class='btn btn-sm mt-2' id='modifyCommentBtn'>수정</button>";
+		html += "</div>";			
+		html += "</div>";			
 		
 		return html;
 	}
@@ -518,9 +541,18 @@
 			});
 		});
 		
-		$(document).on("click", "button[name=modifyCommentBtn]", function() {
-			commentService.getComment("${contextPath}/comment/3", function(result) {
+		$(document).on("click", "button[name=editCommentBtn]", function() {
+			let li =  $(this).closest("li");
+			let commentIdx = li.attr("comment-idx");
+			
+			commentService.getComment("${contextPath}/comment/" + commentIdx, function(result) {
+				let html = makeEditCommentHtml(result.data);
+				li.find("div.comment-area").addClass("d-none").after(html);
 				
+				/* let commentDetails = result.data;
+				if (!commentDetails.commentUse) {
+					alert("삭제된 댓글은 수정할 수 없습니다.");
+				} */
 			});
 		});
 
@@ -529,7 +561,7 @@
 				return;
 			}
 			
-			commentService.deleteComment("${contextPath}/comment/3", function(result) {
+			commentService.deleteComment("${contextPath}/comment/24", function(result) {
 				alert(result.message);
 				commentService.getCommentList(commentListURL, function(result) {
 					let commentList = result.data;
