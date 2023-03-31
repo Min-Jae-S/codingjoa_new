@@ -83,8 +83,7 @@ public class CommentRestController {
 		
 		// ...
 		
-		//return ResponseEntity.ok(SuccessResponse.create().message("success.deleteComment"));
-		return ResponseEntity.ok(SuccessResponse.create().message("댓글을 삭제하였습니다."));
+		return ResponseEntity.ok(SuccessResponse.create().message("success.deleteComment"));
 	}
 	
 	

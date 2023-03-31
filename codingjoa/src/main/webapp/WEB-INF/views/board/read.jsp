@@ -455,13 +455,13 @@
 	$(function() {
 		let boardIdx = "<c:out value='${boardDetails.boardIdx}'/>";
 		let boardCategoryCode = "<c:out value='${boardDetails.boardCategoryCode}'/>";
-		let commentListURL = "${contextPath}/board/" + boardIdx "/comment";
+		let commentListURL = "${contextPath}/board/" + boardIdx + "/comment";
 		
 		$("#testBtn").on("click", function() {
-			console.log("testBtn clicked...");
-			console.log("boardIdx = " + boardIdx);
-			console.log("boardCategoryCode = " + boardCategoryCode);
-			console.log("getCommentURL = " + commentListURL);
+			console.log("## testBtn clicked...");
+			console.log("boardIdx=" + boardIdx);
+			console.log("boardCategoryCode=" + boardCategoryCode);
+			console.log("commentListURL=" + commentListURL);
 		});
 		
 		commentService.getCommentList(commentListURL , function(result) {
@@ -521,11 +521,11 @@
 		});
 		
 		$(document).on("click", "button[name=modifyCommentBtn]", function() {
-			console.log("modifyCommentBtn clicked...");
+			console.log("## modifyCommentBtn clicked...");
 		});
 
 		$(document).on("click", "button[name=deleteCommentBtn]", function() {
-			console.log("deleteCommentBtn clicked...");
+			console.log("## deleteCommentBtn clicked...");
 			if (!confirm("댓글을 삭제하시겠습니까?")) {
 				return;
 			}
