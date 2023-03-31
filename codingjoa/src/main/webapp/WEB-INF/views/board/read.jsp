@@ -456,8 +456,8 @@
 			html += "</span>";
 			html += "<div class='dropdown-menu'>";
 			html += "<h6 class='dropdown-header'>댓글 관리</h6>";
-			html += "<button class='dropdown-item' type='button' name='editCommentBtn'>수정하기</button>";
-			html += "<button class='dropdown-item' type='button' name='deleteCommentBtn'>삭제하기</button>";
+			html += "<button class='dropdown-item' name='showEditCommentBtn'>수정하기</button>";
+			html += "<button class='dropdown-item' name='deleteCommentBtn'>삭제하기</button>";
 			html += "</div>";
 			html += "</div>";
 			html += "<div class='comment-likes'>";
@@ -478,8 +478,8 @@
 		html += "<p class='font-weight-bold mb-2'>" + commentDetails.memberId + "</p>";
 		html += "<textarea rows='1'>" + commentDetails.commentContent + "</textarea>";
 		html += "<div class='mt-2'>";
-		html += "<button class='btn btn-sm mr-2'>수정</button>";
-		html += "<button class='btn btn-sm'>취소</button>";
+		html += "<button class='btn btn-sm mr-2' name='modifyCommentBtn'>수정</button>";
+		html += "<button class='btn btn-sm' name='closeEditCommentBtn'>취소</button>";
 		html += "</div>";		
 		html += "</div>";			
 		html += "</div>";			
@@ -547,9 +547,9 @@
 			$(this).height($(this).prop("scrollHeight") + "px");
 			
 			if ($(this).val() != "") {
-				$(this).next("button").addClass("btn-primary");
+				$(this).closest("div").find("button").addClass("btn-primary");
 			} else {
-				$(this).next("button").removeClass("btn-primary");
+				$(this).closest("div").find("button").removeClass("btn-primary");
 			}
 		});
 		
@@ -576,7 +576,7 @@
 			});
 		});
 		
-		$(document).on("click", "button[name=editCommentBtn]", function() {
+		$(document).on("click", "button[name=showEditCommentBtn]", function() {
 			let $li =  $(this).closest("li");
 			let commentIdx = $li.attr("comment-idx");
 			
