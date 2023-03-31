@@ -90,11 +90,22 @@
 		font-size: 0.9rem;
 	}
 	
-	.title,
-	.category .dropdown-header,
-	.comment-area-footer .dropdown-header {
+	.title {
 		color: black;
 		font-weight: bold;
+	}
+	
+	.category .dropdown-menu,
+	.comment-area-footer .dropdown-menu {
+		padding-top :0;
+		padding-bottom: 0;
+	}
+
+	.category .dropdown-header,
+	.comment-area-footer .dropdown-header {
+		color: black; 
+		font-weight: bold;
+		border-bottom: 1px solid #e9ecef;
 	}
 	
 	.header-group .header-meta {
@@ -228,7 +239,6 @@
 								</span>
 								<div class="dropdown-menu">
 									<h6 class="dropdown-header">게시글 관리</h6>
-									<div class="dropdown-divider"></div>
 									<a class="dropdown-item" 
 										href="${contextPath}/board/modify?boardIdx=${boardDetails.boardIdx}">수정하기
 									</a>
@@ -421,8 +431,7 @@
 			html += "</span>";
 			html += "<div class='dropdown-menu'>";
 			html += "<h6 class='dropdown-header'>댓글 관리</h6>";
-			html += "<div class='dropdown-divider'></div>";
-			html += "<a class='dropdown-item' href='#'>수정하기</a>";
+			html += "<a class='dropdown-item' id ='modifyCommentLink' href='#'>수정하기</a>";
 			html += "<a class='dropdown-item' id='deleteCommentLink' href='#'>삭제하기</a>";
 			html += "</div>";
 			html += "</div>";
