@@ -87,17 +87,17 @@
 			clearTimeout(timer);
 		});
 		
-		$(document).on("mouseenter", "button.dropdown-item", function() {
+		$(document).on("mouseenter", ".navbar-nav button.dropdown-item", function() {
 			$(this).css("color", "black")
 				   .css("font-weight", "bold")
 				   .css("background-color", "transparent");
 		});
 
-		$(document).on("mouseleave", "button.dropdown-item", function() {
+		$(document).on("mouseleave", ".navbar-nav button.dropdown-item", function() {
 			$(this).css("color", "grey").css("font-weight", "400");
 		});
 		
-		$(document).on("click", "button.dropdown-item", function() {
+		$(document).on("click", ".navbar-nav button.dropdown-item", function() {
 			let parent_path = $(this).closest(".dropdown").data("path");
 			location.href = "${contextPath}" + parent_path + $(this).data("path");
 		}); 

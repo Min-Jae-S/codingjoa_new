@@ -433,8 +433,8 @@
 			html += "</span>";
 			html += "<div class='dropdown-menu'>";
 			html += "<h6 class='dropdown-header'>댓글 관리</h6>";
-			html += "<a class='dropdown-item' id ='modifyCommentLink' href='#'>수정하기</a>";
-			html += "<a class='dropdown-item' id='deleteCommentLink' href='#'>삭제하기</a>";
+			html += "<button class='dropdown-item' name='modifyCommentBtn'>수정하기</button>";
+			html += "<button class='dropdown-item' name='deleteCommentBtn'>삭제하기</button>";
 			html += "</div>";
 			html += "</div>";
 			html += "<div class='comment-likes'>";
@@ -510,6 +510,18 @@
 					$(".comment-list").html(html);
 				});
 			});
+		});
+		
+		$(document).on("click", "button[name=modifyCommentBtn]", function() {
+			console.log("댓글 수정하기 click");
+		});
+
+		$(document).on("click", "button[name=deleteCommentBtn]", function() {
+			console.log("댓글 삭제하기 click");
+			if (!confirm("댓글을 삭제하시겠습니까?")) {
+				return;
+			}
+			console.log("댓글이 삭제되었습니다.");
 		});
 		
 	});
