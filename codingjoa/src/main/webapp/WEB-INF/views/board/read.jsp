@@ -158,9 +158,13 @@
 	
 	.comment-input .btn,
 	.comment-edit .btn {
-		float: right;
 		font-size: 0.85rem;
 		box-shadow: none !important;
+	}
+	
+	.comment-input div,
+	.comment-edit div {
+		text-align: right;
 	}
 	
 	.comment-input textarea:focus,
@@ -226,6 +230,10 @@
 	.comment-likes {
 		margin-top: auto;
 		color: #007acf;
+	}
+	
+	.textarea-border {
+		border: 1px solid #868e96;
 	}
 </style>
 </head>
@@ -298,7 +306,9 @@
 								</p>
 							</sec:authorize>
 							<textarea id="commentContent" placeholder="댓글을 남겨보세요" rows="1"></textarea>
-							<button class="btn btn-sm mt-2" id="writeCommentBtn">등록</button>
+							<div class="mt-2">
+								<button class="btn btn-sm" id="writeCommentBtn">등록</button>
+							</div>
 						</div>
 					</div>
 					<div class="comment-list">
@@ -466,8 +476,11 @@
 		let html = "<div class='input-group'>";
 		html += "<div class='comment-edit form-control'>";
 		html += "<p class='font-weight-bold mb-2'>" + commentDetails.memberId + "</p>";
-		html += "<textarea id='commentContent' rows='1'>" + commentDetails.commentContent + "</textarea>";
-		html += "<button class='btn btn-sm mt-2' id='modifyCommentBtn'>수정</button>";
+		html += "<textarea rows='1'>" + commentDetails.commentContent + "</textarea>";
+		html += "<div class='mt-2'>";
+		html += "<button class='btn btn-sm mr-2'>수정</button>";
+		html += "<button class='btn btn-sm'>취소</button>";
+		html += "</div>";		
 		html += "</div>";			
 		html += "</div>";			
 		
@@ -501,20 +514,42 @@
 		
 		$("#commentContent").on({
 			"focus":function() {
-				$(".comment-input").css("border", "1px solid #868e96");	
+				$(this).closest("div").addClass("textarea-border");	
 			},
 			"blur":function() {
-				$(".comment-input").removeAttr("style");
+				$(this).closest("div").removeClass("textarea-border");
 			},
 			"input":function() {
 				$(this).height("auto");
 				$(this).height($(this).prop("scrollHeight") + "px");
 				
 				if ($(this).val() != "") {
-					$(".comment-input .btn").addClass("btn-primary");
+					$(this).closest("div").find("button").addClass("btn-primary");
 				} else {
-					$(".comment-input .btn").removeClass("btn-primary");
+					$(this).closest("div").find("button").removeClass("btn-primary");
 				}
+			}
+		});
+		
+		$(document).on("focus", ".comment-edit textarea", function() {
+			console.log("focus");
+			$(this).closest("div").addClass("textarea-border");
+		});
+		
+		$(document).on("blur", ".comment-edit textarea", function() {
+			console.log("blur");
+			$(this).closest("div").removeClass("textarea-border");
+		});
+		
+		$(document).on("input", ".comment-edit textarea", function() {
+			console.log("input");
+			$(this).height("auto");
+			$(this).height($(this).prop("scrollHeight") + "px");
+			
+			if ($(this).val() != "") {
+				$(this).next("button").addClass("btn-primary");
+			} else {
+				$(this).next("button").removeClass("btn-primary");
 			}
 		});
 		
@@ -542,12 +577,12 @@
 		});
 		
 		$(document).on("click", "button[name=editCommentBtn]", function() {
-			let li =  $(this).closest("li");
-			let commentIdx = li.attr("comment-idx");
+			let $li =  $(this).closest("li");
+			let commentIdx = $li.attr("comment-idx");
 			
 			commentService.getComment("${contextPath}/comment/" + commentIdx, function(result) {
 				let html = makeEditCommentHtml(result.data);
-				li.find("div.comment-area").addClass("d-none").after(html);
+				$li.find("div.comment-area").addClass("d-none").after(html);
 				
 				/* let commentDetails = result.data;
 				if (!commentDetails.commentUse) {
