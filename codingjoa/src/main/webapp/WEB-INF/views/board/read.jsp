@@ -465,6 +465,7 @@
 		});
 		
 		commentService.getCommentList(commentListURL , function(result) {
+			console.log(result);
 			let commentList = result.data;
 			if (commentList.length == 0) {
 				return;
@@ -545,7 +546,6 @@
 				});
 			});
 		});
-		
 	});
 </script>
 
