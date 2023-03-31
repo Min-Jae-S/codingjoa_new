@@ -3,6 +3,8 @@ console.log("## Comment Service Ready");
 let commentService = (function() {
 	
 	function writeComment(url, comment, callback) {
+		console.log("## Write Comment");
+		
 		$.ajax({
 			type : "POST",
 			url : url,
@@ -72,7 +74,35 @@ let commentService = (function() {
 		});
 	}
 	
+	function deleteComment(url, callback) {
+		console.log("## Delete Comment");
+		
+		$.ajax({
+			type : "DELETE",
+			url : url,
+			dataType : "json",
+			success : function(result) {
+				console.log(result);
+				callback(result);
+			},
+			error : function(jqXHR) {
+				let errorResponse = JSON.parse(jqXHR.responseText);
+				console.log(errorResponse);
+				
+				if (jqXHR.status == 401) {
+					alert(errorResponse.errorMessage)
+				} else if (jqXHR.status == 422) {
+					$.each(errorResponse.errorMap, function(errorField, errorMessage) {
+						alert(errorMessage);
+					});
+				}
+				
+			}
+		});
+	}
+	
 	return {writeComment:writeComment,
-			getCommentList:getCommentList};
+			getCommentList:getCommentList
+			deleteComment:deleteComment};
 	
 })();

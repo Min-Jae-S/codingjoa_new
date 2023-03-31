@@ -89,8 +89,8 @@
 		
 		$(document).on("mouseenter", ".navbar-nav button.dropdown-item", function() {
 			$(this).css("color", "black")
-				   .css("font-weight", "bold")
-				   .css("background-color", "transparent");
+					.css("font-weight", "bold")
+					.css("background-color", "transparent");
 		});
 
 		$(document).on("mouseleave", ".navbar-nav button.dropdown-item", function() {

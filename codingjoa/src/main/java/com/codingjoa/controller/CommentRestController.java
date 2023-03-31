@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -73,6 +74,12 @@ public class CommentRestController {
 		log.info("commentList={}", commentList);
 		
 		return ResponseEntity.ok(SuccessResponse.create().data(commentList));
+	}
+	
+	@DeleteMapping("/comment/{commentIdx}")
+	public ResponseEntity<Object> deleteComment() {
+		
+		return ResponseEntity.ok(SuccessResponse.create().message("success.deleteComment"));
 	}
 	
 	

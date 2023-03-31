@@ -417,7 +417,7 @@
 			html += "<div class='comment-info'>";
 			html += "<span class='comment-writer'>" + commentDetails.memberId + "</span>";
 			if (commentDetails.commentWriterIdx == boardWriterIdx) {
-				html += "<span class='badge badge-pill badge-danger mr-1'>작성자</span>"
+				html += "<span class='badge badge-pill badge-primary mr-1'>작성자</span>"
 			}
 			html += "<span class='comment-regdate'>" + commentDetails.regdate + "</span>";
 			html += "<span class='comment-moddate d-none'>" + commentDetails.moddate + "</span>";
@@ -433,8 +433,8 @@
 			html += "</span>";
 			html += "<div class='dropdown-menu'>";
 			html += "<h6 class='dropdown-header'>댓글 관리</h6>";
-			html += "<button class='dropdown-item' name='modifyCommentBtn'>수정하기</button>";
-			html += "<button class='dropdown-item' name='deleteCommentBtn'>삭제하기</button>";
+			html += "<button class='dropdown-item' type='button' name='modifyCommentBtn'>수정하기</button>";
+			html += "<button class='dropdown-item' type='button' name='deleteCommentBtn'>삭제하기</button>";
 			html += "</div>";
 			html += "</div>";
 			html += "<div class='comment-likes'>";
@@ -521,6 +521,7 @@
 			if (!confirm("댓글을 삭제하시겠습니까?")) {
 				return;
 			}
+			
 			console.log("댓글이 삭제되었습니다.");
 		});
 		
