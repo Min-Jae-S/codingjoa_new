@@ -411,7 +411,7 @@
 			html += "<span class='comment-moddate d-none'>" + commentDetails.moddate + "</span>";
 			html += "</div>";
 			html += "<div class='comment-content'>";
-			html += "<span>" + commentDetails.commentContent + "</span>";
+			html += "<span>" + commentDetails.commentContent.replace(/(?:\r\n|\r|\n)/g, "<br>"); + "</span>";
 			html += "</div>";
 			html += "</div>";
 			html += "<div class='comment-area-footer'>";
