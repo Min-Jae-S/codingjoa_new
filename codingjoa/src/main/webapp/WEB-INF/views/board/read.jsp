@@ -85,11 +85,13 @@
 		cursor: pointer;
 	}
 	
-	.category .dropdown-item {
+	.category .dropdown-item,
+	.comment-area-footer .dropdown-item {
 		font-size: 0.9rem;
 	}
 	
-	.category .dropdown-header {
+	.category .dropdown-header
+	.comment-area-footer .dropdown-header {
 		color: black;
 		font-weight: bold;
 	}
@@ -194,11 +196,12 @@
 		display: flex;
 		flex-direction: column;
 		margin-left: auto;
-		padding-right: 1.3rem;
+		/* padding-right: 1.3rem; */
 	}
 	
 	.comment-utils {
-		text-align: right;
+		float: right;
+		cursor: pointer;
 	}
 	
 	.comment-likes {
@@ -233,7 +236,7 @@
 									<a class="dropdown-item" 
 										href="${contextPath}/board/modify?boardIdx=${boardDetails.boardIdx}">수정하기
 									</a>
-							      	<a class="dropdown-item" id="deleteLink"
+							      	<a class="dropdown-item" id="deleteBoardLink"
 							      		href="${contextPath}/board/deleteProc?boardIdx=${boardDetails.boardIdx}">삭제하기
 							     	</a>
 							    </div>
@@ -412,8 +415,16 @@
 			html += "</div>";
 			html += "</div>";
 			html += "<div class='comment-area-footer'>";
-			html += "<div class='comment-utils'>";
-			html += "<span><i class='fa-solid fa-ellipsis-vertical'></i></span>";
+			html += "<div class='dropright'>";
+			html += "<span class='comment-utils' data-toggle='dropdown' data-offset='0,10'>";
+			html += "<i class='fa-solid fa-ellipsis-vertical'></i>";
+			html += "</span>";
+			html += "<div class='dropdown-menu'>";
+			html += "<h6 class='dropdown-header'>댓글 관리</h6>";
+			html += "<div class='dropdown-divider'></div>";
+			html += "<a class='dropdown-item' href='#'>수정하기</a>";
+			html += "<a class='dropdown-item' id='deleteCommentLink' href='#'>삭제하기</a>";
+			html += "</div>";
 			html += "</div>";
 			html += "<div class='comment-likes'>";
 			html += "<span><i class='fa-regular fa-thumbs-up mr-1'></i>" + commentDetails.commentLikes + "</span>";
@@ -445,7 +456,7 @@
 			$(".comment-list").html(html);
 		});
 		
-		$("#deleteLink").on("click", function() {
+		$("#deleteBoardLink").on("click", function() {
 			return confirm("게시글을 삭제하시겠습니까?");
 		});
 		
