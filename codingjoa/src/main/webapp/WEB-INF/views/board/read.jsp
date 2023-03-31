@@ -72,7 +72,7 @@
 		color: #007bff;
 		font-weight: bold;
 		font-size: 0.9rem;
-		text-decoration: none;
+		text-decoration: none !important;
 	}
 	
 	.board-category:after {
@@ -82,6 +82,7 @@
 	
 	.board-utils {
 		float: right;
+		cursor: pointer;
 	}
 	
 	.category .dropdown-item {
@@ -91,14 +92,6 @@
 	.category .dropdown-header {
 		color: black;
 		font-weight: bold;
-	}
-	
-	.category .dropdown-divider {
-		margin: 0.25rem 0;
-	}
-	
-	.category .dropdown-menu {
-		padding: 0.25rem 0;
 	}
 	
 	.title {
@@ -222,7 +215,7 @@
 	<div class="row">
 		<div class="col-sm-2"></div>
 		<div class="col-sm-8">
-			<div class="card p-4 mb-4">
+			<div class="card p-4 mb-3">
 				<div class="header-group mb-4">
 					<div class="category dropright mb-2">
 						<a class="board-category" href="${contextPath}/board/main?boardCategoryCode=${cri.boardCategoryCode}">
@@ -237,8 +230,12 @@
 								<div class="dropdown-menu">
 									<h6 class="dropdown-header">게시글 관리</h6>
 									<div class="dropdown-divider"></div>
-									<a class="dropdown-item" href="#">수정하기</a>
-							      	<a class="dropdown-item" href="#">삭제하기</a>
+									<a class="dropdown-item" 
+										href="${contextPath}/board/modify?boardIdx=${boardDetails.boardIdx}">수정하기
+									</a>
+							      	<a class="dropdown-item" id="deleteLink"
+							      		href="${contextPath}/board/deleteProc?boardIdx=${boardDetails.boardIdx}">삭제하기
+							     	</a>
 							    </div>
 							</c:if>
 						</sec:authorize>
@@ -283,15 +280,7 @@
 				</div>
 			</div>
 			<div class="card-bottom">
-				<sec:authorize access="isAuthenticated()">
-					<sec:authentication property="principal.member.memberIdx" var="memberIdx"/>
-					<c:if test="${memberIdx eq boardDetails.boardWriterIdx}">
-						<a class="btn btn-primary mr-1" href="${contextPath}/board/modify?boardIdx=${boardDetails.boardIdx}">수정</a>
-						<a class="btn btn-warning text-white" id="deleteBtn" 
-							href="${contextPath}/board/deleteProc?boardIdx=${boardDetails.boardIdx}">삭제</a>
-					</c:if>
-				</sec:authorize>
-				<a class="btn btn-secondary float-right" href="${contextPath}/board/main${cri.getQueryString()}">목록</a>
+				<a class="btn btn-secondary" href="${contextPath}/board/main${cri.getQueryString()}">목록</a>
 			</div>
 		</div>
 		<div class="col-sm-2"></div>
@@ -456,7 +445,7 @@
 			$(".comment-list").html(html);
 		});
 		
-		$("#deleteBtn").on("click", function() {
+		$("#deleteLink").on("click", function() {
 			return confirm("게시글을 삭제하시겠습니까?");
 		});
 		
