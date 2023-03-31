@@ -615,6 +615,12 @@
 				});
 			});
 		});
+		
+		$(document).on("click", "button[name=modifyCommentBtn]", function() {
+			console.log("modifyCommentBtn clicked...");
+		});
+		
+		
 	});
 </script>
 
