@@ -83,8 +83,8 @@
 								<th class="d-md-table-cell w-40">제목</th>
 								<th class="d-md-table-cell">작성자</th>
 								<th class="d-md-table-cell">작성일</th>
-								<th class="d-md-table-cell">추천</th>
 								<th class="d-md-table-cell">조회</th>
+								<th class="d-md-table-cell">좋아요</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -103,11 +103,11 @@
 											<td class="d-md-table-cell">
 												<fmt:formatDate value="${boardDetails.regdate}" type="date"/>
 											</td>
+											<td class="d-md-table-cell"><c:out value="${boardDetails.boardViews}"/></td>
 											<td class="d-md-table-cell">
-												<i class="fa-solid fa-heart mr-1"></i>
+												<i class="fa-regular fa-heart mr-1" style="color: red;"></i>
 												<c:out value="${boardDetails.boardLikesCnt}"/>
 											</td>
-											<td class="d-md-table-cell"><c:out value="${boardDetails.boardViews}"/></td>
 										</tr>
 									</c:forEach>
 								</c:when>
@@ -122,7 +122,7 @@
 						</tbody>
 					</table>
 					<c:if test="${not empty board}">
-						<a class="btn btn-primary btn-sm" href="${contextPath}/board/main?boardCategoryCode=${boardCategoryList[status.index].categoryCode}">게시글 더보기</a>
+						<a class="btn btn-primary" href="${contextPath}/board/main?boardCategoryCode=${boardCategoryList[status.index].categoryCode}">게시글 더보기</a>
 					</c:if>
 				</div>
 			</c:forEach>
