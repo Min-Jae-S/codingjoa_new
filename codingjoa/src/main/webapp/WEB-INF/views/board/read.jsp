@@ -87,7 +87,7 @@
 	
 	.category .dropdown-item,
 	.comment-area-footer .dropdown-item {
-		font-size: 0.9rem;
+		font-size: 0.875rem;
 	}
 	
 	.title {
@@ -183,7 +183,8 @@
 	}
 	
 	.comment-writer {
-		font-weight: 700;
+		color: #495057;
+		font-weight: bold;
 		margin-right: 0.25rem;
 	}
 	
@@ -280,8 +281,9 @@
 					<div class="input-group">
 						<div class="comment-input form-control">
 							<sec:authorize access="isAuthenticated()">
-								<sec:authentication property="principal.member" var="member"/>
-								<p class="font-weight-bold mb-2">${member.memberId}</p>
+								<p class="font-weight-bold mb-2">
+									<sec:authentication property="principal.member.memberId" />
+								</p>
 							</sec:authorize>
 							<textarea id="commentContent" name="commentContent" placeholder="댓글을 남겨보세요" rows="1"></textarea>
 							<button class="btn btn-sm mt-2" id="writeCommentBtn">등록</button>
