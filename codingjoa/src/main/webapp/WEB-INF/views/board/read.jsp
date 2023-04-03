@@ -494,7 +494,7 @@
 		let boardCategoryCode = "<c:out value='${boardDetails.boardCategoryCode}'/>";
 		let commentListURL = "${contextPath}/board/" + boardIdx + "/comment";
 
-		// Test Btn
+		// Test
 		$("#testBtn").on("click", function() {
 			console.log("## testBtn clicked...");
 		});
