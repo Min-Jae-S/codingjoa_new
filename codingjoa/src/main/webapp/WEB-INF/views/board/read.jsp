@@ -599,15 +599,15 @@
 		});
 
 		$(document).on("click", "button[name=deleteCommentBtn]", function() {
-			if (!confirm("댓글을 삭제하시겠습니까?")) {
+			/* if (!confirm("댓글을 삭제하시겠습니까?")) {
 				return;
-			}
+			} */
 			
 			let commentIdx = $(this).closest("li").attr("comment-idx");
 			alert("commentIdx = " + commentIdx);
 			return;
 			
-			commentService.deleteComment("${contextPath}/comment/24", function(result) {
+			commentService.deleteComment("${contextPath}/comment/" + commentIdx, function(result) {
 				alert(result.message);
 				commentService.getCommentList(commentListURL, function(result) {
 					let commentList = result.data;
