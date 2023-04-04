@@ -603,6 +603,10 @@
 				return;
 			}
 			
+			let commentIdx = $(this).closest("li").attr("comment-idx");
+			alert("commentIdx = " + commentIdx);
+			return;
+			
 			commentService.deleteComment("${contextPath}/comment/24", function(result) {
 				alert(result.message);
 				commentService.getCommentList(commentListURL, function(result) {
@@ -619,6 +623,7 @@
 		
 		$(document).on("click", "button[name=modifyCommentBtn]", function() {
 			console.log("modifyCommentBtn clicked...");
+			
 		});
 		
 		
