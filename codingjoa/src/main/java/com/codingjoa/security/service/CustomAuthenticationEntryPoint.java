@@ -58,11 +58,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
 				...
 		*/
 		
-		String header = request.getHeader("x-requested-with");
-		boolean ajax = "XMLHttpRequest".equals(header) ? true : false;
-		log.info("ajax={}", ajax);
-		
-		if (ajax) {
+		if (isAjaxRequest(request)) {
 			response.setStatus(HttpStatus.UNAUTHORIZED.value());				// 401
 			response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE); 	// application/json;charset=UTF-8
 			
@@ -79,6 +75,14 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
 			request.getRequestDispatcher(DEFAULT_FAILURE_URL).forward(request, response);
 		}
 		
+	}
+	
+	private boolean isAjaxRequest(HttpServletRequest request) {
+		String header = request.getHeader("x-requested-with");
+		boolean ajax = "XMLHttpRequest".equals(header);
+		log.info("## Ajax Request={}", ajax);
+		
+		return ajax;
 	}
 
 }

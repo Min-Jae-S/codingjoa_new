@@ -93,8 +93,8 @@ public class ServletConfig implements WebMvcConfigurer {
 	public void addInterceptors(InterceptorRegistry registry) {
 //		registry.addInterceptor(new BeforeUpdatePasswordInterceptor())
 //				.addPathPatterns("/member/updatePassword");
-		registry.addInterceptor(new CheckBoardCategoryInterceptor(categoryService))
-				.addPathPatterns("/board/main", "/board/write", "/board/writeProc", "/board/modifyProc");
+//		registry.addInterceptor(new CheckBoardCategoryInterceptor(categoryService))
+//				.addPathPatterns("/board/main", "/board/write", "/board/writeProc", "/board/modifyProc");
 //		registry.addInterceptor(new CheckBoardCategoryAndIdxInterceptor(boardService))
 //				.addPathPatterns("/board/read");
 		registry.addInterceptor(new CheckMyBoardInterceptor(boardService))
