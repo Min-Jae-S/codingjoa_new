@@ -7,7 +7,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.ModelAndViewDefiningException;
 
 import lombok.extern.slf4j.Slf4j;
@@ -29,10 +28,10 @@ public class ErrorHandler {
 			
 			request.setAttribute("response", ResponseEntity.unprocessableEntity().body(response));
 			
-			return "";
+			return "foward:";
 		}
 		
-		return "";
+		return "foward:";
 	}
 	
 //	@ExceptionHandler(MethodArgumentNotValidException.class)
