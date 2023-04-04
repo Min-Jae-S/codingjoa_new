@@ -74,7 +74,7 @@ public class BoardController {
 	}
 	
 	@GetMapping("/main")
-	public String getBoard(@Cri Criteria cri, Model model) {
+	public String getBoard(@Cri @Valid Criteria cri, Model model) {
 		log.info("{}", cri);
 		
 		model.addAttribute("cri", cri);

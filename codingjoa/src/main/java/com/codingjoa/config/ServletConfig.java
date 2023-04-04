@@ -95,8 +95,8 @@ public class ServletConfig implements WebMvcConfigurer {
 //				.addPathPatterns("/member/updatePassword");
 		registry.addInterceptor(new CheckBoardCategoryInterceptor(categoryService))
 				.addPathPatterns("/board/main", "/board/write", "/board/writeProc", "/board/modifyProc");
-		registry.addInterceptor(new CheckBoardCategoryAndIdxInterceptor(boardService))
-				.addPathPatterns("/board/read");
+//		registry.addInterceptor(new CheckBoardCategoryAndIdxInterceptor(boardService))
+//				.addPathPatterns("/board/read");
 		registry.addInterceptor(new CheckMyBoardInterceptor(boardService))
 				.order(-1)
 				.addPathPatterns("/board/modify", "/board/modifyProc", "/board/deleteProc");

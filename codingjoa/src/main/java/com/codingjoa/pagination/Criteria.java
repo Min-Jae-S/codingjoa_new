@@ -1,5 +1,7 @@
 package com.codingjoa.pagination;
 
+import javax.validation.constraints.Positive;
+
 import org.springframework.util.StringUtils;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -12,7 +14,9 @@ import lombok.ToString;
 @Setter
 public class Criteria {
 	
+	@Positive
 	private int boardCategoryCode;
+	
 	private int page;
 	private int recordCnt;
 	private String type;
