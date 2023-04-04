@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 public class ErrorHandler {
 
 	@ExceptionHandler(MethodArgumentNotValidException.class)
-	public ResponseEntity<Object> handleMethodArgumentNotValidException(MethodArgumentNotValidException e,
+	public String handleMethodArgumentNotValidException(MethodArgumentNotValidException e,
 			HttpServletRequest request) throws ModelAndViewDefiningException {
 		log.info("============== MethodArgumentNotValidException ==============");
 		
@@ -27,24 +27,30 @@ public class ErrorHandler {
 			ErrorResponse response = ErrorResponse.create().bindingResult(e.getBindingResult());
 			log.info("{}", response);
 			
-			return ResponseEntity.unprocessableEntity().body(response);
+			request.setAttribute("response", ResponseEntity.unprocessableEntity().body(response));
+			
+			return "";
 		}
 		
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("forward:/error/errorPage");
-		throw new ModelAndViewDefiningException(mav);
+		return "";
 	}
-
+	
 //	@ExceptionHandler(MethodArgumentNotValidException.class)
-//	public ResponseEntity<Object> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
+//	public ResponseEntity<Object> handleMethodArgumentNotValidException(MethodArgumentNotValidException e,
+//			HttpServletRequest request) throws ModelAndViewDefiningException {
 //		log.info("============== MethodArgumentNotValidException ==============");
 //		
-//		ErrorResponse response = ErrorResponse.create().bindingResult(e.getBindingResult());
-//		log.info("{}", response);
+//		if (isAjaxRequest(request)) {
+//			ErrorResponse response = ErrorResponse.create().bindingResult(e.getBindingResult());
+//			log.info("{}", response);
+//			
+//			return ResponseEntity.unprocessableEntity().body(response);
+//		}
 //		
-//		return ResponseEntity.unprocessableEntity().body(response);
+//		ModelAndView mav = new ModelAndView("forward:/error/errorPage");
+//		throw new ModelAndViewDefiningException(mav);
 //	}
-	 
+
 	@ExceptionHandler(MaxUploadSizeExceededException.class)
 	public ResponseEntity<Object> handleMaxUploadSizeExceededException(MaxUploadSizeExceededException e) {
 		log.info("============== MaxUploadSizeExceededException ==============");
