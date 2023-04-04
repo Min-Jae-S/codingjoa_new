@@ -492,9 +492,9 @@
 	$(function() {
 		let boardIdx = "<c:out value='${boardDetails.boardIdx}'/>";
 		let boardCategoryCode = "<c:out value='${boardDetails.boardCategoryCode}'/>";
-		let commentListURL = "${contextPath}/board/" + boardIdx + "/comment";
+		let commentListURL = "${contextPath}/boards/" + boardIdx + "/comments";
 
-		// Test
+		// testBtn
 		$("#testBtn").on("click", function() {
 			console.log("## testBtn clicked...");
 		});
@@ -561,7 +561,7 @@
 				commentContent : $("#commentContent").val(),
 			};
 			
-			commentService.writeComment("${contextPath}/comment", comment, function(result) {
+			commentService.writeComment("${contextPath}/comments", comment, function(result) {
 				alert(result.message);
 				$("#commentContent").val("");
 				
@@ -581,7 +581,7 @@
 			let $li =  $(this).closest("li");
 			let commentIdx = $li.attr("comment-idx");
 			
-			commentService.getComment("${contextPath}/comment/" + commentIdx, function(result) {
+			commentService.getComment("${contextPath}/comments/" + commentIdx, function(result) {
 				let html = makeEditCommentHtml(result.data);
 				$li.find("div.comment-area").addClass("d-none").after(html);
 				
@@ -598,17 +598,17 @@
 				.next("div.input-group").remove();
 		});
 
-		$(document).on("click", "button[name=deleteCommentBtn]", function() {
-			/* if (!confirm("댓글을 삭제하시겠습니까?")) {
-				return;
-			} */
+		$(document).on("click", "button[name=modifyCommentBtn]", function() {
+			let comment = {
+				commentIdx : $(this).closest("li").attr("comment-idx"),
+				commentBoardIdx : boardIdx,
+				boardCategoryCode : boardCategoryCode,
+				commentContent : $("#commentContent").val(),
+			};
 			
-			let commentIdx = $(this).closest("li").attr("comment-idx");
-			alert("commentIdx = " + commentIdx);
-			return;
-			
-			commentService.deleteComment("${contextPath}/comment/" + commentIdx, function(result) {
+			commentService.modifyComment(url, comment, function(result) {
 				alert(result.message);
+				
 				commentService.getCommentList(commentListURL, function(result) {
 					let commentList = result.data;
 					if (commentList.length == 0) {
@@ -621,11 +621,26 @@
 			});
 		});
 		
-		$(document).on("click", "button[name=modifyCommentBtn]", function() {
-			console.log("modifyCommentBtn clicked...");
-			
-		});
 		
+		$(document).on("click", "button[name=deleteCommentBtn]", function() {
+			if (!confirm("댓글을 삭제하시겠습니까?")) {
+				return;
+			}
+			
+			let commentIdx = $(this).closest("li").attr("comment-idx");
+			commentService.deleteComment("${contextPath}/comments/" + commentIdx, function(result) {
+				alert(result.message);
+				commentService.getCommentList(commentListURL, function(result) {
+					let commentList = result.data;
+					if (commentList.length == 0) {
+						return;
+					}
+
+					let html = makeCommentHtml(commentList);
+					$(".comment-list").html(html);
+				});
+			});
+		});
 		
 	});
 </script>

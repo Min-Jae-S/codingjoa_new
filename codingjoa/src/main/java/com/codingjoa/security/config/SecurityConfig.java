@@ -88,7 +88,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/board/write", "/board/writeProc").authenticated()
 				.antMatchers("/board/modify", "/board/modifyProc").authenticated()
 				.antMatchers("/board/deleteProc").authenticated()
-				.antMatchers("/comment/**").authenticated()
+				.antMatchers("/comments/**").authenticated()
 				.antMatchers("/admin/**").hasAnyRole("ADMIN")
 				.anyRequest().permitAll()
 				.and()

@@ -15,6 +15,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -44,11 +45,11 @@ public class CommentRestController {
 	private Validator commentValidator;
 	
 	@InitBinder(value = "commentDto")
-	public void initBinderBoard(WebDataBinder binder) {
+	public void initBinderComment(WebDataBinder binder) {
 		binder.addValidators(commentValidator);
 	}
 
-	@PostMapping("/comment")
+	@PostMapping("/comments")
 	public ResponseEntity<Object> writeComment(@Valid @RequestBody CommentDto commentDto,
 			BindingResult bindingResult, @AuthenticationPrincipal UserDetailsDto principal) 
 					throws MethodArgumentNotValidException {
@@ -67,7 +68,7 @@ public class CommentRestController {
 		return ResponseEntity.ok(SuccessResponse.create().message("success.writeComment"));
 	}
 	
-	@GetMapping("/board/{boardIdx}/comment")
+	@GetMapping("/boards/{boardIdx}/comments")
 	public ResponseEntity<Object> getCommentList(@CommentCri CommentCriteria commentCri) {
 		log.info("{}", commentCri);
 
@@ -77,7 +78,7 @@ public class CommentRestController {
 		return ResponseEntity.ok(SuccessResponse.create().data(commentList));
 	}
 	
-	@GetMapping("/comment/{commentIdx}")
+	@GetMapping("/comments/{commentIdx}")
 	public ResponseEntity<Object> getComment(@PathVariable int commentIdx) {
 		log.info("commentIdx={}", commentIdx);
 
@@ -85,9 +86,18 @@ public class CommentRestController {
 		log.info("commentDetails={}", commentDetails);
 		
 		return ResponseEntity.ok(SuccessResponse.create().data(commentDetails));
-	} 
+	}
 	
-	@DeleteMapping("/comment/{commentIdx}")
+	@PatchMapping("/comments/{commentIdx}")
+	public ResponseEntity<Object> modifyComment() {
+		
+		
+		
+		return null;
+	}
+	
+	
+	@DeleteMapping("/comments/{commentIdx}")
 	public ResponseEntity<Object> deleteComment(@PathVariable int commentIdx) {
 		log.info("commentIdx={}", commentIdx);
 		

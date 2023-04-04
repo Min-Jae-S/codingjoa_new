@@ -103,6 +103,37 @@ let commentService = (function() {
 		});
 	}
 	
+	function modifyComment(url, comment, callback) {
+		console.log("## Modify Comment");
+		
+		$.ajax({
+			type : "PATCH",
+			url : url,
+			data : JSON.stringify(comment),
+			contentType : "application/json; charset=utf-8",
+			dataType : "json",
+			success : function(result) {
+				console.log(result);
+				callback(result);
+			},
+			error : function(jqXHR) {
+				let errorResponse = JSON.parse(jqXHR.responseText);
+				console.log(errorResponse);
+				
+				if (jqXHR.status == 401) {
+					alert(errorResponse.errorMessage)
+				} else if (jqXHR.status == 422) {
+					$.each(errorResponse.errorMap, function(errorField, errorMessage) {
+						alert(errorMessage);
+					});
+				} else {
+					alert("오류가 발생하였습니다");
+				}
+				
+			}
+		});
+	}
+	
 	function deleteComment(url, callback) {
 		console.log("## Delete Comment");
 		$.ajax({
@@ -134,6 +165,7 @@ let commentService = (function() {
 		writeComment:writeComment,
 		getCommentList:getCommentList,
 		getComment:getComment,
+		modifyComment:modifyComment,
 		deleteComment:deleteComment
 	};
 	
