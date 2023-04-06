@@ -2,10 +2,12 @@ package com.codingjoa.resolver;
 
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
@@ -53,6 +55,10 @@ public class CriteriaArgumentResolver implements HandlerMethodArgumentResolver {
 		
 		//HttpServletRequest request = (HttpServletRequest) webRequest;
 		String boardCategoryCode = webRequest.getParameter("boardCategoryCode");
+		if (!StringUtils.isNumeric(boardCategoryCode)) {
+			throw new MethodArgumentNotValidException(parameter, null);
+		}
+		
 		String page = webRequest.getParameter("page");
 		String recordCnt = webRequest.getParameter("recordCnt");
 		String type = webRequest.getParameter("type");

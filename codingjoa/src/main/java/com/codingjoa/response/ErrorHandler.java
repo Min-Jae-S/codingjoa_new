@@ -31,6 +31,8 @@ public class ErrorHandler {
 			return "foward:";
 		}
 		
+		log.info("e.getParameter={}", e.getParameter());
+		
 		return "foward:";
 	}
 	
