@@ -26,14 +26,14 @@ public class ErrorHandler {
 			ErrorResponse response = ErrorResponse.create().bindingResult(e.getBindingResult());
 			log.info("{}", response);
 			
-			request.setAttribute("response", ResponseEntity.unprocessableEntity().body(response));
+			request.setAttribute("errorResponse", ResponseEntity.unprocessableEntity().body(response));
 			
-			return "foward:";
+			return "foward:/error/422";
 		}
 		
 		log.info("e.getParameter={}", e.getParameter());
 		
-		return "foward:";
+		return "foward:/error/errorPage";
 	}
 	
 //	@ExceptionHandler(MethodArgumentNotValidException.class)
