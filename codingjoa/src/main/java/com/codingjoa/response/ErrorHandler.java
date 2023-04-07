@@ -28,12 +28,12 @@ public class ErrorHandler {
 			
 			request.setAttribute("errorResponse", ResponseEntity.unprocessableEntity().body(response));
 			
-			return "foward:/error/422";
+			return "forward:/error/422";
 		}
 		
 		log.info("e.getParameter={}", e.getParameter());
 		
-		return "foward:/error/errorPage";
+		return "forward:/error/errorPage";
 	}
 	
 //	@ExceptionHandler(MethodArgumentNotValidException.class)
