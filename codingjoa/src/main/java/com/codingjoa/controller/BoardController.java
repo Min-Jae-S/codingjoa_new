@@ -96,7 +96,8 @@ public class BoardController {
 	}
 	
 	@GetMapping("/read")
-	public String read(@RequestParam("boardIdx") int boardIdx, @BoardCri BoardCriteria boardCri, Model model) {
+	public String read(@RequestParam("boardIdx") int boardIdx, @BoardCri BoardCriteria boardCri, 
+			Model model) {
 		log.info("boardIdx = {}", boardIdx);
 		log.info("{}", boardCri);
 		
@@ -104,6 +105,7 @@ public class BoardController {
 
 		BoardDetailsDto boardDetails = boardService.getBoardDetails(boardIdx);
 		model.addAttribute("boardDetails", boardDetails);
+		log.info("boardDetails = {}", boardDetails);
 		
 		String boardName = categoryService.findCategoryName(boardCri.getBoardCategoryCode());
 		model.addAttribute("boardName", boardName);
@@ -115,7 +117,8 @@ public class BoardController {
 	}
 	
 	@GetMapping("/write")
-	public String write(@ModelAttribute("writeBoardDto") BoardDto writeBoardDto, Model model) {
+	public String write(@ModelAttribute("writeBoardDto") BoardDto writeBoardDto, 
+			Model model) {
 		log.info("{}", writeBoardDto);
 		
 		model.addAttribute("boardCategoryList", categoryService.findBoardCategoryList());
@@ -149,7 +152,8 @@ public class BoardController {
 	}
 	
 	@GetMapping("/modify")
-	public String modify(@ModelAttribute("modifyBoardDto") BoardDto modifyBoardDto, Model model) {
+	public String modify(@ModelAttribute("modifyBoardDto") BoardDto modifyBoardDto, 
+			Model model) {
 		log.info("{}", modifyBoardDto);
 		
 		boardService.bindModifyBoard(modifyBoardDto);
