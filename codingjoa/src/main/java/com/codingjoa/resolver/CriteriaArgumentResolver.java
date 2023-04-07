@@ -25,13 +25,13 @@ import lombok.extern.slf4j.Slf4j;
 public class CriteriaArgumentResolver implements HandlerMethodArgumentResolver {
 	
 	@Value("${criteria.page}") 
-	private int defaultPage;
+	private int DEFAULT_PAGE;
 	
 	@Value("${criteria.recordCnt}") 
-	private int defaultRecordCnt;
+	private int DEFAULT_RECORD_CNT;
 	
 	@Value("${criteria.type}") 
-	private String defaultType;
+	private String DEFALUT_TYPE;
 	
 	@Value("#{${criteria.recordCntMap}}") 
 	private Map<String, Object> recordCntMap; 
@@ -66,9 +66,9 @@ public class CriteriaArgumentResolver implements HandlerMethodArgumentResolver {
 		
 		return new Criteria(
 			Integer.parseInt(boardCategoryCode),
-			MyNumberUtils.isNaturalNumber(page) ? Integer.parseInt(page) : defaultPage,
-			recordCntMap.containsKey(recordCnt) ? Integer.parseInt(recordCnt) : defaultRecordCnt,
-			typeMap.containsKey(type) ? type : defaultType,
+			MyNumberUtils.isNaturalNumber(page) ? Integer.parseInt(page) : DEFAULT_PAGE,
+			recordCntMap.containsKey(recordCnt) ? Integer.parseInt(recordCnt) : DEFAULT_RECORD_CNT,
+			typeMap.containsKey(type) ? type : DEFALUT_TYPE,
 			keyword == null ? null : keyword.trim()
 		);
 	}

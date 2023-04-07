@@ -20,9 +20,9 @@ public class ErrorController {
 		return "error/error-page";
 	}
 	
+	@SuppressWarnings("unchecked")
 	@RequestMapping("/422")
 	@ResponseBody
-	@SuppressWarnings("unchecked")
 	public ResponseEntity<Object> error422(HttpServletRequest request) {
 		log.info("error422");
 		return (ResponseEntity<Object>) request.getAttribute("errorResponse");

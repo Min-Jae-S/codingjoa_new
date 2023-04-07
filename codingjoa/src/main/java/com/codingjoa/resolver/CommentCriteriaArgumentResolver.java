@@ -25,10 +25,10 @@ import lombok.extern.slf4j.Slf4j;
 public class CommentCriteriaArgumentResolver implements HandlerMethodArgumentResolver {
 
 	@Value("${criteria.page}") 
-	private int defaultPage;
+	private int DEFAULT_PAGE;
 	
 	@Value("${criteria.recordCnt}") 
-	private int defaultRecordCnt;
+	private int DEFAULT_RECORD_CNT;
 	
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
@@ -47,8 +47,8 @@ public class CommentCriteriaArgumentResolver implements HandlerMethodArgumentRes
 		
 		return new CommentCriteria(
 			Integer.parseInt(boardIdx),
-			MyNumberUtils.isNaturalNumber(page) ? Integer.parseInt(page) : defaultPage,
-			defaultRecordCnt
+			MyNumberUtils.isNaturalNumber(page) ? Integer.parseInt(page) : DEFAULT_PAGE,
+			DEFAULT_RECORD_CNT
 		);
 		
 	}

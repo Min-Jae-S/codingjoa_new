@@ -4,23 +4,22 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
-import org.springframework.web.servlet.ModelAndViewDefiningException;
 
 import lombok.extern.slf4j.Slf4j;
 
 // @ExceptionHandler는 @Controller, @RestController가 적용된 Bean에서 발생한 예외를 잡아 
 // 하나의 메소드에서 처리하는 역할을 한다. @Service에서의 예외는 잡지 못한다.
-@RestControllerAdvice 
+@ControllerAdvice 
 @Slf4j
 public class ErrorHandler {
 
 	@ExceptionHandler(MethodArgumentNotValidException.class)
-	public String handleMethodArgumentNotValidException(MethodArgumentNotValidException e,
-			HttpServletRequest request) throws ModelAndViewDefiningException {
-		log.info("============== MethodArgumentNotValidException ==============");
+	public String handleMethodArgumentNotValidException(MethodArgumentNotValidException e, HttpServletRequest request) {
+		log.info("============== handleMethodArgumentNotValidException, {} ==============", e.getMessage());
 		
 		if (isAjaxRequest(request)) {
 			ErrorResponse response = ErrorResponse.create().bindingResult(e.getBindingResult());
@@ -31,9 +30,7 @@ public class ErrorHandler {
 			return "forward:/error/422";
 		}
 		
-		log.info("e.getParameter={}", e.getParameter());
-		
-		return "forward:/error/errorPage";
+		return "redirect:/error/errorPage";
 	}
 	
 //	@ExceptionHandler(MethodArgumentNotValidException.class)
@@ -53,8 +50,9 @@ public class ErrorHandler {
 //	}
 
 	@ExceptionHandler(MaxUploadSizeExceededException.class)
+	@ResponseBody
 	public ResponseEntity<Object> handleMaxUploadSizeExceededException(MaxUploadSizeExceededException e) {
-		log.info("============== MaxUploadSizeExceededException ==============");
+		log.info("============== Handle MaxUploadSizeExceededException, {} ==============", e.getMessage());
 		
 		ErrorResponse response = ErrorResponse.create().errorCode("error.ExceededSize");
 		log.info("{}", response);
