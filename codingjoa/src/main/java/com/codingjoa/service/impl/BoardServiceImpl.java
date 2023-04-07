@@ -100,7 +100,7 @@ public class BoardServiceImpl implements BoardService {
 			String newKeyword = boardMapper.findMemberIdxByKeyword(keyword).stream()
 					.map(memberIdx -> memberIdx.toString())
 					.collect(Collectors.joining("_"));
-			log.info("New Keyword={}", newKeyword);
+			log.info("New Keyword = {}", newKeyword);
 			
 			newCri.setKeyword(newKeyword);
 		}
