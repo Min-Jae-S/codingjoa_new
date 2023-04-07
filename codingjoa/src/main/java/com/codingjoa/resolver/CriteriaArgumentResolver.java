@@ -2,13 +2,10 @@ package com.codingjoa.resolver;
 
 import java.util.Map;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
-import org.springframework.validation.BindException;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
@@ -54,12 +51,11 @@ public class CriteriaArgumentResolver implements HandlerMethodArgumentResolver {
 		mavContainer.addAttribute("recordCntMap", recordCntMap);
 		mavContainer.addAttribute("typeMap", typeMap);
 		
-		//HttpServletRequest request = (HttpServletRequest) webRequest;
-		String boardCategoryCode = webRequest.getParameter("boardCategoryCode");
-
-		// validate
-		if (!StringUtils.isNumeric(boardCategoryCode)) {
-			throw new BindException(parameter, null);
+		int boardCategoryCode;
+		try {
+			boardCategoryCode = Integer.parseInt(webRequest.getParameter("boardCategoryCode"));
+		} catch (NumberFormatException e) {
+			throw new IllegalArgumentException("Not valid boardCategoryCode");
 		}
 		
 		String page = webRequest.getParameter("page");
@@ -68,7 +64,7 @@ public class CriteriaArgumentResolver implements HandlerMethodArgumentResolver {
 		String keyword = webRequest.getParameter("keyword");
 		
 		return new Criteria(
-			Integer.parseInt(boardCategoryCode),
+			boardCategoryCode,
 			MyNumberUtils.isNaturalNumber(page) ? Integer.parseInt(page) : DEFAULT_PAGE,
 			recordCntMap.containsKey(recordCnt) ? Integer.parseInt(recordCnt) : DEFAULT_RECORD_CNT,
 			typeMap.containsKey(type) ? type : DEFALUT_TYPE,

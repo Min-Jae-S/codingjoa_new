@@ -2,8 +2,6 @@ package com.codingjoa.response;
 
 import java.net.BindException;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -30,13 +28,6 @@ public class ErrorHandler {
 		return ResponseEntity.unprocessableEntity().body(response);
 	}
 	
-	@ExceptionHandler(BindException.class)
-	public String handleBindException(BindException e) {
-		log.info("============== handleBindException ==============");
-		
-		return "forward:/error/errorPage";
-	}
-	
 //	@ExceptionHandler(MethodArgumentNotValidException.class)
 //	public ResponseEntity<Object> handleMethodArgumentNotValidException(MethodArgumentNotValidException e,
 //			HttpServletRequest request) throws ModelAndViewDefiningException {
@@ -52,6 +43,13 @@ public class ErrorHandler {
 //		ModelAndView mav = new ModelAndView("forward:/error/errorPage");
 //		throw new ModelAndViewDefiningException(mav);
 //	}
+	
+	@ExceptionHandler(IllegalArgumentException.class)
+	public String handleIllegalArgumentException(BindException e) {
+		log.info("============== handleIllegalArgumentException, {} ==============", e.getMessage());
+		
+		return "forward:/error/errorPage";
+	}
 
 	@ExceptionHandler(MaxUploadSizeExceededException.class)
 	@ResponseBody
@@ -64,12 +62,5 @@ public class ErrorHandler {
 		return ResponseEntity.badRequest().body(response);
 	}
 	
-	private boolean isAjaxRequest(HttpServletRequest request) {
-		String header = request.getHeader("x-requested-with");
-		boolean ajax = "XMLHttpRequest".equals(header);
-		log.info("## Ajax Request={}", ajax);
-		
-		return ajax;
-	}
 	
 }
