@@ -20,14 +20,18 @@ public class BoardCriteria {
 	
 	public BoardCriteria() { }
 	
-	public BoardCriteria(int boardCategoryCode, int page, int recordCnt, String type, String keyword) {
+	public BoardCriteria(int boardCategoryCode, int page, int recordCnt) {
 		this.boardCategoryCode = boardCategoryCode;
 		this.page = page;
 		this.recordCnt = recordCnt;
+	}
+	
+	public BoardCriteria(int boardCategoryCode, int page, int recordCnt, String type, String keyword) {
+		this(boardCategoryCode, page, recordCnt);
 		this.type = type;
 		this.keyword = keyword;
 	}
-	
+
 	public BoardCriteria(BoardCriteria criteria) {
 		this.boardCategoryCode = criteria.boardCategoryCode;
 		this.page = criteria.page;
@@ -60,5 +64,6 @@ public class BoardCriteria {
 		return StringUtils.hasText(keyword) ? 
 				String.join("|", keyword.split("\\s+")) : null;
 	}
+
 
 }

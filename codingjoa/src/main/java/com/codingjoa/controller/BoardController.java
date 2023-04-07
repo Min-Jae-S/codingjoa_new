@@ -64,7 +64,7 @@ public class BoardController {
 		
 		ArrayList<List<BoardDetailsDto>> boardList = new ArrayList<List<BoardDetailsDto>>();
 		boardCategoryList.forEach(category -> {
-			BoardCriteria boardCri = new BoardCriteria(category.getCategoryCode(), 1, 5, null, null);
+			BoardCriteria boardCri = new BoardCriteria(category.getCategoryCode(), 1, 5);
 			List<BoardDetailsDto> board = boardService.getPagedBoard(boardCri);
 			boardList.add(board);
 		});
