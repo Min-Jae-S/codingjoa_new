@@ -97,10 +97,9 @@ public class ServletConfig implements WebMvcConfigurer {
 //				.addPathPatterns("/board/main", "/board/write", "/board/writeProc", "/board/modifyProc");
 //		registry.addInterceptor(new CheckBoardCategoryAndIdxInterceptor(boardService))
 //				.addPathPatterns("/board/read");
-		registry.addInterceptor(new CheckMyBoardInterceptor(boardService))
-				.order(-1)
-				.addPathPatterns("/board/modify", "/board/modifyProc", "/board/deleteProc");
-		
+//		registry.addInterceptor(new CheckMyBoardInterceptor(boardService))
+//				.order(-1)
+//				.addPathPatterns("/board/modify", "/board/modifyProc", "/board/deleteProc");
 	}
 	
 	// MultipartResolver: StandardServletMultipartResolver, CommonsMultipartResolver

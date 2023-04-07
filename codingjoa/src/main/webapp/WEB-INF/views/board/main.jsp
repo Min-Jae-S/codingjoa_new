@@ -91,7 +91,7 @@
 		<div class="col-sm-8">
 			<h4 class="font-weight-bold mb-4"><c:out value="${boardName}"/></h4>
 			<div class="pt-3">
-	        	<form:form class="form-inline" action="${contextPath}/board/main" method="GET" modelAttribute="cri">
+	        	<form:form class="form-inline" action="${contextPath}/board/main" method="GET" modelAttribute="boardCri">
 	        		<form:hidden path="boardCategoryCode"/>
 				  	<form:select path="type" class="custom-select custom-select-sm mr-2">
 				  		<form:options items="${typeMap}"/>
@@ -126,7 +126,7 @@
 									<tr>
 										<td class="d-md-table-cell"><c:out value="${boardDetails.boardIdx}"/></td>
 										<td class="d-md-table-cell text-left">
-											<a class="board_title" href='${contextPath}/board/read${cri.getQueryString()}&boardIdx=${boardDetails.boardIdx}'>
+											<a class="board_title" href='${contextPath}/board/read${boardCri.getQueryString()}&boardIdx=${boardDetails.boardIdx}'>
 												<c:out value="${boardDetails.boardTitle}"/>
 											</a>
 											<c:if test="${boardDetails.commentCnt > 0}">
@@ -157,23 +157,23 @@
 				</table>
 			</div>
 			<div class="mb-3" style="height: 38px;">
-				<a class="btn btn-primary" href="${contextPath}/board/write?boardCategoryCode=${cri.boardCategoryCode}">글쓰기</a>
+				<a class="btn btn-primary" href="${contextPath}/board/write?boardCategoryCode=${boardCri.boardCategoryCode}">글쓰기</a>
 			</div>
 			<div class="pt-3">
 				<ul class="pagination justify-content-center">
 					<c:if test="${pagination.prev}">
 						<li class="page-item">
-							<a class="page-link" href="${contextPath}/board/main${cri.getQueryString(pagination.prevPage)}"><i class="fa-solid fa-chevron-left"></i></a>
+							<a class="page-link" href="${contextPath}/board/main${boardCri.getQueryString(pagination.prevPage)}"><i class="fa-solid fa-chevron-left"></i></a>
 						</li>
 					</c:if>
 					<c:forEach var="item" begin="${pagination.startPage}" end="${pagination.endPage}">
 						<li class="page-item ${item eq pagination.page ? 'active' : ''}">
-							<a class="page-link" href="${contextPath}/board/main${cri.getQueryString(item)}">${item}</a>
+							<a class="page-link" href="${contextPath}/board/main${boardCri.getQueryString(item)}">${item}</a>
 						</li>
 					</c:forEach>
 					<c:if test="${pagination.next}">
 						<li class="page-item">
-							<a class="page-link" href="${contextPath}/board/main${cri.getQueryString(pagination.nextPage)}"><i class="fa-solid fa-chevron-right"></i></a>
+							<a class="page-link" href="${contextPath}/board/main${boardCri.getQueryString(pagination.nextPage)}"><i class="fa-solid fa-chevron-right"></i></a>
 						</li>
 					</c:if>
 				</ul>

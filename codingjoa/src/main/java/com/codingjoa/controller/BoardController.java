@@ -64,8 +64,8 @@ public class BoardController {
 		
 		ArrayList<List<BoardDetailsDto>> boardList = new ArrayList<List<BoardDetailsDto>>();
 		boardCategoryList.forEach(category -> {
-			BoardCriteria cri = new BoardCriteria(category.getCategoryCode(), 1, 5, null, null);
-			List<BoardDetailsDto> board = boardService.getPagedBoard(cri);
+			BoardCriteria boardCri = new BoardCriteria(category.getCategoryCode(), 1, 5, null, null);
+			List<BoardDetailsDto> board = boardService.getPagedBoard(boardCri);
 			boardList.add(board);
 		});
 		model.addAttribute("boardList", boardList);
@@ -74,12 +74,12 @@ public class BoardController {
 	}
 	
 	@GetMapping("/main")
-	public String getBoard(@BoardCri BoardCriteria cri, Model model) {
-		log.info("{}", cri);
+	public String getBoard(@BoardCri BoardCriteria boardCri, Model model) {
+		log.info("{}", boardCri);
 		
-		model.addAttribute("cri", cri);
+		model.addAttribute("boardCri", boardCri);
 
-		BoardCriteria newCri = boardService.makeNewCri(cri);
+		BoardCriteria newCri = boardService.makeNewCri(boardCri);
 		log.info("newCri = {}", newCri);
 		
 		List<BoardDetailsDto> board = boardService.getPagedBoard(newCri);
@@ -89,23 +89,23 @@ public class BoardController {
 		log.info("{}", pagination);
 		model.addAttribute("pagination", pagination);
 		
-		String boardName = categoryService.findCategoryName(cri.getBoardCategoryCode());
+		String boardName = categoryService.findCategoryName(boardCri.getBoardCategoryCode());
 		model.addAttribute("boardName", boardName);
 		
 		return "board/main";
 	}
 	
 	@GetMapping("/read")
-	public String read(@RequestParam("boardIdx") int boardIdx, @BoardCri BoardCriteria cri, Model model) {
+	public String read(@RequestParam("boardIdx") int boardIdx, @BoardCri BoardCriteria boardCri, Model model) {
 		log.info("boardIdx = {}", boardIdx);
-		log.info("{}", cri);
+		log.info("{}", boardCri);
 		
-		model.addAttribute("cri", cri);
+		model.addAttribute("cri", boardCri);
 
 		BoardDetailsDto boardDetails = boardService.getBoardDetails(boardIdx);
 		model.addAttribute("boardDetails", boardDetails);
 		
-		String boardName = categoryService.findCategoryName(cri.getBoardCategoryCode());
+		String boardName = categoryService.findCategoryName(boardCri.getBoardCategoryCode());
 		model.addAttribute("boardName", boardName);
 
 		// 쿠키를 이용하여 조회수 중복 방지 추가하기 (https://mighty96.github.io/til/view)
