@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
+import org.springframework.validation.BindException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
@@ -55,8 +56,10 @@ public class CriteriaArgumentResolver implements HandlerMethodArgumentResolver {
 		
 		//HttpServletRequest request = (HttpServletRequest) webRequest;
 		String boardCategoryCode = webRequest.getParameter("boardCategoryCode");
+
+		// validate
 		if (!StringUtils.isNumeric(boardCategoryCode)) {
-			throw new MethodArgumentNotValidException(parameter, null);
+			throw new BindException(parameter, null);
 		}
 		
 		String page = webRequest.getParameter("page");

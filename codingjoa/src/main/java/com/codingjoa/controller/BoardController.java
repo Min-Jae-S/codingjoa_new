@@ -47,19 +47,11 @@ public class BoardController {
 	@Resource(name = "boardValidator")
 	private Validator boardValidator;
 
-	@Resource(name ="criteriaValidator")
-	private Validator criteriaValidator;
-	
 	@InitBinder(value = { "writeBoardDto", "modifyBoardDto" })
 	public void initBinderBoard(WebDataBinder binder) {
 		binder.addValidators(boardValidator);
 	}
 
-	@InitBinder(value = " cri")
-	public void initBinderCriteria(WebDataBinder binder) {
-		binder.addValidators(criteriaValidator);
-	}
-	
 //	@ModelAttribute
 //	public void boardCategoryList(Model model) {
 //		model.addAttribute("boardCategoryList", categoryService.findBoardCategoryList());
@@ -82,7 +74,7 @@ public class BoardController {
 	}
 	
 	@GetMapping("/main")
-	public String getBoard(@Valid @Cri Criteria cri, BindingResult bindingResult, Model model) {
+	public String getBoard(@Cri Criteria cri, Model model) {
 		log.info("{}", cri);
 		
 		model.addAttribute("cri", cri);

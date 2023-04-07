@@ -1,5 +1,7 @@
 package com.codingjoa.response;
 
+import java.net.BindException;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.http.ResponseEntity;
@@ -18,19 +20,21 @@ import lombok.extern.slf4j.Slf4j;
 public class ErrorHandler {
 
 	@ExceptionHandler(MethodArgumentNotValidException.class)
-	public String handleMethodArgumentNotValidException(MethodArgumentNotValidException e, HttpServletRequest request) {
-		log.info("============== handleMethodArgumentNotValidException, {} ==============", e.getMessage());
+	@ResponseBody
+	public ResponseEntity<Object> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
+		log.info("============== handleMethodArgumentNotValidException ==============");
 		
-		if (isAjaxRequest(request)) {
-			ErrorResponse response = ErrorResponse.create().bindingResult(e.getBindingResult());
-			log.info("{}", response);
+		ErrorResponse response = ErrorResponse.create().bindingResult(e.getBindingResult());
+		log.info("{}", response);
 			
-			request.setAttribute("errorResponse", ResponseEntity.unprocessableEntity().body(response));
-			
-			return "forward:/error/422";
-		}
+		return ResponseEntity.unprocessableEntity().body(response);
+	}
+	
+	@ExceptionHandler(BindException.class)
+	public String handleBindException(BindException e) {
+		log.info("============== handleBindException ==============");
 		
-		return "redirect:/error/errorPage";
+		return "forward:/error/errorPage";
 	}
 	
 //	@ExceptionHandler(MethodArgumentNotValidException.class)
