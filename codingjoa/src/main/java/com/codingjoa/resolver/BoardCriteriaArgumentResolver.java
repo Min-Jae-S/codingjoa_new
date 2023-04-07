@@ -2,6 +2,7 @@ package com.codingjoa.resolver;
 
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.MethodParameter;
@@ -12,6 +13,7 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 import com.codingjoa.annotation.BoardCri;
+import com.codingjoa.mapper.CategoryMapper;
 import com.codingjoa.pagination.BoardCriteria;
 import com.codingjoa.util.MyNumberUtils;
 
@@ -36,6 +38,9 @@ public class BoardCriteriaArgumentResolver implements HandlerMethodArgumentResol
 	
 	@Value("#{${criteria.typeMap}}") 
 	private Map<String, Object> typeMap;
+	
+	@Autowired
+	private CategoryMapper categoryMapper; 
 
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
@@ -55,8 +60,11 @@ public class BoardCriteriaArgumentResolver implements HandlerMethodArgumentResol
 		try {
 			String rawBoardCategoryCode = webRequest.getParameter("boardCategoryCode");
 			boardCategoryCode = Integer.parseInt(rawBoardCategoryCode);
+			if (!categoryMapper.isBoardCategory(boardCategoryCode)) {
+				throw new IllegalArgumentException("Board not exist");
+			}
 		} catch (NumberFormatException e) {
-			throw new IllegalArgumentException("Not valid boardCategoryCode");
+			throw new IllegalArgumentException("BoardCategoryCode is not number format");
 		}
 		
 		String page = webRequest.getParameter("page");
