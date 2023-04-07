@@ -147,7 +147,7 @@
 							</c:when>
 							<c:otherwise>
 								<tr>
-									<td colspan="5">
+									<td colspan="6">
 										<div class="no-board py-5">등록된 게시글이 없습니다.</div>
 									</td>
 								</tr>
