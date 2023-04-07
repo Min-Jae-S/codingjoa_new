@@ -86,8 +86,8 @@ public class BoardController {
 		model.addAttribute("board", board);
 		
 		Pagination pagination = boardService.getPagination(newCri);
-		log.info("{}", pagination);
 		model.addAttribute("pagination", pagination);
+		log.info("{}", pagination);
 		
 		String boardName = categoryService.findCategoryName(boardCri.getBoardCategoryCode());
 		model.addAttribute("boardName", boardName);
@@ -100,7 +100,7 @@ public class BoardController {
 		log.info("boardIdx = {}", boardIdx);
 		log.info("{}", boardCri);
 		
-		model.addAttribute("cri", boardCri);
+		model.addAttribute("boardCri", boardCri);
 
 		BoardDetailsDto boardDetails = boardService.getBoardDetails(boardIdx);
 		model.addAttribute("boardDetails", boardDetails);
