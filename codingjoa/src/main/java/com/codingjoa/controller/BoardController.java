@@ -25,6 +25,7 @@ import com.codingjoa.annotation.BoardCri;
 import com.codingjoa.dto.BoardDetailsDto;
 import com.codingjoa.dto.BoardDto;
 import com.codingjoa.entity.Category;
+import com.codingjoa.exception.BoardException;
 import com.codingjoa.pagination.BoardCriteria;
 import com.codingjoa.pagination.Pagination;
 import com.codingjoa.security.dto.UserDetailsDto;
@@ -83,6 +84,9 @@ public class BoardController {
 		log.info("newCri = {}", newCri);
 		
 		List<BoardDetailsDto> board = boardService.getPagedBoard(newCri);
+		if (board == null) {
+			throw new BoardException("Board not exist");
+		}
 		model.addAttribute("board", board);
 		
 		Pagination pagination = boardService.getPagination(newCri);
