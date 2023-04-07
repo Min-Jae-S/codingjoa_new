@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.codingjoa.dto.BoardDetailsDto;
 import com.codingjoa.dto.BoardDto;
-import com.codingjoa.pagination.Criteria;
+import com.codingjoa.pagination.BoardCriteria;
 import com.codingjoa.pagination.Pagination;
 
 public interface BoardService {
@@ -21,11 +21,11 @@ public interface BoardService {
 	
 	void updateBoardViews(int boardIdx);
 	
-	Criteria makeNewCri(Criteria cri);
+	BoardCriteria makeNewCri(BoardCriteria boardCri);
 	
-	List<BoardDetailsDto> getPagedBoard(Criteria cri);
+	List<BoardDetailsDto> getPagedBoard(BoardCriteria boardCri);
 
-	Pagination getPagination(Criteria cri);
+	Pagination getPagination(BoardCriteria boardCri);
 	
 	boolean isBoardIdxExist(int boardIdx, int boardCategoryCode);
 	

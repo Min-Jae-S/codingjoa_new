@@ -29,7 +29,7 @@ import com.codingjoa.interceptor.CheckBoardCategoryAndIdxInterceptor;
 import com.codingjoa.interceptor.CheckBoardCategoryInterceptor;
 import com.codingjoa.interceptor.CheckMyBoardInterceptor;
 import com.codingjoa.resolver.CommentCriteriaArgumentResolver;
-import com.codingjoa.resolver.CriteriaArgumentResolver;
+import com.codingjoa.resolver.BoardCriteriaArgumentResolver;
 import com.codingjoa.service.BoardService;
 import com.codingjoa.service.CategoryService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -51,7 +51,7 @@ public class ServletConfig implements WebMvcConfigurer {
 	private BoardService boardService;
 	
 	@Autowired
-	private CriteriaArgumentResolver criteriaArgumentResolver;
+	private BoardCriteriaArgumentResolver criteriaArgumentResolver;
 	
 	@Autowired
 	private CommentCriteriaArgumentResolver commentCriteriaArgumentResolver;

@@ -178,7 +178,7 @@
 		</if>
 	</sql> -->
 	
-	<select id="findPagedBoard" parameterType="cri" resultMap="boardDetailsMap">
+	<select id="findPagedBoard" parameterType="boardCri" resultMap="boardDetailsMap">
 		SELECT
 			/*+ ORDERED USE_NL(b) USE_NL(c) USE_NL(d) */
 			a.*,
@@ -241,7 +241,7 @@
 			a.board_idx = d.board_idx
 	</select>
 
-	<!-- <select id="findPagedBoard" parameterType="cri" resultMap="boardDetailsMap">
+	<!-- <select id="findPagedBoard" parameterType="boardCri" resultMap="boardDetailsMap">
 		SELECT
     		/*+ LEADING(b) INDEX_DESC(a pk_board) */ 
 			a.board_idx, 
@@ -277,7 +277,7 @@
 			a.rn > ( ( #{page} - 1 ) * #{recordCnt} )
 	</select> -->
 	
-	<!-- <select id="findPagedBoard" parameterType="cri" resultMap="boardDetailsMap">
+	<!-- <select id="findPagedBoard" parameterType="boardCri" resultMap="boardDetailsMap">
 		SELECT 
 			board_idx, 
 			board_title, 
@@ -314,7 +314,7 @@
 			rn > ( ( #{page} - 1 ) * #{recordCnt} )
 	</select> -->
 
-	<select id="findPagedBoardTotalCnt" parameterType="cri" resultType="int">
+	<select id="findPagedBoardTotalCnt" parameterType="boardCri" resultType="int">
 		SELECT
 			COUNT(*)
 		FROM

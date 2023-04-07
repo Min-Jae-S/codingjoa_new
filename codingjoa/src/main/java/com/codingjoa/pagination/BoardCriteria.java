@@ -10,7 +10,7 @@ import lombok.ToString;
 @ToString
 @Getter
 @Setter
-public class Criteria {
+public class BoardCriteria {
 	
 	private int boardCategoryCode;
 	private int page;
@@ -18,9 +18,9 @@ public class Criteria {
 	private String type;
 	private String keyword;
 	
-	public Criteria() { }
+	public BoardCriteria() { }
 	
-	public Criteria(int boardCategoryCode, int page, int recordCnt, String type, String keyword) {
+	public BoardCriteria(int boardCategoryCode, int page, int recordCnt, String type, String keyword) {
 		this.boardCategoryCode = boardCategoryCode;
 		this.page = page;
 		this.recordCnt = recordCnt;
@@ -28,7 +28,7 @@ public class Criteria {
 		this.keyword = keyword;
 	}
 	
-	public Criteria(Criteria criteria) {
+	public BoardCriteria(BoardCriteria criteria) {
 		this.boardCategoryCode = criteria.boardCategoryCode;
 		this.page = criteria.page;
 		this.recordCnt = criteria.recordCnt;

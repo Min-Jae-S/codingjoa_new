@@ -80,7 +80,7 @@ public class CommentRestController {
 	
 	@GetMapping("/comments/{commentIdx}")
 	public ResponseEntity<Object> getComment(@PathVariable int commentIdx) {
-		log.info("commentIdx={}", commentIdx);
+		log.info("commentIdx = {}", commentIdx);
 
 		CommentDetailsDto commentDetails = commentService.getCommentDetails(commentIdx);
 		log.info("commentDetails={}", commentDetails);
@@ -99,7 +99,7 @@ public class CommentRestController {
 	
 	@DeleteMapping("/comments/{commentIdx}")
 	public ResponseEntity<Object> deleteComment(@PathVariable int commentIdx) {
-		log.info("commentIdx={}", commentIdx);
+		log.info("commentIdx = {}", commentIdx);
 		
 		commentService.deleteComment(commentIdx);
 		

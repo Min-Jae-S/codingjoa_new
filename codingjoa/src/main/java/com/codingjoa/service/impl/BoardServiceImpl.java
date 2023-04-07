@@ -17,7 +17,7 @@ import com.codingjoa.entity.Board;
 import com.codingjoa.entity.Upload;
 import com.codingjoa.mapper.BoardMapper;
 import com.codingjoa.mapper.UploadMapper;
-import com.codingjoa.pagination.Criteria;
+import com.codingjoa.pagination.BoardCriteria;
 import com.codingjoa.pagination.Pagination;
 import com.codingjoa.service.BoardService;
 
@@ -87,12 +87,12 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
-	public Criteria makeNewCri(Criteria cri) {
-		Criteria newCri = new Criteria(cri);
-		String keyword = cri.getKeyword();
+	public BoardCriteria makeNewCri(BoardCriteria boardCri) {
+		BoardCriteria newCri = new BoardCriteria(boardCri);
+		String keyword = boardCri.getKeyword();
 		
-		if (!"writer".equals(cri.getType())) {
-			log.info("Keyword Regexp={}", newCri.getKeywordRegexp());
+		if (!"writer".equals(boardCri.getType())) {
+			log.info("Keyword Regexp = {}", newCri.getKeywordRegexp());
 			return newCri;
 		}
 		
@@ -109,16 +109,16 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
-	public List<BoardDetailsDto> getPagedBoard(Criteria cri) {
-		return boardMapper.findPagedBoard(cri).stream()
+	public List<BoardDetailsDto> getPagedBoard(BoardCriteria boardCri) {
+		return boardMapper.findPagedBoard(boardCri).stream()
 				.map(boardDetailsMap -> modelMapper.map(boardDetailsMap, BoardDetailsDto.class))
 				.collect(Collectors.toList());
 	}
 
 	@Override
-	public Pagination getPagination(Criteria cri) {
-		int totalCnt = boardMapper.findPagedBoardTotalCnt(cri);
-		return new Pagination(totalCnt, cri.getPage(), cri.getRecordCnt(), pageRange);
+	public Pagination getPagination(BoardCriteria boardCri) {
+		int totalCnt = boardMapper.findPagedBoardTotalCnt(boardCri);
+		return new Pagination(totalCnt, boardCri.getPage(), boardCri.getRecordCnt(), pageRange);
 	}
 	
 	@Override

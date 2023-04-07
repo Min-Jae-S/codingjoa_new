@@ -45,6 +45,7 @@ public class PasswordValidator implements Validator {
 
 		PasswordDto passwordDto = (PasswordDto) target;
 		Type type = passwordDto.getType();
+		log.info("type = {}", type);
 		
 //		if (type == null) {
 //			errors.rejectValue("memberPassword", "NotValidAccess");

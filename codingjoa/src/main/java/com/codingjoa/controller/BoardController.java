@@ -21,11 +21,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.codingjoa.annotation.Cri;
+import com.codingjoa.annotation.BoardCri;
 import com.codingjoa.dto.BoardDetailsDto;
 import com.codingjoa.dto.BoardDto;
 import com.codingjoa.entity.Category;
-import com.codingjoa.pagination.Criteria;
+import com.codingjoa.pagination.BoardCriteria;
 import com.codingjoa.pagination.Pagination;
 import com.codingjoa.security.dto.UserDetailsDto;
 import com.codingjoa.service.BoardService;
@@ -64,7 +64,7 @@ public class BoardController {
 		
 		ArrayList<List<BoardDetailsDto>> boardList = new ArrayList<List<BoardDetailsDto>>();
 		boardCategoryList.forEach(category -> {
-			Criteria cri = new Criteria(category.getCategoryCode(), 1, 5, null, null);
+			BoardCriteria cri = new BoardCriteria(category.getCategoryCode(), 1, 5, null, null);
 			List<BoardDetailsDto> board = boardService.getPagedBoard(cri);
 			boardList.add(board);
 		});
@@ -74,13 +74,13 @@ public class BoardController {
 	}
 	
 	@GetMapping("/main")
-	public String getBoard(@Cri Criteria cri, Model model) {
+	public String getBoard(@BoardCri BoardCriteria cri, Model model) {
 		log.info("{}", cri);
 		
 		model.addAttribute("cri", cri);
 
-		Criteria newCri = boardService.makeNewCri(cri);
-		log.info("newCri={}", newCri);
+		BoardCriteria newCri = boardService.makeNewCri(cri);
+		log.info("newCri = {}", newCri);
 		
 		List<BoardDetailsDto> board = boardService.getPagedBoard(newCri);
 		model.addAttribute("board", board);
@@ -96,8 +96,8 @@ public class BoardController {
 	}
 	
 	@GetMapping("/read")
-	public String read(@RequestParam("boardIdx") int boardIdx, @Cri Criteria cri, Model model) {
-		log.info("boardIdx={}", boardIdx);
+	public String read(@RequestParam("boardIdx") int boardIdx, @BoardCri BoardCriteria cri, Model model) {
+		log.info("boardIdx = {}", boardIdx);
 		log.info("{}", cri);
 		
 		model.addAttribute("cri", cri);
@@ -137,7 +137,7 @@ public class BoardController {
 		writeBoardDto.setBoardWriterIdx(boardWriterIdx);
 		
 		int boardIdx = boardService.writeBoard(writeBoardDto);
-		log.info("boardIdx={}", boardIdx);
+		log.info("boardIdx = {}", boardIdx);
 		
 		writeBoardDto.setBoardIdx(boardIdx);
 		boardService.activateImage(writeBoardDto);
@@ -184,7 +184,7 @@ public class BoardController {
 	
 	@GetMapping("/deleteProc")
 	public String deleteProc(@RequestParam("boardIdx") int boardIdx) {
-		log.info("boardIdx={}", boardIdx);
+		log.info("boardIdx = {}", boardIdx);
 		
 		int boardCategoryCode = boardService.getBoardCategoryCode(boardIdx);
 		

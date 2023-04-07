@@ -41,7 +41,8 @@ public class EmailAuthValidator implements Validator {
 
 		EmailAuthDto emailAuthDto = (EmailAuthDto) target;
 		Type type = emailAuthDto.getType();
-
+		log.info("type = {}", type);
+		
 //		if (type == null) {
 //			errors.rejectValue("memberEmail", "NotValidAccess");
 //			return;
