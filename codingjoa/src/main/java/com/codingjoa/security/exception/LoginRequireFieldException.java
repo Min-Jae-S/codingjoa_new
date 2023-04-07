@@ -7,8 +7,8 @@ import lombok.Getter;
 @Getter
 public class LoginRequireFieldException extends AuthenticationException {
 	
-	private static final long serialVersionUID = 2417338241376612871L;
-	
+	private static final long serialVersionUID = 1L;
+
 	public LoginRequireFieldException(String msg) {
 		super(msg);
 	}

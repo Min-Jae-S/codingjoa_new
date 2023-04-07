@@ -1,7 +1,5 @@
 package com.codingjoa.response;
 
-import java.net.BindException;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -21,6 +19,7 @@ public class ErrorHandler {
 	@ResponseBody
 	public ResponseEntity<Object> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
 		log.info("============== handleMethodArgumentNotValidException ==============");
+		log.info("message={}", e.getMessage());
 		
 		ErrorResponse response = ErrorResponse.create().bindingResult(e.getBindingResult());
 		log.info("{}", response);
@@ -45,8 +44,9 @@ public class ErrorHandler {
 //	}
 	
 	@ExceptionHandler(IllegalArgumentException.class)
-	public String handleIllegalArgumentException(BindException e) {
-		log.info("============== handleIllegalArgumentException, {} ==============", e.getMessage());
+	public String handleIllegalArgumentException(IllegalArgumentException e) {
+		log.info("============== handleIllegalArgumentException ==============");
+		log.info("message={}", e.getMessage());
 		
 		return "forward:/error/errorPage";
 	}

@@ -53,7 +53,8 @@ public class CriteriaArgumentResolver implements HandlerMethodArgumentResolver {
 		
 		int boardCategoryCode;
 		try {
-			boardCategoryCode = Integer.parseInt(webRequest.getParameter("boardCategoryCode"));
+			String rawBoardCategoryCode = webRequest.getParameter("boardCategoryCode");
+			boardCategoryCode = Integer.parseInt(rawBoardCategoryCode);
 		} catch (NumberFormatException e) {
 			throw new IllegalArgumentException("Not valid boardCategoryCode");
 		}
