@@ -62,9 +62,9 @@ public class BoardCriteriaArgumentResolver implements HandlerMethodArgumentResol
 			log.info("Raw boardcategoryCode = {}", rawBoardCategoryCode);
 			
 			boardCategoryCode = Integer.parseInt(rawBoardCategoryCode);
-			if (!categoryMapper.isBoardCategory(boardCategoryCode)) {
-				throw new IllegalArgumentException("board not exist");
-			}
+//			if (!categoryMapper.isBoardCategory(boardCategoryCode)) {
+//				throw new IllegalArgumentException("board not exist");
+//			}
 		} catch (NumberFormatException e) {
 			throw new IllegalArgumentException("boardCategoryCode is not number format");
 		}
