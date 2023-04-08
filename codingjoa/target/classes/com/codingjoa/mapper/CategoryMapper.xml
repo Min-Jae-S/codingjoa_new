@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.codingjoa.mapper.CategoryMapper">
+
+	<select id="findParentCategoryList" resultType="category">
+		SELECT
+			category_code,
+			category_parent_code,
+			category_name,
+			category_path
+		FROM 
+			category
+		WHERE
+			category_parent_code IS NULL 
+	</select>
+	
+	<select id="findCategoryListByParent" parameterType="int" resultType="category">
+		SELECT
+			category_code,
+			category_parent_code,
+			category_name,
+			category_path
+		FROM 
+			category
+		WHERE
+			category_parent_code = #{categoryParentCode}
+	</select>
+	
+	<select id="findCategoryName" parameterType="int" resultType="string">
+		SELECT
+			category_name
+		FROM
+			category
+		WHERE
+			category_code = #{categoryCode}	
+	</select>
+	
+	<!-- <select id="findCategoryOfSameParent" parameterType="int" resultType="category">
+		SELECT
+			a.category_code,
+			a.category_parent_code, 
+			a.category_name,
+			a.category_path
+		FROM
+			category a
+		INNER JOIN
+			category b
+		ON
+			a.category_parent_code = b.category_parent_code
+		WHERE
+			b.category_code = #{categoryCode}
+	</select> -->
+	
+	<select id="findBoardCategoryList" resultType="category">
+		SELECT
+			category_code,
+			category_parent_code,
+			category_name,
+			category_path
+		FROM
+			category
+		WHERE
+			category_parent_code = ( SELECT 
+										category_code 
+									 FROM 
+									 	category 
+									 WHERE 
+									 	category_path = '/board' AND category_parent_code IS NULL )
+	</select>
+	
+	<!-- <select id="findParentCategoryPath" parameterType="int" resultType="string">
+		SELECT
+			category_path
+		FROM
+			category
+		WHERE
+			category_code = ( SELECT 
+								category_parent_code 
+							  FROM 
+								category 
+							  WHERE 
+								category_code = #{categoryCode} )
+	</select> -->
+	
+	<select id="isBoardCategory" parameterType="int" resultType="boolean">
+		SELECT
+			COUNT(*)
+		FROM
+			category
+		WHERE
+			category_code = #{categoryCode}
+			AND
+			category_parent_code = ( SELECT 
+										category_code 
+									 FROM 
+									 	category 
+									 WHERE 
+									 	category_path = '/board' AND category_parent_code IS NULL )
+	</select>
+	
+	
+	
+	
+</mapper>

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.codingjoa.mapper.CommentMapper">
+<!--  
+	comment_idx              NUMBER,
+    comment_writer_idx       NUMBER                       NOT NULL,
+	comment_board_idx        NUMBER                       NOT NULL,
+	comment_content          VARCHAR2(2000)               NOT NULL,
+    comment_use              CHAR(1)                      NOT NULL,
+	regdate                  DATE                         NOT NULL,
+    moddate                  DATE                         NOT NULL,
+-->
+
+	<resultMap type="map" id="commentDetailsMap">
+		<id property="commentIdx" column="comment_idx"/>
+		<result property="commentWriterIdx" column="comment_writer_idx"/>
+		<result property="commentBoardIdx" column="comment_board_idx"/>
+		<result property="commentContent" column="comment_content"/>
+		<result property="commentUse" column="comment_use"/>
+		<result property="regdate" column="regdate"/>
+		<result property="moddate" column="moddate"/>
+		<result property="memberId" column="member_id"/>
+		<!-- <result property="commentLikes" column=""/> -->
+	</resultMap>
+	
+	<insert id="insertComment" parameterType="comment">
+		INSERT INTO "comment" (
+			comment_idx,
+			comment_writer_idx,
+			comment_board_idx,
+			comment_content,
+			comment_use,
+			regdate,
+			moddate
+		) VALUES (
+			seq_comment.NEXTVAL,
+			#{commentWriterIdx},
+			#{commentBoardIdx},
+			#{commentContent},
+			#{commentUse},
+			SYSDATE,
+			SYSDATE
+		)
+	</insert>
+	
+	<select id="findPagedComment" parameterType="commentCri" resultMap="commentDetailsMap">
+		SELECT
+    		/*+ LEADING(b) INDEX_DESC(a pk_comment) */ 
+			a.comment_idx,
+			a.comment_writer_idx, 
+			a.comment_board_idx,
+			a.comment_content,
+			a.comment_use,
+	        a.regdate,
+	        a.moddate,
+    		b.member_id
+		FROM (
+		    SELECT
+		        ROWNUM rn, 
+		        comment_idx,
+		        comment_writer_idx,
+		        comment_board_idx,
+		        comment_content, 
+		        comment_use,
+		        regdate,
+		        moddate
+		    FROM 
+		        "comment"
+		    WHERE
+		    	comment_board_idx = #{boardIdx} AND
+				<![CDATA[
+				ROWNUM <= 10
+				]]>
+		) a
+		INNER JOIN
+			member b
+		ON 
+			a.comment_writer_idx = b.member_idx 
+		WHERE 
+			a.rn > 0
+	</select>
+	
+	<select id="findCommentDetails" parameterType="int" resultMap="commentDetailsMap">
+		SELECT
+			a.comment_idx,
+			a.comment_writer_idx, 
+			a.comment_board_idx,
+			a.comment_content,
+			a.comment_use,
+	        a.regdate,
+	        a.moddate,
+    		b.member_id
+		FROM
+			"comment" a
+		INNER JOIN
+			member b
+		ON
+			a.comment_writer_idx = b.member_idx
+		WHERE
+			a.comment_idx = #{commentIdx}
+	</select>
+
+	<delete id="deleteComment" parameterType="int">
+		DELETE FROM
+			"comment"
+		WHERE
+			comment_idx = #{commentIdx} 
+	</delete>
+	
+</mapper>

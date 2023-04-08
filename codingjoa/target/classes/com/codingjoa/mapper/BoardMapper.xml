@@ -1,0 +1,398 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.codingjoa.mapper.BoardMapper">
+<!--  
+	board_idx               NUMBER,
+	board_title             VARCHAR2(500)               NOT NULL,
+	board_content           CLOB                       	NOT NULL,
+    board_writer_idx        NUMBER                      NOT NULL,
+    board_views             NUMBER          DEFAULT 0   NOT NULL,
+	board_category_code     NUMBER                      NOT NULL,
+	regdate                 DATE                        NOT NULL,
+    moddate                 DATE                        NOT NULL,
+-->
+
+	<resultMap type="map" id="boardDetailsMap">
+		<id property="boardIdx" column="board_idx"/>
+		<result property="boardTitle" column="board_title"/>
+		<!-- <result property="boardContent" column="board_content" typeHandler="clobTypeHandler"/> -->
+		<result property="boardContent" column="board_content" jdbcType="CLOB" javaType="java.lang.String" />
+		<result property="boardWriterIdx" column="board_writer_idx"/>
+		<result property="boardViews" column="board_views"/>
+		<result property="boardCategoryCode" column="board_category_code"/>
+		<result property="regdate" column="regdate"/>
+		<result property="moddate" column="moddate"/>
+		<result property="memberId" column="member_id"/>
+		<result property="commentCnt" column="comment_cnt"/>
+		<result property="boardLikesCnt" column="board_likes_cnt"/>
+	</resultMap>
+	
+	<insert id="insertBoard" parameterType="board">
+		<selectKey keyProperty="boardIdx" resultType="int" order="BEFORE">
+			SELECT seq_board.NEXTVAL FROM DUAL
+		</selectKey>
+	
+		INSERT INTO board (
+			board_idx,
+			board_title,
+			board_content,
+			board_content_text,
+			board_writer_idx,
+			board_category_code,
+			regdate,
+			moddate
+		) VALUES (
+			#{boardIdx},
+			#{boardTitle},
+			#{boardContent},
+			#{boardContentText},
+			#{boardWriterIdx},
+			#{boardCategoryCode},
+			SYSDATE,
+			SYSDATE
+		)
+	</insert>
+	
+	<select id="findBoardDetails" parameterType="int" resultMap="boardDetailsMap">
+		SELECT 
+			a.board_idx, 
+			a.board_title, 
+			a.board_content, 
+			a.board_writer_idx, 
+			a.board_views, 
+			a.board_category_code, 
+			a.regdate, 
+			a.moddate,
+			b.member_id,
+			NVL(c.cnt, 0) AS comment_cnt,
+    		NVL(d.cnt, 0) AS board_likes_cnt
+		FROM
+			board a
+		INNER JOIN
+			member b
+		ON
+			a.board_writer_idx = b.member_idx
+		LEFT OUTER JOIN (
+			SELECT 
+				comment_board_idx, COUNT(*) cnt
+			FROM
+				"comment"
+			GROUP BY 
+				comment_board_idx
+		) c
+		ON 
+			a.board_idx = c.comment_board_idx
+		LEFT OUTER JOIN ( 
+			SELECT 
+    			board_idx, COUNT(*) cnt
+    		FROM 
+    			board_likes
+    		GROUP BY 
+    			board_idx 
+    	) d
+		ON 
+			a.board_idx = d.board_idx
+		WHERE
+			a.board_idx = #{boardIdx} 
+	</select>
+
+	<!-- <select id="findBoardDetails" parameterType="int" resultMap="boardDetailsMap">
+		SELECT 
+			a.board_idx, 
+			a.board_title, 
+			a.board_content, 
+			a.board_writer_idx, 
+			a.board_views, 
+			a.board_category_code, 
+			a.regdate, 
+			a.moddate,
+			b.member_id
+		FROM
+			board a
+		INNER JOIN
+			member b
+		ON
+			a.board_writer_idx = b.member_idx
+		WHERE
+			a.board_idx = #{boardIdx} 
+	</select> -->
+	
+	<update id="updateBoardViews" parameterType="int">
+		UPDATE
+			board
+		SET
+			board_views = board_views + 1
+		WHERE
+			board_idx = #{boardIdx}
+	</update>
+	
+	<select id="findMemberIdxByKeyword" parameterType="string" resultType="int">
+			SELECT
+				member_idx
+			FROM
+				member
+			WHERE
+				member_id LIKE '%' || #{keyword} || '%'
+	</select>
+	
+	<sql id="searchCriteria">
+		<if test='type != null and keyword != null and keyword != ""'>
+			<trim prefix="(" suffix=") AND " suffixOverrides="OR">
+				<foreach collection='type.split("_")' item="item">
+					<trim suffix="OR">
+						<if test='item.equals("title")'>
+							REGEXP_LIKE(board_title, #{keywordRegexp})
+						</if>
+						<if test='item.equals("content")'>
+							REGEXP_LIKE(board_content_text, #{keywordRegexp})
+						</if>
+						<if test='item.equals("writer")'>
+							board_writer_idx IN 
+							<foreach collection='keyword.split("_")' item="item" separator="," open="(" close=")">
+								#{item}
+							</foreach>
+						</if> 
+					</trim>
+				</foreach>
+			</trim>
+		</if>
+	</sql>
+
+	<!-- <sql id="searchCriteria">
+		<if test="type != null">
+			<trim prefix="(" suffix=") AND " suffixOverrides="OR">
+				<foreach collection='type.split("_")' item="item">
+					<trim suffix="OR">
+						<if test='item.equals("title")'>
+							a.board_title LIKE '%' || #{keyword} || '%'
+						</if>
+						<if test='item.equals("content")'>
+							a.board_content_text LIKE '%' || #{keyword} || '%'
+						</if>
+						<if test='item.equals("writer")'>
+							b.member_id LIKE '%' || #{keyword} || '%'
+						</if> 
+					</trim>
+				</foreach>
+			</trim>
+		</if>
+	</sql> -->
+	
+	<select id="findPagedBoard" parameterType="boardCri" resultMap="boardDetailsMap">
+		SELECT
+			/*+ ORDERED USE_NL(b) USE_NL(c) USE_NL(d) */
+			a.*,
+			b.member_id,
+    		NVL(c.cnt, 0) AS comment_cnt,
+    		NVL(d.cnt, 0) AS board_likes_cnt
+		FROM (
+		    SELECT
+		    	a_depth.board_idx, 
+	        	a_depth.board_title, 
+	        	a_depth.board_writer_idx, 
+	        	a_depth.board_views,
+	        	a_depth.board_category_code, 
+	        	a_depth.regdate 
+		    FROM (
+				SELECT
+					/*+ INDEX_DESC(board pk_board) */
+		        	ROWNUM rn, 
+		        	board_idx, 
+		        	board_title, 
+		        	board_writer_idx, 
+		        	board_views,
+		        	board_category_code, 
+		        	regdate 
+		    	FROM 
+		        	board
+		    	WHERE
+		        <include refid="searchCriteria"/>
+				board_category_code = #{boardCategoryCode} AND
+				<![CDATA[
+				ROWNUM <= ( #{page} * #{recordCnt} )
+				]]>
+		    ) a_depth
+		    WHERE 
+		    	a_depth.rn > ( ( #{page} - 1 ) * #{recordCnt} )
+		) a
+		INNER JOIN
+			member b
+		ON 
+			a.board_writer_idx = b.member_idx
+		LEFT OUTER JOIN (
+			SELECT 
+				comment_board_idx, COUNT(*) cnt
+			FROM
+				"comment"
+			GROUP BY 
+				comment_board_idx
+		) c
+		ON 
+			a.board_idx = c.comment_board_idx
+		LEFT OUTER JOIN ( 
+			SELECT 
+    			board_idx, COUNT(*) cnt
+    		FROM 
+    			board_likes
+    		GROUP BY 
+    			board_idx 
+    	) d
+		ON 
+			a.board_idx = d.board_idx
+	</select>
+
+	<!-- <select id="findPagedBoard" parameterType="boardCri" resultMap="boardDetailsMap">
+		SELECT
+    		/*+ LEADING(b) INDEX_DESC(a pk_board) */ 
+			a.board_idx, 
+		    a.board_title,
+		    a.board_writer_idx,
+	        a.board_views,
+	        a.board_category_code, 
+	        a.regdate,
+    		b.member_id
+		FROM (
+		    SELECT
+		        ROWNUM rn, 
+		        board_idx, 
+		        board_title, 
+		        board_writer_idx, 
+		        board_views,
+		        board_category_code, 
+		        regdate 
+		    FROM 
+		        board
+		    WHERE
+		        <include refid="searchCriteria"/>
+				board_category_code = #{boardCategoryCode} AND
+				<![CDATA[
+				ROWNUM <= ( #{page} * #{recordCnt} )
+				]]>
+		) a
+		INNER JOIN
+			member b
+		ON 
+			a.board_writer_idx = b.member_idx 
+		WHERE 
+			a.rn > ( ( #{page} - 1 ) * #{recordCnt} )
+	</select> -->
+	
+	<!-- <select id="findPagedBoard" parameterType="boardCri" resultMap="boardDetailsMap">
+		SELECT 
+			board_idx, 
+			board_title, 
+			board_writer_idx, 
+			board_views, 
+			board_category_code, 
+			regdate, 
+			member_id
+		FROM (
+			SELECT
+				/*+ INDEX_DESC(a pk_board) */ 
+				ROWNUM rn, 
+				a.board_idx, 
+				a.board_title, 
+				a.board_writer_idx, 
+				a.board_views, 
+				a.board_category_code, 
+				a.regdate, 
+				b.member_id
+			FROM
+				board a
+			INNER JOIN
+				member b
+			ON
+				a.board_writer_idx = b.member_idx
+			WHERE
+				<include refid="searchCriteria"/>
+				a.board_category_code = #{boardCategoryCode} AND
+				<![CDATA[
+				ROWNUM <= ( #{page} * #{recordCnt} )
+				]]>
+		)
+		WHERE
+			rn > ( ( #{page} - 1 ) * #{recordCnt} )
+	</select> -->
+
+	<select id="findPagedBoardTotalCnt" parameterType="boardCri" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			board
+		WHERE
+			<include refid="searchCriteria"/>
+			board_category_code = #{boardCategoryCode}
+	</select>
+
+	<!-- <select id="findPagedBoardTotalCnt" parameterType="cri" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			board a
+		INNER JOIN
+			member b
+		ON
+			a.board_writer_idx = b.member_idx
+		WHERE
+			<include refid="searchCriteria"/>
+			a.board_category_code = #{boardCategoryCode}
+	</select> -->
+	
+	<select id="isBoardIdxExist" parameterType="map" resultType="boolean">
+		SELECT
+			COUNT(*)
+		FROM
+			board
+		WHERE
+			board_idx = #{boardIdx} AND board_category_code = #{boardCategoryCode}
+	</select>
+	
+	<select id="findBoardByIdx" parameterType="int" resultType="board">
+		SELECT
+			* 
+		FROM 
+			board 
+		WHERE
+			board_idx = #{boardIdx}
+	</select>
+	
+	<select id="isMyBoard" parameterType="map" resultType="boolean">
+		SELECT
+			COUNT(*)
+		FROM
+			board
+		WHERE
+			board_idx = #{boardIdx} AND board_writer_idx = #{boardWriterIdx}
+	</select>
+
+	<update id="updateBoard" parameterType="board">
+		UPDATE
+			board
+		SET
+			board_title = #{boardTitle},
+			board_content = #{boardContent},
+			board_content_text = #{boardContentText},
+			board_category_code = #{boardCategoryCode},
+			moddate = SYSDATE
+		WHERE
+			board_idx = #{boardIdx} 
+	</update>
+	
+	<select id="findBoardCategoryCode" parameterType="int" resultType="int">
+		SELECT
+			board_category_code
+		FROM
+			board
+		WHERE
+			board_idx = #{boardIdx} 
+	</select>
+	
+	<delete id="deleteBoard" parameterType="int">
+		DELETE FROM
+			board
+		WHERE
+			board_idx = #{boardIdx} 
+	</delete>
+	
+	
+</mapper>
