@@ -39,8 +39,8 @@ public class BoardCriteriaArgumentResolver implements HandlerMethodArgumentResol
 	@Value("#{${criteria.typeMap}}") 
 	private Map<String, Object> typeMap;
 	
-	@Autowired
-	private CategoryMapper categoryMapper; 
+//	@Autowired
+//	private CategoryMapper categoryMapper; 
 
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
