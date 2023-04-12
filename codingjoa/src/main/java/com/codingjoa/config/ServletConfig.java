@@ -12,12 +12,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.Ordered;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
@@ -112,11 +110,10 @@ public class ServletConfig implements WebMvcConfigurer {
 		resolvers.add(commentCriteriaArgumentResolver);
 	}
 
-	@Bean
-	public static MethodValidationPostProcessor methodValidationPostProcessor() {
-		MethodValidationPostProcessor processor = new MethodValidationPostProcessor();
-		processor.setOrder(Ordered.HIGHEST_PRECEDENCE);
-		return processor;
-	}
+//	@Bean
+//	public static MethodValidationPostProcessor methodValidationPostProcessor() {
+//		MethodValidationPostProcessor processor = new MethodValidationPostProcessor();
+//		return processor;
+//	}
 
 }

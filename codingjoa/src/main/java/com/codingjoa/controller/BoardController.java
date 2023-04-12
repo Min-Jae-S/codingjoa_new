@@ -37,8 +37,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequestMapping("/board")
-@Validated
-@Slf4j 
+@Slf4j @Validated
 public class BoardController {
 	
 	@Autowired 

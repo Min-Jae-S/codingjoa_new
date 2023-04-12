@@ -19,7 +19,8 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 				RootConfig.class, 
 				SecurityConfig.class, 
 				EmailConfig.class, 
-				RedisConfig.class
+				RedisConfig.class,
+				ValidationConfig.class
 			};
 	}
 
