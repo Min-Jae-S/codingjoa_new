@@ -39,9 +39,6 @@ public class BoardCriteriaArgumentResolver implements HandlerMethodArgumentResol
 	@Value("#{${criteria.typeMap}}") 
 	private Map<String, Object> typeMap;
 	
-	@Autowired
-	private CategoryMapper categoryMapper; 
-
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
 		return parameter.getParameterType().equals(BoardCriteria.class) &&
@@ -56,18 +53,18 @@ public class BoardCriteriaArgumentResolver implements HandlerMethodArgumentResol
 		mavContainer.addAttribute("recordCntMap", recordCntMap);
 		mavContainer.addAttribute("typeMap", typeMap);
 		
-		int boardCategoryCode;
-		try {
-			String rawBoardCategoryCode = webRequest.getParameter("boardCategoryCode");
-			log.info("Raw boardcategoryCode = {}", rawBoardCategoryCode);
-			
-			boardCategoryCode = Integer.parseInt(rawBoardCategoryCode);
+//		int boardCategoryCode;
+//		try {
+//			String rawBoardCategoryCode = webRequest.getParameter("boardCategoryCode");
+//			log.info("Raw boardcategoryCode = {}", rawBoardCategoryCode);
+//			
+//			boardCategoryCode = Integer.parseInt(rawBoardCategoryCode);
 //			if (!categoryMapper.isBoardCategory(boardCategoryCode)) {
-//				throw new IllegalArgumentException("board not exist");
+//				throw new IllegalArgumentException("boardCategoryCode is not categoryCode");
 //			}
-		} catch (NumberFormatException e) {
-			throw new IllegalArgumentException("boardCategoryCode is not number format");
-		}
+//		} catch (NumberFormatException e) {
+//			throw new IllegalArgumentException("boardCategoryCode is not number format");
+//		}
 		
 		String page = webRequest.getParameter("page");
 		String recordCnt = webRequest.getParameter("recordCnt");
@@ -75,7 +72,6 @@ public class BoardCriteriaArgumentResolver implements HandlerMethodArgumentResol
 		String keyword = webRequest.getParameter("keyword");
 		
 		return new BoardCriteria(
-			boardCategoryCode,
 			MyNumberUtils.isNaturalNumber(page) ? Integer.parseInt(page) : DEFAULT_PAGE,
 			recordCntMap.containsKey(recordCnt) ? Integer.parseInt(recordCnt) : DEFAULT_RECORD_CNT,
 			typeMap.containsKey(type) ? type : DEFALUT_TYPE,

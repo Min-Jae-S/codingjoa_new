@@ -64,7 +64,7 @@ public class BoardController {
 		
 		ArrayList<List<BoardDetailsDto>> boardList = new ArrayList<List<BoardDetailsDto>>();
 		boardCategoryList.forEach(category -> {
-			BoardCriteria boardCri = new BoardCriteria(category.getCategoryCode(), 1, 5);
+			BoardCriteria boardCri = new BoardCriteria(1, 5);
 			List<BoardDetailsDto> board = boardService.getPagedBoard(boardCri);
 			boardList.add(board);
 		});
@@ -74,7 +74,9 @@ public class BoardController {
 	}
 	
 	@GetMapping("/main")
-	public String getBoard(@BoardCri BoardCriteria boardCri, Model model) {
+	public String getBoard(@RequestParam("boardCategorycode") int boardCategorycode, 
+			@BoardCri BoardCriteria boardCri, Model model) {
+		log.info("boardCategorycode = ", boardCategorycode);
 		log.info("{}", boardCri);
 		
 		model.addAttribute("boardCri", boardCri);
@@ -89,15 +91,15 @@ public class BoardController {
 		model.addAttribute("pagination", pagination);
 		log.info("{}", pagination);
 		
-		String boardName = categoryService.findCategoryName(boardCri.getBoardCategoryCode());
-		model.addAttribute("boardName", boardName);
+//		String boardName = categoryService.findCategoryName(boardCategorycode);
+//		model.addAttribute("boardName", boardName);
 		
 		return "board/main";
 	}
 	
 	@GetMapping("/read")
-	public String read(@RequestParam("boardIdx") int boardIdx, @BoardCri BoardCriteria boardCri, 
-			Model model) {
+	public String read(@RequestParam("boardIdx") int boardIdx, 
+			@BoardCri BoardCriteria boardCri, Model model) {
 		log.info("boardIdx = {}", boardIdx);
 		log.info("{}", boardCri);
 		
@@ -107,7 +109,7 @@ public class BoardController {
 		model.addAttribute("boardDetails", boardDetails);
 		log.info("boardDetails = {}", boardDetails);
 		
-		String boardName = categoryService.findCategoryName(boardCri.getBoardCategoryCode());
+		String boardName = categoryService.findCategoryName(boardDetails.getBoardCategoryCode());
 		model.addAttribute("boardName", boardName);
 
 		// 쿠키를 이용하여 조회수 중복 방지 추가하기 (https://mighty96.github.io/til/view)
@@ -117,8 +119,7 @@ public class BoardController {
 	}
 	
 	@GetMapping("/write")
-	public String write(@ModelAttribute("writeBoardDto") BoardDto writeBoardDto, 
-			Model model) {
+	public String write(@ModelAttribute("writeBoardDto") BoardDto writeBoardDto, Model model) {
 		log.info("{}", writeBoardDto);
 		
 		model.addAttribute("boardCategoryList", categoryService.findBoardCategoryList());
@@ -147,7 +148,6 @@ public class BoardController {
 		
 		return "redirect:/board/read" + UriComponentsBuilder.newInstance()
 											.queryParam("boardIdx", boardIdx)
-											.queryParam("boardCategoryCode", writeBoardDto.getBoardCategoryCode())
 											.toUriString();
 	}
 	
@@ -182,7 +182,6 @@ public class BoardController {
 		
 		return "redirect:/board/read" + UriComponentsBuilder.newInstance()
 											.queryParam("boardIdx", modifyBoardDto.getBoardIdx())
-											.queryParam("boardCategoryCode", modifyBoardDto.getBoardCategoryCode())
 											.toUriString();
 	}
 	

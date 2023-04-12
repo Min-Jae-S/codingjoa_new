@@ -12,7 +12,6 @@ import lombok.ToString;
 @Setter
 public class BoardCriteria {
 	
-	private int boardCategoryCode;
 	private int page;
 	private int recordCnt;
 	private String type;
@@ -20,20 +19,18 @@ public class BoardCriteria {
 	
 	public BoardCriteria() { }
 	
-	public BoardCriteria(int boardCategoryCode, int page, int recordCnt) {
-		this.boardCategoryCode = boardCategoryCode;
+	public BoardCriteria(int page, int recordCnt) {
 		this.page = page;
 		this.recordCnt = recordCnt;
 	}
 	
-	public BoardCriteria(int boardCategoryCode, int page, int recordCnt, String type, String keyword) {
-		this(boardCategoryCode, page, recordCnt);
+	public BoardCriteria(int page, int recordCnt, String type, String keyword) {
+		this(page, recordCnt);
 		this.type = type;
 		this.keyword = keyword;
 	}
 
 	public BoardCriteria(BoardCriteria criteria) {
-		this.boardCategoryCode = criteria.boardCategoryCode;
 		this.page = criteria.page;
 		this.recordCnt = criteria.recordCnt;
 		this.type = criteria.type;
@@ -42,7 +39,6 @@ public class BoardCriteria {
 	
 	public String getQueryString() {
 		return UriComponentsBuilder.newInstance()
-				.queryParam("boardCategoryCode", this.boardCategoryCode)
 				.queryParam("page", this.page)
 				.queryParam("recordCnt", this.recordCnt)
 				.queryParam("type", this.type)
@@ -52,7 +48,6 @@ public class BoardCriteria {
 	
 	public String getQueryString(int page) {
 		return UriComponentsBuilder.newInstance()
-				.queryParam("boardCategoryCode", this.boardCategoryCode)
 				.queryParam("page", page)
 				.queryParam("recordCnt", this.recordCnt)
 				.queryParam("type", this.type)
