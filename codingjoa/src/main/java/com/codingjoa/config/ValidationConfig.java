@@ -13,15 +13,15 @@ import org.springframework.validation.beanvalidation.MethodValidationPostProcess
 public class ValidationConfig {
 
 	@Bean
-    public Validator validator() {
-        return new LocalValidatorFactoryBean();
-    }
-	
+	public Validator validator() {
+		return new LocalValidatorFactoryBean();
+	}
+
 	@Bean
 	public MethodValidationPostProcessor methodValidationPostProcessor() {
 		MethodValidationPostProcessor methodValidationPostProcessor = new MethodValidationPostProcessor();
-	    methodValidationPostProcessor.setValidator(validator());
-	    
-	    return methodValidationPostProcessor;
+		methodValidationPostProcessor.setValidator(validator());
+
+		return methodValidationPostProcessor;
 	}
 }
