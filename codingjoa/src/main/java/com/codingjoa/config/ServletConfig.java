@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.TimeZone;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.validation.Validator;
 
@@ -55,8 +56,15 @@ public class ServletConfig implements WebMvcConfigurer {
 	@Autowired
 	private CommentCriteriaArgumentResolver commentCriteriaArgumentResolver;
 	
+	private static Validator staticBoardCategoryCodeValidator;
+	
 	@Resource(name = "boardCategoryCodeValidator")
-	private static Validator boardCategoryCodeValidator;
+	private Validator boardCategoryCodeValidator;
+	
+	@PostConstruct
+	private void initStaticValidator() {
+		staticBoardCategoryCodeValidator = this.boardCategoryCodeValidator;
+	}
 	
 	@Override
 	public void configureViewResolvers(ViewResolverRegistry registry) {
@@ -121,7 +129,7 @@ public class ServletConfig implements WebMvcConfigurer {
 	public static MethodValidationPostProcessor methodValidationPostProcessor() {
 		System.out.println("## Register MethodValidationPostProcessor");
 		MethodValidationPostProcessor methodValidationPostProcessor = new MethodValidationPostProcessor();
-		methodValidationPostProcessor.setValidator(boardCategoryCodeValidator);
+		methodValidationPostProcessor.setValidator(staticBoardCategoryCodeValidator);
 		
 		return methodValidationPostProcessor;
 	}
