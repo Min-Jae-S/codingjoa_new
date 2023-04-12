@@ -91,8 +91,8 @@ public class BoardController {
 		model.addAttribute("pagination", pagination);
 		log.info("{}", pagination);
 		
-//		String boardName = categoryService.findCategoryName(boardCategorycode);
-//		model.addAttribute("boardName", boardName);
+		Category category = categoryService.findCategory(boardCategorycode);
+		model.addAttribute("category", category);
 		
 		return "board/main";
 	}

@@ -10,6 +10,8 @@ public interface CategoryService {
 	
 	List<Category> findCategoryListByParent(int categoryParentCode);
 	
+	Category findCategory(int categoryCode);
+	
 	String findCategoryName(int categoryCode);
 	
 	//List<Category> findCategoryOfSameParent(int categoryCode);

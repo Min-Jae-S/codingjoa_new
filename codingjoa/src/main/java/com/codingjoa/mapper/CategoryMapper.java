@@ -13,6 +13,8 @@ public interface CategoryMapper {
 	
 	List<Category> findCategoryListByParent(int categoryParentCode);
 	
+	Category findCategory(int categoryCode);
+	
 	String findCategoryName(int categoryCode);
 	
 	//List<Category> findCategoryOfSameParent(int categoryParentCode); // SELF JOIN

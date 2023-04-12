@@ -25,6 +25,11 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
+	public Category findCategory(int categoryCode) {
+		return categoryMapper.findCategory(categoryCode);
+	}
+	
+	@Override
 	public String findCategoryName(int categoryCode) {
 		return categoryMapper.findCategoryName(categoryCode);
 	}
@@ -43,5 +48,5 @@ public class CategoryServiceImpl implements CategoryService {
 	public boolean isBoardCategory(int categoryCode) {
 		return categoryMapper.isBoardCategory(categoryCode);
 	}
-	
+
 }

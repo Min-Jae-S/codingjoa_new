@@ -89,10 +89,10 @@
 	<div class="row">
 		<div class="col-sm-2"></div>
 		<div class="col-sm-8">
-			<h4 class="font-weight-bold mb-4"><c:out value="${boardName}"/></h4>
+			<h4 class="font-weight-bold mb-4"><c:out value="${category.categoryName}"/></h4>
 			<div class="pt-3">
 	        	<form:form class="form-inline" action="${contextPath}/board/main" method="GET" modelAttribute="boardCri">
-	        		<form:hidden path="boardCategoryCode"/>
+	        		<input type="hidden" name="boardCategoryCode" value="${category.categoryCode}">
 				  	<form:select path="type" class="custom-select custom-select-sm mr-2">
 				  		<form:options items="${typeMap}"/>
 				  	</form:select>
@@ -157,7 +157,8 @@
 				</table>
 			</div>
 			<div class="mb-3" style="height: 38px;">
-				<a class="btn btn-primary" href="${contextPath}/board/write?boardCategoryCode=${boardCri.boardCategoryCode}">글쓰기</a>
+				<a class="btn btn-primary" 
+					href="${contextPath}/board/write?boardCategoryCode=${category.categoryCode}">글쓰기</a>
 			</div>
 			<div class="pt-3">
 				<ul class="pagination justify-content-center">
