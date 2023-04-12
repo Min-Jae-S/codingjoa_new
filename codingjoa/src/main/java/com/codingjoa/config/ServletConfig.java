@@ -6,16 +6,20 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.TimeZone;
 
+import javax.validation.Validator;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
@@ -30,10 +34,13 @@ import com.codingjoa.resolver.CommentCriteriaArgumentResolver;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Configuration
 @EnableWebMvc
 @PropertySource("/WEB-INF/properties/upload.properties")
 @ComponentScan(basePackages = { "com.codingjoa.controller", "com.codingjoa.validator", "com.codingjoa.resolver" })
+@Slf4j
 public class ServletConfig implements WebMvcConfigurer {
 	
 	@Value("${upload.path}")
@@ -109,11 +116,19 @@ public class ServletConfig implements WebMvcConfigurer {
 		resolvers.add(criteriaArgumentResolver);
 		resolvers.add(commentCriteriaArgumentResolver);
 	}
-
+	
 //	@Bean
-//	public static MethodValidationPostProcessor methodValidationPostProcessor() {
-//		MethodValidationPostProcessor processor = new MethodValidationPostProcessor();
-//		return processor;
+//	@Role(BeanDefinition.ROLE_INFRASTRUCTURE)
+//	public static LocalValidatorFactoryBean defaultValidator() {
+//		LocalValidatorFactoryBean factoryBean = new LocalValidatorFactoryBean();
+//		return factoryBean;
 //	}
+	
+	@Bean
+	public static MethodValidationPostProcessor methodValidationPostProcessor(@Lazy Validator validator) {
+		MethodValidationPostProcessor processor = new MethodValidationPostProcessor();
+		processor.setValidator(validator);
+		return processor;
+	}
 
 }

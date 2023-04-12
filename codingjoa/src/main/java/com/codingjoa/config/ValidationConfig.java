@@ -14,22 +14,22 @@ import org.springframework.validation.beanvalidation.MethodValidationPostProcess
 
 @Configuration
 @Import(MethodValidationPostProcessor.class)
-@ComponentScan("com.codingjoa.validator")
+@ComponentScan(basePackages = "com.codingjoa.validator")
 public class ValidationConfig {
 
-	@Bean
-	@Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-	public static LocalValidatorFactoryBean validator() {
-		System.out.println("## ValidationConfig - LocalValidatorFactoryBean");
-		LocalValidatorFactoryBean factoryBean = new LocalValidatorFactoryBean();
-		return factoryBean;
-	}
-	
-	@Bean
-	public static MethodValidationPostProcessor methodValidationPostProcessor(@Lazy Validator validtor) {
-		System.out.println("## ValidationConfig - methodValidationPostProcessor");
-		MethodValidationPostProcessor processor = new MethodValidationPostProcessor();
-		processor.setValidator(validtor);
-		return processor;
-	}
+//	@Bean
+//	@Role(BeanDefinition.ROLE_INFRASTRUCTURE)
+//	public static LocalValidatorFactoryBean validator() {
+//		System.out.println("## ValidationConfig - LocalValidatorFactoryBean");
+//		LocalValidatorFactoryBean factoryBean = new LocalValidatorFactoryBean();
+//		return factoryBean;
+//	}
+//	
+//	@Bean
+//	public static MethodValidationPostProcessor methodValidationPostProcessor(@Lazy Validator validtor) {
+//		System.out.println("## ValidationConfig - methodValidationPostProcessor");
+//		MethodValidationPostProcessor processor = new MethodValidationPostProcessor();
+//		processor.setValidator(validtor);
+//		return processor;
+//	}
 }
