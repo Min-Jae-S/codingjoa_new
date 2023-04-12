@@ -11,17 +11,22 @@ import org.springframework.validation.beanvalidation.MethodValidationPostProcess
 @Configuration
 @ComponentScan(basePackages = "com.codingjoa.validator")
 public class ValidationConfig {
-
-	@Bean
-	public Validator validator() {
-		return new LocalValidatorFactoryBean();
-	}
+	
+//	@Bean
+//	public Validator validator() {
+//		return new LocalValidatorFactoryBean();
+//	}
+//
+//	@Bean
+//	public MethodValidationPostProcessor methodValidationPostProcessor() {
+//		MethodValidationPostProcessor methodValidationPostProcessor = new MethodValidationPostProcessor();
+//		methodValidationPostProcessor.setValidator(validator());
+//
+//		return methodValidationPostProcessor;
+//	}
 
 	@Bean
 	public MethodValidationPostProcessor methodValidationPostProcessor() {
-		MethodValidationPostProcessor methodValidationPostProcessor = new MethodValidationPostProcessor();
-		methodValidationPostProcessor.setValidator(validator());
-
-		return methodValidationPostProcessor;
+		return new MethodValidationPostProcessor();
 	}
 }

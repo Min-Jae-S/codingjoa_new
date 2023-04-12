@@ -18,9 +18,7 @@ import com.codingjoa.validator.BoardCategoryCodeValidator;
 public @interface BoardCategoryCode {
 	
 	public abstract String message() default "not valid boardCategoryCode";
-	
     public abstract Class<?>[] groups() default {};
-
     public abstract Class<? extends Payload>[] payload() default {};
     
 }
