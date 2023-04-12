@@ -1,5 +1,7 @@
 package com.codingjoa.response;
 
+import javax.validation.ConstraintViolationException;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -46,6 +48,14 @@ public class ErrorHandler {
 	@ExceptionHandler(IllegalArgumentException.class)
 	public String handleIllegalArgumentException(IllegalArgumentException e) {
 		log.info("============== handleIllegalArgumentException ==============");
+		log.info("## message = {}", e.getMessage());
+		
+		return "forward:/error/errorPage";
+	}
+
+	@ExceptionHandler(ConstraintViolationException.class)
+	public String handleConstraintViolationException(ConstraintViolationException e) {
+		log.info("============== handleConstraintViolationException ==============");
 		log.info("## message = {}", e.getMessage());
 		
 		return "forward:/error/errorPage";

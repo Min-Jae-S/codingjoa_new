@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.Ordered;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
@@ -113,7 +114,9 @@ public class ServletConfig implements WebMvcConfigurer {
 
 	@Bean
 	public static MethodValidationPostProcessor methodValidationPostProcessor() {
-		return new MethodValidationPostProcessor();
+		MethodValidationPostProcessor processor = new MethodValidationPostProcessor();
+		processor.setOrder(Ordered.HIGHEST_PRECEDENCE);
+		return processor;
 	}
 
 }
