@@ -76,18 +76,18 @@ public class BoardController {
 	@GetMapping("/main")
 	public String getBoard(@RequestParam("boardCategorycode") int boardCategorycode, 
 			@BoardCri BoardCriteria boardCri, Model model) {
-		log.info("boardCategorycode = ", boardCategorycode);
+		log.info("boardCategorycode = {}", boardCategorycode);
 		log.info("{}", boardCri);
 		
 		model.addAttribute("boardCri", boardCri);
 
-		BoardCriteria newCri = boardService.makeNewCri(boardCri);
-		log.info("newCri = {}", newCri);
+		BoardCriteria newBoardCri = boardService.makeNewBoardCri(boardCri);
+		log.info("newBoardCri = {}", newBoardCri);
 		
-		List<BoardDetailsDto> board = boardService.getPagedBoard(newCri);
+		List<BoardDetailsDto> board = boardService.getPagedBoard(boardCategorycode, newBoardCri);
 		model.addAttribute("board", board);
 		
-		Pagination pagination = boardService.getPagination(newCri);
+		Pagination pagination = boardService.getPagination(boardCategorycode, newBoardCri);
 		model.addAttribute("pagination", pagination);
 		log.info("{}", pagination);
 		
@@ -152,8 +152,7 @@ public class BoardController {
 	}
 	
 	@GetMapping("/modify")
-	public String modify(@ModelAttribute("modifyBoardDto") BoardDto modifyBoardDto, 
-			Model model) {
+	public String modify(@ModelAttribute("modifyBoardDto") BoardDto modifyBoardDto, Model model) {
 		log.info("{}", modifyBoardDto);
 		
 		boardService.bindModifyBoard(modifyBoardDto);

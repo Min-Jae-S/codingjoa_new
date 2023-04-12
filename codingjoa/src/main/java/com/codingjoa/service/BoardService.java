@@ -21,11 +21,11 @@ public interface BoardService {
 	
 	void updateBoardViews(int boardIdx);
 	
-	BoardCriteria makeNewCri(BoardCriteria boardCri);
+	BoardCriteria makeNewBoardCri(BoardCriteria boardCri);
 	
-	List<BoardDetailsDto> getPagedBoard(BoardCriteria boardCri);
+	List<BoardDetailsDto> getPagedBoard(int boardCategoryCode, BoardCriteria boardCri);
 
-	Pagination getPagination(BoardCriteria boardCri);
+	Pagination getPagination(int boardCategoryCode, BoardCriteria boardCri);
 	
 	boolean isBoardIdxExist(int boardIdx, int boardCategoryCode);
 	

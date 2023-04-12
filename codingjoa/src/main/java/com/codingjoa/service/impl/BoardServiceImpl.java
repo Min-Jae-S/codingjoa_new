@@ -89,7 +89,7 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
-	public BoardCriteria makeNewCri(BoardCriteria boardCri) {
+	public BoardCriteria makeNewBoardCri(BoardCriteria boardCri) {
 		BoardCriteria newCri = new BoardCriteria(boardCri);
 		String keyword = boardCri.getKeyword();
 		
@@ -106,21 +106,23 @@ public class BoardServiceImpl implements BoardService {
 			
 			newCri.setKeyword(newKeyword);
 		}
+		
 		return newCri;
 	}
 	
 	@Override
-	public List<BoardDetailsDto> getPagedBoard(BoardCriteria boardCri) {
-		log.info("boardMapper.findPagedBoard(boardCri) = {}", boardMapper.findPagedBoard(boardCri));
+	public List<BoardDetailsDto> getPagedBoard(int boardCategoryCode, BoardCriteria boardCri) {
+		log.info("boardMapper.findPagedBoard(boardCategoryCode, boardCri) = {}", 
+				boardMapper.findPagedBoard(boardCategoryCode, boardCri));
 		
-		return boardMapper.findPagedBoard(boardCri).stream()
+		return boardMapper.findPagedBoard(boardCategoryCode, boardCri).stream()
 				.map(boardDetailsMap -> modelMapper.map(boardDetailsMap, BoardDetailsDto.class))
 				.collect(Collectors.toList());
 	}
 
 	@Override
-	public Pagination getPagination(BoardCriteria boardCri) {
-		int totalCnt = boardMapper.findPagedBoardTotalCnt(boardCri);
+	public Pagination getPagination(int boardCategoryCode, BoardCriteria boardCri) {
+		int totalCnt = boardMapper.findPagedBoardTotalCnt(boardCategoryCode, boardCri);
 		return new Pagination(totalCnt, boardCri.getPage(), boardCri.getRecordCnt(), pageRange);
 	}
 	
