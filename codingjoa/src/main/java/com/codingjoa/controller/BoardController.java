@@ -65,7 +65,7 @@ public class BoardController {
 		ArrayList<List<BoardDetailsDto>> boardList = new ArrayList<List<BoardDetailsDto>>();
 		boardCategoryList.forEach(category -> {
 			BoardCriteria boardCri = new BoardCriteria(1, 5);
-			List<BoardDetailsDto> board = boardService.getPagedBoard(boardCri);
+			List<BoardDetailsDto> board = boardService.getPagedBoard(category.getCategoryCode(), boardCri);
 			boardList.add(board);
 		});
 		model.addAttribute("boardList", boardList);
