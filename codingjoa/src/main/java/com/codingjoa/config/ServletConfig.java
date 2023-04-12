@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.TimeZone;
 
+import javax.annotation.Resource;
 import javax.validation.Validator;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,6 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import com.codingjoa.annotation.BoardCategoryCode;
 import com.codingjoa.resolver.BoardCriteriaArgumentResolver;
 import com.codingjoa.resolver.CommentCriteriaArgumentResolver;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -37,7 +37,7 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 @Configuration
 @EnableWebMvc
 @PropertySource("/WEB-INF/properties/upload.properties")
-@ComponentScan(basePackages = { "com.codingjoa.controller", "com.codingjoa.resolver" })
+@ComponentScan(basePackages = { "com.codingjoa.controller", "com.codingjoa.validator", "com.codingjoa.resolver" })
 public class ServletConfig implements WebMvcConfigurer {
 	
 	@Value("${upload.path}")
@@ -54,6 +54,9 @@ public class ServletConfig implements WebMvcConfigurer {
 	
 	@Autowired
 	private CommentCriteriaArgumentResolver commentCriteriaArgumentResolver;
+	
+	@Resource(name = "boardCategoryCodeValidator")
+	private static Validator boardCategoryCodeValidator;
 	
 	@Override
 	public void configureViewResolvers(ViewResolverRegistry registry) {
@@ -113,12 +116,12 @@ public class ServletConfig implements WebMvcConfigurer {
 		resolvers.add(criteriaArgumentResolver);
 		resolvers.add(commentCriteriaArgumentResolver);
 	}
-	
+
 	@Bean
 	public static MethodValidationPostProcessor methodValidationPostProcessor() {
 		System.out.println("## Register MethodValidationPostProcessor");
 		MethodValidationPostProcessor methodValidationPostProcessor = new MethodValidationPostProcessor();
-		methodValidationPostProcessor.setValidatedAnnotationType(BoardCategoryCode.class);
+		methodValidationPostProcessor.setValidator(boardCategoryCodeValidator);
 		
 		return methodValidationPostProcessor;
 	}
