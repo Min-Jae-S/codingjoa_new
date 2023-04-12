@@ -11,13 +11,13 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Component(value = "boardCategoryCodeValidator")
-public class BoardCategoryCodeValidator implements ConstraintValidator<BoardCategoryCode, String> {
+public class BoardCategoryCodeValidator implements ConstraintValidator<BoardCategoryCode, Object> {
 	
 	@Override
-	public boolean isValid(String value, ConstraintValidatorContext context) {
+	public boolean isValid(Object value, ConstraintValidatorContext context) {
 		log.info("============== BoardCategoryCodeValidator ==============");
 		
-		return false;
+		return true;
 	}
-
+	
 }

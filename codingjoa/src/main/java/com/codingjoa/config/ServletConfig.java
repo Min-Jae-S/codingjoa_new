@@ -6,10 +6,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.TimeZone;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
-import javax.validation.Validator;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -55,16 +51,6 @@ public class ServletConfig implements WebMvcConfigurer {
 	
 	@Autowired
 	private CommentCriteriaArgumentResolver commentCriteriaArgumentResolver;
-	
-	private static Validator staticBoardCategoryCodeValidator;
-	
-	@Resource(name = "boardCategoryCodeValidator")
-	private Validator boardCategoryCodeValidator;
-	
-	@PostConstruct
-	private void initStaticValidator() {
-		staticBoardCategoryCodeValidator = this.boardCategoryCodeValidator;
-	}
 	
 	@Override
 	public void configureViewResolvers(ViewResolverRegistry registry) {
@@ -127,11 +113,7 @@ public class ServletConfig implements WebMvcConfigurer {
 
 	@Bean
 	public static MethodValidationPostProcessor methodValidationPostProcessor() {
-		System.out.println("## Register MethodValidationPostProcessor");
-		MethodValidationPostProcessor methodValidationPostProcessor = new MethodValidationPostProcessor();
-		methodValidationPostProcessor.setValidator(staticBoardCategoryCodeValidator);
-		
-		return methodValidationPostProcessor;
+		return new MethodValidationPostProcessor();
 	}
 
 }
