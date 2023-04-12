@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.codingjoa.annotation.BoardCategoryCode;
 import com.codingjoa.annotation.BoardCri;
 import com.codingjoa.dto.BoardDetailsDto;
 import com.codingjoa.dto.BoardDto;
@@ -74,9 +75,9 @@ public class BoardController {
 	}
 	
 	@GetMapping("/main")
-	public String getBoard(@RequestParam("boardCategorycode") int boardCategorycode, 
+	public String getBoard(@BoardCategoryCode @RequestParam("boardCategoryCode") int boardCategoryCode, 
 			@BoardCri BoardCriteria boardCri, Model model) {
-		log.info("boardCategorycode = {}", boardCategorycode);
+		log.info("boardCategoryCode = {}", boardCategoryCode);
 		log.info("{}", boardCri);
 		
 		model.addAttribute("boardCri", boardCri);
@@ -84,14 +85,14 @@ public class BoardController {
 		BoardCriteria newBoardCri = boardService.makeNewBoardCri(boardCri);
 		log.info("newBoardCri = {}", newBoardCri);
 		
-		List<BoardDetailsDto> board = boardService.getPagedBoard(boardCategorycode, newBoardCri);
+		List<BoardDetailsDto> board = boardService.getPagedBoard(boardCategoryCode, newBoardCri);
 		model.addAttribute("board", board);
 		
-		Pagination pagination = boardService.getPagination(boardCategorycode, newBoardCri);
+		Pagination pagination = boardService.getPagination(boardCategoryCode, newBoardCri);
 		model.addAttribute("pagination", pagination);
 		log.info("{}", pagination);
 		
-		Category category = categoryService.findCategory(boardCategorycode);
+		Category category = categoryService.findCategory(boardCategoryCode);
 		model.addAttribute("category", category);
 		
 		return "board/main";
