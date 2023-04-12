@@ -16,6 +16,7 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
@@ -25,6 +26,7 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import com.codingjoa.annotation.BoardCategoryCode;
 import com.codingjoa.resolver.BoardCriteriaArgumentResolver;
 import com.codingjoa.resolver.CommentCriteriaArgumentResolver;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -108,6 +110,15 @@ public class ServletConfig implements WebMvcConfigurer {
 	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
 		resolvers.add(criteriaArgumentResolver);
 		resolvers.add(commentCriteriaArgumentResolver);
+	}
+	
+	@Bean
+	public static MethodValidationPostProcessor methodValidationPostProcessor() {
+		System.out.println("## methodValidationPostProcessor");
+		MethodValidationPostProcessor methodValidationPostProcessor = new MethodValidationPostProcessor();
+		methodValidationPostProcessor.setValidatedAnnotationType(BoardCategoryCode.class);
+		
+		return new MethodValidationPostProcessor();
 	}
 
 }
