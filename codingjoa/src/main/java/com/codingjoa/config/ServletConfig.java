@@ -25,13 +25,8 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import com.codingjoa.interceptor.CheckBoardCategoryAndIdxInterceptor;
-import com.codingjoa.interceptor.CheckBoardCategoryInterceptor;
-import com.codingjoa.interceptor.CheckMyBoardInterceptor;
-import com.codingjoa.resolver.CommentCriteriaArgumentResolver;
 import com.codingjoa.resolver.BoardCriteriaArgumentResolver;
-import com.codingjoa.service.BoardService;
-import com.codingjoa.service.CategoryService;
+import com.codingjoa.resolver.CommentCriteriaArgumentResolver;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 
@@ -44,11 +39,11 @@ public class ServletConfig implements WebMvcConfigurer {
 	@Value("${upload.path}")
 	private String uploadPath;
 	
-	@Autowired
-	private CategoryService categoryService;
-	
-	@Autowired
-	private BoardService boardService;
+//	@Autowired
+//	private CategoryService categoryService;
+//	
+//	@Autowired
+//	private BoardService boardService;
 	
 	@Autowired
 	private BoardCriteriaArgumentResolver criteriaArgumentResolver;
@@ -114,7 +109,5 @@ public class ServletConfig implements WebMvcConfigurer {
 		resolvers.add(criteriaArgumentResolver);
 		resolvers.add(commentCriteriaArgumentResolver);
 	}
-	
-	
-	
+
 }

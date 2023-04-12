@@ -55,8 +55,6 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 		
 		//StandardServletMultipartResolver.cleanupMultipart(94) - Failed to perform cleanup of multipart items
 		registration.setMultipartConfig(multipartConfig);
-		
 	}
-	
 	
 }
