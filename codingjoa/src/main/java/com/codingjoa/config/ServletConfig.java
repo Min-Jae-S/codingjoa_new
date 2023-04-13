@@ -88,7 +88,6 @@ public class ServletConfig implements WebMvcConfigurer {
 		converters.stream()
 			.filter(converter -> converter instanceof StringHttpMessageConverter)
 			.forEach(converter -> ((StringHttpMessageConverter) converter).setDefaultCharset(StandardCharsets.UTF_8));
-		
 	}
 
 	@Override
@@ -128,6 +127,7 @@ public class ServletConfig implements WebMvcConfigurer {
 	public static MethodValidationPostProcessor methodValidationPostProcessor(@Lazy Validator validator) {
 		MethodValidationPostProcessor processor = new MethodValidationPostProcessor();
 		processor.setValidator(validator);
+		
 		return processor;
 	}
 
