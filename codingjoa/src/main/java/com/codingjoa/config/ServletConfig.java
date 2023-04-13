@@ -127,7 +127,6 @@ public class ServletConfig implements WebMvcConfigurer {
 	public static MethodValidationPostProcessor methodValidationPostProcessor(@Lazy Validator validator) {
 		MethodValidationPostProcessor processor = new MethodValidationPostProcessor();
 		processor.setValidator(validator);
-		
 		return processor;
 	}
 
