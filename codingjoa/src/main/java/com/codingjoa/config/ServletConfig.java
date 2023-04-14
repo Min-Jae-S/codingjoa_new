@@ -147,20 +147,28 @@ public class ServletConfig implements WebMvcConfigurer {
 		return messageUtils;
 	}
 	
-	@Bean
-	public LocalValidatorFactoryBean defaultValidator() {
-		LocalValidatorFactoryBean factoryBean = new LocalValidatorFactoryBean();
-		factoryBean.setProviderClass(HibernateValidator.class);
-		factoryBean.setValidationMessageSource(messageSource());
-		factoryBean.afterPropertiesSet();
-		
-		return factoryBean;
-	}
+//	@Bean
+//	public Validator defaultValidator() {
+//		LocalValidatorFactoryBean factoryBean = new LocalValidatorFactoryBean();
+//		factoryBean.setProviderClass(HibernateValidator.class);
+//		factoryBean.setValidationMessageSource(messageSource());
+//		factoryBean.afterPropertiesSet();
+//		
+//		return factoryBean;
+//	}
+	
+//	@Bean
+//	public static MethodValidationPostProcessor methodValidationPostProcessor(@Lazy Validator defaultValidator) { // @Qualifier
+//		MethodValidationPostProcessor processor = new MethodValidationPostProcessor();
+//		processor.setValidator(defaultValidator);
+//		
+//		return processor;
+//	}
 	
 	@Bean
-	public static MethodValidationPostProcessor methodValidationPostProcessor(@Lazy Validator defaultValidator) { // @Qualifier
+	public static MethodValidationPostProcessor methodValidationPostProcessor(Validator validator) {
 		MethodValidationPostProcessor processor = new MethodValidationPostProcessor();
-		processor.setValidator(defaultValidator);
+		processor.setValidator(validator);
 		
 		return processor;
 	}
