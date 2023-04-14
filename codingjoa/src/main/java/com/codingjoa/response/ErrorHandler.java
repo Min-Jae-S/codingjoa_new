@@ -21,7 +21,6 @@ public class ErrorHandler {
 	@ResponseBody
 	public ResponseEntity<Object> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
 		log.info("============== handleMethodArgumentNotValidException ==============");
-		log.info("## message = {}", e.getMessage());
 		
 		ErrorResponse response = ErrorResponse.create().bindingResult(e.getBindingResult());
 		log.info("{}", response);
@@ -65,7 +64,6 @@ public class ErrorHandler {
 	@ResponseBody
 	public ResponseEntity<Object> handleMaxUploadSizeExceededException(MaxUploadSizeExceededException e) {
 		log.info("============== handleMaxUploadSizeExceededException ==============");
-		log.info("## message = {}", e.getMessage());
 		
 		ErrorResponse response = ErrorResponse.create().errorCode("error.ExceededSize");
 		log.info("{}", response);

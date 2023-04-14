@@ -335,7 +335,7 @@
 			success : function(result) {
 				console.log(result);
 				alert(result.message);
-				var member = result.data.member;
+				let member = result.data.member;
 				$("#editEmail").find("form").html("<input type='text' id='memberEmail' name='memberEmail' value='" + member.memberEmail + "' readonly>");
 				$("#showEmail").find("span").text(member.memberEmail);
 				$("#resetEmailBtn").click();
@@ -344,7 +344,7 @@
 				console.log(jqXHR);
 				$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
 				
-				if(jqXHR.status == 422) {
+				if (jqXHR.status == 422) {
 					let errorMap = JSON.parse(jqXHR.responseText).errorMap;
 					$.each(errorMap, function(errorField, errorMessage) {
 						$("#" + errorField).closest("dd").after("<dd id='" + errorField + ".errors' class='error'>" + errorMessage + "</dd>");
