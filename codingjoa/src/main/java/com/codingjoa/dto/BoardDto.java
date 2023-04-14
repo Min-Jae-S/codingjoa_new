@@ -15,7 +15,7 @@ public class BoardDto {
 	private String boardContentText;
 	private int boardWriterIdx;
 	
-	//@BoardCategoryCode
+	@BoardCategoryCode
 	private int boardCategoryCode;
 	
 	private List<Integer> uploadIdxList;

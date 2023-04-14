@@ -13,7 +13,7 @@ import javax.validation.Payload;
 import com.codingjoa.validator.BoardCategoryCodeValidator;
 
 @Retention(RUNTIME)
-@Target({ FIELD, PARAMETER })
+@Target({FIELD, PARAMETER})
 @Constraint(validatedBy = BoardCategoryCodeValidator.class)
 public @interface BoardCategoryCode {
 	
