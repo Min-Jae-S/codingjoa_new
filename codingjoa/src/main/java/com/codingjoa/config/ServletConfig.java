@@ -10,15 +10,22 @@ import javax.validation.Validator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.Role;
+import org.springframework.context.support.MessageSourceAccessor;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.multipart.MultipartResolver;
@@ -31,16 +38,14 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.codingjoa.resolver.BoardCriteriaArgumentResolver;
 import com.codingjoa.resolver.CommentCriteriaArgumentResolver;
+import com.codingjoa.util.MessageUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
-
-import lombok.extern.slf4j.Slf4j;
 
 @Configuration
 @EnableWebMvc
 @PropertySource("/WEB-INF/properties/upload.properties")
 @ComponentScan(basePackages = { "com.codingjoa.controller", "com.codingjoa.validator", "com.codingjoa.resolver" })
-@Slf4j
 public class ServletConfig implements WebMvcConfigurer {
 	
 	@Value("${upload.path}")
@@ -116,17 +121,42 @@ public class ServletConfig implements WebMvcConfigurer {
 		resolvers.add(commentCriteriaArgumentResolver);
 	}
 	
-//	@Bean
-//	@Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-//	public static LocalValidatorFactoryBean defaultValidator() {
-//		LocalValidatorFactoryBean factoryBean = new LocalValidatorFactoryBean();
-//		return factoryBean;
-//	}
+	@Bean
+	public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
+		return new PropertySourcesPlaceholderConfigurer();
+	}
 	
 	@Bean
-	public static MethodValidationPostProcessor methodValidationPostProcessor(@Lazy Validator validator) {
+	public MessageSource messageSource() {
+		ReloadableResourceBundleMessageSource source = new ReloadableResourceBundleMessageSource();
+		source.setDefaultEncoding("UTF-8");
+		source.setBasenames("/WEB-INF/properties/error-message", "/WEB-INF/properties/success-message");
+		return source;
+	}
+	
+	@Bean
+	public MessageSourceAccessor messageSourceAccessor() {
+		return new MessageSourceAccessor(messageSource());
+	}
+	
+	@Bean
+	public MessageUtils messageUtils() {
+		MessageUtils messageUtils = new MessageUtils();
+		messageUtils.setMessageSourceAccessor(messageSourceAccessor());
+		return messageUtils;
+	}
+	
+	@Bean
+	public LocalValidatorFactoryBean defaultValidator() {
+		LocalValidatorFactoryBean factoryBean = new LocalValidatorFactoryBean();
+		factoryBean.setValidationMessageSource(messageSource());
+		return factoryBean;
+	}
+	
+	@Bean
+	public static MethodValidationPostProcessor methodValidationPostProcessor(@Lazy Validator defaultValidator) { // @Qualifier
 		MethodValidationPostProcessor processor = new MethodValidationPostProcessor();
-		processor.setValidator(validator);
+		processor.setValidator(defaultValidator);
 		return processor;
 	}
 

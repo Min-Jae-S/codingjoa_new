@@ -9,18 +9,13 @@ import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.context.support.MessageSourceAccessor;
-import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
-import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.web.context.annotation.SessionScope;
 
 import com.codingjoa.dto.SessionDto;
-import com.codingjoa.util.MessageUtils;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
@@ -69,38 +64,11 @@ public class RootConfig {
 	}
 	
 	@Bean
-	public MessageSource messageSource() {
-		ReloadableResourceBundleMessageSource source = new ReloadableResourceBundleMessageSource();
-		source.setDefaultEncoding("UTF-8");
-		source.setBasenames("/WEB-INF/properties/error-message", "/WEB-INF/properties/success-message");
-		
-		return source;
-	}
-	
-	@Bean
-	public MessageSourceAccessor messageSourceAccessor() {
-		return new MessageSourceAccessor(messageSource());
-	}
-	
-	@Bean
-	public MessageUtils messageUtils() {
-		MessageUtils messageUtils = new MessageUtils();
-		messageUtils.setMessageSourceAccessor(messageSourceAccessor());
-		
-		return messageUtils;
-	}
-	
-	@Bean
 	public ModelMapper modelMapper() {
 		ModelMapper modelMapper = new ModelMapper();
 		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
 		
 		return modelMapper;
-	}
-	
-	@Bean
-	public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
-		return new PropertySourcesPlaceholderConfigurer();
 	}
 	
 	@Bean
