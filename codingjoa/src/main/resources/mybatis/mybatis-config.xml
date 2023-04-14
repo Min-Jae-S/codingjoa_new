@@ -14,7 +14,7 @@
 		<typeAlias type="com.codingjoa.entity.Upload" alias="upload" />
 		<typeAlias type="com.codingjoa.entity.Comment" alias="comment" />
 		
-		<typeAlias type="com.codingjoa.pagination.BoardCriteria" alias="boardCri" />
+		<typeAlias type="com.codingjoa.pagination.Criteria" alias="boardCri" />
 		<typeAlias type="com.codingjoa.pagination.CommentCriteria" alias="commentCri" />
 		
 		<!-- <typeAlias type="com.codingjoa.mybatis.ClobTypeHandler" alias="clobTypeHandler" /> -->
