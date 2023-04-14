@@ -78,6 +78,10 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public BoardDetailsDto getBoardDetails(int boardIdx) {
 		Map<String, Object> boardDetailsMap = boardMapper.findBoardDetails(boardIdx);
+		if (boardDetailsMap == null) {
+			throw new IllegalArgumentException("no boardDetails");
+		}
+		
 		return modelMapper.map(boardDetailsMap, BoardDetailsDto.class);
 	}
 	

@@ -45,17 +45,17 @@ public class ErrorHandler {
 //		throw new ModelAndViewDefiningException(mav);
 //	}
 	
-	@ExceptionHandler(IllegalArgumentException.class)
-	public String handleIllegalArgumentException(IllegalArgumentException e) {
-		log.info("============== handleIllegalArgumentException ==============");
+	@ExceptionHandler(ConstraintViolationException.class)
+	public String handleConstraintViolationException(ConstraintViolationException e) {
+		log.info("============== handleConstraintViolationException ==============");
 		log.info("## message = {}", e.getMessage());
 		
 		return "forward:/error/errorPage";
 	}
-
-	@ExceptionHandler(ConstraintViolationException.class)
-	public String handleConstraintViolationException(ConstraintViolationException e) {
-		log.info("============== handleConstraintViolationException ==============");
+	
+	@ExceptionHandler(IllegalArgumentException.class)
+	public String handleIllegalArgumentException(IllegalArgumentException e) {
+		log.info("============== handleIllegalArgumentException ==============");
 		log.info("## message = {}", e.getMessage());
 		
 		return "forward:/error/errorPage";

@@ -25,7 +25,6 @@ public class BoardCategoryCodeValidator implements ConstraintValidator<BoardCate
 		if (!categoryService.isBoardCategory(value)) {
 			return false;
 		}
-		
 		return true;
 	}
 }
