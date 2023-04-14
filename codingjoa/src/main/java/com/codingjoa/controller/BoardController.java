@@ -128,14 +128,12 @@ public class BoardController {
 	}
 	
 	@PostMapping("/writeProc")
-	public String writeProc(@Valid @ModelAttribute("writeBoardDto") BoardDto writeBoardDto, 
+	public String writeProc(@Validated @ModelAttribute("writeBoardDto") BoardDto writeBoardDto, 
 			BindingResult bindingResult, @AuthenticationPrincipal UserDetailsDto principal, Model model) {
 		log.info("{}", writeBoardDto);
 		
 		if (bindingResult.hasErrors()) {
-			bindingResult.getFieldErrors().forEach(fieldError -> 
-				log.info("errorField = {}, errorCode = {}", fieldError.getField(), fieldError.getCodes()[0])
-			);
+			bindingResult.getFieldErrors().forEach(fieldError -> log.info("{}", fieldError));
 			model.addAttribute("boardCategoryList", categoryService.findBoardCategoryList());
 			
 			return "board/write";
@@ -202,4 +200,5 @@ public class BoardController {
 											.queryParam("boardCategoryCode", boardCategoryCode)
 											.toUriString();
 	}
+
 }
