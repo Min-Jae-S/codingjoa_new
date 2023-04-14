@@ -79,9 +79,7 @@ public class BoardController {
 	public String getBoard(@BoardCategoryCode @RequestParam("boardCategoryCode") int boardCategoryCode, 
 			@BoardCri Criteria boardCri, Model model) {
 		log.info("boardCategoryCode = {}", boardCategoryCode);
-		log.info("{}", boardCri);
-		
-		model.addAttribute("boardCri", boardCri);
+		log.info("boardCri = {}", boardCri);
 
 		Criteria newBoardCri = boardService.makeNewBoardCri(boardCri);
 		log.info("newBoardCri = {}", newBoardCri);
@@ -95,24 +93,23 @@ public class BoardController {
 		
 		Category category = categoryService.findCategory(boardCategoryCode);
 		model.addAttribute("category", category);
+		model.addAttribute("boardCri", boardCri);
 		
 		return "board/main";
 	}
 	
 	@GetMapping("/read")
-	public String read(@RequestParam("boardIdx") int boardIdx, 
-			@BoardCri Criteria boardCri, Model model) {
+	public String read(@RequestParam("boardIdx") int boardIdx, @BoardCri Criteria boardCri, Model model) {
 		log.info("boardIdx = {}", boardIdx);
-		log.info("{}", boardCri);
+		log.info("boardCri = {}", boardCri);
 		
-		model.addAttribute("boardCri", boardCri);
-
 		BoardDetailsDto boardDetails = boardService.getBoardDetails(boardIdx);
 		model.addAttribute("boardDetails", boardDetails);
 		log.info("boardDetails = {}", boardDetails);
 		
-		String boardName = categoryService.findCategoryName(boardDetails.getBoardCategoryCode());
-		model.addAttribute("boardName", boardName);
+		Category category = categoryService.findCategory(boardDetails.getBoardCategoryCode());
+		model.addAttribute("category", category);
+		model.addAttribute("boardCri", boardCri);
 
 		// 쿠키를 이용하여 조회수 중복 방지 추가하기 (https://mighty96.github.io/til/view)
 		boardService.updateBoardViews(boardIdx);

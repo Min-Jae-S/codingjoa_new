@@ -43,7 +43,8 @@ public class Criteria {
 				.queryParam("recordCnt", this.recordCnt)
 				.queryParam("type", this.type)
 				.queryParam("keyword", this.keyword)
-				.toUriString();
+				.toUriString()
+				.split("\\?")[1];
 	}
 	
 	public String getQueryString(int page) {
@@ -52,7 +53,8 @@ public class Criteria {
 				.queryParam("recordCnt", this.recordCnt)
 				.queryParam("type", this.type)
 				.queryParam("keyword", this.keyword)
-				.toUriString();
+				.toUriString()
+				.split("\\?")[1];
 	}
 	
 	public String getKeywordRegexp() {

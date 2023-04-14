@@ -249,8 +249,8 @@
 				<div class="header-group mb-4">
 					<div class="category dropright mb-2">
 						<a class="board-category" 
-							href="${contextPath}/board/main?boardCategoryCode=${boardCri.boardCategoryCode}">
-							<c:out value="${boardName}"/>
+							href="${contextPath}/board/main?boardCategoryCode=${category.categoryCode}">
+							<c:out value="${category.categoryName}"/>
 						</a>
 						<sec:authorize access="isAuthenticated()">
 							<sec:authentication property="principal.member" var="member"/>
@@ -317,7 +317,8 @@
 				</div>
 			</div>
 			<div class="card-bottom">
-				<a class="btn btn-secondary" href="${contextPath}/board/main${boardCri.getQueryString()}">목록</a>
+				<a class="btn btn-secondary" href="${contextPath}/board/main?boardCategoryCode=${category.categoryCode}&
+					${boardCri.getQueryString()}">목록</a>
 				<button class="btn btn-warning font-weight-bold" id="testBtn">TestBtn</button>
 			</div>
 		</div>

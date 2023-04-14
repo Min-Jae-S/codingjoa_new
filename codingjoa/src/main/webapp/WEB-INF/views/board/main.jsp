@@ -126,7 +126,8 @@
 									<tr>
 										<td class="d-md-table-cell"><c:out value="${boardDetails.boardIdx}"/></td>
 										<td class="d-md-table-cell text-left">
-											<a class="board_title" href='${contextPath}/board/read${boardCri.getQueryString()}&boardIdx=${boardDetails.boardIdx}'>
+											<a class="board_title" href="${contextPath}/board/read?boardIdx=${boardDetails.boardIdx}&
+												${boardCri.getQueryString()}">
 												<c:out value="${boardDetails.boardTitle}"/>
 											</a>
 											<c:if test="${boardDetails.commentCnt > 0}">
@@ -164,17 +165,20 @@
 				<ul class="pagination justify-content-center">
 					<c:if test="${pagination.prev}">
 						<li class="page-item">
-							<a class="page-link" href="${contextPath}/board/main${boardCri.getQueryString(pagination.prevPage)}"><i class="fa-solid fa-chevron-left"></i></a>
+							<a class="page-link" href="${contextPath}/board/main?boardCategoryCode=${category.categoryCode}&
+								${boardCri.getQueryString(pagination.prevPage)}"><i class="fa-solid fa-chevron-left"></i></a>
 						</li>
 					</c:if>
 					<c:forEach var="item" begin="${pagination.startPage}" end="${pagination.endPage}">
 						<li class="page-item ${item eq pagination.page ? 'active' : ''}">
-							<a class="page-link" href="${contextPath}/board/main${boardCri.getQueryString(item)}">${item}</a>
+							<a class="page-link" href="${contextPath}/board/main?boardCategoryCode=${category.categoryCode}&
+								${boardCri.getQueryString(item)}">${item}</a>
 						</li>
 					</c:forEach>
 					<c:if test="${pagination.next}">
 						<li class="page-item">
-							<a class="page-link" href="${contextPath}/board/main${boardCri.getQueryString(pagination.nextPage)}"><i class="fa-solid fa-chevron-right"></i></a>
+							<a class="page-link" href="${contextPath}/board/main?boardCategoryCode=${category.categoryCode}&
+								${boardCri.getQueryString(pagination.nextPage)}"><i class="fa-solid fa-chevron-right"></i></a>
 						</li>
 					</c:if>
 				</ul>
@@ -192,8 +196,6 @@
 			let url = new URL(location.href);
 			url.searchParams.set("page", "1");
 			url.searchParams.set("recordCnt", $(this).val());
-			console.log(url);
-			
 			location.href = url;
 		});
 	});
