@@ -13,33 +13,19 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Component(value = "boardCategoryCodeValidator")
-public class BoardCategoryCodeValidator implements ConstraintValidator<BoardCategoryCode, Object> {
+public class BoardCategoryCodeValidator implements ConstraintValidator<BoardCategoryCode, Integer> {
 	
 	@Autowired
 	private CategoryService categoryService;
 	
 	@Override
-	public boolean isValid(Object value, ConstraintValidatorContext context) {
+	public boolean isValid(Integer value, ConstraintValidatorContext context) {
 		log.info("============== BoardCategoryCodeValidator ==============");
-		log.info("{}", categoryService);
 		
-		boolean result = true;
-		
-		if (value instanceof String) {
-			String rawBoardCategoryCode = String.valueOf(value);
-			try {
-				int boardCategoryCode = Integer.parseInt(rawBoardCategoryCode);
-				if (!categoryService.isBoardCategory(boardCategoryCode)) {
-					log.info("boardCategoryCode is not boardCategory");
-					result = false;
-				}
-			} catch (NumberFormatException e) {
-				result = false;
-			}
+		if (!categoryService.isBoardCategory(value)) {
+			return false;
 		}
 		
-		log.info("isValid result = {}", result);
-		
-		return result;
+		return true;
 	}
 }
