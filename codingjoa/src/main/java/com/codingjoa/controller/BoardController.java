@@ -166,7 +166,7 @@ public class BoardController {
 	}
 	
 	@PostMapping("/modifyProc")
-	public String modifyProc(@Valid @ModelAttribute("modifyBoardDto") BoardDto modifyBoardDto, 
+	public String modifyProc(@Validated @ModelAttribute("modifyBoardDto") BoardDto modifyBoardDto, 
 			BindingResult bindingResult, @AuthenticationPrincipal UserDetailsDto principal, Model model) {
 		log.info("modifyBoardDto = {}", modifyBoardDto);
 		
