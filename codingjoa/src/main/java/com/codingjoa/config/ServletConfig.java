@@ -8,6 +8,7 @@ import java.util.TimeZone;
 
 import javax.validation.Validator;
 
+import org.hibernate.validator.HibernateValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
@@ -149,7 +150,9 @@ public class ServletConfig implements WebMvcConfigurer {
 	@Bean
 	public LocalValidatorFactoryBean defaultValidator() {
 		LocalValidatorFactoryBean factoryBean = new LocalValidatorFactoryBean();
+		factoryBean.setProviderClass(HibernateValidator.class);
 		factoryBean.setValidationMessageSource(messageSource());
+		factoryBean.afterPropertiesSet();
 		
 		return factoryBean;
 	}
