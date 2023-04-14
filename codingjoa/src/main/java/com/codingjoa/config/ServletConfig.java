@@ -166,7 +166,7 @@ public class ServletConfig implements WebMvcConfigurer {
 //	}
 	
 	@Bean
-	public static MethodValidationPostProcessor methodValidationPostProcessor(Validator validator) {
+	public static MethodValidationPostProcessor methodValidationPostProcessor(@Lazy Validator validator) { // mvcValidator
 		MethodValidationPostProcessor processor = new MethodValidationPostProcessor();
 		processor.setValidator(validator);
 		
