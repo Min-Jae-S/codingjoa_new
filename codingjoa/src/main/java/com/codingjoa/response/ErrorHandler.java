@@ -21,7 +21,7 @@ public class ErrorHandler {
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	@ResponseBody
 	public ResponseEntity<Object> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
-		log.info("## handle MethodArgumentNotValidException");
+		log.info("## MethodArgumentNotValidException");
 		
 		ErrorResponse response = ErrorResponse.create().bindingResult(e.getBindingResult());
 		log.info("response = {}", response);
@@ -47,7 +47,7 @@ public class ErrorHandler {
 	
 	@ExceptionHandler(ConstraintViolationException.class)
 	public String handleConstraintViolationException(ConstraintViolationException e) {
-		log.info("## handle ConstraintViolationException");
+		log.info("## ConstraintViolationException");
 		log.info("## message = {}", e.getMessage());
 		
 		return "forward:/error/errorPage";
@@ -55,7 +55,7 @@ public class ErrorHandler {
 	
 	@ExceptionHandler(BindException.class)
 	public String handleBindException(BindException e) {
-		log.info("## handle BindException");
+		log.info("## BindException");
 		log.info("## message = {}", e.getMessage());
 		
 		return "forward:/error/errorPage";
@@ -63,7 +63,7 @@ public class ErrorHandler {
 	
 	@ExceptionHandler(IllegalArgumentException.class)
 	public String handleIllegalArgumentException(IllegalArgumentException e) {
-		log.info("## handle IllegalArgumentException");
+		log.info("## IllegalArgumentException");
 		log.info("## message = {}", e.getMessage());
 		
 		return "forward:/error/errorPage";
@@ -72,7 +72,7 @@ public class ErrorHandler {
 	@ExceptionHandler(MaxUploadSizeExceededException.class)
 	@ResponseBody
 	public ResponseEntity<Object> handleMaxUploadSizeExceededException(MaxUploadSizeExceededException e) {
-		log.info("## handle MaxUploadSizeExceededException");
+		log.info("## MaxUploadSizeExceededException");
 		
 		ErrorResponse response = ErrorResponse.create().errorCode("error.ExceededSize");
 		log.info("response = {}", response);
