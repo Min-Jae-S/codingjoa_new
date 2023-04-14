@@ -76,5 +76,4 @@ public class RootConfig {
 	public SessionDto sessionDto() {
 		return new SessionDto();
 	}
-	
 }

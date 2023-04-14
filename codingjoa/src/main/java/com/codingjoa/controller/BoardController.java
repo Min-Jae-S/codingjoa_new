@@ -126,32 +126,63 @@ public class BoardController {
 		return "board/write";
 	}
 	
+//	@PostMapping("/writeProc")
+//	public String writeProc(@Valid @ModelAttribute("writeBoardDto") BoardDto writeBoardDto, 
+//			BindingResult bindingResult, @AuthenticationPrincipal UserDetailsDto principal, Model model) {
+//		log.info("{}", writeBoardDto);
+//		
+//		if (bindingResult.hasErrors()) {
+//			bindingResult.getFieldErrors().forEach(fieldError -> {
+//				log.info("errorField = {}", fieldError.getField());
+//				log.info("errorCode = {}", fieldError.getCodes()[0]);
+//			});
+//			model.addAttribute("boardCategoryList", categoryService.findBoardCategoryList());
+//			
+//			return "board/write";
+//		}
+//		
+//		int boardWriterIdx = principal.getMember().getMemberIdx();
+//		writeBoardDto.setBoardWriterIdx(boardWriterIdx);
+//		
+//		int boardIdx = boardService.writeBoard(writeBoardDto);
+//		log.info("boardIdx = {}", boardIdx);
+//		
+//		writeBoardDto.setBoardIdx(boardIdx);
+//		boardService.activateImage(writeBoardDto);
+//		
+//		return "redirect:/board/read" + UriComponentsBuilder.newInstance()
+//											.queryParam("boardIdx", boardIdx)
+//											.toUriString();
+//	}
 	@PostMapping("/writeProc")
 	public String writeProc(@Valid @ModelAttribute("writeBoardDto") BoardDto writeBoardDto, 
-			BindingResult bindingResult, @AuthenticationPrincipal UserDetailsDto principal, Model model) {
+			@AuthenticationPrincipal UserDetailsDto principal, Model model) {
 		log.info("{}", writeBoardDto);
 		
-		if (bindingResult.hasErrors()) {
-			bindingResult.getFieldErrors().forEach(fieldError -> {
-				log.info("errorField = {}", fieldError.getField());
-				log.info("errorCode = {}", fieldError.getCodes()[0]);
-			});
-			model.addAttribute("boardCategoryList", categoryService.findBoardCategoryList());
-			return "board/write";
-		}
+//		if (bindingResult.hasErrors()) {
+//			bindingResult.getFieldErrors().forEach(fieldError -> {
+//				log.info("errorField = {}", fieldError.getField());
+//				log.info("errorCode = {}", fieldError.getCodes()[0]);
+//			});
+//			model.addAttribute("boardCategoryList", categoryService.findBoardCategoryList());
+//			
+//			return "board/write";
+//		}
+//		
+//		int boardWriterIdx = principal.getMember().getMemberIdx();
+//		writeBoardDto.setBoardWriterIdx(boardWriterIdx);
+//		
+//		int boardIdx = boardService.writeBoard(writeBoardDto);
+//		log.info("boardIdx = {}", boardIdx);
+//		
+//		writeBoardDto.setBoardIdx(boardIdx);
+//		boardService.activateImage(writeBoardDto);
+//		
+//		return "redirect:/board/read" + UriComponentsBuilder.newInstance()
+//		.queryParam("boardIdx", boardIdx)
+//		.toUriString();
 		
-		int boardWriterIdx = principal.getMember().getMemberIdx();
-		writeBoardDto.setBoardWriterIdx(boardWriterIdx);
-		
-		int boardIdx = boardService.writeBoard(writeBoardDto);
-		log.info("boardIdx = {}", boardIdx);
-		
-		writeBoardDto.setBoardIdx(boardIdx);
-		boardService.activateImage(writeBoardDto);
-		
-		return "redirect:/board/read" + UriComponentsBuilder.newInstance()
-											.queryParam("boardIdx", boardIdx)
-											.toUriString();
+		return "redirect:/board/all";
 	}
 	
 	@GetMapping("/modify")

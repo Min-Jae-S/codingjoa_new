@@ -3,6 +3,7 @@ package com.codingjoa.response;
 import javax.validation.ConstraintViolationException;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -20,10 +21,10 @@ public class ErrorHandler {
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	@ResponseBody
 	public ResponseEntity<Object> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
-		log.info("============== handleMethodArgumentNotValidException ==============");
+		log.info("## handle MethodArgumentNotValidException");
 		
 		ErrorResponse response = ErrorResponse.create().bindingResult(e.getBindingResult());
-		log.info("{}", response);
+		log.info("response = {}", response);
 			
 		return ResponseEntity.unprocessableEntity().body(response);
 	}
@@ -31,7 +32,7 @@ public class ErrorHandler {
 //	@ExceptionHandler(MethodArgumentNotValidException.class)
 //	public ResponseEntity<Object> handleMethodArgumentNotValidException(MethodArgumentNotValidException e,
 //			HttpServletRequest request) throws ModelAndViewDefiningException {
-//		log.info("============== MethodArgumentNotValidException ==============");
+//		log.info("## handle MethodArgumentNotValidException");
 //		
 //		if (isAjaxRequest(request)) {
 //			ErrorResponse response = ErrorResponse.create().bindingResult(e.getBindingResult());
@@ -46,7 +47,15 @@ public class ErrorHandler {
 	
 	@ExceptionHandler(ConstraintViolationException.class)
 	public String handleConstraintViolationException(ConstraintViolationException e) {
-		log.info("============== handleConstraintViolationException ==============");
+		log.info("## handle ConstraintViolationException");
+		log.info("## message = {}", e.getMessage());
+		
+		return "forward:/error/errorPage";
+	}
+	
+	@ExceptionHandler(BindException.class)
+	public String handleBindException(BindException e) {
+		log.info("## handle BindException");
 		log.info("## message = {}", e.getMessage());
 		
 		return "forward:/error/errorPage";
@@ -54,7 +63,7 @@ public class ErrorHandler {
 	
 	@ExceptionHandler(IllegalArgumentException.class)
 	public String handleIllegalArgumentException(IllegalArgumentException e) {
-		log.info("============== handleIllegalArgumentException ==============");
+		log.info("## handle IllegalArgumentException");
 		log.info("## message = {}", e.getMessage());
 		
 		return "forward:/error/errorPage";
@@ -63,10 +72,10 @@ public class ErrorHandler {
 	@ExceptionHandler(MaxUploadSizeExceededException.class)
 	@ResponseBody
 	public ResponseEntity<Object> handleMaxUploadSizeExceededException(MaxUploadSizeExceededException e) {
-		log.info("============== handleMaxUploadSizeExceededException ==============");
+		log.info("## handle MaxUploadSizeExceededException");
 		
 		ErrorResponse response = ErrorResponse.create().errorCode("error.ExceededSize");
-		log.info("{}", response);
+		log.info("response = {}", response);
 		
 		return ResponseEntity.badRequest().body(response);
 	}
