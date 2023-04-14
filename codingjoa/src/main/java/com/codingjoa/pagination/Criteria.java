@@ -10,27 +10,27 @@ import lombok.ToString;
 @ToString
 @Getter
 @Setter
-public class BoardCriteria {
+public class Criteria {
 	
 	private int page;
 	private int recordCnt;
 	private String type;
 	private String keyword;
 	
-	public BoardCriteria() { }
+	public Criteria() { }
 	
-	public BoardCriteria(int page, int recordCnt) {
+	public Criteria(int page, int recordCnt) {
 		this.page = page;
 		this.recordCnt = recordCnt;
 	}
 	
-	public BoardCriteria(int page, int recordCnt, String type, String keyword) {
+	public Criteria(int page, int recordCnt, String type, String keyword) {
 		this(page, recordCnt);
 		this.type = type;
 		this.keyword = keyword;
 	}
 
-	public BoardCriteria(BoardCriteria criteria) {
+	public Criteria(Criteria criteria) {
 		this.page = criteria.page;
 		this.recordCnt = criteria.recordCnt;
 		this.type = criteria.type;

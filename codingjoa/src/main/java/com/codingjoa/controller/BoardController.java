@@ -27,7 +27,7 @@ import com.codingjoa.annotation.BoardCri;
 import com.codingjoa.dto.BoardDetailsDto;
 import com.codingjoa.dto.BoardDto;
 import com.codingjoa.entity.Category;
-import com.codingjoa.pagination.BoardCriteria;
+import com.codingjoa.pagination.Criteria;
 import com.codingjoa.pagination.Pagination;
 import com.codingjoa.security.dto.UserDetailsDto;
 import com.codingjoa.service.BoardService;
@@ -66,7 +66,7 @@ public class BoardController {
 		
 		ArrayList<List<BoardDetailsDto>> boardList = new ArrayList<List<BoardDetailsDto>>();
 		boardCategoryList.forEach(category -> {
-			BoardCriteria boardCri = new BoardCriteria(1, 5);
+			Criteria boardCri = new Criteria(1, 5);
 			List<BoardDetailsDto> board = boardService.getPagedBoard(category.getCategoryCode(), boardCri);
 			boardList.add(board);
 		});
@@ -77,13 +77,13 @@ public class BoardController {
 	
 	@GetMapping("/main")
 	public String getBoard(@BoardCategoryCode @RequestParam("boardCategoryCode") int boardCategoryCode, 
-			@BoardCri BoardCriteria boardCri, Model model) {
+			@BoardCri Criteria boardCri, Model model) {
 		log.info("boardCategoryCode = {}", boardCategoryCode);
 		log.info("{}", boardCri);
 		
 		model.addAttribute("boardCri", boardCri);
 
-		BoardCriteria newBoardCri = boardService.makeNewBoardCri(boardCri);
+		Criteria newBoardCri = boardService.makeNewBoardCri(boardCri);
 		log.info("newBoardCri = {}", newBoardCri);
 		
 		List<BoardDetailsDto> board = boardService.getPagedBoard(boardCategoryCode, newBoardCri);
@@ -101,7 +101,7 @@ public class BoardController {
 	
 	@GetMapping("/read")
 	public String read(@RequestParam("boardIdx") int boardIdx, 
-			@BoardCri BoardCriteria boardCri, Model model) {
+			@BoardCri Criteria boardCri, Model model) {
 		log.info("boardIdx = {}", boardIdx);
 		log.info("{}", boardCri);
 		

@@ -17,7 +17,7 @@ import com.codingjoa.entity.Board;
 import com.codingjoa.entity.Upload;
 import com.codingjoa.mapper.BoardMapper;
 import com.codingjoa.mapper.UploadMapper;
-import com.codingjoa.pagination.BoardCriteria;
+import com.codingjoa.pagination.Criteria;
 import com.codingjoa.pagination.Pagination;
 import com.codingjoa.service.BoardService;
 
@@ -78,8 +78,6 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public BoardDetailsDto getBoardDetails(int boardIdx) {
 		Map<String, Object> boardDetailsMap = boardMapper.findBoardDetails(boardIdx);
-		log.info("boardMapper.findBoardDetails(boardIdx) = {}", boardDetailsMap);
-		
 		return modelMapper.map(boardDetailsMap, BoardDetailsDto.class);
 	}
 	
@@ -89,13 +87,13 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
-	public BoardCriteria makeNewBoardCri(BoardCriteria boardCri) {
-		BoardCriteria newCri = new BoardCriteria(boardCri);
+	public Criteria makeNewBoardCri(Criteria boardCri) {
+		Criteria newBoardCri = new Criteria(boardCri);
 		String keyword = boardCri.getKeyword();
 		
 		if (!"writer".equals(boardCri.getType())) {
-			log.info("Keyword Regexp = {}", newCri.getKeywordRegexp());
-			return newCri;
+			log.info("Keyword Regexp = {}", newBoardCri.getKeywordRegexp());
+			return newBoardCri;
 		}
 		
 		if (StringUtils.hasText(keyword)) {
@@ -104,24 +102,21 @@ public class BoardServiceImpl implements BoardService {
 					.collect(Collectors.joining("_"));
 			log.info("New Keyword = {}", newKeyword);
 			
-			newCri.setKeyword(newKeyword);
+			newBoardCri.setKeyword(newKeyword);
 		}
 		
-		return newCri;
+		return newBoardCri;
 	}
 	
 	@Override
-	public List<BoardDetailsDto> getPagedBoard(int boardCategoryCode, BoardCriteria boardCri) {
-		log.info("boardMapper.findPagedBoard(boardCategoryCode, boardCri) = {}", 
-				boardMapper.findPagedBoard(boardCategoryCode, boardCri));
-		
+	public List<BoardDetailsDto> getPagedBoard(int boardCategoryCode, Criteria boardCri) {
 		return boardMapper.findPagedBoard(boardCategoryCode, boardCri).stream()
 				.map(boardDetailsMap -> modelMapper.map(boardDetailsMap, BoardDetailsDto.class))
 				.collect(Collectors.toList());
 	}
 
 	@Override
-	public Pagination getPagination(int boardCategoryCode, BoardCriteria boardCri) {
+	public Pagination getPagination(int boardCategoryCode, Criteria boardCri) {
 		int totalCnt = boardMapper.findPagedBoardTotalCnt(boardCategoryCode, boardCri);
 		return new Pagination(totalCnt, boardCri.getPage(), boardCri.getRecordCnt(), pageRange);
 	}
