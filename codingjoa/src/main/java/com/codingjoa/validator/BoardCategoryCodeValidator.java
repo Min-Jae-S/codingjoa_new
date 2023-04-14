@@ -30,12 +30,15 @@ public class BoardCategoryCodeValidator implements ConstraintValidator<BoardCate
 			try {
 				int boardCategoryCode = Integer.parseInt(rawBoardCategoryCode);
 				if (!categoryService.isBoardCategory(boardCategoryCode)) {
+					log.info("boardCategoryCode is not boardCategory");
 					result = false;
 				}
 			} catch (NumberFormatException e) {
 				result = false;
 			}
 		}
+		
+		log.info("isValid result = {}", result);
 		
 		return result;
 	}

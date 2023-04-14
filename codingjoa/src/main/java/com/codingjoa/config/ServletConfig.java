@@ -10,14 +10,12 @@ import javax.validation.Validator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.context.annotation.Role;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
@@ -131,6 +129,7 @@ public class ServletConfig implements WebMvcConfigurer {
 		ReloadableResourceBundleMessageSource source = new ReloadableResourceBundleMessageSource();
 		source.setDefaultEncoding("UTF-8");
 		source.setBasenames("/WEB-INF/properties/error-message", "/WEB-INF/properties/success-message");
+		
 		return source;
 	}
 	
@@ -143,6 +142,7 @@ public class ServletConfig implements WebMvcConfigurer {
 	public MessageUtils messageUtils() {
 		MessageUtils messageUtils = new MessageUtils();
 		messageUtils.setMessageSourceAccessor(messageSourceAccessor());
+		
 		return messageUtils;
 	}
 	
@@ -150,6 +150,7 @@ public class ServletConfig implements WebMvcConfigurer {
 	public LocalValidatorFactoryBean defaultValidator() {
 		LocalValidatorFactoryBean factoryBean = new LocalValidatorFactoryBean();
 		factoryBean.setValidationMessageSource(messageSource());
+		
 		return factoryBean;
 	}
 	
@@ -157,6 +158,7 @@ public class ServletConfig implements WebMvcConfigurer {
 	public static MethodValidationPostProcessor methodValidationPostProcessor(@Lazy Validator defaultValidator) { // @Qualifier
 		MethodValidationPostProcessor processor = new MethodValidationPostProcessor();
 		processor.setValidator(defaultValidator);
+		
 		return processor;
 	}
 
