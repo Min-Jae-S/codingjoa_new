@@ -51,19 +51,6 @@ public class BoardCriteriaArgumentResolver implements HandlerMethodArgumentResol
 		mavContainer.addAttribute("recordCntMap", recordCntMap);
 		mavContainer.addAttribute("typeMap", typeMap);
 		
-//		int boardCategoryCode;
-//		try {
-//			String rawBoardCategoryCode = webRequest.getParameter("boardCategoryCode");
-//			log.info("Raw boardcategoryCode = {}", rawBoardCategoryCode);
-//			
-//			boardCategoryCode = Integer.parseInt(rawBoardCategoryCode);
-//			if (!categoryMapper.isBoardCategory(boardCategoryCode)) {
-//				throw new IllegalArgumentException("boardCategoryCode is not categoryCode");
-//			}
-//		} catch (NumberFormatException e) {
-//			throw new IllegalArgumentException("boardCategoryCode is not number format");
-//		}
-		
 		String page = webRequest.getParameter("page");
 		String recordCnt = webRequest.getParameter("recordCnt");
 		String type = webRequest.getParameter("type");
