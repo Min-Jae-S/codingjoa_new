@@ -129,6 +129,8 @@ public class BoardController {
 			bindingResult.getFieldErrors().forEach(fieldError -> {
 				log.info("field = {}", fieldError.getField());
 				log.info("code = {}", fieldError.getCodes()[0]);
+				// typeMismatch.writeBoardDto.boardCategoryCode
+				// BoardCategoryCode.writeBoardDto.boardCategoryCode
 			});
 			model.addAttribute("boardCategoryList", categoryService.findBoardCategoryList());
 			
