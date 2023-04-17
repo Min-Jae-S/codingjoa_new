@@ -173,7 +173,12 @@ public class BoardController {
 		log.info("modifyBoardDto = {}", modifyBoardDto);
 		
 		if (bindingResult.hasErrors()) {
+			bindingResult.getFieldErrors().forEach(fieldError -> {
+				log.info("field = {}", fieldError.getField());
+				log.info("code = {}", fieldError.getCodes()[0]);
+			});
 			model.addAttribute("boardCategoryList", categoryService.findBoardCategoryList());
+			
 			return "board/modify";
 		}
 		
