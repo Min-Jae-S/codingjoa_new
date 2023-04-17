@@ -35,10 +35,10 @@ public class CheckMyBoardInterceptor implements HandlerInterceptor {
 			return false;
 		}
 		
-		if (!boardService.isMyBoard(Integer.parseInt(boardIdx), getCurrentWriterIdx())) {
-			request.getRequestDispatcher("/error/errorPage").forward(request, response);
-			return false;
-		}
+//		if (!boardService.isMyBoard(Integer.parseInt(boardIdx), getCurrentWriterIdx())) {
+//			request.getRequestDispatcher("/error/errorPage").forward(request, response);
+//			return false;
+//		}
 		
 		return true;
 	}
