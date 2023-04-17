@@ -53,11 +53,6 @@ public class BoardController {
 		binder.addValidators(boardValidator);
 	}
 
-//	@ModelAttribute
-//	public void boardCategoryList(Model model) {
-//		model.addAttribute("boardCategoryList", categoryService.findBoardCategoryList());
-//	}
-	
 	@GetMapping("/all")
 	public String getAllBoard(Model model) {
 		List<Category> boardCategoryList = categoryService.findBoardCategoryList();
