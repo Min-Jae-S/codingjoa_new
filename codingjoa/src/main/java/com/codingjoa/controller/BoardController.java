@@ -128,11 +128,11 @@ public class BoardController {
 	@PostMapping("/writeProc")
 	public String writeProc(@Validated @ModelAttribute("writeBoardDto") BoardDto writeBoardDto, 
 			BindingResult bindingResult, @AuthenticationPrincipal UserDetailsDto principal, Model model) {
-		log.info("{}", writeBoardDto);
+		log.info("writeBoardDto = {}", writeBoardDto);
 		
 		if (bindingResult.hasErrors()) {
 			bindingResult.getFieldErrors().forEach(fieldError -> {
-				log.info("field = {}, code = {}", fieldError.getField());
+				log.info("field = {}", fieldError.getField());
 				log.info("code = {}", fieldError.getCodes()[0]);
 			});
 			model.addAttribute("boardCategoryList", categoryService.findBoardCategoryList());
@@ -156,10 +156,10 @@ public class BoardController {
 	
 	@GetMapping("/modify")
 	public String modify(@ModelAttribute("modifyBoardDto") BoardDto modifyBoardDto, Model model) {
-		log.info("Before bind, modifyBoardDto = {}", modifyBoardDto);
+		log.info("modifyBoardDto = {}", modifyBoardDto);
 		
 		boardService.bindModifyBoard(modifyBoardDto);
-		log.info("After bind,  modifyBoardDto = {}", modifyBoardDto);
+		log.info("After binding,  modifyBoardDto = {}", modifyBoardDto);
 		
 		model.addAttribute("boardCategoryList", categoryService.findBoardCategoryList());
 		
