@@ -347,23 +347,23 @@
 			board_idx = #{boardIdx} AND board_category_code = #{boardCategoryCode}
 	</select>
 	
-	<select id="findBoardByIdx" parameterType="int" resultType="board">
+	<select id="findBoardByIdxAndWirter" parameterType="map" resultType="board">
 		SELECT
 			* 
 		FROM 
 			board 
 		WHERE
-			board_idx = #{boardIdx}
+			board_idx = #{boardIdx} AND board_writer_idx = #{boardWriterIdx}
 	</select>
 	
-	<select id="isMyBoard" parameterType="map" resultType="boolean">
+	<!-- <select id="isMyBoard" parameterType="map" resultType="boolean">
 		SELECT
 			COUNT(*)
 		FROM
 			board
 		WHERE
 			board_idx = #{boardIdx} AND board_writer_idx = #{boardWriterIdx}
-	</select>
+	</select> -->
 
 	<update id="updateBoard" parameterType="board">
 		UPDATE

@@ -79,7 +79,9 @@ public class BoardServiceImpl implements BoardService {
 	public BoardDetailsDto getBoardDetails(int boardIdx) {
 		Map<String, Object> boardDetailsMap = boardMapper.findBoardDetails(boardIdx);
 		if (boardDetailsMap == null) {
-			throw new IllegalArgumentException("no boardDetails");
+			String message = new StringBuilder("can't find boardDetails by boardIdx; boardIdx = ")
+					.append(boardIdx).toString();
+			throw new IllegalArgumentException(message);
 		}
 		
 		return modelMapper.map(boardDetailsMap, BoardDetailsDto.class);
@@ -133,18 +135,24 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public void bindModifyBoard(BoardDto modifyBoardDto) {
 		int boardIdx = modifyBoardDto.getBoardIdx();
+		int boardWriterIdx = modifyBoardDto.getBoardWriterIdx();
+		Board board = boardMapper.findBoardByIdxAndWriter(boardIdx, boardWriterIdx);
+		if (board == null) {
+			String message = new StringBuilder("can't find board by boardIdx and writer; boardIdx = ")
+					.append(boardIdx).append(", boardWriterIdx = ").append(boardWriterIdx).toString();
+			throw new IllegalArgumentException(message);
+		}
 		
-		Board board = boardMapper.findBoardByIdx(boardIdx);
 		modelMapper.map(board, modifyBoardDto);
 		
 		List<Integer> uploadIdxList = uploadMapper.findUploadIdxList(boardIdx);
 		modifyBoardDto.setUploadIdxList(uploadIdxList);
 	}
 	
-	@Override
-	public boolean isMyBoard(int boardIdx, int boardWriterIdx) {
-		return boardMapper.isMyBoard(boardIdx, boardWriterIdx);
-	}
+//	@Override
+//	public boolean isMyBoard(int boardIdx, int boardWriterIdx) {
+//		return boardMapper.isMyBoard(boardIdx, boardWriterIdx);
+//	}
 
 	@Override
 	public void modifyBoard(BoardDto modifyBoardDto) {
