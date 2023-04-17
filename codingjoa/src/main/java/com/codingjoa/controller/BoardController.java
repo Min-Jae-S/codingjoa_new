@@ -125,38 +125,30 @@ public class BoardController {
 		return "board/write";
 	}
 	
-//	@PostMapping("/writeProc")
-//	public String writeProc(@Validated @ModelAttribute("writeBoardDto") BoardDto writeBoardDto, 
-//			BindingResult bindingResult, @AuthenticationPrincipal UserDetailsDto principal, Model model) {
-//		log.info("{}", writeBoardDto);
-//		
-//		if (bindingResult.hasErrors()) {
-//			bindingResult.getFieldErrors().forEach(fieldError -> log.info("{}", fieldError));
-//			model.addAttribute("boardCategoryList", categoryService.findBoardCategoryList());
-//			
-//			return "board/write";
-//		}
-//		
-//		int boardWriterIdx = principal.getMember().getMemberIdx();
-//		writeBoardDto.setBoardWriterIdx(boardWriterIdx);
-//		
-//		int boardIdx = boardService.writeBoard(writeBoardDto);
-//		log.info("boardIdx = {}", boardIdx);
-//		
-//		writeBoardDto.setBoardIdx(boardIdx);
-//		boardService.activateImage(writeBoardDto);
-//		
-//		return "redirect:/board/read" + UriComponentsBuilder.newInstance()
-//											.queryParam("boardIdx", boardIdx)
-//											.toUriString();
-//	}
-
 	@PostMapping("/writeProc")
 	public String writeProc(@Validated @ModelAttribute("writeBoardDto") BoardDto writeBoardDto, 
-			@AuthenticationPrincipal UserDetailsDto principal, Model model) {
+			BindingResult bindingResult, @AuthenticationPrincipal UserDetailsDto principal, Model model) {
 		log.info("{}", writeBoardDto);
 		
-		return null;
+		if (bindingResult.hasErrors()) {
+			bindingResult.getFieldErrors().forEach(fieldError -> log.info("{}", fieldError));
+			model.addAttribute("boardCategoryList", categoryService.findBoardCategoryList());
+			
+			return "board/write";
+		}
+		
+		int boardWriterIdx = principal.getMember().getMemberIdx();
+		writeBoardDto.setBoardWriterIdx(boardWriterIdx);
+		
+		int boardIdx = boardService.writeBoard(writeBoardDto);
+		log.info("boardIdx = {}", boardIdx);
+		
+		writeBoardDto.setBoardIdx(boardIdx);
+		boardService.activateImage(writeBoardDto);
+		
+		return "redirect:/board/read" + UriComponentsBuilder.newInstance()
+											.queryParam("boardIdx", boardIdx)
+											.toUriString();
 	}
 	
 	@GetMapping("/modify")
