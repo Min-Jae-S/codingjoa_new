@@ -398,7 +398,7 @@
 	{	
 		CALL
 			DECLARE
-				v_board_category_code INTEGER;
+				v_board_category_code board.board_category_code%TYPE;
 			BEGIN
 				DELETE FROM
 					board
@@ -408,7 +408,7 @@
 	        		board_writer_idx = #{boardWriterIdx}
 	    		RETURNING 
 	        		board_category_code 
-	    		INTO 
+	    		INTO
 	        		v_board_category_code;
 			END
 	}
