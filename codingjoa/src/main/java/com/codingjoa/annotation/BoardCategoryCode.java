@@ -9,15 +9,17 @@ import java.lang.annotation.Target;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
+import javax.validation.constraints.Min;
 
 import com.codingjoa.validator.BoardCategoryCodeValidator;
 
 @Retention(RUNTIME)
 @Target({FIELD, PARAMETER})
 @Constraint(validatedBy = BoardCategoryCodeValidator.class)
+@Min(1)
 public @interface BoardCategoryCode {
 	
-	public abstract String message() default "not boardCategoryCode";
+	public abstract String message() default "{javax.validation.constraints.BoardCategoryCode.message}";
     public abstract Class<?>[] groups() default {};
     public abstract Class<? extends Payload>[] payload() default {};
     

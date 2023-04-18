@@ -23,6 +23,7 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.multipart.MultipartResolver;
@@ -144,7 +145,23 @@ public class ServletConfig implements WebMvcConfigurer {
 		
 		return messageUtils;
 	}
-
+	
+	@Bean
+	public Validator localValidator() {
+		LocalValidatorFactoryBean facotryBean = new LocalValidatorFactoryBean();
+		facotryBean.setValidationMessageSource(messageSource());
+		return facotryBean;
+	}
+	
+	// Enable @Valid validation exception handler for @PathVariable, @RequestParam and @RequestHeader.
+	// mvcValidator, LocalValidatorFactoryBean
+	@Bean
+	public static MethodValidationPostProcessor methodValidationPostProcessor(@Lazy Validator localValidator) { 
+		MethodValidationPostProcessor processor = new MethodValidationPostProcessor();
+		processor.setValidator(localValidator);
+		
+		return processor;
+	}
 	
 //	@Bean
 //	public static MethodValidationPostProcessor methodValidationPostProcessor(@Lazy Validator defaultValidator) { // @Qualifier
@@ -153,14 +170,5 @@ public class ServletConfig implements WebMvcConfigurer {
 //		
 //		return processor;
 //	}
-	
-	// Enable @Valid validation exception handler for @PathVariable, @RequestParam and @RequestHeader.
-	@Bean
-	public static MethodValidationPostProcessor methodValidationPostProcessor(@Lazy Validator validator) { // mvcValidator
-		MethodValidationPostProcessor processor = new MethodValidationPostProcessor();
-		processor.setValidator(validator);
-		
-		return processor;
-	}
 
 }
