@@ -188,7 +188,6 @@ public class BoardServiceImpl implements BoardService {
 	public void deleteBoard(int boardIdx, int boardWriterIdx) {
 		boolean result = boardMapper.deleteBoard(boardIdx, boardWriterIdx);
 		log.info("delete success = {}", result);
-		
 		if (!result) {
 			String message = String.format("can't delete board. (boardIdx = %s, boardWriterIdx = %s)",
 					boardIdx, boardWriterIdx);
