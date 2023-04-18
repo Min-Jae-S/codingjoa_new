@@ -48,6 +48,8 @@ public class ErrorHandler {
 	@ExceptionHandler(ConstraintViolationException.class)
 	public String handleConstraintViolationException(ConstraintViolationException e) {
 		log.info("## ConstraintViolationException");
+		log.info("## error message = {}", e.getMessage());
+		
 		return "forward:/error/errorPage";
 	}
 	

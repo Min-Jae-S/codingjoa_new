@@ -49,12 +49,6 @@ public class ServletConfig implements WebMvcConfigurer {
 	@Value("${upload.path}")
 	private String uploadPath;
 	
-//	@Autowired
-//	private CategoryService categoryService;
-//	
-//	@Autowired
-//	private BoardService boardService;
-	
 	@Autowired
 	private BoardCriteriaArgumentResolver criteriaArgumentResolver;
 	
@@ -148,13 +142,23 @@ public class ServletConfig implements WebMvcConfigurer {
 	
 	@Bean
 	public Validator localValidator() {
+//		return Validation.byDefaultProvider()
+//				.configure()
+//				.messageInterpolator(
+//						new ResourceBundleMessageInterpolator(
+//								new MessageSourceResourceBundleLocator(messageSource())
+//						)
+//				)
+//				.buildValidatorFactory()
+//				.getValidator();
 		LocalValidatorFactoryBean facotryBean = new LocalValidatorFactoryBean();
 		facotryBean.setValidationMessageSource(messageSource());
+		
 		return facotryBean;
 	}
 	
 	// Enable @Valid validation exception handler for @PathVariable, @RequestParam and @RequestHeader.
-	// mvcValidator, LocalValidatorFactoryBean
+	// mvcValidator, LocalValidatorFactoryBean, @Qualifier("localValidator")
 	@Bean
 	public static MethodValidationPostProcessor methodValidationPostProcessor(@Lazy Validator localValidator) { 
 		MethodValidationPostProcessor processor = new MethodValidationPostProcessor();
@@ -162,13 +166,5 @@ public class ServletConfig implements WebMvcConfigurer {
 		
 		return processor;
 	}
-	
-//	@Bean
-//	public static MethodValidationPostProcessor methodValidationPostProcessor(@Lazy Validator defaultValidator) { // @Qualifier
-//		MethodValidationPostProcessor processor = new MethodValidationPostProcessor();
-//		processor.setValidator(defaultValidator);
-//		
-//		return processor;
-//	}
 
 }
