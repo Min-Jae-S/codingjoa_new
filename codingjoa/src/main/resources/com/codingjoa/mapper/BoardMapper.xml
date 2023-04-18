@@ -388,9 +388,17 @@
 	</select>
 	
 	<delete id="deleteBoard" parameterType="map">
-		DELETE FROM
-			board
-		WHERE
-			board_idx = #{boardIdx} AND board_writer_idx = #{boardWriterIdx}
+		DECLARE
+    		v_board_category_code NUMBER;
+		BEGIN
+   			DELETE FROM
+        		board
+    		WHERE 
+        		board_idx = #{boardIdx} AND board_writer_idx = #{boardWriterIdx}
+    		RETURNING 
+        		board_category_code 
+    		INTO 
+        		v_board_category_code;
+		END;
 	</delete>
 </mapper>

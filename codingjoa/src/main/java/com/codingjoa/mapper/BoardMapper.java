@@ -36,6 +36,6 @@ public interface BoardMapper {
 
 	int findBoardCategoryCode(int boardIdx);
 	
-	boolean deleteBoard(@Param("boardIdx") int boardId, @Param("boardWriterIdx") int boardWriterIdx);
+	Integer deleteBoard(@Param("boardIdx") int boardId, @Param("boardWriterIdx") int boardWriterIdx);
 	
 }

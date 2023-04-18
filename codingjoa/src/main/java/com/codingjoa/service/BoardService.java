@@ -39,6 +39,6 @@ public interface BoardService {
 	
 	int getBoardCategoryCode(int boardIdx);
 	
-	void deleteBoard(int boardIdx, int boardWriterIdx);
+	int deleteBoard(int boardIdx, int boardWriterIdx);
 	
 }
