@@ -395,10 +395,10 @@
 	</select>
 	
 	<delete id="deleteBoard" parameterType="board" statementType="CALLABLE">
-	{	
+	{ 
 		CALL
 			DECLARE
-				v_board_category_code board.board_category_code%TYPE;
+				 v_board_category_code board.board_category_code%TYPE := NULL;
 			BEGIN
 				DELETE FROM
 					board
@@ -410,7 +410,8 @@
 	        		board_category_code 
 	    		INTO
 	        		v_board_category_code;
-			END
+	        	#{boardCategoryCode, mode=OUT, jdbcType=NUMERIC, javaType=Integer} := v_board_category_code;
+			END 
 	}
 	</delete>
 </mapper>
