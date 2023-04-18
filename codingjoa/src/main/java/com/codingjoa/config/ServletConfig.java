@@ -122,7 +122,11 @@ public class ServletConfig implements WebMvcConfigurer {
 	public MessageSource messageSource() {
 		ReloadableResourceBundleMessageSource source = new ReloadableResourceBundleMessageSource();
 		source.setDefaultEncoding("UTF-8");
-		source.setBasenames("/WEB-INF/properties/error-message", "/WEB-INF/properties/success-message");
+		source.setBasenames(
+				"/WEB-INF/properties/error-message", 
+				"/WEB-INF/properties/success-message",
+				"/WEB-INF/properties/validation-message"
+			);
 		
 		return source;
 	}
