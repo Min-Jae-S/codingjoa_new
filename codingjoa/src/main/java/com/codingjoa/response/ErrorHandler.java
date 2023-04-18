@@ -56,7 +56,10 @@ public class ErrorHandler {
 	@ExceptionHandler(BindException.class)
 	public String handleBindException(BindException e) {
 		log.info("## BindException");
-		log.info("## message = {}", e.getMessage());
+		e.getBindingResult().getFieldErrors().forEach(fieldError -> {
+			log.info("field = {}", fieldError.getField());
+			log.info("code = {}", fieldError.getCodes()[0]);
+		});
 		
 		return "forward:/error/errorPage";
 	}
@@ -64,7 +67,7 @@ public class ErrorHandler {
 	@ExceptionHandler(IllegalArgumentException.class)
 	public String handleIllegalArgumentException(IllegalArgumentException e) {
 		log.info("## IllegalArgumentException");
-		log.info("## message = {}", e.getMessage());
+		log.info("## error message = {}", e.getMessage());
 		
 		return "forward:/error/errorPage";
 	}

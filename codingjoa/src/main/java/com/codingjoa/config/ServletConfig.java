@@ -144,16 +144,7 @@ public class ServletConfig implements WebMvcConfigurer {
 		
 		return messageUtils;
 	}
-	
-//	@Bean
-//	public Validator defaultValidator() {
-//		LocalValidatorFactoryBean factoryBean = new LocalValidatorFactoryBean();
-//		factoryBean.setProviderClass(HibernateValidator.class);
-//		factoryBean.setValidationMessageSource(messageSource());
-//		factoryBean.afterPropertiesSet();
-//		
-//		return factoryBean;
-//	}
+
 	
 //	@Bean
 //	public static MethodValidationPostProcessor methodValidationPostProcessor(@Lazy Validator defaultValidator) { // @Qualifier
@@ -163,6 +154,7 @@ public class ServletConfig implements WebMvcConfigurer {
 //		return processor;
 //	}
 	
+	// Enable @Valid validation exception handler for @PathVariable, @RequestParam and @RequestHeader.
 	@Bean
 	public static MethodValidationPostProcessor methodValidationPostProcessor(@Lazy Validator validator) { // mvcValidator
 		MethodValidationPostProcessor processor = new MethodValidationPostProcessor();
