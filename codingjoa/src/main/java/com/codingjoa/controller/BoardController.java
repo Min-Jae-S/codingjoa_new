@@ -108,7 +108,8 @@ public class BoardController {
 		model.addAttribute("category", category);
 		model.addAttribute("boardCri", boardCri);
 
-		// 쿠키를 이용하여 조회수 중복 방지 추가하기 (https://mighty96.github.io/til/view)
+		// 쿠키를 이용하여 조회수 중복 방지 추가하기 
+		// https://mighty96.github.io/til/view
 		boardService.updateBoardViews(boardIdx);
 		
 		return "board/read";
@@ -132,8 +133,6 @@ public class BoardController {
 			bindingResult.getFieldErrors().forEach(fieldError -> {
 				log.info("field = {}", fieldError.getField());
 				log.info("code = {}", fieldError.getCodes()[0]);
-				// typeMismatch.writeBoardDto.boardCategoryCode
-				// BoardCategoryCode.writeBoardDto.boardCategoryCode
 			});
 			model.addAttribute("boardCategoryList", categoryService.findBoardCategoryList());
 			
@@ -214,7 +213,6 @@ public class BoardController {
 	@GetMapping("/test")
 	public String test(@Min(2) @Max(6) int param1, @Size(min = 2, max = 6) String param2) {
 		log.info("param1 = {}, param2 = {}", param1, param2);
-		
 		return null;
 	}
 	

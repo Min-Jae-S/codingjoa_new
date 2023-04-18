@@ -144,6 +144,8 @@ public class ServletConfig implements WebMvcConfigurer {
 		return messageUtils;
 	}
 	
+	// https://docs.jboss.org/hibernate/validator/5.1/reference/en-US/html/chapter-message-interpolation.html#section-resource-bundle-locator
+	// https://stackoverflow.com/questions/11225023/messageinterpolator-in-spring
 	@Bean
 	public Validator localValidator() {
 //		return Validation.byDefaultProvider()
