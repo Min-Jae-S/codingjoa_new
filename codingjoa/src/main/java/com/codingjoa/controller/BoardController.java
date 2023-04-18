@@ -198,8 +198,7 @@ public class BoardController {
 			@AuthenticationPrincipal UserDetailsDto principal) {
 		log.info("boardIdx = {}", boardIdx);
 		
-		// ON DELETE CASCADE
-		// ON DELETE SET NULL
+		// ON DELETE CASCADE, ON DELETE SET NULL
 		int boardWriterIdx = principal.getMember().getMemberIdx();
 		boardService.deleteBoard(boardIdx, boardWriterIdx);
 		
