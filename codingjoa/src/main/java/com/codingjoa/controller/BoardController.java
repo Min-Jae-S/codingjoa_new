@@ -154,7 +154,7 @@ public class BoardController {
 	@GetMapping("/modify")
 	public String modify(@ModelAttribute("modifyBoardDto") BoardDto modifyBoardDto, 
 			@AuthenticationPrincipal UserDetailsDto principal, Model model) {
-		log.info("modifyBoardDto = {}", modifyBoardDto);
+		log.info("Before binding, modifyBoardDto = {}", modifyBoardDto);
 		
 		int boardWriterIdx = principal.getMember().getMemberIdx();
 		modifyBoardDto.setBoardWriterIdx(boardWriterIdx);

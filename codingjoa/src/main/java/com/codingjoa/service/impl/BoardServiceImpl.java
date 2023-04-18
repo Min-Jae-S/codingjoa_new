@@ -136,9 +136,10 @@ public class BoardServiceImpl implements BoardService {
 	public void bindModifyBoard(BoardDto modifyBoardDto) {
 		int boardIdx = modifyBoardDto.getBoardIdx();
 		int boardWriterIdx = modifyBoardDto.getBoardWriterIdx();
-		Board board = boardMapper.findBoardByIdxAndWriter(boardIdx, boardWriterIdx);
+		
+		Board board = boardMapper.findModifyBoard(boardIdx, boardWriterIdx);
 		if (board == null) {
-			String message = new StringBuilder("can't find board by boardIdx and writer; boardIdx = ")
+			String message = new StringBuilder("can't find board by boardIdx and boardWriterIdx; boardIdx = ")
 					.append(boardIdx).append(", boardWriterIdx = ").append(boardWriterIdx).toString();
 			throw new IllegalArgumentException(message);
 		}

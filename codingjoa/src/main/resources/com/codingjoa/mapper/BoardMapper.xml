@@ -347,7 +347,7 @@
 			board_idx = #{boardIdx} AND board_category_code = #{boardCategoryCode}
 	</select>
 	
-	<select id="findBoardByIdxAndWirter" parameterType="map" resultType="board">
+	<select id="findModifyBoard" parameterType="map" resultType="board">
 		SELECT
 			* 
 		FROM 

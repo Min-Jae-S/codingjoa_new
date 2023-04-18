@@ -28,7 +28,7 @@ public interface BoardMapper {
 	
 	boolean isBoardIdxExist(@Param("boardIdx") int boardIdx, @Param("boardCategoryCode") int boardCategoryCode);
 	
-	Board findBoardByIdxAndWriter(@Param("boardIdx") int boardId, @Param("boardWriterIdx") int boardWriterIdx);
+	Board findModifyBoard(@Param("boardIdx") int boardId, @Param("boardWriterIdx") int boardWriterIdx);
 	
 //	boolean isMyBoard(@Param("boardIdx")int boardIdx, @Param("boardWriterIdx") int boardWriterIdx);
 	
