@@ -198,11 +198,11 @@ public class BoardController {
 			@AuthenticationPrincipal UserDetailsDto principal) {
 		log.info("boardIdx = {}", boardIdx);
 		
+		int boardCategoryCode = boardService.getBoardCategoryCode(boardIdx);
+
 		// ON DELETE CASCADE, ON DELETE SET NULL
 		int boardWriterIdx = principal.getMember().getMemberIdx();
 		boardService.deleteBoard(boardIdx, boardWriterIdx);
-		
-		int boardCategoryCode = boardService.getBoardCategoryCode(boardIdx);
 		
 		return "redirect:/board/main" + UriComponentsBuilder.newInstance()
 											.queryParam("boardCategoryCode", boardCategoryCode)
