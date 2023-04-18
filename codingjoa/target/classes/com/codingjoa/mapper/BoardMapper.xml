@@ -394,7 +394,7 @@
 			board_idx = #{boardIdx} 
 	</select>
 	
-	<delete id="deleteBoard" parameterType="map" statementType="CALLABLE">
+	<delete id="deleteBoard" parameterType="board" statementType="CALLABLE">
 	{	
 		CALL
 			DECLARE

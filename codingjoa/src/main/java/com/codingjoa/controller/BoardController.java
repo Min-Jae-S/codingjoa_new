@@ -142,9 +142,8 @@ public class BoardController {
 		writeBoardDto.setBoardWriterIdx(boardWriterIdx);
 		
 		int boardIdx = boardService.writeBoard(writeBoardDto);
-		log.info("boardIdx = {}", boardIdx);
-		
 		writeBoardDto.setBoardIdx(boardIdx);
+		
 		boardService.activateImage(writeBoardDto);
 		
 		return "redirect:/board/read" + UriComponentsBuilder.newInstance()
@@ -155,13 +154,12 @@ public class BoardController {
 	@GetMapping("/modify")
 	public String modify(@ModelAttribute("modifyBoardDto") BoardDto modifyBoardDto, 
 			@AuthenticationPrincipal UserDetailsDto principal, Model model) {
-		log.info("Before binding, modifyBoardDto = {}", modifyBoardDto);
+		log.info("modifyBoardDto = {}", modifyBoardDto);
 		
 		int boardWriterIdx = principal.getMember().getMemberIdx();
 		modifyBoardDto.setBoardWriterIdx(boardWriterIdx);
 		
 		boardService.bindModifyBoard(modifyBoardDto);
-		log.info("After  binding, modifyBoardDto = {}", modifyBoardDto);
 		
 		model.addAttribute("boardCategoryList", categoryService.findBoardCategoryList());
 		
@@ -194,13 +192,15 @@ public class BoardController {
 	}
 	
 	@GetMapping("/deleteProc")
-	public String deleteProc(@RequestParam("boardIdx") int boardIdx, 
+	public String deleteProc(@ModelAttribute("deleteBoardDto") BoardDto deleteBoardDto, 
 			@AuthenticationPrincipal UserDetailsDto principal) {
-		log.info("boardIdx = {}", boardIdx);
+		log.info("deleteBoardDto = {}", deleteBoardDto);
 		
 		// ON DELETE CASCADE, ON DELETE SET NULL
 		int boardWriterIdx = principal.getMember().getMemberIdx();
-		int boardCategoryCode = boardService.deleteBoard(boardIdx, boardWriterIdx);
+		deleteBoardDto.setBoardWriterIdx(boardWriterIdx);
+		
+		int boardCategoryCode = boardService.deleteBoard(deleteBoardDto);
 		
 		return "redirect:/board/main" + UriComponentsBuilder.newInstance()
 											.queryParam("boardCategoryCode", boardCategoryCode)

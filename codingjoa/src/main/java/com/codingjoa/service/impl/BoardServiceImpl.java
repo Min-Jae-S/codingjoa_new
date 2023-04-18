@@ -58,7 +58,10 @@ public class BoardServiceImpl implements BoardService {
 		
 		boardMapper.insertBoard(board);
 		
-		return board.getBoardIdx();
+		Integer boardIdx = board.getBoardIdx();
+		log.info("write board, boardIdx = {}", boardIdx);
+		
+		return boardIdx;
 	}
 
 	@Override
@@ -132,6 +135,8 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public void bindModifyBoard(BoardDto modifyBoardDto) {
+		log.info("Before Binding, {}", modifyBoardDto);
+		
 		int boardIdx = modifyBoardDto.getBoardIdx();
 		int boardWriterIdx = modifyBoardDto.getBoardWriterIdx();
 		
@@ -146,6 +151,8 @@ public class BoardServiceImpl implements BoardService {
 		
 		List<Integer> uploadIdxList = uploadMapper.findUploadIdxList(boardIdx);
 		modifyBoardDto.setUploadIdxList(uploadIdxList);
+		
+		log.info("After  Binding, {}", modifyBoardDto);
 	}
 	
 //	@Override
@@ -185,16 +192,20 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public int deleteBoard(int boardIdx, int boardWriterIdx) {
-		Integer boardCategoryCode = boardMapper.deleteBoard(boardIdx, boardWriterIdx);
+	public int deleteBoard(BoardDto deleteBoardDto) {
+		Board board = modelMapper.map(deleteBoardDto, Board.class);
+		log.info("deleteBoardDto ==> {}", board);
+		
+		boardMapper.deleteBoard(board);
+		
+		Integer boardCategoryCode = board.getBoardCategoryCode();
 		log.info("delete board, boardCategoryCode = {}", boardCategoryCode);
-//		log.info("delete success = {}", (boardCategoryCode == null) ? false : true);
-//		
-//		if (boardCategoryCode == null) {
-//			String message = String.format("can't delete board. (boardIdx = %s, boardWriterIdx = %s)",
-//					boardIdx, boardWriterIdx);
-//			throw new IllegalArgumentException(message);
-//		}
+		
+		if (boardCategoryCode == null) {
+			String message = String.format("can't delete board. (boardIdx = %s, boardWriterIdx = %s)",
+					board.getBoardIdx(), board.getBoardWriterIdx());
+			throw new IllegalArgumentException(message);
+		}
 		
 		return boardCategoryCode;
 	}
