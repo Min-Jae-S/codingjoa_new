@@ -159,10 +159,10 @@ public class BoardServiceImpl implements BoardService {
 		Board board = modelMapper.map(modifyBoardDto, Board.class);
 		log.info("modifyBoardDto ==> {}", board);
 		
-		boolean result = boardMapper.updateBoard(board);
-		log.info("update result = {}", result);
+		boolean success = boardMapper.updateBoard(board);
+		log.info("update success = {}", success);
 		
-		if (!result) {
+		if (!success) {
 			String message = String.format("can't update board. (boardIdx = %s, boardWriterIdx = %s)",
 					board.getBoardIdx(), board.getBoardWriterIdx());
 			throw new IllegalArgumentException(message);
@@ -175,7 +175,6 @@ public class BoardServiceImpl implements BoardService {
 		uploadMapper.deactivateImage(boardIdx);
 		
 		List<Integer> uploadIdxList = modifyBoardDto.getUploadIdxList();
-		
 		if (uploadIdxList != null) {
 			uploadMapper.activateImage(boardIdx, uploadIdxList);
 		}
@@ -187,8 +186,13 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public void deleteBoard(int boardIdx) {
-		boardMapper.deleteBoard(boardIdx);
+	public void deleteBoard(int boardIdx, int boardWriterIdx) {
+		boolean success = boardMapper.deleteBoard(boardIdx, boardWriterIdx);
+		if (!success) {
+			String message = String.format("can't delete board. (boardIdx = %s, boardWriterIdx = %s)",
+					boardIdx, boardWriterIdx);
+			throw new IllegalArgumentException(message);
+		}
 	}
 
 }

@@ -387,12 +387,10 @@
 			board_idx = #{boardIdx} 
 	</select>
 	
-	<delete id="deleteBoard" parameterType="int">
+	<delete id="deleteBoard" parameterType="map">
 		DELETE FROM
 			board
 		WHERE
-			board_idx = #{boardIdx} 
+			board_idx = #{boardIdx} AND board_writer_idx = #{boardWriterIdx}
 	</delete>
-	
-	
 </mapper>

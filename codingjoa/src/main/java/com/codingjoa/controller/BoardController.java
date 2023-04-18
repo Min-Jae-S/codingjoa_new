@@ -194,14 +194,16 @@ public class BoardController {
 	}
 	
 	@GetMapping("/deleteProc")
-	public String deleteProc(@RequestParam("boardIdx") int boardIdx) {
+	public String deleteProc(@RequestParam("boardIdx") int boardIdx, 
+			@AuthenticationPrincipal UserDetailsDto principal) {
 		log.info("boardIdx = {}", boardIdx);
-		
-		int boardCategoryCode = boardService.getBoardCategoryCode(boardIdx);
 		
 		// ON DELETE CASCADE
 		// ON DELETE SET NULL
-		boardService.deleteBoard(boardIdx);
+		int boardWriterIdx = principal.getMember().getMemberIdx();
+		boardService.deleteBoard(boardIdx, boardWriterIdx);
+		
+		int boardCategoryCode = boardService.getBoardCategoryCode(boardIdx);
 		
 		return "redirect:/board/main" + UriComponentsBuilder.newInstance()
 											.queryParam("boardCategoryCode", boardCategoryCode)
