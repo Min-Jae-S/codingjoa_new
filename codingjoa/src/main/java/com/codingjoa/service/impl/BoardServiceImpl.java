@@ -188,13 +188,13 @@ public class BoardServiceImpl implements BoardService {
 	public int deleteBoard(int boardIdx, int boardWriterIdx) {
 		Integer boardCategoryCode = boardMapper.deleteBoard(boardIdx, boardWriterIdx);
 		log.info("delete board, boardCategoryCode = {}", boardCategoryCode);
-		log.info("delete success = {}", (boardCategoryCode == null) ? false : true);
-		
-		if (boardCategoryCode == null) {
-			String message = String.format("can't delete board. (boardIdx = %s, boardWriterIdx = %s)",
-					boardIdx, boardWriterIdx);
-			throw new IllegalArgumentException(message);
-		}
+//		log.info("delete success = {}", (boardCategoryCode == null) ? false : true);
+//		
+//		if (boardCategoryCode == null) {
+//			String message = String.format("can't delete board. (boardIdx = %s, boardWriterIdx = %s)",
+//					boardIdx, boardWriterIdx);
+//			throw new IllegalArgumentException(message);
+//		}
 		
 		return boardCategoryCode;
 	}
