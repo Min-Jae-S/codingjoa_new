@@ -159,7 +159,14 @@ public class BoardServiceImpl implements BoardService {
 		Board board = modelMapper.map(modifyBoardDto, Board.class);
 		log.info("modifyBoardDto ==> {}", board);
 		
-		boardMapper.updateBoard(board);
+		boolean result = boardMapper.updateBoard(board);
+		log.info("update result = {}", result);
+		
+		if (!result) {
+			String message = String.format("can't update board. (boardIdx = %s, boardWriterIdx = %s)",
+					board.getBoardIdx(), board.getBoardWriterIdx());
+			throw new IllegalArgumentException(message);
+		}
 	}
 
 	@Override

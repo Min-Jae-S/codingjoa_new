@@ -32,7 +32,7 @@ public interface BoardMapper {
 	
 //	boolean isMyBoard(@Param("boardIdx")int boardIdx, @Param("boardWriterIdx") int boardWriterIdx);
 	
-	void updateBoard(Board board);
+	boolean updateBoard(Board board);
 
 	int findBoardCategoryCode(int boardIdx);
 	
