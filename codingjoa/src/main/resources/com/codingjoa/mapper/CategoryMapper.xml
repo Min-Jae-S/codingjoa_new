@@ -94,7 +94,7 @@
 								category_code = #{categoryCode} )
 	</select> -->
 	
-	<select id="isBoardCategory" parameterType="int" resultType="boolean">
+	<select id="isBoardCategoryCode" parameterType="int" resultType="boolean">
 		SELECT
 			COUNT(*)
 		FROM
@@ -109,8 +109,5 @@
 									 WHERE 
 									 	category_path = '/board' AND category_parent_code IS NULL )
 	</select>
-	
-	
-	
 	
 </mapper>

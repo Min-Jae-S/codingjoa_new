@@ -45,8 +45,8 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public boolean isBoardCategory(int categoryCode) {
-		return categoryMapper.isBoardCategory(categoryCode);
+	public boolean isBoardCategoryCode(int categoryCode) {
+		return categoryMapper.isBoardCategoryCode(categoryCode);
 	}
 
 }

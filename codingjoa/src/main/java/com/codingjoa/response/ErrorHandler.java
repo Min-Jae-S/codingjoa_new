@@ -47,8 +47,7 @@ public class ErrorHandler {
 	
 	@ExceptionHandler(ConstraintViolationException.class)
 	public String handleConstraintViolationException(ConstraintViolationException e) {
-		log.info("## ConstraintViolationException");
-		log.info("## error message = {}", e.getMessage());
+		log.info("## ConstraintViolationException, {}", e.getMessage());
 		
 		return "forward:/error/errorPage";
 	}
@@ -66,8 +65,7 @@ public class ErrorHandler {
 	
 	@ExceptionHandler(IllegalArgumentException.class)
 	public String handleIllegalArgumentException(IllegalArgumentException e) {
-		log.info("## IllegalArgumentException");
-		log.info("## error message = {}", e.getMessage());
+		log.info("## IllegalArgumentException, {}", e.getMessage());
 		
 		return "forward:/error/errorPage";
 	}

@@ -36,7 +36,7 @@ public class CheckBoardCategoryInterceptor implements HandlerInterceptor {
 			return false;
 		}
 		
-		if (!categoryService.isBoardCategory(Integer.parseInt(boardCategoryCode))) {
+		if (!categoryService.isBoardCategoryCode(Integer.parseInt(boardCategoryCode))) {
 			request.getRequestDispatcher("/error/errorPage").forward(request, response);
 			return false;
 		}

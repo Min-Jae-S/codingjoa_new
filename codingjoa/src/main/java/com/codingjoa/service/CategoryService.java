@@ -18,5 +18,5 @@ public interface CategoryService {
 	
 	List<Category> findBoardCategoryList();
 	
-	boolean isBoardCategory(int categoryCode);
+	boolean isBoardCategoryCode(int categoryCode);
 }

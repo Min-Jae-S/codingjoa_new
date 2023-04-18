@@ -23,5 +23,5 @@ public interface CategoryMapper {
 	
 	//String findParentCategoryPath(int categoryCode);
 	
-	boolean isBoardCategory(int categoryCode);
+	boolean isBoardCategoryCode(int categoryCode);
 }
