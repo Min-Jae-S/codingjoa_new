@@ -206,11 +206,12 @@
 		    	FROM 
 		        	board
 		    	WHERE
-		        <include refid="searchCriteria"/>
-				board_category_code = #{boardCategoryCode} AND
-				<![CDATA[
-				ROWNUM <= ( #{boardCri.page} * #{boardCri.recordCnt} )
-				]]>
+		        	<include refid="searchCriteria"/>
+					board_category_code = #{boardCategoryCode} 
+				AND
+					<![CDATA[
+					ROWNUM <= ( #{boardCri.page} * #{boardCri.recordCnt} )
+					]]>
 		    ) a_depth
 		    WHERE 
 		    	a_depth.rn > ( ( #{boardCri.page} - 1 ) * #{boardCri.recordCnt} )
@@ -344,7 +345,9 @@
 		FROM
 			board
 		WHERE
-			board_idx = #{boardIdx} AND board_category_code = #{boardCategoryCode}
+			board_idx = #{boardIdx} 
+		AND 
+			board_category_code = #{boardCategoryCode}
 	</select>
 	
 	<select id="findModifyBoard" parameterType="map" resultType="board">
@@ -353,7 +356,9 @@
 		FROM 
 			board 
 		WHERE
-			board_idx = #{boardIdx} AND board_writer_idx = #{boardWriterIdx}
+			board_idx = #{boardIdx} 
+		AND 
+			board_writer_idx = #{boardWriterIdx}
 	</select>
 	
 	<!-- <select id="isMyBoard" parameterType="map" resultType="boolean">
@@ -375,7 +380,9 @@
 			board_category_code = #{boardCategoryCode},
 			moddate = SYSDATE
 		WHERE
-			board_idx = #{boardIdx} AND board_writer_idx = #{boardWriterIdx}
+			board_idx = #{boardIdx} 
+		AND 
+			board_writer_idx = #{boardWriterIdx}
 	</update>
 	
 	<select id="findBoardCategoryCode" parameterType="int" resultType="int">
@@ -391,12 +398,14 @@
 	{	
 		CALL
 			DECLARE
-				v_board_category_code INT := NULL;
+				v_board_category_code INTEGER;
 			BEGIN
 				DELETE FROM
 					board
 	    		WHERE 
-	        		board_idx = #{boardIdx} AND board_writer_idx = #{boardWriterIdx}
+	        		board_idx = #{boardIdx} 
+	        	AND 
+	        		board_writer_idx = #{boardWriterIdx}
 	    		RETURNING 
 	        		board_category_code 
 	    		INTO 
