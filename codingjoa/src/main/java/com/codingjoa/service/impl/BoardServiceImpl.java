@@ -79,8 +79,7 @@ public class BoardServiceImpl implements BoardService {
 	public BoardDetailsDto getBoardDetails(int boardIdx) {
 		Map<String, Object> boardDetailsMap = boardMapper.findBoardDetails(boardIdx);
 		if (boardDetailsMap == null) {
-			String message = new StringBuilder("can't find boardDetails by boardIdx; boardIdx = ")
-					.append(boardIdx).toString();
+			String message = String.format("can't find boardDetails by boardIdx; boardIdx = %s", boardIdx);
 			throw new IllegalArgumentException(message);
 		}
 		
@@ -139,8 +138,8 @@ public class BoardServiceImpl implements BoardService {
 		
 		Board board = boardMapper.findModifyBoard(boardIdx, boardWriterIdx);
 		if (board == null) {
-			String message = new StringBuilder("can't find board by boardIdx and boardWriterIdx; boardIdx = ")
-					.append(boardIdx).append(", boardWriterIdx = ").append(boardWriterIdx).toString();
+			String message = String.format("can't find board by boardIdx and boardWriterIdx; "
+					+ "boardIdx = %s, boardWriterIdx = %s", boardIdx, boardWriterIdx);
 			throw new IllegalArgumentException(message);
 		}
 		
