@@ -70,7 +70,7 @@
 		SET
 			upload_board_idx = ''
 		WHERE
-			upload_board_idx = #{uploadBoadIdx} 
+			upload_board_idx = #{uploadBoardIdx} 
 	</update>
 	
 </mapper>
