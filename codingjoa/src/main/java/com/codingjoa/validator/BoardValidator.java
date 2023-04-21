@@ -34,12 +34,10 @@ public class BoardValidator implements Validator {
 		
 		if (!StringUtils.hasText(boardDto.getBoardTitle())) {
 			errors.rejectValue("boardTitle", "NotBlank");
-			return;
 		}
 
 		if (!StringUtils.hasText(boardDto.getBoardContent())) {
 			errors.rejectValue("boardContent", "NotBlank");
-			return;
 		}
 		
 		List<Integer> uploadIdxList = boardDto.getUploadIdxList();
@@ -49,7 +47,6 @@ public class BoardValidator implements Validator {
 		for (int uploadIdx : uploadIdxList) {
 			if (!boardService.isImageUploaded(uploadIdx)) {
 				errors.rejectValue("boardContent", "NotUploadImage");
-				return;
 			}
 		}
 		
