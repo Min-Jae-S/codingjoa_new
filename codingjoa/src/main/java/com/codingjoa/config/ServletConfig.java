@@ -147,7 +147,7 @@ public class ServletConfig implements WebMvcConfigurer {
 	// https://docs.jboss.org/hibernate/validator/5.1/reference/en-US/html/chapter-message-interpolation.html#section-resource-bundle-locator
 	// https://stackoverflow.com/questions/11225023/messageinterpolator-in-spring
 	@Bean
-	public Validator validator() {
+	public LocalValidatorFactoryBean localValidator() {
 //		return Validation.byDefaultProvider()
 //				.configure()
 //				.messageInterpolator(
@@ -157,21 +157,30 @@ public class ServletConfig implements WebMvcConfigurer {
 //				)
 //				.buildValidatorFactory()
 //				.getValidator();
-		LocalValidatorFactoryBean facotryBean = new LocalValidatorFactoryBean();
-		facotryBean.setValidationMessageSource(messageSource());
-		facotryBean.getValidationPropertyMap().put("hibernate.validator.fail_fast", "true");
+		LocalValidatorFactoryBean factoryBean = new LocalValidatorFactoryBean();
+		factoryBean.setValidationMessageSource(messageSource());
+		factoryBean.getValidationPropertyMap().put("hibernate.validator.fail_fast", "true");
 		
-		return facotryBean;
+		return factoryBean;
 	}
 	
+	
+	@Override
+	public org.springframework.validation.Validator getValidator() {
+		return localValidator();
+	}
+
 	// Enable @Valid validation exception handler for @PathVariable, @RequestParam and @RequestHeader.
 	// mvcValidator, LocalValidatorFactoryBean, @Qualifier("localValidator")
 	@Bean
-	public static MethodValidationPostProcessor methodValidationPostProcessor(@Lazy Validator validator) { 
+	public static MethodValidationPostProcessor methodValidationPostProcessor(@Lazy Validator localValidator) { 
 		MethodValidationPostProcessor processor = new MethodValidationPostProcessor();
-		processor.setValidator(validator);
+		processor.setValidator(localValidator);
 		
 		return processor;
 	}
+
+	
+	
 
 }
