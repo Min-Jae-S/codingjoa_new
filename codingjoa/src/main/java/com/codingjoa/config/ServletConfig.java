@@ -8,6 +8,7 @@ import java.util.TimeZone;
 
 import javax.validation.Validator;
 
+import org.hibernate.validator.HibernateValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
@@ -15,6 +16,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
@@ -150,7 +152,7 @@ public class ServletConfig implements WebMvcConfigurer {
 	// In Spring, you need to obtain ValidatorFactory (or Validator itself) via LocalValidatorFactoryBean 
 	// instead of Validation.buildDefaultValidatorFactory(), as described in the reference.
 	@Bean
-	public Validator localValidator() {
+	public Validator validator() {
 //		return Validation.byProvider(HibernateValidator.class)
 //				.configure()
 //				.messageInterpolator(
@@ -172,13 +174,11 @@ public class ServletConfig implements WebMvcConfigurer {
 	// Enable @Valid validation exception handler for @PathVariable, @RequestParam and @RequestHeader.
 	// mvcValidator, LocalValidatorFactoryBean, @Qualifier("localValidator")
 	@Bean
-	public static MethodValidationPostProcessor methodValidationPostProcessor(@Lazy Validator localValidator) { 
+	public static MethodValidationPostProcessor methodValidationPostProcessor(@Lazy Validator validator) { 
 		MethodValidationPostProcessor processor = new MethodValidationPostProcessor();
-		processor.setValidator(localValidator);
+		processor.setValidator(validator);
 		
 		return processor;
 	}
-	
-	
 
 }

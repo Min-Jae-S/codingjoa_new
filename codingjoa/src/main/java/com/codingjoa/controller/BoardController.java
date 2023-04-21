@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
