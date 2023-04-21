@@ -146,17 +146,22 @@ public class ServletConfig implements WebMvcConfigurer {
 	
 	// https://docs.jboss.org/hibernate/validator/5.1/reference/en-US/html/chapter-message-interpolation.html#section-resource-bundle-locator
 	// https://stackoverflow.com/questions/11225023/messageinterpolator-in-spring
+	// https://stackoverflow.com/questions/3587317/autowiring-a-service-into-a-validator
+	// In Spring, you need to obtain ValidatorFactory (or Validator itself) via LocalValidatorFactoryBean 
+	// instead of Validation.buildDefaultValidatorFactory(), as described in the reference.
 	@Bean
-	public LocalValidatorFactoryBean localValidator() {
-//		return Validation.byDefaultProvider()
+	public Validator localValidator() {
+//		return Validation.byProvider(HibernateValidator.class)
 //				.configure()
 //				.messageInterpolator(
 //						new ResourceBundleMessageInterpolator(
 //								new MessageSourceResourceBundleLocator(messageSource())
 //						)
 //				)
+//				.failFast(true)
 //				.buildValidatorFactory()
 //				.getValidator();
+		
 		LocalValidatorFactoryBean factoryBean = new LocalValidatorFactoryBean();
 		factoryBean.setValidationMessageSource(messageSource());
 		factoryBean.getValidationPropertyMap().put("hibernate.validator.fail_fast", "true");
@@ -164,12 +169,6 @@ public class ServletConfig implements WebMvcConfigurer {
 		return factoryBean;
 	}
 	
-	
-	@Override
-	public org.springframework.validation.Validator getValidator() {
-		return localValidator();
-	}
-
 	// Enable @Valid validation exception handler for @PathVariable, @RequestParam and @RequestHeader.
 	// mvcValidator, LocalValidatorFactoryBean, @Qualifier("localValidator")
 	@Bean
@@ -179,7 +178,6 @@ public class ServletConfig implements WebMvcConfigurer {
 		
 		return processor;
 	}
-
 	
 	
 
