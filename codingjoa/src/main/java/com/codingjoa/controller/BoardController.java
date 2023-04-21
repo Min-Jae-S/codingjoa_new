@@ -71,13 +71,14 @@ public class BoardController {
 			List<BoardDetailsDto> board = boardService.getPagedBoard(category.getCategoryCode(), boardCri);
 			boardList.add(board);
 		});
+		
 		model.addAttribute("boardList", boardList);
 		
 		return "board/all";
 	}
 	
 	@GetMapping("/main")
-	public String getBoard(@BoardCategoryCode @RequestParam(required = false) int boardCategoryCode, 
+	public String getBoard(@BoardCategoryCode @RequestParam("boardCategoryCode") int boardCategoryCode, 
 			@BoardCri Criteria boardCri, Model model) {
 		log.info("boardCategoryCode = {}", boardCategoryCode);
 		log.info("boardCri = {}", boardCri);
@@ -100,8 +101,7 @@ public class BoardController {
 	}
 	
 	@GetMapping("/read")
-	public String read(@RequestParam(required = false) int boardIdx, 
-			@BoardCri Criteria boardCri, Model model) {
+	public String read(@RequestParam("boardIdx") int boardIdx, @BoardCri Criteria boardCri, Model model) {
 		log.info("boardIdx = {}", boardIdx);
 		log.info("boardCri = {}", boardCri);
 		
