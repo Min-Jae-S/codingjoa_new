@@ -21,19 +21,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.codingjoa.dto.UploadFileDto;
 import com.codingjoa.response.SuccessResponse;
-import com.codingjoa.service.BoardService;
+import com.codingjoa.service.UploadService;
 import com.codingjoa.util.UploadFileUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @PropertySource("/WEB-INF/properties/upload.properties")
-@RequestMapping("/board")
+@RequestMapping("/upload")
 @RestController
-public class BoardRestController {
+public class UploadRestController {
 	
 	@Autowired
-	private BoardService boardService;
+	private UploadService uploadService;
 	
 	@Resource(name = "uploadFileValidator")
 	private Validator uploadFileValidator;
@@ -49,7 +49,7 @@ public class BoardRestController {
 		binder.addValidators(uploadFileValidator);
 	}
 	
-	@PostMapping("/uploadImage")
+	@PostMapping("/image")
 	public ResponseEntity<Object> uploadImage(@ModelAttribute @Valid UploadFileDto uploadFileDto, 
 			BindingResult bindingResult) throws MethodArgumentNotValidException {
 		log.info("originalFilename = {}", uploadFileDto.getFile().getOriginalFilename());
@@ -59,15 +59,17 @@ public class BoardRestController {
 		}
 		
 		String uploadFilename = UploadFileUtils.upload(uploadPath, uploadFileDto.getFile());
+		int uploadIdx = uploadService.uploadImage(uploadFilename);
+		log.info("uploadIdx = {}", uploadIdx);
 		
-		int uploadIdx = boardService.uploadImage(uploadFilename);
-		log.info("uploadIdx={}", uploadIdx);	
+		String returnUrl = uploadUrl + uploadFilename;
+		log.info("returnUrl = {}", returnUrl);
 		
 		HashMap<String, Object> map = new HashMap<>();
 		map.put("uploadIdx", uploadIdx);
-		map.put("returnUrl", uploadUrl + uploadFilename);
+		map.put("returnUrl", returnUrl);
 		
-		return ResponseEntity.ok(SuccessResponse.create().data(map));
+		return ResponseEntity.ok(SuccessResponse.create().message("success.uploadImage").data(map));
 	}
 	
 }

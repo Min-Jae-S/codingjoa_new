@@ -34,6 +34,7 @@ import com.codingjoa.pagination.Pagination;
 import com.codingjoa.security.dto.UserDetailsDto;
 import com.codingjoa.service.BoardService;
 import com.codingjoa.service.CategoryService;
+import com.codingjoa.service.UploadService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -47,6 +48,9 @@ public class BoardController {
 
 	@Autowired
 	private BoardService boardService;
+	
+	@Autowired
+	private UploadService uploadService;
 	
 	@Resource(name = "boardValidator")
 	private Validator boardValidator;
@@ -144,7 +148,7 @@ public class BoardController {
 		int boardIdx = boardService.writeBoard(writeBoardDto);
 		writeBoardDto.setBoardIdx(boardIdx);
 		
-		boardService.activateImage(writeBoardDto);
+		uploadService.activateImage(writeBoardDto);
 		
 		return "redirect:/board/read" + UriComponentsBuilder.newInstance()
 											.queryParam("boardIdx", boardIdx)
@@ -184,7 +188,7 @@ public class BoardController {
 		modifyBoardDto.setBoardWriterIdx(boardWriterIdx);
 		
 		boardService.modifyBoard(modifyBoardDto);
-		boardService.modifyUpload(modifyBoardDto);
+		uploadService.modifyUpload(modifyBoardDto);
 		
 		return "redirect:/board/read" + UriComponentsBuilder.newInstance()
 											.queryParam("boardIdx", modifyBoardDto.getBoardIdx())

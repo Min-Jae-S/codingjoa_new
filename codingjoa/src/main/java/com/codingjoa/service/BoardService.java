@@ -9,13 +9,13 @@ import com.codingjoa.pagination.Pagination;
 
 public interface BoardService {
 	
-	int uploadImage(String uploadFilename);
+//	int uploadImage(String uploadFilename);				## BoardService --> UploadService
 	
 	int writeBoard(BoardDto writeBoardDto);
 	
-	boolean isImageUploaded(int uploadIdx);
+//	boolean isImageUploaded(int uploadIdx);				## BoardService --> UploadService
 	
-	void activateImage(BoardDto writeBoardDto);
+//	void activateImage(BoardDto writeBoardDto);			## BoardService --> UploadService
 	
 	BoardDetailsDto getBoardDetails(int boardIdx);
 	
@@ -35,7 +35,7 @@ public interface BoardService {
 	
 	void modifyBoard(BoardDto modifyBoardDto);
 	
-	void modifyUpload(BoardDto modifyBoardDto);
+//	void modifyUpload(BoardDto modifyBoardDto);			## BoardService --> UploadService
 	
 	int getBoardCategoryCode(int boardIdx);
 	
