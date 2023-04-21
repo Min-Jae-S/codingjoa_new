@@ -18,7 +18,6 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://kit.fontawesome.com/c503d71f81.js"></script>
 <script src="${contextPath}/resources/ckeditor5/build/ckeditor.js"></script>
-<script src="${contextPath}/resources/js/comment.js"></script>
 <style>
 	.custom-select { 
 		font-size: 0.9rem; 
@@ -413,7 +412,10 @@
             });
         });
 	}
-	
+</script>
+
+<script src="${contextPath}/resources/js/comment.js"></script>
+<script>	
 	function makeCommentHtml(list) {
 		let boardWriterIdx = "<c:out value='${boardDetails.boardWriterIdx}'/>";
 		let html = "<ul class='list-group list-group-flush mt-3'>";
@@ -502,9 +504,7 @@
 		
 		commentService.getCommentList(commentListURL , function(result) {
 			let commentList = result.data;
-			if (commentList.length == 0) {
-				return;
-			}
+			if (commentList.length == 0) return;
 			
 			let html = makeCommentHtml(commentList);
 			$(".comment-list").html(html);
@@ -568,10 +568,8 @@
 				
 				commentService.getCommentList(commentListURL, function(result) {
 					let commentList = result.data;
-					if (commentList.length == 0) {
-						return;
-					}
-
+					if (commentList.length == 0) return;
+					
 					let html = makeCommentHtml(commentList);
 					$(".comment-list").html(html);
 				});
@@ -612,9 +610,7 @@
 				
 				commentService.getCommentList(commentListURL, function(result) {
 					let commentList = result.data;
-					if (commentList.length == 0) {
-						return;
-					}
+					if (commentList.length == 0) return;
 
 					let html = makeCommentHtml(commentList);
 					$(".comment-list").html(html);
@@ -622,20 +618,15 @@
 			});
 		});
 		
-		
 		$(document).on("click", "button[name=deleteCommentBtn]", function() {
-			if (!confirm("댓글을 삭제하시겠습니까?")) {
-				return;
-			}
+			if (!confirm("댓글을 삭제하시겠습니까?")) return;
 			
 			let commentIdx = $(this).closest("li").attr("comment-idx");
 			commentService.deleteComment("${contextPath}/comments/" + commentIdx, function(result) {
 				alert(result.message);
 				commentService.getCommentList(commentListURL, function(result) {
 					let commentList = result.data;
-					if (commentList.length == 0) {
-						return;
-					}
+					if (commentList.length == 0) return;
 
 					let html = makeCommentHtml(commentList);
 					$(".comment-list").html(html);
