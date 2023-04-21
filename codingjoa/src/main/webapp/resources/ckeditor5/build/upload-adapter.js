@@ -19,7 +19,6 @@ class UploadAdapter {
 
     _initRequest() {
         const xhr = this.xhr = new XMLHttpRequest();
-        
         console.log("## _initRequest");
         //console.log("1. xhr.readyState: " + xhr.readyState);
         
@@ -27,7 +26,7 @@ class UploadAdapter {
         // integration to choose the right communication channel. This example uses
         // a POST request with JSON as a data structure but your configuration
         // could be different.
-        xhr.open('POST', getContextPath() + "/board/uploadImage", true);
+        xhr.open('POST', getContextPath() + "/upload/image", true);
         xhr.responseType = 'json';
 
         //console.log("2. After open xhr and set responstType");
@@ -47,10 +46,10 @@ class UploadAdapter {
         	const status = xhr.status;
         	
         	console.log("## After load");
+        	console.log(response);
         	//console.log("1. xhr.readyState: " + readyStatus);
         	//console.log("2. xhr.status: " + status);
         	//console.log("3. xhr.response: ");
-        	console.log(response);
             
             if (status == "422") {
             	return reject(response.errorMap ? response.errorMap.file : genericErrorText);
@@ -66,8 +65,8 @@ class UploadAdapter {
          	
          	// If the upload is successful, resolve the upload promise with an object containing
             // at least the "default" URL, pointing to the image on the server.
-            // This URL will be used to display the image in the content. Learn more in the
-            // UploadAdapter#upload documentation.
+            // This URL will be used to display the image in the content. 
+            // Learn more in the UploadAdapter#upload documentation.
             resolve({
             	// https://ckeditor.com/docs/ckeditor5/latest/framework/guides/deep-dive/upload-adapter.html
 //            	urls: {
