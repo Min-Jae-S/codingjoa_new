@@ -52,7 +52,7 @@ public class BoardController {
 	private Validator boardValidator;
 
 	@InitBinder(value = { "writeBoardDto", "modifyBoardDto" })
-	public void initBinderBoard(WebDataBinder binder) {
+	protected void initBinderBoard(WebDataBinder binder) {
 		binder.addValidators(boardValidator);
 	}
 
