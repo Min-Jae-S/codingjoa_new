@@ -515,12 +515,8 @@
 		});
 		
 		$("#commentContent").on({
-			"focus":function() {
-				$(this).closest("div").addClass("textarea-border");	
-			},
-			"blur":function() {
-				$(this).closest("div").removeClass("textarea-border");
-			},
+			"focus":function() { $(this).closest("div").addClass("textarea-border"); },
+			"blur" :function() { $(this).closest("div").removeClass("textarea-border"); },
 			"input":function() {
 				$(this).height("auto");
 				$(this).height($(this).prop("scrollHeight") + "px");
@@ -607,7 +603,6 @@
 			
 			commentService.modifyComment(url, comment, function(result) {
 				alert(result.message);
-				
 				commentService.getCommentList(commentListURL, function(result) {
 					let commentList = result.data;
 					if (commentList.length == 0) return;
