@@ -10,7 +10,6 @@ import org.springframework.validation.Validator;
 
 import com.codingjoa.dto.BoardDto;
 import com.codingjoa.service.BoardService;
-import com.codingjoa.service.CategoryService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -18,9 +17,6 @@ import lombok.extern.slf4j.Slf4j;
 @Component(value = "boardValidator")
 public class BoardValidator implements Validator {
 
-	@Autowired
-	private CategoryService categoryService;
-	
 	@Autowired
 	private BoardService boardService;
 	
@@ -31,14 +27,14 @@ public class BoardValidator implements Validator {
 	
 	@Override
 	public void validate(Object target, Errors errors) {
+		if (errors.hasErrors()) {
+			return;
+		}
+
 		log.info("======== BoardValidator ========");
 		log.info("objectName = {}", errors.getObjectName());
 		
 		BoardDto boardDto = (BoardDto) target;
-		if (!categoryService.isBoardCategoryCode(boardDto.getBoardCategoryCode())) {
-			errors.rejectValue("boardCategoryCode", "BoardCategoryCode");
-			return;
-		}
 		
 		if (!StringUtils.hasText(boardDto.getBoardTitle())) {
 			errors.rejectValue("boardTitle", "NotBlank");

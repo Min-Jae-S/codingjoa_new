@@ -1,6 +1,7 @@
 package com.codingjoa.annotation;
 
 import static java.lang.annotation.ElementType.PARAMETER;
+import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import java.lang.annotation.Retention;
@@ -12,7 +13,7 @@ import javax.validation.Payload;
 import com.codingjoa.validator.BoardCategoryCodeValidator;
 
 @Retention(RUNTIME)
-@Target(PARAMETER)
+@Target({PARAMETER, FIELD})
 @Constraint(validatedBy = BoardCategoryCodeValidator.class)
 public @interface BoardCategoryCode {
 	

@@ -32,10 +32,6 @@ public class CommentValidator implements Validator {
 		int commentBoardIdx = commentDto.getCommentBoardIdx();
 		int boardCategoryCode = commentDto.getBoardCategoryCode();
 		
-//		if (!StringUtils.isNumeric(commentBoardIdx) || !StringUtils.isNumeric(boardCategoryCode)) {
-//			...
-//		}
-		
 		if (!boardService.isBoardIdxExist(commentBoardIdx, boardCategoryCode)) {
 			errors.rejectValue("commentBoardIdx", "NotBoardIdxExist");
 			return;
