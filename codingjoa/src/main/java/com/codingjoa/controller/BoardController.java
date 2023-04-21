@@ -77,7 +77,7 @@ public class BoardController {
 	}
 	
 	@GetMapping("/main")
-	public String getBoard(@BoardCategoryCode @RequestParam("boardCategoryCode") int boardCategoryCode, 
+	public String getBoard(@BoardCategoryCode @RequestParam(required = false) int boardCategoryCode, 
 			@BoardCri Criteria boardCri, Model model) {
 		log.info("boardCategoryCode = {}", boardCategoryCode);
 		log.info("boardCri = {}", boardCri);
@@ -100,7 +100,8 @@ public class BoardController {
 	}
 	
 	@GetMapping("/read")
-	public String read(@RequestParam("boardIdx") int boardIdx, @BoardCri Criteria boardCri, Model model) {
+	public String read(@RequestParam(required = false) int boardIdx, 
+			@BoardCri Criteria boardCri, Model model) {
 		log.info("boardIdx = {}", boardIdx);
 		log.info("boardCri = {}", boardCri);
 		

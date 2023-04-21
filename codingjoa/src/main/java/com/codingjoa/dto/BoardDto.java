@@ -16,7 +16,7 @@ public class BoardDto {
 	private int boardWriterIdx;
 	
 	@BoardCategoryCode
-	private int boardCategoryCode;
+	private Integer boardCategoryCode;
 	
 	private List<Integer> uploadIdxList;
 	
