@@ -8,7 +8,6 @@ import java.util.TimeZone;
 
 import javax.validation.Validator;
 
-import org.hibernate.validator.HibernateValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
@@ -16,7 +15,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
@@ -166,7 +164,7 @@ public class ServletConfig implements WebMvcConfigurer {
 		
 		LocalValidatorFactoryBean factoryBean = new LocalValidatorFactoryBean();
 		factoryBean.setValidationMessageSource(messageSource());
-		factoryBean.getValidationPropertyMap().put("hibernate.validator.fail_fast", "true");
+		//factoryBean.getValidationPropertyMap().put("hibernate.validator.fail_fast", "true");
 		
 		return factoryBean;
 	}
