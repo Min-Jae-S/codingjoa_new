@@ -35,10 +35,8 @@ public class BoardValidator implements Validator {
 		log.info("objectName = {}", errors.getObjectName());
 		
 		BoardDto boardDto = (BoardDto) target;
-		
 		if (categoryService.isBoardCategoryCode(boardDto.getBoardCategoryCode())) {
 			errors.rejectValue("boardCategoryCode", "BoardCategoryCode");
-			return;
 		}
 		
 		if (!StringUtils.hasText(boardDto.getBoardTitle())) {
