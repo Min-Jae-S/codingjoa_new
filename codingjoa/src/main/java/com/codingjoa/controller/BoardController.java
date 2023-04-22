@@ -138,6 +138,7 @@ public class BoardController {
 			bindingResult.getFieldErrors().forEach(fieldError -> 
 				log.info("{}, {}", fieldError.getField(), fieldError.getCodes()[0])
 			);
+			
 			model.addAttribute("boardCategoryList", categoryService.findBoardCategoryList());
 			
 			return "board/write";
