@@ -1,6 +1,7 @@
 package com.codingjoa.controller;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
@@ -65,7 +66,7 @@ public class UploadRestController {
 		String returnUrl = uploadUrl + uploadFilename;
 		log.info("returnUrl = {}", returnUrl);
 		
-		HashMap<String, Object> map = new HashMap<>();
+		Map<String, Object> map = new HashMap<>();
 		map.put("uploadIdx", uploadIdx);
 		map.put("returnUrl", returnUrl);
 		

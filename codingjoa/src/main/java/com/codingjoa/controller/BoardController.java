@@ -215,6 +215,7 @@ public class BoardController {
 	@GetMapping("/test")
 	public String test(@Min(2) @Max(6) int param1, @Size(min = 2, max = 6) String param2) {
 		log.info("param1 = {}, param2 = {}", param1, param2);
+		
 		return null;
 	}
 	
