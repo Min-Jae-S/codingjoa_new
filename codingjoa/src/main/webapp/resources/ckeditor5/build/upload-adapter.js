@@ -1,5 +1,5 @@
 function getContextPath() {
-    var hostIndex = location.href.indexOf(location.host) + location.host.length;
+    let hostIndex = location.href.indexOf(location.host) + location.host.length;
     return location.href.substring(hostIndex, location.href.indexOf('/', hostIndex + 1));
 }
 
@@ -54,8 +54,8 @@ class UploadAdapter {
                 return reject(response && response.error ? response.error.message : genericErrorText);
             }
          	
-         	// If the upload is successful, resolve the upload promise with an object containing
-            // at least the "default" URL, pointing to the image on the server.
+         	// If the upload is successful, resolve the upload promise with an object 
+         	// containing at least the "default" URL, pointing to the image on the server.
             // This URL will be used to display the image in the content. 
             // Learn more in the UploadAdapter#upload documentation.
             resolve({
@@ -75,8 +75,8 @@ class UploadAdapter {
         
      	// Important note: 
      	// This is the right place to implement security mechanisms like authentication and CSRF protection. 
-     	// For instance, you can use XMLHttpRequest.setRequestHeader() to set the request headers containing
-        // the CSRF token generated earlier by your application.
+     	// For instance, you can use XMLHttpRequest.setRequestHeader() to set the request headers 
+     	// containing the CSRF token generated earlier by your application.
 
         // Send the request.
         console.log("Send upload request");
