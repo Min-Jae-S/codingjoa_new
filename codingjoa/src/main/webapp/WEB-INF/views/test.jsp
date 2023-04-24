@@ -14,11 +14,10 @@
 <script src="${contextPath}/resources/js/test1.js"></script>
 <script src="${contextPath}/resources/js/test2.js"></script>
 <script src="${contextPath}/resources/js/editor-service.js"></script>
+<script src="${contextPath}/resources/ckeditor5/build/upload-adapter.js"></script>
 <script src="${contextPath}/resources/ckeditor5/build/ckeditor.js"></script>
-<style type="text/css">
-	.ck-editor__editable[role="textbox"] {
-		min-height: 300px;
-	}
+<style>
+	.ck-editor__editable[role="textbox"] { min-height: 300px; }
 </style>
 </head>
 <body>

@@ -51,9 +51,10 @@ public class ErrorHandler {
 	@ExceptionHandler(ConstraintViolationException.class)
 	public String handleConstraintViolationException(ConstraintViolationException e) {
 		log.info("## ConstraintViolationException");
+
 		e.getConstraintViolations().forEach(v -> {
-			log.info("{}", v);
 			log.info("Invalid Value = {}", v.getInvalidValue());
+			log.info("{}", v);
 		});
 		
 		return "forward:/error/errorPage";
@@ -62,6 +63,7 @@ public class ErrorHandler {
 	@ExceptionHandler(BindException.class)
 	public String handleBindException(BindException e) {
 		log.info("## BindException");
+		
 		e.getBindingResult().getFieldErrors().forEach(fieldError -> {
 			log.info("field = {}", fieldError.getField());
 			log.info("code = {}", fieldError.getCodes()[0]);
