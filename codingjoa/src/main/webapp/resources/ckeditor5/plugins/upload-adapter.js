@@ -64,9 +64,9 @@ class UploadAdapter {
 //            	urls: {
 //            		default: getContextPath() + response.data.returnUrl
 //            	},
-            	url: response.data.url,
+            	url: response.data.uploadFileUrl,
             	alt: file.name,
-            	idx: response.data.idx
+            	idx: response.data.uploadIdx
             });
         });
     }

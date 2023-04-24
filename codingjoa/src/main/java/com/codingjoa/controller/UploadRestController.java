@@ -54,22 +54,26 @@ public class UploadRestController {
 	@PostMapping("/image")
 	public ResponseEntity<Object> uploadImage(@ModelAttribute @Valid UploadFileDto uploadFileDto, 
 			BindingResult bindingResult, HttpServletRequest request) throws MethodArgumentNotValidException {
-		log.info("originalFilename = {}", uploadFileDto.getFile().getOriginalFilename());
+		log.info("contentType = {}", uploadFileDto.getFile().getContentType());
 		
 		if (bindingResult.hasErrors()) {
 			 throw new MethodArgumentNotValidException(null, bindingResult);
 		}
 		
 		String uploadFilename = UploadFileUtils.upload(uploadPath, uploadFileDto.getFile());
-		int idx = uploadService.uploadImage(uploadFilename);
-		log.info("idx = {}", idx);
+		int uploadIdx = uploadService.uploadImage(uploadFilename);
+		log.info("uploadIdx = {}", uploadIdx);
 		
-		String url = request.getContextPath() + uploadUrl + uploadFilename;
-		log.info("url = {}", url);
+		String uploadFileUrl = request.getContextPath() + uploadUrl + uploadFilename;
+		log.info("uploadFileUrl = {}", uploadFileUrl);
+		
+		String originalFilename = uploadFileDto.getFile().getOriginalFilename();
+		log.info("originalFilename = {}", originalFilename);
 		
 		Map<String, Object> map = new HashMap<>();
-		map.put("idx", idx);
-		map.put("url", url);
+		map.put("uploadIdx", uploadIdx);
+		map.put("uploadFileUrl", uploadFileUrl);
+		map.put("originalFilename", originalFilename);
 		
 		return ResponseEntity.ok(SuccessResponse.create().message("success.uploadImage").data(map));
 	}

@@ -15,9 +15,9 @@ console.log("## Editor plugins Ready");
 			console.log("## Upload complete");
 			editor.model.change(writer => {
 				evt.stop();
-				writer.setAttribute("src", data.url, imageElement);
-				writer.setAttribute("alt", data.alt, imageElement);
-				writer.setAttribute("dataIdx", data.idx, imageElement);
+				writer.setAttribute("src", data.uploadFileUrl, imageElement);
+				writer.setAttribute("dataIdx", data.uploadIdx, imageElement);
+				writer.setAttribute("alt", data.originalFilename, imageElement);
 			});
 		});
 	}
