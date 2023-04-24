@@ -289,7 +289,7 @@
 				</div>
 				<div class="content-group mb-4">
 					<div id="boardContent">
-						<c:out value="${boardDetails.boardContent}" escapeXml="false"/>
+						<!-- ${boardDetails.boardContent} -->
 					</div>
 				</div>
 				<div class="comment-group pt-4">
@@ -361,6 +361,7 @@
 			const toolbarElement = editor.ui.view.toolbar.element;
 			toolbarElement.style.display = "none";
 			editor.enableReadOnlyMode("#boardContent");
+			//editor.setData('${boardDetails.boardContent}');
 			readEditor = editor;
 		})
 		.catch(error => {
