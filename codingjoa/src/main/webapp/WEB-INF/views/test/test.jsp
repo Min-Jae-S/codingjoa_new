@@ -74,7 +74,7 @@
 			placeholder: "내용을 입력하세요."
 		})
 		.then(editor => {
-			console.log("## WriteEditor initialized");
+			console.log("## WriteEditor initialize");
 			writeEditor = editor;
 		})
 		.catch(error => {
