@@ -141,9 +141,9 @@
 		// test
 		$("#testBtn").on("click", function() {
 			console.log("===============================");
-			console.log("## getData");
+			console.log("## writeEditor.getData()");
 			console.log(writeEditor.getData());
-			console.log("## plainText");
+			console.log("## plainText; viewToPlainText");
 			console.log(viewToPlainText(writeEditor.editing.view.document.getRoot()));
 			console.log("===============================");
 		});
