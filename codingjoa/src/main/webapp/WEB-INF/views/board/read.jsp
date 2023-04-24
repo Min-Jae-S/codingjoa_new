@@ -288,9 +288,9 @@
 					</div>
 				</div>
 				<div class="content-group mb-4">
-					<div id="boardContent">
-						<!-- ${boardDetails.boardContent} -->
-					</div>
+					<textarea id="boardContent" >
+						<c:out value="${boardDetails.boardContent}" escapeXml="false"/>
+					</textarea>
 				</div>
 				<div class="comment-group pt-4">
 					<div class="comment-cnt mb-3">
@@ -361,7 +361,6 @@
 			const toolbarElement = editor.ui.view.toolbar.element;
 			toolbarElement.style.display = "none";
 			editor.enableReadOnlyMode("#boardContent");
-			//editor.setData('${boardDetails.boardContent}');
 			readEditor = editor;
 		})
 		.catch(error => {
@@ -467,9 +466,9 @@
 				$(this).height($(this).prop("scrollHeight") + "px");
 				
 				if ($(this).val() != "") {
-					$(this).closest("div").find("button").addClass("btn-primary");
+					$(this).closest("div").find("button").addClass("btn-outline-primary");
 				} else {
-					$(this).closest("div").find("button").removeClass("btn-primary");
+					$(this).closest("div").find("button").removeClass("btn-outline-primary");
 				}
 			}
 		});
