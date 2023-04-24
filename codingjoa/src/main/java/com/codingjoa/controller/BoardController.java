@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.Size;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -213,10 +210,11 @@ public class BoardController {
 	}
 	
 	@GetMapping("/test")
-	public String test(@Min(2) @Max(6) int param1, @Size(min = 2, max = 6) String param2) {
+	public String test(@RequestParam(required = false) Integer param1, 
+						@RequestParam(required = false) String param2) {
 		log.info("param1 = {}, param2 = {}", param1, param2);
 		
-		return null;
+		return "test";
 	}
 	
 
