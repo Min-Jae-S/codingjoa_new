@@ -17,9 +17,9 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://kit.fontawesome.com/c503d71f81.js"></script>
+<script src="${contextPath}/resources/js/comment.js"></script>
 <script src="${contextPath}/resources/ckeditor5/plugins/ckeditor-plugins.js"></script>
 <script src="${contextPath}/resources/ckeditor5/build/ckeditor.js"></script>
-<script src="${contextPath}/resources/js/comment.js"></script>
 <style>
 	.custom-select { 
 		font-size: 0.9rem; 
@@ -320,7 +320,6 @@
 			<div class="card-bottom">
 				<a class="btn btn-secondary" href="${contextPath}/board/main?boardCategoryCode=${category.categoryCode}&
 					${boardCri.getQueryString()}">목록</a>
-				<button class="btn btn-warning font-weight-bold" id="testBtn">TestBtn</button>
 			</div>
 		</div>
 		<div class="col-sm-2"></div>
@@ -368,15 +367,84 @@
 			console.error(error);
 		});
 	
+	function makeCommentHtml(list) {
+		let boardWriterIdx = "<c:out value='${boardDetails.boardWriterIdx}'/>";
+		let html = "<ul class='list-group list-group-flush mt-3'>";
+		
+		$.each(list, function(index, commentDetails) {
+			if (!commentDetails.commentUse) {
+				html += "<li class='list-group-item deleted-comment' comment-idx='" + commentDetails.commentIdx + "'>";
+				html += "<div class='comment-area'>";
+				html += "<div class='comment-area-header'>";
+				html += "<div class='comment-info'>";
+				html += "<span class='comment-writer'>삭제된 댓글</span>";
+				html += "</div>";
+				html += "<div class='comment-content'>";
+				html += "<span>삭제된 댓글입니다.</span>";
+				html += "</div>";
+				html += "</div>";
+				html += "</div>";
+				html += "</li>";
+				return true;
+			}
+			
+			html += "<li class='list-group-item' comment-idx='" + commentDetails.commentIdx + "'>";
+			html += "<div class='comment-area'>";
+			html += "<div class='comment-area-header'>";
+			html += "<div class='comment-info'>";
+			html += "<span class='comment-writer'>" + commentDetails.memberId + "</span>";
+			if (commentDetails.commentWriterIdx == boardWriterIdx) {
+				html += "<span class='badge badge-pill badge-primary mr-1'>작성자</span>"
+			}
+			html += "<span class='comment-regdate'>" + commentDetails.regdate + "</span>";
+			html += "<span class='comment-moddate d-none'>" + commentDetails.moddate + "</span>";
+			html += "</div>";
+			html += "<div class='comment-content'>";
+			html += "<span>" + commentDetails.commentContent.replace(/(?:\r\n|\r|\n)/g, "<br>"); + "</span>";
+			html += "</div>";
+			html += "</div>";
+			html += "<div class='comment-area-footer'>";
+			html += "<div class='dropright'>";
+			html += "<span class='comment-utils' data-toggle='dropdown' data-offset='0,10'>";
+			html += "<i class='fa-solid fa-ellipsis-vertical'></i>";
+			html += "</span>";
+			html += "<div class='dropdown-menu'>";
+			html += "<h6 class='dropdown-header'>댓글 관리</h6>";
+			html += "<button class='dropdown-item' name='showEditCommentBtn'>수정하기</button>";
+			html += "<button class='dropdown-item' name='deleteCommentBtn'>삭제하기</button>";
+			html += "</div>";
+			html += "</div>";
+			html += "<div class='comment-likes'>";
+			html += "<span><i class='fa-regular fa-thumbs-up mr-1'></i>" + commentDetails.commentLikes + "</span>";
+			html += "</div>";
+			html += "</div>";
+			html += "</div>";
+			html += "</li>";
+		});
+		html += "</ul>";
+		
+		return html;
+	}
+	
+	function makeEditCommentHtml(commentDetails) {
+		let html = "<div class='input-group'>";
+		html += "<div class='comment-edit form-control'>";
+		html += "<p class='font-weight-bold mb-2'>" + commentDetails.memberId + "</p>";
+		html += "<textarea rows='1'>" + commentDetails.commentContent + "</textarea>";
+		html += "<div class='mt-2'>";
+		html += "<button class='btn btn-outline-primary btn-sm mr-2' name='modifyCommentBtn'>수정</button>";
+		html += "<button class='btn btn-outline-secondary btn-sm' name='closeEditCommentBtn'>취소</button>";
+		html += "</div>";		
+		html += "</div>";			
+		html += "</div>";			
+		
+		return html;
+	}
+	
 	$(function() {
 		let boardIdx = "<c:out value='${boardDetails.boardIdx}'/>";
 		let boardCategoryCode = "<c:out value='${boardDetails.boardCategoryCode}'/>";
 		let commentListURL = "${contextPath}/boards/" + boardIdx + "/comments";
-
-		// testBtn
-		$("#testBtn").on("click", function() {
-			console.log("## testBtn clicked...");
-		});
 		
 		commentService.getCommentList(commentListURL , function(result) {
 			let commentList = result.data;
@@ -398,9 +466,9 @@
 				$(this).height($(this).prop("scrollHeight") + "px");
 				
 				if ($(this).val() != "") {
-					$(this).closest("div").find("button").addClass("btn-outline-primary");
+					$(this).closest("div").find("button").addClass("btn-primary");
 				} else {
-					$(this).closest("div").find("button").removeClass("btn-outline-primary");
+					$(this).closest("div").find("button").removeClass("btn-primary");
 				}
 			}
 		});
@@ -507,82 +575,5 @@
 		
 	});
 </script>
-<script>	
-	function makeCommentHtml(list) {
-		let boardWriterIdx = "<c:out value='${boardDetails.boardWriterIdx}'/>";
-		let html = "<ul class='list-group list-group-flush mt-3'>";
-		
-		$.each(list, function(index, commentDetails) {
-			if (!commentDetails.commentUse) {
-				html += "<li class='list-group-item deleted-comment' comment-idx='" + commentDetails.commentIdx + "'>";
-				html += "<div class='comment-area'>";
-				html += "<div class='comment-area-header'>";
-				html += "<div class='comment-info'>";
-				html += "<span class='comment-writer'>삭제된 댓글</span>";
-				html += "</div>";
-				html += "<div class='comment-content'>";
-				html += "<span>삭제된 댓글입니다.</span>";
-				html += "</div>";
-				html += "</div>";
-				html += "</div>";
-				html += "</li>";
-				return true;
-			}
-			
-			html += "<li class='list-group-item' comment-idx='" + commentDetails.commentIdx + "'>";
-			html += "<div class='comment-area'>";
-			html += "<div class='comment-area-header'>";
-			html += "<div class='comment-info'>";
-			html += "<span class='comment-writer'>" + commentDetails.memberId + "</span>";
-			if (commentDetails.commentWriterIdx == boardWriterIdx) {
-				html += "<span class='badge badge-pill badge-primary mr-1'>작성자</span>"
-			}
-			html += "<span class='comment-regdate'>" + commentDetails.regdate + "</span>";
-			html += "<span class='comment-moddate d-none'>" + commentDetails.moddate + "</span>";
-			html += "</div>";
-			html += "<div class='comment-content'>";
-			html += "<span>" + commentDetails.commentContent.replace(/(?:\r\n|\r|\n)/g, "<br>"); + "</span>";
-			html += "</div>";
-			html += "</div>";
-			html += "<div class='comment-area-footer'>";
-			html += "<div class='dropright'>";
-			html += "<span class='comment-utils' data-toggle='dropdown' data-offset='0,10'>";
-			html += "<i class='fa-solid fa-ellipsis-vertical'></i>";
-			html += "</span>";
-			html += "<div class='dropdown-menu'>";
-			html += "<h6 class='dropdown-header'>댓글 관리</h6>";
-			html += "<button class='dropdown-item' name='showEditCommentBtn'>수정하기</button>";
-			html += "<button class='dropdown-item' name='deleteCommentBtn'>삭제하기</button>";
-			html += "</div>";
-			html += "</div>";
-			html += "<div class='comment-likes'>";
-			html += "<span><i class='fa-regular fa-thumbs-up mr-1'></i>" + commentDetails.commentLikes + "</span>";
-			html += "</div>";
-			html += "</div>";
-			html += "</div>";
-			html += "</li>";
-		});
-		html += "</ul>";
-		
-		return html;
-	}
-	
-	function makeEditCommentHtml(commentDetails) {
-		let html = "<div class='input-group'>";
-		html += "<div class='comment-edit form-control'>";
-		html += "<p class='font-weight-bold mb-2'>" + commentDetails.memberId + "</p>";
-		html += "<textarea rows='1'>" + commentDetails.commentContent + "</textarea>";
-		html += "<div class='mt-2'>";
-		html += "<button class='btn btn-outline-primary btn-sm mr-2' name='modifyCommentBtn'>수정</button>";
-		html += "<button class='btn btn-outline-secondary btn-sm' name='closeEditCommentBtn'>취소</button>";
-		html += "</div>";		
-		html += "</div>";			
-		html += "</div>";			
-		
-		return html;
-	}
-</script>
-
-
 </body>
 </html>

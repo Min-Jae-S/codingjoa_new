@@ -85,9 +85,9 @@
 						<form:errors path="boardContent" cssClass="error"/>
 						<form:errors path="boardContentText" cssClass="error"/>
 					</div>
-					<div>
+					<!-- <div>
 						<button class="btn btn-danger" type="button" id="testBtn">testBtn</button>
-					</div>
+					</div> -->
 				</form:form>
 			</div>
 		</div>
@@ -142,7 +142,7 @@
 		// https://ckeditor.com/docs/ckeditor5/latest/api/module_image_imageupload_imageuploadui-ImageUploadUI.html
 		$("input[type='file']").removeAttr("accept").removeAttr("multiple");
 		
-		// test
+		// testBtn
 		$("#testBtn").on("click", function() {
 			console.log("===============================");
 			console.log("## writeEditor.getData():");
