@@ -1,5 +1,8 @@
 package com.codingjoa.response;
 
+import java.util.Set;
+
+import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 
 import org.springframework.http.ResponseEntity;
@@ -47,7 +50,11 @@ public class ErrorHandler {
 	
 	@ExceptionHandler(ConstraintViolationException.class)
 	public String handleConstraintViolationException(ConstraintViolationException e) {
-		log.info("## ConstraintViolationException: {}", e.getMessage());
+		log.info("## ConstraintViolationException");
+		e.getConstraintViolations().forEach(v -> {
+			log.info("{}", v);
+			log.info("Invalid Value = {}", v.getInvalidValue());
+		});
 		
 		return "forward:/error/errorPage";
 	}

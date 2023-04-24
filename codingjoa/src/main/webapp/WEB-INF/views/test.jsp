@@ -27,17 +27,16 @@
 		<div class="row">
 			<div class="col-sm-2"></div>
 			<div class="col-sm-8">
-				<form:form action="${contextPath}/board/test" method="POST">
+				<form action="${contextPath}/board/test" method="POST">
 					<div class="form-row">
 						<div class="form-group">
-							<form:textarea path="boardContent"/>
-							<form:errors path="boardContent" cssClass="error"/>
+							<textarea id="boardContent" name="boardContent"></textarea>
 						</div>
 						<div class="form-group">
-							<form:button class="btn btn-primary btn-block">등록</form:button>
+							<button class="btn btn-primary btn-block">등록</button>
 						</div>
 					</div>
-				</form:form>
+				</form>
 			</div>
 			<div class="col-sm-2"></div>
 		</div>
