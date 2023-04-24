@@ -11,9 +11,7 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
 <link rel="stylesheet" href="${contextPath}/resources/css/common.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="${contextPath}/resources/js/test1.js"></script>
-<script src="${contextPath}/resources/js/test2.js"></script>
-<script src="${contextPath}/resources/js/editor-service.js"></script>
+<script src="${contextPath}/resources/ckeditor5/plugins/ckeditor-plugins.js"></script>
 <script src="${contextPath}/resources/ckeditor5/build/upload-adapter.js"></script>
 <script src="${contextPath}/resources/ckeditor5/build/ckeditor.js"></script>
 <style>
@@ -48,9 +46,9 @@
 	ClassicEditor
 		.create(document.querySelector("#boardContent"), {
 			extraPlugins: [
-				uploadAdapterPlugin, 
+				uploadAdapter, 
 				uploadCompleteListener, 
-				extendAttribute,
+				attributeExtender,
 				viewToModelConverter, 
 				modelToViewEditingConverter, 
 				modelToViewDataConverter

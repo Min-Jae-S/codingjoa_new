@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.codingjoa.annotation.BoardCategoryCode;
@@ -67,10 +66,10 @@ public class BoardController {
 		ArrayList<List<BoardDetailsDto>> boardList = new ArrayList<List<BoardDetailsDto>>();
 		boardCategoryList.forEach(category -> {
 			Criteria boardCri = new Criteria(1, 5);
-			List<BoardDetailsDto> board = boardService.getPagedBoard(category.getCategoryCode(), boardCri);
+			List<BoardDetailsDto> board = 
+					boardService.getPagedBoard(category.getCategoryCode(), boardCri);
 			boardList.add(board);
 		});
-		
 		model.addAttribute("boardList", boardList);
 		
 		return "board/all";
@@ -112,8 +111,7 @@ public class BoardController {
 		model.addAttribute("category", category);
 		model.addAttribute("boardCri", boardCri);
 
-		// 쿠키를 이용하여 조회수 중복 방지 추가하기 
-		// https://mighty96.github.io/til/view
+		// 쿠키를 이용하여 조회수 중복 방지 추가하기, https://mighty96.github.io/til/view
 		boardService.updateBoardViews(boardIdx);
 		
 		return "board/read";
@@ -214,14 +212,18 @@ public class BoardController {
 	
 	// TEST
 	@GetMapping("/test")
-	public String test(@RequestParam(required = false) Integer param1, @RequestParam(required = false) String param2) {
-		log.info("param1 = {}, param2 = {}", param1, param2);
+	public String test(@RequestParam(required = false) Integer param1, 
+			@RequestParam(required = false) String param2) {
+		log.info("param1 = {}", param1);
+		log.info("param2 = {}", param2);
+		
 		return "test/test";
 	}
 	
 	@PostMapping("/test")
 	public String test(@NotBlank @RequestParam("boardContent") String boardContent) {
 		log.info("boardConent = {}", boardContent);
+		
 		return "test/test-success";
 	}
 
