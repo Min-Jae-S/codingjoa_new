@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-	<h1 class="font-weight-bold text-center my-5">JS MODULE TEST</h1>
+	<h1 class="font-weight-bold text-center my-5">TEST</h1>
 	<div class="container">
 		<div class="row">
 			<div class="col-sm-2"></div>

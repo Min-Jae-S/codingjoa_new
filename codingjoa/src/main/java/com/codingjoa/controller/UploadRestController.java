@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +53,7 @@ public class UploadRestController {
 	
 	@PostMapping("/image")
 	public ResponseEntity<Object> uploadImage(@ModelAttribute @Valid UploadFileDto uploadFileDto, 
-			BindingResult bindingResult) throws MethodArgumentNotValidException {
+			BindingResult bindingResult, HttpServletRequest request) throws MethodArgumentNotValidException {
 		log.info("originalFilename = {}", uploadFileDto.getFile().getOriginalFilename());
 		
 		if (bindingResult.hasErrors()) {
@@ -63,7 +64,7 @@ public class UploadRestController {
 		int uploadIdx = uploadService.uploadImage(uploadFilename);
 		log.info("uploadIdx = {}", uploadIdx);
 		
-		String returnUrl = uploadUrl + uploadFilename;
+		String returnUrl = request.getContextPath() + uploadUrl + uploadFilename;
 		log.info("returnUrl = {}", returnUrl);
 		
 		Map<String, Object> map = new HashMap<>();

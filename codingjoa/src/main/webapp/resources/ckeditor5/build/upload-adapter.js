@@ -27,7 +27,6 @@ class UploadAdapter {
         const xhr = this.xhr = new XMLHttpRequest();
         xhr.open('POST', getContextPath() + "/upload/image", true);
         xhr.responseType = 'json';
-        console.log(xhr);
     }
 
     _initListeners(resolve, reject, file) {

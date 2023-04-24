@@ -1,7 +1,7 @@
 console.log("## EDITOR PLUGIN READY");
 
 	function uploadAdapterPlugin(editor) {
-		console.log("	>> Register upload adapter");
+		console.log("	>> Register upload adapter plugin");
 	    editor.plugins.get("FileRepository").createUploadAdapter = (loader) => {
 	        return new UploadAdapter(loader);
 	    };
@@ -9,13 +9,13 @@ console.log("## EDITOR PLUGIN READY");
 	
 	// https://ckeditor.com/docs/ckeditor5/latest/api/module_image_imageupload_imageuploadediting-ImageUploadEditing.html#event-uploadComplete
 	function uploadCompleteListener(editor) {
-		console.log("	>> Register event listener(uploadComplete)");
+		console.log("	>> Register upload complete listener");
 		
 		editor.plugins.get("ImageUploadEditing").on("uploadComplete", (evt, {data, imageElement}) => {
 			console.log("## Upload complete");
 			editor.model.change(writer => {
 				evt.stop();
-				writer.setAttribute("src", "${contextPath}" + data.url, imageElement);
+				writer.setAttribute("src", data.url, imageElement);
 				writer.setAttribute("dataIdx", data.idx, imageElement);
 			});
 		});
@@ -30,7 +30,7 @@ console.log("## EDITOR PLUGIN READY");
 	
 	// view-to-model converter(upcast)
 	function viewToModelConverter(editor) {
-		console.log("	>> Register view-to-model converter ==> upcast");
+		console.log("	>> Register VIEW-TO-MODEL converter ==> upcast");
 		editor.conversion.for("upcast").attributeToAttribute({
             view: "data-idx",
             model: "dataIdx"
@@ -41,10 +41,11 @@ console.log("## EDITOR PLUGIN READY");
 	// https://stackoverflow.com/questions/56402202/ckeditor5-create-element-image-with-attributes
 	// https://gitlab-new.bap.jp/chinhnc2/ckeditor5/-/blob/690049ec7b8e95ba840ab1c882b5680f3a3d1dc4/packages/ckeditor5-engine/docs/framework/guides/deep-dive/conversion-preserving-custom-content.md
 	function modelToViewEditingConverter(editor) {
-		console.log("	>> Register model-to-view converter ==> downcast(editng)");
+		console.log("	>> Register MODEL-TO-VIEW converter ==> downcast(editng)");
 		
 		editor.conversion.for("editingDowncast").add(dispatcher => { // downcastDispatcher
             dispatcher.on("attribute:dataIdx", (evt, data, conversionApi) => {
+            	console.log("## Editing downcast");
             	console.log(data);
             	
             	const modelElement = data.item;
@@ -70,7 +71,7 @@ console.log("## EDITOR PLUGIN READY");
 	
 	// model-to-view converter(data downcast)
 	function modelToViewDataConverter(editor) {
-		console.log("	>> Register model-to-view converter ==> downcast(data)");
+		console.log("	>> Register MODEL-TO-VIEW converter ==> downcast(data)");
 		
 		editor.conversion.for("dataDowncast").add(dispatcher => {
 			dispatcher.on("attribute:dataIdx", (evt, data, conversionApi) => { 

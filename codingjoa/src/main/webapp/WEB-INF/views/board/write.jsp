@@ -200,7 +200,7 @@
 			console.log("## Upload complete");
 			editor.model.change(writer => {
 				evt.stop();
-				writer.setAttribute("src", "${contextPath}" + data.url, imageElement);
+				writer.setAttribute("src", data.url, imageElement);
 				writer.setAttribute("dataIdx", data.idx, imageElement);
 			});
 		});

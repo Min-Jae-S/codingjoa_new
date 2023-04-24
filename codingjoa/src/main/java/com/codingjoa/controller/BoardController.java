@@ -212,30 +212,17 @@ public class BoardController {
 	}
 	
 	
-	
-	/*///////////////////////////////
-	 * TEST
-	 *///////////////////////////////
-	
+	// TEST
 	@GetMapping("/test")
-	public String test(@RequestParam(required = false) Integer param1, 
-						@RequestParam(required = false) String param2, Model model) {
-		//log.info("param1 = {}, param2 = {}", param1, param2);
-		return "test";
+	public String test(@RequestParam(required = false) Integer param1, @RequestParam(required = false) String param2) {
+		log.info("param1 = {}, param2 = {}", param1, param2);
+		return "test/test";
 	}
 	
 	@PostMapping("/test")
 	public String test(@NotBlank @RequestParam("boardContent") String boardContent) {
 		log.info("boardConent = {}", boardContent);
-		return "redirect:/board/test/success";
+		return "test/test-success";
 	}
-	
-	@GetMapping("/test/success")
-	@ResponseBody
-	public String testScueess() {
-		log.info("test success");
-		return "success";
-	}
-	
 
 }
