@@ -31,6 +31,7 @@ class UploadAdapter {
 
     _initListeners(resolve, reject, file) {
     	console.log("## Initiate upload listeners");
+    	
         const xhr = this.xhr;
         const loader = this.loader;
         const genericErrorText = "파일을 업로드 할 수 없습니다: " + file.name + ".";
@@ -63,8 +64,8 @@ class UploadAdapter {
 //            	urls: {
 //            		default: getContextPath() + response.data.returnUrl
 //            	},
-            	url: response.data.returnUrl,
-            	idx: response.data.uploadIdx
+            	url: response.data.url,
+            	idx: response.data.idx
             });
         });
     }

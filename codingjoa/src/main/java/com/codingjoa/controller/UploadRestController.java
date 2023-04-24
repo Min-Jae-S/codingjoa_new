@@ -61,15 +61,15 @@ public class UploadRestController {
 		}
 		
 		String uploadFilename = UploadFileUtils.upload(uploadPath, uploadFileDto.getFile());
-		int uploadIdx = uploadService.uploadImage(uploadFilename);
-		log.info("uploadIdx = {}", uploadIdx);
+		int idx = uploadService.uploadImage(uploadFilename);
+		log.info("idx = {}", idx);
 		
-		String returnUrl = request.getContextPath() + uploadUrl + uploadFilename;
-		log.info("returnUrl = {}", returnUrl);
+		String url = request.getContextPath() + uploadUrl + uploadFilename;
+		log.info("url = {}", url);
 		
 		Map<String, Object> map = new HashMap<>();
-		map.put("uploadIdx", uploadIdx);
-		map.put("returnUrl", returnUrl);
+		map.put("idx", idx);
+		map.put("url", url);
 		
 		return ResponseEntity.ok(SuccessResponse.create().message("success.uploadImage").data(map));
 	}

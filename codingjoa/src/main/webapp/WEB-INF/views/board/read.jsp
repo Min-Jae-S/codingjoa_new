@@ -17,6 +17,7 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://kit.fontawesome.com/c503d71f81.js"></script>
+<script src="${contextPath}/resources/ckeditor5/plugins/ckeditor-plugins.js"></script>
 <script src="${contextPath}/resources/ckeditor5/build/ckeditor.js"></script>
 <style>
 	.custom-select { 
@@ -333,7 +334,7 @@
 	ClassicEditor
 		.create(document.querySelector("#boardContent"), {
 			extraPlugins: [
-				extendAttribute,
+				attributeExtender,
 				viewToModelConverter, 
 				modelToViewEditingConverter
 			],
@@ -365,53 +366,6 @@
 		.catch(error => {
 			console.error(error);
 		});
-	
-	// https://github.com/ckeditor/ckeditor5/issues/5204
-	function extendAttribute(editor) {
-		console.log("## Allow custom attribute ==> blockObject, inlineOjbect");
-		editor.model.schema.extend("$blockObject", { allowAttributes: "dataIdx" });
-		editor.model.schema.extend("$inlineObject", { allowAttributes: "dataIdx" });
-	}
-	
-	// view-to-model converter(upcast)
-	function viewToModelConverter(editor) {
-		console.log("## Register view-to-model converter ==> upcast");
-		editor.conversion.for("upcast").attributeToAttribute({
-            view: "data-idx",
-            model: "dataIdx"
-        });
-	}
-	
-	// model-to-view converter(editing downcast)
-	// https://stackoverflow.com/questions/56402202/ckeditor5-create-element-image-with-attributes
-	// https://gitlab-new.bap.jp/chinhnc2/ckeditor5/-/blob/690049ec7b8e95ba840ab1c882b5680f3a3d1dc4/packages/ckeditor5-engine/docs/framework/guides/deep-dive/conversion-preserving-custom-content.md
-	function modelToViewEditingConverter(editor) {
-		console.log("## Register model-to-view converter ==> downcast(editing)");
-		
-		editor.conversion.for("editingDowncast").add(dispatcher => { // downcastDispatcher
-            dispatcher.on("attribute:dataIdx", (evt, data, conversionApi) => {
-            	console.log(data);
-            	
-            	const modelElement = data.item;
-            	if (!conversionApi.consumable.consume(modelElement, evt.name)) {
-                	return;
-            	}
-            	
-                const viewWriter = conversionApi.writer;
-                const imageContainer = conversionApi.mapper.toViewElement(modelElement);
-                const imageElement = imageContainer.getChild(0);
-                //console.log("modelElement	: " + modelElement.name);
-                //console.log("imageContainer	: " + imageContainer.name);
-                //console.log("imageElement	: " + imageElement.name);
-                
-                if (data.attributeNewValue !== null) {
-                	viewWriter.setAttribute("data-idx", data.attributeNewValue, imageElement);
-                } else {
-                	viewWriter.removeAttribute("data-idx", imageElement);
-                }
-            });
-        });
-	}
 </script>
 
 <script src="${contextPath}/resources/js/comment.js"></script>

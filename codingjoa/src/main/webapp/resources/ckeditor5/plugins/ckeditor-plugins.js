@@ -1,4 +1,4 @@
-console.log("## Editor plugins");
+console.log("## Editor plugins Ready");
 
 	function uploadAdapter(editor) {
 		console.log("	>> Register upload adapter");

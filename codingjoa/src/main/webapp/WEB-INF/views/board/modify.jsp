@@ -14,9 +14,10 @@
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="${contextPath}/resources/ckeditor5/plugins/upload-adapter.js"></script>
+<script src="${contextPath}/resources/ckeditor5/plugins/ckeditor-plugins.js"></script>
+<script src="${contextPath}/resources/ckeditor5/plugins/viewtoplaintext.js"></script>
 <script src="${contextPath}/resources/ckeditor5/build/ckeditor.js"></script>
-<script src="${contextPath}/resources/ckeditor5/build/upload-adapter.js"></script>
-<script src="${contextPath}/resources/ckeditor5/build/viewtoplaintext.js"></script>
 <style>
 	.custom-select, input#boardTitle.form-control {
 		font-size: 0.9rem;
@@ -100,9 +101,9 @@
 	ClassicEditor
 		.create(document.querySelector("#boardContent"), {
 			extraPlugins: [
-				uploadAdapterPlugin, 
+				uploadAdapter, 
 				uploadCompleteListener, 
-				extendAttribute,
+				attributeExtender,
 				viewToModelConverter, 
 				modelToViewEditingConverter, 
 				modelToViewDataConverter
@@ -176,7 +177,9 @@
 			form.submit();
 		});
 	});
+</script>
 	
+/* 	
 	function uploadAdapterPlugin(editor) {
 		console.log("## Register upload adapter");
 	    editor.plugins.get("FileRepository").createUploadAdapter = (loader) => {
@@ -267,9 +270,8 @@
                 	viewWriter.removeAttribute("data-idx", imageElement);
                 }
 			});
-		});	
+		});	 */
 	}
-</script>
 
 </body>
 </html>
