@@ -46,6 +46,11 @@ public class BoardValidator implements Validator {
 			return;
 		}
 		
+		if (!StringUtils.hasText(boardDto.getBoardContentText())) {
+			errors.rejectValue("boardContentText", "NotBlank");
+			return;
+		}
+		
 		List<Integer> uploadIdxList = boardDto.getUploadIdxList();
 		if (uploadIdxList == null) {
 			return;

@@ -147,15 +147,16 @@
 		
 		$("#modifyBtn").on("click", function(e) {
 			e.preventDefault();
-			let form = $("#modifyBoardDto");
-			let textArea = $("<textarea>").attr("style", "display:none;").attr("name", "boardContentText");
+			let $form = $("#modifyBoardDto");
+			let $textArea = $("<textarea>").attr("style", "display:none;").attr("name", "boardContentText");
+			
+			// https://github.com/ckeditor/ckeditor5/blob/6bb68aa202/packages/ckeditor5-clipboard/src/utils/viewtoplaintext.ts#L23
 			let plainText = viewToPlainText(modifyEditor.editing.view.document.getRoot());
 			
-			textArea.val(plainText);
-			form.append(textArea);
+			$textArea.val(plainText);
+			$form.append(textArea);
 			
 			const range = modifyEditor.model.createRangeIn(modifyEditor.model.document.getRoot());
-			
 			for (const value of range.getWalker({ ignoreElementEnd: true })) { // TreeWalker instance
 				// Position iterator class. It allows to iterate forward and backward over the document.
 			    if (!value.item.is("element")) {
@@ -167,14 +168,14 @@
 			    	continue;
 			    }
 			    
-			    let input = $("<input>").attr("type", "hidden").attr("name", "uploadIdxList");
+			    let $input = $("<input>").attr("type", "hidden").attr("name", "uploadIdxList");
 			    let dataIdx = value.item.getAttribute("dataIdx");
 			    
-			    input.val(dataIdx);
-			    form.append(input);
+			    $input.val(dataIdx);
+			    $form.append(input);
 			}
 			
-			form.submit();
+			$form.submit();
 		});
 	});
 </script>

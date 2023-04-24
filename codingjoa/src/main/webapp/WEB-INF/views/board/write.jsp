@@ -83,6 +83,10 @@
 					<div class="form-group">
 						<form:textarea path="boardContent"/>
 						<form:errors path="boardContent" cssClass="error"/>
+						<form:errors path="boardContentText" cssClass="error"/>
+					</div>
+					<div>
+						<button class="btn btn-danger" type="button" id="testBtn">testBtn</button>
 					</div>
 				</form:form>
 			</div>
@@ -141,9 +145,9 @@
 		// test
 		$("#testBtn").on("click", function() {
 			console.log("===============================");
-			console.log("## writeEditor.getData()");
+			console.log("## writeEditor.getData():");
 			console.log(writeEditor.getData());
-			console.log("## plainText; viewToPlainText");
+			console.log("## plainText:");
 			console.log(viewToPlainText(writeEditor.editing.view.document.getRoot()));
 			console.log("===============================");
 		});
@@ -155,12 +159,14 @@
 		
 		$("#writeBtn").on("click", function(e) {
 			e.preventDefault();
-			let form = $("#writeBoardDto");
-			let textArea = $("<textarea>").attr("style", "display:none;").attr("name", "boardContentText");
+			let $form = $("#writeBoardDto");
+			let $textArea = $("<textarea>").attr("style", "display:none;").attr("name", "boardContentText");
+			
+			// https://github.com/ckeditor/ckeditor5/blob/6bb68aa202/packages/ckeditor5-clipboard/src/utils/viewtoplaintext.ts#L23
 			let plainText = viewToPlainText(writeEditor.editing.view.document.getRoot());
 			
-			textArea.val(plainText);
-			form.append(textArea);
+			$textArea.val(plainText);
+			$form.append(textArea);
 			
 			const range = writeEditor.model.createRangeIn(writeEditor.model.document.getRoot());
 			for (const value of range.getWalker({ ignoreElementEnd: true })) { // TreeWalker instance
@@ -174,14 +180,14 @@
 			    	continue;
 			    }
 			    
-			    let input = $("<input>").attr("type", "hidden").attr("name", "uploadIdxList");
+			    let $input = $("<input>").attr("type", "hidden").attr("name", "uploadIdxList");
 			    let dataIdx = value.item.getAttribute("dataIdx");
 			    
-			    input.val(dataIdx);
-				form.append(input);
+			    $input.val(dataIdx);
+				$form.append(input);
 			}
 			
-			form.submit();
+			$form.submit();
 		});
 	});
 </script>

@@ -16,6 +16,7 @@ console.log("## Editor plugins Ready");
 			editor.model.change(writer => {
 				evt.stop();
 				writer.setAttribute("src", data.url, imageElement);
+				writer.setAttribute("alt", data.alt, imageElement);
 				writer.setAttribute("dataIdx", data.idx, imageElement);
 			});
 		});
