@@ -46,7 +46,6 @@ console.log("## Editor plugins Ready");
 		editor.conversion.for("editingDowncast").add(dispatcher => { // downcastDispatcher
             dispatcher.on("attribute:dataIdx", (evt, data, conversionApi) => {
             	console.log("## Editing downcast");
-            	console.log(data);
             	
             	const modelElement = data.item;
             	if (!conversionApi.consumable.consume(modelElement, evt.name)) {
@@ -56,9 +55,9 @@ console.log("## Editor plugins Ready");
                 const viewWriter = conversionApi.writer;
                 const imageContainer = conversionApi.mapper.toViewElement(modelElement);
                 const imageElement = imageContainer.getChild(0);
-                //console.log("modelElement	: " + modelElement.name);
-                //console.log("imageContainer	: " + imageContainer.name);
-                //console.log("imageElement	: " + imageElement.name);
+                console.log("	>> modelElement		: " + modelElement.name);
+                console.log("	>> imageContainer	: " + imageContainer.name);
+                console.log("	>> imageElement		: " + imageElement.name);
                 
                 if (data.attributeNewValue !== null) {
                 	viewWriter.setAttribute("data-idx", data.attributeNewValue, imageElement);
@@ -76,8 +75,8 @@ console.log("## Editor plugins Ready");
 		editor.conversion.for("dataDowncast").add(dispatcher => {
 			dispatcher.on("attribute:dataIdx", (evt, data, conversionApi) => { 
 				console.log("## Data downcast");
-				const modelElement = data.item;
 				
+				const modelElement = data.item;
             	if (!conversionApi.consumable.consume(modelElement, evt.name)) {
                 	return;
             	}
@@ -85,9 +84,9 @@ console.log("## Editor plugins Ready");
             	const viewWriter = conversionApi.writer;
                 const imageContainer = conversionApi.mapper.toViewElement(modelElement);
                 const imageElement = (modelElement.name === "imageBlock") ? imageContainer.getChild(0) : imageContainer;
-                //console.log("modelElement	: " + modelElement.name);
-                //console.log("imageContainer	: " + imageContainer.name);
-                //console.log("imageElement	: " + imageElement.name);
+                console.log("	>> modelElement		: " + modelElement.name);
+                console.log("	>> imageContainer	: " + imageContainer.name);
+                console.log("	>> imageElement		: " + imageElement.name);
                 
                 if (data.attributeNewValue !== null) {
 	                viewWriter.setAttribute("data-idx", data.attributeNewValue, imageElement);
