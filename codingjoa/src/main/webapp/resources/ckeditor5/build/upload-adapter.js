@@ -27,10 +27,11 @@ class UploadAdapter {
         const xhr = this.xhr = new XMLHttpRequest();
         xhr.open('POST', getContextPath() + "/upload/image", true);
         xhr.responseType = 'json';
+        console.log(xhr);
     }
 
     _initListeners(resolve, reject, file) {
-    	console.log("## Initiate upload Listeners");
+    	console.log("## Initiate upload listeners");
         const xhr = this.xhr;
         const loader = this.loader;
         const genericErrorText = "파일을 업로드 할 수 없습니다: " + file.name + ".";
@@ -79,7 +80,7 @@ class UploadAdapter {
      	// containing the CSRF token generated earlier by your application.
 
         // Send the request.
-        console.log("Send upload request");
+        console.log("## Send upload request");
         this.xhr.send(data);
     }
 }

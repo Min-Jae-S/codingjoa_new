@@ -220,7 +220,7 @@ public class BoardController {
 	@GetMapping("/test")
 	public String test(@RequestParam(required = false) Integer param1, 
 						@RequestParam(required = false) String param2, Model model) {
-		log.info("param1 = {}, param2 = {}", param1, param2);
+		//log.info("param1 = {}, param2 = {}", param1, param2);
 		return "test";
 	}
 	
