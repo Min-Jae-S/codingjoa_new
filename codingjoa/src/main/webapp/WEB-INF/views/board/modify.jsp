@@ -138,7 +138,7 @@
 	
 	$(function() {
 		// https://ckeditor.com/docs/ckeditor5/latest/api/module_image_imageupload_imageuploadui-ImageUploadUI.html
-		$("input[type='file']").removeAttr("accept"); /*.removeAttr("multiple");*/
+		$("input[type='file']").removeAttr("accept").removeAttr("multiple");
 		
 		$("#resetBtn").on("click", function() {
 			$("#modifyBoardDto").trigger("reset");
@@ -171,7 +171,7 @@
 			    let dataIdx = value.item.getAttribute("dataIdx");
 			    
 			    $input.val(dataIdx);
-			    $form.append(input);
+			    $form.append($input);
 			}
 			
 			$form.submit();

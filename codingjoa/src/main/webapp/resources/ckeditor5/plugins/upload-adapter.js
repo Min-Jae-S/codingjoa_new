@@ -66,7 +66,7 @@ class UploadAdapter {
 //            	},
             	url: response.data.uploadFileUrl,
             	idx: response.data.uploadIdx,
-            	alt: response.data.originalFilename
+            	alt: response.data.uploadFilename
             });
         });
     }
