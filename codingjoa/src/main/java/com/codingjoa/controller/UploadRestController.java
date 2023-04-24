@@ -54,7 +54,7 @@ public class UploadRestController {
 	@PostMapping("/image")
 	public ResponseEntity<Object> uploadImage(@ModelAttribute @Valid UploadFileDto uploadFileDto, 
 			BindingResult bindingResult, HttpServletRequest request) throws MethodArgumentNotValidException {
-		log.info("contentType = {}", uploadFileDto.getFile().getContentType());
+		log.info("uploadImage, contentType = {}", uploadFileDto.getFile().getContentType());
 		
 		if (bindingResult.hasErrors()) {
 			 throw new MethodArgumentNotValidException(null, bindingResult);
