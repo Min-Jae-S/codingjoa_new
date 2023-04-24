@@ -1,4 +1,4 @@
-console.log("## Comment Service Ready");
+console.log("## Comment Service Module Ready");
 
 let commentService = (function() {
 	

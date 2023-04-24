@@ -6,6 +6,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.codingjoa.annotation.BoardCategoryCode;
@@ -209,12 +211,43 @@ public class BoardController {
 											.toUriString();
 	}
 	
+	
+	
+	/*///////////////////////////////
+	 * TEST
+	 *///////////////////////////////
+	
 	@GetMapping("/test")
 	public String test(@RequestParam(required = false) Integer param1, 
-						@RequestParam(required = false) String param2) {
+			@RequestParam(required = false) String param2, Model model) {
 		log.info("param1 = {}, param2 = {}", param1, param2);
-		
+
 		return "test";
+	}
+	
+	@PostMapping("/test")
+	public String test(@RequestParam("boardContent") String boardContent, BindingResult bindingResult) {
+		log.info("boardConent = {}", boardContent);
+		
+		if (bindingResult.hasErrors()) {
+			bindingResult.getFieldErrors().forEach(error -> {
+				log.info("RejectedValue = {}", error.getRejectedValue());
+				log.info("Error Field = {}", error.getField());
+				log.info("Error Code = {}", error.getCodes()[0]);
+			});
+			
+			return "test";
+		}
+		
+		return "redirect:/board/test/success";
+	}
+	
+	@GetMapping("/test/success")
+	@ResponseBody
+	public String testScueess() {
+		log.info("test success");
+		
+		return "success";
 	}
 	
 
