@@ -18,22 +18,19 @@ class UploadAdapter {
     }
 
     _initRequest() {
-        const xhr = this.xhr = new XMLHttpRequest();
-        console.log("## _initRequest");
-        //console.log("1. xhr.readyState: " + xhr.readyState);
+        console.log("## Initiate upload request");
         
      	// Note that your request may look different. It is up to you and your editor
         // integration to choose the right communication channel. This example uses
         // a POST request with JSON as a data structure but your configuration
         // could be different.
+        const xhr = this.xhr = new XMLHttpRequest();
         xhr.open('POST', getContextPath() + "/upload/image", true);
         xhr.responseType = 'json';
-
-        //console.log("2. After open xhr and set responstType");
-        //console.log("3. xhr.readyState: " + xhr.readyState);
     }
 
     _initListeners(resolve, reject, file) {
+    	console.log("## Initiate upload Listeners");
         const xhr = this.xhr;
         const loader = this.loader;
         const genericErrorText = "파일을 업로드 할 수 없습니다: " + file.name + ".";
@@ -45,20 +42,14 @@ class UploadAdapter {
         	const readyStatus = xhr.readyState;
         	const status = xhr.status;
         	
-        	console.log("## After load");
-        	console.log(response);
-        	//console.log("1. xhr.readyState: " + readyStatus);
-        	//console.log("2. xhr.status: " + status);
-        	//console.log("3. xhr.response: ");
-            
             if (status == "422") {
             	return reject(response.errorMap ? response.errorMap.file : genericErrorText);
             }
 			
-         	// This example assumes the XHR server's "response" object will come with
-            // an "error" which has its own "message" that can be passed to reject() in the upload promise.
-            // Your integration may handle upload errors in a different way so make sure
-            // it is done properly. The reject() function must be called when the upload fails.
+         	// This example assumes the XHR server's "response" object will come with an "error" 
+         	// which has its own "message" that can be passed to reject() in the upload promise.
+            // Your integration may handle upload errors in a different way so make sure it is done properly.
+            // The reject() function must be called when the upload fails.
             if (!response || response.error) {
                 return reject(response && response.error ? response.error.message : genericErrorText);
             }
@@ -82,12 +73,13 @@ class UploadAdapter {
         const data = new FormData();
         data.append("file", file);
         
-     	// Important note: This is the right place to implement security mechanisms
-        // like authentication and CSRF protection. For instance, you can use
-        // XMLHttpRequest.setRequestHeader() to set the request headers containing
+     	// Important note: 
+     	// This is the right place to implement security mechanisms like authentication and CSRF protection. 
+     	// For instance, you can use XMLHttpRequest.setRequestHeader() to set the request headers containing
         // the CSRF token generated earlier by your application.
 
         // Send the request.
+        console.log("Send upload request");
         this.xhr.send(data);
     }
 }
