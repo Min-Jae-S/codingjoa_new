@@ -164,9 +164,8 @@
 			
 			// https://github.com/ckeditor/ckeditor5/blob/6bb68aa202/packages/ckeditor5-clipboard/src/utils/viewtoplaintext.ts#L23
 			let plainText = viewToPlainText(writeEditor.editing.view.document.getRoot());
-			
 			$textArea.val(plainText);
-			$form.append(textArea);
+			$form.append($textArea);
 			
 			const range = writeEditor.model.createRangeIn(writeEditor.model.document.getRoot());
 			for (const value of range.getWalker({ ignoreElementEnd: true })) { // TreeWalker instance
