@@ -6,10 +6,10 @@
 <%-- <c:set var="principal" value="${SPRING_SECURITY_CONTEXT.authentication.principal}" /> --%>
 <!-- 상단 메뉴 -->
 <nav class="navbar navbar-custom navbar-expand-md">
-	<div class="container-fluid pl-5 pr-5">
+	<div class="container-fluid px-5">
 		<a class="navbar-brand font-weight-bold" href="${contextPath}">Codingjoa</a>
 		<div class="collapse navbar-collapse">
-			<ul class="navbar-nav">
+			<ul class="navbar-nav mr-auto">
 				<c:forEach var="parentCategory" items="${parentCategoryList}">
 					<li class="nav-item dropdown mx-2" data-category="${parentCategory.categoryCode}" data-path="${parentCategory.categoryPath}">
 						<a href="${contextPath}${parentCategory.categoryPath}" class="nav-link">
@@ -30,7 +30,7 @@
 				</sec:authorize>
 				<sec:authorize access="isAuthenticated()">
 					<li class="nav-item">
-						<img src="${contextPath}/resources/image/person.png" style="width: 40px; padding: 0.25rem;">
+						<img class="m-1" src="${contextPath}/resources/image/person.png">
 					</li>
 					<li class="nav-item mr-2">
 						<a class="nav-link text-dark" href="${contextPath}/member/info">
@@ -56,12 +56,13 @@
 
 <script>
 	$(function() {
-		let timer, delay=100;
+		let timer; 
+		let delay = 100;
 		
 		$(".navbar-nav .dropdown").on("mouseenter", function() {
 			let parent_category = $(this).data("category");
-			let a_tag = $(this).find("a");
-			a_tag.css("color", "black").css("font-weight", "bold");
+			let $a = $(this).find("a");
+			$a.css("color", "black").css("font-weight", "bold");
 			
 			timer = setTimeout(function() {
 				$.getJSON("${contextPath}/category/" + parent_category, function(data) {
@@ -76,7 +77,7 @@
 					});
 					html += "</div>";
 					
-					a_tag.after(html);
+					$a.after(html);
 				});
 			}, delay);
 		});

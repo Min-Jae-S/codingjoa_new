@@ -58,6 +58,16 @@ input::placeholder {
 	z-index: 999;
 	padding-top: 0;
 	padding-bottom: 0;
+	height: 60px;
+}
+
+div.container-fluid, div.collapse, ul.navbar-nav {
+	height: 100%;
+}
+
+li.nav-item {
+	display: flex;
+	align-items: center;
 }
 
 .navbar-custom .navbar-brand {
@@ -73,8 +83,8 @@ input::placeholder {
 	font-weight: bold;
 }
 
-.dropdown .nav-link {
-	padding: 0.75rem 0;
+.navbar-custom .navbar-nav img {
+	width: 40px; 
 }
 
 .dropdown-menu {

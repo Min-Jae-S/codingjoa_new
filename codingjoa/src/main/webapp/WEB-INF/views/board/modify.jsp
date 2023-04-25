@@ -42,13 +42,6 @@
 	.ck-placeholder {
 		font-size: 0.9rem;
 	}
-    
-    /*
-    .ck-content .image {
-		max-width: 80%;
-		margin: 20px auto;
-	}
-	*/
 </style>
 </head>
 <body>
@@ -97,6 +90,7 @@
 <script>
 	let modifyEditor;
 	let editorData;
+	let navbarHeight = document.querySelector(".navbar-custom").style.height;
 	
 	ClassicEditor
 		.create(document.querySelector("#boardContent"), {
@@ -108,6 +102,11 @@
 				modelToViewEditingConverter, 
 				modelToViewDataConverter
 			],
+			ui: {
+				viewportOffset: {
+					top: 100
+				}
+			},
 			htmlSupport: { 
 				allow: [
 					{

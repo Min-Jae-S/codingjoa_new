@@ -18,6 +18,8 @@
 <script src="${contextPath}/resources/ckeditor5/plugins/ckeditor-plugins.js"></script>
 <script src="${contextPath}/resources/ckeditor5/plugins/viewtoplaintext.js"></script>
 <script src="${contextPath}/resources/ckeditor5/build/ckeditor.js"></script>
+<script src="${contextPath}/resources/js/attrchange.js"></script>
+<script src="${contextPath}/resources/js/attrchange_ext.js"></script>
 <style>
 	.custom-select, input#boardTitle.form-control {
 		font-size: 0.9rem;
@@ -42,13 +44,6 @@
 	.ck-placeholder {
 		font-size: 0.9rem;
 	}
-    
-    /*
-    .ck-content .image {
-		max-width: 80%;
-		margin: 20px auto;
-	}
-	*/
 </style>
 </head>
 <body>
@@ -85,9 +80,9 @@
 						<form:errors path="boardContent" cssClass="error"/>
 						<form:errors path="boardContentText" cssClass="error"/>
 					</div>
-					<!-- <div>
+					<div>
 						<button class="btn btn-danger" type="button" id="testBtn">testBtn</button>
-					</div> -->
+					</div>
 				</form:form>
 			</div>
 		</div>
@@ -99,6 +94,7 @@
 
 <script>
 	let writeEditor;
+	let navbarHeight = document.querySelector(".navbar-custom").clientHeight;
 	
 	ClassicEditor
 		.create(document.querySelector("#boardContent"), {
@@ -110,6 +106,11 @@
 				modelToViewEditingConverter, 
 				modelToViewDataConverter
 			],
+			ui: {
+				viewportOffset: {
+					top: navbarHeight
+				}
+			},
 			// https://ckeditor.com/docs/ckeditor5/latest/features/general-html-support.html
 			htmlSupport: { 
 				allow: [
@@ -141,15 +142,26 @@
 	$(function() {
 		// https://ckeditor.com/docs/ckeditor5/latest/api/module_image_imageupload_imageuploadui-ImageUploadUI.html
 		$("input[type='file']").removeAttr("accept").removeAttr("multiple");
-		
-		// testBtn
+	
+		// test
 		$("#testBtn").on("click", function() {
-			console.log("===============================");
+			/* console.log("===============================");
 			console.log("## writeEditor.getData():");
 			console.log(writeEditor.getData());
 			console.log("## plainText:");
 			console.log(viewToPlainText(writeEditor.editing.view.document.getRoot()));
-			console.log("===============================");
+			console.log("==============================="); */
+			$(".navbar-custom").height("100");
+		});
+		
+		// test
+		$(".navbar-custom").attrchange({
+			trackValues: true,
+			callback: function(e) {
+				console.log("attributeName	: " + e.attributeName);
+				console.log("oldValue		: " + e.oldValue);
+				console.log("newValue		: " + e.newValue);
+			}
 		});
 		
 		$("#resetBtn").on("click", function() {
