@@ -33,7 +33,7 @@
 	}
 	
 	.ck-editor__editable[role="textbox"] {
-		min-height: 300px;
+		min-height: 250px;
 		font-size: 0.9rem;
 		padding-left: 0.75rem;
 		padding-right: 0.75rem;

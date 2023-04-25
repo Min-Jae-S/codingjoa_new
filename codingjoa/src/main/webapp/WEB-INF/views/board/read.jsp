@@ -34,34 +34,15 @@
 		display: inline-block;
 		padding-top: 7px;
 	}
-
-	.ck-editor__editable[role="textbox"] {
-		min-height: 300px;
-		padding-left: 0.75rem;
-		padding-right: 0.75rem;
+	
+	.card {
+		padding: 2.25rem 2.25rem 2.25rem 2.25rem;
+	}
+	
+	.content-group {
+		min-height: 250px;
 	}
     
-    /*
-    .ck-content .image {
-		max-width: 80%;
-		margin: 20px auto;
-	}
-	*/
-	
-	.ck.ck-editor__main>.ck-editor__editable {
-		border: none !important;
-		box-shadow: none !important;
-	}
-	
-	.ck .ck-widget.ck-widget_selected, 
-	.ck .ck-widget.ck-widget_selected:hover { 
-		outline: none; 
-	}
-	
-	.ck.ck-widget__selection-handle { 
-		display: none; 
-	}
-	
 	.header-group { 
 		border-bottom: 1px solid rgba(0,0,0,.125); 
 	}
@@ -133,14 +114,7 @@
 		content: ")";
 	}
 	
-	.comment-input {
-		margin-left: 0.5rem;
-		margin-right: 0.5rem;
-		padding: 1.3rem 1.3rem 1rem 1.3rem;
-		height: 100%;
-	}
-	
-	.comment-edit {
+	.comment-input, .comment-edit {
 		margin: 0;
 		padding: 1.3rem 1.3rem 1rem 1.3rem;
 		height: 100%;
@@ -168,7 +142,7 @@
 	.comment-edit div {
 		text-align: right;
 	}
-	
+
 	.comment-input textarea:focus,
 	.comment-edit textarea:focus { 
 		outline: none; 
@@ -193,9 +167,13 @@
 	}
 	
 	.comment-list .list-group-item {
-		padding: 1.25rem 0.5rem;
+		padding: 1.25rem 0;
 	}
 	
+	.comment-list .list-group-item:last-child {
+		padding-bottom: 0;
+	} 
+
 	.comment-info { 
 		margin-bottom: 1rem; 
 	}
@@ -222,7 +200,6 @@
 		display: flex;
 		flex-direction: column;
 		margin-left: auto;
-		/* padding-right: 1.3rem; */
 	}
 	
 	.comment-utils {
@@ -248,8 +225,8 @@
 	<div class="row">
 		<div class="col-sm-2"></div>
 		<div class="col-sm-8">
-			<div class="card p-4 mb-3">
-				<div class="header-group mb-4">
+			<div class="card mb-3">
+				<div class="header-group">
 					<div class="category dropright mb-2">
 						<a class="board-category" 
 							href="${contextPath}/board/main?boardCategoryCode=${category.categoryCode}">
@@ -289,10 +266,10 @@
 						</div>
 					</div>
 				</div>
-				<div class="content-group mb-4">
-					<textarea id="boardContent" >
+				<div class="content-group py-4">
+					<div id="boardContent">
 						<c:out value="${boardDetails.boardContent}" escapeXml="false"/>
-					</textarea>
+					</div>
 				</div>
 				<div class="comment-group pt-4">
 					<div class="comment-cnt mb-3">
@@ -331,44 +308,6 @@
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 
 <script>
-	let readEditor;
-	
-	ClassicEditor
-		.create(document.querySelector("#boardContent"), {
-			extraPlugins: [
-				attributeExtender,
-				viewToModelConverter, 
-				modelToViewEditingConverter
-			],
-			htmlSupport: { 
-				allow: [
-					{
-						attributes: [
-							{ key: "data-idx", value: true }
-						]
-					}
-				]
-			},
-			fontFamily: {
-				options: ["defalut", "Arial", "궁서체", "바탕", "돋움"],
-				supportAllValues: true
-			},
-			fontSize: {
-				options: [ 10, 12, "default", 16, 18, 20, 22 ],
-				supportAllValues: true
-			}
-		})
-		.then(editor => {
-			console.log("## ReadEditor initialize");
-			const toolbarElement = editor.ui.view.toolbar.element;
-			toolbarElement.style.display = "none";
-			editor.enableReadOnlyMode("#boardContent");
-			readEditor = editor;
-		})
-		.catch(error => {
-			console.error(error);
-		});
-	
 	$(function() {
 		let boardIdx = "<c:out value='${boardDetails.boardIdx}'/>";
 		let boardCategoryCode = "<c:out value='${boardDetails.boardCategoryCode}'/>";
@@ -420,7 +359,7 @@
 			if ($(this).val() != "") {
 				$(this).closest("div").find("button[name='modifyCommentBtn']").addClass("btn-outline-primary");
 			} else {
-				$(this).closest("div").find("button[name='modifyCommentBtn']").removeClass("btn-outline-primary");
+				 $(this).closest("div").find("button[name='modifyCommentBtn']").removeClass("btn-outline-primary");
 			}
 		});
 		
@@ -487,7 +426,9 @@
 		});
 		
 		$(document).on("click", "button[name=deleteCommentBtn]", function() {
-			if (!confirm("댓글을 삭제하시겠습니까?")) return;
+			if (!confirm("댓글을 삭제하시겠습니까?")) {
+				return;
+			}
 			
 			let commentIdx = $(this).closest("li").attr("comment-idx");
 			commentService.deleteComment("${contextPath}/comments/" + commentIdx, function(result) {
