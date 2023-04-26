@@ -90,9 +90,6 @@ public class CommentRestController {
 	
 	@PatchMapping("/comments/{commentIdx}")
 	public ResponseEntity<Object> modifyComment() {
-		
-		
-		
 		return null;
 	}
 	
