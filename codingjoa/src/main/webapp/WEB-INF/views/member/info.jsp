@@ -361,7 +361,7 @@
 			data : JSON.stringify(obj),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
-			success : function(result) {
+			success : function(result) { // result principal
 				console.log(result);
 				alert(result.message);
 				var member = result.data.member;
