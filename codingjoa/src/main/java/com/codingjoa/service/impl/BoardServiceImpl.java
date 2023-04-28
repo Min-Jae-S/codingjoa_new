@@ -131,7 +131,7 @@ public class BoardServiceImpl implements BoardService {
 	public boolean isBoardIdxExist(int boardIdx, int boardCategoryCode) {
 		return boardMapper.isBoardIdxExist(boardIdx, boardCategoryCode);
 	}
-
+	
 	@Override
 	public void bindModifyBoard(BoardDto modifyBoardDto) {
 		log.info("Before Binding, {}", modifyBoardDto);

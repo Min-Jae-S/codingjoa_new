@@ -91,7 +91,8 @@ public class CommentRestController {
 	@PatchMapping("/comments/{commentIdx}")
 	public ResponseEntity<Object> modifyComment() {
 		// ...
-		return null;
+		
+		return ResponseEntity.ok(SuccessResponse.create().message("success.updateComment"));
 	}
 	
 	

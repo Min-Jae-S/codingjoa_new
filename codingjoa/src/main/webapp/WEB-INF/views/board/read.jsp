@@ -429,7 +429,7 @@
 				commentContent : $("#commentContent").val(),
 			};
 			
-			commentService.modifyComment(url, comment, function(result) {
+			commentService.modifyComment("${contextPath}/comments", comment, function(result) {
 				alert(result.message);
 				commentService.getCommentList(commentListURL, function(result) {
 					let commentList = result.data;
