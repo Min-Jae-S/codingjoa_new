@@ -65,7 +65,8 @@
 	
 	.board-utils {
 		float: right;
-		cursor: pointer;
+		box-shadow: none !important;
+		padding-top: 0;
 	}
 	
 	.category .dropdown-item,
@@ -203,12 +204,19 @@
 	
 	.comment-utils {
 		float: right;
-		cursor: pointer;
+		box-shadow: none !important;
+		padding-top: 0;
 	}
 	
 	.comment-likes {
 		margin-top: auto;
-		color: #007acf;
+	}
+	
+	.comment-likes .btn {
+		color: #007acf !important;
+		box-shadow: none !important;
+		padding-top: 0;
+		padding-bottom: 0;
 	}
 	
 	.textarea-border {
@@ -231,9 +239,9 @@
 							href="${contextPath}/board/main?boardCategoryCode=${category.categoryCode}">
 							<c:out value="${category.categoryName}"/>
 						</a>
-						<span class="board-utils" data-toggle="dropdown" data-offset="0,10">
+						<button class="board-utils btn btn-lg" data-toggle="dropdown" data-offset="0,10">
 							<i class="fa-solid fa-ellipsis-vertical"></i>
-						</span>
+						</button>
 						<div class="dropdown-menu">
 							<h6 class="dropdown-header">게시글 관리</h6>
 							<a class="dropdown-item" 
@@ -406,6 +414,7 @@
 				let $textarea = $li.find("div.comment-edit textarea");
 				$textarea.height("auto");
 				$textarea.height($textarea.prop("scrollHeight") + "px");
+				$textarea.focus();
 			});
 		});
 
