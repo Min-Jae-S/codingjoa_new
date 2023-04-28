@@ -372,14 +372,13 @@
 			
 			commentService.writeComment("${contextPath}/comments", comment, function(result) {
 				alert(result.message);
-				$("#commentContent").val("");
-				
 				commentService.getCommentList(commentListURL, function(result) {
 					let commentList = result.data;
 					if (commentList.length != 0) {
 						let html = makeCommentHtml(commentList, boardWriterIdx);
 						$(".comment-list").html(html);
 					}
+					$("#commentContent").val("");
 				});
 			});
 		});
