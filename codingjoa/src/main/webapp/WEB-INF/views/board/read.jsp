@@ -406,8 +406,16 @@
 			let commentIdx = $li.attr("comment-idx");
 			
 			commentService.getComment("${contextPath}/comments/" + commentIdx, function(result) {
-				let html = makeEditCommentHtml(result.data);
+				let commentDetails = result.data;
+				let html = makeEditCommentHtml(commentDetails);
 				$li.find("div.comment-area").addClass("d-none").after(html);
+				
+				let str = commentDetails.commentContent.replace(/(?:\r\n|\r|\n)/g, "<br>");
+				$li.find("div.comment-edit textarea").text(str);
+
+				/* let str = commentDetails.commentContent;
+				$li.find("div.comment-edit textarea").text(str); */
+				
 				/* let commentDetails = result.data;
 				if (!commentDetails.commentUse) {
 					alert("삭제된 댓글은 수정할 수 없습니다.");
