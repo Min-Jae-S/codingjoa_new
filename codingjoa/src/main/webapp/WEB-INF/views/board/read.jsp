@@ -238,7 +238,19 @@
 							href="${contextPath}/board/main?boardCategoryCode=${category.categoryCode}">
 							<c:out value="${category.categoryName}"/>
 						</a>
-						<sec:authorize access="isAuthenticated()">
+						<span class="board-utils" data-toggle="dropdown" data-offset="0,10">
+							<i class="fa-solid fa-ellipsis-vertical"></i>
+						</span>
+						<div class="dropdown-menu">
+							<h6 class="dropdown-header">게시글 관리</h6>
+							<a class="dropdown-item" 
+								href="${contextPath}/board/modify?boardIdx=${boardDetails.boardIdx}">수정하기
+							</a>
+					      	<a class="dropdown-item" id="deleteBoardLink"
+					      		href="${contextPath}/board/deleteProc?boardIdx=${boardDetails.boardIdx}">삭제하기
+					     	</a>
+					    </div>
+						<%-- <sec:authorize access="isAuthenticated()">
 							<sec:authentication property="principal.member" var="member"/>
 							<c:if test="${member.memberIdx eq boardDetails.boardWriterIdx}">
 								<span class="board-utils" data-toggle="dropdown" data-offset="0,10">
@@ -254,7 +266,7 @@
 							     	</a>
 							    </div>
 							</c:if>
-						</sec:authorize>
+						</sec:authorize> --%>
 					</div>
 					<h3 class="title mb-4"><c:out value="${boardDetails.boardTitle}"/></h3>
 					<div class="header-meta d-flex mb-2">
