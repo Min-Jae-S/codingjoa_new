@@ -361,17 +361,14 @@
 		});
 		
 		$(document).on("focus", ".comment-edit textarea", function() {
-			console.log("comment-edit focus");
 			$(this).closest("div").addClass("textarea-border");
 		});
 		
 		$(document).on("blur", ".comment-edit textarea", function() {
-			console.log("comment-edit blur");
 			$(this).closest("div").removeClass("textarea-border");
 		});
 		
 		$(document).on("input", ".comment-edit textarea", function() {
-			console.log("comment-edit input");
 			$(this).height("auto");
 			$(this).height($(this).prop("scrollHeight") + "px");
 			
