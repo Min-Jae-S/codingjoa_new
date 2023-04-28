@@ -124,7 +124,6 @@
 	.comment-edit textarea {
 		border: none;
 		width: 100%;
-		font-size: 0.9rem;
 		resize: none;
 		overflow: hidden;
 		margin: 0;
@@ -134,7 +133,6 @@
 	
 	.comment-input .btn,
 	.comment-edit .btn {
-		font-size: 0.9rem;
 		box-shadow: none !important;
 	}
 	
@@ -149,7 +147,6 @@
 	}
 	
 	.comment-input textarea::placeholder { 
-		font-size: 0.9rem;
 		color: #868e96; 
 	}
 	
@@ -160,10 +157,6 @@
 	.comment-cnt {
 		font-size: 1.3rem;
 		font-weight: bold;
-	}
-	
-	.comment-list { 
-		font-size: 15px; 
 	}
 	
 	.comment-list .list-group-item {
@@ -409,12 +402,6 @@
 				let commentDetails = result.data;
 				let html = makeEditCommentHtml(commentDetails);
 				$li.find("div.comment-area").addClass("d-none").after(html);
-				
-				let str = commentDetails.commentContent.replace(/(?:\r\n|\r|\n)/g, "<br>");
-				$li.find("div.comment-edit textarea").text(str);
-
-				/* let str = commentDetails.commentContent;
-				$li.find("div.comment-edit textarea").text(str); */
 				
 				/* let commentDetails = result.data;
 				if (!commentDetails.commentUse) {
