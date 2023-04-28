@@ -239,7 +239,7 @@
 							href="${contextPath}/board/main?boardCategoryCode=${category.categoryCode}">
 							<c:out value="${category.categoryName}"/>
 						</a>
-						<button class="board-utils btn btn-lg" data-toggle="dropdown" data-offset="0,10">
+						<button class="board-utils btn" data-toggle="dropdown" data-offset="0,10">
 							<i class="fa-solid fa-ellipsis-vertical"></i>
 						</button>
 						<div class="dropdown-menu">
@@ -254,9 +254,9 @@
 						<%-- <sec:authorize access="isAuthenticated()">
 							<sec:authentication property="principal.member" var="member"/>
 							<c:if test="${member.memberIdx eq boardDetails.boardWriterIdx}">
-								<span class="board-utils" data-toggle="dropdown" data-offset="0,10">
+								<button class="board-utils btn btn-lg" data-toggle="dropdown" data-offset="0,10">
 									<i class="fa-solid fa-ellipsis-vertical"></i>
-								</span>
+								</button>
 								<div class="dropdown-menu">
 									<h6 class="dropdown-header">게시글 관리</h6>
 									<a class="dropdown-item" 
