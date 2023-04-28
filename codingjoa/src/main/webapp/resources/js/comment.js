@@ -11,12 +11,12 @@ let commentService = (function() {
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
 			success : function(result) {
-				console.log(result);
+				console.log(JSON.stringify(result, null, 2));
 				callback(result);
 			},
 			error : function(jqXHR) {
 				let errorResponse = JSON.parse(jqXHR.responseText);
-				console.log(errorResponse);
+				console.log(JSON.stringify(errorResponse, null, 2));
 				
 				if (jqXHR.status == 401) {
 					alert(errorResponse.errorMessage)
@@ -44,6 +44,8 @@ let commentService = (function() {
 				},
 				error : function(jqXHR) {
 					let errorResponse = JSON.parse(jqXHR.responseText);
+					console.table(JSON.stringify(result, null, 2));
+					
 					if (jqXHR.status == 401) {
 						alert(errorResponse.errorMessage)
 					} else if (jqXHR.status == 422) {
@@ -67,11 +69,11 @@ let commentService = (function() {
 			url : url,
 			dataType : "json",
 			success : function(result) {
-				console.log(result);
+				console.log(JSON.stringify(result, null, 2));
 				callback(result);
 			},
 			error : function(jqXHR) {
-				console.log(jqXHR);
+				console.log(JSON.stringify(jqXHR, null, 2));
 			}
 		});
 	}
@@ -83,12 +85,12 @@ let commentService = (function() {
 			url : url,
 			dataType : "json",
 			success : function(result) {
-				console.log(result);
+				console.table(JSON.stringify(result, null, 2));
 				callback(result);
 			},
 			error : function(jqXHR) {
 				let errorResponse = JSON.parse(jqXHR.responseText);
-				console.log(errorResponse);
+				console.log(JSON.stringify(errorResponse, null, 2));
 				
 				if (jqXHR.status == 401) {
 					alert(errorResponse.errorMessage)
@@ -113,12 +115,12 @@ let commentService = (function() {
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
 			success : function(result) {
-				console.log(result);
+				console.table(JSON.stringify(result, null, 2));
 				callback(result);
 			},
 			error : function(jqXHR) {
 				let errorResponse = JSON.parse(jqXHR.responseText);
-				console.log(errorResponse);
+				console.log(JSON.stringify(errorResponse, null, 2));
 				
 				if (jqXHR.status == 401) {
 					alert(errorResponse.errorMessage)
@@ -141,12 +143,12 @@ let commentService = (function() {
 			url : url,
 			dataType : "json",
 			success : function(result) {
-				console.log(result);
+				console.table(JSON.stringify(result, null, 2));
 				callback(result);
 			},
 			error : function(jqXHR) {
 				let errorResponse = JSON.parse(jqXHR.responseText);
-				console.log(errorResponse);
+				console.log(JSON.stringify(errorResponse, null, 2));
 				
 				if (jqXHR.status == 401) {
 					alert(errorResponse.errorMessage)
