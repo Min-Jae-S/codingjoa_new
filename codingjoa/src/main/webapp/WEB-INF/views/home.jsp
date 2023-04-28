@@ -15,7 +15,8 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
 <style>
 	p {
-		font-size: 90px;
+		margin-top: 240px; 
+		font-size: 100px;
 	}
 </style>
 </head>
@@ -23,9 +24,10 @@
 
 <c:import url="/WEB-INF/views/include/top-menu.jsp" />
 
-<div class="container home-container">
-	<p class="font-weight-bold text-center">HOME</p>
-</div>
+<p class="font-weight-bold text-center bg-dark text-white">
+	<span class="mr-5">WELCOME</span>
+	<span>HOME</span>
+</p>
 
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 
