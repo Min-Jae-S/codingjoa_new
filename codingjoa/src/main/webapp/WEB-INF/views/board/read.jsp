@@ -403,10 +403,9 @@
 				let html = makeEditCommentHtml(commentDetails);
 				$li.find("div.comment-area").addClass("d-none").after(html);
 				
-				/* let commentDetails = result.data;
-				if (!commentDetails.commentUse) {
-					alert("삭제된 댓글은 수정할 수 없습니다.");
-				} */
+				let $textarea = $li.find("div.comment-edit textarea");
+				$textarea.height("auto");
+				$textarea.height($textarea.prop("scrollHeight") + "px");
 			});
 		});
 

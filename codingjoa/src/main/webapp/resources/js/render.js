@@ -62,7 +62,7 @@ console.log("## Rendering Service Ready");
 		let html = "<div class='input-group'>";
 		html += "<div class='comment-edit form-control'>";
 		html += "<p class='font-weight-bold mb-2'>" + commentDetails.memberId + "</p>";
-		html += "<textarea rows='1' style='white-space: pre-line;'>" + commentDetails.commentContent + "</textarea>";
+		html += "<textarea rows='1'>" + commentDetails.commentContent + "</textarea>";
 		html += "<div class='mt-2'>";
 		html += "<button class='btn btn-outline-primary btn-sm mr-2' name='modifyCommentBtn'>수정</button>";
 		html += "<button class='btn btn-outline-secondary btn-sm' name='closeEditCommentBtn'>취소</button>";
