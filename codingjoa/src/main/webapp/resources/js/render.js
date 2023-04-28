@@ -32,7 +32,7 @@ console.log("## Rendering Service Ready");
 			html += "<span class='comment-moddate d-none'>" + commentDetails.moddate + "</span>";
 			html += "</div>";
 			html += "<div class='comment-content'>";
-			html += "<p>" + commentDetails.commentContent.replace(/(?:\r\n|\r|\n)/g, "<br>"); + "</p>";
+			html += "<p>" + commentDetails.commentContent.replace(/(?:\r\n|\r|\n)/g, "<br>") + "</p>";
 			html += "</div>";
 			html += "</div>";
 			html += "<div class='comment-area-footer'>";

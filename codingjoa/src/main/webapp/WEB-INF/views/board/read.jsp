@@ -198,7 +198,7 @@
 	
 	.comment-area .comment-area-header {
 		display: flex;
-		width: 90%;
+		width: 90% !important;
 		flex-direction: column;
 	}
 	
@@ -429,7 +429,7 @@
 				commentContent : $("#commentContent").val(),
 			};
 			
-			commentService.modifyComment("${contextPath}/comments", comment, function(result) {
+			commentService.modifyComment("${contextPath}/comments/" + comment.commentIdx, comment, function(result) {
 				alert(result.message);
 				commentService.getCommentList(commentListURL, function(result) {
 					let commentList = result.data;
