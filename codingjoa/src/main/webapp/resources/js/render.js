@@ -1,5 +1,5 @@
 console.log("## Rendering Service Ready");
-
+	
 	function makeCommentHtml(list, boardWriterIdx) {
 		let html = "<ul class='list-group list-group-flush mt-4'>";
 		
@@ -9,7 +9,7 @@ console.log("## Rendering Service Ready");
 				html += "<div class='comment-area'>";
 				html += "<div class='comment-area-header'>";
 				html += "<div class='comment-info'>";
-				html += "<span class='comment-writer'>삭제된 댓글</span>";
+				html += "<p class='comment-writer'>삭제된 댓글</p>";
 				html += "</div>";
 				html += "<div class='comment-content'>";
 				html += "<span>삭제된 댓글입니다.</span>";
@@ -32,7 +32,7 @@ console.log("## Rendering Service Ready");
 			html += "<span class='comment-moddate d-none'>" + commentDetails.moddate + "</span>";
 			html += "</div>";
 			html += "<div class='comment-content'>";
-			html += "<span>" + commentDetails.commentContent.replace(/(?:\r\n|\r|\n)/g, "<br>"); + "</span>";
+			html += "<p>" + commentDetails.commentContent.replace(/(?:\r\n|\r|\n)/g, "<br>"); + "</p>";
 			html += "</div>";
 			html += "</div>";
 			html += "<div class='comment-area-footer'>";

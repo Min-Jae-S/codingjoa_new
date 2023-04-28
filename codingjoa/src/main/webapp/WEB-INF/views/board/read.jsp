@@ -196,19 +196,10 @@
 		display: flex;
 	} 
 	
-/* 	.comment-area .comment-area-header {
+	.comment-area .comment-area-header {
 		display: flex;
+		width: 90%;
 		flex-direction: column;
-	} */
-	
-	/*
-	.comment-content {
-		display: flex;
-		flex-wrap: row wrap;
-	} */
-	
-	.comment-content span {
-		display: block;
 	}
 	
 	.comment-area .comment-area-footer {
