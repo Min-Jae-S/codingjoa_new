@@ -194,6 +194,21 @@
 	
 	.comment-area {
 		display: flex;
+	} 
+	
+/* 	.comment-area .comment-area-header {
+		display: flex;
+		flex-direction: column;
+	} */
+	
+	/*
+	.comment-content {
+		display: flex;
+		flex-wrap: row wrap;
+	} */
+	
+	.comment-content span {
+		display: block;
 	}
 	
 	.comment-area .comment-area-footer {
@@ -390,7 +405,6 @@
 			commentService.getComment("${contextPath}/comments/" + commentIdx, function(result) {
 				let html = makeEditCommentHtml(result.data);
 				$li.find("div.comment-area").addClass("d-none").after(html);
-				
 				/* let commentDetails = result.data;
 				if (!commentDetails.commentUse) {
 					alert("삭제된 댓글은 수정할 수 없습니다.");

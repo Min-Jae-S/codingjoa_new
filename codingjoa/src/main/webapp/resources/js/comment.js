@@ -17,7 +17,6 @@ let commentService = (function() {
 			error : function(jqXHR) {
 				let errorResponse = JSON.parse(jqXHR.responseText);
 				console.log(JSON.stringify(errorResponse, null, 2));
-				
 				if (jqXHR.status == 401) {
 					alert(errorResponse.errorMessage)
 				} else if (jqXHR.status == 422) {
@@ -91,7 +90,6 @@ let commentService = (function() {
 			error : function(jqXHR) {
 				let errorResponse = JSON.parse(jqXHR.responseText);
 				console.log(JSON.stringify(errorResponse, null, 2));
-				
 				if (jqXHR.status == 401) {
 					alert(errorResponse.errorMessage)
 				} else if (jqXHR.status == 422) {
@@ -121,7 +119,6 @@ let commentService = (function() {
 			error : function(jqXHR) {
 				let errorResponse = JSON.parse(jqXHR.responseText);
 				console.log(JSON.stringify(errorResponse, null, 2));
-				
 				if (jqXHR.status == 401) {
 					alert(errorResponse.errorMessage)
 				} else if (jqXHR.status == 422) {
@@ -149,7 +146,6 @@ let commentService = (function() {
 			error : function(jqXHR) {
 				let errorResponse = JSON.parse(jqXHR.responseText);
 				console.log(JSON.stringify(errorResponse, null, 2));
-				
 				if (jqXHR.status == 401) {
 					alert(errorResponse.errorMessage)
 				} else if (jqXHR.status == 422) {
