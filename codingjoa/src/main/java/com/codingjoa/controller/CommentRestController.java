@@ -48,7 +48,8 @@ public class CommentRestController {
 	@InitBinder(value = "commentDto")
 	public void initBinderComment(WebDataBinder binder) {
 		log.info("======== initBinderComment ========");
-		binder.registerCustomEditor(String.class, new StringTrimmerEditor(false));
+		
+		//binder.registerCustomEditor(String.class, new StringTrimmerEditor(false));
 		binder.addValidators(commentValidator);
 	}
 
