@@ -75,7 +75,6 @@ public class CommentRestController {
 	@GetMapping("/boards/{boardIdx}/comments")
 	public ResponseEntity<Object> getCommentList(@CommentCri CommentCriteria commentCri) {
 		log.info("{}", commentCri);
-		
 		List<CommentDetailsDto> commentList = commentService.getPagedComment(commentCri);
 		
 		return ResponseEntity.ok(SuccessResponse.create().data(commentList));
@@ -84,7 +83,6 @@ public class CommentRestController {
 	@GetMapping("/comments/{commentIdx}")
 	public ResponseEntity<Object> getComment(@PathVariable int commentIdx) {
 		log.info("commentIdx = {}", commentIdx);
-		
 		CommentDetailsDto commentDetails = commentService.getCommentDetails(commentIdx);
 		
 		return ResponseEntity.ok(SuccessResponse.create().data(commentDetails));
@@ -94,7 +92,7 @@ public class CommentRestController {
 	public ResponseEntity<Object> modifyComment(@PathVariable int commentIdx) {
 		log.info("commentIdx = {}", commentIdx);
 		
-		// update
+		// update ...
 		
 		return ResponseEntity.ok(SuccessResponse.create().message("success.updateComment"));
 	}
