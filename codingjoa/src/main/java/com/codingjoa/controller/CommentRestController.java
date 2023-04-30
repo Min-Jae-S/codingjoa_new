@@ -48,7 +48,6 @@ public class CommentRestController {
 	@InitBinder(value = "commentDto")
 	public void initBinderComment(WebDataBinder binder) {
 		log.info("======== initBinderComment ========");
-		
 		binder.registerCustomEditor(String.class, new StringTrimmerEditor(false));
 		binder.addValidators(commentValidator);
 	}
@@ -91,7 +90,6 @@ public class CommentRestController {
 	@PatchMapping("/comments/{commentIdx}")
 	public ResponseEntity<Object> modifyComment(@PathVariable int commentIdx) {
 		log.info("commentIdx = {}", commentIdx);
-		
 		// update ...
 		
 		return ResponseEntity.ok(SuccessResponse.create().message("success.updateComment"));
@@ -101,7 +99,6 @@ public class CommentRestController {
 	@DeleteMapping("/comments/{commentIdx}")
 	public ResponseEntity<Object> deleteComment(@PathVariable int commentIdx) {
 		log.info("commentIdx = {}", commentIdx);
-		
 		commentService.deleteComment(commentIdx);
 		
 		return ResponseEntity.ok(SuccessResponse.create().message("success.deleteComment"));
