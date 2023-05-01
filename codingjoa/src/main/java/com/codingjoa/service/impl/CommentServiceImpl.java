@@ -58,7 +58,5 @@ public class CommentServiceImpl implements CommentService {
 	public void deleteComment(int commentIdx) {
 		commentMapper.deleteComment(commentIdx);
 	}
-
-	
 	
 }

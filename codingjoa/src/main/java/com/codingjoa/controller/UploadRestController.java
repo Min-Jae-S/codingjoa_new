@@ -47,7 +47,8 @@ public class UploadRestController {
 	private String uploadUrl;
 	
 	@InitBinder("uploadFileDto")
-	public void initBinderJoin(WebDataBinder binder) {
+	public void initBinderUpload(WebDataBinder binder) {
+		log.info("======== initBinderUpload ========");
 		binder.addValidators(uploadFileValidator);
 	}
 	

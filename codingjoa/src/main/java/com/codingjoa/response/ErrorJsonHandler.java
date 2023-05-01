@@ -5,7 +5,6 @@ import javax.validation.ConstraintViolationException;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
@@ -51,9 +50,11 @@ public class ErrorJsonHandler {
 	@ExceptionHandler(IllegalArgumentException.class)
 	public ResponseEntity<Object> handleIllegalArgumentException(IllegalArgumentException e) {
 		log.info("## ErrorJsonHandler.IllegalArgumentException");
-		log.info("message = {}", e.getMessage());
 		
-		return null;
+		ErrorResponse response = ErrorResponse.create().errorMessage(e.getMessage());
+		log.info("response = {}", response);
+		
+		return ResponseEntity.badRequest().body(response);
 	}
 
 	@ExceptionHandler(MaxUploadSizeExceededException.class)

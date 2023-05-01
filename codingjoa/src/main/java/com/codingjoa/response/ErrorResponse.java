@@ -25,9 +25,15 @@ public class ErrorResponse {
 		return new ErrorResponse();
 	}
 	
-	// simple message - LoginFailureHandler, CustomAuthenticationEntryPoint
+	// simple message1 - LoginFailureHandler, CustomAuthenticationEntryPoint
 	public ErrorResponse errorCode (String errorCode) {
 		errorMessage = MessageUtils.getMessage(errorCode);
+		return this;
+	}
+	
+	// simple message2
+	public ErrorResponse errorMessage(String message) {
+		errorMessage = message;
 		return this;
 	}
 	
@@ -36,7 +42,7 @@ public class ErrorResponse {
 		return this;
 	}
 	
-	public void mapError(BindingResult bindingResult) {
+	private void mapError(BindingResult bindingResult) {
 		errorMap = new HashMap<>();
 		
 		bindingResult.getFieldErrors().forEach(fieldError -> {

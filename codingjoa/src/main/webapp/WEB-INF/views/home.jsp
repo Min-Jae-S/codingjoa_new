@@ -25,7 +25,6 @@
 <c:import url="/WEB-INF/views/include/top-menu.jsp" />
 
 <p class="font-weight-bold text-center bg-dark text-white">
-	<span class="mr-5">WELCOME</span>
 	<span>HOME</span>
 </p>
 
