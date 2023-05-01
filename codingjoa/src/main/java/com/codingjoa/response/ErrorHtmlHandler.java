@@ -2,33 +2,50 @@ package com.codingjoa.response;
 
 import javax.validation.ConstraintViolationException;
 
-import org.springframework.http.ResponseEntity;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
 import lombok.extern.slf4j.Slf4j;
 
-//@ExceptionHandler는 @Controller, @RestController가 적용된 Bean에서 
-//발생한 예외를 잡아 하나의 메소드에서 처리하는 역할을 한다. 
-//@Service에서의 예외는 잡지 못한다.
+// @ExceptionHandler는 @Controller, @RestController가 적용된 Bean에서 
+// 발생한 예외를 잡아 하나의 메소드에서 처리하는 역할을 한다. @Service에서의 예외는 잡지 못한다.
 @Slf4j
+@Order(Ordered.LOWEST_PRECEDENCE)
 @ControllerAdvice 
 public class ErrorHtmlHandler {
 
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	public String handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
-		log.info("## MethodArgumentNotValidException, message = {}", e.getMessage());
+		log.info("## ErrorHtmlHandler.MethodArgumentNotValidException");
+		log.info("message = {}", e.getMessage());
 		
 		return "forward:/error/errorPage";
 	}
 	
+//	@ExceptionHandler(MethodArgumentNotValidException.class)
+//	public ResponseEntity<Object> handleMethodArgumentNotValidException(MethodArgumentNotValidException e,
+//			HttpServletRequest request) throws ModelAndViewDefiningException {
+//		log.info("## handle MethodArgumentNotValidException");
+//		
+//		if (isAjaxRequest(request)) {
+//			ErrorResponse response = ErrorResponse.create().bindingResult(e.getBindingResult());
+//			log.info("{}", response);
+//			
+//			return ResponseEntity.unprocessableEntity().body(response);
+//		}
+//		
+//		ModelAndView mav = new ModelAndView("forward:/error/errorPage");
+//		throw new ModelAndViewDefiningException(mav);
+//	}
+	
 	@ExceptionHandler(ConstraintViolationException.class)
 	public String handleConstraintViolationException(ConstraintViolationException e) {
-		log.info("## ConstraintViolationException, message = {}", e.getMessage());
+		log.info("## ErrorHtmlHandler.ConstraintViolationException");
+		log.info("message = {}", e.getMessage());
 
 //		e.getConstraintViolations().forEach(v -> {
 //			log.info("Invalid Value = {}", v.getInvalidValue());
@@ -40,7 +57,8 @@ public class ErrorHtmlHandler {
 	
 	@ExceptionHandler(BindException.class)
 	public String handleBindException(BindException e) {
-		log.info("## BindException", e.getMessage());
+		log.info("## ErrorHtmlHandler.BindException");
+		log.info("message = {}", e.getMessage());
 		
 //		e.getBindingResult().getFieldErrors().forEach(fieldError -> {
 //			log.info("field = {}", fieldError.getField());
@@ -52,7 +70,8 @@ public class ErrorHtmlHandler {
 	
 	@ExceptionHandler(IllegalArgumentException.class)
 	public String handleIllegalArgumentException(IllegalArgumentException e) {
-		log.info("## IllegalArgumentException: {}", e.getMessage());
+		log.info("## ErrorHtmlHandler.IllegalArgumentException");
+		log.info("message = {}", e.getMessage());
 		
 		return "forward:/error/errorPage";
 	}
