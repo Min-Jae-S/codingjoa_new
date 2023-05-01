@@ -48,7 +48,7 @@ public class CommentServiceImpl implements CommentService {
 	public CommentDetailsDto getCommentDetails(int commentIdx) {
 		Map<String, Object> commentDetailsMap = commentMapper.findCommentDetails(commentIdx);
 		if (commentDetailsMap == null) {
-			throw new NotFoundEntityException(null);
+			throw new NotFoundEntityException("error.NotFoundComment");
 		}
 		
 		return modelMapper.map(commentDetailsMap, CommentDetailsDto.class);

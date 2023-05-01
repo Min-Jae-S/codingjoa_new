@@ -18,6 +18,7 @@ import com.codingjoa.mapper.BoardMapper;
 import com.codingjoa.mapper.UploadMapper;
 import com.codingjoa.pagination.Criteria;
 import com.codingjoa.pagination.Pagination;
+import com.codingjoa.security.exception.NotFoundEntityException;
 import com.codingjoa.service.BoardService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -80,8 +81,7 @@ public class BoardServiceImpl implements BoardService {
 	public BoardDetailsDto getBoardDetails(int boardIdx) {
 		Map<String, Object> boardDetailsMap = boardMapper.findBoardDetails(boardIdx);
 		if (boardDetailsMap == null) {
-			String message = String.format("can't find boardDetails by boardIdx. (boardIdx = %s)", boardIdx);
-			throw new IllegalArgumentException(message);
+			throw new NotFoundEntityException("error.NotFoundBoard");
 		}
 		
 		return modelMapper.map(boardDetailsMap, BoardDetailsDto.class);

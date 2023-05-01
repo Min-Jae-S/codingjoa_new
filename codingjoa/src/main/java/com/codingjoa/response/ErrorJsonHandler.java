@@ -64,7 +64,7 @@ public class ErrorJsonHandler {
 	protected ResponseEntity<Object> handleNotFoundEntityException(NotFoundEntityException e) {
 		log.info("## ErrorJsonHandler.NotFoundEntityException");
 		
-		ErrorResponse response = ErrorResponse.create().errorMessage(e.getMessage());
+		ErrorResponse response = ErrorResponse.create().errorCode(e.getMessage());
 		log.info("response = {}", response);
 		
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
