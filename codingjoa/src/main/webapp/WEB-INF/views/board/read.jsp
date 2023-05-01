@@ -320,8 +320,14 @@
 					${boardCri.getQueryString()}">목록</a>
 			</div>
 			<div class="mt-4">
-				<button class="btn btn-warning" id="getCommentBtn">getComment</button>					
-				<button class="btn btn-danger" id="getCommentListBtn">getCommentList</button>					
+				<button class="btn btn-info mb-2" id="getCommentBtn1">getComment: ${contextPath}/comments/a</button><br>				
+				<button class="btn btn-info mb-2" id="getCommentBtn2">getComment: ${contextPath}/comments/9999</button><br>					
+				<button class="btn btn-warning mb-2" id="getCommentListBtn1">
+					getCommentList: ${contextPath}/boards/${boardDetails.boardIdx}/comments
+				</button><br>					
+				<button class="btn btn-warning" id="getCommentListBtn2">
+					getCommentList: ${contextPath}/boards/9999/comments
+				</button>					
 			</div>
 		</div>
 		<div class="col-sm-2"></div>
@@ -345,14 +351,26 @@
 			}
 		});
 		
-		$("#getCommentBtn").on("click", function() {
+		$("#getCommentBtn1").on("click", function() {
 			commentService.getComment("${contextPath}/comments/a", function(result) {
 				
 			});
 		});
 
-		$("#getCommentListBtn").on("click", function() {
+		$("#getCommentBtn2").on("click", function() {
+			commentService.getComment("${contextPath}/comments/9999", function(result) {
+				
+			});
+		});
+
+		$("#getCommentListBtn1").on("click", function() {
 			commentService.getCommentList(commentListURL , function(result) {
+				
+			});
+		});
+
+		$("#getCommentListBtn2").on("click", function() {
+			commentService.getCommentList("${contextPath}/boards/9999/comments" , function(result) {
 				
 			});
 		});

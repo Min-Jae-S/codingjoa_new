@@ -69,7 +69,7 @@ public class ServletConfig implements WebMvcConfigurer {
 		registry.addResourceHandler("/upload/**")
 				.addResourceLocations("file:///" + uploadPath);
 	}
-
+	
 	@Override
 	public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
 		WebMvcConfigurer.super.extendMessageConverters(converters);

@@ -12,8 +12,9 @@ import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
 import lombok.extern.slf4j.Slf4j;
 
-// @ExceptionHandler는 @Controller, @RestController가 적용된 Bean에서 발생한 예외를 잡아 
-// 하나의 메소드에서 처리하는 역할을 한다. @Service에서의 예외는 잡지 못한다.
+// @ExceptionHandler는 @Controller, @RestController가 적용된 Bean에서 
+// 발생한 예외를 잡아 하나의 메소드에서 처리하는 역할을 한다. 
+// @Service에서의 예외는 잡지 못한다.
 @ControllerAdvice 
 @Slf4j
 public class ErrorHandler {
@@ -86,6 +87,4 @@ public class ErrorHandler {
 		
 		return ResponseEntity.badRequest().body(response);
 	}
-	
-	
 }
