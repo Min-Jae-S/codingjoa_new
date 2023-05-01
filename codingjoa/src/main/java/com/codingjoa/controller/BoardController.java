@@ -55,6 +55,7 @@ public class BoardController {
 
 	@InitBinder(value = { "writeBoardDto", "modifyBoardDto" })
 	protected void initBinderBoard(WebDataBinder binder) {
+		log.info("======== initBinderBoard ========");
 		binder.addValidators(boardValidator);
 	}
 

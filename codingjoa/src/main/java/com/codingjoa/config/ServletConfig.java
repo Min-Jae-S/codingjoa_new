@@ -10,7 +10,6 @@ import javax.validation.Validator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -89,7 +88,6 @@ public class ServletConfig implements WebMvcConfigurer {
 				.json()
 				.timeZone(TimeZone.getTimeZone("Asia/Seoul")) // @JsonFormat(timezone = "Asia/Seoul")
 				.serializerByType(LocalDateTime.class, new LocalDateTimeSerializer(formatter))
-				//.deserializersByType(String.class, new StringTrimmerEditor(false))
 				.build();
 		
 		return new MappingJackson2HttpMessageConverter(objectMapper);
