@@ -47,19 +47,20 @@ public class MemberController {
 
 	@InitBinder("joinDto")
 	public void initBinderJoin(WebDataBinder binder) {
+		log.info("======== initBinderJoin ========");
 		binder.addValidators(joinValidator);
 	}
 
 	@GetMapping("/join")
 	public String join(@ModelAttribute JoinDto joinDto) {
-		log.info("{}", joinDto);
+		log.info("joinDto = {}", joinDto);
 
 		return "member/join";
 	}
 
 	@PostMapping("/joinProc")
 	public String joinProc(@ModelAttribute @Valid JoinDto joinDto, BindingResult bindingResult) {
-		log.info("{}", joinDto);
+		log.info("joinDto = {}", joinDto);
 
 		if (bindingResult.hasErrors()) {
 			return "member/join";
@@ -73,7 +74,7 @@ public class MemberController {
 
 	@RequestMapping("/login")
 	public String login(@ModelAttribute LoginDto loginDto) {
-		log.info("{}", loginDto);
+		log.info("loginDto = {}", loginDto);
 
 		return "member/login";
 	}
@@ -95,7 +96,7 @@ public class MemberController {
 
 	@GetMapping("/updatePassword")
 	public String updatePassword(Model model) {
-		log.info("{}", sessionDto);
+		log.info("sessionDto = {}", sessionDto);
 		
 		if (!sessionDto.isCheckPasswordResult()) {
 			model.addAttribute("message", MessageUtils.getMessage("error.NotCheckPassword"));
@@ -116,7 +117,7 @@ public class MemberController {
 	
 	@GetMapping("/findAccountResult")
 	public String findAccountResult(Model model) {
-		log.info("{}", sessionDto);
+		log.info("sessionDto = {}", sessionDto);
 		
 		String findAccountResult = sessionDto.getFindAccountResult();
 		
@@ -140,7 +141,7 @@ public class MemberController {
 	
 	@GetMapping("/findPasswordResult")
 	public String findPasswordResult(Model model) {
-		log.info("{}", sessionDto);
+		log.info("sessionDto = {}", sessionDto);
 		
 		Map<String, Object> resultMap = sessionDto.getFindPasswordResult();
 		
