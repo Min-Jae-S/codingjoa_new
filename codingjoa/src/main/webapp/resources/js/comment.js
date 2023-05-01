@@ -17,16 +17,13 @@ let commentService = (function() {
 			error : function(jqXHR) {
 				let errorResponse = JSON.parse(jqXHR.responseText);
 				console.log(JSON.stringify(errorResponse, null, 2));
-				if (jqXHR.status == 401) {
-					alert(errorResponse.errorMessage)
-				} else if (jqXHR.status == 422) {
+				if (jqXHR.status == 422) {
 					$.each(errorResponse.errorMap, function(errorField, errorMessage) {
 						alert(errorMessage);
 					});
 				} else {
-					alert("오류가 발생하였습니다");
+					alert(errorResponse.errorMessage)
 				}
-				
 			}
 		});
 		
@@ -90,14 +87,12 @@ let commentService = (function() {
 			error : function(jqXHR) {
 				let errorResponse = JSON.parse(jqXHR.responseText);
 				console.log(JSON.stringify(errorResponse, null, 2));
-				if (jqXHR.status == 401) {
-					alert(errorResponse.errorMessage)
-				} else if (jqXHR.status == 422) {
+				if (jqXHR.status == 422) {
 					$.each(errorResponse.errorMap, function(errorField, errorMessage) {
 						alert(errorMessage);
 					});
 				} else {
-					alert("오류가 발생하였습니다.");
+					alert(errorResponse.errorMessage)
 				}
 			}
 		});
@@ -119,16 +114,13 @@ let commentService = (function() {
 			error : function(jqXHR) {
 				let errorResponse = JSON.parse(jqXHR.responseText);
 				console.log(JSON.stringify(errorResponse, null, 2));
-				if (jqXHR.status == 401) {
-					alert(errorResponse.errorMessage)
-				} else if (jqXHR.status == 422) {
+				if (jqXHR.status == 422) {
 					$.each(errorResponse.errorMap, function(errorField, errorMessage) {
 						alert(errorMessage);
 					});
 				} else {
-					alert("오류가 발생하였습니다");
+					alert(errorResponse.errorMessage)
 				}
-				
 			}
 		});
 	}
@@ -146,14 +138,12 @@ let commentService = (function() {
 			error : function(jqXHR) {
 				let errorResponse = JSON.parse(jqXHR.responseText);
 				console.log(JSON.stringify(errorResponse, null, 2));
-				if (jqXHR.status == 401) {
-					alert(errorResponse.errorMessage)
-				} else if (jqXHR.status == 422) {
+				if (jqXHR.status == 422) {
 					$.each(errorResponse.errorMap, function(errorField, errorMessage) {
 						alert(errorMessage);
 					});
 				} else {
-					alert("오류가 발생하였습니다.");
+					alert(errorResponse.errorMessage)
 				}
 			}
 		});
