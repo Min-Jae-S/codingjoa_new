@@ -46,6 +46,11 @@ public class CommentServiceImpl implements CommentService {
 	@Override
 	public CommentDetailsDto getCommentDetails(int commentIdx) {
 		Map<String, Object> commentDetailsMap = commentMapper.findCommentDetails(commentIdx);
+		if (commentDetailsMap == null) {
+			String message = String.format("can't find commentDetails by commentIdx. (commentIdx = %s)", commentIdx);
+			throw new IllegalArgumentException(message);
+		}
+		
 		return modelMapper.map(commentDetailsMap, CommentDetailsDto.class);
 	}
 	

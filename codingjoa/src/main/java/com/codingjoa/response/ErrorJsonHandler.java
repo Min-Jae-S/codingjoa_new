@@ -37,15 +37,16 @@ public class ErrorJsonHandler {
 		return null;
 	}
 	
-	@ExceptionHandler(BindException.class)
-	public ResponseEntity<Object> handleBindException(BindException e) {
-		log.info("## ErrorJsonHandler.BindException");
-		
-		ErrorResponse response = ErrorResponse.create().bindingResult(e.getBindingResult());
-		log.info("response = {}", response);
-		
-		return null;
-	}
+//	@ExceptionHandler(BindException.class)
+//	public ResponseEntity<Object> handleBindException(BindException e) {
+//		log.info("## ErrorJsonHandler.BindException");
+//		log.info("message = {}", e.getMessage());
+//		
+//		ErrorResponse response = ErrorResponse.create().bindingResult(e.getBindingResult());
+//		log.info("response = {}", response);
+//		
+//		return null;
+//	}
 	
 	@ExceptionHandler(IllegalArgumentException.class)
 	public ResponseEntity<Object> handleIllegalArgumentException(IllegalArgumentException e) {
