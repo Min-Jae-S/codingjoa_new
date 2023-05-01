@@ -41,7 +41,5 @@ public class CommentValidator implements Validator {
 			errors.rejectValue("commentContent", "NotBlank");
 			return;
 		}
-		
 	}
-
 }

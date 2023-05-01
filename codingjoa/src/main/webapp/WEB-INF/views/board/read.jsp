@@ -129,7 +129,7 @@
 		overflow: hidden;
 		margin: 0;
 		padding: 0;
-		max-height: 150px;
+		max-height: 200px;
 	}
 	
 	.comment-input .btn,
@@ -319,6 +319,10 @@
 				<a class="btn btn-secondary" href="${contextPath}/board/main?boardCategoryCode=${category.categoryCode}&
 					${boardCri.getQueryString()}">목록</a>
 			</div>
+			<div class="mt-4">
+				<button class="btn btn-warning" id="getCommentBtn">getComment</button>					
+				<button class="btn btn-danger" id="getCommentListBtn">getCommentList</button>					
+			</div>
 		</div>
 		<div class="col-sm-2"></div>
 	</div>
@@ -340,6 +344,19 @@
 				$(".comment-list").html(html);
 			}
 		});
+		
+		$("#getCommentBtn").on("click", function() {
+			commentService.getComment("${contextPath}/comments/a", function(result) {
+				
+			});
+		});
+
+		$("#getCommentListBtn").on("click", function() {
+			commentService.getCommentList(commentListURL , function(result) {
+				
+			});
+		});
+		
 		
 		$("#deleteBoardLink").on("click", function() {
 			return confirm("게시글을 삭제하시겠습니까?");
