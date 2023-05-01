@@ -10,6 +10,7 @@ import javax.validation.Validator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -72,19 +73,26 @@ public class ServletConfig implements WebMvcConfigurer {
 
 	@Override
 	public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
-		// StringHttpMessageConverter defaults to ISO-8859-1
 		WebMvcConfigurer.super.extendMessageConverters(converters);
+		converters.add(0, mappingJackson2HttpMessageConverter());
+		
+		// StringHttpMessageConverter defaults to ISO-8859-1
+		converters.stream()
+			.filter(converter -> converter instanceof StringHttpMessageConverter)
+			.forEach(converter -> ((StringHttpMessageConverter) converter).setDefaultCharset(StandardCharsets.UTF_8));
+	}
+	
+	@Bean
+	public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter() {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:ss:mm");
 		ObjectMapper objectMapper = Jackson2ObjectMapperBuilder
 				.json()
 				.timeZone(TimeZone.getTimeZone("Asia/Seoul")) // @JsonFormat(timezone = "Asia/Seoul")
 				.serializerByType(LocalDateTime.class, new LocalDateTimeSerializer(formatter))
+				//.deserializersByType(String.class, new StringTrimmerEditor(false))
 				.build();
-		converters.add(0, new MappingJackson2HttpMessageConverter(objectMapper));
 		
-		converters.stream()
-			.filter(converter -> converter instanceof StringHttpMessageConverter)
-			.forEach(converter -> ((StringHttpMessageConverter) converter).setDefaultCharset(StandardCharsets.UTF_8));
+		return new MappingJackson2HttpMessageConverter(objectMapper);
 	}
 
 	@Override

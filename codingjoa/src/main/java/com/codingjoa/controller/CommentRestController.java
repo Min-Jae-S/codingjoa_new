@@ -6,7 +6,6 @@ import javax.annotation.Resource;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
@@ -48,8 +47,11 @@ public class CommentRestController {
 	@InitBinder(value = "commentDto")
 	public void initBinderComment(WebDataBinder binder) {
 		log.info("======== initBinderComment ========");
-		binder.registerCustomEditor(String.class, new StringTrimmerEditor(false));
 		binder.addValidators(commentValidator);
+		
+		// https://stackoverflow.com/questions/31680960/spring-initbinder-on-requestbody
+		// @InitBinder doesn't work with @RequesBody, it can work with @ModelAttribute Annotation.
+		//binder.registerCustomEditor(String.class, new StringTrimmerEditor(false));
 	}
 
 	@PostMapping("/comments")
