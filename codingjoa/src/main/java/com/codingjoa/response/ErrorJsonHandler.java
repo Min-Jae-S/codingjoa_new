@@ -49,18 +49,8 @@ public class ErrorJsonHandler {
 		return null;
 	}
 	
-	@ExceptionHandler(MethodArgumentTypeMismatchException.class)
-	public ResponseEntity<Object> handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e) {
-		log.info("## ErrorJsonHandler, {}", e.getClass().getSimpleName());
-		
-		ErrorResponse errorResponse = ErrorResponse.create().errorMessage(e.getMessage());
-		log.info("errorResponse = {}", errorResponse);
-		
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
-	}
-	
-	@ExceptionHandler(IllegalArgumentException.class)
-	protected ResponseEntity<Object> handleIllegalArgumentException(IllegalArgumentException e) {
+	@ExceptionHandler({ MethodArgumentTypeMismatchException.class, IllegalArgumentException.class })
+	public ResponseEntity<Object> handleMethodArgumentTypeMismatchException(Exception e) {
 		log.info("## ErrorJsonHandler, {}", e.getClass().getSimpleName());
 		
 		ErrorResponse errorResponse = ErrorResponse.create().errorMessage(e.getMessage());

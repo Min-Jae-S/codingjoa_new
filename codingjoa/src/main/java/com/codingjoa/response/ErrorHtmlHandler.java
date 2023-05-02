@@ -71,16 +71,8 @@ public class ErrorHtmlHandler {
 		return "forward:/error/errorPage";
 	}
 	
-	@ExceptionHandler(MethodArgumentTypeMismatchException.class)
-	public String handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e) {
-		log.info("## ErrorHtmlHandler, {}", e.getClass().getSimpleName());
-		log.info("message = {}", e.getMessage());
-		
-		return "forward:/error/errorPage";
-	}
-	
-	@ExceptionHandler(IllegalArgumentException.class)
-	public String handleIllegalArgumentException(IllegalArgumentException e) {
+	@ExceptionHandler({ MethodArgumentTypeMismatchException.class, IllegalArgumentException.class })
+	public String handleMethodArgumentTypeMismatchException(Exception e) {
 		log.info("## ErrorHtmlHandler, {}", e.getClass().getSimpleName());
 		log.info("message = {}", e.getMessage());
 		
