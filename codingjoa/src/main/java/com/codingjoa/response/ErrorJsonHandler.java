@@ -66,7 +66,7 @@ public class ErrorJsonHandler {
 		ErrorResponse errorResponse = ErrorResponse.create().errorMessage(e.getMessage());
 		log.info("errorResponse = {}", errorResponse);
 		
-		return ResponseEntity.badRequest().body(errorResponse);
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
 	}
 	
 	@ExceptionHandler(MaxUploadSizeExceededException.class)
