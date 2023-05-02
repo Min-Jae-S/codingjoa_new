@@ -69,7 +69,8 @@ let commentService = (function() {
 				callback(result);
 			},
 			error : function(jqXHR) {
-				console.log(JSON.stringify(jqXHR, null, 2));
+				let errorResponse = JSON.parse(jqXHR.responseText);
+				console.log(JSON.stringify(errorResponse, null, 2));
 			}
 		});
 	}

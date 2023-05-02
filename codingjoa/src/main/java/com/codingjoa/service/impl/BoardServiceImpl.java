@@ -114,7 +114,6 @@ public class BoardServiceImpl implements BoardService {
 			
 			newBoardCri.setKeyword(newKeyword);
 		}
-		
 		return newBoardCri;
 	}
 	

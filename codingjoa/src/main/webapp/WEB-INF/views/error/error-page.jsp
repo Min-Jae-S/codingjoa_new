@@ -15,7 +15,7 @@
 </head>
 <body>
 	<p class="font-weight-bold text-center bg-danger text-white">
-		<span class="mr-5">ERROR</span>
+		<span class="mr-3">ERROR</span>
 		<span>PAGE</span>
 	</p>
 </body>

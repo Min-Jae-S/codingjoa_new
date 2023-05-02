@@ -17,10 +17,18 @@ import lombok.extern.slf4j.Slf4j;
 @Order(Ordered.LOWEST_PRECEDENCE)
 @ControllerAdvice 
 public class ErrorHtmlHandler {
+	
+	@ExceptionHandler(Exception.class)
+	public String handleException(Exception e) {
+		log.info("## ErrorHtmlHandler, {}", e.getClass().getName());
+		log.info("message = {}", e.getMessage());
+		
+		return "forward:/error/errorPage";
+	}
 
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	public String handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
-		log.info("## ErrorHtmlHandler.MethodArgumentNotValidException");
+		log.info("## ErrorHtmlHandler, {}", e.getClass().getSimpleName());
 		log.info("message = {}", e.getMessage());
 		
 		return "forward:/error/errorPage";
@@ -44,7 +52,7 @@ public class ErrorHtmlHandler {
 	
 	@ExceptionHandler(ConstraintViolationException.class)
 	public String handleConstraintViolationException(ConstraintViolationException e) {
-		log.info("## ErrorHtmlHandler.ConstraintViolationException");
+		log.info("## ErrorHtmlHandler, {}", e.getClass().getSimpleName());
 		log.info("message = {}", e.getMessage());
 
 //		e.getConstraintViolations().forEach(v -> {
@@ -57,7 +65,7 @@ public class ErrorHtmlHandler {
 	
 	@ExceptionHandler(BindException.class)
 	public String handleBindException(BindException e) {
-		log.info("## ErrorHtmlHandler.BindException");
+		log.info("## ErrorHtmlHandler, {}", e.getClass().getSimpleName());
 		log.info("message = {}", e.getMessage());
 		
 //		e.getBindingResult().getFieldErrors().forEach(fieldError -> {
@@ -70,7 +78,7 @@ public class ErrorHtmlHandler {
 	
 	@ExceptionHandler(IllegalArgumentException.class)
 	public String handleIllegalArgumentException(IllegalArgumentException e) {
-		log.info("## ErrorHtmlHandler.IllegalArgumentException");
+		log.info("## ErrorHtmlHandler, {}", e.getClass().getSimpleName());
 		log.info("message = {}", e.getMessage());
 		
 		return "forward:/error/errorPage";

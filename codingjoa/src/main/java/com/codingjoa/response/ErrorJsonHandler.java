@@ -17,10 +17,17 @@ import lombok.extern.slf4j.Slf4j;
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @RestControllerAdvice(annotations = RestController.class)
 public class ErrorJsonHandler {
+	
+	@ExceptionHandler(Exception.class)
+	public ResponseEntity<Object> handleException(Exception e) {
+		log.info("## ErrorJsonHandler, {}", e.getClass().getName());
+		
+		return null;
+	}
 
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	protected ResponseEntity<Object> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
-		log.info("## ErrorJsonHandler.MethodArgumentNotValidException");
+		log.info("## ErrorJsonHandler, {}", e.getClass().getSimpleName());
 		
 		ErrorResponse response = ErrorResponse.create().bindingResult(e.getBindingResult());
 		log.info("response = {}", response);
@@ -30,7 +37,7 @@ public class ErrorJsonHandler {
 	
 	@ExceptionHandler(ConstraintViolationException.class)
 	protected ResponseEntity<Object> handleConstraintViolationException(ConstraintViolationException e) {
-		log.info("## ErrorJsonHandler.ConstraintViolationException");
+		log.info("## ErrorJsonHandler, {}", e.getClass().getSimpleName());
 		log.info("message = {}", e.getMessage());
 
 		return null;
@@ -49,7 +56,7 @@ public class ErrorJsonHandler {
 	
 	@ExceptionHandler(IllegalArgumentException.class)
 	protected ResponseEntity<Object> handleIllegalArgumentException(IllegalArgumentException e) {
-		log.info("## ErrorJsonHandler.IllegalArgumentException");
+		log.info("## ErrorJsonHandler, {}", e.getClass().getSimpleName());
 		
 		ErrorResponse response = ErrorResponse.create().errorMessage(e.getMessage());
 		log.info("response = {}", response);
@@ -59,7 +66,7 @@ public class ErrorJsonHandler {
 	
 	@ExceptionHandler(MaxUploadSizeExceededException.class)
 	protected ResponseEntity<Object> handleMaxUploadSizeExceededException(MaxUploadSizeExceededException e) {
-		log.info("## ErrorJsonHandler.MaxUploadSizeExceededException");
+		log.info("## ErrorJsonHandler, {}", e.getClass().getSimpleName());
 		
 		ErrorResponse response = ErrorResponse.create().errorCode("error.ExceededSize");
 		log.info("response = {}", response);

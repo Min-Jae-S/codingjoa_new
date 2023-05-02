@@ -58,7 +58,7 @@ public class CommentRestController {
 	public ResponseEntity<Object> writeComment(@Valid @RequestBody CommentDto commentDto,
 			BindingResult bindingResult, @AuthenticationPrincipal UserDetailsDto principal) 
 					throws MethodArgumentNotValidException {
-		log.info("{}", commentDto);
+		log.info("commentDto = {}", commentDto);
 		if (bindingResult.hasErrors()) {
 			throw new MethodArgumentNotValidException(null, bindingResult);
 		}
@@ -74,7 +74,7 @@ public class CommentRestController {
 	
 	@GetMapping("/boards/{boardIdx}/comments")
 	public ResponseEntity<Object> getCommentList(@CommentCri CommentCriteria commentCri) {
-		log.info("{}", commentCri);
+		log.info("commentCri = {}", commentCri);
 		List<CommentDetailsDto> commentList = commentService.getPagedComment(commentCri);
 		
 		return ResponseEntity.ok(SuccessResponse.create().data(commentList));
@@ -95,7 +95,6 @@ public class CommentRestController {
 		
 		return ResponseEntity.ok(SuccessResponse.create().message("success.updateComment"));
 	}
-	
 	
 	@DeleteMapping("/comments/{commentIdx}")
 	public ResponseEntity<Object> deleteComment(@PathVariable int commentIdx) {

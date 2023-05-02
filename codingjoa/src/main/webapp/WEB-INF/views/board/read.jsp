@@ -222,6 +222,11 @@
 	.textarea-border {
 		border: 1px solid #868e96;
 	}
+	
+	.test-item {
+		width: 40%;
+		margin-right: 2rem;
+	}
 </style>
 </head>
 <body>
@@ -319,15 +324,23 @@
 				<a class="btn btn-secondary" href="${contextPath}/board/main?boardCategoryCode=${category.categoryCode}&
 					${boardCri.getQueryString()}">목록</a>
 			</div>
-			<div class="mt-4">
-				<button class="btn btn-info mb-2" id="getCommentBtn1">getComment: ${contextPath}/comments/a</button><br>				
-				<button class="btn btn-info mb-2" id="getCommentBtn2">getComment: ${contextPath}/comments/9999</button><br>					
-				<button class="btn btn-warning mb-2" id="getCommentListBtn1">
-					getCommentList: ${contextPath}/boards/${boardDetails.boardIdx}/comments
-				</button><br>					
-				<button class="btn btn-warning" id="getCommentListBtn2">
-					getCommentList: ${contextPath}/boards/9999/comments
-				</button>					
+			<div class="mt-3 d-flex">
+				<button class="btn btn-primary test-item" name="commentBtn" data-idx="a">GET /comments/a</button>				
+				<button class="btn btn-primary test-item" name="commentBtn" data-idx="9999">GET /comments/9999</button>
+			</div>
+			<div class="mt-3 d-flex">				
+				<button class="btn btn-info test-item" name="commentListBtn" data-idx="a">GET /boards/a/comments</button>				
+				<button class="btn btn-info test-item" name="commentListBtn" data-idx="9999">GET /boards/9999/comments</button>					
+			</div>
+			<div class="mt-3 d-flex">			
+				<button class="btn btn-warning test-item" name="patchBtn" data-idx="a">PATCH /boards/a/comments</button>				
+				<button class="btn btn-warning test-item" name="patchBtn" data-idx="9999">PATCH /boards/9999/comments</button>					
+			</div>
+			<div class="mt-3 d-flex">				
+				<button class="btn btn-danger test-item" name="deleteBtn" data-idx="a">DELETE /boards/a/comments</button>				
+				<button class="btn btn-danger test-item" name="deleteBtn" data-idx="9999">DELETE /boards/9999/comments</button>					
+			</div>
+			<div>
 			</div>
 		</div>
 		<div class="col-sm-2"></div>
@@ -351,30 +364,34 @@
 			}
 		});
 		
-		$("#getCommentBtn1").on("click", function() {
-			commentService.getComment("${contextPath}/comments/a", function(result) {
-				
+		$("button[name='commentBtn']").on("click", function() {
+			let url = "${contextPath}/comments/" + $(this).data("idx");
+			commentService.getComment(url , function(result) {
+				// ... 
 			});
 		});
 
-		$("#getCommentBtn2").on("click", function() {
-			commentService.getComment("${contextPath}/comments/9999", function(result) {
-				
+		$("button[name='commentListBtn']").on("click", function() {
+			let url = "${contextPath}/boards/" + $(this).data("idx") + "/comments";
+			commentService.getCommentList(url, function(result) { 
+				// ... 
 			});
 		});
 
-		$("#getCommentListBtn1").on("click", function() {
-			commentService.getCommentList(commentListURL , function(result) {
-				
+		$("button[name='patchBtn']").on("click", function() {
+			let comment = null;
+			let url = "${contextPath}/comments/" + $(this).data("idx");
+			commentService.modifyComment(url, comment, function(result) { 
+				// ...
 			});
 		});
 
-		$("#getCommentListBtn2").on("click", function() {
-			commentService.getCommentList("${contextPath}/boards/9999/comments" , function(result) {
-				
+		$("button[name='deleteBtn']").on("click", function() {
+			let url = "${contextPath}/comments/" + $(this).data("idx");
+			commentService.deleteComment(url, function(result) { 
+				// ... 
 			});
 		});
-		
 		
 		$("#deleteBoardLink").on("click", function() {
 			return confirm("게시글을 삭제하시겠습니까?");
