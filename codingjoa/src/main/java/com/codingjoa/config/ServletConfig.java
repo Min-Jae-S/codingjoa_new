@@ -81,7 +81,6 @@ public class ServletConfig implements WebMvcConfigurer {
 	
 	@Override
 	public void configurePathMatch(PathMatchConfigurer configurer) {
-		WebMvcConfigurer.super.configurePathMatch(configurer);
 		configurer.setUseTrailingSlashMatch(false);
 	}
 
