@@ -17,12 +17,11 @@ import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@Order(Ordered.HIGHEST_PRECEDENCE)
 @RestControllerAdvice(annotations = RestController.class)
 public class ErrorRestHandler {
 	
-	@ExceptionHandler(Exception.class)
-	protected ResponseEntity<Object> handleException(Exception e) {
+	@ExceptionHandler(RuntimeException.class)
+	protected ResponseEntity<Object> handleException(RuntimeException e) {
 		log.info("## ErrorRestHandler, {}", e.getClass().getName());
 		log.info("message = {}", e.getMessage());
 		
