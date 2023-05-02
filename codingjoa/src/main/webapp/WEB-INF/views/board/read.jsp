@@ -337,7 +337,8 @@
 			<div class="mt-3 d-flex">			
 				<button class="btn btn-warning test-item" name="patchBtn" data-idx="a">PATCH /comments/a</button>				
 				<button class="btn btn-warning test-item" name="patchBtn" data-idx="9999">PATCH /comments/9999</button>					
-				<button class="btn btn-warning test-item" name="patchBtn" data-idx="">PATCH /comments/?</button>					
+				<button class="btn btn-warning test-item" name="patchBtn" data-idx="">PATCH /comments/</button>					
+				<button class="btn btn-warning test-item" name="patchBtn" >PATCH /comments/</button>					
 			</div>
 			<div class="mt-3 d-flex">				
 				<button class="btn btn-danger test-item" name="deleteBtn" data-idx="a">DELETE /comments/a</button>				

@@ -31,6 +31,7 @@ import org.springframework.web.multipart.support.StandardServletMultipartResolve
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -78,6 +79,14 @@ public class ServletConfig implements WebMvcConfigurer {
 				.addResourceLocations("file:///" + uploadPath);
 	}
 	
+	
+	
+	@Override
+	public void configurePathMatch(PathMatchConfigurer configurer) {
+		WebMvcConfigurer.super.configurePathMatch(configurer);
+		configurer.setUseTrailingSlashMatch(false);
+	}
+
 	@Override
 	public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
 		WebMvcConfigurer.super.extendMessageConverters(converters);
@@ -91,9 +100,9 @@ public class ServletConfig implements WebMvcConfigurer {
 	
 	@Override
 	public void extendHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
-		log.info("## extendHandlerExceptionResolvers");
+		log.info("======== extendHandlerExceptionResolvers ========");
 		for (HandlerExceptionResolver r : resolvers) {
-			log.info("\t>> {}", r.getClass().getSimpleName());
+			log.info("  >> {}", r.getClass().getSimpleName());
 		}
 	}
 
