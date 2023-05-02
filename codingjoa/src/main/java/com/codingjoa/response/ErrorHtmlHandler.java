@@ -8,6 +8,7 @@ import org.springframework.validation.BindException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -18,37 +19,31 @@ import lombok.extern.slf4j.Slf4j;
 @ControllerAdvice 
 public class ErrorHtmlHandler {
 	
-//	@ExceptionHandler(Exception.class)
-//	public String handleException(Exception e) {
-//		log.info("## ErrorHtmlHandler, {}", e.getClass().getName());
-//		log.info("message = {}", e.getMessage());
-//		
-//		return "forward:/error/errorPage";
-//	}
-
-	@ExceptionHandler(MethodArgumentNotValidException.class)
-	public String handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
-		log.info("## ErrorHtmlHandler, {}", e.getClass().getSimpleName());
+	@ExceptionHandler(Exception.class)
+	public String handleException(Exception e) {
+		log.info("## ErrorHtmlHandler, {}", e.getClass().getName());
 		log.info("message = {}", e.getMessage());
 		
 		return "forward:/error/errorPage";
 	}
 	
-//	@ExceptionHandler(MethodArgumentNotValidException.class)
-//	public ResponseEntity<Object> handleMethodArgumentNotValidException(MethodArgumentNotValidException e,
-//			HttpServletRequest request) throws ModelAndViewDefiningException {
-//		log.info("## handle MethodArgumentNotValidException");
-//		
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+	public String handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
+		log.info("## ErrorHtmlHandler, {}", e.getClass().getSimpleName());
+		log.info("message = {}", e.getMessage());
+		
 //		if (isAjaxRequest(request)) {
 //			ErrorResponse response = ErrorResponse.create().bindingResult(e.getBindingResult());
 //			log.info("{}", response);
-//			
+//		
 //			return ResponseEntity.unprocessableEntity().body(response);
 //		}
-//		
+//	
 //		ModelAndView mav = new ModelAndView("forward:/error/errorPage");
 //		throw new ModelAndViewDefiningException(mav);
-//	}
+		
+		return "forward:/error/errorPage";
+	}
 	
 	@ExceptionHandler(ConstraintViolationException.class)
 	public String handleConstraintViolationException(ConstraintViolationException e) {
@@ -72,6 +67,14 @@ public class ErrorHtmlHandler {
 //			log.info("field = {}", fieldError.getField());
 //			log.info("code = {}", fieldError.getCodes()[0]);
 //		});
+		
+		return "forward:/error/errorPage";
+	}
+	
+	@ExceptionHandler(MethodArgumentTypeMismatchException.class)
+	public String handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e) {
+		log.info("## ErrorHtmlHandler, {}", e.getClass().getSimpleName());
+		log.info("message = {}", e.getMessage());
 		
 		return "forward:/error/errorPage";
 	}
