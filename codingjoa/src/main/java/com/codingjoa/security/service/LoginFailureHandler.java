@@ -35,11 +35,9 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
 				e instanceof UsernameNotFoundException || e instanceof BadCredentialsException) {
 			errorMessage = e.getMessage();
 		}
+		log.info("exception = {}, message = {}", e.toString(), errorMessage);
 		
-		ErrorResponse errorResponse = ErrorResponse.create().errorMessage(errorMessage);
-		log.info("errorResponse = {}", errorResponse);
-		
-		request.setAttribute("errorResponse", errorResponse);
+		request.setAttribute("errorResponse", ErrorResponse.create().errorMessage(errorMessage));
 		request.getRequestDispatcher(DEFAULT_FAILURE_URL).forward(request, response);
 	}
 
