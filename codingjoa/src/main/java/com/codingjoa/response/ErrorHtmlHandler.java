@@ -4,6 +4,8 @@ import javax.validation.ConstraintViolationException;
 
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -71,8 +73,16 @@ public class ErrorHtmlHandler {
 		return "forward:/error/errorPage";
 	}
 	
-	@ExceptionHandler({ MethodArgumentTypeMismatchException.class, IllegalArgumentException.class })
-	public String handleMethodArgumentTypeMismatchException(Exception e) {
+	@ExceptionHandler(MethodArgumentTypeMismatchException.class)
+	public String handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e) {
+		log.info("## ErrorHtmlHandler, {}", e.getClass().getSimpleName());
+		log.info("message = {}", e.getMessage());
+		
+		return "forward:/error/errorPage";
+	}
+	
+	@ExceptionHandler(IllegalArgumentException.class)
+	public String handleIllegalArgumentException(IllegalArgumentException e) {
 		log.info("## ErrorHtmlHandler, {}", e.getClass().getSimpleName());
 		log.info("message = {}", e.getMessage());
 		
