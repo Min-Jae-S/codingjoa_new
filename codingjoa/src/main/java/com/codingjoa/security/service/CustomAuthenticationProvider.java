@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import com.codingjoa.security.exception.LoginRequireFieldException;
+import com.codingjoa.util.MessageUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -34,16 +35,17 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 		String memberPassword = (String) authentication.getCredentials();
 		
 		if ("".equals(memberId)) {
-			throw new LoginRequireFieldException("error.LoginRequireField.memberId");
+			throw new LoginRequireFieldException(MessageUtils.getMessage("error.LoginRequireId"));
 		} else if(!StringUtils.hasText(memberPassword)) {
-			throw new LoginRequireFieldException("error.LoginRequireField.memberPassword");
+			throw new LoginRequireFieldException(MessageUtils.getMessage("error.LoginRequirePassword"));
 		}
 		
 		UserDetails userDetails = userDetailsService.loadUserByUsername(memberId);
-		log.info("{}", userDetails);
+		log.info("userDetails = {}", userDetails);
 		
 		if (!passwordEncoder.matches(memberPassword, userDetails.getPassword())) {
-			throw new BadCredentialsException("error.UsernameNotFoundOrBadCredentials");
+			throw new BadCredentialsException(
+					MessageUtils.getMessage("error.UsernameNotFoundOrBadCredentials"));
 		}
 		
 		return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
