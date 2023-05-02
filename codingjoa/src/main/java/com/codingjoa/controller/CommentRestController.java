@@ -104,5 +104,4 @@ public class CommentRestController {
 		return ResponseEntity.ok(SuccessResponse.create().message("success.deleteComment"));
 	}
 	
-	
 }

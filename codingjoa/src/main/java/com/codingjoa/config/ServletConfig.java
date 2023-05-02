@@ -43,7 +43,11 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 @Configuration
 @EnableWebMvc
 @PropertySource("/WEB-INF/properties/upload.properties")
-@ComponentScan(basePackages = { "com.codingjoa.controller", "com.codingjoa.validator", "com.codingjoa.resolver" })
+@ComponentScan(basePackages = { 
+		"com.codingjoa.controller",
+		"com.codingjoa.validator", 
+		"com.codingjoa.resolver" 
+	})
 public class ServletConfig implements WebMvcConfigurer {
 	
 	@Value("${upload.path}")
