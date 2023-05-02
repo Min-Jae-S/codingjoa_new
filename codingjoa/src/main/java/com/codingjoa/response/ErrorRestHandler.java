@@ -2,8 +2,6 @@ package com.codingjoa.response;
 
 import javax.validation.ConstraintViolationException;
 
-import org.springframework.core.Ordered;
-import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -20,8 +18,8 @@ import lombok.extern.slf4j.Slf4j;
 @RestControllerAdvice(annotations = RestController.class)
 public class ErrorRestHandler {
 	
-	@ExceptionHandler(RuntimeException.class)
-	protected ResponseEntity<Object> handleException(RuntimeException e) {
+	@ExceptionHandler(Exception.class)
+	protected ResponseEntity<Object> handleException(Exception e) {
 		log.info("## ErrorRestHandler, {}", e.getClass().getName());
 		log.info("message = {}", e.getMessage());
 		
