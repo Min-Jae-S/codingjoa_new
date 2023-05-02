@@ -28,8 +28,13 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 	private PasswordEncoder passwordEncoder;
 	
 	@Override
+	public boolean supports(Class<?> authentication) {
+		return UsernamePasswordAuthenticationToken.class.isAssignableFrom(authentication);
+	}
+	
+	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-		log.info("============== CustomAuthenticationProvider ==============");
+		log.info("======== CustomAuthenticationProvider ========");
 		
 		String memberId = (String) authentication.getPrincipal();
 		String memberPassword = (String) authentication.getCredentials();
@@ -51,8 +56,4 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 		return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 	}
 
-	@Override
-	public boolean supports(Class<?> authentication) {
-		return UsernamePasswordAuthenticationToken.class.isAssignableFrom(authentication);
-	}
 }
