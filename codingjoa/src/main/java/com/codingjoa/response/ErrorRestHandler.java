@@ -6,6 +6,7 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -33,6 +34,7 @@ public class ErrorRestHandler {
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	protected ResponseEntity<Object> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
 		log.info("## ErrorRestHandler, {}", e.getClass().getSimpleName());
+		log.info("message = {}", e.getMessage());
 		
 		ErrorResponse errorResponse = ErrorResponse.create().bindingResult(e.getBindingResult());
 		log.info("errorResponse = {}", errorResponse);
@@ -43,13 +45,27 @@ public class ErrorRestHandler {
 	@ExceptionHandler(ConstraintViolationException.class)
 	protected ResponseEntity<Object> handleConstraintViolationException(ConstraintViolationException e) {
 		log.info("## ErrorRestHandler, {}", e.getClass().getSimpleName());
+		log.info("message = {}", e.getMessage());
 
 		return null;
+	}
+	
+	@ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+	protected ResponseEntity<Object> handleHttpRequestMethodNotSupportedException(
+			HttpRequestMethodNotSupportedException e) {
+		log.info("## ErrorRestHandler, {}", e.getClass().getSimpleName());
+		log.info("message = {}", e.getMessage());
+		
+		ErrorResponse errorResponse = ErrorResponse.create().errorCode("error.NotFound");
+		log.info("errorResponse = {}", errorResponse);
+
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
 	}
 	
 	@ExceptionHandler(MethodArgumentTypeMismatchException.class)
 	public ResponseEntity<Object> handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e) {
 		log.info("## ErrorRestHandler, {}", e.getClass().getSimpleName());
+		log.info("message = {}", e.getMessage());
 		
 		ErrorResponse errorResponse = ErrorResponse.create().errorMessage(e.getMessage());
 		log.info("errorResponse = {}", errorResponse);
@@ -60,6 +76,7 @@ public class ErrorRestHandler {
 	@ExceptionHandler(IllegalArgumentException.class)
 	protected ResponseEntity<Object> handleIllegalArgumentException(IllegalArgumentException e) {
 		log.info("## ErrorRestHandler, {}", e.getClass().getSimpleName());
+		log.info("message = {}", e.getMessage());
 		
 		ErrorResponse errorResponse = ErrorResponse.create().errorMessage(e.getMessage());
 		log.info("errorResponse = {}", errorResponse);
@@ -70,8 +87,9 @@ public class ErrorRestHandler {
 	@ExceptionHandler(MaxUploadSizeExceededException.class)
 	protected ResponseEntity<Object> handleMaxUploadSizeExceededException(MaxUploadSizeExceededException e) {
 		log.info("## ErrorRestHandler, {}", e.getClass().getSimpleName());
+		log.info("message = {}", e.getMessage());
 		
-		ErrorResponse errorResponse = ErrorResponse.create().errorCode("error.ExceededSize");
+		ErrorResponse errorResponse = ErrorResponse.create().errorCode("error.ExceedSize");
 		log.info("errorResponse = {}", errorResponse);
 		
 		return ResponseEntity.badRequest().body(errorResponse);

@@ -18,8 +18,8 @@ public class UploadFileUtils {
 		File saveFile = new File(uploadFolder, uploadFilename);
 		
 		try {
-			file.transferTo(saveFile);
-		} catch (Exception e) {
+			file.transferTo(saveFile);  
+		} catch (Exception e) { // IOException, IllegalStateException
 			e.printStackTrace();
 		}
 		
