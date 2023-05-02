@@ -38,8 +38,8 @@ public class CommentServiceImpl implements CommentService {
 	}
 	
 	@Override
-	public List<CommentDetailsDto> getPagedComment(CommentCriteria commentCri) {
-		return commentMapper.findPagedComment(commentCri).stream()
+	public List<CommentDetailsDto> getPagedComment(int boardIdx, CommentCriteria commentCri) {
+		return commentMapper.findPagedComment(boardIdx, commentCri).stream()
 				.map(commentDetailsMap -> modelMapper.map(commentDetailsMap, CommentDetailsDto.class))
 				.collect(Collectors.toList());
 	}

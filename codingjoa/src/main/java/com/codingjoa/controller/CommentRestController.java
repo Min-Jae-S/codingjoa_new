@@ -73,9 +73,10 @@ public class CommentRestController {
 	}
 	
 	@GetMapping("/boards/{boardIdx}/comments")
-	public ResponseEntity<Object> getCommentList(@CommentCri CommentCriteria commentCri) {
+	public ResponseEntity<Object> getCommentList(@PathVariable int boardIdx, @CommentCri CommentCriteria commentCri) {
+		log.info("boardIdx = {}", boardIdx);
 		log.info("commentCri = {}", commentCri);
-		List<CommentDetailsDto> commentList = commentService.getPagedComment(commentCri);
+		List<CommentDetailsDto> commentList = commentService.getPagedComment(boardIdx, commentCri);
 		
 		return ResponseEntity.ok(SuccessResponse.create().data(commentList));
 	}
@@ -83,6 +84,7 @@ public class CommentRestController {
 	@GetMapping("/comments/{commentIdx}")
 	public ResponseEntity<Object> getComment(@PathVariable int commentIdx) {
 		log.info("commentIdx = {}", commentIdx);
+		
 		CommentDetailsDto commentDetails = commentService.getCommentDetails(commentIdx);
 		
 		return ResponseEntity.ok(SuccessResponse.create().data(commentDetails));
@@ -95,6 +97,7 @@ public class CommentRestController {
 		
 		return ResponseEntity.ok(SuccessResponse.create().message("success.updateComment"));
 	}
+	
 	
 	@DeleteMapping("/comments/{commentIdx}")
 	public ResponseEntity<Object> deleteComment(@PathVariable int commentIdx) {

@@ -9,14 +9,12 @@ import lombok.ToString;
 @Setter
 public class CommentCriteria {
 
-	private int boardIdx;
 	private int page;
 	private int recordCnt;
 	
 	public CommentCriteria() { }
 	
-	public CommentCriteria(int boardIdx, int page, int recordCnt) {
-		this.boardIdx = boardIdx;
+	public CommentCriteria(int page, int recordCnt) {
 		this.page = page;
 		this.recordCnt = recordCnt;
 	}

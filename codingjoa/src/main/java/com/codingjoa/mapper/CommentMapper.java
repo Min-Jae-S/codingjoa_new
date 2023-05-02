@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.codingjoa.entity.Comment;
 import com.codingjoa.pagination.CommentCriteria;
@@ -13,7 +14,8 @@ public interface CommentMapper {
 	
 	void insertComment(Comment comment);
 
-	List<Map<String, Object>> findPagedComment(CommentCriteria commentCri);
+	List<Map<String, Object>> findPagedComment(@Param("boardIdx") int boardIdx, 
+												@Param("commentCri") CommentCriteria commentCri);
 	
 	Map<String, Object> findCommentDetails(int commentIdx);
 	

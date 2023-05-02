@@ -10,7 +10,7 @@ public interface CommentService {
 
 	void writeComment(CommentDto commentDto);
 	
-	List<CommentDetailsDto> getPagedComment(CommentCriteria commentCri);
+	List<CommentDetailsDto> getPagedComment(int boardIdx, CommentCriteria commentCri);
 	
 	CommentDetailsDto getCommentDetails(int commentIdx);
 	

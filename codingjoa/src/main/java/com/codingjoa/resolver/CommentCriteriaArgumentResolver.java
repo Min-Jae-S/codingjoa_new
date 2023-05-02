@@ -41,19 +41,17 @@ public class CommentCriteriaArgumentResolver implements HandlerMethodArgumentRes
 			NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
 		log.info("======== CommentCriteriaArgumentResolver ========");
 		
-		String boardIdx = getUriTemplateVariables(webRequest).get("boardIdx");
 		String page = webRequest.getParameter("page");
-		log.info("Raw boardIdx = {}, page = {}", boardIdx, page);
+		log.info("Raw page = {}", page);
 		
 		return new CommentCriteria(
-			Integer.parseInt(boardIdx),
 			MyNumberUtils.isNaturalNumber(page) ? Integer.parseInt(page) : DEFAULT_PAGE,
 			DEFAULT_RECORD_CNT
 		);
 		
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "unused" })
 	private Map<String, String> getUriTemplateVariables(NativeWebRequest webRequest) { // @PathVariable
 		return (Map<String, String>) webRequest.getAttribute(
 				HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE, RequestAttributes.SCOPE_REQUEST);
