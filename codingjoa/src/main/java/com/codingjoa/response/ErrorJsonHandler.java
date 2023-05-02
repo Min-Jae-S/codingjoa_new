@@ -18,21 +18,24 @@ import lombok.extern.slf4j.Slf4j;
 @RestControllerAdvice(annotations = RestController.class)
 public class ErrorJsonHandler {
 	
-	@ExceptionHandler(Exception.class)
-	public ResponseEntity<Object> handleException(Exception e) {
-		log.info("## ErrorJsonHandler, {}", e.getClass().getName());
-		
-		return null;
-	}
+//	@ExceptionHandler(Exception.class)
+//	public ResponseEntity<Object> handleException(Exception e) {
+//		log.info("## ErrorJsonHandler, {}", e.getClass().getName());
+//		
+//		ErrorResponse errorResponse = ErrorResponse.create().errorMessage(e.getMessage());
+//		log.info("errorResponse = {}", errorResponse);
+//		
+//		return ResponseEntity.badRequest().body(errorResponse);
+//	}
 
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	protected ResponseEntity<Object> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
 		log.info("## ErrorJsonHandler, {}", e.getClass().getSimpleName());
 		
-		ErrorResponse response = ErrorResponse.create().bindingResult(e.getBindingResult());
-		log.info("response = {}", response);
+		ErrorResponse errorResponse = ErrorResponse.create().bindingResult(e.getBindingResult());
+		log.info("errorResponse = {}", errorResponse);
 		
-		return ResponseEntity.unprocessableEntity().body(response);
+		return ResponseEntity.unprocessableEntity().body(errorResponse);
 	}
 	
 	@ExceptionHandler(ConstraintViolationException.class)
@@ -58,19 +61,19 @@ public class ErrorJsonHandler {
 	protected ResponseEntity<Object> handleIllegalArgumentException(IllegalArgumentException e) {
 		log.info("## ErrorJsonHandler, {}", e.getClass().getSimpleName());
 		
-		ErrorResponse response = ErrorResponse.create().errorMessage(e.getMessage());
-		log.info("response = {}", response);
+		ErrorResponse errorResponse = ErrorResponse.create().errorMessage(e.getMessage());
+		log.info("errorResponse = {}", errorResponse);
 		
-		return ResponseEntity.badRequest().body(response);
+		return ResponseEntity.badRequest().body(errorResponse);
 	}
 	
 	@ExceptionHandler(MaxUploadSizeExceededException.class)
 	protected ResponseEntity<Object> handleMaxUploadSizeExceededException(MaxUploadSizeExceededException e) {
 		log.info("## ErrorJsonHandler, {}", e.getClass().getSimpleName());
 		
-		ErrorResponse response = ErrorResponse.create().errorCode("error.ExceededSize");
-		log.info("response = {}", response);
+		ErrorResponse errorResponse = ErrorResponse.create().errorCode("error.ExceededSize");
+		log.info("errorResponse = {}", errorResponse);
 		
-		return ResponseEntity.badRequest().body(response);
+		return ResponseEntity.badRequest().body(errorResponse);
 	}
 }

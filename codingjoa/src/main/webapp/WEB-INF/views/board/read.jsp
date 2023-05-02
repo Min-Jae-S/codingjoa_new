@@ -224,8 +224,8 @@
 	}
 	
 	.test-item {
-		width: 40%;
-		margin-right: 2rem;
+		width: 30%;
+		margin-right: 1rem;
 	}
 </style>
 </head>
@@ -327,18 +327,22 @@
 			<div class="mt-3 d-flex">
 				<button class="btn btn-primary test-item" name="commentBtn" data-idx="a">GET /comments/a</button>				
 				<button class="btn btn-primary test-item" name="commentBtn" data-idx="9999">GET /comments/9999</button>
+				<button class="btn btn-primary test-item" name="commentBtn" data-idx="">GET /comments/?</button>
 			</div>
 			<div class="mt-3 d-flex">				
 				<button class="btn btn-info test-item" name="commentListBtn" data-idx="a">GET /boards/a/comments</button>				
 				<button class="btn btn-info test-item" name="commentListBtn" data-idx="9999">GET /boards/9999/comments</button>					
+				<button class="btn btn-info test-item" name="commentListBtn" data-idx="">GET /boards/?/comments</button>					
 			</div>
 			<div class="mt-3 d-flex">			
-				<button class="btn btn-warning test-item" name="patchBtn" data-idx="a">PATCH /boards/a/comments</button>				
-				<button class="btn btn-warning test-item" name="patchBtn" data-idx="9999">PATCH /boards/9999/comments</button>					
+				<button class="btn btn-warning test-item" name="patchBtn" data-idx="a">PATCH /comments/a</button>				
+				<button class="btn btn-warning test-item" name="patchBtn" data-idx="9999">PATCH /comments/9999</button>					
+				<button class="btn btn-warning test-item" name="patchBtn" data-idx="">PATCH /comments/?</button>					
 			</div>
 			<div class="mt-3 d-flex">				
-				<button class="btn btn-danger test-item" name="deleteBtn" data-idx="a">DELETE /boards/a/comments</button>				
-				<button class="btn btn-danger test-item" name="deleteBtn" data-idx="9999">DELETE /boards/9999/comments</button>					
+				<button class="btn btn-danger test-item" name="deleteBtn" data-idx="a">DELETE /comments/a</button>				
+				<button class="btn btn-danger test-item" name="deleteBtn" data-idx="9999">DELETE /comments/9999</button>					
+				<button class="btn btn-danger test-item" name="deleteBtn" data-idx="">DELETE /comments/?</button>					
 			</div>
 			<div>
 			</div>
@@ -366,6 +370,7 @@
 		
 		$("button[name='commentBtn']").on("click", function() {
 			let url = "${contextPath}/comments/" + $(this).data("idx");
+			console.log("## URL = " + url);
 			commentService.getComment(url , function(result) {
 				// ... 
 			});
@@ -373,6 +378,7 @@
 
 		$("button[name='commentListBtn']").on("click", function() {
 			let url = "${contextPath}/boards/" + $(this).data("idx") + "/comments";
+			console.log("## URL = " + url);
 			commentService.getCommentList(url, function(result) { 
 				// ... 
 			});
@@ -381,6 +387,7 @@
 		$("button[name='patchBtn']").on("click", function() {
 			let comment = null;
 			let url = "${contextPath}/comments/" + $(this).data("idx");
+			console.log("## URL = " + url);
 			commentService.modifyComment(url, comment, function(result) { 
 				// ...
 			});
@@ -388,6 +395,7 @@
 
 		$("button[name='deleteBtn']").on("click", function() {
 			let url = "${contextPath}/comments/" + $(this).data("idx");
+			console.log("## URL = " + url);
 			commentService.deleteComment(url, function(result) { 
 				// ... 
 			});

@@ -18,13 +18,13 @@ import lombok.extern.slf4j.Slf4j;
 @ControllerAdvice 
 public class ErrorHtmlHandler {
 	
-	@ExceptionHandler(Exception.class)
-	public String handleException(Exception e) {
-		log.info("## ErrorHtmlHandler, {}", e.getClass().getName());
-		log.info("message = {}", e.getMessage());
-		
-		return "forward:/error/errorPage";
-	}
+//	@ExceptionHandler(Exception.class)
+//	public String handleException(Exception e) {
+//		log.info("## ErrorHtmlHandler, {}", e.getClass().getName());
+//		log.info("message = {}", e.getMessage());
+//		
+//		return "forward:/error/errorPage";
+//	}
 
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	public String handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
