@@ -44,7 +44,6 @@ public class ErrorJsonHandler {
 	@ExceptionHandler(ConstraintViolationException.class)
 	protected ResponseEntity<Object> handleConstraintViolationException(ConstraintViolationException e) {
 		log.info("## ErrorJsonHandler, {}", e.getClass().getSimpleName());
-		log.info("message = {}", e.getMessage());
 
 		return null;
 	}
