@@ -13,20 +13,14 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
-<style>
-	p {
-		margin-top: 240px; 
-		font-size: 100px;
-	}
-</style>
 </head>
 <body>
 
 <c:import url="/WEB-INF/views/include/top-menu.jsp" />
 
-<p class="font-weight-bold text-center bg-dark text-white">
-	<span>HOME</span>
-</p>
+<div class="home-container">
+	<p class="font-weight-bold text-center bg-dark text-white">HOME</p>
+</div>
 
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 

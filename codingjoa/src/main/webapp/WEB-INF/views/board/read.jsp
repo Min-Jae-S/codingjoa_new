@@ -223,9 +223,15 @@
 		border: 1px solid #868e96;
 	}
 	
-	.test-item {
+	.test-div {
+		border-top: 1px solid black;
+		padding: 3rem;
+	}
+	
+	.test-div .test-item {
 		width: 30%;
 		margin-right: 1rem;
+		text-align: left !important;
 	}
 </style>
 </head>
@@ -324,31 +330,30 @@
 				<a class="btn btn-secondary" href="${contextPath}/board/main?boardCategoryCode=${category.categoryCode}&
 					${boardCri.getQueryString()}">목록</a>
 			</div>
-			<div class="mt-3 d-flex">
-				<button class="btn btn-primary test-item" name="commentBtn" data-idx="a">GET /comments/a</button>				
-				<button class="btn btn-primary test-item" name="commentBtn" data-idx="9999">GET /comments/9999</button>
-				<button class="btn btn-primary test-item" name="commentBtn" data-idx="">GET /comments/?</button>
-			</div>
-			<div class="mt-3 d-flex">				
-				<button class="btn btn-info test-item" name="commentListBtn" data-idx="a">GET /boards/a/comments</button>				
-				<button class="btn btn-info test-item" name="commentListBtn" data-idx="9999">GET /boards/9999/comments</button>					
-				<button class="btn btn-info test-item" name="commentListBtn" data-idx="">GET /boards/?/comments</button>					
-			</div>
-			<div class="mt-3 d-flex">			
-				<button class="btn btn-warning test-item" name="patchBtn" data-idx="a">PATCH /comments/a</button>				
-				<button class="btn btn-warning test-item" name="patchBtn" data-idx="9999">PATCH /comments/9999</button>					
-				<button class="btn btn-warning test-item" name="patchBtn" data-idx="">PATCH /comments/</button>					
-				<button class="btn btn-warning test-item" name="patchBtn" >PATCH /comments/</button>					
-			</div>
-			<div class="mt-3 d-flex">				
-				<button class="btn btn-danger test-item" name="deleteBtn" data-idx="a">DELETE /comments/a</button>				
-				<button class="btn btn-danger test-item" name="deleteBtn" data-idx="9999">DELETE /comments/9999</button>					
-				<button class="btn btn-danger test-item" name="deleteBtn" data-idx="">DELETE /comments/?</button>					
-			</div>
-			<div>
-			</div>
 		</div>
 		<div class="col-sm-2"></div>
+	</div>
+	<div class="test-div mt-5">
+		<div class="mb-4 d-flex">
+			<button class="btn btn-primary test-item" name="commentBtn" data-idx="a">GET:&nbsp;&nbsp;&nbsp;/comments/a</button>				
+			<button class="btn btn-primary test-item" name="commentBtn" data-idx="9999">GET:&nbsp;&nbsp;&nbsp;/comments/9999</button>
+			<button class="btn btn-primary test-item" name="commentBtn" data-idx="">GET:&nbsp;&nbsp;&nbsp;/comments/</button>
+		</div>
+		<div class="mb-4 d-flex">				
+			<button class="btn btn-info test-item" name="commentListBtn" data-idx="a">GET:&nbsp;&nbsp;&nbsp;/boards/a/comments</button>				
+			<button class="btn btn-info test-item" name="commentListBtn" data-idx="9999">GET:&nbsp;&nbsp;&nbsp;/boards/9999/comments</button>					
+			<button class="btn btn-info test-item" name="commentListBtn" data-idx="">GET:&nbsp;&nbsp;&nbsp;/boards//comments</button>					
+		</div>
+		<div class="mb-4 d-flex">			
+			<button class="btn btn-warning test-item" name="patchBtn" data-idx="a">PATCH:&nbsp;&nbsp;&nbsp;/comments/a</button>				
+			<button class="btn btn-warning test-item" name="patchBtn" data-idx="9999">PATCH:&nbsp;&nbsp;&nbsp;/comments/9999</button>					
+			<button class="btn btn-warning test-item" name="patchBtn" data-idx="">PATCH:&nbsp;&nbsp;&nbsp;/comments/</button>					
+		</div>
+		<div class="mb-4 d-flex">				
+			<button class="btn btn-danger test-item" name="deleteBtn" data-idx="a">DELETE:&nbsp;&nbsp;&nbsp;/comments/a</button>				
+			<button class="btn btn-danger test-item" name="deleteBtn" data-idx="9999">DELETE:&nbsp;&nbsp;&nbsp;/comments/9999</button>					
+			<button class="btn btn-danger test-item" name="deleteBtn" data-idx="">DELETE:&nbsp;&nbsp;&nbsp;/comments/</button>					
+		</div>
 	</div>
 </div>
 
