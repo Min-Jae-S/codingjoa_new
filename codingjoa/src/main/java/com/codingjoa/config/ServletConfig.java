@@ -79,8 +79,6 @@ public class ServletConfig implements WebMvcConfigurer {
 				.addResourceLocations("file:///" + uploadPath);
 	}
 	
-	
-	
 	@Override
 	public void configurePathMatch(PathMatchConfigurer configurer) {
 		WebMvcConfigurer.super.configurePathMatch(configurer);
