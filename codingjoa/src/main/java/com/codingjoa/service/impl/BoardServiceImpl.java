@@ -18,8 +18,8 @@ import com.codingjoa.mapper.BoardMapper;
 import com.codingjoa.mapper.UploadMapper;
 import com.codingjoa.pagination.Criteria;
 import com.codingjoa.pagination.Pagination;
-import com.codingjoa.security.exception.NotFoundEntityException;
 import com.codingjoa.service.BoardService;
+import com.codingjoa.util.MessageUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -60,6 +60,10 @@ public class BoardServiceImpl implements BoardService {
 		
 		Integer boardIdx = board.getBoardIdx();
 		log.info("write board, boardIdx = {}", boardIdx);
+
+		if (boardIdx == null) {
+			throw new IllegalArgumentException(MessageUtils.getMessage("error.WriteBoard"));
+		}
 		
 		return boardIdx;
 	}
@@ -81,7 +85,7 @@ public class BoardServiceImpl implements BoardService {
 	public BoardDetailsDto getBoardDetails(int boardIdx) {
 		Map<String, Object> boardDetailsMap = boardMapper.findBoardDetails(boardIdx);
 		if (boardDetailsMap == null) {
-			throw new NotFoundEntityException("error.NotFoundBoard");
+			throw new IllegalArgumentException(MessageUtils.getMessage("error.NotFoundBoard"));
 		}
 		
 		return modelMapper.map(boardDetailsMap, BoardDetailsDto.class);
@@ -141,9 +145,7 @@ public class BoardServiceImpl implements BoardService {
 		
 		Board board = boardMapper.findModifyBoard(boardIdx, boardWriterIdx);
 		if (board == null) {
-			String message = String.format("can't find board by boardIdx and boardWriterIdx. "
-					+ "(boardIdx = %s, boardWriterIdx = %s)", boardIdx, boardWriterIdx);
-			throw new IllegalArgumentException(message);
+			throw new IllegalArgumentException(MessageUtils.getMessage("error.NotBindBoard"));
 		}
 		
 		modelMapper.map(board, modifyBoardDto);
@@ -167,9 +169,7 @@ public class BoardServiceImpl implements BoardService {
 		log.info("update success = {}", result);
 		
 		if (!result) {
-			String message = String.format("can't update board. (boardIdx = %s, boardWriterIdx = %s)",
-					board.getBoardIdx(), board.getBoardWriterIdx());
-			throw new IllegalArgumentException(message);
+			throw new IllegalArgumentException(MessageUtils.getMessage("error.UpdateBoard"));
 		}
 	}
 
@@ -200,9 +200,7 @@ public class BoardServiceImpl implements BoardService {
 		log.info("delete board, boardCategoryCode = {}", boardCategoryCode);
 		
 		if (boardCategoryCode == null) {
-			String message = String.format("can't delete board. (boardIdx = %s, boardWriterIdx = %s)",
-					board.getBoardIdx(), board.getBoardWriterIdx());
-			throw new IllegalArgumentException(message);
+			throw new IllegalArgumentException(MessageUtils.getMessage("error.DeleteBoard"));
 		}
 		
 		return boardCategoryCode;

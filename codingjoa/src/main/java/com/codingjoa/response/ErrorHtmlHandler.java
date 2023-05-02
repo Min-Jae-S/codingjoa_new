@@ -4,14 +4,10 @@ import javax.validation.ConstraintViolationException;
 
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-
-import com.codingjoa.security.exception.NotFoundEntityException;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -80,11 +76,4 @@ public class ErrorHtmlHandler {
 		return "forward:/error/errorPage";
 	}
 	
-	@ExceptionHandler(NotFoundEntityException.class)
-	protected String handleNotFoundEntityException(NotFoundEntityException e) {
-		log.info("## ErrorHtmlHandler.NotFoundEntityException");
-		
-		return "forward:/error/errorPage";
-	}
-
 }

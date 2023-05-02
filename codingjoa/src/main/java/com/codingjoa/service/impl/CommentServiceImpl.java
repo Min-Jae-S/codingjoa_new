@@ -13,8 +13,8 @@ import com.codingjoa.dto.CommentDto;
 import com.codingjoa.entity.Comment;
 import com.codingjoa.mapper.CommentMapper;
 import com.codingjoa.pagination.CommentCriteria;
-import com.codingjoa.security.exception.NotFoundEntityException;
 import com.codingjoa.service.CommentService;
+import com.codingjoa.util.MessageUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -48,7 +48,7 @@ public class CommentServiceImpl implements CommentService {
 	public CommentDetailsDto getCommentDetails(int commentIdx) {
 		Map<String, Object> commentDetailsMap = commentMapper.findCommentDetails(commentIdx);
 		if (commentDetailsMap == null) {
-			throw new NotFoundEntityException("error.NotFoundComment");
+			throw new IllegalArgumentException(MessageUtils.getMessage("error.NotFoundComment"));
 		}
 		
 		return modelMapper.map(commentDetailsMap, CommentDetailsDto.class);

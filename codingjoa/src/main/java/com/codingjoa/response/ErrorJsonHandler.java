@@ -4,15 +4,12 @@ import javax.validation.ConstraintViolationException;
 
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
-
-import com.codingjoa.security.exception.NotFoundEntityException;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -28,7 +25,7 @@ public class ErrorJsonHandler {
 		ErrorResponse response = ErrorResponse.create().bindingResult(e.getBindingResult());
 		log.info("response = {}", response);
 		
-		return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(response);
+		return ResponseEntity.unprocessableEntity().body(response);
 	}
 	
 	@ExceptionHandler(ConstraintViolationException.class)
@@ -57,19 +54,9 @@ public class ErrorJsonHandler {
 		ErrorResponse response = ErrorResponse.create().errorMessage(e.getMessage());
 		log.info("response = {}", response);
 		
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+		return ResponseEntity.badRequest().body(response);
 	}
 	
-	@ExceptionHandler(NotFoundEntityException.class)
-	protected ResponseEntity<Object> handleNotFoundEntityException(NotFoundEntityException e) {
-		log.info("## ErrorJsonHandler.NotFoundEntityException");
-		
-		ErrorResponse response = ErrorResponse.create().errorCode(e.getErrorCode());
-		log.info("response = {}", response);
-		
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
-	}
-
 	@ExceptionHandler(MaxUploadSizeExceededException.class)
 	protected ResponseEntity<Object> handleMaxUploadSizeExceededException(MaxUploadSizeExceededException e) {
 		log.info("## ErrorJsonHandler.MaxUploadSizeExceededException");
@@ -77,6 +64,6 @@ public class ErrorJsonHandler {
 		ErrorResponse response = ErrorResponse.create().errorCode("error.ExceededSize");
 		log.info("response = {}", response);
 		
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+		return ResponseEntity.badRequest().body(response);
 	}
 }
