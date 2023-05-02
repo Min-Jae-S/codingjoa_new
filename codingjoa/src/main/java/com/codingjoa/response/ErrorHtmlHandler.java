@@ -2,6 +2,7 @@ package com.codingjoa.response;
 
 import javax.validation.ConstraintViolationException;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -13,7 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 // @ExceptionHandler는 @Controller, @RestController가 적용된 Bean에서 
 // 발생한 예외를 잡아 하나의 메소드에서 처리하는 역할을 한다. @Service에서의 예외는 잡지 못한다.
 @Slf4j
-@ControllerAdvice
+@ControllerAdvice(annotations = Controller.class)
 public class ErrorHtmlHandler {
 	
 	@ExceptionHandler(Exception.class)
