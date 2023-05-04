@@ -1,9 +1,13 @@
 package com.codingjoa.resolver;
 
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Component;
+import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -17,9 +21,23 @@ public class CustomExceptionResolver implements HandlerExceptionResolver {
 	public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler,
 			Exception ex) {
 		log.info("======== CustomExceptionResolver ========");
-		log.info("uri = {}", request.getRequestURI());
+		
+		HandlerMethod method = (HandlerMethod) handler;
+		log.info("handler = {}", (method != null) ? method.getBeanType() : method);
+		log.info("request URI = {}", getFullURI(request));
 		log.info("x-requested-with = {}", request.getHeader("x-requested-with"));
 
 		return null;
+	}
+	
+	private String getFullURI(HttpServletRequest request) {
+		StringBuilder requestURI = new StringBuilder(request.getRequestURI().toString());
+	    String queryString = request.getQueryString();
+	    
+	    if (queryString == null) {
+	        return requestURI.toString();
+	    } else {
+	    	return requestURI.append('?').append(URLDecoder.decode(queryString, StandardCharsets.UTF_8)).toString();
+	    }
 	}
 }
