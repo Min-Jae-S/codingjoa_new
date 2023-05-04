@@ -235,7 +235,6 @@
 	.test-div .test-item {
 		width: 30%;
 		text-align: left !important;
-		font-size: 0.7rem;
 	}
 </style>
 </head>
@@ -372,7 +371,7 @@
 		let boardIdx = "<c:out value='${boardDetails.boardIdx}'/>";
 		let boardCategoryCode = "<c:out value='${boardDetails.boardCategoryCode}'/>";
 		let boardWriterIdx = "<c:out value='${boardDetails.boardWriterIdx}'/>";
-		let commentListURL = "${contextPath}/api/boards/" + boardIdx + "/comments";
+		let commentListURL = "${contextPath}/boards/" + boardIdx + "/comments";
 		
 		commentService.getCommentList(commentListURL , function(result) {
 			let commentList = result.data;

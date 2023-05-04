@@ -82,12 +82,15 @@ public class ServletConfig implements WebMvcConfigurer {
 	@Override
 	public void configurePathMatch(PathMatchConfigurer configurer) {
 		log.info("======== configurePathMatch ========");
-		log.info("  >> isUseTrailingSlashMatch = {}", configurer.isUseTrailingSlashMatch());
+		
+		configurer.setUseTrailingSlashMatch(true);
+		log.info(" isUseTrailingSlashMatch = {}", configurer.isUseTrailingSlashMatch());
+		log.info("====================================");
+
 		//configurer
 			//.addPathPrefix("api/", HandlerTypePredicate.forAnnotation(RestController.class));
 			//.setUseCaseSensitiveMatch(true)
 			//.setUseTrailingSlashMatch(true)
-		
 	}
 
 	@Override
@@ -106,8 +109,9 @@ public class ServletConfig implements WebMvcConfigurer {
 		log.info("======== extendHandlerExceptionResolvers ========");
 		
 		for (HandlerExceptionResolver r : resolvers) {
-			log.info("  >> resolvers = {}", r.getClass().getSimpleName());
+			log.info("resolvers = {}", r.getClass().getSimpleName());
 		}
+		log.info("=================================================");
 	}
 
 	@Bean
