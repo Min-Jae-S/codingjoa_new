@@ -18,16 +18,16 @@ public class ErrorHtmlHandler {
 	
 	@ExceptionHandler(Throwable.class)
 	protected String handleThrowable(Throwable e) {
-		log.info("## ErrorHtmlHandler, {}", e.getClass().getName());
-		log.info("message = {}", e.getMessage());
+		log.info("-------- ErrorHtmlHandler, {} --------", e.getClass().getName());
+		log.info(" message = {}", e.getMessage());
 		
 		return "forward:/error/errorPage";
 	}
 	
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	protected String handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
-		log.info("## ErrorHtmlHandler, {}", e.getClass().getSimpleName());
-		log.info("message = {}", e.getMessage());
+		log.info("-------- ErrorHtmlHandler, {} --------", e.getClass().getSimpleName());
+		log.info(" message = {}", e.getMessage());
 		
 //		if (isAjaxRequest(request)) {
 //			ErrorResponse response = ErrorResponse.create().bindingResult(e.getBindingResult());
@@ -44,8 +44,8 @@ public class ErrorHtmlHandler {
 	
 	@ExceptionHandler(ConstraintViolationException.class)
 	protected String handleConstraintViolationException(ConstraintViolationException e) {
-		log.info("## ErrorHtmlHandler, {}", e.getClass().getSimpleName());
-		log.info("message = {}", e.getMessage());
+		log.info("-------- ErrorHtmlHandler, {} --------", e.getClass().getSimpleName());
+		log.info(" message = {}", e.getMessage());
 
 //		e.getConstraintViolations().forEach(v -> {
 //			log.info("Invalid Value = {}", v.getInvalidValue());
@@ -57,8 +57,8 @@ public class ErrorHtmlHandler {
 	
 	@ExceptionHandler(BindException.class)
 	protected String handleBindException(BindException e) {
-		log.info("## ErrorHtmlHandler, {}", e.getClass().getSimpleName());
-		log.info("message = {}", e.getMessage());
+		log.info("-------- ErrorHtmlHandler, {} --------", e.getClass().getSimpleName());
+		log.info(" message = {}", e.getMessage());
 		
 //		e.getBindingResult().getFieldErrors().forEach(fieldError -> {
 //			log.info("field = {}", fieldError.getField());
@@ -70,16 +70,16 @@ public class ErrorHtmlHandler {
 	
 	@ExceptionHandler(MethodArgumentTypeMismatchException.class)
 	protected String handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e) {
-		log.info("## ErrorHtmlHandler, {}", e.getClass().getSimpleName());
-		log.info("message = {}", e.getMessage());
+		log.info("-------- ErrorHtmlHandler, {} --------", e.getClass().getSimpleName());
+		log.info(" message = {}", e.getMessage());
 		
 		return "forward:/error/errorPage";
 	}
 	
 	@ExceptionHandler(IllegalArgumentException.class)
 	protected String handleIllegalArgumentException(IllegalArgumentException e) {
-		log.info("## ErrorHtmlHandler, {}", e.getClass().getSimpleName());
-		log.info("message = {}", e.getMessage());
+		log.info("-------- ErrorHtmlHandler, {} --------", e.getClass().getSimpleName());
+		log.info(" message = {}", e.getMessage());
 		
 		return "forward:/error/errorPage";
 	}

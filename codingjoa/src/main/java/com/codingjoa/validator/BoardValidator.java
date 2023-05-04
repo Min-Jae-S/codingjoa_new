@@ -31,8 +31,8 @@ public class BoardValidator implements Validator {
 			return;
 		}
 
-		log.info("----------  BoardValidator  ----------");
-		log.info("objectName = {}", errors.getObjectName());
+		log.info("-------- BoardValidator --------");
+		log.info(" objectName = {}", errors.getObjectName());
 		
 		BoardDto boardDto = (BoardDto) target;
 		

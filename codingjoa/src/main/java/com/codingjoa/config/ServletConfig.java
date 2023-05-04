@@ -93,7 +93,7 @@ public class ServletConfig implements WebMvcConfigurer {
 	@Override
 	public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
 		System.out.print(System.lineSeparator() + System.lineSeparator());
-		log.info("----------  extendMessageConverters  ----------");
+		log.info("-------- extendMessageConverters --------");
 		converters.add(0, mappingJackson2HttpMessageConverter());
 		
 		// StringHttpMessageConverter defaults to ISO-8859-1
@@ -104,7 +104,7 @@ public class ServletConfig implements WebMvcConfigurer {
 		for (HttpMessageConverter<?> converter : converters) {
 			log.info(" {}", converter.getClass().getSimpleName());
 		}
-		log.info("-----------------------------------------------");
+		log.info("-----------------------------------------");
 		System.out.print(System.lineSeparator() + System.lineSeparator());
 	}
 	
@@ -122,8 +122,8 @@ public class ServletConfig implements WebMvcConfigurer {
 
 	@Override
 	public void configureHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
-		log.info("----------  configureHandlerExceptionResolvers  ----------");
-		log.info("----------------------------------------------------------");
+		log.info("-------- configureHandlerExceptionResolvers --------");
+		log.info("----------------------------------------------------");
 //		@SuppressWarnings("unused")
 //		HandlerExceptionResolver exceptionHandlerExceptionResolver  = resolvers.stream()
 //				.filter(resolver -> resolver instanceof ExceptionHandlerExceptionResolver)
@@ -133,12 +133,12 @@ public class ServletConfig implements WebMvcConfigurer {
 	@Override
 	public void extendHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
 		System.out.print(System.lineSeparator() + System.lineSeparator());
-		log.info("----------  extendHandlerExceptionResolvers  ----------");
+		log.info("-------- extendHandlerExceptionResolvers --------");
 		resolvers.add(0, customExceptionResolver);
 		for (HandlerExceptionResolver resovler : resolvers) {
 			log.info(" {}", resovler.getClass().getSimpleName());
 		}
-		log.info("-------------------------------------------------------");
+		log.info("-------------------------------------------------");
 		System.out.print(System.lineSeparator() + System.lineSeparator());
 	}
 	

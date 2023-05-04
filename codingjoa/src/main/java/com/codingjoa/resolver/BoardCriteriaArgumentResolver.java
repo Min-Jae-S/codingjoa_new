@@ -60,7 +60,7 @@ public class BoardCriteriaArgumentResolver implements HandlerMethodArgumentResol
 			MyNumberUtils.isNaturalNumber(page) ? Integer.parseInt(page) : DEFAULT_PAGE,
 			recordCntMap.containsKey(recordCnt) ? Integer.parseInt(recordCnt) : DEFAULT_RECORD_CNT,
 			typeMap.containsKey(type) ? type : DEFALUT_TYPE,
-			keyword == null ? null : keyword.trim()
+			keyword == null ? null : keyword.strip()
 		);
 	}
 	

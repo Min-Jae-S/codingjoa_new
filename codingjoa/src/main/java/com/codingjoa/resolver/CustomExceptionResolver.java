@@ -20,12 +20,13 @@ public class CustomExceptionResolver implements HandlerExceptionResolver {
 	@Override
 	public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler,
 			Exception ex) {
-		log.info("----------  CustomExceptionResolver  ----------");
+		log.info("-------- CustomExceptionResolver --------");
 		
 		HandlerMethod method = (HandlerMethod) handler;
-		log.info("Request URI = {}, x-requested-with = {}", getFullURI(request), request.getHeader("x-requested-with"));
-		log.info("Exception = {}", ex.getClass().getSimpleName());
-		log.info("Assigned handler = {}", (method != null) ? 
+		log.info(" request URI = {}", getFullURI(request), );
+		log.info(" x-requested-with = {}", request.getHeader("x-requested-with"));
+		log.info(" exception = {}", ex.getClass().getSimpleName());
+		log.info(" assigned handler = {}", (method != null) ? 
 				String.format("True (%s)", method.getBeanType().getSimpleName()) : "False");
 
 		return null;
