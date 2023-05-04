@@ -8,6 +8,7 @@ import java.util.TimeZone;
 
 import javax.validation.Validator;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -34,6 +35,7 @@ import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver;
 
 import com.codingjoa.resolver.BoardCriteriaArgumentResolver;
 import com.codingjoa.resolver.CommentCriteriaArgumentResolver;
@@ -48,11 +50,24 @@ import lombok.extern.slf4j.Slf4j;
 @Configuration
 @EnableWebMvc
 @PropertySource("/WEB-INF/properties/upload.properties")
-@ComponentScan(basePackages = { "com.codingjoa.controller", "com.codingjoa.validator" }) // "com.codingjoa.resolver"
+@ComponentScan(basePackages = { 
+		"com.codingjoa.controller", 
+		"com.codingjoa.validator",
+		"com.codingjoa.resolver"
+	})  
 public class ServletConfig implements WebMvcConfigurer {
 	
 	@Value("${upload.path}")
 	private String uploadPath;
+	
+	@Autowired
+	private BoardCriteriaArgumentResolver boardCriteriaArgumentResolver;
+
+	@Autowired
+	private CommentCriteriaArgumentResolver commentCriteriaArgumentResolver;
+	
+	@Autowired
+	private CustomExceptionResolver customExceptionResolver;
 	
 	@Override
 	public void configureViewResolvers(ViewResolverRegistry registry) {
@@ -122,17 +137,12 @@ public class ServletConfig implements WebMvcConfigurer {
 	public void extendHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
 		log.info("======== extendHandlerExceptionResolvers ========");
 		
-		resolvers.add(0, customExceptionResolver());
+		resolvers.add(0, customExceptionResolver);
 		resolvers.stream()
 			.forEach(resolver -> log.info("{}", resolver.getClass().getSimpleName()));
 		log.info("=================================================");
 	}
 	
-	@Bean
-	public CustomExceptionResolver customExceptionResolver() {
-		return new CustomExceptionResolver();
-	}
-
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 //		registry.addInterceptor(new BeforeUpdatePasswordInterceptor())
@@ -155,18 +165,8 @@ public class ServletConfig implements WebMvcConfigurer {
 
 	@Override
 	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
-		resolvers.add(boardCriteriaArgumentResolver());
-		resolvers.add(commentCriteriaArgumentResolver());
-	}
-	
-	@Bean
-	public BoardCriteriaArgumentResolver boardCriteriaArgumentResolver() {
-		return new BoardCriteriaArgumentResolver();
-	}
-	
-	@Bean
-	public CommentCriteriaArgumentResolver commentCriteriaArgumentResolver() {
-		return new CommentCriteriaArgumentResolver();
+		resolvers.add(boardCriteriaArgumentResolver);
+		resolvers.add(commentCriteriaArgumentResolver);
 	}
 	
 	@Bean
