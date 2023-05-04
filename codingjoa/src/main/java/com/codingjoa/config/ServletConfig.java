@@ -83,11 +83,12 @@ public class ServletConfig implements WebMvcConfigurer {
 	
 	@Override
 	public void configurePathMatch(PathMatchConfigurer configurer) {
-		log.info("======== configurePathMatch ========");
-		
+		System.out.print(System.lineSeparator() + System.lineSeparator());
+		log.info("-------- configurePathMatch --------");
 		configurer.setUseTrailingSlashMatch(true);
-		log.info("isUseTrailingSlashMatch = {}", configurer.isUseTrailingSlashMatch());
-		log.info("====================================");
+		log.info(" isUseTrailingSlashMatch = {}", configurer.isUseTrailingSlashMatch());
+		log.info("------------------------------------");
+		System.out.print(System.lineSeparator() + System.lineSeparator());
 
 		//configurer
 			//.addPathPrefix("api/", HandlerTypePredicate.forAnnotation(RestController.class));
@@ -97,7 +98,8 @@ public class ServletConfig implements WebMvcConfigurer {
 
 	@Override
 	public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
-		log.info(System.lineSeparator() + "======== extendMessageConverters ========");
+		System.out.print(System.lineSeparator() + System.lineSeparator());
+		log.info("-------- extendMessageConverters --------");
 		converters.add(0, mappingJackson2HttpMessageConverter());
 		
 		// StringHttpMessageConverter defaults to ISO-8859-1
@@ -108,7 +110,8 @@ public class ServletConfig implements WebMvcConfigurer {
 		for (HttpMessageConverter<?> converter : converters) {
 			log.info(" {}", converter.getClass().getSimpleName());
 		}
-		log.info("=========================================" + System.lineSeparator());
+		log.info("-----------------------------------------");
+		System.out.print(System.lineSeparator() + System.lineSeparator());
 	}
 	
 	@Bean
@@ -125,23 +128,26 @@ public class ServletConfig implements WebMvcConfigurer {
 
 	@Override
 	public void configureHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
-		log.info(System.lineSeparator() + "======== configureHandlerExceptionResolvers ========");
-		
+		System.out.print(System.lineSeparator() + System.lineSeparator());
+		log.info("-------- configureHandlerExceptionResolvers --------");
+		log.info("----------------------------------------------------");
 //		@SuppressWarnings("unused")
 //		HandlerExceptionResolver exceptionHandlerExceptionResolver  = resolvers.stream()
 //				.filter(resolver -> resolver instanceof ExceptionHandlerExceptionResolver)
 //				.findAny().get();
-		log.info("====================================================" + System.lineSeparator());
+		System.out.print(System.lineSeparator() + System.lineSeparator());
 	}
 
 	@Override
 	public void extendHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
-		log.info(System.lineSeparator() + "======== extendHandlerExceptionResolvers ========");
+		System.out.print(System.lineSeparator() + System.lineSeparator());
+		log.info("-------- extendHandlerExceptionResolvers --------");
 		resolvers.add(0, customExceptionResolver);
 		for (HandlerExceptionResolver resovler : resolvers) {
 			log.info(" {}", resovler.getClass().getSimpleName());
 		}
-		log.info("=================================================" + System.lineSeparator());
+		log.info("-------------------------------------------------");
+		System.out.print(System.lineSeparator() + System.lineSeparator());
 	}
 	
 	@Override
