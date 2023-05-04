@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codingjoa.annotation.CommentCri;
@@ -35,6 +36,7 @@ import lombok.extern.slf4j.Slf4j;
 // 자원(HTTP URI), 행위(HTTP Method), 표현(HTTP Message Payload)
 
 @Slf4j
+@RequestMapping("/api")
 @RestController
 public class CommentRestController {
 	

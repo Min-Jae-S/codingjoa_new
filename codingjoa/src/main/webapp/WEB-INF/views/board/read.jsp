@@ -338,28 +338,28 @@
 	</div>
 	<div class="test-div mt-5">
 		<div class="mb-4 d-flex">
-			<button class="btn btn-primary btn-sm test-item" name="commentBtn" data-idx="a">GET: comments/a</button>				
-			<button class="btn btn-primary btn-sm test-item" name="commentBtn" data-idx="9999">GET: comments/9999</button>
-			<button class="btn btn-primary btn-sm test-item" name="commentBtn" data-idx="">GET: comments/</button>
+			<button class="btn btn-primary btn-sm test-item" name="commentBtn" data-idx="a">GET: api/comments/a</button>				
+			<button class="btn btn-primary btn-sm test-item" name="commentBtn" data-idx="9999">GET: api/comments/9999</button>
+			<button class="btn btn-primary btn-sm test-item" name="commentBtn" data-idx="">GET: api/comments/</button>
 		</div>
 		<div class="mb-4 d-flex">				
-			<button class="btn btn-info btn-sm test-item" name="commentListBtn" data-idx="a">GET: boards/a/comments</button>				
+			<button class="btn btn-info btn-sm test-item" name="commentListBtn" data-idx="a">GET: api/boards/a/comments</button>				
 			<button class="btn btn-info btn-sm test-item" name="commentListBtn" data-idx="9999">GET: boards/9999/comments</button>					
-			<button class="btn btn-info btn-sm test-item" name="commentListBtn" data-idx="">GET: boards//comments</button>					
+			<button class="btn btn-info btn-sm test-item" name="commentListBtn" data-idx="">GET: api/boards//comments</button>					
 		</div>
 		<div class="mb-4 d-flex">			
-			<button class="btn btn-warning btn-sm test-item" name="patchBtn" data-idx="a">PATCH: comments/a</button>				
-			<button class="btn btn-warning btn-sm test-item" name="patchBtn" data-idx="9999">PATCH: comments/9999</button>					
-			<button class="btn btn-warning btn-sm test-item" name="patchBtn" data-idx="">PATCH: comments/</button>					
+			<button class="btn btn-warning btn-sm test-item" name="patchBtn" data-idx="a">PATCH: api/comments/a</button>				
+			<button class="btn btn-warning btn-sm test-item" name="patchBtn" data-idx="9999">PATCH: api/comments/9999</button>					
+			<button class="btn btn-warning btn-sm test-item" name="patchBtn" data-idx="">PATCH: api/comments/</button>					
 		</div>
 		<div class="mb-4 d-flex">				
-			<button class="btn btn-danger btn-sm test-item" name="deleteBtn" data-idx="a">DELETE: comments/a</button>				
-			<button class="btn btn-danger btn-sm test-item" name="deleteBtn" data-idx="9999">DELETE: comments/9999</button>					
-			<button class="btn btn-danger btn-sm test-item" name="deleteBtn" data-idx="">DELETE: comments/</button>					
+			<button class="btn btn-danger btn-sm test-item" name="deleteBtn" data-idx="a">DELETE: api/comments/a</button>				
+			<button class="btn btn-danger btn-sm test-item" name="deleteBtn" data-idx="9999">DELETE: api/comments/9999</button>					
+			<button class="btn btn-danger btn-sm test-item" name="deleteBtn" data-idx="">DELETE: api/comments/</button>					
 		</div>
 		<div class="mb-4 d-flex">				
-			<button class="btn btn-dark btn-sm test-item" name="apiBtn" data-api="false">DELETE: comments/9999</button>				
 			<button class="btn btn-dark btn-sm test-item" name="apiBtn" data-api="true">DELETE: api/comments/9999</button>					
+			<button class="btn btn-dark btn-sm test-item" name="apiBtn" data-api="false">DELETE: comments/9999</button>				
 		</div>
 	</div>
 </div>
@@ -371,7 +371,7 @@
 		let boardIdx = "<c:out value='${boardDetails.boardIdx}'/>";
 		let boardCategoryCode = "<c:out value='${boardDetails.boardCategoryCode}'/>";
 		let boardWriterIdx = "<c:out value='${boardDetails.boardWriterIdx}'/>";
-		let commentListURL = "${contextPath}/boards/" + boardIdx + "/comments";
+		let commentListURL = "${contextPath}/api/boards/" + boardIdx + "/comments";
 		
 		commentService.getCommentList(commentListURL , function(result) {
 			let commentList = result.data;
@@ -382,7 +382,7 @@
 		});
 		
 		$("button[name='commentBtn']").on("click", function() {
-			let url = "${contextPath}/comments/" + $(this).data("idx");
+			let url = "${contextPath}/api/comments/" + $(this).data("idx");
 			console.log("## Request URL = " + url);
 			commentService.getComment(url , function(result) {
 				// ... 
@@ -390,7 +390,7 @@
 		});
 
 		$("button[name='commentListBtn']").on("click", function() {
-			let url = "${contextPath}/boards/" + $(this).data("idx") + "/comments";
+			let url = "${contextPath}/api/boards/" + $(this).data("idx") + "/comments";
 			console.log("## Request URL = " + url);
 			commentService.getCommentList(url, function(result) { 
 				// ... 
@@ -399,7 +399,7 @@
 
 		$("button[name='patchBtn']").on("click", function() {
 			let comment = null;
-			let url = "${contextPath}/comments/" + $(this).data("idx");
+			let url = "${contextPath}/api/comments/" + $(this).data("idx");
 			console.log("## Request URL = " + url);
 			commentService.modifyComment(url, comment, function(result) { 
 				// ...
@@ -407,7 +407,7 @@
 		});
 
 		$("button[name='deleteBtn']").on("click", function() {
-			let url = "${contextPath}/comments/" + $(this).data("idx");
+			let url = "${contextPath}/api/comments/" + $(this).data("idx");
 			console.log("## Request URL = " + url);
 			commentService.deleteComment(url, function(result) { 
 				// ... 
