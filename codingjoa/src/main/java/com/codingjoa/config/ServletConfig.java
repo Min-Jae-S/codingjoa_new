@@ -35,9 +35,11 @@ import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver;
 
 import com.codingjoa.resolver.BoardCriteriaArgumentResolver;
 import com.codingjoa.resolver.CommentCriteriaArgumentResolver;
+import com.codingjoa.resolver.CustomExceptionResolver;
 import com.codingjoa.util.MessageUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
@@ -64,10 +66,11 @@ public class ServletConfig implements WebMvcConfigurer {
 	@Autowired
 	private CommentCriteriaArgumentResolver commentCriteriaArgumentResolver;
 	
+	@Autowired
+	private CustomExceptionResolver customExceptionResolver;
+	
 	@Override
 	public void configureViewResolvers(ViewResolverRegistry registry) {
-		// TODO Auto-generated method stub
-		WebMvcConfigurer.super.configureViewResolvers(registry);
 		registry.jsp("/WEB-INF/views/", ".jsp");
 	}
 
@@ -84,7 +87,7 @@ public class ServletConfig implements WebMvcConfigurer {
 		log.info("======== configurePathMatch ========");
 		
 		configurer.setUseTrailingSlashMatch(true);
-		log.info(" isUseTrailingSlashMatch = {}", configurer.isUseTrailingSlashMatch());
+		log.info("isUseTrailingSlashMatch = {}", configurer.isUseTrailingSlashMatch());
 		log.info("====================================");
 
 		//configurer
@@ -95,22 +98,36 @@ public class ServletConfig implements WebMvcConfigurer {
 
 	@Override
 	public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
-		WebMvcConfigurer.super.extendMessageConverters(converters);
+		log.info("======== extendMessageConverters ========");
 		converters.add(0, mappingJackson2HttpMessageConverter());
 		
 		// StringHttpMessageConverter defaults to ISO-8859-1
 		converters.stream()
 			.filter(converter -> converter instanceof StringHttpMessageConverter)
 			.forEach(converter -> ((StringHttpMessageConverter) converter).setDefaultCharset(StandardCharsets.UTF_8));
+		
+		converters.stream()
+			.forEach(converter -> log.info("{}", converter.getClass().getSimpleName()));
+		log.info("=========================================");
 	}
 	
+	@Override
+	public void configureHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
+		log.info("======== configureHandlerExceptionResolvers ========");
+		
+//		HandlerExceptionResolver exceptionHandlerExceptionResolver  = resolvers.stream()
+//				.filter(resolver -> resolver instanceof ExceptionHandlerExceptionResolver)
+//				.findAny().get();
+		log.info("====================================================");
+	}
+
 	@Override
 	public void extendHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
 		log.info("======== extendHandlerExceptionResolvers ========");
 		
-		for (HandlerExceptionResolver r : resolvers) {
-			log.info(" resolvers = {}", r.getClass().getSimpleName());
-		}
+		resolvers.add(0, customExceptionResolver);
+		resolvers.stream()
+			.forEach(resolver -> log.info("{}", resolver.getClass().getSimpleName()));
 		log.info("=================================================");
 	}
 
