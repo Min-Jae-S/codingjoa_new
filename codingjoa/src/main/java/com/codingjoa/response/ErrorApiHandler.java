@@ -23,7 +23,7 @@ public class ErrorApiHandler {
 	
 	@ExceptionHandler(Exception.class)
 	protected ResponseEntity<Object> handleException(Exception e) {
-		log.info("## ErrorRestHandler, {}", e.getClass().getName());
+		log.info("## ErrorApiHandler, {}", e.getClass().getName());
 		log.info("message = {}", e.getMessage());
 		
 		ErrorResponse errorResponse = ErrorResponse.create().errorCode("error.Default");
@@ -34,7 +34,7 @@ public class ErrorApiHandler {
 	
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	protected ResponseEntity<Object> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
-		log.info("## ErrorRestHandler, {}", e.getClass().getSimpleName());
+		log.info("## ErrorApiHandler, {}", e.getClass().getSimpleName());
 		log.info("message = {}", e.getMessage());
 		
 		ErrorResponse errorResponse = ErrorResponse.create().bindingResult(e.getBindingResult());
@@ -45,7 +45,7 @@ public class ErrorApiHandler {
 	
 	@ExceptionHandler(ConstraintViolationException.class)
 	protected ResponseEntity<Object> handleConstraintViolationException(ConstraintViolationException e) {
-		log.info("## ErrorRestHandler, {}", e.getClass().getSimpleName());
+		log.info("## ErrorApiHandler, {}", e.getClass().getSimpleName());
 		log.info("message = {}", e.getMessage());
 
 		return null;
@@ -54,7 +54,7 @@ public class ErrorApiHandler {
 	@ExceptionHandler(HttpRequestMethodNotSupportedException.class)
 	protected ResponseEntity<Object> handleHttpRequestMethodNotSupportedException(
 			HttpRequestMethodNotSupportedException e) {
-		log.info("## ErrorRestHandler, {}", e.getClass().getSimpleName());
+		log.info("## ErrorApiHandler, {}", e.getClass().getSimpleName());
 		log.info("message = {}", e.getMessage());
 		
 		ErrorResponse errorResponse = ErrorResponse.create().errorCode("error.NotFound");
@@ -65,7 +65,7 @@ public class ErrorApiHandler {
 	
 	@ExceptionHandler(MethodArgumentTypeMismatchException.class)
 	public ResponseEntity<Object> handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e) {
-		log.info("## ErrorRestHandler, {}", e.getClass().getSimpleName());
+		log.info("## ErrorApiHandler, {}", e.getClass().getSimpleName());
 		log.info("message = {}", e.getMessage());
 		
 		ErrorResponse errorResponse = ErrorResponse.create().errorMessage(e.getMessage());
@@ -76,7 +76,7 @@ public class ErrorApiHandler {
 	
 	@ExceptionHandler(IllegalArgumentException.class)
 	protected ResponseEntity<Object> handleIllegalArgumentException(IllegalArgumentException e) {
-		log.info("## ErrorRestHandler, {}", e.getClass().getSimpleName());
+		log.info("## ErrorApiHandler, {}", e.getClass().getSimpleName());
 		log.info("message = {}", e.getMessage());
 		
 		ErrorResponse errorResponse = ErrorResponse.create().errorMessage(e.getMessage());
@@ -87,7 +87,7 @@ public class ErrorApiHandler {
 	
 	@ExceptionHandler(MaxUploadSizeExceededException.class)
 	protected ResponseEntity<Object> handleMaxUploadSizeExceededException(MaxUploadSizeExceededException e) {
-		log.info("## ErrorRestHandler, {}", e.getClass().getSimpleName());
+		log.info("## ErrorApiHandler, {}", e.getClass().getSimpleName());
 		log.info("message = {}", e.getMessage());
 		
 		ErrorResponse errorResponse = ErrorResponse.create().errorCode("error.ExceedSize");

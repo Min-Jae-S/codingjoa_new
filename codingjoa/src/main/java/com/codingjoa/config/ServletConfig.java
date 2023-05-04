@@ -25,8 +25,6 @@ import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.method.HandlerTypePredicate;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
@@ -83,10 +81,13 @@ public class ServletConfig implements WebMvcConfigurer {
 	
 	@Override
 	public void configurePathMatch(PathMatchConfigurer configurer) {
-		configurer
+		log.info("======== configurePathMatch ========");
+		log.info("  >> isUseTrailingSlashMatch = {}", configurer.isUseTrailingSlashMatch());
+		//configurer
+			//.addPathPrefix("api/", HandlerTypePredicate.forAnnotation(RestController.class));
 			//.setUseCaseSensitiveMatch(true)
 			//.setUseTrailingSlashMatch(true)
-			.addPathPrefix("api/", HandlerTypePredicate.forAnnotation(RestController.class));
+		
 	}
 
 	@Override
@@ -105,7 +106,7 @@ public class ServletConfig implements WebMvcConfigurer {
 		log.info("======== extendHandlerExceptionResolvers ========");
 		
 		for (HandlerExceptionResolver r : resolvers) {
-			log.info("	>> resolvers = {}", r.getClass().getSimpleName());
+			log.info("  >> resolvers = {}", r.getClass().getSimpleName());
 		}
 	}
 
