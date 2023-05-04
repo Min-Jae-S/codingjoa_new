@@ -109,7 +109,7 @@ public class ServletConfig implements WebMvcConfigurer {
 		log.info("======== extendHandlerExceptionResolvers ========");
 		
 		for (HandlerExceptionResolver r : resolvers) {
-			log.info("resolvers = {}", r.getClass().getSimpleName());
+			log.info(" resolvers = {}", r.getClass().getSimpleName());
 		}
 		log.info("=================================================");
 	}
