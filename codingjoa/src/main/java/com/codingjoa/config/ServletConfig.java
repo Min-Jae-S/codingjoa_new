@@ -97,7 +97,7 @@ public class ServletConfig implements WebMvcConfigurer {
 
 	@Override
 	public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
-		log.info("======== extendMessageConverters ========");
+		log.info(System.lineSeparator() + "======== extendMessageConverters ========");
 		converters.add(0, mappingJackson2HttpMessageConverter());
 		
 		// StringHttpMessageConverter defaults to ISO-8859-1
@@ -105,9 +105,10 @@ public class ServletConfig implements WebMvcConfigurer {
 			.filter(converter -> converter instanceof StringHttpMessageConverter)
 			.forEach(converter -> ((StringHttpMessageConverter) converter).setDefaultCharset(StandardCharsets.UTF_8));
 		
-		converters.stream()
-			.forEach(converter -> log.info("{}", converter.getClass().getSimpleName()));
-		log.info("=========================================");
+		for (HttpMessageConverter<?> converter : converters) {
+			log.info(" {}", converter.getClass().getSimpleName());
+		}
+		log.info("=========================================" + System.lineSeparator());
 	}
 	
 	@Bean
@@ -121,25 +122,26 @@ public class ServletConfig implements WebMvcConfigurer {
 		
 		return new MappingJackson2HttpMessageConverter(objectMapper);
 	}
-	
+
 	@Override
 	public void configureHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
-		log.info("======== configureHandlerExceptionResolvers ========");
+		log.info(System.lineSeparator() + "======== configureHandlerExceptionResolvers ========");
 		
+//		@SuppressWarnings("unused")
 //		HandlerExceptionResolver exceptionHandlerExceptionResolver  = resolvers.stream()
 //				.filter(resolver -> resolver instanceof ExceptionHandlerExceptionResolver)
 //				.findAny().get();
-		log.info("====================================================");
+		log.info("====================================================" + System.lineSeparator());
 	}
 
 	@Override
 	public void extendHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
-		log.info("======== extendHandlerExceptionResolvers ========");
-		
+		log.info(System.lineSeparator() + "======== extendHandlerExceptionResolvers ========");
 		resolvers.add(0, customExceptionResolver);
-		resolvers.stream()
-			.forEach(resolver -> log.info("{}", resolver.getClass().getSimpleName()));
-		log.info("=================================================");
+		for (HandlerExceptionResolver resovler : resolvers) {
+			log.info(" {}", resovler.getClass().getSimpleName());
+		}
+		log.info("=================================================" + System.lineSeparator());
 	}
 	
 	@Override
