@@ -23,7 +23,7 @@ public class CustomExceptionResolver implements HandlerExceptionResolver {
 		log.info("-------- CustomExceptionResolver --------");
 		
 		HandlerMethod method = (HandlerMethod) handler;
-		log.info(" request URI = {}", getFullURI(request), );
+		log.info(" uri = {}", getFullURI(request));
 		log.info(" x-requested-with = {}", request.getHeader("x-requested-with"));
 		log.info(" exception = {}", ex.getClass().getSimpleName());
 		log.info(" assigned handler = {}", (method != null) ? 
