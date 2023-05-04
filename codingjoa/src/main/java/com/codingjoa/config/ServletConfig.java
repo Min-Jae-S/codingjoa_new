@@ -8,7 +8,6 @@ import java.util.TimeZone;
 
 import javax.validation.Validator;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -35,7 +34,6 @@ import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver;
 
 import com.codingjoa.resolver.BoardCriteriaArgumentResolver;
 import com.codingjoa.resolver.CommentCriteriaArgumentResolver;
@@ -50,24 +48,11 @@ import lombok.extern.slf4j.Slf4j;
 @Configuration
 @EnableWebMvc
 @PropertySource("/WEB-INF/properties/upload.properties")
-@ComponentScan(basePackages = { 
-		"com.codingjoa.controller",
-		"com.codingjoa.validator", 
-		"com.codingjoa.resolver" 
-	})
+@ComponentScan(basePackages = { "com.codingjoa.controller", "com.codingjoa.validator" }) // "com.codingjoa.resolver"
 public class ServletConfig implements WebMvcConfigurer {
 	
 	@Value("${upload.path}")
 	private String uploadPath;
-	
-	@Autowired
-	private BoardCriteriaArgumentResolver criteriaArgumentResolver;
-	
-	@Autowired
-	private CommentCriteriaArgumentResolver commentCriteriaArgumentResolver;
-	
-	@Autowired
-	private CustomExceptionResolver customExceptionResolver;
 	
 	@Override
 	public void configureViewResolvers(ViewResolverRegistry registry) {
@@ -111,6 +96,18 @@ public class ServletConfig implements WebMvcConfigurer {
 		log.info("=========================================");
 	}
 	
+	@Bean
+	public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter() {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:ss:mm");
+		ObjectMapper objectMapper = Jackson2ObjectMapperBuilder
+				.json()
+				.timeZone(TimeZone.getTimeZone("Asia/Seoul")) // @JsonFormat(timezone = "Asia/Seoul")
+				.serializerByType(LocalDateTime.class, new LocalDateTimeSerializer(formatter))
+				.build();
+		
+		return new MappingJackson2HttpMessageConverter(objectMapper);
+	}
+	
 	@Override
 	public void configureHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
 		log.info("======== configureHandlerExceptionResolvers ========");
@@ -125,22 +122,15 @@ public class ServletConfig implements WebMvcConfigurer {
 	public void extendHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
 		log.info("======== extendHandlerExceptionResolvers ========");
 		
-		resolvers.add(0, customExceptionResolver);
+		resolvers.add(0, customExceptionResolver());
 		resolvers.stream()
 			.forEach(resolver -> log.info("{}", resolver.getClass().getSimpleName()));
 		log.info("=================================================");
 	}
-
+	
 	@Bean
-	public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter() {
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:ss:mm");
-		ObjectMapper objectMapper = Jackson2ObjectMapperBuilder
-				.json()
-				.timeZone(TimeZone.getTimeZone("Asia/Seoul")) // @JsonFormat(timezone = "Asia/Seoul")
-				.serializerByType(LocalDateTime.class, new LocalDateTimeSerializer(formatter))
-				.build();
-		
-		return new MappingJackson2HttpMessageConverter(objectMapper);
+	public CustomExceptionResolver customExceptionResolver() {
+		return new CustomExceptionResolver();
 	}
 
 	@Override
@@ -165,8 +155,18 @@ public class ServletConfig implements WebMvcConfigurer {
 
 	@Override
 	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
-		resolvers.add(criteriaArgumentResolver);
-		resolvers.add(commentCriteriaArgumentResolver);
+		resolvers.add(boardCriteriaArgumentResolver());
+		resolvers.add(commentCriteriaArgumentResolver());
+	}
+	
+	@Bean
+	public BoardCriteriaArgumentResolver boardCriteriaArgumentResolver() {
+		return new BoardCriteriaArgumentResolver();
+	}
+	
+	@Bean
+	public CommentCriteriaArgumentResolver commentCriteriaArgumentResolver() {
+		return new CommentCriteriaArgumentResolver();
 	}
 	
 	@Bean
