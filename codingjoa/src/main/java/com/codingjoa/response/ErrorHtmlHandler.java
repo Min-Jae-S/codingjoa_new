@@ -16,9 +16,9 @@ import lombok.extern.slf4j.Slf4j;
 @ControllerAdvice
 public class ErrorHtmlHandler {
 	
-	@ExceptionHandler(Throwable.class)
-	protected String handleThrowable(Throwable e) {
-		log.info("-------- ErrorHtmlHandler, {} --------", e.getClass().getName());
+	@ExceptionHandler(RuntimeException.class)
+	protected String handleRuntimeException(RuntimeException e) {
+		log.info("[ ErrorHtmlHandler ] {}", e.getClass().getName());
 		log.info(" message = {}", e.getMessage());
 		
 		return "forward:/error/errorPage";
@@ -26,7 +26,7 @@ public class ErrorHtmlHandler {
 	
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	protected String handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
-		log.info("-------- ErrorHtmlHandler, {} --------", e.getClass().getSimpleName());
+		log.info("[ ErrorHtmlHandler ] {}", e.getClass().getSimpleName());
 		log.info(" message = {}", e.getMessage());
 		
 //		if (isAjaxRequest(request)) {
@@ -44,7 +44,7 @@ public class ErrorHtmlHandler {
 	
 	@ExceptionHandler(ConstraintViolationException.class)
 	protected String handleConstraintViolationException(ConstraintViolationException e) {
-		log.info("-------- ErrorHtmlHandler, {} --------", e.getClass().getSimpleName());
+		log.info("[ ErrorHtmlHandler ] {}", e.getClass().getSimpleName());
 		log.info(" message = {}", e.getMessage());
 
 //		e.getConstraintViolations().forEach(v -> {
@@ -57,7 +57,7 @@ public class ErrorHtmlHandler {
 	
 	@ExceptionHandler(BindException.class)
 	protected String handleBindException(BindException e) {
-		log.info("-------- ErrorHtmlHandler, {} --------", e.getClass().getSimpleName());
+		log.info("[ ErrorHtmlHandler ] {}", e.getClass().getSimpleName());
 		log.info(" message = {}", e.getMessage());
 		
 //		e.getBindingResult().getFieldErrors().forEach(fieldError -> {
@@ -70,7 +70,7 @@ public class ErrorHtmlHandler {
 	
 	@ExceptionHandler(MethodArgumentTypeMismatchException.class)
 	protected String handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e) {
-		log.info("-------- ErrorHtmlHandler, {} --------", e.getClass().getSimpleName());
+		log.info("[ ErrorHtmlHandler ] {}", e.getClass().getSimpleName());
 		log.info(" message = {}", e.getMessage());
 		
 		return "forward:/error/errorPage";
@@ -78,7 +78,7 @@ public class ErrorHtmlHandler {
 	
 	@ExceptionHandler(IllegalArgumentException.class)
 	protected String handleIllegalArgumentException(IllegalArgumentException e) {
-		log.info("-------- ErrorHtmlHandler, {} --------", e.getClass().getSimpleName());
+		log.info("[ ErrorHtmlHandler ] {}", e.getClass().getSimpleName());
 		log.info(" message = {}", e.getMessage());
 		
 		return "forward:/error/errorPage";

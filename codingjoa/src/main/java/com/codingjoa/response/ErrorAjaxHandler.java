@@ -21,9 +21,9 @@ import lombok.extern.slf4j.Slf4j;
 @RestControllerAdvice(annotations = RestController.class)
 public class ErrorAjaxHandler {
 	
-	@ExceptionHandler(Throwable.class)
-	protected ResponseEntity<Object> handleThrowable(Throwable e) {
-		log.info("-------- ErrorAjaxHandler, {} --------", e.getClass().getName());
+	@ExceptionHandler(RuntimeException.class)
+	protected ResponseEntity<Object> handleRuntimeException(RuntimeException e) {
+		log.info("[ ErrorAjaxHandler ] {}", e.getClass().getName());
 		log.info(" message = {}", e.getMessage());
 		
 		ErrorResponse errorResponse = ErrorResponse.create().errorCode("error.Default");
@@ -34,7 +34,7 @@ public class ErrorAjaxHandler {
 	
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	protected ResponseEntity<Object> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
-		log.info("-------- ErrorApiHandler, {} --------", e.getClass().getSimpleName());
+		log.info("[ ErrorAjaxHandler ] {}", e.getClass().getSimpleName());
 		log.info(" message = {}", e.getMessage());
 		
 		ErrorResponse errorResponse = ErrorResponse.create().bindingResult(e.getBindingResult());
@@ -45,7 +45,7 @@ public class ErrorAjaxHandler {
 	
 	@ExceptionHandler(ConstraintViolationException.class)
 	protected ResponseEntity<Object> handleConstraintViolationException(ConstraintViolationException e) {
-		log.info("-------- ErrorAjaxHandler, {} --------", e.getClass().getSimpleName());
+		log.info("[ ErrorAjaxHandler ] {}", e.getClass().getSimpleName());
 		log.info(" message = {}", e.getMessage());
 		
 		ErrorResponse errorResponse = ErrorResponse.create().errorMessage(e.getMessage());
@@ -57,7 +57,7 @@ public class ErrorAjaxHandler {
 	@ExceptionHandler(HttpRequestMethodNotSupportedException.class)
 	protected ResponseEntity<Object> handleHttpRequestMethodNotSupportedException(
 			HttpRequestMethodNotSupportedException e) {
-		log.info("-------- ErrorAjaxHandler, {} --------", e.getClass().getSimpleName());
+		log.info("[ ErrorAjaxHandler ] {}", e.getClass().getSimpleName());
 		log.info(" message = {}", e.getMessage());
 		
 		ErrorResponse errorResponse = ErrorResponse.create().errorCode("error.NotFound");
@@ -68,7 +68,7 @@ public class ErrorAjaxHandler {
 	
 	@ExceptionHandler(MethodArgumentTypeMismatchException.class)
 	public ResponseEntity<Object> handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e) {
-		log.info("-------- ErrorAjaxHandler, {} --------", e.getClass().getSimpleName());
+		log.info("[ ErrorAjaxHandler ] {}", e.getClass().getSimpleName());
 		log.info(" message = {}", e.getMessage());
 		
 		ErrorResponse errorResponse = ErrorResponse.create().errorMessage(e.getMessage());
@@ -79,7 +79,7 @@ public class ErrorAjaxHandler {
 	
 	@ExceptionHandler(IllegalArgumentException.class)
 	protected ResponseEntity<Object> handleIllegalArgumentException(IllegalArgumentException e) {
-		log.info("-------- ErrorAjaxHandler, {} --------", e.getClass().getSimpleName());
+		log.info("[ ErrorAjaxHandler ] {}", e.getClass().getSimpleName());
 		log.info(" message = {}", e.getMessage());
 		
 		ErrorResponse errorResponse = ErrorResponse.create().errorMessage(e.getMessage());
@@ -90,7 +90,7 @@ public class ErrorAjaxHandler {
 	
 	@ExceptionHandler(MaxUploadSizeExceededException.class)
 	protected ResponseEntity<Object> handleMaxUploadSizeExceededException(MaxUploadSizeExceededException e) {
-		log.info("-------- ErrorAjaxHandler, {} --------", e.getClass().getSimpleName() );
+		log.info("[ ErrorAjaxHandler ] {}", e.getClass().getSimpleName());
 		log.info(" message = {}", e.getMessage());
 		
 		ErrorResponse errorResponse = ErrorResponse.create().errorCode("error.ExceedSize");

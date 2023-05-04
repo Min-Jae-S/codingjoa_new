@@ -83,7 +83,7 @@ public class ServletConfig implements WebMvcConfigurer {
 	
 	@Override
 	public void configurePathMatch(PathMatchConfigurer configurer) {
-		configurer.setUseTrailingSlashMatch(true);
+		//configurer.setUseTrailingSlashMatch(true);
 		//configurer
 			//.addPathPrefix("api/", HandlerTypePredicate.forAnnotation(RestController.class));
 			//.setUseCaseSensitiveMatch(true)
@@ -121,6 +121,10 @@ public class ServletConfig implements WebMvcConfigurer {
 	public void configureHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
 		log.info("-------- configureHandlerExceptionResolvers --------");
 		
+		for (HandlerExceptionResolver resovler : resolvers) {
+			log.info(" {}", resovler.getClass().getSimpleName());
+		}
+		
 //		@SuppressWarnings("unused")
 //		HandlerExceptionResolver exceptionHandlerExceptionResolver  = resolvers.stream()
 //				.filter(resolver -> resolver instanceof ExceptionHandlerExceptionResolver)
@@ -129,8 +133,8 @@ public class ServletConfig implements WebMvcConfigurer {
 
 	@Override
 	public void extendHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
-		System.out.print(System.lineSeparator() + System.lineSeparator());
 		log.info("-------- extendHandlerExceptionResolvers --------");
+		
 		resolvers.add(0, customExceptionResolver);
 		for (HandlerExceptionResolver resovler : resolvers) {
 			log.info(" {}", resovler.getClass().getSimpleName());

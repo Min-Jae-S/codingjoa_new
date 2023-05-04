@@ -4,9 +4,9 @@
 <configuration debug="true">
 	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
 		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-			<!-- <pattern>%d{HH:mm:ss.SSS}[%-5level] %logger{36}.%method\(%line\) - %msg%n</pattern> -->
+			<pattern><!-- %d{HH:mm:ss.SSS} -->[%-5level] %logger{36}.%method\(%line\) - %msg%n</pattern>
 			<!-- <pattern>[%-5level] %logger{0}.%method: %msg%n</pattern> -->
-			<pattern>[%-5p] %C{0}.%M\(%L\) - %m%n</pattern>
+			<!-- <pattern>[%-5p] %C{0}.%M\(%L\) - %m%n</pattern> -->
 		</encoder>
 	</appender>
 
