@@ -12,13 +12,14 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Component
 public class CustomExceptionResolver implements HandlerExceptionResolver {
-	
+
 	@Override
 	public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler,
 			Exception ex) {
 		log.info("======== CustomExceptionResolver ========");
-		log.info("handler = {}", handler);
-		
+		log.info("uri = {}", request.getRequestURI());
+		log.info("x-requested-with = {}", request.getHeader("x-requested-with"));
+
 		return null;
 	}
 }
