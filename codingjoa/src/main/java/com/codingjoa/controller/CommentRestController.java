@@ -35,7 +35,7 @@ import lombok.extern.slf4j.Slf4j;
 // 자원(HTTP URI), 행위(HTTP Method), 표현(HTTP Message Payload)
 
 @Slf4j
-@RestController
+@RestController("/api")
 public class CommentRestController {
 	
 	@Autowired
