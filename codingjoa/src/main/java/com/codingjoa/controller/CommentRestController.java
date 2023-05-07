@@ -84,6 +84,15 @@ public class CommentRestController {
 		return ResponseEntity.ok(SuccessResponse.create().data(commentList));
 	}
 	
+	@RequestMapping("/comments/{commentIdx}")
+	public ResponseEntity<Object> getComment1(@PathVariable("commentIdx") int commentIdx) {
+		log.info("commentIdx = {}", commentIdx);
+		
+		CommentDetailsDto commentDetails = commentService.getCommentDetails(commentIdx);
+		
+		return ResponseEntity.ok(SuccessResponse.create().data(commentDetails));
+	}
+	
 	@GetMapping("/comments/{commentIdx}")
 	public ResponseEntity<Object> getComment(@PathVariable("commentIdx") int commentIdx) {
 		log.info("commentIdx = {}", commentIdx);
