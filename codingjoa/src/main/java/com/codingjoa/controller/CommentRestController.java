@@ -102,7 +102,7 @@ public class CommentRestController {
 	
 	
 	@DeleteMapping("/comments/{commentIdx}")
-	public ResponseEntity<Object> deleteComment(@PathVariable Integer commentIdx) {
+	public ResponseEntity<Object> deleteComment(@PathVariable int commentIdx) {
 		log.info("commentIdx = {}", commentIdx);
 		commentService.deleteComment(commentIdx);
 		

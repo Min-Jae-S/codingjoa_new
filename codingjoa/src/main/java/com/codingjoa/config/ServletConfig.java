@@ -80,17 +80,18 @@ public class ServletConfig implements WebMvcConfigurer {
 		registry.addResourceHandler("/upload/**")
 				.addResourceLocations("file:///" + uploadPath);
 	}
-	
+
 	@Override
 	public void configurePathMatch(PathMatchConfigurer configurer) {
-		log.info("-------- extendMessageConverters --------");
-		log.info("isUseTrailingSlashMatch = {}", configurer.isUseTrailingSlashMatch());
+		log.info("-------- configurePathMatch --------");
+		configurer.setUseTrailingSlashMatch(false);
+		configurer.setUseSuffixPatternMatch(false);
 		
-		//configurer.setUseTrailingSlashMatch(true);
-		//configurer
-			//.addPathPrefix("api/", HandlerTypePredicate.forAnnotation(RestController.class));
-			//.setUseCaseSensitiveMatch(true)
-			//.setUseTrailingSlashMatch(true)
+		log.info("isUseTrailingSlashMatch = {}", configurer.isUseTrailingSlashMatch());
+		log.info("isUseSuffixPatternMatch = {}", configurer.isUseSuffixPatternMatch());
+		log.info("isUseRegisteredSuffixPatternMatch = {}", configurer.isUseRegisteredSuffixPatternMatch());
+		
+		WebMvcConfigurer.super.configurePathMatch(configurer);
 	}
 
 	@Override
