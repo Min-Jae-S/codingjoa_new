@@ -361,6 +361,12 @@
 			<button class="btn btn-secondary btn-sm test-item" name="apiBtn" data-api="true">DELETE: api/comments/9999</button>					
 			<button class="btn btn-secondary btn-sm test-item" name="apiBtn" data-api="false">DELETE: comments/9999</button>				
 		</div>
+		<div class="mb-4 d-flex">				
+			<button class="btn btn-success btn-sm test-item" name="testBtn" 
+				data-url="${contextPath}/api/comments">GET: api/comments</button>					
+			<button class="btn btn-success btn-sm test-item" name="testBtn" 
+				data-url="${contextPath}/api/comments/">GET: api/comments/</button>					
+		</div>
 	</div>
 </div>
 
@@ -426,7 +432,12 @@
 		});
 
 		$("button[name='testBtn']").on("click", function() {
+			let url = $(this).data("url");
 			console.log("## Request URL = " + url);
+			
+			commentService.getComment(url, function(result) {
+				// ...
+			});
 		});
 		/* ********************************************************************************* */
 		/* ********************************************************************************* */
