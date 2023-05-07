@@ -358,8 +358,8 @@
 			<button class="btn btn-danger btn-sm test-item" name="deleteBtn" data-idx="">DELETE: api/comments/</button>					
 		</div>
 		<div class="mb-4 d-flex">				
-			<button class="btn btn-dark btn-sm test-item" name="apiBtn" data-api="true">DELETE: api/comments/9999</button>					
-			<button class="btn btn-dark btn-sm test-item" name="apiBtn" data-api="false">DELETE: comments/9999</button>				
+			<button class="btn btn-secondary btn-sm test-item" name="apiBtn" data-api="true">DELETE: api/comments/9999</button>					
+			<button class="btn btn-secondary btn-sm test-item" name="apiBtn" data-api="false">DELETE: comments/9999</button>				
 		</div>
 	</div>
 </div>
@@ -380,7 +380,9 @@
 				$(".comment-list").html(html);
 			}
 		});
-		
+
+		/* ********************************************************************************* */
+		/* ********************************************************************************* */
 		$("button[name='commentBtn']").on("click", function() {
 			let url = "${contextPath}/api/comments/" + $(this).data("idx");
 			console.log("## Request URL = " + url);
@@ -422,6 +424,14 @@
 				// ... 
 			});
 		});
+
+		$("button[name='testBtn']").on("click", function() {
+			console.log("## Request URL = " + url);
+		});
+		/* ********************************************************************************* */
+		/* ********************************************************************************* */
+		
+		
 		
 		$("#deleteBoardLink").on("click", function() {
 			return confirm("게시글을 삭제하시겠습니까?");

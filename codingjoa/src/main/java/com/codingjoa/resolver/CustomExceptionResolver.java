@@ -23,10 +23,10 @@ public class CustomExceptionResolver implements HandlerExceptionResolver {
 		log.info("-------- CustomExceptionResolver --------");
 		
 		HandlerMethod method = (HandlerMethod) handler;
-		log.info("uri = {}", getFullURI(request));
-		log.info("x-requested-with = {}", request.getHeader("x-requested-with"));
-		log.info("exception = {}", ex.getClass().getSimpleName());
-		log.info("assigned handler = {}", (method != null) ? method.getBeanType().getSimpleName() : method);
+		log.info("URI = {}", getFullURI(request));
+		log.info("X-Requested-With = {}", request.getHeader("X-Requested-With"));
+		log.info("Exception = {}", ex.getClass().getSimpleName());
+		log.info("Assigned handler = {}", (method != null) ? method.getBeanType().getSimpleName() : "No handler");
 
 		return null;
 	}
