@@ -83,6 +83,9 @@ public class ServletConfig implements WebMvcConfigurer {
 	
 	@Override
 	public void configurePathMatch(PathMatchConfigurer configurer) {
+		log.info("-------- extendMessageConverters --------");
+		log.info("isUseTrailingSlashMatch = {}", configurer.isUseTrailingSlashMatch());
+		
 		//configurer.setUseTrailingSlashMatch(true);
 		//configurer
 			//.addPathPrefix("api/", HandlerTypePredicate.forAnnotation(RestController.class));
@@ -101,7 +104,7 @@ public class ServletConfig implements WebMvcConfigurer {
 			.forEach(converter -> ((StringHttpMessageConverter) converter).setDefaultCharset(StandardCharsets.UTF_8));
 		
 		for (HttpMessageConverter<?> converter : converters) {
-			log.info(" {}", converter.getClass().getSimpleName());
+			log.info("{}", converter.getClass().getSimpleName());
 		}
 	}
 	
@@ -122,7 +125,7 @@ public class ServletConfig implements WebMvcConfigurer {
 		log.info("-------- configureHandlerExceptionResolvers --------");
 		
 		for (HandlerExceptionResolver resovler : resolvers) {
-			log.info(" {}", resovler.getClass().getSimpleName());
+			log.info("{}", resovler.getClass().getSimpleName());
 		}
 		
 //		@SuppressWarnings("unused")
@@ -137,7 +140,7 @@ public class ServletConfig implements WebMvcConfigurer {
 		
 		resolvers.add(0, customExceptionResolver);
 		for (HandlerExceptionResolver resovler : resolvers) {
-			log.info(" {}", resovler.getClass().getSimpleName());
+			log.info("{}", resovler.getClass().getSimpleName());
 		}
 	}
 	
