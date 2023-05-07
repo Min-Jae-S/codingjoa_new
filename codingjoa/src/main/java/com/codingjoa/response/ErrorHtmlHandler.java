@@ -17,6 +17,14 @@ import lombok.extern.slf4j.Slf4j;
 @ControllerAdvice
 public class ErrorHtmlHandler {
 	
+//	@ExceptionHandler(Exception.class)
+//	protected String handleException(Exception e) {
+//		log.info("[ErrorHtmlHandler] {}", e.getClass().getName());
+//		log.info("message = {}", e.getMessage());
+//		
+//		return "forward:/error/errorPage";
+//	}
+
 	@ExceptionHandler(RuntimeException.class)
 	protected String handleRuntimeException(RuntimeException e) {
 		log.info("[ErrorHtmlHandler] {}", e.getClass().getName());
