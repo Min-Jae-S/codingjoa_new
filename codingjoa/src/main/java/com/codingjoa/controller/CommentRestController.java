@@ -1,6 +1,7 @@
 package com.codingjoa.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
@@ -20,7 +21,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codingjoa.annotation.CommentCri;
@@ -84,8 +84,8 @@ public class CommentRestController {
 		return ResponseEntity.ok(SuccessResponse.create().data(commentList));
 	}
 	
-	@RequestMapping("/comments/{commentIdx}")
-	public ResponseEntity<Object> getComment1(@PathVariable("commentIdx") int commentIdx) {
+	@GetMapping(value = { "/comments", "/comments/{commentIdx}" })
+	public ResponseEntity<Object> getComment(@PathVariable("commentIdx") Integer commentIdx) {
 		log.info("commentIdx = {}", commentIdx);
 		
 		CommentDetailsDto commentDetails = commentService.getCommentDetails(commentIdx);
@@ -93,16 +93,7 @@ public class CommentRestController {
 		return ResponseEntity.ok(SuccessResponse.create().data(commentDetails));
 	}
 	
-	@GetMapping("/comments/{commentIdx}")
-	public ResponseEntity<Object> getComment(@PathVariable("commentIdx") int commentIdx) {
-		log.info("commentIdx = {}", commentIdx);
-		
-		CommentDetailsDto commentDetails = commentService.getCommentDetails(commentIdx);
-		
-		return ResponseEntity.ok(SuccessResponse.create().data(commentDetails));
-	}
-	
-	@PatchMapping("/comments/{commentIdx}")
+	@PatchMapping(value = { "/comments", "/comments/{commentIdx}" })
 	public ResponseEntity<Object> modifyComment(@PathVariable int commentIdx) {
 		log.info("commentIdx = {}", commentIdx);
 		// update ...
@@ -111,7 +102,7 @@ public class CommentRestController {
 	}
 	
 	
-	@DeleteMapping("/comments/{commentIdx}")
+	@DeleteMapping(value = { "/comments", "/comments/{commentIdx}" })
 	public ResponseEntity<Object> deleteComment(@PathVariable int commentIdx) {
 		log.info("commentIdx = {}", commentIdx);
 		commentService.deleteComment(commentIdx);

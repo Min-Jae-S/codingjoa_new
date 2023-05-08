@@ -23,6 +23,7 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
@@ -84,12 +85,11 @@ public class ServletConfig implements WebMvcConfigurer {
 	@Override
 	public void configurePathMatch(PathMatchConfigurer configurer) {
 		log.info("-------- configurePathMatch --------");
-		configurer.setUseTrailingSlashMatch(false);
-		//configurer.setUseSuffixPatternMatch(false);
-		
-		log.info("isUseTrailingSlashMatch = {}", configurer.isUseTrailingSlashMatch());
-		log.info("isUseSuffixPatternMatch = {}", configurer.isUseSuffixPatternMatch());
-		log.info("isUseRegisteredSuffixPatternMatch = {}", configurer.isUseRegisteredSuffixPatternMatch());
+	    configurer.setUseTrailingSlashMatch(true);
+
+	    log.info("isUseTrailingSlashMatch = {}", configurer.isUseTrailingSlashMatch());
+	    log.info("isUseSuffixPatternMatch = {}", configurer.isUseSuffixPatternMatch());
+	    log.info("isUseRegisteredSuffixPatternMatch = {}", configurer.isUseRegisteredSuffixPatternMatch());
 		
 		WebMvcConfigurer.super.configurePathMatch(configurer);
 	}

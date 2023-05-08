@@ -365,7 +365,9 @@
 			<button class="btn btn-success btn-sm test-item" name="testBtn" 
 				data-url="${contextPath}/api/comments">GET: api/comments</button>					
 			<button class="btn btn-success btn-sm test-item" name="testBtn" 
-				data-url="${contextPath}/api/comments/">GET: api/comments/</button>					
+				data-url="${contextPath}/api/comments/   ">GET: api/comments/(space)</button>					
+			<button class="btn btn-success btn-sm test-item" name="testBtn" 
+				data-url="${contextPath}/api/comments/9999/">GET: api/comments/9999/</button>					
 		</div>
 	</div>
 </div>
