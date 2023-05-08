@@ -12,7 +12,7 @@ public class ErrorController {
 
 	@RequestMapping("/errorPage")
 	public String errorPage() {
-		log.info("ERROR PAGE");
+		log.info("ERROR PAGE...");
 		
 		return "error/error-page";
 	}

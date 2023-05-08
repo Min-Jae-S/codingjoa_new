@@ -13,7 +13,7 @@ public class AdminController {
 
 	@GetMapping("/test")
 	public String test() {
-		log.info("admin test...");
+		log.info("ADMIN TEST...");
 		
 		return "admin/test";
 	}

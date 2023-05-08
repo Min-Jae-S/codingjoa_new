@@ -47,7 +47,7 @@ public class MemberController {
 
 	@InitBinder("joinDto")
 	public void initBinderJoin(WebDataBinder binder) {
-		log.info("======== initBinderJoin ========");
+		log.info("-------- initBinderJoin --------");
 		binder.addValidators(joinValidator);
 	}
 

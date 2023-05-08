@@ -48,14 +48,14 @@ public class UploadRestController {
 	
 	@InitBinder("uploadFileDto")
 	public void initBinderUpload(WebDataBinder binder) {
-		log.info("======== initBinderUpload ========");
+		log.info("-------- initBinderUpload --------");
 		binder.addValidators(uploadFileValidator);
 	}
 	
 	@PostMapping("/image")
 	public ResponseEntity<Object> uploadImage(@ModelAttribute @Valid UploadFileDto uploadFileDto, 
 			BindingResult bindingResult, HttpServletRequest request) throws MethodArgumentNotValidException {
-		log.info("uploadImage, originalFilename = {}", uploadFileDto.getFile().getOriginalFilename());
+		log.info("originalFilename = {}", uploadFileDto.getFile().getOriginalFilename());
 		
 		if (bindingResult.hasErrors()) {
 			 throw new MethodArgumentNotValidException(null, bindingResult);
