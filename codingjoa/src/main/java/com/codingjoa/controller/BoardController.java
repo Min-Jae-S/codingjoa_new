@@ -100,7 +100,7 @@ public class BoardController {
 	}
 	
 	@GetMapping("/read")
-	public String read(@RequestParam("boardIdx") Integer boardIdx, @BoardCri Criteria boardCri, Model model) {
+	public String read(@RequestParam("boardIdx") int boardIdx, @BoardCri Criteria boardCri, Model model) {
 		log.info("boardIdx = {}", boardIdx);
 		log.info("boardCri = {}", boardCri);
 		

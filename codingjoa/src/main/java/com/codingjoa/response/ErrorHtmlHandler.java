@@ -16,7 +16,6 @@ import lombok.extern.slf4j.Slf4j;
  * 401 Unauthorized
  * 403 Forbidden
  * 404 Not Found
- * 
  */
 
 @Slf4j
@@ -41,35 +40,35 @@ public class ErrorHtmlHandler {
 		return "forward:/error/errorPage";
 	}
 	
-	@ExceptionHandler(ConstraintViolationException.class)
-	protected String handleConstraintViolationException(ConstraintViolationException e) {
-		log.info("[ErrorHtmlHandler] {}", e.getClass().getSimpleName());
-		log.info("message = {}", e.getMessage());
-
-//		e.getConstraintViolations().forEach(v -> {
-//			log.info("Invalid Value = {}", v.getInvalidValue());
-//			log.info("{}", v);
-//		});
-		
-		return "forward:/error/errorPage";
-	}
-	
 	@ExceptionHandler(BindException.class)
 	protected String handleBindException(BindException e) {
 		log.info("[ErrorHtmlHandler] {}", e.getClass().getSimpleName());
 		log.info("message = {}", e.getMessage());
 		
-//		e.getBindingResult().getFieldErrors().forEach(fieldError -> {
-//			log.info("field = {}", fieldError.getField());
-//			log.info("code = {}", fieldError.getCodes()[0]);
-//		});
+		e.getBindingResult().getFieldErrors().forEach(fieldError -> {
+			log.info("field = {}", fieldError.getField());
+			log.info("code = {}", fieldError.getCodes()[0]);
+		});
+		
+		return "forward:/error/errorPage";
+	}
+	
+	@ExceptionHandler(ConstraintViolationException.class) // /board/main?boardCategoryCode=11
+	protected String handleConstraintViolationException(ConstraintViolationException e) {
+		log.info("[ErrorHtmlHandler] {}", e.getClass().getSimpleName());
+		log.info("message = {}", e.getMessage());
+
+		e.getConstraintViolations().forEach(v -> {
+			log.info("violation = {}", v);
+			log.info("invalid value = {}", v.getInvalidValue());
+		});
 		
 		return "forward:/error/errorPage";
 	}
 	
 	@ExceptionHandler(value = { 
-		MissingServletRequestParameterException.class,		// 	/board/read
-		MethodArgumentTypeMismatchException.class			// 	/board/read?boardIdx=aa
+		MissingServletRequestParameterException.class,	// /board/read
+		MethodArgumentTypeMismatchException.class		// /board/read?boardIdx=, /board/read?boardIdx=aa 
 	})
 	protected String handleException(Exception e) {
 		log.info("[ErrorHtmlHandler] {}", e.getClass().getSimpleName());
