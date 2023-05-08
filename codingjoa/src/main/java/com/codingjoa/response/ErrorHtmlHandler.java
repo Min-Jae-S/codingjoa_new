@@ -17,22 +17,6 @@ import lombok.extern.slf4j.Slf4j;
 @ControllerAdvice
 public class ErrorHtmlHandler {
 	
-//	@ExceptionHandler(Exception.class)
-//	protected String handleException(Exception e) {
-//		log.info("[ErrorHtmlHandler] {}", e.getClass().getName());
-//		log.info("message = {}", e.getMessage());
-//		
-//		return "forward:/error/errorPage";
-//	}
-
-	@ExceptionHandler(RuntimeException.class)
-	protected String handleRuntimeException(RuntimeException e) {
-		log.info("[ErrorHtmlHandler] {}", e.getClass().getName());
-		log.info("message = {}", e.getMessage());
-		
-		return "forward:/error/errorPage";
-	}
-	
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	protected String handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
 		log.info("[ErrorHtmlHandler] {}", e.getClass().getSimpleName());
@@ -77,22 +61,17 @@ public class ErrorHtmlHandler {
 		return "forward:/error/errorPage";
 	}
 	
-	@ExceptionHandler(MethodArgumentTypeMismatchException.class)
-	protected String handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e) {
+	@ExceptionHandler(value = { 
+			MethodArgumentTypeMismatchException.class, 
+			MissingServletRequestParameterException.class
+		})
+	protected String handleException(Exception e) {
 		log.info("[ErrorHtmlHandler] {}", e.getClass().getSimpleName());
 		log.info("message = {}", e.getMessage());
 		
 		return "forward:/error/errorPage";
 	}
 
-//	@ExceptionHandler(MissingServletRequestParameterException.class)
-//	protected String handleMissingServletRequestParameterException(MissingServletRequestParameterException e) {
-//		log.info("[ErrorHtmlHandler] {}", e.getClass().getSimpleName());
-//		log.info("message = {}", e.getMessage());
-//		
-//		return "forward:/error/errorPage";
-//	}
-	
 	@ExceptionHandler(IllegalArgumentException.class)
 	protected String handleIllegalArgumentException(IllegalArgumentException e) {
 		log.info("[ErrorHtmlHandler] {}", e.getClass().getSimpleName());

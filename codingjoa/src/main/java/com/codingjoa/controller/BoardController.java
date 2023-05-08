@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
-import javax.validation.constraints.NotBlank;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -101,7 +100,7 @@ public class BoardController {
 	}
 	
 	@GetMapping("/read")
-	public String read(@RequestParam("boardIdx") int boardIdx, @BoardCri Criteria boardCri, Model model) {
+	public String read(@RequestParam("boardIdx") Integer boardIdx, @BoardCri Criteria boardCri, Model model) {
 		log.info("boardIdx = {}", boardIdx);
 		log.info("boardCri = {}", boardCri);
 		

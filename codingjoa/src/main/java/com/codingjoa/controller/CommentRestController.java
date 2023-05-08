@@ -1,7 +1,6 @@
 package com.codingjoa.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
@@ -76,7 +75,7 @@ public class CommentRestController {
 	}
 	
 	@GetMapping("/boards/{boardIdx}/comments")
-	public ResponseEntity<Object> getCommentList(@PathVariable int boardIdx, @CommentCri CommentCriteria commentCri) {
+	public ResponseEntity<Object> getCommentList(@PathVariable Integer boardIdx, @CommentCri CommentCriteria commentCri) {
 		log.info("boardIdx = {}", boardIdx);
 		log.info("commentCri = {}", commentCri);
 		List<CommentDetailsDto> commentList = commentService.getPagedComment(boardIdx, commentCri);
@@ -94,7 +93,7 @@ public class CommentRestController {
 	}
 	
 	@PatchMapping(value = { "/comments", "/comments/{commentIdx}" })
-	public ResponseEntity<Object> modifyComment(@PathVariable int commentIdx) {
+	public ResponseEntity<Object> modifyComment(@PathVariable Integer commentIdx) {
 		log.info("commentIdx = {}", commentIdx);
 		// update ...
 		
@@ -103,7 +102,7 @@ public class CommentRestController {
 	
 	
 	@DeleteMapping(value = { "/comments", "/comments/{commentIdx}" })
-	public ResponseEntity<Object> deleteComment(@PathVariable int commentIdx) {
+	public ResponseEntity<Object> deleteComment(@PathVariable Integer commentIdx) {
 		log.info("commentIdx = {}", commentIdx);
 		commentService.deleteComment(commentIdx);
 		
