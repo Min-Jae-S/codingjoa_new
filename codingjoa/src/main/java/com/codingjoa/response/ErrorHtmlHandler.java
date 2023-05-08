@@ -11,8 +11,14 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 
 import lombok.extern.slf4j.Slf4j;
 
-// @ExceptionHandler는 @Controller, @RestController가 적용된 Bean에서 
-// 발생한 예외를 잡아 하나의 메소드에서 처리하는 역할을 한다. @Service에서의 예외는 잡지 못한다.
+/*
+ * 400 Bad Request
+ * 401 Unauthorized
+ * 403 Forbidden
+ * 404 Not Found
+ * 
+ */
+
 @Slf4j
 @ControllerAdvice
 public class ErrorHtmlHandler {
@@ -62,9 +68,9 @@ public class ErrorHtmlHandler {
 	}
 	
 	@ExceptionHandler(value = { 
-			MethodArgumentTypeMismatchException.class, 
-			MissingServletRequestParameterException.class
-		})
+		MissingServletRequestParameterException.class,		// 	/board/read
+		MethodArgumentTypeMismatchException.class			// 	/board/read?boardIdx=aa
+	})
 	protected String handleException(Exception e) {
 		log.info("[ErrorHtmlHandler] {}", e.getClass().getSimpleName());
 		log.info("message = {}", e.getMessage());
