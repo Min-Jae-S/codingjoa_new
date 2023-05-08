@@ -59,7 +59,7 @@ public class ErrorHtmlHandler {
 		log.info("message = {}", e.getMessage());
 
 		e.getConstraintViolations().forEach(v -> {
-			log.info("violation = {}", v);
+			log.info("{}", v);
 			log.info("invalid value = {}", v.getInvalidValue());
 		});
 		
