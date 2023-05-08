@@ -39,7 +39,7 @@ public class CommentCriteriaArgumentResolver implements HandlerMethodArgumentRes
 	@Override
 	public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
 			NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
-		log.info("======== CommentCriteriaArgumentResolver ========");
+		log.info("-------- CommentCriteriaArgumentResolver --------");
 		
 		String page = webRequest.getParameter("page");
 		log.info("Raw page = {}", page);

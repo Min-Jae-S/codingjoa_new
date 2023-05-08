@@ -43,7 +43,7 @@ public class ErrorAjaxHandler {
 	}
 	
 	@ExceptionHandler(MethodArgumentTypeMismatchException.class)
-	public ResponseEntity<Object> handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e) {
+	protected ResponseEntity<Object> handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e) {
 		log.info("[ErrorAjaxHandler] {}", e.getClass().getSimpleName());
 		log.info("message = {}", e.getMessage());
 		
