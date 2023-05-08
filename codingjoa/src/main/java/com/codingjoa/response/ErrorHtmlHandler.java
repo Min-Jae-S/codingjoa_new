@@ -41,7 +41,7 @@ public class ErrorHtmlHandler {
 	}
 	
 	@ExceptionHandler(BindException.class)
-	protected String handleBindException(BindException e) {
+	protected String handleBindException(BindException e) { // /board/write?boardCategory=aa, /board/modify?boardIdx=aa
 		log.info("[ErrorHtmlHandler] {}", e.getClass().getSimpleName());
 		log.info("message = {}", e.getMessage());
 		

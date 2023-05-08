@@ -63,6 +63,4 @@ public class BoardCriteriaArgumentResolver implements HandlerMethodArgumentResol
 			keyword == null ? null : keyword.strip()
 		);
 	}
-	
-
 }

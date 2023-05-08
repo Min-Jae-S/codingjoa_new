@@ -42,13 +42,12 @@ public class CommentCriteriaArgumentResolver implements HandlerMethodArgumentRes
 		log.info("-------- CommentCriteriaArgumentResolver --------");
 		
 		String page = webRequest.getParameter("page");
-		log.info("Raw page = {}", page);
+		log.info("raw page = {}", page);
 		
 		return new CommentCriteria(
 			MyNumberUtils.isNaturalNumber(page) ? Integer.parseInt(page) : DEFAULT_PAGE,
 			DEFAULT_RECORD_CNT
 		);
-		
 	}
 	
 	@SuppressWarnings({ "unchecked", "unused" })
