@@ -18,13 +18,13 @@ public class LogFilter implements Filter {
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
-		log.info("## {} init", this.getClass().getSimpleName());
+		log.info("## {}, init", this.getClass().getSimpleName());
 	}
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
-		log.info("## {} doFilter", this.getClass().getSimpleName());
+		log.info("## {}, doFilter", this.getClass().getSimpleName());
 		
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		String requestURI = httpRequest.getRequestURI();
@@ -44,7 +44,7 @@ public class LogFilter implements Filter {
 
 	@Override
 	public void destroy() {
-		log.info("## {} destroy", this.getClass().getSimpleName());
+		log.info("## {}, destroy", this.getClass().getSimpleName());
 	}
 	
 	
