@@ -18,7 +18,7 @@ public class LogFilter implements Filter {
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
-		log.info("## {}, init", this.getClass().getSimpleName());
+		log.info("## {}: init", this.getClass().getSimpleName());
 	}
 
 	@Override
@@ -31,22 +31,20 @@ public class LogFilter implements Filter {
 		String uuid = UUID.randomUUID().toString();
 		
 		try {
-			log.info("REQUEST	[{}][{}][{}]", uuid, request.getDispatcherType(), requestURI);
+			log.info("Request: uuid = {}, dispatcherType = {}, requestURI = {}", uuid, request.getDispatcherType(), requestURI);
 			chain.doFilter(request, response);
 		} catch (Exception e) {
-			log.info("EXCEPTION = {}", e.getClass().getSimpleName());
-			log.info("MESSAGE = {}", e.getMessage());
+			log.info("exception = {}", e.getClass().getSimpleName());
+			log.info("message = {}", e.getMessage());
 			throw e;
 		} finally {
-			log.info("RESPONSE	[{}][{}][{}]", uuid, request.getDispatcherType(), requestURI);
+			log.info("Response: uuid = {}, dispatcherType = {}, requestURI = {}", uuid, request.getDispatcherType(), requestURI);
 		}
 	}
 
 	@Override
 	public void destroy() {
-		log.info("## {}, destroy", this.getClass().getSimpleName());
+		log.info("## {}: destory", this.getClass().getSimpleName());
 	}
-	
-	
 
 }
