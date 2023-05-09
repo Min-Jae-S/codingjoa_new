@@ -40,8 +40,8 @@ public class ErrorHtmlHandler {
 		return "forward:/error/errorPage";
 	}
 	
-	@ExceptionHandler(BindException.class)
-	protected String handleBindException(BindException e) { // /board/write?boardCategory=aa, /board/modify?boardIdx=aa
+	@ExceptionHandler(BindException.class) // /board/write?boardCategory=aa, /board/modify?boardIdx=aa, /board/deleteProc?boardIdx=aa
+	protected String handleBindException(BindException e) {
 		log.info("[ErrorHtmlHandler] {}", e.getClass().getSimpleName());
 		log.info("message = {}", e.getMessage());
 		

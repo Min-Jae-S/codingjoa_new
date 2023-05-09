@@ -102,7 +102,6 @@ public class BoardServiceImpl implements BoardService {
 		String keyword = boardCri.getKeyword();
 		
 		if (!"writer".equals(boardCri.getType())) {
-			log.info("keyword regexp = {}", newBoardCri.getKeywordRegexp());
 			return newBoardCri;
 		}
 		
@@ -110,10 +109,9 @@ public class BoardServiceImpl implements BoardService {
 			String newKeyword = boardMapper.findMemberIdxByKeyword(keyword).stream()
 					.map(memberIdx -> memberIdx.toString())
 					.collect(Collectors.joining("_"));
-			log.info("new keyword = {}", newKeyword);
-			
 			newBoardCri.setKeyword(newKeyword);
 		}
+		
 		return newBoardCri;
 	}
 	

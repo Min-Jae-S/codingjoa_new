@@ -84,6 +84,8 @@ public class BoardController {
 
 		Criteria newBoardCri = boardService.makeNewBoardCri(boardCri);
 		log.info("newBoardCri = {}", newBoardCri);
+		log.info("new keyword = {}", newBoardCri.getKeyword());
+		log.info("keyword regexp = {}", newBoardCri.getKeywordRegexp());
 		
 		List<BoardDetailsDto> board = boardService.getPagedBoard(boardCategoryCode, newBoardCri);
 		model.addAttribute("board", board);
