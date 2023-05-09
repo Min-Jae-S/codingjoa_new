@@ -9,6 +9,7 @@ import javax.servlet.ServletRegistration.Dynamic;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
+import com.codingjoa.filter.LogFilter;
 import com.codingjoa.security.config.SecurityConfig;
 
 public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitializer {
@@ -38,8 +39,10 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 		CharacterEncodingFilter encodingFilter = new CharacterEncodingFilter();
 		encodingFilter.setEncoding(StandardCharsets.UTF_8.name());
 		encodingFilter.setForceEncoding(true);
+		
+		LogFilter logFilter = new LogFilter();
 
-		return new Filter[] { encodingFilter };
+		return new Filter[] { encodingFilter, logFilter };
 	}
 
 	@Override

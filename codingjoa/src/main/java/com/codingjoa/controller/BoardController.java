@@ -228,7 +228,7 @@ public class BoardController {
 	
 	@GetMapping("/npe")
 	public String npe() {
-		throw new NullPointerException("TEST: NullpointerException");
+		throw new NullPointerException("TEST");
 	}
 	
 	
