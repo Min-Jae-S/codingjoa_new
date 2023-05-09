@@ -80,7 +80,7 @@
 			a.rn > 0
 	</select>
 	
-	<select id="findCommentDetails" parameterType="int" resultMap="commentDetailsMap">
+	<select id="findCommentDetails" parameterType="map" resultMap="commentDetailsMap">
 		SELECT
 			a.comment_idx,
 			a.comment_writer_idx, 
@@ -98,6 +98,8 @@
 			a.comment_writer_idx = b.member_idx
 		WHERE
 			a.comment_idx = #{commentIdx}
+		AND 
+			a.comment_writer_idx = #{commentWriterIdx}
 	</select>
 
 	<delete id="deleteComment" parameterType="int">

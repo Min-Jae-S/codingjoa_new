@@ -484,6 +484,7 @@
 			}
 		});
 		
+		// write comment
 		$("#writeCommentBtn").on("click", function() {
 			let comment = {
 				commentBoardIdx : boardIdx,
@@ -504,6 +505,7 @@
 			});
 		});
 		
+		// get comment
 		$(document).on("click", "button[name=showEditCommentBtn]", function() {
 			let $li =  $(this).closest("li");
 			let commentIdx = $li.attr("comment-idx");
@@ -525,7 +527,9 @@
 			$li.find("div.comment-area").removeClass("d-none")
 				.next("div.input-group").remove();
 		});
-
+		
+		
+		// update comment
 		$(document).on("click", "button[name=modifyCommentBtn]", function() {
 			let comment = {
 				commentIdx : $(this).closest("li").attr("comment-idx"),
@@ -546,6 +550,7 @@
 			});
 		});
 		
+		// delete comment
 		$(document).on("click", "button[name=deleteCommentBtn]", function() {
 			if (!confirm("댓글을 삭제하시겠습니까?")) {
 				return;

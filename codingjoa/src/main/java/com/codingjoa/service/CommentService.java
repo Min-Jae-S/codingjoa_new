@@ -12,7 +12,7 @@ public interface CommentService {
 	
 	List<CommentDetailsDto> getPagedComment(int boardIdx, CommentCriteria commentCri);
 	
-	CommentDetailsDto getCommentDetails(int commentIdx);
+	CommentDetailsDto getCommentDetails(int commentIdx, int commentWriterIdx);
 	
 	void deleteComment(int commentIdx);
 }

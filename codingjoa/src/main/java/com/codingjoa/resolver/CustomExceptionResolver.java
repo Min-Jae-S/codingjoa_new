@@ -26,7 +26,7 @@ public class CustomExceptionResolver implements HandlerExceptionResolver {
 		log.info("URI = {}: {}", request.getMethod(), getFullURI(request));
 		log.info("x-requested-with = {}", request.getHeader("X-Requested-With"));
 		log.info("exception = {}", ex.getClass().getSimpleName());
-		log.info("runtime Excpetion = {}", ex instanceof RuntimeException);
+		log.info("runtime excpetion = {}", ex instanceof RuntimeException);
 		log.info("assigned handler = {}", (method != null) ? method.getBeanType().getSimpleName() : "No handler");
 		log.info("-----------------------------------------");
 

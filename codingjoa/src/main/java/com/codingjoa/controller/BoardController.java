@@ -133,6 +133,7 @@ public class BoardController {
 	public String writeProc(@Validated @ModelAttribute("writeBoardDto") BoardDto writeBoardDto, 
 			BindingResult bindingResult, @AuthenticationPrincipal UserDetailsDto principal, Model model) {
 		log.info("writeBoardDto = {}", writeBoardDto);
+		log.info("principal = {}", principal);
 		
 		if (bindingResult.hasErrors()) {
 			bindingResult.getFieldErrors().forEach(fieldError -> {
@@ -161,6 +162,7 @@ public class BoardController {
 	public String modify(@ModelAttribute("modifyBoardDto") BoardDto modifyBoardDto, 
 			@AuthenticationPrincipal UserDetailsDto principal, Model model) {
 		log.info("modifyBoardDto = {}", modifyBoardDto);
+		log.info("principal = {}", principal);
 		
 		int boardWriterIdx = principal.getMember().getMemberIdx();
 		modifyBoardDto.setBoardWriterIdx(boardWriterIdx);
@@ -176,6 +178,7 @@ public class BoardController {
 	public String modifyProc(@Validated @ModelAttribute("modifyBoardDto") BoardDto modifyBoardDto, 
 			BindingResult bindingResult, @AuthenticationPrincipal UserDetailsDto principal, Model model) {
 		log.info("modifyBoardDto = {}", modifyBoardDto);
+		log.info("principal = {}", principal);
 		
 		if (bindingResult.hasErrors()) {
 			bindingResult.getFieldErrors().forEach(fieldError -> {
@@ -202,6 +205,7 @@ public class BoardController {
 	public String deleteProc(@ModelAttribute("deleteBoardDto") BoardDto deleteBoardDto, 
 			@AuthenticationPrincipal UserDetailsDto principal) {
 		log.info("deleteBoardDto = {}", deleteBoardDto);
+		log.info("principal = {}", principal);
 		
 		// ON DELETE CASCADE, ON DELETE SET NULL
 		int boardWriterIdx = principal.getMember().getMemberIdx();

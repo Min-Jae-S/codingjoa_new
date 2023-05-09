@@ -61,6 +61,8 @@ public class CommentRestController {
 			BindingResult bindingResult, @AuthenticationPrincipal UserDetailsDto principal) 
 					throws MethodArgumentNotValidException {
 		log.info("commentDto = {}", commentDto);
+		log.info("principal = {}", principal);
+		
 		if (bindingResult.hasErrors()) {
 			throw new MethodArgumentNotValidException(null, bindingResult);
 		}
@@ -78,16 +80,20 @@ public class CommentRestController {
 	public ResponseEntity<Object> getCommentList(@PathVariable Integer boardIdx, @CommentCri CommentCriteria commentCri) {
 		log.info("boardIdx = {}", boardIdx);
 		log.info("commentCri = {}", commentCri);
+		
 		List<CommentDetailsDto> commentList = commentService.getPagedComment(boardIdx, commentCri);
 		
 		return ResponseEntity.ok(SuccessResponse.create().data(commentList));
 	}
 	
 	@GetMapping(value = { "/comments", "/comments/{commentIdx}" })
-	public ResponseEntity<Object> getComment(@PathVariable("commentIdx") Integer commentIdx) {
+	public ResponseEntity<Object> getComment(@PathVariable("commentIdx") Integer commentIdx, 
+			@AuthenticationPrincipal UserDetailsDto principal) {
 		log.info("commentIdx = {}", commentIdx);
+		log.info("principal = {}", principal);
 		
-		CommentDetailsDto commentDetails = commentService.getCommentDetails(commentIdx);
+		int commentWriterIdx = principal.getMember().getMemberIdx();
+		CommentDetailsDto commentDetails = commentService.getCommentDetails(commentIdx, commentWriterIdx);
 		
 		return ResponseEntity.ok(SuccessResponse.create().data(commentDetails));
 	}

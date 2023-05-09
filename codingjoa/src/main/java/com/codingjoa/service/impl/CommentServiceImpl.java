@@ -45,8 +45,8 @@ public class CommentServiceImpl implements CommentService {
 	}
 
 	@Override
-	public CommentDetailsDto getCommentDetails(int commentIdx) {
-		Map<String, Object> commentDetailsMap = commentMapper.findCommentDetails(commentIdx);
+	public CommentDetailsDto getCommentDetails(int commentIdx, int commentWriterIdx) {
+		Map<String, Object> commentDetailsMap = commentMapper.findCommentDetails(commentIdx, commentWriterIdx);
 		if (commentDetailsMap == null) {
 			throw new IllegalArgumentException(MessageUtils.getMessage("error.NotFoundComment"));
 		}
