@@ -16,6 +16,26 @@ import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
 import lombok.extern.slf4j.Slf4j;
 
+/*
+ * 400 Bad Request	
+ *   The server cannot or will not process the request 
+ *   due to something that is perceived to be a client error 
+ *   (e.g., malformed request syntax, invalid request message framing)
+ *   
+ * 401 Unauthorized
+ *   semantically this response means "unauthenticated"
+ *   
+ * 403 Forbidden
+ *   The client does not have access rights to the content; 
+ *   that is, it is unauthorized, so the server is refusing to give the requested resource.
+ *   
+ * 404 Not Found
+ *   The server cannot find the requested resource. 
+ *   In the browser, this means the URL is not recognized. 
+ *   In an API, this can also mean that the endpoint is valid but the resource itself does not exist.
+ * 
+ */
+
 @Slf4j
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @RestControllerAdvice(annotations = RestController.class)
@@ -23,24 +43,24 @@ public class ErrorAjaxHandler {
 	
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	protected ResponseEntity<Object> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
-		log.info("[ErrorAjaxHandler] {}", e.getClass().getSimpleName());
+		log.info("## {}: {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("message = {}", e.getMessage());
 		
 		ErrorResponse errorResponse = ErrorResponse.create().bindingResult(e.getBindingResult());
-		log.info("errorResponse = {}", errorResponse);
+		log.info("error = {}", errorResponse);
 		
 		return ResponseEntity.unprocessableEntity().body(errorResponse);
 	}
 	
 	@ExceptionHandler(ConstraintViolationException.class)
 	protected ResponseEntity<Object> handleConstraintViolationException(ConstraintViolationException e) {
-		log.info("[ErrorAjaxHandler] {}", e.getClass().getSimpleName());
+		log.info("## {}: {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("message = {}", e.getMessage());
 		
 		ErrorResponse errorResponse = ErrorResponse.create().errorMessage(e.getMessage());
-		log.info("errorResponse = {}", errorResponse);
+		log.info("error = {}", errorResponse);
 
-		return ResponseEntity.badRequest().body(errorResponse);
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
 	}
 	
 	@ExceptionHandler(value =  {
@@ -48,35 +68,35 @@ public class ErrorAjaxHandler {
 		MethodArgumentTypeMismatchException.class,	// api/comments/aa
 	})
 	protected ResponseEntity<Object> handleException(Exception e) {
-		log.info("[ErrorAjaxHandler] {}", e.getClass().getSimpleName());
+		log.info("## {}: {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("message = {}", e.getMessage());
 		
 		ErrorResponse errorResponse = ErrorResponse.create().errorMessage(e.getMessage());
-		log.info("errorResponse = {}", errorResponse);
+		log.info("error = {}", errorResponse);
 		
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
 	}
 	
 	@ExceptionHandler(IllegalArgumentException.class)
 	protected ResponseEntity<Object> handleIllegalArgumentException(IllegalArgumentException e) {
-		log.info("[ErrorAjaxHandler] {}", e.getClass().getSimpleName());
+		log.info("## {}: {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("message = {}", e.getMessage());
 		
 		ErrorResponse errorResponse = ErrorResponse.create().errorMessage(e.getMessage());
-		log.info("errorResponse = {}", errorResponse);
+		log.info("error = {}", errorResponse);
 		
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
 	}
 	
 	@ExceptionHandler(MaxUploadSizeExceededException.class)
 	protected ResponseEntity<Object> handleMaxUploadSizeExceededException(MaxUploadSizeExceededException e) {
-		log.info("[ErrorAjaxHandler] {}", e.getClass().getSimpleName());
+		log.info("## {}: {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("message = {}", e.getMessage());
 		
 		ErrorResponse errorResponse = ErrorResponse.create().errorCode("error.ExceedSize");
-		log.info("errorResponse = {}", errorResponse);
+		log.info("error = {}", errorResponse);
 		
-		return ResponseEntity.badRequest().body(errorResponse);
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
 	}
 	
 }

@@ -1,4 +1,4 @@
-console.log("## Rendering Service Ready");
+console.log("## Rendering service ready - render.js");
 	
 	function makeCommentHtml(list, boardWriterIdx) {
 		let html = "<ul class='list-group list-group-flush mt-4'>";

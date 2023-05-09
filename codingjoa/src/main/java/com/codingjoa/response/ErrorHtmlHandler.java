@@ -11,20 +11,13 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 
 import lombok.extern.slf4j.Slf4j;
 
-/*
- * 400 Bad Request
- * 401 Unauthorized
- * 403 Forbidden
- * 404 Not Found
- */
-
 @Slf4j
 @ControllerAdvice
 public class ErrorHtmlHandler {
 	
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	protected String handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
-		log.info("[ErrorHtmlHandler] {}", e.getClass().getSimpleName());
+		log.info("## {}: {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("message = {}", e.getMessage());
 		
 //		if (isAjaxRequest(request)) {
@@ -42,7 +35,7 @@ public class ErrorHtmlHandler {
 	
 	@ExceptionHandler(BindException.class) // /board/write?boardCategory=aa, /board/modify?boardIdx=aa, /board/deleteProc?boardIdx=aa
 	protected String handleBindException(BindException e) {
-		log.info("[ErrorHtmlHandler] {}", e.getClass().getSimpleName());
+		log.info("## {}: {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("message = {}", e.getMessage());
 		
 		e.getBindingResult().getFieldErrors().forEach(fieldError -> {
@@ -55,7 +48,7 @@ public class ErrorHtmlHandler {
 	
 	@ExceptionHandler(ConstraintViolationException.class) // /board/main?boardCategoryCode=11
 	protected String handleConstraintViolationException(ConstraintViolationException e) {
-		log.info("[ErrorHtmlHandler] {}", e.getClass().getSimpleName());
+		log.info("## {}: {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("message = {}", e.getMessage());
 
 		e.getConstraintViolations().forEach(v -> {
@@ -71,7 +64,7 @@ public class ErrorHtmlHandler {
 		MethodArgumentTypeMismatchException.class		// /board/read?boardIdx=, /board/read?boardIdx=aa 
 	})
 	protected String handleException(Exception e) {
-		log.info("[ErrorHtmlHandler] {}", e.getClass().getSimpleName());
+		log.info("## {}: {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("message = {}", e.getMessage());
 		
 		return "forward:/error/errorPage";
@@ -79,7 +72,7 @@ public class ErrorHtmlHandler {
 
 	@ExceptionHandler(IllegalArgumentException.class)
 	protected String handleIllegalArgumentException(IllegalArgumentException e) {
-		log.info("[ErrorHtmlHandler] {}", e.getClass().getSimpleName());
+		log.info("## {}: {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("message = {}", e.getMessage());
 		
 		return "forward:/error/errorPage";

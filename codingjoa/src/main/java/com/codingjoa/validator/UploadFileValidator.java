@@ -26,7 +26,7 @@ public class UploadFileValidator implements Validator {
 
 	@Override
 	public void validate(Object target, Errors errors) {
-		log.info("======== UploadFileValidator ========");
+		log.info("-------- {} --------", this.getClass().getSimpleName());
 
 		UploadFileDto uploadFileDto = (UploadFileDto) target;
 		MultipartFile file = uploadFileDto.getFile();

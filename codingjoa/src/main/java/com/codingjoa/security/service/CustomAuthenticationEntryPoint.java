@@ -41,7 +41,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
 	@Override
 	public void commence(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException authException) throws IOException, ServletException {
-		log.info("======== CustomAuthenticationEntryPoint ========");
+		log.info("-------- {} --------", this.getClass().getSimpleName());
 		
 		/*	# ajax 요청 확인 
 		 	https://0taeng.tistory.com/30
@@ -80,7 +80,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
 	private boolean isAjaxRequest(HttpServletRequest request) {
 		String header = request.getHeader("x-requested-with");
 		boolean ajax = "XMLHttpRequest".equals(header);
-		log.info("## Ajax Request = {}", ajax);
+		log.info("ajax = {}", ajax);
 		
 		return ajax;
 	}

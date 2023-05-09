@@ -41,7 +41,7 @@ public class PasswordValidator implements Validator {
 
 	@Override
 	public void validate(Object target, Errors errors) {
-		log.info("======== PasswordValidator ========");
+		log.info("-------- {} --------", this.getClass().getSimpleName());
 		
 		PasswordDto passwordDto = (PasswordDto) target;
 		Type type = passwordDto.getType();

@@ -1,9 +1,9 @@
-console.log("## Comment Service Ready");
+console.log("## Comment service ready - comment.js");
 
 let commentService = (function() {
 	
 	function writeComment(url, comment, callback) {
-		console.log("## write comment...");
+		console.log("## Write comment...");
 		$.ajax({
 			type : "POST",
 			url : url,
@@ -59,7 +59,7 @@ let commentService = (function() {
 	}
 	
 	function getCommentList(url, callback) {
-		console.log("## get all comments...");
+		console.log("## Get all comments...");
 		$.ajax({
 			type : "GET",
 			url : url,
@@ -76,7 +76,7 @@ let commentService = (function() {
 	}
 
 	function getComment(url, callback) {
-		console.log("## get comment...");
+		console.log("## Get comment...");
 		$.ajax({
 			type : "GET",
 			url : url,
@@ -100,7 +100,7 @@ let commentService = (function() {
 	}
 	
 	function modifyComment(url, comment, callback) {
-		console.log("## update comment...");
+		console.log("## Update comment...");
 		
 		$.ajax({
 			type : "PATCH",
@@ -127,7 +127,7 @@ let commentService = (function() {
 	}
 	
 	function deleteComment(url, callback) {
-		console.log("## delete comment...");
+		console.log("## Delete comment...");
 		$.ajax({
 			type : "DELETE",
 			url : url,

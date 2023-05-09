@@ -1,4 +1,4 @@
-console.log("## Editor plugins Ready");
+console.log("## Editor plugins ready - ckeditor-plugins.js");
 
 	function uploadAdapter(editor) {
 		console.log("	>> Register upload adapter");

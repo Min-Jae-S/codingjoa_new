@@ -24,7 +24,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	
 	@Override
 	public UserDetails loadUserByUsername(String memberId) throws UsernameNotFoundException {
-		log.info("======== UserDetailsService ========");
+		log.info("-------- {} --------", this.getClass().getSimpleName());
 		log.info("loadUserByUsername, memberId = {}", memberId);
 		
 		Map<String, Object> map = memberMapper.findUserDetailsById(memberId);

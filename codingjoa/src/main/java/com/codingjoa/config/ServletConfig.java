@@ -121,20 +121,6 @@ public class ServletConfig implements WebMvcConfigurer {
 	}
 
 	@Override
-	public void configureHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
-		log.info("-------- configureHandlerExceptionResolvers --------");
-		
-		for (HandlerExceptionResolver resovler : resolvers) {
-			log.info("{}", resovler.getClass().getSimpleName());
-		}
-		
-//		@SuppressWarnings("unused")
-//		HandlerExceptionResolver exceptionHandlerExceptionResolver  = resolvers.stream()
-//				.filter(resolver -> resolver instanceof ExceptionHandlerExceptionResolver)
-//				.findAny().get();
-	}
-
-	@Override
 	public void extendHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
 		log.info("-------- extendHandlerExceptionResolvers --------");
 		
