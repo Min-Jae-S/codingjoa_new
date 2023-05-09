@@ -147,7 +147,8 @@
 				$("#authCode").focus();
 			},
 			error : function(jqXHR) {
-				console.log(jqXHR);
+				let errorResponse = JSON.parse(jqXHR.responseText);
+				console.log(JSON.stringify(errorResponse, null, 2));
 				$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
 				
 				if(jqXHR.status == 422) {

@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import lombok.extern.slf4j.Slf4j;
 
 /*
+ * 
  * 400 Bad Request	
  *   The server cannot or will not process the request 
  *   due to something that is perceived to be a client error 
@@ -44,7 +45,7 @@ public class ErrorAjaxHandler {
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	protected ResponseEntity<Object> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
 		log.info("## {}: {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
-		log.info("message = {}", e.getMessage());
+		//log.info("message = {}", e.getMessage());
 		
 		ErrorResponse errorResponse = ErrorResponse.create().bindingResult(e.getBindingResult());
 		log.info("error = {}", errorResponse);
