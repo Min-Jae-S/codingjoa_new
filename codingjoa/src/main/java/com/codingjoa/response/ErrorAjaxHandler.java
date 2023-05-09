@@ -7,6 +7,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingPathVariableException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -42,8 +43,11 @@ public class ErrorAjaxHandler {
 		return ResponseEntity.badRequest().body(errorResponse);
 	}
 	
-	@ExceptionHandler(MethodArgumentTypeMismatchException.class)
-	protected ResponseEntity<Object> handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e) {
+	@ExceptionHandler(value =  {
+		MissingPathVariableException.class,			// api/comments/
+		MethodArgumentTypeMismatchException.class,	// api/comments/aa
+	})
+	protected ResponseEntity<Object> handleException(Exception e) {
 		log.info("[ErrorAjaxHandler] {}", e.getClass().getSimpleName());
 		log.info("message = {}", e.getMessage());
 		
