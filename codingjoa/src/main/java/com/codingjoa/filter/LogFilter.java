@@ -31,14 +31,14 @@ public class LogFilter implements Filter {
 		String uuid = UUID.randomUUID().toString();
 		
 		try {
-			log.info("Request : uuid = {}, dispatcherType = {}, requestURI = {}", uuid, request.getDispatcherType(), requestURI);
+			log.info("Request : uuid = {}, dispatcherType = {}, uri = {}", uuid, request.getDispatcherType(), requestURI);
 			chain.doFilter(request, response);
 		} catch (Exception e) {
 			log.info("exception = {}", e.getClass().getSimpleName());
 			log.info("message = {}", e.getMessage());
 			throw e;
 		} finally {
-			log.info("Response: uuid = {}, dispatcherType = {}, requestURI = {}", uuid, request.getDispatcherType(), requestURI);
+			log.info("Response: uuid = {}, dispatcherType = {}, uri = {}", uuid, request.getDispatcherType(), requestURI);
 		}
 	}
 
