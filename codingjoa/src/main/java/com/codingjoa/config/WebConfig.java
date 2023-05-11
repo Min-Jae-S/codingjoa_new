@@ -1,17 +1,24 @@
 package com.codingjoa.config;
 
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 import javax.servlet.Filter;
+import javax.servlet.FilterChain;
 import javax.servlet.MultipartConfigElement;
+import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration.Dynamic;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
-import com.codingjoa.filter.LogFilter;
 import com.codingjoa.security.config.SecurityConfig;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitializer {
 	
 	@Override
@@ -36,13 +43,36 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 
 	@Override
 	protected Filter[] getServletFilters() {
-		CharacterEncodingFilter encodingFilter = new CharacterEncodingFilter();
+//		CharacterEncodingFilter encodingFilter = new CharacterEncodingFilter();
+//		encodingFilter.setEncoding(StandardCharsets.UTF_8.name());
+//		encodingFilter.setForceEncoding(true);
+		
+		CharacterEncodingFilter encodingFilter = new CharacterEncodingFilter() {
+			
+			@Override
+			protected void initFilterBean() throws ServletException {
+				log.info("## CharacterEncodingFilter initFilterBean...");
+				super.initFilterBean();
+			}
+
+			@Override
+			protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
+					FilterChain filterChain) throws ServletException, IOException {
+				log.info("## CharacterEncodingFilter doFilterInternal...");
+				super.doFilterInternal(request, response, filterChain);
+			}
+
+			@Override
+			public void destroy() {
+				log.info("## CharacterEncodingFilter destroy...");
+				super.destroy();
+			}
+		};
+		
 		encodingFilter.setEncoding(StandardCharsets.UTF_8.name());
 		encodingFilter.setForceEncoding(true);
 		
-		LogFilter logFilter = new LogFilter();
-
-		return new Filter[] { encodingFilter, logFilter };
+		return new Filter[] { encodingFilter };
 	}
 
 	@Override
@@ -58,4 +88,5 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 		//StandardServletMultipartResolver.cleanupMultipart(94) - Failed to perform cleanup of multipart items
 		registration.setMultipartConfig(multipartConfig);
 	}
+	
 }

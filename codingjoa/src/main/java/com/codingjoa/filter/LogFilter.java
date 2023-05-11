@@ -18,33 +18,40 @@ public class LogFilter implements Filter {
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
-		log.info("## {}: init", this.getClass().getSimpleName());
+		log.info("## {} init", this.getClass().getSimpleName());
+		Filter.super.init(filterConfig);
 	}
 
+	@SuppressWarnings("unused")
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
-		log.info("## {}, doFilter", this.getClass().getSimpleName());
+		log.info("## {} doFilter", this.getClass().getSimpleName());
 		
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		String requestURI = httpRequest.getRequestURI();
 		String uuid = UUID.randomUUID().toString();
 		
-		try {
-			log.info("Request : uuid = {}, dispatcherType = {}, uri = {}", uuid, request.getDispatcherType(), requestURI);
-			chain.doFilter(request, response);
-		} catch (Exception e) {
-			log.info("exception = {}", e.getClass().getSimpleName());
-			log.info("message = {}", e.getMessage());
-			throw e;
-		} finally {
-			log.info("Response: uuid = {}, dispatcherType = {}, uri = {}", uuid, request.getDispatcherType(), requestURI);
-		}
+		log.info("## before chain.doFilter");
+		chain.doFilter(request, response);
+		log.info("## after chain.doFilter");
+		
+//		try {
+//			log.info("Request : {}, {}, {}", uuid, request.getDispatcherType(), requestURI);
+//			chain.doFilter(request, response);
+//		} catch (Exception e) {
+//			log.info("exception = {}", e.getClass().getSimpleName());
+//			log.info("message = {}", e.getMessage());
+//			throw e;
+//		} finally {
+//			log.info("Response: {}, {}, {}", uuid, request.getDispatcherType(), requestURI);
+//		}
+		
 	}
 
 	@Override
 	public void destroy() {
-		log.info("## {}: destory", this.getClass().getSimpleName());
+		log.info("## {} destory", this.getClass().getSimpleName());
+		Filter.super.destroy();
 	}
-
 }

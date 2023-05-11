@@ -53,7 +53,7 @@ import lombok.extern.slf4j.Slf4j;
 	"com.codingjoa.controller", 
 	"com.codingjoa.validator",
 	"com.codingjoa.resolver"
-})  
+})
 public class ServletConfig implements WebMvcConfigurer {
 	
 	@Value("${upload.path}")
