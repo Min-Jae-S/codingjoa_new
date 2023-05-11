@@ -18,23 +18,20 @@ public class LogFilter implements Filter {
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
-		log.info("## {} init", this.getClass().getSimpleName());
-		Filter.super.init(filterConfig);
+		log.info("## {} init...", this.getClass().getSimpleName());
 	}
 
 	@SuppressWarnings("unused")
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
-		log.info("## {} doFilter", this.getClass().getSimpleName());
+		log.info("## {} doFilter...", this.getClass().getSimpleName());
 		
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		String requestURI = httpRequest.getRequestURI();
 		String uuid = UUID.randomUUID().toString();
 		
-		log.info("## before chain.doFilter");
 		chain.doFilter(request, response);
-		log.info("## after chain.doFilter");
 		
 //		try {
 //			log.info("Request : {}, {}, {}", uuid, request.getDispatcherType(), requestURI);
@@ -51,7 +48,6 @@ public class LogFilter implements Filter {
 
 	@Override
 	public void destroy() {
-		log.info("## {} destory", this.getClass().getSimpleName());
-		Filter.super.destroy();
+		log.info("## {} destory...", this.getClass().getSimpleName());
 	}
 }

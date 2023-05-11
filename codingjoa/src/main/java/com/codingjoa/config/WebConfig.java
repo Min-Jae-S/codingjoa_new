@@ -43,29 +43,23 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 
 	@Override
 	protected Filter[] getServletFilters() {
-//		CharacterEncodingFilter encodingFilter = new CharacterEncodingFilter();
-//		encodingFilter.setEncoding(StandardCharsets.UTF_8.name());
-//		encodingFilter.setForceEncoding(true);
 		
 		CharacterEncodingFilter encodingFilter = new CharacterEncodingFilter() {
-			
 			@Override
 			protected void initFilterBean() throws ServletException {
-				log.info("## CharacterEncodingFilter initFilterBean...");
-				super.initFilterBean();
+				log.info("## {} init...", this.getClass().getSimpleName());
 			}
 
 			@Override
 			protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
 					FilterChain filterChain) throws ServletException, IOException {
-				log.info("## CharacterEncodingFilter doFilterInternal...");
+				log.info("## {} doFilter...", this.getClass().getSimpleName());
 				super.doFilterInternal(request, response, filterChain);
 			}
 
 			@Override
 			public void destroy() {
-				log.info("## CharacterEncodingFilter destroy...");
-				super.destroy();
+				log.info("## {} destroy...", this.getClass().getSimpleName());
 			}
 		};
 		
