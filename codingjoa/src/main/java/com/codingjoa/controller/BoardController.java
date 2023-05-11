@@ -230,11 +230,18 @@ public class BoardController {
 
 	@ResponseBody
 	@GetMapping(value = "/test2")
-	//@GetMapping(value = "/test2", produces = MediaType.APPLICATION_JSON_VALUE)
 	public String test2() {
 		log.info("## test2 called...");
 		
-		return "test/test";
+		return "test2";
+	}
+
+	@ResponseBody
+	@GetMapping(value = "/test3", produces = MediaType.APPLICATION_JSON_VALUE)
+	public String test3() {
+		log.info("## test3 called...");
+		
+		return "test3";
 	}
 	
 	@GetMapping("/npe")

@@ -32,19 +32,17 @@ public class LogFilter implements Filter {
 		String requestURI = httpRequest.getRequestURI();
 		
 		HttpServletResponse httpResponse = (HttpServletResponse) response;
-		
 		try {
 			log.info("## Request");
 			log.info("\t URI = {}", requestURI);
 			log.info("\t distpatcherType = {}",  request.getDispatcherType());
-			log.info("\t header = {}", httpResponse.getHeaderNames());
 			log.info("\t contentType = {}", httpResponse.getContentType());
 			
-			Iterator<String> headerIterator = httpRequest.getHeaderNames().asIterator();
-			while(headerIterator.hasNext()) {
-				String header = headerIterator.next();
-				log.info("\t {} = {}", header, httpRequest.getHeader(header));
-			}
+//			Iterator<String> headerIterator = httpRequest.getHeaderNames().asIterator();
+//			while(headerIterator.hasNext()) {
+//				String header = headerIterator.next();
+//				log.info("\t {} = {}", header, httpRequest.getHeader(header));
+//			}
 			
 			chain.doFilter(request, response);
 		} catch (Exception e) {
@@ -57,11 +55,10 @@ public class LogFilter implements Filter {
 			log.info("\t distpatcherType = {}",  request.getDispatcherType());
 			log.info("\t contentType = {}", httpResponse.getContentType());
 			
-			httpResponse.getHeaderNames().forEach(header -> {
-				log.info("\t {} = {}", header, httpResponse.getHeader(header));
-			});
+//			httpResponse.getHeaderNames().forEach(header -> {
+//				log.info("\t {} = {}", header, httpResponse.getHeader(header));
+//			});
 		}
-		
 	}
 	
 	@Override
