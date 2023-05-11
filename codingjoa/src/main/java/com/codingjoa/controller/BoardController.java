@@ -6,6 +6,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.codingjoa.annotation.BoardCategoryCode;
@@ -218,17 +220,27 @@ public class BoardController {
 											.toUriString();
 	}
 	
-	// TEST
-	@GetMapping("/test/{param1}")
-	public String test(@PathVariable Integer param1) {
-		log.info("param1 = {}", param1);
+	@GetMapping(value = "/test1")
+	//@GetMapping(value = "/test1", produces = MediaType.TEXT_PLAIN_VALUE)
+	public String test1() {
+		log.info("## test1 called...");
+		
+		return "test/test";
+	}
+
+	@ResponseBody
+	@GetMapping(value = "/test2")
+	//@GetMapping(value = "/test2", produces = MediaType.APPLICATION_JSON_VALUE)
+	public String test2() {
+		log.info("## test2 called...");
 		
 		return "test/test";
 	}
 	
 	@GetMapping("/npe")
 	public String npe() {
-		throw new NullPointerException("TEST");
+		log.info("## npe called...");
+		throw new NullPointerException();
 	}
 	
 	
