@@ -61,8 +61,8 @@ public class ServletConfig implements WebMvcConfigurer {
 	@Autowired
 	private CommentCriteriaArgumentResolver commentCriteriaArgumentResolver;
 	
-	@Autowired
-	private CustomExceptionResolver customExceptionResolver;
+//	@Autowired
+//	private CustomExceptionResolver customExceptionResolver;
 	
 	@Override
 	public void configureViewResolvers(ViewResolverRegistry registry) {
@@ -114,17 +114,18 @@ public class ServletConfig implements WebMvcConfigurer {
 		
 		return new MappingJackson2HttpMessageConverter(objectMapper);
 	}
-
+	
 	@Override
 	public void extendHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
+		WebMvcConfigurer.super.extendHandlerExceptionResolvers(resolvers);
 		log.info("-------- extendHandlerExceptionResolvers --------");
 		
-		resolvers.add(0, customExceptionResolver);
+		//resolvers.add(0, customExceptionResolver);
 		for (HandlerExceptionResolver resovler : resolvers) {
 			log.info("{}", resovler.getClass().getSimpleName());
 		}
 	}
-	
+
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 //		registry.addInterceptor(new BeforeUpdatePasswordInterceptor())
