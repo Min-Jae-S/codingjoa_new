@@ -21,8 +21,6 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 
 import com.codingjoa.filter.LogFilter;
 
-import lombok.extern.slf4j.Slf4j;
-
 @Configuration
 @EnableWebSecurity(debug = true)
 @ComponentScan("com.codingjoa.security.service")
