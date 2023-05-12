@@ -57,6 +57,13 @@ public class BoardController {
 		log.info("-------- initBinderBoard --------");
 		binder.addValidators(boardValidator);
 	}
+	
+	@GetMapping("/npe")
+	public String npe() {
+		log.info("## npe called...");
+		
+		throw new NullPointerException();
+	}
 
 	@GetMapping("/all")
 	public String getAllBoard(Model model) {
@@ -216,12 +223,5 @@ public class BoardController {
 											.queryParam("boardCategoryCode", boardCategoryCode)
 											.toUriString();
 	}
-	
-	@GetMapping("/npe")
-	public String npe() {
-		log.info("## npe called...");
-		throw new NullPointerException();
-	}
-	
 	
 }

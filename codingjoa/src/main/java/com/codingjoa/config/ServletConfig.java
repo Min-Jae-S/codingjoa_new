@@ -49,11 +49,7 @@ import lombok.extern.slf4j.Slf4j;
 @Configuration
 @EnableWebMvc
 @PropertySource("/WEB-INF/properties/upload.properties")
-@ComponentScan(basePackages = { 
-	"com.codingjoa.controller", 
-	"com.codingjoa.validator",
-	"com.codingjoa.resolver"
-})
+@ComponentScan(basePackages = {	"com.codingjoa.controller", "com.codingjoa.validator", "com.codingjoa.resolver" })
 public class ServletConfig implements WebMvcConfigurer {
 	
 	@Value("${upload.path}")
