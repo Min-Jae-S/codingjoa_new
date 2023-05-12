@@ -1,10 +1,18 @@
 package com.codingjoa.config;
 
+import java.util.EnumSet;
+
+import javax.servlet.DispatcherType;
+import javax.servlet.Filter;
+import javax.servlet.FilterRegistration;
 import javax.servlet.MultipartConfigElement;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration.Dynamic;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
+import com.codingjoa.filter.LogFilter;
 import com.codingjoa.security.config.SecurityConfig;
 
 public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitializer {
@@ -42,6 +50,14 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 		
 		//StandardServletMultipartResolver.cleanupMultipart(94) - Failed to perform cleanup of multipart items
 		registration.setMultipartConfig(multipartConfig);
+	}
+
+	@Override
+	public void onStartup(ServletContext servletContext) throws ServletException {
+		super.onStartup(servletContext);
+		
+		FilterRegistration.Dynamic logFilter = servletContext.addFilter("logFilter", new LogFilter());
+		logFilter.addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), false, "/*");
 	}
 	
 }

@@ -1,6 +1,7 @@
 package com.codingjoa.filter;
 
 import java.io.IOException;
+import java.util.UUID;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -28,10 +29,12 @@ public class LogFilter implements Filter {
 		
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		String requestURI = httpRequest.getRequestURI();
+		String uuid = UUID.randomUUID().toString();
 		
 		try {
 			log.info("## Request");
 			log.info("	URI = {}", requestURI);
+			log.info("	UUID = {}", uuid);
 			log.info("	distpatcherType = {}",  request.getDispatcherType());
 			chain.doFilter(request, response);
 		} catch (Exception e) {
@@ -42,6 +45,7 @@ public class LogFilter implements Filter {
 		} finally {
 			log.info("## Response");
 			log.info("	URI = {}", requestURI);
+			log.info("	UUID = {}", uuid);
 			log.info("	distpatcherType = {}",  request.getDispatcherType());
 		}
 	}
