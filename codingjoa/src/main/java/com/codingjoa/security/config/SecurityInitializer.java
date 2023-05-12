@@ -14,7 +14,7 @@ public class SecurityInitializer extends AbstractSecurityWebApplicationInitializ
 	// https://develop-writing.tistory.com/97(DistptcherType)
 	@Override
 	protected EnumSet<DispatcherType> getSecurityDispatcherTypes() {
-		//return EnumSet.of(DispatcherType.REQUEST, DispatcherType.ERROR, DispatcherType.ASYNC, DispatcherType.FORWARD);
+		//return EnumSet.of(DispatcherType.REQUEST, DispatcherType.INCLUDE);
 		return EnumSet.allOf(DispatcherType.class);
 	}
 	

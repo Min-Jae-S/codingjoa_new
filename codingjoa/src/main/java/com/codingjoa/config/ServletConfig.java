@@ -49,20 +49,11 @@ import lombok.extern.slf4j.Slf4j;
 @Configuration
 @EnableWebMvc
 @PropertySource("/WEB-INF/properties/upload.properties")
-@ComponentScan(basePackages = {	"com.codingjoa.controller", "com.codingjoa.validator", "com.codingjoa.resolver" })
+@ComponentScan(basePackages = {	"com.codingjoa.controller", "com.codingjoa.validator" })
 public class ServletConfig implements WebMvcConfigurer {
 	
 	@Value("${upload.path}")
 	private String uploadPath;
-	
-	@Autowired
-	private BoardCriteriaArgumentResolver boardCriteriaArgumentResolver;
-
-	@Autowired
-	private CommentCriteriaArgumentResolver commentCriteriaArgumentResolver;
-	
-//	@Autowired
-//	private CustomExceptionResolver customExceptionResolver;
 	
 	@Override
 	public void configureViewResolvers(ViewResolverRegistry registry) {
@@ -117,10 +108,10 @@ public class ServletConfig implements WebMvcConfigurer {
 	
 	@Override
 	public void extendHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
-		WebMvcConfigurer.super.extendHandlerExceptionResolvers(resolvers);
 		log.info("-------- extendHandlerExceptionResolvers --------");
+		WebMvcConfigurer.super.extendHandlerExceptionResolvers(resolvers);
 		
-		//resolvers.add(0, customExceptionResolver);
+		//resolvers.add(0, new CustomExceptionResolver());
 		for (HandlerExceptionResolver resovler : resolvers) {
 			log.info("{}", resovler.getClass().getSimpleName());
 		}
@@ -148,8 +139,8 @@ public class ServletConfig implements WebMvcConfigurer {
 
 	@Override
 	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
-		resolvers.add(boardCriteriaArgumentResolver);
-		resolvers.add(commentCriteriaArgumentResolver);
+		resolvers.add(new BoardCriteriaArgumentResolver());
+		resolvers.add(new CommentCriteriaArgumentResolver());
 	}
 	
 	@Bean
