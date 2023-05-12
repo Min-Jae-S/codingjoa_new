@@ -7,14 +7,10 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
 
 import com.codingjoa.security.config.SecurityConfig;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitializer {
 	
 	@Override
 	protected Class<?>[] getRootConfigClasses() {
-		log.info("--------- getRootConfigClasses --------");
 		return new Class[] { 
 			RootConfig.class, 
 			SecurityConfig.class,
@@ -25,19 +21,16 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 
 	@Override
 	protected Class<?>[] getServletConfigClasses() {
-		log.info("--------- getServletConfigClasses --------");
 		return new Class[] { ServletConfig.class };
 	}
 
 	@Override
 	protected String[] getServletMappings() {
-		log.info("--------- getServletMappings --------");
 		return new String[] { "/" };
 	}
 
 	@Override
 	protected void customizeRegistration(Dynamic registration) {
-		log.info("--------- customizeRegistration --------");
 		
 		// new MultipartConfigElement(String location, long maxFileSize, long maxRequestSize, int fileSizeThreshold)
 		// location 			: 임시폴더 경로, null로 설정시 tomcat이 설정한 임시폴더로 지정
@@ -50,4 +43,5 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 		//StandardServletMultipartResolver.cleanupMultipart(94) - Failed to perform cleanup of multipart items
 		registration.setMultipartConfig(multipartConfig);
 	}
+	
 }
