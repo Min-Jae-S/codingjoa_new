@@ -1,26 +1,15 @@
 package com.codingjoa.config;
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-
 import javax.servlet.Filter;
-import javax.servlet.FilterChain;
 import javax.servlet.MultipartConfigElement;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration.Dynamic;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.web.filter.CharacterEncodingFilter;
-import org.springframework.web.filter.DelegatingFilterProxy;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 import com.codingjoa.security.config.SecurityConfig;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitializer {
 	
 	@Override
@@ -45,26 +34,7 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 
 	@Override
 	protected Filter[] getServletFilters() {
-		CharacterEncodingFilter encodingFilter = new CharacterEncodingFilter() {
-
-			@Override
-			protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
-					FilterChain filterChain) throws ServletException, IOException {
-				log.info("-------- CharacterEncodingFilter init --------");
-				super.doFilterInternal(request, response, filterChain);
-			}
-
-			@Override
-			protected void initFilterBean() throws ServletException {
-				log.info("-------- CharacterEncodingFilter doFilter --------");
-				super.initFilterBean();
-			}
-			
-		};
-		encodingFilter.setEncoding(StandardCharsets.UTF_8.name());
-		encodingFilter.setForceEncoding(true);
-		
-		return new Filter[] { encodingFilter };
+		return super.getServletFilters();
 	}
 
 	@Override
@@ -79,11 +49,5 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 		
 		//StandardServletMultipartResolver.cleanupMultipart(94) - Failed to perform cleanup of multipart items
 		registration.setMultipartConfig(multipartConfig);
-	}
-
-	@Override
-	public void onStartup(ServletContext servletContext) throws ServletException {
-		super.onStartup(servletContext);
-		servletContext.addFilter("logFilter", DelegatingFilterProxy.class);
 	}
 }

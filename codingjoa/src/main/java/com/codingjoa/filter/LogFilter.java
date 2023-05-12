@@ -10,12 +10,9 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.stereotype.Component;
-
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@Component
 //@WebFilter
 public class LogFilter implements Filter {
 	
@@ -27,7 +24,7 @@ public class LogFilter implements Filter {
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
-		log.info("-------- {} --------", this.getClass().getSimpleName());
+		log.info("-------- {} doFilter --------", this.getClass().getSimpleName());
 		
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		String requestURI = httpRequest.getRequestURI();
