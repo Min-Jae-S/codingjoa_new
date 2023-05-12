@@ -1,12 +1,5 @@
 package com.codingjoa.security.config;
 
-import java.io.IOException;
-
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -22,6 +15,7 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
@@ -29,7 +23,6 @@ import com.codingjoa.filter.LogFilter;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @Configuration
 @EnableWebSecurity(debug = true)
 @ComponentScan("com.codingjoa.security.service")
@@ -52,22 +45,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Bean
 	public CharacterEncodingFilter encodingFilter() {
-		CharacterEncodingFilter encodingFilter = new CharacterEncodingFilter() {
-
-			@Override
-			protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
-					FilterChain filterChain) throws ServletException, IOException {
-				log.info("-------- CharacterEncodingFilter init --------");
-				super.doFilterInternal(request, response, filterChain);
-			}
-
-			@Override
-			protected void initFilterBean() throws ServletException {
-				log.info("-------- CharacterEncodingFilter doFilter --------");
-				super.initFilterBean();
-			}
-			
-		};
+		CharacterEncodingFilter encodingFilter = new CharacterEncodingFilter();
 		encodingFilter.setEncoding("UTF-8");
 		encodingFilter.setForceEncoding(true);
 		
@@ -112,9 +90,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		 */
 		
 		http
-			.csrf().disable()
-			.addFilter(encodingFilter())
-			.addFilter(logFilter())
+			//.csrf().disable()
+			.addFilterBefore(logFilter(), BasicAuthenticationFilter.class)
 			.addFilterBefore(encodingFilter(), CsrfFilter.class)
 			.authorizeRequests()
 				//.filterSecurityInterceptorOncePerRequest(false)

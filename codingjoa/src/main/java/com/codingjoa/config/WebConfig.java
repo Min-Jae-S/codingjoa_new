@@ -1,6 +1,5 @@
 package com.codingjoa.config;
 
-import javax.servlet.Filter;
 import javax.servlet.MultipartConfigElement;
 import javax.servlet.ServletRegistration.Dynamic;
 
@@ -10,10 +9,12 @@ import com.codingjoa.security.config.SecurityConfig;
 
 import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitializer {
 	
 	@Override
 	protected Class<?>[] getRootConfigClasses() {
+		log.info("--------- getRootConfigClasses --------");
 		return new Class[] { 
 			RootConfig.class, 
 			SecurityConfig.class,
@@ -24,21 +25,20 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 
 	@Override
 	protected Class<?>[] getServletConfigClasses() {
+		log.info("--------- getServletConfigClasses --------");
 		return new Class[] { ServletConfig.class };
 	}
 
 	@Override
 	protected String[] getServletMappings() {
+		log.info("--------- getServletMappings --------");
 		return new String[] { "/" };
 	}
 
 	@Override
-	protected Filter[] getServletFilters() {
-		return super.getServletFilters();
-	}
-
-	@Override
 	protected void customizeRegistration(Dynamic registration) {
+		log.info("--------- customizeRegistration --------");
+		
 		// new MultipartConfigElement(String location, long maxFileSize, long maxRequestSize, int fileSizeThreshold)
 		// location 			: 임시폴더 경로, null로 설정시 tomcat이 설정한 임시폴더로 지정
 		// maxFileSize			: 업로드 하는 파일의 최대 용량(byte 단위)
