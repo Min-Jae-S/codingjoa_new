@@ -20,7 +20,6 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
-import org.springframework.core.convert.ConversionService;
 import org.springframework.core.env.Environment;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
@@ -146,12 +145,12 @@ public class ServletConfig implements WebMvcConfigurer {
 		resolver.setRecordCnt(env.getProperty("criteria.recordCnt", Integer.class));
 		resolver.setType(env.getProperty("criteria.type"));
 		
-		for (int i=0; i<4; i++) {
-			String key = String.format("criteria.test%d", i+1);
+		for (int i=0; i<5; i++) {
+			String key = "criteria.test" + (i+1);
 			try {
 				env.getProperty(key, Map.class);
 			} catch (Exception e) {
-				log.info("	{}", e.getMessage());
+				log.info("	## {}: {}", key, e.getMessage());
 			}
 		}
 		
