@@ -10,7 +10,6 @@ import java.util.TimeZone;
 import javax.validation.Validator;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -40,6 +39,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import com.codingjoa.resolver.BoardCriteriaArgumentResolver;
 import com.codingjoa.resolver.CommentCriteriaArgumentResolver;
 import com.codingjoa.util.MessageUtils;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 
@@ -55,9 +55,6 @@ public class ServletConfig implements WebMvcConfigurer {
 	
 	@Autowired
 	private Environment env;
-	
-	@Value("#{${criteria.recordCntMap}}")
-	private Map<String, Object> recordCntMap;
 	
 	@Override
 	public void configureViewResolvers(ViewResolverRegistry registry) {
@@ -136,6 +133,7 @@ public class ServletConfig implements WebMvcConfigurer {
 		resolvers.add(commentCriteriaArgumentResolver());
 	}
 
+	@SuppressWarnings("unchecked")
 	@Bean
 	public BoardCriteriaArgumentResolver boardCriteriaArgumentResolver() {
 		log.info("-------- register boardCriteriaArgumentResolver --------");
@@ -145,13 +143,14 @@ public class ServletConfig implements WebMvcConfigurer {
 		resolver.setRecordCnt(env.getProperty("criteria.recordCnt", Integer.class));
 		resolver.setType(env.getProperty("criteria.type"));
 		
-		for (int i=0; i<5; i++) {
-			String key = "criteria.test" + (i+1);
-			try {
-				env.getProperty(key, Map.class);
-			} catch (Exception e) {
-				log.info("	## {}: {}", key, e.getMessage());
-			}
+		String jsonRecordCntMap = env.getProperty("criteria.recordCntMap");
+		String jsonTypeMap = env.getProperty("criteria.typeMap");
+		ObjectMapper objectMapper = new ObjectMapper();
+		try {
+			resolver.setRecordCntMap(objectMapper.readValue(jsonRecordCntMap, Map.class));
+			resolver.setTypeMap(objectMapper.readValue(jsonTypeMap, Map.class));
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
 		}
 		
 		return resolver;
