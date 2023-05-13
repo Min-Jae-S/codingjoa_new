@@ -38,6 +38,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.codingjoa.resolver.BoardCriteriaArgumentResolver;
 import com.codingjoa.resolver.CommentCriteriaArgumentResolver;
+import com.codingjoa.resolver.CustomExceptionResolver;
 import com.codingjoa.util.MessageUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -92,7 +93,7 @@ public class ServletConfig implements WebMvcConfigurer {
 			.forEach(converter -> ((StringHttpMessageConverter) converter).setDefaultCharset(StandardCharsets.UTF_8));
 		
 		for (HttpMessageConverter<?> converter : converters) {
-			log.info("{}", converter.getClass().getSimpleName());
+			log.info("	{}", converter.getClass().getSimpleName());
 		}
 	}
 	
@@ -112,14 +113,14 @@ public class ServletConfig implements WebMvcConfigurer {
 	public void extendHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
 		log.info("-------- extendHandlerExceptionResolvers --------");
 		
-		//resolvers.add(0, new CustomExceptionResolver());
+		resolvers.add(0, new CustomExceptionResolver());
 		for (HandlerExceptionResolver resovler : resolvers) {
-			log.info("{}", resovler.getClass().getSimpleName());
+			log.info("	{}", resovler.getClass().getSimpleName());
 		}
 		
 		WebMvcConfigurer.super.extendHandlerExceptionResolvers(resolvers);
 	}
-
+	
 	@Bean
 	public MultipartResolver multipartResolver() {
 		// MultipartResolver: StandardServletMultipartResolver, CommonsMultipartResolver
