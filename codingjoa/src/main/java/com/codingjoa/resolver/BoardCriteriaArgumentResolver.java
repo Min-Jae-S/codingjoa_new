@@ -35,11 +35,6 @@ public class BoardCriteriaArgumentResolver implements HandlerMethodArgumentResol
 	public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
 			NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
 		log.info("-------- {} --------", this.getClass().getSimpleName());
-		log.info("	default page = {}", page);
-		log.info("	default recordCnt = {}", recordCnt);
-		log.info("	default type = {}", type);
-		log.info("	recordCntMap = {}", recordCntMap);
-		log.info("	typeMap = {}", typeMap);
 		
 		mavContainer.addAttribute("recordCntMap", recordCntMap);
 		mavContainer.addAttribute("typeMap", typeMap);
@@ -48,10 +43,6 @@ public class BoardCriteriaArgumentResolver implements HandlerMethodArgumentResol
 		String rawRecordCnt = webRequest.getParameter("recordCnt");
 		String rawType = webRequest.getParameter("type");
 		String rawKeyword = webRequest.getParameter("keyword");
-		log.info("	raw page = {}", rawPage);
-		log.info("	raw recordCnt = {}", rawRecordCnt);
-		log.info("	raw type = {}", rawType);
-		log.info("	raw keyword = {}", rawKeyword);
 		
 		return new Criteria(
 			MyNumberUtils.isNaturalNumber(rawPage) ? Integer.parseInt(rawPage) : page,

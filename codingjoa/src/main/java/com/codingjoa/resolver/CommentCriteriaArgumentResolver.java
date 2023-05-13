@@ -34,8 +34,6 @@ public class CommentCriteriaArgumentResolver implements HandlerMethodArgumentRes
 	public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
 			NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
 		log.info("-------- {} --------", this.getClass().getSimpleName());
-		log.info("	default page = {}", page);
-		log.info("	default recordCnt = {}", recordCnt);
 		
 		String rawPage = webRequest.getParameter("page");
 		log.info("	raw page = {}", rawPage);

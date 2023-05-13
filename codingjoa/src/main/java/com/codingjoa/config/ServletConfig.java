@@ -136,8 +136,6 @@ public class ServletConfig implements WebMvcConfigurer {
 	@SuppressWarnings("unchecked")
 	@Bean
 	public BoardCriteriaArgumentResolver boardCriteriaArgumentResolver() {
-		log.info("-------- register boardCriteriaArgumentResolver --------");
-		
 		BoardCriteriaArgumentResolver resolver = new BoardCriteriaArgumentResolver();
 		resolver.setPage(env.getProperty("criteria.page", Integer.class));
 		resolver.setRecordCnt(env.getProperty("criteria.recordCnt", Integer.class));
