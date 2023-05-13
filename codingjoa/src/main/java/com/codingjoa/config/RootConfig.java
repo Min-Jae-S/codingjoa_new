@@ -7,12 +7,13 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.web.context.annotation.SessionScope;
 
 import com.codingjoa.dto.SessionDto;
@@ -24,26 +25,17 @@ import com.zaxxer.hikari.HikariDataSource;
 @MapperScan("com.codingjoa.mapper")
 @ComponentScan(basePackages = { "com.codingjoa.service", "com.codingjoa.response" })
 public class RootConfig {
-
-	@Value("${db.classname}")
-	private String classname;
-
-	@Value("${db.url}")
-	private String url;
-
-	@Value("${db.username}")
-	private String username;
-
-	@Value("${db.password}")
-	private String password;
+	
+	@Autowired
+	private Environment env;
 	
 	@Bean
 	public HikariConfig hikariConfig() {
 		HikariConfig hikariConfig = new HikariConfig();
-		hikariConfig.setDriverClassName(classname);
-		hikariConfig.setJdbcUrl(url);
-		hikariConfig.setUsername(username);
-		hikariConfig.setPassword(password);
+		hikariConfig.setDriverClassName(env.getProperty("db.classname"));
+		hikariConfig.setJdbcUrl(env.getProperty("db.url"));
+		hikariConfig.setUsername(env.getProperty("db.username"));
+		hikariConfig.setPassword(env.getProperty("db.password"));
 
 		return hikariConfig;
 	}

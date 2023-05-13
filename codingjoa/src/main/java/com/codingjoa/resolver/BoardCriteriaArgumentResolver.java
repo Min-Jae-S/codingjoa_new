@@ -2,8 +2,6 @@ package com.codingjoa.resolver;
 
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
@@ -14,25 +12,17 @@ import com.codingjoa.annotation.BoardCri;
 import com.codingjoa.pagination.Criteria;
 import com.codingjoa.util.MyNumberUtils;
 
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@PropertySource("/WEB-INF/properties/criteria.properties")
+@Setter
 public class BoardCriteriaArgumentResolver implements HandlerMethodArgumentResolver {
 	
-	@Value("${criteria.page}") 
-	private int DEFAULT_PAGE;
-	
-	@Value("${criteria.recordCnt}") 
-	private int DEFAULT_RECORD_CNT;
-	
-	@Value("${criteria.type}") 
-	private String DEFALUT_TYPE;
-	
-	@Value("#{${criteria.recordCntMap}}") 
+	private int page;
+	private int recordCnt;
+	private String type;
 	private Map<String, Object> recordCntMap; 
-	
-	@Value("#{${criteria.typeMap}}") 
 	private Map<String, Object> typeMap;
 	
 	@Override
@@ -45,20 +35,29 @@ public class BoardCriteriaArgumentResolver implements HandlerMethodArgumentResol
 	public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
 			NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
 		log.info("-------- {} --------", this.getClass().getSimpleName());
+		log.info("	default page = {}", page);
+		log.info("	default recordCnt = {}", recordCnt);
+		log.info("	default type = {}", type);
+		log.info("	recordCntMap = {}", recordCntMap);
+		log.info("	typeMap = {}", typeMap);
 		
 		mavContainer.addAttribute("recordCntMap", recordCntMap);
 		mavContainer.addAttribute("typeMap", typeMap);
 		
-		String page = webRequest.getParameter("page");
-		String recordCnt = webRequest.getParameter("recordCnt");
-		String type = webRequest.getParameter("type");
-		String keyword = webRequest.getParameter("keyword");
+		String rawPage = webRequest.getParameter("page");
+		String rawRecordCnt = webRequest.getParameter("recordCnt");
+		String rawType = webRequest.getParameter("type");
+		String rawKeyword = webRequest.getParameter("keyword");
+		log.info("	raw page = {}", rawPage);
+		log.info("	raw recordCnt = {}", rawRecordCnt);
+		log.info("	raw type = {}", rawType);
+		log.info("	raw keyword = {}", rawKeyword);
 		
 		return new Criteria(
-			MyNumberUtils.isNaturalNumber(page) ? Integer.parseInt(page) : DEFAULT_PAGE,
-			recordCntMap.containsKey(recordCnt) ? Integer.parseInt(recordCnt) : DEFAULT_RECORD_CNT,
-			typeMap.containsKey(type) ? type : DEFALUT_TYPE,
-			keyword == null ? null : keyword.strip()
+			MyNumberUtils.isNaturalNumber(rawPage) ? Integer.parseInt(rawPage) : page,
+			recordCntMap.containsKey(rawRecordCnt) ? Integer.parseInt(rawRecordCnt) : recordCnt,
+			typeMap.containsKey(rawType) ? rawType : type,
+			rawKeyword == null ? null : rawKeyword.strip()
 		);
 	}
 }

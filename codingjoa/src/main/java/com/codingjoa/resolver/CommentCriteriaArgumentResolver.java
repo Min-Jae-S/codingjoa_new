@@ -2,8 +2,6 @@ package com.codingjoa.resolver;
 
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
@@ -16,17 +14,15 @@ import com.codingjoa.annotation.CommentCri;
 import com.codingjoa.pagination.CommentCriteria;
 import com.codingjoa.util.MyNumberUtils;
 
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@PropertySource("/WEB-INF/properties/criteria.properties")
+@Setter
 public class CommentCriteriaArgumentResolver implements HandlerMethodArgumentResolver {
 
-	@Value("${criteria.page}") 
-	private int DEFAULT_PAGE;
-	
-	@Value("${criteria.recordCnt}") 
-	private int DEFAULT_RECORD_CNT;
+	private int page;
+	private int recordCnt;
 	
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
@@ -38,13 +34,15 @@ public class CommentCriteriaArgumentResolver implements HandlerMethodArgumentRes
 	public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
 			NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
 		log.info("-------- {} --------", this.getClass().getSimpleName());
+		log.info("	default page = {}", page);
+		log.info("	default recordCnt = {}", recordCnt);
 		
-		String page = webRequest.getParameter("page");
-		log.info("raw page = {}", page);
+		String rawPage = webRequest.getParameter("page");
+		log.info("	raw page = {}", rawPage);
 		
 		return new CommentCriteria(
-			MyNumberUtils.isNaturalNumber(page) ? Integer.parseInt(page) : DEFAULT_PAGE,
-			DEFAULT_RECORD_CNT
+			MyNumberUtils.isNaturalNumber(rawPage) ? Integer.parseInt(rawPage) : page,
+			recordCnt
 		);
 	}
 	

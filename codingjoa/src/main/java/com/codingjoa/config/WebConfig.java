@@ -56,7 +56,7 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 	
 	@Override
 	public void onStartup(ServletContext servletContext) throws ServletException {
-		log.info("-------- onStartup -------");
+		log.info("-------- dispatcherServlet onStartup -------");
 		super.onStartup(servletContext);
 		
 		FilterRegistration.Dynamic logFilter = servletContext.addFilter("logFilter", new LogFilter());

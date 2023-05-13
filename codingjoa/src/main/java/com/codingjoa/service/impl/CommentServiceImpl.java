@@ -28,7 +28,7 @@ public class CommentServiceImpl implements CommentService {
 	
 	@Autowired
 	private ModelMapper modelMapper;
-
+	
 	@Override
 	public void writeComment(CommentDto commentDto) {
 		Comment comment = modelMapper.map(commentDto, Comment.class);

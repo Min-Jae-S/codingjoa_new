@@ -10,7 +10,6 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -32,7 +31,6 @@ public class LogFilter implements Filter {
 		String requestURI = httpRequest.getRequestURI();
 		String uuid = UUID.randomUUID().toString();
 		
-		HttpServletResponse httpResponse = (HttpServletResponse) response;
 		try {
 			log.info("## Request");
 			log.info("	URI = {}", requestURI);
@@ -43,7 +41,7 @@ public class LogFilter implements Filter {
 			log.info("## Catch Exception");
 			log.info("	exception = {}", e.getClass().getSimpleName());
 			log.info("	message = {}", e.getMessage());
-			httpResponse.sendError(400, "에러입니다!!");
+			throw e;
 		} finally {
 			log.info("## Response");
 			log.info("	URI = {}", requestURI);

@@ -4,6 +4,7 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
 import java.util.TimeZone;
 
 import javax.validation.Validator;
@@ -19,6 +20,8 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.core.convert.ConversionService;
+import org.springframework.core.env.Environment;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
@@ -30,7 +33,6 @@ import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
@@ -38,7 +40,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.codingjoa.resolver.BoardCriteriaArgumentResolver;
 import com.codingjoa.resolver.CommentCriteriaArgumentResolver;
-import com.codingjoa.resolver.CustomExceptionResolver;
 import com.codingjoa.util.MessageUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
@@ -49,11 +50,15 @@ import lombok.extern.slf4j.Slf4j;
 @Configuration
 @EnableWebMvc
 @PropertySource("/WEB-INF/properties/upload.properties")
+@PropertySource("/WEB-INF/properties/criteria.properties")
 @ComponentScan(basePackages = {	"com.codingjoa.controller", "com.codingjoa.validator" })
 public class ServletConfig implements WebMvcConfigurer {
 	
-	@Value("${upload.path}")
-	private String uploadPath;
+	@Autowired
+	private Environment env;
+	
+	@Value("#{${criteria.recordCntMap}}")
+	private Map<String, Object> recordCntMap;
 	
 	@Override
 	public void configureViewResolvers(ViewResolverRegistry registry) {
@@ -65,18 +70,19 @@ public class ServletConfig implements WebMvcConfigurer {
 		registry.addResourceHandler("/resources/**")
 				.addResourceLocations("/resources/");
 		registry.addResourceHandler("/upload/**")
-				.addResourceLocations("file:///" + uploadPath);
+				.addResourceLocations("file:///" + env.getProperty("upload.path"));
 	}
 
 	@Override
 	public void configurePathMatch(PathMatchConfigurer configurer) {
 		log.info("-------- configurePathMatch --------");
-		WebMvcConfigurer.super.configurePathMatch(configurer);
 		
 		configurer.setUseTrailingSlashMatch(true);
 	    log.info("isUseTrailingSlashMatch = {}", configurer.isUseTrailingSlashMatch());
 	    log.info("isUseSuffixPatternMatch = {}", configurer.isUseSuffixPatternMatch());
 	    log.info("isUseRegisteredSuffixPatternMatch = {}", configurer.isUseRegisteredSuffixPatternMatch());
+
+	    WebMvcConfigurer.super.configurePathMatch(configurer);
 	}
 
 	@Override
@@ -109,38 +115,56 @@ public class ServletConfig implements WebMvcConfigurer {
 	@Override
 	public void extendHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
 		log.info("-------- extendHandlerExceptionResolvers --------");
-		WebMvcConfigurer.super.extendHandlerExceptionResolvers(resolvers);
 		
 		//resolvers.add(0, new CustomExceptionResolver());
 		for (HandlerExceptionResolver resovler : resolvers) {
 			log.info("{}", resovler.getClass().getSimpleName());
 		}
+		
+		WebMvcConfigurer.super.extendHandlerExceptionResolvers(resolvers);
 	}
 
-	@Override
-	public void addInterceptors(InterceptorRegistry registry) {
-//		registry.addInterceptor(new BeforeUpdatePasswordInterceptor())
-//				.addPathPatterns("/member/updatePassword");
-//		registry.addInterceptor(new CheckBoardCategoryInterceptor(categoryService))
-//				.addPathPatterns("/board/main", "/board/write", "/board/writeProc", "/board/modifyProc");
-//		registry.addInterceptor(new CheckBoardCategoryAndIdxInterceptor(boardService))
-//				.addPathPatterns("/board/read");
-//		registry.addInterceptor(new CheckMyBoardInterceptor(boardService))
-//				.order(-1)
-//				.addPathPatterns("/board/modify", "/board/modifyProc", "/board/deleteProc");
-	}
-	
-	// MultipartResolver: StandardServletMultipartResolver, CommonsMultipartResolver
-	// CommonsMultipartResolver 사용시 commons-fileupload 라이브러리 추가
 	@Bean
 	public MultipartResolver multipartResolver() {
+		// MultipartResolver: StandardServletMultipartResolver, CommonsMultipartResolver
+		// CommonsMultipartResolver 사용시 commons-fileupload 라이브러리 추가
 		return new StandardServletMultipartResolver();
 	}
 
 	@Override
 	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
-		resolvers.add(new BoardCriteriaArgumentResolver());
-		resolvers.add(new CommentCriteriaArgumentResolver());
+		resolvers.add(boardCriteriaArgumentResolver());
+		resolvers.add(commentCriteriaArgumentResolver());
+	}
+
+	@Bean
+	public BoardCriteriaArgumentResolver boardCriteriaArgumentResolver() {
+		log.info("-------- register boardCriteriaArgumentResolver --------");
+		
+		BoardCriteriaArgumentResolver resolver = new BoardCriteriaArgumentResolver();
+		resolver.setPage(env.getProperty("criteria.page", Integer.class));
+		resolver.setRecordCnt(env.getProperty("criteria.recordCnt", Integer.class));
+		resolver.setType(env.getProperty("criteria.type"));
+		
+		for (int i=0; i<4; i++) {
+			String key = String.format("criteria.test%d", i+1);
+			try {
+				env.getProperty(key, Map.class);
+			} catch (Exception e) {
+				log.info("	{}", e.getMessage());
+			}
+		}
+		
+		return resolver;
+	}
+
+	@Bean
+	public CommentCriteriaArgumentResolver commentCriteriaArgumentResolver() {
+		CommentCriteriaArgumentResolver resolver = new CommentCriteriaArgumentResolver();
+		resolver.setPage(env.getProperty("criteria.page", Integer.class));
+		resolver.setRecordCnt(env.getProperty("criteria.recordCnt", Integer.class));
+		
+		return resolver;
 	}
 	
 	@Bean
