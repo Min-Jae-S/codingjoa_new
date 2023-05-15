@@ -5,8 +5,13 @@ body {
 	padding-bottom: 56px; */
 }
 
-.home-container, .error-container {
-	margin-top: 15rem;
+.home-container {
+	margin-top: 7rem;
+	margin-bottom: 7rem;
+} 
+
+.error-container {
+	margin-top: 5rem;
 	font-size: 100px;
 }
 

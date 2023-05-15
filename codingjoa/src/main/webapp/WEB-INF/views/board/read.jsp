@@ -223,16 +223,16 @@
 		border: 1px solid #868e96;
 	}
 	
-	.test-div {
+	.test {
 		border-top: 1px solid black;
 		padding: 2rem 0;
 	}
 	
-	.test-div div.d-flex {
+	.test div.d-flex {
 		justify-content: space-between;
 	}
 	
-	.test-div .test-item {
+	.test .test-item {
 		width: 30%;
 		text-align: left !important;
 	}
@@ -336,7 +336,7 @@
 		</div>
 		<div class="col-sm-2"></div>
 	</div>
-	<div class="test-div mt-5">
+	<div class="test mt-5">
 		<div class="mb-4 d-flex">
 			<button class="btn btn-primary test-item" name="commentBtn" data-idx="">GET: api/comments/</button>
 			<button class="btn btn-primary test-item" name="commentBtn" data-idx="a">GET: api/comments/a</button>				
