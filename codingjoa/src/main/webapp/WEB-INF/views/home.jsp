@@ -35,7 +35,7 @@
 				<div class="card-header" id="configHeader">
 					<ul class="nav nav-tabs card-header-tabs">
 						<li class="nav-item">
-							<a class="nav-link active" href="#">HOME</a>
+							<a class="nav-link active">HOME</a>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" href="${contextPath}/config/filters">Filters</a>
@@ -71,9 +71,14 @@
 			$("#configHeader a").removeClass("active");
 			$(this).addClass("active");
 			
+			let url = $(this).attr("href");
+			if (typeof url == "undefined" || url == "" || url == null ) {
+				return;
+			}
+			
 			$.ajax({
 				type : "GET",
-				url : $(this).attr("href"),
+				url : url,
 				dataType : "json",
 				success : function(result) {
 					console.log(JSON.stringify(result, null, 2));

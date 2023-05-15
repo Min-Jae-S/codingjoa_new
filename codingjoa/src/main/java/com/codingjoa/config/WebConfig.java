@@ -59,8 +59,8 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 		log.info("-------- dispatcherServlet onStartup -------");
 		super.onStartup(servletContext);
 		
-		FilterRegistration.Dynamic logFilter = servletContext.addFilter("logFilter", new LogFilter());
-		logFilter.addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST, DispatcherType.ERROR), false, "/*");
+		//FilterRegistration.Dynamic logFilter = servletContext.addFilter("logFilter", new LogFilter());
+		//logFilter.addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST, DispatcherType.ERROR), false, "/*");
 	}
 	
 }
