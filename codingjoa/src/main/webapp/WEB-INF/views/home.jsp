@@ -15,6 +15,10 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
 <style>
 	#configHeader a {
+	    color: #9e9e9e;
+	}
+
+	#configHeader a.active {
 	    color: #495057;
 	}
 

@@ -2,6 +2,8 @@ package com.codingjoa.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.core.convert.ConversionService;
+import org.springframework.core.convert.support.ConfigurableConversionService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,8 +24,7 @@ public class ConfigController {
 	@GetMapping("/filters")
 	public ResponseEntity<Object> filters() {
 		log.info("## filters called...");
-		log.info("context = {}", context);
-	
+		
 		return ResponseEntity.ok(SuccessResponse.create());
 	}
 
