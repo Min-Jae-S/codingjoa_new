@@ -38,16 +38,16 @@
 							<a class="nav-link active" href="#">HOME</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="${contextPaht}/config/filters">Filters</a>
+							<a class="nav-link" href="${contextPath}/config/filters">Filters</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="${contextPaht}/config/converters">Coverters</a>
+							<a class="nav-link" href="${contextPath}/config/converters">Coverters</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="${contextPaht}/config/message-converters">Message Converters</a>
+							<a class="nav-link" href="${contextPath}/config/message-converters">Message Converters</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="${contextPaht}/config/exception-resolvers">Exception Resolvers</a>
+							<a class="nav-link" href="${contextPath}/config/exception-resolvers">Exception Resolvers</a>
 						</li>
 					</ul>
 				</div>
@@ -72,17 +72,15 @@
 			$(this).addClass("active");
 			
 			$.ajax({
-				type : "POST",
-				url : url,
+				type : "GET",
+				url : $(this).attr("href"),
 				dataType : "json",
 				success : function(result) {
-					console.log("success");
-					//console.log(JSON.stringify(result, null, 2));
+					console.log(JSON.stringify(result, null, 2));
 				},
 				error : function(jqXHR) {
-					consoel.log("error");
 					//let errorResponse = JSON.parse(jqXHR.responseText);
-					//console.log(JSON.stringify(errorResponse, null, 2));
+					console.log(JSON.stringify(jqXHR, null, 2));
 				}
 			});
 		});
