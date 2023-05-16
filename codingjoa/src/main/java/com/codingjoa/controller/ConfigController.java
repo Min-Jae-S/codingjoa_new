@@ -87,11 +87,11 @@ public class ConfigController {
 		RequestMappingHandlerAdapter handlerAdapter = applicationCtx.getBean(RequestMappingHandlerAdapter.class);
 		List<String> resolvers = handlerAdapter.getArgumentResolvers()
 				.stream()
-				.map(resolver -> resolver .getClass().getName())
+				.map(resolver -> resolver.getClass().getName())
 				.collect(Collectors.toList());
 		resolvers.forEach(resolver -> log.info("\t > {}", resolver.substring(resolver.lastIndexOf(".") +1)));
 		
-		return ResponseEntity.ok(SuccessResponse.create());
+		return ResponseEntity.ok(SuccessResponse.create().data(resolvers));
 	}
 
 }

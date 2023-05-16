@@ -46,10 +46,10 @@
 							<a class="nav-link" href="${contextPath}/config/message-converters">Message Converters</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="${contextPath}/config/exception-resolvers">Exception Resolvers</a>
+							<a class="nav-link" href="${contextPath}/config/argument-resolvers">Argument Resolvers</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="${contextPath}/config/argument-resolver">Argument Resolvers</a>
+							<a class="nav-link" href="${contextPath}/config/exception-resolvers">Exception Resolvers</a>
 						</li>
 					</ul>
 				</div>
@@ -107,6 +107,7 @@
 			html += "<span>" + item + "</span>";
 			html += "</p>";
 		});
+		
 		return html;
 	}
 </script>
