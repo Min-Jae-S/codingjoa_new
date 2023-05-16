@@ -27,7 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 public class ConfigController {
 	
 	@Autowired
-	private WebApplicationContext applicationCtx;
+	private WebApplicationContext applicationCtx; // WebApplicationContext = ApplicationContext + getServletContext()
 	
 	@GetMapping("/filters")
 	public ResponseEntity<Object> filters() {
@@ -39,7 +39,7 @@ public class ConfigController {
 				.stream()
 				.map(filter -> filter.getClass().getName())
 				.collect(Collectors.toList());
-		filters.forEach(filter -> log.info("\t > {}", filter.substring(filter.lastIndexOf(".") + 1)));
+		//filters.forEach(filter -> log.info("\t > {}", filter.substring(filter.lastIndexOf(".") + 1)));
 		
 		ServletContext ctx = applicationCtx.getServletContext();
 		ctx.getFilterRegistrations().keySet().forEach(filterName -> log.info("\t > {}", filterName));

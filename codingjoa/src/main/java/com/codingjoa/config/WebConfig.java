@@ -1,6 +1,10 @@
 package com.codingjoa.config;
 
+import java.util.EnumSet;
+
+import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
+import javax.servlet.FilterRegistration;
 import javax.servlet.MultipartConfigElement;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -38,11 +42,6 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 	}
 	
 	@Override
-	protected Filter[] getServletFilters() {
-		return new Filter[] { new CharacterEncodingFilter("UTF-8"), new LogFilter() };
-	}
-
-	@Override
 	protected void customizeRegistration(Dynamic registration) {
 		// new MultipartConfigElement(String location, long maxFileSize, long maxRequestSize, int fileSizeThreshold)
 		// location 			: 임시폴더 경로, null로 설정시 tomcat이 설정한 임시폴더로 지정
@@ -59,13 +58,18 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 	@Override
 	public void onStartup(ServletContext servletContext) throws ServletException {
 		log.info("-------- dispatcherServlet onStartup -------");
-		super.onStartup(servletContext);
 
-		servletContext.getFilterRegistrations()
-						.keySet().forEach(filterName -> log.info("\t > {}", filterName));
+		CharacterEncodingFilter encodingFilter = new CharacterEncodingFilter();
+		encodingFilter.setEncoding("UTF-8");
+		encodingFilter.setForceEncoding(true);
 		
-		//FilterRegistration.Dynamic logFilter = servletContext.addFilter("logFilter", new LogFilter());
-		//logFilter.addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST, DispatcherType.ERROR), false, "/*");
+		FilterRegistration registration1 = servletContext.addFilter("CharacterEncodingFilter", encodingFilter);
+		registration1.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, "/*");
+
+		FilterRegistration registration2 = servletContext.addFilter("LogFilter", new LogFilter());
+		registration2.addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST, DispatcherType.ERROR), false, "/*");
+		
+		super.onStartup(servletContext);
 	}
 	
 }
