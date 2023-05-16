@@ -43,9 +43,9 @@ public class ConfigController {
 				.map(filter -> filter.getClass().getName())
 				.collect(Collectors.toList());
 		
-		log.info("{}: [", securityFilterChain.getClass().getSimpleName());
-		filters.forEach(filter -> log.info("\t {}", filter));
-		log.info("]");
+		log.info("\t {}: [", securityFilterChain.getClass().getSimpleName());
+		filters.forEach(filter -> log.info("\t\t {}", filter.substring(filter.lastIndexOf(".") + 1)));
+		log.info("\t ]");
 		
 		return ResponseEntity.ok(SuccessResponse.create().data(filters));
 	}
@@ -67,7 +67,7 @@ public class ConfigController {
 				.stream()
 				.map(converter -> converter.getClass().getName())
 				.collect(Collectors.toList());
-		converters.forEach(converter -> log.info("\t {}", converter));
+		converters.forEach(converter -> log.info("\t {}", converter.substring(converter.lastIndexOf(".") +1)));
 		
 		return ResponseEntity.ok(SuccessResponse.create().data(converters));
 	}
@@ -81,7 +81,7 @@ public class ConfigController {
 				.stream()
 				.map(resolver -> resolver.getClass().getName())
 				.collect(Collectors.toList());
-		resolvers.forEach(resolver -> log.info("\t {}", resolver));
+		resolvers.forEach(resolver -> log.info("\t {}", resolver.substring(resolver.lastIndexOf(".") + 1)));
 		
 		return ResponseEntity.ok(SuccessResponse.create().data(resolvers));
 	}
