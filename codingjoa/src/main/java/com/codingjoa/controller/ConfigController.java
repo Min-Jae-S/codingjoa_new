@@ -3,7 +3,10 @@ package com.codingjoa.controller;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.servlet.ServletContext;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.web.FilterChainProxy;
@@ -23,20 +26,26 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 public class ConfigController {
 	
+	@Autowired 
+	private ApplicationContext applicationContext; // ConfigurableApplticationContext
+	
 	@Autowired
-	private ConfigurableApplicationContext context;
+	private ServletContext servletContext;
 	
 	@GetMapping("/filters")
 	public ResponseEntity<Object> filters() {
 		log.info("## filters called...");
 		
-		FilterChainProxy filterChainProxy = context.getBean(FilterChainProxy.class);
+		FilterChainProxy filterChainProxy = applicationContext.getBean(FilterChainProxy.class);
 		SecurityFilterChain securityFilterChain = filterChainProxy.getFilterChains().get(0);
 		List<String> filters = securityFilterChain.getFilters()
 				.stream()
 				.map(filter -> filter.getClass().getName())
 				.collect(Collectors.toList());
+		
+		log.info("{}: [", securityFilterChain.getClass().getSimpleName());
 		filters.forEach(filter -> log.info("\t {}", filter));
+		log.info("]");
 		
 		return ResponseEntity.ok(SuccessResponse.create().data(filters));
 	}
@@ -53,7 +62,7 @@ public class ConfigController {
 	public ResponseEntity<Object> messageConverters() {
 		log.info("## messageConverters called...");
 		
-		RequestMappingHandlerAdapter handlerAdapter = context.getBean(RequestMappingHandlerAdapter.class);
+		RequestMappingHandlerAdapter handlerAdapter = applicationContext.getBean(RequestMappingHandlerAdapter.class);
 		List<String> converters = handlerAdapter.getMessageConverters()
 				.stream()
 				.map(converter -> converter.getClass().getName())
@@ -67,7 +76,7 @@ public class ConfigController {
 	public ResponseEntity<Object> exceptionResolvers() {
 		log.info("## exceptionResolvers called...");
 		
-		HandlerExceptionResolverComposite composite = context.getBean(HandlerExceptionResolverComposite.class);
+		HandlerExceptionResolverComposite composite = applicationContext.getBean(HandlerExceptionResolverComposite.class);
 		List<String> resolvers = composite.getExceptionResolvers()
 				.stream()
 				.map(resolver -> resolver.getClass().getName())
