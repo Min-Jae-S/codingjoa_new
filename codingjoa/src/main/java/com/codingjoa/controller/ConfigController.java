@@ -13,6 +13,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.handler.HandlerExceptionResolverComposite;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 
@@ -25,11 +26,8 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 public class ConfigController {
 	
-	@Autowired 
-	private ApplicationContext applicationCtx; // ConfigurableApplticationContext
-	
 	@Autowired
-	private ServletContext servletCtx;
+	private WebApplicationContext applicationCtx;
 	
 	@GetMapping("/filters")
 	public ResponseEntity<Object> filters() {
@@ -42,6 +40,9 @@ public class ConfigController {
 				.map(filter -> filter.getClass().getName())
 				.collect(Collectors.toList());
 		filters.forEach(filter -> log.info("\t > {}", filter.substring(filter.lastIndexOf(".") + 1)));
+		
+		ServletContext ctx = applicationCtx.getServletContext();
+		ctx.getFilterRegistrations().keySet().forEach(filterName -> log.info("\t > {}", filterName));
 		
 		return ResponseEntity.ok(SuccessResponse.create().data(filters));
 	}
