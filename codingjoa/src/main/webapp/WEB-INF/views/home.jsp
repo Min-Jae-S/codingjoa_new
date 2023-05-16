@@ -42,7 +42,7 @@
 							<a class="nav-link active" href="${contextPath}/config/filters">Filters</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="${contextPath}/config/converters">Coverters</a>
+							<a class="nav-link" href="${contextPath}/config/converters">Converters</a>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" href="${contextPath}/config/message-converters">Message Converters</a>
@@ -69,6 +69,7 @@
 	$(function() {
 		$("#configHeader a").on("click", function (e) {
 			e.preventDefault();
+			$("#configBody").empty();
 			$("#configHeader a").removeClass("active");
 			$(this).addClass("active");
 			

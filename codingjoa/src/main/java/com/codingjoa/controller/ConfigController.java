@@ -45,7 +45,7 @@ public class ConfigController {
 		
 		RequestMappingHandlerAdapter handlerAdapter = context.getBean(RequestMappingHandlerAdapter.class);
 		List<String> converters = handlerAdapter.getMessageConverters().stream()
-				.map(c -> c.getClass().getSimpleName())
+				.map(c -> c.getClass().getName())
 				.collect(Collectors.toList());
 		
 		return ResponseEntity.ok(SuccessResponse.create().data(converters));
@@ -57,7 +57,7 @@ public class ConfigController {
 		
 		HandlerExceptionResolverComposite composite = context.getBean(HandlerExceptionResolverComposite.class);
 		List<String> resolvers = composite.getExceptionResolvers().stream()
-				.map(r -> r.getClass().getSimpleName())
+				.map(r -> r.getClass().getName())
 				.collect(Collectors.toList());
 		
 		return ResponseEntity.ok(SuccessResponse.create().data(resolvers));
