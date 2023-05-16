@@ -36,8 +36,6 @@ public class ConfigController {
 		log.info("## filters called...");
 		
 		FilterChainProxy filterChainProxy = applicationCtx.getBean(FilterChainProxy.class);
-		DelegatingFilterProxy filterProxy = applicationCtx.getBean(DelegatingFilterProxy.class);
-		
 		SecurityFilterChain securityFilterChain = filterChainProxy.getFilterChains().get(0);
 		List<String> filters = securityFilterChain.getFilters()
 				.stream()
@@ -45,7 +43,11 @@ public class ConfigController {
 				.collect(Collectors.toList());
 		
 		ServletContext servletCtx = applicationCtx.getServletContext();
-		FilterRegistration registration = servletCtx.getFilterRegistrations().get("securityFilterChain");
+		servletCtx.getFilterRegistrations().keySet().forEach(filterName -> log.info("filterName = {}", filterName));
+		
+		FilterRegistration registration = servletCtx.getFilterRegistrations().get("springSecurityFilterChain");
+		log.info("registration.getName = {}", registration.getName());
+		log.info("registration.getClass = {}", registration.getClass().getName());
 		
 		filters.forEach(filter -> log.info("\t > {}", filter.substring(filter.lastIndexOf(".") + 1)));
 		
