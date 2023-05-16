@@ -13,6 +13,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+<script src="https://kit.fontawesome.com/c503d71f81.js"></script>
 <style>
 	#configHeader a {
 	    color: #9e9e9e;
@@ -52,7 +53,7 @@
 						</li>
 					</ul>
 				</div>
-				<div class="card-body p-5" id="configBody">
+				<div class="card-body p-4" id="configBody">
 					<!-- <h5 class="card-title">Special title treatment</h5>
 					<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
 					<a href="#" class="btn btn-primary">Go somewhere</a> -->
@@ -85,7 +86,7 @@
 				success : function(result) {
 					console.log(JSON.stringify(result, null, 2));
 					let list = result.data;
-					if (list.length != 0) {
+					if (list != null && list.length != 0) {
 						let configHtml = makeConfigHtml(result.data);
 						$("#configBody").html(configHtml);
 					}
@@ -102,7 +103,7 @@
 		let html = "";
 		$.each(list, function(index, item) {
 			html += "<p class='card-text'>";
-			html += "<span class='mr-1'>" + (index + 1) + ")" + "</span>";
+			html += "<span class='mr-2'><i class='fa-solid fa-hashtag'></i></span>";
 			html += "<span>" + item + "</span>";
 			html += "</p>";
 		});

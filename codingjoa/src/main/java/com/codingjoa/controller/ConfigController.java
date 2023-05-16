@@ -6,7 +6,8 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.web.DefaultSecurityFilterChain;
+import org.springframework.security.web.FilterChainProxy;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,14 +30,15 @@ public class ConfigController {
 	public ResponseEntity<Object> filters() {
 		log.info("## filters called...");
 		
-		DefaultSecurityFilterChain filterChain = context.getBean(DefaultSecurityFilterChain.class);
-		List<String> filters = filterChain.getFilters()
+		FilterChainProxy filterChainProxy = context.getBean(FilterChainProxy.class);
+		SecurityFilterChain securityFilterChain = filterChainProxy.getFilterChains().get(0);
+		List<String> filters = securityFilterChain.getFilters()
 				.stream()
 				.map(filter -> filter.getClass().getName())
 				.collect(Collectors.toList());
 		filters.forEach(filter -> log.info("\t {}", filter));
 		
-		return ResponseEntity.ok(SuccessResponse.create());
+		return ResponseEntity.ok(SuccessResponse.create().data(filters));
 	}
 
 	@GetMapping("/converters")
