@@ -26,22 +26,22 @@ import lombok.extern.slf4j.Slf4j;
 public class ConfigController {
 	
 	@Autowired 
-	private ApplicationContext applicationContext; // ConfigurableApplticationContext
+	private ApplicationContext applicationCtx; // ConfigurableApplticationContext
 	
 	@Autowired
-	private ServletContext servletContext;
+	private ServletContext servletCtx;
 	
 	@GetMapping("/filters")
 	public ResponseEntity<Object> filters() {
 		log.info("## filters called...");
 		
-		FilterChainProxy filterChainProxy = applicationContext.getBean(FilterChainProxy.class);
+		FilterChainProxy filterChainProxy = applicationCtx.getBean(FilterChainProxy.class);
 		SecurityFilterChain securityFilterChain = filterChainProxy.getFilterChains().get(0);
 		List<String> filters = securityFilterChain.getFilters()
 				.stream()
 				.map(filter -> filter.getClass().getName())
 				.collect(Collectors.toList());
-		filters.forEach(filter -> log.info("\t {}", filter.substring(filter.lastIndexOf(".") + 1)));
+		filters.forEach(filter -> log.info("\t > {}", filter.substring(filter.lastIndexOf(".") + 1)));
 		
 		return ResponseEntity.ok(SuccessResponse.create().data(filters));
 	}
@@ -58,12 +58,12 @@ public class ConfigController {
 	public ResponseEntity<Object> messageConverters() {
 		log.info("## messageConverters called...");
 		
-		RequestMappingHandlerAdapter handlerAdapter = applicationContext.getBean(RequestMappingHandlerAdapter.class);
+		RequestMappingHandlerAdapter handlerAdapter = applicationCtx.getBean(RequestMappingHandlerAdapter.class);
 		List<String> converters = handlerAdapter.getMessageConverters()
 				.stream()
 				.map(converter -> converter.getClass().getName())
 				.collect(Collectors.toList());
-		converters.forEach(converter -> log.info("\t {}", converter.substring(converter.lastIndexOf(".") +1)));
+		converters.forEach(converter -> log.info("\t > {}", converter.substring(converter.lastIndexOf(".") +1)));
 		
 		return ResponseEntity.ok(SuccessResponse.create().data(converters));
 	}
@@ -72,12 +72,12 @@ public class ConfigController {
 	public ResponseEntity<Object> exceptionResolvers() {
 		log.info("## exceptionResolvers called...");
 		
-		HandlerExceptionResolverComposite composite = applicationContext.getBean(HandlerExceptionResolverComposite.class);
+		HandlerExceptionResolverComposite composite = applicationCtx.getBean(HandlerExceptionResolverComposite.class);
 		List<String> resolvers = composite.getExceptionResolvers()
 				.stream()
 				.map(resolver -> resolver.getClass().getName())
 				.collect(Collectors.toList());
-		resolvers.forEach(resolver -> log.info("\t {}", resolver.substring(resolver.lastIndexOf(".") + 1)));
+		resolvers.forEach(resolver -> log.info("\t > {}", resolver.substring(resolver.lastIndexOf(".") + 1)));
 		
 		return ResponseEntity.ok(SuccessResponse.create().data(resolvers));
 	}

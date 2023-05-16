@@ -1,10 +1,6 @@
 package com.codingjoa.config;
 
-import java.util.EnumSet;
-
-import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
-import javax.servlet.FilterRegistration;
 import javax.servlet.MultipartConfigElement;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -41,8 +37,6 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 		return new String[] { "/" };
 	}
 	
-	
-
 	@Override
 	protected Filter[] getServletFilters() {
 		return new Filter[] { new CharacterEncodingFilter("UTF-8"), new LogFilter() };
@@ -50,7 +44,6 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 
 	@Override
 	protected void customizeRegistration(Dynamic registration) {
-		
 		// new MultipartConfigElement(String location, long maxFileSize, long maxRequestSize, int fileSizeThreshold)
 		// location 			: 임시폴더 경로, null로 설정시 tomcat이 설정한 임시폴더로 지정
 		// maxFileSize			: 업로드 하는 파일의 최대 용량(byte 단위)
@@ -67,6 +60,9 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 	public void onStartup(ServletContext servletContext) throws ServletException {
 		log.info("-------- dispatcherServlet onStartup -------");
 		super.onStartup(servletContext);
+
+		servletContext.getFilterRegistrations()
+						.keySet().forEach(filterName -> log.info("\t > {}", filterName));
 		
 		//FilterRegistration.Dynamic logFilter = servletContext.addFilter("logFilter", new LogFilter());
 		//logFilter.addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST, DispatcherType.ERROR), false, "/*");

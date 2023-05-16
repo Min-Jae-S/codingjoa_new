@@ -73,13 +73,12 @@ public class ServletConfig implements WebMvcConfigurer {
 	@Override
 	public void configurePathMatch(PathMatchConfigurer configurer) {
 		log.info("-------- configurePathMatch --------");
+		WebMvcConfigurer.super.configurePathMatch(configurer);
 		
 		configurer.setUseTrailingSlashMatch(true);
-	    log.info("\t isUseTrailingSlashMatch = {}", configurer.isUseTrailingSlashMatch());
-	    log.info("\t isUseSuffixPatternMatch = {}", configurer.isUseSuffixPatternMatch());
-	    log.info("\t isUseRegisteredSuffixPatternMatch = {}", configurer.isUseRegisteredSuffixPatternMatch());
-
-	    WebMvcConfigurer.super.configurePathMatch(configurer);
+	    log.info("\t > isUseTrailingSlashMatch = {}", configurer.isUseTrailingSlashMatch());
+	    log.info("\t > isUseSuffixPatternMatch = {}", configurer.isUseSuffixPatternMatch());
+	    log.info("\t > isUseRegisteredSuffixPatternMatch = {}", configurer.isUseRegisteredSuffixPatternMatch());
 	}
 
 	@Override
@@ -100,7 +99,7 @@ public class ServletConfig implements WebMvcConfigurer {
 		});
 		
 		for (HttpMessageConverter<?> converter : converters) {
-			log.info("\t {}", converter.getClass().getSimpleName());
+			log.info("\t > {}", converter.getClass().getSimpleName());
 		}
 	}
 	
@@ -122,7 +121,7 @@ public class ServletConfig implements WebMvcConfigurer {
 		
 		resolvers.add(0, new CustomExceptionResolver());
 		for (HandlerExceptionResolver resovler : resolvers) {
-			log.info("\t {}", resovler.getClass().getSimpleName());
+			log.info("\t > {}", resovler.getClass().getSimpleName());
 		}
 	}
 	
