@@ -75,9 +75,9 @@ public class ServletConfig implements WebMvcConfigurer {
 		log.info("-------- configurePathMatch --------");
 		
 		configurer.setUseTrailingSlashMatch(true);
-	    log.info("	isUseTrailingSlashMatch = {}", configurer.isUseTrailingSlashMatch());
-	    log.info("	isUseSuffixPatternMatch = {}", configurer.isUseSuffixPatternMatch());
-	    log.info("	isUseRegisteredSuffixPatternMatch = {}", configurer.isUseRegisteredSuffixPatternMatch());
+	    log.info("\t isUseTrailingSlashMatch = {}", configurer.isUseTrailingSlashMatch());
+	    log.info("\t isUseSuffixPatternMatch = {}", configurer.isUseSuffixPatternMatch());
+	    log.info("\t isUseRegisteredSuffixPatternMatch = {}", configurer.isUseRegisteredSuffixPatternMatch());
 
 	    WebMvcConfigurer.super.configurePathMatch(configurer);
 	}
@@ -86,22 +86,21 @@ public class ServletConfig implements WebMvcConfigurer {
 	public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
 		log.info("-------- extendMessageConverters --------");
 //		converters.add(0, mappingJackson2HttpMessageConverter());
-//		converters.stream()
-//			.filter(converter -> converter instanceof StringHttpMessageConverter)
-//			.forEach(converter -> ((StringHttpMessageConverter) converter).setDefaultCharset(StandardCharsets.UTF_8));
+		converters.stream()
+			.filter(converter -> converter instanceof StringHttpMessageConverter)
+			.forEach(converter -> ((StringHttpMessageConverter) converter).setDefaultCharset(StandardCharsets.UTF_8));
 		
 		// StringHttpMessageConverter defaults to ISO-8859-1
-		converters.stream()
-			.forEach(converter -> {
-				if (converter instanceof StringHttpMessageConverter) {
-					 ((StringHttpMessageConverter) converter).setDefaultCharset(StandardCharsets.UTF_8);
-				} else if (converter instanceof MappingJackson2HttpMessageConverter) {
-					 ((MappingJackson2HttpMessageConverter) converter).setObjectMapper(objectMapper());
-				}
-			});
+		converters.stream().forEach(converter -> { 
+			if (converter instanceof StringHttpMessageConverter) {
+				((StringHttpMessageConverter) converter).setDefaultCharset(StandardCharsets.UTF_8);
+			} else if (converter instanceof MappingJackson2HttpMessageConverter) {
+				((MappingJackson2HttpMessageConverter) converter).setObjectMapper(objectMapper());
+			}
+		});
 		
 		for (HttpMessageConverter<?> converter : converters) {
-			log.info("	{}", converter.getClass().getSimpleName());
+			log.info("\t {}", converter.getClass().getSimpleName());
 		}
 	}
 	
@@ -123,7 +122,7 @@ public class ServletConfig implements WebMvcConfigurer {
 		
 		resolvers.add(0, new CustomExceptionResolver());
 		for (HandlerExceptionResolver resovler : resolvers) {
-			log.info("	{}", resovler.getClass().getSimpleName());
+			log.info("\t {}", resovler.getClass().getSimpleName());
 		}
 	}
 	
