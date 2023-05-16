@@ -39,10 +39,7 @@
 				<div class="card-header" id="configHeader">
 					<ul class="nav nav-tabs card-header-tabs">
 						<li class="nav-item">
-							<a class="nav-link active">HOME</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="${contextPath}/config/filters">Filters</a>
+							<a class="nav-link active" href="${contextPath}/config/filters">Filters</a>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" href="${contextPath}/config/converters">Coverters</a>
@@ -56,9 +53,9 @@
 					</ul>
 				</div>
 				<div class="card-body p-5" id="configBody">
-					<h5 class="card-title">Special title treatment</h5>
+					<!-- <h5 class="card-title">Special title treatment</h5>
 					<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-					<a href="#" class="btn btn-primary">Go somewhere</a>
+					<a href="#" class="btn btn-primary">Go somewhere</a> -->
 				</div>
 			</div>
 		</div>
@@ -86,6 +83,8 @@
 				dataType : "json",
 				success : function(result) {
 					console.log(JSON.stringify(result, null, 2));
+					let configHtml = makeConfigHtml(result.data);
+					$("#configBody").html(configHtml);
 				},
 				error : function(jqXHR) {
 					//let errorResponse = JSON.parse(jqXHR.responseText);
@@ -94,6 +93,17 @@
 			});
 		});
 	});
+	
+	function makeConfigHtml(list) {
+		let html = "";
+		$.each(list, function(index, item) {
+			html += "<p class='card-text'>";
+			html += "<span class='mr-1'>" + (index + 1) + ")" + "</span>";
+			html += "<span>" + item + "</span>";
+			html += "</p>";
+		});
+		return html;
+	}
 </script>
 
 </body>

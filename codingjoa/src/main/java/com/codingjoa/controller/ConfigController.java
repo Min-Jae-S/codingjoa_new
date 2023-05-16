@@ -1,13 +1,15 @@
 package com.codingjoa.controller;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.core.convert.ConversionService;
-import org.springframework.core.convert.support.ConfigurableConversionService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.handler.HandlerExceptionResolverComposite;
 
 import com.codingjoa.response.SuccessResponse;
 
@@ -47,7 +49,12 @@ public class ConfigController {
 	public ResponseEntity<Object> exceptionResolvers() {
 		log.info("## exceptionResolvers called...");
 		
-		return ResponseEntity.ok(SuccessResponse.create());
+		HandlerExceptionResolverComposite composite = context.getBean(HandlerExceptionResolverComposite.class);
+		List<String> resolvers = composite.getExceptionResolvers().stream()
+				.map(r -> r.getClass().getSimpleName())
+				.collect(Collectors.toList());
+		
+		return ResponseEntity.ok(SuccessResponse.create().data(resolvers));
 	}
 
 }

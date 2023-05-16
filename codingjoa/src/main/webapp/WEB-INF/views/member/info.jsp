@@ -305,14 +305,14 @@
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
 			success : function(result) {
-				console.log(result);
+				console.log(JSON.stringify(result, null, 2));
 				$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
 				$("#authCode").closest("dd").after("<dd class='success'>" + result.message + "</dd>");
 				$("#authCode").val("");
 				$("#authCode").focus();
 			},
 			error : function(jqXHR) {
-				console.log(jqXHR);
+				console.log(JSON.stringify(jqXHR, null, 2));
 				$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
 				
 				if(jqXHR.status == 422) {
@@ -333,7 +333,7 @@
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
 			success : function(result) {
-				console.log(result);
+				console.log(JSON.stringify(result, null, 2));
 				alert(result.message);
 				let member = result.data.member;
 				$("#editEmail").find("form").html("<input type='text' id='memberEmail' name='memberEmail' value='" + member.memberEmail + "' readonly>");
@@ -341,7 +341,7 @@
 				$("#resetEmailBtn").click();
 			},
 			error : function(jqXHR) {
-				console.log(jqXHR);
+				console.log(JSON.stringify(jqXHR, null, 2));
 				$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
 				
 				if (jqXHR.status == 422) {
