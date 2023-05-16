@@ -24,11 +24,7 @@
 	}
 
 	#configBody {
-		min-height: 350px;
-	}
-	
-	#configBody p {
-		font-size: 0.9rem;
+		min-height: 300px;
 	}
 </style>
 </head>
