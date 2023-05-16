@@ -43,13 +43,13 @@
 							<a class="nav-link active" href="${contextPath}/config/filters">Filters</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="${contextPath}/config/converters">Converters</a>
-						</li>
-						<li class="nav-item">
 							<a class="nav-link" href="${contextPath}/config/message-converters">Message Converters</a>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" href="${contextPath}/config/exception-resolvers">Exception Resolvers</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="${contextPath}/config/argument-resolver">Argument Resolvers</a>
 						</li>
 					</ul>
 				</div>

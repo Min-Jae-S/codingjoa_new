@@ -52,14 +52,6 @@ public class ConfigController {
 		return ResponseEntity.ok(SuccessResponse.create().data(filters));
 	}
 
-	@GetMapping("/converters")
-	public ResponseEntity<Object> converters() {
-		log.info("## converters called...");
-		
-		return ResponseEntity.ok(SuccessResponse.create());
-	}
-	
-	
 	@GetMapping("/message-converters")
 	public ResponseEntity<Object> messageConverters() {
 		log.info("## messageConverters called...");
@@ -86,6 +78,20 @@ public class ConfigController {
 		resolvers.forEach(resolver -> log.info("\t > {}", resolver.substring(resolver.lastIndexOf(".") + 1)));
 		
 		return ResponseEntity.ok(SuccessResponse.create().data(resolvers));
+	}
+	
+	@GetMapping("/argument-resolvers")
+	public ResponseEntity<Object> argumentResolvers() {
+		log.info("## argumentResolvers called...");
+		
+		RequestMappingHandlerAdapter handlerAdapter = applicationCtx.getBean(RequestMappingHandlerAdapter.class);
+		List<String> resolvers = handlerAdapter.getArgumentResolvers()
+				.stream()
+				.map(resolver -> resolver .getClass().getName())
+				.collect(Collectors.toList());
+		resolvers.forEach(resolver -> log.info("\t > {}", resolver.substring(resolver.lastIndexOf(".") +1)));
+		
+		return ResponseEntity.ok(SuccessResponse.create());
 	}
 
 }
