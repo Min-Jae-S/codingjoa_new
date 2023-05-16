@@ -85,12 +85,20 @@ public class ServletConfig implements WebMvcConfigurer {
 	@Override
 	public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
 		log.info("-------- extendMessageConverters --------");
-		converters.add(0, mappingJackson2HttpMessageConverter());
+//		converters.add(0, mappingJackson2HttpMessageConverter());
+//		converters.stream()
+//			.filter(converter -> converter instanceof StringHttpMessageConverter)
+//			.forEach(converter -> ((StringHttpMessageConverter) converter).setDefaultCharset(StandardCharsets.UTF_8));
 		
 		// StringHttpMessageConverter defaults to ISO-8859-1
 		converters.stream()
-			.filter(converter -> converter instanceof StringHttpMessageConverter)
-			.forEach(converter -> ((StringHttpMessageConverter) converter).setDefaultCharset(StandardCharsets.UTF_8));
+			.forEach(converter -> {
+				if (converter instanceof StringHttpMessageConverter) {
+					 ((StringHttpMessageConverter) converter).setDefaultCharset(StandardCharsets.UTF_8);
+				} else if (converter instanceof MappingJackson2HttpMessageConverter) {
+					 ((MappingJackson2HttpMessageConverter) converter).setObjectMapper(objectMapper());
+				}
+			});
 		
 		for (HttpMessageConverter<?> converter : converters) {
 			log.info("	{}", converter.getClass().getSimpleName());
@@ -98,7 +106,7 @@ public class ServletConfig implements WebMvcConfigurer {
 	}
 	
 	@Bean
-	public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter() {
+	public ObjectMapper objectMapper() {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:ss:mm");
 		ObjectMapper objectMapper = Jackson2ObjectMapperBuilder
 				.json()
@@ -106,7 +114,7 @@ public class ServletConfig implements WebMvcConfigurer {
 				.serializerByType(LocalDateTime.class, new LocalDateTimeSerializer(formatter))
 				.build();
 		
-		return new MappingJackson2HttpMessageConverter(objectMapper);
+		return objectMapper;
 	}
 	
 	@Override
@@ -117,8 +125,6 @@ public class ServletConfig implements WebMvcConfigurer {
 		for (HandlerExceptionResolver resovler : resolvers) {
 			log.info("	{}", resovler.getClass().getSimpleName());
 		}
-		
-		WebMvcConfigurer.super.extendHandlerExceptionResolvers(resolvers);
 	}
 	
 	@Bean

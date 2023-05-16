@@ -83,8 +83,11 @@
 				dataType : "json",
 				success : function(result) {
 					console.log(JSON.stringify(result, null, 2));
-					let configHtml = makeConfigHtml(result.data);
-					$("#configBody").html(configHtml);
+					let list = result.data;
+					if (list.length != 0) {
+						let configHtml = makeConfigHtml(result.data);
+						$("#configBody").html(configHtml);
+					}
 				},
 				error : function(jqXHR) {
 					//let errorResponse = JSON.parse(jqXHR.responseText);

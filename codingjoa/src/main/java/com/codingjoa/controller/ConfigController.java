@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.handler.HandlerExceptionResolverComposite;
+import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 
 import com.codingjoa.response.SuccessResponse;
 
@@ -42,7 +43,12 @@ public class ConfigController {
 	public ResponseEntity<Object> messageConverters() {
 		log.info("## messageConverters called...");
 		
-		return ResponseEntity.ok(SuccessResponse.create());
+		RequestMappingHandlerAdapter handlerAdapter = context.getBean(RequestMappingHandlerAdapter.class);
+		List<String> converters = handlerAdapter.getMessageConverters().stream()
+				.map(c -> c.getClass().getSimpleName())
+				.collect(Collectors.toList());
+		
+		return ResponseEntity.ok(SuccessResponse.create().data(converters));
 	}
 	
 	@GetMapping("/exception-resolvers")
