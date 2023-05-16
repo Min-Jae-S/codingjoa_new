@@ -42,10 +42,7 @@ public class ConfigController {
 				.stream()
 				.map(filter -> filter.getClass().getName())
 				.collect(Collectors.toList());
-		
-		log.info("\t {}: [", securityFilterChain.getClass().getSimpleName());
-		filters.forEach(filter -> log.info("\t\t {}", filter.substring(filter.lastIndexOf(".") + 1)));
-		log.info("\t ]");
+		filters.forEach(filter -> log.info("\t {}", filter.substring(filter.lastIndexOf(".") + 1)));
 		
 		return ResponseEntity.ok(SuccessResponse.create().data(filters));
 	}
