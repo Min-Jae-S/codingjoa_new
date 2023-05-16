@@ -3,7 +3,6 @@ package com.codingjoa.config;
 import java.util.EnumSet;
 
 import javax.servlet.DispatcherType;
-import javax.servlet.Filter;
 import javax.servlet.FilterRegistration;
 import javax.servlet.MultipartConfigElement;
 import javax.servlet.ServletContext;
@@ -54,7 +53,6 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 		//StandardServletMultipartResolver.cleanupMultipart(94) - Failed to perform cleanup of multipart items
 		registration.setMultipartConfig(multipartConfig);
 	}
-	
 	@Override
 	public void onStartup(ServletContext servletContext) throws ServletException {
 		log.info("-------- dispatcherServlet onStartup -------");
@@ -68,6 +66,7 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 
 		FilterRegistration registration2 = servletContext.addFilter("LogFilter", new LogFilter());
 		registration2.addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST, DispatcherType.ERROR), false, "/*");
+		
 		
 		super.onStartup(servletContext);
 	}

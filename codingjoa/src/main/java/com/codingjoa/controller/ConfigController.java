@@ -3,10 +3,11 @@ package com.codingjoa.controller;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.servlet.FilterRegistration;
+import javax.servlet.FilterRegistration.Dynamic;
 import javax.servlet.ServletContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.web.FilterChainProxy;
 import org.springframework.security.web.SecurityFilterChain;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.filter.DelegatingFilterProxy;
 import org.springframework.web.servlet.handler.HandlerExceptionResolverComposite;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 
@@ -26,23 +28,26 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 public class ConfigController {
 	
-	@Autowired
-	private WebApplicationContext applicationCtx; // WebApplicationContext = ApplicationContext + getServletContext()
+	@Autowired // WebApplicationContext = ApplicationContext + getServletContext()
+	private WebApplicationContext applicationCtx; 
 	
 	@GetMapping("/filters")
 	public ResponseEntity<Object> filters() {
 		log.info("## filters called...");
 		
 		FilterChainProxy filterChainProxy = applicationCtx.getBean(FilterChainProxy.class);
+		DelegatingFilterProxy filterProxy = applicationCtx.getBean(DelegatingFilterProxy.class);
+		
 		SecurityFilterChain securityFilterChain = filterChainProxy.getFilterChains().get(0);
 		List<String> filters = securityFilterChain.getFilters()
 				.stream()
 				.map(filter -> filter.getClass().getName())
 				.collect(Collectors.toList());
-		//filters.forEach(filter -> log.info("\t > {}", filter.substring(filter.lastIndexOf(".") + 1)));
 		
-		ServletContext ctx = applicationCtx.getServletContext();
-		ctx.getFilterRegistrations().keySet().forEach(filterName -> log.info("\t > {}", filterName));
+		ServletContext servletCtx = applicationCtx.getServletContext();
+		FilterRegistration registration = servletCtx.getFilterRegistrations().get("securityFilterChain");
+		
+		filters.forEach(filter -> log.info("\t > {}", filter.substring(filter.lastIndexOf(".") + 1)));
 		
 		return ResponseEntity.ok(SuccessResponse.create().data(filters));
 	}
