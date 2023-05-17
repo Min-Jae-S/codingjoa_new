@@ -22,10 +22,6 @@
 	#configHeader a.active {
 	    color: #495057;
 	}
-
-	#configBody {
-		min-height: 300px;
-	}
 </style>
 </head>
 <body>
