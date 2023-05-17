@@ -1,12 +1,13 @@
 package com.codingjoa.controller;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.servlet.FilterRegistration;
-import javax.servlet.FilterRegistration.Dynamic;
 import javax.servlet.ServletContext;
 
+import org.apache.catalina.core.ApplicationFilterRegistration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.web.FilterChainProxy;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.filter.DelegatingFilterProxy;
 import org.springframework.web.servlet.handler.HandlerExceptionResolverComposite;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 
@@ -29,7 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 public class ConfigController {
 	
 	@Autowired // WebApplicationContext = ApplicationContext + getServletContext()
-	private WebApplicationContext applicationCtx; 
+	private WebApplicationContext applicationCtx;
 	
 	@GetMapping("/filters")
 	public ResponseEntity<Object> filters() {
@@ -43,13 +43,16 @@ public class ConfigController {
 				.collect(Collectors.toList());
 		
 		ServletContext servletCtx = applicationCtx.getServletContext();
-		servletCtx.getFilterRegistrations().keySet().forEach(filterName -> log.info("filterName = {}", filterName));
+		Map<String, ? extends FilterRegistration> map = servletCtx.getFilterRegistrations();
+		for (FilterRegistration filterRegistration : map.values()) {
+			ApplicationFilterRegistration registration = (ApplicationFilterRegistration) filterRegistration;
+			log.info("\t > {}", registration);
+		}
 		
-		FilterRegistration registration = servletCtx.getFilterRegistrations().get("springSecurityFilterChain");
-		log.info("registration.getName = {}", registration.getName());
-		log.info("registration.getClass = {}", registration.getClass().getName());
+//		FilterRegistration registration = servletCtx.getFilterRegistrations().get("springSecurityFilterChain");
+//		log.info("registration.getName = {}", registration.getName());
 		
-		filters.forEach(filter -> log.info("\t > {}", filter.substring(filter.lastIndexOf(".") + 1)));
+//		filters.forEach(filter -> log.info("\t > {}", filter.substring(filter.lastIndexOf(".") + 1)));
 		
 		return ResponseEntity.ok(SuccessResponse.create().data(filters));
 	}
@@ -57,7 +60,7 @@ public class ConfigController {
 	@GetMapping("/message-converters")
 	public ResponseEntity<Object> messageConverters() {
 		log.info("## messageConverters called...");
-		
+
 		RequestMappingHandlerAdapter handlerAdapter = applicationCtx.getBean(RequestMappingHandlerAdapter.class);
 		List<String> converters = handlerAdapter.getMessageConverters()
 				.stream()
