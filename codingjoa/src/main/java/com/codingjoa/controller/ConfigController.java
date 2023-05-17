@@ -38,7 +38,7 @@ public class ConfigController {
 		SecurityFilterChain securityFilterChain = filterChainProxy.getFilterChains().get(0);
 		List<String> filters = securityFilterChain.getFilters()
 				.stream()
-				.map(filter -> filter.getClass().getName())
+				.map(filter -> filter.getClass().getSimpleName())
 				.collect(Collectors.toList());
 
 		ServletContext servletCtx = applicationCtx.getServletContext();
@@ -64,7 +64,7 @@ public class ConfigController {
 		RequestMappingHandlerAdapter handlerAdapter = applicationCtx.getBean(RequestMappingHandlerAdapter.class);
 		List<String> converters = handlerAdapter.getMessageConverters()
 				.stream()
-				.map(converter -> converter.getClass().getName())
+				.map(converter -> converter.getClass().getSimpleName())
 				.collect(Collectors.toList());
 		
 		converters.forEach(converter -> {
@@ -82,7 +82,7 @@ public class ConfigController {
 		HandlerExceptionResolverComposite composite = applicationCtx.getBean(HandlerExceptionResolverComposite.class);
 		List<String> resolvers = composite.getExceptionResolvers()
 				.stream()
-				.map(resolver -> resolver.getClass().getName())
+				.map(resolver -> resolver.getClass().getSimpleName())
 				.collect(Collectors.toList());
 		
 		resolvers.forEach(resolver -> {
@@ -100,7 +100,7 @@ public class ConfigController {
 		RequestMappingHandlerAdapter handlerAdapter = applicationCtx.getBean(RequestMappingHandlerAdapter.class);
 		List<String> resolvers = handlerAdapter.getArgumentResolvers()
 				.stream()
-				.map(resolver -> resolver.getClass().getName())
+				.map(resolver -> resolver.getClass().getSimpleName())
 				.collect(Collectors.toList());
 		
 		resolvers.forEach(resolver -> {
