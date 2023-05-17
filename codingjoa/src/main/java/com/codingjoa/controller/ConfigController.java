@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 import javax.servlet.FilterRegistration;
 import javax.servlet.ServletContext;
 
-import org.apache.catalina.core.ApplicationFilterRegistration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.web.FilterChainProxy;
@@ -41,18 +40,19 @@ public class ConfigController {
 				.stream()
 				.map(filter -> filter.getClass().getName())
 				.collect(Collectors.toList());
-		
+
 		ServletContext servletCtx = applicationCtx.getServletContext();
 		Map<String, ? extends FilterRegistration> map = servletCtx.getFilterRegistrations();
-		for (FilterRegistration filterRegistration : map.values()) {
-			ApplicationFilterRegistration registration = (ApplicationFilterRegistration) filterRegistration;
-			log.info("\t > {}", registration);
+		for (String filterName : map.keySet()) {
+			if (!"springSecurityFilterChain".equals(filterName)) {
+				filters.add(filterName);
+			}
 		}
-		
-//		FilterRegistration registration = servletCtx.getFilterRegistrations().get("springSecurityFilterChain");
-//		log.info("registration.getName = {}", registration.getName());
-		
-//		filters.forEach(filter -> log.info("\t > {}", filter.substring(filter.lastIndexOf(".") + 1)));
+
+		filters.forEach(filter -> {
+			int beginIndex = filter.lastIndexOf(".") + 1;
+			log.info("\t > {}", filter.substring(beginIndex));
+		});
 		
 		return ResponseEntity.ok(SuccessResponse.create().data(filters));
 	}
@@ -66,7 +66,11 @@ public class ConfigController {
 				.stream()
 				.map(converter -> converter.getClass().getName())
 				.collect(Collectors.toList());
-		converters.forEach(converter -> log.info("\t > {}", converter.substring(converter.lastIndexOf(".") +1)));
+		
+		converters.forEach(converter -> {
+			int beginIndex = converter.lastIndexOf(".") + 1;
+			log.info("\t > {}", converter.substring(beginIndex));
+		});
 		
 		return ResponseEntity.ok(SuccessResponse.create().data(converters));
 	}
@@ -80,7 +84,11 @@ public class ConfigController {
 				.stream()
 				.map(resolver -> resolver.getClass().getName())
 				.collect(Collectors.toList());
-		resolvers.forEach(resolver -> log.info("\t > {}", resolver.substring(resolver.lastIndexOf(".") + 1)));
+		
+		resolvers.forEach(resolver -> {
+			int beginIndex = resolver.lastIndexOf(".") + 1;
+			log.info("\t > {}", resolver.substring(beginIndex));
+		});
 		
 		return ResponseEntity.ok(SuccessResponse.create().data(resolvers));
 	}
@@ -94,7 +102,11 @@ public class ConfigController {
 				.stream()
 				.map(resolver -> resolver.getClass().getName())
 				.collect(Collectors.toList());
-		resolvers.forEach(resolver -> log.info("\t > {}", resolver.substring(resolver.lastIndexOf(".") +1)));
+		
+		resolvers.forEach(resolver -> {
+			int beginIndex = resolver.lastIndexOf(".") + 1;
+			log.info("\t > {}", resolver.substring(beginIndex));
+		});
 		
 		return ResponseEntity.ok(SuccessResponse.create().data(resolvers));
 	}

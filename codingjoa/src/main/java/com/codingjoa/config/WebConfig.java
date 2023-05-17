@@ -61,10 +61,11 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 		encodingFilter.setEncoding("UTF-8");
 		encodingFilter.setForceEncoding(true);
 		
-		FilterRegistration registration1 = servletContext.addFilter("CharacterEncodingFilter", encodingFilter);
+		FilterRegistration registration1 = servletContext.addFilter(encodingFilter.getClass().getName(), encodingFilter);
 		registration1.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, "/*");
-
-		FilterRegistration registration2 = servletContext.addFilter("LogFilter", new LogFilter());
+		
+		LogFilter logFilter = new LogFilter();
+		FilterRegistration registration2 = servletContext.addFilter(logFilter.getClass().getName(), logFilter);
 		registration2.addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST, DispatcherType.ERROR), false, "/*");
 		
 		super.onStartup(servletContext);

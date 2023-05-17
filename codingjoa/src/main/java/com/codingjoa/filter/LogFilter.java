@@ -19,7 +19,7 @@ public class LogFilter implements Filter {
 	
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
-		log.info("-------- {} init --------", this.getClass().getSimpleName());
+		log.info("-------- {} init --------", filterConfig.getFilterName());
 	}
 
 	@Override
