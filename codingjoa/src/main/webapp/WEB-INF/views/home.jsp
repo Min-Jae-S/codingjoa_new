@@ -68,6 +68,20 @@
 
 <script>
 	$(function() {
+		let url = $("#configHeader a.active").attr("href");
+		getConfig(url, function(result) {
+			let message = result.message;
+			if (message != null) {
+				alert(message);
+			}
+			
+			let list = result.data;
+			if (list != null && list.length != 0) {
+				let configHtml = makeConfigHtml(list);
+				$("#configBody").html(configHtml);
+			}
+		});
+		
 		$("#configHeader a").on("click", function (e) {
 			e.preventDefault();
 			$("#configBody").empty();
@@ -75,29 +89,37 @@
 			$(this).addClass("active");
 			
 			let url = $(this).attr("href");
-			if (typeof url == "undefined" || url == "" || url == null ) {
-				return;
-			}
-			
-			$.ajax({
-				type : "GET",
-				url : url,
-				dataType : "json",
-				success : function(result) {
-					console.log(JSON.stringify(result, null, 2));
-					let list = result.data;
-					if (list != null && list.length != 0) {
-						let configHtml = makeConfigHtml(result.data);
-						$("#configBody").html(configHtml);
-					}
-				},
-				error : function(jqXHR) {
-					//let errorResponse = JSON.parse(jqXHR.responseText);
-					console.log(JSON.stringify(jqXHR, null, 2));
+			getConfig(url, function(result) {
+				let message = result.message;
+				if (message != null) {
+					alert(message);
+				}
+				
+				let list = result.data;
+				if (list != null && list.length != 0) {
+					let configHtml = makeConfigHtml(list);
+					$("#configBody").html(configHtml);
 				}
 			});
 		});
 	});
+	
+	function getConfig(url, callback) {
+		$.ajax({
+			type : "GET",
+			url : url,
+			dataType : "json",
+			success : function(result) {
+				console.log(JSON.stringify(result, null, 2));
+				callback(result);
+			},
+			error : function(jqXHR) {
+				console.log(JSON.stringify(jqXHR, null, 2));
+				let errorResponse = JSON.parse(jqXHR.responseText);
+				alert(errorResponse.errorMessage)
+			}
+		});
+	}
 	
 	function makeConfigHtml(list) {
 		let html = "";
