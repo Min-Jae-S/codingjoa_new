@@ -1,7 +1,6 @@
 package com.codingjoa.controller;
 
-import java.io.IOException;
-
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
@@ -31,13 +30,12 @@ public class TestController {
 	}
 	
 	@RequestMapping("/c")
-	public void c(HttpServletResponse response) {
+	public void c(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		log.info("## c called...");
 		
-		try {
-			response.sendError(403);
-		} catch (IOException e) {
-			log.info(e.getMessage());
-		}
+		request.getRequestDispatcher("/test/a").forward(request, response);
+		
+		log.info("## after forward");
+		response.sendError(403); // 응답이 이미 커밋된 후에는 sendError()를 호출할 수 없습니다.
 	}
 }
