@@ -48,7 +48,7 @@ public class ErrorAjaxHandler {
 		log.info("\t message = {}", e.getMessage());
 
 		ErrorResponse errorResponse = ErrorResponse.create().errorMessage(e.getMessage());
-		log.info("error = {}", errorResponse);
+		log.info("\t error = {}", errorResponse);
 		
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
 	}

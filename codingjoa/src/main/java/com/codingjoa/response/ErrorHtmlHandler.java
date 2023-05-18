@@ -23,7 +23,7 @@ public class ErrorHtmlHandler {
 		log.info("## {}: {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t message = {}", e.getMessage());
 
-		response.setStatus(HttpStatus.BAD_REQUEST.value());
+		response.setStatus(499);
 		model.addAttribute("errorMessage", e.getMessage());
 		
 		return "error/error-page";
