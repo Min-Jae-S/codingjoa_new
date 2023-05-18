@@ -2,6 +2,7 @@ package com.codingjoa.config;
 
 import java.io.IOException;
 import java.util.EnumSet;
+import java.util.Enumeration;
 
 import javax.servlet.DispatcherType;
 import javax.servlet.FilterChain;
@@ -105,6 +106,11 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 		log.info("-------- createDispatcherServlet -------");
 		DispatcherServlet dispatcherServlet = (DispatcherServlet) super.createDispatcherServlet(servletAppContext);
 		dispatcherServlet.setThrowExceptionIfNoHandlerFound(true);
+		
+		Enumeration<String> initParameterNames = dispatcherServlet.getInitParameterNames();
+		while (initParameterNames.hasMoreElements()) {
+			log.info("\t > {}", initParameterNames.nextElement());
+		}
 		
 		return dispatcherServlet;
 	}
