@@ -1,16 +1,13 @@
 package com.codingjoa.response;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolationException;
 
-import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import lombok.extern.slf4j.Slf4j;
@@ -24,11 +21,6 @@ public class ErrorHtmlHandler {
 		log.info("## {}: {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("message = {}", e.getMessage());
 
-		if (AnnotationUtils.findAnnotation(
-				e.getClass(), ResponseBody.class) != null) {
-			throw e;
-		}
-		
 		model.addAttribute("errorMessage", e.getMessage());
 		
 		return "error/error-page";

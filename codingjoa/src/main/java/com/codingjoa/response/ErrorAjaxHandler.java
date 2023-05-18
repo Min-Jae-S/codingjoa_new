@@ -42,6 +42,17 @@ import lombok.extern.slf4j.Slf4j;
 @RestControllerAdvice(annotations = RestController.class)
 public class ErrorAjaxHandler {
 	
+	@ExceptionHandler(Exception.class)
+	protected ResponseEntity<Object> handleException(Exception e) {
+		log.info("## {}: {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
+		log.info("message = {}", e.getMessage());
+
+		ErrorResponse errorResponse = ErrorResponse.create().errorMessage(e.getMessage());
+		log.info("error = {}", errorResponse);
+		
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+	}
+	
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	protected ResponseEntity<Object> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
 		log.info("## {}: {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
@@ -68,7 +79,7 @@ public class ErrorAjaxHandler {
 		MissingPathVariableException.class,			// api/comments/
 		MethodArgumentTypeMismatchException.class,	// api/comments/aa
 	})
-	protected ResponseEntity<Object> handleException(Exception e) {
+	protected ResponseEntity<Object> handlePathVariableExceptionAndTypeMismatchException(Exception e) {
 		log.info("## {}: {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("message = {}", e.getMessage());
 		
