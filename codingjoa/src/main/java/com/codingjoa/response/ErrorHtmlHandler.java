@@ -1,7 +1,9 @@
 package com.codingjoa.response;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolationException;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -17,10 +19,11 @@ import lombok.extern.slf4j.Slf4j;
 public class ErrorHtmlHandler {
 	
 	@ExceptionHandler(Exception.class)
-	protected String handleException(Exception e, Model model) throws Exception {
+	protected String handleException(Exception e, HttpServletResponse response, Model model) throws Exception {
 		log.info("## {}: {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
-		log.info("message = {}", e.getMessage());
+		log.info("\t message = {}", e.getMessage());
 
+		response.setStatus(HttpStatus.BAD_REQUEST.value());
 		model.addAttribute("errorMessage", e.getMessage());
 		
 		return "error/error-page";
@@ -29,7 +32,7 @@ public class ErrorHtmlHandler {
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	protected String handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
 		log.info("## {}: {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
-		log.info("message = {}", e.getMessage());
+		log.info("\t message = {}", e.getMessage());
 
 		//		if (isAjaxRequest(request)) {
 //			ErrorResponse response = ErrorResponse.create().bindingResult(e.getBindingResult());
@@ -47,7 +50,7 @@ public class ErrorHtmlHandler {
 	@ExceptionHandler(BindException.class) // /board/write?boardCategory=aa, /board/modify?boardIdx=aa, /board/deleteProc?boardIdx=aa
 	protected String handleBindException(BindException e) {
 		log.info("## {}: {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
-		log.info("message = {}", e.getMessage());
+		log.info("\t message = {}", e.getMessage());
 		
 		e.getBindingResult().getFieldErrors().forEach(fieldError -> {
 			log.info("field = {}", fieldError.getField());
@@ -60,7 +63,7 @@ public class ErrorHtmlHandler {
 	@ExceptionHandler(ConstraintViolationException.class) // /board/main?boardCategoryCode=11
 	protected String handleConstraintViolationException(ConstraintViolationException e) {
 		log.info("## {}: {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
-		log.info("message = {}", e.getMessage());
+		log.info("\t message = {}", e.getMessage());
 
 		e.getConstraintViolations().forEach(v -> {
 			log.info("{}", v);
@@ -76,7 +79,7 @@ public class ErrorHtmlHandler {
 	})
 	protected String handleException(Exception e) {
 		log.info("## {}: {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
-		log.info("message = {}", e.getMessage());
+		log.info("\t message = {}", e.getMessage());
 		
 		return "error/error-page";
 	}
@@ -84,7 +87,7 @@ public class ErrorHtmlHandler {
 	@ExceptionHandler(IllegalArgumentException.class)
 	protected String handleIllegalArgumentException(IllegalArgumentException e) {
 		log.info("## {}: {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
-		log.info("message = {}", e.getMessage());
+		log.info("\t message = {}", e.getMessage());
 		
 		return "error/error-page";
 	}
