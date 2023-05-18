@@ -36,7 +36,7 @@ public class LogFilter implements Filter {
 		//httpResponse.sendError(HttpStatus.UNPROCESSABLE_ENTITY.value());
 		
 		try {
-			log.info("## Request - Before Filter");
+			log.info("## Request");
 			log.info("\t URI = {}", requestURI);
 			log.info("\t UUID = {}", uuid);
 			log.info("\t distpatcherType = {}", request.getDispatcherType());
@@ -47,7 +47,7 @@ public class LogFilter implements Filter {
 			log.info("\t message = {}", e.getMessage());
 			throw e;
 		} finally {
-			log.info("## Response - After Filter");
+			log.info("## Response");
 			log.info("\t URI = {}", requestURI);
 			log.info("\t UUID = {}", uuid);
 			log.info("\t distpatcherType = {}", request.getDispatcherType());
