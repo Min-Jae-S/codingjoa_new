@@ -21,7 +21,7 @@ public class TestController {
 	@ResponseBody
 	@RequestMapping("/b")
 	public String b() {
-		log.info("## a called...");
+		log.info("## b called...");
 		
 		return "b";
 	}
