@@ -2,7 +2,6 @@ package com.codingjoa.config;
 
 import java.io.IOException;
 import java.util.EnumSet;
-import java.util.Enumeration;
 
 import javax.servlet.DispatcherType;
 import javax.servlet.FilterChain;
@@ -70,7 +69,6 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 	@Override
 	public void onStartup(ServletContext servletContext) throws ServletException {
 		log.info("-------- onStartup -------");
-
 		CharacterEncodingFilter encodingFilter = new CharacterEncodingFilter() {
 			
 			@Override
@@ -114,7 +112,5 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 		
 		return dispatcherServlet;
 	}
-	
-	
 
 }

@@ -30,11 +30,11 @@ public class LogFilter implements Filter {
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		String requestURI = httpRequest.getRequestURI();
 		String uuid = UUID.randomUUID().toString();
-		
+
 		try {
 			log.info("## Request");
-			log.info("\t URI = {}", requestURI);
-			log.info("\t UUID = {}", uuid);
+			log.info("\t uri = {}", requestURI);
+			log.info("\t uuid = {}", uuid);
 			log.info("\t distpatcherType = {}", request.getDispatcherType());
 			chain.doFilter(request, response);
 		} catch (Exception e) {
@@ -44,8 +44,8 @@ public class LogFilter implements Filter {
 			throw e;
 		} finally {
 			log.info("## Response");
-			log.info("\t URI = {}", requestURI);
-			log.info("\t UUID = {}", uuid);
+			log.info("\t uri = {}", requestURI);
+			log.info("\t uuid = {}", uuid);
 			log.info("\t distpatcherType = {}", request.getDispatcherType());
 		}
 	}

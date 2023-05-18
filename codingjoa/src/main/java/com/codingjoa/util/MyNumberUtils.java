@@ -5,7 +5,8 @@ import org.springframework.util.StringUtils;
 public class MyNumberUtils {
 	
 	public static boolean isNaturalNumber(String str) {
-		if (StringUtils.isEmpty(str)) { // null, ""
+
+		if (!StringUtils.hasText(str)) {
 			return false;
 		}
 		

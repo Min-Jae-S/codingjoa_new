@@ -21,7 +21,7 @@ public class CustomExceptionResolver implements HandlerExceptionResolver {
 		log.info("-------- {} --------", this.getClass().getSimpleName());
 		
 		HandlerMethod method = (HandlerMethod) handler;
-		log.info("\t URI = {}: {}", request.getMethod(), getFullURI(request));
+		log.info("\t uri = {}: {}", request.getMethod(), getFullURI(request));
 		log.info("\t dispatcherType = {}",  request.getDispatcherType());
 		log.info("\t x-requested-with = {}", request.getHeader("X-Requested-With"));
 		log.info("\t exception = {}", ex.getClass().getSimpleName());

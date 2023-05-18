@@ -60,7 +60,8 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
 		
 		if (isAjaxRequest(request)) {
 			response.setStatus(HttpStatus.UNAUTHORIZED.value());				// 401
-			response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE); 	// application/json;charset=UTF-8
+			response.setContentType(MediaType.APPLICATION_JSON.toString()); 	// application/json
+			
 			
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:ss:mm");
 			ObjectMapper objectMapper = Jackson2ObjectMapperBuilder

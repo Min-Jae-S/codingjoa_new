@@ -34,8 +34,10 @@ public class TestController {
 		log.info("## c called...");
 		
 		request.getRequestDispatcher("/test/a").forward(request, response);
-		
 		log.info("## after forward");
-		response.sendError(403); // 응답이 이미 커밋된 후에는 sendError()를 호출할 수 없습니다.
+		
+		// 응답이 이미 커밋된 후에는 sendError()를 호출할 수 없습니다.
+		response.sendError(403); 
+	
 	}
 }
