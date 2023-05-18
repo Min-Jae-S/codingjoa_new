@@ -68,9 +68,6 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 		registration.setMultipartConfig(multipartConfig);
 		
 		//registration.setInitParameter("throwExceptionIfNoHandlerFound", "true");
-		registration.getInitParameters().forEach((key, value) -> {
-			log.info("\t {} : {}", key, value);
-		});
 	}
 	
 	@Override
@@ -102,11 +99,6 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 		LogFilter logFilter = new LogFilter();
 		FilterRegistration registration2 = servletContext.addFilter("LogFilter", logFilter);
 		registration2.addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST, DispatcherType.ERROR), false, "/*");
-		
-		Enumeration<String> parameterNames = servletContext.getInitParameterNames();
-		while (parameterNames.hasMoreElements()) {
-			log.info("\t > {}", parameterNames.nextElement());
-		}
 		
 		super.onStartup(servletContext);
 	}
