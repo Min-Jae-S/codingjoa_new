@@ -107,10 +107,10 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 		DispatcherServlet dispatcherServlet = (DispatcherServlet) super.createDispatcherServlet(servletAppContext);
 		dispatcherServlet.setThrowExceptionIfNoHandlerFound(true);
 		
-		Enumeration<String> initParameterNames = dispatcherServlet.getInitParameterNames();
-		while (initParameterNames.hasMoreElements()) {
-			log.info("\t > {}", initParameterNames.nextElement());
-		}
+//		Enumeration<String> initParameterNames = dispatcherServlet.getInitParameterNames();
+//		while (initParameterNames.hasMoreElements()) {
+//			log.info("\t > {}", initParameterNames.nextElement());
+//		}
 		
 		return dispatcherServlet;
 	}
