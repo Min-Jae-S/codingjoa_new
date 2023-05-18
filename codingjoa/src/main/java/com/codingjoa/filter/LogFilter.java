@@ -10,6 +10,9 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.http.HttpStatus;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -31,9 +34,9 @@ public class LogFilter implements Filter {
 		String requestURI = httpRequest.getRequestURI();
 		String uuid = UUID.randomUUID().toString();
 		
-		// force to send error(422)
-		//HttpServletResponse httpResponse = (HttpServletResponse) response;
-		//httpResponse.sendError(HttpStatus.UNPROCESSABLE_ENTITY.value());
+		// force to send error
+		HttpServletResponse httpResponse = (HttpServletResponse) response;
+		httpResponse.sendError(499);
 		
 		try {
 			log.info("## Request");
