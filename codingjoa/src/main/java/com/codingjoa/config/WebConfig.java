@@ -2,8 +2,6 @@ package com.codingjoa.config;
 
 import java.io.IOException;
 import java.util.EnumSet;
-import java.util.Enumeration;
-import java.util.Iterator;
 
 import javax.servlet.DispatcherType;
 import javax.servlet.FilterChain;
@@ -15,10 +13,7 @@ import javax.servlet.ServletRegistration.Dynamic;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
-import org.springframework.web.servlet.DispatcherServlet;
-import org.springframework.web.servlet.FrameworkServlet;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 import com.codingjoa.filter.LogFilter;
@@ -66,8 +61,7 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 		
 		//StandardServletMultipartResolver.cleanupMultipart(94) - Failed to perform cleanup of multipart items
 		registration.setMultipartConfig(multipartConfig);
-		
-		//registration.setInitParameter("throwExceptionIfNoHandlerFound", "true");
+		registration.setInitParameter("throwExceptionIfNoHandlerFound", "true");
 	}
 	
 	@Override
@@ -99,17 +93,6 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 		LogFilter logFilter = new LogFilter();
 		FilterRegistration registration2 = servletContext.addFilter("LogFilter", logFilter);
 		registration2.addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST, DispatcherType.ERROR), false, "/*");
-		
-		super.onStartup(servletContext);
 	}
 
-	@Override
-	protected FrameworkServlet createDispatcherServlet(WebApplicationContext servletAppContext) {
-		log.info("-------- createDispatcherServlet -------");
-		DispatcherServlet dispatcherServlet = (DispatcherServlet) super.createDispatcherServlet(servletAppContext);
-		dispatcherServlet.setThrowExceptionIfNoHandlerFound(true);
-		
-		return dispatcherServlet;
-	}
-	
 }
