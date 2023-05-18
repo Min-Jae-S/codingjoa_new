@@ -6,7 +6,8 @@ body {
 }
 
 .home-container {
-	margin-top: 5rem;
+	margin-top: 4rem;
+	margin-bottom: 4rem;
 } 
 
 .error-container {
