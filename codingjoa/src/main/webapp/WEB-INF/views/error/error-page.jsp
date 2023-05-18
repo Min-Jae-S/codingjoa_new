@@ -20,6 +20,7 @@
 
 <div class="error-container">
 	<p class="font-weight-bold text-center bg-danger text-white">ERROR PAGE</p>
+	<p><c:out value="${errorMessage}"/></p>
 </div>
 
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>

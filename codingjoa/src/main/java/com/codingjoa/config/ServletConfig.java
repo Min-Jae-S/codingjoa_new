@@ -84,7 +84,7 @@ public class ServletConfig implements WebMvcConfigurer {
 	public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
 		log.info("-------- extendMessageConverters --------");
 
-		//		converters.add(0, mappingJackson2HttpMessageConverter());
+		//	converters.add(0, mappingJackson2HttpMessageConverter());
 		converters.stream()
 			.filter(converter -> converter instanceof StringHttpMessageConverter)
 			.forEach(converter -> ((StringHttpMessageConverter) converter).setDefaultCharset(StandardCharsets.UTF_8));

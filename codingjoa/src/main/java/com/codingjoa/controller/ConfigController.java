@@ -32,6 +32,8 @@ public class ConfigController {
 	
 	@GetMapping("/filters")
 	public ResponseEntity<Object> filters() {
+		log.info("## filters called...");
+		
 		FilterChainProxy filterChainProxy = applicationCtx.getBean(FilterChainProxy.class);
 		SecurityFilterChain securityFilterChain = filterChainProxy.getFilterChains().get(0);
 		List<String> filters = securityFilterChain.getFilters()
@@ -57,6 +59,8 @@ public class ConfigController {
 
 	@GetMapping("/message-converters")
 	public ResponseEntity<Object> messageConverters() {
+		log.info("## messageConverters called...");
+
 		RequestMappingHandlerAdapter handlerAdapter = applicationCtx.getBean(RequestMappingHandlerAdapter.class);
 		List<String> converters = handlerAdapter.getMessageConverters()
 				.stream()
@@ -73,6 +77,8 @@ public class ConfigController {
 	
 	@GetMapping("/exception-resolvers")
 	public ResponseEntity<Object> exceptionResolvers() {
+		log.info("## exceptionResolvers called...");
+		
 		HandlerExceptionResolverComposite composite = applicationCtx.getBean(HandlerExceptionResolverComposite.class);
 		List<String> resolvers = composite.getExceptionResolvers()
 				.stream()
@@ -89,6 +95,8 @@ public class ConfigController {
 	
 	@GetMapping("/argument-resolvers")
 	public ResponseEntity<Object> argumentResolvers() {
+		log.info("## argumentResolvers called...");
+		
 		RequestMappingHandlerAdapter handlerAdapter = applicationCtx.getBean(RequestMappingHandlerAdapter.class);
 		List<String> resolvers = handlerAdapter.getArgumentResolvers()
 				.stream()

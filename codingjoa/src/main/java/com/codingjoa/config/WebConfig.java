@@ -13,7 +13,10 @@ import javax.servlet.ServletRegistration.Dynamic;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
+import org.springframework.web.servlet.DispatcherServlet;
+import org.springframework.web.servlet.FrameworkServlet;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 import com.codingjoa.filter.LogFilter;
@@ -61,7 +64,6 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 		
 		//StandardServletMultipartResolver.cleanupMultipart(94) - Failed to perform cleanup of multipart items
 		registration.setMultipartConfig(multipartConfig);
-		registration.setInitParameter("throwExceptionIfNoHandlerFound", "true");
 	}
 	
 	@Override
@@ -69,20 +71,19 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 		log.info("-------- onStartup -------");
 
 		CharacterEncodingFilter encodingFilter = new CharacterEncodingFilter() {
-
-			@Override
-			protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
-					FilterChain filterChain) throws ServletException, IOException {
-				log.info("-------- {} doFilterInternal --------", this.getClass().getSimpleName());
-				super.doFilterInternal(request, response, filterChain);
-			}
-
+			
 			@Override
 			protected void initFilterBean() throws ServletException {
 				log.info("-------- {} init --------", this.getFilterConfig().getFilterName());
 				super.initFilterBean();
 			}
-			
+
+			@Override
+			protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
+					FilterChain filterChain) throws ServletException, IOException {
+				log.info("-------- {} doFilterInternal --------", this.getFilterConfig().getFilterName());
+				super.doFilterInternal(request, response, filterChain);
+			}
 		};
 		encodingFilter.setEncoding("UTF-8");
 		encodingFilter.setForceEncoding(true);
@@ -93,6 +94,19 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 		LogFilter logFilter = new LogFilter();
 		FilterRegistration registration2 = servletContext.addFilter("LogFilter", logFilter);
 		registration2.addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST, DispatcherType.ERROR), false, "/*");
+		
+		super.onStartup(servletContext);
 	}
+
+	@Override
+	protected FrameworkServlet createDispatcherServlet(WebApplicationContext servletAppContext) {
+		log.info("-------- createDispatcherServlet -------");
+		DispatcherServlet dispatcherServlet = (DispatcherServlet) super.createDispatcherServlet(servletAppContext);
+		dispatcherServlet.setThrowExceptionIfNoHandlerFound(true);
+		
+		return dispatcherServlet;
+	}
+	
+	
 
 }
