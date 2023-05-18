@@ -34,10 +34,6 @@ public class LogFilter implements Filter {
 		String requestURI = httpRequest.getRequestURI();
 		String uuid = UUID.randomUUID().toString();
 		
-		// force to send error
-		HttpServletResponse httpResponse = (HttpServletResponse) response;
-		httpResponse.sendError(499);
-		
 		try {
 			log.info("## Request");
 			log.info("\t URI = {}", requestURI);
