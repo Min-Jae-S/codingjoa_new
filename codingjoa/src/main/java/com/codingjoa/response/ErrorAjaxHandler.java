@@ -44,7 +44,7 @@ public class ErrorAjaxHandler {
 	
 	@ExceptionHandler(Exception.class)
 	protected ResponseEntity<Object> handleException(Exception e) {
-		log.info("## {}: {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
+		log.info("-------- {}: {} --------", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t message = {}", e.getMessage());
 
 		ErrorResponse errorResponse = ErrorResponse.create().errorMessage(e.getMessage());
@@ -55,7 +55,7 @@ public class ErrorAjaxHandler {
 	
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	protected ResponseEntity<Object> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
-		log.info("## {}: {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
+		log.info("-------- {}: {} --------", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		//log.info("message = {}", e.getMessage());
 		
 		ErrorResponse errorResponse = ErrorResponse.create().bindingResult(e.getBindingResult());
@@ -66,8 +66,8 @@ public class ErrorAjaxHandler {
 	
 	@ExceptionHandler(ConstraintViolationException.class)
 	protected ResponseEntity<Object> handleConstraintViolationException(ConstraintViolationException e) {
-		log.info("## {}: {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
-		log.info("message = {}", e.getMessage());
+		log.info("-------- {}: {} --------", this.getClass().getSimpleName(), e.getClass().getSimpleName());
+		log.info("\t message = {}", e.getMessage());
 		
 		ErrorResponse errorResponse = ErrorResponse.create().errorMessage(e.getMessage());
 		log.info("\t error = {}", errorResponse);
@@ -80,7 +80,7 @@ public class ErrorAjaxHandler {
 		MethodArgumentTypeMismatchException.class,	// api/comments/aa
 	})
 	protected ResponseEntity<Object> handlePathVariableExceptionAndTypeMismatchException(Exception e) {
-		log.info("## {}: {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
+		log.info("-------- {}: {} --------", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t message = {}", e.getMessage());
 		
 		ErrorResponse errorResponse = ErrorResponse.create().errorMessage(e.getMessage());
@@ -91,7 +91,7 @@ public class ErrorAjaxHandler {
 	
 	@ExceptionHandler(IllegalArgumentException.class)
 	protected ResponseEntity<Object> handleIllegalArgumentException(IllegalArgumentException e) {
-		log.info("## {}: {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
+		log.info("-------- {}: {} --------", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t message = {}", e.getMessage());
 		
 		ErrorResponse errorResponse = ErrorResponse.create().errorMessage(e.getMessage());
@@ -102,7 +102,7 @@ public class ErrorAjaxHandler {
 	
 	@ExceptionHandler(MaxUploadSizeExceededException.class)
 	protected ResponseEntity<Object> handleMaxUploadSizeExceededException(MaxUploadSizeExceededException e) {
-		log.info("## {}: {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
+		log.info("-------- {}: {} --------", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t message = {}", e.getMessage());
 		
 		ErrorResponse errorResponse = ErrorResponse.create().errorCode("error.ExceedSize");
