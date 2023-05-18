@@ -1,9 +1,9 @@
 package com.codingjoa.response;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolationException;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -19,7 +19,8 @@ import lombok.extern.slf4j.Slf4j;
 public class ErrorHtmlHandler {
 	
 	@ExceptionHandler(Exception.class)
-	protected String handleException(Exception e, HttpServletResponse response, Model model) throws Exception {
+	protected String handleException(Exception e, HttpServletRequest request, 
+			HttpServletResponse response, Model model) {
 		log.info("-------- {}: {} --------", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t message = {}", e.getMessage());
 

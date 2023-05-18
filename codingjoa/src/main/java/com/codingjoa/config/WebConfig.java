@@ -81,7 +81,7 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 			@Override
 			protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
 					FilterChain filterChain) throws ServletException, IOException {
-				log.info("-------- {} doFilterInternal --------", this.getFilterConfig().getFilterName());
+				log.info("-------- {} --------", this.getFilterConfig().getFilterName());
 				super.doFilterInternal(request, response, filterChain);
 			}
 		};

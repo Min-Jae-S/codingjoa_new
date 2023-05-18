@@ -25,7 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequestMapping("/config")
 @RestController
-public class ConfigController {
+public class ConfigRestController {
 	
 	@Autowired // WebApplicationContext = ApplicationContext + getServletContext()
 	private WebApplicationContext applicationCtx;
