@@ -8,7 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequestMapping("/error")
 @Controller
-public class ErrorController {
+public class ErrorPageController {
 
 	@RequestMapping("/errorPage")
 	public String errorPage() {

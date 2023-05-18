@@ -73,8 +73,7 @@ public class ServletConfig implements WebMvcConfigurer {
 	@Override
 	public void configurePathMatch(PathMatchConfigurer configurer) {
 		log.info("-------- configurePathMatch --------");
-		WebMvcConfigurer.super.configurePathMatch(configurer);
-		
+
 		configurer.setUseTrailingSlashMatch(true);
 	    log.info("\t > isUseTrailingSlashMatch = {}", configurer.isUseTrailingSlashMatch());
 	    log.info("\t > isUseSuffixPatternMatch = {}", configurer.isUseSuffixPatternMatch());
@@ -84,7 +83,8 @@ public class ServletConfig implements WebMvcConfigurer {
 	@Override
 	public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
 		log.info("-------- extendMessageConverters --------");
-//		converters.add(0, mappingJackson2HttpMessageConverter());
+
+		//		converters.add(0, mappingJackson2HttpMessageConverter());
 		converters.stream()
 			.filter(converter -> converter instanceof StringHttpMessageConverter)
 			.forEach(converter -> ((StringHttpMessageConverter) converter).setDefaultCharset(StandardCharsets.UTF_8));
