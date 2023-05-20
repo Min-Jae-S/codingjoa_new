@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolationException;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -54,22 +55,27 @@ public class ErrorHtmlHandler {
 		log.info("\t message = {}", e.getMessage());
 		
 		e.getBindingResult().getFieldErrors().forEach(fieldError -> {
-			log.info("field = {}", fieldError.getField());
-			log.info("code = {}", fieldError.getCodes()[0]);
+			log.info("\t field = {}", fieldError.getField());
+			log.info("\t code = {}", fieldError.getCodes()[0]);
 		});
 		
 		return "error/error-page";
 	}
 	
 	@ExceptionHandler(ConstraintViolationException.class) // /board/main?boardCategoryCode=11
-	protected String handleConstraintViolationException(ConstraintViolationException e) {
+	protected String handleConstraintViolationException(ConstraintViolationException e, 
+			HttpServletRequest request, HttpServletResponse response, Model model) {
 		log.info("-------- {}: {} --------", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t message = {}", e.getMessage());
 
 		e.getConstraintViolations().forEach(v -> {
-			log.info("{}", v);
-			log.info("invalid value = {}", v.getInvalidValue());
+			//log.info("\t {}", v);
+			log.info("\t invalid value = {}", v.getInvalidValue());
 		});
+		
+		response.setStatus(HttpStatus.BAD_REQUEST.value());
+		model.addAttribute("errorMessage", e.getMessage());
+		model.asMap().forEach((key, value) -> log.info("\t model attribute = {}", key));
 		
 		return "error/error-page";
 	}

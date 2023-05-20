@@ -11,13 +11,13 @@ public class MainController {
 
 	@GetMapping("/")
 	public String home() {
-		log.info("-------- HOME PAGE --------");
+		log.info("-------- home --------");
 		return "home";
 	}
 	
 	@GetMapping("/accessDenied")
 	public String accessDenied() {
-		log.info("-------- ACCESS DENIED --------");
+		log.info("-------- access denied --------");
 		return "access-denied";
 	}
 	
@@ -25,8 +25,5 @@ public class MainController {
 	public String board() {
 		return "redirect:/board/all";
 	}
-	
-
-
 	
 }
