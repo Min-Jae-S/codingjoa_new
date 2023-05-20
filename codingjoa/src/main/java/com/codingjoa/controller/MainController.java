@@ -11,19 +11,18 @@ public class MainController {
 
 	@GetMapping("/")
 	public String home() {
-		log.info("## HOME PAGE...");
+		log.info("-------- HOME PAGE --------");
 		return "home";
 	}
 	
 	@GetMapping("/accessDenied")
 	public String accessDenied() {
-		log.info("## ACCESS DENIED...");
+		log.info("-------- ACCESS DENIED --------");
 		return "access-denied";
 	}
 	
 	@GetMapping("/board")
 	public String board() {
-		log.info("## BOARD ALL...");
 		return "redirect:/board/all";
 	}
 	

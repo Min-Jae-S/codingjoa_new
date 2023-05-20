@@ -15,7 +15,6 @@ import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.FrameworkServlet;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
-import com.codingjoa.filter.LogFilter;
 import com.codingjoa.security.config.SecurityConfig;
 
 import lombok.extern.slf4j.Slf4j;
@@ -74,9 +73,9 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 		FilterRegistration registration1 = servletContext.addFilter("CharacterEncodingFilter", encodingFilter);
 		registration1.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, "/*");
 		
-		LogFilter logFilter = new LogFilter();
-		FilterRegistration registration2 = servletContext.addFilter("LogFilter", logFilter);
-		registration2.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, "/*");
+//		LogFilter logFilter = new LogFilter();
+//		FilterRegistration registration2 = servletContext.addFilter("LogFilter", logFilter);
+//		registration2.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, "/*");
 	}
 
 	@Override

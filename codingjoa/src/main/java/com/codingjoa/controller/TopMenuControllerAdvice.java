@@ -2,6 +2,8 @@ package com.codingjoa.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,15 +24,16 @@ public class TopMenuControllerAdvice {
 	private CategoryService categoryService;
 	
 	@ModelAttribute("parentCategoryList")
-	public List<Category> findParentCategoryList() {
-		log.info("-------- findParentCategoryList --------");
+	public List<Category> findParentCategoryList(HttpServletRequest request) {
+		log.info("-------- findParentCategoryList: {} --------", request.getRequestURI());
 		return categoryService.findParentCategoryList();
 	}
 	
 	@ResponseBody
 	@GetMapping("/category/{categoryParentCode}")
-	public List<Category> findCategoryListByParent(@PathVariable("categoryParentCode") int categoryParentCode) {
-		log.info("-------- findCategoryListByParent --------");
+	public List<Category> findCategoryListByParent(@PathVariable("categoryParentCode") int categoryParentCode,
+			HttpServletRequest request) {
+		log.info("-------- findCategoryListByParent: {} --------", request.getRequestURI());
 		return categoryService.findCategoryListByParent(categoryParentCode);
 	}
 }
