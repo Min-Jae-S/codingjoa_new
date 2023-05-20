@@ -33,7 +33,7 @@ public class LogFilter implements Filter {
 
 		try {
 			log.info("## Request");
-			log.info("\t \'{}\', {}", requestURI, request.getDispatcherType());
+			log.info("\t URI = \'{}\' [{}]", requestURI, request.getDispatcherType());
 			log.info("\t UUID = {}", uuid);
 			chain.doFilter(request, response);
 		} catch (Exception e) {
@@ -43,7 +43,7 @@ public class LogFilter implements Filter {
 			throw e;
 		} finally {
 			log.info("## Response");
-			log.info("\t \'{}\', {}", requestURI, request.getDispatcherType());
+			log.info("\t URI = \'{}\' [{}]", requestURI, request.getDispatcherType());
 			log.info("\t UUID = {}", uuid);
 		}
 	}

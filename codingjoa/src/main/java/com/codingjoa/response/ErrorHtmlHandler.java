@@ -77,7 +77,8 @@ public class ErrorHtmlHandler {
 		model.addAttribute("errorMessage", e.getMessage());
 		model.asMap().forEach((key, value) -> log.info("\t model attribute = {}", key));
 		
-		return "error/error-page";
+		return "forward:/error/errorPage";
+		//return "error/error-page";
 	}
 	
 	@ExceptionHandler(value = { 
