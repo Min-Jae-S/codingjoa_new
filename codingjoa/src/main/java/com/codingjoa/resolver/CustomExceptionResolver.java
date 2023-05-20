@@ -21,12 +21,14 @@ public class CustomExceptionResolver implements HandlerExceptionResolver {
 		log.info("-------- {} --------", this.getClass().getSimpleName());
 		
 		HandlerMethod method = (HandlerMethod) handler;
-		log.info("\t uri = {}: {}", request.getMethod(), getFullURI(request));
-		log.info("\t dispatcherType = {}",  request.getDispatcherType());
-		log.info("\t x-requested-with = {}", request.getHeader("X-Requested-With"));
-		log.info("\t exception = {}", ex.getClass().getSimpleName());
-		log.info("\t runtime excpetion = {}", ex instanceof RuntimeException);
-		log.info("\t handler = {}", (method != null) ? method.getBeanType().getSimpleName() : "No handler");
+		log.info("\t > URI = {}: {}", getFullURI(request));
+		log.info("\t > method = {}: {}", request.getMethod());
+		log.info("\t > dispatcherType = {}",  request.getDispatcherType());
+		log.info("\t > x-requested-with = {}", request.getHeader("X-Requested-With"));
+		log.info("\t > exception = {}", ex.getClass().getSimpleName());
+		log.info("\t > runtime excpetion = {}", ex instanceof RuntimeException);
+		log.info("\t > handler = {}", (method != null) ? handler.getClass().getSimpleName() : "No handler");
+		//log.info("\t > handler = {}", (method != null) ? method.getBeanType().getSimpleName() : "No handler");
 
 		return null;
 	}

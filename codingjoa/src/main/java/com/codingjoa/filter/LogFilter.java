@@ -33,18 +33,18 @@ public class LogFilter implements Filter {
 
 		try {
 			log.info("## Request");
-			log.info("\t URI = \'{}\' [{}]", requestURI, request.getDispatcherType());
-			log.info("\t UUID = {}", uuid);
+			log.info("\t > URI = \'{}\' [{}]", requestURI, request.getDispatcherType());
+			log.info("\t > UUID = {}", uuid);
 			chain.doFilter(request, response);
 		} catch (Exception e) {
 			log.info("## Catch Exception");
-			log.info("\t exception = {}", e.getClass().getSimpleName());
-			log.info("\t message = {}", e.getMessage());
+			log.info("\t > exception = {}", e.getClass().getSimpleName());
+			log.info("\t > message = {}", e.getMessage());
 			throw e;
 		} finally {
 			log.info("## Response");
-			log.info("\t URI = \'{}\' [{}]", requestURI, request.getDispatcherType());
-			log.info("\t UUID = {}", uuid);
+			log.info("\t > URI = \'{}\' [{}]", requestURI, request.getDispatcherType());
+			log.info("\t > UUID = {}", uuid);
 		}
 	}
 	

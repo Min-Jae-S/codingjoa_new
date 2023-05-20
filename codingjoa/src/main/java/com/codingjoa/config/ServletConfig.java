@@ -88,6 +88,7 @@ public class ServletConfig implements WebMvcConfigurer {
 		InterceptorRegistration reg1 = 
 				registry.addInterceptor(new CategoryInterceptor(categoryService));
 		reg1.addPathPatterns("/**");
+		//reg1.excludePathPatterns("/resources/**", "/upload/**");
 	}
 
 	@Override

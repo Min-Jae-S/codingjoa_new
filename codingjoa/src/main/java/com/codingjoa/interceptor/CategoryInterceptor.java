@@ -1,5 +1,7 @@
 package com.codingjoa.interceptor;
 
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +25,8 @@ public class CategoryInterceptor implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		log.info("-------- CategoryInterceptor --------");
+		log.info("\t > URI = {}", getFullURI(request));
+		log.info("\t > handler = {}", (handler != null) ? handler.getClass().getSimpleName() : "No handler");
 		
 		List<Category> parentCategoryList = categoryService.findParentCategoryList();
 		request.setAttribute("parentCategoryList", parentCategoryList);
@@ -30,6 +34,15 @@ public class CategoryInterceptor implements HandlerInterceptor {
 		return true;
 	}
 	
-
+	private String getFullURI(HttpServletRequest request) {
+		StringBuilder requestURI = new StringBuilder(request.getRequestURI().toString());
+	    String queryString = request.getQueryString();
+	    
+	    if (queryString == null) {
+	        return requestURI.toString();
+	    } else {
+	    	return requestURI.append('?').append(URLDecoder.decode(queryString, StandardCharsets.UTF_8)).toString();
+	    }
+	}
 	
 }
