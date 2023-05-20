@@ -4,7 +4,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolationException;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -64,7 +63,7 @@ public class ErrorHtmlHandler {
 	
 	@ExceptionHandler(ConstraintViolationException.class) // /board/main?boardCategoryCode=11
 	protected String handleConstraintViolationException(ConstraintViolationException e, 
-			HttpServletRequest request, HttpServletResponse response, Model model) {
+			HttpServletRequest request) {
 		log.info("-------- {}: {} --------", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t message = {}", e.getMessage());
 
@@ -73,9 +72,7 @@ public class ErrorHtmlHandler {
 			log.info("\t invalid value = {}", v.getInvalidValue());
 		});
 		
-		response.setStatus(HttpStatus.BAD_REQUEST.value());
-		model.addAttribute("errorMessage", e.getMessage());
-		model.asMap().forEach((key, value) -> log.info("\t model attribute = {}", key));
+		request.setAttribute("errorMessage", e.getMessage());
 		
 		return "forward:/error/errorPage";
 		//return "error/error-page";
@@ -85,7 +82,7 @@ public class ErrorHtmlHandler {
 		MissingServletRequestParameterException.class,	// /board/read
 		MethodArgumentTypeMismatchException.class		// /board/read?boardIdx=, /board/read?boardIdx=aa 
 	})
-	protected String handleException(Exception e) {
+	protected String handlePathVariableExceptionAndTypeMismatchException(Exception e) {
 		log.info("-------- {}: {} --------", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t message = {}", e.getMessage());
 		

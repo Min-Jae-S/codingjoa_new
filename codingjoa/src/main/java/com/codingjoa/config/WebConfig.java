@@ -15,7 +15,6 @@ import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.FrameworkServlet;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
-import com.codingjoa.filter.LogFilter;
 import com.codingjoa.security.config.SecurityConfig;
 
 import lombok.extern.slf4j.Slf4j;
@@ -88,7 +87,6 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 //		while (initParameterNames.hasMoreElements()) {
 //			log.info("\t > {}", initParameterNames.nextElement());
 //		}
-		
 		return dispatcherServlet;
 	}
 

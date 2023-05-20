@@ -21,7 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Controller
 @ControllerAdvice(basePackages = "com.codingjoa.controller")
-public class TopMenuControllerAdvice {
+public class TopMenuController {
 	
 	@Autowired
 	private CategoryService categoryService;
@@ -29,9 +29,7 @@ public class TopMenuControllerAdvice {
 	@ModelAttribute("parentCategoryList")
 	public void findParentCategoryList(HttpServletRequest request, Model model) {
 		log.info("-------- findParentCategoryList from \'{}\' --------", request.getRequestURI());
-		
 		model.addAttribute("parentCategoryList", categoryService.findParentCategoryList());
-		model.asMap().forEach((key, value) -> log.info("\t model attribute = {}", key));
 	}
 	
 	@ResponseBody
