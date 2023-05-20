@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.filter.DelegatingFilterProxy;
 import org.springframework.web.servlet.handler.HandlerExceptionResolverComposite;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 
@@ -33,13 +32,11 @@ public class ConfigRestController {
 
 	@GetMapping("/filters")
 	public ResponseEntity<Object> filters() {
-		log.info("## filters called...");
-		
 		FilterChainProxy filterChainProxy = webApplicationContext.getBean(FilterChainProxy.class);
 		List<String> filters = filterChainProxy.getFilterChains()
 			.stream()
 			.filter(filterChain -> filterChain instanceof SecurityFilterChain)
-			.findAny().get().getFilters()
+			.findFirst().get().getFilters()
 			.stream()
 			.map(filter -> filter.getClass().getSimpleName())
 			.collect(Collectors.toList());
@@ -67,8 +64,6 @@ public class ConfigRestController {
 
 	@GetMapping("/message-converters")
 	public ResponseEntity<Object> messageConverters() {
-		log.info("## messageConverters called...");
-
 		RequestMappingHandlerAdapter handlerAdapter = webApplicationContext.getBean(RequestMappingHandlerAdapter.class);
 		List<String> messageConverters = handlerAdapter.getMessageConverters()
 				.stream()
@@ -84,8 +79,6 @@ public class ConfigRestController {
 	
 	@GetMapping("/exception-resolvers")
 	public ResponseEntity<Object> exceptionResolvers() {
-		log.info("## exceptionResolvers called...");
-		
 		HandlerExceptionResolverComposite composite = 
 				webApplicationContext.getBean(HandlerExceptionResolverComposite.class);
 		List<String> exceptionResolvers = composite.getExceptionResolvers()
@@ -102,8 +95,6 @@ public class ConfigRestController {
 	
 	@GetMapping("/argument-resolvers")
 	public ResponseEntity<Object> argumentResolvers() {
-		log.info("## argumentResolvers called...");
-		
 		RequestMappingHandlerAdapter handlerAdapter = webApplicationContext.getBean(RequestMappingHandlerAdapter.class);
 		List<String> argumentResolvers = handlerAdapter.getArgumentResolvers()
 				.stream()

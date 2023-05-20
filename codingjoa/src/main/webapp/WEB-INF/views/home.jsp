@@ -31,6 +31,10 @@
 		font-size: 0.9rem;
 		margin-bottom: 0.8rem;
 	}
+	
+	#configBody p:last-child {
+		margin-bottom: 0;
+	}
 </style>
 </head>
 <body>
@@ -121,7 +125,7 @@
 			error : function(jqXHR) {
 				console.log(JSON.stringify(jqXHR, null, 2));
 				let errorResponse = JSON.parse(jqXHR.responseText);
-				//alert(errorResponse.errorMessage)
+				alert(errorResponse.errorMessage);
 			}
 		});
 	}
