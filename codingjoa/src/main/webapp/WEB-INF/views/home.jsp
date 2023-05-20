@@ -121,7 +121,7 @@
 			error : function(jqXHR) {
 				console.log(JSON.stringify(jqXHR, null, 2));
 				let errorResponse = JSON.parse(jqXHR.responseText);
-				alert(errorResponse.errorMessage)
+				//alert(errorResponse.errorMessage)
 			}
 		});
 	}

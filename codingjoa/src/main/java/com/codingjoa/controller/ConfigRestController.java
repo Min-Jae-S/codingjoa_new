@@ -10,6 +10,7 @@ import javax.servlet.ServletContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.web.FilterChainProxy;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,7 +38,7 @@ public class ConfigRestController {
 		FilterChainProxy filterChainProxy = webApplicationContext.getBean(FilterChainProxy.class);
 		List<String> filters = filterChainProxy.getFilterChains()
 			.stream()
-			.filter(filterChain -> filterChain instanceof DelegatingFilterProxy)
+			.filter(filterChain -> filterChain instanceof SecurityFilterChain)
 			.findAny().get().getFilters()
 			.stream()
 			.map(filter -> filter.getClass().getSimpleName())
