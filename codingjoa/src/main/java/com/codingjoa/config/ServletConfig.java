@@ -31,14 +31,18 @@ import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import com.codingjoa.interceptor.CategoryInterceptor;
 import com.codingjoa.resolver.BoardCriteriaArgumentResolver;
 import com.codingjoa.resolver.CommentCriteriaArgumentResolver;
 import com.codingjoa.resolver.CustomExceptionResolver;
+import com.codingjoa.service.CategoryService;
 import com.codingjoa.util.MessageUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -51,19 +55,27 @@ import lombok.extern.slf4j.Slf4j;
 @EnableWebMvc
 @PropertySource("/WEB-INF/properties/upload.properties")
 @PropertySource("/WEB-INF/properties/criteria.properties")
-@ComponentScan(basePackages = {	"com.codingjoa.controller", "com.codingjoa.validator" })
+@ComponentScan("com.codingjoa.controller")
+@ComponentScan("com.codingjoa.validator")
+@ComponentScan("com.codingjoa.service")
+@ComponentScan("com.codingjoa.response")
 public class ServletConfig implements WebMvcConfigurer {
 	
 	@Autowired
 	private Environment env;
 	
+	@Autowired
+	private CategoryService categoryService;
+	
 	@Override
 	public void configureViewResolvers(ViewResolverRegistry registry) {
+		WebMvcConfigurer.super.configureViewResolvers(registry);
 		registry.jsp("/WEB-INF/views/", ".jsp");
 	}
 
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+		WebMvcConfigurer.super.addResourceHandlers(registry);
 		registry.addResourceHandler("/resources/**")
 				.addResourceLocations("/resources/");
 		registry.addResourceHandler("/upload/**")
@@ -71,8 +83,16 @@ public class ServletConfig implements WebMvcConfigurer {
 	}
 
 	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+		WebMvcConfigurer.super.addInterceptors(registry);
+		InterceptorRegistration reg1 = 
+				registry.addInterceptor(new CategoryInterceptor(categoryService));
+		reg1.addPathPatterns("/**");
+	}
+
+	@Override
 	public void configurePathMatch(PathMatchConfigurer configurer) {
-		log.info("-------- configurePathMatch --------");
+		WebMvcConfigurer.super.configurePathMatch(configurer);
 		configurer.setUseTrailingSlashMatch(true);
 	}
 

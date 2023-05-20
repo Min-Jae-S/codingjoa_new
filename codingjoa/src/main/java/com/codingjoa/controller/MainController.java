@@ -21,9 +21,4 @@ public class MainController {
 		return "access-denied";
 	}
 	
-	@GetMapping("/board")
-	public String board() {
-		return "redirect:/board/all";
-	}
-	
 }

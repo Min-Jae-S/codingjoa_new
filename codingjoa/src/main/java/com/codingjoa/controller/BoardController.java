@@ -35,7 +35,8 @@ import com.codingjoa.service.UploadService;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j @Validated
+@Slf4j
+@Validated
 @RequestMapping("/board")
 @Controller
 public class BoardController {
@@ -65,7 +66,7 @@ public class BoardController {
 		throw new NullPointerException();
 	}
 
-	@GetMapping("/all")
+	@GetMapping(value = { "/", "/all" })
 	public String getAllBoard(Model model) {
 		List<Category> boardCategoryList = categoryService.findBoardCategoryList();
 		model.addAttribute("boardCategoryList", boardCategoryList);
