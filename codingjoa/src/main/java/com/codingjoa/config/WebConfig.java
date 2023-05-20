@@ -1,17 +1,13 @@
 package com.codingjoa.config;
 
-import java.io.IOException;
 import java.util.EnumSet;
 
 import javax.servlet.DispatcherType;
-import javax.servlet.FilterChain;
 import javax.servlet.FilterRegistration;
 import javax.servlet.MultipartConfigElement;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration.Dynamic;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
@@ -69,21 +65,9 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 	@Override
 	public void onStartup(ServletContext servletContext) throws ServletException {
 		log.info("-------- onStartup -------");
-		CharacterEncodingFilter encodingFilter = new CharacterEncodingFilter() {
-			
-			@Override
-			protected void initFilterBean() throws ServletException {
-				log.info("-------- {} init --------", this.getFilterConfig().getFilterName());
-				super.initFilterBean();
-			}
-
-			@Override
-			protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
-					FilterChain filterChain) throws ServletException, IOException {
-				log.info("-------- {} --------", this.getFilterConfig().getFilterName());
-				super.doFilterInternal(request, response, filterChain);
-			}
-		};
+		super.onStartup(servletContext);
+		
+		CharacterEncodingFilter encodingFilter = new CharacterEncodingFilter();
 		encodingFilter.setEncoding("UTF-8");
 		encodingFilter.setForceEncoding(true);
 		
@@ -92,11 +76,7 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 		
 		LogFilter logFilter = new LogFilter();
 		FilterRegistration registration2 = servletContext.addFilter("LogFilter", logFilter);
-//		registration2.addMappingForUrlPatterns(
-//				EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD, DispatcherType.ERROR), false, "/*");
 		registration2.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, "/*");
-		
-		super.onStartup(servletContext);
 	}
 
 	@Override

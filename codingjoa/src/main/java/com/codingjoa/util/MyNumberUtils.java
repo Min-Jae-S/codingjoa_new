@@ -6,7 +6,7 @@ public class MyNumberUtils {
 	
 	public static boolean isNaturalNumber(String str) {
 
-		if (!StringUtils.hasText(str)) {
+		if (!StringUtils.hasText(str)) { // StringUtils.isEmpty(str)
 			return false;
 		}
 		
