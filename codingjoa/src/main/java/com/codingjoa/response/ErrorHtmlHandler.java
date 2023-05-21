@@ -22,7 +22,7 @@ public class ErrorHtmlHandler {
 	protected String handleException(Exception e, HttpServletRequest request, 
 			HttpServletResponse response, Model model) {
 		log.info("-------- {}: {} --------", this.getClass().getSimpleName(), e.getClass().getSimpleName());
-		log.info("\t message = {}", e.getMessage());
+		log.info("\t > message = {}", e.getMessage());
 
 		response.setStatus(499);
 		model.addAttribute("errorMessage", e.getMessage());
@@ -33,11 +33,11 @@ public class ErrorHtmlHandler {
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	protected String handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
 		log.info("-------- {}: {} --------", this.getClass().getSimpleName(), e.getClass().getSimpleName());
-		log.info("\t message = {}", e.getMessage());
+		log.info("\t > message = {}", e.getMessage());
 
 		//		if (isAjaxRequest(request)) {
 //			ErrorResponse response = ErrorResponse.create().bindingResult(e.getBindingResult());
-//			log.info("{}", response);
+//			log.info("\t > {}", response);
 //		
 //			return ResponseEntity.unprocessableEntity().body(response);
 //		}
@@ -51,11 +51,11 @@ public class ErrorHtmlHandler {
 	@ExceptionHandler(BindException.class) // /board/write?boardCategory=aa, /board/modify?boardIdx=aa, /board/deleteProc?boardIdx=aa
 	protected String handleBindException(BindException e) {
 		log.info("-------- {}: {} --------", this.getClass().getSimpleName(), e.getClass().getSimpleName());
-		log.info("\t message = {}", e.getMessage());
+		log.info("\t > message = {}", e.getMessage());
 		
 		e.getBindingResult().getFieldErrors().forEach(fieldError -> {
-			log.info("\t field = {}", fieldError.getField());
-			log.info("\t code = {}", fieldError.getCodes()[0]);
+			log.info("\t > field = {}", fieldError.getField());
+			log.info("\t > code = {}", fieldError.getCodes()[0]);
 		});
 		
 		return "error/error-page";
@@ -65,11 +65,11 @@ public class ErrorHtmlHandler {
 	protected String handleConstraintViolationException(ConstraintViolationException e, 
 			HttpServletRequest request) {
 		log.info("-------- {}: {} --------", this.getClass().getSimpleName(), e.getClass().getSimpleName());
-		log.info("\t message = {}", e.getMessage());
+		log.info("\t > message = {}", e.getMessage());
 
 		e.getConstraintViolations().forEach(v -> {
-			//log.info("\t {}", v);
-			log.info("\t invalid value = {}", v.getInvalidValue());
+			//log.info("\t > {}", v);
+			log.info("\t > invalid value = {}", v.getInvalidValue());
 		});
 		
 		request.setAttribute("errorMessage", e.getMessage());
@@ -84,7 +84,7 @@ public class ErrorHtmlHandler {
 	})
 	protected String handlePathVariableExceptionAndTypeMismatchException(Exception e) {
 		log.info("-------- {}: {} --------", this.getClass().getSimpleName(), e.getClass().getSimpleName());
-		log.info("\t message = {}", e.getMessage());
+		log.info("\t > message = {}", e.getMessage());
 		
 		return "error/error-page";
 	}
@@ -92,7 +92,7 @@ public class ErrorHtmlHandler {
 	@ExceptionHandler(IllegalArgumentException.class)
 	protected String handleIllegalArgumentException(IllegalArgumentException e) {
 		log.info("-------- {}: {} --------", this.getClass().getSimpleName(), e.getClass().getSimpleName());
-		log.info("\t message = {}", e.getMessage());
+		log.info("\t > message = {}", e.getMessage());
 		
 		return "error/error-page";
 	}
