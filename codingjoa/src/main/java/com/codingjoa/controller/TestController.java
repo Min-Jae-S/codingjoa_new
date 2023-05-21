@@ -5,8 +5,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.codingjoa.response.SuccessResponse;
 
@@ -61,14 +63,17 @@ public class TestController {
 	}
 	
 	@RequestMapping("/testView")
-	public String testView() {
+	public String testView(Model model) {
 		log.info("## testView called...");
+		model.addAttribute("testView", "testView");
+		
 		return "test/test-view";
 	}
 
 	@RequestMapping("/testVoid")
-	public void testVoid() {
+	public void testVoid(Model model) {
 		log.info("## testVoid called...");
+		model.addAttribute("testVoid", "testVoid");
 	}
 	
 	@ResponseBody
@@ -84,5 +89,21 @@ public class TestController {
 		log.info("## testJson called...");
 		return ResponseEntity.ok().body(
 				SuccessResponse.create().message("success.Test").data("test data"));
+	}
+	
+	// return ModelAndView including simple string
+	@RequestMapping("/testMavSpring")
+	public ModelAndView testMavString() {
+		log.info("## testMavString called...");
+		
+		return null;
+	}
+
+	// return ModelAndView including JSON(Object)
+	@RequestMapping("/testMavJson")
+	public ModelAndView testMavJson() {
+		log.info("## testMavJson called...");
+		
+		return null;
 	}
 }
