@@ -3,6 +3,7 @@ package com.codingjoa.interceptor;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,6 +23,8 @@ import lombok.extern.slf4j.Slf4j;
 @AllArgsConstructor
 public class CategoryInterceptor implements HandlerInterceptor {
 	
+	private static final String REDIRECT_URL_PREFIX = "redirect:";
+    private static final String FORWARD_URL_PREFIX = "forward:";
 	private CategoryService categoryService;
 
 	@Override
@@ -34,14 +37,15 @@ public class CategoryInterceptor implements HandlerInterceptor {
 		if (handler instanceof HandlerMethod) {
 			HandlerMethod handlerMethod = (HandlerMethod) handler;
 			Class<?> beanType = handlerMethod.getBeanType();
-			log.info("\t > handler = {}", beanType.getSimpleName());
+			log.info("\t > handler = {}", beanType);
 			
-			if (beanType.isAnnotationPresent(Controller.class)) {
-				List<Category> parentCategoryList = categoryService.findParentCategoryList();
-				request.setAttribute("parentCategoryList", parentCategoryList);
-			}
+//			if (beanType.isAnnotationPresent(Controller.class)) {
+//				List<Category> parentCategoryList = categoryService.findParentCategoryList();
+//				request.setAttribute("parentCategoryList", parentCategoryList);
+//			}
 		} else {
-			log.info("\t > handler = {}", handler.getClass().getSimpleName());
+			Optional<Object> optionalObj = Optional.ofNullable(handler);
+			log.info("\t > handler = {}", optionalObj.get().getClass().getSimpleName());
 		}
 		
 		return true;
@@ -51,6 +55,13 @@ public class CategoryInterceptor implements HandlerInterceptor {
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
 		log.info("## postHandle");
+
+		String viewName = null;
+		if (modelAndView != null) {
+			viewName = modelAndView.getViewName();
+		} 
+		
+		log.info("\t > view name = {}", viewName);
 	}
 	
 	private String getFullURI(HttpServletRequest request) {

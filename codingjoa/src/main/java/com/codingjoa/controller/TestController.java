@@ -3,10 +3,12 @@ package com.codingjoa.controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.codingjoa.response.SuccessResponse;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -63,11 +65,24 @@ public class TestController {
 		log.info("## testView called...");
 		return "test/test-view";
 	}
+
+	@RequestMapping("/testVoid")
+	public void testVoid() {
+		log.info("## testVoid called...");
+	}
 	
 	@ResponseBody
+	@RequestMapping("/testString")
+	public String testString() {
+		log.info("## testString called...");
+		return "testString";
+	}
+
+	@ResponseBody
 	@RequestMapping("/testJson")
-	public String testJson() {
+	public ResponseEntity<Object> testJson() {
 		log.info("## testJson called...");
-		return "testJson";
+		return ResponseEntity.ok().body(
+				SuccessResponse.create().message("success.Test").data("test data"));
 	}
 }

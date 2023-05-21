@@ -2,6 +2,7 @@ package com.codingjoa.resolver;
 
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,15 +28,14 @@ public class CustomExceptionResolver implements HandlerExceptionResolver {
 		log.info("\t > exception = {}", ex.getClass().getSimpleName());
 		log.info("\t > runtime excpetion = {}", ex instanceof RuntimeException);
 		
-		if (handler == null) {
-			log.info("\t > handler = {}", "No handler");
-		} else if (handler instanceof HandlerMethod) {
+		if (handler instanceof HandlerMethod) {
 			HandlerMethod method = (HandlerMethod) handler;
-			log.info("\t > handler = {} [{}]", 
-					handler.getClass().getSimpleName(), method.getBeanType().getSimpleName());
+			log.info("\t > handler = {} [{}]", handler.getClass().getSimpleName(), method.getBeanType().getSimpleName());
 		} else {
+			Optional<Object> optionalObj = Optional.ofNullable(handler);
+			
 			//ResourceHttpRequestHandler resourceHandler = (ResourceHttpRequestHandler) handler;
-			log.info("\t > handler = {}", handler.getClass().getSimpleName());
+			log.info("\t > handler = {}", optionalObj.get().getClass().getSimpleName());
 		}
 
 		return null;
