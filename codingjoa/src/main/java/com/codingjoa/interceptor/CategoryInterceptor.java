@@ -3,12 +3,11 @@ package com.codingjoa.interceptor;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
-import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -34,18 +33,19 @@ public class CategoryInterceptor implements HandlerInterceptor {
 		log.info("## preHandle");
 		log.info("\t > URI = {}", getFullURI(request));
 		
-		if (handler instanceof HandlerMethod) {
+		if (handler == null) {
+			log.info("\t > handler is null");
+		} else if (handler instanceof HandlerMethod) {
 			HandlerMethod handlerMethod = (HandlerMethod) handler;
 			Class<?> beanType = handlerMethod.getBeanType();
-			log.info("\t > handler = {}", beanType);
+			log.info("\t > handler = {}", beanType.getSimpleName());
 			
 //			if (beanType.isAnnotationPresent(Controller.class)) {
 //				List<Category> parentCategoryList = categoryService.findParentCategoryList();
 //				request.setAttribute("parentCategoryList", parentCategoryList);
 //			}
 		} else {
-			Optional<Object> optionalObj = Optional.ofNullable(handler);
-			log.info("\t > handler = {}", optionalObj.get().getClass().getSimpleName());
+			log.info("\t > handler = {}", handler.getClass().getSimpleName());
 		}
 		
 		return true;
@@ -56,12 +56,16 @@ public class CategoryInterceptor implements HandlerInterceptor {
 			ModelAndView modelAndView) throws Exception {
 		log.info("## postHandle");
 
-		String viewName = null;
 		if (modelAndView != null) {
-			viewName = modelAndView.getViewName();
-		} 
-		
-		log.info("\t > view name = {}", viewName);
+			List<Category> parentCategoryList = categoryService.findParentCategoryList();
+			ModelMap model = modelAndView.getModelMap();
+			model.addAttribute("parentCategoryList", parentCategoryList);
+
+			log.info("\t > view name = {}", modelAndView.getViewName());
+			model.keySet().forEach(key -> log.info("\t > model attribute = {}", key));
+		} else {
+			log.info("\t > modelAndView is null");
+		}
 	}
 	
 	private String getFullURI(HttpServletRequest request) {
