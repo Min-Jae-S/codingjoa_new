@@ -59,13 +59,6 @@ public class BoardController {
 		binder.addValidators(boardValidator);
 	}
 	
-	@GetMapping("/npe")
-	public String npe() {
-		log.info("## npe called...");
-		
-		throw new NullPointerException();
-	}
-
 	@GetMapping(value = { "/", "/all" })
 	public String getAllBoard(Model model) {
 		List<Category> boardCategoryList = categoryService.findBoardCategoryList();
