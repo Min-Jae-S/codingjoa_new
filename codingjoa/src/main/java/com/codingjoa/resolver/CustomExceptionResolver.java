@@ -30,10 +30,10 @@ public class CustomExceptionResolver implements HandlerExceptionResolver {
 		if (handler == null) {
 			log.info("\t > handler is null");
 		} else if (handler instanceof HandlerMethod) {
-			HandlerMethod method = (HandlerMethod) handler;
+			HandlerMethod handlerMethod = (HandlerMethod) handler;
 			log.info("\t > handler is not null");
-			log.info("\t > handler = {}, {}", 
-					method.getClass().getSimpleName(), method.getBeanType().getSimpleName());
+			log.info("\t > handler = {} [ {} ]", 
+					handlerMethod.getClass().getSimpleName(), handlerMethod.getBeanType().getSimpleName());
 		} else {
 			//ResourceHttpRequestHandler resourceHandler = (ResourceHttpRequestHandler) handler;
 			log.info("\t > handler is not null");

@@ -36,15 +36,17 @@ public class CategoryInterceptor implements HandlerInterceptor {
 			log.info("\t > handler is null");
 		} else if (handler instanceof HandlerMethod) {
 			HandlerMethod handlerMethod = (HandlerMethod) handler;
-			log.info("\t > handler is not null, handler = {}",  handlerMethod.getBeanType().getSimpleName());
-			
+			log.info("\t > handler is not null");
+			log.info("\t > handler = {} [ {} ]", 
+					handlerMethod.getClass().getSimpleName(), handlerMethod.getBeanType().getSimpleName());
 //			if (beanType.isAnnotationPresent(Controller.class)) {
 //				List<Category> parentCategoryList = categoryService.findParentCategoryList();
 //				request.setAttribute("parentCategoryList", parentCategoryList);
 //			}
 		} else {
 			//ResourceHttpRequestHandler resourceHandler = (ResourceHttpRequestHandler) handler;
-			log.info("\t > handler is not null, handler = {}", handler.getClass().getSimpleName());
+			log.info("\t > handler is not null");
+			log.info("\t > handler = {}", handler.getClass().getSimpleName());
 		}
 		
 		return true;
