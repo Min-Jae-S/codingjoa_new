@@ -27,6 +27,7 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
+import org.springframework.web.method.support.HandlerMethodReturnValueHandler;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.HandlerExceptionResolver;
@@ -92,7 +93,6 @@ public class ServletConfig implements WebMvcConfigurer {
 		WebMvcConfigurer.super.addInterceptors(registry);
 		registry.addInterceptor(categoryInterceptor())
 				.addPathPatterns("/**");
-		//reg1.excludePathPatterns("/resources/**", "/upload/**");
 	}
 
 	@Bean
@@ -101,26 +101,33 @@ public class ServletConfig implements WebMvcConfigurer {
 	}
 
 	@Override
-	public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
-		log.info("-------- extendMessageConverters --------");
+	public void addReturnValueHandlers(List<HandlerMethodReturnValueHandler> handlers) {
+		log.info("## addReturnValueHandlers");
+		for (HandlerMethodReturnValueHandler handler : handlers) {
+            log.info("HandlerMethodReturnValueHandler: {}", handler.getClass().getSimpleName());
+        }
+		
+		WebMvcConfigurer.super.addReturnValueHandlers(handlers);
+		handlers.forEach(handler -> log.info("\t > {}", handler.getClass().getSimpleName()));
+	}
 
-		//	converters.add(0, mappingJackson2HttpMessageConverter());
-		converters.stream()
-			.filter(converter -> converter instanceof StringHttpMessageConverter)
-			.forEach(converter -> ((StringHttpMessageConverter) converter).setDefaultCharset(StandardCharsets.UTF_8));
+	@Override
+	public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
+		log.info("## extendMessageConverters");
+//		converters.add(0, mappingJackson2HttpMessageConverter());
+//		converters.stream()
+//			.filter(converter -> converter instanceof StringHttpMessageConverter)
+//			.forEach(converter -> ((StringHttpMessageConverter) converter).setDefaultCharset(StandardCharsets.UTF_8));
 		
 		// StringHttpMessageConverter defaults to ISO-8859-1
 		converters.stream().forEach(converter -> { 
+			log.info("\t > {}", converter.getClass().getSimpleName());
 			if (converter instanceof StringHttpMessageConverter) {
 				((StringHttpMessageConverter) converter).setDefaultCharset(StandardCharsets.UTF_8);
 			} else if (converter instanceof MappingJackson2HttpMessageConverter) {
 				((MappingJackson2HttpMessageConverter) converter).setObjectMapper(objectMapper());
 			}
 		});
-		
-		for (HttpMessageConverter<?> converter : converters) {
-			log.info("\t > {}", converter.getClass().getSimpleName());
-		}
 	}
 	
 	@Bean
@@ -137,12 +144,9 @@ public class ServletConfig implements WebMvcConfigurer {
 	
 	@Override
 	public void extendHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
-		log.info("-------- extendHandlerExceptionResolvers --------");
-		
+		log.info("## extendHandlerExceptionResolvers");
 		resolvers.add(0, new CustomExceptionResolver());
-		for (HandlerExceptionResolver resovler : resolvers) {
-			log.info("\t > {}", resovler.getClass().getSimpleName());
-		}
+		resolvers.forEach(resolver -> log.info("\t > {}", resolver.getClass().getSimpleName()));
 	}
 	
 	@Bean

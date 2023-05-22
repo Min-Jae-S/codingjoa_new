@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.method.support.HandlerMethodReturnValueHandlerComposite;
 import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.handler.HandlerExceptionResolverComposite;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 
@@ -67,10 +69,10 @@ public class ConfigRestController {
 	@GetMapping("/interceptors")
 	public ResponseEntity<Object> getInterceptors() {
 		log.info("## getInterceptors");
-		Map<String, HandlerInterceptor> HandlerInterceptors = 
+		Map<String, HandlerInterceptor> handlerInterceptorMap = 
 				webApplicationContext.getBeansOfType(HandlerInterceptor.class);
 		
-		List<String> interceptors = HandlerInterceptors.values()
+		List<String> interceptors = handlerInterceptorMap.values()
 				.stream()
 				.map(interceptor -> interceptor.getClass().getName())
 				.collect(Collectors.toList());
@@ -101,6 +103,24 @@ public class ConfigRestController {
 	@GetMapping("/view-resolvers")
 	public ResponseEntity<Object> getViewResolvers() {
 		log.info("## getViewResolvers");
+		Map<String, ViewResolver> viewResolverMap = 
+				webApplicationContext.getBeansOfType(ViewResolver.class);
+		
+		viewResolverMap.keySet().forEach(key -> log.info("\t view resolver = {}", key));
+		
+		HandlerMethodReturnValueHandlerComposite composite = 
+				webApplicationContext.getBean(HandlerMethodReturnValueHandlerComposite.class);
+		composite.getHandlers().forEach(handler -> log.info("\t return value handler = {}", handler.getClass()));
+		
+//		List<String> resolvers = viewResolverMap.values()
+//				.stream()
+//				.map(resolver -> resolver.getClass().getName())
+//				.collect(Collectors.toList());
+//		
+//		resolvers.forEach(resolver -> {
+//			log.info("\t > {}", resolver.substring(resolver.lastIndexOf(".") + 1));
+//		});
+		
 		return ResponseEntity.ok(SuccessResponse.create().data(null));
 	}
 	

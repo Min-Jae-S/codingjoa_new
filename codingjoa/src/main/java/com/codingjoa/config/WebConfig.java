@@ -25,7 +25,7 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 	
 	@Override
 	protected Class<?>[] getRootConfigClasses() {
-		log.info("-------- getRootConfigClasses -------");
+		log.info("## getRootConfigClasses");
 		return new Class[] { 
 			RootConfig.class, 
 			SecurityConfig.class,
@@ -36,19 +36,19 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 
 	@Override
 	protected Class<?>[] getServletConfigClasses() {
-		log.info("-------- getServletConfigClasses -------");
+		log.info("## getServletConfigClasses");
 		return new Class[] { ServletConfig.class };
 	}
 
 	@Override
 	protected String[] getServletMappings() {
-		log.info("-------- getServletMappings -------");
+		log.info("## getServletMappings");
 		return new String[] { "/" };
 	}
 	
 	@Override
 	protected void customizeRegistration(Dynamic registration) {
-		log.info("-------- customizeRegistration -------");
+		log.info("## customizeRegistration");
 		
 		// new MultipartConfigElement(String location, long maxFileSize, long maxRequestSize, int fileSizeThreshold)
 		// location 			: 임시폴더 경로, null로 설정시 tomcat이 설정한 임시폴더로 지정
@@ -64,7 +64,7 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 	
 	@Override
 	public void onStartup(ServletContext servletContext) throws ServletException {
-		log.info("-------- onStartup -------");
+		log.info("## onStartup");
 		super.onStartup(servletContext);
 		
 		CharacterEncodingFilter encodingFilter = new CharacterEncodingFilter();
@@ -80,7 +80,7 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 
 	@Override
 	protected FrameworkServlet createDispatcherServlet(WebApplicationContext servletAppContext) {
-		log.info("-------- createDispatcherServlet -------");
+		log.info("## createDispatcherServlet");
 		DispatcherServlet dispatcherServlet = (DispatcherServlet) super.createDispatcherServlet(servletAppContext);
 		dispatcherServlet.setThrowExceptionIfNoHandlerFound(true);
 		

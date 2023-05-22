@@ -21,7 +21,7 @@ public class ErrorHtmlHandler {
 	@ExceptionHandler(Exception.class)
 	protected String handleException(Exception e, HttpServletRequest request, 
 			HttpServletResponse response, Model model) {
-		log.info("-------- {}: {} --------", this.getClass().getSimpleName(), e.getClass().getSimpleName());
+		log.info("## {}: {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t > message = {}", e.getMessage());
 
 		response.setStatus(499);
@@ -32,7 +32,7 @@ public class ErrorHtmlHandler {
 	
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	protected String handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
-		log.info("-------- {}: {} --------", this.getClass().getSimpleName(), e.getClass().getSimpleName());
+		log.info("## {}: {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t > message = {}", e.getMessage());
 
 		//		if (isAjaxRequest(request)) {
@@ -50,7 +50,7 @@ public class ErrorHtmlHandler {
 	
 	@ExceptionHandler(BindException.class) // /board/write?boardCategory=aa, /board/modify?boardIdx=aa, /board/deleteProc?boardIdx=aa
 	protected String handleBindException(BindException e) {
-		log.info("-------- {}: {} --------", this.getClass().getSimpleName(), e.getClass().getSimpleName());
+		log.info("## {}: {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t > message = {}", e.getMessage());
 		
 		e.getBindingResult().getFieldErrors().forEach(fieldError -> {
@@ -64,7 +64,7 @@ public class ErrorHtmlHandler {
 	@ExceptionHandler(ConstraintViolationException.class) // /board/main?boardCategoryCode=11
 	protected String handleConstraintViolationException(ConstraintViolationException e, 
 			HttpServletRequest request) {
-		log.info("-------- {}: {} --------", this.getClass().getSimpleName(), e.getClass().getSimpleName());
+		log.info("## {}: {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t > message = {}", e.getMessage());
 
 		e.getConstraintViolations().forEach(v -> {
@@ -83,7 +83,7 @@ public class ErrorHtmlHandler {
 		MethodArgumentTypeMismatchException.class		// /board/read?boardIdx=, /board/read?boardIdx=aa 
 	})
 	protected String handlePathVariableExceptionAndTypeMismatchException(Exception e) {
-		log.info("-------- {}: {} --------", this.getClass().getSimpleName(), e.getClass().getSimpleName());
+		log.info("## {}: {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t > message = {}", e.getMessage());
 		
 		return "error/error-page";
@@ -91,7 +91,7 @@ public class ErrorHtmlHandler {
 
 	@ExceptionHandler(IllegalArgumentException.class)
 	protected String handleIllegalArgumentException(IllegalArgumentException e) {
-		log.info("-------- {}: {} --------", this.getClass().getSimpleName(), e.getClass().getSimpleName());
+		log.info("## {}: {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t > message = {}", e.getMessage());
 		
 		return "error/error-page";

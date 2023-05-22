@@ -41,7 +41,6 @@ public class TestController {
 		
 		// 응답이 이미 커밋된 후에는 sendError()를 호출할 수 없습니다.
 		response.sendError(403); 
-	
 	}
 	
 	@RequestMapping("/npe")
