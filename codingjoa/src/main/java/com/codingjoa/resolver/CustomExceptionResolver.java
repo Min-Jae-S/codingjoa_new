@@ -31,11 +31,11 @@ public class CustomExceptionResolver implements HandlerExceptionResolver {
 			log.info("\t > handler is null");
 		} else if (handler instanceof HandlerMethod) {
 			HandlerMethod method = (HandlerMethod) handler;
-			log.info("\t > handler = {} [{}]", 
-					handler.getClass().getSimpleName(), method.getBeanType().getSimpleName());
+			log.info("\t > handler is null, handler = {}, {}", 
+					method.getClass().getSimpleName(), method.getBeanType().getSimpleName());
 		} else {
 			//ResourceHttpRequestHandler resourceHandler = (ResourceHttpRequestHandler) handler;
-			log.info("\t > handler = {}", handler.getClass().getSimpleName());
+			log.info("\t > handler is null, handler = {}", handler.getClass().getSimpleName());
 		}
 
 		return null;
