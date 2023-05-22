@@ -36,8 +36,7 @@ public class CategoryInterceptor implements HandlerInterceptor {
 			log.info("\t > handler is null");
 		} else if (handler instanceof HandlerMethod) {
 			HandlerMethod handlerMethod = (HandlerMethod) handler;
-			Class<?> beanType = handlerMethod.getBeanType();
-			log.info("\t > handler is not null, handler = {}", beanType.getSimpleName());
+			log.info("\t > handler is not null, handler = {}",  handlerMethod.getBeanType().getSimpleName());
 			
 //			if (beanType.isAnnotationPresent(Controller.class)) {
 //				List<Category> parentCategoryList = categoryService.findParentCategoryList();
@@ -57,10 +56,12 @@ public class CategoryInterceptor implements HandlerInterceptor {
 		log.info("## postHandle");
 
 		if (modelAndView != null) {
-			log.info("\t > modelAndView is not null, view name = {}", modelAndView.getViewName());
+			log.info("\t > modelAndView is not null");
+			log.info("\t > view name = {}", modelAndView.getViewName());
+			
 			List<Category> parentCategoryList = categoryService.findParentCategoryList();
 			modelAndView.addObject("parentCategoryList", parentCategoryList);
-			modelAndView.getModel().keySet().forEach(key -> log.info("\t > model attribute = {}", key));
+			modelAndView.getModel().keySet().forEach(key -> log.info("\t > model = {}", key));
 		} else {
 			log.info("\t > modelAndView is null");
 		}

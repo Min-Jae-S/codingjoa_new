@@ -49,15 +49,28 @@ public class TestController {
 		throw new NullPointerException();
 	}
 	
+	@RequestMapping("/testVoid")
+	public void testVoid(Model model) {
+		log.info("## testVoid called...");
+		model.addAttribute("testVoid", "testVoid");
+	}
+	
+	@RequestMapping("/testView")
+	public String testView(Model model) {
+		log.info("## testView called...");
+		model.addAttribute("testView", "testView");
+		return "test/test-view";
+	}
+	
 	@RequestMapping("/testForward")
 	public String testForward() {
 		log.info("## testForward called...");
 		return "forward:/test/testView";
 	}
 
-	@RequestMapping("/testForward2")
-	public ModelAndView testForward2() {
-		log.info("## testForward2 called...");
+	@RequestMapping("/testMavForward")
+	public ModelAndView testMavForward() {
+		log.info("## testMavForward called...");
 		return new ModelAndView("forward:/test/testView");
 	}
 
@@ -67,24 +80,10 @@ public class TestController {
 		return "redirect:/test/testView";
 	}
 
-	@RequestMapping("/testRedirect2")
-	public ModelAndView testRedirect2() {
-		log.info("## testRedirect2 called...");
+	@RequestMapping("/testMavRedirect")
+	public ModelAndView testMavRedirect() {
+		log.info("## testMavRedirect called...");
 		return new ModelAndView("redirect:/test/testView");
-	}
-	
-	@RequestMapping("/testView")
-	public String testView(Model model) {
-		log.info("## testView called...");
-		model.addAttribute("testView", "testView");
-		
-		return "test/test-view";
-	}
-
-	@RequestMapping("/testVoid")
-	public void testVoid(Model model) {
-		log.info("## testVoid called...");
-		model.addAttribute("testVoid", "testVoid");
 	}
 	
 	@ResponseBody
@@ -102,8 +101,8 @@ public class TestController {
 				SuccessResponse.create().message("success.Test").data("test data"));
 	}
 	
-	// return ModelAndView including simple string
-	@RequestMapping("/testMavSpring")
+	// return ModelAndView including simple String
+	@RequestMapping("/testMavString")
 	public ModelAndView testMavString() {
 		log.info("## testMavString called...");
 		
