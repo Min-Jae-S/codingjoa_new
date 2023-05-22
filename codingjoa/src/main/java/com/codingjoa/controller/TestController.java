@@ -50,16 +50,22 @@ public class TestController {
 		throw new NullPointerException();
 	}
 	
-	@RequestMapping("/forward")
-	public String forward() {
-		log.info("## forward called...");
-		return "forward:/test/testView";
+	@RequestMapping("/testForward")
+//	public String testForward() {
+	public ModelAndView testForward() {
+		log.info("## testForward called...");
+		
+//		return "forward:/test/testView";
+		return new ModelAndView("forward:/test/testView");
 	}
 
-	@RequestMapping("/redirect")
-	public String redirect() {
-		log.info("## redirect called...");
-		return "redirect:/test/testView";
+	@RequestMapping("/testRedirect")
+//	public String testRedirect() {
+	public ModelAndView testRedirect() {
+		log.info("## testRedirect called...");
+		
+//		return "redirect:/test/testView";
+		return new ModelAndView("redirect:/test/testView");
 	}
 	
 	@RequestMapping("/testView")
@@ -96,7 +102,10 @@ public class TestController {
 	public ModelAndView testMavString() {
 		log.info("## testMavString called...");
 		
-		return null;
+		ModelAndView mav = new ModelAndView("jsonView");
+		mav.addObject("test string","test string");
+		
+		return mav;
 	}
 
 	// return ModelAndView including JSON(Object)
@@ -104,6 +113,11 @@ public class TestController {
 	public ModelAndView testMavJson() {
 		log.info("## testMavJson called...");
 		
-		return null;
+		ModelAndView mav = new ModelAndView("jsonView");
+		SuccessResponse successResponse = 
+				SuccessResponse.create().message("success.Test").data("test data");
+		mav.addObject("successResponse", successResponse);
+		
+		return mav;
 	}
 }
