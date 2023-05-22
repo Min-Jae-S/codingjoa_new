@@ -52,10 +52,16 @@
 							<a class="nav-link active" href="${contextPath}/config/filters">Filters</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="${contextPath}/config/message-converters">Message Converters</a>
+							<a class="nav-link" href="${contextPath}/config/interceptors">Interceptors</a>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" href="${contextPath}/config/argument-resolvers">Argument Resolvers</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="${contextPath}/config/view-resolvers">View Resolvers</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="${contextPath}/config/message-converters">Message Converters</a>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" href="${contextPath}/config/exception-resolvers">Exception Resolvers</a>

@@ -51,20 +51,26 @@ public class TestController {
 	}
 	
 	@RequestMapping("/testForward")
-//	public String testForward() {
-	public ModelAndView testForward() {
+	public String testForward() {
 		log.info("## testForward called...");
-		
-//		return "forward:/test/testView";
+		return "forward:/test/testView";
+	}
+
+	@RequestMapping("/testForward2")
+	public ModelAndView testForward2() {
+		log.info("## testForward2 called...");
 		return new ModelAndView("forward:/test/testView");
 	}
 
 	@RequestMapping("/testRedirect")
-//	public String testRedirect() {
-	public ModelAndView testRedirect() {
+	public String testRedirect() {
 		log.info("## testRedirect called...");
-		
-//		return "redirect:/test/testView";
+		return "redirect:/test/testView";
+	}
+
+	@RequestMapping("/testRedirect2")
+	public ModelAndView testRedirect2() {
+		log.info("## testRedirect2 called...");
 		return new ModelAndView("redirect:/test/testView");
 	}
 	

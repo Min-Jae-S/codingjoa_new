@@ -32,6 +32,7 @@ public class ConfigRestController {
 
 	@GetMapping("/filters")
 	public ResponseEntity<Object> filters() {
+		log.info("## filters");
 		FilterChainProxy filterChainProxy = webApplicationContext.getBean(FilterChainProxy.class);
 		List<String> filters = filterChainProxy.getFilterChains()
 			.stream()
@@ -62,8 +63,37 @@ public class ConfigRestController {
 		return ResponseEntity.ok(SuccessResponse.create().data(filters));
 	}
 
+	@GetMapping("/interceptors")
+	public ResponseEntity<Object> interceptors() {
+		log.info("## interceptors");
+		return ResponseEntity.ok(SuccessResponse.create().data(null));
+	}
+	
+	@GetMapping("/argument-resolvers")
+	public ResponseEntity<Object> argumentResolvers() {
+		log.info("## argumentResolvers");
+		RequestMappingHandlerAdapter handlerAdapter = webApplicationContext.getBean(RequestMappingHandlerAdapter.class);
+		List<String> argumentResolvers = handlerAdapter.getArgumentResolvers()
+				.stream()
+				.map(resolver -> resolver.getClass().getSimpleName())
+				.collect(Collectors.toList());
+		
+		argumentResolvers.forEach(resolver -> {
+			log.info("\t > {}", resolver.substring(resolver.lastIndexOf(".") + 1));
+		});
+		
+		return ResponseEntity.ok(SuccessResponse.create().data(argumentResolvers));
+	}
+
+	@GetMapping("/view-resolvers")
+	public ResponseEntity<Object> viewResolvers() {
+		log.info("## viewResolvers");
+		return ResponseEntity.ok(SuccessResponse.create().data(null));
+	}
+	
 	@GetMapping("/message-converters")
 	public ResponseEntity<Object> messageConverters() {
+		log.info("## messageConverters");
 		RequestMappingHandlerAdapter handlerAdapter = webApplicationContext.getBean(RequestMappingHandlerAdapter.class);
 		List<String> messageConverters = handlerAdapter.getMessageConverters()
 				.stream()
@@ -79,6 +109,7 @@ public class ConfigRestController {
 	
 	@GetMapping("/exception-resolvers")
 	public ResponseEntity<Object> exceptionResolvers() {
+		log.info("## exceptionResolvers");
 		HandlerExceptionResolverComposite composite = 
 				webApplicationContext.getBean(HandlerExceptionResolverComposite.class);
 		List<String> exceptionResolvers = composite.getExceptionResolvers()
@@ -93,19 +124,4 @@ public class ConfigRestController {
 		return ResponseEntity.ok(SuccessResponse.create().data(exceptionResolvers));
 	}
 	
-	@GetMapping("/argument-resolvers")
-	public ResponseEntity<Object> argumentResolvers() {
-		RequestMappingHandlerAdapter handlerAdapter = webApplicationContext.getBean(RequestMappingHandlerAdapter.class);
-		List<String> argumentResolvers = handlerAdapter.getArgumentResolvers()
-				.stream()
-				.map(resolver -> resolver.getClass().getSimpleName())
-				.collect(Collectors.toList());
-		
-		argumentResolvers.forEach(resolver -> {
-			log.info("\t > {}", resolver.substring(resolver.lastIndexOf(".") + 1));
-		});
-		
-		return ResponseEntity.ok(SuccessResponse.create().data(argumentResolvers));
-	}
-
 }

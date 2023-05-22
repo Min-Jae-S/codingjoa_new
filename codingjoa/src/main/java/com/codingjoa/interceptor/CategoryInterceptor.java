@@ -45,6 +45,7 @@ public class CategoryInterceptor implements HandlerInterceptor {
 //				request.setAttribute("parentCategoryList", parentCategoryList);
 //			}
 		} else {
+			//ResourceHttpRequestHandler resourceHandler = (ResourceHttpRequestHandler) handler;
 			log.info("\t > handler = {}", handler.getClass().getSimpleName());
 		}
 		
@@ -58,13 +59,9 @@ public class CategoryInterceptor implements HandlerInterceptor {
 
 		if (modelAndView != null) {
 			List<Category> parentCategoryList = categoryService.findParentCategoryList();
-			ModelMap model = modelAndView.getModelMap();
-			model.addAttribute("parentCategoryList", parentCategoryList);
-			modelAndView.addObject("REDIRECT_URL_PREFIX", REDIRECT_URL_PREFIX);
-
+			modelAndView.addObject("parentCategoryList", parentCategoryList);
 			log.info("\t > view name = {}", modelAndView.getViewName());
-			model.forEach((key, value) -> 
-				log.info("\t > model attribute = {} / {}", key, value.getClass().getSimpleName()));
+			modelAndView.getModel().keySet().forEach(key -> log.info("\t > model attribute = {}", key));
 		} else {
 			log.info("\t > modelAndView is null");
 		}
