@@ -55,16 +55,19 @@
 							<a class="nav-link" href="${contextPath}/config/interceptors">Interceptors</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="${contextPath}/config/argument-resolvers">Argument Resolvers</a>
+							<a class="nav-link" href="${contextPath}/config/argument-resolvers">ArgumentResolvers</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="${contextPath}/config/view-resolvers">View Resolvers</a>
+							<a class="nav-link" href="${contextPath}/config/return-value-handlers">ReturnValueHandlers</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="${contextPath}/config/message-converters">Message Converters</a>
+							<a class="nav-link" href="${contextPath}/config/view-resolvers">ViewResolvers</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="${contextPath}/config/exception-resolvers">Exception Resolvers</a>
+							<a class="nav-link" href="${contextPath}/config/message-converters">MessageConverters</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="${contextPath}/config/exception-resolvers">ExceptionResolvers</a>
 						</li>
 					</ul>
 				</div>

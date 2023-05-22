@@ -15,11 +15,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.method.support.HandlerMethodReturnValueHandlerComposite;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.handler.HandlerExceptionResolverComposite;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
+import org.springframework.web.servlet.view.ViewResolverComposite;
 
 import com.codingjoa.response.SuccessResponse;
 
@@ -93,35 +93,47 @@ public class ConfigRestController {
 				.map(resolver -> resolver.getClass().getName())
 				.collect(Collectors.toList());
 		
-		argumentResolvers.forEach(resolver -> {
+		argumentResolvers.forEach(resolver -> { 
 			log.info("\t > {}", resolver.substring(resolver.lastIndexOf(".") + 1));
 		});
 		
 		return ResponseEntity.ok(SuccessResponse.create().data(argumentResolvers));
 	}
 
+	@GetMapping("/return-value-handlers")
+	public ResponseEntity<Object> getReturnValueHandler() {
+		log.info("## getReturnValueHandler");
+//		HandlerMethodReturnValueHandlerComposite composite = 
+//				webApplicationContext.getBean(HandlerMethodReturnValueHandlerComposite.class);
+//		composite.getHandlers().forEach(handler -> log.info("\t > return value handler = {}", handler.getClass()));
+
+		RequestMappingHandlerAdapter handlerAdapter = webApplicationContext.getBean(RequestMappingHandlerAdapter.class);
+		List<String> returnValueHandlers = handlerAdapter.getReturnValueHandlers()
+				.stream()
+				.map(handler -> handler.getClass().getName())
+				.collect(Collectors.toList());
+		
+		returnValueHandlers.forEach(handler -> {
+			log.info("\t > {}", handler.substring(handler.lastIndexOf(".") + 1));
+		});
+		
+		return ResponseEntity.ok(SuccessResponse.create().data(returnValueHandlers));
+	}
+
 	@GetMapping("/view-resolvers")
 	public ResponseEntity<Object> getViewResolvers() {
 		log.info("## getViewResolvers");
-		Map<String, ViewResolver> viewResolverMap = 
-				webApplicationContext.getBeansOfType(ViewResolver.class);
+		ViewResolverComposite composite = webApplicationContext.getBean(ViewResolverComposite.class);
+		List<String> viewResolvers = composite.getViewResolvers()
+				.stream()
+				.map(resolver -> resolver.getClass().getName())
+				.collect(Collectors.toList());
 		
-		viewResolverMap.keySet().forEach(key -> log.info("\t view resolver = {}", key));
+		viewResolvers.forEach(resolver -> {
+			log.info("\t > {}", resolver.substring(resolver.lastIndexOf(".") + 1));
+		});
 		
-		HandlerMethodReturnValueHandlerComposite composite = 
-				webApplicationContext.getBean(HandlerMethodReturnValueHandlerComposite.class);
-		composite.getHandlers().forEach(handler -> log.info("\t return value handler = {}", handler.getClass()));
-		
-//		List<String> resolvers = viewResolverMap.values()
-//				.stream()
-//				.map(resolver -> resolver.getClass().getName())
-//				.collect(Collectors.toList());
-//		
-//		resolvers.forEach(resolver -> {
-//			log.info("\t > {}", resolver.substring(resolver.lastIndexOf(".") + 1));
-//		});
-		
-		return ResponseEntity.ok(SuccessResponse.create().data(null));
+		return ResponseEntity.ok(SuccessResponse.create().data(viewResolvers));
 	}
 	
 	@GetMapping("/message-converters")

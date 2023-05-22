@@ -70,7 +70,7 @@ public class ServletConfig implements WebMvcConfigurer {
 	@Override
 	public void configureViewResolvers(ViewResolverRegistry registry) {
 		WebMvcConfigurer.super.configureViewResolvers(registry);
-		registry.jsp("/WEB-INF/views/", ".jsp");
+		registry.jsp("/WEB-INF/views/", ".jsp"); // InternalResourceViewResolver
 	}
 
 	@Override
@@ -101,17 +101,6 @@ public class ServletConfig implements WebMvcConfigurer {
 	}
 
 	@Override
-	public void addReturnValueHandlers(List<HandlerMethodReturnValueHandler> handlers) {
-		log.info("## addReturnValueHandlers");
-		for (HandlerMethodReturnValueHandler handler : handlers) {
-            log.info("HandlerMethodReturnValueHandler: {}", handler.getClass().getSimpleName());
-        }
-		
-		WebMvcConfigurer.super.addReturnValueHandlers(handlers);
-		handlers.forEach(handler -> log.info("\t > {}", handler.getClass().getSimpleName()));
-	}
-
-	@Override
 	public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
 		log.info("## extendMessageConverters");
 //		converters.add(0, mappingJackson2HttpMessageConverter());
@@ -125,13 +114,13 @@ public class ServletConfig implements WebMvcConfigurer {
 			if (converter instanceof StringHttpMessageConverter) {
 				((StringHttpMessageConverter) converter).setDefaultCharset(StandardCharsets.UTF_8);
 			} else if (converter instanceof MappingJackson2HttpMessageConverter) {
-				((MappingJackson2HttpMessageConverter) converter).setObjectMapper(objectMapper());
+				((MappingJackson2HttpMessageConverter) converter).setObjectMapper(myObjectMapper());
 			}
 		});
 	}
 	
 	@Bean
-	public ObjectMapper objectMapper() {
+	public ObjectMapper myObjectMapper() {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:ss:mm");
 		ObjectMapper objectMapper = Jackson2ObjectMapperBuilder
 				.json()
