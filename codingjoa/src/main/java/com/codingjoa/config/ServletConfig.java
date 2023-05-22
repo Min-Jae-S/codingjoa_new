@@ -31,7 +31,6 @@ import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -83,18 +82,22 @@ public class ServletConfig implements WebMvcConfigurer {
 	}
 
 	@Override
-	public void addInterceptors(InterceptorRegistry registry) {
-		WebMvcConfigurer.super.addInterceptors(registry);
-		InterceptorRegistration reg1 = 
-				registry.addInterceptor(new CategoryInterceptor(categoryService));
-		reg1.addPathPatterns("/**");
-		//reg1.excludePathPatterns("/resources/**", "/upload/**");
-	}
-
-	@Override
 	public void configurePathMatch(PathMatchConfigurer configurer) {
 		WebMvcConfigurer.super.configurePathMatch(configurer);
 		configurer.setUseTrailingSlashMatch(true);
+	}
+	
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+		WebMvcConfigurer.super.addInterceptors(registry);
+		registry.addInterceptor(categoryInterceptor())
+				.addPathPatterns("/**");
+		//reg1.excludePathPatterns("/resources/**", "/upload/**");
+	}
+
+	@Bean
+	public CategoryInterceptor categoryInterceptor() {
+		return new CategoryInterceptor(categoryService);
 	}
 
 	@Override

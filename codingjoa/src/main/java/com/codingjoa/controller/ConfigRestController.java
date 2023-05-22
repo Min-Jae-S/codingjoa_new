@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.handler.HandlerExceptionResolverComposite;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 
@@ -31,15 +32,15 @@ public class ConfigRestController {
 	private WebApplicationContext webApplicationContext;
 
 	@GetMapping("/filters")
-	public ResponseEntity<Object> filters() {
-		log.info("## filters");
+	public ResponseEntity<Object> getFilters() {
+		log.info("## getFilters");
 		FilterChainProxy filterChainProxy = webApplicationContext.getBean(FilterChainProxy.class);
 		List<String> filters = filterChainProxy.getFilterChains()
 			.stream()
 			.filter(filterChain -> filterChain instanceof SecurityFilterChain)
 			.findFirst().get().getFilters()
 			.stream()
-			.map(filter -> filter.getClass().getSimpleName())
+			.map(filter -> filter.getClass().getName())
 			.collect(Collectors.toList());
 		
 //		SecurityFilterChain securityFilterChain = filterChainProxy.getFilterChains().get(0);
@@ -64,18 +65,30 @@ public class ConfigRestController {
 	}
 
 	@GetMapping("/interceptors")
-	public ResponseEntity<Object> interceptors() {
-		log.info("## interceptors");
-		return ResponseEntity.ok(SuccessResponse.create().data(null));
+	public ResponseEntity<Object> getInterceptors() {
+		log.info("## getInterceptors");
+		Map<String, HandlerInterceptor> HandlerInterceptors = 
+				webApplicationContext.getBeansOfType(HandlerInterceptor.class);
+		
+		List<String> interceptors = HandlerInterceptors.values()
+				.stream()
+				.map(interceptor -> interceptor.getClass().getName())
+				.collect(Collectors.toList());
+		
+		interceptors.forEach(interceptor -> {
+			log.info("\t > {}", interceptor.substring(interceptor.lastIndexOf(".") + 1));
+		});
+		
+		return ResponseEntity.ok(SuccessResponse.create().data(interceptors));
 	}
 	
 	@GetMapping("/argument-resolvers")
-	public ResponseEntity<Object> argumentResolvers() {
-		log.info("## argumentResolvers");
+	public ResponseEntity<Object> getArgumentResolvers() {
+		log.info("## getArgumentResolvers");
 		RequestMappingHandlerAdapter handlerAdapter = webApplicationContext.getBean(RequestMappingHandlerAdapter.class);
 		List<String> argumentResolvers = handlerAdapter.getArgumentResolvers()
 				.stream()
-				.map(resolver -> resolver.getClass().getSimpleName())
+				.map(resolver -> resolver.getClass().getName())
 				.collect(Collectors.toList());
 		
 		argumentResolvers.forEach(resolver -> {
@@ -86,18 +99,18 @@ public class ConfigRestController {
 	}
 
 	@GetMapping("/view-resolvers")
-	public ResponseEntity<Object> viewResolvers() {
-		log.info("## viewResolvers");
+	public ResponseEntity<Object> getViewResolvers() {
+		log.info("## getViewResolvers");
 		return ResponseEntity.ok(SuccessResponse.create().data(null));
 	}
 	
 	@GetMapping("/message-converters")
-	public ResponseEntity<Object> messageConverters() {
-		log.info("## messageConverters");
+	public ResponseEntity<Object> getMessageConverters() {
+		log.info("## getMessageConverters");
 		RequestMappingHandlerAdapter handlerAdapter = webApplicationContext.getBean(RequestMappingHandlerAdapter.class);
 		List<String> messageConverters = handlerAdapter.getMessageConverters()
 				.stream()
-				.map(converter -> converter.getClass().getSimpleName())
+				.map(converter -> converter.getClass().getName())
 				.collect(Collectors.toList());
 		
 		messageConverters.forEach(converter -> {
@@ -108,13 +121,13 @@ public class ConfigRestController {
 	}
 	
 	@GetMapping("/exception-resolvers")
-	public ResponseEntity<Object> exceptionResolvers() {
-		log.info("## exceptionResolvers");
+	public ResponseEntity<Object> getExceptionResolvers() {
+		log.info("## getExceptionResolvers");
 		HandlerExceptionResolverComposite composite = 
 				webApplicationContext.getBean(HandlerExceptionResolverComposite.class);
 		List<String> exceptionResolvers = composite.getExceptionResolvers()
 				.stream()
-				.map(resolver -> resolver.getClass().getSimpleName())
+				.map(resolver -> resolver.getClass().getName())
 				.collect(Collectors.toList());
 		
 		exceptionResolvers.forEach(resolver -> {
