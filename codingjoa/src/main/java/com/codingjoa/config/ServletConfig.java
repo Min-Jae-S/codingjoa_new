@@ -154,14 +154,15 @@ public class ServletConfig implements WebMvcConfigurer {
 	@Override
 	public void extendHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
 		log.info("## extendHandlerExceptionResolvers");
+		WebMvcConfigurer.super.extendHandlerExceptionResolvers(resolvers);
 		resolvers.add(0, new CustomExceptionResolver());
 		resolvers.forEach(resolver -> log.info("\t > {}", resolver.getClass().getSimpleName()));
 	}
 	
-	@Bean
-	public HandlerExceptionResolver customExceptionResolver() {
-		return new CustomExceptionResolver();
-	}
+//	@Bean
+//	public HandlerExceptionResolver customExceptionResolver() {
+//		return new CustomExceptionResolver();
+//	}
 	
 	@Bean
 	public MultipartResolver multipartResolver() {
@@ -179,7 +180,7 @@ public class ServletConfig implements WebMvcConfigurer {
 
 	@SuppressWarnings("unchecked")
 	@Bean
-	public BoardCriteriaArgumentResolver boardCriteriaArgumentResolver() {
+	public HandlerMethodArgumentResolver boardCriteriaArgumentResolver() {
 		BoardCriteriaArgumentResolver resolver = new BoardCriteriaArgumentResolver();
 		resolver.setPage(env.getProperty("criteria.page", Integer.class));
 		resolver.setRecordCnt(env.getProperty("criteria.recordCnt", Integer.class));
@@ -199,7 +200,7 @@ public class ServletConfig implements WebMvcConfigurer {
 	}
 
 	@Bean
-	public CommentCriteriaArgumentResolver commentCriteriaArgumentResolver() {
+	public HandlerMethodArgumentResolver commentCriteriaArgumentResolver() {
 		CommentCriteriaArgumentResolver resolver = new CommentCriteriaArgumentResolver();
 		resolver.setPage(env.getProperty("criteria.page", Integer.class));
 		resolver.setRecordCnt(env.getProperty("criteria.recordCnt", Integer.class));

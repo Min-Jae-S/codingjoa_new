@@ -1,6 +1,8 @@
 package com.codingjoa.filter;
 
 import java.io.IOException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 
 import javax.servlet.Filter;
@@ -28,12 +30,12 @@ public class LogFilter implements Filter {
 		log.info("-------- {} --------", this.getClass().getSimpleName());
 		
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
-		String requestURI = httpRequest.getRequestURI();
+		String fullURI = getFullURI(httpRequest);
 		String uuid = UUID.randomUUID().toString();
 
 		try {
 			log.info("## Request");
-			log.info("\t > URI = {}", requestURI);
+			log.info("\t > URI = {}", fullURI);
 			log.info("\t > UUID = {}", uuid);
 			log.info("\t > dispatcherType = {}", request.getDispatcherType());
 			chain.doFilter(request, response);
@@ -44,15 +46,21 @@ public class LogFilter implements Filter {
 			throw e;
 		} finally {
 			log.info("## Response");
-			log.info("\t > URI = {}", requestURI);
+			log.info("\t > URI = {}", fullURI);
 			log.info("\t > UUID = {}", uuid);
 			log.info("\t > dispatcherType = {}", request.getDispatcherType());
 		}
 	}
 	
-	@Override
-	public void destroy() {
-		Filter.super.destroy();
+	private String getFullURI(HttpServletRequest request) {
+		StringBuilder requestURI = new StringBuilder(request.getRequestURI().toString());
+	    String queryString = request.getQueryString();
+	    
+	    if (queryString == null) {
+	        return requestURI.toString();
+	    } else {
+	    	return requestURI.append('?').append(URLDecoder.decode(queryString, StandardCharsets.UTF_8)).toString();
+	    }
 	}
 	
 }

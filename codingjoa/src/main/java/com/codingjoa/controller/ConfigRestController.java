@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.handler.HandlerExceptionResolverComposite;
@@ -172,6 +173,11 @@ public class ConfigRestController {
 		exceptionResolvers.forEach(resolver -> {
 			log.info("\t > {}", resolver.substring(resolver.lastIndexOf(".") + 1));
 		});
+		
+		Map<String, HandlerExceptionResolver> exceptionResolverMap = 
+				webApplicationContext.getBeansOfType(HandlerExceptionResolver.class);
+		log.info("  - ExceptionResolvers from HandlerExceptionResolver.class");
+		exceptionResolverMap.forEach((key, resolver) -> log.info("\t > {} : {}", key, resolver.getClass().getName()));
 		
 		return ResponseEntity.ok(SuccessResponse.create().data(exceptionResolvers));
 	}
