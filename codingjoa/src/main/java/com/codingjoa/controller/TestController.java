@@ -60,14 +60,29 @@ public class TestController {
 	@RequestMapping("/testView")
 	public String testView(Model model) {
 		log.info("## testView called...");
-		model.addAttribute("test", "test");
+		model.addAttribute("test", new Test());
 		return "test/test-view";
 	}
 	
 	@RequestMapping("/testMavView")
-	public ModelAndView testMavView() {
+	public ModelAndView testMavView(Model model) {
 		log.info("## testMavView called...");
+		model.addAttribute("test", new Test());
 		return new ModelAndView("test/test-view");
+	}
+
+	@RequestMapping("/testNull")
+	public String testNull(Model model) {
+		model.addAttribute("test", new Test());
+		log.info("## testNull called...");
+		return null;
+	}
+	
+	@RequestMapping("/testMavNull")
+	public ModelAndView testMavNull(Model model) {
+		log.info("## testMavView called...");
+		model.addAttribute("test", new Test());
+		return new ModelAndView();
 	}
 	
 	@RequestMapping("/testForward")
@@ -116,8 +131,7 @@ public class TestController {
 	@RequestMapping("/testJson")
 	public ResponseEntity<Object> testJson() {
 		log.info("## testJson called...");
-		return ResponseEntity.ok().body(
-				SuccessResponse.create().message("success.Test").data("test"));
+		return ResponseEntity.ok().body(new Test());
 	}
 
 	// return ModelAndView including JSON(Object)
@@ -127,9 +141,9 @@ public class TestController {
 		
 		ModelAndView mav = new ModelAndView("jsonView");
 		mav.addObject("test", new Test());
-		mav.addObject("successResponse", SuccessResponse.create());
-		mav.addObject("errorResponse", ErrorResponse.create());
 		
 		return mav;
 	}
+	
+	
 }

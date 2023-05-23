@@ -21,8 +21,9 @@ import lombok.extern.slf4j.Slf4j;
 @AllArgsConstructor
 public class CategoryInterceptor implements HandlerInterceptor {
 	
+	private static final String FORWARD_URL_PREFIX = "forward:";
 	private static final String REDIRECT_URL_PREFIX = "redirect:";
-    private static final String FORWARD_URL_PREFIX = "forward:";
+	private static final String JSON_VIEW = "jsonView";
 	private CategoryService categoryService;
 
 	@Override
@@ -56,16 +57,27 @@ public class CategoryInterceptor implements HandlerInterceptor {
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
 		log.info("## postHandle");
-		log.info("\t > {}", modelAndView);
 
 		if (modelAndView != null) {
 			log.info("\t > modelAndView is not null");
-			log.info("\t > view name = {}", modelAndView.getViewName());
+			
+			String view = modelAndView.getViewName();
+			log.info("\t > view = {}", view);
+			
+			if (view.startsWith(FORWARD_URL_PREFIX)) {
+				return;
+			}
+
+			if (view.startsWith(REDIRECT_URL_PREFIX)) {
+				return;
+			}
+			
+			if (view.equals(JSON_VIEW)) {
+				return;
+			}
 			
 			List<Category> parentCategoryList = categoryService.findParentCategoryList();
 			modelAndView.addObject("parentCategoryList", parentCategoryList);
-			modelAndView.getModel().forEach((key, attr) -> 
-				log.info("\t > model = {}: {}", key, attr.getClass().getName()));
 		} else {
 			log.info("\t > modelAndView is null");
 		}
