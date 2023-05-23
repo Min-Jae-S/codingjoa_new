@@ -63,7 +63,8 @@ public class CategoryInterceptor implements HandlerInterceptor {
 			
 			List<Category> parentCategoryList = categoryService.findParentCategoryList();
 			modelAndView.addObject("parentCategoryList", parentCategoryList);
-			modelAndView.getModel().keySet().forEach(key -> log.info("\t > model = {}", key));
+			modelAndView.getModel().forEach((key, attr) -> 
+				log.info("\t > model = {}: {}", key, attr.getClass().getSimpleName()));
 		} else {
 			log.info("\t > modelAndView is null");
 		}

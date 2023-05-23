@@ -96,7 +96,7 @@ public class TestController {
 	@RequestMapping("/testString")
 	public String testString() {
 		log.info("## testString called...");
-		return "testString";
+		return "test";
 	}
 	
 	// return ModelAndView including simple String
@@ -105,7 +105,7 @@ public class TestController {
 		log.info("## testMavString called...");
 		
 		ModelAndView mav = new ModelAndView("jsonView");
-		mav.addObject("test","test");
+		mav.addObject("test");
 		
 		return mav;
 	}
@@ -124,9 +124,13 @@ public class TestController {
 		log.info("## testMavJson called...");
 		
 		ModelAndView mav = new ModelAndView("jsonView");
-		SuccessResponse successResponse = 
-				SuccessResponse.create().message("success.Test").data("test data");
-		mav.addObject("successResponse", successResponse);
+		SuccessResponse response1 = SuccessResponse.create().message("success.Test").data("test");
+		SuccessResponse response2 = SuccessResponse.create().message("success.Test");
+		SuccessResponse response3 = SuccessResponse.create().data("test");
+		
+		mav.addObject("response1", response1);
+		mav.addObject("response2", response2);
+		mav.addObject("response3", response3);
 		
 		return mav;
 	}
