@@ -61,7 +61,9 @@ public class CategoryInterceptor implements HandlerInterceptor {
 		if (modelAndView != null) {
 			log.info("\t > modelAndView is not null");
 			
-			String view = modelAndView.getViewName();
+			// Return the view name to be resolved by the DispatcherServletvia a ViewResolver, 
+			// or null if we are using a View object.
+			String view = modelAndView.getViewName(); 
 			log.info("\t > view = {}", view);
 			
 			if (view == null) return;

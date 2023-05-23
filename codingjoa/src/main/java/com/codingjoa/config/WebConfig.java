@@ -88,6 +88,7 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 //		while (initParameterNames.hasMoreElements()) {
 //			log.info("\t > {}", initParameterNames.nextElement());
 //		}
+		
 		return dispatcherServlet;
 	}
 

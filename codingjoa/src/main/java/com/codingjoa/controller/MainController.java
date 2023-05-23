@@ -11,13 +11,13 @@ public class MainController {
 
 	@GetMapping("/")
 	public String home() {
-		log.info("-------- home --------");
+		log.info("## home");
 		return "home";
 	}
 	
 	@GetMapping("/accessDenied")
 	public String accessDenied() {
-		log.info("-------- access denied --------");
+		log.info("## accessDenied");
 		return "access-denied";
 	}
 	

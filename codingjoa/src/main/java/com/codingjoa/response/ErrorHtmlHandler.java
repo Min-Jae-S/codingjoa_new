@@ -4,7 +4,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolationException;
 
-import org.springframework.ui.Model;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
@@ -18,16 +17,15 @@ import lombok.extern.slf4j.Slf4j;
 @ControllerAdvice
 public class ErrorHtmlHandler {
 	
-	@ExceptionHandler(Exception.class)
-	protected String handleException(Exception e, HttpServletRequest request, 
-			HttpServletResponse response, Model model) {
+	@ExceptionHandler(Exception.class) // NoHandlerFoundException
+	protected String handleException(Exception e, HttpServletRequest request, HttpServletResponse response) {
 		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t > message = {}", e.getMessage());
 
 		response.setStatus(499);
-		model.addAttribute("errorMessage", e.getMessage());
+		request.setAttribute("errorMessage", e.getMessage());
 		
-		return "error/error-page";
+		return "forward:/error/errorPage";
 	}
 	
 	@ExceptionHandler(MethodArgumentNotValidException.class)
@@ -35,7 +33,7 @@ public class ErrorHtmlHandler {
 		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t > message = {}", e.getMessage());
 
-		//		if (isAjaxRequest(request)) {
+//		if (isAjaxRequest(request)) {
 //			ErrorResponse response = ErrorResponse.create().bindingResult(e.getBindingResult());
 //			log.info("\t > {}", response);
 //		
@@ -45,7 +43,7 @@ public class ErrorHtmlHandler {
 //		ModelAndView mav = new ModelAndView("forward:/error/errorPage");
 //		throw new ModelAndViewDefiningException(mav);
 		
-		return "error/error-page";
+		return "forward:/error/errorPage";
 	}
 	
 	@ExceptionHandler(BindException.class) // /board/write?boardCategory=aa, /board/modify?boardIdx=aa, /board/deleteProc?boardIdx=aa
@@ -58,7 +56,7 @@ public class ErrorHtmlHandler {
 			log.info("\t > code = {}", fieldError.getCodes()[0]);
 		});
 		
-		return "error/error-page";
+		return "forward:/error/errorPage";
 	}
 	
 	@ExceptionHandler(ConstraintViolationException.class) // /board/main?boardCategoryCode=11
@@ -67,15 +65,12 @@ public class ErrorHtmlHandler {
 		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t > message = {}", e.getMessage());
 
-		e.getConstraintViolations().forEach(v -> {
-			//log.info("\t > {}", v);
-			log.info("\t > invalid value = {}", v.getInvalidValue());
+		e.getConstraintViolations().forEach(violation -> {
+			//log.info("\t > {}", violation);
+			log.info("\t > invalid value = {}", violation.getInvalidValue());
 		});
 		
-		request.setAttribute("errorMessage", e.getMessage());
-		
 		return "forward:/error/errorPage";
-		//return "error/error-page";
 	}
 	
 	@ExceptionHandler(value = { 
@@ -86,7 +81,7 @@ public class ErrorHtmlHandler {
 		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t > message = {}", e.getMessage());
 		
-		return "error/error-page";
+		return "forward:/error/errorPage";
 	}
 
 	@ExceptionHandler(IllegalArgumentException.class)
@@ -94,7 +89,7 @@ public class ErrorHtmlHandler {
 		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t > message = {}", e.getMessage());
 		
-		return "error/error-page";
+		return "forward:/error/errorPage";
 	}
 	
 }

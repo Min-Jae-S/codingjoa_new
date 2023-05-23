@@ -15,8 +15,8 @@ public class ErrorController {
 	
 	@GetMapping("/errorPage")
 	public String errorPage(HttpServletRequest request) {
-		log.info("-------- error page --------");
-		log.info("\t errorMessage = {}", request.getAttribute("errorMessage"));
+		log.info("## errorPage");
+		log.info("\t > errorMessage = {}", request.getAttribute("errorMessage"));
 		
 		return "error/error-page";
 	}
