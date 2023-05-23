@@ -82,7 +82,7 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 	protected FrameworkServlet createDispatcherServlet(WebApplicationContext servletAppContext) {
 		log.info("## createDispatcherServlet");
 		DispatcherServlet dispatcherServlet = (DispatcherServlet) super.createDispatcherServlet(servletAppContext);
-		dispatcherServlet.setThrowExceptionIfNoHandlerFound(true);
+//		dispatcherServlet.setThrowExceptionIfNoHandlerFound(true);
 		
 //		Enumeration<String> initParameterNames = dispatcherServlet.getInitParameterNames();
 //		while (initParameterNames.hasMoreElements()) {
