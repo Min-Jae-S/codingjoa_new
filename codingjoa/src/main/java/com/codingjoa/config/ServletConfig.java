@@ -73,7 +73,7 @@ public class ServletConfig implements WebMvcConfigurer {
 	@Override
 	public void configureViewResolvers(ViewResolverRegistry registry) {
 		WebMvcConfigurer.super.configureViewResolvers(registry);
-		registry.jsp("/WEB-INF/views/", ".jsp"); 		// InternalResourceViewResolver
+		registry.jsp("/WEB-INF/views/", ".jsp");
 	}
 	
 	@Bean
@@ -85,7 +85,9 @@ public class ServletConfig implements WebMvcConfigurer {
 	
 	@Bean
 	public MappingJackson2JsonView jsonView() {
-        return new MappingJackson2JsonView();
+		MappingJackson2JsonView jsonView = new MappingJackson2JsonView();
+		jsonView.setObjectMapper(myObjectMapper());
+        return jsonView;
     }
 
 	@Override

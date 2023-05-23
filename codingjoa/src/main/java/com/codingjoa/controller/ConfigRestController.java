@@ -137,7 +137,7 @@ public class ConfigRestController {
 		log.info("  - resolvers from ViewResolver");
 		Map<String, ViewResolver> viewResolverMap = 
 				webApplicationContext.getBeansOfType(ViewResolver.class);
-		viewResolverMap.forEach((key, value) -> log.info("\t > {}: {}", key, value.getClass().getName()));
+		viewResolverMap.forEach((key, resolver) -> log.info("\t > {}: {}", key, resolver.getClass().getName()));
 		
 		return ResponseEntity.ok(SuccessResponse.create().data(viewResolvers));
 	}
