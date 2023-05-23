@@ -19,7 +19,7 @@
 <c:import url="/WEB-INF/views/include/top-menu.jsp"/>
 
 <div class="error-container">
-	<p class="font-weight-bold text-center bg-danger text-white" style="font-size: 80px;">ERROR PAGE</p>
+	<p class="font-weight-bold text-center bg-danger text-white mb-5" style="font-size: 80px;">ERROR PAGE</p>
 	<div class="text-center">
 		<h2 class="font-weight-bold"><c:out value="${errorMessage}"/></h2>
 	</div>
