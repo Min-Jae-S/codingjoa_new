@@ -64,7 +64,7 @@
 							<a class="nav-link" href="${contextPath}/config/view-resolvers">ViewResolvers</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="${contextPath}/config/message-converters">MessageConverters</a>
+							<a class="nav-link" href="${contextPath}/config/message-converters">HttpMessageConverters</a>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" href="${contextPath}/config/exception-resolvers">ExceptionResolvers</a>

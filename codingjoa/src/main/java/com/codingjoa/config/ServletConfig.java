@@ -31,12 +31,15 @@ import org.springframework.web.method.support.HandlerMethodReturnValueHandler;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.HandlerExceptionResolver;
+import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.view.BeanNameViewResolver;
+import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import com.codingjoa.interceptor.CategoryInterceptor;
 import com.codingjoa.resolver.BoardCriteriaArgumentResolver;
@@ -70,8 +73,20 @@ public class ServletConfig implements WebMvcConfigurer {
 	@Override
 	public void configureViewResolvers(ViewResolverRegistry registry) {
 		WebMvcConfigurer.super.configureViewResolvers(registry);
-		registry.jsp("/WEB-INF/views/", ".jsp"); // InternalResourceViewResolver
+		registry.jsp("/WEB-INF/views/", ".jsp"); 		// InternalResourceViewResolver
 	}
+	
+	@Bean
+	public ViewResolver beanNameViewResolver() {
+		BeanNameViewResolver beanNameViewResolver = new BeanNameViewResolver();
+		beanNameViewResolver.setOrder(1);
+		return beanNameViewResolver;
+	}
+	
+	@Bean
+	public MappingJackson2JsonView jsonView() {
+        return new MappingJackson2JsonView();
+    }
 
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {

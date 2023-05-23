@@ -129,9 +129,15 @@ public class ConfigRestController {
 				.map(resolver -> resolver.getClass().getName())
 				.collect(Collectors.toList());
 		
+		log.info("  - resolvers from ViewResolverComposite");
 		viewResolvers.forEach(resolver -> {
 			log.info("\t > {}", resolver.substring(resolver.lastIndexOf(".") + 1));
 		});
+		
+		log.info("  - resolvers from ViewResolver");
+		Map<String, ViewResolver> viewResolverMap = 
+				webApplicationContext.getBeansOfType(ViewResolver.class);
+		viewResolverMap.forEach((key, value) -> log.info("\t > {}: {}", key, value.getClass().getName()));
 		
 		return ResponseEntity.ok(SuccessResponse.create().data(viewResolvers));
 	}
