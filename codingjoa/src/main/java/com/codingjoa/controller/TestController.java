@@ -9,10 +9,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import com.codingjoa.entity.Test;
-import com.codingjoa.response.ErrorResponse;
-import com.codingjoa.response.SuccessResponse;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -71,20 +70,6 @@ public class TestController {
 		return new ModelAndView("test/test-view");
 	}
 
-	@RequestMapping("/testNull")
-	public String testNull(Model model) {
-		model.addAttribute("test", new Test());
-		log.info("## testNull called...");
-		return null;
-	}
-	
-	@RequestMapping("/testMavNull")
-	public ModelAndView testMavNull(Model model) {
-		log.info("## testMavView called...");
-		model.addAttribute("test", new Test());
-		return new ModelAndView();
-	}
-	
 	@RequestMapping("/testForward")
 	public String testForward() {
 		log.info("## testForward called...");
@@ -142,6 +127,28 @@ public class TestController {
 		ModelAndView mav = new ModelAndView("jsonView");
 		mav.addObject("test", new Test());
 		
+		return mav;
+	}
+	
+	@RequestMapping("/testNull1")
+	public String testNull1() {
+		log.info("## testNull1 called...");
+		return null;
+	}
+	
+	@RequestMapping("/testNull2")
+	public ModelAndView testNull2() {
+		log.info("## testNull2 called...");
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName(null);
+		return mav;
+	}
+
+	@RequestMapping("/testNull3")
+	public ModelAndView testNull3() {
+		log.info("## testNull3 called...");
+		ModelAndView mav = new ModelAndView();
+		mav.setView(new MappingJackson2JsonView());
 		return mav;
 	}
 	

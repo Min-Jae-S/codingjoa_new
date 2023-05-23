@@ -64,17 +64,13 @@ public class CategoryInterceptor implements HandlerInterceptor {
 			String view = modelAndView.getViewName();
 			log.info("\t > view = {}", view);
 			
-			if (view.startsWith(FORWARD_URL_PREFIX)) {
-				return;
-			}
-
-			if (view.startsWith(REDIRECT_URL_PREFIX)) {
-				return;
-			}
+			if (view == null) return;
 			
-			if (view.equals(JSON_VIEW)) {
-				return;
-			}
+			if (view.startsWith(FORWARD_URL_PREFIX)) return;
+			
+			if (view.startsWith(REDIRECT_URL_PREFIX)) return;
+			
+			if (view.equals(JSON_VIEW)) return;			
 			
 			List<Category> parentCategoryList = categoryService.findParentCategoryList();
 			modelAndView.addObject("parentCategoryList", parentCategoryList);
