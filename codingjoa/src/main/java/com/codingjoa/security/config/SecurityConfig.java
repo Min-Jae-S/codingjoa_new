@@ -62,6 +62,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.authenticationProvider(customAuthenticationProvider);
 	}
+	
+//	@Override
+// 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+//  	auth.userDetailsService(userService).passwordEncoder(passwordEncoder());
+//	}
+	
+//	@Override
+//  protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+//  	auth.userDetailsService(loginIdPwValidator);
+//  }
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -115,10 +125,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.invalidateHttpSession(true)
 				.and()
 			.exceptionHandling()
-				.authenticationEntryPoint(customAuthenticationEntryPoint)	
-				.and()
-			.exceptionHandling()
+				.authenticationEntryPoint(customAuthenticationEntryPoint)
 				.accessDeniedHandler(customAccessDeniedHandler);			 
 	}
-	
+
 }

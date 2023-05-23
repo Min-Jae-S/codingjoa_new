@@ -130,6 +130,12 @@ public class TestController {
 		return mav;
 	}
 	
+	@RequestMapping("/testNoJsp")
+	public String testNoJsp() {
+		log.info("## testNoJsp called...");
+		return "test/testNoJsp";
+	}
+	
 	@RequestMapping("/testNull1")
 	public String testNull1() {
 		log.info("## testNull1 called...");

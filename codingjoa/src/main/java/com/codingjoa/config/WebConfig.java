@@ -74,8 +74,8 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 		FilterRegistration registration1 = servletContext.addFilter("CharacterEncodingFilter", encodingFilter);
 		registration1.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, "/*");
 		
-		FilterRegistration registration2 = servletContext.addFilter("LogFilter", new LogFilter());
-		registration2.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, "/*");
+//		FilterRegistration registration2 = servletContext.addFilter("LogFilter", new LogFilter());
+//		registration2.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, "/*");
 	}
 
 	@Override

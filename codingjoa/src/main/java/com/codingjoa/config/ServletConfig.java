@@ -19,7 +19,6 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
-import org.springframework.core.Ordered;
 import org.springframework.core.env.Environment;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
@@ -31,15 +30,12 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.HandlerExceptionResolver;
-import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.view.BeanNameViewResolver;
-import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import com.codingjoa.interceptor.CategoryInterceptor;
 import com.codingjoa.resolver.BoardCriteriaArgumentResolver;
@@ -74,24 +70,24 @@ public class ServletConfig implements WebMvcConfigurer {
 	public void configureViewResolvers(ViewResolverRegistry registry) {
 		WebMvcConfigurer.super.configureViewResolvers(registry);
 		registry.jsp("/WEB-INF/views/", ".jsp");
-		registry.viewResolver(beanNameViewResolver());
+//		registry.viewResolver(beanNameViewResolver());
 	}
 
-	@Bean
-	public ViewResolver beanNameViewResolver() {
-		BeanNameViewResolver resolver = new BeanNameViewResolver();
-		resolver.setOrder(Ordered.HIGHEST_PRECEDENCE);
-		
-		return resolver;
-	}
-	
-	@Bean
-	public MappingJackson2JsonView jsonView() {
-		MappingJackson2JsonView jsonView = new MappingJackson2JsonView();
-		jsonView.setObjectMapper(myObjectMapper());
-		
-        return jsonView;
-    }
+//	@Bean
+//	public ViewResolver beanNameViewResolver() {
+//		BeanNameViewResolver resolver = new BeanNameViewResolver();
+//		resolver.setOrder(Ordered.HIGHEST_PRECEDENCE);
+//		
+//		return resolver;
+//	}
+//	
+//	@Bean
+//	public MappingJackson2JsonView jsonView() {
+//		MappingJackson2JsonView jsonView = new MappingJackson2JsonView();
+//		jsonView.setObjectMapper(myObjectMapper());
+//		
+//        return jsonView;
+//    }
 
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -260,7 +256,7 @@ public class ServletConfig implements WebMvcConfigurer {
 		LocalValidatorFactoryBean factoryBean = new LocalValidatorFactoryBean();
 		factoryBean.setValidationMessageSource(messageSource());
 		//factoryBean.getValidationPropertyMap().put("hibernate.validator.fail_fast", "true");
-		
+
 		return factoryBean;
 	}
 	
