@@ -31,6 +31,7 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.HandlerExceptionResolver;
+import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
@@ -71,12 +72,13 @@ public class ServletConfig implements WebMvcConfigurer {
 	
 	@Override
 	public void configureViewResolvers(ViewResolverRegistry registry) {
+		WebMvcConfigurer.super.configureViewResolvers(registry);
 		registry.jsp("/WEB-INF/views/", ".jsp");
 		registry.viewResolver(beanNameViewResolver());
 	}
-	
+
 	@Bean
-	public BeanNameViewResolver beanNameViewResolver() {
+	public ViewResolver beanNameViewResolver() {
 		BeanNameViewResolver resolver = new BeanNameViewResolver();
 		resolver.setOrder(Ordered.HIGHEST_PRECEDENCE);
 		
@@ -157,6 +159,11 @@ public class ServletConfig implements WebMvcConfigurer {
 	}
 	
 	@Bean
+	public HandlerExceptionResolver customExceptionResolver() {
+		return new CustomExceptionResolver();
+	}
+	
+	@Bean
 	public MultipartResolver multipartResolver() {
 		// MultipartResolver: StandardServletMultipartResolver, CommonsMultipartResolver
 		// CommonsMultipartResolver 사용시 commons-fileupload 라이브러리 추가
@@ -165,6 +172,7 @@ public class ServletConfig implements WebMvcConfigurer {
 
 	@Override
 	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
+		WebMvcConfigurer.super.addArgumentResolvers(resolvers);
 		resolvers.add(boardCriteriaArgumentResolver());
 		resolvers.add(commentCriteriaArgumentResolver());
 	}

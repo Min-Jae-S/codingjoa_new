@@ -76,7 +76,7 @@ public class CategoryInterceptor implements HandlerInterceptor {
 			
 			List<Category> parentCategoryList = categoryService.findParentCategoryList();
 			modelAndView.addObject("parentCategoryList", parentCategoryList);
-			log.info("\t > add top menu as model attritube");
+			log.info("\t > add 'top menu' as model attribute");
 		} else {
 			log.info("\t > modelAndView is null");
 		}

@@ -22,7 +22,7 @@ public class ErrorHtmlHandler {
 		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t > message = {}", e.getMessage());
 
-		response.setStatus(499);
+		//response.setStatus(499);
 		request.setAttribute("errorMessage", e.getMessage());
 		
 		return "forward:/error/errorPage";
