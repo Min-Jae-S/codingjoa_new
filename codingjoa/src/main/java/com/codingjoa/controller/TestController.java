@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.codingjoa.entity.Test;
+import com.codingjoa.response.ErrorResponse;
 import com.codingjoa.response.SuccessResponse;
 
 import lombok.extern.slf4j.Slf4j;
@@ -124,13 +126,9 @@ public class TestController {
 		log.info("## testMavJson called...");
 		
 		ModelAndView mav = new ModelAndView("jsonView");
-		SuccessResponse response1 = SuccessResponse.create().message("success.Test").data("test");
-		SuccessResponse response2 = SuccessResponse.create().message("success.Test");
-		SuccessResponse response3 = SuccessResponse.create().data("test");
-		
-		mav.addObject("response1", response1);
-		mav.addObject("response2", response2);
-		mav.addObject("response3", response3);
+		mav.addObject("test", new Test());
+		mav.addObject("successResponse", SuccessResponse.create());
+		mav.addObject("errorResponse", ErrorResponse.create());
 		
 		return mav;
 	}

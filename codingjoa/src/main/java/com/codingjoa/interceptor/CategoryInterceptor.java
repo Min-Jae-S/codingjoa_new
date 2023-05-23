@@ -56,6 +56,7 @@ public class CategoryInterceptor implements HandlerInterceptor {
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
 		log.info("## postHandle");
+		log.info("\t > {}", modelAndView);
 
 		if (modelAndView != null) {
 			log.info("\t > modelAndView is not null");
@@ -64,7 +65,7 @@ public class CategoryInterceptor implements HandlerInterceptor {
 			List<Category> parentCategoryList = categoryService.findParentCategoryList();
 			modelAndView.addObject("parentCategoryList", parentCategoryList);
 			modelAndView.getModel().forEach((key, attr) -> 
-				log.info("\t > model = {}: {}", key, attr.getClass().getSimpleName()));
+				log.info("\t > model = {}: {}", key, attr.getClass().getName()));
 		} else {
 			log.info("\t > modelAndView is null");
 		}
