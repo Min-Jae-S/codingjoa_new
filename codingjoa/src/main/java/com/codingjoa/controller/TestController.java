@@ -52,14 +52,20 @@ public class TestController {
 	@RequestMapping("/testVoid")
 	public void testVoid(Model model) {
 		log.info("## testVoid called...");
-		model.addAttribute("testVoid", "testVoid");
+		model.addAttribute("test", "test");
 	}
 	
 	@RequestMapping("/testView")
 	public String testView(Model model) {
 		log.info("## testView called...");
-		model.addAttribute("testView", "testView");
+		model.addAttribute("test", "test");
 		return "test/test-view";
+	}
+	
+	@RequestMapping("/testMavView")
+	public ModelAndView testMavView() {
+		log.info("## testMavView called...");
+		return new ModelAndView("test/test-view");
 	}
 	
 	@RequestMapping("/testForward")
@@ -73,7 +79,7 @@ public class TestController {
 		log.info("## testMavForward called...");
 		return new ModelAndView("forward:/test/testView");
 	}
-
+	
 	@RequestMapping("/testRedirect")
 	public String testRedirect() {
 		log.info("## testRedirect called...");
@@ -85,20 +91,12 @@ public class TestController {
 		log.info("## testMavRedirect called...");
 		return new ModelAndView("redirect:/test/testView");
 	}
-	
+
 	@ResponseBody
 	@RequestMapping("/testString")
 	public String testString() {
 		log.info("## testString called...");
 		return "testString";
-	}
-
-	@ResponseBody
-	@RequestMapping("/testJson")
-	public ResponseEntity<Object> testJson() {
-		log.info("## testJson called...");
-		return ResponseEntity.ok().body(
-				SuccessResponse.create().message("success.Test").data("test data"));
 	}
 	
 	// return ModelAndView including simple String
@@ -107,9 +105,17 @@ public class TestController {
 		log.info("## testMavString called...");
 		
 		ModelAndView mav = new ModelAndView("jsonView");
-		mav.addObject("test string","test string");
+		mav.addObject("test","test");
 		
 		return mav;
+	}
+
+	@ResponseBody
+	@RequestMapping("/testJson")
+	public ResponseEntity<Object> testJson() {
+		log.info("## testJson called...");
+		return ResponseEntity.ok().body(
+				SuccessResponse.create().message("success.Test").data("test"));
 	}
 
 	// return ModelAndView including JSON(Object)

@@ -19,6 +19,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.core.Ordered;
 import org.springframework.core.env.Environment;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
@@ -27,11 +28,9 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
-import org.springframework.web.method.support.HandlerMethodReturnValueHandler;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.HandlerExceptionResolver;
-import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
@@ -72,21 +71,23 @@ public class ServletConfig implements WebMvcConfigurer {
 	
 	@Override
 	public void configureViewResolvers(ViewResolverRegistry registry) {
-		WebMvcConfigurer.super.configureViewResolvers(registry);
 		registry.jsp("/WEB-INF/views/", ".jsp");
+		registry.viewResolver(beanNameViewResolver());
 	}
 	
 	@Bean
-	public ViewResolver beanNameViewResolver() {
-		BeanNameViewResolver beanNameViewResolver = new BeanNameViewResolver();
-		beanNameViewResolver.setOrder(1);
-		return beanNameViewResolver;
+	public BeanNameViewResolver beanNameViewResolver() {
+		BeanNameViewResolver resolver = new BeanNameViewResolver();
+		resolver.setOrder(Ordered.HIGHEST_PRECEDENCE);
+		
+		return resolver;
 	}
 	
 	@Bean
 	public MappingJackson2JsonView jsonView() {
 		MappingJackson2JsonView jsonView = new MappingJackson2JsonView();
 		jsonView.setObjectMapper(myObjectMapper());
+		
         return jsonView;
     }
 
