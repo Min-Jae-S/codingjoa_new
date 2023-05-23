@@ -62,7 +62,6 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
 			response.setStatus(HttpStatus.UNAUTHORIZED.value());				// 401
 			response.setContentType(MediaType.APPLICATION_JSON.toString()); 	// application/json
 			
-			
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:ss:mm");
 			ObjectMapper objectMapper = Jackson2ObjectMapperBuilder
 					.json()
@@ -81,7 +80,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
 	private boolean isAjaxRequest(HttpServletRequest request) {
 		String header = request.getHeader("x-requested-with");
 		boolean ajax = "XMLHttpRequest".equals(header);
-		log.info("ajax = {}", ajax);
+		log.info("\t > ajax = {}", ajax);
 		
 		return ajax;
 	}

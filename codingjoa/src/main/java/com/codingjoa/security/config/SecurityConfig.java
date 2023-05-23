@@ -125,8 +125,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.invalidateHttpSession(true)
 				.and()
 			.exceptionHandling()
-				.authenticationEntryPoint(customAuthenticationEntryPoint)
-				.accessDeniedHandler(customAccessDeniedHandler);			 
+				.authenticationEntryPoint(customAuthenticationEntryPoint)	// XMLHttpRequest가 아닌 다른 것으로 ajax 판단하기
+				.accessDeniedHandler(customAccessDeniedHandler); 			// ajax check 추가하기 			 
 	}
 
 }
