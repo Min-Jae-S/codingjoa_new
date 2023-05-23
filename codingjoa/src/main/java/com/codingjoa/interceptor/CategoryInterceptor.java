@@ -89,7 +89,8 @@ public class CategoryInterceptor implements HandlerInterceptor {
 	    if (queryString == null) {
 	        return requestURI.toString();
 	    } else {
-	    	return requestURI.append('?').append(URLDecoder.decode(queryString, StandardCharsets.UTF_8)).toString();
+	    	return requestURI.append('?')
+	    			.append(URLDecoder.decode(queryString, StandardCharsets.UTF_8)).toString();
 	    }
 	}
 }
