@@ -95,4 +95,5 @@
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 
 </body>
+
 </html>

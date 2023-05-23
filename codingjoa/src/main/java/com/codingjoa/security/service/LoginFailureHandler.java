@@ -31,7 +31,7 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
 		
 		String errorMessage = MessageUtils.getMessage("error.Login");
 		
-		if(e instanceof LoginRequireFieldException || 
+		if (e instanceof LoginRequireFieldException || 
 				e instanceof UsernameNotFoundException || e instanceof BadCredentialsException) {
 			errorMessage = e.getMessage();
 		}

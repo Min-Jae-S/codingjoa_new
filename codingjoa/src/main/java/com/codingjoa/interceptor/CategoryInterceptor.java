@@ -72,17 +72,17 @@ public class CategoryInterceptor implements HandlerInterceptor {
 			}
 
 			if (view.startsWith(FORWARD_URL_PREFIX)) {
-				log.info("\t > view starts with {}", FORWARD_URL_PREFIX);
+				log.info("\t > view starts with '{}'", FORWARD_URL_PREFIX);
 				return;
 			}
 			
 			if (view.startsWith(REDIRECT_URL_PREFIX)) {
-				log.info("\t > view starts with {}", REDIRECT_URL_PREFIX);
+				log.info("\t > view starts with '{}'", REDIRECT_URL_PREFIX);
 				return;
 			}
 			
 			if (view.equals(JSON_VIEW)) {
-				log.info("\t > view equals {}", JSON_VIEW);
+				log.info("\t > view equals '{}'", JSON_VIEW);
 				return;			
 			}
 			
