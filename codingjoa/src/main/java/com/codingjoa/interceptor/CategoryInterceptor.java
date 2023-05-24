@@ -31,7 +31,7 @@ public class CategoryInterceptor implements HandlerInterceptor {
 			throws Exception {
 		log.info("-------- CategoryInterceptor --------");
 		log.info("## preHandle");
-		log.info("\t > URI = {}", getFullURI(request));
+		log.info("\t > URI = {} '{}'", request.getMethod(), getFullURI(request));
 		
 		if (handler == null) {
 			log.info("\t > handler is null");

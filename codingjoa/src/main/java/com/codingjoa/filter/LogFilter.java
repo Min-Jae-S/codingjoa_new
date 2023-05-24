@@ -21,7 +21,7 @@ public class LogFilter implements Filter {
 	
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
-		log.info("-------- {} init --------", filterConfig.getFilterName());
+		log.info("## {} init", filterConfig.getFilterName());
 	}
 
 	@Override
@@ -37,10 +37,10 @@ public class LogFilter implements Filter {
 
 		try {
 			log.info("## Request");
-			log.info("\t > URI = [ {} ] {}", method, fullURI);
+			log.info("\t > URI = {} '{}'", method, fullURI);
 			log.info("\t > UUID = {}", uuid);
 			log.info("\t > dispatcherType = {}", dispatcherType);
-			log.info("\t > accept = [ {} ] {}", httpRequest.getHeader("accept"));
+			log.info("\t > accept = {}", httpRequest.getHeader("accept"));
 			log.info("\t > x-requested-with = {}", httpRequest.getHeader("x-requested-with"));
 			chain.doFilter(request, response);
 		} catch (Exception e) {
@@ -50,7 +50,7 @@ public class LogFilter implements Filter {
 			throw e;
 		} finally {
 			log.info("## Response");
-			log.info("\t > URI = [ {} ] {}", method, fullURI);
+			log.info("\t > URI = {} '{}'", method, fullURI);
 			log.info("\t > UUID = {}", uuid);
 			log.info("\t > dispatcherType = {}", dispatcherType);
 		}

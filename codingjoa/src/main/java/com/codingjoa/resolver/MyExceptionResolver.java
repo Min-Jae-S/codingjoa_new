@@ -19,10 +19,9 @@ public class MyExceptionResolver extends SimpleMappingExceptionResolver {
 	public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler, 
 			Exception ex) {
 		log.info("-------- {} --------", this.getClass().getSimpleName());
-		
-		log.info("\t > URI = [ {} ] {}", request.getMethod(), getFullURI(request));
+		log.info("\t > URI = {} '{}'", request.getMethod(), getFullURI(request));
 		log.info("\t > dispatcherType = {}",  request.getDispatcherType());
-		log.info("\t > accept = [ {} ] {}", request.getHeader("accept"));
+		log.info("\t > accept = {}", request.getHeader("accept"));
 		log.info("\t > x-requested-with = {}", request.getHeader("x-requested-with"));
 		log.info("\t > exception = {}", ex.getClass().getSimpleName());
 		

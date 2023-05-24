@@ -19,6 +19,7 @@ import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.FrameworkServlet;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
+import com.codingjoa.filter.EncodingFilter;
 import com.codingjoa.filter.LogFilter;
 import com.codingjoa.security.config.SecurityConfig;
 
@@ -94,28 +95,11 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 	
 	private void registerCharacterEncodingFilter(ServletContext servletContext) {
 		log.info("## registerCharacterEncodingFilter");
+		CharacterEncodingFilter encodingFilter = new EncodingFilter();
+		encodingFilter.setEncoding("UTF-8");
+		encodingFilter.setForceEncoding(true);
 		
-		CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter() {
-			@Override
-			protected void initFilterBean() throws ServletException {
-				log.info("-------- CharacterEncodingFilter init --------");
-				super.initFilterBean();
-			}
-
-			@Override
-			protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
-					FilterChain filterChain) throws ServletException, IOException {
-				log.info("-------- CharacterEncodingFilter --------");
-				log.info("## Reqeust");
-				super.doFilterInternal(request, response, filterChain);
-				log.info("## Response");
-			}
-		};
-		characterEncodingFilter.setEncoding("UTF-8");
-		characterEncodingFilter.setForceEncoding(true);
-		
-		FilterRegistration.Dynamic registration1 = 
-				servletContext.addFilter("CharacterEncodingFilter", characterEncodingFilter);
+		FilterRegistration.Dynamic registration1 = servletContext.addFilter("CharacterEncodingFilter", encodingFilter);
 		registration1.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, "/*");
 	}
  
