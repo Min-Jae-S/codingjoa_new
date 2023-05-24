@@ -1,14 +1,18 @@
 package com.codingjoa.response;
 
+import java.io.IOException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolationException;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import lombok.extern.slf4j.Slf4j;
@@ -17,13 +21,14 @@ import lombok.extern.slf4j.Slf4j;
 @ControllerAdvice
 public class ErrorHtmlHandler {
 	
-	@ExceptionHandler(Exception.class) // NoHandlerFoundException
-	protected String handleException(Exception e, HttpServletRequest request, HttpServletResponse response) {
+	@ExceptionHandler(Throwable.class) // NoHandlerFoundException
+	protected String handleException(Throwable e, HttpServletRequest request, HttpServletResponse response) throws IOException {
 		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t > message = {}", e.getMessage());
 
 		//response.setStatus(499);
 		request.setAttribute("errorMessage", e.getMessage());
+		response.sendError(400);
 		
 		return "forward:/error/errorPage";
 	}

@@ -42,8 +42,8 @@ import lombok.extern.slf4j.Slf4j;
 @RestControllerAdvice(annotations = RestController.class)
 public class ErrorAjaxHandler {
 	
-	@ExceptionHandler(Exception.class)
-	protected ResponseEntity<Object> handleException(Exception e) {
+	@ExceptionHandler(Throwable.class)
+	protected ResponseEntity<Object> handleException(Throwable e) {
 		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t > message = {}", e.getMessage());
 

@@ -1,17 +1,13 @@
 package com.codingjoa.config;
 
-import java.io.IOException;
 import java.util.EnumSet;
 
 import javax.servlet.DispatcherType;
-import javax.servlet.FilterChain;
 import javax.servlet.FilterRegistration;
 import javax.servlet.MultipartConfigElement;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration.Dynamic;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
@@ -83,8 +79,8 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 	public void onStartup(ServletContext servletContext) throws ServletException {
 		log.info("## onStartup");
 		super.onStartup(servletContext);
-		registerLogFilter(servletContext);
 		registerCharacterEncodingFilter(servletContext);
+		registerLogFilter(servletContext);
 	}
 
 	private void registerLogFilter(ServletContext servletContext) {

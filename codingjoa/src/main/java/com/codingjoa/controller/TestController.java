@@ -20,28 +20,35 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 public class TestController {
 	
-	@RequestMapping("/a")
-	public String a() {
-		log.info("## a called...");
-		return "forward:/test/b";
+	@RequestMapping("/test1")
+	public String test1() {
+		log.info("## test1 called...");
+		return "forward:/test/test2";
 	}
 	
 	@ResponseBody
-	@RequestMapping("/b")
-	public String b() {
-		log.info("## b called...");
-		return "b";
+	@RequestMapping("/test2")
+	public String test2() {
+		log.info("## test2 called...");
+		return "test2";
 	}
 	
-	@RequestMapping("/c")
-	public void c(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		log.info("## c called...");
+	@RequestMapping("/test3")
+	public void test3(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		log.info("## test3 called...");
+		request.getRequestDispatcher("/test/test2").forward(request, response);
 		
-		request.getRequestDispatcher("/test/a").forward(request, response);
-		log.info("## after forward");
-		
-		// 응답이 이미 커밋된 후에는 sendError()를 호출할 수 없습니다.
-		response.sendError(403); 
+		/*
+		 * If the response has already been committed, this method throws an IllegalStateException.
+		 * After using this method, the response should be considered to be committed and should not be written to.
+		 * message = 응답이 이미 커밋된 후에는 sendError()를 호출할 수 없습니다.
+		 */
+		try {
+			response.sendError(403); 
+		} catch (IllegalStateException e) {
+			log.info("## response has already been committed");
+			log.info("\t > message = {}", e.getMessage());
+		}
 	}
 	
 	@RequestMapping("/npe")

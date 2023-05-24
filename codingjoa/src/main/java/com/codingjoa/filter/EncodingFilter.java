@@ -23,9 +23,6 @@ public class EncodingFilter extends CharacterEncodingFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
-		log.info("-------- {} --------", this.getFilterName());
-		log.info("## Reqeust, Before doFilter");
 		super.doFilterInternal(request, response, filterChain);
-		log.info("## Response, After doFilter");
 	}
 }
