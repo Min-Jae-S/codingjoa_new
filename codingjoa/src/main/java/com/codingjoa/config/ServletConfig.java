@@ -124,10 +124,9 @@ public class ServletConfig implements WebMvcConfigurer {
 //			.filter(converter -> converter instanceof StringHttpMessageConverter)
 //			.forEach(converter -> ((StringHttpMessageConverter) converter).setDefaultCharset(StandardCharsets.UTF_8));
 		
-		// StringHttpMessageConverter defaults to ISO-8859-1
 		converters.stream().forEach(converter -> { 
 			log.info("\t > {}", converter.getClass().getSimpleName());
-			if (converter instanceof StringHttpMessageConverter) {
+			if (converter instanceof StringHttpMessageConverter) { // StringHttpMessageConverter defaults to ISO-8859-1
 				((StringHttpMessageConverter) converter).setDefaultCharset(StandardCharsets.UTF_8);
 			} else if (converter instanceof MappingJackson2HttpMessageConverter) {
 				((MappingJackson2HttpMessageConverter) converter).setObjectMapper(myObjectMapper());
