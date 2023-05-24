@@ -40,10 +40,10 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @RestControllerAdvice(annotations = RestController.class)
-public class ErrorAjaxHandler {
+public class ErrorRestHandler {
 	
-	@ExceptionHandler(Throwable.class)
-	protected ResponseEntity<Object> handleException(Throwable e) {
+	@ExceptionHandler(Exception.class)
+	protected ResponseEntity<Object> handleException(Exception e) {
 		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t > message = {}", e.getMessage());
 
