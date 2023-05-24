@@ -45,7 +45,7 @@ public class CategoryInterceptor implements HandlerInterceptor {
 //				request.setAttribute("parentCategoryList", parentCategoryList);
 //			}
 		} else {
-			//ResourceHttpRequestHandler resourceHandler = (ResourceHttpRequestHandler) handler;
+//			ResourceHttpRequestHandler resourceHandler = (ResourceHttpRequestHandler) handler;
 			log.info("\t > handler is not null");
 			log.info("\t > handler = {}", handler.getClass().getSimpleName());
 		}
