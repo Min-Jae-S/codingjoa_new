@@ -1,13 +1,17 @@
 package com.codingjoa.config;
 
+import java.io.IOException;
 import java.util.EnumSet;
 
 import javax.servlet.DispatcherType;
+import javax.servlet.FilterChain;
 import javax.servlet.FilterRegistration;
 import javax.servlet.MultipartConfigElement;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration.Dynamic;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
@@ -50,11 +54,13 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 	protected void customizeRegistration(Dynamic registration) {
 		log.info("## customizeRegistration");
 		
-		// new MultipartConfigElement(String location, long maxFileSize, long maxRequestSize, int fileSizeThreshold)
-		// location 			: 임시폴더 경로, null로 설정시 tomcat이 설정한 임시폴더로 지정
-		// maxFileSize			: 업로드 하는 파일의 최대 용량(byte 단위)
-		// maxRequestSize		: 파일 데이터를 포함한 전체 요청 용량
-		// fileSizeThreshold	: 파일 임계값
+		/*
+		 * MultipartConfigElement(String location, long maxFileSize, long maxRequestSize, int fileSizeThreshold)
+		 * 	location 		 	: 임시폴더 경로, null로 설정시 tomcat이 설정한 임시폴더로 지정
+		 * 	maxFileSize		 	: 업로드 하는 파일의 최대 용량(byte 단위)
+		 * 	maxRequestSize	 	: 파일 데이터를 포함한 전체 요청 용량
+		 * 	fileSizeThreshold 	: 파일 임계값
+		 */
 		MultipartConfigElement multipartConfig = 
 				new MultipartConfigElement("D:\\Dev\\upload\\temp", 20971520, 41943040, 20971520); // 20MB, 40MB, 20MB
 		
@@ -63,33 +69,54 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 	}
 	
 	@Override
-	public void onStartup(ServletContext servletContext) throws ServletException {
-		log.info("## onStartup");
-		super.onStartup(servletContext);
-		
-		CharacterEncodingFilter encodingFilter = new CharacterEncodingFilter();
-		encodingFilter.setEncoding("UTF-8");
-		encodingFilter.setForceEncoding(true);
-		
-		FilterRegistration registration1 = servletContext.addFilter("CharacterEncodingFilter", encodingFilter);
-		registration1.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, "/*");
-		
-//		FilterRegistration registration2 = servletContext.addFilter("LogFilter", new LogFilter());
-//		registration2.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, "/*");
-	}
-
-	@Override
 	protected FrameworkServlet createDispatcherServlet(WebApplicationContext servletAppContext) {
 		log.info("## createDispatcherServlet");
 		DispatcherServlet dispatcherServlet = (DispatcherServlet) super.createDispatcherServlet(servletAppContext);
-//		dispatcherServlet.setThrowExceptionIfNoHandlerFound(true);
-		
-//		Enumeration<String> initParameterNames = dispatcherServlet.getInitParameterNames();
-//		while (initParameterNames.hasMoreElements()) {
-//			log.info("\t > {}", initParameterNames.nextElement());
-//		}
+		dispatcherServlet.setThrowExceptionIfNoHandlerFound(true);
+		dispatcherServlet.setEnableLoggingRequestDetails(true);
 		
 		return dispatcherServlet;
 	}
+	
+	@Override
+	public void onStartup(ServletContext servletContext) throws ServletException {
+		log.info("## onStartup");
+		super.onStartup(servletContext);
+		registerLogFilter(servletContext);
+		registerCharacterEncodingFilter(servletContext);
+	}
 
+	private void registerLogFilter(ServletContext servletContext) {
+		log.info("## registerLogFilter");
+		FilterRegistration.Dynamic registration2 = servletContext.addFilter("LogFilter", new LogFilter());
+		registration2.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, "/*");
+	}
+	
+	private void registerCharacterEncodingFilter(ServletContext servletContext) {
+		log.info("## registerCharacterEncodingFilter");
+		
+		CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter() {
+			@Override
+			protected void initFilterBean() throws ServletException {
+				log.info("-------- CharacterEncodingFilter init --------");
+				super.initFilterBean();
+			}
+
+			@Override
+			protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
+					FilterChain filterChain) throws ServletException, IOException {
+				log.info("-------- CharacterEncodingFilter --------");
+				log.info("## Reqeust");
+				super.doFilterInternal(request, response, filterChain);
+				log.info("## Response");
+			}
+		};
+		characterEncodingFilter.setEncoding("UTF-8");
+		characterEncodingFilter.setForceEncoding(true);
+		
+		FilterRegistration.Dynamic registration1 = 
+				servletContext.addFilter("CharacterEncodingFilter", characterEncodingFilter);
+		registration1.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, "/*");
+	}
+ 
 }

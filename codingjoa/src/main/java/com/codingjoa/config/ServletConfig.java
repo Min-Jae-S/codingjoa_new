@@ -36,6 +36,7 @@ import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import com.codingjoa.interceptor.CategoryInterceptor;
 import com.codingjoa.resolver.BoardCriteriaArgumentResolver;
@@ -65,7 +66,7 @@ public class ServletConfig implements WebMvcConfigurer {
 	
 	@Autowired
 	private CategoryService categoryService;
-	
+
 	@Override
 	public void configureViewResolvers(ViewResolverRegistry registry) {
 		WebMvcConfigurer.super.configureViewResolvers(registry);
