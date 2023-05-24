@@ -15,9 +15,6 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.web.filter.CharacterEncodingFilter;
-
-import com.codingjoa.filter.LogFilter;
 
 @Configuration
 @EnableWebSecurity//(debug = true)
@@ -39,19 +36,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	AuthenticationEntryPoint customAuthenticationEntryPoint;
 	
-	@Bean
-	public CharacterEncodingFilter encodingFilter() {
-		CharacterEncodingFilter encodingFilter = new CharacterEncodingFilter();
-		encodingFilter.setEncoding("UTF-8");
-		encodingFilter.setForceEncoding(true);
-		
-		return encodingFilter;
-	}
-	
-	@Bean
-	public LogFilter logFilter() {
-		return new LogFilter();
-	}
+//	@Bean
+//	public CharacterEncodingFilter encodingFilter() {
+//		CharacterEncodingFilter encodingFilter = new CharacterEncodingFilter();
+//		encodingFilter.setEncoding("UTF-8");
+//		encodingFilter.setForceEncoding(true);
+//		
+//		return encodingFilter;
+//	}
+//	
+//	@Bean
+//	public LogFilter logFilter() {
+//		return new LogFilter();
+//	}
 	
 	@Bean
 	public PasswordEncoder passwordEncoder() {
