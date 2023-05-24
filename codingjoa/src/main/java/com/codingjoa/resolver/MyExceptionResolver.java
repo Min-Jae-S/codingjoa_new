@@ -7,25 +7,24 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.web.method.HandlerMethod;
-import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class CustomExceptionResolver implements HandlerExceptionResolver {
+public class MyExceptionResolver extends SimpleMappingExceptionResolver {
 
 	@Override
 	public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler, 
 			Exception ex) {
 		log.info("-------- {} --------", this.getClass().getSimpleName());
 		
-		log.info("\t > URI = {}", getFullURI(request));
-		log.info("\t > method = {}", request.getMethod());
+		log.info("\t > URI = [ {} ] {}", request.getMethod(), getFullURI(request));
 		log.info("\t > dispatcherType = {}",  request.getDispatcherType());
-		log.info("\t > x-requested-with = {}", request.getHeader("X-Requested-With"));
+		log.info("\t > accept = [ {} ] {}", request.getHeader("accept"));
+		log.info("\t > x-requested-with = {}", request.getHeader("x-requested-with"));
 		log.info("\t > exception = {}", ex.getClass().getSimpleName());
-		log.info("\t > runtime excpetion = {}", ex instanceof RuntimeException);
 		
 		if (handler == null) {
 			log.info("\t > handler is null");

@@ -40,7 +40,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import com.codingjoa.interceptor.CategoryInterceptor;
 import com.codingjoa.resolver.BoardCriteriaArgumentResolver;
 import com.codingjoa.resolver.CommentCriteriaArgumentResolver;
-import com.codingjoa.resolver.CustomExceptionResolver;
+import com.codingjoa.resolver.MyExceptionResolver;
 import com.codingjoa.service.CategoryService;
 import com.codingjoa.util.MessageUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -151,14 +151,14 @@ public class ServletConfig implements WebMvcConfigurer {
 	public void extendHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
 		log.info("## extendHandlerExceptionResolvers");
 		WebMvcConfigurer.super.extendHandlerExceptionResolvers(resolvers);
-		resolvers.add(0, new CustomExceptionResolver());
+		resolvers.add(0, myExceptionResolver());
 		resolvers.forEach(resolver -> log.info("\t > {}", resolver.getClass().getSimpleName()));
 	}
 	
-//	@Bean
-//	public HandlerExceptionResolver customExceptionResolver() {
-//		return new CustomExceptionResolver();
-//	}
+	@Bean
+	public HandlerExceptionResolver myExceptionResolver() {
+		return new MyExceptionResolver();
+	}
 	
 	@Bean
 	public MultipartResolver multipartResolver() {
