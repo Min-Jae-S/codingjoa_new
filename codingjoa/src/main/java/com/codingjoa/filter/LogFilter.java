@@ -42,18 +42,23 @@ public class LogFilter implements Filter {
 			log.info("\t > dispatcherType = {}", dispatcherType);
 			log.info("\t > accept = {}", httpRequest.getHeader("accept"));
 			log.info("\t > x-requested-with = {}", httpRequest.getHeader("x-requested-with"));
+			log.info("\t > parameter : [");
+			request.getParameterMap().forEach((key, value) -> {
+				log.info("\t\t {} = {}", key, value);
+			});
+			log.info("\t ]");
 			chain.doFilter(request, response);
 		} catch (Exception e) {
 			log.info("## Catch Exception");
 			log.info("\t > exception = {}", e.getClass().getSimpleName());
 			log.info("\t > message = {}", e.getMessage());
 			throw e;
-		} finally {
-			log.info("## Response");
-			log.info("\t > URI = {} '{}'", method, fullURI);
-			log.info("\t > UUID = {}", uuid);
-			log.info("\t > dispatcherType = {}", dispatcherType);
 		}
+		
+//		log.info("## Response");
+//		log.info("\t > URI = {} '{}'", method, fullURI);
+//		log.info("\t > UUID = {}", uuid);
+//		log.info("\t > dispatcherType = {}", dispatcherType);
 	}
 	
 	private String getFullURI(HttpServletRequest request) {

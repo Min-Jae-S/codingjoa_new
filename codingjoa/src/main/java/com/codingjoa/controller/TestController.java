@@ -1,5 +1,8 @@
 package com.codingjoa.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -20,9 +23,23 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 public class TestController {
 	
+	@RequestMapping("/test0")
+	@ResponseBody
+	public Object test0(String param1, String param2) {
+		log.info("## test0 called...");
+		log.info("\t > param1 = {}, param2 = {}", param1, param2);
+
+		Map<String, String> map = new HashMap<>();
+		map.put("param1", param1);
+		map.put("param2", param2);
+		
+		return map;
+	}
+	
 	@RequestMapping("/test1")
-	public String test1() {
+	public String test1(String param1) {
 		log.info("## test1 called...");
+		log.info("\t > param1 = {}", param1);
 		return "forward:/test/test2";
 	}
 	
