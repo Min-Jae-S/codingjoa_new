@@ -16,6 +16,9 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Configuration
 @EnableWebSecurity//(debug = true)
 @ComponentScan("com.codingjoa.security.service")
@@ -57,6 +60,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		log.info("## configure(AuthenticationManagerBuilder)");
 		auth.authenticationProvider(customAuthenticationProvider);
 	}
 	
@@ -72,7 +76,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-
+		log.info("## configure(HttpSecurity)");
 		/*	FilterChain
 		 * 	https://gngsn.tistory.com/160
 		 * 

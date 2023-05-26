@@ -3,6 +3,7 @@ package com.codingjoa.config;
 import java.util.EnumSet;
 
 import javax.servlet.DispatcherType;
+import javax.servlet.Filter;
 import javax.servlet.FilterRegistration;
 import javax.servlet.MultipartConfigElement;
 import javax.servlet.ServletContext;
@@ -45,6 +46,12 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 	protected String[] getServletMappings() {
 		log.info("## getServletMappings");
 		return new String[] { "/" };
+	}
+	
+	@Override
+	protected Filter[] getServletFilters() {
+		log.info("## getServletFilters");
+		return super.getServletFilters();
 	}
 	
 	@Override

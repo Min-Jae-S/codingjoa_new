@@ -55,30 +55,31 @@ public class ConfigRestController {
 		log.info("## springSecurityFilterChain = {}", webApplicationContext.getBean("springSecurityFilterChain"));
 		ServletContext servletContext = webApplicationContext.getServletContext();
 		Map<String, ? extends FilterRegistration> registrationMap = servletContext.getFilterRegistrations();
+		List<FilterRegistration> filterRegistrations = new ArrayList<>(servletContext.getFilterRegistrations().values());
+		filterRegistrations.forEach(registration -> {
+			log.info("\t > registration = {}", registration.getName());
+		});
 		
-		Map<String, Object> filtersMap = new LinkedHashMap<>();
-		log.info("  - FilterRegistration");
-		for (String filterName : registrationMap.keySet()) {
-			log.info("\t > {}", filterName);
-			try {
-				Object obj = webApplicationContext.getBean(filterName); // springSecurityFilterChain
-				if (obj instanceof FilterChainProxy) {
-					FilterChainProxy chain = (FilterChainProxy) obj;
-					List<String> sercurityFilters = chain.getFilterChains().get(0)
-							.getFilters()
-							.stream()
-							.map(filter -> filter.getClass().getName())
-							.collect(Collectors.toList());
-					filtersMap.put(filterName, sercurityFilters);
-				}
-			} catch (NoSuchBeanDefinitionException e) {
-				filtersMap.put(filterName, null);
-			}
-			
-			
-		}
-		
-		log.info("\t > {}", filtersMap);
+//		Map<String, Object> filtersMap = new LinkedHashMap<>();
+//		log.info("  - FilterRegistration");
+//		for (String filterName : registrationMap.keySet()) {
+//			log.info("\t > {}", filterName);
+//			try {
+//				Object obj = webApplicationContext.getBean(filterName); // springSecurityFilterChain
+//				if (obj instanceof FilterChainProxy) {
+//					FilterChainProxy chain = (FilterChainProxy) obj;
+//					List<String> sercurityFilters = chain.getFilterChains().get(0)
+//							.getFilters()
+//							.stream()
+//							.map(filter -> filter.getClass().getName())
+//							.collect(Collectors.toList());
+//					filtersMap.put(filterName, sercurityFilters);
+//				}
+//			} catch (NoSuchBeanDefinitionException e) {
+//				filtersMap.put(filterName, null);
+//			}
+//		}
+//		log.info("\t > {}", filtersMap);
 		
 		log.info("  - Filter Details (FilterRegistration & SecurityFilterChain)");
 		filters.forEach(filter -> {
