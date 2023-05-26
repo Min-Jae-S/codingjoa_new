@@ -1,8 +1,5 @@
 package com.codingjoa.config;
 
-import java.util.EnumSet;
-
-import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
 import javax.servlet.FilterRegistration;
 import javax.servlet.MultipartConfigElement;
@@ -98,13 +95,17 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 		
 		FilterRegistration.Dynamic encodingFilter = 
 				servletContext.addFilter("CharacterEncodingFilter", characterEncodingFilter);
-		encodingFilter.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, "/*");
+
+		// isMatchAfter가 true면 filter의 순서를 뒤에, false면 순서를 앞으로 결정한다.
+//		encodingFilter.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, "/*");
+		encodingFilter.addMappingForUrlPatterns(null, false, "/*");
 	}
 	
 	private void registerLogFilter(ServletContext servletContext) {
 		log.info("## registerLogFilter");
 		FilterRegistration.Dynamic logFilter = servletContext.addFilter("LogFilter", new LogFilter());
-		logFilter.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, "/*");
+//		logFilter.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, "/*");
+		logFilter.addMappingForUrlPatterns(null, false, "/*");
 	}
 	
  
