@@ -37,7 +37,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 		
 		String memberId = (String) authentication.getPrincipal();
 		String memberPassword = (String) authentication.getCredentials();
-		log.info("\t > memeberId = {}", memberId);
+		log.info("\t > memberId = {}", memberId);
 		log.info("\t > memberPassword = {}", memberPassword);
 		
 		if ("".equals(memberId)) {
@@ -47,7 +47,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 		}
 		
 		UserDetails userDetails = userDetailsService.loadUserByUsername(memberId);
-		log.info("\t > {}", userDetails);
+		log.info("\t > after loadUserByUsername result = {}", userDetails);
 		
 		if (!passwordEncoder.matches(memberPassword, userDetails.getPassword())) {
 			throw new BadCredentialsException(
