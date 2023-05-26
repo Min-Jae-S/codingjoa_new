@@ -54,7 +54,9 @@ public class ConfigRestController {
 		
 		ServletContext servletContext = webApplicationContext.getServletContext();
 		Map<String, ? extends FilterRegistration> map = servletContext.getFilterRegistrations();
+		log.info("  - FilterRegistration");
 		for (String filterName : map.keySet()) {
+			log.info("\t > {}");
 			if (!"springSecurityFilterChain".equals(filterName)) {
 				filters.add(filterName);
 			}

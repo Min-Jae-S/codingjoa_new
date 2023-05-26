@@ -21,6 +21,7 @@ import com.codingjoa.security.config.SecurityConfig;
 
 import lombok.extern.slf4j.Slf4j;
 
+@SuppressWarnings("unused")
 @Slf4j
 public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitializer {
 	
@@ -79,8 +80,8 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 	public void onStartup(ServletContext servletContext) throws ServletException {
 		log.info("## onStartup");
 		super.onStartup(servletContext);
-		registerLogFilter(servletContext);
 		registerCharacterEncodingFilter(servletContext);
+		registerLogFilter(servletContext);
 	}
 
 	private void registerLogFilter(ServletContext servletContext) {

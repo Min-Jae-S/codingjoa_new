@@ -37,8 +37,8 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
 		}
 		
 		ErrorResponse errorResponse = ErrorResponse.create().errorMessage(errorMessage);
-		log.info("## {}", e.getClass().getSimpleName());
-		log.info("response = {}", errorResponse);
+		log.info("\t > exception = {}", e.getClass().getSimpleName());
+		log.info("\t > {}", errorResponse);
 		
 		request.setAttribute("errorResponse", errorResponse);
 		request.getRequestDispatcher(DEFAULT_FAILURE_URL).forward(request, response);

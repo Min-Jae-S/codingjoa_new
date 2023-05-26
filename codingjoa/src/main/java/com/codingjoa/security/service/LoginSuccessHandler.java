@@ -23,7 +23,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
 		log.info("-------- {} --------", this.getClass().getSimpleName());
-		log.info("response contentType = {}", response.getContentType());
+		log.info("\t > response contentType = {}", response.getContentType());
 		
 		response.setContentType("text/html; charset=utf-8");
 		
