@@ -39,20 +39,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	AuthenticationEntryPoint customAuthenticationEntryPoint;
 	
-//	@Bean
-//	public CharacterEncodingFilter encodingFilter() {
-//		CharacterEncodingFilter encodingFilter = new CharacterEncodingFilter();
-//		encodingFilter.setEncoding("UTF-8");
-//		encodingFilter.setForceEncoding(true);
-//		
-//		return encodingFilter;
-//	}
-//	
-//	@Bean
-//	public LogFilter logFilter() {
-//		return new LogFilter();
-//	}
-	
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();

@@ -12,7 +12,6 @@ import javax.servlet.ServletRegistration.Dynamic;
 
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
-import org.springframework.web.filter.DelegatingFilterProxy;
 import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.FrameworkServlet;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
@@ -86,9 +85,9 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 	@Override
 	public void onStartup(ServletContext servletContext) throws ServletException {
 		log.info("## onStartup");
-		super.onStartup(servletContext);
 		registerCharacterEncodingFilter(servletContext);
 		registerLogFilter(servletContext);
+		super.onStartup(servletContext);
 	}
 
 	private void registerCharacterEncodingFilter(ServletContext servletContext) {
