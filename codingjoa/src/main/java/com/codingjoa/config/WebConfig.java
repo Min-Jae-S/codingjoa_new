@@ -12,6 +12,7 @@ import javax.servlet.ServletRegistration.Dynamic;
 
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
+import org.springframework.web.filter.DelegatingFilterProxy;
 import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.FrameworkServlet;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
@@ -92,18 +93,19 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 
 	private void registerCharacterEncodingFilter(ServletContext servletContext) {
 		log.info("## registerCharacterEncodingFilter");
-		CharacterEncodingFilter encodingFilter = new EncodingFilter();
-		encodingFilter.setEncoding("UTF-8");
-		encodingFilter.setForceEncoding(true);
+		CharacterEncodingFilter characterEncodingFilter = new EncodingFilter();
+		characterEncodingFilter.setEncoding("UTF-8");
+		characterEncodingFilter.setForceEncoding(true);
 		
-		FilterRegistration.Dynamic registration1 = servletContext.addFilter("CharacterEncodingFilter", encodingFilter);
-		registration1.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, "/*");
+		FilterRegistration.Dynamic encodingFilter = servletContext.addFilter("CharacterEncodingFilter", characterEncodingFilter);
+		encodingFilter.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, "/*");
 	}
 	
 	private void registerLogFilter(ServletContext servletContext) {
 		log.info("## registerLogFilter");
-		FilterRegistration.Dynamic registration2 = servletContext.addFilter("LogFilter", new LogFilter());
-		registration2.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, "/*");
+		FilterRegistration.Dynamic logFilter = servletContext.addFilter("LogFilter", new LogFilter());
+		logFilter.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, "/*");
 	}
+	
  
 }
