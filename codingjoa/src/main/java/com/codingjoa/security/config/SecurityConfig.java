@@ -25,19 +25,19 @@ import lombok.extern.slf4j.Slf4j;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
-	AuthenticationProvider customAuthenticationProvider;
+	private AuthenticationProvider customAuthenticationProvider;
 	
 	@Autowired
-	AuthenticationSuccessHandler loginSuccessHandler;
+	private AuthenticationSuccessHandler loginSuccessHandler;
 	
 	@Autowired
-	AuthenticationFailureHandler loginFailureHandler;
+	private AuthenticationFailureHandler loginFailureHandler;
 	
 	@Autowired
-	AccessDeniedHandler customAccessDeniedHandler;
+	private AccessDeniedHandler customAccessDeniedHandler;
 	
 	@Autowired
-	AuthenticationEntryPoint customAuthenticationEntryPoint;
+	private AuthenticationEntryPoint customAuthenticationEntryPoint;
 	
 	@Bean
 	public PasswordEncoder passwordEncoder() {
@@ -63,7 +63,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		log.info("## configure(HttpSecurity)");
-		/*	FilterChain
+		
+		/*	
+		 * 	FilterChain
 		 * 	https://gngsn.tistory.com/160
 		 * 
 		 *	Browser HTTP Request --> Security filter chain: [
@@ -79,7 +81,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		 * 		SessionManagementFilter
 		 * 		ExceptionTranslationFilter(AuthenticationEntryPoint, AccessDeniedHandler)
 		 * 		FilterSecurityInterceptor
-		 * 
 		 */
 		
 		http

@@ -36,5 +36,4 @@ public class SecurityInitializer extends AbstractSecurityWebApplicationInitializ
 	}
 	
 	
-	
 }

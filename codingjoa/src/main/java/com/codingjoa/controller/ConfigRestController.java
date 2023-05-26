@@ -1,6 +1,7 @@
 package com.codingjoa.controller;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -49,8 +50,10 @@ public class ConfigRestController {
 		
 		log.info("## springSecurityFilterChain = {}", webApplicationContext.getBean("springSecurityFilterChain"));
 		ServletContext servletContext = webApplicationContext.getServletContext();
-		Map<String, ? extends FilterRegistration> registrationMap = servletContext.getFilterRegistrations();
-		List<FilterRegistration> filterRegistrations = new ArrayList<>(servletContext.getFilterRegistrations().values());
+		Map<String, ? extends FilterRegistration> registrationMap = new LinkedHashMap<>(servletContext.getFilterRegistrations());
+		log.info("\t > registrationMap class = {}", registrationMap.getClass());
+		
+		List<FilterRegistration> filterRegistrations = new ArrayList<>(registrationMap.values());
 		filterRegistrations.forEach(registration -> {
 			log.info("\t > registration = {}", registration.getName());
 		});
