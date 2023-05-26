@@ -21,7 +21,6 @@ import com.codingjoa.security.config.SecurityConfig;
 
 import lombok.extern.slf4j.Slf4j;
 
-@SuppressWarnings("unused")
 @Slf4j
 public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitializer {
 	
@@ -84,12 +83,6 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 		registerLogFilter(servletContext);
 	}
 
-	private void registerLogFilter(ServletContext servletContext) {
-		log.info("## registerLogFilter");
-		FilterRegistration.Dynamic registration2 = servletContext.addFilter("LogFilter", new LogFilter());
-		registration2.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, "/*");
-	}
-	
 	private void registerCharacterEncodingFilter(ServletContext servletContext) {
 		log.info("## registerCharacterEncodingFilter");
 		CharacterEncodingFilter encodingFilter = new EncodingFilter();
@@ -98,6 +91,12 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 		
 		FilterRegistration.Dynamic registration1 = servletContext.addFilter("CharacterEncodingFilter", encodingFilter);
 		registration1.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, "/*");
+	}
+	
+	private void registerLogFilter(ServletContext servletContext) {
+		log.info("## registerLogFilter");
+		FilterRegistration.Dynamic registration2 = servletContext.addFilter("LogFilter", new LogFilter());
+		registration2.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, "/*");
 	}
  
 }

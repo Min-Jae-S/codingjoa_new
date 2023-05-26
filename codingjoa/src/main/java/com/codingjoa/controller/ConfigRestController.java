@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import javax.servlet.Filter;
 import javax.servlet.FilterRegistration;
 import javax.servlet.ServletContext;
 
@@ -56,12 +57,17 @@ public class ConfigRestController {
 		Map<String, ? extends FilterRegistration> map = servletContext.getFilterRegistrations();
 		log.info("  - FilterRegistration");
 		for (String filterName : map.keySet()) {
-			log.info("\t > {}");
+			log.info("\t > {}", filterName);
 			if (!"springSecurityFilterChain".equals(filterName)) {
 				filters.add(filterName);
 			}
 		}
 		
+		log.info("  - Filters form Filter.class");
+		Map<String, Filter> filtersMap = webApplicationContext.getBeansOfType(Filter.class);
+		filtersMap.keySet().forEach(filter -> log.info("\t > {}", filter));
+		
+		log.info("  - Filter Details (FilterRegistration & SecurityFilterChain)");
 		filters.forEach(filter -> {
 			log.info("\t > {}", filter.substring(filter.lastIndexOf(".") + 1));
 		});

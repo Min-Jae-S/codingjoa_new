@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import com.codingjoa.security.exception.LoginRequireFieldException;
 import com.codingjoa.util.MessageUtils;
@@ -42,13 +43,11 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 		
 		if ("".equals(memberId)) {
 			throw new LoginRequireFieldException(MessageUtils.getMessage("error.LoginRequireId"));
-		} else if("".equals(memberPassword)) {
+		} else if ("".equals(memberPassword)) {
 			throw new LoginRequireFieldException(MessageUtils.getMessage("error.LoginRequirePassword"));
 		}
 		
 		UserDetails userDetails = userDetailsService.loadUserByUsername(memberId);
-		log.info("\t > after loadUserByUsername result = {}", userDetails);
-		
 		if (!passwordEncoder.matches(memberPassword, userDetails.getPassword())) {
 			throw new BadCredentialsException(
 					MessageUtils.getMessage("error.UsernameNotFoundOrBadCredentials"));
