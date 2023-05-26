@@ -20,7 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Configuration
-@EnableWebSecurity (debug = true)
+@EnableWebSecurity//(debug = true)
 @ComponentScan("com.codingjoa.security.service")
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 

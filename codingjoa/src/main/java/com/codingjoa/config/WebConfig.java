@@ -85,9 +85,9 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 	@Override
 	public void onStartup(ServletContext servletContext) throws ServletException {
 		log.info("## onStartup");
+		super.onStartup(servletContext);
 		registerCharacterEncodingFilter(servletContext);
 		registerLogFilter(servletContext);
-		super.onStartup(servletContext);
 	}
 
 	private void registerCharacterEncodingFilter(ServletContext servletContext) {
@@ -96,7 +96,8 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 		characterEncodingFilter.setEncoding("UTF-8");
 		characterEncodingFilter.setForceEncoding(true);
 		
-		FilterRegistration.Dynamic encodingFilter = servletContext.addFilter("CharacterEncodingFilter", characterEncodingFilter);
+		FilterRegistration.Dynamic encodingFilter = 
+				servletContext.addFilter("CharacterEncodingFilter", characterEncodingFilter);
 		encodingFilter.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, "/*");
 	}
 	
