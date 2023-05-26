@@ -1,8 +1,6 @@
 package com.codingjoa.controller;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -58,12 +56,12 @@ public class ConfigRestController {
 			try {
 				FilterChainProxy filterChainProxy = (FilterChainProxy) webApplicationContext.getBean(filterName);
 				List<SecurityFilterChain> filterChains = filterChainProxy.getFilterChains();
-				List<String> sercurityFilters = filterChains.stream()
+				List<String> securityFilters = filterChains.stream()
 						.flatMap(filterChain -> filterChain.getFilters().stream())
 						.map(filter -> filter.getClass().getName())
 						.collect(Collectors.toList());
-				filters.add(Map.of(filterName, sercurityFilters));
-				sercurityFilters.forEach(filter -> 
+				filters.add(Map.of(filterName, securityFilters));
+				securityFilters.forEach(filter -> 
 					log.info("\t\t - {}", filter.substring(filter.lastIndexOf(".") + 1)));
 			} catch (NoSuchBeanDefinitionException e) {
 				filters.add(filterName);

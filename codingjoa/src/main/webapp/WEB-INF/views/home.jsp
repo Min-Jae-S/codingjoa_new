@@ -142,14 +142,20 @@
 	function makeConfigHtml(list) {
 		let html = "";
 		$.each(list, function(index, item) {
-			html += "<p class='card-text'>";
-			html += "<span class='mr-2'><i class='fa-solid fa-hashtag'></i></span>";
 			if (typeof item == "string") {
-				html += "<span>" + item + "</span>";
+				html += "<p class='card-text'>";
+				html += "<i class='fa-solid fa-hashtag mr-2'></i>" + item + "</p>";
+				//html += "<span class='mr-2'>#</span>" + item + "</p>";
 			} else {
-				$(item, function(key, value) {
-					html += "<span>" + key + "</span><br>";
-					
+				$.each(item, function(key, value) {
+					html += "<p class='card-text'>";
+					html += "<i class='fa-solid fa-hashtag mr-2'></i>" + key + "</p>";
+					//html += "<span class='mr-2'>#</span>" + key + "</p>";
+					$.each(value, function(index, item) {
+						html += "<p class='card-text'>";
+						html += "<i class='fa-solid fa-caret-right ml-4 mr-2'></i>" + item + "</p>";
+						//html += "<span class='ml-4 mr-2'>–</span>" + item + "</p>";
+					});
 				});
 			}
 			html += "</p>";
