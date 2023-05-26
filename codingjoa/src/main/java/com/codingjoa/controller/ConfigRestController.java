@@ -39,37 +39,42 @@ public class ConfigRestController {
 	@GetMapping("/filters")
 	public ResponseEntity<Object> getFilters() {
 		log.info("## getFilters");
-		FilterChainProxy filterChainProxy = webApplicationContext.getBean(FilterChainProxy.class);
-		List<String> filters = filterChainProxy.getFilterChains()
-			.stream()
-			.filter(filterChain -> filterChain instanceof SecurityFilterChain)
-			.findFirst().get().getFilters()
-			.stream()
-			.map(filter -> filter.getClass().getName())
-			.collect(Collectors.toList());
+//		FilterChainProxy filterChainProxy = webApplicationContext.getBean(FilterChainProxy.class);
+//		List<String> filters = filterChainProxy.getFilterChains()
+//			.stream()
+//			.filter(filterChain -> filterChain instanceof SecurityFilterChain)
+//			.findFirst().get().getFilters()
+//			.stream()
+//			.map(filter -> filter.getClass().getName())
+//			.collect(Collectors.toList());
 		
 		ServletContext servletContext = webApplicationContext.getServletContext();
 		Map<String, ? extends FilterRegistration> registrationMap = servletContext.getFilterRegistrations();
-		Map<String, Object> filters2 = new LinkedHashMap<>();
+		Map<String, Object> filters = new LinkedHashMap<>();
 		for (String filterName : registrationMap.keySet()) {
 			try {
-				FilterChainProxy filterChainProxy2 = (FilterChainProxy) webApplicationContext.getBean(filterName);
-				List<String> sercurityFilters = filterChainProxy2.getFilterChains().get(0)
-						.getFilters()
+				FilterChainProxy filterChainProxy = (FilterChainProxy) webApplicationContext.getBean(filterName);
+				List<SecurityFilterChain> filterChains = filterChainProxy.getFilterChains();
+				filterChains.stream()
+					.flatMap(filterChain -> filterChain.getFilters().stream())
+					.forEach(filter -> log.info("\t > {}", filter.getClass().getName()));
+				
+				List<String> sercurityFilters = filterChains.get(0).getFilters()
 						.stream()
 						.map(filter -> filter.getClass().getName())
 						.collect(Collectors.toList());
-				filters2.put(filterName, sercurityFilters);	
+				filters.put(filterName, sercurityFilters);	
 			} catch (NoSuchBeanDefinitionException e) {
-				filters2.put(filterName, null);
+				filters.put(filterName, null);
 			}
 		}
-		log.info("\t > {}", filters2);
 		
-		log.info("  - Filter Details (FilterRegistration & FilterChainProxy)");
-		filters.forEach(filter -> {
-			log.info("\t > {}", filter.substring(filter.lastIndexOf(".") + 1));
-		});
+		log.info("\t > {}", filters);
+		
+//		log.info("  - Filter Details (FilterRegistration & FilterChainProxy)");
+//		filters.forEach(filter -> {
+//			log.info("\t > {}", filter.substring(filter.lastIndexOf(".") + 1));
+//		});
 		
 		return ResponseEntity.ok(SuccessResponse.create().data(filters));
 	}
