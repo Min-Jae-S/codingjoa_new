@@ -144,7 +144,14 @@
 		$.each(list, function(index, item) {
 			html += "<p class='card-text'>";
 			html += "<span class='mr-2'><i class='fa-solid fa-hashtag'></i></span>";
-			html += "<span>" + item + "</span>";
+			if (typeof item == "string") {
+				html += "<span>" + item + "</span>";
+			} else {
+				$(item, function(key, value) {
+					html += "<span>" + key + "</span><br>";
+					
+				});
+			}
 			html += "</p>";
 		});
 		

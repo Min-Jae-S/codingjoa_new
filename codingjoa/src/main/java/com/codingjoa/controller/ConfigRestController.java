@@ -1,5 +1,7 @@
 package com.codingjoa.controller;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,31 +52,23 @@ public class ConfigRestController {
 		
 		ServletContext servletContext = webApplicationContext.getServletContext();
 		Map<String, ? extends FilterRegistration> registrationMap = servletContext.getFilterRegistrations();
-		Map<String, Object> filters = new LinkedHashMap<>();
+		List<Object> filters = new ArrayList<>();
 		for (String filterName : registrationMap.keySet()) {
+			log.info("\t > {}", filterName);
 			try {
 				FilterChainProxy filterChainProxy = (FilterChainProxy) webApplicationContext.getBean(filterName);
 				List<SecurityFilterChain> filterChains = filterChainProxy.getFilterChains();
-				filterChains.stream()
-					.flatMap(filterChain -> filterChain.getFilters().stream())
-					.forEach(filter -> log.info("\t > {}", filter.getClass().getName()));
-				
-				List<String> sercurityFilters = filterChains.get(0).getFilters()
-						.stream()
+				List<String> sercurityFilters = filterChains.stream()
+						.flatMap(filterChain -> filterChain.getFilters().stream())
 						.map(filter -> filter.getClass().getName())
 						.collect(Collectors.toList());
-				filters.put(filterName, sercurityFilters);	
+				filters.add(Map.of(filterName, sercurityFilters));
+				sercurityFilters.forEach(filter -> 
+					log.info("\t\t - {}", filter.substring(filter.lastIndexOf(".") + 1)));
 			} catch (NoSuchBeanDefinitionException e) {
-				filters.put(filterName, null);
+				filters.add(filterName);
 			}
 		}
-		
-		log.info("\t > {}", filters);
-		
-//		log.info("  - Filter Details (FilterRegistration & FilterChainProxy)");
-//		filters.forEach(filter -> {
-//			log.info("\t > {}", filter.substring(filter.lastIndexOf(".") + 1));
-//		});
 		
 		return ResponseEntity.ok(SuccessResponse.create().data(filters));
 	}
