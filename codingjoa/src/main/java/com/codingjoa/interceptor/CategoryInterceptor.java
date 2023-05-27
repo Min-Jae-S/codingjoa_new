@@ -31,8 +31,7 @@ public class CategoryInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		log.info("-------- {} --------", this.getClass().getSimpleName());
-		log.info("## preHandle");
+		log.info("## {} : preHandle", this.getClass().getSimpleName());
 		log.info("\t > URI = {} '{}'", request.getMethod(), getFullURI(request));
 		log.info("\t > dispatcherType = {}", request.getDispatcherType());
 		
@@ -57,46 +56,29 @@ public class CategoryInterceptor implements HandlerInterceptor {
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
-		log.info("## postHandle");
+		log.info("## {} : postHandle", this.getClass().getSimpleName());
+		
+		if (modelAndView == null) return;
 
-		if (modelAndView != null) {
-			log.info("\t > modelAndView is not null");
-			
-			// Return the view name to be resolved by the DispatcherServletvia a ViewResolver, 
-			// or null if we are using a View object.
-			String viewName = modelAndView.getViewName(); 
-			log.info("\t > viewName = {}", viewName);
-			
-			if (viewName == null) {
-				log.info("\t > viewName is null - not add top menu");
-				return;
-			}
-
-			if (viewName.startsWith(FORWARD_URL_PREFIX)) {
-				log.info("\t > viewName starts with '{}' - not add top menu", FORWARD_URL_PREFIX);
-				return;
-			}
-			
-			if (viewName.startsWith(REDIRECT_URL_PREFIX)) {
-				log.info("\t > viewName starts with '{}' ==> not add top menu", REDIRECT_URL_PREFIX);
-				return;
-			}
-			
-			String[] beanNames = webApplicationContext.getBeanNamesForType(MappingJackson2JsonView.class);
-			for (String beanName : beanNames) {
-				if (viewName.equals(beanName)) {
-					log.info("\t > MappingJackson2JsonView beanName = {}", beanName);
-					log.info("\t > viewName equals '{}' ==> not add top menu", beanName);
-					return;	
-				}
-			}
-			
-			List<Category> parentCategoryList = categoryService.findParentCategoryList();
-			modelAndView.addObject("parentCategoryList", parentCategoryList);
-			log.info("\t > add 'top menu' as model attribute");
-		} else {
-			log.info("\t > modelAndView is null");
+		// Return the view name to be resolved by the DispatcherServlet via a ViewResolver, 
+		// or null if we are using a View object.
+		String viewName = modelAndView.getViewName(); 
+		log.info("\t > viewName = {}", viewName);
+		
+		if (viewName == null) return;
+		
+		if (viewName.startsWith(FORWARD_URL_PREFIX)) return;	
+		
+		if (viewName.startsWith(REDIRECT_URL_PREFIX)) 	return;
+		
+		String[] beanNames = webApplicationContext.getBeanNamesForType(MappingJackson2JsonView.class);
+		for (String beanName : beanNames) {
+			if (viewName.equals(beanName)) return;
 		}
+		
+		List<Category> parentCategoryList = categoryService.findParentCategoryList();
+		modelAndView.addObject("parentCategoryList", parentCategoryList);
+		log.info("\t > add top menu as model");
 	}
 	
 	private String getFullURI(HttpServletRequest request) {

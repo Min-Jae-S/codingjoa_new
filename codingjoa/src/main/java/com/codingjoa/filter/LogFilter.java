@@ -15,8 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
-//@WebFilter
+@Slf4j //@WebFilter
 public class LogFilter implements Filter {
 	
 	@Override
@@ -27,8 +26,6 @@ public class LogFilter implements Filter {
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
-		log.info("-------- {} --------", this.getClass().getSimpleName());
-		
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		String fullURI = getFullURI(httpRequest);
 		String method = httpRequest.getMethod();
@@ -36,7 +33,7 @@ public class LogFilter implements Filter {
 		String dispatcherType = httpRequest.getDispatcherType().toString();
 
 		try {
-			log.info("## Request");
+			log.info("## {} : request", this.getClass().getSimpleName());
 			log.info("\t > URI = {} '{}'", method, fullURI);
 			log.info("\t > UUID = {}", uuid);
 			log.info("\t > dispatcherType = {}", dispatcherType);
@@ -44,16 +41,16 @@ public class LogFilter implements Filter {
 			log.info("\t > x-requested-with = {}", httpRequest.getHeader("x-requested-with"));
 			chain.doFilter(request, response);
 		} catch (Exception e) {
-			log.info("## Catch Exception");
+			log.info("## catch Exception");
 			log.info("\t > exception = {}", e.getClass().getSimpleName());
 			log.info("\t > message = {}", e.getMessage());
 			throw e;
 		}
 		
-		log.info("## Response");
-//		log.info("\t > URI = {} '{}'", method, fullURI);
-//		log.info("\t > UUID = {}", uuid);
-//		log.info("\t > dispatcherType = {}", dispatcherType);
+		log.info("## {} : response", this.getClass().getSimpleName());
+		log.info("\t > URI = {} '{}'", method, fullURI);
+		log.info("\t > UUID = {}", uuid);
+		log.info("\t > dispatcherType = {}", dispatcherType);
 	}
 	
 	private String getFullURI(HttpServletRequest request) {
@@ -67,5 +64,4 @@ public class LogFilter implements Filter {
 	    			.append(URLDecoder.decode(queryString, StandardCharsets.UTF_8)).toString();
 	    }
 	}
-	
 }
