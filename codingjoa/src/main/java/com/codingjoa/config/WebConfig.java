@@ -1,5 +1,8 @@
 package com.codingjoa.config;
 
+import java.util.EnumSet;
+
+import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
 import javax.servlet.FilterRegistration;
 import javax.servlet.MultipartConfigElement;
@@ -13,7 +16,6 @@ import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.FrameworkServlet;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
-import com.codingjoa.filter.EncodingFilter;
 import com.codingjoa.filter.LogFilter;
 import com.codingjoa.security.config.SecurityConfig;
 
@@ -89,7 +91,7 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 
 	private void registerCharacterEncodingFilter(ServletContext servletContext) {
 		log.info("## registerCharacterEncodingFilter");
-		CharacterEncodingFilter characterEncodingFilter = new EncodingFilter();
+		CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter();
 		characterEncodingFilter.setEncoding("UTF-8");
 		characterEncodingFilter.setForceEncoding(true);
 		
@@ -97,14 +99,13 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 				servletContext.addFilter("CharacterEncodingFilter", characterEncodingFilter);
 
 		// isMatchAfter가 true면 filter의 순서를 뒤에, false면 순서를 앞으로 결정한다.
-//		encodingFilter.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, "/*");
-		encodingFilter.addMappingForUrlPatterns(null, false, "/*");
+		encodingFilter.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, "/*");
 	}
 	
 	private void registerLogFilter(ServletContext servletContext) {
 		log.info("## registerLogFilter");
 		FilterRegistration.Dynamic logFilter = servletContext.addFilter("LogFilter", new LogFilter());
-//		logFilter.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, "/*");
+		logFilter.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, "/*");
 		logFilter.addMappingForUrlPatterns(null, false, "/*");
 	}
 	

@@ -69,25 +69,25 @@ public class CategoryInterceptor implements HandlerInterceptor {
 			log.info("\t > viewName = {}", viewName);
 			
 			if (viewName == null) {
-				log.info("\t > viewName is null ==> not add 'top menu'");
+				log.info("\t > viewName is null - not add top menu");
 				return;
 			}
 
 			if (viewName.startsWith(FORWARD_URL_PREFIX)) {
-				log.info("\t > viewName starts with '{}' ==> not add 'top menu'", FORWARD_URL_PREFIX);
+				log.info("\t > viewName starts with '{}' - not add top menu", FORWARD_URL_PREFIX);
 				return;
 			}
 			
 			if (viewName.startsWith(REDIRECT_URL_PREFIX)) {
-				log.info("\t > viewName starts with '{}' ==> not add 'top menu'", REDIRECT_URL_PREFIX);
+				log.info("\t > viewName starts with '{}' ==> not add top menu", REDIRECT_URL_PREFIX);
 				return;
 			}
 			
 			String[] beanNames = webApplicationContext.getBeanNamesForType(MappingJackson2JsonView.class);
 			for (String beanName : beanNames) {
-				log.info("\t > registerd MappingJackson2JsonView beanName = {}", beanName);
+				log.info("\t > MappingJackson2JsonView beanName = {}", beanName);
 				if (viewName.equals(beanName)) {
-					log.info("\t > viewName equals '{}' ==> not add 'top menu'", beanName);
+					log.info("\t > viewName equals '{}' ==> not add top menu", beanName);
 					return;	
 				}
 			}
