@@ -86,7 +86,7 @@
 
 <script>
 	$(function() {
-		let url = $("#configHeader a.active").attr("href");
+		/* let url = $("#configHeader a.active").attr("href");
 		getConfig(url, function(result) {
 			let message = result.message;
 			if (message != null) {
@@ -98,7 +98,7 @@
 				let configHtml = makeConfigHtml(list);
 				$("#configBody").html(configHtml);
 			}
-		});
+		}); */
 		
 		$("#configHeader a").on("click", function (e) {
 			e.preventDefault();

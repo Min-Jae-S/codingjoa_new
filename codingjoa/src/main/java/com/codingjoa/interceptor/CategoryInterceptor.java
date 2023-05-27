@@ -40,7 +40,6 @@ public class CategoryInterceptor implements HandlerInterceptor {
 			log.info("\t > handler is null");
 		} else if (handler instanceof HandlerMethod) {
 			HandlerMethod handlerMethod = (HandlerMethod) handler;
-			log.info("\t > handler is not null");
 			log.info("\t > handler = {} [ {} ]", 
 					handlerMethod.getClass().getSimpleName(), handlerMethod.getBeanType().getSimpleName());
 //			if (beanType.isAnnotationPresent(Controller.class)) {
@@ -49,7 +48,6 @@ public class CategoryInterceptor implements HandlerInterceptor {
 //			}
 		} else {
 //			ResourceHttpRequestHandler resourceHandler = (ResourceHttpRequestHandler) handler;
-			log.info("\t > handler is not null");
 			log.info("\t > handler = {}", handler.getClass().getSimpleName());
 		}
 		
@@ -86,8 +84,8 @@ public class CategoryInterceptor implements HandlerInterceptor {
 			
 			String[] beanNames = webApplicationContext.getBeanNamesForType(MappingJackson2JsonView.class);
 			for (String beanName : beanNames) {
-				log.info("\t > MappingJackson2JsonView beanName = {}", beanName);
 				if (viewName.equals(beanName)) {
+					log.info("\t > MappingJackson2JsonView beanName = {}", beanName);
 					log.info("\t > viewName equals '{}' ==> not add top menu", beanName);
 					return;	
 				}

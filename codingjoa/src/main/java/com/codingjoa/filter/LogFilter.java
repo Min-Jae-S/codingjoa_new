@@ -42,8 +42,6 @@ public class LogFilter implements Filter {
 			log.info("\t > dispatcherType = {}", dispatcherType);
 			log.info("\t > accept = {}", httpRequest.getHeader("accept")); // The header name is case insensitive.
 			log.info("\t > x-requested-with = {}", httpRequest.getHeader("x-requested-with"));
-			log.info("\t > parameter =");
-			request.getParameterMap().forEach((key, value) -> log.info("\t\t {} = {}", key, value));
 			chain.doFilter(request, response);
 		} catch (Exception e) {
 			log.info("## Catch Exception");
