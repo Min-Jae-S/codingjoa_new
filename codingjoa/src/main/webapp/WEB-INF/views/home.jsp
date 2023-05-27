@@ -144,16 +144,17 @@
 		$.each(list, function(index, item) {
 			if (typeof item == "string") {
 				html += "<p class='card-text'>";
-				html += "<i class='fa-solid fa-hashtag mr-2'></i>" + item + "</p>";
-				//html += "<span class='mr-2'>#</span>" + item + "</p>";
+				//html += "<i class='fa-solid fa-hashtag mr-2'></i>" + item + "</p>";
+				html += "<i class='fa-solid fa-asterisk mr-2'></i>" + item + "</p>";
 			} else {
 				$.each(item, function(key, value) {
 					html += "<p class='card-text'>";
-					html += "<i class='fa-solid fa-hashtag mr-2'></i>" + key + "</p>";
-					//html += "<span class='mr-2'>#</span>" + key + "</p>";
+					//html += "<i class='fa-solid fa-hashtag mr-2'></i>" + key + "</p>";
+					html += "<i class='fa-solid fa-asterisk mr-2'></i>" +  key + "</p>";
 					$.each(value, function(index, item) {
 						html += "<p class='card-text'>";
 						html += "<i class='fa-solid fa-caret-right ml-4 mr-2'></i>" + item + "</p>";
+						//html += "<i class='fa-solid fa-arrow-right ml-4 mr-2'></i>" + item + "</p>";
 						//html += "<span class='ml-4 mr-2'>–</span>" + item + "</p>";
 					});
 				});
