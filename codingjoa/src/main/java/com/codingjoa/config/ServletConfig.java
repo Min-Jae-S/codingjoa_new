@@ -74,14 +74,12 @@ public class ServletConfig implements WebMvcConfigurer {
 	public void configureViewResolvers(ViewResolverRegistry registry) {
 		WebMvcConfigurer.super.configureViewResolvers(registry);
 		registry.jsp("/WEB-INF/views/", ".jsp");
-//		registry.viewResolver(beanNameViewResolver());
 	}
 
 	@Bean
 	public ViewResolver beanNameViewResolver() {
 		BeanNameViewResolver resolver = new BeanNameViewResolver();
 		resolver.setOrder(Ordered.HIGHEST_PRECEDENCE);
-		
 		return resolver;
 	}
 	
@@ -89,7 +87,6 @@ public class ServletConfig implements WebMvcConfigurer {
 	public MappingJackson2JsonView jsonView() {
 		MappingJackson2JsonView jsonView = new MappingJackson2JsonView();
 		jsonView.setObjectMapper(myObjectMapper());
-		
         return jsonView;
     }
 
