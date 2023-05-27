@@ -79,7 +79,12 @@ public class ConfigRestController {
 		Map<String, HandlerMapping> handlerMappingMap = webApplicationContext.getBeansOfType(HandlerMapping.class);
 		handlerMappingMap.forEach((key, mapping) -> log.info("\t > {} : {}", key, mapping.getClass().getName()));
 		
-		return null;
+		List<String> handlerMappings = handlerMappingMap.values()
+				.stream()
+				.map(mapping -> mapping.getClass().getName())
+				.collect(Collectors.toList());
+		
+		return ResponseEntity.ok(SuccessResponse.create().data(handlerMappings));
 	}
 
 	@GetMapping("/interceptors")
@@ -87,15 +92,13 @@ public class ConfigRestController {
 		log.info("## getInterceptors");
 		Map<String, HandlerInterceptor> handlerInterceptorMap = 
 				webApplicationContext.getBeansOfType(HandlerInterceptor.class);
+		handlerInterceptorMap.forEach((key, interceptor) -> 
+			log.info("\t > {} : {}", key, interceptor.getClass().getName()));
 		
 		List<String> interceptors = handlerInterceptorMap.values()
 				.stream()
 				.map(interceptor -> interceptor.getClass().getName())
 				.collect(Collectors.toList());
-		
-		interceptors.forEach(interceptor -> {
-			log.info("\t > {}", interceptor.substring(interceptor.lastIndexOf(".") + 1));
-		});
 		
 		return ResponseEntity.ok(SuccessResponse.create().data(interceptors));
 	}
@@ -106,7 +109,12 @@ public class ConfigRestController {
 		Map<String, HandlerAdapter> handlerAdapterMap = webApplicationContext.getBeansOfType(HandlerAdapter.class);
 		handlerAdapterMap.forEach((key, adapter) -> log.info("\t > {} : {}", key, adapter.getClass().getName()));
 		
-		return null;
+		List<String> handlerAdapters = handlerAdapterMap.values()
+				.stream()
+				.map(adapter -> adapter.getClass().getName())
+				.collect(Collectors.toList());
+		
+		return ResponseEntity.ok(SuccessResponse.create().data(handlerAdapters));
 	}
 	
 	@GetMapping("/argument-resolvers")
@@ -148,21 +156,21 @@ public class ConfigRestController {
 	@GetMapping("/view-resolvers")
 	public ResponseEntity<Object> getViewResolvers() {
 		log.info("## getViewResolvers");
-		ViewResolverComposite composite = webApplicationContext.getBean(ViewResolverComposite.class);
-		List<String> viewResolvers = composite.getViewResolvers()
-				.stream()
-				.map(resolver -> resolver.getClass().getName())
-				.collect(Collectors.toList());
 		
-		log.info("  - ViewResolvers from getBean(ViewResolverComposite.class)");
-		viewResolvers.forEach(resolver -> {
-			log.info("\t > {}", resolver.substring(resolver.lastIndexOf(".") + 1));
-		});
+//		ViewResolverComposite composite = webApplicationContext.getBean(ViewResolverComposite.class);
+//		List<String> viewResolvers = composite.getViewResolvers()
+//				.stream()
+//				.map(resolver -> resolver.getClass().getName())
+//				.collect(Collectors.toList());
 		
 		Map<String, ViewResolver> viewResolverMap = 
 				webApplicationContext.getBeansOfType(ViewResolver.class);
-		log.info("  - ViewResolvers from getBeansOfType(ViewResolver.class)");
 		viewResolverMap.forEach((key, resolver) -> log.info("\t > {} : {}", key, resolver.getClass().getName()));
+		
+		List<String> viewResolvers = viewResolverMap.values()
+				.stream()
+				.map(resolver -> resolver.getClass().getName())
+				.collect(Collectors.toList());
 		
 		return ResponseEntity.ok(SuccessResponse.create().data(viewResolvers));
 	}
