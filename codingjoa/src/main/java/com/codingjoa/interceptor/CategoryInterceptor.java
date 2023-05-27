@@ -31,9 +31,10 @@ public class CategoryInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		log.info("-------- CategoryInterceptor --------");
+		log.info("-------- {} --------", this.getClass().getSimpleName());
 		log.info("## preHandle");
 		log.info("\t > URI = {} '{}'", request.getMethod(), getFullURI(request));
+		log.info("\t > dispatcherType = {}", request.getDispatcherType());
 		
 		if (handler == null) {
 			log.info("\t > handler is null");
