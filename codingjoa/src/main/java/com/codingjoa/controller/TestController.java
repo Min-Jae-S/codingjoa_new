@@ -148,8 +148,7 @@ public class TestController {
 	public ModelAndView testMavJson() {
 		log.info("## testMavJson called...");
 		
-		//ModelAndView mav = new ModelAndView("jsonView");
-		ModelAndView mav = new ModelAndView("JSONView");
+		ModelAndView mav = new ModelAndView("jsonView");
 		mav.addObject("test", new Test());
 		
 		return mav;

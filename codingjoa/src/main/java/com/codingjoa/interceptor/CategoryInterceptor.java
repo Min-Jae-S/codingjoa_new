@@ -7,9 +7,11 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import com.codingjoa.entity.Category;
 import com.codingjoa.service.CategoryService;
@@ -23,7 +25,7 @@ public class CategoryInterceptor implements HandlerInterceptor {
 	
 	private static final String FORWARD_URL_PREFIX = "forward:";
 	private static final String REDIRECT_URL_PREFIX = "redirect:";
-	private static final String JSON_VIEW = "jsonView";
+	private WebApplicationContext webApplicationContext;
 	private CategoryService categoryService;
 
 	@Override
@@ -63,27 +65,31 @@ public class CategoryInterceptor implements HandlerInterceptor {
 			
 			// Return the view name to be resolved by the DispatcherServletvia a ViewResolver, 
 			// or null if we are using a View object.
-			String view = modelAndView.getViewName(); 
-			log.info("\t > view = {}", view);
+			String viewName = modelAndView.getViewName(); 
+			log.info("\t > viewName = {}", viewName);
 			
-			if (view == null) {
-				log.info("\t > view is null ==> not add 'top menu'");
+			if (viewName == null) {
+				log.info("\t > viewName is null ==> not add 'top menu'");
 				return;
 			}
 
-			if (view.startsWith(FORWARD_URL_PREFIX)) {
-				log.info("\t > view starts with '{}' ==> not add 'top menu'", FORWARD_URL_PREFIX);
+			if (viewName.startsWith(FORWARD_URL_PREFIX)) {
+				log.info("\t > viewName starts with '{}' ==> not add 'top menu'", FORWARD_URL_PREFIX);
 				return;
 			}
 			
-			if (view.startsWith(REDIRECT_URL_PREFIX)) {
-				log.info("\t > view starts with '{}' ==> not add 'top menu'", REDIRECT_URL_PREFIX);
+			if (viewName.startsWith(REDIRECT_URL_PREFIX)) {
+				log.info("\t > viewName starts with '{}' ==> not add 'top menu'", REDIRECT_URL_PREFIX);
 				return;
 			}
 			
-			if (view.equals(JSON_VIEW)) {
-				log.info("\t > view equals '{}' ==> not add 'top menu'", JSON_VIEW);
-				return;			
+			String[] beanNames = webApplicationContext.getBeanNamesForType(MappingJackson2JsonView.class);
+			for (String beanName : beanNames) {
+				log.info("\t > registerd MappingJackson2JsonView beanName = {}", beanName);
+				if (viewName.equals(beanName)) {
+					log.info("\t > viewName equals '{}' ==> not add 'top menu'", beanName);
+					return;	
+				}
 			}
 			
 			List<Category> parentCategoryList = categoryService.findParentCategoryList();

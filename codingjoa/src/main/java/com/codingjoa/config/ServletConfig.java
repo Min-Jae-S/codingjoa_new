@@ -27,6 +27,7 @@ import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
+import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
@@ -68,12 +69,16 @@ public class ServletConfig implements WebMvcConfigurer {
 	private Environment env;
 	
 	@Autowired
+	private WebApplicationContext webApplicationContext;
+	
+	@Autowired
 	private CategoryService categoryService;
 
 	@Override
 	public void configureViewResolvers(ViewResolverRegistry registry) {
 		WebMvcConfigurer.super.configureViewResolvers(registry);
 		registry.jsp("/WEB-INF/views/", ".jsp");
+		//registry.viewResolver(beanNameViewResolver());
 	}
 
 	@Bean
@@ -114,7 +119,7 @@ public class ServletConfig implements WebMvcConfigurer {
 
 	@Bean
 	public CategoryInterceptor categoryInterceptor() {
-		return new CategoryInterceptor(categoryService);
+		return new CategoryInterceptor(webApplicationContext, categoryService);
 	}
 
 	@Override
