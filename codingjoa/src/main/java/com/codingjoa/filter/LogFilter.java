@@ -50,7 +50,7 @@ public class LogFilter implements Filter {
 			throw e;
 		}
 		
-//		log.info("## Response");
+		log.info("## Response");
 //		log.info("\t > URI = {} '{}'", method, fullURI);
 //		log.info("\t > UUID = {}", uuid);
 //		log.info("\t > dispatcherType = {}", dispatcherType);

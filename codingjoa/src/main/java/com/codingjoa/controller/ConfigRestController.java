@@ -17,8 +17,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.servlet.HandlerAdapter;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.HandlerMapping;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.handler.HandlerExceptionResolverComposite;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
@@ -70,6 +72,15 @@ public class ConfigRestController {
 		
 		return ResponseEntity.ok(SuccessResponse.create().data(filters));
 	}
+	
+	@GetMapping("/handler-mappings")
+	public ResponseEntity<Object> getHandlerMappings() {
+		log.info("## getHandlerMappings");
+		Map<String, HandlerMapping> handlerMappingMap = webApplicationContext.getBeansOfType(HandlerMapping.class);
+		handlerMappingMap.forEach((key, mapping) -> log.info("\t > {} : {}", key, mapping.getClass().getName()));
+		
+		return null;
+	}
 
 	@GetMapping("/interceptors")
 	public ResponseEntity<Object> getInterceptors() {
@@ -87,6 +98,15 @@ public class ConfigRestController {
 		});
 		
 		return ResponseEntity.ok(SuccessResponse.create().data(interceptors));
+	}
+	
+	@GetMapping("/handler-adapters")
+	public ResponseEntity<Object> getHandlerAdapters() {
+		log.info("## getHandlerAdapters");
+		Map<String, HandlerAdapter> handlerAdapterMap = webApplicationContext.getBeansOfType(HandlerAdapter.class);
+		handlerAdapterMap.forEach((key, adapter) -> log.info("\t > {} : {}", key, adapter.getClass().getName()));
+		
+		return null;
 	}
 	
 	@GetMapping("/argument-resolvers")

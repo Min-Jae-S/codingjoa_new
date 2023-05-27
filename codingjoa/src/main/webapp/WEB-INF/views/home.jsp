@@ -49,25 +49,31 @@
 				<div class="card-header" id="configHeader">
 					<ul class="nav nav-tabs card-header-tabs">
 						<li class="nav-item">
-							<a class="nav-link active" href="${contextPath}/config/filters">Filters</a>
+							<a class="nav-link active" href="${contextPath}/config/filters">Filter</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="${contextPath}/config/interceptors">Interceptors</a>
+							<a class="nav-link" href="${contextPath}/config/handler-mappings">HandlerMapping</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="${contextPath}/config/argument-resolvers">ArgumentResolvers</a>
+							<a class="nav-link" href="${contextPath}/config/interceptors">Interceptor</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="${contextPath}/config/return-value-handlers">ReturnValueHandlers</a>
+							<a class="nav-link" href="${contextPath}/config/handler-adapters">HandlerAdapter</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="${contextPath}/config/view-resolvers">ViewResolvers</a>
+							<a class="nav-link" href="${contextPath}/config/argument-resolvers">ArgumentResolver</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="${contextPath}/config/message-converters">HttpMessageConverters</a>
+							<a class="nav-link" href="${contextPath}/config/return-value-handlers">ReturnValueHandler</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="${contextPath}/config/exception-resolvers">ExceptionResolvers</a>
+							<a class="nav-link" href="${contextPath}/config/view-resolvers">ViewResolver</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="${contextPath}/config/message-converters">HttpMessageConverter</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="${contextPath}/config/exception-resolvers">ExceptionResolver</a>
 						</li>
 					</ul>
 				</div>
