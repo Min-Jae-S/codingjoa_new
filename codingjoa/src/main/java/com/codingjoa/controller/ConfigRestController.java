@@ -167,10 +167,19 @@ public class ConfigRestController {
 				webApplicationContext.getBeansOfType(ViewResolver.class);
 		viewResolverMap.forEach((key, resolver) -> log.info("\t > {} : {}", key, resolver.getClass().getName()));
 		
-		List<String> viewResolvers = viewResolverMap.values()
-				.stream()
-				.map(resolver -> resolver.getClass().getName())
-				.collect(Collectors.toList());
+		List<String> viewResolvers = new ArrayList<>();
+		for (ViewResolver viewResolver : viewResolverMap.values()) {
+			if (viewResolver instanceof ViewResolverComposite) {
+				ViewResolverComposite composite = (ViewResolverComposite) viewResolver;
+				List<String> compositeResovlers = composite.getViewResolvers()
+						.stream()
+						.map(resolver -> resolver.getClass().getName())
+						.collect(Collectors.toList());
+				viewResolvers.addAll(compositeResovlers);
+			} else {
+				viewResolvers.add(viewResolver.getClass().getName());
+			}
+		}
 		
 		return ResponseEntity.ok(SuccessResponse.create().data(viewResolvers));
 	}
