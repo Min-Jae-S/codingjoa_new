@@ -147,7 +147,8 @@ public class PasswordValidator implements Validator {
 			UserDetailsDto userDetailsDto = (UserDetailsDto) principal;
 			currentId = userDetailsDto.getMember().getMemberId();
 		} else if (principal instanceof String) {
-			currentId = null; // principal = anonymousUser
+			// principal = anonymousUser
+			currentId = null;
 		}
 
 		return currentId;
