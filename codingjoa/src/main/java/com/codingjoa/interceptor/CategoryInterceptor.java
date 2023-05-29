@@ -19,6 +19,11 @@ import com.codingjoa.service.CategoryService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+/*
+ * 	인터셉터는 서블릿이 제공하는 기능이 아니기 때문에 DispatcherType을 쓸 수 없다.
+ * 	excludePathPatterns 를 이용하여 경로를 제거한다.
+ */
+
 @Slf4j
 @AllArgsConstructor
 public class CategoryInterceptor implements HandlerInterceptor {
@@ -58,11 +63,15 @@ public class CategoryInterceptor implements HandlerInterceptor {
 			ModelAndView modelAndView) throws Exception {
 		log.info("## {} : postHandle", this.getClass().getSimpleName());
 		
-		if (modelAndView == null) return;
-
+		if (modelAndView == null) {
+			log.info("\t > modelAndView is null");
+			return;
+		}
+		
 		// Return the view name to be resolved by the DispatcherServlet via a ViewResolver, 
 		// or null if we are using a View object.
 		String viewName = modelAndView.getViewName(); 
+		log.info("\t > modelAndView is not null");
 		log.info("\t > viewName = {}", viewName);
 		
 		if (viewName == null) return;

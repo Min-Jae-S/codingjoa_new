@@ -52,7 +52,7 @@
 							<a class="nav-link active" href="${contextPath}/config/filters">Filter</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="${contextPath}/config/handler-mappings">HandlerMapping</a>
+							<a class="nav-link" href="${contextPath}/config/handler-mappings">HandlerMapping &amp; Handler</a>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" href="${contextPath}/config/interceptors">Interceptor</a>
@@ -73,7 +73,7 @@
 							<a class="nav-link" href="${contextPath}/config/message-converters">HttpMessageConverter</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="${contextPath}/config/exception-resolvers">ExceptionResolver</a>
+							<a class="nav-link" href="${contextPath}/config/handler-exception-resolvers">HandlerExceptionResolver</a>
 						</li>
 					</ul>
 				</div>

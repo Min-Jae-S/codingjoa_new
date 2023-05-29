@@ -17,13 +17,21 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerAdapter;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.HandlerMapping;
 import org.springframework.web.servlet.ViewResolver;
+import org.springframework.web.servlet.function.support.RouterFunctionMapping;
+import org.springframework.web.servlet.handler.AbstractHandlerMapping;
+import org.springframework.web.servlet.handler.AbstractHandlerMethodMapping;
+import org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping;
 import org.springframework.web.servlet.handler.HandlerExceptionResolverComposite;
+import org.springframework.web.servlet.handler.SimpleUrlHandlerMapping;
+import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
+import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 import org.springframework.web.servlet.view.ViewResolverComposite;
 
 import com.codingjoa.response.SuccessResponse;
@@ -79,10 +87,35 @@ public class ConfigRestController {
 		Map<String, HandlerMapping> handlerMappingMap = webApplicationContext.getBeansOfType(HandlerMapping.class);
 		handlerMappingMap.forEach((key, mapping) -> log.info("\t > {} : {}", key, mapping.getClass().getName()));
 		
-		List<String> handlerMappings = handlerMappingMap.values()
-				.stream()
-				.map(mapping -> mapping.getClass().getName())
-				.collect(Collectors.toList());
+		List<Object> handlerMappings = new ArrayList<>();
+//		List<String> handlerMappings = handlerMappingMap.values()
+//				.stream()
+//				.map(mapping -> mapping.getClass().getName())
+//				.collect(Collectors.toList());
+		
+		for (HandlerMapping handlerMapping : handlerMappingMap.values()) {
+			log.info("\t > {}", handlerMapping.getClass().getSimpleName());
+			if (handlerMapping instanceof RequestMappingHandlerMapping) {
+				RequestMappingHandlerMapping mapping = (RequestMappingHandlerMapping) handlerMapping;
+				List<HandlerMethod> handlerMethod = mapping.getHandlerMethods().values()
+					.stream()
+					.map(handler -> handler.getResolvedFromHandlerMethod())
+					.collect(Collectors.toList());
+				log.info("{}", handlerMethod);
+			} else if (handlerMapping instanceof BeanNameUrlHandlerMapping) {
+				BeanNameUrlHandlerMapping mapping = (BeanNameUrlHandlerMapping) handlerMapping;
+				mapping.getHandlerMap().values().forEach(handler -> log.info("\t\t - {}", handler.getClass().getSimpleName()));
+			} else if (handlerMapping instanceof RouterFunctionMapping) {
+				RouterFunctionMapping mapping = (RouterFunctionMapping) handlerMapping;
+				if (mapping.getRouterFunction() == null) {
+					handlerMappings.add(mapping.getClass().getName());
+				}
+				log.info("\t\t - {}", mapping.getRouterFunction());
+			} else if (handlerMapping instanceof SimpleUrlHandlerMapping) {
+				SimpleUrlHandlerMapping mapping = (SimpleUrlHandlerMapping) handlerMapping;
+				mapping.getHandlerMap().values().forEach(handler -> log.info("\t\t - {}",handler.getClass().getSimpleName()));
+			}
+		}
 		
 		return ResponseEntity.ok(SuccessResponse.create().data(handlerMappings));
 	}
@@ -116,7 +149,7 @@ public class ConfigRestController {
 		
 		return ResponseEntity.ok(SuccessResponse.create().data(handlerAdapters));
 	}
-	
+
 	@GetMapping("/argument-resolvers")
 	public ResponseEntity<Object> getArgumentResolvers() {
 		log.info("## getArgumentResolvers");
@@ -200,9 +233,9 @@ public class ConfigRestController {
 		return ResponseEntity.ok(SuccessResponse.create().data(messageConverters));
 	}
 	
-	@GetMapping("/exception-resolvers")
-	public ResponseEntity<Object> getExceptionResolvers() {
-		log.info("## getExceptionResolvers");
+	@GetMapping("/handler-exception-resolvers")
+	public ResponseEntity<Object> getHandlerExceptionResolvers() {
+		log.info("## getHandlerExceptionResolvers");
 		HandlerExceptionResolverComposite composite = 
 				webApplicationContext.getBean(HandlerExceptionResolverComposite.class);
 		List<String> exceptionResolvers = composite.getExceptionResolvers()
