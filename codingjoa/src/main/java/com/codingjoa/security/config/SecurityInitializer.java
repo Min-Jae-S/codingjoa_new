@@ -26,11 +26,9 @@ public class SecurityInitializer extends AbstractSecurityWebApplicationInitializ
 	/*
 	 * Authentication authentication = SecurityContextHolder.getContext().getAuthentication(); 
 	 * 	if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {
-	 * 		// anonymousUser 
-	 * 		// <sec:authorize access="isAnonymous()"> ... </sec:authorize> 
+	 * 		// <sec:authorize access="isAnonymous()"></sec:authorize> 
 	 * 	} else if(authentication.isAuthenticated()) { 
-	 * 		// authenticatedUser 
-	 * 		// <sec:authorize access="isAuthenticated()"> ... </sec:authorize> 
+	 * 		// <sec:authorize access="isAuthenticated()"></sec:authorize> 
 	 * 	}
 	 */
 	
