@@ -53,6 +53,7 @@ public class LogFilter implements Filter {
 		log.info("\t > URI = {} '{}'", method, fullURI);
 		log.info("\t > UUID = {}", uuid);
 		log.info("\t > dispatcherType = {}", dispatcherType);
+		log.info("\t > contentType = {}", httpResponse.getContentType());
 	}
 	
 	private String getFullURI(HttpServletRequest request) {

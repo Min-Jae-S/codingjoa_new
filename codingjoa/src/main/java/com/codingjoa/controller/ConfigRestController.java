@@ -18,19 +18,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerAdapter;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.HandlerMapping;
 import org.springframework.web.servlet.ViewResolver;
+import org.springframework.web.servlet.function.RouterFunction;
 import org.springframework.web.servlet.function.support.RouterFunctionMapping;
-import org.springframework.web.servlet.handler.AbstractHandlerMapping;
-import org.springframework.web.servlet.handler.AbstractHandlerMethodMapping;
 import org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping;
 import org.springframework.web.servlet.handler.HandlerExceptionResolverComposite;
 import org.springframework.web.servlet.handler.SimpleUrlHandlerMapping;
-import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 import org.springframework.web.servlet.view.ViewResolverComposite;
@@ -88,11 +85,6 @@ public class ConfigRestController {
 		Map<String, HandlerMapping> handlerMappingMap = webApplicationContext.getBeansOfType(HandlerMapping.class);
 		handlerMappingMap.forEach((key, mapping) -> log.info("\t > {} : {}", key, mapping));
 		
-//		List<String> handlerMappings = handlerMappingMap.values()
-//				.stream()
-//				.map(mapping -> mapping.getClass().getName())
-//				.collect(Collectors.toList());
-		
 		List<Object> handlerMappings = new ArrayList<>();
 		for (HandlerMapping handlerMapping : handlerMappingMap.values()) {
 			String handlerMappingName =  handlerMapping.getClass().getName();
@@ -105,15 +97,24 @@ public class ConfigRestController {
 				handlerMappings.add(Map.of(handlerMappingName, handlers));
 			} else if (handlerMapping instanceof BeanNameUrlHandlerMapping) {
 				BeanNameUrlHandlerMapping mapping = (BeanNameUrlHandlerMapping) handlerMapping;
-				log.info("\t\t BeanNameUrlHandlerMapping.getHandlerMap = {}", mapping.getHandlerMap());
-				Set<String> handlers = mapping.getHandlerMap().values()
-						.stream()
-						.map(handler -> handler.getClass().getName())
-						.collect(Collectors.toSet());
-				handlerMappings.add(Map.of(handlerMappingName, handlers));
+				Map<String, Object> map = mapping.getHandlerMap();
+				if (map.isEmpty()) {
+					handlerMappings.add(handlerMappingName);
+				} else {
+					Set<String> handlers = mapping.getHandlerMap().values()
+							.stream()
+							.map(handler -> handler.getClass().getName())
+							.collect(Collectors.toSet());
+					handlerMappings.add(Map.of(handlerMappingName, handlers));
+				}
 			} else if (handlerMapping instanceof RouterFunctionMapping) {
 				RouterFunctionMapping mapping = (RouterFunctionMapping) handlerMapping;
-				handlerMappings.add(Map.of(handlerMappingName, mapping.getRouterFunction()));
+				RouterFunction<?> routerFunction = mapping.getRouterFunction();
+				if (routerFunction == null) {
+					handlerMappings.add(handlerMappingName);
+				} else {
+					handlerMappings.add(Map.of(handlerMappingName,routerFunction));
+				}
 			} else if (handlerMapping instanceof SimpleUrlHandlerMapping) {
 				SimpleUrlHandlerMapping mapping = (SimpleUrlHandlerMapping) handlerMapping;
 				Set<String> handlers = mapping.getHandlerMap().values()
