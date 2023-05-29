@@ -27,15 +27,11 @@ public class MyExceptionResolver implements HandlerExceptionResolver {
 		log.info("\t > exception = {}", ex.getClass().getSimpleName());
 		
 		if (handler == null) {
-			log.info("\t > handler is null");
+			log.info("\t > handler is not resolved");
 		} else if (handler instanceof HandlerMethod) {
 			HandlerMethod handlerMethod = (HandlerMethod) handler;
-			log.info("\t > handler is not null");
-			log.info("\t > handler = {} [ {} ]", 
-					handlerMethod.getClass().getSimpleName(), handlerMethod.getBeanType().getSimpleName());
+			log.info("\t > handler = {}", handlerMethod.getBeanType().getSimpleName());
 		} else {
-			//ResourceHttpRequestHandler resourceHandler = (ResourceHttpRequestHandler) handler;
-			log.info("\t > handler is not null");
 			log.info("\t > handler = {}", handler.getClass().getSimpleName());
 		}
 

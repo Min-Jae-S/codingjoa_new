@@ -31,13 +31,12 @@ public class LogFilter implements Filter {
 		String fullURI = getFullURI(httpRequest);
 		String method = httpRequest.getMethod();
 		String uuid = UUID.randomUUID().toString();
-		String dispatcherType = httpRequest.getDispatcherType().toString();
-
+		
 		try {
 			log.info("## {} : request", this.getClass().getSimpleName());
 			log.info("\t > URI = {} '{}'", method, fullURI);
 			log.info("\t > UUID = {}", uuid);
-			log.info("\t > dispatcherType = {}", dispatcherType);
+			log.info("\t > dispatcherType = {}", httpRequest.getDispatcherType());
 			log.info("\t > accept = {}", httpRequest.getHeader("accept")); // The header name is case insensitive.
 			log.info("\t > x-requested-with = {}", httpRequest.getHeader("x-requested-with"));
 			log.info("\t > contentType = {}", httpResponse.getContentType());
@@ -52,7 +51,7 @@ public class LogFilter implements Filter {
 		log.info("## {} : response", this.getClass().getSimpleName());
 		log.info("\t > URI = {} '{}'", method, fullURI);
 		log.info("\t > UUID = {}", uuid);
-		log.info("\t > dispatcherType = {}", dispatcherType);
+		log.info("\t > dispatcherType = {}", httpRequest.getDispatcherType());
 		log.info("\t > contentType = {}", httpResponse.getContentType());
 	}
 	

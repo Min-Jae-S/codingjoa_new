@@ -33,25 +33,26 @@ public class CategoryInterceptor implements HandlerInterceptor {
 	private WebApplicationContext webApplicationContext;
 	private CategoryService categoryService;
 
+	/*
+	 * 매핑된 핸들러가 존재하지 않거나 매핑 정보를 찾을 수 없는 경우 preHandle 메서드는 호출되지 않는다. 
+	 * 따라서 preHandle 메서드 내에서 handler 매개변수는 항상 null이 아닌 유효한 핸들러를 가리키게 된다.
+	 */
+	
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		log.info("## {} : preHandle", this.getClass().getSimpleName());
 		log.info("\t > URI = {} '{}'", request.getMethod(), getFullURI(request));
 		log.info("\t > dispatcherType = {}", request.getDispatcherType());
-		
-		if (handler == null) {
-			log.info("\t > handler is null");
-		} else if (handler instanceof HandlerMethod) {
+
+		if (handler instanceof HandlerMethod) {
 			HandlerMethod handlerMethod = (HandlerMethod) handler;
-			log.info("\t > handler = {} [ {} ]", 
-					handlerMethod.getClass().getSimpleName(), handlerMethod.getBeanType().getSimpleName());
+			log.info("\t > handler = {}", handlerMethod.getBeanType().getSimpleName());
 //			if (beanType.isAnnotationPresent(Controller.class)) {
 //				List<Category> parentCategoryList = categoryService.findParentCategoryList();
 //				request.setAttribute("parentCategoryList", parentCategoryList);
 //			}
 		} else {
-//			ResourceHttpRequestHandler resourceHandler = (ResourceHttpRequestHandler) handler;
 			log.info("\t > handler = {}", handler.getClass().getSimpleName());
 		}
 		
@@ -71,8 +72,7 @@ public class CategoryInterceptor implements HandlerInterceptor {
 		// Return the view name to be resolved by the DispatcherServlet via a ViewResolver, 
 		// or null if we are using a View object.
 		String viewName = modelAndView.getViewName(); 
-		log.info("\t > modelAndView is not null");
-		log.info("\t > viewName = {}", viewName);
+		log.info("\t > modelAndView is not null, viewName = {}", viewName);
 		
 		if (viewName == null) return;
 		
