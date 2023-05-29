@@ -3,6 +3,7 @@ package com.codingjoa.controller;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.servlet.FilterRegistration;
@@ -85,35 +86,41 @@ public class ConfigRestController {
 	public ResponseEntity<Object> getHandlerMappings() {
 		log.info("## getHandlerMappings");
 		Map<String, HandlerMapping> handlerMappingMap = webApplicationContext.getBeansOfType(HandlerMapping.class);
-		handlerMappingMap.forEach((key, mapping) -> log.info("\t > {} : {}", key, mapping.getClass().getName()));
+		handlerMappingMap.forEach((key, mapping) -> log.info("\t > {} : {}", key, mapping));
 		
-		List<Object> handlerMappings = new ArrayList<>();
 //		List<String> handlerMappings = handlerMappingMap.values()
 //				.stream()
 //				.map(mapping -> mapping.getClass().getName())
 //				.collect(Collectors.toList());
 		
+		List<Object> handlerMappings = new ArrayList<>();
 		for (HandlerMapping handlerMapping : handlerMappingMap.values()) {
-			log.info("\t > {}", handlerMapping.getClass().getSimpleName());
+			String handlerMappingName =  handlerMapping.getClass().getName();
 			if (handlerMapping instanceof RequestMappingHandlerMapping) {
 				RequestMappingHandlerMapping mapping = (RequestMappingHandlerMapping) handlerMapping;
-				List<HandlerMethod> handlerMethod = mapping.getHandlerMethods().values()
+				Set<String> handlers = mapping.getHandlerMethods().values()
 					.stream()
-					.map(handler -> handler.getResolvedFromHandlerMethod())
-					.collect(Collectors.toList());
-				log.info("{}", handlerMethod);
+					.map(handler -> handler.getClass().getName())
+					.collect(Collectors.toSet());
+				handlerMappings.add(Map.of(handlerMappingName, handlers));
 			} else if (handlerMapping instanceof BeanNameUrlHandlerMapping) {
 				BeanNameUrlHandlerMapping mapping = (BeanNameUrlHandlerMapping) handlerMapping;
-				mapping.getHandlerMap().values().forEach(handler -> log.info("\t\t - {}", handler.getClass().getSimpleName()));
+				Set<String> handlers = mapping.getHandlerMap().values()
+						.stream()
+						.map(handler -> handler.getClass().getName())
+						.collect(Collectors.toSet());
+				handlerMappings.add(Map.of(handlerMappingName, handlers));
 			} else if (handlerMapping instanceof RouterFunctionMapping) {
 				RouterFunctionMapping mapping = (RouterFunctionMapping) handlerMapping;
-				if (mapping.getRouterFunction() == null) {
-					handlerMappings.add(mapping.getClass().getName());
-				}
+				handlerMappings.add(Map.of(handlerMappingName, mapping.getRouterFunction()));
 				log.info("\t\t - {}", mapping.getRouterFunction());
 			} else if (handlerMapping instanceof SimpleUrlHandlerMapping) {
 				SimpleUrlHandlerMapping mapping = (SimpleUrlHandlerMapping) handlerMapping;
-				mapping.getHandlerMap().values().forEach(handler -> log.info("\t\t - {}",handler.getClass().getSimpleName()));
+				Set<String> handlers = mapping.getHandlerMap().values()
+						.stream()
+						.map(handler -> handler.getClass().getName())
+						.collect(Collectors.toSet());
+				handlerMappings.add(Map.of(handlerMappingName, handlers));
 			}
 		}
 		
