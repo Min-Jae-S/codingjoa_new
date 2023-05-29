@@ -105,6 +105,7 @@ public class ConfigRestController {
 				handlerMappings.add(Map.of(handlerMappingName, handlers));
 			} else if (handlerMapping instanceof BeanNameUrlHandlerMapping) {
 				BeanNameUrlHandlerMapping mapping = (BeanNameUrlHandlerMapping) handlerMapping;
+				log.info("\t\t BeanNameUrlHandlerMapping.getHandlerMap = {}", mapping.getHandlerMap());
 				Set<String> handlers = mapping.getHandlerMap().values()
 						.stream()
 						.map(handler -> handler.getClass().getName())
@@ -113,7 +114,6 @@ public class ConfigRestController {
 			} else if (handlerMapping instanceof RouterFunctionMapping) {
 				RouterFunctionMapping mapping = (RouterFunctionMapping) handlerMapping;
 				handlerMappings.add(Map.of(handlerMappingName, mapping.getRouterFunction()));
-				log.info("\t\t - {}", mapping.getRouterFunction());
 			} else if (handlerMapping instanceof SimpleUrlHandlerMapping) {
 				SimpleUrlHandlerMapping mapping = (SimpleUrlHandlerMapping) handlerMapping;
 				Set<String> handlers = mapping.getHandlerMap().values()

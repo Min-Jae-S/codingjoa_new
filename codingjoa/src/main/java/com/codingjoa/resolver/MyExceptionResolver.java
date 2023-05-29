@@ -23,6 +23,7 @@ public class MyExceptionResolver implements HandlerExceptionResolver {
 		log.info("\t > dispatcherType = {}",  request.getDispatcherType());
 		log.info("\t > accept = {}", request.getHeader("accept"));
 		log.info("\t > x-requested-with = {}", request.getHeader("x-requested-with"));
+		log.info("\t > contentType = {}", response.getContentType());
 		log.info("\t > exception = {}", ex.getClass().getSimpleName());
 		
 		if (handler == null) {
