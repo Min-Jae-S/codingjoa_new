@@ -58,6 +58,9 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 			log.info("\t > handler = {}", handler.getClass().getSimpleName());
 		}
 		
+		Authentication authentiacation = SecurityContextHolder.getContext().getAuthentication();
+		log.info("\t > security authentication = {}", authentiacation);
+		
 		return true;
 	}
 	
@@ -90,9 +93,6 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 		List<Category> parentCategoryList = categoryService.findParentCategoryList();
 		modelAndView.addObject("parentCategoryList", parentCategoryList);
 		log.info("\t > add top menu as model");
-		
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		log.info("\t > authentication = {}", authentication);
 	}
 	
 	private String getFullURI(HttpServletRequest request) {
