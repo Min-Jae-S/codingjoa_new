@@ -32,6 +32,7 @@ public class LogFilter implements Filter {
 		String excludePattern = httpRequest.getContextPath() + "/resources/"; // /codingjoa/resources/*
 		
 		if (requestURI.startsWith(excludePattern)) {
+			log.info("## RequestURI starts with excludePattern");
 			log.info("\t > requestURI = {}", requestURI);
 			log.info("\t > excludePattern = {}", excludePattern);
 		} else {
