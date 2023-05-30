@@ -3,7 +3,6 @@ package com.codingjoa.filter;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
-import java.util.Enumeration;
 import java.util.UUID;
 
 import javax.servlet.Filter;
@@ -41,11 +40,6 @@ public class LogFilter implements Filter {
 			log.info("\t > dispatcherType = {}", httpRequest.getDispatcherType());
 			log.info("\t > accept = {}", httpRequest.getHeader("accept")); // The header name is case insensitive.
 			log.info("\t > x-requested-with = {}", httpRequest.getHeader("x-requested-with"));
-			log.info("\t > attribute name = {}");
-			Enumeration<String> attributeNames = httpRequest.getAttributeNames();
-			while (attributeNames.hasMoreElements()) {
-				log.info("\t\t > {}", attributeNames.nextElement());
-			}
 			chain.doFilter(request, response);
 		} catch (Exception e) {
 			log.info("## catch Exception");

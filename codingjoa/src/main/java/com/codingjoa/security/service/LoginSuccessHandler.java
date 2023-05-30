@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -23,9 +24,10 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
 		log.info("-------- {} --------", this.getClass().getSimpleName());
-		log.info("\t > response contentType = {}", response.getContentType());
+		log.info("\t > before set contentType = {}", response.getContentType());
 		
-		response.setContentType("text/html; charset=utf-8");
+		response.setContentType(MediaType.TEXT_HTML.toString());
+		log.info("\t > after set contentType = {}", response.getContentType());
 		
 		PrintWriter writer = response.getWriter();
 		writer.println("<script>");

@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.TimeZone;
 
+import javax.annotation.Resource;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -37,11 +38,15 @@ import lombok.extern.slf4j.Slf4j;
 public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
 	private final String DEFAULT_FAILURE_URL = "/member/login";
+
+	@Resource(name = "myObjectMapper")
+	private ObjectMapper objectMapper;
 	
 	@Override
 	public void commence(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException authException) throws IOException, ServletException {
 		log.info("-------- {} --------", this.getClass().getSimpleName());
+		log.info("\t > objectMapper = {}", objectMapper);
 		
 		/*	# ajax 요청 확인 
 		 	https://0taeng.tistory.com/30
@@ -79,7 +84,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
 	
 	private boolean isAjaxRequest(HttpServletRequest request) {
 		String ajaxHeader = request.getHeader("x-requested-with");
-		log.info("\t > x-requested-with = {}", ajaxHeader);
+		log.info("\t > ajaxHeader(x-requested-with) = {}", ajaxHeader);
 		
 		boolean ajax = "XMLHttpRequest".equals(ajaxHeader);
 		log.info("\t > ajax = {}", ajax);
