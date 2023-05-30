@@ -6,6 +6,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -35,13 +36,19 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
 				e instanceof UsernameNotFoundException || e instanceof BadCredentialsException) {
 			errorMessage = e.getMessage();
 		}
+		log.info("\t > exception = {}", e.getClass().getSimpleName());
+		log.info("\t > errorMessage = {}", errorMessage);
 		
 		ErrorResponse errorResponse = ErrorResponse.create().errorMessage(errorMessage);
-		log.info("\t > exception = {}", e.getClass().getSimpleName());
-		log.info("\t > {}", errorResponse);
+		
+		HttpStatus targetStatus = HttpStatus.TEMPORARY_REDIRECT;
+		//HttpStatus targetStatus = HttpStatus.PERMANENT_REDIRECT;
 		
 		request.setAttribute("errorResponse", errorResponse);
-		request.getRequestDispatcher(DEFAULT_FAILURE_URL).forward(request, response);
+		response.setStatus(targetStatus.value()); // 307 Temporary Redirect
+        response.setHeader("Location", request.getContextPath() + DEFAULT_FAILURE_URL);
+		//request.getRequestDispatcher(DEFAULT_FAILURE_URL).forward(request, response);
+        
 	}
 
 }

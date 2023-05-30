@@ -12,6 +12,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -27,7 +28,7 @@ public class LogFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
-		ServletResponse httpResponse = (ServletResponse) response;
+		HttpServletResponse httpResponse = (HttpServletResponse) response;
 		String fullURI = getFullURI(httpRequest);
 		String method = httpRequest.getMethod();
 		String uuid = UUID.randomUUID().toString();
@@ -39,7 +40,6 @@ public class LogFilter implements Filter {
 			log.info("\t > dispatcherType = {}", httpRequest.getDispatcherType());
 			log.info("\t > accept = {}", httpRequest.getHeader("accept")); // The header name is case insensitive.
 			log.info("\t > x-requested-with = {}", httpRequest.getHeader("x-requested-with"));
-			log.info("\t > contentType = {}", httpResponse.getContentType());
 			chain.doFilter(request, response);
 		} catch (Exception e) {
 			log.info("## catch Exception");
@@ -53,6 +53,7 @@ public class LogFilter implements Filter {
 		log.info("\t > UUID = {}", uuid);
 		log.info("\t > dispatcherType = {}", httpRequest.getDispatcherType());
 		log.info("\t > contentType = {}", httpResponse.getContentType());
+		log.info("\t > status = {}", httpResponse.getStatus());
 	}
 	
 	private String getFullURI(HttpServletRequest request) {

@@ -36,10 +36,10 @@ public class SecurityInitializer extends AbstractSecurityWebApplicationInitializ
 	protected EnumSet<DispatcherType> getSecurityDispatcherTypes() {
 		log.info("## getSecurityDispatcherTypes");
 		
-		//EnumSet<DispatcherType> securityDispatcherTypes = super.getSecurityDispatcherTypes(); // REQUEST, ASYNC, ERROR
+		EnumSet<DispatcherType> securityDispatcherTypes = super.getSecurityDispatcherTypes(); // REQUEST, ASYNC, ERROR
 		//EnumSet<DispatcherType> securityDispatcherTypes = EnumSet.allOf(DispatcherType.class)
 		//EnumSet<DispatcherType> securityDispatcherTypes = EnumSet.of(DispatcherType.REQUEST, DispatcherType.INCLUDE);
-		EnumSet<DispatcherType> securityDispatcherTypes = EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD);
+		//EnumSet<DispatcherType> securityDispatcherTypes = EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD);
 		log.info("\t > {}", securityDispatcherTypes);
 		
 		return securityDispatcherTypes;
