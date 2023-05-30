@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.TimeZone;
 
-import javax.annotation.Resource;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -39,14 +38,13 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
 
 	private final String DEFAULT_FAILURE_URL = "/member/login";
 
-	@Resource(name = "myObjectMapper")
-	private ObjectMapper objectMapper;
+//	@Resource(name = "myObjectMapper")
+//	private ObjectMapper objectMapper;
 	
 	@Override
 	public void commence(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException authException) throws IOException, ServletException {
 		log.info("-------- {} --------", this.getClass().getSimpleName());
-		log.info("\t > objectMapper = {}", objectMapper);
 		
 		/*	# ajax 요청 확인 
 		 	https://0taeng.tistory.com/30

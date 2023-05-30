@@ -56,6 +56,11 @@
 
 <script>
 	$(function() {
+		let securityContext = "<c:out value='${SPRING_SECURITY_CONTEXT}'/>";
+		let auth = "<c:out value='${SPRING_SECURITY_CONTEXT.auth}'/>";
+		console.log(securityContext);
+		console.log(auth);
+		
 		let timer; 
 		let delay = 100;
 		

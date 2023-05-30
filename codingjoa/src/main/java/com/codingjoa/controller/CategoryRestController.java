@@ -24,7 +24,6 @@ public class CategoryRestController {
 	@GetMapping("/{categoryParentCode}")
 	public List<Category> findCategoryListByParent(@PathVariable("categoryParentCode") int categoryParentCode) {
 		log.info("-------- findCategoryListByParent --------");
-		
 		return categoryService.findCategoryListByParent(categoryParentCode);
 	}
 	

@@ -7,6 +7,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -26,7 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @AllArgsConstructor
-public class CategoryInterceptor implements HandlerInterceptor {
+public class TopMenuInterceptor implements HandlerInterceptor {
 	
 	private static final String FORWARD_URL_PREFIX = "forward:";
 	private static final String REDIRECT_URL_PREFIX = "redirect:";
@@ -88,6 +90,9 @@ public class CategoryInterceptor implements HandlerInterceptor {
 		List<Category> parentCategoryList = categoryService.findParentCategoryList();
 		modelAndView.addObject("parentCategoryList", parentCategoryList);
 		log.info("\t > add top menu as model");
+		
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		log.info("\t > authentication = {}", authentication);
 	}
 	
 	private String getFullURI(HttpServletRequest request) {

@@ -42,7 +42,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.BeanNameViewResolver;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
-import com.codingjoa.interceptor.CategoryInterceptor;
+import com.codingjoa.interceptor.TopMenuInterceptor;
 import com.codingjoa.resolver.BoardCriteriaArgumentResolver;
 import com.codingjoa.resolver.CommentCriteriaArgumentResolver;
 import com.codingjoa.resolver.MyExceptionResolver;
@@ -113,14 +113,14 @@ public class ServletConfig implements WebMvcConfigurer {
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		WebMvcConfigurer.super.addInterceptors(registry);
-		registry.addInterceptor(categoryInterceptor())
+		registry.addInterceptor(topMenuInterceptor())
 				.addPathPatterns("/**");
 				//.excludePathPatterns("/resources/**");
 	}
 
 	@Bean
-	public CategoryInterceptor categoryInterceptor() {
-		return new CategoryInterceptor(webApplicationContext, categoryService);
+	public TopMenuInterceptor topMenuInterceptor() {
+		return new TopMenuInterceptor(webApplicationContext, categoryService);
 	}
 
 	@Override
