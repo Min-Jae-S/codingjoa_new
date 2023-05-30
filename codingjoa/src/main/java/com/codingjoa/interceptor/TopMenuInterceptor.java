@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.AnonymousAuthenticationFilter;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -30,7 +31,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @AllArgsConstructor
 public class TopMenuInterceptor implements HandlerInterceptor {
-	
+
 	private static final String FORWARD_URL_PREFIX = "forward:";
 	private static final String REDIRECT_URL_PREFIX = "redirect:";
 	private WebApplicationContext webApplicationContext;
@@ -58,12 +59,6 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 		} else {
 			log.info("\t > handler = {}", handler.getClass().getSimpleName());
 		}
-		
-		SecurityContext securityContext = SecurityContextHolder.getContext();
-		log.info("\t > security context = {}", securityContext);
-		
-		Authentication authentiacation = securityContext.getAuthentication();
-		log.info("\t > security authentication = {}", authentiacation);
 		
 		return true;
 	}
