@@ -72,11 +72,10 @@
 					$.each(data, function(i, value) {
 						html += "<button class='dropdown-item' type='button' data-path='";
 						html += (data[i].categoryCode == data[i].categoryPath) ? 
-									"/main?boardCategoryCode=" + data[i].categoryCode : data[i].categoryPath;
+									"/?boardCategoryCode=" + data[i].categoryCode : data[i].categoryPath;
 						html += "'>" + data[i].categoryName + "</button>";
 					});
 					html += "</div>";
-					
 					$a.after(html);
 				});
 			}, delay);

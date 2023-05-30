@@ -60,17 +60,9 @@ public class BoardController {
 	}
 	
 	@GetMapping
-	public String getAllBoard(Model model) {
+	public String getAllBoards(Model model) {
 		List<Category> boardCategoryList = categoryService.findBoardCategoryList();
 		model.addAttribute("boardCategoryList", boardCategoryList);
-		
-//		ArrayList<List<BoardDetailsDto>> boardList = new ArrayList<List<BoardDetailsDto>>();
-//		Criteria boardCri = new Criteria(1, 5);
-//		boardCategoryList.forEach(category -> {
-//			List<BoardDetailsDto> board = 
-//					boardService.getPagedBoard(category.getCategoryCode(), boardCri);
-//			boardList.add(board);
-//		});
 		
 		Criteria boardCri = new Criteria(1, 5);
 		List<List<BoardDetailsDto>> boardList = boardCategoryList
@@ -129,7 +121,6 @@ public class BoardController {
 	@GetMapping("/write")
 	public String write(@ModelAttribute("writeBoardDto") BoardDto writeBoardDto, Model model) {
 		log.info("writeBoardDto = {}", writeBoardDto);
-		
 		model.addAttribute("boardCategoryList", categoryService.findBoardCategoryList());
 		
 		return "board/write";
@@ -172,7 +163,6 @@ public class BoardController {
 		
 		int boardWriterIdx = principal.getMember().getMemberIdx();
 		modifyBoardDto.setBoardWriterIdx(boardWriterIdx);
-		
 		boardService.bindModifyBoard(modifyBoardDto);
 		
 		model.addAttribute("boardCategoryList", categoryService.findBoardCategoryList());
@@ -219,9 +209,9 @@ public class BoardController {
 		
 		int boardCategoryCode = boardService.deleteBoard(deleteBoardDto);
 		
-		return "redirect:/board/main" + UriComponentsBuilder.newInstance()
-											.queryParam("boardCategoryCode", boardCategoryCode)
-											.toUriString();
+		return "redirect:/board/" + UriComponentsBuilder.newInstance()
+														.queryParam("boardCategoryCode", boardCategoryCode)
+														.toUriString();
 	}
 	
 }

@@ -91,7 +91,7 @@
 		<div class="col-sm-8">
 			<h4 class="font-weight-bold mb-4"><c:out value="${category.categoryName}"/></h4>
 			<div class="pt-3">
-	        	<form:form class="form-inline" action="${contextPath}/board/main" method="GET" modelAttribute="boardCri">
+	        	<form:form class="form-inline" action="${contextPath}/board/" method="GET" modelAttribute="boardCri">
 	        		<input type="hidden" name="boardCategoryCode" value="${category.categoryCode}">
 				  	<form:select path="type" class="custom-select custom-select-sm mr-2">
 				  		<form:options items="${typeMap}"/>
@@ -165,19 +165,19 @@
 				<ul class="pagination justify-content-center">
 					<c:if test="${pagination.prev}">
 						<li class="page-item">
-							<a class="page-link" href="${contextPath}/board/main?boardCategoryCode=${category.categoryCode}&
+							<a class="page-link" href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}&
 								${boardCri.getQueryString(pagination.prevPage)}"><i class="fa-solid fa-chevron-left"></i></a>
 						</li>
 					</c:if>
 					<c:forEach var="item" begin="${pagination.startPage}" end="${pagination.endPage}">
 						<li class="page-item ${item eq pagination.page ? 'active' : ''}">
-							<a class="page-link" href="${contextPath}/board/main?boardCategoryCode=${category.categoryCode}&
+							<a class="page-link" href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}&
 								${boardCri.getQueryString(item)}">${item}</a>
 						</li>
 					</c:forEach>
 					<c:if test="${pagination.next}">
 						<li class="page-item">
-							<a class="page-link" href="${contextPath}/board/main?boardCategoryCode=${category.categoryCode}&
+							<a class="page-link" href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}&
 								${boardCri.getQueryString(pagination.nextPage)}"><i class="fa-solid fa-chevron-right"></i></a>
 						</li>
 					</c:if>
