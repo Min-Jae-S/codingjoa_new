@@ -1,7 +1,7 @@
 package com.codingjoa.controller;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
@@ -59,24 +59,30 @@ public class BoardController {
 		binder.addValidators(boardValidator);
 	}
 	
-	@GetMapping(value = { "/", "/all" })
+	@GetMapping
 	public String getAllBoard(Model model) {
 		List<Category> boardCategoryList = categoryService.findBoardCategoryList();
 		model.addAttribute("boardCategoryList", boardCategoryList);
 		
-		ArrayList<List<BoardDetailsDto>> boardList = new ArrayList<List<BoardDetailsDto>>();
-		boardCategoryList.forEach(category -> {
-			Criteria boardCri = new Criteria(1, 5);
-			List<BoardDetailsDto> board = 
-					boardService.getPagedBoard(category.getCategoryCode(), boardCri);
-			boardList.add(board);
-		});
+//		ArrayList<List<BoardDetailsDto>> boardList = new ArrayList<List<BoardDetailsDto>>();
+//		Criteria boardCri = new Criteria(1, 5);
+//		boardCategoryList.forEach(category -> {
+//			List<BoardDetailsDto> board = 
+//					boardService.getPagedBoard(category.getCategoryCode(), boardCri);
+//			boardList.add(board);
+//		});
+		
+		Criteria boardCri = new Criteria(1, 5);
+		List<List<BoardDetailsDto>> boardList = boardCategoryList
+				.stream()
+				.map(category -> boardService.getPagedBoard(category.getCategoryCode(), boardCri))
+				.collect(Collectors.toList());
 		model.addAttribute("boardList", boardList);
 		
-		return "board/all";
+		return "board/all-boards";
 	}
 	
-	@GetMapping("/main")
+	@GetMapping("/")
 	public String getBoard(@BoardCategoryCode @RequestParam("boardCategoryCode") int boardCategoryCode, 
 			@BoardCri Criteria boardCri, Model model) {
 		log.info("boardCategoryCode = {}", boardCategoryCode);
@@ -97,7 +103,7 @@ public class BoardController {
 		model.addAttribute("category", category);
 		model.addAttribute("boardCri", boardCri);
 		
-		return "board/main";
+		return "board/board";
 	}
 	
 	@GetMapping("/read")
