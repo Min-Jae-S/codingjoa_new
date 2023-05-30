@@ -40,6 +40,7 @@ public class TestController {
 	public String test1(String param1) {
 		log.info("## test1 called...");
 		log.info("\t > param1 = {}", param1);
+		
 		return "forward:/test/test2";
 	}
 	
@@ -47,6 +48,7 @@ public class TestController {
 	@RequestMapping("/test2")
 	public String test2() {
 		log.info("## test2 called...");
+		
 		return "test2";
 	}
 	
@@ -58,7 +60,7 @@ public class TestController {
 		/*
 		 * If the response has already been committed, this method throws an IllegalStateException.
 		 * After using this method, the response should be considered to be committed and should not be written to.
-		 * message = 응답이 이미 커밋된 후에는 sendError()를 호출할 수 없습니다.
+		 * ## 응답이 이미 커밋된 후에는 sendError()를 호출할 수 없습니다.
 		 */
 		try {
 			response.sendError(403); 
@@ -77,6 +79,7 @@ public class TestController {
 	@RequestMapping("/testVoid")
 	public void testVoid(Model model) {
 		log.info("## testVoid called...");
+		
 		model.addAttribute("test", "test");
 	}
 	
@@ -84,6 +87,7 @@ public class TestController {
 	public String testView(Model model) {
 		log.info("## testView called...");
 		model.addAttribute("test", new Test());
+		
 		return "test/test-view";
 	}
 	
@@ -91,30 +95,35 @@ public class TestController {
 	public ModelAndView testMavView(Model model) {
 		log.info("## testMavView called...");
 		model.addAttribute("test", new Test());
+		
 		return new ModelAndView("test/test-view");
 	}
 
 	@RequestMapping("/testForward")
 	public String testForward() {
 		log.info("## testForward called...");
+		
 		return "forward:/test/testView";
 	}
 
 	@RequestMapping("/testMavForward")
 	public ModelAndView testMavForward() {
 		log.info("## testMavForward called...");
+		
 		return new ModelAndView("forward:/test/testView");
 	}
 	
 	@RequestMapping("/testRedirect")
 	public String testRedirect() {
 		log.info("## testRedirect called...");
+		
 		return "redirect:/test/testView";
 	}
 
 	@RequestMapping("/testMavRedirect")
 	public ModelAndView testMavRedirect() {
 		log.info("## testMavRedirect called...");
+		
 		return new ModelAndView("redirect:/test/testView");
 	}
 
@@ -122,6 +131,7 @@ public class TestController {
 	@RequestMapping("/testString")
 	public String testString() {
 		log.info("## testString called...");
+		
 		return "test";
 	}
 	
@@ -140,6 +150,7 @@ public class TestController {
 	@RequestMapping("/testJson")
 	public ResponseEntity<Object> testJson() {
 		log.info("## testJson called...");
+		
 		return ResponseEntity.ok().body(new Test());
 	}
 
@@ -157,12 +168,14 @@ public class TestController {
 	@RequestMapping("/testNoJsp")
 	public String testNoJsp() {
 		log.info("## testNoJsp called...");
+		
 		return "test/testNoJsp";
 	}
 	
 	@RequestMapping("/testNull1")
 	public String testNull1() {
 		log.info("## testNull1 called...");
+		
 		return null;
 	}
 	
@@ -171,6 +184,7 @@ public class TestController {
 		log.info("## testNull2 called...");
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName(null);
+		
 		return mav;
 	}
 
@@ -179,6 +193,7 @@ public class TestController {
 		log.info("## testNull3 called...");
 		ModelAndView mav = new ModelAndView();
 		mav.setView(new MappingJackson2JsonView());
+		
 		return mav;
 	}
 	

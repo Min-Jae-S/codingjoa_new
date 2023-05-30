@@ -29,8 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class LoginFailureHandler implements AuthenticationFailureHandler {
 
-	private AuthenticationDetailsSource<HttpServletRequest, ?> authenticationDetailsSource = 
-			new WebAuthenticationDetailsSource();
+	private AuthenticationDetailsSource<HttpServletRequest, ?> authenticationDetailsSource = new WebAuthenticationDetailsSource();
 	private String key = UUID.randomUUID().toString();
 	private final String DEFAULT_FAILURE_URL = "/member/login";
 	

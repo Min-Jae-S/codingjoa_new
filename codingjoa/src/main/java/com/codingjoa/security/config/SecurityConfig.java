@@ -93,7 +93,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/board/write", "/board/writeProc").authenticated()
 				.antMatchers("/board/modify", "/board/modifyProc").authenticated()
 				.antMatchers("/board/deleteProc").authenticated()
-				//.antMatchers("/comments/**").authenticated()
+				.antMatchers("/comments/**").authenticated()
 				//.mvcMatchers("/comments/**").authenticated()
 				.antMatchers("/admin/**").hasAnyRole("ADMIN")
 				.anyRequest().permitAll()

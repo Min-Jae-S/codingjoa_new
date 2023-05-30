@@ -463,7 +463,7 @@
 				commentContent : $("#commentContent").val(),
 			};
 			
-			commentService.writeComment("${contextPath}/comments", comment, function(result) {
+			commentService.writeComment("${contextPath}/api/comments", comment, function(result) {
 				alert(result.message);
 				commentService.getCommentList(commentListURL, function(result) {
 					let commentList = result.data;
@@ -481,7 +481,7 @@
 			let $li =  $(this).closest("li");
 			let commentIdx = $li.attr("comment-idx");
 			
-			commentService.getComment("${contextPath}/comments/" + commentIdx, function(result) {
+			commentService.getComment("${contextPath}/api/comments/" + commentIdx, function(result) {
 				let commentDetails = result.data;
 				let html = makeEditCommentHtml(commentDetails);
 				$li.find("div.comment-area").addClass("d-none").after(html);
@@ -509,7 +509,7 @@
 				commentContent : $("#commentContent").val(),
 			};
 			
-			commentService.modifyComment("${contextPath}/comments/" + comment.commentIdx, comment, function(result) {
+			commentService.modifyComment("${contextPath}/api/comments/" + comment.commentIdx, comment, function(result) {
 				alert(result.message);
 				commentService.getCommentList(commentListURL, function(result) {
 					let commentList = result.data;
@@ -528,7 +528,7 @@
 			}
 			
 			let commentIdx = $(this).closest("li").attr("comment-idx");
-			commentService.deleteComment("${contextPath}/comments/" + commentIdx, function(result) {
+			commentService.deleteComment("${contextPath}/api/comments/" + commentIdx, function(result) {
 				alert(result.message);
 				commentService.getCommentList(commentListURL, function(result) {
 					let commentList = result.data;

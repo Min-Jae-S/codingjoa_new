@@ -34,7 +34,7 @@ public class LogFilter implements Filter {
 		String uuid = UUID.randomUUID().toString();
 		
 		try {
-			log.info("## {} : REQUEST", this.getClass().getSimpleName());
+			log.info("## {} : Request", this.getClass().getSimpleName());
 			log.info("\t > URI = {} '{}'", method, fullURI);
 			log.info("\t > UUID = {}", uuid);
 			log.info("\t > dispatcherType = {}", httpRequest.getDispatcherType());
@@ -48,7 +48,7 @@ public class LogFilter implements Filter {
 			throw e;
 		}
 		
-		log.info("## {} : RESPONSE", this.getClass().getSimpleName());
+		log.info("## {} : Response", this.getClass().getSimpleName());
 		log.info("\t > URI = {} '{}'", method, fullURI);
 		log.info("\t > UUID = {}", uuid);
 		log.info("\t > dispatcherType = {}", httpRequest.getDispatcherType());
