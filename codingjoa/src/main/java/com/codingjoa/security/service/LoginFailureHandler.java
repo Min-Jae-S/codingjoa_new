@@ -52,7 +52,7 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
 		log.info("\t > authentication = {}", authentication);
 		
 		if (authentication == null) {
-			log.info("\t create authentication, AnonymousAuthenticationToken");
+			log.info("\t > create authentication, AnonymousAuthenticationToken");
 			SecurityContextHolder.getContext().setAuthentication(createAuthentication(request));
 		}
 		
