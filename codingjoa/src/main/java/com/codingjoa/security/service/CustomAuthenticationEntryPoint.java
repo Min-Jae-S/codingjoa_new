@@ -82,10 +82,9 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
 	
 	private boolean isAjaxRequest(HttpServletRequest request) {
 		String ajaxHeader = request.getHeader("x-requested-with");
-		log.info("\t > x-requested-with = {}", ajaxHeader);
-		
 		boolean ajax = "XMLHttpRequest".equals(ajaxHeader);
 		log.info("\t > ajax = {}", ajax);
+		log.info("\t > x-requested-with = {}", ajaxHeader);
 		
 		return ajax;
 	}
