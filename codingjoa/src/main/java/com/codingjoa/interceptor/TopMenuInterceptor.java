@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.method.HandlerMethod;
@@ -58,7 +59,10 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 			log.info("\t > handler = {}", handler.getClass().getSimpleName());
 		}
 		
-		Authentication authentiacation = SecurityContextHolder.getContext().getAuthentication();
+		SecurityContext securityContext = SecurityContextHolder.getContext();
+		log.info("\t > security context = {}", securityContext);
+		
+		Authentication authentiacation = securityContext.getAuthentication();
 		log.info("\t > security authentication = {}", authentiacation);
 		
 		return true;

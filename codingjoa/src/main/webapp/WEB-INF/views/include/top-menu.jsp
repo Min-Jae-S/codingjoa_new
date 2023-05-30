@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
-<%-- <c:set var="principal" value="${SPRING_SECURITY_CONTEXT.authentication.principal}" /> --%>
+<%-- <c:set var="principal" value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal}" /> --%>
 <!-- 상단 메뉴 -->
 <nav class="navbar navbar-custom navbar-expand-md">
 	<div class="container-fluid px-5">
@@ -56,11 +56,6 @@
 
 <script>
 	$(function() {
-		let securityContext = "<c:out value='${SPRING_SECURITY_CONTEXT}'/>";
-		let auth = "<c:out value='${SPRING_SECURITY_CONTEXT.auth}'/>";
-		console.log(securityContext);
-		console.log(auth);
-		
 		let timer; 
 		let delay = 100;
 		

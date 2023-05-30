@@ -7,7 +7,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
@@ -30,7 +32,6 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
 		log.info("-------- {} --------", this.getClass().getSimpleName());
 		
 		String errorMessage = MessageUtils.getMessage("error.Login");
-		
 		if (e instanceof LoginRequireFieldException || 
 				e instanceof UsernameNotFoundException || e instanceof BadCredentialsException) {
 			errorMessage = e.getMessage();
@@ -39,8 +40,11 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
 		log.info("\t > errorMessage = {}", errorMessage);
 		
 		ErrorResponse errorResponse = ErrorResponse.create().errorMessage(errorMessage);
-		
 		request.setAttribute("errorResponse", errorResponse);
+		
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		log.info("\t > authentication = {}", authentication);
+		
 		request.getRequestDispatcher(DEFAULT_FAILURE_URL).forward(request, response);
 	}
 

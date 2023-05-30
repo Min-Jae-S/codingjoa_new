@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import com.codingjoa.security.exception.LoginRequireFieldException;
 import com.codingjoa.util.MessageUtils;
@@ -37,8 +38,8 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 		
 		String memberId = (String) authentication.getPrincipal();
 		String memberPassword = (String) authentication.getCredentials();
-		log.info("\t > memberId = {}", memberId);
-		log.info("\t > memberPassword = {}", memberPassword);
+		log.info("\t > memberId = '{}'", memberId);
+		log.info("\t > memberPassword = '{}'", memberPassword);
 		
 		if ("".equals(memberId)) {
 			throw new LoginRequireFieldException(MessageUtils.getMessage("error.LoginRequireId"));
