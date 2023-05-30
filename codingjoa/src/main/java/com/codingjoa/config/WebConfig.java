@@ -102,15 +102,12 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 		encodingFilter.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, "/*");
 	}
 	
-	@SuppressWarnings("unused")
 	private void registerLogFilter(ServletContext servletContext) {
 		log.info("## registerLogFilter");
 		FilterRegistration.Dynamic logFilter = servletContext.addFilter("LogFilter", new LogFilter());
-		//logFilter.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, "/*");
-		logFilter.addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST, 
-				DispatcherType.FORWARD, DispatcherType.ERROR, DispatcherType.ASYNC), false, "/*");
-		logFilter.addMappingForUrlPatterns(null, false, "/*");
+//		logFilter.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, "/*");
+//		logFilter.addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST, 
+//				DispatcherType.FORWARD, DispatcherType.ERROR, DispatcherType.ASYNC), false, "/*");
+		logFilter.addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST, DispatcherType.ERROR), false, "/*");
 	}
-	
- 
 }

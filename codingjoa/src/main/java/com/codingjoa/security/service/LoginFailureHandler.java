@@ -7,7 +7,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationDetailsSource;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -16,7 +15,6 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.web.authentication.AnonymousAuthenticationFilter;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
@@ -51,21 +49,23 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
 		ErrorResponse errorResponse = ErrorResponse.create().errorMessage(errorMessage);
 		request.setAttribute("errorResponse", errorResponse);
 		
-		// null object pattern 
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		log.info("\t > authentication = {}", authentication);
+		
 		if (authentication == null) {
+			log.info("\t create authentication, AnonymousAuthenticationToken");
 			SecurityContextHolder.getContext().setAuthentication(createAuthentication(request));
 		}
 		
 		request.getRequestDispatcher(DEFAULT_FAILURE_URL).forward(request, response);
 	}
 	
+	// AnonymousAuthenticationFilter#createAuthentication(HttpServletRequest)
 	protected Authentication createAuthentication(HttpServletRequest request) {
 		AnonymousAuthenticationToken auth = new AnonymousAuthenticationToken(key, 
-				"anonymousUser", AuthorityUtils.createAuthorityList("ROLE_ANONYMOUS"));
+				"anonymousUser", AuthorityUtils.createAuthorityList("ROLE_ANONYMOUS")); // null object pattern 
 		auth.setDetails(authenticationDetailsSource.buildDetails(request));
 		
 		return auth;
 	}
-
 }
