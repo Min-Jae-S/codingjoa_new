@@ -92,7 +92,7 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 		String[] beanNames = webApplicationContext.getBeanNamesForType(MappingJackson2JsonView.class);
 		for (String beanName : beanNames) {
 			if (viewName.equals(beanName)) {
-				log.info("\t > viewName equals MappingJackson2JsonView beanName({}); no top menu", beanName);
+				log.info("\t > viewName equals MappingJackson2JsonView's beanName({}); no top menu", beanName);
 				return;
 			}
 		}
