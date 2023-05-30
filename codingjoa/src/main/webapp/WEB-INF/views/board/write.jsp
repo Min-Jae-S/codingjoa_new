@@ -52,8 +52,8 @@
 
 <div class="container board-container">
 	<div class="row">
-		<div class="col-sm-2"></div>
-		<div class="col-sm-8">
+		<div class="col-sm-1"></div>
+		<div class="col-sm-10">
 			<h4 class="font-weight-bold mb-3">게시판 글쓰기</h4>
 			<div class="pt-4" style="border-top: 1px solid black;">
 				<form:form action="${contextPath}/board/writeProc" method="POST" modelAttribute="writeBoardDto">
@@ -86,7 +86,7 @@
 				</form:form>
 			</div>
 		</div>
-		<div class="col-sm-2"></div>
+		<div class="col-sm-1"></div>
 	</div>
 </div>
 
@@ -94,7 +94,6 @@
 
 <script>
 	let writeEditor;
-	let navbarHeight = document.querySelector(".navbar-custom").clientHeight;
 	
 	ClassicEditor
 		.create(document.querySelector("#boardContent"), {
@@ -108,7 +107,7 @@
 			],
 			ui: {
 				viewportOffset: {
-					top: navbarHeight
+					top: document.querySelector(".navbar-custom").clientHeight
 				}
 			},
 			// https://ckeditor.com/docs/ckeditor5/latest/features/general-html-support.html
