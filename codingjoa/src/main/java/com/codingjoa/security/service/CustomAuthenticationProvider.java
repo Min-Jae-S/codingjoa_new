@@ -37,8 +37,8 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 		
 		String memberId = (String) authentication.getPrincipal();
 		String memberPassword = (String) authentication.getCredentials();
-		log.info("\t > memberId = {};", memberId);
-		log.info("\t > memberPassword = {};", memberPassword);
+		log.info("\t > memberId = '{}'", memberId);
+		log.info("\t > memberPassword = '{}'", memberPassword);
 		
 		if ("".equals(memberId)) {
 			throw new LoginRequireFieldException(MessageUtils.getMessage("error.LoginRequireId"));
