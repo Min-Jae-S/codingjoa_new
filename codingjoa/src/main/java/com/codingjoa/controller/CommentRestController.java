@@ -61,7 +61,7 @@ public class CommentRestController {
 			BindingResult bindingResult, @AuthenticationPrincipal UserDetailsDto principal) 
 					throws MethodArgumentNotValidException {
 		log.info("commentDto = {}", commentDto);
-		log.info("principal = {}", principal);
+		log.info("memberId = {}", principal.getMember().getMemberId());
 		
 		if (bindingResult.hasErrors()) {
 			throw new MethodArgumentNotValidException(null, bindingResult);
@@ -90,7 +90,7 @@ public class CommentRestController {
 	public ResponseEntity<Object> getComment(@PathVariable("commentIdx") Integer commentIdx, 
 			@AuthenticationPrincipal UserDetailsDto principal) {
 		log.info("commentIdx = {}", commentIdx);
-		log.info("principal = {}", principal);
+		log.info("memberId = {}", principal.getMember().getMemberId());
 		
 		int commentWriterIdx = principal.getMember().getMemberIdx();
 		CommentDetailsDto commentDetails = commentService.getCommentDetails(commentIdx, commentWriterIdx);
