@@ -3,6 +3,7 @@ package com.codingjoa.controller;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,8 +74,9 @@ public class MemberController {
 	}
 
 	@RequestMapping("/login")
-	public String login(@ModelAttribute LoginDto loginDto) {
+	public String login(@ModelAttribute LoginDto loginDto, HttpServletRequest request) {
 		log.info("loginDto = {}", loginDto);
+		log.info("errorResponse = {}", request.getAttribute("errorResponse"));
 
 		return "member/login";
 	}
