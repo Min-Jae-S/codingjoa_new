@@ -74,15 +74,27 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 		String viewName = modelAndView.getViewName(); 
 		log.info("\t > modelAndView is not null, viewName = {}", viewName);
 		
-		if (viewName == null) return;
+		if (viewName == null) {
+			log.info("\t > viewName is null; no top menu");
+			return;
+		}
 		
-		if (viewName.startsWith(FORWARD_URL_PREFIX)) return;	
+		if (viewName.startsWith(FORWARD_URL_PREFIX)) {
+			log.info("\t > viewName starts with '{}'; no top menu", FORWARD_URL_PREFIX);
+			return;	
+		}
 		
-		if (viewName.startsWith(REDIRECT_URL_PREFIX)) 	return;
+		if (viewName.startsWith(REDIRECT_URL_PREFIX)) 	{
+			log.info("\t > viewName starts with '{}'; no top menu", REDIRECT_URL_PREFIX);
+			return;
+		}
 		
 		String[] beanNames = webApplicationContext.getBeanNamesForType(MappingJackson2JsonView.class);
 		for (String beanName : beanNames) {
-			if (viewName.equals(beanName)) return;
+			if (viewName.equals(beanName)) {
+				log.info("\t > viewName equals MappingJackson2JsonView beanName({}); no top menu", beanName);
+				return;
+			}
 		}
 		
 		List<Category> parentCategoryList = categoryService.findParentCategoryList();
