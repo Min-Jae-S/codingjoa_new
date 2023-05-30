@@ -86,7 +86,7 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 		log.info("## onStartup");
 		super.onStartup(servletContext);
 		registerCharacterEncodingFilter(servletContext);
-		//registerLogFilter(servletContext);
+		registerLogFilter(servletContext);
 	}
 
 	private void registerCharacterEncodingFilter(ServletContext servletContext) {

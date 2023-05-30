@@ -1,17 +1,24 @@
 package com.codingjoa.security.service;
 
 import java.io.IOException;
+import java.util.UUID;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.authentication.AuthenticationDetailsSource;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.web.authentication.AnonymousAuthenticationFilter;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 
 import com.codingjoa.response.ErrorResponse;
@@ -24,6 +31,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class LoginFailureHandler implements AuthenticationFailureHandler {
 
+	private AuthenticationDetailsSource<HttpServletRequest, ?> authenticationDetailsSource = new WebAuthenticationDetailsSource();
+	private String key = UUID.randomUUID().toString();
 	private final String DEFAULT_FAILURE_URL = "/member/login";
 	
 	@Override
@@ -42,10 +51,21 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
 		ErrorResponse errorResponse = ErrorResponse.create().errorMessage(errorMessage);
 		request.setAttribute("errorResponse", errorResponse);
 		
+		// null object pattern 
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		log.info("\t > authentication = {}", authentication);
+		if (authentication == null) {
+			SecurityContextHolder.getContext().setAuthentication(createAuthentication(request));
+		}
 		
 		request.getRequestDispatcher(DEFAULT_FAILURE_URL).forward(request, response);
+	}
+	
+	protected Authentication createAuthentication(HttpServletRequest request) {
+		AnonymousAuthenticationToken auth = new AnonymousAuthenticationToken(key, 
+				"anonymousUser", AuthorityUtils.createAuthorityList("ROLE_ANONYMOUS"));
+		auth.setDetails(authenticationDetailsSource.buildDetails(request));
+		
+		return auth;
 	}
 
 }
