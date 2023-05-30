@@ -105,7 +105,8 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 	private void registerLogFilter(ServletContext servletContext) {
 		log.info("## registerLogFilter");
 		FilterRegistration.Dynamic logFilter = servletContext.addFilter("LogFilter", new LogFilter());
-		EnumSet<DispatcherType> dispatcherTypes = EnumSet.of(DispatcherType.REQUEST, DispatcherType.ERROR, DispatcherType.ASYNC);
-		logFilter.addMappingForUrlPatterns(dispatcherTypes, false, "^(?!/resource/).*$");
+		EnumSet<DispatcherType> dispatcherTypes = 
+				EnumSet.of(DispatcherType.REQUEST, DispatcherType.ERROR, DispatcherType.ASYNC);
+		logFilter.addMappingForUrlPatterns(dispatcherTypes, false, "/*");
 	}
 }

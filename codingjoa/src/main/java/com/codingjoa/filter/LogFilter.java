@@ -28,31 +28,40 @@ public class LogFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
-		HttpServletResponse httpResponse = (HttpServletResponse) response;
-		String fullURI = getFullURI(httpRequest);
-		String method = httpRequest.getMethod();
-		String uuid = UUID.randomUUID().toString();
+		String requestURI = httpRequest.getRequestURI();
+		String excludePattern = httpRequest.getContextPath() + "/resources/"; // /codingjoa/resources/*
 		
-		try {
-			log.info("## {} : Request", this.getClass().getSimpleName());
+		if (requestURI.startsWith(excludePattern)) {
+			log.info("\t > requestURI = {}", requestURI);
+			log.info("\t > excludePattern = {}", excludePattern);
+		} else {
+			HttpServletResponse httpResponse = (HttpServletResponse) response;
+			String fullURI = getFullURI(httpRequest);
+			String method = httpRequest.getMethod();
+			String uuid = UUID.randomUUID().toString();
+			
+			try {
+				log.info("## {} : Request", this.getClass().getSimpleName());
+				log.info("\t > URI = {} '{}'", method, fullURI);
+				log.info("\t > UUID = {}", uuid);
+				log.info("\t > dispatcherType = {}", httpRequest.getDispatcherType());
+				log.info("\t > accept = {}", httpRequest.getHeader("accept")); // The header name is case insensitive.
+				log.info("\t > x-requested-with = {}", httpRequest.getHeader("x-requested-with"));
+				chain.doFilter(request, response);
+			} catch (Exception e) {
+				log.info("## catch Exception");
+				log.info("\t > exception = {}", e.getClass().getSimpleName());
+				log.info("\t > message = {}", e.getMessage());
+				throw e;
+			}
+			
+			log.info("## {} : Response", this.getClass().getSimpleName());
 			log.info("\t > URI = {} '{}'", method, fullURI);
 			log.info("\t > UUID = {}", uuid);
 			log.info("\t > dispatcherType = {}", httpRequest.getDispatcherType());
-			log.info("\t > accept = {}", httpRequest.getHeader("accept")); // The header name is case insensitive.
-			log.info("\t > x-requested-with = {}", httpRequest.getHeader("x-requested-with"));
-			chain.doFilter(request, response);
-		} catch (Exception e) {
-			log.info("## catch Exception");
-			log.info("\t > exception = {}", e.getClass().getSimpleName());
-			log.info("\t > message = {}", e.getMessage());
-			throw e;
+			log.info("\t > contentType = {}", httpResponse.getContentType());
 		}
 		
-		log.info("## {} : Response", this.getClass().getSimpleName());
-		log.info("\t > URI = {} '{}'", method, fullURI);
-		log.info("\t > UUID = {}", uuid);
-		log.info("\t > dispatcherType = {}", httpRequest.getDispatcherType());
-		log.info("\t > contentType = {}", httpResponse.getContentType());
 	}
 	
 	private String getFullURI(HttpServletRequest request) {
