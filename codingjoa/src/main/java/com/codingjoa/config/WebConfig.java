@@ -97,13 +97,14 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 		encodingFilterReg.setInitParameter("forceEncoding", "true");
 
 		// isMatchAfter가 true면 filter의 순서를 뒤에, false면 순서를 앞으로 결정한다.
-		encodingFilterReg.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, "/*");
+		EnumSet<DispatcherType> dispatcherTypes = EnumSet.allOf(DispatcherType.class);
+		encodingFilterReg.addMappingForUrlPatterns(dispatcherTypes, false, "/*");
 	}
 	
 	private void registerLogFilter(ServletContext servletContext) {
 		log.info("## registerLogFilter");
 		FilterRegistration.Dynamic logFilterReg = servletContext.addFilter("LogFilter", new LogFilter());
-		logFilterReg.setInitParameter("excludeUrls", "/resource/");
+		//logFilterReg.setInitParameter("excludePatterns", "/resource/, /test1/, /test2");
 		
 		EnumSet<DispatcherType> dispatcherTypes = 
 				EnumSet.of(DispatcherType.REQUEST, DispatcherType.ASYNC, DispatcherType.ERROR);

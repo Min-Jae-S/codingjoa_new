@@ -3,6 +3,7 @@ package com.codingjoa.filter;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -22,53 +23,67 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j //@WebFilter
 public class LogFilter implements Filter {
 	
-	private List<String> excludeUrls;
+	private List<String> excludePatterns = new ArrayList<>();
 	
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
 		log.info("## {} init", filterConfig.getFilterName());
 
-		String excludeUrls = filterConfig.getInitParameter("excludeUrls");
-		log.info("\t > initParamter excludeUrls = {}", excludeUrls);
+		String excludePatterns = filterConfig.getInitParameter("excludePatterns");
+		log.info("\t > initParamter excludePatterns = {}", excludePatterns);
 		
-		if (excludeUrls != null) {
+		if (excludePatterns != null) {
 			String contextPath = filterConfig.getServletContext().getContextPath();
-			this.excludeUrls = Stream.of(excludeUrls.split(","))
-					.map(pattern -> contextPath + pattern.trim())
+			this.excludePatterns = Stream.of(excludePatterns.split(","))
+					.map(excludePattern -> contextPath + excludePattern.trim())
 					.collect(Collectors.toList());
 		}
-		this.excludeUrls.forEach(excludeUrl -> log.info("\t > excludeUrl = {}", excludeUrl));
+		log.info("\t > excludePatterns = {}", this.excludePatterns);
 	}
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
-		HttpServletRequest httpRequest = (HttpServletRequest) request;
-		HttpServletResponse httpResponse = (HttpServletResponse) response;
-		String fullURI = getFullURI(httpRequest);
-		String method = httpRequest.getMethod();
-		String uuid = UUID.randomUUID().toString();
+		HttpServletRequest httpSevletRequest = (HttpServletRequest) request;
+		HttpServletResponse httpServletResponse = (HttpServletResponse) response;
+		UUID uuid = UUID.randomUUID();
+		String requestURI = httpSevletRequest.getRequestURI();
 		
-		try {
-			log.info("## {} : Request", this.getClass().getSimpleName());
-			log.info("\t > URI = {} '{}'", method, fullURI);
-			log.info("\t > UUID = {}", uuid);
-			log.info("\t > dispatcherType = {}", httpRequest.getDispatcherType());
-			log.info("\t > accept = {}", httpRequest.getHeader("accept")); // The header name is case insensitive.
-			log.info("\t > x-requested-with = {}", httpRequest.getHeader("x-requested-with"));
+		if (excludePatterns.contains(requestURI)) {
+			log.info("## request is excluded");
 			chain.doFilter(request, response);
-		} catch (Exception e) {
-			log.info("## catch Exception");
-			log.info("\t > exception = {}", e.getClass().getSimpleName());
-			log.info("\t > message = {}", e.getMessage());
-			throw e;
+		} else {
+			log.info("## request is included");
+			try {
+				logRequestDetails(httpSevletRequest, httpServletResponse, uuid);
+				chain.doFilter(request, response);
+			} catch (Exception e) {
+				log.info("## catch Exception");
+				log.info("\t > exception = {}", e.getClass().getSimpleName());
+				log.info("\t > message = {}", e.getMessage());
+				throw e;
+			} finally {
+				logResponseDetails(httpSevletRequest, httpServletResponse, uuid);
+			}
 		}
-		
-		log.info("## {} : Response", this.getClass().getSimpleName());
-		log.info("\t > URI = {} '{}'", method, fullURI);
+	}
+	
+	private void logRequestDetails(HttpServletRequest request, HttpServletResponse response, UUID uuid) {
+		log.info("## {} : Request", this.getClass().getSimpleName());
+		log.info("\t > URI = {} '{}'", request.getMethod(), getFullURI(request));
 		log.info("\t > UUID = {}", uuid);
-		log.info("\t > dispatcherType = {}", httpRequest.getDispatcherType());
-		log.info("\t > contentType = {}", httpResponse.getContentType());
+		log.info("\t > dispatcherType = {}", request.getDispatcherType());
+		log.info("\t > contentType = {}", response.getContentType());
+		log.info("\t > accept = {}", request.getHeader("accept")); // The header name is case insensitive.
+		log.info("\t > x-requested-with = {}", request.getHeader("x-requested-with"));
+	}
+
+	private void logResponseDetails(HttpServletRequest request, HttpServletResponse response, UUID uuid) {
+		log.info("## {} : Response", this.getClass().getSimpleName());
+		log.info("\t > URI = {} '{}'", request.getMethod(), getFullURI(request));
+		log.info("\t > UUID = {}", uuid);
+		log.info("\t > dispatcherType = {}", request.getDispatcherType());
+		log.info("\t > contentType = {}", response.getContentType());
 	}
 	
 	private String getFullURI(HttpServletRequest request) {
