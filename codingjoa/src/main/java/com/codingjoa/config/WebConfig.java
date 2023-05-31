@@ -91,28 +91,30 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 
 	private void registerCharacterEncodingFilter(ServletContext servletContext) {
 		log.info("## registerCharacterEncodingFilter");
-		FilterRegistration encodingFilterRegistration = 
-				servletContext.addFilter("CharacterEncodingFilter", new CharacterEncodingFilter());
-		encodingFilterRegistration.getInitParameters().forEach((key, value) -> {
-			log.info("\t > {} initParameter; {} : {}", encodingFilterRegistration.getName(), key, value);
-		});
+		FilterRegistration registration = 
+				servletContext.addFilter("CharacterEncodingFilter", new CharacterEncodingFilter("UTF-8", true));
+		boolean initEncoding = registration.setInitParameter("encoding", "UTF-8");
+		boolean initForceEncoding = registration.setInitParameter("forceEncoding", "true");
+		log.info("\t > initEncofing = {}", initEncoding);
+		log.info("\t > initForceEncoding = {}", initForceEncoding);
 		
-		//encodingFilter.setInitParameter("encoding", "");
-		//encodingFilter.setInitParameter("forceEncoding", "");
+		registration.getInitParameters().forEach((key, value) -> {
+			log.info("\t > {} initParameter, {} = {},", registration.getName(), key, value);
+		});
 
 		// isMatchAfter가 true면 filter의 순서를 뒤에, false면 순서를 앞으로 결정한다.
-		encodingFilterRegistration.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, "/*");
+		registration.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, "/*");
 	}
 	
 	private void registerLogFilter(ServletContext servletContext) {
 		log.info("## registerLogFilter");
-		FilterRegistration logFilterRegistration = servletContext.addFilter("LogFilter", new LogFilter());
-		logFilterRegistration.getInitParameters().forEach((key, value) -> {
-			log.info("\t > {} initParameter; {} : {}", logFilterRegistration.getName(), key, value);
+		FilterRegistration registration = servletContext.addFilter("LogFilter", new LogFilter());
+		registration.getInitParameters().forEach((key, value) -> {
+			log.info("\t > {} initParameter; {} : {}", registration.getName(), key, value);
 		});
 		
 		EnumSet<DispatcherType> dispatcherTypes = 
 				EnumSet.of(DispatcherType.REQUEST, DispatcherType.ASYNC, DispatcherType.ERROR);
-		logFilterRegistration.addMappingForUrlPatterns(dispatcherTypes, false, "/*");
+		registration.addMappingForUrlPatterns(dispatcherTypes, false, "/*");
 	}
 }
