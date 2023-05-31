@@ -50,10 +50,10 @@ public class LogFilter implements Filter {
 		String requestURI = httpSevletRequest.getRequestURI();
 		
 		if (excludePatterns.contains(requestURI)) {
-			log.info("## request is excluded");
+			log.info("## '{}' is excluded", requestURI);
 			chain.doFilter(request, response);
 		} else {
-			log.info("## request is included");
+			log.info("## '{}' is included", requestURI);
 			try {
 				logRequestDetails(httpSevletRequest, httpServletResponse, uuid);
 				chain.doFilter(request, response);
