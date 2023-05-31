@@ -51,8 +51,8 @@ public class CommentServiceImpl implements CommentService {
 			throw new IllegalArgumentException(MessageUtils.getMessage("error.NotFoundComment"));
 		}
 		
-		log.info("commentDetailsMap.get(\"commentWriterIdx\").getClass() = {}", commentDetailsMap.get("commentWriterIdx").getClass());
-		if ((int) commentDetailsMap.get("commentWriterIdx") != commentWriterIdx) {
+		int dbCommentWriterIdx = (int) commentDetailsMap.get("commentWriterIdx");
+		if (dbCommentWriterIdx != commentWriterIdx) {
 			throw new IllegalArgumentException(MessageUtils.getMessage("error.NotMyComment"));
 		}
 		

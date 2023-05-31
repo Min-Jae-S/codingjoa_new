@@ -13,7 +13,8 @@
 
 	<resultMap type="map" id="commentDetailsMap">
 		<id property="commentIdx" column="comment_idx"/>
-		<result property="commentWriterIdx" column="comment_writer_idx"/>
+		 <!-- java.math.BigDecimal -->
+		<result property="commentWriterIdx" column="comment_writer_idx" javaType="java.lang.Integer"/>
 		<result property="commentBoardIdx" column="comment_board_idx"/>
 		<result property="commentContent" column="comment_content"/>
 		<result property="commentUse" column="comment_use"/>

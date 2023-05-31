@@ -82,9 +82,9 @@ public class LogFilter implements Filter {
 		log.info("\t > URI = {} '{}'", request.getMethod(), getFullURI(request));
 		log.info("\t > UUID = {}", uuid);
 		log.info("\t > dispatcherType = {}", request.getDispatcherType());
-		log.info("\t > contentType = {}", response.getContentType());
 		log.info("\t > accept = {}", request.getHeader("accept")); // The header name is case insensitive.
 		log.info("\t > x-requested-with = {}", request.getHeader("x-requested-with"));
+		log.info("\t > contentType = {}", response.getContentType());
 	}
 
 	private void logResponseDetails(HttpServletRequest request, HttpServletResponse response, UUID uuid) {
