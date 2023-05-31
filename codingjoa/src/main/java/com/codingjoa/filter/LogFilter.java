@@ -69,7 +69,7 @@ public class LogFilter implements Filter {
 	}
 	
 	private void logRequestDetails(HttpServletRequest request, HttpServletResponse response, UUID uuid) {
-		log.info("## {} : Request", this.getClass().getSimpleName());
+		log.info("## {} : request", this.getClass().getSimpleName());
 		log.info("\t > URI = {} '{}'", request.getMethod(), getFullURI(request));
 		log.info("\t > UUID = {}", uuid);
 		log.info("\t > dispatcherType = {}", request.getDispatcherType());
@@ -79,7 +79,7 @@ public class LogFilter implements Filter {
 	}
 
 	private void logResponseDetails(HttpServletRequest request, HttpServletResponse response, UUID uuid) {
-		log.info("## {} : Response", this.getClass().getSimpleName());
+		log.info("## {} : response", this.getClass().getSimpleName());
 		log.info("\t > URI = {} '{}'", request.getMethod(), getFullURI(request));
 		log.info("\t > UUID = {}", uuid);
 		log.info("\t > dispatcherType = {}", request.getDispatcherType());
