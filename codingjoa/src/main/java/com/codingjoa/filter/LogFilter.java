@@ -26,15 +26,18 @@ public class LogFilter implements Filter {
 	
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
-		String excludePattern = filterConfig.getInitParameter("excludeUrls");
 		log.info("## {} init", filterConfig.getFilterName());
-		log.info("\t > initParameter(\"excludeUrls\") = {}", excludePattern);
 
-//		String contextPath = filterConfig.getServletContext().getContextPath();
-//		excludeUrls = Stream.of(excludePattern.split(","))
-//				.map(pattern -> contextPath + pattern.trim())
-//				.collect(Collectors.toList());
-//		excludeUrls.forEach(excludeUrl -> log.info("\t > excludeUrl = {}", excludeUrl));
+		String excludeUrls = filterConfig.getInitParameter("excludeUrls");
+		log.info("\t > initParamter excludeUrls = {}", excludeUrls);
+		
+		if (excludeUrls != null) {
+			String contextPath = filterConfig.getServletContext().getContextPath();
+			this.excludeUrls = Stream.of(excludeUrls.split(","))
+					.map(pattern -> contextPath + pattern.trim())
+					.collect(Collectors.toList());
+		}
+		this.excludeUrls.forEach(excludeUrl -> log.info("\t > excludeUrl = {}", excludeUrl));
 	}
 
 	@Override

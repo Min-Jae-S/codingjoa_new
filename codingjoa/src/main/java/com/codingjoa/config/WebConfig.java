@@ -91,30 +91,22 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 
 	private void registerCharacterEncodingFilter(ServletContext servletContext) {
 		log.info("## registerCharacterEncodingFilter");
-		FilterRegistration registration = 
-				servletContext.addFilter("CharacterEncodingFilter", new CharacterEncodingFilter("UTF-8", true));
-		boolean initEncoding = registration.setInitParameter("encoding", "UTF-8");
-		boolean initForceEncoding = registration.setInitParameter("forceEncoding", "true");
-		log.info("\t > initEncofing = {}", initEncoding);
-		log.info("\t > initForceEncoding = {}", initForceEncoding);
-		
-		registration.getInitParameters().forEach((key, value) -> {
-			log.info("\t > {} initParameter, {} = {},", registration.getName(), key, value);
-		});
+		FilterRegistration.Dynamic encodingFilterReg = 
+				servletContext.addFilter("CharacterEncodingFilter", new CharacterEncodingFilter());
+		encodingFilterReg.setInitParameter("encoding", "UTF-8");
+		encodingFilterReg.setInitParameter("forceEncoding", "true");
 
 		// isMatchAfter가 true면 filter의 순서를 뒤에, false면 순서를 앞으로 결정한다.
-		registration.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, "/*");
+		encodingFilterReg.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, "/*");
 	}
 	
 	private void registerLogFilter(ServletContext servletContext) {
 		log.info("## registerLogFilter");
-		FilterRegistration registration = servletContext.addFilter("LogFilter", new LogFilter());
-		registration.getInitParameters().forEach((key, value) -> {
-			log.info("\t > {} initParameter; {} : {}", registration.getName(), key, value);
-		});
+		FilterRegistration.Dynamic logFilterReg = servletContext.addFilter("LogFilter", new LogFilter());
+		logFilterReg.setInitParameter("excludeUrls", "/resource/");
 		
 		EnumSet<DispatcherType> dispatcherTypes = 
 				EnumSet.of(DispatcherType.REQUEST, DispatcherType.ASYNC, DispatcherType.ERROR);
-		registration.addMappingForUrlPatterns(dispatcherTypes, false, "/*");
+		logFilterReg.addMappingForUrlPatterns(dispatcherTypes, false, "/*");
 	}
 }
