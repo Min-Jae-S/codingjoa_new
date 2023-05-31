@@ -98,8 +98,8 @@
 			a.comment_writer_idx = b.member_idx
 		WHERE
 			a.comment_idx = #{commentIdx}
-		AND 
-			a.comment_writer_idx = #{commentWriterIdx}
+		<!-- AND 
+			a.comment_writer_idx = #{commentWriterIdx} -->
 	</select>
 
 	<delete id="deleteComment" parameterType="int">

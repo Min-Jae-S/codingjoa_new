@@ -17,8 +17,10 @@ public interface CommentMapper {
 	List<Map<String, Object>> findPagedComment(@Param("boardIdx") int boardIdx, 
 												@Param("commentCri") CommentCriteria commentCri);
 	
-	Map<String, Object> findCommentDetails(@Param("commentIdx") int commentIdx,
-											@Param("commentWriterIdx") int commentWriterIdx);
+	Map<String, Object> findCommentDetails(int commentIdx);
+//	Map<String, Object> findCommentDetails(@Param("commentIdx") int commentIdx,
+//											@Param("commentWriterIdx") int commentWriterIdx);
+
 	
 	void deleteComment(int commentIdx);
 }
