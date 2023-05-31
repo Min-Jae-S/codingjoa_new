@@ -53,7 +53,7 @@ public class LogFilter implements Filter {
 			log.info("## '{}' is excludePattern", requestURI);
 			chain.doFilter(request, response);
 		} else {
-			log.info("## '{}' is includPattern.", requestURI);
+			log.info("## '{}' is includePattern.", requestURI);
 			try {
 				logRequestDetails(httpSevletRequest, httpServletResponse, uuid);
 				chain.doFilter(request, response);
