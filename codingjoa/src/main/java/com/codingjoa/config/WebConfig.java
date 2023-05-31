@@ -96,7 +96,7 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 		encodingFilterReg.setInitParameter("encoding", "UTF-8");
 		encodingFilterReg.setInitParameter("forceEncoding", "true");
 
-		// isMatchAfter가 true면 filter의 순서를 뒤에, false면 순서를 앞으로 결정한다.
+		// isMatchAfter가 true면 filter의 순서를 뒤에, false면 순서를 앞으로 배치한다.
 		EnumSet<DispatcherType> dispatcherTypes = EnumSet.allOf(DispatcherType.class);
 		encodingFilterReg.addMappingForUrlPatterns(dispatcherTypes, false, "/*");
 	}
