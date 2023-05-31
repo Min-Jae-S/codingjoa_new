@@ -47,14 +47,12 @@ public class CommentServiceImpl implements CommentService {
 	@Override
 	public CommentDetailsDto getCommentDetails(int commentIdx, int commentWriterIdx) {
 		Map<String, Object> commentDetailsMap = commentMapper.findCommentDetails(commentIdx);
-//		Map<String, Object> commentDetailsMap = commentMapper.findCommentDetails(commentIdx, commentWriterIdx);
 		if (commentDetailsMap == null) {
 			throw new IllegalArgumentException(MessageUtils.getMessage("error.NotFoundComment"));
 		}
 		
-		int dbCommentWriterIdx = (int) commentDetailsMap.get("commentWriterIdx");
 		log.info("commentDetailsMap.get(\"commentWriterIdx\").getClass() = {}", commentDetailsMap.get("commentWriterIdx").getClass());
-		if (dbCommentWriterIdx != commentWriterIdx) {
+		if (commentWriterIdx != (int) commentDetailsMap.get("commentWriterIdx")) {
 			throw new IllegalArgumentException(MessageUtils.getMessage("error.NotMyComment"));
 		}
 		

@@ -18,9 +18,6 @@ public interface CommentMapper {
 												@Param("commentCri") CommentCriteria commentCri);
 	
 	Map<String, Object> findCommentDetails(int commentIdx);
-//	Map<String, Object> findCommentDetails(@Param("commentIdx") int commentIdx,
-//											@Param("commentWriterIdx") int commentWriterIdx);
-
 	
 	void deleteComment(int commentIdx);
 }
