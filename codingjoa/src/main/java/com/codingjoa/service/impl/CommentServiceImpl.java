@@ -52,7 +52,7 @@ public class CommentServiceImpl implements CommentService {
 		}
 		
 		log.info("commentDetailsMap.get(\"commentWriterIdx\").getClass() = {}", commentDetailsMap.get("commentWriterIdx").getClass());
-		if (commentWriterIdx != (int) commentDetailsMap.get("commentWriterIdx")) {
+		if ((int) commentDetailsMap.get("commentWriterIdx") != commentWriterIdx) {
 			throw new IllegalArgumentException(MessageUtils.getMessage("error.NotMyComment"));
 		}
 		
