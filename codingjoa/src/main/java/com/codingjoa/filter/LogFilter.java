@@ -46,14 +46,14 @@ public class LogFilter implements Filter {
 			throws IOException, ServletException {
 		HttpServletRequest httpSevletRequest = (HttpServletRequest) request;
 		HttpServletResponse httpServletResponse = (HttpServletResponse) response;
-		UUID uuid = UUID.randomUUID();
 		String requestURI = httpSevletRequest.getRequestURI();
+		UUID uuid = UUID.randomUUID();
 		
-		if (excludePatterns.contains(requestURI)) {
-			log.info("## '{}' is excluded", requestURI);
+		if (isExcludePattern(requestURI)) {
+			log.info("## '{}' is excludePattern", requestURI);
 			chain.doFilter(request, response);
 		} else {
-			log.info("## '{}' is included", requestURI);
+			log.info("## '{}' is includPattern.", requestURI);
 			try {
 				logRequestDetails(httpSevletRequest, httpServletResponse, uuid);
 				chain.doFilter(request, response);
@@ -66,6 +66,15 @@ public class LogFilter implements Filter {
 				logResponseDetails(httpSevletRequest, httpServletResponse, uuid);
 			}
 		}
+	}
+	
+	private boolean isExcludePattern(String requestURI) {
+		for (String excludePattern : excludePatterns) {
+			if (requestURI.startsWith(excludePattern)) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	private void logRequestDetails(HttpServletRequest request, HttpServletResponse response, UUID uuid) {
