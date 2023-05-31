@@ -91,22 +91,28 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 
 	private void registerCharacterEncodingFilter(ServletContext servletContext) {
 		log.info("## registerCharacterEncodingFilter");
-		CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter();
-		characterEncodingFilter.setEncoding("UTF-8");
-		characterEncodingFilter.setForceEncoding(true);
+		FilterRegistration encodingFilterRegistration = 
+				servletContext.addFilter("CharacterEncodingFilter", new CharacterEncodingFilter());
+		encodingFilterRegistration.getInitParameters().forEach((key, value) -> {
+			log.info("\t > {} initParameter; {} : {}", encodingFilterRegistration.getName(), key, value);
+		});
 		
-		FilterRegistration.Dynamic encodingFilter = 
-				servletContext.addFilter("CharacterEncodingFilter", characterEncodingFilter);
+		//encodingFilter.setInitParameter("encoding", "");
+		//encodingFilter.setInitParameter("forceEncoding", "");
 
 		// isMatchAfter가 true면 filter의 순서를 뒤에, false면 순서를 앞으로 결정한다.
-		encodingFilter.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, "/*");
+		encodingFilterRegistration.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, "/*");
 	}
 	
 	private void registerLogFilter(ServletContext servletContext) {
 		log.info("## registerLogFilter");
-		FilterRegistration.Dynamic logFilter = servletContext.addFilter("LogFilter", new LogFilter());
+		FilterRegistration logFilterRegistration = servletContext.addFilter("LogFilter", new LogFilter());
+		logFilterRegistration.getInitParameters().forEach((key, value) -> {
+			log.info("\t > {} initParameter; {} : {}", logFilterRegistration.getName(), key, value);
+		});
+		
 		EnumSet<DispatcherType> dispatcherTypes = 
 				EnumSet.of(DispatcherType.REQUEST, DispatcherType.ASYNC, DispatcherType.ERROR);
-		logFilter.addMappingForUrlPatterns(dispatcherTypes, false, "/*");
+		logFilterRegistration.addMappingForUrlPatterns(dispatcherTypes, false, "/*");
 	}
 }
