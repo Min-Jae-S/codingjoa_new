@@ -48,9 +48,9 @@ public class BoardServiceImpl implements BoardService {
 		log.info("writeBoardDto ==> {}", board);
 		
 		boardMapper.insertBoard(board);
-		log.info("after insert board only, board = {}", board);
-
 		Integer boardIdx = board.getBoardIdx();
+		log.info("after insert board only, boardIdx = {}", boardIdx);
+
 		if (boardIdx == null) {
 			throw new IllegalArgumentException(MessageUtils.getMessage("error.WriteBoard"));
 		}
@@ -119,7 +119,7 @@ public class BoardServiceImpl implements BoardService {
 		int boardIdx = modifyBoardDto.getBoardIdx();
 		Board board = boardMapper.findModifyBoard(boardIdx); // Board INNER JOIN Upload 
 		log.info("find modify board, board = {}", board);
-		
+
 		if (board == null) {
 			throw new IllegalArgumentException(MessageUtils.getMessage("error.NotFoundModifyBoard"));
 		}
@@ -156,9 +156,9 @@ public class BoardServiceImpl implements BoardService {
 		log.info("deleteBoardDto ==> {}", board);
 		
 		boardMapper.deleteBoard(board);
-		log.info("after delete board, board = {}", board);
-		
 		Integer boardCategoryCode = board.getBoardCategoryCode();
+		log.info("after delete board, boardCategoryCode = {}", boardCategoryCode);
+
 		if (boardCategoryCode == null) {
 			throw new IllegalArgumentException(MessageUtils.getMessage("error.DeleteBoard"));
 		}
