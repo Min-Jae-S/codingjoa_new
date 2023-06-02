@@ -17,7 +17,12 @@ public class BoardDto {
 	
 	@BoardCategoryCode
 	private Integer boardCategoryCode;
-	
 	private List<Integer> uploadIdxList;
+
+	@Override
+	public String toString() {
+		return "BoardDto [boardIdx=" + boardIdx + ", boardTitle=" + boardTitle + ", boardWriterIdx=" + boardWriterIdx
+				+ ", boardCategoryCode=" + boardCategoryCode + ", uploadIdxList=" + uploadIdxList + "]";
+	}
 	
 }

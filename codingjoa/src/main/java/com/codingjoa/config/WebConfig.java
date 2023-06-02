@@ -86,7 +86,7 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 		log.info("## onStartup");
 		super.onStartup(servletContext);
 		registerCharacterEncodingFilter(servletContext);
-		registerLogFilter(servletContext);
+		//registerLogFilter(servletContext);
 	}
 
 	private void registerCharacterEncodingFilter(ServletContext servletContext) {
@@ -101,6 +101,7 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 		encodingFilterReg.addMappingForUrlPatterns(dispatcherTypes, false, "/*");
 	}
 	
+	@SuppressWarnings("unused")
 	private void registerLogFilter(ServletContext servletContext) {
 		log.info("## registerLogFilter");
 		FilterRegistration.Dynamic logFilterReg = servletContext.addFilter("LogFilter", new LogFilter());
