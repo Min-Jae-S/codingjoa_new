@@ -168,6 +168,7 @@
 			    
 			    let $input = $("<input>").attr("type", "hidden").attr("name", "uploadIdxList");
 			    let dataIdx = value.item.getAttribute("dataIdx");
+			    console.log("dataIdx = " + dataIdx);
 			    
 			    $input.val(dataIdx);
 			    $form.append($input);

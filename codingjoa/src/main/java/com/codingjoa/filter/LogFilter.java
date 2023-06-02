@@ -30,7 +30,7 @@ public class LogFilter implements Filter {
 		log.info("## {} init", filterConfig.getFilterName());
 
 		String excludePatterns = filterConfig.getInitParameter("excludePatterns");
-		log.info("\t > initParamter excludePatterns = {}", excludePatterns);
+		log.info("\t > initParamter excludePatterns = '{}'", excludePatterns);
 		
 		if (excludePatterns != null) {
 			String contextPath = filterConfig.getServletContext().getContextPath();

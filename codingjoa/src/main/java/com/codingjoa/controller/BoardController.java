@@ -159,7 +159,6 @@ public class BoardController {
 		
 		modifyBoardDto.setBoardWriterIdx(boardWriterIdx);
 		boardService.bindModifyBoard(modifyBoardDto);
-		log.info("after bindModifyBoard, modifyBoardDto = {}", modifyBoardDto);
 		
 		model.addAttribute("boardCategoryList", categoryService.findBoardCategoryList());
 		
@@ -170,7 +169,6 @@ public class BoardController {
 	public String modifyProc(@Validated @ModelAttribute("modifyBoardDto") BoardDto modifyBoardDto, 
 			BindingResult bindingResult, @AuthenticationPrincipal UserDetailsDto principal, Model model) {
 		log.info("modifyBoardDto = {}", modifyBoardDto);
-		log.info("principal = {}", principal);
 		
 		if (bindingResult.hasErrors()) {
 			bindingResult.getFieldErrors().forEach(fieldError -> {

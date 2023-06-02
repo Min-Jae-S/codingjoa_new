@@ -129,9 +129,7 @@ public class BoardServiceImpl implements BoardService {
 			throw new IllegalArgumentException(MessageUtils.getMessage("error.NotMyBoard"));
 		}
 		
-		List<Integer> uploadIdxList = uploadService.getUploadIdxList(boardIdx);
 		modelMapper.map(board, modifyBoardDto);
-		modifyBoardDto.setUploadIdxList(uploadIdxList);
 	}
 	
 	@Override
