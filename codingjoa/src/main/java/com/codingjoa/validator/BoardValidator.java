@@ -27,11 +27,6 @@ public class BoardValidator implements Validator {
 	
 	@Override
 	public void validate(Object target, Errors errors) {
-		
-		if (errors.hasErrors()) { // @BoardCategoryCode
-			return;
-		}
-
 		log.info("-------- {} --------", this.getClass().getSimpleName());
 		log.info("objectName = {}", errors.getObjectName());
 		
@@ -48,7 +43,7 @@ public class BoardValidator implements Validator {
 		}
 		
 		if (!StringUtils.hasText(boardDto.getBoardContentText())) {
-			errors.rejectValue("boardContentText", "NotBlank");
+			errors.rejectValue("boardContent", "NotBlank");
 			return;
 		}
 		
