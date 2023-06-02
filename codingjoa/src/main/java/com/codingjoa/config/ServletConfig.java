@@ -115,7 +115,7 @@ public class ServletConfig implements WebMvcConfigurer {
 		WebMvcConfigurer.super.addInterceptors(registry);
 		registry.addInterceptor(topMenuInterceptor())
 				.addPathPatterns("/**")
-				.excludePathPatterns("/resources/**");
+				.excludePathPatterns("/resources/**", "/upload/**");
 	}
 
 	@Bean

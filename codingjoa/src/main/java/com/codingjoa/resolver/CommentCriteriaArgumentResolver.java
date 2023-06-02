@@ -36,7 +36,7 @@ public class CommentCriteriaArgumentResolver implements HandlerMethodArgumentRes
 		log.info("-------- {} --------", this.getClass().getSimpleName());
 		
 		String rawPage = webRequest.getParameter("page");
-		log.info("	raw page = {}", rawPage);
+		log.info("raw page = {}", rawPage);
 		
 		return new CommentCriteria(
 			MyNumberUtils.isNaturalNumber(rawPage) ? Integer.parseInt(rawPage) : page,
