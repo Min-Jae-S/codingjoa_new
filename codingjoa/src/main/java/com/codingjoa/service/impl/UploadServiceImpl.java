@@ -38,6 +38,11 @@ public class UploadServiceImpl implements UploadService {
 	}
 	
 	@Override
+	public List<Integer> getUploadIdxList(int uploadBoardIdx) {
+		return uploadMapper.findUploadIdxList(uploadBoardIdx);
+	}
+	
+	@Override
 	public void modifyUpload(BoardDto modifyBoardDto) {
 		int boardIdx = modifyBoardDto.getBoardIdx();
 		uploadMapper.deactivateImage(boardIdx);
@@ -47,6 +52,4 @@ public class UploadServiceImpl implements UploadService {
 			uploadMapper.activateImage(boardIdx, uploadIdxList);
 		}
 	}
-
-
 }

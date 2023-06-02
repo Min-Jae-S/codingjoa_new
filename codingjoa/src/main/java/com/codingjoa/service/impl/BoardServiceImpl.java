@@ -117,7 +117,7 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public void bindModifyBoard(BoardDto modifyBoardDto) {
 		int boardIdx = modifyBoardDto.getBoardIdx();
-		Board board = boardMapper.findModifyBoard(boardIdx); // Board INNER JOIN Upload 
+		Board board = boardMapper.findModifyBoard(boardIdx);
 		log.info("find modify board, board = {}", board);
 
 		if (board == null) {
@@ -129,7 +129,9 @@ public class BoardServiceImpl implements BoardService {
 			throw new IllegalArgumentException(MessageUtils.getMessage("error.NotMyBoard"));
 		}
 		
+		List<Integer> uploadIdxList = uploadService.getUploadIdxList(boardIdx);
 		modelMapper.map(board, modifyBoardDto);
+		modifyBoardDto.setUploadIdxList(uploadIdxList);
 	}
 	
 	@Override

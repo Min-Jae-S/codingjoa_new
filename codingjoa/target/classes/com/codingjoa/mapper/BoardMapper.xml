@@ -31,7 +31,6 @@
 		<selectKey keyProperty="boardIdx" resultType="int" order="BEFORE">
 			SELECT seq_board.NEXTVAL FROM DUAL
 		</selectKey>
-	
 		INSERT INTO board (
 			board_idx,
 			board_title,
@@ -350,18 +349,13 @@
 			board_category_code = #{boardCategoryCode}
 	</select>
 	
-	<select id="findModifyBoard" parameterType="map" resultType="board">
+	<select id="findModifyBoard" parameterType="int" resultType="board">
 		SELECT
-			a.*,
-			b.upload_idx
+			*
 		FROM 
-			board a
-		INNER JOIN
-			upload b
-		ON
-			a.board_idx = b.upload_board_idx
+			board
 		WHERE
-			a.board_idx = #{boardIdx}
+			board_idx = #{boardIdx}
 	</select>
 	
 	<!-- <select id="isMyBoard" parameterType="map" resultType="boolean">
