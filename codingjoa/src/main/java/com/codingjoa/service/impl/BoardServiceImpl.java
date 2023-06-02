@@ -139,10 +139,12 @@ public class BoardServiceImpl implements BoardService {
 		
 		boolean result = boardMapper.updateBoard(board);
 		log.info("after update board only, result = {}", result);
+		log.info("after update board only, board = {}", board);
 		
 		if (!result) {
 			throw new IllegalArgumentException(MessageUtils.getMessage("error.UpdateBoard"));
 		}
+		
 	}
 
 	@Override

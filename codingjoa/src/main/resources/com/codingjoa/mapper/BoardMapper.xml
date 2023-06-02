@@ -361,7 +361,7 @@
 		ON
 			a.board_idx = b.upload_board_idx
 		WHERE
-			a.board_idx = #{boardIdx} 
+			a.board_idx = #{boardIdx}
 	</select>
 	
 	<!-- <select id="isMyBoard" parameterType="map" resultType="boolean">
@@ -384,8 +384,9 @@
 			moddate = SYSDATE
 		WHERE
 			board_idx = #{boardIdx} 
-		AND 
-			board_writer_idx = #{boardWriterIdx}
+		<selectKey keyProperty="boardWriterIdx" resultType="int" order="AFTER">
+			SELECT board_writer_idx FROM board WHERE board_idx = #{boardIdx}
+		</selectKey>
 	</update>
 	
 	<select id="findBoardCategoryCode" parameterType="int" resultType="int">
