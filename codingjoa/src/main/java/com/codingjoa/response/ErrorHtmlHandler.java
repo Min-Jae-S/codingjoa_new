@@ -1,7 +1,6 @@
 package com.codingjoa.response;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolationException;
 
 import org.springframework.validation.BindException;
@@ -18,19 +17,19 @@ import lombok.extern.slf4j.Slf4j;
 public class ErrorHtmlHandler {
 	
 	@ExceptionHandler(Exception.class) // NoHandlerFoundException
-	protected String handleException(Exception e, HttpServletRequest request, HttpServletResponse response) {
+	protected String handleException(Exception e, HttpServletRequest request) {
 		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t > message = {}", e.getMessage());
-
 		request.setAttribute("errorMessage", e.getMessage());
 		
 		return "forward:/error/errorPage";
 	}
 	
 	@ExceptionHandler(MethodArgumentNotValidException.class)
-	protected String handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
+	protected String handleMethodArgumentNotValidException(MethodArgumentNotValidException e, HttpServletRequest request) {
 		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t > message = {}", e.getMessage());
+		request.setAttribute("errorMessage", e.getMessage());
 
 //		if (isAjaxRequest(request)) {
 //			ErrorResponse response = ErrorResponse.create().bindingResult(e.getBindingResult());
@@ -46,9 +45,10 @@ public class ErrorHtmlHandler {
 	}
 	
 	@ExceptionHandler(BindException.class) // /board/write?boardCategory=aa, /board/modify?boardIdx=aa, /board/deleteProc?boardIdx=aa
-	protected String handleBindException(BindException e) {
+	protected String handleBindException(BindException e, HttpServletRequest request) {
 		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t > message = {}", e.getMessage());
+		request.setAttribute("errorMessage", e.getMessage());
 		
 		e.getBindingResult().getFieldErrors().forEach(fieldError -> {
 			log.info("\t > field = {}", fieldError.getField());
@@ -63,7 +63,8 @@ public class ErrorHtmlHandler {
 			HttpServletRequest request) {
 		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t > message = {}", e.getMessage());
-
+		request.setAttribute("errorMessage", e.getMessage());
+		
 		e.getConstraintViolations().forEach(violation -> {
 			//log.info("\t > {}", violation);
 			log.info("\t > invalid value = {}", violation.getInvalidValue());
@@ -76,17 +77,19 @@ public class ErrorHtmlHandler {
 		MissingServletRequestParameterException.class,	// /board/read
 		MethodArgumentTypeMismatchException.class		// /board/read?boardIdx=, /board/read?boardIdx=aa 
 	})
-	protected String handlePathVariableExceptionAndTypeMismatchException(Exception e) {
+	protected String handlePathVariableExceptionAndTypeMismatchException(Exception e, HttpServletRequest request) {
 		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t > message = {}", e.getMessage());
+		request.setAttribute("errorMessage", e.getMessage());
 		
 		return "forward:/error/errorPage";
 	}
 
 	@ExceptionHandler(IllegalArgumentException.class)
-	protected String handleIllegalArgumentException(IllegalArgumentException e) {
+	protected String handleIllegalArgumentException(IllegalArgumentException e, HttpServletRequest request) {
 		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t > message = {}", e.getMessage());
+		request.setAttribute("errorMessage", e.getMessage());
 		
 		return "forward:/error/errorPage";
 	}

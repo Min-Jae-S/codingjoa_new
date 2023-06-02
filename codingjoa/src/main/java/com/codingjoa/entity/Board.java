@@ -29,4 +29,11 @@ public class Board {
 	private Date regdate;
 	private Date moddate;
 	
+	@Override
+	public String toString() {
+		return "Board [boardIdx=" + boardIdx + ", boardTitle=" + boardTitle + ", boardWriterIdx=" + boardWriterIdx
+				+ ", boardViews=" + boardViews + ", boardCategoryCode=" + boardCategoryCode + ", regdate=" + regdate
+				+ ", moddate=" + moddate + "]";
+	}
+	
 }
