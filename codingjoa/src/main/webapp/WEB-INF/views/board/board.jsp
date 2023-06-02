@@ -87,8 +87,8 @@
 
 <div class="container board-container">
 	<div class="row">
-		<div class="col-sm-2"></div>
-		<div class="col-sm-8">
+		<div class="col-sm-1"></div>
+		<div class="col-sm-10">
 			<h4 class="font-weight-bold mb-4"><c:out value="${category.categoryName}"/></h4>
 			<div class="pt-3">
 	        	<form:form class="form-inline" action="${contextPath}/board/" method="GET" modelAttribute="boardCri">
@@ -184,7 +184,7 @@
 				</ul>
 			</div>
 		</div>		
-		<div class="col-sm-2"></div>
+		<div class="col-sm-1"></div>
 	</div>
 </div>
 

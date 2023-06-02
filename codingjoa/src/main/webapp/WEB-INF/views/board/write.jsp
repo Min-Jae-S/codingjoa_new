@@ -35,7 +35,7 @@
 	}
 	
 	.ck-editor__editable[role="textbox"] {
-		min-height: 250px;
+		min-height: 350px;
 		font-size: 0.9rem;
 		padding-left: 0.75rem;
 		padding-right: 0.75rem;
@@ -52,8 +52,8 @@
 
 <div class="container board-container">
 	<div class="row">
-		<div class="col-sm-2"></div>
-		<div class="col-sm-8">
+		<div class="col-sm-1"></div>
+		<div class="col-sm-10">
 			<h4 class="font-weight-bold mb-3">게시판 글쓰기</h4>
 			<div class="pt-4" style="border-top: 1px solid black;">
 				<form:form action="${contextPath}/board/writeProc" method="POST" modelAttribute="writeBoardDto">
@@ -86,7 +86,7 @@
 				</form:form>
 			</div>
 		</div>
-		<div class="col-sm-2"></div>
+		<div class="col-sm-1"></div>
 	</div>
 </div>
 

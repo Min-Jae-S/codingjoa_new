@@ -40,7 +40,7 @@
 	}
 	
 	.content-group {
-		min-height: 250px;
+		min-height: 350px;
 	}
     
 	.header-group { 
@@ -259,13 +259,13 @@
 						<div class="dropdown-menu">
 							<h6 class="dropdown-header">게시글 관리</h6>
 							<a class="dropdown-item" 
-								href="${contextPath}/board/modify?boardIdx=aaa">수정하기 boardIdx = aaa
+								href="${contextPath}/board/modify?boardIdx=aaa">수정하기 boardIdx=aaa
 							</a>
 							<a class="dropdown-item" 
-								href="${contextPath}/board/modify?boardIdx=99999">수정하기 boardIdx = 99999
+								href="${contextPath}/board/modify?boardIdx=99999">수정하기 boardIdx=99999
 							</a>
 							<a class="dropdown-item" 
-								href="${contextPath}/board/modify?boardIdx=4113">수정하기 boardIdx = 4113(admin)
+								href="${contextPath}/board/modify?boardIdx=4113">수정하기 boardIdx=4113(admin)
 							</a>
 							<a class="dropdown-item" 
 								href="${contextPath}/board/modify?boardIdx=${boardDetails.boardIdx}">수정하기
@@ -342,30 +342,30 @@
 				<a class="btn btn-secondary" href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}&
 					${boardCri.getQueryString()}">목록</a>
 			</div>
+			<div class="test mt-5">
+				<div class="mb-4 d-flex">
+					<button class="btn btn-primary test-item" name="commentBtn" data-idx="">GET: api/comments/</button>
+					<button class="btn btn-primary test-item" name="commentBtn" data-idx="a">GET: api/comments/a</button>				
+					<button class="btn btn-primary test-item" name="commentBtn" data-idx="9999">GET: api/comments/9999</button>
+				</div>
+				<div class="mb-4 d-flex">			
+					<button class="btn btn-warning test-item" name="patchBtn" data-idx="">PATCH: api/comments/</button>					
+					<button class="btn btn-warning test-item" name="patchBtn" data-idx="a">PATCH: api/comments/a</button>				
+					<button class="btn btn-warning test-item" name="patchBtn" data-idx="9999">PATCH: api/comments/9999</button>					
+				</div>
+				<div class="mb-4 d-flex">				
+					<button class="btn btn-danger test-item" name="deleteBtn" data-idx="">DELETE: api/comments/</button>					
+					<button class="btn btn-danger test-item" name="deleteBtn" data-idx="a">DELETE: api/comments/a</button>				
+					<button class="btn btn-danger test-item" name="deleteBtn" data-idx="9999">DELETE: api/comments/9999</button>					
+				</div>
+				<!-- <div class="mb-4 d-flex">				
+					<button class="btn btn-info test-item" name="commentListBtn" data-idx="a">GET: api/boards/a/comments</button>				
+					<button class="btn btn-info test-item" name="commentListBtn" data-idx="9999">GET: boards/9999/comments</button>					
+					<button class="btn btn-info test-item" name="commentListBtn" data-idx="">GET: api/boards//comments</button>					
+				</div> -->
+			</div>
 		</div>
 		<div class="col-sm-1"></div>
-	</div>
-	<div class="test mt-5">
-		<div class="mb-4 d-flex">
-			<button class="btn btn-primary test-item" name="commentBtn" data-idx="">GET: api/comments/</button>
-			<button class="btn btn-primary test-item" name="commentBtn" data-idx="a">GET: api/comments/a</button>				
-			<button class="btn btn-primary test-item" name="commentBtn" data-idx="9999">GET: api/comments/9999</button>
-		</div>
-		<div class="mb-4 d-flex">			
-			<button class="btn btn-warning test-item" name="patchBtn" data-idx="">PATCH: api/comments/</button>					
-			<button class="btn btn-warning test-item" name="patchBtn" data-idx="a">PATCH: api/comments/a</button>				
-			<button class="btn btn-warning test-item" name="patchBtn" data-idx="9999">PATCH: api/comments/9999</button>					
-		</div>
-		<div class="mb-4 d-flex">				
-			<button class="btn btn-danger test-item" name="deleteBtn" data-idx="">DELETE: api/comments/</button>					
-			<button class="btn btn-danger test-item" name="deleteBtn" data-idx="a">DELETE: api/comments/a</button>				
-			<button class="btn btn-danger test-item" name="deleteBtn" data-idx="9999">DELETE: api/comments/9999</button>					
-		</div>
-		<!-- <div class="mb-4 d-flex">				
-			<button class="btn btn-info test-item" name="commentListBtn" data-idx="a">GET: api/boards/a/comments</button>				
-			<button class="btn btn-info test-item" name="commentListBtn" data-idx="9999">GET: boards/9999/comments</button>					
-			<button class="btn btn-info test-item" name="commentListBtn" data-idx="">GET: api/boards//comments</button>					
-		</div> -->
 	</div>
 </div>
 
