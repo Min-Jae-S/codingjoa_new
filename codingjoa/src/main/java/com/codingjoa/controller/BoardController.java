@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import com.codingjoa.annotation.BoardCategoryCode;
 import com.codingjoa.annotation.BoardCri;
@@ -130,7 +129,6 @@ public class BoardController {
 	public String writeProc(@Validated @ModelAttribute("writeBoardDto") BoardDto writeBoardDto, 
 			BindingResult bindingResult, @AuthenticationPrincipal UserDetailsDto principal, Model model) {
 		log.info("writeBoardDto = {}", writeBoardDto);
-		log.info("principal = {}", principal);
 		
 		if (bindingResult.hasErrors()) {
 			bindingResult.getFieldErrors().forEach(fieldError -> {
@@ -143,27 +141,25 @@ public class BoardController {
 		}
 		
 		int boardWriterIdx = principal.getMember().getMemberIdx();
+		log.info("boardWriterIdx = {}", boardWriterIdx);
+		
 		writeBoardDto.setBoardWriterIdx(boardWriterIdx);
+		boardService.writeBoard(writeBoardDto); // insertBoard + activateImage
 		
-		int boardIdx = boardService.writeBoard(writeBoardDto);
-		writeBoardDto.setBoardIdx(boardIdx);
-		
-		uploadService.activateImage(writeBoardDto);
-		
-		return "redirect:/board/read" + UriComponentsBuilder.newInstance()
-											.queryParam("boardIdx", boardIdx)
-											.toUriString();
+		return "redirect:/board/read?boardIdx=" + writeBoardDto.getBoardIdx();
 	}
 	
 	@GetMapping("/modify")
 	public String modify(@ModelAttribute("modifyBoardDto") BoardDto modifyBoardDto, 
 			@AuthenticationPrincipal UserDetailsDto principal, Model model) {
 		log.info("modifyBoardDto = {}", modifyBoardDto);
-		log.info("principal = {}", principal);
 		
 		int boardWriterIdx = principal.getMember().getMemberIdx();
+		log.info("boardWriterIdx = {}", boardWriterIdx);
+		
 		modifyBoardDto.setBoardWriterIdx(boardWriterIdx);
 		boardService.bindModifyBoard(modifyBoardDto);
+		log.info("after bindModifyBoard, modifyBoardDto = {}", modifyBoardDto);
 		
 		model.addAttribute("boardCategoryList", categoryService.findBoardCategoryList());
 		
@@ -187,31 +183,30 @@ public class BoardController {
 		}
 		
 		int boardWriterIdx = principal.getMember().getMemberIdx();
-		modifyBoardDto.setBoardWriterIdx(boardWriterIdx);
+		log.info("boardWriterIdx = {}", boardWriterIdx);
 		
-		boardService.modifyBoard(modifyBoardDto);
+		modifyBoardDto.setBoardWriterIdx(boardWriterIdx);
+		boardService.modifyBoard(modifyBoardDto); // updateBoard + updateUpload
+		
 		uploadService.modifyUpload(modifyBoardDto);
 		
-		return "redirect:/board/read" + UriComponentsBuilder.newInstance()
-											.queryParam("boardIdx", modifyBoardDto.getBoardIdx())
-											.toUriString();
+		return "redirect:/board/read?boardIdx=" + modifyBoardDto.getBoardIdx();
 	}
 	
 	@GetMapping("/deleteProc")
 	public String deleteProc(@ModelAttribute("deleteBoardDto") BoardDto deleteBoardDto, 
 			@AuthenticationPrincipal UserDetailsDto principal) {
 		log.info("deleteBoardDto = {}", deleteBoardDto);
-		log.info("principal = {}", principal);
+		
+		int boardWriterIdx = principal.getMember().getMemberIdx();
+		log.info("boardWriterIdx = {}", boardWriterIdx);
 		
 		// ON DELETE CASCADE, ON DELETE SET NULL
-		int boardWriterIdx = principal.getMember().getMemberIdx();
 		deleteBoardDto.setBoardWriterIdx(boardWriterIdx);
-		
 		int boardCategoryCode = boardService.deleteBoard(deleteBoardDto);
 		
-		return "redirect:/board/" + UriComponentsBuilder.newInstance()
-														.queryParam("boardCategoryCode", boardCategoryCode)
-														.toUriString();
+		// UriComponentsBuilder.newInstance().queryParam("boardCategoryCode", boardCategoryCode).toUriString()
+		return "redirect:/board/?boardCategoryCode=" + boardCategoryCode;
 	}
 	
 }

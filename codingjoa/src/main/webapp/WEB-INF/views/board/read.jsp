@@ -244,8 +244,8 @@
 
 <div class="container board-container">
 	<div class="row">
-		<div class="col-sm-2"></div>
-		<div class="col-sm-8">
+		<div class="col-sm-1"></div>
+		<div class="col-sm-10">
 			<div class="card mb-3">
 				<div class="header-group">
 					<div class="category dropright mb-2">
@@ -334,7 +334,7 @@
 					${boardCri.getQueryString()}">목록</a>
 			</div>
 		</div>
-		<div class="col-sm-2"></div>
+		<div class="col-sm-1"></div>
 	</div>
 	<div class="test mt-5">
 		<div class="mb-4 d-flex">

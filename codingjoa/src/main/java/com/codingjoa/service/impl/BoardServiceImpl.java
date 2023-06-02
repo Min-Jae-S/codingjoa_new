@@ -9,23 +9,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import com.codingjoa.dto.BoardDetailsDto;
 import com.codingjoa.dto.BoardDto;
 import com.codingjoa.entity.Board;
 import com.codingjoa.mapper.BoardMapper;
-import com.codingjoa.mapper.UploadMapper;
 import com.codingjoa.pagination.Criteria;
 import com.codingjoa.pagination.Pagination;
 import com.codingjoa.service.BoardService;
+import com.codingjoa.service.UploadService;
 import com.codingjoa.util.MessageUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-//@Transactional
 @PropertySource("/WEB-INF/properties/pagination.properties")
+@Transactional
 @Service
 public class BoardServiceImpl implements BoardService {
 
@@ -33,53 +34,32 @@ public class BoardServiceImpl implements BoardService {
 	private BoardMapper boardMapper;
 	
 	@Autowired
-	private UploadMapper uploadMapper;
-	
-	@Autowired
 	private ModelMapper modelMapper;
+
+	@Autowired
+	private UploadService uploadService;
 	
 	@Value("${pagination.pageRange}")
 	private int pageRange;
 	
-//	@Override
-//	public int uploadImage(String uploadFilename) {
-//		Upload upload = new Upload();
-//		upload.setUploadFile(uploadFilename);
-//		
-//		uploadMapper.insertUpload(upload);
-//		
-//		return upload.getUploadIdx();
-//	}
-
 	@Override
-	public int writeBoard(BoardDto writeBoardDto) {
+	public void writeBoard(BoardDto writeBoardDto) {
 		Board board = modelMapper.map(writeBoardDto, Board.class);
 		log.info("writeBoardDto ==> {}", board);
 		
 		boardMapper.insertBoard(board);
-		
-		Integer boardIdx = board.getBoardIdx();
-		log.info("write board, boardIdx = {}", boardIdx);
+		log.info("after insert board only, board = {}", board);
 
+		Integer boardIdx = board.getBoardIdx();
 		if (boardIdx == null) {
 			throw new IllegalArgumentException(MessageUtils.getMessage("error.WriteBoard"));
 		}
 		
-		return boardIdx;
+		writeBoardDto.setBoardIdx(boardIdx);
+		if (writeBoardDto.getUploadIdxList() != null) {
+			uploadService.activateImage(writeBoardDto);
+		}
 	}
-
-//	@Override
-//	public boolean isImageUploaded(int uploadIdx) {
-//		return uploadMapper.isImageUploaded(uploadIdx);
-//	}
-
-//	@Override
-//	public void activateImage(BoardDto writeBoardDto) {
-//		List<Integer> uploadIdxList = writeBoardDto.getUploadIdxList();
-//		if (uploadIdxList != null) {
-//			uploadMapper.activateImage(writeBoardDto.getBoardIdx(), uploadIdxList);
-//		}
-//	}
 
 	@Override
 	public BoardDetailsDto getBoardDetails(int boardIdx) {
@@ -99,12 +79,11 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public Criteria makeNewBoardCri(Criteria boardCri) {
 		Criteria newBoardCri = new Criteria(boardCri);
-		String keyword = boardCri.getKeyword();
-		
 		if (!"writer".equals(boardCri.getType())) {
 			return newBoardCri;
 		}
 		
+		String keyword = boardCri.getKeyword();
 		if (StringUtils.hasText(keyword)) {
 			String newKeyword = boardMapper.findMemberIdxByKeyword(keyword)
 					.stream()
@@ -137,51 +116,34 @@ public class BoardServiceImpl implements BoardService {
 	
 	@Override
 	public void bindModifyBoard(BoardDto modifyBoardDto) {
-		log.info("Before Binding, {}", modifyBoardDto);
-		
 		int boardIdx = modifyBoardDto.getBoardIdx();
-		int boardWriterIdx = modifyBoardDto.getBoardWriterIdx();
+		Board board = boardMapper.findModifyBoard(boardIdx); // Board INNER JOIN Upload 
+		log.info("find modify board, board = {}", board);
 		
-		Board board = boardMapper.findModifyBoard(boardIdx, boardWriterIdx);
 		if (board == null) {
-			throw new IllegalArgumentException(MessageUtils.getMessage("error.NotBindBoard"));
+			throw new IllegalArgumentException(MessageUtils.getMessage("error.NotFoundModifyBoard"));
+		}
+		
+		int boardWriterIdx = modifyBoardDto.getBoardWriterIdx();
+		if (board.getBoardWriterIdx() != boardWriterIdx) {
+			throw new IllegalArgumentException(MessageUtils.getMessage("error.NotMyBoard"));
 		}
 		
 		modelMapper.map(board, modifyBoardDto);
-
-		List<Integer> uploadIdxList = uploadMapper.findUploadIdxList(boardIdx);
-		modifyBoardDto.setUploadIdxList(uploadIdxList);
-		log.info("After  Binding, {}", modifyBoardDto);
 	}
 	
-//	@Override
-//	public boolean isMyBoard(int boardIdx, int boardWriterIdx) {
-//		return boardMapper.isMyBoard(boardIdx, boardWriterIdx);
-//	}
-
 	@Override
 	public void modifyBoard(BoardDto modifyBoardDto) {
 		Board board = modelMapper.map(modifyBoardDto, Board.class);
 		log.info("modifyBoardDto ==> {}", board);
 		
 		boolean result = boardMapper.updateBoard(board);
-		log.info("update success = {}", result);
+		log.info("after update board only, result = {}", result);
 		
 		if (!result) {
 			throw new IllegalArgumentException(MessageUtils.getMessage("error.UpdateBoard"));
 		}
 	}
-
-//	@Override
-//	public void modifyUpload(BoardDto modifyBoardDto) {
-//		int boardIdx = modifyBoardDto.getBoardIdx();
-//		uploadMapper.deactivateImage(boardIdx);
-//		
-//		List<Integer> uploadIdxList = modifyBoardDto.getUploadIdxList();
-//		if (uploadIdxList != null) {
-//			uploadMapper.activateImage(boardIdx, uploadIdxList);
-//		}
-//	}
 
 	@Override
 	public int getBoardCategoryCode(int boardIdx) {
@@ -194,10 +156,9 @@ public class BoardServiceImpl implements BoardService {
 		log.info("deleteBoardDto ==> {}", board);
 		
 		boardMapper.deleteBoard(board);
+		log.info("after delete board, board = {}", board);
 		
 		Integer boardCategoryCode = board.getBoardCategoryCode();
-		log.info("delete board, boardCategoryCode = {}", boardCategoryCode);
-		
 		if (boardCategoryCode == null) {
 			throw new IllegalArgumentException(MessageUtils.getMessage("error.DeleteBoard"));
 		}

@@ -11,7 +11,7 @@ public interface BoardService {
 	
 //	int uploadImage(String uploadFilename);				## BoardService --> UploadService
 	
-	int writeBoard(BoardDto writeBoardDto);
+	void writeBoard(BoardDto writeBoardDto);
 	
 //	boolean isImageUploaded(int uploadIdx);				## BoardService --> UploadService
 	
@@ -30,8 +30,6 @@ public interface BoardService {
 	boolean isBoardIdxExist(int boardIdx, int boardCategoryCode);
 	
 	void bindModifyBoard(BoardDto modifyBoardDto);
-	
-//	boolean isMyBoard(int boardIdx, int boardWriterIdx);
 	
 	void modifyBoard(BoardDto modifyBoardDto);
 	

@@ -27,7 +27,8 @@ public class BoardValidator implements Validator {
 	
 	@Override
 	public void validate(Object target, Errors errors) {
-		if (errors.hasErrors()) {
+		
+		if (errors.hasErrors()) { // @BoardCategoryCode
 			return;
 		}
 

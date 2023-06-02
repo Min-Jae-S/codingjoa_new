@@ -56,26 +56,6 @@ public class CommentRestController {
 		//binder.registerCustomEditor(String.class, new StringTrimmerEditor(false));
 	}
 
-	@PostMapping("/comments")
-	public ResponseEntity<Object> writeComment(@Valid @RequestBody CommentDto commentDto,
-			BindingResult bindingResult, @AuthenticationPrincipal UserDetailsDto principal) 
-					throws MethodArgumentNotValidException {
-		log.info("commentDto = {}", commentDto);
-		log.info("memberId = {}", principal.getMember().getMemberId());
-		
-		if (bindingResult.hasErrors()) {
-			throw new MethodArgumentNotValidException(null, bindingResult);
-		}
-		
-		int commentWriterIdx = principal.getMember().getMemberIdx();
-		commentDto.setCommentWriterIdx(commentWriterIdx);
-		commentDto.setCommentUse(true);
-		
-		commentService.writeComment(commentDto);
-		
-		return ResponseEntity.ok(SuccessResponse.create().message("success.writeComment"));
-	}
-	
 	@GetMapping("/boards/{boardIdx}/comments")
 	public ResponseEntity<Object> getCommentList(@PathVariable Integer boardIdx, @CommentCri CommentCriteria commentCri) {
 		log.info("boardIdx = {}", boardIdx);
@@ -96,6 +76,25 @@ public class CommentRestController {
 		CommentDetailsDto commentDetails = commentService.getCommentDetails(commentIdx, commentWriterIdx);
 		
 		return ResponseEntity.ok(SuccessResponse.create().data(commentDetails));
+	}
+	
+	@PostMapping("/comments")
+	public ResponseEntity<Object> writeComment(@Valid @RequestBody CommentDto commentDto,
+			BindingResult bindingResult, @AuthenticationPrincipal UserDetailsDto principal) 
+					throws MethodArgumentNotValidException {
+		log.info("commentDto = {}", commentDto);
+		log.info("memberId = {}", principal.getMember().getMemberId());
+		
+		if (bindingResult.hasErrors()) {
+			throw new MethodArgumentNotValidException(null, bindingResult);
+		}
+		
+		int commentWriterIdx = principal.getMember().getMemberIdx();
+		commentDto.setCommentWriterIdx(commentWriterIdx);
+		commentDto.setCommentUse(true);
+		commentService.writeComment(commentDto);
+		
+		return ResponseEntity.ok(SuccessResponse.create().message("success.writeComment"));
 	}
 	
 	@PatchMapping(value = { "/comments", "/comments/{commentIdx}" })

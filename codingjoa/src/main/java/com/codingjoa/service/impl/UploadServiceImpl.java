@@ -34,10 +34,7 @@ public class UploadServiceImpl implements UploadService {
 
 	@Override
 	public void activateImage(BoardDto writeBoardDto) {
-		List<Integer> uploadIdxList = writeBoardDto.getUploadIdxList();
-		if (uploadIdxList != null) {
-			uploadMapper.activateImage(writeBoardDto.getBoardIdx(), uploadIdxList);
-		}		
+		uploadMapper.activateImage(writeBoardDto.getBoardIdx(), writeBoardDto.getUploadIdxList());
 	}
 	
 	@Override
