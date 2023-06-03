@@ -280,8 +280,7 @@ public class ServletConfig implements WebMvcConfigurer {
 
 	@Override
 	public void addFormatters(FormatterRegistry registry) {
-		// TODO Auto-generated method stub
-		WebMvcConfigurer.super.addFormatters(registry);
+		log.info("## addFormatters");
 		registry.addConverter(new TestConverter());
 	}
 

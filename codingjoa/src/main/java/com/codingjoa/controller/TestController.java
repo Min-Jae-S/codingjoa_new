@@ -205,12 +205,12 @@ public class TestController {
 	
 	
 	// *********************************************************
-	// 			Converter, ConversionService Test
+	// 				Converter, ConversionService 
 	// *********************************************************
 	
-	@RequestMapping("/testConverter")
-	public ResponseEntity<Object> testConvert(Test test) {
-		log.info("## testConvert called..");
+	@RequestMapping("/converter")
+	public ResponseEntity<Object> converter(Test test) {
+		log.info("## converter called..");
 		log.info("\t > test = {}", test);
 		
 		return ResponseEntity.ok("success");
