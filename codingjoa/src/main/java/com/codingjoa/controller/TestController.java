@@ -216,5 +216,13 @@ public class TestController {
 		
 		return ResponseEntity.ok("success");
 	}
+
+	@RequestMapping("/noConverter")
+	public ResponseEntity<Object> noConverter(Test test) {
+		log.info("## noConverter called..");
+		log.info("\t > test = {}", test);
+		
+		return ResponseEntity.ok("success");
+	}
 	
 }
