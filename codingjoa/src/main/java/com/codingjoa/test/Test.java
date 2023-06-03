@@ -11,18 +11,18 @@ public class Test {
 	private int param2;
 	
 	public Test() {
-		log.info("## Test Constructor");
+		log.info("## {}#Constructor", this.getClass().getSimpleName());
 		this.param1 = "aa";
 		this.param2 = 10;
 	}
 
 	public void setParam1(String param1) {
-		log.info("## setParam1");
+		log.info("## {}#setParam1", this.getClass().getSimpleName());
 		this.param1 = param1;
 	}
 
 	public void setParam2(String param2) {
-		log.info("## setParam2");
+		log.info("## {}#setParam2", this.getClass().getSimpleName());
 		try {
 			this.param2 = Integer.valueOf(param2);
 		} catch (NumberFormatException e) {
