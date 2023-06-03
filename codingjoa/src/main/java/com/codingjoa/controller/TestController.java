@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -16,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import com.codingjoa.test.Test;
+import com.codingjoa.test.TestEditor;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -206,20 +209,26 @@ public class TestController {
 	
 	
 	// *********************************************************
-	// 				Converter, ConversionService 
+	// 		Converter, ConversionService, PropertyEditor
 	// *********************************************************
 	
+	@InitBinder
+	public void initBinder(WebDataBinder binder) {
+		log.info("-------- {}#initBinder --------", this.getClass().getSimpleName());
+		binder.registerCustomEditor(Test.class, new TestEditor());
+	}
+	
 	@RequestMapping("/converter")
-	public ResponseEntity<Object> converter(@RequestParam Test test) {
-		log.info("## converter called..");
+	public ResponseEntity<Object> testConverter(@RequestParam Test test) {
+		log.info("## testConverter called..");
 		log.info("\t > test = {}", test);
 		
 		return ResponseEntity.ok("success");
 	}
 
-	@RequestMapping("/noConverter")
-	public ResponseEntity<Object> noConverter(Test test) {
-		log.info("## noConverter called..");
+	@RequestMapping("/modelattribute")
+	public ResponseEntity<Object> testModelattribute(Test test) {
+		log.info("## testModelattribute called..");
 		log.info("\t > test = {}", test);
 		
 		return ResponseEntity.ok("success");

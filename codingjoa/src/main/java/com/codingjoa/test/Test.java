@@ -4,7 +4,7 @@ import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@Data
+@Data 
 public class Test {
 	
 	private String param1;
@@ -16,12 +16,10 @@ public class Test {
 		this.param2 = 10;
 	}
 
-
 	public void setParam1(String param1) {
 		log.info("## setParam1");
 		this.param1 = param1;
 	}
-
 
 	public void setParam2(String param2) {
 		log.info("## setParam2");
