@@ -134,7 +134,7 @@ public class BoardController {
 		if (bindingResult.hasErrors()) {
 			log.info("## bindingResult hasErrors");
 			bindingResult.getFieldErrors().forEach(fieldError -> {
-				log.info("\t > field = {}, code = {}", fieldError.getField(), fieldError.getCodes()[0]);
+				log.info("\t > {} // {}", fieldError.getField(), fieldError.getCodes()[0]);
 			});
 			model.addAttribute("boardCategoryList", categoryService.findBoardCategoryList());
 			
@@ -168,18 +168,18 @@ public class BoardController {
 	
 	@PostMapping("/modifyProc")
 	public String modifyProc(@Validated @ModelAttribute("modifyBoardDto") BoardDto modifyBoardDto, 
-			BindingResult bindingResult, @AuthenticationPrincipal UserDetailsDto principal, Model model) {
+			/* BindingResult bindingResult, */ @AuthenticationPrincipal UserDetailsDto principal, Model model) {
 		log.info("modifyBoardDto = {}", modifyBoardDto);
 		
-		if (bindingResult.hasErrors()) {
-			log.info("## bindingResult hasErrors");
-			bindingResult.getFieldErrors().forEach(fieldError -> {
-				log.info("\t > field = {}, code = {}", fieldError.getField(), fieldError.getCodes()[0]);
-			});
-			model.addAttribute("boardCategoryList", categoryService.findBoardCategoryList());
-			
-			return "board/modify";
-		}
+//		if (bindingResult.hasErrors()) {
+//			log.info("## bindingResult hasErrors");
+//			bindingResult.getFieldErrors().forEach(fieldError -> {
+//				log.info("\t > {} // {}", fieldError.getField(), fieldError.getCodes()[0]);
+//			});
+//			model.addAttribute("boardCategoryList", categoryService.findBoardCategoryList());
+//			
+//			return "board/modify";
+//		}
 		
 		int boardWriterIdx = principal.getMember().getMemberIdx();
 		log.info("boardWriterIdx = {}", boardWriterIdx);

@@ -30,6 +30,10 @@ public class BoardValidator implements Validator {
 		log.info("-------- {} --------", this.getClass().getSimpleName());
 		log.info("objectName = {}", errors.getObjectName());
 		
+		errors.getFieldErrors().forEach(fieldError -> {
+			log.info("\t > {} // {}", fieldError.getField(), fieldError.getCodes()[0]);
+		});
+		
 		BoardDto boardDto = (BoardDto) target;
 		
 		if (!StringUtils.hasText(boardDto.getBoardTitle())) {

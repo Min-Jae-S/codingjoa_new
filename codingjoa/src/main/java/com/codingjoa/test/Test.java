@@ -1,4 +1,4 @@
-package com.codingjoa.entity;
+package com.codingjoa.test;
 
 import lombok.Data;
 
@@ -6,6 +6,6 @@ import lombok.Data;
 public class Test {
 	
 	private String param1;
-	private String param2;
+	private int param2;
 	
 }

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
-import com.codingjoa.entity.Test;
+import com.codingjoa.test.Test;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -32,7 +32,6 @@ public class TestController {
 		Map<String, String> map = new HashMap<>();
 		map.put("param1", param1);
 		map.put("param2", param2);
-		
 		return map;
 	}
 	
@@ -48,7 +47,6 @@ public class TestController {
 	@RequestMapping("/test2")
 	public String test2() {
 		log.info("## test2 called...");
-		
 		return "test2";
 	}
 	
@@ -75,6 +73,13 @@ public class TestController {
 		log.info("## npe called...");
 		throw new NullPointerException();
 	}
+	
+	
+	
+	
+	// ***************************************************************
+	// 		ModelAndView / MappingJackson2JsonView / ViewResolver  
+	// ***************************************************************
 	
 	@RequestMapping("/testVoid")
 	public void testVoid(Model model) {
@@ -151,7 +156,7 @@ public class TestController {
 	public ResponseEntity<Object> testJson() {
 		log.info("## testJson called...");
 		
-		return ResponseEntity.ok().body(new Test());
+		return ResponseEntity.ok(new Test());
 	}
 
 	// return ModelAndView including JSON(Object)
@@ -197,5 +202,18 @@ public class TestController {
 		return mav;
 	}
 	
+	
+	
+	// *********************************************************
+	// 			Converter, ConversionService Test
+	// *********************************************************
+	
+	@RequestMapping("/testConverter")
+	public ResponseEntity<Object> testConvert(Test test) {
+		log.info("## testConvert called..");
+		log.info("\t > test = {}", test);
+		
+		return ResponseEntity.ok("success");
+	}
 	
 }
