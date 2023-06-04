@@ -9,7 +9,7 @@ public class TestConverter implements Converter<String, Test> {
 
 	@Override
 	public Test convert(String source) {
-		log.info("-------- {}#convert --------", this.getClass().getSimpleName());
+		log.info("-------- {} --------", this.getClass().getSimpleName());
 		log.info("\t > source = {}", source);
 		return null;
 	}
