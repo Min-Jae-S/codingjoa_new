@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
@@ -212,25 +213,40 @@ public class TestController {
 //	@InitBinder("test")
 //	public void initBinder(WebDataBinder binder) {
 //		log.info("-------- {} --------", this.getClass().getSimpleName());
-//		binder.registerCustomEditor(int.class, new TestEditor());
+//		binder.registerCustomEditor(int.class, new PropertyEditorSupport() {
+//
+//			private final int DEFAULT_VALUE = 100;
+//			
+//			@Override
+//			public void setAsText(String text) throws IllegalArgumentException {
+//				log.info("## {}#setAsText", this.getClass().getSimpleName());
+//				log.info("\t > text = {}", text);
+//				
+//				try {
+//					setValue(Integer.parseInt(text));
+//				} catch (NumberFormatException e) {
+//					log.info("\t > {}", e.getClass().getSimpleName());
+//					setValue(DEFAULT_VALUE);
+//				}
+//			}
+//		});
 //	}
 	
 	@ResponseBody
 	@RequestMapping("/converter")
 	public ResponseEntity<Object> testConverter(@ModelAttribute Test test) {
 		log.info("## testConverter called..");
-		log.info("\t > {}", test);
+		log.info("\t > test = {}", test);
 		
 		return ResponseEntity.ok(test);
 	}
-
-	@ResponseBody
-	@RequestMapping("/modelattribute")
-	public ResponseEntity<Object> testModelattribute(@ModelAttribute Test test) {
-		log.info("## testModelattribute called..");
-		log.info("\t > {}", test);
+	
+	@RequestMapping("/converter2")
+	public ResponseEntity<Object> testConverter2(@RequestParam int param1) {
+		log.info("## testConverter2 called..");
+		log.info("\t > param1 = {}", param1);
 		
-		return ResponseEntity.ok(test);
+		return ResponseEntity.ok(param1);
 	}
 	
 }

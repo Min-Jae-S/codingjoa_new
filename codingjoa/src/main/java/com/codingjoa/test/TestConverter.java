@@ -10,7 +10,7 @@ public class TestConverter implements Converter<String, Integer> {
 	private final int DEFAULT_VALUE = 100;
 	
 	@Override
-	public Integer convert(String source) {
+	public Integer convert(String source) { // the source object to convert, which must be an instance of S (never null)
 		log.info("## {}#convert ", this.getClass().getSimpleName());
 		log.info("\t > source = {}", source);
 		
