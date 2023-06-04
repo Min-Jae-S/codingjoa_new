@@ -1,5 +1,6 @@
 package com.codingjoa.controller;
 
+import java.beans.PropertyEditorSupport;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -214,10 +215,10 @@ public class TestController {
 	// 		Converter, ConversionService, PropertyEditor
 	// *********************************************************
 	
-	@InitBinder
+	@InitBinder("test")
 	public void initBinder(WebDataBinder binder) {
 		log.info("-------- {} --------", this.getClass().getSimpleName());
-		binder.registerCustomEditor(Test.class, new TestEditor());
+		binder.registerCustomEditor(int.class, new TestEditor());
 	}
 	
 	@RequestMapping("/converter")
