@@ -283,6 +283,4 @@ public class ServletConfig implements WebMvcConfigurer {
 		log.info("## addFormatters");
 		registry.addConverter(new TestConverter());
 	}
-
-	
 }
