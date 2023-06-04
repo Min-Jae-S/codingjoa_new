@@ -218,6 +218,7 @@ public class TestController {
 		binder.registerCustomEditor(int.class, new TestEditor());
 	}
 	
+	@ResponseBody
 	@RequestMapping("/converter")
 	public ResponseEntity<Object> testConverter(@ModelAttribute Test test) {
 		log.info("## testConverter called..");
@@ -226,6 +227,7 @@ public class TestController {
 		return ResponseEntity.ok(test);
 	}
 
+	@ResponseBody
 	@RequestMapping("/modelattribute")
 	public ResponseEntity<Object> testModelattribute(@ModelAttribute Test test) {
 		log.info("## testModelattribute called..");

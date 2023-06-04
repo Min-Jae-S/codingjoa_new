@@ -9,7 +9,9 @@ public class TestEditor extends PropertyEditorSupport {
 
 	@Override
 	public void setAsText(String text) throws IllegalArgumentException {
-		log.info("-------- {} --------", this.getClass().getSimpleName());
+		log.info("-------- {}#setAsText --------", this.getClass().getSimpleName());
+		log.info("\t > text = {}", text);
+		
 		try {
 			setValue(Integer.parseInt(text));
 		} catch (NumberFormatException e) {
