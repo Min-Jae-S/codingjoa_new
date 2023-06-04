@@ -9,8 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -18,7 +16,6 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import com.codingjoa.test.Test;
-import com.codingjoa.test.TestEditor;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -212,11 +209,11 @@ public class TestController {
 	// 		Converter, ConversionService, PropertyEditor
 	// *********************************************************
 	
-	@InitBinder("test")
-	public void initBinder(WebDataBinder binder) {
-		log.info("-------- {} --------", this.getClass().getSimpleName());
-		binder.registerCustomEditor(int.class, new TestEditor());
-	}
+//	@InitBinder("test")
+//	public void initBinder(WebDataBinder binder) {
+//		log.info("-------- {} --------", this.getClass().getSimpleName());
+//		binder.registerCustomEditor(int.class, new TestEditor());
+//	}
 	
 	@ResponseBody
 	@RequestMapping("/converter")
