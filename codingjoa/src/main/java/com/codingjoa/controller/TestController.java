@@ -1,6 +1,5 @@
 package com.codingjoa.controller;
 
-import java.beans.PropertyEditorSupport;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,13 +13,11 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import com.codingjoa.test.Test;
-import com.codingjoa.test.Test2;
 import com.codingjoa.test.TestEditor;
 
 import lombok.extern.slf4j.Slf4j;
@@ -222,11 +219,11 @@ public class TestController {
 	}
 	
 	@RequestMapping("/converter")
-	public ResponseEntity<Object> testConverter(@RequestParam Test test) {
+	public ResponseEntity<Object> testConverter(@ModelAttribute Test test) {
 		log.info("## testConverter called..");
-		log.info("\t > test = {}", test);
+		log.info("\t > {}", test);
 		
-		return ResponseEntity.ok("success");
+		return ResponseEntity.ok(test);
 	}
 
 	@RequestMapping("/modelattribute")
@@ -234,15 +231,7 @@ public class TestController {
 		log.info("## testModelattribute called..");
 		log.info("\t > {}", test);
 		
-		return ResponseEntity.ok("success");
-	}
-	
-	@RequestMapping("/modelattribute2")
-	public ResponseEntity<Object> testModelattribute2(@ModelAttribute Test2 test2) {
-		log.info("## testModelattribute2 called..");
-		log.info("\t > {}", test2);
-		
-		return ResponseEntity.ok("success");
+		return ResponseEntity.ok(test);
 	}
 	
 }
