@@ -20,6 +20,7 @@ public class ErrorHtmlHandler {
 	protected String handleException(Exception e, HttpServletRequest request) {
 		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t > message = {}", e.getMessage());
+		
 		request.setAttribute("errorMessage", e.getMessage());
 		
 		return "forward:/error/errorPage";
@@ -29,6 +30,7 @@ public class ErrorHtmlHandler {
 	protected String handleMethodArgumentNotValidException(MethodArgumentNotValidException e, HttpServletRequest request) {
 		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t > message = {}", e.getMessage());
+		
 		request.setAttribute("errorMessage", e.getMessage());
 
 //		if (isAjaxRequest(request)) {
@@ -48,6 +50,7 @@ public class ErrorHtmlHandler {
 	protected String handleBindException(BindException e, HttpServletRequest request) {
 		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t > message = {}", e.getMessage());
+		
 		request.setAttribute("errorMessage", e.getMessage());
 		
 		e.getBindingResult().getFieldErrors().forEach(fieldError -> {
@@ -64,6 +67,7 @@ public class ErrorHtmlHandler {
 			HttpServletRequest request) {
 		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t > message = {}", e.getMessage());
+		
 		request.setAttribute("errorMessage", e.getMessage());
 		
 		e.getConstraintViolations().forEach(violation -> {
@@ -81,6 +85,7 @@ public class ErrorHtmlHandler {
 	protected String handlePathVariableExceptionAndTypeMismatchException(Exception e, HttpServletRequest request) {
 		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t > message = {}", e.getMessage());
+		
 		request.setAttribute("errorMessage", e.getMessage());
 		
 		return "forward:/error/errorPage";
@@ -90,6 +95,7 @@ public class ErrorHtmlHandler {
 	protected String handleIllegalArgumentException(IllegalArgumentException e, HttpServletRequest request) {
 		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t > message = {}", e.getMessage());
+		
 		request.setAttribute("errorMessage", e.getMessage());
 		
 		return "forward:/error/errorPage";
