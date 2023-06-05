@@ -188,7 +188,6 @@ public class BoardController {
 		
 		modifyBoardDto.setBoardWriterIdx(boardWriterIdx);
 		boardService.modifyBoard(modifyBoardDto); // updateBoard + updateUpload
-		
 		uploadService.modifyUpload(modifyBoardDto);
 		
 		return "redirect:/board/read?boardIdx=" + modifyBoardDto.getBoardIdx();
