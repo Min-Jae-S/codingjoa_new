@@ -131,20 +131,19 @@ public class BoardController {
 	
 	@PostMapping("/writeProc")
 	public String writeProc(@Validated @ModelAttribute("writeBoardDto") BoardDto writeBoardDto,
-			BindingResult bindingResult, @AuthenticationPrincipal UserDetailsDto principal, Model model)
-			throws BindException {
+			BindingResult bindingResult, @AuthenticationPrincipal UserDetailsDto principal, Model model) {
 		log.info("## writeProc");
 		log.info("{}", writeBoardDto);
 		
 		if (bindingResult.hasErrors()) {
 			log.info("## bindingResult hasErrors");
 			bindingResult.getFieldErrors().forEach(fieldError -> {
-				log.info("\t > field = {}", fieldError.getField());
-				log.info("\t > code = {}", fieldError.getCodes()[0]);
+				log.info("\t > {} / {}", fieldError.getField(), fieldError.getCodes()[0]);
 			});
 			
 			if (bindingResult.hasFieldErrors("boardCategoryCode")) {
-				throw new BindException(bindingResult);
+				throw new IllegalArgumentException(
+						bindingResult.getFieldError("boardCategoryCode").getDefaultMessage());
 			}
 			
 			model.addAttribute("boardCategoryList", categoryService.findBoardCategoryList());
