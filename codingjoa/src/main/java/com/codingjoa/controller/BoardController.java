@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 import org.springframework.validation.annotation.Validated;
@@ -60,6 +61,7 @@ public class BoardController {
 	
 	@GetMapping
 	public String getAllBoards(Model model) {
+		log.info("## getAllBoards");
 		List<Category> boardCategoryList = categoryService.findBoardCategoryList();
 		model.addAttribute("boardCategoryList", boardCategoryList);
 		
@@ -76,8 +78,8 @@ public class BoardController {
 	@GetMapping("/")
 	public String getBoard(@BoardCategoryCode @RequestParam("boardCategoryCode") int boardCategoryCode, 
 			@BoardCri Criteria boardCri, Model model) {
-		log.info("boardCategoryCode = {}", boardCategoryCode);
-		log.info("boardCri = {}", boardCri);
+		log.info("## getBoard, boardCategoryCode = {}", boardCategoryCode);
+		log.info("{}", boardCri);
 
 		Criteria newBoardCri = boardService.makeNewBoardCri(boardCri);
 		log.info("newBoardCri = {}", newBoardCri);
@@ -99,8 +101,8 @@ public class BoardController {
 	
 	@GetMapping("/read")
 	public String read(@RequestParam("boardIdx") int boardIdx, @BoardCri Criteria boardCri, Model model) {
-		log.info("boardIdx = {}", boardIdx);
-		log.info("boardCri = {}", boardCri);
+		log.info("## read, boardIdx = {}", boardIdx);
+		log.info("{}", boardCri);
 		
 		BoardDetailsDto boardDetails = boardService.getBoardDetails(boardIdx);
 		model.addAttribute("boardDetails", boardDetails);
@@ -120,24 +122,31 @@ public class BoardController {
 	
 	@GetMapping("/write")
 	public String write(@ModelAttribute("writeBoardDto") BoardDto writeBoardDto, Model model) {
-		log.info("writeBoardDto = {}", writeBoardDto);
+		log.info("## write");
+		log.info("{}", writeBoardDto);
 		model.addAttribute("boardCategoryList", categoryService.findBoardCategoryList());
 		
 		return "board/write";
 	}
 	
 	@PostMapping("/writeProc")
-	public String writeProc(@Validated @ModelAttribute("writeBoardDto") BoardDto writeBoardDto, 
-			BindingResult bindingResult, @AuthenticationPrincipal UserDetailsDto principal, Model model) {
-		log.info("writeBoardDto = {}", writeBoardDto);
+	public String writeProc(@Validated @ModelAttribute("writeBoardDto") BoardDto writeBoardDto,
+			BindingResult bindingResult, @AuthenticationPrincipal UserDetailsDto principal, Model model)
+			throws BindException {
+		log.info("## writeProc");
+		log.info("{}", writeBoardDto);
 		
 		if (bindingResult.hasErrors()) {
 			log.info("## bindingResult hasErrors");
 			bindingResult.getFieldErrors().forEach(fieldError -> {
 				log.info("\t > field = {}", fieldError.getField());
 				log.info("\t > code = {}", fieldError.getCodes()[0]);
-				log.info("\t ********************************************");
 			});
+			
+			if (bindingResult.hasFieldErrors("boardCategoryCode")) {
+				throw new BindException(bindingResult);
+			}
+			
 			model.addAttribute("boardCategoryList", categoryService.findBoardCategoryList());
 			
 			return "board/write";
@@ -155,7 +164,8 @@ public class BoardController {
 	@GetMapping("/modify")
 	public String modify(@ModelAttribute("modifyBoardDto") BoardDto modifyBoardDto, 
 			@AuthenticationPrincipal UserDetailsDto principal, Model model) {
-		log.info("modifyBoardDto = {}", modifyBoardDto);
+		log.info("## modify");
+		log.info("{}", modifyBoardDto);
 		
 		int boardWriterIdx = principal.getMember().getMemberIdx();
 		log.info("boardWriterIdx = {}", boardWriterIdx);
@@ -171,14 +181,14 @@ public class BoardController {
 	@PostMapping("/modifyProc")
 	public String modifyProc(@Validated @ModelAttribute("modifyBoardDto") BoardDto modifyBoardDto, 
 			/* BindingResult bindingResult, */ @AuthenticationPrincipal UserDetailsDto principal, Model model) {
-		log.info("modifyBoardDto = {}", modifyBoardDto);
+		log.info("## modifyProc");
+		log.info("{}", modifyBoardDto);
 		
 //		if (bindingResult.hasErrors()) {
 //			log.info("## bindingResult hasErrors");
 //			bindingResult.getFieldErrors().forEach(fieldError -> {
 //				log.info("\t > field = {}", fieldError.getField());
 //				log.info("\t > code = {}", fieldError.getCodes()[0]);
-//				log.info("\t ********************************************");
 //			});
 //			model.addAttribute("boardCategoryList", categoryService.findBoardCategoryList());
 //			
@@ -198,7 +208,8 @@ public class BoardController {
 	@GetMapping("/deleteProc")
 	public String deleteProc(@ModelAttribute("deleteBoardDto") BoardDto deleteBoardDto, 
 			@AuthenticationPrincipal UserDetailsDto principal) {
-		log.info("deleteBoardDto = {}", deleteBoardDto);
+		log.info("## deleteProc");
+		log.info("{}", deleteBoardDto);
 		
 		int boardWriterIdx = principal.getMember().getMemberIdx();
 		log.info("boardWriterIdx = {}", boardWriterIdx);

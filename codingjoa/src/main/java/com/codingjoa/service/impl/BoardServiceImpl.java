@@ -48,7 +48,7 @@ public class BoardServiceImpl implements BoardService {
 		log.info("writeBoardDto ==> {}", board);
 		
 		boolean writeSuccess = boardMapper.insertBoard(board);
-		log.info("write board only, updateSuccess = {}", writeSuccess);
+		log.info("write board only, writeSuccess = {}", writeSuccess);
 		log.info("write board only, boardIdx = {}", board.getBoardIdx());
 
 		if (!writeSuccess) {

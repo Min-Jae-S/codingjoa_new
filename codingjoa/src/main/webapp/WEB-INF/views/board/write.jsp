@@ -12,6 +12,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
 <link rel="stylesheet" href="${contextPath}/resources/css/common.css">
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="${contextPath}/resources/js/jquery.serialize-object.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="${contextPath}/resources/ckeditor5/plugins/upload-adapter.js"></script>
@@ -79,9 +80,6 @@
 						<form:textarea path="boardContent"/>
 						<form:errors path="boardContent" cssClass="error"/>
 						<form:errors path="boardContentText" cssClass="error"/>
-					</div>
-					<div>
-						<button class="btn btn-danger" type="button" id="testBtn">testBtn</button>
 					</div>
 				</form:form>
 			</div>
@@ -190,11 +188,19 @@
 			    	continue;
 			    }
 			    
-			    let $input = $("<input>").attr("type", "hidden").attr("name", "uploadIdxList");
+			    let $input = $("<input>").attr("type", "hidden").attr("name", "uploadIdxList[]");
 			    let dataIdx = value.item.getAttribute("dataIdx");
 			    
 			    $input.val(dataIdx);
 				$form.append($input);
+			}
+			
+			console.log(JSON.stringify($form.serializeObject(), null, 2));
+			if (!confirm("게시글을 등록하시겠습니까?")) {
+				$("textArea[name='boardContentText']").remove();
+				$("input[name='uploadIdxList[]']").remove();
+				console.log(JSON.stringify($form.serializeObject(), null, 2));
+				return;
 			}
 			
 			$form.submit();

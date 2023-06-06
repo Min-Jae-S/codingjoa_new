@@ -28,11 +28,7 @@ public class BoardValidator implements Validator {
 	@Override
 	public void validate(Object target, Errors errors) {
 		log.info("-------- {} --------", this.getClass().getSimpleName());
-		log.info("objectName = {}", errors.getObjectName());
-		
-		errors.getFieldErrors().forEach(fieldError -> {
-			log.info("\t > {} // {}", fieldError.getField(), fieldError.getCodes()[0]);
-		});
+		log.info("\t > objectName = {}", errors.getObjectName());
 		
 		BoardDto boardDto = (BoardDto) target;
 		

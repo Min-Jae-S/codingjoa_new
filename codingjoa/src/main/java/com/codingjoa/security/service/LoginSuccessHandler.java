@@ -24,10 +24,10 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
 		log.info("-------- {} --------", this.getClass().getSimpleName());
-		log.info("\t > before set contentType = {}", response.getContentType());
-		
+		log.info("\t > referer = {}", request.getHeader("referer"));
+		log.info("\t > [BEFORE] contentType = {}", response.getContentType());
 		response.setContentType(MediaType.TEXT_HTML.toString());
-		log.info("\t > after set contentType = {}", response.getContentType());
+		log.info("\t > [AFTER ] contentType = {}", response.getContentType());
 		
 		PrintWriter writer = response.getWriter();
 		writer.println("<script>");

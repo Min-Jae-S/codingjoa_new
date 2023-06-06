@@ -56,7 +56,6 @@ public class ErrorHtmlHandler {
 		e.getBindingResult().getFieldErrors().forEach(fieldError -> {
 			log.info("\t > field = {}", fieldError.getField());
 			log.info("\t > code = {}", fieldError.getCodes()[0]);
-			log.info("\t ********************************************");
 		});
 		
 		return "forward:/error/errorPage";
