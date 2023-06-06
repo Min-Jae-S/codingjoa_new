@@ -124,8 +124,7 @@ public class BoardServiceImpl implements BoardService {
 			throw new IllegalArgumentException(MessageUtils.getMessage("error.NotFoundModifyBoard"));
 		}
 		
-		int boardWriterIdx = modifyBoardDto.getBoardWriterIdx();
-		if (board.getBoardWriterIdx() != boardWriterIdx) {
+		if (board.getBoardWriterIdx() != modifyBoardDto.getBoardWriterIdx()) {
 			throw new IllegalArgumentException(MessageUtils.getMessage("error.NotMyBoard"));
 		}
 		
@@ -156,19 +155,23 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public int deleteBoard(BoardDto deleteBoardDto) {
+	public void deleteBoard(BoardDto deleteBoardDto) {
 		Board board = modelMapper.map(deleteBoardDto, Board.class);
 		log.info("deleteBoardDto ==> {}", board);
 		
-		boardMapper.deleteBoard(board);
-		Integer boardCategoryCode = board.getBoardCategoryCode();
-		log.info("delete board, boardCategoryCode = {}", boardCategoryCode);
-
-		if (boardCategoryCode == null) {
+		boolean deleteSuccess = boardMapper.deleteBoard(board);
+		log.info("delete board, deleteSuccess = {}", deleteSuccess);
+		log.info("delete board, board = {}", board);
+		
+		if (!deleteSuccess) {
 			throw new IllegalArgumentException(MessageUtils.getMessage("error.DeleteBoard"));
 		}
 		
-		return boardCategoryCode;
+		if (board.getBoardWriterIdx() != deleteBoardDto.getBoardWriterIdx()) {
+			throw new IllegalArgumentException(MessageUtils.getMessage("error.NotMyBoard"));
+		}
+
+		deleteBoardDto.setBoardCategoryCode(board.getBoardCategoryCode());
 	}
 
 }

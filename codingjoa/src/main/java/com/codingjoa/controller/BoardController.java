@@ -203,10 +203,10 @@ public class BoardController {
 		
 		// ON DELETE CASCADE, ON DELETE SET NULL
 		deleteBoardDto.setBoardWriterIdx(boardWriterIdx);
-		int boardCategoryCode = boardService.deleteBoard(deleteBoardDto);
+		boardService.deleteBoard(deleteBoardDto);
 		
 		// UriComponentsBuilder.newInstance().queryParam("boardCategoryCode", boardCategoryCode).toUriString()
-		return "redirect:/board/?boardCategoryCode=" + boardCategoryCode;
+		return "redirect:/board/?boardCategoryCode=" + deleteBoardDto.getBoardCategoryCode();
 	}
 	
 }

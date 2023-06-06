@@ -401,8 +401,6 @@
 					board
 	    		WHERE 
 	        		board_idx = #{boardIdx} 
-	        	AND 
-	        		board_writer_idx = #{boardWriterIdx}
 	    		RETURNING 
 	        		board_category_code 
 	    		INTO
