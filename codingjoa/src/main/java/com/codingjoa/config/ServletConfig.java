@@ -278,9 +278,9 @@ public class ServletConfig implements WebMvcConfigurer {
 		return processor;
 	}
 
-	@Override
-	public void addFormatters(FormatterRegistry registry) {
-		log.info("## addFormatters");
-		registry.addConverter(new TestConverter());
-	}
+//	@Override
+//	public void addFormatters(FormatterRegistry registry) {
+//		log.info("## addFormatters");
+//		registry.addConverter(new TestConverter());
+//	}
 }
