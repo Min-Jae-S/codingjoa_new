@@ -49,7 +49,7 @@ public class BoardServiceImpl implements BoardService {
 		
 		boardMapper.insertBoard(board);
 		Integer boardIdx = board.getBoardIdx();
-		log.info("after insert board only, boardIdx = {}", boardIdx);
+		log.info("insert board only, boardIdx = {}", boardIdx);
 
 		if (boardIdx == null) {
 			throw new IllegalArgumentException(MessageUtils.getMessage("error.WriteBoard"));
@@ -118,7 +118,7 @@ public class BoardServiceImpl implements BoardService {
 	public void bindModifyBoard(BoardDto modifyBoardDto) {
 		int boardIdx = modifyBoardDto.getBoardIdx();
 		Board board = boardMapper.findModifyBoard(boardIdx);
-		log.info("find modify board, board = {}", board);
+		log.info("find modifyBoard, board = {}", board);
 
 		if (board == null) {
 			throw new IllegalArgumentException(MessageUtils.getMessage("error.NotFoundModifyBoard"));
@@ -137,14 +137,13 @@ public class BoardServiceImpl implements BoardService {
 		Board board = modelMapper.map(modifyBoardDto, Board.class);
 		log.info("modifyBoardDto ==> {}", board);
 		
-		boolean result = boardMapper.updateBoard(board);
-		log.info("after update board only, result = {}", result);
-		log.info("after update board only, board = {}", board);
+		boolean success = boardMapper.updateBoard(board);
+		log.info("update board only, success = {}", success);
+		log.info("update board only, board = {}", board);
 		
-		if (!result) {
+		if (!success) {
 			throw new IllegalArgumentException(MessageUtils.getMessage("error.UpdateBoard"));
 		}
-		
 	}
 
 	@Override
@@ -159,7 +158,7 @@ public class BoardServiceImpl implements BoardService {
 		
 		boardMapper.deleteBoard(board);
 		Integer boardCategoryCode = board.getBoardCategoryCode();
-		log.info("after delete board, boardCategoryCode = {}", boardCategoryCode);
+		log.info("delete board, boardCategoryCode = {}", boardCategoryCode);
 
 		if (boardCategoryCode == null) {
 			throw new IllegalArgumentException(MessageUtils.getMessage("error.DeleteBoard"));

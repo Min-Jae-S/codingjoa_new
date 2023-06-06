@@ -250,7 +250,7 @@
 				<div class="header-group">
 					<div class="category dropright mb-2">
 						<a class="board-category" 
-							href="${contextPath}/board/main?boardCategoryCode=${category.categoryCode}">
+							href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}">
 							<c:out value="${category.categoryName}"/>
 						</a>
 						<button class="board-utils btn" data-toggle="dropdown" data-offset="0,10">

@@ -368,6 +368,15 @@
 	</select> -->
 
 	<update id="updateBoard" parameterType="board">
+		<selectKey keyProperty="boardWriterIdx" resultType="int" order="BEFORE">
+			SELECT 
+				board_writer_idx,
+				board_category_code
+			FROM 
+				board 
+			WHERE 
+				board_idx = #{boardIdx}
+		</selectKey>
 		UPDATE
 			board
 		SET
@@ -378,9 +387,6 @@
 			moddate = SYSDATE
 		WHERE
 			board_idx = #{boardIdx} 
-		<selectKey keyProperty="boardWriterIdx" resultType="int" order="AFTER">
-			SELECT board_writer_idx FROM board WHERE board_idx = #{boardIdx}
-		</selectKey>
 	</update>
 	
 	<select id="findBoardCategoryCode" parameterType="int" resultType="int">
