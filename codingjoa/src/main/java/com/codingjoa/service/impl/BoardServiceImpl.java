@@ -137,12 +137,16 @@ public class BoardServiceImpl implements BoardService {
 		Board board = modelMapper.map(modifyBoardDto, Board.class);
 		log.info("modifyBoardDto ==> {}", board);
 		
-		boolean success = boardMapper.updateBoard(board);
-		log.info("update board only, success = {}", success);
+		boolean updateSuccess = boardMapper.updateBoard(board);
+		log.info("update board only, updateSuccess = {}", updateSuccess);
 		log.info("update board only, board = {}", board);
 		
-		if (!success) {
+		if (!updateSuccess) {
 			throw new IllegalArgumentException(MessageUtils.getMessage("error.UpdateBoard"));
+		}
+		
+		if (board.getBoardWriterIdx() != modifyBoardDto.getBoardWriterIdx()) {
+			throw new IllegalArgumentException(MessageUtils.getMessage("error.NotMyBoard"));
 		}
 	}
 
