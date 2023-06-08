@@ -241,39 +241,36 @@ public class ServletConfig implements WebMvcConfigurer {
 		return messageUtils;
 	}
 	
+	// Enable @Valid validation exception handler for @PathVariable, @RequestParam and @RequestHeader.
+	// mvcValidator, LocalValidatorFactoryBean, @Qualifier("localValidator")
+//	@Bean
+//	public static MethodValidationPostProcessor methodValidationPostProcessor(@Lazy Validator validator) { 
+//		MethodValidationPostProcessor processor = new MethodValidationPostProcessor();
+//		processor.setValidator(validator);
+//		
+//		return processor;
+//	}
+
+	@Bean
+	public MethodValidationPostProcessor methodValidationPostProcessor() { 
+		MethodValidationPostProcessor processor = new MethodValidationPostProcessor();
+		processor.setValidator(validator());
+		
+		return processor;
+	}
+	
 	// https://docs.jboss.org/hibernate/validator/5.1/reference/en-US/html/chapter-message-interpolation.html#section-resource-bundle-locator
 	// https://stackoverflow.com/questions/11225023/messageinterpolator-in-spring
 	// https://stackoverflow.com/questions/3587317/autowiring-a-service-into-a-validator
 	// In Spring, you need to obtain ValidatorFactory (or Validator itself) via LocalValidatorFactoryBean 
 	// instead of Validation.buildDefaultValidatorFactory(), as described in the reference.
 	@Bean
-	public Validator validator() {
-//		return Validation.byProvider(HibernateValidator.class)
-//				.configure()
-//				.messageInterpolator(
-//						new ResourceBundleMessageInterpolator(
-//								new MessageSourceResourceBundleLocator(messageSource())
-//						)
-//				)
-//				.failFast(true)
-//				.buildValidatorFactory()
-//				.getValidator();
-		
+	public LocalValidatorFactoryBean validator() {
 		LocalValidatorFactoryBean factoryBean = new LocalValidatorFactoryBean();
 		factoryBean.setValidationMessageSource(messageSource());
 		//factoryBean.getValidationPropertyMap().put("hibernate.validator.fail_fast", "true");
 
 		return factoryBean;
-	}
-	
-	// Enable @Valid validation exception handler for @PathVariable, @RequestParam and @RequestHeader.
-	// mvcValidator, LocalValidatorFactoryBean, @Qualifier("localValidator")
-	@Bean
-	public static MethodValidationPostProcessor methodValidationPostProcessor(@Lazy Validator validator) { 
-		MethodValidationPostProcessor processor = new MethodValidationPostProcessor();
-		processor.setValidator(validator);
-		
-		return processor;
 	}
 
 //	@Override

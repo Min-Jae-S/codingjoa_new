@@ -8,12 +8,15 @@ import java.util.stream.Collectors;
 
 import javax.servlet.FilterRegistration;
 import javax.servlet.ServletContext;
+import javax.validation.Validator;
 
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.web.FilterChainProxy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+import org.springframework.validation.beanvalidation.OptionalValidatorFactoryBean;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -172,6 +175,22 @@ public class ConfigRestController {
 		});
 		
 		return ResponseEntity.ok(SuccessResponse.create().data(argumentResolvers));
+	}
+
+	@GetMapping("/validators")
+	public ResponseEntity<Object> getValidators() {
+		log.info("## getValidators");
+		Map<String, Validator> validatorMap = webApplicationContext.getBeansOfType(Validator.class);
+		//validatorMap.forEach((key, validator) -> log.info("\t > {} : {}", key, validator));
+		
+		for (Validator validator : validatorMap.values()) {
+			log.info("\t > {}", validator.getClass().getSimpleName());
+			if (validator instanceof LocalValidatorFactoryBean) {
+				LocalValidatorFactoryBean factoryBean = (LocalValidatorFactoryBean) validator;
+			}
+		}
+		
+		return ResponseEntity.ok(SuccessResponse.create().data("success"));
 	}
 
 	@GetMapping("/return-value-handlers")

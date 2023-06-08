@@ -5,10 +5,13 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindException;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -247,6 +250,41 @@ public class TestController {
 		log.info("\t > param1 = {}", param1);
 		
 		return ResponseEntity.ok(param1);
+	}
+	
+	
+	// *********************************************************
+	// 		Validator, BindingResult, StackOverFlow
+	// *********************************************************
+	
+	@RequestMapping("/validator")
+	public ResponseEntity<Object> testValidator(@Valid @ModelAttribute Test test, BindingResult bindingResult)
+			throws BindException {
+		log.info("## testValidator called..");
+		log.info("\t > test = {}", test);
+		
+		if (bindingResult.hasErrors()) {
+			log.info("## bindingResult hasErrors");
+			bindingResult.getFieldErrors().forEach(fieldError -> {
+				log.info("\t > field = {}", fieldError.getField());
+				log.info("\t > code = {}", fieldError.getCodes()[0]);
+			});
+			
+			if (bindingResult.hasFieldErrors("param1")) {
+				log.info("## bindingResult hasFieldErrors(param1)");
+				throw new BindException(bindingResult);
+			}
+		}
+		
+		return ResponseEntity.ok("success");
+	}
+
+	@RequestMapping("/validator2")
+	public ResponseEntity<Object> testValidator2(@Valid @ModelAttribute Test test) {
+		log.info("## testValidator2 called..");
+		log.info("\t > test = {}", test);
+		
+		return ResponseEntity.ok("success");
 	}
 	
 }

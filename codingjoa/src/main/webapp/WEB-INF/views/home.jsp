@@ -64,6 +64,9 @@
 							<a class="nav-link" href="${contextPath}/config/argument-resolvers">ArgumentResolver</a>
 						</li>
 						<li class="nav-item">
+							<a class="nav-link" href="${contextPath}/config/validators">Validator</a>
+						</li>
+						<li class="nav-item">
 							<a class="nav-link" href="${contextPath}/config/return-value-handlers">ReturnValueHandler</a>
 						</li>
 						<li class="nav-item">
