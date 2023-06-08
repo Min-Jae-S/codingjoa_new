@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.web.FilterChainProxy;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -180,16 +179,9 @@ public class ConfigRestController {
 	public ResponseEntity<Object> getValidators() {
 		log.info("## getValidators");
 		Map<String, Validator> validatorMap = webApplicationContext.getBeansOfType(Validator.class);
-		//validatorMap.forEach((key, validator) -> log.info("\t > {} : {}", key, validator));
+		validatorMap.forEach((key, validator) -> log.info("\t > {} : {}", key, validator));
 		
-		for (Validator validator : validatorMap.values()) {
-			log.info("\t > {}", validator.getClass().getSimpleName());
-			if (validator instanceof LocalValidatorFactoryBean) {
-				LocalValidatorFactoryBean factoryBean = (LocalValidatorFactoryBean) validator;
-			}
-		}
-		
-		return ResponseEntity.ok(SuccessResponse.create().data("success"));
+		return ResponseEntity.ok(SuccessResponse.create().data(null));
 	}
 
 	@GetMapping("/return-value-handlers")
