@@ -16,15 +16,11 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.context.support.ConversionServiceFactoryBean;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.Ordered;
-import org.springframework.core.convert.ConversionService;
-import org.springframework.core.convert.TypeDescriptor;
 import org.springframework.core.env.Environment;
-import org.springframework.format.FormatterRegistry;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
@@ -51,7 +47,6 @@ import com.codingjoa.resolver.BoardCriteriaArgumentResolver;
 import com.codingjoa.resolver.CommentCriteriaArgumentResolver;
 import com.codingjoa.resolver.MyExceptionResolver;
 import com.codingjoa.service.CategoryService;
-import com.codingjoa.test.TestConverter;
 import com.codingjoa.util.MessageUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -280,9 +275,9 @@ public class ServletConfig implements WebMvcConfigurer {
 		return factoryBean;
 	}
 
-	@Override
-	public void addFormatters(FormatterRegistry registry) {
-		log.info("## addFormatters");
-		registry.addConverter(new TestConverter());
-	}
+//	@Override
+//	public void addFormatters(FormatterRegistry registry) {
+//		log.info("## addFormatters");
+//		registry.addConverter(new TestConverter());
+//	}
 }

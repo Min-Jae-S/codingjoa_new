@@ -7,8 +7,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.convert.ConversionService;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -17,7 +15,6 @@ import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import com.codingjoa.entity.Category;
 import com.codingjoa.service.CategoryService;
-import com.codingjoa.test.Test;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -64,20 +61,6 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 		} else {
 			log.info("\t > handler = {}", handler.getClass().getSimpleName());
 		}
-		
-//		log.info("######################");
-//		
-//		String param2 = request.getParameter("param2");
-//		log.info("\t > request.getParameter(\"param2\") = {}", param2);
-//		Test test = new Test();
-//		
-//		Integer converted_param2 = conversionService.convert(param2, Integer.class);
-//		log.info("\t > converted_param2 = {}", converted_param2);
-//		
-//		test.setParam2(converted_param2);
-//		log.info("test = {}", test);
-//		
-//		log.info("######################");
 		
 		return true;
 	}

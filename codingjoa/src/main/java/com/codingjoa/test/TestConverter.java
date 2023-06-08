@@ -1,7 +1,5 @@
 package com.codingjoa.test;
 
-import java.lang.annotation.Annotation;
-import java.util.Collections;
 import java.util.Set;
 
 import org.springframework.core.MethodParameter;
@@ -53,7 +51,7 @@ public class TestConverter implements ConditionalGenericConverter {
 	}
 
 	@Override
-	public Set<ConvertiblePair> getConvertibleTypes() {
+	public Set<ConvertiblePair> getConvertibleTypes() { // String --> int 
 		log.info("## {}#getConvertibleTypes ", this.getClass().getSimpleName());
 		ConvertiblePair convertiblePair = new ConvertiblePair(String.class, int.class);
 		log.info("\t > {}", convertiblePair);

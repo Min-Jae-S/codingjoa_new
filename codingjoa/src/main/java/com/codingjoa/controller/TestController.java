@@ -208,7 +208,6 @@ public class TestController {
 	}
 	
 	
-	
 	// *********************************************************
 	// 		Converter, ConversionService, PropertyEditor
 	// *********************************************************
@@ -252,7 +251,6 @@ public class TestController {
 		return ResponseEntity.ok(param1);
 	}
 	
-	
 	// *********************************************************
 	// 		Validator, BindingResult, StackOverFlow
 	// *********************************************************
@@ -275,7 +273,6 @@ public class TestController {
 				throw new BindException(bindingResult);
 			}
 		}
-		
 		return ResponseEntity.ok("success");
 	}
 
