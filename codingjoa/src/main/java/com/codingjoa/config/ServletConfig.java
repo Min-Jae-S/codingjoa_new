@@ -243,21 +243,23 @@ public class ServletConfig implements WebMvcConfigurer {
 	
 	// Enable @Valid validation exception handler for @PathVariable, @RequestParam and @RequestHeader.
 	// mvcValidator, LocalValidatorFactoryBean, @Qualifier("localValidator")
-//	@Bean
-//	public static MethodValidationPostProcessor methodValidationPostProcessor(@Lazy Validator validator) { 
-//		MethodValidationPostProcessor processor = new MethodValidationPostProcessor();
-//		processor.setValidator(validator);
-//		
-//		return processor;
-//	}
-
 	@Bean
-	public MethodValidationPostProcessor methodValidationPostProcessor() { 
+	public static MethodValidationPostProcessor methodValidationPostProcessor(@Lazy Validator validator) {
+		log.info("## MethodValidationPostProcessor");
+		log.info("\t > validator = {}", validator.getClass().getSimpleName());
 		MethodValidationPostProcessor processor = new MethodValidationPostProcessor();
-		processor.setValidator(validator());
+		processor.setValidator(validator);
 		
 		return processor;
 	}
+
+//	@Bean
+//	public MethodValidationPostProcessor methodValidationPostProcessor() { 
+//		MethodValidationPostProcessor processor = new MethodValidationPostProcessor();
+//		processor.setValidator(validator());
+//		
+//		return processor;
+//	}
 	
 	// https://docs.jboss.org/hibernate/validator/5.1/reference/en-US/html/chapter-message-interpolation.html#section-resource-bundle-locator
 	// https://stackoverflow.com/questions/11225023/messageinterpolator-in-spring

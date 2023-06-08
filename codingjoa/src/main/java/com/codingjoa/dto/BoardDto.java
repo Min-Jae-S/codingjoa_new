@@ -5,7 +5,9 @@ import java.util.List;
 import com.codingjoa.annotation.BoardCategoryCode;
 
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Data
 public class BoardDto {
 	
@@ -18,6 +20,10 @@ public class BoardDto {
 	@BoardCategoryCode
 	private Integer boardCategoryCode;
 	private List<Integer> uploadIdxList;
+	
+	public BoardDto() {
+		log.info("## BoardDto Constructor");
+	}
 
 	@Override
 	public String toString() {
