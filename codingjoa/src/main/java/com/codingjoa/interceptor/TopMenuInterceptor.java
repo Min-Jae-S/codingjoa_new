@@ -16,6 +16,7 @@ import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 import com.codingjoa.entity.Category;
 import com.codingjoa.service.CategoryService;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /*
@@ -24,6 +25,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 
 @Slf4j
+@AllArgsConstructor
 public class TopMenuInterceptor implements HandlerInterceptor {
 
 	private static final String FORWARD_URL_PREFIX = "forward:";
@@ -31,14 +33,6 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 	private WebApplicationContext webApplicationContext;
 	private CategoryService categoryService;
 	
-	public TopMenuInterceptor(WebApplicationContext webApplicationContext, CategoryService categoryService) {
-		this.webApplicationContext = webApplicationContext;
-		this.categoryService = categoryService;
-	}
-
-//	@Autowired
-//	private ConversionService conversionService;
-
 	/*
 	 * 매핑된 핸들러가 존재하지 않거나 매핑 정보를 찾을 수 없는 경우 preHandle 메서드는 호출되지 않는다. 
 	 * 따라서 preHandle 메서드 내에서 handler 매개변수는 항상 null이 아닌 유효한 핸들러를 가리키게 된다.
