@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
@@ -130,23 +129,23 @@ public class BoardController {
 	
 	@PostMapping("/writeProc")
 	public String writeProc(@Validated @ModelAttribute("writeBoardDto") BoardDto writeBoardDto, 
-			 BindingResult bindingResult, @AuthenticationPrincipal UserDetailsDto principal, Model model) {
+			/* BindingResult bindingResult, */ @AuthenticationPrincipal UserDetailsDto principal, Model model) {
 		log.info("## writeProc");
 		log.info("{}", writeBoardDto);
 		
-		if (bindingResult.hasErrors()) {
-			log.info("## bindingResult hasErrors");
-			bindingResult.getFieldErrors().forEach(fieldError -> {
-				log.info("\t > {} / {}", fieldError.getField(), fieldError.getCodes()[0]);
-			});
-			
-			if (bindingResult.hasFieldErrors("boardCategoryCode")) {
-				log.info("## boardCategoryCode hasError");
-			}
-			
-			model.addAttribute("boardCategoryList", categoryService.findBoardCategoryList());
-			return "board/write";
-		}
+//		if (bindingResult.hasErrors()) {
+//			log.info("## bindingResult hasErrors");
+//			bindingResult.getFieldErrors().forEach(fieldError -> {
+//				log.info("\t > {} / {}", fieldError.getField(), fieldError.getCodes()[0]);
+//			});
+//			
+//			if (bindingResult.hasFieldErrors("boardCategoryCode")) {
+//				log.info("## boardCategoryCode hasError");
+//			}
+//			
+//			model.addAttribute("boardCategoryList", categoryService.findBoardCategoryList());
+//			return "board/write";
+//		}
 		
 		int boardWriterIdx = principal.getMember().getMemberIdx();
 		log.info("boardWriterIdx = {}", boardWriterIdx);
