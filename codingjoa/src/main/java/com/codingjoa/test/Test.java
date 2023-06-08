@@ -1,22 +1,24 @@
 package com.codingjoa.test;
 
-import javax.validation.constraints.NotBlank;
-
-import org.hibernate.validator.constraints.Length;
+import com.codingjoa.annotation.AnnoTest;
 
 import lombok.Getter;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@Getter
 @ToString
+@Getter
 public class Test {
 	
-	@Length(min = 4, max = 8)
-	@NotBlank
 	private String param1;
+	
+	@AnnoTest
 	private int param2;
+	
+	public Test() {
+		log.info("## Test constructor");
+	}
 	
 	public void setParam1(String param1) {
 		log.info("## Test#setParam1, param1 = {}", param1);

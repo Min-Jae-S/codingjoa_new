@@ -44,6 +44,8 @@ public class BoardCriteriaArgumentResolver implements HandlerMethodArgumentResol
 		String rawType = webRequest.getParameter("type");
 		String rawKeyword = webRequest.getParameter("keyword");
 		
+		// binding + validation
+		
 		return new Criteria(
 			MyNumberUtils.isNaturalNumber(rawPage) ? Integer.parseInt(rawPage) : page,
 			recordCntMap.containsKey(rawRecordCnt) ? Integer.parseInt(rawRecordCnt) : recordCnt,
