@@ -56,6 +56,7 @@ public class BoardController {
 	protected void initBinderBoard(WebDataBinder binder) {
 		log.info("-------- initBinderBoard --------");
 		binder.addValidators(boardValidator);
+		binder.getValidators().forEach(validator -> log.info("\t {}", validator.getClass().getSimpleName()));
 	}
 	
 	@GetMapping
