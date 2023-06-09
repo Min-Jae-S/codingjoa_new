@@ -1,5 +1,10 @@
 package com.codingjoa.test;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+
+import org.hibernate.validator.constraints.Length;
+
 import com.codingjoa.annotation.AnnoTest;
 
 import lombok.Getter;
@@ -11,13 +16,15 @@ import lombok.extern.slf4j.Slf4j;
 @Getter
 public class Test {
 	
+	@Length(min = 4, max = 10)
 	private String param1;
 	
 	@AnnoTest
+	@Min(4) @Max(10)
 	private int param2;
 	
 	public Test() {
-		log.info("## Test constructor");
+		log.info("## Test#constructor");
 	}
 	
 	public void setParam1(String param1) {

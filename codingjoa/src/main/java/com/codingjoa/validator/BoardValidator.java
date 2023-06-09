@@ -34,9 +34,9 @@ public class BoardValidator implements Validator {
 			log.info("\t > boardCategoryCode has field error");
 			return;
 		}
+		log.info("\t > boardCategoryCode has no field error");
 
 		BoardDto boardDto = (BoardDto) target;
-		
 		if (!StringUtils.hasText(boardDto.getBoardTitle())) {
 			errors.rejectValue("boardTitle", "NotBlank");
 			return;

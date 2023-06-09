@@ -252,9 +252,27 @@ public class ServletConfig implements WebMvcConfigurer {
 	public static MethodValidationPostProcessor methodValidationPostProcessor(@Lazy Validator validator) {
 		log.info("## MethodValidationPostProcessor Bean");
 		log.info("\t > validator = {}", validator.getClass().getName());
-		log.info("\t > proxy = {}", AopUtils.isAopProxy(validator));
+		log.info("\t > proxy parameter(validator) = {}", AopUtils.isAopProxy(validator));
+		
 		MethodValidationPostProcessor processor = new MethodValidationPostProcessor();
 		processor.setValidator(validator);
+		processor.setProxyTargetClass(true);
+		log.info("\t > {}", processor);
+		
+		/* Spring internally uses a library that can generate class-based proxies, 
+		 * allowing the creation of proxies even for classes that don't implement interfaces. 
+		 * Hence, in general cases, Spring is capable of creating proxies and 
+		 * enabling method-level validation even without explicitly setting setProxyTargetClass(true).
+		 * However, there are certain scenarios where the generation of interface-based proxies is limited.
+		 * For example, it is not possible to create an interface-based proxy for classes 
+		 * that are declared as final, or for methods that are final or private.
+		 * In such cases, you can enable the creation of class-based proxies by setting setProxyTargetClass(true). 
+		 * This allows the MethodValidationPostProcessor to generate class-based proxies 
+		 * and apply validation at the method level even for classes that cannot be proxied using interfaces. 
+		 * Therefore, by using setProxyTargetClass(true), you can overcome the limitations of
+		 * interface-based proxy generation and ensure that method-level validation works even 
+		 * in scenarios where interface proxies are not feasible.
+		 */
 		
 		return processor;
 	}
