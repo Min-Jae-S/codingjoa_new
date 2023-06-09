@@ -285,6 +285,7 @@ public class ServletConfig implements WebMvcConfigurer {
 	 * In Spring, you need to obtain ValidatorFactory (or Validatoritself) via LocalValidatorFactoryBean 
 	 * instead of Validation.buildDefaultValidatorFactory(), as described in the reference.
 	 */
+	
 //	@Bean
 //	public LocalValidatorFactoryBean validator() {
 //		LocalValidatorFactoryBean factoryBean = new LocalValidatorFactoryBean();

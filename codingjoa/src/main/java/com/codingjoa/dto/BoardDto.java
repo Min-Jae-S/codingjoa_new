@@ -22,7 +22,7 @@ public class BoardDto {
 	private List<Integer> uploadIdxList;
 	
 	public BoardDto() {
-		log.info("## BoardDto Constructor");
+		log.info("## BoardDto#constructor");
 	}
 
 	@Override
