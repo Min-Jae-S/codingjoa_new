@@ -30,6 +30,11 @@ public class BoardValidator implements Validator {
 		log.info("-------- {} --------", this.getClass().getSimpleName());
 		log.info("\t > objectName = {}", errors.getObjectName());
 		
+		if (errors.hasFieldErrors("boardCategoryCode")) {
+			log.info("\t > boardCategoryCode has field error");
+			return;
+		}
+
 		BoardDto boardDto = (BoardDto) target;
 		
 		if (!StringUtils.hasText(boardDto.getBoardTitle())) {
@@ -48,10 +53,7 @@ public class BoardValidator implements Validator {
 		}
 		
 		List<Integer> uploadIdxList = boardDto.getUploadIdxList();
-		if (uploadIdxList == null) {
-			return;
-		}
-		
+		if (uploadIdxList == null) return;
 		for (int uploadIdx : uploadIdxList) {
 			if (!uploadService.isImageUploaded(uploadIdx)) {
 				errors.rejectValue("boardContent", "NotUploadImage");
