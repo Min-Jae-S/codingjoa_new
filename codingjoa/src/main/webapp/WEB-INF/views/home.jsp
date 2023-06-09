@@ -67,9 +67,6 @@
 							<a class="nav-link" href="${contextPath}/config/validators">Validator</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="${contextPath}/config/method-validation-post-processor">MethodValidationPostProcessor</a>
-						</li>
-						<li class="nav-item">
 							<a class="nav-link" href="${contextPath}/config/return-value-handlers">ReturnValueHandler</a>
 						</li>
 						<li class="nav-item">

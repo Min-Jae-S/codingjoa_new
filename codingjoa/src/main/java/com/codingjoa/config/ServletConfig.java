@@ -9,7 +9,6 @@ import java.util.TimeZone;
 
 import javax.validation.Validator;
 
-import org.springframework.aop.framework.AopProxyUtils;
 import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -27,7 +26,6 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
@@ -261,11 +259,14 @@ public class ServletConfig implements WebMvcConfigurer {
 		return processor;
 	}
 
-	// https://docs.jboss.org/hibernate/validator/5.1/reference/en-US/html/chapter-message-interpolation.html#section-resource-bundle-locator
-	// https://stackoverflow.com/questions/11225023/messageinterpolator-in-spring
-	// https://stackoverflow.com/questions/3587317/autowiring-a-service-into-a-validator
-	// In Spring, you need to obtain ValidatorFactory (or Validator itself) via LocalValidatorFactoryBean 
-	// instead of Validation.buildDefaultValidatorFactory(), as described in the reference.
+	/*
+	 * https://docs.jboss.org/hibernate/validator/5.1/reference/en-US/html/chapter-message-interpolation.html#section-resource-bundle-locator
+	 * https://stackoverflow.com/questions/11225023/messageinterpolator-in-spring
+	 * https://stackoverflow.com/questions/3587317/autowiring-a-service-into-a-validator 
+	 * 
+	 * In Spring, you need to obtain ValidatorFactory (or Validatoritself) via LocalValidatorFactoryBean 
+	 * instead of Validation.buildDefaultValidatorFactory(), as described in the reference.
+	 */
 //	@Bean
 //	public LocalValidatorFactoryBean validator() {
 //		LocalValidatorFactoryBean factoryBean = new LocalValidatorFactoryBean();
