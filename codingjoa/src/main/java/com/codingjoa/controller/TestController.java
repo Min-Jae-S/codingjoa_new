@@ -259,7 +259,7 @@ public class TestController {
 	@RequestMapping("/yesBindingResult")
 	public ResponseEntity<Object> yesBindingResult(@Valid @ModelAttribute Test test, BindingResult bindingResult)
 			throws BindException {
-		log.info("## yesBindingResult called..");
+		log.info("## TestController#yesBindingResult called..");
 		log.info("\t > test = {}", test);
 		
 		if (bindingResult.hasErrors()) {
@@ -278,7 +278,7 @@ public class TestController {
 	@ResponseBody
 	@RequestMapping("/noBindingResult")
 	public ResponseEntity<Object> noBindingResult(@Valid @ModelAttribute Test test) {
-		log.info("## noBindingResult called..");
+		log.info("## TestController#noBindingResult called..");
 		log.info("\t > test = {}", test);
 		
 		return ResponseEntity.ok(test);
@@ -287,7 +287,7 @@ public class TestController {
 	@ResponseBody
 	@RequestMapping("/noBindingResult2")
 	public ResponseEntity<Object> noBindingResult2(@Validated @ModelAttribute Test test) {
-		log.info("## noBindingResult2 called..");
+		log.info("## TestController#noBindingResult2 called..");
 		log.info("\t > test = {}", test);
 		
 		return ResponseEntity.ok(test);
