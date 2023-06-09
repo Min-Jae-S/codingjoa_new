@@ -23,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import com.codingjoa.test.Test;
+import com.codingjoa.test.TestValidator;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -81,9 +82,6 @@ public class TestController {
 		log.info("## npe called...");
 		throw new NullPointerException();
 	}
-	
-	
-	
 	
 	// ***************************************************************
 	// 		ModelAndView / MappingJackson2JsonView / ViewResolver  
@@ -254,20 +252,20 @@ public class TestController {
 	}
 	
 	// *********************************************************
-	// 		Validator, BindingResult, StackOverFlow
+	// 		Validator, BindingResult, StackOverFlowError
 	// *********************************************************
 	
 	@InitBinder
-	protected void initBinder(WebDataBinder binder) {
-		log.info("-------- initBinder --------");
-		binder.getValidators().forEach(validator -> log.info("\t {}", validator.getClass().getSimpleName()));
+	public void initBinder(WebDataBinder binder) {
+		log.info("## initBinder");
+		binder.addValidators(new TestValidator());
 	}
 	
 	@ResponseBody
 	@RequestMapping("/yesBindingResult")
 	public ResponseEntity<Object> yesBindingResult(@Valid @ModelAttribute Test test, BindingResult bindingResult)
 			throws BindException {
-		log.info("## TestController#yesBindingResult called..");
+		log.info("## yesBindingResult called..");
 		log.info("\t > test = {}", test);
 		
 		if (bindingResult.hasErrors()) {
@@ -284,20 +282,33 @@ public class TestController {
 	}
 
 	@ResponseBody
-	@RequestMapping("/noBindingResult")
-	public ResponseEntity<Object> noBindingResult(@Valid @ModelAttribute Test test) {
-		log.info("## TestController#noBindingResult called..");
+	@RequestMapping("/yesBindingResult2")
+	public ResponseEntity<Object> yesBindingResult2(@Validated @ModelAttribute Test test, BindingResult bindingResult)
+			throws BindException {
+		log.info("## yesBindingResult2 called..");
 		log.info("\t > test = {}", test);
 		
+		if (bindingResult.hasErrors()) {
+			bindingResult.getFieldErrors().forEach(fieldError -> {
+				log.info("\t > {} / {}", fieldError.getField(), fieldError.getCodes()[0]);
+			});
+		}
+		return ResponseEntity.ok(test);
+	}
+
+	@ResponseBody
+	@RequestMapping("/noBindingResult")
+	public ResponseEntity<Object> noBindingResult(@Valid @ModelAttribute Test test) {
+		log.info("## noBindingResult called..");
+		log.info("\t > test = {}", test);
 		return ResponseEntity.ok(test);
 	}
 
 	@ResponseBody
 	@RequestMapping("/noBindingResult2")
 	public ResponseEntity<Object> noBindingResult2(@Validated @ModelAttribute Test test) {
-		log.info("## TestController#noBindingResult2 called..");
+		log.info("##noBindingResult2 called..");
 		log.info("\t > test = {}", test);
-		
 		return ResponseEntity.ok(test);
 	}
 	

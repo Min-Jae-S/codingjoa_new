@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
@@ -35,9 +34,8 @@ import com.codingjoa.service.UploadService;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@Validated
 @RequestMapping("/board")
-@Controller
+@Controller @Validated
 public class BoardController {
 	
 	@Autowired 
@@ -56,7 +54,6 @@ public class BoardController {
 	protected void initBinderBoard(WebDataBinder binder) {
 		log.info("-------- initBinderBoard --------");
 		binder.addValidators(boardValidator);
-		binder.getValidators().forEach(validator -> log.info("\t {}", validator.getClass().getSimpleName()));
 	}
 	
 	@GetMapping

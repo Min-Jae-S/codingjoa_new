@@ -1,9 +1,7 @@
 package com.codingjoa.test;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-
-import org.hibernate.validator.constraints.Length;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Positive;
 
 import com.codingjoa.annotation.AnnoTest;
 import com.codingjoa.annotation.BoardCategoryCode;
@@ -13,15 +11,14 @@ import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@ToString
-@Getter
+@Getter @ToString
 public class Test {
 	
-	@Length(min = 2, max = 10)
+	@NotEmpty
 	private String param1;
 	
 	@AnnoTest
-	@Min(2) @Max(10)
+	@Positive
 	private int param2;
 	
 	@BoardCategoryCode
