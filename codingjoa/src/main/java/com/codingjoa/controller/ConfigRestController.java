@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.web.FilterChainProxy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -180,6 +181,16 @@ public class ConfigRestController {
 		log.info("## getValidators");
 		Map<String, Validator> validatorMap = webApplicationContext.getBeansOfType(Validator.class);
 		validatorMap.forEach((key, validator) -> log.info("\t > {} : {}", key, validator));
+		
+		return ResponseEntity.ok(SuccessResponse.create().data(null));
+	}
+
+	@GetMapping("/method-validation-post-processor")
+	public ResponseEntity<Object> getMethodValidationPostProcessor() {
+		log.info("## getMethodValidationPostProcessor");
+		Map<String, MethodValidationPostProcessor> processorMap = 
+				webApplicationContext.getBeansOfType(MethodValidationPostProcessor.class);
+		processorMap.forEach((key, processor) -> log.info("\t > {} : {}", key, processor));
 		
 		return ResponseEntity.ok(SuccessResponse.create().data(null));
 	}
