@@ -42,8 +42,8 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		log.info("## {} : preHandle", this.getClass().getSimpleName());
-		log.info("\t > URI = {} '{}'", request.getMethod(), getFullURI(request));
-		log.info("\t > dispatcherType = {}", request.getDispatcherType());
+		//log.info("\t > URI = {} '{}'", request.getMethod(), getFullURI(request));
+		//log.info("\t > dispatcherType = {}", request.getDispatcherType());
 
 		if (handler instanceof HandlerMethod) {
 			HandlerMethod handlerMethod = (HandlerMethod) handler;
@@ -102,6 +102,7 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 		log.info("\t > add top menu as model");
 	}
 	
+	@SuppressWarnings("unused")
 	private String getFullURI(HttpServletRequest request) {
 		StringBuilder requestURI = new StringBuilder(request.getRequestURI().toString());
 	    String queryString = request.getQueryString();
