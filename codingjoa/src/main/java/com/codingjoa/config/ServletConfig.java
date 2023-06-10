@@ -104,11 +104,11 @@ public class ServletConfig implements WebMvcConfigurer {
 				.addResourceLocations("file:///" + env.getProperty("upload.path"));
 	}
 
-	@Override
-	public void configurePathMatch(PathMatchConfigurer configurer) {
-		WebMvcConfigurer.super.configurePathMatch(configurer);
-		configurer.setUseTrailingSlashMatch(true);
-	}
+//	@Override
+//	public void configurePathMatch(PathMatchConfigurer configurer) {
+//		WebMvcConfigurer.super.configurePathMatch(configurer);
+//		configurer.setUseTrailingSlashMatch(true);
+//	}
 	
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
