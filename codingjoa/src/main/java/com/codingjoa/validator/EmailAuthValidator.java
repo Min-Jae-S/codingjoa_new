@@ -37,11 +37,11 @@ public class EmailAuthValidator implements Validator {
 
 	@Override
 	public void validate(Object target, Errors errors) {
-		log.info("-------- {} --------", this.getClass().getSimpleName());
+		log.info("## {}", this.getClass().getSimpleName());
 
 		EmailAuthDto emailAuthDto = (EmailAuthDto) target;
 		Type type = emailAuthDto.getType();
-		log.info("type = {}", type);
+		log.info("\t > type = {}", type);
 		
 //		if (type == null) {
 //			errors.rejectValue("memberEmail", "NotValidAccess");

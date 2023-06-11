@@ -33,10 +33,10 @@ public class CommentCriteriaArgumentResolver implements HandlerMethodArgumentRes
 	@Override
 	public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
 			NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
-		log.info("-------- {} --------", this.getClass().getSimpleName());
+		log.info("## {}", this.getClass().getSimpleName());
 		
 		String rawPage = webRequest.getParameter("page");
-		log.info("raw page = {}", rawPage);
+		log.info("\t > raw page = {}", rawPage);
 		
 		return new CommentCriteria(
 			MyNumberUtils.isNaturalNumber(rawPage) ? Integer.parseInt(rawPage) : page,

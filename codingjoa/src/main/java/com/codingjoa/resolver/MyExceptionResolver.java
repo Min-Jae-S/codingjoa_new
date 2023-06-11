@@ -18,7 +18,7 @@ public class MyExceptionResolver implements HandlerExceptionResolver {
 	@Override
 	public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler, 
 			Exception ex) {
-		log.info("-------- {} --------", this.getClass().getSimpleName());
+		log.info("## {}", this.getClass().getSimpleName());
 		log.info("\t > URI = {} '{}'", request.getMethod(), getFullURI(request));
 		log.info("\t > dispatcherType = {}",  request.getDispatcherType());
 		log.info("\t > accept = {}", request.getHeader("accept"));

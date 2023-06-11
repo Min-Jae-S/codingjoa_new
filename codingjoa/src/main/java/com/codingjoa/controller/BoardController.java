@@ -63,6 +63,7 @@ public class BoardController {
 	@GetMapping
 	public String getAllBoards(Model model) {
 		log.info("## getAllBoards");
+		
 		List<Category> boardCategoryList = categoryService.findBoardCategoryList();
 		model.addAttribute("boardCategoryList", boardCategoryList);
 		
@@ -80,18 +81,18 @@ public class BoardController {
 	public String getBoard(@BoardCategoryCode @RequestParam("boardCategoryCode") int boardCategoryCode, 
 			@BoardCri Criteria boardCri, Model model) {
 		log.info("## getBoard, boardCategoryCode = {}", boardCategoryCode);
-		log.info("{}", boardCri);
+		log.info("\t > {}", boardCri);
 
 		Criteria newBoardCri = boardService.makeNewBoardCri(boardCri);
-		log.info("newBoardCri = {}", newBoardCri);
-		log.info("keyword regexp = {}", newBoardCri.getKeywordRegexp());
+		log.info("\t > newBoardCri = {}", newBoardCri);
+		log.info("\t > keyword regexp = {}", newBoardCri.getKeywordRegexp());
 		
 		List<BoardDetailsDto> board = boardService.getPagedBoard(boardCategoryCode, newBoardCri);
 		model.addAttribute("board", board);
 		
 		Pagination pagination = boardService.getPagination(boardCategoryCode, newBoardCri);
 		model.addAttribute("pagination", pagination);
-		log.info("pagination = {}", pagination);
+		log.info("\t > {}", pagination);
 		
 		Category category = categoryService.findCategory(boardCategoryCode);
 		model.addAttribute("category", category);
@@ -103,11 +104,11 @@ public class BoardController {
 	@GetMapping("/read")
 	public String read(@RequestParam("boardIdx") int boardIdx, @BoardCri Criteria boardCri, Model model) {
 		log.info("## read, boardIdx = {}", boardIdx);
-		log.info("{}", boardCri);
+		log.info("\t > {}", boardCri);
 		
 		BoardDetailsDto boardDetails = boardService.getBoardDetails(boardIdx);
 		model.addAttribute("boardDetails", boardDetails);
-		log.info("boardDetails = {}", boardDetails);
+		log.info("\t > {}", boardDetails);
 		
 		Category category = categoryService.findCategory(boardDetails.getBoardCategoryCode());
 		model.addAttribute("category", category);
@@ -138,7 +139,7 @@ public class BoardController {
 			 BindingResult bindingResult, @AuthenticationPrincipal UserDetailsDto principal, Model model) 
 					 throws BindException {
 		log.info("## writeProc");
-		log.info("{}", writeBoardDto);
+		log.info("\t > {}", writeBoardDto);
 		
 		if (bindingResult.hasErrors()) {
 			bindingResult.getFieldErrors().forEach(fieldError -> {
@@ -154,7 +155,7 @@ public class BoardController {
 		}
 		
 		int boardWriterIdx = principal.getMember().getMemberIdx();
-		log.info("boardWriterIdx = {}", boardWriterIdx);
+		log.info("\t > boardWriterIdx = {}", boardWriterIdx);
 		
 		writeBoardDto.setBoardWriterIdx(boardWriterIdx);
 		boardService.writeBoard(writeBoardDto); // insertBoard + activateImage
@@ -166,10 +167,10 @@ public class BoardController {
 	public String modify(@ModelAttribute("modifyBoardDto") BoardDto modifyBoardDto, 
 			@AuthenticationPrincipal UserDetailsDto principal, Model model) {
 		log.info("## modify");
-		log.info("{}", modifyBoardDto);
+		log.info("\t > {}", modifyBoardDto);
 		
 		int boardWriterIdx = principal.getMember().getMemberIdx();
-		log.info("boardWriterIdx = {}", boardWriterIdx);
+		log.info("\t > boardWriterIdx = {}", boardWriterIdx);
 		
 		modifyBoardDto.setBoardWriterIdx(boardWriterIdx);
 		boardService.bindModifyBoard(modifyBoardDto);
@@ -183,13 +184,12 @@ public class BoardController {
 	public String modifyProc(@Validated @ModelAttribute("modifyBoardDto") BoardDto modifyBoardDto, 
 			/* BindingResult bindingResult, */ @AuthenticationPrincipal UserDetailsDto principal, Model model) {
 		log.info("## modifyProc");
-		log.info("{}", modifyBoardDto);
+		log.info("\t > {}", modifyBoardDto);
 		
 //		if (bindingResult.hasErrors()) {
 //			log.info("## bindingResult hasErrors");
 //			bindingResult.getFieldErrors().forEach(fieldError -> {
-//				log.info("\t > field = {}", fieldError.getField());
-//				log.info("\t > code = {}", fieldError.getCodes()[0]);
+//				log.info("\t > {} / {}", fieldError.getField(), fieldError.getCodes()[0]));
 //			});
 //			model.addAttribute("boardCategoryList", categoryService.findBoardCategoryList());
 //			
@@ -197,7 +197,7 @@ public class BoardController {
 //		}
 		
 		int boardWriterIdx = principal.getMember().getMemberIdx();
-		log.info("boardWriterIdx = {}", boardWriterIdx);
+		log.info("\t > boardWriterIdx = {}", boardWriterIdx);
 		
 		modifyBoardDto.setBoardWriterIdx(boardWriterIdx);
 		boardService.modifyBoard(modifyBoardDto); // updateBoard + updateUpload
@@ -210,10 +210,10 @@ public class BoardController {
 	public String deleteProc(@ModelAttribute("deleteBoardDto") BoardDto deleteBoardDto, 
 			@AuthenticationPrincipal UserDetailsDto principal) {
 		log.info("## deleteProc");
-		log.info("{}", deleteBoardDto);
+		log.info("\t > {}", deleteBoardDto);
 		
 		int boardWriterIdx = principal.getMember().getMemberIdx();
-		log.info("boardWriterIdx = {}", boardWriterIdx);
+		log.info("\t > boardWriterIdx = {}", boardWriterIdx);
 		
 		// ON DELETE CASCADE, ON DELETE SET NULL
 		deleteBoardDto.setBoardWriterIdx(boardWriterIdx);

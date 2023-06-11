@@ -21,7 +21,9 @@ public class ErrorHtmlHandler {
 		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t > message = {}", e.getMessage());
 		
-		request.setAttribute("errorMessage", e.getMessage());
+		ErrorResponse errorResponse = ErrorResponse.create().errorMessage(e.getMessage());
+		request.setAttribute("errorResponse", errorResponse);
+		log.info("\t > {}", errorResponse);
 		
 		return "forward:/error/errorPage";
 	}
@@ -31,8 +33,10 @@ public class ErrorHtmlHandler {
 		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t > message = {}", e.getMessage());
 		
-		request.setAttribute("errorMessage", e.getMessage());
-
+		ErrorResponse errorResponse = ErrorResponse.create().bindingResult(e.getBindingResult());
+		request.setAttribute("errorResponse", errorResponse);
+		log.info("\t > {}", errorResponse);
+		
 //		if (isAjaxRequest(request)) {
 //			ErrorResponse response = ErrorResponse.create().bindingResult(e.getBindingResult());
 //			log.info("\t > {}", response);
@@ -51,11 +55,9 @@ public class ErrorHtmlHandler {
 		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t > message = {}", e.getMessage());
 		
-		request.setAttribute("errorMessage", e.getMessage());
-		
-		e.getBindingResult().getFieldErrors().forEach(fieldError -> {
-			log.info("\t > {} / {}", fieldError.getField(), fieldError.getCodes()[0]);
-		});
+		ErrorResponse errorResponse = ErrorResponse.create().bindingResult(e.getBindingResult());
+		request.setAttribute("errorResponse", errorResponse);
+		log.info("\t > {}", errorResponse);
 		
 		return "forward:/error/errorPage";
 	}
@@ -66,7 +68,9 @@ public class ErrorHtmlHandler {
 		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t > message = {}", e.getMessage());
 		
-		request.setAttribute("errorMessage", e.getMessage());
+		ErrorResponse errorResponse = ErrorResponse.create().errorMessage(e.getMessage());
+		request.setAttribute("errorResponse", errorResponse);
+		log.info("\t > {}", errorResponse);
 		
 		e.getConstraintViolations().forEach(violation -> {
 			//log.info("\t > {}", violation);
@@ -84,7 +88,9 @@ public class ErrorHtmlHandler {
 		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t > message = {}", e.getMessage());
 		
-		request.setAttribute("errorMessage", e.getMessage());
+		ErrorResponse errorResponse = ErrorResponse.create().errorMessage(e.getMessage());
+		request.setAttribute("errorResponse", errorResponse);
+		log.info("\t > {}", errorResponse);
 		
 		return "forward:/error/errorPage";
 	}
@@ -94,7 +100,9 @@ public class ErrorHtmlHandler {
 		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t > message = {}", e.getMessage());
 		
-		request.setAttribute("errorMessage", e.getMessage());
+		ErrorResponse errorResponse = ErrorResponse.create().errorMessage(e.getMessage());
+		request.setAttribute("errorResponse", errorResponse);
+		log.info("\t > {}", errorResponse);
 		
 		return "forward:/error/errorPage";
 	}

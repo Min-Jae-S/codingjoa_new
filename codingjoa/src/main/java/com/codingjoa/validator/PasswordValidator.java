@@ -41,11 +41,11 @@ public class PasswordValidator implements Validator {
 
 	@Override
 	public void validate(Object target, Errors errors) {
-		log.info("-------- {} --------", this.getClass().getSimpleName());
+		log.info("## {}", this.getClass().getSimpleName());
 		
 		PasswordDto passwordDto = (PasswordDto) target;
 		Type type = passwordDto.getType();
-		log.info("type = {}", type);
+		log.info("\t > type = {}", type);
 		
 //		if (type == null) {
 //			errors.rejectValue("memberPassword", "NotValidAccess");

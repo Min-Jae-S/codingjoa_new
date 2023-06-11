@@ -34,7 +34,7 @@ public class BoardCriteriaArgumentResolver implements HandlerMethodArgumentResol
 	@Override
 	public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
 			NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
-		log.info("-------- {} --------", this.getClass().getSimpleName());
+		log.info("## {}", this.getClass().getSimpleName());
 		
 		mavContainer.addAttribute("recordCntMap", recordCntMap);
 		mavContainer.addAttribute("typeMap", typeMap);
