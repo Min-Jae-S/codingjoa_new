@@ -168,7 +168,6 @@ public class BoardController {
 			@AuthenticationPrincipal UserDetailsDto principal, Model model) {
 		log.info("## modify");
 		log.info("\t > {}", modifyBoardDto);
-
 		
 		int boardWriterIdx = principal.getMember().getMemberIdx();
 		log.info("\t > boardWriterIdx = {}", boardWriterIdx);
