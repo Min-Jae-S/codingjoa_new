@@ -52,9 +52,11 @@ public class BoardController {
 	@Resource(name = "boardValidator")
 	private Validator boardValidator;
 
-	@InitBinder(value = { "writeBoardDto", "modifyBoardDto" })
+	@InitBinder (value = { "writeBoardDto", "modifyBoardDto" })
 	protected void initBinderBoard(WebDataBinder binder) {
-		log.info("-------- initBinderBoard --------");
+		log.info("## initBinderBoard");
+		log.info("\t > binder target = {}", binder.getTarget());
+		log.info("\t > binder target name = {}", binder.getObjectName());
 		binder.addValidators(boardValidator);
 	}
 	
@@ -120,9 +122,12 @@ public class BoardController {
 	}
 	
 	@GetMapping("/write")
-	public String write(@ModelAttribute("writeBoardDto") BoardDto writeBoardDto, Model model) {
-		log.info("## write");
-		log.info("{}", writeBoardDto);
+	public String write(@BoardCategoryCode @RequestParam("boardCategoryCode") int boardCategoryCode, Model model) {
+		log.info("## write, boardCategoryCode = {}", boardCategoryCode);
+		
+		BoardDto writeBoardDto = new BoardDto();
+		writeBoardDto.setBoardCategoryCode(boardCategoryCode);
+		model.addAttribute("writeBoardDto", writeBoardDto);
 		model.addAttribute("boardCategoryList", categoryService.findBoardCategoryList());
 		
 		return "board/write";

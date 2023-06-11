@@ -48,7 +48,8 @@ public class CommentRestController {
 	
 	@InitBinder(value = "commentDto")
 	public void initBinderComment(WebDataBinder binder) {
-		log.info("-------- initBinderComment --------");
+		log.info("## initBinderComment");
+		log.info("\t > binder for object = {}", binder.getObjectName());
 		binder.addValidators(commentValidator);
 		
 		// https://stackoverflow.com/questions/31680960/spring-initbinder-on-requestbody
