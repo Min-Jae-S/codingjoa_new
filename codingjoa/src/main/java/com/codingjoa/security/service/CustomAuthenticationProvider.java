@@ -33,7 +33,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 	
 	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-		log.info("-------- {} --------", this.getClass().getSimpleName());
+		log.info("## {}", this.getClass().getSimpleName());
 		
 		String memberId = (String) authentication.getPrincipal();
 		String memberPassword = (String) authentication.getCredentials();

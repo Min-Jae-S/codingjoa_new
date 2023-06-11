@@ -11,5 +11,4 @@ public class LoginRequireFieldException extends AuthenticationException {
 	public LoginRequireFieldException(String msg) {
 		super(msg);
 	}
-	
 }

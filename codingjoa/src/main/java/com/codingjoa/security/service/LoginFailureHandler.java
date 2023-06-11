@@ -36,7 +36,7 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
 	@Override
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException e) throws IOException, ServletException {
-		log.info("-------- {} --------", this.getClass().getSimpleName());
+		log.info("## {}", this.getClass().getSimpleName());
 		log.info("\t > referer = {}", request.getHeader("referer"));
 		
 		String errorMessage = MessageUtils.getMessage("error.Login");
@@ -44,7 +44,7 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
 				e instanceof UsernameNotFoundException || e instanceof BadCredentialsException) {
 			errorMessage = e.getMessage();
 		}
-		log.info("\t > {}: {}", e.getClass().getSimpleName(), errorMessage);
+		log.info("\t > {} : {}", e.getClass().getSimpleName(), errorMessage);
 		
 		ErrorResponse errorResponse = ErrorResponse.create().errorMessage(errorMessage);
 		request.setAttribute("errorResponse", errorResponse);

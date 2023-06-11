@@ -6,6 +6,7 @@ import java.nio.charset.StandardCharsets;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -25,14 +26,14 @@ public class MyExceptionResolver implements HandlerExceptionResolver {
 //		log.info("\t > contentType = {}", response.getContentType());
 //		log.info("\t > exception = {}", ex.getClass().getSimpleName());
 //		
-//		if (handler == null) {
-//			log.info("\t > handler is not resolved");
-//		} else if (handler instanceof HandlerMethod) {
-//			HandlerMethod handlerMethod = (HandlerMethod) handler;
-//			log.info("\t > handler = {}", handlerMethod.getBeanType().getSimpleName());
-//		} else {
-//			log.info("\t > handler = {}", handler.getClass().getSimpleName());
-//		}
+		if (handler == null) {
+			log.info("\t > handler is not resolved");
+		} else if (handler instanceof HandlerMethod) {
+			HandlerMethod handlerMethod = (HandlerMethod) handler;
+			log.info("\t > handler = {}", handlerMethod.getBeanType().getSimpleName());
+		} else {
+			log.info("\t > handler = {}", handler.getClass().getSimpleName());
+		}
 
 		return null;
 	}

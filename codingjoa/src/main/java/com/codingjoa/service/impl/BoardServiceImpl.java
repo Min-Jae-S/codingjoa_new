@@ -45,11 +45,11 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public void writeBoard(BoardDto writeBoardDto) {
 		Board board = modelMapper.map(writeBoardDto, Board.class);
-		log.info("writeBoardDto ==> {}", board);
+		log.info("\t > writeBoardDto ==> {}", board);
 		
 		boolean writeSuccess = boardMapper.insertBoard(board);
-		log.info("write board only, writeSuccess = {}", writeSuccess);
-		log.info("write board only, boardIdx = {}", board.getBoardIdx());
+		log.info("\t > write board only, writeSuccess = {}", writeSuccess);
+		log.info("\t > write board only, boardIdx = {}", board.getBoardIdx());
 
 		if (!writeSuccess) {
 			throw new IllegalArgumentException(MessageUtils.getMessage("error.WriteBoard"));
@@ -118,13 +118,13 @@ public class BoardServiceImpl implements BoardService {
 	public void bindModifyBoard(BoardDto modifyBoardDto) {
 		int boardIdx = modifyBoardDto.getBoardIdx();
 		Board board = boardMapper.findModifyBoard(boardIdx);
-		log.info("find modifyBoard, board = {}", board);
+		log.info("\t > find modifyBoard, board = {}", board);
 
 		if (board == null) {
 			throw new IllegalArgumentException(MessageUtils.getMessage("error.NotFoundModifyBoard"));
 		}
 		
-		log.info("find modifyBoard, boardWriterIdx = {}", board.getBoardWriterIdx());
+		log.info("\t > find modifyBoard, boardWriterIdx = {}", board.getBoardWriterIdx());
 		if (board.getBoardWriterIdx() != modifyBoardDto.getBoardWriterIdx()) {
 			throw new IllegalArgumentException(MessageUtils.getMessage("error.NotMyBoard"));
 		}
@@ -135,11 +135,11 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public void modifyBoard(BoardDto modifyBoardDto) {
 		Board board = modelMapper.map(modifyBoardDto, Board.class);
-		log.info("modifyBoardDto ==> {}", board);
+		log.info("\t > modifyBoardDto ==> {}", board);
 		
 		boolean updateSuccess = boardMapper.updateBoard(board);
-		log.info("update board only, updateSuccess = {}", updateSuccess);
-		log.info("update board only, boardWriterIdx = {}", board.getBoardWriterIdx());
+		log.info("\t > update board only, updateSuccess = {}", updateSuccess);
+		log.info("\t > update board only, boardWriterIdx = {}", board.getBoardWriterIdx());
 		
 		if (!updateSuccess) {
 			throw new IllegalArgumentException(MessageUtils.getMessage("error.UpdateBoard"));
@@ -161,12 +161,12 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public void deleteBoard(BoardDto deleteBoardDto) {
 		Board board = modelMapper.map(deleteBoardDto, Board.class);
-		log.info("deleteBoardDto ==> {}", board);
+		log.info("\t > deleteBoardDto ==> {}", board);
 		
 		boolean deleteSuccess = boardMapper.deleteBoard(board);
-		log.info("delete board, deleteSuccess = {}", deleteSuccess);
-		log.info("delete board, boardWriterIdx = {}", board.getBoardWriterIdx());
-		log.info("delete board, boardCategory = {}", board.getBoardCategoryCode());
+		log.info("\t > delete board, deleteSuccess = {}", deleteSuccess);
+		log.info("\t > delete board, boardWriterIdx = {}", board.getBoardWriterIdx());
+		log.info("\t > delete board, boardCategory = {}", board.getBoardCategoryCode());
 		
 		if (!deleteSuccess) {
 			throw new IllegalArgumentException(MessageUtils.getMessage("error.DeleteBoard"));

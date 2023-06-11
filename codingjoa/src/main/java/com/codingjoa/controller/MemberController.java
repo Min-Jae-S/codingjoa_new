@@ -56,14 +56,16 @@ public class MemberController {
 
 	@GetMapping("/join")
 	public String join(@ModelAttribute JoinDto joinDto) {
-		log.info("joinDto = {}", joinDto);
+		log.info("## join");
+		log.info("\t > {}", joinDto);
 
 		return "member/join";
 	}
 
 	@PostMapping("/joinProc")
 	public String joinProc(@ModelAttribute @Valid JoinDto joinDto, BindingResult bindingResult) {
-		log.info("joinDto = {}", joinDto);
+		log.info("## joinProc");
+		log.info("\t > {}", joinDto);
 
 		if (bindingResult.hasErrors()) {
 			return "member/join";
@@ -77,29 +79,34 @@ public class MemberController {
 
 	@RequestMapping("/login")
 	public String login(@ModelAttribute LoginDto loginDto, HttpServletRequest request) {
-		log.info("loginDto = {}", loginDto);
+		log.info("## login");
+		log.info("\t > {}", loginDto);
 
 		return "member/login";
 	}
 	
 	@GetMapping("/security")
 	public String security() {
+		log.info("## security");
 		return "member/security";
 	}
 
 	@GetMapping("/info")
 	public String info() {
+		log.info("## info");
 		return "member/info";
 	}
 
 	@GetMapping("/checkPassword")
 	public String checkPassword() {
+		log.info("## checkPassword");
 		return "member/check-password";
 	}
 
 	@GetMapping("/updatePassword")
 	public String updatePassword(Model model) {
-		log.info("sessionDto = {}", sessionDto);
+		log.info("## updatePassword");
+		log.info("\t > {}", sessionDto);
 		
 		if (!sessionDto.isCheckPasswordResult()) {
 			model.addAttribute("message", MessageUtils.getMessage("error.NotCheckPassword"));
@@ -115,15 +122,16 @@ public class MemberController {
 	
 	@GetMapping("/findAccount")
 	public String findAccount() {
+		log.info("## findAccount");
 		return "member/find-account";
 	}
 	
 	@GetMapping("/findAccountResult")
 	public String findAccountResult(Model model) {
-		log.info("sessionDto = {}", sessionDto);
+		log.info("## findAccountResult");
+		log.info("\t > {}", sessionDto);
 		
 		String findAccountResult = sessionDto.getFindAccountResult();
-		
 		if (findAccountResult == null) {
 			model.addAttribute("message", MessageUtils.getMessage("error.NotFindAccount"));
 			model.addAttribute("path", "findAccount");
@@ -139,15 +147,16 @@ public class MemberController {
 	
 	@GetMapping("/findPassword")
 	public String findPassword() {
+		log.info("## findPassword");
 		return "member/find-password";
 	}
 	
 	@GetMapping("/findPasswordResult")
 	public String findPasswordResult(Model model) {
-		log.info("sessionDto = {}", sessionDto);
+		log.info("## findPasswordResult");
+		log.info("\t > {}", sessionDto);
 		
 		Map<String, Object> resultMap = sessionDto.getFindPasswordResult();
-		
 		if (resultMap == null || !(boolean) resultMap.get("result")) {
 			model.addAttribute("message", MessageUtils.getMessage("error.NotFindPassword"));
 			model.addAttribute("path", "findPassword");

@@ -44,7 +44,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
 	@Override
 	public void commence(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException authException) throws IOException, ServletException {
-		log.info("-------- {} --------", this.getClass().getSimpleName());
+		log.info("## {}", this.getClass().getSimpleName());
 		
 		/*	# ajax 요청 확인 
 		 	https://0taeng.tistory.com/30

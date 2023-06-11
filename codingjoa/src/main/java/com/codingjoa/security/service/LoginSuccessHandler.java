@@ -23,7 +23,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
-		log.info("-------- {} --------", this.getClass().getSimpleName());
+		log.info("## {}", this.getClass().getSimpleName());
 		log.info("\t > referer = {}", request.getHeader("referer"));
 		log.info("\t > [BEFORE] contentType = {}", response.getContentType());
 		response.setContentType(MediaType.TEXT_HTML.toString());

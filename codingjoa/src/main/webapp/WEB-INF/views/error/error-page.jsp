@@ -21,7 +21,19 @@
 <div class="error-container">
 	<p class="font-weight-bold text-center bg-danger text-white mb-5" style="font-size: 80px;">ERROR PAGE</p>
 	<div class="text-center">
-		<h2 class="font-weight-bold"><c:out value="${errorResponse.errorMessage}"/></h2>
+		<c:choose>
+			<c:when test="${not empty errorResponse.errorMessage}">
+				<h2 class="font-weight-bold"><c:out value="${errorResponse.errorMessage}"/></h2>
+			</c:when>
+			<c:when test="${not empty errorResponse.errorMap}">
+				<c:forEach var="item" items="${errorResponse.errorMap}">
+					<h2 class="font-weight-bold"><c:out value="${item.value}"/></h2>
+				</c:forEach>
+			</c:when>
+			<c:otherwise>
+				<h2 class="font-weight-bold">오류가 발생하였습니다.</h2>
+			</c:otherwise>
+		</c:choose>
 	</div>
 </div>
 
