@@ -176,6 +176,7 @@ public class BoardController {
 		
 		model.addAttribute("boardCategoryList", categoryService.findBoardCategoryList());
 		
+		
 		return "board/modify";
 	}
 	
