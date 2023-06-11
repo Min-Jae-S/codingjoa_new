@@ -173,7 +173,6 @@ public class BoardController {
 		
 		modifyBoardDto.setBoardWriterIdx(boardWriterIdx);
 		boardService.bindModifyBoard(modifyBoardDto);
-		
 		model.addAttribute("boardCategoryList", categoryService.findBoardCategoryList());
 		
 		return "board/modify";
