@@ -69,13 +69,17 @@ public class MemberRestController {
 	
 	@InitBinder("emailAuthDto")
 	public void InitBinderEmail(WebDataBinder binder) {
-		log.info("-------- InitBinderEmail --------");
+		log.info("## InitBinderEmail");
+		log.info("\t > binder target = {}", binder.getTarget());
+		log.info("\t > binder target name = {}", binder.getObjectName());
 		binder.addValidators(emailAuthValidator);
 	}
 	
 	@InitBinder("passwordDto")
 	public void InitBinderPassword(WebDataBinder binder) {
-		log.info("-------- InitBinderPassword --------");
+		log.info("## InitBinderPassword");
+		log.info("\t > binder target = {}", binder.getTarget());
+		log.info("\t > binder target name = {}", binder.getObjectName());
 		binder.addValidators(passwordValidator);
 	}
 
