@@ -119,7 +119,6 @@ public class BoardController {
 		boardService.updateBoardViews(boardIdx);
 		
 		return "board/read";
-		
 	}
 	
 	@GetMapping("/write")
