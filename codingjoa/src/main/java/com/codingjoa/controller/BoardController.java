@@ -122,7 +122,8 @@ public class BoardController {
 	}
 	
 	@GetMapping("/write")
-	public String write(@BoardCategoryCode @RequestParam("boardCategoryCode") int boardCategoryCode, Model model) {
+	public String write(@BoardCategoryCode @RequestParam("boardCategoryCode") int boardCategoryCode, 
+			Model model) {
 		log.info("## write, boardCategoryCode = {}", boardCategoryCode);
 		
 		BoardDto writeBoardDto = new BoardDto();
@@ -173,6 +174,7 @@ public class BoardController {
 		
 		modifyBoardDto.setBoardWriterIdx(boardWriterIdx);
 		boardService.bindModifyBoard(modifyBoardDto);
+		
 		model.addAttribute("boardCategoryList", categoryService.findBoardCategoryList());
 		
 		return "board/modify";
