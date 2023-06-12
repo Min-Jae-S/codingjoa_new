@@ -162,8 +162,6 @@ public class BoardController {
 		log.info("## modify, boardIdx = {}", boardIdx);
 		
 		int boardWriterIdx = principal.getMember().getMemberIdx();
-		log.info("\t > boardWriterIdx = {}", boardWriterIdx);
-		
 		BoardDto modifyBoardDto = boardService.getModifyBoard(boardIdx, boardWriterIdx);
 		model.addAttribute("modifyBoardDto", modifyBoardDto);
 		model.addAttribute("boardCategoryList", categoryService.findBoardCategoryList());
@@ -191,10 +189,7 @@ public class BoardController {
 			return "board/modify";
 		}
 		
-		int boardWriterIdx = principal.getMember().getMemberIdx();
-		log.info("\t > boardWriterIdx = {}", boardWriterIdx);
-		
-		modifyBoardDto.setBoardWriterIdx(boardWriterIdx);
+		modifyBoardDto.setBoardWriterIdx(principal.getMember().getMemberIdx());
 		boardService.modifyBoard(modifyBoardDto); // updateBoard + updateUpload
 		uploadService.modifyUpload(modifyBoardDto);
 		

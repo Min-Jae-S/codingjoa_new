@@ -53,7 +53,7 @@
 	<div class="row">
 		<div class="col-sm-1"></div>
 		<div class="col-sm-10">
-			<h4 class="font-weight-bold mb-3">게시글 수정하기</h4>
+			<h4 class="font-weight-bold mb-3">게시글 수정하기 (admin boardIdx = 4113)</h4>
 			<div class="pt-4" style="border-top: 1px solid black;">
 				<form:form action="${contextPath}/board/modifyProc" method="POST" modelAttribute="modifyBoardDto">
 					<form:hidden path="boardIdx"/>

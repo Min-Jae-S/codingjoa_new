@@ -53,10 +53,10 @@ public class BoardServiceImpl implements BoardService {
 			throw new IllegalArgumentException(MessageUtils.getMessage("error.WriteBoard"));
 		}
 		
-		Integer boardIdx = board.getBoardIdx();
-		log.info("\t > write board only, boardIdx = {}", boardIdx);
+		Integer DbBoardIdx = board.getBoardIdx();
+		log.info("\t > after inserting board, DB boardIdx = {}", DbBoardIdx);
 
-		writeBoardDto.setBoardIdx(boardIdx);
+		writeBoardDto.setBoardIdx(DbBoardIdx);
 		if (writeBoardDto.getUploadIdxList() != null) {
 			uploadService.activateImage(writeBoardDto);
 		}
@@ -124,7 +124,11 @@ public class BoardServiceImpl implements BoardService {
 			throw new IllegalArgumentException(MessageUtils.getMessage("error.NotFoundModifyBoard"));
 		}
 		
-		if (board.getBoardWriterIdx() != boardWriterIdx) {
+		Integer DbBoardWriterIdx = board.getBoardWriterIdx();
+		log.info("\t > after finding modifyBoard, DB boardWriterIdx = {}", DbBoardWriterIdx);
+		log.info("\t > my boardWriterIdx = {}", boardWriterIdx);
+		
+		if (DbBoardWriterIdx != boardWriterIdx) {
 			throw new IllegalArgumentException(MessageUtils.getMessage("error.NotMyBoard"));
 		}
 		
@@ -138,12 +142,16 @@ public class BoardServiceImpl implements BoardService {
 		
 		try {
 			boardMapper.updateBoard(board);
-			log.info("\t > update board only, boardWriterIdx = {}", board.getBoardWriterIdx());
 		} catch (Exception e) {
+			log.info("\t > {}", e.getClass().getSimpleName());
 			throw new IllegalArgumentException(MessageUtils.getMessage("error.UpdateBoard"));
 		}
 		
-		if (board.getBoardWriterIdx() != modifyBoardDto.getBoardWriterIdx()) {
+		Integer DbBoardWriterIdx = board.getBoardWriterIdx();
+		log.info("\t > after updating board, DB boardWriterIdx = {}", DbBoardWriterIdx);
+		log.info("\t > my boardWriterIdx = {}",  modifyBoardDto.getBoardWriterIdx());
+		
+		if (DbBoardWriterIdx != modifyBoardDto.getBoardWriterIdx()) {
 			throw new IllegalArgumentException(MessageUtils.getMessage("error.NotMyBoard"));
 		}
 		
