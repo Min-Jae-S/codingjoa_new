@@ -29,7 +29,7 @@ public interface BoardService {
 	
 	boolean isBoardIdxExist(int boardIdx, int boardCategoryCode);
 	
-	void bindModifyBoard(BoardDto modifyBoardDto);
+	BoardDto getModifyBoard(int boardIdx, int boardWriterIdx);
 	
 	void modifyBoard(BoardDto modifyBoardDto);
 	

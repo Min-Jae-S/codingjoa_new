@@ -159,17 +159,17 @@ public class BoardController {
 	}
 	
 	@GetMapping("/modify")
-	public String modify(@ModelAttribute("modifyBoardDto") BoardDto modifyBoardDto, 
-			@AuthenticationPrincipal UserDetailsDto principal, Model model) {
-		log.info("## modify");
-		log.info("\t > {}", modifyBoardDto);
+//	public String modify(@ModelAttribute("modifyBoardDto") BoardDto modifyBoardDto, 
+//			@AuthenticationPrincipal UserDetailsDto principal, Model model) {
+	public String modify(@RequestParam("boardIdx") int boardIdx, @AuthenticationPrincipal UserDetailsDto principal,
+			Model model) {
+		log.info("## modify, boardIdx = {}", boardIdx);
 		
 		int boardWriterIdx = principal.getMember().getMemberIdx();
 		log.info("\t > boardWriterIdx = {}", boardWriterIdx);
 		
-		modifyBoardDto.setBoardWriterIdx(boardWriterIdx);
-		boardService.bindModifyBoard(modifyBoardDto);
-		
+		BoardDto modifyBoardDto = boardService.getModifyBoard(boardIdx, boardWriterIdx);
+		model.addAttribute("modifyBoardDto", modifyBoardDto);
 		model.addAttribute("boardCategoryList", categoryService.findBoardCategoryList());
 		
 		return "board/modify";

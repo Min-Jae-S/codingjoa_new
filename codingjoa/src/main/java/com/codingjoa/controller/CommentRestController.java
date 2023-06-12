@@ -60,8 +60,8 @@ public class CommentRestController {
 
 	@GetMapping("/boards/{boardIdx}/comments")
 	public ResponseEntity<Object> getCommentList(@PathVariable Integer boardIdx, @CommentCri CommentCriteria commentCri) {
-		log.info("boardIdx = {}", boardIdx);
-		log.info("commentCri = {}", commentCri);
+		log.info("## getCommentList, boardIdx = {}", boardIdx);
+		log.info("\t > {}", commentCri);
 		
 		List<CommentDetailsDto> commentList = commentService.getPagedComment(boardIdx, commentCri);
 		
@@ -71,8 +71,8 @@ public class CommentRestController {
 	@GetMapping(value = { "/comments", "/comments/{commentIdx}" })
 	public ResponseEntity<Object> getComment(@PathVariable("commentIdx") Integer commentIdx, 
 			@AuthenticationPrincipal UserDetailsDto principal) {
-		log.info("commentIdx = {}", commentIdx);
-		log.info("memberId = {}", principal.getMember().getMemberId());
+		log.info("## getCommentList, commentIdx = {}", commentIdx);
+		log.info("\t > memberId = {}", principal.getMember().getMemberId());
 		
 		int commentWriterIdx = principal.getMember().getMemberIdx();
 		CommentDetailsDto commentDetails = commentService.getCommentDetails(commentIdx, commentWriterIdx);
@@ -84,8 +84,9 @@ public class CommentRestController {
 	public ResponseEntity<Object> writeComment(@Valid @RequestBody CommentDto commentDto,
 			BindingResult bindingResult, @AuthenticationPrincipal UserDetailsDto principal) 
 					throws MethodArgumentNotValidException {
-		log.info("commentDto = {}", commentDto);
-		log.info("memberId = {}", principal.getMember().getMemberId());
+		log.info("## writeComment");
+		log.info("\t > {}", commentDto);
+		log.info("\t > memberId = {}", principal.getMember().getMemberId());
 		
 		if (bindingResult.hasErrors()) {
 			throw new MethodArgumentNotValidException(null, bindingResult);
@@ -101,7 +102,7 @@ public class CommentRestController {
 	
 	@PatchMapping(value = { "/comments", "/comments/{commentIdx}" })
 	public ResponseEntity<Object> modifyComment(@PathVariable Integer commentIdx) {
-		log.info("commentIdx = {}", commentIdx);
+		log.info("## modifyComment, commentIdx = {}", commentIdx);
 		// update ...
 		
 		return ResponseEntity.ok(SuccessResponse.create().message("success.updateComment"));
@@ -110,7 +111,7 @@ public class CommentRestController {
 	
 	@DeleteMapping(value = { "/comments", "/comments/{commentIdx}" })
 	public ResponseEntity<Object> deleteComment(@PathVariable Integer commentIdx) {
-		log.info("commentIdx = {}", commentIdx);
+		log.info("## deleteComment, commentIdx = {}", commentIdx);
 		commentService.deleteComment(commentIdx);
 		
 		return ResponseEntity.ok(SuccessResponse.create().message("success.deleteComment"));

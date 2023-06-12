@@ -111,8 +111,7 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
-	public void bindModifyBoard(BoardDto modifyBoardDto) {
-		int boardIdx = modifyBoardDto.getBoardIdx();
+	public BoardDto getModifyBoard(int boardIdx, int boardWriterIdx) {
 		Board board = boardMapper.findModifyBoard(boardIdx);
 		log.info("\t > find modifyBoard, board = {}", board);
 
@@ -120,12 +119,11 @@ public class BoardServiceImpl implements BoardService {
 			throw new IllegalArgumentException(MessageUtils.getMessage("error.NotFoundModifyBoard"));
 		}
 		
-		log.info("\t > find modifyBoard, boardWriterIdx = {}", board.getBoardWriterIdx());
-		if (board.getBoardWriterIdx() != modifyBoardDto.getBoardWriterIdx()) {
+		if (board.getBoardWriterIdx() != boardWriterIdx) {
 			throw new IllegalArgumentException(MessageUtils.getMessage("error.NotMyBoard"));
 		}
 		
-		modelMapper.map(board, modifyBoardDto);
+		return modelMapper.map(board, BoardDto.class);
 	}
 	
 	@Override
