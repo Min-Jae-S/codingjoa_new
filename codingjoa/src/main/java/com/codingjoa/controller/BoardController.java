@@ -154,8 +154,6 @@ public class BoardController {
 		}
 		
 		int boardWriterIdx = principal.getMember().getMemberIdx();
-		log.info("\t > boardWriterIdx = {}", boardWriterIdx);
-		
 		writeBoardDto.setBoardWriterIdx(boardWriterIdx);
 		boardService.writeBoard(writeBoardDto); // insertBoard + activateImage
 		

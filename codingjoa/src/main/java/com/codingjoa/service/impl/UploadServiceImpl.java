@@ -4,13 +4,14 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.codingjoa.dto.BoardDto;
 import com.codingjoa.entity.Upload;
 import com.codingjoa.mapper.UploadMapper;
 import com.codingjoa.service.UploadService;
 
-//@Transactional
+@Transactional
 @Service
 public class UploadServiceImpl implements UploadService {
 	

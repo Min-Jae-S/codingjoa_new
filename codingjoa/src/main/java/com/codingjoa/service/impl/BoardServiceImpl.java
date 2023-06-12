@@ -48,9 +48,10 @@ public class BoardServiceImpl implements BoardService {
 		log.info("\t > writeBoardDto ==> {}", board);
 		
 		boardMapper.insertBoard(board);
-		log.info("\t > write board only, boardIdx = {}", board.getBoardIdx());
+		Integer boardIdx = board.getBoardIdx();
+		log.info("\t > write board only, boardIdx = {}", boardIdx);
 
-		writeBoardDto.setBoardIdx(board.getBoardIdx());
+		writeBoardDto.setBoardIdx(boardIdx);
 		if (writeBoardDto.getUploadIdxList() != null) {
 			uploadService.activateImage(writeBoardDto);
 		}
