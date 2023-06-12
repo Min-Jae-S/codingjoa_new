@@ -29,7 +29,6 @@ public interface BoardMapper {
 	
 	Board findModifyBoard(int boardIdx);
 	
-//	void updateBoard(Board board) throws Exception;
 	void updateBoard(Board board);
 
 	int findBoardCategoryCode(int boardIdx);

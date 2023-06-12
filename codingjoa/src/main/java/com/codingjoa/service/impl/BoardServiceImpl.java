@@ -136,18 +136,15 @@ public class BoardServiceImpl implements BoardService {
 	public void modifyBoard(BoardDto boardDto) {
 		Board board = modelMapper.map(boardDto, Board.class);
 		log.info("\t > modifyBoardDto ==> {}", board);
-		
-//		try {
-//			boardMapper.updateBoard(board);
-//		} catch (Exception e) {
-//			log.info("\t > {}", e.getClass().getSimpleName());
-//			throw new IllegalArgumentException(MessageUtils.getMessage("error.UpdateBoard"));
-//		}
 
 		boardMapper.updateBoard(board);
 		Integer DBboardWriterIdx = board.getBoardWriterIdx();
 		log.info("\t > my boardWriterIdx = {}", boardDto.getBoardWriterIdx());
 		log.info("\t > after updating board, DB boardWriterIdx = {}", DBboardWriterIdx);
+		
+		if (DBboardWriterIdx == null) {
+			throw new IllegalArgumentException(MessageUtils.getMessage("error.UpdateBoard"));
+		}
 		
 		if (DBboardWriterIdx != boardDto.getBoardWriterIdx()) {
 			throw new IllegalArgumentException(MessageUtils.getMessage("error.NotMyBoard"));

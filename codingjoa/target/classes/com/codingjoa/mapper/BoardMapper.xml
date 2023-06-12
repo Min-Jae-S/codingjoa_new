@@ -369,7 +369,7 @@
 
 	<update id="updateBoard" parameterType="board">
 		<selectKey keyProperty="boardWriterIdx" resultType="int" order="BEFORE">
-			SELECT board_writer_idx FROM board WHERE board_idx = #{boardIdx}
+			SELECT MAX(board_writer_idx) FROM board WHERE board_idx = #{boardIdx}
 		</selectKey>
 		UPDATE
 			board
