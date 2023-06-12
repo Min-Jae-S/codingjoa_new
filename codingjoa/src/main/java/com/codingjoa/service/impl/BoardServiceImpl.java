@@ -47,7 +47,12 @@ public class BoardServiceImpl implements BoardService {
 		Board board = modelMapper.map(writeBoardDto, Board.class);
 		log.info("\t > writeBoardDto ==> {}", board);
 		
-		boardMapper.insertBoard(board);
+		try {
+			boardMapper.insertBoard(board);
+		} catch (Exception e) {
+			throw new IllegalArgumentException(MessageUtils.getMessage("error.WriteBoard"));
+		}
+		
 		Integer boardIdx = board.getBoardIdx();
 		log.info("\t > write board only, boardIdx = {}", boardIdx);
 
@@ -131,14 +136,13 @@ public class BoardServiceImpl implements BoardService {
 		Board board = modelMapper.map(modifyBoardDto, Board.class);
 		log.info("\t > modifyBoardDto ==> {}", board);
 		
-		boolean updateSuccess = boardMapper.updateBoard(board);
-		log.info("\t > update board only, updateSuccess = {}", updateSuccess);
-		log.info("\t > update board only, boardWriterIdx = {}", board.getBoardWriterIdx());
-		
-		if (!updateSuccess) {
+		try {
+			boardMapper.updateBoard(board);
+			log.info("\t > update board only, boardWriterIdx = {}", board.getBoardWriterIdx());
+		} catch (Exception e) {
 			throw new IllegalArgumentException(MessageUtils.getMessage("error.UpdateBoard"));
 		}
-
+		
 		if (board.getBoardWriterIdx() != modifyBoardDto.getBoardWriterIdx()) {
 			throw new IllegalArgumentException(MessageUtils.getMessage("error.NotMyBoard"));
 		}

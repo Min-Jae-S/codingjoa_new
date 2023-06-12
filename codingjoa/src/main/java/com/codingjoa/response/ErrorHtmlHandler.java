@@ -50,10 +50,9 @@ public class ErrorHtmlHandler {
 		return "forward:/error/errorPage";
 	}
 	
-	@ExceptionHandler(BindException.class) // /board/write?boardCategory=aa, /board/modify?boardIdx=aa, /board/deleteProc?boardIdx=aa
+	@ExceptionHandler(BindException.class)
 	protected String handleBindException(BindException e, HttpServletRequest request) {
 		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
-		log.info("\t > message = {}", e.getMessage());
 		
 		ErrorResponse errorResponse = ErrorResponse.create().bindingResult(e.getBindingResult());
 		request.setAttribute("errorResponse", errorResponse);
@@ -98,7 +97,6 @@ public class ErrorHtmlHandler {
 	@ExceptionHandler(IllegalArgumentException.class)
 	protected String handleIllegalArgumentException(IllegalArgumentException e, HttpServletRequest request) {
 		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
-		log.info("\t > message = {}", e.getMessage());
 		
 		ErrorResponse errorResponse = ErrorResponse.create().errorMessage(e.getMessage());
 		request.setAttribute("errorResponse", errorResponse);

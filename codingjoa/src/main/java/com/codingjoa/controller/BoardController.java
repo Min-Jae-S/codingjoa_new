@@ -142,7 +142,7 @@ public class BoardController {
 				log.info("\t > {} / {}", fieldError.getField(), fieldError.getCodes()[0]);
 			});
 			
-			if (bindingResult.hasFieldErrors("boardCategoryCode")) {
+			if (bindingResult.hasFieldErrors("boardCategoryCode") || bindingResult.hasFieldErrors("boardIdx")) {
 				throw new BindException(bindingResult);
 			}
 			
@@ -183,7 +183,7 @@ public class BoardController {
 				log.info("\t > {} / {}", fieldError.getField(), fieldError.getCodes()[0]);
 			});
 			
-			if (bindingResult.hasFieldErrors("boardCategoryCode")) {
+			if (bindingResult.hasFieldErrors("boardCategoryCode") || bindingResult.hasFieldErrors("boardIdx")) {
 				throw new BindException(bindingResult);
 			}
 			
