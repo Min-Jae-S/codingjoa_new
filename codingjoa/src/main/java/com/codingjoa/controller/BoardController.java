@@ -77,7 +77,7 @@ public class BoardController {
 	}
 	
 	@GetMapping("/")
-	public String getBoard(@BoardCategoryCode @RequestParam("boardCategoryCode") int boardCategoryCode, 
+	public String getBoard(@BoardCategoryCode @RequestParam int boardCategoryCode, 
 			@BoardCri Criteria boardCri, Model model) {
 		log.info("## getBoard, boardCategoryCode = {}", boardCategoryCode);
 		log.info("\t > boardCri = {}", boardCri);
@@ -100,7 +100,7 @@ public class BoardController {
 	}
 	
 	@GetMapping("/read")
-	public String read(@RequestParam("boardIdx") int boardIdx, @BoardCri Criteria boardCri, Model model) {
+	public String read(@RequestParam int boardIdx, @BoardCri Criteria boardCri, Model model) {
 		log.info("## read, boardIdx = {}", boardIdx);
 		log.info("\t > {}", boardCri);
 		
@@ -119,8 +119,7 @@ public class BoardController {
 	}
 	
 	@GetMapping("/write")
-	public String write(@BoardCategoryCode @RequestParam("boardCategoryCode") int boardCategoryCode, 
-			Model model) {
+	public String write(@BoardCategoryCode @RequestParam int boardCategoryCode, Model model) {
 		log.info("## write, boardCategoryCode = {}", boardCategoryCode);
 		
 		BoardDto writeBoardDto = new BoardDto();
@@ -159,10 +158,7 @@ public class BoardController {
 	}
 	
 	@GetMapping("/modify")
-//	public String modify(@ModelAttribute("modifyBoardDto") BoardDto modifyBoardDto, 
-//			@AuthenticationPrincipal UserDetailsDto principal, Model model) {
-	public String modify(@RequestParam("boardIdx") int boardIdx, @AuthenticationPrincipal UserDetailsDto principal,
-			Model model) {
+	public String modify(@RequestParam int boardIdx, @AuthenticationPrincipal UserDetailsDto principal, Model model) {
 		log.info("## modify, boardIdx = {}", boardIdx);
 		
 		int boardWriterIdx = principal.getMember().getMemberIdx();
@@ -177,19 +173,23 @@ public class BoardController {
 	
 	@PostMapping("/modifyProc")
 	public String modifyProc(@Validated @ModelAttribute("modifyBoardDto") BoardDto modifyBoardDto, 
-			/* BindingResult bindingResult, */ @AuthenticationPrincipal UserDetailsDto principal, Model model) {
+			BindingResult bindingResult, @AuthenticationPrincipal UserDetailsDto principal, Model model) 
+					throws BindException {
 		log.info("## modifyProc");
 		log.info("\t > {}", modifyBoardDto);
-		
-//		if (bindingResult.hasErrors()) {
-//			log.info("## bindingResult hasErrors");
-//			bindingResult.getFieldErrors().forEach(fieldError -> {
-//				log.info("\t > {} / {}", fieldError.getField(), fieldError.getCodes()[0]));
-//			});
-//			model.addAttribute("boardCategoryList", categoryService.findBoardCategoryList());
-//			
-//			return "board/modify";
-//		}
+
+		if (bindingResult.hasErrors()) {
+			bindingResult.getFieldErrors().forEach(fieldError -> {
+				log.info("\t > {} / {}", fieldError.getField(), fieldError.getCodes()[0]);
+			});
+			
+			if (bindingResult.hasFieldErrors("boardCategoryCode")) {
+				throw new BindException(bindingResult);
+			}
+			
+			model.addAttribute("boardCategoryList", categoryService.findBoardCategoryList());
+			return "board/modify";
+		}
 		
 		int boardWriterIdx = principal.getMember().getMemberIdx();
 		log.info("\t > boardWriterIdx = {}", boardWriterIdx);

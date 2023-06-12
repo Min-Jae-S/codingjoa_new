@@ -49,7 +49,7 @@ public class BoardValidator implements Validator {
 		}
 		
 		List<Integer> uploadIdxList = boardDto.getUploadIdxList();
-		if (uploadIdxList == null) return;
+		if (uploadIdxList == null || uploadIdxList.isEmpty()) return;
 		for (int uploadIdx : uploadIdxList) {
 			if (!uploadService.isImageUploaded(uploadIdx)) {
 				errors.rejectValue("boardContent", "NotUploadImage");

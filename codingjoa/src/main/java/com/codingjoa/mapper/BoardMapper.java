@@ -21,10 +21,9 @@ public interface BoardMapper {
 	List<Integer> findMemberIdxByKeyword(String keyword);
 	
 	List<Map<String, Object>> findPagedBoard(@Param("boardCategoryCode") int boardCategoryCode, 
-											 @Param("boardCri") Criteria boardCri);
+			@Param("boardCri") Criteria boardCri);
 
-	int findPagedBoardTotalCnt(@Param("boardCategoryCode") int boardCategoryCode, 
-							   @Param("boardCri") Criteria boardCri);
+	int findPagedBoardTotalCnt(@Param("boardCategoryCode") int boardCategoryCode, @Param("boardCri") Criteria boardCri);
 	
 	boolean isBoardIdxExist(@Param("boardIdx") int boardIdx, @Param("boardCategoryCode") int boardCategoryCode);
 	

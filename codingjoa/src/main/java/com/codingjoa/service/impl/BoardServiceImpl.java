@@ -138,7 +138,7 @@ public class BoardServiceImpl implements BoardService {
 		if (!updateSuccess) {
 			throw new IllegalArgumentException(MessageUtils.getMessage("error.UpdateBoard"));
 		}
-		
+
 		if (board.getBoardWriterIdx() != modifyBoardDto.getBoardWriterIdx()) {
 			throw new IllegalArgumentException(MessageUtils.getMessage("error.NotMyBoard"));
 		}

@@ -15,7 +15,7 @@ public interface CommentMapper {
 	void insertComment(Comment comment);
 
 	List<Map<String, Object>> findPagedComment(@Param("boardIdx") int boardIdx, 
-												@Param("commentCri") CommentCriteria commentCri);
+			@Param("commentCri") CommentCriteria commentCri);
 	
 	Map<String, Object> findCommentDetails(int commentIdx);
 	

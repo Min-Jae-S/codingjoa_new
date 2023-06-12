@@ -259,15 +259,6 @@
 						<div class="dropdown-menu">
 							<h6 class="dropdown-header">게시글 관리</h6>
 							<a class="dropdown-item" 
-								href="${contextPath}/board/modify?boardIdx=aaa">수정하기 boardIdx=aaa
-							</a>
-							<a class="dropdown-item" 
-								href="${contextPath}/board/modify?boardIdx=99999">수정하기 boardIdx=99999
-							</a>
-							<a class="dropdown-item" 
-								href="${contextPath}/board/modify?boardIdx=4113">수정하기 boardIdx=4113(admin)
-							</a>
-							<a class="dropdown-item" 
 								href="${contextPath}/board/modify?boardIdx=${boardDetails.boardIdx}">수정하기
 							</a>
 					      	<a class="dropdown-item" id="deleteBoardLink"
