@@ -55,8 +55,7 @@ public class BoardController {
 	@InitBinder (value = { "writeBoardDto", "modifyBoardDto" })
 	protected void initBinderBoard(WebDataBinder binder) {
 		log.info("## initBinderBoard");
-		log.info("\t > target = {}", binder.getTarget());
-		log.info("\t > target name = {}", binder.getObjectName());
+		log.info("\t > target = {} / {}", binder.getObjectName(), binder.getTarget());
 		binder.addValidators(boardValidator);
 	}
 	
@@ -81,10 +80,10 @@ public class BoardController {
 	public String getBoard(@BoardCategoryCode @RequestParam("boardCategoryCode") int boardCategoryCode, 
 			@BoardCri Criteria boardCri, Model model) {
 		log.info("## getBoard, boardCategoryCode = {}", boardCategoryCode);
-		log.info("\t > {}", boardCri);
+		log.info("\t > boardCri = {}", boardCri);
 
 		Criteria newBoardCri = boardService.makeNewBoardCri(boardCri);
-		log.info("\t > newBoardCri = {}", newBoardCri);
+		log.info("\t > new boardCri = {}", newBoardCri);
 		log.info("\t > keyword regexp = {}", newBoardCri.getKeywordRegexp());
 		
 		List<BoardDetailsDto> board = boardService.getPagedBoard(boardCategoryCode, newBoardCri);

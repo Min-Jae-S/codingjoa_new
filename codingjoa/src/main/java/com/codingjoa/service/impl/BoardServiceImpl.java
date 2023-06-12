@@ -47,14 +47,9 @@ public class BoardServiceImpl implements BoardService {
 		Board board = modelMapper.map(writeBoardDto, Board.class);
 		log.info("\t > writeBoardDto ==> {}", board);
 		
-		boolean writeSuccess = boardMapper.insertBoard(board);
-		log.info("\t > write board only, writeSuccess = {}", writeSuccess);
+		boardMapper.insertBoard(board);
 		log.info("\t > write board only, boardIdx = {}", board.getBoardIdx());
 
-		if (!writeSuccess) {
-			throw new IllegalArgumentException(MessageUtils.getMessage("error.WriteBoard"));
-		}
-		
 		writeBoardDto.setBoardIdx(board.getBoardIdx());
 		if (writeBoardDto.getUploadIdxList() != null) {
 			uploadService.activateImage(writeBoardDto);
