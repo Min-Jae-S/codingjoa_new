@@ -369,6 +369,8 @@
 
 	<update id="updateBoard" parameterType="board">
 		<selectKey keyProperty="boardWriterIdx" resultType="int" order="BEFORE">
+		<!-- nested exception is org.apache.ibatis.executor.ExecutorException: SelectKey returned no data. -->
+			<!-- SELECT board_writer_idx FROM board WHERE board_idx = #{boardIdx} -->
 			SELECT MAX(board_writer_idx) FROM board WHERE board_idx = #{boardIdx}
 		</selectKey>
 		UPDATE
