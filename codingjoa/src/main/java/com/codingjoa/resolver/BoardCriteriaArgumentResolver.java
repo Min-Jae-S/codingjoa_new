@@ -36,21 +36,23 @@ public class BoardCriteriaArgumentResolver implements HandlerMethodArgumentResol
 			NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
 		log.info("## {}", this.getClass().getSimpleName());
 		
-		mavContainer.addAttribute("recordCntMap", recordCntMap);
-		mavContainer.addAttribute("typeMap", typeMap);
-		
 		String rawPage = webRequest.getParameter("page");
 		String rawRecordCnt = webRequest.getParameter("recordCnt");
 		String rawType = webRequest.getParameter("type");
 		String rawKeyword = webRequest.getParameter("keyword");
 		
 		// binding + validation
-		
-		return new Criteria(
+		Criteria boardCri = new Criteria(
 			MyNumberUtils.isNaturalNumber(rawPage) ? Integer.parseInt(rawPage) : page,
 			recordCntMap.containsKey(rawRecordCnt) ? Integer.parseInt(rawRecordCnt) : recordCnt,
 			typeMap.containsKey(rawType) ? rawType : type,
 			rawKeyword == null ? null : rawKeyword.strip()
 		);
+		
+		mavContainer.addAttribute("boardCri", boardCri);
+		mavContainer.addAttribute("recordCntMap", recordCntMap);
+		mavContainer.addAttribute("typeMap", typeMap);
+		
+		return boardCri;
 	}
 }

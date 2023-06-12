@@ -20,4 +20,11 @@ public class BoardDetailsDto {
 	private int commentCnt;			// comment
 	private int boardLikesCnt;		// board_likes
 	
+	@Override
+	public String toString() {
+		return "BoardDetailsDto [boardIdx=" + boardIdx + ", boardTitle=" + boardTitle + ", boardWriterIdx="
+				+ boardWriterIdx + ", boardViews=" + boardViews + ", boardCategoryCode=" + boardCategoryCode
+				+ ", memberId=" + memberId + ", commentCnt=" + commentCnt + ", boardLikesCnt=" + boardLikesCnt + "]";
+	}
+	
 }

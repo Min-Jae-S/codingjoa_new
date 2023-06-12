@@ -95,7 +95,6 @@ public class BoardController {
 		
 		Category category = categoryService.findCategory(boardCategoryCode);
 		model.addAttribute("category", category);
-		model.addAttribute("boardCri", boardCri);
 		
 		return "board/board";
 	}
@@ -111,7 +110,6 @@ public class BoardController {
 		
 		Category category = categoryService.findCategory(boardDetails.getBoardCategoryCode());
 		model.addAttribute("category", category);
-		model.addAttribute("boardCri", boardCri);
 
 		// 쿠키를 이용하여 조회수 중복 방지 추가하기
 		// https://mighty96.github.io/til/view
