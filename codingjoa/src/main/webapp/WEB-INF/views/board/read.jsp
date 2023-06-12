@@ -369,6 +369,7 @@
 		let boardWriterIdx = "<c:out value='${boardDetails.boardWriterIdx}'/>";
 		let commentListURL = "${contextPath}/api/boards/" + boardIdx + "/comments";
 		
+		// get commentList
 		commentService.getCommentList(commentListURL , function(result) {
 			let commentList = result.data;
 			if (commentList.length != 0) {

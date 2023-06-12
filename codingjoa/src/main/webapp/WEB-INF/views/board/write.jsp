@@ -168,13 +168,13 @@
 		
 		$("#writeBtn").on("click", function(e) {
 			e.preventDefault();
-			let $form = $("#writeBoardDto");
+			let $writeForm = $("#writeBoardDto");
 			let $textArea = $("<textarea>").attr("style", "display:none;").attr("name", "boardContentText");
 			
 			// https://github.com/ckeditor/ckeditor5/blob/6bb68aa202/packages/ckeditor5-clipboard/src/utils/viewtoplaintext.ts#L23
 			let plainText = viewToPlainText(writeEditor.editing.view.document.getRoot());
 			$textArea.val(plainText);
-			$form.append($textArea);
+			$writeForm.append($textArea);
 			
 			const range = writeEditor.model.createRangeIn(writeEditor.model.document.getRoot());
 			for (const value of range.getWalker({ ignoreElementEnd: true })) { // TreeWalker instance
@@ -192,18 +192,23 @@
 			    let dataIdx = value.item.getAttribute("dataIdx");
 			    
 			    $input.val(dataIdx);
-				$form.append($input);
+				$writeForm.append($input);
 			}
 			
-			console.log(JSON.stringify($form.serializeObject(), null, 2));
+			console.log("## Before writeForm submit");
+			console.log(JSON.stringify($writeForm.serializeObject(), null, 2));
+			console.log('{\r\n  "boardContent": "' + writeEditor.getData() + '"\r\n}');
+			
 			if (!confirm("게시글을 등록하시겠습니까?")) {
 				$("textArea[name='boardContentText']").remove();
 				$("input[name='uploadIdxList[]']").remove();
-				console.log(JSON.stringify($form.serializeObject(), null, 2));
+				console.log("## Cancel writeForm submit");
+				console.log(JSON.stringify($writeForm.serializeObject(), null, 2));
+				console.log('{\r\n  "boardContent": "' + writeEditor.getData() + '"\r\n}');
 				return;
 			}
 			
-			$form.submit();
+			$writeForm.submit();
 		});
 	});
 </script>

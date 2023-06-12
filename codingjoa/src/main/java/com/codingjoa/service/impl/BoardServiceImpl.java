@@ -43,23 +43,20 @@ public class BoardServiceImpl implements BoardService {
 	private int pageRange;
 	
 	@Override
-	public void writeBoard(BoardDto writeBoardDto) {
-		Board board = modelMapper.map(writeBoardDto, Board.class);
+	public void writeBoard(BoardDto boardDto) {
+		Board board = modelMapper.map(boardDto, Board.class);
 		log.info("\t > writeBoardDto ==> {}", board);
 		
-		try {
-			boardMapper.insertBoard(board);
-		} catch (Exception e) {
+		boardMapper.insertBoard(board);
+		Integer DBboardIdx = board.getBoardIdx();
+		log.info("\t > after inserting board, DB boardIdx = {}", DBboardIdx);
+		
+		if (DBboardIdx == null) {
 			throw new IllegalArgumentException(MessageUtils.getMessage("error.WriteBoard"));
 		}
-		
-		Integer DbBoardIdx = board.getBoardIdx();
-		log.info("\t > after inserting board, DB boardIdx = {}", DbBoardIdx);
 
-		writeBoardDto.setBoardIdx(DbBoardIdx);
-		if (writeBoardDto.getUploadIdxList() != null) {
-			uploadService.activateImage(writeBoardDto);
-		}
+		boardDto.setBoardIdx(DBboardIdx);
+		uploadService.activateImage(boardDto);
 	}
 
 	@Override
@@ -118,17 +115,17 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public BoardDto getModifyBoard(int boardIdx, int boardWriterIdx) {
 		Board board = boardMapper.findModifyBoard(boardIdx);
-		log.info("\t > find modifyBoard, board = {}", board);
+		log.info("\t > find modifyBoard, {}", board);
 
 		if (board == null) {
 			throw new IllegalArgumentException(MessageUtils.getMessage("error.NotFoundModifyBoard"));
 		}
 		
-		Integer DbBoardWriterIdx = board.getBoardWriterIdx();
-		log.info("\t > after finding modifyBoard, DB boardWriterIdx = {}", DbBoardWriterIdx);
+		Integer DBboardWriterIdx = board.getBoardWriterIdx();
 		log.info("\t > my boardWriterIdx = {}", boardWriterIdx);
+		log.info("\t > after finding modifyBoard, DB boardWriterIdx = {}", DBboardWriterIdx);
 		
-		if (DbBoardWriterIdx != boardWriterIdx) {
+		if (DBboardWriterIdx != boardWriterIdx) {
 			throw new IllegalArgumentException(MessageUtils.getMessage("error.NotMyBoard"));
 		}
 		
@@ -136,27 +133,28 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
-	public void modifyBoard(BoardDto modifyBoardDto) {
-		Board board = modelMapper.map(modifyBoardDto, Board.class);
+	public void modifyBoard(BoardDto boardDto) {
+		Board board = modelMapper.map(boardDto, Board.class);
 		log.info("\t > modifyBoardDto ==> {}", board);
 		
-		try {
-			boardMapper.updateBoard(board);
-		} catch (Exception e) {
-			log.info("\t > {}", e.getClass().getSimpleName());
-			throw new IllegalArgumentException(MessageUtils.getMessage("error.UpdateBoard"));
-		}
+//		try {
+//			boardMapper.updateBoard(board);
+//		} catch (Exception e) {
+//			log.info("\t > {}", e.getClass().getSimpleName());
+//			throw new IllegalArgumentException(MessageUtils.getMessage("error.UpdateBoard"));
+//		}
+
+		boardMapper.updateBoard(board);
+		Integer DBboardWriterIdx = board.getBoardWriterIdx();
+		log.info("\t > my boardWriterIdx = {}", boardDto.getBoardWriterIdx());
+		log.info("\t > after updating board, DB boardWriterIdx = {}", DBboardWriterIdx);
 		
-		Integer DbBoardWriterIdx = board.getBoardWriterIdx();
-		log.info("\t > after updating board, DB boardWriterIdx = {}", DbBoardWriterIdx);
-		log.info("\t > my boardWriterIdx = {}",  modifyBoardDto.getBoardWriterIdx());
-		
-		if (DbBoardWriterIdx != modifyBoardDto.getBoardWriterIdx()) {
+		if (DBboardWriterIdx != boardDto.getBoardWriterIdx()) {
 			throw new IllegalArgumentException(MessageUtils.getMessage("error.NotMyBoard"));
 		}
 		
-		// upadte image
-		// ...
+		uploadService.deactivateImage(boardDto);
+		uploadService.activateImage(boardDto);
 	}
 
 	@Override
@@ -165,24 +163,25 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public void deleteBoard(BoardDto deleteBoardDto) {
-		Board board = modelMapper.map(deleteBoardDto, Board.class);
+	public void deleteBoard(BoardDto boardDto) {
+		Board board = modelMapper.map(boardDto, Board.class);
 		log.info("\t > deleteBoardDto ==> {}", board);
 		
-		boolean deleteSuccess = boardMapper.deleteBoard(board);
-		log.info("\t > delete board, deleteSuccess = {}", deleteSuccess);
-		log.info("\t > delete board, boardWriterIdx = {}", board.getBoardWriterIdx());
-		log.info("\t > delete board, boardCategory = {}", board.getBoardCategoryCode());
+		boardMapper.deleteBoard(board);
+		Integer DBboardWriterIdx = board.getBoardWriterIdx();
+		log.info("\t > my boardWriterIdx = {}", boardDto.getBoardWriterIdx());
+		log.info("\t > after deleting board, DB boardWriterIdx = {}", DBboardWriterIdx);
 		
-		if (!deleteSuccess) {
+		if (DBboardWriterIdx == null) {
 			throw new IllegalArgumentException(MessageUtils.getMessage("error.DeleteBoard"));
 		}
 		
-		if (board.getBoardWriterIdx() != deleteBoardDto.getBoardWriterIdx()) {
+		if (DBboardWriterIdx != boardDto.getBoardWriterIdx()) {
 			throw new IllegalArgumentException(MessageUtils.getMessage("error.NotMyBoard"));
 		}
-
-		deleteBoardDto.setBoardCategoryCode(board.getBoardCategoryCode());
+		
+		log.info("\t > after deleting board, DB boardCategoryCode = {}", board.getBoardCategoryCode());
+		boardDto.setBoardCategoryCode(board.getBoardCategoryCode());
 	}
 
 }

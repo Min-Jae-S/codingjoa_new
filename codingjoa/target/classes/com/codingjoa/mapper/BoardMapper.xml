@@ -395,16 +395,20 @@
 	{ 
 		CALL
 			DECLARE
-				 v_board_category_code board.board_category_code%TYPE := NULL;
+				v_board_writer_idx board.board_writer_idx%TYPE := NULL;
+				v_board_category_code board.board_category_code%TYPE := NULL;
 			BEGIN
 				DELETE FROM
 					board
 	    		WHERE 
 	        		board_idx = #{boardIdx} 
 	    		RETURNING 
+	        		board_writer_idx, 
 	        		board_category_code 
 	    		INTO
+	        		v_board_writer_idx, 
 	        		v_board_category_code;
+	        	#{boardWriterIdx, mode=OUT, jdbcType=NUMERIC, javaType=Integer} := v_board_writer_idx;
 	        	#{boardCategoryCode, mode=OUT, jdbcType=NUMERIC, javaType=Integer} := v_board_category_code;
 			END 
 	}

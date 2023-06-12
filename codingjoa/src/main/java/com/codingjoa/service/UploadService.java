@@ -10,10 +10,10 @@ public interface UploadService {
 	
 	boolean isImageUploaded(int uploadIdx);
 	
-	void activateImage(BoardDto writeBoardDto);
+	void activateImage(BoardDto boardDto);
 	
 	List<Integer> getUploadIdxList(int uploadBoardIdx);
 	
-	void modifyUpload(BoardDto modifyBoardDto);
+	void deactivateImage(BoardDto boardDto);
 	
 }

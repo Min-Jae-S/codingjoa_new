@@ -12,7 +12,7 @@ import com.codingjoa.pagination.Criteria;
 @Mapper
 public interface BoardMapper {
 	
-	void insertBoard(Board board) throws Exception;
+	void insertBoard(Board board);
 	
 	Map<String, Object> findBoardDetails(int boardIdx);
 	
@@ -29,10 +29,11 @@ public interface BoardMapper {
 	
 	Board findModifyBoard(int boardIdx);
 	
-	boolean updateBoard(Board board) throws Exception;
+//	void updateBoard(Board board) throws Exception;
+	void updateBoard(Board board);
 
 	int findBoardCategoryCode(int boardIdx);
 	
-	boolean deleteBoard(Board board);
+	void deleteBoard(Board board);
 	
 }

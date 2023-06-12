@@ -147,13 +147,13 @@
 		
 		$("#modifyBtn").on("click", function(e) {
 			e.preventDefault();
-			let $form = $("#modifyBoardDto");
+			let $modifyForm = $("#modifyBoardDto");
 			let $textArea = $("<textarea>").attr("style", "display:none;").attr("name", "boardContentText");
 			
 			// https://github.com/ckeditor/ckeditor5/blob/6bb68aa202/packages/ckeditor5-clipboard/src/utils/viewtoplaintext.ts#L23
 			let plainText = viewToPlainText(modifyEditor.editing.view.document.getRoot());
 			$textArea.val(plainText);
-			$form.append($textArea);
+			$modifyForm.append($textArea);
 			
 			const range = modifyEditor.model.createRangeIn(modifyEditor.model.document.getRoot());
 			for (const value of range.getWalker({ ignoreElementEnd: true })) { // TreeWalker instance
@@ -171,18 +171,23 @@
 			    let dataIdx = value.item.getAttribute("dataIdx");
 			    
 			    $input.val(dataIdx);
-			    $form.append($input);
+			    $modifyForm.append($input);
 			}
 			
-			console.log(JSON.stringify($form.serializeObject(), null, 2));
-			if (!confirm("게시글을 수정하시겠습니까?")) {
+			console.log("## Before modifyForm submit");
+			console.log(JSON.stringify($modifyForm.serializeObject(), null, 2));
+			console.log('{\r\n  "boardContent": "' + modifyEditor.getData() + '"\r\n}');
+			
+			if (!confirm("게시글을 등록하시겠습니까?")) {
 				$("textArea[name='boardContentText']").remove();
 				$("input[name='uploadIdxList[]']").remove();
-				console.log(JSON.stringify($form.serializeObject(), null, 2));
+				console.log("## Cancel modifyForm submit");
+				console.log(JSON.stringify($modifyForm.serializeObject(), null, 2));
+				console.log('{\r\n  "boardContent": "' + modifyEditor.getData() + '"\r\n}');
 				return;
 			}
 			
-			$form.submit();
+			$modifyForm.submit();
 		});
 	});
 </script>

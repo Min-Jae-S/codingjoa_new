@@ -31,7 +31,6 @@ import com.codingjoa.pagination.Pagination;
 import com.codingjoa.security.dto.UserDetailsDto;
 import com.codingjoa.service.BoardService;
 import com.codingjoa.service.CategoryService;
-import com.codingjoa.service.UploadService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -45,9 +44,6 @@ public class BoardController {
 
 	@Autowired
 	private BoardService boardService;
-	
-	@Autowired
-	private UploadService uploadService;
 	
 	@Resource(name = "boardValidator")
 	private Validator boardValidator;
@@ -190,23 +186,20 @@ public class BoardController {
 		}
 		
 		modifyBoardDto.setBoardWriterIdx(principal.getMember().getMemberIdx());
-		boardService.modifyBoard(modifyBoardDto); // updateBoard + updateUpload
-		uploadService.modifyUpload(modifyBoardDto);
+		boardService.modifyBoard(modifyBoardDto); // updateBoard + deactivateImage + activateImage  
 		
 		return "redirect:/board/read?boardIdx=" + modifyBoardDto.getBoardIdx();
 	}
 	
 	@GetMapping("/deleteProc")
-	public String deleteProc(@ModelAttribute("deleteBoardDto") BoardDto deleteBoardDto, 
-			@AuthenticationPrincipal UserDetailsDto principal) {
-		log.info("## deleteProc");
-		log.info("\t > {}", deleteBoardDto);
+	public String deleteProc(@RequestParam int boardIdx, @AuthenticationPrincipal UserDetailsDto principal) {
+		log.info("## deleteProc, boardIdx = {}", boardIdx);
 		
-		int boardWriterIdx = principal.getMember().getMemberIdx();
-		log.info("\t > boardWriterIdx = {}", boardWriterIdx);
+		BoardDto deleteBoardDto = new BoardDto();
+		deleteBoardDto.setBoardIdx(boardIdx);
+		deleteBoardDto.setBoardWriterIdx(principal.getMember().getMemberIdx());
 		
 		// ON DELETE CASCADE, ON DELETE SET NULL
-		deleteBoardDto.setBoardWriterIdx(boardWriterIdx);
 		boardService.deleteBoard(deleteBoardDto);
 		
 		// UriComponentsBuilder.newInstance().queryParam("boardCategoryCode", boardCategoryCode).toUriString()
