@@ -4,6 +4,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.codingjoa.dto.AddrDto;
 import com.codingjoa.dto.AgreeDto;
@@ -18,7 +19,7 @@ import com.codingjoa.service.MemberService;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-//@Transactional
+@Transactional
 @Service
 public class MemberServiceImpl implements MemberService {
 	

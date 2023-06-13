@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.codingjoa.dto.CommentDetailsDto;
 import com.codingjoa.dto.CommentDto;
@@ -19,7 +20,7 @@ import com.codingjoa.util.MessageUtils;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-//@Transactional
+@Transactional
 @Service
 public class CommentServiceImpl implements CommentService {
 
