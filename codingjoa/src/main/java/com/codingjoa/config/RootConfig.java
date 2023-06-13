@@ -53,7 +53,7 @@ public class RootConfig {
 		hikariConfig.setJdbcUrl(url);
 		hikariConfig.setUsername(username);
 		hikariConfig.setPassword(password);
-		hikariConfig.setAutoCommit(false);
+		
 		return hikariConfig;
 	}
 
@@ -62,6 +62,7 @@ public class RootConfig {
 		log.info("## DataSoruce Bean");
 		DataSource dataSource = new HikariDataSource(hikariConfig());
 		log.info("\t > datasource connection : {}", dataSource);
+		
 		return dataSource;
 	}
 	
@@ -69,7 +70,7 @@ public class RootConfig {
 	public DataSourceTransactionManager transactionManager() {
 		log.info("## DataSourceTransactionManager Bean");
 		DataSourceTransactionManager transactionManager = new DataSourceTransactionManager(dataSource());
-		log.info("\t > transaction setting : {}", transactionManager);
+		
 		return transactionManager;
 	}
 
@@ -79,6 +80,7 @@ public class RootConfig {
 		sessionFactory.setDataSource(dataSource());
 		sessionFactory.setConfigLocation(applicationContext.getResource("classpath:/mybatis/mybatis-config.xml"));
 		sessionFactory.setMapperLocations(applicationContext.getResources("classpath:/com/codingjoa/mapper/**.xml"));
+		
 		return sessionFactory.getObject();
 	}
 	
@@ -91,6 +93,7 @@ public class RootConfig {
 	public ModelMapper modelMapper() {
 		ModelMapper modelMapper = new ModelMapper();
 		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+		
 		return modelMapper;
 	}
 	

@@ -21,9 +21,9 @@
 	<logger name="org.springframework.web.servlet.DispatcherServlet" level="INFO" />
 	<logger name="org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor" level="INFO" />
 	<logger name="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping" level="DEBUG" />
+	<logger name="org.springframework.transaction.TransactionManager" level="DEBUG" />
 	
 	<!-- db log -->
-	<logger name="org.springframework.transaction.interceptor" level="TRACE" />
 	<logger name="jdbc.sqlonly" level="OFF"/>
   	<logger name="jdbc.sqltiming" level="OFF"/> 
   	<logger name="jdbc.resultsettable" level="OFF"/>

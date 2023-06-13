@@ -241,11 +241,9 @@ public class ServletConfig implements WebMvcConfigurer {
 		return messageUtils;
 	}
 	
-	/*
-	 * Classes that implement the BeanPostProcessor interface are instantiated on startup, 
+	/* Classes that implement the BeanPostProcessor interface are instantiated on startup, 
 	 * as part of the special startup phase of the ApplicationContext, before any other beans.
 	 * Enable @Valid validation exception handler for @PathVariable, @RequestParam and @RequestHeader.
-	 * 
 	 * mvcValidator, LocalValidatorFactoryBean, @Qualifier("localValidator")
 	 */
 	@Bean
