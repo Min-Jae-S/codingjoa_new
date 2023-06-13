@@ -262,7 +262,16 @@
 								href="${contextPath}/board/modify?boardIdx=${boardDetails.boardIdx}">수정하기
 							</a>
 					      	<a class="dropdown-item" id="deleteBoardLink"
-					      		href="${contextPath}/board/deleteProc?boardIdx=${boardDetails.boardIdx}">삭제하기
+					      		href="${contextPath}/board/deleteProc">삭제하기 no boardIdx
+					     	</a>
+					      	<a class="dropdown-item" id="deleteBoardLink"
+					      		href="${contextPath}/board/deleteProc?boardIdx=aa">삭제하기 boardIdx=aa
+					     	</a>
+					      	<a class="dropdown-item" id="deleteBoardLink"
+					      		href="${contextPath}/board/deleteProc?boardIdx=99999">삭제하기 boardIdx=99999
+					     	</a>
+					      	<a class="dropdown-item" id="deleteBoardLink"
+					      		href="${contextPath}/board/deleteProc?boardIdx=4163">삭제하기 boardIdx=4163(admin)
 					     	</a>
 					    </div>
 						<%-- <sec:authorize access="isAuthenticated()">
