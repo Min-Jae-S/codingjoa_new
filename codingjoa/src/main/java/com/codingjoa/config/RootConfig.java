@@ -56,7 +56,7 @@ public class RootConfig {
 	public DataSource dataSource() {
 		log.info("## DataSoruce Bean");
 		DataSource dataSource = new HikariDataSource(hikariConfig());
-		log.info("\t > datasource connection : {}", dataSource);
+		log.info("datasource connection : {}", dataSource);
 		
 		return dataSource;
 	}

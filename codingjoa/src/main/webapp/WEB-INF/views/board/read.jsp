@@ -268,10 +268,10 @@
 					      		href="${contextPath}/board/deleteProc?boardIdx=aa">삭제하기 boardIdx=aa
 					     	</a>
 					      	<a class="dropdown-item" id="deleteBoardLink"
-					      		href="${contextPath}/board/deleteProc?boardIdx=99999">삭제하기 boardIdx=99999
+					      		href="${contextPath}/board/deleteProc?boardIdx=9999">삭제하기 boardIdx=9999
 					     	</a>
 					      	<a class="dropdown-item" id="deleteBoardLink"
-					      		href="${contextPath}/board/deleteProc?boardIdx=4163">삭제하기 boardIdx=4163(admin)
+					      		href="${contextPath}/board/deleteProc?boardIdx=4166">삭제하기 boardIdx=4166(admin)
 					     	</a>
 					    </div>
 						<%-- <sec:authorize access="isAuthenticated()">
@@ -292,7 +292,7 @@
 							</c:if>
 						</sec:authorize> --%>
 					</div>
-					<h3 class="title mb-4"><c:out value="${boardDetails.boardTitle}"/></h3>
+					<h3 class="title mb-4"><c:out value="${boardDetails.boardTitle}"/> (admin boardIdx = 4166)</h3>
 					<div class="header-meta d-flex mb-2">
 						<span class="mr-3"><c:out value="${boardDetails.memberId}"/></span>
 						<span class="mr-3">
