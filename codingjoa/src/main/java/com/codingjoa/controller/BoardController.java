@@ -35,8 +35,9 @@ import com.codingjoa.service.CategoryService;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@Validated
 @RequestMapping("/board")
-@Controller @Validated
+@Controller 
 public class BoardController {
 	
 	@Autowired 

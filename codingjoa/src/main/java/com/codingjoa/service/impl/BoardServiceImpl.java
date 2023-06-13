@@ -180,5 +180,4 @@ public class BoardServiceImpl implements BoardService {
 		log.info("\t > after deleting board, DB boardCategoryCode = {}", board.getBoardCategoryCode());
 		boardDto.setBoardCategoryCode(board.getBoardCategoryCode());
 	}
-
 }
