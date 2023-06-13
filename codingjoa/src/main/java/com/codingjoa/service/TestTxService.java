@@ -27,7 +27,7 @@ public class TestTxService {
 		try {
 			status = TransactionAspectSupport.currentTransactionStatus();
 		} catch (NoTransactionException e) {
-			log.info("\t > {}", e);
+			log.info("\t > {}", e.getClass().getSimpleName());
 		}
 		log.info("\t > {}", status == null ? "no transcation" : "active transcation");
 	}

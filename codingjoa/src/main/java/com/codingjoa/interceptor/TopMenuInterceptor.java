@@ -7,7 +7,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.web.context.WebApplicationContext;
+import org.springframework.context.ApplicationContext;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -30,7 +30,7 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 
 	private static final String FORWARD_URL_PREFIX = "forward:";
 	private static final String REDIRECT_URL_PREFIX = "redirect:";
-	private WebApplicationContext webApplicationContext;
+	private ApplicationContext applicationContext;
 	private CategoryService categoryService;
 	
 	/*
@@ -89,7 +89,7 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 			return;
 		}
 		
-		String[] beanNames = webApplicationContext.getBeanNamesForType(MappingJackson2JsonView.class);
+		String[] beanNames = applicationContext.getBeanNamesForType(MappingJackson2JsonView.class);
 		for (String beanName : beanNames) {
 			if (viewName.equals(beanName)) {
 				log.info("\t > viewName equals MappingJackson2JsonView's beanName({}), NO top menu", beanName);

@@ -8,13 +8,13 @@ import org.modelmapper.convention.MatchingStrategies;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.annotation.MapperScan;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.context.annotation.SessionScope;
 
@@ -43,9 +43,6 @@ public class RootConfig {
 	@Value("${db.password}")
 	private String password;
 	
-	@Autowired
-	private ApplicationContext applicationContext;
-	
 	@Bean
 	public HikariConfig hikariConfig() {
 		HikariConfig hikariConfig = new HikariConfig();
@@ -67,15 +64,15 @@ public class RootConfig {
 	}
 	
 	@Bean
-	public DataSourceTransactionManager transactionManager() {
-		log.info("## DataSourceTransactionManager Bean");
+	public PlatformTransactionManager transactionManager() {
+		log.info("## TransactionManager Bean");
 		DataSourceTransactionManager transactionManager = new DataSourceTransactionManager(dataSource());
 		
 		return transactionManager;
 	}
 
 	@Bean
-	public SqlSessionFactory sqlSessionFactory() throws Exception {
+	public SqlSessionFactory sqlSessionFactory(ApplicationContext applicationContext) throws Exception {
 		SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
 		sessionFactory.setDataSource(dataSource());
 		sessionFactory.setConfigLocation(applicationContext.getResource("classpath:/mybatis/mybatis-config.xml"));

@@ -11,6 +11,7 @@ import javax.validation.Validator;
 
 import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -27,7 +28,6 @@ import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
-import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
@@ -69,7 +69,7 @@ public class ServletConfig implements WebMvcConfigurer {
 	private Environment env;
 	
 	@Autowired
-	private WebApplicationContext webApplicationContext;
+	private ApplicationContext applicationContext;
 	
 	@Autowired
 	private CategoryService categoryService;
@@ -120,7 +120,7 @@ public class ServletConfig implements WebMvcConfigurer {
 
 	@Bean
 	public TopMenuInterceptor topMenuInterceptor() {
-		return new TopMenuInterceptor(webApplicationContext, categoryService);
+		return new TopMenuInterceptor(applicationContext, categoryService);
 	}
 
 	@Override
