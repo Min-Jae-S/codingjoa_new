@@ -15,7 +15,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.context.annotation.SessionScope;
 
 import com.codingjoa.dto.SessionDto;
@@ -26,7 +25,6 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Configuration
-@EnableTransactionManagement
 @PropertySource("/WEB-INF/properties/db.properties")
 @MapperScan("com.codingjoa.mapper")
 public class RootConfig {
@@ -94,8 +92,7 @@ public class RootConfig {
 		return modelMapper;
 	}
 	
-	@Bean
-	@SessionScope
+	@Bean @SessionScope
 	public SessionDto sessionDto() {
 		return new SessionDto();
 	}
