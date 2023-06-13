@@ -54,20 +54,23 @@ public class RootConfig {
 		hikariConfig.setUsername(username);
 		hikariConfig.setPassword(password);
 		hikariConfig.setAutoCommit(false);
-
 		return hikariConfig;
 	}
 
 	@Bean
 	public DataSource dataSource() {
+		log.info("## DataSoruce Bean");
 		DataSource dataSource = new HikariDataSource(hikariConfig());
-		log.info("## datasource connection : {}", dataSource);
+		log.info("\t > datasource connection : {}", dataSource);
 		return dataSource;
 	}
 	
 	@Bean
 	public DataSourceTransactionManager transactionManager() {
-		return new DataSourceTransactionManager(dataSource());
+		log.info("## DataSourceTransactionManager Bean");
+		DataSourceTransactionManager transactionManager = new DataSourceTransactionManager(dataSource());
+		log.info("\t > transaction setting : {}", transactionManager);
+		return transactionManager;
 	}
 
 	@Bean
@@ -88,7 +91,6 @@ public class RootConfig {
 	public ModelMapper modelMapper() {
 		ModelMapper modelMapper = new ModelMapper();
 		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
-		
 		return modelMapper;
 	}
 	
