@@ -11,7 +11,6 @@
 			<pattern>[%-5level] %-40.40logger{40} : %msg%n</pattern>
 		</encoder>
 	</appender>
-	
 	<!-- appender	: log의 형태를 설정, 로그 메시지가 출력될 대상을 결정하는 요소 (콘솔 혹은 파일로 출력할지 등의 설정) 	-->
 	<!-- root 		: 전역 설정, 지역적으로 선언된 logger 설정이 있다면 해당 logger 설정이 default로 적용					-->
 	<!-- logger		: 지역 설정, additivity 값은 root 설정 상속 유무 설정 (default = true) 									-->
@@ -21,9 +20,12 @@
 	<logger name="org.springframework.web.servlet.DispatcherServlet" level="INFO" />
 	<logger name="org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor" level="INFO" />
 	<logger name="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping" level="DEBUG" />
-	<logger name="org.springframework.transaction" level="TRACE" />
 	
-	<!-- db log -->
+	<!-- transaction -->
+	<logger name="org.springframework.transaction" level="INFO" />
+	<logger name="org.springframework.transaction.interceptor" level="TRACE" />
+	
+	<!-- database -->
 	<logger name="jdbc.sqlonly" level="OFF"/>
   	<logger name="jdbc.sqltiming" level="OFF"/> 
   	<logger name="jdbc.resultsettable" level="OFF"/>
