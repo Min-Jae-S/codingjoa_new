@@ -168,6 +168,7 @@ public class BoardServiceImpl implements BoardService {
 		Integer DBboardWriterIdx = board.getBoardWriterIdx();
 		log.info("\t > my boardWriterIdx = {}", boardDto.getBoardWriterIdx());
 		log.info("\t > after deleting board, DB boardWriterIdx = {}", DBboardWriterIdx);
+		log.info("\t > after deleting board, DB boardCategoryCode = {}", board.getBoardCategoryCode());
 		
 		if (DBboardWriterIdx == null) {
 			throw new IllegalArgumentException(MessageUtils.getMessage("error.DeleteBoard"));
@@ -177,7 +178,6 @@ public class BoardServiceImpl implements BoardService {
 			throw new IllegalArgumentException(MessageUtils.getMessage("error.NotMyBoard"));
 		}
 		
-		log.info("\t > after deleting board, DB boardCategoryCode = {}", board.getBoardCategoryCode());
 		boardDto.setBoardCategoryCode(board.getBoardCategoryCode());
 	}
 }
