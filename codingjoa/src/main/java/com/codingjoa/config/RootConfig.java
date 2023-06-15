@@ -43,11 +43,13 @@ public class RootConfig {
 	
 	@Bean
 	public HikariConfig hikariConfig() {
+		log.info("## DBCP, HikariCP Bean");
 		HikariConfig hikariConfig = new HikariConfig();
 		hikariConfig.setDriverClassName(driverClassName);
 		hikariConfig.setJdbcUrl(url);
 		hikariConfig.setUsername(username);
 		hikariConfig.setPassword(password);
+		log.info("\t > auto commit : {}", hikariConfig.isAutoCommit());
 		
 		return hikariConfig;
 	}

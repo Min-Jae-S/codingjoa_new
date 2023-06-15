@@ -80,21 +80,17 @@
 									 	category_path = '/board' AND category_parent_code IS NULL )
 	</select>
 	
-	<!-- <select id="findParentCategoryPath" parameterType="int" resultType="string">
+	<select id="isBoardCategoryCode" parameterType="int" resultType="boolean">
 		SELECT
-			category_path
+			COUNT(*)
 		FROM
 			category
 		WHERE
-			category_code = ( SELECT 
-								category_parent_code 
-							  FROM 
-								category 
-							  WHERE 
-								category_code = #{categoryCode} )
-	</select> -->
-	
-	<select id="isBoardCategoryCode" parameterType="int" resultType="boolean">
+			category_code = #{categoryCode} 
+		AND 
+			category_parent_code = 1
+	</select>
+	<!-- <select id="isBoardCategoryCode" parameterType="int" resultType="boolean">
 		SELECT
 			COUNT(*)
 		FROM
@@ -108,6 +104,6 @@
 									 	category 
 									 WHERE 
 									 	category_path = '/board' AND category_parent_code IS NULL )
-	</select>
+	</select> -->
 	
 </mapper>
