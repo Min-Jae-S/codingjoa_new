@@ -62,6 +62,8 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public BoardDetailsDto getBoardDetails(int boardIdx) {
 		Map<String, Object> boardDetailsMap = boardMapper.findBoardDetails(boardIdx);
+		log.info("\t > {}", boardDetailsMap);
+
 		if (boardDetailsMap == null) {
 			throw new IllegalArgumentException(MessageUtils.getMessage("error.NotFoundBoard"));
 		}
@@ -96,6 +98,7 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public List<BoardDetailsDto> getPagedBoard(int boardCategoryCode, Criteria boardCri) {
 		log.info("\t > paged board = {}", boardMapper.findPagedBoard(boardCategoryCode, boardCri));
+		
 		return boardMapper.findPagedBoard(boardCategoryCode, boardCri)
 				.stream()
 				.map(boardDetailsMap -> modelMapper.map(boardDetailsMap, BoardDetailsDto.class))
