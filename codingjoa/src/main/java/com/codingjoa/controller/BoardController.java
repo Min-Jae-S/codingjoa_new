@@ -74,9 +74,8 @@ public class BoardController {
 	}
 	
 	@GetMapping("/")
-	public String getBoard(
-			/* @BoardCategoryCode */@RequestParam int boardCategoryCode, 
-			@BoardCri Criteria boardCri, Model model) {
+	public String getBoard(@BoardCategoryCode @RequestParam int boardCategoryCode, @BoardCri Criteria boardCri,
+			Model model) {
 		log.info("## getBoard, boardCategoryCode = {}", boardCategoryCode);
 		log.info("\t > boardCri = {}", boardCri);
 
