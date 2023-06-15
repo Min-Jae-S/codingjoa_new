@@ -72,12 +72,7 @@
 		FROM
 			category
 		WHERE
-			category_parent_code = ( SELECT 
-										category_code 
-									 FROM 
-									 	category 
-									 WHERE 
-									 	category_path = '/board' AND category_parent_code IS NULL )
+			category_parent_code = 1
 	</select>
 	
 	<select id="isBoardCategoryCode" parameterType="int" resultType="boolean">

@@ -49,7 +49,7 @@ public class RootConfig {
 		hikariConfig.setJdbcUrl(url);
 		hikariConfig.setUsername(username);
 		hikariConfig.setPassword(password);
-		log.info("\t > auto commit : {}", hikariConfig.isAutoCommit());
+		log.info("\t > auto commit = {}", hikariConfig.isAutoCommit());
 		
 		return hikariConfig;
 	}
@@ -58,7 +58,7 @@ public class RootConfig {
 	public DataSource dataSource() {
 		log.info("## DataSoruce Bean");
 		DataSource dataSource = new HikariDataSource(hikariConfig());
-		log.info("datasource connection : {}", dataSource);
+		log.info("datasource connection = {}", dataSource);
 		
 		return dataSource;
 	}

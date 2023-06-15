@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import com.codingjoa.dto.BoardDto;
 import com.codingjoa.entity.Upload;
@@ -35,8 +36,9 @@ public class UploadServiceImpl implements UploadService {
 
 	@Override
 	public void activateImage(BoardDto boardDto) {
-		if (boardDto.getUploadIdxList() != null) {
-			uploadMapper.activateImage(boardDto.getBoardIdx(), boardDto.getUploadIdxList());
+		List<Integer> uploadIdxList = boardDto.getUploadIdxList();
+		if (!CollectionUtils.isEmpty(uploadIdxList)) {
+			uploadMapper.activateImage(boardDto.getBoardIdx(), uploadIdxList);
 		}
 	}
 	
