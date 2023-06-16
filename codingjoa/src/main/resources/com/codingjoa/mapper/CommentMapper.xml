@@ -75,11 +75,11 @@
 			DUAL
 		WHERE EXISTS (
 			SELECT
-				board_idx
+				1
 			FROM
-				board
+				DUAL
 			WHERE
-				board_idx = #{commentBoardIdx}
+				#{commentBoardIdx} IS NOT NULL
 		)
 	</insert>
 	
