@@ -57,6 +57,17 @@ public class ErrorRestHandler {
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
 	}
 	
+	@ExceptionHandler(HttpMessageNotReadableException.class)
+	protected ResponseEntity<Object> handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
+		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
+		log.info("\t > message = {}", e.getMessage());
+		
+		ErrorResponse errorResponse = ErrorResponse.create().errorCode("error.InvalidFormat");
+		log.info("\t > {}", errorResponse);
+		
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+	}
+	
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	protected ResponseEntity<Object> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
 		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
@@ -70,17 +81,6 @@ public class ErrorRestHandler {
 		
 		return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(errorResponse);
 	}
-
-	@ExceptionHandler(HttpMessageNotReadableException.class)
-	protected ResponseEntity<Object> handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
-		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
-		log.info("\t > message = {}", e.getMessage());
-		
-		ErrorResponse errorResponse = ErrorResponse.create().errorCode("error.InvalidFormat");
-		log.info("\t > {}", errorResponse);
-		
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
-	}
 	
 	@ExceptionHandler(ConstraintViolationException.class)
 	protected ResponseEntity<Object> handleConstraintViolationException(ConstraintViolationException e) {
@@ -90,7 +90,7 @@ public class ErrorRestHandler {
 		ErrorResponse errorResponse = ErrorResponse.create().errorMessage(e.getMessage());
 		log.info("\t > {}", errorResponse);
 
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+		return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(errorResponse);
 	}
 	
 	@ExceptionHandler(value =  {
@@ -100,8 +100,19 @@ public class ErrorRestHandler {
 	protected ResponseEntity<Object> handlePathVariableExceptionAndTypeMismatchException(Exception e) {
 		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t > message = {}", e.getMessage());
-		
+
 		ErrorResponse errorResponse = ErrorResponse.create().errorMessage(e.getMessage());
+		log.info("\t > {}", errorResponse);
+		
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+	}
+	
+	@ExceptionHandler(MaxUploadSizeExceededException.class)
+	protected ResponseEntity<Object> handleMaxUploadSizeExceededException(MaxUploadSizeExceededException e) {
+		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
+		log.info("\t > message = {}", e.getMessage());
+		
+		ErrorResponse errorResponse = ErrorResponse.create().errorCode("error.ExceedSize");
 		log.info("\t > {}", errorResponse);
 		
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
@@ -113,17 +124,6 @@ public class ErrorRestHandler {
 		log.info("\t > message = {}", e.getMessage());
 		
 		ErrorResponse errorResponse = ErrorResponse.create().errorMessage(e.getMessage());
-		log.info("\t > {}", errorResponse);
-		
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
-	}
-	
-	@ExceptionHandler(MaxUploadSizeExceededException.class)
-	protected ResponseEntity<Object> handleMaxUploadSizeExceededException(MaxUploadSizeExceededException e) {
-		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
-		log.info("\t > message = {}", e.getMessage());
-		
-		ErrorResponse errorResponse = ErrorResponse.create().errorCode("error.ExceedSize");
 		log.info("\t > {}", errorResponse);
 		
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);

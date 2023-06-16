@@ -55,7 +55,6 @@ public class CommentRestController {
 	public ResponseEntity<Object> getComment(@PathVariable("commentIdx") int commentIdx, 
 			@AuthenticationPrincipal UserDetailsDto principal) {
 		log.info("## getCommentList, commentIdx = {}", commentIdx);
-		log.info("\t > memberId = {}", principal.getMember().getMemberId());
 		
 		CommentDetailsDto commentDetails = 
 				commentService.getCommentDetails(commentIdx, principal.getMember().getMemberIdx());
