@@ -6,6 +6,7 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingPathVariableException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -62,6 +63,17 @@ public class ErrorRestHandler {
 		log.info("\t > {}", errorResponse);
 		
 		return ResponseEntity.unprocessableEntity().body(errorResponse);
+	}
+
+	@ExceptionHandler(HttpMessageNotReadableException.class)
+	protected ResponseEntity<Object> handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
+		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
+		log.info("\t > message = {}", e.getMessage());
+		
+		ErrorResponse errorResponse = ErrorResponse.create().errorCode("error.InvalidFormat");
+		log.info("\t > {}", errorResponse);
+		
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
 	}
 	
 	@ExceptionHandler(ConstraintViolationException.class)

@@ -382,7 +382,7 @@
 		//////////////////////////////////////////////////////////////////////////////////////////////////////
 		$("#testWrite").on("click", function() {
 			let comment = {
-				commentBoardIdx : 99999,
+				commentBoardIdx : "aa",
 				commentContent : $("#commentContent").val(),
 			};
 			

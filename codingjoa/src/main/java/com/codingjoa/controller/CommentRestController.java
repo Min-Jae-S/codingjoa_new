@@ -2,18 +2,13 @@ package com.codingjoa.controller;
 
 import java.util.List;
 
-import javax.annotation.Resource;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.validation.Validator;
-import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -42,19 +37,9 @@ public class CommentRestController {
 	@Autowired
 	private CommentService commentService;
 	
-	@Resource(name = "commentValidator")
-	private Validator commentValidator;
-	
-	@InitBinder(value = "commentDto")
-	public void initBinderComment(WebDataBinder binder) {
-		log.info("## initBinderComment");
-		log.info("\t > target = {} / {}", binder.getObjectName(), binder.getTarget());
-		binder.addValidators(commentValidator);
-		
-		// https://stackoverflow.com/questions/31680960/spring-initbinder-on-requestbody
-		// @InitBinder doesn't work with @RequesBody, it can work with @ModelAttribute Annotation.
-		//binder.registerCustomEditor(String.class, new StringTrimmerEditor(false));
-	}
+	// https://stackoverflow.com/questions/31680960/spring-initbinder-on-requestbody
+	// @InitBinder doesn't work with @RequesBody, it can work with @ModelAttribute Annotation.
+	//binder.registerCustomEditor(String.class, new StringTrimmerEditor(false));
 
 	@GetMapping("/boards/{boardIdx}/comments")
 	public ResponseEntity<Object> getCommentList(@PathVariable int boardIdx, @CommentCri CommentCriteria commentCri) {
@@ -79,8 +64,8 @@ public class CommentRestController {
 	}
 	
 	@PostMapping("/comments")
-	public ResponseEntity<Object> writeComment(@Valid @RequestBody CommentDto commentDto, 
-			@AuthenticationPrincipal UserDetailsDto principal) throws MethodArgumentNotValidException {
+	public ResponseEntity<Object> writeComment(@Valid @RequestBody CommentDto commentDto,
+			@AuthenticationPrincipal UserDetailsDto principal) {
 		log.info("## writeComment");
 		log.info("\t > {}", commentDto);
 		

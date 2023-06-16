@@ -24,11 +24,6 @@ public class CommentValidator implements Validator {
 		log.info("\t > objectName = {}", errors.getObjectName());
 		
 		CommentDto commentDto = (CommentDto) target;
-//		if (!boardService.isBoardIdxExist(commentBoardIdx, boardCategoryCode)) {
-//			errors.rejectValue("commentBoardIdx", "NotBoardIdxExist");
-//			return;
-//		}
-		
 		if (!StringUtils.hasText(commentDto.getCommentContent())) {
 			errors.rejectValue("commentContent", "NotBlank");
 			return;

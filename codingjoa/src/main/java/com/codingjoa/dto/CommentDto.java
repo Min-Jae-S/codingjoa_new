@@ -1,5 +1,7 @@
 package com.codingjoa.dto;
 
+import javax.validation.constraints.NotBlank;
+
 import org.apache.commons.text.StringEscapeUtils;
 
 import com.codingjoa.converter.WhitespaceDeserializer;
@@ -15,6 +17,7 @@ public class CommentDto {
 	private int commentBoardIdx;
 
 	@JsonDeserialize(using = WhitespaceDeserializer.class)
+	@NotBlank
 	private String commentContent;
 	
 	private boolean commentUse;
