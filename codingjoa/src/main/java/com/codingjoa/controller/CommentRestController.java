@@ -33,7 +33,7 @@ import com.codingjoa.service.CommentService;
 import lombok.extern.slf4j.Slf4j;
 
 // https://velog.io/@yoojkim/Rest-API-RESTful%ED%95%98%EA%B2%8C-URL-%EC%84%A4%EA%B3%84%ED%95%98%EA%B8%B0
-// 자원(HTTP URI), 행위(HTTP Method), 표현(HTTP Message Payload)
+// REST : 자원(HTTP URI), 행위(HTTP Method), 표현(HTTP Message Payload)
 
 @Slf4j
 @RequestMapping("/api")
@@ -49,8 +49,7 @@ public class CommentRestController {
 	@InitBinder(value = "commentDto")
 	public void initBinderComment(WebDataBinder binder) {
 		log.info("## initBinderComment");
-		log.info("\t > binder target = {}", binder.getTarget());
-		log.info("\t > binder target name = {}", binder.getObjectName());
+		log.info("\t > target = {} / {}", binder.getObjectName(), binder.getTarget());
 		binder.addValidators(commentValidator);
 		
 		// https://stackoverflow.com/questions/31680960/spring-initbinder-on-requestbody
@@ -74,8 +73,8 @@ public class CommentRestController {
 		log.info("## getCommentList, commentIdx = {}", commentIdx);
 		log.info("\t > memberId = {}", principal.getMember().getMemberId());
 		
-		int commentWriterIdx = principal.getMember().getMemberIdx();
-		CommentDetailsDto commentDetails = commentService.getCommentDetails(commentIdx, commentWriterIdx);
+		CommentDetailsDto commentDetails = 
+				commentService.getCommentDetails(commentIdx, principal.getMember().getMemberIdx());
 		
 		return ResponseEntity.ok(SuccessResponse.create().data(commentDetails));
 	}

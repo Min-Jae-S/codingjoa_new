@@ -206,15 +206,7 @@
 		        	board
 		    	WHERE
 		        	<include refid="searchCriteria"/>
-					<!-- board_category_code = #{boardCategoryCode}  -->
-					board_category_code = ( SELECT 
-												category_code
-											FROM
-												category
-											WHERE
-												category_code = #{boardCategoryCode}
-											AND
-												category_parent_code = 1 )
+					board_category_code = #{boardCategoryCode} 
 				AND
 					<![CDATA[
 					ROWNUM <= ( #{boardCri.page} * #{boardCri.recordCnt} )
