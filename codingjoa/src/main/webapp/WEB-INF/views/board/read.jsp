@@ -332,7 +332,7 @@
 			<div class="card-bottom">
 				<a class="btn btn-secondary" href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}&
 					${boardCri.getQueryString()}">목록</a>
-				<button class="btn btn-warning" id="testWrite">TEST WRITE COMMENT</button>
+				<button class="btn btn-warning" id="testWriteBtn">TEST WRITE COMMENT</button>
 			</div>
 			<div class="test mt-5 d-none">
 				<div class="mb-4 d-flex">
@@ -380,10 +380,11 @@
 		});
 
 		//////////////////////////////////////////////////////////////////////////////////////////////////////
-		$("#testWrite").on("click", function() {
+		$("#testWriteBtn").on("click", function() {
+			console.log("## testWriteBtn click");
 			let comment = {
-				commentBoardIdx : "aa",
-				commentContent : $("#commentContent").val(),
+				commentBoardIdx : 9999,
+				commentContent : $("#commentContent").val()
 			};
 			
 			commentService.writeComment("${contextPath}/api/comments", comment, function(result) {

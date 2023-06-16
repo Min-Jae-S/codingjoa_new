@@ -62,8 +62,9 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
 	
 	// AnonymousAuthenticationFilter#createAuthentication(HttpServletRequest)
 	protected Authentication createAuthentication(HttpServletRequest request) {
-		AnonymousAuthenticationToken auth = new AnonymousAuthenticationToken(key, 
-				"anonymousUser", AuthorityUtils.createAuthorityList("ROLE_ANONYMOUS")); // null object pattern 
+		// null object pattern 
+		AnonymousAuthenticationToken auth = new AnonymousAuthenticationToken(key, "anonymousUser",
+				AuthorityUtils.createAuthorityList("ROLE_ANONYMOUS")); 
 		auth.setDetails(authenticationDetailsSource.buildDetails(request));
 		
 		return auth;

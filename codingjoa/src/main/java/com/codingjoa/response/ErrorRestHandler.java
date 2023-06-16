@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
+import com.codingjoa.exception.MyException;
+
 import lombok.extern.slf4j.Slf4j;
 
 /*
@@ -46,9 +48,10 @@ public class ErrorRestHandler {
 	@ExceptionHandler(Exception.class)
 	protected ResponseEntity<Object> handleException(Exception e) {
 		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
+		log.info("\t > {}", e.getStackTrace()[0]);
 		log.info("\t > message = {}", e.getMessage());
 
-		ErrorResponse errorResponse = ErrorResponse.create().errorMessage(e.getMessage());
+		ErrorResponse errorResponse = ErrorResponse.create().errorCode("error.Unknown");
 		log.info("\t > {}", errorResponse);
 		
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
@@ -104,8 +107,8 @@ public class ErrorRestHandler {
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
 	}
 	
-	@ExceptionHandler(IllegalArgumentException.class)
-	protected ResponseEntity<Object> handleIllegalArgumentException(IllegalArgumentException e) {
+	@ExceptionHandler(MyException.class)
+	protected ResponseEntity<Object> handleMyException(MyException e) {
 		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t > message = {}", e.getMessage());
 		

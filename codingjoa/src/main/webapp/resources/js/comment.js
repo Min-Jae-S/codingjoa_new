@@ -3,7 +3,7 @@ console.log("## Comment service ready - comment.js");
 let commentService = (function() {
 	
 	function writeComment(url, comment, callback) {
-		console.log("## Write comment...");
+		console.log("## Write comment: " + JSON.stringify(comment, null, 2));
 		$.ajax({
 			type : "POST",
 			url : url,
