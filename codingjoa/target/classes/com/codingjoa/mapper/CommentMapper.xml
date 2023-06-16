@@ -24,24 +24,22 @@
 		<!-- <result property="commentLikes" column=""/> -->
 	</resultMap>
 	
-	<update id="insertComment" parameterType="comment">
+<!-- 	<update id="insertComment" parameterType="comment">
 		<selectKey keyProperty="commentBoardIdx" resultType="int" order="BEFORE">
 			SELECT MAX(board_idx) FROM board WHERE board_idx = #{commentBoardIdx}
 		</selectKey>
-		MERGE INTO "comment" a
-		USING
-			board b
+		MERGE INTO "comment"
+		USING DUAL
 		ON
-			b.board_idx = #{commentBoardIdx}
 		WHEN MATCHED THEN
 			INSERT (
-				a.comment_idx,
-				a.comment_writer_idx,
-				a.comment_board_idx,
-				a.comment_content,
-				a.comment_use,
-				a.regdate,
-				a.moddate
+				comment_idx,
+				comment_writer_idx,
+				comment_board_idx,
+				comment_content,
+				comment_use,
+				regdate,
+				moddate
 			) VALUES (
 				seq_comment.NEXTVAL,
 				#{commentWriterIdx},
@@ -51,9 +49,12 @@
 				SYSDATE,
 				SYSDATE
 			)
-		
-		
-		
+	</update> -->
+	
+	<insert id="insertComment" parameterType="comment">
+		<selectKey keyProperty="commentBoardIdx" resultType="int" order="BEFORE">
+			SELECT MAX(board_idx) FROM board WHERE board_idx = #{commentBoardIdx}
+		</selectKey>
 		INSERT INTO "comment" (
 			comment_idx,
 			comment_writer_idx,
@@ -62,7 +63,7 @@
 			comment_use,
 			regdate,
 			moddate
-		) VALUES (
+		) SELECT 
 			seq_comment.NEXTVAL,
 			#{commentWriterIdx},
 			#{commentBoardIdx},
@@ -70,8 +71,17 @@
 			#{commentUse},
 			SYSDATE,
 			SYSDATE
+		FROM
+			DUAL
+		WHERE EXISTS (
+			SELECT
+				board_idx
+			FROM
+				board
+			WHERE
+				board_idx = #{commentBoardIdx}
 		)
-	</update>
+	</insert>
 	
 	<select id="findPagedComment" parameterType="map" resultMap="commentDetailsMap">
 		SELECT
