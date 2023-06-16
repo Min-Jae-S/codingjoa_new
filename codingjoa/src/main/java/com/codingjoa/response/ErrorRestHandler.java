@@ -57,12 +57,15 @@ public class ErrorRestHandler {
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	protected ResponseEntity<Object> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
 		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
-		log.info("\t > message = {}", e.getMessage());
 		
+		e.getBindingResult().getFieldErrors().forEach(fieldError -> {
+			log.info("\t > {} / {}", fieldError.getField(), fieldError.getCodes()[0]);
+		}); 
+
 		ErrorResponse errorResponse = ErrorResponse.create().bindingResult(e.getBindingResult());
 		log.info("\t > {}", errorResponse);
 		
-		return ResponseEntity.unprocessableEntity().body(errorResponse);
+		return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(errorResponse);
 	}
 
 	@ExceptionHandler(HttpMessageNotReadableException.class)
