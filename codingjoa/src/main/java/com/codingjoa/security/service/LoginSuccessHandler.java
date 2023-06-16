@@ -2,6 +2,7 @@ package com.codingjoa.security.service;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -25,9 +26,9 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 			Authentication authentication) throws IOException, ServletException {
 		log.info("## {}", this.getClass().getSimpleName());
 		log.info("\t > referer = {}", request.getHeader("referer"));
-		log.info("\t > [BEFORE] contentType = {}", response.getContentType());
+
 		response.setContentType(MediaType.TEXT_HTML.toString());
-		log.info("\t > [AFTER ] contentType = {}", response.getContentType());
+		response.setCharacterEncoding(StandardCharsets.UTF_8.toString());
 		
 		PrintWriter writer = response.getWriter();
 		writer.println("<script>");
