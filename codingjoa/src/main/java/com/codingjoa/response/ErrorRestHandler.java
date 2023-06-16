@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
-import com.codingjoa.exception.MyException;
+import com.codingjoa.exception.ExpectedException;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -118,8 +118,8 @@ public class ErrorRestHandler {
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
 	}
 	
-	@ExceptionHandler(MyException.class)
-	protected ResponseEntity<Object> handleMyException(MyException e) {
+	@ExceptionHandler(ExpectedException.class)
+	protected ResponseEntity<Object> handleMyException(ExpectedException e) {
 		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t > message = {}", e.getMessage());
 		

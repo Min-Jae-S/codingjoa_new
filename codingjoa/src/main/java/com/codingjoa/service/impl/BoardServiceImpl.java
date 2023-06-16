@@ -15,7 +15,7 @@ import org.springframework.util.StringUtils;
 import com.codingjoa.dto.BoardDetailsDto;
 import com.codingjoa.dto.BoardDto;
 import com.codingjoa.entity.Board;
-import com.codingjoa.exception.MyException;
+import com.codingjoa.exception.ExpectedException;
 import com.codingjoa.mapper.BoardMapper;
 import com.codingjoa.pagination.Criteria;
 import com.codingjoa.pagination.Pagination;
@@ -53,7 +53,7 @@ public class BoardServiceImpl implements BoardService {
 		log.info("\t > DB boardIdx = {}", DBboardIdx);
 		
 		if (DBboardIdx == null) {
-			throw new MyException(MessageUtils.getMessage("error.WriteBoard"));
+			throw new ExpectedException(MessageUtils.getMessage("error.WriteBoard"));
 		}
 
 		boardDto.setBoardIdx(DBboardIdx);
@@ -64,7 +64,7 @@ public class BoardServiceImpl implements BoardService {
 	public BoardDetailsDto getBoardDetails(int boardIdx) {
 		Map<String, Object> boardDetailsMap = boardMapper.findBoardDetails(boardIdx);
 		if (boardDetailsMap == null) {
-			throw new MyException(MessageUtils.getMessage("error.NotFoundBoard"));
+			throw new ExpectedException(MessageUtils.getMessage("error.NotFoundBoard"));
 		}
 		
 		return modelMapper.map(boardDetailsMap, BoardDetailsDto.class);
@@ -119,7 +119,7 @@ public class BoardServiceImpl implements BoardService {
 		log.info("\t > find modifyBoard, {}", board);
 
 		if (board == null) {
-			throw new MyException(MessageUtils.getMessage("error.NotFoundModifyBoard"));
+			throw new ExpectedException(MessageUtils.getMessage("error.NotFoundModifyBoard"));
 		}
 		
 		Integer DBboardWriterIdx = board.getBoardWriterIdx();
@@ -127,7 +127,7 @@ public class BoardServiceImpl implements BoardService {
 		log.info("\t > DB boardWriterIdx = {}", DBboardWriterIdx);
 		
 		if (DBboardWriterIdx != boardWriterIdx) {
-			throw new MyException(MessageUtils.getMessage("error.NotMyBoard"));
+			throw new ExpectedException(MessageUtils.getMessage("error.NotMyBoard"));
 		}
 		
 		return modelMapper.map(board, BoardDto.class);
@@ -144,11 +144,11 @@ public class BoardServiceImpl implements BoardService {
 		log.info("\t > DB boardWriterIdx = {}", DBboardWriterIdx);
 		
 		if (DBboardWriterIdx == null) {
-			throw new MyException(MessageUtils.getMessage("error.UpdateBoard"));
+			throw new ExpectedException(MessageUtils.getMessage("error.UpdateBoard"));
 		}
 		
 		if (DBboardWriterIdx != boardDto.getBoardWriterIdx()) {
-			throw new MyException(MessageUtils.getMessage("error.NotMyBoard"));
+			throw new ExpectedException(MessageUtils.getMessage("error.NotMyBoard"));
 		}
 		
 		uploadService.deactivateImage(boardDto);
@@ -171,11 +171,11 @@ public class BoardServiceImpl implements BoardService {
 		log.info("\t > DB boardWriterIdx = {}, DB boardCategoryCode = {}", DBboardWriterIdx, board.getBoardCategoryCode());
 		
 		if (DBboardWriterIdx == null) {
-			throw new MyException(MessageUtils.getMessage("error.DeleteBoard"));
+			throw new ExpectedException(MessageUtils.getMessage("error.DeleteBoard"));
 		}
 		
 		if (DBboardWriterIdx != boardDto.getBoardWriterIdx()) {
-			throw new MyException(MessageUtils.getMessage("error.NotMyBoard"));
+			throw new ExpectedException(MessageUtils.getMessage("error.NotMyBoard"));
 		}
 		
 		boardDto.setBoardCategoryCode(board.getBoardCategoryCode());

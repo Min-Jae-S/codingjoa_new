@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
-import com.codingjoa.exception.MyException;
+import com.codingjoa.exception.ExpectedException;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,8 +25,8 @@ public class ErrorHtmlHandler {
 		log.info("\t > message = {}", e.getMessage());
 		
 		ErrorResponse errorResponse = ErrorResponse.create().errorCode("error.Unknown");
-		log.info("\t > {}", errorResponse);
 		request.setAttribute("errorResponse", errorResponse);
+		log.info("\t > {}", errorResponse);
 		
 		return "forward:/error/errorPage";
 	}
@@ -37,8 +37,8 @@ public class ErrorHtmlHandler {
 		log.info("\t > message = {}", e.getMessage());
 		
 		ErrorResponse errorResponse = ErrorResponse.create().bindingResult(e.getBindingResult());
-		log.info("\t > {}", errorResponse);
 		request.setAttribute("errorResponse", errorResponse);
+		log.info("\t > {}", errorResponse);
 		
 //		if (isAjaxRequest(request)) {
 //			ErrorResponse response = ErrorResponse.create().bindingResult(e.getBindingResult());
@@ -58,8 +58,8 @@ public class ErrorHtmlHandler {
 		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		
 		ErrorResponse errorResponse = ErrorResponse.create().bindingResult(e.getBindingResult());
-		log.info("\t > {}", errorResponse);
 		request.setAttribute("errorResponse", errorResponse);
+		log.info("\t > {}", errorResponse);
 		
 		return "forward:/error/errorPage";
 	}
@@ -71,13 +71,12 @@ public class ErrorHtmlHandler {
 		log.info("\t > message = {}", e.getMessage());
 		
 		e.getConstraintViolations().forEach(violation -> {
-			//log.info("\t > {}", violation);
 			log.info("\t > invalid value = {}", violation.getInvalidValue());
 		});
 		
 		ErrorResponse errorResponse = ErrorResponse.create().errorMessage(e.getMessage());
-		log.info("\t > {}", errorResponse);
 		request.setAttribute("errorResponse", errorResponse);
+		log.info("\t > {}", errorResponse);
 		
 		return "forward:/error/errorPage";
 	}
@@ -91,20 +90,20 @@ public class ErrorHtmlHandler {
 		log.info("\t > message = {}", e.getMessage());
 		
 		ErrorResponse errorResponse = ErrorResponse.create().errorMessage(e.getMessage());
-		log.info("\t > {}", errorResponse);
 		request.setAttribute("errorResponse", errorResponse);
+		log.info("\t > {}", errorResponse);
 		
 		return "forward:/error/errorPage";
 	}
 
-	@ExceptionHandler(MyException.class)
-	protected String handleMyException(MyException e, HttpServletRequest request) {
+	@ExceptionHandler(ExpectedException.class)
+	protected String handleMyException(ExpectedException e, HttpServletRequest request) {
 		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t > message = {}", e.getMessage());
 		
 		ErrorResponse errorResponse = ErrorResponse.create().errorMessage(e.getMessage());
-		log.info("\t > {}", errorResponse);
 		request.setAttribute("errorResponse", errorResponse);
+		log.info("\t > {}", errorResponse);
 		
 		return "forward:/error/errorPage";
 	}

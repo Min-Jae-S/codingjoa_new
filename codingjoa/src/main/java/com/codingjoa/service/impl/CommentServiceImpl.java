@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.codingjoa.dto.CommentDetailsDto;
 import com.codingjoa.dto.CommentDto;
 import com.codingjoa.entity.Comment;
-import com.codingjoa.exception.MyException;
+import com.codingjoa.exception.ExpectedException;
 import com.codingjoa.mapper.CommentMapper;
 import com.codingjoa.pagination.CommentCriteria;
 import com.codingjoa.service.CommentService;
@@ -41,7 +41,7 @@ public class CommentServiceImpl implements CommentService {
 		log.info("\t > DB commentBoardIdx = {}", DBcommentBoardIdx);
 		
 		if (DBcommentBoardIdx == null) {
-			throw new MyException(MessageUtils.getMessage("error.WriteComment"));
+			throw new ExpectedException(MessageUtils.getMessage("error.WriteComment"));
 		}
 	}
 	
@@ -56,12 +56,12 @@ public class CommentServiceImpl implements CommentService {
 	public CommentDetailsDto getCommentDetails(int commentIdx, int commentWriterIdx) {
 		Map<String, Object> commentDetailsMap = commentMapper.findCommentDetails(commentIdx);
 		if (commentDetailsMap == null) {
-			throw new MyException(MessageUtils.getMessage("error.NotFoundComment"));
+			throw new ExpectedException(MessageUtils.getMessage("error.NotFoundComment"));
 		}
 		
 		int DBcommentWriterIdx = (int) commentDetailsMap.get("commentWriterIdx");
 		if (DBcommentWriterIdx != commentWriterIdx) {
-			throw new MyException(MessageUtils.getMessage("error.NotMyComment"));
+			throw new ExpectedException(MessageUtils.getMessage("error.NotMyComment"));
 		}
 		
 		return modelMapper.map(commentDetailsMap, CommentDetailsDto.class);
