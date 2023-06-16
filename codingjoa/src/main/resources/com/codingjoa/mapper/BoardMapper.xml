@@ -126,12 +126,12 @@
 	</update>
 	
 	<select id="findMemberIdxByKeyword" parameterType="string" resultType="int">
-			SELECT
-				member_idx
-			FROM
-				member
-			WHERE
-				member_id LIKE '%' || #{keyword} || '%'
+		SELECT
+			member_idx
+		FROM
+			member
+		WHERE
+			member_id LIKE '%' || #{keyword} || '%'
 	</select>
 	
 	<sql id="searchCriteria">

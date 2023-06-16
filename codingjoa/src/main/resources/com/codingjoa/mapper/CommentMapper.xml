@@ -24,7 +24,36 @@
 		<!-- <result property="commentLikes" column=""/> -->
 	</resultMap>
 	
-	<insert id="insertComment" parameterType="comment">
+	<update id="insertComment" parameterType="comment">
+		<selectKey keyProperty="commentBoardIdx" resultType="int" order="BEFORE">
+			SELECT MAX(board_idx) FROM board WHERE board_idx = #{commentBoardIdx}
+		</selectKey>
+		MERGE INTO "comment" a
+		USING
+			board b
+		ON
+			b.board_idx = #{commentBoardIdx}
+		WHEN MATCHED THEN
+			INSERT (
+				a.comment_idx,
+				a.comment_writer_idx,
+				a.comment_board_idx,
+				a.comment_content,
+				a.comment_use,
+				a.regdate,
+				a.moddate
+			) VALUES (
+				seq_comment.NEXTVAL,
+				#{commentWriterIdx},
+				#{commentBoardIdx},
+				#{commentContent},
+				#{commentUse},
+				SYSDATE,
+				SYSDATE
+			)
+		
+		
+		
 		INSERT INTO "comment" (
 			comment_idx,
 			comment_writer_idx,
@@ -42,7 +71,7 @@
 			SYSDATE,
 			SYSDATE
 		)
-	</insert>
+	</update>
 	
 	<select id="findPagedComment" parameterType="map" resultMap="commentDetailsMap">
 		SELECT
