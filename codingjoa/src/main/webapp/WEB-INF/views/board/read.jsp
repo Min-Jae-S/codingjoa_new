@@ -261,19 +261,10 @@
 							<a class="dropdown-item" 
 								href="${contextPath}/board/modify?boardIdx=${boardDetails.boardIdx}">수정하기
 							</a>
-					      	<a class="dropdown-item" id="deleteBoardLink"
-					      		href="${contextPath}/board/deleteProc">삭제하기 no boardIdx
+					      	<a class="dropdown-item" id="deleteBoardLink" 
+					      		href="${contextPath}/board/deleteProc?boardIdx=${boardDetails.boardIdx}">삭제하기
 					     	</a>
-					      	<a class="dropdown-item" id="deleteBoardLink"
-					      		href="${contextPath}/board/deleteProc?boardIdx=aa">삭제하기 boardIdx=aa
-					     	</a>
-					      	<a class="dropdown-item" id="deleteBoardLink"
-					      		href="${contextPath}/board/deleteProc?boardIdx=9999">삭제하기 boardIdx=9999
-					     	</a>
-					      	<a class="dropdown-item" id="deleteBoardLink"
-					      		href="${contextPath}/board/deleteProc?boardIdx=4166">삭제하기 boardIdx=4166(admin)
-					     	</a>
-					    </div>
+					     </div>
 						<%-- <sec:authorize access="isAuthenticated()">
 							<sec:authentication property="principal.member" var="member"/>
 							<c:if test="${member.memberIdx eq boardDetails.boardWriterIdx}">
@@ -292,7 +283,7 @@
 							</c:if>
 						</sec:authorize> --%>
 					</div>
-					<h3 class="title mb-4"><c:out value="${boardDetails.boardTitle}"/> (admin boardIdx = 4166)</h3>
+					<h3 class="title mb-4"><c:out value="${boardDetails.boardTitle}"/></h3>
 					<div class="header-meta d-flex mb-2">
 						<span class="mr-3"><c:out value="${boardDetails.memberId}"/></span>
 						<span class="mr-3">
@@ -342,7 +333,7 @@
 				<a class="btn btn-secondary" href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}&
 					${boardCri.getQueryString()}">목록</a>
 			</div>
-			<div class="test mt-5">
+			<div class="test mt-5 d-none">
 				<div class="mb-4 d-flex">
 					<button class="btn btn-primary test-item" name="commentBtn" data-idx="">GET: api/comments/</button>
 					<button class="btn btn-primary test-item" name="commentBtn" data-idx="a">GET: api/comments/a</button>				
@@ -387,8 +378,8 @@
 			}
 		});
 
-		/* ********************************************************************************* */
-		/* ********************************************************************************* */
+		//////////////////////////////////////////////////////////////////////////////////////////////////////
+		// TEST
 		$("button[name='commentBtn']").on("click", function() {
 			let url = "${contextPath}/api/comments/" + $(this).data("idx");
 			console.log("## Request URL = " + url);
@@ -421,9 +412,7 @@
 				// ... 
 			});
 		});
-
-		/* ********************************************************************************* */
-		/* ********************************************************************************* */
+		//////////////////////////////////////////////////////////////////////////////////////////////////////
 		
 		$("#deleteBoardLink").on("click", function() {
 			return confirm("게시글을 삭제하시겠습니까?");
@@ -467,7 +456,6 @@
 		$("#writeCommentBtn").on("click", function() {
 			let comment = {
 				commentBoardIdx : boardIdx,
-				boardCategoryCode : boardCategoryCode,
 				commentContent : $("#commentContent").val(),
 			};
 			
@@ -513,7 +501,7 @@
 			let comment = {
 				commentIdx : $(this).closest("li").attr("comment-idx"),
 				commentBoardIdx : boardIdx,
-				boardCategoryCode : boardCategoryCode,
+				//boardCategoryCode : boardCategoryCode,
 				commentContent : $("#commentContent").val(),
 			};
 			

@@ -49,7 +49,7 @@ public class BoardServiceImpl implements BoardService {
 		
 		boardMapper.insertBoard(board);
 		Integer DBboardIdx = board.getBoardIdx();
-		log.info("\t > after inserting board, DB boardIdx = {}", DBboardIdx);
+		log.info("\t > DB boardIdx = {}", DBboardIdx);
 		
 		if (DBboardIdx == null) {
 			throw new IllegalArgumentException(MessageUtils.getMessage("error.WriteBoard"));
@@ -123,7 +123,7 @@ public class BoardServiceImpl implements BoardService {
 		
 		Integer DBboardWriterIdx = board.getBoardWriterIdx();
 		log.info("\t > my boardWriterIdx = {}", boardWriterIdx);
-		log.info("\t > after finding modifyBoard, DB boardWriterIdx = {}", DBboardWriterIdx);
+		log.info("\t > DB boardWriterIdx = {}", DBboardWriterIdx);
 		
 		if (DBboardWriterIdx != boardWriterIdx) {
 			throw new IllegalArgumentException(MessageUtils.getMessage("error.NotMyBoard"));
@@ -140,7 +140,7 @@ public class BoardServiceImpl implements BoardService {
 		boardMapper.updateBoard(board);
 		Integer DBboardWriterIdx = board.getBoardWriterIdx();
 		log.info("\t > my boardWriterIdx = {}", boardDto.getBoardWriterIdx());
-		log.info("\t > after updating board, DB boardWriterIdx = {}", DBboardWriterIdx);
+		log.info("\t > DB boardWriterIdx = {}", DBboardWriterIdx);
 		
 		if (DBboardWriterIdx == null) {
 			throw new IllegalArgumentException(MessageUtils.getMessage("error.UpdateBoard"));
@@ -167,8 +167,7 @@ public class BoardServiceImpl implements BoardService {
 		boardMapper.deleteBoard(board);
 		Integer DBboardWriterIdx = board.getBoardWriterIdx();
 		log.info("\t > my boardWriterIdx = {}", boardDto.getBoardWriterIdx());
-		log.info("\t > after deleting board, DB boardWriterIdx = {}", DBboardWriterIdx);
-		log.info("\t > after deleting board, DB boardCategoryCode = {}", board.getBoardCategoryCode());
+		log.info("\t > DB boardWriterIdx = {}, DB boardCategoryCode = {}", DBboardWriterIdx, board.getBoardCategoryCode());
 		
 		if (DBboardWriterIdx == null) {
 			throw new IllegalArgumentException(MessageUtils.getMessage("error.DeleteBoard"));

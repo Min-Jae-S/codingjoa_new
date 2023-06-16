@@ -1,6 +1,7 @@
 package com.codingjoa.security.service;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.TimeZone;
@@ -62,8 +63,9 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
 		*/
 		
 		if (isAjaxRequest(request)) {
-			response.setStatus(HttpStatus.UNAUTHORIZED.value());				// 401
-			response.setContentType(MediaType.APPLICATION_JSON.toString()); 	// application/json
+			response.setStatus(HttpStatus.UNAUTHORIZED.value());
+			response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+			response.setCharacterEncoding(StandardCharsets.UTF_8.toString());
 			
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:ss:mm");
 			ObjectMapper objectMapper = Jackson2ObjectMapperBuilder
@@ -77,7 +79,6 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
 		} else {
 			request.getRequestDispatcher(DEFAULT_FAILURE_URL).forward(request, response);
 		}
-		
 	}
 	
 	private boolean isAjaxRequest(HttpServletRequest request) {

@@ -68,7 +68,8 @@
 		    FROM 
 		        "comment"
 		    WHERE
-		    	comment_board_idx = #{boardIdx} AND
+		    	comment_board_idx = #{boardIdx}
+		    AND
 				<![CDATA[
 				ROWNUM <= 10
 				]]>

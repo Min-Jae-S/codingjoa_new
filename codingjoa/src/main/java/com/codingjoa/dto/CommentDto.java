@@ -11,7 +11,6 @@ public class CommentDto {
 	private int commentIdx;
 	private int commentWriterIdx;
 	private int commentBoardIdx;
-	private int boardCategoryCode;
 
 	@JsonDeserialize(using = WhitespaceDeserializer.class)
 	private String commentContent;

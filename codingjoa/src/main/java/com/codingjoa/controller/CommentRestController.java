@@ -58,7 +58,7 @@ public class CommentRestController {
 	}
 
 	@GetMapping("/boards/{boardIdx}/comments")
-	public ResponseEntity<Object> getCommentList(@PathVariable Integer boardIdx, @CommentCri CommentCriteria commentCri) {
+	public ResponseEntity<Object> getCommentList(@PathVariable int boardIdx, @CommentCri CommentCriteria commentCri) {
 		log.info("## getCommentList, boardIdx = {}", boardIdx);
 		log.info("\t > {}", commentCri);
 		
@@ -68,7 +68,7 @@ public class CommentRestController {
 	}
 	
 	@GetMapping(value = { "/comments", "/comments/{commentIdx}" })
-	public ResponseEntity<Object> getComment(@PathVariable("commentIdx") Integer commentIdx, 
+	public ResponseEntity<Object> getComment(@PathVariable("commentIdx") int commentIdx, 
 			@AuthenticationPrincipal UserDetailsDto principal) {
 		log.info("## getCommentList, commentIdx = {}", commentIdx);
 		log.info("\t > memberId = {}", principal.getMember().getMemberId());
@@ -80,16 +80,10 @@ public class CommentRestController {
 	}
 	
 	@PostMapping("/comments")
-	public ResponseEntity<Object> writeComment(@Valid @RequestBody CommentDto commentDto,
-			BindingResult bindingResult, @AuthenticationPrincipal UserDetailsDto principal) 
-					throws MethodArgumentNotValidException {
+	public ResponseEntity<Object> writeComment(@Valid @RequestBody CommentDto commentDto, 
+			@AuthenticationPrincipal UserDetailsDto principal) throws MethodArgumentNotValidException {
 		log.info("## writeComment");
 		log.info("\t > {}", commentDto);
-		log.info("\t > memberId = {}", principal.getMember().getMemberId());
-		
-		if (bindingResult.hasErrors()) {
-			throw new MethodArgumentNotValidException(null, bindingResult);
-		}
 		
 		int commentWriterIdx = principal.getMember().getMemberIdx();
 		commentDto.setCommentWriterIdx(commentWriterIdx);
@@ -100,7 +94,7 @@ public class CommentRestController {
 	}
 	
 	@PatchMapping(value = { "/comments", "/comments/{commentIdx}" })
-	public ResponseEntity<Object> modifyComment(@PathVariable Integer commentIdx) {
+	public ResponseEntity<Object> modifyComment(@PathVariable int commentIdx) {
 		log.info("## modifyComment, commentIdx = {}", commentIdx);
 		// update ...
 		
