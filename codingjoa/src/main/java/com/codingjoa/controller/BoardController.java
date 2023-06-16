@@ -141,7 +141,6 @@ public class BoardController {
 			if (bindingResult.hasFieldErrors("boardCategoryCode") || bindingResult.hasFieldErrors("boardIdx")) {
 				throw new BindException(bindingResult);
 			}
-			
 			model.addAttribute("boardCategoryList", categoryService.findBoardCategoryList());
 			return "board/write";
 		}
@@ -180,7 +179,6 @@ public class BoardController {
 			if (bindingResult.hasFieldErrors("boardCategoryCode") || bindingResult.hasFieldErrors("boardIdx")) {
 				throw new BindException(bindingResult);
 			}
-			
 			model.addAttribute("boardCategoryList", categoryService.findBoardCategoryList());
 			return "board/modify";
 		}

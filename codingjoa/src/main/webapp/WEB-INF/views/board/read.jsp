@@ -320,7 +320,7 @@
 							</sec:authorize>
 							<textarea id="commentContent" placeholder="댓글을 남겨보세요" rows="1"></textarea>
 							<div class="mt-2">
-								<button class="btn btn-sm" id="writeCommentBtn">등록</button>
+								<button class="btn btn-sm" id="writeCommentBtn" disabled>등록</button>
 							</div>
 						</div>
 					</div>

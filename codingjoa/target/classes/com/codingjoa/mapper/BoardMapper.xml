@@ -379,6 +379,7 @@
 			board_title = #{boardTitle},
 			board_content = #{boardContent},
 			board_content_text = #{boardContentText},
+			board_category_code = #{boardCategoryCode},
 			moddate = SYSDATE
 		WHERE
 			board_idx = #{boardIdx}
