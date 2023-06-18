@@ -237,6 +237,12 @@
 		text-align: left !important;
 	}
 </style>
+<style>
+	input::placeholder {
+		font-size: 1rem !important;
+		color: black !important;
+	}
+</style>
 </head>
 <body>
 
@@ -333,14 +339,14 @@
 				<a class="btn btn-secondary" href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}&
 					${boardCri.getQueryString()}">목록</a>
 			</div>
-			<div class="input-group w-75 mt-4">
-  				<input type="text" class="form-control" placeholder="Write Comment:&#9; codingjoa/api/comments">
+			<div class="input-group w-75 mt-3">
+  				<input type="text" class="form-control" placeholder="Write Comment	/codingjoa/api/comments">
   				<div class="input-group-append">
     				<button class="btn btn-primary" type="button" id="testWriteBtn">TEST</button>
   				</div>
 			</div>
-			<div class="input-group w-75 mt-4">
-  				<input type="text" class="form-control" placeholder="Get Comment List:&#9; codingjoa/api/board/{boardIdx}/comments">
+			<div class="input-group w-75 mt-3">
+  				<input type="text" class="form-control" placeholder="Get Comment List	/codingjoa/api/board/{boardIdx}/comments">
   				<div class="input-group-append">
     				<button class="btn btn-primary" type="button" id="testCommentListBtn">TEST</button>
   				</div>
@@ -361,11 +367,6 @@
 					<button class="btn btn-danger test-item" name="deleteBtn" data-idx="a">DELETE: api/comments/a</button>				
 					<button class="btn btn-danger test-item" name="deleteBtn" data-idx="9999">DELETE: api/comments/9999</button>					
 				</div>
-				<!-- <div class="mb-4 d-flex">				
-					<button class="btn btn-info test-item" name="commentListBtn" data-idx="a">GET: api/boards/a/comments</button>				
-					<button class="btn btn-info test-item" name="commentListBtn" data-idx="9999">GET: boards/9999/comments</button>					
-					<button class="btn btn-info test-item" name="commentListBtn" data-idx="">GET: api/boards//comments</button>					
-				</div> -->
 			</div>
 		</div>
 		<div class="col-sm-1"></div>
@@ -395,12 +396,13 @@
 		//////////////////////////////////////////////////////////////////////////////////////////////////////
 		//////////////////////////////////////////////////////////////////////////////////////////////////////
 		$("#testWriteBtn").on("click", function() {
-			let boardIdx = $(this).closest("input").val();
+			console.log("## testWriteBtn click");
+			let boardIdx = $(this).closest("div.input-group").find("input").val();
 			let comment = {
 				commentBoardIdx : boardIdx,
 				commentContent : $("#commentContent").val()
 			};
-			console.log("## testGetCommentListBtn click, comment = %s", comment);
+			console.log(JSON.stringify(comment, null, 2));
 			
 			commentService.writeComment("${contextPath}/api/comments", comment, function(result) {
 				alert(result.message);
@@ -416,10 +418,11 @@
 		});
 
 		$("#testCommentListBtn").on("click", function() {
-			let boardIdx = $(this).closest("input").val();
-			console.log("## testGetCommentListBtn click, boardIdx = '%s'", boardIdx);
-			
+			console.log("## testGetCommentListBtn click");
+			let boardIdx = $(this).closest("div.input-group").find("input").val();
 			let url = "${contextPath}/api/boards/" + boardIdx + "/comments";
+			console.log("\t > url = '%s'", url)
+			
 			commentService.getCommentList(url , function(result) {
 				let commentList = result.data;
 				if (commentList.length != 0) {

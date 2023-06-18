@@ -68,7 +68,8 @@ public class CommentRestController {
 		log.info("## writeComment");
 		log.info("\t > {}", commentDto);
 		
-		commentDto.setCommentWriterIdx(principal.getMember().getMemberIdx());
+		//commentDto.setCommentWriterIdx(principal.getMember().getMemberIdx());
+		commentDto.setCommentWriterIdx(1); // smj20228
 		commentDto.setCommentUse(true);
 		commentService.writeComment(commentDto);
 		
