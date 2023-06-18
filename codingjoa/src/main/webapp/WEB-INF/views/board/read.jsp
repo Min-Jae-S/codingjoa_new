@@ -237,12 +237,6 @@
 		text-align: left !important;
 	}
 </style>
-<style>
-	input::placeholder {
-		font-size: 1rem !important;
-		color: black !important;
-	}
-</style>
 </head>
 <body>
 
@@ -339,16 +333,22 @@
 				<a class="btn btn-secondary" href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}&
 					${boardCri.getQueryString()}">목록</a>
 			</div>
-			<div class="input-group w-75 mt-3">
-  				<input type="text" class="form-control" placeholder="Write Comment	/codingjoa/api/comments">
+			<div class="input-group mt-5">
+				<div class="input-group-prepend" style="width:65%;">
+    				<span class="input-group-text w-100" style="white-space:pre;">Write Comment&#09;/codingjoa/api/comments</span>
+  				</div>
+  				<input type="text" class="form-control">
   				<div class="input-group-append">
-    				<button class="btn btn-primary" type="button" id="testWriteBtn">TEST</button>
+    				<button class="btn btn-success" id="testWriteBtn">TEST</button>
   				</div>
 			</div>
-			<div class="input-group w-75 mt-3">
-  				<input type="text" class="form-control" placeholder="Get Comment List	/codingjoa/api/board/{boardIdx}/comments">
+			<div class="input-group mt-3">
+				<div class="input-group-prepend" style="width:65%;">
+    				<span class="input-group-text w-100" style="white-space:pre;">Get Comment List&#09;/codingjoa/api/board/{boardIdx}/comments</span>
+  				</div>
+  				<input type="text" class="form-control">
   				<div class="input-group-append">
-    				<button class="btn btn-primary" type="button" id="testCommentListBtn">TEST</button>
+    				<button class="btn btn-success" id="testCommentListBtn">TEST</button>
   				</div>
 			</div>
 			<div class="test mt-5 d-none">
@@ -391,8 +391,6 @@
 			}
 		});
 		
-		
-		
 		//////////////////////////////////////////////////////////////////////////////////////////////////////
 		//////////////////////////////////////////////////////////////////////////////////////////////////////
 		$("#testWriteBtn").on("click", function() {
@@ -400,19 +398,13 @@
 			let boardIdx = $(this).closest("div.input-group").find("input").val();
 			let comment = {
 				commentBoardIdx : boardIdx,
-				commentContent : $("#commentContent").val()
+				commentContent : "aa"
 			};
-			console.log(JSON.stringify(comment, null, 2));
 			
 			commentService.writeComment("${contextPath}/api/comments", comment, function(result) {
 				alert(result.message);
 				commentService.getCommentList(commentListURL, function(result) {
-					let commentList = result.data;
-					if (commentList.length != 0) {
-						let html = makeCommentHtml(commentList, boardWriterIdx);
-						$(".comment-list").html(html);
-					}
-					$("#commentContent").val("");
+					// ...
 				});
 			});
 		});
@@ -421,21 +413,14 @@
 			console.log("## testGetCommentListBtn click");
 			let boardIdx = $(this).closest("div.input-group").find("input").val();
 			let url = "${contextPath}/api/boards/" + boardIdx + "/comments";
-			console.log("\t > url = '%s'", url)
 			
-			commentService.getCommentList(url , function(result) {
-				let commentList = result.data;
-				if (commentList.length != 0) {
-					let html = makeCommentHtml(commentList, boardWriterIdx);
-					$(".comment-list").html(html);
-				}
+			commentService.getCommentList(url , function(result) {			
+				// ...
 			});
 		});
 		//////////////////////////////////////////////////////////////////////////////////////////////////////
 		//////////////////////////////////////////////////////////////////////////////////////////////////////
 
-		
-		
 		//////////////////////////////////////////////////////////////////////////////////////////////////////
 		//////////////////////////////////////////////////////////////////////////////////////////////////////
 		$("button[name='commentBtn']").on("click", function() {
@@ -472,8 +457,6 @@
 		});
 		//////////////////////////////////////////////////////////////////////////////////////////////////////
 		//////////////////////////////////////////////////////////////////////////////////////////////////////
-		
-		
 		
 		$("#deleteBoardLink").on("click", function() {
 			return confirm("게시글을 삭제하시겠습니까?");

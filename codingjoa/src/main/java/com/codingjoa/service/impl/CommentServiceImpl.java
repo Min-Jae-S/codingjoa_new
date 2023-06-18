@@ -47,7 +47,9 @@ public class CommentServiceImpl implements CommentService {
 	
 	@Override
 	public List<CommentDetailsDto> getPagedComment(int boardIdx, CommentCriteria commentCri) {
-		return commentMapper.findPagedComment(boardIdx, commentCri).stream()
+		List<Map<String, Object>> pagedComment = commentMapper.findPagedComment(boardIdx, commentCri);
+		log.info("\t > pagedComment = {}", commentMapper.findPagedComment(boardIdx, commentCri));
+		return pagedComment.stream()
 				.map(commentDetailsMap -> modelMapper.map(commentDetailsMap, CommentDetailsDto.class))
 				.collect(Collectors.toList());
 	}

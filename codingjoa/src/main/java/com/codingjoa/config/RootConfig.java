@@ -77,13 +77,20 @@ public class RootConfig {
 		sessionFactory.setDataSource(dataSource());
 		sessionFactory.setConfigLocation(applicationContext.getResource("classpath:/mybatis/mybatis-config.xml"));
 		sessionFactory.setMapperLocations(applicationContext.getResources("classpath:/com/codingjoa/mapper/**.xml"));
-		
 		return sessionFactory.getObject();
 	}
 	
 	@Bean
 	public SqlSessionTemplate sqlSessionTemplate(SqlSessionFactory sqlSessionFactory) {
-		return new SqlSessionTemplate(sqlSessionFactory);
+		log.info("## SqlSessionTemplate Bean");
+		SqlSessionTemplate sessionTemplate = new SqlSessionTemplate(sqlSessionFactory);
+		org.apache.ibatis.session.Configuration config = sessionTemplate.getConfiguration();
+		log.info("\t > jdbcTypeForNull = {}", config.getJdbcTypeForNull());
+		log.info("\t > mapUnderscoreToCamelCase = {}", config.isMapUnderscoreToCamelCase());
+		log.info("\t > callSettersOnNulls = {}", config.isCallSettersOnNulls());
+		log.info("\t > returnInstanceForEmptyRow = {}", config.isReturnInstanceForEmptyRow());
+		
+		return sessionTemplate;
 	}
 	
 	@Bean
