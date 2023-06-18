@@ -332,7 +332,7 @@
 			<div class="card-bottom">
 				<a class="btn btn-secondary" href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}&
 					${boardCri.getQueryString()}">목록</a>
-				<button class="btn btn-warning" id="testWriteBtn">TEST WRITE COMMENT</button>
+				<button class="btn btn-warning" id="testBtn">TEST GET COMMENT LIST</button>
 			</div>
 			<div class="test mt-5 d-none">
 				<div class="mb-4 d-flex">
@@ -380,24 +380,23 @@
 		});
 
 		//////////////////////////////////////////////////////////////////////////////////////////////////////
-		$("#testWriteBtn").on("click", function() {
-			console.log("## testWriteBtn click");
+		$("#testBtn").on("click", function() {
+			console.log("## testBtn click");
+			/*
 			let comment = {
 				commentBoardIdx : 9999,
 				commentContent : $("#commentContent").val()
 			};
-			
-			commentService.writeComment("${contextPath}/api/comments", comment, function(result) {
-				alert(result.message);
-				commentService.getCommentList(commentListURL, function(result) {
-					let commentList = result.data;
-					if (commentList.length != 0) {
-						let html = makeCommentHtml(commentList, boardWriterIdx);
-						$(".comment-list").html(html);
-					}
-					$("#commentContent").val("");
-				});
+			*/
+			let url = "${contextPath}/api/boards/" + boardIdx + "/comments";
+			commentService.getCommentList(url , function(result) {
+				let commentList = result.data;
+				if (commentList.length != 0) {
+					let html = makeCommentHtml(commentList, boardWriterIdx);
+					$(".comment-list").html(html);
+				}
 			});
+			
 		});
 		
 		$("button[name='commentBtn']").on("click", function() {
