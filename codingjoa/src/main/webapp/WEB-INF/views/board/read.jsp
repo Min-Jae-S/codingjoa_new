@@ -335,7 +335,7 @@
 			</div>
 			<div class="input-group mt-5">
 				<div class="input-group-prepend" style="width:65%;">
-    				<span class="input-group-text w-100" style="white-space:pre;">Write Comment&#09;/codingjoa/api/comments</span>
+    				<span class="input-group-text w-100" style="white-space:pre;">Write Comment&#09;&#09;:&emsp;/api/comments</span>
   				</div>
   				<input type="text" class="form-control">
   				<div class="input-group-append">
@@ -344,11 +344,20 @@
 			</div>
 			<div class="input-group mt-3">
 				<div class="input-group-prepend" style="width:65%;">
-    				<span class="input-group-text w-100" style="white-space:pre;">Get Comment List&#09;/codingjoa/api/board/{boardIdx}/comments</span>
+    				<span class="input-group-text w-100" style="white-space:pre;">Get Comment List&#09;&#09;:&emsp;/api/board/{boardIdx}/comments</span>
   				</div>
   				<input type="text" class="form-control">
   				<div class="input-group-append">
-    				<button class="btn btn-success" id="testCommentListBtn">TEST</button>
+    				<button class="btn btn-success" id="testGetCommentListBtn">TEST</button>
+  				</div>
+			</div>
+			<div class="input-group mt-3">
+				<div class="input-group-prepend" style="width:65%;">
+    				<span class="input-group-text w-100" style="white-space:pre;">Get Comment&#09;&#09;&#09;:&emsp;/api/comments/{commentIdx}</span>
+  				</div>
+  				<input type="text" class="form-control">
+  				<div class="input-group-append">
+    				<button class="btn btn-success" id="testGetCommentBtn">TEST</button>
   				</div>
 			</div>
 			<div class="test mt-5 d-none">
@@ -409,12 +418,22 @@
 			});
 		});
 
-		$("#testCommentListBtn").on("click", function() {
+		$("#testGetCommentListBtn").on("click", function() {
 			console.log("## testGetCommentListBtn click");
 			let boardIdx = $(this).closest("div.input-group").find("input").val();
 			let url = "${contextPath}/api/boards/" + boardIdx + "/comments";
 			
 			commentService.getCommentList(url , function(result) {			
+				// ...
+			});
+		});
+
+		$("#testGetCommentBtn").on("click", function() {
+			console.log("## testGetCommentBtn click");
+			let commentIdx = $(this).closest("div.input-group").find("input").val();
+			let url = "${contextPath}/api/comments/" + commentIdx;
+			
+			commentService.getComment(url , function(result) {			
 				// ...
 			});
 		});

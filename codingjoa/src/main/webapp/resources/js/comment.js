@@ -3,7 +3,7 @@ console.log("## Comment service ready - comment.js");
 let commentService = (function() {
 	
 	function writeComment(url, comment, callback) {
-		console.log("## Write comment: %s", JSON.stringify(comment, null, 2));
+		console.log("## Write Comment: %s", JSON.stringify(comment, null, 2));
 		$.ajax({
 			type : "POST",
 			url : url,
@@ -59,7 +59,7 @@ let commentService = (function() {
 	}
 	
 	function getCommentList(url, callback) {
-		console.log("## Get comment list: '%s'", url);
+		console.log("## Get Comment List: '%s'", url);
 		$.ajax({
 			type : "GET",
 			url : url,
@@ -76,7 +76,7 @@ let commentService = (function() {
 	}
 
 	function getComment(url, callback) {
-		console.log("## Get comment...");
+		console.log("## Get Comment: '%s'", url);
 		$.ajax({
 			type : "GET",
 			url : url,
