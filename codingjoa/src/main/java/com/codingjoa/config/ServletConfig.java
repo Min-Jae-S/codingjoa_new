@@ -185,12 +185,12 @@ public class ServletConfig implements WebMvcConfigurer {
 	@Bean
 	public HandlerMethodArgumentResolver boardCriteriaArgumentResolver() {
 		BoardCriteriaArgumentResolver resolver = new BoardCriteriaArgumentResolver();
-		resolver.setPage(env.getProperty("criteria.page", Integer.class));
-		resolver.setRecordCnt(env.getProperty("criteria.recordCnt", Integer.class));
-		resolver.setType(env.getProperty("criteria.type"));
+		resolver.setPage(env.getProperty("criteria.board.page", Integer.class));
+		resolver.setRecordCnt(env.getProperty("criteria.board.recordCnt", Integer.class));
+		resolver.setType(env.getProperty("criteria.board.type"));
 		
-		String jsonRecordCntMap = env.getProperty("criteria.recordCntMap");
-		String jsonTypeMap = env.getProperty("criteria.typeMap");
+		String jsonRecordCntMap = env.getProperty("criteria.board.recordCntMap");
+		String jsonTypeMap = env.getProperty("criteria.board.typeMap");
 		ObjectMapper objectMapper = new ObjectMapper();
 		try {
 			resolver.setRecordCntMap(objectMapper.readValue(jsonRecordCntMap, Map.class));
@@ -205,8 +205,8 @@ public class ServletConfig implements WebMvcConfigurer {
 	@Bean
 	public HandlerMethodArgumentResolver commentCriteriaArgumentResolver() {
 		CommentCriteriaArgumentResolver resolver = new CommentCriteriaArgumentResolver();
-		resolver.setPage(env.getProperty("criteria.page", Integer.class));
-		resolver.setRecordCnt(env.getProperty("criteria.recordCnt", Integer.class));
+		resolver.setPage(env.getProperty("criteria.comment.page", Integer.class));
+		resolver.setRecordCnt(env.getProperty("criteria.comment.recordCnt", Integer.class));
 		
 		return resolver;
 	}

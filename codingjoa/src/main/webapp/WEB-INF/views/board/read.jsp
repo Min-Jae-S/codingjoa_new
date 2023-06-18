@@ -332,7 +332,18 @@
 			<div class="card-bottom">
 				<a class="btn btn-secondary" href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}&
 					${boardCri.getQueryString()}">목록</a>
-				<button class="btn btn-warning" id="testBtn">TEST GET COMMENT LIST</button>
+			</div>
+			<div class="input-group w-75 mt-4">
+  				<input type="text" class="form-control" placeholder="Write Comment:&#9; codingjoa/api/comments">
+  				<div class="input-group-append">
+    				<button class="btn btn-primary" type="button" id="testWriteBtn">TEST</button>
+  				</div>
+			</div>
+			<div class="input-group w-75 mt-4">
+  				<input type="text" class="form-control" placeholder="Get Comment List:&#9; codingjoa/api/board/{boardIdx}/comments">
+  				<div class="input-group-append">
+    				<button class="btn btn-primary" type="button" id="testCommentListBtn">TEST</button>
+  				</div>
 			</div>
 			<div class="test mt-5 d-none">
 				<div class="mb-4 d-flex">
@@ -378,16 +389,36 @@
 				$(".comment-list").html(html);
 			}
 		});
-
+		
+		
+		
 		//////////////////////////////////////////////////////////////////////////////////////////////////////
-		$("#testBtn").on("click", function() {
-			console.log("## testBtn click");
-			/*
+		//////////////////////////////////////////////////////////////////////////////////////////////////////
+		$("#testWriteBtn").on("click", function() {
+			let boardIdx = $(this).closest("input").val();
 			let comment = {
-				commentBoardIdx : 9999,
+				commentBoardIdx : boardIdx,
 				commentContent : $("#commentContent").val()
 			};
-			*/
+			console.log("## testGetCommentListBtn click, comment = %s", comment);
+			
+			commentService.writeComment("${contextPath}/api/comments", comment, function(result) {
+				alert(result.message);
+				commentService.getCommentList(commentListURL, function(result) {
+					let commentList = result.data;
+					if (commentList.length != 0) {
+						let html = makeCommentHtml(commentList, boardWriterIdx);
+						$(".comment-list").html(html);
+					}
+					$("#commentContent").val("");
+				});
+			});
+		});
+
+		$("#testCommentListBtn").on("click", function() {
+			let boardIdx = $(this).closest("input").val();
+			console.log("## testGetCommentListBtn click, boardIdx = '%s'", boardIdx);
+			
 			let url = "${contextPath}/api/boards/" + boardIdx + "/comments";
 			commentService.getCommentList(url , function(result) {
 				let commentList = result.data;
@@ -396,9 +427,14 @@
 					$(".comment-list").html(html);
 				}
 			});
-			
 		});
+		//////////////////////////////////////////////////////////////////////////////////////////////////////
+		//////////////////////////////////////////////////////////////////////////////////////////////////////
+
 		
+		
+		//////////////////////////////////////////////////////////////////////////////////////////////////////
+		//////////////////////////////////////////////////////////////////////////////////////////////////////
 		$("button[name='commentBtn']").on("click", function() {
 			let url = "${contextPath}/api/comments/" + $(this).data("idx");
 			console.log("## Request URL = " + url);
@@ -432,6 +468,9 @@
 			});
 		});
 		//////////////////////////////////////////////////////////////////////////////////////////////////////
+		//////////////////////////////////////////////////////////////////////////////////////////////////////
+		
+		
 		
 		$("#deleteBoardLink").on("click", function() {
 			return confirm("게시글을 삭제하시겠습니까?");

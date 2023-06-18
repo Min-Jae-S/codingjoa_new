@@ -59,7 +59,7 @@ let commentService = (function() {
 	}
 	
 	function getCommentList(url, callback) {
-		console.log("## Get comment list: %s", url);
+		console.log("## Get comment list: '%s'", url);
 		$.ajax({
 			type : "GET",
 			url : url,

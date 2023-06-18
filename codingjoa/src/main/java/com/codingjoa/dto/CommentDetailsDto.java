@@ -21,7 +21,7 @@ public class CommentDetailsDto {
 	@JsonFormat(pattern = "yyyy.MM.dd. HH:mm")
 	private Date moddate;
 	
-	private String memberId;		// member
+	private String commentWriterId;	// member
 	private int commentLikes;		// comment_likes
 	
 }
