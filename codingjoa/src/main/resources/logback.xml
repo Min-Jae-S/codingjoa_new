@@ -29,7 +29,7 @@
 	
 	<!-- transaction logger -->
 	<logger name="org.springframework.transaction" level="INFO" />
-	<logger name="org.springframework.transaction.interceptor" level="INFO" />
+	<logger name="org.springframework.transaction.interceptor" level="TRACE" />
 	
 	<!-- SQL logger -->
 	<logger name="jdbc.sqlonly" level="INFO" additivity="false">
