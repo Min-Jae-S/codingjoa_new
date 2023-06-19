@@ -11,7 +11,10 @@ let commentService = (function() {
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
 			success : function(result) {
+				console.log("## console.log");
 				console.log(JSON.stringify(result, null, 2));
+				console.log("## console.table");
+				console.table(JSON.stringify(result, null, 2));
 				callback(result);
 			},
 			error : function(jqXHR) {
@@ -100,7 +103,7 @@ let commentService = (function() {
 	}
 	
 	function modifyComment(url, comment, callback) {
-		console.log("## Update comment...");
+		console.log("## Update Comment");
 		
 		$.ajax({
 			type : "PATCH",

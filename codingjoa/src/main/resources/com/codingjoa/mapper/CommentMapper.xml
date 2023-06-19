@@ -145,12 +145,12 @@
 
 	<update id="deleteComment" parameterType="comment">
 		<selectKey keyProperty="commentWriterIdx" resultType="int" order="BEFORE">
-			SELECT MAX(board_writer_idx) FROM board WHERE board_idx = #{boardIdx}
+			SELECT MAX(comment_writer_idx) FROM board WHERE comment_idx = #{commentIdx}
 		</selectKey>
 		UPDATE
 			"comment"
 		SET
-			comment_use = #{commentUde},
+			comment_use = #{commentUse},
 			moddate = SYSDATE
 		WHERE
 			comment_idx = #{commentIdx} 

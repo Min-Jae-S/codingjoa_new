@@ -382,8 +382,8 @@
 			board_category_code = #{boardCategoryCode},
 			moddate = SYSDATE
 		WHERE
-			<!-- need to fix in case of #{boardIdx} is NULL -->
-			<!-- always #{boardIdx} is NOT NULL? -->
+			<!-- need to fix in case of #{boardIdx} is NULL? -->
+			<!-- always #{boardIdx} is 0? -->
 			board_idx = #{boardIdx} 
 	</update>
 	

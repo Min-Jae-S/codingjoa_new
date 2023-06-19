@@ -93,7 +93,7 @@ public class CommentRestController {
 		deleteCommentDto.setCommentIdx(commentIdx);
 		deleteCommentDto.setCommentUse(false);
 		deleteCommentDto.setCommentWriterIdx(principal.getMember().getMemberIdx());
-		commentService.deleteComment(deleteCommentDto);
+		commentService.deleteComment(deleteCommentDto); // update commentUse(true -> false)
 		
 		return ResponseEntity.ok(SuccessResponse.create().message("success.deleteComment"));
 	}

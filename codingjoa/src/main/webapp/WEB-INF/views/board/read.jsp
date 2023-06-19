@@ -360,6 +360,15 @@
     				<button class="btn btn-success" id="testGetCommentBtn">TEST</button>
   				</div>
 			</div>
+			<div class="input-group mt-3">
+				<div class="input-group-prepend" style="width:65%;">
+    				<span class="input-group-text w-100" style="white-space:pre;">Delete Comment&#09;&#09;:&emsp;/api/comments/{commentIdx}</span>
+  				</div>
+  				<input type="text" class="form-control">
+  				<div class="input-group-append">
+    				<button class="btn btn-success" id="testDeleteCommentBtn">TEST</button>
+  				</div>
+			</div>
 			<div class="test mt-5 d-none">
 				<div class="mb-4 d-flex">
 					<button class="btn btn-primary test-item" name="commentBtn" data-idx="">GET: api/comments/</button>
@@ -434,6 +443,16 @@
 			let url = "${contextPath}/api/comments/" + commentIdx;
 			
 			commentService.getComment(url , function(result) {			
+				// ...
+			});
+		});
+
+		$("#testDeleteCommentBtn").on("click", function() {
+			console.log("## testDeleteCommentBtn click");
+			let commentIdx = $(this).closest("div.input-group").find("input").val();
+			let url = "${contextPath}/api/comments/" + commentIdx;
+			
+			commentService.deleteComment(url , function(result) {			
 				// ...
 			});
 		});
