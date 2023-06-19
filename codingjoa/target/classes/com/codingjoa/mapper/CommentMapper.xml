@@ -143,11 +143,17 @@
 			a.comment_writer_idx = #{commentWriterIdx} -->
 	</select>
 
-	<delete id="deleteComment" parameterType="int">
-		DELETE FROM
+	<update id="deleteComment" parameterType="comment">
+		<selectKey keyProperty="commentWriterIdx" resultType="int" order="BEFORE">
+			SELECT MAX(board_writer_idx) FROM board WHERE board_idx = #{boardIdx}
+		</selectKey>
+		UPDATE
 			"comment"
+		SET
+			comment_use = #{commentUde},
+			moddate = SYSDATE
 		WHERE
 			comment_idx = #{commentIdx} 
-	</delete>
+	</update>
 	
 </mapper>

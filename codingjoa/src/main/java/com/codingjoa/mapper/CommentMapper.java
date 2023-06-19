@@ -19,5 +19,5 @@ public interface CommentMapper {
 	
 	Map<String, Object> findCommentDetails(int commentIdx);
 	
-	void deleteComment(int commentIdx);
+	void deleteComment(Comment comment);
 }

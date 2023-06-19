@@ -34,7 +34,7 @@ public class CommentServiceImpl implements CommentService {
 	@Override
 	public void writeComment(CommentDto commentDto) {
 		Comment comment = modelMapper.map(commentDto, Comment.class);
-		log.info("commentDto ==> {}", comment);
+		log.info("writeCommentDto ==> {}", comment);
 		
 		commentMapper.insertComment(comment);
 		Integer DBcommentBoardIdx = comment.getCommentBoardIdx();
@@ -74,8 +74,22 @@ public class CommentServiceImpl implements CommentService {
 	}
 	
 	@Override
-	public void deleteComment(int commentIdx) {
-		commentMapper.deleteComment(commentIdx);
+	public void deleteComment(CommentDto commentDto) {
+		Comment comment = modelMapper.map(commentDto, Comment.class);
+		log.info("deleteCommentDto ==> {}", comment);
+		
+		commentMapper.deleteComment(comment);
+		Integer DBcommentWriterIdx = comment.getCommentWriterIdx();
+		log.info("\t > my commentWriterIdx = {}", commentDto.getCommentWriterIdx());
+		log.info("\t > DB commentWriterIdx = {}", DBcommentWriterIdx);
+		
+		if (DBcommentWriterIdx == null) {
+			throw new ExpectedException(MessageUtils.getMessage("error.DeleteComment"));
+		}
+		
+		if (DBcommentWriterIdx != commentDto.getCommentWriterIdx()) {
+			throw new ExpectedException(MessageUtils.getMessage("error.NotMyComment"));
+		}
 	}
 	
 }

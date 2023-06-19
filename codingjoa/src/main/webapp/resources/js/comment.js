@@ -127,7 +127,7 @@ let commentService = (function() {
 	}
 	
 	function deleteComment(url, callback) {
-		console.log("## Delete comment...");
+		console.log("## Delete Comment: '%s'", url);
 		$.ajax({
 			type : "DELETE",
 			url : url,

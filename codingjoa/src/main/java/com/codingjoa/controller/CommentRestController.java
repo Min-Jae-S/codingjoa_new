@@ -63,19 +63,19 @@ public class CommentRestController {
 	}
 	
 	@PostMapping("/comments")
-	public ResponseEntity<Object> writeComment(@Valid @RequestBody CommentDto commentDto,
+	public ResponseEntity<Object> writeComment(@Valid @RequestBody CommentDto writeCommentDto,
 			@AuthenticationPrincipal UserDetailsDto principal) {
 		log.info("## writeComment");
-		log.info("\t > {}", commentDto);
+		log.info("\t > {}", writeCommentDto);
 		
-		commentDto.setCommentWriterIdx(principal.getMember().getMemberIdx());
-		commentDto.setCommentUse(true);
-		commentService.writeComment(commentDto);
+		writeCommentDto.setCommentWriterIdx(principal.getMember().getMemberIdx());
+		writeCommentDto.setCommentUse(true);
+		commentService.writeComment(writeCommentDto);
 		
 		return ResponseEntity.ok(SuccessResponse.create().message("success.writeComment"));
 	}
 	
-	@PatchMapping(value = { /* "/comments", */ "/comments/{commentIdx}" })
+	@PatchMapping(value = { "/comments", "/comments/{commentIdx}" })
 	public ResponseEntity<Object> modifyComment(@PathVariable int commentIdx) {
 		log.info("## modifyComment, commentIdx = {}", commentIdx);
 		// update ...
@@ -84,10 +84,16 @@ public class CommentRestController {
 	}
 	
 	
-	@DeleteMapping(value = { /* "/comments", */ "/comments/{commentIdx}" })
-	public ResponseEntity<Object> deleteComment(@PathVariable Integer commentIdx) {
+	@DeleteMapping(value = { "/comments", "/comments/{commentIdx}" })
+	public ResponseEntity<Object> deleteComment(@PathVariable int commentIdx,
+			@AuthenticationPrincipal UserDetailsDto principal) {
 		log.info("## deleteComment, commentIdx = {}", commentIdx);
-		commentService.deleteComment(commentIdx);
+		
+		CommentDto deleteCommentDto = new CommentDto();
+		deleteCommentDto.setCommentIdx(commentIdx);
+		deleteCommentDto.setCommentUse(false);
+		deleteCommentDto.setCommentWriterIdx(principal.getMember().getMemberIdx());
+		commentService.deleteComment(deleteCommentDto);
 		
 		return ResponseEntity.ok(SuccessResponse.create().message("success.deleteComment"));
 	}
