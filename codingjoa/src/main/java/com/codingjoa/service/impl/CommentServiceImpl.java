@@ -70,6 +70,8 @@ public class CommentServiceImpl implements CommentService {
 			throw new ExpectedException(MessageUtils.getMessage("error.NotMyComment"));
 		}
 		
+//		modelMapper.createTypeMap(commentDetailsMap, CommentDetailsDto.class)
+//			.addMappings(mapper -> mapper.when(ctx -> ctx.getSource("commentUse"));
 		return modelMapper.map(commentDetailsMap, CommentDetailsDto.class);
 	}
 	
