@@ -14,7 +14,7 @@
 	</appender>
 	<appender name="console2" class="ch.qos.logback.core.ConsoleAppender">
 		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-			<pattern>[%-5level]  %-40.40logger{40} : %n		%msg%n</pattern>
+			<pattern>[%-5level]  %-40.40logger{40} : %n		%msg</pattern>
 		</encoder>
 	</appender>
 	<!-- appender	: log의 형태를 설정, 로그 메시지가 출력될 대상을 결정하는 요소 (콘솔 혹은 파일로 출력할지 등의 설정) 	-->

@@ -83,7 +83,6 @@ public class CommentRestController {
 		return ResponseEntity.ok(SuccessResponse.create().message("success.updateComment"));
 	}
 	
-	
 	@DeleteMapping(value = { "/comments", "/comments/{commentIdx}" })
 	public ResponseEntity<Object> deleteComment(@PathVariable int commentIdx,
 			@AuthenticationPrincipal UserDetailsDto principal) {
@@ -92,7 +91,8 @@ public class CommentRestController {
 		CommentDto deleteCommentDto = new CommentDto();
 		deleteCommentDto.setCommentIdx(commentIdx);
 		deleteCommentDto.setCommentUse(false);
-		deleteCommentDto.setCommentWriterIdx(principal.getMember().getMemberIdx());
+		//deleteCommentDto.setCommentWriterIdx(principal.getMember().getMemberIdx());
+		deleteCommentDto.setCommentWriterIdx(1);
 		commentService.deleteComment(deleteCommentDto); // update commentUse(true -> false)
 		
 		return ResponseEntity.ok(SuccessResponse.create().message("success.deleteComment"));

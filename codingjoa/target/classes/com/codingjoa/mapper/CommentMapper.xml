@@ -145,7 +145,7 @@
 
 	<update id="deleteComment" parameterType="comment">
 		<selectKey keyProperty="commentWriterIdx" resultType="int" order="BEFORE">
-			SELECT MAX(comment_writer_idx) FROM board WHERE comment_idx = #{commentIdx}
+			SELECT MAX(comment_writer_idx) FROM "comment" WHERE comment_idx = #{commentIdx}
 		</selectKey>
 		UPDATE
 			"comment"
