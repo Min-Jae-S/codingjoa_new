@@ -452,8 +452,8 @@
 			let commentIdx = $(this).closest("div.input-group").find("input").val();
 			let url = "${contextPath}/api/comments/" + commentIdx;
 			
-			commentService.deleteComment(url , function(result) {			
-				// ...
+			commentService.deleteComment(url, function(result) { 
+				// ... 
 			});
 		});
 		//////////////////////////////////////////////////////////////////////////////////////////////////////

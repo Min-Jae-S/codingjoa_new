@@ -4,6 +4,10 @@ let commentService = (function() {
 	
 	function writeComment(url, comment, callback) {
 		console.log("## Write Comment: %s", JSON.stringify(comment, null, 2));
+		console.log("## console.log");
+		console.log(JSON.stringify(comment));
+		console.log("## console.table");
+		console.table(JSON.stringify(comment));
 		$.ajax({
 			type : "POST",
 			url : url,
@@ -11,10 +15,7 @@ let commentService = (function() {
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
 			success : function(result) {
-				console.log("## console.log");
 				console.log(JSON.stringify(result, null, 2));
-				console.log("## console.table");
-				console.table(JSON.stringify(result, null, 2));
 				callback(result);
 			},
 			error : function(jqXHR) {
