@@ -2,13 +2,19 @@
 <!DOCTYPE configuration>
 <!-- <configuration debug="true" scan="true" scanPeriod="1 seconds"> -->
 <configuration debug="true">
-	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+	<!-- STDOUT(Standard Out) -->
+	<appender name="console" class="ch.qos.logback.core.ConsoleAppender">
 		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
 			<!-- <pattern>%d{HH:mm:ss.SSS}[%-5level] %logger{36}.%method\(%line\) : %msg%n</pattern> -->
 			<!-- <pattern>[%-5level] %logger{0}.%method: %msg%n</pattern> -->
 			<!-- <pattern>[%-5p] %C{0}.%M\(%L\) - %m%n</pattern> -->
 			<!-- <pattern>%d{HH:mm:ss.SSS} [%thread] %-5p %logger{36} : %msg%n</pattern> -->
 			<pattern>[%-5level]  %-40.40logger{40} : %msg%n</pattern>
+		</encoder>
+	</appender>
+	<appender name="console2" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<pattern>[%-5level]  %-40.40logger{40} : %n		%msg%n</pattern>
 		</encoder>
 	</appender>
 	<!-- appender	: log의 형태를 설정, 로그 메시지가 출력될 대상을 결정하는 요소 (콘솔 혹은 파일로 출력할지 등의 설정) 	-->
@@ -21,19 +27,22 @@
 	<logger name="org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor" level="INFO" />
 	<logger name="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping" level="DEBUG" />
 	
-	<!-- transaction -->
+	<!-- transaction logger -->
 	<logger name="org.springframework.transaction" level="INFO" />
 	<logger name="org.springframework.transaction.interceptor" level="INFO" />
 	
-	<!-- database -->
-	<logger name="jdbc.sqlonly" level="OFF"/>
-  	<logger name="jdbc.sqltiming" level="INFO"/> 
-  	<logger name="jdbc.resultsettable" level="OFF"/>
-  	<logger name="jdbc.audit" level="OFF"/>
-  	<logger name="jdbc.resultset" level="OFF"/>
+	<!-- SQL logger -->
+	<logger name="jdbc.sqlonly" level="INFO" additivity="false">
+		<appender-ref ref="console2"/> 
+	</logger>
  	<logger name="jdbc.connection" level="OFF"/>
+  	<logger name="jdbc.sqltiming" level="OFF"/> 
+  	<logger name="jdbc.resultsettable" level="OFF"/>
+  	<logger name="jdbc.resultset" level="OFF"/>
+  	<logger name="jdbc.audit" level="OFF"/>
 	
+	<!-- Root logger -->
 	<root level="INFO">
-		<appender-ref ref="STDOUT" />
+		<appender-ref ref="console" />
 	</root>
 </configuration>
