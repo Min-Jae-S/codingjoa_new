@@ -58,8 +58,14 @@ public class CommentServiceImpl implements CommentService {
 	public CommentDetailsDto getCommentDetails(int commentIdx, int commentWriterIdx) {
 		Map<String, Object> commentDetailsMap = commentMapper.findCommentDetails(commentIdx);
 		log.info("\t > find commentDetails, {}", commentDetailsMap);
+		
 		if (commentDetailsMap == null) {
 			throw new ExpectedException(MessageUtils.getMessage("error.NotFoundComment"));
+		}
+		
+		Boolean commentUse = (Boolean) commentDetailsMap.get("commentUse");
+		if (!commentUse) {
+			throw new ExpectedException(MessageUtils.getMessage("error.AlreadyDeletedComment"));
 		}
 		
 		Integer DBcommentWriterIdx = (Integer) commentDetailsMap.get("commentWriterIdx");
@@ -70,8 +76,6 @@ public class CommentServiceImpl implements CommentService {
 			throw new ExpectedException(MessageUtils.getMessage("error.NotMyComment"));
 		}
 		
-//		modelMapper.createTypeMap(commentDetailsMap, CommentDetailsDto.class)
-//			.addMappings(mapper -> mapper.when(ctx -> ctx.getSource("commentUse"));
 		return modelMapper.map(commentDetailsMap, CommentDetailsDto.class);
 	}
 	
