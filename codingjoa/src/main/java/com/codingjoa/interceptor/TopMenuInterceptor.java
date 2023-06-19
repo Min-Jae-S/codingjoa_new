@@ -47,7 +47,8 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 
 		if (handler instanceof HandlerMethod) {
 			HandlerMethod handlerMethod = (HandlerMethod) handler;
-			log.info("\t > handler = {}", handlerMethod.getBeanType().getSimpleName());
+			int index = handlerMethod.toString().lastIndexOf(".");
+			log.info("\t > handler = {}", handlerMethod.toString().substring(index + 1));
 //			if (beanType.isAnnotationPresent(Controller.class)) {
 //				List<Category> parentCategoryList = categoryService.findParentCategoryList();
 //				request.setAttribute("parentCategoryList", parentCategoryList);

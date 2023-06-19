@@ -24,7 +24,8 @@ console.log("## Rendering service ready - render.js");
 			html += "<div class='comment-area'>";
 			html += "<div class='comment-area-header'>";
 			html += "<div class='comment-info'>";
-			html += "<span class='comment-writer'>" + commentDetails.memberId + "</span>";
+			//html += "<span class='comment-writer'>" + commentDetails.commentWriterId + "</span>";
+			html += "<span class='comment-writer'>" + commentDetails.commentWriterId + " (commentIdx = " + commentDetails.commentIdx + ")</span>";
 			if (commentDetails.commentWriterIdx == boardWriterIdx) {
 				html += "<span class='badge badge-pill badge-primary mr-1'>작성자</span>"
 			}
@@ -63,7 +64,7 @@ console.log("## Rendering service ready - render.js");
 	function makeEditCommentHtml(commentDetails) {
 		let html = "<div class='input-group'>";
 		html += "<div class='comment-edit form-control'>";
-		html += "<p class='font-weight-bold mb-2'>" + commentDetails.memberId + "</p>";
+		html += "<p class='font-weight-bold mb-2'>" + commentDetails.commentWriterId + "</p>";
 		html += "<textarea rows='1' style='white-space: pre;'>" + commentDetails.commentContent + "</textarea>";
 		html += "<div class='mt-2'>";
 		html += "<button class='btn btn-outline-primary btn-sm mr-2' name='modifyCommentBtn'>수정</button>";

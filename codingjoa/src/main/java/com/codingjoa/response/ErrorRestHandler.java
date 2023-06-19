@@ -48,7 +48,7 @@ public class ErrorRestHandler {
 	@ExceptionHandler(Exception.class)
 	protected ResponseEntity<Object> handleException(Exception e) {
 		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
-		log.info("\t > {}", e.getStackTrace()[0]);
+		log.info("\t > location = {}", e.getStackTrace()[0]);
 		log.info("\t > message = {}", e.getMessage());
 
 		ErrorResponse errorResponse = ErrorResponse.create().errorCode("error.Unknown");
@@ -60,6 +60,7 @@ public class ErrorRestHandler {
 	@ExceptionHandler(HttpMessageNotReadableException.class)
 	protected ResponseEntity<Object> handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
 		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
+		log.info("\t > location = {}", e.getStackTrace()[0]);
 		log.info("\t > message = {}", e.getMessage());
 		
 		ErrorResponse errorResponse = ErrorResponse.create().errorCode("error.InvalidFormat");
@@ -71,6 +72,7 @@ public class ErrorRestHandler {
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	protected ResponseEntity<Object> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
 		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
+		log.info("\t > location = {}", e.getStackTrace()[0]);
 		
 		e.getBindingResult().getFieldErrors().forEach(fieldError -> {
 			log.info("\t > {} / {}", fieldError.getField(), fieldError.getCodes()[0]);
@@ -85,6 +87,7 @@ public class ErrorRestHandler {
 	@ExceptionHandler(ConstraintViolationException.class)
 	protected ResponseEntity<Object> handleConstraintViolationException(ConstraintViolationException e) {
 		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
+		log.info("\t > location = {}", e.getStackTrace()[0]);
 		log.info("\t > message = {}", e.getMessage());
 		
 		ErrorResponse errorResponse = ErrorResponse.create().errorMessage(e.getMessage());
@@ -99,6 +102,7 @@ public class ErrorRestHandler {
 	})
 	protected ResponseEntity<Object> handlePathVariableExceptionAndTypeMismatchException(Exception e) {
 		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
+		log.info("\t > location = {}", e.getStackTrace()[0]);
 		log.info("\t > message = {}", e.getMessage());
 
 		ErrorResponse errorResponse = ErrorResponse.create().errorMessage(e.getMessage());
@@ -110,6 +114,7 @@ public class ErrorRestHandler {
 	@ExceptionHandler(MaxUploadSizeExceededException.class)
 	protected ResponseEntity<Object> handleMaxUploadSizeExceededException(MaxUploadSizeExceededException e) {
 		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
+		log.info("\t > location = {}", e.getStackTrace()[0]);
 		log.info("\t > message = {}", e.getMessage());
 		
 		ErrorResponse errorResponse = ErrorResponse.create().errorCode("error.ExceedSize");
@@ -121,6 +126,7 @@ public class ErrorRestHandler {
 	@ExceptionHandler(ExpectedException.class)
 	protected ResponseEntity<Object> handleMyException(ExpectedException e) {
 		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
+		log.info("\t > location = {}", e.getStackTrace()[0]);
 		log.info("\t > message = {}", e.getMessage());
 		
 		ErrorResponse errorResponse = ErrorResponse.create().errorMessage(e.getMessage());

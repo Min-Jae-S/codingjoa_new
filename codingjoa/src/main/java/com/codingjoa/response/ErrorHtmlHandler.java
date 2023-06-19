@@ -21,7 +21,7 @@ public class ErrorHtmlHandler {
 	@ExceptionHandler(Exception.class) // NoHandlerFoundException
 	protected String handleException(Exception e, HttpServletRequest request) {
 		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
-		log.info("\t > {}", e.getStackTrace()[0]);
+		log.info("\t > location = {}", e.getStackTrace()[0]);
 		log.info("\t > message = {}", e.getMessage());
 		
 		ErrorResponse errorResponse = ErrorResponse.create().errorCode("error.Unknown");
@@ -34,6 +34,7 @@ public class ErrorHtmlHandler {
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	protected String handleMethodArgumentNotValidException(MethodArgumentNotValidException e, HttpServletRequest request) {
 		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
+		log.info("\t > location = {}", e.getStackTrace()[0]);
 		log.info("\t > message = {}", e.getMessage());
 		
 		ErrorResponse errorResponse = ErrorResponse.create().bindingResult(e.getBindingResult());
@@ -56,6 +57,7 @@ public class ErrorHtmlHandler {
 	@ExceptionHandler(BindException.class)
 	protected String handleBindException(BindException e, HttpServletRequest request) {
 		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
+		log.info("\t > location = {}", e.getStackTrace()[0]);
 		
 		ErrorResponse errorResponse = ErrorResponse.create().bindingResult(e.getBindingResult());
 		request.setAttribute("errorResponse", errorResponse);
@@ -68,6 +70,7 @@ public class ErrorHtmlHandler {
 	protected String handleConstraintViolationException(ConstraintViolationException e, 
 			HttpServletRequest request) {
 		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
+		log.info("\t > location = {}", e.getStackTrace()[0]);
 		log.info("\t > message = {}", e.getMessage());
 		
 		e.getConstraintViolations().forEach(violation -> {
@@ -87,6 +90,7 @@ public class ErrorHtmlHandler {
 	})
 	protected String handlePathVariableExceptionAndTypeMismatchException(Exception e, HttpServletRequest request) {
 		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
+		log.info("\t > location = {}", e.getStackTrace()[0]);
 		log.info("\t > message = {}", e.getMessage());
 		
 		ErrorResponse errorResponse = ErrorResponse.create().errorMessage(e.getMessage());
@@ -99,6 +103,7 @@ public class ErrorHtmlHandler {
 	@ExceptionHandler(ExpectedException.class)
 	protected String handleMyException(ExpectedException e, HttpServletRequest request) {
 		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
+		log.info("\t > location = {}", e.getStackTrace()[0]);
 		log.info("\t > message = {}", e.getMessage());
 		
 		ErrorResponse errorResponse = ErrorResponse.create().errorMessage(e.getMessage());
