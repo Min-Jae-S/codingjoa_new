@@ -19,7 +19,7 @@ public class MyExceptionResolver implements HandlerExceptionResolver {
 	public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler, 
 			Exception ex) {
 		log.info("## {}", this.getClass().getSimpleName());
-//		log.info("\t > URI = {} '{}'", request.getMethod(), getFullURI(request));
+		log.info("\t > URI = {} '{}'", request.getMethod(), getFullURI(request));
 //		log.info("\t > dispatcherType = {}",  request.getDispatcherType());
 //		log.info("\t > accept = {}", request.getHeader("accept"));
 //		log.info("\t > x-requested-with = {}", request.getHeader("x-requested-with"));
@@ -39,7 +39,6 @@ public class MyExceptionResolver implements HandlerExceptionResolver {
 		return null;
 	}
 	
-	@SuppressWarnings("unused")
 	private String getFullURI(HttpServletRequest request) {
 		StringBuilder requestURI = new StringBuilder(request.getRequestURI().toString());
 	    String queryString = request.getQueryString();

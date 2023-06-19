@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.context.ApplicationContext;
-import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
@@ -42,20 +41,20 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		log.info("## {} : preHandle", this.getClass().getSimpleName());
-		//log.info("\t > URI = {} '{}'", request.getMethod(), getFullURI(request));
+//		log.info("\t > URI = {} '{}'", request.getMethod(), getFullURI(request));
 		//log.info("\t > dispatcherType = {}", request.getDispatcherType());
 
-		if (handler instanceof HandlerMethod) {
-			HandlerMethod handlerMethod = (HandlerMethod) handler;
-			int index = handlerMethod.toString().lastIndexOf(".");
-			log.info("\t > handler = {}", handlerMethod.toString().substring(index + 1));
-//			if (beanType.isAnnotationPresent(Controller.class)) {
-//				List<Category> parentCategoryList = categoryService.findParentCategoryList();
-//				request.setAttribute("parentCategoryList", parentCategoryList);
-//			}
-		} else {
-			log.info("\t > handler = {}", handler.getClass().getSimpleName());
-		}
+//		if (handler instanceof HandlerMethod) {
+//			HandlerMethod handlerMethod = (HandlerMethod) handler;
+//			int index = handlerMethod.toString().lastIndexOf(".");
+//			log.info("\t > handler = {}", handlerMethod.toString().substring(index + 1));
+////			if (beanType.isAnnotationPresent(Controller.class)) {
+////				List<Category> parentCategoryList = categoryService.findParentCategoryList();
+////				request.setAttribute("parentCategoryList", parentCategoryList);
+////			}
+//		} else {
+//			log.info("\t > handler = {}", handler.getClass().getSimpleName());
+//		}
 		
 		return true;
 	}
