@@ -610,7 +610,7 @@
 				alert(result.message);
 				commentService.getCommentList(commentListURL, function(result) {
 					let commentList = result.data;
-					if (commentList.length == 0) {
+					if (commentList.length != 0) {
 						let html = makeCommentHtml(commentList, boardWriterIdx);
 						$(".comment-list").html(html);
 					}

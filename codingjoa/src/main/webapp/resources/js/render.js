@@ -5,12 +5,11 @@ console.log("## Rendering service ready - render.js");
 		
 		$.each(list, function(index, commentDetails) {
 			if (!commentDetails.commentUse) {
-				html += "<li class='list-group-item deleted-comment' comment-idx='" + commentDetails.commentIdx + "'>";
+				html += "<li class='list-group-item deleted-comment'>";
 				html += "<div class='comment-area'>";
 				html += "<div class='comment-area-header'>";
 				html += "<div class='comment-info'>";
-				//html += "<p class='comment-writer'>삭제된 댓글</p>";
-				html += "<p class='comment-writer'>삭제된 댓글 (commentIdx = " + commentDetails.commentIdx + ")</p>";
+				html += "<p class='comment-writer'>삭제된 댓글</p>";
 				html += "</div>";
 				html += "<div class='comment-content'>";
 				html += "<span>삭제된 댓글입니다.</span>";
