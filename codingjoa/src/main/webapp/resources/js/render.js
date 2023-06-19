@@ -4,6 +4,7 @@ console.log("## Rendering service ready - render.js");
 		let html = "<ul class='list-group list-group-flush mt-4'>";
 		
 		$.each(list, function(index, commentDetails) {
+			//if (commentDetails == null)
 			if (!commentDetails.commentUse) {
 				html += "<li class='list-group-item deleted-comment'>";
 				html += "<div class='comment-area'>";
