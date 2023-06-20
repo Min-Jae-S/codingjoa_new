@@ -5,7 +5,6 @@ console.log("## Rendering service ready - render.js");
 		
 		$.each(list, function(index, commentDetails) {
 			if (commentDetails == null) {
-			//if (!commentDetails.commentUse) {
 				html += "<li class='list-group-item deleted-comment'>";
 				html += "<div class='comment-area'>";
 				html += "<div class='comment-area-header'>";

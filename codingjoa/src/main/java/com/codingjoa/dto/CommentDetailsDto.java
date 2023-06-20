@@ -13,7 +13,6 @@ public class CommentDetailsDto {
 	private int commentWriterIdx;
 	private int commentBoardIdx;
 	private String commentContent;
-	private boolean commentUse;
 	
 	@JsonFormat(pattern = "yyyy.MM.dd. HH:mm")
 	private Date regdate;
