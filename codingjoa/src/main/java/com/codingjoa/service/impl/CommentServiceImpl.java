@@ -52,7 +52,13 @@ public class CommentServiceImpl implements CommentService {
 				.stream()
 				.map(commentDetailsMap -> {
 					Boolean commentUse = (Boolean) commentDetailsMap.get("commentUse");
-					return commentUse ? modelMapper.map(commentDetailsMap, CommentDetailsDto.class) : null;
+					if (!commentUse) { 
+						log.info("\t > not used comment, commentIdx = {}", commentDetailsMap.get("commentIdx"));
+						return null;
+					} else {
+						return modelMapper.map(commentDetailsMap, CommentDetailsDto.class);
+					}
+					//return commentUse ? modelMapper.map(commentDetailsMap, CommentDetailsDto.class) : null;
 				})
 				.collect(Collectors.toList());
 //		return pagedComment.stream()

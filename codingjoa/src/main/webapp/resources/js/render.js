@@ -4,13 +4,13 @@ console.log("## Rendering service ready - render.js");
 		let html = "<ul class='list-group list-group-flush mt-4'>";
 		
 		$.each(list, function(index, commentDetails) {
-			//if (commentDetails == null)
-			if (!commentDetails.commentUse) {
+			if (commentDetails == null) {
+			//if (!commentDetails.commentUse) {
 				html += "<li class='list-group-item deleted-comment'>";
 				html += "<div class='comment-area'>";
 				html += "<div class='comment-area-header'>";
 				html += "<div class='comment-info'>";
-				html += "<span class='comment-writer'>삭제된 댓글 (commentIdx = " + commentDetails.commentIdx + ")</span>";
+				html += "<span class='comment-writer'>삭제된 댓글</span>";
 				html += "</div>";
 				html += "<div class='comment-content'>";
 				html += "<span>삭제된 댓글입니다.</span>";
