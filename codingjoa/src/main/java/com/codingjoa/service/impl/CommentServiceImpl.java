@@ -47,13 +47,12 @@ public class CommentServiceImpl implements CommentService {
 	
 	@Override
 	public List<CommentDetailsDto> getPagedComment(int boardIdx, CommentCriteria commentCri) {
-		List<Map<String, Object>> pagedComment = commentMapper.findPagedComment(boardIdx, commentCri);
-		log.info("\t > pagedComment = {}", commentMapper.findPagedComment(boardIdx, commentCri));
-		
-		return pagedComment.stream()
+		log.info("\t > find pagedComment");
+		return commentMapper.findPagedComment(boardIdx, commentCri)
+				.stream()
 				.map(commentDetailsMap -> {
 					Boolean commentUse = (Boolean) commentDetailsMap.get("commentUse");
-					return commentUse ?  modelMapper.map(commentDetailsMap, CommentDetailsDto.class) : null;
+					return commentUse ? modelMapper.map(commentDetailsMap, CommentDetailsDto.class) : null;
 				})
 				.collect(Collectors.toList());
 //		return pagedComment.stream()
@@ -71,6 +70,8 @@ public class CommentServiceImpl implements CommentService {
 		}
 		
 		Boolean commentUse = (Boolean) commentDetailsMap.get("commentUse");
+		log.info("\t > commentUse = {}", commentUse);
+		
 		if (!commentUse) {
 			throw new ExpectedException(MessageUtils.getMessage("error.AlreadyDeletedComment"));
 		}

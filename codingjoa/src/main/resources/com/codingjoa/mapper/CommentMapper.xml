@@ -15,12 +15,12 @@
 		<id property="commentIdx" column="comment_idx"/>
 		 <!-- java.math.BigDecimal -->
 		<result property="commentWriterIdx" column="comment_writer_idx" javaType="java.lang.Integer"/>
-		<result property="commentBoardIdx" column="comment_board_idx"/>
-		<result property="commentContent" column="comment_content"/>
-		<result property="commentUse" column="comment_use"/><!-- javaType="java.lang.Boolean" -->
-		<result property="regdate" column="regdate"/>
-		<result property="moddate" column="moddate"/>
-		<result property="commentWriterId" column="comment_writer_id"/>
+		<result property="commentBoardIdx" column="comment_board_idx" javaType="java.lang.Integer"/>
+		<result property="commentContent" column="comment_content" javaType="java.lang.String"/>
+		<result property="commentUse" column="comment_use" javaType="java.lang.Boolean"/>
+		<result property="regdate" column="regdate" javaType="java.util.Date"/>
+		<result property="moddate" column="moddate" javaType="java.util.Date"/>
+		<result property="commentWriterId" column="comment_writer_id" javaType="java.lang.String"/>
 		<!-- <result property="commentLikes" column=""/> -->
 	</resultMap>
 	

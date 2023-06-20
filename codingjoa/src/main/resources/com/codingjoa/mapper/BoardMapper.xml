@@ -17,14 +17,14 @@
 		<result property="boardTitle" column="board_title"/>
 		<!-- <result property="boardContent" column="board_content" typeHandler="clobTypeHandler"/> -->
 		<result property="boardContent" column="board_content" jdbcType="CLOB" javaType="java.lang.String" />
-		<result property="boardWriterIdx" column="board_writer_idx"/>
-		<result property="boardViews" column="board_views"/>
-		<result property="boardCategoryCode" column="board_category_code"/>
-		<result property="regdate" column="regdate"/>
-		<result property="moddate" column="moddate"/>
-		<result property="memberId" column="member_id"/>
-		<result property="commentCnt" column="comment_cnt"/>
-		<result property="boardLikesCnt" column="board_likes_cnt"/>
+		<result property="boardWriterIdx" column="board_writer_idx" javaType="java.lang.Integer"/>
+		<result property="boardViews" column="board_views" javaType="java.lang.Integer"/>
+		<result property="boardCategoryCode" column="board_category_code" javaType="java.lang.Integer"/>
+		<result property="regdate" column="regdate" javaType="java.util.Date"/>
+		<result property="moddate" column="moddate" javaType="java.util.Date"/>
+		<result property="memberId" column="member_id" javaType="java.lang.String"/>
+		<result property="commentCnt" column="comment_cnt" javaType="java.lang.Integer"/>
+		<result property="boardLikesCnt" column="board_likes_cnt" javaType="java.lang.Integer"/>
 	</resultMap>
 	
 	<insert id="insertBoard" parameterType="board">
