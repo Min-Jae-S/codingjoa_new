@@ -76,7 +76,8 @@ public class CommentRestController {
 	}
 	
 	@PatchMapping(value = { "/comments", "/comments/{commentIdx}" })
-	public ResponseEntity<Object> modifyComment(@PathVariable int commentIdx) {
+	public ResponseEntity<Object> modifyComment(@PathVariable int commentIdx, 
+			@AuthenticationPrincipal UserDetailsDto principal) {
 		log.info("## modifyComment, commentIdx = {}", commentIdx);
 		// update ...
 		
