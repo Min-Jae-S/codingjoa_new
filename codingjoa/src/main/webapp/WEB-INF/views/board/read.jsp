@@ -226,20 +226,54 @@
 	.textarea-border {
 		border: 1px solid #868e96;
 	}
-	
-	.test {
-		border-top: 1px solid black;
-		padding: 2rem 0;
-	}
-	
+</style>
+
+<!-- TEST CSS -->	
+<style>	
 	.test div.d-flex {
 		justify-content: space-between;
 	}
 	
-	.test .test-item {
-		width: 30%;
+	.test button.test-item {
+		width: 25%;
 		text-align: left !important;
 	}
+	
+	.test button:not(.test-item) {
+		padding-left: 0;
+		width: 20%;
+		text-align: left !important;
+		pointer-events: none;
+	}
+
+	.test button:not(.test-item) span {
+		float: right;
+	}
+
+	.input-group-prepend {
+		width: 65%;
+	}
+	
+	.input-group-text:first-child {
+		color: #212529;
+		width: 30%;
+		border-right: none;
+	} 
+
+	.input-group-text:nth-child(2) {
+		color: #212529;
+		width: 5%;
+		border-left: none;
+		border-right: none;
+		margin: 0 !important;
+	} 
+
+	.input-group-text:last-child {
+		color: #212529;
+		width: 65%;
+		border-left: none;
+		margin: 0 !important;
+	} 
 </style>
 </head>
 <body>
@@ -339,56 +373,67 @@
 					${boardCri.getQueryString()}">목록</a>
 			</div>
 			<div class="input-group mt-5">
-				<div class="input-group-prepend" style="width:65%;">
-    				<span class="input-group-text w-100" style="white-space:pre;">Write Comment&#09;&#09;:&emsp;/api/comments</span>
+				<div class="input-group-prepend">
+    				<span class="input-group-text">Write Comment</span>
+    				<span class="input-group-text">:</span>
+    				<span class="input-group-text">/api/comments</span>
   				</div>
   				<input type="text" class="form-control">
   				<div class="input-group-append">
-    				<button class="btn btn-success" id="testWriteBtn">TEST</button>
+    				<button class="btn btn-warning" id="testWriteBtn">TEST</button>
   				</div>
 			</div>
 			<div class="input-group mt-3">
-				<div class="input-group-prepend" style="width:65%;">
-    				<span class="input-group-text w-100" style="white-space:pre;">Get Comment List&#09;&#09;:&emsp;/api/board/{boardIdx}/comments</span>
+				<div class="input-group-prepend">
+					<span class="input-group-text">Get Comment List</span>
+					<span class="input-group-text">:</span>
+    				<span class="input-group-text">/api/board/{boardIdx}/comments</span>
   				</div>
   				<input type="text" class="form-control">
   				<div class="input-group-append">
-    				<button class="btn btn-success" id="testGetCommentListBtn">TEST</button>
+    				<button class="btn btn-warning" id="testGetCommentListBtn">TEST</button>
   				</div>
 			</div>
 			<div class="input-group mt-3">
-				<div class="input-group-prepend" style="width:65%;">
-    				<span class="input-group-text w-100" style="white-space:pre;">Get Comment&#09;&#09;&#09;:&emsp;/api/comments/{commentIdx}</span>
+				<div class="input-group-prepend">
+					<span class="input-group-text">Get Comment</span>
+					<span class="input-group-text">:</span>
+    				<span class="input-group-text">/api/comments/{commentIdx}</span>
   				</div>
   				<input type="text" class="form-control">
   				<div class="input-group-append">
-    				<button class="btn btn-success" id="testGetCommentBtn">TEST</button>
+    				<button class="btn btn-warning" id="testGetCommentBtn">TEST</button>
   				</div>
 			</div>
 			<div class="input-group mt-3">
-				<div class="input-group-prepend" style="width:65%;">
-    				<span class="input-group-text w-100" style="white-space:pre;">Delete Comment&#09;&#09;:&emsp;/api/comments/{commentIdx}</span>
+				<div class="input-group-prepend">
+					<span class="input-group-text">Delete Comment</span>
+					<span class="input-group-text">:</span>
+    				<span class="input-group-text">/api/comments/{commentIdx}</span>
   				</div>
   				<input type="text" class="form-control">
   				<div class="input-group-append">
-    				<button class="btn btn-success" id="testDeleteCommentBtn">TEST</button>
+    				<button class="btn btn-warning" id="testDeleteCommentBtn">TEST</button>
   				</div>
 			</div>
 			<div class="test mt-5">
 				<div class="mb-4 d-flex">
-					<button class="btn btn-primary test-item" name="commentBtn" data-idx="">GET: api/comments/</button>
-					<button class="btn btn-primary test-item" name="commentBtn" data-idx="a">GET: api/comments/a</button>				
-					<button class="btn btn-primary test-item" name="commentBtn" data-idx="9999">GET: api/comments/9999</button>
+					<button class="btn">Get Comment<span>:</span></button>
+					<button class="btn btn-warning test-item" name="commentBtn" data-idx="">/api/comments/</button>
+					<button class="btn btn-warning test-item" name="commentBtn" data-idx="a">/api/comments/a</button>				
+					<button class="btn btn-warning test-item" name="commentBtn" data-idx="9999">/api/comments/9999</button>
 				</div>
-				<div class="mb-4 d-flex">			
-					<button class="btn btn-warning test-item" name="patchBtn" data-idx="">PATCH: api/comments/</button>					
-					<button class="btn btn-warning test-item" name="patchBtn" data-idx="a">PATCH: api/comments/a</button>				
-					<button class="btn btn-warning test-item" name="patchBtn" data-idx="9999">PATCH: api/comments/9999</button>					
+				<div class="mb-4 d-flex">
+					<button class="btn">Delete Comment<span>:</span></button>
+					<button class="btn btn-warning test-item" name="deleteBtn" data-idx="">/api/comments/</button>					
+					<button class="btn btn-warning test-item" name="deleteBtn" data-idx="a">/api/comments/a</button>				
+					<button class="btn btn-warning test-item" name="deleteBtn" data-idx="9999">/api/comments/9999</button>					
 				</div>
-				<div class="mb-4 d-flex">				
-					<button class="btn btn-danger test-item" name="deleteBtn" data-idx="">DELETE: api/comments/</button>					
-					<button class="btn btn-danger test-item" name="deleteBtn" data-idx="a">DELETE: api/comments/a</button>				
-					<button class="btn btn-danger test-item" name="deleteBtn" data-idx="9999">DELETE: api/comments/9999</button>					
+				<div class="mb-4 d-flex">
+					<button class="btn">Update Comment<span>:</span></button>	
+					<button class="btn btn-warning test-item" name="patchBtn" data-idx="">/api/comments/</button>					
+					<button class="btn btn-warning test-item" name="patchBtn" data-idx="a">/api/comments/a</button>				
+					<button class="btn btn-warning test-item" name="patchBtn" data-idx="9999">/api/comments/9999</button>					
 				</div>
 			</div>
 		</div>
