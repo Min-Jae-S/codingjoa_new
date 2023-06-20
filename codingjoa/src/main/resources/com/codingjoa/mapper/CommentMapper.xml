@@ -17,7 +17,7 @@
 		<result property="commentWriterIdx" column="comment_writer_idx" javaType="java.lang.Integer"/>
 		<result property="commentBoardIdx" column="comment_board_idx"/>
 		<result property="commentContent" column="comment_content"/>
-		<result property="commentUse" column="comment_use"/>
+		<result property="commentUse" column="comment_use"/><!-- javaType="java.lang.Boolean" -->
 		<result property="regdate" column="regdate"/>
 		<result property="moddate" column="moddate"/>
 		<result property="commentWriterId" column="comment_writer_id"/>

@@ -10,7 +10,7 @@ console.log("## Rendering service ready - render.js");
 				html += "<div class='comment-area'>";
 				html += "<div class='comment-area-header'>";
 				html += "<div class='comment-info'>";
-				html += "<p class='comment-writer'>삭제된 댓글</p>";
+				html += "<span class='comment-writer'>삭제된 댓글 (commentIdx = " + commentDetails.commentIdx + ")</span>";
 				html += "</div>";
 				html += "<div class='comment-content'>";
 				html += "<span>삭제된 댓글입니다.</span>";

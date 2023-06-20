@@ -178,6 +178,10 @@
 		margin-right: 0.25rem;
 	}
 	
+	.comment-content p {
+		margin-bottom: 0;
+	}
+	
 	.deleted-comment .comment-content {
 		color: #868e96;
 	}
