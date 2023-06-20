@@ -374,7 +374,7 @@
     				<button class="btn btn-success" id="testDeleteCommentBtn">TEST</button>
   				</div>
 			</div>
-			<div class="test mt-5 d-none">
+			<div class="test mt-5">
 				<div class="mb-4 d-flex">
 					<button class="btn btn-primary test-item" name="commentBtn" data-idx="">GET: api/comments/</button>
 					<button class="btn btn-primary test-item" name="commentBtn" data-idx="a">GET: api/comments/a</button>				
@@ -405,7 +405,7 @@
 		let boardWriterIdx = "<c:out value='${boardDetails.boardWriterIdx}'/>";
 		let commentListURL = "${contextPath}/api/boards/" + boardIdx + "/comments";
 		
-		// get commentList
+		// get comment list
 		commentService.getCommentList(commentListURL , function(result) {
 			let commentList = result.data;
 			if (commentList.length != 0) {
@@ -414,10 +414,9 @@
 			}
 		});
 		
-		//////////////////////////////////////////////////////////////////////////////////////////////////////
-		//////////////////////////////////////////////////////////////////////////////////////////////////////
+		/*****************************************************************************************/
+		// TEST write comment	
 		$("#testWriteBtn").on("click", function() {
-			console.log("## testWriteBtn click");
 			let boardIdx = $(this).closest("div.input-group").find("input").val();
 			let comment = {
 				commentBoardIdx : boardIdx,
@@ -432,8 +431,8 @@
 			});
 		});
 
+		// TEST get comment list
 		$("#testGetCommentListBtn").on("click", function() {
-			console.log("## testGetCommentListBtn click");
 			let boardIdx = $(this).closest("div.input-group").find("input").val();
 			let url = "${contextPath}/api/boards/" + boardIdx + "/comments";
 			
@@ -442,8 +441,8 @@
 			});
 		});
 
+		// TEST get comment
 		$("#testGetCommentBtn").on("click", function() {
-			console.log("## testGetCommentBtn click");
 			let commentIdx = $(this).closest("div.input-group").find("input").val();
 			let url = "${contextPath}/api/comments/" + commentIdx;
 			
@@ -452,8 +451,8 @@
 			});
 		});
 
+		// TEST delete comment
 		$("#testDeleteCommentBtn").on("click", function() {
-			console.log("## testDeleteCommentBtn click");
 			let commentIdx = $(this).closest("div.input-group").find("input").val();
 			let url = "${contextPath}/api/comments/" + commentIdx;
 			
@@ -461,14 +460,12 @@
 				// ... 
 			});
 		});
-		//////////////////////////////////////////////////////////////////////////////////////////////////////
-		//////////////////////////////////////////////////////////////////////////////////////////////////////
 
-		//////////////////////////////////////////////////////////////////////////////////////////////////////
-		//////////////////////////////////////////////////////////////////////////////////////////////////////
+		
+		
+		// TEST get comment
 		$("button[name='commentBtn']").on("click", function() {
 			let url = "${contextPath}/api/comments/" + $(this).data("idx");
-			console.log("## Request URL = " + url);
 			commentService.getComment(url , function(result) {
 				// ... 
 			});
@@ -476,30 +473,27 @@
 
 		$("button[name='patchBtn']").on("click", function() {
 			let comment = null;
-			let url = "${contextPath}/api/comments/" + $(this).data("idx");
-			console.log("## Request URL = " + url);
 			commentService.modifyComment(url, comment, function(result) { 
 				// ...
 			});
 		});
 
+		// Test delete comment
 		$("button[name='deleteBtn']").on("click", function() {
 			let url = "${contextPath}/api/comments/" + $(this).data("idx");
-			console.log("## Request URL = " + url);
 			commentService.deleteComment(url, function(result) { 
 				// ... 
 			});
 		});
 		
+		// TEST get comment list
 		$("button[name='commentListBtn']").on("click", function() {
 			let url = "${contextPath}/api/boards/" + $(this).data("idx") + "/comments";
-			console.log("## Request URL = " + url);
 			commentService.getCommentList(url, function(result) { 
 				// ... 
 			});
 		});
-		//////////////////////////////////////////////////////////////////////////////////////////////////////
-		//////////////////////////////////////////////////////////////////////////////////////////////////////
+		/*****************************************************************************************/
 		
 		$("#deleteBoardLink").on("click", function() {
 			return confirm("게시글을 삭제하시겠습니까?");

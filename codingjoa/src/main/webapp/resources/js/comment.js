@@ -4,10 +4,6 @@ let commentService = (function() {
 	
 	function writeComment(url, comment, callback) {
 		console.log("## Write Comment: %s", JSON.stringify(comment, null, 2));
-		console.log("## console.log");
-		console.log(JSON.stringify(comment));
-		console.log("## console.table");
-		console.table(JSON.stringify(comment));
 		$.ajax({
 			type : "POST",
 			url : url,

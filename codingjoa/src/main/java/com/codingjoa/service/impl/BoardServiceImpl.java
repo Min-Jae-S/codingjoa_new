@@ -63,6 +63,8 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public BoardDetailsDto getBoardDetails(int boardIdx) {
 		Map<String, Object> boardDetailsMap = boardMapper.findBoardDetails(boardIdx);
+		log.info("\t > find boardDetails, {}", boardDetailsMap);
+		
 		if (boardDetailsMap == null) {
 			throw new ExpectedException(MessageUtils.getMessage("error.NotFoundBoard"));
 		}
@@ -96,9 +98,9 @@ public class BoardServiceImpl implements BoardService {
 	
 	@Override
 	public List<BoardDetailsDto> getPagedBoard(int boardCategoryCode, Criteria boardCri) {
-		List<Map<String, Object>> pagedBoard = boardMapper.findPagedBoard(boardCategoryCode, boardCri);
-		log.info("\t > pageBoard = {}", pagedBoard);
-		return pagedBoard.stream()
+		log.info("\t > find pageBoard");
+		return boardMapper.findPagedBoard(boardCategoryCode, boardCri)
+				.stream()
 				.map(boardDetailsMap -> modelMapper.map(boardDetailsMap, BoardDetailsDto.class))
 				.collect(Collectors.toList());
 	}
@@ -124,7 +126,7 @@ public class BoardServiceImpl implements BoardService {
 		}
 		
 		Integer DBboardWriterIdx = board.getBoardWriterIdx();
-		log.info("\t > my boardWriterIdx = {}", boardWriterIdx);
+		log.info("\t > current boardWriterIdx = {}", boardWriterIdx);
 		log.info("\t > DB boardWriterIdx = {}", DBboardWriterIdx);
 		
 		if (DBboardWriterIdx != boardWriterIdx) {
@@ -141,7 +143,7 @@ public class BoardServiceImpl implements BoardService {
 
 		boardMapper.updateBoard(board);
 		Integer DBboardWriterIdx = board.getBoardWriterIdx();
-		log.info("\t > my boardWriterIdx = {}", boardDto.getBoardWriterIdx());
+		log.info("\t > current boardWriterIdx = {}", boardDto.getBoardWriterIdx());
 		log.info("\t > DB boardWriterIdx = {}", DBboardWriterIdx);
 		
 		if (DBboardWriterIdx == null) {
@@ -168,7 +170,7 @@ public class BoardServiceImpl implements BoardService {
 		
 		boardMapper.deleteBoard(board);
 		Integer DBboardWriterIdx = board.getBoardWriterIdx();
-		log.info("\t > my boardWriterIdx = {}", boardDto.getBoardWriterIdx());
+		log.info("\t > current boardWriterIdx = {}", boardDto.getBoardWriterIdx());
 		log.info("\t > DB boardWriterIdx = {}, DB boardCategoryCode = {}", DBboardWriterIdx, board.getBoardCategoryCode());
 		
 		if (DBboardWriterIdx == null) {

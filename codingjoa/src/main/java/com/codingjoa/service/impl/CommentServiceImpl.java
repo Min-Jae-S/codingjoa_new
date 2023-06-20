@@ -34,7 +34,7 @@ public class CommentServiceImpl implements CommentService {
 	@Override
 	public void writeComment(CommentDto commentDto) {
 		Comment comment = modelMapper.map(commentDto, Comment.class);
-		log.info("writeCommentDto ==> {}", comment);
+		log.info("\t > writeCommentDto ==> {}", comment);
 		
 		commentMapper.insertComment(comment);
 		Integer DBcommentBoardIdx = comment.getCommentBoardIdx();
@@ -60,9 +60,6 @@ public class CommentServiceImpl implements CommentService {
 					//return commentUse ? modelMapper.map(commentDetailsMap, CommentDetailsDto.class) : null;
 				})
 				.collect(Collectors.toList());
-//		return pagedComment.stream()
-//				.map(commentDetailsMap -> modelMapper.map(commentDetailsMap, CommentDetailsDto.class))
-//				.collect(Collectors.toList());
 	}
 
 	@Override
@@ -76,12 +73,12 @@ public class CommentServiceImpl implements CommentService {
 		
 		Boolean commentUse = (Boolean) commentDetailsMap.get("commentUse");
 		if (!commentUse) {
-			log.info("\t > this comment is not used, commentIdx = {}", commentDetailsMap.get("commentIdx"));
+			log.info("\t > this comment(commentIdx = {}) is not used", commentDetailsMap.get("commentIdx"));
 			throw new ExpectedException(MessageUtils.getMessage("error.AlreadyDeletedComment"));
 		}
 		
 		Integer DBcommentWriterIdx = (Integer) commentDetailsMap.get("commentWriterIdx");
-		log.info("\t > my commentWriterIdx = {}", commentWriterIdx);
+		log.info("\t > current commentWriterIdx = {}", commentWriterIdx);
 		log.info("\t > DB commentWriterIdx = {}", DBcommentWriterIdx);
 		
 		if (DBcommentWriterIdx != commentWriterIdx) {
@@ -94,11 +91,11 @@ public class CommentServiceImpl implements CommentService {
 	@Override
 	public void deleteComment(CommentDto commentDto) {
 		Comment comment = modelMapper.map(commentDto, Comment.class);
-		log.info("deleteCommentDto ==> {}", comment);
+		log.info("\t > deleteCommentDto ==> {}", comment);
 		
 		commentMapper.deleteComment(comment);
 		Integer DBcommentWriterIdx = comment.getCommentWriterIdx();
-		log.info("\t > my commentWriterIdx = {}", commentDto.getCommentWriterIdx());
+		log.info("\t > current commentWriterIdx = {}", commentDto.getCommentWriterIdx());
 		log.info("\t > DB commentWriterIdx = {}", DBcommentWriterIdx);
 		
 		if (DBcommentWriterIdx == null) {
