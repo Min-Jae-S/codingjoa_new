@@ -55,9 +55,8 @@ public class CommentServiceImpl implements CommentService {
 					if (!commentUse) { 
 						log.info("\t > not used comment, commentIdx = {}", commentDetailsMap.get("commentIdx"));
 						return null;
-					} else {
-						return modelMapper.map(commentDetailsMap, CommentDetailsDto.class);
-					}
+					} 
+					return modelMapper.map(commentDetailsMap, CommentDetailsDto.class);
 					//return commentUse ? modelMapper.map(commentDetailsMap, CommentDetailsDto.class) : null;
 				})
 				.collect(Collectors.toList());
@@ -76,9 +75,8 @@ public class CommentServiceImpl implements CommentService {
 		}
 		
 		Boolean commentUse = (Boolean) commentDetailsMap.get("commentUse");
-		log.info("\t > commentUse = {}", commentUse);
-		
 		if (!commentUse) {
+			log.info("\t > this comment is not used, commentIdx = {}", commentDetailsMap.get("commentIdx"));
 			throw new ExpectedException(MessageUtils.getMessage("error.AlreadyDeletedComment"));
 		}
 		
