@@ -493,10 +493,7 @@
 			};
 			
 			commentService.writeComment("${contextPath}/api/comments", comment, function(result) {
-				alert(result.message);
-				commentService.getCommentList(commentListURL, function(result) {
-					// ...
-				});
+				commentService.getCommentList(commentListURL);
 			});
 		});
 
@@ -504,17 +501,14 @@
 		$("#testGetCommentListBtn").on("click", function() {
 			let boardIdx = $(this).closest("div.input-group").find("input").val();
 			let url = "${contextPath}/api/boards/" + boardIdx + "/comments";
-			commentService.getCommentList(url, function(result) {			
-				// ...
-			});
+			commentService.getCommentList(url);
 		});
 
 		// TEST get comment
 		$("#testGetCommentBtn").on("click", function() {
 			let commentIdx = $(this).closest("div.input-group").find("input").val();
 			let url = "${contextPath}/api/comments/" + commentIdx;
-			commentService.getComment(url, function(result) {			
-				// ...
+			commentService.getComment(url);
 			});
 		});
 
@@ -522,9 +516,7 @@
 		$("#testDeleteCommentBtn").on("click", function() {
 			let commentIdx = $(this).closest("div.input-group").find("input").val();
 			let url = "${contextPath}/api/comments/" + commentIdx;
-			commentService.deleteComment(url, function(result) { 
-				// ... 
-			});
+			commentService.deleteComment(url);
 		});
 
 		// TEST modify comment
@@ -536,9 +528,7 @@
 			};
 			
 			let url = "${contextPath}/api/comments/" + $input.first().val();
-			commentService.modifyComment(url, comment, function(result) { 
-				// ... 
-			});
+			commentService.modifyComment(url, comment);
 		});
 
 		/*****************************************************************************************/
