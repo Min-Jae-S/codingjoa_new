@@ -77,9 +77,13 @@ public class CommentRestController {
 	
 	@PatchMapping(value = { "/comments", "/comments/{commentIdx}" })
 	public ResponseEntity<Object> modifyComment(@PathVariable int commentIdx, 
-			@AuthenticationPrincipal UserDetailsDto principal) {
+			@Valid @RequestBody CommentDto modifyCommentDto, @AuthenticationPrincipal UserDetailsDto principal) {
 		log.info("## modifyComment, commentIdx = {}", commentIdx);
-		// update ...
+		log.info("\t > {}", modifyCommentDto);
+		
+		modifyCommentDto.setCommentIdx(commentIdx);
+		modifyCommentDto.setCommentWriterIdx(principal.getMember().getMemberIdx());
+		modifyCommentDto.setCommentUse(true);
 		
 		return ResponseEntity.ok(SuccessResponse.create().message("success.updateComment"));
 	}
