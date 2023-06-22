@@ -53,7 +53,7 @@ public class CommentServiceImpl implements CommentService {
 				.map(commentDetailsMap -> {
 					Boolean commentUse = (Boolean) commentDetailsMap.get("commentUse");
 					if (!commentUse) { 
-						log.info("\t > not used comment, commentIdx = {}", commentDetailsMap.get("commentIdx"));
+						log.info("\t > commentIdx(commentUse is false) = {}", commentDetailsMap.get("commentIdx"));
 						return null;
 					} 
 					return modelMapper.map(commentDetailsMap, CommentDetailsDto.class);
