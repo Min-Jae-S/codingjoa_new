@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.validation.BindingResult;
 
 import com.codingjoa.util.MessageUtils;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,7 +19,11 @@ import lombok.ToString;
 public class ErrorResponse {
 	
 	private String errorMessage;
-	private Map<String, Object> errorMap; // key = errorField, value = errorMessage
+	
+	// key = errorField, value = errorMessage
+	private Map<String, Object> errorMap; 
+	
+	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:ss:mm", timezone = "Asia/Seoul")
 	private LocalDateTime responseDateTime = LocalDateTime.now();
 	
 	public static ErrorResponse create() {

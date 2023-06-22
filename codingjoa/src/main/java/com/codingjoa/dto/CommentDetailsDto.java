@@ -14,10 +14,10 @@ public class CommentDetailsDto {
 	private int commentBoardIdx;
 	private String commentContent;
 	
-	@JsonFormat(pattern = "yyyy.MM.dd. HH:mm")
+	@JsonFormat(pattern = "yyyy.MM.dd. HH:mm", timezone = "Asia/Seoul")
 	private Date regdate;
 	
-	@JsonFormat(pattern = "yyyy.MM.dd. HH:mm")
+	@JsonFormat(pattern = "yyyy.MM.dd. HH:mm", timezone = "Asia/Seoul")
 	private Date moddate;
 	
 	private String commentWriterId;	// member

@@ -572,7 +572,8 @@
 		$("button[name='patchBtn']").on("click", function() {
 			let url = "${contextPath}/api/comments/" + $(this).data("idx");
 			let comment = {
-				commentBoardIdx : boardIdx,
+				//commentBoardIdx : boardIdx,
+				commentBoardIdx : "",
 				commentContent : "aa"
 			};
 			commentService.modifyComment(url, comment, function(result) { 
