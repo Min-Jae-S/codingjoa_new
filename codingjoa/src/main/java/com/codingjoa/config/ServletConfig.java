@@ -40,7 +40,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.BeanNameViewResolver;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
-import com.codingjoa.converter.IntDeserializer;
 import com.codingjoa.interceptor.TopMenuInterceptor;
 import com.codingjoa.resolver.BoardCriteriaArgumentResolver;
 import com.codingjoa.resolver.CommentCriteriaArgumentResolver;
@@ -48,6 +47,7 @@ import com.codingjoa.resolver.MyExceptionResolver;
 import com.codingjoa.service.CategoryService;
 import com.codingjoa.util.MessageUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.extern.slf4j.Slf4j;
@@ -114,7 +114,7 @@ public class ServletConfig implements WebMvcConfigurer {
 		WebMvcConfigurer.super.addInterceptors(registry);
 		registry.addInterceptor(topMenuInterceptor())
 				.addPathPatterns("/**")
-				.excludePathPatterns("/resources/**", "/upload/**");
+				.excludePathPatterns("/resources/**", "/upload/**", "/api/**");
 	}
 
 	@Bean
@@ -140,7 +140,8 @@ public class ServletConfig implements WebMvcConfigurer {
 	public ObjectMapper myObjectMapper() {
 		return Jackson2ObjectMapperBuilder
 				.json()
-				.deserializerByType(int.class, new IntDeserializer())
+				//.deserializerByType(int.class, new IntDeserializer())
+				.featuresToEnable(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES)
 				.build();
 	}
 	

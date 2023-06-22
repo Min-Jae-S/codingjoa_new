@@ -10,7 +10,7 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class IntDeserializer extends JsonDeserializer<Integer>{
+public class IntDeserializer extends JsonDeserializer<Integer> {
 
 	@Override
 	public Integer deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
