@@ -24,5 +24,12 @@ public class Comment {
 	private Boolean commentUse;
 	private Date regdate;
 	private Date moddate;
-	
+
+	@Override
+	public String toString() {
+		String escapedCommentContent = commentContent != null ? commentContent.replace("\n", "\\n") : null;
+		return "Comment [commentIdx=" + commentIdx + ", commentWriterIdx=" + commentWriterIdx + ", commentBoardIdx="
+				+ commentBoardIdx + ", commentContent=" + escapedCommentContent + ", commentUse=" + commentUse
+				+ ", regdate=" + regdate + ", moddate=" + moddate + "]";
+	}
 }

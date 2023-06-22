@@ -2,8 +2,6 @@ package com.codingjoa.dto;
 
 import javax.validation.constraints.NotBlank;
 
-import org.apache.commons.text.StringEscapeUtils;
-
 import com.codingjoa.converter.WhitespaceDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
@@ -24,8 +22,8 @@ public class CommentDto {
 
 	@Override
 	public String toString() {
+		String escapedCommentContent = commentContent != null ? commentContent.replace("\n", "\\n") : null;
 		return "CommentDto [commentIdx=" + commentIdx + ", commentWriterIdx=" + commentWriterIdx + ", commentBoardIdx="
-				+ commentBoardIdx + ", commentContent=" + StringEscapeUtils.escapeJava(commentContent) + ", commentUse="
-				+ commentUse + "]";
+				+ commentBoardIdx + ", commentContent=" + escapedCommentContent + ", commentUse=" + commentUse + "]";
 	}
 }

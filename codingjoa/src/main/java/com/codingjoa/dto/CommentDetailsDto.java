@@ -23,4 +23,12 @@ public class CommentDetailsDto {
 	private String commentWriterId;	// member
 	private int commentLikes;		// comment_likes
 	
+	@Override
+	public String toString() {
+		String escapedCommentContent = commentContent != null ? commentContent.replace("\n", "\\n") : null;
+		return "CommentDetailsDto [commentIdx=" + commentIdx + ", commentWriterIdx=" + commentWriterIdx
+				+ ", commentBoardIdx=" + commentBoardIdx + ", commentContent=" + escapedCommentContent + ", regdate="
+				+ regdate + ", moddate=" + moddate + ", commentWriterId=" + commentWriterId + ", commentLikes="
+				+ commentLikes + "]";
+	}
 }
