@@ -110,7 +110,7 @@ let commentService = (function() {
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
 			success : function(result) {
-				console.table(JSON.stringify(result, null, 2));
+				console.log(JSON.stringify(result, null, 2));
 				callback(result);
 			},
 			error : function(jqXHR) {
@@ -134,7 +134,7 @@ let commentService = (function() {
 			url : url,
 			dataType : "json",
 			success : function(result) {
-				console.table(JSON.stringify(result, null, 2));
+				console.log(JSON.stringify(result, null, 2));
 				callback(result);
 			},
 			error : function(jqXHR) {

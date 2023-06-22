@@ -84,6 +84,7 @@ public class CommentRestController {
 		modifyCommentDto.setCommentIdx(commentIdx);
 		modifyCommentDto.setCommentWriterIdx(principal.getMember().getMemberIdx());
 		modifyCommentDto.setCommentUse(true);
+		commentService.modifyComment(modifyCommentDto);
 		
 		return ResponseEntity.ok(SuccessResponse.create().message("success.updateComment"));
 	}

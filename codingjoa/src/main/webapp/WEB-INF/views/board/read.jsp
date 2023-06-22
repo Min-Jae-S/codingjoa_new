@@ -252,10 +252,11 @@
 	
 	.input-group input::placeholder {
 		font-size: 1rem;
+		color: #adb5bd;
 	}
 
 	.input-group-prepend {
-		width: 60%;
+		width: 55%;
 	}
 	
 	.input-group-text:first-child {
@@ -384,7 +385,7 @@
     				<span class="input-group-text">/api/comments</span>
   				</div>
   				<input type="text" class="form-control" placeholder="boardIdx">
-  				<input type="text" class="form-control" placeholder="commentContent">
+  				<input type="text" class="form-control" placeholder="content">
   				<div class="input-group-append">
     				<button class="btn btn-warning" id="testWriteBtn">TEST</button>
   				</div>
@@ -429,7 +430,8 @@
     				<span class="input-group-text">/api/comments/{commentIdx}</span>
   				</div>
   				<input type="text" class="form-control" placeholder="commentIdx">
-  				<input type="text" class="form-control" placeholder="commentContent">
+  				<input type="text" class="form-control" placeholder="boardIdx">
+  				<input type="text" class="form-control" placeholder="content">
   				<div class="input-group-append">
     				<button class="btn btn-warning" id="testModifyCommentBtn">TEST</button>
   				</div>
@@ -487,12 +489,13 @@
 		// TEST write comment	
 		$("#testWriteBtn").on("click", function() {
 			$input = $(this).closest("div.input-group").find("input");
+			let url = "${contextPath}/api/comments";
 			let comment = {
 				commentBoardIdx : $input.first().val(),
 				commentContent : $input.last().val()
 			};
 			
-			commentService.writeComment("${contextPath}/api/comments", comment, function(result) {
+			commentService.writeComment(url, comment, function(result) {
 				commentService.getCommentList(commentListURL, function(result) {
 					// ...	
 				});
@@ -520,7 +523,7 @@
 		// TEST delete comment
 		$("#testDeleteCommentBtn").on("click", function() {
 			let commentIdx = $(this).closest("div.input-group").find("input").val();
-			let url = "${contextPath}/api/comments/" + commentIdx;
+			let url = "${contextPath}/api/comments/" + $input.val();
 			commentService.deleteComment(url, function(result) {
 				// ...
 			});
@@ -529,12 +532,12 @@
 		// TEST modify comment
 		$("#testModifyCommentBtn").on("click", function() {
 			$input = $(this).closest("div.input-group").find("input");
+			let url = "${contextPath}/api/comments/" + $input.first().val();
 			let comment = {
-				commentIdx : $input.first().val(),
+				commentBoardIdx : $input.eq(2).val(),
 				commentContent : $input.last().val()
 			};
 			
-			let url = "${contextPath}/api/comments/" + $input.first().val();
 			commentService.modifyComment(url, comment, function(result) {
 				// ...
 			});
@@ -567,8 +570,11 @@
 		
 		// TEST modify comment2
 		$("button[name='patchBtn']").on("click", function() {
-			let comment = null;
 			let url = "${contextPath}/api/comments/" + $(this).data("idx");
+			let comment = {
+				commentBoardIdx : boardIdx,
+				commentContent : "aa"
+			};
 			commentService.modifyComment(url, comment, function(result) { 
 				// ...
 			});
@@ -659,14 +665,13 @@
 		
 		// update comment
 		$(document).on("click", "button[name=modifyCommentBtn]", function() {
+			let commentIdx = $(this).closest("li").attr("comment-idx");
 			let comment = {
-				commentIdx : $(this).closest("li").attr("comment-idx"),
 				commentBoardIdx : boardIdx,
-				//boardCategoryCode : boardCategoryCode,
 				commentContent : $("#commentContent").val(),
 			};
 			
-			commentService.modifyComment("${contextPath}/api/comments/" + comment.commentIdx, comment, function(result) {
+			commentService.modifyComment("${contextPath}/api/comments/" + commentIdx, comment, function(result) {
 				alert(result.message);
 				commentService.getCommentList(commentListURL, function(result) {
 					let commentList = result.data;

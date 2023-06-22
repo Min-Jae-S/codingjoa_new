@@ -142,6 +142,15 @@
 		<!-- AND 
 			a.comment_writer_idx = #{commentWriterIdx} -->
 	</select>
+	
+	<update id="updateComment" parameterType="comment">
+		UPDATE
+			"comment"
+		SET
+			comment_content = #{commentContent}
+		WHERE
+			comment_idx = #{commentIdx}
+	</update>
 
 	<update id="deleteComment" parameterType="comment">
 		<selectKey keyProperty="commentWriterIdx" resultType="int" order="BEFORE">

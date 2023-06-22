@@ -14,5 +14,7 @@ public interface CommentService {
 	
 	CommentDetailsDto getCommentDetails(int commentIdx, int commentWriterIdx);
 	
+	void modifyComment(CommentDto commentDto);
+	
 	void deleteComment(CommentDto commentDto);
 }

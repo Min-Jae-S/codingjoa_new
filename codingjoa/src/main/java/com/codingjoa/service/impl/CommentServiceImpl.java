@@ -89,6 +89,14 @@ public class CommentServiceImpl implements CommentService {
 	}
 	
 	@Override
+	public void modifyComment(CommentDto commentDto) {
+		Comment comment = modelMapper.map(commentDto, Comment.class);
+		log.info("\t > modifyCommentDto ==> {}", comment);
+		
+		commentMapper.updateComment(comment);
+	}
+	
+	@Override
 	public void deleteComment(CommentDto commentDto) {
 		Comment comment = modelMapper.map(commentDto, Comment.class);
 		log.info("\t > deleteCommentDto ==> {}", comment);
