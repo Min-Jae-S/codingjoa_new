@@ -10,16 +10,16 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class WhitespaceDeserializer extends JsonDeserializer<String> {
+public class IntDeserializer extends JsonDeserializer<Integer>{
 
 	@Override
-	public String deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+	public Integer deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
 		log.info("## {}", this.getClass().getSimpleName());
-			
-		String input = p.getText();
-		log.info("\t > input = {}", input != null ? "'" + input.replace("\n", "\\n") + "'" : null);
 		
-		return input != null ? input.strip() : null;
+		String input = p.getText();
+		log.info("\t > input = {}", input != null ? "'" + input + "'" : null);
+		
+		return Integer.parseInt(input);
 	}
 
 }

@@ -22,6 +22,8 @@ import org.springframework.core.Ordered;
 import org.springframework.core.env.Environment;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
@@ -38,6 +40,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.BeanNameViewResolver;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
+import com.codingjoa.converter.IntDeserializer;
 import com.codingjoa.interceptor.TopMenuInterceptor;
 import com.codingjoa.resolver.BoardCriteriaArgumentResolver;
 import com.codingjoa.resolver.CommentCriteriaArgumentResolver;
@@ -51,7 +54,8 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Configuration
-@EnableWebMvc @EnableTransactionManagement
+@EnableWebMvc 
+@EnableTransactionManagement
 @PropertySource("/WEB-INF/properties/upload.properties")
 @PropertySource("/WEB-INF/properties/criteria.properties")
 @ComponentScan("com.codingjoa.controller")
@@ -121,35 +125,23 @@ public class ServletConfig implements WebMvcConfigurer {
 	@Override
 	public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
 		log.info("## extendMessageConverters");
-
-		// StringHttpMessageConverter defaults to ISO-8859-1
-		converters.stream()
-			.filter(converter -> {
-				log.info("\t > {}", converter.getClass().getSimpleName());
-				return converter instanceof StringHttpMessageConverter;
-			})
-			.forEach(converter -> ((StringHttpMessageConverter) converter).setDefaultCharset(StandardCharsets.UTF_8));
-		
-//		converters.stream().forEach(converter -> { 
-//			log.info("\t > {}", converter.getClass().getSimpleName());
-//			if (converter instanceof StringHttpMessageConverter) {
-//				// StringHttpMessageConverter defaults to ISO-8859-1
-//				((StringHttpMessageConverter) converter).setDefaultCharset(StandardCharsets.UTF_8);
-//			} else if (converter instanceof MappingJackson2HttpMessageConverter) {
-//				((MappingJackson2HttpMessageConverter) converter).setObjectMapper(myObjectMapper());
-//			}
-//		});
+		converters.stream().forEach(converter -> { 
+			log.info("\t > {}", converter.getClass().getSimpleName());
+			if (converter instanceof StringHttpMessageConverter) {
+				// StringHttpMessageConverter defaults to ISO-8859-1
+				((StringHttpMessageConverter) converter).setDefaultCharset(StandardCharsets.UTF_8);
+			} else if (converter instanceof MappingJackson2HttpMessageConverter) {
+				((MappingJackson2HttpMessageConverter) converter).setObjectMapper(myObjectMapper());
+			}
+		});
 	}
 	
 	@Bean
 	public ObjectMapper myObjectMapper() {
-//		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:ss:mm");
-//		ObjectMapper objectMapper = Jackson2ObjectMapperBuilder
-//				.json()
-//				.timeZone(TimeZone.getTimeZone("Asia/Seoul")) // @JsonFormat(timezone = "Asia/Seoul")
-//				.serializerByType(LocalDateTime.class, new LocalDateTimeSerializer(formatter))
-//				.build();
-		return new ObjectMapper();
+		return Jackson2ObjectMapperBuilder
+				.json()
+				.deserializerByType(int.class, new IntDeserializer())
+				.build();
 	}
 	
 	@Override

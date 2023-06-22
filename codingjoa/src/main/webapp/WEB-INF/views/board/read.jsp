@@ -250,6 +250,10 @@
 		float: right;
 	}
 	
+	.input-group input {
+		border-right: none;
+	}
+	
 	.input-group input::placeholder {
 		font-size: 1rem;
 		color: #adb5bd;
@@ -279,7 +283,7 @@
 		border-left: none;
 		border-right: none;
 		margin: 0 !important;
-	} 
+	}
 </style>
 </head>
 <body>
@@ -534,7 +538,7 @@
 			$input = $(this).closest("div.input-group").find("input");
 			let url = "${contextPath}/api/comments/" + $input.first().val();
 			let comment = {
-				commentBoardIdx : $input.eq(2).val(),
+				commentBoardIdx : $input.eq(1).val(),
 				commentContent : $input.last().val()
 			};
 			
