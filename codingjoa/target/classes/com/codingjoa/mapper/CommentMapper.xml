@@ -147,7 +147,8 @@
 		UPDATE
 			"comment"
 		SET
-			comment_content = #{commentContent}
+			comment_content = #{commentContent},
+			moddate = SYSDATE
 		WHERE
 			comment_idx = #{commentIdx}
 	</update>
