@@ -630,7 +630,7 @@
 				alert(result.message);
 				commentService.getCommentList(commentListURL, function(result) {
 					let commentList = result.data;
-					if (commentList.length != 0) {
+					if (commentList.length > 0) {
 						let html = makeCommentHtml(commentList, boardWriterIdx);
 						$(".comment-list").html(html);
 					}
@@ -662,20 +662,21 @@
 				.next("div.input-group").remove();
 		});
 		
-		
 		// update comment
 		$(document).on("click", "button[name=modifyCommentBtn]", function() {
-			let commentIdx = $(this).closest("li").attr("comment-idx");
+			let $li =  $(this).closest("li");
+			let commentIdx = $li.attr("comment-idx");
+			let editContent = $li.find("div.comment-edit textarea").val();
 			let comment = {
 				commentBoardIdx : boardIdx,
-				commentContent : $("#commentContent").val(),
+				commentContent : editContent,
 			};
 			
 			commentService.modifyComment("${contextPath}/api/comments/" + commentIdx, comment, function(result) {
 				alert(result.message);
 				commentService.getCommentList(commentListURL, function(result) {
 					let commentList = result.data;
-					if (commentList.length != 0) {
+					if (commentList.length > 0) {
 						let html = makeCommentHtml(commentList, boardWriterIdx);
 						$(".comment-list").html(html);
 					}
