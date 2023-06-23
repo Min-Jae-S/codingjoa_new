@@ -480,9 +480,9 @@
 
 <script>
 	$(function() {
-		let commentBoardIdx = "<c:out value='${boardDetails.boardIdx}'/>";
-		let boardWriterIdx = "<c:out value='${boardDetails.boardWriterIdx}'/>";
-		let commentListURL = "${contextPath}/api/boards/" + commentBoardIdx + "/comments?page=1";
+		const commentBoardIdx = "<c:out value='${boardDetails.boardIdx}'/>";
+		const boardWriterIdx = "<c:out value='${boardDetails.boardWriterIdx}'/>";
+		const commentListURL = "${contextPath}/api/boards/" + commentBoardIdx + "/comments?page=1";
 		
 		// get comment list
 		commentService.getCommentList(commentListURL , function(result) {
@@ -663,7 +663,7 @@
 		// get comment
 		$(document).on("click", "button[name=showEditCommentBtn]", function() {
 			let $li =  $(this).closest("li");
-			let commentIdx = $li.attr("comment-idx");
+			let commentIdx = $li.data("comment-idx");
 			
 			commentService.getComment("${contextPath}/api/comments/" + commentIdx, function(result) {
 				let commentDetails = result.data;
@@ -686,7 +686,7 @@
 		// update comment
 		$(document).on("click", "button[name=modifyCommentBtn]", function() {
 			let $li =  $(this).closest("li");
-			let commentIdx = $li.attr("comment-idx");
+			let commentIdx = $li.data("comment-idx");
 			let editContent = $li.find("div.comment-edit textarea").val();
 			let comment = {
 				commentContent : editContent,
@@ -710,7 +710,7 @@
 				return;
 			}
 			
-			let commentIdx = $(this).closest("li").attr("comment-idx");
+			let commentIdx = $(this).closest("li").data("comment-idx");
 			commentService.deleteComment("${contextPath}/api/comments/" + commentIdx, function(result) {
 				alert(result.message);
 				commentService.getCommentList(commentListURL, function(result) {
