@@ -38,6 +38,12 @@ public class CommentCriteriaArgumentResolver implements HandlerMethodArgumentRes
 		String rawPage = webRequest.getParameter("page");
 		log.info("\t > raw page = {}", rawPage);
 		
+		if (rawPage == null) {
+			rawPage = "";
+		}
+		
+		rawPage = rawPage.strip();
+		
 		return new CommentCriteria(
 			MyUtils.isPageNumber(rawPage) ? Integer.parseInt(rawPage) : page,
 			recordCnt
