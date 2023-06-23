@@ -434,7 +434,6 @@
     				<span class="input-group-text">/api/comments/{commentIdx}</span>
   				</div>
   				<input type="text" class="form-control" placeholder="commentIdx">
-  				<input type="text" class="form-control" placeholder="boardIdx">
   				<input type="text" class="form-control" placeholder="content">
   				<div class="input-group-append">
     				<button class="btn btn-warning" id="testModifyCommentBtn">TEST</button>
@@ -538,7 +537,6 @@
 			$input = $(this).closest("div.input-group").find("input");
 			let url = "${contextPath}/api/comments/" + $input.first().val();
 			let comment = {
-				commentBoardIdx : $input.eq(1).val(),
 				commentContent : $input.last().val()
 			};
 			
@@ -576,8 +574,6 @@
 		$("button[name='patchBtn']").on("click", function() {
 			let url = "${contextPath}/api/comments/" + $(this).data("idx");
 			let comment = {
-				//commentBoardIdx : boardIdx,
-				commentBoardIdx : "",
 				commentContent : "aa"
 			};
 			commentService.modifyComment(url, comment, function(result) { 
