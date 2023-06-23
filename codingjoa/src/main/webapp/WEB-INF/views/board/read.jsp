@@ -490,7 +490,7 @@
 			let pagination = result.data.pagination;
 			let html = makeCommentHtml(commentList, boardWriterIdx);
 			$(".comment-list").html(html);
-			$("span.comment-cnt").val(pagination.totalCnt);	
+			$("span.comment-cnt").text(pagination.totalCnt);	
 		});
 		
 		/*****************************************************************************************/
