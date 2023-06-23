@@ -20,6 +20,7 @@ import com.codingjoa.annotation.CommentCri;
 import com.codingjoa.dto.CommentDetailsDto;
 import com.codingjoa.dto.CommentDto;
 import com.codingjoa.pagination.CommentCriteria;
+import com.codingjoa.pagination.Pagination;
 import com.codingjoa.response.SuccessResponse;
 import com.codingjoa.security.dto.UserDetailsDto;
 import com.codingjoa.service.CommentService;
@@ -47,6 +48,8 @@ public class CommentRestController {
 		log.info("\t > {}", commentCri);
 		
 		List<CommentDetailsDto> commentList = commentService.getPagedComment(boardIdx, commentCri);
+		Pagination pagination = commentService.getPagination(boardIdx, commentCri);
+		log.info("\t > {}", pagination);
 		
 		return ResponseEntity.ok(SuccessResponse.create().data(commentList));
 	}

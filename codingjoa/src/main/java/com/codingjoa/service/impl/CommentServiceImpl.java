@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,6 +16,7 @@ import com.codingjoa.entity.Comment;
 import com.codingjoa.exception.ExpectedException;
 import com.codingjoa.mapper.CommentMapper;
 import com.codingjoa.pagination.CommentCriteria;
+import com.codingjoa.pagination.Pagination;
 import com.codingjoa.service.CommentService;
 import com.codingjoa.util.MessageUtils;
 
@@ -30,6 +32,9 @@ public class CommentServiceImpl implements CommentService {
 	
 	@Autowired
 	private ModelMapper modelMapper;
+	
+	@Value("${pagination.pageRange}")
+	private int pageRange;
 	
 	@Override
 	public void writeComment(CommentDto commentDto) {
@@ -60,6 +65,12 @@ public class CommentServiceImpl implements CommentService {
 					//return commentUse ? modelMapper.map(commentDetailsMap, CommentDetailsDto.class) : null;
 				})
 				.collect(Collectors.toList());
+	}
+	
+	@Override
+	public Pagination getPagination(int boardIdx, CommentCriteria commentCri) {
+		int totalCnt = commentMapper.findPagedCommentTotalCnt(boardIdx, commentCri);
+		return new Pagination(totalCnt, commentCri.getPage(), commentCri.getRecordCnt(), pageRange);
 	}
 
 	@Override
@@ -125,5 +136,5 @@ public class CommentServiceImpl implements CommentService {
 			throw new ExpectedException(MessageUtils.getMessage("error.NotMyComment"));
 		}
 	}
-	
+
 }
