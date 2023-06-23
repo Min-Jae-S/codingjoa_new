@@ -51,9 +51,9 @@ public class CommentServiceImpl implements CommentService {
 	}
 	
 	@Override
-	public List<CommentDetailsDto> getPagedComment(int boardIdx, CommentCriteria commentCri) {
+	public List<CommentDetailsDto> getPagedComment(int commentBoardIdx, CommentCriteria commentCri) {
 		log.info("\t > find pagedComment");
-		return commentMapper.findPagedComment(boardIdx, commentCri)
+		return commentMapper.findPagedComment(commentBoardIdx, commentCri)
 				.stream()
 				.map(commentDetailsMap -> {
 					Boolean commentUse = (Boolean) commentDetailsMap.get("commentUse");
@@ -68,8 +68,8 @@ public class CommentServiceImpl implements CommentService {
 	}
 	
 	@Override
-	public Pagination getPagination(int boardIdx, CommentCriteria commentCri) {
-		int totalCnt = commentMapper.findPagedCommentTotalCnt(boardIdx, commentCri);
+	public Pagination getPagination(int commentBoardIdx, CommentCriteria commentCri) {
+		int totalCnt = commentMapper.findPagedCommentTotalCnt(commentBoardIdx, commentCri);
 		return new Pagination(totalCnt, commentCri.getPage(), commentCri.getRecordCnt(), pageRange);
 	}
 

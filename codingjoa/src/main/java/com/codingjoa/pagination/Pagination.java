@@ -11,13 +11,15 @@ public class Pagination {
 	private int nextPage;		// 다음 페이지 번호
 	private int page;			// 현재 페이지 번호
 	private int pageCnt;		// 전체 페이지 개수
+	private int totalCnt;		// 전체 레코드 개수
 	private boolean prev, next; // 이전, 다음 페이지 이동 가능 여부
 	
-	// totalCnt 	: 전체 글 개수
+	// totalCnt 	: 전체 레코드 개수
 	// page			: 현제 페이지 번호
-	// recordCnt 	: 페이지 당 글 개수
+	// recordCnt 	: 페이지 당 레코드 개수
 	// pageRange	: 페이지 범위, 페이지 버튼 개수
 	public Pagination(int totalCnt, int page, int recordCnt, int pageRange) {
+		this.totalCnt = totalCnt;
 		this.page = page;
 		prev = true;
 		next = true;

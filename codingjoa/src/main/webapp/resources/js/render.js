@@ -1,8 +1,9 @@
 console.log("## Rendering service ready - render.js");
 	
 	function makeCommentHtml(list, boardWriterIdx) {
-		let html = "<ul class='list-group list-group-flush mt-4'>";
+		if (!(list.length > 0)) return;
 		
+		let html = "<ul class='list-group list-group-flush mt-4'>";
 		$.each(list, function(index, commentDetails) {
 			if (commentDetails == null) {
 				html += "<li class='list-group-item deleted-comment'>";
@@ -57,7 +58,6 @@ console.log("## Rendering service ready - render.js");
 			html += "</li>";
 		});
 		html += "</ul>";
-		
 		return html;
 	}
 	
@@ -72,6 +72,5 @@ console.log("## Rendering service ready - render.js");
 		html += "</div>";		
 		html += "</div>";			
 		html += "</div>";			
-		
 		return html;
 	}

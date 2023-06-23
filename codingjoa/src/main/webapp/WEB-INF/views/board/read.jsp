@@ -357,9 +357,7 @@
 				<div class="comment-group pt-4">
 					<div class="comment-cnt mb-3">
 						<span>댓글</span>
-						<c:if test="${boardDetails.commentCnt > 0}">
-							<span><c:out value="${boardDetails.commentCnt}"/></span>
-						</c:if>
+						<span><c:out value="${boardDetails.commentCnt}"/></span>
 					</div>
 					<div class="input-group">
 						<div class="comment-input form-control">
@@ -389,7 +387,7 @@
     				<span class="input-group-text">:</span>
     				<span class="input-group-text">/api/comments</span>
   				</div>
-  				<input type="text" class="form-control" placeholder="boardIdx">
+  				<input type="text" class="form-control" placeholder="commentBoardIdx">
   				<input type="text" class="form-control" placeholder="commentContent">
   				<div class="input-group-append">
     				<button class="btn btn-warning" id="testWriteBtn">TEST</button>
@@ -399,9 +397,9 @@
 				<div class="input-group-prepend">
 					<span class="input-group-text">Get Comment List</span>
 					<span class="input-group-text">:</span>
-    				<span class="input-group-text">/api/boards/{boardIdx}/comments</span>
+    				<span class="input-group-text">/api/boards/{commentBoardIdx}/comments</span>
   				</div>
-  				<input type="text" class="form-control" placeholder="boardIdx">
+  				<input type="text" class="form-control" placeholder="commentBoardIdx">
   				<input type="text" class="form-control" placeholder="page">
   				<div class="input-group-append">
     				<button class="btn btn-warning" id="testGetCommentListBtn">TEST</button>
@@ -482,18 +480,15 @@
 
 <script>
 	$(function() {
-		let boardIdx = "<c:out value='${boardDetails.boardIdx}'/>";
-		let boardCategoryCode = "<c:out value='${boardDetails.boardCategoryCode}'/>";
+		let commentBoardIdx = "<c:out value='${boardDetails.boardIdx}'/>";
 		let boardWriterIdx = "<c:out value='${boardDetails.boardWriterIdx}'/>";
-		let commentListURL = "${contextPath}/api/boards/" + boardIdx + "/comments";
+		let commentListURL = "${contextPath}/api/boards/" + commentBoardIdx + "/comments?page=1";
 		
 		// get comment list
 		commentService.getCommentList(commentListURL , function(result) {
-			let commentList = result.data;
-			if (commentList.length > 0) {
-				let html = makeCommentHtml(commentList, boardWriterIdx);
-				$(".comment-list").html(html);
-			}
+			let commentList = result.data.commentList;
+			let html = makeCommentHtml(commentList, boardWriterIdx);
+			$(".comment-list").html(html);
 		});
 		
 		/*****************************************************************************************/
@@ -514,10 +509,10 @@
 
 		// TEST get comment list
 		$("#testGetCommentListBtn").on("click", function() {
-			$input = $(this).closest("div.input-group").find("input");
-			let boardIdx = $input.first().val();
+			let $input = $(this).closest("div.input-group").find("input");
+			let commentBoardIdx = $input.first().val();
 			let page = $input.last().val();
-			let url = "${contextPath}/api/boards/" + boardIdx + "/comments?page=" + page;
+			let url = "${contextPath}/api/boards/" + commentBoardIdx + "/comments?page=" + page;
 			commentService.getCommentList(url, function(result) {
 				// ...
 			});
@@ -543,7 +538,7 @@
 
 		// TEST modify comment
 		$("#testModifyCommentBtn").on("click", function() {
-			$input = $(this).closest("div.input-group").find("input");
+			let $input = $(this).closest("div.input-group").find("input");
 			let url = "${contextPath}/api/comments/" + $input.first().val();
 			let comment = {
 				commentContent : $input.last().val()
@@ -571,7 +566,7 @@
 		
 		// TEST get comment list2
 		$("button[name='commentListBtn']").on("click", function() {
-			let url = "${contextPath}/api/boards/" + $(this).data("idx") +  "/comments";
+			let url = "${contextPath}/api/boards/" + $(this).data("idx") +  "/comments?page=1";
 			commentService.getCommentList(url , function(result) {
 				// ... 
 			});
@@ -646,18 +641,16 @@
 		// write comment
 		$("#writeCommentBtn").on("click", function() {
 			let comment = {
-				commentBoardIdx : boardIdx,
+				commentBoardIdx : commentBoardIdx,
 				commentContent : $("#commentContent").val(),
 			};
 			
 			commentService.writeComment("${contextPath}/api/comments", comment, function(result) {
 				alert(result.message);
 				commentService.getCommentList(commentListURL, function(result) {
-					let commentList = result.data;
-					if (commentList.length > 0) {
-						let html = makeCommentHtml(commentList, boardWriterIdx);
-						$(".comment-list").html(html);
-					}
+					let commentList = result.data.commentList;
+					let html = makeCommentHtml(commentList, boardWriterIdx);
+					$(".comment-list").html(html);
 					$("#commentContent").val("");
 				});
 			});
@@ -698,11 +691,9 @@
 			commentService.modifyComment("${contextPath}/api/comments/" + commentIdx, comment, function(result) {
 				alert(result.message);
 				commentService.getCommentList(commentListURL, function(result) {
-					let commentList = result.data;
-					if (commentList.length > 0) {
-						let html = makeCommentHtml(commentList, boardWriterIdx);
-						$(".comment-list").html(html);
-					}
+					let commentList = result.data.commentList;
+					let html = makeCommentHtml(commentList, boardWriterIdx);
+					$(".comment-list").html(html);
 				});
 			});
 		});
@@ -717,14 +708,13 @@
 			commentService.deleteComment("${contextPath}/api/comments/" + commentIdx, function(result) {
 				alert(result.message);
 				commentService.getCommentList(commentListURL, function(result) {
-					let commentList = result.data;
-					if (commentList.length != 0) {
-						let html = makeCommentHtml(commentList, boardWriterIdx);
-						$(".comment-list").html(html);
-					}
+					let commentList = result.data.commentList;
+					let html = makeCommentHtml(commentList, boardWriterIdx);
+					$(".comment-list").html(html);
 				});
 			});
 		});
+		
 		
 	});
 </script>

@@ -107,7 +107,7 @@
 		    FROM 
 		        "comment"
 		    WHERE
-		    	comment_board_idx = #{boardIdx}
+		    	comment_board_idx = #{commentBoardIdx}
 		    AND
 				<![CDATA[
 				ROWNUM <= ( #{commentCri.page} * #{commentCri.recordCnt} )
@@ -119,6 +119,15 @@
 			a.comment_writer_idx = b.member_idx 
 		WHERE 
 			a.rn > ( ( #{commentCri.page} - 1 ) * #{commentCri.recordCnt} )
+	</select>
+	
+	<select id="findPagedCommentTotalCnt" parameterType="map" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			"comment"
+		WHERE
+			comment_board_idx = #{commentBoardIdx}
 	</select>
 	
 	<select id="findCommentDetails" parameterType="map" resultMap="commentDetailsMap">

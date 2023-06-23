@@ -1,6 +1,7 @@
 package com.codingjoa.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -42,16 +43,18 @@ public class CommentRestController {
 	// @InitBinder doesn't work with @RequesBody, it can work with @ModelAttribute Annotation.
 	//binder.registerCustomEditor(String.class, new StringTrimmerEditor(false));
 
-	@GetMapping("/boards/{boardIdx}/comments")
-	public ResponseEntity<Object> getCommentList(@PathVariable int boardIdx, @CommentCri CommentCriteria commentCri) {
-		log.info("## getCommentList, boardIdx = {}", boardIdx);
+	@GetMapping("/boards/{commentBoardIdx}/comments")
+	public ResponseEntity<Object> getCommentList(@PathVariable int commentBoardIdx,
+			@CommentCri CommentCriteria commentCri) {
+		log.info("## getCommentList, commentBoardIdx = {}", commentBoardIdx);
 		log.info("\t > {}", commentCri);
 		
-		List<CommentDetailsDto> commentList = commentService.getPagedComment(boardIdx, commentCri);
-		Pagination pagination = commentService.getPagination(boardIdx, commentCri);
+		List<CommentDetailsDto> commentList = commentService.getPagedComment(commentBoardIdx, commentCri);
+		Pagination pagination = commentService.getPagination(commentBoardIdx, commentCri);
 		log.info("\t > {}", pagination);
 		
-		return ResponseEntity.ok(SuccessResponse.create().data(commentList));
+		return ResponseEntity.ok(SuccessResponse.create().data(
+				Map.of("commentList", commentList, "pagination", pagination)));
 	}
 	
 	@GetMapping(value = { "/comments", "/comments/{commentIdx}" })
