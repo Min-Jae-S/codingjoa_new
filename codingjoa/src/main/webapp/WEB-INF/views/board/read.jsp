@@ -380,6 +380,7 @@
 			<div class="card-bottom">
 				<a class="btn btn-secondary" href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}&
 					${boardCri.getQueryString()}">목록</a>
+				<a class="btn btn-primary ml-2" href="${contextPath}/test" id=testHref>TEST</a>	
 			</div>
 			<div class="input-group mt-5">
 				<div class="input-group-prepend">
@@ -400,7 +401,7 @@
     				<span class="input-group-text">/api/boards/{commentBoardIdx}/comments</span>
   				</div>
   				<input type="text" class="form-control" placeholder="commentBoardIdx">
-  				<input type="text" class="form-control" placeholder="page">
+  				<input type="text" class="form-control" placeholder="comment page">
   				<div class="input-group-append">
     				<button class="btn btn-warning" id="testGetCommentListBtn">TEST</button>
   				</div>
@@ -494,9 +495,15 @@
 		});
 		
 		/*****************************************************************************************/
+		// TEST href
+		$("#testHref").on("click", function(e) {
+			e.preventDefault();
+			console.log("#testHref's href = %s", $(this).attr("href"));
+		});
+		
 		// TEST write comment	
 		$("#testWriteBtn").on("click", function() {
-			$input = $(this).closest("div.input-group").find("input");
+			let $input = $(this).closest("div.input-group").find("input");
 			let url = "${contextPath}/api/comments";
 			let comment = {
 				commentBoardIdx : $input.first().val(),
