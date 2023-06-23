@@ -35,6 +35,19 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 		log.info("## {}", this.getClass().getSimpleName());
 		
+		/*
+		 * ## UsernamePasswordAuthenticationFilter#attemptAuthentication(HttpServletRequest, HttpServletResponse)
+		 * String username = obtainUsername(request);
+		 * String password = obtainPassword(request);
+		 * 
+		 * if (username == null) { username = ""; }
+		 * if (password == null) { password = ""; }
+		 * username = username.trim()
+		 * 
+		 * UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(
+		 * 		username, password);
+		 */
+		
 		String memberId = (String) authentication.getPrincipal();
 		String memberPassword = (String) authentication.getCredentials();
 		log.info("\t > memberId = '{}'", memberId);

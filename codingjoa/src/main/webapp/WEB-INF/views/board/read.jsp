@@ -235,13 +235,14 @@
 	}
 	
 	.test button.test-item {
-		width: 25%;
+		width: 26%;
 		text-align: left !important;
 	}
 	
 	.test button:not(.test-item) {
 		padding-left: 0;
-		width: 20%;
+		padding-right: 0;
+		width: 18%;
 		text-align: left !important;
 		pointer-events: none;
 	}
@@ -260,12 +261,12 @@
 	}
 
 	.input-group-prepend {
-		width: 55%;
+		width: 60%;
 	}
 	
 	.input-group-text:first-child {
 		color: #212529;
-		width: 30%;
+		width: 35%;
 		border-right: none;
 	} 
 
@@ -279,7 +280,7 @@
 
 	.input-group-text:last-child {
 		color: #212529;
-		width: 65%;
+		width: 60%;
 		border-left: none;
 		border-right: none;
 		margin: 0 !important;
@@ -389,7 +390,7 @@
     				<span class="input-group-text">/api/comments</span>
   				</div>
   				<input type="text" class="form-control" placeholder="boardIdx">
-  				<input type="text" class="form-control" placeholder="content">
+  				<input type="text" class="form-control" placeholder="commentContent">
   				<div class="input-group-append">
     				<button class="btn btn-warning" id="testWriteBtn">TEST</button>
   				</div>
@@ -434,12 +435,18 @@
     				<span class="input-group-text">/api/comments/{commentIdx}</span>
   				</div>
   				<input type="text" class="form-control" placeholder="commentIdx">
-  				<input type="text" class="form-control" placeholder="content">
+  				<input type="text" class="form-control" placeholder="commentContent">
   				<div class="input-group-append">
     				<button class="btn btn-warning" id="testModifyCommentBtn">TEST</button>
   				</div>
 			</div>
 			<div class="test mt-5">
+				<div class="mb-4 d-flex">
+					<button class="btn">Write Comment<span>:</span></button>
+					<button class="btn btn-warning test-item" name="writeBtn" data-idx="">/api/comments; idx=?</button>
+					<button class="btn btn-warning test-item" name="writeBtn" data-idx="a">/api/comments; idx=a</button>				
+					<button class="btn btn-warning test-item" name="writeBtn" data-idx="9999">/api/comments; idx=9999</button>
+				</div>
 				<div class="mb-4 d-flex">
 					<button class="btn">Get Comment List<span>:</span></button>
 					<button class="btn btn-warning test-item" name="commentListBtn" data-idx="">/api/boards/?/comments</button>
@@ -482,7 +489,7 @@
 		// get comment list
 		commentService.getCommentList(commentListURL , function(result) {
 			let commentList = result.data;
-			if (commentList.length != 0) {
+			if (commentList.length > 0) {
 				let html = makeCommentHtml(commentList, boardWriterIdx);
 				$(".comment-list").html(html);
 			}
@@ -497,7 +504,6 @@
 				commentBoardIdx : $input.first().val(),
 				commentContent : $input.last().val()
 			};
-			
 			commentService.writeComment(url, comment, function(result) {
 				commentService.getCommentList(commentListURL, function(result) {
 					// ...	
@@ -546,6 +552,20 @@
 		});
 
 		/*****************************************************************************************/
+		// TEST write comment2
+		$("button[name='writeBtn']").on("click", function() {
+			let url = "${contextPath}/api/comments";
+			let comment = {
+				commentBoardIdx : $(this).data("idx"),
+				commentContent : "aa"
+			};
+			commentService.writeComment(url, comment, function(result) {
+				commentService.getCommentList(commentListURL, function(result) {
+					// ...	
+				});
+			});
+		});
+		
 		// TEST get comment list2
 		$("button[name='commentListBtn']").on("click", function() {
 			let url = "${contextPath}/api/boards/" + $(this).data("idx") +  "/comments";
@@ -669,7 +689,6 @@
 			let commentIdx = $li.attr("comment-idx");
 			let editContent = $li.find("div.comment-edit textarea").val();
 			let comment = {
-				commentBoardIdx : boardIdx,
 				commentContent : editContent,
 			};
 			

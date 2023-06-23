@@ -2,6 +2,7 @@ package com.codingjoa.resolver;
 
 import java.util.Map;
 
+import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
@@ -10,7 +11,7 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 
 import com.codingjoa.annotation.BoardCri;
 import com.codingjoa.pagination.Criteria;
-import com.codingjoa.util.MyNumberUtils;
+import com.codingjoa.util.MyUtils;
 
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -40,13 +41,35 @@ public class BoardCriteriaArgumentResolver implements HandlerMethodArgumentResol
 		String rawRecordCnt = webRequest.getParameter("recordCnt");
 		String rawType = webRequest.getParameter("type");
 		String rawKeyword = webRequest.getParameter("keyword");
+		log.info("\t > rawPage = {}, rawRecordCnt = {}, rawType = {}, rawKeyword = {};", 
+				rawPage, rawRecordCnt, rawType, rawKeyword);
 		
-		// binding + validation
+		if (rawPage == null) {
+			rawPage = "";
+		}
+
+		if (rawRecordCnt == null) {
+			rawRecordCnt = "";
+		}
+		
+		if (rawType == null) {
+			rawType = "";
+		}
+		
+		if (rawKeyword == null) {
+			rawKeyword = "";
+		}
+		
+		rawPage = rawPage.strip();
+		rawRecordCnt = rawRecordCnt.strip();
+		rawType = rawType.strip();
+		rawKeyword = rawKeyword.strip();
+		
 		Criteria boardCri = new Criteria(
-			MyNumberUtils.isNaturalNumber(rawPage) ? Integer.parseInt(rawPage) : page,
+			MyUtils.isPageNumber(rawPage) ? Integer.parseInt(rawPage) : page,
 			recordCntMap.containsKey(rawRecordCnt) ? Integer.parseInt(rawRecordCnt) : recordCnt,
 			typeMap.containsKey(rawType) ? rawType : type,
-			rawKeyword == null ? null : rawKeyword.strip()
+			rawKeyword
 		);
 		
 		mavContainer.addAttribute("boardCri", boardCri);
