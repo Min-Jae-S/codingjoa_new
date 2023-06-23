@@ -155,7 +155,7 @@
 		color: #ced4da; 
 	}
 	
-	.comment-cnt {
+	.comment-body {
 		font-size: 1.3rem;
 		font-weight: bold;
 	}
@@ -343,7 +343,7 @@
 						<span><c:out value="${boardDetails.boardViews}"/></span>
 						<div class="ml-auto">
 							<span><i class="fa-regular fa-comment-dots mr-1"></i>댓글</span>
-							<span class="mr-3"><c:out value="${boardDetails.commentCnt}"/></span>
+							<span class="mr-3 comment-cnt"><c:out value="${boardDetails.commentCnt}"/></span>
 							<span><i class="fa-regular fa-heart mr-1"></i>좋아요</span>
 							<span><c:out value="${boardDetails.boardLikesCnt}"/></span>
 						</div>
@@ -355,9 +355,9 @@
 					</div>
 				</div>
 				<div class="comment-group pt-4">
-					<div class="comment-cnt mb-3">
+					<div class="comment-body mb-3">
 						<span>댓글</span>
-						<span><c:out value="${boardDetails.commentCnt}"/></span>
+						<span class="comment-cnt"><c:out value="${boardDetails.commentCnt}"/></span>
 					</div>
 					<div class="input-group">
 						<div class="comment-input form-control">
@@ -487,8 +487,10 @@
 		// get comment list
 		commentService.getCommentList(commentListURL , function(result) {
 			let commentList = result.data.commentList;
+			let pagination = result.data.pagination;
 			let html = makeCommentHtml(commentList, boardWriterIdx);
 			$(".comment-list").html(html);
+			$("span.comment-cnt").val(pagination.totalCnt);	
 		});
 		
 		/*****************************************************************************************/
@@ -649,8 +651,10 @@
 				alert(result.message);
 				commentService.getCommentList(commentListURL, function(result) {
 					let commentList = result.data.commentList;
+					let pagination = result.data.pagination;
 					let html = makeCommentHtml(commentList, boardWriterIdx);
 					$(".comment-list").html(html);
+					$("span.comment-cnt").text(pagination.totalCnt);	
 					$("#commentContent").val("");
 				});
 			});
@@ -692,8 +696,10 @@
 				alert(result.message);
 				commentService.getCommentList(commentListURL, function(result) {
 					let commentList = result.data.commentList;
+					let pagination = result.data.pagination;
 					let html = makeCommentHtml(commentList, boardWriterIdx);
 					$(".comment-list").html(html);
+					$("span.comment-cnt").text(pagination.totalCnt);	
 				});
 			});
 		});
@@ -709,8 +715,10 @@
 				alert(result.message);
 				commentService.getCommentList(commentListURL, function(result) {
 					let commentList = result.data.commentList;
+					let pagination = result.data.pagination;
 					let html = makeCommentHtml(commentList, boardWriterIdx);
 					$(".comment-list").html(html);
+					$("span.comment-cnt").text(pagination.totalCnt);	
 				});
 			});
 		});
