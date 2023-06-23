@@ -17,7 +17,7 @@ public class IntDeserializer extends JsonDeserializer<Integer> {
 		log.info("## {}", this.getClass().getSimpleName());
 		
 		String input = p.getText();
-		log.info("\t > input = {}", input != null ? "'" + input + "'" : null);
+		log.info("\t > input = {}", (input != null) ? "'" + input + "'" : null);
 		
 		return Integer.parseInt(input);
 	}

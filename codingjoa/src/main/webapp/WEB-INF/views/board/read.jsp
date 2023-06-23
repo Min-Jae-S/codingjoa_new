@@ -402,6 +402,7 @@
     				<span class="input-group-text">/api/boards/{boardIdx}/comments</span>
   				</div>
   				<input type="text" class="form-control" placeholder="boardIdx">
+  				<input type="text" class="form-control" placeholder="page">
   				<div class="input-group-append">
     				<button class="btn btn-warning" id="testGetCommentListBtn">TEST</button>
   				</div>
@@ -513,8 +514,10 @@
 
 		// TEST get comment list
 		$("#testGetCommentListBtn").on("click", function() {
-			let boardIdx = $(this).closest("div.input-group").find("input").val();
-			let url = "${contextPath}/api/boards/" + boardIdx + "/comments";
+			$input = $(this).closest("div.input-group").find("input");
+			let boardIdx = $input.first().val();
+			let page = $input.last().val();
+			let url = "${contextPath}/api/boards/" + boardIdx + "/comments?page=" + page;
 			commentService.getCommentList(url, function(result) {
 				// ...
 			});

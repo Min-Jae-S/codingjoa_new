@@ -43,27 +43,11 @@ public class BoardCriteriaArgumentResolver implements HandlerMethodArgumentResol
 		log.info("\t > rawPage = {}, rawRecordCnt = {}, rawType = {}, rawKeyword = {};", 
 				rawPage, rawRecordCnt, rawType, rawKeyword);
 		
-		if (rawPage == null) {
-			rawPage = "";
-		}
+		rawPage = (rawPage == null) ? "" : rawPage.strip();
+		rawRecordCnt = (rawRecordCnt == null) ? "" : rawRecordCnt.strip();
+		rawType = (rawType == null) ? "" : rawType.strip();
+		rawKeyword = (rawKeyword == null) ? "" : rawKeyword.strip();
 
-		if (rawRecordCnt == null) {
-			rawRecordCnt = "";
-		}
-		
-		if (rawType == null) {
-			rawType = "";
-		}
-		
-		if (rawKeyword == null) {
-			rawKeyword = "";
-		}
-		
-		rawPage = rawPage.strip();
-		rawRecordCnt = rawRecordCnt.strip();
-		rawType = rawType.strip();
-		rawKeyword = rawKeyword.strip();
-		
 		Criteria boardCri = new Criteria(
 			MyUtils.isPageNumber(rawPage) ? Integer.parseInt(rawPage) : page,
 			recordCntMap.containsKey(rawRecordCnt) ? Integer.parseInt(rawRecordCnt) : recordCnt,

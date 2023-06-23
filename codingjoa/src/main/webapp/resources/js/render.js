@@ -32,7 +32,7 @@ console.log("## Rendering service ready - render.js");
 			html += "<span class='comment-regdate'>" + commentDetails.regdate + "</span>";
 			html += "<span class='comment-moddate d-none'>" + commentDetails.moddate + "</span>";
 			html += "</div>";
-			html += "<div class='comment-content' style='white-space: pre-wrap;'>";
+			html += "<div class='comment-content' style='white-space:pre-wrap;line-height:180%;'>";
 			html += "<p>" + commentDetails.commentContent.replace(/(?:\r\n|\r|\n)/g, "<br>") + "</p>";
 			html += "</div>";
 			html += "</div>";
