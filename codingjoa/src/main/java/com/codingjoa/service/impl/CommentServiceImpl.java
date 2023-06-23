@@ -94,6 +94,17 @@ public class CommentServiceImpl implements CommentService {
 		log.info("\t > modifyCommentDto ==> {}", comment);
 		
 		commentMapper.updateComment(comment);
+		Integer DBcommentWriterIdx = comment.getCommentWriterIdx();
+		log.info("\t > current commentWriterIdx = {}", commentDto.getCommentWriterIdx());
+		log.info("\t > DB commentWriterIdx = {}", DBcommentWriterIdx);
+		
+		if (DBcommentWriterIdx == null) {
+			throw new ExpectedException(MessageUtils.getMessage("error.UpdateComment"));
+		}
+		
+		if (DBcommentWriterIdx != commentDto.getCommentWriterIdx()) {
+			throw new ExpectedException(MessageUtils.getMessage("error.NotMyComment"));
+		}
 	}
 	
 	@Override

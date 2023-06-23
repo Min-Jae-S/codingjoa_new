@@ -144,6 +144,9 @@
 	</select>
 	
 	<update id="updateComment" parameterType="comment">
+		<selectKey keyProperty="commentWriterIdx" resultType="int" order="BEFORE">
+			SELECT MAX(comment_writer_idx) FROM "comment" WHERE comment_idx = #{commetIdx} 
+		</selectKey>
 		UPDATE
 			"comment"
 		SET
