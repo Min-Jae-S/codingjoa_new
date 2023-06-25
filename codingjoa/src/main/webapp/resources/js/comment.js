@@ -1,10 +1,20 @@
 console.log("## Comment service ready - comment.js");
 
+function getContextPath() {
+    let hostIndex = location.href.indexOf(location.host) + location.host.length;
+    return location.href.substring(hostIndex, location.href.indexOf('/', hostIndex + 1));
+}
+
 let commentService = (function() {
 
-	function writeComment(url, comment, callback) {
-		console.log("## Write Comment: '%s'", url);
-		console.log("comment = %s", JSON.stringify(comment, null, 2));
+	const contextPath = getContextPath();
+	
+	function writeComment(comment, callback) {
+		console.log("## Write Comment");
+		let url = contextPath + "/api/comments";
+		console.log("> url = '%s'", url);
+		console.log("> comment = %s", JSON.stringify(comment, null, 2));
+		
 		$.ajax({
 			type : "POST",
 			url : url,
@@ -59,8 +69,11 @@ let commentService = (function() {
 		*/
 	}
 	
-	function getCommentList(url, callback) {
-		console.log("## Get Comment List: '%s'", url);
+	function getCommentList(commentBoardIdx, page, callback) {
+		console.log("## Get Comment List");
+		let url = contextPath + "/api/boards/" + commentBoardIdx + "/comments?page=" + page;
+		console.log("> url = '%s'", url);
+		
 		$.ajax({
 			type : "GET",
 			url : url,
@@ -76,8 +89,11 @@ let commentService = (function() {
 		});
 	}
 
-	function getComment(url, callback) {
-		console.log("## Get Comment: '%s'", url);
+	function getComment(commentIdx, callback) {
+		console.log("## Get Comment");
+		let url = contextPath + "/api/comments/" + commentIdx;
+		console.log("> url = '%s'", url);
+		
 		$.ajax({
 			type : "GET",
 			url : url,
@@ -100,9 +116,12 @@ let commentService = (function() {
 		});
 	}
 	
-	function modifyComment(url, comment, callback) {
-		console.log("## Modify Comment: '%s'", url);
-		console.log("comment = %s", JSON.stringify(comment, null, 2));
+	function modifyComment(commentIdx, comment, callback) {
+		console.log("## Modify Comment");
+		let url = contextPath + "/api/comments/" + commentIdx;
+		console.log("> url = '%s'", url);
+		console.log("> comment = %s", JSON.stringify(comment, null, 2));
+		
 		$.ajax({
 			type : "PATCH",
 			url : url,
@@ -127,8 +146,11 @@ let commentService = (function() {
 		});
 	}
 	
-	function deleteComment(url, callback) {
-		console.log("## Delete Comment: '%s'", url);
+	function deleteComment(commentIdx, callback) {
+		console.log("## Delete Comment");
+		let url = contextPath + "/api/comments/" + commentIdx;
+		console.log("> url = '%s'", url);
+		
 		$.ajax({
 			type : "DELETE",
 			url : url,
