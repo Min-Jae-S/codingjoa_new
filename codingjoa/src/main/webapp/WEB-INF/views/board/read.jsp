@@ -635,9 +635,11 @@
 				$(this).height($(this).prop("scrollHeight") + "px");
 				
 				if ($(this).val() != "") {
-					$(this).closest("div").find("button").attr("disabled", false).addClass("btn-outline-primary");
+					$(this).closest("div").find("button")
+						.attr("disabled", false).addClass("btn-outline-primary");
 				} else {
-					$(this).closest("div").find("button").attr("disabled", true).removeClass("btn-outline-primary");
+					$(this).closest("div").find("button")
+						.attr("disabled", true).removeClass("btn-outline-primary");
 				}
 			}
 		});
@@ -656,10 +658,10 @@
 			
 			if ($(this).val() != "") {
 				$(this).closest("div").find("button[name='modifyCommentBtn']")
-					.addClass("btn-outline-primary");
+					.attr("disabled", false).addClass("btn-outline-primary");
 			} else {
 				 $(this).closest("div").find("button[name='modifyCommentBtn']")
-				 	.removeClass("btn-outline-primary");
+				 	.attr("disabled", true).removeClass("btn-outline-primary");
 			}
 		});
 		
