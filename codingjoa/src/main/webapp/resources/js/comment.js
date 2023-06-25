@@ -1,7 +1,7 @@
 console.log("## Comment service ready - comment.js");
 
 let commentService = (function() {
-	
+
 	function writeComment(url, comment, callback) {
 		console.log("## Write Comment: '%s'", url);
 		console.log("comment = %s", JSON.stringify(comment, null, 2));

@@ -16,7 +16,6 @@ import lombok.extern.slf4j.Slf4j;
  * 	인증(로그인)은 되었으나 해당 요청에 대한 권한이 없을 경우
  * 
  * 	AccessDeniedHandler, Handles an access denied failure.
- * 
  */
 
 @Component
