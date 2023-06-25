@@ -748,9 +748,21 @@
 		// pagination button click
 		$(document).on("click", ".page-link", function(e) {
 			e.preventDefault();
-			console.log("page = %s", $(this).data("page"));
 			$("li.page-item").removeClass("active");
 			$(this).closest("li.page-item").addClass("active");
+			
+			let url = "${contextPath}/api/boards/" + commentBoardIdx 
+				+ "/comments?page=" + $(this).data("page");
+			commentService.getCommentList(url, function(result) {
+				let commentList = result.data.commentList;
+				let commentHtml = makeCommentHtml(commentList, boardWriterIdx);
+				$("div.comment-list").html(commentHtml);
+
+				let pagination = result.data.pagination;
+				let paginationHtml = makePaginationHtml(pagination);
+				$("div.comment-pagination").html(paginationHtml);
+				$("span.comment-cnt").text(pagination.totalCnt);	
+			});
 		});
 		
 	});
