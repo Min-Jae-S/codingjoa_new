@@ -84,24 +84,28 @@ console.log("## Rendering service ready - render.js");
 			return html;
 		}
 		
-		html += "<ul class='pagination justify-conetn-center>'";
+		html += "<ul class='pagination justify-content-center my-0'>";
 		if (pagination.prev) {
 			html += "<li class='page-item'>";
-			html += "<a class='page-link' href='#'>";
+			html += "<a class='page-link' href='#' data-page='" + pagination.prevPage + "'>";
 			html += "<i class='fa-solid fa-chevron-left'></i>";
 			html += "</a>";
 			html += "</li>";
 		}
 		
-		for (let i = pagination.startPage; i <= pagintaion.endPage; i++) {
-			html += "<li class='page-item' " + (i == pagination.page) ? "active" : "" + ">";
-			html += "<a class='page-link' href='#'>" + i + "</a>";
+		for (let i = pagination.startPage; i <= pagination.endPage; i++) {
+			if (i == pagination.page) {
+				html += "<li class='page-item active'>";
+			} else {
+				html += "<li class='page-item'>";
+			}
+			html += "<a class='page-link' href='#' data-page='" + i + "'>" + i + "</a>";
 			html += "</li>";
 		}
 		
 		if (pagination.next) {
 			html += "<li class='page-item'>";
-			html += "<a class='page-link' href='#'>";
+			html += "<a class='page-link' href='#' data-page='" + pagination.nextPage + "'>";
 			html += "<i class='fa-solid fa-chevron-right'></i>";
 			html += "</a>";
 			html += "</li>";

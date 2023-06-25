@@ -164,10 +164,6 @@
 		padding: 1.25rem 0;
 	}
 	
-	.comment-list .list-group-item:last-child {
-		padding-bottom: 0;
-	} 
-
 	.comment-info { 
 		margin-bottom: 1rem; 
 	}
@@ -492,7 +488,7 @@
 		commentService.getCommentList(commentListURL , function(result) {
 			let commentList = result.data.commentList;
 			let commentHtml = makeCommentHtml(commentList, boardWriterIdx);
-			$("div.comment-list").html(html);
+			$("div.comment-list").html(commentHtml);
 
 			let pagination = result.data.pagination;
 			let paginationHtml = makePaginationHtml(pagination);
@@ -511,11 +507,11 @@
 		// TEST write comment	
 		$("#testWriteBtn").on("click", function() {
 			let $input = $(this).closest("div.input-group").find("input");
-			let url = "${contextPath}/api/comments";
 			let comment = {
 				commentBoardIdx : $input.first().val(),
 				commentContent : $input.last().val()
 			};
+			let url = "${contextPath}/api/comments";
 			commentService.writeComment(url, comment, function(result) {
 				commentService.getCommentList(commentListURL, function(result) {
 					// ...	
@@ -546,7 +542,7 @@
 		// TEST delete comment
 		$("#testDeleteCommentBtn").on("click", function() {
 			let commentIdx = $(this).closest("div.input-group").find("input").val();
-			let url = "${contextPath}/api/comments/" + $input.val();
+			let url = "${contextPath}/api/comments/" + commentIdx;
 			commentService.deleteComment(url, function(result) {
 				// ...
 			});
@@ -648,9 +644,11 @@
 			$(this).height($(this).prop("scrollHeight") + "px");
 			
 			if ($(this).val() != "") {
-				$(this).closest("div").find("button[name='modifyCommentBtn']").addClass("btn-outline-primary");
+				$(this).closest("div").find("button[name='modifyCommentBtn']")
+					.addClass("btn-outline-primary");
 			} else {
-				 $(this).closest("div").find("button[name='modifyCommentBtn']").removeClass("btn-outline-primary");
+				 $(this).closest("div").find("button[name='modifyCommentBtn']")
+				 	.removeClass("btn-outline-primary");
 			}
 		});
 		
@@ -666,9 +664,12 @@
 				alert(result.message);
 				commentService.getCommentList(commentListURL, function(result) {
 					let commentList = result.data.commentList;
+					let commentHtml = makeCommentHtml(commentList, boardWriterIdx);
+					$("div.comment-list").html(commentHtml);
+
 					let pagination = result.data.pagination;
-					let html = makeCommentHtml(commentList, boardWriterIdx);
-					$(".comment-list").html(html);
+					let paginationHtml = makePaginationHtml(pagination);
+					$("div.comment-pagination").html(paginationHtml);
 					$("span.comment-cnt").text(pagination.totalCnt);	
 					$("#commentContent").val("");
 				});
@@ -682,8 +683,8 @@
 			let url = "${contextPath}/api/comments/" + commentIdx;
 
 			commentService.getComment(url, function(result) {
-				let html = makeEditCommentHtml(result.data);
-				$li.find("div.comment-area").addClass("d-none").after(html);
+				let editCommentHtml = makeEditCommentHtml(result.data);
+				$li.find("div.comment-area").addClass("d-none").after(editCommentHtml);
 				
 				let $textarea = $li.find("div.comment-edit textarea");
 				$textarea.height("auto");
@@ -711,9 +712,12 @@
 				alert(result.message);
 				commentService.getCommentList(commentListURL, function(result) {
 					let commentList = result.data.commentList;
+					let commentHtml = makeCommentHtml(commentList, boardWriterIdx);
+					$("div.comment-list").html(commentHtml);
+
 					let pagination = result.data.pagination;
-					let html = makeCommentHtml(commentList, boardWriterIdx);
-					$(".comment-list").html(html);
+					let paginationHtml = makePaginationHtml(pagination);
+					$("div.comment-pagination").html(paginationHtml);
 					$("span.comment-cnt").text(pagination.totalCnt);	
 				});
 			});
@@ -729,14 +733,25 @@
 				alert(result.message);
 				commentService.getCommentList(commentListURL, function(result) {
 					let commentList = result.data.commentList;
+					let commentHtml = makeCommentHtml(commentList, boardWriterIdx);
+					$("div.comment-list").html(commentHtml);
+
 					let pagination = result.data.pagination;
-					let html = makeCommentHtml(commentList, boardWriterIdx);
-					$(".comment-list").html(html);
+					let paginationHtml = makePaginationHtml(pagination);
+					$("div.comment-pagination").html(paginationHtml);
 					$("span.comment-cnt").text(pagination.totalCnt);	
 				});
 			});
 		});
 		
+		
+		// pagination button click
+		$(document).on("click", ".page-link", function(e) {
+			e.preventDefault();
+			console.log("page = %s", $(this).data("page"));
+			$("li.page-item").removeClass("active");
+			$(this).closest("li.page-item").addClass("active");
+		});
 		
 	});
 </script>

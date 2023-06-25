@@ -23,7 +23,7 @@ let commentService = (function() {
 						alert(errorMessage);
 					});
 				} else {
-					alert(errorResponse.errorMessage)
+					alert(errorResponse.errorMessage);
 				}
 			}
 		});
@@ -94,7 +94,7 @@ let commentService = (function() {
 						alert(errorMessage);
 					});
 				} else {
-					alert(errorResponse.errorMessage)
+					alert(errorResponse.errorMessage);
 				}
 			}
 		});
