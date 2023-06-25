@@ -2,7 +2,9 @@ console.log("## Rendering service ready - render.js");
 	
 	function makeCommentHtml(list, boardWriterIdx) {
 		let html = "";
-		if (!(list.length > 0)) return html;
+		if (!(list.length > 0)) {
+			return html;
+		}
 		
 		html += "<ul class='list-group list-group-flush mt-4'>";
 		$.each(list, function(index, commentDetails) {
@@ -78,9 +80,32 @@ console.log("## Rendering service ready - render.js");
 	
 	function makePaginationHtml(pagination) {
 		let html = "";
-		if (!(pagination.totalCnt > 0)) return html;
-	
-		html += "";
+		if (!(pagination.totalCnt > 0)) {
+			return html;
+		}
 		
+		html += "<ul class='pagination justify-conetn-center>'";
+		if (pagination.prev) {
+			html += "<li class='page-item'>";
+			html += "<a class='page-link' href='#'>";
+			html += "<i class='fa-solid fa-chevron-left'></i>";
+			html += "</a>";
+			html += "</li>";
+		}
+		
+		for (let i = pagination.startPage; i <= pagintaion.endPage; i++) {
+			html += "<li class='page-item' " + (i == pagination.page) ? "active" : "" + ">";
+			html += "<a class='page-link' href='#'>" + i + "</a>";
+			html += "</li>";
+		}
+		
+		if (pagination.next) {
+			html += "<li class='page-item'>";
+			html += "<a class='page-link' href='#'>";
+			html += "<i class='fa-solid fa-chevron-right'></i>";
+			html += "</a>";
+			html += "</li>";
+		}
+		html += "</ul>";
 		return html;
 	}

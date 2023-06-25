@@ -491,9 +491,12 @@
 		// get comment list
 		commentService.getCommentList(commentListURL , function(result) {
 			let commentList = result.data.commentList;
+			let commentHtml = makeCommentHtml(commentList, boardWriterIdx);
+			$("div.comment-list").html(html);
+
 			let pagination = result.data.pagination;
-			let html = makeCommentHtml(commentList, boardWriterIdx);
-			$(".comment-list").html(html);
+			let paginationHtml = makePaginationHtml(pagination);
+			$("div.comment-pagination").html(paginationHtml);
 			$("span.comment-cnt").text(pagination.totalCnt);	
 		});
 		
