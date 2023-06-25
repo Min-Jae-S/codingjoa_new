@@ -379,7 +379,8 @@
 			<div class="card-bottom">
 				<a class="btn btn-secondary" href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}&
 					${boardCri.getQueryString()}">목록</a>
-				<a class="btn btn-primary ml-2" href="${contextPath}/test" id=testHref data-idx="1">TEST</a>	
+				<a class="btn btn-primary ml-2" href="${contextPath}/test" id="testHref1" data-idx="1">TEST1</a>	
+				<a class="btn btn-primary ml-2" href="#" id="testHref2">TEST2</a>	
 			</div>
 			<div class="input-group mt-5">
 				<div class="input-group-prepend">
@@ -482,7 +483,8 @@
 	$(function() {
 		const commentBoardIdx = "<c:out value='${boardDetails.boardIdx}'/>";
 		const boardWriterIdx = "<c:out value='${boardDetails.boardWriterIdx}'/>";
-		const commentListURL = "${contextPath}/api/boards/" + commentBoardIdx + "/comments?page=1";
+		let page = 1;
+		let commentListURL = "${contextPath}/api/boards/" + commentBoardIdx + "/comments?page=" + page;
 		
 		// get comment list
 		commentService.getCommentList(commentListURL , function(result) {
@@ -498,10 +500,17 @@
 		
 		/*****************************************************************************************/
 		// TEST href
-		$("#testHref").on("click", function(e) {
+		$("#testHref1").on("click", function(e) {
 			e.preventDefault();
 			console.log("href = %s", $(this).attr("href"));
 			console.log("idx = %s", $(this).data("idx"));
+			console.log("# current commentListURL = %s", commentListURL);
+			commentListURL = "${contextPath}/api/boards/" + commentBoardIdx + "/comments?page=2";
+		});
+
+		$("#testHref2").on("click", function(e) {
+			e.preventDefault();
+			console.log("# changed commentListURL = %s", commentListURL);
 		});
 		
 		// TEST write comment	
@@ -744,9 +753,8 @@
 			});
 		});
 		
-		
 		// pagination button click
-		$(document).on("click", ".page-link", function(e) {
+		$(document).on("click", "a.page-link", function(e) {
 			e.preventDefault();
 			$("li.page-item").removeClass("active");
 			$(this).closest("li.page-item").addClass("active");
