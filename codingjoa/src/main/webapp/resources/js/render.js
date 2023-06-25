@@ -1,9 +1,10 @@
 console.log("## Rendering service ready - render.js");
 	
 	function makeCommentHtml(list, boardWriterIdx) {
-		if (!(list.length > 0)) return;
+		let html = "";
+		if (!(list.length > 0)) return html;
 		
-		let html = "<ul class='list-group list-group-flush mt-4'>";
+		html += "<ul class='list-group list-group-flush mt-4'>";
 		$.each(list, function(index, commentDetails) {
 			if (commentDetails == null) {
 				html += "<li class='list-group-item deleted-comment'>";
@@ -72,5 +73,14 @@ console.log("## Rendering service ready - render.js");
 		html += "</div>";		
 		html += "</div>";			
 		html += "</div>";			
+		return html;
+	}
+	
+	function makePaginationHtml(pagination) {
+		let html = "";
+		if (!(pagination.totalCnt > 0)) return html;
+	
+		html += "";
+		
 		return html;
 	}

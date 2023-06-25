@@ -375,12 +375,15 @@
 					<div class="comment-list">
 						<!-- comment -->
 					</div>
+					<div class="comment-pagination">
+						<!-- pagination -->
+					</div>
 				</div>
 			</div>
 			<div class="card-bottom">
 				<a class="btn btn-secondary" href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}&
 					${boardCri.getQueryString()}">목록</a>
-				<a class="btn btn-primary ml-2" href="${contextPath}/test" id=testHref>TEST</a>	
+				<a class="btn btn-primary ml-2" href="${contextPath}/test" id=testHref data-idx="1">TEST</a>	
 			</div>
 			<div class="input-group mt-5">
 				<div class="input-group-prepend">
@@ -498,7 +501,8 @@
 		// TEST href
 		$("#testHref").on("click", function(e) {
 			e.preventDefault();
-			console.log("#testHref's href = %s", $(this).attr("href"));
+			console.log("href = %s", $(this).attr("href"));
+			console.log("idx = %s", $(this).data("idx"));
 		});
 		
 		// TEST write comment	
@@ -649,12 +653,13 @@
 		
 		// write comment
 		$("#writeCommentBtn").on("click", function() {
+			let url = "${contextPath}/api/comments";
 			let comment = {
 				commentBoardIdx : commentBoardIdx,
 				commentContent : $("#commentContent").val(),
 			};
 			
-			commentService.writeComment("${contextPath}/api/comments", comment, function(result) {
+			commentService.writeComment(url, comment, function(result) {
 				alert(result.message);
 				commentService.getCommentList(commentListURL, function(result) {
 					let commentList = result.data.commentList;
@@ -671,10 +676,10 @@
 		$(document).on("click", "button[name=showEditCommentBtn]", function() {
 			let $li =  $(this).closest("li");
 			let commentIdx = $li.data("comment-idx");
-			
-			commentService.getComment("${contextPath}/api/comments/" + commentIdx, function(result) {
-				let commentDetails = result.data;
-				let html = makeEditCommentHtml(commentDetails);
+			let url = "${contextPath}/api/comments/" + commentIdx;
+
+			commentService.getComment(url, function(result) {
+				let html = makeEditCommentHtml(result.data);
 				$li.find("div.comment-area").addClass("d-none").after(html);
 				
 				let $textarea = $li.find("div.comment-edit textarea");
@@ -694,12 +699,12 @@
 		$(document).on("click", "button[name=modifyCommentBtn]", function() {
 			let $li =  $(this).closest("li");
 			let commentIdx = $li.data("comment-idx");
-			let editContent = $li.find("div.comment-edit textarea").val();
+			let url = "${contextPath}/api/comments/" + commentIdx;
 			let comment = {
-				commentContent : editContent,
+				commentContent : $li.find("div.comment-edit textarea").val(),
 			};
 			
-			commentService.modifyComment("${contextPath}/api/comments/" + commentIdx, comment, function(result) {
+			commentService.modifyComment(url, comment, function(result) {
 				alert(result.message);
 				commentService.getCommentList(commentListURL, function(result) {
 					let commentList = result.data.commentList;
@@ -713,12 +718,11 @@
 		
 		// delete comment
 		$(document).on("click", "button[name=deleteCommentBtn]", function() {
-			if (!confirm("댓글을 삭제하시겠습니까?")) {
-				return;
-			}
-			
+			if (!confirm("댓글을 삭제하시겠습니까?")) return;
 			let commentIdx = $(this).closest("li").data("comment-idx");
-			commentService.deleteComment("${contextPath}/api/comments/" + commentIdx, function(result) {
+			let url = "${contextPath}/api/comments/" + commentIdx;
+			
+			commentService.deleteComment(url, function(result) {
 				alert(result.message);
 				commentService.getCommentList(commentListURL, function(result) {
 					let commentList = result.data.commentList;
