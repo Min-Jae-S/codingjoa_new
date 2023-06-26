@@ -479,136 +479,6 @@
 
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 
-<!-- TEST -->
-<script>
-	$(function() {
-		const commentBoardIdx = "<c:out value='${boardDetails.boardIdx}'/>";
-		const boardWriterIdx = "<c:out value='${boardDetails.boardWriterIdx}'/>";
-		let curPage = 1;
-		
-		$("#testHref1").on("click", function(e) {
-			e.preventDefault();
-			console.log("# testHref1 click");
-			console.log("\t > href = %s", $(this).attr("href"));
-			console.log("\t > idx = %s", $(this).data("idx"));
-			console.log("\t > current commentListURL = %s", commentListURL);
-			commentListURL = "${contextPath}/api/boards/" + commentBoardIdx + "/comments?page=2";
-		});
-
-		$("#testHref2").on("click", function(e) {
-			e.preventDefault();
-			console.log("# testHref2 click");
-			console.log("\t > changed commentListURL = %s", commentListURL);
-		});
-		
-		// TEST write comment	
-		$("#testWriteBtn").on("click", function() {
-			let $input = $(this).closest("div.input-group").find("input");
-			let comment = {
-				commentBoardIdx : $input.first().val(),
-				commentContent : $input.last().val()
-			};
-			let url = "${contextPath}/api/comments";
-			commentService.writeComment(url, comment, function(result) {
-				commentService.getCommentList(commentListURL, function(result) {
-					// ...	
-				});
-			});
-		});
-
-		// TEST get comment list
-		$("#testGetCommentListBtn").on("click", function() {
-			let $input = $(this).closest("div.input-group").find("input");
-			let commentBoardIdx = $input.first().val();
-			let page = $input.last().val();
-			let url = "${contextPath}/api/boards/" + commentBoardIdx + "/comments?page=" + page;
-			commentService.getCommentList(url, function(result) {
-				// ...
-			});
-		});
-
-		// TEST get comment
-		$("#testGetCommentBtn").on("click", function() {
-			let commentIdx = $(this).closest("div.input-group").find("input").val();
-			let url = "${contextPath}/api/comments/" + commentIdx;
-			commentService.getComment(url, function(result) {
-				// ...
-			});
-		});
-
-		// TEST delete comment
-		$("#testDeleteCommentBtn").on("click", function() {
-			let commentIdx = $(this).closest("div.input-group").find("input").val();
-			let url = "${contextPath}/api/comments/" + commentIdx;
-			commentService.deleteComment(url, function(result) {
-				// ...
-			});
-		});
-
-		// TEST modify comment
-		$("#testModifyCommentBtn").on("click", function() {
-			let $input = $(this).closest("div.input-group").find("input");
-			let url = "${contextPath}/api/comments/" + $input.first().val();
-			let comment = {
-				commentContent : $input.last().val()
-			};
-			
-			commentService.modifyComment(url, comment, function(result) {
-				// ...
-			});
-		});
-
-		// TEST write comment2
-		$("button[name='writeBtn']").on("click", function() {
-			let url = "${contextPath}/api/comments";
-			let comment = {
-				commentBoardIdx : $(this).data("idx"),
-				commentContent : "aa"
-			};
-			commentService.writeComment(url, comment, function(result) {
-				commentService.getCommentList(commentListURL, function(result) {
-					// ...	
-				});
-			});
-		});
-		
-		// TEST get comment list2
-		$("button[name='commentListBtn']").on("click", function() {
-			let url = "${contextPath}/api/boards/" + $(this).data("idx") +  "/comments?page=1";
-			commentService.getCommentList(url , function(result) {
-				// ... 
-			});
-		});
-		
-		// TEST get comment2
-		$("button[name='commentBtn']").on("click", function() {
-			let url = "${contextPath}/api/comments/" + $(this).data("idx");
-			commentService.getComment(url , function(result) {
-				// ... 
-			});
-		});
-
-		// Test delete comment2
-		$("button[name='deleteBtn']").on("click", function() {
-			let url = "${contextPath}/api/comments/" + $(this).data("idx");
-			commentService.deleteComment(url, function(result) { 
-				// ... 
-			});
-		});
-		
-		// TEST modify comment2
-		$("button[name='patchBtn']").on("click", function() {
-			let url = "${contextPath}/api/comments/" + $(this).data("idx");
-			let comment = {
-				commentContent : "aa"
-			};
-			commentService.modifyComment(url, comment, function(result) { 
-				// ...
-			});
-		});
-	});
-</script>
-
 <script>
 	$(function() {
 		const commentBoardIdx = "<c:out value='${boardDetails.boardIdx}'/>";
@@ -626,6 +496,123 @@
 			$("div.comment-pagination").html(paginationHtml);
 			$("span.comment-cnt").text(pagination.totalCnt);	
 		});
+		
+		/*******************************************************************************/
+		// TEST Href1
+		$("#testHref1").on("click", function(e) {
+			e.preventDefault();
+			console.log("# testHref1 click");
+			console.log("\t > href = %s", $(this).attr("href"));
+			console.log("\t > idx = %s", $(this).data("idx"));
+			console.log("\t > current page = %s", curPage);
+			curPage = 11;
+		});
+
+		// TEST Href2
+		$("#testHref2").on("click", function(e) {
+			e.preventDefault();
+			console.log("# testHref2 click");
+			console.log("\t > changed page = %s", curPage);
+			curPage = 1;
+		});
+		
+		// TEST write comment	
+		$("#testWriteBtn").on("click", function() {
+			let $input = $(this).closest("div.input-group").find("input");
+			let comment = {
+				commentBoardIdx : $input.first().val(),
+				commentContent : $input.last().val()
+			};
+			commentService.writeComment(comment, function(result) {
+				commentService.getCommentList(commentBoardIdx, curPage, function(result) {
+					// ...	
+				});
+			});
+		});
+
+		// TEST get comment list
+		$("#testGetCommentListBtn").on("click", function() {
+			let $input = $(this).closest("div.input-group").find("input");
+			let commentBoardIdx = $input.first().val();
+			let page = $input.last().val();
+			commentService.getCommentList(commentBoardIdx, page, function(result) {
+				// ...
+			});
+		});
+
+		// TEST get comment
+		$("#testGetCommentBtn").on("click", function() {
+			let commentIdx = $(this).closest("div.input-group").find("input").val();
+			commentService.getComment(commentIdx, function(result) {
+				// ...
+			});
+		});
+
+		// TEST delete comment
+		$("#testDeleteCommentBtn").on("click", function() {
+			let commentIdx = $(this).closest("div.input-group").find("input").val();
+			commentService.deleteComment(commentIdx, function(result) {
+				// ...
+			});
+		});
+
+		// TEST modify comment
+		$("#testModifyCommentBtn").on("click", function() {
+			let $input = $(this).closest("div.input-group").find("input");
+			let commentIdx = $input.first().val();
+			let comment = {
+				commentContent : $input.last().val()
+			};
+			
+			commentService.modifyComment(commentIdx, comment, function(result) {
+				// ...
+			});
+		});
+
+		// TEST write comment2
+		$("button[name='writeBtn']").on("click", function() {
+			let comment = {
+				commentBoardIdx : $(this).data("idx"),
+				commentContent : "aa"
+			};
+			commentService.writeComment(comment, function(result) {
+				commentService.getCommentList(commentBoardIdx, curPage, function(result) {
+					// ...	
+				});
+			});
+		});
+		
+		// TEST get comment list2
+		$("button[name='commentListBtn']").on("click", function() {
+			commentService.getCommentList($(this).data("idx"), curPage, function(result) {
+				// ... 
+			});
+		});
+		
+		// TEST get comment2
+		$("button[name='commentBtn']").on("click", function() {
+			commentService.getComment($(this).data("idx"), function(result) {
+				// ... 
+			});
+		});
+
+		// Test delete comment2
+		$("button[name='deleteBtn']").on("click", function() {
+			commentService.deleteComment($(this).data("idx", function(result) { 
+				// ... 
+			});
+		});
+		
+		// TEST modify comment2
+		$("button[name='patchBtn']").on("click", function() {
+			let comment = {
+				commentContent : "aa"
+			};
+			commentService.modifyComment($(this).data("idx"), comment, function(result) { 
+				// ...
+			});
+		});
+		/*******************************************************************************/
 		
 		$("#deleteBoardLink").on("click", function() {
 			return confirm("게시글을 삭제하시겠습니까?");
