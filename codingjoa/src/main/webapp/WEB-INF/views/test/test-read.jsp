@@ -223,6 +223,65 @@
 		border: 1px solid #868e96;
 	}
 </style>
+
+<!-- test css -->	
+<style>	
+	.test div.d-flex {
+		justify-content: space-between;
+	}
+	
+	.test button.test-item {
+		width: 26%;
+		text-align: left !important;
+	}
+	
+	.test button:not(.test-item) {
+		padding-left: 0;
+		padding-right: 0;
+		width: 18%;
+		text-align: left !important;
+		pointer-events: none;
+	}
+
+	.test button:not(.test-item) span {
+		float: right;
+	}
+	
+	.input-group input {
+		border-right: none;
+	}
+	
+	.input-group input::placeholder {
+		font-size: 1rem;
+		color: #adb5bd;
+	}
+
+	.input-group-prepend {
+		width: 60%;
+	}
+	
+	.input-group-text:first-child {
+		color: #212529;
+		width: 35%;
+		border-right: none;
+	} 
+
+	.input-group-text:nth-child(2) {
+		color: #212529;
+		width: 5%;
+		border-left: none;
+		border-right: none;
+		margin: 0 !important;
+	} 
+
+	.input-group-text:last-child {
+		color: #212529;
+		width: 60%;
+		border-left: none;
+		border-right: none;
+		margin: 0 !important;
+	}
+</style>
 </head>
 <body>
 
@@ -320,6 +379,98 @@
 			<div class="card-bottom">
 				<a class="btn btn-secondary" href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}&
 					${boardCri.getQueryString()}">목록</a>
+				<a class="btn btn-warning ml-2" href="${contextPath}/test" id="testHref1" data-idx="1">TEST1</a>	
+				<a class="btn btn-warning ml-2" href="#" id="testHref2">TEST2</a>	
+			</div>
+			<div class="input-group mt-5">
+				<div class="input-group-prepend">
+    				<span class="input-group-text">Write Comment</span>
+    				<span class="input-group-text">:</span>
+    				<span class="input-group-text">/api/comments</span>
+  				</div>
+  				<input type="text" class="form-control" placeholder="commentBoardIdx">
+  				<input type="text" class="form-control" placeholder="commentContent">
+  				<div class="input-group-append">
+    				<button class="btn btn-warning" id="testWriteBtn">TEST</button>
+  				</div>
+			</div>
+			<div class="input-group mt-3">
+				<div class="input-group-prepend">
+					<span class="input-group-text">Get Comment List</span>
+					<span class="input-group-text">:</span>
+    				<span class="input-group-text">/api/boards/{commentBoardIdx}/comments</span>
+  				</div>
+  				<input type="text" class="form-control" placeholder="commentBoardIdx">
+  				<input type="text" class="form-control" placeholder="comment page">
+  				<div class="input-group-append">
+    				<button class="btn btn-warning" id="testGetCommentListBtn">TEST</button>
+  				</div>
+			</div>
+			<div class="input-group mt-3">
+				<div class="input-group-prepend">
+					<span class="input-group-text">Get Comment</span>
+					<span class="input-group-text">:</span>
+    				<span class="input-group-text">/api/comments/{commentIdx}</span>
+  				</div>
+  				<input type="text" class="form-control" placeholder="commentIdx">
+  				<div class="input-group-append">
+    				<button class="btn btn-warning" id="testGetCommentBtn">TEST</button>
+  				</div>
+			</div>
+			<div class="input-group mt-3">
+				<div class="input-group-prepend">
+					<span class="input-group-text">Delete Comment</span>
+					<span class="input-group-text">:</span>
+    				<span class="input-group-text">/api/comments/{commentIdx}</span>
+  				</div>
+  				<input type="text" class="form-control" placeholder="commentIdx">
+  				<div class="input-group-append">
+    				<button class="btn btn-warning" id="testDeleteCommentBtn">TEST</button>
+  				</div>
+			</div>
+			<div class="input-group mt-3">
+				<div class="input-group-prepend">
+					<span class="input-group-text">Modify Comment</span>
+					<span class="input-group-text">:</span>
+    				<span class="input-group-text">/api/comments/{commentIdx}</span>
+  				</div>
+  				<input type="text" class="form-control" placeholder="commentIdx">
+  				<input type="text" class="form-control" placeholder="commentContent">
+  				<div class="input-group-append">
+    				<button class="btn btn-warning" id="testModifyCommentBtn">TEST</button>
+  				</div>
+			</div>
+			<div class="test mt-5">
+				<div class="mb-4 d-flex">
+					<button class="btn">Write Comment<span>:</span></button>
+					<button class="btn btn-warning test-item" name="writeBtn" data-idx="">/api/comments; idx=?</button>
+					<button class="btn btn-warning test-item" name="writeBtn" data-idx="a">/api/comments; idx=a</button>				
+					<button class="btn btn-warning test-item" name="writeBtn" data-idx="9999">/api/comments; idx=9999</button>
+				</div>
+				<div class="mb-4 d-flex">
+					<button class="btn">Get Comment List<span>:</span></button>
+					<button class="btn btn-warning test-item" name="commentListBtn" data-idx="">/api/boards/?/comments</button>
+					<button class="btn btn-warning test-item" name="commentListBtn" data-idx="a">/api/boards/a/comments</button>				
+					<button class="btn btn-warning test-item" name="commentListBtn" data-idx="9999">/api/boards/9999/comments</button>
+				</div>
+				<div class="mb-4 d-flex">
+					<button class="btn">Get Comment<span>:</span></button>
+					<button class="btn btn-warning test-item" name="commentBtn" data-idx="">/api/comments/?</button>
+					<button class="btn btn-warning test-item" name="commentBtn" data-idx="a">/api/comments/a</button>				
+					<button class="btn btn-warning test-item" name="commentBtn" data-idx="9999">/api/comments/9999</button>
+				</div>
+				<div class="mb-4 d-flex">
+					<button class="btn">Delete Comment<span>:</span></button>
+					<button class="btn btn-warning test-item" name="deleteBtn" data-idx="">/api/comments/?</button>					
+					<button class="btn btn-warning test-item" name="deleteBtn" data-idx="a">/api/comments/a</button>				
+					<button class="btn btn-warning test-item" name="deleteBtn" data-idx="9999">/api/comments/9999</button>					
+				</div>
+				<div class="mb-4 d-flex">
+					<button class="btn">Modify Comment<span>:</span></button>	
+					<button class="btn btn-warning test-item" name="patchBtn" data-idx="">/api/comments/?</button>					
+					<button class="btn btn-warning test-item" name="patchBtn" data-idx="a">/api/comments/a</button>				
+					<button class="btn btn-warning test-item" name="patchBtn" data-idx="9999">/api/comments/9999</button>					
+				</div>
 			</div>
 		</div>
 		<div class="col-sm-1"></div>
@@ -345,6 +496,120 @@
 			$("div.comment-pagination").html(paginationHtml);
 			$("span.comment-cnt").text(pagination.totalCnt);	
 		});
+		
+		/*******************************************************************************/
+		// TEST Href1
+		$("#testHref1").on("click", function(e) {
+			e.preventDefault();
+			console.log("# testHref1 click");
+			console.log("\t > href = %s", $(this).attr("href"));
+			console.log("\t > idx = %s", $(this).data("idx"));
+		});
+
+		// TEST Href2
+		$("#testHref2").on("click", function(e) {
+			e.preventDefault();
+			console.log("# testHref2 click");
+			console.log("\t > current page = %s", curPage);
+			console.log("\t > change current page");
+			curPage = 11;
+			console.log("\t > current page = %s", curPage);
+		});
+		
+		// TEST write comment	
+		$("#testWriteBtn").on("click", function() {
+			let $input = $(this).closest("div.input-group").find("input");
+			let comment = {
+				commentBoardIdx : $input.first().val(),
+				commentContent : $input.last().val()
+			};
+			
+			commentService.writeComment(comment, function(result) {
+				alert(result.message);
+			});
+		});
+
+		// TEST get comment list
+		$("#testGetCommentListBtn").on("click", function() {
+			let $input = $(this).closest("div.input-group").find("input");
+			let commentBoardIdx = $input.first().val();
+			let page = $input.last().val();
+			commentService.getCommentList(commentBoardIdx, page, function(result) {
+				// ...
+			});
+		});
+
+		// TEST get comment
+		$("#testGetCommentBtn").on("click", function() {
+			let commentIdx = $(this).closest("div.input-group").find("input").val();
+			commentService.getComment(commentIdx, function(result) {
+				// ...
+			});
+		});
+
+		// TEST delete comment
+		$("#testDeleteCommentBtn").on("click", function() {
+			let commentIdx = $(this).closest("div.input-group").find("input").val();
+			commentService.deleteComment(commentIdx, function(result) {
+				alert(result.message);
+			});
+		});
+
+		// TEST modify comment
+		$("#testModifyCommentBtn").on("click", function() {
+			let $input = $(this).closest("div.input-group").find("input");
+			let commentIdx = $input.first().val();
+			let comment = {
+				commentContent : $input.last().val()
+			};
+			
+			commentService.modifyComment(commentIdx, comment, function(result) {
+				alert(result.message);
+			});
+		});
+
+		// TEST write comment2
+		$("button[name='writeBtn']").on("click", function() {
+			let comment = {
+				commentBoardIdx : $(this).data("idx"),
+				commentContent : "aa"
+			};
+			commentService.writeComment(comment, function(result) {
+				alert(result.message);
+			});
+		});
+		
+		// TEST get comment list2
+		$("button[name='commentListBtn']").on("click", function() {
+			commentService.getCommentList($(this).data("idx"), curPage, function(result) {
+				alert(result.message);
+			});
+		});
+		
+		// TEST get comment2
+		$("button[name='commentBtn']").on("click", function() {
+			commentService.getComment($(this).data("idx"), function(result) {
+				alert(result.message);
+			});
+		});
+
+		// Test delete comment2
+		$("button[name='deleteBtn']").on("click", function() {
+			commentService.deleteComment($(this).data("idx"), function(result) { 
+				alert(result.message);
+			});
+		});
+		
+		// TEST modify comment2
+		$("button[name='patchBtn']").on("click", function() {
+			let comment = {
+				commentContent : "aa"
+			};
+			commentService.modifyComment($(this).data("idx"), comment, function(result) { 
+				alert(result.message);
+			});
+		});
+		/*******************************************************************************/
 		
 		$("#deleteBoardLink").on("click", function() {
 			return confirm("게시글을 삭제하시겠습니까?");
@@ -479,12 +744,12 @@
 			});
 		});
 		
-		// pagination
+		// pagination button click
 		$(document).on("click", "a.page-link", function(e) {
 			e.preventDefault();
 			let clickedPage = $(this).data("page");
 			commentService.getCommentList(commentBoardIdx, clickedPage, function(result) {
-				console.log("## page has changed from %s to %s", curPage, clickedPage);
+				console.log("## current page has changed from %s to %s", curPage, clickedPage);
 				curPage = clickedPage;
 				$("li.page-item").removeClass("active");
 				$(this).closest("li.page-item").addClass("active");
