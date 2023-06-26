@@ -52,9 +52,9 @@
 	</update> -->
 	
 	<insert id="insertComment" parameterType="comment">
-		<selectKey keyProperty="commentBoardIdx" resultType="comment" order="BEFORE">
+		<selectKey keyProperty="commentBoardIdx" resultType="int" order="BEFORE">
 			SELECT 
-				MAX(board_idx) AS commentBoardIdx
+				MAX(board_idx)
 			FROM 
 				board 
 			WHERE 

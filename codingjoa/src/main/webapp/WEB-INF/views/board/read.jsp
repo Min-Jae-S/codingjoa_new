@@ -525,9 +525,7 @@
 			};
 			
 			commentService.writeComment(comment, function(result) {
-				commentService.getCommentList(commentBoardIdx, curPage, function(result) {
-					// ...	
-				});
+				alert(result.message);
 			});
 		});
 
@@ -537,7 +535,7 @@
 			let commentBoardIdx = $input.first().val();
 			let page = $input.last().val();
 			commentService.getCommentList(commentBoardIdx, page, function(result) {
-				alert(result.message);
+				// ...
 			});
 		});
 
@@ -545,7 +543,7 @@
 		$("#testGetCommentBtn").on("click", function() {
 			let commentIdx = $(this).closest("div.input-group").find("input").val();
 			commentService.getComment(commentIdx, function(result) {
-				alert(result.message);
+				// ...
 			});
 		});
 
@@ -577,9 +575,7 @@
 				commentContent : "aa"
 			};
 			commentService.writeComment(comment, function(result) {
-				commentService.getCommentList(commentBoardIdx, curPage, function(result) {
-					alert(result.message);
-				});
+				alert(result.message);
 			});
 		});
 		
