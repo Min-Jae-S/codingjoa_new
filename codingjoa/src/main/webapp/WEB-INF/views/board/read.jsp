@@ -537,7 +537,7 @@
 			let commentBoardIdx = $input.first().val();
 			let page = $input.last().val();
 			commentService.getCommentList(commentBoardIdx, page, function(result) {
-				// ...
+				alert(result.message);
 			});
 		});
 
@@ -545,7 +545,7 @@
 		$("#testGetCommentBtn").on("click", function() {
 			let commentIdx = $(this).closest("div.input-group").find("input").val();
 			commentService.getComment(commentIdx, function(result) {
-				// ...
+				alert(result.message);
 			});
 		});
 
@@ -553,7 +553,7 @@
 		$("#testDeleteCommentBtn").on("click", function() {
 			let commentIdx = $(this).closest("div.input-group").find("input").val();
 			commentService.deleteComment(commentIdx, function(result) {
-				// ...
+				alert(result.message);
 			});
 		});
 
@@ -566,7 +566,7 @@
 			};
 			
 			commentService.modifyComment(commentIdx, comment, function(result) {
-				// ...
+				alert(result.message);
 			});
 		});
 
@@ -578,7 +578,7 @@
 			};
 			commentService.writeComment(comment, function(result) {
 				commentService.getCommentList(commentBoardIdx, curPage, function(result) {
-					// ...	
+					alert(result.message);
 				});
 			});
 		});
@@ -586,21 +586,21 @@
 		// TEST get comment list2
 		$("button[name='commentListBtn']").on("click", function() {
 			commentService.getCommentList($(this).data("idx"), curPage, function(result) {
-				// ... 
+				alert(result.message);
 			});
 		});
 		
 		// TEST get comment2
 		$("button[name='commentBtn']").on("click", function() {
 			commentService.getComment($(this).data("idx"), function(result) {
-				// ... 
+				alert(result.message);
 			});
 		});
 
 		// Test delete comment2
 		$("button[name='deleteBtn']").on("click", function() {
 			commentService.deleteComment($(this).data("idx"), function(result) { 
-				// ... 
+				alert(result.message);
 			});
 		});
 		
@@ -610,7 +610,7 @@
 				commentContent : "aa"
 			};
 			commentService.modifyComment($(this).data("idx"), comment, function(result) { 
-				// ...
+				alert(result.message);
 			});
 		});
 		/*******************************************************************************/

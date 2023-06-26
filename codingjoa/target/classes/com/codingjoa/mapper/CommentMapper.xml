@@ -52,10 +52,36 @@
 	</update> -->
 	
 	<insert id="insertComment" parameterType="comment">
-		<selectKey keyProperty="commentBoardIdx" resultType="int" order="BEFORE">
-			SELECT MAX(board_idx) FROM board WHERE board_idx = #{commentBoardIdx}
+		<selectKey keyProperty="commentBoardIdx" resultType="comment" order="BEFORE">
+			SELECT 
+				MAX(board_idx) AS commentBoardIdx
+			FROM 
+				board 
+			WHERE 
+				board_idx = #{commentBoardIdx}
 		</selectKey>
-		INSERT INTO "comment" (
+		BEGIN
+			IF #{commentBoardIdx} IS NOT NULL THEN 
+				INSERT INTO "comment" (
+					comment_idx,
+					comment_writer_idx,
+					comment_board_idx,
+					comment_content,
+					comment_use,
+					regdate,
+					moddate
+				) VALUES (
+					seq_comment.NEXTVAL,
+					#{commentWriterIdx},
+					#{commentBoardIdx},
+					#{commentContent},
+					#{commentUse},
+					SYSDATE,
+					SYSDATE
+				);
+			END IF;
+		END;	
+		<!-- INSERT INTO "comment" (
 			comment_idx,
 			comment_writer_idx,
 			comment_board_idx,
@@ -70,17 +96,11 @@
 			#{commentContent},
 			#{commentUse},
 			SYSDATE,
-			SYSDATE
+			SYSDATE,
+		FROM
+			DUAL
 		WHERE 
-			#{commentBoardIdx} IS NOT NULL
-		<!-- WHERE EXISTS (
-			SELECT
-				1
-			FROM
-				DUAL
-			WHERE
-				#{commentBoardIdx} IS NOT NULL
-		) -->
+			#{commentBoardIdx} IS NOT NULL -->
 	</insert>
 	
 	<select id="findPagedComment" parameterType="map" resultMap="commentDetailsMap">
