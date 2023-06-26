@@ -479,26 +479,13 @@
 
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 
+<!-- TEST -->
 <script>
 	$(function() {
 		const commentBoardIdx = "<c:out value='${boardDetails.boardIdx}'/>";
 		const boardWriterIdx = "<c:out value='${boardDetails.boardWriterIdx}'/>";
 		let curPage = 1;
 		
-		// get comment list
-		commentService.getCommentList(commentBoardIdx, curPage, function(result) {
-			let commentList = result.data.commentList;
-			let commentHtml = makeCommentHtml(commentList, boardWriterIdx);
-			$("div.comment-list").html(commentHtml);
-
-			let pagination = result.data.pagination;
-			let paginationHtml = makePaginationHtml(pagination);
-			$("div.comment-pagination").html(paginationHtml);
-			$("span.comment-cnt").text(pagination.totalCnt);	
-		});
-		
-		/*****************************************************************************************/
-		// TEST href1
 		$("#testHref1").on("click", function(e) {
 			e.preventDefault();
 			console.log("# testHref1 click");
@@ -508,7 +495,6 @@
 			commentListURL = "${contextPath}/api/boards/" + commentBoardIdx + "/comments?page=2";
 		});
 
-		// TEST href2
 		$("#testHref2").on("click", function(e) {
 			e.preventDefault();
 			console.log("# testHref2 click");
@@ -572,7 +558,6 @@
 			});
 		});
 
-		/*****************************************************************************************/
 		// TEST write comment2
 		$("button[name='writeBtn']").on("click", function() {
 			let url = "${contextPath}/api/comments";
@@ -621,7 +606,26 @@
 				// ...
 			});
 		});
-		/*****************************************************************************************/
+	});
+</script>
+
+<script>
+	$(function() {
+		const commentBoardIdx = "<c:out value='${boardDetails.boardIdx}'/>";
+		const boardWriterIdx = "<c:out value='${boardDetails.boardWriterIdx}'/>";
+		let curPage = 1;
+		
+		// get comment list
+		commentService.getCommentList(commentBoardIdx, curPage, function(result) {
+			let commentList = result.data.commentList;
+			let commentHtml = makeCommentHtml(commentList, boardWriterIdx);
+			$("div.comment-list").html(commentHtml);
+
+			let pagination = result.data.pagination;
+			let paginationHtml = makePaginationHtml(pagination);
+			$("div.comment-pagination").html(paginationHtml);
+			$("span.comment-cnt").text(pagination.totalCnt);	
+		});
 		
 		$("#deleteBoardLink").on("click", function() {
 			return confirm("게시글을 삭제하시겠습니까?");
