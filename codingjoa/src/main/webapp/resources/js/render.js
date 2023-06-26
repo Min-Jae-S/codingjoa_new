@@ -28,8 +28,8 @@ console.log("## Rendering service ready - render.js");
 			html += "<div class='comment-area'>";
 			html += "<div class='comment-area-header'>";
 			html += "<div class='comment-info'>";
-			//html += "<span class='comment-writer'>" + commentDetails.commentWriterId + "</span>";
-			html += "<span class='comment-writer'>" + commentDetails.commentWriterId + " (commentIdx = " + commentDetails.commentIdx + ")</span>";
+			html += "<span class='comment-writer'>" + commentDetails.commentWriterId + "</span>";
+			//html += "<span class='comment-writer'>" + commentDetails.commentWriterId + " (commentIdx = " + commentDetails.commentIdx + ")</span>";
 			if (commentDetails.commentWriterIdx == boardWriterIdx) {
 				html += "<span class='badge badge-pill badge-primary mr-1'>작성자</span>"
 			}
