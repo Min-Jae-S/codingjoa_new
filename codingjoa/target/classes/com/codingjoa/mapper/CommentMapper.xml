@@ -181,7 +181,7 @@
 				UPDATE
 					"comment"
 				SET
-					comment_use = #{commentUse},
+					comment_use = 0,
 					moddate = SYSDATE
 				WHERE
 					comment_idx = #{commentIdx};
