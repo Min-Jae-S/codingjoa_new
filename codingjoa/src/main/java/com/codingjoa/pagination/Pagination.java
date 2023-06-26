@@ -26,7 +26,6 @@ public class Pagination {
 		
 		// 556/10 = 55 --> 56
 		pageCnt = totalCnt / recordCnt;
-		
 		if (totalCnt % recordCnt > 0) {
 			pageCnt++;
 		}
@@ -39,20 +38,17 @@ public class Pagination {
 		
 		startPage = ((page - 1) / pageRange) * pageRange + 1;
 		endPage = startPage + pageRange - 1;
-		
 		if (endPage > pageCnt) {
 			endPage = pageCnt;
 		}
 		
 		prevPage = startPage - 1;
-		
 		if (prevPage < 1) {
 			prevPage = startPage;
 			prev = false;
 		}
 		
 		nextPage = endPage + 1;
-		
 		if (nextPage > pageCnt) {
 			nextPage = pageCnt;
 			next = false;

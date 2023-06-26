@@ -504,16 +504,16 @@
 			console.log("# testHref1 click");
 			console.log("\t > href = %s", $(this).attr("href"));
 			console.log("\t > idx = %s", $(this).data("idx"));
-			console.log("\t > current page = %s", curPage);
-			curPage = 11;
 		});
 
 		// TEST Href2
 		$("#testHref2").on("click", function(e) {
 			e.preventDefault();
 			console.log("# testHref2 click");
-			console.log("\t > changed page = %s", curPage);
-			curPage = 1;
+			console.log("\t > current page = %s", curPage);
+			console.log("\t > change current page");
+			curPage = 11;
+			console.log("\t > current page = %s", curPage);
 		});
 		
 		// TEST write comment	
@@ -523,6 +523,7 @@
 				commentBoardIdx : $input.first().val(),
 				commentContent : $input.last().val()
 			};
+			
 			commentService.writeComment(comment, function(result) {
 				commentService.getCommentList(commentBoardIdx, curPage, function(result) {
 					// ...	
@@ -598,7 +599,7 @@
 
 		// Test delete comment2
 		$("button[name='deleteBtn']").on("click", function() {
-			commentService.deleteComment($(this).data("idx", function(result) { 
+			commentService.deleteComment($(this).data("idx"), function(result) { 
 				// ... 
 			});
 		});
