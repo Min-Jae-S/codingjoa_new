@@ -42,10 +42,9 @@ public class CommentServiceImpl implements CommentService {
 		log.info("\t > writeCommentDto ==> {}", comment);
 		
 		commentMapper.insertComment(comment);
-		Integer DBcommentBoardIdx = comment.getCommentBoardIdx();
-		log.info("\t > DB commentBoardIdx = {}", DBcommentBoardIdx);
+		log.info("\t > DB commentBoardIdx = {}", comment.getCommentBoardIdx());
 		
-		if (DBcommentBoardIdx == null) {
+		if (comment.getCommentBoardIdx() == null) {
 			throw new ExpectedException(MessageUtils.getMessage("error.WriteComment"));
 		}
 	}
@@ -58,7 +57,7 @@ public class CommentServiceImpl implements CommentService {
 				.map(commentDetailsMap -> {
 					Boolean commentUse = (Boolean) commentDetailsMap.get("commentUse");
 					if (!commentUse) { 
-						log.info("\t > commentIdx(commentUse is false) = {}", commentDetailsMap.get("commentIdx"));
+						log.info("\t > already deleted comment = {}", commentDetailsMap.get("commentIdx"));
 						return null;
 					} 
 					return modelMapper.map(commentDetailsMap, CommentDetailsDto.class);
@@ -82,15 +81,16 @@ public class CommentServiceImpl implements CommentService {
 			throw new ExpectedException(MessageUtils.getMessage("error.NotFoundComment"));
 		}
 		
-		Boolean commentUse = (Boolean) commentDetailsMap.get("commentUse");
-		if (!commentUse) {
-			log.info("\t > this comment(commentIdx = {}) is not used", commentDetailsMap.get("commentIdx"));
+		Boolean DBcommentUse = (Boolean) commentDetailsMap.get("commentUse");
+		log.info("\t > DB commentUse = {}", DBcommentUse);
+		
+		if (!DBcommentUse) {
 			throw new ExpectedException(MessageUtils.getMessage("error.AlreadyDeletedComment"));
 		}
 		
 		Integer DBcommentWriterIdx = (Integer) commentDetailsMap.get("commentWriterIdx");
-		log.info("\t > current commentWriterIdx = {}", commentWriterIdx);
 		log.info("\t > DB commentWriterIdx = {}", DBcommentWriterIdx);
+		log.info("\t > MY commentWriterIdx = {}", commentWriterIdx);
 		
 		if (DBcommentWriterIdx != commentWriterIdx) {
 			throw new ExpectedException(MessageUtils.getMessage("error.NotMyComment"));
@@ -106,8 +106,8 @@ public class CommentServiceImpl implements CommentService {
 		
 		commentMapper.updateComment(comment);
 		Integer DBcommentWriterIdx = comment.getCommentWriterIdx();
-		log.info("\t > current commentWriterIdx = {}", commentDto.getCommentWriterIdx());
 		log.info("\t > DB commentWriterIdx = {}", DBcommentWriterIdx);
+		log.info("\t > MY commentWriterIdx = {}", commentDto.getCommentWriterIdx());
 		
 		if (DBcommentWriterIdx == null) {
 			throw new ExpectedException(MessageUtils.getMessage("error.UpdateComment"));
@@ -124,15 +124,20 @@ public class CommentServiceImpl implements CommentService {
 		log.info("\t > deleteCommentDto ==> {}", comment);
 		
 		commentMapper.deleteComment(comment);
-		Integer DBcommentWriterIdx = comment.getCommentWriterIdx();
-		log.info("\t > current commentWriterIdx = {}", commentDto.getCommentWriterIdx());
-		log.info("\t > DB commentWriterIdx = {}", DBcommentWriterIdx);
+		log.info("\t > DB commentIdx = {}", comment.getCommentIdx());
+		log.info("\t > DB commentUse = {}", comment.getCommentUse());
+		log.info("\t > DB commentWriterIdx = {}", comment.getCommentWriterIdx());
+		log.info("\t > MY commentWriterIdx = {}", commentDto.getCommentWriterIdx());
 		
-		if (DBcommentWriterIdx == null) {
+		if (comment.getCommentIdx() == null) {
 			throw new ExpectedException(MessageUtils.getMessage("error.DeleteComment"));
 		}
 		
-		if (DBcommentWriterIdx != commentDto.getCommentWriterIdx()) {
+		if (!comment.getCommentUse()) {
+			throw new ExpectedException(MessageUtils.getMessage("error.AlreadyDeletedComment"));
+		}
+		
+		if (comment.getCommentWriterIdx() != commentDto.getCommentWriterIdx()) {
 			throw new ExpectedException(MessageUtils.getMessage("error.NotMyComment"));
 		}
 	}

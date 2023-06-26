@@ -73,14 +73,16 @@
 			SYSDATE
 		FROM
 			DUAL
-		WHERE EXISTS (
+		WHERE 
+			#{commentBoardIdx} IS NOT NULL
+		<!-- WHERE EXISTS (
 			SELECT
 				1
 			FROM
 				DUAL
 			WHERE
 				#{commentBoardIdx} IS NOT NULL
-		)
+		) -->
 	</insert>
 	
 	<select id="findPagedComment" parameterType="map" resultMap="commentDetailsMap">
@@ -166,16 +168,25 @@
 	</update>
 
 	<update id="deleteComment" parameterType="comment">
-		<selectKey keyProperty="commentWriterIdx" resultType="int" order="BEFORE">
-			SELECT MAX(comment_writer_idx) FROM "comment" WHERE comment_idx = #{commentIdx}
+		<selectKey keyProperty="commentIdx, commentWriterIdx, commentUse" resultType="map" order="BEFORE">
+			SELECT
+				MAX(comment_idx),
+				MAX(comment_writer_idx),
+				MAX(comment_use)
+			FROM
+				"comment" 
+			WHERE 
+				comment_idx = #{commentIdx}
 		</selectKey>
-		UPDATE
-			"comment"
-		SET
-			comment_use = #{commentUse},
-			moddate = SYSDATE
-		WHERE
-			comment_idx = #{commentIdx} 
+		<if test="comment.commentIdx != null">
+			UPDATE
+				"comment"
+			SET
+				comment_use = #{commentUse},
+				moddate = SYSDATE
+			WHERE
+				comment_idx = #{commentIdx}
+		</if>
 	</update>
 	
 </mapper>

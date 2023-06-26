@@ -85,6 +85,13 @@ let commentService = (function() {
 			error : function(jqXHR) {
 				let errorResponse = JSON.parse(jqXHR.responseText);
 				console.log(JSON.stringify(errorResponse, null, 2));
+				if (jqXHR.status == 422) {
+					$.each(errorResponse.errorMap, function(errorField, errorMessage) {
+						alert(errorMessage);
+					});
+				} else {
+					alert(errorResponse.errorMessage);
+				}
 			}
 		});
 	}
