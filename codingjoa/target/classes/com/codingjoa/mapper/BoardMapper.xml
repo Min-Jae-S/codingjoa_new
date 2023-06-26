@@ -358,15 +358,6 @@
 			board_idx = #{boardIdx}
 	</select>
 	
-	<!-- <select id="isMyBoard" parameterType="map" resultType="boolean">
-		SELECT
-			COUNT(*)
-		FROM
-			board
-		WHERE
-			board_idx = #{boardIdx} AND board_writer_idx = #{boardWriterIdx}
-	</select> -->
-
 	<update id="updateBoard" parameterType="board">
 		<selectKey keyProperty="boardWriterIdx" resultType="int" order="BEFORE">
 			<!-- nested exception is org.apache.ibatis.executor.ExecutorException: SelectKey returned no data. -->
