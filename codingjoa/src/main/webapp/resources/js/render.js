@@ -74,7 +74,7 @@ console.log("## Rendering service ready - render.js");
 		html += "<button class='btn btn-outline-secondary btn-sm' name='closeEditCommentBtn'>취소</button>";
 		html += "</div>";		
 		html += "</div>";			
-		html += "</div>";			
+		html += "</div>";	
 		return html;
 	}
 	

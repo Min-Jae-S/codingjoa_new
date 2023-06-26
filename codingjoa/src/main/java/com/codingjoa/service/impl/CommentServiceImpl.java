@@ -82,15 +82,14 @@ public class CommentServiceImpl implements CommentService {
 		}
 		
 		Boolean DBcommentUse = (Boolean) commentDetailsMap.get("commentUse");
+		Integer DBcommentWriterIdx = (Integer) commentDetailsMap.get("commentWriterIdx");
 		log.info("\t > DB commentUse = {}", DBcommentUse);
+		log.info("\t > DB commentWriterIdx = {}", DBcommentWriterIdx);
+		log.info("\t > MY commentWriterIdx = {}", commentWriterIdx);
 		
 		if (!DBcommentUse) {
 			throw new ExpectedException(MessageUtils.getMessage("error.AlreadyDeletedComment"));
 		}
-		
-		Integer DBcommentWriterIdx = (Integer) commentDetailsMap.get("commentWriterIdx");
-		log.info("\t > DB commentWriterIdx = {}", DBcommentWriterIdx);
-		log.info("\t > MY commentWriterIdx = {}", commentWriterIdx);
 		
 		if (DBcommentWriterIdx != commentWriterIdx) {
 			throw new ExpectedException(MessageUtils.getMessage("error.NotMyComment"));
