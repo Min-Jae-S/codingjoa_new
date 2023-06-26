@@ -24,33 +24,6 @@
 		<!-- <result property="commentLikes" column=""/> -->
 	</resultMap>
 	
-<!-- 	<update id="insertComment" parameterType="comment">
-		<selectKey keyProperty="commentBoardIdx" resultType="int" order="BEFORE">
-			SELECT MAX(board_idx) FROM board WHERE board_idx = #{commentBoardIdx}
-		</selectKey>
-		MERGE INTO "comment"
-		USING DUAL
-		ON
-		WHEN MATCHED THEN
-			INSERT (
-				comment_idx,
-				comment_writer_idx,
-				comment_board_idx,
-				comment_content,
-				comment_use,
-				regdate,
-				moddate
-			) VALUES (
-				seq_comment.NEXTVAL,
-				#{commentWriterIdx},
-				#{commentBoardIdx},
-				#{commentContent},
-				#{commentUse},
-				SYSDATE,
-				SYSDATE
-			)
-	</update> -->
-	
 	<insert id="insertComment" parameterType="comment">
 		<selectKey keyProperty="commentBoardIdx" resultType="int" order="BEFORE">
 			SELECT 
@@ -80,7 +53,8 @@
 					SYSDATE
 				);
 			END IF;
-		END;	
+		END;
+		
 		<!-- INSERT INTO "comment" (
 			comment_idx,
 			comment_writer_idx,

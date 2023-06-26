@@ -42,7 +42,6 @@ public class CommentServiceImpl implements CommentService {
 		log.info("\t > writeCommentDto ==> {}", comment);
 		
 		commentMapper.insertComment(comment);
-		log.info("\t > comment = {}", comment);
 		log.info("\t > DB commentBoardIdx = {}", comment.getCommentBoardIdx());
 		
 		if (comment.getCommentBoardIdx() == null) {
