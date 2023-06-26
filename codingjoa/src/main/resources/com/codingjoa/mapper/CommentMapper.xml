@@ -153,16 +153,27 @@
 	</select>
 	
 	<update id="updateComment" parameterType="comment">
-		<selectKey keyProperty="commentWriterIdx" resultType="int" order="BEFORE">
-			SELECT MAX(comment_writer_idx) FROM "comment" WHERE comment_idx = #{commentIdx} 
+		<selectKey keyProperty="commentIdx,commentWriterIdx,commentUse" resultType="comment" order="BEFORE">
+			SELECT
+				MAX(comment_idx) AS commentIdx,
+				MAX(comment_writer_idx) AS commentWriterIdx,
+				MAX(comment_use) AS commentUse
+			FROM
+				"comment" 
+			WHERE 
+				comment_idx = #{commentIdx}
 		</selectKey>
-		UPDATE
-			"comment"
-		SET
-			comment_content = #{commentContent},
-			moddate = SYSDATE
-		WHERE
-			comment_idx = #{commentIdx}
+		BEGIN
+			IF #{commentIdx} IS NOT NULL THEN 
+				UPDATE
+					"comment"
+				SET
+					comment_content = #{commentContent},
+					moddate = SYSDATE
+				WHERE
+					comment_idx = #{commentIdx};
+			END IF;
+		END;
 	</update>
 
 	<update id="deleteComment" parameterType="comment">

@@ -105,15 +105,20 @@ public class CommentServiceImpl implements CommentService {
 		log.info("\t > modifyCommentDto ==> {}", comment);
 		
 		commentMapper.updateComment(comment);
-		Integer DBcommentWriterIdx = comment.getCommentWriterIdx();
-		log.info("\t > DB commentWriterIdx = {}", DBcommentWriterIdx);
+		log.info("\t > DB commentIdx = {}", comment.getCommentIdx());
+		log.info("\t > DB commentUse = {}", comment.getCommentUse());
+		log.info("\t > DB commentWriterIdx = {}", comment.getCommentWriterIdx());
 		log.info("\t > MY commentWriterIdx = {}", commentDto.getCommentWriterIdx());
 		
-		if (DBcommentWriterIdx == null) {
+		if (comment.getCommentIdx() == null) {
 			throw new ExpectedException(MessageUtils.getMessage("error.UpdateComment"));
 		}
+
+		if (!comment.getCommentUse()) {
+			throw new ExpectedException(MessageUtils.getMessage("error.AlreadyDeletedComment"));
+		}
 		
-		if (DBcommentWriterIdx != commentDto.getCommentWriterIdx()) {
+		if (comment.getCommentWriterIdx() != commentDto.getCommentWriterIdx()) {
 			throw new ExpectedException(MessageUtils.getMessage("error.NotMyComment"));
 		}
 	}
