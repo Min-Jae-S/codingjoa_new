@@ -71,8 +71,6 @@
 			#{commentUse},
 			SYSDATE,
 			SYSDATE
-		FROM
-			DUAL
 		WHERE 
 			#{commentBoardIdx} IS NOT NULL
 		<!-- WHERE EXISTS (
@@ -168,25 +166,27 @@
 	</update>
 
 	<update id="deleteComment" parameterType="comment">
-		<selectKey keyProperty="commentIdx, commentWriterIdx, commentUse" resultType="map" order="BEFORE">
+		<selectKey keyProperty="commentIdx,commentWriterIdx,commentUse" resultType="comment" order="BEFORE">
 			SELECT
-				MAX(comment_idx),
-				MAX(comment_writer_idx),
-				MAX(comment_use)
+				MAX(comment_idx) AS commentIdx,
+				MAX(comment_writer_idx) AS commentWriterIdx,
+				MAX(comment_use) AS commentUse
 			FROM
 				"comment" 
 			WHERE 
 				comment_idx = #{commentIdx}
 		</selectKey>
-		<if test="comment.commentIdx != null">
-			UPDATE
-				"comment"
-			SET
-				comment_use = #{commentUse},
-				moddate = SYSDATE
-			WHERE
-				comment_idx = #{commentIdx}
-		</if>
+		BEGIN
+			IF #{commentIdx} IS NOT NULL THEN 
+				UPDATE
+					"comment"
+				SET
+					comment_use = #{commentUse},
+					moddate = SYSDATE
+				WHERE
+					comment_idx = #{commentIdx};
+			END IF;
+		END;
 	</update>
 	
 </mapper>

@@ -132,7 +132,7 @@ public class CommentServiceImpl implements CommentService {
 		if (comment.getCommentIdx() == null) {
 			throw new ExpectedException(MessageUtils.getMessage("error.DeleteComment"));
 		}
-		
+
 		if (!comment.getCommentUse()) {
 			throw new ExpectedException(MessageUtils.getMessage("error.AlreadyDeletedComment"));
 		}
