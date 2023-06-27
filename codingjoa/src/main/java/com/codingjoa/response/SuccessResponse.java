@@ -29,8 +29,13 @@ public class SuccessResponse {
 		return this;
 	}
 	
-	public SuccessResponse message(String code) {
+	public SuccessResponse code(String code) {
 		this.message = MessageUtils.getMessage(code);
+		return this;
+	}
+	
+	public SuccessResponse message(String message) {
+		this.message = message;
 		return this;
 	}
 }

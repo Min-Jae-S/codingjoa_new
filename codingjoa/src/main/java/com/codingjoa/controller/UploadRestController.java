@@ -78,7 +78,7 @@ public class UploadRestController {
 		map.put("uploadFileUrl", uploadFileUrl);
 		map.put("uploadFilename", uploadFilename);
 		
-		return ResponseEntity.ok(SuccessResponse.create().message("success.uploadImage").data(map));
+		return ResponseEntity.ok(SuccessResponse.create().code("success.uploadImage").data(map));
 	}
 	
 }

@@ -99,7 +99,7 @@ public class MemberRestController {
 		emailService.sendAuthEmail(memberEmail, authCode);
 		redisService.saveAuthCode(memberEmail, authCode);
 		
-		return ResponseEntity.ok(SuccessResponse.create().message("success.sendAuthEmail"));
+		return ResponseEntity.ok(SuccessResponse.create().code("success.sendAuthEmail"));
 	}
 	
 	@PutMapping("/updateEmail")
@@ -121,7 +121,7 @@ public class MemberRestController {
 		Authentication newAuth = SecurityContextHolder.getContext().getAuthentication();
 		
 		return ResponseEntity.ok(SuccessResponse.create()
-				.message("success.updateEmail").data(newAuth.getPrincipal()));
+				.code("success.updateEmail").data(newAuth.getPrincipal()));
 	}
 	
 	@PutMapping("/updateAddr")
@@ -136,7 +136,7 @@ public class MemberRestController {
 		Authentication newAuth = SecurityContextHolder.getContext().getAuthentication();
 		
 		return ResponseEntity.ok(SuccessResponse.create()
-				.message("success.updateAddr").data(newAuth.getPrincipal()));
+				.code("success.updateAddr").data(newAuth.getPrincipal()));
 	}
 	
 	@PutMapping("/updateAgree")
@@ -151,7 +151,7 @@ public class MemberRestController {
 		Authentication newAuth = SecurityContextHolder.getContext().getAuthentication();
 		
 		return ResponseEntity.ok(SuccessResponse.create()
-				.message("success.updateAgree").data(newAuth.getPrincipal()));
+				.code("success.updateAgree").data(newAuth.getPrincipal()));
 	}
 	
 	@PostMapping("/checkPassword")
@@ -166,7 +166,7 @@ public class MemberRestController {
 		
 		sessionDto.setCheckPasswordResult(true);
 		
-		return ResponseEntity.ok(SuccessResponse.create().message("success.checkPassword"));
+		return ResponseEntity.ok(SuccessResponse.create().code("success.checkPassword"));
 	}
 	
 	@PutMapping("/updatePassword")
@@ -184,7 +184,7 @@ public class MemberRestController {
 		
 		resetAuthentication(memberId);
 		
-		return ResponseEntity.ok(SuccessResponse.create().message("success.updatePassword"));
+		return ResponseEntity.ok(SuccessResponse.create().code("success.updatePassword"));
 	}
 	
 	@PostMapping("/findAccount")
@@ -202,7 +202,7 @@ public class MemberRestController {
 		
 		redisService.delete(emailAuthDto.getMemberEmail());
 		
-		return ResponseEntity.ok(SuccessResponse.create().message("success.findAccount"));
+		return ResponseEntity.ok(SuccessResponse.create().code("success.findAccount"));
 	}
 	
 	@PostMapping("/findPassword")
@@ -222,7 +222,7 @@ public class MemberRestController {
 		
 		redisService.delete(emailAuthDto.getMemberEmail());
 		
-		return ResponseEntity.ok(SuccessResponse.create().message("success.findPassword"));
+		return ResponseEntity.ok(SuccessResponse.create().code("success.findPassword"));
 	}
 	
 	@PutMapping("/resetPassword")
@@ -239,7 +239,7 @@ public class MemberRestController {
 		
 		sessionDto.setFindPasswordResult(null);
 		
-		return ResponseEntity.ok(SuccessResponse.create().message("success.resetPassword"));
+		return ResponseEntity.ok(SuccessResponse.create().code("success.resetPassword"));
 	}
 	
 	private void resetAuthentication(String memberId) {

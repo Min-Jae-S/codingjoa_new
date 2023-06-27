@@ -106,7 +106,12 @@
 	}
 	
 	a.comment-likes {
+		font-size: 15px;
 		text-decoration: none;
+	}
+
+	a.comment-likes:hover {
+		color: #007bff;
 	}
 	
 	.comment-regdate {
@@ -269,9 +274,8 @@
 							</c:if>
 						</sec:authorize> --%>
 					</div>
-					<h3 class="title mb-4">
-						<c:out value="${boardDetails.boardTitle}"/></h3>
-						<%-- <c:out value="${boardDetails.boardTitle}"/> (boardIdx = ${boardDetails.boardIdx})</h3> --%>
+					<%-- <h3 class="title mb-4"><c:out value="${boardDetails.boardTitle}"/></h3> --%>
+					<h3 class="title mb-4"><c:out value="${boardDetails.boardTitle}"/> (boardIdx = ${boardDetails.boardIdx})</h3>
 					<div class="header-meta d-flex mb-2">
 						<span class="mr-3"><c:out value="${boardDetails.memberId}"/></span>
 						<span class="mr-3">
