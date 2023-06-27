@@ -93,13 +93,15 @@
 	}
 	
 	.header-group .header-meta {
-		font-size: 14px;
-		color: #979797;
-		/* color: #757575; */
+		font-size: 15px;
+		color: #868e96;
+		/* color: #979797;
+		color: #757575; */
 	}
 	
-	.header-group .header-meta .ml-auto {
+	.header-group .header-meta a {
 		color: black;
+		text-decoration: none;
 	}
 	
 	.comment-regdate {
@@ -280,10 +282,16 @@
 						<span class="mr-1">조회</span>
 						<span><c:out value="${boardDetails.boardViews}"/></span>
 						<div class="ml-auto">
-							<span><i class="fa-regular fa-comment-dots mr-1"></i>댓글</span>
-							<span class="mr-3 comment-cnt"><c:out value="${boardDetails.commentCnt}"/></span>
-							<span><i class="fa-regular fa-heart mr-1"></i>좋아요</span>
-							<span><c:out value="${boardDetails.boardLikesCnt}"/></span>
+							<a class="mr-3" href="#">
+								<span><i class="fa-regular fa-comment-dots"></i></span>
+								<span>댓글</span>
+								<span class="comment-cnt"><c:out value="${boardDetails.commentCnt}"/></span>
+							</a>
+							<a href="#">
+								<span><i class="fa-regular fa-heart"></i></span>
+								<span>좋아요</span>
+								<span class="board-likes-cnt"><c:out value="${boardDetails.boardLikesCnt}"/></span>
+							</a>
 						</div>
 					</div>
 				</div>
