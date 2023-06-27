@@ -104,6 +104,10 @@
 		text-decoration: none;
 	}
 	
+	a.comment-likes {
+		text-decoration: none;
+	}
+	
 	.comment-regdate {
 		font-size: 13px;
 		color: #979797;
@@ -210,19 +214,12 @@
 		padding-top: 0;
 	}
 	
-	.comment-likes {
-		margin-top: auto;
-	}
-	
-	.comment-likes .btn {
-		color: #007acf !important;
-		box-shadow: none !important;
-		padding-top: 0;
-		padding-bottom: 0;
-	}
-	
 	.textarea-border {
 		border: 1px solid #868e96;
+	}
+	
+	.dropright button {
+		padding-right: 0;
 	}
 </style>
 </head>
@@ -287,7 +284,7 @@
 								<span>댓글</span>
 								<span class="comment-cnt"><c:out value="${boardDetails.commentCnt}"/></span>
 							</a>
-							<a href="#">
+							<a class="board-likes" href="#">
 								<span><i class="fa-regular fa-heart"></i></span>
 								<span>좋아요</span>
 								<span class="board-likes-cnt"><c:out value="${boardDetails.boardLikesCnt}"/></span>
@@ -507,6 +504,18 @@
 				$("div.comment-pagination").html(paginationHtml);
 				$("span.comment-cnt").text(pagination.totalCnt);	
 			});
+		});
+		
+		// board-likes
+		$("a.board-likes").on("click", function() {
+			e.preventDefault();
+			console.log("## board-likes click");
+		});
+		
+		// comment-likes
+		$(document).on("click", "a.comment-likes ", function(e) {
+			e.preventDefault();
+			console.log("## comment-likes click");
 		});
 		
 	});
