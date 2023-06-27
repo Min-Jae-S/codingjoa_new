@@ -13,7 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 public class LikesRestController {
 
-	@GetMapping("/board/{boardIdx}/likes")
+	@GetMapping("/boards/{boardIdx}/likes")
 	public ResponseEntity<Object> toggleBoardLikes(@PathVariable int boardIdx) {
 		log.info("## toggleBoardLikes, boardIdx = {}", boardIdx);
 		

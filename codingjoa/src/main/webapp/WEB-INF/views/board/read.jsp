@@ -18,6 +18,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://kit.fontawesome.com/c503d71f81.js"></script>
 <script src="${contextPath}/resources/js/comment.js"></script>
+<script src="${contextPath}/resources/js/likes.js"></script>
 <script src="${contextPath}/resources/js/render.js"></script>
 <script src="${contextPath}/resources/ckeditor5/plugins/ckeditor-plugins.js"></script>
 <script src="${contextPath}/resources/ckeditor5/build/ckeditor.js"></script>
@@ -336,12 +337,12 @@
 
 <script>
 	$(function() {
-		const commentBoardIdx = "<c:out value='${boardDetails.boardIdx}'/>";
+		const boardIdx = "<c:out value='${boardDetails.boardIdx}'/>";
 		const boardWriterIdx = "<c:out value='${boardDetails.boardWriterIdx}'/>";
 		let curPage = 1;
 		
 		// get comment list
-		commentService.getCommentList(commentBoardIdx, curPage, function(result) {
+		commentService.getCommentList(boardIdx, curPage, function(result) {
 			let commentList = result.data.commentList;
 			let commentHtml = makeCommentHtml(commentList, boardWriterIdx);
 			$("div.comment-list").html(commentHtml);
@@ -397,13 +398,13 @@
 		// write comment
 		$("#writeCommentBtn").on("click", function() {
 			let comment = {
-				commentBoardIdx : commentBoardIdx,
+				commentBoardIdx : boardIdx,
 				commentContent : $("#commentContent").val(),
 			};
 			
 			commentService.writeComment(comment, function(result) {
 				alert(result.message);
-				commentService.getCommentList(commentBoardIdx, 1, function(result) {
+				commentService.getCommentList(boardIdx, 1, function(result) {
 					let commentList = result.data.commentList;
 					let commentHtml = makeCommentHtml(commentList, boardWriterIdx);
 					$("div.comment-list").html(commentHtml);
@@ -450,7 +451,7 @@
 			
 			commentService.modifyComment(commentIdx, comment, function(result) {
 				alert(result.message);
-				commentService.getCommentList(commentBoardIdx, curPage, function(result) {
+				commentService.getCommentList(boardIdx, curPage, function(result) {
 					let commentList = result.data.commentList;
 					let commentHtml = makeCommentHtml(commentList, boardWriterIdx);
 					$("div.comment-list").html(commentHtml);
@@ -472,7 +473,7 @@
 			let commentIdx = $(this).closest("li").data("comment-idx");
 			commentService.deleteComment(commentIdx, function(result) {
 				alert(result.message);
-				commentService.getCommentList(commentBoardIdx, curPage, function(result) {
+				commentService.getCommentList(boardIdx, curPage, function(result) {
 					let commentList = result.data.commentList;
 					let commentHtml = makeCommentHtml(commentList, boardWriterIdx);
 					$("div.comment-list").html(commentHtml);
@@ -489,7 +490,7 @@
 		$(document).on("click", "a.page-link", function(e) {
 			e.preventDefault();
 			let clickedPage = $(this).data("page");
-			commentService.getCommentList(commentBoardIdx, clickedPage, function(result) {
+			commentService.getCommentList(boardIdx, clickedPage, function(result) {
 				console.log("## page has changed from %s to %s", curPage, clickedPage);
 				curPage = clickedPage;
 				$("li.page-item").removeClass("active");
@@ -507,15 +508,24 @@
 		});
 		
 		// board-likes
-		$("a.board-likes").on("click", function() {
+		$("a.board-likes").on("click", function(e) {
 			e.preventDefault();
 			console.log("## board-likes click");
+			
+			likesService.toggleBoardLikes(boardIdx, function(result) {
+				// ...
+			});
 		});
 		
 		// comment-likes
 		$(document).on("click", "a.comment-likes ", function(e) {
 			e.preventDefault();
 			console.log("## comment-likes click");
+			
+			let commentIdx = $(this).closest("li").data("comment-idx");
+			likesService.toggleCommentLikes(commentIdx, function(result) {
+				// ...
+			});
 		});
 		
 	});
