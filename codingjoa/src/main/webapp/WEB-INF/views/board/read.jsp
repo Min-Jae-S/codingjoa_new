@@ -514,21 +514,17 @@
 		// board-likes
 		$("a.board-likes").on("click", function(e) {
 			e.preventDefault();
-			console.log("## board-likes click");
-			
 			likesService.toggleBoardLikes(boardIdx, function(result) {
-				// ...
+				alert(result.message);
 			});
 		});
 		
 		// comment-likes
 		$(document).on("click", "a.comment-likes ", function(e) {
 			e.preventDefault();
-			console.log("## comment-likes click");
-			
 			let commentIdx = $(this).closest("li").data("comment-idx");
 			likesService.toggleCommentLikes(commentIdx, function(result) {
-				// ...
+				alert(result.message);
 			});
 		});
 		
