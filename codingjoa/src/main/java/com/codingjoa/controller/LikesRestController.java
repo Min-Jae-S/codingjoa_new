@@ -45,8 +45,8 @@ public class LikesRestController {
 		
 		CommentLikesDto commentLikesDto = new CommentLikesDto();
 		commentLikesDto.setCommentIdx(commentIdx);
-		commentLikesDto.setMemberIdx(principal.getMember().getMemberIdx());
-		//commentLikesDto.setMemberIdx(1);
+		commentLikesDto.setMemberIdx(1);
+		//commentLikesDto.setMemberIdx(principal.getMember().getMemberIdx());
 		likesService.toggleCommentLikes(commentLikesDto);
 		
 		return ResponseEntity.ok(SuccessResponse.create().message("toggleCommentLikes success"));

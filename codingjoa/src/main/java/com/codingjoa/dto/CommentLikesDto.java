@@ -8,5 +8,4 @@ public class CommentLikesDto {
 	private Integer commentLikesIdx;
 	private Integer commentIdx;
 	private Integer memberIdx;
-	
 }
