@@ -31,7 +31,8 @@ public class LikesRestController {
 		
 		BoardLikesDto boardLikesDto = new BoardLikesDto();
 		boardLikesDto.setBoardIdx(boardIdx);
-		boardLikesDto.setMemberIdx(principal.getMember().getMemberIdx());
+		boardLikesDto.setMemberIdx(1);
+		//boardLikesDto.setMemberIdx(principal.getMember().getMemberIdx());
 		likesService.toggleBoardLikes(boardLikesDto);
 		
 		return ResponseEntity.ok(SuccessResponse.create().message("toggleBoardLikes success"));
@@ -45,6 +46,7 @@ public class LikesRestController {
 		CommentLikesDto commentLikesDto = new CommentLikesDto();
 		commentLikesDto.setCommentIdx(commentIdx);
 		commentLikesDto.setMemberIdx(principal.getMember().getMemberIdx());
+		//commentLikesDto.setMemberIdx(1);
 		likesService.toggleCommentLikes(commentLikesDto);
 		
 		return ResponseEntity.ok(SuccessResponse.create().message("toggleCommentLikes success"));
