@@ -30,12 +30,18 @@ public class LikesServiceImpl implements LikesService {
 		BoardLikes boardLikes = modelMapper.map(boardLikesDto, BoardLikes.class);
 		log.info("\t > boardLikesDto ==> {}", boardLikes);
 		
+		// insert + delete
+		likesMapper.mergeBoardLikes(boardLikes); 
+		
 	}
 
 	@Override
 	public void toggleCommentLikes(CommentLikesDto commentLikesDto) {
 		CommentLikes commentLikes = modelMapper.map(commentLikesDto, CommentLikes.class);
 		log.info("\t > commentLikesDto ==> {}", commentLikes);
+		
+		// insert + delete
+		likesMapper.mergeCommentLikes(commentLikes); 
 		
 	}
 	
