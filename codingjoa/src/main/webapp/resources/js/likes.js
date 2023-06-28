@@ -15,7 +15,7 @@ let likesService = (function() {
 		console.log("> url = '%s'", url);
 		
 		$.ajax({
-			type : "GET",
+			type : "POST",
 			url : url,
 			dataType : "json",
 			success : function(result) {
@@ -42,7 +42,7 @@ let likesService = (function() {
 		console.log("> url = '%s'", url);
 		
 		$.ajax({
-			type : "GET",
+			type : "POST",
 			url : url,
 			dataType : "json",
 			success : function(result) {
