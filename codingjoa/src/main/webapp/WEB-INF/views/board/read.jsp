@@ -237,7 +237,7 @@
 	<div class="row">
 		<div class="col-sm-1"></div>
 		<div class="col-sm-10">
-			<div class="card mb-3">
+			<div class="card">
 				<div class="header-group">
 					<div class="category dropright mb-2">
 						<a class="board-category" 
@@ -320,18 +320,22 @@
 							</div>
 						</div>
 					</div>
-					<div class="comment-list">
+					<div class="comment-list mt-4">
 						<!-- comment -->
 					</div>
-					<div class="comment-pagination">
-						<!-- pagination -->
+					<div class="mt-4">
+						<a class="btn btn-secondary float-left" href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}&
+							${boardCri.getQueryString()}">목록</a>
+						<div class="comment-pagination">
+							<!-- pagination -->
+						</div>
 					</div>
 				</div>
 			</div>
-			<div class="card-bottom">
+			<%-- <div class="card-bottom">
 				<a class="btn btn-secondary" href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}&
 					${boardCri.getQueryString()}">목록</a>
-			</div>
+			</div> --%>
 		</div>
 		<div class="col-sm-1"></div>
 	</div>

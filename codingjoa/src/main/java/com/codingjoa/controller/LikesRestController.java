@@ -35,7 +35,7 @@ public class LikesRestController {
 		//boardLikesDto.setMemberIdx(principal.getMember().getMemberIdx());
 		likesService.toggleBoardLikes(boardLikesDto);
 		
-		return ResponseEntity.ok(SuccessResponse.create().message("toggleBoardLikes success"));
+		return ResponseEntity.ok(SuccessResponse.create().message("success"));
 	}
 
 	@PostMapping("/comments/{commentIdx}/likes")
@@ -49,6 +49,6 @@ public class LikesRestController {
 		//commentLikesDto.setMemberIdx(principal.getMember().getMemberIdx());
 		likesService.toggleCommentLikes(commentLikesDto);
 		
-		return ResponseEntity.ok(SuccessResponse.create().message("toggleCommentLikes success"));
+		return ResponseEntity.ok(SuccessResponse.create().message("success"));
 	}
 }

@@ -6,7 +6,7 @@ console.log("## Rendering service ready - render.js");
 			return html;
 		}
 		
-		html += "<ul class='list-group list-group-flush mt-4'>";
+		html += "<ul class='list-group list-group-flush'>";
 		$.each(list, function(index, commentDetails) {
 			if (commentDetails == null) {
 				html += "<li class='list-group-item deleted-comment'>";
