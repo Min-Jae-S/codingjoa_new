@@ -23,30 +23,20 @@
 		BEGIN
 			IF #{boardIdx} IS NOT NULL THEN
 				MERGE INTO 
-					board_likes a
-				USING (
-					SELECT
-						COUNT(*) AS cnt
-					FROM
-						board_likes
-					WHERE
-						board_idx = #{boardIdx} 
-					AND 
-						member_idx = #{memberIdx}
-				) b
+					board_likes
+				USING
+					DUAL
 				ON 
-					b.cnt > 0
+					board_idx = #{boardIdx}
+				AND
+					member_idx = #{memberIdx}
 				WHEN MATCHED THEN
 					DELETE
-					WHERE
-						board_idx = #{boardIdx} 
-					AND
-						member_idx = #{memberIdx}
 				WHEN NOT MATCHED THEN
 					INSERT (
-						a.board_likes_idx,
-						a.board_idx,
-						a.member_idx
+						board_likes_idx,
+						board_idx,
+						member_idx
 					) VALUES (
 						seq_board_likes.NEXTVAL,
 						#{boardIdx},
