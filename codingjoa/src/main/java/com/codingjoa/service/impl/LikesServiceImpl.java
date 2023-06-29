@@ -32,7 +32,6 @@ public class LikesServiceImpl implements LikesService {
 		BoardLikes boardLikes = modelMapper.map(boardLikesDto, BoardLikes.class);
 		log.info("\t > boardLikesDto ==> {}", boardLikes);
 		
-		// insert + delete
 		likesMapper.mergeBoardLikes(boardLikes);
 		log.info("\t > DB boardIdx = {}", boardLikes.getBoardIdx());
 		
@@ -47,8 +46,12 @@ public class LikesServiceImpl implements LikesService {
 		CommentLikes commentLikes = modelMapper.map(commentLikesDto, CommentLikes.class);
 		log.info("\t > commentLikesDto ==> {}", commentLikes);
 		
-		// insert + delete
-		likesMapper.mergeCommentLikes(commentLikes); 
+		likesMapper.mergeCommentLikes(commentLikes);
+		log.info("\t > DB commentIdx = {}", commentLikes.getCommentIdx());
+		
+		if (commentLikes.getCommentIdx() == null) {
+			throw new ExpectedException(MessageUtils.getMessage("error.NotFoundComment"));
+		}
 		
 	}
 	

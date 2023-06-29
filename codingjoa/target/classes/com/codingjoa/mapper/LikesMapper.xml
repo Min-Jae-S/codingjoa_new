@@ -14,7 +14,7 @@
 	<update id="mergeBoardLikes" parameterType="boardLikes">
 		<selectKey keyProperty="boardIdx" resultType="int" order="BEFORE">
 			SELECT 
-				MAX(board_idx) 
+				MAX(board_idx)
 			FROM 
 				board 
 			WHERE 
@@ -55,6 +55,30 @@
 			WHERE 
 				comment_idx = #{commentIdx}
 		</selectKey>
+		BEGIN
+			IF #{commentIdx} IS NOT NULL THEN
+				MERGE INTO 
+					comment_likes
+				USING
+					DUAL
+				ON 
+					comment_idx = #{commentIdx}
+				AND
+					member_idx = #{memberIdx}
+				WHEN MATCHED THEN
+					DELETE
+				WHEN NOT MATCHED THEN
+					INSERT (
+						comment_likes_idx,
+						comment_idx,
+						member_idx
+					) VALUES (
+						seq_comment_likes.NEXTVAL,
+						#{commentIdx},
+						#{memberIdx}
+					)
+			END IF;
+		END;
 	</update>
 	
 </mapper>
