@@ -24,12 +24,13 @@
 			IF #{boardIdx} IS NOT NULL THEN
 				MERGE INTO 
 					board_likes
-				USING
+				USING 
 					DUAL
-				ON 
-					board_idx = #{boardIdx}
-				AND
-					member_idx = #{memberIdx}
+				ON ( 
+					board_idx = #{boardIdx} 
+					AND 
+					member_idx = #{memberIdx} 
+				)
 				WHEN MATCHED THEN
 					DELETE
 				WHEN NOT MATCHED THEN
@@ -41,7 +42,7 @@
 						seq_board_likes.NEXTVAL,
 						#{boardIdx},
 						#{memberIdx}
-					);
+					)
 			END IF;
 		END;
 	</update>
@@ -61,10 +62,11 @@
 					comment_likes
 				USING
 					DUAL
-				ON 
+				ON (
 					comment_idx = #{commentIdx}
-				AND
-					member_idx = #{memberIdx}
+					AND
+					member_idx = #{memberIdx} 
+				)
 				WHEN MATCHED THEN
 					DELETE
 				WHEN NOT MATCHED THEN

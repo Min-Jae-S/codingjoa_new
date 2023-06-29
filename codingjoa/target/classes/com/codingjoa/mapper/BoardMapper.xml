@@ -210,7 +210,7 @@
 		    	WHERE
 		        	<include refid="searchCriteria"/>
 					board_category_code = #{boardCategoryCode} 
-				AND
+					AND
 					<![CDATA[
 					ROWNUM <= ( #{boardCri.page} * #{boardCri.recordCnt} )
 					]]>
