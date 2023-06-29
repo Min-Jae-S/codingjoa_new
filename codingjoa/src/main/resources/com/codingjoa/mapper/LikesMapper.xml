@@ -20,7 +20,41 @@
 			WHERE 
 				board_idx = #{boardIdx}
 		</selectKey>
-		
+		BEGIN
+			IF #{boardIdx} IS NOT NULL THEN
+				MERGE INTO 
+					board_likes a
+				USING (
+					SELECT
+						COUNT(*) AS cnt
+					FROM
+						board_likes
+					WHERE
+						board_idx = #{boardIdx} 
+					AND 
+						member_idx = #{memberIdx}
+				) b
+				ON 
+					b.cnt > 0
+				WHEN MATCHED THEN
+					DELETE FROM 
+						board_likes
+					WHERE
+						board_idx = #{boardIdx} 
+					AND
+						member_idx = #{memberIdx}
+				WHEN NOT MATCHED THEN
+					INSERT INTO board_likes (
+						board_likes_idx,
+						board_idx,
+						member_idx
+					) VALUES (
+						seq_board_likes.NEXTVAL,
+						#{boardIdx},
+						#{memeberIdx}
+					)
+			END IF;
+		END;
 	</update>
 	
 	<update id="mergeCommentLikes" parameterType="commentLikes">

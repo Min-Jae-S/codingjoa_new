@@ -9,8 +9,10 @@ import com.codingjoa.dto.BoardLikesDto;
 import com.codingjoa.dto.CommentLikesDto;
 import com.codingjoa.entity.BoardLikes;
 import com.codingjoa.entity.CommentLikes;
+import com.codingjoa.exception.ExpectedException;
 import com.codingjoa.mapper.LikesMapper;
 import com.codingjoa.service.LikesService;
+import com.codingjoa.util.MessageUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -31,7 +33,12 @@ public class LikesServiceImpl implements LikesService {
 		log.info("\t > boardLikesDto ==> {}", boardLikes);
 		
 		// insert + delete
-		likesMapper.mergeBoardLikes(boardLikes); 
+		likesMapper.mergeBoardLikes(boardLikes);
+		log.info("\t > DB boardIdx = {}", boardLikes.getBoardIdx());
+		
+		if (boardLikes.getBoardIdx() == null) {
+			throw new ExpectedException(MessageUtils.getMessage("error.NotFoundBoard"));
+		}
 		
 	}
 
