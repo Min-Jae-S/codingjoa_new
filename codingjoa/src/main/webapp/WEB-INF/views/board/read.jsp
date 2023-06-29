@@ -488,7 +488,28 @@
 				</div>
 			</div>
 			<div class="test3 mt-5">
-				
+				<div class="input-group mb-4">
+					<div class="input-group-prepend">
+	    				<span class="input-group-text">Toggle Board Likes</span>
+	    				<span class="input-group-text">:</span>
+	    				<span class="input-group-text">/api/boards/{boardIdx}/likes</span>
+	  				</div>
+	  				<input type="text" class="form-control" placeholder="boardIdx">
+	  				<div class="input-group-append">
+	    				<button class="btn btn-warning" id="testToggleBoardLikesBtn">TEST</button>
+	  				</div>
+				</div>
+				<div class="input-group mb-4">
+					<div class="input-group-prepend">
+						<span class="input-group-text">Toggle Comment Likes</span>
+						<span class="input-group-text">:</span>
+	    				<span class="input-group-text">/api/comments/{commentIdx}/likes</span>
+	  				</div>
+	  				<input type="text" class="form-control" placeholder="commentIdx">
+	  				<div class="input-group-append">
+	    				<button class="btn btn-warning" id="testToggleCommentLikesBtn">TEST</button>
+	  				</div>
+				</div>
 			</div>
 		</div>
 		<div class="col-sm-1"></div>
@@ -496,27 +517,9 @@
 </div>
 
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
-
+<!-- test script -->
 <script>
 	$(function() {
-		const boardIdx = "<c:out value='${boardDetails.boardIdx}'/>";
-		const boardWriterIdx = "<c:out value='${boardDetails.boardWriterIdx}'/>";
-		let curPage = 1;
-		
-		// get comment list
-		commentService.getCommentList(boardIdx, curPage, function(result) {
-			let commentList = result.data.commentList;
-			let commentHtml = makeCommentHtml(commentList, boardWriterIdx);
-			$("div.comment-list").html(commentHtml);
-
-			let pagination = result.data.pagination;
-			let paginationHtml = makePaginationHtml(pagination);
-			$("div.comment-pagination").html(paginationHtml);
-			$("span.comment-cnt").text(pagination.totalCnt);	
-		});
-		
-		/****************************************************************************************/
-		/****************************************************************************************/
 		// TEST write comment	
 		$("#testWriteBtn").on("click", function() {
 			let $input = $(this).closest("div.input-group").find("input");
@@ -610,8 +613,41 @@
 				alert(result.message);
 			});
 		});
-		/****************************************************************************************/
-		/****************************************************************************************/
+		
+		// TEST board likes
+		$("#testToggleBoardLikesBtn").on("click", function() {
+			let boardIdx = $(this).closest("div.input-group").find("input").val();
+			likesService.toggleBoardLikes(boardIdx, function(result) {
+				// ...
+			});
+		});
+		
+		// TEST comment likes
+		$("#testToggleCommentLikesBtn").on("click", function() {
+			let commentIdx = $(this).closest("div.input-group").find("input").val();
+			likesService.toggleCommentLikes(commentIdx, function(result) {
+				// ...
+			});
+		});
+	});
+</script>
+<script>
+	$(function() {
+		const boardIdx = "<c:out value='${boardDetails.boardIdx}'/>";
+		const boardWriterIdx = "<c:out value='${boardDetails.boardWriterIdx}'/>";
+		let curPage = 1;
+		
+		// get comment list
+		commentService.getCommentList(boardIdx, curPage, function(result) {
+			let commentList = result.data.commentList;
+			let commentHtml = makeCommentHtml(commentList, boardWriterIdx);
+			$("div.comment-list").html(commentHtml);
+
+			let pagination = result.data.pagination;
+			let paginationHtml = makePaginationHtml(pagination);
+			$("div.comment-pagination").html(paginationHtml);
+			$("span.comment-cnt").text(pagination.totalCnt);	
+		});
 		
 		$("#deleteBoardLink").on("click", function() {
 			return confirm("게시글을 삭제하시겠습니까?");

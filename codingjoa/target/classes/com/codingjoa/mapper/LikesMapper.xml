@@ -37,21 +37,20 @@
 				ON 
 					b.cnt > 0
 				WHEN MATCHED THEN
-					DELETE FROM 
-						board_likes
+					DELETE
 					WHERE
 						board_idx = #{boardIdx} 
 					AND
 						member_idx = #{memberIdx}
 				WHEN NOT MATCHED THEN
-					INSERT INTO board_likes (
-						board_likes_idx,
-						board_idx,
-						member_idx
+					INSERT (
+						a.board_likes_idx,
+						a.board_idx,
+						a.member_idx
 					) VALUES (
 						seq_board_likes.NEXTVAL,
 						#{boardIdx},
-						#{memeberIdx}
+						#{memberIdx}
 					)
 			END IF;
 		END;
