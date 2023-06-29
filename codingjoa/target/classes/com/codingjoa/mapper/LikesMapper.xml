@@ -41,7 +41,7 @@
 						seq_board_likes.NEXTVAL,
 						#{boardIdx},
 						#{memberIdx}
-					)
+					);
 			END IF;
 		END;
 	</update>
@@ -76,7 +76,7 @@
 						seq_comment_likes.NEXTVAL,
 						#{commentIdx},
 						#{memberIdx}
-					)
+					);
 			END IF;
 		END;
 	</update>
