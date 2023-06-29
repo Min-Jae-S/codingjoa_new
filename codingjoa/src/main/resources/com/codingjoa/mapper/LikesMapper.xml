@@ -12,11 +12,26 @@
 -->
 	
 	<update id="mergeBoardLikes" parameterType="boardLikes">
-
+		<selectKey keyProperty="boardIdx" resultType="int" order="BEFORE">
+			SELECT 
+				MAX(board_idx) 
+			FROM 
+				board 
+			WHERE 
+				board_idx = #{boardIdx}
+		</selectKey>
+		
 	</update>
 	
 	<update id="mergeCommentLikes" parameterType="commentLikes">
-	
+		<selectKey keyProperty="commentIdx" resultType="int" order="BEFORE">
+			SELECT 
+				MAX(comment_idx) 
+			FROM 
+				"comment" 
+			WHERE 
+				comment_idx = #{commentIdx}
+		</selectKey>
 	</update>
 	
 </mapper>
