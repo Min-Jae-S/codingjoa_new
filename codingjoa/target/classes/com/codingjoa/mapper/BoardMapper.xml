@@ -420,12 +420,4 @@
 	}
 	</delete>
 	
-	<select id="findBoardByIdx" resultType="board">
-		SELECT
-			*
-		FROM
-			board
-		WHERE 
-			boardIdx = #{boardIdx}
-	</select>
 </mapper>

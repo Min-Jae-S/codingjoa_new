@@ -13,11 +13,6 @@
 	regdate                 DATE        NOT NULL,
 -->
 
-	<update id="toggleBoardLikes" parameterType="boardLikes">
-	
-	</update>
-	
-	
 	<update id="mergeBoardLikes" parameterType="boardLikes">
 		<selectKey keyProperty="boardIdx" resultType="int" order="BEFORE">
 			SELECT 
@@ -40,20 +35,20 @@
 				)
 				WHEN MATCHED THEN
 					UPDATE SET
-						board_idx = #{boardIdx}
+						board_likes_idx = board_likes_idx
 					DELETE WHERE
-						board_idx = #{boardIdx} 
-						AND
-						member_idx = #{memberIdx}
+						board_likes_idx = board_likes_idx
 				WHEN NOT MATCHED THEN
 					INSERT (
 						board_likes_idx,
 						board_idx,
-						member_idx
+						member_idx,
+						regdate
 					) VALUES (
 						seq_board_likes.NEXTVAL,
 						#{boardIdx},
-						#{memberIdx}
+						#{memberIdx},
+						SYSDATE
 					)
 			END IF;
 		END;
@@ -85,11 +80,13 @@
 					INSERT (
 						comment_likes_idx,
 						comment_idx,
-						member_idx
+						member_idx,
+						regdate
 					) VALUES (
 						seq_comment_likes.NEXTVAL,
 						#{commentIdx},
-						#{memberIdx}
+						#{memberIdx},
+						SYSDATE
 					);
 			END IF;
 		END;

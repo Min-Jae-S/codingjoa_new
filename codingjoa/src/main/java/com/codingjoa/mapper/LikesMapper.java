@@ -8,7 +8,7 @@ import com.codingjoa.entity.CommentLikes;
 @Mapper
 public interface LikesMapper {
 	
-	void toggleBoardLikes(BoardLikes boardLikes);
+	void mergeBoardLikes(BoardLikes boardLikes);
 	
-	void toggleCommentLikes(CommentLikes commentLikes);
+	void mergeCommentLikes(CommentLikes commentLikes);
 }
