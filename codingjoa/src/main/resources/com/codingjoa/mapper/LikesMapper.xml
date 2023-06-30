@@ -23,21 +23,29 @@
 		BEGIN
 			IF #{boardIdx} IS NOT NULL THEN
 				MERGE INTO 
-					board_likes
-				USING 
-					DUAL
-				ON ( 
-					board_idx = #{boardIdx} 
-					AND 
-					member_idx = #{memberIdx} 
-				)
+					board_likes a
+				USING (
+					SELECT
+						board_likes_idx
+					FROM
+						board_likes
+					WHERE
+						board_idx = #{boardIdx} AND
+						member_idx = #{memberIdx}
+				) b
+				ON 
+					a.board_likes_idx = b.board_likes_idx
 				WHEN MATCHED THEN
-					DELETE
+					UPDATE SET
+						a.board_idx = #{boardIdx}
+					DELETE WHERE
+						a.board_idx = #{boardIdx} AND
+						a.member_idx = #{memberIdx}
 				WHEN NOT MATCHED THEN
 					INSERT (
-						board_likes_idx,
-						board_idx,
-						member_idx
+						a.board_likes_idx,
+						a.board_idx,
+						a.member_idx
 					) VALUES (
 						seq_board_likes.NEXTVAL,
 						#{boardIdx},

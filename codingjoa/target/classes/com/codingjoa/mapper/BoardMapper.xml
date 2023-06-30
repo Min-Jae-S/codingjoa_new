@@ -209,8 +209,7 @@
 		        	board
 		    	WHERE
 		        	<include refid="searchCriteria"/>
-					board_category_code = #{boardCategoryCode} 
-					AND
+					board_category_code = #{boardCategoryCode} AND
 					<![CDATA[
 					ROWNUM <= ( #{boardCri.page} * #{boardCri.recordCnt} )
 					]]>
@@ -347,8 +346,7 @@
 		FROM
 			board
 		WHERE
-			board_idx = #{boardIdx} 
-		AND 
+			board_idx = #{boardIdx} AND 
 			board_category_code = #{boardCategoryCode}
 	</select>
 	
