@@ -97,9 +97,11 @@ public class BoardController {
 	}
 	
 	@GetMapping("/read")
-	public String read(@RequestParam int boardIdx, @BoardCri Criteria boardCri, Model model) {
+	public String read(@RequestParam int boardIdx, @BoardCri Criteria boardCri, 
+			@AuthenticationPrincipal UserDetailsDto principal, Model model) {
 		log.info("## read, boardIdx = {}", boardIdx);
 		log.info("\t > {}", boardCri);
+		log.info("\t > {}", principal);
 		
 		BoardDetailsDto boardDetails = boardService.getBoardDetails(boardIdx);
 		model.addAttribute("boardDetails", boardDetails);
