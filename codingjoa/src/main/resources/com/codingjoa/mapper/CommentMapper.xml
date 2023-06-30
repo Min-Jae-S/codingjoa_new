@@ -101,8 +101,8 @@
 		    FROM 
 		        "comment"
 		    WHERE
-		    	comment_board_idx = #{commentBoardIdx}
-		    AND
+		    	comment_board_idx = #{commentBoardIdx} 
+		    	AND
 				<![CDATA[
 				ROWNUM <= ( #{commentCri.page} * #{commentCri.recordCnt} )
 				]]>

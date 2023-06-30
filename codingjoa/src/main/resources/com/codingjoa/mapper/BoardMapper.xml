@@ -209,7 +209,8 @@
 		        	board
 		    	WHERE
 		        	<include refid="searchCriteria"/>
-					board_category_code = #{boardCategoryCode} AND
+					board_category_code = #{boardCategoryCode} 
+					AND
 					<![CDATA[
 					ROWNUM <= ( #{boardCri.page} * #{boardCri.recordCnt} )
 					]]>
@@ -266,7 +267,8 @@
 		        board
 		    WHERE
 		        <include refid="searchCriteria"/>
-				board_category_code = #{boardCategoryCode} AND
+				board_category_code = #{boardCategoryCode} 
+				AND
 				<![CDATA[
 				ROWNUM <= ( #{page} * #{recordCnt} )
 				]]>
@@ -307,7 +309,8 @@
 				a.board_writer_idx = b.member_idx
 			WHERE
 				<include refid="searchCriteria"/>
-				a.board_category_code = #{boardCategoryCode} AND
+				a.board_category_code = #{boardCategoryCode} 
+				AND
 				<![CDATA[
 				ROWNUM <= ( #{page} * #{recordCnt} )
 				]]>
@@ -346,7 +349,8 @@
 		FROM
 			board
 		WHERE
-			board_idx = #{boardIdx} AND 
+			board_idx = #{boardIdx} 
+			AND 
 			board_category_code = #{boardCategoryCode}
 	</select>
 	
@@ -415,4 +419,13 @@
 			END 
 	}
 	</delete>
+	
+	<select id="findBoardByIdx" resultType="board">
+		SELECT
+			*
+		FROM
+			board
+		WHERE 
+			boardIdx = #{boardIdx}
+	</select>
 </mapper>

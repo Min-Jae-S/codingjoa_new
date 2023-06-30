@@ -35,4 +35,6 @@ public interface BoardMapper {
 	
 	void deleteBoard(Board board);
 	
+	Board findBoardByIdx(Integer boardIdx);
+	
 }

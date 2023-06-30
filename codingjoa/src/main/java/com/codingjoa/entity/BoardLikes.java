@@ -3,9 +3,10 @@ package com.codingjoa.entity;
 import lombok.Data;
 
 /*
-	board_likes_idx                 NUMBER,
+	board_likes_idx     NUMBER,
 	board_idx           NUMBER      NOT NULL,
 	member_idx          NUMBER      NOT NULL,
+	regdate             DATE        NOT NULL,
 */
 
 @Data
