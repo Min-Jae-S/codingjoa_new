@@ -99,7 +99,7 @@
 		END;
 	</update>
 	
-	<select parameterType="map" resultType="boolean">
+	<select id="isBoardLikes" parameterType="map" resultType="boolean">
 		SELECT
 			COUNT(*)
 		FROM
