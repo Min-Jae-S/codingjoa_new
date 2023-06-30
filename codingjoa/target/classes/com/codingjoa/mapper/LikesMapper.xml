@@ -54,6 +54,10 @@
 		END;
 	</update>
 	
+	<select id="findBoardLikes" resultType="map">
+	
+	</select>
+	
 	<update id="mergeCommentLikes" parameterType="commentLikes">
 		<selectKey keyProperty="commentIdx" resultType="int" order="BEFORE">
 			SELECT 

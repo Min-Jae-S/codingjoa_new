@@ -7,5 +7,7 @@ public interface LikesService {
 
 	void toggleBoardLikes(BoardLikesDto boardLikesDto);
 	
+	BoardLikesDto getBoardLikes(Integer boardIdx, Integer memberIdx);
+	
 	void toggleCommentLikes(CommentLikesDto commentLikesDto);
 }

@@ -1,5 +1,7 @@
 package com.codingjoa.service.impl;
 
+import java.util.Map;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,7 +40,12 @@ public class LikesServiceImpl implements LikesService {
 		if (boardLikes.getBoardIdx() == null) {
 			throw new ExpectedException(MessageUtils.getMessage("error.NotFoundBoard"));
 		}
-		
+	}
+	
+	@Override
+	public BoardLikesDto getBoardLikes(Integer boardIdx, Integer memberIdx) {
+		Map<String, Object> boardLikesMap = likesMapper.findBoardLikes(boardIdx, memberIdx);
+		return modelMapper.map(boardLikesMap, BoardLikesDto.class);
 	}
 
 	@Override
@@ -52,7 +59,8 @@ public class LikesServiceImpl implements LikesService {
 		if (commentLikes.getCommentIdx() == null) {
 			throw new ExpectedException(MessageUtils.getMessage("error.NotFoundComment"));
 		}
-		
 	}
+
+	
 	
 }

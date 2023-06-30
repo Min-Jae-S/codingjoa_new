@@ -63,9 +63,53 @@ let likesService = (function() {
 		});
 	}
 	
+	function getBoardLikes(boardIdx, callback) {
+		console.log("## Get Board Likes");
+		let url = contextPath + "/api/comments/" + boardIdx + "/likes";
+		console.log("> url = '%s'", url);
+		
+		$.ajax({
+			type : "GET",
+			url : url,
+			dataType : "json",
+			success : function(result) {
+				console.log(JSON.stringify(result, null, 2));
+				callback(result);
+			},
+			error : function(jqXHR) {
+				let errorResponse = JSON.parse(jqXHR.responseText);
+				console.log(JSON.stringify(errorResponse, null, 2));
+				alert(errorResponse.errorMessage);
+			}
+		});
+	}
+	
+	function getCommentLikes(commentIdx, callback) {
+		console.log("## Get Comment Likes");
+		let url = contextPath + "/api/comments/" + commentIdx + "/likes";
+		console.log("> url = '%s'", url);
+		
+		$.ajax({
+			type : "GET",
+			url : url,
+			dataType : "json",
+			success : function(result) {
+				console.log(JSON.stringify(result, null, 2));
+				callback(result);
+			},
+			error : function(jqXHR) {
+				let errorResponse = JSON.parse(jqXHR.responseText);
+				console.log(JSON.stringify(errorResponse, null, 2));
+				alert(errorResponse.errorMessage);
+			}
+		});
+	}
+	
 	return {
 		toggleBoardLikes:toggleBoardLikes,
-		toggleCommentLikes:toggleCommentLikes
+		toggleCommentLikes:toggleCommentLikes,
+		getBoardLikes:getBoardLikes,
+		getCommentLikes:getCommentLikes
 	};
 	
 })();

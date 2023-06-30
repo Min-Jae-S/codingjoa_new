@@ -3,6 +3,7 @@ package com.codingjoa.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,6 +36,14 @@ public class LikesRestController {
 		likesService.toggleBoardLikes(boardLikesDto);
 		
 		return ResponseEntity.ok(SuccessResponse.create().message("success"));
+	}
+	
+	@GetMapping("/boards/{boadIdx}/likes")
+	public ResponseEntity<Object> getBoardLikes(@PathVariable Integer boardIdx,
+			@AuthenticationPrincipal UserDetailsDto principal) {
+		log.info("## getBoardLikes, boardIdx = {}", boardIdx);
+		
+		return ResponseEntity.ok(null);
 	}
 
 	@PostMapping("/comments/{commentIdx}/likes")

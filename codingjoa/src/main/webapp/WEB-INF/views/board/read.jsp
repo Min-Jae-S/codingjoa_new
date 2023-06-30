@@ -94,7 +94,7 @@
 	}
 	
 	.header-group .header-meta {
-		font-size: 15px;
+		font-size: 1rem;
 		color: #868e96;
 		/* color: #979797;
 		color: #757575; */
@@ -106,7 +106,7 @@
 	}
 	
 	a.comment-likes {
-		font-size: 15px;
+		font-size: 1rem;
 		text-decoration: none;
 	}
 
@@ -167,7 +167,7 @@
 		color: #ced4da; 
 	}
 	
-	.comment-info {
+	.comment-body {
 		font-size: 1.3rem;
 		font-weight: bold;
 	}
@@ -373,7 +373,7 @@
 					</div>
 				</div>
 				<div class="comment-group pt-4">
-					<div class="comment-info mb-3">
+					<div class="comment-body mb-3">
 						<span>댓글</span>
 						<span class="comment-cnt"><c:out value="${boardDetails.commentCnt}"/></span>
 					</div>
