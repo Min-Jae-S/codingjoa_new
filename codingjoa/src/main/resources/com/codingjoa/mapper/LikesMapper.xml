@@ -49,7 +49,7 @@
 						#{boardIdx},
 						#{memberIdx},
 						SYSDATE
-					)
+					);
 			END IF;
 		END;
 	</update>
@@ -75,7 +75,10 @@
 					member_idx = #{memberIdx} 
 				)
 				WHEN MATCHED THEN
-					DELETE
+					UPDATE SET
+						comment_likes_idx = comment_likes_idx
+					DELETE WHERE
+						comment_likes_idx = comment_likes_idx
 				WHEN NOT MATCHED THEN
 					INSERT (
 						comment_likes_idx,

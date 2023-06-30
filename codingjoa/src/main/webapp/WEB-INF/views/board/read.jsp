@@ -167,7 +167,7 @@
 		color: #ced4da; 
 	}
 	
-	.comment-body {
+	.comment-info {
 		font-size: 1.3rem;
 		font-weight: bold;
 	}
@@ -228,11 +228,11 @@
 		padding-right: 0;
 	}
 	
-	.position-center {
+	.comment-footer {
 		position: relative;
 	}
 	
-	.position-center .comment-pagination {
+	.comment-footer .comment-pagination {
 		position: absolute;
         top: 50%;
         left: 50%;
@@ -373,7 +373,7 @@
 					</div>
 				</div>
 				<div class="comment-group pt-4">
-					<div class="comment-body mb-3">
+					<div class="comment-info mb-3">
 						<span>댓글</span>
 						<span class="comment-cnt"><c:out value="${boardDetails.commentCnt}"/></span>
 					</div>
@@ -393,7 +393,7 @@
 					<div class="comment-list mt-4">
 						<!-- comment -->
 					</div>
-					<div class="position-center mt-4">
+					<div class="comment-footer mt-4">
 						<a class="btn btn-secondary" href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}&
 							${boardCri.getQueryString()}">목록</a>
 						<div class="comment-pagination">
