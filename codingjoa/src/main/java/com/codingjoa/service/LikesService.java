@@ -10,4 +10,6 @@ public interface LikesService {
 	BoardLikesDto getBoardLikes(Integer boardIdx, Integer memberIdx);
 	
 	void toggleCommentLikes(CommentLikesDto commentLikesDto);
+	
+	boolean isBoardLikes(Integer boardIdx, Integer memberIdx);
 }

@@ -16,4 +16,6 @@ public interface LikesMapper {
 	Map<String, Object> findBoardLikes(@Param("boardIdx") Integer boardIdx, @Param("memberIdx") Integer memberIdx);
 	
 	void mergeCommentLikes(CommentLikes commentLikes);
+	
+	boolean isBoardLikes(@Param("boardIdx") Integer boardIdx, @Param("memberIdx") Integer memberIdx);
 }

@@ -31,6 +31,7 @@ import com.codingjoa.pagination.Pagination;
 import com.codingjoa.security.dto.UserDetailsDto;
 import com.codingjoa.service.BoardService;
 import com.codingjoa.service.CategoryService;
+import com.codingjoa.service.LikesService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -45,6 +46,9 @@ public class BoardController {
 
 	@Autowired
 	private BoardService boardService;
+	
+	@Autowired
+	private LikesService likesService;
 	
 	@Resource(name = "boardValidator")
 	private Validator boardValidator;
@@ -101,10 +105,19 @@ public class BoardController {
 			@AuthenticationPrincipal UserDetailsDto principal, Model model) {
 		log.info("## read, boardIdx = {}", boardIdx);
 		log.info("\t > {}", boardCri);
-		log.info("\t > {}", principal);
+		log.info("\t > principal = {}", principal == null ? "Anonymous User" : "Authenticated User");
 		
 		BoardDetailsDto boardDetails = boardService.getBoardDetails(boardIdx);
 		model.addAttribute("boardDetails", boardDetails);
+		
+		boolean isBoardLikes = false;
+		if (principal != null) {
+			isBoardLikes = likesService.isBoardLikes(boardIdx, principal.getMember().getMemberIdx());
+			model.addAttribute("isBoardLikes", isBoardLikes);
+		} else {
+			model.addAttribute("isBoardLikes", isBoardLikes);
+		}
+		log.info("\t > isBoardLikes = {}", isBoardLikes);
 		
 		Category category = categoryService.findCategory(boardDetails.getBoardCategoryCode());
 		model.addAttribute("category", category);
