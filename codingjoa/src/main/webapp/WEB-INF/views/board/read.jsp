@@ -227,6 +227,17 @@
 	.dropright button {
 		padding-right: 0;
 	}
+	
+	.position-center {
+		position: relative;
+	}
+	
+	.position-center .comment-pagination {
+		position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+	}
 </style>
 
 <!-- test css -->	
@@ -382,8 +393,8 @@
 					<div class="comment-list mt-4">
 						<!-- comment -->
 					</div>
-					<div class="mt-4">
-						<a class="btn btn-secondary float-left" href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}&
+					<div class="position-center mt-4">
+						<a class="btn btn-secondary" href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}&
 							${boardCri.getQueryString()}">목록</a>
 						<div class="comment-pagination">
 							<!-- pagination -->

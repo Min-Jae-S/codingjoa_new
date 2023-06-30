@@ -85,7 +85,7 @@ console.log("## Rendering service ready - render.js");
 			return html;
 		}
 		
-		html += "<ul class='pagination justify-content-center my-0'>";
+		html += "<ul class='pagination my-0'>";
 		if (pagination.prev) {
 			html += "<li class='page-item'>";
 			html += "<a class='page-link' href='#' data-page='" + pagination.prevPage + "'>";
