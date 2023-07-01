@@ -110,14 +110,14 @@ public class BoardController {
 		BoardDetailsDto boardDetails = boardService.getBoardDetails(boardIdx);
 		model.addAttribute("boardDetails", boardDetails);
 		
-		boolean isBoardLikes = false;
+		boolean boardLikes = false;
 		if (principal != null) {
-			isBoardLikes = likesService.isBoardLikes(boardIdx, principal.getMember().getMemberIdx());
-			model.addAttribute("isBoardLikes", isBoardLikes);
+			boardLikes = likesService.isBoardLikes(boardIdx, principal.getMember().getMemberIdx());
+			model.addAttribute("isBoardLikes", boardLikes);
 		} else {
-			model.addAttribute("isBoardLikes", isBoardLikes);
+			model.addAttribute("isBoardLikes", boardLikes);
 		}
-		log.info("\t > isBoardLikes = {}", isBoardLikes);
+		log.info("\t > isBoardLikes = {}", boardLikes);
 		
 		Category category = categoryService.findCategory(boardDetails.getBoardCategoryCode());
 		model.addAttribute("category", category);

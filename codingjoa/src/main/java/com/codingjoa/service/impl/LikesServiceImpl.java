@@ -63,7 +63,8 @@ public class LikesServiceImpl implements LikesService {
 
 	@Override
 	public boolean isBoardLikes(Integer boardIdx, Integer memberIdx) {
-		return likesMapper.isBoardLikes(boardIdx, memberIdx);
+		boolean boardLikes = likesMapper.isBoardLikes(boardIdx, memberIdx);
+		return boardLikes;
 	}
 
 	
