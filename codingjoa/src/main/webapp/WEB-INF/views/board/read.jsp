@@ -360,7 +360,7 @@
 								<span class="comment-cnt"><c:out value="${boardDetails.commentCnt}"/></span>
 							</a>
 							<a class="board-likes" href="#">
-								<span><i class="${isBoardLikes ? 'fa-solid' : 'fa-regular'} fa-regular fa-heart"></i></span>
+								<span><i class="${boardLikes ? 'fa-solid' : 'fa-regular'} fa-regular fa-heart"></i></span>
 								<span>좋아요</span>
 								<span class="board-likes-cnt"><c:out value="${boardDetails.boardLikesCnt}"/></span>
 							</a>

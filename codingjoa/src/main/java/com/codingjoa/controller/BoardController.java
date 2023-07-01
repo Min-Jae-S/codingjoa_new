@@ -113,11 +113,10 @@ public class BoardController {
 		boolean boardLikes = false;
 		if (principal != null) {
 			boardLikes = likesService.isBoardLikes(boardIdx, principal.getMember().getMemberIdx());
-			model.addAttribute("isBoardLikes", boardLikes);
+			model.addAttribute("boardLikes", boardLikes);
 		} else {
-			model.addAttribute("isBoardLikes", boardLikes);
+			model.addAttribute("boardLikes", boardLikes);
 		}
-		log.info("\t > isBoardLikes = {}", boardLikes);
 		
 		Category category = categoryService.findCategory(boardDetails.getBoardCategoryCode());
 		model.addAttribute("category", category);
