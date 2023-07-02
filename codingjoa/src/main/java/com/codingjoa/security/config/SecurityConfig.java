@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -94,7 +95,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/board/modify", "/board/modifyProc").authenticated()
 				.antMatchers("/board/deleteProc").authenticated()
 				.antMatchers("/api/boards/**/comments").permitAll()
+				.antMatchers(HttpMethod.GET, "/api/boards/**/likes").permitAll()
 				.antMatchers("/api/boards/**").authenticated()
+				.antMatchers(HttpMethod.GET, "/api/comments/**/likes").permitAll()
 				.antMatchers("/api/comments/**").authenticated()
 				//.mvcMatchers("/api/comments/**").authenticated()
 				.antMatchers("/admin/**").hasAnyRole("ADMIN")

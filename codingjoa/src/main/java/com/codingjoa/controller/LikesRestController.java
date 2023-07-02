@@ -68,4 +68,11 @@ public class LikesRestController {
 			return ResponseEntity.ok(SuccessResponse.create().data("DOWN").code("success.DeleteCommentLikes"));
 		}
 	}
+
+	@GetMapping("/comments/{commentIdx}/likes")
+	public ResponseEntity<Object> getCommentLikesCnt(@PathVariable Integer commentIdx) {
+		log.info("## getCommentLikesCnt, commentIdx = {}", commentIdx);
+		
+		return ResponseEntity.ok(SuccessResponse.create().data(null));
+	}
 }
