@@ -13,7 +13,7 @@
 	regdate                 DATE        NOT NULL,
 -->
 
-	<update id="mergeBoardLikes" parameterType="boardLikes">
+	<update id="delOrInsBoardLikes" parameterType="boardLikes">
 		<selectKey keyProperty="boardIdx,boardLikesIdx" resultType="boardLikes" order="BEFORE">
 			SELECT
     			MAX(a.board_idx) AS board_idx,
@@ -99,11 +99,7 @@
 		END;
 	</update> -->
 	
-	<select id="findBoardLikes" resultType="map">
-	
-	</select>
-	
-	<update id="mergeCommentLikes" parameterType="commentLikes">
+	<update id="delOrInsCommentLikes" parameterType="commentLikes">
 		<selectKey keyProperty="commentIdx" resultType="int" order="BEFORE">
 			SELECT 
 				MAX(comment_idx) 
@@ -143,6 +139,47 @@
 			END IF;
 		END;
 	</update>
+
+	<!-- <update id="mergeCommentLikes" parameterType="commentLikes">
+		<selectKey keyProperty="commentIdx" resultType="int" order="BEFORE">
+			SELECT 
+				MAX(comment_idx) 
+			FROM 
+				"comment" 
+			WHERE 
+				comment_idx = #{commentIdx}
+		</selectKey>
+		BEGIN
+			IF #{commentIdx} IS NOT NULL THEN
+				MERGE INTO 
+					comment_likes
+				USING
+					DUAL
+				ON (
+					comment_idx = #{commentIdx}
+					AND
+					member_idx = #{memberIdx} 
+				)
+				WHEN MATCHED THEN
+					UPDATE SET
+						comment_likes_idx = comment_likes_idx
+					DELETE WHERE
+						comment_likes_idx = comment_likes_idx
+				WHEN NOT MATCHED THEN
+					INSERT (
+						comment_likes_idx,
+						comment_idx,
+						member_idx,
+						regdate
+					) VALUES (
+						seq_comment_likes.NEXTVAL,
+						#{commentIdx},
+						#{memberIdx},
+						SYSDATE
+					);
+			END IF;
+		END;
+	</update> -->
 	
 	<select id="isBoardLikes" parameterType="map" resultType="boolean">
 		SELECT

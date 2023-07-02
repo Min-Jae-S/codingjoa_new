@@ -1,7 +1,5 @@
 package com.codingjoa.mapper;
 
-import java.util.Map;
-
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -11,11 +9,9 @@ import com.codingjoa.entity.CommentLikes;
 @Mapper
 public interface LikesMapper {
 	
-	void mergeBoardLikes(BoardLikes boardLikes);
+	void delOrInsBoardLikes(BoardLikes boardLikes); // mergeBoardLikes
 	
-	Map<String, Object> findBoardLikes(@Param("boardIdx") Integer boardIdx, @Param("memberIdx") Integer memberIdx);
-	
-	void mergeCommentLikes(CommentLikes commentLikes);
+	void delOrInsCommentLikes(CommentLikes commentLikes); // mergeCommentLikes
 	
 	boolean isBoardLikes(@Param("boardIdx") Integer boardIdx, @Param("memberIdx") Integer memberIdx);
 }

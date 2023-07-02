@@ -1,7 +1,5 @@
 package com.codingjoa.service.impl;
 
-import java.util.Map;
-
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,7 +32,7 @@ public class LikesServiceImpl implements LikesService {
 		BoardLikes boardLikes = modelMapper.map(boardLikesDto, BoardLikes.class);
 		log.info("\t > boardLikesDto ==> {}", boardLikes);
 		
-		likesMapper.mergeBoardLikes(boardLikes);
+		likesMapper.delOrInsBoardLikes(boardLikes);
 		log.info("\t > DB boardIdx = {}", boardLikes.getBoardIdx());
 		log.info("\t > DB boardLikesIdx = {}", boardLikes.getBoardLikesIdx());
 		
@@ -46,22 +44,19 @@ public class LikesServiceImpl implements LikesService {
 	}
 	
 	@Override
-	public BoardLikesDto getBoardLikes(Integer boardIdx, Integer memberIdx) {
-		Map<String, Object> boardLikesMap = likesMapper.findBoardLikes(boardIdx, memberIdx);
-		return modelMapper.map(boardLikesMap, BoardLikesDto.class);
-	}
-
-	@Override
-	public void toggleCommentLikes(CommentLikesDto commentLikesDto) {
+	public Integer toggleCommentLikes(CommentLikesDto commentLikesDto) {
 		CommentLikes commentLikes = modelMapper.map(commentLikesDto, CommentLikes.class);
 		log.info("\t > commentLikesDto ==> {}", commentLikes);
 		
-		likesMapper.mergeCommentLikes(commentLikes);
+		likesMapper.delOrInsCommentLikes(commentLikes);
 		log.info("\t > DB commentIdx = {}", commentLikes.getCommentIdx());
+		log.info("\t > DB commentLikesIdx = {}", commentLikes.getCommentLikesIdx());
 		
 		if (commentLikes.getCommentIdx() == null) {
 			throw new ExpectedException(MessageUtils.getMessage("error.NotFoundComment"));
 		}
+		
+		return commentLikes.getCommentLikesIdx();
 	}
 
 	@Override

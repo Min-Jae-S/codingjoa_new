@@ -644,10 +644,10 @@
 </script>
 <script>
 	$(function() {
-		const boardIdx = "<c:out value='${boardDetails.boardIdx}'/>";
-		const boardWriterIdx = "<c:out value='${boardDetails.boardWriterIdx}'/>";
+		const boardIdx = <c:out value='${boardDetails.boardIdx}'/>;
+		const boardWriterIdx = <c:out value='${boardDetails.boardWriterIdx}'/>;
 		let curCommentPage = 1;
-		let 
+		let boardLikesCnt = <c:out value='${boardDetails.boardLikesCnt}'/>;
 		
 		// get comment list
 		commentService.getCommentList(boardIdx, curCommentPage, function(result) {
@@ -821,8 +821,12 @@
 				alert(result.message);
 				let boardLikes = result.data;
 				if (boardLikes == "UP") {
+					boardLikesCnt++;
+					$(".board-likes-cnt").text(boardLikesCnt);
 					$("#boardLikesBtn i").removeClass().addClass("fa-heart").addClass("fa-solid");
 				} else if (boardLikes == "DOWN") {
+					boardLikesCnt--;
+					$(".board-likes-cnt").text(boardLikesCnt);
 					$("#boardLikesBtn i").removeClass().addClass("fa-heart").addClass("fa-regular");
 				}
 			});
