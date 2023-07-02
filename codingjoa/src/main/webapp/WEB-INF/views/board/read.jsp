@@ -353,17 +353,17 @@
 						</span>
 						<span class="mr-1">조회</span>
 						<span><c:out value="${boardDetails.boardViews}"/></span>
-						<div class="ml-auto">
+						<div class="d-flex ml-auto">
 							<a class="mr-3" href="#">
-								<span><i class="fa-regular fa-comment-dots"></i></span>
+								<i class="fa-regular fa-comment-dots"></i>
 								<span>댓글</span>
 								<span class="comment-cnt"><c:out value="${boardDetails.commentCnt}"/></span>
 							</a>
-							<a class="board-likes" href="#">
-								<span><i class="${boardLikes ? 'fa-solid' : 'fa-regular'} fa-regular fa-heart"></i></span>
+							<button class="btn border-0 p-0" id="boardLikesBtn">
+								<i class="${boardLikes ? 'fa-solid' : 'fa-regular'} fa-heart"></i>
 								<span>좋아요</span>
 								<span class="board-likes-cnt"><c:out value="${boardDetails.boardLikesCnt}"/></span>
-							</a>
+							</button>
 						</div>
 					</div>
 				</div>
@@ -814,15 +814,20 @@
 			});
 		});
 		
-		// board-likes
-		$("a.board-likes").on("click", function(e) {
-			e.preventDefault();
+		// board likes
+		$("#boardLikesBtn").on("click", function() {
 			likesService.toggleBoardLikes(boardIdx, function(result) {
 				alert(result.message);
+				let boardLikes = result.data;
+				if (boardLikes == "UP") {
+					$(this).find("i").removeClass().addClass("fa-heart").addClass("fa-solid");
+				} else if (boardLikes == "DOWN") {
+					$(this).find("i").removeClass().addClass("fa-heart").addClass("fa-regular");
+				}
 			});
 		});
 		
-		// comment-likes
+		// comment likes
 		$(document).on("click", "a.comment-likes ", function(e) {
 			e.preventDefault();
 			let commentIdx = $(this).closest("li").data("comment-idx");
