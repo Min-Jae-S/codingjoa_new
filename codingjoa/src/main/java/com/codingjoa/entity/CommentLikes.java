@@ -18,4 +18,5 @@ public class CommentLikes {
 	private Integer commentIdx;
 	private Integer memberIdx;
 	private Date regdate;
+	
 }

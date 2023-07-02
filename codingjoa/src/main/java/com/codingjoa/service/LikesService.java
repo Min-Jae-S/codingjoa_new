@@ -5,7 +5,7 @@ import com.codingjoa.dto.CommentLikesDto;
 
 public interface LikesService {
 
-	void toggleBoardLikes(BoardLikesDto boardLikesDto);
+	Integer toggleBoardLikes(BoardLikesDto boardLikesDto);
 	
 	BoardLikesDto getBoardLikes(Integer boardIdx, Integer memberIdx);
 	

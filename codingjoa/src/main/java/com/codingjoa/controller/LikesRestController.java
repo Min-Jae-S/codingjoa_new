@@ -33,9 +33,17 @@ public class LikesRestController {
 		BoardLikesDto boardLikesDto = new BoardLikesDto();
 		boardLikesDto.setBoardIdx(boardIdx);
 		boardLikesDto.setMemberIdx(principal.getMember().getMemberIdx());
-		likesService.toggleBoardLikes(boardLikesDto);
+		Integer boardLikesIdx = likesService.toggleBoardLikes(boardLikesDto);
+		log.info("\t > toggleBoardLikes result = {}", boardLikesIdx == null ? "Insert boardLikes" : "Delete boardLikes");
+	
+		SuccessResponse response = SuccessResponse.create();
+		if (boardLikesIdx == null) {
+			response.data("UP").code("success.InsertBoardLikes");
+		} else {
+			response.data("DOWN").code("success.DeleteBoardLikes");
+		}
 		
-		return ResponseEntity.ok(SuccessResponse.create().message("success"));
+		return ResponseEntity.ok(response);
 	}
 	
 	@GetMapping("/boards/{boadIdx}/likes")

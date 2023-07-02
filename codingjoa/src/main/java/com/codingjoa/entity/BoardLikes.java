@@ -1,5 +1,7 @@
 package com.codingjoa.entity;
 
+import java.util.Date;
+
 import lombok.Data;
 
 /*
@@ -15,4 +17,6 @@ public class BoardLikes {
 	private Integer boardLikesIdx;
 	private Integer boardIdx;
 	private Integer memberIdx;
+	private Date regdate;
+	
 }

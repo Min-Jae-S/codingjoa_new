@@ -30,16 +30,19 @@ public class LikesServiceImpl implements LikesService {
 	private ModelMapper modelMapper;
 
 	@Override
-	public void toggleBoardLikes(BoardLikesDto boardLikesDto) {
+	public Integer toggleBoardLikes(BoardLikesDto boardLikesDto) {
 		BoardLikes boardLikes = modelMapper.map(boardLikesDto, BoardLikes.class);
 		log.info("\t > boardLikesDto ==> {}", boardLikes);
 		
 		likesMapper.mergeBoardLikes(boardLikes);
 		log.info("\t > DB boardIdx = {}", boardLikes.getBoardIdx());
+		log.info("\t > DB boardLikesIdx = {}", boardLikes.getBoardLikesIdx());
 		
 		if (boardLikes.getBoardIdx() == null) {
 			throw new ExpectedException(MessageUtils.getMessage("error.NotFoundBoard"));
 		}
+		
+		return boardLikes.getBoardLikesIdx();
 	}
 	
 	@Override

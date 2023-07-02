@@ -14,6 +14,51 @@
 -->
 
 	<update id="mergeBoardLikes" parameterType="boardLikes">
+		<selectKey keyProperty="boardIdx,boardLikesIdx" resultType="boardLikes" order="BEFORE">
+			SELECT
+    			MAX(a.board_idx) AS board_idx,
+    			MAX(b.board_likes_idx) AS board_likes_idx
+			FROM 
+				board a
+			LEFT OUTER JOIN (
+    			SELECT 
+    				board_likes_idx, 
+    				board_idx
+    			FROM 
+    				board_likes
+    			WHERE 
+    				member_idx = #{memberIdx}
+			) b
+			ON 
+				a.board_idx = b.board_idx
+			WHERE 
+				a.board_idx = #{boardIdx}
+		</selectKey>
+		BEGIN
+			IF #{boardIdx} IS NOT NULL THEN
+				IF #{boardLikesIdx} IS NOT NULL THEN
+					DELETE FROM
+						board_likes
+					WHERE
+						board_likes_idx = #{boardLikesIdx}
+				ELSE
+					INSERT INTO board_likes (
+						board_likes_idx,
+						board_idx,
+						member_idx,
+						regdate
+					) VALUES (
+						seq_board_likes.NEXTVAL,
+						#{boardIdx},
+						#{memberIdx},
+						SYSDATE
+					)
+				END IF;
+			END IF;
+		END;
+	</update>
+
+	<!-- <update id="mergeBoardLikes" parameterType="boardLikes">
 		<selectKey keyProperty="boardIdx" resultType="int" order="BEFORE">
 			SELECT 
 				MAX(board_idx)
@@ -52,7 +97,7 @@
 					);
 			END IF;
 		END;
-	</update>
+	</update> -->
 	
 	<select id="findBoardLikes" resultType="map">
 	
