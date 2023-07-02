@@ -134,7 +134,7 @@ let likesService = (function() {
 	
 	function getBoardLikesCnt(boardIdx, callback) {
 		console.log("## Get Board Likes Cnt");
-		let url = contextPath + "/api/comments/" + boardIdx + "/likes";
+		let url = contextPath + "/api/boards/" + boardIdx + "/likes";
 		console.log("> url = '%s'", url);
 		
 		$.ajax({
@@ -162,8 +162,7 @@ let likesService = (function() {
 	return {
 		toggleBoardLikes:toggleBoardLikes,
 		toggleCommentLikes:toggleCommentLikes,
-		getBoardLikes:getBoardLikes,
-		getCommentLikes:getCommentLikes
+		getBoardLikesCnt:getBoardLikesCnt
 	};
 	
 })();

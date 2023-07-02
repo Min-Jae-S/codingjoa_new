@@ -525,7 +525,7 @@
 					<div class="input-group-prepend">
 						<span class="input-group-text">Get Board Likes Cnt</span>
 						<span class="input-group-text">:</span>
-	    				<span class="input-group-text">/api/comments/{boardIdx}/likes</span>
+	    				<span class="input-group-text">/api/boards/{boardIdx}/likes</span>
 	  				</div>
 	  				<input type="text" class="form-control" placeholder="boardIdx">
 	  				<div class="input-group-append">

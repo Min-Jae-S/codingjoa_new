@@ -15,5 +15,5 @@ public interface LikesMapper {
 	
 	boolean isBoardLikes(@Param("boardIdx") Integer boardIdx, @Param("memberIdx") Integer memberIdx);
 	
-	Integer findBoardLikesCnt(Integer boardIdx);
+	int findBoardLikesCnt(Integer boardIdx);
 }

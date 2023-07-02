@@ -46,7 +46,7 @@ public class LikesRestController {
 	@GetMapping("/boards/{boardIdx}/likes")
 	public ResponseEntity<Object> getBoardLikesCnt(@PathVariable Integer boardIdx) {
 		log.info("## getBoardLikesCnt, boardIdx = {}", boardIdx);
-		Integer boardLikesCnt = likesService.getBoardLikesCnt(boardIdx);
+		int boardLikesCnt = likesService.getBoardLikesCnt(boardIdx);
 		
 		return ResponseEntity.ok(SuccessResponse.create().data(boardLikesCnt));
 	}

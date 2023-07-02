@@ -66,7 +66,7 @@ public class LikesServiceImpl implements LikesService {
 
 	@Override
 	public int getBoardLikesCnt(Integer boardIdx) {
-		Integer boardLikesCnt = likesMapper.findBoardLikesCnt(boardIdx);
+		int boardLikesCnt = likesMapper.findBoardLikesCnt(boardIdx);
 		log.info("\t > boardLikesCnt = {}", boardLikesCnt);
 		
 		return boardLikesCnt;
