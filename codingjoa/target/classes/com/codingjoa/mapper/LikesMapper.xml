@@ -40,7 +40,7 @@
 					DELETE FROM
 						board_likes
 					WHERE
-						board_likes_idx = #{boardLikesIdx}
+						board_likes_idx = #{boardLikesIdx};
 				ELSE
 					INSERT INTO board_likes (
 						board_likes_idx,
@@ -52,7 +52,7 @@
 						#{boardIdx},
 						#{memberIdx},
 						SYSDATE
-					)
+					);
 				END IF;
 			END IF;
 		END;

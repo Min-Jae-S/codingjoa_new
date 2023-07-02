@@ -359,7 +359,7 @@
 								<span>댓글</span>
 								<span class="comment-cnt"><c:out value="${boardDetails.commentCnt}"/></span>
 							</a>
-							<button class="btn border-0 p-0" id="boardLikesBtn">
+							<button class="btn border-0 p-0 shadow-none" type="button" id="boardLikesBtn">
 								<i class="${boardLikes ? 'fa-solid' : 'fa-regular'} fa-heart"></i>
 								<span>좋아요</span>
 								<span class="board-likes-cnt"><c:out value="${boardDetails.boardLikesCnt}"/></span>
@@ -386,7 +386,7 @@
 							</sec:authorize>
 							<textarea id="commentContent" placeholder="댓글을 남겨보세요" rows="1"></textarea>
 							<div class="mt-2">
-								<button class="btn btn-sm" id="writeCommentBtn" disabled>등록</button>
+								<button class="btn btn-sm" type="button" id="writeCommentBtn" disabled>등록</button>
 							</div>
 						</div>
 					</div>
@@ -596,7 +596,7 @@
 		
 		// TEST get comment list2
 		$("button[name='commentListBtn']").on("click", function() {
-			commentService.getCommentList($(this).data("idx"), curPage, function(result) {
+			commentService.getCommentList($(this).data("idx"), curCommentPage, function(result) {
 				alert(result.message);
 			});
 		});
@@ -646,10 +646,11 @@
 	$(function() {
 		const boardIdx = "<c:out value='${boardDetails.boardIdx}'/>";
 		const boardWriterIdx = "<c:out value='${boardDetails.boardWriterIdx}'/>";
-		let curPage = 1;
+		let curCommentPage = 1;
+		let 
 		
 		// get comment list
-		commentService.getCommentList(boardIdx, curPage, function(result) {
+		commentService.getCommentList(boardIdx, curCommentPage, function(result) {
 			let commentList = result.data.commentList;
 			let commentHtml = makeCommentHtml(commentList, boardWriterIdx);
 			$("div.comment-list").html(commentHtml);
@@ -758,7 +759,7 @@
 			
 			commentService.modifyComment(commentIdx, comment, function(result) {
 				alert(result.message);
-				commentService.getCommentList(boardIdx, curPage, function(result) {
+				commentService.getCommentList(boardIdx, curCommentPage, function(result) {
 					let commentList = result.data.commentList;
 					let commentHtml = makeCommentHtml(commentList, boardWriterIdx);
 					$("div.comment-list").html(commentHtml);
@@ -780,7 +781,7 @@
 			let commentIdx = $(this).closest("li").data("comment-idx");
 			commentService.deleteComment(commentIdx, function(result) {
 				alert(result.message);
-				commentService.getCommentList(boardIdx, curPage, function(result) {
+				commentService.getCommentList(boardIdx, curCommentPage, function(result) {
 					let commentList = result.data.commentList;
 					let commentHtml = makeCommentHtml(commentList, boardWriterIdx);
 					$("div.comment-list").html(commentHtml);
@@ -796,10 +797,10 @@
 		// pagination
 		$(document).on("click", "a.page-link", function(e) {
 			e.preventDefault();
-			let clickedPage = $(this).data("page");
-			commentService.getCommentList(boardIdx, clickedPage, function(result) {
-				console.log("## page has changed from %s to %s", curPage, clickedPage);
-				curPage = clickedPage;
+			let clickedCommentPage = $(this).data("page");
+			commentService.getCommentList(boardIdx, clickedCommentPage, function(result) {
+				console.log("## page has changed from %s to %s", curCommentPage, clickedCommentPage);
+				curCommentPage = clickedCommentPage;
 				$("li.page-item").removeClass("active");
 				$(this).closest("li.page-item").addClass("active");
 				
@@ -820,9 +821,9 @@
 				alert(result.message);
 				let boardLikes = result.data;
 				if (boardLikes == "UP") {
-					$(this).find("i").removeClass().addClass("fa-heart").addClass("fa-solid");
+					$("#boardLikesBtn i").removeClass().addClass("fa-heart").addClass("fa-solid");
 				} else if (boardLikes == "DOWN") {
-					$(this).find("i").removeClass().addClass("fa-heart").addClass("fa-regular");
+					$("#boardLikesBtn i").removeClass().addClass("fa-heart").addClass("fa-regular");
 				}
 			});
 		});
