@@ -117,6 +117,7 @@ public class BoardController {
 		} else {
 			model.addAttribute("boardLikes", boardLikes);
 		}
+		log.info("\t > boardLikes = {}", boardLikes);
 		
 		Category category = categoryService.findCategory(boardDetails.getBoardCategoryCode());
 		model.addAttribute("category", category);

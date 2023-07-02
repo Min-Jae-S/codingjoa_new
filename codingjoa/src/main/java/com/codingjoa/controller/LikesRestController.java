@@ -3,6 +3,7 @@ package com.codingjoa.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,14 +34,21 @@ public class LikesRestController {
 		boardLikesDto.setBoardIdx(boardIdx);
 		boardLikesDto.setMemberIdx(principal.getMember().getMemberIdx());
 		Integer boardLikesIdx = likesService.toggleBoardLikes(boardLikesDto);
-		log.info("\t > toggleBoardLikes result = {}",
-				boardLikesIdx == null ? "Insert boardLikes" : "Delete boardLikes");
+		log.info("\t > {}", boardLikesIdx == null ? "Insert boardLikes" : "Delete boardLikes");
 
 		if (boardLikesIdx == null) {
 			return ResponseEntity.ok(SuccessResponse.create().data("UP").code("success.InsertBoardLikes"));
 		} else {
 			return ResponseEntity.ok(SuccessResponse.create().data("DOWN").code("success.DeleteBoardLikes"));
 		}
+	}
+	
+	@GetMapping("/boards/{boardIdx}/likes")
+	public ResponseEntity<Object> getBoardLikesCnt(@PathVariable Integer boardIdx) {
+		log.info("## getBoardLikesCnt, boardIdx = {}", boardIdx);
+		Integer boardLikesCnt = likesService.getBoardLikesCnt(boardIdx);
+		
+		return ResponseEntity.ok(SuccessResponse.create().data(boardLikesCnt));
 	}
 	
 	@PostMapping("/comments/{commentIdx}/likes")
@@ -52,8 +60,7 @@ public class LikesRestController {
 		commentLikesDto.setCommentIdx(commentIdx);
 		commentLikesDto.setMemberIdx(principal.getMember().getMemberIdx());
 		Integer commentLikesIdx = likesService.toggleCommentLikes(commentLikesDto);
-		log.info("\t > toggleCommentLikes result = {}",
-				commentLikesIdx == null ? "Insert commentLikes" : "Delete commentLikes");
+		log.info("\t > {}", commentLikesIdx == null ? "Insert commentLikes" : "Delete commentLikes");
 		
 		if (commentLikesIdx == null) {
 			return ResponseEntity.ok(SuccessResponse.create().data("UP").code("success.InsertCommentLikes"));
