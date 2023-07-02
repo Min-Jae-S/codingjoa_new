@@ -158,6 +158,34 @@ let likesService = (function() {
 			}
 		});
 	}
+
+		function getCommentLikesCnt(commentIdx, callback) {
+			console.log("## Get Comment Likes Cnt");
+			let url = contextPath + "/api/comments/" + commentIdx + "/likes";
+			console.log("> url = '%s'", url);
+			
+			$.ajax({
+				type : "GET",
+				url : url,
+				dataType : "json",
+				success : function(result) {
+					console.log(JSON.stringify(result, null, 2));
+					callback(result);
+				},
+				error : function(jqXHR) {
+					let errorResponse = JSON.parse(jqXHR.responseText);
+					console.log(JSON.stringify(errorResponse, null, 2));
+					if (jqXHR.status == 422) {
+						$.each(errorResponse.errorMap, function(errorField, errorMessage) {
+							alert(errorMessage);
+						});
+					} else {
+						alert(errorResponse.errorMessage);
+					}
+				}
+			});
+		}
+	}
 	
 	return {
 		toggleBoardLikes:toggleBoardLikes,

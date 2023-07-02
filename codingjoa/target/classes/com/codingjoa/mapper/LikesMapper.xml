@@ -192,6 +192,17 @@
 			member_idx = #{memberIdx}
 	</select>
 	
+	<select id="isCommentLikes" parameterType="map" resultType="boolean">
+		SELECT
+			COUNT(*)
+		FROM
+			comment_likes
+		WHERE
+			comment_idx = #{commentIdx}
+			AND
+			member_idx = #{memberIdx}
+	</select>
+	
 	<select id="findBoardLikesCnt" parameterType="int" resultType="int">
 		SELECT
 			COUNT(*)
@@ -199,6 +210,15 @@
 			board_likes
 		WHERE
 			board_idx = #{boardIdx}
+	</select>
+
+	<select id="findCommentLikesCnt" parameterType="int" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			comment_likes
+		WHERE
+			comment_idx = #{boardIdx}
 	</select>
 	
 </mapper>

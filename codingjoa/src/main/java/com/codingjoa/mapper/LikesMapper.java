@@ -14,6 +14,10 @@ public interface LikesMapper {
 	void delOrInsCommentLikes(CommentLikes commentLikes); // mergeCommentLikes
 	
 	boolean isBoardLikes(@Param("boardIdx") Integer boardIdx, @Param("memberIdx") Integer memberIdx);
+
+	boolean isCommentLikes(@Param("commentIdx") Integer commentIdx, @Param("memberIdx") Integer memberIdx);
 	
 	int findBoardLikesCnt(Integer boardIdx);
+
+	int findCommentLikesCnt(Integer boardIdx);
 }

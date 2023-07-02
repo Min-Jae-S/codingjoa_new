@@ -532,6 +532,17 @@
 	    				<button class="btn btn-warning" id="testGetBoardLikesCntBtn">TEST</button>
 	  				</div>
 				</div>
+				<div class="input-group mb-4">
+					<div class="input-group-prepend">
+						<span class="input-group-text">Get Comment Likes Cnt</span>
+						<span class="input-group-text">:</span>
+	    				<span class="input-group-text">/api/comments/{commentIdx}/likes</span>
+	  				</div>
+	  				<input type="text" class="form-control" placeholder="commentIdx">
+	  				<div class="input-group-append">
+	    				<button class="btn btn-warning" id="testGetCommentLikesCntBtn">TEST</button>
+	  				</div>
+				</div>
 			</div>
 		</div>
 		<div class="col-sm-1"></div>
@@ -656,6 +667,14 @@
 		$("#testGetBoardLikesCntBtn").on("click", function() {
 			let boardIdx = $(this).closest("div.input-group").find("input").val();
 			likesService.getBoardLikesCnt(boardIdx, function(result) {
+				// ...
+			});
+		});
+
+		// TEST comment likes cnt
+		$("#testGetCommentLikesCntBtn").on("click", function() {
+			let commentIdx = $(this).closest("div.input-group").find("input").val();
+			likesService.getCommentLikesCnt(commentIdx, function(result) {
 				// ...
 			});
 		});

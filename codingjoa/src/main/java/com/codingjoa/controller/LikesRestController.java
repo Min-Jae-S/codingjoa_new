@@ -36,10 +36,11 @@ public class LikesRestController {
 		Integer boardLikesIdx = likesService.toggleBoardLikes(boardLikesDto);
 		log.info("\t > {}", boardLikesIdx == null ? "Insert boardLikes" : "Delete boardLikes");
 
+		SuccessResponse response = SuccessResponse.create();
 		if (boardLikesIdx == null) {
-			return ResponseEntity.ok(SuccessResponse.create().data("UP").code("success.InsertBoardLikes"));
+			return ResponseEntity.ok(response.data("UP").code("success.InsertBoardLikes"));
 		} else {
-			return ResponseEntity.ok(SuccessResponse.create().data("DOWN").code("success.DeleteBoardLikes"));
+			return ResponseEntity.ok(response.data("DOWN").code("success.DeleteBoardLikes"));
 		}
 	}
 	
@@ -62,17 +63,19 @@ public class LikesRestController {
 		Integer commentLikesIdx = likesService.toggleCommentLikes(commentLikesDto);
 		log.info("\t > {}", commentLikesIdx == null ? "Insert commentLikes" : "Delete commentLikes");
 		
+		SuccessResponse response = SuccessResponse.create();
 		if (commentLikesIdx == null) {
-			return ResponseEntity.ok(SuccessResponse.create().data("UP").code("success.InsertCommentLikes"));
+			return ResponseEntity.ok(response.data("UP").code("success.InsertCommentLikes"));
 		} else {
-			return ResponseEntity.ok(SuccessResponse.create().data("DOWN").code("success.DeleteCommentLikes"));
+			return ResponseEntity.ok(response.data("DOWN").code("success.DeleteCommentLikes"));
 		}
 	}
 
 	@GetMapping("/comments/{commentIdx}/likes")
 	public ResponseEntity<Object> getCommentLikesCnt(@PathVariable Integer commentIdx) {
 		log.info("## getCommentLikesCnt, commentIdx = {}", commentIdx);
+		int commentLikesCnt = likesService.getCommentLikesCnt(commentIdx);
 		
-		return ResponseEntity.ok(SuccessResponse.create().data(null));
+		return ResponseEntity.ok(SuccessResponse.create().data(commentLikesCnt));
 	}
 }
