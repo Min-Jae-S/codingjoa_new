@@ -194,10 +194,6 @@
 		color: #868e96;
 	}
 	
-	.fa-heart {
-		color: red;
-	}
-	
 	.comment-area {
 		display: flex;
 	} 
@@ -360,7 +356,7 @@
 								<span class="comment-cnt"><c:out value="${boardDetails.commentCnt}"/></span>
 							</a>
 							<button class="btn border-0 p-0 shadow-none" type="button" id="boardLikesBtn">
-								<i class="${boardLikes ? 'fa-solid' : 'fa-regular'} fa-heart"></i>
+								<i class="${boardLikes ? 'text-danger fa-solid' : 'text-secondary fa-regular'} fa-heart"></i>
 								<span>좋아요</span>
 								<span class="board-likes-cnt"><c:out value="${boardDetails.boardLikesCnt}"/></span>
 							</button>
@@ -856,17 +852,13 @@
 		// board likes
 		$("#boardLikesBtn").on("click", function() {
 			likesService.toggleBoardLikes(boardIdx, function(result) {
-				alert(result.message);
-				let boardLikes = result.data;
-				if (boardLikes == "UP") {
-					boardLikesCnt++;
-					$(".board-likes-cnt").text(boardLikesCnt);
-					$("#boardLikesBtn i").removeClass().addClass("fa-heart").addClass("fa-solid");
-				} else if (boardLikes == "DOWN") {
-					boardLikesCnt--;
-					$(".board-likes-cnt").text(boardLikesCnt);
-					$("#boardLikesBtn i").removeClass().addClass("fa-heart").addClass("fa-regular");
-				}
+				let toggleMessage = result.message;
+				let newClass = (result.data == "UP") ? "text-danger fa-solid fa-heart" : "text-secondary fa-regular fa-heart";
+				likesService.getBoardLikesCnt(boardIdx, function(result) {
+					alert(toggleMessage);
+					$("#boardLikesBtn i").removeClass().addClass(newClass);
+					$(".board-likes-cnt").text(result.data);
+				});
 			});
 		});
 		

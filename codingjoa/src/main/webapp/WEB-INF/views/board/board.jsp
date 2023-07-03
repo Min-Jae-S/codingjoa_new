@@ -140,7 +140,7 @@
 										</td>
 										<td class="d-md-table-cell"><c:out value="${boardDetails.boardViews}"/></td>
 										<td class="d-md-table-cell">
-											<i class="fa-regular fa-heart mr-1" style="color: red;"></i>
+											<i class="fa-regular fa-heart mr-1"></i>
 											<c:out value="${boardDetails.boardLikesCnt}"/>
 										</td>
 									</tr>
