@@ -75,7 +75,7 @@ public class BoardController {
 	}
 	
 	@GetMapping("/")
-	public String getBoard(@BoardCategoryCode @RequestParam int boardCategoryCode, @BoardCri Criteria boardCri,
+	public String getBoard(@BoardCategoryCode @RequestParam int boardCategoryCode, @BoardCri Criteria boardCri, 
 			Model model) {
 		log.info("## getBoard, boardCategoryCode = {}", boardCategoryCode);
 		log.info("\t > boardCri = {}", boardCri);
@@ -98,22 +98,12 @@ public class BoardController {
 	}
 	
 	@GetMapping("/read")
-	public String read(@RequestParam int boardIdx, @BoardCri Criteria boardCri, 
-			@AuthenticationPrincipal UserDetailsDto principal, Model model) {
+	public String read(@RequestParam int boardIdx, @BoardCri Criteria boardCri, Model model) {
 		log.info("## read, boardIdx = {}", boardIdx);
 		log.info("\t > {}", boardCri);
 		
 		BoardDetailsDto boardDetails = boardService.getBoardDetails(boardIdx);
 		model.addAttribute("boardDetails", boardDetails);
-		
-		if (principal != null) {
-			boolean myBoardLikes = principal.getBoardLikesList().contains(boardIdx);
-			model.addAttribute("myBoardLikes", myBoardLikes);
-			model.addAttribute("myCommentLikesList", principal.getCommentLikesList());
-		} else {
-			model.addAttribute("myBoardLikes", false);
-			model.addAttribute("myCommentLikesList", Collections.EMPTY_LIST);
-		}
 		
 		Category category = categoryService.findCategory(boardDetails.getBoardCategoryCode());
 		model.addAttribute("category", category);

@@ -317,25 +317,7 @@
 					      		href="${contextPath}/board/deleteProc?boardIdx=${boardDetails.boardIdx}">삭제하기
 					     	</a>
 					     </div>
-						<%-- <sec:authorize access="isAuthenticated()">
-							<sec:authentication property="principal.member" var="member"/>
-							<c:if test="${member.memberIdx eq boardDetails.boardWriterIdx}">
-								<button class="board-utils btn btn-lg" data-toggle="dropdown" data-offset="0,10">
-									<i class="fa-solid fa-ellipsis-vertical"></i>
-								</button>
-								<div class="dropdown-menu">
-									<h6 class="dropdown-header">게시글 관리</h6>
-									<a class="dropdown-item" 
-										href="${contextPath}/board/modify?boardIdx=${boardDetails.boardIdx}">수정하기
-									</a>
-							      	<a class="dropdown-item" id="deleteBoardLink"
-							      		href="${contextPath}/board/deleteProc?boardIdx=${boardDetails.boardIdx}">삭제하기
-							     	</a>
-							    </div>
-							</c:if>
-						</sec:authorize> --%>
 					</div>
-					<%-- <h3 class="title mb-4"><c:out value="${boardDetails.boardTitle}"/></h3> --%>
 					<h3 class="title mb-4"><c:out value="${boardDetails.boardTitle}"/> (boardIdx = ${boardDetails.boardIdx})</h3>
 					<div class="header-meta d-flex mb-2">
 						<span class="mr-3"><c:out value="${boardDetails.memberId}"/></span>
@@ -351,8 +333,13 @@
 								<span class="comment-cnt"><c:out value="${boardDetails.commentCnt}"/></span>
 							</a>
 							<button class="btn border-0 p-0 shadow-none" type="button" id="boardLikesBtn">
+							<sec:authorize access="isAnonymous()">
+								<i class="text-grey fa-regular fa-heart"></i>
+							</sec:authorize>
+							<sec:authorize access="isAuthenticated()">
+								<sec:authentication property="principal" var="principal"/>
 								<c:choose>
-									<c:when test="${myBoardLikes}">
+									<c:when test="${principal.isMyBoardLikes(boardDetails.boardIdx)}">
 										<i class="text-danger fa-solid fa-heart"></i>
 									</c:when>
 									<c:otherwise>
@@ -680,9 +667,12 @@
 	const boardWriterIdx = "<c:out value='${boardDetails.boardWriterIdx}'/>";
 	let curCommentPage = 1;
 	let myCommentLikesList = [];
-	<c:forEach items="${myCommentLikesList}" var="commentIdx">
-		myCommentLikesList.push(${commentIdx});
-	</c:forEach>
+	<sec:authorize access="isAuthenticated()">
+		<sec:authentication property="principal.commentLikesList" var="commentLikesList"/>
+		<c:forEach items="${commentLikesList}" var="item">
+			myCommentLikesList.push(${item});
+		</c:forEach>
+	</sec:authorize>
 	
 	$(function() {
 		// get comment list

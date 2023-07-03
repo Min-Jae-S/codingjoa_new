@@ -66,4 +66,8 @@ public class UserDetailsDto implements UserDetails {
 		return true;
 	}
 	
+	public boolean isMyBoardLikes(int boardIdx) {
+		return boardLikesList.contains(boardIdx);
+	}
+	
 }
