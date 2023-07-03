@@ -73,19 +73,19 @@
 			<result property="moddate" column="moddate"/>
 		</association>
 		<collection property="boardLikesList" javaType="list" ofType="int">
-			<id column="board_likes_idx"/>
+			<result column="board_idx"/>
 		</collection>
 		<collection property="commentLikesList" javaType="list" ofType="int">
-			<id column="comment_likes_idx"/>
+			<result column="comment_idx"/>
 		</collection>
 	</resultMap>
 	
 	<select id="findUserDetailsById" parameterType="string" resultMap="userDetailsMap">
 		SELECT 
 			a.*,
-			b.member_role AS member_role,
-			c.board_likes_idx AS board_likes_idx,
-			d.comment_likes_idx AS comment_likes_idx
+			b.member_role,
+			c.board_idx,
+			d.comment_idx
 		FROM
 			member a
 		INNER JOIN

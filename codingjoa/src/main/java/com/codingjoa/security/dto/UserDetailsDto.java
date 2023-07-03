@@ -65,5 +65,13 @@ public class UserDetailsDto implements UserDetails {
 	public boolean isEnabled() {
 		return true;
 	}
+	
+	public boolean isMyBoardLikes(int boardIdx) {
+		return boardLikesList.contains(boardIdx);
+	}
+	
+	public boolean isMyCommentLikes(int commentLikes) {
+		return commentLikesList.contains(commentLikes);
+	}
 
 }

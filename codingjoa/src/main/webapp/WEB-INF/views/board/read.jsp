@@ -356,9 +356,9 @@
 								<i class="text-grey fa-regular fa-heart"></i>
 							</sec:authorize>
 							<sec:authorize access="isAuthenticated()">
-								<sec:authentication property="principal.boardLikesList" var="boardLikesList"/>
+								<sec:authentication property="principal" var="principal"/>
 								<c:choose>
-									<c:when test="${fn:contains(boardLikesList, boardDetails.boardIdx}">
+									<c:when test="${principal.isMyBoardLikes(boardDetails.boardIdx)}">
 										<i class="text-danger fa-solid fa-heart"></i>
 									</c:when>
 									<c:otherwise>
