@@ -18,7 +18,7 @@
 			SELECT
     			MAX(a.board_idx) AS board_idx,
     			MAX(b.board_likes_idx) AS board_likes_idx
-			FROM 
+			FROM
 				board a
 			LEFT OUTER JOIN (
     			SELECT 
@@ -29,7 +29,7 @@
     			WHERE 
     				member_idx = #{memberIdx}
 			) b
-			ON 
+			ON
 				a.board_idx = b.board_idx
 			WHERE 
 				a.board_idx = #{boardIdx}
@@ -100,32 +100,35 @@
 	</update> -->
 	
 	<update id="delOrInsCommentLikes" parameterType="commentLikes">
-		<selectKey keyProperty="commentIdx" resultType="int" order="BEFORE">
+		<selectKey keyProperty="commentIdx,commentLikesIdx" resultType="commentLikes" order="BEFORE">
 			SELECT 
-				MAX(comment_idx) 
+				MAX(a.comment_idx) AS comment_idx,
+				MAX(b.comment_likes_idx) AS comment_likes_idx
 			FROM 
-				"comment" 
+				"comment" a
+			LEFT OUTER JOIN (
+				SELECT
+					comment_likes_idx,
+					comment_idx
+				FROM
+					comment_likes
+				WHERE
+					member_idx = #{memberIdx}
+			) b
+			ON
+				a.comment_idx = b.comment_idx
 			WHERE 
-				comment_idx = #{commentIdx}
+				a.comment_idx = #{commentIdx}
 		</selectKey>
 		BEGIN
 			IF #{commentIdx} IS NOT NULL THEN
-				MERGE INTO 
-					comment_likes
-				USING
-					DUAL
-				ON (
-					comment_idx = #{commentIdx}
-					AND
-					member_idx = #{memberIdx} 
-				)
-				WHEN MATCHED THEN
-					UPDATE SET
-						comment_likes_idx = comment_likes_idx
-					DELETE WHERE
-						comment_likes_idx = comment_likes_idx
-				WHEN NOT MATCHED THEN
-					INSERT (
+				IF #{commentLikesIdx} IS NOT NULL THEN
+					DELETE FROM
+						comment_likes
+					WHERE
+						comment_likes_idx = #{commentLikesIdx};
+				ELSE
+					INSERT INTO comment_likes (
 						comment_likes_idx,
 						comment_idx,
 						member_idx,
@@ -136,6 +139,7 @@
 						#{memberIdx},
 						SYSDATE
 					);
+				END IF;
 			END IF;
 		END;
 	</update>

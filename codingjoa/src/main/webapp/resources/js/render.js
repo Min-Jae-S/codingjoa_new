@@ -54,7 +54,7 @@ console.log("## Rendering service ready - render.js");
 			html += "<div class='mt-auto'>"
 			html += "<button class='btn border-0 p-0 shadow-none' type='button' name='commentLikesBtn'>";
 			html += "<i class='text-grey fa-regular fa-thumbs-up'></i> ";
-			html += "<span class='comment-likes-cnt text-grey'>" + commentDetails.commentLikes + "</span>";
+			html += "<span class='comment-likes-cnt'>" + commentDetails.commentLikes + "</span>";
 			html += "</button>";
 			html += "</div>";
 			html += "</div>";

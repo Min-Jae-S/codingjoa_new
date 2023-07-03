@@ -68,7 +68,7 @@
 						</div>
 						<div class="form-group mb-4">
 							<form:label path="memberPassword" class="font-weight-bold">비밀번호</form:label>
-							<form:password path="memberPassword" class="form-control" placeholder="비밀번호 입력" showPassword="true"/>
+							<form:password path="memberPassword" class="form-control" placeholder="비밀번호 입력" showPassword="true" autocomplete="off"/>
 						</div>
 						<c:if test="${not empty errorResponse}">
 							<div class="error">${errorResponse.errorMessage}</div>

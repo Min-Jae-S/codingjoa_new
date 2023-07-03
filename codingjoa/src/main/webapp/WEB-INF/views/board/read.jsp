@@ -861,10 +861,17 @@
 		
 		// comment likes
 		$(document).on("click", "button[name=commentLikesBtn]", function() {
-			let commentIdx = $(this).closest("li").data("comment-idx");
-			
+			let $li = $(this).closest("li");
+			let commentIdx = $li.data("comment-idx");
 			likesService.toggleCommentLikes(commentIdx, function(result) {
-				alert(result.message);
+				let toggleMessage = result.message;
+				let cssClass = (result.data == "UP") ? 
+						"text-primary fa-solid fa-thumbs-up" : "text-grey fa-regular fa-thumbs-up";
+				likesService.getCommentLikesCnt(commentIdx, function(result) {
+					alert(toggleMessage);
+					$li.find("button[name=commentLikesBtn] i").removeClass().addClass(cssClass);
+					$li.find(".comment-likes-cnt").text(result.data);
+				});
 			});
 		});
 		
