@@ -20,8 +20,8 @@ public class CommentDetailsDto {
 	@JsonFormat(pattern = "yyyy.MM.dd. HH:mm", timezone = "Asia/Seoul")
 	private Date moddate;
 	
-	private String commentWriterId;	// member
-	private int commentLikesCnt;	// comment_likes
+	private String commentWriterId;		// INNER JOIN with member
+	private int commentLikesCnt;		// OUTER JOIN with comment_likes
 	
 	@Override
 	public String toString() {

@@ -406,10 +406,6 @@
 					</div>
 				</div>
 			</div>
-			<%-- <div class="card-bottom">
-				<a class="btn btn-secondary" href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}&
-					${boardCri.getQueryString()}">목록</a>
-			</div> --%>
 			<div class="test1 mt-5 d-none">
 				<div class="input-group mb-4">
 					<div class="input-group-prepend">

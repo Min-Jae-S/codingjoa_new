@@ -16,9 +16,9 @@ public class BoardDetailsDto {
 	private Date regdate;
 	private Date moddate;
 	
-	private String memberId;		// member
-	private int commentCnt;			// comment
-	private int boardLikesCnt;		// board_likes
+	private String memberId;		// INNER JOIN with member
+	private int commentCnt;			// OUTER JOIN with comment
+	private int boardLikesCnt;		// OUTER JOIN with board_likes
 	
 	@Override
 	public String toString() {
