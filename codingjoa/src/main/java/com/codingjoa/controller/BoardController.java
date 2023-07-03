@@ -1,5 +1,6 @@
 package com.codingjoa.controller;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -97,12 +98,22 @@ public class BoardController {
 	}
 	
 	@GetMapping("/read")
-	public String read(@RequestParam int boardIdx, @BoardCri Criteria boardCri, Model model) {
+	public String read(@RequestParam int boardIdx, @BoardCri Criteria boardCri, 
+			@AuthenticationPrincipal UserDetailsDto principal, Model model) {
 		log.info("## read, boardIdx = {}", boardIdx);
 		log.info("\t > {}", boardCri);
 		
 		BoardDetailsDto boardDetails = boardService.getBoardDetails(boardIdx);
 		model.addAttribute("boardDetails", boardDetails);
+		
+		if (principal != null) {
+			boolean myBoardLikes = principal.getBoardLikesList().contains(boardIdx);
+			model.addAttribute("myBoardLikes", myBoardLikes);
+			model.addAttribute("myCommentLikesList", principal.getCommentLikesList());
+		} else {
+			model.addAttribute("myBoardLikes", false);
+			model.addAttribute("myCommentLikesList", Collections.EMPTY_LIST);
+		}
 		
 		Category category = categoryService.findCategory(boardDetails.getBoardCategoryCode());
 		model.addAttribute("category", category);
