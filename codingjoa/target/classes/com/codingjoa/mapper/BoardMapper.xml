@@ -12,21 +12,6 @@
     moddate                 DATE                        NOT NULL,
 -->
 
-	<resultMap type="map" id="boardDetailsMap">
-		<id property="boardIdx" column="board_idx"/>
-		<result property="boardTitle" column="board_title"/>
-		<!-- <result property="boardContent" column="board_content" typeHandler="clobTypeHandler"/> -->
-		<result property="boardContent" column="board_content" jdbcType="CLOB" javaType="java.lang.String" />
-		<result property="boardWriterIdx" column="board_writer_idx" javaType="java.lang.Integer"/>
-		<result property="boardViews" column="board_views" javaType="java.lang.Integer"/>
-		<result property="boardCategoryCode" column="board_category_code" javaType="java.lang.Integer"/>
-		<result property="regdate" column="regdate" javaType="java.util.Date"/>
-		<result property="moddate" column="moddate" javaType="java.util.Date"/>
-		<result property="memberId" column="member_id" javaType="java.lang.String"/>
-		<result property="commentCnt" column="comment_cnt" javaType="java.lang.Integer"/>
-		<result property="boardLikesCnt" column="board_likes_cnt" javaType="java.lang.Integer"/>
-	</resultMap>
-	
 	<insert id="insertBoard" parameterType="board">
 		<selectKey keyProperty="boardIdx" resultType="int" order="BEFORE">
 			SELECT 
@@ -55,6 +40,21 @@
 		)
 	</insert>
 	
+	<resultMap type="map" id="boardDetailsMap">
+		<id property="boardIdx" column="board_idx"/>
+		<result property="boardTitle" column="board_title"/>
+		<!-- <result property="boardContent" column="board_content" typeHandler="clobTypeHandler"/> -->
+		<result property="boardContent" column="board_content" jdbcType="CLOB" javaType="java.lang.String" />
+		<result property="boardWriterIdx" column="board_writer_idx" javaType="java.lang.Integer"/>
+		<result property="boardViews" column="board_views" javaType="java.lang.Integer"/>
+		<result property="boardCategoryCode" column="board_category_code" javaType="java.lang.Integer"/>
+		<result property="regdate" column="regdate" javaType="java.util.Date"/>
+		<result property="moddate" column="moddate" javaType="java.util.Date"/>
+		<result property="memberId" column="member_id" javaType="java.lang.String"/>
+		<result property="commentCnt" column="comment_cnt" javaType="java.lang.Integer"/>
+		<result property="boardLikesCnt" column="board_likes_cnt" javaType="java.lang.Integer"/>
+	</resultMap>
+	
 	<select id="findBoardDetails" parameterType="int" resultMap="boardDetailsMap">
 		SELECT 
 			a.board_idx, 
@@ -76,7 +76,8 @@
 			a.board_writer_idx = b.member_idx
 		LEFT OUTER JOIN (
 			SELECT 
-				comment_board_idx, COUNT(*) cnt
+				comment_board_idx, 
+				COUNT(*) cnt
 			FROM
 				"comment"
 			GROUP BY 
@@ -86,7 +87,8 @@
 			a.board_idx = c.comment_board_idx
 		LEFT OUTER JOIN ( 
 			SELECT 
-    			board_idx, COUNT(*) cnt
+    			board_idx, 
+    			COUNT(*) cnt
     		FROM 
     			board_likes
     		GROUP BY 
@@ -224,7 +226,8 @@
 			a.board_writer_idx = b.member_idx
 		LEFT OUTER JOIN (
 			SELECT 
-				comment_board_idx, COUNT(*) cnt
+				comment_board_idx, 
+				COUNT(*) cnt
 			FROM
 				"comment"
 			GROUP BY 
@@ -234,7 +237,8 @@
 			a.board_idx = c.comment_board_idx
 		LEFT OUTER JOIN ( 
 			SELECT 
-    			board_idx, COUNT(*) cnt
+    			board_idx, 
+    			COUNT(*) cnt
     		FROM 
     			board_likes
     		GROUP BY 

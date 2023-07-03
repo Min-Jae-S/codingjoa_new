@@ -11,19 +11,6 @@
     moddate                  DATE                         NOT NULL,
 -->
 
-	<resultMap type="map" id="commentDetailsMap">
-		<id property="commentIdx" column="comment_idx"/>
-		 <!-- java.math.BigDecimal -->
-		<result property="commentWriterIdx" column="comment_writer_idx" javaType="java.lang.Integer"/>
-		<result property="commentBoardIdx" column="comment_board_idx" javaType="java.lang.Integer"/>
-		<result property="commentContent" column="comment_content" javaType="java.lang.String"/>
-		<result property="commentUse" column="comment_use" javaType="java.lang.Boolean"/>
-		<result property="regdate" column="regdate" javaType="java.util.Date"/>
-		<result property="moddate" column="moddate" javaType="java.util.Date"/>
-		<result property="commentWriterId" column="comment_writer_id" javaType="java.lang.String"/>
-		<!-- <result property="commentLikesCnt" column=""/> -->
-	</resultMap>
-	
 	<insert id="insertComment" parameterType="comment">
 		<selectKey keyProperty="commentBoardIdx" resultType="int" order="BEFORE">
 			SELECT 
@@ -77,6 +64,19 @@
 			#{commentBoardIdx} IS NOT NULL -->
 	</insert>
 	
+	<resultMap type="map" id="commentDetailsMap">
+		<id property="commentIdx" column="comment_idx"/>
+		 <!-- java.math.BigDecimal -->
+		<result property="commentWriterIdx" column="comment_writer_idx" javaType="java.lang.Integer"/>
+		<result property="commentBoardIdx" column="comment_board_idx" javaType="java.lang.Integer"/>
+		<result property="commentContent" column="comment_content" javaType="java.lang.String"/>
+		<result property="commentUse" column="comment_use" javaType="java.lang.Boolean"/>
+		<result property="regdate" column="regdate" javaType="java.util.Date"/>
+		<result property="moddate" column="moddate" javaType="java.util.Date"/>
+		<result property="commentWriterId" column="comment_writer_id" javaType="java.lang.String"/>
+		<result property="commentLikesCnt" column="comment_likes_cnt" javaType="java.lang.Integer"/>
+	</resultMap>
+	
 	<select id="findPagedComment" parameterType="map" resultMap="commentDetailsMap">
 		SELECT
     		/*+ LEADING(b) INDEX_DESC(a pk_comment) */ 
@@ -87,7 +87,8 @@
 			a.comment_use,
 	        a.regdate,
 	        a.moddate,
-    		b.member_id AS comment_writer_id
+    		b.member_id AS comment_writer_id,
+    		NVL(c.cnt, 0) AS comment_likes_cnt
 		FROM (
 		    SELECT
 		        ROWNUM rn, 
@@ -110,7 +111,18 @@
 		INNER JOIN
 			member b
 		ON 
-			a.comment_writer_idx = b.member_idx 
+			a.comment_writer_idx = b.member_idx
+		LEFT OUTER JOIN (
+			SELECT
+				comment_idx, 
+				COUNT(*) cnt
+			FROM
+				comment_likes
+			GROUP BY
+				comment_idx	
+		) c
+		ON
+			a.comment_idx = c.comment_idx
 		WHERE 
 			a.rn > ( ( #{commentCri.page} - 1 ) * #{commentCri.recordCnt} )
 	</select>
@@ -133,17 +145,27 @@
 			a.comment_use,
 	        a.regdate,
 	        a.moddate,
-    		b.member_id AS comment_writer_id
+    		b.member_id AS comment_writer_id,
+    		NVL(c.cnt, 0) AS comment_likes_cnt
 		FROM
 			"comment" a
 		INNER JOIN
 			member b
 		ON
 			a.comment_writer_idx = b.member_idx
+		LEFT OUTER JOIN (
+			SELECT
+				comment_idx, 
+				COUNT(*) cnt
+			FROM
+				comment_likes
+			GROUP BY
+				comment_idx	
+		) c
+		ON
+			a.comment_idx = c.comment_idx
 		WHERE
 			a.comment_idx = #{commentIdx}
-		<!-- AND 
-			a.comment_writer_idx = #{commentWriterIdx} -->
 	</select>
 	
 	<update id="updateComment" parameterType="comment">
