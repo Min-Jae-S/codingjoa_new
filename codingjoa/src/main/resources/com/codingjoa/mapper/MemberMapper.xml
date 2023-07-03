@@ -16,8 +16,8 @@
 			<result property="regdate" column="regdate"/>
 			<result property="moddate" column="moddate"/>
 		</association>
-		<collection property="boardLikesList" javaType="list" ofType="int" column="board_likes_idx"/>
-		<collection property="commentLikesList" javaType="list" ofType="int" column="comment_likes_idx"/>
+		<collection property="boardLikesList" javaType="arraylist" column="board_likes_idx"/>
+		<collection property="commentLikesList" javaType="arraylist" column="comment_likes_idx"/>
 	</resultMap>
 	
 	<insert id="registerMember" parameterType="member">

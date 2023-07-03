@@ -38,10 +38,12 @@ public class LikesRestController {
 
 		SuccessResponse response = SuccessResponse.create();
 		if (boardLikesIdx == null) {
-			return ResponseEntity.ok(response.data("UP").code("success.InsertBoardLikes"));
+			response.data("UP").code("success.InsertBoardLikes");
 		} else {
-			return ResponseEntity.ok(response.data("DOWN").code("success.DeleteBoardLikes"));
+			response.data("DOWN").code("success.DeleteBoardLikes");
 		}
+		
+		return ResponseEntity.ok(response);
 	}
 	
 	@GetMapping("/boards/{boardIdx}/likes")
@@ -65,10 +67,12 @@ public class LikesRestController {
 		
 		SuccessResponse response = SuccessResponse.create();
 		if (commentLikesIdx == null) {
-			return ResponseEntity.ok(response.data("UP").code("success.InsertCommentLikes"));
+			response.data("UP").code("success.InsertCommentLikes");
 		} else {
-			return ResponseEntity.ok(response.data("DOWN").code("success.DeleteCommentLikes"));
+			response.data("DOWN").code("success.DeleteCommentLikes");
 		}
+		
+		return ResponseEntity.ok(response);
 	}
 
 	@GetMapping("/comments/{commentIdx}/likes")

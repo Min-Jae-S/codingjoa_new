@@ -100,7 +100,7 @@ public class RootConfig {
 		ModelMapper modelMapper = new ModelMapper();
 		modelMapper.getConfiguration()
 			.setMatchingStrategy(MatchingStrategies.STRICT)
-			// setter 없는 Dto를 mapping 하기 위해 fieldAccessLevel과 fieldMatchingEnabled를 설정 
+			// setter가 없는 Dto(UserDetailsDto)에 대한 mapping을 위해 fieldAccessLevel과 fieldMatchingEnabled를 설정 
 			.setFieldAccessLevel(AccessLevel.PRIVATE)
 			.setFieldMatchingEnabled(true);
 		

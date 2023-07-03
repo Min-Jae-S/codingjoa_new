@@ -55,7 +55,7 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
 		
 		if (authentication == null) {
 			SecurityContextHolder.getContext().setAuthentication(createAuthentication(request));
-			log.info("\t > create authentication [AnonymousAuthenticationToken]");
+			log.info("\t > create authentication token [AnonymousAuthenticationToken]");
 		}
 		
 		request.getRequestDispatcher(DEFAULT_FAILURE_URL).forward(request, response);
