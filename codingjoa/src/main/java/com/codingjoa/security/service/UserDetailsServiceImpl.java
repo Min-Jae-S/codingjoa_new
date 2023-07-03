@@ -28,20 +28,20 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String memberId) throws UsernameNotFoundException {
 		log.info("## {}", this.getClass().getSimpleName());
-		log.info("\t > memberId = {}", memberId);
 		
-		Map<String, Object> map = memberMapper.findUserDetailsById(memberId);
-		log.info("\t > find userDetails = {}", map != null ? map.keySet() : null);
+		Map<String, Object> userDetailsMap = memberMapper.findUserDetailsById(memberId);
+		log.info("\t > find userDetailsMap by '{}' = {}", 
+				memberId, userDetailsMap != null ? userDetailsMap.keySet() : null);
 		
-		if(map == null) {
+		if(userDetailsMap == null) {
 			throw new UsernameNotFoundException(
 					MessageUtils.getMessage("error.UsernameNotFoundOrBadCredentials"));
 		}
 		
-//		Member member = (Member) map.get("member"); 			
-//		String memberRole = (String) map.get("memberRole");
+//		Member member = (Member) userDetailsMap.get("member"); 			
+//		String memberRole = (String) userDetailsMap.get("memberRole");
 //		return new UserDetailsDto(member, memberRole);
 		
-		return modelMapper.map(map, UserDetailsDto.class);
+		return modelMapper.map(userDetailsMap, UserDetailsDto.class);
 	}
 }
