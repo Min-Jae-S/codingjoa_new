@@ -162,7 +162,9 @@
 		FROM
 			member
 		WHERE
-			member_id = #{memberId} AND member_email = #{memberEmail}
+			member_id = #{memberId} 
+			AND 
+			member_email = #{memberEmail}
 	</select>
 	
 	

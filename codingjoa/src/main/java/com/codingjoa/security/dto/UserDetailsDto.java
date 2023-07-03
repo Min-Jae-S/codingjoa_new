@@ -2,6 +2,7 @@ package com.codingjoa.security.dto;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -21,6 +22,8 @@ public class UserDetailsDto implements UserDetails {
 	private static final long serialVersionUID = -6918130188428402603L;
 	private Member member;
 	private String memberRole;
+	private List<Integer> boardLikesList;
+	private List<Integer> commentLikesList;
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
