@@ -2,24 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.codingjoa.mapper.MemberMapper">
 
-	<resultMap type="map" id="userDetailsMap">
-		<result property="memberRole" column="member_role"/>
-		<association property="member" javaType="member">
-			<id property="memberIdx" column="member_idx"/>
-			<result property="memberId" column="member_id"/>
-			<result property="memberPassword" column="member_password"/>
-			<result property="memberEmail" column="member_email"/>
-			<result property="memberZipcode" column="member_zipcode"/>
-			<result property="memberAddr" column="member_addr"/>
-			<result property="memberAddrDetail" column="member_addr_detail"/>
-			<result property="memberAgree" column="member_agree"/>
-			<result property="regdate" column="regdate"/>
-			<result property="moddate" column="moddate"/>
-		</association>
-		<collection property="boardLikesList" javaType="java.util.ArrayList" column="board_likes_idx"/>
-		<collection property="commentLikesList" javaType="java.util.ArrayList" column="comment_likes_idx"/>
-	</resultMap>
-	
 	<insert id="registerMember" parameterType="member">
 		INSERT INTO member (
 			member_idx,
@@ -75,6 +57,24 @@
 		WHERE
 			member_email = #{member_email}
 	</select>
+	
+	<resultMap type="map" id="userDetailsMap">
+		<association property="member" javaType="member">
+			<id property="memberIdx" column="member_idx"/>
+			<result property="memberId" column="member_id"/>
+			<result property="memberPassword" column="member_password"/>
+			<result property="memberEmail" column="member_email"/>
+			<result property="memberZipcode" column="member_zipcode"/>
+			<result property="memberAddr" column="member_addr"/>
+			<result property="memberAddrDetail" column="member_addr_detail"/>
+			<result property="memberAgree" column="member_agree"/>
+			<result property="regdate" column="regdate"/>
+			<result property="moddate" column="moddate"/>
+		</association>
+		<result property="memberRole" column="member_role"/>
+		<collection property="boardLikesList" javaType="list" ofType="int" column="board_likes_idx"/>
+		<collection property="commentLikesList" javaType="list" ofType="int" column="comment_likes_idx"/>
+	</resultMap>
 	
 	<select id="findUserDetailsById" parameterType="string" resultMap="userDetailsMap">
 		SELECT 
