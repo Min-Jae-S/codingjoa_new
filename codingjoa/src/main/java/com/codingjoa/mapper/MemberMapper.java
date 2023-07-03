@@ -19,7 +19,7 @@ public interface MemberMapper {
 	
 	boolean isEmailExist(String memberEmail);
 	
-	Map<String, Object> findUserDetailsById(String memberId); // Member, memberRole
+	Map<String, Object> findUserDetailsById(String memberId); // Member, memberRole, boardLikesList, commentLikesList
 	
 	void updateEmail(@Param("memberEmail") String memberEmail, @Param("memberId") String memberId);
 	
