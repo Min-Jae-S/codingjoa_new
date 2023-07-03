@@ -688,11 +688,11 @@
 	const boardIdx = "<c:out value='${boardDetails.boardIdx}'/>";
 	const boardWriterIdx = "<c:out value='${boardDetails.boardWriterIdx}'/>";
 	let curCommentPage = 1;
-	let commentLikesList = [];
+	let myCommentLikesList = [];
 	<sec:authorize access="isAuthenticated()">
 		<sec:authentication property="principal.commentLikesList" var="commentLikesList"/>
 		<c:forEach items="${commentLikesList}" var="item">
-			commentLikesList.push(${item});
+			myCommentLikesList.push(${item});
 		</c:forEach>
 	</sec:authorize>
 	
@@ -700,7 +700,7 @@
 		// get comment list
 		commentService.getCommentList(boardIdx, curCommentPage, function(result) {
 			let commentList = result.data.commentList;
-			let commentHtml = makeCommentHtml(commentList, boardWriterIdx);
+			let commentHtml = makeCommentHtml(commentList, myCommentLikesList, boardWriterIdx);
 			$("div.comment-list").html(commentHtml);
 
 			let pagination = result.data.pagination;

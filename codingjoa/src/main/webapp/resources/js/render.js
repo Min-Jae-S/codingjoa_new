@@ -1,13 +1,13 @@
 console.log("## Rendering service ready - render.js");
 	
-	function makeCommentHtml(list, boardWriterIdx) {
+	function makeCommentHtml(commentList, myCommentLikesList, boardWriterIdx) {
 		let html = "";
-		if (!(list.length > 0)) {
+		if (!(commentList.length > 0)) {
 			return html;
 		}
 		
 		html += "<ul class='list-group list-group-flush'>";
-		$.each(list, function(index, commentDetails) {
+		$.each(commentList, function(index, commentDetails) {
 			if (commentDetails == null) {
 				html += "<li class='list-group-item deleted-comment'>";
 				html += "<div class='comment-area'>";
