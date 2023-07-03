@@ -4,6 +4,7 @@ import javax.sql.DataSource;
 
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.config.Configuration.AccessLevel;
 import org.modelmapper.convention.MatchingStrategies;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -95,8 +96,20 @@ public class RootConfig {
 	
 	@Bean
 	public ModelMapper modelMapper() {
+		log.info("## ModelMapper Bean");
 		ModelMapper modelMapper = new ModelMapper();
-		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+		modelMapper.getConfiguration()
+			.setMatchingStrategy(MatchingStrategies.STRICT)
+			// setter 없는 Dto를 mapping 하기 위해 fieldAccessLevel과 fieldMatchingEnabled를 설정 
+			.setFieldAccessLevel(AccessLevel.PRIVATE)
+			.setFieldMatchingEnabled(true);
+		
+		org.modelmapper.config.Configuration config = modelMapper.getConfiguration();
+		log.info("\t > matchingStrategy = {}", config.getMatchingStrategy());
+		log.info("\t > fieldAccessLevel = {}", config.getFieldAccessLevel());
+		log.info("\t > methodAccessLevel = {}", config.getMethodAccessLevel());
+		log.info("\t > fieldMatchingEnabled = {}", config.isFieldMatchingEnabled());
+		log.info("\t > collectionsMergeEnabled = {}", config.isCollectionsMergeEnabled());
 		
 		return modelMapper;
 	}

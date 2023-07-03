@@ -30,10 +30,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		log.info("## {}", this.getClass().getSimpleName());
 		
 		Map<String, Object> userDetailsMap = memberMapper.findUserDetailsById(memberId);
-		log.info("\t > find userDetailsMap by '{}' = {}", 
-				memberId, userDetailsMap != null ? userDetailsMap.keySet() : null);
+		log.info("\t > find userDetailsMap by '{}' = {}", memberId, userDetailsMap);
 		
-		if(userDetailsMap == null) {
+		if (userDetailsMap == null) {
 			throw new UsernameNotFoundException(
 					MessageUtils.getMessage("error.UsernameNotFoundOrBadCredentials"));
 		}
