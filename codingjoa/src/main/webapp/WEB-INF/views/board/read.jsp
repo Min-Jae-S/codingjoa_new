@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
@@ -313,7 +314,7 @@
 							<a class="dropdown-item" 
 								href="${contextPath}/board/modify?boardIdx=${boardDetails.boardIdx}">수정하기
 							</a>
-					      	<a class="dropdown-item" id="deleteBoardLink" 
+					      	<a class="dropdown-item" id="deleteBoardLink"
 					      		href="${contextPath}/board/deleteProc?boardIdx=${boardDetails.boardIdx}">삭제하기
 					     	</a>
 					     </div>
@@ -351,7 +352,20 @@
 								<span class="comment-cnt"><c:out value="${boardDetails.commentCnt}"/></span>
 							</a>
 							<button class="btn border-0 p-0 shadow-none" type="button" id="boardLikesBtn">
-								<i class="${boardLikes ? 'text-danger fa-solid' : 'text-grey fa-regular'} fa-heart"></i>
+							<sec:authorize access="isAnonymous()">
+								<i class="text-grey fa-regular fa-heart"></i>
+							</sec:authorize>
+							<sec:authorize access="isAuthenticated()">
+								<sec:authentication property="principal.boardLikesList" var="boardLikesList"/>
+								<c:choose>
+									<c:when test="${fn:contains(boardLikesList, boardDetails.boardIdx}">
+										<i class="text-danger fa-solid fa-heart"></i>
+									</c:when>
+									<c:otherwise>
+										<i class="text-grey fa-regular fa-heart"></i>
+									</c:otherwise>
+								</c:choose>
+							</sec:authorize>
 								<span>좋아요</span>
 								<span class="board-likes-cnt"><c:out value="${boardDetails.boardLikesCnt}"/></span>
 							</button>

@@ -9,10 +9,6 @@ public interface LikesService {
 	
 	Integer toggleCommentLikes(CommentLikesDto commentLikesDto);
 	
-	boolean isBoardLikes(Integer boardIdx, Integer memberIdx);
-	
-	boolean isCommentLikes(Integer commentIdx, Integer memberIdx);
-	
 	int getBoardLikesCnt(Integer boardIdx);
 
 	int getCommentLikesCnt(Integer commentIdx);

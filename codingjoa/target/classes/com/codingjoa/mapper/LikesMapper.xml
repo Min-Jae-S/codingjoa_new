@@ -185,28 +185,6 @@
 		END;
 	</update> -->
 	
-	<select id="isBoardLikes" parameterType="map" resultType="boolean">
-		SELECT
-			COUNT(*)
-		FROM
-			board_likes
-		WHERE
-			board_idx = #{boardIdx}
-			AND
-			member_idx = #{memberIdx}
-	</select>
-	
-	<select id="isCommentLikes" parameterType="map" resultType="boolean">
-		SELECT
-			COUNT(*)
-		FROM
-			comment_likes
-		WHERE
-			comment_idx = #{commentIdx}
-			AND
-			member_idx = #{memberIdx}
-	</select>
-	
 	<select id="findBoardLikesCnt" parameterType="int" resultType="int">
 		SELECT
 			COUNT(*)
