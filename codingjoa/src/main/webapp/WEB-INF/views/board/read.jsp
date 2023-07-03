@@ -105,15 +105,6 @@
 		text-decoration: none;
 	}
 	
-	a.comment-likes {
-		font-size: 1rem;
-		text-decoration: none;
-	}
-
-	a.comment-likes:hover {
-		color: #007bff;
-	}
-	
 	.comment-regdate {
 		font-size: 13px;
 		color: #979797;
@@ -233,6 +224,10 @@
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
+	}
+	
+	.text-grey {
+		color: #868e96;
 	}
 </style>
 
@@ -356,7 +351,7 @@
 								<span class="comment-cnt"><c:out value="${boardDetails.commentCnt}"/></span>
 							</a>
 							<button class="btn border-0 p-0 shadow-none" type="button" id="boardLikesBtn">
-								<i class="${boardLikes ? 'text-danger fa-solid' : 'text-secondary fa-regular'} fa-heart"></i>
+								<i class="${boardLikes ? 'text-danger fa-solid' : 'text-grey fa-regular'} fa-heart"></i>
 								<span>좋아요</span>
 								<span class="board-likes-cnt"><c:out value="${boardDetails.boardLikesCnt}"/></span>
 							</button>
@@ -832,6 +827,7 @@
 		$(document).on("click", "a.page-link", function(e) {
 			e.preventDefault();
 			let clickedCommentPage = $(this).data("page");
+			
 			commentService.getCommentList(boardIdx, clickedCommentPage, function(result) {
 				console.log("## page has changed from %s to %s", curCommentPage, clickedCommentPage);
 				curCommentPage = clickedCommentPage;
@@ -853,19 +849,20 @@
 		$("#boardLikesBtn").on("click", function() {
 			likesService.toggleBoardLikes(boardIdx, function(result) {
 				let toggleMessage = result.message;
-				let newClass = (result.data == "UP") ? "text-danger fa-solid fa-heart" : "text-secondary fa-regular fa-heart";
+				let cssClass = (result.data == "UP") ? 
+						"text-danger fa-solid fa-heart" : "text-grey fa-regular fa-heart";
 				likesService.getBoardLikesCnt(boardIdx, function(result) {
 					alert(toggleMessage);
-					$("#boardLikesBtn i").removeClass().addClass(newClass);
+					$("#boardLikesBtn i").removeClass().addClass(cssClass);
 					$(".board-likes-cnt").text(result.data);
 				});
 			});
 		});
 		
 		// comment likes
-		$(document).on("click", "a.comment-likes ", function(e) {
-			e.preventDefault();
+		$(document).on("click", "button[name=commentLikesBtn]", function() {
 			let commentIdx = $(this).closest("li").data("comment-idx");
+			
 			likesService.toggleCommentLikes(commentIdx, function(result) {
 				alert(result.message);
 			});

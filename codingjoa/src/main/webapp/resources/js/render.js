@@ -52,10 +52,10 @@ console.log("## Rendering service ready - render.js");
 			html += "</div>";
 			html += "</div>";
 			html += "<div class='mt-auto'>"
-			html += "<a class='comment-likes' href='#'>";
-			html += "<span class='mr-1'><i class='fa-regular fa-thumbs-up'></i></span>";
-			html += "<span class='comment-likes'>" + commentDetails.commentLikes + "</span>";
-			html += "</a>";
+			html += "<button class='btn border-0 p-0 shadow-none' type='button' name='commentLikesBtn'>";
+			html += "<i class='text-grey fa-regular fa-thumbs-up'></i> ";
+			html += "<span class='comment-likes-cnt text-grey'>" + commentDetails.commentLikes + "</span>";
+			html += "</button>";
 			html += "</div>";
 			html += "</div>";
 			html += "</div>";
