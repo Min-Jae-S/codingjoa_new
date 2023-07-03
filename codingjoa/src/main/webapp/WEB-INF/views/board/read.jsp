@@ -673,6 +673,7 @@
 			myCommentLikesList.push(${item});
 		</c:forEach>
 	</sec:authorize>
+	console.log("## My CommentLikesList = %s", myCommentLikesList);
 	
 	$(function() {
 		// get comment list
