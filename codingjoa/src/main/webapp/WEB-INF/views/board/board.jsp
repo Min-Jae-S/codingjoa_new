@@ -140,8 +140,21 @@
 										</td>
 										<td class="d-md-table-cell"><c:out value="${boardDetails.boardViews}"/></td>
 										<td class="d-md-table-cell">
-											<i class="fa-regular fa-heart mr-1"></i>
-											<c:out value="${boardDetails.boardLikesCnt}"/>
+											<sec:authorize access="isAnonymous()">
+												<i class="fa-regular fa-heart"></i>
+											</sec:authorize>
+											<sec:authorize access="isAuthenticated()">
+												<sec:authentication property="principal" var="principal"/>
+												<c:choose>
+													<c:when test="${principal.isMyBoardLikes(boardDetails.boardIdx)}">
+														<i class="text-danger fa-solid fa-heart"></i>
+													</c:when>
+													<c:otherwise>
+														<i class="fa-regular fa-heart"></i>
+													</c:otherwise>
+												</c:choose>
+											</sec:authorize>
+											<span class="board-likes-cnt"><c:out value="${boardDetails.boardLikesCnt}"/></span>
 										</td>
 									</tr>
 								</c:forEach>

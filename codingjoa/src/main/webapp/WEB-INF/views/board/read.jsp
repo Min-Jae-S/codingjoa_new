@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
@@ -686,12 +685,18 @@
 	});
 </script>
 <script>
+	const boardIdx = "<c:out value='${boardDetails.boardIdx}'/>";
+	const boardWriterIdx = "<c:out value='${boardDetails.boardWriterIdx}'/>";
+	let curCommentPage = 1;
+	let commentLikesList = [];
+	<sec:authorize access="isAuthenticated()">
+		<sec:authentication property="principal.commentLikesList" var="commentLikesList"/>
+		<c:forEach items="${commentLikesList}" var="item">
+			commentLikesList.push(${item});
+		</c:forEach>
+	</sec:authorize>
+	
 	$(function() {
-		const boardIdx = <c:out value='${boardDetails.boardIdx}'/>;
-		const boardWriterIdx = <c:out value='${boardDetails.boardWriterIdx}'/>;
-		let curCommentPage = 1;
-		let boardLikesCnt = <c:out value='${boardDetails.boardLikesCnt}'/>;
-		
 		// get comment list
 		commentService.getCommentList(boardIdx, curCommentPage, function(result) {
 			let commentList = result.data.commentList;
