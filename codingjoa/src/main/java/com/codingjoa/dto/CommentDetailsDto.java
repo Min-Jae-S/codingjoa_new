@@ -21,7 +21,7 @@ public class CommentDetailsDto {
 	private Date moddate;
 	
 	private String commentWriterId;	// member
-	private int commentLikes;		// comment_likes
+	private int commentLikesCnt;	// comment_likes
 	
 	@Override
 	public String toString() {
@@ -29,6 +29,6 @@ public class CommentDetailsDto {
 		return "CommentDetailsDto [commentIdx=" + commentIdx + ", commentWriterIdx=" + commentWriterIdx
 				+ ", commentBoardIdx=" + commentBoardIdx + ", commentContent=" + escapedCommentContent + ", regdate="
 				+ regdate + ", moddate=" + moddate + ", commentWriterId=" + commentWriterId + ", commentLikes="
-				+ commentLikes + "]";
+				+ commentLikesCnt + "]";
 	}
 }

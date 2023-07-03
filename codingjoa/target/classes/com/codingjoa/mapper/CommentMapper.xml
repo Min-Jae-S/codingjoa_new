@@ -21,7 +21,7 @@
 		<result property="regdate" column="regdate" javaType="java.util.Date"/>
 		<result property="moddate" column="moddate" javaType="java.util.Date"/>
 		<result property="commentWriterId" column="comment_writer_id" javaType="java.lang.String"/>
-		<!-- <result property="commentLikes" column=""/> -->
+		<!-- <result property="commentLikesCnt" column=""/> -->
 	</resultMap>
 	
 	<insert id="insertComment" parameterType="comment">
