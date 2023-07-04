@@ -20,14 +20,12 @@ public class BoardDetailsDto {
 	private int commentCnt;			// OUTER JOIN with comment
 	private int boardLikesCnt;		// OUTER JOIN with board_likes
 	
-	private boolean boardLiked;
-
 	@Override
 	public String toString() {
 		return "BoardDetailsDto [boardIdx=" + boardIdx + ", boardTitle=" + boardTitle + ", boardWriterIdx="
 				+ boardWriterIdx + ", boardViews=" + boardViews + ", boardCategoryCode=" + boardCategoryCode
 				+ ", regdate=" + regdate + ", moddate=" + moddate + ", memberId=" + memberId + ", commentCnt="
-				+ commentCnt + ", boardLikesCnt=" + boardLikesCnt + ", boardLiked=" + boardLiked + "]";
+				+ commentCnt + ", boardLikesCnt=" + boardLikesCnt + "]";
 	}
 	
 }

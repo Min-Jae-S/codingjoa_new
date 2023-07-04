@@ -54,8 +54,7 @@ public class CommentRestController {
 		Pagination pagination = commentService.getPagination(commentBoardIdx, commentCri);
 		log.info("\t > {}", pagination);
 		
-		List<Integer> commentLikedList = (princiapl == null) ? 
-				Collections.emptyList() : princiapl.getCommentLikedList();
+		List<Integer> commentLikedList = (princiapl == null) ? Collections.emptyList() : princiapl.getCommentLikedList();
 		log.info("\t > commentLikedList = {}", commentLikedList);
 		
 		return ResponseEntity.ok(SuccessResponse.create().data(
