@@ -97,11 +97,16 @@ public class BoardController {
 	}
 	
 	@GetMapping("/read")
-	public String read(@RequestParam int boardIdx, @BoardCri Criteria boardCri, Model model) {
+	public String read(@RequestParam int boardIdx, @BoardCri Criteria boardCri, 
+			@AuthenticationPrincipal UserDetailsDto principal, Model model) {
 		log.info("## read, boardIdx = {}", boardIdx);
 		log.info("\t > {}", boardCri);
 		
 		BoardDetailsDto boardDetails = boardService.getBoardDetails(boardIdx);
+		if (principal != null) {
+			boolean boardLiked = principal.isMyBoardLikes(boardDetails.getBoardIdx());
+			boardDetails.setBoardLiked(boardLiked);
+		}
 		model.addAttribute("boardDetails", boardDetails);
 		
 		Category category = categoryService.findCategory(boardDetails.getBoardCategoryCode());
