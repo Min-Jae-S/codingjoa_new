@@ -339,7 +339,7 @@
 							<sec:authorize access="isAuthenticated()">
 								<sec:authentication property="principal" var="principal"/>
 								<c:choose>
-									<c:when test="${principal.isMyBoardLikes(boardDetails.boardIdx)}">
+									<c:when test="${principal.isBoardLiked(boardDetails.boardIdx)}">
 										<i class="text-danger fa-solid fa-heart"></i>
 									</c:when>
 									<c:otherwise>

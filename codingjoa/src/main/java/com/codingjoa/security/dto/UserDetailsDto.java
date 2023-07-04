@@ -24,8 +24,8 @@ public class UserDetailsDto implements UserDetails {
 	private static final long serialVersionUID = -6918130188428402603L;
 	private Member member;
 	private String memberRole;
-	private List<Integer> boardLikesList;
-	private List<Integer> commentLikesList;
+	private List<Integer> boardLikedList;
+	private List<Integer> commentLikedList;
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -66,8 +66,8 @@ public class UserDetailsDto implements UserDetails {
 		return true;
 	}
 	
-	public boolean isMyBoardLikes(int boardIdx) {
-		return boardLikesList.contains(boardIdx);
+	public boolean isBoardLiked(int boardIdx) {
+		return boardLikedList.contains(boardIdx);
 	}
 	
 }
