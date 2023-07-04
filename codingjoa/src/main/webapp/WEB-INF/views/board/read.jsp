@@ -95,9 +95,9 @@
 	
 	.header-group .header-meta {
 		font-size: 1rem;
-		color: #868e96;
-		/* color: #979797;
-		color: #757575; */
+		/* color: #868e96; */
+		/* color: #979797; */
+		/* color: #757575; */
 	}
 	
 	.header-group .header-meta a {
@@ -228,6 +228,10 @@
 	
 	.text-grey {
 		color: #868e96;
+	}
+	
+	button[name="commentLikesBtn"] i {
+		font-size: 1.2rem;
 	}
 </style>
 
@@ -869,7 +873,7 @@
 			likesService.toggleCommentLikes(commentIdx, function(result) {
 				let toggleMessage = result.message;
 				let cssClass = (result.data == "UP") ? 
-						"text-primary fa-solid fa-thumbs-up" : "text-grey fa-regular fa-thumbs-up";
+						"text-primary fa-regular fa-thumbs-up" : "text-grey fa-regular fa-thumbs-up";
 				likesService.getCommentLikesCnt(commentIdx, function(result) {
 					alert(toggleMessage);
 					$li.find("button[name=commentLikesBtn] i").removeClass().addClass(cssClass);

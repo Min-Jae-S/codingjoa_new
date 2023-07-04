@@ -54,7 +54,7 @@ console.log("## Rendering service ready - render.js");
 			html += "<div class='mt-auto'>"
 			html += "<button class='btn border-0 p-0 shadow-none' type='button' name='commentLikesBtn'>";
 			if (commentLikesList.includes(commentDetails.commentIdx)) {
-				html += "<i class='text-primary fa-solid fa-thumbs-up'></i> ";
+				html += "<i class='text-primary fa-regular fa-thumbs-up'></i> ";
 			} else {
 				html += "<i class='text-grey fa-regular fa-thumbs-up'></i> ";
 			}
