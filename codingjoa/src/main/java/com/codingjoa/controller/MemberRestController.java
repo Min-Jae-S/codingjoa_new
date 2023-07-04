@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -86,14 +87,15 @@ public class MemberRestController {
 	@PostMapping("/sendAuthEmail")
 	public ResponseEntity<Object> sendAuthEmail(@RequestBody @Valid EmailAuthDto emailAuthDto, 
 			BindingResult bindingResult) throws MethodArgumentNotValidException {
-		log.info("emailAuthDto = {}", emailAuthDto);
+		log.info("## sendAuthEmail");
+		log.info("\t > {}", emailAuthDto);
 
 		if (bindingResult.hasErrors()) {
 			throw new MethodArgumentNotValidException(null, bindingResult);
 		}
 		
 		String authCode = RandomStringUtils.randomNumeric(6);
-		log.info("authCode = {}", authCode);
+		log.info("\t > authCode = {}", authCode);
 		
 		String memberEmail = emailAuthDto.getMemberEmail();
 		emailService.sendAuthEmail(memberEmail, authCode);
@@ -103,10 +105,11 @@ public class MemberRestController {
 	}
 	
 	@PutMapping("/updateEmail")
-	public ResponseEntity<Object> updateEmail(@RequestBody @Valid EmailAuthDto emailAuthDto, 
-			BindingResult bindingResult, @AuthenticationPrincipal UserDetailsDto principal) 
-					throws MethodArgumentNotValidException {
-		log.info("emailAuthDto = {}", emailAuthDto);
+	public ResponseEntity<Object> updateEmail(@RequestBody @Valid EmailAuthDto emailAuthDto,
+			BindingResult bindingResult, @AuthenticationPrincipal UserDetailsDto principal)
+			throws MethodArgumentNotValidException {
+		log.info("## updateEmail");
+		log.info("\t > {}", emailAuthDto);
 		
 		if (bindingResult.hasErrors()) {
 			throw new MethodArgumentNotValidException(null, bindingResult);
@@ -114,51 +117,53 @@ public class MemberRestController {
 		
 		String memberId = principal.getMember().getMemberId();
 		memberService.updateEmail(emailAuthDto, memberId);
-		
 		redisService.delete(emailAuthDto.getMemberEmail());
 		
 		resetAuthentication(memberId);
-		Authentication newAuth = SecurityContextHolder.getContext().getAuthentication();
+		Authentication newAuthentication = SecurityContextHolder.getContext().getAuthentication();
 		
 		return ResponseEntity.ok(SuccessResponse.create()
-				.code("success.updateEmail").data(newAuth.getPrincipal()));
+				.code("success.updateEmail").data(newAuthentication.getPrincipal()));
 	}
 	
 	@PutMapping("/updateAddr")
 	public ResponseEntity<Object> updateAddr(@RequestBody @Valid AddrDto addrDto, 
 			@AuthenticationPrincipal UserDetailsDto principal) {
-		log.info("addrDto = {}", addrDto);
+		log.info("## updateAddr");
+		log.info("\t > {}", addrDto);
 		
 		String memberId = principal.getMember().getMemberId();
 		memberService.updateAddr(addrDto, memberId);
 		
 		resetAuthentication(memberId);
-		Authentication newAuth = SecurityContextHolder.getContext().getAuthentication();
+		Authentication newAuthentication = SecurityContextHolder.getContext().getAuthentication();
 		
 		return ResponseEntity.ok(SuccessResponse.create()
-				.code("success.updateAddr").data(newAuth.getPrincipal()));
+				.code("success.updateAddr").data(newAuthentication.getPrincipal()));
 	}
 	
 	@PutMapping("/updateAgree")
 	public ResponseEntity<Object> updateAgree(@RequestBody AgreeDto agreeDto, 
 			@AuthenticationPrincipal UserDetailsDto principal) {
-		log.info("agreeDto = {}", agreeDto);
+		log.info("## updateAgree");
+		log.info("\t > {}", agreeDto);
 		
 		String memberId = principal.getMember().getMemberId();
 		memberService.updateAgree(agreeDto, memberId);
 		
 		resetAuthentication(memberId);
-		Authentication newAuth = SecurityContextHolder.getContext().getAuthentication();
+		Authentication newAuthentication = SecurityContextHolder.getContext().getAuthentication();
 		
 		return ResponseEntity.ok(SuccessResponse.create()
-				.code("success.updateAgree").data(newAuth.getPrincipal()));
+				.code("success.updateAgree").data(newAuthentication.getPrincipal()));
 	}
 	
 	@PostMapping("/checkPassword")
 	public ResponseEntity<Object> checkPassword(@RequestBody @Valid PasswordDto passwordDto, 
 			BindingResult bindingResult) throws MethodArgumentNotValidException {
-		log.info("passwordDto = {}", passwordDto);
-		log.info("sessionDto = {}", sessionDto);
+		log.info("## checkPassword");
+		log.info("\t > {}", passwordDto);
+		log.info("\t > {}", sessionDto);
 		
 		if (bindingResult.hasErrors()) {
 			throw new MethodArgumentNotValidException(null, bindingResult);
@@ -173,7 +178,8 @@ public class MemberRestController {
 	public ResponseEntity<Object> updatePassword(@RequestBody @Valid PasswordDto passwordDto, 
 			BindingResult bindingResult, @AuthenticationPrincipal UserDetailsDto principal) 
 					throws MethodArgumentNotValidException {
-		log.info("passwordDto = {}", passwordDto);
+		log.info("## updatePassword");
+		log.info("\t > {}", passwordDto);
 		
 		if (bindingResult.hasErrors()) {
 			throw new MethodArgumentNotValidException(null, bindingResult);		
@@ -190,8 +196,9 @@ public class MemberRestController {
 	@PostMapping("/findAccount")
 	public ResponseEntity<Object> findAccount(@RequestBody @Valid EmailAuthDto emailAuthDto, 
 			BindingResult bindingResult) throws MethodArgumentNotValidException {
-		log.info("emailAuthDto = {}", emailAuthDto);
-		log.info("sessionDto = {}", sessionDto);
+		log.info("## findAccount");
+		log.info("\t > {}", emailAuthDto);
+		log.info("\t > {}", sessionDto);
 		
 		if (bindingResult.hasErrors()) {
 			throw new MethodArgumentNotValidException(null, bindingResult);
@@ -208,8 +215,9 @@ public class MemberRestController {
 	@PostMapping("/findPassword")
 	public ResponseEntity<Object> findPassword(@RequestBody @Valid EmailAuthDto emailAuthDto, 
 			BindingResult bindingResult) throws MethodArgumentNotValidException {
-		log.info("emailAuthDto = {}", emailAuthDto);
-		log.info("sessionDto = {}", sessionDto);
+		log.info("## findPassword");
+		log.info("\t > {}", emailAuthDto);
+		log.info("\t > {}", sessionDto);
 		
 		if (bindingResult.hasErrors()) {
 			throw new MethodArgumentNotValidException(null, bindingResult);
@@ -228,7 +236,8 @@ public class MemberRestController {
 	@PutMapping("/resetPassword")
 	public ResponseEntity<Object> resetPassword(@RequestBody @Valid PasswordDto passwordDto, 
 			BindingResult bindingResult) throws MethodArgumentNotValidException {
-		log.info("passwordDto = {}", passwordDto);
+		log.info("## resetPassword");
+		log.info("\t > {}", passwordDto);
 		
 		if (bindingResult.hasErrors()) {
 			throw new MethodArgumentNotValidException(null, bindingResult);		
@@ -244,10 +253,14 @@ public class MemberRestController {
 	
 	private void resetAuthentication(String memberId) {
 		UserDetails userDetails = userDetailsService.loadUserByUsername(memberId);
-		Authentication newAuth = 
+		Authentication newAuthentication = 
 				new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+
+		SecurityContext securityContext = SecurityContextHolder.getContext();
+		securityContext.setAuthentication(newAuthentication);
 		
-		SecurityContextHolder.getContext().setAuthentication(newAuth);
+		//HttpSession session = request.getSession(true);
+	    //session.setAttribute("SPRING_SECURITY_CONTEXT", securityContext);
 	}
 	
 }

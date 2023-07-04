@@ -2,7 +2,12 @@ package com.codingjoa.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,6 +29,9 @@ public class LikesRestController {
 	
 	@Autowired
 	private LikesService likesService;
+	
+	@Autowired
+	private UserDetailsService userDetailsService;
 
 	@PostMapping("/boards/{boardIdx}/likes")
 	public ResponseEntity<Object> toggleBoardLikes(@PathVariable Integer boardIdx,
@@ -36,8 +44,8 @@ public class LikesRestController {
 		Integer boardLikesIdx = likesService.toggleBoardLikes(boardLikesDto);
 		log.info("\t > {}", boardLikesIdx == null ? "Insert boardLikes" : "Delete boardLikes");
 		
-		// principal initialize
-
+		resetAuthentication(principal.getMember().getMemberId());
+		
 		SuccessResponse response = SuccessResponse.create();
 		if (boardLikesIdx == null) {
 			response.data("UP").code("success.InsertBoardLikes");
@@ -67,7 +75,7 @@ public class LikesRestController {
 		Integer commentLikesIdx = likesService.toggleCommentLikes(commentLikesDto);
 		log.info("\t > {}", commentLikesIdx == null ? "Insert commentLikes" : "Delete commentLikes");
 		
-		// principal initialize
+		resetAuthentication(principal.getMember().getMemberId());
 		
 		SuccessResponse response = SuccessResponse.create();
 		if (commentLikesIdx == null) {
@@ -85,5 +93,12 @@ public class LikesRestController {
 		int commentLikesCnt = likesService.getCommentLikesCnt(commentIdx);
 		
 		return ResponseEntity.ok(SuccessResponse.create().data(commentLikesCnt));
+	}
+	
+	private void resetAuthentication(String memberId) {
+		UserDetails userDetails = userDetailsService.loadUserByUsername(memberId);
+		Authentication newAuthentication = 
+				new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+		SecurityContextHolder.getContext().setAuthentication(newAuthentication);
 	}
 }
