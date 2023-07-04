@@ -829,8 +829,10 @@
 			let clickedCommentPage = $(this).data("page");
 			
 			commentService.getCommentList(boardIdx, clickedCommentPage, function(result) {
-				console.log("## page has changed from %s to %s", curCommentPage, clickedCommentPage);
+				console.log("## Page has changed from %s to %s", curCommentPage, clickedCommentPage);
 				curCommentPage = clickedCommentPage;
+				console.log("## Current page = %s", curCommentPage);
+				
 				$("li.page-item").removeClass("active");
 				$(this).closest("li.page-item").addClass("active");
 				

@@ -35,6 +35,8 @@ public class LikesRestController {
 		boardLikesDto.setMemberIdx(principal.getMember().getMemberIdx());
 		Integer boardLikesIdx = likesService.toggleBoardLikes(boardLikesDto);
 		log.info("\t > {}", boardLikesIdx == null ? "Insert boardLikes" : "Delete boardLikes");
+		
+		// principal initialize
 
 		SuccessResponse response = SuccessResponse.create();
 		if (boardLikesIdx == null) {
@@ -64,6 +66,8 @@ public class LikesRestController {
 		commentLikesDto.setMemberIdx(principal.getMember().getMemberIdx());
 		Integer commentLikesIdx = likesService.toggleCommentLikes(commentLikesDto);
 		log.info("\t > {}", commentLikesIdx == null ? "Insert commentLikes" : "Delete commentLikes");
+		
+		// principal initialize
 		
 		SuccessResponse response = SuccessResponse.create();
 		if (commentLikesIdx == null) {
