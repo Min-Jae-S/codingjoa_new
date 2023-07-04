@@ -339,7 +339,7 @@
 							<sec:authorize access="isAuthenticated()">
 								<sec:authentication property="principal" var="principal"/>
 								<c:choose>
-									<c:when test="${principal.isBoardLiked(boardDetails.boardIdx)}">
+									<c:when test="${principal.isMyBoardLikes(boardDetails.boardIdx)}">
 										<i class="text-danger fa-solid fa-heart"></i>
 									</c:when>
 									<c:otherwise>
@@ -388,6 +388,8 @@
 					</div>
 				</div>
 			</div>
+			
+			<!-- test1 -->
 			<div class="test1 mt-5 d-none">
 				<div class="input-group mb-4">
 					<div class="input-group-prepend">
@@ -448,6 +450,8 @@
 	  				</div>
 				</div>
 			</div>
+			
+			<!-- test2 -->
 			<div class="test2 mt-5 d-none">
 				<div class="mb-4 d-flex">
 					<button class="btn">Write Comment<span>:</span></button>
@@ -480,6 +484,8 @@
 					<button class="btn btn-warning test-item" name="patchBtn" data-idx="9999">/api/comments/9999</button>					
 				</div>
 			</div>
+			
+			<!-- test3 -->
 			<div class="test3 mt-5">
 				<div class="input-group mb-4">
 					<div class="input-group-prepend">
@@ -671,8 +677,8 @@
 		// get comment list
 		commentService.getCommentList(boardIdx, curCommentPage, function(result) {
 			let commentList = result.data.commentList;
-			let commentLikedList = result.data.commentLikedList;
-			let commentHtml = makeCommentHtml(commentList, commentLikedList, boardWriterIdx);
+			let commentLikesList = result.data.commentLikesList;
+			let commentHtml = makeCommentHtml(commentList, commentLikesList, boardWriterIdx);
 			$("div.comment-list").html(commentHtml);
 
 			let pagination = result.data.pagination;
@@ -734,8 +740,8 @@
 				alert(result.message);
 				commentService.getCommentList(boardIdx, 1, function(result) {
 					let commentList = result.data.commentList;
-					let commentLikedList = result.data.commentLikedList;
-					let commentHtml = makeCommentHtml(commentList, commentLikedList, boardWriterIdx);
+					let commentLikesList = result.data.commentLikesList;
+					let commentHtml = makeCommentHtml(commentList, commentLikesList, boardWriterIdx);
 					$("div.comment-list").html(commentHtml);
 
 					let pagination = result.data.pagination;
@@ -782,8 +788,8 @@
 				alert(result.message);
 				commentService.getCommentList(boardIdx, curCommentPage, function(result) {
 					let commentList = result.data.commentList;
-					let commentLikedList = result.data.commentLikedList;
-					let commentHtml = makeCommentHtml(commentList, commentLikedList, boardWriterIdx);
+					let commentLikesList = result.data.commentLikesList;
+					let commentHtml = makeCommentHtml(commentList, commentLikesList, boardWriterIdx);
 					$("div.comment-list").html(commentHtml);
 
 					let pagination = result.data.pagination;
@@ -805,8 +811,8 @@
 				alert(result.message);
 				commentService.getCommentList(boardIdx, curCommentPage, function(result) {
 					let commentList = result.data.commentList;
-					let commentLikedList = result.data.commentLikedList;
-					let commentHtml = makeCommentHtml(commentList, commentLikedList, boardWriterIdx);
+					let commentLikesList = result.data.commentLikesList;
+					let commentHtml = makeCommentHtml(commentList, commentLikesList, boardWriterIdx);
 					$("div.comment-list").html(commentHtml);
 
 					let pagination = result.data.pagination;
@@ -829,8 +835,8 @@
 				$(this).closest("li.page-item").addClass("active");
 				
 				let commentList = result.data.commentList;
-				let commentLikedList = result.data.commentLikedList;
-				let commentHtml = makeCommentHtml(commentList, commentLikedList, boardWriterIdx);
+				let commentLikesList = result.data.commentLikesList;
+				let commentHtml = makeCommentHtml(commentList, commentLikesList, boardWriterIdx);
 				$("div.comment-list").html(commentHtml);
 
 				let pagination = result.data.pagination;

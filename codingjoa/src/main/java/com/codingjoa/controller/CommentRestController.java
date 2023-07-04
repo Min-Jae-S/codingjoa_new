@@ -51,14 +51,14 @@ public class CommentRestController {
 		log.info("\t > {}", commentCri);
 		
 		List<CommentDetailsDto> commentList = commentService.getPagedComment(commentBoardIdx, commentCri);
+		List<Integer> commentLikesList = (princiapl == null) ? Collections.emptyList() : princiapl.getCommentLikesList();
+		log.info("\t > commentLikesList = {}", commentLikesList);
+		
 		Pagination pagination = commentService.getPagination(commentBoardIdx, commentCri);
 		log.info("\t > {}", pagination);
 		
-		List<Integer> commentLikedList = (princiapl == null) ? Collections.emptyList() : princiapl.getCommentLikedList();
-		log.info("\t > commentLikedList = {}", commentLikedList);
-		
 		return ResponseEntity.ok(SuccessResponse.create().data(
-				Map.of("commentList", commentList, "pagination", pagination, "commentLikedList", commentLikedList)));
+				Map.of("commentList", commentList, "commentLikesList", commentLikesList, "pagination", pagination)));
 	}
 	
 	@GetMapping(value = { "/comments", "/comments/{commentIdx}" })
