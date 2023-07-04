@@ -1,5 +1,6 @@
 package com.codingjoa.controller;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -45,7 +46,7 @@ public class CommentRestController {
 
 	@GetMapping("/boards/{commentBoardIdx}/comments")
 	public ResponseEntity<Object> getCommentList(@PathVariable int commentBoardIdx,
-			@CommentCri CommentCriteria commentCri) {
+			@CommentCri CommentCriteria commentCri, @AuthenticationPrincipal UserDetailsDto princiapl) {
 		log.info("## getCommentList, commentBoardIdx = {}", commentBoardIdx);
 		log.info("\t > {}", commentCri);
 		
@@ -53,8 +54,12 @@ public class CommentRestController {
 		Pagination pagination = commentService.getPagination(commentBoardIdx, commentCri);
 		log.info("\t > {}", pagination);
 		
+		List<Integer> commentLikedList = (princiapl == null) ? 
+				Collections.emptyList() : princiapl.getCommentLikedList();
+		log.info("\t > commentLikedList = {}", commentLikedList);
+		
 		return ResponseEntity.ok(SuccessResponse.create().data(
-				Map.of("commentList", commentList, "pagination", pagination)));
+				Map.of("commentList", commentList, "pagination", pagination, "commentLikedList", commentLikedList)));
 	}
 	
 	@GetMapping(value = { "/comments", "/comments/{commentIdx}" })

@@ -666,20 +666,13 @@
 	const boardIdx = "<c:out value='${boardDetails.boardIdx}'/>";
 	const boardWriterIdx = "<c:out value='${boardDetails.boardWriterIdx}'/>";
 	let curCommentPage = 1;
-	let myCommentLikesList = [];
-	<sec:authorize access="isAuthenticated()">
-		<sec:authentication property="principal.commentLikesList" var="commentLikesList"/>
-		<c:forEach items="${commentLikesList}" var="item">
-			myCommentLikesList.push(${item});
-		</c:forEach>
-	</sec:authorize>
-	console.log("## My CommentLikesList = %s", myCommentLikesList);
 	
 	$(function() {
 		// get comment list
 		commentService.getCommentList(boardIdx, curCommentPage, function(result) {
 			let commentList = result.data.commentList;
-			let commentHtml = makeCommentHtml(commentList, myCommentLikesList, boardWriterIdx);
+			let commentLikedList = result.data.commentLikedList;
+			let commentHtml = makeCommentHtml(commentList, commentLikedList, boardWriterIdx);
 			$("div.comment-list").html(commentHtml);
 
 			let pagination = result.data.pagination;
@@ -741,7 +734,8 @@
 				alert(result.message);
 				commentService.getCommentList(boardIdx, 1, function(result) {
 					let commentList = result.data.commentList;
-					let commentHtml = makeCommentHtml(commentList, boardWriterIdx);
+					let commentLikedList = result.data.commentLikedList;
+					let commentHtml = makeCommentHtml(commentList, commentLikedList, boardWriterIdx);
 					$("div.comment-list").html(commentHtml);
 
 					let pagination = result.data.pagination;
@@ -788,7 +782,8 @@
 				alert(result.message);
 				commentService.getCommentList(boardIdx, curCommentPage, function(result) {
 					let commentList = result.data.commentList;
-					let commentHtml = makeCommentHtml(commentList, boardWriterIdx);
+					let commentLikedList = result.data.commentLikedList;
+					let commentHtml = makeCommentHtml(commentList, commentLikedList, boardWriterIdx);
 					$("div.comment-list").html(commentHtml);
 
 					let pagination = result.data.pagination;
@@ -810,7 +805,8 @@
 				alert(result.message);
 				commentService.getCommentList(boardIdx, curCommentPage, function(result) {
 					let commentList = result.data.commentList;
-					let commentHtml = makeCommentHtml(commentList, boardWriterIdx);
+					let commentLikedList = result.data.commentLikedList;
+					let commentHtml = makeCommentHtml(commentList, commentLikedList, boardWriterIdx);
 					$("div.comment-list").html(commentHtml);
 
 					let pagination = result.data.pagination;
@@ -833,7 +829,8 @@
 				$(this).closest("li.page-item").addClass("active");
 				
 				let commentList = result.data.commentList;
-				let commentHtml = makeCommentHtml(commentList, boardWriterIdx);
+				let commentLikedList = result.data.commentLikedList;
+				let commentHtml = makeCommentHtml(commentList, commentLikedList, boardWriterIdx);
 				$("div.comment-list").html(commentHtml);
 
 				let pagination = result.data.pagination;

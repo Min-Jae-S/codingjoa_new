@@ -1,6 +1,6 @@
 console.log("## Rendering service ready - render.js");
 	
-	function makeCommentHtml(commentList, myCommentLikesList, boardWriterIdx) {
+	function makeCommentHtml(commentList, commentLikedList, boardWriterIdx) {
 		let html = "";
 		if (!(commentList.length > 0)) {
 			return html;
@@ -53,7 +53,7 @@ console.log("## Rendering service ready - render.js");
 			html += "</div>";
 			html += "<div class='mt-auto'>"
 			html += "<button class='btn border-0 p-0 shadow-none' type='button' name='commentLikesBtn'>";
-			if (myCommentLikesList.includes(commentDetails.commentIdx)) {
+			if (commentLikedList.includes(commentDetails.commentIdx)) {
 				html += "<i class='text-primary fa-solid fa-thumbs-up'></i> ";
 			} else {
 				html += "<i class='text-grey fa-regular fa-thumbs-up'></i> ";
