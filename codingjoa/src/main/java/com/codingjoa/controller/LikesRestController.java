@@ -59,7 +59,9 @@ public class LikesRestController {
 	@GetMapping("/boards/{boardIdx}/likes")
 	public ResponseEntity<Object> getBoardLikesCnt(@PathVariable Integer boardIdx) {
 		log.info("## getBoardLikesCnt, boardIdx = {}", boardIdx);
+		
 		int boardLikesCnt = likesService.getBoardLikesCnt(boardIdx);
+		log.info("\t > boardLikesCnt = {}", boardLikesCnt);
 		
 		return ResponseEntity.ok(SuccessResponse.create().data(boardLikesCnt));
 	}
@@ -90,7 +92,9 @@ public class LikesRestController {
 	@GetMapping("/comments/{commentIdx}/likes")
 	public ResponseEntity<Object> getCommentLikesCnt(@PathVariable Integer commentIdx) {
 		log.info("## getCommentLikesCnt, commentIdx = {}", commentIdx);
+		
 		int commentLikesCnt = likesService.getCommentLikesCnt(commentIdx);
+		log.info("\t > commentLikesCnt = {}", commentLikesCnt);
 		
 		return ResponseEntity.ok(SuccessResponse.create().data(commentLikesCnt));
 	}

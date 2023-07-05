@@ -76,10 +76,7 @@ public class LikesServiceImpl implements LikesService {
 			throw new ExpectedException(MessageUtils.getMessage("error.NotFoundBoard"));
 		}
 		
-		int boardLikesCnt = likesMapper.findBoardLikesCnt(boardIdx);
-		log.info("\t > boardLikesCnt = {}", boardLikesCnt);
-		
-		return boardLikesCnt;
+		return likesMapper.findBoardLikesCnt(boardIdx);
 	}
 
 	@Override
@@ -89,10 +86,7 @@ public class LikesServiceImpl implements LikesService {
 			throw new ExpectedException(MessageUtils.getMessage("error.NotFoundComment"));
 		}
 		
-		int commentLikesCnt = likesMapper.findCommentLikesCnt(commentIdx);
-		log.info("\t > commentLikesCnt = {}", commentLikesCnt);
-		
-		return commentLikesCnt;
+		return likesMapper.findCommentLikesCnt(commentIdx);
 	}
 	
 	
