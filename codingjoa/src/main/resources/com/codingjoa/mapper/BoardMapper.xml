@@ -196,7 +196,8 @@
 	        	a_depth.board_writer_idx, 
 	        	a_depth.board_views,
 	        	a_depth.board_category_code, 
-	        	a_depth.regdate 
+	        	a_depth.regdate,
+	        	a_depth.moddate
 		    FROM (
 				SELECT
 					/*+ INDEX_DESC(board pk_board) */
@@ -206,7 +207,8 @@
 		        	board_writer_idx, 
 		        	board_views,
 		        	board_category_code, 
-		        	regdate 
+		        	regdate,
+		        	moddate
 		    	FROM 
 		        	board
 		    	WHERE
