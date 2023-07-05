@@ -4,8 +4,8 @@
 	<settings>
 		<setting name="jdbcTypeForNull" value="NULL"/>
 		<setting name="mapUnderscoreToCamelCase" value="true"/>
-		<!-- <setting name="callSettersOnNulls" value="true"/>
-		<setting name="returnInstanceForEmptyRow" value="true"/> -->
+		<!-- <setting name="callSettersOnNulls" value="true"/> -->
+		<!-- <setting name="returnInstanceForEmptyRow" value="true"/> -->
 	</settings>
 	
 	<typeAliases>

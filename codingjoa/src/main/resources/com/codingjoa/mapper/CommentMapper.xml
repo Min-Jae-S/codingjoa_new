@@ -241,9 +241,9 @@
 	<update id="updateComment" parameterType="comment">
 		<selectKey keyProperty="commentIdx,commentWriterIdx,commentUse" resultType="comment" order="BEFORE">
 			SELECT
-				MAX(comment_idx) AS commentIdx,
-				MAX(comment_writer_idx) AS commentWriterIdx,
-				MAX(comment_use) AS commentUse
+				MAX(comment_idx) AS comment_idx,
+				MAX(comment_writer_idx) AS comment_writer_idx,
+				MAX(comment_use) AS comment_use
 			FROM
 				"comment" 
 			WHERE 
