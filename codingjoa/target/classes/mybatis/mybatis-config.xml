@@ -4,6 +4,12 @@
 	<settings>
 		<setting name="jdbcTypeForNull" value="NULL"/>
 		<setting name="mapUnderscoreToCamelCase" value="true"/>
+		<!--
+			## returnInstanceForEmptyRow 
+			MyBatis, by default, returns null when all the columns of a returned row are NULL. 
+			When this setting is enabled, MyBatis returns an empty instance instead. 
+			Note that it is also applied to nested results (i.e. collectioin and association). Since: 3.4.2
+		 -->
 		<setting name="returnInstanceForEmptyRow" value="true"/>
 		<!-- <setting name="callSettersOnNulls" value="true"/> -->
 	</settings>
