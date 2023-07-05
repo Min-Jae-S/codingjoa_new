@@ -25,9 +25,7 @@ public interface BoardMapper {
 
 	int findPagedBoardTotalCnt(@Param("boardCategoryCode") int boardCategoryCode, @Param("boardCri") Criteria boardCri);
 	
-	boolean isBoardIdxExist(@Param("boardIdx") int boardIdx, @Param("boardCategoryCode") int boardCategoryCode);
-	
-	Board findModifyBoard(int boardIdx);
+	Board findBoardByIdx(int boardIdx);
 	
 	void updateBoard(Board board);
 

@@ -7,9 +7,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.codingjoa.dto.BoardLikesDto;
 import com.codingjoa.dto.CommentLikesDto;
+import com.codingjoa.entity.Board;
 import com.codingjoa.entity.BoardLikes;
+import com.codingjoa.entity.Comment;
 import com.codingjoa.entity.CommentLikes;
 import com.codingjoa.exception.ExpectedException;
+import com.codingjoa.mapper.BoardMapper;
+import com.codingjoa.mapper.CommentMapper;
 import com.codingjoa.mapper.LikesMapper;
 import com.codingjoa.service.LikesService;
 import com.codingjoa.util.MessageUtils;
@@ -23,6 +27,12 @@ public class LikesServiceImpl implements LikesService {
 
 	@Autowired
 	private LikesMapper likesMapper;
+	
+	@Autowired
+	private BoardMapper boardMapper;
+	
+	@Autowired
+	private CommentMapper commentMapper;
 	
 	@Autowired
 	private ModelMapper modelMapper;
@@ -61,6 +71,11 @@ public class LikesServiceImpl implements LikesService {
 
 	@Override
 	public int getBoardLikesCnt(Integer boardIdx) {
+		Board board = boardMapper.findBoardByIdx(boardIdx);
+		if (board == null) {
+			throw new ExpectedException(MessageUtils.getMessage("error.NotFoundBoard"));
+		}
+		
 		int boardLikesCnt = likesMapper.findBoardLikesCnt(boardIdx);
 		log.info("\t > boardLikesCnt = {}", boardLikesCnt);
 		
@@ -69,6 +84,11 @@ public class LikesServiceImpl implements LikesService {
 
 	@Override
 	public int getCommentLikesCnt(Integer commentIdx) {
+		Comment comment = commentMapper.findCommentByIdx(commentIdx);
+		if (comment == null) {
+			throw new ExpectedException(MessageUtils.getMessage("error.NotFoundComment"));
+		}
+		
 		int commentLikesCnt = likesMapper.findCommentLikesCnt(commentIdx);
 		log.info("\t > commentLikesCnt = {}", commentLikesCnt);
 		

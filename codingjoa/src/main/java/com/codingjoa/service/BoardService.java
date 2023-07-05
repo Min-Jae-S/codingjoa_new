@@ -21,8 +21,6 @@ public interface BoardService {
 
 	Pagination getPagination(int boardCategoryCode, Criteria boardCri);
 	
-	boolean isBoardIdxExist(int boardIdx, int boardCategoryCode);
-	
 	BoardDto getModifyBoard(int boardIdx, int boardWriterIdx);
 	
 	void modifyBoard(BoardDto boardDto);

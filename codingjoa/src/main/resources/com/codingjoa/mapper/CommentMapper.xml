@@ -229,6 +229,15 @@
 			a.comment_idx = #{commentIdx}
 	</select>
 	
+	<select id="findCommentByIdx" parameterType="int" resultType="comment">
+		SELECT
+			*
+		FROM
+			"comment"
+		WHERE
+			comment_idx = #{commentIdx}
+	</select>
+	
 	<update id="updateComment" parameterType="comment">
 		<selectKey keyProperty="commentIdx,commentWriterIdx,commentUse" resultType="comment" order="BEFORE">
 			SELECT

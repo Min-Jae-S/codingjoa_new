@@ -112,17 +112,12 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
-	public boolean isBoardIdxExist(int boardIdx, int boardCategoryCode) {
-		return boardMapper.isBoardIdxExist(boardIdx, boardCategoryCode);
-	}
-	
-	@Override
 	public BoardDto getModifyBoard(int boardIdx, int boardWriterIdx) {
-		Board board = boardMapper.findModifyBoard(boardIdx);
+		Board board = boardMapper.findBoardByIdx(boardIdx);
 		log.info("\t > find modifyBoard, {}", board);
 
 		if (board == null) {
-			throw new ExpectedException(MessageUtils.getMessage("error.NotFoundModifyBoard"));
+			throw new ExpectedException(MessageUtils.getMessage("error.NotFoundBoard"));
 		}
 		
 		Integer DBboardWriterIdx = board.getBoardWriterIdx();
