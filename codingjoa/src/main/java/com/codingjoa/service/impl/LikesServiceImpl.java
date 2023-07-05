@@ -70,7 +70,7 @@ public class LikesServiceImpl implements LikesService {
 	}
 
 	@Override
-	public int getBoardLikesCnt(Integer boardIdx) {
+	public int getBoardLikesCnt(int boardIdx) {
 		Board board = boardMapper.findBoardByIdx(boardIdx);
 		if (board == null) {
 			throw new ExpectedException(MessageUtils.getMessage("error.NotFoundBoard"));
@@ -80,7 +80,7 @@ public class LikesServiceImpl implements LikesService {
 	}
 
 	@Override
-	public int getCommentLikesCnt(Integer commentIdx) {
+	public int getCommentLikesCnt(int commentIdx) {
 		Comment comment = commentMapper.findCommentByIdx(commentIdx);
 		if (comment == null) {
 			throw new ExpectedException(MessageUtils.getMessage("error.NotFoundComment"));

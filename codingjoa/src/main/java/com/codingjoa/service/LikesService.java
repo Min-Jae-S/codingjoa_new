@@ -9,7 +9,7 @@ public interface LikesService {
 	
 	Integer toggleCommentLikes(CommentLikesDto commentLikesDto);
 	
-	int getBoardLikesCnt(Integer boardIdx);
+	int getBoardLikesCnt(int boardIdx);
 
-	int getCommentLikesCnt(Integer commentIdx);
+	int getCommentLikesCnt(int commentIdx);
 }

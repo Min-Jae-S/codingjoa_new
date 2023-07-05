@@ -12,7 +12,7 @@ public interface LikesMapper {
 	
 	void delOrInsCommentLikes(CommentLikes commentLikes); // mergeCommentLikes
 	
-	int findBoardLikesCnt(Integer boardIdx);
+	int findBoardLikesCnt(int boardIdx);
 
-	int findCommentLikesCnt(Integer boardIdx);
+	int findCommentLikesCnt(int boardIdx);
 }

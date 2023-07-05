@@ -34,7 +34,7 @@ public class LikesRestController {
 	private UserDetailsService userDetailsService;
 
 	@PostMapping("/boards/{boardIdx}/likes")
-	public ResponseEntity<Object> toggleBoardLikes(@PathVariable Integer boardIdx,
+	public ResponseEntity<Object> toggleBoardLikes(@PathVariable int boardIdx,
 			@AuthenticationPrincipal UserDetailsDto principal) {
 		log.info("## toggleBoardLikes, boardIdx = {}", boardIdx);
 		
@@ -57,7 +57,7 @@ public class LikesRestController {
 	}
 	
 	@GetMapping("/boards/{boardIdx}/likes")
-	public ResponseEntity<Object> getBoardLikesCnt(@PathVariable Integer boardIdx) {
+	public ResponseEntity<Object> getBoardLikesCnt(@PathVariable int boardIdx) {
 		log.info("## getBoardLikesCnt, boardIdx = {}", boardIdx);
 		
 		int boardLikesCnt = likesService.getBoardLikesCnt(boardIdx);
@@ -67,7 +67,7 @@ public class LikesRestController {
 	}
 	
 	@PostMapping("/comments/{commentIdx}/likes")
-	public ResponseEntity<Object> toggleCommentLikes(@PathVariable Integer commentIdx, 
+	public ResponseEntity<Object> toggleCommentLikes(@PathVariable int commentIdx, 
 			@AuthenticationPrincipal UserDetailsDto principal) {
 		log.info("## toggleCommentLikes, commentIdx = {}", commentIdx);
 		
@@ -90,7 +90,7 @@ public class LikesRestController {
 	}
 
 	@GetMapping("/comments/{commentIdx}/likes")
-	public ResponseEntity<Object> getCommentLikesCnt(@PathVariable Integer commentIdx) {
+	public ResponseEntity<Object> getCommentLikesCnt(@PathVariable int commentIdx) {
 		log.info("## getCommentLikesCnt, commentIdx = {}", commentIdx);
 		
 		int commentLikesCnt = likesService.getCommentLikesCnt(commentIdx);
