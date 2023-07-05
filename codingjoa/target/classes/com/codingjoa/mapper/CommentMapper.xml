@@ -229,7 +229,7 @@
 			a.comment_idx = #{commentIdx}
 	</select>
 	
-	<select id="findCommentByIdx" parameterType="int" resultType="comment">
+	<select id="findCommentByIdx" resultType="comment">
 		SELECT
 			*
 		FROM
@@ -265,9 +265,9 @@
 	<update id="deleteComment" parameterType="comment">
 		<selectKey keyProperty="commentIdx,commentWriterIdx,commentUse" resultType="comment" order="BEFORE">
 			SELECT
-				MAX(comment_idx) AS commentIdx,
-				MAX(comment_writer_idx) AS commentWriterIdx,
-				MAX(comment_use) AS commentUse
+				MAX(comment_idx) AS comment_idx,
+				MAX(comment_writer_idx) AS comment_writer_idx,
+				MAX(comment_use) AS comment_use
 			FROM
 				"comment" 
 			WHERE 
