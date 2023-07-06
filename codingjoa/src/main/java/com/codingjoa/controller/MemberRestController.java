@@ -17,9 +17,7 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -145,17 +143,19 @@ public class MemberRestController {
 		return ResponseEntity.ok(SuccessResponse.create().data(principal.getMember()));
 	}
 	
-	/**************************************************************************************************/
+	/*
+	 * check-password
+	 * update-password
+	 * find-account
+	 * find-password
+	 * reset-password
+	 */
+	
 	@PostMapping("/checkPassword")
-	public ResponseEntity<Object> checkPassword(@RequestBody @Valid PasswordDto passwordDto, 
-			BindingResult bindingResult) throws MethodArgumentNotValidException {
+	public ResponseEntity<Object> checkPassword(@RequestBody @Valid PasswordDto passwordDto) {
 		log.info("## checkPassword");
 		log.info("\t > {}", passwordDto);
 		log.info("\t > {}", sessionDto);
-		
-		if (bindingResult.hasErrors()) {
-			throw new MethodArgumentNotValidException(null, bindingResult);
-		}
 		
 		sessionDto.setCheckPasswordResult(true);
 		
@@ -164,14 +164,9 @@ public class MemberRestController {
 	
 	@PutMapping("/updatePassword")
 	public ResponseEntity<Object> updatePassword(@RequestBody @Valid PasswordDto passwordDto, 
-			BindingResult bindingResult, @AuthenticationPrincipal UserDetailsDto principal) 
-					throws MethodArgumentNotValidException {
+			@AuthenticationPrincipal UserDetailsDto principal) {
 		log.info("## updatePassword");
 		log.info("\t > {}", passwordDto);
-		
-		if (bindingResult.hasErrors()) {
-			throw new MethodArgumentNotValidException(null, bindingResult);		
-		}
 		
 		String memberId = principal.getMember().getMemberId();
 		memberService.updatePassword(passwordDto, memberId);
@@ -182,15 +177,10 @@ public class MemberRestController {
 	}
 	
 	@PostMapping("/findAccount")
-	public ResponseEntity<Object> findAccount(@RequestBody @Valid EmailAuthDto emailAuthDto, 
-			BindingResult bindingResult) throws MethodArgumentNotValidException {
+	public ResponseEntity<Object> findAccount(@RequestBody @Valid EmailAuthDto emailAuthDto) {
 		log.info("## findAccount");
 		log.info("\t > {}", emailAuthDto);
 		log.info("\t > {}", sessionDto);
-		
-		if (bindingResult.hasErrors()) {
-			throw new MethodArgumentNotValidException(null, bindingResult);
-		}
 		
 		String account = memberService.findAccount(emailAuthDto);
 		sessionDto.setFindAccountResult(account);
@@ -201,15 +191,10 @@ public class MemberRestController {
 	}
 	
 	@PostMapping("/findPassword")
-	public ResponseEntity<Object> findPassword(@RequestBody @Valid EmailAuthDto emailAuthDto, 
-			BindingResult bindingResult) throws MethodArgumentNotValidException {
+	public ResponseEntity<Object> findPassword(@RequestBody @Valid EmailAuthDto emailAuthDto) {
 		log.info("## findPassword");
 		log.info("\t > {}", emailAuthDto);
 		log.info("\t > {}", sessionDto);
-		
-		if (bindingResult.hasErrors()) {
-			throw new MethodArgumentNotValidException(null, bindingResult);
-		}
 		
 		Map<String, Object> resultMap = new HashMap<>();
 		resultMap.put("result", true);
@@ -222,14 +207,9 @@ public class MemberRestController {
 	}
 	
 	@PutMapping("/resetPassword")
-	public ResponseEntity<Object> resetPassword(@RequestBody @Valid PasswordDto passwordDto, 
-			BindingResult bindingResult) throws MethodArgumentNotValidException {
+	public ResponseEntity<Object> resetPassword(@RequestBody @Valid PasswordDto passwordDto) {
 		log.info("## resetPassword");
 		log.info("\t > {}", passwordDto);
-		
-		if (bindingResult.hasErrors()) {
-			throw new MethodArgumentNotValidException(null, bindingResult);		
-		}
 		
 		String memberId = (String) sessionDto.getFindPasswordResult().get("memberId");
 		memberService.updatePassword(passwordDto, memberId);

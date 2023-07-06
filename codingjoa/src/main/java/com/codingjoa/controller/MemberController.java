@@ -159,7 +159,6 @@ public class MemberController {
 		if (resultMap == null || !(boolean) resultMap.get("result")) {
 			model.addAttribute("message", MessageUtils.getMessage("error.NotFindPassword"));
 			model.addAttribute("path", "findPassword");
-			
 			return "member/invalid-access";
 		}
 		
