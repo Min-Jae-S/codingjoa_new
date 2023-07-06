@@ -83,7 +83,7 @@ public class MemberRestController {
 		binder.addValidators(passwordValidator);
 	}
 
-	@PostMapping("account/info/check-email")
+	@PostMapping("/email/check")
 	public ResponseEntity<Object> checkEmail(@RequestBody @Valid EmailAuthDto emailAuthDto) {
 		log.info("## checkEmail");
 		log.info("\t > {}", emailAuthDto);
@@ -98,7 +98,7 @@ public class MemberRestController {
 		return ResponseEntity.ok(SuccessResponse.create().code("success.CheckEmail"));
 	}
 	
-	@PutMapping("/account/info/update-email")
+	@PutMapping("/email")
 	public ResponseEntity<Object> updateEmail(@RequestBody @Valid EmailAuthDto emailAuthDto,
 			@AuthenticationPrincipal UserDetailsDto principal) {
 		log.info("## updateEmail");
@@ -112,7 +112,7 @@ public class MemberRestController {
 		return ResponseEntity.ok(SuccessResponse.create().code("success.UpdateEmail"));
 	}
 	
-	@PutMapping("/account/info/update-addr")
+	@PutMapping("/address")
 	public ResponseEntity<Object> updateAddr(@RequestBody @Valid AddrDto addrDto, 
 			@AuthenticationPrincipal UserDetailsDto principal) {
 		log.info("## updateAddr");
@@ -125,7 +125,7 @@ public class MemberRestController {
 		return ResponseEntity.ok(SuccessResponse.create().code("success.UpdateAddr"));
 	}
 	
-	@PutMapping("/account/info/update-agree")
+	@PutMapping("/agree")
 	public ResponseEntity<Object> updateAgree(@RequestBody AgreeDto agreeDto, 
 			@AuthenticationPrincipal UserDetailsDto principal) {
 		log.info("## updateAgree");
