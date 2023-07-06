@@ -16,6 +16,7 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://kit.fontawesome.com/c503d71f81.js"></script>
+<script src="${contextPath}/resources/js/member.js"></script>
 <style>
 	input[type="text"] {
 		border: none;
@@ -113,9 +114,9 @@
 							<input type="text" id="memberEmail" name="memberEmail" value="${principal.member.memberEmail}"/>
 						</form>
 						<div>
-							<button class="btn btn-warning btn-sm" id="sendAuthEmailBtn">인증코드 받기</button>
-							<button class="btn btn-outline-primary btn-sm" id="readEmailBtn">확인</button>
-							<button class="btn btn-outline-secondary btn-sm" id="resetEmailBtn">취소</button>
+							<button class="btn btn-warning btn-sm" type="button" id="sendAuthEmailBtn">인증코드 받기</button>
+							<button class="btn btn-outline-primary btn-sm" type="button" id="readEmailBtn">확인</button>
+							<button class="btn btn-outline-secondary btn-sm" type="button" id="resetEmailBtn">취소</button>
 						</div>
 					</dd>
 					<dd class="input-group" id="editAuthCode">
@@ -129,7 +130,7 @@
 						<div>
 							<span class="inner-text"><c:out value="${principal.member.memberZipcode}"/></span>
 						</div>
-						<button class="btn btn-outline-primary btn-sm" id="showAllAddrBtn">수정</button>
+						<button class="btn btn-outline-primary btn-sm" type="button" id="showAllAddrBtn">수정</button>
 					</dd>
 					<dd class="input-group" id="showAddr">
 						<span class="inner-text"><c:out value="${principal.member.memberAddr}"/></span>
@@ -144,23 +145,23 @@
 							<input type="text" id="memberZipcode" name="memberZipcode" value="${principal.member.memberZipcode}" readonly/>
 						</form>
 						<div>
-							<button class="btn btn-warning btn-sm" id="searchAddrBtn">주소 찾기</button>
-							<button class="btn btn-outline-primary btn-sm" id="readAllAddrBtn">확인</button>
-							<button class="btn btn-outline-secondary btn-sm" id="resetAllAddrBtn">취소</button>
+							<button class="btn btn-warning btn-sm" type="button" id="searchAddrBtn">주소 찾기</button>
+							<button class="btn btn-outline-primary btn-sm" type="button" id="readAllAddrBtn">확인</button>
+							<button class="btn btn-outline-secondary btn-sm" type="button" id="resetAllAddrBtn">취소</button>
 						</div>
 					</dd>
 					
 					<!-- display: none; -->
 					<dd class="input-group" id="editAddr">
 						<form>
-							<input type="text" id="memberAddr" name="memberAddr" value="${principal.member.memberAddr}" readonly />
+							<input type="text" id="memberAddr" name="memberAddr" value="${principal.member.memberAddr}" readonly/>
 						</form>
 					</dd>
 					
 					<!-- display: none; -->
 					<dd class="input-group" id="editAddrDetail">
 						<form>
-							<input type="text" id="memberAddrDetail" name="memberAddrDetail" value="${principal.member.memberAddrDetail}" />
+							<input type="text" id="memberAddrDetail" name="memberAddrDetail" value="${principal.member.memberAddrDetail}"/>
 						</form>
 					</dd>
 				</dl>
@@ -174,7 +175,7 @@
 								<span class="inner-text">이메일 광고 수신에 동의합니다.</span>
 							</label>
 						</div>
-						<button class="btn btn-outline-primary btn-sm" id="showAgreeBtn">수정</button>
+						<button class="btn btn-outline-primary btn-sm" type="button" id="showAgreeBtn">수정</button>
 					</dd>
 					
 					<!-- display: none; -->
@@ -182,14 +183,15 @@
 						<form>
 							<div class="form-check form-check-inline">
 								<label class="form-check-label">
-									<input class="form-check-input" type="checkbox" id="memberAgree" name="memberAgree" ${principal.member.memberAgree == true ? 'checked' : ''}>
+									<input class="form-check-input" type="checkbox" id="memberAgree" name="memberAgree" 
+										${principal.member.memberAgree == true ? 'checked' : ''}>
 									<span class="inner-text">이메일 광고 수신에 동의합니다.</span>
 								</label>
 							</div>
 						</form>
 						<div>
-							<button class="btn btn-outline-primary btn-sm" id="readAgreeBtn">확인</button>
-							<button class="btn btn-outline-secondary btn-sm" id="resetAgreeBtn">취소</button>
+							<button class="btn btn-outline-primary btn-sm" type="button" id="readAgreeBtn">확인</button>
+							<button class="btn btn-outline-secondary btn-sm" type="button" id="resetAgreeBtn">취소</button>
 						</div>
 					</dd>
 				</dl>

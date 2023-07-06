@@ -88,6 +88,4 @@ public class LikesServiceImpl implements LikesService {
 		
 		return likesMapper.findCommentLikesCnt(commentIdx);
 	}
-	
-	
 }
