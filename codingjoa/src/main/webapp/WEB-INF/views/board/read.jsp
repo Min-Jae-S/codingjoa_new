@@ -688,7 +688,8 @@
 			let pagination = result.data.pagination;
 			let paginationHtml = makePaginationHtml(pagination);
 			$("div.comment-pagination").html(paginationHtml);
-			$("span.comment-cnt").text(pagination.totalCnt);	
+			$("span.comment-cnt").text(pagination.totalCnt);
+			console.log("> current comment page = %s", curCommentPage);
 		});
 		
 		$("#deleteBoardLink").on("click", function() {
@@ -830,16 +831,7 @@
 		// pagination
 		$(document).on("click", "a.page-link", function(e) {
 			e.preventDefault();
-			let clickedCommentPage = $(this).data("page");
-			
-			commentService.getCommentList(boardIdx, clickedCommentPage, function(result) {
-				console.log("## Page has changed from %s to %s", curCommentPage, clickedCommentPage);
-				curCommentPage = clickedCommentPage;
-				console.log("## Current page = %s", curCommentPage);
-				
-				$("li.page-item").removeClass("active");
-				$(this).closest("li.page-item").addClass("active");
-				
+			commentService.getCommentList(boardIdx, $(this).data("page"), function(result) {
 				let commentList = result.data.commentList;
 				let commentLikesList = result.data.commentLikesList;
 				let commentHtml = makeCommentHtml(commentList, commentLikesList, boardWriterIdx);
@@ -848,18 +840,19 @@
 				let pagination = result.data.pagination;
 				let paginationHtml = makePaginationHtml(pagination);
 				$("div.comment-pagination").html(paginationHtml);
-				$("span.comment-cnt").text(pagination.totalCnt);	
+				$("span.comment-cnt").text(pagination.totalCnt);
+				
+				curCommentPage = pagination.page;
+				console.log("> current comment page = %s", curCommentPage);
 			});
 		});
 		
 		// board likes
 		$("#boardLikesBtn").on("click", function() {
 			likesService.toggleBoardLikes(boardIdx, function(result) {
-				let toggleMessage = result.message;
-				let cssClass = (result.data == "UP") ? 
-						"text-danger fa-solid fa-heart" : "text-grey fa-regular fa-heart";
+				alert(result.message);
+				let cssClass = (result.data == "UP") ? "text-danger fa-solid fa-heart" : "text-grey fa-regular fa-heart";
 				likesService.getBoardLikesCnt(boardIdx, function(result) {
-					alert(toggleMessage);
 					$("#boardLikesBtn i").removeClass().addClass(cssClass);
 					$(".board-likes-cnt").text(result.data);
 				});
@@ -871,11 +864,9 @@
 			let $li = $(this).closest("li");
 			let commentIdx = $li.data("comment-idx");
 			likesService.toggleCommentLikes(commentIdx, function(result) {
-				let toggleMessage = result.message;
-				let cssClass = (result.data == "UP") ? 
-						"text-primary fa-regular fa-thumbs-up" : "text-grey fa-regular fa-thumbs-up";
+				alert(result.message);
+				let cssClass = (result.data == "UP") ? "text-primary fa-regular fa-thumbs-up" : "text-grey fa-regular fa-thumbs-up";
 				likesService.getCommentLikesCnt(commentIdx, function(result) {
-					alert(toggleMessage);
 					$li.find("button[name=commentLikesBtn] i").removeClass().addClass(cssClass);
 					$li.find(".comment-likes-cnt").text(result.data);
 				});
