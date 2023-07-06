@@ -261,7 +261,7 @@
 					$("#showAddr").find("span").text(member.memberAddr);
 					$("#editAddrDetail").find("form").html("<input type='text' id='memberAddrDetail' name='memberAddrDetail' value='" + member.memberAddrDetail + "'>");
 					$("#showAddrDetail").find("span").text(member.memberAddrDetail);
-					$("#resetAddrBtn").click()
+					$("#resetAddrBtn").click();
 				});
 			});
 		});
@@ -289,13 +289,13 @@
 			execPostcode();
 		});
 		
-		/* 이메일 - 수정 버튼 */
+		// 이메일 - 수정 버튼
 		$("#showEmailBtn").on("click", function() {
 			$("#showEmail").css("display", "none");
 			$("#editEmail, #editEmail > div, #editAuthCode").css("display", "flex");
 		});
 
-		/* 이메일 - 취소 버튼 */
+		// 이메일 - 취소 버튼
 		$("#resetEmailBtn").on("click", function() {
 			$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
 			$("#showEmail").css("display", "flex");
@@ -305,13 +305,13 @@
 			$("#authCode").val("");
 		});
 		
-		/* 주소 - 수정 버튼 */
+		// 주소 - 수정 버튼
 		$("#showAllAddrBtn").on("click", function() {
 			$("#showZipcode, #showAddr, #showAddrDetail").css("display", "none");
 			$("#editZipcode, #editZipcode > div, #editAddr, #editAddrDetail").css("display", "flex");	
 		});
 
-		/* 주소 - 취소 버튼 */
+		// 주소 - 취소 버튼
 		$("#resetAddrBtn").on("click", function() {
 			$("#memberZipcode\\.errors, #memberAddr\\.errors, #memberAddrDetail\\.errors").remove();
 			$("#showZipcode, #showAddr, #showAddrDetail").css("display", "flex");
@@ -322,27 +322,25 @@
 			$("#editAddrDetail").find("form")[0].reset();
 		});
 		
-		/* 이메일 동의 - 수정 버튼 */
+		// 이메일 동의 - 수정 버튼
 		$("#showAgreeBtn").on("click", function() {
 			$("#showAgree").css("display", "none");
 			$("#editAgree, #editAgree > div").css("display", "flex");
 		});
 		
-		/* 이메일 동의 - 취소 버튼 */
+		// 이메일 동의 - 취소 버튼
 		$("#resetAgreeBtn").on("click", function() {
 			$("#memberAgree\\.errors").remove();
 			$("#showAgree").css("display", "flex");
 			$("#editAgree, #editAgree > div").css("display", "none");
 			$("#editAgree").find("form")[0].reset();
 		});
-		
 	});
 	
     function execPostcode() {
         new daum.Postcode({
             oncomplete: function(data) {
                 // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
-
                 // 각 주소의 노출 규칙에 따라 주소를 조합한다.
                 // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
                 let addr = ''; // 주소 변수

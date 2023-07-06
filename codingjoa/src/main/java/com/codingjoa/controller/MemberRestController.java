@@ -240,6 +240,7 @@ public class MemberRestController {
 	}
 	
 	private void resetAuthentication(String memberId) {
+		log.info("## resetAuthentication");
 		UserDetails userDetails = userDetailsService.loadUserByUsername(memberId);
 		Authentication newAuthentication = 
 				new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
