@@ -33,7 +33,6 @@ import com.codingjoa.dto.AgreeDto;
 import com.codingjoa.dto.EmailAuthDto;
 import com.codingjoa.dto.PasswordDto;
 import com.codingjoa.dto.SessionDto;
-import com.codingjoa.entity.Member;
 import com.codingjoa.response.SuccessResponse;
 import com.codingjoa.security.dto.UserDetailsDto;
 import com.codingjoa.service.EmailService;
@@ -106,10 +105,11 @@ public class MemberRestController {
 		log.info("## updateEmail");
 		log.info("\t > {}", emailAuthDto);
 		
-		Member member = principal.getMember();
-		memberService.updateEmail(member.getMemberEmail(), member.getMemberIdx());
-		redisService.delete(member.getMemberEmail());
-		resetAuthentication(member.getMemberId());
+		String memberEmail = emailAuthDto.getMemberEmail();
+		memberService.updateEmail(memberEmail, principal.getMember().getMemberIdx());
+		redisService.delete(memberEmail);
+		
+		resetAuthentication(principal.getMember().getMemberId());
 		
 		return ResponseEntity.ok(SuccessResponse.create().code("success.UpdateEmail"));
 	}
