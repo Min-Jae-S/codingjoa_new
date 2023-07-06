@@ -21,6 +21,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -134,8 +135,14 @@ public class MemberRestController {
 		
 		memberService.updateAgree(agreeDto.isMemberAgree(), principal.getMember().getMemberIdx());
 		resetAuthentication(principal.getMember().getMemberId());
-		
+
 		return ResponseEntity.ok(SuccessResponse.create().code("success.UpdateAgree"));
+	}
+	
+	@GetMapping("/find-principal")
+	public ResponseEntity<Object> findPrincipal(@AuthenticationPrincipal UserDetailsDto principal) {
+		log.info("## findPrincipal");
+		return ResponseEntity.ok(SuccessResponse.create().data(principal));
 	}
 	
 	/**************************************************************************************************/

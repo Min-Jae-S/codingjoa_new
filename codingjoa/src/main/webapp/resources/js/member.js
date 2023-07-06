@@ -137,11 +137,33 @@ let memberService = (function() {
 		});
 	}
 
+	function findPrincipal(callback) {
+		console.log("## Find Principal");
+		let url = contextPath + "/api/member/find-principal";
+		console.log("> url = '%s'", url);
+		
+		$.ajax({
+			type : "GET",
+			url : url,
+			dataType : "json",
+			success : function(result) {
+				console.log("> successResponse = %s", JSON.stringify(result, null, 2));
+				callback(result);
+			},
+			error : function(jqXHR) {
+				let errorResponse = JSON.parse(jqXHR.responseText);
+				console.log("> errorResponse = %s", JSON.stringify(errorResponse, null, 2));
+				alert(errorResponse.errorMessage);
+			}
+		});
+	}
+
 	return {
 		checkEmail:checkEmail,
 		updateEmail:updateEmail,
 		updateAddr:updateAddr,
-		updateAgree:updateAgree
+		updateAgree:updateAgree,
+		findPrincipal:findPrincipal
 	};
 	
 })();
