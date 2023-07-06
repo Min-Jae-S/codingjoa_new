@@ -137,9 +137,9 @@ let memberService = (function() {
 		});
 	}
 
-	function findPrincipal(callback) {
-		console.log("## Find Principal");
-		let url = contextPath + "/api/member/find-principal";
+	function getCurrentMember(callback) {
+		console.log("## Get Current Member");
+		let url = contextPath + "/api/member/current-member";
 		console.log("> url = '%s'", url);
 		
 		$.ajax({
@@ -163,7 +163,7 @@ let memberService = (function() {
 		updateEmail:updateEmail,
 		updateAddr:updateAddr,
 		updateAgree:updateAgree,
-		findPrincipal:findPrincipal
+		getCurrentMember:getCurrentMember
 	};
 	
 })();

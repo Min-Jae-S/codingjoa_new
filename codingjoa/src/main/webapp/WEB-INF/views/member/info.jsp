@@ -234,8 +234,8 @@
 			
 			memberService.updateEmail(obj, function(result) {
 				alert(result.message);
-				memberService.findPrincipal(function(result) {
-					let member = result.data.member;
+				memberService.getCurrentMember(function(result) {
+					let member = result.data;
 					$("#editEmail").find("form").html("<input type='text' id='memberEmail' name='memberEmail' value='" + member.memberEmail + "' readonly>");
 					$("#showEmail").find("span").text(member.memberEmail);
 					$("#resetEmailBtn").click();
@@ -253,8 +253,8 @@
 			
 			memberService.updateAddr(obj, function(result) {
 				alert(result.message);
-				memberService.findPrincipal(function(result) {
-					let member = result.data.member;
+				memberService.getCurrentMember(function(result) {
+					let member = result.data;
 					$("#editZipcode").find("form").html("<input type='text' id='memberZipcode' name='memberZipcode' value='" + member.memberZipcode + "' readonly>");
 					$("#showZipcode").find("span").text(member.memberZipcode);
 					$("#editAddr").find("form").html("<input type='text' id='memberAddr' name='memberAddr' value='" + member.memberAddr + "' readonly>");
@@ -274,8 +274,8 @@
 			
 			memberService.updateAgree(obj, function(result) {
 				alert(result.message);
-				memberService.findPrincipal(function(result) {
-					let member = result.data.member;
+				memberService.getCurrentMember(function(result) {
+					let member = result.data;
 					let check_value = (member.memberAgree == true) ? "checked" : "";
 					$("#editAgree").find("label").html("<input class='form-check-input' type='checkbox' id='memberAgree' name='memberAgree' " + check_value + "><span class='inner-text'>이메일 광고 수신에 동의합니다.<span/>");
 					$("#showAgree").find("input").prop("checked", member.memberAgree);

@@ -139,10 +139,10 @@ public class MemberRestController {
 		return ResponseEntity.ok(SuccessResponse.create().code("success.UpdateAgree"));
 	}
 	
-	@GetMapping("/find-principal")
-	public ResponseEntity<Object> findPrincipal(@AuthenticationPrincipal UserDetailsDto principal) {
-		log.info("## findPrincipal");
-		return ResponseEntity.ok(SuccessResponse.create().data(principal));
+	@GetMapping("/current-member")
+	public ResponseEntity<Object> getCurrentMember(@AuthenticationPrincipal UserDetailsDto principal) {
+		log.info("## getCurrentMember");
+		return ResponseEntity.ok(SuccessResponse.create().data(principal.getMember()));
 	}
 	
 	/**************************************************************************************************/
