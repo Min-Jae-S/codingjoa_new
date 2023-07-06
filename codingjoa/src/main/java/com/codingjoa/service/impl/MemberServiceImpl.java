@@ -66,15 +66,11 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public void updateEmail(String memberEmail, Integer memberIdx) {
 		Member modifiedMember = memberMapper.findMemberByIdx(memberIdx);
-		log.info("\t > find member = {}", modifiedMember);
-		
 		if (modifiedMember == null) {
 			throw new ExpectedException(MessageUtils.getMessage("error.NotFoundMember"));
 		}
 		
 		modifiedMember.setMemberEmail(memberEmail);
-		log.info("\t > modifiedMember = {}", modifiedMember);
-		
 		memberMapper.updateEmail(modifiedMember);
 	}
 	
