@@ -142,7 +142,8 @@
 					<!-- display: none; -->
 					<dd class="input-group" id="editZipcode">
 						<form>
-							<input type="text" id="memberZipcode" name="memberZipcode" value="${principal.member.memberZipcode}"/>
+							<!-- later readonly -->
+							<input type="text" id="memberZipcode" name="memberZipcode" value="${principal.member.memberZipcode}"/> 
 						</form>
 						<div>
 							<button class="btn btn-warning btn-sm" type="button" id="searchAddrBtn">주소 찾기</button>
@@ -154,6 +155,7 @@
 					<!-- display: none; -->
 					<dd class="input-group" id="editAddr">
 						<form>
+							<!-- later readonly -->
 							<input type="text" id="memberAddr" name="memberAddr" value="${principal.member.memberAddr}"/>
 						</form>
 					</dd>

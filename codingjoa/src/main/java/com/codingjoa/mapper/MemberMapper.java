@@ -21,7 +21,8 @@ public interface MemberMapper {
 	
 	String findEmailById(String memberId);
 
-	Map<String, Object> findUserDetailsById(String memberId); // Member, memberRole, boardLikesList, commentLikesList
+	// Member, memberRole, boardLikesList, commentLikesList
+	Map<String, Object> findUserDetailsById(String memberId); 
 	
 	Member findMemberByIdx(Integer memberIdx);
 	
