@@ -115,7 +115,7 @@
 						</form>
 						<div>
 							<button class="btn btn-warning btn-sm" type="button" id="checkEmailBtn">인증코드 받기</button>
-							<button class="btn btn-outline-primary btn-sm" type="button" id="readEmailBtn">확인</button>
+							<button class="btn btn-outline-primary btn-sm" type="button" id="updateEmailBtn">확인</button>
 							<button class="btn btn-outline-secondary btn-sm" type="button" id="resetEmailBtn">취소</button>
 						</div>
 					</dd>
@@ -224,19 +224,27 @@
 				$("#authCode").focus();
 			});
 		});
-		
-		/* 이메일 - 확인 버튼 */
-		$("#readEmailBtn").on("click", function() {
+
+		// update email
+		$("#updateEmailBtn").on("click", function() {
 			let obj = {
 				memberEmail : $("#memberEmail").val(),
 				authCode : $("#authCode").val(),
 				type : "UPDATE_EMAIL"
 			};
 			
-			updateEmail("${contextPath}/member/updateEmail", obj);
+			MemberService.updateEmail(obj, function(result) {
+				alert(result.message);
+				
+				// session 불러오기
+				/* let member = result.data.member;
+				$("#editEmail").find("form").html("<input type='text' id='memberEmail' name='memberEmail' value='" + member.memberEmail + "' readonly>");
+				$("#showEmail").find("span").text(member.memberEmail);
+				$("#resetEmailBtn").click(); */
+			});
 		});
 
-		/* 주소 - 확인 버튼 */
+		// update addr
 		$("#readAllAddrBtn").on("click", function() {
 			let obj = {
 				memberZipcode : $("#memberZipcode").val(),
@@ -304,35 +312,6 @@
 		});
 		
 	});
-	
-	function updateEmail(url, obj) {
-		$.ajax({
-			type : "PUT",
-			url : url,
-			data : JSON.stringify(obj),
-			contentType : "application/json; charset=utf-8",
-			dataType : "json",
-			success : function(result) {
-				console.log(JSON.stringify(result, null, 2));
-				alert(result.message);
-				let member = result.data.member;
-				$("#editEmail").find("form").html("<input type='text' id='memberEmail' name='memberEmail' value='" + member.memberEmail + "' readonly>");
-				$("#showEmail").find("span").text(member.memberEmail);
-				$("#resetEmailBtn").click();
-			},
-			error : function(jqXHR) {
-				console.log(JSON.stringify(jqXHR, null, 2));
-				$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
-				
-				if (jqXHR.status == 422) {
-					let errorMap = JSON.parse(jqXHR.responseText).errorMap;
-					$.each(errorMap, function(errorField, errorMessage) {
-						$("#" + errorField).closest("dd").after("<dd id='" + errorField + ".errors' class='error'>" + errorMessage + "</dd>");
-					});
-				}
-			}
-		});
-	}
 	
 	function updateAddr(url, obj) {
 		$.ajax({

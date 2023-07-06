@@ -13,8 +13,10 @@ import com.codingjoa.dto.JoinDto;
 import com.codingjoa.dto.PasswordDto;
 import com.codingjoa.entity.Auth;
 import com.codingjoa.entity.Member;
+import com.codingjoa.exception.ExpectedException;
 import com.codingjoa.mapper.MemberMapper;
 import com.codingjoa.service.MemberService;
+import com.codingjoa.util.MessageUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -62,8 +64,15 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public void updateEmail(EmailAuthDto emailAuthDto, String memberId) {
-		memberMapper.updateEmail(emailAuthDto.getMemberEmail(), memberId);
+	public void updateEmail(String memberEmail, Integer memberIdx) {
+		Member modifiedMember = memberMapper.findMemberByIdx(memberIdx);
+		log.info("\t > find member = {}", modifiedMember);
+		
+		if (modifiedMember == null) {
+			throw new ExpectedException(MessageUtils.getMessage("error.NotFoundMember"));
+		}
+		
+		memberMapper.updateEmail(modifiedMember);
 	}
 	
 	@Override

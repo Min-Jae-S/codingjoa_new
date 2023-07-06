@@ -14,7 +14,7 @@ public interface MemberService {
 	
 	boolean isEmailExist(String memberEmail);
 	
-	void updateEmail(EmailAuthDto emailAuthDto, String memberId);
+	void updateEmail(String memberEmail, Integer memberIdx);
 	
 	void updateAddr(AddrDto addrDto, String memberId);
 	

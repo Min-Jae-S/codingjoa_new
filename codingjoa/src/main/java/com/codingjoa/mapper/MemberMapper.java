@@ -21,7 +21,9 @@ public interface MemberMapper {
 	
 	Map<String, Object> findUserDetailsById(String memberId); // Member, memberRole, boardLikesList, commentLikesList
 	
-	void updateEmail(@Param("memberEmail") String memberEmail, @Param("memberId") String memberId);
+	Member findMemberByIdx(Integer memberIdx);
+	
+	void updateEmail(Member member);
 	
 	String findEmailById(String memberId);
 	

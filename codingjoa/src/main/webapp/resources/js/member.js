@@ -22,12 +22,12 @@ let MemberService = (function() {
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
 			success : function(result) {
-				console.log(JSON.stringify(result, null, 2));
+				console.log("> successResponse = %s", JSON.stringify(result, null, 2));
 				callback(result);
 			},
 			error : function(jqXHR) {
 				let errorResponse = JSON.parse(jqXHR.responseText);
-				console.log(JSON.stringify(errorResponse, null, 2));
+				console.log("> errorResponse = %s", JSON.stringify(errorResponse, null, 2));
 				$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
 				if (jqXHR.status == 422) {
 					$.each(errorResponse.errorMap, function(errorField, errorMessage) {
@@ -41,8 +41,41 @@ let MemberService = (function() {
 		});
 	}
 
+	function updateEmail(obj, callback) {
+		console.log("## Update Email");
+		let url = contextPath + "/api/member/info/update-email";
+		console.log("> url = '%s'", url);
+		console.log("> obj = %s", JSON.stringify(obj, null, 2));
+		
+		$.ajax({
+			type : "PUT",
+			url : url,
+			data : JSON.stringify(obj),
+			contentType : "application/json; charset=utf-8",
+			dataType : "json",
+			success : function(result) {
+				console.log("> successResponse = %s", JSON.stringify(result, null, 2));
+				callback(result);
+			},
+			error : function(jqXHR) {
+				let errorResponse = JSON.parse(jqXHR.responseText);
+				console.log("> errorResponse = %s", JSON.stringify(errorResponse, null, 2));
+				$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
+				if (jqXHR.status == 422) {
+					$.each(errorResponse.errorMap, function(errorField, errorMessage) {
+						$("#" + errorField).closest("dd")
+						.after("<dd id='" + errorField + ".errors' class='error'>" + errorMessage + "</dd>");
+					});
+				} else {
+					alert(errorResponse.errorMessage);
+				}
+			}
+		});
+	}
+
 	return {
-		checkEmail:checkEmail
+		checkEmail:checkEmail,
+		updateEmail:updateEmail
 	};
 	
 })();

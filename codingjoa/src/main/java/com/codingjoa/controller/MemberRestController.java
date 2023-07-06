@@ -33,6 +33,7 @@ import com.codingjoa.dto.AgreeDto;
 import com.codingjoa.dto.EmailAuthDto;
 import com.codingjoa.dto.PasswordDto;
 import com.codingjoa.dto.SessionDto;
+import com.codingjoa.entity.Member;
 import com.codingjoa.response.SuccessResponse;
 import com.codingjoa.security.dto.UserDetailsDto;
 import com.codingjoa.service.EmailService;
@@ -96,29 +97,21 @@ public class MemberRestController {
 		emailService.sendAuthEmail(memberEmail, authCode);
 		redisService.saveAuthCode(memberEmail, authCode);
 		
-		return ResponseEntity.ok(SuccessResponse.create().code("success.sendAuthEmail"));
+		return ResponseEntity.ok(SuccessResponse.create().code("success.CheckEmail"));
 	}
 	
-	@PutMapping("/updateEmail")
+	@PutMapping("info/update-email")
 	public ResponseEntity<Object> updateEmail(@RequestBody @Valid EmailAuthDto emailAuthDto,
-			BindingResult bindingResult, @AuthenticationPrincipal UserDetailsDto principal)
-			throws MethodArgumentNotValidException {
+			@AuthenticationPrincipal UserDetailsDto principal) {
 		log.info("## updateEmail");
 		log.info("\t > {}", emailAuthDto);
 		
-		if (bindingResult.hasErrors()) {
-			throw new MethodArgumentNotValidException(null, bindingResult);
-		}
+		Member member = principal.getMember();
+		memberService.updateEmail(member.getMemberEmail(), member.getMemberIdx());
+		redisService.delete(member.getMemberEmail());
+		resetAuthentication(member.getMemberId());
 		
-		String memberId = principal.getMember().getMemberId();
-		memberService.updateEmail(emailAuthDto, memberId);
-		redisService.delete(emailAuthDto.getMemberEmail());
-		
-		resetAuthentication(memberId);
-		Authentication newAuthentication = SecurityContextHolder.getContext().getAuthentication();
-		
-		return ResponseEntity.ok(SuccessResponse.create()
-				.code("success.updateEmail").data(newAuthentication.getPrincipal()));
+		return ResponseEntity.ok(SuccessResponse.create().code("success.UpdateEmail"));
 	}
 	
 	@PutMapping("/updateAddr")
