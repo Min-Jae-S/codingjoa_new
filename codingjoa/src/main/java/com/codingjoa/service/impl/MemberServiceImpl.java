@@ -6,8 +6,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.codingjoa.dto.AddrDto;
-import com.codingjoa.dto.AgreeDto;
 import com.codingjoa.dto.EmailAuthDto;
 import com.codingjoa.dto.JoinDto;
 import com.codingjoa.dto.PasswordDto;
@@ -80,14 +78,27 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override
-	public void updateAddr(AddrDto addrDto, String memberId) {
-		memberMapper.updateAddr(addrDto.getMemberZipcode(), 
-				addrDto.getMemberAddr(), addrDto.getMemberAddrDetail(), memberId);
+	public void updateAddr(String memberZipcode, String memberAddr, String memberAddrDetail, Integer memberIdx) {
+		Member modifiedMember = memberMapper.findMemberByIdx(memberIdx);
+		if (modifiedMember == null) {
+			throw new ExpectedException(MessageUtils.getMessage("error.NotFoundMember"));
+		}
+		
+		modifiedMember.setMemberZipcode(memberZipcode);
+		modifiedMember.setMemberAddr(memberAddr);
+		modifiedMember.setMemberAddrDetail(memberAddrDetail);
+		memberMapper.updateAddr(modifiedMember);
 	}
 
 	@Override
-	public void updateAgree(AgreeDto agreeDto, String memberId) {
-		memberMapper.updateAgree(agreeDto.isMemberAgree(), memberId);
+	public void updateAgree(boolean memberAgree, Integer memberIdx) {
+		Member modifiedMember = memberMapper.findMemberByIdx(memberIdx);
+		if (modifiedMember == null) {
+			throw new ExpectedException(MessageUtils.getMessage("error.NotFoundMember"));
+		}
+		
+		modifiedMember.setMemberAgree(memberAgree);
+		memberMapper.updateAgree(modifiedMember);
 	}
 
 	@Override

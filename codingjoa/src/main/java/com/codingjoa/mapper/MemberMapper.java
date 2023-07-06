@@ -27,10 +27,9 @@ public interface MemberMapper {
 	
 	void updateEmail(Member member);
 	
-	void updateAddr(@Param("memberZipcode") String memberZipcode, @Param("memberAddr") String memberAddr, 
-			@Param("memberAddrDetail") String memberAddrDetail, @Param("memberId") String memberId);
+	void updateAddr(Member member);
 	
-	void updateAgree(@Param("memberAgree") boolean memberAgree, @Param("memberId") String memberId);
+	void updateAgree(Member member);
 	
 	String findPasswordById(String memberId);
 	

@@ -249,10 +249,21 @@
 			let obj = {
 				memberZipcode : $("#memberZipcode").val(),
 				memberAddr : $("#memberAddr").val(),
-				memberAddrDetail : $("#memberAddrDetail").val() 	
+				memberAddrDetail : $("#memberAddrDetail").val()
 			};
 			
-			updateAddr("${contextPath}/member/updateAddr", obj);
+			memberService.updateAddr(obj, function(result) {
+				alert(result.message);
+				// session 불러오기
+				/* var member = result.data.member;
+				$("#editZipcode").find("form").html("<input type='text' id='memberZipcode' name='memberZipcode' value='" + member.memberZipcode + "' readonly>");
+				$("#showZipcode").find("span").text(member.memberZipcode);
+				$("#editAddr").find("form").html("<input type='text' id='memberAddr' name='memberAddr' value='" + member.memberAddr + "' readonly>");
+				$("#showAddr").find("span").text(member.memberAddr);
+				$("#editAddrDetail").find("form").html("<input type='text' id='memberAddrDetail' name='memberAddrDetail' value='" + member.memberAddrDetail + "'>");
+				$("#showAddrDetail").find("span").text(member.memberAddrDetail);
+				$("#resetAllAddrBtn").click() */
+			});
 		});
 
 		/* 이메일 동의 - 확인 버튼 */
@@ -312,39 +323,6 @@
 		});
 		
 	});
-	
-	function updateAddr(url, obj) {
-		$.ajax({
-			type : "PUT",
-			url : url,
-			data : JSON.stringify(obj),
-			contentType : "application/json; charset=utf-8",
-			dataType : "json",
-			success : function(result) { // result principal
-				console.log(result);
-				alert(result.message);
-				var member = result.data.member;
-				$("#editZipcode").find("form").html("<input type='text' id='memberZipcode' name='memberZipcode' value='" + member.memberZipcode + "' readonly>");
-				$("#showZipcode").find("span").text(member.memberZipcode);
-				$("#editAddr").find("form").html("<input type='text' id='memberAddr' name='memberAddr' value='" + member.memberAddr + "' readonly>");
-				$("#showAddr").find("span").text(member.memberAddr);
-				$("#editAddrDetail").find("form").html("<input type='text' id='memberAddrDetail' name='memberAddrDetail' value='" + member.memberAddrDetail + "'>");
-				$("#showAddrDetail").find("span").text(member.memberAddrDetail);
-				$("#resetAllAddrBtn").click();
-			},
-			error : function(jqXHR) {
-				console.log(jqXHR);
-				$("#memberZipcode\\.errors, #memberAddr\\.errors, #memberAddrDetail\\.errors").remove();
-
-				if(jqXHR.status == 422) {
-					let errorMap = JSON.parse(jqXHR.responseText).errorMap;
-					$.each(errorMap, function(errorField, errorMessage) {
-						$("#" + errorField).closest("dd").after("<dd id='" + errorField + ".errors' class='error'>" + errorMessage + "</dd>");
-					});
-				}
-			}
-		});
-	}
 	
 	function updateAgree(url, obj) {
 		$.ajax({

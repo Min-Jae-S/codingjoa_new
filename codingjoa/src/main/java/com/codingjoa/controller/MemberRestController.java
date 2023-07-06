@@ -99,7 +99,7 @@ public class MemberRestController {
 		return ResponseEntity.ok(SuccessResponse.create().code("success.CheckEmail"));
 	}
 	
-	@PutMapping("info/update-email")
+	@PutMapping("/info/update-email")
 	public ResponseEntity<Object> updateEmail(@RequestBody @Valid EmailAuthDto emailAuthDto,
 			@AuthenticationPrincipal UserDetailsDto principal) {
 		log.info("## updateEmail");
@@ -114,36 +114,31 @@ public class MemberRestController {
 		return ResponseEntity.ok(SuccessResponse.create().code("success.UpdateEmail"));
 	}
 	
-	@PutMapping("/update-addr")
+	@PutMapping("/info/update-addr")
 	public ResponseEntity<Object> updateAddr(@RequestBody @Valid AddrDto addrDto, 
 			@AuthenticationPrincipal UserDetailsDto principal) {
 		log.info("## updateAddr");
 		log.info("\t > {}", addrDto);
 		
-		String memberId = principal.getMember().getMemberId();
-		memberService.updateAddr(addrDto, memberId);
+		memberService.updateAddr(addrDto.getMemberZipcode(), addrDto.getMemberAddr(), 
+				addrDto.getMemberAddrDetail(), principal.getMember().getMemberIdx());
 		
-		resetAuthentication(memberId);
-		Authentication newAuthentication = SecurityContextHolder.getContext().getAuthentication();
+		resetAuthentication(principal.getMember().getMemberId());
 		
-		return ResponseEntity.ok(SuccessResponse.create()
-				.code("success.updateAddr").data(newAuthentication.getPrincipal()));
+		return ResponseEntity.ok(SuccessResponse.create().code("success.UpdateAddr"));
 	}
 	
-	@PutMapping("/updateAgree")
+	@PutMapping("/info/update-agree")
 	public ResponseEntity<Object> updateAgree(@RequestBody AgreeDto agreeDto, 
 			@AuthenticationPrincipal UserDetailsDto principal) {
 		log.info("## updateAgree");
 		log.info("\t > {}", agreeDto);
 		
-		String memberId = principal.getMember().getMemberId();
-		memberService.updateAgree(agreeDto, memberId);
+		memberService.updateAgree(agreeDto.isMemberAgree(), principal.getMember().getMemberIdx());
 		
-		resetAuthentication(memberId);
-		Authentication newAuthentication = SecurityContextHolder.getContext().getAuthentication();
+		resetAuthentication(principal.getMember().getMemberId());
 		
-		return ResponseEntity.ok(SuccessResponse.create()
-				.code("success.updateAgree").data(newAuthentication.getPrincipal()));
+		return ResponseEntity.ok(SuccessResponse.create().code("success.UpdateAgree"));
 	}
 	
 	@PostMapping("/checkPassword")

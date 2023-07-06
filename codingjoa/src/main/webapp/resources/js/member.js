@@ -64,7 +64,7 @@ let MemberService = (function() {
 				if (jqXHR.status == 422) {
 					$.each(errorResponse.errorMap, function(errorField, errorMessage) {
 						$("#" + errorField).closest("dd")
-						.after("<dd id='" + errorField + ".errors' class='error'>" + errorMessage + "</dd>");
+							.after("<dd id='" + errorField + ".errors' class='error'>" + errorMessage + "</dd>");
 					});
 				} else {
 					alert(errorResponse.errorMessage);
@@ -92,11 +92,11 @@ let MemberService = (function() {
 			error : function(jqXHR) {
 				let errorResponse = JSON.parse(jqXHR.responseText);
 				console.log("> errorResponse = %s", JSON.stringify(errorResponse, null, 2));
-				$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
+				$("#memberZipcode\\.errors, #memberAddr\\.errors, #memberAddrDetail\\.errors, .success").remove();
 				if (jqXHR.status == 422) {
 					$.each(errorResponse.errorMap, function(errorField, errorMessage) {
 						$("#" + errorField).closest("dd")
-						.after("<dd id='" + errorField + ".errors' class='error'>" + errorMessage + "</dd>");
+							.after("<dd id='" + errorField + ".errors' class='error'>" + errorMessage + "</dd>");
 					});
 				} else {
 					alert(errorResponse.errorMessage);

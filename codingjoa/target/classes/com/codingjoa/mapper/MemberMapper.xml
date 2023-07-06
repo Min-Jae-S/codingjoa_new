@@ -104,6 +104,15 @@
 			a.member_id = #{memberId}
 	</select>
 	
+	<select id="findEmailById" parameterType="string" resultType="string">
+		SELECT
+			member_email
+		FROM
+			member
+		WHERE
+			member_id = #{memberId}
+	</select>
+	
 	<select id="findMemberByIdx" parameterType="int" resultType="member">
 		SELECT
 			*
@@ -123,16 +132,7 @@
 			member_idx = #{memberIdx}
 	</update>
 	
-	<select id="findEmailById" parameterType="string" resultType="string">
-		SELECT
-			member_email
-		FROM
-			member
-		WHERE
-			member_id = #{memberId}
-	</select>
-	
-	<update id="updateAddr" parameterType="map">
+	<update id="updateAddr" parameterType="member">
 		UPDATE 
 			member
 		SET
@@ -141,17 +141,17 @@
 			member_addr_detail = #{memberAddrDetail},
 			moddate = SYSDATE
 		WHERE
-			member_id = #{memberId}
+			member_idx = #{memberIdx}
 	</update>
 
-	<update id="updateAgree" parameterType="map">
+	<update id="updateAgree" parameterType="member">
 		UPDATE 
 			member
 		SET
 			member_agree = #{memberAgree},
 			moddate = SYSDATE
 		WHERE
-			member_id = #{memberId}
+			member_idx = #{memberIdx}
 	</update>
 	
 	<select id="findPasswordById" parameterType="string" resultType="string">
