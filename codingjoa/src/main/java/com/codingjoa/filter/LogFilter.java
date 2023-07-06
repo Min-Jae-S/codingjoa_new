@@ -96,7 +96,8 @@ public class LogFilter implements Filter {
 	}
 	
 	private String getFullURI(HttpServletRequest request) {
-		StringBuilder requestURI = new StringBuilder(request.getRequestURI().toString());
+		StringBuilder requestURI = 
+				new StringBuilder(URLDecoder.decode(request.getRequestURI(), StandardCharsets.UTF_8));
 	    String queryString = request.getQueryString();
 	    
 	    if (queryString == null) {
