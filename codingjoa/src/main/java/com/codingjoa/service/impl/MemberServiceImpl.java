@@ -72,6 +72,9 @@ public class MemberServiceImpl implements MemberService {
 			throw new ExpectedException(MessageUtils.getMessage("error.NotFoundMember"));
 		}
 		
+		modifiedMember.setMemberEmail(memberEmail);
+		log.info("\t > modifiedMember = {}", modifiedMember);
+		
 		memberMapper.updateEmail(modifiedMember);
 	}
 	
