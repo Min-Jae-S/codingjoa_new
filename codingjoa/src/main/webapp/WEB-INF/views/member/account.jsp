@@ -62,12 +62,12 @@
 
 <c:import url="/WEB-INF/views/include/top-menu.jsp"/>
 
-<div class="container security-container">
+<div class="container account-container">
 	<div class="row">
 		<div class="col-sm-3"></div>
 		<div class="col-sm-6">
 			<div class="list-group">
-				<div class="list-group-item list-group-item-action" onclick="location.href='${contextPath}/member/info'">
+				<div class="list-group-item list-group-item-action" onclick="location.href='${contextPath}/member/account/info'">
 					<span class="mr-4"><i class="fa-solid fa-user"></i></span>
 					<div class="item">
 						<span>계정 정보</span>

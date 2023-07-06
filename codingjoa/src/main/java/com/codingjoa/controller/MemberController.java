@@ -84,13 +84,13 @@ public class MemberController {
 		return "member/login";
 	}
 	
-	@GetMapping("/security")
-	public String security() {
-		log.info("## security");
-		return "member/security";
+	@GetMapping("/account")
+	public String account() {
+		log.info("## account");
+		return "member/account";
 	}
 
-	@GetMapping("/info")
+	@GetMapping("/account/info")
 	public String info() {
 		log.info("## info");
 		return "member/info";

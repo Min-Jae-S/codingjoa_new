@@ -33,7 +33,7 @@
 						<img class="m-1" src="${contextPath}/resources/image/person.png">
 					</li>
 					<li class="nav-item mr-2">
-						<a class="nav-link text-dark" href="${contextPath}/member/info">
+						<a class="nav-link text-dark" href="${contextPath}/member/account/info">
 							<span class="font-weight-bold">
 								<sec:authentication property="principal.member.memberId"/>
 							</span>
@@ -43,7 +43,7 @@
 						<span class="nav-link" style="pointer-events: none;">|</span>
 					</li>
 					<li class="nav-item mx-2">
-						<a href="${contextPath}/member/security" class="nav-link">계정 관리</a>
+						<a href="${contextPath}/member/account" class="nav-link">계정 관리</a>
 					</li>
 					<li class="nav-item mx-2">
 						<a href="${contextPath}/member/logout" class="nav-link">로그아웃</a>

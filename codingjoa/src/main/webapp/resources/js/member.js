@@ -11,7 +11,7 @@ let memberService = (function() {
 
 	function checkEmail(obj, callback) {
 		console.log("## Check Email");
-		let url = contextPath + "/api/member/info/check-email";
+		let url = contextPath + "/api/member/account/info/check-email";
 		console.log("> url = '%s'", url);
 		console.log("> obj = %s", JSON.stringify(obj, null, 2));
 		
@@ -43,7 +43,7 @@ let memberService = (function() {
 
 	function updateEmail(obj, callback) {
 		console.log("## Update Email");
-		let url = contextPath + "/api/member/info/update-email";
+		let url = contextPath + "/api/member/account/info/update-email";
 		console.log("> url = '%s'", url);
 		console.log("> obj = %s", JSON.stringify(obj, null, 2));
 		
@@ -75,7 +75,7 @@ let memberService = (function() {
 
 	function updateAddr(obj, callback) {
 		console.log("## Update Addr");
-		let url = contextPath + "/api/member/info/update-addr";
+		let url = contextPath + "/api/member/account/info/update-addr";
 		console.log("> url = '%s'", url);
 		console.log("> obj = %s", JSON.stringify(obj, null, 2));
 		
@@ -107,7 +107,7 @@ let memberService = (function() {
 
 	function updateAgree(obj, callback) {
 		console.log("## Update Agree");
-		let url = contextPath + "/api/member/info/update-agree";
+		let url = contextPath + "/api/member/account/info/update-agree";
 		console.log("> url = '%s'", url);
 		console.log("> obj = %s", JSON.stringify(obj, null, 2));
 		
