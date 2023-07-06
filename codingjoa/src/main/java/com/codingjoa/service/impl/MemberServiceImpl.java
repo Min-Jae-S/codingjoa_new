@@ -64,6 +64,11 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
+	public boolean isMyEmail(String memberEmail, String memberId) {
+		return memberEmail.equals(memberMapper.findEmailById(memberId));
+	}
+	
+	@Override
 	public void updateEmail(String memberEmail, Integer memberIdx) {
 		Member modifiedMember = memberMapper.findMemberByIdx(memberIdx);
 		if (modifiedMember == null) {
@@ -72,11 +77,6 @@ public class MemberServiceImpl implements MemberService {
 		
 		modifiedMember.setMemberEmail(memberEmail);
 		memberMapper.updateEmail(modifiedMember);
-	}
-	
-	@Override
-	public boolean isMyEmail(String memberEmail, String memberId) {
-		return memberEmail.equals(memberMapper.findEmailById(memberId));
 	}
 	
 	@Override

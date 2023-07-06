@@ -19,13 +19,13 @@ public interface MemberMapper {
 	
 	boolean isEmailExist(String memberEmail);
 	
+	String findEmailById(String memberId);
+
 	Map<String, Object> findUserDetailsById(String memberId); // Member, memberRole, boardLikesList, commentLikesList
 	
 	Member findMemberByIdx(Integer memberIdx);
 	
 	void updateEmail(Member member);
-	
-	String findEmailById(String memberId);
 	
 	void updateAddr(@Param("memberZipcode") String memberZipcode, @Param("memberAddr") String memberAddr, 
 			@Param("memberAddrDetail") String memberAddrDetail, @Param("memberId") String memberId);

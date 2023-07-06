@@ -114,7 +114,7 @@ public class MemberRestController {
 		return ResponseEntity.ok(SuccessResponse.create().code("success.UpdateEmail"));
 	}
 	
-	@PutMapping("/updateAddr")
+	@PutMapping("/update-addr")
 	public ResponseEntity<Object> updateAddr(@RequestBody @Valid AddrDto addrDto, 
 			@AuthenticationPrincipal UserDetailsDto principal) {
 		log.info("## updateAddr");
