@@ -42,7 +42,7 @@ import com.codingjoa.service.RedisService;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@RequestMapping("/member")
+@RequestMapping("/api/member")
 @RestController
 public class MemberRestController {
 	
@@ -84,16 +84,11 @@ public class MemberRestController {
 		binder.addValidators(passwordValidator);
 	}
 
-	@PostMapping("/sendAuthEmail")
-	public ResponseEntity<Object> sendAuthEmail(@RequestBody @Valid EmailAuthDto emailAuthDto, 
-			BindingResult bindingResult) throws MethodArgumentNotValidException {
-		log.info("## sendAuthEmail");
+	@PostMapping("/info/check-email")
+	public ResponseEntity<Object> checkEmail(@RequestBody @Valid EmailAuthDto emailAuthDto) {
+		log.info("## checkEmail");
 		log.info("\t > {}", emailAuthDto);
 
-		if (bindingResult.hasErrors()) {
-			throw new MethodArgumentNotValidException(null, bindingResult);
-		}
-		
 		String authCode = RandomStringUtils.randomNumeric(6);
 		log.info("\t > authCode = {}", authCode);
 		

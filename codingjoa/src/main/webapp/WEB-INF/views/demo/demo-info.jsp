@@ -114,7 +114,7 @@
 							<input type="text" id="memberEmail" name="memberEmail" value="${principal.member.memberEmail}"/>
 						</form>
 						<div>
-							<button class="btn btn-warning btn-sm" type="button" id="checkEmailBtn">인증코드 받기</button>
+							<button class="btn btn-warning btn-sm" type="button" id="sendAuthEmailBtn">인증코드 받기</button>
 							<button class="btn btn-outline-primary btn-sm" type="button" id="readEmailBtn">확인</button>
 							<button class="btn btn-outline-secondary btn-sm" type="button" id="resetEmailBtn">취소</button>
 						</div>
@@ -210,18 +210,15 @@
 			execPostcode();
 		});
 		
-		// check email
-		$("#checkEmailBtn").on("click", function() {
+		$("#sendAuthEmailBtn").on("click", function() {
 			let obj = {
 				memberEmail : $("#memberEmail").val(),
 				type : "BEFORE_UPDATE_EMAIL"
 			};
 			
-			MemberService.checkEmail(obj, function(result) {
-				$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
-				$("#authCode").closest("dd").after("<dd class='success'>" + result.message + "</dd>");
-				$("#authCode").val("");
-				$("#authCode").focus();
+			//sendAuthEmail("${contextPath}/member/sendAuthEmail", obj);
+			MemberService.checkEmail(obj, function() {
+				
 			});
 		});
 		
@@ -304,6 +301,34 @@
 		});
 		
 	});
+	
+	function sendAuthEmail(url, obj) {
+		$.ajax({
+			type : "POST",
+			url : url,
+			data : JSON.stringify(obj),
+			contentType : "application/json; charset=utf-8",
+			dataType : "json",
+			success : function(result) {
+				console.log(JSON.stringify(result, null, 2));
+				$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
+				$("#authCode").closest("dd").after("<dd class='success'>" + result.message + "</dd>");
+				$("#authCode").val("");
+				$("#authCode").focus();
+			},
+			error : function(jqXHR) {
+				console.log(JSON.stringify(jqXHR, null, 2));
+				$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
+				
+				if(jqXHR.status == 422) {
+					let errorMap = JSON.parse(jqXHR.responseText).errorMap;
+					$.each(errorMap, function(errorField, errorMessage) {
+						$("#" + errorField).closest("dd").after("<dd id='" + errorField + ".errors' class='error'>" + errorMessage + "</dd>");
+					});
+				}
+			}
+		});
+	}
 	
 	function updateEmail(url, obj) {
 		$.ajax({
