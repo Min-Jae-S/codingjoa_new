@@ -108,7 +108,6 @@ public class MemberRestController {
 		String memberEmail = emailAuthDto.getMemberEmail();
 		memberService.updateEmail(memberEmail, principal.getMember().getMemberIdx());
 		redisService.delete(memberEmail);
-		
 		resetAuthentication(principal.getMember().getMemberId());
 		
 		return ResponseEntity.ok(SuccessResponse.create().code("success.UpdateEmail"));
@@ -122,7 +121,6 @@ public class MemberRestController {
 		
 		memberService.updateAddr(addrDto.getMemberZipcode(), addrDto.getMemberAddr(), 
 				addrDto.getMemberAddrDetail(), principal.getMember().getMemberIdx());
-		
 		resetAuthentication(principal.getMember().getMemberId());
 		
 		return ResponseEntity.ok(SuccessResponse.create().code("success.UpdateAddr"));
@@ -135,12 +133,12 @@ public class MemberRestController {
 		log.info("\t > {}", agreeDto);
 		
 		memberService.updateAgree(agreeDto.isMemberAgree(), principal.getMember().getMemberIdx());
-		
 		resetAuthentication(principal.getMember().getMemberId());
 		
 		return ResponseEntity.ok(SuccessResponse.create().code("success.UpdateAgree"));
 	}
 	
+	/**************************************************************************************************/
 	@PostMapping("/checkPassword")
 	public ResponseEntity<Object> checkPassword(@RequestBody @Valid PasswordDto passwordDto, 
 			BindingResult bindingResult) throws MethodArgumentNotValidException {
@@ -154,7 +152,7 @@ public class MemberRestController {
 		
 		sessionDto.setCheckPasswordResult(true);
 		
-		return ResponseEntity.ok(SuccessResponse.create().code("success.checkPassword"));
+		return ResponseEntity.ok(SuccessResponse.create().code("success.CheckPassword"));
 	}
 	
 	@PutMapping("/updatePassword")
@@ -173,7 +171,7 @@ public class MemberRestController {
 		
 		resetAuthentication(memberId);
 		
-		return ResponseEntity.ok(SuccessResponse.create().code("success.updatePassword"));
+		return ResponseEntity.ok(SuccessResponse.create().code("success.UpdatePassword"));
 	}
 	
 	@PostMapping("/findAccount")
@@ -192,7 +190,7 @@ public class MemberRestController {
 		
 		redisService.delete(emailAuthDto.getMemberEmail());
 		
-		return ResponseEntity.ok(SuccessResponse.create().code("success.findAccount"));
+		return ResponseEntity.ok(SuccessResponse.create().code("success.FindAccount"));
 	}
 	
 	@PostMapping("/findPassword")
@@ -213,7 +211,7 @@ public class MemberRestController {
 		
 		redisService.delete(emailAuthDto.getMemberEmail());
 		
-		return ResponseEntity.ok(SuccessResponse.create().code("success.findPassword"));
+		return ResponseEntity.ok(SuccessResponse.create().code("success.FindPassword"));
 	}
 	
 	@PutMapping("/resetPassword")
@@ -231,7 +229,7 @@ public class MemberRestController {
 		
 		sessionDto.setFindPasswordResult(null);
 		
-		return ResponseEntity.ok(SuccessResponse.create().code("success.resetPassword"));
+		return ResponseEntity.ok(SuccessResponse.create().code("success.ResetPassword"));
 	}
 	
 	private void resetAuthentication(String memberId) {

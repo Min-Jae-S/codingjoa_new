@@ -272,7 +272,15 @@
 				memberAgree : $("#memberAgree").prop("checked")	
 			};
 			
-			updateAgree("${contextPath}/member/updateAgree", obj);
+			memberService.updateAgree(obj, function(result) {
+				alert(result.message);
+				// session 불러오기
+				/* var member = result.data.member;
+				var check_value = (member.memberAgree == true) ? "checked" : "";
+				$("#editAgree").find("label").html("<input class='form-check-input' type='checkbox' id='memberAgree' name='memberAgree' " + check_value + "><span class='inner-text'>이메일 광고 수신에 동의합니다.<span/>");
+				$("#showAgree").find("input").prop("checked", member.memberAgree);
+				$("#resetAgreeBtn").click(); */
+			});
 		});
 		
 		/* 이메일 - 수정 버튼 */
@@ -323,36 +331,6 @@
 		});
 		
 	});
-	
-	function updateAgree(url, obj) {
-		$.ajax({
-			type : "PUT",
-			url : url,
-			data : JSON.stringify(obj),
-			contentType : "application/json; charset=utf-8",
-			dataType : "json",
-			success : function(result) {
-				console.log(result);
-				alert(result.message);
-				var member = result.data.member;
-				var check_value = (member.memberAgree == true) ? "checked" : "";
-				$("#editAgree").find("label").html("<input class='form-check-input' type='checkbox' id='memberAgree' name='memberAgree' " + check_value + "><span class='inner-text'>이메일 광고 수신에 동의합니다.<span/>");
-				$("#showAgree").find("input").prop("checked", member.memberAgree);
-				$("#resetAgreeBtn").click();
-			},
-			error : function(jqXHR) {
-				console.log(jqXHR);
-				$("#memberAgree\\.errors").remove();
-				
-				if(jqXHR.status == 422) {
-					let errorMap = JSON.parse(jqXHR).errorMap;
-					$.each(errorMap, function(errorField, errorMessage) {
-						$("#" + errorField).closest("dd").after("<dd id='" + errorField + ".errors' class='error'>" + errorMessage + "</dd>");
-					});
-				}
-			}
-		});
-	}
 	
     function execPostcode() {
         new daum.Postcode({
