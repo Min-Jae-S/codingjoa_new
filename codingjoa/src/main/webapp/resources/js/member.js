@@ -5,7 +5,7 @@ function getContextPath() {
     return location.href.substring(hostIndex, location.href.indexOf('/', hostIndex + 1));
 }
 
-let MemberService = (function() {
+let memberService = (function() {
 
 	const contextPath = getContextPath();
 

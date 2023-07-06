@@ -142,19 +142,19 @@
 					<!-- display: none; -->
 					<dd class="input-group" id="editZipcode">
 						<form>
-							<input type="text" id="memberZipcode" name="memberZipcode" value="${principal.member.memberZipcode}" readonly/>
+							<input type="text" id="memberZipcode" name="memberZipcode" value="${principal.member.memberZipcode}"/>
 						</form>
 						<div>
 							<button class="btn btn-warning btn-sm" type="button" id="searchAddrBtn">주소 찾기</button>
-							<button class="btn btn-outline-primary btn-sm" type="button" id="readAllAddrBtn">확인</button>
-							<button class="btn btn-outline-secondary btn-sm" type="button" id="resetAllAddrBtn">취소</button>
+							<button class="btn btn-outline-primary btn-sm" type="button" id="updateAddrBtn">확인</button>
+							<button class="btn btn-outline-secondary btn-sm" type="button" id="resetAddrBtn">취소</button>
 						</div>
 					</dd>
 					
 					<!-- display: none; -->
 					<dd class="input-group" id="editAddr">
 						<form>
-							<input type="text" id="memberAddr" name="memberAddr" value="${principal.member.memberAddr}" readonly/>
+							<input type="text" id="memberAddr" name="memberAddr" value="${principal.member.memberAddr}"/>
 						</form>
 					</dd>
 					
@@ -190,7 +190,7 @@
 							</div>
 						</form>
 						<div>
-							<button class="btn btn-outline-primary btn-sm" type="button" id="readAgreeBtn">확인</button>
+							<button class="btn btn-outline-primary btn-sm" type="button" id="updateAgreeBtn">확인</button>
 							<button class="btn btn-outline-secondary btn-sm" type="button" id="resetAgreeBtn">취소</button>
 						</div>
 					</dd>
@@ -206,9 +206,6 @@
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
 	$(function() {
-		$("#searchAddrBtn, #memberZipcode, #memberAddr").on("click", function() {
-			execPostcode();
-		});
 		
 		// check email
 		$("#checkEmailBtn").on("click", function() {
@@ -217,7 +214,7 @@
 				type : "BEFORE_UPDATE_EMAIL"
 			};
 			
-			MemberService.checkEmail(obj, function(result) {
+			memberService.checkEmail(obj, function(result) {
 				$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
 				$("#authCode").closest("dd").after("<dd class='success'>" + result.message + "</dd>");
 				$("#authCode").val("");
@@ -233,7 +230,7 @@
 				type : "UPDATE_EMAIL"
 			};
 			
-			MemberService.updateEmail(obj, function(result) {
+			memberService.updateEmail(obj, function(result) {
 				alert(result.message);
 				
 				// session 불러오기
@@ -245,7 +242,7 @@
 		});
 
 		// update addr
-		$("#readAllAddrBtn").on("click", function() {
+		$("#updateAddrBtn").on("click", function() {
 			let obj = {
 				memberZipcode : $("#memberZipcode").val(),
 				memberAddr : $("#memberAddr").val(),
@@ -262,12 +259,12 @@
 				$("#showAddr").find("span").text(member.memberAddr);
 				$("#editAddrDetail").find("form").html("<input type='text' id='memberAddrDetail' name='memberAddrDetail' value='" + member.memberAddrDetail + "'>");
 				$("#showAddrDetail").find("span").text(member.memberAddrDetail);
-				$("#resetAllAddrBtn").click() */
+				$("#resetAddrBtn").click() */
 			});
 		});
 
-		/* 이메일 동의 - 확인 버튼 */
-		$("#readAgreeBtn").on("click", function() {
+		// update agree
+		$("#updateAgreeBtn").on("click", function() {
 			let obj = {
 				memberAgree : $("#memberAgree").prop("checked")	
 			};
@@ -281,6 +278,11 @@
 				$("#showAgree").find("input").prop("checked", member.memberAgree);
 				$("#resetAgreeBtn").click(); */
 			});
+		});
+		
+		$("#searchAddrBtn").on("click", function() {
+		//$("#searchAddrBtn, #memberZipcode, #memberAddr").on("click", function() {
+			execPostcode();
 		});
 		
 		/* 이메일 - 수정 버튼 */
@@ -306,7 +308,7 @@
 		});
 
 		/* 주소 - 취소 버튼 */
-		$("#resetAllAddrBtn").on("click", function() {
+		$("#resetAddrBtn").on("click", function() {
 			$("#memberZipcode\\.errors, #memberAddr\\.errors, #memberAddrDetail\\.errors").remove();
 			$("#showZipcode, #showAddr, #showAddrDetail").css("display", "flex");
 			$("#editZipcode, #editZipcode > div, #editAddr, #editAddrDetail").css("display", "none");
