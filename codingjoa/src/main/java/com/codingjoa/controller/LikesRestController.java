@@ -48,9 +48,9 @@ public class LikesRestController {
 		
 		SuccessResponse response = SuccessResponse.create();
 		if (boardLikesIdx == null) {
-			response.data("UP").code("success.InsertBoardLikes");
+			response.data("ON").code("success.InsertBoardLikes");
 		} else {
-			response.data("DOWN").code("success.DeleteBoardLikes");
+			response.data("OFF").code("success.DeleteBoardLikes");
 		}
 		
 		return ResponseEntity.ok(response);
@@ -81,9 +81,9 @@ public class LikesRestController {
 		
 		SuccessResponse response = SuccessResponse.create();
 		if (commentLikesIdx == null) {
-			response.data("UP").code("success.InsertCommentLikes");
+			response.data("ON").code("success.InsertCommentLikes");
 		} else {
-			response.data("DOWN").code("success.DeleteCommentLikes");
+			response.data("OFF").code("success.DeleteCommentLikes");
 		}
 		
 		return ResponseEntity.ok(response);

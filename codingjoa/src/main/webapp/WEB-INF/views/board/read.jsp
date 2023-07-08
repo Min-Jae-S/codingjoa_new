@@ -851,7 +851,7 @@
 		$("#boardLikesBtn").on("click", function() {
 			likesService.toggleBoardLikes(boardIdx, function(result) {
 				alert(result.message);
-				let cssClass = (result.data == "UP") ? "text-danger fa-solid fa-heart" : "text-grey fa-regular fa-heart";
+				let cssClass = (result.data == "ON") ? "text-danger fa-solid fa-heart" : "text-grey fa-regular fa-heart";
 				likesService.getBoardLikesCnt(boardIdx, function(result) {
 					$("#boardLikesBtn i").removeClass().addClass(cssClass);
 					$(".board-likes-cnt").text(result.data);
@@ -865,7 +865,7 @@
 			let commentIdx = $li.data("comment-idx");
 			likesService.toggleCommentLikes(commentIdx, function(result) {
 				alert(result.message);
-				let cssClass = (result.data == "UP") ? "text-primary fa-regular fa-thumbs-up" : "text-grey fa-regular fa-thumbs-up";
+				let cssClass = (result.data == "ON") ? "text-primary fa-regular fa-thumbs-up" : "text-grey fa-regular fa-thumbs-up";
 				likesService.getCommentLikesCnt(commentIdx, function(result) {
 					$li.find("button[name=commentLikesBtn] i").removeClass().addClass(cssClass);
 					$li.find(".comment-likes-cnt").text(result.data);
