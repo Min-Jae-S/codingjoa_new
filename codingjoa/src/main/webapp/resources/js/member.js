@@ -29,6 +29,7 @@ let memberService = (function() {
 				let errorResponse = JSON.parse(jqXHR.responseText);
 				console.log("> errorResponse = %s", JSON.stringify(errorResponse, null, 2));
 				$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
+				
 				if (jqXHR.status == 422) {
 					$.each(errorResponse.errorMap, function(errorField, errorMessage) {
 						$("#" + errorField).closest("dd")
@@ -61,6 +62,7 @@ let memberService = (function() {
 				let errorResponse = JSON.parse(jqXHR.responseText);
 				console.log("> errorResponse = %s", JSON.stringify(errorResponse, null, 2));
 				$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
+				
 				if (jqXHR.status == 422) {
 					$.each(errorResponse.errorMap, function(errorField, errorMessage) {
 						$("#" + errorField).closest("dd")
@@ -93,6 +95,7 @@ let memberService = (function() {
 				let errorResponse = JSON.parse(jqXHR.responseText);
 				console.log("> errorResponse = %s", JSON.stringify(errorResponse, null, 2));
 				$("#memberZipcode\\.errors, #memberAddr\\.errors, #memberAddrDetail\\.errors").remove();
+				
 				if (jqXHR.status == 422) {
 					$.each(errorResponse.errorMap, function(errorField, errorMessage) {
 						$("#" + errorField).closest("dd")
@@ -125,6 +128,7 @@ let memberService = (function() {
 				let errorResponse = JSON.parse(jqXHR.responseText);
 				console.log("> errorResponse = %s", JSON.stringify(errorResponse, null, 2));
 				$("#memberAgree\\.errors").remove();
+				
 				if (jqXHR.status == 422) {
 					$.each(errorResponse.errorMap, function(errorField, errorMessage) {
 						$("#" + errorField).closest("dd")

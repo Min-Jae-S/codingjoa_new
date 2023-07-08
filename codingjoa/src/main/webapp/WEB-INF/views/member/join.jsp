@@ -72,7 +72,7 @@
 							<div class="input-group mb-2">
 								<form:input path="memberEmail" class="form-control" placeholder="이메일 입력"/>
 								<div class="input-group-append">
-									<button type="button" class="btn btn-outline-secondary btn-sm" id="sendAuthEmailBtn" onclick="sendAuthEmail()">인증코드 받기</button>
+									<button type="button" class="btn btn-outline-secondary btn-sm" onclick="checkEmail()">인증코드 받기</button>
 								</div>
 							</div>
 							<div class="input-group">
@@ -129,18 +129,24 @@
 
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
-	function sendAuthEmail() {
+	function checkEmail() {
+		console.log("## Check Email");
+		let url = contextPath + "/api/member/email/check";
+		let obj = {
+			memberEmail : $("#memberEmail").val(),
+			type : "BEFORE_JOIN"
+		};
+		console.log("> url = '%s'", url);
+		console.log("> obj = %s", JSON.stringify(obj, null, 2));
+		
 		$.ajax({
 			type : "POST",
-			url : "${contextPath}/member/sendAuthEmail",
-			data : JSON.stringify({
-				memberEmail : $("#memberEmail").val(),
-				type : "BEFORE_JOIN"
-			}),
+			url : url,
+			data : JSON.stringify(obj),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
 			success : function(result) {
-				console.log(result);
+				console.log("> successResponse = %s", JSON.stringify(result, null, 2));
 				$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
 				$("#authCode").closest("div").after("<span class='success'>" + result.message + "</span>");
 				$("#authCode").val("");
@@ -148,14 +154,15 @@
 			},
 			error : function(jqXHR) {
 				let errorResponse = JSON.parse(jqXHR.responseText);
-				console.log(JSON.stringify(errorResponse, null, 2));
+				console.log("> errorResponse = %s", JSON.stringify(errorResponse, null, 2));
 				$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
 				
-				if(jqXHR.status == 422) {
-					let errorMap = JSON.parse(jqXHR.responseText).errorMap;
-					$.each(errorMap, function(errorField, errorMessage) {
+				if (jqXHR.status == 422) {
+					$.each(errorResponse.errorMap, function(errorField, errorMessage) {
 						$("#authCode").closest("div").after("<span id='" + errorField + ".errors' class='error'>" + errorMessage + "</span>");
 					});
+				} else {
+					alert(errorResponse.errorMessage);
 				}
 			}
 		});
@@ -163,7 +170,6 @@
 	
 	function toggleJoinBtn(checkbox) {
 		let joinBtn = document.getElementById("joinBtn");
-		
 		if (checkbox.checked == true) {
 			joinBtn.disabled = false;
 		} else {
