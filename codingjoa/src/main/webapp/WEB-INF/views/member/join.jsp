@@ -131,7 +131,7 @@
 <script>
 	function checkEmail() {
 		console.log("## Check Email");
-		let url = contextPath + "/api/member/email/check";
+		let url = "${contextPath}/api/member/email/check";
 		let obj = {
 			memberEmail : $("#memberEmail").val(),
 			type : "BEFORE_JOIN"
