@@ -689,7 +689,7 @@
 			let paginationHtml = makePaginationHtml(pagination);
 			$("div.comment-pagination").html(paginationHtml);
 			$("span.comment-cnt").text(pagination.totalCnt);
-			console.log("> current comment page = %s", curCommentPage);
+			console.log("## current comment page = %s", curCommentPage);
 		});
 		
 		$("#deleteBoardLink").on("click", function() {
@@ -843,7 +843,7 @@
 				$("span.comment-cnt").text(pagination.totalCnt);
 				
 				curCommentPage = pagination.page;
-				console.log("> current comment page = %s", curCommentPage);
+				console.log("## current comment page = %s", curCommentPage);
 			});
 		});
 		
