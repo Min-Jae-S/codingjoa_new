@@ -146,7 +146,7 @@
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
 			success : function(result) {
-				console.log("> successResponse = %s", JSON.stringify(result, null, 2));
+				console.log("## success = %s", JSON.stringify(result, null, 2));
 				$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
 				$("#authCode").closest("div").after("<span class='success'>" + result.message + "</span>");
 				$("#authCode").val("");
@@ -154,7 +154,7 @@
 			},
 			error : function(jqXHR) {
 				let errorResponse = JSON.parse(jqXHR.responseText);
-				console.log("> errorResponse = %s", JSON.stringify(errorResponse, null, 2));
+				console.log("## error = %s", JSON.stringify(errorResponse, null, 2));
 				$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
 				
 				if (jqXHR.status == 422) {
