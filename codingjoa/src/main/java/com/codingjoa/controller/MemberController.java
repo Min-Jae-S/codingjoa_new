@@ -102,9 +102,9 @@ public class MemberController {
 		return "member/check-password";
 	}
 
-	@GetMapping("/account/updatePassword")
-	public String updatePassword(Model model) {
-		log.info("## updatePassword");
+	@GetMapping("/account/modifyPassword")
+	public String modifyPassword(Model model) {
+		log.info("## modifyPassword");
 		log.info("\t > {}", sessionDto);
 		
 		if (!sessionDto.isCheckPasswordResult()) {
@@ -114,7 +114,7 @@ public class MemberController {
 		
 		sessionDto.setCheckPasswordResult(false);
 		
-		return "member/update-password";
+		return "member/modify-password";
 	}
 	
 	@GetMapping("/findAccount")

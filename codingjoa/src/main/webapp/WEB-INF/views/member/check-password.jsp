@@ -101,7 +101,7 @@
 			
 			memberService.checkPassword(obj, function(result) {
 				alert(result.message);
-				location.href = "${contextPath}/member/account/updatePassword";
+				location.href = "${contextPath}/member/account/modifyPassword";
 			});
 		});
 		
