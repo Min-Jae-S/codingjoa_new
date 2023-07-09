@@ -79,12 +79,14 @@ let commentService = (function() {
 			url : url,
 			dataType : "json",
 			success : function(result) {
-				console.log("## success = %s", JSON.stringify(result, null, 2));
+				console.log("## Success Response");
+				console.log(JSON.stringify(result, null, 2));
 				callback(result);
 			},
 			error : function(jqXHR) {
 				let errorResponse = JSON.parse(jqXHR.responseText);
-				console.log("## error = %s", JSON.stringify(errorResponse, null, 2));
+				console.log("## Error Response");
+				console.log(JSON.stringify(errorResponse, null, 2));
 				if (jqXHR.status == 422) {
 					$.each(errorResponse.errorMap, function(errorField, errorMessage) {
 						alert(errorMessage);
@@ -106,12 +108,14 @@ let commentService = (function() {
 			url : url,
 			dataType : "json",
 			success : function(result) {
-				console.log("## success = %s", JSON.stringify(result, null, 2));
+				console.log("## Success Response");
+				console.log(JSON.stringify(result, null, 2));
 				callback(result);
 			},
 			error : function(jqXHR) {
 				let errorResponse = JSON.parse(jqXHR.responseText);
-				console.log("## error = %s", JSON.stringify(errorResponse, null, 2));
+				console.log("## Error Response");
+				console.log(JSON.stringify(errorResponse, null, 2));
 				if (jqXHR.status == 422) {
 					$.each(errorResponse.errorMap, function(errorField, errorMessage) {
 						alert(errorMessage);
@@ -136,12 +140,14 @@ let commentService = (function() {
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
 			success : function(result) {
-				console.log("## success = %s", JSON.stringify(result, null, 2));
+				console.log("## Success Response");
+				console.log(JSON.stringify(result, null, 2));
 				callback(result);
 			},
 			error : function(jqXHR) {
 				let errorResponse = JSON.parse(jqXHR.responseText);
-				console.log("## error = %s", JSON.stringify(errorResponse, null, 2));
+				console.log("## Error Response");
+				console.log(JSON.stringify(errorResponse, null, 2));
 				if (jqXHR.status == 422) {
 					$.each(errorResponse.errorMap, function(errorField, errorMessage) {
 						alert(errorMessage);
@@ -163,12 +169,14 @@ let commentService = (function() {
 			url : url,
 			dataType : "json",
 			success : function(result) {
-				console.log("## success = %s", JSON.stringify(result, null, 2));
+				console.log("## Success Response");
+				console.log(JSON.stringify(result, null, 2));
 				callback(result);
 			},
 			error : function(jqXHR) {
 				let errorResponse = JSON.parse(jqXHR.responseText);
-				console.log("## error = %s", JSON.stringify(errorResponse, null, 2));
+				console.log("## Error Response");
+				console.log(JSON.stringify(errorResponse, null, 2));
 				if (jqXHR.status == 422) {
 					$.each(errorResponse.errorMap, function(errorField, errorMessage) {
 						alert(errorMessage);
