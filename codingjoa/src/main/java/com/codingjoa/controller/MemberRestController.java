@@ -161,7 +161,7 @@ public class MemberRestController {
 		return ResponseEntity.ok(SuccessResponse.create().code("success.CheckPassword"));
 	}
 	
-	@PutMapping("/updatePassword")
+	@PutMapping("/password")
 	public ResponseEntity<Object> updatePassword(@RequestBody @Valid PasswordDto passwordDto, 
 			@AuthenticationPrincipal UserDetailsDto principal) {
 		log.info("## updatePassword");

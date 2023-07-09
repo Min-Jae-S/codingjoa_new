@@ -206,6 +206,41 @@ let memberService = (function() {
 			}
 		});
 	}
+	
+	function updatePassword(obj, callback) {
+		console.log("## Update Password");
+		let url = contextPath + "/api/member/password";
+		console.log("> url = '%s'", url);
+		console.log("> obj = %s", JSON.stringify(obj, null, 2));
+		
+		$.ajax({
+			type : "PUT",
+			url : url,
+			data : JSON.stringify(obj),
+			contentType : "application/json; charset=utf-8",
+			dataType : "json",
+			success : function(result) {
+				console.log("## Success Response");
+				console.log(JSON.stringify(result, null, 2));
+				callback(result);
+			},
+			error : function(jqXHR) {
+				let errorResponse = JSON.parse(jqXHR.responseText);
+				console.log("## Error Response");
+				console.log(JSON.stringify(errorResponse, null, 2));
+				$(".error").remove();
+				
+				if (jqXHR.status == 422) {
+					$.each(errorResponse.errorMap, function(errorField, errorMessage) {
+						$("#" + errorField).closest("dd")
+							.after("<dd id='" + errorField + ".errors' class='error'>" + errorMessage + "</dd>");
+					});
+				} else {
+					alert(errorResponse.errorMessage);
+				}
+			}
+		});
+	}
 
 	return {
 		checkEmail:checkEmail,
@@ -213,7 +248,8 @@ let memberService = (function() {
 		updateAddr:updateAddr,
 		updateAgree:updateAgree,
 		getCurrentMember:getCurrentMember,
-		checkPassword:checkPassword
+		checkPassword:checkPassword,
+		updatePassword:updatePassword
 	};
 	
 })();

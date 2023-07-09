@@ -17,6 +17,7 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://kit.fontawesome.com/c503d71f81.js"></script>
+<script src="${contextPath}/resources/js/member.js"></script>
 <style>
 	input[type="text"], input[type="password"] {
 		border: none;
@@ -115,7 +116,10 @@
 				type : "UPDATE_PASSWORD"
 			};
 			
-			updatePassword("${contextPath}/member/updatePassword", obj);
+			memberService.updatePassword(obj, function(result) {
+				alert(result.message);
+				location.href = "${contextPath}/member/account";
+			});
 		});
 		
 		$("#resetPasswordBtn").on("click", function() {
@@ -154,7 +158,7 @@
 				//$("#memberPassword\\.errors, #confirmPassword\\.errors").remove();
 				$(".error").remove();
 				
-				if(jqXHR.status == 422) {
+				if (jqXHR.status == 422) {
 					let errorMap = JSON.parse(jqXHR.responseText).errorMap;
 					$.each(errorMap, function(errorField, errorMessage) {
 						$("#" + errorField).closest("dd").after("<dd id='" + errorField + ".errors' class='error'>" + errorMessage + "</dd>");
