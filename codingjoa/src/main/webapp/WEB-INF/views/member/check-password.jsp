@@ -16,6 +16,7 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://kit.fontawesome.com/c503d71f81.js"></script>
+<script src="${contextPath}/resources/js/member.js"></script>
 <style>
 	input[type="text"], input[type="password"] {
 		border: none;
@@ -98,7 +99,10 @@
 				type : "BEFORE_UPDATE_PASSWORD"
 			};
 			
-			checkPassword("${contextPath}/api/member/password/check", obj);
+			memberService.checkPassword(obj, function(result) {
+				alert(result.message);
+				location.href = "${contextPath}/member/account/updatePassword";
+			});
 		});
 		
 		$("input").on("focus", function() {
@@ -109,38 +113,6 @@
 			$(this).closest("dd").css("border-bottom", "1px solid #dee2e6");
 		});
 	});
-	
-	function checkPassword(url, obj) {
-		$.ajax({
-			type : "POST",
-			url : url,
-			data : JSON.stringify(obj),
-			contentType : "application/json; charset=utf-8",
-			dataType : "json",
-			success : function(result) {
-				console.log("## Success Response");
-				console.log(JSON.stringify(result, null, 2));
-				alert(result.message);
-				location.href = "${contextPath}/member/account/updatePassword";
-			},
-			error : function(jqXHR) {
-				let errorResponse = JSON.parse(jqXHR.responseText);
-				console.log("## Error Response");
-				console.log(JSON.stringify(errorResponse, null, 2));
-				//$("#memberPassword\\.errors").remove();
-				$(".error").remove();
-				
-				if(jqXHR.status == 422) {
-					let errorMap = JSON.parse(jqXHR.responseText).errorMap;
-					$.each(errorMap, function(errorField, errorMessage) {
-						$("#" + errorField).closest("dd")
-							.after("<dd id='" + errorField + ".errors' class='error'>" + errorMessage + "</dd>");
-					});
-				}
-			}
-		});
-	}
-	
 </script>
 </body>
 </html>
