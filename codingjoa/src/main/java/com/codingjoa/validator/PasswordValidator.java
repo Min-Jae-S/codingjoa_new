@@ -124,7 +124,6 @@ public class PasswordValidator implements Validator {
 			}
 			
 			String memberId = (String) sessionDto.getFindPasswordResult().get("memberId");
-			
 			if (memberService.isMyPassword(memberPassword, memberId)) {
 				errors.rejectValue("memberPassword", "NotSafe");
 				return;
@@ -132,7 +131,6 @@ public class PasswordValidator implements Validator {
 			
 			return;
 		}
-		
 	}
 
 	private String getCurrentId() {
