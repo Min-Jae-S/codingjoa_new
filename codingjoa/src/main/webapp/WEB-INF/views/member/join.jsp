@@ -146,7 +146,8 @@
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
 			success : function(result) {
-				console.log("## success = %s", JSON.stringify(result, null, 2));
+				console.log("## Success Response");
+				console.log(JSON.stringify(result, null, 2));
 				$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
 				$("#authCode").closest("div").after("<span class='success'>" + result.message + "</span>");
 				$("#authCode").val("");
@@ -154,12 +155,14 @@
 			},
 			error : function(jqXHR) {
 				let errorResponse = JSON.parse(jqXHR.responseText);
-				console.log("## error = %s", JSON.stringify(errorResponse, null, 2));
+				console.log("## Error Response");
+				console.log(JSON.stringify(errorResponse, null, 2));
 				$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
 				
 				if (jqXHR.status == 422) {
 					$.each(errorResponse.errorMap, function(errorField, errorMessage) {
-						$("#authCode").closest("div").after("<span id='" + errorField + ".errors' class='error'>" + errorMessage + "</span>");
+						$("#authCode").closest("div")
+							.after("<span id='" + errorField + ".errors' class='error'>" + errorMessage + "</span>");
 					});
 				} else {
 					alert(errorResponse.errorMessage);

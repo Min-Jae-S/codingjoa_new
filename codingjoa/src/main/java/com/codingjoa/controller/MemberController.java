@@ -96,7 +96,7 @@ public class MemberController {
 		return "member/info";
 	}
 
-	@GetMapping("/checkPassword")
+	@GetMapping("/account/checkPassword")
 	public String checkPassword() {
 		log.info("## checkPassword");
 		return "member/check-password";

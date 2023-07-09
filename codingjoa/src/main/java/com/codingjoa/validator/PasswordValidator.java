@@ -28,7 +28,7 @@ public class PasswordValidator implements Validator {
 	private final String PASSWORD_REGEXP = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[!@#$%^&*()])(?=\\S+$).{8,16}$";
 
 	@Autowired
-	MemberService memberService;
+	private MemberService memberService;
 	
 	@Resource(name = "sessionDto")
 	@Lazy

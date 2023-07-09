@@ -98,7 +98,7 @@
 				type : "BEFORE_UPDATE_PASSWORD"
 			};
 			
-			checkPassword("${contextPath}/member/checkPassword", obj);
+			checkPassword("${contextPath}/api/member/passoword/check", obj);
 		});
 		
 		$("input").on("focus", function() {
@@ -118,19 +118,23 @@
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
 			success : function(result) {
-				console.log(result);
+				console.log("## Success Response");
+				console.log(JSON.stringify(result, null, 2));
 				alert(result.message);
 				location.href = "${contextPath}/member/updatePassword";
 			},
 			error : function(jqXHR) {
-				console.log(jqXHR);
+				let errorResponse = JSON.parse(jqXHR.responseText);
+				console.log("## Error Response");
+				console.log(JSON.stringify(errorResponse, null, 2));
 				//$("#memberPassword\\.errors").remove();
 				$(".error").remove();
 				
 				if(jqXHR.status == 422) {
 					let errorMap = JSON.parse(jqXHR.responseText).errorMap;
 					$.each(errorMap, function(errorField, errorMessage) {
-						$("#" + errorField).closest("dd").after("<dd id='" + errorField + ".errors' class='error'>" + errorMessage + "</dd>");
+						$("#" + errorField).closest("dd")
+							.after("<dd id='" + errorField + ".errors' class='error'>" + errorMessage + "</dd>");
 					});
 				}
 			}

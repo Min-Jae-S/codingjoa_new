@@ -151,7 +151,7 @@ public class MemberRestController {
 	 * reset-password
 	 */
 	
-	@PostMapping("/checkPassword")
+	@PostMapping("/password/check")
 	public ResponseEntity<Object> checkPassword(@RequestBody @Valid PasswordDto passwordDto) {
 		log.info("## checkPassword");
 		log.info("\t > {}", passwordDto);
