@@ -98,7 +98,7 @@
 				type : "BEFORE_UPDATE_PASSWORD"
 			};
 			
-			checkPassword("${contextPath}/api/member/passoword/check", obj);
+			checkPassword("${contextPath}/api/member/password/check", obj);
 		});
 		
 		$("input").on("focus", function() {
@@ -121,7 +121,7 @@
 				console.log("## Success Response");
 				console.log(JSON.stringify(result, null, 2));
 				alert(result.message);
-				location.href = "${contextPath}/member/updatePassword";
+				location.href = "${contextPath}/member/account/updatePassword";
 			},
 			error : function(jqXHR) {
 				let errorResponse = JSON.parse(jqXHR.responseText);

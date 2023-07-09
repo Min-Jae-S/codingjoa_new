@@ -144,7 +144,6 @@ public class MemberRestController {
 	}
 	
 	/*
-	 * check-password
 	 * update-password
 	 * find-account
 	 * find-password

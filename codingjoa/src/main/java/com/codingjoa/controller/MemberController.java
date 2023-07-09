@@ -102,16 +102,14 @@ public class MemberController {
 		return "member/check-password";
 	}
 
-	@GetMapping("/updatePassword")
+	@GetMapping("/account/updatePassword")
 	public String updatePassword(Model model) {
 		log.info("## updatePassword");
 		log.info("\t > {}", sessionDto);
 		
 		if (!sessionDto.isCheckPasswordResult()) {
 			model.addAttribute("message", MessageUtils.getMessage("error.NotCheckPassword"));
-			model.addAttribute("path", "checkPassword");
-			
-			return "member/invalid-access";
+			return "member/not-check-password";
 		}
 		
 		sessionDto.setCheckPasswordResult(false);
