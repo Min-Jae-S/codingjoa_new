@@ -16,10 +16,14 @@
 <script src="https://kit.fontawesome.com/c503d71f81.js"></script>
 <style>
 	p {
-		text-align:center; 
-		margin-top:200px; 
+		text-align: center; 
+		margin-top: 200px; 
 		font-size: 100px;
 		font-weight: bold;
+	}
+	
+	button {
+		width: 100px;
 	}
 </style>
 </head>
@@ -27,7 +31,7 @@
 <c:import url="/WEB-INF/views/include/top-menu.jsp"/>
 <div>
 	<p>TEST</p>
-	<div class="d-flex justify-content-center">
+	<div class="d-flex justify-content-center mb-2">
 		<button class="btn btn-primary mx-2" type="button" onclick="success1()">success1</button>
 		<button class="btn btn-primary mx-2" type="button" onclick="success2()">success2</button>
 	</div>
@@ -46,7 +50,7 @@
 			url : "${contextPath}/test/success1",
 			dataType : "json",
 			success : function(result) {
-				console.log("## success");
+				console.log("## SUCCESS RESPONSE");
 				console.log(result);
 				console.log("## isJSON = %s", isJSON(result));
 			}
@@ -61,7 +65,7 @@
 			url : "${contextPath}/test/success2",
 			dataType : "json",
 			success : function(result) {
-				console.log("## success");
+				console.log("## SUCCESS RESPONSE");
 				console.log(result);
 				console.log("## isJSON = %s", isJSON(result));
 			}
@@ -76,11 +80,11 @@
 			url : "${contextPath}/test/error1",
 			dataType : "json",
 			success : function(reuslt) {
-				console.log("## success");
+				console.log("## SUCCESS RESPONSE");
 				console.log(result);
 			},
 			error : function(jqXHR) {
-				console.log("## error");
+				console.log("## ERROR RESPONSE");
 				console.log(jqXHR);
 			}
 		});
@@ -88,17 +92,17 @@
 
 	function error2() {
 		console.log('## error2');
-		console.log('## return ErrorResponse');
+		console.log('## return errorResponse');
 		$.ajax({
 			type : "GET",
 			url : "${contextPath}/test/error2",
 			dataType : "json",
 			success : function(reuslt) {
-				console.log("## success");
+				console.log("## SUCCESS RESPONSE");
 				console.log(result);
 			},
 			error : function(jqXHR) {
-				console.log("## error");
+				console.log("## ERROR RESPONSE");
 				console.log(jqXHR);
 			}
 		});
