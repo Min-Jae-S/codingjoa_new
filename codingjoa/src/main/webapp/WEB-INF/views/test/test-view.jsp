@@ -27,20 +27,24 @@
 <c:import url="/WEB-INF/views/include/top-menu.jsp"/>
 <div>
 	<p>TEST</p>
-	<button class="btn btn-primary" type="button" onclick="smaple1()">sample1</button>
-	<button class="btn btn-warning" type="button" onclick="smaple2()">sample2</button>
+	<div class="d-flex justify-content-center">
+		<button class="btn btn-primary mx-2" type="button" onclick="sample1()">sample1</button>
+		<button class="btn btn-warning mx-2" type="button" onclick="sample2()">sample2</button>
+	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 <script>
 	function sample1() {
 		console.log('## sample1');
-		console.log('##return ResponseEntity.ok(new Sample("a", "b", "c")');
+		console.log('## return ResponseEntity.ok(new Sample("a", "b", "c"))');
 		$.ajax({
 			type : "GET",
 			url : "${contextPath}/test/sample1",
+			dataType : "json",
 			success : function(result) {
 				console.log("## success");
 				console.log(result);
+				console.log("## isJSON = %s", isJSON(result));
 			},
 			error : function(jqXHR) {
 				console.log("## error");
@@ -55,15 +59,26 @@
 		$.ajax({
 			type : "GET",
 			url : "${contextPath}/test/sample2",
+			dataType : "json",
 			success : function(result) {
 				console.log("## success");
 				console.log(result);
+				console.log("## isJSON = %s", isJSON(result));
 			},
 			error : function(jqXHR) {
 				console.log("## error");
 				console.log(jqXHR);
 			}
 		});
+	}
+	
+	function isJSON(data) {
+		try {
+			JSON.parse(data);
+			return true;
+		} catch(e) {
+			return false;
+		}
 	}
 </script>
 </body>

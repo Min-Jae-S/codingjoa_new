@@ -272,16 +272,16 @@ public class TestController {
 	// 	  return ResponseEntity.ok(Object) vs return Object 
 	// *********************************************************
 	
-	@GetMapping("/sample1")
 	@ResponseBody
+	@GetMapping("/sample1")
 	public ResponseEntity<Object> sample1() {
 		log.info("## sample1");
 		Sample sample = new Sample("a", "b", "c");
 		return ResponseEntity.ok(sample);
 	}
 
-	@GetMapping("/sample2")
 	@ResponseBody
+	@GetMapping("/sample2")
 	public Sample sample2() {
 		log.info("## sample2");
 		Sample sample = new Sample("a", "b", "c");
