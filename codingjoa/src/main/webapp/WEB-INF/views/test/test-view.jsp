@@ -27,7 +27,44 @@
 <c:import url="/WEB-INF/views/include/top-menu.jsp"/>
 <div>
 	<p>TEST</p>
+	<button class="btn btn-primary" type="button" onclick="smaple1()">sample1</button>
+	<button class="btn btn-warning" type="button" onclick="smaple2()">sample2</button>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
+<script>
+	function sample1() {
+		console.log('## sample1');
+		console.log('##return ResponseEntity.ok(new Sample("a", "b", "c")');
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/sample1",
+			success : function(result) {
+				console.log("## success");
+				console.log(result);
+			},
+			error : function(jqXHR) {
+				console.log("## error");
+				console.log(jqXHR);
+			}
+		});
+	}
+
+	function sample2() {
+		console.log('## sample2');
+		console.log('## return new Sample("a", "b", "c")');
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/sample2",
+			success : function(result) {
+				console.log("## success");
+				console.log(result);
+			},
+			error : function(jqXHR) {
+				console.log("## error");
+				console.log(jqXHR);
+			}
+		});
+	}
+</script>
 </body>
 </html>

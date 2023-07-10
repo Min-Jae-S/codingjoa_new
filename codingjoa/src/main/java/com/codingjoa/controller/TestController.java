@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import com.codingjoa.service.TestTxService;
+import com.codingjoa.test.Sample;
 import com.codingjoa.test.Test;
 
 import lombok.extern.slf4j.Slf4j;
@@ -264,5 +266,25 @@ public class TestController {
 		txService.doSomething3();
 		
 		return ResponseEntity.ok("success");
+	}
+	
+	// *********************************************************
+	// 	  return ResponseEntity.ok(Object) vs return Object 
+	// *********************************************************
+	
+	@GetMapping("/sample1")
+	@ResponseBody
+	public ResponseEntity<Object> sample1() {
+		log.info("## sample1");
+		Sample sample = new Sample("a", "b", "c");
+		return ResponseEntity.ok(sample);
+	}
+
+	@GetMapping("/sample2")
+	@ResponseBody
+	public Sample sample2() {
+		log.info("## sample2");
+		Sample sample = new Sample("a", "b", "c");
+		return sample;
 	}
 }

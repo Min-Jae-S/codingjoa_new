@@ -169,22 +169,17 @@ public class MemberRestController {
 	}
 	
 	/*
-	 * find-account
 	 * find-password
 	 * reset-password
 	 */
-	
 	
 	@PostMapping("/send/found-account")
 	public ResponseEntity<Object> sendFoundAccount(@RequestBody @Valid EmailAuthDto emailAuthDto) {
 		log.info("## sendFoundAccount");
 		log.info("\t > {}", emailAuthDto);
-		log.info("\t > {}", sessionDto);
 		
-		String account = memberService.findAccount(emailAuthDto);
-		sessionDto.setFindAccountResult(account);
-		
-		redisService.delete(emailAuthDto.getMemberEmail());
+		//String account = memberService.findAccount(emailAuthDto);
+		// send email...
 		
 		return ResponseEntity.ok(SuccessResponse.create().code("success.SendFoundAccount"));
 	}
@@ -230,5 +225,4 @@ public class MemberRestController {
 		//HttpSession session = request.getSession(true);
 	    //session.setAttribute("SPRING_SECURITY_CONTEXT", securityContext);
 	}
-	
 }

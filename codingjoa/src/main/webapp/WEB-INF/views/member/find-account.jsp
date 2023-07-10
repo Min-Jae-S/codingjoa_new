@@ -98,12 +98,13 @@
 		$("#sendFoundAccountBtn").on("click", function() {
 			let obj = {
 				memberEmail : $("#memberEmail").val(),
-				authCode : $("#authCode").val(),
 				type : "FIND_ACCOUNT"		
 			};
 			
 			memberService.sendFoundAccount(obj, function(result) {
-				alert(result.message);
+				$(".error, .success").remove();
+				//alert(result.message);
+				// success message html로 표시하기
 			});
 		});
 		
