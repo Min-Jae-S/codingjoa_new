@@ -114,7 +114,7 @@
 							<input type="text" id="memberEmail" name="memberEmail" value="${principal.member.memberEmail}"/>
 						</form>
 						<div>
-							<button class="btn btn-warning btn-sm" type="button" id="checkEmailBtn">인증코드 받기</button>
+							<button class="btn btn-warning btn-sm" type="button" id="sendAuthEmailBtn">인증코드 받기</button>
 							<button class="btn btn-outline-primary btn-sm" type="button" id="updateEmailBtn">확인</button>
 							<button class="btn btn-outline-secondary btn-sm" type="button" id="resetEmailBtn">취소</button>
 						</div>
@@ -208,14 +208,14 @@
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
 	$(function() {
-		// check email
-		$("#checkEmailBtn").on("click", function() {
+		// send auth email
+		$("#sendAuthEmailBtn").on("click", function() {
 			let obj = {
 				memberEmail : $("#memberEmail").val(),
 				type : "BEFORE_UPDATE_EMAIL"
 			};
 			
-			memberService.checkEmail(obj, function(result) {
+			memberService.sendAuthEmail(obj, function(result) {
 				$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
 				$("#authCode").closest("dd").after("<dd class='success'>" + result.message + "</dd>");
 				$("#authCode").val("");

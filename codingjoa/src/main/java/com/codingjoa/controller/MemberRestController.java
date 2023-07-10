@@ -84,9 +84,9 @@ public class MemberRestController {
 		binder.addValidators(passwordValidator);
 	}
 
-	@PostMapping("/check/email")
-	public ResponseEntity<Object> checkEmail(@RequestBody @Valid EmailAuthDto emailAuthDto) {
-		log.info("## checkEmail");
+	@PostMapping("/send/auth-email")
+	public ResponseEntity<Object> sendAuthEmail(@RequestBody @Valid EmailAuthDto emailAuthDto) {
+		log.info("## sendAuthEmail");
 		log.info("\t > {}", emailAuthDto);
 
 		String authCode = RandomStringUtils.randomNumeric(6);
@@ -96,7 +96,7 @@ public class MemberRestController {
 		emailService.sendAuthEmail(memberEmail, authCode);
 		redisService.saveAuthCode(memberEmail, authCode);
 		
-		return ResponseEntity.ok(SuccessResponse.create().code("success.CheckEmail"));
+		return ResponseEntity.ok(SuccessResponse.create().code("success.SendAuthEmail"));
 	}
 	
 	@PutMapping("/email")

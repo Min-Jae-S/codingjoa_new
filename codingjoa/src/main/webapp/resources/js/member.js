@@ -9,9 +9,9 @@ let memberService = (function() {
 
 	const contextPath = getContextPath();
 
-	function checkEmail(obj, callback) {
-		console.log("## Check Email");
-		let url = contextPath + "/api/member/check/email";
+	function sendAuthEmail(obj, callback) {
+		console.log("## Send Auth Email");
+		let url = contextPath + "/api/member/send/auth-email";
 		console.log("> url = '%s'", url);
 		console.log("> obj = %s", JSON.stringify(obj, null, 2));
 		
@@ -279,7 +279,7 @@ let memberService = (function() {
 	}
 
 	return {
-		checkEmail:checkEmail,
+		sendAuthEmail:sendAuthEmail,
 		updateEmail:updateEmail,
 		updateAddr:updateAddr,
 		updateAgree:updateAgree,

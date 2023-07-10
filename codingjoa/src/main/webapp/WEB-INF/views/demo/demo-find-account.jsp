@@ -81,7 +81,7 @@
 						<div>
 							<input type="text" id="memberEmail" name="memberEmail" placeholder="이메일 입력" />
 						</div>
-						<button class="btn btn-warning btn-sm" id="sendAuthEmailBtn">인증코드 받기</button>
+						<button class="btn btn-warning btn-sm" id="checkEmailBtn">인증코드 받기</button>
 					</dd>
 					<dd class="input-group" id="editAuthCode">
 						<input type="text" id="authCode" name="authCode" placeholder="인증코드를 입력하세요.">
@@ -100,13 +100,13 @@
 
 <script>
 	$(function() {
-		$("#sendAuthEmailBtn").on("click", function() {
+		$("#checkEmailBtn").on("click", function() {
 			let obj = {
 				memberEmail : $("#memberEmail").val(),
 				type : "BEFORE_FIND_ACCOUNT"		
 			};
 			
-			memberService.sendAuthEmail(obj, function(result) {
+			memberService.checkEmail(obj, function(result) {
 				$(".error, .success").remove();
 				$("#authCode").closest("dd").after("<dd class='success'>" + result.message + "</dd>");
 				$("#authCode").val("");

@@ -1,6 +1,5 @@
 package com.codingjoa.controller;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -11,9 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -55,17 +52,13 @@ public class UploadRestController {
 	}
 	
 	@PostMapping("/image")
-	public ResponseEntity<Object> uploadImage(@ModelAttribute @Valid UploadFileDto uploadFileDto, 
-			BindingResult bindingResult, HttpServletRequest request) throws MethodArgumentNotValidException {
+	public ResponseEntity<Object> uploadImage(@ModelAttribute @Valid UploadFileDto uploadFileDto,
+			HttpServletRequest request) {
 		log.info("## uploadImage");
 		log.info("\t > original file name = {}", uploadFileDto.getFile().getOriginalFilename());
 		
-		if (bindingResult.hasErrors()) {
-			 throw new MethodArgumentNotValidException(null, bindingResult);
-		}
-		
 		String uploadFilename = UploadFileUtils.upload(uploadPath, uploadFileDto.getFile());
-		log.info("\t > upliadFilename = {}", uploadFilename);
+		log.info("\t > uploadFilename = {}", uploadFilename);
 		
 		int uploadIdx = uploadService.uploadImage(uploadFilename);
 		log.info("\t > uploadIdx = {}", uploadIdx);
@@ -73,12 +66,8 @@ public class UploadRestController {
 		String uploadFileUrl = request.getContextPath() + uploadUrl + uploadFilename;
 		log.info("\t > uploadFileUrl = {}", uploadFileUrl);
 		
-		Map<String, Object> map = new HashMap<>();
-		map.put("uploadIdx", uploadIdx);
-		map.put("uploadFileUrl", uploadFileUrl);
-		map.put("uploadFilename", uploadFilename);
-		
-		return ResponseEntity.ok(SuccessResponse.create().code("success.uploadImage").data(map));
+		return ResponseEntity.ok(SuccessResponse.create().code("success.uploadImage")
+				.data(Map.of("uploadIdx", uploadIdx, "uploadFileUrl", uploadFileUrl, "uploadFilename", uploadFilename)));
 	}
 	
 }

@@ -82,10 +82,10 @@
 						<a class="link-join" href="${contextPath}/member/join">회원가입</a>
 						<ul class="link-ul">
 							<li class="link-li">
-								<a href="${contextPath}/member/help/findAccount">계정 찾기</a>
+								<a href="${contextPath}/member/findAccount">계정 찾기</a>
 							</li>
 							<li class="link-li">
-								<a href="${contextPath}/member/help/findPassword">비밀번호 찾기</a>
+								<a href="${contextPath}/member/findPassword">비밀번호 찾기</a>
 							</li>
 						</ul>
 					</div>
