@@ -134,7 +134,7 @@ public class EmailAuthValidator implements Validator {
 			return;
 		} 
 		
-		if (type == Type.BEFORE_FIND_ACCOUNT) {
+		if (type == Type.FIND_ACCOUNT) {
 			if (!StringUtils.hasText(memberEmail)) {
 				errors.rejectValue("memberEmail", "NotBlank");
 				return;
@@ -152,40 +152,6 @@ public class EmailAuthValidator implements Validator {
 			
 			return;
 		} 
-		
-		if (type == Type.FIND_ACCOUNT) {
-			if (!StringUtils.hasText(memberEmail)) {
-				errors.rejectValue("memberEmail", "NotBlank");
-				return;
-			} 
-			
-			if (!Pattern.matches(EMAIL_REGEXP, memberEmail)) {
-				errors.rejectValue("memberEmail", "Pattern");
-				return;
-			}
-			
-//			if (!memberService.isEmailExist(memberEmail)) {
-//				errors.rejectValue("memberEmail", "NotEmailExist");
-//				return;
-//			}
-			
-			if (!redisService.hasAuthCode(memberEmail)) {
-				errors.rejectValue("memberEmail", "NotAuthCodeExist");
-				return;
-			}
-			
-			if (!StringUtils.hasText(authCode)) {
-				errors.rejectValue("authCode", "NotBlank");
-				return;
-			} 
-			
-			if (!redisService.isAuthCodeValid(memberEmail, authCode)) {
-				errors.rejectValue("authCode", "NotValid");
-				return;
-			}
-			
-			return;
-		}
 		
 		if (type == Type.BEFORE_FIND_PASSWORD) {
 			if (!StringUtils.hasText(memberId)) {

@@ -102,9 +102,8 @@
 				type : "FIND_ACCOUNT"		
 			};
 			
-			memberService.findAccount(obj, function(result) {
+			memberService.sendFoundAccount(obj, function(result) {
 				alert(result.message);
-				location.href = "${contextPath}/member/findAccountResult";
 			});
 		});
 		
