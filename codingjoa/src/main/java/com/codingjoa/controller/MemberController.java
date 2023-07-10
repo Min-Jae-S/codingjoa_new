@@ -106,12 +106,6 @@ public class MemberController {
 	@GetMapping("/account/updatePassword")
 	public String updatePassword(HttpSession session) {
 		log.info("## updatePassword");
-		
-//		if (!sessionDto.isCheckPasswordResult()) {
-//			model.addAttribute("message", MessageUtils.getMessage("error.NotCheckPassword"));
-//			return "member/not-check-password";
-//		}
-//		sessionDto.setCheckPasswordResult(false);
 		session.setAttribute("PASSWORD_AUTHENTICATION", false);
 		
 		return "member/update-password";

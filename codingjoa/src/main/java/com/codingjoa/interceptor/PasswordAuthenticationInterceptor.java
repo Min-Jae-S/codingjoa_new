@@ -3,7 +3,6 @@ package com.codingjoa.interceptor;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
-import java.util.Iterator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,23 +23,16 @@ public class PasswordAuthenticationInterceptor implements HandlerInterceptor {
 			throws Exception {
 		log.info("## {} : preHandle", this.getClass().getSimpleName());
 		
-		boolean passwordAuthentication = false;
-		HttpSession session = request.getSession(false);
-		if (session == null) {
-			log.info("\t > session is null");
-			passwordAuthentication = false;
-		} else {
-			log.info("\t > current session");
-			Iterator<String> attributeNames = session.getAttributeNames().asIterator();
-			while (attributeNames.hasNext()) {
-				String attibuteName = attributeNames.next();
-				log.info("\t\t - {} = {}", attibuteName, session.getAttribute(attibuteName));
-			}
-			passwordAuthentication = (boolean) session.getAttribute("PASSWORD_AUTHENTICATION");
+		HttpSession session = request.getSession();
+		Boolean passwordAuthentication = (Boolean) session.getAttribute("PASSWORD_AUTHENTICATION");
+		if (passwordAuthentication == null) {
+			log.info("\t > NO PASSWORD_AUTHENTICATION");
+			makeResponse(request, response);
+			return false;
 		}
-		log.info("\t > PASSWORD_AUTHENTICATION = {}", passwordAuthentication);
 		
-		if (passwordAuthentication) {
+		if (!passwordAuthentication) {
+			log.info("\t > PASSWORD IS NOT AUTHENTICATED");
 			makeResponse(request, response);
 			return false;
 		}
