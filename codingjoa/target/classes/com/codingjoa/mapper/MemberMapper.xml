@@ -163,14 +163,14 @@
 			member_idx = #{memberIdx}
 	</select>
 	
-	<update id="updatePassword" parameterType="map">
+	<update id="updatePassword" parameterType="member">
 		UPDATE 
 			member
 		SET
 			member_password = #{memberPassword},
 			moddate = SYSDATE
 		WHERE
-			member_id = #{memberId}
+			member_idx = #{memberIdx}
 	</update>
 	
 	<select id="findIdbyEmail" parameterType="string" resultType="string">

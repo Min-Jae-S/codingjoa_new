@@ -145,7 +145,6 @@ public class MemberRestController {
 	}
 	
 	/*
-	 * update-password
 	 * find-account
 	 * find-password
 	 * reset-password
@@ -168,10 +167,8 @@ public class MemberRestController {
 		log.info("## updatePassword");
 		log.info("\t > {}", passwordDto);
 		
-		String memberId = principal.getMember().getMemberId();
-		memberService.updatePassword(passwordDto, memberId);
-		
-		resetAuthentication(memberId);
+		memberService.updatePassword(passwordDto.getMemberPassword(), principal.getMember().getMemberIdx());
+		resetAuthentication(principal.getMember().getMemberId());
 		
 		return ResponseEntity.ok(SuccessResponse.create().code("success.UpdatePassword"));
 	}
@@ -211,8 +208,8 @@ public class MemberRestController {
 		log.info("## resetPassword");
 		log.info("\t > {}", passwordDto);
 		
-		String memberId = (String) sessionDto.getFindPasswordResult().get("memberId");
-		memberService.updatePassword(passwordDto, memberId);
+		//String memberId = (String) sessionDto.getFindPasswordResult().get("memberId");
+		//memberService.updatePassword(passwordDto, memberId);
 		
 		sessionDto.setFindPasswordResult(null);
 		

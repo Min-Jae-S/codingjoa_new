@@ -2,7 +2,6 @@ package com.codingjoa.service;
 
 import com.codingjoa.dto.EmailAuthDto;
 import com.codingjoa.dto.JoinDto;
-import com.codingjoa.dto.PasswordDto;
 
 public interface MemberService {
 
@@ -22,7 +21,7 @@ public interface MemberService {
 	
 	boolean isMyPassword(String memberPassword, Integer memberIdx);
 	
-	void updatePassword(PasswordDto passwordDto, String memberId);
+	void updatePassword(String memberPassword, Integer memberIdx);
 	
 	String findAccount(EmailAuthDto emailAuthDto);
 	

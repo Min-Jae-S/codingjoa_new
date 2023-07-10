@@ -8,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.codingjoa.dto.EmailAuthDto;
 import com.codingjoa.dto.JoinDto;
-import com.codingjoa.dto.PasswordDto;
 import com.codingjoa.entity.Auth;
 import com.codingjoa.entity.Member;
 import com.codingjoa.exception.ExpectedException;
@@ -108,10 +107,15 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public void updatePassword(PasswordDto passwordDto, String memberId) {
-		String rawPassword = passwordDto.getMemberPassword();
-		String encPassword = passwordEncoder.encode(rawPassword);
-		memberMapper.updatePassword(encPassword, memberId);
+	public void updatePassword(String memberPassword, Integer memberIdx) {
+		Member modifiedMember = memberMapper.findMemberByIdx(memberIdx);
+		if (modifiedMember == null) {
+			throw new ExpectedException(MessageUtils.getMessage("error.NotFoundMember"));
+		}
+		
+		String encPassword = passwordEncoder.encode(memberPassword);
+		modifiedMember.setMemberPassword(encPassword);
+		memberMapper.updatePassword(modifiedMember);
 	}
 
 	@Override
