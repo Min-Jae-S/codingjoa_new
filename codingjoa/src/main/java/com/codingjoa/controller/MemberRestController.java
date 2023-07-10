@@ -27,7 +27,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.codingjoa.dto.AddrDto;
 import com.codingjoa.dto.AgreeDto;
@@ -216,6 +215,13 @@ public class MemberRestController {
 		sessionDto.setFindPasswordResult(null);
 		
 		return ResponseEntity.ok(SuccessResponse.create().code("success.ResetPassword"));
+	}
+	
+	@GetMapping("/test")
+	public ResponseEntity<Object> test(HttpSession session) {
+		log.info("## test");
+		session.removeAttribute("PASSWORD_AUTHENTICATION");
+		return ResponseEntity.ok(SuccessResponse.create().message("success"));
 	}
 	
 	private void resetAuthentication(String memberId) {

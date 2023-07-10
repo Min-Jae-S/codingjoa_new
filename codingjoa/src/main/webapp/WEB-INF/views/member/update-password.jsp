@@ -98,6 +98,7 @@
 					<sec:authorize access="isAnonymous()">
 						<button type="button" class="btn btn-primary btn-block" id="resetPasswordBtn">확인</button>
 					</sec:authorize>
+					<button type="button" class="btn btn-warning btn-block" id="testBtn">test</button>
 				</div>				
 			</div>
 		</div>
@@ -109,6 +110,22 @@
 
 <script>
 	$(function() {
+		$("#testBtn").on("click", function() {
+			console.log("## testBtn click");
+			$.ajax({
+				type : "GET",
+				url : "${contextPath}/api/member/remove",
+				success : function(result) {
+					console.log("## Success Response");
+					console.log(JSON.stringify(result, null, 2));
+				},
+				error : function(jqXHR) {
+					console.log("## Error Response");
+					console.log(JSON.stringify(jqXHR, null, 2));
+				}
+			});
+		});
+		
 		$("#updatePasswordBtn").on("click", function() {
 			let obj = {
 				memberPassword : $("#memberPassword").val(),
