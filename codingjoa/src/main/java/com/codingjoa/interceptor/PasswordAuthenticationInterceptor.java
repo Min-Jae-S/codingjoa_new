@@ -27,8 +27,7 @@ public class PasswordAuthenticationInterceptor implements HandlerInterceptor {
 		
 		if (!isPasswordAuthenticated(request)) {
 			HandlerMethod handlerMethod = (HandlerMethod) handler;
-			boolean isRestContorller = handlerMethod.getBeanType().isAnnotationPresent(RestController.class);
-			if (isRestContorller) {
+			if (handlerMethod.getBeanType().isAnnotationPresent(RestController.class)) {
 				throw new ExpectedException(MessageUtils.getMessage("error.NotCheckPassword"));
 			}
 			
@@ -50,13 +49,13 @@ public class PasswordAuthenticationInterceptor implements HandlerInterceptor {
 	private boolean isPasswordAuthenticated(HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		Boolean passwordAuthentication = (Boolean) session.getAttribute("PASSWORD_AUTHENTICATION");
+		log.info("\t > PASSWORD_AUTHENTICATION = {}", passwordAuthentication);
+		
 		if (passwordAuthentication == null) {
-			log.info("\t > NO PASSWORD_AUTHENTICATION ATTRIBUTE");
 			return false;
 		}
 		
 		if (!passwordAuthentication) {
-		log.info("\t > NOT AUTHENTICATED");
 			return false;
 		}
 		
