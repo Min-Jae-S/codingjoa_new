@@ -40,6 +40,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.BeanNameViewResolver;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
+import com.codingjoa.interceptor.PasswordAuthenticationInterceptor;
 import com.codingjoa.interceptor.TopMenuInterceptor;
 import com.codingjoa.resolver.BoardCriteriaArgumentResolver;
 import com.codingjoa.resolver.CommentCriteriaArgumentResolver;
@@ -115,11 +116,18 @@ public class ServletConfig implements WebMvcConfigurer {
 		registry.addInterceptor(topMenuInterceptor())
 				.addPathPatterns("/**")
 				.excludePathPatterns("/resources/**", "/upload/**", "/api/**");
+		registry.addInterceptor(passwordAuthenticationInterceptor())
+				.addPathPatterns("/member/account/updatePassword");
 	}
 
 	@Bean
 	public TopMenuInterceptor topMenuInterceptor() {
 		return new TopMenuInterceptor(applicationContext, categoryService);
+	}
+	
+	@Bean
+	public PasswordAuthenticationInterceptor passwordAuthenticationInterceptor() {
+		return new PasswordAuthenticationInterceptor();
 	}
 
 	@Override

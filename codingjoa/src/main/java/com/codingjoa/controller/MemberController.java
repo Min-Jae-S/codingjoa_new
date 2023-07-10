@@ -107,12 +107,11 @@ public class MemberController {
 		log.info("## updatePassword");
 		log.info("\t > {}", sessionDto);
 		
-		if (!sessionDto.isCheckPasswordResult()) {
-			model.addAttribute("message", MessageUtils.getMessage("error.NotCheckPassword"));
-			return "member/not-check-password";
-		}
-		
-		sessionDto.setCheckPasswordResult(false);
+//		if (!sessionDto.isCheckPasswordResult()) {
+//			model.addAttribute("message", MessageUtils.getMessage("error.NotCheckPassword"));
+//			return "member/not-check-password";
+//		}
+//		sessionDto.setCheckPasswordResult(false);
 		
 		return "member/update-password";
 	}
