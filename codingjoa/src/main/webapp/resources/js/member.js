@@ -9,9 +9,9 @@ let memberService = (function() {
 
 	const contextPath = getContextPath();
 
-	function sendAuthEmail(obj, callback) {
-		console.log("## Send Auth Email");
-		let url = contextPath + "/api/member/send/auth-email";
+	function sendAuthCode(obj, callback) {
+		console.log("## Send Auth Code");
+		let url = contextPath + "/api/member/send/auth-code";
 		console.log("> url = '%s'", url);
 		console.log("> obj = %s", JSON.stringify(obj, null, 2));
 		
@@ -242,9 +242,9 @@ let memberService = (function() {
 		});
 	}
 	
-	function findAccount(obj, callback) {
-		console.log("## Find Account");
-		let url = contextPath + "/api/member/find/account";
+	function sendFoundAccount(obj, callback) {
+		console.log("## Send Found Account");
+		let url = contextPath + "/api/member/send/found-account";
 		console.log("> url = '%s'", url);
 		console.log("> obj = %s", JSON.stringify(obj, null, 2));
 		
@@ -279,14 +279,14 @@ let memberService = (function() {
 	}
 
 	return {
-		sendAuthEmail:sendAuthEmail,
+		sendAuthCode:sendAuthCode,
 		updateEmail:updateEmail,
 		updateAddr:updateAddr,
 		updateAgree:updateAgree,
 		getCurrentMember:getCurrentMember,
 		checkPassword:checkPassword,
 		updatePassword:updatePassword,
-		findAccount:findAccount
+		sendFoundAccount:sendFoundAccount
 	};
 	
 })();

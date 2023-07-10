@@ -72,8 +72,7 @@
 			<h5 class="font-weight-bold">계정 찾기</h5>
 			<div class="pt-3" style="border-top: 1px solid black;">
 				<p class="title">
-					<span>코딩조아(Codingjoa) 계정에 등록한 이메일로 인증을 진행해 주세요.</span><br/>
-					<span>등록한 이메일 주소와 입력한 이메일 주소가 같아야, 인증코드를 받을 수 있습니다.</span>
+					<span>회원가입 시 입력한 이메일 주소로 아이디를 보내드립니다.</span>
 				</p>
 				<dl class="form-group mb-5">
 					<dt><i class="fa-solid fa-check mr-2"></i>이메일</dt>
@@ -81,14 +80,10 @@
 						<div>
 							<input type="text" id="memberEmail" name="memberEmail" placeholder="이메일 입력" />
 						</div>
-						<button class="btn btn-warning btn-sm" id="sendAuthEmailBtn">인증코드 받기</button>
-					</dd>
-					<dd class="input-group" id="editAuthCode">
-						<input type="text" id="authCode" name="authCode" placeholder="인증코드를 입력하세요.">
 					</dd>
 				</dl>
 				<div class="pt-3">
-					<button type="button" class="btn btn-primary btn-block" id="findAccountBtn">계정 찾기</button>
+					<button type="button" class="btn btn-primary btn-block" id="sendFoundAccountBtn">계정 찾기</button>
 				</div>
 			</div>
 		</div>
@@ -100,21 +95,7 @@
 
 <script>
 	$(function() {
-		$("#sendAuthEmailBtn").on("click", function() {
-			let obj = {
-				memberEmail : $("#memberEmail").val(),
-				type : "BEFORE_FIND_ACCOUNT"		
-			};
-			
-			memberService.sendAuthEmail(obj, function(result) {
-				$(".error, .success").remove();
-				$("#authCode").closest("dd").after("<dd class='success'>" + result.message + "</dd>");
-				$("#authCode").val("");
-				$("#authCode").focus();
-			});
-		});
-		
-		$("#findAccountBtn").on("click", function() {
+		$("#sendFoundAccountBtn").on("click", function() {
 			let obj = {
 				memberEmail : $("#memberEmail").val(),
 				authCode : $("#authCode").val(),

@@ -72,7 +72,7 @@
 							<div class="input-group mb-2">
 								<form:input path="memberEmail" class="form-control" placeholder="이메일 입력"/>
 								<div class="input-group-append">
-									<button type="button" class="btn btn-outline-secondary btn-sm" onclick="sendAuthEmail()">인증코드 받기</button>
+									<button type="button" class="btn btn-outline-secondary btn-sm" onclick="sendAuthCode()">인증코드 받기</button>
 								</div>
 							</div>
 							<div class="input-group">
@@ -129,9 +129,9 @@
 
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
-	function sendAuthEmail() {
-		console.log("## Send Auth Email");
-		let url = "${contextPath}/api/member/send/auth-email";
+	function sendAuthCode() {
+		console.log("## Send Auth Code");
+		let url = "${contextPath}/api/member/send/auth-code";
 		let obj = {
 			memberEmail : $("#memberEmail").val(),
 			type : "BEFORE_JOIN"

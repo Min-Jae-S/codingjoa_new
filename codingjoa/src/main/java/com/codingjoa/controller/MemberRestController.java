@@ -84,9 +84,9 @@ public class MemberRestController {
 		binder.addValidators(passwordValidator);
 	}
 
-	@PostMapping("/send/auth-email")
-	public ResponseEntity<Object> sendAuthEmail(@RequestBody @Valid EmailAuthDto emailAuthDto) {
-		log.info("## sendAuthEmail");
+	@PostMapping("/send/auth-code")
+	public ResponseEntity<Object> sendAuthCode(@RequestBody @Valid EmailAuthDto emailAuthDto) {
+		log.info("## sendAuthCode");
 		log.info("\t > {}", emailAuthDto);
 
 		String authCode = RandomStringUtils.randomNumeric(6);
@@ -96,7 +96,7 @@ public class MemberRestController {
 		emailService.sendAuthEmail(memberEmail, authCode);
 		redisService.saveAuthCode(memberEmail, authCode);
 		
-		return ResponseEntity.ok(SuccessResponse.create().code("success.SendAuthEmail"));
+		return ResponseEntity.ok(SuccessResponse.create().code("success.SendAuthCode"));
 	}
 	
 	@PutMapping("/email")
@@ -175,9 +175,9 @@ public class MemberRestController {
 	 */
 	
 	
-	@PostMapping("/find/account")
-	public ResponseEntity<Object> findAccount(@RequestBody @Valid EmailAuthDto emailAuthDto) {
-		log.info("## findAccount");
+	@PostMapping("/send/found-account")
+	public ResponseEntity<Object> sendFoundAccount(@RequestBody @Valid EmailAuthDto emailAuthDto) {
+		log.info("## sendFoundAccount");
 		log.info("\t > {}", emailAuthDto);
 		log.info("\t > {}", sessionDto);
 		
@@ -186,7 +186,7 @@ public class MemberRestController {
 		
 		redisService.delete(emailAuthDto.getMemberEmail());
 		
-		return ResponseEntity.ok(SuccessResponse.create().code("success.FindAccount"));
+		return ResponseEntity.ok(SuccessResponse.create().code("success.SendFoundAccount"));
 	}
 	
 	@PostMapping("/findPassword")
