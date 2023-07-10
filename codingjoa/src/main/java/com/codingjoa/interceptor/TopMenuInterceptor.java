@@ -42,20 +42,19 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 			throws Exception {
 		log.info("## {} : preHandle", this.getClass().getSimpleName());
 //		log.info("\t > URI = {} '{}'", request.getMethod(), getFullURI(request));
-		//log.info("\t > dispatcherType = {}", request.getDispatcherType());
+//		log.info("\t > dispatcherType = {}", request.getDispatcherType());
 
 //		if (handler instanceof HandlerMethod) {
 //			HandlerMethod handlerMethod = (HandlerMethod) handler;
 //			int index = handlerMethod.toString().lastIndexOf(".");
 //			log.info("\t > handler = {}", handlerMethod.toString().substring(index + 1));
-////			if (beanType.isAnnotationPresent(Controller.class)) {
-////				List<Category> parentCategoryList = categoryService.findParentCategoryList();
-////				request.setAttribute("parentCategoryList", parentCategoryList);
-////			}
+//			if (beanType.isAnnotationPresent(Controller.class)) {
+//				List<Category> parentCategoryList = categoryService.findParentCategoryList();
+//				request.setAttribute("parentCategoryList", parentCategoryList);
+//			}
 //		} else {
 //			log.info("\t > handler = {}", handler.getClass().getSimpleName());
 //		}
-		
 		return true;
 	}
 	
@@ -75,24 +74,24 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 		log.info("\t > modelAndView is not null, viewName = {}", viewName);
 		
 		if (viewName == null) {
-			log.info("\t > viewName is null, NO top menu");
+			log.info("\t > viewName is null");
 			return;
 		}
 		
 		if (viewName.startsWith(FORWARD_URL_PREFIX)) {
-			log.info("\t > viewName starts with '{}', NO top menu", FORWARD_URL_PREFIX);
+			log.info("\t > viewName starts with '{}'", FORWARD_URL_PREFIX);
 			return;	
 		}
 		
 		if (viewName.startsWith(REDIRECT_URL_PREFIX)) 	{
-			log.info("\t > viewName starts with '{}', NO top menu", REDIRECT_URL_PREFIX);
+			log.info("\t > viewName starts with '{}'", REDIRECT_URL_PREFIX);
 			return;
 		}
 		
 		String[] beanNames = applicationContext.getBeanNamesForType(MappingJackson2JsonView.class);
 		for (String beanName : beanNames) {
 			if (viewName.equals(beanName)) {
-				log.info("\t > viewName equals MappingJackson2JsonView's beanName({}), NO top menu", beanName);
+				log.info("\t > viewName equals MappingJackson2JsonView's beanName({})", beanName);
 				return;
 			}
 		}
