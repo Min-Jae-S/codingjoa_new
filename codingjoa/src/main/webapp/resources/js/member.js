@@ -174,7 +174,7 @@ let memberService = (function() {
 	
 	function checkPassword(obj, callback) {
 		console.log("## Check Password");
-		let url = contextPath + "/api/member/password/check";
+		let url = contextPath + "/api/member/check/password";
 		console.log("> url = '%s'", url);
 		console.log("> obj = %s", JSON.stringify(obj, null, 2));
 		

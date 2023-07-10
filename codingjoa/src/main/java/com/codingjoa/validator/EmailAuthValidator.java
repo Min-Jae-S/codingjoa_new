@@ -254,18 +254,6 @@ public class EmailAuthValidator implements Validator {
 		
 	}
 	
-//	private void valdiateCommon(String memberEmail, Errors errors) {
-//		if (!StringUtils.hasText(memberEmail)) {
-//			errors.rejectValue("memberEmail", "NotBlank");
-//			return;
-//		} 
-//		
-//		if (!Pattern.matches(EMAIL_REGEXP, memberEmail)) {
-//			errors.rejectValue("memberEmail", "Pattern");
-//			return;
-//		}
-//	}
-	
 	private String getCurrentId() {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 

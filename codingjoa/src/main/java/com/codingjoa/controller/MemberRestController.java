@@ -84,7 +84,7 @@ public class MemberRestController {
 		binder.addValidators(passwordValidator);
 	}
 
-	@PostMapping("/email/check")
+	@PostMapping("/check/email")
 	public ResponseEntity<Object> checkEmail(@RequestBody @Valid EmailAuthDto emailAuthDto) {
 		log.info("## checkEmail");
 		log.info("\t > {}", emailAuthDto);
