@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.codingjoa.dto.AddrDto;
 import com.codingjoa.dto.AgreeDto;
@@ -163,12 +164,13 @@ public class MemberRestController {
 	
 	@PutMapping("/password")
 	public ResponseEntity<Object> updatePassword(@RequestBody @Valid PasswordDto passwordDto, 
-			@AuthenticationPrincipal UserDetailsDto principal) {
+			@AuthenticationPrincipal UserDetailsDto principal, HttpSession session) {
 		log.info("## updatePassword");
 		log.info("\t > {}", passwordDto);
 		
 		memberService.updatePassword(passwordDto.getMemberPassword(), principal.getMember().getMemberIdx());
 		resetAuthentication(principal.getMember().getMemberId());
+		session.setAttribute("PASSWORD_AUTHENTICATION", false);
 		
 		return ResponseEntity.ok(SuccessResponse.create().code("success.UpdatePassword"));
 	}

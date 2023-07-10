@@ -26,13 +26,13 @@ public class PasswordAuthenticationInterceptor implements HandlerInterceptor {
 		HttpSession session = request.getSession();
 		Boolean passwordAuthentication = (Boolean) session.getAttribute("PASSWORD_AUTHENTICATION");
 		if (passwordAuthentication == null) {
-			log.info("\t > NO PASSWORD_AUTHENTICATION");
+			log.info("\t > NO PASSWORD_AUTHENTICATION ATTRIBUTE");
 			makeResponse(request, response);
 			return false;
 		}
 		
 		if (!passwordAuthentication) {
-			log.info("\t > PASSWORD IS NOT AUTHENTICATED");
+			log.info("\t > NOT AUTHENTICATED");
 			makeResponse(request, response);
 			return false;
 		}

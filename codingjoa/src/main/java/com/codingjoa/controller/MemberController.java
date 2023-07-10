@@ -4,7 +4,6 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -104,10 +103,8 @@ public class MemberController {
 	}
 
 	@GetMapping("/account/updatePassword")
-	public String updatePassword(HttpSession session) {
+	public String updatePassword() {
 		log.info("## updatePassword");
-		session.setAttribute("PASSWORD_AUTHENTICATION", false);
-		
 		return "member/update-password";
 	}
 	

@@ -117,7 +117,7 @@ public class ServletConfig implements WebMvcConfigurer {
 				.addPathPatterns("/**")
 				.excludePathPatterns("/resources/**", "/upload/**", "/api/**");
 		registry.addInterceptor(passwordAuthenticationInterceptor())
-				.addPathPatterns("/member/account/updatePassword");
+				.addPathPatterns("/member/account/updatePassword", "/api/member/password");
 	}
 
 	@Bean
