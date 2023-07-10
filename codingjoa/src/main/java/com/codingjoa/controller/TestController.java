@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
+import com.codingjoa.response.ErrorResponse;
 import com.codingjoa.service.TestTxService;
 import com.codingjoa.test.Sample;
 import com.codingjoa.test.Test;
@@ -273,18 +275,35 @@ public class TestController {
 	// *********************************************************
 	
 	@ResponseBody
-	@GetMapping("/sample1")
-	public ResponseEntity<Object> sample1() {
-		log.info("## sample1");
+	@GetMapping("/success1")
+	public ResponseEntity<Object> success1() {
+		log.info("## success1");
 		Sample sample = new Sample("a", "b", "c");
 		return ResponseEntity.ok(sample);
 	}
 
 	@ResponseBody
-	@GetMapping("/sample2")
-	public Sample sample2() {
-		log.info("## sample2");
+	@GetMapping("/success2")
+	public Sample success2() {
+		log.info("## success2");
 		Sample sample = new Sample("a", "b", "c");
 		return sample;
+	}
+
+	@ResponseBody
+	@GetMapping("/error1")
+	public ResponseEntity<Object> error1() {
+		log.info("## error1");
+		ErrorResponse errorResponse = ErrorResponse.create().errorMessage("error");
+		return ResponseEntity.badRequest().body(errorResponse);
+	}
+	
+	@ResponseBody
+	@GetMapping("/error2")
+	public ErrorResponse error2(HttpServletResponse response) {
+		log.info("## error2");
+		response.setStatus(HttpStatus.BAD_REQUEST.value());
+		ErrorResponse errorResponse = ErrorResponse.create().errorMessage("error");
+		return errorResponse;
 	}
 }

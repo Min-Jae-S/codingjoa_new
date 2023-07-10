@@ -28,23 +28,56 @@
 <div>
 	<p>TEST</p>
 	<div class="d-flex justify-content-center">
-		<button class="btn btn-primary mx-2" type="button" onclick="sample1()">sample1</button>
-		<button class="btn btn-warning mx-2" type="button" onclick="sample2()">sample2</button>
+		<button class="btn btn-primary mx-2" type="button" onclick="success1()">success1</button>
+		<button class="btn btn-primary mx-2" type="button" onclick="success2()">success2</button>
+	</div>
+	<div class="d-flex justify-content-center">
+		<button class="btn btn-danger mx-2" type="button" onclick="error1()">error1</button>
+		<button class="btn btn-danger mx-2" type="button" onclick="error2()">error2</button>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 <script>
-	function sample1() {
-		console.log('## sample1');
+	function success1() {
+		console.log('## success1');
 		console.log('## return ResponseEntity.ok(new Sample("a", "b", "c"))');
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/sample1",
+			url : "${contextPath}/test/success1",
 			dataType : "json",
 			success : function(result) {
 				console.log("## success");
 				console.log(result);
 				console.log("## isJSON = %s", isJSON(result));
+			}
+		});
+	}
+
+	function success2() {
+		console.log('## success2');
+		console.log('## return new Sample("a", "b", "c")');
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/success2",
+			dataType : "json",
+			success : function(result) {
+				console.log("## success");
+				console.log(result);
+				console.log("## isJSON = %s", isJSON(result));
+			}
+		});
+	}
+	
+	function error1() {
+		console.log('## error1');
+		console.log('## return ResponseEntity.badRequest().body(errorResponse)');
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/error1",
+			dataType : "json",
+			success : function(reuslt) {
+				console.log("## success");
+				console.log(result);
 			},
 			error : function(jqXHR) {
 				console.log("## error");
@@ -53,17 +86,16 @@
 		});
 	}
 
-	function sample2() {
-		console.log('## sample2');
-		console.log('## return new Sample("a", "b", "c")');
+	function error2() {
+		console.log('## error2');
+		console.log('## return ErrorResponse');
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/sample2",
+			url : "${contextPath}/test/error2",
 			dataType : "json",
-			success : function(result) {
+			success : function(reuslt) {
 				console.log("## success");
 				console.log(result);
-				console.log("## isJSON = %s", isJSON(result));
 			},
 			error : function(jqXHR) {
 				console.log("## error");
