@@ -221,23 +221,27 @@ let memberService = (function() {
 			dataType : "json",
 			success : function(result) {
 				console.log("## Success Response");
-				console.log(JSON.stringify(result, null, 2));
-				callback(result);
+				console.log(result);
+//				console.log("## Success Response");
+//				console.log(JSON.stringify(result, null, 2));
+//				callback(result);
 			},
 			error : function(jqXHR) {
-				let errorResponse = JSON.parse(jqXHR.responseText);
 				console.log("## Error Response");
-				console.log(JSON.stringify(errorResponse, null, 2));
-				$(".error").remove();
-				
-				if (jqXHR.status == 422) {
-					$.each(errorResponse.errorMap, function(errorField, errorMessage) {
-						$("#" + errorField).closest("dd")
-							.after("<dd id='" + errorField + ".errors' class='error'>" + errorMessage + "</dd>");
-					});
-				} else {
-					alert(errorResponse.errorMessage);
-				}
+				console.log(jqXHR);
+//				let errorResponse = JSON.parse(jqXHR.responseText);
+//				console.log("## Error Response");
+//				console.log(JSON.stringify(errorResponse, null, 2));
+//				$(".error").remove();
+//				
+//				if (jqXHR.status == 422) {
+//					$.each(errorResponse.errorMap, function(errorField, errorMessage) {
+//						$("#" + errorField).closest("dd")
+//							.after("<dd id='" + errorField + ".errors' class='error'>" + errorMessage + "</dd>");
+//					});
+//				} else {
+//					alert(errorResponse.errorMessage);
+//				}
 			}
 		});
 	}

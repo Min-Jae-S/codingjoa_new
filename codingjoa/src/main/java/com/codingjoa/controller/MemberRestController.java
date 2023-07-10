@@ -221,6 +221,7 @@ public class MemberRestController {
 	public ResponseEntity<Object> test(HttpSession session) {
 		log.info("## test");
 		session.removeAttribute("PASSWORD_AUTHENTICATION");
+		
 		return ResponseEntity.ok(SuccessResponse.create().message("success"));
 	}
 	

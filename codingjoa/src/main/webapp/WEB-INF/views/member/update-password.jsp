@@ -114,14 +114,14 @@
 			console.log("## testBtn click");
 			$.ajax({
 				type : "GET",
-				url : "${contextPath}/api/member/remove",
+				url : "${contextPath}/api/member/test",
 				success : function(result) {
 					console.log("## Success Response");
-					console.log(JSON.stringify(result, null, 2));
+					console.log(result);
 				},
 				error : function(jqXHR) {
 					console.log("## Error Response");
-					console.log(JSON.stringify(jqXHR, null, 2));
+					console.log(jqXHR);
 				}
 			});
 		});
