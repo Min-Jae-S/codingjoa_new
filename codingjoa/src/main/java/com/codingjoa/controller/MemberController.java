@@ -108,6 +108,13 @@ public class MemberController {
 		return "member/update-password";
 	}
 	
+	/*
+	 * findAccount
+	 * findAccountResult
+	 * findPassword
+	 * findPasswordResult
+	 */
+	
 	@GetMapping("/findAccount")
 	public String findAccount() {
 		log.info("## findAccount");

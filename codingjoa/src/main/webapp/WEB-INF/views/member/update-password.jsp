@@ -110,22 +110,6 @@
 
 <script>
 	$(function() {
-		$("#testBtn").on("click", function() {
-			console.log("## testBtn click");
-			$.ajax({
-				type : "GET",
-				url : "${contextPath}/api/member/test",
-				success : function(result) {
-					console.log("## Success Response");
-					console.log(result);
-				},
-				error : function(jqXHR) {
-					console.log("## Error Response");
-					console.log(jqXHR);
-				}
-			});
-		});
-		
 		$("#updatePasswordBtn").on("click", function() {
 			let obj = {
 				memberPassword : $("#memberPassword").val(),

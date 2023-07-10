@@ -144,12 +144,6 @@ public class MemberRestController {
 		return ResponseEntity.ok(SuccessResponse.create().data(principal.getMember()));
 	}
 	
-	/*
-	 * find-account
-	 * find-password
-	 * reset-password
-	 */
-	
 	@PostMapping("/password/check")
 	public ResponseEntity<Object> checkPassword(@RequestBody @Valid PasswordDto passwordDto, 
 			HttpSession session) {
@@ -173,6 +167,13 @@ public class MemberRestController {
 		
 		return ResponseEntity.ok(SuccessResponse.create().code("success.UpdatePassword"));
 	}
+	
+	/*
+	 * find-account
+	 * find-password
+	 * reset-password
+	 */
+	
 	
 	@PostMapping("/findAccount")
 	public ResponseEntity<Object> findAccount(@RequestBody @Valid EmailAuthDto emailAuthDto) {
@@ -215,14 +216,6 @@ public class MemberRestController {
 		sessionDto.setFindPasswordResult(null);
 		
 		return ResponseEntity.ok(SuccessResponse.create().code("success.ResetPassword"));
-	}
-	
-	@GetMapping("/test")
-	public ResponseEntity<Object> test(HttpSession session) {
-		log.info("## test");
-		session.removeAttribute("PASSWORD_AUTHENTICATION");
-		
-		return ResponseEntity.ok(SuccessResponse.create().message("success"));
 	}
 	
 	private void resetAuthentication(String memberId) {
