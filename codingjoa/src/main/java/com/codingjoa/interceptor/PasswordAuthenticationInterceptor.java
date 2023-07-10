@@ -27,13 +27,18 @@ public class PasswordAuthenticationInterceptor implements HandlerInterceptor {
 		boolean passwordAuthentication = false;
 		HttpSession session = request.getSession(false);
 		if (session == null) {
-			log.info("> session is null");
+			log.info("\t > session is null");
 			passwordAuthentication = false;
 		} else {
-			log.info("> session is not null");
+			log.info("\t > current session");
+			Iterator<String> attributeNames = session.getAttributeNames().asIterator();
+			while (attributeNames.hasNext()) {
+				String attibuteName = attributeNames.next();
+				log.info("\t\t - {} = {}", attibuteName, session.getAttribute(attibuteName));
+			}
 			passwordAuthentication = (boolean) session.getAttribute("PASSWORD_AUTHENTICATION");
 		}
-		log.info("> PASSWORD_AUTHENTICATION = {}", passwordAuthentication);
+		log.info("\t > PASSWORD_AUTHENTICATION = {}", passwordAuthentication);
 		
 		if (passwordAuthentication) {
 			makeResponse(request, response);
