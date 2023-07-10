@@ -92,13 +92,7 @@
 					</dd>
 				</dl>
 				<div class="pt-3">
-					<sec:authorize access="isAuthenticated()">
-						<button type="button" class="btn btn-primary btn-block" id="updatePasswordBtn">확인</button>
-					</sec:authorize>
-					<sec:authorize access="isAnonymous()">
-						<button type="button" class="btn btn-primary btn-block" id="resetPasswordBtn">확인</button>
-					</sec:authorize>
-					<button type="button" class="btn btn-warning btn-block" id="testBtn">test</button>
+					<button type="button" class="btn btn-primary btn-block" id="updatePasswordBtn">확인</button>
 				</div>				
 			</div>
 		</div>
