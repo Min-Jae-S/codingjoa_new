@@ -225,6 +225,7 @@ let memberService = (function() {
 				callback(result);
 			},
 			error : function(jqXHR) {
+				let errorResponse = JSON.parse(jqXHR.responseText);
 				console.log("## Error Response");
 				console.log(JSON.stringify(errorResponse, null, 2));
 				$(".error").remove();

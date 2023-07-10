@@ -27,6 +27,7 @@ let likesService = (function() {
 				let errorResponse = JSON.parse(jqXHR.responseText);
 				console.log("## Error Response");
 				console.log(JSON.stringify(errorResponse, null, 2));
+				
 				if (jqXHR.status == 422) {
 					$.each(errorResponse.errorMap, function(errorField, errorMessage) {
 						alert(errorMessage);
@@ -56,6 +57,7 @@ let likesService = (function() {
 				let errorResponse = JSON.parse(jqXHR.responseText);
 				console.log("## Error Response");
 				console.log(JSON.stringify(errorResponse, null, 2));
+				
 				if (jqXHR.status == 422) {
 					$.each(errorResponse.errorMap, function(errorField, errorMessage) {
 						alert(errorMessage);
@@ -85,6 +87,7 @@ let likesService = (function() {
 				let errorResponse = JSON.parse(jqXHR.responseText);
 				console.log("## Error Response");
 				console.log(JSON.stringify(errorResponse, null, 2));
+				
 				if (jqXHR.status == 422) {
 					$.each(errorResponse.errorMap, function(errorField, errorMessage) {
 						alert(errorMessage);
@@ -114,6 +117,7 @@ let likesService = (function() {
 				let errorResponse = JSON.parse(jqXHR.responseText);
 				console.log("## Error Response");
 				console.log(JSON.stringify(errorResponse, null, 2));
+				
 				if (jqXHR.status == 422) {
 					$.each(errorResponse.errorMap, function(errorField, errorMessage) {
 						alert(errorMessage);
