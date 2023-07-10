@@ -102,8 +102,8 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public boolean isMyPassword(String memberPassword, String memberId) {
-		String encodedPassword = memberMapper.findPasswordById(memberId);
+	public boolean isMyPassword(String memberPassword, Integer memberIdx) {
+		String encodedPassword = memberMapper.findPasswordByIdx(memberIdx);
 		return passwordEncoder.matches(memberPassword, encodedPassword);
 	}
 

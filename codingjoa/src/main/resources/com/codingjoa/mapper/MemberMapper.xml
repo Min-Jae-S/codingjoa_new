@@ -154,13 +154,13 @@
 			member_idx = #{memberIdx}
 	</update>
 	
-	<select id="findPasswordById" parameterType="string" resultType="string">
+	<select id="findPasswordByIdx" parameterType="int" resultType="string">
 		SELECT
 			member_password
 		FROM
 			member
 		WHERE
-			member_id = #{memberId}
+			member_idx = #{memberIdx}
 	</select>
 	
 	<update id="updatePassword" parameterType="map">

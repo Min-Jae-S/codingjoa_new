@@ -32,7 +32,7 @@ public interface MemberMapper {
 	
 	void updateAgree(Member member);
 	
-	String findPasswordById(String memberId);
+	String findPasswordByIdx(Integer memberIdx);
 	
 	void updatePassword(@Param("memberPassword") String memberPassword, @Param("memberId") String memberId);
 	

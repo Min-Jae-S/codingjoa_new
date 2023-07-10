@@ -61,15 +61,11 @@ public class PasswordValidator implements Validator {
 				return;
 			} 
 			
-			if (!memberService.isMyPassword(memberPassword, getCurrentId())) {
+			if (!memberService.isMyPassword(memberPassword, getCurrentIdx())) {
 				errors.rejectValue("memberPassword", "BadCredentials");
 				return;
 			}
-			
-			return;
-		}
-		
-		if (type == Type.UPDATE_PASSWORD) {
+		} else if (type == Type.UPDATE_PASSWORD) {
 			if (!StringUtils.hasText(memberPassword)) {
 				errors.rejectValue("memberPassword", "NotBlank");
 			} else if (!Pattern.matches(PASSWORD_REGEXP, memberPassword)) {
@@ -92,15 +88,12 @@ public class PasswordValidator implements Validator {
 				return;
 			}
 
-			if (memberService.isMyPassword(memberPassword, getCurrentId())) {
+			if (memberService.isMyPassword(memberPassword, getCurrentIdx())) {
 				errors.rejectValue("memberPassword", "NotSafe");
 				return;
 			}
 			
-			return;
-		}
-		
-		if (type == Type.RESET_PASSWORD) {
+		} else if (type == Type.RESET_PASSWORD) {
 			if (!StringUtils.hasText(memberPassword)) {
 				errors.rejectValue("memberPassword", "NotBlank");
 			} else if (!Pattern.matches(PASSWORD_REGEXP, memberPassword)) {
@@ -123,32 +116,29 @@ public class PasswordValidator implements Validator {
 				return;
 			}
 			
-			String memberId = (String) sessionDto.getFindPasswordResult().get("memberId");
-			if (memberService.isMyPassword(memberPassword, memberId)) {
-				errors.rejectValue("memberPassword", "NotSafe");
-				return;
-			}
-			
-			return;
+//			String memberId = (String) sessionDto.getFindPasswordResult().get("memberId");
+//			if (memberService.isMyPassword(memberPassword, memberId)) {
+//				errors.rejectValue("memberPassword", "NotSafe");
+//				return;
+//			}
 		}
 	}
 
-	private String getCurrentId() {
+	private Integer getCurrentIdx() {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
 		if (auth == null) return null;
 
 		Object principal = auth.getPrincipal();
-		String currentId = null;
+		Integer currentIdx = null;
 
 		if (principal instanceof UserDetailsDto) {
 			UserDetailsDto userDetailsDto = (UserDetailsDto) principal;
-			currentId = userDetailsDto.getMember().getMemberId();
+			currentIdx = userDetailsDto.getMember().getMemberIdx();
 		} else if (principal instanceof String) {
 			// principal = anonymousUser
-			currentId = null;
+			currentIdx = null;
 		}
 
-		return currentId;
+		return currentIdx;
 	}
 }

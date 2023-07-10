@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.apache.commons.lang3.RandomStringUtils;
@@ -151,12 +152,12 @@ public class MemberRestController {
 	 */
 	
 	@PostMapping("/password/check")
-	public ResponseEntity<Object> checkPassword(@RequestBody @Valid PasswordDto passwordDto) {
+	public ResponseEntity<Object> checkPassword(@RequestBody @Valid PasswordDto passwordDto, 
+			HttpSession httpSession) {
 		log.info("## checkPassword");
 		log.info("\t > {}", passwordDto);
-		log.info("\t > {}", sessionDto);
 		
-		sessionDto.setCheckPasswordResult(true);
+		httpSession.setAttribute("PASSWORD_AUTHENTICATION", true);
 		
 		return ResponseEntity.ok(SuccessResponse.create().code("success.CheckPassword"));
 	}
