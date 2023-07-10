@@ -109,19 +109,18 @@ public class MemberController {
 	}
 	
 	/*
-	 * findAccount
 	 * findAccountResult
 	 * findPassword
 	 * findPasswordResult
 	 */
 	
-	@GetMapping("/findAccount")
+	@GetMapping("/help/findAccount")
 	public String findAccount() {
 		log.info("## findAccount");
 		return "member/find-account";
 	}
 	
-	@GetMapping("/findAccountResult")
+	@GetMapping("/help/findAccountResult")
 	public String findAccountResult(Model model) {
 		log.info("## findAccountResult");
 		log.info("\t > {}", sessionDto);
@@ -140,7 +139,7 @@ public class MemberController {
 		return "member/find-account-result";
 	}
 	
-	@GetMapping("/findPassword")
+	@GetMapping("/help/findPassword")
 	public String findPassword() {
 		log.info("## findPassword");
 		return "member/find-password";

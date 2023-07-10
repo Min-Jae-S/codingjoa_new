@@ -11,7 +11,7 @@ let memberService = (function() {
 
 	function checkEmail(obj, callback) {
 		console.log("## Check Email");
-		let url = contextPath + "/api/member/email/check";
+		let url = contextPath + "/api/member/check/email";
 		console.log("> url = '%s'", url);
 		console.log("> obj = %s", JSON.stringify(obj, null, 2));
 		
@@ -241,6 +241,42 @@ let memberService = (function() {
 			}
 		});
 	}
+	
+	function findAccount(obj, callback) {
+		console.log("## Find Account");
+		let url = contextPath + "/api/member/find/account";
+		console.log("> url = '%s'", url);
+		console.log("> obj = %s", JSON.stringify(obj, null, 2));
+		
+		$.ajax({
+			type : "POST",
+			url : url,
+			data : JSON.stringify(obj),
+			contentType : "application/json; charset=utf-8",
+			dataType : "json",
+			success : function(result) {
+				console.log("## Success Response");
+				console.log(JSON.stringify(result, null, 2));
+				callback(result);
+			},
+			error : function(jqXHR) {
+				let errorResponse = JSON.parse(jqXHR.responseText);
+				console.log("## Error Response");
+				console.log(JSON.stringify(errorResponse, null, 2));
+				$(".error, .success").remove();
+				
+				if (jqXHR.status == 422) {
+					let errorMap = JSON.parse(jqXHR.responseText).errorMap;
+					$.each(errorMap, function(errorField, errorMessage) {
+						$("#" + errorField).closest("dd")
+							.after("<dd id='" + errorField + ".errors' class='error'>" + errorMessage + "</dd>");
+					});
+				} else {
+					alert(errorResponse.errorMessage);
+				}
+			}
+		});
+	}
 
 	return {
 		checkEmail:checkEmail,
@@ -249,7 +285,8 @@ let memberService = (function() {
 		updateAgree:updateAgree,
 		getCurrentMember:getCurrentMember,
 		checkPassword:checkPassword,
-		updatePassword:updatePassword
+		updatePassword:updatePassword,
+		findAccount:findAccount
 	};
 	
 })();

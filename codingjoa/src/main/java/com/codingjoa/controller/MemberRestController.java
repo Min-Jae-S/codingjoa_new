@@ -144,7 +144,7 @@ public class MemberRestController {
 		return ResponseEntity.ok(SuccessResponse.create().data(principal.getMember()));
 	}
 	
-	@PostMapping("/password/check")
+	@PostMapping("/check/password")
 	public ResponseEntity<Object> checkPassword(@RequestBody @Valid PasswordDto passwordDto, 
 			HttpSession session) {
 		log.info("## checkPassword");
@@ -175,7 +175,7 @@ public class MemberRestController {
 	 */
 	
 	
-	@PostMapping("/findAccount")
+	@PostMapping("/find/account")
 	public ResponseEntity<Object> findAccount(@RequestBody @Valid EmailAuthDto emailAuthDto) {
 		log.info("## findAccount");
 		log.info("\t > {}", emailAuthDto);
