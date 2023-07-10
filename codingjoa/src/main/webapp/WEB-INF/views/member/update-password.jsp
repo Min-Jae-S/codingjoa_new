@@ -141,33 +141,6 @@
 		});
 	});
 	
-	function updatePassword(url, obj) {
-		$.ajax({
-			type : "PUT",
-			url : url,
-			data : JSON.stringify(obj),
-			contentType : "application/json; charset=utf-8",
-			dataType : "json",
-			success : function(result) {
-				console.log(result);
-				alert(result.message);
-				location.href = "${contextPath}/member/security";
-			},
-			error : function(jqXHR) {
-				console.log(jqXHR);
-				//$("#memberPassword\\.errors, #confirmPassword\\.errors").remove();
-				$(".error").remove();
-				
-				if (jqXHR.status == 422) {
-					let errorMap = JSON.parse(jqXHR.responseText).errorMap;
-					$.each(errorMap, function(errorField, errorMessage) {
-						$("#" + errorField).closest("dd").after("<dd id='" + errorField + ".errors' class='error'>" + errorMessage + "</dd>");
-					});
-				}
-			}
-		});
-	}
-	
 	function resetPassword(url, obj) {
 		$.ajax({
 			type : "PUT",
