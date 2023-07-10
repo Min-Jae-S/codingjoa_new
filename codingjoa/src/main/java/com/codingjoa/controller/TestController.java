@@ -278,24 +278,35 @@ public class TestController {
 	@GetMapping("/success1")
 	public ResponseEntity<Object> success1() {
 		log.info("## success1");
-		Sample sample = new Sample("a", "b", "c");
-		return ResponseEntity.ok(sample);
+		return ResponseEntity.ok(new Sample("a", "b", "c"));
 	}
 
 	@ResponseBody
 	@GetMapping("/success2")
 	public Sample success2() {
 		log.info("## success2");
-		Sample sample = new Sample("a", "b", "c");
-		return sample;
+		return new Sample("a", "b", "c");
+	}
+
+	@ResponseBody
+	@GetMapping("/success3")
+	public ResponseEntity<Object> success3() {
+		log.info("## success3");
+		return ResponseEntity.ok("SUCCESS");
+	}
+
+	@ResponseBody
+	@GetMapping("/success4")
+	public String success4() {
+		log.info("## success4");
+		return "SUCCESS";
 	}
 
 	@ResponseBody
 	@GetMapping("/error1")
 	public ResponseEntity<Object> error1() {
 		log.info("## error1");
-		ErrorResponse errorResponse = ErrorResponse.create().errorMessage("error");
-		return ResponseEntity.badRequest().body(errorResponse);
+		return ResponseEntity.badRequest().body(ErrorResponse.create().errorMessage("ERROR"));
 	}
 	
 	@ResponseBody
@@ -303,7 +314,21 @@ public class TestController {
 	public ErrorResponse error2(HttpServletResponse response) {
 		log.info("## error2");
 		response.setStatus(HttpStatus.BAD_REQUEST.value());
-		ErrorResponse errorResponse = ErrorResponse.create().errorMessage("error");
-		return errorResponse;
+		return ErrorResponse.create().errorMessage("ERROR");
+	}
+
+	@ResponseBody
+	@GetMapping("/error3")
+	public ResponseEntity<Object> error3() {
+		log.info("## error3");
+		return ResponseEntity.badRequest().body("ERROR");
+	}
+
+	@ResponseBody
+	@GetMapping("/error4")
+	public String error4(HttpServletResponse response) {
+		log.info("## error4");
+		response.setStatus(HttpStatus.BAD_REQUEST.value());
+		return "ERROR";
 	}
 }
