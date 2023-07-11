@@ -55,10 +55,7 @@
 			},
 			error : function(jqXHR) {
 				console.log("%c## ERROR","color:red");
-				let errorResponse = parseError(jqXHR);
-				if (errorResponse != null) {
-					// errorMap, errorMessage
-				}
+				proccessError(jqXHR);
 			}
 		});
 	}
@@ -82,10 +79,7 @@
 			},
 			error : function(jqXHR) {
 				console.log("%c## ERROR","color:red");
-				let errorResponse = parseError(jqXHR);
-				if (errorResponse != null) {
-					// errorMap, errorMessage
-				}
+				proccessError(jqXHR);
 			}
 		});
 	}
@@ -103,10 +97,7 @@
 			},
 			error : function(jqXHR) {
 				console.log("%c## ERROR","color:red");
-				let errorResponse = parseError(jqXHR);
-				if (errorResponse != null) {
-					// errorMap, errorMessage
-				}
+				proccessError(jqXHR);
 			}
 		});
 	}
@@ -125,9 +116,7 @@
 			error : function(jqXHR) {
 				console.log("%c## ERROR","color:red");
 				let errorResponse = parseError(jqXHR);
-				if (errorResponse != null) {
-					// errorMap, errorMessage
-				}
+				proccessError(jqXHR);
 			}
 		});
 	}
@@ -146,9 +135,7 @@
 			error : function(jqXHR) {
 				console.log("%c## ERROR","color:red");
 				let errorResponse = parseError(jqXHR);
-				if (errorResponse != null) {
-					// errorMap, errorMessage
-				}
+				proccessError(jqXHR);
 			}
 		});
 	}
@@ -164,7 +151,7 @@
 			console.log(JSON.stringify(errorResponse, null, 2));
 			return errorResponse;
 		} catch(e) {
-			console.log("Unexcepected Error");
+			console.log("> Unexcepected Error");
 			return null;
 		}
 	}
@@ -172,18 +159,16 @@
 	function proccessError(jqXHR) {
 		try {
 			let errorResponse = JSON.parse(jqXHR.responseText);
-			console.log(JSON.stringify(errorResponse, null, 2));
-			
 			let errorMap = errorResponse.errorMap;
 			if (errorMap != null) {
 				$.each(errorMap, function(errorField, errorMessage) {
-					console.log("> %s / %s", errorField, errorMessage);	
+					console.log("\t > errorField = %s, errorMessage = %s", errorField, errorMessage);	
 				});
 			} else {
-				console.log("> %s", errorResponse.errorMessage);
+				console.log("\t > errorMessage = %s", errorResponse.errorMessage);
 			}
 		} catch(e) {
-			console.log("> Unexcepected Error");
+			console.log("\t > Unexcepected Error");
 		}
 	}
 </script>
