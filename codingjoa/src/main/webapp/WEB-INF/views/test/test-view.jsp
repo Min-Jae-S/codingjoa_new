@@ -55,7 +55,7 @@
 			},
 			error : function(jqXHR) {
 				console.log("%c## ERROR","color:red");
-				console.log(jqXHR);
+				processError(jqXHR);
 			}
 		});
 	}
@@ -79,7 +79,7 @@
 			},
 			error : function(jqXHR) {
 				console.log("%c## ERROR","color:red");
-				console.log(jqXHR);
+				processError(jqXHR);
 			}
 		});
 	}
@@ -97,7 +97,7 @@
 			},
 			error : function(jqXHR) {
 				console.log("%c## ERROR","color:red");
-				console.log(jqXHR);
+				processError(jqXHR);
 			}
 		});
 	}
@@ -115,7 +115,7 @@
 			},
 			error : function(jqXHR) {
 				console.log("%c## ERROR","color:red");
-				console.log(jqXHR);
+				processError(jqXHR);
 			}
 		});
 	}
@@ -133,7 +133,7 @@
 			},
 			error : function(jqXHR) {
 				console.log("%c## ERROR","color:red");
-				console.log(jqXHR);
+				processError(jqXHR);
 			}
 		});
 	}
@@ -150,6 +150,29 @@
 	function colored_console() {
 		console.log("%c## SUCCESS","color:green;background-color:#dcedc8");
 		console.log("%c## ERROR","color:red;background-color:#ffe6e6");
+	}
+	
+	function processError(jqXHR) {
+		console.log(jqXHR);
+		try {
+			let errorResponse = JSON.parse(jqXHR.responseText);
+			console.log("## errorResponse is not null");
+			console.log(JSON.stringify(errorResponse, null, 2));
+			
+			let errorMap = errorResponse.errorMap;
+			if (errorMap != null) {
+				console.log("> errorMap is not null");
+				$.each(errorMap, function(errorField, errorMessage) {
+					console.log("> errorField = %s, errorMessage = %s", errorField, errorMessage);
+				});
+			} else {
+				console.log("> errorMap is null");
+				console.log("> %s", errorResponse.errorMessage);
+			}
+		} catch(e) {
+			console.log("## errorResponse is null");
+			console.log("> %s", e);
+		}
 	}
 </script>
 </body>
