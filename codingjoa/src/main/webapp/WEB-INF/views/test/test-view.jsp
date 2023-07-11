@@ -32,18 +32,21 @@
 <div>
 	<p>TEST</p>
 	<div class="d-flex justify-content-center">
-		<button class="btn btn-warning mx-3" onclick="test1()">test1</button>
-		<button class="btn btn-warning mx-3" onclick="test2()">test2</button>
-		<button class="btn btn-warning mx-3" onclick="test3()">test3</button>
-		<button class="btn btn-warning mx-3" onclick="test4()">test4</button>
+		<button class="btn btn-danger mx-3" onclick="test1()">test1</button>
+		<button class="btn btn-danger mx-3" onclick="test2()">test2</button>
+		<button class="btn btn-danger mx-3" onclick="test3()">test3</button>
+		<button class="btn btn-primary mx-3" onclick="test4()">test4</button>
+		<button class="btn btn-primary mx-3" onclick="test5()">test5</button>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 <script>
 	function test1() {
+		let url = "${contextPath}/test/test1";
+		console.log("## url = %s", url);
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/test1",
+			url : url,
 			dataType : "json",
 			success : function(result) {
 				console.log("%c## SUCCESS","color:green");
@@ -57,9 +60,11 @@
 	}
 
 	function test2() {
+		let url = "${contextPath}/test/test2";
+		console.log("## url = %s", url);
 		$.ajax({
 			type : "POST",
-			url : "${contextPath}/test/test2",
+			url : url,
 			data : JSON.stringify({
 				param1 : "",
 				param2 : -1,
@@ -79,9 +84,11 @@
 	}
 
 	function test3() {
+		let url = "${contextPath}/test/aaaa";
+		console.log("## url = %s", url);
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/aaaa",
+			url : url,
 			dataType : "json",
 			success : function(result) {
 				console.log("%c## SUCCESS","color:green");
@@ -95,9 +102,11 @@
 	}
 
 	function test4() {
+		let url = "${contextPath}/test/test4";
+		console.log("## url = %s", url);
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/test4",
+			url : url,
 			dataType : "json",
 			success : function(result) {
 				console.log("%c## SUCCESS","color:green");
@@ -110,10 +119,12 @@
 		});
 	}
 
-	function test4() {
+	function test5() {
+		let url = "${contextPath}/test/test5";
+		console.log("## url = %s", url);
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/test5",
+			url : url,
 			dataType : "json",
 			success : function(result) {
 				console.log("%c## SUCCESS","color:green");
