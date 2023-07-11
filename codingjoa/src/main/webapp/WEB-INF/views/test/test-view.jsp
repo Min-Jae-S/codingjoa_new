@@ -55,7 +55,10 @@
 			},
 			error : function(jqXHR) {
 				console.log("%c## ERROR","color:red");
-				processError(jqXHR);
+				let errorResponse = parseError(jqXHR);
+				if (errorResponse != null) {
+					// errorMap, errorMessage
+				}
 			}
 		});
 	}
@@ -79,7 +82,10 @@
 			},
 			error : function(jqXHR) {
 				console.log("%c## ERROR","color:red");
-				processError(jqXHR);
+				let errorResponse = parseError(jqXHR);
+				if (errorResponse != null) {
+					// errorMap, errorMessage
+				}
 			}
 		});
 	}
@@ -97,7 +103,10 @@
 			},
 			error : function(jqXHR) {
 				console.log("%c## ERROR","color:red");
-				processError(jqXHR);
+				let errorResponse = parseError(jqXHR);
+				if (errorResponse != null) {
+					// errorMap, errorMessage
+				}
 			}
 		});
 	}
@@ -115,7 +124,10 @@
 			},
 			error : function(jqXHR) {
 				console.log("%c## ERROR","color:red");
-				processError(jqXHR);
+				let errorResponse = parseError(jqXHR);
+				if (errorResponse != null) {
+					// errorMap, errorMessage
+				}
 			}
 		});
 	}
@@ -133,18 +145,12 @@
 			},
 			error : function(jqXHR) {
 				console.log("%c## ERROR","color:red");
-				processError(jqXHR);
+				let errorResponse = parseError(jqXHR);
+				if (errorResponse != null) {
+					// errorMap, errorMessage
+				}
 			}
 		});
-	}
-	
-	function isJSON(data) {
-		try {
-			JSON.parse(data);
-			return true;
-		} catch(e) {
-			return false;
-		}
 	}
 	
 	function colored_console() {
@@ -152,26 +158,32 @@
 		console.log("%c## ERROR","color:red;background-color:#ffe6e6");
 	}
 	
-	function processError(jqXHR) {
-		console.log(jqXHR);
+	function parseError(jqXHR) {
 		try {
 			let errorResponse = JSON.parse(jqXHR.responseText);
-			console.log("## errorResponse is not null");
+			console.log(JSON.stringify(errorResponse, null, 2));
+			return errorResponse;
+		} catch(e) {
+			console.log("Unexcepected Error");
+			return null;
+		}
+	}
+	
+	function proccessError(jqXHR) {
+		try {
+			let errorResponse = JSON.parse(jqXHR.responseText);
 			console.log(JSON.stringify(errorResponse, null, 2));
 			
 			let errorMap = errorResponse.errorMap;
 			if (errorMap != null) {
-				console.log("> errorMap is not null");
 				$.each(errorMap, function(errorField, errorMessage) {
-					console.log("> errorField = %s, errorMessage = %s", errorField, errorMessage);
+					console.log("> %s / %s", errorField, errorMessage);	
 				});
 			} else {
-				console.log("> errorMap is null");
 				console.log("> %s", errorResponse.errorMessage);
 			}
 		} catch(e) {
-			console.log("## errorResponse is null");
-			console.log("> %s", e);
+			console.log("> Unexcepected Error");
 		}
 	}
 </script>
