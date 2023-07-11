@@ -37,11 +37,12 @@
 		<button class="btn btn-danger mx-3" onclick="test3()">test3</button>
 		<button class="btn btn-primary mx-3" onclick="test4()">test4</button>
 		<button class="btn btn-primary mx-3" onclick="test5()">test5</button>
+		<button class="btn mx-3" onclick="colored_console()">console</button>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 <script>
-	function test1() {
+	function test1() { // errorResponse(errorMap=null, errorMeesage=OK)
 		let url = "${contextPath}/test/test1";
 		console.log("## url = %s", url);
 		$.ajax({
@@ -59,7 +60,7 @@
 		});
 	}
 
-	function test2() {
+	function test2() { // errorResonse(errorMap=OK, errorMeesage=null)
 		let url = "${contextPath}/test/test2";
 		console.log("## url = %s", url);
 		$.ajax({
@@ -83,7 +84,7 @@
 		});
 	}
 
-	function test3() {
+	function test3() { // no errorResponse
 		let url = "${contextPath}/test/aaaa";
 		console.log("## url = %s", url);
 		$.ajax({
@@ -107,9 +108,9 @@
 		$.ajax({
 			type : "GET",
 			url : url,
-			dataType : "json",
+			//dataType : "json",
 			success : function(result) {
-				console.log("%c## SUCCESS","color:green");
+				console.log("%c## SUCCESS","color:blue");
 				console.log(result);
 			},
 			error : function(jqXHR) {
@@ -127,7 +128,7 @@
 			url : url,
 			dataType : "json",
 			success : function(result) {
-				console.log("%c## SUCCESS","color:green");
+				console.log("%c## SUCCESS","color:blue");
 				console.log(result);
 			},
 			error : function(jqXHR) {
@@ -144,6 +145,11 @@
 		} catch(e) {
 			return false;
 		}
+	}
+	
+	function colored_console() {
+		console.log("%c## SUCCESS","color:green;background-color:#dcedc8");
+		console.log("%c## ERROR","color:red;background-color:#ffe6e6");
 	}
 </script>
 </body>
