@@ -1,66 +1,38 @@
 package com.codingjoa.controller;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
-import com.codingjoa.response.ErrorResponse;
+import com.codingjoa.exception.ExpectedException;
 import com.codingjoa.service.TestTxService;
-import com.codingjoa.test.Sample;
 import com.codingjoa.test.Test;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RequestMapping("/test")
-@Controller
+//@Controller
+@RestController
 public class TestController {
 	
 	@RequestMapping("/test0")
-	@ResponseBody
-	public Object test0(String param1, String param2) {
-		log.info("## test0 called...");
-		log.info("\t > param1 = {}, param2 = {}", param1, param2);
-
-		Map<String, String> map = new HashMap<>();
-		map.put("param1", param1);
-		map.put("param2", param2);
-		return map;
-	}
-	
-	@RequestMapping("/test1")
-	public String test1(String param1) {
-		log.info("## test1 called...");
-		log.info("\t > param1 = {}", param1);
-		
-		return "forward:/test/test2";
-	}
-	
-	@ResponseBody
-	@RequestMapping("/test2")
-	public String test2() {
-		log.info("## test2 called...");
-		return "test2";
-	}
-	
-	@RequestMapping("/test3")
 	public void test3(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		log.info("## test3 called...");
+		log.info("## test0 called...");
 		request.getRequestDispatcher("/test/test2").forward(request, response);
 		
 		/*
@@ -89,7 +61,6 @@ public class TestController {
 	@RequestMapping("/testVoid")
 	public void testVoid(Model model) {
 		log.info("## testVoid called...");
-		
 		model.addAttribute("test", "test");
 	}
 	
@@ -97,7 +68,6 @@ public class TestController {
 	public String testView(Model model) {
 		log.info("## testView called...");
 		model.addAttribute("test", new Test());
-		
 		return "test/test-view";
 	}
 	
@@ -105,13 +75,11 @@ public class TestController {
 	public ModelAndView testMavView(Model model) {
 		log.info("## testMavView called...");
 		model.addAttribute("test", new Test());
-		
 		return new ModelAndView("test/test-view");
 	}
 
 	@RequestMapping("/testForward")
 	public String testForward() {
-		log.info("## testForward called...");
 		
 		return "forward:/test/testView";
 	}
@@ -119,21 +87,18 @@ public class TestController {
 	@RequestMapping("/testMavForward")
 	public ModelAndView testMavForward() {
 		log.info("## testMavForward called...");
-		
 		return new ModelAndView("forward:/test/testView");
 	}
 	
 	@RequestMapping("/testRedirect")
 	public String testRedirect() {
 		log.info("## testRedirect called...");
-		
 		return "redirect:/test/testView";
 	}
 
 	@RequestMapping("/testMavRedirect")
 	public ModelAndView testMavRedirect() {
 		log.info("## testMavRedirect called...");
-		
 		return new ModelAndView("redirect:/test/testView");
 	}
 
@@ -141,7 +106,6 @@ public class TestController {
 	@RequestMapping("/testString")
 	public String testString() {
 		log.info("## testString called...");
-		
 		return "test";
 	}
 	
@@ -149,10 +113,8 @@ public class TestController {
 	@RequestMapping("/testMavString")
 	public ModelAndView testMavString() {
 		log.info("## testMavString called...");
-		
 		ModelAndView mav = new ModelAndView("jsonView");
 		mav.addObject("test");
-		
 		return mav;
 	}
 
@@ -160,7 +122,6 @@ public class TestController {
 	@RequestMapping("/testJson")
 	public ResponseEntity<Object> testJson() {
 		log.info("## testJson called...");
-		
 		return ResponseEntity.ok(new Test());
 	}
 
@@ -168,24 +129,20 @@ public class TestController {
 	@RequestMapping("/testMavJson")
 	public ModelAndView testMavJson() {
 		log.info("## testMavJson called...");
-		
 		ModelAndView mav = new ModelAndView("jsonView");
 		mav.addObject("test", new Test());
-		
 		return mav;
 	}
 	
 	@RequestMapping("/testNoJsp")
 	public String testNoJsp() {
 		log.info("## testNoJsp called...");
-		
 		return "test/testNoJsp";
 	}
 	
 	@RequestMapping("/testNull1")
 	public String testNull1() {
 		log.info("## testNull1 called...");
-		
 		return null;
 	}
 	
@@ -194,7 +151,6 @@ public class TestController {
 		log.info("## testNull2 called...");
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName(null);
-		
 		return mav;
 	}
 
@@ -203,7 +159,6 @@ public class TestController {
 		log.info("## testNull3 called...");
 		ModelAndView mav = new ModelAndView();
 		mav.setView(new MappingJackson2JsonView());
-		
 		return mav;
 	}
 	
@@ -252,7 +207,7 @@ public class TestController {
 	
 
 	// *********************************************************
-	// 		Transaction
+	// 			Transaction
 	// *********************************************************
 	
 	@Autowired
@@ -273,62 +228,23 @@ public class TestController {
 	// *********************************************************
 	// 	  return ResponseEntity.ok(Object) vs return Object 
 	// *********************************************************
+
+	// *********************************************************
+	// 	  javascript ajax error 
+	// *********************************************************
 	
 	@ResponseBody
-	@GetMapping("/success1")
-	public ResponseEntity<Object> success1() {
-		log.info("## success1");
-		return ResponseEntity.ok(new Sample("a", "b", "c"));
+	@GetMapping("/test1")
+	public ResponseEntity<Object> test1() {
+		log.info("## test1");
+		throw new ExpectedException("ERROR");
 	}
 
 	@ResponseBody
-	@GetMapping("/success2")
-	public Sample success2() {
-		log.info("## success2");
-		return new Sample("a", "b", "c");
-	}
-
-	@ResponseBody
-	@GetMapping("/success3")
-	public ResponseEntity<Object> success3() {
-		log.info("## success3");
+	@PostMapping("/test2")
+	public ResponseEntity<Object> test2(@Valid @RequestBody Test test) {
+		log.info("## test2");
 		return ResponseEntity.ok("SUCCESS");
 	}
-
-	@ResponseBody
-	@GetMapping("/success4")
-	public String success4() {
-		log.info("## success4");
-		return "SUCCESS";
-	}
-
-	@ResponseBody
-	@GetMapping("/error1")
-	public ResponseEntity<Object> error1() {
-		log.info("## error1");
-		return ResponseEntity.badRequest().body(ErrorResponse.create().errorMessage("ERROR"));
-	}
 	
-	@ResponseBody
-	@GetMapping("/error2")
-	public ErrorResponse error2(HttpServletResponse response) {
-		log.info("## error2");
-		response.setStatus(HttpStatus.BAD_REQUEST.value());
-		return ErrorResponse.create().errorMessage("ERROR");
-	}
-
-	@ResponseBody
-	@GetMapping("/error3")
-	public ResponseEntity<Object> error3() {
-		log.info("## error3");
-		return ResponseEntity.badRequest().body("ERROR");
-	}
-
-	@ResponseBody
-	@GetMapping("/error4")
-	public String error4(HttpServletResponse response) {
-		log.info("## error4");
-		response.setStatus(HttpStatus.BAD_REQUEST.value());
-		return "ERROR";
-	}
 }

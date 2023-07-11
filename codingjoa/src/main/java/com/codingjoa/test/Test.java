@@ -14,14 +14,14 @@ import lombok.extern.slf4j.Slf4j;
 @Getter @ToString
 public class Test {
 	
-	@NotEmpty
+	@NotEmpty(message = "NOT EMPTY")
 	private String param1;
 	
 	@AnnoTest
-	@Positive
+	@Positive(message = "POSITIVE")
 	private int param2;
 	
-	@BoardCategoryCode
+	@BoardCategoryCode(message = "BOARD CATEGORYCODE")
 	private int param3;
 	
 	public Test() {

@@ -31,26 +31,18 @@
 <c:import url="/WEB-INF/views/include/top-menu.jsp"/>
 <div>
 	<p>TEST</p>
-	<div class="d-flex justify-content-center mb-4">
-		<button class="btn btn-primary mx-2" type="button" onclick="success1()">success1</button>
-		<button class="btn btn-primary mx-2" type="button" onclick="success2()">success2</button>
-		<button class="btn btn-primary mx-2" type="button" onclick="success3()">success3</button>
-		<button class="btn btn-primary mx-2" type="button" onclick="success4()">success4</button>
-	</div>
 	<div class="d-flex justify-content-center">
-		<button class="btn btn-danger mx-2" type="button" onclick="error1()">error1</button>
-		<button class="btn btn-danger mx-2" type="button" onclick="error2()">error2</button>
-		<button class="btn btn-danger mx-2" type="button" onclick="error3()">error3</button>
-		<button class="btn btn-danger mx-2" type="button" onclick="error4()">error4</button>
+		<button class="btn btn-warning mx-3" onclick="test1()">test1</button>
+		<button class="btn btn-warning mx-3" onclick="test2()">test2</button>
+		<button class="btn btn-warning mx-3" onclick="test3()">test3</button>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 <script>
-	function success1() {
-		console.log('## success1');
+	function test1() {
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/success1",
+			url : "${contextPath}/test/test1",
 			dataType : "json",
 			success : function(result) {
 				console.log(result);
@@ -61,26 +53,16 @@
 		});
 	}
 
-	function success2() {
-		console.log('## success2');
+	function test2() {
 		$.ajax({
-			type : "GET",
-			url : "${contextPath}/test/success2",
-			dataType : "json",
-			success : function(result) {
-				console.log(result);
-			},
-			error : function(jqXHR) {
-				console.log(jqXHR);
-			}
-		});
-	}
-	
-	function success3() {
-		console.log('## success3');
-		$.ajax({
-			type : "GET",
-			url : "${contextPath}/test/success3",
+			type : "POST",
+			url : "${contextPath}/test/test2",
+			data : JSON.stringify({
+				param1 : "",
+				param2 : -1,
+				param3 : 9999
+			}),
+			contentType : "application/json; charset=utf-8",
 			dataType : "json",
 			success : function(result) {
 				console.log(result);
@@ -91,73 +73,12 @@
 		});
 	}
 
-	function success4s() {
-		console.log('## success4');
+	function test3() {
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/success4",
+			url : "${contextPath}/test/aaaa",
 			dataType : "json",
 			success : function(result) {
-				console.log(result);
-			},
-			error : function(jqXHR) {
-				console.log(jqXHR);
-			}
-		});
-	}
-	
-	function error1() {
-		console.log('## error1');
-		$.ajax({
-			type : "GET",
-			url : "${contextPath}/test/error1",
-			dataType : "json",
-			success : function(reuslt) {
-				console.log(result);
-			},
-			error : function(jqXHR) {
-				console.log(jqXHR);
-			}
-		});
-	}
-
-	function error2() {
-		console.log('## error2');
-		$.ajax({
-			type : "GET",
-			url : "${contextPath}/test/error2",
-			dataType : "json",
-			success : function(reuslt) {
-				console.log(result);
-			},
-			error : function(jqXHR) {
-				console.log(jqXHR);
-			}
-		});
-	}
-	
-	function error3() {
-		console.log('## error3');
-		$.ajax({
-			type : "GET",
-			url : "${contextPath}/test/error3",
-			dataType : "json",
-			success : function(reuslt) {
-				console.log(result);
-			},
-			error : function(jqXHR) {
-				console.log(jqXHR);
-			}
-		});
-	}
-
-	function error4() {
-		console.log('## error4');
-		$.ajax({
-			type : "GET",
-			url : "${contextPath}/test/error4",
-			dataType : "json",
-			success : function(reuslt) {
 				console.log(result);
 			},
 			error : function(jqXHR) {
