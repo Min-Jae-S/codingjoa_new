@@ -35,6 +35,7 @@
 		<button class="btn btn-warning mx-3" onclick="test1()">test1</button>
 		<button class="btn btn-warning mx-3" onclick="test2()">test2</button>
 		<button class="btn btn-warning mx-3" onclick="test3()">test3</button>
+		<button class="btn btn-warning mx-3" onclick="test4()">test4</button>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
@@ -45,9 +46,11 @@
 			url : "${contextPath}/test/test1",
 			dataType : "json",
 			success : function(result) {
+				console.log("%c## SUCCESS","color:green");
 				console.log(result);
 			},
 			error : function(jqXHR) {
+				console.log("%c## ERROR","color:red");
 				console.log(jqXHR);
 			}
 		});
@@ -65,9 +68,11 @@
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
 			success : function(result) {
+				console.log("%c## SUCCESS","color:green");
 				console.log(result);
 			},
 			error : function(jqXHR) {
+				console.log("%c## ERROR","color:red");
 				console.log(jqXHR);
 			}
 		});
@@ -79,9 +84,43 @@
 			url : "${contextPath}/test/aaaa",
 			dataType : "json",
 			success : function(result) {
+				console.log("%c## SUCCESS","color:green");
 				console.log(result);
 			},
 			error : function(jqXHR) {
+				console.log("%c## ERROR","color:red");
+				console.log(jqXHR);
+			}
+		});
+	}
+
+	function test4() {
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/test4",
+			dataType : "json",
+			success : function(result) {
+				console.log("%c## SUCCESS","color:green");
+				console.log(result);
+			},
+			error : function(jqXHR) {
+				console.log("%c## ERROR","color:red");
+				console.log(jqXHR);
+			}
+		});
+	}
+
+	function test4() {
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/test5",
+			dataType : "json",
+			success : function(result) {
+				console.log("%c## SUCCESS","color:green");
+				console.log(result);
+			},
+			error : function(jqXHR) {
+				console.log("%c## ERROR","color:red");
 				console.log(jqXHR);
 			}
 		});

@@ -255,13 +255,13 @@ let memberService = (function() {
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
 			success : function(result) {
-				console.log("## Success Response");
+				console.log("%c## SUCCESS","color:blue");
 				console.log(JSON.stringify(result, null, 2));
 				callback(result);
 			},
 			error : function(jqXHR) {
 				let errorResponse = JSON.parse(jqXHR.responseText);
-				console.log("## Error Response");
+				console.log("%c## ERROR","color:red");
 				console.log(JSON.stringify(errorResponse, null, 2));
 				$(".error, .success").remove();
 				

@@ -19,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import com.codingjoa.exception.ExpectedException;
+import com.codingjoa.response.SuccessResponse;
 import com.codingjoa.service.TestTxService;
 import com.codingjoa.test.Test;
 
@@ -244,7 +245,21 @@ public class TestController {
 	@PostMapping("/test2")
 	public ResponseEntity<Object> test2(@Valid @RequestBody Test test) {
 		log.info("## test2");
-		return ResponseEntity.ok("SUCCESS");
+		return ResponseEntity.ok("test2");
+	}
+
+	@ResponseBody
+	@GetMapping("/test4")
+	public ResponseEntity<Object> test4() {
+		log.info("## test4");
+		return ResponseEntity.ok("test4");
+	}
+
+	@ResponseBody
+	@GetMapping("/test5")
+	public ResponseEntity<Object> test5() {
+		log.info("## test5");
+		return ResponseEntity.ok(SuccessResponse.create().message("test5"));
 	}
 	
 }
