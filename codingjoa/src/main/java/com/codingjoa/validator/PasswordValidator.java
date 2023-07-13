@@ -46,7 +46,7 @@ public class PasswordValidator implements Validator {
 		PasswordDto passwordDto = (PasswordDto) target;
 		
 		/*
-		 * BEFORE_UPDATE_PASSWORD
+		 * CHECK_PASSWORD
 		 * 	> memberPassword / NotBlank
 		 * 	> memberPassword / isMyPassword (DB)
 		 *  

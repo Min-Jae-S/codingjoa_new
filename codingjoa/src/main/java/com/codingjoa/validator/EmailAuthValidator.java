@@ -171,7 +171,6 @@ public class EmailAuthValidator implements Validator {
 			return;
 		}
 		
-		
 		// /codingjoa/api/member/check/account
 		if (type == Type.FIND_PASSWORD) { 
 			if (!StringUtils.hasText(memberId)) {
