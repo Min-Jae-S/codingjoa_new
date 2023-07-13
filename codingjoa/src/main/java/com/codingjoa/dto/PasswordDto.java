@@ -1,14 +1,13 @@
 package com.codingjoa.dto;
 
-import com.codingjoa.enumclass.Type;
+import javax.validation.constraints.NotBlank;
 
 import lombok.Data;
 
 @Data
 public class PasswordDto {
 	
+	@NotBlank
 	private String memberPassword;
-	private String confirmPassword;
-	private Type type;
 	
 }

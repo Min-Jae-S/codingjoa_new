@@ -106,8 +106,7 @@
 		$("#updatePasswordBtn").on("click", function() {
 			let obj = {
 				memberPassword : $("#memberPassword").val(),
-				confirmPassword : $("#confirmPassword").val(),
-				type : "UPDATE_PASSWORD"
+				confirmPassword : $("#confirmPassword").val()
 			};
 			
 			memberService.updatePassword(obj, function(result) {

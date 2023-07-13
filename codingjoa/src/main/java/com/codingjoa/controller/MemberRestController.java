@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import com.codingjoa.dto.AddrDto;
 import com.codingjoa.dto.AgreeDto;
 import com.codingjoa.dto.EmailAuthDto;
+import com.codingjoa.dto.PasswordChangeDto;
 import com.codingjoa.dto.PasswordDto;
 import com.codingjoa.dto.SessionDto;
 import com.codingjoa.response.SuccessResponse;
@@ -59,9 +60,6 @@ public class MemberRestController {
 	@Resource(name = "emailAuthValidator")
 	private Validator emailAuthValidator;
 	
-	@Resource(name = "passwordValidator")
-	private Validator passwordValidator;
-
 	@Resource(name = "passwordChangeValidator")
 	private Validator passwordChangeValidator;
 	
@@ -74,11 +72,6 @@ public class MemberRestController {
 		binder.addValidators(emailAuthValidator);
 	}
 	
-	@InitBinder("passwordDto")
-	public void InitBinderPassword(WebDataBinder binder) {
-		binder.addValidators(passwordValidator);
-	}
-
 	@InitBinder("passwordChangeDto")
 	public void InitBinderPasswordChange(WebDataBinder binder) {
 		binder.addValidators(passwordChangeValidator);
@@ -150,18 +143,20 @@ public class MemberRestController {
 		log.info("## checkPassword");
 		log.info("\t > {}", passwordDto);
 		
+		// check password service logic
+		
 		session.setAttribute("PASSWORD_AUTHENTICATION", true);
 		
 		return ResponseEntity.ok(SuccessResponse.create().code("success.CheckPassword"));
 	}
 	
 	@PutMapping("/password")
-	public ResponseEntity<Object> updatePassword(@RequestBody @Valid PasswordDto passwordDto, 
+	public ResponseEntity<Object> updatePassword(@RequestBody @Valid PasswordChangeDto passwordChangeDto, 
 			@AuthenticationPrincipal UserDetailsDto principal, HttpSession session) {
 		log.info("## updatePassword");
-		log.info("\t > {}", passwordDto);
+		log.info("\t > {}", passwordChangeDto);
 		
-		memberService.updatePassword(passwordDto.getMemberPassword(), principal.getMember().getMemberIdx());
+		memberService.updatePassword(passwordChangeDto.getMemberPassword(), principal.getMember().getMemberIdx());
 		resetAuthentication(principal.getMember().getMemberId());
 		session.removeAttribute("PASSWORD_AUTHENTICATION");
 		
@@ -193,10 +188,10 @@ public class MemberRestController {
 	}
 	
 	@PutMapping("/reset/password")
-	public ResponseEntity<Object> resetPassword(@RequestBody @Valid PasswordDto passwordDto, 
+	public ResponseEntity<Object> resetPassword(@RequestBody @Valid PasswordChangeDto passwordChangeDto, 
 			@SessionAttribute("ACCOUNT_AUTHENTICATION") String memberId) {
 		log.info("## resetPassword");
-		log.info("\t > {}", passwordDto);
+		log.info("\t > {}", passwordChangeDto);
 		log.info("\t > session memberId = {}", memberId);
 		
 		return ResponseEntity.ok(SuccessResponse.create().code("success.ResetPassword"));

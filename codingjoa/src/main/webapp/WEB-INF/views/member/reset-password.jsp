@@ -105,8 +105,7 @@
 		$("#resetPasswordBtn").on("click", function() {
 			let obj = {
 				memberPassword : $("#memberPassword").val(),
-				confirmPassword : $("#confirmPassword").val(),
-				type : "RESET_PASSWORD"
+				confirmPassword : $("#confirmPassword").val()
 			};
 			
 			memberService.resetPassword(obj, function(result) {

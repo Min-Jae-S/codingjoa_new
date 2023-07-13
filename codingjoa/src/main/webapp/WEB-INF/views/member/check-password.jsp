@@ -96,7 +96,6 @@
 		$("#checkPasswordBtn").on("click", function() {
 			let obj = {
 				memberPassword : $("#memberPassword").val(),
-				type : "CHECK_PASSWORD"
 			};
 			
 			memberService.checkPassword(obj, function(result) {
