@@ -166,11 +166,6 @@ public class MemberRestController {
 		return ResponseEntity.ok(SuccessResponse.create().code("success.UpdatePassword"));
 	}
 	
-	/*
-	 * find-password
-	 * reset-password
-	 */
-	
 	@PostMapping("/send/found-account")
 	public ResponseEntity<Object> sendFoundAccount(@RequestBody @Valid EmailAuthDto emailAuthDto) {
 		log.info("## sendFoundAccount");
@@ -195,7 +190,7 @@ public class MemberRestController {
 		return ResponseEntity.ok(SuccessResponse.create().code("success.FindPassword"));
 	}
 	
-	@PutMapping("/resetPassword")
+	@PutMapping("/reset/password")
 	public ResponseEntity<Object> resetPassword(@RequestBody @Valid PasswordDto passwordDto, 
 			@SessionAttribute("ACCOUNT_AUTHENTICATION") String memberId) {
 		log.info("## resetPassword");

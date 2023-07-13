@@ -109,7 +109,10 @@
 				type : "RESET_PASSWORD"
 			};
 			
-			resetPassword("${contextPath}/member/resetPassword", obj);
+			memberService.resetPassword(obj, function(result) {
+				alert(result.message);
+				location.href = "${contextPath}/member/login";
+			});
 		});
 		
 		$("input").on("focus", function() {
@@ -120,34 +123,6 @@
 			$(this).closest("dd").css("border-bottom", "1px solid #dee2e6");
 		});
 	});
-	
-	function resetPassword(url, obj) {
-		$.ajax({
-			type : "PUT",
-			url : url,
-			data : JSON.stringify(obj),
-			contentType : "application/json; charset=utf-8",
-			dataType : "json",
-			success : function(result) {
-				console.log(result);
-				alert(result.message);
-				location.href = "${contextPath}/member/login";
-			},
-			error : function(jqXHR) {
-				console.log(jqXHR);
-				//$("#memberPassword\\.errors, #confirmPassword\\.errors").remove();
-				$(".error").remove();
-				
-				if(jqXHR.status == 422) {
-					let errorMap = JSON.parse(jqXHR.responseText).errorMap;
-					$.each(errorMap, function(errorField, errorMessage) {
-						$("#" + errorField).closest("dd").after("<dd id='" + errorField + ".errors' class='error'>" + errorMessage + "</dd>");
-					});
-				}
-			}
-		});
-	}
-	
 </script>
 </body>
 </html>
