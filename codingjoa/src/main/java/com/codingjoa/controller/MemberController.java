@@ -108,41 +108,22 @@ public class MemberController {
 		return "member/update-password";
 	}
 	
-	/*
-	 * findAccountResult
-	 * findPassword
-	 * findPasswordResult
-	 */
-	
 	@GetMapping("/findAccount")
 	public String findAccount() {
 		log.info("## findAccount");
 		return "member/find-account";
 	}
 	
-	@GetMapping("/findAccountResult")
-	public String findAccountResult(Model model) {
-		log.info("## findAccountResult");
-		log.info("\t > {}", sessionDto);
-		
-		String findAccountResult = sessionDto.getFindAccountResult();
-		if (findAccountResult == null) {
-			model.addAttribute("message", MessageUtils.getMessage("error.NotFindAccount"));
-			model.addAttribute("path", "findAccount");
-			
-			return "member/invalid-access";
-		}
-		
-		model.addAttribute("account", findAccountResult);
-		sessionDto.setFindAccountResult(null);
-		
-		return "member/find-account-result";
-	}
-	
 	@GetMapping("/findPassword")
 	public String findPassword() {
 		log.info("## findPassword");
 		return "member/find-password";
+	}
+	
+	@GetMapping("/resetPassword")
+	public String resetPassword() {
+		log.info("## resetPassword");
+		return "member/reset-password";
 	}
 	
 	@GetMapping("/findPasswordResult")

@@ -15,6 +15,7 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://kit.fontawesome.com/c503d71f81.js"></script>
+<script src="${contextPath}/resources/js/member.js"></script>
 <style>
 	input[type="text"] {
 		border: none;
@@ -87,7 +88,7 @@
 						<div>
 							<input type="text" id="memberEmail" name="memberEmail" placeholder="이메일 입력" />
 						</div>
-						<button class="btn btn-warning btn-sm" id="sendAuthEmailBtn">인증코드 받기</button>
+						<button class="btn btn-warning btn-sm" id="sendAuthCodeBtn">인증코드 받기</button>
 					</dd>
 					<dd class="input-group" id="editAuthCode">
 						<input type="text" id="authCode" name="authCode" placeholder="인증코드를 입력하세요.">
@@ -106,14 +107,19 @@
 
 <script>
 	$(function() {
-		$("#sendAuthEmailBtn").on("click", function() {
+		$("#sendAuthCodeBtn").on("click", function() {
 			let obj = {
 				memberId : $("#memberId").val(),
 				memberEmail : $("#memberEmail").val(),
 				type : "BEFORE_FIND_PASSWORD"
 			};
 			
-			sendAuthEmail("${contextPath}/member/sendAuthEmail", obj);
+			memberService.sendAuthCode(obj, function(result) {
+				$(".error, .success").remove();
+				$("#authCode").closest("dd").after("<dd class='success'>" + result.message + "</dd>");
+				$("#authCode").val("");
+				$("#authCode").focus();
+			});
 		});
 		
 		$("#findPasswordBtn").on("click", function() {
@@ -135,36 +141,6 @@
 			$(this).closest("dd").css("border-bottom", "1px solid #dee2e6");
 		});
 	});
-	
-	function sendAuthEmail(url, obj) {
-		$.ajax({
-			type : "POST",
-			url : url,
-			data : JSON.stringify(obj),
-			contentType : "application/json; charset=utf-8",
-			dataType : "json",
-			success : function(result) {
-				console.log(result);
-				//$("#memberId\\.errors, #memberEmail\\.errors, #authCode\\.errors, .success").remove();
-				$(".error, .success").remove();
-				$("#authCode").closest("dd").after("<dd class='success'>" + result.message + "</dd>");
-				$("#authCode").val("");
-				$("#authCode").focus();
-			},
-			error : function(jqXHR) {
-				console.log(jqXHR);
-				//$("#memberId\\.errors, #memberEmail\\.errors, #authCode\\.errors, .success").remove();
-				$(".error, .success").remove();
-				
-				if(jqXHR.status == 422) {
-					let errorMap = JSON.parse(jqXHR.responseText).errorMap;
-					$.each(errorMap, function(errorField, errorMessage) {
-						$("#" + errorField).closest("dd").after("<dd id='" + errorField + ".errors' class='error'>" + errorMessage + "</dd>");
-					});
-				}
-			}
-		});
-	}
 	
 	function findPassword(url, obj) {
 		$.ajax({

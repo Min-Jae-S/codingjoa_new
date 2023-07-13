@@ -39,7 +39,8 @@ let memberService = (function() {
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR","color:red");
-				$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
+				//$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
+				$(".error, .success").remove();
 				let errorResponse = parseError(jqXHR);
 				if (errorResponse != null) {
 					let errorMap = errorResponse.errorMap;

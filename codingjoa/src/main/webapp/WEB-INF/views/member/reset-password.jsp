@@ -4,7 +4,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
-<c:set var="principal" value="${SPRING_SECURITY_CONTEXT.authentication.principal}" />
 <!DOCTYPE html>
 <html>
 <head>
@@ -67,7 +66,7 @@
 
 <c:import url="/WEB-INF/views/include/top-menu.jsp"/>
 
-<div class="container update-password-container">
+<div class="container reset-password-container">
 	<div class="row">
 		<div class="col-sm-3"></div>
 		<div class="col-sm-6">
@@ -91,7 +90,7 @@
 					</dd>
 				</dl>
 				<div class="pt-3">
-					<button type="button" class="btn btn-primary btn-block" id="updatePasswordBtn">확인</button>
+					<button type="button" class="btn btn-primary btn-block" id="resetPasswordBtn">확인</button>
 				</div>				
 			</div>
 		</div>
@@ -103,17 +102,14 @@
 
 <script>
 	$(function() {
-		$("#updatePasswordBtn").on("click", function() {
+		$("#resetPasswordBtn").on("click", function() {
 			let obj = {
 				memberPassword : $("#memberPassword").val(),
 				confirmPassword : $("#confirmPassword").val(),
-				type : "UPDATE_PASSWORD"
+				type : "RESET_PASSWORD"
 			};
 			
-			memberService.updatePassword(obj, function(result) {
-				alert(result.message);
-				location.href = "${contextPath}/member/account";
-			});
+			resetPassword("${contextPath}/member/resetPassword", obj);
 		});
 		
 		$("input").on("focus", function() {
@@ -124,6 +120,34 @@
 			$(this).closest("dd").css("border-bottom", "1px solid #dee2e6");
 		});
 	});
+	
+	function resetPassword(url, obj) {
+		$.ajax({
+			type : "PUT",
+			url : url,
+			data : JSON.stringify(obj),
+			contentType : "application/json; charset=utf-8",
+			dataType : "json",
+			success : function(result) {
+				console.log(result);
+				alert(result.message);
+				location.href = "${contextPath}/member/login";
+			},
+			error : function(jqXHR) {
+				console.log(jqXHR);
+				//$("#memberPassword\\.errors, #confirmPassword\\.errors").remove();
+				$(".error").remove();
+				
+				if(jqXHR.status == 422) {
+					let errorMap = JSON.parse(jqXHR.responseText).errorMap;
+					$.each(errorMap, function(errorField, errorMessage) {
+						$("#" + errorField).closest("dd").after("<dd id='" + errorField + ".errors' class='error'>" + errorMessage + "</dd>");
+					});
+				}
+			}
+		});
+	}
+	
 </script>
 </body>
 </html>

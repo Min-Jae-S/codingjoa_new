@@ -67,7 +67,7 @@
 		<div class="col-sm-6">
 			<h5 class="font-weight-bold">비밀번호 확인</h5>
 			<div class="pt-3" style="border-top: 1px solid black;">
-				<p class="title">비밀번호 변경을 위해서 현재 비밀번호를 확인해주세요.</p>
+				<p class="title">비밀번호 재설정을 위해서 현재 비밀번호 확인을 진행합니다.</p>
 				<dl class="form-group mb-5">
 					<dt><i class="fa-solid fa-check mr-2"></i>아이디</dt>
 					<dd class="input-group">

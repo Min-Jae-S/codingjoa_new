@@ -23,8 +23,8 @@ body {
 .info-container,
 .check-password-container,
 .update-password-container,
+.reset-password-container,
 .find-account-container,
-.find-account-result-container, 
 .find-password-container {
 	margin-top: 7rem;
 	margin-bottom: 7rem;
