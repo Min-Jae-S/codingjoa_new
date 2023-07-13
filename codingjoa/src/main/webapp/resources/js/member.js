@@ -41,7 +41,7 @@ let memberService = (function() {
 				console.log("%c## ERROR","color:red");
 				$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
 				let errorResponse = parseError(jqXHR);
-				if (errorReponse != null) {
+				if (errorResponse != null) {
 					let errorMap = errorResponse.errorMap;
 					if (errorMap != null) {
 						$.each(errorMap, function(errorField, errorMessage) {
@@ -77,7 +77,7 @@ let memberService = (function() {
 				console.log("%c## ERROR","color:red");
 				$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
 				let errorResponse = parseError(jqXHR);
-				if (errorReponse != null) {
+				if (errorResponse != null) {
 					let errorMap = errorResponse.errorMap;
 					if (errorMap != null) {
 						$.each(errorMap, function(errorField, errorMessage) {
@@ -113,7 +113,7 @@ let memberService = (function() {
 				console.log("%c## ERROR","color:red");
 				$("#memberZipcode\\.errors, #memberAddr\\.errors, #memberAddrDetail\\.errors").remove();
 				let errorResponse = parseError(jqXHR);
-				if (errorReponse != null) {
+				if (errorResponse != null) {
 					let errorMap = errorResponse.errorMap;
 					if (errorMap != null) {
 						$.each(errorMap, function(errorField, errorMessage) {
@@ -149,7 +149,7 @@ let memberService = (function() {
 				console.log("%c## ERROR","color:red");
 				$("#memberAgree\\.errors").remove();
 				let errorResponse = parseError(jqXHR);
-				if (errorReponse != null) {
+				if (errorResponse != null) {
 					let errorMap = errorResponse.errorMap;
 					if (errorMap != null) {
 						$.each(errorMap, function(errorField, errorMessage) {
@@ -181,7 +181,7 @@ let memberService = (function() {
 			error : function(jqXHR) {
 				console.log("%c## ERROR","color:red");
 				let errorResponse = parseError(jqXHR);
-				if (errorReponse != null) {
+				if (errorResponse != null) {
 					alert(errorResponse.errorMessage);
 				}
 			}
@@ -209,7 +209,7 @@ let memberService = (function() {
 				console.log("%c## ERROR","color:red");
 				$(".error").remove();
 				let errorResponse = parseError(jqXHR);
-				if (errorReponse != null) {
+				if (errorResponse != null) {
 					let errorMap = errorResponse.errorMap;
 					if (errorMap != null) {
 						$.each(errorMap, function(errorField, errorMessage) {
@@ -245,7 +245,7 @@ let memberService = (function() {
 				console.log("%c## ERROR","color:red");
 				$(".error").remove();
 				let errorResponse = parseError(jqXHR);
-				if (errorReponse != null) {
+				if (errorResponse != null) {
 					let errorMap = errorResponse.errorMap;
 					if (errorMap != null) {
 						$.each(errorMap, function(errorField, errorMessage) {
@@ -281,7 +281,7 @@ let memberService = (function() {
 				console.log("%c## ERROR","color:red");
 				$(".error, .success").remove();
 				let errorResponse = parseError(jqXHR);
-				if (errorReponse != null) {
+				if (errorResponse != null) {
 					let errorMap = errorResponse.errorMap;
 					if (errorMap != null) {
 						$.each(errorMap, function(errorField, errorMessage) {
