@@ -109,10 +109,10 @@ public class PasswordValidator implements Validator {
 				return;
 			}
 
-			if (memberService.isMyPassword(memberPassword, getCurrentIdx())) {
-				errors.rejectValue("memberPassword", "NotSafe");
-				return;
-			}
+//			if (memberService.isMyPassword(memberPassword, getCurrentIdx())) {
+//				errors.rejectValue("memberPassword", "NotSafe");
+//				return;
+//			}
 			
 		} else if (type == Type.RESET_PASSWORD) {
 			if (!StringUtils.hasText(memberPassword)) {
@@ -136,12 +136,6 @@ public class PasswordValidator implements Validator {
 				errors.rejectValue("confirmPassword", "NotEquals");
 				return;
 			}
-			
-//			String memberId = (String) sessionDto.getFindPasswordResult().get("memberId");
-//			if (memberService.isMyPassword(memberPassword, memberId)) {
-//				errors.rejectValue("memberPassword", "NotSafe");
-//				return;
-//			}
 		}
 	}
 

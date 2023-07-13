@@ -124,6 +124,10 @@ public class MemberServiceImpl implements MemberService {
 			throw new ExpectedException(MessageUtils.getMessage("error.NotFoundMember"));
 		}
 		
+		if (passwordEncoder.matches(memberPassword, modifiedMember.getMemberPassword())) {
+			throw new ExpectedException(MessageUtils.getMessage("error.NotSafePassword"));
+		}
+		
 		String encPassword = passwordEncoder.encode(memberPassword);
 		modifiedMember.setMemberPassword(encPassword);
 		memberMapper.updatePassword(modifiedMember);
