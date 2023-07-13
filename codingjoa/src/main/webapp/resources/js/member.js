@@ -298,7 +298,7 @@ let memberService = (function() {
 		});
 	}
 	
-	funciotn checkAccount(obj, callback) {
+	function checkAccount(obj, callback) {
 		console.log("## Check Account");
 		let url = contextPath + "/api/member/check/account";
 		console.log("> url = '%s'", url);

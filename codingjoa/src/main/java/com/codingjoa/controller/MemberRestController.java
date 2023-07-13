@@ -1,8 +1,5 @@
 package com.codingjoa.controller;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -27,6 +24,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.codingjoa.dto.AddrDto;
 import com.codingjoa.dto.AgreeDto;
@@ -163,7 +161,7 @@ public class MemberRestController {
 		
 		memberService.updatePassword(passwordDto.getMemberPassword(), principal.getMember().getMemberIdx());
 		resetAuthentication(principal.getMember().getMemberId());
-		session.setAttribute("PASSWORD_AUTHENTICATION", false);
+		session.removeAttribute("PASSWORD_AUTHENTICATION");
 		
 		return ResponseEntity.ok(SuccessResponse.create().code("success.UpdatePassword"));
 	}
@@ -186,30 +184,23 @@ public class MemberRestController {
 	}
 
 	@PostMapping("/check/account")
-	public ResponseEntity<Object> checkAccount(@RequestBody @Valid EmailAuthDto emailAuthDto) {
+	public ResponseEntity<Object> checkAccount(@RequestBody @Valid EmailAuthDto emailAuthDto, 
+			HttpSession session) {
 		log.info("## checkAccount");
 		log.info("\t > {}", emailAuthDto);
-		log.info("\t > {}", sessionDto);
-		
-		Map<String, Object> resultMap = new HashMap<>();
-		resultMap.put("result", true);
-		resultMap.put("memberId", emailAuthDto.getMemberId());
-		sessionDto.setFindPasswordResult(resultMap);
 		
 		redisService.delete(emailAuthDto.getMemberEmail());
+		session.setAttribute("ACCOUNT_AUTHENTICATION", emailAuthDto.getMemberId());
 		
 		return ResponseEntity.ok(SuccessResponse.create().code("success.FindPassword"));
 	}
 	
 	@PutMapping("/resetPassword")
-	public ResponseEntity<Object> resetPassword(@RequestBody @Valid PasswordDto passwordDto) {
+	public ResponseEntity<Object> resetPassword(@RequestBody @Valid PasswordDto passwordDto, 
+			@SessionAttribute("ACCOUNT_AUTHENTICATION") String memberId) {
 		log.info("## resetPassword");
 		log.info("\t > {}", passwordDto);
-		
-		//String memberId = (String) sessionDto.getFindPasswordResult().get("memberId");
-		//memberService.updatePassword(passwordDto, memberId);
-		
-		sessionDto.setFindPasswordResult(null);
+		log.info("\t > session memberId = {}", memberId);
 		
 		return ResponseEntity.ok(SuccessResponse.create().code("success.ResetPassword"));
 	}

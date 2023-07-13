@@ -1,7 +1,5 @@
 package com.codingjoa.controller;
 
-import java.util.Map;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -9,7 +7,6 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.WebDataBinder;
@@ -24,7 +21,6 @@ import com.codingjoa.dto.LoginDto;
 import com.codingjoa.dto.SessionDto;
 import com.codingjoa.service.MemberService;
 import com.codingjoa.service.RedisService;
-import com.codingjoa.util.MessageUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -124,24 +120,6 @@ public class MemberController {
 	public String resetPassword() {
 		log.info("## resetPassword");
 		return "member/reset-password";
-	}
-	
-	@GetMapping("/findPasswordResult")
-	public String findPasswordResult(Model model) {
-		log.info("## findPasswordResult");
-		log.info("\t > {}", sessionDto);
-		
-		Map<String, Object> resultMap = sessionDto.getFindPasswordResult();
-		if (resultMap == null || !(boolean) resultMap.get("result")) {
-			model.addAttribute("message", MessageUtils.getMessage("error.NotFindPassword"));
-			model.addAttribute("path", "findPassword");
-			return "member/invalid-access";
-		}
-		
-		resultMap.put("result", false);
-		sessionDto.setFindPasswordResult(resultMap);
-		
-		return "member/update-password";
 	}
 	
 }
