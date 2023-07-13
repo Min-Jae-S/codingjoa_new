@@ -76,7 +76,7 @@ public class PasswordValidator implements Validator {
 		String memberPassword = passwordDto.getMemberPassword();
 		String confirmPassword = passwordDto.getConfirmPassword();
 		
-		if (type == Type.BEFORE_UPDATE_PASSWORD) {
+		if (type == Type.CHECK_PASSWORD) {
 			if (!StringUtils.hasText(memberPassword)) {
 				errors.rejectValue("memberPassword", "NotBlank");
 				return;
@@ -86,35 +86,11 @@ public class PasswordValidator implements Validator {
 				errors.rejectValue("memberPassword", "BadCredentials");
 				return;
 			}
-		} else if (type == Type.UPDATE_PASSWORD) {
-			if (!StringUtils.hasText(memberPassword)) {
-				errors.rejectValue("memberPassword", "NotBlank");
-			} else if (!Pattern.matches(PASSWORD_REGEXP, memberPassword)) {
-				errors.rejectValue("memberPassword", "Pattern");
-			}
-
-			if (!StringUtils.hasText(confirmPassword)) {
-				errors.rejectValue("confirmPassword", "NotBlank");
-			} else if (!Pattern.matches(PASSWORD_REGEXP, confirmPassword)) {
-				errors.rejectValue("confirmPassword", "Pattern");
-			}
-
-			if (errors.hasFieldErrors("memberPassword") || errors.hasFieldErrors("confirmPassword")) {
-				return;
-			}
-
-			if (!memberPassword.equals(confirmPassword)) {
-				errors.rejectValue("memberPassword", "NotEquals");
-				errors.rejectValue("confirmPassword", "NotEquals");
-				return;
-			}
-
-//			if (memberService.isMyPassword(memberPassword, getCurrentIdx())) {
-//				errors.rejectValue("memberPassword", "NotSafe");
-//				return;
-//			}
 			
-		} else if (type == Type.RESET_PASSWORD) {
+			return;
+		}
+		
+		if (type == Type.UPDATE_PASSWORD) {
 			if (!StringUtils.hasText(memberPassword)) {
 				errors.rejectValue("memberPassword", "NotBlank");
 			} else if (!Pattern.matches(PASSWORD_REGEXP, memberPassword)) {
@@ -136,6 +112,34 @@ public class PasswordValidator implements Validator {
 				errors.rejectValue("confirmPassword", "NotEquals");
 				return;
 			}
+			
+			return;
+		} 
+		
+		if (type == Type.RESET_PASSWORD) {
+			if (!StringUtils.hasText(memberPassword)) {
+				errors.rejectValue("memberPassword", "NotBlank");
+			} else if (!Pattern.matches(PASSWORD_REGEXP, memberPassword)) {
+				errors.rejectValue("memberPassword", "Pattern");
+			}
+
+			if (!StringUtils.hasText(confirmPassword)) {
+				errors.rejectValue("confirmPassword", "NotBlank");
+			} else if (!Pattern.matches(PASSWORD_REGEXP, confirmPassword)) {
+				errors.rejectValue("confirmPassword", "Pattern");
+			}
+
+			if (errors.hasFieldErrors("memberPassword") || errors.hasFieldErrors("confirmPassword")) {
+				return;
+			}
+
+			if (!memberPassword.equals(confirmPassword)) {
+				errors.rejectValue("memberPassword", "NotEquals");
+				errors.rejectValue("confirmPassword", "NotEquals");
+				return;
+			}
+			
+			return;
 		}
 	}
 

@@ -106,16 +106,6 @@ public class EmailAuthValidator implements Validator {
 				return;
 			}
 			
-//			if (memberService.isMyEmail(memberEmail, getCurrentId())) {
-//				errors.rejectValue("memberEmail", "NotMyEmail");
-//				return;
-//			}
-//			
-//			if (memberService.isEmailExist(memberEmail)) {
-//				errors.rejectValue("memberEmail", "EmailExist");
-//				return;
-//			}
-			
 			if (!redisService.hasAuthCode(memberEmail)) {
 				errors.rejectValue("memberEmail", "NotAuthCodeExist");
 				return;
@@ -134,6 +124,7 @@ public class EmailAuthValidator implements Validator {
 			return;
 		} 
 		
+		// /codingjoa/api/member/send/found-account
 		if (type == Type.FIND_ACCOUNT) {
 			if (!StringUtils.hasText(memberEmail)) {
 				errors.rejectValue("memberEmail", "NotBlank");
@@ -154,6 +145,7 @@ public class EmailAuthValidator implements Validator {
 			return;
 		} 
 		
+		// /codingjoa/api/member/send/auth-code
 		if (type == Type.BEFORE_FIND_PASSWORD) {
 			if (!StringUtils.hasText(memberId)) {
 				errors.rejectValue("memberId", "NotBlank");
@@ -179,7 +171,9 @@ public class EmailAuthValidator implements Validator {
 			return;
 		}
 		
-		if (type == Type.FIND_PASSWORD) {
+		
+		// /codingjoa/api/member/check/account
+		if (type == Type.FIND_PASSWORD) { 
 			if (!StringUtils.hasText(memberId)) {
 				errors.rejectValue("memberId", "NotBlank");
 				return;
@@ -194,12 +188,6 @@ public class EmailAuthValidator implements Validator {
 				errors.rejectValue("memberEmail", "Pattern");
 				return;
 			}
-			
-//			if(!memberService.isAccountExist(memberId, memberEmail)) {
-//				errors.rejectValue("memberId", "NotIdOrEmailExist");
-//				errors.rejectValue("memberEmail", "NotIdOrEmailExist");
-//				return;
-//			}
 			
 			if (!redisService.hasAuthCode(memberEmail)) {
 				errors.rejectValue("memberEmail", "NotAuthCodeExist");

@@ -96,7 +96,8 @@
 		$("#checkPasswordBtn").on("click", function() {
 			let obj = {
 				memberPassword : $("#memberPassword").val(),
-				type : "BEFORE_UPDATE_PASSWORD"
+				//type : "BEFORE_UPDATE_PASSWORD"
+				type : "CHECK_PASSWORD"
 			};
 			
 			memberService.checkPassword(obj, function(result) {
