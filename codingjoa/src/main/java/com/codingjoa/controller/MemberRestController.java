@@ -6,7 +6,6 @@ import javax.validation.Valid;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -31,7 +30,6 @@ import com.codingjoa.dto.AgreeDto;
 import com.codingjoa.dto.EmailAuthDto;
 import com.codingjoa.dto.PasswordChangeDto;
 import com.codingjoa.dto.PasswordDto;
-import com.codingjoa.dto.SessionDto;
 import com.codingjoa.response.SuccessResponse;
 import com.codingjoa.security.dto.UserDetailsDto;
 import com.codingjoa.service.EmailService;
@@ -62,10 +60,6 @@ public class MemberRestController {
 	
 	@Resource(name = "passwordChangeValidator")
 	private Validator passwordChangeValidator;
-	
-	@Resource(name = "sessionDto")
-	@Lazy
-	private SessionDto sessionDto;
 	
 	@InitBinder("emailAuthDto")
 	public void InitBinderEmail(WebDataBinder binder) {

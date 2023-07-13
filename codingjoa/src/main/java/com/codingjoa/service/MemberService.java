@@ -20,7 +20,7 @@ public interface MemberService {
 	
 	void updateAgree(boolean memberAgree, Integer memberIdx);
 	
-	boolean isMyPassword(String memberPassword, Integer memberIdx);
+	void checkCurrentPassword(String memberPassword, Integer memberIdx);
 	
 	void updatePassword(String memberPassword, Integer memberIdx);
 	

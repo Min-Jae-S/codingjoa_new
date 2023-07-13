@@ -218,7 +218,8 @@ let memberService = (function() {
 								.after("<dd id='" + errorField + ".errors' class='error'>" + errorMessage + "</dd>");
 						});
 					} else {
-						alert(errorResponse.errorMessage);
+						$("#memberPassword").closest("dd")
+							.after("<dd id='memberPassword.errors' class='error'>" + errorResponse.errorMessage + "</dd>");
 					}
 				}
 			}

@@ -112,9 +112,11 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public boolean isMyPassword(String memberPassword, Integer memberIdx) {
+	public void checkCurrentPassword(String memberPassword, Integer memberIdx) {
 		String encodedPassword = memberMapper.findPasswordByIdx(memberIdx);
-		return passwordEncoder.matches(memberPassword, encodedPassword);
+		if (passwordEncoder.matches(memberPassword, encodedPassword)) {
+			throw new ExpectedException(MessageUtils.getMessage("error.NotSafePassword"));
+		}
 	}
 
 	@Override
