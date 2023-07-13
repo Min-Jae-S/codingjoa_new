@@ -49,29 +49,9 @@ public class PasswordValidator implements Validator {
 		 * CHECK_PASSWORD
 		 * 	> memberPassword / NotBlank
 		 * 	> memberPassword / isMyPassword (DB)
-		 *  
-		 * UPDATE_PASSWORD
-		 * 	> memberPassword / NotBlank
-		 * 	> memberPassword / Pattern
-		 * 	> confirmPassword / NotBlank
-		 * 	> confirmPassword / Pattern
-		 * 	> memberPassowrd, confirmPassword / NotEquals
-		 * 	> memberPassword / isMypassword (DB)
-		 * 
-		 * RESET_PASSWORD
-		 * 	> memberPassword / NotBlank
-		 * 	> memberPassword / Pattern
-		 * 	> confirmPassword / NotBlank
-		 * 	> confirmPassword / Pattern
-		 * 	> memberPassowrd, confirmPassword / NotEquals
 		 */
 		Type type = passwordDto.getType();
 		log.info("\t > type = {}", type); 
-		
-//		if (type == null) {
-//			errors.rejectValue("memberPassword", "NotValidAccess");
-//			return;
-//		}
 		
 		String memberPassword = passwordDto.getMemberPassword();
 		String confirmPassword = passwordDto.getConfirmPassword();

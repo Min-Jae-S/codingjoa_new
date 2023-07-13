@@ -61,6 +61,9 @@ public class MemberRestController {
 	
 	@Resource(name = "passwordValidator")
 	private Validator passwordValidator;
+
+	@Resource(name = "passwordChangeValidator")
+	private Validator passwordChangeValidator;
 	
 	@Resource(name = "sessionDto")
 	@Lazy
@@ -68,18 +71,17 @@ public class MemberRestController {
 	
 	@InitBinder("emailAuthDto")
 	public void InitBinderEmail(WebDataBinder binder) {
-		log.info("## InitBinderEmail");
-		log.info("\t > binder target = {}", binder.getTarget());
-		log.info("\t > binder target name = {}", binder.getObjectName());
 		binder.addValidators(emailAuthValidator);
 	}
 	
 	@InitBinder("passwordDto")
 	public void InitBinderPassword(WebDataBinder binder) {
-		log.info("## InitBinderPassword");
-		log.info("\t > binder target = {}", binder.getTarget());
-		log.info("\t > binder target name = {}", binder.getObjectName());
 		binder.addValidators(passwordValidator);
+	}
+
+	@InitBinder("passwordChangeDto")
+	public void InitBinderPasswordChange(WebDataBinder binder) {
+		binder.addValidators(passwordChangeValidator);
 	}
 
 	@PostMapping("/send/auth-code")
