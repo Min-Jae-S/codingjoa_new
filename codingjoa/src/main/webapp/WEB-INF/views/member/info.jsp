@@ -235,7 +235,8 @@
 				alert(result.message);
 				memberService.getCurrentMember(function(result) {
 					let member = result.data;
-					$("#editEmail").find("form").html("<input type='text' id='memberEmail' name='memberEmail' value='" + member.memberEmail + "' readonly>");
+					$("#editEmail").find("form")
+						.html("<input type='text' id='memberEmail' name='memberEmail' value='" + member.memberEmail + "' readonly>");
 					$("#showEmail").find("span").text(member.memberEmail);
 					$("#resetEmailBtn").click();
 				});
@@ -254,11 +255,14 @@
 				alert(result.message);
 				memberService.getCurrentMember(function(result) {
 					let member = result.data;
-					$("#editZipcode").find("form").html("<input type='text' id='memberZipcode' name='memberZipcode' value='" + member.memberZipcode + "' readonly>");
+					$("#editZipcode").find("form")
+						.html("<input type='text' id='memberZipcode' name='memberZipcode' value='" + member.memberZipcode + "' readonly>");
 					$("#showZipcode").find("span").text(member.memberZipcode);
-					$("#editAddr").find("form").html("<input type='text' id='memberAddr' name='memberAddr' value='" + member.memberAddr + "' readonly>");
+					$("#editAddr").find("form")
+						.html("<input type='text' id='memberAddr' name='memberAddr' value='" + member.memberAddr + "' readonly>");
 					$("#showAddr").find("span").text(member.memberAddr);
-					$("#editAddrDetail").find("form").html("<input type='text' id='memberAddrDetail' name='memberAddrDetail' value='" + member.memberAddrDetail + "'>");
+					$("#editAddrDetail").find("form")
+						.html("<input type='text' id='memberAddrDetail' name='memberAddrDetail' value='" + member.memberAddrDetail + "'>");
 					$("#showAddrDetail").find("span").text(member.memberAddrDetail);
 					$("#resetAddrBtn").click();
 				});

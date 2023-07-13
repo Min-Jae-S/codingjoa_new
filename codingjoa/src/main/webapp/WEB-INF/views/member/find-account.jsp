@@ -103,8 +103,7 @@
 			
 			memberService.sendFoundAccount(obj, function(result) {
 				$(".error, .success").remove();
-				//alert(result.message);
-				// success message html로 표시하기
+				$("#memberEmail").closest("dd").after("<dd class='success'>" + result.message + "</dd>");
 			});
 		});
 		
