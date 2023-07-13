@@ -178,8 +178,9 @@ public class MemberRestController {
 		log.info("## sendFoundAccount");
 		log.info("\t > {}", emailAuthDto);
 		
-		//String account = memberService.findAccount(emailAuthDto);
-		// send email...
+		String memberEmail = emailAuthDto.getMemberEmail();
+		String foundAccount = memberService.findIdByEmail(memberEmail);
+		emailService.sendFoundAccountEmail(memberEmail, foundAccount);
 		
 		return ResponseEntity.ok(SuccessResponse.create().code("success.SendFoundAccount"));
 	}

@@ -19,6 +19,8 @@ public interface MemberMapper {
 	
 	boolean isEmailExist(String memberEmail);
 	
+	String findIdByEmail(String memberEmail);
+	
 	String findEmailById(String memberId);
 
 	// Member, memberRole, boardLikesList, commentLikesList
@@ -35,8 +37,6 @@ public interface MemberMapper {
 	String findPasswordByIdx(Integer memberIdx);
 	
 	void updatePassword(Member member);
-	
-	String findIdbyEmail(String memberEmail);
 	
 	boolean isAccountExist(@Param("memberId") String memberId, @Param("memberEmail") String memberEmail);
 	

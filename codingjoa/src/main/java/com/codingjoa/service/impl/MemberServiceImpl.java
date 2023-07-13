@@ -6,7 +6,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.codingjoa.dto.EmailAuthDto;
 import com.codingjoa.dto.JoinDto;
 import com.codingjoa.entity.Auth;
 import com.codingjoa.entity.Member;
@@ -58,6 +57,16 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public boolean isEmailExist(String memberEmail) {
 		return memberMapper.isEmailExist(memberEmail);
+	}
+	
+	@Override
+	public String findIdByEmail(String memberEmail) {
+		String memberId = memberMapper.findIdByEmail(memberEmail);
+		if (memberId == null) {
+			throw new ExpectedException(MessageUtils.getMessage("error.NotEmailExist"));
+		}
+		
+		return memberId;
 	}
 
 	@Override
@@ -119,15 +128,9 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public String findAccount(EmailAuthDto emailAuthDto) {
-		return memberMapper.findIdbyEmail(emailAuthDto.getMemberEmail());
-	}
-
-	@Override
 	public boolean isAccountExist(String memberId, String memberEmail) {
 		return memberMapper.isAccountExist(memberId, memberEmail);
 	}
-
 
 
 }

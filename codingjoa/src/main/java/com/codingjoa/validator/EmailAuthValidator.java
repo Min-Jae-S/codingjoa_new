@@ -145,10 +145,10 @@ public class EmailAuthValidator implements Validator {
 				return;
 			}
 			
-			if (!memberService.isEmailExist(memberEmail)) {
-				errors.rejectValue("memberEmail", "NotEmailExist");
-				return;
-			}
+//			if (!memberService.isEmailExist(memberEmail)) {
+//				errors.rejectValue("memberEmail", "NotEmailExist");
+//				return;
+//			}
 			
 			return;
 		} 

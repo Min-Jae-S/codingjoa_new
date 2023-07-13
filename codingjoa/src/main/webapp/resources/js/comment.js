@@ -11,7 +11,7 @@ function parseError(jqXHR) {
 		console.log(JSON.stringify(errorResponse, null, 2));
 		return errorResponse;
 	} catch(e) {
-		console.log("> Unexcepected Error");
+		alert("Error");
 		return null;
 	}
 }
@@ -44,12 +44,12 @@ let commentService = (function() {
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
 			success : function(result) {
-				console.log("%c## SUCCESS","color:green");
+				console.log("%c> SUCCESS","color:green");
 				console.log(JSON.stringify(result, null, 2));
 				callback(result);
 			},
 			error : function(jqXHR) {
-				console.log("%c## ERROR","color:red");
+				console.log("%c> ERROR","color:red");
 				let errorResponse = parseError(jqXHR);
 				if (errorResponse != null) {
 					processErrorResponse(errorResponse);
@@ -98,12 +98,12 @@ let commentService = (function() {
 			url : url,
 			dataType : "json",
 			success : function(result) {
-				console.log("%c## SUCCESS","color:green");
+				console.log("%c> SUCCESS","color:green");
 				console.log(JSON.stringify(result, null, 2));
 				callback(result);
 			},
 			error : function(jqXHR) {
-				console.log("%c## ERROR","color:red");
+				console.log("%c> ERROR","color:red");
 				let errorResponse = parseError(jqXHR);
 				if (errorResponse != null) {
 					processErrorResponse(errorResponse);
@@ -122,12 +122,12 @@ let commentService = (function() {
 			url : url,
 			dataType : "json",
 			success : function(result) {
-				console.log("%c## SUCCESS","color:green");
+				console.log("%c> SUCCESS","color:green");
 				console.log(JSON.stringify(result, null, 2));
 				callback(result);
 			},
 			error : function(jqXHR) {
-				console.log("%c## ERROR","color:red");
+				console.log("%c> ERROR","color:red");
 				let errorResponse = parseError(jqXHR);
 				if (errorResponse != null) {
 					processErrorResponse(errorResponse);
@@ -149,12 +149,12 @@ let commentService = (function() {
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
 			success : function(result) {
-				console.log("%c## SUCCESS","color:green");
+				console.log("%c> SUCCESS","color:green");
 				console.log(JSON.stringify(result, null, 2));
 				callback(result);
 			},
 			error : function(jqXHR) {
-				console.log("%c## ERROR","color:red");
+				console.log("%c> ERROR","color:red");
 				let errorResponse = parseError(jqXHR);
 				if (errorResponse != null) {
 					processErrorResponse(errorResponse);
@@ -173,12 +173,12 @@ let commentService = (function() {
 			url : url,
 			dataType : "json",
 			success : function(result) {
-				console.log("%c## SUCCESS","color:green");
+				console.log("%c> SUCCESS","color:green");
 				console.log(JSON.stringify(result, null, 2));
 				callback(result);
 			},
 			error : function(jqXHR) {
-				console.log("%c## ERROR","color:red");
+				console.log("%c> ERROR","color:red");
 				let errorResponse = parseError(jqXHR);
 				if (errorResponse != null) {
 					processErrorResponse(errorResponse);

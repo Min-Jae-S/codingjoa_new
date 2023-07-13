@@ -11,7 +11,7 @@ function parseError(jqXHR) {
 		console.log(JSON.stringify(errorResponse, null, 2));
 		return errorResponse;
 	} catch(e) {
-		console.log("> Unexcepected Error");
+		alert("Error");
 		return null;
 	}
 }
@@ -33,12 +33,12 @@ let memberService = (function() {
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
 			success : function(result) {
-				console.log("%c## SUCCESS","color:green");
+				console.log("%c> SUCCESS","color:green");
 				console.log(JSON.stringify(result, null, 2));
 				callback(result);
 			},
 			error : function(jqXHR) {
-				console.log("%c## ERROR","color:red");
+				console.log("%c> ERROR","color:red");
 				$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
 				let errorResponse = parseError(jqXHR);
 				if (errorResponse != null) {
@@ -69,12 +69,12 @@ let memberService = (function() {
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
 			success : function(result) {
-				console.log("%c## SUCCESS","color:green");
+				console.log("%c> SUCCESS","color:green");
 				console.log(JSON.stringify(result, null, 2));
 				callback(result);
 			},
 			error : function(jqXHR) {
-				console.log("%c## ERROR","color:red");
+				console.log("%c> ERROR","color:red");
 				$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
 				let errorResponse = parseError(jqXHR);
 				if (errorResponse != null) {
@@ -105,12 +105,12 @@ let memberService = (function() {
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
 			success : function(result) {
-				console.log("%c## SUCCESS","color:green");
+				console.log("%c> SUCCESS","color:green");
 				console.log(JSON.stringify(result, null, 2));
 				callback(result);
 			},
 			error : function(jqXHR) {
-				console.log("%c## ERROR","color:red");
+				console.log("%c> ERROR","color:red");
 				$("#memberZipcode\\.errors, #memberAddr\\.errors, #memberAddrDetail\\.errors").remove();
 				let errorResponse = parseError(jqXHR);
 				if (errorResponse != null) {
@@ -141,12 +141,12 @@ let memberService = (function() {
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
 			success : function(result) {
-				console.log("%c## SUCCESS","color:green");
+				console.log("%c> SUCCESS","color:green");
 				console.log(JSON.stringify(result, null, 2));
 				callback(result);
 			},
 			error : function(jqXHR) {
-				console.log("%c## ERROR","color:red");
+				console.log("%c> ERROR","color:red");
 				$("#memberAgree\\.errors").remove();
 				let errorResponse = parseError(jqXHR);
 				if (errorResponse != null) {
@@ -174,12 +174,12 @@ let memberService = (function() {
 			url : url,
 			dataType : "json",
 			success : function(result) {
-				console.log("%c## SUCCESS","color:green");
+				console.log("%c> SUCCESS","color:green");
 				console.log(JSON.stringify(result, null, 2));
 				callback(result);
 			},
 			error : function(jqXHR) {
-				console.log("%c## ERROR","color:red");
+				console.log("%c> ERROR","color:red");
 				let errorResponse = parseError(jqXHR);
 				if (errorResponse != null) {
 					alert(errorResponse.errorMessage);
@@ -201,12 +201,12 @@ let memberService = (function() {
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
 			success : function(result) {
-				console.log("%c## SUCCESS","color:green");
+				console.log("%c> SUCCESS","color:green");
 				console.log(JSON.stringify(result, null, 2));
 				callback(result);
 			},
 			error : function(jqXHR) {
-				console.log("%c## ERROR","color:red");
+				console.log("%c> ERROR","color:red");
 				$(".error").remove();
 				let errorResponse = parseError(jqXHR);
 				if (errorResponse != null) {
@@ -237,12 +237,12 @@ let memberService = (function() {
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
 			success : function(result) {
-				console.log("%c## SUCCESS","color:green");
+				console.log("%c> SUCCESS","color:green");
 				console.log(JSON.stringify(result, null, 2));
 				callback(result);
 			},
 			error : function(jqXHR) {
-				console.log("%c## ERROR","color:red");
+				console.log("%c> ERROR","color:red");
 				$(".error").remove();
 				let errorResponse = parseError(jqXHR);
 				if (errorResponse != null) {
@@ -273,12 +273,12 @@ let memberService = (function() {
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
 			success : function(result) {
-				console.log("%c## SUCCESS","color:green");
+				console.log("%c> SUCCESS","color:green");
 				console.log(JSON.stringify(result, null, 2));
 				callback(result);
 			},
 			error : function(jqXHR) {
-				console.log("%c## ERROR","color:red");
+				console.log("%c> ERROR","color:red");
 				$(".error, .success").remove();
 				let errorResponse = parseError(jqXHR);
 				if (errorResponse != null) {
@@ -289,7 +289,8 @@ let memberService = (function() {
 								.after("<dd id='" + errorField + ".errors' class='error'>" + errorMessage + "</dd>");
 						});
 					} else {
-						alert(errorResponse.errorMessage);
+						$("#memberEmail").closest("dd")
+							.after("<dd id='#memberEmail.errors' class='error'>" + errorResponse.errorMessage + "</dd>");
 					}
 				}
 			}

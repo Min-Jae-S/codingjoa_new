@@ -1,6 +1,5 @@
 package com.codingjoa.service;
 
-import com.codingjoa.dto.EmailAuthDto;
 import com.codingjoa.dto.JoinDto;
 
 public interface MemberService {
@@ -10,6 +9,8 @@ public interface MemberService {
 	boolean isIdExist(String memberId);
 	
 	boolean isEmailExist(String memberEmail);
+	
+	String findIdByEmail(String memberEmail);
 	
 	boolean isMyEmail(String memberEmail, String memberId);
 
@@ -22,8 +23,6 @@ public interface MemberService {
 	boolean isMyPassword(String memberPassword, Integer memberIdx);
 	
 	void updatePassword(String memberPassword, Integer memberIdx);
-	
-	String findAccount(EmailAuthDto emailAuthDto);
 	
 	boolean isAccountExist(String memberId, String memberEmail);
 	

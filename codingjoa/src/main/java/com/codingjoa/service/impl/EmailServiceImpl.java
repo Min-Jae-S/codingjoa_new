@@ -27,14 +27,14 @@ public class EmailServiceImpl implements EmailService {
 	@Async // Async Config
 	@Override
 	public void sendAuthEmail(String memberEmail, String authCode) {
-		String html = buildTemplate(authCode);
+		String html = buildAuthTemplate(authCode);
 		
 		try {
 			MimeMessage mimeMessage = mailSender.createMimeMessage();
 			MimeMessageHelper mailHelper = new MimeMessageHelper(mimeMessage, true, "utf-8");
 
 			mailHelper.setTo(memberEmail);
-			mailHelper.setSubject("[codingjoa] 이메일 인증번호입니다.");
+			mailHelper.setSubject("[CodingJoa] 이메일 인증번호입니다.");
 			mailHelper.setText(html, true);
 			mailSender.send(mimeMessage);
 
@@ -43,15 +43,39 @@ public class EmailServiceImpl implements EmailService {
 		}
 		
 		//redisService.saveAuthCode(memberEmail, authCode);
-		
 		//return authCode; because @Async --> null
 	}
 	
-	private String buildTemplate(String authCode) {
+	@Async
+	@Override
+	public void sendFoundAccountEmail(String memberEmail, String memberId) {
+		String html = buildAccountTemplate(memberId);
+		
+		try {
+			MimeMessage mimeMessage = mailSender.createMimeMessage();
+			MimeMessageHelper mailHelper = new MimeMessageHelper(mimeMessage, true, "utf-8");
+
+			mailHelper.setTo(memberEmail);
+			mailHelper.setSubject("[CodingJoa] 아이디를 안내해드립니다.");
+			mailHelper.setText(html, true);
+			mailSender.send(mimeMessage);
+
+		} catch (MessagingException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	private String buildAuthTemplate(String authCode) {
 		Context context = new Context();
 		context.setVariable("authCode", authCode);
-		
 		return templateEngine.process("template/authcode-mail", context);
+	}
+
+	private String buildAccountTemplate(String memberId) {
+		Context context = new Context();
+		context.setVariable("memberId", memberId);
+		return templateEngine.process("template/found-account-mail", context);
 	}
 
 }
