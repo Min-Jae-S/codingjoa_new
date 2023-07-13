@@ -83,7 +83,7 @@
 					</dd>
 				</dl>
 				<div class="pt-3">
-					<button type="button" class="btn btn-primary btn-block" id="sendFoundAccountBtn">계정 찾기</button>
+					<button type="button" class="btn btn-primary btn-block" id="sendFoundAccountBtn">확인</button>
 				</div>
 			</div>
 		</div>

@@ -184,10 +184,10 @@ public class MemberRestController {
 		
 		return ResponseEntity.ok(SuccessResponse.create().code("success.SendFoundAccount"));
 	}
-	
-	@PostMapping("/findPassword")
-	public ResponseEntity<Object> findPassword(@RequestBody @Valid EmailAuthDto emailAuthDto) {
-		log.info("## findPassword");
+
+	@PostMapping("/check/account")
+	public ResponseEntity<Object> checkAccount(@RequestBody @Valid EmailAuthDto emailAuthDto) {
+		log.info("## checkAccount");
 		log.info("\t > {}", emailAuthDto);
 		log.info("\t > {}", sessionDto);
 		

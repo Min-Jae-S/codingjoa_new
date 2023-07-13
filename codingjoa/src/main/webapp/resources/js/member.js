@@ -297,6 +297,47 @@ let memberService = (function() {
 			}
 		});
 	}
+	
+	funciotn checkAccount(obj, callback) {
+		console.log("## Check Account");
+		let url = contextPath + "/api/member/check/account";
+		console.log("> url = '%s'", url);
+		console.log("> obj = %s", JSON.stringify(obj, null, 2));
+		
+		$.ajax({
+			type : "POST",
+			url : url,
+			data : JSON.stringify(obj),
+			contentType : "application/json; charset=utf-8",
+			dataType : "json",
+			success : function(result) {
+				console.log("%c> SUCCESS","color:green");
+				console.log(JSON.stringify(result, null, 2));
+				callback(result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR","color:red");
+				$(".error, .success").remove();
+				let errorResponse = parseError(jqXHR);
+				if (errorResponse != null) {
+					let errorMap = errorResponse.errorMap;
+					if (errorMap != null) {
+						$.each(errorMap, function(errorField, errorMessage) {
+							$("#" + errorField).closest("dd")
+								.after("<dd id='" + errorField + ".errors' class='error'>" + errorMessage + "</dd>");
+						});
+					} else {
+						$("#memberEmail").closest("dd")
+							.after("<dd id='#memberEmail.errors' class='error'>" + errorResponse.errorMessage + "</dd>");
+					}
+				}
+			}
+		});
+	}
+	
+	function resetPassword(obj, callback) {
+		
+	}
 
 	return {
 		sendAuthCode:sendAuthCode,
@@ -306,7 +347,9 @@ let memberService = (function() {
 		getCurrentMember:getCurrentMember,
 		checkPassword:checkPassword,
 		updatePassword:updatePassword,
-		sendFoundAccount:sendFoundAccount
+		sendFoundAccount:sendFoundAccount,
+		checkAccount:checkAccount,
+		resetPassword:resetPassword
 	};
 	
 })();
