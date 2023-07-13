@@ -151,7 +151,7 @@
 			console.log(JSON.stringify(errorResponse, null, 2));
 			return errorResponse;
 		} catch(e) {
-			console.log("> Unexcepected Error");
+			alert("Unexcepected Error");
 			return null;
 		}
 	}

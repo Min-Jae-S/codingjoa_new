@@ -5,6 +5,17 @@ function getContextPath() {
     return location.href.substring(hostIndex, location.href.indexOf('/', hostIndex + 1));
 }
 
+function parseError(jqXHR) {
+	try {
+		let errorResponse = JSON.parse(jqXHR.responseText);
+		console.log(JSON.stringify(errorResponse, null, 2));
+		return errorResponse;
+	} catch(e) {
+		console.log("> Unexcepected Error");
+		return null;
+	}
+}
+
 let memberService = (function() {
 
 	const contextPath = getContextPath();
@@ -22,24 +33,25 @@ let memberService = (function() {
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
 			success : function(result) {
-				console.log("## Success Response");
+				console.log("%c## SUCCESS","color:green");
 				console.log(JSON.stringify(result, null, 2));
 				callback(result);
 			},
 			error : function(jqXHR) {
-				let errorResponse = JSON.parse(jqXHR.responseText);
-				console.log("## Error Response");
-				console.log(JSON.stringify(errorResponse, null, 2));
+				console.log("%c## ERROR","color:red");
 				$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
-				
-				if (jqXHR.status == 422) {
-					$.each(errorResponse.errorMap, function(errorField, errorMessage) {
-						$("#" + errorField).closest("dd")
-							.after("<dd id='" + errorField + ".errors' class='error'>" + errorMessage + "</dd>");
-					});
-				} else {
-					alert(errorResponse.errorMessage);
-				}
+				let errorResponse = parseError(jqXHR);
+				if (errorReponse != null) {
+					let errorMap = errorResponse.errorMap;
+					if (errorMap != null) {
+						$.each(errorMap, function(errorField, errorMessage) {
+							$("#" + errorField).closest("dd")
+								.after("<dd id='" + errorField + ".errors' class='error'>" + errorMessage + "</dd>");
+						});
+					} else {
+						alert(errorResponse.errorMessage);
+					}
+				} 
 			}
 		});
 	}
@@ -57,24 +69,25 @@ let memberService = (function() {
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
 			success : function(result) {
-				console.log("## Success Response");
+				console.log("%c## SUCCESS","color:green");
 				console.log(JSON.stringify(result, null, 2));
 				callback(result);
 			},
 			error : function(jqXHR) {
-				let errorResponse = JSON.parse(jqXHR.responseText);
-				console.log("## Error Response");
-				console.log(JSON.stringify(errorResponse, null, 2));
+				console.log("%c## ERROR","color:red");
 				$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
-				
-				if (jqXHR.status == 422) {
-					$.each(errorResponse.errorMap, function(errorField, errorMessage) {
-						$("#" + errorField).closest("dd")
-							.after("<dd id='" + errorField + ".errors' class='error'>" + errorMessage + "</dd>");
-					});
-				} else {
-					alert(errorResponse.errorMessage);
-				}
+				let errorResponse = parseError(jqXHR);
+				if (errorReponse != null) {
+					let errorMap = errorResponse.errorMap;
+					if (errorMap != null) {
+						$.each(errorMap, function(errorField, errorMessage) {
+							$("#" + errorField).closest("dd")
+								.after("<dd id='" + errorField + ".errors' class='error'>" + errorMessage + "</dd>");
+						});
+					} else {
+						alert(errorResponse.errorMessage);
+					}
+				} 
 			}
 		});
 	}
@@ -92,24 +105,25 @@ let memberService = (function() {
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
 			success : function(result) {
-				console.log("## Success Response");
+				console.log("%c## SUCCESS","color:green");
 				console.log(JSON.stringify(result, null, 2));
 				callback(result);
 			},
 			error : function(jqXHR) {
-				let errorResponse = JSON.parse(jqXHR.responseText);
-				console.log("## Error Response");
-				console.log(JSON.stringify(errorResponse, null, 2));
+				console.log("%c## ERROR","color:red");
 				$("#memberZipcode\\.errors, #memberAddr\\.errors, #memberAddrDetail\\.errors").remove();
-				
-				if (jqXHR.status == 422) {
-					$.each(errorResponse.errorMap, function(errorField, errorMessage) {
-						$("#" + errorField).closest("dd")
-							.after("<dd id='" + errorField + ".errors' class='error'>" + errorMessage + "</dd>");
-					});
-				} else {
-					alert(errorResponse.errorMessage);
-				}
+				let errorResponse = parseError(jqXHR);
+				if (errorReponse != null) {
+					let errorMap = errorResponse.errorMap;
+					if (errorMap != null) {
+						$.each(errorMap, function(errorField, errorMessage) {
+							$("#" + errorField).closest("dd")
+								.after("<dd id='" + errorField + ".errors' class='error'>" + errorMessage + "</dd>");
+						});
+					} else {
+						alert(errorResponse.errorMessage);
+					}
+				} 
 			}
 		});
 	}
@@ -127,23 +141,24 @@ let memberService = (function() {
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
 			success : function(result) {
-				console.log("## Success Response");
+				console.log("%c## SUCCESS","color:green");
 				console.log(JSON.stringify(result, null, 2));
 				callback(result);
 			},
 			error : function(jqXHR) {
-				let errorResponse = JSON.parse(jqXHR.responseText);
-				console.log("## Error Response");
-				console.log(JSON.stringify(errorResponse, null, 2));
+				console.log("%c## ERROR","color:red");
 				$("#memberAgree\\.errors").remove();
-				
-				if (jqXHR.status == 422) {
-					$.each(errorResponse.errorMap, function(errorField, errorMessage) {
-						$("#" + errorField).closest("dd")
-							.after("<dd id='" + errorField + ".errors' class='error'>" + errorMessage + "</dd>");
-					});
-				} else {
-					alert(errorResponse.errorMessage);
+				let errorResponse = parseError(jqXHR);
+				if (errorReponse != null) {
+					let errorMap = errorResponse.errorMap;
+					if (errorMap != null) {
+						$.each(errorMap, function(errorField, errorMessage) {
+							$("#" + errorField).closest("dd")
+								.after("<dd id='" + errorField + ".errors' class='error'>" + errorMessage + "</dd>");
+						});
+					} else {
+						alert(errorResponse.errorMessage);
+					}
 				}
 			}
 		});
@@ -159,15 +174,16 @@ let memberService = (function() {
 			url : url,
 			dataType : "json",
 			success : function(result) {
-				console.log("## Success Response");
+				console.log("%c## SUCCESS","color:green");
 				console.log(JSON.stringify(result, null, 2));
 				callback(result);
 			},
 			error : function(jqXHR) {
-				let errorResponse = JSON.parse(jqXHR.responseText);
-				console.log("## Error Response");
-				console.log(JSON.stringify(errorResponse, null, 2));
-				alert(errorResponse.errorMessage);
+				console.log("%c## ERROR","color:red");
+				let errorResponse = parseError(jqXHR);
+				if (errorReponse != null) {
+					alert(errorResponse.errorMessage);
+				}
 			}
 		});
 	}
@@ -185,23 +201,24 @@ let memberService = (function() {
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
 			success : function(result) {
-				console.log("## Success Response");
+				console.log("%c## SUCCESS","color:green");
 				console.log(JSON.stringify(result, null, 2));
 				callback(result);
 			},
 			error : function(jqXHR) {
-				let errorResponse = JSON.parse(jqXHR.responseText);
-				console.log("## Error Response");
-				console.log(JSON.stringify(errorResponse, null, 2));
+				console.log("%c## ERROR","color:red");
 				$(".error").remove();
-				
-				if (jqXHR.status == 422) {
-					$.each(errorResponse.errorMap, function(errorField, errorMessage) {
-						$("#" + errorField).closest("dd")
-							.after("<dd id='" + errorField + ".errors' class='error'>" + errorMessage + "</dd>");
-					});
-				} else {
-					alert(errorResponse.errorMessage);
+				let errorResponse = parseError(jqXHR);
+				if (errorReponse != null) {
+					let errorMap = errorResponse.errorMap;
+					if (errorMap != null) {
+						$.each(errorMap, function(errorField, errorMessage) {
+							$("#" + errorField).closest("dd")
+								.after("<dd id='" + errorField + ".errors' class='error'>" + errorMessage + "</dd>");
+						});
+					} else {
+						alert(errorResponse.errorMessage);
+					}
 				}
 			}
 		});
@@ -220,23 +237,24 @@ let memberService = (function() {
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
 			success : function(result) {
-				console.log("## Success Response");
+				console.log("%c## SUCCESS","color:green");
 				console.log(JSON.stringify(result, null, 2));
 				callback(result);
 			},
 			error : function(jqXHR) {
-				let errorResponse = JSON.parse(jqXHR.responseText);
-				console.log("## Error Response");
-				console.log(JSON.stringify(errorResponse, null, 2));
+				console.log("%c## ERROR","color:red");
 				$(".error").remove();
-				
-				if (jqXHR.status == 422) {
-					$.each(errorResponse.errorMap, function(errorField, errorMessage) {
-						$("#" + errorField).closest("dd")
-							.after("<dd id='" + errorField + ".errors' class='error'>" + errorMessage + "</dd>");
-					});
-				} else {
-					alert(errorResponse.errorMessage);
+				let errorResponse = parseError(jqXHR);
+				if (errorReponse != null) {
+					let errorMap = errorResponse.errorMap;
+					if (errorMap != null) {
+						$.each(errorMap, function(errorField, errorMessage) {
+							$("#" + errorField).closest("dd")
+								.after("<dd id='" + errorField + ".errors' class='error'>" + errorMessage + "</dd>");
+						});
+					} else {
+						alert(errorResponse.errorMessage);
+					}
 				}
 			}
 		});
@@ -255,24 +273,24 @@ let memberService = (function() {
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
 			success : function(result) {
-				console.log("%c## SUCCESS","color:blue");
+				console.log("%c## SUCCESS","color:green");
 				console.log(JSON.stringify(result, null, 2));
 				callback(result);
 			},
 			error : function(jqXHR) {
-				let errorResponse = JSON.parse(jqXHR.responseText);
 				console.log("%c## ERROR","color:red");
-				console.log(JSON.stringify(errorResponse, null, 2));
 				$(".error, .success").remove();
-				
-				if (jqXHR.status == 422) {
-					let errorMap = JSON.parse(jqXHR.responseText).errorMap;
-					$.each(errorMap, function(errorField, errorMessage) {
-						$("#" + errorField).closest("dd")
-							.after("<dd id='" + errorField + ".errors' class='error'>" + errorMessage + "</dd>");
-					});
-				} else {
-					alert(errorResponse.errorMessage);
+				let errorResponse = parseError(jqXHR);
+				if (errorReponse != null) {
+					let errorMap = errorResponse.errorMap;
+					if (errorMap != null) {
+						$.each(errorMap, function(errorField, errorMessage) {
+							$("#" + errorField).closest("dd")
+								.after("<dd id='" + errorField + ".errors' class='error'>" + errorMessage + "</dd>");
+						});
+					} else {
+						alert(errorResponse.errorMessage);
+					}
 				}
 			}
 		});
