@@ -115,7 +115,7 @@ public class MemberServiceImpl implements MemberService {
 	public void checkCurrentPassword(String memberPassword, Integer memberIdx) {
 		String encodedPassword = memberMapper.findPasswordByIdx(memberIdx);
 		if (passwordEncoder.matches(memberPassword, encodedPassword)) {
-			throw new ExpectedException(MessageUtils.getMessage("error.NotSafePassword"));
+			throw new ExpectedException(MessageUtils.getMessage("error.BadCredentials"));
 		}
 	}
 

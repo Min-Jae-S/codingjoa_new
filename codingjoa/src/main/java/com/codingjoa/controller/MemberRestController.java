@@ -133,12 +133,11 @@ public class MemberRestController {
 	
 	@PostMapping("/check/password")
 	public ResponseEntity<Object> checkPassword(@RequestBody @Valid PasswordDto passwordDto, 
-			HttpSession session) {
+			@AuthenticationPrincipal UserDetailsDto principal, HttpSession session) {
 		log.info("## checkPassword");
 		log.info("\t > {}", passwordDto);
 		
-		// check password service logic
-		
+		memberService.checkCurrentPassword(passwordDto.getMemberPassword(), principal.getMember().getMemberIdx());
 		session.setAttribute("PASSWORD_AUTHENTICATION", true);
 		
 		return ResponseEntity.ok(SuccessResponse.create().code("success.CheckPassword"));
