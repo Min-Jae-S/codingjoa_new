@@ -76,18 +76,18 @@ let memberService = (function() {
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR","color:red");
-				//$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
-				$(".error, .success").remove();
+				$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
 				let errorResponse = parseError(jqXHR);
 				if (errorResponse != null) {
 					let errorMap = errorResponse.errorMap;
 					if (errorMap != null) {
 						$.each(errorMap, function(errorField, errorMessage) {
 							$("#" + errorField).closest("dd")
-							.after("<dd id='" + errorField + ".errors' class='error'>" + errorMessage + "</dd>");
+								.after("<dd id='" + errorField + ".errors' class='error'>" + errorMessage + "</dd>");
 						});
 					} else {
-						alert(errorResponse.errorMessage);
+						$("#memberEmail").closest("dd")
+							.after("<dd id='memberEmail.errors' class='error'>" + errorResponse.errorMessage + "</dd>");
 					}
 				} 
 			}
@@ -113,7 +113,6 @@ let memberService = (function() {
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR","color:red");
-				//$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
 				$(".error, .success").remove();
 				let errorResponse = parseError(jqXHR);
 				if (errorResponse != null) {
@@ -121,10 +120,11 @@ let memberService = (function() {
 					if (errorMap != null) {
 						$.each(errorMap, function(errorField, errorMessage) {
 							$("#" + errorField).closest("dd")
-							.after("<dd id='" + errorField + ".errors' class='error'>" + errorMessage + "</dd>");
+								.after("<dd id='" + errorField + ".errors' class='error'>" + errorMessage + "</dd>");
 						});
 					} else {
-						alert(errorResponse.errorMessage);
+						$("#memberEmail").closest("dd")
+							.after("<dd id='memberEmail.errors' class='error'>" + errorResponse.errorMessage + "</dd>");
 					}
 				} 
 			}

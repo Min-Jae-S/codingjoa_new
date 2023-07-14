@@ -109,11 +109,10 @@
 	$(function() {
 		$("#sendEmailBtn").on("click", function() {
 			let obj = {
-				memberId : $("#memberId").val(),
 				memberEmail : $("#memberEmail").val(),
 			};
 			
-			memberService.sendEmailForResetPassword(obj, function(result) {
+			memberService.sendAuthCodeForReset(obj, function(result) {
 				$(".error, .success").remove();
 				$("#authCode").closest("dd").after("<dd class='success'>" + result.message + "</dd>");
 				$("#authCode").val("");

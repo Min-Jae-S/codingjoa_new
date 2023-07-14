@@ -65,10 +65,6 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public void checkEmailForUpdate(String memberEmail, Integer memberIdx) {
 		Member currentMember = memberMapper.findMemberByIdx(memberIdx);
-		if (currentMember == null) {
-			throw new ExpectedException(MessageUtils.getMessage("error.NotFoundMember"));
-		}
-		
 		String currentEmail = currentMember.getMemberEmail();
 		if (memberEmail.equals(currentEmail)) {
 			throw new ExpectedException(MessageUtils.getMessage("error.NotMyEmail"));
@@ -77,6 +73,14 @@ public class MemberServiceImpl implements MemberService {
 		Member member = memberMapper.findMemberByEmail(memberEmail);
 		if (member != null) {
 			throw new ExpectedException(MessageUtils.getMessage("error.EmailExist"));
+		}
+	}
+	
+	@Override
+	public void checkEmailForReset(String memberEmail) {
+		Member member = memberMapper.findMemberByEmail(memberEmail);
+		if (member == null) {
+			throw new ExpectedException(MessageUtils.getMessage("error.NotEmailExist"));
 		}
 	}
 	
@@ -168,7 +172,6 @@ public class MemberServiceImpl implements MemberService {
 	public boolean isAccountExist(String memberId, String memberEmail) {
 		return memberMapper.isAccountExist(memberId, memberEmail);
 	}
-
 
 
 }

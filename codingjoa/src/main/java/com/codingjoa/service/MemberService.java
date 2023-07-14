@@ -12,6 +12,8 @@ public interface MemberService {
 	
 	void checkEmailForUpdate(String memberEmail, Integer memberIdx);
 	
+	void checkEmailForReset(String memberEmail);
+	
 	boolean isEmailExist(String memberEmail);
 	
 	String findIdByEmail(String memberEmail);
