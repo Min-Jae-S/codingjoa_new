@@ -113,7 +113,12 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public void checkCurrentPassword(String memberPassword, Integer memberIdx) {
-		String encodedPassword = memberMapper.findPasswordByIdx(memberIdx);
+		Member member = memberMapper.findMemberByIdx(memberIdx);
+		if (member == null) {
+			throw new ExpectedException(MessageUtils.getMessage("error.NotFoundMember"));
+		}
+		
+		String encodedPassword = member.getMemberPassword();
 		if (!passwordEncoder.matches(memberPassword, encodedPassword)) {
 			throw new ExpectedException(MessageUtils.getMessage("error.BadCredentials"));
 		}

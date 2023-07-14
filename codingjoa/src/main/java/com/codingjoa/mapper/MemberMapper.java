@@ -34,8 +34,6 @@ public interface MemberMapper {
 	
 	void updateAgree(Member member);
 	
-	String findPasswordByIdx(Integer memberIdx);
-	
 	void updatePassword(Member member);
 	
 	boolean isAccountExist(@Param("memberId") String memberId, @Param("memberEmail") String memberEmail);
