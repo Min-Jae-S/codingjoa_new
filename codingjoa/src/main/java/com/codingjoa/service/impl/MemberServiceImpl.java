@@ -48,10 +48,20 @@ public class MemberServiceImpl implements MemberService {
 		
 		memberMapper.registerAuth(auth);
 	}
-
+	
 	@Override
 	public boolean isIdExist(String memberId) {
 		return memberMapper.isIdExist(memberId);
+	}
+
+	@Override
+	public void checkEmailForJoin(String memberEmail) {
+		Member member = memberMapper.findMemberByEmail(memberEmail);
+		log.info("\t > find member by email = {}", member);
+		
+		if (member != null) {
+			throw new ExpectedException(MessageUtils.getMessage("error.EmailExist"));
+		}
 	}
 	
 	@Override

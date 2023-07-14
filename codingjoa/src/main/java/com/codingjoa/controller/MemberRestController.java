@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import com.codingjoa.dto.AddrDto;
 import com.codingjoa.dto.AgreeDto;
 import com.codingjoa.dto.EmailAuthDto;
+import com.codingjoa.dto.EmailDto;
 import com.codingjoa.dto.PasswordChangeDto;
 import com.codingjoa.dto.PasswordDto;
 import com.codingjoa.response.SuccessResponse;
@@ -72,14 +73,16 @@ public class MemberRestController {
 	}
 
 	@PostMapping("/join/auth")
-	public ResponseEntity<Object> sendAuthCodeForJoin(@RequestBody @Valid EmailAuthDto emailAuthDto) {
+	public ResponseEntity<Object> sendAuthCodeForJoin(@RequestBody @Valid EmailDto emailDto) {
 		log.info("## sendEmailForJoin");
-		log.info("\t > {}", emailAuthDto);
+		log.info("\t > {}", emailDto);
+
+		String memberEmail = emailDto.getMemberEmail();
+		memberService.checkEmailForJoin(memberEmail);
 
 		String authCode = RandomStringUtils.randomNumeric(6);
 		log.info("\t > authCode = {}", authCode);
 		
-		String memberEmail = emailAuthDto.getMemberEmail();
 		emailService.sendAuthEmail(memberEmail, authCode);
 		redisService.saveAuthCode(memberEmail, authCode);
 		
@@ -87,14 +90,14 @@ public class MemberRestController {
 	}
 	
 	@PostMapping("/update-email/auth")
-	public ResponseEntity<Object> sendAuthCodeForUpdate(@RequestBody @Valid EmailAuthDto emailAuthDto) {
+	public ResponseEntity<Object> sendAuthCodeForUpdate(@RequestBody @Valid EmailDto emailDto) {
 		log.info("## sendEmailForUpdateEmail");
-		log.info("\t > {}", emailAuthDto);
+		log.info("\t > {}", emailDto);
 		
 		String authCode = RandomStringUtils.randomNumeric(6);
 		log.info("\t > authCode = {}", authCode);
 		
-		String memberEmail = emailAuthDto.getMemberEmail();
+		String memberEmail = emailDto.getMemberEmail();
 		emailService.sendAuthEmail(memberEmail, authCode);
 		redisService.saveAuthCode(memberEmail, authCode);
 		

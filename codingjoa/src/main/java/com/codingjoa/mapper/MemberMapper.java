@@ -17,6 +17,8 @@ public interface MemberMapper {
 	
 	boolean isIdExist(String memberId);
 	
+	Member findMemberByEmail(String memberEmail);
+	
 	boolean isEmailExist(String memberEmail);
 	
 	String findIdByEmail(String memberEmail);
