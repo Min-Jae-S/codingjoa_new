@@ -116,8 +116,8 @@ public class MemberRestController {
 	}
 	
 	@PostMapping("/reset-password/auth")
-	public ResponseEntity<Object> sendEmailForReset(@RequestBody @Valid EmailDto emailDto) {
-		log.info("## sendEmailForReset");
+	public ResponseEntity<Object> sendAuthCodeForReset(@RequestBody @Valid EmailDto emailDto) {
+		log.info("## sendAuthCodeForReset");
 		log.info("\t > {}", emailDto);
 		
 		String memberEmail = emailDto.getMemberEmail();
