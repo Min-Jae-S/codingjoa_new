@@ -56,14 +56,22 @@ public class MemberRestController {
 	@Autowired
 	private RedisService redisService;
 	
+	@Resource(name = "emailValidator")
+	private Validator emailValidator;
+
 	@Resource(name = "emailAuthValidator")
 	private Validator emailAuthValidator;
 	
 	@Resource(name = "passwordChangeValidator")
 	private Validator passwordChangeValidator;
 	
-	@InitBinder("emailAuthDto")
+	@InitBinder("emailDto")
 	public void InitBinderEmail(WebDataBinder binder) {
+		binder.addValidators(emailValidator);
+	}
+
+	@InitBinder("emailAuthDto")
+	public void InitBinderEmailAuth(WebDataBinder binder) {
 		binder.addValidators(emailAuthValidator);
 	}
 	

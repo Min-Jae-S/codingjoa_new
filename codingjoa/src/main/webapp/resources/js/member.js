@@ -49,7 +49,8 @@ let memberService = (function() {
 								.after("<span id='" + errorField + ".errors' class='error'>" + errorMessage + "</span>");
 						});
 					} else {
-						alert(errorResponse.errorMessage);
+						$("#authCode").closest("div")
+							.after("<span id='memberEmail.errors' class='error'>" + errorResponse.errorMessage + "</span>");
 					}
 				} 
 			}

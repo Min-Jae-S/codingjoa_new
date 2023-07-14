@@ -48,6 +48,15 @@
 		WHERE
 			member_id = #{memberId}
 	</select>
+	
+	<select id="findMemberByEmail" parameterType="string" resultType="member">
+		SELECT
+			*
+		FROM
+			member
+		WHERE	
+			member_email = #{memberEmail}
+	</select>
 
 	<select id="isEmailExist" parameterType="string" resultType="boolean">
 		SELECT
