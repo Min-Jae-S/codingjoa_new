@@ -214,7 +214,7 @@
 				memberEmail : $("#memberEmail").val(),
 			};
 			
-			memberService.sendEmailForUpdateEmail(obj, function(result) {
+			memberService.sendAuthCodeForUpdate(obj, function(result) {
 				$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
 				$("#authCode").closest("dd").after("<dd class='success'>" + result.message + "</dd>");
 				$("#authCode").val("");

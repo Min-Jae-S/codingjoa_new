@@ -10,6 +10,8 @@ public interface MemberService {
 	
 	void checkEmailForJoin(String memeberEmail);
 	
+	void checkEmailForUpdate(String memberEmail, Integer memberIdx);
+	
 	boolean isEmailExist(String memberEmail);
 	
 	String findIdByEmail(String memberEmail);

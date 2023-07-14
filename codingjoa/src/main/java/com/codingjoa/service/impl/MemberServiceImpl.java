@@ -57,8 +57,24 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public void checkEmailForJoin(String memberEmail) {
 		Member member = memberMapper.findMemberByEmail(memberEmail);
-		log.info("\t > find member by email = {}", member);
+		if (member != null) {
+			throw new ExpectedException(MessageUtils.getMessage("error.EmailExist"));
+		}
+	}
+	
+	@Override
+	public void checkEmailForUpdate(String memberEmail, Integer memberIdx) {
+		Member currentMember = memberMapper.findMemberByIdx(memberIdx);
+		if (currentMember == null) {
+			throw new ExpectedException(MessageUtils.getMessage("error.NotFoundMember"));
+		}
 		
+		String currentEmail = currentMember.getMemberEmail();
+		if (memberEmail.equals(currentEmail)) {
+			throw new ExpectedException(MessageUtils.getMessage("error.NotMyEmail"));
+		}
+		
+		Member member = memberMapper.findMemberByEmail(memberEmail);
 		if (member != null) {
 			throw new ExpectedException(MessageUtils.getMessage("error.EmailExist"));
 		}
@@ -72,8 +88,6 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public String findIdByEmail(String memberEmail) {
 		String memberId = memberMapper.findIdByEmail(memberEmail);
-		log.info("\t > find memberId by email = {}", memberId);
-		
 		if (memberId == null) {
 			throw new ExpectedException(MessageUtils.getMessage("error.NotEmailExist"));
 		}
@@ -154,6 +168,7 @@ public class MemberServiceImpl implements MemberService {
 	public boolean isAccountExist(String memberId, String memberEmail) {
 		return memberMapper.isAccountExist(memberId, memberEmail);
 	}
+
 
 
 }

@@ -98,14 +98,17 @@ public class MemberRestController {
 	}
 	
 	@PostMapping("/update-email/auth")
-	public ResponseEntity<Object> sendAuthCodeForUpdate(@RequestBody @Valid EmailDto emailDto) {
-		log.info("## sendEmailForUpdateEmail");
+	public ResponseEntity<Object> sendAuthCodeForUpdate(@RequestBody @Valid EmailDto emailDto, 
+			@AuthenticationPrincipal UserDetailsDto principal) {
+		log.info("## sendAuthCodeForUpdate");
 		log.info("\t > {}", emailDto);
+
+		String memberEmail = emailDto.getMemberEmail();
+		memberService.checkEmailForUpdate(memberEmail, principal.getMember().getMemberIdx());
 		
 		String authCode = RandomStringUtils.randomNumeric(6);
 		log.info("\t > authCode = {}", authCode);
 		
-		String memberEmail = emailDto.getMemberEmail();
 		emailService.sendAuthEmail(memberEmail, authCode);
 		redisService.saveAuthCode(memberEmail, authCode);
 		
