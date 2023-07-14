@@ -62,7 +62,7 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public String findIdByEmail(String memberEmail) {
 		String memberId = memberMapper.findIdByEmail(memberEmail);
-		log.info("\t > find id by email = {}", memberId);
+		log.info("\t > find memberId by email = {}", memberId);
 		
 		if (memberId == null) {
 			throw new ExpectedException(MessageUtils.getMessage("error.NotEmailExist"));
