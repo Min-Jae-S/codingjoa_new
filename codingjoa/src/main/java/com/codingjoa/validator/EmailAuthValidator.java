@@ -43,14 +43,14 @@ public class EmailAuthValidator implements Validator {
 		Type type = emailAuthDto.getType();
 		log.info("\t > type = {}", type);
 		
-//		if (type == null) {
-//			errors.rejectValue("memberEmail", "NotValidAccess");
-//			return;
-//		}
-		
 		String memberId = emailAuthDto.getMemberId();
 		String memberEmail = emailAuthDto.getMemberEmail();
 		String authCode = emailAuthDto.getAuthCode();
+		
+		// BEFORE_JOIN 								// join.jsp
+		// BEFORE_UPDATE_EMAIL, UPDATE_EMAIL	 	// info.jsp
+		// FIND_ACCOUNT								// find-account.jsp
+		// BEFORE_FIND_PASSWORD, FIND_PASSWORD		// find-password.jsp
 		
 		if (type == Type.BEFORE_JOIN) {
 			if (!StringUtils.hasText(memberEmail)) {
@@ -124,7 +124,6 @@ public class EmailAuthValidator implements Validator {
 			return;
 		} 
 		
-		// /codingjoa/api/member/send/found-account
 		if (type == Type.FIND_ACCOUNT) {
 			if (!StringUtils.hasText(memberEmail)) {
 				errors.rejectValue("memberEmail", "NotBlank");
@@ -136,16 +135,9 @@ public class EmailAuthValidator implements Validator {
 				return;
 			}
 			
-			// validator --> service
-//			if (!memberService.isEmailExist(memberEmail)) {
-//				errors.rejectValue("memberEmail", "NotEmailExist");
-//				return;
-//			}
-			
 			return;
 		} 
 		
-		// /codingjoa/api/member/send/auth-code
 		if (type == Type.BEFORE_FIND_PASSWORD) {
 			if (!StringUtils.hasText(memberId)) {
 				errors.rejectValue("memberId", "NotBlank");
@@ -171,7 +163,6 @@ public class EmailAuthValidator implements Validator {
 			return;
 		}
 		
-		// /codingjoa/api/member/check/account
 		if (type == Type.FIND_PASSWORD) { 
 			if (!StringUtils.hasText(memberId)) {
 				errors.rejectValue("memberId", "NotBlank");

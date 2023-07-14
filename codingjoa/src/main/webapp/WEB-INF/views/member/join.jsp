@@ -15,6 +15,7 @@
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="${contextPath}/resources/js/member.js"></script>
 <style>
 	.form-control:read-only {
  		background-color: white;
@@ -72,7 +73,7 @@
 							<div class="input-group mb-2">
 								<form:input path="memberEmail" class="form-control" placeholder="이메일 입력"/>
 								<div class="input-group-append">
-									<button type="button" class="btn btn-outline-secondary btn-sm" onclick="sendAuthCode()">인증코드 받기</button>
+									<button type="button" class="btn btn-outline-secondary btn-sm" id="sendEmailBtn">인증코드 받기</button>
 								</div>
 							</div>
 							<div class="input-group">
@@ -84,15 +85,15 @@
 						<div class="form-group">
 							<form:label path="memberZipcode" class="font-weight-bold">주소</form:label>
 						    <div class="input-group w-50">
-						    	<form:input path="memberZipcode" class="form-control" readonly="true" placeholder="우편번호 입력" onclick="execPostcode()"/>
+						    	<form:input path="memberZipcode" class="form-control" readonly="true" placeholder="우편번호 입력"/>
 								<div class="input-group-append">
-									<button type="button" class="btn btn-outline-secondary btn-sm" onclick="execPostcode()">주소 찾기</button>
+									<button type="button" class="btn btn-outline-secondary btn-sm" id="searchAddrBtn">주소 찾기</button>
 								</div>
 							</div>
 							<form:errors path="memberZipcode" cssClass="error"/>
 						</div>
 						<div class="form-group">
-							<form:input path="memberAddr" class="form-control" readonly="true" placeholder="기본주소 입력" onclick="execPostcode()"/>
+							<form:input path="memberAddr" class="form-control" readonly="true" placeholder="기본주소 입력"/>
 							<form:errors path="memberAddr" cssClass="error"/>
 						</div>
 						<div class="form-group mb-4">
@@ -106,7 +107,7 @@
 						</div>
 						<div class="form-check small mb-1">
 							<label class="form-check-label">
-								<input class="form-check-input" type="checkbox" onchange="toggleJoinBtn(this)">
+								<input class="form-check-input" type="checkbox" id="agreeJoinCheck">
 								<a href="#">이용약관</a> 및 <a href="#">개인정보 처리방침</a>에 동의합니다.
 							</label>
 						</div>
@@ -129,56 +130,32 @@
 
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
-	function sendAuthCode() {
-		console.log("## Send Auth Code");
-		let url = "${contextPath}/api/member/send/auth-code";
-		let obj = {
-			memberEmail : $("#memberEmail").val(),
-			type : "BEFORE_JOIN"
-		};
-		console.log("> url = '%s'", url);
-		console.log("> obj = %s", JSON.stringify(obj, null, 2));
-		
-		$.ajax({
-			type : "POST",
-			url : url,
-			data : JSON.stringify(obj),
-			contentType : "application/json; charset=utf-8",
-			dataType : "json",
-			success : function(result) {
-				console.log("## Success Response");
-				console.log(JSON.stringify(result, null, 2));
+	$(function() {
+		$("#sendEmailBtn").on("click", function() {
+			let obj = {
+				memberEmail : $("#memberEmail").val()
+			};
+			
+			memberService.sendAuthCodeForJoin(obj, function(result) {
 				$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
 				$("#authCode").closest("div").after("<span class='success'>" + result.message + "</span>");
 				$("#authCode").val("");
 				$("#authCode").focus();
-			},
-			error : function(jqXHR) {
-				let errorResponse = JSON.parse(jqXHR.responseText);
-				console.log("## Error Response");
-				console.log(JSON.stringify(errorResponse, null, 2));
-				$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
-				
-				if (jqXHR.status == 422) {
-					$.each(errorResponse.errorMap, function(errorField, errorMessage) {
-						$("#authCode").closest("div")
-							.after("<span id='" + errorField + ".errors' class='error'>" + errorMessage + "</span>");
-					});
-				} else {
-					alert(errorResponse.errorMessage);
-				}
+			});
+		});
+		
+		$("#agreeJoinCheck").on("change", function() {
+			if ($(this).is(":checked")) {
+				$("#joinBtn").attr("disabled", false);
+			} else {
+				$("#joinBtn").attr("disabled", true);
 			}
 		});
-	}
-	
-	function toggleJoinBtn(checkbox) {
-		let joinBtn = document.getElementById("joinBtn");
-		if (checkbox.checked == true) {
-			joinBtn.disabled = false;
-		} else {
-			joinBtn.disabled = true;
-		}
-	}
+		
+		$("#searchAddrBtn, #memberZipcode, #memberAddr").on("click", function() {
+			execPostcode();
+		});
+	});
 	
     function execPostcode() {
         new daum.Postcode({

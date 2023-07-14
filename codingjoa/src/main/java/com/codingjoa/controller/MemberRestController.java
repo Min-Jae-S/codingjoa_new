@@ -71,11 +71,41 @@ public class MemberRestController {
 		binder.addValidators(passwordChangeValidator);
 	}
 
-	@PostMapping("/send/auth-code")
-	public ResponseEntity<Object> sendAuthCode(@RequestBody @Valid EmailAuthDto emailAuthDto) {
-		log.info("## sendAuthCode");
+	@PostMapping("/join/auth")
+	public ResponseEntity<Object> sendAuthCodeForJoin(@RequestBody @Valid EmailAuthDto emailAuthDto) {
+		log.info("## sendEmailForJoin");
 		log.info("\t > {}", emailAuthDto);
 
+		String authCode = RandomStringUtils.randomNumeric(6);
+		log.info("\t > authCode = {}", authCode);
+		
+		String memberEmail = emailAuthDto.getMemberEmail();
+		emailService.sendAuthEmail(memberEmail, authCode);
+		redisService.saveAuthCode(memberEmail, authCode);
+		
+		return ResponseEntity.ok(SuccessResponse.create().code("success.SendAuthCode"));
+	}
+	
+	@PostMapping("/update-email/auth")
+	public ResponseEntity<Object> sendAuthCodeForUpdate(@RequestBody @Valid EmailAuthDto emailAuthDto) {
+		log.info("## sendEmailForUpdateEmail");
+		log.info("\t > {}", emailAuthDto);
+		
+		String authCode = RandomStringUtils.randomNumeric(6);
+		log.info("\t > authCode = {}", authCode);
+		
+		String memberEmail = emailAuthDto.getMemberEmail();
+		emailService.sendAuthEmail(memberEmail, authCode);
+		redisService.saveAuthCode(memberEmail, authCode);
+		
+		return ResponseEntity.ok(SuccessResponse.create().code("success.SendAuthCode"));
+	}
+	
+	@PostMapping("/reset-password/auth")
+	public ResponseEntity<Object> sendEmailForReset(@RequestBody @Valid EmailAuthDto emailAuthDto) {
+		log.info("## sendEmailForResetPassword");
+		log.info("\t > {}", emailAuthDto);
+		
 		String authCode = RandomStringUtils.randomNumeric(6);
 		log.info("\t > authCode = {}", authCode);
 		
