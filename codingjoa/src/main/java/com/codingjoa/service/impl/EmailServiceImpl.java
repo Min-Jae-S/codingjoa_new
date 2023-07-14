@@ -26,8 +26,8 @@ public class EmailServiceImpl implements EmailService {
 	
 	@Async // Async Config
 	@Override
-	public void sendAuthEmail(String memberEmail, String authCode) {
-		String html = buildAuthTemplate(authCode);
+	public void sendAuthCode(String memberEmail, String authCode) {
+		String html = buildAuthCodeTemplate(authCode);
 		
 		try {
 			MimeMessage mimeMessage = mailSender.createMimeMessage();
@@ -48,7 +48,7 @@ public class EmailServiceImpl implements EmailService {
 	
 	@Async
 	@Override
-	public void sendFoundAccountEmail(String memberEmail, String memberId) {
+	public void sendFoundAccount(String memberEmail, String memberId) {
 		String html = buildAccountTemplate(memberId);
 		
 		try {
@@ -66,10 +66,10 @@ public class EmailServiceImpl implements EmailService {
 		
 	}
 	
-	private String buildAuthTemplate(String authCode) {
+	private String buildAuthCodeTemplate(String authCode) {
 		Context context = new Context();
 		context.setVariable("authCode", authCode);
-		return templateEngine.process("template/authcode-mail", context);
+		return templateEngine.process("template/auth-code-mail", context);
 	}
 
 	private String buildAccountTemplate(String memberId) {

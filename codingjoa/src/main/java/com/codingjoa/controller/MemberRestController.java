@@ -91,7 +91,7 @@ public class MemberRestController {
 		String authCode = RandomStringUtils.randomNumeric(6);
 		log.info("\t > authCode = {}", authCode);
 		
-		emailService.sendAuthEmail(memberEmail, authCode);
+		emailService.sendAuthCode(memberEmail, authCode);
 		redisService.saveAuthCode(memberEmail, authCode);
 		
 		return ResponseEntity.ok(SuccessResponse.create().code("success.SendAuthCode"));
@@ -109,7 +109,7 @@ public class MemberRestController {
 		String authCode = RandomStringUtils.randomNumeric(6);
 		log.info("\t > authCode = {}", authCode);
 		
-		emailService.sendAuthEmail(memberEmail, authCode);
+		emailService.sendAuthCode(memberEmail, authCode);
 		redisService.saveAuthCode(memberEmail, authCode);
 		
 		return ResponseEntity.ok(SuccessResponse.create().code("success.SendAuthCode"));
@@ -126,7 +126,7 @@ public class MemberRestController {
 		String authCode = RandomStringUtils.randomNumeric(6);
 		log.info("\t > authCode = {}", authCode);
 		
-		emailService.sendAuthEmail(memberEmail, authCode);
+		emailService.sendAuthCode(memberEmail, authCode);
 		redisService.saveAuthCode(memberEmail, authCode);
 		
 		return ResponseEntity.ok(SuccessResponse.create().code("success.SendAuthCode"));
@@ -209,7 +209,7 @@ public class MemberRestController {
 		
 		String memberEmail = emailAuthDto.getMemberEmail();
 		String memberId = memberService.findIdByEmail(memberEmail);
-		emailService.sendFoundAccountEmail(memberEmail, memberId);
+		emailService.sendFoundAccount(memberEmail, memberId);
 		
 		return ResponseEntity.ok(SuccessResponse.create().code("success.SendFoundAccount"));
 	}
