@@ -71,7 +71,7 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 		// Return the view name to be resolved by the DispatcherServlet via a ViewResolver, 
 		// or null if we are using a View object.
 		String viewName = modelAndView.getViewName(); 
-		log.info("\t > modelAndView is not null, viewName = {}", viewName);
+		log.info("\t > viewName = {}", viewName + ".jsp");
 		
 		if (viewName == null) {
 			log.info("\t > viewName is null");
