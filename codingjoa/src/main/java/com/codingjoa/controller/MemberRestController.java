@@ -120,13 +120,14 @@ public class MemberRestController {
 		log.info("## sendEmailForReset");
 		log.info("\t > {}", emailDto);
 		
-//		String memberEmail = emailDto.getMemberEmail();
-//
-//		String authCode = RandomStringUtils.randomNumeric(6);
-//		log.info("\t > authCode = {}", authCode);
-//		
-//		emailService.sendAuthEmail(memberEmail, authCode);
-//		redisService.saveAuthCode(memberEmail, authCode);
+		String memberEmail = emailDto.getMemberEmail();
+		memberService.checkEmailForReset(memberEmail);
+
+		String authCode = RandomStringUtils.randomNumeric(6);
+		log.info("\t > authCode = {}", authCode);
+		
+		emailService.sendAuthEmail(memberEmail, authCode);
+		redisService.saveAuthCode(memberEmail, authCode);
 		
 		return ResponseEntity.ok(SuccessResponse.create().code("success.SendAuthCode"));
 	}
