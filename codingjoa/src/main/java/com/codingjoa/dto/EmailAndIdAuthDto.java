@@ -3,7 +3,7 @@ package com.codingjoa.dto;
 import lombok.Data;
 
 @Data
-public class EmailAndIdAuth {
+public class EmailAndIdAuthDto {
 	
 	private String memberId;
 	private String memberEmail;

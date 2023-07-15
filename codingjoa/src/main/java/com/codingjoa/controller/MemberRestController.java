@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import com.codingjoa.dto.AddrDto;
 import com.codingjoa.dto.AgreeDto;
 import com.codingjoa.dto.EmailDto;
-import com.codingjoa.dto.EmailAndIdAuth;
+import com.codingjoa.dto.EmailAndIdAuthDto;
 import com.codingjoa.dto.EmailAuthDto;
 import com.codingjoa.dto.PasswordChangeDto;
 import com.codingjoa.dto.PasswordDto;
@@ -65,12 +65,12 @@ public class MemberRestController {
 	}
 	
 	@InitBinder("emailAuthDto")
-	public void InitBinderEmailUpdate(WebDataBinder binder) {
+	public void InitBinderEmailAuth(WebDataBinder binder) {
 		binder.addValidators(new EmailAuthValidator(redisService));
 	}
 
-	@InitBinder("emailAndIdAuth")
-	public void InitBinderEmailAuth(WebDataBinder binder) {
+	@InitBinder("emailAndIdAuthDto")
+	public void InitBinderEmailAndIdAuth(WebDataBinder binder) {
 		binder.addValidators(new EmailAndIdAuthValidator(redisService));
 	}
 	
@@ -214,13 +214,13 @@ public class MemberRestController {
 	}
 
 	@PostMapping("/find/password")
-	public ResponseEntity<Object> findPassword(@RequestBody @Valid EmailAndIdAuth emailAndIdAuth, 
+	public ResponseEntity<Object> findPassword(@RequestBody @Valid EmailAndIdAuthDto emailAndIdAuthDto, 
 			HttpSession session) {
 		log.info("## findPassword");
-		log.info("\t > {}", emailAndIdAuth);
+		log.info("\t > {}", emailAndIdAuthDto);
 		
-		String memberEmail = emailAndIdAuth.getMemberEmail();
-		String memberId = emailAndIdAuth.getMemberId();
+		String memberEmail = emailAndIdAuthDto.getMemberEmail();
+		String memberId = emailAndIdAuthDto.getMemberId();
 		memberService.checkIdByEmail(memberEmail, memberId);
 
 		redisService.delete(memberEmail);

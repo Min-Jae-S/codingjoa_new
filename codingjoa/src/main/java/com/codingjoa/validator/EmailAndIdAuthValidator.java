@@ -6,7 +6,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import com.codingjoa.dto.EmailAndIdAuth;
+import com.codingjoa.dto.EmailAndIdAuthDto;
 import com.codingjoa.service.RedisService;
 
 import lombok.AllArgsConstructor;
@@ -21,17 +21,17 @@ public class EmailAndIdAuthValidator implements Validator {
 
 	@Override
 	public boolean supports(Class<?> clazz) {
-		return EmailAndIdAuth.class.isAssignableFrom(clazz);
+		return EmailAndIdAuthDto.class.isAssignableFrom(clazz);
 	}
 
 	@Override
 	public void validate(Object target, Errors errors) {
 		log.info("## {}", this.getClass().getSimpleName());
 
-		EmailAndIdAuth emailAndIdAuth = (EmailAndIdAuth) target;
-		String memberId = emailAndIdAuth.getMemberId();
-		String memberEmail = emailAndIdAuth.getMemberEmail();
-		String authCode = emailAndIdAuth.getAuthCode();
+		EmailAndIdAuthDto emailAndIdAuthDto = (EmailAndIdAuthDto) target;
+		String memberId = emailAndIdAuthDto.getMemberId();
+		String memberEmail = emailAndIdAuthDto.getMemberEmail();
+		String authCode = emailAndIdAuthDto.getAuthCode();
 		
 		if (!StringUtils.hasText(memberId)) {
 			errors.rejectValue("memberId", "NotBlank");
