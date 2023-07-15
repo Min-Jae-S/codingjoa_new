@@ -6,7 +6,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import com.codingjoa.dto.EmailUpdateDto;
+import com.codingjoa.dto.EmailAuthDto;
 import com.codingjoa.service.RedisService;
 
 import lombok.AllArgsConstructor;
@@ -14,23 +14,23 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @AllArgsConstructor
-public class EmailUpdateValidator implements Validator {
+public class EmailAuthValidator implements Validator {
 	
 	private final String EMAIL_REGEXP = "^[_a-z0-9-]+(.[_a-z0-9-]+)*@(?:\\w+\\.)+\\w+$";
 	private RedisService redisService;
 
 	@Override
 	public boolean supports(Class<?> clazz) {
-		return EmailUpdateDto.class.isAssignableFrom(clazz);
+		return EmailAuthDto.class.isAssignableFrom(clazz);
 	}
 
 	@Override
 	public void validate(Object target, Errors errors) {
 		log.info("## {}", this.getClass().getSimpleName());
 		
-		EmailUpdateDto emailUpdateDto = (EmailUpdateDto) target;
-		String memberEmail = emailUpdateDto.getMemberEmail();
-		String authCode = emailUpdateDto.getAuthCode();
+		EmailAuthDto emailAuthDto = (EmailAuthDto) target;
+		String memberEmail = emailAuthDto.getMemberEmail();
+		String authCode = emailAuthDto.getAuthCode();
 		
 		if (!StringUtils.hasText(memberEmail)) {
 			errors.rejectValue("memberEmail", "NotBlank");

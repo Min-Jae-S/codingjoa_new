@@ -374,9 +374,9 @@ let memberService = (function() {
 		});
 	}
 	
-	function checkAccount(obj, callback) {
-		console.log("## Check Account");
-		let url = contextPath + "/api/member/check/account";
+	function findPassword(obj, callback) {
+		console.log("## Find Password");
+		let url = contextPath + "/api/member/find/password";
 		console.log("> url = '%s'", url);
 		console.log("> obj = %s", JSON.stringify(obj, null, 2));
 		
@@ -459,7 +459,7 @@ let memberService = (function() {
 		checkPassword:checkPassword,
 		updatePassword:updatePassword,
 		sendFoundAccount:sendFoundAccount,
-		checkAccount:checkAccount,
+		findPassword:findPassword,
 		resetPassword:resetPassword
 	};
 	

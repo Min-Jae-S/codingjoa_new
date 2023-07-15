@@ -95,7 +95,7 @@
 					</dd>
 				</dl>
 				<div class="pt-3">
-					<button type="button" class="btn btn-primary btn-block" id="checkAccount">확인</button>
+					<button type="button" class="btn btn-primary btn-block" id="findPasswordBtn">확인</button>
 				</div>
 			</div>
 		</div>
@@ -120,15 +120,14 @@
 			});
 		});
 		
-		$("#checkAccount").on("click", function() {
+		$("#findPasswordBtn").on("click", function() {
 			let obj = {
 				memberId : $("#memberId").val(),
 				memberEmail : $("#memberEmail").val(),
-				authCode : $("#authCode").val(),
-				type : "FIND_PASSWORD"		
+				authCode : $("#authCode").val()
 			};
 			
-			memberService.checkAccount(obj, function(result) {
+			memberService.findPassword(obj, function(result) {
 				alert(result.message);
 				location.href = "${contextPath}/member/resetPassword";
 			});

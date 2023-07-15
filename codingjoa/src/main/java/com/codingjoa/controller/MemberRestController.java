@@ -26,8 +26,8 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import com.codingjoa.dto.AddrDto;
 import com.codingjoa.dto.AgreeDto;
 import com.codingjoa.dto.EmailDto;
-import com.codingjoa.dto.EmailResetDto;
-import com.codingjoa.dto.EmailUpdateDto;
+import com.codingjoa.dto.EmailAndIdAuth;
+import com.codingjoa.dto.EmailAuthDto;
 import com.codingjoa.dto.PasswordChangeDto;
 import com.codingjoa.dto.PasswordDto;
 import com.codingjoa.response.SuccessResponse;
@@ -35,8 +35,8 @@ import com.codingjoa.security.dto.UserDetailsDto;
 import com.codingjoa.service.EmailService;
 import com.codingjoa.service.MemberService;
 import com.codingjoa.service.RedisService;
-import com.codingjoa.validator.EmailResetValidator;
-import com.codingjoa.validator.EmailUpdateValidator;
+import com.codingjoa.validator.EmailAndIdAuthValidator;
+import com.codingjoa.validator.EmailAuthValidator;
 import com.codingjoa.validator.EmailValidator;
 import com.codingjoa.validator.PasswordChangeValidator;
 
@@ -64,14 +64,14 @@ public class MemberRestController {
 		binder.addValidators(new EmailValidator());
 	}
 	
-	@InitBinder("emailUpdateDto")
+	@InitBinder("emailAuthDto")
 	public void InitBinderEmailUpdate(WebDataBinder binder) {
-		binder.addValidators(new EmailUpdateValidator(redisService));
+		binder.addValidators(new EmailAuthValidator(redisService));
 	}
 
-	@InitBinder("emailResetDto")
+	@InitBinder("emailAndIdAuth")
 	public void InitBinderEmailAuth(WebDataBinder binder) {
-		binder.addValidators(new EmailResetValidator(redisService));
+		binder.addValidators(new EmailAndIdAuthValidator(redisService));
 	}
 	
 	@InitBinder("passwordChangeDto")
@@ -132,12 +132,12 @@ public class MemberRestController {
 	}
 	
 	@PutMapping("/email")
-	public ResponseEntity<Object> updateEmail(@RequestBody @Valid EmailUpdateDto emailUpdateDto,
+	public ResponseEntity<Object> updateEmail(@RequestBody @Valid EmailAuthDto emailAuthDto,
 			@AuthenticationPrincipal UserDetailsDto principal) {
 		log.info("## updateEmail");
-		log.info("\t > {}", emailUpdateDto);
+		log.info("\t > {}", emailAuthDto);
 		
-		String memberEmail = emailUpdateDto.getMemberEmail();
+		String memberEmail = emailAuthDto.getMemberEmail();
 		memberService.updateEmail(memberEmail, principal.getMember().getMemberIdx());
 		redisService.delete(memberEmail);
 		resetAuthentication(principal.getMember().getMemberId());
@@ -213,21 +213,21 @@ public class MemberRestController {
 		return ResponseEntity.ok(SuccessResponse.create().code("success.SendFoundAccount"));
 	}
 
-	@PostMapping("/check/account")
-	public ResponseEntity<Object> checkAccount(@RequestBody @Valid EmailResetDto emailResetDto, 
+	@PostMapping("/find/password")
+	public ResponseEntity<Object> findPassword(@RequestBody @Valid EmailAndIdAuth emailAndIdAuth, 
 			HttpSession session) {
-		log.info("## checkAccount");
-		log.info("\t > {}", emailResetDto);
+		log.info("## findPassword");
+		log.info("\t > {}", emailAndIdAuth);
 		
-		redisService.delete(emailResetDto.getMemberEmail());
-		session.setAttribute("ACCOUNT_AUTHENTICATION", emailResetDto.getMemberId());
+		redisService.delete(emailAndIdAuth.getMemberEmail());
+		session.setAttribute("EMAIL_ID_AUTHENTICATION", emailAndIdAuth.getMemberId());
 		
 		return ResponseEntity.ok(SuccessResponse.create().code("success.FindPassword"));
 	}
 	
 	@PutMapping("/reset/password")
 	public ResponseEntity<Object> resetPassword(@RequestBody @Valid PasswordChangeDto passwordChangeDto, 
-			@SessionAttribute("ACCOUNT_AUTHENTICATION") String memberId) {
+			@SessionAttribute("EMAIL_ID_AUTHENTICATION") String memberId) {
 		log.info("## resetPassword");
 		log.info("\t > {}", passwordChangeDto);
 		log.info("\t > session memberId = {}", memberId);
