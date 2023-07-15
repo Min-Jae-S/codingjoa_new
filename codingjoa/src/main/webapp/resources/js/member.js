@@ -403,8 +403,8 @@ let memberService = (function() {
 								.after("<dd id='" + errorField + ".errors' class='error'>" + errorMessage + "</dd>");
 						});
 					} else {
-						$("#memberEmail").closest("dd")
-							.after("<dd id='#memberEmail.errors' class='error'>" + errorResponse.errorMessage + "</dd>");
+						$("#memberId").closest("dd")
+							.after("<dd id='#memberId.errors' class='error'>" + errorResponse.errorMessage + "</dd>");
 					}
 				}
 			}

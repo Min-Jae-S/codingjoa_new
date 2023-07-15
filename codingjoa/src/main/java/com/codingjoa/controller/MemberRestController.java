@@ -236,6 +236,8 @@ public class MemberRestController {
 		log.info("\t > {}", passwordChangeDto);
 		log.info("\t > memberId from session = {}", memberId);
 		
+		// password update
+		
 		return ResponseEntity.ok(SuccessResponse.create().code("success.ResetPassword"));
 	}
 	

@@ -91,7 +91,7 @@ public class MemberServiceImpl implements MemberService {
 		// validator has already verified that memberEmail is a registered email
 		// therefore, member found by memberEmail cannot be null
 		if (!memberId.equals(member.getMemberId())) {
-			throw new ExpectedException(MessageUtils.getMessage("error.NotMatchId"));
+			throw new ExpectedException(MessageUtils.getMessage("NotMatchId"));
 		}
 	}
 	
