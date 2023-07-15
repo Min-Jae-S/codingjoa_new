@@ -183,7 +183,7 @@ public class MemberRestController {
 		log.info("\t > {}", passwordDto);
 		
 		memberService.checkCurrentPassword(passwordDto.getMemberPassword(), principal.getMember().getMemberIdx());
-		session.setAttribute("PASSWORD_AUTHENTICATION", true);
+		session.setAttribute("CHECK_PASSWORD", true);
 		
 		return ResponseEntity.ok(SuccessResponse.create().code("success.CheckPassword"));
 	}
@@ -196,7 +196,7 @@ public class MemberRestController {
 		
 		memberService.updatePassword(passwordChangeDto.getMemberPassword(), principal.getMember().getMemberIdx());
 		resetAuthentication(principal.getMember().getMemberId());
-		session.removeAttribute("PASSWORD_AUTHENTICATION");
+		session.removeAttribute("CHECK_PASSWORD");
 		
 		return ResponseEntity.ok(SuccessResponse.create().code("success.UpdatePassword"));
 	}
@@ -220,14 +220,14 @@ public class MemberRestController {
 		log.info("\t > {}", emailAndIdAuth);
 		
 		redisService.delete(emailAndIdAuth.getMemberEmail());
-		session.setAttribute("EMAIL_ID_AUTHENTICATION", emailAndIdAuth.getMemberId());
+		session.setAttribute("FIND_PASSWORD", emailAndIdAuth.getMemberId());
 		
 		return ResponseEntity.ok(SuccessResponse.create().code("success.FindPassword"));
 	}
 	
 	@PutMapping("/reset/password")
 	public ResponseEntity<Object> resetPassword(@RequestBody @Valid PasswordChangeDto passwordChangeDto, 
-			@SessionAttribute("EMAIL_ID_AUTHENTICATION") String memberId) {
+			@SessionAttribute("FIND_PASSWORD") String memberId) {
 		log.info("## resetPassword");
 		log.info("\t > {}", passwordChangeDto);
 		log.info("\t > session memberId = {}", memberId);

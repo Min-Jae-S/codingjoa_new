@@ -26,13 +26,13 @@ public class ResetPasswordInterceptor implements HandlerInterceptor {
 		log.info("## {} : preHandle", this.getClass().getSimpleName());
 		
 		HttpSession session = request.getSession();
-		String accountAuthentication = (String) session.getAttribute("ACCOUNT_AUTHENTICATION");
-		log.info("\t > ACCOUNT_AUTHENTICATION = {}", accountAuthentication);
+		String accountAuthentication = (String) session.getAttribute("FIND_PASSWORD");
+		log.info("\t > FIND_PASSWORD = {}", accountAuthentication);
 		
 		if (accountAuthentication == null) {
 			HandlerMethod handlerMethod = (HandlerMethod) handler;
 			if (handlerMethod.getBeanType().isAnnotationPresent(RestController.class)) {
-				throw new ExpectedException(MessageUtils.getMessage("error.NotCheckAccount"));
+				throw new ExpectedException(MessageUtils.getMessage("error.NotFindPassword"));
 			}
 			
 			response.setContentType(MediaType.TEXT_HTML.toString());

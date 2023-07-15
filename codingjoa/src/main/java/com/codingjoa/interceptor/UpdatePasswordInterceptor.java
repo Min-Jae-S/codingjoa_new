@@ -25,7 +25,7 @@ public class UpdatePasswordInterceptor implements HandlerInterceptor {
 			throws Exception {
 		log.info("## {} : preHandle", this.getClass().getSimpleName());
 		
-		if (!isPasswordAuthenticated(request)) {
+		if (!passwordCheck(request)) {
 			HandlerMethod handlerMethod = (HandlerMethod) handler;
 			if (handlerMethod.getBeanType().isAnnotationPresent(RestController.class)) {
 				throw new ExpectedException(MessageUtils.getMessage("error.NotCheckPassword"));
@@ -46,16 +46,16 @@ public class UpdatePasswordInterceptor implements HandlerInterceptor {
 		return true;
 	}
 	
-	private boolean isPasswordAuthenticated(HttpServletRequest request) {
+	private boolean passwordCheck(HttpServletRequest request) {
 		HttpSession session = request.getSession();
-		Boolean passwordAuthentication = (Boolean) session.getAttribute("PASSWORD_AUTHENTICATION");
-		log.info("\t > PASSWORD_AUTHENTICATION = {}", passwordAuthentication);
+		Boolean passwordCheck = (Boolean) session.getAttribute("CHECK_PASSWORD");
+		log.info("\t > CHECK_PASSWORD = {}", passwordCheck);
 		
-		if (passwordAuthentication == null) {
+		if (passwordCheck == null) {
 			return false;
 		}
 		
-		if (!passwordAuthentication) {
+		if (!passwordCheck) {
 			return false;
 		}
 		
