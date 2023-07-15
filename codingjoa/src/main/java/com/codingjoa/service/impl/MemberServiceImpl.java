@@ -90,7 +90,7 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override
-	public String findRegisterdId(String memberEmail) {
+	public String findAccount(String memberEmail) {
 		Member member = memberMapper.findMemberByEmail(memberEmail);
 		if (member == null) {
 			throw new ExpectedException(MessageUtils.getMessage("error.NotEmailExist"));

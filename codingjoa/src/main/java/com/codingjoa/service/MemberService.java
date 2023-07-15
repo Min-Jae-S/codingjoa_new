@@ -16,7 +16,7 @@ public interface MemberService {
 	
 	boolean isEmailExist(String memberEmail);
 	
-	String findRegisterdId(String memberEmail);
+	String findAccount(String memberEmail);
 	
 	boolean isMyEmail(String memberEmail, String memberId);
 
