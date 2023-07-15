@@ -90,13 +90,13 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override
-	public String findIdByEmail(String memberEmail) {
-		String memberId = memberMapper.findIdByEmail(memberEmail);
-		if (memberId == null) {
+	public String findRegisterdId(String memberEmail) {
+		Member member = memberMapper.findMemberByEmail(memberEmail);
+		if (member == null) {
 			throw new ExpectedException(MessageUtils.getMessage("error.NotEmailExist"));
 		}
 		
-		return memberId;
+		return member.getMemberId();
 	}
 
 	@Override

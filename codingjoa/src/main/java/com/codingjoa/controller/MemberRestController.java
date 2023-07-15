@@ -203,12 +203,12 @@ public class MemberRestController {
 	}
 	
 	@PostMapping("/send/found-account")
-	public ResponseEntity<Object> sendFoundAccount(@RequestBody @Valid EmailAuthDto emailAuthDto) {
+	public ResponseEntity<Object> sendFoundAccount(@RequestBody @Valid EmailDto emailDto) {
 		log.info("## sendFoundAccount");
-		log.info("\t > {}", emailAuthDto);
+		log.info("\t > {}", emailDto);
 		
-		String memberEmail = emailAuthDto.getMemberEmail();
-		String memberId = memberService.findIdByEmail(memberEmail);
+		String memberEmail = emailDto.getMemberEmail();
+		String memberId = memberService.findRegisterdId(memberEmail);
 		emailService.sendFoundAccount(memberEmail, memberId);
 		
 		return ResponseEntity.ok(SuccessResponse.create().code("success.SendFoundAccount"));
