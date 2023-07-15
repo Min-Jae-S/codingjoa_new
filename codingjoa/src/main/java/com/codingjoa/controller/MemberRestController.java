@@ -31,6 +31,7 @@ import com.codingjoa.dto.EmailAuthDto;
 import com.codingjoa.dto.EmailDto;
 import com.codingjoa.dto.PasswordChangeDto;
 import com.codingjoa.dto.PasswordDto;
+import com.codingjoa.dto.UpdateEmailDto;
 import com.codingjoa.response.SuccessResponse;
 import com.codingjoa.security.dto.UserDetailsDto;
 import com.codingjoa.service.EmailService;
@@ -133,12 +134,12 @@ public class MemberRestController {
 	}
 	
 	@PutMapping("/email")
-	public ResponseEntity<Object> updateEmail(@RequestBody @Valid EmailAuthDto emailAuthDto,
+	public ResponseEntity<Object> updateEmail(@RequestBody @Valid UpdateEmailDto updateEmailDto,
 			@AuthenticationPrincipal UserDetailsDto principal) {
 		log.info("## updateEmail");
-		log.info("\t > {}", emailAuthDto);
+		log.info("\t > {}", updateEmailDto);
 		
-		String memberEmail = emailAuthDto.getMemberEmail();
+		String memberEmail = updateEmailDto.getMemberEmail();
 		memberService.updateEmail(memberEmail, principal.getMember().getMemberIdx());
 		redisService.delete(memberEmail);
 		resetAuthentication(principal.getMember().getMemberId());

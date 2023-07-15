@@ -48,32 +48,32 @@ public class EmailAuthValidator implements Validator {
 		// FIND_ACCOUNT			(find-account.jsp)
 		// BEOFRE_FIND_PASSWORD (find-password.jsp)
 		
-		if (type == Type.UPDATE_EMAIL) {
-			if (!StringUtils.hasText(memberEmail)) {
-				errors.rejectValue("memberEmail", "NotBlank");
-				return;
-			} 
-			
-			if (!Pattern.matches(EMAIL_REGEXP, memberEmail)) {
-				errors.rejectValue("memberEmail", "Pattern");
-				return;
-			}
-			
-			if (!redisService.hasAuthCode(memberEmail)) {
-				errors.rejectValue("memberEmail", "NotAuthCodeExist");
-				return;
-			}
-			
-			if (!StringUtils.hasText(authCode)) {
-				errors.rejectValue("authCode", "NotBlank");
-				return;
-			} 
-			
-			if (!redisService.isAuthCodeValid(memberEmail, authCode)) {
-				errors.rejectValue("authCode", "NotValid");
-				return;
-			}
-		} 
+//		if (type == Type.UPDATE_EMAIL) {
+//			if (!StringUtils.hasText(memberEmail)) {
+//				errors.rejectValue("memberEmail", "NotBlank");
+//				return;
+//			} 
+//			
+//			if (!Pattern.matches(EMAIL_REGEXP, memberEmail)) {
+//				errors.rejectValue("memberEmail", "Pattern");
+//				return;
+//			}
+//			
+//			if (!redisService.hasAuthCode(memberEmail)) {
+//				errors.rejectValue("memberEmail", "NotAuthCodeExist");
+//				return;
+//			}
+//			
+//			if (!StringUtils.hasText(authCode)) {
+//				errors.rejectValue("authCode", "NotBlank");
+//				return;
+//			} 
+//			
+//			if (!redisService.isAuthCodeValid(memberEmail, authCode)) {
+//				errors.rejectValue("authCode", "NotValid");
+//				return;
+//			}
+//		} 
 		
 		if (type == Type.FIND_PASSWORD) { 
 			if (!StringUtils.hasText(memberId)) {
