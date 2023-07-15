@@ -142,8 +142,7 @@
 					<!-- display: none; -->
 					<dd class="input-group" id="editZipcode">
 						<form>
-							<!-- later readonly -->
-							<input type="text" id="memberZipcode" name="memberZipcode" value="${principal.member.memberZipcode}"/> 
+							<input type="text" id="memberZipcode" name="memberZipcode" value="${principal.member.memberZipcode}" readonly/> 
 						</form>
 						<div>
 							<button class="btn btn-warning btn-sm" type="button" id="searchAddrBtn">주소 찾기</button>
@@ -155,8 +154,7 @@
 					<!-- display: none; -->
 					<dd class="input-group" id="editAddr">
 						<form>
-							<!-- later readonly -->
-							<input type="text" id="memberAddr" name="memberAddr" value="${principal.member.memberAddr}"/>
+							<input type="text" id="memberAddr" name="memberAddr" value="${principal.member.memberAddr}" readonly/>
 						</form>
 					</dd>
 					
@@ -173,7 +171,7 @@
 					<dd class="input-group" id="showAgree">
 						<div class="form-check form-check-inline mr-0">
 							<label class="form-check-label label-disabled">
-								<input class="form-check-input" type="checkbox" ${principal.member.memberAgree == true ? 'checked' : ''} disabled />
+								<input class="form-check-input" type="checkbox" ${principal.member.memberAgree == true ? 'checked' : ''} disabled/>
 								<span class="inner-text">이메일 광고 수신에 동의합니다.</span>
 							</label>
 						</div>
@@ -234,7 +232,7 @@
 				memberService.getCurrentMember(function(result) {
 					let member = result.data;
 					$("#editEmail").find("form")
-						.html("<input type='text' id='memberEmail' name='memberEmail' value='" + member.memberEmail + "' readonly>");
+						.html("<input type='text' id='memberEmail' name='memberEmail' value='" + member.memberEmail + "'>");
 					$("#showEmail").find("span").text(member.memberEmail);
 					$("#resetEmailBtn").click();
 				});
@@ -285,18 +283,15 @@
 			});
 		});
 		
-		//$("#searchAddrBtn, #memberZipcode, #memberAddr").on("click", function() {
-		$("#searchAddrBtn").on("click", function() {
+		$("#searchAddrBtn, #memberZipcode, #memberAddr").on("click", function() {
 			execPostcode();
 		});
 		
-		// 이메일 - 수정 버튼
 		$("#showEmailBtn").on("click", function() {
 			$("#showEmail").css("display", "none");
 			$("#editEmail, #editEmail > div, #editAuthCode").css("display", "flex");
 		});
 
-		// 이메일 - 취소 버튼
 		$("#resetEmailBtn").on("click", function() {
 			$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
 			$("#showEmail").css("display", "flex");
@@ -306,13 +301,11 @@
 			$("#authCode").val("");
 		});
 		
-		// 주소 - 수정 버튼
 		$("#showAllAddrBtn").on("click", function() {
 			$("#showZipcode, #showAddr, #showAddrDetail").css("display", "none");
 			$("#editZipcode, #editZipcode > div, #editAddr, #editAddrDetail").css("display", "flex");	
 		});
 
-		// 주소 - 취소 버튼
 		$("#resetAddrBtn").on("click", function() {
 			$("#memberZipcode\\.errors, #memberAddr\\.errors, #memberAddrDetail\\.errors").remove();
 			$("#showZipcode, #showAddr, #showAddrDetail").css("display", "flex");
@@ -323,13 +316,11 @@
 			$("#editAddrDetail").find("form")[0].reset();
 		});
 		
-		// 이메일 동의 - 수정 버튼
 		$("#showAgreeBtn").on("click", function() {
 			$("#showAgree").css("display", "none");
 			$("#editAgree, #editAgree > div").css("display", "flex");
 		});
 		
-		// 이메일 동의 - 취소 버튼
 		$("#resetAgreeBtn").on("click", function() {
 			$("#memberAgree\\.errors").remove();
 			$("#showAgree").css("display", "flex");

@@ -1,6 +1,5 @@
 package com.codingjoa.controller;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -14,7 +13,6 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.validation.Validator;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -27,16 +25,17 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.codingjoa.dto.AddrDto;
 import com.codingjoa.dto.AgreeDto;
-import com.codingjoa.dto.EmailAuthDto;
 import com.codingjoa.dto.EmailDto;
+import com.codingjoa.dto.EmailResetDto;
+import com.codingjoa.dto.EmailUpdateDto;
 import com.codingjoa.dto.PasswordChangeDto;
 import com.codingjoa.dto.PasswordDto;
-import com.codingjoa.dto.EmailUpdateDto;
 import com.codingjoa.response.SuccessResponse;
 import com.codingjoa.security.dto.UserDetailsDto;
 import com.codingjoa.service.EmailService;
 import com.codingjoa.service.MemberService;
 import com.codingjoa.service.RedisService;
+import com.codingjoa.validator.EmailResetValidator;
 import com.codingjoa.validator.EmailUpdateValidator;
 import com.codingjoa.validator.EmailValidator;
 import com.codingjoa.validator.PasswordChangeValidator;
@@ -60,9 +59,6 @@ public class MemberRestController {
 	@Autowired
 	private RedisService redisService;
 	
-	@Resource(name = "emailAuthValidator")
-	private Validator emailAuthValidator;
-	
 	@InitBinder("emailDto")
 	public void InitBinderEmail(WebDataBinder binder) {
 		binder.addValidators(new EmailValidator());
@@ -73,9 +69,9 @@ public class MemberRestController {
 		binder.addValidators(new EmailUpdateValidator(redisService));
 	}
 
-	@InitBinder("emailAuthDto")
+	@InitBinder("emailResetDto")
 	public void InitBinderEmailAuth(WebDataBinder binder) {
-		binder.addValidators(emailAuthValidator);
+		binder.addValidators(new EmailResetValidator(redisService));
 	}
 	
 	@InitBinder("passwordChangeDto")
@@ -218,13 +214,13 @@ public class MemberRestController {
 	}
 
 	@PostMapping("/check/account")
-	public ResponseEntity<Object> checkAccount(@RequestBody @Valid EmailAuthDto emailAuthDto, 
+	public ResponseEntity<Object> checkAccount(@RequestBody @Valid EmailResetDto emailResetDto, 
 			HttpSession session) {
 		log.info("## checkAccount");
-		log.info("\t > {}", emailAuthDto);
+		log.info("\t > {}", emailResetDto);
 		
-		redisService.delete(emailAuthDto.getMemberEmail());
-		session.setAttribute("ACCOUNT_AUTHENTICATION", emailAuthDto.getMemberId());
+		redisService.delete(emailResetDto.getMemberEmail());
+		session.setAttribute("ACCOUNT_AUTHENTICATION", emailResetDto.getMemberId());
 		
 		return ResponseEntity.ok(SuccessResponse.create().code("success.FindPassword"));
 	}
