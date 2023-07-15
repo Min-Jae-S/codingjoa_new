@@ -226,8 +226,7 @@
 		$("#updateEmailBtn").on("click", function() {
 			let obj = {
 				memberEmail : $("#memberEmail").val(),
-				authCode : $("#authCode").val(),
-				type : "UPDATE_EMAIL"
+				authCode : $("#authCode").val()
 			};
 			
 			memberService.updateEmail(obj, function(result) {

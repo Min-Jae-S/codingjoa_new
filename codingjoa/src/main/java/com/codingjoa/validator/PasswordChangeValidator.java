@@ -2,7 +2,6 @@ package com.codingjoa.validator;
 
 import java.util.regex.Pattern;
 
-import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -12,7 +11,6 @@ import com.codingjoa.dto.PasswordChangeDto;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@Component(value = "passwordChangeValidator")
 public class PasswordChangeValidator implements Validator {
 
 	private final String PASSWORD_REGEXP = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[!@#$%^&*()])(?=\\S+$).{8,16}$";

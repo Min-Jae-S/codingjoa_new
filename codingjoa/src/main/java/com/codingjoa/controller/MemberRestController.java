@@ -37,6 +37,9 @@ import com.codingjoa.security.dto.UserDetailsDto;
 import com.codingjoa.service.EmailService;
 import com.codingjoa.service.MemberService;
 import com.codingjoa.service.RedisService;
+import com.codingjoa.validator.EmailUpdateValidator;
+import com.codingjoa.validator.EmailValidator;
+import com.codingjoa.validator.PasswordChangeValidator;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -57,18 +60,17 @@ public class MemberRestController {
 	@Autowired
 	private RedisService redisService;
 	
-	@Resource(name = "emailValidator")
-	private Validator emailValidator;
-
 	@Resource(name = "emailAuthValidator")
 	private Validator emailAuthValidator;
 	
-	@Resource(name = "passwordChangeValidator")
-	private Validator passwordChangeValidator;
-	
 	@InitBinder("emailDto")
 	public void InitBinderEmail(WebDataBinder binder) {
-		binder.addValidators(emailValidator);
+		binder.addValidators(new EmailValidator());
+	}
+	
+	@InitBinder("emailUpdateDto")
+	public void InitBinderEmailUpdate(WebDataBinder binder) {
+		binder.addValidators(new EmailUpdateValidator(redisService));
 	}
 
 	@InitBinder("emailAuthDto")
@@ -78,7 +80,7 @@ public class MemberRestController {
 	
 	@InitBinder("passwordChangeDto")
 	public void InitBinderPasswordChange(WebDataBinder binder) {
-		binder.addValidators(passwordChangeValidator);
+		binder.addValidators(new PasswordChangeValidator());
 	}
 
 	@PostMapping("/join/auth")
