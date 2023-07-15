@@ -114,23 +114,6 @@ public class MemberRestController {
 		return ResponseEntity.ok(SuccessResponse.create().code("success.SendAuthCode"));
 	}
 	
-	@PostMapping("/reset-password/auth")
-	public ResponseEntity<Object> sendAuthCodeForReset(@RequestBody @Valid EmailDto emailDto) {
-		log.info("## sendAuthCodeForReset");
-		log.info("\t > {}", emailDto);
-		
-		String memberEmail = emailDto.getMemberEmail();
-		memberService.checkEmailForReset(memberEmail);
-
-		String authCode = RandomStringUtils.randomNumeric(6);
-		log.info("\t > authCode = {}", authCode);
-		
-		emailService.sendAuthCode(memberEmail, authCode);
-		redisService.saveAuthCode(memberEmail, authCode);
-		
-		return ResponseEntity.ok(SuccessResponse.create().code("success.SendAuthCode"));
-	}
-	
 	@PutMapping("/email")
 	public ResponseEntity<Object> updateEmail(@RequestBody @Valid EmailAuthDto emailAuthDto,
 			@AuthenticationPrincipal UserDetailsDto principal) {
@@ -212,6 +195,23 @@ public class MemberRestController {
 		
 		return ResponseEntity.ok(SuccessResponse.create().code("success.SendFoundAccount"));
 	}
+	
+	@PostMapping("/reset-password/auth")
+	public ResponseEntity<Object> sendAuthCodeForReset(@RequestBody @Valid EmailDto emailDto) {
+		log.info("## sendAuthCodeForReset");
+		log.info("\t > {}", emailDto);
+		
+		String memberEmail = emailDto.getMemberEmail();
+		memberService.checkEmailForReset(memberEmail);
+
+		String authCode = RandomStringUtils.randomNumeric(6);
+		log.info("\t > authCode = {}", authCode);
+		
+		emailService.sendAuthCode(memberEmail, authCode);
+		redisService.saveAuthCode(memberEmail, authCode);
+		
+		return ResponseEntity.ok(SuccessResponse.create().code("success.SendAuthCode"));
+	}
 
 	@PostMapping("/find/password")
 	public ResponseEntity<Object> findPassword(@RequestBody @Valid EmailAndIdAuth emailAndIdAuth, 
@@ -219,8 +219,12 @@ public class MemberRestController {
 		log.info("## findPassword");
 		log.info("\t > {}", emailAndIdAuth);
 		
-		redisService.delete(emailAndIdAuth.getMemberEmail());
-		session.setAttribute("FIND_PASSWORD", emailAndIdAuth.getMemberId());
+		String memberEmail = emailAndIdAuth.getMemberEmail();
+		String memberId = emailAndIdAuth.getMemberId();
+		memberService.checkIdByEmail(memberEmail, memberId);
+
+		redisService.delete(memberEmail);
+		session.setAttribute("FIND_PASSWORD", memberId);
 		
 		return ResponseEntity.ok(SuccessResponse.create().code("success.FindPassword"));
 	}
@@ -230,7 +234,7 @@ public class MemberRestController {
 			@SessionAttribute("FIND_PASSWORD") String memberId) {
 		log.info("## resetPassword");
 		log.info("\t > {}", passwordChangeDto);
-		log.info("\t > session memberId = {}", memberId);
+		log.info("\t > memberId from session = {}", memberId);
 		
 		return ResponseEntity.ok(SuccessResponse.create().code("success.ResetPassword"));
 	}

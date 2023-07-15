@@ -14,6 +14,8 @@ public interface MemberService {
 	
 	void checkEmailForReset(String memberEmail);
 	
+	void checkIdByEmail(String memberEmail, String memberId);
+	
 	boolean isEmailExist(String memberEmail);
 	
 	String findAccount(String memberEmail);
