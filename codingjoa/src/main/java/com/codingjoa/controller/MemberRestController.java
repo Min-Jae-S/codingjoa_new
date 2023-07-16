@@ -27,6 +27,7 @@ import com.codingjoa.dto.AddrDto;
 import com.codingjoa.dto.AgreeDto;
 import com.codingjoa.dto.EmailDto;
 import com.codingjoa.dto.EmailAndIdAuthDto;
+import com.codingjoa.dto.EmailAndIdDto;
 import com.codingjoa.dto.EmailAuthDto;
 import com.codingjoa.dto.PasswordChangeDto;
 import com.codingjoa.dto.PasswordDto;
@@ -194,6 +195,14 @@ public class MemberRestController {
 		emailService.sendFoundAccount(memberEmail, memberId);
 		
 		return ResponseEntity.ok(SuccessResponse.create().code("success.SendFoundAccount"));
+	}
+	
+	@PostMapping("/send/temp-password")
+	public ResponseEntity<Object> sendTempPassword(@RequestBody @Valid EmailAndIdDto emailAndIdDto) {
+		log.info("## sendTempPassword");
+		log.info("{}", emailAndIdDto);
+		
+		return ResponseEntity.ok(SuccessResponse.create().code("success.SendTempPassword"));
 	}
 	
 	@PostMapping("/reset-password/auth")
