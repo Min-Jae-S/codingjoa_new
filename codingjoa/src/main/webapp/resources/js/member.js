@@ -330,7 +330,7 @@ let memberService = (function() {
 						});
 					} else {
 						$("#memberPassword").closest("dd")
-							.after("<dd id='#memberPassword.errors' class='error'>" + errorResponse.errorMessage + "</dd>");
+							.after("<dd id='memberPassword.errors' class='error'>" + errorResponse.errorMessage + "</dd>");
 					}
 				}
 			}
@@ -367,7 +367,7 @@ let memberService = (function() {
 						});
 					} else {
 						$("#memberEmail").closest("dd")
-							.after("<dd id='#memberEmail.errors' class='error'>" + errorResponse.errorMessage + "</dd>");
+							.after("<dd id='memberEmail.errors' class='error'>" + errorResponse.errorMessage + "</dd>");
 					}
 				}
 			}
@@ -403,8 +403,8 @@ let memberService = (function() {
 								.after("<dd id='" + errorField + ".errors' class='error'>" + errorMessage + "</dd>");
 						});
 					} else {
-						$("#memberId").closest("dd")
-							.after("<dd id='#memberId.errors' class='error'>" + errorResponse.errorMessage + "</dd>");
+						$("#editMemberId").after("<dd id='memberId.errors' class='error'>" + errorResponse.errorMessage + "</dd>");
+						$("#editMemberEmail").after("<dd id='memberEmail.errors' class='error'>" + errorResponse.errorMessage + "</dd>");
 					}
 				}
 			}

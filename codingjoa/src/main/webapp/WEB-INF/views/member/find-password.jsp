@@ -41,12 +41,6 @@
 		border-bottom: 1px solid #dee2e6;
 	}
 
-	#editEmail > div {
-		display: flex;
-		flex: 1 1 auto;
-		align-items: center;
-	}
-	
 	p.title {
 		margin-bottom: 40px;
 		font-size: 14px;
@@ -73,25 +67,18 @@
 			<div class="pt-3" style="border-top: 1px solid black;">
 				<p class="title">
 					<span>비밀번호 재설정을 위해 사용자 인증이 필요합니다.</span><br/>
-					<span>코딩조아(Codingjoa) 계정의 아이디와 등록한 이메일로 인증을 진행해주세요.</span><br/>
-					<span>등록한 이메일 주소와 입력한 이메일 주소가 같아야, 인증코드를 받을 수 있습니다.</span>
+					<span>코딩조아(Codingjoa) 계정의 아이디와 등록한 이메일을 입력해주세요.</span><br/>
 				</p>
 				<dl class="form-group mb-5">
 					<dt><i class="fa-solid fa-check mr-2"></i>아이디</dt>
-					<dd class="input-group" id="editId">
+					<dd class="input-group" id="editMemberId">
 						<input type="text" id="memberId" name="memberId" placeholder="아이디 입력"/>
 					</dd>
 				</dl>
 				<dl class="form-group mb-5">
 					<dt><i class="fa-solid fa-check mr-2"></i>이메일</dt>
-					<dd class="input-group" id="editEmail">
-						<div>
-							<input type="text" id="memberEmail" name="memberEmail" placeholder="이메일 입력" />
-						</div>
-						<button class="btn btn-warning btn-sm" id="sendEmailBtn">인증코드 받기</button>
-					</dd>
-					<dd class="input-group" id="editAuthCode">
-						<input type="text" id="authCode" name="authCode" placeholder="인증코드를 입력하세요.">
+					<dd class="input-group" id="editMemberEmail">
+						<input type="text" id="memberEmail" name="memberEmail" placeholder="이메일 입력" />
 					</dd>
 				</dl>
 				<div class="pt-3">
@@ -107,19 +94,6 @@
 
 <script>
 	$(function() {
-		$("#sendEmailBtn").on("click", function() {
-			let obj = {
-				memberEmail : $("#memberEmail").val(),
-			};
-			
-			memberService.sendAuthCodeForReset(obj, function(result) {
-				$(".error, .success").remove();
-				$("#authCode").closest("dd").after("<dd class='success'>" + result.message + "</dd>");
-				$("#authCode").val("");
-				$("#authCode").focus();
-			});
-		});
-		
 		$("#findPasswordBtn").on("click", function() {
 			let obj = {
 				memberId : $("#memberId").val(),
@@ -128,8 +102,8 @@
 			};
 			
 			memberService.findPassword(obj, function(result) {
+				$(".error").remove();
 				alert(result.message);
-				location.href = "${contextPath}/member/resetPassword";
 			});
 		});
 		

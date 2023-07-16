@@ -6,7 +6,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>계정 찾기</title>
+<title>비밀번호 찾기</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
@@ -41,7 +41,7 @@
 		border-bottom: 1px solid #dee2e6;
 	}
 
-	#editMemberEmail > div {
+	#editEmail > div {
 		display: flex;
 		flex: 1 1 auto;
 		align-items: center;
@@ -65,25 +65,37 @@
 
 <c:import url="/WEB-INF/views/include/top-menu.jsp"/>
 
-<div class="container find-account-container">
+<div class="container find-password-container">
 	<div class="row">
 		<div class="col-sm-3"></div>
 		<div class="col-sm-6">
-			<h5 class="font-weight-bold">계정 찾기</h5>
+			<h5 class="font-weight-bold">비밀번호 찾기</h5>
 			<div class="pt-3" style="border-top: 1px solid black;">
 				<p class="title">
-					<span>회원가입 시 입력한 이메일 주소로 아이디를 보내드립니다.</span>
+					<span>비밀번호 재설정을 위해 사용자 인증이 필요합니다.</span><br/>
+					<span>코딩조아(Codingjoa) 계정의 아이디와 등록한 이메일로 인증을 진행해주세요.</span><br/>
+					<span>등록한 이메일 주소와 입력한 이메일 주소가 같아야, 인증코드를 받을 수 있습니다.</span>
 				</p>
 				<dl class="form-group mb-5">
+					<dt><i class="fa-solid fa-check mr-2"></i>아이디</dt>
+					<dd class="input-group" id="editId">
+						<input type="text" id="memberId" name="memberId" placeholder="아이디 입력"/>
+					</dd>
+				</dl>
+				<dl class="form-group mb-5">
 					<dt><i class="fa-solid fa-check mr-2"></i>이메일</dt>
-					<dd class="input-group" id="editMemberEmail">
+					<dd class="input-group" id="editEmail">
 						<div>
 							<input type="text" id="memberEmail" name="memberEmail" placeholder="이메일 입력" />
 						</div>
+						<button class="btn btn-warning btn-sm" id="sendEmailBtn">인증코드 받기</button>
+					</dd>
+					<dd class="input-group" id="editAuthCode">
+						<input type="text" id="authCode" name="authCode" placeholder="인증코드를 입력하세요.">
 					</dd>
 				</dl>
 				<div class="pt-3">
-					<button type="button" class="btn btn-primary btn-block" id="sendFoundAccountBtn">확인</button>
+					<button type="button" class="btn btn-primary btn-block" id="findPasswordBtn">확인</button>
 				</div>
 			</div>
 		</div>
@@ -95,14 +107,29 @@
 
 <script>
 	$(function() {
-		$("#sendFoundAccountBtn").on("click", function() {
+		$("#sendEmailBtn").on("click", function() {
 			let obj = {
-				memberEmail : $("#memberEmail").val()
+				memberEmail : $("#memberEmail").val(),
 			};
 			
-			memberService.sendFoundAccount(obj, function(result) {
+			memberService.sendAuthCodeForReset(obj, function(result) {
 				$(".error, .success").remove();
-				$("#memberEmail").closest("dd").after("<dd class='success'>" + result.message + "</dd>");
+				$("#authCode").closest("dd").after("<dd class='success'>" + result.message + "</dd>");
+				$("#authCode").val("");
+				$("#authCode").focus();
+			});
+		});
+		
+		$("#findPasswordBtn").on("click", function() {
+			let obj = {
+				memberId : $("#memberId").val(),
+				memberEmail : $("#memberEmail").val(),
+				authCode : $("#authCode").val()
+			};
+			
+			memberService.findPassword(obj, function(result) {
+				alert(result.message);
+				location.href = "${contextPath}/member/resetPassword";
 			});
 		});
 		
