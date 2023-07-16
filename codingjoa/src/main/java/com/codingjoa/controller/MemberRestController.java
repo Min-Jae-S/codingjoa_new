@@ -25,10 +25,9 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.codingjoa.dto.AddrDto;
 import com.codingjoa.dto.AgreeDto;
-import com.codingjoa.dto.EmailDto;
-import com.codingjoa.dto.EmailAndIdAuthDto;
 import com.codingjoa.dto.EmailAndIdDto;
 import com.codingjoa.dto.EmailAuthDto;
+import com.codingjoa.dto.EmailDto;
 import com.codingjoa.dto.PasswordChangeDto;
 import com.codingjoa.dto.PasswordDto;
 import com.codingjoa.response.SuccessResponse;
@@ -185,55 +184,30 @@ public class MemberRestController {
 		return ResponseEntity.ok(SuccessResponse.create().code("success.UpdatePassword"));
 	}
 	
-	@PostMapping("/send/found-account")
-	public ResponseEntity<Object> sendFoundAccount(@RequestBody @Valid EmailDto emailDto) {
-		log.info("## sendFoundAccount");
+	@PostMapping("/find/account")
+	public ResponseEntity<Object> findAccount(@RequestBody @Valid EmailDto emailDto) {
+		log.info("## findAccount");
 		log.info("\t > {}", emailDto);
 		
 		String memberEmail = emailDto.getMemberEmail();
 		String memberId = memberService.findAccount(memberEmail);
 		emailService.sendFoundAccount(memberEmail, memberId);
 		
-		return ResponseEntity.ok(SuccessResponse.create().code("success.SendFoundAccount"));
+		return ResponseEntity.ok(SuccessResponse.create().code("success.FindAccount"));
 	}
 	
-	@PostMapping("/send/temp-password")
-	public ResponseEntity<Object> sendTempPassword(@RequestBody @Valid EmailAndIdDto emailAndIdDto) {
-		log.info("## sendTempPassword");
-		log.info("{}", emailAndIdDto);
-		
-		return ResponseEntity.ok(SuccessResponse.create().code("success.SendTempPassword"));
-	}
-	
-	@PostMapping("/reset-password/auth")
-	public ResponseEntity<Object> sendAuthCodeForReset(@RequestBody @Valid EmailDto emailDto) {
-		log.info("## sendAuthCodeForReset");
-		log.info("\t > {}", emailDto);
-		
-		String memberEmail = emailDto.getMemberEmail();
-		memberService.checkEmailForReset(memberEmail);
-
-		String authCode = RandomStringUtils.randomNumeric(6);
-		log.info("\t > authCode = {}", authCode);
-		
-		emailService.sendAuthCode(memberEmail, authCode);
-		redisService.saveAuthCode(memberEmail, authCode);
-		
-		return ResponseEntity.ok(SuccessResponse.create().code("success.SendAuthCode"));
-	}
-
 	@PostMapping("/find/password")
-	public ResponseEntity<Object> findPassword(@RequestBody @Valid EmailAndIdAuthDto emailAndIdAuthDto, 
+	public ResponseEntity<Object> findPassword(@RequestBody @Valid EmailAndIdDto emailAndIdDto, 
 			HttpSession session) {
 		log.info("## findPassword");
-		log.info("\t > {}", emailAndIdAuthDto);
+		log.info("\t > {}", emailAndIdDto);
 		
-		String memberEmail = emailAndIdAuthDto.getMemberEmail();
-		String memberId = emailAndIdAuthDto.getMemberId();
-		memberService.checkIdByEmail(memberEmail, memberId);
-
-		redisService.delete(memberEmail);
-		session.setAttribute("FIND_PASSWORD", memberId);
+//		String memberEmail = emailAndIdDto.getMemberEmail();
+//		String memberId = emailAndIdDto.getMemberId();
+//		memberService.checkIdByEmail(memberEmail, memberId);
+//
+//		redisService.delete(memberEmail);
+//		session.setAttribute("FIND_PASSWORD", memberId);
 		
 		return ResponseEntity.ok(SuccessResponse.create().code("success.FindPassword"));
 	}

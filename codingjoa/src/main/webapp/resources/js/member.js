@@ -94,43 +94,6 @@ let memberService = (function() {
 		});
 	}
 	
-	function sendAuthCodeForReset(obj, callback) {
-		console.log("## Send Auth Code : Reset Password");
-		let url = contextPath + "/api/member/reset-password/auth";
-		console.log("> url = '%s'", url);
-		console.log("> obj = %s", JSON.stringify(obj, null, 2));
-		
-		$.ajax({
-			type : "POST",
-			url : url,
-			data : JSON.stringify(obj),
-			contentType : "application/json; charset=utf-8",
-			dataType : "json",
-			success : function(result) {
-				console.log("%c> SUCCESS","color:green");
-				console.log(JSON.stringify(result, null, 2));
-				callback(result);
-			},
-			error : function(jqXHR) {
-				console.log("%c> ERROR","color:red");
-				$(".error, .success").remove();
-				let errorResponse = parseError(jqXHR);
-				if (errorResponse != null) {
-					let errorMap = errorResponse.errorMap;
-					if (errorMap != null) {
-						$.each(errorMap, function(errorField, errorMessage) {
-							$("#" + errorField).closest("dd")
-								.after("<dd id='" + errorField + ".errors' class='error'>" + errorMessage + "</dd>");
-						});
-					} else {
-						$("#memberEmail").closest("dd")
-							.after("<dd id='memberEmail.errors' class='error'>" + errorResponse.errorMessage + "</dd>");
-					}
-				} 
-			}
-		});
-	}
-
 	function updateEmail(obj, callback) {
 		console.log("## Update Email");
 		let url = contextPath + "/api/member/email";
@@ -337,9 +300,9 @@ let memberService = (function() {
 		});
 	}
 	
-	function sendFoundAccount(obj, callback) {
-		console.log("## Send Found Account");
-		let url = contextPath + "/api/member/send/found-account";
+	function findAccount(obj, callback) {
+		console.log("## Find Account");
+		let url = contextPath + "/api/member/find/account";
 		console.log("> url = '%s'", url);
 		console.log("> obj = %s", JSON.stringify(obj, null, 2));
 		
@@ -451,14 +414,13 @@ let memberService = (function() {
 	return {
 		sendAuthCodeForJoin:sendAuthCodeForJoin,
 		sendAuthCodeForUpdate:sendAuthCodeForUpdate,
-		sendAuthCodeForReset:sendAuthCodeForReset,
 		updateEmail:updateEmail,
 		updateAddr:updateAddr,
 		updateAgree:updateAgree,
 		getCurrentMember:getCurrentMember,
 		checkPassword:checkPassword,
 		updatePassword:updatePassword,
-		sendFoundAccount:sendFoundAccount,
+		findAccount:findAccount,
 		findPassword:findPassword,
 		resetPassword:resetPassword
 	};

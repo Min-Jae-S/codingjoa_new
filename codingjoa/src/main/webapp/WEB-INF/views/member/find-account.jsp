@@ -83,7 +83,7 @@
 					</dd>
 				</dl>
 				<div class="pt-3">
-					<button type="button" class="btn btn-primary btn-block" id="sendFoundAccountBtn">확인</button>
+					<button type="button" class="btn btn-primary btn-block" id="findaAcountBtn">확인</button>
 				</div>
 			</div>
 		</div>
@@ -95,12 +95,12 @@
 
 <script>
 	$(function() {
-		$("#sendFoundAccountBtn").on("click", function() {
+		$("#findAccountBtn").on("click", function() {
 			let obj = {
 				memberEmail : $("#memberEmail").val()
 			};
 			
-			memberService.sendFoundAccount(obj, function(result) {
+			memberService.findAccount(obj, function(result) {
 				$(".error, .success").remove();
 				$("#memberEmail").closest("dd").after("<dd class='success'>" + result.message + "</dd>");
 			});
