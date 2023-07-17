@@ -134,10 +134,6 @@ public class BoardController {
 		log.info("\t > {}", writeBoardDto);
 		
 		if (bindingResult.hasErrors()) {
-			bindingResult.getFieldErrors().forEach(fieldError -> {
-				log.info("\t > {} / {}", fieldError.getField(), fieldError.getCodes()[0]);
-			});
-			
 			if (bindingResult.hasFieldErrors("boardCategoryCode") || bindingResult.hasFieldErrors("boardIdx")) {
 				throw new BindException(bindingResult);
 			}
