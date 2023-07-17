@@ -71,9 +71,10 @@ public class BoardController {
 	}
 	
 	@GetMapping("/")
-	public String getBoard(@BoardCategoryCode @RequestParam int boardCategoryCode, @BoardCri Criteria boardCri, 
-			Model model) {
-		log.info("## getBoard, boardCategoryCode = {}", boardCategoryCode);
+	public String getBoard(@BoardCategoryCode @RequestParam int boardCategoryCode, 
+			@BoardCri Criteria boardCri, Model model) {
+		log.info("## getBoard");
+		log.info("\t > boardCategoryCode = {}", boardCategoryCode);
 		log.info("\t > boardCri = {}", boardCri);
 
 		Criteria newBoardCri = boardService.makeNewBoardCri(boardCri);
@@ -95,7 +96,8 @@ public class BoardController {
 	
 	@GetMapping("/read")
 	public String read(@RequestParam int boardIdx, @BoardCri Criteria boardCri, Model model) {
-		log.info("## read, boardIdx = {}", boardIdx);
+		log.info("## read");
+		log.info("\t > boardIdx = {}", boardIdx);
 		log.info("\t > {}", boardCri);
 		
 		BoardDetailsDto boardDetails = boardService.getBoardDetails(boardIdx);
@@ -113,7 +115,8 @@ public class BoardController {
 	
 	@GetMapping("/write")
 	public String write(@BoardCategoryCode @RequestParam int boardCategoryCode, Model model) {
-		log.info("## write, boardCategoryCode = {}", boardCategoryCode);
+		log.info("## write");
+		log.info("\t > boardCategoryCode = {}", boardCategoryCode);
 		
 		BoardDto writeBoardDto = new BoardDto();
 		writeBoardDto.setBoardCategoryCode(boardCategoryCode);
@@ -151,7 +154,8 @@ public class BoardController {
 	
 	@GetMapping("/modify")
 	public String modify(@RequestParam int boardIdx, @AuthenticationPrincipal UserDetailsDto principal, Model model) {
-		log.info("## modify, boardIdx = {}", boardIdx);
+		log.info("## modify");
+		log.info("\t > boardIdx = {}", boardIdx);
 		
 		int boardWriterIdx = principal.getMember().getMemberIdx();
 		BoardDto modifyBoardDto = boardService.getModifyBoard(boardIdx, boardWriterIdx);
@@ -188,7 +192,8 @@ public class BoardController {
 	
 	@GetMapping("/deleteProc")
 	public String deleteProc(@RequestParam int boardIdx, @AuthenticationPrincipal UserDetailsDto principal) {
-		log.info("## deleteProc, boardIdx = {}", boardIdx);
+		log.info("## deleteProc");
+		log.info("\t > boardIdx = {}", boardIdx);
 		
 		BoardDto deleteBoardDto = new BoardDto();
 		deleteBoardDto.setBoardIdx(boardIdx);
