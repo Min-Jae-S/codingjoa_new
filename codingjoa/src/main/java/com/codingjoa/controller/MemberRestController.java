@@ -223,6 +223,7 @@ public class MemberRestController {
 		redisService.save(key, memberIdx.toString());
 		
 		return ResponseEntity.ok(SuccessResponse.create().code("success.FindPassword"));
+		
 	}
 	
 	@PutMapping("/reset/password")
