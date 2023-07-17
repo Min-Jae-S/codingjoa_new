@@ -223,7 +223,6 @@ public class MemberRestController {
 		redisService.save(key, memberIdx.toString());
 		
 		return ResponseEntity.ok(SuccessResponse.create().code("success.FindPassword"));
-		
 	}
 	
 	@PutMapping("/reset/password")
@@ -234,7 +233,8 @@ public class MemberRestController {
 		log.info("\t > {}", passwordChangeDto);
 		
 		Integer memberIdx = Integer.parseInt(redisService.get(key));
-		// password update
+		memberService.updatePassword(passwordChangeDto.getMemberPassword(), memberIdx);
+		redisService.delete(key);
 		
 		return ResponseEntity.ok(SuccessResponse.create().code("success.ResetPassword"));
 	}
