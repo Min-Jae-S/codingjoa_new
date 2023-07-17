@@ -63,7 +63,6 @@ import lombok.extern.slf4j.Slf4j;
 @PropertySource("/WEB-INF/properties/upload.properties")
 @PropertySource("/WEB-INF/properties/criteria.properties")
 @ComponentScan("com.codingjoa.controller")
-//@ComponentScan("com.codingjoa.validator")
 @ComponentScan("com.codingjoa.service")
 @ComponentScan("com.codingjoa.response")
 public class ServletConfig implements WebMvcConfigurer {
