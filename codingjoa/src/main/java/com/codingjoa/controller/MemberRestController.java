@@ -23,7 +23,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.web.util.UriComponents;
 
 import com.codingjoa.dto.AddrDto;
 import com.codingjoa.dto.AgreeDto;
@@ -209,20 +212,27 @@ public class MemberRestController {
 		Integer memberIdx = memberService.getMemberIdxByIdAndEmail(memberId, memberEmail);
 		String key = UUID.randomUUID().toString().replace("-", "");
 		log.info("\t > key = {}", key);
-		redisService.save(key, memberIdx.toString());
 		
-		String resetPasswordUrl = request.getContextPath() + "/member/resetPassword?key=" + key;
-		log.info("\t > reset password url = {}", resetPasswordUrl);
-		emailService.sendResetPasswordUrl(memberEmail, memberId, resetPasswordUrl);
+		UriComponents uriComponents = ServletUriComponentsBuilder.fromContextPath(request)
+				.path("/member/resetPassword")
+				.queryParam("key", key)
+				.build();
+		log.info("\t > reset-password url = {}", uriComponents.toString());
+		
+		emailService.sendResetPasswordUrl(memberEmail, memberId, uriComponents.toString());
+		redisService.save(key, memberIdx.toString());
 		
 		return ResponseEntity.ok(SuccessResponse.create().code("success.FindPassword"));
 	}
 	
 	@PutMapping("/reset/password")
-	public ResponseEntity<Object> resetPassword(@RequestBody @Valid PasswordChangeDto passwordChangeDto) {
+	public ResponseEntity<Object> resetPassword(@RequestParam(name = "key", required = true) String key,
+			@RequestBody @Valid PasswordChangeDto passwordChangeDto) {
 		log.info("## resetPassword");
+		log.info("\t > key = {}", key);
 		log.info("\t > {}", passwordChangeDto);
 		
+		Integer memberIdx = Integer.parseInt(redisService.get(key));
 		// password update
 		
 		return ResponseEntity.ok(SuccessResponse.create().code("success.ResetPassword"));

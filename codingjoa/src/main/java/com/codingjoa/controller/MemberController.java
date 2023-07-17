@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.WebDataBinder;
@@ -118,9 +119,9 @@ public class MemberController {
 	}
 	
 	@GetMapping("/resetPassword")
-	public String resetPassword(@RequestParam(name = "key", required = true) String key) {
+	public String resetPassword(@RequestParam(name = "key", required = true) String key, Model model) {
 		log.info("## resetPassword");
-		log.info("\t > key = {}", key);
+		model.addAttribute("key", key);
 		return "member/reset-password";
 	}
 	

@@ -101,7 +101,7 @@
 			};
 			
 			memberService.findPassword(obj, function(result) {
-				$(".error").remove();
+				$(".error, .success").remove();
 				$("#editMemberEmail").after("<dd class='success'>" + result.message + "</dd>");
 			});
 		});

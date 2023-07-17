@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
+import org.springframework.web.util.UriComponents;
 
 import com.codingjoa.exception.ExpectedException;
 import com.codingjoa.response.SuccessResponse;
@@ -260,6 +262,37 @@ public class TestController {
 	public ResponseEntity<Object> test5() {
 		log.info("## test5");
 		return ResponseEntity.ok(SuccessResponse.create().message("test5"));
+	}
+	
+	@ResponseBody
+	@GetMapping("/test-request")
+	public void testRequest(HttpServletRequest request) {
+		log.info("## testRequest");
+		log.info("\t > request.getContextPath() = {}", request.getContextPath());
+		log.info("\t > request.getRequestURI() = {}", request.getRequestURI());
+		log.info("\t > request.getRequestURL() = {}", request.getRequestURL());
+		log.info("\t > request.getLocalAddr() = {}", request.getLocalAddr());
+		log.info("\t > request.getLocalName() = {}", request.getLocalName());
+		log.info("\t > request.getRemoteAddr() = {}", request.getRemoteAddr());
+		log.info("\t > request.getRemoteHost() = {}", request.getRemoteHost());
+		log.info("\t > request.getServerName() = {}", request.getServerName());
+		log.info("\t > request.getServletPath() = {}", request.getServletPath());
+	}
+
+	@ResponseBody
+	@GetMapping("/test-uri")
+	public void testUri(HttpServletRequest request) {
+		log.info("## testUri");
+		
+		// scheme, host, port, context path 를 재사용
+		UriComponents uri1 = ServletUriComponentsBuilder.fromContextPath(request)
+		        .path("/accounts").build();
+		log.info("\t > uri1 = {}", uri1);
+
+		// scheme, host, port, context path, Servlet prefix 를 재사용
+		UriComponents uri2 = ServletUriComponentsBuilder.fromServletMapping(request)
+				.path("/accounts").build();
+		log.info("\t > uri2 = {}", uri2);
 	}
 	
 }

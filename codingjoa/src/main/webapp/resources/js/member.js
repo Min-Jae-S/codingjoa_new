@@ -374,9 +374,9 @@ let memberService = (function() {
 		});
 	}
 	
-	function resetPassword(obj, callback) {
+	function resetPassword(key, obj, callback) {
 		console.log("## Reset Password");
-		let url = contextPath + "/api/member/reset/password";
+		let url = contextPath + "/api/member/reset/password?key=" + key;
 		console.log("> url = '%s'", url);
 		console.log("> obj = %s", JSON.stringify(obj, null, 2));
 		

@@ -1,8 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html>
@@ -103,12 +101,13 @@
 <script>
 	$(function() {
 		$("#resetPasswordBtn").on("click", function() {
+			let key ="<c:out value='${key}'/>";
 			let obj = {
 				memberPassword : $("#memberPassword").val(),
 				confirmPassword : $("#confirmPassword").val()
 			};
 			
-			memberService.resetPassword(obj, function(result) {
+			memberService.resetPassword(key, obj, function(result) {
 				alert(result.message);
 				location.href = "${contextPath}/member/login";
 			});

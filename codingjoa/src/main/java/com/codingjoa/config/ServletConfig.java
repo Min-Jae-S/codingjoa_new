@@ -47,6 +47,7 @@ import com.codingjoa.resolver.BoardCriteriaArgumentResolver;
 import com.codingjoa.resolver.CommentCriteriaArgumentResolver;
 import com.codingjoa.resolver.MyExceptionResolver;
 import com.codingjoa.service.CategoryService;
+import com.codingjoa.service.RedisService;
 import com.codingjoa.util.MessageUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -74,6 +75,9 @@ public class ServletConfig implements WebMvcConfigurer {
 	
 	@Autowired
 	private CategoryService categoryService;
+	
+	@Autowired
+	private RedisService redisService;
 
 	@Override
 	public void configureViewResolvers(ViewResolverRegistry registry) {
@@ -114,30 +118,15 @@ public class ServletConfig implements WebMvcConfigurer {
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		WebMvcConfigurer.super.addInterceptors(registry);
-		registry.addInterceptor(topMenuInterceptor())
+		registry.addInterceptor(new TopMenuInterceptor(applicationContext, categoryService))
 				.addPathPatterns("/**")
 				.excludePathPatterns("/resources/**", "/upload/**", "/api/**");
-		registry.addInterceptor(updatePasswordInterceptor())
+		registry.addInterceptor(new UpdatePasswordInterceptor())
 				.addPathPatterns("/member/account/updatePassword", "/api/member/password");
-		registry.addInterceptor(resetPasswordIntegerceptor())
+		registry.addInterceptor(new ResetPasswordInterceptor(redisService))
 				.addPathPatterns("/member/resetPassword", "/api/member/reset/password");
 	}
 
-	@Bean
-	public TopMenuInterceptor topMenuInterceptor() {
-		return new TopMenuInterceptor(applicationContext, categoryService);
-	}
-	
-	@Bean
-	public UpdatePasswordInterceptor updatePasswordInterceptor() {
-		return new UpdatePasswordInterceptor();
-	}
-	
-	@Bean
-	public ResetPasswordInterceptor resetPasswordIntegerceptor() {
-		return new ResetPasswordInterceptor();
-	}
-	
 	@Override
 	public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
 		log.info("## extendMessageConverters");

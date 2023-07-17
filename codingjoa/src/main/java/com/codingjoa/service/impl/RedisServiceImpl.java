@@ -27,6 +27,12 @@ public class RedisServiceImpl implements RedisService {
 	}
 	
 	@Override
+	public String get(String key) {
+		ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
+		return valueOperations.get(key);
+	}
+	
+	@Override
 	public boolean isAuthCodeValid(String key, String value) {
 		ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
 		return value.equals(valueOperations.get(key));
@@ -36,4 +42,5 @@ public class RedisServiceImpl implements RedisService {
 	public void delete(String key) {
 		redisTemplate.delete(key);
 	}
+
 }
