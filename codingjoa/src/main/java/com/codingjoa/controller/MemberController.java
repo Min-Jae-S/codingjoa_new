@@ -120,6 +120,7 @@ public class MemberController {
 	@GetMapping("/resetPassword")
 	public String resetPassword(@RequestParam(name = "key", required = true) String key) {
 		log.info("## resetPassword");
+		log.info("\t > key = {}", key);
 		return "member/reset-password";
 	}
 	

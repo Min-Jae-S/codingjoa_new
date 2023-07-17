@@ -182,12 +182,14 @@
 			member_idx = #{memberIdx}
 	</update>
 	
-	<select id="findIdbyEmail" parameterType="string" resultType="string">
+	<select id="findMemeberByIdAndEmail" parameterType="map" resultType="member">
 		SELECT
-			member_id
+			*
 		FROM
 			member
 		WHERE
+			member_id = #{memberId}
+			AND
 			member_email = #{memberEmail}
 	</select>
 	

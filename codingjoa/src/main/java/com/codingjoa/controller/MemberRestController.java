@@ -92,8 +92,8 @@ public class MemberRestController {
 		String authCode = RandomStringUtils.randomNumeric(6);
 		log.info("\t > authCode = {}", authCode);
 		
-		redisService.save(memberEmail, authCode);
 		emailService.sendAuthCode(memberEmail, authCode);
+		redisService.save(memberEmail, authCode);
 		
 		return ResponseEntity.ok(SuccessResponse.create().code("success.SendAuthCode"));
 	}
@@ -110,8 +110,8 @@ public class MemberRestController {
 		String authCode = RandomStringUtils.randomNumeric(6);
 		log.info("\t > authCode = {}", authCode);
 		
-		redisService.save(memberEmail, authCode);
 		emailService.sendAuthCode(memberEmail, authCode);
+		redisService.save(memberEmail, authCode);
 		
 		return ResponseEntity.ok(SuccessResponse.create().code("success.SendAuthCode"));
 	}
@@ -208,13 +208,12 @@ public class MemberRestController {
 		String memberEmail = findPasswordDto.getMemberEmail();
 		Integer memberIdx = memberService.getMemberIdxByIdAndEmail(memberId, memberEmail);
 		String key = UUID.randomUUID().toString().replace("-", "");
-		redisService.save(key, memberIdx.toString());
 		log.info("\t > key = {}", key);
+		redisService.save(key, memberIdx.toString());
 		
-		String resetPasswordUrl = request.getContextPath() + "/member/";
-		emailService.sendResetPasswordUrl(memberEmail, resetPasswordUrl);
+		String resetPasswordUrl = request.getContextPath() + "/member/resetPassword?key=" + key;
 		log.info("\t > reset password url = {}", resetPasswordUrl);
-		
+		emailService.sendResetPasswordUrl(memberEmail, memberId, resetPasswordUrl);
 		
 		return ResponseEntity.ok(SuccessResponse.create().code("success.FindPassword"));
 	}

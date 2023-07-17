@@ -4,5 +4,4 @@ public enum MailType {
 	AUTH_CODE,
 	FIND_ACCOUNT,
 	FIND_PASSWORD;
-	
 }

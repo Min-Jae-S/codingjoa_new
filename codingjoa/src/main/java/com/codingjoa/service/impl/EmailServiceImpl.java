@@ -36,7 +36,6 @@ public class EmailServiceImpl implements EmailService {
 			
 			String html = buildTemplate(MailType.AUTH_CODE, authCode);
 			mailHelper.setText(html, true);
-			
 			mailSender.send(mimeMessage);
 		} catch (MessagingException e) {
 			e.printStackTrace();
@@ -53,11 +52,10 @@ public class EmailServiceImpl implements EmailService {
 			MimeMessage mimeMessage = mailSender.createMimeMessage();
 			MimeMessageHelper mailHelper = new MimeMessageHelper(mimeMessage, true, "utf-8");
 			mailHelper.setTo(memberEmail);
-			mailHelper.setSubject("[CodingJoa] 아이디를 안내해드립니다.");
+			mailHelper.setSubject("[CodingJoa] 아이디 안내 메일입니다.");
 			
 			String html = buildTemplate(MailType.FIND_ACCOUNT, memberId);
 			mailHelper.setText(html, true);
-			
 			mailSender.send(mimeMessage);
 		} catch (MessagingException e) {
 			e.printStackTrace();
@@ -66,17 +64,16 @@ public class EmailServiceImpl implements EmailService {
 
 	@Async
 	@Override
-	public void sendResetPasswordUrl(String memberEmail, String resetPasswordUrl) {
+	public void sendResetPasswordUrl(String memberEmail, String memberId, String resetPasswordUrl) {
 		try {
 			MimeMessage mimeMessage = mailSender.createMimeMessage();
 			MimeMessageHelper mailHelper = new MimeMessageHelper(mimeMessage, true, "utf-8");
 			
 			mailHelper.setTo(memberEmail);
-			mailHelper.setSubject("[CodingJoa] 아이디를 안내해드립니다.");
+			mailHelper.setSubject("[CodingJoa] 비밀번호 재설정 메일입니다.");
 			
-			String html = buildTemplate(MailType.FIND_PASSWORD, resetPasswordUrl);
+			String html = buildTemplate(MailType.FIND_PASSWORD, memberId, resetPasswordUrl);
 			mailHelper.setText(html, true);
-			
 			mailSender.send(mimeMessage);
 		} catch (MessagingException e) {
 			e.printStackTrace();
@@ -84,16 +81,19 @@ public class EmailServiceImpl implements EmailService {
 		
 	}
 	
-	private String buildTemplate(MailType mailType, String variable) {
+	private String buildTemplate(MailType mailType, String... variable) {
 		Context context = new Context();
 		if (mailType == MailType.AUTH_CODE) {
-			context.setVariable("authCode", variable);
+			context.setVariable("authCode", variable[0]);
 			return templateEngine.process("template/auth-code-mail", context);
+			
 		} else if (mailType == MailType.FIND_ACCOUNT) {
-			context.setVariable("memberId", variable);
+			context.setVariable("memberId", variable[0]);
 			return templateEngine.process("template/find-account-mail", context);
+			
 		} else { // MailType.FIND_PASSWORD
-			context.setVariable("resetPasswordUrl", variable);
+			context.setVariable("memberId", variable[0]);
+			context.setVariable("resetPasswordUrl", variable[1]);
 			return templateEngine.process("template/find-password-mail", context);
 		}
 	}

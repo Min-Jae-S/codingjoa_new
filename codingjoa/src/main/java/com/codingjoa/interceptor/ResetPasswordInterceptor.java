@@ -25,27 +25,27 @@ public class ResetPasswordInterceptor implements HandlerInterceptor {
 			throws Exception {
 		log.info("## {} : preHandle", this.getClass().getSimpleName());
 		
-		HttpSession session = request.getSession();
-		String accountAuthentication = (String) session.getAttribute("FIND_PASSWORD");
-		log.info("\t > FIND_PASSWORD = {}", accountAuthentication);
-		
-		if (accountAuthentication == null) {
-			HandlerMethod handlerMethod = (HandlerMethod) handler;
-			if (handlerMethod.getBeanType().isAnnotationPresent(RestController.class)) {
-				throw new ExpectedException(MessageUtils.getMessage("error.NotFindPassword"));
-			}
-			
-			response.setContentType(MediaType.TEXT_HTML.toString());
-			response.setCharacterEncoding(StandardCharsets.UTF_8.toString());
-			
-			PrintWriter writer = response.getWriter();
-			writer.println("<script>");
-			writer.println("alert('" + MessageUtils.getMessage("error.NotCheckAccount") + "');");
-			writer.println("location.href='" +  request.getContextPath() + "/member/findPassword';");
-			writer.println("</script>");
-			writer.flush();
-			return false;
-		}
+//		HttpSession session = request.getSession();
+//		String accountAuthentication = (String) session.getAttribute("FIND_PASSWORD");
+//		log.info("\t > FIND_PASSWORD = {}", accountAuthentication);
+//		
+//		if (accountAuthentication == null) {
+//			HandlerMethod handlerMethod = (HandlerMethod) handler;
+//			if (handlerMethod.getBeanType().isAnnotationPresent(RestController.class)) {
+//				throw new ExpectedException(MessageUtils.getMessage("error.NotFindPassword"));
+//			}
+//			
+//			response.setContentType(MediaType.TEXT_HTML.toString());
+//			response.setCharacterEncoding(StandardCharsets.UTF_8.toString());
+//			
+//			PrintWriter writer = response.getWriter();
+//			writer.println("<script>");
+//			writer.println("alert('" + MessageUtils.getMessage("error.NotCheckAccount") + "');");
+//			writer.println("location.href='" +  request.getContextPath() + "/member/findPassword';");
+//			writer.println("</script>");
+//			writer.flush();
+//			return false;
+//		}
 		
 		return true;
 	}

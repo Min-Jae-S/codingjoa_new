@@ -85,17 +85,6 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override
-	public void checkIdByEmail(String memberEmail, String memberId) {
-		Member member = memberMapper.findMemberByEmail(memberEmail); 
-		
-		// validator has already verified that memberEmail is a registered email
-		// therefore, member found by memberEmail cannot be null
-		if (!memberId.equals(member.getMemberId())) {
-			throw new ExpectedException(MessageUtils.getMessage("NotMatchId"));
-		}
-	}
-	
-	@Override
 	public boolean isEmailExist(String memberEmail) {
 		return memberMapper.isEmailExist(memberEmail);
 	}
@@ -114,7 +103,7 @@ public class MemberServiceImpl implements MemberService {
 	public Integer getMemberIdxByIdAndEmail(String memberId, String memberEmail) {
 		Member member = memberMapper.findMemeberByIdAndEmail(memberId, memberEmail);
 		if (member == null) {
-			throw new ExpectedException(MessageUtils.getMessage("error.NotEmailExist"));
+			throw new ExpectedException(MessageUtils.getMessage("error.NotIdOrEmailExist"));
 		}
 		
 		return member.getMemberIdx();
