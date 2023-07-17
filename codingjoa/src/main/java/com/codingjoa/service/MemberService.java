@@ -18,7 +18,9 @@ public interface MemberService {
 	
 	boolean isEmailExist(String memberEmail);
 	
-	String findAccount(String memberEmail);
+	String getMemberIdByEmail(String memberEmail);
+	
+	Integer getMemberIdxByIdAndEmail(String memberId, String memberEmail);
 	
 	boolean isMyEmail(String memberEmail, String memberId);
 
@@ -31,7 +33,5 @@ public interface MemberService {
 	void checkCurrentPassword(String memberPassword, Integer memberIdx);
 	
 	void updatePassword(String memberPassword, Integer memberIdx);
-	
-	boolean isAccountExist(String memberId, String memberEmail);
 	
 }

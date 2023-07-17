@@ -66,8 +66,8 @@
 			<h5 class="font-weight-bold">비밀번호 찾기</h5>
 			<div class="pt-3" style="border-top: 1px solid black;">
 				<p class="title">
-					<span>비밀번호 재설정을 위해 사용자 인증이 필요합니다.</span><br/>
 					<span>코딩조아(Codingjoa) 계정의 아이디와 등록한 이메일을 입력해주세요.</span><br/>
+					<span>입력하신 정보와 연계된 계정이 있다면 비밀번호 재설정을 위한 링크가 이메일을 통해 전송됩니다.</span><br/>
 				</p>
 				<dl class="form-group mb-5">
 					<dt><i class="fa-solid fa-check mr-2"></i>아이디</dt>
@@ -97,14 +97,19 @@
 		$("#findPasswordBtn").on("click", function() {
 			let obj = {
 				memberId : $("#memberId").val(),
-				memberEmail : $("#memberEmail").val(),
-				authCode : $("#authCode").val()
+				memberEmail : $("#memberEmail").val()
 			};
 			
 			memberService.findPassword(obj, function(result) {
 				$(".error").remove();
-				alert(result.message);
+				$("#editMemberEmail").after("<dd class='success'>" + result.message + "</dd>");
 			});
+		});
+		
+		$("#memberId, #memberEmail").on("keydown", function(key) {
+			if (key.keyCode == 13) {
+				$("#findPasswordBtn").click();
+			}
 		});
 		
 		$("input").on("focus", function() {

@@ -70,7 +70,7 @@
 						</div>
 						<div class="form-group mb-4">
 							<form:label path="memberEmail" class="font-weight-bold">이메일</form:label>
-							<div class="input-group mb-2">
+							<div class="input-group mb-3">
 								<form:input path="memberEmail" class="form-control" placeholder="이메일 입력"/>
 								<div class="input-group-append">
 									<button type="button" class="btn btn-outline-secondary btn-sm" id="sendEmailBtn">인증코드 받기</button>

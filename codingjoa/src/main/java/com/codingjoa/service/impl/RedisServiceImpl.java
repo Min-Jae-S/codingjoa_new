@@ -16,22 +16,20 @@ public class RedisServiceImpl implements RedisService {
 	private RedisTemplate<String, String> redisTemplate;
 
 	@Override
-	public void saveAuthCode(String key, String authCode) {
+	public void save(String key, String value) {
 		ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
-		valueOperations.set(key, authCode, Duration.ofMinutes(5L));
+		valueOperations.set(key, value, Duration.ofMinutes(10L));
 	}
 
 	@Override
-	public boolean hasAuthCode(String key) {
+	public boolean hasKey(String key) {
 		return redisTemplate.hasKey(key);
 	}
 	
 	@Override
-	public boolean isAuthCodeValid(String key, String authCode) {
+	public boolean isAuthCodeValid(String key, String value) {
 		ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
-		String value = valueOperations.get(key);
-		
-		return authCode.equals(value);
+		return value.equals(valueOperations.get(key));
 	}
 
 	@Override

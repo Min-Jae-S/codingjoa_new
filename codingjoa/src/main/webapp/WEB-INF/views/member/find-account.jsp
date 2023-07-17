@@ -83,7 +83,7 @@
 					</dd>
 				</dl>
 				<div class="pt-3">
-					<button type="button" class="btn btn-primary btn-block" id="findaAcountBtn">확인</button>
+					<button type="button" class="btn btn-primary btn-block" id="findAcountBtn">확인</button>
 				</div>
 			</div>
 		</div>
@@ -95,15 +95,21 @@
 
 <script>
 	$(function() {
-		$("#findAccountBtn").on("click", function() {
+		$("#findAcountBtn").on("click", function() {
 			let obj = {
 				memberEmail : $("#memberEmail").val()
 			};
 			
 			memberService.findAccount(obj, function(result) {
 				$(".error, .success").remove();
-				$("#memberEmail").closest("dd").after("<dd class='success'>" + result.message + "</dd>");
+				$("#editMemberEmail").after("<dd class='success'>" + result.message + "</dd>");
 			});
+		});
+		
+		$("#memberEmail").on("keydown", function(key) {
+			if (key.keyCode == 13) {
+				$("#findAcountBtn").click();
+			}
 		});
 		
 		$("input").on("focus", function() {

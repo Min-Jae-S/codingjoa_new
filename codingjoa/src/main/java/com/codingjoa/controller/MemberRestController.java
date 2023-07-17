@@ -1,5 +1,8 @@
 package com.codingjoa.controller;
 
+import java.util.UUID;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -21,7 +24,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.codingjoa.dto.AddrDto;
 import com.codingjoa.dto.AgreeDto;
@@ -90,8 +92,8 @@ public class MemberRestController {
 		String authCode = RandomStringUtils.randomNumeric(6);
 		log.info("\t > authCode = {}", authCode);
 		
+		redisService.save(memberEmail, authCode);
 		emailService.sendAuthCode(memberEmail, authCode);
-		redisService.saveAuthCode(memberEmail, authCode);
 		
 		return ResponseEntity.ok(SuccessResponse.create().code("success.SendAuthCode"));
 	}
@@ -108,8 +110,8 @@ public class MemberRestController {
 		String authCode = RandomStringUtils.randomNumeric(6);
 		log.info("\t > authCode = {}", authCode);
 		
+		redisService.save(memberEmail, authCode);
 		emailService.sendAuthCode(memberEmail, authCode);
-		redisService.saveAuthCode(memberEmail, authCode);
 		
 		return ResponseEntity.ok(SuccessResponse.create().code("success.SendAuthCode"));
 	}
@@ -190,7 +192,7 @@ public class MemberRestController {
 		log.info("\t > {}", emailDto);
 		
 		String memberEmail = emailDto.getMemberEmail();
-		String memberId = memberService.findAccount(memberEmail);
+		String memberId = memberService.getMemberIdByEmail(memberEmail);
 		emailService.sendFoundAccount(memberEmail, memberId);
 		
 		return ResponseEntity.ok(SuccessResponse.create().code("success.FindAccount"));
@@ -198,26 +200,29 @@ public class MemberRestController {
 	
 	@PostMapping("/find/password")
 	public ResponseEntity<Object> findPassword(@RequestBody @Valid FindPasswordDto findPasswordDto, 
-			HttpSession session) {
+			HttpServletRequest request) {
 		log.info("## findPassword");
 		log.info("\t > {}", findPasswordDto);
 		
-//		String memberEmail = findPasswordDto.getMemberEmail();
-//		String memberId = findPasswordDto.getMemberId();
-//		memberService.checkIdByEmail(memberEmail, memberId);
-//
-//		redisService.delete(memberEmail);
-//		session.setAttribute("FIND_PASSWORD", memberId);
+		String memberId = findPasswordDto.getMemberId();
+		String memberEmail = findPasswordDto.getMemberEmail();
+		Integer memberIdx = memberService.getMemberIdxByIdAndEmail(memberId, memberEmail);
+		String key = UUID.randomUUID().toString().replace("-", "");
+		redisService.save(key, memberIdx.toString());
+		log.info("\t > key = {}", key);
+		
+		String resetPasswordUrl = request.getContextPath() + "/member/";
+		emailService.sendResetPasswordUrl(memberEmail, resetPasswordUrl);
+		log.info("\t > reset password url = {}", resetPasswordUrl);
+		
 		
 		return ResponseEntity.ok(SuccessResponse.create().code("success.FindPassword"));
 	}
 	
 	@PutMapping("/reset/password")
-	public ResponseEntity<Object> resetPassword(@RequestBody @Valid PasswordChangeDto passwordChangeDto, 
-			@SessionAttribute("FIND_PASSWORD") String memberId) {
+	public ResponseEntity<Object> resetPassword(@RequestBody @Valid PasswordChangeDto passwordChangeDto) {
 		log.info("## resetPassword");
 		log.info("\t > {}", passwordChangeDto);
-		log.info("\t > memberId from session = {}", memberId);
 		
 		// password update
 		

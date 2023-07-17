@@ -191,16 +191,4 @@
 			member_email = #{memberEmail}
 	</select>
 	
-	<select id="isAccountExist" parameterType="string" resultType="boolean">
-		SELECT
-			COUNT(*)
-		FROM
-			member
-		WHERE
-			member_id = #{memberId} 
-			AND 
-			member_email = #{memberEmail}
-	</select>
-	
-	
 </mapper>

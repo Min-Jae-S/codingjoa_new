@@ -25,7 +25,7 @@ public class FindPasswordValidator implements Validator {
 		log.info("## {}", this.getClass().getSimpleName());
 		
 		FindPasswordDto findPasswordDto = (FindPasswordDto) target;
-		String memberId = findPasswordDto.getMemberEmail();
+		String memberId = findPasswordDto.getMemberId();
 		String memberEmail = findPasswordDto.getMemberEmail();
 		
 		if (!StringUtils.hasText(memberId)) {

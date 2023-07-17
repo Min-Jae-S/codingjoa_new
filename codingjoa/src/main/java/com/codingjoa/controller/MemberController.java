@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.codingjoa.dto.JoinDto;
 import com.codingjoa.dto.LoginDto;
@@ -117,7 +118,7 @@ public class MemberController {
 	}
 	
 	@GetMapping("/resetPassword")
-	public String resetPassword() {
+	public String resetPassword(@RequestParam(name = "key", required = true) String key) {
 		log.info("## resetPassword");
 		return "member/reset-password";
 	}

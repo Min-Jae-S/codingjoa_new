@@ -101,13 +101,23 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override
-	public String findAccount(String memberEmail) {
+	public String getMemberIdByEmail(String memberEmail) {
 		Member member = memberMapper.findMemberByEmail(memberEmail);
 		if (member == null) {
 			throw new ExpectedException(MessageUtils.getMessage("error.NotEmailExist"));
 		}
 		
 		return member.getMemberId();
+	}
+	
+	@Override
+	public Integer getMemberIdxByIdAndEmail(String memberId, String memberEmail) {
+		Member member = memberMapper.findMemeberByIdAndEmail(memberId, memberEmail);
+		if (member == null) {
+			throw new ExpectedException(MessageUtils.getMessage("error.NotEmailExist"));
+		}
+		
+		return member.getMemberIdx();
 	}
 
 	@Override
@@ -179,9 +189,5 @@ public class MemberServiceImpl implements MemberService {
 		memberMapper.updatePassword(modifiedMember);
 	}
 
-	@Override
-	public boolean isAccountExist(String memberId, String memberEmail) {
-		return memberMapper.isAccountExist(memberId, memberEmail);
-	}
 
 }

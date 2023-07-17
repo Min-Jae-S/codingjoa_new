@@ -2,9 +2,9 @@ package com.codingjoa.service;
 
 public interface RedisService {
 	
-	void saveAuthCode(String key, String authCode);
+	void save(String key, String authCode);
 	
-	boolean hasAuthCode(String key);
+	boolean hasKey(String key);
 	
 	boolean isAuthCodeValid(String key, String authCode);
 	

@@ -7,4 +7,6 @@ public interface EmailService {
 	
 	void sendFoundAccount(String memberEmail, String memberId);
 	
+	void sendResetPasswordUrl(String memberEmail, String resetPasswordUrl);
+	
 }

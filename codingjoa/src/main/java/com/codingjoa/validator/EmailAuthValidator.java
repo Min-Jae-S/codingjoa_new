@@ -42,7 +42,7 @@ public class EmailAuthValidator implements Validator {
 			return;
 		}
 		
-		if (!redisService.hasAuthCode(memberEmail)) {
+		if (!redisService.hasKey(memberEmail)) {
 			errors.rejectValue("memberEmail", "NotAuthCodeExist");
 			return;
 		}
