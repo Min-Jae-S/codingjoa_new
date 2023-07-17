@@ -27,8 +27,7 @@ public class BoardValidator implements Validator {
 	public void validate(Object target, Errors errors) {
 		log.info("## {}", this.getClass().getSimpleName());
 
-		// boardIdx, boardCategoryCode
-		if (errors.hasFieldErrors()) {
+		if (errors.hasFieldErrors()) { // boardIdx, boardCategoryCode
 			return; 
 		}
 
