@@ -2,8 +2,6 @@ package com.codingjoa.validator;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -11,13 +9,13 @@ import org.springframework.validation.Validator;
 import com.codingjoa.dto.BoardDto;
 import com.codingjoa.service.UploadService;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@Component(value = "boardValidator")
+@AllArgsConstructor
 public class BoardValidator implements Validator {
 
-	@Autowired
 	private UploadService uploadService;
 	
 	@Override
@@ -31,7 +29,9 @@ public class BoardValidator implements Validator {
 		log.info("\t > objectName = {}", errors.getObjectName());
 
 		// boardIdx, boardCategoryCode
-		if (errors.hasFieldErrors()) return; 
+		if (errors.hasFieldErrors()) {
+			return; 
+		}
 
 		BoardDto boardDto = (BoardDto) target;
 		if (!StringUtils.hasText(boardDto.getBoardTitle())) {

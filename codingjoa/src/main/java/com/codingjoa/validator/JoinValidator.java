@@ -2,8 +2,6 @@ package com.codingjoa.validator;
 
 import java.util.regex.Pattern;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -12,20 +10,17 @@ import com.codingjoa.dto.JoinDto;
 import com.codingjoa.service.MemberService;
 import com.codingjoa.service.RedisService;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@Component(value = "joinValidator")
+@AllArgsConstructor
 public class JoinValidator implements Validator {
 
 	private final String ID_REGEXP = "^([a-z0-9]{6,12})$";
 	private final String PASSWORD_REGEXP = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[!@#$%^&*()])(?=\\S+$).{8,16}$";
 	private final String EMAIL_REGEXP = "^[_a-z0-9-]+(.[_a-z0-9-]+)*@(?:\\w+\\.)+\\w+$";
-
-	@Autowired
 	private MemberService memberService;
-
-	@Autowired
 	private RedisService redisService;
 
 	@Override

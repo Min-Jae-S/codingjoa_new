@@ -3,15 +3,12 @@ package com.codingjoa.controller;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.annotation.Resource;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Validator;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,6 +28,8 @@ import com.codingjoa.pagination.Pagination;
 import com.codingjoa.security.dto.UserDetailsDto;
 import com.codingjoa.service.BoardService;
 import com.codingjoa.service.CategoryService;
+import com.codingjoa.service.UploadService;
+import com.codingjoa.validator.BoardValidator;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -46,14 +45,12 @@ public class BoardController {
 	@Autowired
 	private BoardService boardService;
 	
-	@Resource(name = "boardValidator")
-	private Validator boardValidator;
-
+	@Autowired
+	private UploadService uploadService;
+	
 	@InitBinder (value = { "writeBoardDto", "modifyBoardDto" })
 	protected void initBinderBoard(WebDataBinder binder) {
-		log.info("## initBinderBoard");
-		log.info("\t > target = {} / {}", binder.getObjectName(), binder.getTarget());
-		binder.addValidators(boardValidator);
+		binder.addValidators(new BoardValidator(uploadService));
 	}
 	
 	@GetMapping

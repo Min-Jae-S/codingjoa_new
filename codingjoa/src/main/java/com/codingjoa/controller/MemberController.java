@@ -1,15 +1,12 @@
 package com.codingjoa.controller;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Validator;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -20,9 +17,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.codingjoa.dto.JoinDto;
 import com.codingjoa.dto.LoginDto;
-import com.codingjoa.dto.SessionDto;
 import com.codingjoa.service.MemberService;
 import com.codingjoa.service.RedisService;
+import com.codingjoa.validator.JoinValidator;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -37,18 +34,9 @@ public class MemberController {
 	@Autowired
 	private RedisService redisService;
 
-	@Resource(name = "joinValidator")
-	private Validator joinValidator;
-	
-	@Resource(name = "sessionDto")
-	@Lazy
-	private SessionDto sessionDto;
-
 	@InitBinder("joinDto")
 	public void initBinderJoin(WebDataBinder binder) {
-		log.info("## initBinderJoin");
-		log.info("\t > target = {} / {}", binder.getObjectName(), binder.getTarget());
-		binder.addValidators(joinValidator);
+		binder.addValidators(new JoinValidator(memberService, redisService));
 	}
 
 	@GetMapping("/join")

@@ -25,6 +25,7 @@ import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.multipart.MultipartResolver;
@@ -281,14 +282,14 @@ public class ServletConfig implements WebMvcConfigurer {
 	 * instead of Validation.buildDefaultValidatorFactory(), as described in the reference.
 	 */
 	
-//	@Bean
-//	public LocalValidatorFactoryBean validator() {
-//		LocalValidatorFactoryBean factoryBean = new LocalValidatorFactoryBean();
-//		factoryBean.setValidationMessageSource(messageSource());
-//		//factoryBean.getValidationPropertyMap().put("hibernate.validator.fail_fast", "true");
-//
-//		return factoryBean;
-//	}
+	@Bean
+	public LocalValidatorFactoryBean validator() {
+		LocalValidatorFactoryBean factoryBean = new LocalValidatorFactoryBean();
+		factoryBean.setValidationMessageSource(messageSource());
+		//factoryBean.getValidationPropertyMap().put("hibernate.validator.fail_fast", "true");
+
+		return factoryBean;
+	}
 
 //	@Override
 //	public void addFormatters(FormatterRegistry registry) {

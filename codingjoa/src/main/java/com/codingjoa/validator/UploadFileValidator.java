@@ -3,7 +3,6 @@ package com.codingjoa.validator;
 import java.io.IOException;
 
 import org.apache.tika.Tika;
-import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -14,7 +13,6 @@ import com.codingjoa.dto.UploadFileDto;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@Component(value = "uploadFileValidator")
 public class UploadFileValidator implements Validator {
 
 	private static long MAX_FILE_SIZE = 10 * 1024 * 1024;

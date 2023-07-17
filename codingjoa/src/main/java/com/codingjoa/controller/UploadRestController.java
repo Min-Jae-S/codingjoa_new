@@ -2,7 +2,6 @@ package com.codingjoa.controller;
 
 import java.util.Map;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -10,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.Validator;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -22,6 +20,7 @@ import com.codingjoa.dto.UploadFileDto;
 import com.codingjoa.response.SuccessResponse;
 import com.codingjoa.service.UploadService;
 import com.codingjoa.util.UploadFileUtils;
+import com.codingjoa.validator.UploadFileValidator;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -34,9 +33,6 @@ public class UploadRestController {
 	@Autowired
 	private UploadService uploadService;
 	
-	@Resource(name = "uploadFileValidator")
-	private Validator uploadFileValidator;
-	
 	@Value("${upload.path}")
 	private String uploadPath;
 	
@@ -46,9 +42,7 @@ public class UploadRestController {
 	@InitBinder("uploadFileDto")
 	public void initBinderUpload(WebDataBinder binder) {
 		log.info("## initBinderUpload");
-		log.info("\t > binder target = {}", binder.getTarget());
-		log.info("\t > binder target name = {}", binder.getObjectName());
-		binder.addValidators(uploadFileValidator);
+		binder.addValidators(new UploadFileValidator());
 	}
 	
 	@PostMapping("/image")

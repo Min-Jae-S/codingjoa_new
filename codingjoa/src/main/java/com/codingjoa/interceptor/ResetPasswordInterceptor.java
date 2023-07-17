@@ -32,7 +32,7 @@ public class ResetPasswordInterceptor implements HandlerInterceptor {
 		String key = request.getParameter("key");
 		log.info("\t > key = {}", key);
 		
-		if (!redisService.hasKey(key)) {
+		if (!keyCheck(key)) {
 			HandlerMethod handlerMethod = (HandlerMethod) handler;
 			if (handlerMethod.getBeanType().isAnnotationPresent(RestController.class)) {
 				throw new ExpectedException(MessageUtils.getMessage("error.NotFindPassword"));
@@ -51,6 +51,14 @@ public class ResetPasswordInterceptor implements HandlerInterceptor {
 		}
 		
 		return true;
+	}
+	
+	private boolean keyCheck(String key) {
+		if (key == null) {
+			return false;
+		}
+		
+		return redisService.hasKey(key);
 	}
 	
 }

@@ -16,9 +16,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.web.context.annotation.SessionScope;
 
-import com.codingjoa.dto.SessionDto;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
@@ -114,8 +112,4 @@ public class RootConfig {
 		return modelMapper;
 	}
 	
-	@Bean @SessionScope
-	public SessionDto sessionDto() {
-		return new SessionDto();
-	}
 }
