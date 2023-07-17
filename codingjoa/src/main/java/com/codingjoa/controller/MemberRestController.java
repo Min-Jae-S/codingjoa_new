@@ -25,9 +25,9 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.codingjoa.dto.AddrDto;
 import com.codingjoa.dto.AgreeDto;
-import com.codingjoa.dto.EmailAndIdDto;
 import com.codingjoa.dto.EmailAuthDto;
 import com.codingjoa.dto.EmailDto;
+import com.codingjoa.dto.FindPasswordDto;
 import com.codingjoa.dto.PasswordChangeDto;
 import com.codingjoa.dto.PasswordDto;
 import com.codingjoa.response.SuccessResponse;
@@ -35,9 +35,9 @@ import com.codingjoa.security.dto.UserDetailsDto;
 import com.codingjoa.service.EmailService;
 import com.codingjoa.service.MemberService;
 import com.codingjoa.service.RedisService;
-import com.codingjoa.validator.EmailAndIdAuthValidator;
 import com.codingjoa.validator.EmailAuthValidator;
 import com.codingjoa.validator.EmailValidator;
+import com.codingjoa.validator.FindPasswordValidator;
 import com.codingjoa.validator.PasswordChangeValidator;
 
 import lombok.extern.slf4j.Slf4j;
@@ -69,9 +69,9 @@ public class MemberRestController {
 		binder.addValidators(new EmailAuthValidator(redisService));
 	}
 
-	@InitBinder("emailAndIdAuthDto")
-	public void InitBinderEmailAndIdAuth(WebDataBinder binder) {
-		binder.addValidators(new EmailAndIdAuthValidator(redisService));
+	@InitBinder("findPasswordDto")
+	public void InitBinderFindPassword(WebDataBinder binder) {
+		binder.addValidators(new FindPasswordValidator());
 	}
 	
 	@InitBinder("passwordChangeDto")
@@ -197,13 +197,13 @@ public class MemberRestController {
 	}
 	
 	@PostMapping("/find/password")
-	public ResponseEntity<Object> findPassword(@RequestBody @Valid EmailAndIdDto emailAndIdDto, 
+	public ResponseEntity<Object> findPassword(@RequestBody @Valid FindPasswordDto findPasswordDto, 
 			HttpSession session) {
 		log.info("## findPassword");
-		log.info("\t > {}", emailAndIdDto);
+		log.info("\t > {}", findPasswordDto);
 		
-//		String memberEmail = emailAndIdDto.getMemberEmail();
-//		String memberId = emailAndIdDto.getMemberId();
+//		String memberEmail = findPasswordDto.getMemberEmail();
+//		String memberId = findPasswordDto.getMemberId();
 //		memberService.checkIdByEmail(memberEmail, memberId);
 //
 //		redisService.delete(memberEmail);
