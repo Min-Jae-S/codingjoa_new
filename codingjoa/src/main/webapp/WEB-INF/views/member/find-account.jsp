@@ -41,7 +41,7 @@
 		border-bottom: 1px solid #dee2e6;
 	}
 
-	#editMemberEmail > div {
+	#editEmail > div {
 		display: flex;
 		flex: 1 1 auto;
 		align-items: center;
@@ -76,7 +76,7 @@
 				</p>
 				<dl class="form-group mb-5">
 					<dt><i class="fa-solid fa-check mr-2"></i>이메일</dt>
-					<dd class="input-group" id="editMemberEmail">
+					<dd class="input-group" id="editEmail">
 						<div>
 							<input type="text" id="memberEmail" name="memberEmail" placeholder="이메일 입력" />
 						</div>
@@ -102,7 +102,7 @@
 			
 			memberService.findAccount(obj, function(result) {
 				$(".error, .success").remove();
-				$("#editMemberEmail").after("<dd class='success'>" + result.message + "</dd>");
+				$("#editEmail").after("<dd class='success'>" + result.message + "</dd>");
 			});
 		});
 		

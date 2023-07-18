@@ -366,8 +366,8 @@ let memberService = (function() {
 								.after("<dd id='" + errorField + ".errors' class='error'>" + errorMessage + "</dd>");
 						});
 					} else {
-						$("#editMemberId").after("<dd id='memberId.errors' class='error'>" + errorResponse.errorMessage + "</dd>");
-						$("#editMemberEmail").after("<dd id='memberEmail.errors' class='error'>" + errorResponse.errorMessage + "</dd>");
+						$("#editId").after("<dd id='memberId.errors' class='error'>" + errorResponse.errorMessage + "</dd>");
+						$("#editEmail").after("<dd id='memberEmail.errors' class='error'>" + errorResponse.errorMessage + "</dd>");
 					}
 				}
 			}

@@ -71,13 +71,13 @@
 				</p>
 				<dl class="form-group mb-5">
 					<dt><i class="fa-solid fa-check mr-2"></i>아이디</dt>
-					<dd class="input-group" id="editMemberId">
+					<dd class="input-group" id="editId">
 						<input type="text" id="memberId" name="memberId" placeholder="아이디 입력"/>
 					</dd>
 				</dl>
 				<dl class="form-group mb-5">
 					<dt><i class="fa-solid fa-check mr-2"></i>이메일</dt>
-					<dd class="input-group" id="editMemberEmail">
+					<dd class="input-group" id="editEmail">
 						<input type="text" id="memberEmail" name="memberEmail" placeholder="이메일 입력" />
 					</dd>
 				</dl>
@@ -102,7 +102,7 @@
 			
 			memberService.findPassword(obj, function(result) {
 				$(".error, .success").remove();
-				$("#editMemberEmail").after("<dd class='success'>" + result.message + "</dd>");
+				$("#editEmail").after("<dd class='success'>" + result.message + "</dd>");
 			});
 		});
 		

@@ -130,7 +130,7 @@
 						<div>
 							<span class="inner-text"><c:out value="${principal.member.memberZipcode}"/></span>
 						</div>
-						<button class="btn btn-outline-primary btn-sm" type="button" id="showAllAddrBtn">수정</button>
+						<button class="btn btn-outline-primary btn-sm" type="button" id="showAddrBtn">수정</button>
 					</dd>
 					<dd class="input-group" id="showAddr">
 						<span class="inner-text"><c:out value="${principal.member.memberAddr}"/></span>
@@ -238,7 +238,19 @@
 				});
 			});
 		});
-
+		
+		$(document).on("keydown", "#memberEmail", function(key) {
+			if (key.keyCode == 13) {
+				$("#sendEmailBtn").click();
+			}
+		});
+		
+		$(document).on("keydown", "#authCode", function(key) {
+			if (key.keyCode == 13) {
+				$("#updateEmalBtn").click();
+			}
+		});
+		
 		// update addr
 		$("#updateAddrBtn").on("click", function() {
 			let obj = {
@@ -264,6 +276,16 @@
 				});
 			});
 		});
+		
+		$(document).on("click", "#searchAddrBtn, #memberZipcode, #memberAddr", function() {
+			execPostcode();
+		});
+		
+		$(document).on("keydown", "#memberAddrDetail", function(key) {
+			if (key.keyCode == 13) {
+				$("#updateAddrBtn").click();
+			}
+		});
 
 		// update agree
 		$("#updateAgreeBtn").on("click", function() {
@@ -283,15 +305,11 @@
 			});
 		});
 		
-		$("#searchAddrBtn, #memberZipcode, #memberAddr").on("click", function() {
-			execPostcode();
-		});
-		
 		$("#showEmailBtn").on("click", function() {
 			$("#showEmail").css("display", "none");
 			$("#editEmail, #editEmail > div, #editAuthCode").css("display", "flex");
 		});
-
+		
 		$("#resetEmailBtn").on("click", function() {
 			$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
 			$("#showEmail").css("display", "flex");
@@ -301,7 +319,7 @@
 			$("#authCode").val("");
 		});
 		
-		$("#showAllAddrBtn").on("click", function() {
+		$("#showAddrBtn").on("click", function() {
 			$("#showZipcode, #showAddr, #showAddrDetail").css("display", "none");
 			$("#editZipcode, #editZipcode > div, #editAddr, #editAddrDetail").css("display", "flex");	
 		});
