@@ -30,17 +30,21 @@ public class PasswordChangeValidator implements Validator {
 
 		if (!StringUtils.hasText(memberPassword)) {
 			errors.rejectValue("memberPassword", "NotBlank");
-		} else if (!Pattern.matches(PASSWORD_REGEXP, memberPassword)) {
+			return;
+		} 
+		
+		if (!Pattern.matches(PASSWORD_REGEXP, memberPassword)) {
 			errors.rejectValue("memberPassword", "Pattern");
+			return;
 		}
 
 		if (!StringUtils.hasText(confirmPassword)) {
 			errors.rejectValue("confirmPassword", "NotBlank");
-		} else if (!Pattern.matches(PASSWORD_REGEXP, confirmPassword)) {
+			return;
+		} 
+		
+		if (!Pattern.matches(PASSWORD_REGEXP, confirmPassword)) {
 			errors.rejectValue("confirmPassword", "Pattern");
-		}
-
-		if (errors.hasFieldErrors("memberPassword") || errors.hasFieldErrors("confirmPassword")) {
 			return;
 		}
 

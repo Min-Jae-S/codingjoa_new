@@ -282,8 +282,8 @@
 			execPostcode();
 		});
 		
-		$(document).on("keydown", "#memberAddrDetail", function(key) {
-			if (key.keyCode == 13) {
+		$(document).on("keydown", "#memberAddrDetail", function(e) {
+			if (e.keyCode == 13) {
 				$("#updateAddrBtn").click();
 			}
 		});

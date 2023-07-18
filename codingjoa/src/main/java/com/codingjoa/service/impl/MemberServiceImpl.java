@@ -156,8 +156,8 @@ public class MemberServiceImpl implements MemberService {
 			throw new ExpectedException(MessageUtils.getMessage("error.NotFoundMember"));
 		}
 		
-		String encodedPassword = member.getMemberPassword();
-		if (!passwordEncoder.matches(memberPassword, encodedPassword)) {
+		String currentPassword = member.getMemberPassword();
+		if (!passwordEncoder.matches(memberPassword, currentPassword)) {
 			throw new ExpectedException(MessageUtils.getMessage("error.BadCredentials"));
 		}
 	}

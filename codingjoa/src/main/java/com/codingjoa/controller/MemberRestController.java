@@ -108,7 +108,8 @@ public class MemberRestController {
 		log.info("\t > {}", emailDto);
 
 		String memberEmail = emailDto.getMemberEmail();
-		memberService.checkEmailForUpdate(memberEmail, principal.getMember().getMemberIdx());
+		Integer memberIdx = principal.getMember().getMemberIdx();
+		memberService.checkEmailForUpdate(memberEmail, memberIdx);
 		
 		String authCode = RandomStringUtils.randomNumeric(6);
 		log.info("\t > authCode = {}", authCode);
@@ -126,9 +127,12 @@ public class MemberRestController {
 		log.info("\t > {}", emailAuthDto);
 		
 		String memberEmail = emailAuthDto.getMemberEmail();
-		memberService.updateEmail(memberEmail, principal.getMember().getMemberIdx());
+		Integer memberIdx = principal.getMember().getMemberIdx();
+		memberService.updateEmail(memberEmail, memberIdx);
 		redisService.delete(memberEmail);
-		resetAuthentication(principal.getMember().getMemberId());
+		
+		String memberId = principal.getMember().getMemberId();
+		resetAuthentication(memberId);
 		
 		return ResponseEntity.ok(SuccessResponse.create().code("success.UpdateEmail"));
 	}
@@ -139,9 +143,14 @@ public class MemberRestController {
 		log.info("## updateAddr");
 		log.info("\t > {}", addrDto);
 		
-		memberService.updateAddr(addrDto.getMemberZipcode(), addrDto.getMemberAddr(), 
-				addrDto.getMemberAddrDetail(), principal.getMember().getMemberIdx());
-		resetAuthentication(principal.getMember().getMemberId());
+		String memberZipcode = addrDto.getMemberZipcode();
+		String memberAddr = addrDto.getMemberAddr();
+		String memberAddrDetail = addrDto.getMemberAddrDetail();
+		Integer memberIdx = principal.getMember().getMemberIdx();
+		memberService.updateAddr(memberZipcode, memberAddr, memberAddrDetail, memberIdx);
+		
+		String memberId = principal.getMember().getMemberId();
+		resetAuthentication(memberId);
 		
 		return ResponseEntity.ok(SuccessResponse.create().code("success.UpdateAddr"));
 	}
@@ -152,8 +161,12 @@ public class MemberRestController {
 		log.info("## updateAgree");
 		log.info("\t > {}", agreeDto);
 		
-		memberService.updateAgree(agreeDto.isMemberAgree(), principal.getMember().getMemberIdx());
-		resetAuthentication(principal.getMember().getMemberId());
+		boolean memberAgree = agreeDto.isMemberAgree();
+		Integer memberIdx = principal.getMember().getMemberIdx();
+		memberService.updateAgree(memberAgree, memberIdx);
+		
+		String memberId = principal.getMember().getMemberId();
+		resetAuthentication(memberId);
 
 		return ResponseEntity.ok(SuccessResponse.create().code("success.UpdateAgree"));
 	}
@@ -170,7 +183,9 @@ public class MemberRestController {
 		log.info("## checkPassword");
 		log.info("\t > {}", passwordDto);
 		
-		memberService.checkCurrentPassword(passwordDto.getMemberPassword(), principal.getMember().getMemberIdx());
+		String memberPassword = passwordDto.getMemberPassword();
+		Integer memberIdx = principal.getMember().getMemberIdx();
+		memberService.checkCurrentPassword(memberPassword, memberIdx);
 		session.setAttribute("CHECK_PASSWORD", true);
 		
 		return ResponseEntity.ok(SuccessResponse.create().code("success.CheckPassword"));
@@ -182,8 +197,12 @@ public class MemberRestController {
 		log.info("## updatePassword");
 		log.info("\t > {}", passwordChangeDto);
 		
-		memberService.updatePassword(passwordChangeDto.getMemberPassword(), principal.getMember().getMemberIdx());
-		resetAuthentication(principal.getMember().getMemberId());
+		String memberPassword = passwordChangeDto.getMemberPassword();
+		Integer memberIdx = principal.getMember().getMemberIdx();
+		memberService.updatePassword(memberPassword, memberIdx);
+		
+		String memberId = principal.getMember().getMemberId();
+		resetAuthentication(memberId);
 		session.removeAttribute("CHECK_PASSWORD");
 		
 		return ResponseEntity.ok(SuccessResponse.create().code("success.UpdatePassword"));
@@ -237,6 +256,15 @@ public class MemberRestController {
 		redisService.delete(key);
 		
 		return ResponseEntity.ok(SuccessResponse.create().code("success.ResetPassword"));
+	}
+	
+	// test(remove session attribute)
+	@GetMapping("/test")
+	public ResponseEntity<Object> test(HttpSession session) {
+		log.info("## test");
+		session.removeAttribute("CHECK_PASSWORD");
+		log.info("\t > after removing session, CHECK_PASSWORD = {}", session.getAttribute("CHECK_PASSWORD"));
+		return ResponseEntity.ok(SuccessResponse.create().message("session remove success"));
 	}
 	
 	private void resetAuthentication(String memberId) {
