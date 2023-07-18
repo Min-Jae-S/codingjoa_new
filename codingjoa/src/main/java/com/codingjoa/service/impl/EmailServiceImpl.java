@@ -64,7 +64,7 @@ public class EmailServiceImpl implements EmailService {
 
 	@Async
 	@Override
-	public void sendResetPasswordUrl(String memberEmail, String memberId, String resetPasswordUrl) {
+	public void sendResetPasswordUrl(String memberEmail, String memberId, String resetPasswordUri) {
 		try {
 			MimeMessage mimeMessage = mailSender.createMimeMessage();
 			MimeMessageHelper mailHelper = new MimeMessageHelper(mimeMessage, true, "utf-8");
@@ -72,7 +72,7 @@ public class EmailServiceImpl implements EmailService {
 			mailHelper.setTo(memberEmail);
 			mailHelper.setSubject("[CodingJoa] 비밀번호 재설정 메일입니다.");
 			
-			String html = buildTemplate(MailType.FIND_PASSWORD, memberId, resetPasswordUrl);
+			String html = buildTemplate(MailType.FIND_PASSWORD, memberId, resetPasswordUri);
 			mailHelper.setText(html, true);
 			mailSender.send(mimeMessage);
 		} catch (MessagingException e) {
@@ -93,7 +93,7 @@ public class EmailServiceImpl implements EmailService {
 			
 		} else { // MailType.FIND_PASSWORD
 			context.setVariable("memberId", variable[0]);
-			context.setVariable("resetPasswordUrl", variable[1]);
+			context.setVariable("resetPasswordUri", variable[1]);
 			return templateEngine.process("template/find-password-mail", context);
 		}
 	}
