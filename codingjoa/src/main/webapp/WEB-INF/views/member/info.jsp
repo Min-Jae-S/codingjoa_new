@@ -114,7 +114,7 @@
 							<input type="text" id="memberEmail" name="memberEmail" value="${principal.member.memberEmail}"/>
 						</form>
 						<div>
-							<button class="btn btn-warning btn-sm" type="button" id="sendEmailBtn">인증코드 받기</button>
+							<button class="btn btn-warning btn-sm" type="button" id="sendAuthCodeBtn">인증코드 받기</button>
 							<button class="btn btn-outline-primary btn-sm" type="button" id="updateEmailBtn">확인</button>
 							<button class="btn btn-outline-secondary btn-sm" type="button" id="resetEmailBtn">취소</button>
 						</div>
@@ -207,7 +207,7 @@
 <script>
 	$(function() {
 		// send auth code
-		$("#sendEmailBtn").on("click", function() {
+		$("#sendAuthCodeBtn").on("click", function() {
 			let obj = {
 				memberEmail : $("#memberEmail").val(),
 			};
@@ -239,15 +239,16 @@
 			});
 		});
 		
-		$(document).on("keydown", "#memberEmail", function(key) {
-			if (key.keyCode == 13) {
-				$("#sendEmailBtn").click();
+		$(document).on("keydown", "#memberEmail", function(e) {
+			e.preventDefault();
+			if (e.keyCode == 13) {
+				$("#sendAuthCodeBtn").click();
 			}
 		});
 		
-		$(document).on("keydown", "#authCode", function(key) {
-			if (key.keyCode == 13) {
-				$("#updateEmalBtn").click();
+		$(document).on("keydown", "#authCode", function(e) {
+			if (e.keyCode == 13) {
+				$("#updateEmailBtn").click();
 			}
 		});
 		

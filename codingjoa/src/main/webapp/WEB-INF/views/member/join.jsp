@@ -73,7 +73,7 @@
 							<div class="input-group mb-3">
 								<form:input path="memberEmail" class="form-control" placeholder="이메일 입력"/>
 								<div class="input-group-append">
-									<button type="button" class="btn btn-outline-secondary btn-sm" id="sendEmailBtn">인증코드 받기</button>
+									<button type="button" class="btn btn-outline-secondary btn-sm" id="sendAuthCodeBtn">인증코드 받기</button>
 								</div>
 							</div>
 							<div class="input-group">
@@ -131,7 +131,7 @@
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
 	$(function() {
-		$("#sendEmailBtn").on("click", function() {
+		$("#sendAuthCodeBtn").on("click", function() {
 			let obj = {
 				memberEmail : $("#memberEmail").val()
 			};

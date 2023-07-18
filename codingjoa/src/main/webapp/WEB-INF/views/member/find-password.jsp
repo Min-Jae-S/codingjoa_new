@@ -106,8 +106,8 @@
 			});
 		});
 		
-		$("#memberId, #memberEmail").on("keydown", function(key) {
-			if (key.keyCode == 13) {
+		$("#memberId, #memberEmail").on("keydown", function(e) {
+			if (e.keyCode == 13) {
 				$("#findPasswordBtn").click();
 			}
 		});

@@ -106,8 +106,8 @@
 			});
 		});
 		
-		$("#memberEmail").on("keydown", function(key) {
-			if (key.keyCode == 13) {
+		$("#memberEmail").on("keydown", function(e) {
+			if (e.keyCode == 13) {
 				$("#findAcountBtn").click();
 			}
 		});
