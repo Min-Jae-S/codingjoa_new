@@ -229,6 +229,7 @@ public class MemberRestController {
 		String memberId = findPasswordDto.getMemberId();
 		String memberEmail = findPasswordDto.getMemberEmail();
 		Integer memberIdx = memberService.getMemberIdxByIdAndEmail(memberId, memberEmail);
+		
 		String key = UUID.randomUUID().toString().replace("-", "");
 		log.info("\t > key = {}", key);
 		
@@ -251,8 +252,9 @@ public class MemberRestController {
 		log.info("\t > key = {}", key);
 		log.info("\t > {}", passwordChangeDto);
 		
+		String memberPassowrd = passwordChangeDto.getMemberPassword();
 		Integer memberIdx = Integer.parseInt(redisService.get(key));
-		memberService.updatePassword(passwordChangeDto.getMemberPassword(), memberIdx);
+		memberService.updatePassword(memberPassowrd, memberIdx);
 		redisService.delete(key);
 		
 		return ResponseEntity.ok(SuccessResponse.create().code("success.ResetPassword"));
