@@ -260,14 +260,14 @@ public class MemberRestController {
 		return ResponseEntity.ok(SuccessResponse.create().code("success.ResetPassword"));
 	}
 	
-	// test
+	// test for removing session and key from redis
 	@GetMapping("/test")
 	public ResponseEntity<Object> test(@RequestParam String key, HttpSession session) {
 		log.info("## test");
 		log.info("\t > key = {}", key);
 		
 		redisService.delete(key);
-		log.info("\t > after deleting key, value from redis = {}", redisService.get(key));
+		log.info("\t > after deleting from redis, value = {}", redisService.get(key));
 		
 		return ResponseEntity.ok(SuccessResponse.create().message("success"));
 	}

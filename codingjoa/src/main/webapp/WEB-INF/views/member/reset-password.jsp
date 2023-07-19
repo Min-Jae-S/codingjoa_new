@@ -144,7 +144,7 @@
 					console.log("## ERROR");
 					console.log(jqXHR);
 				}
-			})
+			});
 		});
 	});
 </script>
