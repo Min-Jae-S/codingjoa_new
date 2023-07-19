@@ -267,7 +267,7 @@ public class MemberRestController {
 		log.info("\t > key = {}", key);
 		
 		redisService.delete(key);
-		log.info("\t > after deleting from redis, value = {}", redisService.get(key));
+		log.info("\t > after deleting key-value from redis, hasKey = {}", redisService.hasKey(key));
 		
 		return ResponseEntity.ok(SuccessResponse.create().message("success"));
 	}
