@@ -89,6 +89,7 @@
 				</dl>
 				<div class="pt-3">
 					<button type="button" class="btn btn-primary btn-block" id="resetPasswordBtn">확인</button>
+					<button type="button" class="btn btn-warning btn-block" id="testBtn">확인</button>
 				</div>				
 			</div>
 		</div>
@@ -113,12 +114,37 @@
 			});
 		});
 		
+		$("#memberPassword, #confirmPassword").on("keydown", function(e) {
+			if (e.keyCode == 13) {
+				$("#resetPasswordBtn").click();
+			}
+		});
+		
 		$("input").on("focus", function() {
 			$(this).closest("dd").css("border-bottom", "1px solid #868e96");
 		});
 
 		$("input").on("blur", function() {
 			$(this).closest("dd").css("border-bottom", "1px solid #dee2e6");
+		});
+		
+		$("#testBtn").on("click", function() {
+			let key ="<c:out value='${key}'/>";
+			let url = "${contextPath}/api/member/test?key=" + key;
+			
+			$.ajax({
+				type : "GET",
+				url : url,
+				dataType : "json",
+				success : function(result) {
+					console.log("## SUCCESS");
+					console.log(JSON.stringify(result, null, 2));
+				},
+				error : function(jqXHR) {
+					console.log("## ERROR");
+					console.log(jqXHR);
+				}
+			})
 		});
 	});
 </script>
