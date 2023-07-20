@@ -108,9 +108,9 @@
 				confirmPassword : $("#confirmPassword").val()
 			};
 			
+			$(".error").remove();
 			memberService.resetPassword(key, obj, function(result) {
 				alert(result.message);
-				location.href = "${contextPath}/member/login";
 			});
 		});
 		

@@ -319,7 +319,6 @@ let memberService = (function() {
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR","color:red");
-				$(".error, .success").remove();
 				let errorResponse = parseError(jqXHR);
 				if (errorResponse != null) {
 					let errorMap = errorResponse.errorMap;
@@ -356,7 +355,6 @@ let memberService = (function() {
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR","color:red");
-				$(".error, .success").remove();
 				let errorResponse = parseError(jqXHR);
 				if (errorResponse != null) {
 					let errorMap = errorResponse.errorMap;
@@ -393,7 +391,6 @@ let memberService = (function() {
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR","color:red");
-				$(".error").remove();
 				let errorResponse = parseError(jqXHR);
 				if (errorResponse != null) {
 					let errorMap = errorResponse.errorMap;
