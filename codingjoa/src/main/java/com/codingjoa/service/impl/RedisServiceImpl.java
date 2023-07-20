@@ -18,7 +18,7 @@ public class RedisServiceImpl implements RedisService {
 	@Override
 	public void save(String key, String value) {
 		ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
-		valueOperations.set(key, value, Duration.ofMinutes(10L));
+		valueOperations.set(key, value, Duration.ofMinutes(5L));
 	}
 
 	@Override
@@ -34,8 +34,7 @@ public class RedisServiceImpl implements RedisService {
 	
 	@Override
 	public boolean isAuthCodeValid(String key, String value) {
-		ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
-		return value.equals(valueOperations.get(key));
+		return value.equals(get(key));
 	}
 
 	@Override

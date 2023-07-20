@@ -58,33 +58,6 @@
 			member_email = #{memberEmail}
 	</select>
 
-	<select id="isEmailExist" parameterType="string" resultType="boolean">
-		SELECT
-			COUNT(*)
-		FROM
-			member
-		WHERE
-			member_email = #{member_email}
-	</select>
-	
-	<select id="findIdByEmail" parameterType="string" resultType="string">
-		SELECT
-			member_id
-		FROM
-			member
-		WHERE
-			member_email = #{memberEmail}
-	</select>
-	
-	<select id="findEmailById" parameterType="string" resultType="string">
-		SELECT
-			member_email
-		FROM
-			member
-		WHERE
-			member_id = #{memberId}
-	</select>
-	
 	<resultMap type="map" id="userDetailsMap">
 		<result property="memberRole" column="member_role"/>
 		<association property="member" javaType="member">

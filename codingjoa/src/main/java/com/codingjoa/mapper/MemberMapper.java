@@ -20,12 +20,6 @@ public interface MemberMapper {
 	
 	Member findMemberByEmail(String memberEmail);
 	
-	boolean isEmailExist(String memberEmail);
-	
-	String findIdByEmail(String memberEmail);
-	
-	String findEmailById(String memberId);
-
 	// Member, memberRole, boardLikesList, commentLikesList
 	Map<String, Object> findUserDetailsById(String memberId); 
 	

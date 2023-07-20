@@ -14,14 +14,10 @@ public interface MemberService {
 	
 	void checkEmailForReset(String memberEmail);
 	
-	boolean isEmailExist(String memberEmail);
-	
 	String getMemberIdByEmail(String memberEmail);
 	
 	Integer getMemberIdxByIdAndEmail(String memberId, String memberEmail);
 	
-	boolean isMyEmail(String memberEmail, String memberId);
-
 	void updateEmail(String memberEmail, Integer memberIdx);
 	
 	void updateAddr(String memberZipcode, String memberAddr, String memberAddrDetail, Integer memberIdx);

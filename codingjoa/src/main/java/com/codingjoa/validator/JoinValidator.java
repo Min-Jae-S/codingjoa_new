@@ -33,12 +33,12 @@ public class JoinValidator implements Validator {
 		log.info("## {}", this.getClass().getSimpleName());
 		
 		JoinDto joinDto = (JoinDto) target;
-		checkId(joinDto.getMemberId(), errors);
-		checkPassword(joinDto.getMemberPassword(), joinDto.getConfirmPassword(), errors);
-		checkEmailAuth(joinDto.getMemberEmail(), joinDto.getAuthCode(), errors);
+		validateId(joinDto.getMemberId(), errors);
+		validatePassword(joinDto.getMemberPassword(), joinDto.getConfirmPassword(), errors);
+		validateEmailAuth(joinDto.getMemberEmail(), joinDto.getAuthCode(), errors);
 	}
 
-	private void checkId(String memberId, Errors errors) {
+	private void validateId(String memberId, Errors errors) {
 		if (!StringUtils.hasText(memberId)) {
 			errors.rejectValue("memberId", "NotBlank");
 			return;
@@ -55,7 +55,7 @@ public class JoinValidator implements Validator {
 		}
 	}
 
-	private void checkPassword(String memberPassword, String confirmPassword, Errors errors) {
+	private void validatePassword(String memberPassword, String confirmPassword, Errors errors) {
 		if (!StringUtils.hasText(memberPassword)) {
 			errors.rejectValue("memberPassword", "NotBlank");
 		} else if (!Pattern.matches(PASSWORD_REGEXP, memberPassword)) {
@@ -79,7 +79,7 @@ public class JoinValidator implements Validator {
 		}
 	}
 
-	private void checkEmailAuth(String memberEmail, String authCode, Errors errors) {
+	private void validateEmailAuth(String memberEmail, String authCode, Errors errors) {
 		if (!StringUtils.hasText(memberEmail)) {
 			errors.rejectValue("memberEmail", "NotBlank");
 			return;
@@ -89,11 +89,6 @@ public class JoinValidator implements Validator {
 			errors.rejectValue("memberEmail", "Pattern");
 			return;
 		} 
-		
-//		if (memberService.isEmailExist(memberEmail)) {
-//			errors.rejectValue("memberEmail", "EmailExist");
-//			return;
-//		}
 		
 		if (!redisService.hasKey(memberEmail)) {
 			errors.rejectValue("memberEmail", "NotAuthCodeExist");

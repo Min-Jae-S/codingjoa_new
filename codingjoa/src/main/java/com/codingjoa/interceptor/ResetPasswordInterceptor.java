@@ -64,6 +64,7 @@ public class ResetPasswordInterceptor implements HandlerInterceptor {
 		if (key == null) {
 			return false;
 		}
+		
 		return redisService.hasKey(key);
 	}
 	
