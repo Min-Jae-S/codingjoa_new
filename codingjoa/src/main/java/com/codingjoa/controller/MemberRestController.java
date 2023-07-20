@@ -260,10 +260,10 @@ public class MemberRestController {
 		return ResponseEntity.ok(SuccessResponse.create().code("success.ResetPassword"));
 	}
 	
-	// test for removing session and key from redis
-	@GetMapping("/test")
-	public ResponseEntity<Object> test(@RequestParam String key, HttpSession session) {
-		log.info("## test");
+	// test for removing session
+	@GetMapping("/test/remove-session")
+	public ResponseEntity<Object> removeSession(HttpSession session) {
+		log.info("## removeSession");
 		
 		Boolean passwordCheck = (Boolean) session.getAttribute("CHECK_PASSWORD");
 		log.info("\t > CHECK_PASSWORD = {}", passwordCheck);
@@ -273,12 +273,20 @@ public class MemberRestController {
 			log.info("\t > after removing session attribute, CHECK_PASSWORD = {}", session.getAttribute("CHECK_PASSWORD"));
 		}
 		
-		boolean hasKey = redisService.hasKey(key);
-		log.info("\t > hasKey = {}", hasKey);
+		return ResponseEntity.ok(SuccessResponse.create().message("success"));
+	}
+	
+	// test for removing key
+	@GetMapping("/test/remove-key")
+	public ResponseEntity<Object> removeKey(@RequestParam(required = false) String key) {
+		log.info("## removeKey");
 		
+		boolean hasKey = (key == null) ? false : redisService.hasKey(key);
+		log.info("\t > hasKey = {}", hasKey);
+
 		if (hasKey) {
 			redisService.delete(key);
-			log.info("\t > after deleting key-value from redis, hasKey = {}", redisService.hasKey(key));
+			log.info("\t > after removing key-value from redis, hasKey = {}", redisService.hasKey(key));
 		}
 		
 		return ResponseEntity.ok(SuccessResponse.create().message("success"));

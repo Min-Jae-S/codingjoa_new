@@ -131,7 +131,7 @@
 		});
 		
 		$("#testBtn").on("click", function() {
-			let url = "${contextPath}/api/member/test";
+			let url = "${contextPath}/api/member/test/remove-session";
 			
 			$.ajax({
 				type : "GET",

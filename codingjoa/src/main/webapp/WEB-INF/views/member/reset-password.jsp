@@ -130,7 +130,7 @@
 		
 		$("#testBtn").on("click", function() {
 			let key ="<c:out value='${key}'/>";
-			let url = "${contextPath}/api/member/test?key=" + key;
+			let url = "${contextPath}/api/member/test/remove-key?key=" + key;
 			
 			$.ajax({
 				type : "GET",
