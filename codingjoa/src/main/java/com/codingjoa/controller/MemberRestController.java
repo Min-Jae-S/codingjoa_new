@@ -260,7 +260,7 @@ public class MemberRestController {
 		return ResponseEntity.ok(SuccessResponse.create().code("success.ResetPassword"));
 	}
 	
-	// test for removing session
+	// test (remove session)
 	@GetMapping("/test/remove-session")
 	public ResponseEntity<Object> removeSession(HttpSession session) {
 		log.info("## removeSession");
@@ -276,7 +276,7 @@ public class MemberRestController {
 		return ResponseEntity.ok(SuccessResponse.create().message("success"));
 	}
 	
-	// test for removing key
+	// test (remove key)
 	@GetMapping("/test/remove-key")
 	public ResponseEntity<Object> removeKey(@RequestParam(required = false) String key) {
 		log.info("## removeKey");
