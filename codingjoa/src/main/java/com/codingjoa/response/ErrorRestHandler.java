@@ -16,6 +16,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
 import com.codingjoa.exception.ExpectedException;
+import com.codingjoa.exception.TestException;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -55,6 +56,16 @@ public class ErrorRestHandler {
 		log.info("\t > {}", errorResponse);
 		
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+	}
+	
+	// test
+	@ExceptionHandler(TestException.class)
+	protected ResponseEntity<Object> handleTestException(TestException e) {
+		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
+		log.info("\t > location = {}", e.getStackTrace()[0]);
+		log.info("\t > message = {}", e.getMessage());
+
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 	}
 	
 	@ExceptionHandler(HttpMessageNotReadableException.class)

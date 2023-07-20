@@ -264,21 +264,9 @@ public class TestController {
 		return ResponseEntity.ok(SuccessResponse.create().message("test5"));
 	}
 	
-	@ResponseBody
-	@GetMapping("/test-request")
-	public void testRequest(HttpServletRequest request) {
-		log.info("## testRequest");
-		log.info("\t > request.getContextPath() = {}", request.getContextPath());
-		log.info("\t > request.getRequestURI() = {}", request.getRequestURI());
-		log.info("\t > request.getRequestURL() = {}", request.getRequestURL());
-		log.info("\t > request.getLocalAddr() = {}", request.getLocalAddr());
-		log.info("\t > request.getLocalName() = {}", request.getLocalName());
-		log.info("\t > request.getRemoteAddr() = {}", request.getRemoteAddr());
-		log.info("\t > request.getRemoteHost() = {}", request.getRemoteHost());
-		log.info("\t > request.getServerName() = {}", request.getServerName());
-		log.info("\t > request.getServletPath() = {}", request.getServletPath());
-	}
-
+	// *********************************************************
+	// 				ServletUriComponentsBuilder
+	// *********************************************************
 	@ResponseBody
 	@GetMapping("/test-uri")
 	public void testUri(HttpServletRequest request) {
@@ -294,5 +282,16 @@ public class TestController {
 				.path("/accounts").build();
 		log.info("\t > uri2 = {}", uri2);
 	}
+	
+	// *********************************************************
+	// 	  TestException(custom exception), TestResponse
+	// *********************************************************
+	@ResponseBody
+	@GetMapping("/test-exception")
+	public void testException() {
+		log.info("## testException");
+	}
+	
+	
 	
 }
