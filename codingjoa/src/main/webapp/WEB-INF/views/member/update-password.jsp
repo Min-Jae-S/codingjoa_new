@@ -71,7 +71,10 @@
 	<div class="row">
 		<div class="col-sm-3"></div>
 		<div class="col-sm-6">
-			<h5 class="font-weight-bold">비밀번호 재설정</h5>
+			<h5 class="font-weight-bold">
+				비밀번호 재설정
+				<button type="button" class="btn btn-sm btn-warning py-0 float-right" id="testBtn">TEST</button>
+			</h5>
 			<div class="pt-3" style="border-top: 1px solid black;">
 				<p class="title">새로운 비밀번호를 입력해주세요.</p>
 				<p class="description"> 
@@ -92,7 +95,6 @@
 				</dl>
 				<div class="pt-3">
 					<button type="button" class="btn btn-primary btn-block" id="updatePasswordBtn">확인</button>
-					<button type="button" class="btn btn-warning btn-block mt-2" id="testBtn">확인</button>
 				</div>				
 			</div>
 		</div>
@@ -138,7 +140,7 @@
 				url : url,
 				dataType : "json",
 				success : function(result) {
-					console.log("## SUCCESS");
+					alert("## Remove CHECK_PASSWORD Session");
 					console.log(JSON.stringify(result, null, 2));
 				},
 				error : function(jqXHR) {
