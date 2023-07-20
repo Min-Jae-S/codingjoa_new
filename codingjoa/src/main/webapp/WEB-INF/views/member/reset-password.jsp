@@ -89,7 +89,7 @@
 				</dl>
 				<div class="pt-3">
 					<button type="button" class="btn btn-primary btn-block" id="resetPasswordBtn">확인</button>
-					<button type="button" class="btn btn-warning btn-block" id="testBtn">확인</button>
+					<button type="button" class="btn btn-warning btn-block mt-2" id="testBtn">확인</button>
 				</div>				
 			</div>
 		</div>

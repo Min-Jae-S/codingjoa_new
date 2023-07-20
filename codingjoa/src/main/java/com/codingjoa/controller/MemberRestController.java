@@ -264,10 +264,22 @@ public class MemberRestController {
 	@GetMapping("/test")
 	public ResponseEntity<Object> test(@RequestParam String key, HttpSession session) {
 		log.info("## test");
-		log.info("\t > key = {}", key);
 		
-		redisService.delete(key);
-		log.info("\t > after deleting key-value from redis, hasKey = {}", redisService.hasKey(key));
+		Boolean passwordCheck = (Boolean) session.getAttribute("CHECK_PASSWORD");
+		log.info("\t > CHECK_PASSWORD = {}", passwordCheck);
+		
+		if (passwordCheck != null && passwordCheck) {
+			session.removeAttribute("CHECK_PASSWORD");
+			log.info("\t > after removing session attribute, CHECK_PASSWORD = {}", session.getAttribute("CHECK_PASSWORD"));
+		}
+		
+		boolean hasKey = redisService.hasKey(key);
+		log.info("\t > hasKey = {}", hasKey);
+		
+		if (hasKey) {
+			redisService.delete(key);
+			log.info("\t > after deleting key-value from redis, hasKey = {}", redisService.hasKey(key));
+		}
 		
 		return ResponseEntity.ok(SuccessResponse.create().message("success"));
 	}

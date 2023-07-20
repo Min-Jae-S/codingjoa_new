@@ -92,6 +92,7 @@
 				</dl>
 				<div class="pt-3">
 					<button type="button" class="btn btn-primary btn-block" id="updatePasswordBtn">확인</button>
+					<button type="button" class="btn btn-warning btn-block mt-2" id="testBtn">확인</button>
 				</div>				
 			</div>
 		</div>
@@ -127,6 +128,24 @@
 
 		$("input").on("blur", function() {
 			$(this).closest("dd").css("border-bottom", "1px solid #dee2e6");
+		});
+		
+		$("#testBtn").on("click", function() {
+			let url = "${contextPath}/api/member/test";
+			
+			$.ajax({
+				type : "GET",
+				url : url,
+				dataType : "json",
+				success : function(result) {
+					console.log("## SUCCESS");
+					console.log(JSON.stringify(result, null, 2));
+				},
+				error : function(jqXHR) {
+					console.log("## ERROR");
+					console.log(jqXHR);
+				}
+			});
 		});
 	});
 </script>

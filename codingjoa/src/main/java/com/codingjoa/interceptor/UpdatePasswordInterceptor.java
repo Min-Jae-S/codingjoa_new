@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.method.HandlerMethod;
@@ -26,17 +27,23 @@ public class UpdatePasswordInterceptor implements HandlerInterceptor {
 		log.info("## {} : preHandle", this.getClass().getSimpleName());
 		
 		if (!passwordCheck(request)) {
+			String message =  MessageUtils.getMessage("error.NotCheckPassword");
 			HandlerMethod handlerMethod = (HandlerMethod) handler;
 			if (handlerMethod.getBeanType().isAnnotationPresent(RestController.class)) {
-				throw new ExpectedException(MessageUtils.getMessage("error.NotCheckPassword"));
+				message = StringUtils.removeEnd(message.replaceAll("\\.(\\s)*", ".<br>"), "<br>");
+				log.info("\t > new message = {}", message);
+				throw new ExpectedException(message);
 			}
 			
 			response.setContentType(MediaType.TEXT_HTML.toString());
 			response.setCharacterEncoding(StandardCharsets.UTF_8.toString());
 			
+			message = StringUtils.removeEnd(message.replaceAll("\\.(\\s)*", ".\\\\n"), "\\n");
+			log.info("\t > new message = {}", message);
+			
 			PrintWriter writer = response.getWriter();
 			writer.println("<script>");
-			writer.println("alert('" + MessageUtils.getMessage("error.NotCheckPassword") + "');");
+			writer.println("alert('" + message + "');");
 			writer.println("location.href='" +  request.getContextPath() + "/member/account/checkPassword';");
 			writer.println("</script>");
 			writer.flush();

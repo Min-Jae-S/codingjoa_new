@@ -6,6 +6,7 @@ import java.nio.charset.StandardCharsets;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.method.HandlerMethod;
@@ -28,22 +29,28 @@ public class ResetPasswordInterceptor implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		log.info("## {} : preHandle", this.getClass().getSimpleName());
-		
+
 		String key = request.getParameter("key");
 		log.info("\t > key = {}", key);
 		
 		if (!keyCheck(key)) {
+			String message =  MessageUtils.getMessage("error.NotFindPassword");
 			HandlerMethod handlerMethod = (HandlerMethod) handler;
 			if (handlerMethod.getBeanType().isAnnotationPresent(RestController.class)) {
-				throw new ExpectedException(MessageUtils.getMessage("error.NotFindPassword"));
+				message = StringUtils.removeEnd(message.replaceAll("\\.(\\s)*", ".<br>"), "<br>");
+				log.info("\t > new message = {}", message);
+				throw new ExpectedException(message);
 			}
 			
 			response.setContentType(MediaType.TEXT_HTML.toString());
 			response.setCharacterEncoding(StandardCharsets.UTF_8.toString());
 			
+			message = StringUtils.removeEnd(message.replaceAll("\\.(\\s)*", ".\\\\n"), "\\n");
+			log.info("\t > new message = {}", message);
+			
 			PrintWriter writer = response.getWriter();
 			writer.println("<script>");
-			writer.println("alert('" + MessageUtils.getMessage("error.NotFindPassword") + "');");
+			writer.println("alert('" + message + "');");			
 			writer.println("location.href='" +  request.getContextPath() + "/member/findPassword';");
 			writer.println("</script>");
 			writer.flush();
@@ -57,7 +64,6 @@ public class ResetPasswordInterceptor implements HandlerInterceptor {
 		if (key == null) {
 			return false;
 		}
-		
 		return redisService.hasKey(key);
 	}
 	
