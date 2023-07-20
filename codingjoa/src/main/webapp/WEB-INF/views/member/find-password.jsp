@@ -67,7 +67,7 @@
 			<div class="pt-3" style="border-top: 1px solid black;">
 				<p class="title">
 					<span>코딩조아(Codingjoa) 계정의 아이디와 등록한 이메일을 입력해주세요.</span><br/>
-					<span>입력하신 정보와 연계된 계정이 있다면 비밀번호 재설정을 위한 링크가 이메일을 통해 전송됩니다.</span><br/>
+					<span>입력하신 정보와 일치하는 계정이 있다면 비밀번호 재설정을 위한 링크가 이메일을 통해 전송됩니다.</span><br/>
 				</p>
 				<dl class="form-group mb-5">
 					<dt><i class="fa-solid fa-check mr-2"></i>아이디</dt>
