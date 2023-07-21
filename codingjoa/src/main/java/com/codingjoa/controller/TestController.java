@@ -21,6 +21,7 @@ import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 import org.springframework.web.util.UriComponents;
 
 import com.codingjoa.exception.ExpectedException;
+import com.codingjoa.exception.TestException;
 import com.codingjoa.response.SuccessResponse;
 import com.codingjoa.service.TestTxService;
 import com.codingjoa.test.Test;
@@ -290,6 +291,7 @@ public class TestController {
 	@GetMapping("/test-exception")
 	public void testException() {
 		log.info("## testException");
+		throw new TestException();
 	}
 	
 	

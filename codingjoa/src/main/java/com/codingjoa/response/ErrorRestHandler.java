@@ -64,8 +64,11 @@ public class ErrorRestHandler {
 		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t > location = {}", e.getStackTrace()[0]);
 		log.info("\t > message = {}", e.getMessage());
+		
+		TestResponse testResponse = TestResponse.builder().build();
+		log.info("\t > {}", testResponse);
 
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(testResponse);
 	}
 	
 	@ExceptionHandler(HttpMessageNotReadableException.class)
