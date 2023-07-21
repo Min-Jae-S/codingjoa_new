@@ -17,8 +17,8 @@ import lombok.ToString;
 public class TestResponse {
 	
 	private HttpStatus status;
-	private String message;
 	private String code;
+	private String message;
 	private List<ErrorDetails> errors;
 	
 	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:ss:mm", timezone = "Asia/Seoul")
@@ -36,10 +36,12 @@ public class TestResponse {
 	public static class TestResponseBuilder {
 		private TestResponse testResponse;
 		private boolean codeMethodCalled;
+        private boolean messageByCode;
 		
 		private TestResponseBuilder() {
 			this.testResponse = new TestResponse();
 			this.codeMethodCalled = false;
+			this.messageByCode = false;
 		}
 		
 		public TestResponseBuilder status(HttpStatus status) {
@@ -47,17 +49,29 @@ public class TestResponse {
 			return this;
 		}
 
-		public TestResponseBuilder message(String message) {
-			testResponse.message = message;
+		public TestResponseBuilder code(String code) {
+			testResponse.code = code;
+			codeMethodCalled = true;
 			return this;
 		}
-
-		public TestResponseBuilder code(String code) {
+		
+		public TestResponseBuilder messageByCode(boolean messageByCode) {
 			if (!codeMethodCalled) {
-				testResponse.code = code;
-				testResponse.message = MessageUtils.getMessage(code);
-				codeMethodCalled = true;
+				throw new IllegalStateException("## 제약조건에 위배된 호출 : code메서드 호출이 선행되어야 합니다.");
 			}
+			
+			if (messageByCode) {
+				testResponse.message = MessageUtils.getMessage(testResponse.code);
+			}
+			this.messageByCode = messageByCode;
+			return this;
+		}
+		
+		public TestResponseBuilder message(String message) {
+			if (messageByCode) {
+				throw new IllegalStateException("## 제약조건에 위배된 호출 : code에 의해 message가 이미 등록되었습니다.");
+			}
+			testResponse.message = message;
 			return this;
 		}
 		
