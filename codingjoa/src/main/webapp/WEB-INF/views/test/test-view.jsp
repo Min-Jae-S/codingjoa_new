@@ -37,11 +37,44 @@
 		<button class="btn btn-danger mx-3" onclick="test3()">test3</button>
 		<button class="btn btn-primary mx-3" onclick="test4()">test4</button>
 		<button class="btn btn-primary mx-3" onclick="test5()">test5</button>
+		<button class="btn btn-warning mx-3" onclick="exception()">exception</button>
 		<button class="btn mx-3" onclick="colored_console()">console</button>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 <script>
+	function colored_console() {
+		console.log("%c## SUCCESS","color:green;background-color:#dcedc8");
+		console.log("%c## ERROR","color:red;background-color:#ffe6e6");
+	}
+	
+	function parseError(jqXHR) {
+		try {
+			let errorResponse = JSON.parse(jqXHR.responseText);
+			console.log(JSON.stringify(errorResponse, null, 2));
+			return errorResponse;
+		} catch(e) {
+			alert("## Unexcepected Error");
+			return null;
+		}
+	}
+	
+	function proccessError(jqXHR) {
+		try {
+			let errorResponse = JSON.parse(jqXHR.responseText);
+			let errorMap = errorResponse.errorMap;
+			if (errorMap != null) {
+				$.each(errorMap, function(errorField, errorMessage) {
+					console.log("> errorField = %s, errorMessage = %s", errorField, errorMessage);	
+				});
+			} else {
+				console.log("> errorMessage = %s", errorResponse.errorMessage);
+			}
+		} catch(e) {
+			console.log("## Unexcepected Error");
+		}
+	}
+
 	function test1() { // errorResponse(errorMap=null, errorMeesage=OK)
 		let url = "${contextPath}/test/test1";
 		console.log("## url = %s", url);
@@ -140,37 +173,36 @@
 		});
 	}
 	
-	function colored_console() {
-		console.log("%c## SUCCESS","color:green;background-color:#dcedc8");
-		console.log("%c## ERROR","color:red;background-color:#ffe6e6");
-	}
-	
-	function parseError(jqXHR) {
-		try {
-			let errorResponse = JSON.parse(jqXHR.responseText);
-			console.log(JSON.stringify(errorResponse, null, 2));
-			return errorResponse;
-		} catch(e) {
-			alert("Unexcepected Error");
-			return null;
-		}
-	}
-	
-	function proccessError(jqXHR) {
-		try {
-			let errorResponse = JSON.parse(jqXHR.responseText);
-			let errorMap = errorResponse.errorMap;
-			if (errorMap != null) {
-				$.each(errorMap, function(errorField, errorMessage) {
-					console.log("\t > errorField = %s, errorMessage = %s", errorField, errorMessage);	
-				});
-			} else {
-				console.log("\t > errorMessage = %s", errorResponse.errorMessage);
+	function exception() {
+		let url = "${contextPath}/test/test-exception";
+		console.log("## url = %s", url);
+		$.ajax({
+			type : "POST",
+			url : url,
+			/* data : JSON.stringify({
+				param1 : "",	// String, @NotEmpty
+				param2 : "cc",	// int, @Positive
+				param2 : "dd",	// int, @BoardCategoryCode
+			}), */
+			data : JSON.stringify({
+				param1 : "",	// String, @NotEmpty
+				param2 : -1,	// int, @Positive
+				param2 : 999,	// int, @BoardCategoryCode
+			}),
+			contentType : "application/json;charset=utf-8",
+			dataType : "json",
+			success : function(result) {
+				console.log("%c## SUCCESS","color:blue");
+				console.log(result);
+			},
+			error : function(jqXHR) {
+				console.log("%c## ERROR","color:red");
+				let errorResponse = parseError(jqXHR);
+				proccessError(jqXHR);
 			}
-		} catch(e) {
-			console.log("\t > Unexcepected Error");
-		}
+		});
 	}
+	
 </script>
 </body>
 </html>

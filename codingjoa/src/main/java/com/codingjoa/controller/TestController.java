@@ -21,7 +21,6 @@ import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 import org.springframework.web.util.UriComponents;
 
 import com.codingjoa.exception.ExpectedException;
-import com.codingjoa.exception.TestException;
 import com.codingjoa.response.SuccessResponse;
 import com.codingjoa.service.TestTxService;
 import com.codingjoa.test.Test;
@@ -288,10 +287,10 @@ public class TestController {
 	// 	  TestException, TestResponse
 	// *********************************************************
 	@ResponseBody
-	@GetMapping("/test-exception")
-	public void testException(@RequestBody @Valid Test test) {
+	@PostMapping("/test-exception")
+	public ResponseEntity<Object> testException(@RequestBody @Valid Test test) {
 		log.info("## testException");
-		throw new TestException();
+		return ResponseEntity.ok().body("success");
 	}
 	
 	
