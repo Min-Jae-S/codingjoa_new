@@ -22,7 +22,7 @@ public class TestResponse {
 	private List<ErrorDetails> errors;
 	
 	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:ss:mm", timezone = "Asia/Seoul")
-	private final LocalDateTime timestamp;
+	private LocalDateTime timestamp;
 	
 	private TestResponse() {
 		this.errors = new ArrayList<ErrorDetails>();
@@ -33,6 +33,7 @@ public class TestResponse {
 		return new TestResponseBuilder();
 	}
 
+	@ToString
 	public static class TestResponseBuilder {
 		private TestResponse testResponse;
 		private boolean codeMethodCalled;

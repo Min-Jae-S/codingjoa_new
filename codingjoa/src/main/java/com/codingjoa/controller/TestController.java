@@ -22,6 +22,7 @@ import org.springframework.web.util.UriComponents;
 
 import com.codingjoa.exception.ExpectedException;
 import com.codingjoa.response.SuccessResponse;
+import com.codingjoa.response.TestResponse;
 import com.codingjoa.service.TestTxService;
 import com.codingjoa.test.Test;
 
@@ -290,6 +291,15 @@ public class TestController {
 	@PostMapping("/test-exception")
 	public ResponseEntity<Object> testException(@RequestBody @Valid Test test) {
 		log.info("## testException");
+		return ResponseEntity.ok().body("success");
+	}
+
+	@ResponseBody
+	@GetMapping("/test-builder")
+	public ResponseEntity<Object> testBuilder() {
+		log.info("## testBuilder");
+		log.info("\t > builder = {}", TestResponse.builder());
+		
 		return ResponseEntity.ok().body("success");
 	}
 	
