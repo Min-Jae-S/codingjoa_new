@@ -93,7 +93,8 @@ public class ErrorRestHandler {
 		}); 
 
 		TestResponse testResponse = TestResponse.builder()
-				.
+				.errors(e.getBindingResult().getFieldErrors())
+				.build();
 		log.info("\t > {}", testResponse);
 		
 		return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(testResponse);
