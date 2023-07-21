@@ -285,11 +285,11 @@ public class TestController {
 	}
 	
 	// *********************************************************
-	// 	  TestException(custom exception), TestResponse
+	// 	  TestException, TestResponse
 	// *********************************************************
 	@ResponseBody
 	@GetMapping("/test-exception")
-	public void testException() {
+	public void testException(@RequestBody @Valid Test test) {
 		log.info("## testException");
 		throw new TestException();
 	}

@@ -92,10 +92,16 @@ public class ErrorRestHandler {
 			log.info("\t > {} / {}", fieldError.getField(), fieldError.getCodes()[0]);
 		}); 
 
-		ErrorResponse errorResponse = ErrorResponse.create().bindingResult(e.getBindingResult());
-		log.info("\t > {}", errorResponse);
+		TestResponse testResponse = TestResponse.builder()
+				.
+		log.info("\t > {}", testResponse);
 		
-		return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(errorResponse);
+		return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(testResponse);
+		
+//		ErrorResponse errorResponse = ErrorResponse.create().bindingResult(e.getBindingResult());
+//		log.info("\t > {}", errorResponse);
+//		
+//		return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(errorResponse);
 	}
 	
 	@ExceptionHandler(ConstraintViolationException.class)
