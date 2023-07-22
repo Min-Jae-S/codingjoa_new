@@ -246,12 +246,13 @@ public class ServletConfig implements WebMvcConfigurer {
 	@Bean
 	public static MethodValidationPostProcessor methodValidationPostProcessor(@Lazy Validator validator) {
 		log.info("## MethodValidationPostProcessor Bean");
-		log.info("\t > validator = {}, proxy = {}", validator.getClass().getName(), AopUtils.isAopProxy(validator));
+		log.info("\t > validator = {}", validator.getClass().getName());
+		log.info("\t > proxy = {}", AopUtils.isAopProxy(validator));
 		
 		MethodValidationPostProcessor processor = new MethodValidationPostProcessor();
 		processor.setValidator(validator);
 		processor.setProxyTargetClass(true);
-		log.info("\t > processor config = {}", processor);
+		log.info("\t > method validation post-processor = {}", processor);
 		
 		/* Spring internally uses a library that can generate class-based proxies, 
 		 * allowing the creation of proxies even for classes that don't implement interfaces. 

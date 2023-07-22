@@ -23,7 +23,12 @@
 	}
 	
 	button {
-		width: 100px;
+		width: 200px;
+	}
+	
+	div {
+		padding-left: 2rem;
+		padding-right: 2rem;
 	}
 </style>
 </head>
@@ -31,14 +36,18 @@
 <c:import url="/WEB-INF/views/include/top-menu.jsp"/>
 <div>
 	<p>TEST</p>
-	<div class="d-flex justify-content-center">
-		<button class="btn btn-danger mx-3" onclick="test1()">test1</button>
-		<button class="btn btn-danger mx-3" onclick="test2()">test2</button>
-		<button class="btn btn-danger mx-3" onclick="test3()">test3</button>
-		<button class="btn btn-primary mx-3" onclick="test4()">test4</button>
-		<button class="btn btn-primary mx-3" onclick="test5()">test5</button>
-		<button class="btn btn-warning mx-3" onclick="exception()">exception</button>
-		<button class="btn mx-3" onclick="colored_console()">console</button>
+	<div class="d-flex mt-5">
+		<button class="btn btn-danger btn-lg mx-3" onclick="test1()">test1</button>
+		<button class="btn btn-danger btn-lg mx-3" onclick="test2()">test2</button>
+		<button class="btn btn-danger btn-lg mx-3" onclick="test3()">test3</button>
+		<button class="btn btn-primary btn-lg mx-3" onclick="test4()">test4</button>
+		<button class="btn btn-primary btn-lg mx-3" onclick="test5()">test5</button>
+		<button class="btn btn-lg mx-3" onclick="colored_console()">console</button>
+	</div>
+	<div class="d-flex mt-5">
+		<button class="btn btn-warning btn-lg mx-3" onclick="testException()">test-exception</button>
+		<button class="btn btn-warning btn-lg mx-3" onclick="testBuilder()">test-builder</button>
+		<button class="btn btn-warning btn-lg mx-3" onclick="testResponse()">test-response</button>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
@@ -173,7 +182,7 @@
 		});
 	}
 	
-	function exception() {
+	function testException() {
 		let url = "${contextPath}/test/test-exception";
 		console.log("## url = %s", url);
 		$.ajax({
@@ -185,10 +194,50 @@
 				param2 : "dd",	// int, @BoardCategoryCode
 			}), */
 			data : JSON.stringify({
-				param1 : "",	// String, @NotEmpty
-				param2 : -1,	// int, @Positive
-				param2 : 999,	// int, @BoardCategoryCode
+				param1 : "",	// String, 	@NotEmpty
+				param2 : -1,	// int, 	@Positive
+				param2 : 999,	// int, 	@BoardCategoryCode
 			}),
+			contentType : "application/json;charset=utf-8",
+			dataType : "json",
+			success : function(result) {
+				console.log("%c## SUCCESS","color:blue");
+				console.log(result);
+			},
+			error : function(jqXHR) {
+				console.log("%c## ERROR","color:red");
+				let errorResponse = parseError(jqXHR);
+				proccessError(jqXHR);
+			}
+		});
+	}
+	
+	function testBuilder() {
+		let url = "${contextPath}/test/test-builder";
+		console.log("## url = %s", url);
+		$.ajax({
+			type : "GET",
+			url : url,
+			contentType : "application/json;charset=utf-8",
+			dataType : "json",
+			success : function(result) {
+				console.log("%c## SUCCESS","color:blue");
+				console.log(result);
+			},
+			error : function(jqXHR) {
+				console.log("%c## ERROR","color:red");
+				let errorResponse = parseError(jqXHR);
+				proccessError(jqXHR);
+			}
+		});
+	}
+
+	function testResponse() {
+		let url = "${contextPath}/test/test-response";
+		console.log("## url = %s", url);
+		$.ajax({
+			type : "GET",
+			url : url,
 			contentType : "application/json;charset=utf-8",
 			dataType : "json",
 			success : function(result) {

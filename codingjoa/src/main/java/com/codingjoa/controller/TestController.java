@@ -301,5 +301,15 @@ public class TestController {
 		log.info("\t > builder = {}", TestResponse.builder());
 		return ResponseEntity.ok().body("success");
 	}
+
+	@ResponseBody
+	@GetMapping("/test-response")
+	public ResponseEntity<Object> testResponse() {
+		log.info("## testResponse");
+		TestResponse.builder()
+			.messageByCode(false)
+			.build();
+		return ResponseEntity.ok().body("success");
+	}
 	
 }

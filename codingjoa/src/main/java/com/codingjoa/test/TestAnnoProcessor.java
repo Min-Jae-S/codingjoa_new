@@ -83,6 +83,8 @@ public class TestAnnoProcessor extends AbstractProcessor {
 	private boolean isTestResponseBuilder(TypeElement typeElement) {
         String packageName = processingEnv.getElementUtils().getPackageOf(typeElement).getQualifiedName().toString();
         String className = typeElement.getSimpleName().toString();
+        log.info("\t > packageName = {}", packageName);
+        log.info("\t > className = {}", className);
         return packageName.equals("com.codingjoa.test") && className.equals("TestResponseBuilder");
     }
 
