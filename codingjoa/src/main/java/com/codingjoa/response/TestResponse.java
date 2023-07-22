@@ -63,8 +63,8 @@ public class TestResponse {
 			
 			if (messageByCode) {
 				testResponse.message = MessageUtils.getMessage(testResponse.code);
+				this.messageByCode = true;
 			}
-			this.messageByCode = messageByCode;
 			return this;
 		}
 		

@@ -285,7 +285,7 @@ public class TestController {
 	}
 	
 	// *********************************************************
-	// 	  TestException, TestResponse
+	// 	  TestException, TestResponse, TestResponseBuilder
 	// *********************************************************
 	@ResponseBody
 	@PostMapping("/test-exception")
@@ -299,10 +299,7 @@ public class TestController {
 	public ResponseEntity<Object> testBuilder() {
 		log.info("## testBuilder");
 		log.info("\t > builder = {}", TestResponse.builder());
-		
 		return ResponseEntity.ok().body("success");
 	}
-	
-	
 	
 }
