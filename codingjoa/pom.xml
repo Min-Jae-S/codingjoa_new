@@ -308,15 +308,14 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.5.1</version>
-				<!-- <version>3.8.1</version> -->
+				<!-- Annotation Processor는 Maven Compiler Plugin 3.x 버전 이상에서 사용 가능 -->
+				<version>3.8.1</version>
+				<!-- <version>2.5.1</version> -->
 				<configuration>
 					<source>${java-version}</source>
 					<target>${java-version}</target>
 					<!-- Annotation Processor 추가 -->
-					<annotationProcessorPaths>
-						<path></path>
-					</annotationProcessorPaths>
+					<annotationProcessor>com.codingjoa.test.TestAnnoProcessor</annotationProcessor>
 					<compilerArgument>-Xlint:all</compilerArgument>
 					<showWarnings>true</showWarnings>
 					<showDeprecation>true</showDeprecation>

@@ -38,13 +38,13 @@ public class TestResponse {
 	@ToString
 	public static class TestResponseBuilder {
 		private TestResponse testResponse;
-		private boolean codeMethodCalled;
-        private boolean messageByCode;
+		private boolean isCodeMethodCalled;
+        private boolean isMessageByCodeSet;
 		
 		private TestResponseBuilder() {
 			this.testResponse = new TestResponse();
-			this.codeMethodCalled = false;
-			this.messageByCode = false;
+			this.isCodeMethodCalled = false;
+			this.isMessageByCodeSet = false;
 		}
 		
 		public TestResponseBuilder status(HttpStatus status) {
@@ -54,26 +54,26 @@ public class TestResponse {
 
 		public TestResponseBuilder code(String code) {
 			testResponse.code = code;
-			codeMethodCalled = true;
+			isCodeMethodCalled = true;
 			return this;
 		}
 		
 		@CodeCallRequired
 		public TestResponseBuilder messageByCode(boolean messageByCode) {
-			if (!codeMethodCalled) {
+			if (!isCodeMethodCalled) {
 				throw new IllegalStateException("## 제약조건에 위배된 호출 : code메서드 호출이 선행되어야 합니다.");
 			}
 			
 			if (messageByCode) {
 				testResponse.message = MessageUtils.getMessage(testResponse.code);
-				this.messageByCode = true;
+				this.isMessageByCodeSet = true;
 			}
 			return this;
 		}
 		
 		@MessageAlreadySet
 		public TestResponseBuilder message(String message) {
-			if (messageByCode) {
+			if (isMessageByCodeSet) {
 				throw new IllegalStateException("## 제약조건에 위배된 호출 : code에 의해 message가 이미 등록되었습니다.");
 			}
 			testResponse.message = message;
