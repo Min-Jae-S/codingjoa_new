@@ -11,6 +11,7 @@ import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.TypeElement;
+import javax.tools.Diagnostic;
 
 import com.codingjoa.annotation.CodeCallRequired;
 import com.codingjoa.annotation.MessageAlreadySet;
@@ -62,13 +63,15 @@ public class TestAnnoProcessor extends AbstractProcessor {
             }
         }
 
-        for (Element element : roundEnv.getElementsAnnotatedWith(MessageAlreadySet.class)) {
+		for (Element element : roundEnv.getElementsAnnotatedWith(MessageAlreadySet.class)) {
             if (element.getKind() == ElementKind.METHOD && element instanceof ExecutableElement) {
                 ExecutableElement methodElement = (ExecutableElement) element;
                 Element enclosingClassElement = methodElement.getEnclosingElement();
                 if (enclosingClassElement instanceof TypeElement && isTestResponseBuilder((TypeElement) enclosingClassElement)) {
                     if (isMessageByCodeSet) {
-                        //processingEnv.getMessager().printMessage(Diagnostic.Kind.ERROR, "## 제약조건에 위배된 호출 : code에 의해 message가 이미 등록되었습니다.", methodElement);
+                        processingEnv.getMessager().printMessage(
+                        		Diagnostic.Kind.ERROR, "## 제약조건에 위배된 호출 : code에 의해 message가 이미 등록되었습니다.", 
+                        		methodElement);
                     }
                 }
             }
