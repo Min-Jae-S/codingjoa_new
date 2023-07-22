@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 
+import com.codingjoa.annotation.CodeCallRequired;
+import com.codingjoa.annotation.MessageAlreadySet;
 import com.codingjoa.util.MessageUtils;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -56,6 +58,7 @@ public class TestResponse {
 			return this;
 		}
 		
+		@CodeCallRequired
 		public TestResponseBuilder messageByCode(boolean messageByCode) {
 			if (!codeMethodCalled) {
 				throw new IllegalStateException("## 제약조건에 위배된 호출 : code메서드 호출이 선행되어야 합니다.");
@@ -68,6 +71,7 @@ public class TestResponse {
 			return this;
 		}
 		
+		@MessageAlreadySet
 		public TestResponseBuilder message(String message) {
 			if (messageByCode) {
 				throw new IllegalStateException("## 제약조건에 위배된 호출 : code에 의해 message가 이미 등록되었습니다.");
