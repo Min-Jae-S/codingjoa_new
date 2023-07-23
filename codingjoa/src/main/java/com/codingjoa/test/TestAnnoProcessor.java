@@ -40,7 +40,6 @@ public class TestAnnoProcessor extends AbstractProcessor {
 	public Set<String> getSupportedAnnotationTypes() {
 		log.info("## {} : getSupportedAnnotationTypes", this.getClass().getSimpleName());
 		log.info("\t > {}", super.getSupportedAnnotationTypes());
-		
 		return super.getSupportedAnnotationTypes();
 	}
 
@@ -48,7 +47,6 @@ public class TestAnnoProcessor extends AbstractProcessor {
 	public SourceVersion getSupportedSourceVersion() {
 		log.info("## {} : getSupportedSourceVersion", this.getClass().getSimpleName());
 		log.info("\t > {}", SourceVersion.latestSupported());
-		
 		return super.getSupportedSourceVersion();
 	}
 

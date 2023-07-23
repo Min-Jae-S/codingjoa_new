@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>TEST</title>
+<title>test-view</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
@@ -36,7 +36,7 @@
 <c:import url="/WEB-INF/views/include/top-menu.jsp"/>
 <div>
 	<p>TEST</p>
-	<div class="d-flex mt-5">
+	<div class="d-flex justify-content-center mt-5">
 		<button class="btn btn-danger btn-lg mx-3" onclick="test1()">test1</button>
 		<button class="btn btn-danger btn-lg mx-3" onclick="test2()">test2</button>
 		<button class="btn btn-danger btn-lg mx-3" onclick="test3()">test3</button>
@@ -44,10 +44,13 @@
 		<button class="btn btn-primary btn-lg mx-3" onclick="test5()">test5</button>
 		<button class="btn btn-lg mx-3" onclick="colored_console()">console</button>
 	</div>
-	<div class="d-flex mt-5">
+	<div class="d-flex justify-content-center mt-5">
 		<button class="btn btn-warning btn-lg mx-3" onclick="testException()">test-exception</button>
 		<button class="btn btn-warning btn-lg mx-3" onclick="testBuilder()">test-builder</button>
 		<button class="btn btn-warning btn-lg mx-3" onclick="testResponse()">test-response</button>
+		<button class="btn btn-warning btn-lg mx-3 invisible" onclick="##">##</button>
+		<button class="btn btn-warning btn-lg mx-3 invisible" onclick="##">##</button>
+		<button class="btn btn-warning btn-lg mx-3 invisible" onclick="##">##</button>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
@@ -93,7 +96,7 @@
 			dataType : "json",
 			success : function(result) {
 				console.log("%c## SUCCESS","color:green");
-				console.log(result);
+				console.log(JSON.stringify(result, null, 2));
 			},
 			error : function(jqXHR) {
 				console.log("%c## ERROR","color:red");
@@ -117,7 +120,7 @@
 			dataType : "json",
 			success : function(result) {
 				console.log("%c## SUCCESS","color:green");
-				console.log(result);
+				console.log(JSON.stringify(result, null, 2));
 			},
 			error : function(jqXHR) {
 				console.log("%c## ERROR","color:red");
@@ -135,7 +138,7 @@
 			dataType : "json",
 			success : function(result) {
 				console.log("%c## SUCCESS","color:green");
-				console.log(result);
+				console.log(JSON.stringify(result, null, 2));
 			},
 			error : function(jqXHR) {
 				console.log("%c## ERROR","color:red");
@@ -153,7 +156,7 @@
 			//dataType : "json",
 			success : function(result) {
 				console.log("%c## SUCCESS","color:blue");
-				console.log(result);
+				console.log(JSON.stringify(result, null, 2));
 			},
 			error : function(jqXHR) {
 				console.log("%c## ERROR","color:red");
@@ -172,7 +175,7 @@
 			dataType : "json",
 			success : function(result) {
 				console.log("%c## SUCCESS","color:blue");
-				console.log(result);
+				console.log(JSON.stringify(result, null, 2));
 			},
 			error : function(jqXHR) {
 				console.log("%c## ERROR","color:red");
@@ -202,7 +205,7 @@
 			dataType : "json",
 			success : function(result) {
 				console.log("%c## SUCCESS","color:blue");
-				console.log(result);
+				console.log(JSON.stringify(result, null, 2));
 			},
 			error : function(jqXHR) {
 				console.log("%c## ERROR","color:red");
@@ -222,7 +225,7 @@
 			dataType : "json",
 			success : function(result) {
 				console.log("%c## SUCCESS","color:blue");
-				console.log(result);
+				console.log(JSON.stringify(result, null, 2));
 			},
 			error : function(jqXHR) {
 				console.log("%c## ERROR","color:red");
@@ -242,7 +245,7 @@
 			dataType : "json",
 			success : function(result) {
 				console.log("%c## SUCCESS","color:blue");
-				console.log(result);
+				console.log(JSON.stringify(result, null, 2));
 			},
 			error : function(jqXHR) {
 				console.log("%c## ERROR","color:red");

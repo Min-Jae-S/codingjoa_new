@@ -291,7 +291,7 @@ public class TestController {
 	@PostMapping("/test-exception")
 	public ResponseEntity<Object> testException(@RequestBody @Valid Test test) {
 		log.info("## testException");
-		return ResponseEntity.ok().body("success");
+		return ResponseEntity.ok().body(SuccessResponse.create().data("success"));
 	}
 
 	@ResponseBody
@@ -299,7 +299,7 @@ public class TestController {
 	public ResponseEntity<Object> testBuilder() {
 		log.info("## testBuilder");
 		log.info("\t > builder = {}", TestResponse.builder());
-		return ResponseEntity.ok().body("success");
+		return ResponseEntity.ok().body(SuccessResponse.create().data("success"));
 	}
 
 	@ResponseBody
@@ -309,7 +309,7 @@ public class TestController {
 		TestResponse.builder()
 			.messageByCode(false)
 			.build();
-		return ResponseEntity.ok().body("success");
+		return ResponseEntity.ok().body(SuccessResponse.create().data("success"));
 	}
 	
 }
