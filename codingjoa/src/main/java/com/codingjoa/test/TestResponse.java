@@ -7,7 +7,7 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 
 import com.codingjoa.annotation.CodeCallRequired;
-import com.codingjoa.annotation.CheckMessageByCode;
+import com.codingjoa.annotation.CheckMessageResolved;
 import com.codingjoa.response.ErrorDetails;
 import com.codingjoa.util.MessageUtils;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -40,22 +40,22 @@ public class TestResponse {
 	public static class TestResponseBuilder {
 		private TestResponse testResponse;
 		private boolean isCodeMethodCalled;
-        private boolean isMessageByCodeSet;
+        private boolean isMessageResolved;
 
 		private TestResponseBuilder() {
 			this.testResponse = new TestResponse();
 			this.isCodeMethodCalled = false;
-			this.isMessageByCodeSet = false;
+			this.isMessageResolved = false;
 		}
 		
 		public TestResponseBuilder status(HttpStatus status) {
 			testResponse.status = status;
-			isCodeMethodCalled = true;
 			return this;
 		}
 
 		public TestResponseBuilder code(String code) {
 			testResponse.code = code;
+			isCodeMethodCalled = true;
 			return this;
 		}
 		
@@ -63,12 +63,12 @@ public class TestResponse {
 		public TestResponseBuilder messageByCode(boolean messageByCode) {
 			if (messageByCode) {
 				testResponse.message = MessageUtils.getMessage(testResponse.code);
-				isMessageByCodeSet = true;
+				isMessageResolved = true;
 			}
 			return this;
 		}
 		
-		@CheckMessageByCode
+		@CheckMessageResolved
 		public TestResponseBuilder message(String message) {
 			testResponse.message = message;
 			return this;

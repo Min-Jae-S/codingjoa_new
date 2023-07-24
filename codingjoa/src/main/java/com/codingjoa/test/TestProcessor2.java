@@ -15,14 +15,14 @@ import javax.lang.model.element.TypeElement;
 import javax.tools.Diagnostic;
 
 import com.codingjoa.annotation.CodeCallRequired;
-import com.codingjoa.annotation.CheckMessageByCode;
+import com.codingjoa.annotation.CheckMessageResolved;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @SupportedAnnotationTypes({
 	"com.codingjoa.annotation.CodeCallRequired",
-    "com.codingjoa.annotation.MessageAlreadySet"
+    "com.codingjoa.annotation.CheckMessageResolved"
 })
 @SupportedSourceVersion(SourceVersion.RELEASE_11)
 public class TestProcessor2 extends AbstractProcessor {
@@ -30,14 +30,14 @@ public class TestProcessor2 extends AbstractProcessor {
 	private final String PACKAGE_NAME = "com.codingjoa.test";
 	private final String CLASS_NAME = "TestResponseBuilder";
 	private boolean isCodeMethodCalled;
-    private boolean isMessageByCodeSet;
+    private boolean isMessageResolved;
 
 	@Override
 	public synchronized void init(ProcessingEnvironment processingEnv) {
 		log.info("## {} : init", this.getClass().getSimpleName());
 		super.init(processingEnv);
 		isCodeMethodCalled = false;
-		isMessageByCodeSet = false;
+		isMessageResolved = false;
 	}
 
 	@Override
@@ -59,13 +59,13 @@ public class TestProcessor2 extends AbstractProcessor {
             }
         }
 
-		// @MessageAlreadySet
-		for (Element element : roundEnv.getElementsAnnotatedWith(CheckMessageByCode.class)) {
+		// @CheckMessageResolved
+		for (Element element : roundEnv.getElementsAnnotatedWith(CheckMessageResolved.class)) {
             if (element.getKind() == ElementKind.METHOD && element instanceof ExecutableElement) {
                 ExecutableElement methodElement = (ExecutableElement) element;
                 Element enclosingClassElement = methodElement.getEnclosingElement();
                 if (enclosingClassElement instanceof TypeElement && isTestResponseBuilder((TypeElement) enclosingClassElement)) {
-                    if (isMessageByCodeSet) {
+                    if (isMessageResolved) {
                         processingEnv.getMessager().printMessage(
                         		Diagnostic.Kind.ERROR, "## 제약조건에 위배된 호출 : code에 의해 message가 이미 등록되었습니다.", 
                         		methodElement);
