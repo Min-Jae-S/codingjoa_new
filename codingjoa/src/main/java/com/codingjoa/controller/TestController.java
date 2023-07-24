@@ -22,9 +22,9 @@ import org.springframework.web.util.UriComponents;
 
 import com.codingjoa.exception.ExpectedException;
 import com.codingjoa.response.SuccessResponse;
-import com.codingjoa.response.TestResponse;
 import com.codingjoa.service.TestTxService;
 import com.codingjoa.test.Test;
+import com.codingjoa.test.TestResponse;
 
 import lombok.extern.slf4j.Slf4j;
 

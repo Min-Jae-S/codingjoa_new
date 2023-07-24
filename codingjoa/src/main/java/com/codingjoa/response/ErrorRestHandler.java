@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
 import com.codingjoa.exception.ExpectedException;
 import com.codingjoa.exception.TestException;
+import com.codingjoa.test.TestResponse;
 
 import lombok.extern.slf4j.Slf4j;
 

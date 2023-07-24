@@ -6,7 +6,6 @@ import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedAnnotationTypes;
-import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.ExecutableElement;
@@ -23,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 	"com.codingjoa.annotation.CodeCallRequired",
     "com.codingjoa.annotation.MessageAlreadySet"
 })
-public class TestAnnoProcessor extends AbstractProcessor {
+public class TestProcessor extends AbstractProcessor {
 	
 	private boolean isCodeMethodCalled;
     private boolean isMessageByCodeSet;
@@ -36,23 +35,24 @@ public class TestAnnoProcessor extends AbstractProcessor {
 		isMessageByCodeSet = false;
 	}
 
-	@Override
-	public Set<String> getSupportedAnnotationTypes() {
-		log.info("## {} : getSupportedAnnotationTypes", this.getClass().getSimpleName());
-		log.info("\t > {}", super.getSupportedAnnotationTypes());
-		return super.getSupportedAnnotationTypes();
-	}
-
-	@Override
-	public SourceVersion getSupportedSourceVersion() {
-		log.info("## {} : getSupportedSourceVersion", this.getClass().getSimpleName());
-		log.info("\t > {}", SourceVersion.latestSupported());
-		return super.getSupportedSourceVersion();
-	}
+//	@Override
+//	public Set<String> getSupportedAnnotationTypes() {
+//		log.info("## {} : getSupportedAnnotationTypes", this.getClass().getSimpleName());
+//		log.info("\t > {}", super.getSupportedAnnotationTypes());
+//		return super.getSupportedAnnotationTypes();
+//	}
+//
+//	@Override
+//	public SourceVersion getSupportedSourceVersion() {
+//		log.info("## {} : getSupportedSourceVersion", this.getClass().getSimpleName());
+//		log.info("\t > {}", SourceVersion.latestSupported());
+//		return super.getSupportedSourceVersion();
+//	}
 
 	@Override
 	public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
 		log.info("## {} : process", this.getClass().getSimpleName());
+		
 		for (Element element : roundEnv.getElementsAnnotatedWith(CodeCallRequired.class)) {
             if (element.getKind() == ElementKind.METHOD && element instanceof ExecutableElement) {
                 ExecutableElement methodElement = (ExecutableElement) element;
