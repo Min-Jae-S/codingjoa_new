@@ -12,6 +12,9 @@ import javax.tools.Diagnostic;
 
 import com.google.auto.service.AutoService;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @AutoService(Processor.class)
 public class SampleProcessor extends AbstractProcessor {
 	
@@ -33,6 +36,7 @@ public class SampleProcessor extends AbstractProcessor {
 
 	@Override
 	public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
+		log.info("## {}", this.getClass().getSimpleName());
 		processingEnv.getMessager().printMessage(Diagnostic.Kind.ERROR, "## ERORR");
 		return true;
 	}
