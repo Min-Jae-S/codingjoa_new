@@ -8,6 +8,6 @@ import java.lang.annotation.Target;
 
 @Retention(SOURCE)
 @Target(METHOD)
-public @interface MessageAlreadySet {
+public @interface CheckMessageByCode {
 
 }

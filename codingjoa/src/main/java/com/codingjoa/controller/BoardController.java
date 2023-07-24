@@ -128,8 +128,7 @@ public class BoardController {
 	
 	@PostMapping("/writeProc")
 	public String writeProc(@Validated @ModelAttribute("writeBoardDto") BoardDto writeBoardDto, 
-			 BindingResult bindingResult, @AuthenticationPrincipal UserDetailsDto principal, Model model) 
-					 throws BindException {
+			 BindingResult bindingResult, @AuthenticationPrincipal UserDetailsDto principal, Model model) throws BindException {
 		log.info("## writeProc");
 		log.info("\t > {}", writeBoardDto);
 		
@@ -163,8 +162,7 @@ public class BoardController {
 	
 	@PostMapping("/modifyProc")
 	public String modifyProc(@Validated @ModelAttribute("modifyBoardDto") BoardDto modifyBoardDto, 
-			BindingResult bindingResult, @AuthenticationPrincipal UserDetailsDto principal, Model model) 
-					throws BindException {
+			BindingResult bindingResult, @AuthenticationPrincipal UserDetailsDto principal, Model model) throws BindException {
 		log.info("## modifyProc");
 		log.info("\t > {}", modifyBoardDto);
 

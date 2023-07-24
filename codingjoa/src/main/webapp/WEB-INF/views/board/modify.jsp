@@ -167,7 +167,8 @@
 			    	continue;
 			    }
 			    
-			    let $input = $("<input>").attr("type", "hidden").attr("name", "uploadIdxList[]");
+			    //let $input = $("<input>").attr("type", "hidden").attr("name", "uploadIdxList[]");
+			    let $input = $("<input>").attr("type", "hidden").attr("name", "uploadIdxList");
 			    let dataIdx = value.item.getAttribute("dataIdx");
 			    $input.val(dataIdx);
 			    $modifyForm.append($input);
@@ -179,6 +180,7 @@
 			
 			if (!confirm("게시글을 수정하시겠습니까?")) {
 				$("textArea[name='boardContentText']").remove();
+				//$("input[name='uploadIdxList[]']").remove();
 				$("input[name='uploadIdxList[]']").remove();
 				console.log("## Cancel modifyForm submit");
 				console.log(JSON.stringify($modifyForm.serializeObject(), null, 2));
