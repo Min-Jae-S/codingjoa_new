@@ -306,9 +306,11 @@ public class TestController {
 	@GetMapping("/test-response")
 	public ResponseEntity<Object> testResponse() {
 		log.info("## testResponse");
-		TestResponse.builder()
-			.messageByCode(false)
+		TestResponse testResponse = TestResponse.builder()
+			.messageByCode(true)
+			.message("message example")
 			.build();
+		log.info("\t > testResponse = {}", testResponse);
 		return ResponseEntity.ok().body(SuccessResponse.create().data("success"));
 	}
 	
