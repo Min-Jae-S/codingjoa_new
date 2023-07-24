@@ -53,6 +53,7 @@ public class TestProcessor extends AbstractProcessor {
 	public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
 		log.info("## {} : process", this.getClass().getSimpleName());
 		
+		// @CodeCallRequired
 		for (Element element : roundEnv.getElementsAnnotatedWith(CodeCallRequired.class)) {
             if (element.getKind() == ElementKind.METHOD && element instanceof ExecutableElement) {
                 ExecutableElement methodElement = (ExecutableElement) element;
@@ -63,6 +64,7 @@ public class TestProcessor extends AbstractProcessor {
             }
         }
 
+		// @isMessageByCodeSet
 		for (Element element : roundEnv.getElementsAnnotatedWith(MessageAlreadySet.class)) {
             if (element.getKind() == ElementKind.METHOD && element instanceof ExecutableElement) {
                 ExecutableElement methodElement = (ExecutableElement) element;
