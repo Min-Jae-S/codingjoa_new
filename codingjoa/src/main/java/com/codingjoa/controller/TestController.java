@@ -63,7 +63,6 @@ public class TestController {
 	// ***************************************************************
 	// 		ModelAndView / MappingJackson2JsonView / ViewResolver  
 	// ***************************************************************
-	
 	@RequestMapping("/testVoid")
 	public void testVoid(Model model) {
 		log.info("## testVoid called...");
@@ -86,7 +85,7 @@ public class TestController {
 
 	@RequestMapping("/testForward")
 	public String testForward() {
-		
+		log.info("## testForward called...");
 		return "forward:/test/testView";
 	}
 
@@ -215,7 +214,6 @@ public class TestController {
 	// *********************************************************
 	// 			Transaction
 	// *********************************************************
-	
 	@Autowired
 	private TestTxService txService;
 	
@@ -238,7 +236,6 @@ public class TestController {
 	// *********************************************************
 	// 	  javascript ajax error 
 	// *********************************************************
-	
 	@ResponseBody
 	@GetMapping("/test1")
 	public ResponseEntity<Object> test1() {
