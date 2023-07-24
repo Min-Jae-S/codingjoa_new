@@ -23,6 +23,7 @@ import org.springframework.web.util.UriComponents;
 import com.codingjoa.exception.ExpectedException;
 import com.codingjoa.response.SuccessResponse;
 import com.codingjoa.service.TestTxService;
+import com.codingjoa.test.Sample;
 import com.codingjoa.test.Test;
 import com.codingjoa.test.TestResponse;
 
@@ -311,6 +312,15 @@ public class TestController {
 			.message("message example")
 			.build();
 		log.info("\t > testResponse = {}", testResponse);
+		return ResponseEntity.ok().body(SuccessResponse.create().data("success"));
+	}
+
+	@ResponseBody
+	@GetMapping("/sample")
+	public ResponseEntity<Object> sample() {
+		log.info("## sample");
+		Sample sample = new Sample();
+		sample.sampleAnno();
 		return ResponseEntity.ok().body(SuccessResponse.create().data("success"));
 	}
 	

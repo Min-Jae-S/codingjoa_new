@@ -13,4 +13,9 @@ public class Sample {
 	private String field2;
 	private String field3;
 	
+	@SampleAnno
+	public void sampleAnno() {
+		
+	}
+	
 }

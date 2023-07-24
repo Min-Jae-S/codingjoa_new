@@ -315,9 +315,8 @@
 					<target>${java-version}</target>
 					<!-- Annotation Processor 추가 -->
 					<annotationProcessor>
-						<annotationProcessor>
-							com.codingjoa.test.TestProcessor
-						</annotationProcessor>
+						<annotationProcessor>com.codingjoa.test.TestProcessor</annotationProcessor>
+						<annotationProcessor>com.codingjoa.test.SampleProcessor</annotationProcessor>
 					</annotationProcessor>
 					<compilerArgument>-Xlint:all</compilerArgument>
 					<showWarnings>true</showWarnings>
