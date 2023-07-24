@@ -29,7 +29,7 @@ public class SampleProcessor extends AbstractProcessor {
 
 	@Override
 	public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
-		processingEnv.getMessager().printMessage(Diagnostic.Kind.ERROR, "## ERORR !!!");
+		processingEnv.getMessager().printMessage(Diagnostic.Kind.ERROR, "## ERORR");
 		return true;
 	}
 }

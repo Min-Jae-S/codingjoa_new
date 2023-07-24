@@ -49,7 +49,7 @@
 		<button class="btn btn-warning btn-lg mx-3" onclick="testBuilder()">test-builder</button>
 		<button class="btn btn-warning btn-lg mx-3" onclick="testResponse()">test-response</button>
 		<button class="btn btn-warning btn-lg mx-3" onclick="sampleAnno()">sample-anno</button>
-		<button class="btn btn-warning btn-lg mx-3 invisible" onclick="##">##</button>
+		<button class="btn btn-warning btn-lg mx-3" onclick="sample()">sample</button>
 		<button class="btn btn-warning btn-lg mx-3 invisible" onclick="##">##</button>
 	</div>
 </div>
@@ -257,6 +257,26 @@
 
 	function sampleAnno() {
 		let url = "${contextPath}/test/sample-anno";
+		console.log("## url = %s", url);
+		$.ajax({
+			type : "GET",
+			url : url,
+			contentType : "application/json;charset=utf-8",
+			dataType : "json",
+			success : function(result) {
+				console.log("%c## SUCCESS","color:blue");
+				console.log(JSON.stringify(result, null, 2));
+			},
+			error : function(jqXHR) {
+				console.log("%c## ERROR","color:red");
+				let errorResponse = parseError(jqXHR);
+				proccessError(jqXHR);
+			}
+		});
+	}
+
+	function sample() {
+		let url = "${contextPath}/test/sample";
 		console.log("## url = %s", url);
 		$.ajax({
 			type : "GET",
