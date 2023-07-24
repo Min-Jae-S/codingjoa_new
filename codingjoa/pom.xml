@@ -286,6 +286,15 @@
 		    <version>10.0.27</version>
 		    <scope>provided</scope>
 		</dependency> -->
+		
+		<!-- Annotation Processor 등록, @AutoService --> 
+		<!-- Annotation Processor를 META-INF/services/javax.annotation.processing.Processor 파일에 자동으로 등록 -->
+		<!-- https://mvnrepository.com/artifact/com.google.auto.service/auto-service -->
+		<dependency>
+		    <groupId>com.google.auto.service</groupId>
+		    <artifactId>auto-service</artifactId>
+		    <version>1.0.1</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
@@ -313,11 +322,11 @@
 				<configuration>
 					<source>${java-version}</source>
 					<target>${java-version}</target>
-					<!-- Annotation Processor 추가 -->
-					<annotationProcessor>
+					<!-- Annotation Processor 추가 >> Google의 AutoService로 대체 -->
+					<!-- <annotationProcessor>
 						<annotationProcessor>com.codingjoa.test.TestProcessor</annotationProcessor>
 						<annotationProcessor>com.codingjoa.test.SampleProcessor</annotationProcessor>
-					</annotationProcessor>
+					</annotationProcessor> -->
 					<compilerArgument>-Xlint:all</compilerArgument>
 					<showWarnings>true</showWarnings>
 					<showDeprecation>true</showDeprecation>
