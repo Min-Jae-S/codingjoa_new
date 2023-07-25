@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.context.NoSuchMessageException;
 import org.springframework.http.HttpStatus;
 
 import com.codingjoa.response.ErrorDetails;
@@ -13,9 +12,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Getter;
 import lombok.ToString;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @ToString
 @Getter
 public class TestResponse {

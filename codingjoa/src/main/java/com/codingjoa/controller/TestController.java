@@ -325,7 +325,7 @@ public class TestController {
 
 		TestResponse testResponse4 = TestResponse.builder()
 				.messageByCode(true)
-				.build();
+				.build(); // error
 		log.info("\t > testResponse4 = {}", testResponse4);
 		return ResponseEntity.ok().body(SuccessResponse.create().data("success"));
 	}
