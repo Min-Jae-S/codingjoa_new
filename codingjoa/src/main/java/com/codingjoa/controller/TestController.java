@@ -323,6 +323,11 @@ public class TestController {
 				.message("교체된 message입니다.")
 				.build();
 		log.info("\t > testResponse3 = {}", testResponse3);
+
+		TestResponse testResponse4 = TestResponse.builder()
+				.messageByCode(true)
+				.build();
+		log.info("\t > testResponse4 = {}", testResponse4);
 		return ResponseEntity.ok().body(SuccessResponse.create().data("success"));
 	}
 }

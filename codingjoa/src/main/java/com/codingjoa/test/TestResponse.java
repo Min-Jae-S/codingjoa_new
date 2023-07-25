@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.context.NoSuchMessageException;
 import org.springframework.http.HttpStatus;
 
 import com.codingjoa.response.ErrorDetails;
@@ -56,7 +57,12 @@ public class TestResponse {
 		
 		public TestResponseBuilder messageByCode(boolean messageByCode) {
 			if (messageByCode) {
-				testResponse.message = MessageUtils.getMessage(testResponse.code);
+				try {
+					message(MessageUtils.getMessage(testResponse.code));
+				} catch(NoSuchMessageException e) {
+					log.info("## messageByCode: No message found under code");
+					return this;
+				}
 			}
 			return this;
 		}
