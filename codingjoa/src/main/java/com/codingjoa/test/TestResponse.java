@@ -12,7 +12,9 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Getter;
 import lombok.ToString;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @ToString
 @Getter
 public class TestResponse {
@@ -37,13 +39,9 @@ public class TestResponse {
 	@ToString
 	public static class TestResponseBuilder {
 		private TestResponse testResponse;
-		private boolean isCodeMethodCalled;
-        private boolean isMessageResolved;
 
 		private TestResponseBuilder() {
 			this.testResponse = new TestResponse();
-			this.isCodeMethodCalled = false;
-			this.isMessageResolved = false;
 		}
 		
 		public TestResponseBuilder status(HttpStatus status) {
@@ -53,14 +51,12 @@ public class TestResponse {
 
 		public TestResponseBuilder code(String code) {
 			testResponse.code = code;
-			isCodeMethodCalled = true;
 			return this;
 		}
 		
 		public TestResponseBuilder messageByCode(boolean messageByCode) {
 			if (messageByCode) {
 				testResponse.message = MessageUtils.getMessage(testResponse.code);
-				isMessageResolved = true;
 			}
 			return this;
 		}

@@ -24,7 +24,6 @@ import com.codingjoa.exception.ExpectedException;
 import com.codingjoa.response.SuccessResponse;
 import com.codingjoa.service.TestTxService;
 import com.codingjoa.test.Sample;
-import com.codingjoa.test.SampleAnno;
 import com.codingjoa.test.Test;
 import com.codingjoa.test.TestResponse;
 
@@ -305,32 +304,25 @@ public class TestController {
 	@GetMapping("/test-response")
 	public ResponseEntity<Object> testResponse() {
 		log.info("## testResponse");
-		TestResponse testResponse = TestResponse.builder()
-			.messageByCode(true)
-			.message("message example")
-			.build();
-		log.info("\t > testResponse = {}", testResponse);
-		return ResponseEntity.ok().body(SuccessResponse.create().data("success"));
-	}
+		
+		TestResponse testResponse1 = TestResponse.builder()
+				.code("error.Test")
+				.messageByCode(false)
+				.build();
+		log.info("\t > testResponse1 = {}", testResponse1);
 
-	@ResponseBody
-	@GetMapping("/sample-anno")
-	public ResponseEntity<Object> sampleAnno() {
-		log.info("## sampleAnno");
-		log.info("\t > name() = {}", SampleAnno.class.getName());
-		log.info("\t > canonicalName() = {}", SampleAnno.class.getCanonicalName());
-		log.info("\t > simpleName() = {}", SampleAnno.class.getSimpleName());
-		log.info("\t > typeName() = {}", SampleAnno.class.getTypeName());
+		TestResponse testResponse2 = TestResponse.builder()
+				.code("error.Test")
+				.messageByCode(true)
+				.build();
+		log.info("\t > testResponse2 = {}", testResponse2);
+		
+		TestResponse testResponse3 = TestResponse.builder()
+				.code("error.Test")
+				.messageByCode(true)
+				.message("교체된 message입니다.")
+				.build();
+		log.info("\t > testResponse3 = {}", testResponse3);
 		return ResponseEntity.ok().body(SuccessResponse.create().data("success"));
 	}
-
-	@ResponseBody
-	@GetMapping("/sample")
-	public ResponseEntity<Object> sample() {
-		log.info("## sample");
-		Sample sample = new Sample();
-		sample.sampleAnno();
-		return ResponseEntity.ok().body(SuccessResponse.create().data("success"));
-	}
-	
 }

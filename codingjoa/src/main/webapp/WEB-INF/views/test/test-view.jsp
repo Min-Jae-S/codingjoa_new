@@ -23,12 +23,12 @@
 	}
 	
 	button {
-		width: 200px;
+		width: 160px;
 	}
 	
 	div {
-		padding-left: 2rem;
-		padding-right: 2rem;
+		padding-left: 1.3rem;
+		padding-right: 1.3rem;
 	}
 </style>
 </head>
@@ -42,14 +42,12 @@
 		<button class="btn btn-danger btn-lg mx-3" onclick="test3()">test3</button>
 		<button class="btn btn-primary btn-lg mx-3" onclick="test4()">test4</button>
 		<button class="btn btn-primary btn-lg mx-3" onclick="test5()">test5</button>
-		<button class="btn btn-lg mx-3" onclick="colored_console()">console</button>
 	</div>
 	<div class="d-flex justify-content-center mt-5">
-		<button class="btn btn-warning btn-lg mx-3" onclick="testException()">test-exception</button>
-		<button class="btn btn-warning btn-lg mx-3" onclick="testBuilder()">test-builder</button>
-		<button class="btn btn-warning btn-lg mx-3" onclick="testResponse()">test-response</button>
-		<button class="btn btn-warning btn-lg mx-3" onclick="sampleAnno()">sample-anno</button>
-		<button class="btn btn-warning btn-lg mx-3" onclick="sample()">sample</button>
+		<button class="btn btn-warning btn-lg mx-3" onclick="testException()">exception</button>
+		<button class="btn btn-warning btn-lg mx-3" onclick="testBuilder()">builder</button>
+		<button class="btn btn-warning btn-lg mx-3" onclick="testResponse()">response</button>
+		<button class="btn btn-secondary btn-lg mx-3" onclick="colored_console()">console</button>
 		<button class="btn btn-warning btn-lg mx-3 invisible" onclick="##">##</button>
 	</div>
 </div>
