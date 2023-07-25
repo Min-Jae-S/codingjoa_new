@@ -60,7 +60,7 @@ public class TestResponse {
 				try {
 					message(MessageUtils.getMessage(testResponse.code));
 				} catch(NoSuchMessageException e) {
-					log.info("## messageByCode: No message found under code");
+					log.info("## messageByCode catch NoSuchMessageException : No message found under code");
 					return this;
 				}
 			}
