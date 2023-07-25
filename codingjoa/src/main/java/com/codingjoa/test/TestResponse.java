@@ -6,8 +6,6 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 
-import com.codingjoa.annotation.CodeCallRequired;
-import com.codingjoa.annotation.CheckMessageResolved;
 import com.codingjoa.response.ErrorDetails;
 import com.codingjoa.util.MessageUtils;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -59,7 +57,6 @@ public class TestResponse {
 			return this;
 		}
 		
-		@CodeCallRequired
 		public TestResponseBuilder messageByCode(boolean messageByCode) {
 			if (messageByCode) {
 				testResponse.message = MessageUtils.getMessage(testResponse.code);
@@ -68,7 +65,6 @@ public class TestResponse {
 			return this;
 		}
 		
-		@CheckMessageResolved
 		public TestResponseBuilder message(String message) {
 			testResponse.message = message;
 			return this;
