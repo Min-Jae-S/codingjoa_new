@@ -55,20 +55,17 @@ public class TestResponse {
 			return this;
 		}
 		
-		public TestResponseBuilder messageByCode(boolean messageByCode) {
-			if (messageByCode) {
-				try {
-					message(MessageUtils.getMessage(testResponse.code));
-				} catch(NoSuchMessageException e) {
-					log.info("## No message found under code at {}#messageByCode", this.getClass().getSimpleName());
-					return this;
-				}
-			}
+		public TestResponseBuilder message(String message) {
+			testResponse.message = message;
 			return this;
 		}
 		
-		public TestResponseBuilder message(String message) {
-			testResponse.message = message;
+		public TestResponseBuilder messageByCode(boolean useCode) {
+			if (useCode) {
+				String errorMessage = MessageUtils.getMessage(testResponse.code);
+				testResponse.message = errorMessage;
+			}
+			
 			return this;
 		}
 		

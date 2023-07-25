@@ -23,7 +23,6 @@ import org.springframework.web.util.UriComponents;
 import com.codingjoa.exception.ExpectedException;
 import com.codingjoa.response.SuccessResponse;
 import com.codingjoa.service.TestTxService;
-import com.codingjoa.test.Sample;
 import com.codingjoa.test.Test;
 import com.codingjoa.test.TestResponse;
 
