@@ -20,13 +20,13 @@ public class TestResponse {
 	
 	private Integer status;
 	private String message;
-	private List<ErrorDetails> errors;
+	private List<ErrorDetails> errorDetails;
 	
 	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:ss:mm", timezone = "Asia/Seoul")
 	private LocalDateTime timestamp;
 	
 	private TestResponse() {
-		this.errors = new ArrayList<ErrorDetails>();
+		this.errorDetails = new ArrayList<ErrorDetails>();
 		this.timestamp =  LocalDateTime.now();
 	}
 	
@@ -57,27 +57,23 @@ public class TestResponse {
 			return this;
 		}
 		
-		public TestResponseBuilder error(ErrorDetails errorDetails) {
-            testResponse.errors.add(errorDetails);
+		public TestResponseBuilder errorDetails(ErrorDetails errorDetails) {
+            testResponse.errorDetails.add(errorDetails);
             return this;
         }
-		
-		public TestResponseBuilder errors(List<ErrorDetails> errors) {
-            testResponse.errors.addAll(errors);
-            return this;
-        }
+
+		public TestResponseBuilder errorDetails(List<ErrorDetails> errorDetails) {
+			testResponse.errorDetails.addAll(errorDetails);
+			return this;
+		}
 		
 		public TestResponseBuilder bindingResult(BindingResult bindingResult) {
 			bindingResult.getFieldErrors().forEach(fieldError -> {
-				String errorField = fieldError.getField();
-				String errorCode = fieldError.getCodes()[0];
-				String errorMessage = MessageUtils.getMessage(errorCode, fieldError.getArguments());
 				ErrorDetails errorDetails = ErrorDetails.builder()
-						.field(errorField)
-						.code(errorCode)
-						.message(errorMessage)
+						.field(fieldError.getField())
+						.messageByCode(fieldError.getCodes()[0], fieldError.getArguments())
 						.build();
-				testResponse.errors.add(errorDetails);
+				testResponse.errorDetails.add(errorDetails);
 			});
 			return this;
 		}

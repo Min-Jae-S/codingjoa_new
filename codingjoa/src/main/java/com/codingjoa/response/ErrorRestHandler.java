@@ -55,7 +55,7 @@ public class ErrorRestHandler {
 		log.info("\t > message = {}", e.getMessage());
 		
 		TestResponse testResponse = TestResponse.builder()
-				.error(e.getErrorDetails())
+				.errorDetails(e.getErrorDetails())
 				.build();
 		log.info("\t > {}", testResponse);
 
