@@ -7,7 +7,9 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,6 +28,7 @@ import com.codingjoa.service.TestTxService;
 import com.codingjoa.test.Test;
 import com.codingjoa.test.TestException;
 import com.codingjoa.test.TestResponse;
+import com.codingjoa.test.TestValidator;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -285,6 +288,11 @@ public class TestController {
 	// *********************************************************
 	// 	  TestException, TestResponse, TestResponseBuilder
 	// *********************************************************
+	@InitBinder("test")
+	public void InitBinderTest(WebDataBinder binder) {
+		binder.addValidators(new TestValidator());
+	}
+	
 	@ResponseBody
 	@PostMapping("/test-exception1")
 	public ResponseEntity<Object> testException1(@RequestBody @Valid Test test) {

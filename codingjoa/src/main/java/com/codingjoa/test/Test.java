@@ -3,43 +3,21 @@ package com.codingjoa.test;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Positive;
 
-import com.codingjoa.annotation.AnnoTest;
 import com.codingjoa.annotation.BoardCategoryCode;
 
-import lombok.Getter;
-import lombok.ToString;
+import lombok.Data;
 
-@Getter
-@ToString
+@Data
 public class Test {
 	
-	@NotEmpty(message = "NOT EMPTY")
+	@NotEmpty(message = "빈값은 허용하지 않아요.")
 	private String param1;
 	
-	@AnnoTest
-	@Positive(message = "POSITIVE")
+	@Positive(message = "숫자는 양수여야 합니다.")
 	private int param2;
 	
-	@BoardCategoryCode(message = "BOARD CATEGORYCODE")
+	@BoardCategoryCode(message = "게시판 카테고리가 아닙니다.")
 	private int param3;
 	
-	public Test() {
-		//log.info("## Test#constructor");
-	}
-	
-	public void setParam1(String param1) {
-		//log.info("## Test#setParam1, param1 = {}", param1);
-		this.param1 = param1;
-	}
-
-	public void setParam2(int param2) {
-		//log.info("## Test#setParam2, param2 = {}", param2);
-		this.param2 = param2;
-	}
-
-	public void setParam3(int param3) {
-		//log.info("## Test#setParam3, param3 = {}", param3);
-		this.param3 = param3;
-	}
-
+	private int param4;
 }
