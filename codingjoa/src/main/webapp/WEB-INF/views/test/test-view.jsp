@@ -192,12 +192,13 @@
 			/* data : JSON.stringify({
 				param1 : "",	// String, @NotEmpty
 				param2 : "cc",	// int, @Positive
-				param2 : "dd",	// int, @BoardCategoryCode
+				param3 : "dd",	// int, @BoardCategoryCode
 			}), */
 			data : JSON.stringify({
 				param1 : "",	// String, 	@NotEmpty
 				param2 : -1,	// int, 	@Positive
-				param2 : 999,	// int, 	@BoardCategoryCode
+				param3 : 999,	// int, 	@BoardCategoryCode
+				param4 : 1		// int, 	TestValidator(between 4 and 10);
 			}),
 			contentType : "application/json;charset=utf-8",
 			dataType : "json",
