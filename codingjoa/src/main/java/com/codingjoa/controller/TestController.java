@@ -24,6 +24,7 @@ import com.codingjoa.exception.ExpectedException;
 import com.codingjoa.response.SuccessResponse;
 import com.codingjoa.service.TestTxService;
 import com.codingjoa.test.Test;
+import com.codingjoa.test.TestException;
 import com.codingjoa.test.TestResponse;
 
 import lombok.extern.slf4j.Slf4j;
@@ -286,9 +287,9 @@ public class TestController {
 	// *********************************************************
 	@ResponseBody
 	@PostMapping("/test-exception")
-	public ResponseEntity<Object> testException(@RequestBody @Valid Test test) {
+	public ResponseEntity<Object> testException(/* @RequestBody @Valid Test test */) {
 		log.info("## testException");
-		return ResponseEntity.ok().body(SuccessResponse.create().data("success"));
+		throw new TestException();
 	}
 
 	@ResponseBody
@@ -325,7 +326,7 @@ public class TestController {
 
 		TestResponse testResponse4 = TestResponse.builder()
 				.messageByCode(true)
-				.build(); // error
+				.build();
 		log.info("\t > testResponse4 = {}", testResponse4);
 		return ResponseEntity.ok().body(SuccessResponse.create().data("success"));
 	}

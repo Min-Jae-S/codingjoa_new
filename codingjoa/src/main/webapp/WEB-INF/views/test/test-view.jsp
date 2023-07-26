@@ -194,11 +194,11 @@
 				param2 : "cc",	// int, @Positive
 				param2 : "dd",	// int, @BoardCategoryCode
 			}), */
-			data : JSON.stringify({
+			/* data : JSON.stringify({
 				param1 : "",	// String, 	@NotEmpty
 				param2 : -1,	// int, 	@Positive
 				param2 : 999,	// int, 	@BoardCategoryCode
-			}),
+			}), */
 			contentType : "application/json;charset=utf-8",
 			dataType : "json",
 			success : function(result) {
