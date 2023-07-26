@@ -47,6 +47,21 @@ import lombok.extern.slf4j.Slf4j;
 @RestControllerAdvice(annotations = RestController.class)
 public class ErrorRestHandler {
 	
+	// TEST
+	@ExceptionHandler(TestException.class)
+	protected ResponseEntity<Object> handleTestException(TestException e) {
+		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
+		log.info("\t > error details = {}", e.getErrorDetails());
+		log.info("\t > message = {}", e.getMessage());
+		
+		TestResponse testResponse = TestResponse.builder()
+				.error(e.getErrorDetails())
+				.build();
+		log.info("\t > {}", testResponse);
+
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(testResponse);
+	}
+	
 	@ExceptionHandler(Exception.class)
 	protected ResponseEntity<Object> handleException(Exception e) {
 		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
@@ -57,19 +72,6 @@ public class ErrorRestHandler {
 		log.info("\t > {}", errorResponse);
 		
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
-	}
-	
-	// test
-	@ExceptionHandler(TestException.class)
-	protected ResponseEntity<Object> handleTestException(TestException e) {
-		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
-		log.info("\t > location = {}", e.getStackTrace()[0]);
-		log.info("\t > message = {}", e.getMessage());
-		
-		TestResponse testResponse = TestResponse.builder().build();
-		log.info("\t > {}", testResponse);
-
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(testResponse);
 	}
 	
 	@ExceptionHandler(HttpMessageNotReadableException.class)
@@ -93,7 +95,9 @@ public class ErrorRestHandler {
 			log.info("\t > {} / {}", fieldError.getField(), fieldError.getCodes()[0]);
 		}); 
 
-		TestResponse testResponse = TestResponse.builder().build();
+		TestResponse testResponse = TestResponse.builder()
+				.bindingResult(e.getBindingResult())
+				.build();
 		log.info("\t > {}", testResponse);
 		
 		return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(testResponse);

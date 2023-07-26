@@ -286,10 +286,17 @@ public class TestController {
 	// 	  TestException, TestResponse, TestResponseBuilder
 	// *********************************************************
 	@ResponseBody
-	@PostMapping("/test-exception")
-	public ResponseEntity<Object> testException(/* @RequestBody @Valid Test test */) {
-		log.info("## testException");
-		throw new TestException();
+	@PostMapping("/test-exception1")
+	public ResponseEntity<Object> testException1(@RequestBody @Valid Test test) {
+		log.info("## testException1");
+		return ResponseEntity.ok().body(SuccessResponse.create().data("success"));
+	}
+
+	@ResponseBody
+	@GetMapping("/test-exception2")
+	public ResponseEntity<Object> testException2() {
+		log.info("## testException2");
+		throw new TestException(null);
 	}
 
 	@ResponseBody
@@ -306,28 +313,16 @@ public class TestController {
 		log.info("## testResponse");
 		
 		TestResponse testResponse1 = TestResponse.builder()
-				.code("error.Test")
-				.messageByCode(false)
+				.messageByCode("error.Test")
 				.build();
 		log.info("\t > testResponse1 = {}", testResponse1);
 
 		TestResponse testResponse2 = TestResponse.builder()
-				.code("error.Test")
-				.messageByCode(true)
-				.build();
-		log.info("\t > testResponse2 = {}", testResponse2);
-		
-		TestResponse testResponse3 = TestResponse.builder()
-				.code("error.Test")
-				.messageByCode(true)
+				.messageByCode("error.Test")
 				.message("교체된 message입니다.")
 				.build();
-		log.info("\t > testResponse3 = {}", testResponse3);
+		log.info("\t > testResponse2 = {}", testResponse2);
 
-		TestResponse testResponse4 = TestResponse.builder()
-				.messageByCode(true)
-				.build();
-		log.info("\t > testResponse4 = {}", testResponse4);
 		return ResponseEntity.ok().body(SuccessResponse.create().data("success"));
 	}
 }

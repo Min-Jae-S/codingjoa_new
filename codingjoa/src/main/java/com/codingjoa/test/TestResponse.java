@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.BindingResult;
 
 import com.codingjoa.response.ErrorDetails;
 import com.codingjoa.util.MessageUtils;
@@ -18,7 +19,6 @@ import lombok.ToString;
 public class TestResponse {
 	
 	private HttpStatus status;
-	private String code;
 	private String message;
 	private List<ErrorDetails> errors;
 	
@@ -47,29 +47,40 @@ public class TestResponse {
 			return this;
 		}
 
-		public TestResponseBuilder code(String code) {
-			testResponse.code = code;
-			return this;
-		}
-		
 		public TestResponseBuilder message(String message) {
 			testResponse.message = message;
 			return this;
 		}
 		
-		public TestResponseBuilder messageByCode(boolean useCode) {
-			if (useCode) {
-				String errorMessage = MessageUtils.getMessage(testResponse.code);
-				testResponse.message = errorMessage;
-			}
-			
+		public TestResponseBuilder messageByCode(String code) {
+			testResponse.message = MessageUtils.getMessage(code);
 			return this;
 		}
+		
+		public TestResponseBuilder error(ErrorDetails errorDetails) {
+            testResponse.errors.add(errorDetails);
+            return this;
+        }
 		
 		public TestResponseBuilder errors(List<ErrorDetails> errors) {
             testResponse.errors.addAll(errors);
             return this;
         }
+		
+		public TestResponseBuilder bindingResult(BindingResult bindingResult) {
+			bindingResult.getFieldErrors().forEach(fieldError -> {
+				String errorField = fieldError.getField();
+				String errorCode = fieldError.getCodes()[0];
+				String errorMessage = MessageUtils.getMessage(errorCode, fieldError.getArguments());
+				ErrorDetails errorDetails = ErrorDetails.builder()
+						.field(errorField)
+						.code(errorCode)
+						.message(errorMessage)
+						.build();
+				testResponse.errors.add(errorDetails);
+			});
+			return this;
+		}
 		
 		public TestResponse build() {
 			return testResponse;

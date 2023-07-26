@@ -1,13 +1,15 @@
 package com.codingjoa.test;
 
-@SuppressWarnings("serial")
-public class TestException extends RuntimeException {
+import com.codingjoa.response.ErrorDetails;
 
-	public TestException() {
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@SuppressWarnings("serial")
+@AllArgsConstructor
+@Getter
+public class TestException extends RuntimeException {
 	
-	}
+	private final ErrorDetails errorDetails;
 	
-	public TestException(String s) {
-		super(s);
-	}
 }
