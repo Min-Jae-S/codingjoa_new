@@ -73,7 +73,8 @@
 						</div>
 						<c:if test="${not empty errorResponse}">
 							<div class="error">
-								<c:out value="${errorResponse.message}"/>
+								<!-- 아이디가 존재하지 않거나 비밀번호가 일치하지 않습니다.<br>입력한 내용을 다시 확인해주세요. -->
+								<c:out value="${errorResponse.message}" escapeXml="false"/>
 							</div>
 							<div class="error d-none">
 								<fmt:parseDate value="${errorResponse.timestamp}" pattern="yyyy-MM-dd'T'HH:mm:ss" var="parsedDateTime" type="both"/>

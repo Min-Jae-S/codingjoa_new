@@ -16,10 +16,10 @@ public class SuccessResponse {
 	private String message;
 	
 	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
-	private LocalDateTime responseDateTime;
+	private LocalDateTime timestamp;
 	
 	private SuccessResponse() {
-		this.responseDateTime = LocalDateTime.now();
+		this.timestamp = LocalDateTime.now();
 	}
 	
 	public static SuccessResponse create() {

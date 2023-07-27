@@ -231,10 +231,10 @@
 			memberService.updateEmail(obj, function(result) {
 				alert(result.message);
 				memberService.getCurrentMember(function(result) {
-					let member = result.data;
+					let currentMember = result.data;
 					$("#editEmail").find("form")
-						.html("<input type='text' id='memberEmail' name='memberEmail' value='" + member.memberEmail + "'>");
-					$("#showEmail").find("span").text(member.memberEmail);
+						.html("<input type='text' id='memberEmail' name='memberEmail' value='" + currentMember.memberEmail + "'>");
+					$("#showEmail").find("span").text(currentMember.memberEmail);
 					$("#resetEmailBtn").click();
 				});
 			});
@@ -261,19 +261,20 @@
 				memberAddrDetail : $("#memberAddrDetail").val()
 			};
 			
+			$("#memberZipcode\\.errors, #memberAddr\\.errors, #memberAddrDetail\\.errors").remove();
 			memberService.updateAddr(obj, function(result) {
 				alert(result.message);
 				memberService.getCurrentMember(function(result) {
-					let member = result.data;
+					let currentMember = result.data;
 					$("#editZipcode").find("form")
-						.html("<input type='text' id='memberZipcode' name='memberZipcode' value='" + member.memberZipcode + "' readonly>");
-					$("#showZipcode").find("span").text(member.memberZipcode);
+						.html("<input type='text' id='memberZipcode' name='memberZipcode' value='" + currentMember.memberZipcode + "' readonly>");
 					$("#editAddr").find("form")
-						.html("<input type='text' id='memberAddr' name='memberAddr' value='" + member.memberAddr + "' readonly>");
-					$("#showAddr").find("span").text(member.memberAddr);
+						.html("<input type='text' id='memberAddr' name='memberAddr' value='" + currentMember.memberAddr + "' readonly>");
 					$("#editAddrDetail").find("form")
-						.html("<input type='text' id='memberAddrDetail' name='memberAddrDetail' value='" + member.memberAddrDetail + "'>");
-					$("#showAddrDetail").find("span").text(member.memberAddrDetail);
+						.html("<input type='text' id='memberAddrDetail' name='memberAddrDetail' value='" + currentMember.memberAddrDetail + "'>");
+					$("#showZipcode").find("span").text(currentMember.memberZipcode);
+					$("#showAddr").find("span").text(currentMember.memberAddr);
+					$("#showAddrDetail").find("span").text(currentMember.memberAddrDetail);
 					$("#resetAddrBtn").click();
 				});
 			});
@@ -295,13 +296,16 @@
 				memberAgree : $("#memberAgree").prop("checked")	
 			};
 			
+			$("#memberAgree\\.errors").remove();
 			memberService.updateAgree(obj, function(result) {
 				alert(result.message);
 				memberService.getCurrentMember(function(result) {
-					let member = result.data;
-					let check_value = (member.memberAgree == true) ? "checked" : "";
-					$("#editAgree").find("label").html("<input class='form-check-input' type='checkbox' id='memberAgree' name='memberAgree' " + check_value + "><span class='inner-text'>이메일 광고 수신에 동의합니다.<span/>");
-					$("#showAgree").find("input").prop("checked", member.memberAgree);
+					let currentMember = result.data;
+					let checkValue = (currentMember.memberAgree == true) ? "checked" : "";
+					$("#editAgree").find("label")
+						.html("<input class='form-check-input' type='checkbox' id='memberAgree' name='memberAgree' " + checkValue + ">" 
+								+ "<span class='inner-text'>이메일 광고 수신에 동의합니다.<span/>");
+					$("#showAgree").find("input").prop("checked", currentMember.memberAgree);
 					$("#resetAgreeBtn").click();
 				});
 			});
