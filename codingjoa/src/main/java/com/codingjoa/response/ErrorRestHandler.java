@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import com.codingjoa.exception.ExpectedException;
 import com.codingjoa.test.TestException;
 import com.codingjoa.test.TestResponse;
+import com.codingjoa.test.TestResponse.TestResponseBuilder;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -51,10 +52,19 @@ public class ErrorRestHandler {
 	@ExceptionHandler(TestException.class)
 	protected ResponseEntity<Object> handleTestException(TestException e) {
 		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
-
-		TestResponse testResponse = TestResponse.builder()
-				.errorDetails(e.getErrorDetails())
-				.build();
+		
+		TestResponseBuilder builder = TestResponse.builder();
+		if (e.getField() == null) { 
+			builder.messageByCode(e.getCode());
+		} else { 
+			ErrorDetails errorDetails = ErrorDetails.builder()
+					.field(e.getField())
+					.messageByCode(e.getCode())
+					.build();
+			builder.errorDetails(errorDetails);
+		}
+		
+		TestResponse testResponse = builder.build();
 		log.info("\t > {}", testResponse);
 
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(testResponse);

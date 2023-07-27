@@ -64,7 +64,7 @@
 			console.log(JSON.stringify(errorResponse, null, 2));
 			return errorResponse;
 		} catch(e) {
-			alert("## Unexcepected Error");
+			alert("## Parsing Error");
 			return null;
 		}
 	}
@@ -81,7 +81,7 @@
 				console.log("> errorMessage = %s", errorResponse.errorMessage);
 			}
 		} catch(e) {
-			console.log("## Unexcepected Error");
+			console.log("## Parsing Error");
 		}
 	}
 
