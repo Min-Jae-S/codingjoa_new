@@ -74,7 +74,10 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
 					.serializerByType(LocalDateTime.class, new LocalDateTimeSerializer(formatter))
 					.build();
 			
-			ErrorResponse errorResponse = ErrorResponse.create().errorCode("error.NotLogin");
+			ErrorResponse errorResponse = ErrorResponse.builder()
+					.status(HttpStatus.UNAUTHORIZED)
+					.messageByCode("error.NotLogin")
+					.build();
 			response.getWriter().write(objectMapper.writeValueAsString(errorResponse));
 		} else {
 			request.getRequestDispatcher(DEFAULT_FAILURE_URL).forward(request, response);

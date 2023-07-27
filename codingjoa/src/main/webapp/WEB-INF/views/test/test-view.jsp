@@ -60,9 +60,9 @@
 	
 	function parseError(jqXHR) {
 		try {
-			let errorResponse = JSON.parse(jqXHR.responseText);
-			console.log(JSON.stringify(errorResponse, null, 2));
-			return errorResponse;
+			let testResponse = JSON.parse(jqXHR.responseText);
+			console.log(JSON.stringify(testResponse, null, 2));
+			return testResponse;
 		} catch(e) {
 			alert("## Parsing Error");
 			return null;
@@ -71,17 +71,20 @@
 	
 	function proccessError(jqXHR) {
 		try {
-			let errorResponse = JSON.parse(jqXHR.responseText);
-			let errorMap = errorResponse.errorMap;
-			if (errorMap != null) {
-				$.each(errorMap, function(errorField, errorMessage) {
-					console.log("> errorField = %s, errorMessage = %s", errorField, errorMessage);	
+			let testResponse = JSON.parse(jqXHR.responseText);
+			console.log(JSON.stringify(testResponse, null, 2));
+			
+			let details = testResponse.details;
+			if (details.length > 0) {
+				$.each(details, function(index, item) {
+					console.log("> %s / %s", item.field, item.message);	
 				});
 			} else {
-				console.log("> errorMessage = %s", errorResponse.errorMessage);
+				console.log("> message = %s", testResponse.message);
 			}
 		} catch(e) {
-			console.log("## Parsing Error");
+			alert("## Parsing Error");
+			console.log(jqXHR);
 		}
 	}
 
@@ -158,7 +161,6 @@
 			},
 			error : function(jqXHR) {
 				console.log("%c## ERROR","color:red");
-				let errorResponse = parseError(jqXHR);
 				proccessError(jqXHR);
 			}
 		});
@@ -177,7 +179,6 @@
 			},
 			error : function(jqXHR) {
 				console.log("%c## ERROR","color:red");
-				let errorResponse = parseError(jqXHR);
 				proccessError(jqXHR);
 			}
 		});
@@ -208,7 +209,6 @@
 			},
 			error : function(jqXHR) {
 				console.log("%c## ERROR","color:red");
-				let errorResponse = parseError(jqXHR);
 				proccessError(jqXHR);
 			}
 		});
@@ -228,7 +228,6 @@
 			},
 			error : function(jqXHR) {
 				console.log("%c## ERROR","color:red");
-				let errorResponse = parseError(jqXHR);
 				proccessError(jqXHR);
 			}
 		});
@@ -248,7 +247,6 @@
 			},
 			error : function(jqXHR) {
 				console.log("%c## ERROR","color:red");
-				let errorResponse = parseError(jqXHR);
 				proccessError(jqXHR);
 			}
 		});
@@ -268,7 +266,6 @@
 			},
 			error : function(jqXHR) {
 				console.log("%c## ERROR","color:red");
-				let errorResponse = parseError(jqXHR);
 				proccessError(jqXHR);
 			}
 		});

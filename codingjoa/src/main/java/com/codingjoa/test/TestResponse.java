@@ -3,6 +3,7 @@ package com.codingjoa.test;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
@@ -20,13 +21,13 @@ public class TestResponse {
 	
 	private Integer status;
 	private String message;
-	private List<ErrorDetails> errorDetails;
+	private List<ErrorDetails> details;
 	
 	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
 	private LocalDateTime timestamp;
 	
 	private TestResponse() {
-		this.errorDetails = new ArrayList<ErrorDetails>();
+		this.details = new ArrayList<ErrorDetails>();
 		this.timestamp =  LocalDateTime.now();
 	}
 	
@@ -57,29 +58,26 @@ public class TestResponse {
 			return this;
 		}
 		
-		public TestResponseBuilder errorDetails(ErrorDetails errorDetails) {
-            testResponse.errorDetails.add(errorDetails);
+		public TestResponseBuilder details(ErrorDetails errorDetails) {
+            testResponse.details.add(errorDetails);
             return this;
         }
 
-		public TestResponseBuilder errorDetails(List<ErrorDetails> errorDetails) {
-			testResponse.errorDetails.addAll(errorDetails);
+		public TestResponseBuilder details(List<ErrorDetails> errorDetails) {
+			testResponse.details.addAll(errorDetails);
 			return this;
 		}
 		
 		public TestResponseBuilder bindingResult(BindingResult bindingResult) {
-			bindingResult.getFieldErrors().forEach(fieldError -> {
-				ErrorDetails errorDetails = ErrorDetails.builder()
-						.field(fieldError.getField())
-						.messageByCode(fieldError.getCodes()[0], fieldError.getArguments())
-						.build();
-				testResponse.errorDetails.add(errorDetails);
-			});
-			
-			
-			
-			
-			
+			List<ErrorDetails> errorDetails = bindingResult.getFieldErrors()
+					.stream()
+					.map(fieldError -> ErrorDetails.builder()
+							.field(fieldError.getField())
+							.messageByCode(fieldError.getCodes()[0], fieldError.getArguments())
+							.build()
+					)
+					.collect(Collectors.toList());
+			testResponse.details.addAll(errorDetails);
 			return this;
 		}
 		

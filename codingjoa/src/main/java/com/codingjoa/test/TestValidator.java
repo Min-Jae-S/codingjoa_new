@@ -18,7 +18,7 @@ public class TestValidator implements Validator {
 
 	@Override
 	public void validate(Object target, Errors errors) {
-		log.info("-------- {} --------", this.getClass().getSimpleName());
+		log.info("## {}", this.getClass().getSimpleName());
 		
 		Test test = (Test) target;
 		int param4 = test.getParam4();

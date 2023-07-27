@@ -16,6 +16,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
 import com.codingjoa.exception.ExpectedException;
+import com.codingjoa.response.ErrorResponse.ErrorResponseBuilder;
 import com.codingjoa.test.TestException;
 import com.codingjoa.test.TestResponse;
 import com.codingjoa.test.TestResponse.TestResponseBuilder;
@@ -61,10 +62,10 @@ public class ErrorRestHandler {
 					.field(e.getField())
 					.messageByCode(e.getCode())
 					.build();
-			builder.errorDetails(errorDetails);
+			builder.details(errorDetails);
 		}
 		
-		TestResponse testResponse = builder.build();
+		TestResponse testResponse = builder.status(HttpStatus.BAD_REQUEST).build();
 		log.info("\t > {}", testResponse);
 
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(testResponse);
@@ -74,9 +75,12 @@ public class ErrorRestHandler {
 	protected ResponseEntity<Object> handleException(Exception e) {
 		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t > location = {}", e.getStackTrace()[0]);
-		log.info("\t > message = {}", e.getMessage());
+		log.info("\t > original message = {}", e.getMessage());
 
-		ErrorResponse errorResponse = ErrorResponse.create().errorCode("error.Unknown");
+		ErrorResponse errorResponse = ErrorResponse.builder()
+				.status(HttpStatus.BAD_REQUEST)
+				.messageByCode("error.UnKnown")
+				.build();
 		log.info("\t > {}", errorResponse);
 		
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
@@ -86,9 +90,12 @@ public class ErrorRestHandler {
 	protected ResponseEntity<Object> handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
 		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t > location = {}", e.getStackTrace()[0]);
-		log.info("\t > message = {}", e.getMessage());
+		log.info("\t > original message = {}", e.getMessage());
 		
-		ErrorResponse errorResponse = ErrorResponse.create().errorCode("error.InvalidFormat");
+		ErrorResponse errorResponse = ErrorResponse.builder()
+				.status(HttpStatus.BAD_REQUEST)
+				.messageByCode("error.InvalidFormat")
+				.build();
 		log.info("\t > {}", errorResponse);
 		
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
@@ -98,31 +105,35 @@ public class ErrorRestHandler {
 	protected ResponseEntity<Object> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
 		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t > location = {}", e.getStackTrace()[0]);
-		
+		log.info("\t > original message = {}", e.getMessage());
+		log.info("\t > field errors");
 		e.getBindingResult().getFieldErrors().forEach(fieldError -> {
-			log.info("\t > {} / {}", fieldError.getField(), fieldError.getCodes()[0]);
+			log.info("\t\t - {} / {}", fieldError.getField(), fieldError.getCodes()[0]);
 		}); 
 
-		TestResponse testResponse = TestResponse.builder()
+		ErrorResponse errorResponse = ErrorResponse.builder()
+				.status(HttpStatus.UNPROCESSABLE_ENTITY)
 				.bindingResult(e.getBindingResult())
 				.build();
-		log.info("\t > {}", testResponse);
+		log.info("\t > {}", errorResponse);
 		
-		return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(testResponse);
-		
-//		ErrorResponse errorResponse = ErrorResponse.create().bindingResult(e.getBindingResult());
-//		log.info("\t > {}", errorResponse);
-//		
-//		return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(errorResponse);
+		return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(errorResponse);
 	}
 	
 	@ExceptionHandler(ConstraintViolationException.class)
 	protected ResponseEntity<Object> handleConstraintViolationException(ConstraintViolationException e) {
 		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t > location = {}", e.getStackTrace()[0]);
-		log.info("\t > message = {}", e.getMessage());
-		
-		ErrorResponse errorResponse = ErrorResponse.create().errorMessage(e.getMessage());
+		log.info("\t > original message = {}", e.getMessage());
+		log.info("\t > constraint violations");
+		e.getConstraintViolations().forEach(violation -> {
+			log.info("\t\t - invalid value = {}", violation.getInvalidValue());
+		});
+
+		ErrorResponse errorResponse = ErrorResponse.builder()
+				.status(HttpStatus.UNPROCESSABLE_ENTITY)
+				.message(e.getMessage())
+				.build();
 		log.info("\t > {}", errorResponse);
 
 		return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(errorResponse);
@@ -135,9 +146,12 @@ public class ErrorRestHandler {
 	protected ResponseEntity<Object> handlePathVariableExceptionAndTypeMismatchException(Exception e) {
 		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t > location = {}", e.getStackTrace()[0]);
-		log.info("\t > message = {}", e.getMessage());
+		log.info("\t > original message = {}", e.getMessage());
 
-		ErrorResponse errorResponse = ErrorResponse.create().errorMessage(e.getMessage());
+		ErrorResponse errorResponse = ErrorResponse.builder()
+				.status(HttpStatus.BAD_REQUEST)
+				.message(e.getMessage())
+				.build();
 		log.info("\t > {}", errorResponse);
 		
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
@@ -147,21 +161,34 @@ public class ErrorRestHandler {
 	protected ResponseEntity<Object> handleMaxUploadSizeExceededException(MaxUploadSizeExceededException e) {
 		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t > location = {}", e.getStackTrace()[0]);
-		log.info("\t > message = {}", e.getMessage());
+		log.info("\t > original message = {}", e.getMessage());
 		
-		ErrorResponse errorResponse = ErrorResponse.create().errorCode("error.ExceedSize");
+		ErrorResponse errorResponse = ErrorResponse.builder()
+				.status(HttpStatus.BAD_REQUEST)
+				.messageByCode("error.ExceedSize")
+				.build();
 		log.info("\t > {}", errorResponse);
 		
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
 	}
 	
 	@ExceptionHandler(ExpectedException.class)
-	protected ResponseEntity<Object> handleMyException(ExpectedException e) {
+	protected ResponseEntity<Object> handleExpectedException(ExpectedException e) {
 		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t > location = {}", e.getStackTrace()[0]);
-		log.info("\t > message = {}", e.getMessage());
 		
-		ErrorResponse errorResponse = ErrorResponse.create().errorMessage(e.getMessage());
+		ErrorResponseBuilder builder = ErrorResponse.builder().status(HttpStatus.BAD_REQUEST);
+		if (e.getField() == null) { 
+			builder.messageByCode(e.getCode());
+		} else { 
+			ErrorDetails errorDetails = ErrorDetails.builder()
+					.field(e.getField())
+					.messageByCode(e.getCode())
+					.build();
+			builder.details(errorDetails);
+		}
+		
+		ErrorResponse errorResponse = builder.build();
 		log.info("\t > {}", errorResponse);
 		
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);

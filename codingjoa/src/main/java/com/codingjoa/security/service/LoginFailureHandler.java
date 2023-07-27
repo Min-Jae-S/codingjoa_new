@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationDetailsSource;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -39,15 +40,18 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
 			AuthenticationException e) throws IOException, ServletException {
 		log.info("## {}", this.getClass().getSimpleName());
 		log.info("\t > referer = {}", request.getHeader("referer"));
+		log.info("\t > exception = {}", e.getClass().getSimpleName());
 		
 		String errorMessage = MessageUtils.getMessage("error.Login");
 		if (e instanceof LoginRequireFieldException || 
 				e instanceof UsernameNotFoundException || e instanceof BadCredentialsException) {
 			errorMessage = e.getMessage();
 		}
-		log.info("\t > {} : {}", e.getClass().getSimpleName(), errorMessage);
 		
-		ErrorResponse errorResponse = ErrorResponse.create().errorMessage(errorMessage);
+		ErrorResponse errorResponse = ErrorResponse.builder()
+				.status(HttpStatus.UNAUTHORIZED)
+				.message(errorMessage)
+				.build();
 		request.setAttribute("errorResponse", errorResponse);
 		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
