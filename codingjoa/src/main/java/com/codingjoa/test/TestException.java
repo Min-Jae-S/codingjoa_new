@@ -1,23 +1,21 @@
 package com.codingjoa.test;
 
-import com.codingjoa.response.ErrorDetails;
-
 import lombok.Getter;
 
 @SuppressWarnings("serial")
 @Getter
 public class TestException extends RuntimeException {
 	
-	private final ErrorDetails errorDetails;
+	private final String code;
+	private final String field;
 	
-	public TestException(ErrorDetails errorDetails) {
-		super();
-		this.errorDetails = errorDetails;
+	public TestException(String code) {
+		this.code = code;
+		this.field = null;
 	}
 
-	public TestException(String message, ErrorDetails errorDetails) {
-		super(message);
-		this.errorDetails = errorDetails;
+	public TestException(String code, String field) {
+		this.code = code;
+		this.field = field;
 	}
-	
 }

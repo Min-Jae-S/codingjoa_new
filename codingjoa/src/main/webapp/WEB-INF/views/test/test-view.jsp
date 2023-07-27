@@ -46,7 +46,7 @@
 	<div class="d-flex justify-content-center mt-5">
 		<button class="btn btn-warning btn-lg mx-3" onclick="testException1()">e1</button>
 		<button class="btn btn-warning btn-lg mx-3" onclick="testException2()">e2</button>
-		<button class="btn btn-warning btn-lg mx-3" onclick="testBuilder()">builder</button>
+		<button class="btn btn-warning btn-lg mx-3" onclick="testException3()">e3</button>
 		<button class="btn btn-warning btn-lg mx-3" onclick="testResponse()">response</button>
 		<button class="btn btn-secondary btn-lg mx-3" onclick="colored_console()">console</button>
 	</div>
@@ -233,9 +233,9 @@
 			}
 		});
 	}
-	
-	function testBuilder() {
-		let url = "${contextPath}/test/test-builder";
+
+	function testException3() {
+		let url = "${contextPath}/test/test-exception3";
 		console.log("## url = %s", url);
 		$.ajax({
 			type : "GET",
@@ -253,7 +253,7 @@
 			}
 		});
 	}
-
+	
 	function testResponse() {
 		let url = "${contextPath}/test/test-response";
 		console.log("## url = %s", url);

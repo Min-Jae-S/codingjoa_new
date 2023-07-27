@@ -22,7 +22,7 @@ public class TestResponse {
 	private String message;
 	private List<ErrorDetails> errorDetails;
 	
-	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:ss:mm", timezone = "Asia/Seoul")
+	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
 	private LocalDateTime timestamp;
 	
 	private TestResponse() {

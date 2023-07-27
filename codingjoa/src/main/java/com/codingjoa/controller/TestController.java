@@ -23,7 +23,6 @@ import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 import org.springframework.web.util.UriComponents;
 
 import com.codingjoa.exception.ExpectedException;
-import com.codingjoa.response.ErrorDetails;
 import com.codingjoa.response.SuccessResponse;
 import com.codingjoa.service.TestTxService;
 import com.codingjoa.test.Test;
@@ -305,37 +304,24 @@ public class TestController {
 	@GetMapping("/test-exception2")
 	public ResponseEntity<Object> testException2() {
 		log.info("## testException2");
-		throw new TestException(ErrorDetails.builder()
-				.field("")
-				.messageByCode(null)
-				.build()
-			);
+		throw new TestException("error.NotFoundBoard");
 	}
 
 	@ResponseBody
-	@GetMapping("/test-builder")
-	public ResponseEntity<Object> testBuilder() {
-		log.info("## testBuilder");
-		log.info("\t > builder = {}", TestResponse.builder());
-		return ResponseEntity.ok().body(SuccessResponse.create().data("success"));
+	@GetMapping("/test-exception3")
+	public ResponseEntity<Object> testException3() {
+		log.info("## testException3");
+		throw new TestException("boardIdx", "error.NotFoundBoard");
 	}
 
 	@ResponseBody
 	@GetMapping("/test-response")
 	public ResponseEntity<Object> testResponse() {
 		log.info("## testResponse");
-		
 		TestResponse testResponse1 = TestResponse.builder()
 				.messageByCode("error.Test")
 				.build();
 		log.info("\t > testResponse1 = {}", testResponse1);
-
-		TestResponse testResponse2 = TestResponse.builder()
-				.messageByCode("error.Test")
-				.message("교체된 message입니다.")
-				.build();
-		log.info("\t > testResponse2 = {}", testResponse2);
-
 		return ResponseEntity.ok().body(SuccessResponse.create().data("success"));
 	}
 }
