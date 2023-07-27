@@ -22,10 +22,6 @@
 		font-weight: bold;
 	}
 	
-	button {
-		width: 160px;
-	}
-	
 	div {
 		padding-left: 1.3rem;
 		padding-right: 1.3rem;
@@ -36,7 +32,7 @@
 <c:import url="/WEB-INF/views/include/top-menu.jsp"/>
 <div>
 	<p>TEST</p>
-	<div class="d-flex justify-content-center mt-5">
+	<div class="d-none justify-content-center mt-5">
 		<button class="btn btn-danger btn-lg mx-3" onclick="test1()">test1</button>
 		<button class="btn btn-danger btn-lg mx-3" onclick="test2()">test2</button>
 		<button class="btn btn-danger btn-lg mx-3" onclick="test3()">test3</button>
@@ -44,11 +40,11 @@
 		<button class="btn btn-primary btn-lg mx-3" onclick="test5()">test5</button>
 	</div>
 	<div class="d-flex justify-content-center mt-5">
-		<button class="btn btn-warning btn-lg mx-3" onclick="testException1()">e1</button>
-		<button class="btn btn-warning btn-lg mx-3" onclick="testException2()">e2</button>
-		<button class="btn btn-warning btn-lg mx-3" onclick="testException3()">e3</button>
+		<button class="btn btn-warning btn-lg mx-3" onclick="methodArgumentException()">method-argument E</button>
+		<button class="btn btn-warning btn-lg mx-3" onclick="expectedException1()">expectedE1</button>
+		<button class="btn btn-warning btn-lg mx-3" onclick="expectedException2()">expectedE2</button>
 		<button class="btn btn-warning btn-lg mx-3" onclick="testResponse()">response</button>
-		<button class="btn btn-secondary btn-lg mx-3" onclick="colored_console()">console</button>
+		<!-- <button class="btn btn-secondary btn-lg" onclick="colored_console()">console</button> -->
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
@@ -60,9 +56,9 @@
 	
 	function parseError(jqXHR) {
 		try {
-			let testResponse = JSON.parse(jqXHR.responseText);
-			console.log(JSON.stringify(testResponse, null, 2));
-			return testResponse;
+			let errorResponse = JSON.parse(jqXHR.responseText);
+			console.log(JSON.stringify(errorResponse, null, 2));
+			return errorResponse;
 		} catch(e) {
 			alert("## Parsing Error");
 			return null;
@@ -71,16 +67,16 @@
 	
 	function proccessError(jqXHR) {
 		try {
-			let testResponse = JSON.parse(jqXHR.responseText);
-			console.log(JSON.stringify(testResponse, null, 2));
+			let errorResponse = JSON.parse(jqXHR.responseText);
+			console.log(JSON.stringify(errorResponse, null, 2));
 			
-			let details = testResponse.details;
+			let details = errorResponse.details;
 			if (details.length > 0) {
 				$.each(details, function(index, item) {
-					console.log("> %s / %s", item.field, item.message);	
+					//console.log("> %s / %s", item.field, item.message);	
 				});
 			} else {
-				console.log("> message = %s", testResponse.message);
+				alert(errorResponse.message);
 			}
 		} catch(e) {
 			alert("## Parsing Error");
@@ -184,8 +180,8 @@
 		});
 	}
 	
-	function testException1() {
-		let url = "${contextPath}/test/test-exception1";
+	function methodArgumentException() {
+		let url = "${contextPath}/test/method-argument-exception";
 		console.log("## url = %s", url);
 		$.ajax({
 			type : "POST",
@@ -214,8 +210,8 @@
 		});
 	}
 
-	function testException2() {
-		let url = "${contextPath}/test/test-exception2";
+	function expectedException1() {
+		let url = "${contextPath}/test/expected-exception1";
 		console.log("## url = %s", url);
 		$.ajax({
 			type : "GET",
@@ -233,8 +229,8 @@
 		});
 	}
 
-	function testException3() {
-		let url = "${contextPath}/test/test-exception3";
+	function expectedException2() {
+		let url = "${contextPath}/test/expected-exception2";
 		console.log("## url = %s", url);
 		$.ajax({
 			type : "GET",

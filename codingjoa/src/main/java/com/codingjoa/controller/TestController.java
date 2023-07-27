@@ -26,7 +26,6 @@ import com.codingjoa.exception.ExpectedException;
 import com.codingjoa.response.SuccessResponse;
 import com.codingjoa.service.TestTxService;
 import com.codingjoa.test.Test;
-import com.codingjoa.test.TestException;
 import com.codingjoa.test.TestResponse;
 import com.codingjoa.test.TestValidator;
 
@@ -294,24 +293,24 @@ public class TestController {
 	}
 	
 	@ResponseBody
-	@PostMapping("/test-exception1")
-	public ResponseEntity<Object> testException1(@RequestBody @Valid Test test) {
-		log.info("## testException1");
+	@PostMapping("/method-argument-exception")
+	public ResponseEntity<Object> methodArgumentException(@RequestBody @Valid Test test) {
+		log.info("## methodArgumentException");
 		return ResponseEntity.ok().body(SuccessResponse.create().data("success"));
 	}
 
 	@ResponseBody
-	@GetMapping("/test-exception2")
-	public ResponseEntity<Object> testException2() {
-		log.info("## testException2");
-		throw new TestException("error.NotFoundBoard");
+	@GetMapping("/expected-exception1")
+	public ResponseEntity<Object> expectedException1() {
+		log.info("## expectedException1");
+		throw new ExpectedException("error.NotFoundBoard");
 	}
 
 	@ResponseBody
-	@GetMapping("/test-exception3")
-	public ResponseEntity<Object> testException3() {
-		log.info("## testException3");
-		throw new TestException("boardIdx", "error.NotFoundBoard");
+	@GetMapping("/expected-exception2")
+	public ResponseEntity<Object> expectedException2() {
+		log.info("## expectedException2");
+		throw new ExpectedException("boardIdx", "error.NotFoundBoard");
 	}
 
 	@ResponseBody
