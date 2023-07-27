@@ -20,7 +20,6 @@ import com.codingjoa.pagination.Criteria;
 import com.codingjoa.pagination.Pagination;
 import com.codingjoa.service.BoardService;
 import com.codingjoa.service.UploadService;
-import com.codingjoa.util.MessageUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -52,7 +51,7 @@ public class BoardServiceImpl implements BoardService {
 		log.info("\t > DB boardIdx = {}", DBboardIdx);
 		
 		if (DBboardIdx == null) {
-			throw new ExpectedException(MessageUtils.getMessage("error.WriteBoard"));
+			throw new ExpectedException("error.WriteBoard");
 		}
 
 		boardDto.setBoardIdx(DBboardIdx);
@@ -65,7 +64,7 @@ public class BoardServiceImpl implements BoardService {
 		log.info("\t > find boardDetails, {}", boardDetailsMap);
 		
 		if (boardDetailsMap == null) {
-			throw new ExpectedException(MessageUtils.getMessage("error.NotFoundBoard"));
+			throw new ExpectedException("error.NotFoundBoard");
 		}
 		
 		return modelMapper.map(boardDetailsMap, BoardDetailsDto.class);
@@ -117,7 +116,7 @@ public class BoardServiceImpl implements BoardService {
 		log.info("\t > find modifyBoard, {}", board);
 
 		if (board == null) {
-			throw new ExpectedException(MessageUtils.getMessage("error.NotFoundBoard"));
+			throw new ExpectedException("error.NotFoundBoard");
 		}
 		
 		Integer DBboardWriterIdx = board.getBoardWriterIdx();
@@ -125,7 +124,7 @@ public class BoardServiceImpl implements BoardService {
 		log.info("\t > DB boardWriterIdx = {}", DBboardWriterIdx);
 		
 		if (DBboardWriterIdx != boardWriterIdx) {
-			throw new ExpectedException(MessageUtils.getMessage("error.NotMyBoard"));
+			throw new ExpectedException("error.NotMyBoard");
 		}
 		
 		return modelMapper.map(board, BoardDto.class);
@@ -142,11 +141,11 @@ public class BoardServiceImpl implements BoardService {
 		log.info("\t > DB boardWriterIdx = {}", DBboardWriterIdx);
 		
 		if (DBboardWriterIdx == null) {
-			throw new ExpectedException(MessageUtils.getMessage("error.UpdateBoard"));
+			throw new ExpectedException("error.UpdateBoard");
 		}
 		
 		if (DBboardWriterIdx != boardDto.getBoardWriterIdx()) {
-			throw new ExpectedException(MessageUtils.getMessage("error.NotMyBoard"));
+			throw new ExpectedException("error.NotMyBoard");
 		}
 		
 		uploadService.deactivateImage(boardDto);
@@ -169,11 +168,11 @@ public class BoardServiceImpl implements BoardService {
 		log.info("\t > DB boardWriterIdx = {}, DB boardCategoryCode = {}", DBboardWriterIdx, board.getBoardCategoryCode());
 		
 		if (DBboardWriterIdx == null) {
-			throw new ExpectedException(MessageUtils.getMessage("error.DeleteBoard"));
+			throw new ExpectedException("error.DeleteBoard");
 		}
 		
 		if (DBboardWriterIdx != boardDto.getBoardWriterIdx()) {
-			throw new ExpectedException(MessageUtils.getMessage("error.NotMyBoard"));
+			throw new ExpectedException("error.NotMyBoard");
 		}
 		
 		boardDto.setBoardCategoryCode(board.getBoardCategoryCode());

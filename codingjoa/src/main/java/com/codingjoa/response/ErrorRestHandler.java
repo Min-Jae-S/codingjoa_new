@@ -176,6 +176,7 @@ public class ErrorRestHandler {
 	protected ResponseEntity<Object> handleExpectedException(ExpectedException e) {
 		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t > location = {}", e.getStackTrace()[0]);
+		log.info("\t > original message = {}", e.getMessage());
 		
 		ErrorResponseBuilder builder = ErrorResponse.builder().status(HttpStatus.BAD_REQUEST);
 		if (e.getField() == null) { 

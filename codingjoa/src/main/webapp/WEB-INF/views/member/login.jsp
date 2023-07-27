@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />  
 <!DOCTYPE html>
@@ -71,8 +72,13 @@
 							<form:password path="memberPassword" class="form-control" placeholder="비밀번호 입력" showPassword="true" autocomplete="off"/>
 						</div>
 						<c:if test="${not empty errorResponse}">
-							<div class="error">${errorResponse.errorMessage}</div>
-							<div class="error d-none">${errorResponse.responseDateTime}</div>
+							<div class="error">
+								<c:out value="${errorResponse.message}"/>
+							</div>
+							<div class="error d-none">
+								<fmt:parseDate value="${errorResponse.timestamp}" pattern="yyyy-MM-dd'T'HH:mm:ss" var="parsedDateTime" type="both"/>
+								<fmt:formatDate value="${parsedDateTime}" pattern="yyyy-MM-dd'T'HH:mm:ss"/>
+							</div>
 						</c:if>
 						<div class="form-group pt-4 mb-4">
 							<form:button class="btn btn-primary btn-block">로그인</form:button>
@@ -98,6 +104,19 @@
 
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 
+<script>
+	$(function() {
+		<fmt:parseDate value="${errorResponse.timestamp}" pattern="yyyy-MM-dd'T'HH:mm:ss" var="parsedDateTime" type="both"/>
+		<fmt:formatDate value="${parsedDateTime}" pattern="yyyy-MM-dd'T'HH:mm:ss" var="timestamp"/>
+		let errorResponse = {
+			status : <c:out value='${errorResponse.status}'/>,
+			message : "<c:out value='${errorResponse.message}'/>",
+			details : <c:out value='${errorResponse.details}'/>,
+			timestamp : "<c:out value='${timestamp}'/>"
+		};
+		console.log(JSON.stringify(errorResponse, null, 2));
+	})
+</script>
 </body>
 
 </html>

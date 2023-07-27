@@ -11,20 +11,8 @@ function parseError(jqXHR) {
 		console.log(JSON.stringify(errorResponse, null, 2));
 		return errorResponse;
 	} catch(e) {
-		console.log("## %s", e);
+		alert("## Parsing Error");
 		return null;
-	}
-}
-
-function parseErrorResponse(errorResponse) {
-	let details = errorResponse.details;
-	if (details.length > 0) {
-		$.each(details, function(index, item) {
-			$("#" + item.field).closest("dd")
-				.after("<dd id='" + item.field + ".errors' class='error'>" + item.message + "</dd>");
-		});
-	} else {
-		alert(errorResponse.message);
 	}
 }
 
@@ -54,18 +42,17 @@ let memberService = (function() {
 				$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
 				let errorResponse = parseError(jqXHR);
 				if (errorResponse != null) {
-					let details = errorResponse.details;
-					if (details.length > 0) {
-						$.each(details, function(index, item) {
+					let errorMap = errorResponse.errorMap;
+					if (errorMap != null) {
+						$.each(errorMap, function(errorField, errorMessage) {
 							$("#authCode").closest("div")
-								.after("<span id='" + item.field + ".errors' class='error'>" + item.message + "</span>");
+								.after("<span id='" + errorField + ".errors' class='error'>" + errorMessage + "</span>");
 						});
 					} else {
-						alert(errorResponse.message);
+						$("#authCode").closest("div")
+							.after("<span id='memberEmail.errors' class='error'>" + errorResponse.errorMessage + "</span>");
 					}
-				} else {
-					alert("## No ErrorResponse");
-				}
+				} 
 			}
 		});
 	}
@@ -92,10 +79,17 @@ let memberService = (function() {
 				$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
 				let errorResponse = parseError(jqXHR);
 				if (errorResponse != null) {
-					parseErrorResponse(errorResponse);
-				} else {
-					alert("## No ErrorResponse");
-				}
+					let errorMap = errorResponse.errorMap;
+					if (errorMap != null) {
+						$.each(errorMap, function(errorField, errorMessage) {
+							$("#" + errorField).closest("dd")
+								.after("<dd id='" + errorField + ".errors' class='error'>" + errorMessage + "</dd>");
+						});
+					} else {
+						$("#memberEmail").closest("dd")
+							.after("<dd id='memberEmail.errors' class='error'>" + errorResponse.errorMessage + "</dd>");
+					}
+				} 
 			}
 		});
 	}
@@ -122,10 +116,16 @@ let memberService = (function() {
 				$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
 				let errorResponse = parseError(jqXHR);
 				if (errorResponse != null) {
-					parseErrorResponse(errorResponse);
-				} else {
-					alert("## No ErrorResponse");
-				}
+					let errorMap = errorResponse.errorMap;
+					if (errorMap != null) {
+						$.each(errorMap, function(errorField, errorMessage) {
+							$("#" + errorField).closest("dd")
+								.after("<dd id='" + errorField + ".errors' class='error'>" + errorMessage + "</dd>");
+						});
+					} else {
+						alert(errorResponse.errorMessage);
+					}
+				} 
 			}
 		});
 	}
@@ -152,10 +152,16 @@ let memberService = (function() {
 				$("#memberZipcode\\.errors, #memberAddr\\.errors, #memberAddrDetail\\.errors").remove();
 				let errorResponse = parseError(jqXHR);
 				if (errorResponse != null) {
-					parseErrorResponse(errorResponse);
-				} else {
-					alert("## No ErrorResponse");
-				}
+					let errorMap = errorResponse.errorMap;
+					if (errorMap != null) {
+						$.each(errorMap, function(errorField, errorMessage) {
+							$("#" + errorField).closest("dd")
+								.after("<dd id='" + errorField + ".errors' class='error'>" + errorMessage + "</dd>");
+						});
+					} else {
+						alert(errorResponse.errorMessage);
+					}
+				} 
 			}
 		});
 	}
@@ -182,9 +188,15 @@ let memberService = (function() {
 				$("#memberAgree\\.errors").remove();
 				let errorResponse = parseError(jqXHR);
 				if (errorResponse != null) {
-					parseErrorResponse(errorResponse);
-				} else {
-					alert("## No ErrorResponse");
+					let errorMap = errorResponse.errorMap;
+					if (errorMap != null) {
+						$.each(errorMap, function(errorField, errorMessage) {
+							$("#" + errorField).closest("dd")
+								.after("<dd id='" + errorField + ".errors' class='error'>" + errorMessage + "</dd>");
+						});
+					} else {
+						alert(errorResponse.errorMessage);
+					}
 				}
 			}
 		});
@@ -208,9 +220,7 @@ let memberService = (function() {
 				console.log("%c> ERROR","color:red");
 				let errorResponse = parseError(jqXHR);
 				if (errorResponse != null) {
-					parseErrorResponse(errorResponse);
-				} else {
-					alert("## No ErrorResponse");
+					alert(errorResponse.errorMessage);
 				}
 			}
 		});

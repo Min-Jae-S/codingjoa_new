@@ -12,7 +12,6 @@ import com.codingjoa.entity.Member;
 import com.codingjoa.exception.ExpectedException;
 import com.codingjoa.mapper.MemberMapper;
 import com.codingjoa.service.MemberService;
-import com.codingjoa.util.MessageUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -37,14 +36,14 @@ public class MemberServiceImpl implements MemberService {
 		joinDto.setMemberPassword(encPassword);
 		
 		Member member = modelMapper.map(joinDto, Member.class);
-		log.info("joinDto ==> {}", member);
+		log.info("\t > joinDto ==> {}", member);
 		
 		memberMapper.registerMember(member);
 		
 		Auth auth = new Auth();
 		auth.setMemberId(joinDto.getMemberId());
 		auth.setMemberRole("ROLE_MEMBER");
-		log.info("{}", auth);
+		log.info("\t > {}", auth);
 		
 		memberMapper.registerAuth(auth);
 	}
@@ -58,7 +57,7 @@ public class MemberServiceImpl implements MemberService {
 	public void checkEmailForJoin(String memberEmail) {
 		Member member = memberMapper.findMemberByEmail(memberEmail);
 		if (member != null) {
-			throw new ExpectedException(MessageUtils.getMessage("error.EmailExist"));
+			throw new ExpectedException("memberEmail", "error.EmailExist");
 		}
 	}
 	
@@ -67,12 +66,12 @@ public class MemberServiceImpl implements MemberService {
 		Member currentMember = memberMapper.findMemberByIdx(memberIdx);
 		String currentEmail = currentMember.getMemberEmail();
 		if (memberEmail.equals(currentEmail)) {
-			throw new ExpectedException(MessageUtils.getMessage("error.NotMyEmail"));
+			throw new ExpectedException("memberEmail", "error.NotMyEmail");
 		}
 		
 		Member member = memberMapper.findMemberByEmail(memberEmail);
 		if (member != null) {
-			throw new ExpectedException(MessageUtils.getMessage("error.EmailExist"));
+			throw new ExpectedException("memberEmail", "error.EmailExist");
 		}
 	}
 	
@@ -80,7 +79,7 @@ public class MemberServiceImpl implements MemberService {
 	public void checkEmailForReset(String memberEmail) {
 		Member member = memberMapper.findMemberByEmail(memberEmail);
 		if (member == null) {
-			throw new ExpectedException(MessageUtils.getMessage("error.NotEmailExist"));
+			throw new ExpectedException("memberEmail", "error.NotEmailExist");
 		}
 	}
 	
@@ -88,7 +87,7 @@ public class MemberServiceImpl implements MemberService {
 	public String getMemberIdByEmail(String memberEmail) {
 		Member member = memberMapper.findMemberByEmail(memberEmail);
 		if (member == null) {
-			throw new ExpectedException(MessageUtils.getMessage("error.NotEmailExist"));
+			throw new ExpectedException("memberEmail", "error.NotEmailExist");
 		}
 		
 		return member.getMemberId();
@@ -98,7 +97,7 @@ public class MemberServiceImpl implements MemberService {
 	public Integer getMemberIdxByIdAndEmail(String memberId, String memberEmail) {
 		Member member = memberMapper.findMemeberByIdAndEmail(memberId, memberEmail);
 		if (member == null) {
-			throw new ExpectedException(MessageUtils.getMessage("error.NotIdOrEmailExist"));
+			throw new ExpectedException("memberId", "error.NotIdOrEmailExist");
 		}
 		
 		return member.getMemberIdx();
@@ -108,7 +107,7 @@ public class MemberServiceImpl implements MemberService {
 	public void updateEmail(String memberEmail, Integer memberIdx) {
 		Member modifiedMember = memberMapper.findMemberByIdx(memberIdx);
 		if (modifiedMember == null) {
-			throw new ExpectedException(MessageUtils.getMessage("error.NotFoundMember"));
+			throw new ExpectedException("error.NotFoundMember");
 		}
 		
 		modifiedMember.setMemberEmail(memberEmail);
@@ -119,7 +118,7 @@ public class MemberServiceImpl implements MemberService {
 	public void updateAddr(String memberZipcode, String memberAddr, String memberAddrDetail, Integer memberIdx) {
 		Member modifiedMember = memberMapper.findMemberByIdx(memberIdx);
 		if (modifiedMember == null) {
-			throw new ExpectedException(MessageUtils.getMessage("error.NotFoundMember"));
+			throw new ExpectedException("error.NotFoundMember");
 		}
 		
 		modifiedMember.setMemberZipcode(memberZipcode);
@@ -132,7 +131,7 @@ public class MemberServiceImpl implements MemberService {
 	public void updateAgree(boolean memberAgree, Integer memberIdx) {
 		Member modifiedMember = memberMapper.findMemberByIdx(memberIdx);
 		if (modifiedMember == null) {
-			throw new ExpectedException(MessageUtils.getMessage("error.NotFoundMember"));
+			throw new ExpectedException("error.NotFoundMember");
 		}
 		
 		modifiedMember.setMemberAgree(memberAgree);
@@ -143,12 +142,12 @@ public class MemberServiceImpl implements MemberService {
 	public void checkCurrentPassword(String memberPassword, Integer memberIdx) {
 		Member member = memberMapper.findMemberByIdx(memberIdx);
 		if (member == null) {
-			throw new ExpectedException(MessageUtils.getMessage("error.NotFoundMember"));
+			throw new ExpectedException("error.NotFoundMember");
 		}
 		
 		String currentPassword = member.getMemberPassword();
 		if (!passwordEncoder.matches(memberPassword, currentPassword)) {
-			throw new ExpectedException(MessageUtils.getMessage("error.BadCredentials"));
+			throw new ExpectedException("memberPassword", "error.BadCredentials");
 		}
 	}
 
@@ -156,12 +155,12 @@ public class MemberServiceImpl implements MemberService {
 	public void updatePassword(String memberPassword, Integer memberIdx) {
 		Member modifiedMember = memberMapper.findMemberByIdx(memberIdx);
 		if (modifiedMember == null) {
-			throw new ExpectedException(MessageUtils.getMessage("error.NotFoundMember"));
+			throw new ExpectedException("error.NotFoundMember");
 		}
 		
 		String currentPassword = modifiedMember.getMemberPassword();
 		if (passwordEncoder.matches(memberPassword, currentPassword)) {
-			throw new ExpectedException(MessageUtils.getMessage("error.NotCurrentPassword"));
+			throw new ExpectedException("memberPassword", "error.NotCurrentPassword");
 		}
 		
 		String encPassword = passwordEncoder.encode(memberPassword);

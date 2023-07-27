@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import com.codingjoa.exception.ExpectedException;
+import com.codingjoa.response.ErrorResponse.ErrorResponseBuilder;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -110,10 +111,18 @@ public class ErrorHtmlHandler {
 		log.info("\t > location = {}", e.getStackTrace()[0]);
 		log.info("\t > original message = {}", e.getMessage());
 		
-		ErrorResponse errorResponse = ErrorResponse.builder()
-				.status(HttpStatus.BAD_REQUEST)
-				.message(e.getMessage())
-				.build();
+		ErrorResponseBuilder builder = ErrorResponse.builder().status(HttpStatus.BAD_REQUEST);
+		if (e.getField() == null) { 
+			builder.messageByCode(e.getCode());
+		} else { 
+			ErrorDetails errorDetails = ErrorDetails.builder()
+					.field(e.getField())
+					.messageByCode(e.getCode())
+					.build();
+			builder.details(errorDetails);
+		}
+		
+		ErrorResponse errorResponse = builder.build();
 		log.info("\t > {}", errorResponse);
 
 		request.setAttribute("errorResponse", errorResponse);

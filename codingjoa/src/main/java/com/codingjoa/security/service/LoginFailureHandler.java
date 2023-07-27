@@ -40,13 +40,13 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
 			AuthenticationException e) throws IOException, ServletException {
 		log.info("## {}", this.getClass().getSimpleName());
 		log.info("\t > referer = {}", request.getHeader("referer"));
-		log.info("\t > exception = {}", e.getClass().getSimpleName());
 		
 		String errorMessage = MessageUtils.getMessage("error.Login");
 		if (e instanceof LoginRequireFieldException || 
 				e instanceof UsernameNotFoundException || e instanceof BadCredentialsException) {
 			errorMessage = e.getMessage();
 		}
+		log.info("\t > e = {}, message = {}", e.getClass().getSimpleName(), errorMessage);
 		
 		ErrorResponse errorResponse = ErrorResponse.builder()
 				.status(HttpStatus.UNAUTHORIZED)
@@ -65,7 +65,7 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
 		request.getRequestDispatcher(DEFAULT_FAILURE_URL).forward(request, response);
 	}
 	
-	// AnonymousAuthenticationFilter#createAuthentication(HttpServletRequest)
+	// ref) AnonymousAuthenticationFilter#createAuthentication(HttpServletRequest)
 	protected Authentication createAuthentication(HttpServletRequest request) {
 		// null object pattern 
 		AnonymousAuthenticationToken auth = new AnonymousAuthenticationToken(key, "anonymousUser",
