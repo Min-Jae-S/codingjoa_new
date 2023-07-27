@@ -136,12 +136,18 @@
 				memberEmail : $("#memberEmail").val()
 			};
 			
+			$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
 			memberService.sendAuthCodeForJoin(obj, function(result) {
-				$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
 				$("#authCode").closest("div").after("<span class='success'>" + result.message + "</span>");
 				$("#authCode").val("");
 				$("#authCode").focus();
 			});
+		});
+		
+		$("#memberEmail").on("keydown", function(e) {
+			if (e.keyCode == 13) {
+				$("#sendAuthCodeBtn").click();
+			}
 		});
 		
 		$("#agreeJoinCheck").on("change", function() {
