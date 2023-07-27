@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -30,6 +31,7 @@ import org.springframework.web.util.UriComponents;
 
 import com.codingjoa.dto.AddrDto;
 import com.codingjoa.dto.AgreeDto;
+import com.codingjoa.dto.CurrentMemberDto;
 import com.codingjoa.dto.EmailAuthDto;
 import com.codingjoa.dto.EmailDto;
 import com.codingjoa.dto.FindPasswordDto;
@@ -63,6 +65,9 @@ public class MemberRestController {
 	
 	@Autowired
 	private RedisService redisService;
+	
+	@Autowired
+	private ModelMapper modelMapper;
 	
 	@InitBinder("emailDto")
 	public void InitBinderEmail(WebDataBinder binder) {
@@ -174,7 +179,8 @@ public class MemberRestController {
 	@GetMapping("/current-member")
 	public ResponseEntity<Object> getCurrentMember(@AuthenticationPrincipal UserDetailsDto principal) {
 		log.info("## getCurrentMember");
-		return ResponseEntity.ok(SuccessResponse.create().data(principal.getMember()));
+		CurrentMemberDto currentMember = modelMapper.map(principal.getMember(), CurrentMemberDto.class);
+		return ResponseEntity.ok(SuccessResponse.create().data(currentMember));
 	}
 	
 	@PostMapping("/check/password")

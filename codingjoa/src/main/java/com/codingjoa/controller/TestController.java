@@ -317,6 +317,6 @@ public class TestController {
 	@GetMapping("/test-exception")
 	public ResponseEntity<Object> exception() {
 		log.info("## testException");
-		throw new TestException("error.Unknown");
+		throw new TestException("error.Test");
 	}
 }

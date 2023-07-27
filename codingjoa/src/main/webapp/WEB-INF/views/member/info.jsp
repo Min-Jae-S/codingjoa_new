@@ -212,8 +212,8 @@
 				memberEmail : $("#memberEmail").val(),
 			};
 			
+			$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
 			memberService.sendAuthCodeForUpdate(obj, function(result) {
-				$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
 				$("#authCode").closest("dd").after("<dd class='success'>" + result.message + "</dd>");
 				$("#authCode").val("");
 				$("#authCode").focus();
@@ -227,6 +227,7 @@
 				authCode : $("#authCode").val()
 			};
 			
+			$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
 			memberService.updateEmail(obj, function(result) {
 				alert(result.message);
 				memberService.getCurrentMember(function(result) {
@@ -240,8 +241,8 @@
 		});
 		
 		$(document).on("keydown", "#memberEmail", function(e) {
-			e.preventDefault();
 			if (e.keyCode == 13) {
+				e.preventDefault();
 				$("#sendAuthCodeBtn").click();
 			}
 		});

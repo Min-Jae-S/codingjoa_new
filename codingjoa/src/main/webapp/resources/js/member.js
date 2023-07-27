@@ -45,12 +45,12 @@ let memberService = (function() {
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
 			success : function(result) {
-				console.log("%c> SUCCESS","color:green");
+				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
 				callback(result);
 			},
 			error : function(jqXHR) {
-				console.log("%c> ERROR","color:red");
+				console.log("%c> ERROR", "color:red");
 				let errorResponse = parseError(jqXHR);
 				if (errorResponse != null) {
 					let details = errorResponse.details;
@@ -82,13 +82,12 @@ let memberService = (function() {
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
 			success : function(result) {
-				console.log("%c> SUCCESS","color:green");
+				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
 				callback(result);
 			},
 			error : function(jqXHR) {
-				console.log("%c> ERROR","color:red");
-				$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
+				console.log("%c> ERROR", "color:red");
 				let errorResponse = parseError(jqXHR);
 				if (errorResponse != null) {
 					parseErrorResponse(errorResponse);
@@ -112,13 +111,12 @@ let memberService = (function() {
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
 			success : function(result) {
-				console.log("%c> SUCCESS","color:green");
+				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
 				callback(result);
 			},
 			error : function(jqXHR) {
-				console.log("%c> ERROR","color:red");
-				$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
+				console.log("%c> ERROR", "color:red");
 				let errorResponse = parseError(jqXHR);
 				if (errorResponse != null) {
 					parseErrorResponse(errorResponse);
