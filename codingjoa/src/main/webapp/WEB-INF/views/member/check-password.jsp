@@ -98,7 +98,6 @@
 				memberPassword : $("#memberPassword").val(),
 			};
 			
-			$(".error").remove();
 			memberService.checkPassword(obj, function(result) {
 				alert(result.message);
 				location.href = "${contextPath}/member/account/updatePassword";

@@ -17,7 +17,6 @@ function parseError(jqXHR) {
 }
 
 function parseErrorResponse(errorResponse) {
-	//$(".error").remove();
 	let details = errorResponse.details;
 	if (details.length > 0) {
 		$.each(details, function(index, item) {
@@ -231,6 +230,7 @@ let memberService = (function() {
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR","color:red");
+				$(".error").remove();
 				let errorResponse = parseError(jqXHR);
 				if (errorResponse != null) {
 					parseErrorResponse(errorResponse);
