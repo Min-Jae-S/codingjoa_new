@@ -40,10 +40,10 @@
 		<button class="btn btn-primary btn-lg mx-3" onclick="test5()">test5</button>
 	</div>
 	<div class="d-flex justify-content-center mt-5">
-		<button class="btn btn-warning btn-lg mx-3" onclick="methodArgumentException()">method-argument E</button>
-		<button class="btn btn-warning btn-lg mx-3" onclick="expectedException1()">expectedE1</button>
-		<button class="btn btn-warning btn-lg mx-3" onclick="expectedException2()">expectedE2</button>
-		<button class="btn btn-warning btn-lg mx-3" onclick="testResponse()">response</button>
+		<button class="btn btn-warning btn-lg mx-3" onclick="methodArgumentException()">method-argumentEx</button>
+		<button class="btn btn-warning btn-lg mx-3" onclick="expectedException1()">expectedEx1</button>
+		<button class="btn btn-warning btn-lg mx-3" onclick="expectedException2()">expectedEx2</button>
+		<button class="btn btn-warning btn-lg mx-3" onclick="testException()">textEx</button>
 		<!-- <button class="btn btn-secondary btn-lg" onclick="colored_console()">console</button> -->
 	</div>
 </div>
@@ -248,8 +248,8 @@
 		});
 	}
 	
-	function testResponse() {
-		let url = "${contextPath}/test/test-response";
+	function testException() {
+		let url = "${contextPath}/test/test-exception";
 		console.log("## url = %s", url);
 		$.ajax({
 			type : "GET",
@@ -266,47 +266,6 @@
 			}
 		});
 	}
-
-	function sampleAnno() {
-		let url = "${contextPath}/test/sample-anno";
-		console.log("## url = %s", url);
-		$.ajax({
-			type : "GET",
-			url : url,
-			contentType : "application/json;charset=utf-8",
-			dataType : "json",
-			success : function(result) {
-				console.log("%c## SUCCESS","color:blue");
-				console.log(JSON.stringify(result, null, 2));
-			},
-			error : function(jqXHR) {
-				console.log("%c## ERROR","color:red");
-				let errorResponse = parseError(jqXHR);
-				proccessError(jqXHR);
-			}
-		});
-	}
-
-	function sample() {
-		let url = "${contextPath}/test/sample";
-		console.log("## url = %s", url);
-		$.ajax({
-			type : "GET",
-			url : url,
-			contentType : "application/json;charset=utf-8",
-			dataType : "json",
-			success : function(result) {
-				console.log("%c## SUCCESS","color:blue");
-				console.log(JSON.stringify(result, null, 2));
-			},
-			error : function(jqXHR) {
-				console.log("%c## ERROR","color:red");
-				let errorResponse = parseError(jqXHR);
-				proccessError(jqXHR);
-			}
-		});
-	}
-	
 </script>
 </body>
 </html>

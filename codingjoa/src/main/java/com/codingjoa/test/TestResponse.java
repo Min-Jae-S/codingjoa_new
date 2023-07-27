@@ -19,7 +19,7 @@ import lombok.ToString;
 @Getter
 public class TestResponse {
 	
-	private Integer status;
+	private HttpStatus status;
 	private String message;
 	private List<ErrorDetails> details;
 	
@@ -44,7 +44,7 @@ public class TestResponse {
 		}
 		
 		public TestResponseBuilder status(HttpStatus httpStatus) {
-			testResponse.status = httpStatus.value();
+			testResponse.status = httpStatus;
 			return this;
 		}
 

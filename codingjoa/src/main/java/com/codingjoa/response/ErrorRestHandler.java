@@ -54,7 +54,7 @@ public class ErrorRestHandler {
 	protected ResponseEntity<Object> handleTestException(TestException e) {
 		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		
-		TestResponseBuilder builder = TestResponse.builder();
+		TestResponseBuilder builder = TestResponse.builder().status(HttpStatus.BAD_REQUEST);
 		if (e.getField() == null) { 
 			builder.messageByCode(e.getCode());
 		} else { 
@@ -65,7 +65,7 @@ public class ErrorRestHandler {
 			builder.details(errorDetails);
 		}
 		
-		TestResponse testResponse = builder.status(HttpStatus.BAD_REQUEST).build();
+		TestResponse testResponse = builder.build();
 		log.info("\t > {}", testResponse);
 
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(testResponse);

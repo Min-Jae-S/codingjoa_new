@@ -26,7 +26,7 @@ import com.codingjoa.exception.ExpectedException;
 import com.codingjoa.response.SuccessResponse;
 import com.codingjoa.service.TestTxService;
 import com.codingjoa.test.Test;
-import com.codingjoa.test.TestResponse;
+import com.codingjoa.test.TestException;
 import com.codingjoa.test.TestValidator;
 
 import lombok.extern.slf4j.Slf4j;
@@ -314,13 +314,9 @@ public class TestController {
 	}
 
 	@ResponseBody
-	@GetMapping("/test-response")
-	public ResponseEntity<Object> testResponse() {
-		log.info("## testResponse");
-		TestResponse testResponse1 = TestResponse.builder()
-				.messageByCode("error.Test")
-				.build();
-		log.info("\t > testResponse1 = {}", testResponse1);
-		return ResponseEntity.ok().body(SuccessResponse.create().data("success"));
+	@GetMapping("/test-exception")
+	public ResponseEntity<Object> exception() {
+		log.info("## testException");
+		throw new TestException("error.Unknown");
 	}
 }
