@@ -110,6 +110,7 @@
 			}
 		});
 		
+		
 		$("input").on("focus", function() {
 			$(this).closest("dd").css("border-bottom", "1px solid #868e96");
 		});
