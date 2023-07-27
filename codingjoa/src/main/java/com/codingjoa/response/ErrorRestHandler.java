@@ -51,9 +51,7 @@ public class ErrorRestHandler {
 	@ExceptionHandler(TestException.class)
 	protected ResponseEntity<Object> handleTestException(TestException e) {
 		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
-		log.info("\t > error details = {}", e.getErrorDetails());
-		log.info("\t > message = {}", e.getMessage());
-		
+
 		TestResponse testResponse = TestResponse.builder()
 				.errorDetails(e.getErrorDetails())
 				.build();

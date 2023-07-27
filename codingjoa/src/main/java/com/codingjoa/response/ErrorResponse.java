@@ -10,12 +10,10 @@ import com.codingjoa.util.MessageUtils;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @ToString
 @Getter
-@NoArgsConstructor
 public class ErrorResponse {
 	
 	private String errorMessage;
@@ -23,8 +21,12 @@ public class ErrorResponse {
 	// key = errorField, value = errorMessage
 	private Map<String, Object> errorMap; 
 	
-	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:ss:mm", timezone = "Asia/Seoul")
-	private LocalDateTime responseDateTime = LocalDateTime.now();
+	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
+	private LocalDateTime responseDateTime;
+	
+	private ErrorResponse() {
+		this.responseDateTime = LocalDateTime.now();
+	}
 	
 	public static ErrorResponse create() {
 		return new ErrorResponse();

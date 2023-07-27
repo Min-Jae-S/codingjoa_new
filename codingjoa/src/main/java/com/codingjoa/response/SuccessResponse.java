@@ -6,19 +6,21 @@ import com.codingjoa.util.MessageUtils;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @ToString
 @Getter
-@NoArgsConstructor
 public class SuccessResponse {
 	
 	private Object data;
 	private String message;
 	
-	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:ss:mm", timezone = "Asia/Seoul")
-	private LocalDateTime responseDateTime = LocalDateTime.now();
+	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
+	private LocalDateTime responseDateTime;
+	
+	private SuccessResponse() {
+		this.responseDateTime = LocalDateTime.now();
+	}
 	
 	public static SuccessResponse create() {
 		return new SuccessResponse();
