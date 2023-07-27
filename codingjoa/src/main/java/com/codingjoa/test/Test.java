@@ -10,14 +10,14 @@ import lombok.Data;
 @Data
 public class Test {
 	
-	@NotEmpty(message = "빈값은 허용하지 않아요.")
+	@NotEmpty
 	private String param1;
 	
-	@Positive(message = "숫자는 양수여야 합니다.")
+	@Positive
 	private int param2;
 	
-	@BoardCategoryCode(message = "게시판 카테고리가 아닙니다.")
+	@BoardCategoryCode
 	private int param3;
-	
 	private int param4;
+	
 }
