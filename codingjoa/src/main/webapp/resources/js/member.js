@@ -47,10 +47,12 @@ let memberService = (function() {
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
+				$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
 				callback(result);
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
+				$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
 				let errorResponse = parseError(jqXHR);
 				if (errorResponse != null) {
 					let details = errorResponse.details;
@@ -113,11 +115,13 @@ let memberService = (function() {
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
+				$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
 				callback(result);
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
 				let errorResponse = parseError(jqXHR);
+				$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
 				if (errorResponse != null) {
 					parseErrorResponse(errorResponse);
 				} else {
@@ -142,10 +146,12 @@ let memberService = (function() {
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
+				$("#memberZipcode\\.errors, #memberAddr\\.errors, #memberAddrDetail\\.errors").remove();
 				callback(result);
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
+				$("#memberZipcode\\.errors, #memberAddr\\.errors, #memberAddrDetail\\.errors").remove();
 				let errorResponse = parseError(jqXHR);
 				if (errorResponse != null) {
 					parseErrorResponse(errorResponse);
@@ -171,10 +177,12 @@ let memberService = (function() {
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
+				$("#memberAgree\\.errors").remove();
 				callback(result);
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
+				$("#memberAgree\\.errors").remove();
 				let errorResponse = parseError(jqXHR);
 				if (errorResponse != null) {
 					parseErrorResponse(errorResponse);
