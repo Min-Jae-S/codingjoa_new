@@ -262,25 +262,18 @@ let memberService = (function() {
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
 			success : function(result) {
-				console.log("%c> SUCCESS","color:green");
+				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
 				callback(result);
 			},
 			error : function(jqXHR) {
-				console.log("%c> ERROR","color:red");
+				console.log("%c> ERROR", "color:red");
 				$(".error").remove();
 				let errorResponse = parseError(jqXHR);
 				if (errorResponse != null) {
-					let errorMap = errorResponse.errorMap;
-					if (errorMap != null) {
-						$.each(errorMap, function(errorField, errorMessage) {
-							$("#" + errorField).closest("dd")
-								.after("<dd id='" + errorField + ".errors' class='error'>" + errorMessage + "</dd>");
-						});
-					} else {
-						$("#memberPassword").closest("dd")
-							.after("<dd id='memberPassword.errors' class='error'>" + errorResponse.errorMessage + "</dd>");
-					}
+					parseErrorResponse(errorResponse);
+				} else {
+					alert("## No ErrorResponse");
 				}
 			}
 		});

@@ -133,11 +133,9 @@
 		});
 		
 		$("#testBtn").on("click", function() {
-			let url = "${contextPath}/api/member/test/remove-session";
-			
 			$.ajax({
 				type : "GET",
-				url : url,
+				url : "${contextPath}/api/member/test/remove-session",
 				dataType : "json",
 				success : function(result) {
 					alert("## Remove CHECK_PASSWORD Session");
