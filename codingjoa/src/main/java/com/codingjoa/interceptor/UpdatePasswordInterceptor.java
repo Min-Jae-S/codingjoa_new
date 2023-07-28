@@ -36,11 +36,15 @@ public class UpdatePasswordInterceptor implements HandlerInterceptor {
 		log.info("## {} : preHandle", this.getClass().getSimpleName());
 		
 		if (!passwordCheck(request)) {
+			String message =  MessageUtils.getMessage("error.NotCheckPassword");
+			message = StringUtils.removeEnd(message.replaceAll("\\.(\\s)*", ".\\\\n"), "\\n");
+			log.info("\t > processed message = {}", message);
+			
 			HandlerMethod handlerMethod = (HandlerMethod) handler;
 			if (handlerMethod.getBeanType().isAnnotationPresent(RestController.class)) {
-				responseJSON(request, response);
+				responseJSON(request, response, message);
 			} else {
-				responseHTML(request, response);
+				responseHTML(request, response, message);
 			}
 			return false;
 		}
@@ -64,14 +68,11 @@ public class UpdatePasswordInterceptor implements HandlerInterceptor {
 		return true;
 	}
 	
-	private void responseJSON(HttpServletRequest request, HttpServletResponse response) throws JsonProcessingException, IOException {
+	private void responseJSON(HttpServletRequest request, HttpServletResponse response, String message)
+			throws JsonProcessingException, IOException {
 		response.setStatus(HttpStatus.FORBIDDEN.value());
 		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 		response.setCharacterEncoding(StandardCharsets.UTF_8.toString());
-		
-		String message =  MessageUtils.getMessage("error.NotCheckPassword");
-		message = StringUtils.removeEnd(message.replaceAll("\\.(\\s)*", ".<br>"), "<br>");
-		log.info("\t > processed message = {}", message);
 		
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:ss:mm");
 		ObjectMapper objectMapper = Jackson2ObjectMapperBuilder
@@ -87,14 +88,11 @@ public class UpdatePasswordInterceptor implements HandlerInterceptor {
 		response.getWriter().write(objectMapper.writeValueAsString(errorResponse));
 	}
 	
-	private void responseHTML(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	private void responseHTML(HttpServletRequest request, HttpServletResponse response, String message)
+			throws IOException {
 		response.setStatus(HttpStatus.FORBIDDEN.value());
 		response.setContentType(MediaType.TEXT_HTML.toString());
 		response.setCharacterEncoding(StandardCharsets.UTF_8.toString());
-		
-		String message =  MessageUtils.getMessage("error.NotCheckPassword");
-		message = StringUtils.removeEnd(message.replaceAll("\\.(\\s)*", ".\\\\n"), "\\n");
-		log.info("\t > processed message = {}", message);
 		
 		PrintWriter writer = response.getWriter();
 		writer.println("<script>");

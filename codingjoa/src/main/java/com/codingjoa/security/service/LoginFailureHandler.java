@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationDetailsSource;
@@ -32,7 +33,7 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
 
 	private AuthenticationDetailsSource<HttpServletRequest, ?> authenticationDetailsSource = 
 			new WebAuthenticationDetailsSource();
-	private String key = UUID.randomUUID().toString();
+	private final String key = UUID.randomUUID().toString();
 	private final String DEFAULT_FAILURE_URL = "/member/login";
 	
 	@Override
@@ -41,16 +42,20 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
 		log.info("## {}", this.getClass().getSimpleName());
 		log.info("\t > referer = {}", request.getHeader("referer"));
 		
-		String errorMessage = MessageUtils.getMessage("error.Login");
+		String message = MessageUtils.getMessage("error.Login");
 		if (e instanceof LoginRequireFieldException || 
 				e instanceof UsernameNotFoundException || e instanceof BadCredentialsException) {
-			errorMessage = e.getMessage();
+			message = e.getMessage();
 		}
-		log.info("\t > e = {}, message = {}", e.getClass().getSimpleName(), errorMessage);
+		log.info("\t > excpetion = {}", e.getClass().getSimpleName());
+		log.info("\t > original message = {}", message);
+		
+		message = StringUtils.removeEnd(message.replaceAll("\\.(\\s)*", ".<br>"), "<br>");
+		log.info("\t > processed message = {}", message);
 		
 		ErrorResponse errorResponse = ErrorResponse.builder()
 				.status(HttpStatus.UNAUTHORIZED)
-				.message(errorMessage)
+				.message(message)
 				.build();
 		request.setAttribute("errorResponse", errorResponse);
 		
