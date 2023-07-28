@@ -47,6 +47,11 @@ public class ErrorResponse {
 			return this;
 		}
 
+		public ErrorResponseBuilder status(Integer status) {
+			errorResponse.status = status;
+			return this;
+		}
+
 		public ErrorResponseBuilder message(String message) {
 			errorResponse.message = message;
 			return this;

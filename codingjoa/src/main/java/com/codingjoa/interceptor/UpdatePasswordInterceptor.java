@@ -39,9 +39,7 @@ public class UpdatePasswordInterceptor implements HandlerInterceptor {
 			String message =  MessageUtils.getMessage("error.NotCheckPassword");
 			log.info("\t > original message = {}", message);
 			
-			//message = StringUtils.removeEnd(message.replaceAll("\\.(\\s)*", ".\\\\n"), "\\n");
-			message = StringUtils.removeEnd(
-					message.replaceAll("\\.(\\s)*", "." + System.lineSeparator()), System.lineSeparator());
+			message = StringUtils.removeEnd(message.replaceAll("\\.(\\s)*", ".\\\\n"), "\\n");
 			log.info("\t > processed message = {}", message);
 			
 			HandlerMethod handlerMethod = (HandlerMethod) handler;
@@ -88,8 +86,6 @@ public class UpdatePasswordInterceptor implements HandlerInterceptor {
 				.status(HttpStatus.FORBIDDEN)
 				.message(message)
 				.build();
-		log.info("\t > {}", errorResponse);
-		
 		response.getWriter().write(objectMapper.writeValueAsString(errorResponse));
 	}
 	
@@ -101,9 +97,7 @@ public class UpdatePasswordInterceptor implements HandlerInterceptor {
 		
 		PrintWriter writer = response.getWriter();
 		writer.println("<script>");
-		writer.println("let message = '" + message + "'");
-		writer.println("message = message.replace(/\\n/gi,'\\\\r\\\\n');");
-		writer.println("alert(message);");
+		writer.println("alert('" + message + "');");
 		writer.println("location.href='" +  request.getContextPath() + "/member/account/checkPassword';");
 		writer.println("</script>");
 		writer.flush();
