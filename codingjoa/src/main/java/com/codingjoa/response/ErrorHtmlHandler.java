@@ -21,7 +21,7 @@ public class ErrorHtmlHandler {
 	
 	@ExceptionHandler(Exception.class) // NoHandlerFoundException
 	protected String handleException(Exception e, HttpServletRequest request) {
-		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
+		log.info("** {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t > location = {}", e.getStackTrace()[0]);
 		log.info("\t > original message = {}", e.getMessage());
 		

@@ -7,6 +7,7 @@ function getContextPath() {
 
 function parseError(jqXHR) {
 	try {
+		console.log(jqXHR.responseText);
 		let errorResponse = JSON.parse(jqXHR.responseText);
 		console.log(JSON.stringify(errorResponse, null, 2));
 		return errorResponse;

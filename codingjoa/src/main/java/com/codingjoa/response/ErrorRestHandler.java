@@ -49,37 +49,15 @@ import lombok.extern.slf4j.Slf4j;
 @RestControllerAdvice(annotations = RestController.class)
 public class ErrorRestHandler {
 	
-	// TEST
-	@ExceptionHandler(TestException.class)
-	protected ResponseEntity<Object> handleTestException(TestException e) {
-		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
-		
-		TestResponseBuilder builder = TestResponse.builder().status(HttpStatus.BAD_REQUEST);
-		if (e.getField() == null) { 
-			builder.messageByCode(e.getCode());
-		} else { 
-			ErrorDetails errorDetails = ErrorDetails.builder()
-					.field(e.getField())
-					.messageByCode(e.getCode())
-					.build();
-			builder.details(errorDetails);
-		}
-		
-		TestResponse testResponse = builder.build();
-		log.info("\t > {}", testResponse);
-
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(testResponse);
-	}
-	
 	@ExceptionHandler(Exception.class)
 	protected ResponseEntity<Object> handleException(Exception e) {
-		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
+		log.info("** {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t > location = {}", e.getStackTrace()[0]);
 		log.info("\t > original message = {}", e.getMessage());
 
 		ErrorResponse errorResponse = ErrorResponse.builder()
 				.status(HttpStatus.BAD_REQUEST)
-				.messageByCode("error.UnKnown")
+				.messageByCode("error.Unknown")
 				.build();
 		log.info("\t > {}", errorResponse);
 		
@@ -193,6 +171,30 @@ public class ErrorRestHandler {
 		log.info("\t > {}", errorResponse);
 		
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+	}
+	
+	// TEST
+	@ExceptionHandler(TestException.class)
+	protected ResponseEntity<Object> handleTestException(TestException e) {
+		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
+		log.info("\t > location = {}", e.getStackTrace()[0]);
+		log.info("\t > original message = {}", e.getMessage());
+		
+		TestResponseBuilder builder = TestResponse.builder().status(HttpStatus.BAD_REQUEST);
+		if (e.getField() == null) { 
+			builder.messageByCode(e.getCode());
+		} else { 
+			ErrorDetails errorDetails = ErrorDetails.builder()
+					.field(e.getField())
+					.messageByCode(e.getCode())
+					.build();
+			builder.details(errorDetails);
+		}
+		
+		TestResponse testResponse = builder.build();
+		log.info("\t > {}", testResponse);
+
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(testResponse);
 	}
 	
 }

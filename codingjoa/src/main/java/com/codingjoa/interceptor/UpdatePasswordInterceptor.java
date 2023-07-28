@@ -22,6 +22,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import com.codingjoa.response.ErrorResponse;
 import com.codingjoa.util.MessageUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.json.JsonWriteFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 
@@ -37,7 +38,10 @@ public class UpdatePasswordInterceptor implements HandlerInterceptor {
 		
 		if (!passwordCheck(request)) {
 			String message =  MessageUtils.getMessage("error.NotCheckPassword");
-			message = StringUtils.removeEnd(message.replaceAll("\\.(\\s)*", ".\\\\n"), "\\n");
+			log.info("\t > original message = {}", message);
+			
+			message = message.replaceAll("\\.(\\s)*", ".\\\\n");
+			message = StringUtils.removeEnd(message, "\\n");
 			log.info("\t > processed message = {}", message);
 			
 			HandlerMethod handlerMethod = (HandlerMethod) handler;
@@ -48,7 +52,6 @@ public class UpdatePasswordInterceptor implements HandlerInterceptor {
 			}
 			return false;
 		}
-		
 		return true;
 	}
 	
@@ -79,13 +82,21 @@ public class UpdatePasswordInterceptor implements HandlerInterceptor {
 				.json()
 				.timeZone(TimeZone.getTimeZone("Asia/Seoul"))
 				.serializerByType(LocalDateTime.class, new LocalDateTimeSerializer(formatter))
+				// Jackson, by default, escapes characters that are not part of the ASCII character
+				// ex) "Hello\nWorld" --> "Hello\\nWorld"
+				.featuresToDisable(JsonWriteFeature.ESCAPE_NON_ASCII.mappedFeature()) 
 				.build();
 		
 		ErrorResponse errorResponse = ErrorResponse.builder()
 				.status(HttpStatus.FORBIDDEN)
 				.message(message)
 				.build();
-		response.getWriter().write(objectMapper.writeValueAsString(errorResponse));
+		log.info("\t > {}", errorResponse);
+		
+		String json = objectMapper.writeValueAsString(errorResponse);
+		log.info("\t > json = {}", json);
+		
+		response.getWriter().write(json);
 	}
 	
 	private void responseHTML(HttpServletRequest request, HttpServletResponse response, String message)

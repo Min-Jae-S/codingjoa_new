@@ -107,12 +107,13 @@
 
 <script>
 	$(function() {
+		// just for inspecting the error response
 		<c:if test="${not empty errorResponse}">
 			<fmt:parseDate value="${errorResponse.timestamp}" pattern="yyyy-MM-dd'T'HH:mm:ss" var="parsedDateTime" type="both"/>
 			<fmt:formatDate value="${parsedDateTime}" pattern="yyyy-MM-dd'T'HH:mm:ss" var="timestamp"/>
 			let errorResponse = {
 				status : <c:out value='${errorResponse.status}'/>,
-				message : "<c:out value='${errorResponse.message}'/>",
+				message : "<c:out value='${errorResponse.message}' escapeXml='false'/>",
 				details : <c:out value='${errorResponse.details}'/>,
 				timestamp : "<c:out value='${timestamp}'/>"
 			};

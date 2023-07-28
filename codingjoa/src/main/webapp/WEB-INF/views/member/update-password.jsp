@@ -73,7 +73,7 @@
 		<div class="col-sm-6">
 			<h5 class="font-weight-bold">
 				비밀번호 재설정
-				<button type="button" class="btn btn-sm btn-warning py-0 float-right" id="testBtn">TEST</button>
+				<button type="button" class="btn btn-sm btn-warning py-0 float-right" id="testBtn">Remove CHECK_PASSWORD Session</button>
 			</h5>
 			<div class="pt-3" style="border-top: 1px solid black;">
 				<p class="title">새로운 비밀번호를 입력해주세요.</p>
