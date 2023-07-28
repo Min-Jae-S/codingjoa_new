@@ -1,4 +1,4 @@
-package com.codingjoa.converter;
+package com.codingjoa.deserializer;
 
 import java.io.IOException;
 
@@ -10,20 +10,16 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class WhitespaceDeserializer extends JsonDeserializer<String> {
+public class IntDeserializer extends JsonDeserializer<Integer> {
 
 	@Override
-	public String deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+	public Integer deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
 		log.info("## {}", this.getClass().getSimpleName());
-			
-		String input = p.getText();
-		if (input != null) {
-			log.info("\t > input = '{}'", input.replace("\n", "\\n"));
-			return input.strip();
-		}
 		
-		log.info("\t > input = {}", input);
-		return null;
+		String input = p.getText();
+		log.info("\t > input = {}", (input != null) ? "'" + input + "'" : null);
+		
+		return Integer.parseInt(input);
 	}
 
 }

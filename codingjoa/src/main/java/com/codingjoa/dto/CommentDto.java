@@ -2,7 +2,7 @@ package com.codingjoa.dto;
 
 import javax.validation.constraints.NotBlank;
 
-import com.codingjoa.converter.WhitespaceDeserializer;
+import com.codingjoa.deserializer.WhitespaceDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import lombok.Data;

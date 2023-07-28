@@ -25,7 +25,8 @@ function parseErrorResponse(errorResponse) {
 				.after("<dd id='" + item.field + ".errors' class='error'>" + item.message + "</dd>");
 		});
 	} else {
-		alert(errorResponse.message);
+		let message = errorResponse.message.replace(/\n/gi,"\\r\\n");
+		alert(message);
 	}
 }
 

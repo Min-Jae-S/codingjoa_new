@@ -22,7 +22,6 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import com.codingjoa.response.ErrorResponse;
 import com.codingjoa.util.MessageUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.json.JsonWriteFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 
@@ -40,8 +39,9 @@ public class UpdatePasswordInterceptor implements HandlerInterceptor {
 			String message =  MessageUtils.getMessage("error.NotCheckPassword");
 			log.info("\t > original message = {}", message);
 			
-			message = message.replaceAll("\\.(\\s)*", ".\\\\n");
-			message = StringUtils.removeEnd(message, "\\n");
+			//message = StringUtils.removeEnd(message.replaceAll("\\.(\\s)*", ".\\\\n"), "\\n");
+			message = StringUtils.removeEnd(
+					message.replaceAll("\\.(\\s)*", "." + System.lineSeparator()), System.lineSeparator());
 			log.info("\t > processed message = {}", message);
 			
 			HandlerMethod handlerMethod = (HandlerMethod) handler;
@@ -82,9 +82,6 @@ public class UpdatePasswordInterceptor implements HandlerInterceptor {
 				.json()
 				.timeZone(TimeZone.getTimeZone("Asia/Seoul"))
 				.serializerByType(LocalDateTime.class, new LocalDateTimeSerializer(formatter))
-				// Jackson, by default, escapes characters that are not part of the ASCII character
-				// ex) "Hello\nWorld" --> "Hello\\nWorld"
-				.featuresToDisable(JsonWriteFeature.ESCAPE_NON_ASCII.mappedFeature()) 
 				.build();
 		
 		ErrorResponse errorResponse = ErrorResponse.builder()
@@ -93,10 +90,7 @@ public class UpdatePasswordInterceptor implements HandlerInterceptor {
 				.build();
 		log.info("\t > {}", errorResponse);
 		
-		String json = objectMapper.writeValueAsString(errorResponse);
-		log.info("\t > json = {}", json);
-		
-		response.getWriter().write(json);
+		response.getWriter().write(objectMapper.writeValueAsString(errorResponse));
 	}
 	
 	private void responseHTML(HttpServletRequest request, HttpServletResponse response, String message)
@@ -107,7 +101,9 @@ public class UpdatePasswordInterceptor implements HandlerInterceptor {
 		
 		PrintWriter writer = response.getWriter();
 		writer.println("<script>");
-		writer.println("alert('" + message + "');");
+		writer.println("let message = '" + message + "'");
+		writer.println("message = message.replace(/\\n/gi,'\\\\r\\\\n');");
+		writer.println("alert(message);");
 		writer.println("location.href='" +  request.getContextPath() + "/member/account/checkPassword';");
 		writer.println("</script>");
 		writer.flush();
