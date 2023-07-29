@@ -5,22 +5,21 @@ import java.time.LocalDateTime;
 import com.codingjoa.util.MessageUtils;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @ToString
 @Getter
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class SuccessResponse {
 	
 	private Object data;
 	private String message;
 	
 	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
-	private LocalDateTime timestamp;
-	
-	private SuccessResponse() {
-		this.timestamp = LocalDateTime.now();
-	}
+	private LocalDateTime timestamp = LocalDateTime.now();
 	
 	public static SuccessResponse create() {
 		return new SuccessResponse();

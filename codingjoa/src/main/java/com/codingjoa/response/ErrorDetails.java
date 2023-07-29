@@ -2,19 +2,18 @@ package com.codingjoa.response;
 
 import com.codingjoa.util.MessageUtils;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @ToString
 @Getter
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ErrorDetails {
 	
 	private String field;
 	private String message;
-	
-	private ErrorDetails() {
-		
-	}
 	
 	public static ErrorDetailsBuilder builder() {
 		return new ErrorDetailsBuilder();

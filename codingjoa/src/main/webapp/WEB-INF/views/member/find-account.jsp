@@ -100,9 +100,11 @@
 				memberEmail : $("#memberEmail").val()
 			};
 			
-			$(".error").remove();
 			memberService.findAccount(obj, function(result) {
-				alert(result.message);
+				setTimeout(function() {
+					alert(result.message);
+				}, 50);
+				
 			});
 		});
 		

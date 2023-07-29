@@ -20,9 +20,10 @@ public class WhitespaceDeserializer extends JsonDeserializer<String> {
 		if (input != null) {
 			log.info("\t > input = '{}'", input.replace("\n", "\\n"));
 			return input.strip();
+		} else {
+			log.info("\t > input = {}", input);
 		}
 		
-		log.info("\t > input = {}", input);
 		return null;
 	}
 

@@ -11,24 +11,22 @@ import org.springframework.validation.BindingResult;
 import com.codingjoa.util.MessageUtils;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @ToString
 @Getter
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ErrorResponse {
 	
 	private Integer status;
 	private String message;
-	private List<ErrorDetails> details;
+	private List<ErrorDetails> details = new ArrayList<ErrorDetails>();
 	
 	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
-	private LocalDateTime timestamp;
-	
-	private ErrorResponse() {
-		this.details = new ArrayList<ErrorDetails>();
-		this.timestamp =  LocalDateTime.now();
-	}
+	private LocalDateTime timestamp = LocalDateTime.now();
 	
 	public static ErrorResponseBuilder builder() {
 		return new ErrorResponseBuilder();
