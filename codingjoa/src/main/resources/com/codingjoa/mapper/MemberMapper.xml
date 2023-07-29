@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.codingjoa.mapper.MemberMapper">
 
-	<insert id="registerMember" parameterType="member">
+	<insert id="saveMember" parameterType="member">
 		INSERT INTO member (
 			member_idx,
 			member_id,
@@ -28,7 +28,7 @@
 		)
 	</insert>
 	
-	<insert id="registerAuth" parameterType="auth">
+	<insert id="saveAuth" parameterType="auth">
 		INSERT INTO auth (
 			auth_idx,
 			member_id,

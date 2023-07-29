@@ -4,7 +4,7 @@ import com.codingjoa.dto.JoinDto;
 
 public interface MemberService {
 
-	void register(JoinDto joinDto); // member, auth
+	void save(JoinDto joinDto); // member, auth
 	
 	boolean isIdExist(String memberId);
 	
