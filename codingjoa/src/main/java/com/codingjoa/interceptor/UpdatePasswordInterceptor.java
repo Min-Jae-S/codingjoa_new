@@ -58,15 +58,7 @@ public class UpdatePasswordInterceptor implements HandlerInterceptor {
 		Boolean passwordCheck = (Boolean) session.getAttribute("CHECK_PASSWORD");
 		log.info("\t > CHECK_PASSWORD = {}", passwordCheck);
 		
-		if (passwordCheck == null) {
-			return false;
-		}
-		
-		if (!passwordCheck) {
-			return false;
-		}
-		
-		return true;
+		return (passwordCheck == null) ? false : passwordCheck;
 	}
 	
 	private void responseJSON(HttpServletRequest request, HttpServletResponse response, String message)

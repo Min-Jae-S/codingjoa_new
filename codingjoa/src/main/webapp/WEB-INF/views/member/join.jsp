@@ -136,7 +136,6 @@
 				memberEmail : $("#memberEmail").val()
 			};
 			
-			$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
 			memberService.sendAuthCodeForJoin(obj, function(result) {
 				$("#authCode").closest("div").after("<span class='success'>" + result.message + "</span>");
 				$("#authCode").val("");

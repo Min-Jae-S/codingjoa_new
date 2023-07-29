@@ -87,10 +87,12 @@ let memberService = (function() {
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
+				$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
 				callback(result);
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
+				$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
 				let errorResponse = parseError(jqXHR);
 				if (errorResponse != null) {
 					parseErrorResponse(errorResponse);
@@ -235,6 +237,7 @@ let memberService = (function() {
 			success : function(result) {
 				console.log("%c> SUCCESS","color:green");
 				console.log(JSON.stringify(result, null, 2));
+				$(".error").remove();
 				callback(result);
 			},
 			error : function(jqXHR) {
@@ -264,6 +267,7 @@ let memberService = (function() {
 			dataType : "json",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
+				$(".error").remove();
 				console.log(JSON.stringify(result, null, 2));
 				callback(result);
 			},
@@ -324,24 +328,19 @@ let memberService = (function() {
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
 			success : function(result) {
-				console.log("%c> SUCCESS","color:green");
+				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
+				$(".error").remove();
 				callback(result);
 			},
 			error : function(jqXHR) {
-				console.log("%c> ERROR","color:red");
+				console.log("%c> ERROR", "color:red");
+				$(".error").remove();
 				let errorResponse = parseError(jqXHR);
 				if (errorResponse != null) {
-					let errorMap = errorResponse.errorMap;
-					if (errorMap != null) {
-						$.each(errorMap, function(errorField, errorMessage) {
-							$("#" + errorField).closest("dd")
-								.after("<dd id='" + errorField + ".errors' class='error'>" + errorMessage + "</dd>");
-						});
-					} else {
-						$("#editId").after("<dd id='memberId.errors' class='error'>" + errorResponse.errorMessage + "</dd>");
-						$("#editEmail").after("<dd id='memberEmail.errors' class='error'>" + errorResponse.errorMessage + "</dd>");
-					}
+					parseErrorResponse(errorResponse);
+				} else {
+					alert("## No ErrorResponse");
 				}
 			}
 		});
@@ -360,24 +359,19 @@ let memberService = (function() {
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
 			success : function(result) {
-				console.log("%c> SUCCESS","color:green");
+				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
+				$(".error").remove();
 				callback(result);
 			},
 			error : function(jqXHR) {
-				console.log("%c> ERROR","color:red");
+				console.log("%c> ERROR", "color:red");
+				$(".error").remove();
 				let errorResponse = parseError(jqXHR);
 				if (errorResponse != null) {
-					let errorMap = errorResponse.errorMap;
-					if (errorMap != null) {
-						$.each(errorMap, function(errorField, errorMessage) {
-							$("#" + errorField).closest("dd")
-								.after("<dd id='" + errorField + ".errors' class='error'>" + errorMessage + "</dd>");
-						});
-					} else {
-						$("#memberPassword").closest("dd")
-							.after("<dd id='#memberPassword.errors' class='error'>" + errorResponse.errorMessage + "</dd>");
-					}
+					parseErrorResponse(errorResponse);
+				} else {
+					alert("## No ErrorResponse");
 				}
 			}
 		});

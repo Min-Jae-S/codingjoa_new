@@ -99,8 +99,10 @@
 			};
 			
 			memberService.checkPassword(obj, function(result) {
-				alert(result.message);
-				location.href = "${contextPath}/member/account/updatePassword";
+				setTimeout(function() {
+					alert(result.message);
+					location.href = "${contextPath}/member/account/updatePassword";
+				}, 50);
 			});
 		});
 		

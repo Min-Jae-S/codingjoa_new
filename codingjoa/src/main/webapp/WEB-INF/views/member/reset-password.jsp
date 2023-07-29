@@ -70,7 +70,7 @@
 		<div class="col-sm-6">
 			<h5 class="font-weight-bold">
 				비밀번호 재설정
-				<button type="button" class="btn btn-sm btn-warning py-0 float-right" id="testBtn">TEST</button>
+				<button type="button" class="btn btn-sm btn-warning py-0 float-right" id="testBtn">Remove key</button>
 			</h5>
 			<div class="pt-3" style="border-top: 1px solid black;">
 				<p class="title">새로운 비밀번호를 입력해주세요.</p>
@@ -110,9 +110,11 @@
 				confirmPassword : $("#confirmPassword").val()
 			};
 			
-			$(".error").remove();
 			memberService.resetPassword(key, obj, function(result) {
-				alert(result.message);
+				setTimeout(function() {
+					alert(result.message);
+					location.href = "${contextPath}/member/login";
+				}, 50);
 			});
 		});
 		
@@ -132,11 +134,9 @@
 		
 		$("#testBtn").on("click", function() {
 			let key ="<c:out value='${key}'/>";
-			let url = "${contextPath}/api/member/test/remove-key?key=" + key;
-			
 			$.ajax({
 				type : "GET",
-				url : url,
+				url : "${contextPath}/api/member/test/remove-key?key=" + key,
 				dataType : "json",
 				success : function(result) {
 					alert("## Remove Key From Redis");

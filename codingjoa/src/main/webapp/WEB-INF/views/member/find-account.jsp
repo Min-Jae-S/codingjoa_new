@@ -104,7 +104,6 @@
 				setTimeout(function() {
 					alert(result.message);
 				}, 50);
-				
 			});
 		});
 		

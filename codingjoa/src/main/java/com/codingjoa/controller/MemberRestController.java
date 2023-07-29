@@ -243,7 +243,7 @@ public class MemberRestController {
 				.path("/member/resetPassword")
 				.queryParam("key", key)
 				.build();
-		log.info("\t > reset-password url = {}", uriComponents.toString());
+		log.info("\t > attached URL = {}", uriComponents.toString());
 		
 		emailService.sendResetPasswordUrl(memberEmail, memberId, uriComponents.toString());
 		redisService.save(key, memberIdx.toString());
@@ -266,17 +266,17 @@ public class MemberRestController {
 		return ResponseEntity.ok(SuccessResponse.create().code("success.ResetPassword"));
 	}
 	
-	// test (remove session)
-	@GetMapping("/test/remove-session")
-	public ResponseEntity<Object> removeSession(HttpSession session) {
-		log.info("## removeSession");
+	// test (remove CEHCK_PASSWORD)
+	@GetMapping("/test/remove-check-password")
+	public ResponseEntity<Object> removeCheckPassword(HttpSession session) {
+		log.info("## removeCheckPassword");
 		
 		Boolean passwordCheck = (Boolean) session.getAttribute("CHECK_PASSWORD");
 		log.info("\t > CHECK_PASSWORD = {}", passwordCheck);
 		
 		if (passwordCheck != null && passwordCheck) {
 			session.removeAttribute("CHECK_PASSWORD");
-			log.info("\t > after removing session attribute, CHECK_PASSWORD = {}", session.getAttribute("CHECK_PASSWORD"));
+			log.info("\t > after removing CHECK_PASSWORD, CHECK_PASSWORD = {}", session.getAttribute("CHECK_PASSWORD"));
 		}
 		
 		return ResponseEntity.ok(SuccessResponse.create().message("success"));
@@ -292,7 +292,7 @@ public class MemberRestController {
 
 		if (hasKey) {
 			redisService.delete(key);
-			log.info("\t > after removing key-value from redis, hasKey = {}", redisService.hasKey(key));
+			log.info("\t > after removing key from redis, hasKey = {}", redisService.hasKey(key));
 		}
 		
 		return ResponseEntity.ok(SuccessResponse.create().message("success"));

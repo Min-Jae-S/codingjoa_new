@@ -97,7 +97,7 @@ public class MemberServiceImpl implements MemberService {
 	public Integer getMemberIdxByIdAndEmail(String memberId, String memberEmail) {
 		Member member = memberMapper.findMemeberByIdAndEmail(memberId, memberEmail);
 		if (member == null) {
-			throw new ExpectedException("memberId", "error.NotIdOrEmailExist");
+			throw new ExpectedException("memberEmail", "error.NotIdOrEmailExist");
 		}
 		
 		return member.getMemberIdx();

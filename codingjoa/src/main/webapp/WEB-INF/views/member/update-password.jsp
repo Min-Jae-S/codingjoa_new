@@ -73,7 +73,7 @@
 		<div class="col-sm-6">
 			<h5 class="font-weight-bold">
 				비밀번호 재설정
-				<button type="button" class="btn btn-sm btn-warning py-0 float-right" id="testBtn">Remove CHECK_PASSWORD Session</button>
+				<button type="button" class="btn btn-sm btn-warning py-0 float-right" id="testBtn">Remove CHECK_PASSWORD</button>
 			</h5>
 			<div class="pt-3" style="border-top: 1px solid black;">
 				<p class="title">새로운 비밀번호를 입력해주세요.</p>
@@ -113,8 +113,10 @@
 			};
 			
 			memberService.updatePassword(obj, function(result) {
-				alert(result.message);
-				location.href = "${contextPath}/member/account";
+				setTimeout(function() {
+					alert(result.message);
+					location.href = "${contextPath}/member/account";
+				}, 50);
 			});
 		});
 		
@@ -135,10 +137,10 @@
 		$("#testBtn").on("click", function() {
 			$.ajax({
 				type : "GET",
-				url : "${contextPath}/api/member/test/remove-session",
+				url : "${contextPath}/api/member/test/remove-check-password",
 				dataType : "json",
 				success : function(result) {
-					alert("## Remove CHECK_PASSWORD Session");
+					alert("## Remove CHECK_PASSWORD From Session");
 					console.log(JSON.stringify(result, null, 2));
 				},
 				error : function(jqXHR) {
