@@ -21,18 +21,18 @@
 
 <div class="error-container">
 	<p class="font-weight-bold text-center bg-danger text-white mb-5" style="font-size: 80px;">ERROR PAGE</p>
-	<div class="text-center">
+	<div class="text-center px-5">
 		<c:choose>
-			<c:when test="${fn:length(errorResponse.details > 0)}">
+			<c:when test="${fn:length(errorResponse.details) > 0}">
 				<c:forEach items="${errorResponse.details}" var="item">
-					<h2 class="font-weight-bold"><c:out value="${item.message}"/></h2>
+					<h3 class="font-weight-bold"><c:out value="${item.message}"/></h3>
 				</c:forEach>
 			</c:when>
-			<c:when test="${fn:length(errorResponse.details == 0)}">
-				<h2 class="font-weight-bold"><c:out value="${errorResponse.message}"/></h2>
+			<c:when test="${fn:length(errorResponse.details) == 0}">
+				<h3 class="font-weight-bold"><c:out value="${errorResponse.message}"/></h3>
 			</c:when>
 			<c:otherwise>
-				<h2 class="font-weight-bold">오류가 발생하였습니다.</h2>
+				<h3 class="font-weight-bold">오류가 발생하였습니다.</h3>
 			</c:otherwise>
 		</c:choose>
 	</div>

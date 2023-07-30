@@ -65,7 +65,7 @@ public class ErrorHtmlHandler {
 		return "forward:/error/errorPage";
 	}
 	
-	@ExceptionHandler(ConstraintViolationException.class) // /board/main?boardCategoryCode=11
+	@ExceptionHandler(ConstraintViolationException.class) // /board/?boardCategoryCode=11
 	protected String handleConstraintViolationException(ConstraintViolationException e, 
 			HttpServletRequest request) {
 		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
