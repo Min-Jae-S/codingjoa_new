@@ -16,12 +16,12 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
 </head>
 <style>
-	error-field::before {
-		content: "["
+	.error-field::before {
+		content: "[ "
 	}
 
-	error-field::after {
-		content: "]"
+	.error-field::after {
+		content: " ]"
 	}
 </style>
 <body>

@@ -181,7 +181,7 @@
 			if (!confirm("게시글을 수정하시겠습니까?")) {
 				$("textArea[name='boardContentText']").remove();
 				//$("input[name='uploadIdxList[]']").remove();
-				$("input[name='uploadIdxList[]']").remove();
+				$("input[name='uploadIdxList']").remove();
 				console.log("## Cancel modifyForm submit");
 				console.log(JSON.stringify($modifyForm.serializeObject(), null, 2));
 				console.log('{\r\n  "boardContent": "' + modifyEditor.getData() + '"\r\n}');
