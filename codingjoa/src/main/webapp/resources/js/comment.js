@@ -11,24 +11,22 @@ function parseError(jqXHR) {
 		console.log(JSON.stringify(errorResponse, null, 2));
 		return errorResponse;
 	} catch(e) {
-		alert("Parsing Error");
+		console.log("## %s", e);
 		return null;
 	}
 }
 
-function processErrorResponse(errorResponse) {
-	let errorMap = errorResponse.errorMap;
-	if (errorMap != null) {
-		$.each(errorMap, function(errorField, errorMessage) {
-			alert(errorMessage);
-		});
+function parseErrorResponse(errorResponse) {
+	let details = errorResponse.details;
+	if (details.length > 0) {
+		// ...
 	} else {
-		alert(errorResponse.errorMessage);
+		let message = errorResponse.message.replace(/\\n/gi,"\n");
+		alert(message);
 	}
 }
 
 let commentService = (function() {
-
 	const contextPath = getContextPath();
 	
 	function writeComment(comment, callback) {
@@ -44,16 +42,18 @@ let commentService = (function() {
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
 			success : function(result) {
-				console.log("%c> SUCCESS","color:green");
+				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
 				callback(result);
 			},
 			error : function(jqXHR) {
-				console.log("%c> ERROR","color:red");
+				console.log("%c> ERROR", "color:red");
 				let errorResponse = parseError(jqXHR);
 				if (errorResponse != null) {
-					processErrorResponse(errorResponse);
-				} 
+					parseErrorResponse(errorResponse);
+				} else {
+					alert("## No ErrorResponse");
+				}
 			}
 		});
 		
@@ -98,16 +98,18 @@ let commentService = (function() {
 			url : url,
 			dataType : "json",
 			success : function(result) {
-				console.log("%c> SUCCESS","color:green");
+				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
 				callback(result);
 			},
 			error : function(jqXHR) {
-				console.log("%c> ERROR","color:red");
+				console.log("%c> ERROR", "color:red");
 				let errorResponse = parseError(jqXHR);
 				if (errorResponse != null) {
-					processErrorResponse(errorResponse);
-				} 
+					parseErrorResponse(errorResponse);
+				} else {
+					alert("## No ErrorResponse");
+				}
 			}
 		});
 	}
@@ -122,17 +124,18 @@ let commentService = (function() {
 			url : url,
 			dataType : "json",
 			success : function(result) {
-				console.log("%c> SUCCESS","color:green");
+				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
 				callback(result);
 			},
 			error : function(jqXHR) {
-				console.log("%c> ERROR","color:red");
+				console.log("%c> ERROR", "color:red");
 				let errorResponse = parseError(jqXHR);
 				if (errorResponse != null) {
-					processErrorResponse(errorResponse);
-				} 
-			}
+					parseErrorResponse(errorResponse);
+				} else {
+					alert("## No ErrorResponse");
+				}
 		});
 	}
 	
@@ -149,16 +152,18 @@ let commentService = (function() {
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
 			success : function(result) {
-				console.log("%c> SUCCESS","color:green");
+				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
 				callback(result);
 			},
 			error : function(jqXHR) {
-				console.log("%c> ERROR","color:red");
+				console.log("%c> ERROR", "color:red");
 				let errorResponse = parseError(jqXHR);
 				if (errorResponse != null) {
-					processErrorResponse(errorResponse);
-				} 
+					parseErrorResponse(errorResponse);
+				} else {
+					alert("## No ErrorResponse");
+				}
 			}
 		});
 	}
@@ -173,16 +178,18 @@ let commentService = (function() {
 			url : url,
 			dataType : "json",
 			success : function(result) {
-				console.log("%c> SUCCESS","color:green");
+				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
 				callback(result);
 			},
 			error : function(jqXHR) {
-				console.log("%c> ERROR","color:red");
+				console.log("%c> ERROR", "color:red");
 				let errorResponse = parseError(jqXHR);
 				if (errorResponse != null) {
-					processErrorResponse(errorResponse);
-				} 
+					parseErrorResponse(errorResponse);
+				} else {
+					alert("## No ErrorResponse");
+				}
 			}
 		});
 	}

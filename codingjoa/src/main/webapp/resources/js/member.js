@@ -30,7 +30,6 @@ function parseErrorResponse(errorResponse) {
 }
 
 let memberService = (function() {
-
 	const contextPath = getContextPath();
 
 	function sendAuthCodeForJoin(obj, callback) {

@@ -165,7 +165,7 @@ public class BoardServiceImpl implements BoardService {
 		boardMapper.deleteBoard(board);
 		Integer DBboardWriterIdx = board.getBoardWriterIdx();
 		log.info("\t > current boardWriterIdx = {}", boardDto.getBoardWriterIdx());
-		log.info("\t > DB boardWriterIdx = {}, DB boardCategoryCode = {}", DBboardWriterIdx, board.getBoardCategoryCode());
+		log.info("\t > DB boardWriterIdx = {}", DBboardWriterIdx);
 		
 		if (DBboardWriterIdx == null) {
 			throw new ExpectedException("error.DeleteBoard");
