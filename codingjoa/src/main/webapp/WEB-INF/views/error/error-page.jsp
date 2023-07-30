@@ -15,6 +15,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
 </head>
+<style>
+	error-field::before {
+		content: "["
+	}
+
+	error-field::after {
+		content: "]"
+	}
+</style>
 <body>
 
 <c:import url="/WEB-INF/views/include/top-menu.jsp"/>
@@ -24,15 +33,22 @@
 	<div class="text-center px-5">
 		<c:choose>
 			<c:when test="${fn:length(errorResponse.details) > 0}">
-				<c:forEach items="${errorResponse.details}" var="item">
-					<h3 class="font-weight-bold"><c:out value="${item.message}"/></h3>
+				<c:forEach items="${errorResponse.details}" var="errorDetails">
+					<h3 class="font-weight-bold">
+						<span class="error-field"><c:out value="${errorDetails.field}"/></span>
+						<span><c:out value="${errorDetails.message}"/></span>
+					</h3>
 				</c:forEach>
 			</c:when>
 			<c:when test="${fn:length(errorResponse.details) == 0}">
-				<h3 class="font-weight-bold"><c:out value="${errorResponse.message}"/></h3>
+				<h3 class="font-weight-bold">
+					<span><c:out value="${errorResponse.message}"/></span>
+				</h3>
 			</c:when>
 			<c:otherwise>
-				<h3 class="font-weight-bold">오류가 발생하였습니다.</h3>
+				<h3 class="font-weight-bold">
+					<span>오류가 발생하였습니다.</span>
+				</h3>
 			</c:otherwise>
 		</c:choose>
 	</div>

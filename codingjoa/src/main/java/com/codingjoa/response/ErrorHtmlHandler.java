@@ -12,6 +12,9 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 
 import com.codingjoa.exception.ExpectedException;
 import com.codingjoa.response.ErrorResponse.ErrorResponseBuilder;
+import com.codingjoa.test.TestException;
+import com.codingjoa.test.TestResponse;
+import com.codingjoa.test.TestResponse.TestResponseBuilder;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -109,7 +112,8 @@ public class ErrorHtmlHandler {
 	protected String handleExpectedException(ExpectedException e, HttpServletRequest request) {
 		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t > location = {}", e.getStackTrace()[0]);
-		log.info("\t > original message = {}", e.getMessage());
+		log.info("\t > error code = {}", e.getCode());
+		log.info("\t > error field = {}", e.getField());
 		
 		ErrorResponseBuilder builder = ErrorResponse.builder().status(HttpStatus.BAD_REQUEST);
 		if (e.getField() == null) { 
@@ -126,6 +130,32 @@ public class ErrorHtmlHandler {
 		log.info("\t > {}", errorResponse);
 
 		request.setAttribute("errorResponse", errorResponse);
+		return "forward:/error/errorPage";
+	}
+	
+	// TEST
+	@ExceptionHandler(TestException.class)
+	protected String handleTestException(TestException e, HttpServletRequest request) {
+		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
+		log.info("\t > location = {}", e.getStackTrace()[0]);
+		log.info("\t > error code = {}", e.getCode());
+		log.info("\t > error field = {}", e.getField());
+		
+		TestResponseBuilder builder = TestResponse.builder().status(HttpStatus.BAD_REQUEST);
+		if (e.getField() == null) { 
+			builder.messageByCode(e.getCode());
+		} else { 
+			ErrorDetails errorDetails = ErrorDetails.builder()
+					.field(e.getField())
+					.messageByCode(e.getCode())
+					.build();
+			builder.details(errorDetails);
+		}
+		
+		TestResponse testResponse = builder.build();
+		log.info("\t > {}", testResponse);
+
+		request.setAttribute("errorResponse", testResponse);
 		return "forward:/error/errorPage";
 	}
 	
