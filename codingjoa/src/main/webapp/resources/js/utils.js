@@ -9,7 +9,7 @@ function parseError(jqXHR) {
 		console.log(JSON.stringify(errorResponse, null, 2));
 		return errorResponse;
 	} catch(e) {
-		console.log("## %s", e);
+		console.log("## catch exception = %s", e);
 		return null;
 	}
 }

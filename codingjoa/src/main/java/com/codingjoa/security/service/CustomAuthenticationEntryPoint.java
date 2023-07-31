@@ -78,6 +78,8 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
 					.status(HttpStatus.UNAUTHORIZED)
 					.messageByCode("error.NotLogin")
 					.build();
+			log.info("\t > {}", errorResponse);
+			
 			response.getWriter().write(objectMapper.writeValueAsString(errorResponse));
 		} else {
 			request.getRequestDispatcher(DEFAULT_FAILURE_URL).forward(request, response);

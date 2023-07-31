@@ -93,14 +93,14 @@ public class ErrorHtmlHandler {
 		MissingServletRequestParameterException.class,	// /board/read
 		MethodArgumentTypeMismatchException.class		// /board/read?boardIdx=, /board/read?boardIdx=aa 
 	})
-	protected String handlePathVariableExceptionAndTypeMismatchException(Exception e, HttpServletRequest request) {
+	protected String handleInvalidFormatException(Exception e, HttpServletRequest request) {
 		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t > location = {}", e.getStackTrace()[0]);
 		log.info("\t > original message = {}", e.getMessage());
 		
 		ErrorResponse errorResponse = ErrorResponse.builder()
 				.status(HttpStatus.BAD_REQUEST)
-				.message(e.getMessage())
+				.messageByCode("error.InvalidFormat")
 				.build();
 		log.info("\t > {}", errorResponse);
 

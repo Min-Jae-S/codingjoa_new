@@ -57,6 +57,7 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
 				.status(HttpStatus.UNAUTHORIZED)
 				.message(message)
 				.build();
+		log.info("\t > {}", errorResponse);
 		request.setAttribute("errorResponse", errorResponse);
 		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

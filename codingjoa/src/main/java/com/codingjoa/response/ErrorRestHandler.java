@@ -121,14 +121,14 @@ public class ErrorRestHandler {
 		MissingPathVariableException.class,			// api/comments/
 		MethodArgumentTypeMismatchException.class,	// api/comments/aa
 	})
-	protected ResponseEntity<Object> handlePathVariableExceptionAndTypeMismatchException(Exception e) {
+	protected ResponseEntity<Object> handleInvalidFormatException(Exception e) {
 		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t > location = {}", e.getStackTrace()[0]);
 		log.info("\t > original message = {}", e.getMessage());
 
 		ErrorResponse errorResponse = ErrorResponse.builder()
 				.status(HttpStatus.BAD_REQUEST)
-				.message(e.getMessage())
+				.messageByCode("error.InvalidFormat")
 				.build();
 		log.info("\t > {}", errorResponse);
 		
