@@ -8,9 +8,9 @@ import com.codingjoa.entity.CommentLikes;
 @Mapper
 public interface LikesMapper {
 	
-	void delOrInsBoardLikes(BoardLikes boardLikes); // mergeBoardLikes
+	void delOrInsBoardLikes(BoardLikes boardLikes); 		// mergeBoardLikes
 	
-	void delOrInsCommentLikes(CommentLikes commentLikes); // mergeCommentLikes
+	void delOrInsCommentLikes(CommentLikes commentLikes); 	// mergeCommentLikes
 	
 	int findBoardLikesCnt(int boardIdx);
 

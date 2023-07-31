@@ -13,15 +13,17 @@ let likesService = (function() {
 			url : url,
 			dataType : "json",
 			success : function(result) {
-				console.log("%c> SUCCESS","color:green");
+				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
 				callback(result);
 			},
 			error : function(jqXHR) {
-				console.log("%c> ERROR","color:red");
+				console.log("%c> ERROR", "color:red");
 				let errorResponse = parseError(jqXHR);
 				if (errorResponse != null) {
-					processErrorResponse(errorResponse);
+					handleLikesError(errorResponse);
+				} else {
+					alert("## Parsing Error");
 				} 
 			}
 		});
@@ -37,15 +39,17 @@ let likesService = (function() {
 			url : url,
 			dataType : "json",
 			success : function(result) {
-				console.log("%c> SUCCESS","color:green");
+				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
 				callback(result);
 			},
 			error : function(jqXHR) {
-				console.log("%c> ERROR","color:red");
+				console.log("%c> ERROR", "color:red");
 				let errorResponse = parseError(jqXHR);
 				if (errorResponse != null) {
-					processErrorResponse(errorResponse);
+					handleLikesError(errorResponse);
+				} else {
+					alert("## Parsing Error");
 				} 
 			}
 		});
@@ -61,15 +65,17 @@ let likesService = (function() {
 			url : url,
 			dataType : "json",
 			success : function(result) {
-				console.log("%c> SUCCESS","color:green");
+				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
 				callback(result);
 			},
 			error : function(jqXHR) {
-				console.log("%c> ERROR","color:red");
+				console.log("%c> ERROR", "color:red");
 				let errorResponse = parseError(jqXHR);
 				if (errorResponse != null) {
-					processErrorResponse(errorResponse);
+					handleLikesError(errorResponse);
+				} else {
+					alert("## Parsing Error");
 				} 
 			}
 		});
@@ -85,16 +91,18 @@ let likesService = (function() {
 			url : url,
 			dataType : "json",
 			success : function(result) {
-				console.log("%c> SUCCESS","color:green");
+				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
 				callback(result);
 			},
 			error : function(jqXHR) {
-				console.log("%c> ERROR","color:red");
+				console.log("%c> ERROR", "color:red");
 				let errorResponse = parseError(jqXHR);
 				if (errorResponse != null) {
-					processErrorResponse(errorResponse);
-				}
+					handleLikesError(errorResponse);
+				} else {
+					alert("## Parsing Error");
+				} 
 			}
 		});
 	}

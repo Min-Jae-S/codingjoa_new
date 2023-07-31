@@ -16,7 +16,6 @@ import com.codingjoa.mapper.BoardMapper;
 import com.codingjoa.mapper.CommentMapper;
 import com.codingjoa.mapper.LikesMapper;
 import com.codingjoa.service.LikesService;
-import com.codingjoa.util.MessageUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -47,7 +46,7 @@ public class LikesServiceImpl implements LikesService {
 		log.info("\t > DB boardLikesIdx = {}", boardLikes.getBoardLikesIdx());
 		
 		if (boardLikes.getBoardIdx() == null) {
-			throw new ExpectedException(MessageUtils.getMessage("error.NotFoundBoard"));
+			throw new ExpectedException("error.NotFoundBoard");
 		}
 		
 		return boardLikes.getBoardLikesIdx();
@@ -63,7 +62,7 @@ public class LikesServiceImpl implements LikesService {
 		log.info("\t > DB commentLikesIdx = {}", commentLikes.getCommentLikesIdx());
 		
 		if (commentLikes.getCommentIdx() == null) {
-			throw new ExpectedException(MessageUtils.getMessage("error.NotFoundComment"));
+			throw new ExpectedException("error.NotFoundComment");
 		}
 		
 		return commentLikes.getCommentLikesIdx();
@@ -73,7 +72,7 @@ public class LikesServiceImpl implements LikesService {
 	public int getBoardLikesCnt(int boardIdx) {
 		Board board = boardMapper.findBoardByIdx(boardIdx);
 		if (board == null) {
-			throw new ExpectedException(MessageUtils.getMessage("error.NotFoundBoard"));
+			throw new ExpectedException("error.NotFoundBoard");
 		}
 		
 		return likesMapper.findBoardLikesCnt(boardIdx);
@@ -83,7 +82,7 @@ public class LikesServiceImpl implements LikesService {
 	public int getCommentLikesCnt(int commentIdx) {
 		Comment comment = commentMapper.findCommentByIdx(commentIdx);
 		if (comment == null) {
-			throw new ExpectedException(MessageUtils.getMessage("error.NotFoundComment"));
+			throw new ExpectedException("error.NotFoundComment");
 		}
 		
 		return likesMapper.findCommentLikesCnt(commentIdx);
