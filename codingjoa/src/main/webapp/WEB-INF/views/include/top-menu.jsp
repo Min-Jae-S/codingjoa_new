@@ -33,7 +33,7 @@
 						<img class="m-1" src="${contextPath}/resources/image/person.png">
 					</li>
 					<li class="nav-item mr-2">
-						<a class="nav-link text-dark" href="${contextPath}/member/account/info">
+						<a class="nav-link text-body" href="${contextPath}/member/account/info">
 							<span class="font-weight-bold">
 								<sec:authentication property="principal.member.memberId"/>
 							</span>

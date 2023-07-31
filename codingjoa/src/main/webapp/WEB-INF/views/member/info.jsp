@@ -81,6 +81,12 @@
 	input[name="memberZipcode"], input[name="memberAddr"] {
 		cursor: pointer;
 	}
+	
+	.profile-image{
+		width: 65px;
+		height: 65px;
+		border-radius : 0.4rem;
+	}
 </style>
 </head>
 <body>
@@ -93,13 +99,21 @@
 		<div class="col-sm-6">
 			<h5 class="font-weight-bold">계정 정보</h5>
 			<div class="pt-4" style="border-top: 1px solid black;">
-				<dl class="form-group mb-5">
-					<dt><i class="fa-solid fa-check mr-2"></i>아이디</dt>
-					<dd class="input-group">
-						<span class="inner-text"><c:out value="${principal.member.memberId}"/></span>
-					</dd>
-				</dl>
-				
+				<div class="d-flex">
+					<div class="wrap-profile-image mr-4">
+						<a href="#">
+							<img class="profile-image" src="${contextPath}/resources/image/person.png">
+						</a>
+					</div>
+					<div class="w-100">
+						<dl class="form-group mb-5">
+							<dt><i class="fa-solid fa-check mr-2"></i>아이디</dt>
+							<dd class="input-group">
+								<span class="inner-text"><c:out value="${principal.member.memberId}"/></span>
+							</dd>
+						</dl>
+					</div>
+				</div>
 				<dl class="form-group mb-5">
 					<dt><i class="fa-solid fa-check mr-2"></i>이메일</dt>
 					<dd class="input-group" id="showEmail">
