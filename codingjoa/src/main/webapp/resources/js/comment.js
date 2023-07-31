@@ -136,6 +136,7 @@ let commentService = (function() {
 				} else {
 					alert("## No ErrorResponse");
 				}
+			}
 		});
 	}
 	
