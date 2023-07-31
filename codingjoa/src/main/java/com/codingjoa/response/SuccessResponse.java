@@ -2,6 +2,8 @@ package com.codingjoa.response;
 
 import java.time.LocalDateTime;
 
+import org.springframework.http.HttpStatus;
+
 import com.codingjoa.util.MessageUtils;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -15,6 +17,7 @@ import lombok.ToString;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class SuccessResponse {
 	
+	private Integer status = HttpStatus.OK.value();
 	private String message;
 	private Object data;
 	
@@ -31,6 +34,16 @@ public class SuccessResponse {
 
 		private SuccessResponseBuilder() {
 			this.successResponse = new SuccessResponse();
+		}
+		
+		public SuccessResponseBuilder status(HttpStatus httpStatus) {
+			successResponse.status = httpStatus.value();
+			return this;
+		}
+
+		public SuccessResponseBuilder status(Integer status) {
+			successResponse.status = status;
+			return this;
 		}
 		
 		public SuccessResponseBuilder message(String message) {

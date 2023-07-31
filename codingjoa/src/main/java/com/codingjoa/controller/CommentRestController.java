@@ -47,25 +47,27 @@ public class CommentRestController {
 	@GetMapping("/boards/{commentBoardIdx}/comments")
 	public ResponseEntity<Object> getCommentList(@PathVariable int commentBoardIdx,
 			@CommentCri CommentCriteria commentCri, @AuthenticationPrincipal UserDetailsDto princiapl) {
-		log.info("## getCommentList, commentBoardIdx = {}", commentBoardIdx);
+		log.info("## getCommentList");
+		log.info("\t > commentBoardIdx = {}", commentBoardIdx);
 		log.info("\t > {}", commentCri);
 		
 		List<CommentDetailsDto> commentList = commentService.getPagedComment(commentBoardIdx, commentCri);
-		List<Integer> commentLikesList = (princiapl == null) ? Collections.emptyList() : princiapl.getCommentLikesList();
-		log.info("\t > commentLikesList = {}", commentLikesList);
+		List<Integer> myCommentLikes = (princiapl == null) ? Collections.emptyList() : princiapl.getMyCommentLikes();
+		log.info("\t > myCommentLikes = {}", myCommentLikes);
 		
 		Pagination pagination = commentService.getPagination(commentBoardIdx, commentCri);
 		log.info("\t > {}", pagination);
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
-				.data(Map.of("commentList", commentList, "commentLikesList", commentLikesList, "pagination", pagination))
+				.data(Map.of("commentList", commentList, "myCommentLikes", myCommentLikes, "pagination", pagination))
 				.build());
 	}
 	
 	@GetMapping(value = { "/comments", "/comments/{commentIdx}" })
 	public ResponseEntity<Object> getComment(@PathVariable int commentIdx,
 			@AuthenticationPrincipal UserDetailsDto principal) {
-		log.info("## getComment, commentIdx = {}", commentIdx);
+		log.info("## getComment");
+		log.info("\t > commentIdx = {}", commentIdx);
 		
 		CommentDetailsDto commentDetails = 
 				commentService.getCommentDetails(commentIdx, principal.getMember().getMemberIdx());
@@ -89,7 +91,8 @@ public class CommentRestController {
 	@PatchMapping(value = { "/comments", "/comments/{commentIdx}" })
 	public ResponseEntity<Object> modifyComment(@PathVariable int commentIdx, 
 			@Valid @RequestBody CommentDto modifyCommentDto, @AuthenticationPrincipal UserDetailsDto principal) {
-		log.info("## modifyComment, commentIdx = {}", commentIdx);
+		log.info("## modifyComment");
+		log.info("\t > commentIdx = {}", commentIdx);
 		log.info("\t > {}", modifyCommentDto);
 		
 		modifyCommentDto.setCommentIdx(commentIdx);
@@ -102,7 +105,8 @@ public class CommentRestController {
 	@DeleteMapping(value = { "/comments", "/comments/{commentIdx}" })
 	public ResponseEntity<Object> deleteComment(@PathVariable int commentIdx,
 			@AuthenticationPrincipal UserDetailsDto principal) {
-		log.info("## deleteComment, commentIdx = {}", commentIdx);
+		log.info("## deleteComment");
+		log.info("\t > commentIdx = {}", commentIdx);
 		
 		CommentDto deleteCommentDto = new CommentDto();
 		deleteCommentDto.setCommentIdx(commentIdx);

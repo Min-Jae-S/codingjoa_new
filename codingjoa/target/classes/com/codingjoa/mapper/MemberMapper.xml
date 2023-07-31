@@ -72,10 +72,10 @@
 			<result property="regdate" column="regdate"/>
 			<result property="moddate" column="moddate"/>
 		</association>
-		<collection property="boardLikesList" javaType="list" ofType="int">
+		<collection property="myBoardLikes" javaType="list" ofType="int">
 			<result column="board_idx"/>
 		</collection>
-		<collection property="commentLikesList" javaType="list" ofType="int">
+		<collection property="myCommentLikes" javaType="list" ofType="int">
 			<result column="comment_idx"/>
 		</collection>
 	</resultMap>

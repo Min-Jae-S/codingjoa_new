@@ -20,7 +20,7 @@ public interface MemberMapper {
 	
 	Member findMemberByEmail(String memberEmail);
 	
-	// Member, memberRole, boardLikesList, commentLikesList
+	// Member, memberRole, myBoardLikes, myCommentLikes
 	Map<String, Object> findUserDetailsById(String memberId); 
 	
 	Member findMemberByIdx(Integer memberIdx);
