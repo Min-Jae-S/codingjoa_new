@@ -5,6 +5,7 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.TimeZone;
+import java.util.UUID;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -13,8 +14,14 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.authentication.AuthenticationDetailsSource;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 
 import com.codingjoa.response.ErrorResponse;
@@ -37,6 +44,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
+	private AuthenticationDetailsSource<HttpServletRequest, ?> authenticationDetailsSource = 
+			new WebAuthenticationDetailsSource();
+	private final String key = UUID.randomUUID().toString();
 	private final String DEFAULT_FAILURE_URL = "/member/login";
 
 //	@Resource(name = "myObjectMapper")
@@ -46,6 +56,13 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
 	public void commence(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException authException) throws IOException, ServletException {
 		log.info("## {}", this.getClass().getSimpleName());
+		
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		log.info("\t > current authentication = {}", authentication);
+		
+		if (authentication == null) {
+			SecurityContextHolder.getContext().setAuthentication(createAuthentication(request));
+		}
 		
 		/*	# ajax 요청 확인 
 		 	https://0taeng.tistory.com/30
@@ -84,6 +101,18 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
 		} else {
 			request.getRequestDispatcher(DEFAULT_FAILURE_URL).forward(request, response);
 		}
+	}
+	
+	// ref) AnonymousAuthenticationFilter#createAuthentication(HttpServletRequest)
+	protected Authentication createAuthentication(HttpServletRequest request) {
+		log.info("\t > create authentication token which is AnonymousAuthenticationToken");
+		
+		// null object pattern 
+		AnonymousAuthenticationToken auth = new AnonymousAuthenticationToken(key, "anonymousUser",
+				AuthorityUtils.createAuthorityList("ROLE_ANONYMOUS")); 
+		auth.setDetails(authenticationDetailsSource.buildDetails(request));
+		
+		return auth;
 	}
 	
 	private boolean isAjaxRequest(HttpServletRequest request) {

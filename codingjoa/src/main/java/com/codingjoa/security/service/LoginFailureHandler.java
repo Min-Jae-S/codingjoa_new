@@ -42,6 +42,13 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
 		log.info("## {}", this.getClass().getSimpleName());
 		log.info("\t > referer = {}", request.getHeader("referer"));
 		
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		log.info("\t > current authentication = {}", authentication);
+		
+		if (authentication == null) {
+			SecurityContextHolder.getContext().setAuthentication(createAuthentication(request));
+		}
+		
 		String message = MessageUtils.getMessage("error.Login");
 		if (e instanceof LoginRequireFieldException || 
 				e instanceof UsernameNotFoundException || e instanceof BadCredentialsException) {
@@ -58,21 +65,15 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
 				.message(message)
 				.build();
 		log.info("\t > {}", errorResponse);
+		
 		request.setAttribute("errorResponse", errorResponse);
-		
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		log.info("\t > authentication = {}", authentication);
-		
-		if (authentication == null) {
-			SecurityContextHolder.getContext().setAuthentication(createAuthentication(request));
-			log.info("\t > create authentication token [AnonymousAuthenticationToken]");
-		}
-		
 		request.getRequestDispatcher(DEFAULT_FAILURE_URL).forward(request, response);
 	}
 	
 	// ref) AnonymousAuthenticationFilter#createAuthentication(HttpServletRequest)
 	protected Authentication createAuthentication(HttpServletRequest request) {
+		log.info("\t > create authentication token which is AnonymousAuthenticationToken");
+		
 		// null object pattern 
 		AnonymousAuthenticationToken auth = new AnonymousAuthenticationToken(key, "anonymousUser",
 				AuthorityUtils.createAuthorityList("ROLE_ANONYMOUS")); 

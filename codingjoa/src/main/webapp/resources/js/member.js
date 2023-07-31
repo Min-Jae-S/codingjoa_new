@@ -36,7 +36,7 @@ let memberService = (function() {
 						alert(errorResponse.message);
 					}
 				} else {
-					alert("## No ErrorResponse");
+					alert("## Parsing Error");
 				}
 			}
 		});
@@ -65,9 +65,9 @@ let memberService = (function() {
 				$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
 				let errorResponse = parseError(jqXHR);
 				if (errorResponse != null) {
-					parseErrorResponse(errorResponse);
+					handleMemberError(errorResponse);
 				} else {
-					alert("## No ErrorResponse");
+					alert("## Parsing Error");
 				}
 			}
 		});
@@ -96,9 +96,9 @@ let memberService = (function() {
 				let errorResponse = parseError(jqXHR);
 				$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
 				if (errorResponse != null) {
-					parseErrorResponse(errorResponse);
+					handleMemberError(errorResponse);
 				} else {
-					alert("## No ErrorResponse");
+					alert("## Parsing Error");
 				}
 			}
 		});
@@ -127,9 +127,9 @@ let memberService = (function() {
 				$("#memberZipcode\\.errors, #memberAddr\\.errors, #memberAddrDetail\\.errors").remove();
 				let errorResponse = parseError(jqXHR);
 				if (errorResponse != null) {
-					parseErrorResponse(errorResponse);
+					handleMemberError(errorResponse);
 				} else {
-					alert("## No ErrorResponse");
+					alert("## Parsing Error");
 				}
 			}
 		});
@@ -158,9 +158,9 @@ let memberService = (function() {
 				$("#memberAgree\\.errors").remove();
 				let errorResponse = parseError(jqXHR);
 				if (errorResponse != null) {
-					parseErrorResponse(errorResponse);
+					handleMemberError(errorResponse);
 				} else {
-					alert("## No ErrorResponse");
+					alert("## Parsing Error");
 				}
 			}
 		});
@@ -184,9 +184,9 @@ let memberService = (function() {
 				console.log("%c> ERROR", "color:red");
 				let errorResponse = parseError(jqXHR);
 				if (errorResponse != null) {
-					parseErrorResponse(errorResponse);
+					handleMemberError(errorResponse);
 				} else {
-					alert("## No ErrorResponse");
+					alert("## Parsing Error");
 				}
 			}
 		});
@@ -215,9 +215,9 @@ let memberService = (function() {
 				$(".error").remove();
 				let errorResponse = parseError(jqXHR);
 				if (errorResponse != null) {
-					parseErrorResponse(errorResponse);
+					handleMemberError(errorResponse);
 				} else {
-					alert("## No ErrorResponse");
+					alert("## Parsing Error");
 				}
 			}
 		});
@@ -246,9 +246,9 @@ let memberService = (function() {
 				$(".error").remove();
 				let errorResponse = parseError(jqXHR);
 				if (errorResponse != null) {
-					parseErrorResponse(errorResponse);
+					handleMemberError(errorResponse);
 				} else {
-					alert("## No ErrorResponse");
+					alert("## Parsing Error");
 				}
 			}
 		});
@@ -277,9 +277,9 @@ let memberService = (function() {
 				$(".error").remove();
 				let errorResponse = parseError(jqXHR);
 				if (errorResponse != null) {
-					parseErrorResponse(errorResponse);
+					handleMemberError(errorResponse);
 				} else {
-					alert("## No ErrorResponse");
+					alert("## Parsing Error");
 				}
 			}
 		});
@@ -308,9 +308,9 @@ let memberService = (function() {
 				$(".error").remove();
 				let errorResponse = parseError(jqXHR);
 				if (errorResponse != null) {
-					parseErrorResponse(errorResponse);
+					handleMemberError(errorResponse);
 				} else {
-					alert("## No ErrorResponse");
+					alert("## Parsing Error");
 				}
 			}
 		});
@@ -339,9 +339,9 @@ let memberService = (function() {
 				$(".error").remove();
 				let errorResponse = parseError(jqXHR);
 				if (errorResponse != null) {
-					parseErrorResponse(errorResponse);
+					handleMemberError(errorResponse);
 				} else {
-					alert("## No ErrorResponse");
+					alert("## Parsing Error");
 				}
 			}
 		});

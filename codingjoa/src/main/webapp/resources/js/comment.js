@@ -24,9 +24,9 @@ let commentService = (function() {
 				console.log("%c> ERROR", "color:red");
 				let errorResponse = parseError(jqXHR);
 				if (errorResponse != null) {
-					parseErrorResponse(errorResponse);
+					handleCommentError(errorResponse);
 				} else {
-					alert("## No ErrorResponse");
+					alert("## Parsing Error");
 				}
 			}
 		});
@@ -80,9 +80,9 @@ let commentService = (function() {
 				console.log("%c> ERROR", "color:red");
 				let errorResponse = parseError(jqXHR);
 				if (errorResponse != null) {
-					parseErrorResponse(errorResponse);
+					handleCommentError(errorResponse);
 				} else {
-					alert("## No ErrorResponse");
+					alert("## Parsing Error");
 				}
 			}
 		});
@@ -106,9 +106,9 @@ let commentService = (function() {
 				console.log("%c> ERROR", "color:red");
 				let errorResponse = parseError(jqXHR);
 				if (errorResponse != null) {
-					parseErrorResponse(errorResponse);
+					handleCommentError(errorResponse);
 				} else {
-					alert("## No ErrorResponse");
+					alert("## Parsing Error");
 				}
 			}
 		});
@@ -135,9 +135,9 @@ let commentService = (function() {
 				console.log("%c> ERROR", "color:red");
 				let errorResponse = parseError(jqXHR);
 				if (errorResponse != null) {
-					parseErrorResponse(errorResponse);
+					handleCommentError(errorResponse);
 				} else {
-					alert("## No ErrorResponse");
+					alert("## Parsing Error");
 				}
 			}
 		});
@@ -161,9 +161,9 @@ let commentService = (function() {
 				console.log("%c> ERROR", "color:red");
 				let errorResponse = parseError(jqXHR);
 				if (errorResponse != null) {
-					parseErrorResponse(errorResponse);
+					handleCommentError(errorResponse);
 				} else {
-					alert("## No ErrorResponse");
+					alert("## Parsing Error");
 				}
 			}
 		});

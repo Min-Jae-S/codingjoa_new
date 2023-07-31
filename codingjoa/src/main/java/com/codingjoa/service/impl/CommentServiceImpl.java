@@ -12,8 +12,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.codingjoa.dto.CommentDetailsDto;
 import com.codingjoa.dto.CommentDto;
+import com.codingjoa.entity.Board;
 import com.codingjoa.entity.Comment;
 import com.codingjoa.exception.ExpectedException;
+import com.codingjoa.mapper.BoardMapper;
 import com.codingjoa.mapper.CommentMapper;
 import com.codingjoa.pagination.CommentCriteria;
 import com.codingjoa.pagination.Pagination;
@@ -28,6 +30,9 @@ public class CommentServiceImpl implements CommentService {
 
 	@Autowired
 	private CommentMapper commentMapper;
+	
+	@Autowired
+	private BoardMapper boardMapper;
 	
 	@Autowired
 	private ModelMapper modelMapper;
@@ -50,7 +55,13 @@ public class CommentServiceImpl implements CommentService {
 	
 	@Override
 	public List<CommentDetailsDto> getPagedComment(int commentBoardIdx, CommentCriteria commentCri) {
-		log.info("\t > find pagedComment");
+		Board board = boardMapper.findBoardByIdx(commentBoardIdx);
+		log.info("\t > prior to finding pagedComment, find board = {}", board);
+		
+		if (board == null) {
+			throw new ExpectedException("error.NotFoundBoard");
+		}
+		
 		return commentMapper.findPagedComment(commentBoardIdx, commentCri)
 				.stream()
 				.map(commentDetailsMap -> {

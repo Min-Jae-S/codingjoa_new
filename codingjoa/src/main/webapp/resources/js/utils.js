@@ -14,12 +14,36 @@ function parseError(jqXHR) {
 	}
 }
 
-function parseErrorResponse(errorResponse) {
+function handleMemberError(errorResponse) {
 	let details = errorResponse.details;
 	if (details.length > 0) {
 		$.each(details, function(index, item) {
 			$("#" + item.field).closest("dd")
 				.after("<dd id='" + item.field + ".errors' class='error'>" + item.message + "</dd>");
+		});
+	} else {
+		let message = errorResponse.message.replace(/\\n/gi,"\n");
+		alert(message);
+	}
+}
+
+function handleCommentError(errorResponse) {
+	let details = errorResponse.details;
+	if (details.length > 0) {
+		$.each(details, function(index, item) {
+			alert(item.message);
+		});
+	} else {
+		let message = errorResponse.message.replace(/\\n/gi,"\n");
+		alert(message);
+	}
+}
+
+function handleLikesError(errorResponse) {
+	let details = errorResponse.details;
+	if (details.length > 0) {
+		$.each(details, function(index, item) {
+			alert(item.message);
 		});
 	} else {
 		let message = errorResponse.message.replace(/\\n/gi,"\n");

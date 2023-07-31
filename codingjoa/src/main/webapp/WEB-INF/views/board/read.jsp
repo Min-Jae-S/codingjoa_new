@@ -395,7 +395,7 @@
 			</div>
 			
 			<!-- test1 -->
-			<div class="test1 mt-5">
+			<div class="test1 mt-5 d-none">
 				<div class="input-group mb-4">
 					<div class="input-group-prepend">
 	    				<span class="input-group-text">Write Comment</span>
@@ -491,7 +491,7 @@
 			</div>
 			
 			<!-- test3 -->
-			<div class="test3 mt-5 d-none">
+			<div class="test3 mt-5">
 				<div class="input-group mb-4">
 					<div class="input-group-prepend">
 	    				<span class="input-group-text">Toggle Board Likes</span>
