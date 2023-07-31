@@ -262,7 +262,7 @@ public class TestController {
 	@GetMapping("/test5")
 	public ResponseEntity<Object> test5() {
 		log.info("## test5");
-		return ResponseEntity.ok(SuccessResponse.create().message("test5"));
+		return ResponseEntity.ok(SuccessResponse.builder().message("test5").build());
 	}
 	
 	// *********************************************************
@@ -296,7 +296,7 @@ public class TestController {
 	@PostMapping("/method-argument-exception")
 	public ResponseEntity<Object> methodArgumentException(@RequestBody @Valid Test test) {
 		log.info("## methodArgumentException");
-		return ResponseEntity.ok().body(SuccessResponse.create().data("success"));
+		return ResponseEntity.ok().body(SuccessResponse.builder().data("success").build());
 	}
 
 	@ResponseBody

@@ -15,28 +15,42 @@ import lombok.ToString;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class SuccessResponse {
 	
-	private Object data;
 	private String message;
+	private Object data;
 	
 	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
 	private LocalDateTime timestamp = LocalDateTime.now();
 	
-	public static SuccessResponse create() {
-		return new SuccessResponse();
+	public static SuccessResponseBuilder builder() {
+		return new SuccessResponseBuilder();
 	}
 	
-	public SuccessResponse data(Object data) {
-		this.data = data;
-		return this;
+	@ToString
+	public static class SuccessResponseBuilder {
+		private SuccessResponse successResponse;
+
+		private SuccessResponseBuilder() {
+			this.successResponse = new SuccessResponse();
+		}
+		
+		public SuccessResponseBuilder message(String message) {
+			successResponse.message = message;
+			return this;
+		}
+		
+		public SuccessResponseBuilder messageByCode(String code) {
+			successResponse.message = MessageUtils.getMessage(code);
+			return this;
+		}
+
+		public SuccessResponseBuilder data(Object data) {
+			successResponse.data = data;
+			return this;
+		}
+		
+		public SuccessResponse build() {
+			return successResponse;
+		}
 	}
 	
-	public SuccessResponse code(String code) {
-		this.message = MessageUtils.getMessage(code);
-		return this;
-	}
-	
-	public SuccessResponse message(String message) {
-		this.message = message;
-		return this;
-	}
 }

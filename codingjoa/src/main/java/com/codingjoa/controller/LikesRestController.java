@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.codingjoa.dto.BoardLikesDto;
 import com.codingjoa.dto.CommentLikesDto;
 import com.codingjoa.response.SuccessResponse;
+import com.codingjoa.response.SuccessResponse.SuccessResponseBuilder;
 import com.codingjoa.security.dto.UserDetailsDto;
 import com.codingjoa.service.LikesService;
 
@@ -46,14 +47,14 @@ public class LikesRestController {
 		
 		resetAuthentication(principal.getMember().getMemberId());
 		
-		SuccessResponse response = SuccessResponse.create();
+		SuccessResponseBuilder builder = SuccessResponse.builder();
 		if (boardLikesIdx == null) {
-			response.data("ON").code("success.InsertBoardLikes");
+			builder.messageByCode("success.InsertBoardLikes").data("ON");
 		} else {
-			response.data("OFF").code("success.DeleteBoardLikes");
+			builder.messageByCode("success.DeleteBoardLikes").data("OFF");
 		}
 		
-		return ResponseEntity.ok(response);
+		return ResponseEntity.ok(builder.build());
 	}
 	
 	@GetMapping("/boards/{boardIdx}/likes")
@@ -63,7 +64,7 @@ public class LikesRestController {
 		int boardLikesCnt = likesService.getBoardLikesCnt(boardIdx);
 		log.info("\t > boardLikesCnt = {}", boardLikesCnt);
 		
-		return ResponseEntity.ok(SuccessResponse.create().data(boardLikesCnt));
+		return ResponseEntity.ok(SuccessResponse.builder().data(boardLikesCnt).build());
 	}
 	
 	@PostMapping("/comments/{commentIdx}/likes")
@@ -79,14 +80,14 @@ public class LikesRestController {
 		
 		resetAuthentication(principal.getMember().getMemberId());
 		
-		SuccessResponse response = SuccessResponse.create();
+		SuccessResponseBuilder builder = SuccessResponse.builder();
 		if (commentLikesIdx == null) {
-			response.data("ON").code("success.InsertCommentLikes");
+			builder.messageByCode("success.InsertCommentLikes").data("ON");
 		} else {
-			response.data("OFF").code("success.DeleteCommentLikes");
+			builder.messageByCode("success.DeleteCommentLikes").data("OFF");
 		}
 		
-		return ResponseEntity.ok(response);
+		return ResponseEntity.ok(builder.build());
 	}
 
 	@GetMapping("/comments/{commentIdx}/likes")
@@ -96,7 +97,7 @@ public class LikesRestController {
 		int commentLikesCnt = likesService.getCommentLikesCnt(commentIdx);
 		log.info("\t > commentLikesCnt = {}", commentLikesCnt);
 		
-		return ResponseEntity.ok(SuccessResponse.create().data(commentLikesCnt));
+		return ResponseEntity.ok(SuccessResponse.builder().data(commentLikesCnt).build());
 	}
 	
 	private void resetAuthentication(String memberId) {

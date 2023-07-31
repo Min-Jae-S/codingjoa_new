@@ -57,8 +57,9 @@ public class CommentRestController {
 		Pagination pagination = commentService.getPagination(commentBoardIdx, commentCri);
 		log.info("\t > {}", pagination);
 		
-		return ResponseEntity.ok(SuccessResponse.create().data(
-				Map.of("commentList", commentList, "commentLikesList", commentLikesList, "pagination", pagination)));
+		return ResponseEntity.ok(SuccessResponse.builder()
+				.data(Map.of("commentList", commentList, "commentLikesList", commentLikesList, "pagination", pagination))
+				.build());
 	}
 	
 	@GetMapping(value = { "/comments", "/comments/{commentIdx}" })
@@ -69,7 +70,7 @@ public class CommentRestController {
 		CommentDetailsDto commentDetails = 
 				commentService.getCommentDetails(commentIdx, principal.getMember().getMemberIdx());
 		
-		return ResponseEntity.ok(SuccessResponse.create().data(commentDetails));
+		return ResponseEntity.ok(SuccessResponse.builder().data(commentDetails).build());
 	}
 	
 	@PostMapping("/comments")
@@ -82,7 +83,7 @@ public class CommentRestController {
 		writeCommentDto.setCommentUse(true);
 		commentService.writeComment(writeCommentDto);
 		
-		return ResponseEntity.ok(SuccessResponse.create().code("success.writeComment"));
+		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.writeComment").build());
 	}
 	
 	@PatchMapping(value = { "/comments", "/comments/{commentIdx}" })
@@ -95,7 +96,7 @@ public class CommentRestController {
 		modifyCommentDto.setCommentWriterIdx(principal.getMember().getMemberIdx());
 		commentService.modifyComment(modifyCommentDto);
 		
-		return ResponseEntity.ok(SuccessResponse.create().code("success.updateComment"));
+		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.updateComment").build());
 	}
 	
 	@DeleteMapping(value = { "/comments", "/comments/{commentIdx}" })
@@ -108,7 +109,7 @@ public class CommentRestController {
 		deleteCommentDto.setCommentWriterIdx(principal.getMember().getMemberIdx());
 		commentService.deleteComment(deleteCommentDto); // update commentUse(true -> false)
 		
-		return ResponseEntity.ok(SuccessResponse.create().code("success.deleteComment"));
+		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.deleteComment").build());
 	}
 	
 }

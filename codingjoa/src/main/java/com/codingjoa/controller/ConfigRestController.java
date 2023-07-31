@@ -77,7 +77,7 @@ public class ConfigRestController {
 			}
 		}
 		
-		return ResponseEntity.ok(SuccessResponse.create().data(filters));
+		return ResponseEntity.ok(SuccessResponse.builder().data(filters).build());
 	}
 	
 	@GetMapping("/handler-mappings")
@@ -126,7 +126,7 @@ public class ConfigRestController {
 			}
 		}
 		
-		return ResponseEntity.ok(SuccessResponse.create().data(handlerMappings));
+		return ResponseEntity.ok(SuccessResponse.builder().data(handlerMappings).build());
 	}
 
 	@GetMapping("/interceptors")
@@ -142,7 +142,7 @@ public class ConfigRestController {
 				.map(interceptor -> interceptor.getClass().getName())
 				.collect(Collectors.toList());
 		
-		return ResponseEntity.ok(SuccessResponse.create().data(interceptors));
+		return ResponseEntity.ok(SuccessResponse.builder().data(interceptors).build());
 	}
 	
 	@GetMapping("/handler-adapters")
@@ -156,7 +156,7 @@ public class ConfigRestController {
 				.map(adapter -> adapter.getClass().getName())
 				.collect(Collectors.toList());
 		
-		return ResponseEntity.ok(SuccessResponse.create().data(handlerAdapters));
+		return ResponseEntity.ok(SuccessResponse.builder().data(handlerAdapters).build());
 	}
 
 	@GetMapping("/argument-resolvers")
@@ -172,7 +172,7 @@ public class ConfigRestController {
 			log.info("\t > {}", resolver.substring(resolver.lastIndexOf(".") + 1));
 		});
 		
-		return ResponseEntity.ok(SuccessResponse.create().data(argumentResolvers));
+		return ResponseEntity.ok(SuccessResponse.builder().data(argumentResolvers).build());
 	}
 
 	@GetMapping("/validators")
@@ -181,7 +181,7 @@ public class ConfigRestController {
 		Map<String, Validator> validatorMap = webApplicationContext.getBeansOfType(Validator.class);
 		validatorMap.forEach((key, validator) -> log.info("\t > {} : {}", key, validator));
 		
-		return ResponseEntity.ok(SuccessResponse.create().data(null));
+		return ResponseEntity.ok(SuccessResponse.builder().data(null).build());
 	}
 
 	@GetMapping("/return-value-handlers")
@@ -201,7 +201,7 @@ public class ConfigRestController {
 			log.info("\t > {}", handler.substring(handler.lastIndexOf(".") + 1));
 		});
 		
-		return ResponseEntity.ok(SuccessResponse.create().data(returnValueHandlers));
+		return ResponseEntity.ok(SuccessResponse.builder().data(returnValueHandlers).build());
 	}
 
 	@GetMapping("/view-resolvers")
@@ -232,7 +232,7 @@ public class ConfigRestController {
 			}
 		}
 		
-		return ResponseEntity.ok(SuccessResponse.create().data(viewResolvers));
+		return ResponseEntity.ok(SuccessResponse.builder().data(viewResolvers).build());
 	}
 	
 	@GetMapping("/message-converters")
@@ -248,7 +248,7 @@ public class ConfigRestController {
 			log.info("\t > {}", converter.substring(converter.lastIndexOf(".") + 1));
 		});
 		
-		return ResponseEntity.ok(SuccessResponse.create().data(messageConverters));
+		return ResponseEntity.ok(SuccessResponse.builder().data(messageConverters).build());
 	}
 	
 	@GetMapping("/handler-exception-resolvers")
@@ -271,7 +271,7 @@ public class ConfigRestController {
 		log.info("  - ExceptionResolvers from HandlerExceptionResolver.class");
 		exceptionResolverMap.forEach((key, resolver) -> log.info("\t > {} : {}", key, resolver.getClass().getName()));
 		
-		return ResponseEntity.ok(SuccessResponse.create().data(exceptionResolvers));
+		return ResponseEntity.ok(SuccessResponse.builder().data(exceptionResolvers).build());
 	}
 	
 }

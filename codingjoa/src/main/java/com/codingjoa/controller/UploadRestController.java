@@ -59,8 +59,10 @@ public class UploadRestController {
 		String uploadFileUrl = request.getContextPath() + uploadUrl + uploadFilename;
 		log.info("\t > uploadFileUrl = {}", uploadFileUrl);
 		
-		return ResponseEntity.ok(SuccessResponse.create().code("success.uploadImage")
-				.data(Map.of("uploadIdx", uploadIdx, "uploadFileUrl", uploadFileUrl, "uploadFilename", uploadFilename)));
+		return ResponseEntity.ok(SuccessResponse.builder()
+				.messageByCode("success.uploadImage")
+				.data(Map.of("uploadIdx", uploadIdx, "uploadFileUrl", uploadFileUrl, "uploadFilename", uploadFilename))
+				.build());
 	}
 	
 }
