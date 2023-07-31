@@ -19,6 +19,7 @@
 <script src="${contextPath}/resources/ckeditor5/plugins/ckeditor-plugins.js"></script>
 <script src="${contextPath}/resources/ckeditor5/plugins/viewtoplaintext.js"></script>
 <script src="${contextPath}/resources/ckeditor5/build/ckeditor.js"></script>
+<!-- test -->
 <script src="${contextPath}/resources/js/attrchange.js"></script>
 <script src="${contextPath}/resources/js/attrchange_ext.js"></script>
 <style>

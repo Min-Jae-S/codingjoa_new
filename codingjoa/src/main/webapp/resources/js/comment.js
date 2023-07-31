@@ -1,31 +1,5 @@
 console.log("## Comment service ready - comment.js");
 
-function getContextPath() {
-    let hostIndex = location.href.indexOf(location.host) + location.host.length;
-    return location.href.substring(hostIndex, location.href.indexOf('/', hostIndex + 1));
-}
-
-function parseError(jqXHR) {
-	try {
-		let errorResponse = JSON.parse(jqXHR.responseText);
-		console.log(JSON.stringify(errorResponse, null, 2));
-		return errorResponse;
-	} catch(e) {
-		console.log("## %s", e);
-		return null;
-	}
-}
-
-function parseErrorResponse(errorResponse) {
-	let details = errorResponse.details;
-	if (details.length > 0) {
-		// ...
-	} else {
-		let message = errorResponse.message.replace(/\\n/gi,"\n");
-		alert(message);
-	}
-}
-
 let commentService = (function() {
 	const contextPath = getContextPath();
 	

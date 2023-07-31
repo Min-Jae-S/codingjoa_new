@@ -1,34 +1,6 @@
 console.log("## Likes service ready - likes.js");
 
-function getContextPath() {
-    let hostIndex = location.href.indexOf(location.host) + location.host.length;
-    return location.href.substring(hostIndex, location.href.indexOf('/', hostIndex + 1));
-}
-
-function parseError(jqXHR) {
-	try {
-		let errorResponse = JSON.parse(jqXHR.responseText);
-		console.log(JSON.stringify(errorResponse, null, 2));
-		return errorResponse;
-	} catch(e) {
-		alert("Parsing Error");
-		return null;
-	}
-}
-
-function processErrorResponse(errorResponse) {
-	let errorMap = errorResponse.errorMap;
-	if (errorMap != null) {
-		$.each(errorMap, function(errorField, errorMessage) {
-			alert(errorMessage);
-		});
-	} else {
-		alert(errorResponse.errorMessage);
-	}
-}
-
 let likesService = (function() {
-
 	const contextPath = getContextPath();
 
 	function toggleBoardLikes(boardIdx, callback) {
