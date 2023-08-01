@@ -50,18 +50,18 @@ public class UploadRestController {
 		log.info("## uploadBoardImage");
 		log.info("\t > original filename = {}", uploadFileDto.getFile().getOriginalFilename());
 		
-		String filename = UploadFileUtils.upload(path, uploadFileDto.getFile());
-		log.info("\t > filename = {}", filename);
+		String uploadFilename = UploadFileUtils.upload(path, uploadFileDto.getFile());
+		log.info("\t > new filename = {}", uploadFilename);
 		
-		int boardImageIdx = uploadService.uploadBoardImage(filename);
-		log.info("\t > image idx = {}", boardImageIdx);
+		int boardImageIdx = uploadService.uploadBoardImage(uploadFilename);
+		log.info("\t > boardImageIdx = {}", boardImageIdx);
 		
-		String uploadUrl = request.getContextPath() + url + filename;
-		log.info("\t > upload url = {}", uploadUrl);
+		String uploadUrl = request.getContextPath() + url + uploadFilename;
+		log.info("\t > uploadUrl = {}", uploadUrl);
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
 				.messageByCode("success.uploadBoardImage")
-				.data(Map.of("uploadIdx", boardImageIdx, "uploadFileUrl", uploadUrl, "uploadFilename", filename))
+				.data(Map.of("uploadUrl", uploadUrl, "boardImageIdx", boardImageIdx, "uploadFilename", uploadFilename))
 				.build());
 	}
 
