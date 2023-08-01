@@ -54,10 +54,10 @@ public class UploadRestController {
 		log.info("\t > new filename = {}", uploadFilename);
 		
 		int boardImageIdx = uploadService.uploadBoardImage(uploadFilename);
-		log.info("\t > boardImageIdx = {}", boardImageIdx);
+		log.info("\t > idx = {}", boardImageIdx);
 		
 		String uploadUrl = request.getContextPath() + url + uploadFilename;
-		log.info("\t > uploadUrl = {}", uploadUrl);
+		log.info("\t > url = {}", uploadUrl);
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
 				.messageByCode("success.uploadBoardImage")
@@ -75,14 +75,14 @@ public class UploadRestController {
 		log.info("\t > filename = {}", filename);
 		
 		int boardImageIdx = uploadService.uploadBoardImage(filename);
-		log.info("\t > image idx = {}", boardImageIdx);
+		log.info("\t > idx = {}", boardImageIdx);
 		
 		String uploadUrl = request.getContextPath() + url + filename;
-		log.info("\t > upload url = {}", uploadUrl);
+		log.info("\t > url = {}", uploadUrl);
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
-				.messageByCode("success.uploadImage")
-				.data(Map.of("idx", boardImageIdx, "url", uploadUrl, "name", filename))
+				.messageByCode("success.uploadProfileImage")
+				.data(Map.of("idx", boardImageIdx, "url", uploadUrl, "filename", filename))
 				.build());
 	}
 	
