@@ -42,6 +42,10 @@ class UploadAdapter {
         	const response = xhr.response;
         	const readyStatus = xhr.readyState;
         	const status = xhr.status;
+        	if (status == 200) {
+        		console.log("%c> SUCCESS", "color:green");
+        		console.log(JSON.stringify(response, null, 2));
+        	}
         	
 //        	if (status == "422") {
 //        		return reject(response.errorMap ? response.errorMap.file : genericErrorText);
@@ -52,7 +56,8 @@ class UploadAdapter {
             // Your integration may handle upload errors in a different way so make sure it is done properly.
             // The reject() function must be called when the upload fails.
             if (!response || response.error) {
-            	console.log("## No response || No reponse.error");
+            	console.log("%c> ERROR", "color:red");
+            	console.log(response);
                 return reject(response && response.error ? response.error.message : genericErrorText);
             }
          	
