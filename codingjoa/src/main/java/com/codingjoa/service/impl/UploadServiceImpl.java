@@ -30,16 +30,17 @@ public class UploadServiceImpl implements UploadService {
 	}
 
 	@Override
-	public boolean isImageUploaded(int uploadIdx) {
-		return uploadMapper.isImageUploaded(uploadIdx);
+	public boolean isBoardImageUploaded(int boardImageIdx) {
+		return uploadMapper.isBoardImageUploaded(boardImageIdx);
 	}
 
 	@Override
-	public void activateImage(BoardDto boardDto) {
-		List<Integer> uploadIdxList = boardDto.getUploadIdxList();
-		if (CollectionUtils.isEmpty(uploadIdxList)) return;
-		
-		uploadMapper.activateImage(boardDto.getBoardIdx(), uploadIdxList);
+	public void activateBoardImage(BoardDto boardDto) {
+		List<Integer> boardImages = boardDto.getBoardImages();
+		if (CollectionUtils.isEmpty(boardImages)) { 
+			return;
+		}
+		uploadMapper.activateBoardImage(boardDto.getBoardIdx(), boardImages);
 	}
 	
 	@Override
@@ -48,7 +49,7 @@ public class UploadServiceImpl implements UploadService {
 	}
 	
 	@Override
-	public void deactivateImage(BoardDto boardDto) {
-		uploadMapper.deactivateImage(boardDto.getBoardIdx());
+	public void deactivateBoardImage(BoardDto boardDto) {
+		uploadMapper.deactivateBoardImage(boardDto.getBoardIdx());
 	}
 }

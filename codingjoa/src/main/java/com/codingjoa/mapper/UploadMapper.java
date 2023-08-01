@@ -12,12 +12,12 @@ public interface UploadMapper {
 
 	int insertBoardImage(BoardImage boardImage);
 	
-	boolean isImageUploaded(int uploadIdx);
+	boolean isBoardImageUploaded(int boardImageIdx);
 	
-	void activateImage(@Param("uploadBoardIdx") int uploadBoardIdx, @Param("uploadIdxList") List<Integer> uploadIdxList);
+	void activateBoardImage(@Param("uploadBoardIdx") int uploadBoardIdx, @Param("uploadIdxList") List<Integer> boardImages);
 	
 	List<Integer> findUploadIdxList(int uploadBoardIdx);
 	
-	void deactivateImage(int uploadBoardIdx);
+	void deactivateBoardImage(int boardImageIdx);
 	
 }

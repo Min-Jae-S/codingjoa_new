@@ -9,41 +9,41 @@
 -->
 
 	<insert id="insertBoardImage" parameterType="boardImage">
-		<selectKey keyProperty="uploadIdx" resultType="int" order="BEFORE">
-			SELECT seq_upload.NEXTVAL FROM DUAL
+		<selectKey keyProperty="boardImageIdx" resultType="int" order="BEFORE">
+			SELECT seq_board_image.NEXTVAL FROM DUAL
 		</selectKey>
 		
-		INSERT INTO upload (
-			upload_idx,
-			upload_board_idx,
-			upload_file,
+		INSERT INTO board_image (
+			board_image_idx,
+			board_idx,
+			board_image_name,
 			regdate
 		) VALUES (
-			#{uploadIdx},
-			#{uploadBoardIdx},
-			#{uploadFile},
+			#{boardImageIdx},
+			#{boardIdx},
+			#{boardImageName},
 			SYSDATE
 		)
 	</insert>
 	
-	<select id="isImageUploaded" parameterType="int" resultType="boolean">
+	<select id="isBoardImageUploaded" parameterType="int" resultType="boolean">
 		SELECT
 			COUNT(*)
 		FROM
-			upload
+			board_image
 		WHERE
-			upload_idx = #{uploadIdx}
+			board_image_idx = #{boardImageIdx}
 	</select>
 	
-	<update id="activateImage" parameterType="map">
+	<update id="activateBoardImage" parameterType="map">
 		UPDATE 
-			upload
+			board_image
 		SET
-			upload_board_idx = #{uploadBoardIdx}
+			board_image_idx = #{boardImageIdx}
 		WHERE
-			upload_idx IN 
-			<foreach collection="uploadIdxList" item="uploadIdx" separator="," open="(" close=")">	
-				#{uploadIdx}
+			board_image_idx IN 
+			<foreach collection="boardImages" item="boardImageIdx" separator="," open="(" close=")">	
+				#{boardImageIdx}
 			</foreach>
 	</update>
 	
@@ -56,13 +56,13 @@
 			upload_board_idx = #{uploadBoardIdx}
 	</select>
 	
-	<update id="deactivateImage" parameterType="int">
+	<update id="deactivateBoardImage" parameterType="int">
 		UPDATE 
-			upload
+			board_image
 		SET
-			upload_board_idx = ''
+			board_idx = ''
 		WHERE
-			upload_board_idx = #{uploadBoardIdx} 
+			board_image_idx = #{boardImageIdx} 
 	</update>
 	
 </mapper>

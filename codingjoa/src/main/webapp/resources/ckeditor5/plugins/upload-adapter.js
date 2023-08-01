@@ -25,7 +25,7 @@ class UploadAdapter {
         // a POST request with JSON as a data structure but your configuration
         // could be different.
         const xhr = this.xhr = new XMLHttpRequest();
-        xhr.open('POST', getContextPath() + "/upload/image", true);
+        xhr.open('POST', getContextPath() + "/api/upload/board-image", true);
         xhr.responseType = 'json';
     }
 
@@ -43,15 +43,16 @@ class UploadAdapter {
         	const readyStatus = xhr.readyState;
         	const status = xhr.status;
         	
-            if (status == "422") {
-            	return reject(response.errorMap ? response.errorMap.file : genericErrorText);
-            }
+//        	if (status == "422") {
+//        		return reject(response.errorMap ? response.errorMap.file : genericErrorText);
+//        	}
 			
          	// This example assumes the XHR server's "response" object will come with an "error" 
          	// which has its own "message" that can be passed to reject() in the upload promise.
             // Your integration may handle upload errors in a different way so make sure it is done properly.
             // The reject() function must be called when the upload fails.
             if (!response || response.error) {
+            	console.log("## No response || No reponse.error");
                 return reject(response && response.error ? response.error.message : genericErrorText);
             }
          	
@@ -64,9 +65,9 @@ class UploadAdapter {
 //            	urls: {
 //            		default: getContextPath() + response.data.returnUrl
 //            	},
-            	url: response.data.uploadFileUrl,
-            	idx: response.data.uploadIdx,
-            	alt: response.data.uploadFilename
+            	url: response.data.url,
+            	idx: response.data.idx,
+            	alt: response.data.name
             });
         });
     }
@@ -82,6 +83,7 @@ class UploadAdapter {
 
         // Send the request.
         console.log("## Send upload request");
+        console.log(data);
         this.xhr.send(data);
     }
 }

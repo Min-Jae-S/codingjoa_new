@@ -1,7 +1,7 @@
 console.log("## Editor plugins ready - ckeditor-plugins.js");
 
 	function uploadAdapter(editor) {
-		console.log("	>> Register upload adapter");
+		console.log("\t > Register upload adapter");
 	    editor.plugins.get("FileRepository").createUploadAdapter = (loader) => {
 	        return new UploadAdapter(loader);
 	    };
@@ -9,7 +9,7 @@ console.log("## Editor plugins ready - ckeditor-plugins.js");
 	
 	// https://ckeditor.com/docs/ckeditor5/latest/api/module_image_imageupload_imageuploadediting-ImageUploadEditing.html#event-uploadComplete
 	function uploadCompleteListener(editor) {
-		console.log("	>> Register upload complete listener");
+		console.log("\t > Register upload complete listener");
 		
 		editor.plugins.get("ImageUploadEditing").on("uploadComplete", (evt, {data, imageElement}) => {
 			console.log("## Upload complete");
@@ -24,14 +24,14 @@ console.log("## Editor plugins ready - ckeditor-plugins.js");
 	
 	// https://github.com/ckeditor/ckeditor5/issues/5204
 	function attributeExtender(editor) {
-		console.log("	>> Extend custom attribute(dataIdx) ==> blockObject, inlineOjbect");
+		console.log("\t > Extend custom attribute(dataIdx) ==> blockObject, inlineOjbect");
 		editor.model.schema.extend("$blockObject", { allowAttributes: "dataIdx" });
 		editor.model.schema.extend("$inlineObject", { allowAttributes: "dataIdx" });
 	}
 	
 	// view-to-model converter(upcast)
 	function viewToModelConverter(editor) {
-		console.log("	>> Register VIEW-TO-MODEL converter ==> upcast");
+		console.log("\t > Register VIEW-TO-MODEL converter ==> upcast");
 		editor.conversion.for("upcast").attributeToAttribute({
             view: "data-idx",
             model: "dataIdx"
@@ -42,7 +42,7 @@ console.log("## Editor plugins ready - ckeditor-plugins.js");
 	// https://stackoverflow.com/questions/56402202/ckeditor5-create-element-image-with-attributes
 	// https://gitlab-new.bap.jp/chinhnc2/ckeditor5/-/blob/690049ec7b8e95ba840ab1c882b5680f3a3d1dc4/packages/ckeditor5-engine/docs/framework/guides/deep-dive/conversion-preserving-custom-content.md
 	function modelToViewEditingConverter(editor) {
-		console.log("	>> Register MODEL-TO-VIEW converter ==> downcast(editng)");
+		console.log("\t > Register MODEL-TO-VIEW converter ==> downcast(editng)");
 		
 		editor.conversion.for("editingDowncast").add(dispatcher => { // downcastDispatcher
             dispatcher.on("attribute:dataIdx", (evt, data, conversionApi) => {
@@ -56,9 +56,9 @@ console.log("## Editor plugins ready - ckeditor-plugins.js");
                 const viewWriter = conversionApi.writer;
                 const imageContainer = conversionApi.mapper.toViewElement(modelElement);
                 const imageElement = imageContainer.getChild(0);
-                console.log("	>> modelElement		: " + modelElement.name);
-                console.log("	>> imageContainer	: " + imageContainer.name);
-                console.log("	>> imageElement		: " + imageElement.name);
+                console.log("\t > modelElement		: " + modelElement.name);
+                console.log("\t > imageContainer	: " + imageContainer.name);
+                console.log("\t > imageElement		: " + imageElement.name);
                 
                 if (data.attributeNewValue !== null) {
                 	viewWriter.setAttribute("data-idx", data.attributeNewValue, imageElement);
@@ -71,7 +71,7 @@ console.log("## Editor plugins ready - ckeditor-plugins.js");
 	
 	// model-to-view converter(data downcast)
 	function modelToViewDataConverter(editor) {
-		console.log("	>> Register MODEL-TO-VIEW converter ==> downcast(data)");
+		console.log("\t > Register MODEL-TO-VIEW converter ==> downcast(data)");
 		
 		editor.conversion.for("dataDowncast").add(dispatcher => {
 			dispatcher.on("attribute:dataIdx", (evt, data, conversionApi) => { 
@@ -85,9 +85,9 @@ console.log("## Editor plugins ready - ckeditor-plugins.js");
             	const viewWriter = conversionApi.writer;
                 const imageContainer = conversionApi.mapper.toViewElement(modelElement);
                 const imageElement = (modelElement.name === "imageBlock") ? imageContainer.getChild(0) : imageContainer;
-                console.log("	>> modelElement		: " + modelElement.name);
-                console.log("	>> imageContainer	: " + imageContainer.name);
-                console.log("	>> imageElement		: " + imageElement.name);
+                console.log("\t > modelElement		: " + modelElement.name);
+                console.log("\t > imageContainer	: " + imageContainer.name);
+                console.log("\t > imageElement		: " + imageElement.name);
                 
                 if (data.attributeNewValue !== null) {
 	                viewWriter.setAttribute("data-idx", data.attributeNewValue, imageElement);

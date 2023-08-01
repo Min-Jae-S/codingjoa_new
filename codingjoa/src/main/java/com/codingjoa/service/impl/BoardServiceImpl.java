@@ -55,7 +55,7 @@ public class BoardServiceImpl implements BoardService {
 		}
 
 		boardDto.setBoardIdx(DBboardIdx);
-		uploadService.activateImage(boardDto);
+		uploadService.activateBoardImage(boardDto);
 	}
 
 	@Override
@@ -147,8 +147,8 @@ public class BoardServiceImpl implements BoardService {
 			throw new ExpectedException("error.NotMyBoard");
 		}
 		
-		uploadService.deactivateImage(boardDto);
-		uploadService.activateImage(boardDto);
+		uploadService.deactivateBoardImage(boardDto);
+		uploadService.activateBoardImage(boardDto);
 	}
 
 	@Override

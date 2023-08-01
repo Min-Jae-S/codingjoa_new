@@ -26,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @PropertySource("/WEB-INF/properties/upload.properties")
-@RequestMapping("/upload")
+@RequestMapping("/api/upload")
 @RestController
 public class UploadRestController {
 	
@@ -44,7 +44,7 @@ public class UploadRestController {
 		binder.addValidators(new UploadFileValidator());
 	}
 	
-	@PostMapping("/board/image")
+	@PostMapping("/board-image")
 	public ResponseEntity<Object> uploadBoardImage(@ModelAttribute @Valid UploadFileDto uploadFileDto,
 			HttpServletRequest request) {
 		log.info("## uploadBoardImage");
@@ -65,7 +65,7 @@ public class UploadRestController {
 				.build());
 	}
 
-	@PostMapping("/profile/image")
+	@PostMapping("/profile-image")
 	public ResponseEntity<Object> uploadProfileImage(@ModelAttribute @Valid UploadFileDto uploadFileDto,
 			HttpServletRequest request) {
 		log.info("## uploadProfileImage");
@@ -82,7 +82,7 @@ public class UploadRestController {
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
 				.messageByCode("success.uploadImage")
-				.data(Map.of("uploadIdx", boardImageIdx, "uploadFileUrl", uploadUrl, "uploadFilename", filename))
+				.data(Map.of("idx", boardImageIdx, "url", uploadUrl, "name", filename))
 				.build());
 	}
 	

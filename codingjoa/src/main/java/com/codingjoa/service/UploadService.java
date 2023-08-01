@@ -6,14 +6,14 @@ import com.codingjoa.dto.BoardDto;
 
 public interface UploadService {
 	
-	int uploadBoardImage(String uploadFilename);
+	int uploadBoardImage(String filename);
 	
-	boolean isImageUploaded(int uploadIdx);
+	boolean isBoardImageUploaded(int boardImageIdx);
 	
-	void activateImage(BoardDto boardDto);
+	void activateBoardImage(BoardDto boardDto);
 	
 	List<Integer> getUploadIdxList(int uploadBoardIdx);
 	
-	void deactivateImage(BoardDto boardDto);
+	void deactivateBoardImage(BoardDto boardDto);
 	
 }

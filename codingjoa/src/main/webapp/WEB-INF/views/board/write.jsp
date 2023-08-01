@@ -189,8 +189,8 @@
 			    	continue;
 			    }
 			    
-			    //let $input = $("<input>").attr("type", "hidden").attr("name", "uploadIdxList[]");
-			    let $input = $("<input>").attr("type", "hidden").attr("name", "uploadIdxList");
+			    //let $input = $("<input>").attr("type", "hidden").attr("name", "boardImages[]");
+			    let $input = $("<input>").attr("type", "hidden").attr("name", "boardImages");
 			    let dataIdx = value.item.getAttribute("dataIdx");
 			    
 			    $input.val(dataIdx);
@@ -203,8 +203,8 @@
 			
 			if (!confirm("게시글을 등록하시겠습니까?")) {
 				$("textArea[name='boardContentText']").remove();
-				//$("input[name='uploadIdxList[]']").remove();
-				$("input[name='uploadIdxList']").remove();
+				//$("input[name='boardImages[]']").remove(); // uploadIdxList --> boardImages
+				$("input[name='boardImages']").remove();
 				console.log("## Cancel writeForm submit");
 				console.log(JSON.stringify($writeForm.serializeObject(), null, 2));
 				console.log('{\r\n  "boardContent": "' + writeEditor.getData() + '"\r\n}');
