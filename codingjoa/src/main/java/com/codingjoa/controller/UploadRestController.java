@@ -33,35 +33,56 @@ public class UploadRestController {
 	@Autowired
 	private UploadService uploadService;
 	
-	@Value("${upload.path}")
-	private String uploadPath;
+	@Value("${upload.board.path}")
+	private String path;
 	
-	@Value("${upload.url}")
-	private String uploadUrl;
+	@Value("${upload.board.url}")
+	private String url;
 	
 	@InitBinder("uploadFileDto")
 	public void initBinderUpload(WebDataBinder binder) {
 		binder.addValidators(new UploadFileValidator());
 	}
 	
-	@PostMapping("/image")
-	public ResponseEntity<Object> uploadImage(@ModelAttribute @Valid UploadFileDto uploadFileDto,
+	@PostMapping("/board/image")
+	public ResponseEntity<Object> uploadBoardImage(@ModelAttribute @Valid UploadFileDto uploadFileDto,
 			HttpServletRequest request) {
-		log.info("## uploadImage");
-		log.info("\t > original file name = {}", uploadFileDto.getFile().getOriginalFilename());
+		log.info("## uploadBoardImage");
+		log.info("\t > original filename = {}", uploadFileDto.getFile().getOriginalFilename());
 		
-		String uploadFilename = UploadFileUtils.upload(uploadPath, uploadFileDto.getFile());
-		log.info("\t > uploadFilename = {}", uploadFilename);
+		String filename = UploadFileUtils.upload(path, uploadFileDto.getFile());
+		log.info("\t > filename = {}", filename);
 		
-		int uploadIdx = uploadService.uploadBoardImage(uploadFilename);
-		log.info("\t > uploadIdx = {}", uploadIdx);
+		int boardImageIdx = uploadService.uploadBoardImage(filename);
+		log.info("\t > image idx = {}", boardImageIdx);
 		
-		String uploadFileUrl = request.getContextPath() + uploadUrl + uploadFilename;
-		log.info("\t > uploadFileUrl = {}", uploadFileUrl);
+		String uploadUrl = request.getContextPath() + url + filename;
+		log.info("\t > upload url = {}", uploadUrl);
+		
+		return ResponseEntity.ok(SuccessResponse.builder()
+				.messageByCode("success.uploadBoardImage")
+				.data(Map.of("uploadIdx", boardImageIdx, "uploadFileUrl", uploadUrl, "uploadFilename", filename))
+				.build());
+	}
+
+	@PostMapping("/profile/image")
+	public ResponseEntity<Object> uploadProfileImage(@ModelAttribute @Valid UploadFileDto uploadFileDto,
+			HttpServletRequest request) {
+		log.info("## uploadProfileImage");
+		log.info("\t > original filename = {}", uploadFileDto.getFile().getOriginalFilename());
+		
+		String filename = UploadFileUtils.upload(path, uploadFileDto.getFile());
+		log.info("\t > filename = {}", filename);
+		
+		int boardImageIdx = uploadService.uploadBoardImage(filename);
+		log.info("\t > image idx = {}", boardImageIdx);
+		
+		String uploadUrl = request.getContextPath() + url + filename;
+		log.info("\t > upload url = {}", uploadUrl);
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
 				.messageByCode("success.uploadImage")
-				.data(Map.of("uploadIdx", uploadIdx, "uploadFileUrl", uploadFileUrl, "uploadFilename", uploadFilename))
+				.data(Map.of("uploadIdx", boardImageIdx, "uploadFileUrl", uploadUrl, "uploadFilename", filename))
 				.build());
 	}
 	

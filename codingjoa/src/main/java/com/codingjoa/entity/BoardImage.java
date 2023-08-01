@@ -5,18 +5,18 @@ import java.util.Date;
 import lombok.Data;
 
 /*
-	upload_idx              NUMBER,
-	upload_board_idx        NUMBER              NULL,
-	upload_file             VARCHAR2(500)       NOT NULL,
+	board_image_idx         NUMBER,
+	board_idx               NUMBER              NULL,
+	board_image_name        VARCHAR2(500)       NOT NULL,
 	regdate                 DATE                NOT NULL,
 */
 
 @Data
 public class BoardImage {
 	
-	private Integer uploadIdx;
-	private Integer uploadBoardIdx;
-	private String uploadFile;
+	private Integer boardImageIdx;
+	private Integer boardIdx;
+	private String boardImageName;
 	private Date regdate;
 	
 }

@@ -7,8 +7,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class UploadFileUtils {
 	
-	public static String upload(String uploadPath, MultipartFile file) {
-		File uploadFolder = new File(uploadPath);
+	public static String upload(String path, MultipartFile file) {
+		File uploadFolder = new File(path);
 
 		if (!uploadFolder.exists()) {
 			uploadFolder.mkdirs();
