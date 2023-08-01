@@ -2,9 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.codingjoa.mapper.UploadMapper">
 <!--  
-	upload_idx              NUMBER,
-	upload_board_idx        NUMBER              NULL,
-	upload_file             VARCHAR2(500)       NOT NULL,
+	board_image_idx         NUMBER,
+	board_idx               NUMBER              NULL,
+	board_image_name        VARCHAR2(500)       NOT NULL,
 	regdate                 DATE                NOT NULL,
 -->
 
@@ -39,7 +39,7 @@
 		UPDATE 
 			board_image
 		SET
-			board_image_idx = #{boardImageIdx}
+			board_idx = #{boardIdx}
 		WHERE
 			board_image_idx IN 
 			<foreach collection="boardImages" item="boardImageIdx" separator="," open="(" close=")">	
@@ -47,6 +47,7 @@
 			</foreach>
 	</update>
 	
+	<!-- 수정 필요 -->
 	<select id="findUploadIdxList" parameterType="int" resultType="int">
 		SELECT
 			upload_idx

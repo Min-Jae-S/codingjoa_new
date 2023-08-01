@@ -14,8 +14,9 @@ public interface UploadMapper {
 	
 	boolean isBoardImageUploaded(int boardImageIdx);
 	
-	void activateBoardImage(@Param("uploadBoardIdx") int uploadBoardIdx, @Param("uploadIdxList") List<Integer> boardImages);
+	void activateBoardImage(@Param("boardIdx") int boardIdx, @Param("boardImages") List<Integer> boardImages);
 	
+	// 수정 필요
 	List<Integer> findUploadIdxList(int uploadBoardIdx);
 	
 	void deactivateBoardImage(int boardImageIdx);
