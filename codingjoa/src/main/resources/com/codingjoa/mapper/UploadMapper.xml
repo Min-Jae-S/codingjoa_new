@@ -8,7 +8,7 @@
 	regdate                 DATE                NOT NULL,
 -->
 
-	<insert id="insertUpload" parameterType="upload">
+	<insert id="insertBoardImage" parameterType="boardImage">
 		<selectKey keyProperty="uploadIdx" resultType="int" order="BEFORE">
 			SELECT seq_upload.NEXTVAL FROM DUAL
 		</selectKey>

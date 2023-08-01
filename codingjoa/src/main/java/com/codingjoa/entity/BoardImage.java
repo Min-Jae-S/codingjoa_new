@@ -12,7 +12,7 @@ import lombok.Data;
 */
 
 @Data
-public class Upload {
+public class BoardImage {
 	
 	private Integer uploadIdx;
 	private Integer uploadBoardIdx;

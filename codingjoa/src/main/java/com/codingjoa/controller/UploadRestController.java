@@ -53,7 +53,7 @@ public class UploadRestController {
 		String uploadFilename = UploadFileUtils.upload(uploadPath, uploadFileDto.getFile());
 		log.info("\t > uploadFilename = {}", uploadFilename);
 		
-		int uploadIdx = uploadService.uploadImage(uploadFilename);
+		int uploadIdx = uploadService.uploadBoardImage(uploadFilename);
 		log.info("\t > uploadIdx = {}", uploadIdx);
 		
 		String uploadFileUrl = request.getContextPath() + uploadUrl + uploadFilename;

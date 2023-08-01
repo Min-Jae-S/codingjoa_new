@@ -5,12 +5,12 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import com.codingjoa.entity.Upload;
+import com.codingjoa.entity.BoardImage;
 
 @Mapper
 public interface UploadMapper {
 
-	int insertUpload(Upload upload);
+	int insertBoardImage(BoardImage boardImage);
 	
 	boolean isImageUploaded(int uploadIdx);
 	

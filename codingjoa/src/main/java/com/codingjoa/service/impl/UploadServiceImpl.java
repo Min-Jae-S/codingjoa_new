@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import com.codingjoa.dto.BoardDto;
-import com.codingjoa.entity.Upload;
+import com.codingjoa.entity.BoardImage;
 import com.codingjoa.mapper.UploadMapper;
 import com.codingjoa.service.UploadService;
 
@@ -20,13 +20,13 @@ public class UploadServiceImpl implements UploadService {
 	private UploadMapper uploadMapper;
 	
 	@Override
-	public int uploadImage(String uploadFilename) {
-		Upload upload = new Upload();
-		upload.setUploadFile(uploadFilename);
+	public int uploadBoardImage(String uploadFilename) {
+		BoardImage boardImage = new BoardImage();
+		boardImage.setUploadFile(uploadFilename);
 		
-		uploadMapper.insertUpload(upload);
+		uploadMapper.insertBoardImage(boardImage);
 		
-		return upload.getUploadIdx();
+		return boardImage.getUploadIdx();
 	}
 
 	@Override

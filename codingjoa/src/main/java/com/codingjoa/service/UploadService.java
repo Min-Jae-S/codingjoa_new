@@ -6,7 +6,7 @@ import com.codingjoa.dto.BoardDto;
 
 public interface UploadService {
 	
-	int uploadImage(String uploadFilename);
+	int uploadBoardImage(String uploadFilename);
 	
 	boolean isImageUploaded(int uploadIdx);
 	
