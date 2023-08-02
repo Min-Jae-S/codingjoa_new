@@ -99,6 +99,7 @@
 <script>
 	let modifyEditor;
 	let editorData;
+	let navbarHeight = document.querySelector(".navbar-custom").clientHeight;
 	ClassicEditor
 		.create(document.querySelector("#boardContent"), {
 			extraPlugins: [
@@ -112,7 +113,7 @@
 			ui: {
 				viewportOffset: {
 					//top: 100
-					top: document.querySelector(".navbar-custom").clientHeight
+					top: navbarHeight
 				}
 			},
 			htmlSupport: { 
@@ -160,6 +161,8 @@
 			// https://github.com/ckeditor/ckeditor5/blob/6bb68aa202/packages/ckeditor5-clipboard/src/utils/viewtoplaintext.ts#L23
 			let plainText = viewToPlainText(modifyEditor.editing.view.document.getRoot());
 			$textArea.val(plainText);
+			
+			// add boardContentText
 			$modifyForm.append($textArea);
 			
 			const range = modifyEditor.model.createRangeIn(modifyEditor.model.document.getRoot());
@@ -174,24 +177,25 @@
 			    	continue;
 			    }
 			    
-			    //let $input = $("<input>").attr("type", "hidden").attr("name", "boardImages[]");
 			    let $input = $("<input>").attr("type", "hidden").attr("name", "boardImages");
 			    let dataIdx = value.item.getAttribute("dataIdx");
 			    $input.val(dataIdx);
+			    
+				// add boardImages
 			    $modifyForm.append($input);
 			}
 			
-			console.log("## Before modifyForm submit");
-			console.log(JSON.stringify($modifyForm.serializeObject(), null, 2));
-			console.log('{\r\n  "boardContent": "' + modifyEditor.getData() + '"\r\n}');
+			console.log("## Check data before submiting modifyForm");
+			console.log($modifyForm.serializeArray());
+			console.log($modifyForm.serializeObject());
+			//console.log('{\r\n  "boardContent": "' + modifyEditor.getData() + '"\r\n}');
 			
 			if (!confirm("게시글을 수정하시겠습니까?")) {
 				$("textArea[name='boardContentText']").remove();
-				//$("input[name='boardImages[]']").remove();
 				$("input[name='boardImages']").remove();
-				console.log("## Cancel modifyForm submit");
-				console.log(JSON.stringify($modifyForm.serializeObject(), null, 2));
-				console.log('{\r\n  "boardContent": "' + modifyEditor.getData() + '"\r\n}');
+				console.log("## Check data after canceling submit");
+				console.log(JSON.stringify($modifyForm.serializeArray(), null, 2));
+				//console.log('{\r\n  "boardContent": "' + modifyEditor.getData() + '"\r\n}');
 				return;
 			}
 			

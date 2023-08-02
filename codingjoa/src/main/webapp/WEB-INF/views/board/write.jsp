@@ -101,6 +101,7 @@
 
 <script>
 	let writeEditor;
+	let navbarHeight = document.querySelector(".navbar-custom").clientHeight;
 	ClassicEditor
 		.create(document.querySelector("#boardContent"), {
 			extraPlugins: [
@@ -113,7 +114,7 @@
 			],
 			ui: {
 				viewportOffset: {
-					top: document.querySelector(".navbar-custom").clientHeight
+					top: navbarHeight
 				}
 			},
 			// https://ckeditor.com/docs/ckeditor5/latest/features/general-html-support.html
@@ -159,7 +160,7 @@
 			$(".navbar-custom").height("100");
 		});
 		
-		// test
+		// test (attrchange.js, attrchange_ext.js) 
 		$(".navbar-custom").attrchange({
 			trackValues: true,
 			callback: function(e) {
@@ -170,7 +171,8 @@
 		});
 		
 		$("#resetBtn").on("click", function() {
-			$("#writeBoardDto").trigger("reset"); //$("form")[0].reset();
+			// $("form")[0].reset();
+			$("#writeBoardDto").trigger("reset"); 
 			writeEditor.setData("");
 		});
 		

@@ -40,10 +40,10 @@ public class UploadServiceImpl implements UploadService {
 	public void activateBoardImage(BoardDto boardDto) {
 		List<Integer> boardImages = boardDto.getBoardImages();
 		log.info("\t > activate board images by boardImageIdx = {}", boardImages);
+		
 		if (CollectionUtils.isEmpty(boardImages)) { 
 			return;
 		}
-		
 		uploadMapper.activateBoardImage(boardDto.getBoardIdx(), boardImages);
 	}
 	
@@ -51,6 +51,7 @@ public class UploadServiceImpl implements UploadService {
 	public void deactivateBoardImage(BoardDto boardDto) {
 		int boardIdx = boardDto.getBoardIdx();
 		log.info("\t > deactivate board images by boardIdx = {}", boardIdx);
+		
 		uploadMapper.deactivateBoardImage(boardDto.getBoardIdx());
 	}
 }
