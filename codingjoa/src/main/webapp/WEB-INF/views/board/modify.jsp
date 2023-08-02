@@ -20,12 +20,16 @@
 <script src="${contextPath}/resources/ckeditor5/plugins/viewtoplaintext.js"></script>
 <script src="${contextPath}/resources/ckeditor5/build/ckeditor.js"></script>
 <style>
-	.custom-select, input#boardTitle.form-control {
+	/* .custom-select, input#boardTitle.form-control {
 		font-size: 0.9rem;
 	}
 	
 	.form-group button {
 		font-size: 0.9rem;
+	} */
+	
+	input::placeholder {
+		font-size: 1rem;
 	}
 	
 	span.error {
@@ -35,13 +39,17 @@
 	
 	.ck-editor__editable[role="textbox"] {
 		min-height: 350px;
-		font-size: 0.9rem;
+		/* font-size: 0.9rem; */
 		padding-left: 0.75rem;
 		padding-right: 0.75rem;
 	}
 	
+	.ck-editor__editable[role="textbox"] p {
+		margin-bottom: 5px;
+	}
+	
 	.ck-placeholder {
-		font-size: 0.9rem;
+		/* font-size: 0.9rem; */
 	}
 </style>
 </head>
@@ -91,8 +99,6 @@
 <script>
 	let modifyEditor;
 	let editorData;
-	let navbarHeight = document.querySelector(".navbar-custom").style.height;
-	
 	ClassicEditor
 		.create(document.querySelector("#boardContent"), {
 			extraPlugins: [
@@ -105,7 +111,8 @@
 			],
 			ui: {
 				viewportOffset: {
-					top: 100
+					//top: 100
+					top: document.querySelector(".navbar-custom").clientHeight
 				}
 			},
 			htmlSupport: { 

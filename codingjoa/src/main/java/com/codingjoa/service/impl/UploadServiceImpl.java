@@ -12,6 +12,9 @@ import com.codingjoa.entity.BoardImage;
 import com.codingjoa.mapper.UploadMapper;
 import com.codingjoa.service.UploadService;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Transactional
 @Service
 public class UploadServiceImpl implements UploadService {
@@ -23,7 +26,6 @@ public class UploadServiceImpl implements UploadService {
 	public int uploadBoardImage(String filename) {
 		BoardImage boardImage = new BoardImage();
 		boardImage.setBoardImageName(filename);
-		
 		uploadMapper.insertBoardImage(boardImage);
 		
 		return boardImage.getBoardImageIdx();
@@ -37,19 +39,18 @@ public class UploadServiceImpl implements UploadService {
 	@Override
 	public void activateBoardImage(BoardDto boardDto) {
 		List<Integer> boardImages = boardDto.getBoardImages();
+		log.info("\t > activate board images by boardImageIdx = {}", boardImages);
 		if (CollectionUtils.isEmpty(boardImages)) { 
 			return;
 		}
+		
 		uploadMapper.activateBoardImage(boardDto.getBoardIdx(), boardImages);
 	}
 	
 	@Override
-	public List<Integer> getUploadIdxList(int uploadBoardIdx) {
-		return uploadMapper.findUploadIdxList(uploadBoardIdx);
-	}
-	
-	@Override
 	public void deactivateBoardImage(BoardDto boardDto) {
+		int boardIdx = boardDto.getBoardIdx();
+		log.info("\t > deactivate board images by boardIdx = {}", boardIdx);
 		uploadMapper.deactivateBoardImage(boardDto.getBoardIdx());
 	}
 }

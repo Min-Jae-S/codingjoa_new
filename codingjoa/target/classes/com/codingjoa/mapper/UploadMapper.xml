@@ -47,16 +47,6 @@
 			</foreach>
 	</update>
 	
-	<!-- 수정 필요 -->
-	<select id="findUploadIdxList" parameterType="int" resultType="int">
-		SELECT
-			upload_idx
-		FROM
-			upload
-		WHERE
-			upload_board_idx = #{uploadBoardIdx}
-	</select>
-	
 	<update id="deactivateBoardImage" parameterType="int">
 		UPDATE 
 			board_image

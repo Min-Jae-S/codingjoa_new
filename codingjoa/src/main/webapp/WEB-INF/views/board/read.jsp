@@ -24,21 +24,8 @@
 <script src="${contextPath}/resources/ckeditor5/plugins/ckeditor-plugins.js"></script>
 <script src="${contextPath}/resources/ckeditor5/build/ckeditor.js"></script>
 <style>
-	.custom-select { 
-		font-size: 0.9rem; 
-	}
-	
-	.form-group button { 
-		font-size: 0.9rem; 
-	}
-
-	span.error {
-		display: inline-block;
-		padding-top: 7px;
-	}
-	
 	.card {
-		padding: 2.25rem 2.25rem 2.25rem 2.25rem;
+		padding: 2.25rem;
 	}
 	
 	.content-group {
@@ -234,6 +221,35 @@
 	button[name="commentLikesBtn"] i {
 		font-size: 1.2rem;
 	}
+	
+	.ck-read-only {
+   		--ck-widget-outline-thickness: 0;
+   		border: none !important;
+   		padding: 0 !important;
+	}
+	
+	/* https://stackoverflow.com/questions/54272325/how-to-style-ckeditor-content-for-read-only-display */
+	/* These styles hide weird "things" in CKeditor Viewer (read only mode) */
+	/* .ckeditor-viewer .ck.ck-editor__editable.ck-blurred .ck-widget.ck-widget_selected, 
+	.ck.ck-editor__editable.ck-blurred .ck-widget.ck-widget_selected:hover {
+		outline-width: 0;
+	}
+	
+	.ckeditor-viewer .ck .ck-editor__nested-editable {
+		border: 1px solid transparent;
+		height: 0;
+		margin: 0;
+	}
+	
+	.ckeditor-viewer .ck-content .image>figcaption {
+		background-color: transparent !important;
+	}
+	
+	.ckeditor-viewer .ck .ck-widget__selection-handle {
+		width: 0;
+		height: 0;
+		display: none;
+	} */
 </style>
 
 <!-- test css -->	
@@ -360,7 +376,8 @@
 				</div>
 				<div class="content-group py-4">
 					<div id="boardContent">
-						<c:out value="${boardDetails.boardContent}" escapeXml="false"/>
+						<textarea id="boardContent"></textarea>
+						<%-- <c:out value="${boardDetails.boardContent}" escapeXml="false"/> --%>
 					</div>
 				</div>
 				<div class="comment-group pt-4">
@@ -674,11 +691,27 @@
 	});
 </script>
 <script>
-	const boardIdx = "<c:out value='${boardDetails.boardIdx}'/>";
-	const boardWriterIdx = "<c:out value='${boardDetails.boardWriterIdx}'/>";
-	let curCommentPage = 1;
-	
+	const boardContent = '<c:out value="${boardDetails.boardContent}" escapeXml="false"/>';
+	ClassicEditor
+		.create(document.querySelector("#boardContent"), {
+			toolbar: []
+		})
+		.then(editor => {
+			console.log("## Editor initialize (read-only mode)");
+			editor.setData(boardContent);
+			editor.enableReadOnlyMode("editor");
+			const toolbarContainer = editor.ui.view.stickyPanel;
+			editor.ui.view.top.remove(toolbarContainer);
+		})
+		.catch(error => {
+			console.error(error);
+		});
+
 	$(function() {
+		const boardIdx = "<c:out value='${boardDetails.boardIdx}'/>";
+		const boardWriterIdx = "<c:out value='${boardDetails.boardWriterIdx}'/>";
+		let curCommentPage = 1;
+		
 		// get comment list
 		commentService.getCommentList(boardIdx, curCommentPage, function(result) {
 			let commentList = result.data.commentList;
