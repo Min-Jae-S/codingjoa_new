@@ -11,6 +11,7 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
 <link rel="stylesheet" href="${contextPath}/resources/css/common.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="${contextPath}/resources/js/jquery.serialize-object.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
 <script src="https://kit.fontawesome.com/c503d71f81.js"></script>
@@ -25,6 +26,10 @@
 	div {
 		padding-left: 1.3rem;
 		padding-right: 1.3rem;
+	}
+	
+	button {
+		width: 230px;
 	}
 </style>
 </head>
@@ -45,6 +50,17 @@
 		<button class="btn btn-warning btn-lg mx-3" onclick="expectedException2()">expectedEx2</button>
 		<button class="btn btn-warning btn-lg mx-3" onclick="testException()">textEx</button>
 		<!-- <button class="btn btn-secondary btn-lg" onclick="colored_console()">console</button> -->
+	</div>
+	<div class="d-flex justify-content-center mt-5">
+		<form id="testForm">
+			<input type="hidden" name="foo[]" value="1">
+			<input type="hidden" name="foo[]" value="2">
+			<input type="hidden" name="foo[]" value="3">
+		</form>
+		<button class="btn btn-lg mx-3" onclick="serialize()">serialize</button>
+		<button class="btn btn-lg mx-3" onclick="serializeArray()">serializeArray</button>
+		<button class="btn btn-lg mx-3" onclick="serializeObject()">serializeObject</button>
+		<button class="btn btn-lg mx-3" onclick="serializeJSON()">serializeJSON</button>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
@@ -265,6 +281,33 @@
 				proccessError(jqXHR);
 			}
 		});
+	}
+	
+	function serialize() {
+		console.log("## serialize");
+		let FormData = $("#testForm").serialize();
+		console.log(FormData);
+		console.log(JSON.stringify(FormData, null, 2));
+	}
+
+	function serializeArray() {
+		console.log("## serializeArray");
+		let FormData = $("#testForm").serializeArray();
+		console.log(FormData);
+		console.log(JSON.stringify(FormData, null, 2));
+	}
+	
+	function serializeObject() {
+		console.log("## serializeObject");
+		let FormData = $("#testForm").serializeObject();
+		console.log(FormData);
+		console.log(JSON.stringify(FormData, null, 2));
+	}
+
+	function serializeJSON() {
+		console.log("## serializeJSON");
+		let FormData = $("#testForm").serializeJSON();
+		console.log(FormData);
 	}
 </script>
 </body>
