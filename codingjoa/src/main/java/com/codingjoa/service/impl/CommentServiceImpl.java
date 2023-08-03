@@ -1,5 +1,6 @@
 package com.codingjoa.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -62,18 +63,23 @@ public class CommentServiceImpl implements CommentService {
 			throw new ExpectedException("error.NotFoundBoard");
 		}
 		
-		return commentMapper.findPagedComment(commentBoardIdx, commentCri)
+		List<Integer> deletedComment = new ArrayList<>();
+		List<CommentDetailsDto> pagedComment = commentMapper.findPagedComment(commentBoardIdx, commentCri)
 				.stream()
 				.map(commentDetailsMap -> {
 					Boolean commentUse = (Boolean) commentDetailsMap.get("commentUse");
-					if (!commentUse) { 
-						log.info("\t > already deleted comment = {}", commentDetailsMap.get("commentIdx"));
+					if (!commentUse) {
+						Integer commentIdx = (Integer) commentDetailsMap.get("commentIdx");
+						deletedComment.add(commentIdx);
 						return null;
-					} 
+					}
 					return modelMapper.map(commentDetailsMap, CommentDetailsDto.class);
 					//return commentUse ? modelMapper.map(commentDetailsMap, CommentDetailsDto.class) : null;
 				})
 				.collect(Collectors.toList());
+		log.info("\t > deleted comments on page {} = {}", commentCri.getPage(), deletedComment);
+		
+		return pagedComment;
 	}
 	
 	@Override

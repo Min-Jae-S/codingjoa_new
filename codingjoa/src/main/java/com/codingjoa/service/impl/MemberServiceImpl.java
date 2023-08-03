@@ -170,8 +170,8 @@ public class MemberServiceImpl implements MemberService {
 			throw new ExpectedException("memberPassword", "error.NotCurrentPassword");
 		}
 		
-		String encPassword = passwordEncoder.encode(memberPassword);
-		modifiedMember.setMemberPassword(encPassword);
+		memberPassword = passwordEncoder.encode(memberPassword);
+		modifiedMember.setMemberPassword(memberPassword);
 		memberMapper.updatePassword(modifiedMember);
 	}
 
