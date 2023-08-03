@@ -10,8 +10,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
 <link rel="stylesheet" href="${contextPath}/resources/css/common.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="${contextPath}/resources/js/jquery.serialize.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="${contextPath}/resources/js/jquery.serialize.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
 <script src="https://kit.fontawesome.com/c503d71f81.js"></script>
@@ -53,9 +53,9 @@
 	</div>
 	<div class="d-flex justify-content-center mt-5">
 		<form id="testForm" method="POST" action="${contextPath}/test/test-form">
-			<input type="hidden" name="foo" value="1">
-			<input type="hidden" name="foo" value="2">
-			<input type="hidden" name="foo" value="3">
+			<input type="hidden" name="foo[]" value="1">
+			<input type="hidden" name="foo[]" value="2">
+			<input type="hidden" name="foo[]" value="3">
 			<button class="btn btn-lg mx-3">submit</button>
 		</form>
 		<button class="btn btn-lg mx-3" onclick="serialize()">serialize</button>

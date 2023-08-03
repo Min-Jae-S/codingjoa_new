@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
 <link rel="stylesheet" href="${contextPath}/resources/css/common.css">
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<script src="${contextPath}/resources/js/jquery.serialize.min.js"></script>
+<script src="${contextPath}/resources/js/jquery.serialize.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="${contextPath}/resources/ckeditor5/plugins/upload-adapter.js"></script>
@@ -172,28 +172,24 @@
 			    	continue;
 			    }
 			    
-			 	// imageBlock, imageInlne
+			 	// imageBlock & imageInlne
 			    if (!value.item.name.startsWith("image")) { 
 			    	continue;
 			    }
 			    
-			    let $input = $("<input>").attr("type", "hidden").attr("name", "boardImages");
-			    let dataIdx = value.item.getAttribute("dataIdx");
-			    $input.val(dataIdx);
-			    
 				// add boardImages
+			    let $input = $("<input>").attr("type", "hidden").attr("name", "boardImages");
+			    $input.val(value.item.getAttribute("dataIdx"));
 			    $form.append($input);
 			}
 			
-			console.log("## Check data (added boardContentText, boardImages)");
+			console.log("## Check data (+) boardContentText, boardImages");
 			console.log(JSON.stringify($form.serializeObject(), null, 2));
-			//console.log('{\r\n  "boardContent": "' + modifyEditor.getData() + '"\r\n}');
 			
 			if (!confirm("게시글을 수정하시겠습니까?")) {
 				$("textArea[name='boardContentText'], input[name='boardImages']").remove();
-				console.log("## Check data (removed boardContentText, boardImages)");
+				console.log("## Check data (-) boardContentText, boardImages");
 				console.log(JSON.stringify($form.serializeObject(), null, 2));
-				//console.log('{\r\n  "boardContent": "' + modifyEditor.getData() + '"\r\n}');
 				return;
 			}
 			
