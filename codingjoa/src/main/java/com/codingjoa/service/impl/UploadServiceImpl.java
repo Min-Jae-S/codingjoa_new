@@ -53,7 +53,7 @@ public class UploadServiceImpl implements UploadService {
 		int boardIdx = boardDto.getBoardIdx();
 		List<Integer> boardImages = uploadMapper.findBoardImagesByBoardIdx(boardIdx)
 				.stream()
-				.map(boardImage -> boardImage.getBoardIdx())
+				.map(boardImage -> boardImage.getBoardImageIdx())
 				.collect(Collectors.toList());
 		log.info("\t > deactivate board images = {}", boardImages);
 		

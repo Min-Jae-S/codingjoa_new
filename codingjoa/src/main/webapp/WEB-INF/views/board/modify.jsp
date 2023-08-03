@@ -182,12 +182,12 @@
 			    $input.val(value.item.getAttribute("dataIdx"));
 			    $form.append($input);
 			}
-			console.log("## Check data (+) boardContentText, boardImages");
+			console.log("## Check form-data (+) boardContentText, boardImages");
 			console.log(JSON.stringify($form.serializeObject(), null, 2));
 			
 			if (!confirm("게시글을 수정하시겠습니까?")) {
 				$("textArea[name='boardContentText'], input[name='boardImages']").remove();
-				console.log("## Check data (-) boardContentText, boardImages");
+				console.log("## Check form-data (-) boardContentText, boardImages");
 				console.log(JSON.stringify($form.serializeObject(), null, 2));
 				return;
 			}
