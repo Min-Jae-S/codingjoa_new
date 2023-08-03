@@ -60,4 +60,9 @@ public class UploadServiceImpl implements UploadService {
 		// deactive된 boardImage의 index를 update와 동시에...?
 		uploadMapper.deactivateBoardImage(boardIdx);
 	}
+
+	@Override
+	public int uploadProfileImage(String profileImageName) {
+		return 0;
+	}
 }

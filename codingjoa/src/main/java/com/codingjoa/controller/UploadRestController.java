@@ -33,10 +33,16 @@ public class UploadRestController {
 	private UploadService uploadService;
 	
 	@Value("${upload.board.path}")
-	private String path;
+	private String boardPath;
 	
 	@Value("${upload.board.url}")
-	private String url;
+	private String boardUrl;
+
+	@Value("${upload.profile.path}")
+	private String profilePath;
+	
+	@Value("${upload.profile.url}")
+	private String profileUrl;
 	
 	@InitBinder("uploadFileDto")
 	public void initBinderUpload(WebDataBinder binder) {
@@ -49,13 +55,13 @@ public class UploadRestController {
 		log.info("## uploadBoardImage");
 		log.info("\t > original filename = {}", uploadFileDto.getFile().getOriginalFilename());
 		
-		String boardImageName = UploadFileUtils.upload(path, uploadFileDto.getFile());
+		String boardImageName = UploadFileUtils.upload(boardPath, uploadFileDto.getFile());
 		log.info("\t > boardImageName = {}", boardImageName);
 		
 		Integer boardImageIdx = uploadService.uploadBoardImage(boardImageName);
 		log.info("\t > boardImageIdx = {}", boardImageIdx);
 		
-		String boardImageUrl = request.getContextPath() + url + boardImageName;
+		String boardImageUrl = request.getContextPath() + boardUrl + boardImageName;
 		log.info("\t > boardImageUrl = {}", boardImageUrl);
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
@@ -70,8 +76,14 @@ public class UploadRestController {
 		log.info("## uploadProfileImage");
 		log.info("\t > original filename = {}", uploadFileDto.getFile().getOriginalFilename());
 		
+		String profileImageName = UploadFileUtils.upload(boardPath, uploadFileDto.getFile());
+		log.info("\t > profileImageName = {}", profileImageName);
+		
+		String profileImageUrl = request.getContextPath() + profileUrl + profileImageName;
+		log.info("\t > profileImageUrl = {}", profileImageUrl);
+		
 		return ResponseEntity.ok(SuccessResponse.builder()
-				.messageByCode("success.uploadProfileImage")
+				.message("success.uploadProfileImage")
 				.data(null)
 				.build());
 	}

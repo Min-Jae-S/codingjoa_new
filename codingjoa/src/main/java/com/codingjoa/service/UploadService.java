@@ -12,4 +12,6 @@ public interface UploadService {
 	
 	void deactivateBoardImage(BoardDto boardDto);
 	
+	int uploadProfileImage(String profileImageName);
+	
 }
