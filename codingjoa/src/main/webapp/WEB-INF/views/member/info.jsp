@@ -22,7 +22,8 @@
 	input[type="text"] {
 		border: none;
 		width: 100%;
-		padding: 3px 0 3px 7px;
+		padding: 5px 0 5px 7px;
+		/* padding: 3px 0 3px 7px; */
 	}
 	
 	input[type="text"]:focus {
@@ -31,7 +32,8 @@
 	
 	.inner-text {
 		border-radius: 0.5rem;
-		padding: 3px 0 3px 7px;
+		padding: 5px 0 5px 7px;
+		/* padding: 3px 0 3px 7px; */
 	}
 	
 	label {
@@ -54,7 +56,8 @@
 	}
 	
 	dd.input-group {
-		padding: 10px 0 5px 0;
+		padding: 13px 0 5px 0;
+		/* padding: 10px 0 5px 0; */
 		border-bottom: 1px solid #dee2e6;
 	}
 	
@@ -82,10 +85,13 @@
 		cursor: pointer;
 	}
 	
-	.profile-image{
-		width: 65px;
+	.profile-image {
+		width: 75px;
+		height: 75px;
+		border-radius : 0.5rem;
+		/* width: 65px;
 		height: 65px;
-		border-radius : 0.4rem;
+		border-radius : 0.4rem; */
 	}
 </style>
 </head>
@@ -101,9 +107,27 @@
 			<div class="pt-4" style="border-top: 1px solid black;">
 				<div class="d-flex">
 					<div class="wrap-profile-image mr-4">
-						<a href="#">
+						<a href="#" data-toggle="modal" data-target="#exampleModalCenter">
 							<img class="profile-image" src="${contextPath}/resources/image/person.png">
 						</a>
+						<!-- Modal -->
+						<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+							<div class="modal-dialog modal-dialog-centered" role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+									<div class="modal-body">...</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+										<button type="button" class="btn btn-primary">Save changes</button>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
 					<div class="w-100">
 						<dl class="form-group mb-5">

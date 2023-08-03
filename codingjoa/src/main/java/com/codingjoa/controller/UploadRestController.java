@@ -53,7 +53,6 @@ public class UploadRestController {
 	public ResponseEntity<Object> uploadBoardImage(@ModelAttribute @Valid UploadFileDto uploadFileDto,
 			HttpServletRequest request) {
 		log.info("## uploadBoardImage");
-		log.info("\t > original filename = {}", uploadFileDto.getFile().getOriginalFilename());
 		
 		String boardImageName = UploadFileUtils.upload(boardPath, uploadFileDto.getFile());
 		log.info("\t > boardImageName = {}", boardImageName);
@@ -74,7 +73,6 @@ public class UploadRestController {
 	public ResponseEntity<Object> uploadProfileImage(@ModelAttribute @Valid UploadFileDto uploadFileDto,
 			HttpServletRequest request) {
 		log.info("## uploadProfileImage");
-		log.info("\t > original filename = {}", uploadFileDto.getFile().getOriginalFilename());
 		
 		String profileImageName = UploadFileUtils.upload(boardPath, uploadFileDto.getFile());
 		log.info("\t > profileImageName = {}", profileImageName);

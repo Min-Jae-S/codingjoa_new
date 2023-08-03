@@ -106,7 +106,7 @@ public class ServletConfig implements WebMvcConfigurer {
 		registry.addResourceHandler("/resources/**")
 				.addResourceLocations("/resources/");
 		registry.addResourceHandler("/upload/**")
-				.addResourceLocations("file:///" + env.getProperty("upload.root.path"));
+				.addResourceLocations("file:///" + env.getProperty("upload.root.path")); // D:/Dev/upload/
 	}
 
 	@Override
