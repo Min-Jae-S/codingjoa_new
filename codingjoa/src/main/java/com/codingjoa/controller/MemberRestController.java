@@ -131,10 +131,9 @@ public class MemberRestController {
 		log.info("## updateEmail");
 		log.info("\t > {}", emailAuthDto);
 		
-		String memberEmail = emailAuthDto.getMemberEmail();
 		Integer memberIdx = principal.getMember().getMemberIdx();
-		memberService.updateEmail(memberEmail, memberIdx);
-		redisService.delete(memberEmail);
+		memberService.updateEmail(emailAuthDto, memberIdx);
+		redisService.delete(emailAuthDto.getMemberEmail());
 		
 		String memberId = principal.getMember().getMemberId();
 		resetAuthentication(memberId);
@@ -148,11 +147,8 @@ public class MemberRestController {
 		log.info("## updateAddr");
 		log.info("\t > {}", addrDto);
 		
-		String memberZipcode = addrDto.getMemberZipcode();
-		String memberAddr = addrDto.getMemberAddr();
-		String memberAddrDetail = addrDto.getMemberAddrDetail();
 		Integer memberIdx = principal.getMember().getMemberIdx();
-		memberService.updateAddr(memberZipcode, memberAddr, memberAddrDetail, memberIdx);
+		memberService.updateAddr(addrDto, memberIdx);
 		
 		String memberId = principal.getMember().getMemberId();
 		resetAuthentication(memberId);
@@ -166,9 +162,8 @@ public class MemberRestController {
 		log.info("## updateAgree");
 		log.info("\t > {}", agreeDto);
 		
-		boolean memberAgree = agreeDto.isMemberAgree();
 		Integer memberIdx = principal.getMember().getMemberIdx();
-		memberService.updateAgree(memberAgree, memberIdx);
+		memberService.updateAgree(agreeDto, memberIdx);
 		
 		String memberId = principal.getMember().getMemberId();
 		resetAuthentication(memberId);
@@ -180,7 +175,6 @@ public class MemberRestController {
 	public ResponseEntity<Object> getCurrentMember(@AuthenticationPrincipal UserDetailsDto principal) {
 		log.info("## getCurrentMember");
 		CurrentMemberDto currentMember = modelMapper.map(principal.getMember(), CurrentMemberDto.class);
-		
 		return ResponseEntity.ok(SuccessResponse.builder().data(currentMember).build());
 	}
 	
@@ -190,9 +184,8 @@ public class MemberRestController {
 		log.info("## checkPassword");
 		log.info("\t > {}", passwordDto);
 		
-		String memberPassword = passwordDto.getMemberPassword();
 		Integer memberIdx = principal.getMember().getMemberIdx();
-		memberService.checkCurrentPassword(memberPassword, memberIdx);
+		memberService.checkCurrentPassword(passwordDto, memberIdx);
 		session.setAttribute("CHECK_PASSWORD", true);
 		
 		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.CheckPassword").build());
@@ -204,9 +197,8 @@ public class MemberRestController {
 		log.info("## updatePassword");
 		log.info("\t > {}", passwordChangeDto);
 		
-		String memberPassword = passwordChangeDto.getMemberPassword();
 		Integer memberIdx = principal.getMember().getMemberIdx();
-		memberService.updatePassword(memberPassword, memberIdx);
+		memberService.updatePassword(passwordChangeDto, memberIdx);
 		
 		String memberId = principal.getMember().getMemberId();
 		resetAuthentication(memberId);
@@ -259,9 +251,8 @@ public class MemberRestController {
 		log.info("\t > key = {}", key);
 		log.info("\t > {}", passwordChangeDto);
 		
-		String memberPassowrd = passwordChangeDto.getMemberPassword();
 		Integer memberIdx = Integer.parseInt(redisService.get(key));
-		memberService.updatePassword(memberPassowrd, memberIdx);
+		memberService.updatePassword(passwordChangeDto, memberIdx);
 		redisService.delete(key);
 		
 		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.ResetPassword").build());

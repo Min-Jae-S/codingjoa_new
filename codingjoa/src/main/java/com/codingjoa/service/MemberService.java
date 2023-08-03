@@ -1,6 +1,11 @@
 package com.codingjoa.service;
 
+import com.codingjoa.dto.AddrDto;
+import com.codingjoa.dto.AgreeDto;
+import com.codingjoa.dto.EmailAuthDto;
 import com.codingjoa.dto.JoinDto;
+import com.codingjoa.dto.PasswordChangeDto;
+import com.codingjoa.dto.PasswordDto;
 
 public interface MemberService {
 
@@ -18,14 +23,14 @@ public interface MemberService {
 	
 	Integer getMemberIdxByIdAndEmail(String memberId, String memberEmail);
 	
-	void updateEmail(String memberEmail, Integer memberIdx);
+	void updateEmail(EmailAuthDto emailAuthDto, Integer memberIdx);
 	
-	void updateAddr(String memberZipcode, String memberAddr, String memberAddrDetail, Integer memberIdx);
+	void updateAddr(AddrDto addrDto, Integer memberIdx);
 	
-	void updateAgree(boolean memberAgree, Integer memberIdx);
+	void updateAgree(AgreeDto agreeDto, Integer memberIdx);
 	
-	void checkCurrentPassword(String memberPassword, Integer memberIdx);
+	void checkCurrentPassword(PasswordDto passwordDto, Integer memberIdx);
 	
-	void updatePassword(String memberPassword, Integer memberIdx);
+	void updatePassword(PasswordChangeDto passwordChangeDto, Integer memberIdx);
 	
 }

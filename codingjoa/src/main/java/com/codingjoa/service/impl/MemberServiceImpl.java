@@ -6,7 +6,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.codingjoa.dto.AddrDto;
+import com.codingjoa.dto.AgreeDto;
+import com.codingjoa.dto.EmailAuthDto;
 import com.codingjoa.dto.JoinDto;
+import com.codingjoa.dto.PasswordChangeDto;
+import com.codingjoa.dto.PasswordDto;
 import com.codingjoa.entity.Auth;
 import com.codingjoa.entity.Member;
 import com.codingjoa.exception.ExpectedException;
@@ -104,47 +109,48 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public void updateEmail(String memberEmail, Integer memberIdx) {
+	public void updateEmail(EmailAuthDto emailAuthDto, Integer memberIdx) {
 		Member modifiedMember = memberMapper.findMemberByIdx(memberIdx);
 		if (modifiedMember == null) {
 			throw new ExpectedException("error.NotFoundMember");
 		}
 		
-		modifiedMember.setMemberEmail(memberEmail);
+		modifiedMember.setMemberEmail(emailAuthDto.getMemberEmail());
 		memberMapper.updateEmail(modifiedMember);
 	}
 	
 	@Override
-	public void updateAddr(String memberZipcode, String memberAddr, String memberAddrDetail, Integer memberIdx) {
+	public void updateAddr(AddrDto addrDto, Integer memberIdx) {
 		Member modifiedMember = memberMapper.findMemberByIdx(memberIdx);
 		if (modifiedMember == null) {
 			throw new ExpectedException("error.NotFoundMember");
 		}
 		
-		modifiedMember.setMemberZipcode(memberZipcode);
-		modifiedMember.setMemberAddr(memberAddr);
-		modifiedMember.setMemberAddrDetail(memberAddrDetail);
+		modifiedMember.setMemberZipcode(addrDto.getMemberZipcode());
+		modifiedMember.setMemberAddr(addrDto.getMemberAddr());
+		modifiedMember.setMemberAddrDetail(addrDto.getMemberAddrDetail());
 		memberMapper.updateAddr(modifiedMember);
 	}
 
 	@Override
-	public void updateAgree(boolean memberAgree, Integer memberIdx) {
+	public void updateAgree(AgreeDto agreeDto, Integer memberIdx) {
 		Member modifiedMember = memberMapper.findMemberByIdx(memberIdx);
 		if (modifiedMember == null) {
 			throw new ExpectedException("error.NotFoundMember");
 		}
 		
-		modifiedMember.setMemberAgree(memberAgree);
+		modifiedMember.setMemberAgree(agreeDto.isMemberAgree());
 		memberMapper.updateAgree(modifiedMember);
 	}
 
 	@Override
-	public void checkCurrentPassword(String memberPassword, Integer memberIdx) {
+	public void checkCurrentPassword(PasswordDto passwordDto, Integer memberIdx) {
 		Member member = memberMapper.findMemberByIdx(memberIdx);
 		if (member == null) {
 			throw new ExpectedException("error.NotFoundMember");
 		}
 		
+		String memberPassword = passwordDto.getMemberPassword();
 		String currentPassword = member.getMemberPassword();
 		if (!passwordEncoder.matches(memberPassword, currentPassword)) {
 			throw new ExpectedException("memberPassword", "error.BadCredentials");
@@ -152,12 +158,13 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public void updatePassword(String memberPassword, Integer memberIdx) {
+	public void updatePassword(PasswordChangeDto passwordChangeDto, Integer memberIdx) {
 		Member modifiedMember = memberMapper.findMemberByIdx(memberIdx);
 		if (modifiedMember == null) {
 			throw new ExpectedException("error.NotFoundMember");
 		}
 		
+		String memberPassword = passwordChangeDto.getMemberPassword();
 		String currentPassword = modifiedMember.getMemberPassword();
 		if (passwordEncoder.matches(memberPassword, currentPassword)) {
 			throw new ExpectedException("memberPassword", "error.NotCurrentPassword");
