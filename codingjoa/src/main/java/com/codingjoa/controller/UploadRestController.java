@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codingjoa.dto.UploadFileDto;
-import com.codingjoa.dto.UploadResultDto;
+import com.codingjoa.dto.BoardImageDto;
 import com.codingjoa.response.SuccessResponse;
 import com.codingjoa.service.UploadService;
 import com.codingjoa.util.UploadFileUtils;
@@ -49,18 +49,18 @@ public class UploadRestController {
 		log.info("## uploadBoardImage");
 		log.info("\t > original filename = {}", uploadFileDto.getFile().getOriginalFilename());
 		
-		String filename = UploadFileUtils.upload(path, uploadFileDto.getFile());
-		log.info("\t > new filename = {}", filename);
+		String boardImageName = UploadFileUtils.upload(path, uploadFileDto.getFile());
+		log.info("\t > boardImageName = {}", boardImageName);
 		
-		int boardImageIdx = uploadService.uploadBoardImage(filename);
-		log.info("\t > idx = {}", boardImageIdx);
+		Integer boardImageIdx = uploadService.uploadBoardImage(boardImageName);
+		log.info("\t > boardImageIdx = {}", boardImageIdx);
 		
-		String uploadUrl = request.getContextPath() + url + filename;
-		log.info("\t > url = {}", uploadUrl);
+		String boardImageUrl = request.getContextPath() + url + boardImageName;
+		log.info("\t > boardImageUrl = {}", boardImageUrl);
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
 				.messageByCode("success.uploadBoardImage")
-				.data(new UploadResultDto(boardImageIdx, uploadUrl, filename))
+				.data(new BoardImageDto(boardImageIdx, boardImageName, boardImageUrl))
 				.build());
 	}
 
@@ -77,11 +77,11 @@ public class UploadRestController {
 		log.info("\t > idx = {}", boardImageIdx);
 		
 		String uploadUrl = request.getContextPath() + url + filename;
-		log.info("\t > url = {}", uploadUrl);
+		log.info("\t > uploadUrl = {}", uploadUrl);
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
 				.messageByCode("success.uploadProfileImage")
-				.data(new UploadResultDto(boardImageIdx, uploadUrl, filename))
+				.data(new BoardImageDto(boardImageIdx, uploadUrl, filename))
 				.build());
 	}
 	

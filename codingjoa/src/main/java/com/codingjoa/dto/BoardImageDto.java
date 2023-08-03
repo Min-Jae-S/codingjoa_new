@@ -7,10 +7,10 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UploadResultDto {
+public class BoardImageDto {
 
-	private int idx;
-	private String uploadUrl;
-	private String filename;
+	private int boardImageIdx;
+	private String boardImageName;
+	private String boardImageUrl;
 	
 }

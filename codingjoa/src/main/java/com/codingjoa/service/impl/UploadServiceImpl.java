@@ -24,9 +24,9 @@ public class UploadServiceImpl implements UploadService {
 	private UploadMapper uploadMapper;
 	
 	@Override
-	public int uploadBoardImage(String filename) {
+	public int uploadBoardImage(String boardImageName) {
 		BoardImage boardImage = new BoardImage();
-		boardImage.setBoardImageName(filename);
+		boardImage.setBoardImageName(boardImageName);
 		uploadMapper.insertBoardImage(boardImage);
 		
 		return boardImage.getBoardImageIdx();
