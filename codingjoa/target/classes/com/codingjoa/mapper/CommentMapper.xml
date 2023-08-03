@@ -65,8 +65,9 @@
 	</insert>
 	
 	<resultMap type="map" id="commentDetailsMap">
-		<id property="commentIdx" column="comment_idx"/>
-		 <!-- java.math.BigDecimal -->
+		<!-- java.math.BigDecimal cannot be cast to class java.lang.Integer -->
+		<!-- javaType >>  java.lang.Integer -->
+		<id property="commentIdx" column="comment_idx" javaType="java.lang.Integer"/>
 		<result property="commentWriterIdx" column="comment_writer_idx" javaType="java.lang.Integer"/>
 		<result property="commentBoardIdx" column="comment_board_idx" javaType="java.lang.Integer"/>
 		<result property="commentContent" column="comment_content" javaType="java.lang.String"/>

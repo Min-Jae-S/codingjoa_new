@@ -3,7 +3,6 @@ package com.codingjoa.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,20 +62,28 @@ public class CommentServiceImpl implements CommentService {
 			throw new ExpectedException("error.NotFoundBoard");
 		}
 		
+//		List<CommentDetailsDto> pagedComment = commentMapper.findPagedComment(commentBoardIdx, commentCri)
+//				.stream()
+//				.map(commentDetailsMap -> {
+//					Boolean commentUse = (Boolean) commentDetailsMap.get("commentUse");
+//					return commentUse ? modelMapper.map(commentDetailsMap, CommentDetailsDto.class) : null;
+//				})
+//				.collect(Collectors.toList());
+		
+		List<CommentDetailsDto> pagedComment = new ArrayList<>();
 		List<Integer> deletedComment = new ArrayList<>();
-		List<CommentDetailsDto> pagedComment = commentMapper.findPagedComment(commentBoardIdx, commentCri)
-				.stream()
-				.map(commentDetailsMap -> {
-					Boolean commentUse = (Boolean) commentDetailsMap.get("commentUse");
-					if (!commentUse) {
-						Integer commentIdx = (Integer) commentDetailsMap.get("commentIdx");
-						deletedComment.add(commentIdx);
-						return null;
-					}
-					return modelMapper.map(commentDetailsMap, CommentDetailsDto.class);
-					//return commentUse ? modelMapper.map(commentDetailsMap, CommentDetailsDto.class) : null;
-				})
-				.collect(Collectors.toList());
+		List<Map<String, Object>> allPagedComment = commentMapper.findPagedComment(commentBoardIdx, commentCri);
+		
+		for (Map<String, Object> commentDetailsMap : allPagedComment) {
+			Boolean commentUse = (Boolean) commentDetailsMap.get("commentUse");
+			if (!commentUse) {
+				Integer commentIdx = (Integer) commentDetailsMap.get("commentIdx");
+				deletedComment.add(commentIdx);
+				pagedComment.add(null);
+			} else {
+				pagedComment.add(modelMapper.map(commentDetailsMap, CommentDetailsDto.class));
+			}
+		}
 		log.info("\t > deleted comments on page {} = {}", commentCri.getPage(), deletedComment);
 		
 		return pagedComment;
