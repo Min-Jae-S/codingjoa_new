@@ -57,6 +57,7 @@ public class UploadServiceImpl implements UploadService {
 				.collect(Collectors.toList());
 		log.info("\t > deactivate board images = {}", boardImages);
 		
+		// deactive된 boardImage의 index를 update와 동시에...?
 		uploadMapper.deactivateBoardImage(boardIdx);
 	}
 }

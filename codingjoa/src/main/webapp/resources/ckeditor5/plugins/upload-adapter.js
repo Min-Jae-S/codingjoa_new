@@ -47,9 +47,9 @@ class UploadAdapter {
         		console.log(JSON.stringify(response, null, 2));
         	}
         	
-//        	if (status == "422") {
-//        		return reject(response.errorMap ? response.errorMap.file : genericErrorText);
-//        	}
+        	/*if (status == "422") {
+        		return reject(response.errorMap ? response.errorMap.file : genericErrorText);
+        	}*/
 			
          	// This example assumes the XHR server's "response" object will come with an "error" 
          	// which has its own "message" that can be passed to reject() in the upload promise.
@@ -67,12 +67,14 @@ class UploadAdapter {
             // Learn more in the UploadAdapter#upload documentation.
             resolve({
             	// https://ckeditor.com/docs/ckeditor5/latest/framework/guides/deep-dive/upload-adapter.html
-//            	urls: {
-//            		default: getContextPath() + response.data.returnUrl
-//            	},
+            	/*urls: {
+            		default: getContextPath() + response.data.returnUrl
+            	},*/
+            	
+            	// response.data --> uploadResultDto
+            	idx: response.data.idx,
             	url: response.data.uploadUrl,
-            	idx: response.data.boardImageIdx,
-            	alt: response.data.uploadFilename
+            	alt: response.data.filename
             });
         });
     }

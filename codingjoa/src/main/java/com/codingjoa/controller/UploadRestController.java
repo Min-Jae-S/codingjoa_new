@@ -1,7 +1,5 @@
 package com.codingjoa.controller;
 
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -17,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codingjoa.dto.UploadFileDto;
+import com.codingjoa.dto.UploadResultDto;
 import com.codingjoa.response.SuccessResponse;
 import com.codingjoa.service.UploadService;
 import com.codingjoa.util.UploadFileUtils;
@@ -50,18 +49,18 @@ public class UploadRestController {
 		log.info("## uploadBoardImage");
 		log.info("\t > original filename = {}", uploadFileDto.getFile().getOriginalFilename());
 		
-		String uploadFilename = UploadFileUtils.upload(path, uploadFileDto.getFile());
-		log.info("\t > new filename = {}", uploadFilename);
+		String filename = UploadFileUtils.upload(path, uploadFileDto.getFile());
+		log.info("\t > new filename = {}", filename);
 		
-		int boardImageIdx = uploadService.uploadBoardImage(uploadFilename);
+		int boardImageIdx = uploadService.uploadBoardImage(filename);
 		log.info("\t > idx = {}", boardImageIdx);
 		
-		String uploadUrl = request.getContextPath() + url + uploadFilename;
+		String uploadUrl = request.getContextPath() + url + filename;
 		log.info("\t > url = {}", uploadUrl);
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
 				.messageByCode("success.uploadBoardImage")
-				.data(Map.of("uploadUrl", uploadUrl, "boardImageIdx", boardImageIdx, "uploadFilename", uploadFilename))
+				.data(new UploadResultDto(boardImageIdx, uploadUrl, filename))
 				.build());
 	}
 
@@ -82,7 +81,7 @@ public class UploadRestController {
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
 				.messageByCode("success.uploadProfileImage")
-				.data(Map.of("idx", boardImageIdx, "url", uploadUrl, "filename", filename))
+				.data(new UploadResultDto(boardImageIdx, uploadUrl, filename))
 				.build());
 	}
 	
