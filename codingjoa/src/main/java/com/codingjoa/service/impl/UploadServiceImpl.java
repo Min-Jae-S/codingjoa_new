@@ -1,6 +1,7 @@
 package com.codingjoa.service.impl;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,19 +40,23 @@ public class UploadServiceImpl implements UploadService {
 	@Override
 	public void activateBoardImage(BoardDto boardDto) {
 		List<Integer> boardImages = boardDto.getBoardImages();
-		log.info("\t > activate board images by boardImageIdx = {}", boardImages);
+		log.info("\t > activate board images = {}", boardImages);
 		
 		if (CollectionUtils.isEmpty(boardImages)) { 
 			return;
 		}
-		uploadMapper.activateBoardImage(boardDto.getBoardIdx(), boardImages);
+		uploadMapper.activateBoardImage(boardImages, boardDto.getBoardIdx());
 	}
 	
 	@Override
 	public void deactivateBoardImage(BoardDto boardDto) {
 		int boardIdx = boardDto.getBoardIdx();
-		log.info("\t > deactivate board images by boardIdx = {}", boardIdx);
+		List<Integer> boardImages = uploadMapper.findBoardImagesByBoardIdx(boardIdx)
+				.stream()
+				.map(boardImage -> boardImage.getBoardIdx())
+				.collect(Collectors.toList());
+		log.info("\t > deactivate board images = {}", boardImages);
 		
-		uploadMapper.deactivateBoardImage(boardDto.getBoardIdx());
+		uploadMapper.deactivateBoardImage(boardIdx);
 	}
 }

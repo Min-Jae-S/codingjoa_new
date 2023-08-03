@@ -205,7 +205,6 @@
 			    $input.val(value.item.getAttribute("dataIdx"));
 				$form.append($input);
 			}
-			
 			console.log("## Check data (+) added boardContentText, boardImages");
 			console.log(JSON.stringify($form.serializeObject(), null, 2));
 

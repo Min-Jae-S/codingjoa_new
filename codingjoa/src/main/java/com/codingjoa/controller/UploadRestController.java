@@ -72,7 +72,7 @@ public class UploadRestController {
 		log.info("\t > original filename = {}", uploadFileDto.getFile().getOriginalFilename());
 		
 		String filename = UploadFileUtils.upload(path, uploadFileDto.getFile());
-		log.info("\t > filename = {}", filename);
+		log.info("\t > new filename = {}", filename);
 		
 		int boardImageIdx = uploadService.uploadBoardImage(filename);
 		log.info("\t > idx = {}", boardImageIdx);

@@ -53,7 +53,16 @@
 		SET
 			board_idx = ''
 		WHERE
-			board_image_idx = #{boardImageIdx} 
+			board_idx = #{boardIdx} 
 	</update>
+	
+	<select id="findBoardImagesByBoardIdx" parameterType="int" resultType="boardImage">
+		SELECT
+			*
+		FROM
+			board_image
+		WHERE
+			board_idx = #{boardIdx}
+	</select>
 	
 </mapper>
