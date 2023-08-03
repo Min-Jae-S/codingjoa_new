@@ -93,6 +93,12 @@
 		height: 65px;
 		border-radius : 0.4rem; */
 	}
+	
+	.edit-profile-image {
+		width: 130px;
+		height: 130px;
+		border-radius : 0.5rem;
+	}
 </style>
 </head>
 <body>
@@ -107,20 +113,22 @@
 			<div class="pt-4" style="border-top: 1px solid black;">
 				<div class="d-flex">
 					<div class="wrap-profile-image mr-4">
-						<a href="#" data-toggle="modal" data-target="#exampleModalCenter">
+						<a href="#" data-toggle="modal" data-target="#editProfileImageModal">
 							<img class="profile-image" src="${contextPath}/resources/image/person.png">
 						</a>
 						<!-- Modal -->
-						<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+						<div class="modal fade" id="editProfileImageModal" tabindex="-1" role="dialog">
 							<div class="modal-dialog modal-dialog-centered" role="document">
 								<div class="modal-content">
 									<div class="modal-header">
-										<h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+										<h5 class="modal-title font-weight-bold">프로필 사진 수정</h5>
 										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 											<span aria-hidden="true">&times;</span>
 										</button>
 									</div>
-									<div class="modal-body">...</div>
+									<div class="modal-body p-5">
+										<img class="edit-profile-image" src="${contextPath}/resources/image/person.png">
+									</div>
 									<div class="modal-footer">
 										<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 										<button type="button" class="btn btn-primary">Save changes</button>
