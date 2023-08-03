@@ -25,6 +25,7 @@ import org.springframework.web.util.UriComponents;
 import com.codingjoa.exception.ExpectedException;
 import com.codingjoa.response.SuccessResponse;
 import com.codingjoa.service.TestTxService;
+import com.codingjoa.test.Foo;
 import com.codingjoa.test.Test;
 import com.codingjoa.test.TestException;
 import com.codingjoa.test.TestValidator;
@@ -318,5 +319,12 @@ public class TestController {
 	public ResponseEntity<Object> exception() {
 		log.info("## testException");
 		throw new TestException("error.Test");
+	}
+	
+	@ResponseBody
+	@GetMapping("/test-form")
+	public void testForm(Foo foo) {
+		log.info("## testForm");
+		log.info("\t > {}", foo);
 	}
 }

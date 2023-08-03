@@ -11,7 +11,8 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
 <link rel="stylesheet" href="${contextPath}/resources/css/common.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="${contextPath}/resources/js/jquery.serialize-object.min.js"></script>
+<%-- <script src="${contextPath}/resources/js/jquery.serialize-object.min.js"></script> --%>
+<script src="${contextPath}/resources/js/utils.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
 <script src="https://kit.fontawesome.com/c503d71f81.js"></script>
@@ -52,15 +53,15 @@
 		<!-- <button class="btn btn-secondary btn-lg" onclick="colored_console()">console</button> -->
 	</div>
 	<div class="d-flex justify-content-center mt-5">
-		<form id="testForm">
+		<form id="testForm" method="POST" action="${contextPath}/test">
 			<input type="hidden" name="foo[]" value="1">
 			<input type="hidden" name="foo[]" value="2">
 			<input type="hidden" name="foo[]" value="3">
+			<button class="btn btn-lg mx-3">submit</button>
 		</form>
 		<button class="btn btn-lg mx-3" onclick="serialize()">serialize</button>
 		<button class="btn btn-lg mx-3" onclick="serializeArray()">serializeArray</button>
 		<button class="btn btn-lg mx-3" onclick="serializeObject()">serializeObject</button>
-		<button class="btn btn-lg mx-3" onclick="serializeJSON()">serializeJSON</button>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
@@ -304,8 +305,8 @@
 		console.log(JSON.stringify(FormData, null, 2));
 	}
 
-	function serializeJSON() {
-		console.log("## serializeJSON");
+	function submit() {
+		console.log("## submit");
 		let FormData = $("#testForm").serializeJSON();
 		console.log(FormData);
 	}
