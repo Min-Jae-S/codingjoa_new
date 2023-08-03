@@ -322,7 +322,7 @@ public class TestController {
 	}
 	
 	@ResponseBody
-	@GetMapping("/test-form")
+	@PostMapping("/test-form")
 	public void testForm(Foo foo) {
 		log.info("## testForm");
 		log.info("\t > {}", foo);

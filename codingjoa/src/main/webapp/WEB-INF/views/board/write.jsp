@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
 <link rel="stylesheet" href="${contextPath}/resources/css/common.css">
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<script src="${contextPath}/resources/js/jquery.serialize-object.min.js"></script>
+<script src="${contextPath}/resources/js/jquery.serialize.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="${contextPath}/resources/ckeditor5/plugins/upload-adapter.js"></script>
@@ -178,13 +178,15 @@
 		
 		$("#writeBtn").on("click", function(e) {
 			e.preventDefault();
-			let $writeForm = $("#writeBoardDto");
+			let $form = $("#writeBoardDto");
 			let $textArea = $("<textarea>").attr("style", "display:none;").attr("name", "boardContentText");
 			
 			// https://github.com/ckeditor/ckeditor5/blob/6bb68aa202/packages/ckeditor5-clipboard/src/utils/viewtoplaintext.ts#L23
-			let plainText = viewToPlainText(writeEditor.editing.view.document.getRoot());
-			$textArea.val(plainText);
-			$writeForm.append($textArea);
+			let boardContentText = viewToPlainText(writeEditor.editing.view.document.getRoot());
+			$textArea.val(boardContentText);
+			
+			// add boardContentText
+			$form.append($textArea);
 			
 			const range = writeEditor.model.createRangeIn(writeEditor.model.document.getRoot());
 			for (const value of range.getWalker({ ignoreElementEnd: true })) { // TreeWalker instance
@@ -198,29 +200,27 @@
 			    	continue;
 			    }
 			    
-			    //let $input = $("<input>").attr("type", "hidden").attr("name", "boardImages[]");
 			    let $input = $("<input>").attr("type", "hidden").attr("name", "boardImages");
 			    let dataIdx = value.item.getAttribute("dataIdx");
-			    
 			    $input.val(dataIdx);
-				$writeForm.append($input);
+			    
+			 	// add boardImages
+				$form.append($input);
 			}
 			
-			console.log("## Before writeForm submit");
-			console.log(JSON.stringify($writeForm.serializeObject(), null, 2));
-			console.log('{\r\n  "boardContent": "' + writeEditor.getData() + '"\r\n}');
+			console.log("## Check data (added boardContentText, boardImages)");
+			console.log(JSON.stringify($form.serializeObject(), null, 2));
+			//console.log('{\r\n  "boardContent": "' + writeEditor.getData() + '"\r\n}');
 			
 			if (!confirm("게시글을 등록하시겠습니까?")) {
-				$("textArea[name='boardContentText']").remove();
-				//$("input[name='boardImages[]']").remove(); // uploadIdxList --> boardImages
-				$("input[name='boardImages']").remove();
-				console.log("## Cancel writeForm submit");
-				console.log(JSON.stringify($writeForm.serializeObject(), null, 2));
-				console.log('{\r\n  "boardContent": "' + writeEditor.getData() + '"\r\n}');
+				$("textArea[name='boardContentText'], input[name='boardImages']").remove();
+				console.log("## Check data (removed boardContentText, boardImages)");
+				console.log(JSON.stringify($form.serializeObject(), null, 2));
+				//console.log('{\r\n  "boardContent": "' + writeEditor.getData() + '"\r\n}');
 				return;
 			}
 			
-			$writeForm.submit();
+			$form.submit();
 		});
 	});
 </script>

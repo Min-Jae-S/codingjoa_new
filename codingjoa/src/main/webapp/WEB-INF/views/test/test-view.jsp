@@ -11,8 +11,7 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
 <link rel="stylesheet" href="${contextPath}/resources/css/common.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<%-- <script src="${contextPath}/resources/js/jquery.serialize-object.min.js"></script> --%>
-<script src="${contextPath}/resources/js/utils.js"></script>
+<script src="${contextPath}/resources/js/jquery.serialize.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
 <script src="https://kit.fontawesome.com/c503d71f81.js"></script>
@@ -53,10 +52,10 @@
 		<!-- <button class="btn btn-secondary btn-lg" onclick="colored_console()">console</button> -->
 	</div>
 	<div class="d-flex justify-content-center mt-5">
-		<form id="testForm" method="POST" action="${contextPath}/test">
-			<input type="hidden" name="foo[]" value="1">
-			<input type="hidden" name="foo[]" value="2">
-			<input type="hidden" name="foo[]" value="3">
+		<form id="testForm" method="POST" action="${contextPath}/test/test-form">
+			<input type="hidden" name="foo" value="1">
+			<input type="hidden" name="foo" value="2">
+			<input type="hidden" name="foo" value="3">
 			<button class="btn btn-lg mx-3">submit</button>
 		</form>
 		<button class="btn btn-lg mx-3" onclick="serialize()">serialize</button>
@@ -66,6 +65,19 @@
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 <script>
+	$(document).ready(function() {
+		$("#testForm").submit(function(e) {
+			e.preventDefault();
+			const formData = $(this).serializeObject();
+			console.log("## formData");
+			console.log(formData)
+			
+			const jsonData = JSON.stringify(formData);
+			console.log("## jsonData");
+			console.log(jsonData);
+		});
+	});
+
 	function colored_console() {
 		console.log("%c## SUCCESS","color:green;background-color:#dcedc8");
 		console.log("%c## ERROR","color:red;background-color:#ffe6e6");
@@ -303,12 +315,6 @@
 		let FormData = $("#testForm").serializeObject();
 		console.log(FormData);
 		console.log(JSON.stringify(FormData, null, 2));
-	}
-
-	function submit() {
-		console.log("## submit");
-		let FormData = $("#testForm").serializeJSON();
-		console.log(FormData);
 	}
 </script>
 </body>
