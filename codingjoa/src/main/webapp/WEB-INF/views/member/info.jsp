@@ -10,11 +10,11 @@
 <title>계정 정보</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
 <link rel="stylesheet" href="${contextPath}/resources/css/common.css">
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
 <script src="https://kit.fontawesome.com/c503d71f81.js"></script>
 <script src="${contextPath}/resources/js/utils.js"></script>
 <script src="${contextPath}/resources/js/member.js"></script>
@@ -85,6 +85,10 @@
 		cursor: pointer;
 	}
 	
+	dl.form-group {
+		margin-bottom: 0;
+	}
+	
 	.profile-image {
 		width: 75px;
 		height: 75px;
@@ -93,6 +97,22 @@
 		/* width: 65px;
 		height: 65px;
 		border-radius: 0.4rem; */
+		/* border-radius: 50%!important; */
+	}	
+	
+	.wrap-profile-image {
+		position: relative;
+	}
+	
+	.profile-image-btn {
+		position: absolute;
+		z-index: 10;
+		top: 47px;
+		left: 45px;
+	}
+	
+	.profile-image-icon {
+		background-image: url
 	}
 </style>
 </head>
@@ -106,14 +126,15 @@
 		<div class="col-sm-8">
 			<h5 class="font-weight-bold">계정 정보</h5>
 			<div class="pt-4" style="border-top: 1px solid black;">
-				<div class="d-flex">
+				<div class="mb-5 d-flex">
 					<div class="wrap-profile-image mr-4">
-						<a href="#">
-							<img class="profile-image" src="${contextPath}/resources/image/person.png">
-						</a>
+						<img class="profile-image" src="${contextPath}/resources/image/img_profile.png">
+						<button type="button" class="profile-image-btn" id="updateProfileImageBtn">
+							<span class="profile-image-icon">TEST</span>
+						</button>
 					</div>
 					<div class="w-100">
-						<dl class="form-group mb-5">
+						<dl class="form-group">
 							<dt><i class="fa-solid fa-check mr-2"></i>아이디</dt>
 							<dd class="input-group">
 								<span class="inner-text"><c:out value="${principal.member.memberId}"/></span>
@@ -121,102 +142,101 @@
 						</dl>
 					</div>
 				</div>
-				<dl class="form-group mb-5">
-					<dt><i class="fa-solid fa-check mr-2"></i>이메일</dt>
-					<dd class="input-group" id="showEmail">
-						<div>
-							<span class="inner-text"><c:out value="${principal.member.memberEmail}"/></span>
-						</div>
-						<button class="btn btn-outline-primary btn-sm" id="showEmailBtn">수정</button>
-					</dd>
-					
-					<!-- display: none; -->
-					<dd class="input-group" id="editEmail">
-						<form>
-							<input type="text" id="memberEmail" name="memberEmail" value="${principal.member.memberEmail}"/>
-						</form>
-						<div>
-							<button class="btn btn-warning btn-sm" type="button" id="sendAuthCodeBtn">인증코드 받기</button>
-							<button class="btn btn-outline-primary btn-sm" type="button" id="updateEmailBtn">확인</button>
-							<button class="btn btn-outline-secondary btn-sm" type="button" id="resetEmailBtn">취소</button>
-						</div>
-					</dd>
-					<dd class="input-group" id="editAuthCode">
-						<input type="text" id="authCode" name="authCode" placeholder="인증코드를 입력하세요.">
-					</dd>
-				</dl>
-				
-				<dl class="form-group mb-5">
-					<dt><i class="fa-solid fa-check mr-2"></i>주소</dt>
-					<dd class="input-group" id="showZipcode">
-						<div>
-							<span class="inner-text"><c:out value="${principal.member.memberZipcode}"/></span>
-						</div>
-						<button class="btn btn-outline-primary btn-sm" type="button" id="showAddrBtn">수정</button>
-					</dd>
-					<dd class="input-group" id="showAddr">
-						<span class="inner-text"><c:out value="${principal.member.memberAddr}"/></span>
-					</dd>
-					<dd class="input-group" id="showAddrDetail">
-						<span class="inner-text"><c:out value="${principal.member.memberAddrDetail}"/></span>
-					</dd>
-					
-					<!-- display: none; -->
-					<dd class="input-group" id="editZipcode">
-						<form>
-							<input type="text" id="memberZipcode" name="memberZipcode" value="${principal.member.memberZipcode}" readonly/> 
-						</form>
-						<div>
-							<button class="btn btn-warning btn-sm" type="button" id="searchAddrBtn">주소 찾기</button>
-							<button class="btn btn-outline-primary btn-sm" type="button" id="updateAddrBtn">확인</button>
-							<button class="btn btn-outline-secondary btn-sm" type="button" id="resetAddrBtn">취소</button>
-						</div>
-					</dd>
-					
-					<!-- display: none; -->
-					<dd class="input-group" id="editAddr">
-						<form>
-							<input type="text" id="memberAddr" name="memberAddr" value="${principal.member.memberAddr}" readonly/>
-						</form>
-					</dd>
-					
-					<!-- display: none; -->
-					<dd class="input-group" id="editAddrDetail">
-						<form>
-							<input type="text" id="memberAddrDetail" name="memberAddrDetail" value="${principal.member.memberAddrDetail}"/>
-						</form>
-					</dd>
-				</dl>
-
-				<dl class="form-group mb-5">
-					<dt><i class="fa-solid fa-check mr-2"></i>이메일 수신</dt>
-					<dd class="input-group" id="showAgree">
-						<div class="form-check form-check-inline mr-0">
-							<label class="form-check-label label-disabled">
-								<input class="form-check-input" type="checkbox" ${principal.member.memberAgree == true ? 'checked' : ''} disabled/>
-								<span class="inner-text">이메일 광고 수신에 동의합니다.</span>
-							</label>
-						</div>
-						<button class="btn btn-outline-primary btn-sm" type="button" id="showAgreeBtn">수정</button>
-					</dd>
-					
-					<!-- display: none; -->
-					<dd class="input-group" id="editAgree">
-						<form>
-							<div class="form-check form-check-inline">
-								<label class="form-check-label">
-									<input class="form-check-input" type="checkbox" id="memberAgree" name="memberAgree" 
-										${principal.member.memberAgree == true ? 'checked' : ''}>
+				<div class="mb-5">
+					<dl class="form-group">
+						<dt><i class="fa-solid fa-check mr-2"></i>이메일</dt>
+						<dd class="input-group" id="showEmail">
+							<div>
+								<span class="inner-text"><c:out value="${principal.member.memberEmail}"/></span>
+							</div>
+							<button class="btn btn-outline-primary btn-sm" id="showEmailBtn">수정</button>
+						</dd>
+						<!-- d-none(#editEmail) -->
+						<dd class="input-group" id="editEmail">
+							<form>
+								<input type="text" id="memberEmail" name="memberEmail" value="${principal.member.memberEmail}"/>
+							</form>
+							<div>
+								<button class="btn btn-warning btn-sm" type="button" id="sendAuthCodeBtn">인증코드 받기</button>
+								<button class="btn btn-outline-primary btn-sm" type="button" id="updateEmailBtn">확인</button>
+								<button class="btn btn-outline-secondary btn-sm" type="button" id="resetEmailBtn">취소</button>
+							</div>
+						</dd>
+						<dd class="input-group" id="editAuthCode">
+							<input type="text" id="authCode" name="authCode" placeholder="인증코드를 입력하세요.">
+						</dd>
+					</dl>
+				</div>
+				<div class="mb-5">
+					<dl class="form-group">
+						<dt><i class="fa-solid fa-check mr-2"></i>주소</dt>
+						<dd class="input-group" id="showZipcode">
+							<div>
+								<span class="inner-text"><c:out value="${principal.member.memberZipcode}"/></span>
+							</div>
+							<button class="btn btn-outline-primary btn-sm" type="button" id="showAddrBtn">수정</button>
+						</dd>
+						<dd class="input-group" id="showAddr">
+							<span class="inner-text"><c:out value="${principal.member.memberAddr}"/></span>
+						</dd>
+						<dd class="input-group" id="showAddrDetail">
+							<span class="inner-text"><c:out value="${principal.member.memberAddrDetail}"/></span>
+						</dd>
+						<!-- d-none(#editZipcode) -->
+						<dd class="input-group" id="editZipcode">
+							<form>
+								<input type="text" id="memberZipcode" name="memberZipcode" value="${principal.member.memberZipcode}" readonly/> 
+							</form>
+							<div>
+								<button class="btn btn-warning btn-sm" type="button" id="searchAddrBtn">주소 찾기</button>
+								<button class="btn btn-outline-primary btn-sm" type="button" id="updateAddrBtn">확인</button>
+								<button class="btn btn-outline-secondary btn-sm" type="button" id="resetAddrBtn">취소</button>
+							</div>
+						</dd>
+						<!-- d-none(#editAddr) -->
+						<dd class="input-group" id="editAddr">
+							<form>
+								<input type="text" id="memberAddr" name="memberAddr" value="${principal.member.memberAddr}" readonly/>
+							</form>
+						</dd>
+						<!-- d-none(#editAddrDetail) -->
+						<dd class="input-group" id="editAddrDetail">
+							<form>
+								<input type="text" id="memberAddrDetail" name="memberAddrDetail" value="${principal.member.memberAddrDetail}"/>
+							</form>
+						</dd>
+					</dl>
+				</div>
+				<div class="mb-5">
+					<dl class="form-group mb-5">
+						<dt><i class="fa-solid fa-check mr-2"></i>이메일 수신</dt>
+						<dd class="input-group" id="showAgree">
+							<div class="form-check form-check-inline mr-0">
+								<label class="form-check-label label-disabled">
+									<input class="form-check-input" type="checkbox" ${principal.member.memberAgree == true ? 'checked' : ''} disabled/>
 									<span class="inner-text">이메일 광고 수신에 동의합니다.</span>
 								</label>
 							</div>
-						</form>
-						<div>
-							<button class="btn btn-outline-primary btn-sm" type="button" id="updateAgreeBtn">확인</button>
-							<button class="btn btn-outline-secondary btn-sm" type="button" id="resetAgreeBtn">취소</button>
-						</div>
-					</dd>
-				</dl>
+							<button class="btn btn-outline-primary btn-sm" type="button" id="showAgreeBtn">수정</button>
+						</dd>
+						<!-- d-none(#editAgree) -->
+						<dd class="input-group" id="editAgree">
+							<form>
+								<div class="form-check form-check-inline">
+									<label class="form-check-label">
+										<input class="form-check-input" type="checkbox" id="memberAgree" name="memberAgree" 
+											${principal.member.memberAgree == true ? 'checked' : ''}>
+										<span class="inner-text">이메일 광고 수신에 동의합니다.</span>
+									</label>
+								</div>
+							</form>
+							<div>
+								<button class="btn btn-outline-primary btn-sm" type="button" id="updateAgreeBtn">확인</button>
+								<button class="btn btn-outline-secondary btn-sm" type="button" id="resetAgreeBtn">취소</button>
+							</div>
+						</dd>
+					</dl>
+				</div>
 			</div>
 		</div>
 		<div class="col-sm-2"></div>
@@ -228,6 +248,11 @@
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
 	$(function() {
+		// update profile image
+		$("#updateProfileImageBtn").on("click", function() {
+			console.log("## updateProfileImageBtn click");
+		});
+		
 		// send auth code
 		$("#sendAuthCodeBtn").on("click", function() {
 			let obj = {

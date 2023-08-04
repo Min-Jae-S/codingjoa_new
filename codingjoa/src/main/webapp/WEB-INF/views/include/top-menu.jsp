@@ -29,8 +29,8 @@
 					</li>
 				</sec:authorize>
 				<sec:authorize access="isAuthenticated()">
-					<li class="nav-item">
-						<img class="m-1 nav-profile-image" src="${contextPath}/resources/image/person.png">
+					<li class="nav-item mr-1">
+						<img class="nav-profile-image" src="${contextPath}/resources/image/img_profile.png">
 					</li>
 					<li class="nav-item mr-2">
 						<a class="nav-link text-body" href="${contextPath}/member/account/info">
