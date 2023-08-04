@@ -90,8 +90,8 @@
 	}
 	
 	.profile-image {
-		width: 75px;
-		height: 75px;
+		width: 85px;
+		height: 85px;
 		border: 1px solid #dee2e6 !important;
 		border-radius: 0.5rem;
 		/* width: 65px;
@@ -106,9 +106,9 @@
 	
 	.profile-image-btn {
 		position: absolute;
-		z-index: 10;
-		top: 55px;
-		left: 55px;
+		z-index: 999;
+		top: 60px;
+		left: 60px;
 		padding: 0;
 		margin: 0;
   		line-height: 0;
@@ -120,8 +120,8 @@
 	
 	.profile-image-icon {
 		display: inline-block;
-		width: 30px;
-		height: 30px;
+		width: 35px;
+		height: 35px;
 		border: 1px solid white;
 		border-radius: 50%;
 		background-image: url('/codingjoa/resources/image/img_camera3.png');
@@ -142,11 +142,12 @@
 				<div class="mb-5 d-flex">
 					<div class="wrap-profile-image mr-4">
 						<img class="profile-image" src="${contextPath}/resources/image/img_profile.png">
-						<button type="button" class="profile-image-btn" id="updateProfileImageBtn">
+						<button type="button" class="profile-image-btn" id="profileImageBtn">
 							<span class="profile-image-icon"></span>
+							<input class="d-none" type="file" id="profileImage" name="profileImage">
 						</button>
 					</div>
-					<div class="w-100">
+					<div class="w-100 pt-2">
 						<dl class="form-group">
 							<dt><i class="fa-solid fa-check mr-2"></i>아이디</dt>
 							<dd class="input-group">
@@ -261,9 +262,21 @@
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
 	$(function() {
+		$("#profileImageBtn").on("click", function() {
+			console.log("## profileImageBtn click");
+			$("#profileImage").click();
+		});
+		
+		// prevent stack overflow
+		$("#profileImage").on("click", function(e) {
+			e.stopPropagation();
+		})
+		
 		// update profile image
-		$("#updateProfileImageBtn").on("click", function() {
-			console.log("## updateProfileImageBtn click");
+		$("#profileImage").on("change", function() {
+			console.log("## profileImage change");
+			console.log("\t > profile image = %s", $(this).val());
+			$(this).val("");
 		});
 		
 		// send auth code
