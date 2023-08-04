@@ -64,8 +64,7 @@ public class CommentRestController {
 	}
 	
 	@GetMapping(value = { "/comments", "/comments/{commentIdx}" })
-	public ResponseEntity<Object> getComment(@PathVariable int commentIdx,
-			@AuthenticationPrincipal UserDetailsDto principal) {
+	public ResponseEntity<Object> getComment(@PathVariable int commentIdx, @AuthenticationPrincipal UserDetailsDto principal) {
 		log.info("## getComment");
 		log.info("\t > commentIdx = {}", commentIdx);
 		
@@ -103,8 +102,7 @@ public class CommentRestController {
 	}
 	
 	@DeleteMapping(value = { "/comments", "/comments/{commentIdx}" })
-	public ResponseEntity<Object> deleteComment(@PathVariable int commentIdx,
-			@AuthenticationPrincipal UserDetailsDto principal) {
+	public ResponseEntity<Object> deleteComment(@PathVariable int commentIdx, @AuthenticationPrincipal UserDetailsDto principal) {
 		log.info("## deleteComment");
 		log.info("\t > commentIdx = {}", commentIdx);
 		

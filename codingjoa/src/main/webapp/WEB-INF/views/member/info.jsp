@@ -88,16 +88,11 @@
 	.profile-image {
 		width: 75px;
 		height: 75px;
-		border-radius : 0.5rem;
+		border: 1px solid #dee2e6 !important;
+		border-radius: 0.5rem;
 		/* width: 65px;
 		height: 65px;
-		border-radius : 0.4rem; */
-	}
-	
-	.edit-profile-image {
-		width: 130px;
-		height: 130px;
-		border-radius : 0.5rem;
+		border-radius: 0.4rem; */
 	}
 </style>
 </head>
@@ -113,29 +108,9 @@
 			<div class="pt-4" style="border-top: 1px solid black;">
 				<div class="d-flex">
 					<div class="wrap-profile-image mr-4">
-						<a href="#" data-toggle="modal" data-target="#editProfileImageModal">
+						<a href="#">
 							<img class="profile-image" src="${contextPath}/resources/image/person.png">
 						</a>
-						<!-- Modal -->
-						<div class="modal fade" id="editProfileImageModal" tabindex="-1" role="dialog">
-							<div class="modal-dialog modal-dialog-centered" role="document">
-								<div class="modal-content">
-									<div class="modal-header">
-										<h5 class="modal-title font-weight-bold">프로필 사진 수정</h5>
-										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-											<span aria-hidden="true">&times;</span>
-										</button>
-									</div>
-									<div class="modal-body p-5">
-										<img class="edit-profile-image" src="${contextPath}/resources/image/person.png">
-									</div>
-									<div class="modal-footer">
-										<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-										<button type="button" class="btn btn-primary">Save changes</button>
-									</div>
-								</div>
-							</div>
-						</div>
 					</div>
 					<div class="w-100">
 						<dl class="form-group mb-5">

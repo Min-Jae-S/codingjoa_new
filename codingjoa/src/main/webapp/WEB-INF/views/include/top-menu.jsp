@@ -30,7 +30,7 @@
 				</sec:authorize>
 				<sec:authorize access="isAuthenticated()">
 					<li class="nav-item">
-						<img class="m-1" src="${contextPath}/resources/image/person.png">
+						<img class="m-1 nav-profile-image" src="${contextPath}/resources/image/person.png">
 					</li>
 					<li class="nav-item mr-2">
 						<a class="nav-link text-body" href="${contextPath}/member/account/info">

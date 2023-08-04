@@ -87,9 +87,10 @@ li.nav-item {
 	font-weight: bold;
 }
 
-.navbar-custom .navbar-nav img {
+.nav-profile-image {
 	width: 40px;
-	border-radius : 0.4rem;
+	border: 1px solid #dee2e6 !important;
+	border-radius: 0.5rem;
 }
 
 .dropdown-menu {
