@@ -107,12 +107,25 @@
 	.profile-image-btn {
 		position: absolute;
 		z-index: 10;
-		top: 47px;
-		left: 45px;
+		top: 55px;
+		left: 55px;
+		padding: 0;
+		margin: 0;
+  		line-height: 0;
+  		border: none !important;
+  		outline: none !important;
+  		background-color: transparent;
+  		cursor: pointer;
 	}
 	
 	.profile-image-icon {
-		background-image: url
+		display: inline-block;
+		width: 30px;
+		height: 30px;
+		border: 1px solid white;
+		border-radius: 50%;
+		background-image: url('/codingjoa/resources/image/img_camera3.png');
+		background-size: contain;
 	}
 </style>
 </head>
@@ -130,7 +143,7 @@
 					<div class="wrap-profile-image mr-4">
 						<img class="profile-image" src="${contextPath}/resources/image/img_profile.png">
 						<button type="button" class="profile-image-btn" id="updateProfileImageBtn">
-							<span class="profile-image-icon">TEST</span>
+							<span class="profile-image-icon"></span>
 						</button>
 					</div>
 					<div class="w-100">
