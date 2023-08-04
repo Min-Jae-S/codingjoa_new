@@ -262,17 +262,20 @@
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
 	$(function() {
+		
+		// profile image button event
 		$("#profileImageBtn").on("click", function() {
 			console.log("## profileImageBtn click");
 			$("#profileImage").click();
 		});
 		
-		// prevent stack overflow
+		// prevent stack overflow (Uncaught RangeError: Maximum call stack size exceeded)
+		// #profileImage is a child element of #profileImageBtn, event propagation occurs
 		$("#profileImage").on("click", function(e) {
 			e.stopPropagation();
 		})
 		
-		// update profile image
+		// upload & upsert profile image
 		$("#profileImage").on("change", function() {
 			console.log("## profileImage change");
 			console.log("\t > profile image = %s", $(this).val());
