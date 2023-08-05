@@ -75,6 +75,10 @@
 		border-bottom: 1px solid #868e96;
 	}
 	
+	#profileImageForm {
+		display: none;
+	}
+	
 	.btn-sm {
 		font-size: 0.75rem;
 		border-radius: 0.5rem;
@@ -145,7 +149,9 @@
 						<img class="profile-image" src="${contextPath}/resources/image/img_profile.png">
 						<button type="button" class="profile-image-btn" id="profileImageBtn">
 							<span class="profile-image-icon"></span>
-							<input class="d-none" type="file" id="profileImage" name="profileImage">
+							<form id="profileImageForm">
+								<input type="file" id="profileImage" name="profileImage">
+							</form>
 						</button>
 					</div>
 					<div class="w-100 pt-2">
@@ -276,12 +282,18 @@
 		
 		// upload & upsert profile image
 		$("#profileImage").on("change", function() {
-			console.log("## profile image = %s", $(this).val());
+			// jQuery object --> javaScript DOM object - document.querySelector('#profileImage') 
+			let $profileImage = $(this)[0]; 
+			console.log("## file = %s", $profileImage.name);
+			
+			let formData = new FormData();
+			formData.append("file", $profileImage.files[0]);
 			$.ajax({
 				type : "POST",
 				url : "${contextPath}/api/upload/profile-image",
-				data : JSON.stringify(obj),
-				contentType : "application/json; charset=utf-8",
+				processData: false,
+			    contentType: false,
+				data : formData,
 				dataType : "json",
 				success : function(result) {
 					console.log("%c> SUCCESS", "color:green");
@@ -297,8 +309,8 @@
 					}
 				},
 				complete : function() {
-					$(this).val("");
-					console.log("## profile image initialize, profile image = %s", $(this).val());
+					console.log("## reset input");
+					$profileImage.value = "";
 				}
 			});
 		});
