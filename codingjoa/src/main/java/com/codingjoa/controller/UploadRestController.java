@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -15,8 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codingjoa.dto.UploadFileDto;
-import com.codingjoa.dto.BoardImageDto;
+import com.codingjoa.dto.ImageDto;
 import com.codingjoa.response.SuccessResponse;
+import com.codingjoa.security.dto.UserDetailsDto;
 import com.codingjoa.service.UploadService;
 import com.codingjoa.util.UploadFileUtils;
 import com.codingjoa.validator.UploadFileValidator;
@@ -53,6 +55,7 @@ public class UploadRestController {
 	public ResponseEntity<Object> uploadBoardImage(@ModelAttribute @Valid UploadFileDto uploadFileDto,
 			HttpServletRequest request) {
 		log.info("## uploadBoardImage");
+		log.info("\t > boardPath = {}", boardPath);
 		
 		String boardImageName = UploadFileUtils.upload(boardPath, uploadFileDto.getFile());
 		log.info("\t > boardImageName = {}", boardImageName);
@@ -65,18 +68,25 @@ public class UploadRestController {
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
 				.messageByCode("success.uploadBoardImage")
-				.data(new BoardImageDto(boardImageIdx, boardImageName, boardImageUrl))
+				.data(new ImageDto(boardImageIdx, boardImageName, boardImageUrl))
 				.build());
 	}
 
 	@PostMapping("/profile-image")
 	public ResponseEntity<Object> uploadProfileImage(@ModelAttribute @Valid UploadFileDto uploadFileDto,
-			HttpServletRequest request) {
+			@AuthenticationPrincipal UserDetailsDto principal, HttpServletRequest request) {
 		log.info("## uploadProfileImage");
-		log.info("\t > original filename = {}", uploadFileDto.getFile().getOriginalFilename());
+		log.info("\t > profilePath = {}", profilePath);
+		
+		String profileImageName = UploadFileUtils.upload(profilePath, uploadFileDto.getFile());
+		log.info("\t > profileImageName = {}", profileImageName);
+		
+		String profileImageUrl = request.getContextPath() + profileUrl + profileImageName;
+		log.info("\t > profileImageUrl = {}", profileImageUrl);
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
-				.message("success.uploadProfileImage")
+				.messageByCode("success.uploadProfileImage")
+				.data(new ImageDto(null, profileImageName, profileImageUrl))
 				.build());
 	}
 	

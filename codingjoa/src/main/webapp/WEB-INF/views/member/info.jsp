@@ -282,12 +282,15 @@
 		
 		// upload & upsert profile image
 		$("#profileImage").on("change", function() {
-			// jQuery object --> javaScript DOM object - document.querySelector('#profileImage') 
-			let $profileImage = $(this)[0]; 
-			console.log("## file = %s", $profileImage.name);
+			// jQuery object --> javaScript DOM object 
+			// let $profileImage = $(this)[0];
 			
-			let formData = new FormData();
-			formData.append("file", $profileImage.files[0]);
+			const formData = new FormData();
+			formData.append("file", this.files[0]);
+			
+			// initialize the file input, but not with null
+			this.value = "";
+			
 			$.ajax({
 				type : "POST",
 				url : "${contextPath}/api/upload/profile-image",
@@ -307,10 +310,6 @@
 					} else {
 						alert("## Parsing Error");
 					}
-				},
-				complete : function() {
-					console.log("## reset input");
-					$profileImage.value = "";
 				}
 			});
 		});
