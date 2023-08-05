@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -22,6 +23,18 @@ public class UploadServiceImpl implements UploadService {
 	
 	@Autowired
 	private UploadMapper uploadMapper;
+	
+	@Value("${upload.board.path}")
+	private String boardPath;
+	
+	@Value("${upload.board.url}")
+	private String boardUrl;
+
+	@Value("${upload.profile.path}")
+	private String profilePath;
+	
+	@Value("${upload.profile.url}")
+	private String profileUrl;
 	
 	@Override
 	public int uploadBoardImage(String boardImageName) {

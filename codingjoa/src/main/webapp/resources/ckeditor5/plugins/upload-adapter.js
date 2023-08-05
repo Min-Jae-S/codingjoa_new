@@ -19,7 +19,6 @@ class UploadAdapter {
 
     _initRequest() {
         console.log("## Initiate upload request");
-        
      	// Note that your request may look different. It is up to you and your editor
         // integration to choose the right communication channel. This example uses
         // a POST request with JSON as a data structure but your configuration
@@ -31,7 +30,6 @@ class UploadAdapter {
 
     _initListeners(resolve, reject, file) {
     	console.log("## Initiate upload listeners");
-    	
         const xhr = this.xhr;
         const loader = this.loader;
         const genericErrorText = "파일을 업로드 할 수 없습니다: " + file.name + ".";

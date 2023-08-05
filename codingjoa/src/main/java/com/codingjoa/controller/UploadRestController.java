@@ -81,6 +81,9 @@ public class UploadRestController {
 		String profileImageName = UploadFileUtils.upload(profilePath, uploadFileDto.getFile());
 		log.info("\t > profileImageName = {}", profileImageName);
 		
+		// upload(db) profile image
+		// ...
+		
 		String profileImageUrl = request.getContextPath() + profileUrl + profileImageName;
 		log.info("\t > profileImageUrl = {}", profileImageUrl);
 		
