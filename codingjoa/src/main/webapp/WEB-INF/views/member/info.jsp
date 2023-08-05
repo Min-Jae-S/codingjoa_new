@@ -18,6 +18,7 @@
 <script src="https://kit.fontawesome.com/c503d71f81.js"></script>
 <script src="${contextPath}/resources/js/utils.js"></script>
 <script src="${contextPath}/resources/js/member.js"></script>
+<%-- <script src="${contextPath}/resources/js/upload.js"></script> --%>
 <style>
 	input[type="text"] {
 		border: none;
@@ -262,24 +263,44 @@
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
 	$(function() {
-		
 		// profile image button event
 		$("#profileImageBtn").on("click", function() {
-			console.log("## profileImageBtn click");
 			$("#profileImage").click();
 		});
 		
 		// prevent stack overflow (Uncaught RangeError: Maximum call stack size exceeded)
-		// #profileImage is a child element of #profileImageBtn, event propagation occurs
+		// since #profileImage(file) is a child element of #profileImageBtn, event propagation occurs
 		$("#profileImage").on("click", function(e) {
 			e.stopPropagation();
 		})
 		
 		// upload & upsert profile image
 		$("#profileImage").on("change", function() {
-			console.log("## profileImage change");
-			console.log("\t > profile image = %s", $(this).val());
-			$(this).val("");
+			console.log("## profile image = %s", $(this).val());
+			$.ajax({
+				type : "POST",
+				url : "${contextPath}/api/upload/profile-image",
+				data : JSON.stringify(obj),
+				contentType : "application/json; charset=utf-8",
+				dataType : "json",
+				success : function(result) {
+					console.log("%c> SUCCESS", "color:green");
+					console.log(JSON.stringify(result, null, 2));
+				},
+				error : function(jqXHR) {
+					console.log("%c> ERROR", "color:red");
+					let errorResponse = parseError(jqXHR);
+					if (errorResponse != null) {
+						handleUploadError(errorResponse);
+					} else {
+						alert("## Parsing Error");
+					}
+				},
+				complete : function() {
+					$(this).val("");
+					console.log("## profile image initialize, profile image = %s", $(this).val());
+				}
+			});
 		});
 		
 		// send auth code

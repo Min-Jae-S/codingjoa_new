@@ -73,16 +73,10 @@ public class UploadRestController {
 	public ResponseEntity<Object> uploadProfileImage(@ModelAttribute @Valid UploadFileDto uploadFileDto,
 			HttpServletRequest request) {
 		log.info("## uploadProfileImage");
-		
-		String profileImageName = UploadFileUtils.upload(boardPath, uploadFileDto.getFile());
-		log.info("\t > profileImageName = {}", profileImageName);
-		
-		String profileImageUrl = request.getContextPath() + profileUrl + profileImageName;
-		log.info("\t > profileImageUrl = {}", profileImageUrl);
+		log.info("\t > original filename = {}", uploadFileDto.getFile().getOriginalFilename());
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
 				.message("success.uploadProfileImage")
-				.data(null)
 				.build());
 	}
 	

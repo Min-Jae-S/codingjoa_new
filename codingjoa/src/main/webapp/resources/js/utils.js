@@ -50,3 +50,7 @@ function handleLikesError(errorResponse) {
 		alert(message);
 	}
 }
+
+function handleUploadError() {
+	console.log("## handle upload error");
+}
