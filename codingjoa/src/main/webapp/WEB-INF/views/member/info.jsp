@@ -18,7 +18,7 @@
 <script src="https://kit.fontawesome.com/c503d71f81.js"></script>
 <script src="${contextPath}/resources/js/utils.js"></script>
 <script src="${contextPath}/resources/js/member.js"></script>
-<%-- <script src="${contextPath}/resources/js/upload.js"></script> --%>
+<script src="${contextPath}/resources/js/upload.js"></script>
 <style>
 	input[type="text"] {
 		border: none;
@@ -94,7 +94,7 @@
 		margin-bottom: 0;
 	}
 	
-	.profile-image {
+	.profile-thumb-image {
 		width: 85px;
 		height: 85px;
 		border: 1px solid #dee2e6 !important;
@@ -105,7 +105,7 @@
 		/* border-radius: 50%!important; */
 	}	
 	
-	.wrap-profile-image {
+	.wrap-profile {
 		position: relative;
 	}
 	
@@ -145,8 +145,8 @@
 			<h5 class="font-weight-bold">계정 정보</h5>
 			<div class="pt-4" style="border-top: 1px solid black;">
 				<div class="mb-5 d-flex">
-					<div class="wrap-profile-image mr-4">
-						<img class="profile-image" src="${contextPath}/resources/image/img_profile.png">
+					<div class="wrap-profile mr-4">
+						<img class="profile-thumb-image" id="profileThumbImage" src="${contextPath}/resources/image/img_profile.png">
 						<button type="button" class="profile-image-btn" id="profileImageBtn">
 							<span class="profile-image-icon"></span>
 							<form id="profileImageForm">
@@ -301,6 +301,7 @@
 				success : function(result) {
 					console.log("%c> SUCCESS", "color:green");
 					console.log(JSON.stringify(result, null, 2));
+					$("#profileThumbImage").attr("src", result.data.imageUrl);
 				},
 				error : function(jqXHR) {
 					console.log("%c> ERROR", "color:red");
