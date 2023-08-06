@@ -84,10 +84,9 @@ public class UploadServiceImpl implements UploadService {
 		List<Integer> boardImages = boardDto.getBoardImages();
 		log.info("\t > activate board images = {}", boardImages);
 		
-		if (CollectionUtils.isEmpty(boardImages)) { 
-			return;
+		if (!CollectionUtils.isEmpty(boardImages)) {
+			uploadMapper.activateBoardImage(boardImages, boardDto.getBoardIdx());
 		}
-		uploadMapper.activateBoardImage(boardImages, boardDto.getBoardIdx());
 	}
 	
 	@Override
@@ -118,8 +117,8 @@ public class UploadServiceImpl implements UploadService {
 		profileImage.setMemberIdx(memberIdx);
 		profileImage.setProfileImageName(uploadFilename);
 		profileImage.setProfileImagePath(saveFile.getCanonicalPath());
-		
-		// 없다면 insert, 있다면 update(memberIdx를 null)후 insert
+
+		uploadMapper.deactivateBoardImage(memberIdx);
 		uploadMapper.insertProfileImage(profileImage);
 		log.info("\t > uploaded profileImage = {}", profileImage);
 	}

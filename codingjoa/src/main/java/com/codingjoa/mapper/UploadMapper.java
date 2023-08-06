@@ -21,6 +21,8 @@ public interface UploadMapper {
 	
 	List<BoardImage> findBoardImagesByBoardIdx(int boardIdx);
 	
+	void deactivateProfileImage(int memberIdx);
+
 	void insertProfileImage(ProfileImage profileImage);
 	
 }

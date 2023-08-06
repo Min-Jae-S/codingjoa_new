@@ -73,6 +73,15 @@
 			board_idx = #{boardIdx}
 	</select>
 	
+	<update id="deactivateProfileImage" parameterType="int">
+		UPDATE 
+			profile_image
+		SET
+			member_idx = ''
+		WHERE
+			member_idx = #{memberIdx} 
+	</update>
+	
 	<insert id="insertProfileImage" parameterType="profileImage">
 		<selectKey keyProperty="profileImageIdx" resultType="int" order="BEFORE">
 			SELECT seq_profile_image.NEXTVAL FROM DUAL
