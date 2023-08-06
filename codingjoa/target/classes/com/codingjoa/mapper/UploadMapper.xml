@@ -17,11 +17,13 @@
 			board_image_idx,
 			board_idx,
 			board_image_name,
+			board_image_path,
 			regdate
 		) VALUES (
 			#{boardImageIdx},
 			#{boardIdx},
 			#{boardImageName},
+			#{boardImagePath}
 			SYSDATE
 		)
 	</insert>

@@ -47,7 +47,7 @@ public class UploadServiceImpl implements UploadService {
 	
 	@Override
 	public BoardImageDto uploadBoardImage(MultipartFile file) throws IllegalStateException, IOException {
-		// os에 따른 path 고려 
+		// os에 따른 path 고려 추가하기 
 		File uploadFolder = new File(boardPath);
 		if (!uploadFolder.exists()) {
 			uploadFolder.mkdirs();
@@ -61,6 +61,7 @@ public class UploadServiceImpl implements UploadService {
 		boardImage.setBoardImageName(uploadFilename);
 		boardImage.setBoardImagePath(saveFile.getCanonicalPath()); // absolutePath vs canonicalPath (https://dev-handbook.tistory.com/11)
 		uploadMapper.insertBoardImage(boardImage);
+		log.info("\t > boardImage = {}", boardImage);
 		
 		BoardImageDto uploadedBoardImage = modelMapper.map(boardImage, BoardImageDto.class);
 		uploadedBoardImage.setBoardImageUrl(boardUrl + uploadFilename);

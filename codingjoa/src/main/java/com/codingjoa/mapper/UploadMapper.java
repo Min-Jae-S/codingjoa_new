@@ -10,7 +10,7 @@ import com.codingjoa.entity.BoardImage;
 @Mapper
 public interface UploadMapper {
 
-	int insertBoardImage(BoardImage boardImage);
+	void insertBoardImage(BoardImage boardImage);
 	
 	boolean isBoardImageUploaded(int boardImageIdx);
 	
