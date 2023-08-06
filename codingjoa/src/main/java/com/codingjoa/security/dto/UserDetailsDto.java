@@ -19,9 +19,9 @@ import lombok.ToString;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@SuppressWarnings("serial")
 public class UserDetailsDto implements UserDetails {
 
+	private static final long serialVersionUID = -6918130188428402603L;
 	private Member member;
 	private String memberRole;
 	private String profileImageUrl;
