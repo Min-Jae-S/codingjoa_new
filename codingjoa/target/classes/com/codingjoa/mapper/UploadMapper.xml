@@ -4,7 +4,8 @@
 <!--  
 	board_image_idx         NUMBER,
 	board_idx               NUMBER              NULL,
-	board_image_name        VARCHAR2(500)       NOT NULL,
+	board_image_name        VARCHAR2(200)       NOT NULL,
+    board_image_path        VARCHAR2(200)       NOT NULL,
 	regdate                 DATE                NOT NULL,
 -->
 
