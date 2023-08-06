@@ -44,7 +44,7 @@ public class UploadServiceImpl implements UploadService {
 	private String profilePath;
 	
 	@Value("${upload.profile.url}")
-	private String profileUrl;
+	//private String profileUrl;
 	
 	@Override
 	public BoardImageDto uploadBoardImage(MultipartFile file) throws IllegalStateException, IOException {
@@ -62,7 +62,7 @@ public class UploadServiceImpl implements UploadService {
 		boardImage.setBoardImageName(uploadFilename);
 		boardImage.setBoardImagePath(saveFile.getCanonicalPath()); // absolutePath vs canonicalPath (https://dev-handbook.tistory.com/11)
 		uploadMapper.insertBoardImage(boardImage);
-		log.info("\t > uploaded boardImage = {}", boardImage);
+		log.info("\t > uploaded, {}", boardImage);
 		
 		BoardImageDto uploadedBoardImage = modelMapper.map(boardImage, BoardImageDto.class);
 		uploadedBoardImage.setBoardImageUrl(boardUrl + uploadFilename);
@@ -118,9 +118,9 @@ public class UploadServiceImpl implements UploadService {
 		profileImage.setProfileImageName(uploadFilename);
 		profileImage.setProfileImagePath(saveFile.getCanonicalPath());
 
-		uploadMapper.deactivateBoardImage(memberIdx);
+		uploadMapper.deactivateProfileImage(memberIdx);
 		uploadMapper.insertProfileImage(profileImage);
-		log.info("\t > uploaded profileImage = {}", profileImage);
+		log.info("\t > uploaded, {}", profileImage);
 	}
 	
 }

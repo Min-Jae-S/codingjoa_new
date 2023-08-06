@@ -59,7 +59,7 @@
 		UPDATE 
 			board_image
 		SET
-			board_idx = ''
+			board_idx = NULL
 		WHERE
 			board_idx = #{boardIdx} 
 	</update>
@@ -77,7 +77,7 @@
 		UPDATE 
 			profile_image
 		SET
-			member_idx = ''
+			member_idx = NULL
 		WHERE
 			member_idx = #{memberIdx} 
 	</update>

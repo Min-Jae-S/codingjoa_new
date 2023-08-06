@@ -20,6 +20,4 @@ public class BoardImage {
 	private String boardImageName;
 	private String boardImagePath;
 	private Date regdate;
-	
-	
 }
