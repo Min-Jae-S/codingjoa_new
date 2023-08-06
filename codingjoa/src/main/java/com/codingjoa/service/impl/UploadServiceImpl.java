@@ -37,14 +37,8 @@ public class UploadServiceImpl implements UploadService {
 	@Value("${upload.board.path}")
 	private String boardPath;
 	
-	@Value("${upload.board.url}")
-	private String boardUrl;
-
 	@Value("${upload.profile.path}")
 	private String profilePath;
-	
-	@Value("${upload.profile.url}")
-	//private String profileUrl;
 	
 	@Override
 	public BoardImageDto uploadBoardImage(MultipartFile file) throws IllegalStateException, IOException {
@@ -64,10 +58,8 @@ public class UploadServiceImpl implements UploadService {
 		uploadMapper.insertBoardImage(boardImage);
 		log.info("\t > uploaded, {}", boardImage);
 		
-		BoardImageDto uploadedBoardImage = modelMapper.map(boardImage, BoardImageDto.class);
-		uploadedBoardImage.setBoardImageUrl(boardUrl + uploadFilename);
-		
-		return uploadedBoardImage;
+		return modelMapper.map(boardImage, BoardImageDto.class);
+		//uploadedBoardImage.setBoardImageUrl(boardUrl + uploadFilename);
 	}
 	
 	private String createFilename(String originalFilename) {

@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -34,6 +35,12 @@ public class UploadRestController {
 	@Autowired
 	private UploadService uploadService;
 	
+	@Value("${upload.board.url}")
+	private String boardUrl;
+	
+	@Value("${upload.profile.url}")
+	private String profileUrl;
+	
 	@InitBinder("uploadFileDto")
 	public void initBinderUpload(WebDataBinder binder) {
 		binder.addValidators(new UploadFileValidator());
@@ -43,7 +50,10 @@ public class UploadRestController {
 	public ResponseEntity<Object> uploadBoardImage(@ModelAttribute @Valid UploadFileDto uploadFileDto,
 			HttpServletRequest request) throws IllegalStateException, IOException {
 		log.info("## uploadBoardImage");
+		
 		BoardImageDto uploadedBoardImage = uploadService.uploadBoardImage(uploadFileDto.getFile());
+		String boardImageUrl = request.getContextPath() + boardUrl + uploadedBoardImage.getBoardImageName();
+		uploadedBoardImage.setBoardImageUrl(boardImageUrl);
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
 				.messageByCode("success.uploadBoardImage")
@@ -60,6 +70,7 @@ public class UploadRestController {
 		uploadService.uploadProfileImage(uploadFileDto.getFile(), memberIdx);
 		
 		// reset authentication
+		// ...
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
 				.messageByCode("success.uploadProfileImage")
