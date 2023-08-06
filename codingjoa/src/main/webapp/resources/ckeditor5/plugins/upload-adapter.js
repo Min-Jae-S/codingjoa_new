@@ -1,8 +1,3 @@
-function getContextPath() {
-    let hostIndex = location.href.indexOf(location.host) + location.host.length;
-    return location.href.substring(hostIndex, location.href.indexOf('/', hostIndex + 1));
-}
-
 class UploadAdapter {
     constructor(loader) {
         this.loader = loader;
@@ -24,7 +19,9 @@ class UploadAdapter {
         // a POST request with JSON as a data structure but your configuration
         // could be different.
         const xhr = this.xhr = new XMLHttpRequest();
-        xhr.open('POST', getContextPath() + "/api/upload/board-image", true);
+        const hostIndex = location.href.indexOf(location.host) + location.host.length;
+        const contextPath = location.href.substring(hostIndex, location.href.indexOf('/', hostIndex + 1));
+        xhr.open('POST', contextPath + "/api/upload/board-image", true);
         xhr.responseType = 'json';
     }
 
@@ -69,7 +66,7 @@ class UploadAdapter {
 //            		default: getContextPath() + response.data.returnUrl
 //            	},
             	
-            	// response.data --> BoardImageDto(int boardImageIdx, String boardImageName. String boardImageUrl)
+            	// response.data = BoardImageDto(int boardImageIdx, String boardImageName. String boardImageUrl)
             	idx: response.data.boardImageIdx,
             	alt: response.data.boardImageName,
             	url: response.data.boardImageUrl
