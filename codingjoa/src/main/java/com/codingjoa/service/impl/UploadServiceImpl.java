@@ -118,6 +118,8 @@ public class UploadServiceImpl implements UploadService {
 		profileImage.setMemberIdx(memberIdx);
 		profileImage.setProfileImageName(uploadFilename);
 		profileImage.setProfileImagePath(saveFile.getCanonicalPath());
+		
+		// 없다면 insert, 있다면 update(memberIdx를 null)후 insert
 		uploadMapper.insertProfileImage(profileImage);
 		log.info("\t > uploaded profileImage = {}", profileImage);
 	}

@@ -75,7 +75,7 @@
 	
 	<insert id="insertProfileImage" parameterType="profileImage">
 		<selectKey keyProperty="profileImageIdx" resultType="int" order="BEFORE">
-			SELECT seq_profile_image.NEXTVAL.NEXTVAL FROM DUAL
+			SELECT seq_profile_image.NEXTVAL FROM DUAL
 		</selectKey>
 		INSERT INTO profile_image (
 			profile_image_idx,

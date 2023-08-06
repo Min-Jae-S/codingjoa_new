@@ -301,7 +301,7 @@
 				success : function(result) {
 					console.log("%c> SUCCESS", "color:green");
 					console.log(JSON.stringify(result, null, 2));
-					$("#profileThumbImage").attr("src", result.data.imageUrl);
+					alert(result.message);
 				},
 				error : function(jqXHR) {
 					console.log("%c> ERROR", "color:red");
