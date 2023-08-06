@@ -72,7 +72,7 @@ class UploadAdapter {
             	// response.data --> BoardImageDto(int boardImageIdx, String boardImageName. String boardImageUrl)
             	idx: response.data.boardImageIdx,
             	alt: response.data.boardImageName,
-            	url: response.data.boardImageUrl
+            	url: getContextPath() + response.data.boardImageUrl
             });
         });
     }

@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.codingjoa.entity.BoardImage;
+import com.codingjoa.entity.ProfileImage;
 
 @Mapper
 public interface UploadMapper {
@@ -19,5 +20,7 @@ public interface UploadMapper {
 	void deactivateBoardImage(int boarIdx);
 	
 	List<BoardImage> findBoardImagesByBoardIdx(int boardIdx);
+	
+	void insertProfileImage(ProfileImage profileImage);
 	
 }

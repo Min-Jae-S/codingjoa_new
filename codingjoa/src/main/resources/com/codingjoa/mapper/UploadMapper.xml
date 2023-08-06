@@ -7,13 +7,18 @@
 	board_image_name        VARCHAR2(200)       NOT NULL,
     board_image_path        VARCHAR2(200)       NOT NULL,
 	regdate                 DATE                NOT NULL,
+	
+	profile_image_idx         NUMBER,
+	member_idx                NUMBER              NULL,
+	profile_image_name        VARCHAR2(200)       NOT NULL,
+    profile_image_path        VARCHAR2(200)       NOT NULL,
+	regdate                   DATE                NOT NULL,
 -->
 
 	<insert id="insertBoardImage" parameterType="boardImage">
 		<selectKey keyProperty="boardImageIdx" resultType="int" order="BEFORE">
 			SELECT seq_board_image.NEXTVAL FROM DUAL
 		</selectKey>
-		
 		INSERT INTO board_image (
 			board_image_idx,
 			board_idx,
@@ -24,7 +29,7 @@
 			#{boardImageIdx},
 			#{boardIdx},
 			#{boardImageName},
-			#{boardImagePath}
+			#{boardImagePath},
 			SYSDATE
 		)
 	</insert>
@@ -67,5 +72,24 @@
 		WHERE
 			board_idx = #{boardIdx}
 	</select>
+	
+	<insert id="insertProfileImage" parameterType="profileImage">
+		<selectKey keyProperty="profileImageIdx" resultType="int" order="BEFORE">
+			SELECT seq_profile_image.NEXTVAL.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO profile_image (
+			profile_image_idx,
+			member_idx,
+			profile_image_name,
+			profile_image_path,
+			regdate
+		) VALUES (
+			#{profileImageIdx},
+			#{memberIdx},
+			#{profileImageName},
+			#{profileImagePath},
+			SYSDATE
+		)
+	</insert>
 	
 </mapper>

@@ -17,6 +17,6 @@ public interface UploadService {
 	
 	void deactivateBoardImage(BoardDto boardDto);
 	
-	int uploadProfileImage(String profileImageName);
+	void uploadProfileImage(MultipartFile file, Integer memberIdx) throws IllegalStateException, IOException;
 	
 }

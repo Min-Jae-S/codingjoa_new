@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.codingjoa.dto.BoardDto;
 import com.codingjoa.dto.BoardImageDto;
 import com.codingjoa.entity.BoardImage;
+import com.codingjoa.entity.ProfileImage;
 import com.codingjoa.mapper.UploadMapper;
 import com.codingjoa.service.UploadService;
 
@@ -61,12 +62,16 @@ public class UploadServiceImpl implements UploadService {
 		boardImage.setBoardImageName(uploadFilename);
 		boardImage.setBoardImagePath(saveFile.getCanonicalPath()); // absolutePath vs canonicalPath (https://dev-handbook.tistory.com/11)
 		uploadMapper.insertBoardImage(boardImage);
-		log.info("\t > boardImage = {}", boardImage);
+		log.info("\t > uploaded boardImage = {}", boardImage);
 		
 		BoardImageDto uploadedBoardImage = modelMapper.map(boardImage, BoardImageDto.class);
 		uploadedBoardImage.setBoardImageUrl(boardUrl + uploadFilename);
 		
 		return uploadedBoardImage;
+	}
+	
+	private String createFilename(String originalFilename) {
+		return UUID.randomUUID() + "_" + originalFilename;
 	}
 
 	@Override
@@ -97,14 +102,24 @@ public class UploadServiceImpl implements UploadService {
 		// deactive된 boardImage의 index를 update와 동시에...?
 		uploadMapper.deactivateBoardImage(boardIdx);
 	}
-
-	@Override
-	public int uploadProfileImage(String profileImageName) {
-		return 0;
-	}
 	
-	private String createFilename(String originalFilename) {
-		return UUID.randomUUID() + "_" + originalFilename;
+	@Override
+	public void uploadProfileImage(MultipartFile file, Integer memberIdx) throws IllegalStateException, IOException {
+		File uploadFolder = new File(profilePath);
+		if (!uploadFolder.exists()) {
+			uploadFolder.mkdirs();
+		}
+		
+		String uploadFilename = createFilename(file.getOriginalFilename());
+		File saveFile = new File(uploadFolder, uploadFilename);
+		file.transferTo(saveFile);
+		
+		ProfileImage profileImage = new ProfileImage();
+		profileImage.setMemberIdx(memberIdx);
+		profileImage.setProfileImageName(uploadFilename);
+		profileImage.setProfileImagePath(saveFile.getCanonicalPath());
+		uploadMapper.insertProfileImage(profileImage);
+		log.info("\t > uploaded profileImage = {}", profileImage);
 	}
 	
 }
