@@ -7,10 +7,10 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ImageDto {
+public class BoardImageDto {
 
-	private Integer imageIdx;
-	private String imageName;
-	private String imageUrl;
+	private Integer boardImageIdx;
+	private String boardImageName;
+	private String boardImageUrl;
 	
 }

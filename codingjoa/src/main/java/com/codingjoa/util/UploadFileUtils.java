@@ -9,14 +9,12 @@ public class UploadFileUtils {
 	
 	public static String upload(String path, MultipartFile file) {
 		File uploadFolder = new File(path);
-
 		if (!uploadFolder.exists()) {
 			uploadFolder.mkdirs();
 		}
 		
-		String uploadFilename = UUID.randomUUID() + "_" +  file.getOriginalFilename();
+		String uploadFilename = createFilename(file.getOriginalFilename());
 		File saveFile = new File(uploadFolder, uploadFilename);
-		
 		try {
 			file.transferTo(saveFile);  
 		} catch (Exception e) { // IOException, IllegalStateException
@@ -24,5 +22,9 @@ public class UploadFileUtils {
 		}
 		
 		return uploadFilename;
+	}
+	
+	private static String createFilename(String originalFilename) {
+		return UUID.randomUUID() + "_" + originalFilename;
 	}
 }

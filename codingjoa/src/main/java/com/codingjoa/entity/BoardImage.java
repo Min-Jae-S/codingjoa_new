@@ -17,6 +17,8 @@ public class BoardImage {
 	private Integer boardImageIdx;
 	private Integer boardIdx;
 	private String boardImageName;
+	private String boardImagePath;
 	private Date regdate;
+	
 	
 }

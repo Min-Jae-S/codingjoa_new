@@ -1,5 +1,7 @@
 package com.codingjoa.controller;
 
+import java.io.IOException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -15,8 +17,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.codingjoa.dto.BoardImageDto;
 import com.codingjoa.dto.UploadFileDto;
-import com.codingjoa.dto.ImageDto;
 import com.codingjoa.response.SuccessResponse;
 import com.codingjoa.security.dto.UserDetailsDto;
 import com.codingjoa.service.UploadService;
@@ -34,12 +36,6 @@ public class UploadRestController {
 	@Autowired
 	private UploadService uploadService;
 	
-	@Value("${upload.board.path}")
-	private String boardPath;
-	
-	@Value("${upload.board.url}")
-	private String boardUrl;
-
 	@Value("${upload.profile.path}")
 	private String profilePath;
 	
@@ -53,22 +49,15 @@ public class UploadRestController {
 	
 	@PostMapping("/board-image")
 	public ResponseEntity<Object> uploadBoardImage(@ModelAttribute @Valid UploadFileDto uploadFileDto,
-			HttpServletRequest request) {
+			HttpServletRequest request) throws IllegalStateException, IOException {
 		log.info("## uploadBoardImage");
-		log.info("\t > boardPath = {}", boardPath);
 		
-		String boardImageName = UploadFileUtils.upload(boardPath, uploadFileDto.getFile());
-		log.info("\t > boardImageName = {}", boardImageName);
-		
-		Integer boardImageIdx = uploadService.uploadBoardImage(boardImageName);
-		log.info("\t > boardImageIdx = {}", boardImageIdx);
-		
-		String boardImageUrl = request.getContextPath() + boardUrl + boardImageName;
-		log.info("\t > boardImageUrl = {}", boardImageUrl);
+		BoardImageDto uploadedBoardImage = uploadService.uploadBoardImage(uploadFileDto.getFile());
+		log.info("\t > uploaded boardImage = {}", uploadedBoardImage);
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
 				.messageByCode("success.uploadBoardImage")
-				.data(new ImageDto(boardImageIdx, boardImageName, boardImageUrl))
+				.data(uploadedBoardImage)
 				.build());
 	}
 
@@ -76,6 +65,7 @@ public class UploadRestController {
 	public ResponseEntity<Object> uploadProfileImage(@ModelAttribute @Valid UploadFileDto uploadFileDto,
 			@AuthenticationPrincipal UserDetailsDto principal, HttpServletRequest request) {
 		log.info("## uploadProfileImage");
+		log.info("\t > original filename = {}", uploadFileDto.getFile().getOriginalFilename());
 		log.info("\t > profilePath = {}", profilePath);
 		
 		String profileImageName = UploadFileUtils.upload(profilePath, uploadFileDto.getFile());
@@ -89,7 +79,7 @@ public class UploadRestController {
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
 				.messageByCode("success.uploadProfileImage")
-				.data(new ImageDto(null, profileImageName, profileImageUrl))
+				.data(new BoardImageDto(null, profileImageName, profileImageUrl))
 				.build());
 	}
 	
