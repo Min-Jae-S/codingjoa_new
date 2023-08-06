@@ -38,9 +38,6 @@ public class UploadRestController {
 	@Value("${upload.board.url}")
 	private String boardUrl;
 	
-	@Value("${upload.profile.url}")
-	private String profileUrl;
-	
 	@InitBinder("uploadFileDto")
 	public void initBinderUpload(WebDataBinder binder) {
 		binder.addValidators(new UploadFileValidator());
@@ -52,7 +49,7 @@ public class UploadRestController {
 		log.info("## uploadBoardImage");
 		
 		BoardImageDto uploadedBoardImage = uploadService.uploadBoardImage(uploadFileDto.getFile());
-		String boardImageUrl = request.getContextPath() + boardUrl + uploadedBoardImage.getBoardImageName();
+		String boardImageUrl = boardUrl + uploadedBoardImage.getBoardImageUrl();
 		uploadedBoardImage.setBoardImageUrl(boardImageUrl);
 		
 		return ResponseEntity.ok(SuccessResponse.builder()

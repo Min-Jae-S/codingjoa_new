@@ -1,3 +1,6 @@
+const hostIndex = location.href.indexOf(location.host) + location.host.length;
+const contextPath = location.href.substring(hostIndex, location.href.indexOf('/', hostIndex + 1));
+
 class UploadAdapter {
     constructor(loader) {
         this.loader = loader;
@@ -16,11 +19,8 @@ class UploadAdapter {
         console.log("## Initiate upload request");
      	// Note that your request may look different. It is up to you and your editor
         // integration to choose the right communication channel. This example uses
-        // a POST request with JSON as a data structure but your configuration
-        // could be different.
+        // a POST request with JSON as a data structure but your configuration could be different.
         const xhr = this.xhr = new XMLHttpRequest();
-        const hostIndex = location.href.indexOf(location.host) + location.host.length;
-        const contextPath = location.href.substring(hostIndex, location.href.indexOf('/', hostIndex + 1));
         xhr.open('POST', contextPath + "/api/upload/board-image", true);
         xhr.responseType = 'json';
     }
@@ -69,7 +69,7 @@ class UploadAdapter {
             	// response.data = BoardImageDto(int boardImageIdx, String boardImageName. String boardImageUrl)
             	idx: response.data.boardImageIdx,
             	alt: response.data.boardImageName,
-            	url: response.data.boardImageUrl
+            	url: contextPath + response.data.boardImageUrl
             });
         });
     }
