@@ -1,6 +1,5 @@
 package com.codingjoa.controller;
 
-import java.net.MalformedURLException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -335,22 +334,44 @@ public class TestController {
 	}
 
 	@ResponseBody
-	@GetMapping("/test-url-resource")
-	public ResponseEntity<Object> testUrlResource() throws MalformedURLException {
+	@GetMapping("/test-url-resource1")
+	public ResponseEntity<Object> testUrlResource1() throws Exception {
 		log.info("## testUrlResource");
 		String filePath = "C:/Users/User/Desktop/image/mokoko1/12_감사콩.jpg";
 		Path path = Paths.get(filePath);
+		
+		log.info("\t > From Path");
 		if (path.toFile().exists()) {
-			log.info("\t > File Name: {}", path.getFileName());
-			log.info("\t > Absolute Path: {}", path.toAbsolutePath());
-			log.info("\t > Uri: {}", path.toUri());
+			log.info("\t\t - file name = {}", path.getFileName());
+			log.info("\t\t - absolute path = {}", path.toAbsolutePath());
+			log.info("\t\t - URI = {}", path.toUri());
 		} else {
-			log.info("\t > No File");
+			log.info("\t\t > No File");
 		}
 		
-		Resource resource = new UrlResource("file:" + filePath);
-		return ResponseEntity.ok().body( SuccessResponse.builder()
-				.data(resource)
-				.build());
+		Resource resource = new UrlResource(path.toUri());
+		String resourceUri = resource.getURI().toString();
+		String resourceUrl = resource.getURL().toString();
+		log.info("\t > From UrlResource");
+		log.info("\t\t - URI = {}", resourceUri);
+		log.info("\t\t - URL = {}", resourceUrl);
+		
+		SuccessResponse successResponse = SuccessResponse.builder()
+				.data(resourceUri)
+				.build();
+		
+		return ResponseEntity.ok().body(successResponse);
+	}
+
+	@ResponseBody
+	@GetMapping("/test-url-resource2")
+	public ResponseEntity<Object> testUrlResource2() throws Exception {
+		log.info("## testUrlResource2");
+
+		String filePath = "C:/Users/User/Desktop/image/mokoko1/12_감사콩.jpg";
+		Path path = Paths.get(filePath);
+		Resource resource = new UrlResource(path.toUri());
+		
+		return ResponseEntity.ok().body(resource);
 	}
 }

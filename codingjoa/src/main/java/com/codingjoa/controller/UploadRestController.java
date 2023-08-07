@@ -8,8 +8,6 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.WebDataBinder;
@@ -51,13 +49,7 @@ public class UploadRestController {
 		log.info("## uploadBoardImage");
 		
 		BoardImageDto uploadedBoardImage = uploadService.uploadBoardImage(uploadFileDto.getFile());
-		String boardImageUrl = boardUrl + uploadedBoardImage.getBoardImageName();
-		uploadedBoardImage.setBoardImageUrl(boardImageUrl);
-		
-		String boardImagePath = uploadedBoardImage.getBoardImagePath();
-		Resource resource = new UrlResource("file:" + boardImagePath);
-		log.info("\t resource URL = {}", resource.getURL());
-		log.info("\t resource URI = {}", resource.getURI());
+		uploadedBoardImage.setBoardUrl(boardUrl);
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
 				.messageByCode("success.uploadBoardImage")

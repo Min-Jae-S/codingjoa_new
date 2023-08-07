@@ -11,8 +11,5 @@ public class BoardImageDto {
 
 	private Integer boardImageIdx;
 	private String boardImageName;
-	private String boardImageUrl;
-	
-	// test
-	private String boardImagePath;
+	private String boardUrl;
 }

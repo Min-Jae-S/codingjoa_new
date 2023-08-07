@@ -59,7 +59,6 @@ public class UploadServiceImpl implements UploadService {
 		log.info("\t > uploaded, {}", boardImage);
 		
 		return modelMapper.map(boardImage, BoardImageDto.class);
-		//uploadedBoardImage.setBoardImageUrl(boardUrl + uploadFilename);
 	}
 	
 	private String createFilename(String originalFilename) {

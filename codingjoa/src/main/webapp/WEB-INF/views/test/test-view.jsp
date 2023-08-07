@@ -18,8 +18,7 @@
 <style>
 	p {
 		text-align: center; 
-		margin-top: 200px; 
-		font-size: 100px;
+		font-size: 80px;
 		font-weight: bold;
 	}
 	
@@ -31,12 +30,17 @@
 	button {
 		width: 230px;
 	}
+	
+	img {
+		width: 80px;
+		height: 80px;
+	}
 </style>
 </head>
 <body>
 <c:import url="/WEB-INF/views/include/top-menu.jsp"/>
 <div>
-	<p>TEST</p>
+	<p class="mt-5">TEST</p>
 	<div class="d-none justify-content-center mt-5">
 		<button class="btn btn-danger btn-lg mx-3" onclick="test1()">test1</button>
 		<button class="btn btn-danger btn-lg mx-3" onclick="test2()">test2</button>
@@ -52,21 +56,27 @@
 		<!-- <button class="btn btn-secondary btn-lg" onclick="colored_console()">console</button> -->
 	</div>
 	<div class="d-flex justify-content-center mt-5">
-		<form id="testForm" method="POST" action="${contextPath}/test/test-form">
+		<form class="d-none" id="testForm" method="POST" action="${contextPath}/test/test-form">
 			<input type="hidden" name="foo[]" value="1">
 			<input type="hidden" name="foo[]" value="2">
 			<input type="hidden" name="foo[]" value="3">
-			<button class="btn btn-lg mx-3">submit</button>
 		</form>
+		<button class="btn btn-lg mx-3" onclick="submit()">submit</button>
 		<button class="btn btn-lg mx-3" onclick="serialize()">serialize</button>
 		<button class="btn btn-lg mx-3" onclick="serializeArray()">serializeArray</button>
 		<button class="btn btn-lg mx-3" onclick="serializeObject()">serializeObject</button>
 	</div>
 	<div class="d-flex justify-content-center mt-5">
-		<button class="btn btn-success btn-lg mx-3" onclick="testUrlResource()">testUrlResource</button>
-		<button class="btn btn-success btn-lg mx-3 invisible" onclick="#">#</button>
-		<button class="btn btn-success btn-lg mx-3 invisible" onclick="#">#</button>
-		<button class="btn btn-success btn-lg mx-3 invisible" onclick="#">#</button>
+		<div class="d-flex flex-column px-5" style="border-right: 2px black solid;">
+			<image class="mb-3 align-self-center border" id="testImage" src="${contextPath}/resources/image/img_profile.png">
+			<button class="btn btn-success btn-lg" onclick="testUrlResource1()">testUrlResource1</button>
+		</div>
+		<div class="px-5" style="border-right: 2px black solid;">
+			<image class="border" src="${contextPath}/test/test-url-resource2">
+		</div>
+		<div class="px-5">
+			<button class="btn btn-success btn-lg" onclick="testUrlResource2()">testUrlResource2</button>
+		</div>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
@@ -82,6 +92,10 @@
 			console.log("## jsonData");
 			console.log(jsonData);
 		});
+		
+		function submit() {
+			$("form#testForm").submit();	
+		}
 	});
 
 	function colored_console() {
@@ -323,8 +337,8 @@
 		console.log(JSON.stringify(FormData, null, 2));
 	}
 	
-	function testUrlResource() {
-		let url = "${contextPath}/test/test-url-resource";
+	function testUrlResource1() {
+		let url = "${contextPath}/test/test-url-resource1";
 		console.log("## url = %s", url);
 		$.ajax({
 			type : "GET",
@@ -333,10 +347,28 @@
 			success : function(result) {
 				console.log("%c## SUCCESS","color:blue");
 				console.log(JSON.stringify(result, null, 2));
+				$("#testImage").attr("src", result.data);
 			},
 			error : function(jqXHR) {
 				console.log("%c## ERROR","color:red");
 				proccessError(jqXHR);
+			}
+		});
+	}
+
+	function testUrlResource2() {
+		let url = "${contextPath}/test/test-url-resource2";
+		console.log("## url = %s", url);
+		$.ajax({
+			type : "GET",
+			url : url,
+			success : function(result) {
+				console.log("%c## SUCCESS","color:blue");
+				console.log(result.data);
+			},
+			error : function(jqXHR) {
+				console.log("%c## ERROR","color:red");
+				console.log(jqXHR);
 			}
 		});
 	}
