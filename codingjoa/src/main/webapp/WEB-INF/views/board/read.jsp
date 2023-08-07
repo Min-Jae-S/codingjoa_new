@@ -375,7 +375,7 @@
 					</div>
 				</div>
 				<div class="content-group py-4">
-					<textarea id="boardContent"></textarea>
+					<textarea class="d-none" id="boardContent"></textarea>
 					<%-- <c:out value="${boardDetails.boardContent}" escapeXml="false"/> --%>
 				</div>
 				<div class="comment-group pt-4">
@@ -784,7 +784,7 @@
 					let paginationHtml = makePaginationHtml(pagination);
 					$("div.comment-pagination").html(paginationHtml);
 					$("span.comment-cnt").text(pagination.totalCnt);	
-					$("#commentContent").val("");
+					$("#commentContent").val("").trigger("input");
 				});
 			});
 		});

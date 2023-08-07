@@ -31,9 +31,12 @@ public class Board {
 	
 	@Override
 	public String toString() {
-		return "Board [boardIdx=" + boardIdx + ", boardTitle=" + boardTitle + ", boardWriterIdx=" + boardWriterIdx
-				+ ", boardViews=" + boardViews + ", boardCategoryCode=" + boardCategoryCode + ", regdate=" + regdate
-				+ ", moddate=" + moddate + "]";
+		String escapedBoardContent = (boardContent != null) ? boardContent.replace("\r\n", "\\r\\n") : null;
+		String escapedBoardContentText = (boardContentText != null) ? boardContentText.replace("\r\n", "\\r\\n") : null;
+		return "Board [boardIdx=" + boardIdx + ", boardTitle=" + boardTitle + ", boardContent=" + escapedBoardContent
+				+ ", boardContentText=" + escapedBoardContentText + ", boardWriterIdx=" + boardWriterIdx + ", boardViews="
+				+ boardViews + ", boardCategoryCode=" + boardCategoryCode + ", regdate=" + regdate + ", moddate="
+				+ moddate + "]";
 	}
 	
 }

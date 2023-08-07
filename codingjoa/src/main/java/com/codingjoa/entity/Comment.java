@@ -27,7 +27,7 @@ public class Comment {
 
 	@Override
 	public String toString() {
-		String escapedCommentContent = commentContent != null ? commentContent.replace("\n", "\\n") : null;
+		String escapedCommentContent = (commentContent != null) ? commentContent.replace("\n", "\\n") : null;
 		return "Comment [commentIdx=" + commentIdx + ", commentWriterIdx=" + commentWriterIdx + ", commentBoardIdx="
 				+ commentBoardIdx + ", commentContent=" + escapedCommentContent + ", commentUse=" + commentUse
 				+ ", regdate=" + regdate + ", moddate=" + moddate + "]";
