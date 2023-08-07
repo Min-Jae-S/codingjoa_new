@@ -184,13 +184,12 @@
 			    hasBoardImages = true;
 			}
 			
-			/* if (!hasBoardImages) {
+			if (!hasBoardImages) {
 				$("<input/>", { type: "hidden", name: "boardImages" }).appendTo($form);
-			} */
+			} 
 			
 			console.log("## Check form data");
 			console.log(JSON.stringify($form.serializeObject(), null, 2));
-			
 			if (!confirm("게시글을 수정하시겠습니까?")) {
 				$("textarea[name='boardContentText'], input[name='boardImages']").remove();
 				return;

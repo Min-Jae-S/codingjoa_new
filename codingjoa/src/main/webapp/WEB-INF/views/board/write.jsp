@@ -83,12 +83,12 @@
 					</div>
 					<div class="form-group">
 						<form:input path="boardTitle" class="form-control" placeholder="제목을 입력하세요."/>
-						<form:errors path="boardTitle" cssClass="error"/>
+						<form:errors path="boardTitle" class="error"/>
 					</div>
 					<div class="form-group">
-						<form:textarea path="boardContent"/>
-						<form:errors path="boardContent" cssClass="error"/>
-						<form:errors path="boardContentText" cssClass="error"/>
+						<form:textarea path="boardContent" class="d-none"/>
+						<form:errors path="boardContent" class="error"/>
+						<form:errors path="boardContentText" class="error"/>
 					</div>
 				</form:form>
 			</div>
