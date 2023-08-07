@@ -1,10 +1,16 @@
 package com.codingjoa.controller;
 
+import java.net.MalformedURLException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
@@ -326,5 +332,25 @@ public class TestController {
 	public void testForm(Foo foo) {
 		log.info("## testForm");
 		log.info("\t > {}", foo);
+	}
+
+	@ResponseBody
+	@GetMapping("/test-url-resource")
+	public ResponseEntity<Object> testUrlResource() throws MalformedURLException {
+		log.info("## testUrlResource");
+		String filePath = "C:/Users/User/Desktop/image/mokoko1/12_감사콩.jpg";
+		Path path = Paths.get(filePath);
+		if (path.toFile().exists()) {
+			log.info("\t > File Name: {}", path.getFileName());
+			log.info("\t > Absolute Path: {}", path.toAbsolutePath());
+			log.info("\t > Uri: {}", path.toUri());
+		} else {
+			log.info("\t > No File");
+		}
+		
+		Resource resource = new UrlResource("file:" + filePath);
+		return ResponseEntity.ok().body( SuccessResponse.builder()
+				.data(resource)
+				.build());
 	}
 }

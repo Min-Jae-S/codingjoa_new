@@ -62,6 +62,12 @@
 		<button class="btn btn-lg mx-3" onclick="serializeArray()">serializeArray</button>
 		<button class="btn btn-lg mx-3" onclick="serializeObject()">serializeObject</button>
 	</div>
+	<div class="d-flex justify-content-center mt-5">
+		<button class="btn btn-success btn-lg mx-3" onclick="testUrlResource()">testUrlResource</button>
+		<button class="btn btn-success btn-lg mx-3 invisible" onclick="#">#</button>
+		<button class="btn btn-success btn-lg mx-3 invisible" onclick="#">#</button>
+		<button class="btn btn-success btn-lg mx-3 invisible" onclick="#">#</button>
+	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 <script>
@@ -315,6 +321,24 @@
 		let FormData = $("#testForm").serializeObject();
 		console.log(FormData);
 		console.log(JSON.stringify(FormData, null, 2));
+	}
+	
+	function testUrlResource() {
+		let url = "${contextPath}/test/test-url-resource";
+		console.log("## url = %s", url);
+		$.ajax({
+			type : "GET",
+			url : url,
+			dataType : "json",
+			success : function(result) {
+				console.log("%c## SUCCESS","color:blue");
+				console.log(JSON.stringify(result, null, 2));
+			},
+			error : function(jqXHR) {
+				console.log("%c## ERROR","color:red");
+				proccessError(jqXHR);
+			}
+		});
 	}
 </script>
 </body>

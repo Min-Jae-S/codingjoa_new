@@ -51,13 +51,13 @@ public class UploadRestController {
 		log.info("## uploadBoardImage");
 		
 		BoardImageDto uploadedBoardImage = uploadService.uploadBoardImage(uploadFileDto.getFile());
-		String boardImageUrl = boardUrl + uploadedBoardImage.getBoardImageUrl();
+		String boardImageUrl = boardUrl + uploadedBoardImage.getBoardImageName();
 		uploadedBoardImage.setBoardImageUrl(boardImageUrl);
 		
 		String boardImagePath = uploadedBoardImage.getBoardImagePath();
 		Resource resource = new UrlResource("file:" + boardImagePath);
-		log.info("\t resource URL = %s", resource.getURL());
-		log.info("\t resource URI = %s", resource.getURI());
+		log.info("\t resource URL = {}", resource.getURL());
+		log.info("\t resource URI = {}", resource.getURI());
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
 				.messageByCode("success.uploadBoardImage")
