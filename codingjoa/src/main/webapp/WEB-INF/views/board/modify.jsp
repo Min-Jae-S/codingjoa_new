@@ -155,8 +155,8 @@
 		
 		$("#modifyBtn").on("click", function(e) {
 			e.preventDefault();
-			console.log("## modifyEditor.getData() = %s", modifyEditor.getData());
-			$("#boardContent").html(modifyEditor.getData()); // text(), html()
+			let boardContent = modifyEditor.getData();
+			$("#boardContent").val(boardContent);
 			
 			// https://github.com/ckeditor/ckeditor5/blob/6bb68aa202/packages/ckeditor5-clipboard/src/utils/viewtoplaintext.ts#L23
 			// add boardContentText
