@@ -22,10 +22,11 @@ public class BoardDetailsDto {
 	
 	@Override
 	public String toString() {
-		return "BoardDetailsDto [boardIdx=" + boardIdx + ", boardTitle=" + boardTitle + ", boardWriterIdx="
-				+ boardWriterIdx + ", boardViews=" + boardViews + ", boardCategoryCode=" + boardCategoryCode
-				+ ", regdate=" + regdate + ", moddate=" + moddate + ", memberId=" + memberId + ", commentCnt="
-				+ commentCnt + ", boardLikesCnt=" + boardLikesCnt + "]";
+		String escapedBoardContent = boardContent.replace("\n", "\\n");
+		return "BoardDetailsDto [boardIdx=" + boardIdx + ", boardTitle=" + boardTitle + ", boardContent=" + escapedBoardContent
+				+ ", boardWriterIdx=" + boardWriterIdx + ", boardViews=" + boardViews + ", boardCategoryCode="
+				+ boardCategoryCode + ", regdate=" + regdate + ", moddate=" + moddate + ", memberId=" + memberId
+				+ ", commentCnt=" + commentCnt + ", boardLikesCnt=" + boardLikesCnt + "]";
 	}
 	
 }
