@@ -81,11 +81,11 @@
 					</div>
 					<div class="form-group">
 						<form:input path="boardTitle" class="form-control" placeholder="제목을 입력하세요."/>
-						<form:errors path="boardTitle" cssClass="error"/>
+						<form:errors path="boardTitle" class="error"/>
 					</div>
 					<div class="form-group">
-						<form:textarea path="boardContent"/>
-						<form:errors path="boardContent" cssClass="error"/>
+						<form:textarea path="boardContent" class="d-none"/>
+						<form:errors path="boardContent" class="error"/>
 					</div>
 				</form:form>
 			</div>
@@ -155,6 +155,9 @@
 		
 		$("#modifyBtn").on("click", function(e) {
 			e.preventDefault();
+			$("textarea[name='boardContentText'], input[name='boardImages']").remove();
+			
+			// add boardContent
 			let boardContent = modifyEditor.getData();
 			$("#boardContent").val(boardContent);
 			
@@ -162,8 +165,10 @@
 			// add boardContentText
 			let $form = $("#modifyBoardDto");
 			let boardContentText = viewToPlainText(modifyEditor.editing.view.document.getRoot());
-			$form.append($("<textarea/>", { type: "hidden", name: "boardContentText", value: boardContentText }));
+			console.log("## boardContentText = %s", boardContentText);
+			$("<textarea/>", { class: "d-none", name: "boardContentText" }).val(boardContentText).appendTo($form);
 			
+			let hasBoardImages = false;
 			const range = modifyEditor.model.createRangeIn(modifyEditor.model.document.getRoot());
 			for (const value of range.getWalker({ ignoreElementEnd: true })) { // TreeWalker instance
 				// Position iterator class. It allows to iterate forward and backward over the document.
@@ -178,15 +183,18 @@
 			    
 			    // add boardImages
 			    let boardImageIdx = value.item.getAttribute("dataIdx");
-			    $form.append($("<input/>", { type: "hidden", name: "boardImages", value: boardImageIdx }));
+			    $("<input/>", { type: "hidden", name: "boardImages", value: boardImageIdx }).appendTo($form);
+			    hasBoardImages = true;
 			}
-			console.log("## add boardContentText, boardImages");
+			
+			if (!hasBoardImages) {
+				$("<input/>", { type: "hidden", name: "boardImages" }).appendTo($form);
+			}
+			
+			console.log("## before submitting form");
 			console.log(JSON.stringify($form.serializeObject(), null, 2));
 			
 			if (!confirm("게시글을 수정하시겠습니까?")) {
-				$("textarea[name='boardContentText'], input[name='boardImages']").remove();
-				console.log("## remove boardContentText, boardImages");
-				console.log(JSON.stringify($form.serializeObject(), null, 2));
 				return;
 			}
 			

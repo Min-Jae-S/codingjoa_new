@@ -19,12 +19,13 @@ public class WhitespaceDeserializer extends JsonDeserializer<String> {
 		String input = p.getText();
 		if (input != null) {
 			log.info("\t > input = '{}'", input.replace("\n", "\\n"));
+			log.info("\t > deserialized input = '{}'", input.strip());
 			return input.strip();
 		} else {
 			log.info("\t > input = {}", input);
+			log.info("\t > deserialized input = {}", input);
+			return null;
 		}
-		
-		return null;
 	}
 
 }

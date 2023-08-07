@@ -19,10 +19,16 @@ public class BoardDto {
 	private int boardCategoryCode;
 	private List<Integer> boardImages;
 	
+//	@Override
+//	public String toString() {
+//		return "BoardDto [boardIdx=" + boardIdx + ", boardTitle=" + boardTitle + ", boardWriterIdx=" + boardWriterIdx
+//				+ ", boardCategoryCode=" + boardCategoryCode + ", boardImages=" + boardImages + "]";
+//	}
+	
 	@Override
 	public String toString() {
-		return "BoardDto [boardIdx=" + boardIdx + ", boardTitle=" + boardTitle + ", boardWriterIdx=" + boardWriterIdx
+		return "BoardDto [boardIdx=" + boardIdx + ", boardTitle=" + boardTitle + ", boardContent=" + boardContent
+				+ ", boardContentText=" + boardContentText + ", boardWriterIdx=" + boardWriterIdx
 				+ ", boardCategoryCode=" + boardCategoryCode + ", boardImages=" + boardImages + "]";
 	}
-	
 }
