@@ -179,14 +179,14 @@
 		$("#writeBtn").on("click", function(e) {
 			e.preventDefault();
 			let $form = $("#writeBoardDto");
-			let $textArea = $("<textarea>").attr("style", "display:none;").attr("name", "boardContentText");
+			let $textarea = $("<textarea>").attr("style", "display:none;").attr("name", "boardContentText");
 			
 			// https://github.com/ckeditor/ckeditor5/blob/6bb68aa202/packages/ckeditor5-clipboard/src/utils/viewtoplaintext.ts#L23
 			let boardContentText = viewToPlainText(writeEditor.editing.view.document.getRoot());
-			$textArea.val(boardContentText);
+			$textarea.val(boardContentText);
 			
 			// add boardContentText
-			$form.append($textArea);
+			$form.append($textarea);
 			
 			const range = writeEditor.model.createRangeIn(writeEditor.model.document.getRoot());
 			for (const value of range.getWalker({ ignoreElementEnd: true })) { // TreeWalker instance
@@ -209,7 +209,7 @@
 			console.log(JSON.stringify($form.serializeObject(), null, 2));
 
 			if (!confirm("게시글을 등록하시겠습니까?")) {
-				$("textArea[name='boardContentText'], input[name='boardImages']").remove();
+				$("textarea[name='boardContentText'], input[name='boardImages']").remove();
 				console.log("## Check form-data (-) boardContentText, boardImages");
 				console.log(JSON.stringify($form.serializeObject(), null, 2));
 				return;

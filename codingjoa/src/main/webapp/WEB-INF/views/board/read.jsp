@@ -375,10 +375,8 @@
 					</div>
 				</div>
 				<div class="content-group py-4">
-					<div id="boardContent">
-						<textarea id="boardContent"></textarea>
-						<%-- <c:out value="${boardDetails.boardContent}" escapeXml="false"/> --%>
-					</div>
+					<textarea id="boardContent"></textarea>
+					<%-- <c:out value="${boardDetails.boardContent}" escapeXml="false"/> --%>
 				</div>
 				<div class="comment-group pt-4">
 					<div class="comment-body mb-3">

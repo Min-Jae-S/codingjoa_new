@@ -49,7 +49,7 @@ public class UploadRestController {
 		log.info("## uploadBoardImage");
 		
 		BoardImageDto uploadedBoardImage = uploadService.uploadBoardImage(uploadFileDto.getFile());
-		uploadedBoardImage.setBoardUrl(boardUrl);
+		uploadedBoardImage.setBoardImageUrl(boardUrl + uploadedBoardImage.getBoardImageName());
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
 				.messageByCode("success.uploadBoardImage")

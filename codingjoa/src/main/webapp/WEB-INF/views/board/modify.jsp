@@ -155,15 +155,14 @@
 		
 		$("#modifyBtn").on("click", function(e) {
 			e.preventDefault();
-			let $form = $("#modifyBoardDto");
-			let $textArea = $("<textarea>").attr("style", "display:none;").attr("name", "boardContentText");
+			console.log("## modifyEditor.getData() = %s", modifyEditor.getData());
+			$("#boardContent").html(modifyEditor.getData()); // text(), html()
 			
 			// https://github.com/ckeditor/ckeditor5/blob/6bb68aa202/packages/ckeditor5-clipboard/src/utils/viewtoplaintext.ts#L23
-			let boardContentText = viewToPlainText(modifyEditor.editing.view.document.getRoot());
-			$textArea.val(boardContentText);
-			
 			// add boardContentText
-			$form.append($textArea);
+			let $form = $("#modifyBoardDto");
+			let boardContentText = viewToPlainText(modifyEditor.editing.view.document.getRoot());
+			$form.append($("<textarea/>", { type: "hidden", name: "boardContentText", value: boardContentText }));
 			
 			const range = modifyEditor.model.createRangeIn(modifyEditor.model.document.getRoot());
 			for (const value of range.getWalker({ ignoreElementEnd: true })) { // TreeWalker instance
@@ -177,17 +176,16 @@
 			    	continue;
 			    }
 			    
-				// add boardImages
-			    let $input = $("<input>").attr("type", "hidden").attr("name", "boardImages");
-			    $input.val(value.item.getAttribute("dataIdx"));
-			    $form.append($input);
+			    // add boardImages
+			    let boardImageIdx = value.item.getAttribute("dataIdx");
+			    $form.append($("<input/>", { type: "hidden", name: "boardImages", value: boardImageIdx }));
 			}
-			console.log("## Check form-data (+) boardContentText, boardImages");
+			console.log("## add boardContentText, boardImages");
 			console.log(JSON.stringify($form.serializeObject(), null, 2));
 			
 			if (!confirm("게시글을 수정하시겠습니까?")) {
-				$("textArea[name='boardContentText'], input[name='boardImages']").remove();
-				console.log("## Check form-data (-) boardContentText, boardImages");
+				$("textarea[name='boardContentText'], input[name='boardImages']").remove();
+				console.log("## remove boardContentText, boardImages");
 				console.log(JSON.stringify($form.serializeObject(), null, 2));
 				return;
 			}
