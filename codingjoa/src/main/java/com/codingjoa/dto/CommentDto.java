@@ -22,8 +22,7 @@ public class CommentDto {
 
 	@Override
 	public String toString() {
-		//String escapedCommentContent = (commentContent != null) ? commentContent.replace("\n", "\\n") : null;
-		String escapedCommentContent = (commentContent != null) ? commentContent.replace(System.lineSeparator(), "\\n") : null;
+		String escapedCommentContent = (commentContent != null) ? commentContent.replace("\n", "\\n") : null;
 		return "CommentDto [commentIdx=" + commentIdx + ", commentWriterIdx=" + commentWriterIdx + ", commentBoardIdx="
 				+ commentBoardIdx + ", commentContent=" + escapedCommentContent + ", commentUse=" + commentUse + "]";
 	}

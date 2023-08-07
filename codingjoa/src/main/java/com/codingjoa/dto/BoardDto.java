@@ -22,8 +22,8 @@ public class BoardDto {
 	
 	@Override
 	public String toString() {
-		String escapedBoardContent = (boardContent != null) ? boardContent.replace(System.lineSeparator(), "\\n") : null;
-		String escapedBoardContentText = (boardContentText != null) ? boardContentText.replace(System.lineSeparator(), "\\n") : null;
+		String escapedBoardContent = (boardContent != null) ? boardContent.replace("\r\n", "\\r\\n") : null;
+		String escapedBoardContentText = (boardContentText != null) ? boardContentText.replace("\r\n", "\\r\\n") : null;
 		return "BoardDto [boardIdx=" + boardIdx + ", boardTitle=" + boardTitle + ", boardContent=" + escapedBoardContent
 				+ ", boardContentText=" + escapedBoardContentText + ", boardWriterIdx=" + boardWriterIdx
 				+ ", boardCategoryCode=" + boardCategoryCode + ", boardImages=" + boardImages + "]";

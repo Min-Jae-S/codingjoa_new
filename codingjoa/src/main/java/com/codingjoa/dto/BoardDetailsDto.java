@@ -22,7 +22,7 @@ public class BoardDetailsDto {
 	
 	@Override
 	public String toString() {
-		String escapedBoardContent = boardContent.replace(System.lineSeparator(), "\\n");
+		String escapedBoardContent = (boardContent != null) ? boardContent.replace("\r\n", "\\r\\n") : null;
 		return "BoardDetailsDto [boardIdx=" + boardIdx + ", boardTitle=" + boardTitle + ", boardContent=" + escapedBoardContent
 				+ ", boardWriterIdx=" + boardWriterIdx + ", boardViews=" + boardViews + ", boardCategoryCode="
 				+ boardCategoryCode + ", regdate=" + regdate + ", moddate=" + moddate + ", memberId=" + memberId
