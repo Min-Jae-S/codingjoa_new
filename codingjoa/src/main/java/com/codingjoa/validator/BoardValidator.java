@@ -43,12 +43,12 @@ public class BoardValidator implements Validator {
 		}
 		
 		if (!StringUtils.hasText(boardDto.getBoardContentText())) {
-			errors.rejectValue("boardContent", "NotBlank");
+			errors.rejectValue("boardContentText", "NotBlank");
 			return;
 		}
 		
 		List<Integer> boardImages = boardDto.getBoardImages();
-		if (boardImages == null || boardImages.isEmpty()) {
+		if (boardImages.isEmpty()) {
 			return;
 		}
 		

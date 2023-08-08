@@ -45,7 +45,7 @@
 	}
 	
 	.ck-editor__editable[role="textbox"] p {
-		margin-bottom: 5px;
+		margin: 0;
 	}
 	
 	.ck-placeholder {
@@ -86,6 +86,7 @@
 					<div class="form-group">
 						<form:textarea path="boardContent" class="d-none"/>
 						<form:errors path="boardContent" class="error"/>
+						<form:errors path="boardContentText" class="error"/>
 					</div>
 				</form:form>
 			</div>
@@ -98,7 +99,7 @@
 
 <script>
 	let modifyEditor;
-	let editorData;
+	let originalData;
 	let navbarHeight = document.querySelector(".navbar-custom").clientHeight;
 	ClassicEditor
 		.create(document.querySelector("#boardContent"), {
@@ -110,6 +111,7 @@
 				modelToViewEditingConverter, 
 				modelToViewDataConverter
 			],
+			basicEntities : false,
 			ui: {
 				viewportOffset: {
 					//top: 100
@@ -117,13 +119,11 @@
 				}
 			},
 			htmlSupport: { 
-				allow: [
-					{
-						attributes: [
-							{ key: "data-idx", value: true }
-						]
-					}
-				]
+				allow: [{
+					attributes: [{
+						key: "data-idx", value: true 
+					}]
+				}]
 			},
 			fontFamily: {
 				options: ["defalut", "Arial", "궁서체", "바탕", "돋움"],
@@ -138,7 +138,17 @@
 		.then(editor => {
 			console.log("## ModifyEditor initialize");
 			modifyEditor = editor;
-			editorData = editor.getData();
+			originalData = editor.getData();
+			editor.model.document.on('change:data', () => {
+				let boardContent = editor.getData();
+				$("#boardContent").val(boardContent);
+			});
+			editor.editing.view.document.on('enter', ( evt, data ) => { // endter mode: <BR>
+				editor.execute('shiftEnter');
+				//Cancel existing event
+				data.preventDefault();
+				evt.stop();
+			}, { priority: 'high' });
 		})
 		.catch(error => {
 			console.error(error);
@@ -150,14 +160,11 @@
 		
 		$("#resetBtn").on("click", function() {
 			$("#modifyBoardDto").trigger("reset");
-			modifyEditor.setData(editorData);
+			modifyEditor.setData(originalData);
 		});
 		
 		$("#modifyBtn").on("click", function(e) {
 			e.preventDefault();
-			// add boardContent
-			let boardContent = modifyEditor.getData();
-			$("#boardContent").val(boardContent);
 			
 			// https://github.com/ckeditor/ckeditor5/blob/6bb68aa202/packages/ckeditor5-clipboard/src/utils/viewtoplaintext.ts#L23
 			// add boardContentText
