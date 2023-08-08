@@ -97,7 +97,8 @@
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 
 <script>
-	let modifyEditor, originalData;
+	let modifyEditor;
+	let originalData;
 	let navbarHeight = document.querySelector(".navbar-custom").clientHeight;
 	ClassicEditor
 		.create(document.querySelector("#boardContent"), {
@@ -140,6 +141,12 @@
 				let boardContent = editor.getData();
 				$("#boardContent").val(boardContent);
 			});
+			editor.editing.view.document.on('enter', ( evt, data ) => { // enter mode: <BR>
+				editor.execute('shiftEnter');
+				//Cancel existing event
+				data.preventDefault();
+				evt.stop();
+			}, { priority: 'high' });
 		})
 		.catch(error => {
 			console.error(error);
@@ -147,8 +154,7 @@
 	
 	$(function() {
 		// https://ckeditor.com/docs/ckeditor5/latest/api/module_image_imageupload_imageuploadui-ImageUploadUI.html
-		let $fileDialog = $("span.ck-file-dialog-button").find("input[type='file']");
-		$fileDialog.attr("accept", "*/*").attr("multiple", false);
+		$("input[type='file']").removeAttr("accept").removeAttr("multiple");
 		
 		$("#resetBtn").on("click", function() {
 			$("#modifyBoardDto").trigger("reset");
@@ -157,9 +163,14 @@
 		
 		$("#modifyBtn").on("click", function(e) {
 			e.preventDefault();
-			let $form = $("#modifyBoardDto");
-			let hasBoardImages = false;
 			
+			// https://github.com/ckeditor/ckeditor5/blob/6bb68aa202/packages/ckeditor5-clipboard/src/utils/viewtoplaintext.ts#L23
+			// add boardContentText
+			let $form = $("#modifyBoardDto");
+			let boardContentText = viewToPlainText(modifyEditor.editing.view.document.getRoot());
+			$("<textarea/>", { class: "d-none", name: "boardContentText" }).val(boardContentText).appendTo($form);
+			
+			let hasBoardImages = false;
 			const range = modifyEditor.model.createRangeIn(modifyEditor.model.document.getRoot());
 			for (const value of range.getWalker({ ignoreElementEnd: true })) { // TreeWalker instance
 				// Position iterator class. It allows to iterate forward and backward over the document.
@@ -181,11 +192,11 @@
 			if (!hasBoardImages) {
 				$("<input/>", { type: "hidden", name: "boardImages" }).appendTo($form);
 			} 
-
+			
 			console.log("## Check form data");
 			console.log(JSON.stringify($form.serializeObject(), null, 2));
 			if (!confirm("게시글을 수정하시겠습니까?")) {
-				$("input[name='boardImages']").remove();
+				$("textarea[name='boardContentText'], input[name='boardImages']").remove();
 				return;
 			}
 			

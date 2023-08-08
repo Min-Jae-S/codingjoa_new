@@ -42,11 +42,6 @@ public class BoardValidator implements Validator {
 			return;
 		}
 		
-		if (!StringUtils.hasText(boardDto.getBoardContentText())) {
-			errors.rejectValue("boardContentText", "NotBlank");
-			return;
-		}
-		
 		List<Integer> boardImages = boardDto.getBoardImages();
 		if (boardImages.isEmpty()) {
 			return;
