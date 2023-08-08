@@ -17,7 +17,6 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="${contextPath}/resources/ckeditor5/plugins/upload-adapter.js"></script>
 <script src="${contextPath}/resources/ckeditor5/plugins/ckeditor-plugins.js"></script>
-<script src="${contextPath}/resources/ckeditor5/plugins/viewtoplaintext.js"></script>
 <script src="${contextPath}/resources/ckeditor5/build/ckeditor.js"></script>
 <style>
 	/* .custom-select, input#boardTitle.form-control {
@@ -97,7 +96,8 @@
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 
 <script>
-	let modifyEditor, originalData;
+	let modifyEditor
+	let originalData;
 	let navbarHeight = document.querySelector(".navbar-custom").clientHeight;
 	ClassicEditor
 		.create(document.querySelector("#boardContent"), {

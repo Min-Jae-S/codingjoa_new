@@ -43,7 +43,10 @@ public class BoardServiceImpl implements BoardService {
 	
 	@Override
 	public void writeBoard(BoardDto boardDto) {
+		String boardContent = boardDto.getBoardContent();
+		//String boardContentText = bordContent(html) to plainText
 		Board board = modelMapper.map(boardDto, Board.class);
+		// board.setBoardContentText(boardContentText);
 		log.info("\t > writeBoardDto ==> {}", board);
 		
 		boardMapper.insertBoard(board);
@@ -131,7 +134,10 @@ public class BoardServiceImpl implements BoardService {
 	
 	@Override
 	public void modifyBoard(BoardDto boardDto) {
+		String boardContent = boardDto.getBoardContent();
+		//String boardContentText = bordContent(html) to plainText
 		Board board = modelMapper.map(boardDto, Board.class);
+		// board.setBoardContentText(boardContentText);
 		log.info("\t > modifyBoardDto ==> {}", board);
 
 		boardMapper.updateBoard(board);

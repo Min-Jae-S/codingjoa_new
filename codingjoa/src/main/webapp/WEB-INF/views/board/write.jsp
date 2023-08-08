@@ -17,7 +17,6 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="${contextPath}/resources/ckeditor5/plugins/upload-adapter.js"></script>
 <script src="${contextPath}/resources/ckeditor5/plugins/ckeditor-plugins.js"></script>
-<script src="${contextPath}/resources/ckeditor5/plugins/viewtoplaintext.js"></script>
 <script src="${contextPath}/resources/ckeditor5/build/ckeditor.js"></script>
 <!-- test -->
 <script src="${contextPath}/resources/js/attrchange.js"></script>
@@ -88,7 +87,6 @@
 					<div class="form-group">
 						<form:textarea path="boardContent" class="d-none"/>
 						<form:errors path="boardContent" class="error"/>
-						<form:errors path="boardContentText" class="error"/>
 					</div>
 				</form:form>
 			</div>
@@ -171,7 +169,6 @@
 		});
 		
 		$("#resetBtn").on("click", function() {
-			// $("form")[0].reset();
 			$("#writeBoardDto").trigger("reset"); 
 			writeEditor.setData("");
 		});
@@ -179,14 +176,7 @@
 		$("#writeBtn").on("click", function(e) {
 			e.preventDefault();
 			let $form = $("#writeBoardDto");
-			let $textarea = $("<textarea>").attr("style", "display:none;").attr("name", "boardContentText");
-			
-			// https://github.com/ckeditor/ckeditor5/blob/6bb68aa202/packages/ckeditor5-clipboard/src/utils/viewtoplaintext.ts#L23
-			let boardContentText = viewToPlainText(writeEditor.editing.view.document.getRoot());
-			$textarea.val(boardContentText);
-			
-			// add boardContentText
-			$form.append($textarea);
+			let hasBoardImages = false;
 			
 			const range = writeEditor.model.createRangeIn(writeEditor.model.document.getRoot());
 			for (const value of range.getWalker({ ignoreElementEnd: true })) { // TreeWalker instance
@@ -200,18 +190,17 @@
 			    	continue;
 			    }
 			    
-			 	// add boardImages
-			    let $input = $("<input>").attr("type", "hidden").attr("name", "boardImages");
-			    $input.val(value.item.getAttribute("dataIdx"));
-				$form.append($input);
+				// add boardImages
+			    let boardImageIdx = value.item.getAttribute("dataIdx");
+			    $("<input/>", { type: "hidden", name: "boardImages", value: boardImageIdx }).appendTo($form);
+			    hasBoardImages = true;
 			}
-			console.log("## Check form-data (+) added boardContentText, boardImages");
+			
+			console.log("## Check form data");
 			console.log(JSON.stringify($form.serializeObject(), null, 2));
-
-			if (!confirm("게시글을 등록하시겠습니까?")) {
-				$("textarea[name='boardContentText'], input[name='boardImages']").remove();
-				console.log("## Check form-data (-) boardContentText, boardImages");
-				console.log(JSON.stringify($form.serializeObject(), null, 2));
+			
+			if (!confirm("게시글을 수정하시겠습니까?")) {
+				$("input[name='boardImages']").remove();
 				return;
 			}
 			

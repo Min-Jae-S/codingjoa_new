@@ -13,7 +13,6 @@ public class BoardDto {
 	private int boardIdx;
 	private String boardTitle;
 	private String boardContent;
-	private String boardContentText;
 	private int boardWriterIdx;
 	
 	@BoardCategoryCode
@@ -23,9 +22,8 @@ public class BoardDto {
 	@Override
 	public String toString() {
 		String escapedBoardContent = (boardContent != null) ? boardContent.replace("\r\n", "\\r\\n") : null;
-		String escapedBoardContentText = (boardContentText != null) ? boardContentText.replace("\r\n", "\\r\\n") : null;
 		return "BoardDto [boardIdx=" + boardIdx + ", boardTitle=" + boardTitle + ", boardContent=" + escapedBoardContent
-				+ ", boardContentText=" + escapedBoardContentText + ", boardWriterIdx=" + boardWriterIdx
-				+ ", boardCategoryCode=" + boardCategoryCode + ", boardImages=" + boardImages + "]";
+				+ ", boardWriterIdx=" + boardWriterIdx + ", boardCategoryCode=" + boardCategoryCode + ", boardImages="
+				+ boardImages + "]";
 	}
 }
