@@ -280,17 +280,16 @@
 			e.stopPropagation();
 		})
 		
-		// upload & upsert profile image
+		// upload profile image
 		$("#profileImage").on("change", function() {
 			// jQuery object --> javaScript DOM object 
 			// let $profileImage = $(this)[0];
-			
 			const formData = new FormData();
 			formData.append("file", this.files[0]);
-			
+
 			// initialize the file input, but not with null
 			this.value = "";
-			
+
 			$.ajax({
 				type : "POST",
 				url : "${contextPath}/api/upload/profile-image",

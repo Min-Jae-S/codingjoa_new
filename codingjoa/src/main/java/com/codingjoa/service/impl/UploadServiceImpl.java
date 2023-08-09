@@ -49,7 +49,8 @@ public class UploadServiceImpl implements UploadService {
 		
 		BoardImage boardImage = new BoardImage();
 		boardImage.setBoardImageName(uploadFilename);
-		boardImage.setBoardImagePath(uploadFile.getCanonicalPath()); // absolutePath vs canonicalPath (https://dev-handbook.tistory.com/11)
+		// absolutePath vs canonicalPath (https://dev-handbook.tistory.com/11)
+		boardImage.setBoardImagePath(uploadFile.getCanonicalPath());
 		uploadMapper.insertBoardImage(boardImage);
 		
 		return boardImage;
@@ -106,6 +107,12 @@ public class UploadServiceImpl implements UploadService {
 	
 	private String createFilename(String originalFilename) {
 		return UUID.randomUUID() + "_" + originalFilename;
+	}
+
+	// test
+	@Override
+	public BoardImage findBoardImageByIdx(Integer boardIdx) {
+		return uploadMapper.findBoardImageByIdx(boardIdx);
 	}
 	
 }

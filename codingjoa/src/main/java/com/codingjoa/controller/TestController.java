@@ -1,8 +1,11 @@
 package com.codingjoa.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,16 +29,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 import org.springframework.web.util.UriComponents;
 
 import com.codingjoa.dto.BoardDto;
+import com.codingjoa.entity.BoardImage;
 import com.codingjoa.exception.ExpectedException;
 import com.codingjoa.response.SuccessResponse;
 import com.codingjoa.security.dto.UserDetailsDto;
 import com.codingjoa.service.TestTxService;
+import com.codingjoa.service.UploadService;
 import com.codingjoa.test.Foo;
 import com.codingjoa.test.Test;
 import com.codingjoa.test.TestException;
@@ -365,7 +371,6 @@ public class TestController {
 		SuccessResponse successResponse = SuccessResponse.builder()
 				.data(resourceUri)
 				.build();
-		
 		return ResponseEntity.ok().body(successResponse);
 	}
 
@@ -399,7 +404,37 @@ public class TestController {
 		SuccessResponse successResponse = SuccessResponse.builder()
 				.data(Map.of("boardContent", boardContent, "boardContentText", boardContentText))
 				.build();
+		return ResponseEntity.ok().body(successResponse);
+	}
+
+	
+	@Autowired
+	private UploadService uploadService; 
+	
+	@ResponseBody
+	@PostMapping("/test-upload")
+	public ResponseEntity<Object> testUpload(MultipartFile file) throws IOException {
+		log.info("## testUpload");
+		log.info("\t > orignalFilename = {}", file.getOriginalFilename());
 		
+		String uploadFolder = "D:/Dev/upload/test";
+		String uploadFilename = UUID.randomUUID() + "_" + file.getOriginalFilename();
+		File uploadFile = new File(uploadFolder, uploadFilename);
+		file.transferTo(uploadFile);
+		log.info("\t > uploadFile = {}", uploadFile);
+		log.info("\t\t - absolute path = {}", uploadFile.getAbsolutePath());
+		log.info("\t\t - canonical path = {}", uploadFile.getCanonicalPath());
+		
+		BoardImage boardImage = uploadService.findBoardImageByIdx(28);
+		String boardImagePath = boardImage.getBoardImagePath();
+		log.info("\t > boardImagePath = {}", boardImagePath);
+		
+		File boardImageFile = new File(boardImagePath);
+		log.info("\t > boardImageFile exists = {}", boardImageFile.exists());
+		
+		SuccessResponse successResponse = SuccessResponse.builder()
+				.message("success")
+				.build();
 		return ResponseEntity.ok().body(successResponse);
 	}
 }

@@ -19,4 +19,7 @@ public interface UploadService {
 	
 	void uploadProfileImage(MultipartFile file, Integer memberIdx) throws IllegalStateException, IOException;
 	
+	// test
+	BoardImage findBoardImageByIdx(Integer boardIdx);
+	
 }

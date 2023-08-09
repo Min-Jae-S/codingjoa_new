@@ -101,4 +101,13 @@
 		)
 	</insert>
 	
+	<select id="findBoardImageByIdx" resultType="boardImage" parameterType="int">
+		SELECT 
+			* 
+		FROM 
+			board_image 
+		WHERE 
+			board_image_idx = #{boardImageIdx}
+	</select>
+	
 </mapper>

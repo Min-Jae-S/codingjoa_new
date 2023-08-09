@@ -25,4 +25,7 @@ public interface UploadMapper {
 
 	void insertProfileImage(ProfileImage profileImage);
 	
+	// test
+	BoardImage findBoardImageByIdx(Integer boardImageIdx);
+	
 }

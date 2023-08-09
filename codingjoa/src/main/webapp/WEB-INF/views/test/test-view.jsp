@@ -66,7 +66,7 @@
 		<button class="btn btn-lg mx-3" onclick="serializeArray()">serializeArray</button>
 		<button class="btn btn-lg mx-3" onclick="serializeObject()">serializeObject</button>
 	</div>
-	<div class="d-flex justify-content-center mt-5">
+	<div class="d-none justify-content-center mt-5">
 		<div class="d-flex flex-column px-5" style="border-right: 2px black solid;">
 			<image class="mb-3 align-self-center border" id="testImage" src="${contextPath}/resources/image/img_profile.png">
 			<button class="btn btn-success btn-lg" onclick="testUrlResource1()">testUrlResource1</button>
@@ -78,10 +78,46 @@
 			<button class="btn btn-success btn-lg" onclick="testUrlResource2()">testUrlResource2</button>
 		</div>
 	</div>
+	<div class="d-flex justify-content-center mt-5">
+		<button class="btn btn-lg btn-primary mx-3" id="testUploadBtn">testUpload</button>
+		<input class="d-none" type="file" id="uploadFile"/>
+		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
+		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
+		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
+	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 <script>
 	$(document).ready(function() {
+		$("#testUploadBtn").on("click", function() {
+			console.log("## testUploadBtn click");
+			$("#uploadFile").click();
+		});
+		
+		$("#uploadFile").on("change", function() {
+			console.log("## uploadFile open");
+			let formData = new FormData();
+			formData.append("file", this.files[0]);
+			$(this).val("");
+			
+			$.ajax({
+				type : "POST",
+				url : "${contextPath}/test/test-upload",
+				processData: false,
+			    contentType: false,
+				data : formData,
+				dataType : "json",
+				success : function(result) {
+					console.log("%c> SUCCESS", "color:green");
+					console.log(JSON.stringify(result, null, 2));
+				},
+				error : function(jqXHR) {
+					console.log("%c> ERROR", "color:red");
+					console.log(jqXHR);
+				}
+			});
+		});
+		
 		$("#testForm").submit(function(e) {
 			e.preventDefault();
 			const formData = $(this).serializeObject();
