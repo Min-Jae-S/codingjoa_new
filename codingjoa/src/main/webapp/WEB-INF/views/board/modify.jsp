@@ -193,14 +193,15 @@
 		// test getData
 		$("#testGetDataBtn").on("click", function() {
 			console.log("## testGetDataBtn click");
-			console.log(modifyEditor.getData());
+			console.log("> '%s'", modifyEditor.getData());
 		});
 		
 		// test jsoup
 		$("#testJsoupBtn").on("click", function() {
 			console.log("## testJsoupBtn click");
-			let $form = $("#modifyBoardDto");
+			$("input[name='boardImages']").remove();
 			
+			let $form = $("#modifyBoardDto");
 			const range = modifyEditor.model.createRangeIn(modifyEditor.model.document.getRoot());
 			for (const value of range.getWalker({ ignoreElementEnd: true })) { // TreeWalker instance
 			    if (!value.item.is("element")) {
@@ -217,10 +218,6 @@
 			
 			let formData = $form.serializeObject();
 			console.log(JSON.stringify(formData, null, 2));
-			if(!confirm("진행하시겠습니까?")) {
-				$("input[name='boardImages']").remove();
-				return;
-			}
 			
 			$.ajax({
 				type : "POST",
