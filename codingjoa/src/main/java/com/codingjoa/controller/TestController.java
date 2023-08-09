@@ -395,7 +395,7 @@ public class TestController {
 		log.info("\t > boardContent = {}", boardContent);
 		
 		Document doc = Jsoup.parse(boardContent);
-		log.info("\t > document from boardContent = {}", doc);
+		log.info("\t > parsed boardContent = {}", System.lineSeparator() + doc);
 		
 		String boardContentText = doc.text();
 		log.info("\t > boardContentText = {}", boardContentText);

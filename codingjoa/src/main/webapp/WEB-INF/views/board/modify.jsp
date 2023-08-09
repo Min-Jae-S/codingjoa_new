@@ -88,7 +88,10 @@
 					</div>
 				</form:form>
 			</div>
-			<button class="btn btn-warning mt-3" type="button" id="testJsoupBtn">Test Jsoup</button>
+			<div class="mt-4">
+				<button class="btn btn-warning mr-2" type="button" id="testGetDataBtn">Test getData()</button>
+				<button class="btn btn-warning mr-2" type="button" id="testJsoupBtn">Test Jsoup</button>
+			</div>
 		</div>
 		<div class="col-sm-1"></div>
 	</div>
@@ -159,7 +162,6 @@
 		$("#modifyBtn").on("click", function(e) {
 			e.preventDefault();
 			let $form = $("#modifyBoardDto");
-			let hasBoardImages = false;
 			
 			const range = modifyEditor.model.createRangeIn(modifyEditor.model.document.getRoot());
 			for (const value of range.getWalker({ ignoreElementEnd: true })) { // TreeWalker instance
@@ -176,13 +178,8 @@
 			    // add boardImages
 			    let boardImageIdx = value.item.getAttribute("dataIdx");
 			    $("<input/>", { type: "hidden", name: "boardImages", value: boardImageIdx }).appendTo($form);
-			    hasBoardImages = true;
 			}
 			
-			if (!hasBoardImages) {
-				$("<input/>", { type: "hidden", name: "boardImages" }).appendTo($form);
-			} 
-
 			console.log("## Check form data");
 			console.log(JSON.stringify($form.serializeObject(), null, 2));
 			if (!confirm("게시글을 수정하시겠습니까?")) {
@@ -191,6 +188,12 @@
 			}
 			
 			$form.submit();
+		});
+		
+		// test get Data
+		$("#testGetDataBtn").on("click", function() {
+			console.log("## testGetDataBtn click");
+			console.log(modifyEditor.getData());
 		});
 		
 		// test jsoup
