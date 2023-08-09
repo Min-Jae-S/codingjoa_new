@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -394,7 +395,10 @@ public class TestController {
 		String boardContent = boardDto.getBoardContent();
 		log.info("\t > boardContent = '{}'", boardContent);
 		
-		String boardContentText = Jsoup.parse(boardContent).text();
+		Document doc = Jsoup.parse(boardContent);
+		log.info("\t > document = {}", System.lineSeparator() + doc);
+		
+		String boardContentText = doc.text();
 		log.info("\t > boardContentText = '{}'", boardContentText);
 		
 		SuccessResponse successResponse = SuccessResponse.builder()
