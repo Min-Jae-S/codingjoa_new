@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.jsoup.Jsoup;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -43,10 +44,9 @@ public class BoardServiceImpl implements BoardService {
 	
 	@Override
 	public void writeBoard(BoardDto boardDto) {
-		String boardContent = boardDto.getBoardContent();
-		//String boardContentText = bordContent(html) to plainText
 		Board board = modelMapper.map(boardDto, Board.class);
-		// board.setBoardContentText(boardContentText);
+		String boardContentText = Jsoup.parse(boardDto.getBoardContent()).text();
+		board.setBoardContentText(boardContentText);
 		log.info("\t > writeBoardDto ==> {}", board);
 		
 		boardMapper.insertBoard(board);
@@ -134,10 +134,9 @@ public class BoardServiceImpl implements BoardService {
 	
 	@Override
 	public void modifyBoard(BoardDto boardDto) {
-		String boardContent = boardDto.getBoardContent();
-		//String boardContentText = bordContent(html) to plainText
 		Board board = modelMapper.map(boardDto, Board.class);
-		// board.setBoardContentText(boardContentText);
+		String boardContentText = Jsoup.parse(boardDto.getBoardContent()).text();
+		board.setBoardContentText(boardContentText);
 		log.info("\t > modifyBoardDto ==> {}", board);
 
 		boardMapper.updateBoard(board);
