@@ -49,12 +49,12 @@ public class UploadServiceImpl implements UploadService {
 		}
 		
 		String uploadFilename = createFilename(file.getOriginalFilename());
-		File saveFile = new File(uploadFolder, uploadFilename);
-		file.transferTo(saveFile);
+		File uploadFile = new File(uploadFolder, uploadFilename);
+		file.transferTo(uploadFile);
 		
 		BoardImage boardImage = new BoardImage();
 		boardImage.setBoardImageName(uploadFilename);
-		boardImage.setBoardImagePath(saveFile.getCanonicalPath()); // absolutePath vs canonicalPath (https://dev-handbook.tistory.com/11)
+		boardImage.setBoardImagePath(uploadFile.getCanonicalPath()); // absolutePath vs canonicalPath (https://dev-handbook.tistory.com/11)
 		uploadMapper.insertBoardImage(boardImage);
 		log.info("\t > uploaded, {}", boardImage);
 		
