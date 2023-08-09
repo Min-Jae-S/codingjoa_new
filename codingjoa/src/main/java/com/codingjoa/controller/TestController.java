@@ -10,7 +10,6 @@ import javax.validation.Valid;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -49,9 +48,6 @@ import lombok.extern.slf4j.Slf4j;
 //@Controller
 @RestController
 public class TestController {
-	
-	@Autowired
-	private ModelMapper modelMapper;
 	
 	@RequestMapping("/test0")
 	public void test3(HttpServletRequest request, HttpServletResponse response) throws Exception {

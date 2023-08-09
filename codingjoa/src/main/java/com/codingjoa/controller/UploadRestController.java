@@ -6,7 +6,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.WebDataBinder;
@@ -27,7 +26,6 @@ import com.codingjoa.validator.UploadFileValidator;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@PropertySource("/WEB-INF/properties/upload.properties")
 @RequestMapping("/api/upload")
 @RestController
 public class UploadRestController {

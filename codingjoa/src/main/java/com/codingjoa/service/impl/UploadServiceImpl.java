@@ -55,10 +55,6 @@ public class UploadServiceImpl implements UploadService {
 		return boardImage;
 	}
 	
-	private String createFilename(String originalFilename) {
-		return UUID.randomUUID() + "_" + originalFilename;
-	}
-
 	@Override
 	public boolean isBoardImageUploaded(int boardImageIdx) {
 		return uploadMapper.isBoardImageUploaded(boardImageIdx);
@@ -95,17 +91,21 @@ public class UploadServiceImpl implements UploadService {
 		}
 		
 		String uploadFilename = createFilename(file.getOriginalFilename());
-		File saveFile = new File(uploadFolder, uploadFilename);
-		file.transferTo(saveFile);
+		File uploadFile = new File(uploadFolder, uploadFilename);
+		file.transferTo(uploadFile);
 		
 		ProfileImage profileImage = new ProfileImage();
 		profileImage.setMemberIdx(memberIdx);
 		profileImage.setProfileImageName(uploadFilename);
-		profileImage.setProfileImagePath(saveFile.getCanonicalPath());
+		profileImage.setProfileImagePath(uploadFile.getCanonicalPath());
 
 		uploadMapper.deactivateProfileImage(memberIdx);
 		uploadMapper.insertProfileImage(profileImage);
-		log.info("\t > uploaded, {}", profileImage);
+		log.info("\t > uploaded profileImage = {}", profileImage);
+	}
+	
+	private String createFilename(String originalFilename) {
+		return UUID.randomUUID() + "_" + originalFilename;
 	}
 	
 }
