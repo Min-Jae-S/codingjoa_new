@@ -101,6 +101,7 @@
 		)
 	</insert>
 	
+	<!-- test -->
 	<select id="findBoardImageByIdx" resultType="boardImage" parameterType="int">
 		SELECT 
 			* 
@@ -109,5 +110,4 @@
 		WHERE 
 			board_image_idx = #{boardImageIdx}
 	</select>
-	
 </mapper>

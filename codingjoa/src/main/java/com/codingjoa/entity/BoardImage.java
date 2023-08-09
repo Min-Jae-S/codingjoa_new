@@ -2,6 +2,7 @@ package com.codingjoa.entity;
 
 import java.util.Date;
 
+import lombok.Builder;
 import lombok.Data;
 
 /*
@@ -12,6 +13,7 @@ import lombok.Data;
 	regdate                 DATE                NOT NULL,
 */
 
+@Builder
 @Data
 public class BoardImage {
 	

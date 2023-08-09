@@ -37,7 +37,6 @@ public class UploadServiceImpl implements UploadService {
 	
 	@Override
 	public BoardImage uploadBoardImage(MultipartFile file) throws IllegalStateException, IOException {
-		// os에 따른 path 고려 추가하기 
 		File uploadFolder = new File(boardPath);
 		if (!uploadFolder.exists()) {
 			uploadFolder.mkdirs();
@@ -47,10 +46,10 @@ public class UploadServiceImpl implements UploadService {
 		File uploadFile = new File(uploadFolder, uploadFilename);
 		file.transferTo(uploadFile);
 		
-		BoardImage boardImage = new BoardImage();
-		boardImage.setBoardImageName(uploadFilename);
-		// absolutePath vs canonicalPath (https://dev-handbook.tistory.com/11)
-		boardImage.setBoardImagePath(uploadFile.getCanonicalPath());
+		BoardImage boardImage = BoardImage.builder()
+				.boardImageName(uploadFilename)
+				.boardImagePath(uploadFile.getCanonicalPath()) // absolutePath vs canonicalPath (https://dev-handbook.tistory.com/11)
+				.build();
 		uploadMapper.insertBoardImage(boardImage);
 		
 		return boardImage;
@@ -95,10 +94,11 @@ public class UploadServiceImpl implements UploadService {
 		File uploadFile = new File(uploadFolder, uploadFilename);
 		file.transferTo(uploadFile);
 		
-		ProfileImage profileImage = new ProfileImage();
-		profileImage.setMemberIdx(memberIdx);
-		profileImage.setProfileImageName(uploadFilename);
-		profileImage.setProfileImagePath(uploadFile.getCanonicalPath());
+		ProfileImage profileImage = ProfileImage.builder()
+				.memberIdx(memberIdx)
+				.profileImageName(uploadFilename)
+				.profileImagePath(uploadFile.getCanonicalPath())
+				.build();
 
 		uploadMapper.deactivateProfileImage(memberIdx);
 		uploadMapper.insertProfileImage(profileImage);

@@ -418,19 +418,21 @@ public class TestController {
 		log.info("\t > orignalFilename = {}", file.getOriginalFilename());
 		
 		String uploadFolder = "D:/Dev/upload/test";
-		String uploadFilename = UUID.randomUUID() + "_" + file.getOriginalFilename();
+		String uploadFilename = "test_" + UUID.randomUUID() + "_" + file.getOriginalFilename();
 		File uploadFile = new File(uploadFolder, uploadFilename);
 		file.transferTo(uploadFile);
 		log.info("\t > uploadFile = {}", uploadFile);
 		log.info("\t\t - absolute path = {}", uploadFile.getAbsolutePath());
 		log.info("\t\t - canonical path = {}", uploadFile.getCanonicalPath());
 		
+		Integer boardImageIdx = 28;
 		BoardImage boardImage = uploadService.findBoardImageByIdx(28);
-		String boardImagePath = boardImage.getBoardImagePath();
-		log.info("\t > boardImagePath = {}", boardImagePath);
+		log.info("\t > find boardImage by {}", boardImageIdx);
 		
+		String boardImagePath = boardImage.getBoardImagePath();
 		File boardImageFile = new File(boardImagePath);
-		log.info("\t > boardImageFile exists = {}", boardImageFile.exists());
+		log.info("\t\t - boardImagePath = {}", boardImagePath);
+		log.info("\t\t - boardImageFile exists = {}", boardImageFile.exists());
 		
 		SuccessResponse successResponse = SuccessResponse.builder()
 				.message("success")
