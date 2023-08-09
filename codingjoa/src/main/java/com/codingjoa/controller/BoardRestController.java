@@ -18,13 +18,18 @@ import lombok.extern.slf4j.Slf4j;
 public class BoardRestController {
 	
 	@Value("${upload.board.path}")
-	private String boardPath;
+	private String boardPath; // D:/Dev/upload/board/
 
-	@GetMapping("/images/{boardImageName}")
+	// When using @PathVariable to capture a portion of the URL path as a variable, the dot (.) character is excluded by default. 
+	// The dot (.) is considered a character that represents a file extension and is therefore not included in path variables.
+	@GetMapping("/images/{boardImageName:.+}") 
 	public Resource getBoardImageResource(@PathVariable String boardImageName) throws MalformedURLException {
 		log.info("## getBoardImageResource");
 		log.info("\t > boardImageName = {}", boardImageName);
 		
-		return new UrlResource("file:" + boardPath + boardImageName);
+		String boardImagePath = boardPath + boardImageName;
+		log.info("\t > boardImagePath = {}", boardImagePath);
+		
+		return new UrlResource("file:" + boardImagePath);
 	}
 }
