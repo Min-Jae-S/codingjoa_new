@@ -85,7 +85,6 @@ class UploadAdapter {
 
         // Send the request.
         console.log("## Send upload request");
-        console.log(data);
         this.xhr.send(data);
     }
 }

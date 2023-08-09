@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -393,13 +392,10 @@ public class TestController {
 		log.info("\t > {}", boardDto);
 		
 		String boardContent = boardDto.getBoardContent();
-		log.info("\t > boardContent = {}", boardContent);
+		log.info("\t > boardContent = '{}'", boardContent);
 		
-		Document doc = Jsoup.parse(boardContent);
-		log.info("\t > parsed boardContent = {}", System.lineSeparator() + doc);
-		
-		String boardContentText = doc.text();
-		log.info("\t > boardContentText = {}", boardContentText);
+		String boardContentText = Jsoup.parse(boardContent).text();
+		log.info("\t > boardContentText = '{}'", boardContentText);
 		
 		SuccessResponse successResponse = SuccessResponse.builder()
 				.data(Map.of("boardContent", boardContent, "boardContentText", boardContentText))
@@ -407,7 +403,6 @@ public class TestController {
 		return ResponseEntity.ok().body(successResponse);
 	}
 
-	
 	@Autowired
 	private UploadService uploadService; 
 	

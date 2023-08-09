@@ -28,9 +28,11 @@ public class BoardRestController {
 		log.info("## getBoardImageResource");
 		log.info("\t > boardImageName = {}", boardImageName);
 		
-		// 절대경로를 db에서 가져오기
+		// db에서 가져온 절대경로로 resource를 얻도록 수정하기
 		String boardImagePath = boardPath + boardImageName; 
 		log.info("\t > boardImagePath = {}", boardImagePath);
+		
+		// Path.get(boardImagePath) --> file:C:\ ... ?
 		
 		return ResponseEntity.ok(new UrlResource("file:" + boardImagePath));
 	}

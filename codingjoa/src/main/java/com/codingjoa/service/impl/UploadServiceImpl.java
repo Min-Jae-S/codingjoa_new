@@ -48,7 +48,8 @@ public class UploadServiceImpl implements UploadService {
 		
 		BoardImage boardImage = BoardImage.builder()
 				.boardImageName(uploadFilename)
-				.boardImagePath(uploadFile.getCanonicalPath()) // absolutePath vs canonicalPath (https://dev-handbook.tistory.com/11)
+				// absolutePath vs canonicalPath (https://dev-handbook.tistory.com/11)
+				.boardImagePath(uploadFile.getCanonicalPath()) 
 				.build();
 		uploadMapper.insertBoardImage(boardImage);
 		
