@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.codingjoa.dto.BoardImageDto;
 import com.codingjoa.dto.UploadFileDto;
+import com.codingjoa.entity.BoardImage;
 import com.codingjoa.response.SuccessResponse;
 import com.codingjoa.security.dto.UserDetailsDto;
 import com.codingjoa.service.UploadService;
@@ -43,11 +44,13 @@ public class UploadRestController {
 	public ResponseEntity<Object> uploadBoardImage(@ModelAttribute @Valid UploadFileDto uploadFileDto,
 			HttpServletRequest request) throws IllegalStateException, IOException {
 		log.info("## uploadBoardImage");
-		BoardImageDto uploadedBoardImage = uploadService.uploadBoardImage(uploadFileDto.getFile());
+		
+		BoardImage boardImage = uploadService.uploadBoardImage(uploadFileDto.getFile());
+		log.info("\t > uploaded boardImage = {}", boardImage);
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
 				.messageByCode("success.uploadBoardImage")
-				.data(uploadedBoardImage)
+				.data(new BoardImageDto(boardImage.getBoardIdx(), boardImage.getBoardImageName()))
 				.build());
 	}
 

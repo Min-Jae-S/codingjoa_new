@@ -5,6 +5,7 @@ import java.net.MalformedURLException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,18 +19,18 @@ import lombok.extern.slf4j.Slf4j;
 public class BoardRestController {
 	
 	@Value("${upload.board.path}")
-	private String boardPath; // D:/Dev/upload/board/
+	private String boardPath;
 
 	// When using @PathVariable to capture a portion of the URL path as a variable, the dot (.) character is excluded by default. 
 	// The dot (.) is considered a character that represents a file extension and is therefore not included in path variables.
 	@GetMapping("/images/{boardImageName:.+}") 
-	public Resource getBoardImageResource(@PathVariable String boardImageName) throws MalformedURLException {
+	public ResponseEntity<Resource> getBoardImageResource(@PathVariable String boardImageName) throws MalformedURLException {
 		log.info("## getBoardImageResource");
 		log.info("\t > boardImageName = {}", boardImageName);
 		
 		String boardImagePath = boardPath + boardImageName;
 		log.info("\t > boardImagePath = {}", boardImagePath);
 		
-		return new UrlResource("file:" + boardImagePath);
+		return ResponseEntity.ok(new UrlResource("file:" + boardImagePath));
 	}
 }
