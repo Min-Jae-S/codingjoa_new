@@ -88,6 +88,7 @@
 					</div>
 				</form:form>
 			</div>
+			<button class="btn btn-warning mt-3" type="button" id="testJsoupBtn">Test Jsoup</button>
 		</div>
 		<div class="col-sm-1"></div>
 	</div>
@@ -190,6 +191,47 @@
 			}
 			
 			$form.submit();
+		});
+		
+		// test jsoup
+		$("#testJsoupBtn").on("click", function() {
+			console.log("## testBtn click");
+			let $form = $("#modifyBoardDto");
+			const range = modifyEditor.model.createRangeIn(modifyEditor.model.document.getRoot());
+			for (const value of range.getWalker({ ignoreElementEnd: true })) { // TreeWalker instance
+			    if (!value.item.is("element")) {
+			    	continue;
+			    }
+			    
+			    if (!value.item.name.startsWith("image")) { 
+			    	continue;
+			    }
+			    
+			    let boardImageIdx = value.item.getAttribute("dataIdx");
+			    $("<input/>", { type: "hidden", name: "boardImages", value: boardImageIdx }).appendTo($form);
+			}
+			
+			let formData = $form.serializeObject();
+			console.log(JSON.stringify(formData, null, 2));
+			if(!confirm("진행하시겠습니까?")) {
+				return;
+			}
+			
+			$.ajax({
+				type : "POST",
+				url : "${contextPath}/test/test-jsoup",
+				data : JSON.stringify(formData),
+				contentType : "application/json;charset=utf-8",
+				dataType : "json",
+				success : function(result) {
+					console.log("%c## SUCCESS","color:blue");
+					console.log(JSON.stringify(result, null, 2));
+				},
+				error : function(jqXHR) {
+					console.log("%c## ERROR","color:red");
+					proccessError(jqXHR);
+				}
+			});
 		});
 	});
 </script>

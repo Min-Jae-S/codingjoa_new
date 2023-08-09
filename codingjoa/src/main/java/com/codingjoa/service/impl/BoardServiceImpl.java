@@ -45,7 +45,7 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public void writeBoard(BoardDto boardDto) {
 		Board board = modelMapper.map(boardDto, Board.class);
-		String boardContentText = Jsoup.parse(boardDto.getBoardContent()).text();
+		String boardContentText = Jsoup.parse(board.getBoardContent()).text();
 		board.setBoardContentText(boardContentText);
 		log.info("\t > writeBoardDto ==> {}", board);
 		
@@ -135,7 +135,7 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public void modifyBoard(BoardDto boardDto) {
 		Board board = modelMapper.map(boardDto, Board.class);
-		String boardContentText = Jsoup.parse(boardDto.getBoardContent()).text();
+		String boardContentText = Jsoup.parse(board.getBoardContent()).text();
 		board.setBoardContentText(boardContentText);
 		log.info("\t > modifyBoardDto ==> {}", board);
 

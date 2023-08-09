@@ -7,10 +7,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import org.jsoup.Jsoup;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,8 +30,11 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 import org.springframework.web.util.UriComponents;
 
+import com.codingjoa.dto.BoardDto;
+import com.codingjoa.entity.Board;
 import com.codingjoa.exception.ExpectedException;
 import com.codingjoa.response.SuccessResponse;
+import com.codingjoa.security.dto.UserDetailsDto;
 import com.codingjoa.service.TestTxService;
 import com.codingjoa.test.Foo;
 import com.codingjoa.test.Test;
@@ -42,6 +48,9 @@ import lombok.extern.slf4j.Slf4j;
 //@Controller
 @RestController
 public class TestController {
+	
+	@Autowired
+	private ModelMapper modelMapper;
 	
 	@RequestMapping("/test0")
 	public void test3(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -373,5 +382,26 @@ public class TestController {
 		Resource resource = new UrlResource(path.toUri());
 		
 		return ResponseEntity.ok().body(resource);
+	}
+
+	@ResponseBody
+	@PostMapping("/test-jsoup")
+	public ResponseEntity<Object> testJsoup(@RequestBody BoardDto boardDto, @AuthenticationPrincipal UserDetailsDto principal) {
+		log.info("## testJsoup");
+		log.info("\t > {}", boardDto);
+		
+		Board board = modelMapper.map(boardDto, Board.class);
+		String boardContentText = Jsoup.parse(board.getBoardContent()).text();
+		board.setBoardContentText(boardContentText);
+		board.setBoardWriterIdx(principal.getMember().getMemberIdx());
+		log.info("\t > boarDto ==> {}", board);
+		log.info("\t > boardContent = {}", board.getBoardContent());
+		log.info("\t > boardContentText = {}", board.getBoardContentText());
+		
+		SuccessResponse successResponse = SuccessResponse.builder()
+				.data(board)
+				.build();
+		
+		return ResponseEntity.ok().body(successResponse);
 	}
 }
