@@ -88,8 +88,9 @@
 					</div>
 				</form:form>
 			</div>
+			<!-- test -->
 			<div class="mt-4">
-				<button class="btn btn-warning mr-2" type="button" id="testGetDataBtn">Test getData()</button>
+				<button class="btn btn-warning mr-2" type="button" id="testGetDataBtn">Test getData</button>
 				<button class="btn btn-warning mr-2" type="button" id="testJsoupBtn">Test Jsoup</button>
 			</div>
 		</div>
@@ -100,8 +101,7 @@
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 
 <script>
-	let modifyEditor
-	let originalData;
+	let modifyEditor, originalData;
 	let navbarHeight = document.querySelector(".navbar-custom").clientHeight;
 	ClassicEditor
 		.create(document.querySelector("#boardContent"), {
@@ -190,7 +190,7 @@
 			$form.submit();
 		});
 		
-		// test get Data
+		// test getData
 		$("#testGetDataBtn").on("click", function() {
 			console.log("## testGetDataBtn click");
 			console.log(modifyEditor.getData());
@@ -199,9 +199,8 @@
 		// test jsoup
 		$("#testJsoupBtn").on("click", function() {
 			console.log("## testJsoupBtn click");
-			$("input[name='boardImages']").remove();
-			
 			let $form = $("#modifyBoardDto");
+			
 			const range = modifyEditor.model.createRangeIn(modifyEditor.model.document.getRoot());
 			for (const value of range.getWalker({ ignoreElementEnd: true })) { // TreeWalker instance
 			    if (!value.item.is("element")) {
@@ -219,6 +218,7 @@
 			let formData = $form.serializeObject();
 			console.log(JSON.stringify(formData, null, 2));
 			if(!confirm("진행하시겠습니까?")) {
+				$("input[name='boardImages']").remove();
 				return;
 			}
 			

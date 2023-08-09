@@ -90,6 +90,11 @@
 					</div>
 				</form:form>
 			</div>
+			<!-- test -->
+			<div class="mt-4">
+				<button class="btn btn-warning mr-2" type="button" id="testGetDataBtn">Test getData</button>
+				<button class="btn btn-warning mr-2" type="button" id="testJsoupBtn">Test Jsoup</button>
+			</div>
 		</div>
 		<div class="col-sm-1"></div>
 	</div>
@@ -145,29 +150,9 @@
 	
 	$(function() {
 		// https://ckeditor.com/docs/ckeditor5/latest/api/module_image_imageupload_imageuploadui-ImageUploadUI.html
-		$("input[type='file']").removeAttr("accept").removeAttr("multiple");
+		let $fileDialog = $("span.ck-file-dialog-button").find("input[type='file']");
+		$fileDialog.attr("accept", "*/*").attr("multiple", false);
 	
-		// test
-		$("#testBtn").on("click", function() {
-			/* console.log("===============================");
-			console.log("## writeEditor.getData():");
-			console.log(writeEditor.getData());
-			console.log("## plainText:");
-			console.log(viewToPlainText(writeEditor.editing.view.document.getRoot()));
-			console.log("==============================="); */
-			$(".navbar-custom").height("100");
-		});
-		
-		// test (attrchange.js, attrchange_ext.js) 
-		$(".navbar-custom").attrchange({
-			trackValues: true,
-			callback: function(e) {
-				console.log("attributeName	: " + e.attributeName);
-				console.log("oldValue		: " + e.oldValue);
-				console.log("newValue		: " + e.newValue);
-			}
-		});
-		
 		$("#resetBtn").on("click", function() {
 			$("#writeBoardDto").trigger("reset"); 
 			writeEditor.setData("");
@@ -205,6 +190,76 @@
 			}
 			
 			$form.submit();
+		});
+		
+		// test
+		$("#testBtn").on("click", function() {
+			/* console.log("===============================");
+			console.log("## writeEditor.getData():");
+			console.log(writeEditor.getData());
+			console.log("## plainText:");
+			console.log(viewToPlainText(writeEditor.editing.view.document.getRoot()));
+			console.log("==============================="); */
+			$(".navbar-custom").height("100");
+		});
+		
+		// test (attrchange.js, attrchange_ext.js) 
+		$(".navbar-custom").attrchange({
+			trackValues: true,
+			callback: function(e) {
+				console.log("attributeName	: " + e.attributeName);
+				console.log("oldValue		: " + e.oldValue);
+				console.log("newValue		: " + e.newValue);
+			}
+		});
+		
+		// test getData
+		$("#testGetDataBtn").on("click", function() {
+			console.log("## testGetDataBtn click");
+			console.log(writeEditor.getData());
+		});
+		
+		// test jsoup
+		$("#testJsoupBtn").on("click", function() {
+			console.log("## testJsoupBtn click");
+			let $form = $("#writeBoardDto");
+			
+			const range = modifyEditor.model.createRangeIn(modifyEditor.model.document.getRoot());
+			for (const value of range.getWalker({ ignoreElementEnd: true })) { // TreeWalker instance
+			    if (!value.item.is("element")) {
+			    	continue;
+			    }
+			    
+			    if (!value.item.name.startsWith("image")) { 
+			    	continue;
+			    }
+			    
+			    let boardImageIdx = value.item.getAttribute("dataIdx");
+			    $("<input/>", { type: "hidden", name: "boardImages", value: boardImageIdx }).appendTo($form);
+			}
+			
+			let formData = $form.serializeObject();
+			console.log(JSON.stringify(formData, null, 2));
+			if(!confirm("진행하시겠습니까?")) {
+				$("input[name='boardImages']").remove();
+				return;
+			}
+			
+			$.ajax({
+				type : "POST",
+				url : "${contextPath}/test/test-jsoup",
+				data : JSON.stringify(formData),
+				contentType : "application/json;charset=utf-8",
+				dataType : "json",
+				success : function(result) {
+					console.log("%c## SUCCESS","color:blue");
+					console.log(JSON.stringify(result, null, 2));
+				},
+				error : function(jqXHR) {
+					console.log("%c## ERROR","color:red");
+					console.log(jqXHR);
+				}
+			});
 		});
 	});
 </script>
