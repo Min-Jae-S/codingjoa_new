@@ -195,7 +195,9 @@
 		
 		// test jsoup
 		$("#testJsoupBtn").on("click", function() {
-			console.log("## testBtn click");
+			console.log("## testJsoupBtn click");
+			$("input[name='boardImages']").remove();
+			
 			let $form = $("#modifyBoardDto");
 			const range = modifyEditor.model.createRangeIn(modifyEditor.model.document.getRoot());
 			for (const value of range.getWalker({ ignoreElementEnd: true })) { // TreeWalker instance
@@ -229,7 +231,7 @@
 				},
 				error : function(jqXHR) {
 					console.log("%c## ERROR","color:red");
-					proccessError(jqXHR);
+					console.log(jqXHR);
 				}
 			});
 		});

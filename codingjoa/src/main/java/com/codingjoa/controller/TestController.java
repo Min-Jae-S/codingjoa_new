@@ -2,12 +2,14 @@ package com.codingjoa.controller;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -31,7 +33,6 @@ import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 import org.springframework.web.util.UriComponents;
 
 import com.codingjoa.dto.BoardDto;
-import com.codingjoa.entity.Board;
 import com.codingjoa.exception.ExpectedException;
 import com.codingjoa.response.SuccessResponse;
 import com.codingjoa.security.dto.UserDetailsDto;
@@ -390,16 +391,17 @@ public class TestController {
 		log.info("## testJsoup");
 		log.info("\t > {}", boardDto);
 		
-		Board board = modelMapper.map(boardDto, Board.class);
-		String boardContentText = Jsoup.parse(board.getBoardContent()).text();
-		board.setBoardContentText(boardContentText);
-		board.setBoardWriterIdx(principal.getMember().getMemberIdx());
-		log.info("\t > boarDto ==> {}", board);
-		log.info("\t > boardContent = {}", board.getBoardContent());
-		log.info("\t > boardContentText = {}", board.getBoardContentText());
+		String boardContent = boardDto.getBoardContent();
+		log.info("\t > boardContent = {}", boardContent);
+		
+		Document doc = Jsoup.parse(boardContent);
+		log.info("\t > document from boardContent = {}", doc);
+		
+		String boardContentText = doc.text();
+		log.info("\t > boardContentText = {}", boardContentText);
 		
 		SuccessResponse successResponse = SuccessResponse.builder()
-				.data(board)
+				.data(Map.of("boardContent", boardContent, "boardContentText", boardContentText))
 				.build();
 		
 		return ResponseEntity.ok().body(successResponse);
