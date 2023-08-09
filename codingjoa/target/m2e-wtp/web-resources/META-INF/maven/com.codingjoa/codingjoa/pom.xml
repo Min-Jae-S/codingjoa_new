@@ -295,6 +295,15 @@
 		    <artifactId>auto-service</artifactId>
 		    <version>1.0.1</version>
 		</dependency> -->
+		
+		<!-- Jsoup Java HTML Parser -->
+		<!-- https://mvnrepository.com/artifact/org.jsoup/jsoup -->
+		<dependency>
+		    <groupId>org.jsoup</groupId>
+		    <artifactId>jsoup</artifactId>
+		    <version>1.15.3</version>
+		</dependency>
+		
 	</dependencies>
 	<build>
 		<plugins>
