@@ -34,12 +34,13 @@ class UploadAdapter {
         xhr.addEventListener('error', () => reject(genericErrorText));
         xhr.addEventListener('abort', () => reject());
         xhr.addEventListener('load', () => {
-        	const response = xhr.response;
+        	const response = xhr.response; // response = succesRsesponse
         	const readyStatus = xhr.readyState;
         	const status = xhr.status;
+        	
         	if (status == 200) {
         		console.log("%c> SUCCESS", "color:green");
-        		console.log(JSON.stringify(response, null, 2));
+        		console.log(JSON.stringify(response, null, 2)); 
         	}
         	
 //        	if (status == "422") {
@@ -66,10 +67,10 @@ class UploadAdapter {
 //            		default: getContextPath() + response.data.returnUrl
 //            	},
             	
-            	// response.data = BoardImageDto(int boardImageIdx, String boardImageName)
+            	// response.data = BoardImageDto(int boardImageIdx, String boardImageUrl)
             	idx: response.data.boardImageIdx,
-            	alt: response.data.boardImageName,
-            	url: contextPath + "/api/board/images/" + response.data.boardImageName
+            	url: response.data.boardImageUrl
+            	//alt: response.data.boardImageName
             });
         });
     }

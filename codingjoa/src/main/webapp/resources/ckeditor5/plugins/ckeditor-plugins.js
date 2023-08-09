@@ -17,7 +17,7 @@ console.log("## Editor plugins ready - ckeditor-plugins.js");
 				evt.stop();
 				writer.setAttribute("src", data.url, imageElement);
 				writer.setAttribute("dataIdx", data.idx, imageElement);
-				writer.setAttribute("alt", data.alt, imageElement);
+				//writer.setAttribute("alt", data.alt, imageElement);
 			});
 		});
 	}

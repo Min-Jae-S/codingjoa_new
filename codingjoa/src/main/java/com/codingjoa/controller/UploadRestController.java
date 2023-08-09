@@ -46,9 +46,11 @@ public class UploadRestController {
 		BoardImage boardImage = uploadService.uploadBoardImage(uploadFileDto.getFile());
 		log.info("\t > uploaded boardImage = {}", boardImage);
 		
+		String boardImageUrl = request.getContextPath() + "/api/board/images/" + boardImage.getBoardImageName();
+		
 		return ResponseEntity.ok(SuccessResponse.builder()
 				.messageByCode("success.uploadBoardImage")
-				.data(new BoardImageDto(boardImage.getBoardIdx(), boardImage.getBoardImageName()))
+				.data(new BoardImageDto(boardImage.getBoardIdx(), boardImageUrl))
 				.build());
 	}
 
