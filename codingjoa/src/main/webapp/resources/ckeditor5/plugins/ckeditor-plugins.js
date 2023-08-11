@@ -10,7 +10,6 @@ console.log("## Editor plugins ready - ckeditor-plugins.js");
 	// https://ckeditor.com/docs/ckeditor5/latest/api/module_image_imageupload_imageuploadediting-ImageUploadEditing.html#event-uploadComplete
 	function uploadCompleteListener(editor) {
 		console.log("\t > Register upload complete listener");
-		
 		editor.plugins.get("ImageUploadEditing").on("uploadComplete", (evt, {data, imageElement}) => {
 			console.log("## Upload complete");
 			editor.model.change(writer => {
@@ -43,7 +42,6 @@ console.log("## Editor plugins ready - ckeditor-plugins.js");
 	// https://gitlab-new.bap.jp/chinhnc2/ckeditor5/-/blob/690049ec7b8e95ba840ab1c882b5680f3a3d1dc4/packages/ckeditor5-engine/docs/framework/guides/deep-dive/conversion-preserving-custom-content.md
 	function modelToViewEditingConverter(editor) {
 		console.log("\t > Register MODEL-TO-VIEW converter ==> downcast(editng)");
-		
 		editor.conversion.for("editingDowncast").add(dispatcher => { // downcastDispatcher
             dispatcher.on("attribute:dataIdx", (evt, data, conversionApi) => {
             	console.log("## Editing downcast");
@@ -72,7 +70,6 @@ console.log("## Editor plugins ready - ckeditor-plugins.js");
 	// model-to-view converter(data downcast)
 	function modelToViewDataConverter(editor) {
 		console.log("\t > Register MODEL-TO-VIEW converter ==> downcast(data)");
-		
 		editor.conversion.for("dataDowncast").add(dispatcher => {
 			dispatcher.on("attribute:dataIdx", (evt, data, conversionApi) => { 
 				console.log("## Data downcast");

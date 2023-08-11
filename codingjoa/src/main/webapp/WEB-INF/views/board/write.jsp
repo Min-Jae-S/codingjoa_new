@@ -18,6 +18,7 @@
 <script src="${contextPath}/resources/ckeditor5/plugins/upload-adapter.js"></script>
 <script src="${contextPath}/resources/ckeditor5/plugins/ckeditor-plugins.js"></script>
 <script src="${contextPath}/resources/ckeditor5/build/ckeditor.js"></script>
+<script src="${contextPath}/resources/js/editor.js"></script>
 <!-- test -->
 <script src="${contextPath}/resources/js/attrchange.js"></script>
 <script src="${contextPath}/resources/js/attrchange_ext.js"></script>
@@ -103,9 +104,8 @@
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 
 <script>
-	let writeEditor;
-	let navbarHeight = document.querySelector(".navbar-custom").clientHeight;
-	ClassicEditor
+/* 	let writeEditor;
+ 	ClassicEditor
 		.create(document.querySelector("#boardContent"), {
 			extraPlugins: [
 				uploadAdapter, 
@@ -117,7 +117,7 @@
 			],
 			ui: {
 				viewportOffset: {
-					top: navbarHeight
+					top: document.querySelector(".navbar-custom").clientHeight
 				}
 			},
 			// https://ckeditor.com/docs/ckeditor5/latest/features/general-html-support.html
@@ -146,11 +146,13 @@
 		})
 		.catch(error => {
 			console.error(error);
-		});
+		});  */
 	
 	$(function() {
+		const writeEditor = createWriteEditor("#boardContent", writeEditor);
+		
 		// https://ckeditor.com/docs/ckeditor5/latest/api/module_image_imageupload_imageuploadui-ImageUploadUI.html
-		let $fileDialog = $("span.ck-file-dialog-button").find("input[type='file']");
+		const $fileDialog = $("span.ck-file-dialog-button").find("input[type='file']");
 		$fileDialog.attr("accept", "*/*").attr("multiple", false);
 	
 		$("#resetBtn").on("click", function() {

@@ -102,7 +102,6 @@
 
 <script>
 	let modifyEditor, originalData;
-	let navbarHeight = document.querySelector(".navbar-custom").clientHeight;
 	ClassicEditor
 		.create(document.querySelector("#boardContent"), {
 			extraPlugins: [
@@ -115,8 +114,7 @@
 			],
 			ui: {
 				viewportOffset: {
-					//top: 100
-					top: navbarHeight
+					top: document.querySelector(".navbar-custom").clientHeight;
 				}
 			},
 			htmlSupport: { 
