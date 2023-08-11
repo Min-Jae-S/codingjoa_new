@@ -105,19 +105,19 @@
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 
 <script>
-	let writeEditor;
-	createEditor("#boardContent")
-		.then(editor => {
-			console.log("## writeEditor initialize");
-			let $file = $("span.ck-file-dialog-button").find("input[type='file']");
-			$file.attr("accept", "*/*").attr("multiple", false);
-			writeEditor = editor;
-		.catch(error => {
-			console.error(error);
-		});
-	});
-	
 	$(function() {
+		let writeEditor;
+		createEditor("#boardContent")
+			.then(editor => {
+				console.log("## writeEditor initialize");
+				const $file = $("span.ck-file-dialog-button").find("input[type='file']");
+				$file.attr("accept", "*/*").attr("multiple", false);
+				writeEditor = editor;
+			.catch(error => {
+				console.error(error);
+			});
+		});
+		
 		$("#resetBtn").on("click", function() {
 			$("#writeBoardDto").trigger("reset"); 
 			writeEditor.setData("");
