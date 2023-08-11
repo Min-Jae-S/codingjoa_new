@@ -690,23 +690,23 @@
 	});
 </script>
 <script>
+	const boardContent = '<c:out value="${boardDetails.boardContent}" escapeXml="false"/>';
+	ClassicEditor
+		.create(document.querySelector("#boardContent"), {
+			toolbar: []
+		})
+		.then(editor => {
+			console.log("## Editor initialize (read-only mode)");
+			const toolbarContainer = editor.ui.view.stickyPanel;
+			editor.ui.view.top.remove(toolbarContainer);
+			editor.enableReadOnlyMode("editor");
+			editor.setData(boardContent);
+		})
+		.catch(error => {
+			console.error(error);
+		});
+	
 	$(function() {
-		const boardContent = '<c:out value="${boardDetails.boardContent}" escapeXml="false"/>';
-		ClassicEditor
-			.create(document.querySelector("#boardContent"), {
-				toolbar: []
-			})
-			.then(editor => {
-				console.log("## Editor initialize (read-only mode)");
-				const toolbarContainer = editor.ui.view.stickyPanel;
-				editor.ui.view.top.remove(toolbarContainer);
-				editor.enableReadOnlyMode("editor");
-				editor.setData(boardContent);
-			})
-			.catch(error => {
-				console.error(error);
-			});
-		
 		const boardIdx = "<c:out value='${boardDetails.boardIdx}'/>";
 		const boardWriterIdx = "<c:out value='${boardDetails.boardWriterIdx}'/>";
 		let curCommentPage = 1;

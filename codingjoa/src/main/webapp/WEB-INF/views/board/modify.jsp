@@ -103,24 +103,24 @@
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 
 <script>
-	$(function() {
-		let modifyEditor, originalData;
-		createEditor("#boardContent")
-			.then(editor => {
-				console.log("## modifyEditor initialize");
-				const $file = $("span.ck-file-dialog-button").find("input[type='file']");
-				$file.attr("accept", "*/*").attr("multiple", false);
-				orignialData = editor.getData();
-				editor.model.document.on('change:data', () => {
-					let boardContent = editor.getData();
-					$("#boardContent").val(boardContent);
-				});
-				modifyEditor = editor;
-			.catch(error => {
-				console.error(error);
+	let modifyEditor, originalData;
+	createEditor("#boardContent")
+		.then(editor => {
+			console.log("## ModifyEditor initialize");
+			const $file = $("span.ck-file-dialog-button").find("input[type='file']");
+			$file.attr("accept", "*/*").attr("multiple", false);
+			originalData = editor.getData();
+			editor.model.document.on('change:data', () => {
+				let boardContent = editor.getData();
+				$("#boardContent").val(boardContent);
 			});
+			modifyEditor = editor;
+		})
+		.catch(error => {
+			console.error(error);
 		});
-		
+	
+	$(function() {
 		$("#resetBtn").on("click", function() {
 			$("#modifyBoardDto").trigger("reset");
 			modifyEditor.setData(originalData);
