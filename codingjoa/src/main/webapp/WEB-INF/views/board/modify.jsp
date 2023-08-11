@@ -18,6 +18,7 @@
 <script src="${contextPath}/resources/ckeditor5/plugins/upload-adapter.js"></script>
 <script src="${contextPath}/resources/ckeditor5/plugins/ckeditor-plugins.js"></script>
 <script src="${contextPath}/resources/ckeditor5/build/ckeditor.js"></script>
+<script src="${contextPath}/resources/js/editor.js"></script>
 <style>
 	/* .custom-select, input#boardTitle.form-control {
 		font-size: 0.9rem;
@@ -101,54 +102,10 @@
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 
 <script>
-	let modifyEditor, originalData;
-	ClassicEditor
-		.create(document.querySelector("#boardContent"), {
-			extraPlugins: [
-				uploadAdapter, 
-				uploadCompleteListener, 
-				attributeExtender,
-				viewToModelConverter, 
-				modelToViewEditingConverter, 
-				modelToViewDataConverter
-			],
-			ui: {
-				viewportOffset: {
-					top: document.querySelector(".navbar-custom").clientHeight;
-				}
-			},
-			htmlSupport: { 
-				allow: [{
-					attributes: [{
-						key: "data-idx", value: true 
-					}]
-				}]
-			},
-			fontFamily: {
-				options: ["defalut", "Arial", "궁서체", "바탕", "돋움"],
-				supportAllValues: true
-			},
-			fontSize: {
-				options: [ 10, 12, "default", 16, 18, 20, 22 ],
-				supportAllValues: true
-			},
-			placeholder: "내용을 입력하세요."
-		})
-		.then(editor => {
-			console.log("## ModifyEditor initialize");
-			modifyEditor = editor;
-			originalData = editor.getData();
-			editor.model.document.on('change:data', () => {
-				let boardContent = editor.getData();
-				$("#boardContent").val(boardContent);
-			});
-		})
-		.catch(error => {
-			console.error(error);
-		});
+	const modifyEditor = createModifyEditor("#boardContent");
+	const orginalData = modifyEditor.getData();
 	
 	$(function() {
-		// https://ckeditor.com/docs/ckeditor5/latest/api/module_image_imageupload_imageuploadui-ImageUploadUI.html
 		let $fileDialog = $("span.ck-file-dialog-button").find("input[type='file']");
 		$fileDialog.attr("accept", "*/*").attr("multiple", false);
 		

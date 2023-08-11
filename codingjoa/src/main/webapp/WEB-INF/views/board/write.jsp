@@ -104,55 +104,10 @@
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 
 <script>
-/* 	let writeEditor;
- 	ClassicEditor
-		.create(document.querySelector("#boardContent"), {
-			extraPlugins: [
-				uploadAdapter, 
-				uploadCompleteListener, 
-				attributeExtender,
-				viewToModelConverter, 
-				modelToViewEditingConverter, 
-				modelToViewDataConverter
-			],
-			ui: {
-				viewportOffset: {
-					top: document.querySelector(".navbar-custom").clientHeight
-				}
-			},
-			// https://ckeditor.com/docs/ckeditor5/latest/features/general-html-support.html
-			htmlSupport: { 
-				allow: [
-					{
-						attributes: [
-							{ key: "data-idx", value: true }
-						]
-					}
-				]
-			},
-			fontFamily: {
-				options: ["defalut", "Arial", "궁서체", "바탕", "돋움"],
-				supportAllValues: true
-			},
-			fontSize: {
-				options: [ 10, 12, "default", 16, 18, 20, 22 ],
-				supportAllValues: true
-			},
-			placeholder: "내용을 입력하세요."
-		})
-		.then(editor => {
-			console.log("## WriteEditor initialize");
-			writeEditor = editor;
-		})
-		.catch(error => {
-			console.error(error);
-		});  */
+	const writeEditor = createWriteEditor("#boardContent");
 	
 	$(function() {
-		const writeEditor = createWriteEditor("#boardContent", writeEditor);
-		
-		// https://ckeditor.com/docs/ckeditor5/latest/api/module_image_imageupload_imageuploadui-ImageUploadUI.html
-		const $fileDialog = $("span.ck-file-dialog-button").find("input[type='file']");
+		let $fileDialog = $("span.ck-file-dialog-button").find("input[type='file']");
 		$fileDialog.attr("accept", "*/*").attr("multiple", false);
 	
 		$("#resetBtn").on("click", function() {
