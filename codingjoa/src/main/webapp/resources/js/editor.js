@@ -45,6 +45,23 @@ function createWriteEditor(targetId) {
 		});
 }
 
+function createReadEditor(targetId) {
+	console.log("## Editor initialize (read-only mode)");
+	ClassicEditor
+		.create(document.querySelector(targetId), {
+			toolbar: []
+		})
+		.then(editor => {
+			const toolbarContainer = editor.ui.view.stickyPanel;
+			editor.ui.view.top.remove(toolbarContainer);
+			editor.enableReadOnlyMode("editor");
+			return editor;
+		})
+		.catch(error => {
+			console.error(error);
+		});
+}
+
 function createModifyEditor(targetId) {
 	console.log("## ModifyEditor initialize");
 	ClassicEditor
