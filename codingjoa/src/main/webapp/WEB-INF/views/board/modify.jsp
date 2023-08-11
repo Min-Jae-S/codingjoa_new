@@ -15,6 +15,7 @@
 <script src="${contextPath}/resources/js/jquery.serialize.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+<!-- ckeditor -->
 <script src="${contextPath}/resources/ckeditor5/plugins/upload-adapter.js"></script>
 <script src="${contextPath}/resources/ckeditor5/plugins/ckeditor-plugins.js"></script>
 <script src="${contextPath}/resources/ckeditor5/build/ckeditor.js"></script>
@@ -102,13 +103,24 @@
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 
 <script>
-	const modifyEditor = createModifyEditor("#boardContent");
-	const orginalData = modifyEditor.getData();
+	let modifyEditor, originalData;
+	createEditor("#boardContent")
+		.then(editor => {
+			console.log("## modifyEditor initialize");
+			let $file = $("span.ck-file-dialog-button").find("input[type='file']");
+			$file.attr("accept", "*/*").attr("multiple", false);
+			orignialData = editor.getData();
+			editor.model.document.on('change:data', () => {
+				let boardContent = editor.getData();
+				$("#boardContent").val(boardContent);
+			});
+			modifyEditor = editor;
+		.catch(error => {
+			console.error(error);
+		});
+	});
 	
 	$(function() {
-		let $fileDialog = $("span.ck-file-dialog-button").find("input[type='file']");
-		$fileDialog.attr("accept", "*/*").attr("multiple", false);
-		
 		$("#resetBtn").on("click", function() {
 			$("#modifyBoardDto").trigger("reset");
 			modifyEditor.setData(originalData);

@@ -21,9 +21,9 @@
 <script src="${contextPath}/resources/js/comment.js"></script>
 <script src="${contextPath}/resources/js/likes.js"></script>
 <script src="${contextPath}/resources/js/render.js"></script>
+<!-- ckeditor -->
 <script src="${contextPath}/resources/ckeditor5/plugins/ckeditor-plugins.js"></script>
 <script src="${contextPath}/resources/ckeditor5/build/ckeditor.js"></script>
-<script src="${contextPath}/resources/js/editor.js"></script>
 <style>
 	.card {
 		padding: 2.25rem;
@@ -691,8 +691,20 @@
 </script>
 <script>
 	const boardContent = '<c:out value="${boardDetails.boardContent}" escapeXml="false"/>';
-	const readEditor = createReadEditor("#boardContent");
-	readEditor.setData(boardContent);
+	ClassicEditor
+		.create(document.querySelector("#boardContent"), {
+			toolbar: []
+		})
+		.then(editor => {
+			console.log("## Editor initialize (read-only mode)");
+			const toolbarContainer = editor.ui.view.stickyPanel;
+			editor.ui.view.top.remove(toolbarContainer);
+			editor.enableReadOnlyMode("editor");
+			editor.setData(boardContent);
+		})
+		.catch(error => {
+			console.error(error);
+		});
 	
 	$(function() {
 		const boardIdx = "<c:out value='${boardDetails.boardIdx}'/>";
