@@ -180,13 +180,11 @@
 		
 		// test getData
 		$("#testGetDataBtn").on("click", function() {
-			console.log("## testGetDataBtn click");
 			console.log("> '%s'", writeEditor.getData());
 		});
 		
 		// test jsoup
 		$("#testJsoupBtn").on("click", function() {
-			console.log("## testJsoupBtn click");
 			$("input[name='boardImages']").remove();
 			
 			let boardContent = writeEditor.getData();
@@ -208,6 +206,7 @@
 			}
 			
 			let formData = $form.serializeObject();
+			console.log("## check form data");
 			console.log(JSON.stringify(formData, null, 2));
 			
 			$.ajax({

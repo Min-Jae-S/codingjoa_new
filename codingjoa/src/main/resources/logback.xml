@@ -33,7 +33,7 @@
 	<logger name="org.springframework.transaction.interceptor" level="OFF" />
 	
 	<!-- SQL logger -->
-	<logger name="jdbc.sqlonly" level="OFF" additivity="false">
+	<logger name="jdbc.sqlonly" level="INFO" additivity="false">
 		<appender-ref ref="console2"/> 
 	</logger>
  	<logger name="jdbc.connection" level="OFF"/>
