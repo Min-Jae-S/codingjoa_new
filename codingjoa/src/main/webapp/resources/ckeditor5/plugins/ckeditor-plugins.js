@@ -11,7 +11,7 @@ console.log("## Editor plugins ready - ckeditor-plugins.js");
 	function uploadCompleteListener(editor) {
 		console.log("\t > Register upload complete listener");
 		editor.plugins.get("ImageUploadEditing").on("uploadComplete", (evt, {data, imageElement}) => {
-			console.log("## Upload complete");
+			console.log("## Upload complete and setAttribute src, dataIdx");
 			editor.model.change(writer => {
 				evt.stop();
 				writer.setAttribute("src", data.url, imageElement);
@@ -45,7 +45,6 @@ console.log("## Editor plugins ready - ckeditor-plugins.js");
 		editor.conversion.for("editingDowncast").add(dispatcher => { // downcastDispatcher
             dispatcher.on("attribute:dataIdx", (evt, data, conversionApi) => {
             	console.log("## Editing downcast");
-            	
             	const modelElement = data.item;
             	if (!conversionApi.consumable.consume(modelElement, evt.name)) {
                 	return;
@@ -73,7 +72,6 @@ console.log("## Editor plugins ready - ckeditor-plugins.js");
 		editor.conversion.for("dataDowncast").add(dispatcher => {
 			dispatcher.on("attribute:dataIdx", (evt, data, conversionApi) => { 
 				console.log("## Data downcast");
-				
 				const modelElement = data.item;
             	if (!conversionApi.consumable.consume(modelElement, evt.name)) {
                 	return;

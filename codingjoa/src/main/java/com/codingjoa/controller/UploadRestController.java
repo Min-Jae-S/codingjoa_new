@@ -44,13 +44,13 @@ public class UploadRestController {
 		log.info("## uploadBoardImage");
 		
 		BoardImage boardImage = uploadService.uploadBoardImage(uploadFileDto.getFile());
-		log.info("\t > uploaded boardImage = {}", boardImage);
-		
 		String boardImageUrl = request.getContextPath() + "/api/board/images/" + boardImage.getBoardImageName();
+		log.info("\t > uploaded boardImage = {}", boardImage);
+		log.info("\t > boardImageUrl = {}", boardImageUrl);
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
 				.messageByCode("success.uploadBoardImage")
-				.data(new BoardImageDto(boardImage.getBoardIdx(), boardImageUrl))
+				.data(new BoardImageDto(boardImage.getBoardImageIdx(), boardImageUrl))
 				.build());
 	}
 
