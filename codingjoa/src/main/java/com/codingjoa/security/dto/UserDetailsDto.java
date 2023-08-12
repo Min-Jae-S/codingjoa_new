@@ -9,6 +9,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.codingjoa.entity.Member;
+import com.codingjoa.entity.ProfileImage;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,7 +25,7 @@ public class UserDetailsDto implements UserDetails {
 	private static final long serialVersionUID = -6918130188428402603L;
 	private Member member;
 	private String memberRole;
-	private String profileImageUrl;
+	private ProfileImage myProfileImage;
 	private List<Integer> myBoardLikes;
 	private List<Integer> myCommentLikes;
 

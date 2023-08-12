@@ -111,6 +111,10 @@
 			console.log("## WriteEditor initialize");
 			const $file = $("span.ck-file-dialog-button").find("input[type='file']");
 			$file.attr("accept", "*/*").attr("multiple", false);
+			editor.model.document.on('change:data', () => {
+				let boardContent = editor.getData();
+				$("#boardContent").val(boardContent);
+			});
 			writeEditor = editor;
 		})
 		.catch(error => {
@@ -126,12 +130,13 @@
 		$("#writeBtn").on("click", function(e) {
 			e.preventDefault();
 			$("input[name='boardImages']").remove();
-			
+
 			let $form = $("#writeBoardDto");
-			let hasBoardImages = false;
 			const range = writeEditor.model.createRangeIn(writeEditor.model.document.getRoot());
-			for (const value of range.getWalker({ ignoreElementEnd: true })) { // TreeWalker instance
-				// Position iterator class. It allows to iterate forward and backward over the document.
+			
+			// TreeWalker instance
+			// Position iterator class. It allows to iterate forward and backward over the document.
+			for (const value of range.getWalker({ ignoreElementEnd: true })) { 
 			    if (!value.item.is("element")) {
 			    	continue;
 			    }
@@ -144,12 +149,11 @@
 				// add boardImages
 			    let boardImageIdx = value.item.getAttribute("dataIdx");
 			    $("<input/>", { type: "hidden", name: "boardImages", value: boardImageIdx }).appendTo($form);
-			    hasBoardImages = true;
 			}
 			
 			console.log("## Check FormData");
 			console.log(JSON.stringify($form.serializeObject(), null, 2));
-			if (!confirm("게시글을 수정하시겠습니까?")) {
+			if (!confirm("게시글을 등록하시겠습니까?")) {
 				return;
 			}
 			
@@ -158,12 +162,10 @@
 		
 		// test
 		$("#testBtn").on("click", function() {
-			/* console.log("===============================");
 			console.log("## writeEditor.getData():");
 			console.log(writeEditor.getData());
 			console.log("## plainText:");
 			console.log(viewToPlainText(writeEditor.editing.view.document.getRoot()));
-			console.log("==============================="); */
 			$(".navbar-custom").height("100");
 		});
 		
@@ -185,13 +187,9 @@
 		// test jsoup
 		$("#testJsoupBtn").on("click", function() {
 			$("input[name='boardImages']").remove();
-			
-			let boardContent = writeEditor.getData();
-			$("#boardContent").val(boardContent);
-
 			let $form = $("#writeBoardDto");
 			const range = writeEditor.model.createRangeIn(writeEditor.model.document.getRoot());
-			for (const value of range.getWalker({ ignoreElementEnd: true })) { // TreeWalker instance
+			for (const value of range.getWalker({ ignoreElementEnd: true })) { 
 			    if (!value.item.is("element")) {
 			    	continue;
 			    }
@@ -215,11 +213,11 @@
 				contentType : "application/json;charset=utf-8",
 				dataType : "json",
 				success : function(result) {
-					console.log("%c## SUCCESS","color:blue");
+					console.log("%c## SUCCESS", "color:blue");
 					console.log(JSON.stringify(result, null, 2));
 				},
 				error : function(jqXHR) {
-					console.log("%c## ERROR","color:red");
+					console.log("%c## ERROR", "color:red");
 					console.log(jqXHR);
 				}
 			});

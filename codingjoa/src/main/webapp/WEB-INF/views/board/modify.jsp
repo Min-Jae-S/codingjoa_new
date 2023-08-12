@@ -109,11 +109,11 @@
 			console.log("## ModifyEditor initialize");
 			const $file = $("span.ck-file-dialog-button").find("input[type='file']");
 			$file.attr("accept", "*/*").attr("multiple", false);
-			originalData = editor.getData();
 			editor.model.document.on('change:data', () => {
 				let boardContent = editor.getData();
 				$("#boardContent").val(boardContent);
 			});
+			originalData = editor.getData();
 			modifyEditor = editor;
 		})
 		.catch(error => {
@@ -129,11 +129,13 @@
 		$("#modifyBtn").on("click", function(e) {
 			e.preventDefault();
 			$("input[name='boardImages']").remove();
-			let $form = $("#modifyBoardDto");
 			
+			let $form = $("#modifyBoardDto");
 			const range = modifyEditor.model.createRangeIn(modifyEditor.model.document.getRoot());
-			for (const value of range.getWalker({ ignoreElementEnd: true })) { // TreeWalker instance
-				// Position iterator class. It allows to iterate forward and backward over the document.
+
+			// TreeWalker instance
+			// Position iterator class. It allows to iterate forward and backward over the document.
+			for (const value of range.getWalker({ ignoreElementEnd: true })) { 
 			    if (!value.item.is("element")) {
 			    	continue;
 			    }
@@ -165,10 +167,9 @@
 		// test jsoup
 		$("#testJsoupBtn").on("click", function() {
 			$("input[name='boardImages']").remove();
-			
 			let $form = $("#modifyBoardDto");
 			const range = modifyEditor.model.createRangeIn(modifyEditor.model.document.getRoot());
-			for (const value of range.getWalker({ ignoreElementEnd: true })) { // TreeWalker instance
+			for (const value of range.getWalker({ ignoreElementEnd: true })) { 
 			    if (!value.item.is("element")) {
 			    	continue;
 			    }
@@ -192,11 +193,11 @@
 				contentType : "application/json;charset=utf-8",
 				dataType : "json",
 				success : function(result) {
-					console.log("%c## SUCCESS","color:blue");
+					console.log("%c## SUCCESS", "color:blue");
 					console.log(JSON.stringify(result, null, 2));
 				},
 				error : function(jqXHR) {
-					console.log("%c## ERROR","color:red");
+					console.log("%c## ERROR", "color:red");
 					console.log(jqXHR);
 				}
 			});

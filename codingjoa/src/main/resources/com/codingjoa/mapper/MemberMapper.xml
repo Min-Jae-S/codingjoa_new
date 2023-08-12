@@ -72,6 +72,13 @@
 			<result property="regdate" column="regdate"/>
 			<result property="moddate" column="moddate"/>
 		</association>
+		<association property="myProfileImage" javaType="profileImage">
+			<id property="profileImageIdx" column="profile_image_idx"/>
+			<result property="memberIdx" column="member_idx"/>
+			<result property="profileImageName" column="profile_image_name"/>
+			<result property="profileImagePath" column="profile_image_path"/>
+			<result property="regdate" column="regdate"/>
+		</association>
 		<collection property="myBoardLikes" javaType="list" ofType="int">
 			<result column="board_idx"/>
 		</collection>
@@ -85,7 +92,8 @@
 			a.*,
 			b.member_role,
 			c.board_idx,
-			d.comment_idx
+			d.comment_idx,
+			e.*
 		FROM
 			member a
 		INNER JOIN
@@ -100,6 +108,10 @@
 			comment_likes d
 		ON
 			a.member_idx = d.member_idx
+		LEFT OUTER JOIN
+			profile_image e
+		ON
+			a.member_idx = e.member_idx
 		WHERE
 			a.member_id = #{memberId}
 	</select>

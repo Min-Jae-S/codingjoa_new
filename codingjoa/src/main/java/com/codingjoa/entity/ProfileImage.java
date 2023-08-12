@@ -2,8 +2,10 @@ package com.codingjoa.entity;
 
 import java.util.Date;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /*
 	profile_image_idx         NUMBER,
@@ -14,6 +16,8 @@ import lombok.Data;
 */
 
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Data
 public class ProfileImage {
 	

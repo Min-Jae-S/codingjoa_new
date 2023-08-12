@@ -8,7 +8,7 @@ import lombok.Data;
 	board_idx               NUMBER,
 	board_title             VARCHAR2(500)               NOT NULL,
 	board_content           CLOB                        NOT NULL,
-	board_content_text      CLOB                        NOT NULL,
+	board_content_text      CLOB                        NULL,
     board_writer_idx        NUMBER                      NOT NULL,
     board_views             NUMBER          DEFAULT 0   NOT NULL,
 	board_category_code     NUMBER                      NOT NULL,
@@ -32,9 +32,8 @@ public class Board {
 	@Override
 	public String toString() {
 		String escapedBoardContent = (boardContent != null) ? boardContent.replace("\r\n", "\\r\\n") : null;
-		String escapedBoardContentText = (boardContentText != null) ? boardContentText.replace("\r\n", "\\r\\n") : null;
 		return "Board [boardIdx=" + boardIdx + ", boardTitle=" + boardTitle + ", boardContent=" + escapedBoardContent
-				+ ", boardContentText=" + escapedBoardContentText + ", boardWriterIdx=" + boardWriterIdx + ", boardViews="
+				+ ", boardContentText=" + boardContentText + ", boardWriterIdx=" + boardWriterIdx + ", boardViews="
 				+ boardViews + ", boardCategoryCode=" + boardCategoryCode + ", regdate=" + regdate + ", moddate="
 				+ moddate + "]";
 	}

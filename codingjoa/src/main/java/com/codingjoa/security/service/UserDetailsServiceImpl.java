@@ -4,7 +4,6 @@ import java.util.Map;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -26,9 +25,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	@Autowired
 	private ModelMapper modelMapper;
 	
-	@Value("${upload.profile.url}")
-	private String profileUrl;
-	
 	@Override
 	public UserDetails loadUserByUsername(String memberId) throws UsernameNotFoundException {
 		log.info("## {}", this.getClass().getSimpleName());
@@ -40,7 +36,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 			throw new UsernameNotFoundException(
 					MessageUtils.getMessage("error.UsernameNotFoundOrBadCredentials"));
 		}
-		
 		
 		return modelMapper.map(userDetailsMap, UserDetailsDto.class);
 	}

@@ -4,10 +4,11 @@
 <!--  
 	board_idx               NUMBER,
 	board_title             VARCHAR2(500)               NOT NULL,
-	board_content           CLOB                       	NOT NULL,
+    board_content           CLOB                        NOT NULL,
+    board_content_text      CLOB                        NULL,
     board_writer_idx        NUMBER                      NOT NULL,
-    board_views             NUMBER          DEFAULT 0   NOT NULL,
 	board_category_code     NUMBER                      NOT NULL,
+    board_views             NUMBER          DEFAULT 0   NOT NULL,
 	regdate                 DATE                        NOT NULL,
     moddate                 DATE                        NOT NULL,
 -->
