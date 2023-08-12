@@ -54,8 +54,8 @@ public class BoardController {
 	}
 	
 	@GetMapping
-	public String getAllBoards(Model model) {
-		log.info("## getAllBoards");
+	public String getBoards(Model model) {
+		log.info("## getBoards");
 		
 		List<Category> boardCategoryList = categoryService.findBoardCategoryList();
 		model.addAttribute("boardCategoryList", boardCategoryList);
@@ -67,7 +67,7 @@ public class BoardController {
 				.collect(Collectors.toList());
 		model.addAttribute("boardList", boardList);
 		
-		return "board/all-boards";
+		return "board/boards";
 	}
 	
 	@GetMapping("/")
@@ -83,6 +83,7 @@ public class BoardController {
 		
 		List<BoardDetailsDto> board = boardService.getPagedBoard(boardCategoryCode, newBoardCri);
 		model.addAttribute("board", board);
+		log.info("\t > paged board = {}", board);
 		
 		Pagination pagination = boardService.getPagination(boardCategoryCode, newBoardCri);
 		model.addAttribute("pagination", pagination);

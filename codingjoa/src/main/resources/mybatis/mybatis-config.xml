@@ -2,16 +2,20 @@
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 	<settings>
+		<!-- 해당 컬럼이 null 허용일 경우 null인 상태로 insert나 update를 처리해주는 설정, 부적합한 열 유형: 1111 -->
+		<!-- 1. JdbcType(#{columnNm, jdbcType=VARCHAR) 2. mybatis-config.xml-->
 		<setting name="jdbcTypeForNull" value="NULL"/>
+		
+		<!-- 컬럼명으로 snake case 를 사용하는 경우 필드의 camel case 변수명을 자동변환 -->
 		<setting name="mapUnderscoreToCamelCase" value="true"/>
-		<!-- ## returnInstanceForEmptyRow 
-		MyBatis, by default, returns null when all the columns of a returned row are NULL. 
+		
+		<!-- MyBatis, by default, returns null when all the columns of a returned row are NULL. 
 		When this setting is enabled, MyBatis returns an empty instance instead. 
 		Note that it is also applied to nested results (i.e. collectioin and association). Since: 3.4.2 -->
-		<!--가져온 Row 의 컬럼 데이터 전체가 Null 이어도 컬럼별 NULL 데이터를 생성한다. -->
+		<!-- 가져온 Row 의 컬럼 데이터 전체가 Null 이어도 컬럼별 NULL 데이터를 생성한다. -->
 		<setting name="returnInstanceForEmptyRow" value="true"/>
 		
-		<!--가져온 컬럼의 데이터가 Null 이어도 Setter Method 를 통해 데이터를 바인딩 한다. -->
+		<!-- 가져온 컬럼의 데이터가 Null 이어도 Setter Method 를 통해 데이터를 바인딩 한다. -->
 		<!-- <setting name="callSettersOnNulls" value="true"/> -->
 	</settings>
 	
