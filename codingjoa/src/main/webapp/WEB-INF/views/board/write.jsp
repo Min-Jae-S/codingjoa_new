@@ -125,9 +125,10 @@
 		
 		$("#writeBtn").on("click", function(e) {
 			e.preventDefault();
+			$("input[name='boardImages']").remove();
+			
 			let $form = $("#writeBoardDto");
 			let hasBoardImages = false;
-			
 			const range = writeEditor.model.createRangeIn(writeEditor.model.document.getRoot());
 			for (const value of range.getWalker({ ignoreElementEnd: true })) { // TreeWalker instance
 				// Position iterator class. It allows to iterate forward and backward over the document.
@@ -146,11 +147,9 @@
 			    hasBoardImages = true;
 			}
 			
-			console.log("## Check form data");
+			console.log("## Check FormData");
 			console.log(JSON.stringify($form.serializeObject(), null, 2));
-			
 			if (!confirm("게시글을 수정하시겠습니까?")) {
-				$("input[name='boardImages']").remove();
 				return;
 			}
 			
@@ -206,7 +205,7 @@
 			}
 			
 			let formData = $form.serializeObject();
-			console.log("## check form data");
+			console.log("## Check FormData");
 			console.log(JSON.stringify(formData, null, 2));
 			
 			$.ajax({
