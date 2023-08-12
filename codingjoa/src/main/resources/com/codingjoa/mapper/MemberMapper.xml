@@ -60,31 +60,33 @@
 
 	<resultMap type="map" id="userDetailsMap">
 		<result property="memberRole" column="member_role"/>
-		<association property="member" javaType="member">
-			<id property="memberIdx" column="member_idx"/>
-			<result property="memberId" column="member_id"/>
-			<result property="memberPassword" column="member_password"/>
-			<result property="memberEmail" column="member_email"/>
-			<result property="memberZipcode" column="member_zipcode"/>
-			<result property="memberAddr" column="member_addr"/>
-			<result property="memberAddrDetail" column="member_addr_detail"/>
-			<result property="memberAgree" column="member_agree"/>
-			<result property="regdate" column="regdate"/>
-			<result property="moddate" column="moddate"/>
-		</association>
-		<association property="myProfileImage" javaType="profileImage">
-			<id property="profileImageIdx" column="profile_image_idx"/>
-			<result property="memberIdx" column="member_idx"/>
-			<result property="profileImageName" column="profile_image_name"/>
-			<result property="profileImagePath" column="profile_image_path"/>
-			<result property="regdate" column="regdate"/>
-		</association>
+		<association property="member" resultMap="memberMap"/>
+		<association property="myProfileImage" resultMap="profileImageMap"/>
 		<collection property="myBoardLikes" javaType="list" ofType="int">
 			<result column="board_idx"/>
 		</collection>
 		<collection property="myCommentLikes" javaType="list" ofType="int">
 			<result column="comment_idx"/>
 		</collection>
+	</resultMap>
+	<resultMap id="memberMap" type="member">
+		<id property="memberIdx" column="member_idx"/>
+		<result property="memberId" column="member_id"/>
+		<result property="memberPassword" column="member_password"/>
+		<result property="memberEmail" column="member_email"/>
+		<result property="memberZipcode" column="member_zipcode"/>
+		<result property="memberAddr" column="member_addr"/>
+		<result property="memberAddrDetail" column="member_addr_detail"/>
+		<result property="memberAgree" column="member_agree"/>
+		<result property="regdate" column="regdate"/>
+		<result property="moddate" column="moddate"/>
+	</resultMap>
+	<resultMap id="profileImageMap" type="profileImage">
+		<id property="profileImageIdx" column="profile_image_idx"/>
+		<result property="memberIdx" column="member_idx"/>
+		<result property="profileImageName" column="profile_image_name"/>
+		<result property="profileImagePath" column="profile_image_path"/>
+		<result property="regdate" column="regdate"/>
 	</resultMap>
 	
 	<select id="findUserDetailsById" parameterType="string" resultMap="userDetailsMap">
