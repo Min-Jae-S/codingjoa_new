@@ -94,9 +94,9 @@
 			c.board_idx,
 			d.comment_idx,
 			e.profile_image_idx,
-			e.member_idx AS profile_member_idx
-			e.profile_image_name,
-			e.profile_image_path,
+			e.member_idx AS profile_member_idx,
+			e.profile_image_name AS profile_image_name,
+			e.profile_image_path AS profile_image_path,
 			e.regdate AS profile_regdate
 		FROM
 			member a
