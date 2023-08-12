@@ -58,35 +58,33 @@
 			member_email = #{memberEmail}
 	</select>
 
-	<resultMap type="map" id="userDetailsMap">
+	<resultMap id="userDetailsMap" type="map">
 		<result property="memberRole" column="member_role"/>
-		<association property="member" resultMap="memberMap"/>
-		<association property="myProfileImage" resultMap="profileImageMap"/>
+		<association property="member" javaType="member">
+			<id property="memberIdx" column="member_idx"/>
+			<result property="memberId" column="member_id"/>
+			<result property="memberPassword" column="member_password"/>
+			<result property="memberEmail" column="member_email"/>
+			<result property="memberZipcode" column="member_zipcode"/>
+			<result property="memberAddr" column="member_addr"/>
+			<result property="memberAddrDetail" column="member_addr_detail"/>
+			<result property="memberAgree" column="member_agree"/>
+			<result property="regdate" column="regdate"/>
+			<result property="moddate" column="moddate"/>
+		</association>
+		<association property="myProfileImage" javaType="profileImage">
+			<id property="profileImageIdx" column="profile_image_idx"/>
+			<result property="memberIdx" column="profile_member_idx"/> <!-- column="member_idx" -->
+			<result property="profileImageName" column="profile_image_name"/>
+			<result property="profileImagePath" column="profile_image_path"/>
+			<result property="regdate" column="profile_regdate"/> <!-- column="regdate" -->
+		</association>
 		<collection property="myBoardLikes" javaType="list" ofType="int">
 			<result column="board_idx"/>
 		</collection>
 		<collection property="myCommentLikes" javaType="list" ofType="int">
 			<result column="comment_idx"/>
 		</collection>
-	</resultMap>
-	<resultMap id="memberMap" type="member">
-		<id property="memberIdx" column="member_idx"/>
-		<result property="memberId" column="member_id"/>
-		<result property="memberPassword" column="member_password"/>
-		<result property="memberEmail" column="member_email"/>
-		<result property="memberZipcode" column="member_zipcode"/>
-		<result property="memberAddr" column="member_addr"/>
-		<result property="memberAddrDetail" column="member_addr_detail"/>
-		<result property="memberAgree" column="member_agree"/>
-		<result property="regdate" column="regdate"/>
-		<result property="moddate" column="moddate"/>
-	</resultMap>
-	<resultMap id="profileImageMap" type="profileImage">
-		<id property="profileImageIdx" column="profile_image_idx"/>
-		<result property="memberIdx" column="member_idx"/>
-		<result property="profileImageName" column="profile_image_name"/>
-		<result property="profileImagePath" column="profile_image_path"/>
-		<result property="regdate" column="regdate"/>
 	</resultMap>
 	
 	<select id="findUserDetailsById" parameterType="string" resultMap="userDetailsMap">
@@ -95,7 +93,11 @@
 			b.member_role,
 			c.board_idx,
 			d.comment_idx,
-			e.*
+			e.profile_image_idx,
+			e.member_idx AS profile_member_idx
+			e.profile_image_name,
+			e.profile_image_path,
+			e.regdate AS profile_regdate
 		FROM
 			member a
 		INNER JOIN
