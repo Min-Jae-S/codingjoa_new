@@ -410,7 +410,7 @@
 				</div>
 			</div>
 			
-			<!-- test1 -->
+			<!-- comment test -->
 			<div class="test1 mt-5">
 				<div class="input-group mb-4">
 					<div class="input-group-prepend">
@@ -418,8 +418,8 @@
 	    				<span class="input-group-text">:</span>
 	    				<span class="input-group-text">/api/comments</span>
 	  				</div>
-	  				<input type="text" class="form-control" placeholder="commentBoardIdx">
-	  				<input type="text" class="form-control" placeholder="commentContent">
+	  				<input type="text" class="form-control" placeholder="boardIdx">
+	  				<input type="text" class="form-control" placeholder="content">
 	  				<div class="input-group-append">
 	    				<button class="btn btn-warning" id="testWriteBtn">TEST</button>
 	  				</div>
@@ -430,8 +430,8 @@
 						<span class="input-group-text">:</span>
 	    				<span class="input-group-text">/api/boards/{commentBoardIdx}/comments</span>
 	  				</div>
-	  				<input type="text" class="form-control" placeholder="commentBoardIdx">
-	  				<input type="text" class="form-control" placeholder="comment page">
+	  				<input type="text" class="form-control" placeholder="boardIdx">
+	  				<input type="text" class="form-control" placeholder="page">
 	  				<div class="input-group-append">
 	    				<button class="btn btn-warning" id="testGetCommentListBtn">TEST</button>
 	  				</div>
@@ -442,7 +442,7 @@
 						<span class="input-group-text">:</span>
 	    				<span class="input-group-text">/api/comments/{commentIdx}</span>
 	  				</div>
-	  				<input type="text" class="form-control" placeholder="commentIdx">
+	  				<input type="text" class="form-control" placeholder="idx">
 	  				<div class="input-group-append">
 	    				<button class="btn btn-warning" id="testGetCommentBtn">TEST</button>
 	  				</div>
@@ -453,7 +453,7 @@
 						<span class="input-group-text">:</span>
 	    				<span class="input-group-text">/api/comments/{commentIdx}</span>
 	  				</div>
-	  				<input type="text" class="form-control" placeholder="commentIdx">
+	  				<input type="text" class="form-control" placeholder="idx">
 	  				<div class="input-group-append">
 	    				<button class="btn btn-warning" id="testDeleteCommentBtn">TEST</button>
 	  				</div>
@@ -464,15 +464,15 @@
 						<span class="input-group-text">:</span>
 	    				<span class="input-group-text">/api/comments/{commentIdx}</span>
 	  				</div>
-	  				<input type="text" class="form-control" placeholder="commentIdx">
-	  				<input type="text" class="form-control" placeholder="commentContent">
+	  				<input type="text" class="form-control" placeholder="idx">
+	  				<input type="text" class="form-control" placeholder="content">
 	  				<div class="input-group-append">
 	    				<button class="btn btn-warning" id="testModifyCommentBtn">TEST</button>
 	  				</div>
 				</div>
 			</div>
 			
-			<!-- test2 -->
+			<!-- comment test -->
 			<div class="test2 mt-5 d-none">
 				<div class="mb-4 d-flex">
 					<button class="btn">Write Comment<span>:</span></button>
@@ -506,8 +506,8 @@
 				</div>
 			</div>
 			
-			<!-- test3 -->
-			<div class="test3 mt-5">
+			<!-- likes test -->
+			<div class="test3 mt-5 d-none">
 				<div class="input-group mb-4">
 					<div class="input-group-prepend">
 	    				<span class="input-group-text">Toggle Board Likes</span>

@@ -35,8 +35,8 @@
 <body>
 <c:import url="/WEB-INF/views/include/top-menu.jsp"/>
 <div>
-	<div class="d-flex test">
-		<button class="btn btn-link btn-lg ml-auto" onclick="userDetails()">userDetailsMap & userDetailDto</button>
+	<div class="d-flex">
+		<button class="btn btn-link btn-lg ml-auto" onclick="userDetails()">userDetailsMap & userDetailsDto</button>
 	</div>
 	<p class="mt-4">TEST</p>
 	<div class="d-none justify-content-center mt-5 test">

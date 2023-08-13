@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
@@ -452,15 +453,17 @@ public class TestController {
 		log.info("## testUserDetails");
 		Map<String, Object> userDetailMap = null;
 		UserDetailsDto userDetailsDto = null;
-		
 		if (principal != null) {
 			String memberId = principal.getMember().getMemberId();
 			userDetailMap = memberMapper.findUserDetailsById(memberId);
 			userDetailsDto = modelMapper.map(userDetailMap, UserDetailsDto.class);
 		}
 		
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("userDetailMap", userDetailMap);
+		result.put("userDetailsDto", userDetailsDto);
 		SuccessResponse successResponse = SuccessResponse.builder()
-				.data(Map.of("userDetailMap", userDetailMap, "userDetailsDto", userDetailsDto))
+				.data(result)
 				.build();
 		
 		return ResponseEntity.ok().body(successResponse);
