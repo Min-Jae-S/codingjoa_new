@@ -514,7 +514,7 @@
 	    				<span class="input-group-text">:</span>
 	    				<span class="input-group-text">/api/boards/{boardIdx}/likes</span>
 	  				</div>
-	  				<input type="text" class="form-control" placeholder="boardIdx">
+	  				<input type="text" class="form-control" placeholder="idx">
 	  				<div class="input-group-append">
 	    				<button class="btn btn-warning" id="testToggleBoardLikesBtn">TEST</button>
 	  				</div>
@@ -525,7 +525,7 @@
 						<span class="input-group-text">:</span>
 	    				<span class="input-group-text">/api/comments/{commentIdx}/likes</span>
 	  				</div>
-	  				<input type="text" class="form-control" placeholder="commentIdx">
+	  				<input type="text" class="form-control" placeholder="idx">
 	  				<div class="input-group-append">
 	    				<button class="btn btn-warning" id="testToggleCommentLikesBtn">TEST</button>
 	  				</div>
@@ -536,7 +536,7 @@
 						<span class="input-group-text">:</span>
 	    				<span class="input-group-text">/api/boards/{boardIdx}/likes</span>
 	  				</div>
-	  				<input type="text" class="form-control" placeholder="boardIdx">
+	  				<input type="text" class="form-control" placeholder="idx">
 	  				<div class="input-group-append">
 	    				<button class="btn btn-warning" id="testGetBoardLikesCntBtn">TEST</button>
 	  				</div>
@@ -547,7 +547,7 @@
 						<span class="input-group-text">:</span>
 	    				<span class="input-group-text">/api/comments/{commentIdx}/likes</span>
 	  				</div>
-	  				<input type="text" class="form-control" placeholder="commentIdx">
+	  				<input type="text" class="form-control" placeholder="idx">
 	  				<div class="input-group-append">
 	    				<button class="btn btn-warning" id="testGetCommentLikesCntBtn">TEST</button>
 	  				</div>

@@ -13,7 +13,18 @@
 		When this setting is enabled, MyBatis returns an empty instance instead. 
 		Note that it is also applied to nested results (i.e. collectioin and association). Since: 3.4.2 -->
 		<!-- 가져온 Row 의 컬럼 데이터 전체가 Null 이어도 컬럼별 NULL 데이터를 생성한다. -->
-		<!-- <setting name="returnInstanceForEmptyRow" value="true"/> -->
+		<!-- 다음의 sql에서 comment_idx, comment_writer_idx, comment_use가 모두 null인 경우 -->
+		<!-- <selectKey keyProperty="commentIdx,commentWriterIdx,commentUse" resultType="comment" order="BEFORE">
+			SELECT
+				MAX(comment_idx) AS comment_idx,
+				MAX(comment_writer_idx) AS comment_writer_idx,
+				MAX(comment_use) AS comment_use
+			FROM
+				"comment" 
+			WHERE 
+				comment_idx = #{commentIdx}
+		</selectKey> -->
+		<setting name="returnInstanceForEmptyRow" value="true"/>
 		
 		<!-- 가져온 컬럼의 데이터가 Null 이어도 Setter Method 를 통해 데이터를 바인딩 한다. -->
 		<!-- <setting name="callSettersOnNulls" value="true"/> -->
