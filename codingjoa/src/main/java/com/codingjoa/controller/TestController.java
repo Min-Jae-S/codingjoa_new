@@ -38,6 +38,7 @@ import org.springframework.web.util.UriComponents;
 import com.codingjoa.dto.BoardDto;
 import com.codingjoa.entity.BoardImage;
 import com.codingjoa.exception.ExpectedException;
+import com.codingjoa.mapper.MemberMapper;
 import com.codingjoa.response.SuccessResponse;
 import com.codingjoa.security.dto.UserDetailsDto;
 import com.codingjoa.service.TestTxService;
@@ -435,6 +436,23 @@ public class TestController {
 		
 		SuccessResponse successResponse = SuccessResponse.builder()
 				.message("success")
+				.build();
+		return ResponseEntity.ok().body(successResponse);
+	}
+	
+	@Autowired
+	private MemberMapper memberMapper;
+	
+	@GetMapping("/user-details-map")
+	public ResponseEntity<Object> testUserDetailsMap(@AuthenticationPrincipal UserDetailsDto principal) {
+		log.info("## testUserDetailsMap");
+		Map<String, Object> userDetailMap = null;
+		if (principal != null) {
+			String memberId = principal.getMember().getMemberId();
+			userDetailMap = memberMapper.findUserDetailsById(memberId);
+		}
+		SuccessResponse successResponse = SuccessResponse.builder()
+				.data(userDetailMap)
 				.build();
 		return ResponseEntity.ok().body(successResponse);
 	}

@@ -22,40 +22,38 @@
 		font-weight: bold;
 	}
 	
-	div {
+	div.test {
 		padding-left: 1.3rem;
 		padding-right: 1.3rem;
 	}
 	
-	button {
+	div.test button {
 		width: 230px;
-	}
-	
-	img {
-		width: 80px;
-		height: 80px;
 	}
 </style>
 </head>
 <body>
 <c:import url="/WEB-INF/views/include/top-menu.jsp"/>
 <div>
-	<p class="mt-5">TEST</p>
-	<div class="d-none justify-content-center mt-5">
+	<div class="d-flex">
+		<button class="btn btn-link btn-lg ml-auto" onclick="testUserDetailsMap()">userDetailsMap</button>
+	</div>
+	<p class="mt-4">TEST</p>
+	<div class="d-none justify-content-center mt-5 test">
 		<button class="btn btn-danger btn-lg mx-3" onclick="test1()">test1</button>
 		<button class="btn btn-danger btn-lg mx-3" onclick="test2()">test2</button>
 		<button class="btn btn-danger btn-lg mx-3" onclick="test3()">test3</button>
 		<button class="btn btn-primary btn-lg mx-3" onclick="test4()">test4</button>
 		<button class="btn btn-primary btn-lg mx-3" onclick="test5()">test5</button>
 	</div>
-	<div class="d-flex justify-content-center mt-5">
+	<div class="d-flex justify-content-center mt-5 test">
 		<button class="btn btn-warning btn-lg mx-3" onclick="methodArgumentException()">method-argumentEx</button>
 		<button class="btn btn-warning btn-lg mx-3" onclick="expectedException1()">expectedEx1</button>
 		<button class="btn btn-warning btn-lg mx-3" onclick="expectedException2()">expectedEx2</button>
 		<button class="btn btn-warning btn-lg mx-3" onclick="testException()">textEx</button>
 		<!-- <button class="btn btn-secondary btn-lg" onclick="colored_console()">console</button> -->
 	</div>
-	<div class="d-flex justify-content-center mt-5">
+	<div class="d-flex justify-content-center mt-5 test">
 		<form class="d-none" id="testForm" method="POST" action="${contextPath}/test/test-form">
 			<input type="hidden" name="foo[]" value="1">
 			<input type="hidden" name="foo[]" value="2">
@@ -66,7 +64,7 @@
 		<button class="btn btn-lg mx-3" onclick="serializeArray()">serializeArray</button>
 		<button class="btn btn-lg mx-3" onclick="serializeObject()">serializeObject</button>
 	</div>
-	<div class="d-none justify-content-center mt-5">
+	<div class="d-none justify-content-center mt-5 test">
 		<div class="d-flex flex-column px-5" style="border-right: 2px black solid;">
 			<image class="mb-3 align-self-center border" id="testImage" src="${contextPath}/resources/image/img_profile.png">
 			<button class="btn btn-success btn-lg" onclick="testUrlResource1()">testUrlResource1</button>
@@ -78,7 +76,7 @@
 			<button class="btn btn-success btn-lg" onclick="testUrlResource2()">testUrlResource2</button>
 		</div>
 	</div>
-	<div class="d-flex justify-content-center mt-5">
+	<div class="d-flex justify-content-center mt-5 test">
 		<button class="btn btn-lg btn-primary mx-3" id="testUploadBtn">testUpload</button>
 		<input class="d-none" type="file" id="uploadFile"/>
 		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
@@ -133,7 +131,7 @@
 			$("form#testForm").submit();	
 		}
 	});
-
+	
 	function colored_console() {
 		console.log("%c## SUCCESS","color:green;background-color:#dcedc8");
 		console.log("%c## ERROR","color:red;background-color:#ffe6e6");
@@ -285,11 +283,11 @@
 			contentType : "application/json;charset=utf-8",
 			dataType : "json",
 			success : function(result) {
-				console.log("%c## SUCCESS","color:blue");
+				console.log("%c## SUCCESS", "color:blue");
 				console.log(JSON.stringify(result, null, 2));
 			},
 			error : function(jqXHR) {
-				console.log("%c## ERROR","color:red");
+				console.log("%c## ERROR", "color:red");
 				proccessError(jqXHR);
 			}
 		});
@@ -304,11 +302,11 @@
 			contentType : "application/json;charset=utf-8",
 			dataType : "json",
 			success : function(result) {
-				console.log("%c## SUCCESS","color:blue");
+				console.log("%c## SUCCESS", "color:blue");
 				console.log(JSON.stringify(result, null, 2));
 			},
 			error : function(jqXHR) {
-				console.log("%c## ERROR","color:red");
+				console.log("%c## ERROR", "color:red");
 				proccessError(jqXHR);
 			}
 		});
@@ -323,11 +321,11 @@
 			contentType : "application/json;charset=utf-8",
 			dataType : "json",
 			success : function(result) {
-				console.log("%c## SUCCESS","color:blue");
+				console.log("%c## SUCCESS", "color:blue");
 				console.log(JSON.stringify(result, null, 2));
 			},
 			error : function(jqXHR) {
-				console.log("%c## ERROR","color:red");
+				console.log("%c## ERROR", "color:red");
 				proccessError(jqXHR);
 			}
 		});
@@ -342,11 +340,11 @@
 			contentType : "application/json;charset=utf-8",
 			dataType : "json",
 			success : function(result) {
-				console.log("%c## SUCCESS","color:blue");
+				console.log("%c## SUCCESS", "color:blue");
 				console.log(JSON.stringify(result, null, 2));
 			},
 			error : function(jqXHR) {
-				console.log("%c## ERROR","color:red");
+				console.log("%c## ERROR", "color:red");
 				proccessError(jqXHR);
 			}
 		});
@@ -381,12 +379,12 @@
 			url : url,
 			dataType : "json",
 			success : function(result) {
-				console.log("%c## SUCCESS","color:blue");
+				console.log("%c## SUCCESS", "color:blue");
 				console.log(JSON.stringify(result, null, 2));
 				$("#testImage").attr("src", result.data);
 			},
 			error : function(jqXHR) {
-				console.log("%c## ERROR","color:red");
+				console.log("%c## ERROR", "color:red");
 				proccessError(jqXHR);
 			}
 		});
@@ -399,11 +397,28 @@
 			type : "GET",
 			url : url,
 			success : function(result) {
-				console.log("%c## SUCCESS","color:blue");
+				console.log("%c## SUCCESS", "color:blue");
 				console.log(result.data);
 			},
 			error : function(jqXHR) {
-				console.log("%c## ERROR","color:red");
+				console.log("%c## ERROR", "color:red");
+				console.log(jqXHR);
+			}
+		});
+	}
+	
+	function testUserDetailsMap() {
+		let url = "${contextPath}/test/user-details-map";
+		console.log("## url = %s", url);
+		$.ajax({
+			type : "GET",
+			url : url,
+			success : function(result) {
+				console.log("%c## SUCCESS", "color:blue");
+				console.log(JSON.stringify(result.data, null, 2));
+			},
+			error : function(jqXHR) {
+				console.log("%c## ERROR", "color:red");
 				console.log(jqXHR);
 			}
 		});

@@ -177,7 +177,7 @@ public class MemberRestController {
 		CurrentMemberDto currentMember = modelMapper.map(principal.getMember(), CurrentMemberDto.class);
 		return ResponseEntity.ok(SuccessResponse.builder().data(currentMember).build());
 	}
-	
+
 	@PostMapping("/check/password")
 	public ResponseEntity<Object> checkPassword(@RequestBody @Valid PasswordDto passwordDto, 
 			@AuthenticationPrincipal UserDetailsDto principal, HttpSession session) {
