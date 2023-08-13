@@ -13,6 +13,7 @@ import javax.validation.Valid;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -443,17 +444,25 @@ public class TestController {
 	@Autowired
 	private MemberMapper memberMapper;
 	
-	@GetMapping("/user-details-map")
-	public ResponseEntity<Object> testUserDetailsMap(@AuthenticationPrincipal UserDetailsDto principal) {
-		log.info("## testUserDetailsMap");
+	@Autowired
+	private ModelMapper modelMapper;
+	
+	@GetMapping("/user-details")
+	public ResponseEntity<Object> testUserDetails(@AuthenticationPrincipal UserDetailsDto principal) {
+		log.info("## testUserDetails");
 		Map<String, Object> userDetailMap = null;
+		UserDetailsDto userDetailsDto = null;
+		
 		if (principal != null) {
 			String memberId = principal.getMember().getMemberId();
 			userDetailMap = memberMapper.findUserDetailsById(memberId);
+			userDetailsDto = modelMapper.map(userDetailMap, UserDetailsDto.class);
 		}
+		
 		SuccessResponse successResponse = SuccessResponse.builder()
-				.data(userDetailMap)
+				.data(Map.of("userDetailMap", userDetailMap, "userDetailsDto", userDetailsDto))
 				.build();
+		
 		return ResponseEntity.ok().body(successResponse);
 	}
 }

@@ -35,8 +35,8 @@
 <body>
 <c:import url="/WEB-INF/views/include/top-menu.jsp"/>
 <div>
-	<div class="d-flex">
-		<button class="btn btn-link btn-lg ml-auto" onclick="testUserDetailsMap()">userDetailsMap</button>
+	<div class="d-flex test">
+		<button class="btn btn-link btn-lg ml-auto" onclick="userDetails()">userDetailsMap & userDetailDto</button>
 	</div>
 	<p class="mt-4">TEST</p>
 	<div class="d-none justify-content-center mt-5 test">
@@ -407,8 +407,8 @@
 		});
 	}
 	
-	function testUserDetailsMap() {
-		let url = "${contextPath}/test/user-details-map";
+	function userDetails() {
+		let url = "${contextPath}/test/user-details";
 		console.log("## url = %s", url);
 		$.ajax({
 			type : "GET",
