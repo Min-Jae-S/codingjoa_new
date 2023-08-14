@@ -1,8 +1,11 @@
 package com.codingjoa.config;
 
+import java.util.Map;
+
 import javax.sql.DataSource;
 
 import org.apache.ibatis.session.SqlSessionFactory;
+import org.modelmapper.Condition;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.config.Configuration.AccessLevel;
 import org.modelmapper.convention.MatchingStrategies;
@@ -17,6 +20,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 
+import com.codingjoa.security.dto.UserDetailsDto;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
@@ -100,13 +104,22 @@ public class RootConfig {
 			.setMatchingStrategy(MatchingStrategies.STRICT)
 			// setter가 없는 Dto(UserDetailsDto)에 대한 mapping을 위해 fieldAccessLevel과 fieldMatchingEnabled를 설정 
 			.setFieldAccessLevel(AccessLevel.PRIVATE)
-			.setFieldMatchingEnabled(true)
-			.setSkipNullEnabled(true);
+			.setFieldMatchingEnabled(true);
+		
+		modelMapper.typeMap(Map.class, UserDetailsDto.class)
+			.addMappings(mapper -> {
+				Condition<Object, Object> skipMappingCondition = context -> {
+					Object source = context.getSource();
+					return true;
+                };
+				mapper.when(skipMappingCondition).skip(null);
+			});
 		
 		org.modelmapper.config.Configuration config = modelMapper.getConfiguration();
 		log.info("\t > matchingStrategy = {}", config.getMatchingStrategy());
 		log.info("\t > fieldAccessLevel = {}", config.getFieldAccessLevel());
 		log.info("\t > methodAccessLevel = {}", config.getMethodAccessLevel());
+		log.info("\t > propertyCondition = {}", config.getPropertyCondition());
 		log.info("\t > isFieldMatchingEnabled = {}", config.isFieldMatchingEnabled());
 		log.info("\t > isSkipNullEnabled = {}", config.isSkipNullEnabled());
 		log.info("\t > isCollectionsMergeEnabled = {}", config.isCollectionsMergeEnabled());

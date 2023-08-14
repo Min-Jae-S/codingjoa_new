@@ -458,6 +458,8 @@ public class TestController {
 			userDetailMap = memberMapper.findUserDetailsById(memberId);
 			userDetailsDto = modelMapper.map(userDetailMap, UserDetailsDto.class);
 		}
+		log.info("\t > userDetailsMap = {}", userDetailMap);
+		log.info("\t > userDetailsDto = {}", userDetailsDto);
 		
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("userDetailMap", userDetailMap);
