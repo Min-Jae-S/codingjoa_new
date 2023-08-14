@@ -29,13 +29,22 @@
 					</li>
 				</sec:authorize>
 				<sec:authorize access="isAuthenticated()">
+					<sec:authentication property="principal" var="principal"/>
 					<li class="nav-item mr-1">
-						<img class="nav-profile-image" src="${contextPath}/resources/image/img_profile.png">
+						<c:choose>
+							<c:when test="${not empty principal.profileImage}">
+								<img class="nav-profile-image" 
+									src="${contextPath}/api/profile/images/${principal.profileImage.profileImageName}">
+							</c:when>
+							<c:otherwise>
+								<img class="nav-profile-image" src="${contextPath}/resources/images/img_profile.png">
+							</c:otherwise>
+						</c:choose>
 					</li>
 					<li class="nav-item mr-2">
 						<a class="nav-link text-body" href="${contextPath}/member/account/info">
 							<span class="font-weight-bold">
-								<sec:authentication property="principal.member.memberId"/>
+								<c:out value="${principal.member.memberId}"/>
 							</span>
 						</a>
 					</li>

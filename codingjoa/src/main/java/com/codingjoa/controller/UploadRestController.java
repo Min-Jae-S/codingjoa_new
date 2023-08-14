@@ -7,7 +7,13 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -32,6 +38,9 @@ public class UploadRestController {
 	
 	@Autowired
 	private UploadService uploadService;
+	
+	@Autowired
+	private UserDetailsService userDetailsService;
 	
 	@InitBinder("uploadFileDto")
 	public void initBinderUpload(WebDataBinder binder) {
@@ -60,12 +69,25 @@ public class UploadRestController {
 		Integer memberIdx = principal.getMember().getMemberIdx();
 		uploadService.uploadProfileImage(uploadFileDto.getFile(), memberIdx);
 		
-		// reset authentication
-		// ...
+		String memberId = principal.getMember().getMemberId();
+		resetAuthentication(memberId);
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
 				.messageByCode("success.uploadProfileImage")
 				.build());
+	}
+	
+	private void resetAuthentication(String memberId) {
+		log.info("## resetAuthentication");
+		UserDetails userDetails = userDetailsService.loadUserByUsername(memberId);
+		Authentication newAuthentication = 
+				new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+
+		SecurityContext securityContext = SecurityContextHolder.getContext();
+		securityContext.setAuthentication(newAuthentication);
+		
+		//HttpSession session = request.getSession(true);
+	    //session.setAttribute("SPRING_SECURITY_CONTEXT", securityContext);
 	}
 	
 }

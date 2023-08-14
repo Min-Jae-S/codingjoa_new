@@ -171,7 +171,7 @@ public class MemberRestController {
 		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.UpdateAgree").build());
 	}
 	
-	@GetMapping("/current-member")
+	@GetMapping("/current")
 	public ResponseEntity<Object> getCurrentMember(@AuthenticationPrincipal UserDetailsDto principal) {
 		log.info("## getCurrentMember");
 		CurrentMemberDto currentMember = modelMapper.map(principal.getMember(), CurrentMemberDto.class);

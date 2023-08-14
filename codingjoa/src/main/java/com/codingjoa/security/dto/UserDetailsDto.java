@@ -33,7 +33,6 @@ public class UserDetailsDto implements UserDetails {
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		Collection<GrantedAuthority> collection = new ArrayList<>();
 		collection.add(new SimpleGrantedAuthority(memberRole));
-
 		return collection;
 	}
 

@@ -168,7 +168,7 @@ let memberService = (function() {
 
 	function getCurrentMember(callback) {
 		console.log("## Get Current Member");
-		let url = contextPath + "/api/member/current-member";
+		let url = contextPath + "/api/member/current";
 		console.log("> url = '%s'", url);
 		
 		$.ajax({

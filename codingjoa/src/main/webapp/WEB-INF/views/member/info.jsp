@@ -146,7 +146,16 @@
 			<div class="pt-4" style="border-top: 1px solid black;">
 				<div class="mb-5 d-flex">
 					<div class="wrap-profile mr-4">
-						<img class="profile-thumb-image" id="profileThumbImage" src="${contextPath}/resources/image/img_profile.png">
+						<c:choose>
+							<c:when test="${not empty principal.profileImage}">
+								<img class="profile-thumb-image" id="profileThumbImage" 
+									src="${contextPath}/api/profile/images/${principal.profileImage.profileImageName}">
+							</c:when>
+							<c:otherwise>
+								<img class="profile-thumb-image" id="profileThumbImage" 
+									src="${contextPath}/resources/images/img_profile.png">
+							</c:otherwise>
+						</c:choose>
 						<button type="button" class="profile-image-btn" id="profileImageBtn">
 							<span class="profile-image-icon"></span>
 							<form id="profileImageForm">

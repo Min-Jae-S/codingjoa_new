@@ -2,14 +2,21 @@ package com.codingjoa.controller;
 
 import java.net.MalformedURLException;
 
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.codingjoa.dto.ProfileImageDto;
+import com.codingjoa.response.SuccessResponse;
+import com.codingjoa.security.dto.UserDetailsDto;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -23,6 +30,9 @@ public class ImageRestController {
 
 	@Value("${upload.profile.path}")
 	private String profilePath; // D:/Dev/upload/profile/
+	
+	@Autowired
+	private ModelMapper modelMapper;
 
 	// When using @PathVariable to capture a portion of the URL path as a variable, the dot (.) character is excluded by default. 
 	// The dot (.) is considered a character that represents a file extension and is therefore not included in path variables.
@@ -49,5 +59,12 @@ public class ImageRestController {
 		log.info("\t > profileImagePath = {}", profileImagePath);
 		
 		return ResponseEntity.ok(new UrlResource("file:" + profileImagePath));
+	}
+	
+	@GetMapping("/profile/images/current")
+	public ResponseEntity<Object> getCurrentProfileImage(@AuthenticationPrincipal UserDetailsDto principal) {
+		log.info("## getCurrentProfileImage");
+		ProfileImageDto currentProfileImage = modelMapper.map(principal.getProfileImage(), ProfileImageDto.class);
+		return ResponseEntity.ok(SuccessResponse.builder().data(currentProfileImage).build());
 	}
 }
