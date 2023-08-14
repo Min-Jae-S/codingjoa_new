@@ -37,12 +37,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 			throw new UsernameNotFoundException(
 					MessageUtils.getMessage("error.UsernameNotFoundOrBadCredentials"));
 		}
+		log.info("\t\t - profileImage = {}", userDetailsMap.get("profileImage"));
 		
 		ProfileImage profileImage = (ProfileImage) userDetailsMap.get("profileImage");
 		if (profileImage.getProfileImageIdx() == null) {
 			userDetailsMap.replace("profileImage", null);
 		}
 		log.info("\t > post-processing on userDetailsMap = {}", userDetailsMap);
+		log.info("\t\t - profileImage = {}", userDetailsMap.get("profileImage"));
 		
 		log.info("\t > return UserDetailsDto converted from the userDetailsMap");
 		return modelMapper.map(userDetailsMap, UserDetailsDto.class);
