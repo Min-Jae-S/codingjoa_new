@@ -129,7 +129,7 @@
 		height: 35px;
 		border: 1px solid white;
 		border-radius: 50%;
-		background-image: url('/codingjoa/resources/image/img_camera3.png');
+		background-image: url('/codingjoa/resources/images/img_camera3.png');
 		background-size: contain;
 	}
 </style>
@@ -310,6 +310,31 @@
 					console.log("%c> SUCCESS", "color:green");
 					console.log(JSON.stringify(result, null, 2));
 					alert(result.message);
+					
+					console.log("## Get Current Profile Image");
+					let url = "${contextPath}/api/profile/images/current"
+					console.log("> url = '%s'", url);
+					$.ajax({
+						type : "GET",
+						url : url,
+						dataType : "json",
+						success : function(result) {
+							console.log("%c> SUCCESS", "color:green");
+							console.log(JSON.stringify(result, null, 2));
+							let currentProfileImage = result.data;
+							$("#profileThumbImage, #navProfileImage")
+								.attr("src", "${contextPath}/api/profile/images/" + currentProfileImage.profileImageNmae);
+						},
+						error : function(jqXHR) {
+							console.log("%c> ERROR", "color:red");
+							let errorResponse = parseError(jqXHR);
+							if (errorResponse != null) {
+								handleUploadError(errorResponse);
+							} else {
+								alert("## Parsing Error");
+							}
+						}
+					});
 				},
 				error : function(jqXHR) {
 					console.log("%c> ERROR", "color:red");

@@ -63,7 +63,7 @@
 	</div>
 	<div class="d-none justify-content-center mt-5 test">
 		<div class="d-flex flex-column px-5" style="border-right: 2px black solid;">
-			<image class="mb-3 align-self-center border" id="testImage" src="${contextPath}/resources/image/img_profile.png">
+			<image class="mb-3 align-self-center border" id="testImage" src="${contextPath}/resources/images/img_profile.png">
 			<button class="btn btn-success btn-lg" onclick="testUrlResource1()">testUrlResource1</button>
 		</div>
 		<div class="px-5" style="border-right: 2px black solid;">
