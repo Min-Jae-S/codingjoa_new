@@ -42,6 +42,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		if (profileImage.getProfileImageIdx() == null) {
 			userDetailsMap.replace("profileImage", null);
 		}
+		log.info("\t > post-processing on userDetailsMap = {}", userDetailsMap);
 		
 		log.info("\t > return UserDetailsDto converted from the userDetailsMap");
 		return modelMapper.map(userDetailsMap, UserDetailsDto.class);
