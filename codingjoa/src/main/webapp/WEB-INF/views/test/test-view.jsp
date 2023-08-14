@@ -74,11 +74,11 @@
 		</div>
 	</div>
 	<div class="d-flex justify-content-center mt-5 test">
-		<button class="btn btn-lg btn-primary mx-3" id="testUploadBtn">testUpload</button>
-		<input class="d-none" type="file" id="uploadFile"/>
 		<button class="btn btn-lg btn-link mx-3 border" onclick="userDetails()">userDetails</button>
-		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
-		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
+		<button class="btn btn-lg btn-outline-primary mx-3" id="testUploadBtn">testUpload</button>
+		<input class="d-none" type="file" id="uploadFile"/>
+		<button class="btn btn-lg btn-outline-primary mx-3" onclick="testBoardImage()">testBoardImage</button>
+		<button class="btn btn-lg btn-outline-primary mx-3 invisible" onclick="#">#</button>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
@@ -406,6 +406,23 @@
 	
 	function userDetails() {
 		let url = "${contextPath}/test/user-details";
+		console.log("## url = %s", url);
+		$.ajax({
+			type : "GET",
+			url : url,
+			success : function(result) {
+				console.log("%c## SUCCESS", "color:blue");
+				console.log(JSON.stringify(result.data, null, 2));
+			},
+			error : function(jqXHR) {
+				console.log("%c## ERROR", "color:red");
+				console.log(jqXHR);
+			}
+		});
+	}
+
+	function testBoardImage() {
+		let url = "${contextPath}/test/test-board-image";
 		console.log("## url = %s", url);
 		$.ajax({
 			type : "GET",

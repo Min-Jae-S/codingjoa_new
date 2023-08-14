@@ -323,7 +323,7 @@
 							console.log(JSON.stringify(result, null, 2));
 							let currentProfileImage = result.data;
 							$("#profileThumbImage, #navProfileImage")
-								.attr("src", "${contextPath}/api/profile/images/" + currentProfileImage.profileImageNmae);
+								.attr("src", "${contextPath}/api/profile/images/" + currentProfileImage.profileImageName);
 						},
 						error : function(jqXHR) {
 							console.log("%c> ERROR", "color:red");

@@ -2,6 +2,7 @@ package com.codingjoa.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
@@ -38,6 +39,7 @@ import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 import org.springframework.web.util.UriComponents;
 
 import com.codingjoa.dto.BoardDto;
+import com.codingjoa.dto.BoardImageDto2;
 import com.codingjoa.entity.BoardImage;
 import com.codingjoa.entity.ProfileImage;
 import com.codingjoa.exception.ExpectedException;
@@ -429,8 +431,8 @@ public class TestController {
 		log.info("\t\t - canonical path = {}", uploadFile.getCanonicalPath());
 		
 		Integer boardImageIdx = 28;
-		BoardImage boardImage = uploadService.findBoardImageByIdx(28);
-		log.info("\t > find boardImage by {}", boardImageIdx);
+		BoardImage boardImage = uploadService.findBoardImageByIdx(boardImageIdx);
+		log.info("\t > find boardImage = {}", boardImage);
 		
 		String boardImagePath = boardImage.getBoardImagePath();
 		File boardImageFile = new File(boardImagePath);
@@ -477,6 +479,28 @@ public class TestController {
 				.data(result)
 				.build();
 		
+		return ResponseEntity.ok().body(successResponse);
+	}
+	
+	@ResponseBody
+	@GetMapping("/test-board-image")
+	public ResponseEntity<Object> testBoardImage() throws IOException {
+		log.info("## testBoardImage");
+		
+		Integer boardImageIdx = 28;
+		BoardImage boardImage = uploadService.findBoardImageByIdx(boardImageIdx);
+		log.info("\t > find boardImage = {}", boardImage);
+		
+		Path boardImagePath = Path.of(boardImage.getBoardImagePath());
+		URI boardImageURI = boardImagePath.toUri();
+		log.info("\t > boardImage URI = {}", boardImageURI);
+		
+		UrlResource boardImageResource = new UrlResource(boardImageURI);
+		
+		SuccessResponse successResponse = SuccessResponse.builder()
+				.message("success")
+				.data(new BoardImageDto2(boardImageIdx, boardImageResource))
+				.build();
 		return ResponseEntity.ok().body(successResponse);
 	}
 }
