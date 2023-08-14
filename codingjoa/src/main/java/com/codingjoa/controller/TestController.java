@@ -39,6 +39,7 @@ import org.springframework.web.util.UriComponents;
 
 import com.codingjoa.dto.BoardDto;
 import com.codingjoa.entity.BoardImage;
+import com.codingjoa.entity.ProfileImage;
 import com.codingjoa.exception.ExpectedException;
 import com.codingjoa.mapper.MemberMapper;
 import com.codingjoa.response.SuccessResponse;
@@ -451,18 +452,26 @@ public class TestController {
 	@GetMapping("/user-details")
 	public ResponseEntity<Object> testUserDetails(@AuthenticationPrincipal UserDetailsDto principal) {
 		log.info("## testUserDetails");
-		Map<String, Object> userDetailMap = null;
+		Map<String, Object> userDetailsMap = null;
+		Map<String, Object> userDetailsMap2 = null;
 		UserDetailsDto userDetailsDto = null;
 		if (principal != null) {
 			String memberId = principal.getMember().getMemberId();
-			userDetailMap = memberMapper.findUserDetailsById(memberId);
-			userDetailsDto = modelMapper.map(userDetailMap, UserDetailsDto.class);
+			userDetailsMap = memberMapper.findUserDetailsById(memberId);
+			userDetailsMap2 = new HashMap<>(userDetailsMap);
+			ProfileImage profileImage = (ProfileImage) userDetailsMap2.get("profileImage");
+			if (profileImage.getProfileImageIdx() == null) {
+				userDetailsMap2.replace("profileImage", null);
+			}
+			userDetailsDto = modelMapper.map(userDetailsMap, UserDetailsDto.class);
 		}
-		log.info("\t > userDetailsMap = {}", userDetailMap);
+		log.info("\t > userDetailsMap = {}", userDetailsMap);
+		log.info("\t > userDetailsMap2 = {}", userDetailsMap2);
 		log.info("\t > userDetailsDto = {}", userDetailsDto);
 		
 		Map<String, Object> result = new HashMap<String, Object>();
-		result.put("userDetailMap", userDetailMap);
+		result.put("userDetailsMap", userDetailsMap);
+		result.put("userDetailsMap2", userDetailsMap2);
 		result.put("userDetailsDto", userDetailsDto);
 		SuccessResponse successResponse = SuccessResponse.builder()
 				.data(result)

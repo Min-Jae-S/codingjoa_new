@@ -25,7 +25,7 @@ public class UserDetailsDto implements UserDetails {
 	private static final long serialVersionUID = -6918130188428402603L;
 	private Member member;
 	private String memberRole;
-	private ProfileImage myProfileImage;
+	private ProfileImage profileImage;
 	private List<Integer> myBoardLikes;
 	private List<Integer> myCommentLikes;
 

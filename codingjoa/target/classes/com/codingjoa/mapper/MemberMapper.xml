@@ -72,7 +72,7 @@
 			<result property="regdate" column="regdate"/>
 			<result property="moddate" column="moddate"/>
 		</association>
-		<association property="myProfileImage" javaType="profileImage">
+		<association property="profileImage" javaType="profileImage">
 			<id property="profileImageIdx" column="profile_image_idx"/>
 			<result property="memberIdx" column="profile_member_idx"/> <!-- column="member_idx" -->
 			<result property="profileImageName" column="profile_image_name"/>
