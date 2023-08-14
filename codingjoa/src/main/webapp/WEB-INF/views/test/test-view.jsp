@@ -35,10 +35,7 @@
 <body>
 <c:import url="/WEB-INF/views/include/top-menu.jsp"/>
 <div>
-	<div class="d-flex">
-		<button class="btn btn-link btn-lg ml-auto" onclick="userDetails()">userDetailsMap & userDetailsDto</button>
-	</div>
-	<p class="mt-4">TEST</p>
+	<p class="mt-5">TEST</p>
 	<div class="d-none justify-content-center mt-5 test">
 		<button class="btn btn-danger btn-lg mx-3" onclick="test1()">test1</button>
 		<button class="btn btn-danger btn-lg mx-3" onclick="test2()">test2</button>
@@ -79,7 +76,7 @@
 	<div class="d-flex justify-content-center mt-5 test">
 		<button class="btn btn-lg btn-primary mx-3" id="testUploadBtn">testUpload</button>
 		<input class="d-none" type="file" id="uploadFile"/>
-		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
+		<button class="btn btn-lg btn-link mx-3 border" onclick="userDetails()">userDetails</button>
 		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
 		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
 	</div>

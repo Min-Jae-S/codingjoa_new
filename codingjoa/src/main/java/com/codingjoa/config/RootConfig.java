@@ -88,7 +88,7 @@ public class RootConfig {
 		log.info("\t > mapUnderscoreToCamelCase = {}", config.isMapUnderscoreToCamelCase());
 		log.info("\t > callSettersOnNulls = {}", config.isCallSettersOnNulls());
 		log.info("\t > returnInstanceForEmptyRow = {}", config.isReturnInstanceForEmptyRow());
-		
+
 		return sessionTemplate;
 	}
 	
@@ -100,14 +100,16 @@ public class RootConfig {
 			.setMatchingStrategy(MatchingStrategies.STRICT)
 			// setter가 없는 Dto(UserDetailsDto)에 대한 mapping을 위해 fieldAccessLevel과 fieldMatchingEnabled를 설정 
 			.setFieldAccessLevel(AccessLevel.PRIVATE)
-			.setFieldMatchingEnabled(true);
+			.setFieldMatchingEnabled(true)
+			.setSkipNullEnabled(true);
 		
 		org.modelmapper.config.Configuration config = modelMapper.getConfiguration();
 		log.info("\t > matchingStrategy = {}", config.getMatchingStrategy());
 		log.info("\t > fieldAccessLevel = {}", config.getFieldAccessLevel());
 		log.info("\t > methodAccessLevel = {}", config.getMethodAccessLevel());
-		log.info("\t > fieldMatchingEnabled = {}", config.isFieldMatchingEnabled());
-		log.info("\t > collectionsMergeEnabled = {}", config.isCollectionsMergeEnabled());
+		log.info("\t > isFieldMatchingEnabled = {}", config.isFieldMatchingEnabled());
+		log.info("\t > isSkipNullEnabled = {}", config.isSkipNullEnabled());
+		log.info("\t > isCollectionsMergeEnabled = {}", config.isCollectionsMergeEnabled());
 		
 		return modelMapper;
 	}
