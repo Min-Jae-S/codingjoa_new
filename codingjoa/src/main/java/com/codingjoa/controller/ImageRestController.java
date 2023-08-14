@@ -45,6 +45,7 @@ public class ImageRestController {
 		log.info("\t > boardImagePath = {}", boardImagePath);
 		
 		// Path.get(boardImagePath) --> file:C:\ ... ?
+		// Path.of(boardImagePath) --> file:C:\ ... ?
 		
 		return ResponseEntity.ok(new UrlResource("file:" + boardImagePath));
 	}

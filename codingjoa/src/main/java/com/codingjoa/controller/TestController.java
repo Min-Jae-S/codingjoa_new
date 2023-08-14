@@ -489,13 +489,14 @@ public class TestController {
 		
 		Integer boardImageIdx = 28;
 		BoardImage boardImage = uploadService.findBoardImageByIdx(boardImageIdx);
-		log.info("\t > find boardImage = {}", boardImage);
+		log.info("\t > find boardImage, {}", boardImage);
 		
 		Path boardImagePath = Path.of(boardImage.getBoardImagePath());
 		URI boardImageURI = boardImagePath.toUri();
 		log.info("\t > boardImage URI = {}", boardImageURI);
 		
 		UrlResource boardImageResource = new UrlResource(boardImageURI);
+		log.info("\t > boardImageFile existence = {}", boardImageResource.getFile().exists());
 		
 		SuccessResponse successResponse = SuccessResponse.builder()
 				.message("success")

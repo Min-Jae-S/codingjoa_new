@@ -412,7 +412,7 @@
 			url : url,
 			success : function(result) {
 				console.log("%c## SUCCESS", "color:blue");
-				console.log(JSON.stringify(result.data, null, 2));
+				console.log(JSON.stringify(result, null, 2));
 			},
 			error : function(jqXHR) {
 				console.log("%c## ERROR", "color:red");
@@ -429,7 +429,7 @@
 			url : url,
 			success : function(result) {
 				console.log("%c## SUCCESS", "color:blue");
-				console.log(JSON.stringify(result.data, null, 2));
+				console.log(JSON.stringify(result, null, 2));
 			},
 			error : function(jqXHR) {
 				console.log("%c## ERROR", "color:red");
