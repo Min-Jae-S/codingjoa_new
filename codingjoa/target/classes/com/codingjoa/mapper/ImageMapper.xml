@@ -102,12 +102,21 @@
 	</insert>
 	
 	<!-- test -->
-	<select id="findBoardImageByIdx" resultType="boardImage" parameterType="int">
+	<select id="findBoardImageByIdx" parameterType="int" resultType="boardImage">
 		SELECT 
 			* 
 		FROM 
 			board_image 
 		WHERE 
 			board_image_idx = #{boardImageIdx}
+	</select>
+
+	<select id="findBoardImageByName" parameterType="string" resultType="boardImage">
+		SELECT 
+			*
+		FROM 
+			board_image 
+		WHERE 
+			board_image_name = #{boardImageName}
 	</select>
 </mapper>

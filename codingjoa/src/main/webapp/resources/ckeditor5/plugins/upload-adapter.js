@@ -65,9 +65,9 @@ class UploadAdapter {
 //            		default: getContextPath() + response.data.returnUrl
 //            	},
             	
-            	// response.data = BoardImageDto(int boardImageIdx, String boardImageName)
+            	// response.data = BoardImageDto(int boardImageIdx, String boardImageUrl)
             	idx: response.data.boardImageIdx,
-            	url: contextPath + "/api/board/images/" + response.data.boardImageName
+            	url: response.data.boardImageUrl
             	//alt: response.data.boardImageName
             });
         });

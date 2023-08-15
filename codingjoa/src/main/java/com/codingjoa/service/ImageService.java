@@ -21,5 +21,7 @@ public interface ImageService {
 	
 	// test
 	BoardImage findBoardImageByIdx(Integer boardIdx);
+
+	BoardImage findBoardImageByName(String boardImageName);
 	
 }

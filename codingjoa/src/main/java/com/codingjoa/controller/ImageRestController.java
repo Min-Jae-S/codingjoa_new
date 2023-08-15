@@ -49,9 +49,6 @@ public class ImageRestController {
 	@Autowired
 	private UserDetailsService userDetailsService;
 	
-	@Value("${upload.board.path}")
-	private String boardPath;	// D:/Dev/upload/board/
-	
 	@Value("${upload.profile.path}")
 	private String profilePath; // D:/Dev/upload/profile/
 	
@@ -69,12 +66,27 @@ public class ImageRestController {
 		log.info("## uploadBoardImage");
 		
 		BoardImage boardImage = imageService.uploadBoardImage(uploadFileDto.getFile());
+		String boardImageUrl = request.getContextPath() + "/api/board/images/" + boardImage.getBoardImageName();
 		log.info("\t > uploaded boardImage = {}", boardImage);
+		log.info("\t > boardImageUrl = {}", boardImageUrl);
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
 				.messageByCode("success.uploadBoardImage")
-				.data(new BoardImageDto(boardImage.getBoardImageIdx(), boardImage.getBoardImageName()))
+				.data(new BoardImageDto(boardImage.getBoardImageIdx(), boardImageUrl))
 				.build());
+	}
+	
+	// When using @PathVariable to capture a portion of the URL path as a variable, the dot (.) character is excluded by default. 
+	// The dot (.) is considered a character that represents a file extension and is therefore not included in path variables.
+	@GetMapping("/board/images/{boardImageName:.+}") 
+	public ResponseEntity<Object> getBoardImageResource(@PathVariable String boardImageName) throws MalformedURLException {
+		log.info("## getBoardImageResource");
+		log.info("\t > boardImageName = {}", boardImageName);
+		
+		BoardImage boardImage = imageService.findBoardImageByName(boardImageName);
+		UrlResource resource = new UrlResource("file:" + boardImage.getBoardImagePath());
+		
+		return ResponseEntity.ok(resource);
 	}
 
 	@PostMapping("/upload/profile-image")
@@ -93,23 +105,6 @@ public class ImageRestController {
 				.build());
 	}
 	
-	// When using @PathVariable to capture a portion of the URL path as a variable, the dot (.) character is excluded by default. 
-	// The dot (.) is considered a character that represents a file extension and is therefore not included in path variables.
-	@GetMapping("/board/images/{boardImageName:.+}") 
-	public ResponseEntity<Object> getBoardImageResource(@PathVariable String boardImageName) throws MalformedURLException {
-		log.info("## getBoardImageResource");
-		log.info("\t > boardImageName = {}", boardImageName);
-		
-		// db에서 가져온 절대경로로 resource를 얻도록 수정하기
-		String boardImagePath = boardPath + boardImageName; 
-		log.info("\t > boardImagePath = {}", boardImagePath);
-		
-		// Path.get(boardImagePath) --> file:C:\ ... ?
-		// Path.of(boardImagePath) --> file:C:\ ... ?
-		
-		return ResponseEntity.ok(new UrlResource("file:" + boardImagePath));
-	}
-
 	@GetMapping("/profile/images/{profileImageName:.+}") 
 	public ResponseEntity<Object> getProfileImageResource(@PathVariable String profileImageName) throws MalformedURLException {
 		log.info("## getProfileImageResource");

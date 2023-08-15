@@ -48,8 +48,7 @@ public class ImageServiceImpl implements ImageService {
 		
 		BoardImage boardImage = BoardImage.builder()
 				.boardImageName(uploadFilename)
-				// absolutePath vs canonicalPath (https://dev-handbook.tistory.com/11)
-				.boardImagePath(uploadFile.getCanonicalPath()) 
+				.boardImagePath(uploadFile.getCanonicalPath()) // absolutePath vs canonicalPath (https://dev-handbook.tistory.com/11)
 				.build();
 		imageMapper.insertBoardImage(boardImage);
 		
@@ -114,6 +113,11 @@ public class ImageServiceImpl implements ImageService {
 	@Override
 	public BoardImage findBoardImageByIdx(Integer boardIdx) {
 		return imageMapper.findBoardImageByIdx(boardIdx);
+	}
+
+	@Override
+	public BoardImage findBoardImageByName(String boardImageName) {
+		return imageMapper.findBoardImageByName(boardImageName);
 	}
 	
 }

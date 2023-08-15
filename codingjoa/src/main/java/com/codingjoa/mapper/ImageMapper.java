@@ -28,4 +28,6 @@ public interface ImageMapper {
 	// test
 	BoardImage findBoardImageByIdx(Integer boardImageIdx);
 	
+	BoardImage findBoardImageByName(String boardImageName);
+	
 }
