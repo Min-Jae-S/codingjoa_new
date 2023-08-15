@@ -108,6 +108,7 @@ public class ImageRestController {
 		log.info("## getProfileImageResource");
 		log.info("\t > profileImageName = {}", profileImageName);
 		
+		// findProfileImageByName
 		String profileImagePath = profilePath + profileImageName; 
 		log.info("\t > profileImagePath = {}", profileImagePath);
 		

@@ -6,7 +6,7 @@
 		<!-- 1. JdbcType(#{columnNm, jdbcType=VARCHAR) 2. mybatis-config.xml-->
 		<setting name="jdbcTypeForNull" value="NULL"/>
 		
-		<!-- 컬럼명으로 snake case 를 사용하는 경우 필드의 camel case 변수명을 자동변환 -->
+		<!-- 컬럼명으로 snake case를 사용하는 경우 필드의 camel case 변수명으로 mapping  -->
 		<setting name="mapUnderscoreToCamelCase" value="true"/>
 		
 		<!-- MyBatis, by default, returns null when all the columns of a returned row are NULL. 
@@ -26,8 +26,9 @@
 		</selectKey> -->
 		<setting name="returnInstanceForEmptyRow" value="true"/>
 		
-		<!-- 가져온 컬럼의 데이터가 Null 이어도 Setter Method 를 통해 데이터를 바인딩 한다. -->
-		<!-- <setting name="callSettersOnNulls" value="true"/> -->
+		<!-- 가져온 컬럼의 데이터가 Null 이어도 Setter를 통해 데이터를 바인딩 한다. -->
+		<!-- userDetailsMap(profileImageName) -->
+		<setting name="callSettersOnNulls" value="true"/>
 	</settings>
 	
 	<typeAliases>

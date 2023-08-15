@@ -455,14 +455,16 @@ public class TestController {
 		UserDetailsDto userDetailsDto = null;
 		if (principal != null) {
 			userDetailsMap = memberMapper.findUserDetailsById(principal.getMember().getMemberId());
-			String profileImageName = (String) userDetailsMap.get("profileImageName");
+			
+			Map<String, Object> cloneMap = new HashMap<>(userDetailsMap);
+			String profileImageName = (String) cloneMap.get("profileImageName");
 			if (profileImageName != null) {
-				userDetailsMap.put("profileImageUrl", "/api/profile/images/" + profileImageName);
+				cloneMap.put("profileImageUrl", "/api/profile/images/" + profileImageName);
 			} else {
-				userDetailsMap.put("profileImageUrl", null);
+				cloneMap.put("profileImageUrl", null);
 			}
 			
-			userDetailsDto = modelMapper.map(userDetailsMap, UserDetailsDto.class);
+			userDetailsDto = modelMapper.map(cloneMap, UserDetailsDto.class);
 		}
 		log.info("\t > userDetailsMap = {}", userDetailsMap);
 		log.info("\t > userDetailsDto = {}", userDetailsDto);
