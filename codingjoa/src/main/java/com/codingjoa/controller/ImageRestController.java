@@ -6,7 +6,6 @@ import java.net.MalformedURLException;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.UrlResource;
@@ -28,7 +27,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codingjoa.dto.BoardImageDto;
-import com.codingjoa.dto.ProfileImageDto;
 import com.codingjoa.dto.UploadFileDto;
 import com.codingjoa.entity.BoardImage;
 import com.codingjoa.response.SuccessResponse;
@@ -52,9 +50,6 @@ public class ImageRestController {
 	@Value("${upload.profile.path}")
 	private String profilePath; // D:/Dev/upload/profile/
 	
-	@Autowired
-	private ModelMapper modelMapper;
-	
 	@InitBinder("uploadFileDto")
 	public void initBinderUpload(WebDataBinder binder) {
 		binder.addValidators(new UploadFileValidator());
@@ -66,7 +61,7 @@ public class ImageRestController {
 		log.info("## uploadBoardImage");
 		
 		BoardImage boardImage = imageService.uploadBoardImage(uploadFileDto.getFile());
-		String boardImageUrl = request.getContextPath() + "/api/board/images/" + boardImage.getBoardImageName();
+		String boardImageUrl = "/api/board/images/" + boardImage.getBoardImageName();
 		log.info("\t > uploaded boardImage = {}", boardImage);
 		log.info("\t > boardImageUrl = {}", boardImageUrl);
 		
@@ -84,7 +79,10 @@ public class ImageRestController {
 		log.info("\t > boardImageName = {}", boardImageName);
 		
 		BoardImage boardImage = imageService.findBoardImageByName(boardImageName);
+		log.info("\t > find boardImage by boardImageName, {}", boardImage);
+		
 		UrlResource resource = new UrlResource("file:" + boardImage.getBoardImagePath());
+		log.info("\t > urlResource response = {}", resource);
 		
 		return ResponseEntity.ok(resource);
 	}
@@ -116,11 +114,11 @@ public class ImageRestController {
 		return ResponseEntity.ok(new UrlResource("file:" + profileImagePath));
 	}
 	
-	@GetMapping("/profile/images/current")
+	@GetMapping("/profile/current")
 	public ResponseEntity<Object> getCurrentProfileImage(@AuthenticationPrincipal UserDetailsDto principal) {
 		log.info("## getCurrentProfileImage");
-		ProfileImageDto currentProfileImage = modelMapper.map(principal.getProfileImage(), ProfileImageDto.class);
-		return ResponseEntity.ok(SuccessResponse.builder().data(currentProfileImage).build());
+		String profileImageUrl = principal.getProfileImageUrl();
+		return ResponseEntity.ok(SuccessResponse.builder().data(profileImageUrl).build());
 	}
 	
 	private void resetAuthentication(String memberId) {

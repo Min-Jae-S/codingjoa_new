@@ -18,7 +18,7 @@
 <script src="https://kit.fontawesome.com/c503d71f81.js"></script>
 <script src="${contextPath}/resources/js/utils.js"></script>
 <script src="${contextPath}/resources/js/member.js"></script>
-<script src="${contextPath}/resources/js/upload.js"></script>
+<script src="${contextPath}/resources/js/image.js"></script>
 <style>
 	input[type="text"] {
 		border: none;
@@ -147,13 +147,11 @@
 				<div class="mb-5 d-flex">
 					<div class="wrap-profile mr-4">
 						<c:choose>
-							<c:when test="${not empty principal.profileImage}">
-								<img class="profile-thumb-image" id="profileThumbImage" 
-									src="${contextPath}/api/profile/images/${principal.profileImage.profileImageName}">
+							<c:when test="${not empty principal.profileImageUrl}">
+								<img class="profile-thumb-image" id="profileThumbImage" src="${contextPath}${principal.profileImageUrl}">
 							</c:when>
 							<c:otherwise>
-								<img class="profile-thumb-image" id="profileThumbImage" 
-									src="${contextPath}/resources/images/img_profile.png">
+								<img class="profile-thumb-image" id="profileThumbImage" src="${contextPath}/resources/images/img_profile.png">
 							</c:otherwise>
 						</c:choose>
 						<button type="button" class="profile-image-btn" id="profileImageBtn">
@@ -298,53 +296,13 @@
 
 			// initialize the file input, but not with null
 			this.value = "";
-
-			$.ajax({
-				type : "POST",
-				url : "${contextPath}/api/upload/profile-image",
-				processData: false,
-			    contentType: false,
-				data : formData,
-				dataType : "json",
-				success : function(result) {
-					console.log("%c> SUCCESS", "color:green");
-					console.log(JSON.stringify(result, null, 2));
-					alert(result.message);
-					
-					console.log("## Get Current Profile Image");
-					let url = "${contextPath}/api/profile/images/current"
-					console.log("> url = '%s'", url);
-					$.ajax({
-						type : "GET",
-						url : url,
-						dataType : "json",
-						success : function(result) {
-							console.log("%c> SUCCESS", "color:green");
-							console.log(JSON.stringify(result, null, 2));
-							let currentProfileImage = result.data;
-							$("#profileThumbImage, #navProfileImage")
-								.attr("src", "${contextPath}/api/profile/images/" + currentProfileImage.profileImageName);
-						},
-						error : function(jqXHR) {
-							console.log("%c> ERROR", "color:red");
-							let errorResponse = parseError(jqXHR);
-							if (errorResponse != null) {
-								handleUploadError(errorResponse);
-							} else {
-								alert("## Parsing Error");
-							}
-						}
-					});
-				},
-				error : function(jqXHR) {
-					console.log("%c> ERROR", "color:red");
-					let errorResponse = parseError(jqXHR);
-					if (errorResponse != null) {
-						handleUploadError(errorResponse);
-					} else {
-						alert("## Parsing Error");
-					}
-				}
+			
+			imageService.uploadProfileImage(formData, function(result) {
+				alert(result.message);
+				imageService.getCurrentProfileImage(function(result) {
+					let profileImageUrl = result.data;
+					$("#profileThumbImage, #navProfileImage").attr("src", "${contextPath}" + profileImageUrl);
+				});
 			});
 		});
 		

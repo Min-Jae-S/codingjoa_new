@@ -32,7 +32,7 @@ class UploadAdapter {
         xhr.addEventListener('error', () => reject(genericErrorText));
         xhr.addEventListener('abort', () => reject());
         xhr.addEventListener('load', () => {
-        	const response = xhr.response; // response = succesRsesponse
+        	const response = xhr.response;
         	const readyStatus = xhr.readyState;
         	const status = xhr.status;
         	
@@ -41,10 +41,6 @@ class UploadAdapter {
         		console.log(JSON.stringify(response, null, 2)); 
         	}
         	
-//        	if (status == "422") {
-//        		return reject(response.errorMap ? response.errorMap.file : genericErrorText);
-//        	}
-			
          	// This example assumes the XHR server's "response" object will come with an "error" 
          	// which has its own "message" that can be passed to reject() in the upload promise.
             // Your integration may handle upload errors in a different way so make sure it is done properly.
@@ -67,7 +63,7 @@ class UploadAdapter {
             	
             	// response.data = BoardImageDto(int boardImageIdx, String boardImageUrl)
             	idx: response.data.boardImageIdx,
-            	url: response.data.boardImageUrl
+            	url: contextPath + response.data.boardImageUrl
             	//alt: response.data.boardImageName
             });
         });

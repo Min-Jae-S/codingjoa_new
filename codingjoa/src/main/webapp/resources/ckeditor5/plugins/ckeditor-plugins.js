@@ -11,7 +11,7 @@ console.log("## Editor plugins ready - ckeditor-plugins.js");
 	function uploadCompleteListener(editor) {
 		console.log("\t > Register upload complete listener");
 		editor.plugins.get("ImageUploadEditing").on("uploadComplete", (evt, {data, imageElement}) => {
-			console.log("## Upload complete and setAttribute src, dataIdx");
+			console.log("## Upload complete & Set attribute (src, data-idx)");
 			editor.model.change(writer => {
 				evt.stop();
 				writer.setAttribute("src", data.url, imageElement);
@@ -44,7 +44,7 @@ console.log("## Editor plugins ready - ckeditor-plugins.js");
 		console.log("\t > Register MODEL-TO-VIEW converter ==> downcast(editng)");
 		editor.conversion.for("editingDowncast").add(dispatcher => { // downcastDispatcher
             dispatcher.on("attribute:dataIdx", (evt, data, conversionApi) => {
-            	console.log("## Editing downcast");
+            	console.log("## MODEL-TO-VIEW conversion - Editing downcast");
             	const modelElement = data.item;
             	if (!conversionApi.consumable.consume(modelElement, evt.name)) {
                 	return;
@@ -53,9 +53,9 @@ console.log("## Editor plugins ready - ckeditor-plugins.js");
                 const viewWriter = conversionApi.writer;
                 const imageContainer = conversionApi.mapper.toViewElement(modelElement);
                 const imageElement = imageContainer.getChild(0);
-                console.log("\t > modelElement		: " + modelElement.name);
-                console.log("\t > imageContainer	: " + imageContainer.name);
-                console.log("\t > imageElement		: " + imageElement.name);
+//                console.log("\t > modelElement		: " + modelElement.name);
+//                console.log("\t > imageContainer	: " + imageContainer.name);
+//                console.log("\t > imageElement		: " + imageElement.name);
                 
                 if (data.attributeNewValue !== null) {
                 	viewWriter.setAttribute("data-idx", data.attributeNewValue, imageElement);
@@ -71,7 +71,7 @@ console.log("## Editor plugins ready - ckeditor-plugins.js");
 		console.log("\t > Register MODEL-TO-VIEW converter ==> downcast(data)");
 		editor.conversion.for("dataDowncast").add(dispatcher => {
 			dispatcher.on("attribute:dataIdx", (evt, data, conversionApi) => { 
-				console.log("## Data downcast");
+				console.log("## MODEL-TO-VIEW conversion - Data downcast");
 				const modelElement = data.item;
             	if (!conversionApi.consumable.consume(modelElement, evt.name)) {
                 	return;
@@ -80,9 +80,9 @@ console.log("## Editor plugins ready - ckeditor-plugins.js");
             	const viewWriter = conversionApi.writer;
                 const imageContainer = conversionApi.mapper.toViewElement(modelElement);
                 const imageElement = (modelElement.name === "imageBlock") ? imageContainer.getChild(0) : imageContainer;
-                console.log("\t > modelElement		: " + modelElement.name);
-                console.log("\t > imageContainer	: " + imageContainer.name);
-                console.log("\t > imageElement		: " + imageElement.name);
+//                console.log("\t > modelElement		: " + modelElement.name);
+//                console.log("\t > imageContainer	: " + imageContainer.name);
+//                console.log("\t > imageElement		: " + imageElement.name);
                 
                 if (data.attributeNewValue !== null) {
 	                viewWriter.setAttribute("data-idx", data.attributeNewValue, imageElement);

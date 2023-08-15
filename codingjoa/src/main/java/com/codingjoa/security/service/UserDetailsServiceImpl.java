@@ -9,7 +9,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
-import com.codingjoa.entity.ProfileImage;
 import com.codingjoa.mapper.MemberMapper;
 import com.codingjoa.security.dto.UserDetailsDto;
 import com.codingjoa.util.MessageUtils;
@@ -38,9 +37,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 					MessageUtils.getMessage("error.UsernameNotFoundOrBadCredentials"));
 		}
 		
-		ProfileImage profileImage = (ProfileImage) userDetailsMap.get("profileImage");
-		if (profileImage.getProfileImageIdx() == null) {
-			userDetailsMap.replace("profileImage", null);
+		String profileImageName = (String) userDetailsMap.get("profileImageName");
+		if (profileImageName != null) {
+			userDetailsMap.put("profileImageUrl", "/api/profile/images/" + profileImageName);
+		} else {
+			userDetailsMap.put("profileImageUrl", null);
 		}
 		
 		log.info("\t > post-processing on userDetailsMap = {}", userDetailsMap);
