@@ -34,7 +34,7 @@ let imageService = (function() {
 	
 	function getCurrentProfileImage(callback) {
 		console.log("## Get Current Profile Image");
-		let url = "${contextPath}/api/profile/current";
+		let url = contextPath + "/api/profile/current";
 		console.log("> url = '%s'", url);
 		
 		$.ajax({

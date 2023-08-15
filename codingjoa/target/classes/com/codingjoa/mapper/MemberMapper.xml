@@ -60,7 +60,7 @@
 
 	<resultMap id="userDetailsMap" type="map">
 		<result property="memberRole" column="member_role"/>
-		<result property="profileImageName" column="profile_image_name"></result>
+		<result property="profileImageName" column="profile_image_name"/>
 		<association property="member" javaType="member">
 			<id property="memberIdx" column="member_idx"/>
 			<result property="memberId" column="member_id"/>
@@ -72,13 +72,6 @@
 			<result property="memberAgree" column="member_agree"/>
 			<result property="regdate" column="regdate"/>
 			<result property="moddate" column="moddate"/>
-		</association>
-		<association property="profileImage" javaType="profileImage">
-			<id property="profileImageIdx" column="profile_image_idx"/>
-			<result property="memberIdx" column="profile_member_idx"/> <!-- column="member_idx" -->
-			<result property="profileImageName" column="profile_image_name"/>
-			<result property="profileImagePath" column="profile_image_path"/>
-			<result property="regdate" column="profile_regdate"/> <!-- column="regdate" -->
 		</association>
 		<collection property="myBoardLikes" javaType="list" ofType="int">
 			<result column="board_idx"/>

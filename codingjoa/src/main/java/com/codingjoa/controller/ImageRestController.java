@@ -82,7 +82,7 @@ public class ImageRestController {
 		log.info("\t > find boardImage by boardImageName, {}", boardImage);
 		
 		UrlResource resource = new UrlResource("file:" + boardImage.getBoardImagePath());
-		log.info("\t > urlResource response = {}", resource);
+		log.info("\t > respond with urlResource = {}", resource);
 		
 		return ResponseEntity.ok(resource);
 	}
