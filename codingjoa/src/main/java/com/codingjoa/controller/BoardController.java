@@ -28,7 +28,7 @@ import com.codingjoa.pagination.Pagination;
 import com.codingjoa.security.dto.UserDetailsDto;
 import com.codingjoa.service.BoardService;
 import com.codingjoa.service.CategoryService;
-import com.codingjoa.service.UploadService;
+import com.codingjoa.service.ImageService;
 import com.codingjoa.validator.BoardValidator;
 
 import lombok.extern.slf4j.Slf4j;
@@ -46,11 +46,11 @@ public class BoardController {
 	private BoardService boardService;
 	
 	@Autowired
-	private UploadService uploadService;
+	private ImageService imageService;
 	
 	@InitBinder (value = { "writeBoardDto", "modifyBoardDto" })
 	protected void initBinderBoard(WebDataBinder binder) {
-		binder.addValidators(new BoardValidator(uploadService));
+		binder.addValidators(new BoardValidator(imageService));
 	}
 	
 	@GetMapping

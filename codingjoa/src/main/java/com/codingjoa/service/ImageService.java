@@ -7,7 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.codingjoa.dto.BoardDto;
 import com.codingjoa.entity.BoardImage;
 
-public interface UploadService {
+public interface ImageService {
 	
 	BoardImage uploadBoardImage(MultipartFile file) throws IllegalStateException, IOException;
 	

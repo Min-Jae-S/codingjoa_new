@@ -9,7 +9,7 @@ import com.codingjoa.entity.BoardImage;
 import com.codingjoa.entity.ProfileImage;
 
 @Mapper
-public interface UploadMapper {
+public interface ImageMapper {
 
 	void insertBoardImage(BoardImage boardImage);
 	

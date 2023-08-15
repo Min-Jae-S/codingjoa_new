@@ -16,18 +16,18 @@ import org.springframework.web.multipart.MultipartFile;
 import com.codingjoa.dto.BoardDto;
 import com.codingjoa.entity.BoardImage;
 import com.codingjoa.entity.ProfileImage;
-import com.codingjoa.mapper.UploadMapper;
-import com.codingjoa.service.UploadService;
+import com.codingjoa.mapper.ImageMapper;
+import com.codingjoa.service.ImageService;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Transactional
 @Service
-public class UploadServiceImpl implements UploadService {
+public class ImageServiceImpl implements ImageService {
 	
 	@Autowired
-	private UploadMapper uploadMapper;
+	private ImageMapper imageMapper;
 	
 	@Value("${upload.board.path}")
 	private String boardPath;
@@ -51,14 +51,14 @@ public class UploadServiceImpl implements UploadService {
 				// absolutePath vs canonicalPath (https://dev-handbook.tistory.com/11)
 				.boardImagePath(uploadFile.getCanonicalPath()) 
 				.build();
-		uploadMapper.insertBoardImage(boardImage);
+		imageMapper.insertBoardImage(boardImage);
 		
 		return boardImage;
 	}
 	
 	@Override
 	public boolean isBoardImageUploaded(int boardImageIdx) {
-		return uploadMapper.isBoardImageUploaded(boardImageIdx);
+		return imageMapper.isBoardImageUploaded(boardImageIdx);
 	}
 
 	@Override
@@ -67,21 +67,21 @@ public class UploadServiceImpl implements UploadService {
 		log.info("\t > activate board images = {}", boardImages);
 		
 		if (!CollectionUtils.isEmpty(boardImages)) {
-			uploadMapper.activateBoardImage(boardImages, boardDto.getBoardIdx());
+			imageMapper.activateBoardImage(boardImages, boardDto.getBoardIdx());
 		}
 	}
 	
 	@Override
 	public void deactivateBoardImage(BoardDto boardDto) {
 		int boardIdx = boardDto.getBoardIdx();
-		List<Integer> boardImages = uploadMapper.findBoardImagesByBoardIdx(boardIdx)
+		List<Integer> boardImages = imageMapper.findBoardImagesByBoardIdx(boardIdx)
 				.stream()
 				.map(boardImage -> boardImage.getBoardImageIdx())
 				.collect(Collectors.toList());
 		log.info("\t > deactivate board images = {}", boardImages);
 		
 		// deactive된 boardImage의 index를 update와 동시에...?
-		uploadMapper.deactivateBoardImage(boardIdx);
+		imageMapper.deactivateBoardImage(boardIdx);
 	}
 	
 	@Override
@@ -101,8 +101,8 @@ public class UploadServiceImpl implements UploadService {
 				.profileImagePath(uploadFile.getCanonicalPath())
 				.build();
 
-		uploadMapper.deactivateProfileImage(memberIdx);
-		uploadMapper.insertProfileImage(profileImage);
+		imageMapper.deactivateProfileImage(memberIdx);
+		imageMapper.insertProfileImage(profileImage);
 		log.info("\t > uploaded profileImage = {}", profileImage);
 	}
 	
@@ -113,7 +113,7 @@ public class UploadServiceImpl implements UploadService {
 	// test
 	@Override
 	public BoardImage findBoardImageByIdx(Integer boardIdx) {
-		return uploadMapper.findBoardImageByIdx(boardIdx);
+		return imageMapper.findBoardImageByIdx(boardIdx);
 	}
 	
 }

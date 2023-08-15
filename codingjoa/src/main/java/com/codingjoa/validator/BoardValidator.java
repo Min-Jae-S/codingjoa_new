@@ -7,7 +7,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 import com.codingjoa.dto.BoardDto;
-import com.codingjoa.service.UploadService;
+import com.codingjoa.service.ImageService;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 @AllArgsConstructor
 public class BoardValidator implements Validator {
 
-	private UploadService uploadService;
+	private ImageService imageService;
 	
 	@Override
 	public boolean supports(Class<?> clazz) {
@@ -48,7 +48,7 @@ public class BoardValidator implements Validator {
 		}
 		
 		for (int boardImageIdx : boardImages) {
-			if (!uploadService.isBoardImageUploaded(boardImageIdx)) {
+			if (!imageService.isBoardImageUploaded(boardImageIdx)) {
 				errors.rejectValue("boardContent", "NotUploadImage");
 				return;
 			}

@@ -20,7 +20,7 @@ import com.codingjoa.mapper.BoardMapper;
 import com.codingjoa.pagination.Criteria;
 import com.codingjoa.pagination.Pagination;
 import com.codingjoa.service.BoardService;
-import com.codingjoa.service.UploadService;
+import com.codingjoa.service.ImageService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -37,7 +37,7 @@ public class BoardServiceImpl implements BoardService {
 	private ModelMapper modelMapper;
 
 	@Autowired
-	private UploadService uploadService;
+	private ImageService imageService;
 	
 	@Value("${pagination.pageRange}")
 	private int pageRange;
@@ -58,7 +58,7 @@ public class BoardServiceImpl implements BoardService {
 		}
 
 		boardDto.setBoardIdx(DBboardIdx);
-		uploadService.activateBoardImage(boardDto);
+		imageService.activateBoardImage(boardDto);
 	}
 
 	@Override
@@ -152,8 +152,8 @@ public class BoardServiceImpl implements BoardService {
 			throw new ExpectedException("error.NotMyBoard");
 		}
 		
-		uploadService.deactivateBoardImage(boardDto);
-		uploadService.activateBoardImage(boardDto);
+		imageService.deactivateBoardImage(boardDto);
+		imageService.activateBoardImage(boardDto);
 	}
 
 	@Override

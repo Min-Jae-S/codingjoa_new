@@ -8,5 +8,4 @@ import lombok.Data;
 public class UploadFileDto {
 
 	private MultipartFile file;
-	
 }
