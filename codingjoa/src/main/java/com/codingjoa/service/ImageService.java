@@ -6,6 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.codingjoa.dto.BoardDto;
 import com.codingjoa.entity.BoardImage;
+import com.codingjoa.entity.ProfileImage;
 
 public interface ImageService {
 	
@@ -23,5 +24,7 @@ public interface ImageService {
 	BoardImage findBoardImageByIdx(Integer boardIdx);
 
 	BoardImage findBoardImageByName(String boardImageName);
+	
+	ProfileImage findProfileImageByName(String profileImageName);
 	
 }

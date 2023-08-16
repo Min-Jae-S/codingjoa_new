@@ -119,4 +119,13 @@
 		WHERE 
 			board_image_name = #{boardImageName}
 	</select>
+
+	<select id="findProfileImageByName" parameterType="string" resultType="profileImage">
+		SELECT 
+			*
+		FROM 
+			profile_image 
+		WHERE 
+			profile_image_name = #{profileImageName}
+	</select>
 </mapper>

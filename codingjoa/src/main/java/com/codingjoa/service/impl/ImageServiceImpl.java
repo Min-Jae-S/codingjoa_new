@@ -119,5 +119,10 @@ public class ImageServiceImpl implements ImageService {
 	public BoardImage findBoardImageByName(String boardImageName) {
 		return imageMapper.findBoardImageByName(boardImageName);
 	}
+
+	@Override
+	public ProfileImage findProfileImageByName(String profileImageName) {
+		return imageMapper.findProfileImageByName(profileImageName);
+	}
 	
 }

@@ -30,4 +30,6 @@ public interface ImageMapper {
 	
 	BoardImage findBoardImageByName(String boardImageName);
 	
+	ProfileImage findProfileImageByName(String profileImageName);
+	
 }
