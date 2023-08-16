@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.codingjoa.dto.BoardImageDto;
 import com.codingjoa.dto.UploadFileDto;
 import com.codingjoa.entity.BoardImage;
+import com.codingjoa.entity.ProfileImage;
 import com.codingjoa.response.SuccessResponse;
 import com.codingjoa.security.dto.UserDetailsDto;
 import com.codingjoa.service.ImageService;
@@ -108,11 +109,13 @@ public class ImageRestController {
 		log.info("## getProfileImageResource");
 		log.info("\t > profileImageName = {}", profileImageName);
 		
-		// findProfileImageByName
-		String profileImagePath = profilePath + profileImageName; 
-		log.info("\t > profileImagePath = {}", profileImagePath);
+		ProfileImage profileImage = imageService.findProfileImageByName(profileImageName);
+		log.info("\t > find profileImage by profileImageName, {}", profileImage);
 		
-		return ResponseEntity.ok(new UrlResource("file:" + profileImagePath));
+		UrlResource resource = new UrlResource("file:" + profileImage.getProfileImagePath());
+		log.info("\t > respond with urlResource = {}", resource);
+		
+		return ResponseEntity.ok(resource);
 	}
 	
 	@GetMapping("/profile/current")
