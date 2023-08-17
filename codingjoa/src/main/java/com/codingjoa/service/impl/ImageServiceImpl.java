@@ -87,7 +87,7 @@ public class ImageServiceImpl implements ImageService {
 	
 	@Override
 	public void uploadMemberImage(MultipartFile file, Integer memberIdx) throws IllegalStateException, IOException {
-		File uploadFolder = new File(memberImagePath);
+		File uploadFolder = createUploadFolder(memberImagePath);
 		if (!uploadFolder.exists()) {
 			uploadFolder.mkdirs();
 		}

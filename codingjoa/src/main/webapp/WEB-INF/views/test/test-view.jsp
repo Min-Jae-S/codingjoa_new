@@ -31,11 +31,52 @@
 		width: 230px;
 	}
 </style>
+<style>
+	div.test2 {
+		padding-left: 1.3rem;
+		padding-right: 1.3rem;
+	}
+		
+	.input-group input {
+		border-right: none;
+	}
+	
+	.input-group input::placeholder {
+		font-size: 1rem;
+		color: #adb5bd;
+	}
+
+	.input-group-prepend {
+		width: 60%;
+	}
+	
+	.input-group-text:first-child {
+		color: #212529;
+		width: 35%;
+		border-right: none;
+	} 
+
+	.input-group-text:nth-child(2) {
+		color: #212529;
+		width: 5%;
+		border-left: none;
+		border-right: none;
+		margin: 0 !important;
+	} 
+
+	.input-group-text:last-child {
+		color: #212529;
+		width: 60%;
+		border-left: none;
+		border-right: none;
+		margin: 0 !important;
+	}
+</style>
 </head>
 <body>
 <c:import url="/WEB-INF/views/include/top-menu.jsp"/>
-<div>
-	<p class="mt-5">TEST</p>
+<div class="container my-5">
+	<p>TEST</p>
 	<div class="d-none justify-content-center mt-5 test">
 		<button class="btn btn-danger btn-lg mx-3" onclick="test1()">test1</button>
 		<button class="btn btn-danger btn-lg mx-3" onclick="test2()">test2</button>
@@ -79,6 +120,56 @@
 		<button class="btn btn-lg btn-outline-primary mx-3" id="testUploadBtn">testUpload</button>
 		<input class="d-none" type="file" id="uploadFile"/>
 		<button class="btn btn-lg btn-outline-primary mx-3 invisible" onclick="#">#</button>
+	</div>
+	<div class="row test2">
+		<div class="col-sm-12">
+			<div class="mt-5 mx-3 pt-4">
+				<div class="input-group mb-4">
+					<div class="input-group-prepend">
+		   				<span class="input-group-text">Toggle Board Likes</span>
+		   				<span class="input-group-text">:</span>
+		   				<span class="input-group-text">/api/boards/{boardIdx}/likes</span>
+					</div>
+		 				<input type="text" class="form-control" placeholder="idx">
+					<div class="input-group-append">
+		   				<button class="btn btn-warning" id="testToggleBoardLikesBtn">TEST</button>
+					</div>
+				</div>
+				<div class="input-group mb-4">
+					<div class="input-group-prepend">
+						<span class="input-group-text">Toggle Comment Likes</span>
+						<span class="input-group-text">:</span>
+		   				<span class="input-group-text">/api/comments/{commentIdx}/likes</span>
+					</div>
+					<input type="text" class="form-control" placeholder="idx">
+					<div class="input-group-append">
+		   				<button class="btn btn-warning" id="testToggleCommentLikesBtn">TEST</button>
+					</div>
+				</div>
+				<div class="input-group mb-4">
+					<div class="input-group-prepend">
+						<span class="input-group-text">Get Board Likes Cnt</span>
+						<span class="input-group-text">:</span>
+		   				<span class="input-group-text">/api/boards/{boardIdx}/likes</span>
+					</div>
+					<input type="text" class="form-control" placeholder="idx">
+					<div class="input-group-append">
+						<button class="btn btn-warning" id="testGetBoardLikesCntBtn">TEST</button>
+					</div>
+				</div>
+				<div class="input-group mb-4">
+					<div class="input-group-prepend">
+						<span class="input-group-text">Get Comment Likes Cnt</span>
+						<span class="input-group-text">:</span>
+		   				<span class="input-group-text">/api/comments/{commentIdx}/likes</span>
+					</div>
+					<input type="text" class="form-control" placeholder="idx">
+					<div class="input-group-append">
+						<button class="btn btn-warning" id="testGetCommentLikesCntBtn">TEST</button>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
