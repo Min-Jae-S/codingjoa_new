@@ -7,7 +7,6 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.apache.commons.lang3.RandomStringUtils;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -34,7 +33,6 @@ import com.codingjoa.dto.AgreeDto;
 import com.codingjoa.dto.EmailAuthDto;
 import com.codingjoa.dto.EmailDto;
 import com.codingjoa.dto.FindPasswordDto;
-import com.codingjoa.dto.MemberDetailsDto;
 import com.codingjoa.dto.PasswordChangeDto;
 import com.codingjoa.dto.PasswordDto;
 import com.codingjoa.response.SuccessResponse;
@@ -65,9 +63,6 @@ public class MemberRestController {
 	
 	@Autowired
 	private RedisService redisService;
-	
-	@Autowired
-	private ModelMapper modelMapper;
 	
 	@InitBinder("emailDto")
 	public void InitBinderEmail(WebDataBinder binder) {
@@ -174,8 +169,7 @@ public class MemberRestController {
 	@GetMapping("/details")
 	public ResponseEntity<Object> getMemberDetails(@AuthenticationPrincipal UserDetailsDto principal) {
 		log.info("## getMemberDetails");
-		MemberDetailsDto memberDetails = (principal != null) ? modelMapper.map(principal, MemberDetailsDto.class) : null;
-		return ResponseEntity.ok(SuccessResponse.builder().data(memberDetails).build());
+		return ResponseEntity.ok(SuccessResponse.builder().data(principal).build());
 	}
 
 	@PostMapping("/check/password")

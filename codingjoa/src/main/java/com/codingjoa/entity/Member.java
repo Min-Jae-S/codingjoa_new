@@ -2,6 +2,9 @@ package com.codingjoa.entity;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.Data;
 
 /*
@@ -22,13 +25,20 @@ public class Member {
 
 	private Integer memberIdx;
 	private String memberId;
+	
+	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private String memberPassword;
+	
 	private String memberEmail;
 	private String memberZipcode;
 	private String memberAddr;
 	private String memberAddrDetail;
 	private Boolean memberAgree;
+	
+	@JsonFormat(pattern = "yyyy.MM.dd. HH:mm", timezone = "Asia/Seoul")
 	private Date regdate;
+	
+	@JsonFormat(pattern = "yyyy.MM.dd. HH:mm", timezone = "Asia/Seoul")
 	private Date moddate;
 	
 }

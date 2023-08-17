@@ -14,7 +14,6 @@ import javax.validation.Valid;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -38,7 +37,6 @@ import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 import org.springframework.web.util.UriComponents;
 
 import com.codingjoa.dto.BoardDto;
-import com.codingjoa.dto.MemberDetailsDto;
 import com.codingjoa.entity.BoardImage;
 import com.codingjoa.exception.ExpectedException;
 import com.codingjoa.mapper.MemberMapper;
@@ -446,28 +444,19 @@ public class TestController {
 	@Autowired
 	private MemberMapper memberMapper;
 	
-	@Autowired
-	private ModelMapper modelMapper;
-	
 	@GetMapping("/user-details")
 	public ResponseEntity<Object> testUserDetails(@AuthenticationPrincipal UserDetailsDto principal) {
 		log.info("## testUserDetails");
 		Map<String, Object> userDetailsMap = null;
-		UserDetailsDto userDetailsDto = null;
-		MemberDetailsDto memberDetailsDto = null;
 		if (principal != null) {
 			userDetailsMap = memberMapper.findUserDetailsById(principal.getMember().getMemberId());
-			userDetailsDto = modelMapper.map(userDetailsMap, UserDetailsDto.class);
-			memberDetailsDto = modelMapper.map(userDetailsMap, MemberDetailsDto.class);
 		}
 		log.info("\t > userDetailsMap = {}", userDetailsMap);
-		log.info("\t > userDetailsDto = {}", userDetailsDto);
-		log.info("\t > memberDetailsDto = {}", memberDetailsDto);
+		log.info("\t > principal = {}", principal);
 		
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("userDetailsMap", userDetailsMap);
-		result.put("userDetailsDto", userDetailsDto);
-		result.put("memberDetailsDto", memberDetailsDto);
+		result.put("principal", principal);
 		SuccessResponse successResponse = SuccessResponse.builder()
 				.data(result)
 				.build();
