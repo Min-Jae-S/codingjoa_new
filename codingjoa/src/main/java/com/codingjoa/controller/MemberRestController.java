@@ -31,7 +31,6 @@ import org.springframework.web.util.UriComponents;
 
 import com.codingjoa.dto.AddrDto;
 import com.codingjoa.dto.AgreeDto;
-import com.codingjoa.dto.MemberDetailsDto;
 import com.codingjoa.dto.EmailAuthDto;
 import com.codingjoa.dto.EmailDto;
 import com.codingjoa.dto.FindPasswordDto;
@@ -174,7 +173,7 @@ public class MemberRestController {
 	@GetMapping("/details")
 	public ResponseEntity<Object> getMemberDetails(@AuthenticationPrincipal UserDetailsDto principal) {
 		log.info("## getMemberDetails");
-		MemberDetailsDto memberDetails = modelMapper.map(principal, MemberDetailsDto.class);
+		UserDetailsDto memberDetails = (principal != null) ? modelMapper.map(principal, UserDetailsDto.class) : null;
 		return ResponseEntity.ok(SuccessResponse.builder().data(memberDetails).build());
 	}
 

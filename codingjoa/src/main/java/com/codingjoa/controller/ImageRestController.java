@@ -112,13 +112,6 @@ public class ImageRestController {
 		return ResponseEntity.ok(resource);
 	}
 	
-	@GetMapping("/member/current-image")
-	public ResponseEntity<Object> getCurrentMemberImage(@AuthenticationPrincipal UserDetailsDto principal) {
-		log.info("## getCurrentMemberImage");
-		String currentMemberImage = principal.getMemberImage();
-		return ResponseEntity.ok(SuccessResponse.builder().data(currentMemberImage).build());
-	}
-	
 	private void resetAuthentication(String memberId) {
 		log.info("## resetAuthentication");
 		UserDetails userDetails = userDetailsService.loadUserByUsername(memberId);

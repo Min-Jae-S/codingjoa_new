@@ -83,7 +83,15 @@
 	
 	<select id="findUserDetailsById" parameterType="string" resultMap="userDetailsMap">
 		SELECT 
-			a.*,
+			a.member_idx,
+			a.member_id,
+			a.member_email,
+			a.member_zipcode,
+			a.member_addr,
+			a.member_addr_detail,
+			a.member_agree,
+			a.regdate,
+			a.moddate,
 			b.member_role,
 			c.board_idx,
 			d.comment_idx,

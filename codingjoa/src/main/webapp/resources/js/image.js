@@ -32,35 +32,8 @@ let imageService = (function() {
 		});
 	}
 	
-	function getCurrentMemberImage(callback) {
-		console.log("## Get Current Member Image");
-		let url = contextPath + "/api/member/current-image";
-		console.log("> url = '%s'", url);
-		
-		$.ajax({
-			type : "GET",
-			url : url,
-			//dataType : "json",
-			success : function(result) {
-				console.log("%c> SUCCESS", "color:green");
-				console.log(JSON.stringify(result, null, 2));
-				callback(result);
-			},
-			error : function(jqXHR) {
-				console.log("%c> ERROR", "color:red");
-				let errorResponse = parseError(jqXHR);
-				if (errorResponse != null) {
-					handleMemberError(errorResponse);
-				} else {
-					alert("## Parsing Error");
-				}
-			}
-		});
-	}
-	
 	return {
-		uploadMemberImage:uploadMemberImage,
-		getCurrentMemberImage:getCurrentMemberImage
+		uploadMemberImage:uploadMemberImage
 	};
 	
 })();

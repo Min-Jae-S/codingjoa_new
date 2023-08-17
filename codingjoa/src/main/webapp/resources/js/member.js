@@ -353,7 +353,7 @@ let memberService = (function() {
 		updateEmail:updateEmail,
 		updateAddr:updateAddr,
 		updateAgree:updateAgree,
-		getCurrentMember:getCurrentMember,
+		getMemberDetails:getMemberDetails,
 		checkPassword:checkPassword,
 		updatePassword:updatePassword,
 		findAccount:findAccount,

@@ -300,8 +300,8 @@
 			
 			imageService.uploadMemberImage(formData, function(result) {
 				alert(result.message);
-				imageService.getCurrentMemberImage(function(result) {
-					let currentMemberImage = result.data;
+				memberService.getMemberDetails(function(result) {
+					let currentMemberImage = result.data.memberImage;
 					$("#profileThumbImage, #navProfileImage")
 						.attr("src", "${contextPath}/api/member/images/" + currentMemberImage);
 				});
@@ -330,8 +330,8 @@
 			
 			memberService.updateEmail(obj, function(result) {
 				alert(result.message);
-				memberService.getCurrentMember(function(result) {
-					let currentMember = result.data;
+				memberService.getMemberDetails(function(result) {
+					let currentMember = result.data.member;
 					$("#editEmail").find("form")
 						.html("<input type='text' id='memberEmail' name='memberEmail' value='" + currentMember.memberEmail + "'>");
 					$("#showEmail").find("span").text(currentMember.memberEmail);
@@ -363,8 +363,8 @@
 			
 			memberService.updateAddr(obj, function(result) {
 				alert(result.message);
-				memberService.getCurrentMember(function(result) {
-					let currentMember = result.data;
+				memberService.getMemberDetails(function(result) {
+					let currentMember = result.data.member;
 					$("#editZipcode").find("form")
 						.html("<input type='text' id='memberZipcode' name='memberZipcode' value='" + currentMember.memberZipcode + "' readonly>");
 					$("#editAddr").find("form")
@@ -397,8 +397,8 @@
 			
 			memberService.updateAgree(obj, function(result) {
 				alert(result.message);
-				memberService.getCurrentMember(function(result) {
-					let currentMember = result.data;
+				memberService.getMemberDetails(function(result) {
+					let currentMember = result.data.member;
 					let checkValue = (currentMember.memberAgree == true) ? "checked" : "";
 					$("#editAgree").find("label")
 						.html("<input class='form-check-input' type='checkbox' id='memberAgree' name='memberAgree' " + checkValue + ">" 
