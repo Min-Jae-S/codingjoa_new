@@ -28,6 +28,7 @@ public class UserDetailsDto implements UserDetails {
 	private List<Integer> myBoardLikes;
 	private List<Integer> myCommentLikes;
 
+	//@JsonIgnore
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		Collection<GrantedAuthority> collection = new ArrayList<>();

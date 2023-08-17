@@ -26,7 +26,7 @@ public class Member {
 	private Integer memberIdx;
 	private String memberId;
 	
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private String memberPassword;
 	
 	private String memberEmail;
