@@ -11,7 +11,7 @@ console.log("## Editor plugins ready - ckeditor-plugins.js");
 	function uploadCompleteListener(editor) {
 		console.log("\t > Register upload complete listener");
 		editor.plugins.get("ImageUploadEditing").on("uploadComplete", (evt, {data, imageElement}) => {
-			console.log("## Upload complete & Set attribute (src, data-idx)");
+			console.log("## Upload complete, set attributes (src, data-idx)");
 			editor.model.change(writer => {
 				evt.stop();
 				writer.setAttribute("src", data.url, imageElement);

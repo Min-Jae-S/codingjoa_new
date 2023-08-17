@@ -112,7 +112,7 @@ public class ImageRestController {
 		return ResponseEntity.ok(resource);
 	}
 	
-	@GetMapping("/member/image/current")
+	@GetMapping("/member/current-image")
 	public ResponseEntity<Object> getCurrentMemberImage(@AuthenticationPrincipal UserDetailsDto principal) {
 		log.info("## getCurrentMemberImage");
 		String currentMemberImage = principal.getMemberImage();

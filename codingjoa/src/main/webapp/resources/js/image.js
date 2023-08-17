@@ -34,7 +34,7 @@ let imageService = (function() {
 	
 	function getCurrentMemberImage(callback) {
 		console.log("## Get Current Member Image");
-		let url = contextPath + "/api/member/image/current";
+		let url = contextPath + "/api/member/current-image";
 		console.log("> url = '%s'", url);
 		
 		$.ajax({
