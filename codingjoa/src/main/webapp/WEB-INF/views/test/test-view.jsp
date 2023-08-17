@@ -123,49 +123,27 @@
 	</div>
 	<div class="row test2">
 		<div class="col-sm-12">
-			<div class="mt-5 mx-3 pt-4">
+			<div class="mt-5 mx-3 pt-3">
 				<div class="input-group mb-4">
 					<div class="input-group-prepend">
-		   				<span class="input-group-text">Toggle Board Likes</span>
+		   				<span class="input-group-text">Get Board Image</span>
 		   				<span class="input-group-text">:</span>
-		   				<span class="input-group-text">/api/boards/{boardIdx}/likes</span>
+		   				<span class="input-group-text">/api/board/images/{boardImageName}</span>
 					</div>
-		 				<input type="text" class="form-control" placeholder="idx">
+		 				<input type="text" class="form-control" placeholder="boardImageName">
 					<div class="input-group-append">
-		   				<button class="btn btn-warning" id="testToggleBoardLikesBtn">TEST</button>
+		   				<button class="btn btn-warning" id="testGetBoardImageBtn">TEST</button>
 					</div>
 				</div>
 				<div class="input-group mb-4">
 					<div class="input-group-prepend">
-						<span class="input-group-text">Toggle Comment Likes</span>
+						<span class="input-group-text">Get Member Image</span>
 						<span class="input-group-text">:</span>
-		   				<span class="input-group-text">/api/comments/{commentIdx}/likes</span>
+		   				<span class="input-group-text">/api/member/images/{memberImageName}</span>
 					</div>
-					<input type="text" class="form-control" placeholder="idx">
+					<input type="text" class="form-control" placeholder="memberImageName">
 					<div class="input-group-append">
-		   				<button class="btn btn-warning" id="testToggleCommentLikesBtn">TEST</button>
-					</div>
-				</div>
-				<div class="input-group mb-4">
-					<div class="input-group-prepend">
-						<span class="input-group-text">Get Board Likes Cnt</span>
-						<span class="input-group-text">:</span>
-		   				<span class="input-group-text">/api/boards/{boardIdx}/likes</span>
-					</div>
-					<input type="text" class="form-control" placeholder="idx">
-					<div class="input-group-append">
-						<button class="btn btn-warning" id="testGetBoardLikesCntBtn">TEST</button>
-					</div>
-				</div>
-				<div class="input-group mb-4">
-					<div class="input-group-prepend">
-						<span class="input-group-text">Get Comment Likes Cnt</span>
-						<span class="input-group-text">:</span>
-		   				<span class="input-group-text">/api/comments/{commentIdx}/likes</span>
-					</div>
-					<input type="text" class="form-control" placeholder="idx">
-					<div class="input-group-append">
-						<button class="btn btn-warning" id="testGetCommentLikesCntBtn">TEST</button>
+		   				<button class="btn btn-warning" id="testGetMemberImageBtn">TEST</button>
 					</div>
 				</div>
 			</div>
@@ -175,6 +153,14 @@
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 <script>
 	$(document).ready(function() {
+		$("#testGetBoardImageBtn").on("click", function() {
+			console.log("## testGetBoardImageBtn click");
+		});
+
+		$("#testGetMemberImageBtn").on("click", function() {
+			console.log("## testGetMemberImageBtn click");
+		});
+		
 		$("#testUploadBtn").on("click", function() {
 			console.log("## testUploadBtn click");
 			$("#uploadFile").click();
