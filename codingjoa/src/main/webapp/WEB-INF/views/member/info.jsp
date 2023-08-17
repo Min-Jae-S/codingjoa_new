@@ -303,7 +303,7 @@
 				memberService.getMemberDetails(function(result) {
 					let currentMemberImage = result.data.memberImage;
 					$("#memberThumbImage, #navMemberImage")
-						.attr("src", "${contextPath}/api/member/images/" + memberDetails.currentMemberImage);
+						.attr("src", "${contextPath}/api/member/images/" + currentMemberImage);
 				});
 			});
 		});

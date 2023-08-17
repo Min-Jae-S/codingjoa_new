@@ -29,15 +29,15 @@ public class ImageServiceImpl implements ImageService {
 	@Autowired
 	private ImageMapper imageMapper;
 	
-	@Value("${upload.board.path}")
-	private String boardPath;
+	@Value("${image.board.path}")
+	private String boardImagePath;
 	
-	@Value("${upload.member.path}")
-	private String memberPath;
+	@Value("${image.member.path}")
+	private String memberImagePath;
 	
 	@Override
 	public BoardImage uploadBoardImage(MultipartFile file) throws IllegalStateException, IOException {
-		File uploadFolder = new File(boardPath);
+		File uploadFolder = new File(boardImagePath);
 		if (!uploadFolder.exists()) {
 			uploadFolder.mkdirs();
 		}
@@ -85,7 +85,7 @@ public class ImageServiceImpl implements ImageService {
 	
 	@Override
 	public void uploadMemberImage(MultipartFile file, Integer memberIdx) throws IllegalStateException, IOException {
-		File uploadFolder = new File(memberPath);
+		File uploadFolder = new File(memberImagePath);
 		if (!uploadFolder.exists()) {
 			uploadFolder.mkdirs();
 		}

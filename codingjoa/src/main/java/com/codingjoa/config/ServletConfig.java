@@ -60,7 +60,7 @@ import lombok.extern.slf4j.Slf4j;
 @Configuration
 @EnableWebMvc 
 @EnableTransactionManagement
-@PropertySource("/WEB-INF/properties/upload.properties")
+@PropertySource("/WEB-INF/properties/upload-path.properties")
 @PropertySource("/WEB-INF/properties/criteria.properties")
 @ComponentScan("com.codingjoa.controller")
 @ComponentScan("com.codingjoa.service")
@@ -106,7 +106,7 @@ public class ServletConfig implements WebMvcConfigurer {
 		registry.addResourceHandler("/resources/**")
 				.addResourceLocations("/resources/");
 		registry.addResourceHandler("/upload/**")
-				.addResourceLocations("file:///" + env.getProperty("upload.root.path")); // D:/Dev/upload/
+				.addResourceLocations("file:///" + env.getProperty("image.root.path")); // D:/Dev/image/
 	}
 
 	@Override
