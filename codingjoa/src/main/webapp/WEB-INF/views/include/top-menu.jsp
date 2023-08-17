@@ -33,11 +33,11 @@
 					<li class="nav-item mr-1">
 						<c:choose>
 							<c:when test="${not empty principal.memberImage}">
-								<img class="nav-profile-image" id="navProfileImage" 
+								<img class="nav-member-image" id="navMemberImage" 
 									src="${contextPath}/api/member/images/${principal.memberImage}">
 							</c:when>
 							<c:otherwise>
-								<img class="nav-profile-image" id="navProfileImage" src="${contextPath}/resources/images/img_profile.png">
+								<img class="nav-member-image" id="navMemberImage" src="${contextPath}/resources/images/img_profile.png">
 							</c:otherwise>
 						</c:choose>
 					</li>

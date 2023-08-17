@@ -75,7 +75,7 @@
 		border-bottom: 1px solid #868e96;
 	}
 	
-	#profileImageForm {
+	#memberImageForm {
 		display: none;
 	}
 	
@@ -94,7 +94,7 @@
 		margin-bottom: 0;
 	}
 	
-	.profile-thumb-image {
+	.member-thumb-image {
 		width: 85px;
 		height: 85px;
 		border: 1px solid #dee2e6 !important;
@@ -105,11 +105,11 @@
 		/* border-radius: 50%!important; */
 	}	
 	
-	.wrap-profile {
+	.wrap-member-image {
 		position: relative;
 	}
 	
-	.profile-image-btn {
+	.member-image-btn {
 		position: absolute;
 		z-index: 999;
 		top: 60px;
@@ -123,7 +123,7 @@
   		cursor: pointer;
 	}
 	
-	.profile-image-icon {
+	.member-image-icon {
 		display: inline-block;
 		width: 35px;
 		height: 35px;
@@ -145,20 +145,20 @@
 			<h5 class="font-weight-bold">계정 정보</h5>
 			<div class="pt-4" style="border-top: 1px solid black;">
 				<div class="mb-5 d-flex">
-					<div class="wrap-profile mr-4">
+					<div class="wrap-member-image mr-4">
 						<c:choose>
 							<c:when test="${not empty principal.memberImage}">
-								<img class="profile-thumb-image" id="profileThumbImage" 
+								<img class="member-thumb-image" id="memberThumbImage" 
 									src="${contextPath}/api/member/images/${principal.memberImage}">
 							</c:when>
 							<c:otherwise>
-								<img class="profile-thumb-image" id="profileThumbImage" src="${contextPath}/resources/images/img_profile.png">
+								<img class="member-thumb-image" id="memberThumbImage" src="${contextPath}/resources/images/img_profile.png">
 							</c:otherwise>
 						</c:choose>
-						<button type="button" class="profile-image-btn" id="profileImageBtn">
-							<span class="profile-image-icon"></span>
-							<form id="profileImageForm">
-								<input type="file" id="profileImage" name="profileImage">
+						<button type="button" class="member-image-btn" id="memberImageBtn">
+							<span class="member-image-icon"></span>
+							<form id="memberImageForm">
+								<input type="file" id="memberImage" name="memberImage">
 							</form>
 						</button>
 					</div>
@@ -277,21 +277,21 @@
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
 	$(function() {
-		// profile image button event
-		$("#profileImageBtn").on("click", function() {
-			$("#profileImage").click();
+		// member image button event
+		$("#memberImageBtn").on("click", function() {
+			$("#memberImage").click();
 		});
 		
 		// prevent stack overflow (Uncaught RangeError: Maximum call stack size exceeded)
-		// since #profileImage(file) is a child element of #profileImageBtn, event propagation occurs
-		$("#profileImage").on("click", function(e) {
+		// since #memberImage(file) is a child element of #memberImageBtn, event propagation occurs
+		$("#memberImage").on("click", function(e) {
 			e.stopPropagation();
 		})
 		
-		// upload profile image
-		$("#profileImage").on("change", function() {
+		// upload member image
+		$("#memberImage").on("change", function() {
 			// jQuery object --> javaScript DOM object 
-			// let $profileImage = $(this)[0];
+			// let $memberImage = $(this)[0];
 			const formData = new FormData();
 			formData.append("file", this.files[0]);
 
@@ -302,7 +302,7 @@
 				alert(result.message);
 				memberService.getMemberDetails(function(result) {
 					let currentMemberImage = result.data.memberImage;
-					$("#profileThumbImage, #navProfileImage")
+					$("#memberThumbImage, #navMemberImage")
 						.attr("src", "${contextPath}/api/member/images/" + memberDetails.currentMemberImage);
 				});
 			});
