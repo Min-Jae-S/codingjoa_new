@@ -15,7 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.codingjoa.dto.BoardDto;
 import com.codingjoa.entity.BoardImage;
-import com.codingjoa.entity.ProfileImage;
+import com.codingjoa.entity.MemberImage;
 import com.codingjoa.mapper.ImageMapper;
 import com.codingjoa.service.ImageService;
 
@@ -84,7 +84,7 @@ public class ImageServiceImpl implements ImageService {
 	}
 	
 	@Override
-	public void uploadProfileImage(MultipartFile file, Integer memberIdx) throws IllegalStateException, IOException {
+	public void uploadMemberImage(MultipartFile file, Integer memberIdx) throws IllegalStateException, IOException {
 		File uploadFolder = new File(profilePath);
 		if (!uploadFolder.exists()) {
 			uploadFolder.mkdirs();
@@ -94,15 +94,15 @@ public class ImageServiceImpl implements ImageService {
 		File uploadFile = new File(uploadFolder, uploadFilename);
 		file.transferTo(uploadFile);
 		
-		ProfileImage profileImage = ProfileImage.builder()
+		MemberImage memberImage = MemberImage.builder()
 				.memberIdx(memberIdx)
-				.profileImageName(uploadFilename)
-				.profileImagePath(uploadFile.getCanonicalPath())
+				.memberImageName(uploadFilename)
+				.memberImagePath(uploadFile.getCanonicalPath())
 				.build();
 
-		imageMapper.deactivateProfileImage(memberIdx);
-		imageMapper.insertProfileImage(profileImage);
-		log.info("\t > uploaded profileImage = {}", profileImage);
+		imageMapper.deactivateMemberImage(memberIdx);
+		imageMapper.insertMemberImage(memberImage);
+		log.info("\t > uploaded memberImage = {}", memberImage);
 	}
 	
 	private String createFilename(String originalFilename) {
@@ -121,8 +121,8 @@ public class ImageServiceImpl implements ImageService {
 	}
 
 	@Override
-	public ProfileImage findProfileImageByName(String profileImageName) {
-		return imageMapper.findProfileImageByName(profileImageName);
+	public MemberImage findMemberImageByName(String memberImageName) {
+		return imageMapper.findMemberImageByName(memberImageName);
 	}
 	
 }

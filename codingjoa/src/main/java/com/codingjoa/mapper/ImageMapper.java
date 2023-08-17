@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.codingjoa.entity.BoardImage;
-import com.codingjoa.entity.ProfileImage;
+import com.codingjoa.entity.MemberImage;
 
 @Mapper
 public interface ImageMapper {
@@ -21,15 +21,15 @@ public interface ImageMapper {
 	
 	List<BoardImage> findBoardImagesByBoardIdx(int boardIdx);
 	
-	void deactivateProfileImage(int memberIdx);
+	void deactivateMemberImage(int memberIdx);
 
-	void insertProfileImage(ProfileImage profileImage);
+	void insertMemberImage(MemberImage memberImage);
 	
 	// test
 	BoardImage findBoardImageByIdx(Integer boardImageIdx);
 	
 	BoardImage findBoardImageByName(String boardImageName);
 	
-	ProfileImage findProfileImageByName(String profileImageName);
+	MemberImage findMemberImageByName(String memberImageName);
 	
 }

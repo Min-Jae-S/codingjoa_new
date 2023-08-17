@@ -2,17 +2,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.codingjoa.mapper.ImageMapper">
 <!--  
-	board_image_idx         NUMBER,
-	board_idx               NUMBER              NULL,
-	board_image_name        VARCHAR2(200)       NOT NULL,
-    board_image_path        VARCHAR2(200)       NOT NULL,
-	regdate                 DATE                NOT NULL,
+	board_image_idx          NUMBER,
+	board_idx                NUMBER              NULL,
+	board_image_name         VARCHAR2(200)       NOT NULL,
+    board_image_path         VARCHAR2(200)       NOT NULL,
+	regdate                  DATE                NOT NULL,
 	
-	profile_image_idx         NUMBER,
-	member_idx                NUMBER              NULL,
-	profile_image_name        VARCHAR2(200)       NOT NULL,
-    profile_image_path        VARCHAR2(200)       NOT NULL,
-	regdate                   DATE                NOT NULL,
+	member_image_idx         NUMBER,
+	member_idx               NUMBER              NULL,
+	member_image_name        VARCHAR2(200)       NOT NULL,
+    member_image_path        VARCHAR2(200)       NOT NULL,
+	regdate                  DATE                NOT NULL,
 -->
 
 	<insert id="insertBoardImage" parameterType="boardImage">
@@ -73,30 +73,30 @@
 			board_idx = #{boardIdx}
 	</select>
 	
-	<update id="deactivateProfileImage" parameterType="int">
+	<update id="deactivateMemberImage" parameterType="int">
 		UPDATE 
-			profile_image
+			member_image
 		SET
 			member_idx = NULL
 		WHERE
 			member_idx = #{memberIdx} 
 	</update>
 	
-	<insert id="insertProfileImage" parameterType="profileImage">
-		<selectKey keyProperty="profileImageIdx" resultType="int" order="BEFORE">
-			SELECT seq_profile_image.NEXTVAL FROM DUAL
+	<insert id="insertMemberImage" parameterType="memberImage">
+		<selectKey keyProperty="memberImageIdx" resultType="int" order="BEFORE">
+			SELECT seq_member_image.NEXTVAL FROM DUAL
 		</selectKey>
-		INSERT INTO profile_image (
-			profile_image_idx,
+		INSERT INTO member_image (
+			member_image_idx,
 			member_idx,
-			profile_image_name,
-			profile_image_path,
+			member_image_name,
+			member_image_path,
 			regdate
 		) VALUES (
-			#{profileImageIdx},
+			#{memberImageIdx},
 			#{memberIdx},
-			#{profileImageName},
-			#{profileImagePath},
+			#{memberImageName},
+			#{memberImagePath},
 			SYSDATE
 		)
 	</insert>
@@ -120,12 +120,12 @@
 			board_image_name = #{boardImageName}
 	</select>
 
-	<select id="findProfileImageByName" parameterType="string" resultType="profileImage">
+	<select id="findMemberImageByName" parameterType="string" resultType="memberImage">
 		SELECT 
 			*
 		FROM 
-			profile_image 
+			member_image 
 		WHERE 
-			profile_image_name = #{profileImageName}
+			member_image_name = #{memberImageName}
 	</select>
 </mapper>

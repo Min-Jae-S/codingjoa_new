@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -29,7 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.codingjoa.dto.BoardImageDto;
 import com.codingjoa.dto.UploadFileDto;
 import com.codingjoa.entity.BoardImage;
-import com.codingjoa.entity.ProfileImage;
+import com.codingjoa.entity.MemberImage;
 import com.codingjoa.response.SuccessResponse;
 import com.codingjoa.security.dto.UserDetailsDto;
 import com.codingjoa.service.ImageService;
@@ -47,9 +46,6 @@ public class ImageRestController {
 	
 	@Autowired
 	private UserDetailsService userDetailsService;
-	
-	@Value("${upload.profile.path}")
-	private String profilePath; // D:/Dev/upload/profile/
 	
 	@InitBinder("uploadFileDto")
 	public void initBinderUpload(WebDataBinder binder) {
@@ -88,39 +84,39 @@ public class ImageRestController {
 		return ResponseEntity.ok(resource);
 	}
 
-	@PostMapping("/upload/profile-image")
-	public ResponseEntity<Object> uploadProfileImage(@ModelAttribute @Valid UploadFileDto uploadFileDto,
+	@PostMapping("/upload/member-image")
+	public ResponseEntity<Object> uploadMemberImage(@ModelAttribute @Valid UploadFileDto uploadFileDto,
 			@AuthenticationPrincipal UserDetailsDto principal, HttpServletRequest request) throws IllegalStateException, IOException {
-		log.info("## uploadProfileImage");
+		log.info("## uploadMemberImage");
 		
 		Integer memberIdx = principal.getMember().getMemberIdx();
-		imageService.uploadProfileImage(uploadFileDto.getFile(), memberIdx);
+		imageService.uploadMemberImage(uploadFileDto.getFile(), memberIdx);
 		
 		String memberId = principal.getMember().getMemberId();
 		resetAuthentication(memberId);
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
-				.messageByCode("success.uploadProfileImage")
+				.messageByCode("success.uploadMemberImage")
 				.build());
 	}
 	
-	@GetMapping("/profile/images/{profileImageName:.+}") 
-	public ResponseEntity<Object> getProfileImageResource(@PathVariable String profileImageName) throws MalformedURLException {
-		log.info("## getProfileImageResource");
-		log.info("\t > profileImageName = {}", profileImageName);
+	@GetMapping("/member/images/{memberImageName:.+}") 
+	public ResponseEntity<Object> getMemberImageResource(@PathVariable String memberImageName) throws MalformedURLException {
+		log.info("## getMemberImageResource");
+		log.info("\t > memberImageName = {}", memberImageName);
 		
-		ProfileImage profileImage = imageService.findProfileImageByName(profileImageName);
-		log.info("\t > find profileImage by profileImageName, {}", profileImage);
+		MemberImage memberImage = imageService.findMemberImageByName(memberImageName);
+		log.info("\t > find memberImage by memberImageName, {}", memberImage);
 		
-		UrlResource resource = new UrlResource("file:" + profileImage.getProfileImagePath());
+		UrlResource resource = new UrlResource("file:" + memberImage.getMemberImagePath());
 		log.info("\t > respond with urlResource = {}", resource);
 		
 		return ResponseEntity.ok(resource);
 	}
 	
 	@GetMapping("/profile/current")
-	public ResponseEntity<Object> getCurrentProfileImage(@AuthenticationPrincipal UserDetailsDto principal) {
-		log.info("## getCurrentProfileImage");
+	public ResponseEntity<Object> getCurrentMemberImage(@AuthenticationPrincipal UserDetailsDto principal) {
+		log.info("## getCurrentMemberImage");
 		String profileImageUrl = principal.getProfileImageUrl();
 		return ResponseEntity.ok(SuccessResponse.builder().data(profileImageUrl).build());
 	}

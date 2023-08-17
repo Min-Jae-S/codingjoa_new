@@ -37,7 +37,7 @@
 		<typeAlias type="com.codingjoa.entity.Category" alias="category"/>
 		<typeAlias type="com.codingjoa.entity.Board" alias="board"/>
 		<typeAlias type="com.codingjoa.entity.BoardImage" alias="boardImage"/>
-		<typeAlias type="com.codingjoa.entity.ProfileImage" alias="profileImage"/>
+		<typeAlias type="com.codingjoa.entity.MemberImage" alias="memberImage"/>
 		<typeAlias type="com.codingjoa.entity.Comment" alias="comment"/>
 		<typeAlias type="com.codingjoa.entity.BoardLikes" alias="boardLikes"/>
 		<typeAlias type="com.codingjoa.entity.CommentLikes" alias="commentLikes"/>
