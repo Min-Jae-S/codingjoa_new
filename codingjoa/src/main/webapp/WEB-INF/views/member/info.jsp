@@ -147,8 +147,9 @@
 				<div class="mb-5 d-flex">
 					<div class="wrap-profile mr-4">
 						<c:choose>
-							<c:when test="${not empty principal.profileImageUrl}">
-								<img class="profile-thumb-image" id="profileThumbImage" src="${contextPath}${principal.profileImageUrl}">
+							<c:when test="${not empty principal.memberImage}">
+								<img class="profile-thumb-image" id="profileThumbImage" 
+									src="${contextPath}/api/member/images/${principal.memberImage}">
 							</c:when>
 							<c:otherwise>
 								<img class="profile-thumb-image" id="profileThumbImage" src="${contextPath}/resources/images/img_profile.png">
@@ -297,11 +298,12 @@
 			// initialize the file input, but not with null
 			this.value = "";
 			
-			imageService.uploadProfileImage(formData, function(result) {
+			imageService.uploadMemberImage(formData, function(result) {
 				alert(result.message);
-				imageService.getCurrentProfileImage(function(result) {
-					let profileImageUrl = result.data;
-					$("#profileThumbImage, #navProfileImage").attr("src", "${contextPath}" + profileImageUrl);
+				imageService.getCurrentMemberImage(function(result) {
+					let currentMemberImage = result.data;
+					$("#profileThumbImage, #navProfileImage")
+						.attr("src", "${contextPath}/api/member/images/" + currentMemberImage);
 				});
 			});
 		});

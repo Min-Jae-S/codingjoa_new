@@ -58,13 +58,11 @@ public class ImageRestController {
 		log.info("## uploadBoardImage");
 		
 		BoardImage boardImage = imageService.uploadBoardImage(uploadFileDto.getFile());
-		String boardImageUrl = "/api/board/images/" + boardImage.getBoardImageName();
 		log.info("\t > uploaded boardImage = {}", boardImage);
-		log.info("\t > boardImageUrl = {}", boardImageUrl);
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
 				.messageByCode("success.uploadBoardImage")
-				.data(new BoardImageDto(boardImage.getBoardImageIdx(), boardImageUrl))
+				.data(new BoardImageDto(boardImage.getBoardImageIdx(), boardImage.getBoardImageName()))
 				.build());
 	}
 	
@@ -114,11 +112,11 @@ public class ImageRestController {
 		return ResponseEntity.ok(resource);
 	}
 	
-	@GetMapping("/profile/current")
+	@GetMapping("/member/image/current")
 	public ResponseEntity<Object> getCurrentMemberImage(@AuthenticationPrincipal UserDetailsDto principal) {
 		log.info("## getCurrentMemberImage");
-		String profileImageUrl = principal.getProfileImageUrl();
-		return ResponseEntity.ok(SuccessResponse.builder().data(profileImageUrl).build());
+		String currentMemberImage = principal.getMemberImage();
+		return ResponseEntity.ok(SuccessResponse.builder().data(currentMemberImage).build());
 	}
 	
 	private void resetAuthentication(String memberId) {

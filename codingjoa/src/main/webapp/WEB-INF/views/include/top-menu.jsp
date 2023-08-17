@@ -32,8 +32,9 @@
 					<sec:authentication property="principal" var="principal"/>
 					<li class="nav-item mr-1">
 						<c:choose>
-							<c:when test="${not empty principal.profileImageUrl}">
-								<img class="nav-profile-image" id="navProfileImage" src="${contextPath}${principal.profileImageUrl}">
+							<c:when test="${not empty principal.memberImage}">
+								<img class="nav-profile-image" id="navProfileImage" 
+									src="${contextPath}/api/member/images/${principal.memberImage}">
 							</c:when>
 							<c:otherwise>
 								<img class="nav-profile-image" id="navProfileImage" src="${contextPath}/resources/images/img_profile.png">

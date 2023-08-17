@@ -3,9 +3,9 @@ console.log("## Image service ready - image.js");
 let imageService = (function() {
 	const contextPath = getContextPath();
 
-	function uploadProfileImage(formData, callback) {
-		console.log("## Upload Profile Image");
-		let url = contextPath + "/api/upload/profile-image";
+	function uploadMemberImage(formData, callback) {
+		console.log("## Upload Member Image");
+		let url = contextPath + "/api/upload/member-image";
 		console.log("> url = '%s'", url);
 		
 		$.ajax({
@@ -32,9 +32,9 @@ let imageService = (function() {
 		});
 	}
 	
-	function getCurrentProfileImage(callback) {
-		console.log("## Get Current Profile Image");
-		let url = contextPath + "/api/profile/current";
+	function getCurrentMemberImage(callback) {
+		console.log("## Get Current Member Image");
+		let url = contextPath + "/api/member/image/current";
 		console.log("> url = '%s'", url);
 		
 		$.ajax({
@@ -59,8 +59,8 @@ let imageService = (function() {
 	}
 	
 	return {
-		uploadProfileImage:uploadProfileImage,
-		getCurrentProfileImage:getCurrentProfileImage
+		uploadMemberImage:uploadMemberImage,
+		getCurrentMemberImage:getCurrentMemberImage
 	};
 	
 })();

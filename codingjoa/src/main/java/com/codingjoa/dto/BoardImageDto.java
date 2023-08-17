@@ -10,5 +10,5 @@ import lombok.NoArgsConstructor;
 public class BoardImageDto {
 
 	private Integer boardImageIdx;
-	private String boardImageUrl;
+	private String boardImageName;
 }

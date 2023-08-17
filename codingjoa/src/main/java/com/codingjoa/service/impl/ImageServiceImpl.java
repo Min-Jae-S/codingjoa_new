@@ -32,8 +32,8 @@ public class ImageServiceImpl implements ImageService {
 	@Value("${upload.board.path}")
 	private String boardPath;
 	
-	@Value("${upload.profile.path}")
-	private String profilePath;
+	@Value("${upload.member.path}")
+	private String memberPath;
 	
 	@Override
 	public BoardImage uploadBoardImage(MultipartFile file) throws IllegalStateException, IOException {
@@ -85,7 +85,7 @@ public class ImageServiceImpl implements ImageService {
 	
 	@Override
 	public void uploadMemberImage(MultipartFile file, Integer memberIdx) throws IllegalStateException, IOException {
-		File uploadFolder = new File(profilePath);
+		File uploadFolder = new File(memberPath);
 		if (!uploadFolder.exists()) {
 			uploadFolder.mkdirs();
 		}

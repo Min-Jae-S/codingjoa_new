@@ -60,7 +60,7 @@
 
 	<resultMap id="userDetailsMap" type="map">
 		<result property="memberRole" column="member_role"/>
-		<result property="profileImageName" column="profile_image_name"/>
+		<result property="memberImage" column="member_image_name"/>
 		<association property="member" javaType="member">
 			<id property="memberIdx" column="member_idx"/>
 			<result property="memberId" column="member_id"/>
@@ -87,7 +87,7 @@
 			b.member_role,
 			c.board_idx,
 			d.comment_idx,
-			e.profile_image_name
+			e.member_image_name
 		FROM
 			member a
 		INNER JOIN
@@ -103,7 +103,7 @@
 		ON
 			a.member_idx = d.member_idx
 		LEFT OUTER JOIN
-			profile_image e
+			member_image e
 		ON
 			a.member_idx = e.member_idx
 		WHERE
