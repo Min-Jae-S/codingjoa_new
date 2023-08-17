@@ -2,6 +2,8 @@ package com.codingjoa.service.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -37,7 +39,7 @@ public class ImageServiceImpl implements ImageService {
 	
 	@Override
 	public BoardImage uploadBoardImage(MultipartFile file) throws IllegalStateException, IOException {
-		File uploadFolder = new File(boardImagePath);
+		File uploadFolder = createUploadFolder(boardImagePath);
 		if (!uploadFolder.exists()) {
 			uploadFolder.mkdirs();
 		}
@@ -103,6 +105,12 @@ public class ImageServiceImpl implements ImageService {
 		imageMapper.deactivateMemberImage(memberIdx);
 		imageMapper.insertMemberImage(memberImage);
 		log.info("\t > uploaded memberImage = {}", memberImage);
+	}
+	
+	private File createUploadFolder(String path) {
+		LocalDateTime date = LocalDateTime.now();
+		String child = date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		return new File(path, child);
 	}
 	
 	private String createFilename(String originalFilename) {
