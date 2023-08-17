@@ -34,6 +34,7 @@ import com.codingjoa.dto.AgreeDto;
 import com.codingjoa.dto.EmailAuthDto;
 import com.codingjoa.dto.EmailDto;
 import com.codingjoa.dto.FindPasswordDto;
+import com.codingjoa.dto.MemberDetailsDto;
 import com.codingjoa.dto.PasswordChangeDto;
 import com.codingjoa.dto.PasswordDto;
 import com.codingjoa.response.SuccessResponse;
@@ -173,7 +174,7 @@ public class MemberRestController {
 	@GetMapping("/details")
 	public ResponseEntity<Object> getMemberDetails(@AuthenticationPrincipal UserDetailsDto principal) {
 		log.info("## getMemberDetails");
-		UserDetailsDto memberDetails = (principal != null) ? modelMapper.map(principal, UserDetailsDto.class) : null;
+		MemberDetailsDto memberDetails = (principal != null) ? modelMapper.map(principal, MemberDetailsDto.class) : null;
 		return ResponseEntity.ok(SuccessResponse.builder().data(memberDetails).build());
 	}
 

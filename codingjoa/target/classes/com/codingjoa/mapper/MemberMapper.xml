@@ -85,6 +85,7 @@
 		SELECT 
 			a.member_idx,
 			a.member_id,
+			a.member_password,
 			a.member_email,
 			a.member_zipcode,
 			a.member_addr,

@@ -7,5 +7,4 @@ public class PasswordChangeDto {
 	
 	private String memberPassword;
 	private String confirmPassword;
-	
 }
