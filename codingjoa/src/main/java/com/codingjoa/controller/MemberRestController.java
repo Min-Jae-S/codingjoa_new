@@ -31,7 +31,7 @@ import org.springframework.web.util.UriComponents;
 
 import com.codingjoa.dto.AddrDto;
 import com.codingjoa.dto.AgreeDto;
-import com.codingjoa.dto.CurrentMemberDto;
+import com.codingjoa.dto.MemberDetailsDto;
 import com.codingjoa.dto.EmailAuthDto;
 import com.codingjoa.dto.EmailDto;
 import com.codingjoa.dto.FindPasswordDto;
@@ -171,11 +171,11 @@ public class MemberRestController {
 		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.UpdateAgree").build());
 	}
 	
-	@GetMapping("/current-member")
-	public ResponseEntity<Object> getCurrentMember(@AuthenticationPrincipal UserDetailsDto principal) {
-		log.info("## getCurrentMember");
-		CurrentMemberDto currentMember = modelMapper.map(principal.getMember(), CurrentMemberDto.class);
-		return ResponseEntity.ok(SuccessResponse.builder().data(currentMember).build());
+	@GetMapping("/details")
+	public ResponseEntity<Object> getMemberDetails(@AuthenticationPrincipal UserDetailsDto principal) {
+		log.info("## getMemberDetails");
+		MemberDetailsDto memberDetails = modelMapper.map(principal, MemberDetailsDto.class);
+		return ResponseEntity.ok(SuccessResponse.builder().data(memberDetails).build());
 	}
 
 	@PostMapping("/check/password")

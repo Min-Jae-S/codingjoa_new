@@ -166,9 +166,9 @@ let memberService = (function() {
 		});
 	}
 
-	function getCurrentMember(callback) {
-		console.log("## Get Current Member");
-		let url = contextPath + "/api/member/current-member";
+	function getMemberDetails(callback) {
+		console.log("## Get Member Details");
+		let url = contextPath + "/api/member/details";
 		console.log("> url = '%s'", url);
 		
 		$.ajax({

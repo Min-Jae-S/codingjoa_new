@@ -1,13 +1,14 @@
 package com.codingjoa.dto;
 
 import java.util.Date;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Data;
 
 @Data
-public class CurrentMemberDto {
+public class MemberDetailsDto {
 	
 	private Integer memberIdx;
 	private String memberId;
@@ -22,4 +23,8 @@ public class CurrentMemberDto {
 	
 	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
 	private Date moddate;
+	
+	private String memberImage;
+	private List<Integer> myBoardLikes;
+	private List<Integer> myCommentLikes;
 }
