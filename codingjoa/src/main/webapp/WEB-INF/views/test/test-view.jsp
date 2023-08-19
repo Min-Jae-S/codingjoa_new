@@ -155,10 +155,16 @@
 	$(document).ready(function() {
 		$("#testGetBoardImageBtn").on("click", function() {
 			console.log("## testGetBoardImageBtn click");
+			let boardImageName = $(this).closest("div.input-group").find("input").val();
+			let url = "${contextPath}/api/board/images/" + boardImageName;
+			console.log("> url = %s", url);
 		});
 
 		$("#testGetMemberImageBtn").on("click", function() {
 			console.log("## testGetMemberImageBtn click");
+			let memberImageName = $(this).closest("div.input-group").find("input").val();
+			let url = "${contextPath}/api/member/images/" + memberImageName;
+			console.log("> url = %s", url);
 		});
 		
 		$("#testUploadBtn").on("click", function() {
