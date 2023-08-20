@@ -164,11 +164,11 @@
 				url : url,
 				success : function(result) {
 					console.log("%c> SUCCESS", "color:green");
-					console.log(result);
 				},
 				error : function(jqXHR) {
 					console.log("%c> ERROR", "color:red");
-					console.log(jqXHR);
+					let errorResponse = JSON.parse(jqXHR.responseText);
+					console.log(JSON.stringify(errorResponse, null, 2));
 				}
 			});		
 		});
@@ -184,11 +184,11 @@
 				url : url,
 				success : function(result) {
 					console.log("%c> SUCCESS", "color:green");
-					console.log(result);
 				},
 				error : function(jqXHR) {
 					console.log("%c> ERROR", "color:red");
-					console.log(jqXHR);
+					let errorResponse = JSON.parse(jqXHR.responseText);
+					console.log(JSON.stringify(errorResponse, null, 2));
 				}
 			});	
 			
