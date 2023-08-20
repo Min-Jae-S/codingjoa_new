@@ -158,6 +158,19 @@
 			let boardImageName = $(this).closest("div.input-group").find("input").val();
 			let url = "${contextPath}/api/board/images/" + boardImageName;
 			console.log("> url = %s", url);
+			
+			$.ajax({
+				type : "GET",
+				url : url,
+				success : function(result) {
+					console.log("%c> SUCCESS", "color:green");
+					console.log(result);
+				},
+				error : function(jqXHR) {
+					console.log("%c> ERROR", "color:red");
+					console.log(jqXHR.responseText);
+				}
+			});		
 		});
 
 		$("#testGetMemberImageBtn").on("click", function() {
@@ -165,6 +178,20 @@
 			let memberImageName = $(this).closest("div.input-group").find("input").val();
 			let url = "${contextPath}/api/member/images/" + memberImageName;
 			console.log("> url = %s", url);
+			
+			$.ajax({
+				type : "GET",
+				url : url,
+				success : function(result) {
+					console.log("%c> SUCCESS", "color:green");
+					console.log(result);
+				},
+				error : function(jqXHR) {
+					console.log("%c> ERROR", "color:red");
+					console.log(jqXHR.responseText);
+				}
+			});	
+			
 		});
 		
 		$("#testUploadBtn").on("click", function() {
