@@ -60,8 +60,8 @@ public class LogFilter implements Filter {
 			} catch (Exception e) {
 				log.info("## catch Exception");
 				log.info("\t > exception = {}", e.getClass().getSimpleName());
-				log.info("\t > message = {}", e.getMessage());
-				throw e;
+				//log.info("\t > message = {}", e.getMessage());
+				//throw e;
 			} finally {
 				logResponseDetails(httpSevletRequest, httpServletResponse, uuid);
 			}
