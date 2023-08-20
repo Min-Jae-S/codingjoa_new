@@ -168,7 +168,7 @@
 				},
 				error : function(jqXHR) {
 					console.log("%c> ERROR", "color:red");
-					console.log(jqXHR.responseText);
+					console.log(jqXHR);
 				}
 			});		
 		});
@@ -188,7 +188,7 @@
 				},
 				error : function(jqXHR) {
 					console.log("%c> ERROR", "color:red");
-					console.log(jqXHR.responseText);
+					console.log(jqXHR);
 				}
 			});	
 			

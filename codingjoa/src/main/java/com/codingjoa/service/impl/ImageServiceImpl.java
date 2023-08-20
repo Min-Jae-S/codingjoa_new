@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.codingjoa.dto.BoardDto;
 import com.codingjoa.entity.BoardImage;
 import com.codingjoa.entity.MemberImage;
+import com.codingjoa.exception.ExpectedException;
 import com.codingjoa.mapper.ImageMapper;
 import com.codingjoa.service.ImageService;
 
@@ -125,12 +126,20 @@ public class ImageServiceImpl implements ImageService {
 
 	@Override
 	public BoardImage findBoardImageByName(String boardImageName) {
-		return imageMapper.findBoardImageByName(boardImageName);
+		BoardImage boardImage = imageMapper.findBoardImageByName(boardImageName);
+		if (boardImage == null) {
+			throw new ExpectedException("error.NotFoundBoardImage");
+		}
+		return boardImage;
 	}
 
 	@Override
 	public MemberImage findMemberImageByName(String memberImageName) {
-		return imageMapper.findMemberImageByName(memberImageName);
+		MemberImage memberImage = imageMapper.findMemberImageByName(memberImageName);
+		if (memberImage == null) {
+			throw new ExpectedException("error.NotFoundMemberImage");
+		}
+		return memberImage;
 	}
 	
 }
