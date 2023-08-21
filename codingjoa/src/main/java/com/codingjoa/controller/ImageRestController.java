@@ -99,7 +99,7 @@ public class ImageRestController {
 				.build());
 	}
 	
-	@GetMapping(value = { "/member/images", "/member/images/{memberImageName:.+}"}) 
+	@GetMapping(value = { "/member/images", "/member/images/{memberImageName}"}) 
 	public ResponseEntity<Object> getMemberImageResource(@PathVariable String memberImageName) throws MalformedURLException {
 		log.info("## getMemberImageResource");
 		log.info("\t > memberImageName = {}", memberImageName);

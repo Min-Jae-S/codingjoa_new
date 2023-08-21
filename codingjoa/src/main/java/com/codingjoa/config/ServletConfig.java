@@ -115,15 +115,16 @@ public class ServletConfig implements WebMvcConfigurer {
 	public void configurePathMatch(PathMatchConfigurer configurer) {
 		WebMvcConfigurer.super.configurePathMatch(configurer);
 		configurer.setUseTrailingSlashMatch(true);
-		configurer.setUseSuffixPatternMatch(false);
+		// @PathVariable을 사용하여 dot(.)이 포함된 요청 URI에서 매개변수에서 dot 이후까지 완전히 포함하기 위한 설정
+		configurer.setUseSuffixPatternMatch(false); // In 5.3 the default becomes false
 	}
 	
 	@SuppressWarnings("deprecation")
 	@Override
 	public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
-		log.info("## configureContentNegotiation");
 		WebMvcConfigurer.super.configureContentNegotiation(configurer);
-		configurer.favorPathExtension(false);
+		// *.jpg에 의한 요청에서 exception 발생 시 ContentType이 "json"이 아닌 null인 문제점을 해결하기 위한 설정
+		configurer.favorPathExtension(false); // In 5.3 the default becomse false
 	}
 
 	@Override
