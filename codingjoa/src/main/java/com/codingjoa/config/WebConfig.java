@@ -98,7 +98,7 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 	private void registerLogFilter(ServletContext servletContext) {
 		log.info("## registerLogFilter");
 		FilterRegistration.Dynamic logFilterReg = servletContext.addFilter("LogFilter", new LogFilter());
-		//logFilterReg.setInitParameter("excludePatterns", "/resources/, /upload/");
+		logFilterReg.setInitParameter("excludePatterns", "/resources/, /upload/");
 		
 		EnumSet<DispatcherType> dispatcherTypes = 
 				EnumSet.of(DispatcherType.REQUEST, DispatcherType.ASYNC, DispatcherType.ERROR);

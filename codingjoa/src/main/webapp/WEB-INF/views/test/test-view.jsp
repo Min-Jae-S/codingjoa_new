@@ -71,6 +71,11 @@
 		border-right: none;
 		margin: 0 !important;
 	}
+	
+	img {
+		width: 70px;
+		height: 70px;
+	}
 </style>
 </head>
 <body>
@@ -104,11 +109,11 @@
 	</div>
 	<div class="d-none justify-content-center mt-5 test">
 		<div class="d-flex flex-column px-5" style="border-right: 2px black solid;">
-			<image class="mb-3 align-self-center border" id="testImage" src="${contextPath}/resources/images/img_profile.png">
+			<%-- <image class="mb-3 align-self-center border" id="testImage" src="${contextPath}/resources/images/img_profile.png"> --%>
 			<button class="btn btn-success btn-lg" onclick="testUrlResource1()">testUrlResource1</button>
 		</div>
 		<div class="px-5" style="border-right: 2px black solid;">
-			<image class="border" src="${contextPath}/test/test-url-resource2">
+			<%-- <image class="border" src="${contextPath}/test/test-url-resource2"> --%>
 		</div>
 		<div class="px-5">
 			<button class="btn btn-success btn-lg" onclick="testUrlResource2()">testUrlResource2</button>
@@ -119,7 +124,7 @@
 		<button class="btn btn-lg btn-link mx-3 border" onclick="memberDetails()">memberDetails</button>
 		<button class="btn btn-lg btn-outline-primary mx-3" id="testUploadBtn">testUpload</button>
 		<input class="d-none" type="file" id="uploadFile"/>
-		<button class="btn btn-lg btn-outline-primary mx-3 invisible" onclick="#">#</button>
+		<button class="btn btn-lg btn-outline-secondary mx-3" onclick="showImage()">imageDialog</button>
 	</div>
 	<div class="row test2">
 		<div class="col-sm-12">
@@ -128,7 +133,7 @@
 					<div class="input-group-prepend">
 		   				<span class="input-group-text">Get Board Image</span>
 		   				<span class="input-group-text">:</span>
-		   				<span class="input-group-text">/api/board/images/{boardImageName}</span>
+		   				<span class="input-group-text">/api/board/images/{imageName}</span>
 					</div>
 		 				<input type="text" class="form-control" placeholder="boardImageName">
 					<div class="input-group-append">
@@ -139,12 +144,16 @@
 					<div class="input-group-prepend">
 						<span class="input-group-text">Get Member Image</span>
 						<span class="input-group-text">:</span>
-		   				<span class="input-group-text">/api/member/images/{memberImageName}</span>
+		   				<span class="input-group-text">/api/member/images/{imageName}</span>
 					</div>
 					<input type="text" class="form-control" placeholder="memberImageName">
 					<div class="input-group-append">
 		   				<button class="btn btn-warning" id="testGetMemberImageBtn">TEST</button>
 					</div>
+				</div>
+				<div>
+					<img class="mr-4" src="${contextPath}/api/board/images/aa.jpg">
+					<img id="testImage">
 				</div>
 			</div>
 		</div>
@@ -158,6 +167,9 @@
 			let boardImageName = $(this).closest("div.input-group").find("input").val();
 			let url = "${contextPath}/api/board/images/" + boardImageName;
 			console.log("> url = %s", url);
+			
+			console.log("> #testImage set attribute 'src'");
+			$("#testImage").attr("src", url);
 			
 			$.ajax({
 				type : "GET",
