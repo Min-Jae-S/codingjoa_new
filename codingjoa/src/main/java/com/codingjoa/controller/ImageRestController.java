@@ -68,7 +68,8 @@ public class ImageRestController {
 	
 	// When using @PathVariable to capture a portion of the URL path as a variable, the dot (.) character is excluded by default. 
 	// The dot (.) is considered a character that represents a file extension and is therefore not included in path variables.
-	@GetMapping(value = { "/board/images", "/board/images/{boardImageName:.+}"}) 
+	//@GetMapping(value = { "/board/images", "/board/images/{boardImageName:.+}"}) 
+	@GetMapping(value = { "/board/images", "/board/images/{boardImageName}"}) 
 	public ResponseEntity<Object> getBoardImageResource(@PathVariable String boardImageName) throws MalformedURLException {
 		log.info("## getBoardImageResource");
 		log.info("\t > boardImageName = {}", boardImageName);

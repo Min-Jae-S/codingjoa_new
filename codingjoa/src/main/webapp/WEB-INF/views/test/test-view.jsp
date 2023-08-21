@@ -167,8 +167,9 @@
 				},
 				error : function(jqXHR) {
 					console.log("%c> ERROR", "color:red");
-					let errorResponse = JSON.parse(jqXHR.responseText);
-					console.log(JSON.stringify(errorResponse, null, 2));
+					console.log(jqXHR);
+					//let errorResponse = JSON.parse(jqXHR.responseText);
+					//console.log(JSON.stringify(errorResponse, null, 2));
 				}
 			});		
 		});
@@ -187,8 +188,9 @@
 				},
 				error : function(jqXHR) {
 					console.log("%c> ERROR", "color:red");
-					let errorResponse = JSON.parse(jqXHR.responseText);
-					console.log(JSON.stringify(errorResponse, null, 2));
+					console.log(jqXHR);
+					//let errorResponse = JSON.parse(jqXHR.responseText);
+					//console.log(JSON.stringify(errorResponse, null, 2));
 				}
 			});	
 			

@@ -32,6 +32,7 @@ import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ViewResolver;
+import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
@@ -41,9 +42,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.BeanNameViewResolver;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
-import com.codingjoa.interceptor.UpdatePasswordInterceptor;
 import com.codingjoa.interceptor.ResetPasswordInterceptor;
 import com.codingjoa.interceptor.TopMenuInterceptor;
+import com.codingjoa.interceptor.UpdatePasswordInterceptor;
 import com.codingjoa.resolver.BoardCriteriaArgumentResolver;
 import com.codingjoa.resolver.CommentCriteriaArgumentResolver;
 import com.codingjoa.resolver.MyExceptionResolver;
@@ -109,12 +110,22 @@ public class ServletConfig implements WebMvcConfigurer {
 				.addResourceLocations("file:///" + env.getProperty("image.root.path")); // D:/Dev/image/
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void configurePathMatch(PathMatchConfigurer configurer) {
 		WebMvcConfigurer.super.configurePathMatch(configurer);
 		configurer.setUseTrailingSlashMatch(true);
+		configurer.setUseSuffixPatternMatch(false);
 	}
 	
+	@SuppressWarnings("deprecation")
+	@Override
+	public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
+		log.info("## configureContentNegotiation");
+		WebMvcConfigurer.super.configureContentNegotiation(configurer);
+		configurer.favorPathExtension(false);
+	}
+
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		WebMvcConfigurer.super.addInterceptors(registry);
