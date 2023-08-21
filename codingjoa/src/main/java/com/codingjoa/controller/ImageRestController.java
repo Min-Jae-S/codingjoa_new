@@ -8,6 +8,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.UrlResource;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -69,7 +70,7 @@ public class ImageRestController {
 	// When using @PathVariable to capture a portion of the URL path as a variable, the dot (.) character is excluded by default. 
 	// The dot (.) is considered a character that represents a file extension and is therefore not included in path variables.
 	//@GetMapping(value = { "/board/images", "/board/images/{boardImageName:.+}"}) 
-	@GetMapping(value = { "/board/images", "/board/images/{boardImageName}"}) 
+	@GetMapping(value = { "/board/images", "/board/images/{boardImageName}"}, produces = MediaType.IMAGE_JPEG_VALUE) 
 	public ResponseEntity<Object> getBoardImageResource(@PathVariable String boardImageName) throws MalformedURLException {
 		log.info("## getBoardImageResource");
 		log.info("\t > boardImageName = {}", boardImageName);

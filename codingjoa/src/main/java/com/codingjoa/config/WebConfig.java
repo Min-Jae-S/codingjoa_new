@@ -94,7 +94,7 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 		encodingFilterReg.addMappingForUrlPatterns(dispatcherTypes, false, "/*");
 	}
 	
-	//@SuppressWarnings("unused")
+	@SuppressWarnings("unused")
 	private void registerLogFilter(ServletContext servletContext) {
 		log.info("## registerLogFilter");
 		FilterRegistration.Dynamic logFilterReg = servletContext.addFilter("LogFilter", new LogFilter());
