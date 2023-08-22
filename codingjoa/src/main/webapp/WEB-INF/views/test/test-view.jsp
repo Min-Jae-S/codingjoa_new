@@ -173,6 +173,8 @@
 	$(document).ready(function() {
 		$("#testGetBoardImageBtn").on("click", function() {
 			console.log("## testGetBoardImageBtn click");
+			$("#testBoardImage").removeAttr("src");
+			
 			let boardImageName = $(this).closest("div.input-group").find("input").val();
 			let url = "${contextPath}/api/board/images/" + boardImageName;
 			console.log("> url = %s", url);
@@ -186,11 +188,13 @@
 				success : function(result) {
 					console.log("%c> SUCCESS", "color:green");
 					let blob = new Blob([result], { type: 'image/jpeg' });
+					console.log(blob);
+					
 			        let boardImageUrl = URL.createObjectURL(blob);
 			        console.log("> boardImageUrl = %s", boardImageUrl);
 			        
 			        $("#testBoardImage").attr("src", boardImageUrl);
-			        URL.revokeObjectURL(boardImageUrl);
+			        //URL.revokeObjectURL(boardImageUrl);
 				},
 				error : function(jqXHR) {
 					console.log("%c> ERROR", "color:red");
@@ -198,13 +202,14 @@
 					let errorResponse = JSON.parse(jqXHR.responseText);
 					console.log(JSON.stringify(errorResponse, null, 2));
 					alert(errorResponse.message);
-					$("#testBoardImage").removeAttr("src");
 				}
 			});		
 		});
 
 		$("#testGetMemberImageBtn").on("click", function() {
 			console.log("## testGetMemberImageBtn click");
+			$("#testMemberImage").removeAttr("src");
+			
 			let memberImageName = $(this).closest("div.input-group").find("input").val();
 			let url = "${contextPath}/api/member/images/" + memberImageName;
 			console.log("> url = %s", url);
@@ -215,11 +220,13 @@
 				success : function(result) {
 					console.log("%c> SUCCESS", "color:green");
 					let blob = new Blob([result], { type: 'image/jpeg' });
+					console.log(blob);
+					
 			        let memberImageUrl = URL.createObjectURL(blob);
 			        console.log("> memberImageUrl = %s", memberImageUrl);
 			        
 			        $("#testMemberImage").attr("src", memberImageUrl);
-			        URL.revokeObjectURL(memberImageUrl);
+			        //URL.revokeObjectURL(memberImageUrl);
 				},
 				error : function(jqXHR) {
 					console.log("%c> ERROR", "color:red");
@@ -227,7 +234,6 @@
 					let errorResponse = JSON.parse(jqXHR.responseText);
 					console.log(JSON.stringify(errorResponse, null, 2));
 					alert(errorResponse.message);
-					$("#testMemberImage").removeAttr("src");
 				}
 			});	
 			
