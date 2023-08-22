@@ -124,7 +124,7 @@
 		<button class="btn btn-lg btn-link mx-3 border" onclick="memberDetails()">memberDetails</button>
 		<button class="btn btn-lg btn-primary mx-3" id="testUploadBtn">testUpload</button>
 		<input class="d-none" type="file" id="uploadFile"/>
-		<button class="btn btn-lg mx-3 invisible" onclick="showImage()">imageDialog</button>
+		<button class="btn btn-lg mx-3" onclick="showImage()">imageDialog</button>
 	</div>
 	<div class="row test2">
 		<div class="col-sm-12">
@@ -185,7 +185,6 @@
 		$("#testStarBtn").on("click", function() {
 			let starCount = $(this).closest("div.input-group").find("input").val();
 			let url = "${contextPath}/test/test-star/" + starCount;
-			
 			$.ajax({
 				type : "GET",
 				url : url,
@@ -209,15 +208,17 @@
 			$.ajax({
 				type : "GET",
 				url : url,
-				//async : false,
 				success : function(result, status, jqXHR) {
 					console.log("%c> SUCCESS", "color:green");
 					console.log(jqXHR);
 					
+					const blobSupported = new Blob(["ä"]).size === 2;
+					console.log("> blobSupported = %s", blobSupported);
+					
 					let blob = new Blob([result], { type: 'image/jpeg' });
 					console.log(blob);
 					
-					let boardImageUrl = URL.createObjectURL(blob);
+					let boardImageUrl = window.URL.createObjectURL(blob);
 				    console.log("> boardImageUrl = %s", boardImageUrl);
 				    
 			    	$("#testBoardImage").attr("src", boardImageUrl);
