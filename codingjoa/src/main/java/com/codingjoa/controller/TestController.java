@@ -25,6 +25,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -469,6 +470,30 @@ public class TestController {
 				.build();
 		
 		return ResponseEntity.ok().body(successResponse);
+	}
+	
+	@GetMapping("/test-star/{starCount}")
+	public ResponseEntity<Object> testStar(@PathVariable int starCount) {
+		log.info("## testStar");
+		log.info("\t > starCount = {}", starCount);
+		
+		for (int i=0; i<starCount; i++) {
+			String str = "";
+			for (int j=starCount-1-i; j>0; j--) {
+				str += " ";
+			}
+			
+			for (int j=0; j<2*i + 1; j++) {
+				str += "*";
+			}
+			
+			for (int j=starCount-1-i; j>0; j--) {
+				str += " ";
+			}
+			System.out.println(str);
+		}
+		
+		return ResponseEntity.ok().body("success");
 	}
 	
 }

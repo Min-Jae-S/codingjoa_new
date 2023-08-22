@@ -131,6 +131,17 @@
 			<div class="mt-5 mx-3 pt-3">
 				<div class="input-group mb-4">
 					<div class="input-group-prepend">
+						<span class="input-group-text">STAR</span>
+						<span class="input-group-text"></span>
+		   				<span class="input-group-text"></span>
+					</div>
+					<input type="text" class="form-control" placeholder="starCount">
+					<div class="input-group-append">
+		   				<button class="btn btn-warning" id="testStarBtn">TEST</button>
+					</div>
+				</div>
+				<div class="input-group mb-4">
+					<div class="input-group-prepend">
 		   				<span class="input-group-text">Get Board Image</span>
 		   				<span class="input-group-text">:</span>
 		   				<span class="input-group-text">/api/board/images/{imageName}</span>
@@ -140,7 +151,7 @@
 		   				<button class="btn btn-warning" id="testGetBoardImageBtn">TEST</button>
 					</div>
 				</div>
-				<div class="input-group mb-5">
+				<div class="input-group mb-4">
 					<div class="input-group-prepend">
 						<span class="input-group-text">Get Member Image</span>
 						<span class="input-group-text">:</span>
@@ -171,30 +182,45 @@
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 <script>
 	$(document).ready(function() {
+		$("#testStarBtn").on("click", function() {
+			let starCount = $(this).closest("div.input-group").find("input").val();
+			let url = "${contextPath}/test/test-star/" + starCount;
+			
+			$.ajax({
+				type : "GET",
+				url : url,
+				dataType : "json",
+				success : function(result) {
+					console.log(result);
+				},
+				error : function(jqXHR) {
+					console.log(jqXHR);
+				}
+			});
+		});
+		
 		$("#testGetBoardImageBtn").on("click", function() {
 			console.log("## testGetBoardImageBtn click");
-			$("#testBoardImage").removeAttr("src");
 			
 			let boardImageName = $(this).closest("div.input-group").find("input").val();
 			let url = "${contextPath}/api/board/images/" + boardImageName;
 			console.log("> url = %s", url);
 			
-			//console.log("> #testBoardImage set attribute 'src'");
-			//$("#testBoardImage").attr("src", url);
-			
 			$.ajax({
 				type : "GET",
 				url : url,
-				success : function(result) {
+				//async : false,
+				success : function(result, status, jqXHR) {
 					console.log("%c> SUCCESS", "color:green");
+					console.log(jqXHR);
+					
 					let blob = new Blob([result], { type: 'image/jpeg' });
 					console.log(blob);
 					
-			        let boardImageUrl = URL.createObjectURL(blob);
-			        console.log("> boardImageUrl = %s", boardImageUrl);
-			        
-			        $("#testBoardImage").attr("src", boardImageUrl);
-			        //URL.revokeObjectURL(boardImageUrl);
+					let boardImageUrl = URL.createObjectURL(blob);
+				    console.log("> boardImageUrl = %s", boardImageUrl);
+				    
+			    	$("#testBoardImage").attr("src", boardImageUrl);
 				},
 				error : function(jqXHR) {
 					console.log("%c> ERROR", "color:red");
@@ -203,12 +229,12 @@
 					console.log(JSON.stringify(errorResponse, null, 2));
 					alert(errorResponse.message);
 				}
-			});		
+			});		 
 		});
 
 		$("#testGetMemberImageBtn").on("click", function() {
 			console.log("## testGetMemberImageBtn click");
-			$("#testMemberImage").removeAttr("src");
+			$("#testMemberImage").attr("src", "");
 			
 			let memberImageName = $(this).closest("div.input-group").find("input").val();
 			let url = "${contextPath}/api/member/images/" + memberImageName;
