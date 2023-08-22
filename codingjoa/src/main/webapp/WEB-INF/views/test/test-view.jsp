@@ -168,8 +168,8 @@
 			let url = "${contextPath}/api/board/images/" + boardImageName;
 			console.log("> url = %s", url);
 			
-			console.log("> #testImage set attribute 'src'");
-			$("#testImage").attr("src", url);
+			//console.log("> #testImage set attribute 'src'");
+			//$("#testImage").attr("src", url);
 			
 			$.ajax({
 				type : "GET",
