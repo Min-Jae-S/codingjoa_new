@@ -76,8 +76,6 @@ public class ImageRestController {
 		log.info("\t > boardImageName = {}", boardImageName);
 		
 		BoardImage boardImage = imageService.findBoardImageByName(boardImageName);
-		log.info("\t > find boardImage by boardImageName, {}", boardImage);
-		
 		UrlResource resource = new UrlResource("file:" + boardImage.getBoardImagePath());
 		log.info("\t > respond with urlResource = {}", resource);
 		
@@ -106,8 +104,6 @@ public class ImageRestController {
 		log.info("\t > memberImageName = {}", memberImageName);
 		
 		MemberImage memberImage = imageService.findMemberImageByName(memberImageName);
-		log.info("\t > find memberImage by memberImageName, {}", memberImage);
-		
 		UrlResource resource = new UrlResource("file:" + memberImage.getMemberImagePath());
 		log.info("\t > respond with urlResource = {}", resource);
 		

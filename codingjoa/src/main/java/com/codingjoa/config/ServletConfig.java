@@ -110,7 +110,6 @@ public class ServletConfig implements WebMvcConfigurer {
 				.addResourceLocations("file:///" + env.getProperty("image.root.path")); // D:/Dev/image/
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public void configurePathMatch(PathMatchConfigurer configurer) {
 		WebMvcConfigurer.super.configurePathMatch(configurer);
