@@ -174,8 +174,17 @@
 			$.ajax({
 				type : "GET",
 				url : url,
-				success : function(result) {
+				/* xhrFields: {
+			        responseType: "blob",
+			    }, */
+				success : function(result, textStatus, jqXHR) {
 					console.log("%c> SUCCESS", "color:green");
+					let binary = "";
+					let responseText = jqXHR.responseText;
+				    for (i = 0; i < responseText.length; i++) {
+				        binary += String.fromCharCode(responseText.charCodeAt(i) & 255);
+				    }
+				    $("#testImage").attr("src", "data:image/jpeg;base64,"+ btoa(binary));
 				},
 				error : function(jqXHR) {
 					console.log("%c> ERROR", "color:red");

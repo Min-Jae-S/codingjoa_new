@@ -2,6 +2,8 @@ package com.codingjoa.controller;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -76,7 +78,8 @@ public class ImageRestController {
 		log.info("\t > boardImageName = {}", boardImageName);
 		
 		BoardImage boardImage = imageService.findBoardImageByName(boardImageName);
-		UrlResource resource = new UrlResource("file:" + boardImage.getBoardImagePath());
+		Path boardImagePath = Path.of(boardImage.getBoardImagePath());
+		UrlResource resource = new UrlResource(boardImagePath.toUri());
 		log.info("\t > respond with urlResource = {}", resource);
 		
 		return ResponseEntity.ok(resource);
