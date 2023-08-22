@@ -73,8 +73,8 @@
 	}
 	
 	img {
-		width: 70px;
-		height: 70px;
+		width: 100px;
+		height: 100px;
 	}
 </style>
 </head>
@@ -151,9 +151,18 @@
 		   				<button class="btn btn-warning" id="testGetMemberImageBtn">TEST</button>
 					</div>
 				</div>
-				<div>
-					<img class="mr-4" src="${contextPath}/api/board/images/aa.jpg">
-					<img id="testImage">
+				<div class="d-flex">
+					<div class="mr-5">
+						<img src="${contextPath}/api/board/images/aa.jpg">
+					</div>
+					<div class="mr-5 d-flex flex-column mb-1">
+						<img class="align-self-center mb-1" id="testBoardImage">
+						<span class="text-secondary">testBoardImage</span>
+					</div>
+					<div class="mr-5 d-flex flex-column">
+						<img class="align-self-center mb-1" id="testMemberImage">
+						<span class="text-secondary">testMemberImage</span>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -168,23 +177,20 @@
 			let url = "${contextPath}/api/board/images/" + boardImageName;
 			console.log("> url = %s", url);
 			
-			//console.log("> #testImage set attribute 'src'");
-			//$("#testImage").attr("src", url);
+			//console.log("> #testBoardImage set attribute 'src'");
+			//$("#testBoardImage").attr("src", url);
 			
 			$.ajax({
 				type : "GET",
 				url : url,
-				/* xhrFields: {
-			        responseType: "blob",
-			    }, */
 				success : function(result, textStatus, jqXHR) {
 					console.log("%c> SUCCESS", "color:green");
-					let binary = "";
-					let responseText = jqXHR.responseText;
-				    for (i = 0; i < responseText.length; i++) {
-				        binary += String.fromCharCode(responseText.charCodeAt(i) & 255);
-				    }
-				    $("#testImage").attr("src", "data:image/jpeg;base64,"+ btoa(binary));
+					let blob = new Blob([result], { type: 'image/jpeg' });
+			        let boardImageUrl = URL.createObjectURL(blob);
+			        console.log("> boardImageUrl = %s", boardImageUrl);
+			        
+			        $("#testBoardImage").attr("src", boardImageUrl);
+			        URL.revokeObjectURL(boardImageUrl);
 				},
 				error : function(jqXHR) {
 					console.log("%c> ERROR", "color:red");
