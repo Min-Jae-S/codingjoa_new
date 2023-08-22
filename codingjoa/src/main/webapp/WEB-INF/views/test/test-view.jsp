@@ -73,8 +73,8 @@
 	}
 	
 	img {
-		width: 100px;
-		height: 100px;
+		width: 140px;
+		height: 140px;
 	}
 </style>
 </head>
@@ -89,14 +89,14 @@
 		<button class="btn btn-primary btn-lg mx-3" onclick="test4()">test4</button>
 		<button class="btn btn-primary btn-lg mx-3" onclick="test5()">test5</button>
 	</div>
-	<div class="d-flex justify-content-center mt-5 test">
+	<div class="d-none justify-content-center mt-5 test">
 		<button class="btn btn-warning btn-lg mx-3" onclick="methodArgumentException()">method-argumentEx</button>
 		<button class="btn btn-warning btn-lg mx-3" onclick="expectedException1()">expectedEx1</button>
 		<button class="btn btn-warning btn-lg mx-3" onclick="expectedException2()">expectedEx2</button>
 		<button class="btn btn-warning btn-lg mx-3" onclick="testException()">textEx</button>
 		<!-- <button class="btn btn-secondary btn-lg" onclick="colored_console()">console</button> -->
 	</div>
-	<div class="d-flex justify-content-center mt-5 test">
+	<div class="d-none justify-content-center mt-5 test">
 		<form class="d-none" id="testForm" method="POST" action="${contextPath}/test/test-form">
 			<input type="hidden" name="foo[]" value="1">
 			<input type="hidden" name="foo[]" value="2">
@@ -122,9 +122,9 @@
 	<div class="d-flex justify-content-center mt-5 test">
 		<button class="btn btn-lg btn-link mx-3 border" onclick="userDetails()">userDetails</button>
 		<button class="btn btn-lg btn-link mx-3 border" onclick="memberDetails()">memberDetails</button>
-		<button class="btn btn-lg btn-outline-primary mx-3" id="testUploadBtn">testUpload</button>
+		<button class="btn btn-lg btn-primary mx-3" id="testUploadBtn">testUpload</button>
 		<input class="d-none" type="file" id="uploadFile"/>
-		<button class="btn btn-lg btn-outline-secondary mx-3" onclick="showImage()">imageDialog</button>
+		<button class="btn btn-lg mx-3 invisible" onclick="showImage()">imageDialog</button>
 	</div>
 	<div class="row test2">
 		<div class="col-sm-12">
@@ -140,7 +140,7 @@
 		   				<button class="btn btn-warning" id="testGetBoardImageBtn">TEST</button>
 					</div>
 				</div>
-				<div class="input-group mb-4">
+				<div class="input-group mb-5">
 					<div class="input-group-prepend">
 						<span class="input-group-text">Get Member Image</span>
 						<span class="input-group-text">:</span>
@@ -156,12 +156,12 @@
 						<img src="${contextPath}/api/board/images/aa.jpg">
 					</div>
 					<div class="mr-5 d-flex flex-column mb-1">
-						<img class="align-self-center mb-1" id="testBoardImage">
-						<span class="text-secondary">testBoardImage</span>
+						<img class="mb-1" id="testBoardImage">
+						<span class="align-self-center text-secondary">#testBoardImage</span>
 					</div>
 					<div class="mr-5 d-flex flex-column">
-						<img class="align-self-center mb-1" id="testMemberImage">
-						<span class="text-secondary">testMemberImage</span>
+						<img class="mb-1" id="testMemberImage">
+						<span class="align-self-center text-secondary">#testMemberImage</span>
 					</div>
 				</div>
 			</div>
@@ -197,6 +197,7 @@
 					console.log(jqXHR);
 					let errorResponse = JSON.parse(jqXHR.responseText);
 					console.log(JSON.stringify(errorResponse, null, 2));
+					alert(errorResponse.message);
 				}
 			});		
 		});
@@ -218,6 +219,7 @@
 					console.log(jqXHR);
 					let errorResponse = JSON.parse(jqXHR.responseText);
 					console.log(JSON.stringify(errorResponse, null, 2));
+					alert(errorResponse.message);
 				}
 			});	
 			

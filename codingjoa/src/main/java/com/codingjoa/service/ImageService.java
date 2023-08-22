@@ -25,6 +25,6 @@ public interface ImageService {
 
 	BoardImage findBoardImageByName(String boardImageName);
 	
-	MemberImage findMemberImageByName(String profileImageName);
+	MemberImage findMemberImageByName(String profileImageName, Integer memberIdx);
 	
 }

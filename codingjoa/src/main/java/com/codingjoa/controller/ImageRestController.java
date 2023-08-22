@@ -3,7 +3,6 @@ package com.codingjoa.controller;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -102,11 +101,12 @@ public class ImageRestController {
 	}
 	
 	@GetMapping(value = { "/member/images", "/member/images/{memberImageName:.+}"}, produces = MediaType.IMAGE_JPEG_VALUE) 
-	public ResponseEntity<Object> getMemberImageResource(@PathVariable String memberImageName) throws MalformedURLException {
+	public ResponseEntity<Object> getMemberImageResource(@PathVariable String memberImageName, 
+			@AuthenticationPrincipal UserDetailsDto principal) throws MalformedURLException {
 		log.info("## getMemberImageResource");
 		log.info("\t > memberImageName = {}", memberImageName);
 		
-		MemberImage memberImage = imageService.findMemberImageByName(memberImageName);
+		MemberImage memberImage = imageService.findMemberImageByName(memberImageName, principal.getMember().getMemberIdx());
 		UrlResource resource = new UrlResource("file:" + memberImage.getMemberImagePath());
 		log.info("\t > respond with urlResource = {}", resource);
 		
