@@ -183,7 +183,7 @@
 			$.ajax({
 				type : "GET",
 				url : url,
-				success : function(result, textStatus, jqXHR) {
+				success : function(result) {
 					console.log("%c> SUCCESS", "color:green");
 					let blob = new Blob([result], { type: 'image/jpeg' });
 			        let boardImageUrl = URL.createObjectURL(blob);
@@ -198,6 +198,7 @@
 					let errorResponse = JSON.parse(jqXHR.responseText);
 					console.log(JSON.stringify(errorResponse, null, 2));
 					alert(errorResponse.message);
+					$("#testBoardImage").removeAttr("src");
 				}
 			});		
 		});
@@ -213,6 +214,12 @@
 				url : url,
 				success : function(result) {
 					console.log("%c> SUCCESS", "color:green");
+					let blob = new Blob([result], { type: 'image/jpeg' });
+			        let memberImageUrl = URL.createObjectURL(blob);
+			        console.log("> memberImageUrl = %s", memberImageUrl);
+			        
+			        $("#testMemberImage").attr("src", memberImageUrl);
+			        URL.revokeObjectURL(memberImageUrl);
 				},
 				error : function(jqXHR) {
 					console.log("%c> ERROR", "color:red");
@@ -220,6 +227,7 @@
 					let errorResponse = JSON.parse(jqXHR.responseText);
 					console.log(JSON.stringify(errorResponse, null, 2));
 					alert(errorResponse.message);
+					$("#testMemberImage").removeAttr("src");
 				}
 			});	
 			
