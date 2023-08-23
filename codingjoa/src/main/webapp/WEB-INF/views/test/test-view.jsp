@@ -182,6 +182,11 @@
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 <script>
 	$(document).ready(function() {
+		
+		$("#testBoardImage").on("load", function() {
+			console.log("%c## testBoardImage loaded successfully", "color:green");
+		});
+		
 		$("#testStarBtn").on("click", function() {
 			let starCount = $(this).closest("div.input-group").find("input").val();
 			let url = "${contextPath}/test/test-star/" + starCount;
