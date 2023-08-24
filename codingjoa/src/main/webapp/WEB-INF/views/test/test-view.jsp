@@ -174,6 +174,10 @@
 						<img class="mb-1" id="testMemberImage">
 						<span class="align-self-center text-secondary">#testMemberImage</span>
 					</div>
+					<div class="mr-5 d-flex flex-column">
+						<img class="mb-1" id="testLoadImage">
+						<span class="align-self-center text-secondary">#testLoadImage</span>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -182,9 +186,12 @@
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 <script>
 	$(document).ready(function() {
-		
 		$("#testBoardImage").on("load", function() {
 			console.log("%c## testBoardImage loaded successfully", "color:green");
+		});
+
+		$("#testLoadImage").on("load", function() {
+			console.log("%c## testLoadImage loaded successfully", "color:green");
 		});
 		
 		$("#testStarBtn").on("click", function() {
@@ -210,9 +217,17 @@
 			let url = "${contextPath}/api/board/images/" + boardImageName;
 			console.log("> url = %s", url);
 			
+			//$("#testLoadImage").attr("src", url);
+			
 			$.ajax({
 				type : "GET",
 				url : url,
+				beforeSend : function(jqXHR, settings) {
+					console.log("## beforeSend");
+					console.log("> responseType = %s", jqXHR.responseType);
+				},
+				//xhrFields: { responseType: 'arraybuffer'},
+				//xhrFields: { responseType: 'blob'},
 				success : function(result, status, jqXHR) {
 					console.log("%c> SUCCESS", "color:green");
 					console.log(jqXHR);
@@ -223,7 +238,7 @@
 					let blob = new Blob([result], { type: 'image/jpeg' });
 					console.log(blob);
 					
-					let boardImageUrl = window.URL.createObjectURL(blob);
+					let boardImageUrl = URL.createObjectURL(blob);
 				    console.log("> boardImageUrl = %s", boardImageUrl);
 				    
 			    	$("#testBoardImage").attr("src", boardImageUrl);
