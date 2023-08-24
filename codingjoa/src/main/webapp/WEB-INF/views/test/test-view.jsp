@@ -174,10 +174,6 @@
 						<img class="mb-1" id="testMemberImage">
 						<span class="align-self-center text-secondary">#testMemberImage</span>
 					</div>
-					<div class="mr-5 d-flex flex-column">
-						<img class="mb-1" id="testLoadImage">
-						<span class="align-self-center text-secondary">#testLoadImage</span>
-					</div>
 				</div>
 			</div>
 		</div>
@@ -186,14 +182,10 @@
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 <script>
 	$(document).ready(function() {
-		$("#testBoardImage").on("load", function() {
-			console.log("%c## testBoardImage loaded successfully", "color:green");
+		$("#testBoardImage, #testMemberImage").on("load", function() {
+			console.log("%c> LOADING SUCCESS", "color:green");
 		});
 
-		$("#testLoadImage").on("load", function() {
-			console.log("%c## testLoadImage loaded successfully", "color:green");
-		});
-		
 		$("#testStarBtn").on("click", function() {
 			let starCount = $(this).closest("div.input-group").find("input").val();
 			let url = "${contextPath}/test/test-star/" + starCount;
@@ -217,8 +209,6 @@
 			let url = "${contextPath}/api/board/images/" + boardImageName;
 			console.log("> url = %s", url);
 			
-			//$("#testLoadImage").attr("src", url);
-			
 			$.ajax({
 				type : "GET",
 				url : url,
@@ -226,8 +216,8 @@
 				//xhrFields: { responseType: 'blob'},
 				xhr : function() {
 					let xhr = new XMLHttpRequest();
-                    xhr.onreadystatechange = function () {
-                        if (xhr.readyState == 2) {
+                    xhr.onreadystatechange = function() {
+                        if (xhr.readyState == XMLHttpRequest.DONE) {
                             if (xhr.status == 200) {
                                 xhr.responseType = "blob";
                             } 
@@ -248,11 +238,10 @@
 					
 					let boardImageUrl = URL.createObjectURL(result);
 			    	$("#testBoardImage").attr("src", boardImageUrl);
+			    	URL.revokeObjectURL(boardImageUrl);
 				},
 				error : function(jqXHR) {
 					console.log("%c> ERROR", "color:red");
-					console.log(jqXHR);
-					
 					let errorResponse = JSON.parse(jqXHR.responseText);
 					console.log(JSON.stringify(errorResponse, null, 2));
 					alert(errorResponse.message);
@@ -262,7 +251,6 @@
 
 		$("#testGetMemberImageBtn").on("click", function() {
 			console.log("## testGetMemberImageBtn click");
-			$("#testMemberImage").attr("src", "");
 			
 			let memberImageName = $(this).closest("div.input-group").find("input").val();
 			let url = "${contextPath}/api/member/images/" + memberImageName;
@@ -271,20 +259,28 @@
 			$.ajax({
 				type : "GET",
 				url : url,
+				cache: false,
+				xhr : function() {
+					let xhr = new XMLHttpRequest();
+                    xhr.onreadystatechange = function() {
+                        if (xhr.readyState == XMLHttpRequest.DONE) {
+                            if (xhr.status == 200) {
+                                xhr.responseType = "blob";
+                            } 
+                        }
+                    };
+                    return xhr;
+				},
 				success : function(result) {
 					console.log("%c> SUCCESS", "color:green");
-					let blob = new Blob([result], { type: 'image/jpeg' });
-					console.log(blob);
+					console.log(result);
 					
-			        let memberImageUrl = URL.createObjectURL(blob);
-			        console.log("> memberImageUrl = %s", memberImageUrl);
-			        
+			        let memberImageUrl = URL.createObjectURL(result);
 			        $("#testMemberImage").attr("src", memberImageUrl);
-			        //URL.revokeObjectURL(memberImageUrl);
+			        URL.revokeObjectURL(memberImageUrl);
 				},
 				error : function(jqXHR) {
 					console.log("%c> ERROR", "color:red");
-					console.log(jqXHR);
 					let errorResponse = JSON.parse(jqXHR.responseText);
 					console.log(JSON.stringify(errorResponse, null, 2));
 					alert(errorResponse.message);
