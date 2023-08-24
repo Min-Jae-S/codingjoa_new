@@ -182,8 +182,18 @@
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 <script>
 	$(document).ready(function() {
+		$("input").on("keydown", function(e) {
+			if (e.keyCode == 13) {
+				$(this).closest("div.input-group").find("button").click();
+			}
+		});
+		
 		$("#testBoardImage, #testMemberImage").on("load", function() {
 			console.log("%c> LOADING SUCCESS", "color:green");
+			
+			let imageURL = $(this).attr("src");
+			console.log("> revoke imageURL = %s", imageURL);
+			URL.revokeObjectURL(imageURL);
 		});
 
 		$("#testStarBtn").on("click", function() {
@@ -217,7 +227,7 @@
 				xhr : function() {
 					let xhr = new XMLHttpRequest();
                     xhr.onreadystatechange = function() {
-                        if (xhr.readyState == XMLHttpRequest.DONE) {
+                        if (xhr.readyState == XMLHttpRequest.HEADERS_RECEIVED) {
                             if (xhr.status == 200) {
                                 xhr.responseType = "blob";
                             } 
@@ -238,7 +248,6 @@
 					
 					let boardImageUrl = URL.createObjectURL(result);
 			    	$("#testBoardImage").attr("src", boardImageUrl);
-			    	URL.revokeObjectURL(boardImageUrl);
 				},
 				error : function(jqXHR) {
 					console.log("%c> ERROR", "color:red");
@@ -277,7 +286,6 @@
 					
 			        let memberImageUrl = URL.createObjectURL(result);
 			        $("#testMemberImage").attr("src", memberImageUrl);
-			        URL.revokeObjectURL(memberImageUrl);
 				},
 				error : function(jqXHR) {
 					console.log("%c> ERROR", "color:red");
