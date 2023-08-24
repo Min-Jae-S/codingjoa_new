@@ -222,30 +222,37 @@
 			$.ajax({
 				type : "GET",
 				url : url,
-				beforeSend : function(jqXHR, settings) {
-					console.log("## beforeSend");
-					console.log("> responseType = %s", jqXHR.responseType);
-				},
-				//xhrFields: { responseType: 'arraybuffer'},
+				cache: false,
 				//xhrFields: { responseType: 'blob'},
+				xhr : function() {
+					let xhr = new XMLHttpRequest();
+                    xhr.onreadystatechange = function () {
+                        if (xhr.readyState == 2) {
+                            if (xhr.status == 200) {
+                                xhr.responseType = "blob";
+                            } 
+                        }
+                       
+                    };
+                    return xhr;
+				},
 				success : function(result, status, jqXHR) {
 					console.log("%c> SUCCESS", "color:green");
-					console.log(jqXHR);
+					console.log(result);
 					
-					const blobSupported = new Blob(["ä"]).size === 2;
-					console.log("> blobSupported = %s", blobSupported);
+					//const blobSupported = new Blob(["ä"]).size === 2;
+					//console.log("> blobSupported = %s", blobSupported);
 					
-					let blob = new Blob([result], { type: 'image/jpeg' });
-					console.log(blob);
+					//let blob = new Blob([result], { type: 'image/jpeg' });
+					//console.log(blob);
 					
-					let boardImageUrl = URL.createObjectURL(blob);
-				    console.log("> boardImageUrl = %s", boardImageUrl);
-				    
+					let boardImageUrl = URL.createObjectURL(result);
 			    	$("#testBoardImage").attr("src", boardImageUrl);
 				},
 				error : function(jqXHR) {
 					console.log("%c> ERROR", "color:red");
 					console.log(jqXHR);
+					
 					let errorResponse = JSON.parse(jqXHR.responseText);
 					console.log(JSON.stringify(errorResponse, null, 2));
 					alert(errorResponse.message);
