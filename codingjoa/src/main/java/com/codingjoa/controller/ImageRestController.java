@@ -79,7 +79,7 @@ public class ImageRestController {
 		BoardImage boardImage = imageService.findBoardImageByName(boardImageName);
 		Path boardImagePath = Path.of(boardImage.getBoardImagePath());
 		UrlResource resource = new UrlResource(boardImagePath.toUri());
-		log.info("\t > respond with urlResource = {}", resource);
+		log.info("\t > return {}", resource);
 		
 		return ResponseEntity.ok(resource);
 	}
@@ -108,7 +108,7 @@ public class ImageRestController {
 		
 		MemberImage memberImage = imageService.findMemberImageByName(memberImageName, principal.getMember().getMemberIdx());
 		UrlResource resource = new UrlResource("file:" + memberImage.getMemberImagePath());
-		log.info("\t > respond with urlResource = {}", resource);
+		log.info("\t > return {}", resource);
 		
 		return ResponseEntity.ok(resource);
 	}
