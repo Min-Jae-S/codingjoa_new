@@ -32,9 +32,9 @@ let imageService = (function() {
 		});
 	}
 
-	function getMemberImageResource(memberImage, callback) {
+	function getMemberImageResource(memberImageName, callback) {
 		console.log("## Get Member Image Resource");
-		let url = contextPath + "/api/member/images/" + memberImage;
+		let url = contextPath + "/api/member/images/" + memberImageName;
 		console.log("> url = '%s'", url);
 		
 		$.ajax({

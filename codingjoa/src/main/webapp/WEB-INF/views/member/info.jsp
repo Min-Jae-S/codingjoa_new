@@ -111,7 +111,7 @@
 	
 	.member-image-btn {
 		position: absolute;
-		z-index: 999;
+		z-index: 99;
 		top: 60px;
 		left: 60px;
 		padding: 0;
@@ -147,9 +147,9 @@
 				<div class="mb-5 d-flex">
 					<div class="wrap-member-image mr-4">
 						<c:choose>
-							<c:when test="${not empty principal.memberImage}">
+							<c:when test="${not empty principal.memberImageName}">
 								<img class="member-thumb-image" id="memberThumbImage" 
-									src="${contextPath}/api/member/images/${principal.memberImage}">
+									src="${contextPath}/api/member/images/${principal.memberImageName}">
 							</c:when>
 							<c:otherwise>
 								<img class="member-thumb-image" id="memberThumbImage" src="${contextPath}/resources/images/img_profile.png">
@@ -267,6 +267,16 @@
 					</dl>
 				</div>
 			</div>
+			<!-- test -->
+			<div class="input-group pt-5">
+				<div class="input-group-prepend">
+	   				<span class="input-group-text">/api/member/images/{memberImageName}</span>
+				</div>
+				<input type="text" class="form-control" placeholder="memberImageName" style="border: 1px solid #ced4da;">
+				<div class="input-group-append">
+	   				<button class="btn btn-warning" id="testGetMemberImageBtn">TEST</button>
+				</div>
+			</div>
 		</div>
 		<div class="col-sm-2"></div>
 	</div>
@@ -277,6 +287,15 @@
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
 	$(function() {
+		// test
+		$("#testGetMemberImageBtn").on("click", function() {
+			let testMemberImageName = $(this).closest("div.input-group").find("input").val();
+			imageService.getMemberImageResource(testMemberImageName, function(result) {
+				let memberImageUrl = URL.createObjectURL(result);
+				$("#memberThumbImage, #navMemberImage").attr("src", memberImageUrl);
+			});
+		});
+		
 		// member image button event
 		$("#memberImageBtn").on("click", function() {
 			$("#memberImage").click();
@@ -301,8 +320,8 @@
 			imageService.uploadMemberImage(formData, function(result) {
 				alert(result.message);
 				memberService.getMemberDetails(function(result) {
-					let currentMemberImage = result.data.memberImage;
-					imageService.getMemberImageResource(currentMemberImage, function(result) {
+					let currentMemberImageName = result.data.memberImageName;
+					imageService.getMemberImageResource(currentMemberImageName, function(result) {
 						let memberImageUrl = URL.createObjectURL(result);
 						$("#memberThumbImage, #navMemberImage").attr("src", memberImageUrl);
 					});
