@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>test-view</title>
+<title>test-view.jsp</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
@@ -20,6 +20,7 @@
 		text-align: center; 
 		font-size: 60px;
 		font-weight: bold;
+		padding-top: 10px;
 	}
 	
 	div.test {
@@ -162,7 +163,7 @@
 		   				<button class="btn btn-warning" id="testGetMemberImageBtn">TEST</button>
 					</div>
 				</div>
-				<div class="d-flex">
+				<div class="d-flex pt-3">
 					<div class="mr-5">
 						<img src="${contextPath}/api/board/images/aa.jpg">
 					</div>

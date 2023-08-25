@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>test-view</title>
+<title>scheduler.jsp</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
@@ -20,6 +20,7 @@
 		text-align: center; 
 		font-size: 60px;
 		font-weight: bold;
+		padding-top: 10px;
 	}
 	
 	div.test {
@@ -37,7 +38,7 @@
 <div class="container my-5">
 	<p>scheduler.jsp</p>
 	<div class="test d-flex justify-content-center mt-5">
-		<button class="btn btn-primary btn-lg mx-3" onclick="test1()">test1</button>
+		<button class="btn btn-primary btn-lg mx-3" onclick="startTimer()">startTimer</button>
 		<button class="btn btn-primary btn-lg mx-3" onclick="test2()">test2</button>
 		<button class="btn btn-primary btn-lg mx-3" onclick="test3()">test3</button>
 		<button class="btn btn-primary btn-lg mx-3" onclick="test4()">test4</button>
@@ -45,9 +46,21 @@
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 <script>
-	$(document).ready(function() {
-		
-	});
+	function startTimer() {
+		console.log("## startTimer");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/scheduler/startTimer",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log(result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(jqXHR);
+			}
+		});
+	}
 </script>
 </body>
 </html>
