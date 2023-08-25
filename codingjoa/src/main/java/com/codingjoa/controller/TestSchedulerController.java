@@ -35,7 +35,7 @@ public class TestSchedulerController {
 	 */
 	
 	private final Timer timer = new Timer();
-	private final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("YYYY-MM-dd(E) HH:mm:ss");
+	private final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("YYYY-MM-dd'T'HH:mm:ss");
 	private final ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
 	
 	@GetMapping("/scheduler")
