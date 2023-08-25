@@ -38,19 +38,49 @@
 <div class="container my-5">
 	<p>scheduler.jsp</p>
 	<div class="test d-flex justify-content-center mt-5">
+		<button class="btn btn-primary btn-lg mx-3" onclick="timer()">timer</button>
 		<button class="btn btn-primary btn-lg mx-3" onclick="startTimer()">startTimer</button>
-		<button class="btn btn-primary btn-lg mx-3" onclick="test2()">test2</button>
-		<button class="btn btn-primary btn-lg mx-3" onclick="test3()">test3</button>
-		<button class="btn btn-primary btn-lg mx-3" onclick="test4()">test4</button>
+		<button class="btn btn-primary btn-lg mx-3" onclick="stopTimer()">stopTimer</button>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 <script>
+	function timer() {
+		console.log("## timer");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/scheduler/timer",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log("> result = %s", result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(jqXHR);
+			}
+		});
+	}
 	function startTimer() {
 		console.log("## startTimer");
 		$.ajax({
 			type : "GET",
 			url : "${contextPath}/test/scheduler/startTimer",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log("> result = %s", result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(jqXHR);
+			}
+		});
+	}
+
+	function stopTimer() {
+		console.log("## stopTimer");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/scheduler/stopTimer",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);
