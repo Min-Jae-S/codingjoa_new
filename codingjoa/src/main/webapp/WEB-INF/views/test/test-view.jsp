@@ -196,6 +196,10 @@
 			URL.revokeObjectURL(imageURL);
 		});
 
+		$("#testBoardImage, #testMemberImage").on("error", function() {
+			console.log("%c> LOADING ERROR", "color:red");
+		});
+
 		$("#testStarBtn").on("click", function() {
 			let starCount = $(this).closest("div.input-group").find("input").val();
 			let url = "${contextPath}/test/test-star/" + starCount;
@@ -218,6 +222,9 @@
 			let boardImageName = $(this).closest("div.input-group").find("input").val();
 			let url = "${contextPath}/api/board/images/" + boardImageName;
 			console.log("> url = %s", url);
+			
+			$("#testBoardImage").attr("src", url);
+			return;
 			
 			$.ajax({
 				type : "GET",
