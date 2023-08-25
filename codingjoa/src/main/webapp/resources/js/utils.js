@@ -51,6 +51,26 @@ function handleLikesError(errorResponse) {
 	}
 }
 
-function handleUploadError() {
-	console.log("## handle upload error");
+function handleUploadError(errorResponse) {
+	let details = errorResponse.details;
+	if (details.length > 0) {
+		$.each(details, function(index, item) {
+			alert(item.message);
+		});
+	} else {
+		let message = errorResponse.message.replace(/\\n/gi,"\n");
+		alert(message);
+	}
+}
+
+function handleImageError(errorResponse) {
+	let details = errorResponse.details;
+	if (details.length > 0) {
+		$.each(details, function(index, item) {
+			alert(item.message);
+		});
+	} else {
+		let message = errorResponse.message.replace(/\\n/gi,"\n");
+		alert(message);
+	}
 }

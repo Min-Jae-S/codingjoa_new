@@ -302,10 +302,23 @@
 				alert(result.message);
 				memberService.getMemberDetails(function(result) {
 					let currentMemberImage = result.data.memberImage;
-					$("#memberThumbImage, #navMemberImage")
-						.attr("src", "${contextPath}/api/member/images/" + currentMemberImage);
+					imageService.getMemberImageResource(currentMemberImage, function(result) {
+						let memberImageUrl = URL.createObjectURL(result);
+						$("#memberThumbImage, #navMemberImage").attr("src", memberImageUrl);
+					});
 				});
 			});
+		});
+		
+		$("#memberThumbImage, #navMemberImage").on("load", function() {
+			console.log("%c> IMAGE LOADING SUCCESS", "color:green");
+			let imageURL = $(this).attr("src");
+			console.log("> revoke imageURL = %s", imageURL);
+			URL.revokeObjectURL(imageURL);
+		});
+
+		$("#memberThumbImage, #navMemberImage").on("error", function() {
+			console.log("%c> IMAGE LOADING FAILURE", "color:red");
 		});
 		
 		// send auth code

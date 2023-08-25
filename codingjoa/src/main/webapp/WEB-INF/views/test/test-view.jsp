@@ -272,11 +272,10 @@
 			$.ajax({
 				type : "GET",
 				url : url,
-				cache: false,
 				xhr : function() {
 					let xhr = new XMLHttpRequest();
                     xhr.onreadystatechange = function() {
-                        if (xhr.readyState == XMLHttpRequest.DONE) {
+                        if (xhr.readyState == XMLHttpRequest.HEADERS_RECEIVED) {
                             if (xhr.status == 200) {
                                 xhr.responseType = "blob";
                             } 
