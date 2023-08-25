@@ -102,6 +102,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				//.mvcMatchers("/api/comments/**").authenticated()
 				.antMatchers("/api/upload/board-image", "/api/upload/member-image").authenticated()
 				.antMatchers("/api/member/images", "/api/member/images/**").authenticated()
+				.antMatchers("/api/member/details").authenticated()
 				.antMatchers("/admin/**").hasAnyRole("ADMIN")
 				.anyRequest().permitAll()
 				.and()

@@ -268,13 +268,13 @@
 				</div>
 			</div>
 			<!-- test -->
-			<div class="input-group pt-5">
+			<div class="input-group pt-5 d-none">
 				<div class="input-group-prepend">
 	   				<span class="input-group-text">/api/member/images/{memberImageName}</span>
 				</div>
 				<input type="text" class="form-control" placeholder="memberImageName" style="border: 1px solid #ced4da;">
 				<div class="input-group-append">
-	   				<button class="btn btn-warning" id="testGetMemberImageBtn">TEST</button>
+	   				<button class="btn btn-warning" id="testGetMemberImageBtn" onclick="testGetMemberImage(this)">TEST</button>
 				</div>
 			</div>
 		</div>
@@ -287,16 +287,6 @@
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
 	$(function() {
-		// test
-		$("#testGetMemberImageBtn").on("click", function() {
-			let testMemberImageName = $(this).closest("div.input-group").find("input").val();
-			imageService.getMemberImageResource(testMemberImageName, function(result) {
-				let memberImageUrl = URL.createObjectURL(result);
-				$("#memberThumbImage, #navMemberImage").attr("src", memberImageUrl);
-			});
-		});
-		
-		// uploadMemeberImage button event
 		$("#uploadMemberImageBtn").on("click", function() {
 			$("#memberImage").click();
 		});
@@ -321,19 +311,21 @@
 				alert(result.message);
 				memberService.getMemberDetails(function(result) {
 					let currentMemberImageName = result.data.memberImageName;
-					imageService.getMemberImageResource(currentMemberImageName, function(result) {
+					let memberImageUrl = "${contextPath}/api/member/images/" + currentMemberImageName;
+					$("#memberThumbImage, #navMemberImage").attr("src", memberImageUrl);
+					/* imageService.getMemberImageResource(currentMemberImageName, function(result) {
 						let memberImageUrl = URL.createObjectURL(result);
 						$("#memberThumbImage, #navMemberImage").attr("src", memberImageUrl);
-					});
+					}); */
 				});
 			});
 		});
 		
 		$("#memberThumbImage, #navMemberImage").on("load", function() {
 			console.log("%c> IMAGE LOADING SUCCESS", "color:green");
-			let imageURL = $(this).attr("src");
+			/* let imageURL = $(this).attr("src");
 			console.log("> revoke imageURL = %s", imageURL);
-			URL.revokeObjectURL(imageURL);
+			URL.revokeObjectURL(imageURL); */
 		});
 
 		$("#memberThumbImage, #navMemberImage").on("error", function() {
@@ -507,6 +499,15 @@
                 document.getElementById("memberAddrDetail").focus();
             }
         }).open();
+    }
+    
+    // test
+    function testGetMemberImage(target) {
+    	let testMemberImageName = $(target).closest("div.input-group").find("input").val();
+		imageService.getMemberImageResource(testMemberImageName, function(result) {
+			let memberImageUrl = URL.createObjectURL(result);
+			$("#memberThumbImage, #navMemberImage").attr("src", memberImageUrl);
+		});
     }
 </script>
 </body>

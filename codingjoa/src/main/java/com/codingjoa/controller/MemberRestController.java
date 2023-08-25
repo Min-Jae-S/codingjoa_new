@@ -174,7 +174,9 @@ public class MemberRestController {
 	@GetMapping("/details")
 	public ResponseEntity<Object> getMemberDetails(@AuthenticationPrincipal UserDetailsDto principal) {
 		log.info("## getMemberDetails");
-		MemberDetailsDto memberDetails = (principal != null) ? modelMapper.map(principal, MemberDetailsDto.class) : null;
+		// antMatchers("/api/member/details").authenticated() --> principal can't be null
+		//MemberDetailsDto memberDetails = (principal != null) ? modelMapper.map(principal, MemberDetailsDto.class) : null;
+		MemberDetailsDto memberDetails = modelMapper.map(principal, MemberDetailsDto.class);
 		return ResponseEntity.ok(SuccessResponse.builder().data(memberDetails).build());
 	}
 
