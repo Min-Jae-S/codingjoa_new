@@ -18,7 +18,7 @@
 <style>
 	p {
 		text-align: center; 
-		font-size: 80px;
+		font-size: 60px;
 		font-weight: bold;
 	}
 	
@@ -81,7 +81,7 @@
 <body>
 <c:import url="/WEB-INF/views/include/top-menu.jsp"/>
 <div class="container my-5">
-	<p>TEST</p>
+	<p>test-view.jsp</p>
 	<div class="d-none justify-content-center mt-5 test">
 		<button class="btn btn-danger btn-lg mx-3" onclick="test1()">test1</button>
 		<button class="btn btn-danger btn-lg mx-3" onclick="test2()">test2</button>
@@ -166,7 +166,7 @@
 					<div class="mr-5">
 						<img src="${contextPath}/api/board/images/aa.jpg">
 					</div>
-					<div class="mr-5 d-flex flex-column mb-1">
+					<div class="mr-5 d-flex flex-column">
 						<img class="mb-1" id="testBoardImage">
 						<span class="align-self-center text-secondary">#testBoardImage</span>
 					</div>
