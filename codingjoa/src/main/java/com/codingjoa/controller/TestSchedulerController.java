@@ -40,9 +40,8 @@ public class TestSchedulerController {
 		
 		TimerTask task = new TimerTask() {
             public void run() {
-            	log.info("## timertask run");
-            	log.info("\t > Task performed on: {}", LocalDateTime.now().format(dtf));
-            	log.info("\t > Thread's name: {}", Thread.currentThread().getName());
+            	log.info("## Task performed on: {}", LocalDateTime.now().format(dtf));
+            	log.info("## Thread's name: {}", Thread.currentThread().getName());
             }
         };
         Timer timer = new Timer();
@@ -61,9 +60,7 @@ public class TestSchedulerController {
 		timer.scheduleAtFixedRate(new TimerTask() {
 			@Override
 			public void run() {
-				log.info("## timertask run");
-            	log.info("\t > Task performed on: {}", LocalDateTime.now().format(dtf));
-            	log.info("\t > Thread's name: {}", Thread.currentThread().getName());
+            	log.info("## Repeated task performed on: {}", LocalDateTime.now().format(dtf));
 			}
 		}, 0, 1000);
 		return ResponseEntity.ok("startTimer success");
