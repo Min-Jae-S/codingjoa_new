@@ -66,7 +66,7 @@
 <script>
 	$(function() {
 		let timer; 
-		let delay = 100;
+		let delay = 200;
 		
 		$(".navbar-nav .dropdown").on("mouseenter", function() {
 			let parent_category = $(this).data("category");
@@ -97,9 +97,7 @@
 		});
 		
 		$(document).on("mouseenter", ".navbar-nav button.dropdown-item", function() {
-			$(this).css("color", "black")
-					.css("font-weight", "bold")
-					.css("background-color", "transparent");
+			$(this).css("color", "black").css("font-weight", "bold").css("background-color", "transparent");
 		});
 
 		$(document).on("mouseleave", ".navbar-nav button.dropdown-item", function() {

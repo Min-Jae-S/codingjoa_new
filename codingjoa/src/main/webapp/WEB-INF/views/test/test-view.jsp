@@ -124,7 +124,7 @@
 		<button class="btn btn-lg btn-link mx-3 border" onclick="memberDetails()">memberDetails</button>
 		<button class="btn btn-lg btn-primary mx-3" id="testUploadBtn">testUpload</button>
 		<input class="d-none" type="file" id="uploadFile"/>
-		<button class="btn btn-lg mx-3" onclick="showImage()">imageDialog</button>
+		<button class="btn btn-lg mx-3 invisible" onclick="#">#</button>
 	</div>
 	<div class="row test2">
 		<div class="col-sm-12">
@@ -206,9 +206,8 @@
 			$.ajax({
 				type : "GET",
 				url : url,
-				dataType : "json",
 				success : function(result) {
-					console.log(result);
+					alert(result);
 				},
 				error : function(jqXHR) {
 					console.log(jqXHR);

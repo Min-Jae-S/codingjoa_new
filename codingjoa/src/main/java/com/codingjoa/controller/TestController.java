@@ -477,23 +477,23 @@ public class TestController {
 		log.info("## testStar");
 		log.info("\t > starCount = {}", starCount);
 		
+		String result = "";
 		for (int i=0; i<starCount; i++) {
-			String str = "";
 			for (int j=starCount-1-i; j>0; j--) {
-				str += " ";
+				result += " ";
 			}
 			
 			for (int j=0; j<2*i + 1; j++) {
-				str += "*";
+				result += "*";
 			}
 			
-			for (int j=starCount-1-i; j>0; j--) {
-				str += " ";
+			if (i < starCount - 1) {
+				result += System.lineSeparator();
 			}
-			System.out.println(str);
 		}
+		log.info("\t > result = {}", System.lineSeparator() + result);
 		
-		return ResponseEntity.ok().body("success");
+		return ResponseEntity.ok().body(result);
 	}
 	
 }
