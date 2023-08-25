@@ -35,7 +35,9 @@ public class TestSchedulerController {
 		Timer timer = new Timer();
 		TimerTask task = new TimerTask() {
             public void run() {
+            	log.info("================================");
             	log.info("## Task executed after 5 seconds");
+            	log.info("================================");
             }
         };
         timer.schedule(task, 5000);

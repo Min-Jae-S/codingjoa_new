@@ -53,7 +53,7 @@
 			url : "${contextPath}/test/scheduler/startTimer",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
-				console.log(result);
+				console.log("> result = %s", result);
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
