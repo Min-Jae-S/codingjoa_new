@@ -189,7 +189,7 @@
 		});
 		
 		$("#testBoardImage, #testMemberImage").on("load", function() {
-			console.log("%c> LOADING SUCCESS", "color:green");
+			console.log("%c> IMAGE LOADING SUCCESS", "color:green");
 			
 			let imageURL = $(this).attr("src");
 			console.log("> revoke imageURL = %s", imageURL);
@@ -197,7 +197,7 @@
 		});
 
 		$("#testBoardImage, #testMemberImage").on("error", function() {
-			console.log("%c> LOADING ERROR", "color:red");
+			console.log("%c> IMAGE LOADING FAILURE", "color:red");
 		});
 
 		$("#testStarBtn").on("click", function() {
@@ -221,15 +221,12 @@
 			
 			let boardImageName = $(this).closest("div.input-group").find("input").val();
 			let url = "${contextPath}/api/board/images/" + boardImageName;
-			console.log("> url = %s", url);
-			
-			$("#testBoardImage").attr("src", url);
-			return;
+			console.log("> url = %s", url); 
 			
 			$.ajax({
 				type : "GET",
 				url : url,
-				cache: false,
+				//cache: false, // http://localhost:8888/codingjoa/api/board/images/?_=1692932178224 
 				//xhrFields: { responseType: 'blob'},
 				xhr : function() {
 					let xhr = new XMLHttpRequest();
