@@ -11,7 +11,7 @@ public class MemberDetailsDto {
 	
 	private Member member;
 	private String memberRole;
-	private String memberImage;
+	private String memberImageName;
 	private List<Integer> myBoardLikes;
 	private List<Integer> myCommentLikes;
 }

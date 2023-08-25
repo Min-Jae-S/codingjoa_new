@@ -155,7 +155,7 @@
 								<img class="member-thumb-image" id="memberThumbImage" src="${contextPath}/resources/images/img_profile.png">
 							</c:otherwise>
 						</c:choose>
-						<button type="button" class="member-image-btn" id="memberImageBtn">
+						<button type="button" class="member-image-btn" id="uploadMemberImageBtn">
 							<span class="member-image-icon"></span>
 							<form id="memberImageForm">
 								<input type="file" id="memberImage" name="memberImage">
@@ -296,13 +296,13 @@
 			});
 		});
 		
-		// member image button event
-		$("#memberImageBtn").on("click", function() {
+		// uploadMemeberImage button event
+		$("#uploadMemberImageBtn").on("click", function() {
 			$("#memberImage").click();
 		});
 		
 		// prevent stack overflow (Uncaught RangeError: Maximum call stack size exceeded)
-		// since #memberImage(file) is a child element of #memberImageBtn, event propagation occurs
+		// since #memberImage(file) is a child element of #uploadMemberImageBtn, event propagation occurs
 		$("#memberImage").on("click", function(e) {
 			e.stopPropagation();
 		})
