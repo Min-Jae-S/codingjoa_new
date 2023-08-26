@@ -31,7 +31,6 @@ public class TestSchedulerController {
 	 * 	Timer has only one execution thread; ScheduledThreadPoolExecutor can be configured with any number of threads.
 	 * 	Runtime Exceptions thrown inside the TimerTask kill the thread, so the following scheduled tasks won't run further; 
 	 * 	with ScheduledThreadExecutor, the current task will be cancelled, but the rest will continue to run.
-	 * 
 	 */
 	
 	private final Timer timer = new Timer();
