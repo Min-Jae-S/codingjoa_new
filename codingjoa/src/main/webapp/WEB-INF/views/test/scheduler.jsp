@@ -38,14 +38,14 @@
 <div class="container my-5">
 	<p>scheduler.jsp</p>
 	<div class="test d-flex justify-content-center mt-5">
-		<button class="btn btn-primary btn-lg mx-3" onclick="timer()">timer</button>
 		<button class="btn btn-primary btn-lg mx-3" onclick="startTimer()">startTimer</button>
 		<button class="btn btn-primary btn-lg mx-3" onclick="stopTimer()">stopTimer</button>
+		<button class="btn btn-primary btn-lg mx-3" onclick="timer()">timer</button>
 	</div>
 	<div class="test d-flex justify-content-center mt-5">
-		<button class="btn btn-secondary btn-lg mx-3 invisible" onclick="#">#</button>
 		<button class="btn btn-secondary btn-lg mx-3" onclick="startExecutor()">startExecutor</button>
 		<button class="btn btn-secondary btn-lg mx-3" onclick="stopExecutor()">stopExecutor</button>
+		<button class="btn btn-secondary btn-lg mx-3 invisible" onclick="#">#</button>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
@@ -65,6 +65,7 @@
 			}
 		});
 	}
+	
 	function startTimer() {
 		console.log("## startTimer");
 		$.ajax({
