@@ -23,9 +23,9 @@ public class SchedulerConfig implements SchedulingConfigurer {
         taskRegistrar.setScheduler(threadPoolTaskScheduler);
         
         log.info(System.lineSeparator());
-        log.info("========================================");
+        log.info("================================================================");
         log.info("\t > current thread = {}", Thread.currentThread().getName());
-        log.info("========================================");
+        log.info("================================================================");
         log.info(System.lineSeparator());
         
 	}

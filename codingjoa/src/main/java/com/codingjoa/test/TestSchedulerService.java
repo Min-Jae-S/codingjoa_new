@@ -15,8 +15,9 @@ public class TestSchedulerService {
 	private final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("YYYY-MM-dd'T'HH:mm:ss");
 
 	//@Scheduled(cron = "0/5 * * * * ?") // return void & no parameter
-	@Scheduled(fixedDelay = 1000)
+	@Scheduled(fixedDelay = 2000)
 	public void runScheduler() {
-		log.info("\t > repeated task performed on: {}", LocalDateTime.now().format(dtf));
+		log.info("\t > repeated task performed on: {} [{}]", 
+				LocalDateTime.now().format(dtf), Thread.currentThread().getName());
 	}
 }
