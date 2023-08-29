@@ -128,4 +128,23 @@
 		WHERE 
 			member_image_name = #{memberImageName}
 	</select>
+	
+	<select id="findTempBoardImages" resultType="boardImage">
+		SELECT
+			*
+		FROM
+			board_image
+		WHERE
+			board_idx IS NULL
+	</select>
+
+	<select id="findTempMemberImages" resultType="memberImage">
+		SELECT
+			*
+		FROM
+			member_image
+		WHERE
+			member_idx IS NULL
+	</select>
+	
 </mapper>

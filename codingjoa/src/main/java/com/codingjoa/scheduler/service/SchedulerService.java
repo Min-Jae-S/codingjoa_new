@@ -1,10 +1,13 @@
 package com.codingjoa.scheduler.service;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+
+import com.codingjoa.mapper.ImageMapper;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -12,12 +15,24 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class SchedulerService {
 
-	private final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("YYYY-MM-dd'T'HH:mm:ss");
-
-	//@Scheduled(cron = "0/5 * * * * ?") // return void & no parameter
-	@Scheduled(fixedRate = 5000)
+	@Autowired
+	private ImageMapper imageMapper;
+	
+	// return void & no parameter
+	@Scheduled(cron = "0/15 * * * * ?") 
 	public void run() {
-		log.info("## repeated task performed on: {} \t [{}]", 
-				LocalDateTime.now().format(dtf), Thread.currentThread().getName());
+		log.info("===========================================================================");
+		log.info("## SchedulerService run  [{}]", Thread.currentThread().getName());
+		
+		List<Integer> tempBoardImageIndexs = imageMapper.findTempBoardImages().stream()
+			.map(boardImage -> boardImage.getBoardImageIdx())
+			.collect(Collectors.toList());
+		log.info("\t > temp board image indexs = {}", tempBoardImageIndexs);
+
+		List<Integer> tempMemberImageIndexs = imageMapper.findTempMemberImages().stream()
+				.map(memberImage -> memberImage.getMemberImageIdx())
+				.collect(Collectors.toList());
+		log.info("\t > temp member image indexs = {}", tempMemberImageIndexs);
+		log.info("===========================================================================");
 	}
 }

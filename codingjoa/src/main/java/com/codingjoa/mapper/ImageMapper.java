@@ -32,4 +32,8 @@ public interface ImageMapper {
 	
 	MemberImage findMemberImageByName(String memberImageName);
 	
+	List<BoardImage> findTempBoardImages();
+	
+	List<MemberImage> findTempMemberImages();
+	
 }
