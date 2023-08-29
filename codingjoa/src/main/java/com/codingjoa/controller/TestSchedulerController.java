@@ -114,7 +114,6 @@ public class TestSchedulerController {
 	public ResponseEntity<Object> runScheduler() {
 		log.info("## runScheduler");
 		schedulerService.runScheduler();
-		
 		return ResponseEntity.ok("runScheduler success");
 	}
 	

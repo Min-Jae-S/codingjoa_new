@@ -66,6 +66,7 @@ import lombok.extern.slf4j.Slf4j;
 @ComponentScan("com.codingjoa.controller")
 @ComponentScan("com.codingjoa.service")
 @ComponentScan("com.codingjoa.response")
+@ComponentScan("com.codingjoa.test")
 public class ServletConfig implements WebMvcConfigurer {
 	
 	@Autowired
