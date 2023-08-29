@@ -22,15 +22,17 @@ public class SchedulerService {
 	@Scheduled(cron = "0/15 * * * * ?") 
 	public void run() {
 		log.info("===========================================================================");
-		log.info("## SchedulerService run  [{}]", Thread.currentThread().getName());
+		log.info("## SchedulerService run [{}]", Thread.currentThread().getName());
 		
 		List<Integer> tempBoardImageIndexs = imageMapper.findTempBoardImages().stream()
 			.map(boardImage -> boardImage.getBoardImageIdx())
+			.sorted()
 			.collect(Collectors.toList());
-		log.info("\t > temp board image indexs = {}", tempBoardImageIndexs);
+		log.info("\t > temp board  image indexs = {}", tempBoardImageIndexs);
 
 		List<Integer> tempMemberImageIndexs = imageMapper.findTempMemberImages().stream()
 				.map(memberImage -> memberImage.getMemberImageIdx())
+				.sorted()
 				.collect(Collectors.toList());
 		log.info("\t > temp member image indexs = {}", tempMemberImageIndexs);
 		log.info("===========================================================================");
