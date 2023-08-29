@@ -63,6 +63,7 @@ public class TestSchedulerController {
             	log.info("\t > Thread's name: {}", Thread.currentThread().getName());
             }
         };
+        
         timer.schedule(task, 5000);
 		return ResponseEntity.ok("timer success");
 	}

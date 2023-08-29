@@ -9,6 +9,7 @@ import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@EnableScheduling
 @Configuration
 public class SchedulerConfig implements SchedulingConfigurer {
 
