@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.codingjoa.scheduling.service.SchedulingService;
+import com.codingjoa.scheduler.service.SchedulerService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -30,13 +30,13 @@ public class TestSchedulerController {
 	 */
 	
 	@Autowired
-	private SchedulingService schedulingService;
+	private SchedulerService schedulerService;
 	
 	@ResponseBody
 	@GetMapping("/scheduler/run")
 	public ResponseEntity<Object> runScheduler() {
 		log.info("## runScheduler");
-		schedulingService.run();
+		schedulerService.run();
 		return ResponseEntity.ok("run scheduler success");
 	}	
 	

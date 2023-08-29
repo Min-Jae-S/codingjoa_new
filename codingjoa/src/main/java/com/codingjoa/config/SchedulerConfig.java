@@ -10,10 +10,10 @@ import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@ComponentScan("com.codingjoa.scheduling.service")
+@ComponentScan("com.codingjoa.scheduler.service")
 @EnableScheduling
 @Configuration
-public class SchedulingConfig implements SchedulingConfigurer {
+public class SchedulerConfig implements SchedulingConfigurer {
 
 	private final int POOL_SIZE = 10;
 	
