@@ -30,7 +30,8 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 			RootConfig.class, 
 			SecurityConfig.class,
 			EmailConfig.class, 
-			RedisConfig.class
+			RedisConfig.class,
+			SchedulingConfig.class
 		};
 	}
 
@@ -100,8 +101,7 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 		FilterRegistration.Dynamic logFilterReg = servletContext.addFilter("LogFilter", new LogFilter());
 		logFilterReg.setInitParameter("excludePatterns", "/resources/, /upload/");
 		
-		EnumSet<DispatcherType> dispatcherTypes = 
-				EnumSet.of(DispatcherType.REQUEST, DispatcherType.ASYNC, DispatcherType.ERROR);
+		EnumSet<DispatcherType> dispatcherTypes = EnumSet.of(DispatcherType.REQUEST, DispatcherType.ASYNC, DispatcherType.ERROR);
 		logFilterReg.addMappingForUrlPatterns(dispatcherTypes, false, "/*");
 	}
 }

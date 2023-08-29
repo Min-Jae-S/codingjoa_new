@@ -1,5 +1,6 @@
 package com.codingjoa.config;
 
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.SchedulingConfigurer;
@@ -9,6 +10,7 @@ import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@ComponentScan("com.codingjoa.scheduling.service")
 @EnableScheduling
 @Configuration
 public class SchedulingConfig implements SchedulingConfigurer {
@@ -23,13 +25,6 @@ public class SchedulingConfig implements SchedulingConfigurer {
         threadPoolTaskScheduler.setThreadNamePrefix("scheduling-thread-");
         threadPoolTaskScheduler.initialize();
         taskRegistrar.setScheduler(threadPoolTaskScheduler);
-        
-        log.info(System.lineSeparator());
-        log.info("================================================================");
-        log.info("\t > current thread = {}", Thread.currentThread().getName());
-        log.info("================================================================");
-        log.info(System.lineSeparator());
-        
 	}
 
 }
