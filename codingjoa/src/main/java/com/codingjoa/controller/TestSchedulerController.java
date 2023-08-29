@@ -8,11 +8,14 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.codingjoa.test.TestSchedulerService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -37,6 +40,9 @@ public class TestSchedulerController {
 	private final Timer timer = new Timer();
 	private final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("YYYY-MM-dd'T'HH:mm:ss");
 	private final ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
+	
+	@Autowired
+	private TestSchedulerService schedulerService;
 	
 	@GetMapping("/scheduler")
 	public String main() {
@@ -101,6 +107,15 @@ public class TestSchedulerController {
 		log.info("## stopExecutor");
 		executor.shutdown();
 		return ResponseEntity.ok("stopExecutor success");
+	}
+
+	@ResponseBody
+	@GetMapping("/scheduler/run")
+	public ResponseEntity<Object> runScheduler() {
+		log.info("## runScheduler");
+		schedulerService.runScheduler();
+		
+		return ResponseEntity.ok("runScheduler success");
 	}
 	
 }
