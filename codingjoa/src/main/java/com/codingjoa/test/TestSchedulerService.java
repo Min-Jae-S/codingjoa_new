@@ -17,7 +17,7 @@ public class TestSchedulerService {
 	//@Scheduled(cron = "0/5 * * * * ?") // return void & no parameter
 	@Scheduled(fixedDelay = 2000)
 	public void runScheduler() {
-		log.info("\t > repeated task performed on: {} [{}]", 
+		log.info("## repeated task performed on: {} \t [{}]", 
 				LocalDateTime.now().format(dtf), Thread.currentThread().getName());
 	}
 }

@@ -1,6 +1,7 @@
 package com.codingjoa.config;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.SchedulingConfigurer;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
@@ -8,8 +9,9 @@ import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@EnableScheduling
 @Configuration
-public class SchedulerConfig implements SchedulingConfigurer {
+public class SchedulingConfig implements SchedulingConfigurer {
 
 	private final int POOL_SIZE = 10;
 	
@@ -18,7 +20,7 @@ public class SchedulerConfig implements SchedulingConfigurer {
 		log.info("## configureTasks");
 		ThreadPoolTaskScheduler threadPoolTaskScheduler = new ThreadPoolTaskScheduler();
 		threadPoolTaskScheduler.setPoolSize(POOL_SIZE);
-        threadPoolTaskScheduler.setThreadNamePrefix("scheduler-thread");
+        threadPoolTaskScheduler.setThreadNamePrefix("scheduling-thread-");
         threadPoolTaskScheduler.initialize();
         taskRegistrar.setScheduler(threadPoolTaskScheduler);
         

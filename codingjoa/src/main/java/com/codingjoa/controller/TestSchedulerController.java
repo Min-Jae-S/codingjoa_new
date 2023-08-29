@@ -37,7 +37,7 @@ public class TestSchedulerController {
 	public ResponseEntity<Object> runScheduler() {
 		log.info("## runScheduler");
 		schedulerService.runScheduler();
-		return ResponseEntity.ok("runScheduler success");
+		return ResponseEntity.ok("run scheduler success");
 	}	
 	
 //	private final Timer timer = new Timer();
