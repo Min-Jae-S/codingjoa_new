@@ -47,11 +47,6 @@
 		<button class="btn btn-secondary btn-lg mx-3" onclick="stopExecutor()">stopExecutor</button>
 		<button class="btn btn-secondary btn-lg mx-3 invisible" onclick="#">#</button>
 	</div>
-	<div class="test d-flex justify-content-center mt-5">
-		<button class="btn btn-warning btn-lg mx-3" onclick="runScheduler()">runScheduler</button>
-		<button class="btn btn-warning btn-lg mx-3 invisible" onclick="#">#</button>
-		<button class="btn btn-warning btn-lg mx-3 invisible" onclick="#">#</button>
-	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 <script>
@@ -124,22 +119,6 @@
 		$.ajax({
 			type : "GET",
 			url : "${contextPath}/test/scheduler/stopExecutor",
-			success : function(result) {
-				console.log("%c> SUCCESS", "color:green");
-				console.log("> result = %s", result);
-			},
-			error : function(jqXHR) {
-				console.log("%c> ERROR", "color:red");
-				console.log(jqXHR);
-			}
-		});
-	}
-	
-	function runScheduler() {
-		console.log("## runScheduler");
-		$.ajax({
-			type : "GET",
-			url : "${contextPath}/test/scheduler/run",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);

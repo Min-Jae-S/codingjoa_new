@@ -7,8 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.codingjoa.scheduler.service.impl.QuartzServiceImpl;
-import com.codingjoa.scheduler.service.impl.SchedulerServiceImpl;
+import com.codingjoa.scheduler.service.QuartzService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -21,18 +20,22 @@ public class TestQuartzController {
 	 * > enable in-memory job scheduler
 	 * > clustering using database
 	 * 
-	 * 
-	 * 
 	 */
 	
 	@Autowired
-	private QuartzServiceImpl quartzService;
+	private QuartzService quartzService;
+	
+	@GetMapping("/quartz")
+	public String main() {
+		log.info("## TestQuartz main");
+		return "test/quartz";
+	}
 	
 	@ResponseBody
-	@GetMapping("/quartz")
-	public ResponseEntity<Object> quartz() {
-		log.info("## quartz");
-		return ResponseEntity.ok("quartz success");
+	@GetMapping("/quartz/start")
+	public ResponseEntity<Object> start() {
+		log.info("## start");
+		return ResponseEntity.ok("start success");
 	}
 	
 }
