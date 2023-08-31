@@ -5,13 +5,16 @@ import org.quartz.JobDetail;
 import org.quartz.SimpleScheduleBuilder;
 import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
+import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.scheduling.quartz.SpringBeanJobFactory;
 
+import com.codingjoa.mapper.ImageMapper;
 import com.codingjoa.quartz.AutowiringSpringBeanJobFactory;
 import com.codingjoa.quartz.JobA;
 import com.codingjoa.quartz.JobB;
@@ -40,9 +43,10 @@ public class QuartzConfig {
 	
 	@Bean
 	public SpringBeanJobFactory jobFactory() {
-		log.info("## SpringBeanJobFactory");
+		log.info("## SpringBeanJobFactory Bean");
 		SpringBeanJobFactory jobFactory = new SpringBeanJobFactory();
 		log.info("\t > quartzService = {}", applicationContext.getBeansOfType(QuartzService.class));
+		log.info("\t > imageMapper = {}", applicationContext.getBeansOfType(ImageMapper.class));
 		jobFactory.setApplicationContext(applicationContext);
 		return jobFactory;
 	}
@@ -51,7 +55,7 @@ public class QuartzConfig {
 	// custom job factory of spring with DI support for @Autowired
 //	@Bean
 //	public SpringBeanJobFactory jobFactory() {
-//		log.info("## jobFactory - AutowiringSpringBeanJobFactory");
+//		log.info("## AutowiringSpringBeanJobFactory Bean");
 //		AutowiringSpringBeanJobFactory jobFactory = new AutowiringSpringBeanJobFactory();
 //	    jobFactory.setApplicationContext(applicationContext);
 //	    return jobFactory;
