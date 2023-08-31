@@ -30,7 +30,7 @@ public class QuartzConfig {
 	
 	@PostConstruct
 	public void init() {
-		log.info("## QuartzConfig init");
+		log.info("## {} init", this.getClass().getSimpleName());
 		log.info("\t > applicationContext = {}", applicationContext);
 		log.info("\t > quartzService = {}", applicationContext.getBeansOfType(QuartzService.class));
 		log.info("\t > imageMapper = {}", applicationContext.getBeansOfType(ImageMapper.class));

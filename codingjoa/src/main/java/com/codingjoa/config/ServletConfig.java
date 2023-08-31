@@ -65,7 +65,7 @@ import lombok.extern.slf4j.Slf4j;
 @PropertySource("/WEB-INF/properties/criteria.properties")
 @ComponentScan("com.codingjoa.controller")
 @ComponentScan("com.codingjoa.service")
-@ComponentScan("com.codingjoa.response")
+@ComponentScan("com.codingjoa.response") // @ControllerAdvice, @RestControllerAdvice
 public class ServletConfig implements WebMvcConfigurer {
 	
 	@Autowired
