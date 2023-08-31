@@ -12,13 +12,13 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class TestJob extends QuartzJobBean {
 	
-	@Autowired
-	private QuartzService quartzService;
+//	@Autowired
+//	private QuartzService quartzService;
 	
 	@Override
 	protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
 		log.info("## {}", this.getClass().getSimpleName());
-		quartzService.test();
+		//quartzService.test();
 	}
 
 }
