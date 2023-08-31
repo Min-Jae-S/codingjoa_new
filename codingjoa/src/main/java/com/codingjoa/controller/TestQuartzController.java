@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.codingjoa.scheduler.service.QuartzService;
-import com.codingjoa.scheduler.service.SchedulerService;
+import com.codingjoa.scheduler.service.impl.QuartzServiceImpl;
+import com.codingjoa.scheduler.service.impl.SchedulerServiceImpl;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,9 +25,8 @@ public class TestQuartzController {
 	 * 
 	 */
 	
-	
 	@Autowired
-	private QuartzService quartzService;
+	private QuartzServiceImpl quartzService;
 	
 	@ResponseBody
 	@GetMapping("/quartz")
