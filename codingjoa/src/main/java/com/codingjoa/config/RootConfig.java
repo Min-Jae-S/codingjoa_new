@@ -54,7 +54,7 @@ public class RootConfig {
 
 	@Bean
 	public DataSource dataSource() {
-		log.info("## DataSoruce Bean");
+		log.info("## DataSoruce");
 		DataSource dataSource = new HikariDataSource(hikariConfig());
 		log.info("\t > datasource connection = {}", dataSource);
 		return dataSource;
@@ -62,7 +62,7 @@ public class RootConfig {
 	
 	@Bean
 	public PlatformTransactionManager transactionManager() {
-		log.info("## TransactionManager Bean");
+		log.info("## DataSourceTransactionManager");
 		DataSourceTransactionManager transactionManager = new DataSourceTransactionManager(dataSource());
 		return transactionManager;
 	}
@@ -78,7 +78,7 @@ public class RootConfig {
 	
 	@Bean
 	public SqlSessionTemplate sqlSessionTemplate(SqlSessionFactory sqlSessionFactory) {
-		log.info("## SqlSessionTemplate Bean");
+		log.info("## SqlSessionTemplate");
 		SqlSessionTemplate sessionTemplate = new SqlSessionTemplate(sqlSessionFactory);
 		org.apache.ibatis.session.Configuration config = sessionTemplate.getConfiguration();
 		log.info("\t > jdbcTypeForNull = {}", config.getJdbcTypeForNull());
@@ -90,7 +90,7 @@ public class RootConfig {
 	
 	@Bean
 	public ModelMapper modelMapper() {
-		log.info("## ModelMapper Bean");
+		log.info("## ModelMapper");
 		ModelMapper modelMapper = new ModelMapper();
 		modelMapper.getConfiguration()
 			.setMatchingStrategy(MatchingStrategies.STRICT)

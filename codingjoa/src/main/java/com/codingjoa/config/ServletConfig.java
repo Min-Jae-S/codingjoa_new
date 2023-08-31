@@ -252,7 +252,7 @@ public class ServletConfig implements WebMvcConfigurer {
 	 */
 	@Bean
 	public static MethodValidationPostProcessor methodValidationPostProcessor(@Lazy Validator validator) {
-		log.info("## MethodValidationPostProcessor Bean");
+		log.info("## MethodValidationPostProcessor");
 		log.info("\t > validator = {}", validator.getClass().getName());
 		log.info("\t > proxy validator = {}", AopUtils.isAopProxy(validator));
 		
