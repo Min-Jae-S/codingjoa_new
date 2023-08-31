@@ -33,7 +33,7 @@ public class QuartzConfig {
 	
 	@Bean
 	public SchedulerFactoryBean schedulerFactoryBean() {
-		log.info("\t ## SchedulerFactoryBean");
+		log.info("## SchedulerFactoryBean");
 		SchedulerFactoryBean schedulerFactory = new SchedulerFactoryBean();
 		schedulerFactory.setJobFactory(jobFactory());
 		schedulerFactory.setJobDetails(jobDetail());
@@ -46,7 +46,7 @@ public class QuartzConfig {
 	// custom job factory of spring with DI support for @Autowired
 	@Bean
 	public SpringBeanJobFactory jobFactory() {
-		log.info("\t ## AutowiringSpringBeanJobFactory");
+		log.info("## AutowiringSpringBeanJobFactory");
 		AutowiringSpringBeanJobFactory jobFactory = new AutowiringSpringBeanJobFactory();
 	    jobFactory.setApplicationContext(applicationContext);
 	    return jobFactory;
@@ -54,7 +54,7 @@ public class QuartzConfig {
 	
 	@Bean
 	public JobDetail jobDetail() {
-		log.info("\t ## JobDetail");
+		log.info("## JobDetail");
 		return JobBuilder.newJob(TestJob.class)
 				.storeDurably()
 				.build();
@@ -62,7 +62,7 @@ public class QuartzConfig {
 	
 	@Bean
 	public Trigger trigger() {
-		log.info("\t ## Trigger");
+		log.info("## Trigger");
 		return TriggerBuilder.newTrigger()
 				.forJob(jobDetail())
 				.withSchedule(SimpleScheduleBuilder.simpleSchedule()

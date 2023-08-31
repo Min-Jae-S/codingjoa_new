@@ -48,28 +48,27 @@ public class RootConfig {
 	
 	@Bean
 	public HikariConfig hikariConfig() {
-		log.info("\t ## DBCP, HikariCP Bean");
+		log.info("## DBCP, HikariCP Bean");
 		HikariConfig hikariConfig = new HikariConfig();
 		hikariConfig.setDriverClassName(driverClassName);
 		hikariConfig.setJdbcUrl(url);
 		hikariConfig.setUsername(username);
 		hikariConfig.setPassword(password);
-		log.info("\t\t > auto commit = {}", hikariConfig.isAutoCommit());
-		
+		log.info("\t > auto commit = {}", hikariConfig.isAutoCommit());
 		return hikariConfig;
 	}
 
 	@Bean
 	public DataSource dataSource() {
-		log.info("\t ## DataSoruce Bean");
+		log.info("## DataSoruce Bean");
 		DataSource dataSource = new HikariDataSource(hikariConfig());
-		log.info("\t\t > datasource connection = {}", dataSource);
+		log.info("\t > datasource connection = {}", dataSource);
 		return dataSource;
 	}
 	
 	@Bean
 	public PlatformTransactionManager transactionManager() {
-		log.info("\t ## TransactionManager Bean");
+		log.info("## TransactionManager Bean");
 		DataSourceTransactionManager transactionManager = new DataSourceTransactionManager(dataSource());
 		return transactionManager;
 	}
@@ -85,20 +84,19 @@ public class RootConfig {
 	
 	@Bean
 	public SqlSessionTemplate sqlSessionTemplate(SqlSessionFactory sqlSessionFactory) {
-		log.info("\t ## SqlSessionTemplate Bean");
+		log.info("## SqlSessionTemplate Bean");
 		SqlSessionTemplate sessionTemplate = new SqlSessionTemplate(sqlSessionFactory);
 		org.apache.ibatis.session.Configuration config = sessionTemplate.getConfiguration();
-		log.info("\t\t > jdbcTypeForNull = {}", config.getJdbcTypeForNull());
-		log.info("\t\t > mapUnderscoreToCamelCase = {}", config.isMapUnderscoreToCamelCase());
-		log.info("\t\t > callSettersOnNulls = {}", config.isCallSettersOnNulls());
-		log.info("\t\t > returnInstanceForEmptyRow = {}", config.isReturnInstanceForEmptyRow());
-
+		log.info("\t > jdbcTypeForNull = {}", config.getJdbcTypeForNull());
+		log.info("\t > mapUnderscoreToCamelCase = {}", config.isMapUnderscoreToCamelCase());
+		log.info("\t > callSettersOnNulls = {}", config.isCallSettersOnNulls());
+		log.info("\t > returnInstanceForEmptyRow = {}", config.isReturnInstanceForEmptyRow());
 		return sessionTemplate;
 	}
 	
 	@Bean
 	public ModelMapper modelMapper() {
-		log.info("\t ## ModelMapper Bean");
+		log.info("## ModelMapper Bean");
 		ModelMapper modelMapper = new ModelMapper();
 		modelMapper.getConfiguration()
 			.setMatchingStrategy(MatchingStrategies.STRICT)
@@ -107,14 +105,13 @@ public class RootConfig {
 			.setFieldMatchingEnabled(true);
 		
 		org.modelmapper.config.Configuration config = modelMapper.getConfiguration();
-		log.info("\t\t > matchingStrategy = {}", config.getMatchingStrategy());
-		log.info("\t\t > fieldAccessLevel = {}", config.getFieldAccessLevel());
-		log.info("\t\t > methodAccessLevel = {}", config.getMethodAccessLevel());
-		log.info("\t\t > propertyCondition = {}", config.getPropertyCondition());
-		log.info("\t\t > isFieldMatchingEnabled = {}", config.isFieldMatchingEnabled());
-		log.info("\t\t > isSkipNullEnabled = {}", config.isSkipNullEnabled());
-		log.info("\t\t > isCollectionsMergeEnabled = {}", config.isCollectionsMergeEnabled());
-		
+		log.info("\t > matchingStrategy = {}", config.getMatchingStrategy());
+		log.info("\t > fieldAccessLevel = {}", config.getFieldAccessLevel());
+		log.info("\t > methodAccessLevel = {}", config.getMethodAccessLevel());
+		log.info("\t > propertyCondition = {}", config.getPropertyCondition());
+		log.info("\t > isFieldMatchingEnabled = {}", config.isFieldMatchingEnabled());
+		log.info("\t > isSkipNullEnabled = {}", config.isSkipNullEnabled());
+		log.info("\t > isCollectionsMergeEnabled = {}", config.isCollectionsMergeEnabled());
 		return modelMapper;
 	}
 	

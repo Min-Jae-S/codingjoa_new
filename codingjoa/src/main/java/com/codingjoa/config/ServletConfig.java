@@ -146,9 +146,9 @@ public class ServletConfig implements WebMvcConfigurer {
 
 	@Override
 	public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
-		log.info("\t ## extendMessageConverters");
+		log.info("## extendMessageConverters");
 		converters.stream().forEach(converter -> { 
-			log.info("\t\t > {}", converter.getClass().getSimpleName());
+			log.info("\t > {}", converter.getClass().getSimpleName());
 			if (converter instanceof StringHttpMessageConverter) {
 				// StringHttpMessageConverter defaults to ISO-8859-1
 				((StringHttpMessageConverter) converter).setDefaultCharset(StandardCharsets.UTF_8);
@@ -169,7 +169,7 @@ public class ServletConfig implements WebMvcConfigurer {
 	
 	@Override
 	public void extendHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
-		log.info("\t ## extendHandlerExceptionResolvers");
+		log.info("## extendHandlerExceptionResolvers");
 		WebMvcConfigurer.super.extendHandlerExceptionResolvers(resolvers);
 		resolvers.add(0, myExceptionResolver());
 		resolvers.forEach(resolver -> log.info("\t > {}", resolver.getClass().getSimpleName()));
@@ -211,7 +211,6 @@ public class ServletConfig implements WebMvcConfigurer {
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
-		
 		return resolver;
 	}
 
@@ -220,7 +219,6 @@ public class ServletConfig implements WebMvcConfigurer {
 		CommentCriteriaArgumentResolver resolver = new CommentCriteriaArgumentResolver();
 		resolver.setPage(env.getProperty("criteria.comment.page", Integer.class));
 		resolver.setRecordCnt(env.getProperty("criteria.comment.recordCnt", Integer.class));
-		
 		return resolver;
 	}
 	
@@ -238,7 +236,6 @@ public class ServletConfig implements WebMvcConfigurer {
 				"/WEB-INF/properties/success-message",
 				"/WEB-INF/properties/validation-message"
 			);
-		
 		return source;
 	}
 	
@@ -251,7 +248,6 @@ public class ServletConfig implements WebMvcConfigurer {
 	public MessageUtils messageUtils() {
 		MessageUtils messageUtils = new MessageUtils();
 		messageUtils.setMessageSourceAccessor(messageSourceAccessor());
-		
 		return messageUtils;
 	}
 	
@@ -262,14 +258,14 @@ public class ServletConfig implements WebMvcConfigurer {
 	 */
 	@Bean
 	public static MethodValidationPostProcessor methodValidationPostProcessor(@Lazy Validator validator) {
-		log.info("\t ## MethodValidationPostProcessor Bean");
-		log.info("\t\t > validator = {}", validator.getClass().getName());
-		log.info("\t\t > proxy = {}", AopUtils.isAopProxy(validator));
+		log.info("## MethodValidationPostProcessor Bean");
+		log.info("\t > validator = {}", validator.getClass().getName());
+		log.info("\t > proxy = {}", AopUtils.isAopProxy(validator));
 		
 		MethodValidationPostProcessor processor = new MethodValidationPostProcessor();
 		processor.setValidator(validator);
 		processor.setProxyTargetClass(true);
-		log.info("\t\t > processor = {}", processor);
+		log.info("\t > processor = {}", processor);
 		
 		/* Spring internally uses a library that can generate class-based proxies, 
 		 * allowing the creation of proxies even for classes that don't implement interfaces. 
@@ -285,7 +281,6 @@ public class ServletConfig implements WebMvcConfigurer {
 		 * interface-based proxy generation and ensure that method-level validation works even 
 		 * in scenarios where interface proxies are not feasible.
 		 */
-		
 		return processor;
 	}
 
@@ -303,7 +298,6 @@ public class ServletConfig implements WebMvcConfigurer {
 		LocalValidatorFactoryBean factoryBean = new LocalValidatorFactoryBean();
 		factoryBean.setValidationMessageSource(messageSource());
 		//factoryBean.getValidationPropertyMap().put("hibernate.validator.fail_fast", "true");
-
 		return factoryBean;
 	}
 

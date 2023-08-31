@@ -51,7 +51,6 @@ public class RedisConfig {
 	public RedisTemplate<?, ?> redistTemplate() {
 		RedisTemplate<byte[], byte[]> redisTemplate = new RedisTemplate<>();
 		redisTemplate.setConnectionFactory(redisConnectionFactory());
-		
 		return redisTemplate;
 	}
 }

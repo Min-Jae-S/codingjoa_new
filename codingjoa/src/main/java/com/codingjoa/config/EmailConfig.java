@@ -39,7 +39,6 @@ public class EmailConfig {
 		mailSender.setUsername(env.getProperty("mail.username"));
 		mailSender.setPassword(env.getProperty("mail.password"));
 		mailSender.setJavaMailProperties(javaMailProperties());
-		
 		return mailSender;
 	}
 	
@@ -47,7 +46,6 @@ public class EmailConfig {
 		Properties properties = new Properties();
 		properties.put("mail.smtp.auth", env.getProperty("mail.auth"));
 		properties.put("mail.smtp.starttls.enable", env.getProperty("mail.enable"));
-		
 		return properties;
 	}
 	
@@ -55,7 +53,6 @@ public class EmailConfig {
 	public TemplateEngine templateEngine() {
 		SpringTemplateEngine templaEngine = new SpringTemplateEngine();
 		templaEngine.addTemplateResolver(springResourceTemplateResolver());
-		
 		return templaEngine;
 	}
 	
@@ -67,7 +64,6 @@ public class EmailConfig {
 		resolver.setTemplateMode(TemplateMode.HTML);
 		resolver.setCharacterEncoding("UTF-8");
 		resolver.setCacheable(false);
-		
 		return resolver;
 	}
 }

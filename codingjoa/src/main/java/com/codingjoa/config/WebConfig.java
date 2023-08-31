@@ -31,7 +31,7 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 	
 	@Override
 	protected Class<?>[] getRootConfigClasses() {
-		log.info("\t ## getRootConfigClasses");
+		log.info("## getRootConfigClasses");
 		return new Class[] { 
 			RootConfig.class, 
 			SecurityConfig.class,
@@ -44,19 +44,19 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 
 	@Override
 	protected Class<?>[] getServletConfigClasses() {
-		log.info("\t ## getServletConfigClasses");
+		log.info("## getServletConfigClasses");
 		return new Class[] { ServletConfig.class };
 	}
 
 	@Override
 	protected String[] getServletMappings() {
-		log.info("\t ## getServletMappings");
+		log.info("## getServletMappings");
 		return new String[] { "/" };
 	}
 	
 	@Override
 	protected void customizeRegistration(Dynamic registration) {
-		log.info("\t ## customizeRegistration");
+		log.info("## customizeRegistration");
 		
 		/*
 		 * MultipartConfigElement(String location, long maxFileSize, long maxRequestSize, int fileSizeThreshold)
@@ -74,24 +74,23 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 	
 	@Override
 	protected FrameworkServlet createDispatcherServlet(WebApplicationContext servletAppContext) {
-		log.info("\t ## createDispatcherServlet");
+		log.info("## createDispatcherServlet");
 		DispatcherServlet dispatcherServlet = (DispatcherServlet) super.createDispatcherServlet(servletAppContext);
 		dispatcherServlet.setThrowExceptionIfNoHandlerFound(true);
 		dispatcherServlet.setEnableLoggingRequestDetails(true);
-		
 		return dispatcherServlet;
 	}
 	
 	@Override
 	public void onStartup(ServletContext servletContext) throws ServletException {
-		log.info("\t ## onStartup");
+		log.info("## onStartup");
 		super.onStartup(servletContext);
 		registerCharacterEncodingFilter(servletContext);
 		//registerLogFilter(servletContext);
 	}
 
 	private void registerCharacterEncodingFilter(ServletContext servletContext) {
-		log.info("\t ## registerCharacterEncodingFilter");
+		log.info("## registerCharacterEncodingFilter");
 		FilterRegistration.Dynamic encodingFilterReg = 
 				servletContext.addFilter("CharacterEncodingFilter", new CharacterEncodingFilter());
 		encodingFilterReg.setInitParameter("encoding", "UTF-8");
@@ -104,7 +103,7 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 	
 	@SuppressWarnings("unused")
 	private void registerLogFilter(ServletContext servletContext) {
-		log.info("\t ## registerLogFilter");
+		log.info("## registerLogFilter");
 		FilterRegistration.Dynamic logFilterReg = servletContext.addFilter("LogFilter", new LogFilter());
 		logFilterReg.setInitParameter("excludePatterns", "/resources/, /upload/");
 		
