@@ -41,13 +41,10 @@ public class TestSchedulerController {
 		return ResponseEntity.ok("run scheduler success");
 	}	
 
-	@ResponseBody
-	@GetMapping("/scheduler/quartz")
-	public ResponseEntity<Object> quartz() {
-		log.info("## quartz");
-		return ResponseEntity.ok("quartz success");
-	}	
-	
+/*
+ * 	Timer, ScheduledExecutorService	
+ */
+
 //	private final Timer timer = new Timer();
 //	private final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("YYYY-MM-dd'T'HH:mm:ss");
 //	private final ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
