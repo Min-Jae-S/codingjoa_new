@@ -5,17 +5,14 @@ import org.quartz.JobDetail;
 import org.quartz.SimpleScheduleBuilder;
 import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
-import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.scheduling.quartz.SpringBeanJobFactory;
 
 import com.codingjoa.mapper.ImageMapper;
-import com.codingjoa.quartz.AutowiringSpringBeanJobFactory;
 import com.codingjoa.quartz.JobA;
 import com.codingjoa.quartz.JobB;
 import com.codingjoa.service.QuartzService;

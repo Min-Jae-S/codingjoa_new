@@ -1,8 +1,5 @@
 package com.codingjoa.quartz;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class JobB extends QuartzJobBean {
 	
+	@SuppressWarnings("unused")
 	@Autowired
 	private ImageMapper imageMapper;
 	

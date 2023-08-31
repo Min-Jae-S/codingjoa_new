@@ -11,11 +11,10 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class JobA extends QuartzJobBean {
-	
-	private final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
-	
+
 	@Override
 	protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
 		log.info("## {}, repeated task performed on: {}  [{}]", this.getClass().getSimpleName(), 
 				LocalDateTime.now().format(dtf), Thread.currentThread().getName());
 	}
