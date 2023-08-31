@@ -1,4 +1,4 @@
-package com.codingjoa.quartz;
+package com.codingjoa.service;
 
 public interface QuartzService {
 	

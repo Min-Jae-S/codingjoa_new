@@ -1,6 +1,5 @@
 package com.codingjoa.config;
 
-import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -40,11 +39,6 @@ public class RootConfig {
 	
 	@Value("${db.password}")
 	private String password;
-	
-	@PostConstruct
-	public void init() {
-		log.info("[ RootConfig initialized ]");
-	}
 	
 	@Bean
 	public HikariConfig hikariConfig() {

@@ -2,7 +2,6 @@ package com.codingjoa.config;
 
 import java.util.EnumSet;
 
-import javax.annotation.PostConstruct;
 import javax.servlet.DispatcherType;
 import javax.servlet.FilterRegistration;
 import javax.servlet.MultipartConfigElement;
@@ -23,11 +22,6 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitializer {
-	
-	@PostConstruct
-	public void init() {
-		log.info("[ WebConfig initialized ]");
-	}
 	
 	@Override
 	protected Class<?>[] getRootConfigClasses() {

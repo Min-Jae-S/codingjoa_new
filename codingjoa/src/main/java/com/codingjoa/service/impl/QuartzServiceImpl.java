@@ -1,4 +1,4 @@
-package com.codingjoa.quartz;
+package com.codingjoa.service.impl;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -6,10 +6,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.stereotype.Service;
 
 import com.codingjoa.mapper.ImageMapper;
+import com.codingjoa.service.QuartzService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -17,22 +17,20 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class QuartzServiceImpl implements QuartzService {
 	
-	@Autowired
-	private SchedulerFactoryBean schedulerFactoryBean;
+//	@Autowired
+//	private SchedulerFactoryBean schedulerFactoryBean;
 	
 	@Autowired
 	private ImageMapper imageMapper;
 	
 	@Override
 	public void test() {
-		log.info("===========================================================================");
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
 		log.info("## QuartzService test on: {}  [{}]", LocalDateTime.now().format(dtf), Thread.currentThread().getName());
 		logTempImage();
 	}
 	
 	private void logTempImage() {
-		
 		List<Integer> tempBoardImageIndexs = imageMapper.findTempBoardImages().stream()
 				.map(boardImage -> boardImage.getBoardImageIdx())
 				.sorted()

@@ -1,7 +1,5 @@
 package com.codingjoa.config;
 
-import javax.annotation.PostConstruct;
-
 import org.quartz.JobBuilder;
 import org.quartz.JobDetail;
 import org.quartz.SimpleScheduleBuilder;
@@ -14,7 +12,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.scheduling.quartz.SpringBeanJobFactory;
 
-import com.codingjoa.quartz.AutowiringSpringBeanJobFactory;
 import com.codingjoa.quartz.TestJob;
 
 import lombok.extern.slf4j.Slf4j;
@@ -25,11 +22,6 @@ public class QuartzConfig {
 
 	@Autowired
 	private ApplicationContext applicationContext;
-	
-	@PostConstruct
-	public void init() {
-		log.info("[ QuartzConfig initialized ]");
-	}
 	
 	@Bean
 	public SchedulerFactoryBean schedulerFactoryBean() {
@@ -42,15 +34,23 @@ public class QuartzConfig {
 		return schedulerFactory;
 	}
 	
-	// for working annotation @Autowired in job classes
-	// custom job factory of spring with DI support for @Autowired
 	@Bean
 	public SpringBeanJobFactory jobFactory() {
-		log.info("## AutowiringSpringBeanJobFactory");
-		AutowiringSpringBeanJobFactory jobFactory = new AutowiringSpringBeanJobFactory();
-	    jobFactory.setApplicationContext(applicationContext);
-	    return jobFactory;
+		log.info("## SpringBeanJobFactory");
+		SpringBeanJobFactory jobFactory = new SpringBeanJobFactory();
+		jobFactory.setApplicationContext(applicationContext);
+		return jobFactory;
 	}
+	
+	// for working annotation @Autowired in job classes
+	// custom job factory of spring with DI support for @Autowired
+//	@Bean
+//	public SpringBeanJobFactory jobFactory() {
+//		log.info("## AutowiringSpringBeanJobFactory");
+//		AutowiringSpringBeanJobFactory jobFactory = new AutowiringSpringBeanJobFactory();
+//	    jobFactory.setApplicationContext(applicationContext);
+//	    return jobFactory;
+//	}
 	
 	@Bean
 	public JobDetail jobDetail() {
