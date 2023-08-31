@@ -23,7 +23,7 @@ public class QuartzServiceImpl implements QuartzService {
 	
 	@Override
 	public void test() {
-		log.info("## QuartzService test");
+		log.info("===========================================================================");
 		logTempImage();
 	}
 	

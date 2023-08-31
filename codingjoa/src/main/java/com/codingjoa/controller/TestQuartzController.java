@@ -17,7 +17,8 @@ public class TestQuartzController {
 	 * ## Quartz
 	 * 	> enable in-memory job scheduler
 	 * 	> clustering using database
-	 * 	> scheduler, job, trigger
+	 * 	> Scheduler, Job, Trigger
+	 * 	> JobDetails, JobDataMap, JobListener, TriggerListener
 	 */
 	
 	@GetMapping("/quartz")

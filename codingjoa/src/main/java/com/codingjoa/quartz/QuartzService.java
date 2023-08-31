@@ -7,4 +7,5 @@ public interface QuartzService {
 	void start();
 	
 	void stop();
+	
 }
