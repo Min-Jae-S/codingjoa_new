@@ -16,7 +16,16 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/test")
 @Controller
 public class TestQuartzController {
-
+	
+	/*
+	 * > enable in-memory job scheduler
+	 * > clustering using database
+	 * 
+	 * 
+	 * 
+	 */
+	
+	
 	@Autowired
 	private QuartzService quartzService;
 	

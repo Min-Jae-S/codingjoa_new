@@ -1,5 +1,7 @@
 package com.codingjoa.scheduler.service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,23 +20,31 @@ public class SchedulerService {
 	@Autowired
 	private ImageMapper imageMapper;
 	
+	
 	// return void & no parameter
-	@Scheduled(cron = "0/15 * * * * ?") 
-	public void run() {
+	@Scheduled(cron = "0/30 * * * * ?") 
+	public void test() {
 		log.info("===========================================================================");
-		log.info("## SchedulerService run [{}]", Thread.currentThread().getName());
-		
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
+		log.info("## SchedulerService test on: {}   [{}]", LocalDateTime.now().format(dtf), Thread.currentThread().getName());
+		logBoardImage();
+		logMemberImage();
+		log.info("===========================================================================");
+	}
+	
+	private void logBoardImage() {
 		List<Integer> tempBoardImageIndexs = imageMapper.findTempBoardImages().stream()
-			.map(boardImage -> boardImage.getBoardImageIdx())
-			.sorted()
-			.collect(Collectors.toList());
-		log.info("\t > temp board  image indexs = {}", tempBoardImageIndexs);
-
+				.map(boardImage -> boardImage.getBoardImageIdx())
+				.sorted()
+				.collect(Collectors.toList());
+		log.info("\t > temp board  image indexes = {}", tempBoardImageIndexs);
+	}
+	
+	private void logMemberImage() {
 		List<Integer> tempMemberImageIndexs = imageMapper.findTempMemberImages().stream()
 				.map(memberImage -> memberImage.getMemberImageIdx())
 				.sorted()
 				.collect(Collectors.toList());
-		log.info("\t > temp member image indexs = {}", tempMemberImageIndexs);
-		log.info("===========================================================================");
+		log.info("\t > temp member image indexes = {}", tempMemberImageIndexs);
 	}
 }
