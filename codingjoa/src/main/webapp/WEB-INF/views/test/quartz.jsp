@@ -39,7 +39,7 @@
 	<p>quartz.jsp</p>
 	<div class="test d-flex justify-content-center mt-5">
 		<button class="btn btn-primary btn-lg mx-3" onclick="startQuartz()">startQuartz</button>
-		<button class="btn btn-primary btn-lg mx-3 invisible" onclick="#">#</button>
+		<button class="btn btn-primary btn-lg mx-3" onclick="stopQuartz()">stopQuartz</button>
 		<button class="btn btn-primary btn-lg mx-3 invisible" onclick="#">#</button>
 	</div>
 </div>
@@ -50,6 +50,22 @@
 		$.ajax({
 			type : "GET",
 			url : "${contextPath}/test/quartz/start",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log("> result = %s", result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(jqXHR);
+			}
+		});
+	}
+
+	function stopQuartz() {
+		console.log("## stopQuartz");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/quartz/stop",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);

@@ -34,13 +34,13 @@ public class TestSchedulerController {
 	 * 
 	 */
 	
-	private final Timer timer = new Timer();
-	private final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("YYYY-MM-dd'T'HH:mm:ss");
-	private final ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
+	private Timer timer;
+	private ScheduledExecutorService executor;
+	private DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
 	
 	@GetMapping("/scheduler")
 	public String main() {
-		log.info("## TestScheduler main");
+		log.info("## scheduler main");
 		return "test/scheduler";
 	}
 	
@@ -48,17 +48,15 @@ public class TestSchedulerController {
 	@GetMapping("/scheduler/timer")
 	public ResponseEntity<Object> timer() {
 		log.info("## timer");
-		log.info("\t > Current time: {}", LocalDateTime.now().format(dtf));
-		log.info("\t > Current thread's name: {}", Thread.currentThread().getName());
-		
-		TimerTask task = new TimerTask() {
+		log.info("\t > current          : {}  [{}]", LocalDateTime.now().format(dtf), Thread.currentThread().getName());
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+			@Override
             public void run() {
-            	log.info("\t > Task performed on: {}", LocalDateTime.now().format(dtf));
-            	log.info("\t > Thread's name: {}", Thread.currentThread().getName());
+            	log.info("\t > task performed on: {}  [{}]", LocalDateTime.now().format(dtf), Thread.currentThread().getName());
+            	timer.cancel();
             }
-        };
-        
-        timer.schedule(task, 5000);
+        }, 5000);
 		return ResponseEntity.ok("timer success");
 	}
 
@@ -66,10 +64,12 @@ public class TestSchedulerController {
 	@GetMapping("/scheduler/startTimer")
 	public ResponseEntity<Object> startTimer() {
 		log.info("## startTimer");
+		timer = new Timer();
 		timer.scheduleAtFixedRate(new TimerTask() {
 			@Override
 			public void run() {
-            	log.info("\t > Repeated task performed on: {}", LocalDateTime.now().format(dtf));
+            	log.info("\t > repeated task performed on: {}  [{}]", 
+            			LocalDateTime.now().format(dtf), Thread.currentThread().getName());
 			}
 		}, 0, 1000);
 		return ResponseEntity.ok("startTimer success");
@@ -87,10 +87,12 @@ public class TestSchedulerController {
 	@GetMapping("/scheduler/startExecutor")
 	public ResponseEntity<Object> startExecutor() {
 		log.info("## startExecutor");
+		executor = Executors.newSingleThreadScheduledExecutor();
 		executor.scheduleAtFixedRate(new TimerTask() {
 			@Override
 			public void run() {
-            	log.info("\t > Repeated task performed on: {}", LocalDateTime.now().format(dtf));
+            	log.info("\t > repeated task performed on: {}  [{}]", 
+            			LocalDateTime.now().format(dtf), Thread.currentThread().getName());
 			}
 		}, 0, 1000, TimeUnit.MILLISECONDS);
 		return ResponseEntity.ok("startExecutor success");

@@ -15,13 +15,11 @@ import lombok.extern.slf4j.Slf4j;
 @Configuration
 public class SchedulerConfig implements SchedulingConfigurer {
 
-	private final int POOL_SIZE = 10;
-	
 	@Override
 	public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
 		log.info("## configureTasks");
 		ThreadPoolTaskScheduler threadPoolTaskScheduler = new ThreadPoolTaskScheduler();
-		threadPoolTaskScheduler.setPoolSize(POOL_SIZE);
+		threadPoolTaskScheduler.setPoolSize(10);
         threadPoolTaskScheduler.setThreadNamePrefix("scheduling-thread-");
         threadPoolTaskScheduler.initialize();
         taskRegistrar.setScheduler(threadPoolTaskScheduler);

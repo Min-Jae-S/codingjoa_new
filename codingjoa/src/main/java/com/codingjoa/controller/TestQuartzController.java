@@ -19,7 +19,6 @@ public class TestQuartzController {
 	/*
 	 * > enable in-memory job scheduler
 	 * > clustering using database
-	 * 
 	 */
 	
 	@Autowired
@@ -27,15 +26,22 @@ public class TestQuartzController {
 	
 	@GetMapping("/quartz")
 	public String main() {
-		log.info("## TestQuartz main");
+		log.info("## quartz main");
 		return "test/quartz";
 	}
 	
 	@ResponseBody
 	@GetMapping("/quartz/start")
-	public ResponseEntity<Object> start() {
-		log.info("## start");
-		return ResponseEntity.ok("start success");
+	public ResponseEntity<Object> startQuartz() {
+		log.info("## startQuartz");
+		return ResponseEntity.ok("startQuartz success");
+	}
+
+	@ResponseBody
+	@GetMapping("/quartz/stop")
+	public ResponseEntity<Object> stopQuartz() {
+		log.info("## stopQuartz");
+		return ResponseEntity.ok("stopQuartz success");
 	}
 	
 }
