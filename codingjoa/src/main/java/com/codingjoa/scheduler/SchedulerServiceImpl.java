@@ -1,4 +1,4 @@
-package com.codingjoa.scheduler.service.impl;
+package com.codingjoa.scheduler;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -10,7 +10,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.codingjoa.mapper.ImageMapper;
-import com.codingjoa.scheduler.service.SchedulerService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -22,7 +21,7 @@ public class SchedulerServiceImpl implements SchedulerService {
 	private ImageMapper imageMapper;
 	
 	// return void & no parameter
-	@Scheduled(cron = "0/30 * * * * ?") 
+	@Scheduled(cron = "0 0/30 * * * ?") 
 	public void test() {
 		log.info("===========================================================================");
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");

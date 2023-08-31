@@ -1,7 +1,5 @@
-package com.codingjoa.scheduler.service;
+package com.codingjoa.scheduler;
 
 public interface SchedulerService {
-	
 	void test();
-	
 }

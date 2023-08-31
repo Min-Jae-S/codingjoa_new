@@ -1,7 +1,5 @@
-package com.codingjoa.scheduler.service;
+package com.codingjoa.quartz;
 
 public interface QuartzService {
-	
 	void test();
-	
 }
