@@ -38,7 +38,7 @@ public class QuartzConfig {
 	
 	@Bean
 	public SchedulerFactoryBean schedulerFactoryBean() {
-		log.info("## schedulerFactoryBean");
+		log.info("## SchedulerFactoryBean");
 		SchedulerFactoryBean schedulerFactory = new SchedulerFactoryBean();
 		schedulerFactory.setJobFactory(jobFactory());
 		schedulerFactory.setJobDetails(jobDetailA(), jobDetailB());
