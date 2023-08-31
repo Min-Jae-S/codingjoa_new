@@ -34,6 +34,8 @@ public class QuartzConfig {
 		log.info("\t > applicationContext = {}", applicationContext);
 		log.info("\t > quartzService = {}", applicationContext.getBeansOfType(QuartzService.class));
 		log.info("\t > imageMapper = {}", applicationContext.getBeansOfType(ImageMapper.class));
+		log.info("\t > jobA = {}", applicationContext.getBeansOfType(JobA.class));
+		log.info("\t > jobB = {}", applicationContext.getBeansOfType(JobB.class));
 	}
 	
 	@Bean
@@ -91,7 +93,7 @@ public class QuartzConfig {
 		return TriggerBuilder.newTrigger()
 				.forJob(jobDetailA())
 				.withSchedule(SimpleScheduleBuilder.simpleSchedule()
-						.withIntervalInSeconds(10)
+						.withIntervalInMinutes(1)
 						.repeatForever())
 				.build();
 	}
@@ -101,7 +103,7 @@ public class QuartzConfig {
 		return TriggerBuilder.newTrigger()
 				.forJob(jobDetailB())
 				.withSchedule(SimpleScheduleBuilder.simpleSchedule()
-						.withIntervalInSeconds(20)
+						.withIntervalInMinutes(2)
 						.repeatForever())
 				.build();
 	}

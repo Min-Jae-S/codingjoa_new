@@ -43,6 +43,7 @@ import org.springframework.web.servlet.view.BeanNameViewResolver;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import com.codingjoa.interceptor.ResetPasswordInterceptor;
+import com.codingjoa.interceptor.TestInterceptor;
 import com.codingjoa.interceptor.TopMenuInterceptor;
 import com.codingjoa.interceptor.UpdatePasswordInterceptor;
 import com.codingjoa.resolver.BoardCriteriaArgumentResolver;
@@ -136,6 +137,8 @@ public class ServletConfig implements WebMvcConfigurer {
 				.addPathPatterns("/member/account/updatePassword", "/api/member/password");
 		registry.addInterceptor(new ResetPasswordInterceptor(redisService))
 				.addPathPatterns("/member/resetPassword", "/api/member/reset/password");
+		registry.addInterceptor(new TestInterceptor())
+				.addPathPatterns("/test/quartz/interceptor");
 	}
 
 	@Override

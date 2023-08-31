@@ -26,6 +26,13 @@ public class TestQuartzController {
 		log.info("## quartz main");
 		return "test/quartz";
 	}
+
+	@ResponseBody
+	@GetMapping("/quartz/interceptor")
+	public ResponseEntity<Object> quartzInterceptor() {
+		log.info("## quartzInterceptor");
+		return ResponseEntity.ok("quartzInterceptor success");
+	}
 	
 	@ResponseBody
 	@GetMapping("/quartz/start")
