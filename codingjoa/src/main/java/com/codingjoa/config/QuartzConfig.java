@@ -13,7 +13,7 @@ import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.scheduling.quartz.SpringBeanJobFactory;
 
 import com.codingjoa.quartz.AutowiringSpringBeanJobFactory;
-import com.codingjoa.quartz.TestJob;
+import com.codingjoa.quartz.JobA;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -32,6 +32,7 @@ public class QuartzConfig {
 		schedulerFactory.setJobDetails(jobDetail());
 		schedulerFactory.setTriggers(trigger());
 		schedulerFactory.setOverwriteExistingJobs(true);
+		schedulerFactory.setWaitForJobsToCompleteOnShutdown(true);
 		return schedulerFactory;
 	}
 	
@@ -55,15 +56,13 @@ public class QuartzConfig {
 	
 	@Bean
 	public JobDetail jobDetail() {
-		log.info("## jobDetail");
-		return JobBuilder.newJob(TestJob.class)
+		return JobBuilder.newJob(JobA.class)
 				.storeDurably()
 				.build();
 	}
 	
 	@Bean
 	public Trigger trigger() {
-		log.info("## trigger");
 		return TriggerBuilder.newTrigger()
 				.forJob(jobDetail())
 				.withSchedule(SimpleScheduleBuilder.simpleSchedule()
