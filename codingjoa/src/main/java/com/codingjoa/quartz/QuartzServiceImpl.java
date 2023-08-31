@@ -1,5 +1,7 @@
 package com.codingjoa.quartz;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,10 +26,13 @@ public class QuartzServiceImpl implements QuartzService {
 	@Override
 	public void test() {
 		log.info("===========================================================================");
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
+		log.info("## QuartzService test on: {}  [{}]", LocalDateTime.now().format(dtf), Thread.currentThread().getName());
 		logTempImage();
 	}
 	
 	private void logTempImage() {
+		
 		List<Integer> tempBoardImageIndexs = imageMapper.findTempBoardImages().stream()
 				.map(boardImage -> boardImage.getBoardImageIdx())
 				.sorted()

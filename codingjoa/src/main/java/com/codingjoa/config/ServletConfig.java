@@ -4,6 +4,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
 import javax.validation.Validator;
 
 import org.springframework.aop.support.AopUtils;
@@ -79,6 +80,11 @@ public class ServletConfig implements WebMvcConfigurer {
 	
 	@Autowired
 	private RedisService redisService;
+	
+	@PostConstruct
+	public void init() {
+		log.info("[ ServletConfig initialized ]");
+	}
 
 	@Override
 	public void configureViewResolvers(ViewResolverRegistry registry) {
@@ -140,9 +146,9 @@ public class ServletConfig implements WebMvcConfigurer {
 
 	@Override
 	public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
-		log.info("## extendMessageConverters");
+		log.info("\t ## extendMessageConverters");
 		converters.stream().forEach(converter -> { 
-			log.info("\t > {}", converter.getClass().getSimpleName());
+			log.info("\t\t > {}", converter.getClass().getSimpleName());
 			if (converter instanceof StringHttpMessageConverter) {
 				// StringHttpMessageConverter defaults to ISO-8859-1
 				((StringHttpMessageConverter) converter).setDefaultCharset(StandardCharsets.UTF_8);
@@ -163,7 +169,7 @@ public class ServletConfig implements WebMvcConfigurer {
 	
 	@Override
 	public void extendHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
-		log.info("## extendHandlerExceptionResolvers");
+		log.info("\t ## extendHandlerExceptionResolvers");
 		WebMvcConfigurer.super.extendHandlerExceptionResolvers(resolvers);
 		resolvers.add(0, myExceptionResolver());
 		resolvers.forEach(resolver -> log.info("\t > {}", resolver.getClass().getSimpleName()));
@@ -256,14 +262,14 @@ public class ServletConfig implements WebMvcConfigurer {
 	 */
 	@Bean
 	public static MethodValidationPostProcessor methodValidationPostProcessor(@Lazy Validator validator) {
-		log.info("## MethodValidationPostProcessor Bean");
-		log.info("\t > validator = {}", validator.getClass().getName());
-		log.info("\t > proxy = {}", AopUtils.isAopProxy(validator));
+		log.info("\t ## MethodValidationPostProcessor Bean");
+		log.info("\t\t > validator = {}", validator.getClass().getName());
+		log.info("\t\t > proxy = {}", AopUtils.isAopProxy(validator));
 		
 		MethodValidationPostProcessor processor = new MethodValidationPostProcessor();
 		processor.setValidator(validator);
 		processor.setProxyTargetClass(true);
-		log.info("\t > processor = {}", processor);
+		log.info("\t\t > processor = {}", processor);
 		
 		/* Spring internally uses a library that can generate class-based proxies, 
 		 * allowing the creation of proxies even for classes that don't implement interfaces. 

@@ -25,7 +25,7 @@ public class SchedulerServiceImpl implements SchedulerService {
 	public void test() {
 		log.info("===========================================================================");
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
-		log.info("## schedulerService test on: {}  [{}]", LocalDateTime.now().format(dtf), Thread.currentThread().getName());
+		log.info("## SchedulerService test on: {}  [{}]", LocalDateTime.now().format(dtf), Thread.currentThread().getName());
 		logTempImage();
 	}
 	

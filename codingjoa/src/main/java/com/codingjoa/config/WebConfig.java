@@ -2,6 +2,7 @@ package com.codingjoa.config;
 
 import java.util.EnumSet;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.DispatcherType;
 import javax.servlet.FilterRegistration;
 import javax.servlet.MultipartConfigElement;
@@ -23,9 +24,14 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitializer {
 	
+	@PostConstruct
+	public void init() {
+		log.info("[ WebConfig initialized ]");
+	}
+	
 	@Override
 	protected Class<?>[] getRootConfigClasses() {
-		log.info("## getRootConfigClasses");
+		log.info("\t ## getRootConfigClasses");
 		return new Class[] { 
 			RootConfig.class, 
 			SecurityConfig.class,
@@ -38,19 +44,19 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 
 	@Override
 	protected Class<?>[] getServletConfigClasses() {
-		log.info("## getServletConfigClasses");
+		log.info("\t ## getServletConfigClasses");
 		return new Class[] { ServletConfig.class };
 	}
 
 	@Override
 	protected String[] getServletMappings() {
-		log.info("## getServletMappings");
+		log.info("\t ## getServletMappings");
 		return new String[] { "/" };
 	}
 	
 	@Override
 	protected void customizeRegistration(Dynamic registration) {
-		log.info("## customizeRegistration");
+		log.info("\t ## customizeRegistration");
 		
 		/*
 		 * MultipartConfigElement(String location, long maxFileSize, long maxRequestSize, int fileSizeThreshold)
@@ -68,7 +74,7 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 	
 	@Override
 	protected FrameworkServlet createDispatcherServlet(WebApplicationContext servletAppContext) {
-		log.info("## createDispatcherServlet");
+		log.info("\t ## createDispatcherServlet");
 		DispatcherServlet dispatcherServlet = (DispatcherServlet) super.createDispatcherServlet(servletAppContext);
 		dispatcherServlet.setThrowExceptionIfNoHandlerFound(true);
 		dispatcherServlet.setEnableLoggingRequestDetails(true);
@@ -78,14 +84,14 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 	
 	@Override
 	public void onStartup(ServletContext servletContext) throws ServletException {
-		log.info("## onStartup");
+		log.info("\t ## onStartup");
 		super.onStartup(servletContext);
 		registerCharacterEncodingFilter(servletContext);
 		//registerLogFilter(servletContext);
 	}
 
 	private void registerCharacterEncodingFilter(ServletContext servletContext) {
-		log.info("## registerCharacterEncodingFilter");
+		log.info("\t ## registerCharacterEncodingFilter");
 		FilterRegistration.Dynamic encodingFilterReg = 
 				servletContext.addFilter("CharacterEncodingFilter", new CharacterEncodingFilter());
 		encodingFilterReg.setInitParameter("encoding", "UTF-8");
@@ -98,7 +104,7 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 	
 	@SuppressWarnings("unused")
 	private void registerLogFilter(ServletContext servletContext) {
-		log.info("## registerLogFilter");
+		log.info("\t ## registerLogFilter");
 		FilterRegistration.Dynamic logFilterReg = servletContext.addFilter("LogFilter", new LogFilter());
 		logFilterReg.setInitParameter("excludePatterns", "/resources/, /upload/");
 		

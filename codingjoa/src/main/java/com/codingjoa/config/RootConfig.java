@@ -1,5 +1,6 @@
 package com.codingjoa.config;
 
+import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -40,33 +41,36 @@ public class RootConfig {
 	@Value("${db.password}")
 	private String password;
 	
+	@PostConstruct
+	public void init() {
+		log.info("[ RootConfig initialized ]");
+	}
+	
 	@Bean
 	public HikariConfig hikariConfig() {
-		log.info("## DBCP, HikariCP Bean");
+		log.info("\t ## DBCP, HikariCP Bean");
 		HikariConfig hikariConfig = new HikariConfig();
 		hikariConfig.setDriverClassName(driverClassName);
 		hikariConfig.setJdbcUrl(url);
 		hikariConfig.setUsername(username);
 		hikariConfig.setPassword(password);
-		log.info("\t > auto commit = {}", hikariConfig.isAutoCommit());
+		log.info("\t\t > auto commit = {}", hikariConfig.isAutoCommit());
 		
 		return hikariConfig;
 	}
 
 	@Bean
 	public DataSource dataSource() {
-		log.info("## DataSoruce Bean");
+		log.info("\t ## DataSoruce Bean");
 		DataSource dataSource = new HikariDataSource(hikariConfig());
-		log.info("\t > datasource connection = {}", dataSource);
-		
+		log.info("\t\t > datasource connection = {}", dataSource);
 		return dataSource;
 	}
 	
 	@Bean
 	public PlatformTransactionManager transactionManager() {
-		log.info("## TransactionManager Bean");
+		log.info("\t ## TransactionManager Bean");
 		DataSourceTransactionManager transactionManager = new DataSourceTransactionManager(dataSource());
-		
 		return transactionManager;
 	}
 
@@ -81,20 +85,20 @@ public class RootConfig {
 	
 	@Bean
 	public SqlSessionTemplate sqlSessionTemplate(SqlSessionFactory sqlSessionFactory) {
-		log.info("## SqlSessionTemplate Bean");
+		log.info("\t ## SqlSessionTemplate Bean");
 		SqlSessionTemplate sessionTemplate = new SqlSessionTemplate(sqlSessionFactory);
 		org.apache.ibatis.session.Configuration config = sessionTemplate.getConfiguration();
-		log.info("\t > jdbcTypeForNull = {}", config.getJdbcTypeForNull());
-		log.info("\t > mapUnderscoreToCamelCase = {}", config.isMapUnderscoreToCamelCase());
-		log.info("\t > callSettersOnNulls = {}", config.isCallSettersOnNulls());
-		log.info("\t > returnInstanceForEmptyRow = {}", config.isReturnInstanceForEmptyRow());
+		log.info("\t\t > jdbcTypeForNull = {}", config.getJdbcTypeForNull());
+		log.info("\t\t > mapUnderscoreToCamelCase = {}", config.isMapUnderscoreToCamelCase());
+		log.info("\t\t > callSettersOnNulls = {}", config.isCallSettersOnNulls());
+		log.info("\t\t > returnInstanceForEmptyRow = {}", config.isReturnInstanceForEmptyRow());
 
 		return sessionTemplate;
 	}
 	
 	@Bean
 	public ModelMapper modelMapper() {
-		log.info("## ModelMapper Bean");
+		log.info("\t ## ModelMapper Bean");
 		ModelMapper modelMapper = new ModelMapper();
 		modelMapper.getConfiguration()
 			.setMatchingStrategy(MatchingStrategies.STRICT)
@@ -103,13 +107,13 @@ public class RootConfig {
 			.setFieldMatchingEnabled(true);
 		
 		org.modelmapper.config.Configuration config = modelMapper.getConfiguration();
-		log.info("\t > matchingStrategy = {}", config.getMatchingStrategy());
-		log.info("\t > fieldAccessLevel = {}", config.getFieldAccessLevel());
-		log.info("\t > methodAccessLevel = {}", config.getMethodAccessLevel());
-		log.info("\t > propertyCondition = {}", config.getPropertyCondition());
-		log.info("\t > isFieldMatchingEnabled = {}", config.isFieldMatchingEnabled());
-		log.info("\t > isSkipNullEnabled = {}", config.isSkipNullEnabled());
-		log.info("\t > isCollectionsMergeEnabled = {}", config.isCollectionsMergeEnabled());
+		log.info("\t\t > matchingStrategy = {}", config.getMatchingStrategy());
+		log.info("\t\t > fieldAccessLevel = {}", config.getFieldAccessLevel());
+		log.info("\t\t > methodAccessLevel = {}", config.getMethodAccessLevel());
+		log.info("\t\t > propertyCondition = {}", config.getPropertyCondition());
+		log.info("\t\t > isFieldMatchingEnabled = {}", config.isFieldMatchingEnabled());
+		log.info("\t\t > isSkipNullEnabled = {}", config.isSkipNullEnabled());
+		log.info("\t\t > isCollectionsMergeEnabled = {}", config.isCollectionsMergeEnabled());
 		
 		return modelMapper;
 	}
