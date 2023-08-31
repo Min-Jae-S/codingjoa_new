@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
 import com.codingjoa.mapper.ImageMapper;
+import com.codingjoa.service.QuartzService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -18,23 +19,25 @@ public class JobB extends QuartzJobBean {
 	@Autowired
 	private ImageMapper imageMapper;
 	
+	@Autowired
+	private QuartzService quartzService;
+	
 	@Override
 	protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
+		log.info("=================================================================");
 		log.info("## {}", this.getClass().getSimpleName());
-		logTempImage();
-	}
-	
-	private void logTempImage() {
-		List<Integer> tempBoardImageIndexs = imageMapper.findTempBoardImages().stream()
-				.map(boardImage -> boardImage.getBoardImageIdx())
-				.sorted()
-				.collect(Collectors.toList());
-		log.info("\t > temp board  image indexes = {}", tempBoardImageIndexs);
-		
-		List<Integer> tempMemberImageIndexs = imageMapper.findTempMemberImages().stream()
-				.map(memberImage -> memberImage.getMemberImageIdx())
-				.sorted()
-				.collect(Collectors.toList());
-		log.info("\t > temp member image indexes = {}", tempMemberImageIndexs);
+		quartzService.test();
+//		List<Integer> tempBoardImageIndexs = imageMapper.findTempBoardImages().stream()
+//				.map(boardImage -> boardImage.getBoardImageIdx())
+//				.sorted()
+//				.collect(Collectors.toList());
+//		log.info("\t > temp board  image indexes = {}", tempBoardImageIndexs);
+//		
+//		List<Integer> tempMemberImageIndexs = imageMapper.findTempMemberImages().stream()
+//				.map(memberImage -> memberImage.getMemberImageIdx())
+//				.sorted()
+//				.collect(Collectors.toList());
+//		log.info("\t > temp member image indexes = {}", tempMemberImageIndexs);
+		log.info("=================================================================");
 	}
 }

@@ -27,10 +27,6 @@ public class QuartzServiceImpl implements QuartzService {
 	public void test() {
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
 		log.info("## QuartzService test on: {}  [{}]", LocalDateTime.now().format(dtf), Thread.currentThread().getName());
-		logTempImage();
-	}
-	
-	private void logTempImage() {
 		List<Integer> tempBoardImageIndexs = imageMapper.findTempBoardImages().stream()
 				.map(boardImage -> boardImage.getBoardImageIdx())
 				.sorted()
@@ -43,7 +39,7 @@ public class QuartzServiceImpl implements QuartzService {
 				.collect(Collectors.toList());
 		log.info("\t > temp member image indexes = {}", tempMemberImageIndexs);
 	}
-
+	
 	@Override
 	public void start() {
 		// TODO Auto-generated method stub
