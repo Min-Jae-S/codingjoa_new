@@ -15,6 +15,7 @@ import org.springframework.scheduling.quartz.SpringBeanJobFactory;
 import com.codingjoa.quartz.AutowiringSpringBeanJobFactory;
 import com.codingjoa.quartz.JobA;
 import com.codingjoa.quartz.JobB;
+import com.codingjoa.service.QuartzService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -41,6 +42,7 @@ public class QuartzConfig {
 	public SpringBeanJobFactory jobFactory() {
 		log.info("## SpringBeanJobFactory");
 		SpringBeanJobFactory jobFactory = new SpringBeanJobFactory();
+		log.info("\t > quartzService = {}", applicationContext.getBeansOfType(QuartzService.class));
 		jobFactory.setApplicationContext(applicationContext);
 		return jobFactory;
 	}
