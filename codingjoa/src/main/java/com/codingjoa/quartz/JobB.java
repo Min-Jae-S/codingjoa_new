@@ -23,7 +23,6 @@ public class JobB extends QuartzJobBean {
 	
 	@Override
 	protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
-		log.info("=================================================================");
 		log.info("## {}", this.getClass().getSimpleName());
 		//quartzService.test();
 		List<Integer> tempBoardImageIndexs = imageMapper.findTempBoardImages().stream()
@@ -37,6 +36,5 @@ public class JobB extends QuartzJobBean {
 				.sorted()
 				.collect(Collectors.toList());
 		log.info("\t > temp member image indexes = {}", tempMemberImageIndexs);
-		log.info("=================================================================");
 	}
 }

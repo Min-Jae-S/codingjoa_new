@@ -14,8 +14,8 @@ public class JobA extends QuartzJobBean {
 
 	@Override
 	protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
+		log.info("## {}", this.getClass().getSimpleName());
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
-		log.info("## {}, repeated task performed on: {}  [{}]", this.getClass().getSimpleName(), 
-				LocalDateTime.now().format(dtf), Thread.currentThread().getName());
+		log.info("\t > repeated task performed on: {}  [{}]", LocalDateTime.now().format(dtf), Thread.currentThread().getName());
 	}
 }
