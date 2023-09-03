@@ -24,7 +24,6 @@ public class TestQuartzController {
 	@GetMapping("/quartz")
 	public String main() {
 		log.info("## quartz main");
-		
 		return "test/quartz";
 	}
 
@@ -32,7 +31,6 @@ public class TestQuartzController {
 	@GetMapping("/quartz/interceptor")
 	public ResponseEntity<Object> quartzInterceptor() {
 		log.info("## quartzInterceptor");
-		
 		return ResponseEntity.ok("quartzInterceptor success");
 	}
 	
@@ -40,7 +38,6 @@ public class TestQuartzController {
 	@GetMapping("/quartz/start")
 	public ResponseEntity<Object> startQuartz() {
 		log.info("## startQuartz");
-		
 		return ResponseEntity.ok("startQuartz success");
 	}
 
@@ -48,7 +45,6 @@ public class TestQuartzController {
 	@GetMapping("/quartz/stop")
 	public ResponseEntity<Object> stopQuartz() {
 		log.info("## stopQuartz");
-		
 		return ResponseEntity.ok("stopQuartz success");
 	}
 	

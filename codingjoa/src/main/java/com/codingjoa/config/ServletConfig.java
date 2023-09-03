@@ -4,6 +4,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
 import javax.validation.Validator;
 
 import org.springframework.aop.support.AopUtils;
@@ -80,6 +81,13 @@ public class ServletConfig implements WebMvcConfigurer {
 	
 	@Autowired
 	private RedisService redisService;
+	
+	@PostConstruct
+	public void init() {
+		log.info("===============================================================");
+		log.info("@ ServletConfig init");
+		log.info("===============================================================");
+	}
 	
 	@Override
 	public void configureViewResolvers(ViewResolverRegistry registry) {

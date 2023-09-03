@@ -30,12 +30,14 @@ public class QuartzConfig {
 	
 	@PostConstruct
 	public void init() {
-		log.info("## QuartzConfig init");
+		log.info("===============================================================");
+		log.info("@ QuartzConfig init");
 		log.info("\t > applicationContext = {}", applicationContext);
 		log.info("\t > quartzService = {}", applicationContext.getBeansOfType(QuartzService.class));
 		log.info("\t > imageMapper = {}", applicationContext.getBeansOfType(ImageMapper.class));
 		log.info("\t > jobA = {}", applicationContext.getBeansOfType(JobA.class));
 		log.info("\t > jobB = {}", applicationContext.getBeansOfType(JobB.class));
+		log.info("===============================================================");
 	}
 	
 	@Bean
@@ -43,8 +45,8 @@ public class QuartzConfig {
 		log.info("## SchedulerFactoryBean");
 		SchedulerFactoryBean schedulerFactory = new SchedulerFactoryBean();
 		schedulerFactory.setJobFactory(jobFactory());
-		schedulerFactory.setJobDetails(jobDetailA(), jobDetailB());
-		schedulerFactory.setTriggers(triggerA(), triggerB());
+		schedulerFactory.setJobDetails(jobDetailB());
+		schedulerFactory.setTriggers(triggerB());
 		schedulerFactory.setOverwriteExistingJobs(true);
 		schedulerFactory.setWaitForJobsToCompleteOnShutdown(true);
 		return schedulerFactory;

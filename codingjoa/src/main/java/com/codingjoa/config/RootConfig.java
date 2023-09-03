@@ -1,5 +1,6 @@
 package com.codingjoa.config;
 
+import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -40,9 +41,16 @@ public class RootConfig {
 	@Value("${db.password}")
 	private String password;
 	
+	@PostConstruct
+	public void init() {
+		log.info("===============================================================");
+		log.info("@ RootConfig init");
+		log.info("===============================================================");
+	}
+	
 	@Bean
 	public HikariConfig hikariConfig() {
-		log.info("## DBCP, HikariCP Bean");
+		log.info("## HikariConfig(DBCP)");
 		HikariConfig hikariConfig = new HikariConfig();
 		hikariConfig.setDriverClassName(driverClassName);
 		hikariConfig.setJdbcUrl(url);
@@ -69,6 +77,7 @@ public class RootConfig {
 
 	@Bean
 	public SqlSessionFactory sqlSessionFactory(ApplicationContext applicationContext) throws Exception {
+		log.info("## SqlSessionFactory");
 		SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
 		sessionFactory.setDataSource(dataSource());
 		sessionFactory.setConfigLocation(applicationContext.getResource("classpath:/mybatis/mybatis-config.xml"));
