@@ -62,8 +62,8 @@ public class RootConfig {
 
 	@Bean
 	public DataSource dataSource() {
-		log.info("## DataSoruce");
 		DataSource dataSource = new HikariDataSource(hikariConfig());
+		log.info("## DataSoruce");
 		log.info("\t > datasource connection = {}", dataSource);
 		return dataSource;
 	}

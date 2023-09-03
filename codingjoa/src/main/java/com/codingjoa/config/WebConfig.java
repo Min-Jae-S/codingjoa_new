@@ -31,8 +31,7 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 			SecurityConfig.class,
 			EmailConfig.class, 
 			RedisConfig.class,
-			SchedulerConfig.class,
-			QuartzConfig.class
+			SchedulerConfig.class
 		};
 	}
 

@@ -1,35 +1,26 @@
 package com.codingjoa.scheduler;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.quartz.JobExecutionContext;
+import org.quartz.JobExecutionException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Service;
+import org.springframework.scheduling.quartz.QuartzJobBean;
 
 import com.codingjoa.mapper.ImageMapper;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@Service
-public class SchedulerServiceImpl implements SchedulerService {
-
+public class JobB extends QuartzJobBean {
+	
 	@Autowired
 	private ImageMapper imageMapper;
 	
-	// return void & no parameter
-	@Scheduled(cron = "0 0/30 * * * ?") 
-	public void test() {
-		log.info("===========================================================================");
-		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
-		log.info("## SchedulerService test on: {}  [{}]", LocalDateTime.now().format(dtf), Thread.currentThread().getName());
-		logTempImage();
-	}
-	
-	private void logTempImage() {
+	@Override
+	protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
+		log.info("## {}", this.getClass().getSimpleName());
 		List<Integer> tempBoardImageIndexs = imageMapper.findTempBoardImages().stream()
 				.map(boardImage -> boardImage.getBoardImageIdx())
 				.sorted()
