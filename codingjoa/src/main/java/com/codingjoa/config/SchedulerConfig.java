@@ -24,7 +24,7 @@ public class SchedulerConfig {
 	@PostConstruct
 	public void init() {
 		log.info("===============================================================");
-		log.info("@ SchedulerConfig(Quartz) init");
+		log.info("@ SchedulerConfig init");
 		log.info("===============================================================");
 	}
 
@@ -32,10 +32,11 @@ public class SchedulerConfig {
 	public SchedulerFactoryBean schedulerFactoryBean() {
 		SchedulerFactoryBean schedulerFactory = new SchedulerFactoryBean();
 		schedulerFactory.setJobFactory(jobFactory());
-		schedulerFactory.setJobDetails(jobDetailA());
-		schedulerFactory.setTriggers(triggerA());
+		schedulerFactory.setJobDetails(jobDetailA(), jobDetailB());
+		schedulerFactory.setTriggers(triggerA(), triggerB());
 		schedulerFactory.setOverwriteExistingJobs(true);
 		schedulerFactory.setWaitForJobsToCompleteOnShutdown(true);
+		schedulerFactory.setAutoStartup(false);
 		return schedulerFactory;
 	}
 	
@@ -73,7 +74,7 @@ public class SchedulerConfig {
 		return TriggerBuilder.newTrigger()
 				.forJob(jobDetailA())
 				.withSchedule(SimpleScheduleBuilder.simpleSchedule()
-						.withIntervalInSeconds(30)
+						.withIntervalInSeconds(10)
 						.repeatForever())
 				.build();
 	}
@@ -83,7 +84,7 @@ public class SchedulerConfig {
 		return TriggerBuilder.newTrigger()
 				.forJob(jobDetailB())
 				.withSchedule(SimpleScheduleBuilder.simpleSchedule()
-						.withIntervalInMinutes(2)
+						.withIntervalInSeconds(30)
 						.repeatForever())
 				.build();
 	}

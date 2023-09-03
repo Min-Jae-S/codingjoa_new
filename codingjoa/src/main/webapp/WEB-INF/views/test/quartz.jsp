@@ -38,18 +38,34 @@
 <div class="container my-5">
 	<p>quartz.jsp</p>
 	<div class="test d-flex justify-content-center mt-5">
+		<button class="btn btn-primary btn-lg mx-3" onclick="config()">config</button>
 		<button class="btn btn-primary btn-lg mx-3" onclick="startQuartz()">startQuartz</button>
 		<button class="btn btn-primary btn-lg mx-3" onclick="stopQuartz()">stopQuartz</button>
-		<button class="btn btn-primary btn-lg mx-3 invisible" onclick="quartzInterceptor()">quartzInterceptor</button>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 <script>
+	function config() {
+		console.log("## config");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/scheduler/quartz/config",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log("> result = %s", result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(jqXHR);
+			}
+		});		
+	}
+
 	function startQuartz() {
 		console.log("## startQuartz");
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/quartz/start",
+			url : "${contextPath}/test/scheduler/quartz/start",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);
@@ -65,23 +81,7 @@
 		console.log("## stopQuartz");
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/quartz/stop",
-			success : function(result) {
-				console.log("%c> SUCCESS", "color:green");
-				console.log("> result = %s", result);
-			},
-			error : function(jqXHR) {
-				console.log("%c> ERROR", "color:red");
-				console.log(jqXHR);
-			}
-		});
-	}
-
-	function quartzInterceptor() {
-		console.log("## quartzInterceptor");
-		$.ajax({
-			type : "GET",
-			url : "${contextPath}/test/quartz/interceptor",
+			url : "${contextPath}/test/scheduler/quartz/stop",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);
