@@ -1,5 +1,6 @@
 package com.codingjoa.controller;
 
+import org.quartz.Scheduler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
@@ -23,6 +24,7 @@ public class TestQuartzSchedulerController {
 	 * 	> JobDetails, JobDataMap, JobListener, TriggerListener
 	 */
 	
+	@SuppressWarnings("unused")
 	@Autowired
 	private SchedulerFactoryBean schedulerFactoryBean;
 	
@@ -36,6 +38,9 @@ public class TestQuartzSchedulerController {
 	@GetMapping("/quartz/config")
 	public  ResponseEntity<Object> config() {
 		log.info("## config");
+		log.info("\t > scheduler = {}",  schedulerFactoryBean.getScheduler());
+		log.info("\t > isAutoStartup = {}", schedulerFactoryBean.isAutoStartup());
+		log.info("\t > isRunning = {}", schedulerFactoryBean.isRunning());
 		return ResponseEntity.ok("config success");
 	}
 
@@ -43,6 +48,7 @@ public class TestQuartzSchedulerController {
 	@GetMapping("/quartz/start")
 	public ResponseEntity<Object> startQuartz() {
 		log.info("## startQuartz");
+		Scheduler scheduler = schedulerFactoryBean.getScheduler();
 		return ResponseEntity.ok("startQuartz success");
 	}
 
