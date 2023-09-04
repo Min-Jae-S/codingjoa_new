@@ -1,6 +1,7 @@
 package com.codingjoa.controller;
 
 import org.quartz.Scheduler;
+import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
@@ -36,26 +37,34 @@ public class TestQuartzSchedulerController {
 
 	@ResponseBody
 	@GetMapping("/quartz/config")
-	public  ResponseEntity<Object> config() {
+	public  ResponseEntity<Object> config() throws SchedulerException {
 		log.info("## config");
-		log.info("\t > scheduler = {}",  schedulerFactoryBean.getScheduler());
 		log.info("\t > isAutoStartup = {}", schedulerFactoryBean.isAutoStartup());
 		log.info("\t > isRunning = {}", schedulerFactoryBean.isRunning());
+
+		Scheduler scheduler = schedulerFactoryBean.getScheduler();
+		log.info("\t > scheduler = {}",  scheduler);
+		log.info("\t\t - isInStandbyMode = {}",  scheduler.isInStandbyMode());
+		log.info("\t\t - isStarted = {}",  scheduler.isStarted());
+		log.info("\t\t - isShutdown = {}",  scheduler.isShutdown());
 		return ResponseEntity.ok("config success");
 	}
 
 	@ResponseBody
 	@GetMapping("/quartz/start")
-	public ResponseEntity<Object> startQuartz() {
+	public ResponseEntity<Object> startQuartz() throws SchedulerException {
 		log.info("## startQuartz");
 		Scheduler scheduler = schedulerFactoryBean.getScheduler();
+		scheduler.start();
 		return ResponseEntity.ok("startQuartz success");
 	}
 
 	@ResponseBody
 	@GetMapping("/quartz/stop")
-	public ResponseEntity<Object> stopQuartz() {
+	public ResponseEntity<Object> stopQuartz() throws SchedulerException {
 		log.info("## stopQuartz");
+		Scheduler scheduler = schedulerFactoryBean.getScheduler();
+		scheduler.shutdown();
 		return ResponseEntity.ok("stopQuartz success");
 	}
 	
