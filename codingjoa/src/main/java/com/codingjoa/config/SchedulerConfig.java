@@ -18,8 +18,6 @@ import org.springframework.scheduling.quartz.SpringBeanJobFactory;
 
 import com.codingjoa.scheduler.JobA;
 import com.codingjoa.scheduler.JobB;
-import com.codingjoa.scheduler.GlobalJobListener;
-import com.codingjoa.scheduler.GlobalTriggerListener;
 
 import lombok.extern.slf4j.Slf4j;
 

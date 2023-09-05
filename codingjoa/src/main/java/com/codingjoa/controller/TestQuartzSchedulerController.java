@@ -51,22 +51,44 @@ public class TestQuartzSchedulerController {
 
 	@ResponseBody
 	@GetMapping("/quartz/start")
-	public ResponseEntity<Object> startQuartz() throws SchedulerException {
-		log.info("## startQuartz");
-		Scheduler scheduler = schedulerFactoryBean.getScheduler();
-		log.info("\t > scheduler = {}",  scheduler);
-		scheduler.start();
-		return ResponseEntity.ok("startQuartz success");
+	public ResponseEntity<Object> startAllJobs() throws SchedulerException {
+		log.info("## startAllJobs");
+		return ResponseEntity.ok("startAllJobs success");
+	}
+
+	@ResponseBody
+	@GetMapping("/quartz/start/job-a")
+	public ResponseEntity<Object> startJobA() throws SchedulerException {
+		log.info("## startJobA");
+		return ResponseEntity.ok("startJobA success");
+	}
+
+	@ResponseBody
+	@GetMapping("/quartz/start/job-a")
+	public ResponseEntity<Object> startJobB() throws SchedulerException {
+		log.info("## startJobB");
+		return ResponseEntity.ok("startJobB success");
 	}
 
 	@ResponseBody
 	@GetMapping("/quartz/stop")
-	public ResponseEntity<Object> stopQuartz() throws SchedulerException {
-		log.info("## stopQuartz");
-		Scheduler scheduler = schedulerFactoryBean.getScheduler();
-		log.info("\t > scheduler = {}",  scheduler);
-		scheduler.shutdown();
-		return ResponseEntity.ok("stopQuartz success");
+	public ResponseEntity<Object> stopAllJobs() throws SchedulerException {
+		log.info("## stopAllJobs");
+		return ResponseEntity.ok("stopAllJobs success");
+	}
+
+	@ResponseBody
+	@GetMapping("/quartz/stop/job-a")
+	public ResponseEntity<Object> stopJobA() throws SchedulerException {
+		log.info("## stopJobA");
+		return ResponseEntity.ok("stopJobA success");
+	}
+
+	@ResponseBody
+	@GetMapping("/quartz/stop/job-b")
+	public ResponseEntity<Object> stopJobB() throws SchedulerException {
+		log.info("## stopJobB");
+		return ResponseEntity.ok("stopJobB success");
 	}
 	
 }
