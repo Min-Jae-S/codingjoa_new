@@ -5,6 +5,7 @@ import javax.annotation.PostConstruct;
 import org.quartz.JobBuilder;
 import org.quartz.JobDetail;
 import org.quartz.JobListener;
+import org.quartz.Scheduler;
 import org.quartz.SimpleScheduleBuilder;
 import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
@@ -46,10 +47,15 @@ public class SchedulerConfig {
 		schedulerFactory.setGlobalJobListeners(jobListener);
 		schedulerFactory.setGlobalTriggerListeners(triggerListener);
 		schedulerFactory.setJobDetails(jobDetailA(), jobDetailB());
-		schedulerFactory.setTriggers(triggerA(), triggerB());
+		schedulerFactory.setTriggers(triggerA(), triggerB1(), triggerB2());
 		schedulerFactory.setWaitForJobsToCompleteOnShutdown(true);
 		schedulerFactory.setAutoStartup(false);
 		return schedulerFactory;
+	}
+	
+	@Bean
+	public Scheduler scheduler() {
+		return schedulerFactoryBean().getObject();
 	}
 	
 	@Bean
@@ -97,14 +103,27 @@ public class SchedulerConfig {
 	}
 
 	@Bean
-	public Trigger triggerB() {
+	public Trigger triggerB1() {
 		SimpleScheduleBuilder scheduleBuilder = SimpleScheduleBuilder.simpleSchedule()
 				.withIntervalInSeconds(30)
 				.repeatForever();
 		
 		return TriggerBuilder.newTrigger()
 				.forJob(jobDetailB())
-				.withIdentity("triggerB")
+				.withIdentity("triggerB1")
+				.withSchedule(scheduleBuilder)
+				.build();
+	}
+
+	@Bean
+	public Trigger triggerB2() {
+		SimpleScheduleBuilder scheduleBuilder = SimpleScheduleBuilder.simpleSchedule()
+				.withIntervalInMinutes(1)
+				.repeatForever();
+		
+		return TriggerBuilder.newTrigger()
+				.forJob(jobDetailB())
+				.withIdentity("triggerB2")
 				.withSchedule(scheduleBuilder)
 				.build();
 	}

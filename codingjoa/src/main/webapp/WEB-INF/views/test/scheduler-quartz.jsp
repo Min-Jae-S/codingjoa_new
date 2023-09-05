@@ -72,10 +72,10 @@
 	}
 
 	function start(target) {
-		console.log("## " + target.text());
+		console.log("## " + $(target).text());
 		$.ajax({
 			type : "GET",
-			url : target.data("url"),
+			url : $(target).data("url"),
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);
@@ -88,10 +88,10 @@
 	}
 
 	function stop(target) {
-		console.log("## " + target.text());
+		console.log("## " + $(target).text());
 		$.ajax({
 			type : "GET",
-			url : target.data("url"),
+			url : $(target).data("url"),
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);
