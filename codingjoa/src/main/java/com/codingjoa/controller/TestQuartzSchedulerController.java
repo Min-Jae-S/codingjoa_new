@@ -43,9 +43,9 @@ public class TestQuartzSchedulerController {
 
 		Scheduler scheduler = schedulerFactoryBean.getScheduler();
 		log.info("\t > scheduler = {}",  scheduler);
-		log.info("\t\t - isInStandbyMode = {}",  scheduler.isInStandbyMode());
-		log.info("\t\t - isStarted = {}",  scheduler.isStarted());
-		log.info("\t\t - isShutdown = {}",  scheduler.isShutdown());
+		log.info("\t   - isInStandbyMode = {}",  scheduler.isInStandbyMode());
+		log.info("\t   - isStarted = {}",  scheduler.isStarted());
+		log.info("\t   - isShutdown = {}",  scheduler.isShutdown());
 		return ResponseEntity.ok("config success");
 	}
 
@@ -54,6 +54,7 @@ public class TestQuartzSchedulerController {
 	public ResponseEntity<Object> startQuartz() throws SchedulerException {
 		log.info("## startQuartz");
 		Scheduler scheduler = schedulerFactoryBean.getScheduler();
+		log.info("\t > scheduler = {}",  scheduler);
 		scheduler.start();
 		return ResponseEntity.ok("startQuartz success");
 	}
@@ -63,6 +64,7 @@ public class TestQuartzSchedulerController {
 	public ResponseEntity<Object> stopQuartz() throws SchedulerException {
 		log.info("## stopQuartz");
 		Scheduler scheduler = schedulerFactoryBean.getScheduler();
+		log.info("\t > scheduler = {}",  scheduler);
 		scheduler.shutdown();
 		return ResponseEntity.ok("stopQuartz success");
 	}

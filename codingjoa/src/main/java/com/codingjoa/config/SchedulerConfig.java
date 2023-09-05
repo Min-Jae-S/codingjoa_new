@@ -4,22 +4,35 @@ import javax.annotation.PostConstruct;
 
 import org.quartz.JobBuilder;
 import org.quartz.JobDetail;
+import org.quartz.JobListener;
 import org.quartz.SimpleScheduleBuilder;
 import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
+import org.quartz.TriggerListener;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.scheduling.quartz.SpringBeanJobFactory;
 
 import com.codingjoa.scheduler.JobA;
 import com.codingjoa.scheduler.JobB;
+import com.codingjoa.scheduler.GlobalJobListener;
+import com.codingjoa.scheduler.GlobalTriggerListener;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@ComponentScan("com.codingjoa.scheduler")
 @Configuration
 public class SchedulerConfig {
+	
+	@Autowired
+	private JobListener jobListener;
+
+	@Autowired
+    private TriggerListener triggerListener;
 	
 	@PostConstruct
 	public void init() {
@@ -32,9 +45,10 @@ public class SchedulerConfig {
 	public SchedulerFactoryBean schedulerFactoryBean() {
 		SchedulerFactoryBean schedulerFactory = new SchedulerFactoryBean();
 		schedulerFactory.setJobFactory(jobFactory());
+		schedulerFactory.setGlobalJobListeners(jobListener);
+		schedulerFactory.setGlobalTriggerListeners(triggerListener);
 		schedulerFactory.setJobDetails(jobDetailA(), jobDetailB());
 		schedulerFactory.setTriggers(triggerA(), triggerB());
-		schedulerFactory.setOverwriteExistingJobs(true);
 		schedulerFactory.setWaitForJobsToCompleteOnShutdown(true);
 		schedulerFactory.setAutoStartup(false);
 		return schedulerFactory;
@@ -58,6 +72,7 @@ public class SchedulerConfig {
 	@Bean
 	public JobDetail jobDetailA() {
 		return JobBuilder.newJob(JobA.class)
+				.withIdentity("jobA")
 				.storeDurably()
 				.build();
 	}
@@ -65,27 +80,34 @@ public class SchedulerConfig {
 	@Bean
 	public JobDetail jobDetailB() {
 		return JobBuilder.newJob(JobB.class)
+				.withIdentity("jobB")
 				.storeDurably()
 				.build();
 	}
 	
 	@Bean
 	public Trigger triggerA() {
+		SimpleScheduleBuilder scheduleBuilder = SimpleScheduleBuilder.simpleSchedule()
+				.withIntervalInSeconds(10)
+				.repeatForever();
+		
 		return TriggerBuilder.newTrigger()
 				.forJob(jobDetailA())
-				.withSchedule(SimpleScheduleBuilder.simpleSchedule()
-						.withIntervalInSeconds(10)
-						.repeatForever())
+				.withIdentity("triggerA")
+				.withSchedule(scheduleBuilder)
 				.build();
 	}
 
 	@Bean
 	public Trigger triggerB() {
+		SimpleScheduleBuilder scheduleBuilder = SimpleScheduleBuilder.simpleSchedule()
+				.withIntervalInSeconds(30)
+				.repeatForever();
+		
 		return TriggerBuilder.newTrigger()
 				.forJob(jobDetailB())
-				.withSchedule(SimpleScheduleBuilder.simpleSchedule()
-						.withIntervalInSeconds(30)
-						.repeatForever())
+				.withIdentity("triggerB")
+				.withSchedule(scheduleBuilder)
 				.build();
 	}
 
