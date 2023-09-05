@@ -25,14 +25,13 @@ public class TestQuartzSchedulerController {
 	 * 	> JobDetails, JobDataMap, JobListener, TriggerListener
 	 */
 	
-	@SuppressWarnings("unused")
 	@Autowired
 	private SchedulerFactoryBean schedulerFactoryBean;
 	
 	@GetMapping("/quartz")
 	public String main() {
 		log.info("## main");
-		return "test/quartz";
+		return "test/scheduler-quartz";
 	}
 
 	@ResponseBody

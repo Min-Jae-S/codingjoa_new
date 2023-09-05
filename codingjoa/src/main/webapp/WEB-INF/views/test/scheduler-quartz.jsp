@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>quartz.jsp</title>
+<title>scheduler-quartz.jsp</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
@@ -36,7 +36,7 @@
 <body>
 <c:import url="/WEB-INF/views/include/top-menu.jsp"/>
 <div class="container my-5">
-	<p>quartz.jsp</p>
+	<p>scheduler-quartz.jsp</p>
 	<div class="test d-flex justify-content-center mt-5">
 		<button class="btn btn-primary btn-lg mx-3" onclick="config()">config</button>
 		<button class="btn btn-primary btn-lg mx-3" onclick="startQuartz()">startQuartz</button>
