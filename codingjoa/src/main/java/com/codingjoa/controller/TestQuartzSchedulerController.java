@@ -40,6 +40,24 @@ public class TestQuartzSchedulerController {
 	@Autowired
 	private Scheduler scheduler;
 	
+	private void loggingJobAndTrigger(Scheduler scheduler) throws SchedulerException {
+		Map<String, Object> jobsAndTriggers = new HashMap<>();
+		Set<JobKey> jobKeys = scheduler.getJobKeys(GroupMatcher.anyJobGroup());
+		for (JobKey jobKey : jobKeys) {
+			String jobName = jobKey.getName();
+			List<? extends Trigger> triggers = scheduler.getTriggersOfJob(jobKey);
+			List<String> triggerNames = triggers
+					.stream()
+					.map(trigger -> trigger.getKey().getName())
+					.collect(Collectors.toList());
+			jobsAndTriggers.put(jobName, triggerNames);
+		}
+		log.info("\t > jobs & triggers");
+		log.info("\t\t - {}", jobsAndTriggers);
+		log.info("\t > jobs = {}", jobsAndTriggers.keySet());
+		log.info("\t > triggers = {}", jobsAndTriggers.values());
+	}
+	
 	@GetMapping("/quartz")
 	public String main() {
 		log.info("## main");
@@ -57,22 +75,7 @@ public class TestQuartzSchedulerController {
 		log.info("\t\t - isInStandbyMode = {}", scheduler.isInStandbyMode());
 		log.info("\t\t - isStarted = {}", scheduler.isStarted());
 		log.info("\t\t - isShutdown = {}", scheduler.isShutdown());
-		
-		Map<String, Object> jobsAndTriggers = new HashMap<>();
-		Set<JobKey> jobKeys = scheduler.getJobKeys(GroupMatcher.anyJobGroup());
-		for (JobKey jobKey : jobKeys) {
-			String jobName = jobKey.getName();
-			List<? extends Trigger> triggers = scheduler.getTriggersOfJob(jobKey);
-			List<String> triggerNames = triggers
-					.stream()
-					.map(trigger -> trigger.getKey().getName())
-					.collect(Collectors.toList());
-			jobsAndTriggers.put(jobName, triggerNames);
-		}
-		log.info("\t > jobs & triggers");
-		log.info("\t\t - {}", jobsAndTriggers);
-		log.info("\t > jobs = {}", jobsAndTriggers.keySet());
-		log.info("\t > triggers = {}", jobsAndTriggers.values());
+		loggingJobAndTrigger(scheduler);
 		
 		return ResponseEntity.ok("config SUCCESS");
 	}
