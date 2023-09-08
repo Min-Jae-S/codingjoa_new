@@ -6,6 +6,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.annotation.Resource;
+
 import org.quartz.JobKey;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
@@ -39,6 +41,12 @@ public class TestQuartzSchedulerController {
 	
 	@Autowired
 	private Scheduler scheduler;
+	
+	@Resource(name = "triggerA")
+	private Trigger triggerA;
+	
+	@Resource(name = "triggerA")
+	private Trigger triggerB;
 	
 	private void loggingJobAndTrigger(Scheduler scheduler) throws SchedulerException {
 		Map<String, Object> jobsAndTriggers = new HashMap<>();
@@ -84,6 +92,9 @@ public class TestQuartzSchedulerController {
 	@GetMapping("/quartz/start")
 	public ResponseEntity<Object> startAllJobs() throws SchedulerException {
 		log.info("## startAllJobs");
+		scheduler.scheduleJob(triggerA);
+		scheduler.scheduleJob(triggerB);
+		scheduler.start();
 		return ResponseEntity.ok("startAllJobs SUCCESS");
 	}
 
@@ -91,6 +102,8 @@ public class TestQuartzSchedulerController {
 	@GetMapping("/quartz/start/job-a")
 	public ResponseEntity<Object> startJobA() throws SchedulerException {
 		log.info("## startJobA");
+		scheduler.scheduleJob(triggerA);
+		scheduler.start();
 		return ResponseEntity.ok("startJobA SUCCESS");
 	}
 
@@ -98,6 +111,8 @@ public class TestQuartzSchedulerController {
 	@GetMapping("/quartz/start/job-b")
 	public ResponseEntity<Object> startJobB() throws SchedulerException {
 		log.info("## startJobB");
+		scheduler.scheduleJob(triggerB);
+		scheduler.start();
 		return ResponseEntity.ok("startJobB SUCCESS");
 	}
 
@@ -105,6 +120,7 @@ public class TestQuartzSchedulerController {
 	@GetMapping("/quartz/stop")
 	public ResponseEntity<Object> stopAllJobs() throws SchedulerException {
 		log.info("## stopAllJobs");
+		scheduler.shutdown();
 		return ResponseEntity.ok("stopAllJobs SUCCESS");
 	}
 
