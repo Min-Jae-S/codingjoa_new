@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.quartz.JobDetail;
 import org.quartz.JobKey;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
@@ -84,13 +85,6 @@ public class TestQuartzSchedulerController {
 	@GetMapping("/quartz/start")
 	public ResponseEntity<Object> startAllJobs() throws SchedulerException {
 		log.info("## startAllJobs");
-		JobKey jobKeyA = JobKey.jobKey("jobA");
-		JobKey jobKeyB = JobKey.jobKey("jobB");
-		log.info("\t > jobKeyA = {}", jobKeyA);
-		log.info("\t > jobKeyB = {}", jobKeyB);
-		
-		scheduler.triggerJob(jobKeyA);
-		scheduler.triggerJob(jobKeyB);
 		scheduler.start();
 		return ResponseEntity.ok("startAllJobs SUCCESS");
 	}
@@ -102,7 +96,6 @@ public class TestQuartzSchedulerController {
 		JobKey jobKeyA = JobKey.jobKey("jobA");
 		log.info("\t > jobKeyA = {}", jobKeyA);
 		
-		scheduler.triggerJob(jobKeyA);
 		scheduler.start();
 		return ResponseEntity.ok("startJobA SUCCESS");
 	}
@@ -114,7 +107,6 @@ public class TestQuartzSchedulerController {
 		JobKey jobKeyB = JobKey.jobKey("jobB");
 		log.info("\t > jobKeyB = {}", jobKeyB);
 		
-		scheduler.triggerJob(jobKeyB);
 		scheduler.start();
 		return ResponseEntity.ok("startJobB SUCCESS");
 	}

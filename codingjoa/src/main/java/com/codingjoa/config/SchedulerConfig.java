@@ -46,8 +46,8 @@ public class SchedulerConfig {
 		schedulerFactory.setJobFactory(jobFactory());
 		schedulerFactory.setGlobalJobListeners(jobListener);
 		schedulerFactory.setGlobalTriggerListeners(triggerListener);
-		//schedulerFactory.setJobDetails(jobDetailA(), jobDetailB());
-		//schedulerFactory.setTriggers(triggerA(), triggerB1(), triggerB2());
+		schedulerFactory.setJobDetails(jobDetailA(), jobDetailB());
+		schedulerFactory.setTriggers(triggerA(), triggerB1(), triggerB2());
 		schedulerFactory.setWaitForJobsToCompleteOnShutdown(true);
 		schedulerFactory.setAutoStartup(false);
 		return schedulerFactory;
