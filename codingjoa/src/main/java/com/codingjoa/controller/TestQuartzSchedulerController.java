@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.quartz.JobDetail;
 import org.quartz.JobKey;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
@@ -95,7 +94,6 @@ public class TestQuartzSchedulerController {
 		log.info("## startJobA");
 		JobKey jobKeyA = JobKey.jobKey("jobA");
 		log.info("\t > jobKeyA = {}", jobKeyA);
-		
 		scheduler.start();
 		return ResponseEntity.ok("startJobA SUCCESS");
 	}
@@ -106,7 +104,6 @@ public class TestQuartzSchedulerController {
 		log.info("## startJobB");
 		JobKey jobKeyB = JobKey.jobKey("jobB");
 		log.info("\t > jobKeyB = {}", jobKeyB);
-		
 		scheduler.start();
 		return ResponseEntity.ok("startJobB SUCCESS");
 	}
@@ -119,7 +116,6 @@ public class TestQuartzSchedulerController {
 		JobKey jobKeyB = JobKey.jobKey("jobB");
 		log.info("\t > jobKeyA = {}", jobKeyA);
 		log.info("\t > jobKeyB = {}", jobKeyB);
-		
 		scheduler.pauseJob(jobKeyA);
 		scheduler.pauseJob(jobKeyB);
 		return ResponseEntity.ok("stopAllJobs SUCCESS");
@@ -131,7 +127,6 @@ public class TestQuartzSchedulerController {
 		log.info("## stopJobA");
 		JobKey jobKeyA = JobKey.jobKey("jobA");
 		log.info("\t > jobKeyA = {}", jobKeyA);
-		
 		scheduler.pauseJob(jobKeyA);
 		return ResponseEntity.ok("stopJobA SUCCESS");
 	}
@@ -142,7 +137,6 @@ public class TestQuartzSchedulerController {
 		log.info("## stopJobB");
 		JobKey jobKeyB = JobKey.jobKey("jobB");
 		log.info("\t > jobKeyB = {}", jobKeyB);
-		
 		scheduler.pauseJob(jobKeyB);
 		return ResponseEntity.ok("stopJobB SUCCESS");
 	}
