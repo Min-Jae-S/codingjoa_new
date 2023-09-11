@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.codingjoa.scheduler.SchedulerService;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -33,6 +35,9 @@ public class TestQuartzSchedulerController {
 	 * 	> clustering using database
 	 * 	> Scheduler, Job, Trigger
 	 * 	> JobDetails, JobDataMap, JobListener, TriggerListener
+	 * 	> start (scheduleJob, resumeJob, triggerJob, addJob)
+	 * 	> stop (interrupt, unscheduleJob, pauseJob, deleteJob)
+	 * 
 	 */
 	
 	@Autowired
@@ -41,22 +46,9 @@ public class TestQuartzSchedulerController {
 	@Autowired
 	private Scheduler scheduler;
 	
-	@SuppressWarnings("unused")
-	private void loggingJobsAndTriggers(Scheduler scheduler) throws SchedulerException {
-		log.info("\t > jobs & triggers");
-		Set<JobKey> jobKeys = scheduler.getJobKeys(GroupMatcher.anyJobGroup());
-		Map<String, Object> jobsAndTriggers = new HashMap<>();
-		for (JobKey jobKey : jobKeys) {
-			List<? extends Trigger> triggers = scheduler.getTriggersOfJob(jobKey);
-			List<String> triggerNames = triggers
-					.stream()
-					.map(trigger -> trigger.getKey().getName())
-					.collect(Collectors.toList());
-			jobsAndTriggers.put(jobKey.getName(), triggerNames);
-		}
-		
-		log.info("\t\t - {}", jobsAndTriggers);
-	}
+	@Autowired
+	private SchedulerService schedulerService;
+	
 	
 	@GetMapping("/quartz")
 	public String main() {
@@ -95,13 +87,7 @@ public class TestQuartzSchedulerController {
 	@GetMapping("/quartz/start/job-a")
 	public ResponseEntity<Object> startJobA() throws SchedulerException {
 		log.info("## startJobA");
-		JobKey jobKeyA = JobKey.jobKey("jobA", "myJob");
-		log.info("\t > jobA exists ? = {}", scheduler.checkExists(jobKeyA));
-		if (scheduler.checkExists(jobKeyA)) {
-			scheduler.start();
-			scheduler.triggerJob(jobKeyA);
-		}
-		
+		schedulerService.startJobA();
 		return ResponseEntity.ok("startJobA SUCCESS");
 	}
 
@@ -109,13 +95,7 @@ public class TestQuartzSchedulerController {
 	@GetMapping("/quartz/start/job-b")
 	public ResponseEntity<Object> startJobB() throws SchedulerException {
 		log.info("## startJobB");
-		JobKey jobKeyB = JobKey.jobKey("jobB", "myJob");
-		log.info("\t > jobKeyB exists ? = {}", scheduler.checkExists(jobKeyB));
-		if (scheduler.checkExists(jobKeyB)) {
-			scheduler.start();
-			scheduler.triggerJob(jobKeyB);
-		}
-		
+		schedulerService.startJobB();
 		return ResponseEntity.ok("startJobB SUCCESS");
 	}
 
@@ -139,6 +119,22 @@ public class TestQuartzSchedulerController {
 	public ResponseEntity<Object> stopJobB() throws SchedulerException {
 		log.info("## stopJobB");
 		return ResponseEntity.ok("stopJobB SUCCESS");
+	}
+	
+	@SuppressWarnings("unused")
+	private void loggingJobsAndTriggers(Scheduler scheduler) throws SchedulerException {
+		log.info("\t > jobs & triggers");
+		Set<JobKey> jobKeys = scheduler.getJobKeys(GroupMatcher.anyJobGroup());
+		Map<String, Object> jobsAndTriggers = new HashMap<>();
+		for (JobKey jobKey : jobKeys) {
+			List<? extends Trigger> triggers = scheduler.getTriggersOfJob(jobKey);
+			List<String> triggerNames = triggers
+					.stream()
+					.map(trigger -> trigger.getKey().getName())
+					.collect(Collectors.toList());
+			jobsAndTriggers.put(jobKey.getName(), triggerNames);
+		}
+		log.info("\t\t - {}", jobsAndTriggers);
 	}
 	
 }
