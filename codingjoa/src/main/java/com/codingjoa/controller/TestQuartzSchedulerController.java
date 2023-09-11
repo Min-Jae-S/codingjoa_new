@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.codingjoa.scheduler.SchedulerService;
+import com.codingjoa.scheduler.service.SchedulerService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -37,7 +37,6 @@ public class TestQuartzSchedulerController {
 	 * 	> JobDetails, JobDataMap, JobListener, TriggerListener
 	 * 	> start (scheduleJob, resumeJob, triggerJob, addJob)
 	 * 	> stop (interrupt, unscheduleJob, pauseJob, deleteJob)
-	 * 
 	 */
 	
 	@Autowired

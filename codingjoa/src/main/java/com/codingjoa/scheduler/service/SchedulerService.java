@@ -1,4 +1,4 @@
-package com.codingjoa.scheduler;
+package com.codingjoa.scheduler.service;
 
 import org.quartz.JobBuilder;
 import org.quartz.JobDetail;
@@ -10,6 +10,9 @@ import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.codingjoa.scheduler.JobA;
+import com.codingjoa.scheduler.JobB;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -65,7 +68,6 @@ public class SchedulerService {
 					.withIdentity("triggerB", "myTrigger")
 					.withSchedule(scheduleBuilder)
 					.build();
-			
 			scheduler.scheduleJob(jobDetailB, triggerB);
 		} else {
 			log.info("\t > resume JobB");
