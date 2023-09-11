@@ -82,18 +82,18 @@ public class TestQuartzSchedulerController {
 
 	@ResponseBody
 	@GetMapping("/quartz/start")
-	public ResponseEntity<Object> startAllJobs() throws SchedulerException {
-		log.info("## startAllJobs");
+	public ResponseEntity<Object> start() throws SchedulerException {
+		log.info("## start");
 		scheduler.start();
-		return ResponseEntity.ok("startAllJobs SUCCESS");
+		return ResponseEntity.ok("start SUCCESS");
 	}
 
 	@ResponseBody
 	@GetMapping("/quartz/start/job-a")
 	public ResponseEntity<Object> startJobA() throws SchedulerException {
 		log.info("## startJobA");
-		JobKey jobKeyA = JobKey.jobKey("jobA");
-		log.info("\t > jobKeyA = {}", jobKeyA);
+		JobKey jobKeyA = JobKey.jobKey("jobA", "myJob");
+		scheduler.triggerJob(jobKeyA);
 		return ResponseEntity.ok("startJobA SUCCESS");
 	}
 
@@ -101,31 +101,22 @@ public class TestQuartzSchedulerController {
 	@GetMapping("/quartz/start/job-b")
 	public ResponseEntity<Object> startJobB() throws SchedulerException {
 		log.info("## startJobB");
-		JobKey jobKeyB = JobKey.jobKey("jobB");
-		log.info("\t > jobKeyB = {}", jobKeyB);
+		JobKey jobKeyB = JobKey.jobKey("jobB", "myJob");
+		scheduler.triggerJob(jobKeyB);
 		return ResponseEntity.ok("startJobB SUCCESS");
 	}
 
 	@ResponseBody
 	@GetMapping("/quartz/stop")
-	public ResponseEntity<Object> stopAllJobs() throws SchedulerException {
-		log.info("## stopAllJobs");
-		JobKey jobKeyA = JobKey.jobKey("jobA");
-		JobKey jobKeyB = JobKey.jobKey("jobB");
-		log.info("\t > jobKeyA = {}", jobKeyA);
-		log.info("\t > jobKeyB = {}", jobKeyB);
-		scheduler.pauseJob(jobKeyA);
-		scheduler.pauseJob(jobKeyB);
-		return ResponseEntity.ok("stopAllJobs SUCCESS");
+	public ResponseEntity<Object> stop() throws SchedulerException {
+		log.info("## stop");
+		return ResponseEntity.ok("stop SUCCESS");
 	}
 
 	@ResponseBody
 	@GetMapping("/quartz/stop/job-a")
 	public ResponseEntity<Object> stopJobA() throws SchedulerException {
 		log.info("## stopJobA");
-		JobKey jobKeyA = JobKey.jobKey("jobA");
-		log.info("\t > jobKeyA = {}", jobKeyA);
-		scheduler.pauseJob(jobKeyA);
 		return ResponseEntity.ok("stopJobA SUCCESS");
 	}
 
@@ -133,9 +124,6 @@ public class TestQuartzSchedulerController {
 	@GetMapping("/quartz/stop/job-b")
 	public ResponseEntity<Object> stopJobB() throws SchedulerException {
 		log.info("## stopJobB");
-		JobKey jobKeyB = JobKey.jobKey("jobB");
-		log.info("\t > jobKeyB = {}", jobKeyB);
-		scheduler.pauseJob(jobKeyB);
 		return ResponseEntity.ok("stopJobB SUCCESS");
 	}
 	
