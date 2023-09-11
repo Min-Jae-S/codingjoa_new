@@ -78,7 +78,12 @@ public class TestQuartzSchedulerController {
 	@GetMapping("/quartz/start")
 	public ResponseEntity<Object> start() throws SchedulerException {
 		log.info("## start");
-		scheduler.start();
+		if (!scheduler.isStarted()) {
+			log.info("\t > start the paused scheduler");
+			scheduler.start();
+		} else {
+			log.info("\t > scheduler is already started");
+		}
 		return ResponseEntity.ok("start SUCCESS");
 	}
 
@@ -102,7 +107,13 @@ public class TestQuartzSchedulerController {
 	@GetMapping("/quartz/stop")
 	public ResponseEntity<Object> stop() throws SchedulerException {
 		log.info("## stop");
-		scheduler.shutdown();
+		if (!scheduler.isShutdown()) {
+			log.info("\t > stop the running scheduler");
+			scheduler.shutdown();
+		} else {
+			log.info("\t > scheduler is already stopped");
+		}
+		
 		return ResponseEntity.ok("stop SUCCESS");
 	}
 
