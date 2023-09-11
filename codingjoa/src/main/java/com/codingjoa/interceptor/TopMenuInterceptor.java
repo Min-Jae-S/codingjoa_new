@@ -40,7 +40,7 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		log.info("## {} : preHandle", this.getClass().getSimpleName());
+//		log.info("## {} : preHandle", this.getClass().getSimpleName());
 //		log.info("\t > URI = {} '{}'", request.getMethod(), getFullURI(request));
 //		log.info("\t > dispatcherType = {}", request.getDispatcherType());
 
@@ -61,37 +61,37 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
-		log.info("## {} : postHandle", this.getClass().getSimpleName());
+		//log.info("## {} : postHandle", this.getClass().getSimpleName());
 		
 		if (modelAndView == null) {
-			log.info("\t > modelAndView is null");
+			//log.info("\t > modelAndView is null");
 			return;
 		}
 		
 		// Return the view name to be resolved by the DispatcherServlet via a ViewResolver, 
 		// or null if we are using a View object.
 		String viewName = modelAndView.getViewName(); 
-		log.info("\t > viewName = {}", viewName + ".jsp");
+		//log.info("\t > viewName = {}", viewName + ".jsp");
 		
 		if (viewName == null) {
-			log.info("\t > viewName is null");
+			//log.info("\t > viewName is null");
 			return;
 		}
 		
 		if (viewName.startsWith(FORWARD_URL_PREFIX)) {
-			log.info("\t > viewName starts with '{}'", FORWARD_URL_PREFIX);
+			//log.info("\t > viewName starts with '{}'", FORWARD_URL_PREFIX);
 			return;	
 		}
 		
 		if (viewName.startsWith(REDIRECT_URL_PREFIX)) 	{
-			log.info("\t > viewName starts with '{}'", REDIRECT_URL_PREFIX);
+			//log.info("\t > viewName starts with '{}'", REDIRECT_URL_PREFIX);
 			return;
 		}
 		
 		String[] beanNames = applicationContext.getBeanNamesForType(MappingJackson2JsonView.class);
 		for (String beanName : beanNames) {
 			if (viewName.equals(beanName)) {
-				log.info("\t > viewName equals MappingJackson2JsonView's beanName({})", beanName);
+				//log.info("\t > viewName equals MappingJackson2JsonView's beanName({})", beanName);
 				return;
 			}
 		}

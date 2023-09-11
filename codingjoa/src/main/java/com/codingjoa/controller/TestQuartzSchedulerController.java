@@ -1,15 +1,11 @@
 package com.codingjoa.controller;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.quartz.JobKey;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
-import org.quartz.Trigger;
+import org.quartz.TriggerKey;
 import org.quartz.impl.matchers.GroupMatcher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -40,22 +36,21 @@ public class TestQuartzSchedulerController {
 	@Autowired
 	private Scheduler scheduler;
 	
+	@SuppressWarnings("unused")
 	private void loggingJobAndTrigger(Scheduler scheduler) throws SchedulerException {
-		Map<String, Object> jobsAndTriggers = new HashMap<>();
 		Set<JobKey> jobKeys = scheduler.getJobKeys(GroupMatcher.anyJobGroup());
-		for (JobKey jobKey : jobKeys) {
-			String jobName = jobKey.getName();
-			List<? extends Trigger> triggers = scheduler.getTriggersOfJob(jobKey);
-			List<String> triggerNames = triggers
-					.stream()
-					.map(trigger -> trigger.getKey().getName())
-					.collect(Collectors.toList());
-			jobsAndTriggers.put(jobName, triggerNames);
-		}
-		log.info("\t > jobs & triggers");
-		log.info("\t\t - {}", jobsAndTriggers);
-		log.info("\t > jobs = {}", jobsAndTriggers.keySet());
-		log.info("\t > triggers = {}", jobsAndTriggers.values());
+//		Map<String, Object> jobsAndTriggers = new HashMap<>();
+//		for (JobKey jobKey : jobKeys) {
+//			List<? extends Trigger> triggers = scheduler.getTriggersOfJob(jobKey);
+//			List<String> triggerNames = triggers
+//					.stream()
+//					.map(trigger -> trigger.getKey().getName())
+//					.collect(Collectors.toList());
+//			jobsAndTriggers.put(jobKey.getName(), triggerNames);
+//		}
+//		log.info("\t > jobs & triggers");
+//		log.info("\t > jobs = {}", jobsAndTriggers.keySet());
+//		log.info("\t > triggers = {}", jobsAndTriggers.values());
 	}
 	
 	@GetMapping("/quartz")
@@ -75,7 +70,12 @@ public class TestQuartzSchedulerController {
 		log.info("\t\t - isInStandbyMode = {}", scheduler.isInStandbyMode());
 		log.info("\t\t - isStarted = {}", scheduler.isStarted());
 		log.info("\t\t - isShutdown = {}", scheduler.isShutdown());
-		loggingJobAndTrigger(scheduler);
+		
+		Set<JobKey> jobKeys = scheduler.getJobKeys(GroupMatcher.anyJobGroup());
+		log.info("\t > jobKeys = {}", jobKeys);
+		
+		Set<TriggerKey> triggerKeys = scheduler.getTriggerKeys(GroupMatcher.anyTriggerGroup());
+		log.info("\t > triggerKeys = {}", triggerKeys);
 		
 		return ResponseEntity.ok("config SUCCESS");
 	}
