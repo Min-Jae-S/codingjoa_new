@@ -38,17 +38,17 @@
 <div class="container my-5">
 	<p>scheduler-quartz.jsp</p>
 	<div class="test d-flex justify-content-center mt-5">
-		<button class="btn btn-lg mx-3" onclick="config()">config</button>
+		<button class="btn btn-lg btn-warning mx-3" onclick="config()">config</button>
 		<button class="btn btn-lg mx-3 invisible" onclick="#">#</button>
 		<button class="btn btn-lg mx-3 invisible" onclick="#">#</button>
 	</div>
 	<div class="test d-flex justify-content-center mt-5">
-		<button class="btn btn-primary btn-lg mx-3" onclick="start(this)" data-url="${contextPath}/test/scheduler/quartz/start">startAllJobs</button>
+		<button class="btn btn-primary btn-lg mx-3" onclick="start(this)" data-url="${contextPath}/test/scheduler/quartz/start">start</button>
 		<button class="btn btn-primary btn-lg mx-3" onclick="start(this)" data-url="${contextPath}/test/scheduler/quartz/start/job-a">startJobA</button>
 		<button class="btn btn-primary btn-lg mx-3" onclick="start(this)" data-url="${contextPath}/test/scheduler/quartz/start/job-b">startJobB</button>
 	</div>
 	<div class="test d-flex justify-content-center mt-5">
-		<button class="btn btn-secondary btn-lg mx-3" onclick="stop(this)" data-url="${contextPath}/test/scheduler/quartz/stop">stopAllJobs</button>
+		<button class="btn btn-secondary btn-lg mx-3" onclick="stop(this)" data-url="${contextPath}/test/scheduler/quartz/stop">stop</button>
 		<button class="btn btn-secondary btn-lg mx-3" onclick="stop(this)" data-url="${contextPath}/test/scheduler/quartz/stop/job-a">stopJobA</button>
 		<button class="btn btn-secondary btn-lg mx-3" onclick="stop(this)" data-url="${contextPath}/test/scheduler/quartz/stop/job-b" >stoptJobB</button>
 	</div>

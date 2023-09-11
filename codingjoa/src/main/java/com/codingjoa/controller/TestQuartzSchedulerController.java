@@ -1,10 +1,15 @@
 package com.codingjoa.controller;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.quartz.JobKey;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
+import org.quartz.Trigger;
 import org.quartz.TriggerKey;
 import org.quartz.impl.matchers.GroupMatcher;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,20 +42,20 @@ public class TestQuartzSchedulerController {
 	private Scheduler scheduler;
 	
 	@SuppressWarnings("unused")
-	private void loggingJobAndTrigger(Scheduler scheduler) throws SchedulerException {
+	private void loggingJobsAndTriggers(Scheduler scheduler) throws SchedulerException {
+		log.info("\t > jobs & triggers");
 		Set<JobKey> jobKeys = scheduler.getJobKeys(GroupMatcher.anyJobGroup());
-//		Map<String, Object> jobsAndTriggers = new HashMap<>();
-//		for (JobKey jobKey : jobKeys) {
-//			List<? extends Trigger> triggers = scheduler.getTriggersOfJob(jobKey);
-//			List<String> triggerNames = triggers
-//					.stream()
-//					.map(trigger -> trigger.getKey().getName())
-//					.collect(Collectors.toList());
-//			jobsAndTriggers.put(jobKey.getName(), triggerNames);
-//		}
-//		log.info("\t > jobs & triggers");
-//		log.info("\t > jobs = {}", jobsAndTriggers.keySet());
-//		log.info("\t > triggers = {}", jobsAndTriggers.values());
+		Map<String, Object> jobsAndTriggers = new HashMap<>();
+		for (JobKey jobKey : jobKeys) {
+			List<? extends Trigger> triggers = scheduler.getTriggersOfJob(jobKey);
+			List<String> triggerNames = triggers
+					.stream()
+					.map(trigger -> trigger.getKey().getName())
+					.collect(Collectors.toList());
+			jobsAndTriggers.put(jobKey.getName(), triggerNames);
+		}
+		
+		log.info("\t\t - {}", jobsAndTriggers);
 	}
 	
 	@GetMapping("/quartz")
@@ -63,19 +68,17 @@ public class TestQuartzSchedulerController {
 	@GetMapping("/quartz/config")
 	public  ResponseEntity<Object> config() throws SchedulerException {
 		log.info("## config");
-		log.info("\t > isAutoStartup = {}", schedulerFactoryBean.isAutoStartup());
-		log.info("\t > isRunning = {}", schedulerFactoryBean.isRunning());
-		log.info("\t > scheduler = {}", scheduler);
-		log.info("\t\t - schedulerName = {}", scheduler.getSchedulerName());
-		log.info("\t\t - isInStandbyMode = {}", scheduler.isInStandbyMode());
-		log.info("\t\t - isStarted = {}", scheduler.isStarted());
-		log.info("\t\t - isShutdown = {}", scheduler.isShutdown());
+		log.info("\t > autoStartup = {}", schedulerFactoryBean.isAutoStartup());
+		log.info("\t > running = {}", schedulerFactoryBean.isRunning());
+		log.info("\t > inStandbyMode = {}", scheduler.isInStandbyMode());
+		log.info("\t > started = {}", scheduler.isStarted());
+		log.info("\t > shutdown = {}", scheduler.isShutdown());
 		
 		Set<JobKey> jobKeys = scheduler.getJobKeys(GroupMatcher.anyJobGroup());
-		log.info("\t > jobKeys = {}", jobKeys);
+		log.info("\t > jobs = {}", jobKeys);
 		
 		Set<TriggerKey> triggerKeys = scheduler.getTriggerKeys(GroupMatcher.anyTriggerGroup());
-		log.info("\t > triggerKeys = {}", triggerKeys);
+		log.info("\t > triggers = {}", triggerKeys);
 		
 		return ResponseEntity.ok("config SUCCESS");
 	}
@@ -93,7 +96,12 @@ public class TestQuartzSchedulerController {
 	public ResponseEntity<Object> startJobA() throws SchedulerException {
 		log.info("## startJobA");
 		JobKey jobKeyA = JobKey.jobKey("jobA", "myJob");
-		scheduler.triggerJob(jobKeyA);
+		log.info("\t > jobA exists ? = {}", scheduler.checkExists(jobKeyA));
+		if (scheduler.checkExists(jobKeyA)) {
+			scheduler.start();
+			scheduler.triggerJob(jobKeyA);
+		}
+		
 		return ResponseEntity.ok("startJobA SUCCESS");
 	}
 
@@ -102,7 +110,12 @@ public class TestQuartzSchedulerController {
 	public ResponseEntity<Object> startJobB() throws SchedulerException {
 		log.info("## startJobB");
 		JobKey jobKeyB = JobKey.jobKey("jobB", "myJob");
-		scheduler.triggerJob(jobKeyB);
+		log.info("\t > jobKeyB exists ? = {}", scheduler.checkExists(jobKeyB));
+		if (scheduler.checkExists(jobKeyB)) {
+			scheduler.start();
+			scheduler.triggerJob(jobKeyB);
+		}
+		
 		return ResponseEntity.ok("startJobB SUCCESS");
 	}
 
@@ -110,6 +123,7 @@ public class TestQuartzSchedulerController {
 	@GetMapping("/quartz/stop")
 	public ResponseEntity<Object> stop() throws SchedulerException {
 		log.info("## stop");
+		scheduler.shutdown();
 		return ResponseEntity.ok("stop SUCCESS");
 	}
 

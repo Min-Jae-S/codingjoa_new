@@ -22,6 +22,7 @@ import com.codingjoa.scheduler.JobB;
 
 import lombok.extern.slf4j.Slf4j;
 
+@SuppressWarnings("unused")
 @Slf4j
 @ComponentScan("com.codingjoa.scheduler")
 @Configuration
@@ -46,8 +47,6 @@ public class SchedulerConfig {
 		schedulerFactory.setJobFactory(jobFactory());
 		//schedulerFactory.setGlobalJobListeners(jobListener);
 		//schedulerFactory.setGlobalTriggerListeners(triggerListener);
-		schedulerFactory.setJobDetails(jobDetailA(), jobDetailB());
-		schedulerFactory.setTriggers(triggerA(), triggerB1(), triggerB2());
 		schedulerFactory.setOverwriteExistingJobs(true);
 		schedulerFactory.setWaitForJobsToCompleteOnShutdown(true);
 		schedulerFactory.setAutoStartup(false);
@@ -95,7 +94,6 @@ public class SchedulerConfig {
 		SimpleScheduleBuilder scheduleBuilder = SimpleScheduleBuilder.simpleSchedule()
 				.withIntervalInSeconds(10)
 				.repeatForever();
-		
 		return TriggerBuilder.newTrigger()
 				.forJob(jobDetailA())
 				.withIdentity("triggerA", "myTrigger")
@@ -108,7 +106,6 @@ public class SchedulerConfig {
 		SimpleScheduleBuilder scheduleBuilder = SimpleScheduleBuilder.simpleSchedule()
 				.withIntervalInSeconds(30)
 				.repeatForever();
-		
 		return TriggerBuilder.newTrigger()
 				.forJob(jobDetailB())
 				.withIdentity("triggerB1", "myTrigger")
@@ -121,7 +118,6 @@ public class SchedulerConfig {
 		SimpleScheduleBuilder scheduleBuilder = SimpleScheduleBuilder.simpleSchedule()
 				.withIntervalInMinutes(1)
 				.repeatForever();
-		
 		return TriggerBuilder.newTrigger()
 				.forJob(jobDetailB())
 				.withIdentity("triggerB2", "myTrigger")

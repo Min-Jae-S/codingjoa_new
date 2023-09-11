@@ -1,6 +1,7 @@
 package com.codingjoa.scheduler;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import org.quartz.DisallowConcurrentExecution;
@@ -24,17 +25,20 @@ public class JobB extends QuartzJobBean {
 	
 	@Override
 	protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
-		log.info("## {}", this.getClass().getSimpleName());
 		List<Integer> tempBoardImageIndexs = imageMapper.findTempBoardImages().stream()
 				.map(boardImage -> boardImage.getBoardImageIdx())
 				.sorted()
 				.collect(Collectors.toList());
-		log.info("\t > temp board  image indexes = {}", tempBoardImageIndexs);
-		
 		List<Integer> tempMemberImageIndexs = imageMapper.findTempMemberImages().stream()
 				.map(memberImage -> memberImage.getMemberImageIdx())
 				.sorted()
 				.collect(Collectors.toList());
-		log.info("\t > temp member image indexes = {}", tempMemberImageIndexs);
+		log.info("## {}, tempBoardImages = {}, tempMemberImages = {}", 
+				this.getClass().getSimpleName(), tempBoardImageIndexs, tempMemberImageIndexs);
+		try {
+			TimeUnit.SECONDS.sleep(10);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 }
