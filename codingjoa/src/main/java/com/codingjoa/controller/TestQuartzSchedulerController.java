@@ -94,7 +94,6 @@ public class TestQuartzSchedulerController {
 		log.info("## startJobA");
 		JobKey jobKeyA = JobKey.jobKey("jobA");
 		log.info("\t > jobKeyA = {}", jobKeyA);
-		scheduler.start();
 		return ResponseEntity.ok("startJobA SUCCESS");
 	}
 
@@ -104,7 +103,6 @@ public class TestQuartzSchedulerController {
 		log.info("## startJobB");
 		JobKey jobKeyB = JobKey.jobKey("jobB");
 		log.info("\t > jobKeyB = {}", jobKeyB);
-		scheduler.start();
 		return ResponseEntity.ok("startJobB SUCCESS");
 	}
 

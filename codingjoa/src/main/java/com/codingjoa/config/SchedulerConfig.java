@@ -44,10 +44,11 @@ public class SchedulerConfig {
 	public SchedulerFactoryBean schedulerFactoryBean() {
 		SchedulerFactoryBean schedulerFactory = new SchedulerFactoryBean();
 		schedulerFactory.setJobFactory(jobFactory());
-		schedulerFactory.setGlobalJobListeners(jobListener);
-		schedulerFactory.setGlobalTriggerListeners(triggerListener);
+		//schedulerFactory.setGlobalJobListeners(jobListener);
+		//schedulerFactory.setGlobalTriggerListeners(triggerListener);
 		schedulerFactory.setJobDetails(jobDetailA(), jobDetailB());
 		schedulerFactory.setTriggers(triggerA(), triggerB1(), triggerB2());
+		schedulerFactory.setOverwriteExistingJobs(true);
 		schedulerFactory.setWaitForJobsToCompleteOnShutdown(true);
 		schedulerFactory.setAutoStartup(false);
 		return schedulerFactory;
@@ -76,7 +77,7 @@ public class SchedulerConfig {
 	@Bean
 	public JobDetail jobDetailA() {
 		return JobBuilder.newJob(JobA.class)
-				.withIdentity("jobA")
+				.withIdentity("jobA", "myJob")
 				.storeDurably()
 				.build();
 	}
@@ -84,7 +85,7 @@ public class SchedulerConfig {
 	@Bean
 	public JobDetail jobDetailB() {
 		return JobBuilder.newJob(JobB.class)
-				.withIdentity("jobB")
+				.withIdentity("jobB", "myJob")
 				.storeDurably()
 				.build();
 	}
@@ -97,7 +98,7 @@ public class SchedulerConfig {
 		
 		return TriggerBuilder.newTrigger()
 				.forJob(jobDetailA())
-				.withIdentity("triggerA")
+				.withIdentity("triggerA", "myTrigger")
 				.withSchedule(scheduleBuilder)
 				.build();
 	}
@@ -110,7 +111,7 @@ public class SchedulerConfig {
 		
 		return TriggerBuilder.newTrigger()
 				.forJob(jobDetailB())
-				.withIdentity("triggerB1")
+				.withIdentity("triggerB1", "myTrigger")
 				.withSchedule(scheduleBuilder)
 				.build();
 	}
@@ -123,7 +124,7 @@ public class SchedulerConfig {
 		
 		return TriggerBuilder.newTrigger()
 				.forJob(jobDetailB())
-				.withIdentity("triggerB2")
+				.withIdentity("triggerB2", "myTrigger")
 				.withSchedule(scheduleBuilder)
 				.build();
 	}
