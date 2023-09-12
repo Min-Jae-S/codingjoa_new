@@ -77,18 +77,16 @@ public class SchedulerConfig {
 	
 	@Bean
 	public JobDetail jobDetailA() {
-		JobKey jobKeyA = JobKey.jobKey("jobA", "myJob");
 		return JobBuilder.newJob(JobA.class)
-				.withIdentity(jobKeyA)
+				.withIdentity("jobA", "myJob")
 				.storeDurably()
 				.build();
 	}
 
 	@Bean
 	public JobDetail jobDetailB() {
-		JobKey jobKeyB = JobKey.jobKey("jobB", "myJob");
 		return JobBuilder.newJob(JobB.class)
-				.withIdentity(jobKeyB)
+				.withIdentity("jobB", "myJob")
 				.storeDurably()
 				.build();
 	}
