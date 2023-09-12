@@ -10,7 +10,6 @@ import org.quartz.JobKey;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.Trigger;
-import org.quartz.TriggerKey;
 import org.quartz.impl.matchers.GroupMatcher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -58,21 +57,16 @@ public class TestQuartzSchedulerController {
 	@GetMapping("/quartz/config")
 	public  ResponseEntity<Object> config() throws SchedulerException {
 		log.info("## config");
-		log.info("\t > autoStartup = {}", schedulerFactoryBean.isAutoStartup());
-		log.info("\t > running = {}", schedulerFactoryBean.isRunning());
-		log.info("\t > inStandbyMode = {}", scheduler.isInStandbyMode());
-		log.info("\t > started = {}", scheduler.isStarted());
-		log.info("\t > shutdown = {}", scheduler.isShutdown());
-		
-		Set<JobKey> jobKeys = scheduler.getJobKeys(GroupMatcher.anyJobGroup());
-		log.info("\t > jobs = {}", jobKeys);
-		
-		Set<TriggerKey> triggerKeys = scheduler.getTriggerKeys(GroupMatcher.anyTriggerGroup());
-		log.info("\t > triggers = {}", triggerKeys);
-		
-		log.info("\t ================================================================================");
-		log.info("\t > from @Bean                scheduler = {}", scheduler);
-		log.info("\t > from schedulerFactoryBean scheudler = {}", schedulerFactoryBean.getObject());
+		log.info("\t > autoStartup     = {}", schedulerFactoryBean.isAutoStartup());
+		log.info("\t > running         = {}", schedulerFactoryBean.isRunning());
+		log.info("\t > inStandbyMode   = {}", scheduler.isInStandbyMode());
+		log.info("\t > started         = {}", scheduler.isStarted());
+		log.info("\t > shutdown        = {}", scheduler.isShutdown());
+		log.info("\t > jobs            = {}", scheduler.getJobKeys(GroupMatcher.anyJobGroup()));
+		log.info("\t > triggers        = {}", scheduler.getTriggerKeys(GroupMatcher.anyTriggerGroup()));
+
+		Set<String> pausedTriggerGroups = scheduler.getPausedTriggerGroups();
+		log.info("\t > paused triggers = {}", pausedTriggerGroups);
 		
 		return ResponseEntity.ok("config SUCCESS");
 	}
@@ -81,14 +75,11 @@ public class TestQuartzSchedulerController {
 	@GetMapping("/quartz/start")
 	public ResponseEntity<Object> start() throws SchedulerException {
 		log.info("## start");
-		String msg = null;
-		if (!scheduler.isStarted()) {
-			scheduler.start();
-			msg = "start the paused scheduler";
-		} else {
-			msg = "scheduler is already started";
-		}
+		scheduler.resumeAll();
+		
+		String msg = "start the scheduler";
 		log.info("\t > {}", msg);
+		
 		return ResponseEntity.ok(msg);
 	}
 
@@ -109,17 +100,14 @@ public class TestQuartzSchedulerController {
 	}
 
 	@ResponseBody
-	@GetMapping("/quartz/pasue")
+	@GetMapping("/quartz/pause")
 	public ResponseEntity<Object> pause() throws SchedulerException {
 		log.info("## pause");
-		String msg = null;
-		if (!scheduler.getPausedTriggerGroups().isEmpty()) {
-			scheduler.pauseAll();
-			msg = "pause the running scheduler";
-		} else {
-			msg = "scheduler is already paused";
-		}
+		scheduler.pauseAll();
+		
+		String msg = "pause the scheduler";
 		log.info("\t > {}", msg);
+		
 		return ResponseEntity.ok(msg);
 	}
 
