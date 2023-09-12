@@ -48,7 +48,6 @@ public class TestQuartzSchedulerController {
 	@Autowired
 	private SchedulerService schedulerService;
 	
-	
 	@GetMapping("/quartz")
 	public String main() {
 		log.info("## main");
@@ -70,6 +69,10 @@ public class TestQuartzSchedulerController {
 		
 		Set<TriggerKey> triggerKeys = scheduler.getTriggerKeys(GroupMatcher.anyTriggerGroup());
 		log.info("\t > triggers = {}", triggerKeys);
+		
+		log.info("\t ================================================================================");
+		log.info("\t > from @Bean                scheduler = {}", scheduler);
+		log.info("\t > from schedulerFactoryBean scheudler = {}", schedulerFactoryBean.getObject());
 		
 		return ResponseEntity.ok("config SUCCESS");
 	}
@@ -104,31 +107,31 @@ public class TestQuartzSchedulerController {
 	}
 
 	@ResponseBody
-	@GetMapping("/quartz/stop")
-	public ResponseEntity<Object> stop() throws SchedulerException {
-		log.info("## stop");
-		if (!scheduler.isShutdown()) {
-			log.info("\t > stop the running scheduler");
-			scheduler.shutdown();
+	@GetMapping("/quartz/standby")
+	public ResponseEntity<Object> standby() throws SchedulerException {
+		log.info("## standby");
+		if (!scheduler.isInStandbyMode()) {
+			log.info("\t > put the running scheduler into standby mode");
+			scheduler.standby();
 		} else {
-			log.info("\t > scheduler is already stopped");
+			log.info("\t > scheduler is already in standby mode");
 		}
 		
 		return ResponseEntity.ok("stop SUCCESS");
 	}
 
 	@ResponseBody
-	@GetMapping("/quartz/stop/job-a")
-	public ResponseEntity<Object> stopJobA() throws SchedulerException {
+	@GetMapping("/quartz/standby/job-a")
+	public ResponseEntity<Object> standbyJobA() throws SchedulerException {
 		log.info("## stopJobA");
-		return ResponseEntity.ok("stopJobA SUCCESS");
+		return ResponseEntity.ok("standbyJobA SUCCESS");
 	}
 
 	@ResponseBody
 	@GetMapping("/quartz/stop/job-b")
-	public ResponseEntity<Object> stopJobB() throws SchedulerException {
+	public ResponseEntity<Object> standbyJobB() throws SchedulerException {
 		log.info("## stopJobB");
-		return ResponseEntity.ok("stopJobB SUCCESS");
+		return ResponseEntity.ok("standbyJobB SUCCESS");
 	}
 	
 	@SuppressWarnings("unused")
