@@ -48,9 +48,9 @@
 		<button class="btn btn-primary btn-lg mx-3" onclick="start(this)" data-url="${contextPath}/test/scheduler/quartz/start/job-b">startJobB</button>
 	</div>
 	<div class="test d-flex justify-content-center mt-5">
-		<button class="btn btn-secondary btn-lg mx-3" onclick="stop(this)" data-url="${contextPath}/test/scheduler/quartz/stop">stop</button>
-		<button class="btn btn-secondary btn-lg mx-3" onclick="stop(this)" data-url="${contextPath}/test/scheduler/quartz/stop/job-a">stopJobA</button>
-		<button class="btn btn-secondary btn-lg mx-3" onclick="stop(this)" data-url="${contextPath}/test/scheduler/quartz/stop/job-b" >stoptJobB</button>
+		<button class="btn btn-secondary btn-lg mx-3" onclick="standby(this)" data-url="${contextPath}/test/scheduler/quartz/standby">standby</button>
+		<button class="btn btn-secondary btn-lg mx-3" onclick="standby(this)" data-url="${contextPath}/test/scheduler/quartz/standby/job-a">standbyJobA</button>
+		<button class="btn btn-secondary btn-lg mx-3" onclick="standby(this)" data-url="${contextPath}/test/scheduler/quartz/standby/job-b" >standbytJobB</button>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
@@ -87,7 +87,7 @@
 		});
 	}
 
-	function stop(target) {
+	function standby(target) {
 		console.log("## " + $(target).text());
 		$.ajax({
 			type : "GET",

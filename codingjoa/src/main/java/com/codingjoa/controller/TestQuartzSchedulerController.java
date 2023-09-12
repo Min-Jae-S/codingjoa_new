@@ -81,13 +81,15 @@ public class TestQuartzSchedulerController {
 	@GetMapping("/quartz/start")
 	public ResponseEntity<Object> start() throws SchedulerException {
 		log.info("## start");
+		String msg = null;
 		if (!scheduler.isStarted()) {
-			log.info("\t > start the paused scheduler");
 			scheduler.start();
+			msg = "start the scheduler that is in standby";
 		} else {
-			log.info("\t > scheduler is already started");
+			msg = "scheduler is already started";
 		}
-		return ResponseEntity.ok("start SUCCESS");
+		log.info("\t > {}", msg);
+		return ResponseEntity.ok(msg);
 	}
 
 	@ResponseBody
@@ -110,27 +112,28 @@ public class TestQuartzSchedulerController {
 	@GetMapping("/quartz/standby")
 	public ResponseEntity<Object> standby() throws SchedulerException {
 		log.info("## standby");
+		String msg = null;
 		if (!scheduler.isInStandbyMode()) {
-			log.info("\t > put the running scheduler into standby mode");
 			scheduler.standby();
+			msg = "put the running scheduler into standby mode";
 		} else {
-			log.info("\t > scheduler is already in standby mode");
+			msg = "scheduler is already in standby mode";
 		}
-		
-		return ResponseEntity.ok("stop SUCCESS");
+		log.info("\t > {}", msg);
+		return ResponseEntity.ok(msg);
 	}
 
 	@ResponseBody
 	@GetMapping("/quartz/standby/job-a")
 	public ResponseEntity<Object> standbyJobA() throws SchedulerException {
-		log.info("## stopJobA");
+		log.info("## standbyJobA");
 		return ResponseEntity.ok("standbyJobA SUCCESS");
 	}
 
 	@ResponseBody
-	@GetMapping("/quartz/stop/job-b")
+	@GetMapping("/quartz/standby/job-b")
 	public ResponseEntity<Object> standbyJobB() throws SchedulerException {
-		log.info("## stopJobB");
+		log.info("## standbyJobB");
 		return ResponseEntity.ok("standbyJobB SUCCESS");
 	}
 	
