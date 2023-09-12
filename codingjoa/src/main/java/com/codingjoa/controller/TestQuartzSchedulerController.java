@@ -34,7 +34,7 @@ public class TestQuartzSchedulerController {
 	 * ## Quartz
 	 * 	> enable in-memory job scheduler
 	 * 	> clustering using database
-	 * 	> Scheduler, Job, Trigger
+	 * 	> Job, Trigger
 	 * 	> JobDetails, JobDataMap, JobListener, TriggerListener
 	 * 	> start (scheduleJob, resumeJob, triggerJob, addJob)
 	 * 	> stop (interrupt, unscheduleJob, pauseJob, deleteJob)
@@ -66,15 +66,15 @@ public class TestQuartzSchedulerController {
 		log.info("\t > shutdown           = {}", scheduler.isShutdown());
 		log.info("\t > registerd jobs     = {}", scheduler.getJobKeys(GroupMatcher.anyJobGroup()));
 		log.info("\t > registerd triggers = {}", scheduler.getTriggerKeys(GroupMatcher.anyTriggerGroup()));
-
-		Set<String> pausedTriggerGroups = scheduler.getPausedTriggerGroups();
-		Set<TriggerKey> pausedTriggerKeys = new HashSet<>();
-		for (String triggerGroup : pausedTriggerGroups) {
-			 GroupMatcher<TriggerKey> matcher = GroupMatcher.triggerGroupEquals(triggerGroup);
-			 Set<TriggerKey> triggerKeys = scheduler.getTriggerKeys(matcher);
-			 pausedTriggerKeys.addAll(triggerKeys);
-		}
-		log.info("\t > paused triggers    = {}", pausedTriggerKeys);
+		
+//		Set<String> pausedTriggerGroups = scheduler.getPausedTriggerGroups();
+//		Set<TriggerKey> pausedTriggerKeys = new HashSet<>();
+//		for (String triggerGroup : pausedTriggerGroups) {
+//			 GroupMatcher<TriggerKey> matcher = GroupMatcher.triggerGroupEquals(triggerGroup);
+//			 Set<TriggerKey> triggerKeys = scheduler.getTriggerKeys(matcher);
+//			 pausedTriggerKeys.addAll(triggerKeys);
+//		}
+//		log.info("\t > paused triggers    = {}", pausedTriggerKeys);
 		
 		return ResponseEntity.ok("success");
 	}
@@ -105,7 +105,8 @@ public class TestQuartzSchedulerController {
 	public ResponseEntity<Object> startJobA() throws SchedulerException {
 		log.info("## startJobA");
 		
-		String msg = (schedulerService.startJobA() == true) ? "start JobA that was paused" : "JobA is already running";
+		String msg = (schedulerService.startJobA() == true) ? 
+				"start JobA that was paused" : "JobA is already running";
 		log.info("\t > {}", msg);
 		
 		return ResponseEntity.ok(msg);
@@ -116,7 +117,8 @@ public class TestQuartzSchedulerController {
 	public ResponseEntity<Object> startJobB() throws SchedulerException {
 		log.info("## startJobB");
 		
-		String msg = (schedulerService.startJobB() == true) ? "start JobB that was paused" : "JobB is already running";
+		String msg = (schedulerService.startJobB() == true) ? 
+				"start JobB that was paused" : "JobB is already running";
 		log.info("\t > {}", msg);
 		
 		return ResponseEntity.ok(msg);

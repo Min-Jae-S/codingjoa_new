@@ -93,25 +93,19 @@ public class SchedulerConfig {
 	
 	@Bean
 	public Trigger triggerA() {
-		SimpleScheduleBuilder scheduleBuilder = SimpleScheduleBuilder.simpleSchedule()
-				.withIntervalInSeconds(5)
-				.repeatForever();
 		return TriggerBuilder.newTrigger()
 				.forJob(jobDetailA())
 				.withIdentity("triggerA", "myTrigger")
-				.withSchedule(scheduleBuilder)
+				.withSchedule(SimpleScheduleBuilder.repeatSecondlyForever(5))
 				.build();
 	}
 
 	@Bean
 	public Trigger triggerB() {
-		SimpleScheduleBuilder scheduleBuilder = SimpleScheduleBuilder.simpleSchedule()
-				.withIntervalInSeconds(10)
-				.repeatForever();
 		return TriggerBuilder.newTrigger()
 				.forJob(jobDetailB())
 				.withIdentity("triggerB", "myTrigger")
-				.withSchedule(scheduleBuilder)
+				.withSchedule(SimpleScheduleBuilder.repeatSecondlyForever(10))
 				.build();
 	}
 
