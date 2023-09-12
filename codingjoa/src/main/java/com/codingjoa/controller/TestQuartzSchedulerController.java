@@ -57,7 +57,7 @@ public class TestQuartzSchedulerController {
 
 	@ResponseBody
 	@GetMapping("/quartz/config")
-	public  ResponseEntity<Object> config() throws SchedulerException {
+	public ResponseEntity<Object> config() throws SchedulerException {
 		log.info("## config");
 		log.info("\t > autoStartup        = {}", schedulerFactoryBean.isAutoStartup());
 		log.info("\t > running            = {}", schedulerFactoryBean.isRunning());
@@ -76,7 +76,16 @@ public class TestQuartzSchedulerController {
 		}
 		log.info("\t > paused triggers    = {}", pausedTriggerKeys);
 		
-		return ResponseEntity.ok("config SUCCESS");
+		return ResponseEntity.ok("success");
+	}
+	
+	@ResponseBody
+	@GetMapping("/quartz/instance")
+	public ResponseEntity<Object> instance() throws SchedulerException {
+		log.info("## instance");
+		log.info("\t > scheduler instance in the controller = {}", scheduler);
+		log.info("\t > scheduler instance in the service    = {}", schedulerService.getSchedulerInstance());
+		return ResponseEntity.ok("success");
 	}
 
 	@ResponseBody
@@ -85,7 +94,7 @@ public class TestQuartzSchedulerController {
 		log.info("## start");
 		scheduler.resumeAll();
 		
-		String msg = "Resume all triggers";
+		String msg = "resume all triggers";
 		log.info("\t > {}", msg);
 		
 		return ResponseEntity.ok(msg);
@@ -119,7 +128,7 @@ public class TestQuartzSchedulerController {
 		log.info("## pause");
 		scheduler.pauseAll();
 		
-		String msg = "Pause all triggers";
+		String msg = "pause all triggers";
 		log.info("\t > {}", msg);
 		
 		return ResponseEntity.ok(msg);

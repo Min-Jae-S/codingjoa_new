@@ -10,6 +10,9 @@ import org.quartz.TriggerKey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class SchedulerService {
 	
@@ -22,8 +25,14 @@ public class SchedulerService {
 	@Resource(name = "triggerB")
 	private Trigger triggerB;
 	
+	public Scheduler getSchedulerInstance() {
+		return scheduler;
+	}
+	
 	public boolean startJobA() throws SchedulerException {
 		TriggerKey triggerKeyA = triggerA.getKey();
+		log.info("\t > triggerKeyA = {}", triggerKeyA);
+		
 		if (isTriggerPaused(triggerKeyA)) {
 			scheduler.resumeTrigger(triggerKeyA);
 			return true;
@@ -34,6 +43,8 @@ public class SchedulerService {
 	
 	public boolean startJobB() throws SchedulerException {
 		TriggerKey triggerKeyB = triggerB.getKey();
+		log.info("\t > triggerKeyB = {}", triggerKeyB);
+		
 		if (isTriggerPaused(triggerKeyB)) {
 			scheduler.resumeTrigger(triggerKeyB);
 			return true;
