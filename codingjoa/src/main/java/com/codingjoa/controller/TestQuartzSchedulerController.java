@@ -74,7 +74,6 @@ public class TestQuartzSchedulerController {
 			 Set<TriggerKey> triggerKeys = scheduler.getTriggerKeys(matcher);
 			 pausedTriggerKeys.addAll(triggerKeys);
 		}
-		log.info("\t ========================================================================");
 		log.info("\t > paused triggers    = {}", pausedTriggerKeys);
 		
 		return ResponseEntity.ok("config SUCCESS");
@@ -96,16 +95,22 @@ public class TestQuartzSchedulerController {
 	@GetMapping("/quartz/start/job-a")
 	public ResponseEntity<Object> startJobA() throws SchedulerException {
 		log.info("## startJobA");
-		schedulerService.startJobA();
-		return ResponseEntity.ok("startJobA SUCCESS");
+		
+		String msg = (schedulerService.startJobA() == true) ? "start JobA that was paused" : "JobA is already running";
+		log.info("\t > {}", msg);
+		
+		return ResponseEntity.ok(msg);
 	}
 
 	@ResponseBody
 	@GetMapping("/quartz/start/job-b")
 	public ResponseEntity<Object> startJobB() throws SchedulerException {
 		log.info("## startJobB");
-		schedulerService.startJobB();
-		return ResponseEntity.ok("startJobB SUCCESS");
+		
+		String msg = (schedulerService.startJobB() == true) ? "start JobB that was paused" : "JobB is already running";
+		log.info("\t > {}", msg);
+		
+		return ResponseEntity.ok(msg);
 	}
 
 	@ResponseBody
