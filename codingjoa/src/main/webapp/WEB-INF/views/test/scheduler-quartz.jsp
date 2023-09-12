@@ -48,9 +48,9 @@
 		<button class="btn btn-primary btn-lg mx-3" onclick="start(this)" data-url="${contextPath}/test/scheduler/quartz/start/job-b">startJobB</button>
 	</div>
 	<div class="test d-flex justify-content-center mt-5">
-		<button class="btn btn-secondary btn-lg mx-3" onclick="standby(this)" data-url="${contextPath}/test/scheduler/quartz/standby">standby</button>
-		<button class="btn btn-secondary btn-lg mx-3" onclick="standby(this)" data-url="${contextPath}/test/scheduler/quartz/standby/job-a">standbyJobA</button>
-		<button class="btn btn-secondary btn-lg mx-3" onclick="standby(this)" data-url="${contextPath}/test/scheduler/quartz/standby/job-b" >standbytJobB</button>
+		<button class="btn btn-secondary btn-lg mx-3" onclick="pause(this)" data-url="${contextPath}/test/scheduler/quartz/pause">pause</button>
+		<button class="btn btn-secondary btn-lg mx-3" onclick="pause(this)" data-url="${contextPath}/test/scheduler/quartz/pause/job-a">pauseJobA</button>
+		<button class="btn btn-secondary btn-lg mx-3" onclick="pause(this)" data-url="${contextPath}/test/scheduler/quartz/pause/job-b" >pauseJobB</button>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
@@ -78,7 +78,7 @@
 			url : $(target).data("url"),
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
-				console.log("> result = %s", result);
+				alert(result);
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
@@ -87,14 +87,14 @@
 		});
 	}
 
-	function standby(target) {
+	function pause(target) {
 		console.log("## " + $(target).text());
 		$.ajax({
 			type : "GET",
 			url : $(target).data("url"),
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
-				console.log("> result = %s", result);
+				alert(result);
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");

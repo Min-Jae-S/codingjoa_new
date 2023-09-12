@@ -50,7 +50,7 @@ public class TestQuartzSchedulerController {
 	
 	@GetMapping("/quartz")
 	public String main() {
-		log.info("## main");
+		log.info("## quartz main");
 		return "test/scheduler-quartz";
 	}
 
@@ -84,7 +84,7 @@ public class TestQuartzSchedulerController {
 		String msg = null;
 		if (!scheduler.isStarted()) {
 			scheduler.start();
-			msg = "start the scheduler that is in standby";
+			msg = "start the paused scheduler";
 		} else {
 			msg = "scheduler is already started";
 		}
@@ -109,32 +109,32 @@ public class TestQuartzSchedulerController {
 	}
 
 	@ResponseBody
-	@GetMapping("/quartz/standby")
-	public ResponseEntity<Object> standby() throws SchedulerException {
-		log.info("## standby");
+	@GetMapping("/quartz/pasue")
+	public ResponseEntity<Object> pause() throws SchedulerException {
+		log.info("## pause");
 		String msg = null;
-		if (!scheduler.isInStandbyMode()) {
-			scheduler.standby();
-			msg = "put the running scheduler into standby mode";
+		if (!scheduler.getPausedTriggerGroups().isEmpty()) {
+			scheduler.pauseAll();
+			msg = "pause the running scheduler";
 		} else {
-			msg = "scheduler is already in standby mode";
+			msg = "scheduler is already paused";
 		}
 		log.info("\t > {}", msg);
 		return ResponseEntity.ok(msg);
 	}
 
 	@ResponseBody
-	@GetMapping("/quartz/standby/job-a")
-	public ResponseEntity<Object> standbyJobA() throws SchedulerException {
-		log.info("## standbyJobA");
-		return ResponseEntity.ok("standbyJobA SUCCESS");
+	@GetMapping("/quartz/pause/job-a")
+	public ResponseEntity<Object> pauseJobA() throws SchedulerException {
+		log.info("## pauseJobA");
+		return ResponseEntity.ok("pauseJobA SUCCESS");
 	}
 
 	@ResponseBody
-	@GetMapping("/quartz/standby/job-b")
-	public ResponseEntity<Object> standbyJobB() throws SchedulerException {
-		log.info("## standbyJobB");
-		return ResponseEntity.ok("standbyJobB SUCCESS");
+	@GetMapping("/quartz/pause/job-b")
+	public ResponseEntity<Object> pauseJobB() throws SchedulerException {
+		log.info("## pauseJobB");
+		return ResponseEntity.ok("pauseJobB SUCCESS");
 	}
 	
 	@SuppressWarnings("unused")
