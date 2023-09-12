@@ -5,6 +5,7 @@ import javax.annotation.Resource;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.Trigger;
+import org.quartz.Trigger.TriggerState;
 import org.quartz.TriggerKey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,27 +22,32 @@ public class SchedulerService {
 	@Resource(name = "triggerA")
 	private Trigger triggerA;
 
-	@Resource(name = "triggerA")
+	@Resource(name = "triggerB")
 	private Trigger triggerB;
 	
 	public void startJobA() throws SchedulerException {
 		TriggerKey triggerKeyA = triggerA.getKey();
-		log.info("\t > triggerKeyA exists ? {}", scheduler.checkExists(triggerKeyA));
-		
-		if (scheduler.checkExists(triggerKeyA)) {
+		if (!isTriggerPaused(triggerKeyA)) {
+			log.info("\t > start JobA that was paused");
 			scheduler.resumeTrigger(triggerKeyA);
-			log.info("\t > resume triggerA");
+		} else {
+			log.info("\t > JobA is already running");
 		}
 	}
 	
 	public void startJobB() throws SchedulerException {
 		TriggerKey triggerKeyB = triggerB.getKey();
-		log.info("\t > triggerKeyB exists ? {}", scheduler.checkExists(triggerKeyB));
-		
-		if (scheduler.checkExists(triggerKeyB)) {
+		if (!isTriggerPaused(triggerKeyB)) {
+			log.info("\t > start JobB that was paused");
 			scheduler.resumeTrigger(triggerKeyB);
-			log.info("\t > resume triggerB");
+		} else {
+			log.info("\t > JobB is already running");
 		}
+	}
+	
+	private boolean isTriggerPaused(TriggerKey triggerKey) throws SchedulerException {
+		TriggerState state = scheduler.getTriggerState(triggerKey);
+		return (state == TriggerState.PAUSED) ? true : false;
 	}
 
 }

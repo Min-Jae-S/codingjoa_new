@@ -86,7 +86,7 @@ public class TestQuartzSchedulerController {
 		log.info("## start");
 		scheduler.resumeAll();
 		
-		String msg = "Resume all triggers ";
+		String msg = "Resume all triggers";
 		log.info("\t > {}", msg);
 		
 		return ResponseEntity.ok(msg);

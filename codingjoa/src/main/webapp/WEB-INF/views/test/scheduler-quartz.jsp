@@ -43,14 +43,14 @@
 		<button class="btn btn-lg mx-3 invisible" onclick="#">#</button>
 	</div>
 	<div class="test d-flex justify-content-center mt-5">
-		<button class="btn btn-primary btn-lg mx-3" onclick="start(this)" data-url="${contextPath}/test/scheduler/quartz/start">start</button>
-		<button class="btn btn-primary btn-lg mx-3" onclick="start(this)" data-url="${contextPath}/test/scheduler/quartz/start/job-a">startJobA</button>
-		<button class="btn btn-primary btn-lg mx-3" onclick="start(this)" data-url="${contextPath}/test/scheduler/quartz/start/job-b">startJobB</button>
+		<button class="btn btn-primary btn-lg mx-3" onclick="start(this)" data-url="${contextPath}/test/scheduler/quartz/start">start All</button>
+		<button class="btn btn-primary btn-lg mx-3" onclick="start(this)" data-url="${contextPath}/test/scheduler/quartz/start/job-a">start JobA</button>
+		<button class="btn btn-primary btn-lg mx-3" onclick="start(this)" data-url="${contextPath}/test/scheduler/quartz/start/job-b">start JobB</button>
 	</div>
 	<div class="test d-flex justify-content-center mt-5">
-		<button class="btn btn-secondary btn-lg mx-3" onclick="pause(this)" data-url="${contextPath}/test/scheduler/quartz/pause">pause</button>
-		<button class="btn btn-secondary btn-lg mx-3" onclick="pause(this)" data-url="${contextPath}/test/scheduler/quartz/pause/job-a">pauseJobA</button>
-		<button class="btn btn-secondary btn-lg mx-3" onclick="pause(this)" data-url="${contextPath}/test/scheduler/quartz/pause/job-b" >pauseJobB</button>
+		<button class="btn btn-secondary btn-lg mx-3" onclick="pause(this)" data-url="${contextPath}/test/scheduler/quartz/pause">pause All</button>
+		<button class="btn btn-secondary btn-lg mx-3" onclick="pause(this)" data-url="${contextPath}/test/scheduler/quartz/pause/job-a">pause JobA</button>
+		<button class="btn btn-secondary btn-lg mx-3" onclick="pause(this)" data-url="${contextPath}/test/scheduler/quartz/pause/job-b" >pause JobB</button>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
