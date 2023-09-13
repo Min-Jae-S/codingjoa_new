@@ -67,14 +67,14 @@ public class TestQuartzSchedulerController {
 		log.info("\t > registerd jobs     = {}", scheduler.getJobKeys(GroupMatcher.anyJobGroup()));
 		log.info("\t > registerd triggers = {}", scheduler.getTriggerKeys(GroupMatcher.anyTriggerGroup()));
 		
-//		Set<String> pausedTriggerGroups = scheduler.getPausedTriggerGroups();
-//		Set<TriggerKey> pausedTriggerKeys = new HashSet<>();
-//		for (String triggerGroup : pausedTriggerGroups) {
-//			 GroupMatcher<TriggerKey> matcher = GroupMatcher.triggerGroupEquals(triggerGroup);
-//			 Set<TriggerKey> triggerKeys = scheduler.getTriggerKeys(matcher);
-//			 pausedTriggerKeys.addAll(triggerKeys);
-//		}
-//		log.info("\t > paused triggers    = {}", pausedTriggerKeys);
+		Set<String> pausedTriggerGroups = scheduler.getPausedTriggerGroups();
+		Set<TriggerKey> pausedTriggerKeys = new HashSet<>();
+		for (String triggerGroup : pausedTriggerGroups) {
+			 GroupMatcher<TriggerKey> matcher = GroupMatcher.triggerGroupEquals(triggerGroup);
+			 Set<TriggerKey> triggerKeys = scheduler.getTriggerKeys(matcher);
+			 pausedTriggerKeys.addAll(triggerKeys);
+		}
+		log.info("\t > paused triggers    = {}", pausedTriggerKeys);
 		
 		return ResponseEntity.ok("success");
 	}
