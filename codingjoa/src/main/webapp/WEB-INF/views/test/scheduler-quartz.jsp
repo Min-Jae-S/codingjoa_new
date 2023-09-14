@@ -39,7 +39,7 @@
 	<p>scheduler-quartz.jsp</p>
 	<div class="test d-flex justify-content-center mt-5">
 		<button class="btn btn-lg btn-warning mx-3" onclick="config()">config</button>
-		<button class="btn btn-lg btn-warning mx-3" onclick="state()">trigger state</button>
+		<button class="btn btn-lg mx-3 invisible" onclick="#">#</button>
 		<button class="btn btn-lg mx-3 invisible" onclick="#">#</button>
 	</div>
 	<div class="test d-flex justify-content-center mt-5">
@@ -70,21 +70,6 @@
 		});		
 	}
 	
-	function state() {
-		console.log("## state");
-		$.ajax({
-			type : "GET",
-			url : "${contextPath}/test/scheduler/quartz/state",
-			success : function(result) {
-				console.log("%c> SUCCESS", "color:green");
-			},
-			error : function(jqXHR) {
-				console.log("%c> ERROR", "color:red");
-				console.log(jqXHR);
-			}
-		});	
-	}
-
 	function resume(target) {
 		console.log("## " + $(target).text());
 		$.ajax({

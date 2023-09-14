@@ -33,6 +33,7 @@ public class SchedulerService {
 		for (TriggerKey triggerKey : triggerKeys) {
 			if (isTriggerPaused(triggerKey)) {
 				scheduler.resumeTrigger(triggerKey);
+				log.info("\t > resume paused {}", scheduler.getTrigger(triggerKey).getJobKey());
 			}
 		}
 	}
@@ -60,6 +61,7 @@ public class SchedulerService {
 		for (TriggerKey triggerKey : triggerKeys) {
 			if (!isTriggerPaused(triggerKey)) {
 				scheduler.pauseTrigger(triggerKey);
+				log.info("\t > pause running {}", scheduler.getTrigger(triggerKey).getJobKey());
 			}
 		}
 	}

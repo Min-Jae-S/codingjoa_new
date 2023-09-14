@@ -1,6 +1,7 @@
 package com.codingjoa.controller;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -10,6 +11,8 @@ import org.quartz.JobKey;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.Trigger;
+import org.quartz.Trigger.TriggerState;
+import org.quartz.TriggerKey;
 import org.quartz.impl.matchers.GroupMatcher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -65,14 +68,18 @@ public class TestQuartzSchedulerController {
 		log.info("\t > registerd jobs     = {}", scheduler.getJobKeys(GroupMatcher.anyJobGroup()));
 		log.info("\t > registerd triggers = {}", scheduler.getTriggerKeys(GroupMatcher.anyTriggerGroup()));
 		
-//		Set<String> pausedTriggerGroups = scheduler.getPausedTriggerGroups();
-//		Set<TriggerKey> pausedTriggerKeys = new HashSet<>();
-//		for (String triggerGroup : pausedTriggerGroups) {
-//			 GroupMatcher<TriggerKey> matcher = GroupMatcher.triggerGroupEquals(triggerGroup);
-//			 Set<TriggerKey> triggerKeys = scheduler.getTriggerKeys(matcher);
-//			 pausedTriggerKeys.addAll(triggerKeys);
-//		}
-//		log.info("\t > paused triggers    = {}", pausedTriggerKeys);
+		Set<TriggerKey> pausedTriggerKeys = new HashSet<>();
+		Set<String> pausedTriggerGroups = scheduler.getPausedTriggerGroups();
+		for (String triggerGroup : pausedTriggerGroups) {
+			 GroupMatcher<TriggerKey> matcher = GroupMatcher.triggerGroupEquals(triggerGroup);
+			 Set<TriggerKey> triggerKeys = scheduler.getTriggerKeys(matcher);
+			 for (TriggerKey triggerKey : triggerKeys) {
+				 if (scheduler.getTriggerState(triggerKey) == TriggerState.PAUSED) {
+					 pausedTriggerKeys.add(triggerKey);
+				 }
+			 }
+		}
+		log.info("\t > paused triggers    = {}", pausedTriggerKeys);
 		
 		return ResponseEntity.ok("success");
 	}
