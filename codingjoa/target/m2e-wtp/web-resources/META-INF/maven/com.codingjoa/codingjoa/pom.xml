@@ -14,6 +14,7 @@
 		<!-- <org.springframework.security-version>5.0.2.RELEASE</org.springframework.security-version> -->
 		<org.springframework-version>5.2.15.RELEASE</org.springframework-version>
 		<org.springframework.security-version>5.2.15.RELEASE</org.springframework.security-version>
+		<org.springframework.batch-version>4.3.8</org.springframework.batch-version>
 		<org.aspectj-version>1.6.10</org.aspectj-version>
 		<org.slf4j-version>1.7.32</org.slf4j-version>
 		<javax.servlet-version>4.0.1</javax.servlet-version>
@@ -110,14 +111,40 @@
 			<version>${javax.servlet.jsp.jstl-version}</version>
 		</dependency>
 		
-		<!-- Test -->
+		<!-- junit -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.12</version>
 			<scope>test</scope>
 		</dependency>
-
+		
+		<!-- spring-test -->
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-test -->
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-test</artifactId>
+		    <version>${org.springframework-version}</version>
+		    <scope>test</scope>
+		</dependency>
+		
+		<!-- spring batch core -->
+		<!-- https://mvnrepository.com/artifact/org.springframework.batch/spring-batch-core -->
+		<dependency>
+		    <groupId>org.springframework.batch</groupId>
+		    <artifactId>spring-batch-core</artifactId>
+		    <version>${org.springframework.batch-version}</version>
+		</dependency>
+		
+		<!-- spring-batch-test -->
+		<!-- https://mvnrepository.com/artifact/org.springframework.batch/spring-batch-test -->
+		<dependency>
+		    <groupId>org.springframework.batch</groupId>
+		    <artifactId>spring-batch-test</artifactId>
+		    <version>${org.springframework.batch-version}</version>
+		    <scope>test</scope>
+		</dependency>
+		
 		<!-- lombok -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
@@ -264,7 +291,7 @@
 		    <version>6.0.2.RELEASE</version>
 	  	</dependency>
 	  	
-	  	<!-- Model Mapper -->		
+	  	<!-- modelmapper -->		
 		<dependency>
 			<groupId>org.modelmapper</groupId>
 			<artifactId>modelmapper</artifactId>

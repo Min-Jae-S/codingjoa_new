@@ -3,6 +3,8 @@ package com.codingjoa.controller;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.annotation.PostConstruct;
+
 import org.quartz.JobKey;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
@@ -45,6 +47,12 @@ public class TestQuartzSchedulerController {
 	
 	@Autowired
 	private SchedulerService schedulerService;
+	
+	@PostConstruct
+	public void init() throws SchedulerException {
+		log.info("## TestQuartzSchedulerController init");
+		scheduler.start();
+	}
 	
 	@GetMapping("/quartz")
 	public String main() {

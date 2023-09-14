@@ -39,7 +39,7 @@
 	<p>scheduler-quartz.jsp</p>
 	<div class="test d-flex justify-content-center mt-5">
 		<button class="btn btn-lg btn-warning mx-3" onclick="config()">config</button>
-		<button class="btn btn-lg btn-warning mx-3" onclick="pausedJobs()">paused Jobs</button>
+		<button class="btn btn-lg btn-warning mx-3" onclick="pausedJobs()">pausedJobs</button>
 		<button class="btn btn-lg mx-3 invisible" onclick="#">#</button>
 	</div>
 	<div class="test d-flex justify-content-center mt-5">

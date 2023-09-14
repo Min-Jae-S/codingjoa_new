@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-import org.quartz.DisallowConcurrentExecution;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,7 @@ import com.codingjoa.mapper.ImageMapper;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@DisallowConcurrentExecution
+//@DisallowConcurrentExecution // 클러스터링 환경에선 해당 어노테이션 작동하지 않음
 public class JobB extends QuartzJobBean {
 	
 	@Autowired

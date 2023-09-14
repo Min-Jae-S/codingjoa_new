@@ -1,6 +1,9 @@
 package com.codingjoa.config;
 
+import java.util.Properties;
+
 import javax.annotation.PostConstruct;
+import javax.sql.DataSource;
 
 import org.quartz.JobBuilder;
 import org.quartz.JobDetail;
@@ -12,6 +15,7 @@ import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
 import org.quartz.TriggerListener;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.PropertiesFactoryBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -35,6 +39,9 @@ public class SchedulerConfig {
 	@Autowired
     private TriggerListener triggerListener;
 	
+	@Autowired
+	private DataSource dataSource;
+	
 	@PostConstruct
 	public void init() {
 		log.info("===============================================================");
@@ -50,8 +57,10 @@ public class SchedulerConfig {
 		//schedulerFactory.setGlobalTriggerListeners(triggerListener);
 		schedulerFactory.setJobDetails(jobDetailA(), jobDetailB());
 		schedulerFactory.setTriggers(triggerA(), triggerB());
+		schedulerFactory.setAutoStartup(false);
 		schedulerFactory.setOverwriteExistingJobs(true);
 		schedulerFactory.setWaitForJobsToCompleteOnShutdown(true);
+		//schedulerFactory.setQuartzProperties(quartzProperties());
 		return schedulerFactory;
 	}
 	
@@ -74,6 +83,13 @@ public class SchedulerConfig {
 //	    jobFactory.setApplicationContext(applicationContext);
 //	    return jobFactory;
 //	}
+	
+	@Bean
+	public Properties quartzProperties() {
+		 PropertiesFactoryBean propertiesFactoryBean = new PropertiesFactoryBean();
+		 Properties properties = null;
+		 return properties;
+	}
 	
 	@Bean
 	public JobDetail jobDetailA() {
