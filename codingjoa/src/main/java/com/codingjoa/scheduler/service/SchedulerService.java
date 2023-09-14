@@ -1,7 +1,11 @@
 package com.codingjoa.scheduler.service;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
+import org.quartz.JobDetail;
+import org.quartz.JobKey;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.Trigger;
@@ -24,21 +28,27 @@ public class SchedulerService {
 
 	@Resource(name = "triggerB")
 	private Trigger triggerB;
+
+	@Resource(name = "jobDetailA")
+	private JobDetail jobDetailA;
+	
+	@Resource(name = "jobDetailB")
+	private JobDetail jobDetailB;
 	
 	public void state() throws SchedulerException {
 		TriggerKey triggerKeyA = triggerA.getKey();
 		log.info("\t > triggerA state = {}", scheduler.getTriggerState(triggerKeyA));
-
+		
 		TriggerKey triggerKeyB = triggerB.getKey();
 		log.info("\t > triggerB state = {}", scheduler.getTriggerState(triggerKeyB));
 	}
 	
 	public boolean resumeJobA() throws SchedulerException {
-		TriggerKey triggerKeyA = triggerA.getKey();
-		log.info("\t > triggerKeyA = {}", triggerKeyA);
+		JobKey jobKeyA = jobDetailA.getKey();
+		log.info("\t > jobKeyA = {}", jobKeyA);
 		
-		if (isTriggerPaused(triggerKeyA)) {
-			scheduler.resumeTrigger(triggerKeyA);
+		if (isJobPaused(jobKeyA)) {
+			scheduler.resumeJob(jobKeyA);
 			return true;
 		}
 		
@@ -46,20 +56,26 @@ public class SchedulerService {
 	}
 	
 	public boolean resumeJobB() throws SchedulerException {
-		TriggerKey triggerKeyB = triggerB.getKey();
-		log.info("\t > triggerKeyB = {}", triggerKeyB);
+		JobKey jobKeyB = jobDetailB.getKey();
+		log.info("\t > jobKeyB = {}", jobKeyB);
 		
-		if (isTriggerPaused(triggerKeyB)) {
-			scheduler.resumeTrigger(triggerKeyB);
+		if (isJobPaused(jobKeyB)) {
+			scheduler.resumeJob(jobKeyB);
 			return true;
 		}
 		
 		return false;
 	}
 	
-	private boolean isTriggerPaused(TriggerKey triggerKey) throws SchedulerException {
-		TriggerState state = scheduler.getTriggerState(triggerKey);
-		return (state == TriggerState.PAUSED) ? true : false;
+	private boolean isJobPaused(JobKey jobKey) throws SchedulerException {
+		List<? extends Trigger> triggers = scheduler.getTriggersOfJob(jobKey);
+		for (Trigger trigger: triggers) {
+			TriggerState state = scheduler.getTriggerState(trigger.getKey());
+			if (state == TriggerState.PAUSED) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 }
