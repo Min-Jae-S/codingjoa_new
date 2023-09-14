@@ -62,11 +62,16 @@ public class TestQuartzSchedulerController {
 		log.info("\t > started            = {}", scheduler.isStarted());
 		log.info("\t > shutdown           = {}", scheduler.isShutdown());
 		log.info("\t > registerd jobs     = {}", scheduler.getJobKeys(GroupMatcher.anyJobGroup()));
-		
-		Set<TriggerKey> triggerKeys = scheduler.getTriggerKeys(GroupMatcher.anyTriggerGroup());
-		log.info("\t > registerd triggers = {}", triggerKeys);
-		
+		log.info("\t > registerd triggers = {}", scheduler.getTriggerKeys(GroupMatcher.anyTriggerGroup()));
+		return ResponseEntity.ok("config success");
+	}
+	
+	@ResponseBody
+	@GetMapping("/quartz/paused-jobs")
+	public ResponseEntity<Object> pausedJobs() throws SchedulerException {
+		log.info("## pausedJobs");
 		Set<JobKey> pausedJobs = new HashSet<>();
+		Set<TriggerKey> triggerKeys = scheduler.getTriggerKeys(GroupMatcher.anyTriggerGroup());
 		for (TriggerKey triggerKey : triggerKeys) {
 			if (scheduler.getTriggerState(triggerKey) == TriggerState.PAUSED) {
 				 Trigger pausedTrigger = scheduler.getTrigger(triggerKey);
@@ -74,9 +79,8 @@ public class TestQuartzSchedulerController {
 				 pausedJobs.add(pausedJobKey);
 			}
 		}
-		log.info("\t > paused jobs        = {}", pausedJobs);
-		
-		return ResponseEntity.ok("config success");
+		log.info("\t > paused jobs = {}", pausedJobs);
+		return ResponseEntity.ok("pausedJobs success");
 	}
 	
 	@ResponseBody

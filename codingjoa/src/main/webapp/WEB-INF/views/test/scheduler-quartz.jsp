@@ -39,16 +39,16 @@
 	<p>scheduler-quartz.jsp</p>
 	<div class="test d-flex justify-content-center mt-5">
 		<button class="btn btn-lg btn-warning mx-3" onclick="config()">config</button>
-		<button class="btn btn-lg mx-3 invisible" onclick="#">#</button>
+		<button class="btn btn-lg btn-warning mx-3" onclick="pausedJobs()">paused Jobs</button>
 		<button class="btn btn-lg mx-3 invisible" onclick="#">#</button>
 	</div>
 	<div class="test d-flex justify-content-center mt-5">
-		<button class="btn btn-primary btn-lg mx-3" onclick="resume(this)" data-url="${contextPath}/test/scheduler/quartz/resume">resume all Jobs</button>
+		<button class="btn btn-primary btn-lg mx-3" onclick="resume(this)" data-url="${contextPath}/test/scheduler/quartz/resume">resume All Jobs</button>
 		<button class="btn btn-primary btn-lg mx-3" onclick="resume(this)" data-url="${contextPath}/test/scheduler/quartz/resume/job-a">resume JobA</button>
 		<button class="btn btn-primary btn-lg mx-3" onclick="resume(this)" data-url="${contextPath}/test/scheduler/quartz/resume/job-b">resume JobB</button>
 	</div>
 	<div class="test d-flex justify-content-center mt-5">
-		<button class="btn btn-danger btn-lg mx-3" onclick="pause(this)" data-url="${contextPath}/test/scheduler/quartz/pause">pause all Jobs</button>
+		<button class="btn btn-danger btn-lg mx-3" onclick="pause(this)" data-url="${contextPath}/test/scheduler/quartz/pause">pause All Jobs</button>
 		<button class="btn btn-danger btn-lg mx-3" onclick="pause(this)" data-url="${contextPath}/test/scheduler/quartz/pause/job-a">pause JobA</button>
 		<button class="btn btn-danger btn-lg mx-3" onclick="pause(this)" data-url="${contextPath}/test/scheduler/quartz/pause/job-b" >pause JobB</button>
 	</div>
@@ -62,12 +62,29 @@
 			url : "${contextPath}/test/scheduler/quartz/config",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
+				alert(result);
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
 				console.log(jqXHR);
 			}
 		});		
+	}
+	
+	function pausedJobs() {
+		console.log("## pausedJobs");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/scheduler/quartz/paused-jobs",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				alert(result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(jqXHR);
+			}
+		});	
 	}
 	
 	function resume(button) {
