@@ -32,8 +32,8 @@ public class SchedulerService {
 		Set<TriggerKey> triggerKeys = scheduler.getTriggerKeys(GroupMatcher.anyTriggerGroup());
 		for (TriggerKey triggerKey : triggerKeys) {
 			if (isTriggerPaused(triggerKey)) {
+				log.info("\t > resume paused {}", scheduler.getTrigger(triggerKey).getJobKey().getName());
 				scheduler.resumeTrigger(triggerKey);
-				log.info("\t > resume paused {}", scheduler.getTrigger(triggerKey).getJobKey());
 			}
 		}
 	}
@@ -41,18 +41,24 @@ public class SchedulerService {
 	public boolean resumeJobA() throws SchedulerException {
 		TriggerKey triggerKeyA = triggerA.getKey();
 		if (isTriggerPaused(triggerKeyA)) {
+			log.info("\t > resume paused JobA");
 			scheduler.resumeTrigger(triggerKeyA);
 			return true;
 		}
+		
+		log.info("\t > JobA is already running");
 		return false;
 	}
 	
 	public boolean resumeJobB() throws SchedulerException {
 		TriggerKey triggerKeyB = triggerB.getKey();
 		if (isTriggerPaused(triggerKeyB)) {
+			log.info("\t > resume paused JobB");
 			scheduler.resumeTrigger(triggerKeyB);
 			return true;
 		}
+		
+		log.info("\t > JobB is already running");
 		return false;
 	}
 	
@@ -60,8 +66,8 @@ public class SchedulerService {
 		Set<TriggerKey> triggerKeys = scheduler.getTriggerKeys(GroupMatcher.anyTriggerGroup());
 		for (TriggerKey triggerKey : triggerKeys) {
 			if (!isTriggerPaused(triggerKey)) {
+				log.info("\t > pause running {}", scheduler.getTrigger(triggerKey).getJobKey().getName());
 				scheduler.pauseTrigger(triggerKey);
-				log.info("\t > pause running {}", scheduler.getTrigger(triggerKey).getJobKey());
 			}
 		}
 	}
@@ -69,18 +75,24 @@ public class SchedulerService {
 	public boolean pauseJobA() throws SchedulerException {
 		TriggerKey triggerKeyA = triggerA.getKey();
 		if (!isTriggerPaused(triggerKeyA)) {
+			log.info("\t > pause running JobA");
 			scheduler.pauseTrigger(triggerKeyA);
 			return true;
 		}
+		
+		log.info("\t > JobA is already paused");
 		return false;
 	}
 
 	public boolean pauseJobB() throws SchedulerException {
 		TriggerKey triggerKeyB = triggerB.getKey();
 		if (!isTriggerPaused(triggerKeyB)) {
+			log.info("\t > pause running JobB");
 			scheduler.pauseTrigger(triggerKeyB);
 			return true;
 		}
+		
+		log.info("\t > JobB is already paused");
 		return false;
 	}
 	

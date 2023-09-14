@@ -70,11 +70,11 @@
 		});		
 	}
 	
-	function resume(target) {
-		console.log("## " + $(target).text());
+	function resume(button) {
+		console.log("## " + $(button).text());
 		$.ajax({
 			type : "GET",
-			url : $(target).data("url"),
+			url : $(button).data("url"),
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				alert(result);
@@ -86,11 +86,11 @@
 		});
 	}
 
-	function pause(target) {
-		console.log("## " + $(target).text());
+	function pause(button) {
+		console.log("## " + $(button).text());
 		$.ajax({
 			type : "GET",
-			url : $(target).data("url"),
+			url : $(button).data("url"),
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				alert(result);
