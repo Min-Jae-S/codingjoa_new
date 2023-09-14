@@ -78,14 +78,6 @@ public class TestQuartzSchedulerController {
 	}
 	
 	@ResponseBody
-	@GetMapping("/quartz/state")
-	public ResponseEntity<Object> state() throws SchedulerException {
-		log.info("## state");
-		schedulerService.state();
-		return ResponseEntity.ok("success");
-	}
-
-	@ResponseBody
 	@GetMapping("/quartz/resume")
 	public ResponseEntity<Object> resume() throws SchedulerException {
 		log.info("## resume");

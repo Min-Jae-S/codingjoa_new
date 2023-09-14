@@ -28,11 +28,6 @@ public class SchedulerService {
 	@Resource(name = "triggerB")
 	private Trigger triggerB;
 	
-	public void state() throws SchedulerException {
-		log.info("\t > triggerA state = {}", scheduler.getTriggerState(triggerA.getKey()));
-		log.info("\t > triggerB state = {}", scheduler.getTriggerState(triggerB.getKey()));
-	}
-	
 	public void resumeAllJobs() throws SchedulerException {
 		Set<TriggerKey> triggerKeys = scheduler.getTriggerKeys(GroupMatcher.anyTriggerGroup());
 		for (TriggerKey triggerKey : triggerKeys) {
