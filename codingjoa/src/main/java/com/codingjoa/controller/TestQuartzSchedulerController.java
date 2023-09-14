@@ -81,15 +81,15 @@ public class TestQuartzSchedulerController {
 		}
 		log.info("\t > paused triggers    = {}", pausedTriggerKeys);
 		
-		return ResponseEntity.ok("success");
+		return ResponseEntity.ok("config success");
 	}
 	
 	@ResponseBody
 	@GetMapping("/quartz/resume")
-	public ResponseEntity<Object> resume() throws SchedulerException {
-		log.info("## resume");
-		schedulerService.resumeAllJobs();
+	public ResponseEntity<Object> resumeAllJobs() throws SchedulerException {
+		log.info("## resumeAllJobs");
 		
+		schedulerService.resumeAllJobs();
 		String msg = "resume all jobs";
 		log.info("\t > {}", msg);
 		
@@ -101,8 +101,7 @@ public class TestQuartzSchedulerController {
 	public ResponseEntity<Object> resumeJobA() throws SchedulerException {
 		log.info("## resumeJobA");
 		
-		String msg = (schedulerService.resumeJobA() == true) ? 
-				"resume JobA" : "JobA is already running";
+		String msg = (schedulerService.resumeJobA() == true) ? "resume JobA" : "JobA is already running";
 		log.info("\t > {}", msg);
 		
 		return ResponseEntity.ok(msg);
@@ -113,8 +112,7 @@ public class TestQuartzSchedulerController {
 	public ResponseEntity<Object> resumeJobB() throws SchedulerException {
 		log.info("## resumeJobB");
 		
-		String msg = (schedulerService.resumeJobB() == true) ? 
-				"resume JobB" : "JobB is already running";
+		String msg = (schedulerService.resumeJobB() == true) ? "resume JobB" : "JobB is already running";
 		log.info("\t > {}", msg);
 		
 		return ResponseEntity.ok(msg);
@@ -122,10 +120,10 @@ public class TestQuartzSchedulerController {
 
 	@ResponseBody
 	@GetMapping("/quartz/pause")
-	public ResponseEntity<Object> pause() throws SchedulerException {
-		log.info("## pause");
-		schedulerService.pauseAllJobs();
+	public ResponseEntity<Object> pauseAllJobs() throws SchedulerException {
+		log.info("## pauseAllJobs");
 		
+		schedulerService.pauseAllJobs();
 		String msg = "pause all jobs";
 		log.info("\t > {}", msg);
 		
@@ -136,30 +134,22 @@ public class TestQuartzSchedulerController {
 	@GetMapping("/quartz/pause/job-a")
 	public ResponseEntity<Object> pauseJobA() throws SchedulerException {
 		log.info("## pauseJobA");
-		return ResponseEntity.ok("pauseJobA SUCCESS");
+		
+		String msg = (schedulerService.pauseJobA() == true) ? "pause JobA" : "JobA is already paused";
+		log.info("\t > {}", msg);
+		
+		return ResponseEntity.ok(msg);
 	}
 
 	@ResponseBody
 	@GetMapping("/quartz/pause/job-b")
 	public ResponseEntity<Object> pauseJobB() throws SchedulerException {
 		log.info("## pauseJobB");
-		return ResponseEntity.ok("pauseJobB SUCCESS");
-	}
-	
-	@SuppressWarnings("unused")
-	private void loggingJobsAndTriggers(Scheduler scheduler) throws SchedulerException {
-		log.info("\t > jobs & triggers");
-		Set<JobKey> jobKeys = scheduler.getJobKeys(GroupMatcher.anyJobGroup());
-		Map<String, Object> jobsAndTriggers = new HashMap<>();
-		for (JobKey jobKey : jobKeys) {
-			List<? extends Trigger> triggers = scheduler.getTriggersOfJob(jobKey);
-			List<String> triggerNames = triggers
-					.stream()
-					.map(trigger -> trigger.getKey().getName())
-					.collect(Collectors.toList());
-			jobsAndTriggers.put(jobKey.getName(), triggerNames);
-		}
-		log.info("\t\t - {}", jobsAndTriggers);
+		
+		String msg = (schedulerService.pauseJobB() == true) ? "pause JobB" : "JobB is already paused";
+		log.info("\t > {}", msg);
+		
+		return ResponseEntity.ok(msg);
 	}
 	
 }

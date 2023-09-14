@@ -66,6 +66,24 @@ public class SchedulerService {
 		}
 	}
 	
+	public boolean pauseJobA() throws SchedulerException {
+		TriggerKey triggerKeyA = triggerA.getKey();
+		if (!isTriggerPaused(triggerKeyA)) {
+			scheduler.pauseTrigger(triggerKeyA);
+			return true;
+		}
+		return false;
+	}
+
+	public boolean pauseJobB() throws SchedulerException {
+		TriggerKey triggerKeyB = triggerB.getKey();
+		if (!isTriggerPaused(triggerKeyB)) {
+			scheduler.pauseTrigger(triggerKeyB);
+			return true;
+		}
+		return false;
+	}
+	
 	private boolean isTriggerPaused(TriggerKey triggerKey) throws SchedulerException {
 		TriggerState triggerState = scheduler.getTriggerState(triggerKey);
 		return (triggerState == TriggerState.PAUSED) ? true : false;

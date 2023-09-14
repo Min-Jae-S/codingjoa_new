@@ -43,12 +43,12 @@
 		<button class="btn btn-lg mx-3 invisible" onclick="#">#</button>
 	</div>
 	<div class="test d-flex justify-content-center mt-5">
-		<button class="btn btn-primary btn-lg mx-3" onclick="resume(this)" data-url="${contextPath}/test/scheduler/quartz/resume">resume All</button>
+		<button class="btn btn-primary btn-lg mx-3" onclick="resume(this)" data-url="${contextPath}/test/scheduler/quartz/resume">resume all Jobs</button>
 		<button class="btn btn-primary btn-lg mx-3" onclick="resume(this)" data-url="${contextPath}/test/scheduler/quartz/resume/job-a">resume JobA</button>
 		<button class="btn btn-primary btn-lg mx-3" onclick="resume(this)" data-url="${contextPath}/test/scheduler/quartz/resume/job-b">resume JobB</button>
 	</div>
 	<div class="test d-flex justify-content-center mt-5">
-		<button class="btn btn-danger btn-lg mx-3" onclick="pause(this)" data-url="${contextPath}/test/scheduler/quartz/pause">pause All</button>
+		<button class="btn btn-danger btn-lg mx-3" onclick="pause(this)" data-url="${contextPath}/test/scheduler/quartz/pause">pause all Jobs</button>
 		<button class="btn btn-danger btn-lg mx-3" onclick="pause(this)" data-url="${contextPath}/test/scheduler/quartz/pause/job-a">pause JobA</button>
 		<button class="btn btn-danger btn-lg mx-3" onclick="pause(this)" data-url="${contextPath}/test/scheduler/quartz/pause/job-b" >pause JobB</button>
 	</div>
