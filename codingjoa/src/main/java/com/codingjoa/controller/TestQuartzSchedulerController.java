@@ -1,7 +1,6 @@
 package com.codingjoa.controller;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -11,7 +10,6 @@ import org.quartz.JobKey;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.Trigger;
-import org.quartz.TriggerKey;
 import org.quartz.impl.matchers.GroupMatcher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -67,14 +65,14 @@ public class TestQuartzSchedulerController {
 		log.info("\t > registerd jobs     = {}", scheduler.getJobKeys(GroupMatcher.anyJobGroup()));
 		log.info("\t > registerd triggers = {}", scheduler.getTriggerKeys(GroupMatcher.anyTriggerGroup()));
 		
-		Set<String> pausedTriggerGroups = scheduler.getPausedTriggerGroups();
-		Set<TriggerKey> pausedTriggerKeys = new HashSet<>();
-		for (String triggerGroup : pausedTriggerGroups) {
-			 GroupMatcher<TriggerKey> matcher = GroupMatcher.triggerGroupEquals(triggerGroup);
-			 Set<TriggerKey> triggerKeys = scheduler.getTriggerKeys(matcher);
-			 pausedTriggerKeys.addAll(triggerKeys);
-		}
-		log.info("\t > paused triggers    = {}", pausedTriggerKeys);
+//		Set<String> pausedTriggerGroups = scheduler.getPausedTriggerGroups();
+//		Set<TriggerKey> pausedTriggerKeys = new HashSet<>();
+//		for (String triggerGroup : pausedTriggerGroups) {
+//			 GroupMatcher<TriggerKey> matcher = GroupMatcher.triggerGroupEquals(triggerGroup);
+//			 Set<TriggerKey> triggerKeys = scheduler.getTriggerKeys(matcher);
+//			 pausedTriggerKeys.addAll(triggerKeys);
+//		}
+//		log.info("\t > paused triggers    = {}", pausedTriggerKeys);
 		
 		return ResponseEntity.ok("success");
 	}
@@ -89,36 +87,36 @@ public class TestQuartzSchedulerController {
 	}
 
 	@ResponseBody
-	@GetMapping("/quartz/start")
-	public ResponseEntity<Object> start() throws SchedulerException {
-		log.info("## start");
+	@GetMapping("/quartz/resume")
+	public ResponseEntity<Object> resume() throws SchedulerException {
+		log.info("## resume");
 		scheduler.resumeAll();
 		
-		String msg = "resume all triggers";
+		String msg = "resume all jobs";
 		log.info("\t > {}", msg);
 		
 		return ResponseEntity.ok(msg);
 	}
 
 	@ResponseBody
-	@GetMapping("/quartz/start/job-a")
-	public ResponseEntity<Object> startJobA() throws SchedulerException {
-		log.info("## startJobA");
+	@GetMapping("/quartz/resume/job-a")
+	public ResponseEntity<Object> resumeJobA() throws SchedulerException {
+		log.info("## resumeJobA");
 		
-		String msg = (schedulerService.startJobA() == true) ? 
-				"start JobA that was paused" : "JobA is already running";
+		String msg = (schedulerService.resumeJobA() == true) ? 
+				"resume JobA" : "JobA is already running";
 		log.info("\t > {}", msg);
 		
 		return ResponseEntity.ok(msg);
 	}
 
 	@ResponseBody
-	@GetMapping("/quartz/start/job-b")
-	public ResponseEntity<Object> startJobB() throws SchedulerException {
-		log.info("## startJobB");
+	@GetMapping("/quartz/resume/job-b")
+	public ResponseEntity<Object> resumeJobB() throws SchedulerException {
+		log.info("## resumeJobB");
 		
-		String msg = (schedulerService.startJobB() == true) ? 
-				"start JobB that was paused" : "JobB is already running";
+		String msg = (schedulerService.resumeJobB() == true) ? 
+				"resume JobB" : "JobB is already running";
 		log.info("\t > {}", msg);
 		
 		return ResponseEntity.ok(msg);

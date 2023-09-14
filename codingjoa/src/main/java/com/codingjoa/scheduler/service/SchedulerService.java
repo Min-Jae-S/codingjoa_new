@@ -29,7 +29,7 @@ public class SchedulerService {
 		return scheduler;
 	}
 	
-	public boolean startJobA() throws SchedulerException {
+	public boolean resumeJobA() throws SchedulerException {
 		TriggerKey triggerKeyA = triggerA.getKey();
 		log.info("\t > triggerKeyA = {}", triggerKeyA);
 		
@@ -41,7 +41,7 @@ public class SchedulerService {
 		return false;
 	}
 	
-	public boolean startJobB() throws SchedulerException {
+	public boolean resumeJobB() throws SchedulerException {
 		TriggerKey triggerKeyB = triggerB.getKey();
 		log.info("\t > triggerKeyB = {}", triggerKeyB);
 		
