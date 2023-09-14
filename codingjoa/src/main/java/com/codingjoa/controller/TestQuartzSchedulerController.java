@@ -78,11 +78,10 @@ public class TestQuartzSchedulerController {
 	}
 	
 	@ResponseBody
-	@GetMapping("/quartz/instance")
-	public ResponseEntity<Object> instance() throws SchedulerException {
-		log.info("## instance");
-		log.info("\t > scheduler instance in the controller = {}", scheduler);
-		log.info("\t > scheduler instance in the service    = {}", schedulerService.getSchedulerInstance());
+	@GetMapping("/quartz/state")
+	public ResponseEntity<Object> state() throws SchedulerException {
+		log.info("## state");
+		schedulerService.state();
 		return ResponseEntity.ok("success");
 	}
 
@@ -128,7 +127,7 @@ public class TestQuartzSchedulerController {
 		log.info("## pause");
 		scheduler.pauseAll();
 		
-		String msg = "pause all triggers";
+		String msg = "pause all jobs";
 		log.info("\t > {}", msg);
 		
 		return ResponseEntity.ok(msg);

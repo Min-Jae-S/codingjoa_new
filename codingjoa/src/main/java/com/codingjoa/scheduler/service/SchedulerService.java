@@ -25,8 +25,12 @@ public class SchedulerService {
 	@Resource(name = "triggerB")
 	private Trigger triggerB;
 	
-	public Scheduler getSchedulerInstance() {
-		return scheduler;
+	public void state() throws SchedulerException {
+		TriggerKey triggerKeyA = triggerA.getKey();
+		log.info("\t > triggerA state = {}", scheduler.getTriggerState(triggerKeyA));
+
+		TriggerKey triggerKeyB = triggerB.getKey();
+		log.info("\t > triggerB state = {}", scheduler.getTriggerState(triggerKeyB));
 	}
 	
 	public boolean resumeJobA() throws SchedulerException {
