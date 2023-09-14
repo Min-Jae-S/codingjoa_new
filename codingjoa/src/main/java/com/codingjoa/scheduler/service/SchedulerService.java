@@ -1,5 +1,7 @@
 package com.codingjoa.scheduler.service;
 
+import java.util.Set;
+
 import javax.annotation.Resource;
 
 import org.quartz.Scheduler;
@@ -7,6 +9,7 @@ import org.quartz.SchedulerException;
 import org.quartz.Trigger;
 import org.quartz.Trigger.TriggerState;
 import org.quartz.TriggerKey;
+import org.quartz.impl.matchers.GroupMatcher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,33 +33,45 @@ public class SchedulerService {
 		log.info("\t > triggerB state = {}", scheduler.getTriggerState(triggerB.getKey()));
 	}
 	
+	public void resumeAllJobs() throws SchedulerException {
+		Set<TriggerKey> triggerKeys = scheduler.getTriggerKeys(GroupMatcher.anyTriggerGroup());
+		for (TriggerKey triggerKey : triggerKeys) {
+			if (isTriggerPaused(triggerKey)) {
+				scheduler.resumeTrigger(triggerKey);
+			}
+		}
+	}
+	
 	public boolean resumeJobA() throws SchedulerException {
 		TriggerKey triggerKeyA = triggerA.getKey();
-		log.info("\t > triggerKeyA = {}", triggerKeyA);
-		
 		if (isTriggerPaused(triggerKeyA)) {
 			scheduler.resumeTrigger(triggerKeyA);
 			return true;
 		}
-		
 		return false;
 	}
 	
 	public boolean resumeJobB() throws SchedulerException {
 		TriggerKey triggerKeyB = triggerB.getKey();
-		log.info("\t > triggerKeyB = {}", triggerKeyB);
-		
 		if (isTriggerPaused(triggerKeyB)) {
 			scheduler.resumeTrigger(triggerKeyB);
 			return true;
 		}
-		
 		return false;
 	}
 	
+	public void pauseAllJobs() throws SchedulerException {
+		Set<TriggerKey> triggerKeys = scheduler.getTriggerKeys(GroupMatcher.anyTriggerGroup());
+		for (TriggerKey triggerKey : triggerKeys) {
+			if (!isTriggerPaused(triggerKey)) {
+				scheduler.pauseTrigger(triggerKey);
+			}
+		}
+	}
+	
 	private boolean isTriggerPaused(TriggerKey triggerKey) throws SchedulerException {
-		TriggerState state = scheduler.getTriggerState(triggerKey);
-		return (state == TriggerState.PAUSED) ? true : false;
+		TriggerState triggerState = scheduler.getTriggerState(triggerKey);
+		return (triggerState == TriggerState.PAUSED) ? true : false;
 	}
 
 }

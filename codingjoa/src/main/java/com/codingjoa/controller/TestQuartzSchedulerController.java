@@ -89,7 +89,7 @@ public class TestQuartzSchedulerController {
 	@GetMapping("/quartz/resume")
 	public ResponseEntity<Object> resume() throws SchedulerException {
 		log.info("## resume");
-		scheduler.resumeAll();
+		schedulerService.resumeAllJobs();
 		
 		String msg = "resume all jobs";
 		log.info("\t > {}", msg);
@@ -125,7 +125,7 @@ public class TestQuartzSchedulerController {
 	@GetMapping("/quartz/pause")
 	public ResponseEntity<Object> pause() throws SchedulerException {
 		log.info("## pause");
-		scheduler.pauseAll();
+		schedulerService.pauseAllJobs();
 		
 		String msg = "pause all jobs";
 		log.info("\t > {}", msg);
