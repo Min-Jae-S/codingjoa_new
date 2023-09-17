@@ -6,9 +6,6 @@ import org.springframework.batch.core.configuration.annotation.StepBuilderFactor
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @Configuration
 @EnableBatchProcessing // automatically registers some of its key components, such as JobBuilderFactory and StepBuilderFactory, as beans.
 public class BatchConfig {
@@ -21,6 +18,5 @@ public class BatchConfig {
 	
 	@Autowired
 	private StepBuilderFactory stepBuilderFactory;
-	
 	
 }
