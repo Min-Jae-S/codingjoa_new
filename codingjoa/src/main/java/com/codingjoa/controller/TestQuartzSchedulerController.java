@@ -103,7 +103,8 @@ public class TestQuartzSchedulerController {
 	@GetMapping("/quartz/resume/job-a")
 	public ResponseEntity<Object> resumeJobA() throws SchedulerException {
 		log.info("## resumeJobA");
-		String msg = (schedulerService.resumeJobA() == true) ? "resume paused JobA" : "JobA is already running";
+		String msg = (schedulerService.resumeJobA() == true) ? 
+				"resume paused JobA" : "JobA is already running";
 		return ResponseEntity.ok(msg);
 	}
 
@@ -111,7 +112,8 @@ public class TestQuartzSchedulerController {
 	@GetMapping("/quartz/resume/job-b")
 	public ResponseEntity<Object> resumeJobB() throws SchedulerException {
 		log.info("## resumeJobB");
-		String msg = (schedulerService.resumeJobB() == true) ? "resume paused JobB" : "JobB is already running";
+		String msg = (schedulerService.resumeJobB() == true) ? 
+				"resume paused JobB" : "JobB is already running";
 		return ResponseEntity.ok(msg);
 	}
 
@@ -127,7 +129,8 @@ public class TestQuartzSchedulerController {
 	@GetMapping("/quartz/pause/job-a")
 	public ResponseEntity<Object> pauseJobA() throws SchedulerException {
 		log.info("## pauseJobA");
-		String msg = (schedulerService.pauseJobA() == true) ? "pause running JobA" : "JobA is already paused";
+		String msg = (schedulerService.pauseJobA() == true) ? 
+				"pause running JobA" : "JobA is already paused";
 		return ResponseEntity.ok(msg);
 	}
 
@@ -135,7 +138,8 @@ public class TestQuartzSchedulerController {
 	@GetMapping("/quartz/pause/job-b")
 	public ResponseEntity<Object> pauseJobB() throws SchedulerException {
 		log.info("## pauseJobB");
-		String msg = (schedulerService.pauseJobB() == true) ? "pause running JobB" : "JobB is already paused";
+		String msg = (schedulerService.pauseJobB() == true) ? 
+				"pause running JobB" : "JobB is already paused";
 		return ResponseEntity.ok(msg);
 	}
 	
