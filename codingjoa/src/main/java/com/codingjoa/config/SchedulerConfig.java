@@ -6,6 +6,7 @@ import org.quartz.JobBuilder;
 import org.quartz.JobDetail;
 import org.quartz.JobListener;
 import org.quartz.Scheduler;
+import org.quartz.SchedulerException;
 import org.quartz.SimpleScheduleBuilder;
 import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
@@ -48,7 +49,9 @@ public class SchedulerConfig {
 		schedulerFactory.setJobFactory(jobFactory());
 		//schedulerFactory.setGlobalJobListeners(jobListener);
 		//schedulerFactory.setGlobalTriggerListeners(triggerListener);
-		schedulerFactory.setAutoStartup(true);
+		schedulerFactory.setJobDetails(jobDetailA(), jobDetailB(), jobDetailC());
+		schedulerFactory.setTriggers(triggerA(), triggerB(), triggerC());
+		schedulerFactory.setAutoStartup(false);
 		schedulerFactory.setOverwriteExistingJobs(true);
 		schedulerFactory.setWaitForJobsToCompleteOnShutdown(true);
 		//schedulerFactory.setQuartzProperties(quartzProperties());
@@ -56,8 +59,11 @@ public class SchedulerConfig {
 	}
 	
 	@Bean
-	public Scheduler scheduler() {
-		return schedulerFactoryBean().getObject();
+	public Scheduler scheduler() throws SchedulerException {
+		Scheduler scheduler = schedulerFactoryBean().getObject();
+		scheduler.pauseAll();
+		scheduler.start();
+		return scheduler;
 	}
 	
 	@Bean

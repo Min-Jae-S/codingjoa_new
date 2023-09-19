@@ -1,11 +1,9 @@
 package com.codingjoa.scheduler.service;
 
-import java.util.List;
 import java.util.Set;
 
 import javax.annotation.Resource;
 
-import org.quartz.JobDetail;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.Trigger;
@@ -33,169 +31,91 @@ public class SchedulerService {
 	@Resource(name = "triggerC")
 	private Trigger triggerC;
 	
-	@Resource(name = "jobDetailA")
-	private JobDetail jobDetailA;
-	
-	@Resource(name = "jobDetailB")
-	private JobDetail jobDetailB;
-	
-	@Resource(name = "jobDetailC")
-	private JobDetail jobDetailC;
-	
 	public void startAllJobs() throws SchedulerException {
-		List<Trigger> triggers = List.of(triggerA, triggerB, triggerC);
-		for (Trigger trigger : triggers) {
-			TriggerKey triggerKey = trigger.getKey();
-			TriggerState triggerState = scheduler.getTriggerState(triggerKey);
-			if (triggerState == TriggerState.NONE) {
-				scheduler.scheduleJob(trigger);
-				log.info("\t > start {} newly", trigger.getJobKey().getName());
-			} else if (triggerState == TriggerState.PAUSED) {
+		Set<TriggerKey> triggerKeys = scheduler.getTriggerKeys(GroupMatcher.anyTriggerGroup());
+		for (TriggerKey triggerKey : triggerKeys) {
+			String jobName = scheduler.getTrigger(triggerKey).getJobKey().getName();
+			if (isTriggerPaused(triggerKey)) {
+				log.info("\t > resume paused {}", jobName);
 				scheduler.resumeTrigger(triggerKey);
-				log.info("\t > resume paused {}", trigger.getJobKey().getName());
+			} else {
+				log.info("\t > {} is already running", jobName);
 			}
 		}
 	}
 	
 	public String startJobA() throws SchedulerException {
 		TriggerKey triggerKeyA = triggerA.getKey();
-		TriggerState triggerState = scheduler.getTriggerState(triggerKeyA);
-		log.info("\t > trigger = {}", triggerKeyA);
-		log.info("\t > trigger state = {}", triggerState);
-		
-		if (triggerState == TriggerState.NONE) {
-			scheduler.scheduleJob(triggerA);
-			return "start JobA newly";
-		}
-		
-		if (triggerState == TriggerState.PAUSED) {
+		if (isTriggerPaused(triggerKeyA)) {
 			scheduler.resumeTrigger(triggerKeyA);
 			return "resume paused JobA";
 		}
-		
 		return "JobA is already running";
 	}
 	
 	public String startJobB() throws SchedulerException {
 		TriggerKey triggerKeyB = triggerB.getKey();
-		TriggerState triggerState = scheduler.getTriggerState(triggerKeyB);
-		log.info("\t > trigger = {}", triggerKeyB);
-		log.info("\t > trigger state = {}", triggerState);
-		
-		if (triggerState == TriggerState.NONE) {
-			scheduler.scheduleJob(triggerB);
-			return "start JobB newly";
-		}
-		
-		if (triggerState == TriggerState.PAUSED) {
+		if (isTriggerPaused(triggerKeyB)) {
 			scheduler.resumeTrigger(triggerKeyB);
 			return "resume paused JobB";
 		}
-		
 		return "JobB is already running";
 	}
 
 	public String startJobC() throws SchedulerException {
 		TriggerKey triggerKeyC = triggerC.getKey();
-		TriggerState triggerState = scheduler.getTriggerState(triggerKeyC);
-		log.info("\t > trigger = {}", triggerKeyC);
-		log.info("\t > trigger state = {}", triggerState);
-		
-		if (triggerState == TriggerState.NONE) {
-			scheduler.scheduleJob(triggerC);
-			return "start JobC newly";
-		}
-		
-		if (triggerState == TriggerState.PAUSED) {
+		if (isTriggerPaused(triggerKeyC)) {
 			scheduler.resumeTrigger(triggerKeyC);
 			return "resume paused JobC";
 		}
-		
 		return "JobC is already running";
-		
-//		TriggerKey triggerKeyC = triggerC.getKey();
-//		if (isTriggerPaused(triggerKeyC)) {
-//			scheduler.resumeTrigger(triggerKeyC);
-//			return "resume paused JobC";
-//		}
-//		return "JobC is already running";
 	}
 	
 	public void pauseAllJobs() throws SchedulerException {
 		Set<TriggerKey> triggerKeys = scheduler.getTriggerKeys(GroupMatcher.anyTriggerGroup());
-		log.info("\t > triggerKeys = {}", triggerKeys);
 		for (TriggerKey triggerKey : triggerKeys) {
+			String jobName = scheduler.getTrigger(triggerKey).getJobKey().getName();
 			if (!isTriggerPaused(triggerKey)) {
-				log.info("\t > pause running {}", scheduler.getTrigger(triggerKey).getJobKey().getName());
+				log.info("\t > pause running {}", jobName);
 				scheduler.pauseTrigger(triggerKey);
+			} else {
+				log.info("\t > {} is already paused", jobName);
 			}
 		}
 	}
 	
 	public String pauseJobA() throws SchedulerException {
 		TriggerKey triggerKeyA = triggerA.getKey();
-		TriggerState triggerState = scheduler.getTriggerState(triggerKeyA);
-		log.info("\t > trigger = {}", triggerKeyA);
-		log.info("\t > trigger state = {}", triggerState);
-		
-		if (triggerState == TriggerState.NONE) {
-			return "JobA not exist";
+		if (!isTriggerPaused(triggerKeyA)) {
+			scheduler.pauseTrigger(triggerKeyA);
+			return "pause running JobA";
 		}
 		
-		if (triggerState == TriggerState.PAUSED) {
-			return "JobA is already paused";
-		}
-		
-		scheduler.pauseTrigger(triggerKeyA);
-		return "pause running JobA";
+		return "JobA is already paused";
 	}
 
 	public String pauseJobB() throws SchedulerException {
 		TriggerKey triggerKeyB = triggerB.getKey();
-		TriggerState triggerState = scheduler.getTriggerState(triggerKeyB);
-		log.info("\t > trigger = {}", triggerKeyB);
-		log.info("\t > trigger state = {}", triggerState);
-		
-		if (triggerState == TriggerState.NONE) {
-			return "JobB not exist";
+		if (!isTriggerPaused(triggerKeyB)) {
+			scheduler.pauseTrigger(triggerKeyB);
+			return "pause running JobB";
 		}
 		
-		if (triggerState == TriggerState.PAUSED) {
-			return "JobB is already paused";
-		}
-		
-		scheduler.pauseTrigger(triggerKeyB);
-		return "pause running JobB";
+		return "JobB is already paused";
 	}
 
 	public String pauseJobC() throws SchedulerException {
 		TriggerKey triggerKeyC = triggerC.getKey();
-		TriggerState triggerState = scheduler.getTriggerState(triggerKeyC);
-		log.info("\t > trigger = {}", triggerKeyC);
-		log.info("\t > trigger state = {}", triggerState);
-		
-		if (triggerState == TriggerState.NONE) {
-			return "JobC not exist";
+		if (!isTriggerPaused(triggerKeyC)) {
+			scheduler.pauseTrigger(triggerKeyC);
+			return "pause running JobC";
 		}
 		
-		if (triggerState == TriggerState.PAUSED) {
-			return "JobC is already paused";
-		}
-		
-		scheduler.pauseTrigger(triggerKeyC);
-		return "pause running JobC";
-		
-//		TriggerKey triggerKeyC = triggerC.getKey();
-//		if (!isTriggerPaused(triggerKeyC)) {
-//			scheduler.pauseTrigger(triggerKeyC);
-//			return "pause running JobC";
-//		}
-//		return "JobC is already paused";
+		return "JobC is already paused";
 	}
 	
 	private boolean isTriggerPaused(TriggerKey triggerKey) throws SchedulerException {
 		TriggerState triggerState = scheduler.getTriggerState(triggerKey);
 		return (triggerState == TriggerState.PAUSED) ? true : false;
 	}
-
 }

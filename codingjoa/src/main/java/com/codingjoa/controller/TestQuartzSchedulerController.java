@@ -56,13 +56,13 @@ public class TestQuartzSchedulerController {
 	@GetMapping("/quartz/config")
 	public ResponseEntity<Object> config() throws SchedulerException {
 		log.info("## config");
-		log.info("\t > autoStartup        = {}", schedulerFactoryBean.isAutoStartup());
-		log.info("\t > running            = {}", schedulerFactoryBean.isRunning());
-		log.info("\t > inStandbyMode      = {}", scheduler.isInStandbyMode());
-		log.info("\t > started            = {}", scheduler.isStarted());
-		log.info("\t > shutdown           = {}", scheduler.isShutdown());
-		log.info("\t > registerd jobs     = {}", scheduler.getJobKeys(GroupMatcher.anyJobGroup()));
-		log.info("\t > registerd triggers = {}", scheduler.getTriggerKeys(GroupMatcher.anyTriggerGroup()));
+		log.info("\t > autoStartup   = {}", schedulerFactoryBean.isAutoStartup());
+		log.info("\t > running       = {}", schedulerFactoryBean.isRunning());
+		log.info("\t > inStandbyMode = {}", scheduler.isInStandbyMode());
+		log.info("\t > started       = {}", scheduler.isStarted());
+		log.info("\t > shutdown      = {}", scheduler.isShutdown());
+		log.info("\t > jobs          = {}", scheduler.getJobKeys(GroupMatcher.anyJobGroup()));
+		log.info("\t > triggers      = {}", scheduler.getTriggerKeys(GroupMatcher.anyTriggerGroup()));
 		return ResponseEntity.ok("config success");
 	}
 	
