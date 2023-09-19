@@ -84,32 +84,32 @@ public class TestQuartzSchedulerController {
 	}
 	
 	@ResponseBody
-	@GetMapping("/quartz/resume")
-	public ResponseEntity<Object> resumeAllJobs() throws SchedulerException {
-		log.info("## resumeAllJobs");
-		schedulerService.resumeAllJobs();
+	@GetMapping("/quartz/start")
+	public ResponseEntity<Object> startAllJobs() throws SchedulerException {
+		log.info("## startAllJobs");
+		schedulerService.startAllJobs();
 		return ResponseEntity.ok("resume all jobs");
 	}
 
 	@ResponseBody
-	@GetMapping("/quartz/resume/job-a")
-	public ResponseEntity<Object> resumeJobA() throws SchedulerException {
-		log.info("## resumeJobA");
-		return ResponseEntity.ok(schedulerService.resumeJobA());
+	@GetMapping("/quartz/start/job-a")
+	public ResponseEntity<Object> startJobA() throws SchedulerException {
+		log.info("## startJobA");
+		return ResponseEntity.ok(schedulerService.startJobA());
 	}
 
 	@ResponseBody
-	@GetMapping("/quartz/resume/job-b")
-	public ResponseEntity<Object> resumeJobB() throws SchedulerException {
-		log.info("## resumeJobB");
-		return ResponseEntity.ok(schedulerService.resumeJobB());
+	@GetMapping("/quartz/start/job-b")
+	public ResponseEntity<Object> startJobB() throws SchedulerException {
+		log.info("## startJobB");
+		return ResponseEntity.ok(schedulerService.startJobB());
 	}
 
 	@ResponseBody
-	@GetMapping("/quartz/resume/job-c")
-	public ResponseEntity<Object> resumeJobC() throws SchedulerException {
-		log.info("## resumeJobC");
-		return ResponseEntity.ok(schedulerService.resumeJobC());
+	@GetMapping("/quartz/start/job-c")
+	public ResponseEntity<Object> startJobC() throws SchedulerException {
+		log.info("## startJobC");
+		return ResponseEntity.ok(schedulerService.startJobC());
 	}
 
 	@ResponseBody

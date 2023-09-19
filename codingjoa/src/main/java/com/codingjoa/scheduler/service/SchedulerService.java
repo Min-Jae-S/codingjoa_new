@@ -32,7 +32,7 @@ public class SchedulerService {
 	@Resource(name = "triggerC")
 	private Trigger triggerC;
 	
-	public void resumeAllJobs() throws SchedulerException {
+	public void startAllJobs() throws SchedulerException {
 		Set<TriggerKey> triggerKeys = scheduler.getTriggerKeys(GroupMatcher.anyTriggerGroup());
 		for (TriggerKey triggerKey : triggerKeys) {
 			if (isTriggerPaused(triggerKey)) {
@@ -42,7 +42,7 @@ public class SchedulerService {
 		}
 	}
 	
-	public String resumeJobA() throws SchedulerException {
+	public String startJobA() throws SchedulerException {
 		TriggerKey triggerKeyA = triggerA.getKey();
 		TriggerState triggerState = scheduler.getTriggerState(triggerKeyA);
 		log.info("\t > trigger = {}", triggerKeyA);
@@ -62,7 +62,7 @@ public class SchedulerService {
 		return "JobA is already running";
 	}
 	
-	public String resumeJobB() throws SchedulerException {
+	public String startJobB() throws SchedulerException {
 		TriggerKey triggerKeyB = triggerB.getKey();
 		TriggerState triggerState = scheduler.getTriggerState(triggerKeyB);
 		log.info("\t > trigger = {}", triggerKeyB);
@@ -82,7 +82,7 @@ public class SchedulerService {
 		return "JobB is already running";
 	}
 
-	public String resumeJobC() throws SchedulerException {
+	public String startJobC() throws SchedulerException {
 		TriggerKey triggerKeyC = triggerC.getKey();
 		TriggerState triggerState = scheduler.getTriggerState(triggerKeyC);
 		log.info("\t > trigger = {}", triggerKeyC);
