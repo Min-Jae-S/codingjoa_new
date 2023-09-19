@@ -1,13 +1,10 @@
 package com.codingjoa.config;
 
-import java.util.Properties;
-
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 
 import org.quartz.JobBuilder;
 import org.quartz.JobDetail;
-import org.quartz.JobKey;
 import org.quartz.JobListener;
 import org.quartz.Scheduler;
 import org.quartz.SimpleScheduleBuilder;
@@ -15,7 +12,6 @@ import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
 import org.quartz.TriggerListener;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.config.PropertiesFactoryBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -24,6 +20,7 @@ import org.springframework.scheduling.quartz.SpringBeanJobFactory;
 
 import com.codingjoa.scheduler.JobA;
 import com.codingjoa.scheduler.JobB;
+import com.codingjoa.scheduler.JobC;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -84,12 +81,12 @@ public class SchedulerConfig {
 //	    return jobFactory;
 //	}
 	
-	@Bean
-	public Properties quartzProperties() {
-		 PropertiesFactoryBean propertiesFactoryBean = new PropertiesFactoryBean();
-		 Properties properties = null;
-		 return properties;
-	}
+//	@Bean
+//	public Properties quartzProperties() {
+//		 PropertiesFactoryBean propertiesFactoryBean = new PropertiesFactoryBean();
+//		 Properties properties = null;
+//		 return properties;
+//	}
 	
 	@Bean
 	public JobDetail jobDetailA() {
@@ -103,6 +100,14 @@ public class SchedulerConfig {
 	public JobDetail jobDetailB() {
 		return JobBuilder.newJob(JobB.class)
 				.withIdentity("jobB", "myJob")
+				.storeDurably()
+				.build();
+	}
+
+	@Bean
+	public JobDetail jobDetailC() {
+		return JobBuilder.newJob(JobC.class)
+				.withIdentity("jobC", "myJob")
 				.storeDurably()
 				.build();
 	}
@@ -122,6 +127,15 @@ public class SchedulerConfig {
 				.forJob(jobDetailB())
 				.withIdentity("triggerB", "myTrigger")
 				.withSchedule(SimpleScheduleBuilder.repeatSecondlyForever(10))
+				.build();
+	}
+
+	@Bean
+	public Trigger triggerC() {
+		return TriggerBuilder.newTrigger()
+				.forJob(jobDetailC())
+				.withIdentity("triggerC", "myTrigger")
+				.withSchedule(SimpleScheduleBuilder.repeatSecondlyForever(30))
 				.build();
 	}
 

@@ -27,6 +27,9 @@ public class SchedulerService {
 
 	@Resource(name = "triggerB")
 	private Trigger triggerB;
+
+	@Resource(name = "triggerC")
+	private Trigger triggerC;
 	
 	public void resumeAllJobs() throws SchedulerException {
 		Set<TriggerKey> triggerKeys = scheduler.getTriggerKeys(GroupMatcher.anyTriggerGroup());
@@ -61,6 +64,18 @@ public class SchedulerService {
 		log.info("\t > JobB is already running");
 		return false;
 	}
+
+	public boolean resumeJobC() throws SchedulerException {
+		TriggerKey triggerKeyC = triggerC.getKey();
+		if (isTriggerPaused(triggerKeyC)) {
+			log.info("\t > resume paused JobC");
+			scheduler.resumeTrigger(triggerKeyC);
+			return true;
+		}
+		
+		log.info("\t > JobC is already running");
+		return false;
+	}
 	
 	public void pauseAllJobs() throws SchedulerException {
 		Set<TriggerKey> triggerKeys = scheduler.getTriggerKeys(GroupMatcher.anyTriggerGroup());
@@ -93,6 +108,18 @@ public class SchedulerService {
 		}
 		
 		log.info("\t > JobB is already paused");
+		return false;
+	}
+
+	public boolean pauseJobC() throws SchedulerException {
+		TriggerKey triggerKeyC = triggerC.getKey();
+		if (!isTriggerPaused(triggerKeyC)) {
+			log.info("\t > pause running JobC");
+			scheduler.pauseTrigger(triggerKeyC);
+			return true;
+		}
+		
+		log.info("\t > JobC is already paused");
 		return false;
 	}
 	
