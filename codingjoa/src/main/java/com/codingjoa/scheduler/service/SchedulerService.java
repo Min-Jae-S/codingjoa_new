@@ -1,5 +1,6 @@
 package com.codingjoa.scheduler.service;
 
+import java.util.List;
 import java.util.Set;
 
 import javax.annotation.Resource;
@@ -32,12 +33,25 @@ public class SchedulerService {
 	@Resource(name = "triggerC")
 	private Trigger triggerC;
 	
+	@Resource(name = "jobDetailA")
+	private JobDetail jobDetailA;
+	
+	@Resource(name = "jobDetailB")
+	private JobDetail jobDetailB;
+	
+	@Resource(name = "jobDetailC")
+	private JobDetail jobDetailC;
+	
 	public void startAllJobs() throws SchedulerException {
-		Set<TriggerKey> triggerKeys = scheduler.getTriggerKeys(GroupMatcher.anyTriggerGroup());
-		for (TriggerKey triggerKey : triggerKeys) {
-			if (isTriggerPaused(triggerKey)) {
-				log.info("\t > resume paused {}", scheduler.getTrigger(triggerKey).getJobKey().getName());
+		List<Trigger> triggers = List.of(triggerA, triggerB, triggerC);
+		for (Trigger trigger : triggers) {
+			TriggerKey triggerKey = trigger.getKey();
+			TriggerState triggerState = scheduler.getTriggerState(triggerKey);
+			if (triggerState == TriggerState.NONE) {
+				log.info("\t > start {} newly", trigger.getJobKey().getName());
+			} else if (triggerState == TriggerState.PAUSED) {
 				scheduler.resumeTrigger(triggerKey);
+				log.info("\t > resume paused {}", trigger.getJobKey().getName());
 			}
 		}
 	}
@@ -49,9 +63,8 @@ public class SchedulerService {
 		log.info("\t > trigger state = {}", triggerState);
 		
 		if (triggerState == TriggerState.NONE) {
-			JobDetail jobDetail = scheduler.getJobDetail(triggerA.getJobKey());
-			scheduler.scheduleJob(jobDetail, triggerA);
-			return "schedule JobA newly";
+			scheduler.scheduleJob(jobDetailA, triggerA);
+			return "start JobA newly";
 		}
 		
 		if (triggerState == TriggerState.PAUSED) {
@@ -69,9 +82,8 @@ public class SchedulerService {
 		log.info("\t > trigger state = {}", triggerState);
 		
 		if (triggerState == TriggerState.NONE) {
-			JobDetail jobDetail = scheduler.getJobDetail(triggerB.getJobKey());
-			scheduler.scheduleJob(jobDetail, triggerB);
-			return "schedule JobB newly";
+			scheduler.scheduleJob(jobDetailB, triggerB);
+			return "start JobB newly";
 		}
 		
 		if (triggerState == TriggerState.PAUSED) {
@@ -89,9 +101,8 @@ public class SchedulerService {
 		log.info("\t > trigger state = {}", triggerState);
 		
 		if (triggerState == TriggerState.NONE) {
-			JobDetail jobDetail = scheduler.getJobDetail(triggerC.getJobKey());
-			scheduler.scheduleJob(jobDetail, triggerC);
-			return "schedule JobC newly";
+			scheduler.scheduleJob(jobDetailC, triggerC);
+			return "start JobC newly";
 		}
 		
 		if (triggerState == TriggerState.PAUSED) {
@@ -111,6 +122,7 @@ public class SchedulerService {
 	
 	public void pauseAllJobs() throws SchedulerException {
 		Set<TriggerKey> triggerKeys = scheduler.getTriggerKeys(GroupMatcher.anyTriggerGroup());
+		log.info("\t > triggerKeys = {}", triggerKeys);
 		for (TriggerKey triggerKey : triggerKeys) {
 			if (!isTriggerPaused(triggerKey)) {
 				log.info("\t > pause running {}", scheduler.getTrigger(triggerKey).getJobKey().getName());
