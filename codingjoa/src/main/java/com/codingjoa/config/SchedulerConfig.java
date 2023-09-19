@@ -1,7 +1,6 @@
 package com.codingjoa.config;
 
 import javax.annotation.PostConstruct;
-import javax.sql.DataSource;
 
 import org.quartz.JobBuilder;
 import org.quartz.JobDetail;
@@ -36,9 +35,6 @@ public class SchedulerConfig {
 	@Autowired
     private TriggerListener triggerListener;
 	
-	@Autowired
-	private DataSource dataSource;
-	
 	@PostConstruct
 	public void init() {
 		log.info("===============================================================");
@@ -54,7 +50,7 @@ public class SchedulerConfig {
 		//schedulerFactory.setGlobalTriggerListeners(triggerListener);
 		//schedulerFactory.setJobDetails(jobDetailA(), jobDetailB(), jobDetailC());
 		//schedulerFactory.setTriggers(triggerA(), triggerB(), triggerC());
-		schedulerFactory.setAutoStartup(false);
+		schedulerFactory.setAutoStartup(true);
 		schedulerFactory.setOverwriteExistingJobs(true);
 		schedulerFactory.setWaitForJobsToCompleteOnShutdown(true);
 		//schedulerFactory.setQuartzProperties(quartzProperties());
