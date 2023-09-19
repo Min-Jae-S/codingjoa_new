@@ -88,7 +88,7 @@ public class TestQuartzSchedulerController {
 	public ResponseEntity<Object> startAllJobs() throws SchedulerException {
 		log.info("## startAllJobs");
 		schedulerService.startAllJobs();
-		return ResponseEntity.ok("resume all jobs");
+		return ResponseEntity.ok("start all jobs");
 	}
 
 	@ResponseBody

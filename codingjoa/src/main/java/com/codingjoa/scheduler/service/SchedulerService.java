@@ -48,6 +48,7 @@ public class SchedulerService {
 			TriggerKey triggerKey = trigger.getKey();
 			TriggerState triggerState = scheduler.getTriggerState(triggerKey);
 			if (triggerState == TriggerState.NONE) {
+				scheduler.scheduleJob(trigger);
 				log.info("\t > start {} newly", trigger.getJobKey().getName());
 			} else if (triggerState == TriggerState.PAUSED) {
 				scheduler.resumeTrigger(triggerKey);
@@ -63,7 +64,7 @@ public class SchedulerService {
 		log.info("\t > trigger state = {}", triggerState);
 		
 		if (triggerState == TriggerState.NONE) {
-			scheduler.scheduleJob(jobDetailA, triggerA);
+			scheduler.scheduleJob(triggerA);
 			return "start JobA newly";
 		}
 		
@@ -82,7 +83,7 @@ public class SchedulerService {
 		log.info("\t > trigger state = {}", triggerState);
 		
 		if (triggerState == TriggerState.NONE) {
-			scheduler.scheduleJob(jobDetailB, triggerB);
+			scheduler.scheduleJob(triggerB);
 			return "start JobB newly";
 		}
 		
@@ -101,7 +102,7 @@ public class SchedulerService {
 		log.info("\t > trigger state = {}", triggerState);
 		
 		if (triggerState == TriggerState.NONE) {
-			scheduler.scheduleJob(jobDetailC, triggerC);
+			scheduler.scheduleJob(triggerC);
 			return "start JobC newly";
 		}
 		
