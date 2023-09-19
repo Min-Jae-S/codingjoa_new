@@ -52,8 +52,8 @@ public class SchedulerConfig {
 		schedulerFactory.setJobFactory(jobFactory());
 		//schedulerFactory.setGlobalJobListeners(jobListener);
 		//schedulerFactory.setGlobalTriggerListeners(triggerListener);
-		schedulerFactory.setJobDetails(jobDetailA(), jobDetailB());
-		schedulerFactory.setTriggers(triggerA(), triggerB());
+		schedulerFactory.setJobDetails(jobDetailA(), jobDetailB(), jobDetailC());
+		schedulerFactory.setTriggers(triggerA(), triggerB(), triggerC());
 		schedulerFactory.setAutoStartup(false);
 		schedulerFactory.setOverwriteExistingJobs(true);
 		schedulerFactory.setWaitForJobsToCompleteOnShutdown(true);
@@ -135,7 +135,7 @@ public class SchedulerConfig {
 		return TriggerBuilder.newTrigger()
 				.forJob(jobDetailC())
 				.withIdentity("triggerC", "myTrigger")
-				.withSchedule(SimpleScheduleBuilder.repeatSecondlyForever(30))
+				.withSchedule(SimpleScheduleBuilder.repeatSecondlyForever(10))
 				.build();
 	}
 

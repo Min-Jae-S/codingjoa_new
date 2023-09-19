@@ -41,6 +41,7 @@
 		<button class="btn btn-lg btn-warning mx-3" onclick="config()">config</button>
 		<button class="btn btn-lg btn-warning mx-3" onclick="pausedJobs()">pausedJobs</button>
 		<button class="btn btn-lg mx-3 invisible" onclick="#">#</button>
+		<button class="btn btn-lg mx-3 invisible" onclick="#">#</button>
 	</div>
 	<div class="test d-flex justify-content-center mt-5">
 		<button class="btn btn-primary btn-lg mx-3" onclick="resume(this)" data-url="${contextPath}/test/scheduler/quartz/resume">resume All</button>
@@ -64,7 +65,7 @@
 			url : "${contextPath}/test/scheduler/quartz/config",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
-				alert(result);
+				console.log("> %s", result);
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
@@ -80,7 +81,7 @@
 			url : "${contextPath}/test/scheduler/quartz/paused-jobs",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
-				alert(result);
+				console.log("> %s", result);
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
@@ -96,7 +97,7 @@
 			url : $(button).data("url"),
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
-				alert(result);
+				console.log("> %s", result);
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
@@ -112,7 +113,7 @@
 			url : $(button).data("url"),
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
-				alert(result);
+				console.log("> %s", result);
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");

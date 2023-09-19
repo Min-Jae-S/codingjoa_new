@@ -50,7 +50,7 @@ public class RootConfig {
 	
 	@Bean
 	public HikariConfig hikariConfig() {
-		log.info("## HikariConfig(DBCP)");
+		log.info("## HikariConfig (DBCP)");
 		HikariConfig hikariConfig = new HikariConfig();
 		hikariConfig.setDriverClassName(driverClassName);
 		hikariConfig.setJdbcUrl(url);

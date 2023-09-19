@@ -1,6 +1,7 @@
 package com.codingjoa.config;
 
 import javax.annotation.PostConstruct;
+import javax.sql.DataSource;
 
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -30,10 +31,14 @@ public class BatchConfig {
 	@Autowired
 	private StepBuilderFactory stepBuilderFactory;
 	
+	@Autowired
+	private DataSource dataSource;
+	
 	@PostConstruct
 	public void init() {
 		log.info("===============================================================");
 		log.info("@ BatchConfig init");
+		log.info("\t > dataSource = {}", dataSource);
 		log.info("===============================================================");
 	}
 	
