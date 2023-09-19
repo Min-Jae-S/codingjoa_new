@@ -41,40 +41,31 @@ public class SchedulerService {
 		}
 	}
 	
-	public boolean resumeJobA() throws SchedulerException {
+	public String resumeJobA() throws SchedulerException {
 		TriggerKey triggerKeyA = triggerA.getKey();
 		if (isTriggerPaused(triggerKeyA)) {
-			log.info("\t > resume paused JobA");
 			scheduler.resumeTrigger(triggerKeyA);
-			return true;
+			return "resume paused JobA";
 		}
-		
-		log.info("\t > JobA is already running");
-		return false;
+		return "JobA is already running";
 	}
 	
-	public boolean resumeJobB() throws SchedulerException {
+	public String resumeJobB() throws SchedulerException {
 		TriggerKey triggerKeyB = triggerB.getKey();
 		if (isTriggerPaused(triggerKeyB)) {
-			log.info("\t > resume paused JobB");
 			scheduler.resumeTrigger(triggerKeyB);
-			return true;
+			return "resume paused JobB";
 		}
-		
-		log.info("\t > JobB is already running");
-		return false;
+		return "JobB is already running";
 	}
 
-	public boolean resumeJobC() throws SchedulerException {
+	public String resumeJobC() throws SchedulerException {
 		TriggerKey triggerKeyC = triggerC.getKey();
 		if (isTriggerPaused(triggerKeyC)) {
-			log.info("\t > resume paused JobC");
 			scheduler.resumeTrigger(triggerKeyC);
-			return true;
+			return "resume paused JobC";
 		}
-		
-		log.info("\t > JobC is already running");
-		return false;
+		return "JobC is already running";
 	}
 	
 	public void pauseAllJobs() throws SchedulerException {
@@ -87,44 +78,36 @@ public class SchedulerService {
 		}
 	}
 	
-	public boolean pauseJobA() throws SchedulerException {
+	public String pauseJobA() throws SchedulerException {
 		TriggerKey triggerKeyA = triggerA.getKey();
 		if (!isTriggerPaused(triggerKeyA)) {
-			log.info("\t > pause running JobA");
 			scheduler.pauseTrigger(triggerKeyA);
-			return true;
+			return "pause running JobA";
 		}
-		
-		log.info("\t > JobA is already paused");
-		return false;
+		return "JobA is already paused";
 	}
 
-	public boolean pauseJobB() throws SchedulerException {
+	public String pauseJobB() throws SchedulerException {
 		TriggerKey triggerKeyB = triggerB.getKey();
 		if (!isTriggerPaused(triggerKeyB)) {
-			log.info("\t > pause running JobB");
 			scheduler.pauseTrigger(triggerKeyB);
-			return true;
+			return "pause running JobB";
 		}
-		
-		log.info("\t > JobB is already paused");
-		return false;
+		return "JobB is already paused";
 	}
 
-	public boolean pauseJobC() throws SchedulerException {
+	public String pauseJobC() throws SchedulerException {
 		TriggerKey triggerKeyC = triggerC.getKey();
 		if (!isTriggerPaused(triggerKeyC)) {
-			log.info("\t > pause running JobC");
 			scheduler.pauseTrigger(triggerKeyC);
-			return true;
+			return "pause running JobC";
 		}
-		
-		log.info("\t > JobC is already paused");
-		return false;
+		return "JobC is already paused";
 	}
 	
 	private boolean isTriggerPaused(TriggerKey triggerKey) throws SchedulerException {
 		TriggerState triggerState = scheduler.getTriggerState(triggerKey);
+		log.info("\t > trigger = {}, state = {}", triggerKey, triggerState);
 		return (triggerState == TriggerState.PAUSED) ? true : false;
 	}
 

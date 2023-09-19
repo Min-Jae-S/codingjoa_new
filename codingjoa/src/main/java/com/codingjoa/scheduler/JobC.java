@@ -9,7 +9,6 @@ import org.springframework.scheduling.quartz.QuartzJobBean;
 
 import lombok.extern.slf4j.Slf4j;
 
-@SuppressWarnings("unused")
 @Slf4j
 public class JobC extends QuartzJobBean {
 	
@@ -22,6 +21,13 @@ public class JobC extends QuartzJobBean {
 	@Override
 	protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
 		log.info("## {}", this.getClass().getSimpleName());
-		log.info("\t > batch jobs = {}", jobExplorer.getJobNames());
+		try {
+			log.info("\t > jobLauncher = {}", jobLauncher);
+			log.info("\t > jobExplorer = {}", jobExplorer);
+			//log.info("\t > batch jobs = {}", jobExplorer.getJobNames());
+		} catch (Exception e) {
+			log.info("\t > exception = {}", e.getClass().getSimpleName());
+			log.info("\t > {}", e.getMessage());
+		}
 	}
 }

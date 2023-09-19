@@ -47,7 +47,7 @@
 		<button class="btn btn-primary btn-lg mx-3" onclick="resume(this)" data-url="${contextPath}/test/scheduler/quartz/resume">resume All</button>
 		<button class="btn btn-primary btn-lg mx-3" onclick="resume(this)" data-url="${contextPath}/test/scheduler/quartz/resume/job-a">resume JobA</button>
 		<button class="btn btn-primary btn-lg mx-3" onclick="resume(this)" data-url="${contextPath}/test/scheduler/quartz/resume/job-b">resume JobB</button>
-		<button class="btn btn-primary btn-lg mx-3" onclick="resume(this)" data-url="${contextPath}/test/scheduler/quartz/resume/job-b">resume JobC</button>
+		<button class="btn btn-primary btn-lg mx-3" onclick="resume(this)" data-url="${contextPath}/test/scheduler/quartz/resume/job-c">resume JobC</button>
 	</div>
 	<div class="test d-flex justify-content-center mt-5">
 		<button class="btn btn-danger btn-lg mx-3" onclick="pause(this)" data-url="${contextPath}/test/scheduler/quartz/pause">pause All</button>
