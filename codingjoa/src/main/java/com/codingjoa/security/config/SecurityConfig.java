@@ -1,5 +1,7 @@
 package com.codingjoa.security.config;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -39,6 +41,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
 	private AuthenticationEntryPoint customAuthenticationEntryPoint;
+	
+	@PostConstruct
+	public void init() {
+		log.info("===============================================================");
+		log.info("@ SecurityConfig init");
+		log.info("===============================================================");
+	}
 	
 	@Bean
 	public PasswordEncoder passwordEncoder() {

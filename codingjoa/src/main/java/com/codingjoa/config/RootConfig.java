@@ -71,8 +71,7 @@ public class RootConfig {
 	@Bean
 	public PlatformTransactionManager transactionManager() {
 		log.info("## DataSourceTransactionManager");
-		DataSourceTransactionManager transactionManager = new DataSourceTransactionManager(dataSource());
-		return transactionManager;
+		return new DataSourceTransactionManager(dataSource());
 	}
 
 	@Bean

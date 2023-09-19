@@ -34,11 +34,15 @@ public class BatchConfig {
 	@Autowired
 	private DataSource dataSource;
 	
+//	@Autowired
+//	private DataSourceTransactionManager transactionManager;
+	
 	@PostConstruct
 	public void init() {
 		log.info("===============================================================");
 		log.info("@ BatchConfig init");
 		log.info("\t > dataSource = {}", dataSource);
+//		log.info("\t > transactionManager = {}", transactionManager);
 		log.info("===============================================================");
 	}
 	
