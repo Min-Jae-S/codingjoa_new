@@ -31,7 +31,7 @@ public class JobC extends QuartzJobBean {
 		log.info("## {}", this.getClass().getSimpleName());
 		log.info("\t > jobLauncher = {}", jobLauncher);
 		log.info("\t > jobExplorer = {}", jobExplorer);
-		log.info("\t > batch jobs = {}", jobExplorer.getJobNames());
+		//log.info("\t > batch jobs = {}", jobExplorer.getJobNames());
 		
 		try {
 			JobParameters jobParameters = new JobParametersBuilder(this.jobExplorer)
