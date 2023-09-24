@@ -33,14 +33,14 @@ public class JobC extends QuartzJobBean {
 		log.info("\t > jobExplorer = {}", jobExplorer);
 		//log.info("\t > batch jobs = {}", jobExplorer.getJobNames());
 		
-//		try {
-//			JobParameters jobParameters = new JobParametersBuilder(this.jobExplorer)
-//					.getNextJobParameters(this.job)
-//					.toJobParameters();
-//			log.info("\t > jobParameters = {}", jobParameters);
-//			jobLauncher.run(job, jobParameters);
-//		} catch (Exception e) {
-//			log.info("\t > {} : {}", e.getClass().getSimpleName(), e.getMessage());
-//		}
+		try {
+			JobParameters jobParameters = new JobParametersBuilder(this.jobExplorer)
+					.getNextJobParameters(this.job)
+					.toJobParameters();
+			log.info("\t > jobParameters = {}", jobParameters);
+			jobLauncher.run(job, jobParameters);
+		} catch (Exception e) {
+			log.info("\t > {} : {}", e.getClass().getSimpleName(), e.getMessage());
+		}
 	}
 }
