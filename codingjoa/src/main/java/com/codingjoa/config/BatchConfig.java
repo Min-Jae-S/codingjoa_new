@@ -17,8 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Configuration
-//automatically registers some of its key components, such as JobBuilderFactory and StepBuilderFactory, as beans.
-@EnableBatchProcessing 
+@EnableBatchProcessing //automatically registers some of its key components, such as JobBuilderFactory and StepBuilderFactory, as beans
 public class BatchConfig {
 	
 	// Spring Batch - Application, Batch Core, Batch Infrastrcuture
