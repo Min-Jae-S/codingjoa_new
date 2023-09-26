@@ -43,7 +43,7 @@ public class BatchJobConfig {
 				.tasklet(new Tasklet() {
 					@Override
 					public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
-						log.info(">>> STEP1");
+						log.info(">>> This is STEP1");
 						return RepeatStatus.FINISHED;
 					}
 				})
@@ -56,7 +56,7 @@ public class BatchJobConfig {
 	public Step step2() {
 		return stepBuilderFactory.get("step2")
 				.tasklet((contribution, chunkContext) -> {
-					log.info(">>> STEP2");
+					log.info(">>> This is STEP2");
 					return RepeatStatus.FINISHED;
 				})
 				.allowStartIfComplete(true)

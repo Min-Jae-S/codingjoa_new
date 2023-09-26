@@ -1,14 +1,16 @@
 package com.codingjoa.config;
 
-import javax.sql.DataSource;
+import javax.annotation.PostConstruct;
 
-import org.springframework.batch.core.configuration.annotation.DefaultBatchConfigurer;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.context.annotation.Configuration;
 
-@EnableBatchProcessing //automatically registers some of its key components, such as JobBuilderFactory and StepBuilderFactory, as beans
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Configuration
-public class BatchConfig extends DefaultBatchConfigurer {
+@EnableBatchProcessing // automatically registers some of its key components, such as JobBuilderFactory and StepBuilderFactory, as beans
+public class BatchConfig {
 	
 	// Spring Batch - Application, Batch Core, Batch Infrastrcuture
 	// 	> Application 			: 개발자가 작성한 모든 배치 작업과 사용자 정의 코드 포함
@@ -19,10 +21,18 @@ public class BatchConfig extends DefaultBatchConfigurer {
 	// Caused by: java.lang.NoSuchFieldError: BLOCK_UNSAFE_POLYMORPHIC_BASE_TYPES
 	// springbatch 4.3.0 has introduced a dependency on jackson databind 2.11.
 	
-	@Override
-	public void setDataSource(DataSource dataSource) {
-		// do nothing..
+	@PostConstruct
+	public void init() {
+		log.info("===============================================================");
+		log.info("@ BatchConfig init");
+		log.info("===============================================================");
 	}
+	
+// BatchConfig extends DefaultBatchConfigurer
+//	@Override
+//	public void setDataSource(DataSource dataSource) {
+//		// do nothing..
+//	}
 
 	// o.s.b.c.c.a.DefaultBatchConfigurer       : No datasource was provided...using a Map based JobRepository (in-memory repository)
 	// o.s.b.c.c.a.DefaultBatchConfigurer       : No transaction manager was provided, using a ResourcelessTransactionManager
