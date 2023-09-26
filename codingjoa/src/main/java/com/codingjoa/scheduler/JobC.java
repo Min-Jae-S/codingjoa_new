@@ -2,7 +2,6 @@ package com.codingjoa.scheduler;
 
 import javax.annotation.Resource;
 
-import org.quartz.DisallowConcurrentExecution;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.springframework.batch.core.Job;
@@ -16,7 +15,7 @@ import org.springframework.scheduling.quartz.QuartzJobBean;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@DisallowConcurrentExecution // 클러스터링 환경에선 해당 어노테이션 작동하지 않음
+//@DisallowConcurrentExecution // 클러스터링 환경에선 해당 어노테이션 작동하지 않음
 public class JobC extends QuartzJobBean {
 	
 	@Autowired
@@ -33,7 +32,8 @@ public class JobC extends QuartzJobBean {
 		log.info("## {}", this.getClass().getSimpleName());
 		log.info("\t > jobLauncher = {}", jobLauncher);
 		log.info("\t > jobExplorer = {}", jobExplorer);
-		//log.info("\t > batch jobs = {}", jobExplorer.getJobNames());
+//		log.info("\t > batch jobs = {}", jobExplorer.getJobNames());
+		log.info("\t > job restartable = {}", job.isRestartable());
 		
 		try {
 //			JobParameters jobParameters = new JobParametersBuilder(this.jobExplorer)

@@ -65,6 +65,18 @@ public class TestQuartzSchedulerController {
 		log.info("\t > triggers      = {}", scheduler.getTriggerKeys(GroupMatcher.anyTriggerGroup()));
 		return ResponseEntity.ok("config success");
 	}
+
+	@ResponseBody
+	@GetMapping("/quartz/status")
+	public ResponseEntity<Object> status() throws SchedulerException {
+		log.info("## status");
+		Set<TriggerKey> triggerKeys = scheduler.getTriggerKeys(GroupMatcher.anyTriggerGroup());
+		for (TriggerKey triggerKey : triggerKeys) {
+			String jobName = scheduler.getTrigger(triggerKey).getJobKey().getName();
+			log.info("\t > {} : {}", jobName, scheduler.getTriggerState(triggerKey));
+		}
+		return ResponseEntity.ok("status success");
+	}
 	
 	@ResponseBody
 	@GetMapping("/quartz/paused-jobs")

@@ -39,8 +39,8 @@
 	<p>scheduler-quartz.jsp</p>
 	<div class="test d-flex justify-content-center mt-5">
 		<button class="btn btn-lg btn-warning mx-3" onclick="config()">config</button>
+		<button class="btn btn-lg btn-warning mx-3" onclick="status()">status</button>
 		<button class="btn btn-lg btn-warning mx-3" onclick="pausedJobs()">pausedJobs</button>
-		<button class="btn btn-lg mx-3 invisible" onclick="#">#</button>
 		<button class="btn btn-lg mx-3 invisible" onclick="#">#</button>
 	</div>
 	<div class="test d-flex justify-content-center mt-5">
@@ -72,6 +72,22 @@
 				console.log(jqXHR);
 			}
 		});		
+	}
+	
+	function status() {
+		console.log("## status");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/scheduler/quartz/status",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log("> %s", result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(jqXHR);
+			}
+		});	
 	}
 	
 	function pausedJobs() {
