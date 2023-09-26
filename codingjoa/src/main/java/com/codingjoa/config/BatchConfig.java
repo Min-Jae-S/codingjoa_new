@@ -2,25 +2,12 @@ package com.codingjoa.config;
 
 import javax.sql.DataSource;
 
-import org.springframework.batch.core.Job;
-import org.springframework.batch.core.Step;
-import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.configuration.annotation.DefaultBatchConfigurer;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
-import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
-import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
-import org.springframework.batch.core.scope.context.ChunkContext;
-import org.springframework.batch.core.step.tasklet.Tasklet;
-import org.springframework.batch.repeat.RepeatStatus;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
-@Configuration
 @EnableBatchProcessing //automatically registers some of its key components, such as JobBuilderFactory and StepBuilderFactory, as beans
+@Configuration
 public class BatchConfig extends DefaultBatchConfigurer {
 	
 	// Spring Batch - Application, Batch Core, Batch Infrastrcuture
@@ -32,21 +19,13 @@ public class BatchConfig extends DefaultBatchConfigurer {
 	// Caused by: java.lang.NoSuchFieldError: BLOCK_UNSAFE_POLYMORPHIC_BASE_TYPES
 	// springbatch 4.3.0 has introduced a dependency on jackson databind 2.11.
 	
-	@Autowired
-	private JobBuilderFactory jobBuilderFactory;
-	
-	@Autowired
-	private StepBuilderFactory stepBuilderFactory;
-	
 	@Override
 	public void setDataSource(DataSource dataSource) {
 		// do nothing..
 	}
 
-	// o.s.b.c.c.a.DefaultBatchConfigurer       : No datasource was provided...using a Map based JobRepository
+	// o.s.b.c.c.a.DefaultBatchConfigurer       : No datasource was provided...using a Map based JobRepository (in-memory repository)
 	// o.s.b.c.c.a.DefaultBatchConfigurer       : No transaction manager was provided, using a ResourcelessTransactionManager
-	// Map based JobRepository(un-memory repository)
-
 	//	@PostConstruct
 	//	public void initialize() {
 	//		try {
@@ -75,38 +54,5 @@ public class BatchConfig extends DefaultBatchConfigurer {
 	//			throw new BatchConfigurationException(e);
 	//		}
 	//	}
-	
-	@Bean
-	public Job batchJob() {
-		return jobBuilderFactory.get("batchJob")
-				.start(step1())
-				.next(step2())
-				.build();
-	}
-	
-	@Bean
-	public Step step1() {
-		return stepBuilderFactory.get("step1")
-				.tasklet(new Tasklet() {
-					@Override
-					public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
-						log.info("\t ====== STEP1 ======");
-						return RepeatStatus.FINISHED;
-					}
-				})
-				.allowStartIfComplete(true) // Step already complete or not restartable, so no action to execute
-				.build();
-	}
-
-	@Bean
-	public Step step2() {
-		return stepBuilderFactory.get("step2")
-				.tasklet((contribution, chunkContext) -> {
-					log.info("\t ====== STEP2 ======");
-					return RepeatStatus.FINISHED;
-				})
-				.allowStartIfComplete(true)
-				.build();
-	}
 	
 }

@@ -32,7 +32,8 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 			EmailConfig.class, 
 			RedisConfig.class,
 			SchedulerConfig.class,
-			BatchConfig.class
+			BatchConfig.class,
+			BatchJobConfig.class
 		};
 	}
 
