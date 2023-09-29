@@ -20,30 +20,30 @@
 	<!-- appender	: log의 형태를 설정, 로그 메시지가 출력될 대상을 결정하는 요소 (콘솔 혹은 파일로 출력할지 등의 설정) 	-->
 	<!-- root 		: 전역 설정, 지역적으로 선언된 logger 설정이 있다면 해당 logger 설정이 default로 적용					-->
 	<!-- logger		: 지역 설정, additivity 값은 root 설정 상속 유무 설정 (default = true) 									-->
-	<logger name="org.springframework" level="INFO" />
-	<logger name="org.springframework.security.web.FilterChainProxy" level="INFO" />
-	<logger name="org.springframework.security.web.access.intercept.FilterSecurityInterceptor" level="INFO" />
-	<logger name="org.springframework.web.servlet.DispatcherServlet" level="INFO" />
-	<logger name="org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor" level="INFO" />
-	<logger name="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping" level="DEBUG" />
+	<logger name="org.springframework" level="INFO"/>
+	<logger name="org.springframework.security.web.FilterChainProxy" level="INFO"/>
+	<logger name="org.springframework.security.web.access.intercept.FilterSecurityInterceptor" level="INFO"/>
+	<logger name="org.springframework.web.servlet.DispatcherServlet" level="INFO"/>
+	<logger name="org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor" level="INFO"/>
+	<logger name="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping" level="DEBUG"/>
 	
 	<!-- transaction logger -->
-	<logger name="org.springframework.transaction" level="INFO" />
-	<!-- <logger name="org.springframework.transaction.interceptor" level="TRACE" /> -->
-	<!-- <logger name="org.springframework.transaction.interceptor" level="OFF" /> -->
+	<logger name="org.springframework.transaction" level="INFO"/>
+	<logger name="org.springframework.transaction.interceptor" level="TRACE" />
+	<logger name="org.springframework.transaction.interceptor" level="OFF" />
 	
 	<!-- SQL logger -->
-	<logger name="jdbc.sqlonly" level="OFF" additivity="false">
+	<logger name="jdbc.sqlonly" level="INFO" additivity="false">
 		<appender-ref ref="console2"/> 
 	</logger>
  	<logger name="jdbc.connection" level="OFF"/>
   	<logger name="jdbc.sqltiming" level="OFF"/> 
-  	<logger name="jdbc.resultsettable" level="OFF"/>
+  	<logger name="jdbc.resultsettable" level="INFO"/>
   	<logger name="jdbc.resultset" level="OFF"/>
   	<logger name="jdbc.audit" level="OFF"/>
 	
 	<!-- Root logger -->
 	<root level="INFO">
-		<appender-ref ref="console" />
+		<appender-ref ref="console"/>
 	</root>
 </configuration>
