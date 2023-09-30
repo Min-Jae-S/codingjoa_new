@@ -75,7 +75,6 @@ public class TestQuartzSchedulerController {
 			String jobName = scheduler.getTrigger(triggerKey).getJobKey().getName();
 			log.info("\t > {} : {}", jobName, scheduler.getTriggerState(triggerKey));
 		}
-		
 		return ResponseEntity.ok("status success");
 	}
 	
@@ -93,7 +92,6 @@ public class TestQuartzSchedulerController {
 			}
 		}
 		log.info("\t > paused jobs = {}", pausedJobs);
-		
 		return ResponseEntity.ok("pausedJobs success");
 	}
 	
