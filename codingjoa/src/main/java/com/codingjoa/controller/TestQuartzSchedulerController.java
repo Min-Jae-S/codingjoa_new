@@ -75,7 +75,6 @@ public class TestQuartzSchedulerController {
 			String jobName = scheduler.getTrigger(triggerKey).getJobKey().getName();
 			log.info("\t > {} : {}", jobName, scheduler.getTriggerState(triggerKey));
 		}
-		
 		return ResponseEntity.ok("status success");
 	}
 	
@@ -94,7 +93,6 @@ public class TestQuartzSchedulerController {
 		}
 		
 		log.info("\t > paused jobs = {}", pausedJobs);
-		
 		return ResponseEntity.ok("pausedJobs success");
 	}
 	
@@ -103,7 +101,6 @@ public class TestQuartzSchedulerController {
 	public ResponseEntity<Object> startAllJobs() throws SchedulerException {
 		log.info("## startAllJobs");
 		schedulerService.startAllJobs();
-		
 		return ResponseEntity.ok("start all jobs");
 	}
 
