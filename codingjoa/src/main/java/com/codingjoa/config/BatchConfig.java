@@ -36,6 +36,7 @@ public class BatchConfig {
 
 	// o.s.b.c.c.a.DefaultBatchConfigurer       : No datasource was provided...using a Map based JobRepository (in-memory repository)
 	// o.s.b.c.c.a.DefaultBatchConfigurer       : No transaction manager was provided, using a ResourcelessTransactionManager
+	//
 	//	@PostConstruct
 	//	public void initialize() {
 	//		try {

@@ -63,6 +63,7 @@ public class TestQuartzSchedulerController {
 		log.info("\t > shutdown      = {}", scheduler.isShutdown());
 		log.info("\t > jobs          = {}", scheduler.getJobKeys(GroupMatcher.anyJobGroup()));
 		log.info("\t > triggers      = {}", scheduler.getTriggerKeys(GroupMatcher.anyTriggerGroup()));
+		
 		return ResponseEntity.ok("config success");
 	}
 
@@ -75,6 +76,7 @@ public class TestQuartzSchedulerController {
 			String jobName = scheduler.getTrigger(triggerKey).getJobKey().getName();
 			log.info("\t > {} : {}", jobName, scheduler.getTriggerState(triggerKey));
 		}
+		
 		return ResponseEntity.ok("status success");
 	}
 	
