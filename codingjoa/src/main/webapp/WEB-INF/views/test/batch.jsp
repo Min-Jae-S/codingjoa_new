@@ -44,8 +44,8 @@
 		<button class="btn btn-lg btn-warning mx-3" onclick="jobRegistry()">jobRegistry</button>
 	</div>
 	<div class="test d-flex justify-content-center mt-5">
-		<button class="btn btn-lg btn-primary mx-3" onclick="run()">run batch</button>
-		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
+		<button class="btn btn-lg btn-primary mx-3" onclick="runJobA()">run JobA</button>
+		<button class="btn btn-lg btn-primary mx-3" onclick="runJobB()">run JobB</button>
 		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
 		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
 	</div>
@@ -68,11 +68,27 @@
 		});		
 	}
 	
-	function run() {
-		console.log("## run");
+	function runJobA() {
+		console.log("## runJobA");
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/batch/run",
+			url : "${contextPath}/test/batch/run/job-a",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log("> %s", result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(jqXHR);
+			}
+		});		
+	}
+
+	function runJobB() {
+		console.log("## runJobB");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/batch/run/job-b",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> %s", result);

@@ -5,7 +5,6 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.springframework.batch.core.Job;
-import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.core.configuration.JobRegistry;
@@ -34,8 +33,11 @@ public class TestBatchController {
 	@Autowired
 	private JobRegistry jobRegistry;
 	
-	@Resource(name = "batchJob")
-	private Job job;
+	@Resource(name = "batchJobA")
+	private Job batchJobA;
+
+	@Resource(name = "batchJobB")
+	private Job batchJobB;
 	
 	@GetMapping("/batch")
 	public String main() {
@@ -51,11 +53,18 @@ public class TestBatchController {
 	}
 
 	@ResponseBody
-	@GetMapping("/batch/run")
-	public ResponseEntity<Object> run() throws Exception {
-		log.info("## run");
-		JobExecution jobExecution = jobLauncher.run(job, new JobParameters());
-		log.info("\t > jobExecution = {}", jobExecution);
+	@GetMapping("/batch/run/job-a")
+	public ResponseEntity<Object> runJobA() throws Exception {
+		log.info("## runJobA");
+		jobLauncher.run(batchJobA, new JobParameters());
+		return ResponseEntity.ok("success");
+	}
+
+	@ResponseBody
+	@GetMapping("/batch/run/job-b")
+	public ResponseEntity<Object> runJobB() throws Exception {
+		log.info("## runJobB");
+		jobLauncher.run(batchJobB, new JobParameters());
 		return ResponseEntity.ok("success");
 	}
 
@@ -64,7 +73,7 @@ public class TestBatchController {
 	public ResponseEntity<Object> jobParameters() {
 		log.info("## jobParameters");
 		JobParameters jobParameters = new JobParametersBuilder(this.jobExplorer)
-				.getNextJobParameters(this.job)
+				.getNextJobParameters(this.batchJobA)
 				.toJobParameters();
 		log.info("\t > jobParameters = {}", jobParameters);
 		return ResponseEntity.ok("success");

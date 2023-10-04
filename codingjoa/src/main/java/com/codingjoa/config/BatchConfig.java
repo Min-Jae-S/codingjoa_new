@@ -1,6 +1,5 @@
 package com.codingjoa.config;
 
-import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
@@ -9,8 +8,8 @@ import org.springframework.batch.core.repository.support.JobRepositoryFactoryBea
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.annotation.Isolation;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -34,13 +33,7 @@ public class BatchConfig {
 	@Autowired
 	private PlatformTransactionManager transactionManager;
 	
-	@PostConstruct
-	public void init() {
-		log.info("===============================================================");
-		log.info("@ BatchConfig init");
-		log.info("===============================================================");
-	}
-	
+	@Primary
 	@Bean
 	public JobRepository jobRepository() throws Exception {
 		log.info("## JobRepository");

@@ -28,24 +28,33 @@ public class BatchJobConfig {
 	private StepBuilderFactory stepBuilderFactory;
 	
 	@Bean
-	public Job batchJob() {
-		log.info("## batchJob");
-		return jobBuilderFactory.get("batchJob")
-				.start(step1())
-				.next(step2())
+	public Job batchJobA() {
+		log.info("## batchJobA");
+		return jobBuilderFactory.get("batchJobA")
+				.start(stepA1())
+				.next(stepA2())
 				.listener(jobListener())
+				.build();
+	}
+
+	@Bean
+	public Job batchJobB() {
+		log.info("## batchJobB");
+		return jobBuilderFactory.get("batchJobB")
+				.start(stepB1())
+				.next(stepB2())
 				.build();
 	}
 	
 	@Bean
 	@JobScope // late binding
-	public Step step1() {
-		log.info("## step1");
-		return stepBuilderFactory.get("step1")
+	public Step stepA1() {
+		log.info("## stepA1 - late binding");
+		return stepBuilderFactory.get("stepA1")
 				.tasklet(new Tasklet() {
 					@Override
 					public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
-						log.info(">>> This is STEP1");
+						log.info("## this is stepA1");
 						return RepeatStatus.FINISHED;
 					}
 				})
@@ -55,11 +64,37 @@ public class BatchJobConfig {
 
 	@Bean
 	@JobScope
-	public Step step2() {
-		log.info("## step2");
-		return stepBuilderFactory.get("step2")
+	public Step stepA2() {
+		log.info("## stepA2 - late binding");
+		return stepBuilderFactory.get("stepA2")
 				.tasklet((contribution, chunkContext) -> {
-					log.info(">>> This is STEP2");
+					log.info("## this is stepA2");
+					return RepeatStatus.FINISHED;
+				})
+				.allowStartIfComplete(true)
+				.build();
+	}
+
+	@Bean
+	@JobScope 
+	public Step stepB1() {
+		log.info("## stepB1 - late binding");
+		return stepBuilderFactory.get("stepB1")
+				.tasklet((contribution, chunkContext) -> {
+					log.info("## this is stepB1");
+					return RepeatStatus.FINISHED;
+				})
+				.allowStartIfComplete(true)
+				.build();
+	}
+	
+	@Bean
+	@JobScope
+	public Step stepB2() {
+		log.info("## stepB2 - late binding");
+		return stepBuilderFactory.get("stepB2")
+				.tasklet((contribution, chunkContext) -> {
+					log.info("## this is stepB2");
 					return RepeatStatus.FINISHED;
 				})
 				.allowStartIfComplete(true)
@@ -72,12 +107,14 @@ public class BatchJobConfig {
 		return new JobExecutionListener() {
 			@Override
 			public void beforeJob(JobExecution jobExecution) {
-				log.info(">>> BEFORE JOB : jobExecution = {}", jobExecution);
+				log.info("## beforeJob");
+				log.info("\t > {}", jobExecution);
 			}
 			
 			@Override
 			public void afterJob(JobExecution jobExecution) {
-				log.info(">>> AFTER JOB : jobExecution = {}", jobExecution);
+				log.info("## afterJob");
+				log.info("\t > {}", jobExecution);
 			}
 		};
 	}
