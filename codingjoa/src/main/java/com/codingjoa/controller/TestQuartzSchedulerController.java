@@ -110,21 +110,27 @@ public class TestQuartzSchedulerController {
 	@GetMapping("/quartz/start/job-a")
 	public ResponseEntity<Object> startJobA() throws SchedulerException {
 		log.info("## startJobA");
-		return ResponseEntity.ok(schedulerService.startJobA());
+		String result = schedulerService.startJobA();
+		log.info("\t > {}", result);
+		return ResponseEntity.ok(result);
 	}
 
 	@ResponseBody
 	@GetMapping("/quartz/start/job-b")
 	public ResponseEntity<Object> startJobB() throws SchedulerException {
 		log.info("## startJobB");
-		return ResponseEntity.ok(schedulerService.startJobB());
+		String result = schedulerService.startJobB();
+		log.info("\t > {}", result);
+		return ResponseEntity.ok(result);
 	}
 
 	@ResponseBody
 	@GetMapping("/quartz/start/job-c")
 	public ResponseEntity<Object> startJobC() throws SchedulerException {
 		log.info("## startJobC");
-		return ResponseEntity.ok(schedulerService.startJobC());
+		String result = schedulerService.startJobC();
+		log.info("\t > {}", result);
+		return ResponseEntity.ok(result);
 	}
 
 	@ResponseBody
@@ -139,21 +145,27 @@ public class TestQuartzSchedulerController {
 	@GetMapping("/quartz/pause/job-a")
 	public ResponseEntity<Object> pauseJobA() throws SchedulerException {
 		log.info("## pauseJobA");
-		return ResponseEntity.ok(schedulerService.pauseJobA());
+		String result = schedulerService.pauseJobA();
+		log.info("\t > {}", result);
+		return ResponseEntity.ok(result);
 	}
 
 	@ResponseBody
 	@GetMapping("/quartz/pause/job-b")
 	public ResponseEntity<Object> pauseJobB() throws SchedulerException {
 		log.info("## pauseJobB");
-		return ResponseEntity.ok(schedulerService.pauseJobB());
+		String result = schedulerService.pauseJobB();
+		log.info("\t > {}", result);
+		return ResponseEntity.ok(result);
 	}
 
 	@ResponseBody
 	@GetMapping("/quartz/pause/job-c")
 	public ResponseEntity<Object> pauseJobC() throws SchedulerException {
 		log.info("## pauseJobC");
-		return ResponseEntity.ok(schedulerService.pauseJobC());
+		String result = schedulerService.pauseJobC();
+		log.info("\t > {}", result);
+		return ResponseEntity.ok(result);
 	}
 	
 }

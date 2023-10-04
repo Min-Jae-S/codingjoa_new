@@ -126,7 +126,7 @@ public class SchedulerConfig {
 		return TriggerBuilder.newTrigger()
 				.forJob(jobDetailB())
 				.withIdentity("triggerB", "myTrigger")
-				.withSchedule(SimpleScheduleBuilder.repeatSecondlyForever(10))
+				.withSchedule(SimpleScheduleBuilder.repeatSecondlyForTotalCount(1))
 				.build();
 	}
 
