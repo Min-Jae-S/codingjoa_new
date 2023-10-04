@@ -5,6 +5,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.springframework.batch.core.Job;
+import org.springframework.batch.core.JobInstance;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.core.configuration.JobRegistry;
@@ -85,10 +86,11 @@ public class TestBatchController {
 		log.info("## jobExplorer");
 		List<String> batchJobs = jobExplorer.getJobNames();
 		if (!batchJobs.isEmpty()) {
-			log.info("\t > batch jobs from jobExplorer = {}", batchJobs);
-			batchJobs.forEach(batchJob -> 
-				log.info("\t > jobInstance = {}", jobExplorer.findJobInstancesByJobName(batchJob, 0, 10))
-			);
+			log.info("\t > batch jobs = {}", batchJobs);
+			batchJobs.forEach(batchJob -> {
+				List<JobInstance> jobInstances = jobExplorer.findJobInstancesByJobName(batchJob, 0, 10);
+				log.info("\t    - {}", jobInstances);
+			});
 		} else {
 			log.info("\t > NO batch jobs");
 		}
