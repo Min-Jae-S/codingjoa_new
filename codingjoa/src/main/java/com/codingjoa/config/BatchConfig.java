@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.Isolation;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -46,6 +47,7 @@ public class BatchConfig {
 		JobRepositoryFactoryBean factory = new JobRepositoryFactoryBean();
 	    factory.setDataSource(dataSource);
 	    factory.setTransactionManager(transactionManager);
+	    factory.setTablePrefix("BATCH_");
 	    
 	    // ORA-08177: can't serialize access for this transaction
 	    // The issue arises when multiple Spring Batch jobs share a single JobRepository and are executed concurrently. 

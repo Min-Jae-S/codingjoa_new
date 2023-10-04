@@ -7,7 +7,6 @@ import org.quartz.JobExecutionException;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobParameters;
-import org.springframework.batch.core.configuration.JobRegistry;
 import org.springframework.batch.core.explore.JobExplorer;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,22 +25,18 @@ public class JobC extends QuartzJobBean {
 	@Autowired
 	private JobExplorer jobExplorer;
 	
-	@Autowired
-	private JobRegistry jobRegistry;
-	
 	@Resource(name = "batchJob")
-	private Job batchJob;
+	private Job job;
 	
 	@Override
 	protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
 		log.info("## {}", this.getClass().getSimpleName());
-//		log.info("\t > batch jobs = {}", jobExplorer.getJobNames());
-		
 		try {
 //			JobParameters jobParameters = new JobParametersBuilder(this.jobExplorer)
 //					.getNextJobParameters(this.job)
 //					.toJobParameters();
-			JobExecution jobExecution = jobLauncher.run(batchJob, new JobParameters());
+			JobExecution jobExecution = jobLauncher.run(job, new JobParameters());
+			log.info("\t > jobExecution = {}", jobExecution);
 		} catch (Exception e) {
 			log.info("\t > {} : {}", e.getClass().getSimpleName(), e.getMessage());
 		}

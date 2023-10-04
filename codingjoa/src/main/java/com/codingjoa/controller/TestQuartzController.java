@@ -2,6 +2,7 @@ package com.codingjoa.controller;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.quartz.JobKey;
 import org.quartz.Scheduler;
@@ -61,8 +62,16 @@ public class TestQuartzController {
 		log.info("\t > inStandbyMode = {}", scheduler.isInStandbyMode());
 		log.info("\t > started       = {}", scheduler.isStarted());
 		log.info("\t > shutdown      = {}", scheduler.isShutdown());
-		log.info("\t > jobs          = {}", scheduler.getJobKeys(GroupMatcher.anyJobGroup()));
-		log.info("\t > triggers      = {}", scheduler.getTriggerKeys(GroupMatcher.anyTriggerGroup()));
+		
+		Set<String> jobs = scheduler.getJobKeys(GroupMatcher.anyJobGroup()).stream()
+				.map(jobKey -> jobKey.getName())
+				.collect(Collectors.toSet());
+		Set<String> triggers = scheduler.getTriggerKeys(GroupMatcher.anyTriggerGroup()).stream()
+				.map(triggerKey -> triggerKey.getName())
+				.collect(Collectors.toSet());
+		log.info("\t > jobs          = {}", jobs);
+		log.info("\t > triggers      = {}", triggers);
+		
 		return ResponseEntity.ok("success");
 	}
 
@@ -75,7 +84,7 @@ public class TestQuartzController {
 		
 		for (TriggerKey triggerKey : triggerKeys) {
 			String jobName = scheduler.getTrigger(triggerKey).getJobKey().getName();
-			log.info("\t > {} : {}", jobName, scheduler.getTriggerState(triggerKey));
+			log.info("\t > {} ( {} )", jobName, scheduler.getTriggerState(triggerKey));
 		}
 		
 		return ResponseEntity.ok("success");

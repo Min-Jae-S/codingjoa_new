@@ -2,6 +2,12 @@ package com.codingjoa.controller;
 
 import java.util.List;
 
+import javax.annotation.Resource;
+
+import org.springframework.batch.core.Job;
+import org.springframework.batch.core.JobExecution;
+import org.springframework.batch.core.JobParameters;
+import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.core.configuration.JobRegistry;
 import org.springframework.batch.core.explore.JobExplorer;
 import org.springframework.batch.core.launch.JobLauncher;
@@ -28,6 +34,9 @@ public class TestBatchController {
 	@Autowired
 	private JobRegistry jobRegistry;
 	
+	@Resource(name = "batchJob")
+	private Job job;
+	
 	@GetMapping("/batch")
 	public String main() {
 		log.info("## batch main");
@@ -42,10 +51,22 @@ public class TestBatchController {
 	}
 
 	@ResponseBody
-	@GetMapping("/batch/job-launcher")
-	public ResponseEntity<Object> jobLauncher() {
-		log.info("## jobLauncher");
-		log.info("\t > {}", jobLauncher);
+	@GetMapping("/batch/run")
+	public ResponseEntity<Object> run() throws Exception {
+		log.info("## run");
+		JobExecution jobExecution = jobLauncher.run(job, new JobParameters());
+		log.info("\t > jobExecution = {}", jobExecution);
+		return ResponseEntity.ok("success");
+	}
+
+	@ResponseBody
+	@GetMapping("/batch/job-parameters")
+	public ResponseEntity<Object> jobParameters() {
+		log.info("## jobParameters");
+		JobParameters jobParameters = new JobParametersBuilder(this.jobExplorer)
+				.getNextJobParameters(this.job)
+				.toJobParameters();
+		log.info("\t > jobParameters = {}", jobParameters);
 		return ResponseEntity.ok("success");
 	}
 	

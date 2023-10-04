@@ -41,7 +41,7 @@
 		<button class="btn btn-lg btn-warning mx-3" onclick="config()">quartz config</button>
 		<button class="btn btn-lg btn-warning mx-3" onclick="state()">trigger state</button>
 		<button class="btn btn-lg btn-warning mx-3" onclick="pausedJobs()">pausedJobs</button>
-		<button class="btn btn-lg mx-3 invisible" onclick="#">#</button>
+		<button class="btn btn-lg btn-warning mx-3 invisible" onclick="#">#</button>
 	</div>
 	<div class="test d-flex justify-content-center mt-5">
 		<button class="btn btn-primary btn-lg mx-3" onclick="start(this)" data-url="${contextPath}/test/quartz/start">start All</button>
