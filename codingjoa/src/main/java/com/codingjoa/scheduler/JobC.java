@@ -30,7 +30,7 @@ public class JobC extends QuartzJobBean {
 	private JobRegistry jobRegistry;
 	
 	@Resource(name = "batchJob")
-	private Job job;
+	private Job batchJob;
 	
 	@Override
 	protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
@@ -41,7 +41,7 @@ public class JobC extends QuartzJobBean {
 //			JobParameters jobParameters = new JobParametersBuilder(this.jobExplorer)
 //					.getNextJobParameters(this.job)
 //					.toJobParameters();
-			JobExecution jobExecution = jobLauncher.run(job, new JobParameters());
+			JobExecution jobExecution = jobLauncher.run(batchJob, new JobParameters());
 		} catch (Exception e) {
 			log.info("\t > {} : {}", e.getClass().getSimpleName(), e.getMessage());
 		}
