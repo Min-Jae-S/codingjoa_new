@@ -126,7 +126,7 @@ public class SchedulerConfig {
 		return TriggerBuilder.newTrigger()
 				.forJob(jobDetailB())
 				.withIdentity("triggerB", "myTrigger")
-				.withSchedule(SimpleScheduleBuilder.repeatSecondlyForTotalCount(1))
+				.withSchedule(SimpleScheduleBuilder.repeatSecondlyForever(10))
 				.build();
 	}
 
@@ -135,7 +135,7 @@ public class SchedulerConfig {
 		return TriggerBuilder.newTrigger()
 				.forJob(jobDetailC())
 				.withIdentity("triggerC", "myTrigger")
-				.withSchedule(SimpleScheduleBuilder.repeatSecondlyForever(15))
+				.withSchedule(SimpleScheduleBuilder.repeatMinutelyForever(30))
 				.build();
 	}
 
