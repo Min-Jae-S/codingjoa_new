@@ -137,7 +137,7 @@ public class SchedulerConfig {
 		return TriggerBuilder.newTrigger()
 				.forJob(jobDetailC())
 				.withIdentity("triggerC", "myTrigger")
-				.withSchedule(SimpleScheduleBuilder.repeatMinutelyForever(30))
+				.startNow()
 				.build();
 	}
 

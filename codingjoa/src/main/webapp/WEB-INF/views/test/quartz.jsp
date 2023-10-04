@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>scheduler-quartz.jsp</title>
+<title>quartz.jsp</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
@@ -36,33 +36,33 @@
 <body>
 <c:import url="/WEB-INF/views/include/top-menu.jsp"/>
 <div class="container my-5">
-	<p>scheduler-quartz.jsp</p>
+	<p>quartz.jsp</p>
 	<div class="test d-flex justify-content-center mt-5">
-		<button class="btn btn-lg btn-warning mx-3" onclick="config()">config</button>
-		<button class="btn btn-lg btn-warning mx-3" onclick="status()">status</button>
+		<button class="btn btn-lg btn-warning mx-3" onclick="config()">quartz config</button>
+		<button class="btn btn-lg btn-warning mx-3" onclick="state()">trigger state</button>
 		<button class="btn btn-lg btn-warning mx-3" onclick="pausedJobs()">pausedJobs</button>
 		<button class="btn btn-lg mx-3 invisible" onclick="#">#</button>
 	</div>
 	<div class="test d-flex justify-content-center mt-5">
-		<button class="btn btn-primary btn-lg mx-3" onclick="start(this)" data-url="${contextPath}/test/scheduler/quartz/start">start All</button>
-		<button class="btn btn-primary btn-lg mx-3" onclick="start(this)" data-url="${contextPath}/test/scheduler/quartz/start/job-a">start JobA</button>
-		<button class="btn btn-primary btn-lg mx-3" onclick="start(this)" data-url="${contextPath}/test/scheduler/quartz/start/job-b">start JobB</button>
-		<button class="btn btn-primary btn-lg mx-3" onclick="start(this)" data-url="${contextPath}/test/scheduler/quartz/start/job-c">start JobC</button>
+		<button class="btn btn-primary btn-lg mx-3" onclick="start(this)" data-url="${contextPath}/test/quartz/start">start All</button>
+		<button class="btn btn-primary btn-lg mx-3" onclick="start(this)" data-url="${contextPath}/test/quartz/start/job-a">start JobA</button>
+		<button class="btn btn-primary btn-lg mx-3" onclick="start(this)" data-url="${contextPath}/test/quartz/start/job-b">start JobB</button>
+		<button class="btn btn-primary btn-lg mx-3" onclick="start(this)" data-url="${contextPath}/test/quartz/start/job-c">start JobC</button>
 	</div>
 	<div class="test d-flex justify-content-center mt-5">
-		<button class="btn btn-danger btn-lg mx-3" onclick="pause(this)" data-url="${contextPath}/test/scheduler/quartz/pause">pause All</button>
-		<button class="btn btn-danger btn-lg mx-3" onclick="pause(this)" data-url="${contextPath}/test/scheduler/quartz/pause/job-a">pause JobA</button>
-		<button class="btn btn-danger btn-lg mx-3" onclick="pause(this)" data-url="${contextPath}/test/scheduler/quartz/pause/job-b" >pause JobB</button>
-		<button class="btn btn-danger btn-lg mx-3" onclick="pause(this)" data-url="${contextPath}/test/scheduler/quartz/pause/job-c" >pause JobC</button>
+		<button class="btn btn-danger btn-lg mx-3" onclick="pause(this)" data-url="${contextPath}/test/quartz/pause">pause All</button>
+		<button class="btn btn-danger btn-lg mx-3" onclick="pause(this)" data-url="${contextPath}/test/quartz/pause/job-a">pause JobA</button>
+		<button class="btn btn-danger btn-lg mx-3" onclick="pause(this)" data-url="${contextPath}/test/quartz/pause/job-b" >pause JobB</button>
+		<button class="btn btn-danger btn-lg mx-3" onclick="pause(this)" data-url="${contextPath}/test/quartz/pause/job-c" >pause JobC</button>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 <script>
 	function config() {
-		console.log("## config");
+		console.log("## quartz config");
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/scheduler/quartz/config",
+			url : "${contextPath}/test/quartz/config",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> %s", result);
@@ -74,11 +74,11 @@
 		});		
 	}
 	
-	function status() {
-		console.log("## status");
+	function state() {
+		console.log("## trigger state");
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/scheduler/quartz/status",
+			url : "${contextPath}/test/quartz/state",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> %s", result);
@@ -94,7 +94,7 @@
 		console.log("## pausedJobs");
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/scheduler/quartz/paused-jobs",
+			url : "${contextPath}/test/quartz/paused-jobs",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> %s", result);

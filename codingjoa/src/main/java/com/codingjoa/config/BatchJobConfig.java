@@ -29,6 +29,7 @@ public class BatchJobConfig {
 	
 	@Bean
 	public Job batchJob() {
+		log.info("## batchJob");
 		return jobBuilderFactory.get("batchJob")
 				.start(step1())
 				.next(step2())
@@ -39,6 +40,7 @@ public class BatchJobConfig {
 	@Bean
 	@JobScope // late binding
 	public Step step1() {
+		log.info("## step1");
 		return stepBuilderFactory.get("step1")
 				.tasklet(new Tasklet() {
 					@Override
@@ -54,6 +56,7 @@ public class BatchJobConfig {
 	@Bean
 	@JobScope
 	public Step step2() {
+		log.info("## step2");
 		return stepBuilderFactory.get("step2")
 				.tasklet((contribution, chunkContext) -> {
 					log.info(">>> This is STEP2");
@@ -65,15 +68,16 @@ public class BatchJobConfig {
 	
 	@Bean
 	public JobExecutionListener jobListener() {
+		log.info("# JobExecutionListener");
 		return new JobExecutionListener() {
 			@Override
 			public void beforeJob(JobExecution jobExecution) {
-				log.info(">>> BEFORE JOB");
+				log.info(">>> BEFORE JOB : jobExecution = {}", jobExecution);
 			}
 			
 			@Override
 			public void afterJob(JobExecution jobExecution) {
-				log.info(">>> AFTER JOB");
+				log.info(">>> AFTER JOB : jobExecution = {}", jobExecution);
 			}
 		};
 	}

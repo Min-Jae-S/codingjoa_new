@@ -37,8 +37,8 @@ public class TestBatchController {
 	@ResponseBody
 	@GetMapping("/batch/config")
 	public ResponseEntity<Object> config() {
-		log.info("## config");
-		return ResponseEntity.ok("config success");
+		log.info("## bacth config");
+		return ResponseEntity.ok("success");
 	}
 
 	@ResponseBody
@@ -46,22 +46,24 @@ public class TestBatchController {
 	public ResponseEntity<Object> jobLauncher() {
 		log.info("## jobLauncher");
 		log.info("\t > {}", jobLauncher);
-		return ResponseEntity.ok("jobLauncher success");
+		return ResponseEntity.ok("success");
 	}
 	
 	@ResponseBody
 	@GetMapping("/batch/job-explorer")
 	public ResponseEntity<Object> jobExplorer() {
 		log.info("## jobExplorer");
-		
 		List<String> batchJobs = jobExplorer.getJobNames();
-		log.info("\t > batch jobs from jobExplorer = {}", batchJobs);
-
-		batchJobs.forEach(batchJob -> 
-			log.info("\t > jobInstance = {}", jobExplorer.findJobInstancesByJobName(batchJob, 0, 10))
-		);
+		if (!batchJobs.isEmpty()) {
+			log.info("\t > batch jobs from jobExplorer = {}", batchJobs);
+			batchJobs.forEach(batchJob -> 
+				log.info("\t > jobInstance = {}", jobExplorer.findJobInstancesByJobName(batchJob, 0, 10))
+			);
+		} else {
+			log.info("\t > NO batch jobs");
+		}
 		
-		return ResponseEntity.ok("jobExplorer success");
+		return ResponseEntity.ok("success");
 	}
 
 	@ResponseBody
@@ -69,7 +71,7 @@ public class TestBatchController {
 	public ResponseEntity<Object> jobRegistry() {
 		log.info("## jobRegistry");
 		log.info("\t > batch jobs from jobRegistry = {}", jobRegistry.getJobNames());
-		return ResponseEntity.ok("jobRegistry success");
+		return ResponseEntity.ok("success");
 	}
 	
 }

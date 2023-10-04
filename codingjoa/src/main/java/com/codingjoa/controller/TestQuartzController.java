@@ -23,9 +23,9 @@ import com.codingjoa.scheduler.service.SchedulerService;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@RequestMapping("/test/scheduler")
+@RequestMapping("/test")
 @Controller
-public class TestQuartzSchedulerController {
+public class TestQuartzController {
 	
 	/*	
 	 * ## Quartz
@@ -49,13 +49,13 @@ public class TestQuartzSchedulerController {
 	@GetMapping("/quartz")
 	public String main() {
 		log.info("## quartz main");
-		return "test/scheduler-quartz";
+		return "test/quartz";
 	}
 
 	@ResponseBody
 	@GetMapping("/quartz/config")
 	public ResponseEntity<Object> config() throws SchedulerException {
-		log.info("## config");
+		log.info("## quartz config");
 		log.info("\t > autoStartup   = {}", schedulerFactoryBean.isAutoStartup());
 		log.info("\t > running       = {}", schedulerFactoryBean.isRunning());
 		log.info("\t > inStandbyMode = {}", scheduler.isInStandbyMode());
@@ -63,14 +63,13 @@ public class TestQuartzSchedulerController {
 		log.info("\t > shutdown      = {}", scheduler.isShutdown());
 		log.info("\t > jobs          = {}", scheduler.getJobKeys(GroupMatcher.anyJobGroup()));
 		log.info("\t > triggers      = {}", scheduler.getTriggerKeys(GroupMatcher.anyTriggerGroup()));
-		
-		return ResponseEntity.ok("config success");
+		return ResponseEntity.ok("success");
 	}
 
 	@ResponseBody
-	@GetMapping("/quartz/status")
-	public ResponseEntity<Object> status() throws SchedulerException {
-		log.info("## status");
+	@GetMapping("/quartz/state")
+	public ResponseEntity<Object> state() throws SchedulerException {
+		log.info("## state");
 		Set<TriggerKey> triggerKeys = scheduler.getTriggerKeys(GroupMatcher.anyTriggerGroup());
 		log.info("\t > triggerKeys = {}", triggerKeys);
 		
@@ -79,7 +78,7 @@ public class TestQuartzSchedulerController {
 			log.info("\t > {} : {}", jobName, scheduler.getTriggerState(triggerKey));
 		}
 		
-		return ResponseEntity.ok("status success");
+		return ResponseEntity.ok("success");
 	}
 	
 	@ResponseBody
@@ -97,7 +96,7 @@ public class TestQuartzSchedulerController {
 		}
 		
 		log.info("\t > paused jobs = {}", pausedJobs);
-		return ResponseEntity.ok("pausedJobs success");
+		return ResponseEntity.ok("success");
 	}
 	
 	@ResponseBody
