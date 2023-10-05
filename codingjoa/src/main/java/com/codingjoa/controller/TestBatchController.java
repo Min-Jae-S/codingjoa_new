@@ -94,7 +94,6 @@ public class TestBatchController {
 		} else {
 			log.info("\t > NO batch jobs");
 		}
-		
 		return ResponseEntity.ok("success");
 	}
 
