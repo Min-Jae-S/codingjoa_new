@@ -25,21 +25,19 @@ public class JobC extends QuartzJobBean {
 	@Autowired
 	private JobExplorer jobExplorer;
 	
-	@Resource(name = "batchJobA")
-	private Job batchJobA;
-	
-	@Resource(name = "batchJobB")
-	private Job batchJobB;
+	@Resource(name = "testJob")
+	private Job job;
 	
 	@Override
 	protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
 		log.info("## {}", this.getClass().getSimpleName());
 		try {
 //			JobParameters jobParameters = new JobParametersBuilder(this.jobExplorer)
-//					.getNextJobParameters(this.batchJobA)
+//					.getNextJobParameters(this.job)
 //					.toJobParameters();
-			JobExecution jobExecution = jobLauncher.run(batchJobA, new JobParameters());
+			JobExecution jobExecution = jobLauncher.run(job, new JobParameters());
 			log.info("\t > jobExecution = {}", jobExecution);
+			log.info("\t =================================================================");
 		} catch (Exception e) {
 			log.info("\t > {} : {}", e.getClass().getSimpleName(), e.getMessage());
 		}

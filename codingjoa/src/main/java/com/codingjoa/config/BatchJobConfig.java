@@ -28,8 +28,16 @@ public class BatchJobConfig {
 	private StepBuilderFactory stepBuilderFactory;
 	
 	@Bean
+	public Job testJob() {
+		return jobBuilderFactory.get("testJob")
+				.start(step1())
+				.next(step2())
+				.listener(jobListener())
+				.build();
+	}
+	
+	@Bean
 	public Job batchJobA() {
-		log.info("## batchJobA");
 		return jobBuilderFactory.get("batchJobA")
 				.start(stepA1())
 				.next(stepA2())
@@ -39,7 +47,6 @@ public class BatchJobConfig {
 
 	@Bean
 	public Job batchJobB() {
-		log.info("## batchJobB");
 		return jobBuilderFactory.get("batchJobB")
 				.start(stepB1())
 				.next(stepB2())
@@ -48,8 +55,37 @@ public class BatchJobConfig {
 	
 	@Bean
 	@JobScope // late binding
+	public Step step1() {
+		return stepBuilderFactory.get("stepA1")
+				.tasklet(new Tasklet() {
+					@Override
+					public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
+						log.info("## this is step1");
+						return RepeatStatus.FINISHED;
+					}
+				})
+				.allowStartIfComplete(true)
+				.build();
+	}
+	
+	@Bean
+	@JobScope // late binding
+	public Step step2() {
+		return stepBuilderFactory.get("step2")
+				.tasklet(new Tasklet() {
+					@Override
+					public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
+						log.info("## this is step2");
+						return RepeatStatus.FINISHED;
+					}
+				})
+				.allowStartIfComplete(true) 
+				.build();
+	}
+	
+	@Bean
+	@JobScope // late binding
 	public Step stepA1() {
-		log.info("## stepA1 - late binding");
 		return stepBuilderFactory.get("stepA1")
 				.tasklet(new Tasklet() {
 					@Override
@@ -65,7 +101,6 @@ public class BatchJobConfig {
 	@Bean
 	@JobScope
 	public Step stepA2() {
-		log.info("## stepA2 - late binding");
 		return stepBuilderFactory.get("stepA2")
 				.tasklet((contribution, chunkContext) -> {
 					log.info("## this is stepA2");
@@ -78,7 +113,6 @@ public class BatchJobConfig {
 	@Bean
 	@JobScope 
 	public Step stepB1() {
-		log.info("## stepB1 - late binding");
 		return stepBuilderFactory.get("stepB1")
 				.tasklet((contribution, chunkContext) -> {
 					log.info("## this is stepB1");
@@ -91,7 +125,6 @@ public class BatchJobConfig {
 	@Bean
 	@JobScope
 	public Step stepB2() {
-		log.info("## stepB2 - late binding");
 		return stepBuilderFactory.get("stepB2")
 				.tasklet((contribution, chunkContext) -> {
 					log.info("## this is stepB2");
