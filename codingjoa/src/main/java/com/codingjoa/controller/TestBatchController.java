@@ -11,6 +11,7 @@ import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.core.configuration.JobRegistry;
 import org.springframework.batch.core.explore.JobExplorer;
 import org.springframework.batch.core.launch.JobLauncher;
+import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -34,6 +35,9 @@ public class TestBatchController {
 	@Autowired
 	private JobRegistry jobRegistry;
 	
+	@Autowired
+	private JobRepository jobRepository;
+	
 	@Resource(name = "batchJobA")
 	private Job batchJobA;
 
@@ -50,6 +54,7 @@ public class TestBatchController {
 	@GetMapping("/batch/config")
 	public ResponseEntity<Object> config() {
 		log.info("## bacth config");
+		log.info("\t > jobRepository = {}", jobRepository);
 		return ResponseEntity.ok("success");
 	}
 
@@ -84,6 +89,7 @@ public class TestBatchController {
 	@GetMapping("/batch/job-explorer")
 	public ResponseEntity<Object> jobExplorer() {
 		log.info("## jobExplorer");
+		log.info("\t > jobExplorer = {}", jobExplorer);
 		List<String> batchJobs = jobExplorer.getJobNames();
 		if (!batchJobs.isEmpty()) {
 			log.info("\t > batch jobs = {}", batchJobs);
@@ -101,6 +107,7 @@ public class TestBatchController {
 	@GetMapping("/batch/job-registry")
 	public ResponseEntity<Object> jobRegistry() {
 		log.info("## jobRegistry");
+		log.info("\t > jobRegistry = {}", jobRegistry);
 		log.info("\t > batch jobs from jobRegistry = {}", jobRegistry.getJobNames());
 		return ResponseEntity.ok("success");
 	}
