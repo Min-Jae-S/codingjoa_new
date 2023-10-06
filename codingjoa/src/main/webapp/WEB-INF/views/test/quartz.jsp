@@ -38,9 +38,9 @@
 <div class="container my-5">
 	<p>quartz.jsp</p>
 	<div class="test d-flex justify-content-center mt-5">
-		<button class="btn btn-lg btn-warning mx-3" onclick="config()">quartz config</button>
-		<button class="btn btn-lg btn-warning mx-3" onclick="state()">trigger state</button>
-		<button class="btn btn-lg btn-warning mx-3" onclick="pausedJobs()">pausedJobs</button>
+		<button class="btn btn-lg btn-warning mx-3" onclick="config()">config</button>
+		<button class="btn btn-lg btn-warning mx-3" onclick="state()">state</button>
+		<button class="btn btn-lg btn-warning mx-3 invisible" onclick="pausedJobs()">pausedJobs</button>
 		<button class="btn btn-lg btn-warning mx-3 invisible" onclick="#">#</button>
 	</div>
 	<div class="test d-flex justify-content-center mt-5">
@@ -59,7 +59,7 @@
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 <script>
 	function config() {
-		console.log("## quartz config");
+		console.log("## config");
 		$.ajax({
 			type : "GET",
 			url : "${contextPath}/test/quartz/config",
@@ -75,7 +75,7 @@
 	}
 	
 	function state() {
-		console.log("## trigger state");
+		console.log("## state");
 		$.ajax({
 			type : "GET",
 			url : "${contextPath}/test/quartz/state",

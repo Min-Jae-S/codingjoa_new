@@ -71,7 +71,6 @@ public class TestQuartzController {
 				.collect(Collectors.toSet());
 		log.info("\t > jobs          = {}", jobs);
 		log.info("\t > triggers      = {}", triggers);
-		
 		return ResponseEntity.ok("success");
 	}
 
@@ -82,11 +81,25 @@ public class TestQuartzController {
 		Set<TriggerKey> triggerKeys = scheduler.getTriggerKeys(GroupMatcher.anyTriggerGroup());
 		log.info("\t > triggerKeys = {}", triggerKeys);
 		
+		Set<String> pausedJobs = new HashSet<>();
+		Set<String> runningJobs = new HashSet<>();
+		Set<String> unknownJobs = new HashSet<>();
 		for (TriggerKey triggerKey : triggerKeys) {
-			String jobName = scheduler.getTrigger(triggerKey).getJobKey().getName();
-			log.info("\t > {} ( {} )", jobName, scheduler.getTriggerState(triggerKey));
+			Trigger trigger = scheduler.getTrigger(triggerKey);
+			String jobName = trigger.getJobKey().getName();
+			
+			TriggerState triggerState = scheduler.getTriggerState(triggerKey);
+			if (triggerState == TriggerState.PAUSED) {
+				pausedJobs.add(jobName);
+			} else if (triggerState == TriggerState.NORMAL) {
+				runningJobs.add(jobName);
+			} else {
+				unknownJobs.add(jobName);
+			}
 		}
-		
+		log.info("\t > PAUSED = {}", pausedJobs);
+		log.info("\t > RUNNING = {}", runningJobs);
+		log.info("\t > UNKNOWN = {}", unknownJobs);
 		return ResponseEntity.ok("success");
 	}
 	
@@ -97,13 +110,13 @@ public class TestQuartzController {
 		Set<JobKey> pausedJobs = new HashSet<>();
 		Set<TriggerKey> triggerKeys = scheduler.getTriggerKeys(GroupMatcher.anyTriggerGroup());
 		for (TriggerKey triggerKey : triggerKeys) {
-			if (scheduler.getTriggerState(triggerKey) == TriggerState.PAUSED) {
+			TriggerState triggerState = scheduler.getTriggerState(triggerKey);
+			if (triggerState == TriggerState.PAUSED) {
 				 Trigger pausedTrigger = scheduler.getTrigger(triggerKey);
 				 JobKey pausedJobKey = pausedTrigger.getJobKey();
 				 pausedJobs.add(pausedJobKey);
 			}
 		}
-		
 		log.info("\t > paused jobs = {}", pausedJobs);
 		return ResponseEntity.ok("success");
 	}

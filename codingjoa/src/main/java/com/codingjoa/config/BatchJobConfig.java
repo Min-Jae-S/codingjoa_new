@@ -56,7 +56,7 @@ public class BatchJobConfig {
 	@Bean
 	@JobScope // late binding
 	public Step step1() {
-		return stepBuilderFactory.get("stepA1")
+		return stepBuilderFactory.get("step1")
 				.tasklet(new Tasklet() {
 					@Override
 					public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
@@ -136,7 +136,7 @@ public class BatchJobConfig {
 	
 	@Bean
 	public JobExecutionListener jobListener() {
-		log.info("# JobExecutionListener");
+		log.info("## JobExecutionListener");
 		return new JobExecutionListener() {
 			@Override
 			public void beforeJob(JobExecution jobExecution) {

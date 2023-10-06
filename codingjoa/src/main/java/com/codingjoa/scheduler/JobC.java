@@ -36,8 +36,7 @@ public class JobC extends QuartzJobBean {
 //					.getNextJobParameters(this.job)
 //					.toJobParameters();
 			JobExecution jobExecution = jobLauncher.run(job, new JobParameters());
-			log.info("\t > jobExecution = {}", jobExecution);
-			log.info("\t =================================================================");
+			log.info("=================================================================");
 		} catch (Exception e) {
 			log.info("\t > {} : {}", e.getClass().getSimpleName(), e.getMessage());
 		}
