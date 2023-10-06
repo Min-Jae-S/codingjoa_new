@@ -53,8 +53,39 @@ public class BatchJobConfig {
 				.build();
 	}
 	
+	/* 
+	 * https://jojoldu.tistory.com/330
+	 * 
+	 * In Spring Batch, you can receive parameters from external or internal sources to use them across multiple Batch components. 
+	 * These parameters are called "Job Parameters", and to use job parameters, 
+	 * you must always declare a dedicated Spring Batch scope (@JobScope, @StepScope)
+	 * 
+	 * When you use @StepScope with Spring Batch components like Tasklet, ItemReader, ItemWriter, ItemProcessor, etc., 
+	 * Spring Batch creates these components as Spring Beans at the time of execution of the specified Step through the Spring container. 
+	 * Similarly, @JobScope causes the Bean to be created at the time of Job execution. 
+	 * In other words, it delays the creation of the Bean until the specified Scope is executed.
+	 * 
+	 * In some ways, it can be likened to the request scope in MVC. 
+	 * Just as the request scope is created when a request comes in and is discarded when the response is returned, 
+	 * JobScope and StepScope similarly involve the creation and deletion of beans when a Job or Step is executed and completed. 
+	 * 
+	 * The advantages gained by delaying the bean's creation until the execution of the Step or Job, 
+	 * as opposed to application startup, can be summarized into two main points.
+	 * 
+	 * 1. It enables Late Binding of JobParameters. 
+	 * This means that you can assign Job Parameters during the business logic processing stages, 
+	 * such as in Controllers or Services, even if it's not at the point when the application is initially executed.
+	 * 
+	 * 2. It proves useful when using the same component in parallel or concurrently. 
+	 * Imagine a scenario where you have a Tasklet within a Step, and this Tasklet has member variables and logic to modify these variables. 
+	 * Without @StepScope, when you run Steps in parallel, they might try to haphazardly modify the state of a single Tasklet. 
+	 * However, with @StepScope, each Step creates and manages its own separate Tasklet, 
+	 * ensuring there is no interference with each other's states.
+	 * 
+	 */
+	
 	@Bean
-	@JobScope // late binding
+	@JobScope
 	public Step step1() {
 		return stepBuilderFactory.get("step1")
 				.tasklet(new Tasklet() {
@@ -69,7 +100,7 @@ public class BatchJobConfig {
 	}
 	
 	@Bean
-	@JobScope // late binding
+	@JobScope
 	public Step step2() {
 		return stepBuilderFactory.get("step2")
 				.tasklet(new Tasklet() {

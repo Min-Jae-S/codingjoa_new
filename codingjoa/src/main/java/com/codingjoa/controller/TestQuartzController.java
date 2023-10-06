@@ -58,12 +58,12 @@ public class TestQuartzController {
 	public ResponseEntity<Object> config() throws SchedulerException {
 		log.info("## quartz config");
 		log.info("\t > schedulerFactoryBean = {}", schedulerFactoryBean);
-		log.info("\t    - autoStartup   = {}", schedulerFactoryBean.isAutoStartup());
-		log.info("\t    - running       = {}", schedulerFactoryBean.isRunning());
+		log.info("\t     - autoStartup   = {}", schedulerFactoryBean.isAutoStartup());
+		log.info("\t     - running       = {}", schedulerFactoryBean.isRunning());
 		log.info("\t > scheduler = {}", scheduler);
-		log.info("\t    - inStandbyMode = {}", scheduler.isInStandbyMode());
-		log.info("\t    - started       = {}", scheduler.isStarted());
-		log.info("\t    - shutdown      = {}", scheduler.isShutdown());
+		log.info("\t     - inStandbyMode = {}", scheduler.isInStandbyMode());
+		log.info("\t     - started       = {}", scheduler.isStarted());
+		log.info("\t     - shutdown      = {}", scheduler.isShutdown());
 		
 		Set<String> jobs = scheduler.getJobKeys(GroupMatcher.anyJobGroup()).stream()
 				.map(jobKey -> jobKey.getName())
@@ -71,8 +71,8 @@ public class TestQuartzController {
 		Set<String> triggers = scheduler.getTriggerKeys(GroupMatcher.anyTriggerGroup()).stream()
 				.map(triggerKey -> triggerKey.getName())
 				.collect(Collectors.toSet());
-		log.info("\t    - jobs          = {}", jobs);
-		log.info("\t    - triggers      = {}", triggers);
+		log.info("\t     - jobs          = {}", jobs);
+		log.info("\t     - triggers      = {}", triggers);
 		return ResponseEntity.ok("success");
 	}
 
