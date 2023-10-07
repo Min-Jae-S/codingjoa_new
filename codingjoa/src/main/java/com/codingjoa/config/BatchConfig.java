@@ -45,9 +45,9 @@ public class BatchConfig {
 	    // This occurs because, by default, the IsolationLevelForCreate property of the transactionManager is set to ISOLATION_SERIALIZABLE.
 	    factory.setIsolationLevelForCreate("ISOLATION_READ_COMMITTED"); // vs ISOLATION_DEFAULT
 	    factory.afterPropertiesSet();
+	    
 	    JobRepository jobRepository = factory.getObject();
 	    log.info("\t > jobRepository = {}", jobRepository);
 	    return jobRepository;
 	}
-	
 }

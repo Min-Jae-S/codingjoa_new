@@ -24,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @SuppressWarnings("unused")
 @Slf4j
-@ComponentScan("com.codingjoa.scheduler")
+@ComponentScan("com.codingjoa.scheduler") // DI for SchedulerService, JobListener, TriggerListener
 @Configuration
 public class SchedulerConfig {
 	
@@ -126,7 +126,7 @@ public class SchedulerConfig {
 		return TriggerBuilder.newTrigger()
 				.forJob(jobDetailC())
 				.withIdentity("triggerC", "myTrigger")
-				.withSchedule(SimpleScheduleBuilder.repeatSecondlyForever(30))
+				.withSchedule(SimpleScheduleBuilder.repeatSecondlyForever(10))
 				.build();
 	}
 

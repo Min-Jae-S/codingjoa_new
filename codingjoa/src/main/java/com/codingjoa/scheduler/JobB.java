@@ -1,5 +1,7 @@
 package com.codingjoa.scheduler;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -15,7 +17,7 @@ import com.codingjoa.mapper.ImageMapper;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@DisallowConcurrentExecution // 클러스터링 환경에선 해당 어노테이션 작동하지 않음
+@DisallowConcurrentExecution // In a clustering environment, these annotations do not function
 public class JobB extends QuartzJobBean {
 	
 	@Autowired
@@ -23,6 +25,9 @@ public class JobB extends QuartzJobBean {
 	
 	@Override
 	protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
+		log.info("## {}, repeated task performed on: {}", this.getClass().getSimpleName(), LocalDateTime.now().format(dtf));
+		
 		List<Integer> tempBoardImageIndexs = imageMapper.findTempBoardImages().stream()
 				.map(boardImage -> boardImage.getBoardImageIdx())
 				.sorted()

@@ -90,7 +90,6 @@ public class SchedulerService {
 			scheduler.pauseTrigger(triggerKeyA);
 			return "pause running JobA";
 		}
-		
 		return "JobA is already paused";
 	}
 
@@ -100,7 +99,6 @@ public class SchedulerService {
 			scheduler.pauseTrigger(triggerKeyB);
 			return "pause running JobB";
 		}
-		
 		return "JobB is already paused";
 	}
 
@@ -110,7 +108,6 @@ public class SchedulerService {
 			scheduler.pauseTrigger(triggerKeyC);
 			return "pause running JobC";
 		}
-		
 		return "JobC is already paused";
 	}
 	

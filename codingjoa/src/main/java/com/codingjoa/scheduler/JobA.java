@@ -11,7 +11,7 @@ import org.springframework.scheduling.quartz.QuartzJobBean;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@DisallowConcurrentExecution // 클러스터링 환경에선 해당 어노테이션 작동하지 않음
+@DisallowConcurrentExecution // In a clustering environment, these annotations do not function
 public class JobA extends QuartzJobBean {
 
 	@Override
