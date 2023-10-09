@@ -58,6 +58,7 @@ public class TestBatchController {
 		log.info("\t > jobLauncher = {}", jobLauncher);
 		log.info("\t > jobExplorer = {}", jobExplorer);
 		log.info("\t > jobRegistry = {}", jobRegistry);
+		
 		return ResponseEntity.ok("success");
 	}
 
@@ -66,6 +67,7 @@ public class TestBatchController {
 	public ResponseEntity<Object> runJobA() throws Exception {
 		log.info("## runJobA");
 		jobLauncher.run(batchJobA, new JobParameters());
+		
 		return ResponseEntity.ok("success");
 	}
 
@@ -74,6 +76,7 @@ public class TestBatchController {
 	public ResponseEntity<Object> runJobB() throws Exception {
 		log.info("## runJobB");
 		jobLauncher.run(batchJobB, new JobParameters());
+		
 		return ResponseEntity.ok("success");
 	}
 
@@ -85,6 +88,7 @@ public class TestBatchController {
 				.getNextJobParameters(this.batchJobA)
 				.toJobParameters();
 		log.info("\t > jobParameters = {}", jobParameters);
+		
 		return ResponseEntity.ok("success");
 	}
 	
