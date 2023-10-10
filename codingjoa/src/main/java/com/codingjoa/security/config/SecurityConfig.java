@@ -56,7 +56,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		log.info("## configure(AuthenticationManagerBuilder)");
 		auth.authenticationProvider(customAuthenticationProvider);
 	}
 	
@@ -72,8 +71,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		log.info("## configure(HttpSecurity)");
-		
+
 		/*	
 		 * 	FilterChain
 		 * 	https://gngsn.tistory.com/160

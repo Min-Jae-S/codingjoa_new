@@ -1,6 +1,7 @@
 package com.codingjoa.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
@@ -74,7 +75,10 @@ public class TestBatchController {
 			log.info("\t > batch jobs = {}", batchJobs);
 			batchJobs.forEach(batchJob -> {
 				List<JobInstance> jobInstances = jobExplorer.findJobInstancesByJobName(batchJob, 0, 10);
-				log.info("\t     - {}", jobInstances);
+				List<Long> instanceIds = jobInstances.stream()
+						.map(JobInstance -> JobInstance.getInstanceId())
+						.collect(Collectors.toList());
+				log.info("\t     - {} = {}", batchJob, instanceIds);
 			});
 		} else {
 			log.info("\t > NO batch jobs");

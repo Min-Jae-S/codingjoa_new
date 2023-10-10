@@ -43,7 +43,6 @@ public class MemberController {
 	public String join(@ModelAttribute JoinDto joinDto) {
 		log.info("## join");
 		log.info("\t > {}", joinDto);
-
 		return "member/join";
 	}
 
@@ -58,7 +57,6 @@ public class MemberController {
 		
 		memberService.save(joinDto);
 		redisService.delete(joinDto.getMemberEmail());
-		
 		return "member/join-success";
 	}
 
@@ -66,7 +64,6 @@ public class MemberController {
 	public String login(@ModelAttribute LoginDto loginDto, HttpServletRequest request) {
 		log.info("## login");
 		log.info("\t > {}", loginDto);
-
 		return "member/login";
 	}
 	

@@ -164,7 +164,6 @@ public class BatchJobConfig {
 	
 	@Bean
 	public JobExecutionListener jobListener() {
-		log.info("## JobExecutionListener");
 		return new JobExecutionListener() {
 			@Override
 			public void beforeJob(JobExecution jobExecution) {

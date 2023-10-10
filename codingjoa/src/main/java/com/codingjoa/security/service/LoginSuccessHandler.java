@@ -32,8 +32,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 		response.setContentType(MediaType.TEXT_HTML.toString());
 		response.setCharacterEncoding(StandardCharsets.UTF_8.toString());
 		
-		//String redirectUrl = request.getContextPath();
-		String redirectUrl = request.getContextPath() + "/test/testMavView";
+		String redirectUrl = request.getContextPath();
 		PrintWriter writer = response.getWriter();
 		writer.println("<script>");
 		writer.println("alert('" + MessageUtils.getMessage("success.Login") + "');");
