@@ -44,7 +44,7 @@ public class RootConfig {
 	@PostConstruct
 	public void init() {
 		log.info("===============================================================");
-		log.info("@ RootConfig initiate");
+		log.info("@ RootConfig");
 		log.info("===============================================================");
 	}
 	
@@ -64,7 +64,7 @@ public class RootConfig {
 	public DataSource dataSource() {
 		DataSource dataSource = new HikariDataSource(hikariConfig());
 		log.info("## DataSoruce");
-		log.info("\t > datasource connection = {}", dataSource);
+		log.info("\t > datasource = {}", dataSource);
 		return dataSource;
 	}
 	
@@ -76,23 +76,23 @@ public class RootConfig {
 	@Bean
 	public SqlSessionFactory sqlSessionFactory(ApplicationContext applicationContext) throws Exception {
 		log.info("## SqlSessionFactory");
-		SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
-		sessionFactory.setDataSource(dataSource());
-		sessionFactory.setConfigLocation(applicationContext.getResource("classpath:/mybatis/mybatis-config.xml"));
-		sessionFactory.setMapperLocations(applicationContext.getResources("classpath:/com/codingjoa/mapper/**.xml"));
-		return sessionFactory.getObject();
+		SqlSessionFactoryBean factory = new SqlSessionFactoryBean();
+		factory.setDataSource(dataSource());
+		factory.setConfigLocation(applicationContext.getResource("classpath:/mybatis/mybatis-config.xml"));
+		factory.setMapperLocations(applicationContext.getResources("classpath:/com/codingjoa/mapper/**.xml"));
+		return factory.getObject();
 	}
 	
 	@Bean
 	public SqlSessionTemplate sqlSessionTemplate(SqlSessionFactory sqlSessionFactory) {
 		log.info("## SqlSessionTemplate");
-		SqlSessionTemplate sessionTemplate = new SqlSessionTemplate(sqlSessionFactory);
-		org.apache.ibatis.session.Configuration config = sessionTemplate.getConfiguration();
+		SqlSessionTemplate template = new SqlSessionTemplate(sqlSessionFactory);
+		org.apache.ibatis.session.Configuration config = template.getConfiguration();
 		log.info("\t > jdbcTypeForNull = {}", config.getJdbcTypeForNull());
 		log.info("\t > mapUnderscoreToCamelCase = {}", config.isMapUnderscoreToCamelCase());
 		log.info("\t > callSettersOnNulls = {}", config.isCallSettersOnNulls());
 		log.info("\t > returnInstanceForEmptyRow = {}", config.isReturnInstanceForEmptyRow());
-		return sessionTemplate;
+		return template;
 	}
 	
 	@Bean

@@ -1,7 +1,5 @@
 package com.codingjoa.config;
 
-import javax.annotation.PostConstruct;
-
 import org.quartz.JobBuilder;
 import org.quartz.JobDetail;
 import org.quartz.JobListener;
@@ -35,13 +33,6 @@ public class QuartzConfig {
 
 	@Autowired
     private TriggerListener triggerListener;
-	
-	@PostConstruct
-	public void init() {
-		log.info("===============================================================");
-		log.info("@ QuartzConfig initiate");
-		log.info("===============================================================");
-	}
 	
 	@Bean
 	public SchedulerFactoryBean schedulerFactoryBean() {

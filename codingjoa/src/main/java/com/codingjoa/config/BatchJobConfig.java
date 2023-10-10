@@ -88,14 +88,14 @@ public class BatchJobConfig {
 	 */
 	
 	@Bean
-	@JobScope
+	@JobScope // Parameter Lazy Loading 
 	public Step step1() {
 		return stepBuilderFactory.get("step1")
 				.tasklet((contribution, chunkContext) -> {
 					log.info("## this is step1");
 					return RepeatStatus.FINISHED;
 				})
-				.allowStartIfComplete(true)
+				.allowStartIfComplete(true) // Step already complete or not restartable, so no action to execute
 				.build();
 	}
 	
@@ -112,14 +112,14 @@ public class BatchJobConfig {
 	}
 	
 	@Bean
-	@JobScope // late binding
+	@JobScope
 	public Step stepA1() {
 		return stepBuilderFactory.get("stepA1")
 				.tasklet((contribution, chunkContext) -> {
 					log.info("## this is stepA1");
 					return RepeatStatus.FINISHED;
 				})
-				.allowStartIfComplete(true) // Step already complete or not restartable, so no action to execute
+				.allowStartIfComplete(true) 
 				.build();
 	}
 

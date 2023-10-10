@@ -1,6 +1,5 @@
 package com.codingjoa.config;
 
-import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
@@ -24,16 +23,8 @@ public class BatchConfig {
 	@Autowired
 	private PlatformTransactionManager transactionManager;
 	
-	@PostConstruct
-	public void init() {
-		log.info("===============================================================");
-		log.info("@ BatchConfig initiate");
-		log.info("===============================================================");
-	}
-	
 	@Bean
 	public JobRepository jobRepository() throws Exception {
-		log.info("## JobRepository");
 		JobRepositoryFactoryBean factory = new JobRepositoryFactoryBean();
 	    factory.setDataSource(dataSource);
 	    factory.setTransactionManager(transactionManager);
@@ -45,9 +36,13 @@ public class BatchConfig {
 	    // This occurs because, by default, the IsolationLevelForCreate property of the transactionManager is set to ISOLATION_SERIALIZABLE.
 	    factory.setIsolationLevelForCreate("ISOLATION_READ_COMMITTED"); // vs ISOLATION_DEFAULT
 	    factory.afterPropertiesSet();
-	    
-	    JobRepository jobRepository = factory.getObject();
-	    log.info("\t > jobRepository = {}", jobRepository);
-	    return jobRepository;
+	    return factory.getObject();
+	}
+	
+	public void printBatchConfig() throws Exception {
+		String dataSourceUrl = dataSource.getConnection().getMetaData().getURL();
+		log.info("\t > dataSource = {}", dataSource);
+        log.info("\t > dataSource URL = {}", dataSourceUrl);
+        log.info("\t > transaction manager = {}", transactionManager);
 	}
 }

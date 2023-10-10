@@ -11,13 +11,14 @@ import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.core.configuration.JobRegistry;
 import org.springframework.batch.core.explore.JobExplorer;
 import org.springframework.batch.core.launch.JobLauncher;
-import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.codingjoa.config.BatchConfig;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -36,7 +37,7 @@ public class TestBatchController {
 	private JobRegistry jobRegistry;
 	
 	@Autowired
-	private JobRepository jobRepository;
+	private BatchConfig batchConfig;
 	
 	@Resource(name = "batchJobA")
 	private Job batchJobA;
@@ -52,12 +53,9 @@ public class TestBatchController {
 
 	@ResponseBody
 	@GetMapping("/batch/config")
-	public ResponseEntity<Object> config() {
+	public ResponseEntity<Object> config() throws Exception {
 		log.info("## bacth config");
-		log.info("\t > jobRepository = {}", jobRepository);
-		log.info("\t > jobLauncher = {}", jobLauncher);
-		log.info("\t > jobExplorer = {}", jobExplorer);
-		log.info("\t > jobRegistry = {}", jobRegistry);
+		batchConfig.printBatchConfig();
 		return ResponseEntity.ok("success");
 	}
 
