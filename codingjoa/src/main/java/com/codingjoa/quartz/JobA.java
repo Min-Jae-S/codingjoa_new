@@ -1,4 +1,4 @@
-package com.codingjoa.scheduler;
+package com.codingjoa.quartz;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

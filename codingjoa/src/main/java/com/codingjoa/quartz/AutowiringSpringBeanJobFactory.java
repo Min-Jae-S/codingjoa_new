@@ -1,4 +1,4 @@
-package com.codingjoa.scheduler;
+package com.codingjoa.quartz;
 
 import org.quartz.spi.TriggerFiredBundle;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;

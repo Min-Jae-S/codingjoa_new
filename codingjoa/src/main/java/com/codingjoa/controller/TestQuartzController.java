@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.codingjoa.scheduler.service.SchedulerService;
+import com.codingjoa.quartz.service.SchedulerService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -99,9 +99,9 @@ public class TestQuartzController {
 				unknownJobs.add(jobName);
 			}
 		}
-		log.info("\t > PAUSED = {}", pausedJobs);
-		log.info("\t > RUNNING = {}", runningJobs);
-		log.info("\t > UNKNOWN = {}", unknownJobs);
+		log.info("\t > PAUSED  Jobs = {}", pausedJobs);
+		log.info("\t > RUNNING Jobs = {}", runningJobs);
+		log.info("\t > UNKNOWN Jobs = {}", unknownJobs);
 		return ResponseEntity.ok("success");
 	}
 	
@@ -150,10 +150,10 @@ public class TestQuartzController {
 	}
 
 	@ResponseBody
-	@GetMapping("/quartz/start/job-c")
-	public ResponseEntity<Object> startJobC() throws SchedulerException {
-		log.info("## startJobC");
-		String result = schedulerService.startJobC();
+	@GetMapping("/quartz/start/job-quartz")
+	public ResponseEntity<Object> startQuartzJob() throws SchedulerException {
+		log.info("## startQuartzJob");
+		String result = schedulerService.startQuartzJob();
 		log.info("\t > {}", result);
 		return ResponseEntity.ok(result);
 	}
@@ -185,10 +185,10 @@ public class TestQuartzController {
 	}
 
 	@ResponseBody
-	@GetMapping("/quartz/pause/job-c")
-	public ResponseEntity<Object> pauseJobC() throws SchedulerException {
+	@GetMapping("/quartz/pause/job-quartz")
+	public ResponseEntity<Object> pauseQuartzJob() throws SchedulerException {
 		log.info("## pauseJobC");
-		String result = schedulerService.pauseJobC();
+		String result = schedulerService.pauseQuartzJob();
 		log.info("\t > {}", result);
 		return ResponseEntity.ok(result);
 	}

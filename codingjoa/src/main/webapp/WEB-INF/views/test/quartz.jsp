@@ -47,13 +47,13 @@
 		<button class="btn btn-primary btn-lg mx-3" onclick="start(this)" data-url="${contextPath}/test/quartz/start">start All</button>
 		<button class="btn btn-primary btn-lg mx-3" onclick="start(this)" data-url="${contextPath}/test/quartz/start/job-a">start JobA</button>
 		<button class="btn btn-primary btn-lg mx-3" onclick="start(this)" data-url="${contextPath}/test/quartz/start/job-b">start JobB</button>
-		<button class="btn btn-primary btn-lg mx-3" onclick="start(this)" data-url="${contextPath}/test/quartz/start/job-c">start JobC</button>
+		<button class="btn btn-primary btn-lg mx-3" onclick="start(this)" data-url="${contextPath}/test/quartz/start/job-quartz">start QuartzJob</button>
 	</div>
 	<div class="test d-flex justify-content-center mt-5">
 		<button class="btn btn-danger btn-lg mx-3" onclick="pause(this)" data-url="${contextPath}/test/quartz/pause">pause All</button>
 		<button class="btn btn-danger btn-lg mx-3" onclick="pause(this)" data-url="${contextPath}/test/quartz/pause/job-a">pause JobA</button>
 		<button class="btn btn-danger btn-lg mx-3" onclick="pause(this)" data-url="${contextPath}/test/quartz/pause/job-b" >pause JobB</button>
-		<button class="btn btn-danger btn-lg mx-3" onclick="pause(this)" data-url="${contextPath}/test/quartz/pause/job-c" >pause JobC</button>
+		<button class="btn btn-danger btn-lg mx-3" onclick="pause(this)" data-url="${contextPath}/test/quartz/pause/job-quartz" >pause QuartzJob</button>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>

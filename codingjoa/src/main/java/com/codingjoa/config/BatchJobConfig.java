@@ -28,11 +28,10 @@ public class BatchJobConfig {
 	private StepBuilderFactory stepBuilderFactory;
 	
 	@Bean
-	public Job testJob() {
-		return jobBuilderFactory.get("testJob")
+	public Job simpleJob() {
+		return jobBuilderFactory.get("simpleJob")
 				.start(step1())
 				.next(step2())
-				.listener(jobListener())
 				.build();
 	}
 	
@@ -82,18 +81,19 @@ public class BatchJobConfig {
 	 * However, with @StepScope, each Step creates and manages its own separate Tasklet, 
 	 * ensuring there is no interference with each other's states.
 	 * 
+	 * Job Parameters can be accessed at the time of creating Step, Tasklet, Reader, 
+	 * and other Batch component beans, but specifically when creating Scope beans.
+	 * In other words, you can only use Job Parameters when creating @StepScope and @JobScope beans.
+	 * 
 	 */
 	
 	@Bean
 	@JobScope
 	public Step step1() {
 		return stepBuilderFactory.get("step1")
-				.tasklet(new Tasklet() {
-					@Override
-					public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
-						log.info("## this is step1");
-						return RepeatStatus.FINISHED;
-					}
+				.tasklet((contribution, chunkContext) -> {
+					log.info("## this is step1");
+					return RepeatStatus.FINISHED;
 				})
 				.allowStartIfComplete(true)
 				.build();
@@ -103,12 +103,9 @@ public class BatchJobConfig {
 	@JobScope
 	public Step step2() {
 		return stepBuilderFactory.get("step2")
-				.tasklet(new Tasklet() {
-					@Override
-					public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
-						log.info("## this is step2");
-						return RepeatStatus.FINISHED;
-					}
+				.tasklet((contribution, chunkContext) -> {
+					log.info("## this is step2");
+					return RepeatStatus.FINISHED;
 				})
 				.allowStartIfComplete(true) 
 				.build();
@@ -118,12 +115,9 @@ public class BatchJobConfig {
 	@JobScope // late binding
 	public Step stepA1() {
 		return stepBuilderFactory.get("stepA1")
-				.tasklet(new Tasklet() {
-					@Override
-					public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
-						log.info("## this is stepA1");
-						return RepeatStatus.FINISHED;
-					}
+				.tasklet((contribution, chunkContext) -> {
+					log.info("## this is stepA1");
+					return RepeatStatus.FINISHED;
 				})
 				.allowStartIfComplete(true) // Step already complete or not restartable, so no action to execute
 				.build();
@@ -157,9 +151,12 @@ public class BatchJobConfig {
 	@JobScope
 	public Step stepB2() {
 		return stepBuilderFactory.get("stepB2")
-				.tasklet((contribution, chunkContext) -> {
-					log.info("## this is stepB2");
-					return RepeatStatus.FINISHED;
+				.tasklet(new Tasklet() {
+					@Override
+					public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
+						log.info("## this is stepB2");
+						return RepeatStatus.FINISHED;
+					}
 				})
 				.allowStartIfComplete(true)
 				.build();

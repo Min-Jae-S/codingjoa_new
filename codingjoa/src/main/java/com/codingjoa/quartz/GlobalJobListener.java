@@ -1,4 +1,4 @@
-package com.codingjoa.scheduler;
+package com.codingjoa.quartz;
 
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;

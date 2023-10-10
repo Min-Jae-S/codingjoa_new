@@ -1,4 +1,4 @@
-package com.codingjoa.scheduler.service;
+package com.codingjoa.quartz.service;
 
 import java.util.Set;
 
@@ -28,8 +28,8 @@ public class SchedulerService {
 	@Resource(name = "triggerB")
 	private Trigger triggerB;
 
-	@Resource(name = "triggerC")
-	private Trigger triggerC;
+	@Resource(name = "simpleTrigger")
+	private Trigger simpleTrigger;
 	
 	public void startAllJobs() throws SchedulerException {
 		Set<TriggerKey> triggerKeys = scheduler.getTriggerKeys(GroupMatcher.anyTriggerGroup());
@@ -62,13 +62,13 @@ public class SchedulerService {
 		return "JobB is already running";
 	}
 
-	public String startJobC() throws SchedulerException {
-		TriggerKey triggerKeyC = triggerC.getKey();
-		if (isTriggerPaused(triggerKeyC)) {
-			scheduler.resumeTrigger(triggerKeyC);
-			return "resume paused JobC";
+	public String startQuartzJob() throws SchedulerException {
+		TriggerKey simpleTriggerKey = simpleTrigger.getKey();
+		if (isTriggerPaused(simpleTriggerKey)) {
+			scheduler.resumeTrigger(simpleTriggerKey);
+			return "resume paused QuartzJob";
 		}
-		return "JobC is already running";
+		return "QuartzJob is already running";
 	}
 	
 	public void pauseAllJobs() throws SchedulerException {
@@ -102,13 +102,13 @@ public class SchedulerService {
 		return "JobB is already paused";
 	}
 
-	public String pauseJobC() throws SchedulerException {
-		TriggerKey triggerKeyC = triggerC.getKey();
-		if (!isTriggerPaused(triggerKeyC)) {
-			scheduler.pauseTrigger(triggerKeyC);
-			return "pause running JobC";
+	public String pauseQuartzJob() throws SchedulerException {
+		TriggerKey simpleTriggerKey = simpleTrigger.getKey();
+		if (!isTriggerPaused(simpleTriggerKey)) {
+			scheduler.pauseTrigger(simpleTriggerKey);
+			return "pause running QuartzJob";
 		}
-		return "JobC is already paused";
+		return "QuartzJob is already paused";
 	}
 	
 	private boolean isTriggerPaused(TriggerKey triggerKey) throws SchedulerException {

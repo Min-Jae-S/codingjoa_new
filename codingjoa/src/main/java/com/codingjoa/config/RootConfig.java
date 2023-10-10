@@ -44,7 +44,7 @@ public class RootConfig {
 	@PostConstruct
 	public void init() {
 		log.info("===============================================================");
-		log.info("@ RootConfig init");
+		log.info("@ RootConfig initiate");
 		log.info("===============================================================");
 	}
 	

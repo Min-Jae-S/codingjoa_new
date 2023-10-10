@@ -1,4 +1,4 @@
-package com.codingjoa.scheduler;
+package com.codingjoa.quartz;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -10,6 +10,7 @@ import org.quartz.JobExecutionException;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobParameters;
+import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.core.explore.JobExplorer;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 @SuppressWarnings("unused")
 @Slf4j
 //@DisallowConcurrentExecution // In a clustering environment, these annotations do not function
-public class JobC extends QuartzJobBean {
+public class QuartzJob extends QuartzJobBean {
 	
 	@Autowired
 	private JobLauncher jobLauncher;
@@ -28,7 +29,7 @@ public class JobC extends QuartzJobBean {
 	@Autowired
 	private JobExplorer jobExplorer;
 	
-	@Resource(name = "testJob")
+	@Resource(name = "simpleJob")
 	private Job job;
 	
 	@Override
@@ -40,7 +41,11 @@ public class JobC extends QuartzJobBean {
 //			JobParameters jobParameters = new JobParametersBuilder(this.jobExplorer)
 //					.getNextJobParameters(this.job)
 //					.toJobParameters();
-			JobExecution jobExecution = jobLauncher.run(job, new JobParameters());
+			JobParameters jobParameters = new JobParametersBuilder()
+					.addLong("time", System.currentTimeMillis())
+					.toJobParameters();
+			log.info("\t > jobParameters = {}", jobParameters);
+			JobExecution jobExecution = jobLauncher.run(job, jobParameters);
 			log.info("***********************************************************************");
 		} catch (Exception e) {
 			log.info("\t > {} : {}", e.getClass().getSimpleName(), e.getMessage());

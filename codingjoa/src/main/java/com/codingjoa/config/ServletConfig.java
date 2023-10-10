@@ -84,7 +84,7 @@ public class ServletConfig implements WebMvcConfigurer {
 	@PostConstruct
 	public void init() {
 		log.info("===============================================================");
-		log.info("@ ServletConfig init");
+		log.info("@ ServletConfig initiate");
 		log.info("===============================================================");
 	}
 	

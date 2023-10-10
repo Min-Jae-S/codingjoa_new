@@ -39,9 +39,9 @@
 	<p>batch.jsp</p>
 	<div class="test d-flex justify-content-center mt-5">
 		<button class="btn btn-lg btn-warning mx-3" onclick="config()">config</button>
-		<button class="btn btn-lg btn-warning mx-3" onclick="jobParameters()">jobParameters</button>
 		<button class="btn btn-lg btn-warning mx-3" onclick="jobExplorer()">jobExplorer</button>
 		<button class="btn btn-lg btn-warning mx-3" onclick="jobRegistry()">jobRegistry</button>
+		<button class="btn btn-lg btn-warning mx-3" onclick="jobParameters()">jobParameters</button>
 	</div>
 	<div class="test d-flex justify-content-center mt-5">
 		<button class="btn btn-lg btn-primary mx-3" onclick="runJobA()">run JobA</button>

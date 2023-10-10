@@ -18,17 +18,17 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.scheduling.quartz.SpringBeanJobFactory;
 
-import com.codingjoa.scheduler.JobA;
-import com.codingjoa.scheduler.JobB;
-import com.codingjoa.scheduler.JobC;
+import com.codingjoa.quartz.JobA;
+import com.codingjoa.quartz.JobB;
+import com.codingjoa.quartz.QuartzJob;
 
 import lombok.extern.slf4j.Slf4j;
 
 @SuppressWarnings("unused")
 @Slf4j
-@ComponentScan("com.codingjoa.scheduler") // DI for SchedulerService, JobListener, TriggerListener
+@ComponentScan("com.codingjoa.quartz") // DI for SchedulerService, JobListener, TriggerListener
 @Configuration
-public class SchedulerConfig {
+public class QuartzConfig {
 	
 	@Autowired
 	private JobListener jobListener;
@@ -39,7 +39,7 @@ public class SchedulerConfig {
 	@PostConstruct
 	public void init() {
 		log.info("===============================================================");
-		log.info("@ SchedulerConfig init");
+		log.info("@ QuartzConfig initiate");
 		log.info("===============================================================");
 	}
 	
@@ -49,8 +49,8 @@ public class SchedulerConfig {
 		schedulerFactory.setJobFactory(jobFactory());
 		//schedulerFactory.setGlobalJobListeners(jobListener);
 		//schedulerFactory.setGlobalTriggerListeners(triggerListener);
-		schedulerFactory.setJobDetails(jobDetailA(), jobDetailB(), jobDetailC());
-		schedulerFactory.setTriggers(triggerA(), triggerB(), triggerC());
+		schedulerFactory.setJobDetails(jobDetailA(), jobDetailB(), quartzJobDetail());
+		schedulerFactory.setTriggers(triggerA(), triggerB(), simpleTrigger());
 		schedulerFactory.setAutoStartup(false);
 		schedulerFactory.setOverwriteExistingJobs(true);
 		schedulerFactory.setWaitForJobsToCompleteOnShutdown(true);
@@ -105,9 +105,9 @@ public class SchedulerConfig {
 	}
 
 	@Bean
-	public JobDetail jobDetailC() {
-		return JobBuilder.newJob(JobC.class)
-				.withIdentity("jobC", "myJob")
+	public JobDetail quartzJobDetail() {
+		return JobBuilder.newJob(QuartzJob.class)
+				.withIdentity("QuartzJob", "myJob")
 				.storeDurably()
 				.build();
 	}
@@ -131,10 +131,10 @@ public class SchedulerConfig {
 	}
 
 	@Bean
-	public Trigger triggerC() {
+	public Trigger simpleTrigger() {
 		return TriggerBuilder.newTrigger()
-				.forJob(jobDetailC())
-				.withIdentity("triggerC", "myTrigger")
+				.forJob(quartzJobDetail())
+				.withIdentity("simpleTrigger", "myTrigger")
 				.withSchedule(SimpleScheduleBuilder.repeatSecondlyForever(10))
 				.build();
 	}

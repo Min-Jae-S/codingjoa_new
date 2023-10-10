@@ -27,7 +27,7 @@ public class BatchConfig {
 	@PostConstruct
 	public void init() {
 		log.info("===============================================================");
-		log.info("@ BatchConfig init");
+		log.info("@ BatchConfig initiate");
 		log.info("===============================================================");
 	}
 	

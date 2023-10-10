@@ -62,33 +62,6 @@ public class TestBatchController {
 	}
 
 	@ResponseBody
-	@GetMapping("/batch/run/job-a")
-	public ResponseEntity<Object> runJobA() throws Exception {
-		log.info("## runJobA");
-		jobLauncher.run(batchJobA, new JobParameters());
-		return ResponseEntity.ok("success");
-	}
-
-	@ResponseBody
-	@GetMapping("/batch/run/job-b")
-	public ResponseEntity<Object> runJobB() throws Exception {
-		log.info("## runJobB");
-		jobLauncher.run(batchJobB, new JobParameters());
-		return ResponseEntity.ok("success");
-	}
-
-	@ResponseBody
-	@GetMapping("/batch/job-parameters")
-	public ResponseEntity<Object> jobParameters() {
-		log.info("## jobParameters");
-		JobParameters jobParameters = new JobParametersBuilder(this.jobExplorer)
-				.getNextJobParameters(this.batchJobA)
-				.toJobParameters();
-		log.info("\t > jobParameters = {}", jobParameters);
-		return ResponseEntity.ok("success");
-	}
-	
-	@ResponseBody
 	@GetMapping("/batch/job-explorer")
 	public ResponseEntity<Object> jobExplorer() {
 		log.info("## jobExplorer");
@@ -110,6 +83,33 @@ public class TestBatchController {
 	public ResponseEntity<Object> jobRegistry() {
 		log.info("## jobRegistry");
 		log.info("\t > batch jobs = {}", jobRegistry.getJobNames());
+		return ResponseEntity.ok("success");
+	}
+	
+	@ResponseBody
+	@GetMapping("/batch/job-parameters")
+	public ResponseEntity<Object> jobParameters() {
+		log.info("## jobParameters");
+		JobParameters jobParameters = new JobParametersBuilder(this.jobExplorer)
+				.getNextJobParameters(this.batchJobA)
+				.toJobParameters();
+		log.info("\t > jobParameters = {}", jobParameters);
+		return ResponseEntity.ok("success");
+	}
+	
+	@ResponseBody
+	@GetMapping("/batch/run/job-a")
+	public ResponseEntity<Object> runJobA() throws Exception {
+		log.info("## runJobA");
+		jobLauncher.run(batchJobA, new JobParameters());
+		return ResponseEntity.ok("success");
+	}
+
+	@ResponseBody
+	@GetMapping("/batch/run/job-b")
+	public ResponseEntity<Object> runJobB() throws Exception {
+		log.info("## runJobB");
+		jobLauncher.run(batchJobB, new JobParameters());
 		return ResponseEntity.ok("success");
 	}
 	
