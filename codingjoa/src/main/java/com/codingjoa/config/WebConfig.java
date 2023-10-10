@@ -1,5 +1,6 @@
 package com.codingjoa.config;
 
+import java.util.Arrays;
 import java.util.EnumSet;
 
 import javax.servlet.DispatcherType;
@@ -25,28 +26,33 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 	
 	@Override
 	protected Class<?>[] getRootConfigClasses() {
-		log.info("## getRootConfigClasses");
-		return new Class[] { 
-			RootConfig.class, 
-			SecurityConfig.class,
-			EmailConfig.class, 
-			RedisConfig.class,
-			QuartzConfig.class,
-			BatchConfig.class,
-			BatchJobConfig.class
+		Class<?>[] rootConfigClasses = new Class[] { 
+				RootConfig.class, 
+				SecurityConfig.class,
+				EmailConfig.class, 
+				RedisConfig.class,
+				QuartzConfig.class,
+//				BatchConfig.class,
+//				BatchJobConfig.class
+				BatchConfig2.class,
+				BatchJobConfig2.class
 		};
+		log.info("\t > rootConfigClasses = {}", Arrays.toString(rootConfigClasses));
+		return rootConfigClasses;
 	}
 
 	@Override
 	protected Class<?>[] getServletConfigClasses() {
-		log.info("## getServletConfigClasses");
-		return new Class[] { ServletConfig.class };
+		Class<?>[] servletConfigClasses = new Class[] { ServletConfig.class };
+		log.info("\t > servletConfigClasses = {}", Arrays.toString(servletConfigClasses));	
+		return servletConfigClasses;
 	}
 
 	@Override
 	protected String[] getServletMappings() {
-		log.info("## getServletMappings");
-		return new String[] { "/" };
+		String[] servletMappings = new String[] { "/" };
+		log.info("\t > servletMappings = {}", Arrays.toString(servletMappings));	
+		return servletMappings;
 	}
 	
 	@Override
