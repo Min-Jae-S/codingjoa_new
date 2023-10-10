@@ -28,8 +28,8 @@ public class SchedulerService {
 	@Resource(name = "triggerB")
 	private Trigger triggerB;
 
-	@Resource(name = "simpleTrigger")
-	private Trigger simpleTrigger;
+	@Resource(name = "quartzTrigger")
+	private Trigger quartzTrigger;
 	
 	public void startAllJobs() throws SchedulerException {
 		Set<TriggerKey> triggerKeys = scheduler.getTriggerKeys(GroupMatcher.anyTriggerGroup());
@@ -63,9 +63,9 @@ public class SchedulerService {
 	}
 
 	public String startQuartzJob() throws SchedulerException {
-		TriggerKey simpleTriggerKey = simpleTrigger.getKey();
-		if (isTriggerPaused(simpleTriggerKey)) {
-			scheduler.resumeTrigger(simpleTriggerKey);
+		TriggerKey quartzTriggerKey = quartzTrigger.getKey();
+		if (isTriggerPaused(quartzTriggerKey)) {
+			scheduler.resumeTrigger(quartzTriggerKey);
 			return "resume paused QuartzJob";
 		}
 		return "QuartzJob is already running";
@@ -103,9 +103,9 @@ public class SchedulerService {
 	}
 
 	public String pauseQuartzJob() throws SchedulerException {
-		TriggerKey simpleTriggerKey = simpleTrigger.getKey();
-		if (!isTriggerPaused(simpleTriggerKey)) {
-			scheduler.pauseTrigger(simpleTriggerKey);
+		TriggerKey quartzTriggerKey = quartzTrigger.getKey();
+		if (!isTriggerPaused(quartzTriggerKey)) {
+			scheduler.pauseTrigger(quartzTriggerKey);
 			return "pause running QuartzJob";
 		}
 		return "QuartzJob is already paused";

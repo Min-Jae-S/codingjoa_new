@@ -86,11 +86,13 @@ public class TestQuartzController {
 		Set<String> pausedJobs = new HashSet<>();
 		Set<String> runningJobs = new HashSet<>();
 		Set<String> unknownJobs = new HashSet<>();
+		log.info("\t ==============================================");
 		for (TriggerKey triggerKey : triggerKeys) {
 			Trigger trigger = scheduler.getTrigger(triggerKey);
 			String jobName = trigger.getJobKey().getName();
-			
 			TriggerState triggerState = scheduler.getTriggerState(triggerKey);
+			log.info("\t > {} = {}", jobName, triggerState);
+			
 			if (triggerState == TriggerState.PAUSED) {
 				pausedJobs.add(jobName);
 			} else if (triggerState == TriggerState.NORMAL) {
@@ -99,6 +101,7 @@ public class TestQuartzController {
 				unknownJobs.add(jobName);
 			}
 		}
+		log.info("\t ==============================================");
 		log.info("\t > PAUSED  Jobs = {}", pausedJobs);
 		log.info("\t > RUNNING Jobs = {}", runningJobs);
 		log.info("\t > UNKNOWN Jobs = {}", unknownJobs);

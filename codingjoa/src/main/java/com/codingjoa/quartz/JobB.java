@@ -3,7 +3,6 @@ package com.codingjoa.quartz;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import org.quartz.DisallowConcurrentExecution;
@@ -36,12 +35,6 @@ public class JobB extends QuartzJobBean {
 				.map(memberImage -> memberImage.getMemberImageIdx())
 				.sorted()
 				.collect(Collectors.toList());
-		log.info("## {}, tempBoardImages = {}, tempMemberImages = {}", 
-				this.getClass().getSimpleName(), tempBoardImageIndexs, tempMemberImageIndexs);
-		try {
-			TimeUnit.SECONDS.sleep(10);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		log.info("\t > tempBoardImages = {}, tempMemberImages = {}", tempBoardImageIndexs, tempMemberImageIndexs);
 	}
 }

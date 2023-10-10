@@ -50,7 +50,7 @@ public class QuartzConfig {
 		//schedulerFactory.setGlobalJobListeners(jobListener);
 		//schedulerFactory.setGlobalTriggerListeners(triggerListener);
 		schedulerFactory.setJobDetails(jobDetailA(), jobDetailB(), quartzJobDetail());
-		schedulerFactory.setTriggers(triggerA(), triggerB(), simpleTrigger());
+		schedulerFactory.setTriggers(triggerA(), triggerB(), quartzTrigger());
 		schedulerFactory.setAutoStartup(false);
 		schedulerFactory.setOverwriteExistingJobs(true);
 		schedulerFactory.setWaitForJobsToCompleteOnShutdown(true);
@@ -131,10 +131,10 @@ public class QuartzConfig {
 	}
 
 	@Bean
-	public Trigger simpleTrigger() {
+	public Trigger quartzTrigger() {
 		return TriggerBuilder.newTrigger()
 				.forJob(quartzJobDetail())
-				.withIdentity("simpleTrigger", "myTrigger")
+				.withIdentity("quartzTrigger", "myTrigger")
 				.withSchedule(SimpleScheduleBuilder.repeatSecondlyForever(10))
 				.build();
 	}
