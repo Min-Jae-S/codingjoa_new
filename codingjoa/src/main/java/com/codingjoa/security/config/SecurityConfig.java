@@ -45,7 +45,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@PostConstruct
 	public void init() {
 		log.info("===============================================================");
-		log.info("@ SecurityConfig initiate");
+		log.info("@ SecurityConfig");
 		log.info("===============================================================");
 	}
 	

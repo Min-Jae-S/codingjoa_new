@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.codingjoa.config.BatchConfig;
+import com.codingjoa.config.RootConfig;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -39,6 +40,9 @@ public class TestBatchController {
 	@Autowired
 	private BatchConfig batchConfig;
 	
+	@Autowired
+	private RootConfig rootConfig;
+	
 	@Resource(name = "batchJobA")
 	private Job batchJobA;
 
@@ -56,6 +60,8 @@ public class TestBatchController {
 	public ResponseEntity<Object> config() throws Exception {
 		log.info("## bacth config");
 		batchConfig.printBatchConfig();
+		log.info("\t ========================================================================================================");
+		rootConfig.printRootConfig();
 		return ResponseEntity.ok("success");
 	}
 

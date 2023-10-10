@@ -2,7 +2,6 @@ package com.codingjoa.controller;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.quartz.JobKey;
 import org.quartz.Scheduler;
@@ -13,12 +12,12 @@ import org.quartz.TriggerKey;
 import org.quartz.impl.matchers.GroupMatcher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.codingjoa.config.QuartzConfig;
 import com.codingjoa.quartz.service.SchedulerService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -28,24 +27,14 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 public class TestQuartzController {
 	
-	/*	
-	 * ## Quartz
-	 * 	> enable in-memory job scheduler
-	 * 	> clustering using database
-	 * 	> Job, Trigger
-	 * 	> JobDetails, JobDataMap, JobListener, TriggerListener
-	 * 	> start (scheduleJob, resumeJob, triggerJob, addJob)
-	 * 	> stop (interrupt, unscheduleJob, pauseJob, deleteJob)
-	 */
-	
-	@Autowired
-	private SchedulerFactoryBean schedulerFactoryBean;
-	
 	@Autowired
 	private Scheduler scheduler;
 	
 	@Autowired
 	private SchedulerService schedulerService;
+	
+	@Autowired
+	private QuartzConfig quartzConfig;
 	
 	@GetMapping("/quartz")
 	public String main() {
@@ -57,22 +46,7 @@ public class TestQuartzController {
 	@GetMapping("/quartz/config")
 	public ResponseEntity<Object> config() throws SchedulerException {
 		log.info("## quartz config");
-		log.info("\t > schedulerFactoryBean = {}", schedulerFactoryBean);
-		log.info("\t     - autoStartup   = {}", schedulerFactoryBean.isAutoStartup());
-		log.info("\t     - running       = {}", schedulerFactoryBean.isRunning());
-		log.info("\t > scheduler = {}", scheduler);
-		log.info("\t     - inStandbyMode = {}", scheduler.isInStandbyMode());
-		log.info("\t     - started       = {}", scheduler.isStarted());
-		log.info("\t     - shutdown      = {}", scheduler.isShutdown());
-		
-		Set<String> jobs = scheduler.getJobKeys(GroupMatcher.anyJobGroup()).stream()
-				.map(jobKey -> jobKey.getName())
-				.collect(Collectors.toSet());
-		Set<String> triggers = scheduler.getTriggerKeys(GroupMatcher.anyTriggerGroup()).stream()
-				.map(triggerKey -> triggerKey.getName())
-				.collect(Collectors.toSet());
-		log.info("\t     - jobs          = {}", jobs);
-		log.info("\t     - triggers      = {}", triggers);
+		quartzConfig.printQuartzConfig();
 		return ResponseEntity.ok("success");
 	}
 
@@ -86,12 +60,12 @@ public class TestQuartzController {
 		Set<String> pausedJobs = new HashSet<>();
 		Set<String> runningJobs = new HashSet<>();
 		Set<String> unknownJobs = new HashSet<>();
-		log.info("\t ==============================================");
+		log.info("\t ====================================================================================");
 		for (TriggerKey triggerKey : triggerKeys) {
 			Trigger trigger = scheduler.getTrigger(triggerKey);
 			String jobName = trigger.getJobKey().getName();
 			TriggerState triggerState = scheduler.getTriggerState(triggerKey);
-			log.info("\t > {} = {}", jobName, triggerState);
+			log.info("\t > '{}' = {}", jobName, triggerState);
 			
 			if (triggerState == TriggerState.PAUSED) {
 				pausedJobs.add(jobName);
@@ -101,7 +75,7 @@ public class TestQuartzController {
 				unknownJobs.add(jobName);
 			}
 		}
-		log.info("\t ==============================================");
+		log.info("\t ====================================================================================");
 		log.info("\t > PAUSED  Jobs = {}", pausedJobs);
 		log.info("\t > RUNNING Jobs = {}", runningJobs);
 		log.info("\t > UNKNOWN Jobs = {}", unknownJobs);

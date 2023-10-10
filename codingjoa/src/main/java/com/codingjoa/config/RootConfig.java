@@ -116,4 +116,11 @@ public class RootConfig {
 		return modelMapper;
 	}
 	
+	public void printRootConfig() throws Exception {
+		String dataSourceUrl = dataSource().getConnection().getMetaData().getURL();
+		log.info("\t > root  dataSource = {}", dataSource());
+        log.info("\t > root  dataSource URL = {}", dataSourceUrl);
+        log.info("\t > root  transaction manager = {}", transactionManager());
+	}
+	
 }

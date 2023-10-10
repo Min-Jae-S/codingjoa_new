@@ -46,7 +46,7 @@ public class QuartzJob extends QuartzJobBean {
 					.toJobParameters();
 			log.info("\t > jobParameters = {}", jobParameters);
 			JobExecution jobExecution = jobLauncher.run(job, jobParameters);
-			log.info("***********************************************************************");
+			log.info("**************************************************************************************************************");
 		} catch (Exception e) {
 			log.info("\t > {} : {}", e.getClass().getSimpleName(), e.getMessage());
 		}

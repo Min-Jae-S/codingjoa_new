@@ -41,8 +41,8 @@ public class BatchConfig {
 	
 	public void printBatchConfig() throws Exception {
 		String dataSourceUrl = dataSource.getConnection().getMetaData().getURL();
-		log.info("\t > dataSource = {}", dataSource);
-        log.info("\t > dataSource URL = {}", dataSourceUrl);
-        log.info("\t > transaction manager = {}", transactionManager);
+		log.info("\t > batch dataSource = {}", dataSource);
+        log.info("\t > batch dataSource URL = {}", dataSourceUrl);
+        log.info("\t > batch transaction manager = {}", transactionManager);
 	}
 }

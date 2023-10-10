@@ -1,5 +1,8 @@
 package com.codingjoa.config;
 
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import org.quartz.JobBuilder;
 import org.quartz.JobDetail;
 import org.quartz.JobListener;
@@ -9,6 +12,7 @@ import org.quartz.SimpleScheduleBuilder;
 import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
 import org.quartz.TriggerListener;
+import org.quartz.impl.matchers.GroupMatcher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -27,6 +31,16 @@ import lombok.extern.slf4j.Slf4j;
 @ComponentScan("com.codingjoa.quartz") // DI for SchedulerService, JobListener, TriggerListener
 @Configuration
 public class QuartzConfig {
+	
+	/*	
+	 * ## Quartz
+	 * 	> enable in-memory job scheduler
+	 * 	> clustering using database
+	 * 	> Job, Trigger
+	 * 	> JobDetails, JobDataMap, JobListener, TriggerListener
+	 * 	> start (scheduleJob, resumeJob, triggerJob, addJob)
+	 * 	> stop (interrupt, unscheduleJob, pauseJob, deleteJob)
+	 */
 	
 	@Autowired
 	private JobListener jobListener;
@@ -126,8 +140,27 @@ public class QuartzConfig {
 		return TriggerBuilder.newTrigger()
 				.forJob(quartzJobDetail())
 				.withIdentity("quartzTrigger", "myTrigger")
-				.withSchedule(SimpleScheduleBuilder.repeatSecondlyForever(10))
+				.withSchedule(SimpleScheduleBuilder.repeatSecondlyForever(20))
 				.build();
+	}
+	
+	public void printQuartzConfig() throws SchedulerException {
+		log.info("\t > schedulerFactoryBean = {}", schedulerFactoryBean());
+		log.info("\t     - autoStartup   = {}", schedulerFactoryBean().isAutoStartup());
+		log.info("\t     - running       = {}", schedulerFactoryBean().isRunning());
+		log.info("\t > scheduler = {}", scheduler());
+		log.info("\t     - inStandbyMode = {}", scheduler().isInStandbyMode());
+		log.info("\t     - started       = {}", scheduler().isStarted());
+		log.info("\t     - shutdown      = {}", scheduler().isShutdown());
+		
+		Set<String> jobs = scheduler().getJobKeys(GroupMatcher.anyJobGroup()).stream()
+				.map(jobKey -> jobKey.getName())
+				.collect(Collectors.toSet());
+		Set<String> triggers = scheduler().getTriggerKeys(GroupMatcher.anyTriggerGroup()).stream()
+				.map(triggerKey -> triggerKey.getName())
+				.collect(Collectors.toSet());
+		log.info("\t     - jobs          = {}", jobs);
+		log.info("\t     - triggers      = {}", triggers);
 	}
 
 }

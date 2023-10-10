@@ -36,10 +36,10 @@ public class SchedulerService {
 		for (TriggerKey triggerKey : triggerKeys) {
 			String jobName = scheduler.getTrigger(triggerKey).getJobKey().getName();
 			if (isTriggerPaused(triggerKey)) {
-				log.info("\t > resume paused {}", jobName);
+				log.info("\t > resume paused '{}'", jobName);
 				scheduler.resumeTrigger(triggerKey);
 			} else {
-				log.info("\t > {} is already running", jobName);
+				log.info("\t > '{}' is already running", jobName);
 			}
 		}
 	}
@@ -48,27 +48,27 @@ public class SchedulerService {
 		TriggerKey triggerKeyA = triggerA.getKey();
 		if (isTriggerPaused(triggerKeyA)) {
 			scheduler.resumeTrigger(triggerKeyA);
-			return "resume paused JobA";
+			return "resume paused 'JobA'";
 		}
-		return "JobA is already running";
+		return "'JobA' is already running";
 	}
 	
 	public String startJobB() throws SchedulerException {
 		TriggerKey triggerKeyB = triggerB.getKey();
 		if (isTriggerPaused(triggerKeyB)) {
 			scheduler.resumeTrigger(triggerKeyB);
-			return "resume paused JobB";
+			return "resume paused 'JobB'";
 		}
-		return "JobB is already running";
+		return "'JobB' is already running";
 	}
 
 	public String startQuartzJob() throws SchedulerException {
 		TriggerKey quartzTriggerKey = quartzTrigger.getKey();
 		if (isTriggerPaused(quartzTriggerKey)) {
 			scheduler.resumeTrigger(quartzTriggerKey);
-			return "resume paused QuartzJob";
+			return "resume paused 'QuartzJob'";
 		}
-		return "QuartzJob is already running";
+		return "'QuartzJob' is already running";
 	}
 	
 	public void pauseAllJobs() throws SchedulerException {
@@ -76,10 +76,10 @@ public class SchedulerService {
 		for (TriggerKey triggerKey : triggerKeys) {
 			String jobName = scheduler.getTrigger(triggerKey).getJobKey().getName();
 			if (!isTriggerPaused(triggerKey)) {
-				log.info("\t > pause running {}", jobName);
+				log.info("\t > pause running '{}'", jobName);
 				scheduler.pauseTrigger(triggerKey);
 			} else {
-				log.info("\t > {} is already paused", jobName);
+				log.info("\t > '{}' is already paused", jobName);
 			}
 		}
 	}
