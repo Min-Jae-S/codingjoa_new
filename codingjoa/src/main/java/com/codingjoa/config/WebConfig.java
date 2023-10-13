@@ -37,9 +37,11 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 				BatchConfig2.class,
 				BatchJobConfig2.class
 		};
+		
 		for (Class<?> rootConfigClass : rootConfigClasses) {
 			log.info("\t > {}", rootConfigClass);
 		}
+		
 		return rootConfigClasses;
 	}
 
@@ -50,6 +52,7 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 		for (Class<?> servletConfigClass : servletConfigClasses) {
 			log.info("\t > {}", servletConfigClass);
 		}
+		
 		return servletConfigClasses;
 	}
 
@@ -60,6 +63,7 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 		for (String servletMapping : servletMappings) {
 			log.info("\t > \"{}\"", servletMapping);
 		}
+		
 		return servletMappings;
 	}
 	
