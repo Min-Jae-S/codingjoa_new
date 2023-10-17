@@ -32,10 +32,10 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 				EmailConfig.class, 
 				RedisConfig.class,
 				QuartzConfig.class,
-				BatchConfig.class,
-				BatchJobConfig.class
-//				BatchConfig2.class,
-//				BatchJobConfig2.class
+//				BatchConfig.class,
+//				BatchJobConfig.class
+				BatchConfig2.class,
+				BatchJobConfig2.class
 		};
 		
 		for (Class<?> rootConfigClass : rootConfigClasses) {
@@ -63,7 +63,6 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 		for (String servletMapping : servletMappings) {
 			log.info("\t > \"{}\"", servletMapping);
 		}
-		
 		return servletMappings;
 	}
 	

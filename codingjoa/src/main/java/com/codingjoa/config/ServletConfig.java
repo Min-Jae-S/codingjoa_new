@@ -213,6 +213,7 @@ public class ServletConfig implements WebMvcConfigurer {
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
+		
 		return resolver;
 	}
 
@@ -238,6 +239,7 @@ public class ServletConfig implements WebMvcConfigurer {
 				"/WEB-INF/properties/success-message",
 				"/WEB-INF/properties/validation-message"
 			);
+		
 		return source;
 	}
 	
