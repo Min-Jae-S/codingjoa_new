@@ -51,6 +51,8 @@ public class BatchConfigB extends DefaultBatchConfigurer {
 	
 	@Override
 	public PlatformTransactionManager getTransactionManager() {
+		log.info("## getTransactionManager");
+		log.info("\t > this.transactionManager is null ? {}", transactionManager == null);
 		return this.transactionManager;
 	}
 
