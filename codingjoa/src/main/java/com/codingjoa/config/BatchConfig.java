@@ -8,6 +8,7 @@ import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.repository.support.JobRepositoryFactoryBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import lombok.RequiredArgsConstructor;
@@ -34,6 +35,7 @@ public class BatchConfig {
 	private final DataSource dataSource;
 	private final PlatformTransactionManager transactionManager;
 	
+	@Primary
 	@Bean
 	public JobRepository jobRepository() throws Exception {
 		JobRepositoryFactoryBean factory = new JobRepositoryFactoryBean();

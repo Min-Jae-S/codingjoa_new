@@ -25,10 +25,11 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 	
 	@Override
 	protected Class<?>[] getRootConfigClasses() {
-		log.info("## rootConfigClasses");
-		Class<?>[] rootConfigClasses = new Class[] { 
-				DataSourceConfig.class, 
+		log.info("## getRootConfigClasses");
+		return new Class[] { 
+				RootConfig.class,
 				SecurityConfig.class,
+				ModelMapperConfig.class,
 				EmailConfig.class, 
 				RedisConfig.class,
 				QuartzConfig.class,
@@ -37,33 +38,18 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 //				BatchConfigB.class,
 //				BatchJobConfigB.class
 		};
-		
-		for (Class<?> rootConfigClass : rootConfigClasses) {
-			log.info("\t > {}", rootConfigClass);
-		}
-		
-		return rootConfigClasses;
 	}
 
 	@Override
 	protected Class<?>[] getServletConfigClasses() {
-		log.info("## servletConfigClasses");
-		Class<?>[] servletConfigClasses = new Class[] { ServletConfig.class };
-		for (Class<?> servletConfigClass : servletConfigClasses) {
-			log.info("\t > {}", servletConfigClass);
-		}
-		
-		return servletConfigClasses;
+		log.info("## getServletConfigClasses");
+		return new Class[] { ServletConfig.class };
 	}
 
 	@Override
 	protected String[] getServletMappings() {
-		log.info("## servletMappings");
-		String[] servletMappings = new String[] { "/" };
-		for (String servletMapping : servletMappings) {
-			log.info("\t > \"{}\"", servletMapping);
-		}
-		return servletMappings;
+		log.info("## getServletMappings");
+		return new String[] { "/" };
 	}
 	
 	@Override

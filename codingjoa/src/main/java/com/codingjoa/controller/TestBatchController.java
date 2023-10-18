@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.codingjoa.config.BatchConfig;
 import com.codingjoa.config.BatchConfigB;
-import com.codingjoa.config.DataSourceConfig;
+import com.codingjoa.config.RootConfig;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -45,7 +45,7 @@ public class TestBatchController {
 	private BatchConfigB batchConfigB;
 	
 	@Autowired
-	private DataSourceConfig rootConfig;
+	private RootConfig rootConfig;
 	
 	@Autowired(required = false)
 	@Qualifier("batchJobA")

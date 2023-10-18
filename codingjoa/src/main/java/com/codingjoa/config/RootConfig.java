@@ -4,9 +4,6 @@ import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 
 import org.apache.ibatis.session.SqlSessionFactory;
-import org.modelmapper.ModelMapper;
-import org.modelmapper.config.Configuration.AccessLevel;
-import org.modelmapper.convention.MatchingStrategies;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.annotation.MapperScan;
@@ -28,7 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 @Configuration
 @PropertySource("/WEB-INF/properties/datasource.properties")
 @MapperScan("com.codingjoa.mapper")
-public class DataSourceConfig {
+public class RootConfig {
 	
 	@Value("${datasource.root.classname}")
 	private String driverClassName;
@@ -45,13 +42,13 @@ public class DataSourceConfig {
 	@PostConstruct
 	public void init() {
 		log.info("===============================================================");
-		log.info("@ DataSourceConfig");
+		log.info("@ RootConfig");
 		log.info("===============================================================");
 	}
 	
 	@Bean
 	public HikariConfig hikariConfig() {
-		log.info("## HikariConfig (DBCP)");
+		log.info("## hikariConfig (DBCP)");
 		HikariConfig hikariConfig = new HikariConfig();
 		hikariConfig.setDriverClassName(driverClassName);
 		hikariConfig.setJdbcUrl(url);
@@ -64,8 +61,8 @@ public class DataSourceConfig {
 	@Bean
 	public DataSource dataSource() {
 		DataSource dataSource = new HikariDataSource(hikariConfig());
-		log.info("## DataSoruce");
-		log.info("\t > datasource = {}", dataSource);
+		log.info("## dataSource");
+		log.info("\t > {}", dataSource);
 		return dataSource;
 	}
 	
@@ -76,7 +73,7 @@ public class DataSourceConfig {
 
 	@Bean
 	public SqlSessionFactory sqlSessionFactory(ApplicationContext applicationContext) throws Exception {
-		log.info("## SqlSessionFactory");
+		log.info("## sqlSessionFactory");
 		SqlSessionFactoryBean factory = new SqlSessionFactoryBean();
 		factory.setDataSource(dataSource());
 		factory.setConfigLocation(applicationContext.getResource("classpath:/mybatis/mybatis-config.xml"));
@@ -86,7 +83,7 @@ public class DataSourceConfig {
 	
 	@Bean
 	public SqlSessionTemplate sqlSessionTemplate(SqlSessionFactory sqlSessionFactory) {
-		log.info("## SqlSessionTemplate");
+		log.info("## sqlSessionTemplate");
 		SqlSessionTemplate template = new SqlSessionTemplate(sqlSessionFactory);
 		org.apache.ibatis.session.Configuration config = template.getConfiguration();
 		log.info("\t > jdbcTypeForNull = {}", config.getJdbcTypeForNull());
@@ -94,27 +91,6 @@ public class DataSourceConfig {
 		log.info("\t > callSettersOnNulls = {}", config.isCallSettersOnNulls());
 		log.info("\t > returnInstanceForEmptyRow = {}", config.isReturnInstanceForEmptyRow());
 		return template;
-	}
-	
-	@Bean
-	public ModelMapper modelMapper() {
-		log.info("## ModelMapper");
-		ModelMapper modelMapper = new ModelMapper();
-		modelMapper.getConfiguration()
-			.setMatchingStrategy(MatchingStrategies.STRICT)
-			// setter가 없는 Dto(UserDetailsDto)에 대한 mapping을 위해 fieldAccessLevel과 fieldMatchingEnabled를 설정 
-			.setFieldAccessLevel(AccessLevel.PRIVATE)
-			.setFieldMatchingEnabled(true);
-		
-		org.modelmapper.config.Configuration config = modelMapper.getConfiguration();
-		log.info("\t > matchingStrategy = {}", config.getMatchingStrategy());
-		log.info("\t > fieldAccessLevel = {}", config.getFieldAccessLevel());
-		log.info("\t > methodAccessLevel = {}", config.getMethodAccessLevel());
-		log.info("\t > propertyCondition = {}", config.getPropertyCondition());
-		log.info("\t > isFieldMatchingEnabled = {}", config.isFieldMatchingEnabled());
-		log.info("\t > isSkipNullEnabled = {}", config.isSkipNullEnabled());
-		log.info("\t > isCollectionsMergeEnabled = {}", config.isCollectionsMergeEnabled());
-		return modelMapper;
 	}
 	
 	public void printRootConfig() throws Exception {

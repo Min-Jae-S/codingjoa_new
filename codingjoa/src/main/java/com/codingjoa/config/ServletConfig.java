@@ -4,7 +4,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.PostConstruct;
 import javax.validation.Validator;
 
 import org.springframework.aop.support.AopUtils;
@@ -80,13 +79,6 @@ public class ServletConfig implements WebMvcConfigurer {
 	
 	@Autowired
 	private RedisService redisService;
-	
-	@PostConstruct
-	public void init() {
-		log.info("===============================================================");
-		log.info("@ ServletConfig");
-		log.info("===============================================================");
-	}
 	
 	@Override
 	public void configureViewResolvers(ViewResolverRegistry registry) {
@@ -262,7 +254,7 @@ public class ServletConfig implements WebMvcConfigurer {
 	 */
 	@Bean
 	public static MethodValidationPostProcessor methodValidationPostProcessor(@Lazy Validator validator) {
-		log.info("## MethodValidationPostProcessor");
+		log.info("## methodValidationPostProcessor");
 		log.info("\t > validator = {}", validator);
 		log.info("\t > validator is proxy ? {}", AopUtils.isAopProxy(validator));
 		
