@@ -3,8 +3,6 @@ package com.codingjoa.controller;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.annotation.Resource;
-
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobInstance;
 import org.springframework.batch.core.JobParameters;
@@ -13,6 +11,7 @@ import org.springframework.batch.core.configuration.JobRegistry;
 import org.springframework.batch.core.explore.JobExplorer;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -48,10 +47,12 @@ public class TestBatchController {
 	@Autowired
 	private RootConfig rootConfig;
 	
-	@Resource(name = "batchJobA")
+	@Autowired(required = false)
+	@Qualifier("batchJobA")
 	private Job batchJobA;
 
-	@Resource(name = "batchJobB")
+	@Autowired(required = false)
+	@Qualifier("batchJobB")
 	private Job batchJobB;
 	
 	@GetMapping("/batch")
@@ -64,13 +65,17 @@ public class TestBatchController {
 	@GetMapping("/batch/config")
 	public ResponseEntity<Object> config() throws Exception {
 		log.info("## bacth config");
-		if (batchConfigA != null) {
-			batchConfigA.printBatchConfig();
-		} else if (batchConfigB != null) {
-			batchConfigB.printBatchConfig();
+		try {
+			if (batchConfigA != null) {
+				batchConfigA.printBatchConfig();
+			} else if (batchConfigB != null) {
+				batchConfigB.printBatchConfig();
+			}
+			log.info("\t ========================================================================================================");
+			rootConfig.printRootConfig();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		log.info("\t ========================================================================================================");
-		rootConfig.printRootConfig();
 		return ResponseEntity.ok("success");
 	}
 
@@ -99,6 +104,14 @@ public class TestBatchController {
 	public ResponseEntity<Object> jobRegistry() {
 		log.info("## jobRegistry");
 		log.info("\t > batch jobs = {}", jobRegistry.getJobNames());
+		return ResponseEntity.ok("success");
+	}
+
+	@ResponseBody
+	@GetMapping("/batch/job-launcher")
+	public ResponseEntity<Object> jobLauncher() {
+		log.info("## jobLauncher");
+		log.info("\t > jobLauncher = {}", jobLauncher);
 		return ResponseEntity.ok("success");
 	}
 	

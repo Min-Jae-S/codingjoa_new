@@ -1,39 +1,27 @@
 package com.codingjoa.config;
 
-import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 
 import org.springframework.batch.core.configuration.annotation.DefaultBatchConfigurer;
-import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.repository.support.JobRepositoryFactoryBean;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@EnableBatchProcessing
+//@EnableBatchProcessing
+@RequiredArgsConstructor
 @Configuration
 public class BatchConfigB extends DefaultBatchConfigurer {
 	
-	@Autowired
-	private DataSource dataSource;
-	
-	@Autowired
-	private PlatformTransactionManager transactionManager;
-	
-	@PostConstruct
-	public void init() {
-		log.info("===============================================================");
-		log.info("@ BatchConfigB");
-		log.info("===============================================================");
-	}
+	private final DataSource dataSource;
+	private final PlatformTransactionManager transactionManager;
 	
 	@Override
 	protected JobRepository createJobRepository() throws Exception {
-		log.info("## createJobRepository");
 		JobRepositoryFactoryBean factory = new JobRepositoryFactoryBean();
 	    factory.setDataSource(dataSource);
 	    factory.setTransactionManager(transactionManager);
@@ -51,16 +39,13 @@ public class BatchConfigB extends DefaultBatchConfigurer {
 	
 	@Override
 	public PlatformTransactionManager getTransactionManager() {
-		log.info("## getTransactionManager");
-		log.info("\t > this.transactionManager is null ? {}", transactionManager == null);
 		return this.transactionManager;
 	}
-
+	
 	public void printBatchConfig() throws Exception {
 		String dataSourceUrl = dataSource.getConnection().getMetaData().getURL();
 		log.info("\t > batch dataSource = {}", dataSource);
         log.info("\t > batch dataSource URL = {}", dataSourceUrl);
-        log.info("\t > batch transaction manager = {}", getTransactionManager().getClass());
+        log.info("\t > batch transaction manager = {}", transactionManager);
 	}
-	
 }

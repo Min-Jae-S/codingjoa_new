@@ -41,7 +41,8 @@
 		<button class="btn btn-lg btn-warning mx-3" onclick="config()">config</button>
 		<button class="btn btn-lg btn-warning mx-3" onclick="jobExplorer()">jobExplorer</button>
 		<button class="btn btn-lg btn-warning mx-3" onclick="jobRegistry()">jobRegistry</button>
-		<button class="btn btn-lg btn-warning mx-3" onclick="jobParameters()">jobParameters</button>
+		<button class="btn btn-lg btn-warning mx-3" onclick="jobLauncher()">jobLauncher</button>
+		<button class="btn btn-lg btn-warning mx-3 d-none" onclick="jobParameters()">jobParameters</button>
 	</div>
 	<div class="test d-flex justify-content-center mt-5">
 		<button class="btn btn-lg btn-primary mx-3" onclick="runJobA()">run JobA</button>
@@ -137,6 +138,21 @@
 		$.ajax({
 			type : "GET",
 			url : "${contextPath}/test/batch/job-registry",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log("> %s", result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(jqXHR);
+			}
+		});		
+	}
+	function jobLauncher() {
+		console.log("## jobLauncher");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/batch/job-launcher",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> %s", result);

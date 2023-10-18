@@ -1,19 +1,19 @@
 package com.codingjoa.config;
 
-import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.repository.support.JobRepositoryFactoryBean;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@RequiredArgsConstructor
 @EnableBatchProcessing // automatically registers some of its key components, such as JobBuilderFactory and StepBuilderFactory, as beans
 @Configuration
 public class BatchConfigA {
@@ -30,18 +30,8 @@ public class BatchConfigA {
 	 * 
 	 */
 
-	@Autowired
-	private DataSource dataSource;
-	
-	@Autowired
-	private PlatformTransactionManager transactionManager;
-	
-	@PostConstruct
-	public void init() {
-		log.info("===============================================================");
-		log.info("@ BatchConfigA");
-		log.info("===============================================================");
-	}
+	private final DataSource dataSource;
+	private final PlatformTransactionManager transactionManager;
 	
 	@Bean
 	public JobRepository jobRepository() throws Exception {
@@ -54,7 +44,7 @@ public class BatchConfigA {
 	    // ORA-08177: can't serialize access for this transaction
 	    // The issue arises when multiple Spring Batch jobs share a single JobRepository and are executed concurrently. 
 	    // This occurs because, by default, the IsolationLevelForCreate property of the transactionManager is set to ISOLATION_SERIALIZABLE.
-	    factory.setIsolationLevelForCreate("ISOLATION_READ_COMMITTED"); // vs ISOLATION_DEFAULT
+	    factory.setIsolationLevelForCreate("ISOLATION_DEFAULT"); // ISOLATION_READ_COMMITTED
 	    factory.afterPropertiesSet();
 	    return factory.getObject();
 	}
