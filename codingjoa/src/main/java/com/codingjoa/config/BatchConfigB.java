@@ -51,7 +51,6 @@ public class BatchConfigB extends DefaultBatchConfigurer {
 	
 	@Override
 	public PlatformTransactionManager getTransactionManager() {
-		log.info("## getTransactionManager");
 		return this.transactionManager;
 	}
 
@@ -59,7 +58,7 @@ public class BatchConfigB extends DefaultBatchConfigurer {
 		String dataSourceUrl = dataSource.getConnection().getMetaData().getURL();
 		log.info("\t > batch dataSource = {}", dataSource);
         log.info("\t > batch dataSource URL = {}", dataSourceUrl);
-        log.info("\t > batch transaction manager = {}", getTransactionManager());
+        log.info("\t > batch transaction manager = {}", getTransactionManager().getClass());
 	}
 	
 }
