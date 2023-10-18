@@ -11,6 +11,7 @@ import org.springframework.batch.core.configuration.annotation.StepBuilderFactor
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.repeat.RepeatStatus;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -18,30 +19,36 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Configuration
-public class BatchJobConfig2 {
+public class BatchJobConfigA {
+	
+	@Autowired
+	private JobBuilderFactory jobBuilderFactory;
+	
+	@Autowired
+	private StepBuilderFactory stepBuilderFactory;
 	
 	@Bean
-	public Job simpleJob(JobBuilderFactory jobBuilderFactory, StepBuilderFactory stepBuilderFactory) {
+	public Job simpleJob() {
 		return jobBuilderFactory.get("simpleJob")
-				.start(step1(stepBuilderFactory))
-				.next(step2(stepBuilderFactory))
+				.start(step1())
+				.next(step2())
 				.build();
 	}
 	
 	@Bean
-	public Job batchJobA(JobBuilderFactory jobBuilderFactory, StepBuilderFactory stepBuilderFactory) {
+	public Job batchJobA() {
 		return jobBuilderFactory.get("batchJobA")
-				.start(stepA1(stepBuilderFactory))
-				.next(stepA2(stepBuilderFactory))
+				.start(stepA1())
+				.next(stepA2())
 				.listener(jobListener())
 				.build();
 	}
 
 	@Bean
-	public Job batchJobB(JobBuilderFactory jobBuilderFactory, StepBuilderFactory stepBuilderFactory) {
+	public Job batchJobB() {
 		return jobBuilderFactory.get("batchJobB")
-				.start(stepB1(stepBuilderFactory))
-				.next(stepB2(stepBuilderFactory))
+				.start(stepB1())
+				.next(stepB2())
 				.build();
 	}
 	
@@ -82,7 +89,7 @@ public class BatchJobConfig2 {
 	
 	@Bean
 	@JobScope // Parameter Lazy Loading 
-	public Step step1(StepBuilderFactory stepBuilderFactory) {
+	public Step step1() {
 		return stepBuilderFactory.get("step1")
 				.tasklet((contribution, chunkContext) -> {
 					log.info("## this is step1");
@@ -94,7 +101,7 @@ public class BatchJobConfig2 {
 	
 	@Bean
 	@JobScope
-	public Step step2(StepBuilderFactory stepBuilderFactory) {
+	public Step step2() {
 		return stepBuilderFactory.get("step2")
 				.tasklet((contribution, chunkContext) -> {
 					log.info("## this is step2");
@@ -106,7 +113,7 @@ public class BatchJobConfig2 {
 	
 	@Bean
 	@JobScope
-	public Step stepA1(StepBuilderFactory stepBuilderFactory) {
+	public Step stepA1() {
 		return stepBuilderFactory.get("stepA1")
 				.tasklet((contribution, chunkContext) -> {
 					log.info("## this is stepA1");
@@ -118,7 +125,7 @@ public class BatchJobConfig2 {
 
 	@Bean
 	@JobScope
-	public Step stepA2(StepBuilderFactory stepBuilderFactory) {
+	public Step stepA2() {
 		return stepBuilderFactory.get("stepA2")
 				.tasklet((contribution, chunkContext) -> {
 					log.info("## this is stepA2");
@@ -130,7 +137,7 @@ public class BatchJobConfig2 {
 
 	@Bean
 	@JobScope 
-	public Step stepB1(StepBuilderFactory stepBuilderFactory) {
+	public Step stepB1() {
 		return stepBuilderFactory.get("stepB1")
 				.tasklet((contribution, chunkContext) -> {
 					log.info("## this is stepB1");
@@ -142,7 +149,7 @@ public class BatchJobConfig2 {
 	
 	@Bean
 	@JobScope
-	public Step stepB2(StepBuilderFactory stepBuilderFactory) {
+	public Step stepB2() {
 		return stepBuilderFactory.get("stepB2")
 				.tasklet(new Tasklet() {
 					@Override
