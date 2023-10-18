@@ -10,6 +10,7 @@ import org.modelmapper.convention.MatchingStrategies;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -25,20 +26,20 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Configuration
-@PropertySource("/WEB-INF/properties/db.properties")
+@PropertySource("/WEB-INF/properties/datasource.properties")
 @MapperScan("com.codingjoa.mapper")
 public class RootConfig {
 	
-	@Value("${db.classname}")
+	@Value("${datasource.classname}")
 	private String driverClassName;
 
-	@Value("${db.url}")
+	@Value("${datasource.url}")
 	private String url;
 	
-	@Value("${db.username}")
+	@Value("${datasource.username}")
 	private String username;
 	
-	@Value("${db.password}")
+	@Value("${datasource.password}")
 	private String password;
 	
 	@PostConstruct
@@ -121,6 +122,7 @@ public class RootConfig {
 		log.info("\t > root  dataSource = {}", dataSource());
         log.info("\t > root  dataSource URL = {}", dataSourceUrl);
         log.info("\t > root  transaction manager = {}", transactionManager());
+        log.info("\t > root  transaction manager is proxy ? {}", AopUtils.isAopProxy(transactionManager()));
 	}
 	
 }

@@ -2,6 +2,7 @@ package com.codingjoa.config;
 
 import javax.sql.DataSource;
 
+import org.springframework.aop.support.AopUtils;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.repository.support.JobRepositoryFactoryBean;
@@ -16,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @EnableBatchProcessing // automatically registers some of its key components, such as JobBuilderFactory and StepBuilderFactory, as beans
 @Configuration
-public class BatchConfigA {
+public class BatchConfig {
 	
 	/*
 	 * Spring Batch - Application, Batch Core, Batch Infrastrcuture
@@ -54,5 +55,7 @@ public class BatchConfigA {
 		log.info("\t > batch dataSource = {}", dataSource);
         log.info("\t > batch dataSource URL = {}", dataSourceUrl);
         log.info("\t > batch transaction manager = {}", transactionManager);
+        log.info("\t > batch transaction manager is proxy ? {}", AopUtils.isAopProxy(transactionManager));
 	}
+	
 }

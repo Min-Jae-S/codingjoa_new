@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Configuration
-public class BatchJobConfigA {
+public class BatchJobConfig {
 	
 	@Autowired
 	private JobBuilderFactory jobBuilderFactory;

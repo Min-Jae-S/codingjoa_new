@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.codingjoa.config.BatchConfigA;
+import com.codingjoa.config.BatchConfig;
 import com.codingjoa.config.BatchConfigB;
 import com.codingjoa.config.RootConfig;
 
@@ -39,7 +39,7 @@ public class TestBatchController {
 	private JobRegistry jobRegistry;
 	
 	@Autowired(required = false)
-	private BatchConfigA batchConfigA;
+	private BatchConfig batchConfigA;
 
 	@Autowired(required = false)
 	private BatchConfigB batchConfigB;
