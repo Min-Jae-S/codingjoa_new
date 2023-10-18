@@ -28,24 +28,24 @@ import lombok.extern.slf4j.Slf4j;
 @Configuration
 @PropertySource("/WEB-INF/properties/datasource.properties")
 @MapperScan("com.codingjoa.mapper")
-public class RootConfig {
+public class DataSourceConfig {
 	
-	@Value("${datasource.classname}")
+	@Value("${datasource.root.classname}")
 	private String driverClassName;
 
-	@Value("${datasource.url}")
+	@Value("${datasource.root.url}")
 	private String url;
 	
-	@Value("${datasource.username}")
+	@Value("${datasource.root.username}")
 	private String username;
 	
-	@Value("${datasource.password}")
+	@Value("${datasource.root.password}")
 	private String password;
 	
 	@PostConstruct
 	public void init() {
 		log.info("===============================================================");
-		log.info("@ RootConfig");
+		log.info("@ DataSourceConfig");
 		log.info("===============================================================");
 	}
 	
