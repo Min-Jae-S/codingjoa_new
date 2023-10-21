@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.codingjoa.config.BatchConfig;
-import com.codingjoa.config.BatchConfigB;
 import com.codingjoa.config.RootConfig;
 
 import lombok.extern.slf4j.Slf4j;
@@ -38,12 +37,9 @@ public class TestBatchController {
 	@Autowired
 	private JobRegistry jobRegistry;
 	
-	@Autowired(required = false)
-	private BatchConfig batchConfigA;
+	@Autowired
+	private BatchConfig batchConfig;
 
-	@Autowired(required = false)
-	private BatchConfigB batchConfigB;
-	
 	@Autowired
 	private RootConfig rootConfig;
 	
@@ -65,17 +61,9 @@ public class TestBatchController {
 	@GetMapping("/batch/config")
 	public ResponseEntity<Object> config() throws Exception {
 		log.info("## bacth config");
-		try {
-			if (batchConfigA != null) {
-				batchConfigA.printBatchConfig();
-			} else if (batchConfigB != null) {
-				batchConfigB.printBatchConfig();
-			}
-			log.info("\t ========================================================================================================");
-			rootConfig.printRootConfig();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		batchConfig.printBatchConfig();
+		log.info("\t ========================================================================================================");
+		rootConfig.printRootConfig();
 		return ResponseEntity.ok("success");
 	}
 
