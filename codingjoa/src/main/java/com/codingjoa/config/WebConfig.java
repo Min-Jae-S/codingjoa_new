@@ -54,7 +54,6 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 	
 	@Override
 	protected void customizeRegistration(Dynamic registration) {
-		log.info("## customizeRegistration");
 		
 		/*
 		 * MultipartConfigElement(String location, long maxFileSize, long maxRequestSize, int fileSizeThreshold)
@@ -63,6 +62,8 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 		 * 		maxRequestSize	 	: 파일 데이터를 포함한 전체 요청 용량
 		 * 		fileSizeThreshold 	: 파일 임계값
 		 */
+		
+		log.info("## customizeRegistration");
 		MultipartConfigElement multipartConfig = 
 				new MultipartConfigElement("D:\\Dev\\upload\\temp", 20971520, 41943040, 20971520); // 20MB, 40MB, 20MB
 		
