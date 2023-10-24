@@ -15,7 +15,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@RequiredArgsConstructor // why not @Autowired?
+@RequiredArgsConstructor
 @EnableBatchProcessing // automatically registers some of its key components, such as JobBuilderFactory and StepBuilderFactory, as beans
 @Configuration
 public class BatchConfig {
@@ -31,8 +31,11 @@ public class BatchConfig {
 	 * springbatch 4.3.0 has introduced a dependency on jackson databind 2.11.
 	 * 
 	 */
-
+	
+	//@Autowired
 	private final DataSource dataSource;
+
+	//@Autowired
 	private final PlatformTransactionManager transactionManager;
 	
 	@Primary
