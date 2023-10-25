@@ -62,5 +62,4 @@ public class BatchConfig {
         log.info("\t > batch transaction manager = {}", transactionManager);
         log.info("\t > batch transaction manager is proxy ? {}", AopUtils.isAopProxy(transactionManager));
 	}
-	
 }
