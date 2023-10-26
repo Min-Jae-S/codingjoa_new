@@ -27,16 +27,16 @@ import lombok.extern.slf4j.Slf4j;
 @MapperScan("com.codingjoa.mapper")
 public class DataSourceConfig {
 	
-	@Value("${datasource.main.classname}")
+	@Value("${datasource.oracle.classname}")
 	private String driverClassName;
 
-	@Value("${datasource.main.url}")
+	@Value("${datasource.oracle.url}")
 	private String url;
 	
-	@Value("${datasource.main.username}")
+	@Value("${datasource.oracle.username}")
 	private String username;
 	
-	@Value("${datasource.main.password}")
+	@Value("${datasource.oracle.password}")
 	private String password;
 	
 	@PostConstruct

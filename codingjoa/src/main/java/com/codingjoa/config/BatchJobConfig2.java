@@ -18,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Configuration
-public class BatchJobConfigB {
+public class BatchJobConfig2 {
 	
 	@Bean
 	public Job simpleJob(JobBuilderFactory jobBuilderFactory, StepBuilderFactory stepBuilderFactory) {

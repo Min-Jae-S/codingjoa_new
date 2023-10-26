@@ -34,9 +34,10 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 				RedisConfig.class,
 				QuartzConfig.class,
 				BatchConfig.class,
-				BatchJobConfig.class
-//				BatchConfigB.class,
-//				BatchJobConfigB.class
+				BatchJobConfig.class,
+//				BatchConfig2.class,
+//				BatchJobConfig2.class,
+				H2Config.class
 		};
 	}
 

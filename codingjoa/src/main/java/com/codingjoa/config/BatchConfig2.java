@@ -15,7 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 //@EnableBatchProcessing
 @RequiredArgsConstructor
 @Configuration
-public class BatchConfigB extends DefaultBatchConfigurer {
+public class BatchConfig2 extends DefaultBatchConfigurer {
 	
 	private final DataSource dataSource;
 	private final PlatformTransactionManager transactionManager;
