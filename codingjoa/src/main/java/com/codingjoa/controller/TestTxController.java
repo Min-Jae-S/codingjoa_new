@@ -4,6 +4,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,7 +34,11 @@ public class TestTxController {
 		log.info("## tx config");
 		Map<String, PlatformTransactionManager> txManagerMap = 
 				webApplicationContext.getBeansOfType(PlatformTransactionManager.class);
-		log.info("\t > txManagers = {}", txManagerMap.values());
+		Map<String, DataSourceTransactionManager> txManagerMap2 = 
+				webApplicationContext.getBeansOfType(DataSourceTransactionManager.class);
+		log.info("\t > txManagerMap = {}", txManagerMap);
+		log.info("\t > txManagerMap2 = {}", txManagerMap2);
+		log.info("\t > txManagers = {}", txManagerMap.keySet());
 		return ResponseEntity.ok("success");
 	}
 

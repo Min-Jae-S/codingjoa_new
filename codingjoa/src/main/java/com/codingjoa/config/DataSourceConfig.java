@@ -64,6 +64,7 @@ public class DataSourceConfig {
 		return new HikariDataSource(h2HikariConfig());
 	}
 	
+	@Primary
 	@Bean
 	public PlatformTransactionManager oracleTransactionManager() {
 		return new DataSourceTransactionManager(oracleDataSource());
