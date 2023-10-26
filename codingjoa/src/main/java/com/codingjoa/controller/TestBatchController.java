@@ -7,9 +7,9 @@ import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobInstance;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersBuilder;
-import org.springframework.batch.core.configuration.JobRegistry;
 import org.springframework.batch.core.explore.JobExplorer;
 import org.springframework.batch.core.launch.JobLauncher;
+import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
@@ -29,19 +29,19 @@ import lombok.extern.slf4j.Slf4j;
 public class TestBatchController {
 	
 	@Autowired
+	private JobRepository jobRepository;
+	
+	@Autowired
 	private JobLauncher jobLauncher;
 	
 	@Autowired
 	private JobExplorer jobExplorer;
 	
 	@Autowired
-	private JobRegistry jobRegistry;
-	
-	@Autowired
 	private BatchConfig batchConfig;
 
 	@Autowired
-	private DataSourceConfig rootConfig;
+	private DataSourceConfig dataSourceConfig;
 	
 	@Autowired(required = false)
 	@Qualifier("batchJobA")
@@ -63,7 +63,15 @@ public class TestBatchController {
 		log.info("## bacth config");
 		batchConfig.printBatchConfig();
 		log.info("\t ========================================================================================================");
-		rootConfig.printRootConfig();
+		dataSourceConfig.printDataSoruceConfig();
+		return ResponseEntity.ok("success");
+	}
+	
+	@ResponseBody
+	@GetMapping("/batch/job-repository")
+	public ResponseEntity<Object> jobRepository() {
+		log.info("## jobRepository");
+		log.info("\t > jobRepository = {}", jobRepository);
 		return ResponseEntity.ok("success");
 	}
 
@@ -84,14 +92,6 @@ public class TestBatchController {
 		} else {
 			log.info("\t > NO batch jobs");
 		}
-		return ResponseEntity.ok("success");
-	}
-
-	@ResponseBody
-	@GetMapping("/batch/job-registry")
-	public ResponseEntity<Object> jobRegistry() {
-		log.info("## jobRegistry");
-		log.info("\t > batch jobs = {}", jobRegistry.getJobNames());
 		return ResponseEntity.ok("success");
 	}
 

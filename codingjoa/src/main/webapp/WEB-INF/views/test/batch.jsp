@@ -39,8 +39,8 @@
 	<p>batch.jsp</p>
 	<div class="test d-flex justify-content-center mt-5">
 		<button class="btn btn-lg btn-warning mx-3" onclick="config()">config</button>
+		<button class="btn btn-lg btn-warning mx-3" onclick="jobRepository()">jobRepository</button>
 		<button class="btn btn-lg btn-warning mx-3" onclick="jobExplorer()">jobExplorer</button>
-		<button class="btn btn-lg btn-warning mx-3" onclick="jobRegistry()">jobRegistry</button>
 		<button class="btn btn-lg btn-warning mx-3" onclick="jobLauncher()">jobLauncher</button>
 		<button class="btn btn-lg btn-warning mx-3" onclick="jobParameters()">jobParameters</button>
 	</div>
@@ -134,11 +134,11 @@
 		});		
 	}
 
-	function jobRegistry() {
-		console.log("## jobRegistry");
+	function jobRepository() {
+		console.log("## jobRepository");
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/batch/job-registry",
+			url : "${contextPath}/test/batch/job-repository",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> %s", result);

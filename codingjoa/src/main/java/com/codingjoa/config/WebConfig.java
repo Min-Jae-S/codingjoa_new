@@ -28,16 +28,16 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 		log.info("## getRootConfigClasses");
 		return new Class[] { 
 				DataSourceConfig.class,
+				MybatisConfig.class,
 				SecurityConfig.class,
 				ModelMapperConfig.class,
 				EmailConfig.class, 
 				RedisConfig.class,
 				QuartzConfig.class,
 				BatchConfig.class,
-				BatchJobConfig.class,
+				BatchJobConfig.class
 //				BatchConfig2.class,
 //				BatchJobConfig2.class,
-				H2Config.class
 		};
 	}
 

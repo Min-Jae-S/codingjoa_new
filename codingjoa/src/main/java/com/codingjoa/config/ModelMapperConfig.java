@@ -1,5 +1,7 @@
 package com.codingjoa.config;
 
+import javax.annotation.PostConstruct;
+
 import org.modelmapper.ModelMapper;
 import org.modelmapper.config.Configuration.AccessLevel;
 import org.modelmapper.convention.MatchingStrategies;
@@ -11,6 +13,13 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Configuration
 public class ModelMapperConfig {
+	
+	@PostConstruct
+	public void init() {
+		log.info("===============================================================");
+		log.info("@ ModelMapperConfig");
+		log.info("===============================================================");
+	}
 	
 	@Bean
 	public ModelMapper modelMapper() {

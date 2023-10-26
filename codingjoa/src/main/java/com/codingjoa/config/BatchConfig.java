@@ -6,16 +6,16 @@ import org.springframework.aop.support.AopUtils;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.repository.support.JobRepositoryFactoryBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.transaction.PlatformTransactionManager;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 @EnableBatchProcessing // automatically registers some of its key components, such as JobBuilderFactory and StepBuilderFactory, as beans
 @Configuration
 public class BatchConfig {
@@ -32,19 +32,22 @@ public class BatchConfig {
 	 * 
 	 */
 	
-	//@Autowired
 	private final DataSource dataSource;
-
-	//@Autowired
 	private final PlatformTransactionManager transactionManager;
 	
-	@Primary
+	@Autowired
+	public BatchConfig(@Qualifier("h2DataSource") DataSource dataSource, 
+			@Qualifier("h2TransactionManager") PlatformTransactionManager transactionManager) {
+		this.dataSource = dataSource;
+		this.transactionManager = transactionManager;
+	}
+	
 	@Bean
 	public JobRepository jobRepository() throws Exception {
 		JobRepositoryFactoryBean factory = new JobRepositoryFactoryBean();
 	    factory.setDataSource(dataSource);
 	    factory.setTransactionManager(transactionManager);
-	    factory.setDatabaseType("ORACLE");
+	    factory.setDatabaseType("H2");
 	    factory.setTablePrefix("BATCH_");
 	    
 	    // ORA-08177: can't serialize access for this transaction

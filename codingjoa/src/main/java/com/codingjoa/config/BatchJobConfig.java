@@ -116,7 +116,7 @@ public class BatchJobConfig {
 	public Step stepA1() {
 		return stepBuilderFactory.get("stepA1")
 				.tasklet((contribution, chunkContext) -> {
-					log.info("## this is step A-1");
+					log.info("## this is stepA-1");
 					return RepeatStatus.FINISHED;
 				})
 				.allowStartIfComplete(true) 
@@ -128,7 +128,7 @@ public class BatchJobConfig {
 	public Step stepA2() {
 		return stepBuilderFactory.get("stepA2")
 				.tasklet((contribution, chunkContext) -> {
-					log.info("## this is step A-2");
+					log.info("## this is stepA-2");
 					return RepeatStatus.FINISHED;
 				})
 				.allowStartIfComplete(true)
@@ -140,7 +140,7 @@ public class BatchJobConfig {
 	public Step stepB1() {
 		return stepBuilderFactory.get("stepB1")
 				.tasklet((contribution, chunkContext) -> {
-					log.info("## this is step B-1");
+					log.info("## this is stepB-1");
 					return RepeatStatus.FINISHED;
 				})
 				.allowStartIfComplete(true)
@@ -154,7 +154,7 @@ public class BatchJobConfig {
 				.tasklet(new Tasklet() {
 					@Override
 					public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
-						log.info("## this is step B-2");
+						log.info("## this is stepB-2");
 						return RepeatStatus.FINISHED;
 					}
 				})
