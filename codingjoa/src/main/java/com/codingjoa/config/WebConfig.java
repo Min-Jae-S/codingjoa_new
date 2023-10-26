@@ -27,7 +27,7 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 	protected Class<?>[] getRootConfigClasses() {
 		log.info("## getRootConfigClasses");
 		return new Class[] { 
-				RootConfig.class,
+				DataSourceConfig.class,
 				SecurityConfig.class,
 				ModelMapperConfig.class,
 				EmailConfig.class, 
