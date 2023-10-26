@@ -43,11 +43,11 @@ public class TestBatchController {
 	@Autowired
 	private RootConfig rootConfig;
 	
-	@Autowired
+	@Autowired(required = false)
 	@Qualifier("batchJobA")
 	private Job batchJobA;
 
-	@Autowired
+	@Autowired(required = false)
 	@Qualifier("batchJobB")
 	private Job batchJobB;
 	
