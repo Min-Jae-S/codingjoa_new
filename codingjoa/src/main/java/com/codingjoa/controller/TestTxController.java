@@ -22,6 +22,9 @@ public class TestTxController {
 	@Autowired // WebApplicationContext = ApplicationContext + getServletContext()
 	private WebApplicationContext webApplicationContext;
 	
+	@Autowired
+	private PlatformTransactionManager transactionManager;
+	
 	@GetMapping("/tx")
 	public String main() {
 		log.info("## tx main");
@@ -38,7 +41,8 @@ public class TestTxController {
 				webApplicationContext.getBeansOfType(DataSourceTransactionManager.class);
 		log.info("\t > txManagerMap = {}", txManagerMap);
 		log.info("\t > txManagerMap2 = {}", txManagerMap2);
-		log.info("\t > txManagers = {}", txManagerMap.keySet());
+		log.info("\t > txManagers from context = {}", txManagerMap.keySet());
+		log.info("\t > txManagers from autowired = {}", transactionManager);
 		return ResponseEntity.ok("success");
 	}
 
