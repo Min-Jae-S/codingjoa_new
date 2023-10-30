@@ -6,7 +6,6 @@ import org.springframework.aop.support.AopUtils;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.repository.support.JobRepositoryFactoryBean;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -35,7 +34,6 @@ public class BatchConfig {
 	private final DataSource dataSource;
 	private final PlatformTransactionManager transactionManager;
 	
-	@Autowired
 	public BatchConfig(@Qualifier("h2DataSource") DataSource dataSource, 
 			@Qualifier("h2TransactionManager") PlatformTransactionManager transactionManager) {
 		this.dataSource = dataSource;

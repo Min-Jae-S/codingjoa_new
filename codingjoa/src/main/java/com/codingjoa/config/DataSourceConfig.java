@@ -57,14 +57,20 @@ public class DataSourceConfig {
 	public DataSource oracleDataSource() {
 		return new HikariDataSource(oracleHikariConfig());
 	}
-
+	
+	// Error creating bean with name 'batchJobConfig'
+	// Error creating bean with name 'org.springframework.batch.core.configuration.annotation.SimpleBatchConfiguration'
+	// NoUniqueBeanDefinitionException: No qualifying bean of type 'javax.sql.DataSource' available: 
+	// expected single matching bean but found 2: oracleDataSource,h2DataSource
 	@Primary
 	@Bean
 	public DataSource h2DataSource() {
 		return new HikariDataSource(h2HikariConfig());
 	}
 	
-	@Primary
+	// No qualifying bean of type 'org.springframework.transaction.TransactionManager' available: 
+	// expected single matching bean but found 3: oracleTransactionManager,h2TransactionManager,transactionManager
+	//@Primary
 	@Bean
 	public PlatformTransactionManager oracleTransactionManager() {
 		return new DataSourceTransactionManager(oracleDataSource());
