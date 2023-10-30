@@ -45,10 +45,16 @@ public class MybatisConfig {
 		log.info("## sqlSessionTemplate");
 		SqlSessionTemplate template = new SqlSessionTemplate(sqlSessionFactory);
 		org.apache.ibatis.session.Configuration config = template.getConfiguration();
-		log.info("\t > jdbcTypeForNull = {}", config.getJdbcTypeForNull());
-		log.info("\t > mapUnderscoreToCamelCase = {}", config.isMapUnderscoreToCamelCase());
-		log.info("\t > callSettersOnNulls = {}", config.isCallSettersOnNulls());
-		log.info("\t > returnInstanceForEmptyRow = {}", config.isReturnInstanceForEmptyRow());
+		log.info("\t > datasource = {}", config.getEnvironment().getDataSource());
+		log.info("\t > mappers");
+		for (Class<?> mappers : config.getMapperRegistry().getMappers()) {
+			log.info("\t    - {}", mappers);
+		}
+		log.info("\t > details");
+		log.info("\t    - jdbcTypeForNull = {}", config.getJdbcTypeForNull());
+		log.info("\t    - mapUnderscoreToCamelCase = {}", config.isMapUnderscoreToCamelCase());
+		log.info("\t    - callSettersOnNulls = {}", config.isCallSettersOnNulls());
+		log.info("\t    - returnInstanceForEmptyRow = {}", config.isReturnInstanceForEmptyRow());
 		return template;
 	}
 }
