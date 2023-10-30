@@ -5,9 +5,9 @@ import javax.sql.DataSource;
 
 import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
@@ -34,58 +34,56 @@ public class DataSourceConfig {
 	}
 	
 	@Bean
-	public HikariConfig oracleHikariConfig() {
+	public HikariConfig hikariConfig() {
 		HikariConfig hikariConfig = new HikariConfig();
-		hikariConfig.setDriverClassName(env.getProperty("datasource.oracle.classname"));
-		hikariConfig.setJdbcUrl(env.getProperty("datasource.oracle.url"));
-		hikariConfig.setUsername(env.getProperty("datasource.oracle.username"));
-		hikariConfig.setPassword(env.getProperty("datasource.oracle.password"));
+		hikariConfig.setDriverClassName(env.getProperty("datasource.main.classname"));
+		hikariConfig.setJdbcUrl(env.getProperty("datasource.main.url"));
+		hikariConfig.setUsername(env.getProperty("datasource.main.username"));
+		hikariConfig.setPassword(env.getProperty("datasource.main.password"));
 		return hikariConfig;
 	}
 	
 	@Bean
-	public HikariConfig h2HikariConfig() {
+	public HikariConfig batchHikariConfig() {
 		HikariConfig hikariConfig = new HikariConfig();
-		hikariConfig.setDriverClassName(env.getProperty("datasource.h2.classname"));
-		hikariConfig.setJdbcUrl(env.getProperty("datasource.h2.url"));
-		hikariConfig.setUsername(env.getProperty("datasource.h2.username"));
-		hikariConfig.setPassword(env.getProperty("datasource.h2.password"));
+		hikariConfig.setDriverClassName(env.getProperty("datasource.batch.classname"));
+		hikariConfig.setJdbcUrl(env.getProperty("datasource.batch.url"));
+		hikariConfig.setUsername(env.getProperty("datasource.batch.username"));
+		hikariConfig.setPassword(env.getProperty("datasource.batch.password"));
 		return hikariConfig;
 	}
 	
 	@Bean
+	@Qualifier("oracleDataSource")
 	public DataSource oracleDataSource() {
-		return new HikariDataSource(oracleHikariConfig());
+		return new HikariDataSource(hikariConfig());
 	}
 	
 	// Error creating bean with name 'batchJobConfig'
 	// Error creating bean with name 'org.springframework.batch.core.configuration.annotation.SimpleBatchConfiguration'
 	// NoUniqueBeanDefinitionException: No qualifying bean of type 'javax.sql.DataSource' available: 
 	// expected single matching bean but found 2: oracleDataSource,h2DataSource
-	@Primary
 	@Bean
-	public DataSource h2DataSource() {
-		return new HikariDataSource(h2HikariConfig());
+	@Qualifier("batchDataSource")
+	public DataSource batchDataSource() {
+		return new HikariDataSource(batchHikariConfig());
 	}
 	
-	// No qualifying bean of type 'org.springframework.transaction.TransactionManager' available: 
-	// expected single matching bean but found 3: oracleTransactionManager,h2TransactionManager,transactionManager
-	//@Primary
 	@Bean
-	public PlatformTransactionManager oracleTransactionManager() {
+	public PlatformTransactionManager transactionManager() {
 		return new DataSourceTransactionManager(oracleDataSource());
 	}
 
 	@Bean
-	public PlatformTransactionManager h2TransactionManager() {
-		return new DataSourceTransactionManager(h2DataSource());
+	public PlatformTransactionManager batchTransactionManager() {
+		return new DataSourceTransactionManager(batchDataSource());
 	}
 
 	public void printDataSoruceConfig() throws Exception {
 		log.info("\t > main dataSource = {}", oracleDataSource());
         log.info("\t > main dataSource URL = {}", oracleDataSource().getConnection().getMetaData().getURL());
-        log.info("\t > main transaction manager = {}", oracleTransactionManager());
-        log.info("\t > main transaction manager is proxy ? {}", AopUtils.isAopProxy(oracleTransactionManager()));
+        log.info("\t > main transaction manager = {}", transactionManager());
+        log.info("\t > main transaction manager is proxy ? {}", AopUtils.isAopProxy(transactionManager()));
 	}
 	
 }
