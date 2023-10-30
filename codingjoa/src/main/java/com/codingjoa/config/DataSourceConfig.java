@@ -75,6 +75,7 @@ public class DataSourceConfig {
 	}
 
 	@Bean
+	@Qualifier("batchTransactionManager")
 	public PlatformTransactionManager batchTransactionManager() {
 		return new DataSourceTransactionManager(batchDataSource());
 	}
