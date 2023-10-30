@@ -54,8 +54,8 @@ public class DataSourceConfig {
 	}
 	
 	//@Primary
-	@Bean(name = "oracleDataSource")
-	public DataSource oracleDataSource() {
+	@Bean(name = "mainDataSource")
+	public DataSource mainDataSource() {
 		return new HikariDataSource(hikariConfig());
 	}
 	
@@ -68,9 +68,9 @@ public class DataSourceConfig {
 		return new HikariDataSource(batchHikariConfig());
 	}
 	
-	@Bean
-	public PlatformTransactionManager transactionManager() {
-		return new DataSourceTransactionManager(oracleDataSource());
+	@Bean(name = "mainTransactionManager")
+	public PlatformTransactionManager mainTransactionManager() {
+		return new DataSourceTransactionManager(mainDataSource());
 	}
 
 	@Bean(name = "batchTransactionManager")
