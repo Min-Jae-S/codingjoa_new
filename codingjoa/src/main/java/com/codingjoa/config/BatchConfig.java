@@ -1,9 +1,8 @@
 package com.codingjoa.config;
 
+import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 
-import org.springframework.aop.support.AopUtils;
-import org.springframework.batch.core.configuration.annotation.DefaultBatchConfigurer;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.repository.support.JobRepositoryFactoryBean;
@@ -17,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @EnableBatchProcessing //automatically registers some of its key components, such as JobBuilderFactory and StepBuilderFactory, as beans
 @Configuration
-public class BatchConfig extends DefaultBatchConfigurer {
+public class BatchConfig {
 	
 	private final DataSource dataSource;
 	private final PlatformTransactionManager transactionManager;
@@ -28,14 +27,13 @@ public class BatchConfig extends DefaultBatchConfigurer {
 		this.transactionManager = transactionManager;
 	}
 	
-	@Override
-	public void setDataSource(DataSource dataSource) {
-		super.setDataSource(dataSource);
-	}
-	
-	@Override
-	public PlatformTransactionManager getTransactionManager() {
-		return this.transactionManager;
+	@PostConstruct
+	public void init() {
+		log.info("===============================================================");
+		log.info("@ BatchConfig");
+		log.info("\t > dataSource = {}", this.dataSource);
+		log.info("\t > transactionManager = {}", this.transactionManager);
+		log.info("===============================================================");
 	}
 
 	@Bean
@@ -52,13 +50,5 @@ public class BatchConfig extends DefaultBatchConfigurer {
 	    factory.setIsolationLevelForCreate("ISOLATION_DEFAULT"); // ISOLATION_READ_COMMITTED
 	    factory.afterPropertiesSet();
 	    return factory.getObject();
-	}
-	
-	public void printBatchConfig() throws Exception {
-		String dataSourceUrl = dataSource.getConnection().getMetaData().getURL();
-		log.info("\t > batch dataSource = {}", dataSource);
-        log.info("\t > batch dataSource URL = {}", dataSourceUrl);
-        log.info("\t > batch transaction manager = {}", transactionManager);
-        log.info("\t > batch transaction manager is proxy ? {}", AopUtils.isAopProxy(transactionManager));
 	}
 }

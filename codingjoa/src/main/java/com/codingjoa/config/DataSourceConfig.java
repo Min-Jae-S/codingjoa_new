@@ -3,7 +3,6 @@ package com.codingjoa.config;
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 
-import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -39,6 +38,7 @@ public class DataSourceConfig {
 		hikariConfig.setJdbcUrl(env.getProperty("datasource.main.url"));
 		hikariConfig.setUsername(env.getProperty("datasource.main.username"));
 		hikariConfig.setPassword(env.getProperty("datasource.main.password"));
+		hikariConfig.setPoolName("MainHikariPool");
 		return hikariConfig;
 	}
 	
@@ -49,9 +49,11 @@ public class DataSourceConfig {
 		hikariConfig.setJdbcUrl(env.getProperty("datasource.batch.url"));
 		hikariConfig.setUsername(env.getProperty("datasource.batch.username"));
 		hikariConfig.setPassword(env.getProperty("datasource.batch.password"));
+		hikariConfig.setPoolName("BatchHikariPool");
 		return hikariConfig;
 	}
 	
+	//@Primary
 	@Bean(name = "oracleDataSource")
 	public DataSource oracleDataSource() {
 		return new HikariDataSource(hikariConfig());
@@ -74,13 +76,6 @@ public class DataSourceConfig {
 	@Bean(name = "batchTransactionManager")
 	public PlatformTransactionManager batchTransactionManager() {
 		return new DataSourceTransactionManager(batchDataSource());
-	}
-
-	public void printDataSoruceConfig() throws Exception {
-		log.info("\t > main dataSource = {}", oracleDataSource());
-        log.info("\t > main dataSource URL = {}", oracleDataSource().getConnection().getMetaData().getURL());
-        log.info("\t > main transaction manager = {}", transactionManager());
-        log.info("\t > main transaction manager is proxy ? {}", AopUtils.isAopProxy(transactionManager()));
 	}
 	
 }
