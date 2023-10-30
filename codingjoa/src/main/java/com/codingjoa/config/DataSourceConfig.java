@@ -5,7 +5,6 @@ import javax.sql.DataSource;
 
 import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -53,8 +52,7 @@ public class DataSourceConfig {
 		return hikariConfig;
 	}
 	
-	@Bean
-	@Qualifier("oracleDataSource")
+	@Bean(name = "oracleDataSource")
 	public DataSource oracleDataSource() {
 		return new HikariDataSource(hikariConfig());
 	}
@@ -63,8 +61,7 @@ public class DataSourceConfig {
 	// Error creating bean with name 'org.springframework.batch.core.configuration.annotation.SimpleBatchConfiguration'
 	// NoUniqueBeanDefinitionException: No qualifying bean of type 'javax.sql.DataSource' available: 
 	// expected single matching bean but found 2: oracleDataSource,h2DataSource
-	@Bean
-	@Qualifier("batchDataSource")
+	@Bean(name = "batchDataSource")
 	public DataSource batchDataSource() {
 		return new HikariDataSource(batchHikariConfig());
 	}
@@ -74,8 +71,7 @@ public class DataSourceConfig {
 		return new DataSourceTransactionManager(oracleDataSource());
 	}
 
-	@Bean
-	@Qualifier("batchTransactionManager")
+	@Bean(name = "batchTransactionManager")
 	public PlatformTransactionManager batchTransactionManager() {
 		return new DataSourceTransactionManager(batchDataSource());
 	}

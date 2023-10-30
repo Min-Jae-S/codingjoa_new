@@ -3,6 +3,7 @@ package com.codingjoa.config;
 import javax.sql.DataSource;
 
 import org.springframework.aop.support.AopUtils;
+import org.springframework.batch.core.configuration.annotation.DefaultBatchConfigurer;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.repository.support.JobRepositoryFactoryBean;
@@ -16,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @EnableBatchProcessing //automatically registers some of its key components, such as JobBuilderFactory and StepBuilderFactory, as beans
 @Configuration
-public class BatchConfig {
+public class BatchConfig extends DefaultBatchConfigurer {
 	
 	private final DataSource dataSource;
 	private final PlatformTransactionManager transactionManager;
@@ -27,6 +28,16 @@ public class BatchConfig {
 		this.transactionManager = transactionManager;
 	}
 	
+	@Override
+	public void setDataSource(DataSource dataSource) {
+		super.setDataSource(dataSource);
+	}
+	
+	@Override
+	public PlatformTransactionManager getTransactionManager() {
+		return this.transactionManager;
+	}
+
 	@Bean
 	public JobRepository jobRepository() throws Exception {
 		JobRepositoryFactoryBean factory = new JobRepositoryFactoryBean();
