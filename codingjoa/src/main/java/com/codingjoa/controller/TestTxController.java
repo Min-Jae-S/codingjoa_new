@@ -35,14 +35,21 @@ public class TestTxController {
 	@GetMapping("/tx/config")
 	public ResponseEntity<Object> config() {
 		log.info("## tx config");
-		Map<String, PlatformTransactionManager> txManagerMap = 
-				webApplicationContext.getBeansOfType(PlatformTransactionManager.class);
-		Map<String, DataSourceTransactionManager> txManagerMap2 = 
-				webApplicationContext.getBeansOfType(DataSourceTransactionManager.class);
+		Map<String, PlatformTransactionManager> txManagerMap = webApplicationContext.getBeansOfType(PlatformTransactionManager.class);
+		Map<String, DataSourceTransactionManager> txManagerMap2 = webApplicationContext.getBeansOfType(DataSourceTransactionManager.class);
 		log.info("\t > txManagerMap = {}", txManagerMap);
 		log.info("\t > txManagerMap2 = {}", txManagerMap2);
-		log.info("\t > txManagers from context = {}", txManagerMap.keySet());
-		log.info("\t > txManagers from autowired = {}", transactionManager);
+		log.info("\t > txManager from context = {}", txManagerMap.keySet());
+		log.info("\t > txManager from autowired = {}", transactionManager);
+		log.info("\t > txManager beanNames");
+		String[] txManagerNames = webApplicationContext.getBeanNamesForType(PlatformTransactionManager.class);
+		if (txManagerNames.length > 0) {
+			for (String txManagerName : txManagerNames) {
+				log.info("\t    - {}", txManagerName);
+			}
+		} else {
+			log.info("\t    - No txManager");
+		}
 		return ResponseEntity.ok("success");
 	}
 
