@@ -6,6 +6,7 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
@@ -53,7 +54,7 @@ public class DataSourceConfig {
 		return hikariConfig;
 	}
 	
-	//@Primary
+	@Primary
 	@Bean(name = "mainDataSource")
 	public DataSource mainDataSource() {
 		return new HikariDataSource(hikariConfig());
@@ -68,6 +69,7 @@ public class DataSourceConfig {
 		return new HikariDataSource(batchHikariConfig());
 	}
 	
+	@Primary
 	@Bean(name = "mainTransactionManager")
 	public PlatformTransactionManager mainTransactionManager() {
 		return new DataSourceTransactionManager(mainDataSource());
