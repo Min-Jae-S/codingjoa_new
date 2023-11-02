@@ -27,7 +27,7 @@ public class BatchConfig extends DefaultBatchConfigurer {
 		this.dataSource = dataSource;
 		this.transactionManager = transactionManager;
 	}
-	
+
 	@PostConstruct
 	public void init() {
 		log.info("===============================================================");
@@ -37,21 +37,21 @@ public class BatchConfig extends DefaultBatchConfigurer {
 	
 	@Autowired
 	@Override
-	public void setDataSource(DataSource dataSource) {
+	public void setDataSource(@Qualifier("batchDataSource") DataSource dataSource) {
 		super.setDataSource(dataSource);
 	}
-	
+
 	@Override
 	public PlatformTransactionManager getTransactionManager() {
-		return this.transactionManager;
+		return transactionManager;
 	}
-	
+
 	@Override
 	protected JobRepository createJobRepository() throws Exception {
 		JobRepositoryFactoryBean factory = new JobRepositoryFactoryBean();
 	    factory.setDataSource(dataSource);
 	    factory.setTransactionManager(transactionManager);
-	    factory.setDatabaseType("ORACLE");
+	    factory.setDatabaseType("H2");
 	    factory.setTablePrefix("BATCH_");
 	    
 	    // ORA-08177: can't serialize access for this transaction
@@ -62,7 +62,7 @@ public class BatchConfig extends DefaultBatchConfigurer {
 	    factory.afterPropertiesSet();
 	    return factory.getObject();
 	}
-
+	
 //	@Bean
 //	public JobRepository jobRepository() throws Exception {
 //		JobRepositoryFactoryBean factory = new JobRepositoryFactoryBean();
