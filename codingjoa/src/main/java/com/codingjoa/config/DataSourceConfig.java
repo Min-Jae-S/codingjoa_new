@@ -64,7 +64,7 @@ public class DataSourceConfig {
 	// Error creating bean with name 'batchJobConfig'
 	// Error creating bean with name 'org.springframework.batch.core.configuration.annotation.SimpleBatchConfiguration'
 	// NoUniqueBeanDefinitionException: No qualifying bean of type 'javax.sql.DataSource' available: 
-	// expected single matching bean but found 2: oracleDataSource,h2DataSource
+	// expected single matching bean but found 2: mainDataSource,batchDataSource
 	@Primary
 	@Bean(name = "batchDataSource")
 	public DataSource batchDataSource() {
