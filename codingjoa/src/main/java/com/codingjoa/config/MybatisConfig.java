@@ -21,13 +21,14 @@ import lombok.extern.slf4j.Slf4j;
 public class MybatisConfig {
 	
 	@Autowired
-	@Qualifier("oracleDataSource")
+	@Qualifier("mainDataSource")
 	private DataSource dataSource;
 	
 	@PostConstruct
 	public void init() {
 		log.info("===============================================================");
 		log.info("@ MybatisConfig");
+		log.info("\t > dataSource = {}", this.dataSource);
 		log.info("===============================================================");
 	}
 	
