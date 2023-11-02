@@ -56,8 +56,8 @@ public class TestBatchController {
 	@GetMapping("/batch/config")
 	public ResponseEntity<Object> config() throws Exception {
 		log.info("## batch config");
-		log.info("\t > configurer = {}", context.getBeansOfType(BatchConfigurer.class));
-		log.info("\t > jobRepository = {}", context.getBeansOfType(JobRepository.class));
+		log.info("\t > configurer from context = {}", context.getBeansOfType(BatchConfigurer.class));
+		log.info("\t > jobRepository from context = {}", context.getBeansOfType(JobRepository.class));
 		return ResponseEntity.ok("success");
 	}
 	
