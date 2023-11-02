@@ -6,7 +6,6 @@ import javax.sql.DataSource;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
@@ -16,7 +15,6 @@ import org.springframework.context.annotation.Configuration;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@MapperScan("com.codingjoa.mapper")
 @Configuration
 public class MybatisConfig {
 	
@@ -46,7 +44,6 @@ public class MybatisConfig {
 		log.info("## sqlSessionTemplate");
 		SqlSessionTemplate template = new SqlSessionTemplate(sqlSessionFactory);
 		org.apache.ibatis.session.Configuration config = template.getConfiguration();
-		log.info("\t > datasource = {}", config.getEnvironment().getDataSource());
 		log.info("\t > mappers");
 		for (Class<?> mappers : config.getMapperRegistry().getMappers()) {
 			log.info("\t    - {}", mappers);

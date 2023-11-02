@@ -23,6 +23,9 @@ public class BatchConfig {
 	
 	public BatchConfig(@Qualifier("batchDataSource") DataSource dataSource, 
 			@Qualifier("batchTransactionManager") PlatformTransactionManager transactionManager) {
+		log.info("## BatchConfig constructor");
+		log.info("\t > dataSource = {}", dataSource);
+		log.info("\t > transactionManager = {}", transactionManager);
 		this.dataSource = dataSource;
 		this.transactionManager = transactionManager;
 	}
