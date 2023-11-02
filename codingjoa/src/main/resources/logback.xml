@@ -28,12 +28,12 @@
 	<logger name="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping" level="DEBUG"/>
 	
 	<!-- transaction logger -->
-	<logger name="org.springframework.transaction" level="INFO"/>
-	<!-- <logger name="org.springframework.transaction.interceptor" level="TRACE"/> -->
+	<!-- <logger name="org.springframework.transaction" level="INFO"/> -->
+	<logger name="org.springframework.transaction.interceptor" level="TRACE"/>
 	<!-- <logger name="org.springframework.transaction.interceptor" level="OFF"/> -->
 	
 	<!-- batch logger -->
-	<logger name="org.springframework.batch.core.configuration.annotation.EnableBatchProcessing" level="TRACE"/>
+	<logger name="org.springframework.batch.core.configuration.annotation" level="TRACE"/>
 	
 	<!-- SQL logger -->
 	<logger name="jdbc.sqlonly" level="OFF" additivity="false">

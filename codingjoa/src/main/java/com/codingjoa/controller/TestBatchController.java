@@ -6,11 +6,13 @@ import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobInstance;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersBuilder;
+import org.springframework.batch.core.configuration.annotation.BatchConfigurer;
 import org.springframework.batch.core.explore.JobExplorer;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationContext;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +25,9 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/test")
 @Controller
 public class TestBatchController {
+	
+	@Autowired
+	private ApplicationContext context;
 	
 	@Autowired
 	private JobRepository jobRepository;
@@ -50,7 +55,9 @@ public class TestBatchController {
 	@ResponseBody
 	@GetMapping("/batch/config")
 	public ResponseEntity<Object> config() throws Exception {
-		log.info("## bacth config");
+		log.info("## batch config");
+		log.info("\t > configurer = {}", context.getBeansOfType(BatchConfigurer.class));
+		log.info("\t > jobRepository = {}", context.getBeansOfType(JobRepository.class));
 		return ResponseEntity.ok("success");
 	}
 	
