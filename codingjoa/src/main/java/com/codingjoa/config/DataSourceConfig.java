@@ -7,6 +7,7 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
@@ -55,7 +56,6 @@ public class DataSourceConfig {
 		return hikariConfig;
 	}
 	
-	//@Primary
 	@Bean(name = "mainDataSource")
 	public DataSource mainDataSource() {
 		return new HikariDataSource(hikariConfig());
@@ -65,6 +65,7 @@ public class DataSourceConfig {
 	// Error creating bean with name 'org.springframework.batch.core.configuration.annotation.SimpleBatchConfiguration'
 	// NoUniqueBeanDefinitionException: No qualifying bean of type 'javax.sql.DataSource' available: 
 	// expected single matching bean but found 2: oracleDataSource,h2DataSource
+	@Primary
 	@Bean(name = "batchDataSource")
 	public DataSource batchDataSource() {
 		return new HikariDataSource(batchHikariConfig());
