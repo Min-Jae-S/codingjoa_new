@@ -1,7 +1,6 @@
 package com.codingjoa.controller;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobInstance;
@@ -67,15 +66,16 @@ public class TestBatchController {
 	@GetMapping("/batch/job-explorer")
 	public ResponseEntity<Object> jobExplorer() {
 		log.info("## jobExplorer");
-		List<String> batchJobs = jobExplorer.getJobNames();
-		if (!batchJobs.isEmpty()) {
-			log.info("\t > batch jobs = {}", batchJobs);
-			batchJobs.forEach(batchJob -> {
-				List<JobInstance> jobInstances = jobExplorer.findJobInstancesByJobName(batchJob, 0, 10);
-				List<Long> instanceIds = jobInstances.stream()
-						.map(JobInstance -> JobInstance.getInstanceId())
-						.collect(Collectors.toList());
-				log.info("\t     - {} = {}", batchJob, instanceIds);
+		List<String> jobNames = jobExplorer.getJobNames();
+		if (!jobNames.isEmpty()) {
+			log.info("\t > batch jobs = {}", jobNames);
+			jobNames.forEach(jobName -> {
+				List<JobInstance> jobInstances = jobExplorer.findJobInstancesByJobName(jobName, 0, 10);
+				log.info("\t     - {}", jobInstances);
+//				List<Long> instanceIds = jobInstances.stream()
+//						.map(JobInstance -> JobInstance.getInstanceId())
+//						.collect(Collectors.toList());
+//				log.info("\t     - {} = {}", jobName, instanceIds);
 			});
 		} else {
 			log.info("\t > NO batch jobs");
