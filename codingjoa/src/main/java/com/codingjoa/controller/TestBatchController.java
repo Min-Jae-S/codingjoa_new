@@ -6,6 +6,7 @@ import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobInstance;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersBuilder;
+import org.springframework.batch.core.configuration.annotation.BatchConfigurer;
 import org.springframework.batch.core.explore.JobExplorer;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.repository.JobRepository;
@@ -61,8 +62,8 @@ public class TestBatchController {
 		log.info("## batch config");
 		log.info("\t > applicationContext = {}", applicationContext);
 		log.info("\t > webApplicationContext = {}", webApplicationContext);
-		//log.info("\t > configurer from context = {}", context.getBeansOfType(BatchConfigurer.class));
-		//log.info("\t > jobRepository from context = {}", context.getBeansOfType(JobRepository.class));
+		log.info("\t > configurer from webApplicationContext = {}", webApplicationContext.getBeansOfType(BatchConfigurer.class));
+		log.info("\t > jobRepository from webApplicationContext = {}", webApplicationContext.getBeansOfType(JobRepository.class));
 		return ResponseEntity.ok("success");
 	}
 	
