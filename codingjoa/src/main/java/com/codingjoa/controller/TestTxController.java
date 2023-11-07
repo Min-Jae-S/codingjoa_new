@@ -19,7 +19,11 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 public class TestTxController {
 	
-	// ApplicationContext.getBeansOfType -> BeanFactoryUtils.beansOfTypeIncludingAncestors
+	/*
+	 * ApplicationContext.getBeansOfType -> BeanFactoryUtils.beansOfTypeIncludingAncestors
+	 * Calling ApplicationContext.getBeansOfType(Class) intentionally does not consider the parent hierarchy (see the java doc). 
+	 * You can use the BeanFactoryUtils class if you want to search the full hierarchy.
+	 */
 	
 	@Autowired
 	private ApplicationContext context;
