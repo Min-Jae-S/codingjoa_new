@@ -29,8 +29,8 @@ public class TestBatchController {
 	@Autowired
 	private ApplicationContext context;
 	
-	@Autowired(required = false)
-	private AnnotationConfigApplicationContext annotationConfigContext;
+	
+	private AnnotationConfigApplicationContext annotationConfigContext = new AnnotationConfigApplicationContext();
 	
 	@Autowired
 	private JobRepository jobRepository;

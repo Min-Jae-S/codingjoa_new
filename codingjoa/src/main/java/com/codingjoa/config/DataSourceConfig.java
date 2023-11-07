@@ -35,7 +35,7 @@ public class DataSourceConfig {
 	}
 	
 	@Bean
-	public HikariConfig hikariConfig() {
+	public HikariConfig mainHikariConfig() {
 		HikariConfig hikariConfig = new HikariConfig();
 		hikariConfig.setDriverClassName(env.getProperty("datasource.main.classname"));
 		hikariConfig.setJdbcUrl(env.getProperty("datasource.main.url"));
@@ -58,7 +58,7 @@ public class DataSourceConfig {
 	
 	@Bean(name = "mainDataSource")
 	public DataSource mainDataSource() {
-		return new HikariDataSource(hikariConfig());
+		return new HikariDataSource(mainHikariConfig());
 	}
 	
 	// Error creating bean with name 'batchJobConfig'

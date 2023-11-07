@@ -1,20 +1,16 @@
 package com.codingjoa.controller;
 
-import java.util.Map;
-
 import javax.sql.DataSource;
 
+import org.springframework.beans.factory.BeanFactoryUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.codingjoa.config.DataSourceConfig;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -23,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 public class TestTxController {
 	
+	 // ApplicationContext.getBeansOfType -> BeanFactoryUtils.beansOfTypeIncludingAncestors
 	@Autowired
 	private ApplicationContext context;
 	
@@ -33,28 +30,18 @@ public class TestTxController {
 	}
 	
 	@ResponseBody
-	@GetMapping("/tx/config")
-	public ResponseEntity<Object> config() {
-		log.info("## tx config");
-		log.info("\t > txManager from getBeansOfType = {}", context.getBeansOfType(PlatformTransactionManager.class));
-		log.info("\t > txManager from getBean = {}", context.getBean(PlatformTransactionManager.class));
+	@GetMapping("/tx/txManager")
+	public ResponseEntity<Object> txManager() {
+		log.info("## txManager");
+		log.info("\t > txManagers = {}", BeanFactoryUtils.beansOfTypeIncludingAncestors(context, PlatformTransactionManager.class).keySet());
 		return ResponseEntity.ok("success");
 	}
 
 	@ResponseBody
 	@GetMapping("/tx/dataSource")
 	public ResponseEntity<Object> dataSource() {
-		log.info("## tx dataSource");
-		log.info("\t > dataSource from getBeansOfType = {}", context.getBeansOfType(DataSource.class));
-		log.info("\t > dataSource from getBean = {}", context.getBean(DataSource.class));
-//		log.info("\t > dataSource from getBeansOfType(annotationConfigContext) = {}", annotationConfigContext.getBeansOfType(DataSource.class));
-//		log.info("\t > dataSource from getBean(annotationConfigContext) = {}", annotationConfigContext.getBean(DataSource.class));
-		log.info("\t > dataSources");
-		Map<String, DataSource> dataSources = context.getBeansOfType(DataSource.class);
-		for (String key : dataSources.keySet()) {
-			DataSource dataSource = dataSources.get(key);
-			log.info("\t    - key = {}, value = {}", key, dataSource);
-		}
+		log.info("## dataSource");
+		log.info("\t > dataSources = {}", BeanFactoryUtils.beansOfTypeIncludingAncestors(context, DataSource.class).keySet());
 		return ResponseEntity.ok("success");
 	}
 	
