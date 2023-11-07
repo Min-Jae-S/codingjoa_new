@@ -60,6 +60,7 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 		 * 		maxFileSize		 	: 업로드 하는 파일의 최대 용량(byte 단위)
 		 * 		maxRequestSize	 	: 파일 데이터를 포함한 전체 요청 용량
 		 * 		fileSizeThreshold 	: 파일 임계값
+		 * 
 		 */
 		
 		log.info("## customizeRegistration");
@@ -94,7 +95,7 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 		encodingFilterReg.setInitParameter("encoding", "UTF-8");
 		encodingFilterReg.setInitParameter("forceEncoding", "true");
 
-		// isMatchAfter가 true면 filter의 순서를 뒤에, false면 순서를 앞으로 배치한다.
+		// isMatchAfter가 true면 filter의 순서를 뒤에, false면 순서를 앞으로 배치
 		EnumSet<DispatcherType> dispatcherTypes = EnumSet.allOf(DispatcherType.class);
 		encodingFilterReg.addMappingForUrlPatterns(dispatcherTypes, false, "/*");
 	}
@@ -108,4 +109,5 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 		EnumSet<DispatcherType> dispatcherTypes = EnumSet.of(DispatcherType.REQUEST, DispatcherType.ASYNC, DispatcherType.ERROR);
 		logFilterReg.addMappingForUrlPatterns(dispatcherTypes, false, "/*");
 	}
+	
 }
