@@ -6,10 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.context.WebApplicationContext;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -19,10 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 public class TestTxController {
 	
 	@Autowired
-	private ApplicationContext applicationContext;
-	
-	@Autowired
-	private WebApplicationContext webApplicationContext;
+	private ApplicationContext context;
 	
 	@GetMapping("/tx")
 	public String main() {
@@ -34,6 +31,8 @@ public class TestTxController {
 	@GetMapping("/tx/config")
 	public ResponseEntity<Object> config() {
 		log.info("## tx config");
+		log.info("\t > txManager from getBeansOfType = {}", context.getBeansOfType(PlatformTransactionManager.class));
+		log.info("\t > txManager from getBean = {}", context.getBean(PlatformTransactionManager.class));
 		return ResponseEntity.ok("success");
 	}
 
@@ -41,8 +40,8 @@ public class TestTxController {
 	@GetMapping("/tx/dataSource")
 	public ResponseEntity<Object> dataSource() {
 		log.info("## tx dataSource");
-		log.info("\t > dataSource from applicationContext", applicationContext.getBeansOfType(DataSource.class));
-		log.info("\t > dataSource from webApplicationContext", webApplicationContext.getBeansOfType(DataSource.class));
+		log.info("\t > dataSource from getBeansOfType = {}", context.getBeansOfType(DataSource.class).isEmpty());
+		log.info("\t > dataSource from getBean = {}", context.getBean(DataSource.class));
 		return ResponseEntity.ok("success");
 	}
 	
