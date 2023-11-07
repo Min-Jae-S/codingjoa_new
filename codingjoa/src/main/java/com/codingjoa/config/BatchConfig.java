@@ -62,7 +62,9 @@ public class BatchConfig {
 	    // when not specified separately.
 	    factory.setIsolationLevelForCreate("ISOLATION_DEFAULT");
 	    factory.afterPropertiesSet();
-		return factory.getObject();
+	    JobRepository jobRepository = factory.getObject();
+	    log.info("## jobRepository" + System.lineSeparator() + "\t\t\t\t\t\t\t > {}", jobRepository);
+		return jobRepository;
 	}
 	
 }
