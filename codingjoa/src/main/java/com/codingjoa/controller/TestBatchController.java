@@ -6,13 +6,14 @@ import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobInstance;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersBuilder;
+import org.springframework.batch.core.configuration.annotation.SimpleBatchConfiguration;
 import org.springframework.batch.core.explore.JobExplorer;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.repository.JobRepository;
+import org.springframework.beans.factory.BeanFactoryUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,11 +27,10 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 public class TestBatchController {
 	
+	// ApplicationContext.getBeansOfType -> BeanFactoryUtils.beansOfTypeIncludingAncestors
+	
 	@Autowired
 	private ApplicationContext context;
-	
-	
-	private AnnotationConfigApplicationContext annotationConfigContext = new AnnotationConfigApplicationContext();
 	
 	@Autowired
 	private JobRepository jobRepository;
@@ -60,10 +60,10 @@ public class TestBatchController {
 	public ResponseEntity<Object> config() throws Exception {
 		log.info("## batch config");
 		log.info("\t > context = {}", context.getClass().getSimpleName());
-		log.info("\t > annotationConfigContext = {}", annotationConfigContext);
-//		log.info("\t > configurer = {}", context.getBean(BatchConfigurer.class));
-		log.info("\t > jobRepository from getBeansOfType = {}", context.getBeansOfType(JobRepository.class));
-		log.info("\t > jobRepository from getBean = {}", context.getBean(JobRepository.class));
+		log.info("\t > simpleBatchConfiguration = {}", 
+				BeanFactoryUtils.beansOfTypeIncludingAncestors(context, SimpleBatchConfiguration.class).keySet());
+		log.info("\t > jobRepository = {}", 
+				BeanFactoryUtils.beansOfTypeIncludingAncestors(context, JobRepository.class).keySet());
 		return ResponseEntity.ok("success");
 	}
 	

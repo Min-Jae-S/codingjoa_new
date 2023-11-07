@@ -38,11 +38,18 @@
 <div class="container my-5">
 	<p>batch.jsp</p>
 	<div class="test d-flex justify-content-center mt-5">
-		<button class="btn btn-lg btn-warning mx-3" onclick="config()">config</button>
+		<button class="btn btn-lg btn-warning mx-3" onclick="config()">batch configurer</button>
+		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
+		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
+		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
+		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
+	</div>
+	<div class="test d-flex justify-content-center mt-5">
 		<button class="btn btn-lg btn-warning mx-3" onclick="jobRepository()">jobRepository</button>
 		<button class="btn btn-lg btn-warning mx-3" onclick="jobExplorer()">jobExplorer</button>
 		<button class="btn btn-lg btn-warning mx-3" onclick="jobLauncher()">jobLauncher</button>
 		<button class="btn btn-lg btn-warning mx-3" onclick="jobParameters()">jobParameters</button>
+		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
 	</div>
 	<div class="test d-flex justify-content-center mt-5">
 		<button class="btn btn-lg btn-primary mx-3" onclick="runJobA()">run JobA</button>
@@ -61,39 +68,7 @@
 			url : "${contextPath}/test/batch/config",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
-				console.log("> %s", result);
-			},
-			error : function(jqXHR) {
-				console.log("%c> ERROR", "color:red");
-				console.log(jqXHR);
-			}
-		});		
-	}
-	
-	function runJobA() {
-		console.log("## runJobA");
-		$.ajax({
-			type : "GET",
-			url : "${contextPath}/test/batch/run/job-a",
-			success : function(result) {
-				console.log("%c> SUCCESS", "color:green");
-				console.log("> %s", result);
-			},
-			error : function(jqXHR) {
-				console.log("%c> ERROR", "color:red");
-				console.log(jqXHR);
-			}
-		});		
-	}
-
-	function runJobB() {
-		console.log("## runJobB");
-		$.ajax({
-			type : "GET",
-			url : "${contextPath}/test/batch/run/job-b",
-			success : function(result) {
-				console.log("%c> SUCCESS", "color:green");
-				console.log("> %s", result);
+				console.log("> result = %s", result);
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
@@ -109,7 +84,7 @@
 			url : "${contextPath}/test/batch/job-parameters",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
-				console.log("> %s", result);
+				console.log("> result = %s", result);
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
@@ -125,7 +100,7 @@
 			url : "${contextPath}/test/batch/job-explorer",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
-				console.log("> %s", result);
+				console.log("> result = %s", result);
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
@@ -141,7 +116,7 @@
 			url : "${contextPath}/test/batch/job-repository",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
-				console.log("> %s", result);
+				console.log("> result = %s", result);
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
@@ -157,7 +132,7 @@
 			url : "${contextPath}/test/batch/job-launcher",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
-				console.log("> %s", result);
+				console.log("> result = %s", result);
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
@@ -166,6 +141,37 @@
 		});		
 	}
 	
+	function runJobA() {
+		console.log("## runJobA");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/batch/run/job-a",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log("> result = %s", result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(jqXHR);
+			}
+		});		
+	}
+
+	function runJobB() {
+		console.log("## runJobB");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/batch/run/job-b",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log("> result = %s", result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(jqXHR);
+			}
+		});		
+	}
 </script>
 </body>
 </html>

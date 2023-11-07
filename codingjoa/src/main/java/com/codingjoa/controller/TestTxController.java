@@ -19,7 +19,8 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 public class TestTxController {
 	
-	 // ApplicationContext.getBeansOfType -> BeanFactoryUtils.beansOfTypeIncludingAncestors
+	// ApplicationContext.getBeansOfType -> BeanFactoryUtils.beansOfTypeIncludingAncestors
+	
 	@Autowired
 	private ApplicationContext context;
 	
