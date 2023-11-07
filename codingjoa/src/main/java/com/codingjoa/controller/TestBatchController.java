@@ -12,6 +12,7 @@ import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,6 +28,9 @@ public class TestBatchController {
 	
 	@Autowired
 	private ApplicationContext context;
+	
+	@Autowired(required = false)
+	private AnnotationConfigApplicationContext annotationConfigContext;
 	
 	@Autowired
 	private JobRepository jobRepository;
@@ -55,7 +59,8 @@ public class TestBatchController {
 	@GetMapping("/batch/config")
 	public ResponseEntity<Object> config() throws Exception {
 		log.info("## batch config");
-		log.info("\t > context = {}", context);
+		log.info("\t > context = {}", context.getClass().getSimpleName());
+		log.info("\t > annotationConfigContext = {}", annotationConfigContext);
 //		log.info("\t > configurer = {}", context.getBean(BatchConfigurer.class));
 		log.info("\t > jobRepository from getBeansOfType = {}", context.getBeansOfType(JobRepository.class));
 		log.info("\t > jobRepository from getBean = {}", context.getBean(JobRepository.class));
