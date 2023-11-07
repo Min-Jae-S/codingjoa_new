@@ -39,6 +39,7 @@
 	<p>tx.jsp</p>
 	<div class="test d-flex justify-content-center mt-5">
 		<button class="btn btn-lg btn-warning mx-3" onclick="config()">config</button>
+		<button class="btn btn-lg btn-warning mx-3" onclick="dataSource()">dataSource</button>
 	</div>
 	<div class="test d-flex justify-content-center mt-5">
 		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
@@ -53,6 +54,22 @@
 		$.ajax({
 			type : "GET",
 			url : "${contextPath}/test/tx/config",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log("> %s", result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(jqXHR);
+			}
+		});		
+	}
+
+	function dataSource() {
+		console.log("## dataSource");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/tx/dataSource",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> %s", result);

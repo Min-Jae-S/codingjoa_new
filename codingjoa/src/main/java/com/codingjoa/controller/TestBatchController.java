@@ -62,8 +62,8 @@ public class TestBatchController {
 		log.info("## batch config");
 		log.info("\t > applicationContext = {}", applicationContext);
 		log.info("\t > webApplicationContext = {}", webApplicationContext);
-		//log.info("\t > configurer from webApplicationContext = {}", webApplicationContext.getBeansOfType(BatchConfigurer.class));
-		//log.info("\t > jobRepository from webApplicationContext = {}", webApplicationContext.getBeansOfType(JobRepository.class));
+		log.info("\t > configurer from webApplicationContext = {}", webApplicationContext.getBeansOfType(BatchConfigurer.class));
+		log.info("\t > jobRepository from webApplicationContext = {}", webApplicationContext.getBeansOfType(JobRepository.class));
 		return ResponseEntity.ok("success");
 	}
 	
