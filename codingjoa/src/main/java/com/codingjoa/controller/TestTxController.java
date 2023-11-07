@@ -1,5 +1,7 @@
 package com.codingjoa.controller;
 
+import java.util.Map;
+
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.BeanFactoryUtils;
@@ -21,6 +23,8 @@ public class TestTxController {
 	
 	/*
 	 * ApplicationContext.getBeansOfType -> BeanFactoryUtils.beansOfTypeIncludingAncestors
+	 * 
+	 * https://github.com/spring-projects/spring-framework/issues/15553
 	 * Calling ApplicationContext.getBeansOfType(Class) intentionally does not consider the parent hierarchy (see the java doc). 
 	 * You can use the BeanFactoryUtils class if you want to search the full hierarchy.
 	 */
@@ -38,7 +42,11 @@ public class TestTxController {
 	@GetMapping("/tx/txManager")
 	public ResponseEntity<Object> txManager() {
 		log.info("## txManager");
-		log.info("\t > txManagers = {}", BeanFactoryUtils.beansOfTypeIncludingAncestors(context, PlatformTransactionManager.class).keySet());
+		Map<String, PlatformTransactionManager> map = 
+				BeanFactoryUtils.beansOfTypeIncludingAncestors(context, PlatformTransactionManager.class);
+		for (String key : map.keySet()) {
+			log.info("\t > {} = {}", key, map.get(key));
+		}
 		return ResponseEntity.ok("success");
 	}
 

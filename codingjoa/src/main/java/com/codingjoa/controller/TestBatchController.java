@@ -29,6 +29,8 @@ public class TestBatchController {
 	
 	/*
 	 * ApplicationContext.getBeansOfType -> BeanFactoryUtils.beansOfTypeIncludingAncestors
+	 * 
+	 * https://github.com/spring-projects/spring-framework/issues/15553
 	 * Calling ApplicationContext.getBeansOfType(Class) intentionally does not consider the parent hierarchy (see the java doc). 
 	 * You can use the BeanFactoryUtils class if you want to search the full hierarchy.
 	 */
@@ -63,11 +65,9 @@ public class TestBatchController {
 	@GetMapping("/batch/config")
 	public ResponseEntity<Object> config() throws Exception {
 		log.info("## batch config");
-		log.info("\t > context = {}", context.getClass().getSimpleName());
 		log.info("\t > simpleBatchConfiguration = {}", 
 				BeanFactoryUtils.beansOfTypeIncludingAncestors(context, SimpleBatchConfiguration.class).keySet());
-		log.info("\t > jobRepository = {}", 
-				BeanFactoryUtils.beansOfTypeIncludingAncestors(context, JobRepository.class).keySet());
+		SimpleBatchConfiguration config = context.getBean(SimpleBatchConfiguration.class);
 		return ResponseEntity.ok("success");
 	}
 	
