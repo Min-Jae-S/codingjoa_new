@@ -70,9 +70,9 @@ public class TestBatchController {
 		log.info("\t > jobRepository = {}", 
 				BeanFactoryUtils.beansOfTypeIncludingAncestors(context, JobRepository.class).values());
 		log.info("\t =========================================================================================");
-		SimpleBatchConfiguration simpleConfig = context.getBean(SimpleBatchConfiguration.class);
-		log.info("\t > batch txManager = {}", simpleConfig.transactionManager());
-		log.info("\t > batch jobRepository = {}", simpleConfig.jobRepository());
+		SimpleBatchConfiguration simpleBatchConfiguration = context.getBean(SimpleBatchConfiguration.class);
+		log.info("\t > batch transactionManager = {}", simpleBatchConfiguration.transactionManager());
+		log.info("\t > batch jobRepository = {}", simpleBatchConfiguration.jobRepository());
 		return ResponseEntity.ok("success");
 	}
 	

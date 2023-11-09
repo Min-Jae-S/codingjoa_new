@@ -42,6 +42,11 @@ public class BatchConfig2 extends DefaultBatchConfigurer {
 	}
 
 	@Override
+	public PlatformTransactionManager getTransactionManager() {
+		return this.transactionManager;
+	}
+
+	@Override
 	protected JobRepository createJobRepository() throws Exception {
 		JobRepositoryFactoryBean factory = new JobRepositoryFactoryBean();
 		factory.setDataSource(dataSource);
