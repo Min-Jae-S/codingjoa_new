@@ -41,10 +41,10 @@ public class BatchConfig2 extends DefaultBatchConfigurer {
 		super.setDataSource(dataSource);
 	}
 
-//	@Override
-//	public PlatformTransactionManager getTransactionManager() {
-//		return this.transactionManager;
-//	}
+	@Override
+	public PlatformTransactionManager getTransactionManager() {
+		return this.transactionManager;
+	}
 
 	@Override
 	protected JobRepository createJobRepository() throws Exception {
