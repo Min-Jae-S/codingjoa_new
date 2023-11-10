@@ -28,7 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 public class TestBatchController {
 	
 	/*
-	 * ApplicationContext.getBeansOfType -> BeanFactoryUtils.beansOfTypeIncludingAncestors
+	 * @ ApplicationContext.getBeansOfType -> BeanFactoryUtils.beansOfTypeIncludingAncestors
 	 * 
 	 * https://github.com/spring-projects/spring-framework/issues/15553
 	 * Calling ApplicationContext.getBeansOfType(Class) intentionally does not consider the parent hierarchy (see the java doc). 
