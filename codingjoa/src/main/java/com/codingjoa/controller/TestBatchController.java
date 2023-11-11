@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -55,6 +56,10 @@ public class TestBatchController {
 	@Qualifier("batchJobB")
 	private Job batchJobB;
 	
+	@Autowired
+	@Qualifier("batchTransactionManaer")
+	private PlatformTransactionManager batchTransactionManaer;
+	
 	@GetMapping("/batch")
 	public String main() {
 		log.info("## batch main");
@@ -73,6 +78,8 @@ public class TestBatchController {
 		SimpleBatchConfiguration simpleBatchConfiguration = context.getBean(SimpleBatchConfiguration.class);
 		log.info("\t > batch transactionManager = {}", simpleBatchConfiguration.transactionManager());
 		log.info("\t > batch jobRepository = {}", simpleBatchConfiguration.jobRepository());
+		log.info("\t =========================================================================================");
+		log.info("\t > transactionManager by @Bean = {}", simpleBatchConfiguration.transactionManager());
 		return ResponseEntity.ok("success");
 	}
 	
