@@ -58,7 +58,7 @@ public class TestBatchController {
 	
 	@Autowired
 	@Qualifier("batchTransactionManaer")
-	private PlatformTransactionManager batchTransactionManaer;
+	private PlatformTransactionManager transactionManager;
 	
 	@GetMapping("/batch")
 	public String main() {
@@ -70,16 +70,17 @@ public class TestBatchController {
 	@GetMapping("/batch/config")
 	public ResponseEntity<Object> config() throws Exception {
 		log.info("## batch config");
-		log.info("\t > simpleBatchConfiguration = {}", 
+		log.info("\t > simpleBatchConfiguration from context = {}", 
 				BeanFactoryUtils.beansOfTypeIncludingAncestors(context, SimpleBatchConfiguration.class).keySet());
-		log.info("\t > jobRepository = {}", 
+		log.info("\t > jobRepository from context = {}", 
 				BeanFactoryUtils.beansOfTypeIncludingAncestors(context, JobRepository.class).values());
 		log.info("\t =========================================================================================");
 		SimpleBatchConfiguration simpleBatchConfiguration = context.getBean(SimpleBatchConfiguration.class);
-		log.info("\t > batch transactionManager = {}", simpleBatchConfiguration.transactionManager());
-		log.info("\t > batch jobRepository = {}", simpleBatchConfiguration.jobRepository());
+		log.info("\t > transactionManager by simpleBatchConfiguration = {}", simpleBatchConfiguration.transactionManager());
+		log.info("\t > transactionManager by @Bean = {}", transactionManager);
 		log.info("\t =========================================================================================");
-		log.info("\t > transactionManager by @Bean = {}", simpleBatchConfiguration.transactionManager());
+		log.info("\t > jobRepository by simpleBatchConfiguration = {}", simpleBatchConfiguration.jobRepository());
+		log.info("\t > jobRepository by @Bean = {}", jobRepository);
 		return ResponseEntity.ok("success");
 	}
 	
