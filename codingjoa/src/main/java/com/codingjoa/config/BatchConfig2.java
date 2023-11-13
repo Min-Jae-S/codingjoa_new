@@ -14,6 +14,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+//@RequiredArgsConstructor
 @Configuration
 public class BatchConfig2 extends DefaultBatchConfigurer {
 	
