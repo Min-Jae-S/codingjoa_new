@@ -1,7 +1,5 @@
 package com.codingjoa.controller;
 
-import java.util.Map;
-
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.BeanFactoryUtils;
@@ -42,11 +40,13 @@ public class TestTxController {
 	@GetMapping("/tx/txManager")
 	public ResponseEntity<Object> txManager() {
 		log.info("## txManager");
-		Map<String, PlatformTransactionManager> map = 
-				BeanFactoryUtils.beansOfTypeIncludingAncestors(context, PlatformTransactionManager.class);
-		for (String key : map.keySet()) {
-			log.info("\t > {} = {}", key, map.get(key));
-		}
+//		Map<String, PlatformTransactionManager> map = 
+//				BeanFactoryUtils.beansOfTypeIncludingAncestors(context, PlatformTransactionManager.class);
+//		for (String key : map.keySet()) {
+//			log.info("\t > {} = {}", key, map.get(key));
+//		}
+		log.info("\t > txManager from beansOfTypeIncludingAncestors = {}", BeanFactoryUtils.beansOfTypeIncludingAncestors(context, PlatformTransactionManager.class));
+		log.info("\t > txManager from getBeansOfType = {}", context.getBeansOfType(PlatformTransactionManager.class));
 		return ResponseEntity.ok("success");
 	}
 
@@ -54,7 +54,8 @@ public class TestTxController {
 	@GetMapping("/tx/dataSource")
 	public ResponseEntity<Object> dataSource() {
 		log.info("## dataSource");
-		log.info("\t > dataSources = {}", BeanFactoryUtils.beansOfTypeIncludingAncestors(context, DataSource.class).keySet());
+		log.info("\t > dataSources from beansOfTypeIncludingAncestors = {}", BeanFactoryUtils.beansOfTypeIncludingAncestors(context, DataSource.class));
+		log.info("\t > dataSources from getBeansOfType = {}", context.getBeansOfType(DataSource.class));
 		return ResponseEntity.ok("success");
 	}
 	
