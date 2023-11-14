@@ -7,14 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Component
 public class MyBatchConfigurer extends DefaultBatchConfigurer {
 
-	@Autowired
-    public MyBatchConfigurer(@Qualifier("batchDataSource") DataSource dataSource) {
-        super(dataSource);
-    }
-	
 //	private final DataSource dataSource;
 //	private final PlatformTransactionManager transactionManager;
 //	
@@ -24,11 +22,12 @@ public class MyBatchConfigurer extends DefaultBatchConfigurer {
 //		this.transactionManager = transactionManager;
 //	}
 //	
-//	@Autowired
-//	@Override
-//	public void setDataSource(@Qualifier("batchDataSource") DataSource dataSource) {
-//		super.setDataSource(dataSource);
-//	}
+	@Autowired
+	@Override
+	public void setDataSource(@Qualifier("batchDataSource") DataSource dataSource) {
+		log.info("## MyBatchConfigurer setDataSource");
+		super.setDataSource(dataSource);
+	}
 //
 //	@Override
 //	public PlatformTransactionManager getTransactionManager() {

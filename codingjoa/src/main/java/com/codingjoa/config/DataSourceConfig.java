@@ -5,6 +5,7 @@ import javax.sql.DataSource;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -65,7 +66,8 @@ public class DataSourceConfig {
 	// NoUniqueBeanDefinitionException: No qualifying bean of type 'javax.sql.DataSource' available: 
 	// expected single matching bean but found 2: mainDataSource,batchDataSource
 	//@Primary
-	@Bean(name = "batchDataSource")
+	@Bean
+	@Qualifier("batchDataSource")
 	public DataSource batchDataSource() {
 		return new HikariDataSource(batchHikariConfig());
 	}
