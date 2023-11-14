@@ -36,8 +36,8 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 				QuartzConfig.class,
 //				BatchConfig.class,
 //				BatchJobConfig.class,
-				BatchConfig2.class
-//				BatchConfig3.class
+//				BatchConfig2.class
+				BatchConfig3.class
 		};
 	}
 

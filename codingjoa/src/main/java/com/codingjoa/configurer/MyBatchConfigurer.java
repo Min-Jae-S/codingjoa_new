@@ -6,6 +6,7 @@ import org.springframework.batch.core.configuration.annotation.DefaultBatchConfi
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.PlatformTransactionManager;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -13,27 +14,24 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class MyBatchConfigurer extends DefaultBatchConfigurer {
 
-//	private final DataSource dataSource;
-//	private final PlatformTransactionManager transactionManager;
-//	
-//	public MyBatchConfigurer(@Qualifier("batchDataSource") DataSource dataSource, 
-//			@Qualifier("batchTransactionManager") PlatformTransactionManager transactionManager) {
-//		this.dataSource = dataSource;
-//		this.transactionManager = transactionManager;
-//	}
-//	
+	private final PlatformTransactionManager transactionManager;
+	
+	public MyBatchConfigurer(@Qualifier("batchTransactionManager") PlatformTransactionManager transactionManager) {
+		this.transactionManager = transactionManager;
+	}
+	
 	@Autowired
 	@Override
 	public void setDataSource(@Qualifier("batchDataSource") DataSource dataSource) {
 		log.info("## MyBatchConfigurer setDataSource");
 		super.setDataSource(dataSource);
 	}
-//
-//	@Override
-//	public PlatformTransactionManager getTransactionManager() {
-//		return this.transactionManager;
-//	}
-//
+
+	@Override
+	public PlatformTransactionManager getTransactionManager() {
+		return this.transactionManager;
+	}
+
 //	@Override
 //	protected JobRepository createJobRepository() throws Exception {
 //		JobRepositoryFactoryBean factory = new JobRepositoryFactoryBean();
