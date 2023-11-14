@@ -57,7 +57,7 @@ public class TestBatchController {
 	private Job batchJobB;
 	
 	@Autowired
-	@Qualifier("batchTransactionManaer")
+	@Qualifier("batchTransactionManager")
 	private PlatformTransactionManager transactionManager;
 	
 	@GetMapping("/batch")
@@ -77,10 +77,10 @@ public class TestBatchController {
 		log.info("\t =========================================================================================");
 		SimpleBatchConfiguration simpleBatchConfiguration = context.getBean(SimpleBatchConfiguration.class);
 		log.info("\t > transactionManager by simpleBatchConfiguration = {}", simpleBatchConfiguration.transactionManager());
-		log.info("\t > transactionManager by @Bean = {}", transactionManager);
+		log.info("\t > transactionManager by @Qualifier = {}", transactionManager);
 		log.info("\t =========================================================================================");
 		log.info("\t > jobRepository by simpleBatchConfiguration = {}", simpleBatchConfiguration.jobRepository());
-		log.info("\t > jobRepository by @Bean = {}", jobRepository);
+		log.info("\t > jobRepository by @@Autowired = {}", jobRepository);
 		return ResponseEntity.ok("success");
 	}
 	
