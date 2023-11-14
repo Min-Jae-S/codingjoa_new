@@ -30,7 +30,7 @@ public class BatchConfig2 {
 	
 	@Autowired
 	private StepBuilderFactory stepBuilderFactory;
-
+	
 	@Bean
 	public Job simpleJob() {
 		return jobBuilderFactory.get("simpleJob")

@@ -38,13 +38,13 @@ public class TestBatchController {
 	@Autowired
 	private ApplicationContext context;
 	
-	@Autowired
+	@Autowired(required = false)
 	private JobRepository jobRepository;
 	
-	@Autowired
+	@Autowired(required = false)
 	private JobLauncher jobLauncher;
 	
-	@Autowired
+	@Autowired(required = false)
 	private JobExplorer jobExplorer;
 	
 	@Autowired(required = false)
@@ -87,7 +87,11 @@ public class TestBatchController {
 	@GetMapping("/batch/job-repository")
 	public ResponseEntity<Object> jobRepository() {
 		log.info("## jobRepository");
-		log.info("\t > jobRepository = {}", jobRepository);
+		if (jobRepository != null) {
+			log.info("\t > jobRepository = {}", jobRepository);
+		} else {
+			log.info("\t > No jobRepository");
+		}
 		return ResponseEntity.ok("success");
 	}
 
@@ -95,19 +99,24 @@ public class TestBatchController {
 	@GetMapping("/batch/job-explorer")
 	public ResponseEntity<Object> jobExplorer() {
 		log.info("## jobExplorer");
-		List<String> jobNames = jobExplorer.getJobNames();
-		if (!jobNames.isEmpty()) {
-			log.info("\t > batch jobs = {}", jobNames);
-			jobNames.forEach(jobName -> {
-				List<JobInstance> jobInstances = jobExplorer.findJobInstancesByJobName(jobName, 0, 10);
-				log.info("\t     - {}", jobInstances);
+		if (jobExplorer != null) {
+			log.info("\t > jobExplorer = {}", jobExplorer);
+			List<String> jobNames = jobExplorer.getJobNames();
+			if (!jobNames.isEmpty()) {
+				log.info("\t > batch jobs = {}", jobNames);
+				jobNames.forEach(jobName -> {
+					List<JobInstance> jobInstances = jobExplorer.findJobInstancesByJobName(jobName, 0, 10);
+					log.info("\t     - {}", jobInstances);
 //				List<Long> instanceIds = jobInstances.stream()
 //						.map(JobInstance -> JobInstance.getInstanceId())
 //						.collect(Collectors.toList());
 //				log.info("\t     - {} = {}", jobName, instanceIds);
-			});
+				});
+			} else {
+				log.info("\t > NO batch jobs");
+			}
 		} else {
-			log.info("\t > NO batch jobs");
+			log.info("\t > No jobExplorer");
 		}
 		return ResponseEntity.ok("success");
 	}
@@ -116,7 +125,11 @@ public class TestBatchController {
 	@GetMapping("/batch/job-launcher")
 	public ResponseEntity<Object> jobLauncher() {
 		log.info("## jobLauncher");
-		log.info("\t > jobLauncher = {}", jobLauncher);
+		if (jobLauncher != null) {
+			log.info("\t > jobLauncher = {}", jobLauncher);
+		} else {
+			log.info("\t > No jobLauncher");
+		}
 		return ResponseEntity.ok("success");
 	}
 	
