@@ -2,10 +2,13 @@ package com.codingjoa.controller;
 
 import java.util.List;
 
+import javax.sql.DataSource;
+
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobInstance;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersBuilder;
+import org.springframework.batch.core.configuration.annotation.DefaultBatchConfigurer;
 import org.springframework.batch.core.configuration.annotation.SimpleBatchConfiguration;
 import org.springframework.batch.core.explore.JobExplorer;
 import org.springframework.batch.core.launch.JobLauncher;
@@ -57,6 +60,10 @@ public class TestBatchController {
 	private Job batchJobB;
 	
 	@Autowired
+	@Qualifier("batchDataSource")
+	private DataSource dataSource;
+	
+	@Autowired
 	@Qualifier("batchTransactionManager")
 	private PlatformTransactionManager transactionManager;
 	
@@ -86,6 +93,18 @@ public class TestBatchController {
 		} catch (Exception e) {
 			log.info("\t > error msg = {}", e.getMessage());
 		}
+		return ResponseEntity.ok("success");
+	}
+	
+	@ResponseBody
+	@GetMapping("/batch/default-config")
+	public ResponseEntity<Object> defaultConfig() {
+		log.info("## defaultConfig");
+		log.info("\t > batchDataSoruce = {}", dataSource);
+		DefaultBatchConfigurer defaultBatchConfigurer = new DefaultBatchConfigurer(null);
+		log.info("\t > defaultBatchConfigurer = {}", defaultBatchConfigurer);
+		defaultBatchConfigurer = new DefaultBatchConfigurer(dataSource);
+		log.info("\t > defaultBatchConfigurer = {}", defaultBatchConfigurer);
 		return ResponseEntity.ok("success");
 	}
 	

@@ -2,6 +2,7 @@ package com.codingjoa.config;
 
 import javax.sql.DataSource;
 
+import org.springframework.batch.core.configuration.annotation.AbstractBatchConfiguration;
 import org.springframework.batch.core.configuration.annotation.DefaultBatchConfigurer;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +18,6 @@ import lombok.extern.slf4j.Slf4j;
 @Configuration
 public class BatchConfig2 extends DefaultBatchConfigurer {
 	
-	private DataSource dataSource;
-
 	@Autowired
 	@Qualifier("batchTransactionManager")
 	private PlatformTransactionManager transactionManager;
@@ -26,16 +25,15 @@ public class BatchConfig2 extends DefaultBatchConfigurer {
 	@Autowired
 	@Override
 	public void setDataSource(@Qualifier("batchDataSource") DataSource dataSource) {
-		log.info("## BatchConfig2 setDataSource");
+		log.info("## setDataSource");
 		log.info("\t > dataSource = {}", dataSource);
 		super.setDataSource(dataSource);
 	}
 
 	@Override
 	public PlatformTransactionManager getTransactionManager() {
-		log.info("## BatchConfig2 getTransactionManager");
+		log.info("## getTransactionManager");
 		return this.transactionManager;
 	}
-	
 	
 }
