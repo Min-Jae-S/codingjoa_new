@@ -4,7 +4,10 @@ import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 
 import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.batch.core.configuration.annotation.BatchConfigurer;
+import org.springframework.batch.core.configuration.annotation.DefaultBatchConfigurer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -77,6 +80,13 @@ public class DataSourceConfig {
 	@Bean(name = "batchTransactionManager")
 	public PlatformTransactionManager batchTransactionManager() {
 		return new DataSourceTransactionManager(batchDataSource());
+	}
+	
+	@Bean
+	public BatchConfigurer batchConfigurer(@Qualifier("batchDataSource") DataSource dataSource) {
+		log.info("## batchConfigurer");
+		log.info("\t > batchDataSource = {}", dataSource);
+		return new DefaultBatchConfigurer(dataSource);
 	}
 	
 }
