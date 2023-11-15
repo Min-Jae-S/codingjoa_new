@@ -1,6 +1,7 @@
 package com.codingjoa.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.sql.DataSource;
 
@@ -103,8 +104,8 @@ public class TestBatchController {
 		log.info("\t > batchDataSoruce = {}", dataSource);
 		DefaultBatchConfigurer defaultBatchConfigurer = new DefaultBatchConfigurer(null);
 		log.info("\t > defaultBatchConfigurer = {}", defaultBatchConfigurer);
-		defaultBatchConfigurer = new DefaultBatchConfigurer(dataSource);
-		log.info("\t > defaultBatchConfigurer = {}", defaultBatchConfigurer);
+		DefaultBatchConfigurer defaultBatchConfigurer2 = new DefaultBatchConfigurer(null);
+		log.info("\t > defaultBatchConfigurer2 = {}", defaultBatchConfigurer2);
 		return ResponseEntity.ok("success");
 	}
 	
@@ -132,10 +133,10 @@ public class TestBatchController {
 				jobNames.forEach(jobName -> {
 					List<JobInstance> jobInstances = jobExplorer.findJobInstancesByJobName(jobName, 0, 10);
 					log.info("\t     - {}", jobInstances);
-//				List<Long> instanceIds = jobInstances.stream()
-//						.map(JobInstance -> JobInstance.getInstanceId())
-//						.collect(Collectors.toList());
-//				log.info("\t     - {} = {}", jobName, instanceIds);
+				List<Long> instanceIds = jobInstances.stream()
+						.map(JobInstance -> JobInstance.getInstanceId())
+						.collect(Collectors.toList());
+				log.info("\t     - {} = {}", jobName, instanceIds);
 				});
 			} else {
 				log.info("\t > NO batch jobs");
