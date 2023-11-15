@@ -40,12 +40,6 @@
 	<div class="test d-flex justify-content-center mt-5">
 		<button class="btn btn-lg btn-warning mx-3" onclick="txManager()">txManager</button>
 		<button class="btn btn-lg btn-warning mx-3" onclick="dataSource()">dataSource</button>
-		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
-	</div>
-	<div class="test d-flex justify-content-center mt-5">
-		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
-		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
-		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>

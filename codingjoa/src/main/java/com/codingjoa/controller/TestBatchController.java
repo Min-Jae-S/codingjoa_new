@@ -1,7 +1,6 @@
 package com.codingjoa.controller;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.sql.DataSource;
 
@@ -133,10 +132,10 @@ public class TestBatchController {
 				jobNames.forEach(jobName -> {
 					List<JobInstance> jobInstances = jobExplorer.findJobInstancesByJobName(jobName, 0, 10);
 					log.info("\t     - {}", jobInstances);
-				List<Long> instanceIds = jobInstances.stream()
-						.map(JobInstance -> JobInstance.getInstanceId())
-						.collect(Collectors.toList());
-				log.info("\t     - {} = {}", jobName, instanceIds);
+//				List<Long> instanceIds = jobInstances.stream()
+//						.map(JobInstance -> JobInstance.getInstanceId())
+//						.collect(Collectors.toList());
+//				log.info("\t     - {} = {}", jobName, instanceIds);
 				});
 			} else {
 				log.info("\t > NO batch jobs");
