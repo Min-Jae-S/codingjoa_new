@@ -16,14 +16,14 @@ import lombok.extern.slf4j.Slf4j;
 @Configuration
 public class BatchConfig2 /* extends DefaultBatchConfigurer */ {
 	
-	@Bean
-	public BatchConfigurer batchConfigurer(@Qualifier("batchDataSource") DataSource dataSource) {
-		log.info("## BatchConfig2");
-		log.info("\t > batchDataSource = {}", dataSource);
-		DefaultBatchConfigurer batchConfigurer = new DefaultBatchConfigurer(dataSource);
-		log.info("\t > batchConfigurer= {}", batchConfigurer);
-		return batchConfigurer;
-	}
+//	@Bean
+//	public BatchConfigurer batchConfigurer(@Qualifier("batchDataSource") DataSource dataSource) {
+//		log.info("## BatchConfig2");
+//		log.info("\t > batchDataSource = {}", dataSource);
+//		DefaultBatchConfigurer batchConfigurer = new DefaultBatchConfigurer(dataSource);
+//		log.info("\t > batchConfigurer= {}", batchConfigurer);
+//		return batchConfigurer;
+//	}
 	
 //	@Autowired
 //	@Qualifier("batchTransactionManager")

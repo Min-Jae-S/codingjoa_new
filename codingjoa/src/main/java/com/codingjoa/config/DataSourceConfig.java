@@ -6,6 +6,7 @@ import javax.sql.DataSource;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
@@ -19,6 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Configuration
+@ComponentScan("com.codingjoa.configurer")
 @MapperScan("com.codingjoa.mapper")
 @PropertySource("/WEB-INF/properties/datasource.properties")
 public class DataSourceConfig {
@@ -78,12 +80,4 @@ public class DataSourceConfig {
 	public PlatformTransactionManager batchTransactionManager() {
 		return new DataSourceTransactionManager(batchDataSource());
 	}
-	
-//	@Bean
-//	public BatchConfigurer batchConfigurer(@Qualifier("batchDataSource") DataSource dataSource) {
-//		log.info("## batchConfigurer");
-//		log.info("\t > batchDataSource = {}", dataSource);
-//		return new DefaultBatchConfigurer(dataSource);
-//	}
-	
 }
