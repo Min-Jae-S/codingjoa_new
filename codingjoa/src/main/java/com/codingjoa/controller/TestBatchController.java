@@ -105,7 +105,7 @@ public class TestBatchController {
 		log.info("\t > context = {}", context);
 		log.info("\t > parent context = {}", context.getParent());
 		try {
-			log.info("\t > looking for bean of DefaultBatchConfigurer...");
+			log.info("\t > finding DefaultBatchConfigurer...");
 			log.info("\t > configurer by getBeansOfType = {}", context.getBeansOfType(DefaultBatchConfigurer.class));
 			log.info("\t > configurer by beansOfTypeIncludingAncestors = {}", 
 					BeanFactoryUtils.beansOfTypeIncludingAncestors(context, DefaultBatchConfigurer.class));
