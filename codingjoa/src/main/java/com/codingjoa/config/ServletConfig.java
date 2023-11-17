@@ -66,7 +66,6 @@ import lombok.extern.slf4j.Slf4j;
 @ComponentScan("com.codingjoa.controller")
 @ComponentScan("com.codingjoa.service")
 @ComponentScan("com.codingjoa.response") // @ControllerAdvice, @RestControllerAdvice
-//@ComponentScan("com.codingjoa.configurer") // context.getBeansOfType (can't find bean from parent context - rootContext)
 public class ServletConfig implements WebMvcConfigurer {
 	
 	@Autowired

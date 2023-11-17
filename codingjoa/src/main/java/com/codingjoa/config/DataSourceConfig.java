@@ -4,19 +4,15 @@ import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 
 import org.mybatis.spring.annotation.MapperScan;
-import org.springframework.batch.core.configuration.annotation.BatchConfigurer;
-import org.springframework.batch.core.configuration.annotation.DefaultBatchConfigurer;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 
-import com.codingjoa.configurer.MyBatchConfigurer;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
@@ -24,7 +20,6 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Configuration
-@ComponentScan("com.codingjoa.configurer")
 @MapperScan("com.codingjoa.mapper")
 @PropertySource("/WEB-INF/properties/datasource.properties")
 public class DataSourceConfig {
@@ -70,6 +65,7 @@ public class DataSourceConfig {
 	// Error creating bean with name 'org.springframework.batch.core.configuration.annotation.SimpleBatchConfiguration'
 	// NoUniqueBeanDefinitionException: No qualifying bean of type 'javax.sql.DataSource' available: 
 	// expected single matching bean but found 2: mainDataSource,batchDataSource
+	@Primary
 	@Bean(name = "batchDataSource")
 	public DataSource batchDataSource() {
 		return new HikariDataSource(batchHikariConfig());
@@ -83,10 +79,5 @@ public class DataSourceConfig {
 	@Bean(name = "batchTransactionManager")
 	public PlatformTransactionManager batchTransactionManager() {
 		return new DataSourceTransactionManager(batchDataSource());
-	}
-	
-	@Bean
-	public BatchConfigurer batchConfigurer() {
-		return new MyBatchConfigurer();
 	}
 }

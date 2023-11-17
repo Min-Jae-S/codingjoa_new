@@ -3,11 +3,11 @@ package com.codingjoa.config;
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 
+import org.springframework.batch.core.configuration.annotation.DefaultBatchConfigurer;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.repository.support.JobRepositoryFactoryBean;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
 
@@ -16,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @EnableBatchProcessing
 @Configuration
-public class BatchConfig {
+public class BatchConfig extends DefaultBatchConfigurer {
 	
 	/*
 	 * Spring Batch - Application, Batch Core, Batch Infrastrcuture
@@ -33,7 +33,7 @@ public class BatchConfig {
 	private final DataSource dataSource;
 	private final PlatformTransactionManager transactionManager;
 	
-	public BatchConfig(@Qualifier("batchDataSource") DataSource dataSource, 
+	public BatchConfig(@Qualifier("batchDataSource") DataSource dataSource,
 			@Qualifier("batchTransactionManager") PlatformTransactionManager transactionManager) {
 		this.dataSource = dataSource;
 		this.transactionManager = transactionManager;
@@ -43,16 +43,24 @@ public class BatchConfig {
 	public void init() {
 		log.info("===============================================================");
 		log.info("@ BatchConfig");
-		log.info("\t > batch dataSource = {}", dataSource);
-		log.info("\t > batch transactionManager = {}", transactionManager);
 		log.info("===============================================================");
 	}
 	
-	@Bean
-	public JobRepository jobRepository() throws Exception {
+	@Override
+	public void setDataSource(@Qualifier("batchDataSource") DataSource dataSource) {
+		super.setDataSource(dataSource);
+	}
+
+	@Override
+	public PlatformTransactionManager getTransactionManager() {
+		return this.transactionManager;
+	}
+
+	@Override
+	protected JobRepository createJobRepository() throws Exception {
 		JobRepositoryFactoryBean factory = new JobRepositoryFactoryBean();
 		factory.setDataSource(dataSource);
-		factory.setTransactionManager(transactionManager);
+		factory.setTransactionManager(getTransactionManager());
 		factory.setDatabaseType("H2");
 	    factory.setTablePrefix("BATCH_");
 	    
