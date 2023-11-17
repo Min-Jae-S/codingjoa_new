@@ -2,14 +2,15 @@ package com.codingjoa.controller;
 
 import java.util.List;
 
-import javax.sql.DataSource;
-
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobInstance;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersBuilder;
+import org.springframework.batch.core.configuration.annotation.BatchConfigurer;
 import org.springframework.batch.core.configuration.annotation.DefaultBatchConfigurer;
+import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.SimpleBatchConfiguration;
+import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.explore.JobExplorer;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.repository.JobRepository;
@@ -48,10 +49,10 @@ public class TestBatchController {
 	private JobRepository jobRepository;
 	
 	@Autowired(required = false)
-	private JobLauncher jobLauncher;
-	
-	@Autowired(required = false)
 	private JobExplorer jobExplorer;
+
+	@Autowired(required = false)
+	private JobLauncher jobLauncher;
 	
 	@Autowired(required = false)
 	@Qualifier("batchJobA")
@@ -62,12 +63,14 @@ public class TestBatchController {
 	private Job batchJobB;
 	
 	@Autowired
-	@Qualifier("batchDataSource")
-	private DataSource dataSource;
-	
-	@Autowired
 	@Qualifier("batchTransactionManager")
 	private PlatformTransactionManager transactionManager;
+	
+	@Autowired(required = false)
+	private JobBuilderFactory jobBuilders;
+
+	@Autowired(required = false)
+	private StepBuilderFactory stepBuilders;
 	
 	@GetMapping("/batch")
 	public String main() {
@@ -79,29 +82,26 @@ public class TestBatchController {
 	@GetMapping("/batch/config")
 	public ResponseEntity<Object> config() throws Exception {
 		log.info("## batch config");
-		log.info("\t > simpleBatchConfiguration from beansOfTypeIncludingAncestors = {}", 
-				BeanFactoryUtils.beansOfTypeIncludingAncestors(context, SimpleBatchConfiguration.class).keySet());
-		log.info("\t > jobRepository from beansOfTypeIncludingAncestors = {}", 
-				BeanFactoryUtils.beansOfTypeIncludingAncestors(context, JobRepository.class).values());
-		log.info("\t ===============================================================================================================================");
-		try {
-			log.info("\t > looking for bean of SimpleBatchConfiguration...");
-			SimpleBatchConfiguration config = context.getBean(SimpleBatchConfiguration.class);
-			log.info("\t > transactionManager SimpleBatchConfiguration = {}", config.transactionManager());
-			log.info("\t > transactionManager @Qualifier = {}", transactionManager);
-			log.info("\t ===============================================================================================================================");
-			log.info("\t > jobRepository SimpleBatchConfiguration = {}", config.jobRepository());
-			log.info("\t > jobRepository @Autowired = {}", jobRepository);
-		} catch (Exception e) {
-			log.info("\t > error msg = {}", e.getMessage());
-		}
+		BatchConfigurer config = context.getBean(BatchConfigurer.class);
+		log.info("\t > configurer = {}", config);
+//		log.info("\t ===============================================================================================================================");
+//		try {
+//			log.info("\t > looking for bean of SimpleBatchConfiguration...");
+//			SimpleBatchConfiguration config = context.getBean(SimpleBatchConfiguration.class);
+//			log.info("\t > transactionManager SimpleBatchConfiguration = {}", config.transactionManager());
+//			log.info("\t > transactionManager @Qualifier = {}", transactionManager);
+//			log.info("\t ===============================================================================================================================");
+//			log.info("\t > jobRepository SimpleBatchConfiguration = {}", config.jobRepository());
+//			log.info("\t > jobRepository @Autowired = {}", jobRepository);
+//		} catch (Exception e) {
+//			log.info("\t > error msg = {}", e.getMessage());
+//		}
 		return ResponseEntity.ok("success");
 	}
 	
 	@ResponseBody
 	@GetMapping("/batch/default-config")
 	public ResponseEntity<Object> defaultConfig() {
-		log.info("## defaultConfig");
 		log.info("\t > context = {}", context);
 		log.info("\t > parent context = {}", context.getParent());
 		try {
@@ -113,6 +113,25 @@ public class TestBatchController {
 		} catch (Exception e) {
 			log.info("\t > can't find default configurer", e.getMessage());
 		}
+		return ResponseEntity.ok("success");
+	}
+
+	@ResponseBody
+	@GetMapping("/batch/simple-config")
+	public ResponseEntity<Object> simpleConfig() {
+		log.info("## simpleConfig");
+		log.info("\t > make SimpleBatchConfiguration...");
+		SimpleBatchConfiguration config = new SimpleBatchConfiguration();
+		log.info("\t > SimpleBatchConfiguration = {}", config);
+		return ResponseEntity.ok("success");
+	}
+	
+	@ResponseBody
+	@GetMapping("/batch/builders")
+	public ResponseEntity<Object> builders() {
+		log.info("## builders");
+		log.info("\t > jobBuilders = {}", jobBuilders);
+		log.info("\t > stepBuilders = {}", stepBuilders);
 		return ResponseEntity.ok("success");
 	}
 	

@@ -22,12 +22,12 @@ import lombok.extern.slf4j.Slf4j;
 @Configuration
 public class BatchJobConfig {
 		
-	private final JobBuilderFactory jobBuilderFactory;
-	private final StepBuilderFactory stepBuilderFactory;
+	private final JobBuilderFactory jobBuilders;
+	private final StepBuilderFactory stepBuilders;
 
 	@Bean
 	public Job simpleJob() {
-		return jobBuilderFactory.get("simpleJob")
+		return jobBuilders.get("simpleJob")
 				.start(step1())
 				.next(step2())
 				.build();
@@ -35,7 +35,7 @@ public class BatchJobConfig {
 	
 	@Bean
 	public Job batchJobA() {
-		return jobBuilderFactory.get("batchJobA")
+		return jobBuilders.get("batchJobA")
 				.start(stepA1())
 				.next(stepA2())
 				.listener(jobListener())
@@ -44,7 +44,7 @@ public class BatchJobConfig {
 
 	@Bean
 	public Job batchJobB() {
-		return jobBuilderFactory.get("batchJobB")
+		return jobBuilders.get("batchJobB")
 				.start(stepB1())
 				.next(stepB2())
 				.build();
@@ -88,7 +88,7 @@ public class BatchJobConfig {
 	@Bean
 	@JobScope // Parameter Lazy Loading 
 	public Step step1() {
-		return stepBuilderFactory.get("step1")
+		return stepBuilders.get("step1")
 				.tasklet((contribution, chunkContext) -> {
 					log.info("## this is step1");
 					return RepeatStatus.FINISHED;
@@ -100,7 +100,7 @@ public class BatchJobConfig {
 	@Bean
 	@JobScope
 	public Step step2() {
-		return stepBuilderFactory.get("step2")
+		return stepBuilders.get("step2")
 				.tasklet((contribution, chunkContext) -> {
 					log.info("## this is step2");
 					return RepeatStatus.FINISHED;
@@ -112,7 +112,7 @@ public class BatchJobConfig {
 	@Bean
 	@JobScope
 	public Step stepA1() {
-		return stepBuilderFactory.get("stepA1")
+		return stepBuilders.get("stepA1")
 				.tasklet((contribution, chunkContext) -> {
 					log.info("## this is stepA-1");
 					return RepeatStatus.FINISHED;
@@ -124,7 +124,7 @@ public class BatchJobConfig {
 	@Bean
 	@JobScope
 	public Step stepA2() {
-		return stepBuilderFactory.get("stepA2")
+		return stepBuilders.get("stepA2")
 				.tasklet((contribution, chunkContext) -> {
 					log.info("## this is stepA-2");
 					return RepeatStatus.FINISHED;
@@ -136,7 +136,7 @@ public class BatchJobConfig {
 	@Bean
 	@JobScope 
 	public Step stepB1() {
-		return stepBuilderFactory.get("stepB1")
+		return stepBuilders.get("stepB1")
 				.tasklet((contribution, chunkContext) -> {
 					log.info("## this is stepB-1");
 					return RepeatStatus.FINISHED;
@@ -148,7 +148,7 @@ public class BatchJobConfig {
 	@Bean
 	@JobScope
 	public Step stepB2() {
-		return stepBuilderFactory.get("stepB2")
+		return stepBuilders.get("stepB2")
 				.tasklet(new Tasklet() {
 					@Override
 					public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {

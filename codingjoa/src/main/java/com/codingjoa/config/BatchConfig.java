@@ -4,17 +4,22 @@ import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 
 import org.springframework.batch.core.configuration.annotation.DefaultBatchConfigurer;
-import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
+import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
+import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.core.explore.JobExplorer;
+import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.repository.support.JobRepositoryFactoryBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@EnableBatchProcessing
+//@EnableBatchProcessing
 @Configuration
 public class BatchConfig extends DefaultBatchConfigurer {
 	
@@ -46,6 +51,7 @@ public class BatchConfig extends DefaultBatchConfigurer {
 		log.info("===============================================================");
 	}
 	
+	@Autowired
 	@Override
 	public void setDataSource(@Qualifier("batchDataSource") DataSource dataSource) {
 		super.setDataSource(dataSource);
@@ -55,7 +61,7 @@ public class BatchConfig extends DefaultBatchConfigurer {
 	public PlatformTransactionManager getTransactionManager() {
 		return this.transactionManager;
 	}
-
+	
 	@Override
 	protected JobRepository createJobRepository() throws Exception {
 		JobRepositoryFactoryBean factory = new JobRepositoryFactoryBean();
@@ -71,6 +77,31 @@ public class BatchConfig extends DefaultBatchConfigurer {
 	    factory.setIsolationLevelForCreate("ISOLATION_DEFAULT");
 	    factory.afterPropertiesSet();
 		return factory.getObject();
+	}
+	
+	@Bean
+	public JobRepository jobRepository() {
+		return getJobRepository();
+	}
+
+	@Bean
+	public JobExplorer jobExplorer() {
+		return getJobExplorer();
+	}
+	
+	@Bean
+	public JobLauncher jobLauncher() {
+		return getJobLauncher();
+	}
+	
+	@Bean
+	public JobBuilderFactory jobBuilders() throws Exception {
+		return new JobBuilderFactory(getJobRepository());
+	}
+	
+	@Bean
+	public StepBuilderFactory stepBuilders() throws Exception {
+		return new StepBuilderFactory(getJobRepository(), getTransactionManager());
 	}
 	
 }
