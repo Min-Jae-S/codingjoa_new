@@ -13,7 +13,6 @@ import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.repository.support.JobRepositoryFactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.task.SyncTaskExecutor;
@@ -22,7 +21,6 @@ import org.springframework.transaction.PlatformTransactionManager;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-//@EnableBatchProcessing
 @Configuration
 public class BatchConfig extends DefaultBatchConfigurer {
 	
@@ -48,7 +46,7 @@ public class BatchConfig extends DefaultBatchConfigurer {
 	}
 	
 	@PostConstruct
-	public void init(ApplicationContext context) {
+	public void init() {
 		log.info("===============================================================");
 		log.info("@ BatchConfig");
 		log.info("\t > dataSource = {}", dataSource);
