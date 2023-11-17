@@ -8,7 +8,6 @@ import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobInstance;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersBuilder;
-import org.springframework.batch.core.configuration.annotation.BatchConfigurer;
 import org.springframework.batch.core.configuration.annotation.DefaultBatchConfigurer;
 import org.springframework.batch.core.configuration.annotation.SimpleBatchConfiguration;
 import org.springframework.batch.core.explore.JobExplorer;
@@ -24,8 +23,6 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.codingjoa.configurer.MyBatchConfigurer;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -44,7 +41,7 @@ public class TestBatchController {
 	
 	@Autowired
 	private ApplicationContext context;
-
+	
 	@Autowired(required = false)
 	private JobRepository jobRepository;
 	
@@ -104,18 +101,15 @@ public class TestBatchController {
 	public ResponseEntity<Object> defaultConfig() {
 		log.info("## defaultConfig");
 		log.info("\t > context = {}", context);
+		log.info("\t > parent context = {}", context.getParent());
 		try {
 			log.info("\t > looking for bean of DefaultBatchConfigurer...");
 			log.info("\t > configurer by getBeansOfType = {}", context.getBeansOfType(DefaultBatchConfigurer.class));
-			log.info("\t > configurer by getBeansOfType = {}", context.getBeansOfType(BatchConfigurer.class));
-			log.info("\t > configurer by getBeansOfType = {}", context.getBeansOfType(MyBatchConfigurer.class));
-			log.info("\t > configurer by getBean = {}", context.getBean(DefaultBatchConfigurer.class));
 			log.info("\t > configurer by beansOfTypeIncludingAncestors = {}", 
 					BeanFactoryUtils.beansOfTypeIncludingAncestors(context, DefaultBatchConfigurer.class));
+			log.info("\t > configurer by getBean = {}", context.getBean(DefaultBatchConfigurer.class));
 		} catch (Exception e) {
-			log.info("\t > can't find configurer by getBean");
-			log.info("\t > instead, find configurer by beansOfTypeIncludingAncestors again...");
-			log.info("\t > configurer = {}", BeanFactoryUtils.beansOfTypeIncludingAncestors(context, DefaultBatchConfigurer.class));
+			log.info("\t > can't find configurer by getBean; {}", e.getMessage());
 		}
 		return ResponseEntity.ok("success");
 	}
