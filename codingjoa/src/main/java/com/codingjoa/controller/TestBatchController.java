@@ -8,7 +8,6 @@ import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobInstance;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersBuilder;
-import org.springframework.batch.core.configuration.annotation.DefaultBatchConfigurer;
 import org.springframework.batch.core.configuration.annotation.SimpleBatchConfiguration;
 import org.springframework.batch.core.explore.JobExplorer;
 import org.springframework.batch.core.launch.JobLauncher;
@@ -101,10 +100,6 @@ public class TestBatchController {
 	public ResponseEntity<Object> defaultConfig() {
 		log.info("## defaultConfig");
 		log.info("\t > batchDataSoruce = {}", dataSource);
-		DefaultBatchConfigurer defaultBatchConfigurer = new DefaultBatchConfigurer(null);
-		log.info("\t > defaultBatchConfigurer = {}", defaultBatchConfigurer);
-		DefaultBatchConfigurer defaultBatchConfigurer2 = new DefaultBatchConfigurer(null);
-		log.info("\t > defaultBatchConfigurer2 = {}", defaultBatchConfigurer2);
 		return ResponseEntity.ok("success");
 	}
 	
