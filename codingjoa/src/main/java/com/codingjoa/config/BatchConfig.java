@@ -86,8 +86,7 @@ public class BatchConfig extends DefaultBatchConfigurer {
 	protected JobLauncher createJobLauncher() throws Exception {
 		SimpleJobLauncher jobLauncher = new SimpleJobLauncher();
 		jobLauncher.setJobRepository(getJobRepository());
-		// No TaskExecutor has been set, defaulting to synchronous executor.
-		jobLauncher.setTaskExecutor(new SyncTaskExecutor());
+		jobLauncher.setTaskExecutor(new SyncTaskExecutor()); // No TaskExecutor has been set, defaulting to synchronous executor.
 		jobLauncher.afterPropertiesSet();
 		return jobLauncher;
 	}

@@ -77,4 +77,5 @@ public class DataSourceConfig {
 	public PlatformTransactionManager batchTransactionManager() {
 		return new DataSourceTransactionManager(batchDataSource());
 	}
+	
 }
