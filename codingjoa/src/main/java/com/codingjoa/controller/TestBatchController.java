@@ -2,6 +2,8 @@ package com.codingjoa.controller;
 
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobInstance;
 import org.springframework.batch.core.JobParameters;
@@ -62,14 +64,13 @@ public class TestBatchController {
 	@Qualifier("batchJobB")
 	private Job batchJobB;
 	
-	@Autowired
-	@Qualifier("batchTransactionManager")
+	@Resource(name = "batchTransactionManager")
 	private PlatformTransactionManager transactionManager;
 	
-	@Autowired(required = false)
+	@Resource(name = "jobBuilderFactory")
 	private JobBuilderFactory jobBuilders;
 
-	@Autowired(required = false)
+	@Resource(name = "stepBuilderFactory")
 	private StepBuilderFactory stepBuilders;
 	
 	@GetMapping("/batch")
