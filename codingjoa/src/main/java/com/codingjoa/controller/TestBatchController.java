@@ -45,13 +45,13 @@ public class TestBatchController {
 	@Autowired
 	private ApplicationContext context;
 	
-	@Autowired(required = false)
+	@Autowired
 	private JobRepository jobRepository;
 	
-	@Autowired(required = false)
+	@Autowired
 	private JobExplorer jobExplorer;
 
-	@Autowired(required = false)
+	@Autowired
 	private JobLauncher jobLauncher;
 	
 	@Autowired(required = false)
