@@ -26,7 +26,6 @@ public class BatchConfig2 {
 	
 	@Bean
 	public BatchConfigurer batchConfigurer(@Qualifier("batchDataSource") DataSource dataSource) {
-		log.info("## batchConfigurer bean");
 		return new DefaultBatchConfigurer(dataSource) {
 			@Override
 			public void setDataSource(DataSource dataSource) {

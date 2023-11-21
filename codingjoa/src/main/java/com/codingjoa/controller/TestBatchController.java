@@ -43,13 +43,13 @@ public class TestBatchController {
 	@Autowired
 	private ApplicationContext context;
 	
-	@Autowired(required = false)
+	@Autowired
 	private JobRepository jobRepository;
 	
-	@Autowired(required = false)
+	@Autowired
 	private JobExplorer jobExplorer;
 
-	@Autowired(required = false)
+	@Autowired
 	private JobLauncher jobLauncher;
 	
 	@Autowired(required = false)
@@ -63,12 +63,10 @@ public class TestBatchController {
 	@Resource(name = "batchTransactionManager")
 	private PlatformTransactionManager transactionManager;
 	
-	@Autowired(required = false)
-	@Qualifier("jobBuilders")
+	@Resource(name = "jobBuilders")
 	private JobBuilderFactory jobBuilders;
 
-	@Autowired(required = false)
-	@Qualifier("stepBuilders")
+	@Resource(name = "stepBuilders")
 	private StepBuilderFactory stepBuilders;
 	
 	@GetMapping("/batch")

@@ -11,6 +11,9 @@ import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.launch.support.SimpleJobLauncher;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.repository.support.JobRepositoryFactoryBean;
+import org.springframework.batch.core.scope.JobScope;
+import org.springframework.batch.core.scope.StepScope;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -53,6 +56,7 @@ public class BatchConfig extends DefaultBatchConfigurer {
 		log.info("===============================================================");
 	}
 	
+	@Autowired
 	@Override
 	public void setDataSource(@Qualifier("batchDataSource") DataSource dataSource) {
 		super.setDataSource(dataSource);
@@ -104,14 +108,33 @@ public class BatchConfig extends DefaultBatchConfigurer {
 		return getJobLauncher();
 	}
 	
-	@Bean
-	public JobBuilderFactory jobBuilders() throws Exception {
+	/*
+	 * JobBuilderFactory, StepBuilderFactory from AbstractBatchConfiguration
+	 * StepScope, JobScope from ScopeConfiguration
+	 */
+	
+	@Bean 
+	public JobBuilderFactory jobBuilders() throws Exception { 
 		return new JobBuilderFactory(getJobRepository());
 	}
 	
-	@Bean
-	public StepBuilderFactory stepBuilders() throws Exception {
+	@Bean 
+	public StepBuilderFactory stepBuilders() throws Exception { 
 		return new StepBuilderFactory(getJobRepository(), getTransactionManager());
+	}
+	
+	@Bean 
+	public static StepScope stepScope() {
+		StepScope stepScope = new StepScope();
+		stepScope.setAutoProxy(false);
+		return stepScope;
+	}
+
+	@Bean
+	public static JobScope jobScope() {
+		JobScope jobScope = new JobScope();
+		jobScope.setAutoProxy(false);
+		return jobScope;
 	}
 	
 }
