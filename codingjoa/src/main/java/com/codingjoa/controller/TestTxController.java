@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.codingjoa.service.TestTxService;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -29,6 +31,9 @@ public class TestTxController {
 	
 	@Autowired
 	private ApplicationContext context;
+	
+	@Autowired
+	private TestTxService testTxService;
 	
 	@GetMapping("/tx")
 	public String main() {
@@ -54,6 +59,30 @@ public class TestTxController {
 		log.info("\t > dataSources from beansOfTypeIncludingAncestors = {}", 
 				BeanFactoryUtils.beansOfTypeIncludingAncestors(context, DataSource.class).keySet());
 		log.info("\t > dataSources from getBeansOfType = {}", context.getBeansOfType(DataSource.class).keySet());
+		return ResponseEntity.ok("success");
+	}
+
+	@ResponseBody
+	@GetMapping("/tx/test1")
+	public ResponseEntity<Object> test1() {
+		log.info("## test1");
+		testTxService.doSomething1(); // doSomething1(NO @Transactional) -> doSomething3(@Transactional)
+		return ResponseEntity.ok("success");
+	}
+
+	@ResponseBody
+	@GetMapping("/tx/test2")
+	public ResponseEntity<Object> test2() {
+		log.info("## test2");
+		testTxService.doSomething2(); // doSomething2(@Transactional) -> doSomething3(@Transactional)
+		return ResponseEntity.ok("success");
+	}
+
+	@ResponseBody
+	@GetMapping("/tx/test3")
+	public ResponseEntity<Object> test3() {
+		log.info("## test3");
+		testTxService.doSomething3(); // doSomething3(@Transactional)
 		return ResponseEntity.ok("success");
 	}
 	

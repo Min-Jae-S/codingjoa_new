@@ -28,8 +28,8 @@
 	<logger name="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping" level="DEBUG"/>
 	
 	<!-- Tx logger -->
-	<logger name="org.springframework.transaction" level="INFO"/>
-	<!-- <logger name="org.springframework.transaction.interceptor" level="TRACE"/> -->
+	<!-- <logger name="org.springframework.transaction" level="INFO"/> -->
+	<logger name="org.springframework.transaction.interceptor" level="TRACE"/>
 	<!-- <logger name="org.springframework.transaction.interceptor" level="OFF"/> -->
 	
 	<!-- Batch logger -->
