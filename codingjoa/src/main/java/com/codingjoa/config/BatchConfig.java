@@ -116,11 +116,4 @@ public class BatchConfig extends DefaultBatchConfigurer {
 		return new StepBuilderFactory(getJobRepository(), getTransactionManager());
 	}
 	
-//	@Bean
-//	public JobScope jobScope() {
-//		JobScope jobScope = new JobScope();
-//		jobScope.setAutoProxy(false);
-//		return jobScope;
-//	}
-	
 }

@@ -63,10 +63,12 @@ public class TestBatchController {
 	@Resource(name = "batchTransactionManager")
 	private PlatformTransactionManager transactionManager;
 	
-	@Resource(name = "jobBuilders")
+	@Autowired(required = false)
+	@Qualifier("jobBuilders")
 	private JobBuilderFactory jobBuilders;
 
-	@Resource(name = "stepBuilders")
+	@Autowired(required = false)
+	@Qualifier("stepBuilders")
 	private StepBuilderFactory stepBuilders;
 	
 	@GetMapping("/batch")
