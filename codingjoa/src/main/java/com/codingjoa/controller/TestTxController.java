@@ -1,5 +1,9 @@
 package com.codingjoa.controller;
 
+import java.util.Map;
+import java.util.Set;
+
+import javax.annotation.Resource;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.BeanFactoryUtils;
@@ -35,6 +39,9 @@ public class TestTxController {
 	@Autowired
 	private TestTxService testTxService;
 	
+	@Resource(name = "mainTransactionManager")
+	private PlatformTransactionManager mainTransactionManager;
+	
 	@GetMapping("/tx")
 	public String main() {
 		log.info("## tx main");
@@ -45,10 +52,12 @@ public class TestTxController {
 	@GetMapping("/tx/txManagers")
 	public ResponseEntity<Object> txManagers() {
 		log.info("## txManagers");
-		log.info("\t > txManagers from beansOfTypeIncludingAncestors = {}", 
-				BeanFactoryUtils.beansOfTypeIncludingAncestors(context, PlatformTransactionManager.class).keySet());
-		log.info("\t > txManagers from getBeansOfType = {}", 
-				context.getBeansOfType(PlatformTransactionManager.class).keySet());
+		Map<String, PlatformTransactionManager> map = 
+				BeanFactoryUtils.beansOfTypeIncludingAncestors(context, PlatformTransactionManager.class);
+		for(String key : map.keySet()) {
+			log.info("\t > {} = {}", key, map.get(key));
+		}
+		log.info("\t > main transactionManager = {}", mainTransactionManager);
 		return ResponseEntity.ok("success");
 	}
 
@@ -56,9 +65,11 @@ public class TestTxController {
 	@GetMapping("/tx/dataSources")
 	public ResponseEntity<Object> dataSources() {
 		log.info("## dataSources");
-		log.info("\t > dataSources from beansOfTypeIncludingAncestors = {}", 
-				BeanFactoryUtils.beansOfTypeIncludingAncestors(context, DataSource.class).keySet());
-		log.info("\t > dataSources from getBeansOfType = {}", context.getBeansOfType(DataSource.class).keySet());
+		Set<String> dataSources = 
+				BeanFactoryUtils.beansOfTypeIncludingAncestors(context, DataSource.class).keySet(); 
+		for(String dataSource : dataSources) {
+			log.info("\t - {}", dataSource);
+		}
 		return ResponseEntity.ok("success");
 	}
 

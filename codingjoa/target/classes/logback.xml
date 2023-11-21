@@ -27,7 +27,7 @@
 	<logger name="org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor" level="INFO"/>
 	<logger name="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping" level="DEBUG"/>
 	
-	<!-- Tx logger -->
+	<!-- Transaction logger -->
 	<!-- <logger name="org.springframework.transaction" level="INFO"/> -->
 	<logger name="org.springframework.transaction.interceptor" level="TRACE"/>
 	<!-- <logger name="org.springframework.transaction.interceptor" level="OFF"/> -->

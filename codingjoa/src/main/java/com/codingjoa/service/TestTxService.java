@@ -32,7 +32,7 @@ public class TestTxService {
 		} catch (NoTransactionException e) {
 			log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
 		} finally {
-			log.info("\t > {}", status == null ? "no transcation" : "active transcation");
+			log.info("\t > status = {}", status == null ? "NO TRANSACTION" : status);
 		}
 	}
 }
