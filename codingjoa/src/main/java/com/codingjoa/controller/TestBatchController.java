@@ -43,13 +43,13 @@ public class TestBatchController {
 	@Autowired
 	private ApplicationContext context;
 	
-	@Autowired
+	@Autowired(required = false)
 	private JobRepository jobRepository;
 	
-	@Autowired
+	@Autowired(required = false)
 	private JobExplorer jobExplorer;
 
-	@Autowired
+	@Autowired(required = false)
 	private JobLauncher jobLauncher;
 	
 	@Autowired(required = false)
@@ -81,26 +81,16 @@ public class TestBatchController {
 	@GetMapping("/batch/config")
 	public ResponseEntity<Object> config() throws Exception {
 		log.info("## batch config");
-		BatchConfigurer batchConfigurer = context.getBean(BatchConfigurer.class);
-		log.info("\t > configurer = {}", batchConfigurer);
-		log.info("\t > transactionManager from BatchConfigurer = {}", batchConfigurer.getTransactionManager());
-		log.info("\t > transactionManager from @Resource = {}", transactionManager);
-		return ResponseEntity.ok("success");
-	}
-	
-	@ResponseBody
-	@GetMapping("/batch/default-config")
-	public ResponseEntity<Object> defaultConfig() {
 		log.info("\t > context = {}", context);
 		log.info("\t > parent context = {}", context.getParent());
 		try {
-			log.info("\t > finding DefaultBatchConfigurer...");
-			log.info("\t > configurer by getBeansOfType = {}", context.getBeansOfType(DefaultBatchConfigurer.class));
-			log.info("\t > configurer by beansOfTypeIncludingAncestors = {}", 
+			log.info("\t > finding BatchConfigurer...");
+			log.info("\t > batchConfigurer by getBeansOfType = {}", context.getBeansOfType(BatchConfigurer.class));
+			log.info("\t > batchConfigurer by beansOfTypeIncludingAncestors = {}", 
 					BeanFactoryUtils.beansOfTypeIncludingAncestors(context, DefaultBatchConfigurer.class));
-			log.info("\t > configurer by getBean = {}", context.getBean(DefaultBatchConfigurer.class));
+			log.info("\t > batchConfigurer by getBean = {}", context.getBean(DefaultBatchConfigurer.class));
 		} catch (Exception e) {
-			log.info("\t > can't find default configurer", e.getMessage());
+			log.info("\t > can't find batch configurer", e.getMessage());
 		}
 		return ResponseEntity.ok("success");
 	}

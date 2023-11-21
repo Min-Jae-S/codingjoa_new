@@ -11,7 +11,6 @@ import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.launch.support.SimpleJobLauncher;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.repository.support.JobRepositoryFactoryBean;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -54,7 +53,6 @@ public class BatchConfig extends DefaultBatchConfigurer {
 		log.info("===============================================================");
 	}
 	
-	@Autowired
 	@Override
 	public void setDataSource(@Qualifier("batchDataSource") DataSource dataSource) {
 		super.setDataSource(dataSource);
