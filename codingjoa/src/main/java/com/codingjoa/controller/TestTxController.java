@@ -37,20 +37,23 @@ public class TestTxController {
 	}
 	
 	@ResponseBody
-	@GetMapping("/tx/txManager")
-	public ResponseEntity<Object> txManager() {
-		log.info("## txManager");
-		log.info("\t > txManager from beansOfTypeIncludingAncestors = {}", BeanFactoryUtils.beansOfTypeIncludingAncestors(context, PlatformTransactionManager.class));
-		log.info("\t > txManager from getBeansOfType = {}", context.getBeansOfType(PlatformTransactionManager.class));
+	@GetMapping("/tx/txManagers")
+	public ResponseEntity<Object> txManagers() {
+		log.info("## txManagers");
+		log.info("\t > txManagers from beansOfTypeIncludingAncestors = {}", 
+				BeanFactoryUtils.beansOfTypeIncludingAncestors(context, PlatformTransactionManager.class).keySet());
+		log.info("\t > txManagers from getBeansOfType = {}", 
+				context.getBeansOfType(PlatformTransactionManager.class).keySet());
 		return ResponseEntity.ok("success");
 	}
 
 	@ResponseBody
-	@GetMapping("/tx/dataSource")
-	public ResponseEntity<Object> dataSource() {
-		log.info("## dataSource");
-		log.info("\t > dataSources from beansOfTypeIncludingAncestors = {}", BeanFactoryUtils.beansOfTypeIncludingAncestors(context, DataSource.class));
-		log.info("\t > dataSources from getBeansOfType = {}", context.getBeansOfType(DataSource.class));
+	@GetMapping("/tx/dataSources")
+	public ResponseEntity<Object> dataSources() {
+		log.info("## dataSources");
+		log.info("\t > dataSources from beansOfTypeIncludingAncestors = {}", 
+				BeanFactoryUtils.beansOfTypeIncludingAncestors(context, DataSource.class).keySet());
+		log.info("\t > dataSources from getBeansOfType = {}", context.getBeansOfType(DataSource.class).keySet());
 		return ResponseEntity.ok("success");
 	}
 	

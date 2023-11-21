@@ -38,17 +38,17 @@
 <div class="container my-5">
 	<p>tx.jsp</p>
 	<div class="test d-flex justify-content-center mt-5">
-		<button class="btn btn-lg btn-warning mx-3" onclick="txManager()">txManager</button>
-		<button class="btn btn-lg btn-warning mx-3" onclick="dataSource()">dataSource</button>
+		<button class="btn btn-lg btn-warning mx-3" onclick="txManagers()">txManagers</button>
+		<button class="btn btn-lg btn-warning mx-3" onclick="dataSources()">dataSources</button>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 <script>
-	function txManager() {
-		console.log("## txManager");
+	function txManagers() {
+		console.log("## txManagers");
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/tx/txManager",
+			url : "${contextPath}/test/tx/txManagers",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);
@@ -60,11 +60,11 @@
 		});		
 	}
 
-	function dataSource() {
-		console.log("## dataSource");
+	function dataSources() {
+		console.log("## dataSources");
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/tx/dataSource",
+			url : "${contextPath}/test/tx/dataSources",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);

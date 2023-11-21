@@ -93,7 +93,8 @@ public class BatchJobConfig {
 					log.info("## this is step1");
 					return RepeatStatus.FINISHED;
 				})
-				.allowStartIfComplete(true) // Step already complete or not restartable, so no action to execute
+				// Step already complete or not restartable, so no action to execute
+				.allowStartIfComplete(true) 
 				.build();
 	}
 	
@@ -165,14 +166,12 @@ public class BatchJobConfig {
 		return new JobExecutionListener() {
 			@Override
 			public void beforeJob(JobExecution jobExecution) {
-				log.info("## beforeJob");
-				log.info("\t > {}", jobExecution);
+				log.info("## beforeJob, jobExecution: {}", jobExecution.getId());
 			}
 			
 			@Override
 			public void afterJob(JobExecution jobExecution) {
-				log.info("## afterJob");
-				log.info("\t > {}", jobExecution);
+				log.info("## afterJob, jobExecution: {}", jobExecution.getId());
 			}
 		};
 	}

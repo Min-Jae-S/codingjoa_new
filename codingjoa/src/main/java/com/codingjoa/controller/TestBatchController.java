@@ -1,8 +1,12 @@
 package com.codingjoa.controller;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.annotation.Resource;
 
 import org.springframework.batch.core.Job;
+import org.springframework.batch.core.JobInstance;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.core.configuration.annotation.BatchConfigurer;
@@ -14,11 +18,9 @@ import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.beans.factory.BeanFactoryUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -52,16 +54,11 @@ public class TestBatchController {
 	@Autowired
 	private JobLauncher jobLauncher;
 	
-	@Autowired(required = false)
-	@Qualifier("batchJobA")
+	@Resource(name = "batchJobA")
 	private Job batchJobA;
 
-	@Autowired(required = false)
-	@Qualifier("batchJobB")
+	@Resource(name = "batchJobB")
 	private Job batchJobB;
-	
-	@Resource(name = "batchTransactionManager")
-	private PlatformTransactionManager transactionManager;
 	
 	@Resource(name = "jobBuilders")
 	private JobBuilderFactory jobBuilders;
@@ -119,25 +116,23 @@ public class TestBatchController {
 		BatchConfigurer batchConfigurer = context.getBean(BatchConfigurer.class);
 		log.info("\t > jobExplorer from BatchConfigurer = {}", batchConfigurer.getJobExplorer());
 		log.info("\t > jobExplorer from @Autowired = {}", jobExplorer);
-//		if (jobExplorer != null) {
-//			log.info("\t > jobExplorer = {}", jobExplorer);
-//			List<String> jobNames = jobExplorer.getJobNames();
-//			if (!jobNames.isEmpty()) {
-//				log.info("\t > batch jobs = {}", jobNames);
-//				jobNames.forEach(jobName -> {
-//					List<JobInstance> jobInstances = jobExplorer.findJobInstancesByJobName(jobName, 0, 10);
-//					log.info("\t     - {}", jobInstances);
-//				List<Long> instanceIds = jobInstances.stream()
-//						.map(JobInstance -> JobInstance.getInstanceId())
-//						.collect(Collectors.toList());
-//				log.info("\t     - {} = {}", jobName, instanceIds);
-//				});
-//			} else {
-//				log.info("\t > NO batch jobs");
-//			}
-//		} else {
-//			log.info("\t > No jobExplorer");
-//		}
+		
+		if (jobExplorer != null) {
+			List<String> jobNames = jobExplorer.getJobNames();
+			if (!jobNames.isEmpty()) {
+				log.info("\t > batch jobs = {}", jobNames);
+				jobNames.forEach(jobName -> {
+					List<JobInstance> jobInstances = jobExplorer.findJobInstancesByJobName(jobName, 0, 10);
+					log.info("\t     - {}", jobInstances);
+				List<Long> instanceIds = jobInstances.stream()
+						.map(JobInstance -> JobInstance.getInstanceId())
+						.collect(Collectors.toList());
+				log.info("\t     - {} = {}", jobName, instanceIds);
+				});
+			} else {
+				log.info("\t > NO batch jobs");
+			}
+		}
 		return ResponseEntity.ok("success");
 	}
 
@@ -166,7 +161,6 @@ public class TestBatchController {
 	@GetMapping("/batch/run/job-a")
 	public ResponseEntity<Object> runJobA() throws Exception {
 		log.info("## runJobA");
-//		log.info("\t > batchJobA = {}", batchJobA);
 		jobLauncher.run(batchJobA, new JobParameters());
 		return ResponseEntity.ok("success");
 	}
@@ -175,7 +169,6 @@ public class TestBatchController {
 	@GetMapping("/batch/run/job-b")
 	public ResponseEntity<Object> runJobB() throws Exception {
 		log.info("## runJobB");
-//		log.info("\t > batchJobB = {}", batchJobB);
 		jobLauncher.run(batchJobB, new JobParameters());
 		return ResponseEntity.ok("success");
 	}

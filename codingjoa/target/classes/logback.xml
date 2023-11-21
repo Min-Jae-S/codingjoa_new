@@ -27,15 +27,15 @@
 	<logger name="org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor" level="INFO"/>
 	<logger name="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping" level="DEBUG"/>
 	
-	<!-- transaction logger -->
-	<!-- <logger name="org.springframework.transaction" level="INFO"/> -->
+	<!-- Tx logger -->
+	<logger name="org.springframework.transaction" level="INFO"/>
 	<!-- <logger name="org.springframework.transaction.interceptor" level="TRACE"/> -->
 	<!-- <logger name="org.springframework.transaction.interceptor" level="OFF"/> -->
 	
-	<!-- batch logger -->
+	<!-- Batch logger -->
 	<logger name="org.springframework.batch.core.configuration.annotation" level="TRACE"/>
 	
-	<!-- SQL logger -->
+	<!-- JDBC logger -->
 	<logger name="jdbc.sqlonly" level="OFF" additivity="false">
 		<appender-ref ref="console2"/> 
 	</logger>
