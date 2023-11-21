@@ -1,11 +1,8 @@
 package com.codingjoa.controller;
 
-import java.util.List;
-
 import javax.annotation.Resource;
 
 import org.springframework.batch.core.Job;
-import org.springframework.batch.core.JobInstance;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.core.configuration.annotation.BatchConfigurer;
@@ -66,10 +63,10 @@ public class TestBatchController {
 	@Resource(name = "batchTransactionManager")
 	private PlatformTransactionManager transactionManager;
 	
-	@Resource(name = "jobBuilderFactory")
+	@Resource(name = "jobBuilders")
 	private JobBuilderFactory jobBuilders;
 
-	@Resource(name = "stepBuilderFactory")
+	@Resource(name = "stepBuilders")
 	private StepBuilderFactory stepBuilders;
 	
 	@GetMapping("/batch")
@@ -117,51 +114,50 @@ public class TestBatchController {
 	
 	@ResponseBody
 	@GetMapping("/batch/job-repository")
-	public ResponseEntity<Object> jobRepository() {
+	public ResponseEntity<Object> jobRepository() throws Exception {
 		log.info("## jobRepository");
-		if (jobRepository != null) {
-			log.info("\t > jobRepository = {}", jobRepository);
-		} else {
-			log.info("\t > No jobRepository");
-		}
+		BatchConfigurer batchConfigurer = context.getBean(BatchConfigurer.class);
+		log.info("\t > jobRepository from BatchConfigurer = {}", batchConfigurer.getJobRepository());
+		log.info("\t > jobRepository from @Autowired = {}", jobRepository);
 		return ResponseEntity.ok("success");
 	}
 
 	@ResponseBody
 	@GetMapping("/batch/job-explorer")
-	public ResponseEntity<Object> jobExplorer() {
+	public ResponseEntity<Object> jobExplorer() throws Exception {
 		log.info("## jobExplorer");
-		if (jobExplorer != null) {
-			log.info("\t > jobExplorer = {}", jobExplorer);
-			List<String> jobNames = jobExplorer.getJobNames();
-			if (!jobNames.isEmpty()) {
-				log.info("\t > batch jobs = {}", jobNames);
-				jobNames.forEach(jobName -> {
-					List<JobInstance> jobInstances = jobExplorer.findJobInstancesByJobName(jobName, 0, 10);
-					log.info("\t     - {}", jobInstances);
+		BatchConfigurer batchConfigurer = context.getBean(BatchConfigurer.class);
+		log.info("\t > jobExplorer from BatchConfigurer = {}", batchConfigurer.getJobExplorer());
+		log.info("\t > jobExplorer from @Autowired = {}", jobExplorer);
+//		if (jobExplorer != null) {
+//			log.info("\t > jobExplorer = {}", jobExplorer);
+//			List<String> jobNames = jobExplorer.getJobNames();
+//			if (!jobNames.isEmpty()) {
+//				log.info("\t > batch jobs = {}", jobNames);
+//				jobNames.forEach(jobName -> {
+//					List<JobInstance> jobInstances = jobExplorer.findJobInstancesByJobName(jobName, 0, 10);
+//					log.info("\t     - {}", jobInstances);
 //				List<Long> instanceIds = jobInstances.stream()
 //						.map(JobInstance -> JobInstance.getInstanceId())
 //						.collect(Collectors.toList());
 //				log.info("\t     - {} = {}", jobName, instanceIds);
-				});
-			} else {
-				log.info("\t > NO batch jobs");
-			}
-		} else {
-			log.info("\t > No jobExplorer");
-		}
+//				});
+//			} else {
+//				log.info("\t > NO batch jobs");
+//			}
+//		} else {
+//			log.info("\t > No jobExplorer");
+//		}
 		return ResponseEntity.ok("success");
 	}
 
 	@ResponseBody
 	@GetMapping("/batch/job-launcher")
-	public ResponseEntity<Object> jobLauncher() {
+	public ResponseEntity<Object> jobLauncher() throws Exception {
 		log.info("## jobLauncher");
-		if (jobLauncher != null) {
-			log.info("\t > jobLauncher = {}", jobLauncher);
-		} else {
-			log.info("\t > No jobLauncher");
-		}
+		BatchConfigurer batchConfigurer = context.getBean(BatchConfigurer.class);
+		log.info("\t > jobLauncher from BatchConfigurer = {}", batchConfigurer.getJobLauncher());
+		log.info("\t > jobLauncher from @Autowired = {}", jobLauncher);
 		return ResponseEntity.ok("success");
 	}
 	

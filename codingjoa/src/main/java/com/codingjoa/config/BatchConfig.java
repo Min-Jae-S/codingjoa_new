@@ -107,12 +107,12 @@ public class BatchConfig extends DefaultBatchConfigurer {
 	}
 	
 	@Bean
-	public JobBuilderFactory jobBuilderFactory() throws Exception {
+	public JobBuilderFactory jobBuilders() throws Exception {
 		return new JobBuilderFactory(getJobRepository());
 	}
 	
 	@Bean
-	public StepBuilderFactory stepBuilderFactory() throws Exception {
+	public StepBuilderFactory stepBuilders() throws Exception {
 		return new StepBuilderFactory(getJobRepository(), getTransactionManager());
 	}
 	

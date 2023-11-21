@@ -40,11 +40,6 @@ public class TestTxController {
 	@GetMapping("/tx/txManager")
 	public ResponseEntity<Object> txManager() {
 		log.info("## txManager");
-//		Map<String, PlatformTransactionManager> map = 
-//				BeanFactoryUtils.beansOfTypeIncludingAncestors(context, PlatformTransactionManager.class);
-//		for (String key : map.keySet()) {
-//			log.info("\t > {} = {}", key, map.get(key));
-//		}
 		log.info("\t > txManager from beansOfTypeIncludingAncestors = {}", BeanFactoryUtils.beansOfTypeIncludingAncestors(context, PlatformTransactionManager.class));
 		log.info("\t > txManager from getBeansOfType = {}", context.getBeansOfType(PlatformTransactionManager.class));
 		return ResponseEntity.ok("success");
