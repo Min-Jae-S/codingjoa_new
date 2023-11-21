@@ -11,7 +11,6 @@ import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.core.configuration.annotation.BatchConfigurer;
 import org.springframework.batch.core.configuration.annotation.DefaultBatchConfigurer;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
-import org.springframework.batch.core.configuration.annotation.SimpleBatchConfiguration;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.explore.JobExplorer;
 import org.springframework.batch.core.launch.JobLauncher;
@@ -83,20 +82,10 @@ public class TestBatchController {
 	@GetMapping("/batch/config")
 	public ResponseEntity<Object> config() throws Exception {
 		log.info("## batch config");
-		BatchConfigurer config = context.getBean(BatchConfigurer.class);
-		log.info("\t > configurer = {}", config);
-//		log.info("\t ===============================================================================================================================");
-//		try {
-//			log.info("\t > looking for bean of SimpleBatchConfiguration...");
-//			SimpleBatchConfiguration config = context.getBean(SimpleBatchConfiguration.class);
-//			log.info("\t > transactionManager SimpleBatchConfiguration = {}", config.transactionManager());
-//			log.info("\t > transactionManager @Qualifier = {}", transactionManager);
-//			log.info("\t ===============================================================================================================================");
-//			log.info("\t > jobRepository SimpleBatchConfiguration = {}", config.jobRepository());
-//			log.info("\t > jobRepository @Autowired = {}", jobRepository);
-//		} catch (Exception e) {
-//			log.info("\t > error msg = {}", e.getMessage());
-//		}
+		BatchConfigurer batchConfigurer = context.getBean(BatchConfigurer.class);
+		log.info("\t > configurer = {}", batchConfigurer);
+		log.info("\t > transactionManager from BatchConfigurer = {}", batchConfigurer.getTransactionManager());
+		log.info("\t > transactionManager from @Resource = {}", transactionManager);
 		return ResponseEntity.ok("success");
 	}
 	
@@ -116,23 +105,13 @@ public class TestBatchController {
 		}
 		return ResponseEntity.ok("success");
 	}
-
-	@ResponseBody
-	@GetMapping("/batch/simple-config")
-	public ResponseEntity<Object> simpleConfig() {
-		log.info("## simpleConfig");
-		log.info("\t > make SimpleBatchConfiguration...");
-		SimpleBatchConfiguration config = new SimpleBatchConfiguration();
-		log.info("\t > SimpleBatchConfiguration = {}", config);
-		return ResponseEntity.ok("success");
-	}
 	
 	@ResponseBody
 	@GetMapping("/batch/builders")
 	public ResponseEntity<Object> builders() {
 		log.info("## builders");
-		log.info("\t > jobBuilders = {}", jobBuilders);
-		log.info("\t > stepBuilders = {}", stepBuilders);
+		log.info("\t > jobBuilderFactory = {}", jobBuilders);
+		log.info("\t > stepBuilderFactory = {}", stepBuilders);
 		return ResponseEntity.ok("success");
 	}
 	
