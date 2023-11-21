@@ -90,7 +90,7 @@ public class BatchConfig extends DefaultBatchConfigurer {
 		jobLauncher.afterPropertiesSet();
 		return jobLauncher;
 	}
-
+	
 	@Bean
 	public JobRepository jobRepository() {
 		return getJobRepository();
@@ -115,5 +115,12 @@ public class BatchConfig extends DefaultBatchConfigurer {
 	public StepBuilderFactory stepBuilders() throws Exception {
 		return new StepBuilderFactory(getJobRepository(), getTransactionManager());
 	}
+	
+//	@Bean
+//	public JobScope jobScope() {
+//		JobScope jobScope = new JobScope();
+//		jobScope.setAutoProxy(false);
+//		return jobScope;
+//	}
 	
 }

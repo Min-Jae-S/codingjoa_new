@@ -176,6 +176,7 @@ public class TestBatchController {
 	@GetMapping("/batch/run/job-a")
 	public ResponseEntity<Object> runJobA() throws Exception {
 		log.info("## runJobA");
+//		log.info("\t > batchJobA = {}", batchJobA);
 		jobLauncher.run(batchJobA, new JobParameters());
 		return ResponseEntity.ok("success");
 	}
@@ -184,6 +185,7 @@ public class TestBatchController {
 	@GetMapping("/batch/run/job-b")
 	public ResponseEntity<Object> runJobB() throws Exception {
 		log.info("## runJobB");
+//		log.info("\t > batchJobB = {}", batchJobB);
 		jobLauncher.run(batchJobB, new JobParameters());
 		return ResponseEntity.ok("success");
 	}

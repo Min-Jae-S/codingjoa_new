@@ -85,8 +85,8 @@ public class BatchJobConfig {
 	 * 
 	 */
 	
-	@JobScope // Parameter Lazy Loading 
 	@Bean
+	@JobScope // Parameter Lazy Loading 
 	public Step step1() {
 		return stepBuilders.get("step1")
 				.tasklet((contribution, chunkContext) -> {
@@ -97,8 +97,8 @@ public class BatchJobConfig {
 				.build();
 	}
 	
-	@JobScope
 	@Bean
+	@JobScope
 	public Step step2() {
 		return stepBuilders.get("step2")
 				.tasklet((contribution, chunkContext) -> {
@@ -109,8 +109,8 @@ public class BatchJobConfig {
 				.build();
 	}
 	
-	@JobScope
 	@Bean
+	@JobScope
 	public Step stepA1() {
 		return stepBuilders.get("stepA1")
 				.tasklet((contribution, chunkContext) -> {
@@ -121,8 +121,8 @@ public class BatchJobConfig {
 				.build();
 	}
 
-	@JobScope
 	@Bean
+	@JobScope
 	public Step stepA2() {
 		return stepBuilders.get("stepA2")
 				.tasklet((contribution, chunkContext) -> {
@@ -133,8 +133,8 @@ public class BatchJobConfig {
 				.build();
 	}
 
-	@JobScope 
 	@Bean
+	@JobScope 
 	public Step stepB1() {
 		return stepBuilders.get("stepB1")
 				.tasklet((contribution, chunkContext) -> {
@@ -145,8 +145,8 @@ public class BatchJobConfig {
 				.build();
 	}
 	
-	@JobScope
 	@Bean
+	@JobScope
 	public Step stepB2() {
 		return stepBuilders.get("stepB2")
 				.tasklet(new Tasklet() {
