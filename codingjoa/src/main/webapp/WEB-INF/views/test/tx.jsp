@@ -143,9 +143,11 @@
 		$.ajax({
 			type : "GET",
 			url : "${contextPath}/test/tx/select",
+			contentType : "application/json; charset=utf-8",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
-				console.log("> result = %s", result);
+				console.log("> result =");
+				console.log(JSON.stringify(result, null, 2));
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");

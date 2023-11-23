@@ -3,11 +3,11 @@ package com.codingjoa.controller;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 import javax.sql.DataSource;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.BeanFactoryUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -105,13 +105,17 @@ public class TestTxController {
 	@GetMapping("/tx/select")
 	public ResponseEntity<Object> select() {
 		log.info("## select");
-		List<String> result = testTxService.select()
-				.stream()
-				.map(testVo -> testVo.getId())
-				.collect(Collectors.toList());
-		log.info("\t > result = {}", result);
-		
-		return ResponseEntity.ok("success");
+		List<TestVo> result = testTxService.select();
+		if (result == null) {
+			log.info("\t > no list insatance");
+		} else {
+			if (result.size() > 0) {
+				result.forEach(testVo -> log.info("\t > {}", testVo));
+			} else {
+				log.info("\t > no records");
+			}
+		}
+		return ResponseEntity.ok(result);
 	}
 
 	@ResponseBody
@@ -119,9 +123,9 @@ public class TestTxController {
 	public ResponseEntity<Object> insert() {
 		log.info("## insert");
 		TestVo testVo = TestVo.builder()
-				.id("smj20228")
+				.id(RandomStringUtils.randomAlphanumeric(10))
 				.name("minjae")
-				.password("1234")
+				.password("1q2w3e4r")
 				.build();
 		log.info("\t > input = {}", testVo);
 		
@@ -136,7 +140,6 @@ public class TestTxController {
 	public ResponseEntity<Object> update() {
 		log.info("## update");
 		TestVo testVo = TestVo.builder()
-				.idx(1)
 				.id("modified")
 				.name("modified")
 				.password("modified")
@@ -153,6 +156,9 @@ public class TestTxController {
 	@GetMapping("/tx/remove")
 	public ResponseEntity<Object> remove() {
 		log.info("## remove");
+		int result = testTxService.remove();
+		log.info("\t > result = {}", result);
+		
 		return ResponseEntity.ok("success");
 	}
 	

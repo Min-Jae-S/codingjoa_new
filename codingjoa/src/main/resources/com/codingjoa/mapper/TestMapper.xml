@@ -13,13 +13,16 @@
 	</select>
 	
 	<insert id="insert" parameterType="testVo">
+		<selectKey keyProperty="idx" resultType="int" order="BEFORE">
+			SELECT seq_test.NEXTVAL FROM DUAL
+		</selectKey>
 		INSERT INTO test (
 			idx,
 			id,
 			name,
 			password
 		) VALUES (
-			seq_test.NEXTVAL,
+			#{idx},
 			#{id},
 			#{name},
 			#{password}
@@ -27,6 +30,9 @@
 	</insert>
 	
 	<update id="update" parameterType="testVo">
+		<selectKey keyProperty="idx" resultType="int" order="BEFORE">
+			SELECT MAX(idx) FROM test
+		</selectKey>
 		UPDATE
 			test
 		SET
@@ -37,8 +43,8 @@
 			idx = #{idx} 
 	</update>
 	
-	<delete id="delete" parameterType="int">
-	
+	<delete id="remove">
+		DELETE FROM test WHERE idx IN ( SELECT MAX(idx) FROM test )
 	</delete>
 	
 </mapper>

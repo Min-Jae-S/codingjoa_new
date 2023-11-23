@@ -57,8 +57,8 @@ public class TestTxService {
 		return testMapper.update(testVo);
 	}
 	
-	public int remove(Integer idx) {
-		return testMapper.remove(idx);
+	public int remove() {
+		return testMapper.remove();
 	}
 	
 }

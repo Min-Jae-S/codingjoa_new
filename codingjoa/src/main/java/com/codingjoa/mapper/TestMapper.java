@@ -15,5 +15,5 @@ public interface TestMapper {
 	
 	int update(TestVo testVo);
 	
-	int remove(Integer idx);
+	int remove();
 }
