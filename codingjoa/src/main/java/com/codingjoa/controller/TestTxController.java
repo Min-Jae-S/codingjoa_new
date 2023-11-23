@@ -55,9 +55,10 @@ public class TestTxController {
 		Map<String, PlatformTransactionManager> map = 
 				BeanFactoryUtils.beansOfTypeIncludingAncestors(context, PlatformTransactionManager.class);
 		for(String key : map.keySet()) {
-			log.info("\t > {} = {}", key, map.get(key));
+//			log.info("\t > {} = {}", key, map.get(key));
+			log.info("\t > {}", key);
 		}
-		log.info("\t > main transactionManager = {}", mainTransactionManager);
+//		log.info("\t > autrowiredTransactionManager = {}", mainTransactionManager);
 		return ResponseEntity.ok("success");
 	}
 
@@ -68,7 +69,7 @@ public class TestTxController {
 		Set<String> dataSources = 
 				BeanFactoryUtils.beansOfTypeIncludingAncestors(context, DataSource.class).keySet(); 
 		for(String dataSource : dataSources) {
-			log.info("\t - {}", dataSource);
+			log.info("\t > {}", dataSource);
 		}
 		return ResponseEntity.ok("success");
 	}
@@ -95,6 +96,34 @@ public class TestTxController {
 		log.info("## test3");
 		testTxService.doSomething3(); // doSomething3(@Transactional)
 		return ResponseEntity.ok("success");
+	}
+
+	@ResponseBody
+	@GetMapping("/tx/select")
+	public ResponseEntity<Object> select() {
+		log.info("## select");
+		return ResponseEntity.ok("select success");
+	}
+
+	@ResponseBody
+	@GetMapping("/tx/insert")
+	public ResponseEntity<Object> insert() {
+		log.info("## insert");
+		return ResponseEntity.ok("insert success");
+	}
+
+	@ResponseBody
+	@GetMapping("/tx/update")
+	public ResponseEntity<Object> update() {
+		log.info("## update");
+		return ResponseEntity.ok("update success");
+	}
+
+	@ResponseBody
+	@GetMapping("/tx/remove")
+	public ResponseEntity<Object> remove() {
+		log.info("## remove");
+		return ResponseEntity.ok("remove success");
 	}
 	
 }

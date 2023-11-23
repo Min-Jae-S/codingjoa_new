@@ -49,6 +49,12 @@
 		<button class="btn btn-lg btn-primary mx-3" onclick="test3()">test3</button>
 		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
 	</div>
+	<div class="test d-flex justify-content-center mt-5">
+		<button class="btn btn-lg btn-outline-primary mx-3" onclick="select()">select</button>
+		<button class="btn btn-lg btn-outline-primary mx-3" onclick="insert()">insert</button>
+		<button class="btn btn-lg btn-outline-primary mx-3" onclick="update()">update</button>
+		<button class="btn btn-lg btn-outline-primary mx-3" onclick="remove()">remove</button>
+	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 <script>
@@ -121,6 +127,70 @@
 		$.ajax({
 			type : "GET",
 			url : "${contextPath}/test/tx/test3",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log("> result = %s", result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(jqXHR);
+			}
+		});		
+	}
+
+	function select() {
+		console.log("## select");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/tx/select",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log("> result = %s", result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(jqXHR);
+			}
+		});		
+	}
+	
+	function insert() {
+		console.log("## insert");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/tx/insert",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log("> result = %s", result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(jqXHR);
+			}
+		});		
+	}
+	
+	function update() {
+		console.log("## update");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/tx/update",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log("> result = %s", result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(jqXHR);
+			}
+		});		
+	}
+	
+	function remove() {
+		console.log("## remove");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/tx/remove",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);

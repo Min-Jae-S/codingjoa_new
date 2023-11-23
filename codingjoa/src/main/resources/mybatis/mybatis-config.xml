@@ -32,6 +32,7 @@
 	</settings>
 	
 	<typeAliases>
+		<!-- entity -->
 		<typeAlias type="com.codingjoa.entity.Member" alias="member"/>
 		<typeAlias type="com.codingjoa.entity.Auth" alias="auth"/>
 		<typeAlias type="com.codingjoa.entity.Category" alias="category"/>
@@ -42,8 +43,12 @@
 		<typeAlias type="com.codingjoa.entity.BoardLikes" alias="boardLikes"/>
 		<typeAlias type="com.codingjoa.entity.CommentLikes" alias="commentLikes"/>
 		
+		<!-- pagination -->
 		<typeAlias type="com.codingjoa.pagination.Criteria" alias="boardCri"/>
 		<typeAlias type="com.codingjoa.pagination.CommentCriteria" alias="commentCri"/>
+
+		<!-- test -->
+		<typeAlias type="com.codingjoa.test.testVo" alias="testVo"/>
 		
 		<!-- <typeAlias type="com.codingjoa.mybatis.ClobTypeHandler" alias="clobTypeHandler"/> -->
 	</typeAliases>
