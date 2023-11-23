@@ -1,5 +1,7 @@
 package com.codingjoa.mapper;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import com.codingjoa.test.TestVo;
@@ -7,11 +9,11 @@ import com.codingjoa.test.TestVo;
 @Mapper
 public interface TestMapper {
 	
-	TestVo select();
+	List<TestVo> select();
 	
-	void insert(TestVo testVo);
+	int insert(TestVo testVo);
 	
-	void update(TestVo testVo);
+	int update(TestVo testVo);
 	
-	void remove(Integer idx);
+	int remove(Integer idx);
 }

@@ -1,5 +1,7 @@
 package com.codingjoa.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.NoTransactionException;
@@ -43,20 +45,20 @@ public class TestTxService {
 		}
 	}
 	
-	public TestVo select() {
+	public List<TestVo> select() {
 		return testMapper.select();
 	}
 	
-	public void insert(TestVo testVo) {
-		testMapper.insert(testVo);
+	public int insert(TestVo testVo) {
+		return testMapper.insert(testVo);
 	}
 	
-	public void update(TestVo testVo) {
-		testMapper.update(testVo);
+	public int update(TestVo testVo) {
+		return testMapper.update(testVo);
 	}
 	
-	public void remove(Integer idx) {
-		testMapper.remove(idx);
+	public int remove(Integer idx) {
+		return testMapper.remove(idx);
 	}
 	
 }

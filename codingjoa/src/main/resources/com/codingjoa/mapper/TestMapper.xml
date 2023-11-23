@@ -12,4 +12,33 @@
 		SELECT * FROM test
 	</select>
 	
+	<insert id="insert" parameterType="testVo">
+		INSERT INTO test (
+			idx,
+			id,
+			name,
+			password
+		) VALUES (
+			seq_test.NEXTVAL,
+			#{id},
+			#{name},
+			#{password}
+		)
+	</insert>
+	
+	<update id="update" parameterType="testVo">
+		UPDATE
+			test
+		SET
+			id = #{id},
+			name = #{name},
+			password = #{password}
+		WHERE
+			idx = #{idx} 
+	</update>
+	
+	<delete id="delete" parameterType="int">
+	
+	</delete>
+	
 </mapper>

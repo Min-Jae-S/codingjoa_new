@@ -1,7 +1,9 @@
 package com.codingjoa.controller;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 import javax.sql.DataSource;
@@ -10,7 +12,6 @@ import org.springframework.beans.factory.BeanFactoryUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,9 +44,6 @@ public class TestTxController {
 	
 	@Resource(name = "mainTransactionManager")
 	private PlatformTransactionManager mainTransactionManager;
-	
-	@Autowired
-	private PasswordEncoder passwordEncoder;
 	
 	@GetMapping("/tx")
 	public String main() {
@@ -107,7 +105,13 @@ public class TestTxController {
 	@GetMapping("/tx/select")
 	public ResponseEntity<Object> select() {
 		log.info("## select");
-		return ResponseEntity.ok("select success");
+		List<String> result = testTxService.select()
+				.stream()
+				.map(testVo -> testVo.getId())
+				.collect(Collectors.toList());
+		log.info("\t > result = {}", result);
+		
+		return ResponseEntity.ok("success");
 	}
 
 	@ResponseBody
@@ -117,24 +121,39 @@ public class TestTxController {
 		TestVo testVo = TestVo.builder()
 				.id("smj20228")
 				.name("minjae")
-				.password(passwordEncoder.encode(""))
+				.password("1234")
 				.build();
-		log.info("\t > testVo = {}", testVo);
-		return ResponseEntity.ok("insert success");
+		log.info("\t > input = {}", testVo);
+		
+		int result = testTxService.insert(testVo);
+		log.info("\t > result = {}", result);
+		
+		return ResponseEntity.ok("success");
 	}
 
 	@ResponseBody
 	@GetMapping("/tx/update")
 	public ResponseEntity<Object> update() {
 		log.info("## update");
-		return ResponseEntity.ok("update success");
+		TestVo testVo = TestVo.builder()
+				.idx(1)
+				.id("modified")
+				.name("modified")
+				.password("modified")
+				.build();
+		log.info("\t > input = {}", testVo);
+		
+		int result = testTxService.update(testVo);
+		log.info("\t > result = {}", result);
+		
+		return ResponseEntity.ok("success");
 	}
 
 	@ResponseBody
 	@GetMapping("/tx/remove")
 	public ResponseEntity<Object> remove() {
 		log.info("## remove");
-		return ResponseEntity.ok("remove success");
+		return ResponseEntity.ok("success");
 	}
 	
 }
