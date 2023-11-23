@@ -47,4 +47,16 @@ public class TestTxService {
 		return testMapper.select();
 	}
 	
+	public void insert(TestVo testVo) {
+		testMapper.insert(testVo);
+	}
+	
+	public void update(TestVo testVo) {
+		testMapper.update(testVo);
+	}
+	
+	public void remove(Integer idx) {
+		testMapper.remove(idx);
+	}
+	
 }

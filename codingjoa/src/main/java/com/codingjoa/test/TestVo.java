@@ -3,9 +3,9 @@ package com.codingjoa.test;
 import lombok.Builder;
 import lombok.Data;
 
-@Builder
-@Data
+@Data @Builder
 public class TestVo {
+	
 	private Integer idx;
 	private String id;
 	private String name;

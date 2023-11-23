@@ -10,6 +10,7 @@ import org.springframework.beans.factory.BeanFactoryUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.codingjoa.service.TestTxService;
+import com.codingjoa.test.TestVo;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -41,6 +43,9 @@ public class TestTxController {
 	
 	@Resource(name = "mainTransactionManager")
 	private PlatformTransactionManager mainTransactionManager;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 	
 	@GetMapping("/tx")
 	public String main() {
@@ -109,6 +114,12 @@ public class TestTxController {
 	@GetMapping("/tx/insert")
 	public ResponseEntity<Object> insert() {
 		log.info("## insert");
+		TestVo testVo = TestVo.builder()
+				.id("smj20228")
+				.name("minjae")
+				.password(passwordEncoder.encode(""))
+				.build();
+		log.info("\t > testVo = {}", testVo);
 		return ResponseEntity.ok("insert success");
 	}
 

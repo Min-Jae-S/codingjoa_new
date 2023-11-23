@@ -48,7 +48,7 @@
 		<typeAlias type="com.codingjoa.pagination.CommentCriteria" alias="commentCri"/>
 
 		<!-- test -->
-		<typeAlias type="com.codingjoa.test.testVo" alias="testVo"/>
+		<typeAlias type="com.codingjoa.test.TestVo" alias="testVo"/>
 		
 		<!-- <typeAlias type="com.codingjoa.mybatis.ClobTypeHandler" alias="clobTypeHandler"/> -->
 	</typeAliases>
