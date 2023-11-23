@@ -247,7 +247,8 @@ public class ServletConfig implements WebMvcConfigurer {
 		return messageUtils;
 	}
 	
-	/* Classes that implement the BeanPostProcessor interface are instantiated on startup, 
+	/* 
+	 * Classes that implement the BeanPostProcessor interface are instantiated on startup, 
 	 * as part of the special startup phase of the ApplicationContext, before any other beans.
 	 * Enable @Valid validation exception handler for @PathVariable, @RequestParam and @RequestHeader.
 	 * mvcValidator, LocalValidatorFactoryBean, @Qualifier("localValidator")
@@ -263,7 +264,8 @@ public class ServletConfig implements WebMvcConfigurer {
 		processor.setProxyTargetClass(true);
 		log.info("\t > isProxyTargetClass = {}", processor.isProxyTargetClass());
 		
-		/* Spring internally uses a library that can generate class-based proxies, 
+		/* 
+		 * Spring internally uses a library that can generate class-based proxies, 
 		 * allowing the creation of proxies even for classes that don't implement interfaces. 
 		 * Hence, in general cases, Spring is capable of creating proxies and 
 		 * enabling method-level validation even without explicitly setting setProxyTargetClass(true).

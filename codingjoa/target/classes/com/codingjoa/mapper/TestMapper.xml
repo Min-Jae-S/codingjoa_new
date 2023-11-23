@@ -9,7 +9,7 @@
 -->
 
 	<select id="select" resultType="testVo">
-		SELECT * FROM test
+		SELECT * FROM test ORDER BY idx DESC
 	</select>
 	
 	<insert id="insert" parameterType="testVo">
