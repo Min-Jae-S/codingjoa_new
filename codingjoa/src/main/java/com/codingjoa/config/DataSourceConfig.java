@@ -79,6 +79,12 @@ public class DataSourceConfig {
 	public PlatformTransactionManager mainTransactionManager() {
 		return new DataSourceTransactionManager(mainDataSource());
 	}
+	
+	@Bean(name = "subTransactionManager")
+	public PlatformTransactionManager subTransactionManager() {
+		DataSourceTransactionManager txManager = new DataSourceTransactionManager(mainDataSource());
+		return txManager;
+	}
 
 	@Bean(name = "batchTransactionManager")
 	public PlatformTransactionManager batchTransactionManager() {

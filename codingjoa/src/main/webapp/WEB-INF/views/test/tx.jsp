@@ -47,7 +47,7 @@
 		<button class="btn btn-lg btn-outline-primary mx-3" onclick="test1()">test1</button>
 		<button class="btn btn-lg btn-outline-primary mx-3" onclick="test2()">test2</button>
 		<button class="btn btn-lg btn-outline-primary mx-3" onclick="test3()">test3</button>
-		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
+		<button class="btn btn-lg btn-outline-primary mx-3" onclick="test4()">test4</button>
 	</div>
 	<div class="test d-flex justify-content-center mt-5">
 		<button class="btn btn-lg btn-primary mx-3" onclick="select()">select</button>
@@ -127,6 +127,22 @@
 		$.ajax({
 			type : "GET",
 			url : "${contextPath}/test/tx/test3",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log("> result = %s", result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(jqXHR);
+			}
+		});		
+	}
+
+	function test4() {
+		console.log("## test4");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/tx/test4",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);

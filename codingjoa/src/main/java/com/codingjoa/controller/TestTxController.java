@@ -1,5 +1,6 @@
 package com.codingjoa.controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -44,6 +45,9 @@ public class TestTxController {
 	
 	@Resource(name = "mainTransactionManager")
 	private PlatformTransactionManager mainTransactionManager;
+
+	@Resource(name = "subTransactionManager")
+	private PlatformTransactionManager subTransactionManager;
 	
 	@GetMapping("/tx")
 	public String main() {
@@ -58,10 +62,10 @@ public class TestTxController {
 		Map<String, PlatformTransactionManager> map = 
 				BeanFactoryUtils.beansOfTypeIncludingAncestors(context, PlatformTransactionManager.class);
 		for(String key : map.keySet()) {
-//			log.info("\t > {} = {}", key, map.get(key));
+			//log.info("\t > {} = {}", key, map.get(key));
 			log.info("\t > {}", key);
 		}
-//		log.info("\t > autrowiredTransactionManager = {}", mainTransactionManager);
+		
 		return ResponseEntity.ok("success");
 	}
 
@@ -103,6 +107,15 @@ public class TestTxController {
 		testTxService.doSomething3(); // doSomething3(@Transactional)
 		return ResponseEntity.ok("success");
 	}
+	
+	@ResponseBody
+	@GetMapping("/tx/test4")
+	public ResponseEntity<Object> test4() {
+		log.info("## test4");
+		log.info("## calling doSomething4");
+		testTxService.doSomething4(); // doSomething4(@Transactional + subTransactionManager)
+		return ResponseEntity.ok("success");
+	}
 
 	@ResponseBody
 	@GetMapping("/tx/select")
@@ -125,6 +138,7 @@ public class TestTxController {
 				.id(RandomStringUtils.randomAlphanumeric(10))
 				.name("minjae")
 				.password("1q2w3e4r")
+				.regdate(LocalDateTime.now())
 				.build();
 		log.info("\t > input = {}", testVo);
 		

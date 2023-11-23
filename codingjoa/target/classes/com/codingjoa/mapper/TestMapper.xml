@@ -20,12 +20,14 @@
 			idx,
 			id,
 			name,
-			password
+			password,
+			regdate
 		) VALUES (
 			#{idx},
 			#{id},
 			#{name},
-			#{password}
+			#{password},
+			#{regdate}
 		)
 	</insert>
 	

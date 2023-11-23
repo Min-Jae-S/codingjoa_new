@@ -8,6 +8,7 @@ import org.springframework.transaction.NoTransactionException;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 import com.codingjoa.mapper.TestMapper;
 import com.codingjoa.test.TestVo;
@@ -20,10 +21,7 @@ public class TestTxService {
 	
 	/*
 	 * @@ DefaultTransactionDefinition implements TransactionDefinition
-	 * 	- Transaction Propagation 
-	 * 	- Isolation Level 
-	 * 	- Timeout
-	 * 	- Read Only
+	 * 	- Transaction Propagation, Isolation Level, Timeout, Read Only
 	 */
 	
 	@Autowired
@@ -52,8 +50,22 @@ public class TestTxService {
 			checkTransactionStatus(status);
 		}
 	}
+
+	@Transactional(value = "subTransactionManager")
+	public void doSomething4() {
+		log.info("## doSomething4");
+		TransactionStatus status = null;
+		try {
+			status = TransactionAspectSupport.currentTransactionStatus();
+		} catch (NoTransactionException e) {
+			log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
+		} finally {
+			checkTransactionStatus(status);
+		}
+	}
 	
 	private void checkTransactionStatus(TransactionStatus status) {
+		log.info("\t > transaction name = {}", TransactionSynchronizationManager.getCurrentTransactionName());
 		log.info("\t > transaction status = {}", status);
 		if (status == null) {
 			log.info("\t > NO TRANSACTION");
@@ -68,6 +80,7 @@ public class TestTxService {
 				log.info("\t > UNKNOWN");
 			}
 		}
+		
 	}
 	
 	public List<TestVo> select() {
