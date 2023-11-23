@@ -18,6 +18,14 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class TestTxService {
 	
+	/*
+	 * @@ DefaultTransactionDefinition implements TransactionDefinition
+	 * 	- Transaction Propagation 
+	 * 	- Isolation Level 
+	 * 	- Timeout
+	 * 	- Read Only
+	 */
+	
 	@Autowired
 	private TestMapper testMapper;
 	
@@ -41,7 +49,24 @@ public class TestTxService {
 		} catch (NoTransactionException e) {
 			log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
 		} finally {
-			log.info("\t > status = {}", status == null ? "NO TRANSACTION" : status);
+			checkTransactionStatus(status);
+		}
+	}
+	
+	private void checkTransactionStatus(TransactionStatus status) {
+		log.info("\t > transaction status = {}", status);
+		if (status == null) {
+			log.info("\t > NO TRANSACTION");
+		} else {
+			if (status.isCompleted()) {
+				log.info("\t > COMPLETED");
+			} else if (status.isRollbackOnly()) {
+				log.info("\t > ROLLBACK");
+			} else if (status.isNewTransaction()) {
+				log.info("\t > NEW TRANSACTION");
+			} else {
+				log.info("\t > UNKNOWN");
+			}
 		}
 	}
 	

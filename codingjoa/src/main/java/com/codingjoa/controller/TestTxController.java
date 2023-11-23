@@ -81,6 +81,7 @@ public class TestTxController {
 	@GetMapping("/tx/test1")
 	public ResponseEntity<Object> test1() {
 		log.info("## test1");
+		log.info("## calling doSomething1");
 		testTxService.doSomething1(); // doSomething1(NO @Transactional) -> doSomething3(@Transactional)
 		return ResponseEntity.ok("success");
 	}
@@ -89,6 +90,7 @@ public class TestTxController {
 	@GetMapping("/tx/test2")
 	public ResponseEntity<Object> test2() {
 		log.info("## test2");
+		log.info("## calling doSomething2");
 		testTxService.doSomething2(); // doSomething2(@Transactional) -> doSomething3(@Transactional)
 		return ResponseEntity.ok("success");
 	}
@@ -97,6 +99,7 @@ public class TestTxController {
 	@GetMapping("/tx/test3")
 	public ResponseEntity<Object> test3() {
 		log.info("## test3");
+		log.info("## calling doSomething3");
 		testTxService.doSomething3(); // doSomething3(@Transactional)
 		return ResponseEntity.ok("success");
 	}
@@ -106,14 +109,10 @@ public class TestTxController {
 	public ResponseEntity<Object> select() {
 		log.info("## select");
 		List<TestVo> result = testTxService.select();
-		if (result == null) {
-			log.info("\t > no list insatance");
+		if (result.size() > 0) {
+			result.forEach(testVo -> log.info("\t > {}", testVo));
 		} else {
-			if (result.size() > 0) {
-				result.forEach(testVo -> log.info("\t > {}", testVo));
-			} else {
-				log.info("\t > no records");
-			}
+			log.info("\t > no records");
 		}
 		return ResponseEntity.ok(result);
 	}
@@ -140,7 +139,6 @@ public class TestTxController {
 	public ResponseEntity<Object> update() {
 		log.info("## update");
 		TestVo testVo = TestVo.builder()
-				.id("modified")
 				.name("modified")
 				.password("modified")
 				.build();

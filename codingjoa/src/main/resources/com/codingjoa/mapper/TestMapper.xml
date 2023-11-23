@@ -36,7 +36,6 @@
 		UPDATE
 			test
 		SET
-			id = #{id},
 			name = #{name},
 			password = #{password}
 		WHERE

@@ -143,11 +143,15 @@
 		$.ajax({
 			type : "GET",
 			url : "${contextPath}/test/tx/select",
-			contentType : "application/json; charset=utf-8",
+			dataType : "json",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
-				console.log("> result =");
-				console.log(JSON.stringify(result, null, 2));
+				if (result == "") {
+					console.log("> result = no records");
+				} else {
+					console.log("> result = ");
+					console.log(JSON.stringify(result, null, 2));
+				}
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
