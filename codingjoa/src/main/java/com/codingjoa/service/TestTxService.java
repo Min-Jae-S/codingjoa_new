@@ -21,7 +21,11 @@ public class TestTxService {
 	
 	/*
 	 * @@ DefaultTransactionDefinition implements TransactionDefinition
-	 * 	- Transaction Propagation, Isolation Level, Timeout, Read Only
+	 * 	- Transaction Propagation
+	 * 	- Isolation Level
+	 * 	- Timeout
+	 * 	- Read Only
+	 * 
 	 */
 	
 	@Autowired

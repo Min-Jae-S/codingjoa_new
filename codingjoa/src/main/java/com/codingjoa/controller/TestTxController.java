@@ -127,6 +127,7 @@ public class TestTxController {
 		} else {
 			log.info("\t > no records");
 		}
+		
 		return ResponseEntity.ok(result);
 	}
 
@@ -135,7 +136,7 @@ public class TestTxController {
 	public ResponseEntity<Object> insert() {
 		log.info("## insert");
 		TestVo testVo = TestVo.builder()
-				.id(RandomStringUtils.randomAlphanumeric(10))
+				.id(RandomStringUtils.randomAlphanumeric(8))
 				.name("minjae")
 				.password("1q2w3e4r")
 				.regdate(LocalDateTime.now())
