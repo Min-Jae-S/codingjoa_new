@@ -32,19 +32,19 @@ public class TestTxService {
 	private TestMapper testMapper;
 	
 	public void doSomething1() {
-		log.info("## doSomething1");
+		log.info("## TestTxService.doSomething1");
 		doSomething3();
 	}
 	
 	@Transactional
 	public void doSomething2() {
-		log.info("## doSomething2");
+		log.info("## TestTxService.doSomething2");
 		doSomething3();
 	}
 
 	@Transactional
 	public void doSomething3() {
-		log.info("## doSomething3");
+		log.info("## TestTxService.doSomething3");
 		TransactionStatus status = null;
 		try {
 			status = TransactionAspectSupport.currentTransactionStatus();
@@ -57,7 +57,7 @@ public class TestTxService {
 
 	@Transactional(value = "subTransactionManager")
 	public void doSomething4() {
-		log.info("## doSomething4");
+		log.info("## TestTxService.doSomething4");
 		TransactionStatus status = null;
 		try {
 			status = TransactionAspectSupport.currentTransactionStatus();
@@ -88,18 +88,22 @@ public class TestTxService {
 	}
 	
 	public List<TestVo> select() {
+		log.info("## TestTxService.select");
 		return testMapper.select();
 	}
 	
 	public int insert(TestVo testVo) {
+		log.info("## TestTxService.insert");
 		return testMapper.insert(testVo);
 	}
 	
 	public int update(TestVo testVo) {
+		log.info("## TestTxService.update");
 		return testMapper.update(testVo);
 	}
 	
 	public int remove() {
+		log.info("## TestTxService.remove");
 		return testMapper.remove();
 	}
 	
