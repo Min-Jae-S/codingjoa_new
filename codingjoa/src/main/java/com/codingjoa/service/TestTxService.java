@@ -25,7 +25,6 @@ public class TestTxService {
 	 * 	- Isolation Level
 	 * 	- Timeout
 	 * 	- Read Only
-	 * 
 	 */
 	
 	@Autowired

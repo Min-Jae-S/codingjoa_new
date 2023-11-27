@@ -78,6 +78,7 @@ public class TestTxController {
 		for(String dataSource : dataSources) {
 			log.info("\t > {}", dataSource);
 		}
+		
 		return ResponseEntity.ok("success");
 	}
 
@@ -86,7 +87,10 @@ public class TestTxController {
 	public ResponseEntity<Object> test1() {
 		log.info("## test1");
 		log.info("## calling doSomething1");
-		testTxService.doSomething1(); // doSomething1(NO @Transactional) -> doSomething3(@Transactional)
+		
+		// doSomething1(NO @Transactional) -> doSomething3(@Transactional)
+		testTxService.doSomething1();
+		
 		return ResponseEntity.ok("success");
 	}
 
@@ -95,7 +99,10 @@ public class TestTxController {
 	public ResponseEntity<Object> test2() {
 		log.info("## test2");
 		log.info("## calling doSomething2");
-		testTxService.doSomething2(); // doSomething2(@Transactional) -> doSomething3(@Transactional)
+		
+		// doSomething2(@Transactional) -> doSomething3(@Transactional)
+		testTxService.doSomething2();
+		
 		return ResponseEntity.ok("success");
 	}
 
@@ -104,7 +111,10 @@ public class TestTxController {
 	public ResponseEntity<Object> test3() {
 		log.info("## test3");
 		log.info("## calling doSomething3");
-		testTxService.doSomething3(); // doSomething3(@Transactional)
+		
+		// doSomething3(@Transactional)
+		testTxService.doSomething3(); 
+		
 		return ResponseEntity.ok("success");
 	}
 	
@@ -113,7 +123,10 @@ public class TestTxController {
 	public ResponseEntity<Object> test4() {
 		log.info("## test4");
 		log.info("## calling doSomething4");
-		testTxService.doSomething4(); // doSomething4(@Transactional + subTransactionManager)
+		
+		// doSomething4(@Transactional + subTransactionManager)
+		testTxService.doSomething4(); 
+		
 		return ResponseEntity.ok("success");
 	}
 
