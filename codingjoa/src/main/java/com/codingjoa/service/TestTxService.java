@@ -77,9 +77,9 @@ public class TestTxService {
 		}
 	}
 	
-	public List<TestVo> select() {
-		log.info("## TestTxService.select");
-		return testMapper.select();
+	public List<TestVo> selectAll() {
+		log.info("## TestTxService.selectAll");
+		return testMapper.selectAll();
 	}
 	
 	public int insert(TestVo testVo) {

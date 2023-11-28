@@ -9,7 +9,7 @@ import com.codingjoa.test.TestVo;
 @Mapper
 public interface TestMapper {
 	
-	List<TestVo> select();
+	List<TestVo> selectAll();
 	
 	int insert(TestVo testVo);
 	

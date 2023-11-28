@@ -8,7 +8,7 @@
     password    VARCHAR2(50)            NOT NULL, 
 -->
 
-	<select id="select" resultType="testVo">
+	<select id="selectAll" resultType="testVo">
 		SELECT
 			idx,
 			id,

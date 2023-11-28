@@ -50,7 +50,7 @@
 		<button class="btn btn-lg btn-outline-primary mx-3" onclick="test4()">test4</button>
 	</div>
 	<div class="test d-flex justify-content-center mt-5">
-		<button class="btn btn-lg btn-primary mx-3" onclick="select()">select</button>
+		<button class="btn btn-lg btn-primary mx-3" onclick="selectAll()">selectAll</button>
 		<button class="btn btn-lg btn-primary mx-3" onclick="insert()">insert</button>
 		<button class="btn btn-lg btn-primary mx-3" onclick="update()">update</button>
 		<button class="btn btn-lg btn-primary mx-3" onclick="remove()">remove</button>
@@ -192,11 +192,11 @@
 		});		
 	}
 
-	function select() {
-		console.log("## select");
+	function selectAll() {
+		console.log("## selectAll");
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/tx/select",
+			url : "${contextPath}/test/tx/select-all",
 			dataType : "json",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");

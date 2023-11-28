@@ -147,10 +147,10 @@ public class TestTxController {
 	}
 
 	@ResponseBody
-	@GetMapping("/tx/select")
-	public ResponseEntity<Object> select() {
-		log.info("## select");
-		List<TestVo> result = testTxService.select();
+	@GetMapping("/tx/select-all")
+	public ResponseEntity<Object> selectAll() {
+		log.info("## selectAll");
+		List<TestVo> result = testTxService.selectAll();
 		if (result.size() > 0) {
 			result.forEach(testVo -> log.info("\t > {}", testVo));
 		} else {
