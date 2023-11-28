@@ -170,7 +170,7 @@ public class TestTxController {
 				.password("1q2w3e4r")
 				.regdate(LocalDateTime.now())
 				.build();
-		log.info("\t > input = {}", testVo);
+		log.info("\t > input = {}", testVo.getId());
 		
 		int result = testTxService.insert(testVo);
 		log.info("\t > result = {}", result);
@@ -186,7 +186,7 @@ public class TestTxController {
 				.name("modified")
 				.password("modified")
 				.build();
-		log.info("\t > input = {}", testVo);
+		log.info("\t > input = {}", testVo.getId());
 		
 		int result = testTxService.update(testVo);
 		log.info("\t > result = {}", result);

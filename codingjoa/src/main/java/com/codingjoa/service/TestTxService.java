@@ -112,10 +112,10 @@ public class TestTxService {
 	
 	public void invoke() {
 		log.info("*** invoke start");
-		SqlSession sqlSession = sqlSessionFactory.openSession();
+		SqlSession sqlSession = sqlSessionFactory.openSession(false);
 		TestMapper testMapper = sqlSession.getMapper(TestMapper.class);
 		TestVo testVo = createTestVo();
-		log.info("\t > input = {}", testVo);
+		log.info("\t > input = {}", testVo.getId());
 
 		int result = testMapper.insert(testVo);
 		//int result = sqlSessionTemplate.insert("com.codingjoa.mapper.TestMapper.insert", testVo);
@@ -123,15 +123,15 @@ public class TestTxService {
 		
 		//insert1();
 		//insert2();
-		
+		sqlSession.close();
 		log.info("*** invoke end");
 	}
 	
 	private TestVo createTestVo() {
 		return TestVo.builder()
 				.id(RandomStringUtils.randomAlphanumeric(8))
-				.name("a1")
-				.password("a1")
+				.name("test")
+				.password("test")
 				.regdate(LocalDateTime.now())
 				.build(); 
 	}
