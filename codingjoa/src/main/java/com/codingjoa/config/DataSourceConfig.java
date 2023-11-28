@@ -46,7 +46,6 @@ public class DataSourceConfig {
 		hikariConfig.setUsername(env.getProperty("datasource.main.username"));
 		hikariConfig.setPassword(env.getProperty("datasource.main.password"));
 		hikariConfig.setPoolName("MainHikariPool");
-		hikariConfig.setAutoCommit(false);
 		return hikariConfig;
 	}
 	
@@ -82,8 +81,7 @@ public class DataSourceConfig {
 	
 	@Bean(name = "subTransactionManager")
 	public PlatformTransactionManager subTransactionManager() {
-		DataSourceTransactionManager txManager = new DataSourceTransactionManager(mainDataSource());
-		return txManager;
+		return new DataSourceTransactionManager(mainDataSource());
 	}
 
 	@Bean(name = "batchTransactionManager")
@@ -93,11 +91,11 @@ public class DataSourceConfig {
 	
 	@Bean
 	public SqlSessionFactory sqlSessionFactory(ApplicationContext applicationContext) throws Exception {
-		SqlSessionFactoryBean factory = new SqlSessionFactoryBean();
-		factory.setDataSource(mainDataSource());
-		factory.setConfigLocation(applicationContext.getResource("classpath:/mybatis/mybatis-config.xml"));
-		factory.setMapperLocations(applicationContext.getResources("classpath:/com/codingjoa/mapper/**.xml"));
-		return factory.getObject();
+		SqlSessionFactoryBean factoryBean = new SqlSessionFactoryBean();
+		factoryBean.setDataSource(mainDataSource());
+		factoryBean.setConfigLocation(applicationContext.getResource("classpath:/mybatis/mybatis-config.xml"));
+		factoryBean.setMapperLocations(applicationContext.getResources("classpath:/com/codingjoa/mapper/**.xml"));
+		return factoryBean.getObject();
 	}
 	
 	@Bean

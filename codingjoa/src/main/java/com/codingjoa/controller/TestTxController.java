@@ -165,7 +165,7 @@ public class TestTxController {
 	public ResponseEntity<Object> insert() {
 		log.info("## insert");
 		TestVo testVo = TestVo.builder()
-				.id(RandomStringUtils.randomAlphanumeric(6))
+				.id(RandomStringUtils.randomAlphanumeric(8))
 				.name("minjae")
 				.password("1q2w3e4r")
 				.regdate(LocalDateTime.now())
@@ -208,8 +208,8 @@ public class TestTxController {
 	@GetMapping("/tx/invoke")
 	public ResponseEntity<Object> invoke() {
 		log.info("## invoke");
-		String result = testTxService.invoke(); 
-		return ResponseEntity.ok(result);
+		testTxService.invoke(); 
+		return ResponseEntity.ok("success");
 	}
 
 	@ResponseBody

@@ -6,6 +6,9 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.NoTransactionException;
@@ -21,6 +24,7 @@ import com.codingjoa.test.TestVo;
 
 import lombok.extern.slf4j.Slf4j;
 
+@SuppressWarnings("unused")
 @Slf4j
 @Service
 public class TestTxService {
@@ -100,13 +104,36 @@ public class TestTxService {
 	@Resource(name = "mainTransactionManager")
 	private PlatformTransactionManager mainTransactionManager;
 	
-	@Transactional
-	public String invoke() {
+	@Autowired
+	private SqlSessionFactory sqlSessionFactory;
+	
+	@Autowired
+	private SqlSessionTemplate sqlSessionTemplate;
+	
+	public void invoke() {
 		log.info("*** invoke start");
-		insert1();
-		insert2();
+		SqlSession sqlSession = sqlSessionFactory.openSession();
+		TestMapper testMapper = sqlSession.getMapper(TestMapper.class);
+		TestVo testVo = createTestVo();
+		log.info("\t > input = {}", testVo);
+
+		int result = testMapper.insert(testVo);
+		//int result = sqlSessionTemplate.insert("com.codingjoa.mapper.TestMapper.insert", testVo);
+		log.info("\t > result = {}", result);
+		
+		//insert1();
+		//insert2();
+		
 		log.info("*** invoke end");
-		return "tx invoked";
+	}
+	
+	private TestVo createTestVo() {
+		return TestVo.builder()
+				.id(RandomStringUtils.randomAlphanumeric(8))
+				.name("a1")
+				.password("a1")
+				.regdate(LocalDateTime.now())
+				.build(); 
 	}
 	
 	public void payment() {
@@ -152,7 +179,7 @@ public class TestTxService {
 	private void insert1() {
 		log.info("## insert1");
 		TestVo testVo = TestVo.builder()
-				.id(RandomStringUtils.randomAlphanumeric(6))
+				.id(RandomStringUtils.randomAlphanumeric(8))
 				.name("a1")
 				.password("a1")
 				.regdate(LocalDateTime.now())
@@ -163,7 +190,7 @@ public class TestTxService {
 	private void insert2() {
 		log.info("## insert2");
 		TestVo testVo = TestVo.builder()
-				.id(RandomStringUtils.randomAlphanumeric(6))
+				.id(RandomStringUtils.randomAlphanumeric(8))
 				.name("a2")
 				.password("a2")
 				.regdate(LocalDateTime.now())
