@@ -127,6 +127,14 @@ public class TestTxController {
 	}
 
 	@ResponseBody
+	@GetMapping("/tx/test5")
+	public ResponseEntity<Object> test5() {
+		log.info("## test5");
+		String result = testTxService.invoke(); 
+		return ResponseEntity.ok(result);
+	}
+
+	@ResponseBody
 	@GetMapping("/tx/select")
 	public ResponseEntity<Object> select() {
 		log.info("## select");

@@ -9,14 +9,23 @@
 -->
 
 	<select id="select" resultType="testVo">
-		SELECT * FROM test ORDER BY idx DESC
+		SELECT
+			idx,
+			id,
+			name,
+			password,
+			regdate
+		FROM 
+			test1 
+		ORDER BY 
+			idx DESC
 	</select>
 	
 	<insert id="insert" parameterType="testVo">
 		<selectKey keyProperty="idx" resultType="int" order="BEFORE">
-			SELECT seq_test.NEXTVAL FROM DUAL
+			SELECT seq_test1.NEXTVAL FROM DUAL
 		</selectKey>
-		INSERT INTO test (
+		INSERT INTO test1 (
 			idx,
 			id,
 			name,
@@ -33,10 +42,10 @@
 	
 	<update id="update" parameterType="testVo">
 		<selectKey keyProperty="idx" resultType="int" order="BEFORE">
-			SELECT MAX(idx) FROM test
+			SELECT MAX(idx) FROM test1
 		</selectKey>
 		UPDATE
-			test
+			test1
 		SET
 			name = #{name},
 			password = #{password}
@@ -45,7 +54,10 @@
 	</update>
 	
 	<delete id="remove">
-		DELETE FROM test WHERE idx IN ( SELECT MAX(idx) FROM test )
+		DELETE FROM 
+			test1 
+		WHERE 
+			idx IN ( SELECT MAX(idx) FROM test1 )
 	</delete>
 	
 </mapper>

@@ -67,6 +67,15 @@ public class TestTxService {
 		}
 	}
 	
+	@Transactional
+	public String invoke() {
+		log.info("*** invoke start");
+		insert1();
+		insert2();
+		log.info("*** invoke end");
+		return "transcation invoked";
+	}
+	
 	private void checkTransaction(TransactionStatus status) {
 		log.info("## checkTransaction");
 		log.info("\t > transaction name = {}", TransactionSynchronizationManager.getCurrentTransactionName());
@@ -87,6 +96,14 @@ public class TestTxService {
 		
 	}
 	
+	private void insert1() {
+		
+	}
+	
+	private void insert2() {
+		
+	}
+ 	
 	public List<TestVo> select() {
 		log.info("## TestTxService.select");
 		return testMapper.select();
