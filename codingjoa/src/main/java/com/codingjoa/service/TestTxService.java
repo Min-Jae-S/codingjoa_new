@@ -6,6 +6,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.NoTransactionException;
@@ -35,6 +36,9 @@ public class TestTxService {
 	
 	@Autowired
 	private TestMapper testMapper;
+	
+	@Autowired
+	private SqlSessionFactory factory;
 	
 	public void doSomething1() {
 		log.info("## TestTxService.doSomething1");
@@ -73,26 +77,6 @@ public class TestTxService {
 		}
 	}
 	
-	private void checkTransaction(TransactionStatus status) {
-		log.info("## checkTransaction");
-		log.info("\t > transaction name = {}", TransactionSynchronizationManager.getCurrentTransactionName());
-		log.info("\t > transaction status = {}", status);
-		if (status == null) {
-			log.info("\t > NO TRANSACTION");
-		} else {
-			if (status.isCompleted()) {
-				log.info("\t > COMPLETED");
-			} else if (status.isRollbackOnly()) {
-				log.info("\t > ROLLBACK");
-			} else if (status.isNewTransaction()) {
-				log.info("\t > NEW TRANSACTION");
-			} else {
-				log.info("\t > UNKNOWN");
-			}
-		}
-		
-	}
-	
 	public List<TestVo> select() {
 		log.info("## TestTxService.select");
 		return testMapper.select();
@@ -113,8 +97,6 @@ public class TestTxService {
 		return testMapper.remove();
 	}
 
-	
-	
 	/*******************************************************************/
 	// invoke, payment 
 	/*******************************************************************/
@@ -128,28 +110,47 @@ public class TestTxService {
 		insert1();
 		insert2();
 		log.info("*** invoke end");
-		return "transcation invoked";
+		return "tx invoked";
 	}
 	
 	public void payment() {
 		log.info("*** payment start");
 		DefaultTransactionDefinition txDefinition = new DefaultTransactionDefinition();
-		log.info("\t > transaction definition = {}", txDefinition);
+		log.info("\t > tx definition = {}", txDefinition);
 		
-		TransactionStatus status = this.mainTransactionManager.getTransaction(txDefinition);
-		log.info("\t > before transction status = {}", status);
+		TransactionStatus status = mainTransactionManager.getTransaction(txDefinition);
+		checkTransaction(status);
 		
 		try {
 			//testMapper.account(account);          // 결제금액 저장
 			//testMapper.paymentType(paymentType);  // 결제정보 저장(ex. 카드, 계좌이체 정보 등)
-            this.mainTransactionManager.commit(status);
+            mainTransactionManager.commit(status);
         } catch(RuntimeException e) {
-            this.mainTransactionManager.rollback(status);
+            mainTransactionManager.rollback(status);
             throw e;
         } finally {
-        	log.info("\t > after transction status = {}", status);
+        	checkTransaction(status);
         	log.info("*** payment end");
         }
+	}
+	
+	private void checkTransaction(TransactionStatus status) {
+		log.info("## checkTransaction");
+		log.info("\t > tx name = {}", TransactionSynchronizationManager.getCurrentTransactionName());
+		log.info("\t > tx status = {}", status);
+		if (status == null) {
+			log.info("\t > NO TX");
+		} else {
+			if (status.isCompleted()) {
+				log.info("\t > COMPLETED");
+			} else if (status.isRollbackOnly()) {
+				log.info("\t > ROLLBACK");
+			} else if (status.isNewTransaction()) {
+				log.info("\t > NEW TRANSACTION");
+			} else {
+				log.info("\t > UNKNOWN");
+			}
+		}
 	}
 	
 	private void insert1() {

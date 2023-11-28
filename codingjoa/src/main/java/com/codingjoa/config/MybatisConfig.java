@@ -32,14 +32,28 @@ public class MybatisConfig {
 		log.info("===============================================================");
 	}
 	
-	@Bean
+	/*
+	 * @@ SqlSessionFactoryBean / SqlSessionFatoryBuilder
+	 * 	- a Java component (Bean) responsible for creating the SqlSessionFactory
+	 * 	- SqlSessionFactory: controls the execution with the global information of MyBatis and creates SqlSession
+	 * 	- SqlSession: executes queries (created per operation unit by the factory)
+	 */
+	
+	@Bean 
 	public SqlSessionFactory sqlSessionFactory(ApplicationContext applicationContext) throws Exception {
 		SqlSessionFactoryBean factory = new SqlSessionFactoryBean();
 		factory.setDataSource(dataSource);
 		factory.setConfigLocation(applicationContext.getResource("classpath:/mybatis/mybatis-config.xml"));
 		factory.setMapperLocations(applicationContext.getResources("classpath:/com/codingjoa/mapper/**.xml"));
+		factory.afterPropertiesSet();
 		return factory.getObject();
 	}
+	
+	/*
+	 * @@ When integrating MyBatis with Spring for enhanced productivity, the SqlSessionTemplate class is utilized.
+	 * 	- SqlSessionFactory is injected through the constructor
+	 * 	- SqlSessionTemplate supports declarative transaction management(@Transactional = AOP-based Transaction Control)
+	 */
 	
 	@Bean
 	public SqlSessionTemplate sqlSessionTemplate(SqlSessionFactory sqlSessionFactory) {

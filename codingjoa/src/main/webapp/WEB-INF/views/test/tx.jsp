@@ -56,8 +56,8 @@
 		<button class="btn btn-lg btn-primary mx-3" onclick="remove()">remove</button>
 	</div>
 	<div class="test d-flex justify-content-center mt-5">
-		<button class="btn btn-lg btn-secondary mx-3" onclick="select()">select</button>
-		<button class="btn btn-lg btn-secondary mx-3 invisible" onclick="#">#</button>
+		<button class="btn btn-lg btn-secondary mx-3" onclick="invoke()">invoke</button>
+		<button class="btn btn-lg btn-secondary mx-3" onclick="payment()">payment</button>
 		<button class="btn btn-lg btn-secondary mx-3 invisible" onclick="#">#</button>
 		<button class="btn btn-lg btn-secondary mx-3 invisible" onclick="#">#</button>
 	</div>
@@ -267,6 +267,22 @@
 		$.ajax({
 			type : "GET",
 			url : "${contextPath}/test/tx/invoke",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log("> result = %s", result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(jqXHR);
+			}
+		});		
+	}
+	
+	function payment() {
+		console.log("## payment");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/tx/payment",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);

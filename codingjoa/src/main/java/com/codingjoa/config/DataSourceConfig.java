@@ -46,6 +46,7 @@ public class DataSourceConfig {
 		hikariConfig.setUsername(env.getProperty("datasource.main.username"));
 		hikariConfig.setPassword(env.getProperty("datasource.main.password"));
 		hikariConfig.setPoolName("MainHikariPool");
+		hikariConfig.setAutoCommit(false);
 		return hikariConfig;
 	}
 	
