@@ -9,6 +9,8 @@ import javax.annotation.Resource;
 import javax.sql.DataSource;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.BeanFactoryUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -56,20 +58,6 @@ public class TestTxController {
 	}
 	
 	@ResponseBody
-	@GetMapping("/tx/txManagers")
-	public ResponseEntity<Object> txManagers() {
-		log.info("## txManagers");
-		Map<String, PlatformTransactionManager> map = 
-				BeanFactoryUtils.beansOfTypeIncludingAncestors(context, PlatformTransactionManager.class);
-		for(String key : map.keySet()) {
-			//log.info("\t > {} = {}", key, map.get(key));
-			log.info("\t > {}", key);
-		}
-		
-		return ResponseEntity.ok("success");
-	}
-
-	@ResponseBody
 	@GetMapping("/tx/dataSources")
 	public ResponseEntity<Object> dataSources() {
 		log.info("## dataSources");
@@ -81,15 +69,53 @@ public class TestTxController {
 		
 		return ResponseEntity.ok("success");
 	}
+	
+	@ResponseBody
+	@GetMapping("/tx/managers")
+	public ResponseEntity<Object> managers() {
+		log.info("## managers");
+		Map<String, PlatformTransactionManager> map = 
+				BeanFactoryUtils.beansOfTypeIncludingAncestors(context, PlatformTransactionManager.class);
+		for(String key : map.keySet()) {
+			//log.info("\t > {} = {}", key, map.get(key));
+			log.info("\t > {}", key);
+		}
+		
+		return ResponseEntity.ok("success");
+	}
+	
+	@ResponseBody
+	@GetMapping("/tx/factory")
+	public ResponseEntity<Object> factory() {
+		log.info("## factory");
+		Map<String, SqlSessionFactory> map = 
+				BeanFactoryUtils.beansOfTypeIncludingAncestors(context, SqlSessionFactory.class);
+		for(String key : map.keySet()) {
+			log.info("\t > {} = {}", key, map.get(key));
+		}
+		
+		return ResponseEntity.ok("success");
+	}
+
+	@ResponseBody
+	@GetMapping("/tx/template")
+	public ResponseEntity<Object> template() {
+		log.info("## template");
+		Map<String, SqlSessionTemplate> map = 
+				BeanFactoryUtils.beansOfTypeIncludingAncestors(context, SqlSessionTemplate.class);
+		for(String key : map.keySet()) {
+			log.info("\t > {} = {}", key, map.get(key));
+		}
+		
+		return ResponseEntity.ok("success");
+	}
 
 	@ResponseBody
 	@GetMapping("/tx/test1")
 	public ResponseEntity<Object> test1() {
 		log.info("## test1");
-		
 		// doSomething1(NO @Transactional) -> doSomething3(@Transactional)
 		testTxService.doSomething1();
-		
 		return ResponseEntity.ok("success");
 	}
 
@@ -97,10 +123,8 @@ public class TestTxController {
 	@GetMapping("/tx/test2")
 	public ResponseEntity<Object> test2() {
 		log.info("## test2");
-		
 		// doSomething2(@Transactional) -> doSomething3(@Transactional)
 		testTxService.doSomething2();
-		
 		return ResponseEntity.ok("success");
 	}
 
@@ -108,10 +132,8 @@ public class TestTxController {
 	@GetMapping("/tx/test3")
 	public ResponseEntity<Object> test3() {
 		log.info("## test3");
-		
 		// doSomething3(@Transactional)
 		testTxService.doSomething3(); 
-		
 		return ResponseEntity.ok("success");
 	}
 	
@@ -119,19 +141,9 @@ public class TestTxController {
 	@GetMapping("/tx/test4")
 	public ResponseEntity<Object> test4() {
 		log.info("## test4");
-		
 		// doSomething4(@Transactional + subTransactionManager)
 		testTxService.doSomething4(); 
-		
 		return ResponseEntity.ok("success");
-	}
-
-	@ResponseBody
-	@GetMapping("/tx/test5")
-	public ResponseEntity<Object> test5() {
-		log.info("## test5");
-		String result = testTxService.invoke(); 
-		return ResponseEntity.ok(result);
 	}
 
 	@ResponseBody
@@ -189,6 +201,22 @@ public class TestTxController {
 		int result = testTxService.remove();
 		log.info("\t > result = {}", result);
 		
+		return ResponseEntity.ok("success");
+	}
+	
+	@ResponseBody
+	@GetMapping("/tx/invoke")
+	public ResponseEntity<Object> invoke() {
+		log.info("## invoke");
+		String result = testTxService.invoke(); 
+		return ResponseEntity.ok(result);
+	}
+
+	@ResponseBody
+	@GetMapping("/tx/payment")
+	public ResponseEntity<Object> payment() {
+		log.info("## payment");
+		testTxService.payment(); 
 		return ResponseEntity.ok("success");
 	}
 	

@@ -38,34 +38,37 @@
 <div class="container my-5">
 	<p>tx.jsp</p>
 	<div class="test d-flex justify-content-center mt-5">
-		<button class="btn btn-lg btn-warning mx-3" onclick="txManagers()">txManagers</button>
 		<button class="btn btn-lg btn-warning mx-3" onclick="dataSources()">dataSources</button>
-		<button class="btn btn-lg btn-warning mx-3 invisible" onclick="#">#</button>
-		<button class="btn btn-lg btn-warning mx-3 invisible" onclick="#">#</button>
-		<button class="btn btn-lg btn-warning mx-3 invisible" onclick="#">#</button>
+		<button class="btn btn-lg btn-warning mx-3" onclick="managers()">managers</button>
+		<button class="btn btn-lg btn-warning mx-3" onclick="factory()">factory</button>
+		<button class="btn btn-lg btn-warning mx-3" onclick="template()">template</button>
 	</div>
 	<div class="test d-flex justify-content-center mt-5">
 		<button class="btn btn-lg btn-outline-primary mx-3" onclick="test1()">test1</button>
 		<button class="btn btn-lg btn-outline-primary mx-3" onclick="test2()">test2</button>
 		<button class="btn btn-lg btn-outline-primary mx-3" onclick="test3()">test3</button>
 		<button class="btn btn-lg btn-outline-primary mx-3" onclick="test4()">test4</button>
-		<button class="btn btn-lg btn-outline-primary mx-3" onclick="test5()">test5</button>
 	</div>
 	<div class="test d-flex justify-content-center mt-5">
 		<button class="btn btn-lg btn-primary mx-3" onclick="select()">select</button>
 		<button class="btn btn-lg btn-primary mx-3" onclick="insert()">insert</button>
 		<button class="btn btn-lg btn-primary mx-3" onclick="update()">update</button>
 		<button class="btn btn-lg btn-primary mx-3" onclick="remove()">remove</button>
-		<button class="btn btn-lg btn-warning mx-3 invisible" onclick="#">#</button>
+	</div>
+	<div class="test d-flex justify-content-center mt-5">
+		<button class="btn btn-lg btn-secondary mx-3" onclick="select()">select</button>
+		<button class="btn btn-lg btn-secondary mx-3 invisible" onclick="#">#</button>
+		<button class="btn btn-lg btn-secondary mx-3 invisible" onclick="#">#</button>
+		<button class="btn btn-lg btn-secondary mx-3 invisible" onclick="#">#</button>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 <script>
-	function txManagers() {
-		console.log("## txManagers");
+	function dataSources() {
+		console.log("## dataSources");
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/tx/txManagers",
+			url : "${contextPath}/test/tx/dataSources",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);
@@ -77,11 +80,43 @@
 		});		
 	}
 
-	function dataSources() {
-		console.log("## dataSources");
+	function managers() {
+		console.log("## managers");
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/tx/dataSources",
+			url : "${contextPath}/test/tx/managers",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log("> result = %s", result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(jqXHR);
+			}
+		});		
+	}
+	
+	function factory() {
+		console.log("## factory");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/tx/factory",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log("> result = %s", result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(jqXHR);
+			}
+		});		
+	}
+
+	function template() {
+		console.log("## template");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/tx/template",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);
@@ -157,22 +192,6 @@
 		});		
 	}
 
-	function test5() {
-		console.log("## test5");
-		$.ajax({
-			type : "GET",
-			url : "${contextPath}/test/tx/test5",
-			success : function(result) {
-				console.log("%c> SUCCESS", "color:green");
-				console.log("> result = %s", result);
-			},
-			error : function(jqXHR) {
-				console.log("%c> ERROR", "color:red");
-				console.log(jqXHR);
-			}
-		});		
-	}
-
 	function select() {
 		console.log("## select");
 		$.ajax({
@@ -232,6 +251,22 @@
 		$.ajax({
 			type : "GET",
 			url : "${contextPath}/test/tx/remove",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log("> result = %s", result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(jqXHR);
+			}
+		});		
+	}
+	
+	function invoke() {
+		console.log("## invoke");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/tx/invoke",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);
