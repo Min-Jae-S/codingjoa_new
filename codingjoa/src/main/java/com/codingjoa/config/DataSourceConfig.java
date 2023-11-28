@@ -66,8 +66,7 @@ public class DataSourceConfig {
 		return new HikariDataSource(mainHikariConfig());
 	}
 	
-	// @EnableBatchProcessing: 
-	//		Error creating bean with name 'org.springframework.batch.core.configuration.annotation.SimpleBatchConfiguration'
+	// @EnableBatchProcessing: Error creating bean with name 'org.springframework.batch.core.configuration.annotation.SimpleBatchConfiguration'
 	// NoUniqueBeanDefinitionException: No qualifying bean of type 'javax.sql.DataSource' available: 
 	// expected single matching bean but found 2: mainDataSource,batchDataSource
 	@Bean(name = "batchDataSource")

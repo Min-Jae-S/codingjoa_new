@@ -6,7 +6,6 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.NoTransactionException;
@@ -36,9 +35,6 @@ public class TestTxService {
 	
 	@Autowired
 	private TestMapper testMapper;
-	
-	@Autowired
-	private SqlSessionFactory factory;
 	
 	public void doSomething1() {
 		log.info("## TestTxService.doSomething1");
