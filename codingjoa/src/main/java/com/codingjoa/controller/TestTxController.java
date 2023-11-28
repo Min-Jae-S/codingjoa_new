@@ -86,7 +86,6 @@ public class TestTxController {
 	@GetMapping("/tx/test1")
 	public ResponseEntity<Object> test1() {
 		log.info("## test1");
-		log.info("## calling doSomething1");
 		
 		// doSomething1(NO @Transactional) -> doSomething3(@Transactional)
 		testTxService.doSomething1();
@@ -98,7 +97,6 @@ public class TestTxController {
 	@GetMapping("/tx/test2")
 	public ResponseEntity<Object> test2() {
 		log.info("## test2");
-		log.info("## calling doSomething2");
 		
 		// doSomething2(@Transactional) -> doSomething3(@Transactional)
 		testTxService.doSomething2();
@@ -110,7 +108,6 @@ public class TestTxController {
 	@GetMapping("/tx/test3")
 	public ResponseEntity<Object> test3() {
 		log.info("## test3");
-		log.info("## calling doSomething3");
 		
 		// doSomething3(@Transactional)
 		testTxService.doSomething3(); 
@@ -122,7 +119,6 @@ public class TestTxController {
 	@GetMapping("/tx/test4")
 	public ResponseEntity<Object> test4() {
 		log.info("## test4");
-		log.info("## calling doSomething4");
 		
 		// doSomething4(@Transactional + subTransactionManager)
 		testTxService.doSomething4(); 

@@ -50,7 +50,7 @@ public class TestTxService {
 		} catch (NoTransactionException e) {
 			log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
 		} finally {
-			checkTransactionStatus(status);
+			checkTransaction(status);
 		}
 	}
 
@@ -63,11 +63,12 @@ public class TestTxService {
 		} catch (NoTransactionException e) {
 			log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
 		} finally {
-			checkTransactionStatus(status);
+			checkTransaction(status);
 		}
 	}
 	
-	private void checkTransactionStatus(TransactionStatus status) {
+	private void checkTransaction(TransactionStatus status) {
+		log.info("## checkTransaction");
 		log.info("\t > transaction name = {}", TransactionSynchronizationManager.getCurrentTransactionName());
 		log.info("\t > transaction status = {}", status);
 		if (status == null) {
