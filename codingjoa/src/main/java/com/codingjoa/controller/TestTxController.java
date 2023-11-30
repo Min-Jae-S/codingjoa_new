@@ -58,9 +58,9 @@ public class TestTxController {
 	}
 	
 	@ResponseBody
-	@GetMapping("/tx/dataSources")
-	public ResponseEntity<Object> dataSources() {
-		log.info("## dataSources");
+	@GetMapping("/tx/datasources")
+	public ResponseEntity<Object> datasources() {
+		log.info("## datasources");
 		Set<String> dataSources = 
 				BeanFactoryUtils.beansOfTypeIncludingAncestors(context, DataSource.class).keySet(); 
 		for(String dataSource : dataSources) {
@@ -170,7 +170,7 @@ public class TestTxController {
 				.password("1q2w3e4r")
 				.regdate(LocalDateTime.now())
 				.build();
-		log.info("\t > input = {}", testVo.getId());
+		log.info("\t > create testVO = {}", testVo.getId());
 		
 		int result = testTxService.insert(testVo);
 		log.info("\t > result = {}", result);
@@ -186,7 +186,7 @@ public class TestTxController {
 				.name("modified")
 				.password("modified")
 				.build();
-		log.info("\t > input = {}", testVo.getId());
+		log.info("\t > create testVO = {}", testVo.getId());
 		
 		int result = testTxService.update(testVo);
 		log.info("\t > result = {}", result);

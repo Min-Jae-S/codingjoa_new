@@ -115,7 +115,7 @@ public class TestTxService {
 		SqlSession sqlSession = sqlSessionFactory.openSession(false);
 		TestMapper testMapper = sqlSession.getMapper(TestMapper.class);
 		TestVo testVo = createTestVo();
-		log.info("\t > input = {}", testVo.getId());
+		log.info("\t > create testVO = {}", testVo.getId());
 
 		int result = testMapper.insert(testVo);
 		//int result = sqlSessionTemplate.insert("com.codingjoa.mapper.TestMapper.insert", testVo);

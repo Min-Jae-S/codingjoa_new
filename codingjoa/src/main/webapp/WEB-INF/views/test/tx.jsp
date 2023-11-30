@@ -38,7 +38,7 @@
 <div class="container my-5">
 	<p>tx.jsp</p>
 	<div class="test d-flex justify-content-center mt-5">
-		<button class="btn btn-lg btn-warning mx-3" onclick="dataSources()">dataSources</button>
+		<button class="btn btn-lg btn-warning mx-3" onclick="datasources()">datasources</button>
 		<button class="btn btn-lg btn-warning mx-3" onclick="managers()">managers</button>
 		<button class="btn btn-lg btn-warning mx-3" onclick="factory()">factory</button>
 		<button class="btn btn-lg btn-warning mx-3" onclick="template()">template</button>
@@ -64,11 +64,11 @@
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 <script>
-	function dataSources() {
-		console.log("## dataSources");
+	function datasources() {
+		console.log("## datasources");
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/tx/dataSources",
+			url : "${contextPath}/test/tx/datasources",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);
