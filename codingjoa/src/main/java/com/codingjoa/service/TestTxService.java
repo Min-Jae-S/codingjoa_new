@@ -98,7 +98,7 @@ public class TestTxService {
 	}
 
 	/*******************************************************************/
-	// invoke, payment 
+	// invoke(), payment() 
 	/*******************************************************************/
 	
 	@Resource(name = "mainTransactionManager")
@@ -115,7 +115,7 @@ public class TestTxService {
 		SqlSession sqlSession = sqlSessionFactory.openSession(false);
 		TestMapper testMapper = sqlSession.getMapper(TestMapper.class);
 		TestVo testVo = createTestVo();
-		log.info("\t > create testVO = {}", testVo.getId());
+		log.info("\t > created testVo = {}", testVo.getId());
 
 		int result = testMapper.insert(testVo);
 		//int result = sqlSessionTemplate.insert("com.codingjoa.mapper.TestMapper.insert", testVo);
