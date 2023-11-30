@@ -40,44 +40,6 @@
 		)
 	</insert>
 	
-	<insert id="insertA1" parameterType="testVo">
-		<selectKey keyProperty="idx" resultType="int" order="BEFORE">
-			SELECT seq_test1.NEXTVAL FROM DUAL
-		</selectKey>
-		INSERT INTO test1 (
-			idx,
-			id,
-			name,
-			password,
-			regdate
-		) VALUES (
-			#{idx},
-			#{id},
-			#{name},
-			#{password},
-			#{regdate}
-		)
-	</insert>
-
-	<insert id="insertA2" parameterType="testVo">
-		<selectKey keyProperty="idx" resultType="int" order="BEFORE">
-			SELECT seq_test1.NEXTVAL FROM DUAL
-		</selectKey>
-		INSERT INTO test1 (
-			idx,
-			id,
-			name,
-			password,
-			regdate
-		) VALUES (
-			#{idx},
-			#{id},
-			#{name},
-			#{password},
-			#{regdate}
-		)
-	</insert>
-	
 	<update id="update" parameterType="testVo">
 		<selectKey keyProperty="idx" resultType="int" order="BEFORE">
 			SELECT MAX(idx) FROM test1

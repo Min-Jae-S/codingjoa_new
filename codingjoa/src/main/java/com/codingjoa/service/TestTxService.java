@@ -150,10 +150,9 @@ public class TestTxService {
 		
 		insertA1();
 		insertA2();
-		
 		log.info("*** invoke end");
 	}
-	
+
 	public void invokeWithoutTx() {
 		log.info("*** invoke start [without tx]");
 		TestVo testVo = createTestVo();
@@ -213,7 +212,7 @@ public class TestTxService {
 				.password("A1")
 				.regdate(LocalDateTime.now())
 				.build();
-		testMapper.insertA1(testVo);
+		testMapper.insert(testVo);
 	}
 	
 	private void insertA2() {
@@ -224,7 +223,7 @@ public class TestTxService {
 				.password("A2")
 				.regdate(LocalDateTime.now())
 				.build();
-		testMapper.insertA2(testVo);
+		testMapper.insert(testVo);
 	}
 	
 }

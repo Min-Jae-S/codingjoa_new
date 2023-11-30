@@ -13,10 +13,6 @@ public interface TestMapper {
 	
 	int insert(TestVo testVo);
 	
-	int insertA1(TestVo testVo);
-	
-	int insertA2(TestVo testVo);
-	
 	int update(TestVo testVo);
 	
 	int remove();
