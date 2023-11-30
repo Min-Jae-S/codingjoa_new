@@ -6,7 +6,6 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -112,18 +111,23 @@ public class TestTxService {
 	
 	public void invoke() {
 		log.info("*** invoke start");
-		SqlSession sqlSession = sqlSessionFactory.openSession(false);
-		TestMapper testMapper = sqlSession.getMapper(TestMapper.class);
 		TestVo testVo = createTestVo();
 		log.info("\t > created testVo = {}", testVo.getId());
-
+		
+		// using SqlSessionFactory
+//		SqlSession sqlSession = sqlSessionFactory.openSession(false);
+//		TestMapper testMapper = sqlSession.getMapper(TestMapper.class);
+//		int result = testMapper.insert(testVo);
+//		sqlSession.close();
+		
+		// using SqlSessionTemplate
+//		int result = sqlSessionTemplate.insert("com.codingjoa.mapper.TestMapper.insert", testVo);
+//		log.info("\t > result = {}", result);
+		
+		// using only mapper
 		int result = testMapper.insert(testVo);
-		//int result = sqlSessionTemplate.insert("com.codingjoa.mapper.TestMapper.insert", testVo);
 		log.info("\t > result = {}", result);
 		
-		//insert1();
-		//insert2();
-		sqlSession.close();
 		log.info("*** invoke end");
 	}
 	
@@ -176,8 +180,8 @@ public class TestTxService {
 		}
 	}
 	
-	private void insert1() {
-		log.info("## insert1");
+	private void insertA1() {
+		log.info("## insertA1");
 		TestVo testVo = TestVo.builder()
 				.id(RandomStringUtils.randomAlphanumeric(8))
 				.name("a1")
@@ -187,8 +191,8 @@ public class TestTxService {
 		testMapper.insert(testVo);
 	}
 	
-	private void insert2() {
-		log.info("## insert2");
+	private void insertA2() {
+		log.info("## insertA2");
 		TestVo testVo = TestVo.builder()
 				.id(RandomStringUtils.randomAlphanumeric(8))
 				.name("a2")
