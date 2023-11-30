@@ -1,13 +1,11 @@
 package com.codingjoa.config;
 
-import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.annotation.MapperScan;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -20,39 +18,30 @@ import lombok.extern.slf4j.Slf4j;
 @Configuration
 public class MybatisConfig {
 	
-	@Autowired
-	@Qualifier("mainDataSource")
-	private DataSource dataSource;
-	
-	@PostConstruct
-	public void init() {
-		log.info("===============================================================");
-		log.info("@ MybatisConfig");
-		log.info("\t > dataSource = {}", this.dataSource);
-		log.info("===============================================================");
-	}
-	
 	/*
-	 * @@ SqlSessionFactoryBean / SqlSessionFatoryBuilder
+	 * @@ SqlSessionFactoryBean
 	 * 	- a Java component (Bean) responsible for creating the SqlSessionFactory
 	 * 	- SqlSessionFactory: controls the execution with the global information of MyBatis and creates SqlSession
 	 * 	- SqlSession: executes queries (created per operation unit by the factory)
 	 */
 	
 	@Bean 
-	public SqlSessionFactory sqlSessionFactory(ApplicationContext applicationContext) throws Exception {
-		SqlSessionFactoryBean factory = new SqlSessionFactoryBean();
-		factory.setDataSource(dataSource);
-		factory.setConfigLocation(applicationContext.getResource("classpath:/mybatis/mybatis-config.xml"));
-		factory.setMapperLocations(applicationContext.getResources("classpath:/com/codingjoa/mapper/**.xml"));
-		factory.afterPropertiesSet();
-		return factory.getObject();
+	public SqlSessionFactory sqlSessionFactory(@Qualifier("mainDataSource") DataSource dataSource, 
+			ApplicationContext applicationContext) throws Exception {
+		SqlSessionFactoryBean factoryBean = new SqlSessionFactoryBean();
+		factoryBean.setDataSource(dataSource);
+		factoryBean.setConfigLocation(applicationContext.getResource("classpath:/mybatis/mybatis-config.xml"));
+		factoryBean.setMapperLocations(applicationContext.getResources("classpath:/com/codingjoa/mapper/**.xml"));
+		factoryBean.afterPropertiesSet();
+		return factoryBean.getObject();
 	}
 	
 	/*
 	 * @@ When integrating MyBatis with Spring for enhanced productivity, the SqlSessionTemplate class is utilized.
 	 * 	- SqlSessionFactory is injected through the constructor
 	 * 	- SqlSessionTemplate supports declarative transaction management(@Transactional = AOP-based Transaction Control)
+	 * 	- manages the lifecycle of a session, including closing the session and handling commit or rollback operations. 
+	 * 	  Additionally, it handles the conversion of MyBatis exceptions to DataAccessException
 	 */
 	
 	@Bean

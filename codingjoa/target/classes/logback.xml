@@ -42,7 +42,7 @@
 	<logger name="jdbc.sqlonly" level="OFF" additivity="false">
 		<appender-ref ref="console2"/> 
 	</logger>
- 	<logger name="jdbc.connection" level="OFF"/>
+ 	<logger name="jdbc.connection" level="INFO"/>
   	<logger name="jdbc.sqltiming" level="OFF"/> 
   	<logger name="jdbc.resultsettable" level="OFF"/>
   	<logger name="jdbc.resultset" level="OFF"/>

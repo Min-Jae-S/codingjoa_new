@@ -3,12 +3,7 @@ package com.codingjoa.config;
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 
-import org.apache.ibatis.session.SqlSessionFactory;
-import org.mybatis.spring.SqlSessionFactoryBean;
-import org.mybatis.spring.SqlSessionTemplate;
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -23,9 +18,8 @@ import com.zaxxer.hikari.HikariDataSource;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@Configuration
-@MapperScan("com.codingjoa.mapper")
 @PropertySource("/WEB-INF/properties/datasource.properties")
+@Configuration
 public class DataSourceConfig {
 	
 	@Autowired
@@ -87,32 +81,6 @@ public class DataSourceConfig {
 	@Bean(name = "batchTransactionManager")
 	public PlatformTransactionManager batchTransactionManager() {
 		return new DataSourceTransactionManager(batchDataSource());
-	}
-	
-	@Bean
-	public SqlSessionFactory sqlSessionFactory(ApplicationContext applicationContext) throws Exception {
-		SqlSessionFactoryBean factoryBean = new SqlSessionFactoryBean();
-		factoryBean.setDataSource(mainDataSource());
-		factoryBean.setConfigLocation(applicationContext.getResource("classpath:/mybatis/mybatis-config.xml"));
-		factoryBean.setMapperLocations(applicationContext.getResources("classpath:/com/codingjoa/mapper/**.xml"));
-		return factoryBean.getObject();
-	}
-	
-	@Bean
-	public SqlSessionTemplate sqlSessionTemplate(SqlSessionFactory sqlSessionFactory) {
-		log.info("## sqlSessionTemplate");
-		SqlSessionTemplate template = new SqlSessionTemplate(sqlSessionFactory);
-		org.apache.ibatis.session.Configuration config = template.getConfiguration();
-		log.info("\t > mappers");
-		for (Class<?> mappers : config.getMapperRegistry().getMappers()) {
-			log.info("\t    - {}", mappers);
-		}
-		log.info("\t > details");
-		log.info("\t    - jdbcTypeForNull = {}", config.getJdbcTypeForNull());
-		log.info("\t    - mapUnderscoreToCamelCase = {}", config.isMapUnderscoreToCamelCase());
-		log.info("\t    - callSettersOnNulls = {}", config.isCallSettersOnNulls());
-		log.info("\t    - returnInstanceForEmptyRow = {}", config.isReturnInstanceForEmptyRow());
-		return template;
 	}
 	
 }

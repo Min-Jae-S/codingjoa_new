@@ -136,8 +136,7 @@ public class TestTxService {
 		
 		// using SqlSessionFactory
 //		SqlSession sqlSession = sqlSessionFactory.openSession(false);
-//		TestMapper testMapper = sqlSession.getMapper(TestMapper.class);
-//		int result = testMapper.insert(testVo);
+//		int result = sqlSession.getMapper(TestMapper.class).insert(testVo);
 //		sqlSession.close();
 		
 		// using SqlSessionTemplate

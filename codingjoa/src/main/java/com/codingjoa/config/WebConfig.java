@@ -28,6 +28,7 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 		log.info("## getRootConfigClasses");
 		return new Class[] { 
 				DataSourceConfig.class,
+				MybatisConfig.class,
 				SecurityConfig.class,
 				ModelMapperConfig.class,
 				EmailConfig.class, 
