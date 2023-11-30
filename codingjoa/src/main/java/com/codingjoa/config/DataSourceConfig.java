@@ -1,6 +1,5 @@
 package com.codingjoa.config;
 
-import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,22 +14,12 @@ import org.springframework.transaction.PlatformTransactionManager;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @PropertySource("/WEB-INF/properties/datasource.properties")
 @Configuration
 public class DataSourceConfig {
 	
 	@Autowired
 	private Environment env;
-	
-	@PostConstruct
-	public void init() {
-		log.info("===============================================================");
-		log.info("@ DataSourceConfig");
-		log.info("===============================================================");
-	}
 	
 	@Bean
 	public HikariConfig mainHikariConfig() {
@@ -40,6 +29,7 @@ public class DataSourceConfig {
 		hikariConfig.setUsername(env.getProperty("datasource.main.username"));
 		hikariConfig.setPassword(env.getProperty("datasource.main.password"));
 		hikariConfig.setPoolName("MainHikariPool");
+		hikariConfig.setAutoCommit(false);
 		return hikariConfig;
 	}
 	
@@ -54,7 +44,7 @@ public class DataSourceConfig {
 		return hikariConfig;
 	}
 	
-	@Bean(name = "mainDataSource")
+	@Bean(name = "mainDataSource", destroyMethod = "close")
 	public DataSource mainDataSource() {
 		return new HikariDataSource(mainHikariConfig());
 	}
@@ -62,7 +52,7 @@ public class DataSourceConfig {
 	// @EnableBatchProcessing: Error creating bean with name 'org.springframework.batch.core.configuration.annotation.SimpleBatchConfiguration'
 	// NoUniqueBeanDefinitionException: No qualifying bean of type 'javax.sql.DataSource' available: 
 	// expected single matching bean but found 2: mainDataSource,batchDataSource
-	@Bean(name = "batchDataSource")
+	@Bean(name = "batchDataSource", destroyMethod = "close")
 	public DataSource batchDataSource() {
 		return new HikariDataSource(batchHikariConfig());
 	}

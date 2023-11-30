@@ -142,15 +142,17 @@ public class TestTxService {
 		log.info("\t > created testVo = {}", testVo);
 		
 		// using SqlSessionFactory
-		SqlSession sqlSession = sqlSessionFactory.openSession(false);
-		int result = sqlSession.getMapper(TestMapper.class).insert(testVo);
-		sqlSession.close();
+//		SqlSession sqlSession = sqlSessionFactory.openSession(false);
+//		int result = sqlSession.getMapper(TestMapper.class).insert(testVo);
+//		sqlSession.close();
 		
 		// using SqlSessionTemplate
 //		int result = sqlSessionTemplate.insert("com.codingjoa.mapper.TestMapper.insert", testVo);
-//		log.info("\t > result = {}", result);
 		
 		// using injected mappers
+		int result = testMapper.insert(testVo);
+		log.info("\t > result = {}", result);
+		
 //		insertA1();
 //		insertA2();
 		

@@ -1,7 +1,5 @@
 package com.codingjoa.security.config;
 
-import javax.annotation.PostConstruct;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -19,9 +17,6 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @Configuration
 @EnableWebSecurity//(debug = true)
 @ComponentScan("com.codingjoa.security.service")
@@ -41,13 +36,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
 	private AuthenticationEntryPoint customAuthenticationEntryPoint;
-	
-	@PostConstruct
-	public void init() {
-		log.info("===============================================================");
-		log.info("@ SecurityConfig");
-		log.info("===============================================================");
-	}
 	
 	@Bean
 	public PasswordEncoder passwordEncoder() {
