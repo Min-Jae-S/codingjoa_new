@@ -159,9 +159,9 @@ public class TestTxController {
 	}
 
 	@ResponseBody
-	@GetMapping("/tx/insert-without-tx")
-	public ResponseEntity<Object> insertWithoutTx() {
-		log.info("## insertWithoutTx");
+	@GetMapping("/tx/insert-no-tx")
+	public ResponseEntity<Object> insertNoTx() {
+		log.info("## insertNoTx");
 		TestVo testVo = TestVo.builder()
 				.id(RandomStringUtils.randomAlphanumeric(8))
 				.name("withoutTx")
@@ -170,24 +170,24 @@ public class TestTxController {
 				.build();
 		log.info("\t > created testVo = {}", testVo);
 		
-		int result = testTxService.insertWithoutTx(testVo);
+		int result = testTxService.insertNoTx(testVo);
 		log.info("\t > result = {}", result);
 		return ResponseEntity.ok("success");
 	}
 
 	@ResponseBody
-	@GetMapping("/tx/insert-with-tx")
-	public ResponseEntity<Object> insertWithTx() {
-		log.info("## insertWithTx");
+	@GetMapping("/tx/insert-tx")
+	public ResponseEntity<Object> insertTx() {
+		log.info("## insertTx");
 		TestVo testVo = TestVo.builder()
 				.id(RandomStringUtils.randomAlphanumeric(8))
-				.name("withTx")
-				.password("wihtTx")
+				.name("insertTx")
+				.password("insertTx")
 				.regdate(LocalDateTime.now())
 				.build();
 		log.info("\t > created testVo = {}", testVo);
 		
-		int result = testTxService.insertWithTx(testVo);
+		int result = testTxService.insertTx(testVo);
 		log.info("\t > result = {}", result);
 		return ResponseEntity.ok("success");
 	}
@@ -225,18 +225,18 @@ public class TestTxController {
 	}
 
 	@ResponseBody
-	@GetMapping("/tx/invoke-without-tx")
-	public ResponseEntity<Object> invokeWithoutTx() {
-		log.info("## invokeWithoutTx");
-		testTxService.invokeWithoutTx(); 
+	@GetMapping("/tx/invoke-no-tx")
+	public ResponseEntity<Object> invokeNoTx() {
+		log.info("## invokeNoTx");
+		testTxService.invokeNoTx(); 
 		return ResponseEntity.ok("success");
 	}
 	
 	@ResponseBody
-	@GetMapping("/tx/invoke-with-tx")
-	public ResponseEntity<Object> invokeWithTx() {
-		log.info("## invokeWithTx");
-		testTxService.invokeWithTx(); 
+	@GetMapping("/tx/invoke-tx")
+	public ResponseEntity<Object> invokeTx() {
+		log.info("## invokeTx");
+		testTxService.invokeTx(); 
 		return ResponseEntity.ok("success");
 	}
 

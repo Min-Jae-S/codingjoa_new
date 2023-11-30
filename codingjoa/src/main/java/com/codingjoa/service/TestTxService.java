@@ -30,11 +30,16 @@ import lombok.extern.slf4j.Slf4j;
 public class TestTxService {
 	
 	/*
-	 * @@ DefaultTransactionDefinition implements TransactionDefinition
-	 * 	- Transaction Propagation
-	 * 	- Isolation Level
-	 * 	- Timeout
-	 * 	- Read Only
+	 * @@ Transaction properties
+	 * 	DefaultTransactionDefinition implements TransactionDefinition { ... }
+	 * 		- Transaction Propagation
+	 * 		- Isolation Level
+	 * 		- Timeout
+	 * 		- Read Only
+	 * 
+	 * @@ Programmatic transaction management
+	 * @@ Declarative transaction management
+	 * 
 	 */
 	
 	@Autowired
@@ -82,14 +87,14 @@ public class TestTxService {
 		return testMapper.selectAll();
 	}
 	
-	public int insertWithoutTx(TestVo testVo) {
-		log.info("## TestTxService.insertWithoutTx");
+	public int insertNoTx(TestVo testVo) {
+		log.info("## TestTxService.insertNoTx");
 		return testMapper.insert(testVo);
 	}
 
 	@Transactional
-	public int insertWithTx(TestVo testVo) {
-		log.info("## TestTxService.insertWithTx");
+	public int insertTx(TestVo testVo) {
+		log.info("## TestTxService.insertTx");
 		return testMapper.insert(testVo);
 	}
 	
@@ -123,7 +128,7 @@ public class TestTxService {
 	}
 
 	/*******************************************************************/
-	// invoke(), invokeWithoutTx(), invokeWithTx(), payment() 
+	// invoke(), invokeNoTx(), invokeTx(), payment() 
 	/*******************************************************************/
 	
 	@Resource(name = "mainTransactionManager")
@@ -159,25 +164,25 @@ public class TestTxService {
 		log.info("*** invoke end");
 	}
 
-	public void invokeWithoutTx() {
-		log.info("*** invoke start [without tx]");
+	public void invokeNoTx() {
+		log.info("*** invoke start [no tx]");
 		TestVo testVo = createTestVo();
 		log.info("\t > created testVo = {}", testVo);
 		
 		int result = testMapper.insert(testVo);
 		log.info("\t > result = {}", result);
-		log.info("*** invoke end   [without tx]");
+		log.info("*** invoke end   [no tx]");
 	}
 
 	@Transactional
-	public void invokeWithTx() {
-		log.info("*** invoke start [with tx]");
+	public void invokeTx() {
+		log.info("*** invoke start [tx]");
 		TestVo testVo = createTestVo();
 		log.info("\t > created testVo = {}", testVo);
 		
 		int result = testMapper.insert(testVo);
 		log.info("\t > result = {}", result);
-		log.info("*** invoke end   [with tx]");
+		log.info("*** invoke end   [tx]");
 	}
 	
 	private TestVo createTestVo() {

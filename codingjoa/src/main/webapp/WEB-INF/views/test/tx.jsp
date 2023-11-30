@@ -51,15 +51,20 @@
 	</div>
 	<div class="test d-flex justify-content-center mt-5">
 		<button class="btn btn-lg btn-primary mx-3" onclick="selectAll()">selectAll</button>
-		<button class="btn btn-lg btn-primary mx-3" onclick="insertWithoutTx()">without tx</button>
-		<button class="btn btn-lg btn-primary mx-3" onclick="insertWithTx()">with tx</button>
+		<button class="btn btn-lg btn-primary mx-3" onclick="insertNoTx()">insert no tx</button>
+		<button class="btn btn-lg btn-primary mx-3" onclick="insertTx()">insert tx</button>
+		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
+	</div>
+	<div class="test d-flex justify-content-center mt-5">
 		<button class="btn btn-lg btn-primary mx-3" onclick="update()">update</button>
 		<button class="btn btn-lg btn-primary mx-3" onclick="remove()">delete</button>
+		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
+		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
 	</div>
 	<div class="test d-flex justify-content-center mt-5">
 		<button class="btn btn-lg btn-secondary mx-3" onclick="invoke()">invoke</button>
-		<button class="btn btn-lg btn-secondary mx-3" onclick="invokeWithoutTx()">without tx</button>
-		<button class="btn btn-lg btn-secondary mx-3" onclick="invokeWithTx()">with tx</button>
+		<button class="btn btn-lg btn-secondary mx-3" onclick="invokeNoTx()">invoke no tx</button>
+		<button class="btn btn-lg btn-secondary mx-3" onclick="invokeTx()">invoke tx</button>
 		<button class="btn btn-lg btn-secondary mx-3 invisible" onclick="payment()">payment</button>
 	</div>
 </div>
@@ -215,11 +220,11 @@
 		});		
 	}
 	
-	function insertWithoutTx() {
-		console.log("## insertWithoutTx");
+	function insertNoTx() {
+		console.log("## insertNoTx");
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/tx/insert-without-tx",
+			url : "${contextPath}/test/tx/insert-no-tx",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);
@@ -231,11 +236,11 @@
 		});		
 	}
 
-	function insertWithTx() {
-		console.log("## insertWithTx");
+	function insertTx() {
+		console.log("## insertTx");
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/tx/insert-with-tx",
+			url : "${contextPath}/test/tx/insert-tx",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);
@@ -295,11 +300,11 @@
 		});		
 	}
 	
-	function invokeWithoutTx() {
-		console.log("## invokeWithoutTx");
+	function invokeNoTx() {
+		console.log("## invokeNoTx");
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/tx/invoke-without-tx",
+			url : "${contextPath}/test/tx/invoke-no-tx",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);
@@ -311,11 +316,11 @@
 		});		
 	}
 	
-	function invokeWithTx() {
-		console.log("## invokeWithTx");
+	function invokeTx() {
+		console.log("## invokeTx");
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/tx/invoke-with-tx",
+			url : "${contextPath}/test/tx/invoke-tx",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);
