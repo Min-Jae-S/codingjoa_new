@@ -14,8 +14,8 @@ import org.springframework.transaction.PlatformTransactionManager;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
-@PropertySource("/WEB-INF/properties/datasource.properties")
 @Configuration
+@PropertySource("/WEB-INF/properties/datasource.properties")
 public class DataSourceConfig {
 	
 	@Autowired

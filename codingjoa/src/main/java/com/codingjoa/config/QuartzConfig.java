@@ -26,10 +26,10 @@ import com.codingjoa.quartz.QuartzJob;
 
 import lombok.extern.slf4j.Slf4j;
 
-@SuppressWarnings("unused")
-@Slf4j
-@ComponentScan("com.codingjoa.quartz") // DI for SchedulerService, JobListener, TriggerListener
 @Configuration
+@ComponentScan("com.codingjoa.quartz") // DI for SchedulerService, JobListener, TriggerListener
+@Slf4j
+@SuppressWarnings("unused")
 public class QuartzConfig {
 	
 	/*	

@@ -11,11 +11,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
-@MapperScan("com.codingjoa.mapper")
 @Configuration
+@MapperScan("com.codingjoa.mapper")
 public class MybatisConfig {
 	
 	/*
@@ -55,20 +52,6 @@ public class MybatisConfig {
 	
 	@Bean
 	public SqlSessionTemplate sqlSessionTemplate(SqlSessionFactory sqlSessionFactory) {
-		log.info("## sqlSessionTemplate");
-		SqlSessionTemplate template = new SqlSessionTemplate(sqlSessionFactory);
-		org.apache.ibatis.session.Configuration config = template.getConfiguration();
-		
-		log.info("\t > mappers");
-		for (Class<?> mappers : config.getMapperRegistry().getMappers()) {
-			log.info("\t    - {}", mappers);
-		}
-		
-		log.info("\t > settings");
-		log.info("\t    - jdbcTypeForNull = {}", config.getJdbcTypeForNull());
-		log.info("\t    - mapUnderscoreToCamelCase = {}", config.isMapUnderscoreToCamelCase());
-		log.info("\t    - callSettersOnNulls = {}", config.isCallSettersOnNulls());
-		log.info("\t    - returnInstanceForEmptyRow = {}", config.isReturnInstanceForEmptyRow());
-		return template;
+		return new SqlSessionTemplate(sqlSessionFactory);
 	}
 }

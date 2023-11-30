@@ -17,9 +17,9 @@ import org.springframework.context.annotation.Configuration;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
-@RequiredArgsConstructor
 @Configuration
+@RequiredArgsConstructor
+@Slf4j
 public class BatchJobConfig {
 		
 	private final JobBuilderFactory jobBuilders;

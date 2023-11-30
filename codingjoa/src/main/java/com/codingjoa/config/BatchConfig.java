@@ -22,8 +22,8 @@ import org.springframework.transaction.PlatformTransactionManager;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @Configuration
+@Slf4j
 public class BatchConfig extends DefaultBatchConfigurer {
 	
 	/*
@@ -49,11 +49,11 @@ public class BatchConfig extends DefaultBatchConfigurer {
 	
 	@PostConstruct
 	public void init() {
-		log.info("===============================================================");
+		log.info("======================================================================================================");
 		log.info("@ BatchConfig");
 		log.info("\t > dataSource = {}", dataSource);
 		log.info("\t > transactionManager = {}", transactionManager);
-		log.info("===============================================================");
+		log.info("======================================================================================================");
 	}
 	
 	@Autowired
