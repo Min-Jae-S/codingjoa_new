@@ -15,7 +15,7 @@ import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 import com.codingjoa.entity.Category;
 import com.codingjoa.service.CategoryService;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /*
@@ -24,13 +24,13 @@ import lombok.extern.slf4j.Slf4j;
  */
 
 @Slf4j
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class TopMenuInterceptor implements HandlerInterceptor {
 
 	private static final String FORWARD_URL_PREFIX = "forward:";
 	private static final String REDIRECT_URL_PREFIX = "redirect:";
-	private ApplicationContext applicationContext;
-	private CategoryService categoryService;
+	private final ApplicationContext applicationContext;
+	private final CategoryService categoryService;
 	
 	/*
 	 * 매핑된 핸들러가 존재하지 않거나 매핑 정보를 찾을 수 없는 경우 preHandle 메서드는 호출되지 않는다. 
@@ -96,6 +96,7 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 			}
 		}
 		
+		log.info("## find top menu");
 		List<Category> parentCategoryList = categoryService.findParentCategoryList();
 		modelAndView.addObject("parentCategoryList", parentCategoryList);
 		log.info("## added top menu as model");

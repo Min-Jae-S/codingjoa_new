@@ -68,7 +68,7 @@ public class TestBatchController {
 	
 	@GetMapping("/batch")
 	public String main() {
-		log.info("## batch main");
+		log.info("## main");
 		return "test/batch";
 	}
 

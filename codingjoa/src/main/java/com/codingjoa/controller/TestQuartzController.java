@@ -38,7 +38,7 @@ public class TestQuartzController {
 	
 	@GetMapping("/quartz")
 	public String main() {
-		log.info("## quartz main");
+		log.info("## main");
 		return "test/quartz";
 	}
 

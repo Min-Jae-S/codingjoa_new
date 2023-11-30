@@ -95,9 +95,28 @@ public class TestTxService {
 		log.info("## TestTxService.remove");
 		return testMapper.remove();
 	}
+	
+	private void checkTransaction(TransactionStatus status) {
+		log.info("## checkTransaction");
+		log.info("\t > tx name = {}", TransactionSynchronizationManager.getCurrentTransactionName());
+		log.info("\t > tx status = {}", status);
+		if (status == null) {
+			log.info("\t > NO TX");
+		} else {
+			if (status.isCompleted()) {
+				log.info("\t > COMPLETED");
+			} else if (status.isRollbackOnly()) {
+				log.info("\t > ROLLBACK");
+			} else if (status.isNewTransaction()) {
+				log.info("\t > NEW TRANSACTION");
+			} else {
+				log.info("\t > UNKNOWN");
+			}
+		}
+	}
 
 	/*******************************************************************/
-	// invoke(), payment() 
+	// invoke(), invokeWithoutTx(), invokeWithTx(), payment() 
 	/*******************************************************************/
 	
 	@Resource(name = "mainTransactionManager")
@@ -109,10 +128,11 @@ public class TestTxService {
 	@Autowired
 	private SqlSessionTemplate sqlSessionTemplate;
 	
+	@Transactional
 	public void invoke() {
 		log.info("*** invoke start");
 		TestVo testVo = createTestVo();
-		log.info("\t > created testVo = {}", testVo.getId());
+		log.info("\t > created testVo = {}", testVo);
 		
 		// using SqlSessionFactory
 //		SqlSession sqlSession = sqlSessionFactory.openSession(false);
@@ -125,10 +145,34 @@ public class TestTxService {
 //		log.info("\t > result = {}", result);
 		
 		// using only mapper
-		int result = testMapper.insert(testVo);
-		log.info("\t > result = {}", result);
+//		int result = testMapper.insert(testVo);
+//		log.info("\t > result = {}", result);
+		
+		insertA1();
+		insertA2();
 		
 		log.info("*** invoke end");
+	}
+	
+	public void invokeWithoutTx() {
+		log.info("*** invoke start [without tx]");
+		TestVo testVo = createTestVo();
+		log.info("\t > created testVo = {}", testVo);
+		
+		int result = testMapper.insert(testVo);
+		log.info("\t > result = {}", result);
+		log.info("*** invoke end   [without tx]");
+	}
+
+	@Transactional
+	public void invokeWithTx() {
+		log.info("*** invoke start [with tx]");
+		TestVo testVo = createTestVo();
+		log.info("\t > created testVo = {}", testVo);
+		
+		int result = testMapper.insert(testVo);
+		log.info("\t > result = {}", result);
+		log.info("*** invoke end   [with tx]");
 	}
 	
 	private TestVo createTestVo() {
@@ -161,45 +205,26 @@ public class TestTxService {
         }
 	}
 	
-	private void checkTransaction(TransactionStatus status) {
-		log.info("## checkTransaction");
-		log.info("\t > tx name = {}", TransactionSynchronizationManager.getCurrentTransactionName());
-		log.info("\t > tx status = {}", status);
-		if (status == null) {
-			log.info("\t > NO TX");
-		} else {
-			if (status.isCompleted()) {
-				log.info("\t > COMPLETED");
-			} else if (status.isRollbackOnly()) {
-				log.info("\t > ROLLBACK");
-			} else if (status.isNewTransaction()) {
-				log.info("\t > NEW TRANSACTION");
-			} else {
-				log.info("\t > UNKNOWN");
-			}
-		}
-	}
-	
 	private void insertA1() {
 		log.info("## insertA1");
 		TestVo testVo = TestVo.builder()
 				.id(RandomStringUtils.randomAlphanumeric(8))
-				.name("a1")
-				.password("a1")
+				.name("A1")
+				.password("A1")
 				.regdate(LocalDateTime.now())
 				.build();
-		testMapper.insert(testVo);
+		testMapper.insertA1(testVo);
 	}
 	
 	private void insertA2() {
 		log.info("## insertA2");
 		TestVo testVo = TestVo.builder()
 				.id(RandomStringUtils.randomAlphanumeric(8))
-				.name("a2")
-				.password("a2")
+				.name("A2")
+				.password("A2")
 				.regdate(LocalDateTime.now())
 				.build();
-		testMapper.insert(testVo);
+		testMapper.insertA2(testVo);
 	}
 	
 }

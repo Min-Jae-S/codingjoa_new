@@ -40,7 +40,7 @@ public class TestSchedulerController {
 	
 	@GetMapping("/scheduler")
 	public String main() {
-		log.info("## scheduler main");
+		log.info("## main");
 		return "test/scheduler";
 	}
 	

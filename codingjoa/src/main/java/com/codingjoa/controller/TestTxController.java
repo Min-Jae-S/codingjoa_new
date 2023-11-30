@@ -53,7 +53,7 @@ public class TestTxController {
 	
 	@GetMapping("/tx")
 	public String main() {
-		log.info("## tx main");
+		log.info("## main");
 		return "test/tx";
 	}
 	
@@ -63,7 +63,7 @@ public class TestTxController {
 		log.info("## datasources");
 		Set<String> dataSources = 
 				BeanFactoryUtils.beansOfTypeIncludingAncestors(context, DataSource.class).keySet(); 
-		for(String dataSource : dataSources) {
+		for (String dataSource : dataSources) {
 			log.info("\t > {}", dataSource);
 		}
 		
@@ -76,11 +76,10 @@ public class TestTxController {
 		log.info("## managers");
 		Map<String, PlatformTransactionManager> map = 
 				BeanFactoryUtils.beansOfTypeIncludingAncestors(context, PlatformTransactionManager.class);
-		for(String key : map.keySet()) {
+		for (String key : map.keySet()) {
 			//log.info("\t > {} = {}", key, map.get(key));
 			log.info("\t > {}", key);
 		}
-		
 		return ResponseEntity.ok("success");
 	}
 	
@@ -90,7 +89,7 @@ public class TestTxController {
 		log.info("## factory");
 		Map<String, SqlSessionFactory> map = 
 				BeanFactoryUtils.beansOfTypeIncludingAncestors(context, SqlSessionFactory.class);
-		for(String key : map.keySet()) {
+		for (String key : map.keySet()) {
 			log.info("\t > {} = {}", key, map.get(key));
 		}
 		
@@ -103,10 +102,9 @@ public class TestTxController {
 		log.info("## template");
 		Map<String, SqlSessionTemplate> map = 
 				BeanFactoryUtils.beansOfTypeIncludingAncestors(context, SqlSessionTemplate.class);
-		for(String key : map.keySet()) {
+		for (String key : map.keySet()) {
 			log.info("\t > {} = {}", key, map.get(key));
 		}
-		
 		return ResponseEntity.ok("success");
 	}
 
@@ -156,7 +154,6 @@ public class TestTxController {
 		} else {
 			log.info("\t > no records");
 		}
-		
 		return ResponseEntity.ok(result);
 	}
 
@@ -170,11 +167,10 @@ public class TestTxController {
 				.password("1q2w3e4r")
 				.regdate(LocalDateTime.now())
 				.build();
-		log.info("\t > created testVo = {}", testVo.getId());
+		log.info("\t > created testVo = {}", testVo);
 		
 		int result = testTxService.insert(testVo);
 		log.info("\t > result = {}", result);
-		
 		return ResponseEntity.ok("success");
 	}
 
@@ -186,11 +182,10 @@ public class TestTxController {
 				.name("modified")
 				.password("modified")
 				.build();
-		log.info("\t > created testVo = {}", testVo.getId());
+		log.info("\t > created testVo = {}", testVo);
 		
 		int result = testTxService.update(testVo);
 		log.info("\t > result = {}", result);
-		
 		return ResponseEntity.ok("success");
 	}
 
@@ -200,7 +195,6 @@ public class TestTxController {
 		log.info("## remove");
 		int result = testTxService.remove();
 		log.info("\t > result = {}", result);
-		
 		return ResponseEntity.ok("success");
 	}
 	
@@ -209,6 +203,22 @@ public class TestTxController {
 	public ResponseEntity<Object> invoke() {
 		log.info("## invoke");
 		testTxService.invoke(); 
+		return ResponseEntity.ok("success");
+	}
+
+	@ResponseBody
+	@GetMapping("/tx/invoke-without-tx")
+	public ResponseEntity<Object> invokeWithoutTx() {
+		log.info("## invokeWithoutTx");
+		testTxService.invokeWithoutTx(); 
+		return ResponseEntity.ok("success");
+	}
+	
+	@ResponseBody
+	@GetMapping("/tx/invoke-with-tx")
+	public ResponseEntity<Object> invokeWithTx() {
+		log.info("## invokeWithTx");
+		testTxService.invokeWithTx(); 
 		return ResponseEntity.ok("success");
 	}
 
