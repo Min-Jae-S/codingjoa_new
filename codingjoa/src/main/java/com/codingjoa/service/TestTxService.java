@@ -6,6 +6,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,8 +82,14 @@ public class TestTxService {
 		return testMapper.selectAll();
 	}
 	
-	public int insert(TestVo testVo) {
-		log.info("## TestTxService.insert");
+	public int insertWithoutTx(TestVo testVo) {
+		log.info("## TestTxService.insertWithoutTx");
+		return testMapper.insert(testVo);
+	}
+
+	@Transactional
+	public int insertWithTx(TestVo testVo) {
+		log.info("## TestTxService.insertWithTx");
 		return testMapper.insert(testVo);
 	}
 	
@@ -128,27 +135,25 @@ public class TestTxService {
 	@Autowired
 	private SqlSessionTemplate sqlSessionTemplate;
 	
-	@Transactional
+	//@Transactional
 	public void invoke() {
 		log.info("*** invoke start");
 		TestVo testVo = createTestVo();
 		log.info("\t > created testVo = {}", testVo);
 		
 		// using SqlSessionFactory
-//		SqlSession sqlSession = sqlSessionFactory.openSession(false);
-//		int result = sqlSession.getMapper(TestMapper.class).insert(testVo);
-//		sqlSession.close();
+		SqlSession sqlSession = sqlSessionFactory.openSession(false);
+		int result = sqlSession.getMapper(TestMapper.class).insert(testVo);
+		sqlSession.close();
 		
 		// using SqlSessionTemplate
 //		int result = sqlSessionTemplate.insert("com.codingjoa.mapper.TestMapper.insert", testVo);
 //		log.info("\t > result = {}", result);
 		
-		// using only mapper
-//		int result = testMapper.insert(testVo);
-//		log.info("\t > result = {}", result);
+		// using injected mappers
+//		insertA1();
+//		insertA2();
 		
-		insertA1();
-		insertA2();
 		log.info("*** invoke end");
 	}
 

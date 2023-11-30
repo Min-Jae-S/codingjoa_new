@@ -42,6 +42,15 @@ public class MybatisConfig {
 	 * 	- SqlSessionTemplate supports declarative transaction management(@Transactional = AOP-based Transaction Control)
 	 * 	- manages the lifecycle of a session, including closing the session and handling commit or rollback operations. 
 	 * 	  Additionally, it handles the conversion of MyBatis exceptions to DataAccessException
+	 * 
+	 * @@ https://barunmo.blogspot.com/2013/06/mybatis.html
+	 * 	The SqlSessionTemplate object, in contrast to the SqlSession object, 
+	 * 	automatically manages resource release concerns by internally invoking the close() method through interceptors. 
+	 * 	When developers use the SqlSessionTemplate object, they no longer need to be concerned about resource release problems in MyBatis. 
+	 * 	However, MyBatis-Spring introduces a different challenge related to database transactions. 
+	 * 	With SqlSessionTemplate, developers cannot use the commit() and rollback() methods programmatically. 
+	 * 	In other words, the use of SqlSessionTemplate restricts the programmatic management of transactions.
+	 * 
 	 */
 	
 	@Bean
@@ -49,11 +58,13 @@ public class MybatisConfig {
 		log.info("## sqlSessionTemplate");
 		SqlSessionTemplate template = new SqlSessionTemplate(sqlSessionFactory);
 		org.apache.ibatis.session.Configuration config = template.getConfiguration();
+		
 		log.info("\t > mappers");
 		for (Class<?> mappers : config.getMapperRegistry().getMappers()) {
 			log.info("\t    - {}", mappers);
 		}
-		log.info("\t > details");
+		
+		log.info("\t > settings");
 		log.info("\t    - jdbcTypeForNull = {}", config.getJdbcTypeForNull());
 		log.info("\t    - mapUnderscoreToCamelCase = {}", config.isMapUnderscoreToCamelCase());
 		log.info("\t    - callSettersOnNulls = {}", config.isCallSettersOnNulls());

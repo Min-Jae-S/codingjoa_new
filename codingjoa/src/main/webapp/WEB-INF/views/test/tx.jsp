@@ -51,9 +51,10 @@
 	</div>
 	<div class="test d-flex justify-content-center mt-5">
 		<button class="btn btn-lg btn-primary mx-3" onclick="selectAll()">selectAll</button>
-		<button class="btn btn-lg btn-primary mx-3" onclick="insert()">insert</button>
+		<button class="btn btn-lg btn-primary mx-3" onclick="insertWithoutTx()">without tx</button>
+		<button class="btn btn-lg btn-primary mx-3" onclick="insertWithTx()">with tx</button>
 		<button class="btn btn-lg btn-primary mx-3" onclick="update()">update</button>
-		<button class="btn btn-lg btn-primary mx-3" onclick="remove()">remove</button>
+		<button class="btn btn-lg btn-primary mx-3" onclick="remove()">delete</button>
 	</div>
 	<div class="test d-flex justify-content-center mt-5">
 		<button class="btn btn-lg btn-secondary mx-3" onclick="invoke()">invoke</button>
@@ -214,11 +215,27 @@
 		});		
 	}
 	
-	function insert() {
-		console.log("## insert");
+	function insertWithoutTx() {
+		console.log("## insertWithoutTx");
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/tx/insert",
+			url : "${contextPath}/test/tx/insert-without-tx",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log("> result = %s", result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(jqXHR);
+			}
+		});		
+	}
+
+	function insertWithTx() {
+		console.log("## insertWithTx");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/tx/insert-with-tx",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);

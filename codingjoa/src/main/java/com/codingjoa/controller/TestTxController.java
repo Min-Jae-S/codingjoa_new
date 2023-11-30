@@ -66,7 +66,6 @@ public class TestTxController {
 		for (String dataSource : dataSources) {
 			log.info("\t > {}", dataSource);
 		}
-		
 		return ResponseEntity.ok("success");
 	}
 	
@@ -139,6 +138,8 @@ public class TestTxController {
 	@GetMapping("/tx/test4")
 	public ResponseEntity<Object> test4() {
 		log.info("## test4");
+		// doSomething3(@Transactional + mainTransactionManager)
+		testTxService.doSomething3();
 		// doSomething4(@Transactional + subTransactionManager)
 		testTxService.doSomething4(); 
 		return ResponseEntity.ok("success");
@@ -158,18 +159,35 @@ public class TestTxController {
 	}
 
 	@ResponseBody
-	@GetMapping("/tx/insert")
-	public ResponseEntity<Object> insert() {
-		log.info("## insert");
+	@GetMapping("/tx/insert-without-tx")
+	public ResponseEntity<Object> insertWithoutTx() {
+		log.info("## insertWithoutTx");
 		TestVo testVo = TestVo.builder()
 				.id(RandomStringUtils.randomAlphanumeric(8))
-				.name("minjae")
-				.password("1q2w3e4r")
+				.name("withoutTx")
+				.password("withoutTx")
 				.regdate(LocalDateTime.now())
 				.build();
 		log.info("\t > created testVo = {}", testVo);
 		
-		int result = testTxService.insert(testVo);
+		int result = testTxService.insertWithoutTx(testVo);
+		log.info("\t > result = {}", result);
+		return ResponseEntity.ok("success");
+	}
+
+	@ResponseBody
+	@GetMapping("/tx/insert-with-tx")
+	public ResponseEntity<Object> insertWithTx() {
+		log.info("## insertWithTx");
+		TestVo testVo = TestVo.builder()
+				.id(RandomStringUtils.randomAlphanumeric(8))
+				.name("withTx")
+				.password("wihtTx")
+				.regdate(LocalDateTime.now())
+				.build();
+		log.info("\t > created testVo = {}", testVo);
+		
+		int result = testTxService.insertWithTx(testVo);
 		log.info("\t > result = {}", result);
 		return ResponseEntity.ok("success");
 	}

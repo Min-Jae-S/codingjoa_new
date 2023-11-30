@@ -278,15 +278,16 @@ public class ServletConfig implements WebMvcConfigurer {
 		 * Therefore, by using setProxyTargetClass(true), you can overcome the limitations of
 		 * interface-based proxy generation and ensure that method-level validation works even 
 		 * in scenarios where interface proxies are not feasible.
+		 * 
 		 */
 		
 		return processor;
 	}
 
 	/*
-	 * https://docs.jboss.org/hibernate/validator/5.1/reference/en-US/html/chapter-message-interpolation.html#section-resource-bundle-locator
-	 * https://stackoverflow.com/questions/11225023/messageinterpolator-in-spring
-	 * https://stackoverflow.com/questions/3587317/autowiring-a-service-into-a-validator 
+	 * @@ https://docs.jboss.org/hibernate/validator/5.1/reference/en-US/html/chapter-message-interpolation.html#section-resource-bundle-locator
+	 * @@ https://stackoverflow.com/questions/11225023/messageinterpolator-in-spring
+	 * @@ https://stackoverflow.com/questions/3587317/autowiring-a-service-into-a-validator 
 	 * 
 	 * In Spring, you need to obtain ValidatorFactory (or Validatoritself) via LocalValidatorFactoryBean 
 	 * instead of Validation.buildDefaultValidatorFactory(), as described in the reference.
