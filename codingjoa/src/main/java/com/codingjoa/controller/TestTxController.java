@@ -155,6 +155,7 @@ public class TestTxController {
 		} else {
 			log.info("\t > no records");
 		}
+		
 		return ResponseEntity.ok(result);
 	}
 
@@ -172,6 +173,7 @@ public class TestTxController {
 		
 		int result = testTxService.insertNoTx(testVo);
 		log.info("\t > result = {}", result);
+		
 		return ResponseEntity.ok("success");
 	}
 
@@ -189,6 +191,7 @@ public class TestTxController {
 		
 		int result = testTxService.insertTx(testVo);
 		log.info("\t > result = {}", result);
+		
 		return ResponseEntity.ok("success");
 	}
 
@@ -204,6 +207,7 @@ public class TestTxController {
 		
 		int result = testTxService.update(testVo);
 		log.info("\t > result = {}", result);
+		
 		return ResponseEntity.ok("success");
 	}
 
