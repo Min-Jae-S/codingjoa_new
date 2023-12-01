@@ -146,15 +146,15 @@ public class TestTxService {
 		TestVo testVo = createTestVo();
 		log.info("\t > created testVo = {}", testVo);
 		
-		// using SqlSessionFactory
+		// using SqlSessionFactory 	// not auto commit
 //		SqlSession sqlSession = sqlSessionFactory.openSession(false);
 //		int result = sqlSession.getMapper(TestMapper.class).insert(testVo);
 //		sqlSession.close();
 		
-		// using SqlSessionTemplate
+		// using SqlSessionTemplate // auto commit by interceptor
 //		int result = sqlSessionTemplate.insert("com.codingjoa.mapper.TestMapper.insert", testVo);
 		
-		// using injected mappers
+		// using injected mappers 	// auto commit by interceptor
 		int result = testMapper.insert(testVo);
 		log.info("\t > result = {}", result);
 		
