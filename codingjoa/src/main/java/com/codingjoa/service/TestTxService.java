@@ -146,7 +146,8 @@ public class TestTxService {
 		TestVo testVo = createTestVo();
 		log.info("\t > created testVo = {}", testVo);
 		
-		// using SqlSessionFactory 	// not auto commit
+		// using SqlSessionFactory  
+		// DataSourceConfig --> hikariConfig.setAutoCommit(false)
 		SqlSession sqlSession = sqlSessionFactory.openSession(false);
 		int result = sqlSession.getMapper(TestMapper.class).insert(testVo);
 		sqlSession.close();
@@ -156,11 +157,10 @@ public class TestTxService {
 		
 		// using injected mappers 	// auto commit by interceptor
 //		int result = testMapper.insert(testVo);
-//		log.info("\t > result = {}", result);
 		
 //		insertA1();
 //		insertA2();
-		
+		log.info("\t > result = {}", result);
 		log.info("*** invoke end");
 	}
 

@@ -91,7 +91,6 @@ public class TestTxController {
 		for (String key : map.keySet()) {
 			log.info("\t > {} = {}", key, map.get(key));
 		}
-		
 		return ResponseEntity.ok("success");
 	}
 
@@ -109,10 +108,9 @@ public class TestTxController {
 
 	@ResponseBody
 	@GetMapping("/tx/test1")
-	public ResponseEntity<Object> test1() {
+	public ResponseEntity<Object> test1() { 
 		log.info("## test1");
-		// doSomething1(NO @Transactional) -> doSomething3(@Transactional)
-		testTxService.doSomething1();
+		testTxService.doSomething1(); // doSomething1(NO @Transactional) -> doSomething3(@Transactional)
 		return ResponseEntity.ok("success");
 	}
 
@@ -120,8 +118,7 @@ public class TestTxController {
 	@GetMapping("/tx/test2")
 	public ResponseEntity<Object> test2() {
 		log.info("## test2");
-		// doSomething2(@Transactional) -> doSomething3(@Transactional)
-		testTxService.doSomething2();
+		testTxService.doSomething2(); // doSomething2(@Transactional) -> doSomething3(@Transactional)
 		return ResponseEntity.ok("success");
 	}
 
@@ -129,8 +126,7 @@ public class TestTxController {
 	@GetMapping("/tx/test3")
 	public ResponseEntity<Object> test3() {
 		log.info("## test3");
-		// doSomething3(@Transactional)
-		testTxService.doSomething3(); 
+		testTxService.doSomething3(); // doSomething3(@Transactional)
 		return ResponseEntity.ok("success");
 	}
 	
@@ -138,10 +134,8 @@ public class TestTxController {
 	@GetMapping("/tx/test4")
 	public ResponseEntity<Object> test4() {
 		log.info("## test4");
-		// doSomething3(@Transactional + mainTransactionManager)
-		testTxService.doSomething3();
-		// doSomething4(@Transactional + subTransactionManager)
-		testTxService.doSomething4(); 
+		testTxService.doSomething3(); // doSomething3(@Transactional + mainTransactionManager)
+		testTxService.doSomething4(); // doSomething4(@Transactional + subTransactionManager)
 		return ResponseEntity.ok("success");
 	}
 
@@ -155,7 +149,6 @@ public class TestTxController {
 		} else {
 			log.info("\t > no records");
 		}
-		
 		return ResponseEntity.ok(result);
 	}
 
