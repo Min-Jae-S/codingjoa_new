@@ -17,6 +17,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.support.TransactionSynchronization;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -50,6 +52,9 @@ public class TestTxController {
 
 	@Resource(name = "subTransactionManager")
 	private PlatformTransactionManager subTransactionManager;
+	
+	@Autowired(required = false)
+	private TransactionSynchronizationManager transactionSyncManager;
 	
 	@GetMapping("/tx")
 	public String main() {
@@ -102,6 +107,34 @@ public class TestTxController {
 				BeanFactoryUtils.beansOfTypeIncludingAncestors(context, SqlSessionTemplate.class);
 		for (String key : map.keySet()) {
 			log.info("\t > {} = {}", key, map.get(key));
+		}
+		return ResponseEntity.ok("success");
+	}
+
+	@ResponseBody
+	@GetMapping("/tx/sync-manager")
+	public ResponseEntity<Object> syncManager() {
+		log.info("## syncManager");
+		log.info("\t > autowired TransactionSynchronizationManager = {}", transactionSyncManager);
+		Map<String, TransactionSynchronization> map1 = 
+				BeanFactoryUtils.beansOfTypeIncludingAncestors(context, TransactionSynchronization.class);
+		if (map1.isEmpty()) {
+			log.info("\t > no TransactionSynchronization");
+		} else {
+			for (String key : map1.keySet()) {
+				log.info("\t > {} = {}", key, map1.get(key));
+			}
+		}
+		
+		Map<String, TransactionSynchronizationManager> map2 = 
+				BeanFactoryUtils.beansOfTypeIncludingAncestors(context, TransactionSynchronizationManager.class);
+		if (map2.isEmpty()) {
+			log.info("\t > no TransactionSynchronizationManager");
+		} else {
+			log.info("==========================================================================================");
+			for (String key : map2.keySet()) {
+				log.info("\t > {} = {}", key, map2.get(key));
+			}
 		}
 		return ResponseEntity.ok("success");
 	}

@@ -51,19 +51,21 @@ public class TestTxService {
 	private TestMapper testMapper;
 	
 	public void doSomething1() {
-		log.info("## TestTxService.doSomething1");
+		log.info("## doSomething1 (NO @Transactional)");
+		log.info("\t > calling doSomething3");
 		doSomething3();
 	}
 	
 	@Transactional
 	public void doSomething2() {
-		log.info("## TestTxService.doSomething2");
+		log.info("## doSomething2 (@Transactional)");
+		log.info("\t > calling doSomething3");
 		doSomething3();
 	}
 
 	@Transactional
 	public void doSomething3() {
-		log.info("## TestTxService.doSomething3");
+		log.info("## doSomething3 (@Transactional)");
 		TransactionStatus status = null;
 		try {
 			status = TransactionAspectSupport.currentTransactionStatus();
@@ -76,7 +78,7 @@ public class TestTxService {
 
 	@Transactional(value = "subTransactionManager")
 	public void doSomething4() {
-		log.info("## TestTxService.doSomething4");
+		log.info("## doSomething4 (@Transactional)");
 		TransactionStatus status = null;
 		try {
 			status = TransactionAspectSupport.currentTransactionStatus();
@@ -120,8 +122,6 @@ public class TestTxService {
 	
 	private void checkTransaction(TransactionStatus status) {
 		log.info("## checkTransaction");
-		log.info("\t > tx name = {}", TransactionSynchronizationManager.getCurrentTransactionName());
-		log.info("\t > tx status = {}", status);
 		if (status == null) {
 			log.info("\t > NO TX");
 		} else {
