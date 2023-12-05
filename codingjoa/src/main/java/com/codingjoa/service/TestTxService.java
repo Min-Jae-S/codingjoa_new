@@ -73,6 +73,7 @@ public class TestTxService {
 			log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
 		} finally {
 			checkTransaction(status);
+			checkTransactionBySyncManager();
 		}
 	}
 
@@ -86,6 +87,7 @@ public class TestTxService {
 			log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
 		} finally {
 			checkTransaction(status);
+			checkTransactionBySyncManager();
 		}
 	}
 	
@@ -135,6 +137,13 @@ public class TestTxService {
 				log.info("\t > UNKNOWN");
 			}
 		}
+	}
+	
+	private void checkTransactionBySyncManager() {
+		log.info("## checkTransactionBySyncManager");
+		log.info("\t > current trasaction name = {}", TransactionSynchronizationManager.getCurrentTransactionName());
+		log.info("\t > isActualTransactionActive = {}", TransactionSynchronizationManager.isActualTransactionActive());
+		log.info("\t > isSynchronizationActive = {}", TransactionSynchronizationManager.isSynchronizationActive());
 	}
 
 	/*******************************************************************/

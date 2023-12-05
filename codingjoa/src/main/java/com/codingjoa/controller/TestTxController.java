@@ -67,12 +67,12 @@ public class TestTxController {
 		log.info("## datasources");
 		Map<String, DataSource> map = 
 				BeanFactoryUtils.beansOfTypeIncludingAncestors(context, DataSource.class);
-		if (map.isEmpty()) {
-			log.info("\t > no DataSource");
-		} else {
+		if (!map.isEmpty()) {
 			for (String dataSource : map.keySet()) {
 				log.info("\t > {}", dataSource);
 			}
+		} else {
+			log.info("\t > no DataSource");
 		}
 		return ResponseEntity.ok("success");
 	}
@@ -83,13 +83,13 @@ public class TestTxController {
 		log.info("## managers");
 		Map<String, PlatformTransactionManager> map = 
 				BeanFactoryUtils.beansOfTypeIncludingAncestors(context, PlatformTransactionManager.class);
-		if (map.isEmpty()) {
-			log.info("\t > no PlatformTransactionManager");
-		} else {
+		if (!map.isEmpty()) {
 			for (String key : map.keySet()) {
 				//log.info("\t > {} = {}", key, map.get(key));
 				log.info("\t > {}", key);
 			}
+		} else {
+			log.info("\t > no PlatformTransactionManager");
 		}
 		return ResponseEntity.ok("success");
 	}
@@ -100,12 +100,12 @@ public class TestTxController {
 		log.info("## factory");
 		Map<String, SqlSessionFactory> map = 
 				BeanFactoryUtils.beansOfTypeIncludingAncestors(context, SqlSessionFactory.class);
-		if (map.isEmpty()) {
-			log.info("\t > no SqlSessionFactory");
-		} else {
+		if (!map.isEmpty()) {
 			for (String key : map.keySet()) {
 				log.info("\t > {} = {}", key, map.get(key));
 			}
+		} else {
+			log.info("\t > no SqlSessionFactory");
 		}
 		return ResponseEntity.ok("success");
 	}
@@ -116,12 +116,12 @@ public class TestTxController {
 		log.info("## template");
 		Map<String, SqlSessionTemplate> map = 
 				BeanFactoryUtils.beansOfTypeIncludingAncestors(context, SqlSessionTemplate.class);
-		if (map.isEmpty()) {
-			log.info("\t > no SqlSessionTemplate");
-		} else {
+		if (!map.isEmpty()) {
 			for (String key : map.keySet()) {
 				log.info("\t > {} = {}", key, map.get(key));
 			}
+		} else {
+			log.info("\t > no SqlSessionTemplate");
 		}
 		return ResponseEntity.ok("success");
 	}
@@ -133,23 +133,23 @@ public class TestTxController {
 		log.info("\t > autowired TransactionSynchronizationManager = {}", transactionSyncManager);
 		Map<String, TransactionSynchronization> map1 = 
 				BeanFactoryUtils.beansOfTypeIncludingAncestors(context, TransactionSynchronization.class);
-		if (map1.isEmpty()) {
-			log.info("\t > no TransactionSynchronization");
-		} else {
+		if (!map1.isEmpty()) {
 			for (String key : map1.keySet()) {
 				log.info("\t > {} = {}", key, map1.get(key));
 			}
+		} else {
+			log.info("\t > no TransactionSynchronization");
 		}
 		
 		Map<String, TransactionSynchronizationManager> map2 = 
 				BeanFactoryUtils.beansOfTypeIncludingAncestors(context, TransactionSynchronizationManager.class);
-		if (map2.isEmpty()) {
-			log.info("\t > no TransactionSynchronizationManager");
-		} else {
+		if (!map2.isEmpty()) {
 			log.info("==========================================================================================");
 			for (String key : map2.keySet()) {
 				log.info("\t > {} = {}", key, map2.get(key));
 			}
+		} else {
+			log.info("\t > no TransactionSynchronizationManager");
 		}
 		return ResponseEntity.ok("success");
 	}

@@ -43,10 +43,10 @@
 	<p>tx.jsp</p>
 	<div class="test d-flex justify-content-center mt-5">
 		<button class="btn btn-warning mx-3" onclick="datasources()">datasources</button>
-		<button class="btn btn-warning mx-3" onclick="managers()">managers</button>
+		<button class="btn btn-warning mx-3" onclick="managers()">tx-managers</button>
 		<button class="btn btn-warning mx-3" onclick="factory()">factory</button>
 		<button class="btn btn-warning mx-3" onclick="template()">template</button>
-		<button class="btn btn-warning mx-3" onclick="syncManager()">syncManager</button>
+		<button class="btn btn-warning mx-3" onclick="syncManager()">sync-manager</button>
 	</div>
 	<div class="test d-flex justify-content-center mt-5">
 		<button class="btn btn-outline-primary mx-3" onclick="test1()">doSomething1</button>
