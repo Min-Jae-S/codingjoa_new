@@ -157,10 +157,10 @@ public class TestTxService {
 		int result = sqlSession.getMapper(TestMapper.class).insert(testVo);
 		sqlSession.close();
 		
-		// using SqlSessionTemplate // auto commit by interceptor
+		// using SqlSessionTemplate // auto commit by tx interceptor
 //		int result = sqlSessionTemplate.insert("com.codingjoa.mapper.TestMapper.insert", testVo);
 		
-		// using injected mappers 	// auto commit by interceptor
+		// using injected mappers 	// auto commit by tx interceptor
 //		int result = testMapper.insert(testVo);
 		
 //		insertA1();

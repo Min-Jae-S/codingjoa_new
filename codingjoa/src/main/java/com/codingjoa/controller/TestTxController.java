@@ -226,7 +226,7 @@ public class TestTxController {
 	@GetMapping("/tx/invoke")
 	public ResponseEntity<Object> invoke() {
 		log.info("## invoke");
-		testTxService.invoke(); 
+		testTxService.invoke();
 		return ResponseEntity.ok("success");
 	}
 
