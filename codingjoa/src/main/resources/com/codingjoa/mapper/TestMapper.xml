@@ -59,5 +59,8 @@
 		WHERE 
 			idx IN ( SELECT MAX(idx) FROM test1 )
 	</delete>
-	
+
+	<delete id="removeAll">
+		DELETE FROM test1 
+	</delete>
 </mapper>

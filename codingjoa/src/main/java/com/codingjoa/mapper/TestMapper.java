@@ -16,4 +16,6 @@ public interface TestMapper {
 	int update(TestVo testVo);
 	
 	int remove();
+	
+	int removeAll();
 }

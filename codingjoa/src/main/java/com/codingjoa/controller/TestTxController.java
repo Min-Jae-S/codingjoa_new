@@ -183,7 +183,7 @@ public class TestTxController {
 		log.info("\t > created testVo = {}", testVo);
 		
 		int result = testTxService.insertTx(testVo);
-		log.info("\t > result = {}", result);
+		log.info("\t > inserted rows = {}", result);
 		
 		return ResponseEntity.ok("success");
 	}
@@ -199,7 +199,7 @@ public class TestTxController {
 		log.info("\t > created testVo = {}", testVo);
 		
 		int result = testTxService.update(testVo);
-		log.info("\t > result = {}", result);
+		log.info("\t > updated rows = {}", result);
 		
 		return ResponseEntity.ok("success");
 	}
@@ -209,7 +209,16 @@ public class TestTxController {
 	public ResponseEntity<Object> remove() {
 		log.info("## remove");
 		int result = testTxService.remove();
-		log.info("\t > result = {}", result);
+		log.info("\t > removed rows = {}", result);
+		return ResponseEntity.ok("success");
+	}
+	
+	@ResponseBody
+	@GetMapping("/tx/remove-all")
+	public ResponseEntity<Object> removeAll() {
+		log.info("## removeAll");
+		int result = testTxService.removeAll();
+		log.info("\t > removed rows = {}", result);
 		return ResponseEntity.ok("success");
 	}
 	

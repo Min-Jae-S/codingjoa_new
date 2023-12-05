@@ -58,7 +58,7 @@
 	<div class="test d-flex justify-content-center mt-5">
 		<button class="btn btn-lg btn-primary mx-3" onclick="update()">update</button>
 		<button class="btn btn-lg btn-primary mx-3" onclick="remove()">delete</button>
-		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
+		<button class="btn btn-lg btn-primary mx-3" onclick="removeAll()">deleteAll</button>
 		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
 	</div>
 	<div class="test d-flex justify-content-center mt-5">
@@ -273,6 +273,22 @@
 		$.ajax({
 			type : "GET",
 			url : "${contextPath}/test/tx/remove",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log("> result = %s", result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(jqXHR);
+			}
+		});		
+	}
+	
+	function removeAll() {
+		console.log("## removeAll");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/tx/remove-all",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);

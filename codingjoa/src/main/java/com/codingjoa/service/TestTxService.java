@@ -108,6 +108,11 @@ public class TestTxService {
 		return testMapper.remove();
 	}
 	
+	public int removeAll() {
+		log.info("## TestTxService.removeAll");
+		return testMapper.removeAll();
+	}
+	
 	private void checkTransaction(TransactionStatus status) {
 		log.info("## checkTransaction");
 		log.info("\t > tx name = {}", TransactionSynchronizationManager.getCurrentTransactionName());
