@@ -1,5 +1,8 @@
 package com.codingjoa.service;
 
+import static org.mybatis.spring.SqlSessionUtils.isSqlSessionTransactional;
+
+import java.lang.reflect.Method;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -149,24 +152,39 @@ public class TestTxService {
 	public void invokeSqlSession() throws SQLException {
 		SqlSession sqlSession = sqlSessionFactory.openSession(false);
 		log.info("\t > sqlSession = {}", sqlSession);
-		int result = sqlSession.getMapper(TestMapper.class).insert(createTestVo());
 		log.info("\t > auto commit = {}", sqlSession.getConnection().getAutoCommit());
+		int result = sqlSession.getMapper(TestMapper.class).insert(createTestVo());
+		log.info("\t > inserted rows = {}", result);
 		sqlSession.close();
-		log.info("\t > result = {}", result);
 	}
+	
+	/*
+	 * SqlSessionInterceptor
+	 * 	@Override 
+	 * 	public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+	 * 		...
+	 * 		
+	 * 		if (!isSqlSessionTransactional(sqlSession, SqlSessionTemplate.this.sqlSessionFactory)) {
+	 * 			// force commit even on non-dirty sessions because some databases require 
+	 * 			// a commit/rollback before calling close()
+	 * 			sqlSession.commit(true);
+	 * 		}
+	 * 	}
+	 * 
+	 */
 	
 	public void invokeSqlSessionTemplate() {
 		int result = sqlSessionTemplate.insert("com.codingjoa.mapper.TestMapper.insert", createTestVo());
 		log.info("\t > sqlSessionTemplate = {}", sqlSessionTemplate);
-		log.info("\t > result = {}", result);
+		log.info("\t > inserted rows = {}", result);
 	}
 	
 	public void invokeMapper() {
 		int result = testMapper.insert(createTestVo());
-		log.info("\t > result = {}", result);
+		log.info("\t > inserted rows = {}", result);
 	}
 	
-	//@Transactional
+	@Transactional
 	public void invoke() throws Exception {
 		log.info("*** invoke start");
 		insertA1();
@@ -177,7 +195,7 @@ public class TestTxService {
 	public void invokeNoTx() {
 		log.info("*** invoke start [no tx]");
 		int result = testMapper.insert(createTestVo());
-		log.info("\t > result = {}", result);
+		log.info("\t > inserted rows = {}", result);
 		log.info("*** invoke end   [no tx]");
 	}
 
@@ -185,7 +203,7 @@ public class TestTxService {
 	public void invokeTx() {
 		log.info("*** invoke start [tx]");
 		int result = testMapper.insert(createTestVo());
-		log.info("\t > result = {}", result);
+		log.info("\t > inserted rows = {}", result);
 		log.info("*** invoke end   [tx]");
 	}
 	
@@ -204,7 +222,7 @@ public class TestTxService {
 		log.info("*** payment start");
 		DefaultTransactionDefinition txDefinition = new DefaultTransactionDefinition();
 		log.info("\t > tx definition = {}", txDefinition);
-		
+
 		TransactionStatus status = mainTransactionManager.getTransaction(txDefinition);
 		checkTransaction(status);
 		

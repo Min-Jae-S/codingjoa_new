@@ -23,7 +23,7 @@ public class MybatisConfig {
 	 */
 	
 	@Bean 
-	public SqlSessionFactory sqlSessionFactory(@Qualifier("mainDataSource") DataSource dataSource, 
+	public SqlSessionFactory sqlSessionFactory(@Qualifier("mainDataSource") DataSource dataSource,
 			ApplicationContext applicationContext) throws Exception {
 		SqlSessionFactoryBean factoryBean = new SqlSessionFactoryBean();
 		factoryBean.setDataSource(dataSource);
