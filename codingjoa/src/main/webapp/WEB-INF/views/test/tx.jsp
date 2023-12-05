@@ -43,10 +43,10 @@
 		<button class="btn btn-lg btn-warning mx-3" onclick="template()">template</button>
 	</div>
 	<div class="test d-flex justify-content-center mt-5">
-		<button class="btn btn-lg btn-outline-primary mx-3" onclick="test1()">test1</button>
-		<button class="btn btn-lg btn-outline-primary mx-3" onclick="test2()">test2</button>
-		<button class="btn btn-lg btn-outline-primary mx-3" onclick="test3()">test3</button>
-		<button class="btn btn-lg btn-outline-primary mx-3" onclick="test4()">test4</button>
+		<button class="btn btn-lg btn-outline-primary mx-3" onclick="test1()">doSomething1</button>
+		<button class="btn btn-lg btn-outline-primary mx-3" onclick="test2()">doSomething2</button>
+		<button class="btn btn-lg btn-outline-primary mx-3" onclick="test3()">doSomething3</button>
+		<button class="btn btn-lg btn-outline-primary mx-3" onclick="test4()">doSomething4</button>
 	</div>
 	<div class="test d-flex justify-content-center mt-5">
 		<button class="btn btn-lg btn-primary mx-3" onclick="selectAll()">selectAll</button>

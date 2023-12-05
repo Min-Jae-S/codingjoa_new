@@ -192,18 +192,18 @@ public class TestTxService {
 	}
 
 	public void invokeNoTx() {
-		log.info("*** invoke start [no tx]");
+		log.info("*** invokeNoTx start");
 		int result = testMapper.insert(createTestVo());
 		log.info("\t > inserted rows = {}", result);
-		log.info("*** invoke end   [no tx]");
+		log.info("*** invokeNoTx end");
 	}
 
 	@Transactional
 	public void invokeTx() {
-		log.info("*** invoke start [tx]");
+		log.info("*** invokeTx start");
 		int result = testMapper.insert(createTestVo());
 		log.info("\t > inserted rows = {}", result);
-		log.info("*** invoke end   [tx]");
+		log.info("*** invokeTx end");
 	}
 	
 	private TestVo createTestVo() {

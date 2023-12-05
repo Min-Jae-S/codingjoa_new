@@ -110,7 +110,7 @@ public class TestTxController {
 	@GetMapping("/tx/test1")
 	public ResponseEntity<Object> test1() { 
 		log.info("## test1");
-		testTxService.doSomething1(); // doSomething1(NO @Transactional) -> doSomething3(@Transactional)
+		testTxService.doSomething1(); // non-tx calling tx 
 		return ResponseEntity.ok("success");
 	}
 
@@ -118,7 +118,7 @@ public class TestTxController {
 	@GetMapping("/tx/test2")
 	public ResponseEntity<Object> test2() {
 		log.info("## test2");
-		testTxService.doSomething2(); // doSomething2(@Transactional) -> doSomething3(@Transactional)
+		testTxService.doSomething2(); // tx calling tx
 		return ResponseEntity.ok("success");
 	}
 
@@ -126,7 +126,7 @@ public class TestTxController {
 	@GetMapping("/tx/test3")
 	public ResponseEntity<Object> test3() {
 		log.info("## test3");
-		testTxService.doSomething3(); // doSomething3(@Transactional)
+		testTxService.doSomething3(); // calling tx
 		return ResponseEntity.ok("success");
 	}
 	
@@ -134,8 +134,8 @@ public class TestTxController {
 	@GetMapping("/tx/test4")
 	public ResponseEntity<Object> test4() {
 		log.info("## test4");
-		testTxService.doSomething3(); // doSomething3(@Transactional + mainTransactionManager)
-		testTxService.doSomething4(); // doSomething4(@Transactional + subTransactionManager)
+		testTxService.doSomething3(); // calling tx(mainTxManager)
+		testTxService.doSomething4(); // calling tx(subTxManager)
 		return ResponseEntity.ok("success");
 	}
 
