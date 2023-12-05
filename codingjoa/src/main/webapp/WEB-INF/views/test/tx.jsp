@@ -20,7 +20,6 @@
 		text-align: center; 
 		font-size: 60px;
 		font-weight: bold;
-		padding-top: 10px;
 	}
 	
 	div.test {
@@ -35,7 +34,7 @@
 </head>
 <body>
 <c:import url="/WEB-INF/views/include/top-menu.jsp"/>
-<div class="container my-5">
+<div class="container my-4">
 	<p>tx.jsp</p>
 	<div class="test d-flex justify-content-center mt-5">
 		<button class="btn btn-lg btn-warning mx-3" onclick="datasources()">datasources</button>
@@ -66,6 +65,12 @@
 		<button class="btn btn-lg btn-secondary mx-3" onclick="invokeNoTx()">invoke no tx</button>
 		<button class="btn btn-lg btn-secondary mx-3" onclick="invokeTx()">invoke tx</button>
 		<button class="btn btn-lg btn-secondary mx-3 invisible" onclick="payment()">payment</button>
+	</div>
+	<div class="test d-flex justify-content-center mt-5">
+		<button class="btn btn-lg btn-secondary mx-3" onclick="invokeSqlSession()">invoke sqlSession</button>
+		<button class="btn btn-lg btn-secondary mx-3" onclick="invokeSqlSessionTemplate()">invoke template</button>
+		<button class="btn btn-lg btn-secondary mx-3" onclick="invokeMapper()">invoke mapper</button>
+		<button class="btn btn-lg btn-secondary mx-3 invisible" onclick="#">#</button>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
@@ -353,6 +358,54 @@
 		$.ajax({
 			type : "GET",
 			url : "${contextPath}/test/tx/payment",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log("> result = %s", result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(jqXHR);
+			}
+		});		
+	}
+	
+	function invokeSqlSession() {
+		console.log("## invokeSqlSession");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/tx/invoke/sqlSession",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log("> result = %s", result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(jqXHR);
+			}
+		});		
+	}
+	
+	function invokeSqlSessionTemplate() {
+		console.log("## invokeSqlSessionTemplate");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/tx/invoke/sqlSessionTemplate",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log("> result = %s", result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(jqXHR);
+			}
+		});		
+	}
+
+	function invokeMapper() {
+		console.log("## invokeMapper");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/tx/invoke/mapper",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);

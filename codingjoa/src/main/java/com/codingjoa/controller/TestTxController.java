@@ -224,7 +224,7 @@ public class TestTxController {
 	
 	@ResponseBody
 	@GetMapping("/tx/invoke")
-	public ResponseEntity<Object> invoke() {
+	public ResponseEntity<Object> invoke() throws Exception {
 		log.info("## invoke");
 		testTxService.invoke();
 		return ResponseEntity.ok("success");
@@ -251,6 +251,30 @@ public class TestTxController {
 	public ResponseEntity<Object> payment() {
 		log.info("## payment");
 		testTxService.payment(); 
+		return ResponseEntity.ok("success");
+	}
+
+	@ResponseBody
+	@GetMapping("/tx/invoke/sqlSession")
+	public ResponseEntity<Object> invokeSqlSession() throws Exception {
+		log.info("## invokeSqlSession");
+		testTxService.invokeSqlSession();
+		return ResponseEntity.ok("success");
+	}
+
+	@ResponseBody
+	@GetMapping("/tx/invoke/sqlSessionTemplate")
+	public ResponseEntity<Object> invokeSqlSessionTemplate() throws Exception {
+		log.info("## invokeSqlSessionTemplate");
+		testTxService.invokeSqlSessionTemplate();
+		return ResponseEntity.ok("success");
+	}
+
+	@ResponseBody
+	@GetMapping("/tx/invoke/mapper")
+	public ResponseEntity<Object> invokeMapper() throws Exception {
+		log.info("## invokeMapper");
+		testTxService.invokeMapper();
 		return ResponseEntity.ok("success");
 	}
 	

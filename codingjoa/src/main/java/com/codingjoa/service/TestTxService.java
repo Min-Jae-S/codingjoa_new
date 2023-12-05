@@ -1,5 +1,6 @@
 package com.codingjoa.service;
 
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -145,36 +146,37 @@ public class TestTxService {
 	@Autowired
 	private SqlSessionTemplate sqlSessionTemplate;
 	
-	//@Transactional
-	public void invoke() {
-		log.info("*** invoke start");
-		TestVo testVo = createTestVo();
-		log.info("\t > created testVo = {}", testVo);
-		
-		// using SqlSessionFactory  
-		// DataSourceConfig --> hikariConfig.setAutoCommit(false)
+	public void invokeSqlSession() throws SQLException {
 		SqlSession sqlSession = sqlSessionFactory.openSession(false);
-		int result = sqlSession.getMapper(TestMapper.class).insert(testVo);
+		log.info("\t > sqlSession = {}", sqlSession);
+		int result = sqlSession.getMapper(TestMapper.class).insert(createTestVo());
+		log.info("\t > auto commit = {}", sqlSession.getConnection().getAutoCommit());
 		sqlSession.close();
-		
-		// using SqlSessionTemplate // auto commit by tx interceptor
-//		int result = sqlSessionTemplate.insert("com.codingjoa.mapper.TestMapper.insert", testVo);
-		
-		// using injected mappers 	// auto commit by tx interceptor
-//		int result = testMapper.insert(testVo);
-		
-//		insertA1();
-//		insertA2();
 		log.info("\t > result = {}", result);
+	}
+	
+	public void invokeSqlSessionTemplate() {
+		int result = sqlSessionTemplate.insert("com.codingjoa.mapper.TestMapper.insert", createTestVo());
+		log.info("\t > sqlSessionTemplate = {}", sqlSessionTemplate);
+		log.info("\t > result = {}", result);
+	}
+	
+	public void invokeMapper() {
+		int result = testMapper.insert(createTestVo());
+		log.info("\t > result = {}", result);
+	}
+	
+	//@Transactional
+	public void invoke() throws Exception {
+		log.info("*** invoke start");
+		insertA1();
+		insertA2();
 		log.info("*** invoke end");
 	}
 
 	public void invokeNoTx() {
 		log.info("*** invoke start [no tx]");
-		TestVo testVo = createTestVo();
-		log.info("\t > created testVo = {}", testVo);
-		
-		int result = testMapper.insert(testVo);
+		int result = testMapper.insert(createTestVo());
 		log.info("\t > result = {}", result);
 		log.info("*** invoke end   [no tx]");
 	}
@@ -182,21 +184,20 @@ public class TestTxService {
 	@Transactional
 	public void invokeTx() {
 		log.info("*** invoke start [tx]");
-		TestVo testVo = createTestVo();
-		log.info("\t > created testVo = {}", testVo);
-		
-		int result = testMapper.insert(testVo);
+		int result = testMapper.insert(createTestVo());
 		log.info("\t > result = {}", result);
 		log.info("*** invoke end   [tx]");
 	}
 	
 	private TestVo createTestVo() {
-		return TestVo.builder()
+		TestVo testVo = TestVo.builder()
 				.id(RandomStringUtils.randomAlphanumeric(8))
 				.name("test")
 				.password("test")
 				.regdate(LocalDateTime.now())
-				.build(); 
+				.build();
+		log.info("\t > created testVo = {}", testVo);
+		return testVo;
 	}
 	
 	public void payment() {
