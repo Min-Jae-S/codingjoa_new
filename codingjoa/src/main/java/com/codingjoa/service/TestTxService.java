@@ -2,6 +2,7 @@ package com.codingjoa.service;
 
 import static org.mybatis.spring.SqlSessionUtils.isSqlSessionTransactional;
 
+import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
@@ -151,7 +152,6 @@ public class TestTxService {
 	
 	public void invokeSqlSession() throws SQLException {
 		SqlSession sqlSession = sqlSessionFactory.openSession(false);
-		log.info("\t > sqlSession = {}", sqlSession);
 		log.info("\t > auto commit = {}", sqlSession.getConnection().getAutoCommit());
 		int result = sqlSession.getMapper(TestMapper.class).insert(createTestVo());
 		log.info("\t > inserted rows = {}", result);
@@ -159,23 +159,22 @@ public class TestTxService {
 	}
 	
 	/*
-	 * SqlSessionInterceptor
-	 * 	@Override 
-	 * 	public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-	 * 		...
-	 * 		
-	 * 		if (!isSqlSessionTransactional(sqlSession, SqlSessionTemplate.this.sqlSessionFactory)) {
-	 * 			// force commit even on non-dirty sessions because some databases require 
-	 * 			// a commit/rollback before calling close()
-	 * 			sqlSession.commit(true);
-	 * 		}
-	 * 	}
+	 * @@ org.mybatis.spring.SqlSessionTemplate$SqlSessionInterceptor
 	 * 
+	 * 	private class SqlSessionInterceptor implements InvocationHandler {
+	 * 		@Override 
+	 * 		public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+	 * 			...
+	 * 			if (!isSqlSessionTransactional(sqlSession, SqlSessionTemplate.this.sqlSessionFactory)) {
+	 * 				// force commit even on non-dirty sessions because some databases require 
+	 * 				// a commit/rollback before calling close()
+	 * 				sqlSession.commit(true);
+	 * 			}
+	 * 		}
 	 */
 	
 	public void invokeSqlSessionTemplate() {
 		int result = sqlSessionTemplate.insert("com.codingjoa.mapper.TestMapper.insert", createTestVo());
-		log.info("\t > sqlSessionTemplate = {}", sqlSessionTemplate);
 		log.info("\t > inserted rows = {}", result);
 	}
 	
