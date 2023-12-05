@@ -54,10 +54,7 @@
 	</update>
 	
 	<delete id="remove">
-		DELETE FROM 
-			test1 
-		WHERE 
-			idx IN ( SELECT MAX(idx) FROM test1 )
+		DELETE FROM test1 WHERE idx IN ( SELECT MAX(idx) FROM test1 )
 	</delete>
 
 	<delete id="removeAll">

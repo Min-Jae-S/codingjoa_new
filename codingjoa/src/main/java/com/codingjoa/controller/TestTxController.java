@@ -3,7 +3,6 @@ package com.codingjoa.controller;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.annotation.Resource;
 import javax.sql.DataSource;
@@ -66,10 +65,14 @@ public class TestTxController {
 	@GetMapping("/tx/datasources")
 	public ResponseEntity<Object> datasources() {
 		log.info("## datasources");
-		Set<String> dataSources = 
-				BeanFactoryUtils.beansOfTypeIncludingAncestors(context, DataSource.class).keySet(); 
-		for (String dataSource : dataSources) {
-			log.info("\t > {}", dataSource);
+		Map<String, DataSource> map = 
+				BeanFactoryUtils.beansOfTypeIncludingAncestors(context, DataSource.class);
+		if (map.isEmpty()) {
+			log.info("\t > no DataSource");
+		} else {
+			for (String dataSource : map.keySet()) {
+				log.info("\t > {}", dataSource);
+			}
 		}
 		return ResponseEntity.ok("success");
 	}
@@ -80,9 +83,13 @@ public class TestTxController {
 		log.info("## managers");
 		Map<String, PlatformTransactionManager> map = 
 				BeanFactoryUtils.beansOfTypeIncludingAncestors(context, PlatformTransactionManager.class);
-		for (String key : map.keySet()) {
-			//log.info("\t > {} = {}", key, map.get(key));
-			log.info("\t > {}", key);
+		if (map.isEmpty()) {
+			log.info("\t > no PlatformTransactionManager");
+		} else {
+			for (String key : map.keySet()) {
+				//log.info("\t > {} = {}", key, map.get(key));
+				log.info("\t > {}", key);
+			}
 		}
 		return ResponseEntity.ok("success");
 	}
@@ -93,8 +100,12 @@ public class TestTxController {
 		log.info("## factory");
 		Map<String, SqlSessionFactory> map = 
 				BeanFactoryUtils.beansOfTypeIncludingAncestors(context, SqlSessionFactory.class);
-		for (String key : map.keySet()) {
-			log.info("\t > {} = {}", key, map.get(key));
+		if (map.isEmpty()) {
+			log.info("\t > no SqlSessionFactory");
+		} else {
+			for (String key : map.keySet()) {
+				log.info("\t > {} = {}", key, map.get(key));
+			}
 		}
 		return ResponseEntity.ok("success");
 	}
@@ -105,8 +116,12 @@ public class TestTxController {
 		log.info("## template");
 		Map<String, SqlSessionTemplate> map = 
 				BeanFactoryUtils.beansOfTypeIncludingAncestors(context, SqlSessionTemplate.class);
-		for (String key : map.keySet()) {
-			log.info("\t > {} = {}", key, map.get(key));
+		if (map.isEmpty()) {
+			log.info("\t > no SqlSessionTemplate");
+		} else {
+			for (String key : map.keySet()) {
+				log.info("\t > {} = {}", key, map.get(key));
+			}
 		}
 		return ResponseEntity.ok("success");
 	}
@@ -167,8 +182,8 @@ public class TestTxController {
 	@GetMapping("/tx/test4")
 	public ResponseEntity<Object> test4() {
 		log.info("## test4");
-		testTxService.doSomething3(); // calling tx(mainTxManager)
-		testTxService.doSomething4(); // calling tx(subTxManager)
+		testTxService.doSomething3(); // calling tx (mainTxManager)
+		testTxService.doSomething4(); // calling tx (subTxManager)
 		return ResponseEntity.ok("success");
 	}
 
@@ -198,7 +213,7 @@ public class TestTxController {
 		log.info("\t > created testVo = {}", testVo);
 		
 		int result = testTxService.insertNoTx(testVo);
-		log.info("\t > result = {}", result);
+		log.info("\t > inserted rows = {}", result);
 		
 		return ResponseEntity.ok("success");
 	}

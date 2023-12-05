@@ -33,13 +33,13 @@
 	
 	.btn {
 		font-size: 1.2rem !important;
-		padding: 0.2rem 0.45rem !important;
+		padding: 0.375rem 0.5rem !important;
 	}
 </style>
 </head>
 <body>
 <c:import url="/WEB-INF/views/include/top-menu.jsp"/>
-<div class="container my-4">
+<div class="container my-4 px-0">
 	<p>tx.jsp</p>
 	<div class="test d-flex justify-content-center mt-5">
 		<button class="btn btn-warning mx-3" onclick="datasources()">datasources</button>
@@ -62,7 +62,7 @@
 		<button class="btn btn-primary mx-3" onclick="removeAll()">deleteAll</button>
 		<button class="btn btn-primary mx-3 invisible" onclick="#">#</button>
 	</div>
-	<div class="test d-flex justify-content-center mt-5">
+	<div class="test d-none justify-content-center mt-5">
 		<button class="btn btn-primary mx-3" onclick="insertNoTx()">insert no tx</button>
 		<button class="btn btn-primary mx-3" onclick="insertTx()">insert tx</button>
 		<button class="btn btn-primary mx-3 invisible" onclick="#">#</button>
