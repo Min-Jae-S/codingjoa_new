@@ -48,9 +48,9 @@ public class TestTxService {
 	 * @@ https://escapefromcoding.tistory.com/810?category=1246236
 	 * @@ https://velog.io/@betterfuture4/Spring-Transactional-%EC%B4%9D%EC%A0%95%EB%A6%AC
 	 * @@ https://meaownworld.tistory.com/entry/JDBC-%ED%8A%B8%EB%9E%9C%EC%9E%AD%EC%85%98%EA%B3%BC-%ED%8A%B8%EB%9E%9C%EC%9E%AD%EC%85%98-%EC%B6%94%EC%83%81%ED%99%94-Transaction-Abstraction-of-Transaction
-	 * 		- Transaction synchronization
 	 * 		- Transaction abstaction
 	 * 			> PlatformTransactionManager (DataSourceTransactionManager, JpaTransactionManager, HibernateTransactionManager, etc...)
+	 * 		- Transaction synchronization
 	 * 		- Declarative transaction management
 	 */
 	
@@ -58,7 +58,7 @@ public class TestTxService {
 	// 즉, 위와 같은 경우에는 동일한 Bean(Class)에서 'Spring AOP CGLIB'이 동작하지 않습니다.
 	
 	// @@ https://obv-cloud.com/39
-	// Transaction은 Connection 단위로 이뤄지기 때문에 하나의 요청에 같은 Connection을 사용할 수 있도록 보장해야 한다.
+	// Transaction은 Connection 단위로 이루어지기 때문에 하나의 요청에 같은 Connection을 사용할 수 있도록 보장해야 한다.
 	// 이 때 사용되는 것이 TransactionSynchronizationManager이다.
 	// 		1. Transaction 시작
 	// 		2. Datasource에서 Connection 획득
@@ -163,9 +163,9 @@ public class TestTxService {
 	
 	private void checkTransactionBySyncManager() {
 		log.info("## checkTransactionBySyncManager");
-		log.info("\t > currentTransactionName = {}", TransactionSynchronizationManager.getCurrentTransactionName());
-		log.info("\t > isActualTransactionActive = {}", TransactionSynchronizationManager.isActualTransactionActive());
-		log.info("\t > isSynchronizationActive = {}", TransactionSynchronizationManager.isSynchronizationActive());
+		log.info("\t > tx name = {}", TransactionSynchronizationManager.getCurrentTransactionName());
+		log.info("\t > tx active = {}", TransactionSynchronizationManager.isActualTransactionActive());
+		log.info("\t > sync active = {}", TransactionSynchronizationManager.isSynchronizationActive());
 	}
 
 	/*******************************************************************/
