@@ -7,6 +7,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -40,14 +41,14 @@ public class TestTxPropsController {
 	@ResponseBody
 	@GetMapping("/tx-props/propagation/test1")
 	public ResponseEntity<Object> propagationTest1() { 
-		service.parent1();
+		service.parent1(); // parent: REQUIRED, child: REQUIRES_NEW
 		return ResponseEntity.ok("success");
 	}
 	
 	@ResponseBody
 	@GetMapping("/tx-props/propagation/test2")
 	public ResponseEntity<Object> propagationTest2() { 
-		service.parent2();
+		service.parent2(); // parent: REQUIRED, child: NESTED
 		return ResponseEntity.ok("success");
 	}
 	

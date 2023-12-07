@@ -7,9 +7,7 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
-import org.springframework.transaction.interceptor.TransactionInterceptor;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
-import org.springframework.transaction.support.TransactionSynchronizationUtils;
 
 import com.codingjoa.mapper.test.TestMapper;
 
@@ -35,7 +33,7 @@ public class TestTxPropsService {
 	@Autowired
 	private TestMapper mapper;
 	
-	private void chceckTransactionStatus() {
+	private void chceckTransaction() {
 		log.info("## checkTransaction");
 		log.info("\t > current tx = {}", TransactionSynchronizationManager.getCurrentTransactionName());
 		TransactionStatus status = TransactionAspectSupport.currentTransactionStatus();
@@ -53,30 +51,29 @@ public class TestTxPropsService {
 	@Transactional(propagation = Propagation.REQUIRED)
 	public void parent1() {
 		log.info("## parent1");
-		chceckTransactionStatus();
-		
+		chceckTransaction();
 		log.info("\t > calling child1...");
 		child1();
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	private void child1() {
+		log.info("## child1");
+		chceckTransaction();
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED)
 	public void parent2() {
 		log.info("## parent2");
-		chceckTransactionStatus();
-		
+		chceckTransaction();
 		log.info("\t > calling child2...");
 		child2();
 	}
 	
-	@Transactional(propagation = Propagation.REQUIRES_NEW)
-	public void child1() {
-		log.info("## child1");
-		chceckTransactionStatus();
-	}
-
 	@Transactional(propagation = Propagation.NESTED)
-	public void child2() {
+	private void child2() {
 		log.info("## child2");
+		chceckTransaction();
 	}
 	
 }
