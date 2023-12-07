@@ -18,8 +18,15 @@
 <style>
 	p {
 		text-align: center; 
-		font-size: 60px;
+		font-size: 50px;
 		font-weight: bold;
+		padding-top: 20px;
+	}
+	
+	.sub-p {
+		font-size: 25px;
+		padding-top: 0;
+		text-align: left;
 	}
 	
 	div.test {
@@ -30,31 +37,44 @@
 	div.test button {
 		width: 230px;
 	}
-	
-	.btn {
-		font-size: 1.2rem !important;
-		padding: 0.375rem 0.5rem !important;
-	}
 </style>
 </head>
 <body>
 <c:import url="/WEB-INF/views/include/top-menu.jsp"/>
 <div class="container my-4 px-0">
 	<p>tx-props.jsp</p>
-	<div class="test d-flex justify-content-center mt-5">
-		<button class="btn btn-primary mx-3" onclick="test1()">test1</button>
-		<button class="btn btn-primary mx-3" onclick="test2()">test2</button>
-		<button class="btn btn-primary mx-3" onclick="test3()">test3</button>
-		<button class="btn btn-primary mx-3" onclick="test4()">test4</button>
+	<p class="sub-p mt-4 pl-4 mb-2">- Transaction Propagation</p>
+	<div class="test d-flex justify-content-center">
+		<button class="btn btn-lg btn-primary mx-3" onclick="propagation1()">propagation1</button>
+		<button class="btn btn-lg btn-primary mx-3" onclick="propagation2()">propagation2</button>
+		<button class="btn btn-lg btn-primary mx-3" onclick="propagation3()">propagation3</button>
+	</div>
+	<p class="sub-p mt-4 pl-4 mb-2">- Isolation Level</p>
+	<div class="test d-flex justify-content-center">
+		<button class="btn btn-lg btn-primary mx-3" onclick="test1()">#</button>
+		<button class="btn btn-lg btn-primary mx-3" onclick="test2()">#</button>
+		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
+	</div>
+	<p class="sub-p mt-4 pl-4 mb-2">- Time out</p>
+	<div class="test d-flex justify-content-center">
+		<button class="btn btn-lg btn-primary mx-3" onclick="test1()">#</button>
+		<button class="btn btn-lg btn-primary mx-3" onclick="test2()">#</button>
+		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
+	</div>
+	<p class="sub-p mt-4 pl-4 mb-2">- Read Only</p>
+	<div class="test d-flex justify-content-center">
+		<button class="btn btn-lg btn-primary mx-3" onclick="test1()">test1</button>
+		<button class="btn btn-lg btn-primary mx-3" onclick="test2()">test2</button>
+		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 <script>
-	function test1() {
-		console.log("## test1");
+	function propagation1() {
+		console.log("## propagation1");
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/tx-props/test1",
+			url : "${contextPath}/test/tx-props/propagation1",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);
@@ -66,11 +86,11 @@
 		});		
 	}
 
-	function test2() {
-		console.log("## test2");
+	function propagation2() {
+		console.log("## propagation2");
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/tx-props/test2",
+			url : "${contextPath}/test/tx-props/propagation2",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);
@@ -82,11 +102,11 @@
 		});		
 	}
 
-	function test3() {
-		console.log("## test3");
+	function propagation3() {
+		console.log("## propagation3");
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/tx-props/test3",
+			url : "${contextPath}/test/tx-props/propagation3",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);

@@ -19,10 +19,21 @@ public class TestTxPropsService {
 	 * 		- Isolation Level
 	 * 		- Timeout
 	 * 		- Read Only
-	 * 
 	 */
 	
 	@Autowired
 	private TestMapper mapper;
+	
+	public void doSomething1() {
+		log.info("## doSomething1");
+	}
+
+	public void doSomething2() {
+		log.info("## doSomething2");
+	}
+	
+	public void doSomething3() {
+		log.info("## doSomething3");
+	}
 	
 }

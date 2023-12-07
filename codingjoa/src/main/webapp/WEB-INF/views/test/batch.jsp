@@ -18,9 +18,9 @@
 <style>
 	p {
 		text-align: center; 
-		font-size: 60px;
+		font-size: 50px;
 		font-weight: bold;
-		padding-top: 10px;
+		padding-top: 20px;
 	}
 	
 	div.test {
