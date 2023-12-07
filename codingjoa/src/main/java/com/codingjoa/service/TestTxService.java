@@ -177,8 +177,7 @@ public class TestTxService {
 		
 		boolean syncActive = TransactionSynchronizationManager.isSynchronizationActive();
 		log.info("\t > sync active = {}", syncActive);
-		log.info("\t > sync = {}", syncActive == true ? 
-				TransactionSynchronizationManager.getSynchronizations() : "no sync");
+		log.info("\t > syncs = {}", syncActive == true ? TransactionSynchronizationManager.getSynchronizations() : "no sync");
 	}
 
 	/*******************************************************************/
