@@ -182,8 +182,7 @@ public class TestTxController {
 	@GetMapping("/tx/test4")
 	public ResponseEntity<Object> test4() {
 		log.info("## test4");
-		testTxService.doSomething3(); // calling tx (mainTxManager)
-		testTxService.doSomething4(); // calling tx (subTxManager)
+		testTxService.doSomething4(); // calling tx + transaction-sync
 		return ResponseEntity.ok("success");
 	}
 

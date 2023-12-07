@@ -18,6 +18,7 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
+import org.springframework.transaction.support.TransactionSynchronizationAdapter;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 import com.codingjoa.mapper.TestMapper;
@@ -25,7 +26,6 @@ import com.codingjoa.test.TestVo;
 
 import lombok.extern.slf4j.Slf4j;
 
-@SuppressWarnings("unused")
 @Slf4j
 @Service
 public class TestTxService {
@@ -95,9 +95,22 @@ public class TestTxService {
 		}
 	}
 
-	@Transactional(value = "subTransactionManager")
+	@Transactional
 	public void doSomething4() {
 		log.info("## doSomething4 (@Transactional)");
+		TransactionSynchronizationManager.registerSynchronization(
+			new TransactionSynchronizationAdapter() {
+				@Override
+				public void beforeCommit(boolean readOnly) {
+					log.info("*** beforeCommit");
+				}
+
+				@Override
+				public void afterCommit() {
+					log.info("*** afterCommit");
+				}
+			});
+		
 		TransactionStatus status = null;
 		try {
 			status = TransactionAspectSupport.currentTransactionStatus();
@@ -159,9 +172,13 @@ public class TestTxService {
 	
 	private void checkTransactionBySyncManager() {
 		log.info("## checkTransactionBySyncManager");
-		log.info("\t > tx name = {}", TransactionSynchronizationManager.getCurrentTransactionName());
+		log.info("\t > current tx = {}", TransactionSynchronizationManager.getCurrentTransactionName());
 		log.info("\t > tx active = {}", TransactionSynchronizationManager.isActualTransactionActive());
-		log.info("\t > sync active = {}", TransactionSynchronizationManager.isSynchronizationActive());
+		
+		boolean syncActive = TransactionSynchronizationManager.isSynchronizationActive();
+		log.info("\t > sync active = {}", syncActive);
+		log.info("\t > sync = {}", syncActive == true ? 
+				TransactionSynchronizationManager.getSynchronizations() : "no sync");
 	}
 
 	/*******************************************************************/
