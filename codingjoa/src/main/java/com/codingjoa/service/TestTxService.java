@@ -1,9 +1,5 @@
 package com.codingjoa.service;
 
-import static org.mybatis.spring.SqlSessionUtils.isSqlSessionTransactional;
-
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -84,7 +80,7 @@ public class TestTxService {
 		log.info("\t > calling doSomething3");
 		doSomething3();
 	}
-
+	
 	@Transactional
 	public void doSomething3() {
 		log.info("## doSomething3 (@Transactional)");

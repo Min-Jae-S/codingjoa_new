@@ -6,6 +6,7 @@
 	<appender name="console" class="ch.qos.logback.core.ConsoleAppender">
 		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
 			<!-- <pattern>%d{HH:mm:ss.SSS}[%-5level] %logger{36}.%method\(%line\) : %msg%n</pattern> -->
+			<!-- <pattern>[%-5level] %logger{36}.%method : %msg%n</pattern> -->
 			<!-- <pattern>[%-5level] %logger{0}.%method: %msg%n</pattern> -->
 			<!-- <pattern>[%-5p] %C{0}.%M\(%L\) - %m%n</pattern> -->
 			<!-- <pattern>%d{HH:mm:ss.SSS} [%thread] %-5p %logger{36} : %msg%n</pattern> -->
@@ -29,12 +30,13 @@
 	<logger name="org.springframework.beans.factory.support.DefaultListableBeanFactory" level="INFO"/>
 	
 	<!-- Transaction logger -->
-	<!-- <logger name="org.springframework.transaction" level="INFO"/> -->
-	<logger name="org.springframework.transaction.interceptor" level="TRACE"/>
+	<logger name="org.springframework.transaction" level="TRACE"/>
+	<!-- <logger name="org.springframework.transaction.interceptor" level="TRACE"/> -->
+	<!-- <logger name="org.springframework.transaction.support" level="TRACE"/> -->
 	
-	<!-- DEBUG -> TRACE -->
-	<logger name="org.springframework.jdbc.datasource.DataSourceTransactionManager" level="TRACE"/>
-	<logger name="org.springframework.jdbc.datasource.DataSourceUtils" level="TRACE"/>
+	<logger name="org.springframework.jdbc.datasource" level="TRACE"/>
+	<!-- <logger name="org.springframework.jdbc.datasource.DataSourceTransactionManager" level="TRACE"/> -->
+	<!-- <logger name="org.springframework.jdbc.datasource.DataSourceUtils" level="TRACE"/> -->
 	<logger name="org.mybatis.spring.SqlSessionUtils" level="TRACE"/>
 	<logger name="org.mybatis.spring.transaction.SpringManagedTransaction" level="TRACE"/>
 	
