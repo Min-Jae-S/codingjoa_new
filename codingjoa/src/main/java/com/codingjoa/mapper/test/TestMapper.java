@@ -1,4 +1,4 @@
-package com.codingjoa.mapper;
+package com.codingjoa.mapper.test;
 
 import java.util.List;
 

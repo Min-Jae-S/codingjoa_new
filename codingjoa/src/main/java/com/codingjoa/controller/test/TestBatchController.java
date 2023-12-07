@@ -1,4 +1,4 @@
-package com.codingjoa.controller;
+package com.codingjoa.controller.test;
 
 import java.util.List;
 import java.util.stream.Collectors;

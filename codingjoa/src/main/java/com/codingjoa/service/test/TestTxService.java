@@ -1,4 +1,4 @@
-package com.codingjoa.service;
+package com.codingjoa.service.test;
 
 import java.sql.SQLException;
 import java.time.LocalDateTime;
@@ -21,7 +21,7 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.transaction.support.TransactionSynchronizationAdapter;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
-import com.codingjoa.mapper.TestMapper;
+import com.codingjoa.mapper.test.TestMapper;
 import com.codingjoa.test.TestVo;
 
 import lombok.extern.slf4j.Slf4j;
@@ -66,7 +66,7 @@ public class TestTxService {
 	// 		8. Datasource에 Connection 반환
 	
 	@Autowired
-	private TestMapper testMapper;
+	private TestMapper mapper;
 	
 	public void doSomething1() {
 		log.info("## doSomething1 (NO @Transactional)");
@@ -124,33 +124,33 @@ public class TestTxService {
 	
 	public List<TestVo> selectAll() {
 		log.info("## TestTxService.selectAll");
-		return testMapper.selectAll();
+		return mapper.selectAll();
 	}
 	
 	public int insertNoTx(TestVo testVo) {
 		log.info("## TestTxService.insertNoTx");
-		return testMapper.insert(testVo);
+		return mapper.insert(testVo);
 	}
 
 	@Transactional
 	public int insertTx(TestVo testVo) {
 		log.info("## TestTxService.insertTx");
-		return testMapper.insert(testVo);
+		return mapper.insert(testVo);
 	}
 	
 	public int update(TestVo testVo) {
 		log.info("## TestTxService.update");
-		return testMapper.update(testVo);
+		return mapper.update(testVo);
 	}
 	
 	public int remove() {
 		log.info("## TestTxService.remove");
-		return testMapper.remove();
+		return mapper.remove();
 	}
 	
 	public int removeAll() {
 		log.info("## TestTxService.removeAll");
-		return testMapper.removeAll();
+		return mapper.removeAll();
 	}
 	
 	private void checkTransaction(TransactionStatus status) {
@@ -222,7 +222,7 @@ public class TestTxService {
 	}
 	
 	public void invokeMapper() {
-		int result = testMapper.insert(createTestVo());
+		int result = mapper.insert(createTestVo());
 		log.info("\t > inserted rows = {}", result);
 	}
 	
@@ -236,7 +236,7 @@ public class TestTxService {
 
 	public void invokeNoTx() {
 		log.info("*** invokeNoTx start");
-		int result = testMapper.insert(createTestVo());
+		int result = mapper.insert(createTestVo());
 		log.info("\t > inserted rows = {}", result);
 		log.info("*** invokeNoTx end");
 	}
@@ -244,7 +244,7 @@ public class TestTxService {
 	@Transactional
 	public void invokeTx() {
 		log.info("*** invokeTx start");
-		int result = testMapper.insert(createTestVo());
+		int result = mapper.insert(createTestVo());
 		log.info("\t > inserted rows = {}", result);
 		log.info("*** invokeTx end");
 	}
@@ -289,7 +289,7 @@ public class TestTxService {
 				.password("A1")
 				.regdate(LocalDateTime.now())
 				.build();
-		testMapper.insert(testVo);
+		mapper.insert(testVo);
 	}
 	
 	private void insertA2() {
@@ -300,7 +300,7 @@ public class TestTxService {
 				.password("A2")
 				.regdate(LocalDateTime.now())
 				.build();
-		testMapper.insert(testVo);
+		mapper.insert(testVo);
 	}
 	
 }

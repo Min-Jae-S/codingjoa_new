@@ -1,4 +1,4 @@
-package com.codingjoa.controller;
+package com.codingjoa.controller.test;
 
 import java.io.File;
 import java.io.IOException;
@@ -46,7 +46,7 @@ import com.codingjoa.mapper.MemberMapper;
 import com.codingjoa.response.SuccessResponse;
 import com.codingjoa.security.dto.UserDetailsDto;
 import com.codingjoa.service.ImageService;
-import com.codingjoa.service.TestTxService;
+import com.codingjoa.service.test.TestTxService;
 import com.codingjoa.test.Foo;
 import com.codingjoa.test.Test;
 import com.codingjoa.test.TestException;

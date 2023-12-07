@@ -1,4 +1,4 @@
-package com.codingjoa.controller;
+package com.codingjoa.controller.test;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -16,13 +16,12 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.support.TransactionSynchronization;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.codingjoa.service.TestTxService;
+import com.codingjoa.service.test.TestTxService;
 import com.codingjoa.test.TestVo;
 
 import lombok.extern.slf4j.Slf4j;
@@ -44,17 +43,11 @@ public class TestTxController {
 	private ApplicationContext context;
 	
 	@Autowired
-	private TestTxService testTxService;
+	private TestTxService service;
 	
 	@Resource(name = "mainTransactionManager")
 	private PlatformTransactionManager mainTransactionManager;
 
-	@Resource(name = "subTransactionManager")
-	private PlatformTransactionManager subTransactionManager;
-	
-	@Autowired(required = false)
-	private TransactionSynchronizationManager transactionSyncManager;
-	
 	@GetMapping("/tx")
 	public String main() {
 		log.info("## main");
@@ -130,23 +123,11 @@ public class TestTxController {
 	@GetMapping("/tx/sync-manager")
 	public ResponseEntity<Object> syncManager() {
 		log.info("## syncManager");
-		log.info("\t > autowired TransactionSynchronizationManager = {}", transactionSyncManager);
-		Map<String, TransactionSynchronization> map1 = 
-				BeanFactoryUtils.beansOfTypeIncludingAncestors(context, TransactionSynchronization.class);
-		if (!map1.isEmpty()) {
-			for (String key : map1.keySet()) {
-				log.info("\t > {} = {}", key, map1.get(key));
-			}
-		} else {
-			log.info("\t > no TransactionSynchronization");
-		}
-		
-		Map<String, TransactionSynchronizationManager> map2 = 
+		Map<String, TransactionSynchronizationManager> map = 
 				BeanFactoryUtils.beansOfTypeIncludingAncestors(context, TransactionSynchronizationManager.class);
-		if (!map2.isEmpty()) {
-			log.info("==========================================================================================");
-			for (String key : map2.keySet()) {
-				log.info("\t > {} = {}", key, map2.get(key));
+		if (!map.isEmpty()) {
+			for (String key : map.keySet()) {
+				log.info("\t > {} = {}", key, map.get(key));
 			}
 		} else {
 			log.info("\t > no TransactionSynchronizationManager");
@@ -158,7 +139,7 @@ public class TestTxController {
 	@GetMapping("/tx/test1")
 	public ResponseEntity<Object> test1() { 
 		log.info("## test1");
-		testTxService.doSomething1(); // non-tx calling tx 
+		service.doSomething1(); // non-tx calling tx 
 		return ResponseEntity.ok("success");
 	}
 
@@ -166,7 +147,7 @@ public class TestTxController {
 	@GetMapping("/tx/test2")
 	public ResponseEntity<Object> test2() {
 		log.info("## test2");
-		testTxService.doSomething2(); // tx calling tx
+		service.doSomething2(); // tx calling tx
 		return ResponseEntity.ok("success");
 	}
 
@@ -174,7 +155,7 @@ public class TestTxController {
 	@GetMapping("/tx/test3")
 	public ResponseEntity<Object> test3() {
 		log.info("## test3");
-		testTxService.doSomething3(); // calling tx
+		service.doSomething3(); // calling tx
 		return ResponseEntity.ok("success");
 	}
 	
@@ -182,7 +163,7 @@ public class TestTxController {
 	@GetMapping("/tx/test4")
 	public ResponseEntity<Object> test4() {
 		log.info("## test4");
-		testTxService.doSomething4(); // calling tx + transaction-sync
+		service.doSomething4(); // calling tx + transaction-sync
 		return ResponseEntity.ok("success");
 	}
 
@@ -190,7 +171,7 @@ public class TestTxController {
 	@GetMapping("/tx/select-all")
 	public ResponseEntity<Object> selectAll() {
 		log.info("## selectAll");
-		List<TestVo> result = testTxService.selectAll();
+		List<TestVo> result = service.selectAll();
 		if (result.size() > 0) {
 			result.forEach(testVo -> log.info("\t > {}", testVo));
 		} else {
@@ -211,7 +192,7 @@ public class TestTxController {
 				.build();
 		log.info("\t > created testVo = {}", testVo);
 		
-		int result = testTxService.insertNoTx(testVo);
+		int result = service.insertNoTx(testVo);
 		log.info("\t > inserted rows = {}", result);
 		
 		return ResponseEntity.ok("success");
@@ -229,7 +210,7 @@ public class TestTxController {
 				.build();
 		log.info("\t > created testVo = {}", testVo);
 		
-		int result = testTxService.insertTx(testVo);
+		int result = service.insertTx(testVo);
 		log.info("\t > inserted rows = {}", result);
 		
 		return ResponseEntity.ok("success");
@@ -245,7 +226,7 @@ public class TestTxController {
 				.build();
 		log.info("\t > created testVo = {}", testVo);
 		
-		int result = testTxService.update(testVo);
+		int result = service.update(testVo);
 		log.info("\t > updated rows = {}", result);
 		
 		return ResponseEntity.ok("success");
@@ -255,7 +236,7 @@ public class TestTxController {
 	@GetMapping("/tx/remove")
 	public ResponseEntity<Object> remove() {
 		log.info("## remove");
-		int result = testTxService.remove();
+		int result = service.remove();
 		log.info("\t > removed rows = {}", result);
 		return ResponseEntity.ok("success");
 	}
@@ -264,7 +245,7 @@ public class TestTxController {
 	@GetMapping("/tx/remove-all")
 	public ResponseEntity<Object> removeAll() {
 		log.info("## removeAll");
-		int result = testTxService.removeAll();
+		int result = service.removeAll();
 		log.info("\t > removed rows = {}", result);
 		return ResponseEntity.ok("success");
 	}
@@ -273,7 +254,7 @@ public class TestTxController {
 	@GetMapping("/tx/invoke")
 	public ResponseEntity<Object> invoke() throws Exception {
 		log.info("## invoke");
-		testTxService.invoke();
+		service.invoke();
 		return ResponseEntity.ok("success");
 	}
 
@@ -281,7 +262,7 @@ public class TestTxController {
 	@GetMapping("/tx/invoke-no-tx")
 	public ResponseEntity<Object> invokeNoTx() {
 		log.info("## invokeNoTx");
-		testTxService.invokeNoTx(); 
+		service.invokeNoTx(); 
 		return ResponseEntity.ok("success");
 	}
 	
@@ -289,7 +270,7 @@ public class TestTxController {
 	@GetMapping("/tx/invoke-tx")
 	public ResponseEntity<Object> invokeTx() {
 		log.info("## invokeTx");
-		testTxService.invokeTx(); 
+		service.invokeTx(); 
 		return ResponseEntity.ok("success");
 	}
 
@@ -297,7 +278,7 @@ public class TestTxController {
 	@GetMapping("/tx/payment")
 	public ResponseEntity<Object> payment() {
 		log.info("## payment");
-		testTxService.payment(); 
+		service.payment(); 
 		return ResponseEntity.ok("success");
 	}
 
@@ -305,7 +286,7 @@ public class TestTxController {
 	@GetMapping("/tx/invoke/sqlSession")
 	public ResponseEntity<Object> invokeSqlSession() throws Exception {
 		log.info("## invokeSqlSession");
-		testTxService.invokeSqlSession();
+		service.invokeSqlSession();
 		return ResponseEntity.ok("success");
 	}
 
@@ -313,7 +294,7 @@ public class TestTxController {
 	@GetMapping("/tx/invoke/sqlSessionTemplate")
 	public ResponseEntity<Object> invokeSqlSessionTemplate() throws Exception {
 		log.info("## invokeSqlSessionTemplate");
-		testTxService.invokeSqlSessionTemplate();
+		service.invokeSqlSessionTemplate();
 		return ResponseEntity.ok("success");
 	}
 
@@ -321,7 +302,7 @@ public class TestTxController {
 	@GetMapping("/tx/invoke/mapper")
 	public ResponseEntity<Object> invokeMapper() throws Exception {
 		log.info("## invokeMapper");
-		testTxService.invokeMapper();
+		service.invokeMapper();
 		return ResponseEntity.ok("success");
 	}
 	

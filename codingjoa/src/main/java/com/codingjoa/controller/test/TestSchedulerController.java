@@ -1,4 +1,4 @@
-package com.codingjoa.controller;
+package com.codingjoa.controller.test;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
