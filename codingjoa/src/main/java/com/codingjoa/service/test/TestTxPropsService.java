@@ -33,9 +33,9 @@ public class TestTxPropsService {
 	@Autowired
 	private TestMapper mapper;
 	
-	private void chceckTransaction() {
+	public void chceckTransaction() {
 		log.info("## checkTransaction");
-		log.info("\t > current tx = {}", TransactionSynchronizationManager.getCurrentTransactionName());
+		log.info("\t > current transaction = {}", TransactionSynchronizationManager.getCurrentTransactionName());
 		TransactionStatus status = TransactionAspectSupport.currentTransactionStatus();
 		if (status.isCompleted()) {
 			log.info("\t > COMPLETED");
@@ -48,7 +48,7 @@ public class TestTxPropsService {
 		}
 	}
 	
-	@Transactional(propagation = Propagation.REQUIRED)
+	@Transactional
 	public void parent1() {
 		log.info("## parent1");
 		chceckTransaction();
@@ -57,12 +57,12 @@ public class TestTxPropsService {
 	}
 	
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
-	private void child1() {
+	public void child1() {
 		log.info("## child1");
 		chceckTransaction();
 	}
 
-	@Transactional(propagation = Propagation.REQUIRED)
+	@Transactional
 	public void parent2() {
 		log.info("## parent2");
 		chceckTransaction();
@@ -71,7 +71,7 @@ public class TestTxPropsService {
 	}
 	
 	@Transactional(propagation = Propagation.NESTED)
-	private void child2() {
+	public void child2() {
 		log.info("## child2");
 		chceckTransaction();
 	}
