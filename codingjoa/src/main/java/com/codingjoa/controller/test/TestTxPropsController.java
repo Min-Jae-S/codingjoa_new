@@ -38,30 +38,16 @@ public class TestTxPropsController {
 	}
 	
 	@ResponseBody
-	@GetMapping("/tx-props/propagation1")
-	public ResponseEntity<Object> propagation1() { 
-		service.doSomething1();
+	@GetMapping("/tx-props/propagation/test1")
+	public ResponseEntity<Object> propagationTest1() { 
+		service.parent1();
 		return ResponseEntity.ok("success");
 	}
 	
 	@ResponseBody
-	@GetMapping("/tx-props/propagation2")
-	public ResponseEntity<Object> propagation2() { 
-		service.doSomething2();
-		return ResponseEntity.ok("success");
-	}
-	
-	@ResponseBody
-	@GetMapping("/tx-props/propagation3")
-	public ResponseEntity<Object> propagation3() { 
-		service.doSomething3();
-		return ResponseEntity.ok("success");
-	}
-	
-	@ResponseBody
-	@GetMapping("/tx-props/test4")
-	public ResponseEntity<Object> test4() { 
-		log.info("## test4");
+	@GetMapping("/tx-props/propagation/test2")
+	public ResponseEntity<Object> propagationTest2() { 
+		service.parent2();
 		return ResponseEntity.ok("success");
 	}
 	

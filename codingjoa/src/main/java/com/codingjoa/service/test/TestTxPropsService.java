@@ -2,6 +2,14 @@ package com.codingjoa.service.test;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
+import org.springframework.transaction.interceptor.TransactionInterceptor;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
+import org.springframework.transaction.support.TransactionSynchronizationUtils;
 
 import com.codingjoa.mapper.test.TestMapper;
 
@@ -22,18 +30,53 @@ public class TestTxPropsService {
 	 */
 	
 	@Autowired
+	private PlatformTransactionManager txManager;
+	
+	@Autowired
 	private TestMapper mapper;
 	
-	public void doSomething1() {
-		log.info("## doSomething1");
-	}
-
-	public void doSomething2() {
-		log.info("## doSomething2");
+	private void chceckTransactionStatus() {
+		log.info("## checkTransaction");
+		log.info("\t > current tx = {}", TransactionSynchronizationManager.getCurrentTransactionName());
+		TransactionStatus status = TransactionAspectSupport.currentTransactionStatus();
+		if (status.isCompleted()) {
+			log.info("\t > COMPLETED");
+		} else if (status.isRollbackOnly()) {
+			log.info("\t > ROLLBACK");
+		} else if (status.isNewTransaction()) {
+			log.info("\t > NEW TRANSACTION");
+		} else {
+			log.info("\t > UNKNOWN");
+		}
 	}
 	
-	public void doSomething3() {
-		log.info("## doSomething3");
+	@Transactional(propagation = Propagation.REQUIRED)
+	public void parent1() {
+		log.info("## parent1");
+		chceckTransactionStatus();
+		
+		log.info("\t > calling child1...");
+		child1();
+	}
+
+	@Transactional(propagation = Propagation.REQUIRED)
+	public void parent2() {
+		log.info("## parent2");
+		chceckTransactionStatus();
+		
+		log.info("\t > calling child2...");
+		child2();
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	public void child1() {
+		log.info("## child1");
+		chceckTransactionStatus();
+	}
+
+	@Transactional(propagation = Propagation.NESTED)
+	public void child2() {
+		log.info("## child2");
 	}
 	
 }

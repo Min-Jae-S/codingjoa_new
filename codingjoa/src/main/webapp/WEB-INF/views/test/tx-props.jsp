@@ -43,11 +43,11 @@
 <c:import url="/WEB-INF/views/include/top-menu.jsp"/>
 <div class="container my-4 px-0">
 	<p>tx-props.jsp</p>
-	<p class="sub-p mt-4 pl-4 mb-2">- Transaction Propagation</p>
+	<p class="sub-p mt-4 pl-4 mb-2">- Propagation</p>
 	<div class="test d-flex justify-content-center">
-		<button class="btn btn-lg btn-primary mx-3" onclick="propagation1()">propagation1</button>
-		<button class="btn btn-lg btn-primary mx-3" onclick="propagation2()">propagation2</button>
-		<button class="btn btn-lg btn-primary mx-3" onclick="propagation3()">propagation3</button>
+		<button class="btn btn-lg btn-primary mx-3" onclick="propagationTest1()">test1</button>
+		<button class="btn btn-lg btn-primary mx-3" onclick="propagationTest2()">test2</button>
+		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
 	</div>
 	<p class="sub-p mt-4 pl-4 mb-2">- Isolation Level</p>
 	<div class="test d-flex justify-content-center">
@@ -70,11 +70,11 @@
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 <script>
-	function propagation1() {
-		console.log("## propagation1");
+	function propagationTest1() {
+		console.log("## propagationTest1");
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/tx-props/propagation1",
+			url : "${contextPath}/test/tx-props/propagation/test1",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);
@@ -86,11 +86,11 @@
 		});		
 	}
 
-	function propagation2() {
-		console.log("## propagation2");
+	function propagationTest2() {
+		console.log("## propagationTest2");
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/tx-props/propagation2",
+			url : "${contextPath}/test/tx-props/propagation/test2",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);
