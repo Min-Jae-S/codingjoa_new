@@ -48,9 +48,9 @@ public class TestTxPropsService {
 		}
 	}
 	
-	@Transactional
+	@Transactional(propagation = Propagation.REQUIRED)
 	public void parent1() {
-		log.info("## parent1");
+		log.info("## parent1 - Propagation.REQUIRED");
 		chceckTransaction();
 		log.info("\t > calling child1...");
 		child1();
@@ -58,13 +58,13 @@ public class TestTxPropsService {
 	
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public void child1() {
-		log.info("## child1");
+		log.info("## child1 - Propagation.REQUIRES_NEW");
 		chceckTransaction();
 	}
 
-	@Transactional
+	@Transactional(propagation = Propagation.REQUIRED)
 	public void parent2() {
-		log.info("## parent2");
+		log.info("## parent2 - Propagation.REQUIRED");
 		chceckTransaction();
 		log.info("\t > calling child2...");
 		child2();
@@ -72,7 +72,7 @@ public class TestTxPropsService {
 	
 	@Transactional(propagation = Propagation.NESTED)
 	public void child2() {
-		log.info("## child2");
+		log.info("## child2 - Propagation.NESTED");
 		chceckTransaction();
 	}
 	
