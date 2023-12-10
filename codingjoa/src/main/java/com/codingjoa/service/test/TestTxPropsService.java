@@ -19,12 +19,11 @@ import lombok.extern.slf4j.Slf4j;
 public class TestTxPropsService {
 	
 	/*
-	 * @@ Transaction properties
-	 * 	DefaultTransactionDefinition implements TransactionDefinition { ... }
-	 * 		- Transaction Propagation
-	 * 		- Isolation Level
-	 * 		- Timeout
-	 * 		- Read Only
+	 * @@ Transaction properties - DefaultTransactionDefinition implements TransactionDefinition
+	 * 	- Transaction Propagation
+	 * 	- Isolation Level
+	 * 	- Timeout
+	 * 	- Read Only
 	 */
 	
 	@Autowired
