@@ -51,4 +51,11 @@ public class TestTxPropsController {
 		service.parent2(); 
 		return ResponseEntity.ok("success");
 	}
+	
+	@ResponseBody
+	@GetMapping("/tx-props/propagation/test3")
+	public ResponseEntity<Object> propagationTest3() { 
+		// ...
+		return ResponseEntity.ok("success");
+	}
 }
