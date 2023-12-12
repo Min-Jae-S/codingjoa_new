@@ -18,4 +18,5 @@ public interface TestMapper {
 	int remove();
 	
 	int removeAll();
+	
 }

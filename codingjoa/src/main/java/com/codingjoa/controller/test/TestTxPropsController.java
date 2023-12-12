@@ -38,16 +38,17 @@ public class TestTxPropsController {
 	
 	@ResponseBody
 	@GetMapping("/tx-props/propagation/test1")
+	// parent: REQUIRED, child: REQUIRES_NEW
 	public ResponseEntity<Object> propagationTest1() { 
-		service.parent1(); // parent: REQUIRED, child: REQUIRES_NEW
+		service.parent1(); 
 		return ResponseEntity.ok("success");
 	}
 	
 	@ResponseBody
 	@GetMapping("/tx-props/propagation/test2")
+	// parent: REQUIRED, child: NESTED
 	public ResponseEntity<Object> propagationTest2() { 
-		service.parent2(); // parent: REQUIRED, child: NESTED
+		service.parent2(); 
 		return ResponseEntity.ok("success");
 	}
-	
 }

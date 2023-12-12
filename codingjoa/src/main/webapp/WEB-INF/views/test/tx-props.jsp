@@ -102,11 +102,11 @@
 		});		
 	}
 
-	function propagation3() {
-		console.log("## propagation3");
+	function propagationTest3() {
+		console.log("## propagationTest3");
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/tx-props/propagation3",
+			url : "${contextPath}/test/tx-props/propagation/test3",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);
@@ -118,11 +118,11 @@
 		});		
 	}
 
-	function test4() {
-		console.log("## test4");
+	function propagationTest4() {
+		console.log("## propagationTest4");
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/tx-props/test4",
+			url : "${contextPath}/test/tx-props/propagation/test4",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);
