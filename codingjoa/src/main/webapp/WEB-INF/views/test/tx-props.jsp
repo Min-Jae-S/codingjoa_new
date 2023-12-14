@@ -118,6 +118,53 @@
 		});		
 	}
 
+	function isolationTest1() {
+		console.log("## isolationTest1");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/tx-props/isolation/test1",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log("> result = %s", result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(jqXHR);
+			}
+		});		
+	}
+	
+	function isolationTest2() {
+		console.log("## isolationTest2");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/tx-props/isolation/test2",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log("> result = %s", result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(jqXHR);
+			}
+		});		
+	}
+	
+	function isolationTest3() {
+		console.log("## isolationTest3");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/tx-props/isolation/test3",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log("> result = %s", result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(jqXHR);
+			}
+		});		
+	}
 </script>
 </body>
 </html>

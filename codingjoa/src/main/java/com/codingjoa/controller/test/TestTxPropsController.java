@@ -40,6 +40,7 @@ public class TestTxPropsController {
 	@GetMapping("/tx-props/propagation/test1")
 	// parent: REQUIRED, child: REQUIRES_NEW
 	public ResponseEntity<Object> propagationTest1() { 
+		log.info("## propagationTest1");
 		service.parent1(); 
 		return ResponseEntity.ok("success");
 	}
@@ -48,6 +49,7 @@ public class TestTxPropsController {
 	@GetMapping("/tx-props/propagation/test2")
 	// parent: REQUIRED, child: NESTED
 	public ResponseEntity<Object> propagationTest2() { 
+		log.info("## propagationTest2");
 		service.parent2(); 
 		return ResponseEntity.ok("success");
 	}
@@ -55,28 +57,28 @@ public class TestTxPropsController {
 	@ResponseBody
 	@GetMapping("/tx-props/propagation/test3")
 	public ResponseEntity<Object> propagationTest3() { 
-		// ...
+		log.info("## propagationTest3");
 		return ResponseEntity.ok("success");
 	}
 	
 	@ResponseBody
 	@GetMapping("/tx-props/isolation/test1")
 	public ResponseEntity<Object> isolationTest1() { 
-		// ...
+		log.info("## isolationTest1");
 		return ResponseEntity.ok("success");
 	}
 	
 	@ResponseBody
 	@GetMapping("/tx-props/isolation/test2")
-	public ResponseEntity<Object> isolationTest2() { 
-		// ...
+	public ResponseEntity<Object> isolationTest2() {
+		log.info("## isolationTest2");
 		return ResponseEntity.ok("success");
 	}
 	
 	@ResponseBody
 	@GetMapping("/tx-props/isolation/test3")
 	public ResponseEntity<Object> isolationTest3() { 
-		// ...
+		log.info("## isolationTest3");
 		return ResponseEntity.ok("success");
 	}
 }
