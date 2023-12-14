@@ -58,4 +58,25 @@ public class TestTxPropsController {
 		// ...
 		return ResponseEntity.ok("success");
 	}
+	
+	@ResponseBody
+	@GetMapping("/tx-props/isolation/test1")
+	public ResponseEntity<Object> isolationTest1() { 
+		// ...
+		return ResponseEntity.ok("success");
+	}
+	
+	@ResponseBody
+	@GetMapping("/tx-props/isolation/test2")
+	public ResponseEntity<Object> isolationTest2() { 
+		// ...
+		return ResponseEntity.ok("success");
+	}
+	
+	@ResponseBody
+	@GetMapping("/tx-props/isolation/test3")
+	public ResponseEntity<Object> isolationTest3() { 
+		// ...
+		return ResponseEntity.ok("success");
+	}
 }
