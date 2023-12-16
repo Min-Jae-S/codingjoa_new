@@ -13,7 +13,6 @@ import com.codingjoa.mapper.test.TestMapper;
 
 import lombok.extern.slf4j.Slf4j;
 
-@SuppressWarnings("unused")
 @Slf4j
 @Service
 public class TestTxPropsService {
@@ -27,9 +26,11 @@ public class TestTxPropsService {
 	 * 	- Read Only
 	 */
 	
+	@SuppressWarnings("unused")
 	@Autowired
 	private PlatformTransactionManager txManager;
 	
+	@SuppressWarnings("unused")
 	@Autowired
 	private TestMapper mapper;
 	
@@ -75,5 +76,4 @@ public class TestTxPropsService {
 		log.info("## child2 - NESTED");
 		chceckTransaction();
 	}
-	
 }
