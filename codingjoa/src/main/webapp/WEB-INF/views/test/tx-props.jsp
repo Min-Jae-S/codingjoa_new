@@ -52,10 +52,10 @@
 	</div>
 	<p class="sub-p mt-4 pl-4 mb-2">- Isolation Level</p>
 	<div class="test d-flex justify-content-center">
-		<button class="btn btn-lg btn-primary mx-3" onclick="isolationTest1()">test1</button>
-		<button class="btn btn-lg btn-primary mx-3" onclick="isolationTest2()">test2</button>
-		<button class="btn btn-lg btn-primary mx-3" onclick="isolationTest3()">test3</button>
-		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
+		<button class="btn btn-lg btn-primary mx-3" onclick="isolationTest1()">DEFAULT</button>
+		<button class="btn btn-lg btn-primary mx-3" onclick="isolationTest2()">READ_COMMITTED</button>
+		<button class="btn btn-lg btn-primary mx-3" onclick="isolationTest3()">READ_UNCOMMITTED</button>
+		<button class="btn btn-lg btn-primary mx-3" onclick="isolationTest4()">REPEATABLE_READ</button>
 	</div>
 	<p class="sub-p mt-4 pl-4 mb-2">- Time out</p>
 	<div class="test d-flex justify-content-center">
@@ -159,6 +159,22 @@
 		$.ajax({
 			type : "GET",
 			url : "${contextPath}/test/tx-props/isolation/test3",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log("> result = %s", result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(jqXHR);
+			}
+		});		
+	}
+
+	function isolationTest4() {
+		console.log("## isolationTest4");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/tx-props/isolation/test4",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);

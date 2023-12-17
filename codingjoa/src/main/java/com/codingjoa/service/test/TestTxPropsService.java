@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
@@ -49,11 +50,9 @@ public class TestTxPropsService {
 		}
 	}
 	
-//	@Transactional(propagation = Propagation.REQUIRED)
-	@Transactional(propagation = Propagation.NOT_SUPPORTED)
+	@Transactional(propagation = Propagation.REQUIRED)
 	public void parent1() {
-//		log.info("## parent1 - REQUIRED");
-		log.info("## parent1 - NOT_SUPPORTED");
+		log.info("## parent1 - REQUIRED");
 		chceckTransaction();
 		log.info("\t > calling child1...");
 		child1();
@@ -65,11 +64,9 @@ public class TestTxPropsService {
 		chceckTransaction();
 	}
 
-//	@Transactional(propagation = Propagation.REQUIRED)
-	@Transactional(propagation = Propagation.NOT_SUPPORTED)
+	@Transactional(propagation = Propagation.REQUIRED)
 	public void parent2() {
-//		log.info("## parent2 - REQUIRED");
-		log.info("## parent2 - NOT_SUPPORTED");
+		log.info("## parent2 - REQUIRED");
 		chceckTransaction();
 		log.info("\t > calling child2...");
 		child2();
@@ -79,5 +76,25 @@ public class TestTxPropsService {
 	public void child2() {
 		log.info("## child2 - NESTED");
 		chceckTransaction();
+	}
+	
+	@Transactional(isolation = Isolation.DEFAULT)
+	public void isoDefault() {
+		log.info("## Isolation.DEFAULT");
+	}
+
+	@Transactional(isolation = Isolation.READ_COMMITTED)
+	public void isoReadCommitted() {
+		log.info("## Isolation.READ_COMMITTED");
+	}
+
+	@Transactional(isolation = Isolation.READ_UNCOMMITTED)
+	public void isoReadUncommitted() {
+		log.info("## Isolation.READ_UNCOMMITTED");
+	}
+
+	@Transactional(isolation = Isolation.REPEATABLE_READ)
+	public void isoRepeatableRead() {
+		log.info("## Isolation.REPEATABLE_READ");
 	}
 }
