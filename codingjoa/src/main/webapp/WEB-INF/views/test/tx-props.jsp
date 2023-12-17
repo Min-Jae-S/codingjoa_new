@@ -59,15 +59,15 @@
 	</div>
 	<p class="sub-p mt-4 pl-4 mb-2">- Time out</p>
 	<div class="test d-flex justify-content-center">
-		<button class="btn btn-lg btn-primary mx-3" onclick="test1()">#</button>
-		<button class="btn btn-lg btn-primary mx-3" onclick="test2()">#</button>
+		<button class="btn btn-lg btn-primary mx-3" onclick="#">#</button>
+		<button class="btn btn-lg btn-primary mx-3" onclick="#">#</button>
 		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
 		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
 	</div>
 	<p class="sub-p mt-4 pl-4 mb-2">- Read Only</p>
 	<div class="test d-flex justify-content-center">
-		<button class="btn btn-lg btn-primary mx-3" onclick="test1()">test1</button>
-		<button class="btn btn-lg btn-primary mx-3" onclick="test2()">test2</button>
+		<button class="btn btn-lg btn-primary mx-3" onclick="#">#</button>
+		<button class="btn btn-lg btn-primary mx-3" onclick="#">#</button>
 		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
 		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
 	</div>

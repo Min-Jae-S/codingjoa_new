@@ -49,7 +49,8 @@ public class TestTxPropsService {
 		}
 	}
 	
-	@Transactional(propagation = Propagation.REQUIRED)
+//	@Transactional(propagation = Propagation.REQUIRED)
+	@Transactional(propagation = Propagation.NOT_SUPPORTED)
 	public void parent1() {
 		log.info("## parent1 - REQUIRED");
 		chceckTransaction();
@@ -63,7 +64,8 @@ public class TestTxPropsService {
 		chceckTransaction();
 	}
 
-	@Transactional(propagation = Propagation.REQUIRED)
+//	@Transactional(propagation = Propagation.REQUIRED)
+	@Transactional(propagation = Propagation.NOT_SUPPORTED)
 	public void parent2() {
 		log.info("## parent2 - REQUIRED");
 		chceckTransaction();

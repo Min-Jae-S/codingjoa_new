@@ -40,7 +40,9 @@ public class TestTxPropsController {
 	@GetMapping("/tx-props/propagation/test1")
 	public ResponseEntity<Object> propagationTest1() { 
 		log.info("## propagationTest1");
-		service.parent1(); // parent: REQUIRED, child: REQUIRES_NEW
+		// 1) parent: REQUIRED, 		child: REQUIRES_NEW
+		// 2) parent: NOT_SUPPORTED, 	child: REQUIRES_NEW
+		service.parent1(); 
 		return ResponseEntity.ok("success");
 	}
 	
@@ -48,7 +50,9 @@ public class TestTxPropsController {
 	@GetMapping("/tx-props/propagation/test2")
 	public ResponseEntity<Object> propagationTest2() { 
 		log.info("## propagationTest2");
-		service.parent2(); // parent: REQUIRED, child: NESTED
+		// parent: REQUIRED, 		child: NESTED
+		// parent: NOT_SUPPORTED, 	child: NESTED
+		service.parent2(); 
 		return ResponseEntity.ok("success");
 	}
 	
