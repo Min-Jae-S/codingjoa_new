@@ -16,11 +16,11 @@ import com.codingjoa.service.test.TestTxPropsService;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@SuppressWarnings("unused")
 @RequestMapping("/test")
 @Controller
 public class TestTxPropsController {
 	
-	@SuppressWarnings("unused")
 	@Autowired
 	private ApplicationContext context;
 	

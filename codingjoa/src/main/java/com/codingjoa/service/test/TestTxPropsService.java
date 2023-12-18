@@ -15,6 +15,7 @@ import com.codingjoa.mapper.test.TestMapper;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@SuppressWarnings("unused")
 @Service
 public class TestTxPropsService {
 	
@@ -27,11 +28,9 @@ public class TestTxPropsService {
 	 * 	- Read Only
 	 */
 	
-	@SuppressWarnings("unused")
 	@Autowired
 	private PlatformTransactionManager txManager;
 	
-	@SuppressWarnings("unused")
 	@Autowired
 	private TestMapper mapper;
 	
