@@ -34,9 +34,9 @@ public class TestTxPropsService {
 	@Autowired
 	private TestMapper mapper;
 	
-	public void chceckTransaction() {
+	private void chceckTransaction() {
 		log.info("## checkTransaction");
-		log.info("\t > current transaction = {}", TransactionSynchronizationManager.getCurrentTransactionName());
+		log.info("\t > current tx = {}", TransactionSynchronizationManager.getCurrentTransactionName());
 		TransactionStatus status = TransactionAspectSupport.currentTransactionStatus();
 		if (status.isCompleted()) {
 			log.info("\t > COMPLETED");
@@ -49,31 +49,41 @@ public class TestTxPropsService {
 		}
 	}
 	
+	/* @@ Propagation
+	 * 	One of the advantages of declarative transactions provided by Spring, 
+	 * 	specifically through transaction annotations such as @Transactional, 
+	 * 	is the "ability to group multiple transactions together to create a larger transactional boundary"
+	 * 	In the course of working, there are situations where additional transactions need to be performed 
+	 * 	while an existing transaction is in progress. 
+	 * 	Deciding how to proceed with an additional transaction when an existing one is already underway 
+	 * 	is referred to as the propagation attribute.
+	 */
+	
 	@Transactional(propagation = Propagation.REQUIRED)
-	public void parent1() {
-		log.info("## parent1 - REQUIRED");
+	public void outer1() {
+		log.info("## outer1 [REQUIRED]");
 		chceckTransaction();
-		log.info("\t > calling child1...");
-		child1();
+		log.info("\t > calling inner1...");
+		inner1();
 	}
 	
-	@Transactional(propagation = Propagation.REQUIRES_NEW)
-	public void child1() {
-		log.info("## child1 - REQUIRES_NEW");
+	@Transactional(propagation = Propagation.REQUIRED)
+	public void inner1() {
+		log.info("## inner1 [REQUIRED]");
 		chceckTransaction();
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED)
-	public void parent2() {
-		log.info("## parent2 - REQUIRED");
+	public void outer2() {
+		log.info("## outer2 [REQUIRED]");
 		chceckTransaction();
-		log.info("\t > calling child2...");
-		child2();
+		log.info("\t > calling inner2...");
+		inner2();
 	}
 	
-	@Transactional(propagation = Propagation.NESTED)
-	public void child2() {
-		log.info("## child2 - NESTED");
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	public void inner2() {
+		log.info("## inner2 [REQUIRES_NEW]");
 		chceckTransaction();
 	}
 	
