@@ -20,16 +20,15 @@ import org.springframework.beans.factory.BeanFactoryUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RequestMapping("/test")
-@Controller
+@RestController
 public class TestBatchController {
 	
 	/*
@@ -66,13 +65,6 @@ public class TestBatchController {
 	@Resource(name = "stepBuilders")
 	private StepBuilderFactory stepBuilders;
 	
-	@GetMapping("/batch")
-	public String main() {
-		log.info("## main");
-		return "test/batch";
-	}
-
-	@ResponseBody
 	@GetMapping("/batch/config")
 	public ResponseEntity<Object> config() throws Exception {
 		log.info("## batch config");
@@ -90,7 +82,6 @@ public class TestBatchController {
 		return ResponseEntity.ok("success");
 	}
 	
-	@ResponseBody
 	@GetMapping("/batch/builders")
 	public ResponseEntity<Object> builders() {
 		log.info("## builders");
@@ -99,7 +90,6 @@ public class TestBatchController {
 		return ResponseEntity.ok("success");
 	}
 	
-	@ResponseBody
 	@GetMapping("/batch/job-repository")
 	public ResponseEntity<Object> jobRepository() throws Exception {
 		log.info("## jobRepository");
@@ -109,7 +99,6 @@ public class TestBatchController {
 		return ResponseEntity.ok("success");
 	}
 
-	@ResponseBody
 	@GetMapping("/batch/job-explorer")
 	public ResponseEntity<Object> jobExplorer() throws Exception {
 		log.info("## jobExplorer");
@@ -136,7 +125,6 @@ public class TestBatchController {
 		return ResponseEntity.ok("success");
 	}
 
-	@ResponseBody
 	@GetMapping("/batch/job-launcher")
 	public ResponseEntity<Object> jobLauncher() throws Exception {
 		log.info("## jobLauncher");
@@ -146,7 +134,6 @@ public class TestBatchController {
 		return ResponseEntity.ok("success");
 	}
 	
-	@ResponseBody
 	@GetMapping("/batch/job-parameters")
 	public ResponseEntity<Object> jobParameters() {
 		log.info("## jobParameters");
@@ -157,7 +144,6 @@ public class TestBatchController {
 		return ResponseEntity.ok("success");
 	}
 	
-	@ResponseBody
 	@GetMapping("/batch/run/job-a")
 	public ResponseEntity<Object> runJobA() throws Exception {
 		log.info("## runJobA");
@@ -165,12 +151,10 @@ public class TestBatchController {
 		return ResponseEntity.ok("success");
 	}
 
-	@ResponseBody
 	@GetMapping("/batch/run/job-b")
 	public ResponseEntity<Object> runJobB() throws Exception {
 		log.info("## runJobB");
 		jobLauncher.run(batchJobB, new JobParameters());
 		return ResponseEntity.ok("success");
 	}
-	
 }

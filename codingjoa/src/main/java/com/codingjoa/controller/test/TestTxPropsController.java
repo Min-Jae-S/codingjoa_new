@@ -70,7 +70,7 @@ public class TestTxPropsController {
 	public ResponseEntity<Object> propagationTest3() { 
 		log.info("## propagationTest3");
 		
-		// outer: NO TX, inner: REQUIRED
+		// outer: NO TX, inner: MANDATORY
 		service.outer3(); 
 		return ResponseEntity.ok("success");
 	}

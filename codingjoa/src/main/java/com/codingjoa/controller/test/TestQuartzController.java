@@ -12,10 +12,9 @@ import org.quartz.TriggerKey;
 import org.quartz.impl.matchers.GroupMatcher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.codingjoa.config.QuartzConfig;
 import com.codingjoa.quartz.service.SchedulerService;
@@ -24,7 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RequestMapping("/test")
-@Controller
+@RestController
 public class TestQuartzController {
 	
 	@Autowired
@@ -36,13 +35,6 @@ public class TestQuartzController {
 	@Autowired
 	private QuartzConfig quartzConfig;
 	
-	@GetMapping("/quartz")
-	public String main() {
-		log.info("## main");
-		return "test/quartz";
-	}
-
-	@ResponseBody
 	@GetMapping("/quartz/config")
 	public ResponseEntity<Object> config() throws SchedulerException {
 		log.info("## quartz config");
@@ -50,7 +42,6 @@ public class TestQuartzController {
 		return ResponseEntity.ok("success");
 	}
 
-	@ResponseBody
 	@GetMapping("/quartz/state")
 	public ResponseEntity<Object> state() throws SchedulerException {
 		log.info("## state");
@@ -82,7 +73,6 @@ public class TestQuartzController {
 		return ResponseEntity.ok("success");
 	}
 	
-	@ResponseBody
 	@GetMapping("/quartz/paused-jobs")
 	public ResponseEntity<Object> pausedJobs() throws SchedulerException {
 		log.info("## pausedJobs");
@@ -100,7 +90,6 @@ public class TestQuartzController {
 		return ResponseEntity.ok("success");
 	}
 	
-	@ResponseBody
 	@GetMapping("/quartz/start")
 	public ResponseEntity<Object> startAllJobs() throws SchedulerException {
 		log.info("## startAllJobs");
@@ -108,7 +97,6 @@ public class TestQuartzController {
 		return ResponseEntity.ok("start all jobs");
 	}
 
-	@ResponseBody
 	@GetMapping("/quartz/start/job-a")
 	public ResponseEntity<Object> startJobA() throws SchedulerException {
 		log.info("## startJobA");
@@ -117,7 +105,6 @@ public class TestQuartzController {
 		return ResponseEntity.ok(result);
 	}
 
-	@ResponseBody
 	@GetMapping("/quartz/start/job-b")
 	public ResponseEntity<Object> startJobB() throws SchedulerException {
 		log.info("## startJobB");
@@ -126,7 +113,6 @@ public class TestQuartzController {
 		return ResponseEntity.ok(result);
 	}
 
-	@ResponseBody
 	@GetMapping("/quartz/start/job-quartz")
 	public ResponseEntity<Object> startQuartzJob() throws SchedulerException {
 		log.info("## startQuartzJob");
@@ -135,7 +121,6 @@ public class TestQuartzController {
 		return ResponseEntity.ok(result);
 	}
 
-	@ResponseBody
 	@GetMapping("/quartz/pause")
 	public ResponseEntity<Object> pauseAllJobs() throws SchedulerException {
 		log.info("## pauseAllJobs");
@@ -143,7 +128,6 @@ public class TestQuartzController {
 		return ResponseEntity.ok("pause all jobs");
 	}
 
-	@ResponseBody
 	@GetMapping("/quartz/pause/job-a")
 	public ResponseEntity<Object> pauseJobA() throws SchedulerException {
 		log.info("## pauseJobA");
@@ -152,7 +136,6 @@ public class TestQuartzController {
 		return ResponseEntity.ok(result);
 	}
 
-	@ResponseBody
 	@GetMapping("/quartz/pause/job-b")
 	public ResponseEntity<Object> pauseJobB() throws SchedulerException {
 		log.info("## pauseJobB");
@@ -161,7 +144,6 @@ public class TestQuartzController {
 		return ResponseEntity.ok(result);
 	}
 
-	@ResponseBody
 	@GetMapping("/quartz/pause/job-quartz")
 	public ResponseEntity<Object> pauseQuartzJob() throws SchedulerException {
 		log.info("## pauseJobC");

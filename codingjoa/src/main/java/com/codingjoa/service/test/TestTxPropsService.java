@@ -29,8 +29,6 @@ public class TestTxPropsService {
 	 * 	- Read Only
 	 */
 	
-	@Autowired
-	private PlatformTransactionManager txManager;
 	
 	@Autowired
 	private TestTxPropsService2 service2;
@@ -38,18 +36,25 @@ public class TestTxPropsService {
 	@Autowired
 	private TestMapper mapper;
 	
+	@Autowired
+	private PlatformTransactionManager txManager;
+	
 	private void chceckTransaction() {
 		log.info("## chceckTransaction");
-		log.info("\t > Current Transaction = {}", TransactionSynchronizationManager.getCurrentTransactionName());
-		TransactionStatus status = TransactionAspectSupport.currentTransactionStatus();
-		if (status.isCompleted()) {
-			log.info("\t > Completed");
-		} else if (status.isRollbackOnly()) {
-			log.info("\t > Rollback");
-		} else if (status.isNewTransaction()) {
-			log.info("\t > New Transaction");
-		} else {
-			log.info("\t > Suspending or Unknown");
+		try {
+			TransactionStatus status = TransactionAspectSupport.currentTransactionStatus();
+			log.info("\t > Current Transaction = {}", TransactionSynchronizationManager.getCurrentTransactionName());
+			if (status.isCompleted()) {
+				log.info("\t > Completed");
+			} else if (status.isRollbackOnly()) {
+				log.info("\t > Rollback");
+			} else if (status.isNewTransaction()) {
+				log.info("\t > New Transaction");
+			} else {
+				log.info("\t > Suspending or Unknown");
+			}
+		} catch (Exception e) {
+			log.info("\t > No Transaction : {}", e.getClass().getSimpleName());
 		}
 	}
 	
@@ -69,8 +74,11 @@ public class TestTxPropsService {
 		log.info("## outer1");
 		chceckTransaction();
 		
+		// https://velog.io/@chullll/Transactional-%EA%B3%BC-PROXY
+		// https://javafactory.tistory.com/1406
 		// AOP(Proxy) self-invocation issue
 		//this.inner1(); 
+		
 		service2.inner1();
 	}
 
@@ -84,7 +92,7 @@ public class TestTxPropsService {
 	public void outer3() {
 		log.info("## outer3");
 		chceckTransaction();
-		service2.inner1();
+		service2.inner3();
 	}
 
 	@Transactional(isolation = Isolation.DEFAULT)

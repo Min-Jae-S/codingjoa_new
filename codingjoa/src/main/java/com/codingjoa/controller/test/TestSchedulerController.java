@@ -41,6 +41,7 @@ public class TestSchedulerController {
 	@GetMapping("/scheduler")
 	public String main() {
 		log.info("## main");
+		log.info("\t > return test/scheduler.jsp");
 		return "test/scheduler";
 	}
 	
