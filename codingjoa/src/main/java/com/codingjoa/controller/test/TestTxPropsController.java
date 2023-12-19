@@ -37,7 +37,7 @@ public class TestTxPropsController {
 	}
 	
 	@ResponseBody
-	@GetMapping("/tx-props/propagation/required")
+	@GetMapping("/tx-props/propagation/test1")
 	public ResponseEntity<Object> propagationTest1() { 
 		log.info("## propagationTest1");
 		service.outer1(); // outer: REQUIRED, inner: REQUIRED
@@ -45,7 +45,7 @@ public class TestTxPropsController {
 	}
 	
 	@ResponseBody
-	@GetMapping("/tx-props/propagation/requires-new")
+	@GetMapping("/tx-props/propagation/test2")
 	public ResponseEntity<Object> propagationTest2() { 
 		log.info("## propagationTest2");
 		service.outer2(); // outer: REQUIRED, inner: REQUIRED_NEW
@@ -56,6 +56,8 @@ public class TestTxPropsController {
 	@GetMapping("/tx-props/propagation/test3")
 	public ResponseEntity<Object> propagationTest3() { 
 		log.info("## propagationTest3");
+		service.outer3();
+		service.outer4();
 		return ResponseEntity.ok("success");
 	}
 	

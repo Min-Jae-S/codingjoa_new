@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
+import org.springframework.transaction.support.TransactionSynchronizationUtils;
 
 import com.codingjoa.mapper.test.TestMapper;
 
@@ -36,7 +37,7 @@ public class TestTxPropsService {
 	
 	private void chceckTransaction() {
 		log.info("## checkTransaction");
-		log.info("\t > current tx = {}", TransactionSynchronizationManager.getCurrentTransactionName());
+		log.info("\t > Transaction ID = {}", TransactionSynchronizationManager.getCurrentTransactionName());
 		TransactionStatus status = TransactionAspectSupport.currentTransactionStatus();
 		if (status.isCompleted()) {
 			log.info("\t > COMPLETED");
@@ -49,7 +50,8 @@ public class TestTxPropsService {
 		}
 	}
 	
-	/* @@ Propagation
+	/* 
+	 * @@ Propagation
 	 * 	One of the advantages of declarative transactions provided by Spring, 
 	 * 	specifically through transaction annotations such as @Transactional, 
 	 * 	is the "ability to group multiple transactions together to create a larger transactional boundary"
@@ -59,31 +61,41 @@ public class TestTxPropsService {
 	 * 	is referred to as the propagation attribute.
 	 */
 	
-	@Transactional(propagation = Propagation.REQUIRED)
+	@Transactional
 	public void outer1() {
-		log.info("## outer1 [REQUIRED]");
+		log.info("## outer1");
 		chceckTransaction();
-		log.info("\t > calling inner1...");
 		inner1();
 	}
 	
-	@Transactional(propagation = Propagation.REQUIRED)
+	@Transactional
 	public void inner1() {
-		log.info("## inner1 [REQUIRED]");
+		log.info("## inner1");
 		chceckTransaction();
 	}
 
-	@Transactional(propagation = Propagation.REQUIRED)
+	@Transactional
 	public void outer2() {
-		log.info("## outer2 [REQUIRED]");
+		log.info("## outer2");
 		chceckTransaction();
-		log.info("\t > calling inner2...");
 		inner2();
 	}
 	
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public void inner2() {
-		log.info("## inner2 [REQUIRES_NEW]");
+		log.info("## inner2");
+		chceckTransaction();
+	}
+	
+	@Transactional
+	public void outer3() {
+		log.info("## outer3");
+		chceckTransaction();
+	}
+
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	public void outer4() {
+		log.info("## outer4");
 		chceckTransaction();
 	}
 	
