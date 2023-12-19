@@ -33,20 +33,23 @@ public class TestTxPropsService {
 	private PlatformTransactionManager txManager;
 	
 	@Autowired
+	private TestTxPropsService2 service2;
+	
+	@Autowired
 	private TestMapper mapper;
 	
 	private void chceckTransaction() {
-		log.info("## checkTransaction");
-		log.info("\t > Transaction ID = {}", TransactionSynchronizationManager.getCurrentTransactionName());
+		log.info("## chceckTransaction");
+		log.info("\t > Current Transaction = {}", TransactionSynchronizationManager.getCurrentTransactionName());
 		TransactionStatus status = TransactionAspectSupport.currentTransactionStatus();
 		if (status.isCompleted()) {
-			log.info("\t > COMPLETED");
+			log.info("\t > Completed");
 		} else if (status.isRollbackOnly()) {
-			log.info("\t > ROLLBACK");
+			log.info("\t > Rollback");
 		} else if (status.isNewTransaction()) {
-			log.info("\t > NEW TRANSACTION");
+			log.info("\t > New Transaction");
 		} else {
-			log.info("\t > UNKNOWN");
+			log.info("\t > Suspending or Unknown");
 		}
 	}
 	
@@ -65,40 +68,25 @@ public class TestTxPropsService {
 	public void outer1() {
 		log.info("## outer1");
 		chceckTransaction();
-		inner1();
-	}
-	
-	@Transactional
-	public void inner1() {
-		log.info("## inner1");
-		chceckTransaction();
+		
+		// AOP(Proxy) self-invocation issue
+		//this.inner1(); 
+		service2.inner1();
 	}
 
 	@Transactional
 	public void outer2() {
 		log.info("## outer2");
 		chceckTransaction();
-		inner2();
+		service2.inner2();
 	}
 	
-	@Transactional(propagation = Propagation.REQUIRES_NEW)
-	public void inner2() {
-		log.info("## inner2");
-		chceckTransaction();
-	}
-	
-	@Transactional
 	public void outer3() {
 		log.info("## outer3");
 		chceckTransaction();
+		service2.inner1();
 	}
 
-	@Transactional(propagation = Propagation.REQUIRES_NEW)
-	public void outer4() {
-		log.info("## outer4");
-		chceckTransaction();
-	}
-	
 	@Transactional(isolation = Isolation.DEFAULT)
 	public void isoDefault() {
 		log.info("## Isolation.DEFAULT");
@@ -118,4 +106,5 @@ public class TestTxPropsService {
 	public void isoRepeatableRead() {
 		log.info("## Isolation.REPEATABLE_READ");
 	}
+	
 }
