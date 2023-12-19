@@ -85,7 +85,7 @@
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
-				console.log(jqXHR);
+				console.log(jqXHR.responseJSON);
 			}
 		});		
 	}
@@ -101,7 +101,7 @@
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
-				console.log(jqXHR);
+				console.log(jqXHR.responseJSON);
 			}
 		});		
 	}
@@ -117,7 +117,7 @@
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
-				console.log(jqXHR);
+				console.log(jqXHR.responseJSON);
 			}
 		});		
 	}
@@ -133,7 +133,7 @@
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
-				console.log(jqXHR);
+				console.log(jqXHR.responseJSON);
 			}
 		});		
 	}
@@ -149,7 +149,7 @@
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
-				console.log(jqXHR);
+				console.log(jqXHR.responseJSON);
 			}
 		});		
 	}
@@ -165,7 +165,7 @@
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
-				console.log(jqXHR);
+				console.log(jqXHR.responseJSON);
 			}
 		});		
 	}
@@ -181,7 +181,7 @@
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
-				console.log(jqXHR);
+				console.log(jqXHR.responseJSON);
 			}
 		});		
 	}

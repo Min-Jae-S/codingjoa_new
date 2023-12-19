@@ -14,14 +14,30 @@ public class TestViewController {
 	@GetMapping("/batch")
 	public String batchMain() {
 		log.info("## batch main");
-		log.info("\t > return test/batch.jsp");
 		return "test/batch";
 	}
 	
 	@GetMapping("/quartz")
 	public String quartzMain() {
 		log.info("## quartz main");
-		log.info("\t > return test/quartz.jsp");
 		return "test/quartz";
+	}
+	
+	@GetMapping("/scheduler")
+	public String schedulerMain() {
+		log.info("## scheduler main");
+		return "test/scheduler";
+	}
+	
+	@GetMapping("/tx")
+	public String txMain() {
+		log.info("## tx main");
+		return "test/tx";
+	}
+	
+	@GetMapping("/tx-props")
+	public String txPropsMain() {
+		log.info("## txProps main");
+		return "test/tx-props";
 	}
 }

@@ -1,6 +1,7 @@
 package com.codingjoa.service.test;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.datasource.ConnectionHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
@@ -29,6 +30,13 @@ public class TestTxPropsService2 {
 		try {
 			TransactionStatus status = TransactionAspectSupport.currentTransactionStatus();
 			log.info("\t > Current Transaction = {}", TransactionSynchronizationManager.getCurrentTransactionName());
+			
+			for(Object key : TransactionSynchronizationManager.getResourceMap().keySet()) {
+				ConnectionHolder connectionHolder = 
+						(ConnectionHolder) TransactionSynchronizationManager.getResource(key);
+				log.info("\t > Current Connection = {}", connectionHolder.getConnection());
+			}
+			
 			if (status.isCompleted()) {
 				log.info("\t > Completed");
 			} else if (status.isRollbackOnly()) {

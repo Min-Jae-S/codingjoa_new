@@ -14,12 +14,11 @@ import org.springframework.beans.factory.BeanFactoryUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.codingjoa.service.test.TestTxService;
 import com.codingjoa.test.TestVo;
@@ -28,7 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RequestMapping("/test")
-@Controller
+@RestController
 public class TestTxController {
 	
 	/*
@@ -48,13 +47,6 @@ public class TestTxController {
 	@Resource(name = "mainTransactionManager")
 	private PlatformTransactionManager mainTransactionManager;
 
-	@GetMapping("/tx")
-	public String main() {
-		log.info("## main");
-		return "test/tx";
-	}
-	
-	@ResponseBody
 	@GetMapping("/tx/datasources")
 	public ResponseEntity<Object> datasources() {
 		log.info("## datasources");
@@ -70,7 +62,6 @@ public class TestTxController {
 		return ResponseEntity.ok("success");
 	}
 	
-	@ResponseBody
 	@GetMapping("/tx/managers")
 	public ResponseEntity<Object> managers() {
 		log.info("## managers");
@@ -87,7 +78,6 @@ public class TestTxController {
 		return ResponseEntity.ok("success");
 	}
 	
-	@ResponseBody
 	@GetMapping("/tx/factory")
 	public ResponseEntity<Object> factory() {
 		log.info("## factory");
@@ -103,7 +93,6 @@ public class TestTxController {
 		return ResponseEntity.ok("success");
 	}
 
-	@ResponseBody
 	@GetMapping("/tx/template")
 	public ResponseEntity<Object> template() {
 		log.info("## template");
@@ -119,7 +108,6 @@ public class TestTxController {
 		return ResponseEntity.ok("success");
 	}
 
-	@ResponseBody
 	@GetMapping("/tx/sync-manager")
 	public ResponseEntity<Object> syncManager() {
 		log.info("## syncManager");
@@ -135,7 +123,6 @@ public class TestTxController {
 		return ResponseEntity.ok("success");
 	}
 
-	@ResponseBody
 	@GetMapping("/tx/test1")
 	public ResponseEntity<Object> test1() { 
 		log.info("## test1");
@@ -143,7 +130,6 @@ public class TestTxController {
 		return ResponseEntity.ok("success");
 	}
 
-	@ResponseBody
 	@GetMapping("/tx/test2")
 	public ResponseEntity<Object> test2() {
 		log.info("## test2");
@@ -151,7 +137,6 @@ public class TestTxController {
 		return ResponseEntity.ok("success");
 	}
 
-	@ResponseBody
 	@GetMapping("/tx/test3")
 	public ResponseEntity<Object> test3() {
 		log.info("## test3");
@@ -159,7 +144,6 @@ public class TestTxController {
 		return ResponseEntity.ok("success");
 	}
 	
-	@ResponseBody
 	@GetMapping("/tx/test4")
 	public ResponseEntity<Object> test4() {
 		log.info("## test4");
@@ -167,7 +151,6 @@ public class TestTxController {
 		return ResponseEntity.ok("success");
 	}
 
-	@ResponseBody
 	@GetMapping("/tx/select-all")
 	public ResponseEntity<Object> selectAll() {
 		log.info("## selectAll");
@@ -180,7 +163,6 @@ public class TestTxController {
 		return ResponseEntity.ok(result);
 	}
 
-	@ResponseBody
 	@GetMapping("/tx/insert-no-tx")
 	public ResponseEntity<Object> insertNoTx() {
 		log.info("## insertNoTx");
@@ -198,7 +180,6 @@ public class TestTxController {
 		return ResponseEntity.ok("success");
 	}
 
-	@ResponseBody
 	@GetMapping("/tx/insert-tx")
 	public ResponseEntity<Object> insertTx() {
 		log.info("## insertTx");
@@ -216,7 +197,6 @@ public class TestTxController {
 		return ResponseEntity.ok("success");
 	}
 
-	@ResponseBody
 	@GetMapping("/tx/update")
 	public ResponseEntity<Object> update() {
 		log.info("## update");
@@ -232,7 +212,6 @@ public class TestTxController {
 		return ResponseEntity.ok("success");
 	}
 
-	@ResponseBody
 	@GetMapping("/tx/remove")
 	public ResponseEntity<Object> remove() {
 		log.info("## remove");
@@ -241,7 +220,6 @@ public class TestTxController {
 		return ResponseEntity.ok("success");
 	}
 	
-	@ResponseBody
 	@GetMapping("/tx/remove-all")
 	public ResponseEntity<Object> removeAll() {
 		log.info("## removeAll");
@@ -250,7 +228,6 @@ public class TestTxController {
 		return ResponseEntity.ok("success");
 	}
 	
-	@ResponseBody
 	@GetMapping("/tx/invoke")
 	public ResponseEntity<Object> invoke() throws Exception {
 		log.info("## invoke");
@@ -258,7 +235,6 @@ public class TestTxController {
 		return ResponseEntity.ok("success");
 	}
 
-	@ResponseBody
 	@GetMapping("/tx/invoke-no-tx")
 	public ResponseEntity<Object> invokeNoTx() {
 		log.info("## invokeNoTx");
@@ -266,7 +242,6 @@ public class TestTxController {
 		return ResponseEntity.ok("success");
 	}
 	
-	@ResponseBody
 	@GetMapping("/tx/invoke-tx")
 	public ResponseEntity<Object> invokeTx() {
 		log.info("## invokeTx");
@@ -274,7 +249,6 @@ public class TestTxController {
 		return ResponseEntity.ok("success");
 	}
 
-	@ResponseBody
 	@GetMapping("/tx/payment")
 	public ResponseEntity<Object> payment() {
 		log.info("## payment");
@@ -282,7 +256,6 @@ public class TestTxController {
 		return ResponseEntity.ok("success");
 	}
 
-	@ResponseBody
 	@GetMapping("/tx/invoke/sqlSession")
 	public ResponseEntity<Object> invokeSqlSession() throws Exception {
 		log.info("## invokeSqlSession");
@@ -290,7 +263,6 @@ public class TestTxController {
 		return ResponseEntity.ok("success");
 	}
 
-	@ResponseBody
 	@GetMapping("/tx/invoke/sqlSessionTemplate")
 	public ResponseEntity<Object> invokeSqlSessionTemplate() throws Exception {
 		log.info("## invokeSqlSessionTemplate");
@@ -298,7 +270,6 @@ public class TestTxController {
 		return ResponseEntity.ok("success");
 	}
 
-	@ResponseBody
 	@GetMapping("/tx/invoke/mapper")
 	public ResponseEntity<Object> invokeMapper() throws Exception {
 		log.info("## invokeMapper");

@@ -1,15 +1,14 @@
 package com.codingjoa.service.test;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.datasource.ConnectionHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
-import org.springframework.transaction.support.TransactionSynchronizationUtils;
 
 import com.codingjoa.mapper.test.TestMapper;
 
@@ -29,7 +28,6 @@ public class TestTxPropsService {
 	 * 	- Read Only
 	 */
 	
-	
 	@Autowired
 	private TestTxPropsService2 service2;
 	
@@ -44,6 +42,13 @@ public class TestTxPropsService {
 		try {
 			TransactionStatus status = TransactionAspectSupport.currentTransactionStatus();
 			log.info("\t > Current Transaction = {}", TransactionSynchronizationManager.getCurrentTransactionName());
+			
+			for(Object key : TransactionSynchronizationManager.getResourceMap().keySet()) {
+				ConnectionHolder connectionHolder = 
+						(ConnectionHolder) TransactionSynchronizationManager.getResource(key);
+				log.info("\t > Current Connection = {}", connectionHolder.getConnection());
+			}
+			
 			if (status.isCompleted()) {
 				log.info("\t > Completed");
 			} else if (status.isRollbackOnly()) {
@@ -78,7 +83,6 @@ public class TestTxPropsService {
 		// https://javafactory.tistory.com/1406
 		// AOP(Proxy) self-invocation issue
 		//this.inner1(); 
-		
 		service2.inner1();
 	}
 

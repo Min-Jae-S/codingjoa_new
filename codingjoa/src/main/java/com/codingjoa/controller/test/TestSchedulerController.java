@@ -9,16 +9,15 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RequestMapping("/test")
-@Controller
+@RestController
 public class TestSchedulerController {
 
 	/*
@@ -38,14 +37,6 @@ public class TestSchedulerController {
 	private ScheduledExecutorService executor;
 	private DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
 	
-	@GetMapping("/scheduler")
-	public String main() {
-		log.info("## main");
-		log.info("\t > return test/scheduler.jsp");
-		return "test/scheduler";
-	}
-	
-	@ResponseBody
 	@GetMapping("/scheduler/timer")
 	public ResponseEntity<Object> timer() {
 		log.info("## timer");
@@ -61,7 +52,6 @@ public class TestSchedulerController {
 		return ResponseEntity.ok("timer success");
 	}
 
-	@ResponseBody
 	@GetMapping("/scheduler/startTimer")
 	public ResponseEntity<Object> startTimer() {
 		log.info("## startTimer");
@@ -76,7 +66,6 @@ public class TestSchedulerController {
 		return ResponseEntity.ok("startTimer success");
 	}
 
-	@ResponseBody
 	@GetMapping("/scheduler/stopTimer")
 	public ResponseEntity<Object> stopTimer() {
 		log.info("## stopTimer");
@@ -84,7 +73,6 @@ public class TestSchedulerController {
 		return ResponseEntity.ok("stopTimer success");
 	}
 
-	@ResponseBody
 	@GetMapping("/scheduler/startExecutor")
 	public ResponseEntity<Object> startExecutor() {
 		log.info("## startExecutor");
@@ -99,7 +87,6 @@ public class TestSchedulerController {
 		return ResponseEntity.ok("startExecutor success");
 	}
 
-	@ResponseBody
 	@GetMapping("/scheduler/stopExecutor")
 	public ResponseEntity<Object> stopExecutor() {
 		log.info("## stopExecutor");
