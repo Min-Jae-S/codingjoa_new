@@ -45,9 +45,9 @@
 	<p>tx-props.jsp</p>
 	<p class="sub-p mt-4 pl-4 mb-2">- Propagation</p>
 	<div class="test d-flex justify-content-center">
-		<button class="btn btn-lg btn-primary mx-3" onclick="propagationTest1()">test1</button>
-		<button class="btn btn-lg btn-primary mx-3" onclick="propagationTest2()">test2</button>
-		<button class="btn btn-lg btn-primary mx-3" onclick="propagationTest3()">test3</button>
+		<button class="btn btn-lg btn-primary mx-3" onclick="propagationTest1()">REQUIRED</button>
+		<button class="btn btn-lg btn-primary mx-3" onclick="propagationTest2()">REQUIRES_NEW</button>
+		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
 		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
 	</div>
 	<p class="sub-p mt-4 pl-4 mb-2">- Isolation Level</p>
@@ -59,15 +59,15 @@
 	</div>
 	<p class="sub-p mt-4 pl-4 mb-2">- Time out</p>
 	<div class="test d-flex justify-content-center">
-		<button class="btn btn-lg btn-primary mx-3" onclick="#">#</button>
-		<button class="btn btn-lg btn-primary mx-3" onclick="#">#</button>
+		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
+		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
 		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
 		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
 	</div>
 	<p class="sub-p mt-4 pl-4 mb-2">- Read Only</p>
 	<div class="test d-flex justify-content-center">
-		<button class="btn btn-lg btn-primary mx-3" onclick="#">#</button>
-		<button class="btn btn-lg btn-primary mx-3" onclick="#">#</button>
+		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
+		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
 		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
 		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
 	</div>
@@ -78,7 +78,7 @@
 		console.log("## propagationTest1");
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/tx-props/propagation/test1",
+			url : "${contextPath}/test/tx-props/propagation/required",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);
@@ -94,7 +94,7 @@
 		console.log("## propagationTest2");
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/tx-props/propagation/test2",
+			url : "${contextPath}/test/tx-props/propagation/requires-new",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);
