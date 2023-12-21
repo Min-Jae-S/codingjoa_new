@@ -11,6 +11,7 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
+import org.springframework.transaction.support.DefaultTransactionStatus;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 import com.codingjoa.mapper.TestMapper;
@@ -45,25 +46,25 @@ public class TestTxPropsService {
 		log.info("## chceckTransaction");
 		try {
 			TransactionStatus status = TransactionAspectSupport.currentTransactionStatus();
-			log.info("\t > Current Transaction = {}", TransactionSynchronizationManager.getCurrentTransactionName());
+			log.info("\t > transaction = {}", TransactionSynchronizationManager.getCurrentTransactionName());
 			
 			for(Object key : TransactionSynchronizationManager.getResourceMap().keySet()) {
 				ConnectionHolder connectionHolder = 
 						(ConnectionHolder) TransactionSynchronizationManager.getResource(key);
-				log.info("\t > Current Connection = {}", connectionHolder.getConnection().toString().split(" ")[0]);
+				log.info("\t > conn = {}", connectionHolder.getConnection().toString().split(" ")[0]);
 			}
-			
+
 			if (status.isCompleted()) {
-				log.info("\t > Completed");
+				log.info("\t > status = Completed");
 			} else if (status.isRollbackOnly()) {
-				log.info("\t > Rollback");
+				log.info("\t > status = Rollback");
 			} else if (status.isNewTransaction()) {
-				log.info("\t > New Transaction");
+				log.info("\t > status = New Transaction");
 			} else {
-				log.info("\t > Suspending or Unknown");
+				log.info("\t > status = Unknown");
 			}
 		} catch (Exception e) {
-			log.info("\t > No Transaction : {}", e.getClass().getSimpleName());
+			log.info("\t > No Transaction, {}", e.getClass().getSimpleName());
 		}
 	}
 	
