@@ -26,16 +26,15 @@ public class ErrorHtmlHandler {
 	protected String handleException(Exception e, HttpServletRequest request) {
 		log.info("** {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t > location = {}", e.getStackTrace()[0]);
-		//log.info("\t > original message = {}", e.getMessage());
+		log.info("\t > original message = {}", e.getMessage());
 		
 		ErrorResponse errorResponse = ErrorResponse.builder()
 				.status(HttpStatus.BAD_REQUEST)
 				.messageByCode("error.UnKnown")
 				.build();
-		//log.info("\t > {}", errorResponse);
+		log.info("\t > {}", errorResponse);
 		request.setAttribute("errorResponse", errorResponse);
-
-		e.printStackTrace();
+		//e.printStackTrace();
 		return "forward:/error/errorPage";
 	}
 	

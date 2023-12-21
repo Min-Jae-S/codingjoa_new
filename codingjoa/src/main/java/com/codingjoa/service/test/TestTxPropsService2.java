@@ -42,13 +42,13 @@ public class TestTxPropsService2 {
 //			}
 
 			if (status.isCompleted()) {
-				log.info("\t > status = Completed");
+				log.info("\t > [ Completed ]");
 			} else if (status.isRollbackOnly()) {
-				log.info("\t > status = Rollback");
+				log.info("\t > [ Rollback] ");
 			} else if (status.isNewTransaction()) {
-				log.info("\t > status = New Transaction");
+				log.info("\t > [ New Transaction ]");
 			} else {
-				log.info("\t > status = Unknown");
+				log.info("\t > [ Unknown ]");
 			}
 		} catch (Exception e) {
 			log.info("\t > No transaction = {}", e.getClass().getSimpleName());
@@ -81,7 +81,7 @@ public class TestTxPropsService2 {
 			mapper.insert(createTestVo("innerRollback"));
 			throw new SQLException();
 		} catch (Exception e) {
-			log.info("## innerRollback - rollback occured due to {}", e.getClass().getSimpleName());
+			log.info("## innerRollback - catch {}", e.getClass().getSimpleName());
 			checkTransaction();
 		}
 	}

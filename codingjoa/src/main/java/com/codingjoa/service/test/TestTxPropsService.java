@@ -1,17 +1,16 @@
 package com.codingjoa.service.test;
 
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.datasource.ConnectionHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
-import org.springframework.transaction.support.DefaultTransactionStatus;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 import com.codingjoa.mapper.TestMapper;
@@ -54,13 +53,13 @@ public class TestTxPropsService {
 //			}
 
 			if (status.isCompleted()) {
-				log.info("\t > status = Completed");
+				log.info("\t > [ Completed ]");
 			} else if (status.isRollbackOnly()) {
-				log.info("\t > status = Rollback");
+				log.info("\t > [ Rollback ]");
 			} else if (status.isNewTransaction()) {
-				log.info("\t > status = New Transaction");
+				log.info("\t > [ New Transaction ]");
 			} else {
-				log.info("\t > status = Unknown");
+				log.info("\t > [ Unknown ]");
 			}
 		} catch (Exception e) {
 			log.info("\t > No transaction = {}", e.getClass().getSimpleName());
@@ -87,6 +86,29 @@ public class TestTxPropsService {
 	 * 	Deciding how to proceed with an additional transaction when an existing one is already underway 
 	 * 	is referred to as the propagation attribute.
 	 */
+	
+	@Transactional
+	public void rollback1() {
+		log.info("## rollback1");
+		checkTransaction();
+		try {
+			log.info("## rollback1 - insert testVo");
+			mapper.insert(createTestVo("rollback1"));
+			throw new SQLException("rollback1");
+		} catch (Exception e) {
+			log.info("## rollback1 - catch {}", e.getClass().getSimpleName());
+		}
+	}
+	
+	@Transactional
+	public void rollback2() throws SQLException {
+		log.info("## rollback2");
+		checkTransaction();
+		
+		log.info("## rollback2 - insert testVo");
+		mapper.insert(createTestVo("rollback2"));
+		throw new SQLException("rollback2");
+	}
 	
 	@Transactional
 	public void outer1() {

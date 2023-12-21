@@ -53,14 +53,14 @@ public class ErrorRestHandler {
 	protected ResponseEntity<Object> handleException(Exception e) {
 		log.info("** {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t > location = {}", e.getStackTrace()[0]);
-		//log.info("\t > original message = {}", e.getMessage());
+		log.info("\t > original message = {}", e.getMessage());
 
 		ErrorResponse errorResponse = ErrorResponse.builder()
 				.status(HttpStatus.BAD_REQUEST)
 				.messageByCode("error.Unknown")
 				.build();
-		//log.info("\t > {}", errorResponse);
-		e.printStackTrace();
+		log.info("\t > {}", errorResponse);
+		//e.printStackTrace();
 		
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
 	}

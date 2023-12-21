@@ -44,8 +44,15 @@
 <div class="container my-4 px-0">
 	<p class="mb-0">tx-props.jsp</p>
 	<div class="d-flex justify-content-end">
-		<button class="btn btn-warning mx-2" onclick="selectAll()">selectAll</button>
-		<button class="btn btn-warning mx-2" onclick="removeAll()">deleteAll</button>
+		<button class="btn btn-warning mx-2" onclick="selectAll()">SELECT ALL</button>
+		<button class="btn btn-warning mx-2" onclick="removeAll()">DELETE ALL</button>
+	</div>
+	<p class="sub-p mt-4 pl-4 mb-2">- Rollback</p>
+	<div class="test d-flex justify-content-center">
+		<button class="btn btn-lg btn-primary mx-3" onclick="rollbackTest1()">TRY~CATCH</button>
+		<button class="btn btn-lg btn-primary mx-3" onclick="rollbackTest2()">THROWS</button>
+		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
+		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
 	</div>
 	<p class="sub-p mt-4 pl-4 mb-2">- Propagation</p>
 	<div class="test d-flex justify-content-center">
@@ -61,7 +68,7 @@
 		<button class="btn btn-lg btn-primary mx-3" onclick="isolationTest3()">test3</button>
 		<button class="btn btn-lg btn-primary mx-3" onclick="isolationTest4()">test4</button>
 	</div>
-	<p class="sub-p mt-4 pl-4 mb-2">- Time out</p>
+	<!-- <p class="sub-p mt-4 pl-4 mb-2">- Time out</p>
 	<div class="test d-flex justify-content-center">
 		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
 		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
@@ -74,7 +81,7 @@
 		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
 		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
 		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
-	</div>
+	</div> -->
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 <script>
@@ -95,7 +102,7 @@
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
-				console.log(jqXHR);
+				console.log(jqXHR.responseJSON);
 			}
 		});		
 	}
@@ -111,7 +118,39 @@
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
-				console.log(jqXHR);
+				console.log(jqXHR.responseJSON);
+			}
+		});		
+	}
+	
+	function rollbackTest1() {
+		console.log("## rollbackTest1");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/tx-props/rollback/test1",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log("> result = %s", result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(jqXHR.responseJSON);
+			}
+		});		
+	}
+
+	function rollbackTest2() {
+		console.log("## rollbackTest2");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/tx-props/rollback/test2",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log("> result = %s", result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(jqXHR.responseJSON);
 			}
 		});		
 	}

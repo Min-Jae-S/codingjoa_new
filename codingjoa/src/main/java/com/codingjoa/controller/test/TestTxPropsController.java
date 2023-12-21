@@ -1,7 +1,8 @@
 package com.codingjoa.controller.test;
 
+import java.sql.SQLException;
+
 import javax.annotation.Resource;
-import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -9,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codingjoa.service.test.TestTxPropsService;
@@ -30,6 +30,20 @@ public class TestTxPropsController {
 	
 	@Resource(name = "mainTransactionManager")
 	private PlatformTransactionManager mainTransactionManager;
+	
+	@GetMapping("/tx-props/rollback/test1")
+	public ResponseEntity<Object> rollbackTest1() { 
+		log.info("## rollbackTest1");
+		service.rollback1();
+		return ResponseEntity.ok("success");
+	}
+
+	@GetMapping("/tx-props/rollback/test2")
+	public ResponseEntity<Object> rollbackTest2() throws SQLException { 
+		log.info("## rollbackTest2");
+		service.rollback2();
+		return ResponseEntity.ok("success");
+	}
 
 	@GetMapping("/tx-props/propagation/test1")
 	public ResponseEntity<Object> propagationTest1() { 
