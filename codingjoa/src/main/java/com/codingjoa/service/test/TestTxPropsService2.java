@@ -34,7 +34,7 @@ public class TestTxPropsService2 {
 			for(Object key : TransactionSynchronizationManager.getResourceMap().keySet()) {
 				ConnectionHolder connectionHolder = 
 						(ConnectionHolder) TransactionSynchronizationManager.getResource(key);
-				log.info("\t > Current Connection = {}", connectionHolder.getConnection());
+				log.info("\t > Current Connection = {}", connectionHolder.getConnection().toString().split(" ")[0]);
 			}
 			
 			if (status.isCompleted()) {
