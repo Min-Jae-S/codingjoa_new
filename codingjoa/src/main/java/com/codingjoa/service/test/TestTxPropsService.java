@@ -42,7 +42,8 @@ public class TestTxPropsService {
 	@Autowired
 	private PlatformTransactionManager txManager;
 	
-	private void chceckTransaction(TransactionStatus status) {
+	private void checkTransaction(TransactionStatus status) {
+		log.info("## checkTransaction");
 		log.info("\t > transaction = {}", TransactionSynchronizationManager.getCurrentTransactionName());
 		for(Object key : TransactionSynchronizationManager.getResourceMap().keySet()) {
 			ConnectionHolder connectionHolder = 
@@ -88,7 +89,7 @@ public class TestTxPropsService {
 	public void outer1() {
 		log.info("## outer1");
 		TransactionStatus status = TransactionAspectSupport.currentTransactionStatus();
-		chceckTransaction(status);
+		checkTransaction(status);
 		
 		// https://velog.io/@chullll/Transactional-%EA%B3%BC-PROXY
 		// https://javafactory.tistory.com/1406
@@ -96,8 +97,8 @@ public class TestTxPropsService {
 		//this.inner1(); 
 		service2.innerRequired();
 		
-		log.info("## after calling innerRequired");
-		chceckTransaction(status);
+		log.info("## outer1 - after calling innerRequired");
+		checkTransaction(status);
 	}
 
 	@Transactional
@@ -105,27 +106,27 @@ public class TestTxPropsService {
 		log.info("## outer2");
 		log.info("\t > rollback = {}", rollback);
 		TransactionStatus status = TransactionAspectSupport.currentTransactionStatus();
-		chceckTransaction(status);
-		
+		checkTransaction(status);
+
 		if (rollback) {
+			mapper.insert(createTestVo("rollback"));
 			service2.innerRollback();
-			log.info("## after calling innerRollback");
+			log.info("## outer2 - after calling innerRollback");
 		} else {
-			service2.innerCommit();
-			log.info("## after calling innerCommit");
+			mapper.insert(createTestVo("commit"));
 		}
-		
-		chceckTransaction(status);
+			
+		checkTransaction(status);
 	}
 	
 	public void outer3() {
 		log.info("## outer3");
 		TransactionStatus status = TransactionAspectSupport.currentTransactionStatus();
-		chceckTransaction(status);
+		checkTransaction(status);
 		service2.innerMandatory();
 		
-		log.info("## after calling innerMandatory");
-		chceckTransaction(status);
+		log.info("## outer3 - after calling innerMandatory");
+		checkTransaction(status);
 	}
 
 	@Transactional(isolation = Isolation.DEFAULT)

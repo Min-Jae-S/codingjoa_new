@@ -6,7 +6,6 @@ import java.util.Map;
 
 import javax.validation.Validator;
 
-import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.MessageSource;
@@ -142,7 +141,7 @@ public class ServletConfig implements WebMvcConfigurer {
 	public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
 		log.info("## extendMessageConverters");
 		converters.stream().forEach(converter -> { 
-			log.info("\t > {}", converter.getClass().getSimpleName());
+			//log.info("\t > {}", converter.getClass().getSimpleName());
 			if (converter instanceof StringHttpMessageConverter) {
 				// StringHttpMessageConverter defaults to ISO-8859-1
 				((StringHttpMessageConverter) converter).setDefaultCharset(StandardCharsets.UTF_8);
@@ -166,7 +165,7 @@ public class ServletConfig implements WebMvcConfigurer {
 		log.info("## extendHandlerExceptionResolvers");
 		WebMvcConfigurer.super.extendHandlerExceptionResolvers(resolvers);
 		resolvers.add(0, myExceptionResolver());
-		resolvers.forEach(resolver -> log.info("\t > {}", resolver.getClass().getSimpleName()));
+		//resolvers.forEach(resolver -> log.info("\t > {}", resolver.getClass().getSimpleName()));
 	}
 	
 	@Bean
@@ -257,13 +256,13 @@ public class ServletConfig implements WebMvcConfigurer {
 	@Bean
 	public static MethodValidationPostProcessor methodValidationPostProcessor(@Lazy Validator validator) {
 		log.info("## methodValidationPostProcessor");
-		log.info("\t > validator = {}", validator);
-		log.info("\t > proxy validator ? {}", AopUtils.isAopProxy(validator));
+		//log.info("\t > validator = {}", validator);
+		//log.info("\t > proxy validator ? {}", AopUtils.isAopProxy(validator));
 		
 		MethodValidationPostProcessor processor = new MethodValidationPostProcessor();
 		processor.setValidator(validator);
 		processor.setProxyTargetClass(true);
-		log.info("\t > isProxyTargetClass = {}", processor.isProxyTargetClass());
+		//log.info("\t > isProxyTargetClass = {}", processor.isProxyTargetClass());
 		
 		/* 
 		 * Spring internally uses a library that can generate class-based proxies, 

@@ -122,7 +122,7 @@
 		});		
 	}
 
-	function propagationTest3() {
+	function propagationTest4() {
 		console.log("## propagationTest4");
 		$.ajax({
 			type : "GET",

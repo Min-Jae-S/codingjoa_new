@@ -1,5 +1,6 @@
 package com.codingjoa.service.test;
 
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 
 import org.apache.commons.lang3.RandomStringUtils;
@@ -29,9 +30,10 @@ public class TestTxPropsService2 {
 	@Autowired
 	private PlatformTransactionManager txManager;
 	
-	private void chceckTransaction(TransactionStatus status) {
+	private void checkTransaction(TransactionStatus status) {
+		log.info("## checkTransaction");
 		log.info("\t > transaction = {}", TransactionSynchronizationManager.getCurrentTransactionName());
-		for(Object key : TransactionSynchronizationManager.getResourceMap().keySet()) {
+		for (Object key : TransactionSynchronizationManager.getResourceMap().keySet()) {
 			ConnectionHolder connectionHolder = 
 					(ConnectionHolder) TransactionSynchronizationManager.getResource(key);
 			log.info("\t > conn = {}", connectionHolder.getConnection().toString().split(" ")[0]);
@@ -64,31 +66,28 @@ public class TestTxPropsService2 {
 	public void innerRequired() {
 		log.info("## innerRequired");
 		TransactionStatus status = TransactionAspectSupport.currentTransactionStatus();
-		chceckTransaction(status);
+		checkTransaction(status);
 	}
 
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public void innerRollback() {
 		log.info("## innerRollback");
 		TransactionStatus status = TransactionAspectSupport.currentTransactionStatus();
-		chceckTransaction(status);
-		txManager.rollback(status);
-		chceckTransaction(status);
-	}
-
-	@Transactional(propagation = Propagation.REQUIRES_NEW)
-	public void innerCommit() {
-		log.info("## innerCommit");
-		TransactionStatus status = TransactionAspectSupport.currentTransactionStatus();
-		chceckTransaction(status);
-		txManager.commit(status);
-		chceckTransaction(status);
+		checkTransaction(status);
+		
+		try {
+			mapper.insert(createTestVo("innerRollback"));
+			throw new SQLException();
+		} catch (Exception e) {
+			log.info("## innerRollback - rollback occured due to {}", e.getClass().getSimpleName());
+			checkTransaction(status);
+		}
 	}
 
 	@Transactional(propagation = Propagation.MANDATORY)
 	public void innerMandatory() {
 		log.info("## innerMandatory");
 		TransactionStatus status = TransactionAspectSupport.currentTransactionStatus();
-		chceckTransaction(status);
+		checkTransaction(status);
 	}
 }
