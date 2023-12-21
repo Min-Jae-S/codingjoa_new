@@ -42,29 +42,22 @@ public class TestTxPropsService {
 	@Autowired
 	private PlatformTransactionManager txManager;
 	
-	private void chceckTransaction() {
-		log.info("## chceckTransaction");
-		try {
-			TransactionStatus status = TransactionAspectSupport.currentTransactionStatus();
-			log.info("\t > transaction = {}", TransactionSynchronizationManager.getCurrentTransactionName());
-			
-			for(Object key : TransactionSynchronizationManager.getResourceMap().keySet()) {
-				ConnectionHolder connectionHolder = 
-						(ConnectionHolder) TransactionSynchronizationManager.getResource(key);
-				log.info("\t > conn = {}", connectionHolder.getConnection().toString().split(" ")[0]);
-			}
+	private void chceckTransaction(TransactionStatus status) {
+		log.info("\t > transaction = {}", TransactionSynchronizationManager.getCurrentTransactionName());
+		for(Object key : TransactionSynchronizationManager.getResourceMap().keySet()) {
+			ConnectionHolder connectionHolder = 
+					(ConnectionHolder) TransactionSynchronizationManager.getResource(key);
+			log.info("\t > conn = {}", connectionHolder.getConnection().toString().split(" ")[0]);
+		}
 
-			if (status.isCompleted()) {
-				log.info("\t > status = Completed");
-			} else if (status.isRollbackOnly()) {
-				log.info("\t > status = Rollback");
-			} else if (status.isNewTransaction()) {
-				log.info("\t > status = New Transaction");
-			} else {
-				log.info("\t > status = Unknown");
-			}
-		} catch (Exception e) {
-			log.info("\t > No Transaction, {}", e.getClass().getSimpleName());
+		if (status.isCompleted()) {
+			log.info("\t > status = Completed");
+		} else if (status.isRollbackOnly()) {
+			log.info("\t > status = Rollback");
+		} else if (status.isNewTransaction()) {
+			log.info("\t > status = New Transaction");
+		} else {
+			log.info("\t > status = Unknown");
 		}
 	}
 	
@@ -94,26 +87,45 @@ public class TestTxPropsService {
 	@Transactional
 	public void outer1() {
 		log.info("## outer1");
-		chceckTransaction();
+		TransactionStatus status = TransactionAspectSupport.currentTransactionStatus();
+		chceckTransaction(status);
 		
 		// https://velog.io/@chullll/Transactional-%EA%B3%BC-PROXY
 		// https://javafactory.tistory.com/1406
 		// AOP(Proxy) self-invocation issue
 		//this.inner1(); 
-		service2.inner1();
+		service2.innerRequired();
+		
+		log.info("## after calling innerRequired");
+		chceckTransaction(status);
 	}
 
 	@Transactional
-	public void outer2() {
+	public void outer2(boolean rollback) {
 		log.info("## outer2");
-		chceckTransaction();
-		service2.inner2();
+		log.info("\t > rollback = {}", rollback);
+		TransactionStatus status = TransactionAspectSupport.currentTransactionStatus();
+		chceckTransaction(status);
+		
+		if (rollback) {
+			service2.innerRollback();
+			log.info("## after calling innerRollback");
+		} else {
+			service2.innerCommit();
+			log.info("## after calling innerCommit");
+		}
+		
+		chceckTransaction(status);
 	}
 	
 	public void outer3() {
 		log.info("## outer3");
-		chceckTransaction();
-		service2.inner3();
+		TransactionStatus status = TransactionAspectSupport.currentTransactionStatus();
+		chceckTransaction(status);
+		service2.innerMandatory();
+		
+		log.info("## after calling innerMandatory");
+		chceckTransaction(status);
 	}
 
 	@Transactional(isolation = Isolation.DEFAULT)

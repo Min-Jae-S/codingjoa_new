@@ -29,29 +29,22 @@ public class TestTxPropsService2 {
 	@Autowired
 	private PlatformTransactionManager txManager;
 	
-	private void chceckTransaction() {
-		log.info("## chceckTransaction");
-		try {
-			TransactionStatus status = TransactionAspectSupport.currentTransactionStatus();
-			log.info("\t > transaction = {}", TransactionSynchronizationManager.getCurrentTransactionName());
-			
-			for(Object key : TransactionSynchronizationManager.getResourceMap().keySet()) {
-				ConnectionHolder connectionHolder = 
-						(ConnectionHolder) TransactionSynchronizationManager.getResource(key);
-				log.info("\t > conn = {}", connectionHolder.getConnection().toString().split(" ")[0]);
-			}
+	private void chceckTransaction(TransactionStatus status) {
+		log.info("\t > transaction = {}", TransactionSynchronizationManager.getCurrentTransactionName());
+		for(Object key : TransactionSynchronizationManager.getResourceMap().keySet()) {
+			ConnectionHolder connectionHolder = 
+					(ConnectionHolder) TransactionSynchronizationManager.getResource(key);
+			log.info("\t > conn = {}", connectionHolder.getConnection().toString().split(" ")[0]);
+		}
 
-			if (status.isCompleted()) {
-				log.info("\t > status = Completed");
-			} else if (status.isRollbackOnly()) {
-				log.info("\t > status = Rollback");
-			} else if (status.isNewTransaction()) {
-				log.info("\t > status = New Transaction");
-			} else {
-				log.info("\t > status = Unknown");
-			}
-		} catch (Exception e) {
-			log.info("\t > No Transaction, {}", e.getClass().getSimpleName());
+		if (status.isCompleted()) {
+			log.info("\t > status = Completed");
+		} else if (status.isRollbackOnly()) {
+			log.info("\t > status = Rollback");
+		} else if (status.isNewTransaction()) {
+			log.info("\t > status = New Transaction");
+		} else {
+			log.info("\t > status = Unknown");
 		}
 	}
 	
@@ -68,20 +61,34 @@ public class TestTxPropsService2 {
 	}
 	
 	@Transactional
-	public void inner1() {
-		log.info("## inner1");
-		chceckTransaction();
+	public void innerRequired() {
+		log.info("## innerRequired");
+		TransactionStatus status = TransactionAspectSupport.currentTransactionStatus();
+		chceckTransaction(status);
 	}
 
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
-	public void inner2() {
-		log.info("## inner2");
-		chceckTransaction();
+	public void innerRollback() {
+		log.info("## innerRollback");
+		TransactionStatus status = TransactionAspectSupport.currentTransactionStatus();
+		chceckTransaction(status);
+		txManager.rollback(status);
+		chceckTransaction(status);
+	}
+
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	public void innerCommit() {
+		log.info("## innerCommit");
+		TransactionStatus status = TransactionAspectSupport.currentTransactionStatus();
+		chceckTransaction(status);
+		txManager.commit(status);
+		chceckTransaction(status);
 	}
 
 	@Transactional(propagation = Propagation.MANDATORY)
-	public void inner3() {
-		log.info("## inner3");
-		chceckTransaction();
+	public void innerMandatory() {
+		log.info("## innerMandatory");
+		TransactionStatus status = TransactionAspectSupport.currentTransactionStatus();
+		chceckTransaction(status);
 	}
 }

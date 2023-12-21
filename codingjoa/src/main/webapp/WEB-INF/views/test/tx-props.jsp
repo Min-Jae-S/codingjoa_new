@@ -46,9 +46,9 @@
 	<p class="sub-p mt-4 pl-4 mb-2">- Propagation</p>
 	<div class="test d-flex justify-content-center">
 		<button class="btn btn-lg btn-primary mx-3" onclick="propagationTest1()">REQUIRED</button>
-		<button class="btn btn-lg btn-primary mx-3" onclick="propagationTest2()">REQUIRES_NEW</button>
-		<button class="btn btn-lg btn-primary mx-3" onclick="propagationTest3()">MANDATORY</button>
-		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
+		<button class="btn btn-lg btn-primary mx-3" onclick="propagationTest2()">REQUIRES_NEW1</button>
+		<button class="btn btn-lg btn-primary mx-3" onclick="propagationTest3()">REQUIRES_NEW2</button>
+		<button class="btn btn-lg btn-primary mx-3" onclick="propagationTest4()">MANDATORY</button>
 	</div>
 	<p class="sub-p mt-4 pl-4 mb-2">- Isolation Level</p>
 	<div class="test d-flex justify-content-center">
@@ -111,6 +111,22 @@
 		$.ajax({
 			type : "GET",
 			url : "${contextPath}/test/tx-props/propagation/test3",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log("> result = %s", result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(jqXHR.responseJSON);
+			}
+		});		
+	}
+
+	function propagationTest3() {
+		console.log("## propagationTest4");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/tx-props/propagation/test4",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);

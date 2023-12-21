@@ -47,8 +47,8 @@ public class TestTxPropsController {
 	public ResponseEntity<Object> propagationTest2() { 
 		log.info("## propagationTest2");
 		
-		// outer: REQUIRED, inner: REQUIRED_NEW
-		service.outer2(); 
+		// outer: REQUIRED, inner: REQUIRED_NEW(Rollback)
+		service.outer2(true); 
 		
 		// Creating new transaction with name [outer2]: PROPAGATION_REQUIRED,ISOLATION_DEFAULT
 		// Suspending current transaction, creating new transaction with name [inner2]
@@ -59,6 +59,19 @@ public class TestTxPropsController {
 	@GetMapping("/tx-props/propagation/test3")
 	public ResponseEntity<Object> propagationTest3() { 
 		log.info("## propagationTest3");
+		
+		// outer: REQUIRED, inner: REQUIRED_NEW(Commit)
+		service.outer2(false);
+		
+		// Creating new transaction with name [outer2]: PROPAGATION_REQUIRED,ISOLATION_DEFAULT
+		// Suspending current transaction, creating new transaction with name [inner2]
+		// Resuming suspended transaction after completion of inner transaction
+		return ResponseEntity.ok("success");
+	}
+	
+	@GetMapping("/tx-props/propagation/test4")
+	public ResponseEntity<Object> propagationTest4() { 
+		log.info("## propagationTest4");
 		// outer: NO TX, inner: MANDATORY
 		service.outer3();
 		return ResponseEntity.ok("success");
