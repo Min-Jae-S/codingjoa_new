@@ -45,7 +45,7 @@
 	<p class="mb-0">tx-props.jsp</p>
 	<div class="d-flex justify-content-end">
 		<button class="btn btn-warning mx-2" onclick="selectAll()">selectAll</button>
-		<button class="btn btn-warning mx-2" onclick="deleteAll()">deleteAll</button>
+		<button class="btn btn-warning mx-2" onclick="removeAll()">deleteAll</button>
 	</div>
 	<p class="sub-p mt-4 pl-4 mb-2">- Propagation</p>
 	<div class="test d-flex justify-content-center">

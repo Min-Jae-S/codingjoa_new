@@ -116,6 +116,8 @@ public class TestTxPropsService {
 			log.info("## outer2 - after calling innerRollback");
 		} else {
 			mapper.insert(createTestVo("commit"));
+			service2.innerCommit();
+			log.info("## outer2 - after calling innerCommit");
 		}
 			
 		checkTransaction();

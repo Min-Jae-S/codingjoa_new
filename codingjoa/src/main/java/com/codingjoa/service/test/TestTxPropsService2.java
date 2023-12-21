@@ -86,6 +86,15 @@ public class TestTxPropsService2 {
 		}
 	}
 
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	public void innerCommit() {
+		log.info("## innerCommit");
+		checkTransaction();
+		
+		log.info("## innerCommit - insert testVo");
+		mapper.insert(createTestVo("innerCommit"));
+	}
+
 	@Transactional(propagation = Propagation.MANDATORY)
 	public void innerMandatory() {
 		log.info("## innerMandatory");
