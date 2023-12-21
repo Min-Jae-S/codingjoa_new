@@ -42,7 +42,11 @@
 <body>
 <c:import url="/WEB-INF/views/include/top-menu.jsp"/>
 <div class="container my-4 px-0">
-	<p>tx-props.jsp</p>
+	<p class="mb-0">tx-props.jsp</p>
+	<div class="d-flex justify-content-end">
+		<button class="btn btn-warning mx-2" onclick="selectAll()">selectAll</button>
+		<button class="btn btn-warning mx-2" onclick="deleteAll()">deleteAll</button>
+	</div>
 	<p class="sub-p mt-4 pl-4 mb-2">- Propagation</p>
 	<div class="test d-flex justify-content-center">
 		<button class="btn btn-lg btn-primary mx-3" onclick="propagationTest1()">REQUIRED</button>
@@ -74,6 +78,44 @@
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 <script>
+	function selectAll() {
+		console.log("## selectAll");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/tx/select-all",
+			dataType : "json",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				if (result == "") {
+					console.log("> result = no records");
+				} else {
+					console.log("> result = ");
+					console.log(JSON.stringify(result, null, 2));
+				}
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(jqXHR);
+			}
+		});		
+	}
+	
+	function removeAll() {
+		console.log("## removeAll");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/tx/remove-all",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log("> result = %s", result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(jqXHR);
+			}
+		});		
+	}
+
 	function propagationTest1() {
 		console.log("## propagationTest1");
 		$.ajax({

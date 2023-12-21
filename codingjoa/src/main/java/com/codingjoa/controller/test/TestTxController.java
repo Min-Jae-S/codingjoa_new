@@ -156,7 +156,7 @@ public class TestTxController {
 		log.info("## selectAll");
 		List<TestVo> result = service.selectAll();
 		if (result.size() > 0) {
-			result.forEach(testVo -> log.info("\t > {} [ id = {} ]", testVo.getName(), testVo.getId()));
+			result.forEach(testVo -> log.info("\t > {}", testVo));
 		} else {
 			log.info("\t > no records");
 		}
