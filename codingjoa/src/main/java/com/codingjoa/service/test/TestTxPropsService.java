@@ -42,35 +42,38 @@ public class TestTxPropsService {
 	@Autowired
 	private PlatformTransactionManager txManager;
 	
-	private void checkTransaction(TransactionStatus status) {
+	private void checkTransaction() {
 		log.info("## checkTransaction");
-		log.info("\t > transaction = {}", TransactionSynchronizationManager.getCurrentTransactionName());
-		for(Object key : TransactionSynchronizationManager.getResourceMap().keySet()) {
-			ConnectionHolder connectionHolder = 
-					(ConnectionHolder) TransactionSynchronizationManager.getResource(key);
-			log.info("\t > conn = {}", connectionHolder.getConnection().toString().split(" ")[0]);
-		}
+		try {
+			TransactionStatus status = TransactionAspectSupport.currentTransactionStatus();
+			log.info("\t > transaction = {}", TransactionSynchronizationManager.getCurrentTransactionName());
+//			for(Object key : TransactionSynchronizationManager.getResourceMap().keySet()) {
+//				ConnectionHolder connectionHolder = 
+//						(ConnectionHolder) TransactionSynchronizationManager.getResource(key);
+//				log.info("\t > conn = {}", connectionHolder.getConnection().toString().split(" ")[0]);
+//			}
 
-		if (status.isCompleted()) {
-			log.info("\t > status = Completed");
-		} else if (status.isRollbackOnly()) {
-			log.info("\t > status = Rollback");
-		} else if (status.isNewTransaction()) {
-			log.info("\t > status = New Transaction");
-		} else {
-			log.info("\t > status = Unknown");
+			if (status.isCompleted()) {
+				log.info("\t > status = Completed");
+			} else if (status.isRollbackOnly()) {
+				log.info("\t > status = Rollback");
+			} else if (status.isNewTransaction()) {
+				log.info("\t > status = New Transaction");
+			} else {
+				log.info("\t > status = Unknown");
+			}
+		} catch (Exception e) {
+			log.info("\t > No transaction = {}", e.getClass().getSimpleName());
 		}
 	}
 	
 	private TestVo createTestVo(String name) {
-		log.info("## create testVo as '{}'", name);
 		TestVo testVo = TestVo.builder()
 				.id(RandomStringUtils.randomAlphanumeric(8))
 				.name(name)
 				.password("test")
 				.regdate(LocalDateTime.now())
 				.build();
-		log.info("\t > {}", testVo);
 		return testVo;
 	}
 	
@@ -88,8 +91,7 @@ public class TestTxPropsService {
 	@Transactional
 	public void outer1() {
 		log.info("## outer1");
-		TransactionStatus status = TransactionAspectSupport.currentTransactionStatus();
-		checkTransaction(status);
+		checkTransaction();
 		
 		// https://velog.io/@chullll/Transactional-%EA%B3%BC-PROXY
 		// https://javafactory.tistory.com/1406
@@ -98,16 +100,16 @@ public class TestTxPropsService {
 		service2.innerRequired();
 		
 		log.info("## outer1 - after calling innerRequired");
-		checkTransaction(status);
+		checkTransaction();
 	}
 
 	@Transactional
 	public void outer2(boolean rollback) {
 		log.info("## outer2");
 		log.info("\t > rollback = {}", rollback);
-		TransactionStatus status = TransactionAspectSupport.currentTransactionStatus();
-		checkTransaction(status);
+		checkTransaction();
 
+		log.info("## outer2 - insert testVo");
 		if (rollback) {
 			mapper.insert(createTestVo("rollback"));
 			service2.innerRollback();
@@ -116,17 +118,16 @@ public class TestTxPropsService {
 			mapper.insert(createTestVo("commit"));
 		}
 			
-		checkTransaction(status);
+		checkTransaction();
 	}
 	
 	public void outer3() {
 		log.info("## outer3");
-		TransactionStatus status = TransactionAspectSupport.currentTransactionStatus();
-		checkTransaction(status);
+		checkTransaction();
 		service2.innerMandatory();
 		
 		log.info("## outer3 - after calling innerMandatory");
-		checkTransaction(status);
+		checkTransaction();
 	}
 
 	@Transactional(isolation = Isolation.DEFAULT)

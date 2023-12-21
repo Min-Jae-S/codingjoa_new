@@ -30,64 +30,65 @@ public class TestTxPropsService2 {
 	@Autowired
 	private PlatformTransactionManager txManager;
 	
-	private void checkTransaction(TransactionStatus status) {
+	private void checkTransaction() {
 		log.info("## checkTransaction");
-		log.info("\t > transaction = {}", TransactionSynchronizationManager.getCurrentTransactionName());
-		for (Object key : TransactionSynchronizationManager.getResourceMap().keySet()) {
-			ConnectionHolder connectionHolder = 
-					(ConnectionHolder) TransactionSynchronizationManager.getResource(key);
-			log.info("\t > conn = {}", connectionHolder.getConnection().toString().split(" ")[0]);
-		}
+		try {
+			TransactionStatus status = TransactionAspectSupport.currentTransactionStatus();
+			log.info("\t > transaction = {}", TransactionSynchronizationManager.getCurrentTransactionName());
+//			for(Object key : TransactionSynchronizationManager.getResourceMap().keySet()) {
+//				ConnectionHolder connectionHolder = 
+//						(ConnectionHolder) TransactionSynchronizationManager.getResource(key);
+//				log.info("\t > conn = {}", connectionHolder.getConnection().toString().split(" ")[0]);
+//			}
 
-		if (status.isCompleted()) {
-			log.info("\t > status = Completed");
-		} else if (status.isRollbackOnly()) {
-			log.info("\t > status = Rollback");
-		} else if (status.isNewTransaction()) {
-			log.info("\t > status = New Transaction");
-		} else {
-			log.info("\t > status = Unknown");
+			if (status.isCompleted()) {
+				log.info("\t > status = Completed");
+			} else if (status.isRollbackOnly()) {
+				log.info("\t > status = Rollback");
+			} else if (status.isNewTransaction()) {
+				log.info("\t > status = New Transaction");
+			} else {
+				log.info("\t > status = Unknown");
+			}
+		} catch (Exception e) {
+			log.info("\t > No transaction = {}", e.getClass().getSimpleName());
 		}
 	}
 	
 	private TestVo createTestVo(String name) {
-		log.info("## create testVo as '{}'", name);
 		TestVo testVo = TestVo.builder()
 				.id(RandomStringUtils.randomAlphanumeric(8))
 				.name(name)
 				.password("test")
 				.regdate(LocalDateTime.now())
 				.build();
-		log.info("\t > {}", testVo);
 		return testVo;
 	}
 	
 	@Transactional
 	public void innerRequired() {
 		log.info("## innerRequired");
-		TransactionStatus status = TransactionAspectSupport.currentTransactionStatus();
-		checkTransaction(status);
+		checkTransaction();
 	}
 
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public void innerRollback() {
 		log.info("## innerRollback");
-		TransactionStatus status = TransactionAspectSupport.currentTransactionStatus();
-		checkTransaction(status);
+		checkTransaction();
 		
 		try {
+			log.info("## innerRollback - insert testVo");
 			mapper.insert(createTestVo("innerRollback"));
 			throw new SQLException();
 		} catch (Exception e) {
 			log.info("## innerRollback - rollback occured due to {}", e.getClass().getSimpleName());
-			checkTransaction(status);
+			checkTransaction();
 		}
 	}
 
 	@Transactional(propagation = Propagation.MANDATORY)
 	public void innerMandatory() {
 		log.info("## innerMandatory");
-		TransactionStatus status = TransactionAspectSupport.currentTransactionStatus();
-		checkTransaction(status);
+		checkTransaction();
 	}
 }
