@@ -1,5 +1,8 @@
 package com.codingjoa.service.test;
 
+import java.time.LocalDateTime;
+
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.datasource.ConnectionHolder;
 import org.springframework.stereotype.Service;
@@ -10,7 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
-import com.codingjoa.mapper.test.TestMapper;
+import com.codingjoa.mapper.TestMapper;
+import com.codingjoa.test.TestVo;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -49,6 +53,18 @@ public class TestTxPropsService2 {
 		} catch (Exception e) {
 			log.info("\t > No Transaction : {}", e.getClass().getSimpleName());
 		}
+	}
+	
+	private TestVo createTestVo(String name) {
+		log.info("## create testVo as '{}'", name);
+		TestVo testVo = TestVo.builder()
+				.id(RandomStringUtils.randomAlphanumeric(8))
+				.name(name)
+				.password("test")
+				.regdate(LocalDateTime.now())
+				.build();
+		log.info("\t > {}", testVo);
+		return testVo;
 	}
 	
 	@Transactional

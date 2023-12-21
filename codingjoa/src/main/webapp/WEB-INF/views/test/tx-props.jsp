@@ -45,9 +45,9 @@
 	<p>tx-props.jsp</p>
 	<p class="sub-p mt-4 pl-4 mb-2">- Propagation</p>
 	<div class="test d-flex justify-content-center">
-		<button class="btn btn-lg btn-primary mx-3" onclick="propagationTest1()">test1</button>
-		<button class="btn btn-lg btn-primary mx-3" onclick="propagationTest2()">test2</button>
-		<button class="btn btn-lg btn-primary mx-3" onclick="propagationTest3()">test3</button>
+		<button class="btn btn-lg btn-primary mx-3" onclick="propagationTest1()">REQUIRED</button>
+		<button class="btn btn-lg btn-primary mx-3" onclick="propagationTest2()">REQUIRES_NEW</button>
+		<button class="btn btn-lg btn-primary mx-3" onclick="propagationTest3()">MANDATORY</button>
 		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
 	</div>
 	<p class="sub-p mt-4 pl-4 mb-2">- Isolation Level</p>

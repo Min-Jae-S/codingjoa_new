@@ -21,7 +21,7 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.transaction.support.TransactionSynchronizationAdapter;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
-import com.codingjoa.mapper.test.TestMapper;
+import com.codingjoa.mapper.TestMapper;
 import com.codingjoa.test.TestVo;
 
 import lombok.extern.slf4j.Slf4j;
