@@ -80,7 +80,7 @@ public class TestTxPropsService2 {
 			log.info("## innerRollback - insert testVo");
 			mapper.insert(createTestVo("innerRollback"));
 			throw new SQLException();
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			log.info("## innerRollback - catch {}", e.getClass().getSimpleName());
 			checkTransaction();
 		}

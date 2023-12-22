@@ -87,7 +87,8 @@ public class TestTxPropsService {
 	 * 	is referred to as the propagation attribute.
 	 */
 	
-	@Transactional
+	//@Transactional
+	@Transactional(rollbackFor = SQLException.class)
 	public void rollback1() {
 		log.info("## rollback1");
 		checkTransaction();
@@ -95,12 +96,13 @@ public class TestTxPropsService {
 			log.info("## rollback1 - insert testVo");
 			mapper.insert(createTestVo("rollback1"));
 			throw new SQLException("rollback1");
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			log.info("## rollback1 - catch {}", e.getClass().getSimpleName());
 		}
 	}
 	
-	@Transactional
+	//@Transactional
+	@Transactional(rollbackFor = SQLException.class)
 	public void rollback2() throws SQLException {
 		log.info("## rollback2");
 		checkTransaction();
