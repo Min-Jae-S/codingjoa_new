@@ -34,6 +34,7 @@ public class ErrorHtmlHandler {
 				.build();
 		log.info("\t > {}", errorResponse);
 		request.setAttribute("errorResponse", errorResponse);
+		
 		//e.printStackTrace();
 		return "forward:/error/errorPage";
 	}

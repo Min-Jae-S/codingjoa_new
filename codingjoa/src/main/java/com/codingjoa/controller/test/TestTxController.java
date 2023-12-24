@@ -59,6 +59,7 @@ public class TestTxController {
 		} else {
 			log.info("\t > no DataSource");
 		}
+		
 		return ResponseEntity.ok("success");
 	}
 	
@@ -75,6 +76,7 @@ public class TestTxController {
 		} else {
 			log.info("\t > no PlatformTransactionManager");
 		}
+		
 		return ResponseEntity.ok("success");
 	}
 	
@@ -90,6 +92,7 @@ public class TestTxController {
 		} else {
 			log.info("\t > no SqlSessionFactory");
 		}
+		
 		return ResponseEntity.ok("success");
 	}
 
@@ -105,6 +108,7 @@ public class TestTxController {
 		} else {
 			log.info("\t > no SqlSessionTemplate");
 		}
+		
 		return ResponseEntity.ok("success");
 	}
 
@@ -120,6 +124,7 @@ public class TestTxController {
 		} else {
 			log.info("\t > no TransactionSynchronizationManager");
 		}
+		
 		return ResponseEntity.ok("success");
 	}
 
@@ -160,6 +165,7 @@ public class TestTxController {
 		} else {
 			log.info("\t > no records");
 		}
+		
 		return ResponseEntity.ok(result);
 	}
 
