@@ -173,7 +173,6 @@ public class TestTxPropsService {
 	@Transactional
 	public void outer2(boolean rollback) {
 		log.info("## outer2");
-		log.info("\t > rollback = {}", rollback);
 		checkTransaction();
 
 		log.info("## outer2 - insert testVo");
@@ -182,11 +181,10 @@ public class TestTxPropsService {
 			service2.innerRollback();
 			log.info("## outer2 - after calling innerRollback");
 		} else {
-			mapper.insert(createTestVo("commit"));
-			service2.innerCommit();
-			log.info("## outer2 - after calling innerCommit");
+			mapper.insert(createTestVo("noRollback"));
+			service2.innerNoRollback();
+			log.info("## outer2 - after calling innerNoRollback");
 		}
-			
 		checkTransaction();
 	}
 	

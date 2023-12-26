@@ -55,9 +55,9 @@
 		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
 	</div>
 	<div class="test d-flex justify-content-center mb-3">
-		<button class="btn btn-lg btn-primary mx-3" onclick="rollbackTest3()">ROLLFOR E</button>
-		<button class="btn btn-lg btn-primary mx-3" onclick="rollbackTest4()">ROLLFOR SQLE</button>
-		<button class="btn btn-lg btn-primary mx-3" onclick="rollbackTest5()">NO ROLLFOR SQLE</button>
+		<button class="btn btn-sm btn-primary mx-3" onclick="rollbackTest3()">ROLLBACK FOR Ex</button>
+		<button class="btn btn-sm btn-primary mx-3" onclick="rollbackTest4()">ROLLBACK FOR SQLEx</button>
+		<button class="btn btn-sm btn-primary mx-3" onclick="rollbackTest5()">NO ROLLBACK FOR SQLEx</button>
 		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
 	</div>
 	<div class="test d-flex justify-content-center">
@@ -67,11 +67,11 @@
 		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
 	</div>
 	<p class="sub-p mt-4 pl-4 mb-2">- Propagation</p>
-	<div class="test d-flex justify-content-center">
+	<div class="test d-flex justify-content-center mb-3">
 		<button class="btn btn-lg btn-primary mx-3" onclick="propagationTest1()">REQUIRED</button>
-		<button class="btn btn-lg btn-primary mx-3" onclick="propagationTest2()">REQUIRES_NEW1</button>
-		<button class="btn btn-lg btn-primary mx-3" onclick="propagationTest3()">REQUIRES_NEW2</button>
-		<button class="btn btn-lg btn-primary mx-3" onclick="propagationTest4()">MANDATORY</button>
+		<button class="btn btn-sm btn-primary mx-3" onclick="propagationTest2(true)">REQUIRES_NEW - ROLLBACK</button>
+		<button class="btn btn-sm btn-primary mx-3" onclick="propagationTest2(false)">REQUIRES_NEW - COMMIT</button>
+		<button class="btn btn-lg btn-primary mx-3" onclick="propagationTest3()">MANDATORY</button>
 	</div>
 	<p class="sub-p mt-4 pl-4 mb-2">- Isolation Level</p>
 	<div class="test d-flex justify-content-center">
@@ -263,11 +263,11 @@
 		});		
 	}
 
-	function propagationTest2() {
-		console.log("## propagationTest2");
+	function propagationTest2(rollback) {
+		console.log("## propagationTest2, rollback = %s", rollback);
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/tx-props/propagation/test2",
+			url : "${contextPath}/test/tx-props/propagation/test2/" + rollback,
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);

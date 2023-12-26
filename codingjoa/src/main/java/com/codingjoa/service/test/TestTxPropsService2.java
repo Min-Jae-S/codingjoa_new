@@ -77,23 +77,18 @@ public class TestTxPropsService2 {
 		log.info("## innerRollback");
 		checkTransaction();
 		
-		try {
-			log.info("## innerRollback - insert testVo");
-			mapper.insert(createTestVo("innerRollback"));
-			throw new SQLException();
-		} catch (SQLException e) {
-			log.info("## innerRollback - catch {}", e.getClass().getSimpleName());
-			checkTransaction();
-		}
+		log.info("## innerRollback - insert testVo");
+		mapper.insert(createTestVo("innerRollback"));
+		throw new RuntimeException();
 	}
 
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
-	public void innerCommit() {
-		log.info("## innerCommit");
+	public void innerNoRollback() {
+		log.info("## innerNoRollback");
 		checkTransaction();
 		
-		log.info("## innerCommit - insert testVo");
-		mapper.insert(createTestVo("innerCommit"));
+		log.info("## innerNoRollback - insert testVo");
+		mapper.insert(createTestVo("innerNoRollback"));
 	}
 
 	@Transactional(propagation = Propagation.MANDATORY)

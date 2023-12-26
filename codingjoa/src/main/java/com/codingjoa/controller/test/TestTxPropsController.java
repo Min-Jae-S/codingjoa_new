@@ -1,7 +1,5 @@
 package com.codingjoa.controller.test;
 
-import java.sql.SQLException;
-
 import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +7,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -84,44 +83,55 @@ public class TestTxPropsController {
 	public ResponseEntity<Object> propagationTest1() { 
 		log.info("## propagationTest1");
 		
-		// outer: REQUIRED, inner: REQUIRED
-		service.outer1();
-		
+		// @@ outer: REQUIRED, inner: REQUIRED
 		// Creating new transaction with name [outer1]: PROPAGATION_REQUIRED,ISOLATION_DEFAULT
 		// Participating in existing transaction
+		service.outer1();
+		
 		return ResponseEntity.ok("success");
 	}
 	
-	@GetMapping("/tx-props/propagation/test2")
-	public ResponseEntity<Object> propagationTest2() { 
+	@GetMapping("/tx-props/propagation/test2/{rollback}")
+	public ResponseEntity<Object> propagationTest2(@PathVariable boolean rollback) { 
 		log.info("## propagationTest2");
+		log.info("\t > rollback = {}", rollback);
 		
-		// outer: REQUIRED, inner: REQUIRED_NEW(Rollback)
-		service.outer2(true); 
-		
+		// @@ rollback = true 
+		// @@ outer: REQUIRED, inner: REQUIRED_NEW(Rollback)
 		// Creating new transaction with name [outer2]: PROPAGATION_REQUIRED,ISOLATION_DEFAULT
-		// Suspending current transaction, creating new transaction with name [inner2]
+		// Acquired Connection [HikariProxyConnection@1991964660] for JDBC transaction
+		// Suspending current transaction, creating new transaction with name [innerRollback]
+		// Acquired Connection [HikariProxyConnection@2060061152] for JDBC transaction
+		// Initiating transaction rollback
+		// Rolling back JDBC transaction on Connection [HikariProxyConnection@2060061152]
+		// Releasing JDBC Connection [HikariProxyConnection@2060061152] after transaction
 		// Resuming suspended transaction after completion of inner transaction
+		// Initiating transaction rollback
+		// Rolling back JDBC transaction on Connection [HikariProxyConnection@1991964660]
+		// Releasing JDBC Connection [HikariProxyConnection@1991964660] after transaction
+		
+		// @@ rollback(false) 
+		// @@ outer: REQUIRED, inner: REQUIRED_NEW(Commit)
+		// Creating new transaction with name [outer2]: PROPAGATION_REQUIRED,ISOLATION_DEFAULT
+		// Acquired Connection [HikariProxyConnection@1043314600] for JDBC transaction
+		// Suspending current transaction, creating new transaction with name [innerNoRollback]
+		// Acquired Connection [HikariProxyConnection@886562008]
+		// Initiating transaction commit
+		// Committing JDBC transaction on Connection [HikariProxyConnection@886562008]
+		// Releasing JDBC Connection [HikariProxyConnection@886562008] after transaction
+		// Resuming suspended transaction after completion of inner transaction
+		// Initiating transaction commit
+		// Committing JDBC transaction on Connection [HikariProxyConnection@1043314600]
+		// Releasing JDBC Connection [HikariProxyConnection@1043314600] after transaction
+		service.outer2(rollback); 
+		
 		return ResponseEntity.ok("success");
 	}
 	
 	@GetMapping("/tx-props/propagation/test3")
 	public ResponseEntity<Object> propagationTest3() { 
 		log.info("## propagationTest3");
-		
-		// outer: REQUIRED, inner: REQUIRED_NEW(Commit)
-		service.outer2(false);
-		
-		// Creating new transaction with name [outer2]: PROPAGATION_REQUIRED,ISOLATION_DEFAULT
-		// Suspending current transaction, creating new transaction with name [inner2]
-		// Resuming suspended transaction after completion of inner transaction
-		return ResponseEntity.ok("success");
-	}
-	
-	@GetMapping("/tx-props/propagation/test4")
-	public ResponseEntity<Object> propagationTest4() { 
-		log.info("## propagationTest4");
-		// outer: NO TX, inner: MANDATORY
+		// outer: NO TRANSACTION, inner: MANDATORY
 		service.outer3();
 		return ResponseEntity.ok("success");
 	}
