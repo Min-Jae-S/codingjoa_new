@@ -51,8 +51,8 @@
 	<div class="test d-flex justify-content-center">
 		<button class="btn btn-lg btn-primary mx-3" onclick="rollbackTest1()">TRY~CATCH</button>
 		<button class="btn btn-lg btn-primary mx-3" onclick="rollbackTest2()">THROWS</button>
-		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
-		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
+		<button class="btn btn-lg btn-primary mx-3" onclick="rollbackTest3()">THROWS E</button>
+		<button class="btn btn-lg btn-primary mx-3" onclick="rollbackTest4()">THROWS SQLE</button>
 	</div>
 	<p class="sub-p mt-4 pl-4 mb-2">- Propagation</p>
 	<div class="test d-flex justify-content-center">
@@ -144,6 +144,38 @@
 		$.ajax({
 			type : "GET",
 			url : "${contextPath}/test/tx-props/rollback/test2",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log("> result = %s", result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(jqXHR.responseJSON);
+			}
+		});		
+	}
+	
+	function rollbackTest3() {
+		console.log("## rollbackTest3");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/tx-props/rollback/test3",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log("> result = %s", result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(jqXHR.responseJSON);
+			}
+		});		
+	}
+
+	function rollbackTest4() {
+		console.log("## rollbackTest4");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/tx-props/rollback/test4",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);

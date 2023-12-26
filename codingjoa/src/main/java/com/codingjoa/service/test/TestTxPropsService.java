@@ -53,16 +53,16 @@ public class TestTxPropsService {
 //			}
 
 			if (status.isCompleted()) {
-				log.info("\t > [ Completed ]");
+				log.info("\t > Completed ");
 			} else if (status.isRollbackOnly()) {
-				log.info("\t > [ Rollback ]");
+				log.info("\t > Rollback ");
 			} else if (status.isNewTransaction()) {
-				log.info("\t > [ New Transaction ]");
+				log.info("\t > New Transaction");
 			} else {
-				log.info("\t > [ Unknown ]");
+				log.info("\t > Unknown");
 			}
 		} catch (Exception e) {
-			log.info("\t > No transaction = {}", e.getClass().getSimpleName());
+			log.info("\t > NO transaction - {}", e.getClass().getSimpleName());
 		}
 	}
 	
@@ -101,15 +101,34 @@ public class TestTxPropsService {
 		}
 	}
 	
-	//@Transactional
-	@Transactional(rollbackFor = SQLException.class)
-	public void rollback2() throws SQLException {
+	@Transactional
+	public void rollback2() throws Exception {
 		log.info("## rollback2");
 		checkTransaction();
 		
 		log.info("## rollback2 - insert testVo");
 		mapper.insert(createTestVo("rollback2"));
-		throw new SQLException("rollback2");
+		throw new Exception("rollback2");
+	}
+	
+	@Transactional(rollbackFor = Exception.class)
+	public void rollbackForException() throws Exception {
+		log.info("## rollback2");
+		checkTransaction();
+		
+		log.info("## rollback2 - insert testVo");
+		mapper.insert(createTestVo("rollbackForException"));
+		throw new Exception("rollbackForException");
+	}
+
+	@Transactional(rollbackFor = SQLException.class)
+	public void rollbackForSqlException() throws SQLException {
+		log.info("## rollback2");
+		checkTransaction();
+		
+		log.info("## rollback2 - insert testVo");
+		mapper.insert(createTestVo("rollbackForSqlException"));
+		throw new SQLException("rollbackForSqlException");
 	}
 	
 	@Transactional
