@@ -24,7 +24,7 @@ public class ErrorHtmlHandler {
 	
 	@ExceptionHandler(Exception.class) // NoHandlerFoundException, NestedServletException etc..
 	protected String handleException(Exception e, HttpServletRequest request) {
-		log.info("** {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
+		log.info("** {} - {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t > location = {}", e.getStackTrace()[0]);
 		log.info("\t > original message = {}", e.getMessage());
 		
@@ -41,7 +41,7 @@ public class ErrorHtmlHandler {
 	
 	@ExceptionHandler(BindException.class)
 	protected String handleBindException(BindException e, HttpServletRequest request) {
-		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
+		log.info("## {} - {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t > location = {}", e.getStackTrace()[0]);
 		log.info("\t > original message = {}", e.getMessage());
 		log.info("\t > field errors");
@@ -72,7 +72,7 @@ public class ErrorHtmlHandler {
 	@ExceptionHandler(ConstraintViolationException.class) // /board/?boardCategoryCode=11
 	protected String handleConstraintViolationException(ConstraintViolationException e, 
 			HttpServletRequest request) {
-		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
+		log.info("## {} - {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t > location = {}", e.getStackTrace()[0]);
 		log.info("\t > original message = {}", e.getMessage());
 		log.info("\t > constraint violations");
@@ -95,7 +95,7 @@ public class ErrorHtmlHandler {
 		MethodArgumentTypeMismatchException.class		// /board/read?boardIdx=, /board/read?boardIdx=aa 
 	})
 	protected String handleInvalidFormatException(Exception e, HttpServletRequest request) {
-		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
+		log.info("## {} - {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t > location = {}", e.getStackTrace()[0]);
 		log.info("\t > original message = {}", e.getMessage());
 		
@@ -136,7 +136,7 @@ public class ErrorHtmlHandler {
 	// TEST
 	@ExceptionHandler(TestException.class)
 	protected String handleTestException(TestException e, HttpServletRequest request) {
-		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
+		log.info("## {} - {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t > location = {}", e.getStackTrace()[0]);
 		log.info("\t > error code = {} / error field = {}", e.getCode(), e.getField());
 		

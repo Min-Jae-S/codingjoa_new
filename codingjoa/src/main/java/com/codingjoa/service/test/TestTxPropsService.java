@@ -113,22 +113,40 @@ public class TestTxPropsService {
 	
 	@Transactional(rollbackFor = Exception.class)
 	public void rollbackForException() throws Exception {
-		log.info("## rollback2");
+		log.info("## rollbackForEx");
 		checkTransaction();
 		
-		log.info("## rollback2 - insert testVo");
-		mapper.insert(createTestVo("rollbackForException"));
-		throw new Exception("rollbackForException");
+		log.info("## rollbackForEx - insert testVo");
+		mapper.insert(createTestVo("rollbackForEx"));
+		throw new SQLException("rollbackForEx");
 	}
 
 	@Transactional(rollbackFor = SQLException.class)
 	public void rollbackForSqlException() throws SQLException {
-		log.info("## rollback2");
+		log.info("## rollbackForSqlEx");
 		checkTransaction();
 		
-		log.info("## rollback2 - insert testVo");
-		mapper.insert(createTestVo("rollbackForSqlException"));
-		throw new SQLException("rollbackForSqlException");
+		log.info("## rollbackForSqlEx - insert testVo");
+		mapper.insert(createTestVo("rollbackForSqlEx"));
+		throw new SQLException("rollbackForSqlEx");
+	}
+
+	@Transactional
+	public void rollbackForCheckedException()  {
+		log.info("## rollbackForCheckedEx");
+		checkTransaction();
+		
+		log.info("## rollbackForCheckedEx - insert testVo");
+		mapper.insert(createTestVo("rollbackForCheckedEx"));
+	}
+
+	@Transactional
+	public void rollbackForUncheckedException() {
+		log.info("## rollbackForUncheckedEx");
+		checkTransaction();
+		
+		log.info("## rollbackForUncheckedEx - insert testVo");
+		mapper.insert(createTestVo("rollbackForUncheckedEx"));
 	}
 	
 	@Transactional

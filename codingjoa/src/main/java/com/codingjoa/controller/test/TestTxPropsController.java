@@ -59,6 +59,20 @@ public class TestTxPropsController {
 		return ResponseEntity.ok("success");
 	}
 
+	@GetMapping("/tx-props/rollback/test5")
+	public ResponseEntity<Object> rollbackTest5() throws Exception { 
+		log.info("## rollbackTest5");
+		service.rollbackForCheckedException();
+		return ResponseEntity.ok("success");
+	}
+
+	@GetMapping("/tx-props/rollback/test6")
+	public ResponseEntity<Object> rollbackTest6() throws Exception { 
+		log.info("## rollbackTest6");
+		service.rollbackForUncheckedException();
+		return ResponseEntity.ok("success");
+	}
+
 	@GetMapping("/tx-props/propagation/test1")
 	public ResponseEntity<Object> propagationTest1() { 
 		log.info("## propagationTest1");
