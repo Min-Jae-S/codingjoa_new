@@ -75,7 +75,7 @@ public class TestTxPropsController {
 
 	@GetMapping("/tx-props/rollback/test7")
 	public ResponseEntity<Object> rollbackTest7() { 
-		log.info("## rollbackTest6");
+		log.info("## rollbackTest7");
 		service.uncheckedException();
 		return ResponseEntity.ok("success");
 	}
