@@ -43,16 +43,16 @@ public class TestTxPropsService2 {
 //			}
 
 			if (status.isCompleted()) {
-				log.info("\t > [ Completed ]");
+				log.info("\t > Completed");
 			} else if (status.isRollbackOnly()) {
-				log.info("\t > [ Rollback] ");
+				log.info("\t > Rollback");
 			} else if (status.isNewTransaction()) {
-				log.info("\t > [ New Transaction ]");
+				log.info("\t > New Transaction");
 			} else {
-				log.info("\t > [ Unknown ]");
+				log.info("\t > Unknown");
 			}
 		} catch (Exception e) {
-			log.info("\t > No transaction = {}", e.getClass().getSimpleName());
+			log.info("\t > NO transaction = {}", e.getClass().getSimpleName());
 		}
 	}
 	

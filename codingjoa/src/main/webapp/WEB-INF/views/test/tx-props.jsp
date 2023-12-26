@@ -213,7 +213,7 @@
 		console.log("## rollbackTest6 - rollback for unchecked exception");
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/tx-props/rollback/test5",
+			url : "${contextPath}/test/tx-props/rollback/test6",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);
