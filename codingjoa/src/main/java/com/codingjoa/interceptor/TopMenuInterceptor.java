@@ -8,6 +8,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.context.ApplicationContext;
+import org.springframework.core.MethodParameter;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
@@ -63,28 +67,44 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 			ModelAndView modelAndView) throws Exception {
 		log.info("## {} - postHandle", this.getClass().getSimpleName());
 		
+		if (handler instanceof HandlerMethod) {
+			HandlerMethod handlerMethod = (HandlerMethod) handler;
+			Class<?> controllerClass = handlerMethod.getBeanType();
+			if (controllerClass.isAnnotationPresent(RestController.class)) {
+				log.info("\t > not find top menu - @RestController");
+				return;
+			}
+			
+            MethodParameter[] methodParameters = handlerMethod.getMethodParameters();
+            for (MethodParameter methodParameter : methodParameters) {
+            	if (methodParameter.hasMethodAnnotation(ResponseBody.class)) {
+            		log.info("\t > not find top menu - @ResponseBody");
+            		return;
+            	}
+            }
+		}
+		
 		if (modelAndView == null) {
-			//log.info("\t > modelAndView is null");
+			log.info("\t > not find top menu - no modelAndView");
 			return;
 		}
 		
-		// Return the view name to be resolved by the DispatcherServlet via a ViewResolver, 
-		// or null if we are using a View object.
+		// Return the view name to be resolved by the DispatcherServlet via a ViewResolver, or null if we are using a View object.
 		String viewName = modelAndView.getViewName(); 
 		//log.info("\t > viewName = {}", viewName + ".jsp");
 		
 		if (viewName == null) {
-			//log.info("\t > viewName is null");
+			log.info("\t > not find top menu - no viewName");
 			return;
 		}
 		
 		if (viewName.startsWith(FORWARD_URL_PREFIX)) {
-			//log.info("\t > viewName starts with '{}'", FORWARD_URL_PREFIX);
+			log.info("\t > not find top menu - FORWARD_URL_PREFIX");
 			return;	
 		}
 		
 		if (viewName.startsWith(REDIRECT_URL_PREFIX)) 	{
-			//log.info("\t > viewName starts with '{}'", REDIRECT_URL_PREFIX);
+			log.info("\t > not find top menu - REDIRECT_URL_PREFIX");
 			return;
 		}
 		

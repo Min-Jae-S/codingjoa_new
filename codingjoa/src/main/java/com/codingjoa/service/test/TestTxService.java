@@ -69,21 +69,21 @@ public class TestTxService {
 	private TestMapper mapper;
 	
 	public void doSomething1() {
-		log.info("## doSomething1 (NO @Transactional)");
+		log.info("## doSomething1 - NO Transactional");
 		log.info("\t > calling doSomething3");
 		doSomething3();
 	}
 	
 	@Transactional
 	public void doSomething2() {
-		log.info("## doSomething2 (@Transactional)");
+		log.info("## doSomething2 - Transactional");
 		log.info("\t > calling doSomething3");
 		doSomething3();
 	}
 	
 	@Transactional
 	public void doSomething3() {
-		log.info("## doSomething3 (@Transactional)");
+		log.info("## doSomething3 - Transactional");
 		TransactionStatus status = null;
 		try {
 			status = TransactionAspectSupport.currentTransactionStatus();
@@ -97,7 +97,7 @@ public class TestTxService {
 
 	@Transactional
 	public void doSomething4() {
-		log.info("## doSomething4 (@Transactional)");
+		log.info("## doSomething4 - Transactional");
 		TransactionSynchronizationManager.registerSynchronization(
 			new TransactionSynchronizationAdapter() {
 				@Override
@@ -123,33 +123,27 @@ public class TestTxService {
 	}
 	
 	public List<TestVo> selectAll() {
-		log.info("## TestTxService.selectAll");
 		return mapper.selectAll();
 	}
 	
 	public int insertNoTx(TestVo testVo) {
-		log.info("## TestTxService.insertNoTx");
 		return mapper.insert(testVo);
 	}
 
 	@Transactional
 	public int insertTx(TestVo testVo) {
-		log.info("## TestTxService.insertTx");
 		return mapper.insert(testVo);
 	}
 	
 	public int update(TestVo testVo) {
-		log.info("## TestTxService.update");
 		return mapper.update(testVo);
 	}
 	
 	public int remove() {
-		log.info("## TestTxService.remove");
 		return mapper.remove();
 	}
 	
 	public int removeAll() {
-		log.info("## TestTxService.removeAll");
 		return mapper.removeAll();
 	}
 	
