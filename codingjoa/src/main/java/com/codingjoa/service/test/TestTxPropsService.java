@@ -1,5 +1,6 @@
 package com.codingjoa.service.test;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 
@@ -87,66 +88,71 @@ public class TestTxPropsService {
 	 * 	is referred to as the propagation attribute.
 	 */
 	
-	//@Transactional
-	@Transactional(rollbackFor = SQLException.class)
-	public void rollback1() {
+	@Transactional
+	public void rollback1() { // Committing JDBC transaction on Connection
 		log.info("## rollback1");
 		checkTransaction();
 		try {
 			log.info("## rollback1 - insert testVo");
 			mapper.insert(createTestVo("rollback1"));
-			throw new SQLException("rollback1");
-		} catch (SQLException e) {
+			throw new RuntimeException();
+		} catch (Exception e) {
 			log.info("## rollback1 - catch {}", e.getClass().getSimpleName());
 		}
 	}
 	
 	@Transactional
-	public void rollback2() throws Exception {
+	public void rollback2() { // Rolling back JDBC transaction on Connection
 		log.info("## rollback2");
 		checkTransaction();
-		
 		log.info("## rollback2 - insert testVo");
 		mapper.insert(createTestVo("rollback2"));
-		throw new Exception("rollback2");
+		throw new RuntimeException("rollback2");
 	}
 	
 	@Transactional(rollbackFor = Exception.class)
-	public void rollbackForException() throws Exception {
+	public void rollbackForException() throws Exception { // Rolling back JDBC transaction on Connection
 		log.info("## rollbackForEx");
 		checkTransaction();
-		
 		log.info("## rollbackForEx - insert testVo");
 		mapper.insert(createTestVo("rollbackForEx"));
 		throw new SQLException("rollbackForEx");
 	}
 
 	@Transactional(rollbackFor = SQLException.class)
-	public void rollbackForSqlException() throws SQLException {
+	public void rollbackForSqlException() throws Exception { // Rolling back JDBC transaction on Connection
 		log.info("## rollbackForSqlEx");
 		checkTransaction();
-		
 		log.info("## rollbackForSqlEx - insert testVo");
 		mapper.insert(createTestVo("rollbackForSqlEx"));
 		throw new SQLException("rollbackForSqlEx");
 	}
 
 	@Transactional
-	public void rollbackForCheckedException()  {
-		log.info("## rollbackForCheckedEx");
+	public void noRollbackForSqlException() throws Exception { // Committing JDBC transaction on Connection
+		log.info("## noRollbackForSqlEx");
 		checkTransaction();
-		
-		log.info("## rollbackForCheckedEx - insert testVo");
-		mapper.insert(createTestVo("rollbackForCheckedEx"));
+		log.info("## noRollbackForSqlEx - insert testVo");
+		mapper.insert(createTestVo("noRollbackForSqlEx"));
+		throw new SQLException("noRollbackForSqlEx");
 	}
 
 	@Transactional
-	public void rollbackForUncheckedException() {
-		log.info("## rollbackForUncheckedEx");
+	public void checkedException() throws Exception { // Committing JDBC transaction on Connection
+		log.info("## checkedEx");
 		checkTransaction();
-		
-		log.info("## rollbackForUncheckedEx - insert testVo");
-		mapper.insert(createTestVo("rollbackForUncheckedEx"));
+		log.info("## checkedEx - insert testVo");
+		mapper.insert(createTestVo("checkedEx"));
+		throw new IOException("checkedEx");
+	}
+
+	@Transactional
+	public void uncheckedException() { // Rolling back JDBC transaction on Connection
+		log.info("## uncheckedEx");
+		checkTransaction();
+		log.info("## uncheckedEx - insert testVo");
+		mapper.insert(createTestVo("uncheckedEx"));
+		throw new RuntimeException("uncheckedEx");
 	}
 	
 	@Transactional

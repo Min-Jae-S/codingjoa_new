@@ -48,15 +48,21 @@
 		<button class="btn btn-warning mx-2" onclick="removeAll()">DELETE ALL</button>
 	</div>
 	<p class="sub-p mt-4 pl-4 mb-2">- Rollback</p>
-	<div class="test d-flex justify-content-center mb-2">
-		<button class="btn btn-lg btn-primary mx-3" onclick="rollbackTest1()">TRY~CATCH</button>
-		<button class="btn btn-lg btn-primary mx-3" onclick="rollbackTest2()">THROWS</button>
-		<button class="btn btn-lg btn-primary mx-3" onclick="rollbackTest3()">THROWS E</button>
-		<button class="btn btn-lg btn-primary mx-3" onclick="rollbackTest4()">THROWS SQLE</button>
+	<div class="test d-flex justify-content-center mb-3">
+		<button class="btn btn-lg btn-primary mx-3" onclick="rollbackTest1()">CATCH</button>
+		<button class="btn btn-lg btn-primary mx-3" onclick="rollbackTest2()">NO CATCH</button>
+		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
+		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
+	</div>
+	<div class="test d-flex justify-content-center mb-3">
+		<button class="btn btn-lg btn-primary mx-3" onclick="rollbackTest3()">ROLLFOR E</button>
+		<button class="btn btn-lg btn-primary mx-3" onclick="rollbackTest4()">ROLLFOR SQLE</button>
+		<button class="btn btn-lg btn-primary mx-3" onclick="rollbackTest5()">NO ROLLFOR SQLE</button>
+		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
 	</div>
 	<div class="test d-flex justify-content-center">
-		<button class="btn btn-lg btn-primary mx-3" onclick="rollbackTest5()">CHECKED E</button>
-		<button class="btn btn-lg btn-primary mx-3" onclick="rollbackTest6()">UNCHECKED E</button>
+		<button class="btn btn-lg btn-primary mx-3" onclick="rollbackTest6()">CHECKED E</button>
+		<button class="btn btn-lg btn-primary mx-3" onclick="rollbackTest7()">UNCHECKED E</button>
 		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
 		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
 	</div>
@@ -162,7 +168,7 @@
 	}
 	
 	function rollbackTest3() {
-		console.log("## rollbackTest3 - throws Exception");
+		console.log("## rollbackTest3 - rollback for Exception");
 		$.ajax({
 			type : "GET",
 			url : "${contextPath}/test/tx-props/rollback/test3",
@@ -178,7 +184,7 @@
 	}
 
 	function rollbackTest4() {
-		console.log("## rollbackTest4 - throws SQLException");
+		console.log("## rollbackTest4 - rollback for SQLException");
 		$.ajax({
 			type : "GET",
 			url : "${contextPath}/test/tx-props/rollback/test4",
@@ -194,7 +200,7 @@
 	}
 
 	function rollbackTest5() {
-		console.log("## rollbackTest5 - rollback for checked exception");
+		console.log("## rollbackTest5 - no rollback for SQLException");
 		$.ajax({
 			type : "GET",
 			url : "${contextPath}/test/tx-props/rollback/test5",
@@ -210,7 +216,23 @@
 	}
 
 	function rollbackTest6() {
-		console.log("## rollbackTest6 - rollback for unchecked exception");
+		console.log("## rollbackTest6 - rollback for checked exception");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/tx-props/rollback/test5",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log("> result = %s", result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(jqXHR.responseJSON);
+			}
+		});		
+	}
+
+	function rollbackTest7() {
+		console.log("## rollbackTest7 - rollback for unchecked exception");
 		$.ajax({
 			type : "GET",
 			url : "${contextPath}/test/tx-props/rollback/test6",
