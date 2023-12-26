@@ -61,7 +61,7 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
-		//log.info("## {} : postHandle", this.getClass().getSimpleName());
+		log.info("## {} - postHandle", this.getClass().getSimpleName());
 		
 		if (modelAndView == null) {
 			//log.info("\t > modelAndView is null");
@@ -96,10 +96,10 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 			}
 		}
 		
-		log.info("## find top menu");
+		log.info("\t > find top menu");
 		List<Category> parentCategoryList = categoryService.findParentCategoryList();
 		modelAndView.addObject("parentCategoryList", parentCategoryList);
-		log.info("## added top menu as model");
+		log.info("\t > added top menu as model");
 	}
 	
 	@SuppressWarnings("unused")
