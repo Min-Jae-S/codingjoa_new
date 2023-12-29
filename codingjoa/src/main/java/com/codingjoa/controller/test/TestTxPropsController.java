@@ -96,8 +96,8 @@ public class TestTxPropsController {
 		log.info("## propagationTest2");
 		log.info("\t > rollback = {}", rollback);
 		
-		// @@ rollback = true 
-		// @@ outer: REQUIRED, inner: REQUIRED_NEW(Rollback)
+		// @@ outer = REQUIRED, inner = REQUIRED_NEW
+		// @@ rollback = true
 		// Creating new transaction with name [outer2]: PROPAGATION_REQUIRED,ISOLATION_DEFAULT
 		// Acquired Connection [HikariProxyConnection@1991964660] for JDBC transaction
 		// Suspending current transaction, creating new transaction with name [innerRollback]
@@ -110,8 +110,8 @@ public class TestTxPropsController {
 		// Rolling back JDBC transaction on Connection [HikariProxyConnection@1991964660]
 		// Releasing JDBC Connection [HikariProxyConnection@1991964660] after transaction
 		
-		// @@ rollback(false) 
-		// @@ outer: REQUIRED, inner: REQUIRED_NEW(Commit)
+		// @@ outer = REQUIRED, inner = REQUIRED_NEW
+		// @@ rollback = false
 		// Creating new transaction with name [outer2]: PROPAGATION_REQUIRED,ISOLATION_DEFAULT
 		// Acquired Connection [HikariProxyConnection@1043314600] for JDBC transaction
 		// Suspending current transaction, creating new transaction with name [innerNoRollback]
@@ -131,7 +131,7 @@ public class TestTxPropsController {
 	@GetMapping("/tx-props/propagation/test3")
 	public ResponseEntity<Object> propagationTest3() { 
 		log.info("## propagationTest3");
-		// outer: NO TRANSACTION, inner: MANDATORY
+		// outer = NO TRANSACTION, inner = MANDATORY
 		service.outer3();
 		return ResponseEntity.ok("success");
 	}

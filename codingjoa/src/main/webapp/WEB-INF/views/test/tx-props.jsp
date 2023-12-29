@@ -55,9 +55,9 @@
 		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
 	</div>
 	<div class="test d-flex justify-content-center mb-3">
-		<button class="btn btn-sm btn-primary mx-3" onclick="rollbackTest3()">ROLLBACK FOR Ex</button>
-		<button class="btn btn-sm btn-primary mx-3" onclick="rollbackTest4()">ROLLBACK FOR SQLEx</button>
-		<button class="btn btn-sm btn-primary mx-3" onclick="rollbackTest5()">NO ROLLBACK FOR SQLEx</button>
+		<button class="btn btn-sm btn-primary mx-3" onclick="rollbackTest3()">ROLLBACK_FOR Ex</button>
+		<button class="btn btn-sm btn-primary mx-3" onclick="rollbackTest4()">ROLLBACK_ FOR SQLEx</button>
+		<button class="btn btn-sm btn-primary mx-3" onclick="rollbackTest5()">NOT ROLLBACK_FOR SQLEx</button>
 		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
 	</div>
 	<div class="test d-flex justify-content-center">
