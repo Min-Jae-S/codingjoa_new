@@ -69,8 +69,8 @@
 	<p class="sub-p mt-4 pl-4 mb-2">- Propagation</p>
 	<div class="test d-flex justify-content-center mb-3">
 		<button class="btn btn-lg btn-primary mx-3" onclick="propagationTest1()">REQUIRED</button>
-		<button class="btn btn-sm btn-primary mx-3" onclick="propagationTest2(true)">REQUIRES_NEW - ROLLBACK</button>
-		<button class="btn btn-sm btn-primary mx-3" onclick="propagationTest2(false)">REQUIRES_NEW - COMMIT</button>
+		<button class="btn btn-sm btn-primary mx-3" onclick="propagationTest2(true)">REQUIRES_NEW_ROLLBACK</button>
+		<button class="btn btn-sm btn-primary mx-3" onclick="propagationTest2(false)">REQUIRES_NEW_COMMIT</button>
 		<button class="btn btn-lg btn-primary mx-3" onclick="propagationTest3()">MANDATORY</button>
 	</div>
 	<p class="sub-p mt-4 pl-4 mb-2">- Isolation Level</p>
@@ -80,7 +80,7 @@
 		<button class="btn btn-lg btn-primary mx-3" onclick="isolationTest3()">test3</button>
 		<button class="btn btn-lg btn-primary mx-3" onclick="isolationTest4()">test4</button>
 	</div>
-	<!-- <p class="sub-p mt-4 pl-4 mb-2">- Time out</p>
+	<p class="sub-p mt-4 pl-4 mb-2">- Time out</p>
 	<div class="test d-flex justify-content-center">
 		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
 		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
@@ -93,7 +93,7 @@
 		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
 		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
 		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
-	</div> -->
+	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 <script>
