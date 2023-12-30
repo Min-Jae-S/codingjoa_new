@@ -96,8 +96,7 @@ public class TestTxPropsController {
 		log.info("## propagationTest2");
 		log.info("\t > rollback = {}", rollback);
 		
-		// @@ outer = REQUIRED, inner = REQUIRED_NEW
-		// @@ rollback = true
+		// @@ rollback = true, outer = REQUIRED, inner = REQUIRED_NEW
 		// Creating new transaction with name [outer2]: PROPAGATION_REQUIRED,ISOLATION_DEFAULT
 		// Acquired Connection [HikariProxyConnection@1991964660] for JDBC transaction
 		// Suspending current transaction, creating new transaction with name [innerRollback]
@@ -110,8 +109,7 @@ public class TestTxPropsController {
 		// Rolling back JDBC transaction on Connection [HikariProxyConnection@1991964660]
 		// Releasing JDBC Connection [HikariProxyConnection@1991964660] after transaction
 		
-		// @@ outer = REQUIRED, inner = REQUIRED_NEW
-		// @@ rollback = false
+		// @@ rollback = false, @@ outer = REQUIRED, inner = REQUIRED_NEW
 		// Creating new transaction with name [outer2]: PROPAGATION_REQUIRED,ISOLATION_DEFAULT
 		// Acquired Connection [HikariProxyConnection@1043314600] for JDBC transaction
 		// Suspending current transaction, creating new transaction with name [innerNoRollback]
