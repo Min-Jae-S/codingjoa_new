@@ -100,9 +100,10 @@ public class TestTxPropsService {
 			log.info("## rollback1 - catch {}", e.getClass().getSimpleName());
 		}
 	}
-	
+
+	// Rolling back JDBC transaction on Connection
 	@Transactional
-	public void rollback2() { // Rolling back JDBC transaction on Connection
+	public void rollback2() { 
 		log.info("## rollback2");
 		checkTransaction();
 		log.info("## rollback2 - insert testVo");
@@ -110,8 +111,9 @@ public class TestTxPropsService {
 		throw new RuntimeException("rollback2");
 	}
 	
+	// Rolling back JDBC transaction on Connection
 	@Transactional(rollbackFor = Exception.class)
-	public void rollbackForException() throws Exception { // Rolling back JDBC transaction on Connection
+	public void rollbackForException() throws Exception { 
 		log.info("## rollbackForEx");
 		checkTransaction();
 		log.info("## rollbackForEx - insert testVo");
@@ -119,8 +121,9 @@ public class TestTxPropsService {
 		throw new SQLException("rollbackForEx");
 	}
 
+	// Rolling back JDBC transaction on Connection
 	@Transactional(rollbackFor = SQLException.class)
-	public void rollbackForSqlException() throws Exception { // Rolling back JDBC transaction on Connection
+	public void rollbackForSqlException() throws Exception {
 		log.info("## rollbackForSqlEx");
 		checkTransaction();
 		log.info("## rollbackForSqlEx - insert testVo");
@@ -128,8 +131,9 @@ public class TestTxPropsService {
 		throw new SQLException("rollbackForSqlEx");
 	}
 
+	// Committing JDBC transaction on Connection
 	@Transactional
-	public void noRollbackForSqlException() throws Exception { // Committing JDBC transaction on Connection
+	public void noRollbackForSqlException() throws Exception { 
 		log.info("## noRollbackForSqlEx");
 		checkTransaction();
 		log.info("## noRollbackForSqlEx - insert testVo");
@@ -137,8 +141,9 @@ public class TestTxPropsService {
 		throw new SQLException("noRollbackForSqlEx");
 	}
 
+	// Committing JDBC transaction on Connection
 	@Transactional
-	public void checkedException() throws Exception { // Committing JDBC transaction on Connection
+	public void checkedException() throws Exception { 
 		log.info("## checkedEx");
 		checkTransaction();
 		log.info("## checkedEx - insert testVo");
@@ -146,8 +151,9 @@ public class TestTxPropsService {
 		throw new IOException("checkedEx");
 	}
 
+	// Rolling back JDBC transaction on Connection
 	@Transactional
-	public void uncheckedException() { // Rolling back JDBC transaction on Connection
+	public void uncheckedException() { 
 		log.info("## uncheckedEx");
 		checkTransaction();
 		log.info("## uncheckedEx - insert testVo");
