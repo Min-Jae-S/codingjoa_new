@@ -57,13 +57,12 @@ public class TestTxPropsService2 {
 	}
 	
 	private TestVo createTestVo(String name) {
-		TestVo testVo = TestVo.builder()
+		return TestVo.builder()
 				.id(RandomStringUtils.randomAlphanumeric(8))
 				.name(name)
 				.password("test")
 				.regdate(LocalDateTime.now())
 				.build();
-		return testVo;
 	}
 	
 	@Transactional
