@@ -32,15 +32,14 @@ public class TestTxPropsService2 {
 	private PlatformTransactionManager txManager;
 	
 	private void checkTransaction() {
+		String status = null;
 		try {
 			TransactionStatus transactionStatus = TransactionAspectSupport.currentTransactionStatus();
-			log.info("\t > transaction = {}", TransactionSynchronizationManager.getCurrentTransactionName());
 //			for(Object key : TransactionSynchronizationManager.getResourceMap().keySet()) {
 //				ConnectionHolder connectionHolder = 
 //						(ConnectionHolder) TransactionSynchronizationManager.getResource(key);
 //				log.info("\t > conn = {}", connectionHolder.getConnection().toString().split(" ")[0]);
 //			}
-			String status = null;
 			if (transactionStatus.isCompleted()) {
 				status = "completed";
 			} else if (transactionStatus.isRollbackOnly()) {
@@ -50,9 +49,11 @@ public class TestTxPropsService2 {
 			} else {
 				status = "unknown";
 			}
-			log.info("\t > transaction status = {}", status);
 		} catch (Exception e) {
-			log.info("\t > NO transaction = {}", e.getClass().getSimpleName());
+			status = "no transaction";
+		} finally {
+			log.info("\t > transaction = {}", TransactionSynchronizationManager.getCurrentTransactionName());
+			log.info("\t > transaction status = {}", status);
 		}
 	}
 	
