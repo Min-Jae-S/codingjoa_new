@@ -82,7 +82,7 @@ public class TestTxPropsController {
 	@GetMapping("/tx-props/propagation/test1")
 	public ResponseEntity<Object> propagationTest1() { 
 		log.info("## propagationTest1");
-		// @@ outer: REQUIRED, inner: REQUIRED(RuntimeException)
+		// @@ outer: REQUIRED, inner: REQUIRED (RuntimeException)
 		// Creating new transaction with name [outer1]: PROPAGATION_REQUIRED,ISOLATION_DEFAULT
 		// Acquired Connection [HikariProxyConnection@742011473 wrapping oracle.jdbc.driver.T4CConnection@5ff37957] for JDBC transaction
 		// Participating in existing transaction

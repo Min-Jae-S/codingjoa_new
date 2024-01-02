@@ -43,27 +43,27 @@ public class TestTxPropsService {
 	private PlatformTransactionManager txManager;
 	
 	private void checkTransaction() {
-		log.info("## checkTransaction");
 		try {
-			TransactionStatus status = TransactionAspectSupport.currentTransactionStatus();
+			TransactionStatus transactionStatus = TransactionAspectSupport.currentTransactionStatus();
 			log.info("\t > transaction = {}", TransactionSynchronizationManager.getCurrentTransactionName());
 //			for(Object key : TransactionSynchronizationManager.getResourceMap().keySet()) {
 //				ConnectionHolder connectionHolder = 
 //						(ConnectionHolder) TransactionSynchronizationManager.getResource(key);
 //				log.info("\t > conn = {}", connectionHolder.getConnection().toString().split(" ")[0]);
 //			}
-
-			if (status.isCompleted()) {
-				log.info("\t > Completed ");
-			} else if (status.isRollbackOnly()) {
-				log.info("\t > Rollback ");
-			} else if (status.isNewTransaction()) {
-				log.info("\t > New Transaction");
+			String status = null;
+			if (transactionStatus.isCompleted()) {
+				status = "completed";
+			} else if (transactionStatus.isRollbackOnly()) {
+				status = "rollback";
+			} else if (transactionStatus.isNewTransaction()) {
+				status = "new transaction";
 			} else {
-				log.info("\t > Unknown");
+				status = "unknown";
 			}
+			log.info("\t > transaction status = {}", status);
 		} catch (Exception e) {
-			log.info("\t > NO transaction - {}", e.getClass().getSimpleName());
+			log.info("\t > NO transaction = {}", e.getClass().getSimpleName());
 		}
 	}
 	
@@ -92,11 +92,12 @@ public class TestTxPropsService {
 		log.info("## rollback1");
 		checkTransaction();
 		try {
-			log.info("## rollback1 - insert testVo");
-			mapper.insert(createTestVo("rollback1"));
+			log.info("\t > insert testVo");
+			int result = mapper.insert(createTestVo("rollback1"));
+			log.info("\t > inserted rows = {}", result);
 			throw new RuntimeException();
 		} catch (Exception e) {
-			log.info("## rollback1 - catch {}", e.getClass().getSimpleName());
+			log.info("> catches {}", e.getClass().getSimpleName());
 		}
 	}
 
@@ -104,8 +105,9 @@ public class TestTxPropsService {
 	public void rollback2() { 
 		log.info("## rollback2");
 		checkTransaction();
-		log.info("## rollback2 - insert testVo");
-		mapper.insert(createTestVo("rollback2"));
+		log.info("\t > insert testVo");
+		int result = mapper.insert(createTestVo("rollback2"));
+		log.info("\t > inserted rows = {}", result);
 		throw new RuntimeException("rollback2");
 	}
 	
@@ -113,8 +115,9 @@ public class TestTxPropsService {
 	public void rollbackForException() throws Exception { 
 		log.info("## rollbackForEx");
 		checkTransaction();
-		log.info("## rollbackForEx - insert testVo");
-		mapper.insert(createTestVo("rollbackForEx"));
+		log.info("\t > insert testVo");
+		int result = mapper.insert(createTestVo("rollbackForEx"));
+		log.info("\t > inserted rows = {}", result);
 		throw new SQLException("rollbackForEx");
 	}
 
@@ -122,8 +125,9 @@ public class TestTxPropsService {
 	public void rollbackForSqlException() throws Exception {
 		log.info("## rollbackForSqlEx");
 		checkTransaction();
-		log.info("## rollbackForSqlEx - insert testVo");
-		mapper.insert(createTestVo("rollbackForSqlEx"));
+		log.info("\t > insert testVo");
+		int result = mapper.insert(createTestVo("rollbackForSqlEx"));
+		log.info("\t > inserted rows = {}", result);
 		throw new SQLException("rollbackForSqlEx");
 	}
 
@@ -131,8 +135,9 @@ public class TestTxPropsService {
 	public void noRollbackForSqlException() throws Exception { 
 		log.info("## noRollbackForSqlEx");
 		checkTransaction();
-		log.info("## noRollbackForSqlEx - insert testVo");
-		mapper.insert(createTestVo("noRollbackForSqlEx"));
+		log.info("\t > insert testVo");
+		int result = mapper.insert(createTestVo("noRollbackForSqlEx"));
+		log.info("\t > inserted rows = {}", result);
 		throw new SQLException("noRollbackForSqlEx");
 	}
 
@@ -140,8 +145,9 @@ public class TestTxPropsService {
 	public void checkedException() throws Exception { 
 		log.info("## checkedEx");
 		checkTransaction();
-		log.info("## checkedEx - insert testVo");
-		mapper.insert(createTestVo("checkedEx"));
+		log.info("\t > insert testVo");
+		int result = mapper.insert(createTestVo("checkedEx"));
+		log.info("\t > inserted rows = {}", result);
 		throw new IOException("checkedEx");
 	}
 
@@ -149,8 +155,9 @@ public class TestTxPropsService {
 	public void uncheckedException() { 
 		log.info("## uncheckedEx");
 		checkTransaction();
-		log.info("## uncheckedEx - insert testVo");
-		mapper.insert(createTestVo("uncheckedEx"));
+		log.info("\t > insert testVo");
+		int result = mapper.insert(createTestVo("uncheckedEx"));
+		log.info("\t > inserted rows = {}", result);
 		throw new RuntimeException("uncheckedEx");
 	}
 	
@@ -159,13 +166,15 @@ public class TestTxPropsService {
 		log.info("## outer1");
 		checkTransaction();
 		
-		mapper.insert(createTestVo("outer1"));
+		log.info("\t > insert testVo");
+		int result = mapper.insert(createTestVo("outer1"));
+		log.info("\t > inserted rows = {}", result);
+		log.info("\t > calling innerRequired...");
+		
 		// https://velog.io/@chullll/Transactional-%EA%B3%BC-PROXY
 		// https://javafactory.tistory.com/1406
 		// AOP(Proxy) self-invocation issue
 		//this.inner1(); 
-		
-		// throw RuntimeException
 		service2.innerRequired();
 	}
 
@@ -174,19 +183,26 @@ public class TestTxPropsService {
 		log.info("## outer2");
 		checkTransaction();
 
-		log.info("## outer2 - insert testVo");
+		log.info("\t > insert testVo");
+		int result = mapper.insert(createTestVo("outer2"));
+		log.info("\t > inserted rows = {}", result);
 		if (rollback) {
-			mapper.insert(createTestVo("outer2"));
-			service2.innerRollback();
+			log.info("\t > calling innerRequiresNew1...");
+			service2.innerRequiresNew1();
 		} else {
-			mapper.insert(createTestVo("outer2"));
-			service2.innerNoRollback();
+			log.info("\t > calling innerRequiresNew2...");
+			service2.innerRequiresNew2();
 		}
 	}
 	
 	public void outer3() {
 		log.info("## outer3");
 		checkTransaction();
+		
+		log.info("\t > insert testVo");
+		int result = mapper.insert(createTestVo("outer3"));
+		log.info("\t > inserted rows = {}", result);
+		log.info("\t > calling innerMandatory...");
 		service2.innerMandatory();
 	}
 

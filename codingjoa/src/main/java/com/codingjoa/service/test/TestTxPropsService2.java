@@ -31,25 +31,25 @@ public class TestTxPropsService2 {
 	private PlatformTransactionManager txManager;
 	
 	private void checkTransaction() {
-		log.info("## checkTransaction");
 		try {
-			TransactionStatus status = TransactionAspectSupport.currentTransactionStatus();
+			TransactionStatus transactionStatus = TransactionAspectSupport.currentTransactionStatus();
 			log.info("\t > transaction = {}", TransactionSynchronizationManager.getCurrentTransactionName());
 //			for(Object key : TransactionSynchronizationManager.getResourceMap().keySet()) {
 //				ConnectionHolder connectionHolder = 
 //						(ConnectionHolder) TransactionSynchronizationManager.getResource(key);
 //				log.info("\t > conn = {}", connectionHolder.getConnection().toString().split(" ")[0]);
 //			}
-
-			if (status.isCompleted()) {
-				log.info("\t > Completed");
-			} else if (status.isRollbackOnly()) {
-				log.info("\t > Rollback");
-			} else if (status.isNewTransaction()) {
-				log.info("\t > New Transaction");
+			String status = null;
+			if (transactionStatus.isCompleted()) {
+				status = "completed";
+			} else if (transactionStatus.isRollbackOnly()) {
+				status = "rollback";
+			} else if (transactionStatus.isNewTransaction()) {
+				status = "new transaction";
 			} else {
-				log.info("\t > Unknown");
+				status = "unknown";
 			}
+			log.info("\t > transaction status = {}", status);
 		} catch (Exception e) {
 			log.info("\t > NO transaction = {}", e.getClass().getSimpleName());
 		}
@@ -68,27 +68,32 @@ public class TestTxPropsService2 {
 	public void innerRequired() {
 		log.info("## innerRequired");
 		checkTransaction();
-		mapper.insert(createTestVo("innerRequired"));
+		
+		log.info("\t > insert testVo");
+		int result = mapper.insert(createTestVo("innerRequired"));
+		log.info("\t > inserted rows = {}", result);
 		throw new RuntimeException("innerRequired");
 	}
 
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
-	public void innerRollback() {
-		log.info("## innerRollback");
+	public void innerRequiresNew1() {
+		log.info("## innerRequiresNew1");
 		checkTransaction();
 		
-		log.info("## innerRollback - insert testVo");
-		mapper.insert(createTestVo("innerRollback"));
+		log.info("\t > insert testVo");
+		int result = mapper.insert(createTestVo("innerRequiresNew1"));
+		log.info("\t > inserted rows = {}", result);
 		throw new RuntimeException();
 	}
 
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
-	public void innerNoRollback() {
-		log.info("## innerNoRollback");
+	public void innerRequiresNew2() {
+		log.info("## innerRequiresNew2");
 		checkTransaction();
 		
-		log.info("## innerNoRollback - insert testVo");
-		mapper.insert(createTestVo("innerNoRollback"));
+		log.info("\t > insert testVo");
+		int result = mapper.insert(createTestVo("innerRequiresNew2"));
+		log.info("\t > inserted rows = {}", result);
 	}
 
 	@Transactional(propagation = Propagation.MANDATORY)
