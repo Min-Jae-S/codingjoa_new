@@ -70,7 +70,7 @@ public class TestTxPropsService2 {
 		log.info("## innerRequired");
 		checkTransaction();
 		log.info("\t > insert testVo");
-		int result = mapper2.insert(createTestVo("innerRequired"));
+		int result = mapper2.insert(createTestVo("test2.innerRequired"));
 		log.info("\t > inserted rows = {}", result);
 		throw new RuntimeException("innerRequired");
 	}
@@ -80,7 +80,7 @@ public class TestTxPropsService2 {
 		log.info("## innerRequiresNew1");
 		checkTransaction();
 		log.info("\t > insert testVo");
-		int result = mapper2.insert(createTestVo("innerRequiresNew1"));
+		int result = mapper2.insert(createTestVo("test2.innerRequiresNew1"));
 		log.info("\t > inserted rows = {}", result);
 		throw new RuntimeException();
 	}
@@ -90,7 +90,7 @@ public class TestTxPropsService2 {
 		log.info("## innerRequiresNew2");
 		checkTransaction();
 		log.info("\t > insert testVo");
-		int result = mapper2.insert(createTestVo("innerRequiresNew2"));
+		int result = mapper2.insert(createTestVo("test2.innerRequiresNew2"));
 		log.info("\t > inserted rows = {}", result);
 	}
 

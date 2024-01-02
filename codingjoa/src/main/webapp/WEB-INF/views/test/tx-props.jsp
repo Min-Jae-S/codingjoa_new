@@ -42,63 +42,105 @@
 <body>
 <c:import url="/WEB-INF/views/include/top-menu.jsp"/>
 <div class="container my-4 px-0">
+	<div class="d-flex justify-content-between">
+		<div class="btn-group btn-group-toggle" data-toggle="buttons">
+			<label class="btn btn-secondary btn-sm active">
+				<input type="radio" name="options" value="rollback" checked>Rollback
+			</label> 
+			<label class="btn btn-secondary btn-sm">
+				<input type="radio" name="options" value="propagation">Propagation
+			</label>
+			<label class="btn btn-secondary btn-sm">
+				<input type="radio" name="options" value="isolation">Isolation
+			</label>
+			<label class="btn btn-secondary btn-sm">
+				<input type="radio" name="options" value="time-out">Time out 
+			</label>
+			<label class="btn btn-secondary btn-sm">
+				<input type="radio" name="options" value="read-only">Read only
+			</label>
+		</div>
+	</div>
 	<p class="mb-4">tx-props.jsp</p>
-	<div class="d-flex justify-content-end">
-		<button class="btn btn-sm btn-warning mx-2" onclick="selectAll()">SELECT test1</button>
-		<button class="btn btn-sm btn-warning mx-2" onclick="selectAll2()">SELECT test2</button>
-		<button class="btn btn-sm btn-warning mx-2" onclick="removeAll()">DELETE test1</button>
-		<button class="btn btn-sm btn-warning mx-2" onclick="removeAll2()">DELETE test2</button>
+	<div class="btn-group d-flex justify-content-end">
+		<button class="btn btn-sm btn-warning" onclick="selectAll()">SELECT TEST1</button>
+		<button class="btn btn-sm btn-warning" onclick="selectAll2()">SELECT TEST2</button>
+		<button class="btn btn-sm btn-warning" onclick="removeAll()">DELETE TEST1</button>
+		<button class="btn btn-sm btn-warning" onclick="removeAll2()">DELETE TEST2</button>
 	</div>
-	<p class="sub-p mt-4 pl-4 mb-2">- Rollback</p>
-	<div class="test d-flex justify-content-center mb-3">
-		<button class="btn btn-lg btn-primary mx-3" onclick="rollbackTest1()">CATCH</button>
-		<button class="btn btn-lg btn-primary mx-3" onclick="rollbackTest2()">NO CATCH</button>
-		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
-		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
+	<div class="parent-div rollback">
+		<p class="sub-p mt-4 pl-4 mb-2">- Rollback</p>
+		<div class="test d-flex justify-content-center mb-3">
+			<button class="btn btn-lg btn-primary mx-3" onclick="rollbackTest1()">CATCH</button>
+			<button class="btn btn-lg btn-primary mx-3" onclick="rollbackTest2()">NO CATCH</button>
+			<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
+			<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
+		</div>
+		<div class="test d-flex justify-content-center mb-3">
+			<button class="btn btn-sm btn-primary mx-3" onclick="rollbackTest3()">ROLLBACK_FOR Ex</button>
+			<button class="btn btn-sm btn-primary mx-3" onclick="rollbackTest4()">ROLLBACK_FOR SQLEx</button>
+			<button class="btn btn-sm btn-primary mx-3" onclick="rollbackTest5()">NOT ROLLBACK_FOR SQLEx</button>
+			<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
+		</div>
+		<div class="test d-flex justify-content-center">
+			<button class="btn btn-lg btn-primary mx-3" onclick="rollbackTest6()">CHECKED E</button>
+			<button class="btn btn-lg btn-primary mx-3" onclick="rollbackTest7()">UNCHECKED E</button>
+			<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
+			<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
+		</div>
 	</div>
-	<div class="test d-flex justify-content-center mb-3">
-		<button class="btn btn-sm btn-primary mx-3" onclick="rollbackTest3()">ROLLBACK_FOR Ex</button>
-		<button class="btn btn-sm btn-primary mx-3" onclick="rollbackTest4()">ROLLBACK_FOR SQLEx</button>
-		<button class="btn btn-sm btn-primary mx-3" onclick="rollbackTest5()">NOT ROLLBACK_FOR SQLEx</button>
-		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
+	<div class="parent-div propagation d-none">
+		<p class="sub-p mt-4 pl-4 mb-2">- Propagation</p>
+		<div class="test d-flex justify-content-center mb-3">
+			<button class="btn btn-sm btn-primary mx-3" onclick="propagationTest1()">REQUIRED &rArr; REQUIRED<br>inner Exception</button>
+			<button class="btn btn-sm btn-primary mx-3" onclick="propagationTest2(true)">REQUIRED &rArr; REQUIRES_NEW<br>inner Exception</button>
+			<button class="btn btn-sm btn-primary mx-3" onclick="propagationTest3()">REQUIRED &rArr; REQUIRES_NEW<br>outer Exception</button>
+			<button class="btn btn-sm btn-primary mx-3" onclick="propagationTest2(false)">REQUIRED &rArr; REQUIRES_NEW<br>NO Exception</button>
+		</div>
+		<div class="test d-flex justify-content-center">
+			<button class="btn btn-lg btn-primary mx-3" onclick="propagationTest4()">MANDATORY</button>
+			<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
+			<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
+			<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
+		</div>
 	</div>
-	<div class="test d-flex justify-content-center">
-		<button class="btn btn-lg btn-primary mx-3" onclick="rollbackTest6()">CHECKED E</button>
-		<button class="btn btn-lg btn-primary mx-3" onclick="rollbackTest7()">UNCHECKED E</button>
-		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
-		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
+	<div class="parent-div isolation d-none">
+		<p class="sub-p mt-4 pl-4 mb-2">- Isolation Level</p>
+		<div class="test d-flex justify-content-center">
+			<button class="btn btn-lg btn-primary mx-3" onclick="isolationTest1()">test1</button>
+			<button class="btn btn-lg btn-primary mx-3" onclick="isolationTest2()">test2</button>
+			<button class="btn btn-lg btn-primary mx-3" onclick="isolationTest3()">test3</button>
+			<button class="btn btn-lg btn-primary mx-3" onclick="isolationTest4()">test4</button>
+		</div>
 	</div>
-	<p class="sub-p mt-4 pl-4 mb-2">- Propagation</p>
-	<div class="test d-flex justify-content-center mb-3">
-		<button class="btn btn-sm btn-primary mx-3" onclick="propagationTest1()">REQUIRED - REQUIRED<br>RuntimeException</button>
-		<button class="btn btn-sm btn-primary mx-3" onclick="propagationTest2(true)">REQUIRED - REQUIRES_NEW<br>RuntimeException</button>
-		<button class="btn btn-sm btn-primary mx-3" onclick="propagationTest2(false)">REQUIRED - REQUIRES_NEW<br>NO RuntimeException</button>
-		<button class="btn btn-lg btn-primary mx-3" onclick="propagationTest3()">MANDATORY</button>
+	<div class="parent-div time-out d-none">
+		<p class="sub-p mt-4 pl-4 mb-2">- Time out</p>
+		<div class="test d-flex justify-content-center">
+			<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
+			<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
+			<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
+			<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
+		</div>
 	</div>
-	<p class="sub-p mt-4 pl-4 mb-2">- Isolation Level</p>
-	<div class="test d-flex justify-content-center">
-		<button class="btn btn-lg btn-primary mx-3" onclick="isolationTest1()">test1</button>
-		<button class="btn btn-lg btn-primary mx-3" onclick="isolationTest2()">test2</button>
-		<button class="btn btn-lg btn-primary mx-3" onclick="isolationTest3()">test3</button>
-		<button class="btn btn-lg btn-primary mx-3" onclick="isolationTest4()">test4</button>
-	</div>
-	<p class="sub-p mt-4 pl-4 mb-2 d-none">- Time out</p>
-	<div class="test d-flex justify-content-center">
-		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
-		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
-		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
-		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
-	</div>
-	<p class="sub-p mt-4 pl-4 mb-2 d-none">- Read Only</p>
-	<div class="test d-flex justify-content-center">
-		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
-		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
-		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
-		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
+	<div class="parent-div read-only d-none">
+		<p class="sub-p mt-4 pl-4 mb-2">- Read Only</p>
+		<div class="test d-flex justify-content-center">
+			<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
+			<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
+			<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
+			<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
+		</div>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 <script>
+	$(function() {
+		$("input[type=radio][name=options]").change(function() {
+			$(".parent-div").addClass("d-none");
+			$("." + $(this).val()).removeClass("d-none");
+		});
+	});
+	
 	function selectAll() {
 		console.log("## selectAll");
 		$.ajax({
@@ -340,6 +382,22 @@
 		$.ajax({
 			type : "GET",
 			url : "${contextPath}/test/tx-props/propagation/test4",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log("> result = %s", result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(jqXHR.responseJSON);
+			}
+		});		
+	}
+
+	function propagationTest5() {
+		console.log("## propagationTest5");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/tx-props/propagation/test5",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);

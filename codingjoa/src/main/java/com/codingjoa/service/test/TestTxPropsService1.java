@@ -166,15 +166,22 @@ public class TestTxPropsService1 {
 		log.info("## outer1");
 		checkTransaction();
 		log.info("\t > insert testVo");
-		int result = mapper1.insert(createTestVo("outer1"));
+		int result = mapper1.insert(createTestVo("test1.outer1"));
 		log.info("\t > inserted rows = {}", result);
 		log.info("\t > calling innerRequired...");
 		
 		// https://velog.io/@chullll/Transactional-%EA%B3%BC-PROXY
 		// https://javafactory.tistory.com/1406
 		// AOP(Proxy) self-invocation issue
-		//this.inner1(); 
-		service2.innerRequired();
+		//this.inner1();
+		
+		// REQUIRED vs REQUIRES_NEW
+		//service2.innerRequired();
+		try {
+			service2.innerRequired();
+		} catch (Exception e) {
+			log.info("\t > catch {} at innerRequired", e.getClass().getSimpleName());
+		}
 	}
 
 	@Transactional
@@ -182,22 +189,40 @@ public class TestTxPropsService1 {
 		log.info("## outer2");
 		checkTransaction();
 		log.info("\t > insert testVo");
-		int result = mapper1.insert(createTestVo("outer2"));
+		int result = mapper1.insert(createTestVo("test1.outer2"));
 		log.info("\t > inserted rows = {}", result);
+
 		if (rollback) {
-			log.info("\t > calling innerRequiresNew1...");
-			service2.innerRequiresNew1();
+			try {
+				log.info("\t > calling innerRequiresNew1...");
+				service2.innerRequiresNew1();
+			} catch (Exception e) {
+				log.info("\t > catch {} at innerRequiresNew1", e.getClass().getSimpleName());
+			}
 		} else {
 			log.info("\t > calling innerRequiresNew2...");
 			service2.innerRequiresNew2();
 		}
 	}
 	
+	@Transactional
 	public void outer3() {
 		log.info("## outer3");
 		checkTransaction();
 		log.info("\t > insert testVo");
-		int result = mapper1.insert(createTestVo("outer3"));
+		int result = mapper1.insert(createTestVo("test1.outer3"));
+		log.info("\t > inserted rows = {}", result);
+		log.info("\t > calling innerRequiresNew2...");
+		service2.innerRequiresNew2();
+		throw new RuntimeException("outer3");
+	}
+	
+	
+	public void outer4() {
+		log.info("## outer4");
+		checkTransaction();
+		log.info("\t > insert testVo");
+		int result = mapper1.insert(createTestVo("test1.outer4"));
 		log.info("\t > inserted rows = {}", result);
 		log.info("\t > calling innerMandatory...");
 		service2.innerMandatory();
