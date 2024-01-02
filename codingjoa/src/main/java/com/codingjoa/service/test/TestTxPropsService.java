@@ -87,8 +87,9 @@ public class TestTxPropsService {
 	 * 	is referred to as the propagation attribute.
 	 */
 	
+	// Committing JDBC transaction on Connection
 	@Transactional
-	public void rollback1() { // Committing JDBC transaction on Connection
+	public void rollback1() { 
 		log.info("## rollback1");
 		checkTransaction();
 		try {
