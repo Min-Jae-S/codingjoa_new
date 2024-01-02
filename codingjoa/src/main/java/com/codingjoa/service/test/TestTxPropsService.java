@@ -166,10 +166,13 @@ public class TestTxPropsService {
 		log.info("## outer1");
 		checkTransaction();
 		
+		mapper.insert(createTestVo("outer1"));
 		// https://velog.io/@chullll/Transactional-%EA%B3%BC-PROXY
 		// https://javafactory.tistory.com/1406
 		// AOP(Proxy) self-invocation issue
 		//this.inner1(); 
+		
+		// throw RuntimeException
 		service2.innerRequired();
 		
 		log.info("## outer1 - after calling innerRequired");

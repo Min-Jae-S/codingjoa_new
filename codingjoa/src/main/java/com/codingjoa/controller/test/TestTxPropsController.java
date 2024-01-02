@@ -86,7 +86,6 @@ public class TestTxPropsController {
 		// Creating new transaction with name [outer1]: PROPAGATION_REQUIRED,ISOLATION_DEFAULT
 		// Participating in existing transaction
 		service.outer1();
-		
 		return ResponseEntity.ok("success");
 	}
 	

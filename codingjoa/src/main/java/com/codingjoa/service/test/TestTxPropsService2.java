@@ -69,13 +69,14 @@ public class TestTxPropsService2 {
 	public void innerRequired() {
 		log.info("## innerRequired");
 		checkTransaction();
+		mapper.insert(createTestVo("innerRequired"));
+		throw new RuntimeException("innerRequired");
 	}
 
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public void innerRollback() {
 		log.info("## innerRollback");
 		checkTransaction();
-		
 		log.info("## innerRollback - insert testVo");
 		mapper.insert(createTestVo("innerRollback"));
 		throw new RuntimeException();

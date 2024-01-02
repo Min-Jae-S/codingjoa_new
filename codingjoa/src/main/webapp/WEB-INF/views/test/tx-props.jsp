@@ -56,7 +56,7 @@
 	</div>
 	<div class="test d-flex justify-content-center mb-3">
 		<button class="btn btn-sm btn-primary mx-3" onclick="rollbackTest3()">ROLLBACK_FOR Ex</button>
-		<button class="btn btn-sm btn-primary mx-3" onclick="rollbackTest4()">ROLLBACK_ FOR SQLEx</button>
+		<button class="btn btn-sm btn-primary mx-3" onclick="rollbackTest4()">ROLLBACK_FOR SQLEx</button>
 		<button class="btn btn-sm btn-primary mx-3" onclick="rollbackTest5()">NOT ROLLBACK_FOR SQLEx</button>
 		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
 	</div>
@@ -80,14 +80,14 @@
 		<button class="btn btn-lg btn-primary mx-3" onclick="isolationTest3()">test3</button>
 		<button class="btn btn-lg btn-primary mx-3" onclick="isolationTest4()">test4</button>
 	</div>
-	<p class="sub-p mt-4 pl-4 mb-2">- Time out</p>
+	<p class="sub-p mt-4 pl-4 mb-2 d-none">- Time out</p>
 	<div class="test d-flex justify-content-center">
 		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
 		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
 		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
 		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
 	</div>
-	<p class="sub-p mt-4 pl-4 mb-2">- Read Only</p>
+	<p class="sub-p mt-4 pl-4 mb-2 d-none">- Read Only</p>
 	<div class="test d-flex justify-content-center">
 		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
 		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
