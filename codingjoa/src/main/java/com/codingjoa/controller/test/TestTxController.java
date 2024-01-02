@@ -76,7 +76,6 @@ public class TestTxController {
 		} else {
 			log.info("\t > no PlatformTransactionManager");
 		}
-		
 		return ResponseEntity.ok("success");
 	}
 	
@@ -92,7 +91,6 @@ public class TestTxController {
 		} else {
 			log.info("\t > no SqlSessionFactory");
 		}
-		
 		return ResponseEntity.ok("success");
 	}
 
@@ -108,7 +106,6 @@ public class TestTxController {
 		} else {
 			log.info("\t > no SqlSessionTemplate");
 		}
-		
 		return ResponseEntity.ok("success");
 	}
 
@@ -124,7 +121,6 @@ public class TestTxController {
 		} else {
 			log.info("\t > no TransactionSynchronizationManager");
 		}
-		
 		return ResponseEntity.ok("success");
 	}
 
@@ -165,7 +161,18 @@ public class TestTxController {
 		} else {
 			log.info("\t > no records");
 		}
-		
+		return ResponseEntity.ok(result);
+	}
+
+	@GetMapping("/tx/select-all2")
+	public ResponseEntity<Object> selectAll2() {
+		log.info("## selectAll2");
+		List<TestVo> result = service.selectAll2();
+		if (result.size() > 0) {
+			result.forEach(testVo -> log.info("\t > {}", testVo));
+		} else {
+			log.info("\t > no records");
+		}
 		return ResponseEntity.ok(result);
 	}
 
@@ -230,6 +237,14 @@ public class TestTxController {
 	public ResponseEntity<Object> removeAll() {
 		log.info("## removeAll");
 		int result = service.removeAll();
+		log.info("\t > removed rows = {}", result);
+		return ResponseEntity.ok("success");
+	}
+
+	@GetMapping("/tx/remove-all2")
+	public ResponseEntity<Object> removeAll2() {
+		log.info("## removeAll2");
+		int result = service.removeAll2();
 		log.info("\t > removed rows = {}", result);
 		return ResponseEntity.ok("success");
 	}

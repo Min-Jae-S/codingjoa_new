@@ -42,10 +42,12 @@
 <body>
 <c:import url="/WEB-INF/views/include/top-menu.jsp"/>
 <div class="container my-4 px-0">
-	<p class="mb-0">tx-props.jsp</p>
+	<p class="mb-4">tx-props.jsp</p>
 	<div class="d-flex justify-content-end">
-		<button class="btn btn-warning mx-2" onclick="selectAll()">SELECT ALL</button>
-		<button class="btn btn-warning mx-2" onclick="removeAll()">DELETE ALL</button>
+		<button class="btn btn-sm btn-warning mx-2" onclick="selectAll()">SELECT test1</button>
+		<button class="btn btn-sm btn-warning mx-2" onclick="selectAll2()">SELECT test2</button>
+		<button class="btn btn-sm btn-warning mx-2" onclick="removeAll()">DELETE test1</button>
+		<button class="btn btn-sm btn-warning mx-2" onclick="removeAll2()">DELETE test2</button>
 	</div>
 	<p class="sub-p mt-4 pl-4 mb-2">- Rollback</p>
 	<div class="test d-flex justify-content-center mb-3">
@@ -124,6 +126,44 @@
 		$.ajax({
 			type : "GET",
 			url : "${contextPath}/test/tx/remove-all",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log("> result = %s", result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(jqXHR.responseJSON);
+			}
+		});		
+	}
+
+	function selectAll2() {
+		console.log("## selectAll2");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/tx/select-all2",
+			dataType : "json",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				if (result == "") {
+					console.log("> result = no records");
+				} else {
+					console.log("> result = ");
+					console.log(JSON.stringify(result, null, 2));
+				}
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(jqXHR.responseJSON);
+			}
+		});		
+	}
+	
+	function removeAll2() {
+		console.log("## removeAll2");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/tx/remove-all2",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);

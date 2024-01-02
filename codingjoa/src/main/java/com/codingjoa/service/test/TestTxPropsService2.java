@@ -14,7 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
-import com.codingjoa.mapper.TestMapper;
+import com.codingjoa.mapper.TestMapper1;
+import com.codingjoa.mapper.TestMapper2;
 import com.codingjoa.test.TestVo;
 
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 public class TestTxPropsService2 {
 	
 	@Autowired
-	private TestMapper mapper;
+	private TestMapper2 mapper2;
 	
 	@Autowired
 	private PlatformTransactionManager txManager;
@@ -68,9 +69,8 @@ public class TestTxPropsService2 {
 	public void innerRequired() {
 		log.info("## innerRequired");
 		checkTransaction();
-		
 		log.info("\t > insert testVo");
-		int result = mapper.insert(createTestVo("innerRequired"));
+		int result = mapper2.insert(createTestVo("innerRequired"));
 		log.info("\t > inserted rows = {}", result);
 		throw new RuntimeException("innerRequired");
 	}
@@ -79,9 +79,8 @@ public class TestTxPropsService2 {
 	public void innerRequiresNew1() {
 		log.info("## innerRequiresNew1");
 		checkTransaction();
-		
 		log.info("\t > insert testVo");
-		int result = mapper.insert(createTestVo("innerRequiresNew1"));
+		int result = mapper2.insert(createTestVo("innerRequiresNew1"));
 		log.info("\t > inserted rows = {}", result);
 		throw new RuntimeException();
 	}
@@ -90,9 +89,8 @@ public class TestTxPropsService2 {
 	public void innerRequiresNew2() {
 		log.info("## innerRequiresNew2");
 		checkTransaction();
-		
 		log.info("\t > insert testVo");
-		int result = mapper.insert(createTestVo("innerRequiresNew2"));
+		int result = mapper2.insert(createTestVo("innerRequiresNew2"));
 		log.info("\t > inserted rows = {}", result);
 	}
 

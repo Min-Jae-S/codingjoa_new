@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import com.codingjoa.test.TestVo;
 
 @Mapper
-public interface TestMapper {
+public interface TestMapper1 {
 	
 	List<TestVo> selectAll();
 	

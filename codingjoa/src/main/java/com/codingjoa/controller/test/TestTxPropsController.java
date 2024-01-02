@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.codingjoa.service.test.TestTxPropsService;
+import com.codingjoa.service.test.TestTxPropsService1;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,7 +25,7 @@ public class TestTxPropsController {
 	private ApplicationContext context;
 	
 	@Autowired
-	private TestTxPropsService service;
+	private TestTxPropsService1 service;
 	
 	@Resource(name = "mainTransactionManager")
 	private PlatformTransactionManager mainTransactionManager;

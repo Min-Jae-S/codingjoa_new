@@ -21,7 +21,8 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.transaction.support.TransactionSynchronizationAdapter;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
-import com.codingjoa.mapper.TestMapper;
+import com.codingjoa.mapper.TestMapper1;
+import com.codingjoa.mapper.TestMapper2;
 import com.codingjoa.test.TestVo;
 
 import lombok.extern.slf4j.Slf4j;
@@ -66,7 +67,10 @@ public class TestTxService {
 	// 		8. Datasource에 Connection 반환
 	
 	@Autowired
-	private TestMapper mapper;
+	private TestMapper1 mapper;
+
+	@Autowired
+	private TestMapper2 mapper2;
 	
 	public void doSomething1() {
 		log.info("## doSomething1 - NO Transactional");
@@ -125,6 +129,10 @@ public class TestTxService {
 	public List<TestVo> selectAll() {
 		return mapper.selectAll();
 	}
+
+	public List<TestVo> selectAll2() {
+		return mapper2.selectAll();
+	}
 	
 	public int insertNoTx(TestVo testVo) {
 		return mapper.insert(testVo);
@@ -146,22 +154,28 @@ public class TestTxService {
 	public int removeAll() {
 		return mapper.removeAll();
 	}
+
+	public int removeAll2() {
+		return mapper2.removeAll();
+	}
 	
-	private void checkTransaction(TransactionStatus status) {
-		log.info("## checkTransaction");
-		if (status == null) {
-			log.info("\t > NO TX");
-		} else {
-			if (status.isCompleted()) {
-				log.info("\t > COMPLETED");
-			} else if (status.isRollbackOnly()) {
-				log.info("\t > ROLLBACK");
-			} else if (status.isNewTransaction()) {
-				log.info("\t > NEW TRANSACTION");
-			} else {
-				log.info("\t > UNKNOWN");
-			}
+	private void checkTransaction(TransactionStatus transactionStatus) {
+		if (transactionStatus == null) {
+			log.info("\t > NO transaction");
+			return;
 		}
+		
+		String status = null;
+		if (transactionStatus.isCompleted()) {
+			status = "completed";
+		} else if (transactionStatus.isRollbackOnly()) {
+			status = "rollback";
+		} else if (transactionStatus.isNewTransaction()) {
+			status = "new transaction";
+		} else {
+			status = "unknown";
+		}
+		log.info("\t > transaction status = {}", status);
 	}
 	
 	private void checkTransactionBySyncManager() {
@@ -190,7 +204,7 @@ public class TestTxService {
 	public void invokeSqlSession() throws SQLException {
 		SqlSession sqlSession = sqlSessionFactory.openSession(false);
 		log.info("\t > auto commit = {}", sqlSession.getConnection().getAutoCommit());
-		int result = sqlSession.getMapper(TestMapper.class).insert(createTestVo());
+		int result = sqlSession.getMapper(TestMapper1.class).insert(createTestVo());
 		log.info("\t > inserted rows = {}", result);
 		sqlSession.close();
 	}

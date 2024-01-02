@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
-import com.codingjoa.mapper.TestMapper;
+import com.codingjoa.mapper.TestMapper1;
 import com.codingjoa.test.TestVo;
 
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @SuppressWarnings("unused")
 @Service
-public class TestTxPropsService {
+public class TestTxPropsService1 {
 	
 	/*
 	 * @@ Transaction properties
@@ -37,7 +37,7 @@ public class TestTxPropsService {
 	private TestTxPropsService2 service2;
 	
 	@Autowired
-	private TestMapper mapper;
+	private TestMapper1 mapper1;
 	
 	@Autowired
 	private PlatformTransactionManager txManager;
@@ -93,7 +93,7 @@ public class TestTxPropsService {
 		checkTransaction();
 		try {
 			log.info("\t > insert testVo");
-			int result = mapper.insert(createTestVo("rollback1"));
+			int result = mapper1.insert(createTestVo("rollback1"));
 			log.info("\t > inserted rows = {}", result);
 			throw new RuntimeException();
 		} catch (Exception e) {
@@ -106,7 +106,7 @@ public class TestTxPropsService {
 		log.info("## rollback2");
 		checkTransaction();
 		log.info("\t > insert testVo");
-		int result = mapper.insert(createTestVo("rollback2"));
+		int result = mapper1.insert(createTestVo("rollback2"));
 		log.info("\t > inserted rows = {}", result);
 		throw new RuntimeException("rollback2");
 	}
@@ -116,7 +116,7 @@ public class TestTxPropsService {
 		log.info("## rollbackForEx");
 		checkTransaction();
 		log.info("\t > insert testVo");
-		int result = mapper.insert(createTestVo("rollbackForEx"));
+		int result = mapper1.insert(createTestVo("rollbackForEx"));
 		log.info("\t > inserted rows = {}", result);
 		throw new SQLException("rollbackForEx");
 	}
@@ -126,7 +126,7 @@ public class TestTxPropsService {
 		log.info("## rollbackForSqlEx");
 		checkTransaction();
 		log.info("\t > insert testVo");
-		int result = mapper.insert(createTestVo("rollbackForSqlEx"));
+		int result = mapper1.insert(createTestVo("rollbackForSqlEx"));
 		log.info("\t > inserted rows = {}", result);
 		throw new SQLException("rollbackForSqlEx");
 	}
@@ -136,7 +136,7 @@ public class TestTxPropsService {
 		log.info("## noRollbackForSqlEx");
 		checkTransaction();
 		log.info("\t > insert testVo");
-		int result = mapper.insert(createTestVo("noRollbackForSqlEx"));
+		int result = mapper1.insert(createTestVo("noRollbackForSqlEx"));
 		log.info("\t > inserted rows = {}", result);
 		throw new SQLException("noRollbackForSqlEx");
 	}
@@ -146,7 +146,7 @@ public class TestTxPropsService {
 		log.info("## checkedEx");
 		checkTransaction();
 		log.info("\t > insert testVo");
-		int result = mapper.insert(createTestVo("checkedEx"));
+		int result = mapper1.insert(createTestVo("checkedEx"));
 		log.info("\t > inserted rows = {}", result);
 		throw new IOException("checkedEx");
 	}
@@ -156,7 +156,7 @@ public class TestTxPropsService {
 		log.info("## uncheckedEx");
 		checkTransaction();
 		log.info("\t > insert testVo");
-		int result = mapper.insert(createTestVo("uncheckedEx"));
+		int result = mapper1.insert(createTestVo("uncheckedEx"));
 		log.info("\t > inserted rows = {}", result);
 		throw new RuntimeException("uncheckedEx");
 	}
@@ -165,9 +165,8 @@ public class TestTxPropsService {
 	public void outer1() {
 		log.info("## outer1");
 		checkTransaction();
-		
 		log.info("\t > insert testVo");
-		int result = mapper.insert(createTestVo("outer1"));
+		int result = mapper1.insert(createTestVo("outer1"));
 		log.info("\t > inserted rows = {}", result);
 		log.info("\t > calling innerRequired...");
 		
@@ -182,9 +181,8 @@ public class TestTxPropsService {
 	public void outer2(boolean rollback) {
 		log.info("## outer2");
 		checkTransaction();
-
 		log.info("\t > insert testVo");
-		int result = mapper.insert(createTestVo("outer2"));
+		int result = mapper1.insert(createTestVo("outer2"));
 		log.info("\t > inserted rows = {}", result);
 		if (rollback) {
 			log.info("\t > calling innerRequiresNew1...");
@@ -198,9 +196,8 @@ public class TestTxPropsService {
 	public void outer3() {
 		log.info("## outer3");
 		checkTransaction();
-		
 		log.info("\t > insert testVo");
-		int result = mapper.insert(createTestVo("outer3"));
+		int result = mapper1.insert(createTestVo("outer3"));
 		log.info("\t > inserted rows = {}", result);
 		log.info("\t > calling innerMandatory...");
 		service2.innerMandatory();
