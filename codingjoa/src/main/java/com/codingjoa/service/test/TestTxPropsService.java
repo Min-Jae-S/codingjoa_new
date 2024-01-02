@@ -87,7 +87,6 @@ public class TestTxPropsService {
 	 * 	is referred to as the propagation attribute.
 	 */
 	
-	// Committing JDBC transaction on Connection
 	@Transactional
 	public void rollback1() { 
 		log.info("## rollback1");
@@ -101,7 +100,6 @@ public class TestTxPropsService {
 		}
 	}
 
-	// Rolling back JDBC transaction on Connection
 	@Transactional
 	public void rollback2() { 
 		log.info("## rollback2");
@@ -111,7 +109,6 @@ public class TestTxPropsService {
 		throw new RuntimeException("rollback2");
 	}
 	
-	// Rolling back JDBC transaction on Connection
 	@Transactional(rollbackFor = Exception.class)
 	public void rollbackForException() throws Exception { 
 		log.info("## rollbackForEx");
@@ -121,7 +118,6 @@ public class TestTxPropsService {
 		throw new SQLException("rollbackForEx");
 	}
 
-	// Rolling back JDBC transaction on Connection
 	@Transactional(rollbackFor = SQLException.class)
 	public void rollbackForSqlException() throws Exception {
 		log.info("## rollbackForSqlEx");
@@ -131,7 +127,6 @@ public class TestTxPropsService {
 		throw new SQLException("rollbackForSqlEx");
 	}
 
-	// Committing JDBC transaction on Connection
 	@Transactional
 	public void noRollbackForSqlException() throws Exception { 
 		log.info("## noRollbackForSqlEx");
@@ -141,7 +136,6 @@ public class TestTxPropsService {
 		throw new SQLException("noRollbackForSqlEx");
 	}
 
-	// Committing JDBC transaction on Connection
 	@Transactional
 	public void checkedException() throws Exception { 
 		log.info("## checkedEx");
@@ -151,7 +145,6 @@ public class TestTxPropsService {
 		throw new IOException("checkedEx");
 	}
 
-	// Rolling back JDBC transaction on Connection
 	@Transactional
 	public void uncheckedException() { 
 		log.info("## uncheckedEx");
@@ -174,9 +167,6 @@ public class TestTxPropsService {
 		
 		// throw RuntimeException
 		service2.innerRequired();
-		
-		log.info("## outer1 - after calling innerRequired");
-		checkTransaction();
 	}
 
 	@Transactional
@@ -186,24 +176,18 @@ public class TestTxPropsService {
 
 		log.info("## outer2 - insert testVo");
 		if (rollback) {
-			mapper.insert(createTestVo("rollback"));
+			mapper.insert(createTestVo("outer2"));
 			service2.innerRollback();
-			log.info("## outer2 - after calling innerRollback");
 		} else {
-			mapper.insert(createTestVo("noRollback"));
+			mapper.insert(createTestVo("outer2"));
 			service2.innerNoRollback();
-			log.info("## outer2 - after calling innerNoRollback");
 		}
-		checkTransaction();
 	}
 	
 	public void outer3() {
 		log.info("## outer3");
 		checkTransaction();
 		service2.innerMandatory();
-		
-		log.info("## outer3 - after calling innerMandatory");
-		checkTransaction();
 	}
 
 	@Transactional(isolation = Isolation.DEFAULT)

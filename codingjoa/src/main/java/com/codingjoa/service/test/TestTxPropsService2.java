@@ -35,7 +35,6 @@ public class TestTxPropsService2 {
 		try {
 			TransactionStatus status = TransactionAspectSupport.currentTransactionStatus();
 			log.info("\t > transaction = {}", TransactionSynchronizationManager.getCurrentTransactionName());
-			
 //			for(Object key : TransactionSynchronizationManager.getResourceMap().keySet()) {
 //				ConnectionHolder connectionHolder = 
 //						(ConnectionHolder) TransactionSynchronizationManager.getResource(key);
@@ -77,6 +76,7 @@ public class TestTxPropsService2 {
 	public void innerRollback() {
 		log.info("## innerRollback");
 		checkTransaction();
+		
 		log.info("## innerRollback - insert testVo");
 		mapper.insert(createTestVo("innerRollback"));
 		throw new RuntimeException();

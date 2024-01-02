@@ -68,9 +68,9 @@
 	</div>
 	<p class="sub-p mt-4 pl-4 mb-2">- Propagation</p>
 	<div class="test d-flex justify-content-center mb-3">
-		<button class="btn btn-lg btn-primary mx-3" onclick="propagationTest1()">REQUIRED</button>
-		<button class="btn btn-sm btn-primary mx-3" onclick="propagationTest2(true)">REQUIRES_NEW_ROLLBACK</button>
-		<button class="btn btn-sm btn-primary mx-3" onclick="propagationTest2(false)">REQUIRES_NEW_COMMIT</button>
+		<button class="btn btn-sm btn-primary mx-3" onclick="propagationTest1()">REQUIRED - REQUIRED<br>RuntimeException</button>
+		<button class="btn btn-sm btn-primary mx-3" onclick="propagationTest2(true)">REQUIRED - REQUIRES_NEW<br>RuntimeException</button>
+		<button class="btn btn-sm btn-primary mx-3" onclick="propagationTest2(false)">REQUIRED - REQUIRES_NEW<br>NO RuntimeException</button>
 		<button class="btn btn-lg btn-primary mx-3" onclick="propagationTest3()">MANDATORY</button>
 	</div>
 	<p class="sub-p mt-4 pl-4 mb-2">- Isolation Level</p>

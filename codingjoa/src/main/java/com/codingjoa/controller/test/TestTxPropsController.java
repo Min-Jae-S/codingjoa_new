@@ -82,9 +82,15 @@ public class TestTxPropsController {
 	@GetMapping("/tx-props/propagation/test1")
 	public ResponseEntity<Object> propagationTest1() { 
 		log.info("## propagationTest1");
-		// @@ outer: REQUIRED, inner: REQUIRED
+		// @@ outer: REQUIRED, inner: REQUIRED(RuntimeException)
 		// Creating new transaction with name [outer1]: PROPAGATION_REQUIRED,ISOLATION_DEFAULT
+		// Acquired Connection [HikariProxyConnection@742011473 wrapping oracle.jdbc.driver.T4CConnection@5ff37957] for JDBC transaction
 		// Participating in existing transaction
+		// Participating transaction failed - marking existing transaction as rollback-only
+		// Setting JDBC transaction [HikariProxyConnection@742011473 wrapping oracle.jdbc.driver.T4CConnection@5ff37957] rollback-only
+		// Initiating transaction rollback
+		// Rolling back JDBC transaction on Connection [HikariProxyConnection@742011473 wrapping oracle.jdbc.driver.T4CConnection@5ff37957]
+		// Releasing JDBC Connection [HikariProxyConnection@742011473 wrapping oracle.jdbc.driver.T4CConnection@5ff37957] after transaction
 		service.outer1();
 		return ResponseEntity.ok("success");
 	}
@@ -94,7 +100,7 @@ public class TestTxPropsController {
 		log.info("## propagationTest2");
 		log.info("\t > rollback = {}", rollback);
 		
-		// @@ rollback = true, outer = REQUIRED, inner = REQUIRED_NEW
+		// @@ outer = REQUIRED, inner = REQUIRED_NEW (RuntimeException)
 		// Creating new transaction with name [outer2]: PROPAGATION_REQUIRED,ISOLATION_DEFAULT
 		// Acquired Connection [HikariProxyConnection@1991964660] for JDBC transaction
 		// Suspending current transaction, creating new transaction with name [innerRollback]
@@ -107,7 +113,7 @@ public class TestTxPropsController {
 		// Rolling back JDBC transaction on Connection [HikariProxyConnection@1991964660]
 		// Releasing JDBC Connection [HikariProxyConnection@1991964660] after transaction
 		
-		// @@ rollback = false, @@ outer = REQUIRED, inner = REQUIRED_NEW
+		// @@ outer = REQUIRED, inner = REQUIRED_NEW (No RuntimeException)
 		// Creating new transaction with name [outer2]: PROPAGATION_REQUIRED,ISOLATION_DEFAULT
 		// Acquired Connection [HikariProxyConnection@1043314600] for JDBC transaction
 		// Suspending current transaction, creating new transaction with name [innerNoRollback]
@@ -120,7 +126,6 @@ public class TestTxPropsController {
 		// Committing JDBC transaction on Connection [HikariProxyConnection@1043314600]
 		// Releasing JDBC Connection [HikariProxyConnection@1043314600] after transaction
 		service.outer2(rollback); 
-		
 		return ResponseEntity.ok("success");
 	}
 	
