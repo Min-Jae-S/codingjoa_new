@@ -228,6 +228,28 @@ public class TestTxPropsService1 {
 		log.info("\t > calling innerMandatory...");
 		service2.innerMandatory();
 	}
+	
+	@Transactional
+	public void outer5() {
+		log.info("## outer5");
+		checkTransaction();
+		log.info("\t > insert testVo");
+		int result = mapper1.insert(createTestVo("test1.outer5"));
+		log.info("\t > inserted rows = {}", result);
+		log.info("\t > calling innerNested1...");
+		service2.innerNested1();
+	}
+
+	@Transactional
+	public void outer6() {
+		log.info("## outer6");
+		checkTransaction();
+		log.info("\t > insert testVo");
+		int result = mapper1.insert(createTestVo("test1.outer6"));
+		log.info("\t > inserted rows = {}", result);
+		log.info("\t > calling innerNested2...");
+		service2.innerNested2();
+	}
 
 	@Transactional(isolation = Isolation.DEFAULT)
 	public void isoDefault() {

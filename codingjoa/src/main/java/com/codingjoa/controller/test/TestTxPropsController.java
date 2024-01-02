@@ -102,8 +102,7 @@ public class TestTxPropsController {
 		log.info("## propagationTest2");
 		log.info("\t > rollback = {}", rollback);
 		
-		// @@ outer = REQUIRED, inner = REQUIRED_NEW
-		// @@ RuntimeException at inner + catch
+		// @@ outer = REQUIRED, inner = REQUIRED_NEW, RuntimeException at inner + catch 
 		// Creating new transaction with name [outer2]: PROPAGATION_REQUIRED,ISOLATION_DEFAULT
 		// Acquired Connection [HikariProxyConnection@1991964660] for JDBC transaction
 		// Suspending current transaction, creating new transaction with name [innerRollback]
@@ -116,8 +115,7 @@ public class TestTxPropsController {
 		// Committing JDBC transaction on Connection [HikariProxyConnection@1991964660]
 		// Releasing JDBC Connection [HikariProxyConnection@1991964660] after transaction
 		
-		// @@ outer = REQUIRED, inner = REQUIRED_NEW
-		// @@ No RuntimeExeption
+		// @@ outer = REQUIRED, inner = REQUIRED_NEW, NO RuntimeExeption
 		// Creating new transaction with name [outer2]: PROPAGATION_REQUIRED,ISOLATION_DEFAULT
 		// Acquired Connection [HikariProxyConnection@1043314600] for JDBC transaction
 		// Suspending current transaction, creating new transaction with name [innerNoRollback]
@@ -145,6 +143,36 @@ public class TestTxPropsController {
 		log.info("## propagationTest3");
 		// outer = NO TRANSACTION, inner = MANDATORY
 		service.outer4();
+		return ResponseEntity.ok("success");
+	}
+
+	@GetMapping("/tx-props/propagation/test5")
+	public ResponseEntity<Object> propagationTest5() { 
+		log.info("## propagationTest5");
+		// @@ outer = REQUIRED, inner = NESTED, RuntimeException at inner
+		// Creating new transaction with name [outer5]: PROPAGATION_REQUIRED,ISOLATION_DEFAULT
+		// Acquired Connection [HikariProxyConnection@1294584318] for JDBC transaction
+		// Creating nested transaction with name [innerNested1]
+		// Rolling back transaction to savepoint
+		// Initiating transaction rollback
+		// Rolling back JDBC transaction on Connection [HikariProxyConnection@1294584318]
+		// Releasing JDBC Connection [HikariProxyConnection@1294584318]
+		service.outer5();
+		return ResponseEntity.ok("success");
+	}
+
+	@GetMapping("/tx-props/propagation/test6")
+	public ResponseEntity<Object> propagationTest6() { 
+		log.info("## propagationTest6");
+		// @@ outer = REQUIRED, inner = NESTED, NO RuntimeExeption
+		// Creating new transaction with name [outer6]: PROPAGATION_REQUIRED,ISOLATION_DEFAULT
+		// Acquired Connection [HikariProxyConnection@1420424474] for JDBC transaction
+		// Creating nested transaction with name [innerNested2]
+		// Releasing transaction savepoint
+		// Initiating transaction commit
+		// Committing JDBC transaction on Connection [HikariProxyConnection@1420424474]
+		// Releasing JDBC Connection [HikariProxyConnection@1420424474] after transaction
+		service.outer6();
 		return ResponseEntity.ok("success");
 	}
 	

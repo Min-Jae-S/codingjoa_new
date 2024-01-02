@@ -92,16 +92,16 @@
 	<div class="parent-div propagation d-none">
 		<p class="sub-p mt-4 pl-4 mb-2">- Propagation</p>
 		<div class="test d-flex justify-content-center mb-3">
-			<button class="btn btn-sm btn-primary mx-3" onclick="propagationTest1()">REQUIRED &rArr; REQUIRED<br>inner Exception</button>
-			<button class="btn btn-sm btn-primary mx-3" onclick="propagationTest2(true)">REQUIRED &rArr; REQUIRES_NEW<br>inner Exception</button>
-			<button class="btn btn-sm btn-primary mx-3" onclick="propagationTest3()">REQUIRED &rArr; REQUIRES_NEW<br>outer Exception</button>
-			<button class="btn btn-sm btn-primary mx-3" onclick="propagationTest2(false)">REQUIRED &rArr; REQUIRES_NEW<br>NO Exception</button>
+			<button class="btn btn-sm btn-primary mx-3" onclick="propagationTest1()">REQUIRED &rArr; REQUIRED<br>INNER Exception</button>
+			<button class="btn btn-sm btn-primary mx-3" onclick="propagationTest2(true)">REQUIRED &rArr; RE_NEW<br>INNER Exception</button>
+			<button class="btn btn-sm btn-primary mx-3" onclick="propagationTest3()">REQUIRED &rArr; RE_NEW<br>OUTER Exception</button>
+			<button class="btn btn-sm btn-primary mx-3" onclick="propagationTest2(false)">REQUIRED &rArr; RE_NEW<br>NO Exception</button>
 		</div>
 		<div class="test d-flex justify-content-center">
-			<button class="btn btn-lg btn-primary mx-3" onclick="propagationTest4()">MANDATORY</button>
-			<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
-			<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
-			<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
+			<button class="btn btn-sm btn-primary mx-3" onclick="propagationTest5()">REQUIRED &rArr; NESTED<br>INNER Exception</button>
+			<button class="btn btn-sm btn-primary mx-3" onclick="propagationTest6()">REQUIRED &rArr; NESTED<br>NO Exception</button>
+			<button class="btn btn-primary mx-3" onclick="propagationTest4()">MANDATORY</button>
+			<button class="btn btn-sm btn-primary mx-3 invisible" onclick="#">#</button>
 		</div>
 	</div>
 	<div class="parent-div isolation d-none">
@@ -409,22 +409,6 @@
 		});		
 	}
 	
-	function propagationTest5() {
-		console.log("## propagationTest5");
-		$.ajax({
-			type : "GET",
-			url : "${contextPath}/test/tx-props/propagation/test5",
-			success : function(result) {
-				console.log("%c> SUCCESS", "color:green");
-				console.log("> result = %s", result);
-			},
-			error : function(jqXHR) {
-				console.log("%c> ERROR", "color:red");
-				console.log(jqXHR.responseJSON);
-			}
-		});		
-	}
-
 	function propagationTest6() {
 		console.log("## propagationTest6");
 		$.ajax({

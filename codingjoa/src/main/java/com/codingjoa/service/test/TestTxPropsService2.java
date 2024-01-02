@@ -83,7 +83,7 @@ public class TestTxPropsService2 {
 		log.info("\t > insert testVo");
 		int result = mapper2.insert(createTestVo("test2.innerRequiresNew1"));
 		log.info("\t > inserted rows = {}", result);
-		throw new RuntimeException();
+		throw new RuntimeException("innerRequiresNew1");
 	}
 
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
@@ -99,5 +99,24 @@ public class TestTxPropsService2 {
 	public void innerMandatory() {
 		log.info("## innerMandatory");
 		checkTransaction();
+	}
+	
+	@Transactional(propagation = Propagation.NESTED)
+	public void innerNested1() {
+		log.info("## innerNested1");
+		checkTransaction();
+		log.info("\t > insert testVo");
+		int result = mapper2.insert(createTestVo("test2.innerRequiresNew2"));
+		log.info("\t > inserted rows = {}", result);
+		throw new RuntimeException("innerNested1");
+	}
+
+	@Transactional(propagation = Propagation.NESTED)
+	public void innerNested2() {
+		log.info("## innerNested2");
+		checkTransaction();
+		log.info("\t > insert testVo");
+		int result = mapper2.insert(createTestVo("test2.innerRequiresNew2"));
+		log.info("\t > inserted rows = {}", result);
 	}
 }
