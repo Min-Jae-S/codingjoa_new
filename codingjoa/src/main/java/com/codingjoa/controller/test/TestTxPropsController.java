@@ -21,6 +21,11 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 public class TestTxPropsController {
 	
+	/*
+	 * @@ @Transactional의 전파 레벨
+	 * https://kth990303.tistory.com/385
+	 */
+	
 	@Autowired
 	private ApplicationContext context;
 	
@@ -154,9 +159,9 @@ public class TestTxPropsController {
 		// Acquired Connection [HikariProxyConnection@1294584318] for JDBC transaction
 		// Creating nested transaction with name [innerNested1]
 		// Rolling back transaction to savepoint
-		// Initiating transaction rollback
-		// Rolling back JDBC transaction on Connection [HikariProxyConnection@1294584318]
-		// Releasing JDBC Connection [HikariProxyConnection@1294584318]
+		// Initiating transaction commit
+		// Committing JDBC transaction on Connection [HikariProxyConnection@1294584318]
+		// Releasing JDBC Connection [HikariProxyConnection@1294584318] after transaction
 		service.outer5();
 		return ResponseEntity.ok("success");
 	}

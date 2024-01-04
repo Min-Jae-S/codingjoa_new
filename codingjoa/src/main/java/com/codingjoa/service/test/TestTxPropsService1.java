@@ -171,9 +171,14 @@ public class TestTxPropsService1 {
 		log.info("\t > inserted rows = {}", result);
 		log.info("\t > calling innerRequired...");
 		
+		// AOP(Proxy) self-invocation issue
 		// https://velog.io/@chullll/Transactional-%EA%B3%BC-PROXY
 		// https://javafactory.tistory.com/1406
-		// AOP(Proxy) self-invocation issue
+		// https://whitepro.tistory.com/581
+		// https://www.popit.kr/%EB%8F%99%EC%9D%BC%ED%95%9C-beanclass%EC%97%90%EC%84%9C-transactional-%EB%8F%99%EC%9E%91-%EB%B0%A9%EC%8B%9D/
+		// @Transactional 어노테이션이 Spring의 CGLIB Proxy를 기반으로 동작하기 때문이다. 
+		// 다시 말해 동일한 Bean으로 등록된 클래스의 메서드에서는 @Transactional을 단일 건으로 취급한다. 
+		// Proxy로 불러온 빈은 다른 클래스가 아닌 경우 인터셉트되어 전달되지 않기 때문에 @Transactional이 동작하지 않는다.
 		//this.inner1();
 		
 		// REQUIRED vs REQUIRES_NEW
@@ -236,8 +241,12 @@ public class TestTxPropsService1 {
 		log.info("\t > insert testVo");
 		int result = mapper1.insert(createTestVo("test1.outer5"));
 		log.info("\t > inserted rows = {}", result);
-		log.info("\t > calling innerNested1...");
-		service2.innerNested1();
+		try {
+			log.info("\t > calling innerNested1...");
+			service2.innerNested1();
+		} catch (Exception e) {
+			log.info("\t > catch {} at innerNested1", e.getClass().getSimpleName());
+		}
 	}
 
 	@Transactional
