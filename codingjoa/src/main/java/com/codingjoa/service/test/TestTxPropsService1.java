@@ -167,9 +167,9 @@ public class TestTxPropsService1 {
 		TestVo testVo = createTestVo("test1.outer1");
 		applicationEventPublisher.publishEvent(new TestEvent(
 				TransactionSynchronizationManager.getCurrentTransactionName(), testVo.getName()));
+		
 		log.info("\t > insert testVo ( name = {} )", testVo.getName());
 		mapper1.insert(testVo);
-		log.info("\t > calling innerRequired...");
 		
 		// AOP(Proxy) self-invocation issue
 		// https://velog.io/@chullll/Transactional-%EA%B3%BC-PROXY
@@ -183,11 +183,12 @@ public class TestTxPropsService1 {
 		
 		// REQUIRED vs REQUIRES_NEW
 		//service2.innerRequired();
+		log.info("\t > calling innerRequired...");
 		service2.innerRequired();
 	}
 
 	@Transactional
-	public void outer2(boolean innerRollback) {
+	public void outer2(boolean innerException) {
 		log.info("## outer2");
 		checkTransaction();
 		
@@ -196,8 +197,8 @@ public class TestTxPropsService1 {
 				TransactionSynchronizationManager.getCurrentTransactionName(), testVo.getName()));
 		
 		log.info("\t > insert testVo ( name = {} )", testVo.getName());
-		mapper1.insert(createTestVo("test1.outer2"));
-		if (innerRollback) {
+		mapper1.insert(testVo);
+		if (innerException) {
 			try {
 				log.info("\t > calling innerRequiresNew1...");
 				service2.innerRequiresNew1();
@@ -208,25 +209,46 @@ public class TestTxPropsService1 {
 			log.info("\t > calling innerRequiresNew2...");
 			service2.innerRequiresNew2();
 		}
+
+		// @@ inner: rollback --> outer: rollback
+//		if (innerException) {
+//			log.info("\t > calling innerRequiresNew1...");
+//			service2.innerRequiresNew1();
+//		} else {
+//			log.info("\t > calling innerRequiresNew2...");
+//			service2.innerRequiresNew2();
+//		}
 	}
 	
 	@Transactional
 	public void outer3() {
 		log.info("## outer3");
 		checkTransaction();
-		log.info("\t > insert testVo");
-		mapper1.insert(createTestVo("test1.outer3"));
+		
+		TestVo testVo = createTestVo("test1.outer3");
+		applicationEventPublisher.publishEvent(new TestEvent(
+				TransactionSynchronizationManager.getCurrentTransactionName(), testVo.getName()));
+		
+		log.info("\t > insert testVo ( name = {} )", testVo.getName());
+		mapper1.insert(testVo);
+		
 		log.info("\t > calling innerRequiresNew2...");
 		service2.innerRequiresNew2();
+		
 		throw new RuntimeException("outer3");
 	}
-	
 	
 	public void outer4() {
 		log.info("## outer4");
 		checkTransaction();
-		log.info("\t > insert testVo");
-		mapper1.insert(createTestVo("test1.outer4"));
+		
+		TestVo testVo = createTestVo("test1.outer4");
+		applicationEventPublisher.publishEvent(new TestEvent(
+				TransactionSynchronizationManager.getCurrentTransactionName(), testVo.getName()));
+		
+		log.info("\t > insert testVo ( name = {} )", testVo.getName());
+		mapper1.insert(testVo);
+		
 		log.info("\t > calling innerMandatory...");
 		service2.innerMandatory();
 	}
@@ -235,8 +257,14 @@ public class TestTxPropsService1 {
 	public void outer5() {
 		log.info("## outer5");
 		checkTransaction();
-		log.info("\t > insert testVo");
-		mapper1.insert(createTestVo("test1.outer5"));
+		
+		TestVo testVo = createTestVo("test1.outer5");
+		applicationEventPublisher.publishEvent(new TestEvent(
+				TransactionSynchronizationManager.getCurrentTransactionName(), testVo.getName()));
+		
+		log.info("\t > insert testVo ( name = {} )", testVo.getName());
+		mapper1.insert(testVo);
+		
 		try {
 			log.info("\t > calling innerNested1...");
 			service2.innerNested1();
@@ -249,8 +277,14 @@ public class TestTxPropsService1 {
 	public void outer6() {
 		log.info("## outer6");
 		checkTransaction();
-		log.info("\t > insert testVo");
-		mapper1.insert(createTestVo("test1.outer6"));
+		
+		TestVo testVo = createTestVo("test1.outer6");
+		applicationEventPublisher.publishEvent(new TestEvent(
+				TransactionSynchronizationManager.getCurrentTransactionName(), testVo.getName()));
+		
+		log.info("\t > insert testVo ( name = {} )", testVo.getName());
+		mapper1.insert(testVo);
+		
 		log.info("\t > calling innerNested2...");
 		service2.innerNested2();
 	}

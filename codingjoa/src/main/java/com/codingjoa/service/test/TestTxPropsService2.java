@@ -119,7 +119,7 @@ public class TestTxPropsService2 {
 		TestVo testVo = createTestVo("test2.innerNested1");
 		applicationEventPublisher.publishEvent(testVo);
 		
-		log.info("\t > insert testVo ( id = {}, name = {} )", testVo.getId(), testVo.getName());
+		log.info("\t > insert testVo ( name = {} )", testVo.getName());
 		mapper2.insert(testVo);
 		throw new RuntimeException("innerNested1");
 	}
@@ -132,7 +132,7 @@ public class TestTxPropsService2 {
 		TestVo testVo = createTestVo("test2.innerNested2");
 		applicationEventPublisher.publishEvent(testVo);
 		
-		log.info("\t > insert testVo ( id = {}, name = {} )", testVo.getId(), testVo.getName());
+		log.info("\t > insert testVo ( name = {} )", testVo.getName());
 		mapper2.insert(testVo);
 	}
 }
