@@ -96,7 +96,7 @@ public class TestTxPropsService1 {
 			mapper1.insert(testVo);
 			throw new RuntimeException();
 		} catch (Exception e) {
-			log.info("> catch {}", e.getClass().getSimpleName());
+			log.info("\t > catch {}", e.getClass().getSimpleName());
 		}
 	}
 
@@ -160,8 +160,10 @@ public class TestTxPropsService1 {
 	public void outer1() {
 		log.info("## outer1");
 		checkTransaction();
-		log.info("\t > insert testVo");
-		mapper1.insert(createTestVo("test1.outer1"));
+		TestVo testVo = createTestVo("test1.outer1");
+		applicationEventPublisher.publishEvent(testVo);
+		log.info("\t > insert testVo ( id = {}, name = {} )", testVo.getId(), testVo.getName());
+		mapper1.insert(testVo);
 		log.info("\t > calling innerRequired...");
 		
 		// AOP(Proxy) self-invocation issue

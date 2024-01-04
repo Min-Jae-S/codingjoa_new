@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.jdbc.datasource.ConnectionHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -30,6 +31,9 @@ public class TestTxPropsService2 {
 	
 	@Autowired
 	private PlatformTransactionManager txManager;
+	
+	@Autowired
+	private ApplicationEventPublisher applicationEventPublisher;
 	
 	private void checkTransaction() {
 		log.info("\t > transaction = {}", TransactionSynchronizationManager.getCurrentTransactionName()); // @Nullable 
@@ -63,8 +67,12 @@ public class TestTxPropsService2 {
 	public void innerRequired() {
 		log.info("## innerRequired");
 		checkTransaction();
-		log.info("\t > insert testVo");
-		mapper2.insert(createTestVo("test2.innerRequired"));
+		
+		TestVo testVo = createTestVo("test2.innerRequired");
+		applicationEventPublisher.publishEvent(testVo);
+		
+		log.info("\t > insert testVo ( id = {}, name = {} )", testVo.getId(), testVo.getName());
+		mapper2.insert(testVo);
 		throw new RuntimeException("innerRequired");
 	}
 
@@ -72,8 +80,12 @@ public class TestTxPropsService2 {
 	public void innerRequiresNew1() {
 		log.info("## innerRequiresNew1");
 		checkTransaction();
-		log.info("\t > insert testVo");
-		mapper2.insert(createTestVo("test2.innerRequiresNew1"));
+		
+		TestVo testVo = createTestVo("test2.innerRequiresNew1");
+		applicationEventPublisher.publishEvent(testVo);
+		
+		log.info("\t > insert testVo ( id = {}, name = {} )", testVo.getId(), testVo.getName());
+		mapper2.insert(testVo);
 		throw new RuntimeException("innerRequiresNew1");
 	}
 
@@ -81,8 +93,12 @@ public class TestTxPropsService2 {
 	public void innerRequiresNew2() {
 		log.info("## innerRequiresNew2");
 		checkTransaction();
-		log.info("\t > insert testVo");
-		mapper2.insert(createTestVo("test2.innerRequiresNew2"));
+		
+		TestVo testVo = createTestVo("test2.innerRequiresNew2");
+		applicationEventPublisher.publishEvent(testVo);
+		
+		log.info("\t > insert testVo ( id = {}, name = {} )", testVo.getId(), testVo.getName());
+		mapper2.insert(testVo);
 	}
 
 	@Transactional(propagation = Propagation.MANDATORY)
@@ -95,8 +111,12 @@ public class TestTxPropsService2 {
 	public void innerNested1() {
 		log.info("## innerNested1");
 		checkTransaction();
-		log.info("\t > insert testVo");
-		mapper2.insert(createTestVo("test2.innerRequiresNew2"));
+		
+		TestVo testVo = createTestVo("test2.innerNested1");
+		applicationEventPublisher.publishEvent(testVo);
+		
+		log.info("\t > insert testVo ( id = {}, name = {} )", testVo.getId(), testVo.getName());
+		mapper2.insert(testVo);
 		throw new RuntimeException("innerNested1");
 	}
 
@@ -104,7 +124,11 @@ public class TestTxPropsService2 {
 	public void innerNested2() {
 		log.info("## innerNested2");
 		checkTransaction();
-		log.info("\t > insert testVo");
-		mapper2.insert(createTestVo("test2.innerRequiresNew2"));
+		
+		TestVo testVo = createTestVo("test2.innerNested2");
+		applicationEventPublisher.publishEvent(testVo);
+		
+		log.info("\t > insert testVo ( id = {}, name = {} )", testVo.getId(), testVo.getName());
+		mapper2.insert(testVo);
 	}
 }
