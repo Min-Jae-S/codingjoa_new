@@ -46,7 +46,7 @@ public class TestTxPropsService2 {
 				log.info("\t > not new transaction");
 			}
 		} catch (Exception e) {
-			log.info("\t > no transaction = {}", e.getClass().getSimpleName());
+			log.info("\t > no transaction - {}", e.getClass().getSimpleName());
 		}
 	}
 	

@@ -61,7 +61,7 @@ public class TestTxPropsService1 {
 				log.info("\t > not new transaction");
 			}
 		} catch (Exception e) {
-			log.info("\t > no transaction = {}", e.getClass().getSimpleName());
+			log.info("\t > no transaction - {}", e.getClass().getSimpleName());
 		}
 	}
 	
@@ -92,11 +92,11 @@ public class TestTxPropsService1 {
 		TestVo testVo = createTestVo("rollback1");
 		applicationEventPublisher.publishEvent(testVo);
 		try {
-			log.info("\t > insert testVo - {}", testVo);
+			log.info("\t > insert testVo ( id = {}, name = {} )", testVo.getId(), testVo.getName());
 			mapper1.insert(testVo);
 			throw new RuntimeException();
 		} catch (Exception e) {
-			log.info("> catches {}", e.getClass().getSimpleName());
+			log.info("> catch {}", e.getClass().getSimpleName());
 		}
 	}
 
@@ -106,7 +106,7 @@ public class TestTxPropsService1 {
 		checkTransaction();
 		TestVo testVo = createTestVo("rollback2");
 		applicationEventPublisher.publishEvent(testVo);
-		log.info("\t > insert testVo - {}", testVo);
+		log.info("\t > insert testVo ( id = {}, name = {} )", testVo.getId(), testVo.getName());
 		mapper1.insert(testVo);
 		throw new RuntimeException("rollback2");
 	}

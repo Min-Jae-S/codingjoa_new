@@ -13,15 +13,15 @@ import lombok.extern.slf4j.Slf4j;
 public class TransactionEventService {
 	
 	@TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
-	public void alertAfterCommit(TestVo testVo) {
-		log.info("## alertAfterCommit");
-		log.info("\t > commit - {}", testVo);
+	public void afterCommit(TestVo testVo) {
+		log.info("## afterCommit");
+		log.info("\t > commit testVo ( id = {}, name = {} )", testVo.getId(), testVo.getName());
 	}
 	
 	@TransactionalEventListener(phase = TransactionPhase.AFTER_ROLLBACK)
-	public void alertAfterRollback(TestVo testVo) {
-		log.info("## alertAfterRollback");
-		log.info("\t > rollback - {}", testVo);
+	public void afterRollback(TestVo testVo) {
+		log.info("## afterRollback");
+		log.info("\t > rollback testVo ( id = {}, name = {} )", testVo.getId(), testVo.getName());
 	}
 	
 }

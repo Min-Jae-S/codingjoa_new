@@ -155,25 +155,13 @@ public class TestTxController {
 	@GetMapping("/tx/select-all")
 	public ResponseEntity<Object> selectAll() {
 		log.info("## selectAll");
-		List<TestVo> result = service.selectAll();
-		if (result.size() > 0) {
-			result.forEach(testVo -> log.info("\t > {}", testVo));
-		} else {
-			log.info("\t > no records");
-		}
-		return ResponseEntity.ok(result);
+		return ResponseEntity.ok(service.selectAll());
 	}
 
 	@GetMapping("/tx/select-all2")
 	public ResponseEntity<Object> selectAll2() {
 		log.info("## selectAll2");
-		List<TestVo> result = service.selectAll2();
-		if (result.size() > 0) {
-			result.forEach(testVo -> log.info("\t > {}", testVo));
-		} else {
-			log.info("\t > no records");
-		}
-		return ResponseEntity.ok(result);
+		return ResponseEntity.ok(service.selectAll2());
 	}
 
 	@GetMapping("/tx/insert-no-tx")
@@ -185,11 +173,7 @@ public class TestTxController {
 				.password("withoutTx")
 				.regdate(LocalDateTime.now())
 				.build();
-		log.info("\t > created testVo = {}", testVo);
-		
-		int result = service.insertNoTx(testVo);
-		log.info("\t > inserted rows = {}", result);
-		
+		service.insertNoTx(testVo);
 		return ResponseEntity.ok("success");
 	}
 
@@ -202,11 +186,7 @@ public class TestTxController {
 				.password("insertTx")
 				.regdate(LocalDateTime.now())
 				.build();
-		log.info("\t > created testVo = {}", testVo);
-		
-		int result = service.insertTx(testVo);
-		log.info("\t > inserted rows = {}", result);
-		
+		service.insertTx(testVo);
 		return ResponseEntity.ok("success");
 	}
 
@@ -217,35 +197,28 @@ public class TestTxController {
 				.name("modified")
 				.password("modified")
 				.build();
-		log.info("\t > created testVo = {}", testVo);
-		
-		int result = service.update(testVo);
-		log.info("\t > updated rows = {}", result);
-		
+		service.update(testVo);
 		return ResponseEntity.ok("success");
 	}
 
 	@GetMapping("/tx/remove")
 	public ResponseEntity<Object> remove() {
 		log.info("## remove");
-		int result = service.remove();
-		log.info("\t > removed rows = {}", result);
+		service.remove();
 		return ResponseEntity.ok("success");
 	}
 	
 	@GetMapping("/tx/remove-all")
 	public ResponseEntity<Object> removeAll() {
 		log.info("## removeAll");
-		int result = service.removeAll();
-		log.info("\t > removed rows = {}", result);
+		service.removeAll();
 		return ResponseEntity.ok("success");
 	}
 
 	@GetMapping("/tx/remove-all2")
 	public ResponseEntity<Object> removeAll2() {
 		log.info("## removeAll2");
-		int result = service.removeAll2();
-		log.info("\t > removed rows = {}", result);
+		service.removeAll2();
 		return ResponseEntity.ok("success");
 	}
 	
