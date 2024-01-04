@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -16,6 +17,7 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 import com.codingjoa.mapper.TestMapper1;
+import com.codingjoa.test.TestEvent;
 import com.codingjoa.test.TestVo;
 
 import lombok.extern.slf4j.Slf4j;
@@ -90,9 +92,10 @@ public class TestTxPropsService1 {
 		log.info("## rollback1");
 		checkTransaction();
 		TestVo testVo = createTestVo("rollback1");
-		applicationEventPublisher.publishEvent(testVo);
+		applicationEventPublisher.publishEvent(new TestEvent(
+				TransactionSynchronizationManager.getCurrentTransactionName(), testVo.getName()));
 		try {
-			log.info("\t > insert testVo ( id = {}, name = {} )", testVo.getId(), testVo.getName());
+			log.info("\t > insert testVo ( name = {} )", testVo.getName());
 			mapper1.insert(testVo);
 			throw new RuntimeException();
 		} catch (Exception e) {
@@ -105,8 +108,9 @@ public class TestTxPropsService1 {
 		log.info("## rollback2");
 		checkTransaction();
 		TestVo testVo = createTestVo("rollback2");
-		applicationEventPublisher.publishEvent(testVo);
-		log.info("\t > insert testVo ( id = {}, name = {} )", testVo.getId(), testVo.getName());
+		applicationEventPublisher.publishEvent(new TestEvent(
+				TransactionSynchronizationManager.getCurrentTransactionName(), testVo.getName()));
+		log.info("\t > insert testVo ( name = {} )", testVo.getName());
 		mapper1.insert(testVo);
 		throw new RuntimeException("rollback2");
 	}
@@ -161,8 +165,9 @@ public class TestTxPropsService1 {
 		log.info("## outer1");
 		checkTransaction();
 		TestVo testVo = createTestVo("test1.outer1");
-		applicationEventPublisher.publishEvent(testVo);
-		log.info("\t > insert testVo ( id = {}, name = {} )", testVo.getId(), testVo.getName());
+		applicationEventPublisher.publishEvent(new TestEvent(
+				TransactionSynchronizationManager.getCurrentTransactionName(), testVo.getName()));
+		log.info("\t > insert testVo ( name = {} )", testVo.getName());
 		mapper1.insert(testVo);
 		log.info("\t > calling innerRequired...");
 		
@@ -178,11 +183,7 @@ public class TestTxPropsService1 {
 		
 		// REQUIRED vs REQUIRES_NEW
 		//service2.innerRequired();
-		try {
-			service2.innerRequired();
-		} catch (Exception e) {
-			log.info("\t > catch {} at innerRequired", e.getClass().getSimpleName());
-		}
+		service2.innerRequired();
 	}
 
 	@Transactional

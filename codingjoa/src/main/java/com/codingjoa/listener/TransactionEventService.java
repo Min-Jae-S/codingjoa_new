@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
 
-import com.codingjoa.test.TestVo;
+import com.codingjoa.test.TestEvent;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -13,15 +13,17 @@ import lombok.extern.slf4j.Slf4j;
 public class TransactionEventService {
 	
 	@TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
-	public void afterCommit(TestVo testVo) {
+	public void afterCommit(TestEvent event) {
 		log.info("## afterCommit");
-		log.info("\t > commit testVo ( id = {}, name = {} )", testVo.getId(), testVo.getName());
+		log.info("\t > commit at {}", event.getLocation());
+		log.info("\t > commit testVo ( name = {} )", event.getName());
 	}
 	
 	@TransactionalEventListener(phase = TransactionPhase.AFTER_ROLLBACK)
-	public void afterRollback(TestVo testVo) {
+	public void afterRollback(TestEvent event) {
 		log.info("## afterRollback");
-		log.info("\t > rollback testVo ( id = {}, name = {} )", testVo.getId(), testVo.getName());
+		log.info("\t > rollback at {}", event.getLocation());
+		log.info("\t > rollback testVo ( name = {} )", event.getName());
 	}
 	
 }

@@ -17,6 +17,7 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
 
 import com.codingjoa.mapper.TestMapper1;
 import com.codingjoa.mapper.TestMapper2;
+import com.codingjoa.test.TestEvent;
 import com.codingjoa.test.TestVo;
 
 import lombok.extern.slf4j.Slf4j;
@@ -67,11 +68,12 @@ public class TestTxPropsService2 {
 	public void innerRequired() {
 		log.info("## innerRequired");
 		checkTransaction();
-		
+
 		TestVo testVo = createTestVo("test2.innerRequired");
-		applicationEventPublisher.publishEvent(testVo);
-		
-		log.info("\t > insert testVo ( id = {}, name = {} )", testVo.getId(), testVo.getName());
+		applicationEventPublisher.publishEvent(new TestEvent(
+				TransactionSynchronizationManager.getCurrentTransactionName(), testVo.getName()));
+
+		log.info("\t > insert testVo ( name = {} )", testVo.getName());
 		mapper2.insert(testVo);
 		throw new RuntimeException("innerRequired");
 	}
@@ -82,9 +84,10 @@ public class TestTxPropsService2 {
 		checkTransaction();
 		
 		TestVo testVo = createTestVo("test2.innerRequiresNew1");
-		applicationEventPublisher.publishEvent(testVo);
+		applicationEventPublisher.publishEvent(new TestEvent(
+				TransactionSynchronizationManager.getCurrentTransactionName(), testVo.getName()));
 		
-		log.info("\t > insert testVo ( id = {}, name = {} )", testVo.getId(), testVo.getName());
+		log.info("\t > insert testVo ( name = {} )", testVo.getName());
 		mapper2.insert(testVo);
 		throw new RuntimeException("innerRequiresNew1");
 	}
@@ -95,9 +98,10 @@ public class TestTxPropsService2 {
 		checkTransaction();
 		
 		TestVo testVo = createTestVo("test2.innerRequiresNew2");
-		applicationEventPublisher.publishEvent(testVo);
+		applicationEventPublisher.publishEvent(new TestEvent(
+				TransactionSynchronizationManager.getCurrentTransactionName(), testVo.getName()));
 		
-		log.info("\t > insert testVo ( id = {}, name = {} )", testVo.getId(), testVo.getName());
+		log.info("\t > insert testVo ( name = {} )", testVo.getName());
 		mapper2.insert(testVo);
 	}
 
