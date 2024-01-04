@@ -71,7 +71,7 @@ public class TestTxPropsService2 {
 
 		TestVo testVo = createTestVo("test2.innerRequired");
 		applicationEventPublisher.publishEvent(new TestEvent(
-				TransactionSynchronizationManager.getCurrentTransactionName(), testVo.getName()));
+				TransactionSynchronizationManager.getCurrentTransactionName(), testVo));
 
 		log.info("\t > insert testVo ( name = {} )", testVo.getName());
 		mapper2.insert(testVo);
@@ -87,7 +87,7 @@ public class TestTxPropsService2 {
 		
 		TestVo testVo = createTestVo("test2.innerRequiresNew1");
 		applicationEventPublisher.publishEvent(new TestEvent(
-				TransactionSynchronizationManager.getCurrentTransactionName(), testVo.getName()));
+				TransactionSynchronizationManager.getCurrentTransactionName(), testVo));
 		
 		log.info("\t > insert testVo ( name = {} )", testVo.getName());
 		mapper2.insert(testVo);
@@ -103,7 +103,7 @@ public class TestTxPropsService2 {
 		
 		TestVo testVo = createTestVo("test2.innerRequiresNew2");
 		applicationEventPublisher.publishEvent(new TestEvent(
-				TransactionSynchronizationManager.getCurrentTransactionName(), testVo.getName()));
+				TransactionSynchronizationManager.getCurrentTransactionName(), testVo));
 		
 		log.info("\t > insert testVo ( name = {} )", testVo.getName());
 		mapper2.insert(testVo);
@@ -121,7 +121,8 @@ public class TestTxPropsService2 {
 		checkTransaction();
 		
 		TestVo testVo = createTestVo("test2.innerNested1");
-		applicationEventPublisher.publishEvent(testVo);
+		applicationEventPublisher.publishEvent(new TestEvent(
+				TransactionSynchronizationManager.getCurrentTransactionName(), testVo));
 		
 		log.info("\t > insert testVo ( name = {} )", testVo.getName());
 		mapper2.insert(testVo);
@@ -134,7 +135,8 @@ public class TestTxPropsService2 {
 		checkTransaction();
 		
 		TestVo testVo = createTestVo("test2.innerNested2");
-		applicationEventPublisher.publishEvent(testVo);
+		applicationEventPublisher.publishEvent(new TestEvent(
+				TransactionSynchronizationManager.getCurrentTransactionName(), testVo));
 		
 		log.info("\t > insert testVo ( name = {} )", testVo.getName());
 		mapper2.insert(testVo);

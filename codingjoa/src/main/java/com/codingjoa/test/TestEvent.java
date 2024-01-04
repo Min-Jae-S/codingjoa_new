@@ -1,12 +1,12 @@
 package com.codingjoa.test;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 @Data
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class TestEvent {
 	
-	private String location;
-	private String name;
+	private final String location;
+	private final TestVo testVo;
 }

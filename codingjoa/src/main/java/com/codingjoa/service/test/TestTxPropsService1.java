@@ -93,7 +93,7 @@ public class TestTxPropsService1 {
 		checkTransaction();
 		TestVo testVo = createTestVo("rollback1");
 		applicationEventPublisher.publishEvent(new TestEvent(
-				TransactionSynchronizationManager.getCurrentTransactionName(), testVo.getName()));
+				TransactionSynchronizationManager.getCurrentTransactionName(), testVo));
 		try {
 			log.info("\t > insert testVo ( name = {} )", testVo.getName());
 			mapper1.insert(testVo);
@@ -111,7 +111,7 @@ public class TestTxPropsService1 {
 		checkTransaction();
 		TestVo testVo = createTestVo("rollback2");
 		applicationEventPublisher.publishEvent(new TestEvent(
-				TransactionSynchronizationManager.getCurrentTransactionName(), testVo.getName()));
+				TransactionSynchronizationManager.getCurrentTransactionName(), testVo));
 		log.info("\t > insert testVo ( name = {} )", testVo.getName());
 		mapper1.insert(testVo);
 		
@@ -170,7 +170,7 @@ public class TestTxPropsService1 {
 		checkTransaction();
 		TestVo testVo = createTestVo("test1.outer1");
 		applicationEventPublisher.publishEvent(new TestEvent(
-				TransactionSynchronizationManager.getCurrentTransactionName(), testVo.getName()));
+				TransactionSynchronizationManager.getCurrentTransactionName(), testVo));
 		
 		log.info("\t > insert testVo ( name = {} )", testVo.getName());
 		mapper1.insert(testVo);
@@ -200,7 +200,7 @@ public class TestTxPropsService1 {
 		
 		TestVo testVo = createTestVo("test1.outer2");
 		applicationEventPublisher.publishEvent(new TestEvent(
-				TransactionSynchronizationManager.getCurrentTransactionName(), testVo.getName()));
+				TransactionSynchronizationManager.getCurrentTransactionName(), testVo));
 		
 		log.info("\t > insert testVo ( name = {} )", testVo.getName());
 		mapper1.insert(testVo);
@@ -234,7 +234,7 @@ public class TestTxPropsService1 {
 		
 		TestVo testVo = createTestVo("test1.outer3");
 		applicationEventPublisher.publishEvent(new TestEvent(
-				TransactionSynchronizationManager.getCurrentTransactionName(), testVo.getName()));
+				TransactionSynchronizationManager.getCurrentTransactionName(), testVo));
 		
 		log.info("\t > insert testVo ( name = {} )", testVo.getName());
 		mapper1.insert(testVo);
@@ -252,7 +252,7 @@ public class TestTxPropsService1 {
 		
 		TestVo testVo = createTestVo("test1.outer4");
 		applicationEventPublisher.publishEvent(new TestEvent(
-				TransactionSynchronizationManager.getCurrentTransactionName(), testVo.getName()));
+				TransactionSynchronizationManager.getCurrentTransactionName(), testVo));
 		
 		log.info("\t > insert testVo ( name = {} )", testVo.getName());
 		mapper1.insert(testVo);
@@ -268,7 +268,7 @@ public class TestTxPropsService1 {
 		
 		TestVo testVo = createTestVo("test1.outer5");
 		applicationEventPublisher.publishEvent(new TestEvent(
-				TransactionSynchronizationManager.getCurrentTransactionName(), testVo.getName()));
+				TransactionSynchronizationManager.getCurrentTransactionName(), testVo));
 		
 		log.info("\t > insert testVo ( name = {} )", testVo.getName());
 		mapper1.insert(testVo);
@@ -288,7 +288,7 @@ public class TestTxPropsService1 {
 		
 		TestVo testVo = createTestVo("test1.outer6");
 		applicationEventPublisher.publishEvent(new TestEvent(
-				TransactionSynchronizationManager.getCurrentTransactionName(), testVo.getName()));
+				TransactionSynchronizationManager.getCurrentTransactionName(), testVo));
 		
 		log.info("\t > insert testVo ( name = {} )", testVo.getName());
 		mapper1.insert(testVo);
