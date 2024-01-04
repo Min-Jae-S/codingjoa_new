@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
@@ -41,6 +42,9 @@ public class TestTxPropsService1 {
 	
 	@Autowired
 	private PlatformTransactionManager txManager;
+	
+	@Autowired
+	private ApplicationEventPublisher applicationEventPublisher;
 	
 	private void checkTransaction() {
 		log.info("\t > transaction = {}", TransactionSynchronizationManager.getCurrentTransactionName()); // @Nullable 
@@ -87,8 +91,9 @@ public class TestTxPropsService1 {
 		checkTransaction();
 		try {
 			log.info("\t > insert testVo");
-			int result = mapper1.insert(createTestVo("rollback1"));
-			log.info("\t > inserted rows = {}", result);
+			TestVo testVo = createTestVo("rollback1");
+			applicationEventPublisher.publishEvent(testVo);
+			int result = mapper1.insert(testVo);
 			throw new RuntimeException();
 		} catch (Exception e) {
 			log.info("> catches {}", e.getClass().getSimpleName());
@@ -100,8 +105,9 @@ public class TestTxPropsService1 {
 		log.info("## rollback2");
 		checkTransaction();
 		log.info("\t > insert testVo");
-		int result = mapper1.insert(createTestVo("rollback2"));
-		log.info("\t > inserted rows = {}", result);
+		TestVo testVo = createTestVo("rollback2");
+		applicationEventPublisher.publishEvent(testVo);
+		int result = mapper1.insert(testVo);
 		throw new RuntimeException("rollback2");
 	}
 	
