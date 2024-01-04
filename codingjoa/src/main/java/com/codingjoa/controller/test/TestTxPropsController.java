@@ -102,10 +102,10 @@ public class TestTxPropsController {
 		return ResponseEntity.ok("success");
 	}
 	
-	@GetMapping("/tx-props/propagation/test2/{rollback}")
-	public ResponseEntity<Object> propagationTest2(@PathVariable boolean rollback) { 
+	@GetMapping("/tx-props/propagation/test2/{innerRollback}")
+	public ResponseEntity<Object> propagationTest2(@PathVariable boolean innerRollback) { 
 		log.info("## propagationTest2");
-		log.info("\t > rollback = {}", rollback);
+		log.info("\t > innerRollback = {}", innerRollback);
 		
 		// @@ outer = REQUIRED, inner = REQUIRED_NEW, RuntimeException at inner + catch 
 		// Creating new transaction with name [outer2]: PROPAGATION_REQUIRED,ISOLATION_DEFAULT
@@ -132,7 +132,7 @@ public class TestTxPropsController {
 		// Initiating transaction commit
 		// Committing JDBC transaction on Connection [HikariProxyConnection@1043314600]
 		// Releasing JDBC Connection [HikariProxyConnection@1043314600] after transaction
-		service.outer2(rollback); 
+		service.outer2(innerRollback); 
 		return ResponseEntity.ok("success");
 	}
 	

@@ -187,12 +187,17 @@ public class TestTxPropsService1 {
 	}
 
 	@Transactional
-	public void outer2(boolean rollback) {
+	public void outer2(boolean innerRollback) {
 		log.info("## outer2");
 		checkTransaction();
-		log.info("\t > insert testVo");
+		
+		TestVo testVo = createTestVo("test1.outer2");
+		applicationEventPublisher.publishEvent(new TestEvent(
+				TransactionSynchronizationManager.getCurrentTransactionName(), testVo.getName()));
+		
+		log.info("\t > insert testVo ( name = {} )", testVo.getName());
 		mapper1.insert(createTestVo("test1.outer2"));
-		if (rollback) {
+		if (innerRollback) {
 			try {
 				log.info("\t > calling innerRequiresNew1...");
 				service2.innerRequiresNew1();

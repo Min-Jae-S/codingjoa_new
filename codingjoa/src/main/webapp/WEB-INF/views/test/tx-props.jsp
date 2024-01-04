@@ -345,11 +345,12 @@
 		});		
 	}
 
-	function propagationTest2(rollback) {
-		console.log("## propagationTest2, rollback = %s", rollback);
+	function propagationTest2(innerRollback) {
+		console.log("## propagationTest2");
+		console.log("> innerRollback = %s", innerRollback);
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/tx-props/propagation/test2/" + rollback,
+			url : "${contextPath}/test/tx-props/propagation/test2/" + innerRollback,
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);

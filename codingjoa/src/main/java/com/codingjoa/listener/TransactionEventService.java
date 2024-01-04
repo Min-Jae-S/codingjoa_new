@@ -15,14 +15,14 @@ public class TransactionEventService {
 	@TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
 	public void afterCommit(TestEvent event) {
 		log.info("## afterCommit");
-		log.info("\t > commit at {}", event.getLocation());
+		log.info("\t > location = {}", event.getLocation());
 		log.info("\t > commit testVo ( name = {} )", event.getName());
 	}
 	
 	@TransactionalEventListener(phase = TransactionPhase.AFTER_ROLLBACK)
 	public void afterRollback(TestEvent event) {
 		log.info("## afterRollback");
-		log.info("\t > rollback at {}", event.getLocation());
+		log.info("\t > location = {}", event.getLocation());
 		log.info("\t > rollback testVo ( name = {} )", event.getName());
 	}
 	
