@@ -89,11 +89,11 @@ public class TestTxPropsService1 {
 	public void rollback1() { 
 		log.info("## rollback1");
 		checkTransaction();
+		TestVo testVo = createTestVo("rollback1");
+		applicationEventPublisher.publishEvent(testVo);
 		try {
-			log.info("\t > insert testVo");
-			TestVo testVo = createTestVo("rollback1");
-			applicationEventPublisher.publishEvent(testVo);
-			int result = mapper1.insert(testVo);
+			log.info("\t > insert testVo - {}", testVo);
+			mapper1.insert(testVo);
 			throw new RuntimeException();
 		} catch (Exception e) {
 			log.info("> catches {}", e.getClass().getSimpleName());
@@ -104,10 +104,10 @@ public class TestTxPropsService1 {
 	public void rollback2() { 
 		log.info("## rollback2");
 		checkTransaction();
-		log.info("\t > insert testVo");
 		TestVo testVo = createTestVo("rollback2");
 		applicationEventPublisher.publishEvent(testVo);
-		int result = mapper1.insert(testVo);
+		log.info("\t > insert testVo - {}", testVo);
+		mapper1.insert(testVo);
 		throw new RuntimeException("rollback2");
 	}
 	
@@ -116,8 +116,7 @@ public class TestTxPropsService1 {
 		log.info("## rollbackForEx");
 		checkTransaction();
 		log.info("\t > insert testVo");
-		int result = mapper1.insert(createTestVo("rollbackForEx"));
-		log.info("\t > inserted rows = {}", result);
+		mapper1.insert(createTestVo("rollbackForEx"));
 		throw new SQLException("rollbackForEx");
 	}
 
@@ -126,8 +125,7 @@ public class TestTxPropsService1 {
 		log.info("## rollbackForSqlEx");
 		checkTransaction();
 		log.info("\t > insert testVo");
-		int result = mapper1.insert(createTestVo("rollbackForSqlEx"));
-		log.info("\t > inserted rows = {}", result);
+		mapper1.insert(createTestVo("rollbackForSqlEx"));
 		throw new SQLException("rollbackForSqlEx");
 	}
 
@@ -136,8 +134,7 @@ public class TestTxPropsService1 {
 		log.info("## noRollbackForSqlEx");
 		checkTransaction();
 		log.info("\t > insert testVo");
-		int result = mapper1.insert(createTestVo("noRollbackForSqlEx"));
-		log.info("\t > inserted rows = {}", result);
+		mapper1.insert(createTestVo("noRollbackForSqlEx"));
 		throw new SQLException("noRollbackForSqlEx");
 	}
 
@@ -146,8 +143,7 @@ public class TestTxPropsService1 {
 		log.info("## checkedEx");
 		checkTransaction();
 		log.info("\t > insert testVo");
-		int result = mapper1.insert(createTestVo("checkedEx"));
-		log.info("\t > inserted rows = {}", result);
+		mapper1.insert(createTestVo("checkedEx"));
 		throw new IOException("checkedEx");
 	}
 
@@ -156,8 +152,7 @@ public class TestTxPropsService1 {
 		log.info("## uncheckedEx");
 		checkTransaction();
 		log.info("\t > insert testVo");
-		int result = mapper1.insert(createTestVo("uncheckedEx"));
-		log.info("\t > inserted rows = {}", result);
+		mapper1.insert(createTestVo("uncheckedEx"));
 		throw new RuntimeException("uncheckedEx");
 	}
 	
@@ -166,8 +161,7 @@ public class TestTxPropsService1 {
 		log.info("## outer1");
 		checkTransaction();
 		log.info("\t > insert testVo");
-		int result = mapper1.insert(createTestVo("test1.outer1"));
-		log.info("\t > inserted rows = {}", result);
+		mapper1.insert(createTestVo("test1.outer1"));
 		log.info("\t > calling innerRequired...");
 		
 		// AOP(Proxy) self-invocation issue
@@ -194,9 +188,7 @@ public class TestTxPropsService1 {
 		log.info("## outer2");
 		checkTransaction();
 		log.info("\t > insert testVo");
-		int result = mapper1.insert(createTestVo("test1.outer2"));
-		log.info("\t > inserted rows = {}", result);
-
+		mapper1.insert(createTestVo("test1.outer2"));
 		if (rollback) {
 			try {
 				log.info("\t > calling innerRequiresNew1...");
@@ -215,8 +207,7 @@ public class TestTxPropsService1 {
 		log.info("## outer3");
 		checkTransaction();
 		log.info("\t > insert testVo");
-		int result = mapper1.insert(createTestVo("test1.outer3"));
-		log.info("\t > inserted rows = {}", result);
+		mapper1.insert(createTestVo("test1.outer3"));
 		log.info("\t > calling innerRequiresNew2...");
 		service2.innerRequiresNew2();
 		throw new RuntimeException("outer3");
@@ -227,8 +218,7 @@ public class TestTxPropsService1 {
 		log.info("## outer4");
 		checkTransaction();
 		log.info("\t > insert testVo");
-		int result = mapper1.insert(createTestVo("test1.outer4"));
-		log.info("\t > inserted rows = {}", result);
+		mapper1.insert(createTestVo("test1.outer4"));
 		log.info("\t > calling innerMandatory...");
 		service2.innerMandatory();
 	}
@@ -238,8 +228,7 @@ public class TestTxPropsService1 {
 		log.info("## outer5");
 		checkTransaction();
 		log.info("\t > insert testVo");
-		int result = mapper1.insert(createTestVo("test1.outer5"));
-		log.info("\t > inserted rows = {}", result);
+		mapper1.insert(createTestVo("test1.outer5"));
 		try {
 			log.info("\t > calling innerNested1...");
 			service2.innerNested1();
@@ -253,8 +242,7 @@ public class TestTxPropsService1 {
 		log.info("## outer6");
 		checkTransaction();
 		log.info("\t > insert testVo");
-		int result = mapper1.insert(createTestVo("test1.outer6"));
-		log.info("\t > inserted rows = {}", result);
+		mapper1.insert(createTestVo("test1.outer6"));
 		log.info("\t > calling innerNested2...");
 		service2.innerNested2();
 	}

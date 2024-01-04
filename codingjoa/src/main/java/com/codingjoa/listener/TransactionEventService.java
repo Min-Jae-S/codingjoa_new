@@ -14,14 +14,14 @@ public class TransactionEventService {
 	
 	@TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
 	public void alertAfterCommit(TestVo testVo) {
-		log.info("## TransactionEventService");
-		log.info("\t > commit '{}'", testVo.getId());
+		log.info("## alertAfterCommit");
+		log.info("\t > commit - {}", testVo);
 	}
 	
 	@TransactionalEventListener(phase = TransactionPhase.AFTER_ROLLBACK)
 	public void alertAfterRollback(TestVo testVo) {
-		log.info("## TransactionEventService");
-		log.info("\t > rollback '{}'", testVo.getId());
+		log.info("## alertAfterRollback");
+		log.info("\t > rollback - {}", testVo);
 	}
 	
 }
