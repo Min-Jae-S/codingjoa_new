@@ -58,12 +58,12 @@ public class TestTxPropsService1 {
 //			}
 			TransactionStatus status = TransactionAspectSupport.currentTransactionStatus();
 			if (status.isNewTransaction()) {
-				log.info("\t > new transaction");
+				log.info("\t > NEW transaction");
 			} else {
-				log.info("\t > not new transaction");
+				log.info("\t > NOT NEW transaction");
 			}
 		} catch (Exception e) {
-			log.info("\t > no transaction - {}", e.getClass().getSimpleName());
+			log.info("\t > NO transaction - {}", e.getClass().getSimpleName());
 		}
 	}
 	
@@ -97,6 +97,8 @@ public class TestTxPropsService1 {
 		try {
 			log.info("\t > insert testVo ( name = {} )", testVo.getName());
 			mapper1.insert(testVo);
+			
+			log.info("\t > throw RuntimeException in rollback1");
 			throw new RuntimeException();
 		} catch (Exception e) {
 			log.info("\t > catch {}", e.getClass().getSimpleName());
@@ -112,6 +114,8 @@ public class TestTxPropsService1 {
 				TransactionSynchronizationManager.getCurrentTransactionName(), testVo.getName()));
 		log.info("\t > insert testVo ( name = {} )", testVo.getName());
 		mapper1.insert(testVo);
+		
+		log.info("\t > throw RuntimeException in rollback2");
 		throw new RuntimeException("rollback2");
 	}
 	
@@ -183,6 +187,8 @@ public class TestTxPropsService1 {
 		
 		// REQUIRED vs REQUIRES_NEW
 		//service2.innerRequired();
+		
+		// outer: rollback, inner: rollback
 		log.info("\t > calling innerRequired...");
 		service2.innerRequired();
 	}
@@ -199,6 +205,7 @@ public class TestTxPropsService1 {
 		log.info("\t > insert testVo ( name = {} )", testVo.getName());
 		mapper1.insert(testVo);
 		if (innerException) {
+			// inner: rollback, outer: commit
 			try {
 				log.info("\t > calling innerRequiresNew1...");
 				service2.innerRequiresNew1();
@@ -210,7 +217,7 @@ public class TestTxPropsService1 {
 			service2.innerRequiresNew2();
 		}
 
-		// @@ inner: rollback --> outer: rollback
+		// inner: rollback, outer: rollback
 //		if (innerException) {
 //			log.info("\t > calling innerRequiresNew1...");
 //			service2.innerRequiresNew1();
@@ -235,6 +242,7 @@ public class TestTxPropsService1 {
 		log.info("\t > calling innerRequiresNew2...");
 		service2.innerRequiresNew2();
 		
+		log.info("\t > throw RuntimeException in outer3");
 		throw new RuntimeException("outer3");
 	}
 	

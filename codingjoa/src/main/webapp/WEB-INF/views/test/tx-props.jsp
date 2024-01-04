@@ -98,9 +98,9 @@
 			<button class="btn btn-sm btn-primary mx-3" onclick="propagationTest3()">REQUIRED &rArr; RE_NEW<br>OUTER Exception</button>
 		</div>
 		<div class="test d-flex justify-content-center">
+			<button class="btn btn-primary mx-3" onclick="propagationTest4()">MANDATORY</button>
 			<button class="btn btn-sm btn-primary mx-3" onclick="propagationTest5()">REQUIRED &rArr; NESTED<br>INNER Exception</button>
 			<button class="btn btn-sm btn-primary mx-3" onclick="propagationTest6()">REQUIRED &rArr; NESTED<br>NO Exception</button>
-			<button class="btn btn-primary mx-3" onclick="propagationTest4()">MANDATORY</button>
 			<button class="btn btn-sm btn-primary mx-3 invisible" onclick="#">#</button>
 		</div>
 	</div>

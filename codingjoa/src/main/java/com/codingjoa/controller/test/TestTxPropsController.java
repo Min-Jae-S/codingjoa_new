@@ -87,7 +87,7 @@ public class TestTxPropsController {
 	@GetMapping("/tx-props/propagation/test1")
 	public ResponseEntity<Object> propagationTest1() { 
 		log.info("## propagationTest1");
-		log.info("\t > outer : REQUIRED, inner: REQUIRED");
+		log.info("\t > outer = REQUIRED, inner = REQUIRED");
 		
 		// @@ outer: REQUIRED, inner: REQUIRED (RuntimeException)
 		// @@ RuntimeException at inner
@@ -100,8 +100,6 @@ public class TestTxPropsController {
 		// Initiating transaction rollback
 		// Rolling back JDBC transaction on Connection [HikariProxyConnection@742011473 wrapping oracle.jdbc.driver.T4CConnection@5ff37957]
 		// Releasing JDBC Connection [HikariProxyConnection@742011473 wrapping oracle.jdbc.driver.T4CConnection@5ff37957] after transaction
-		
-		// outer: Rollback, inner: Rollback 
 		service.outer1(); 
 		return ResponseEntity.ok("success");
 	}
@@ -112,7 +110,7 @@ public class TestTxPropsController {
 		log.info("\t > outer = REQUIRED, inner = REQUIRED_NEW");
 		log.info("\t > innerException = {}", innerException);
 		
-		// @@ outer = REQUIRED, inner = REQUIRED_NEW, inner Exception
+		// @@ outer = REQUIRED, inner = REQUIRED_NEW, inner Exception with catch
 		// Creating new transaction with name [outer2]: PROPAGATION_REQUIRED,ISOLATION_DEFAULT
 		// Acquired Connection [HikariProxyConnection@1991964660] for JDBC transaction
 		// Suspending current transaction, creating new transaction with name [innerRollback]

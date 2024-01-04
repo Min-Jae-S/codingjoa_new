@@ -75,6 +75,8 @@ public class TestTxPropsService2 {
 
 		log.info("\t > insert testVo ( name = {} )", testVo.getName());
 		mapper2.insert(testVo);
+		
+		log.info("\t > throw RuntimeException in innerRequired");
 		throw new RuntimeException("innerRequired");
 	}
 
@@ -89,6 +91,8 @@ public class TestTxPropsService2 {
 		
 		log.info("\t > insert testVo ( name = {} )", testVo.getName());
 		mapper2.insert(testVo);
+		
+		log.info("\t > throw RuntimeException in innerRequiresNew1");
 		throw new RuntimeException("innerRequiresNew1");
 	}
 
