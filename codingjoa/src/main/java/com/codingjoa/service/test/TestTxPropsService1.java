@@ -272,7 +272,6 @@ public class TestTxPropsService1 {
 		
 		log.info("\t > insert testVo ( name = {} )", testVo.getName());
 		mapper1.insert(testVo);
-		
 		try {
 			log.info("\t > calling innerNested1...");
 			service2.innerNested1();
