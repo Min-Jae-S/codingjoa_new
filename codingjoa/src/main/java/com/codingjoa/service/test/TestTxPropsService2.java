@@ -44,6 +44,7 @@ public class TestTxPropsService2 {
 //						(ConnectionHolder) TransactionSynchronizationManager.getResource(key);
 //				log.info("\t > conn = {}", connectionHolder.getConnection().toString().split(" ")[0]);
 //			}
+			
 			TransactionStatus status = TransactionAspectSupport.currentTransactionStatus();
 			if (status.isNewTransaction()) {
 				log.info("\t > new transaction");

@@ -56,14 +56,15 @@ public class TestTxPropsService1 {
 //						(ConnectionHolder) TransactionSynchronizationManager.getResource(key);
 //				log.info("\t > conn = {}", connectionHolder.getConnection().toString().split(" ")[0]);
 //			}
+			
 			TransactionStatus status = TransactionAspectSupport.currentTransactionStatus();
 			if (status.isNewTransaction()) {
-				log.info("\t > NEW transaction");
+				log.info("\t > new transaction");
 			} else {
-				log.info("\t > NOT NEW transaction");
+				log.info("\t > not new transaction");
 			}
 		} catch (Exception e) {
-			log.info("\t > NO transaction - {}", e.getClass().getSimpleName());
+			log.info("\t > no transaction - {}", e.getClass().getSimpleName());
 		}
 	}
 	
