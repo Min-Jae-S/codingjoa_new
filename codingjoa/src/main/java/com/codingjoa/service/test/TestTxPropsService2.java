@@ -37,7 +37,8 @@ public class TestTxPropsService2 {
 	private ApplicationEventPublisher applicationEventPublisher;
 	
 	private void checkTransaction() {
-		log.info("\t > transaction = {}", TransactionSynchronizationManager.getCurrentTransactionName()); // @Nullable 
+		log.info("\t > transaction = {}", TransactionSynchronizationManager.getCurrentTransactionName()); // @Nullable
+		
 		try {
 //			for(Object key : TransactionSynchronizationManager.getResourceMap().keySet()) {
 //				ConnectionHolder connectionHolder = 

@@ -50,6 +50,7 @@ public class TestTxPropsService1 {
 	
 	private void checkTransaction() {
 		log.info("\t > transaction = {}", TransactionSynchronizationManager.getCurrentTransactionName()); // @Nullable 
+		
 		try {
 //			for(Object key : TransactionSynchronizationManager.getResourceMap().keySet()) {
 //				ConnectionHolder connectionHolder = 
