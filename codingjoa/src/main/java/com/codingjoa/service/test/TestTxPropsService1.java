@@ -50,14 +50,12 @@ public class TestTxPropsService1 {
 	
 	private void checkTransaction() {
 		log.info("\t > transaction = {}", TransactionSynchronizationManager.getCurrentTransactionName()); // @Nullable 
-		
 		try {
 //			for(Object key : TransactionSynchronizationManager.getResourceMap().keySet()) {
 //				ConnectionHolder connectionHolder = 
 //						(ConnectionHolder) TransactionSynchronizationManager.getResource(key);
 //				log.info("\t > conn = {}", connectionHolder.getConnection().toString().split(" ")[0]);
 //			}
-			
 			TransactionStatus status = TransactionAspectSupport.currentTransactionStatus();
 			if (status.isNewTransaction()) {
 				log.info("\t > new transaction");
@@ -244,7 +242,7 @@ public class TestTxPropsService1 {
 		log.info("\t > calling innerRequiresNew2...");
 		service2.innerRequiresNew2();
 		
-		log.info("\t > throw RuntimeException in outer3");
+		log.info("\t > will throw RuntimeException in outer3");
 		throw new RuntimeException("outer3");
 	}
 	

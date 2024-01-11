@@ -38,14 +38,12 @@ public class TestTxPropsService2 {
 	
 	private void checkTransaction() {
 		log.info("\t > transaction = {}", TransactionSynchronizationManager.getCurrentTransactionName()); // @Nullable
-		
 		try {
 //			for(Object key : TransactionSynchronizationManager.getResourceMap().keySet()) {
 //				ConnectionHolder connectionHolder = 
 //						(ConnectionHolder) TransactionSynchronizationManager.getResource(key);
 //				log.info("\t > conn = {}", connectionHolder.getConnection().toString().split(" ")[0]);
 //			}
-			
 			TransactionStatus status = TransactionAspectSupport.currentTransactionStatus();
 			if (status.isNewTransaction()) {
 				log.info("\t > new transaction");
@@ -78,7 +76,7 @@ public class TestTxPropsService2 {
 		log.info("\t > insert testVo ( name = {} )", testVo.getName());
 		mapper2.insert(testVo);
 		
-		log.info("\t > throw RuntimeException in innerRequired");
+		log.info("\t > will throw RuntimeException in innerRequired");
 		throw new RuntimeException("innerRequired");
 	}
 
@@ -94,7 +92,7 @@ public class TestTxPropsService2 {
 		log.info("\t > insert testVo ( name = {} )", testVo.getName());
 		mapper2.insert(testVo);
 		
-		log.info("\t > throw RuntimeException in innerRequiresNew1");
+		log.info("\t > will throw RuntimeException in innerRequiresNew1");
 		throw new RuntimeException("innerRequiresNew1");
 	}
 
@@ -128,6 +126,8 @@ public class TestTxPropsService2 {
 		
 		log.info("\t > insert testVo ( name = {} )", testVo.getName());
 		mapper2.insert(testVo);
+		
+		log.info("\t > will throw RuntimeException in innerNested1");
 		throw new RuntimeException("innerNested1");
 	}
 
