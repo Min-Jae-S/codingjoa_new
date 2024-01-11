@@ -9,4 +9,5 @@ public class TestEvent {
 	
 	private final String location;
 	private final TestVo testVo;
+	
 }

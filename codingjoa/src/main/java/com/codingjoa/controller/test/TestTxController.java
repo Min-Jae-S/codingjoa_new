@@ -58,7 +58,6 @@ public class TestTxController {
 		} else {
 			log.info("\t > no DataSource");
 		}
-		
 		return ResponseEntity.ok("success");
 	}
 	
