@@ -3,7 +3,6 @@ package com.codingjoa.controller.test;
 import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +15,6 @@ import com.codingjoa.service.test.TestTxPropsService1;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@SuppressWarnings("unused")
 @RequestMapping("/test")
 @RestController
 public class TestTxPropsController {
@@ -26,8 +24,8 @@ public class TestTxPropsController {
 	 * https://kth990303.tistory.com/385
 	 */
 	
-	@Autowired
-	private ApplicationContext context;
+//	@Autowired
+//	private ApplicationContext context;
 	
 	@Autowired
 	private TestTxPropsService1 service;
