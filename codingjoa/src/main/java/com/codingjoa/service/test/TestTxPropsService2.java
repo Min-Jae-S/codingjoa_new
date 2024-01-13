@@ -1,21 +1,17 @@
 package com.codingjoa.service.test;
 
-import java.sql.SQLException;
 import java.time.LocalDateTime;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.jdbc.datasource.ConnectionHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
-import com.codingjoa.mapper.TestMapper1;
 import com.codingjoa.mapper.TestMapper2;
 import com.codingjoa.test.TestEvent;
 import com.codingjoa.test.TestVo;
@@ -23,15 +19,14 @@ import com.codingjoa.test.TestVo;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@SuppressWarnings("unused")
 @Service
 public class TestTxPropsService2 {
 	
 	@Autowired
 	private TestMapper2 mapper2;
 	
-	@Autowired
-	private PlatformTransactionManager txManager;
+//	@Autowired
+//	private PlatformTransactionManager txManager;
 	
 	@Autowired
 	private ApplicationEventPublisher applicationEventPublisher;
