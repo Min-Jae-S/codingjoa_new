@@ -6,6 +6,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,8 +26,9 @@ public class TestTxPropsService2 {
 	@Autowired
 	private TestMapper2 mapper2;
 	
-//	@Autowired
-//	private PlatformTransactionManager txManager;
+	@SuppressWarnings("unused")
+	@Autowired
+	private PlatformTransactionManager txManager;
 	
 	@Autowired
 	private ApplicationEventPublisher applicationEventPublisher;
