@@ -3,6 +3,7 @@ package com.codingjoa.controller.test;
 import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,8 +25,9 @@ public class TestTxPropsController {
 	 * https://kth990303.tistory.com/385
 	 */
 	
-//	@Autowired
-//	private ApplicationContext context;
+	@SuppressWarnings("unused")
+	@Autowired
+	private ApplicationContext context;
 	
 	@Autowired
 	private TestTxPropsService1 service;
