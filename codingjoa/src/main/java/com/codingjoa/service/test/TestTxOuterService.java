@@ -152,7 +152,11 @@ public class TestTxOuterService {
 	}
 	
 	/* 
-	 * @@ Propagation
+	 * @@ Propagation (logical transaction, physical transaction)
+	 *  Deciding how to handle the invocation of another transaction while a transaction is already in progress 
+	 *  is referred to as 'transaction propagation settings.' 
+	 *  In other words, Propagation is a configuration to specify the "scope and boundaries of a transaction".
+	 * 
 	 * 	One of the advantages of declarative transactions provided by Spring, 
 	 * 	specifically through transaction annotations such as @Transactional, 
 	 * 	is the "ability to group multiple transactions together to create a larger transactional boundary"
@@ -162,6 +166,7 @@ public class TestTxOuterService {
 	 * 	is referred to as the propagation attribute.
 	 * 
 	 *  https://kth990303.tistory.com/385
+	 *  https://www.sktenterprise.com/bizInsight/blogDetail/dev/2639
 	 */
 	
 	@Transactional
@@ -183,6 +188,12 @@ public class TestTxOuterService {
 		// @Transactional 어노테이션이 Spring의 CGLIB Proxy를 기반으로 동작하기 때문이다. 
 		// 다시 말해 동일한 Bean으로 등록된 클래스의 메서드에서는 @Transactional을 단일 건으로 취급한다. 
 		// Proxy로 불러온 빈은 다른 클래스가 아닌 경우 인터셉트되어 전달되지 않기 때문에 @Transactional이 동작하지 않는다.
+		
+		// https://velog.io/@songs4805/Spring-Transactional%EC%9D%98-Propagation
+		// When method calls occur internally within the target object, 
+		// bypassing the proxy, even if there are annotations, transactions are not applied. 
+		// For example, if an external class does not have the @Transactional annotation, calling a method from that class 
+		// will not apply transactions to the target method even if it has the @Transactional annotation.
 		//this.innerRequired();
 		
 		// REQUIRED vs REQUIRES_NEW

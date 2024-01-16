@@ -45,19 +45,16 @@
 	<div class="d-flex justify-content-between">
 		<div class="btn-group btn-group-toggle" data-toggle="buttons">
 			<label class="btn btn-secondary btn-sm active">
-				<input type="radio" name="options" value="rollback" checked>Rollback
+				<input type="radio" name="options" value="rollback" checked>rollback
 			</label> 
 			<label class="btn btn-secondary btn-sm">
-				<input type="radio" name="options" value="propagation">Propagation
+				<input type="radio" name="options" value="propagation">propagation
 			</label>
 			<label class="btn btn-secondary btn-sm">
-				<input type="radio" name="options" value="isolation">Isolation
+				<input type="radio" name="options" value="isolation">isolation
 			</label>
 			<label class="btn btn-secondary btn-sm">
-				<input type="radio" name="options" value="time-out">Time out 
-			</label>
-			<label class="btn btn-secondary btn-sm">
-				<input type="radio" name="options" value="read-only">Read only
+				<input type="radio" name="options" value="time-out-read-only">time out & read Only
 			</label>
 		</div>
 	</div>
@@ -113,7 +110,7 @@
 			<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
 		</div>
 	</div>
-	<div class="parent-div time-out d-none">
+	<div class="parent-div time-out-read-only d-none">
 		<p class="sub-p mt-4 pl-4 mb-2">- Time out</p>
 		<div class="test d-flex justify-content-center">
 			<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
@@ -122,7 +119,7 @@
 			<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
 		</div>
 	</div>
-	<div class="parent-div read-only d-none">
+	<div class="parent-div time-out-read-only d-none">
 		<p class="sub-p mt-4 pl-4 mb-2">- Read Only</p>
 		<div class="test d-flex justify-content-center">
 			<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
