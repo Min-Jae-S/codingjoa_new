@@ -1,4 +1,4 @@
-package com.codingjoa.listener;
+package com.codingjoa.service.test;
 
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionPhase;
@@ -10,7 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Component
-public class TransactionEventService {
+public class TxEventService {
 	
 	@TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
 	public void alertAfterCommit(TestEvent event) {
