@@ -107,10 +107,10 @@
 	<div class="parent-div isolation d-none">
 		<p class="sub-p mt-4 pl-4 mb-2">- Isolation Level</p>
 		<div class="test d-flex justify-content-center">
-			<button class="btn btn-lg btn-primary mx-3" onclick="isolationTest1()">test1</button>
-			<button class="btn btn-lg btn-primary mx-3" onclick="isolationTest2()">test2</button>
-			<button class="btn btn-lg btn-primary mx-3" onclick="isolationTest3()">test3</button>
-			<button class="btn btn-lg btn-primary mx-3" onclick="isolationTest4()">test4</button>
+			<button class="btn btn-lg btn-primary mx-3" onclick="isolationTest1()">READ_COMMITTED</button>
+			<button class="btn btn-lg btn-primary mx-3" onclick="isolationTest2()">READ_UNCOMMITTED</button>
+			<button class="btn btn-lg btn-primary mx-3" onclick="isolationTest3()">REPEATABLE_READ</button>
+			<button class="btn btn-lg btn-primary mx-3" onclick="isolationTest4()">SERIALIZABLE</button>
 		</div>
 	</div>
 	<div class="parent-div time-out d-none">
@@ -489,6 +489,7 @@
 			}
 		});		
 	}
+
 </script>
 </body>
 </html>

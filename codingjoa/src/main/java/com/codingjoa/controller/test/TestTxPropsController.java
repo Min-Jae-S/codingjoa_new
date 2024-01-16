@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.codingjoa.service.test.TestIsoService;
 import com.codingjoa.service.test.TestTxOuterService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -30,7 +31,10 @@ public class TestTxPropsController {
 	private ApplicationContext context;
 	
 	@Autowired
-	private TestTxOuterService service;
+	private TestTxOuterService outerService;
+	
+	@Autowired
+	private TestIsoService isoService;
 	
 	@Resource(name = "mainTransactionManager")
 	private PlatformTransactionManager mainTransactionManager;
@@ -44,49 +48,49 @@ public class TestTxPropsController {
 	@GetMapping("/tx-props/rollback/test1")
 	public ResponseEntity<Object> rollbackTest1() { 
 		log.info("## rollbackTest1");
-		service.rollback1();
+		outerService.rollback1();
 		return ResponseEntity.ok("success");
 	}
 
 	@GetMapping("/tx-props/rollback/test2")
 	public ResponseEntity<Object> rollbackTest2() throws Exception { 
 		log.info("## rollbackTest2");
-		service.rollback2();
+		outerService.rollback2();
 		return ResponseEntity.ok("success");
 	}
 
 	@GetMapping("/tx-props/rollback/test3")
 	public ResponseEntity<Object> rollbackTest3() throws Exception { 
 		log.info("## rollbackTest3");
-		service.rollbackForEx();
+		outerService.rollbackForEx();
 		return ResponseEntity.ok("success");
 	}
 
 	@GetMapping("/tx-props/rollback/test4")
 	public ResponseEntity<Object> rollbackTest4() throws Exception { 
 		log.info("## rollbackTest4");
-		service.rollbackForSqlEx();
+		outerService.rollbackForSqlEx();
 		return ResponseEntity.ok("success");
 	}
 
 	@GetMapping("/tx-props/rollback/test5")
 	public ResponseEntity<Object> rollbackTest5() throws Exception { 
 		log.info("## rollbackTest5");
-		service.noRollbackForSqlEx();
+		outerService.noRollbackForSqlEx();
 		return ResponseEntity.ok("success");
 	}
 
 	@GetMapping("/tx-props/rollback/test6")
 	public ResponseEntity<Object> rollbackTest6() throws Exception { 
 		log.info("## rollbackTest6");
-		service.checkedEx();
+		outerService.checkedEx();
 		return ResponseEntity.ok("success");
 	}
 
 	@GetMapping("/tx-props/rollback/test7")
 	public ResponseEntity<Object> rollbackTest7() { 
 		log.info("## rollbackTest7");
-		service.uncheckedEx();
+		outerService.uncheckedEx();
 		return ResponseEntity.ok("success");
 	}
 	
@@ -96,7 +100,6 @@ public class TestTxPropsController {
 	 * 	- outer = REQUIRED, 		inner = REQUIRED_NEW
 	 * 	- outer = NO TRANSACTION, 	inner = MANDATORY
 	 * 	- outer = REQUIRED, 		inner = NESTED
-	 * 
 	 */
 
 	@GetMapping("/tx-props/propagation/test1")
@@ -115,7 +118,7 @@ public class TestTxPropsController {
 		// Initiating transaction rollback
 		// Rolling back JDBC transaction on Connection [HikariProxyConnection@742011473 wrapping oracle.jdbc.driver.T4CConnection@5ff37957]
 		// Releasing JDBC Connection [HikariProxyConnection@742011473 wrapping oracle.jdbc.driver.T4CConnection@5ff37957] after transaction
-		service.outer1(); 
+		outerService.outer1(); 
 		return ResponseEntity.ok("success");
 	}
 	
@@ -150,14 +153,14 @@ public class TestTxPropsController {
 		// Initiating transaction commit
 		// Committing JDBC transaction on Connection [HikariProxyConnection@1043314600]
 		// Releasing JDBC Connection [HikariProxyConnection@1043314600] after transaction
-		service.outer2(innerException); 
+		outerService.outer2(innerException); 
 		return ResponseEntity.ok("success");
 	}
 	
 	@GetMapping("/tx-props/propagation/test3")
 	public ResponseEntity<Object> propagationTest3() { 
 		log.info("## propagationTest3");
-		service.outer3();
+		outerService.outer3();
 		return ResponseEntity.ok("success");
 	}
 
@@ -165,7 +168,7 @@ public class TestTxPropsController {
 	public ResponseEntity<Object> propagationTest4() { 
 		log.info("## propagationTest3");
 		// outer = NO TRANSACTION, inner = MANDATORY
-		service.outer4();
+		outerService.outer4();
 		return ResponseEntity.ok("success");
 	}
 
@@ -180,7 +183,7 @@ public class TestTxPropsController {
 		// Initiating transaction commit
 		// Committing JDBC transaction on Connection [HikariProxyConnection@1294584318]
 		// Releasing JDBC Connection [HikariProxyConnection@1294584318] after transaction
-		service.outer5();
+		outerService.outer5();
 		return ResponseEntity.ok("success");
 	}
 
@@ -195,35 +198,40 @@ public class TestTxPropsController {
 		// Initiating transaction commit
 		// Committing JDBC transaction on Connection [HikariProxyConnection@1420424474]
 		// Releasing JDBC Connection [HikariProxyConnection@1420424474] after transaction
-		service.outer6();
+		outerService.outer6();
 		return ResponseEntity.ok("success");
 	}
+	
+	/*
+	 * @@ ISOLATION TEST
+	 *  - READ_COMMITTED, READ_UNCOMMITTED, REPEATABLE_READ, SERIALIZABLE
+	 */
 	
 	@GetMapping("/tx-props/isolation/test1")
 	public ResponseEntity<Object> isolationTest1() { 
 		log.info("## isolationTest1");
-		service.isoDefault();
+		isoService.isoReadCommitted();
 		return ResponseEntity.ok("success");
 	}
 	
 	@GetMapping("/tx-props/isolation/test2")
 	public ResponseEntity<Object> isolationTest2() {
 		log.info("## isolationTest2");
-		service.isoReadCommitted();
+		isoService.isoReadUncommitted();
 		return ResponseEntity.ok("success");
 	}
 	
 	@GetMapping("/tx-props/isolation/test3")
 	public ResponseEntity<Object> isolationTest3() { 
 		log.info("## isolationTest3");
-		service.isoReadUncommitted();
+		isoService.isoRepeatableRead();
 		return ResponseEntity.ok("success");
 	}
 
 	@GetMapping("/tx-props/isolation/test4")
 	public ResponseEntity<Object> isolationTest4() { 
 		log.info("## isolationTest4");
-		service.isoRepeatableRead();
+		isoService.isoSerializable();
 		return ResponseEntity.ok("success");
 	}
 }

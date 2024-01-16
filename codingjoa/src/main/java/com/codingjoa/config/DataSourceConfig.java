@@ -41,6 +41,7 @@ public class DataSourceConfig {
 		hikariConfig.setUsername(env.getProperty("datasource.batch.username"));
 		hikariConfig.setPassword(env.getProperty("datasource.batch.password"));
 		hikariConfig.setPoolName("BatchHikariPool");
+		hikariConfig.setAutoCommit(false);
 		return hikariConfig;
 	}
 	

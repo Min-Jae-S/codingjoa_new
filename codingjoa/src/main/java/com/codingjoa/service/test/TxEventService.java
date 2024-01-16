@@ -14,14 +14,14 @@ public class TxEventService {
 	
 	@TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
 	public void commitEvent(TestEvent event) {
-		log.info("## commitEvent");
+		log.info("## commit");
 		log.info("\t > location = {}", event.getLocation());
 		log.info("\t > commit testVo ( name = {} )", event.getTestVo().getName());
 	}
 	
 	@TransactionalEventListener(phase = TransactionPhase.AFTER_ROLLBACK)
 	public void rollbackEvent(TestEvent event) {
-		log.info("## rollbackEvent");
+		log.info("## rollback");
 		log.info("\t > location = {}", event.getLocation());
 		log.info("\t > rollback testVo ( name = {} )", event.getTestVo().getName());
 	}

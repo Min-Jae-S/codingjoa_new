@@ -10,7 +10,6 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
-import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
@@ -35,7 +34,7 @@ public class TestTxOuterService {
 	 */
 	
 	@Autowired
-	private TestTxInnerService innserService;
+	private TestTxInnerService innerService;
 	
 	@Autowired
 	private TestMapper1 mapper1;
@@ -74,17 +73,6 @@ public class TestTxOuterService {
 				.regdate(LocalDateTime.now())
 				.build();
 	}
-	
-	/* 
-	 * @@ Propagation
-	 * 	One of the advantages of declarative transactions provided by Spring, 
-	 * 	specifically through transaction annotations such as @Transactional, 
-	 * 	is the "ability to group multiple transactions together to create a larger transactional boundary"
-	 * 	In the course of working, there are situations where additional transactions need to be performed 
-	 * 	while an existing transaction is in progress. 
-	 * 	Deciding how to proceed with an additional transaction when an existing one is already underway 
-	 * 	is referred to as the propagation attribute.
-	 */
 	
 	@Transactional
 	public void rollback1() { 
@@ -163,6 +151,17 @@ public class TestTxOuterService {
 		throw new RuntimeException("uncheckedEx");
 	}
 	
+	/* 
+	 * @@ Propagation
+	 * 	One of the advantages of declarative transactions provided by Spring, 
+	 * 	specifically through transaction annotations such as @Transactional, 
+	 * 	is the "ability to group multiple transactions together to create a larger transactional boundary"
+	 * 	In the course of working, there are situations where additional transactions need to be performed 
+	 * 	while an existing transaction is in progress. 
+	 * 	Deciding how to proceed with an additional transaction when an existing one is already underway 
+	 * 	is referred to as the propagation attribute.
+	 */
+	
 	@Transactional
 	public void outer1() {
 		log.info("## outer1");
@@ -185,11 +184,11 @@ public class TestTxOuterService {
 		//this.inner1();
 		
 		// REQUIRED vs REQUIRES_NEW
-		//service2.innerRequired();
+		//innerService.innerRequired();
 		
 		// outer: rollback, inner: rollback
 		log.info("\t > calling innerRequired...");
-		innserService.innerRequired();
+		innerService.innerRequired();
 	}
 
 	@Transactional
@@ -207,22 +206,22 @@ public class TestTxOuterService {
 			// catch + inner: rollback, outer: commit 
 			try {
 				log.info("\t > calling innerRequiresNew1...");
-				innserService.innerRequiresNew1();
+				innerService.innerRequiresNew1();
 			} catch (Exception e) {
 				log.info("\t > catch {} at innerRequiresNew1", e.getClass().getSimpleName());
 			}
 		} else {
 			log.info("\t > calling innerRequiresNew2...");
-			innserService.innerRequiresNew2();
+			innerService.innerRequiresNew2();
 		}
 
 		// NO catch + inner: rollback, outer: rollback 
 //		if (innerException) {
 //			log.info("\t > calling innerRequiresNew1...");
-//			service2.innerRequiresNew1();
+//			innerService.innerRequiresNew1();
 //		} else {
 //			log.info("\t > calling innerRequiresNew2...");
-//			service2.innerRequiresNew2();
+//			innerService.innerRequiresNew2();
 //		}
 	}
 	
@@ -239,7 +238,7 @@ public class TestTxOuterService {
 		mapper1.insert(testVo);
 		
 		log.info("\t > calling innerRequiresNew2...");
-		innserService.innerRequiresNew2();
+		innerService.innerRequiresNew2();
 		
 		log.info("\t > will throw RuntimeException in outer3");
 		throw new RuntimeException("outer3");
@@ -257,7 +256,7 @@ public class TestTxOuterService {
 		mapper1.insert(testVo);
 		
 		log.info("\t > calling innerMandatory...");
-		innserService.innerMandatory();
+		innerService.innerMandatory();
 	}
 	
 	@Transactional
@@ -273,7 +272,7 @@ public class TestTxOuterService {
 		mapper1.insert(testVo);
 		try {
 			log.info("\t > calling innerNested1...");
-			innserService.innerNested1();
+			innerService.innerNested1();
 		} catch (Exception e) {
 			log.info("\t > catch {} at innerNested1", e.getClass().getSimpleName());
 		}
@@ -292,27 +291,6 @@ public class TestTxOuterService {
 		mapper1.insert(testVo);
 		
 		log.info("\t > calling innerNested2...");
-		innserService.innerNested2();
+		innerService.innerNested2();
 	}
-
-	@Transactional(isolation = Isolation.DEFAULT)
-	public void isoDefault() {
-		log.info("## Isolation.DEFAULT");
-	}
-
-	@Transactional(isolation = Isolation.READ_COMMITTED)
-	public void isoReadCommitted() {
-		log.info("## Isolation.READ_COMMITTED");
-	}
-
-	@Transactional(isolation = Isolation.READ_UNCOMMITTED)
-	public void isoReadUncommitted() {
-		log.info("## Isolation.READ_UNCOMMITTED");
-	}
-
-	@Transactional(isolation = Isolation.REPEATABLE_READ)
-	public void isoRepeatableRead() {
-		log.info("## Isolation.REPEATABLE_READ");
-	}
-	
 }
