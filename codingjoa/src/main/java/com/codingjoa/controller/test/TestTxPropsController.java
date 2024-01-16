@@ -204,34 +204,27 @@ public class TestTxPropsController {
 	
 	/*
 	 * @@ ISOLATION TEST
-	 *  - READ_COMMITTED, READ_UNCOMMITTED, REPEATABLE_READ, SERIALIZABLE
+	 * 	- DEFAULT, READ_COMMITTED, SERIALIZBLE
 	 */
 	
-	@GetMapping("/tx-props/isolation/test1")
-	public ResponseEntity<Object> isolationTest1() { 
+	@GetMapping("/tx-props/isolation/default")
+	public ResponseEntity<Object> isolationTest1() {
 		log.info("## isolationTest1");
-		isoService.isoReadCommitted();
-		return ResponseEntity.ok("success");
+		isoService.isoDefault();
+		return ResponseEntity.ok("Isolation.DEFAULT");
 	}
 	
-	@GetMapping("/tx-props/isolation/test2")
+	@GetMapping("/tx-props/isolation/read-committed")
 	public ResponseEntity<Object> isolationTest2() {
 		log.info("## isolationTest2");
-		isoService.isoReadUncommitted();
-		return ResponseEntity.ok("success");
+		isoService.isoReadCommitted();
+		return ResponseEntity.ok("Isolation.READ_COMMITTED");
 	}
 	
-	@GetMapping("/tx-props/isolation/test3")
+	@GetMapping("/tx-props/isolation/serializable")
 	public ResponseEntity<Object> isolationTest3() { 
-		log.info("## isolationTest3");
-		isoService.isoRepeatableRead();
-		return ResponseEntity.ok("success");
-	}
-
-	@GetMapping("/tx-props/isolation/test4")
-	public ResponseEntity<Object> isolationTest4() { 
-		log.info("## isolationTest4");
+		log.info("## isolationTest2");
 		isoService.isoSerializable();
-		return ResponseEntity.ok("success");
+		return ResponseEntity.ok("Isolation.SERIALIZABLE");
 	}
 }

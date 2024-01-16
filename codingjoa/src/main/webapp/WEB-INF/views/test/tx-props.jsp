@@ -107,10 +107,10 @@
 	<div class="parent-div isolation d-none">
 		<p class="sub-p mt-4 pl-4 mb-2">- Isolation Level</p>
 		<div class="test d-flex justify-content-center">
-			<button class="btn btn-lg btn-primary mx-3" onclick="isolationTest1()">READ_COMMITTED</button>
-			<button class="btn btn-lg btn-primary mx-3" onclick="isolationTest2()">READ_UNCOMMITTED</button>
-			<button class="btn btn-lg btn-primary mx-3" onclick="isolationTest3()">REPEATABLE_READ</button>
-			<button class="btn btn-lg btn-primary mx-3" onclick="isolationTest4()">SERIALIZABLE</button>
+			<button class="btn btn-lg btn-primary mx-3" onclick="isolationTest1()">DEFAULT</button>
+			<button class="btn btn-lg btn-primary mx-3" onclick="isolationTest2()">READ_COMMITTED</button>
+			<button class="btn btn-lg btn-primary mx-3" onclick="isolationTest3()">SERIALIZABLE</button>
+			<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
 		</div>
 	</div>
 	<div class="parent-div time-out d-none">
@@ -430,7 +430,7 @@
 		console.log("## isolationTest1");
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/tx-props/isolation/test1",
+			url : "${contextPath}/test/tx-props/isolation/default",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);
@@ -441,12 +441,12 @@
 			}
 		});		
 	}
-	
+
 	function isolationTest2() {
 		console.log("## isolationTest2");
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/tx-props/isolation/test2",
+			url : "${contextPath}/test/tx-props/isolation/read-committed",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);
@@ -462,7 +462,7 @@
 		console.log("## isolationTest3");
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/tx-props/isolation/test3",
+			url : "${contextPath}/test/tx-props/isolation/serializable",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);
@@ -473,23 +473,6 @@
 			}
 		});		
 	}
-
-	function isolationTest4() {
-		console.log("## isolationTest4");
-		$.ajax({
-			type : "GET",
-			url : "${contextPath}/test/tx-props/isolation/test4",
-			success : function(result) {
-				console.log("%c> SUCCESS", "color:green");
-				console.log("> result = %s", result);
-			},
-			error : function(jqXHR) {
-				console.log("%c> ERROR", "color:red");
-				console.log(jqXHR.responseJSON);
-			}
-		});		
-	}
-
 </script>
 </body>
 </html>
