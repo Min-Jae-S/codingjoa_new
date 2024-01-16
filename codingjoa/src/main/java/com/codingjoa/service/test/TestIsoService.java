@@ -17,32 +17,41 @@ public class TestIsoService {
 	
 	/*
 	 * @@ Isolation Level
+	 * 	Isolation level refers to the degree of isolation between transactions, 
+	 * 	indicating how much transactions are isolated from each other.
+	 *  In essence, it represents the intensity of access that one transaction has to data modified by other transactions.
+	 *  As the isolation level increases, the degree of isolation between transactions also increases, 
+	 *  often leading to performance degradation.
+	 * 
 	 * 	- DEFAULT ( Oracle: READ_COMMITTED, MySQL: REPEATABLE_READ )
 	 *  - READ_UNCOMMITTED, READ_COMMITTED(*), REPEATABLE_READ, SERIALIZABLE(*)
-	 *  - DIRTY READ, NON REPEATABLE READ, PHANTOM READ
+	 *  - DIRTY READ, NON-REPEATABLE READ, PHANTOM READ
+	 *  
+	 *  - READ_COMMITTED ( DIRTY: X,  NON-REPEATABLE: O,  PHANTOM: O )
+	 *  - SERIALIZABLE	 ( DIRTY: X,  NON-REPEATABLE: X,  PHANTOM: X )
 	 */
 	
-	private void checkTrasnactionInfo() {
-		log.info("\t > transaction = {}", TransactionSynchronizationManager.getCurrentTransactionName()); // @Nullable
-		log.info("\t > isolation level = {}", TransactionSynchronizationManager.getCurrentTransactionIsolationLevel());
+	private void checkTrasnaction() {
+		log.info("\t > transaction = {}", TransactionSynchronizationManager.getCurrentTransactionName()); 				// @Nullable
+		log.info("\t > isolation level = {}", TransactionSynchronizationManager.getCurrentTransactionIsolationLevel()); // @Nullable
 	}
 	
 	@Transactional(isolation = Isolation.DEFAULT)
 	public void isoDefault() {
 		log.info("## Isolation.DEFAULT");
-		checkTrasnactionInfo();
+		checkTrasnaction();
 	}
 	
 	@Transactional(isolation = Isolation.READ_COMMITTED)
 	public void isoReadCommitted() {
 		log.info("## Isolation.READ_COMMITTED");
-		checkTrasnactionInfo();
+		checkTrasnaction();
 	}
 
 	@Transactional(isolation = Isolation.SERIALIZABLE)
 	public void isoSerializable() {
 		log.info("## Isolation.SERIALIZABLE");
-		checkTrasnactionInfo();
+		checkTrasnaction();
 	}
 	
 }

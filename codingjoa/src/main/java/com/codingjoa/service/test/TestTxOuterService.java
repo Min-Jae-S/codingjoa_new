@@ -160,6 +160,8 @@ public class TestTxOuterService {
 	 * 	while an existing transaction is in progress. 
 	 * 	Deciding how to proceed with an additional transaction when an existing one is already underway 
 	 * 	is referred to as the propagation attribute.
+	 * 
+	 *  https://kth990303.tistory.com/385
 	 */
 	
 	@Transactional
@@ -181,7 +183,7 @@ public class TestTxOuterService {
 		// @Transactional 어노테이션이 Spring의 CGLIB Proxy를 기반으로 동작하기 때문이다. 
 		// 다시 말해 동일한 Bean으로 등록된 클래스의 메서드에서는 @Transactional을 단일 건으로 취급한다. 
 		// Proxy로 불러온 빈은 다른 클래스가 아닌 경우 인터셉트되어 전달되지 않기 때문에 @Transactional이 동작하지 않는다.
-		//this.inner1();
+		//this.innerRequired();
 		
 		// REQUIRED vs REQUIRES_NEW
 		//innerService.innerRequired();

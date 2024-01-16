@@ -21,10 +21,6 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 public class TestTxPropsController {
 	
-	/*
-	 * @@ @Transactional의 전파 레벨
-	 * https://kth990303.tistory.com/385
-	 */
 	
 	@SuppressWarnings("unused")
 	@Autowired
@@ -141,7 +137,7 @@ public class TestTxPropsController {
 		// Committing JDBC transaction on Connection [HikariProxyConnection@1991964660]
 		// Releasing JDBC Connection [HikariProxyConnection@1991964660] after transaction
 		
-		// @@ outer = REQUIRED, inner = REQUIRED_NEW, NO Exception
+		// @@ outer = REQUIRED, inner = REQUIRED_NEW (NO Exception)
 		// Creating new transaction with name [outer2]: PROPAGATION_REQUIRED,ISOLATION_DEFAULT
 		// Acquired Connection [HikariProxyConnection@1043314600] for JDBC transaction
 		// Suspending current transaction, creating new transaction with name [innerNoRollback]
@@ -167,7 +163,7 @@ public class TestTxPropsController {
 	@GetMapping("/tx-props/propagation/test4")
 	public ResponseEntity<Object> propagationTest4() { 
 		log.info("## propagationTest3");
-		// outer = NO TRANSACTION, inner = MANDATORY
+		// @@ outer = NO TRANSACTION, inner = MANDATORY
 		outerService.outer4();
 		return ResponseEntity.ok("success");
 	}
@@ -175,7 +171,7 @@ public class TestTxPropsController {
 	@GetMapping("/tx-props/propagation/test5")
 	public ResponseEntity<Object> propagationTest5() { 
 		log.info("## propagationTest5");
-		// @@ outer = REQUIRED, inner = NESTED, RuntimeException at inner
+		// @@ outer = REQUIRED, inner = NESTED (Exception at inner)
 		// Creating new transaction with name [outer5]: PROPAGATION_REQUIRED,ISOLATION_DEFAULT
 		// Acquired Connection [HikariProxyConnection@1294584318] for JDBC transaction
 		// Creating nested transaction with name [innerNested1]
@@ -190,7 +186,7 @@ public class TestTxPropsController {
 	@GetMapping("/tx-props/propagation/test6")
 	public ResponseEntity<Object> propagationTest6() { 
 		log.info("## propagationTest6");
-		// @@ outer = REQUIRED, inner = NESTED, NO RuntimeExeption
+		// @@ outer = REQUIRED, inner = NESTED (NO Exception)
 		// Creating new transaction with name [outer6]: PROPAGATION_REQUIRED,ISOLATION_DEFAULT
 		// Acquired Connection [HikariProxyConnection@1420424474] for JDBC transaction
 		// Creating nested transaction with name [innerNested2]
@@ -223,7 +219,7 @@ public class TestTxPropsController {
 	
 	@GetMapping("/tx-props/isolation/serializable")
 	public ResponseEntity<Object> isolationTest3() { 
-		log.info("## isolationTest2");
+		log.info("## isolationTest3");
 		isoService.isoSerializable();
 		return ResponseEntity.ok("Isolation.SERIALIZABLE");
 	}
