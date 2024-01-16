@@ -1,15 +1,18 @@
 package com.codingjoa.service.test;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
+import com.codingjoa.mapper.TestMapper3;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
-public class TestIsoService {
+public class TestTxIsoService {
 	
 	/*
 	 * @@ CannotCreateTransactionException
@@ -68,6 +71,9 @@ public class TestIsoService {
 	 *  	However, it is rarely used.
 	 */
 	
+	@Autowired
+	private TestMapper3 mapper3;
+	
 	private void checkTrasnaction() {
 		log.info("\t > transaction = {}", TransactionSynchronizationManager.getCurrentTransactionName()); 				// @Nullable
 		log.info("\t > isolation level = {}", TransactionSynchronizationManager.getCurrentTransactionIsolationLevel()); // @Nullable
@@ -77,18 +83,21 @@ public class TestIsoService {
 	public void isoDefault() {
 		log.info("## Isolation.DEFAULT");
 		checkTrasnaction();
+		log.info("\t > current number = {}", mapper3.findCurrentNumber());
 	}
 	
 	@Transactional(isolation = Isolation.READ_COMMITTED)
 	public void isoReadCommitted() {
 		log.info("## Isolation.READ_COMMITTED");
 		checkTrasnaction();
+		log.info("\t > current number = {}", mapper3.findCurrentNumber());
 	}
 
 	@Transactional(isolation = Isolation.SERIALIZABLE)
 	public void isoSerializable() {
 		log.info("## Isolation.SERIALIZABLE");
 		checkTrasnaction();
+		log.info("\t > current number = {}", mapper3.findCurrentNumber());
 	}
 	
 }

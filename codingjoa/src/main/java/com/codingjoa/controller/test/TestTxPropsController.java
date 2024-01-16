@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.codingjoa.service.test.TestIsoService;
+import com.codingjoa.service.test.TestTxIsoService;
 import com.codingjoa.service.test.TestTxOuterService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -30,7 +30,7 @@ public class TestTxPropsController {
 	private TestTxOuterService outerService;
 	
 	@Autowired
-	private TestIsoService isoService;
+	private TestTxIsoService isoService;
 	
 	@Resource(name = "mainTransactionManager")
 	private PlatformTransactionManager mainTransactionManager;
@@ -207,20 +207,20 @@ public class TestTxPropsController {
 	public ResponseEntity<Object> isolationTest1() {
 		log.info("## isolationTest1");
 		isoService.isoDefault();
-		return ResponseEntity.ok("Isolation.DEFAULT");
+		return ResponseEntity.ok("success");
 	}
 	
 	@GetMapping("/tx-props/isolation/read-committed")
 	public ResponseEntity<Object> isolationTest2() {
 		log.info("## isolationTest2");
 		isoService.isoReadCommitted();
-		return ResponseEntity.ok("Isolation.READ_COMMITTED");
+		return ResponseEntity.ok("success");
 	}
 	
 	@GetMapping("/tx-props/isolation/serializable")
 	public ResponseEntity<Object> isolationTest3() { 
 		log.info("## isolationTest3");
 		isoService.isoSerializable();
-		return ResponseEntity.ok("Isolation.SERIALIZABLE");
+		return ResponseEntity.ok("success");
 	}
 }

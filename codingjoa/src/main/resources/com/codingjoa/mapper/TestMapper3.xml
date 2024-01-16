@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.codingjoa.mapper.TestMapper3">
+<!-- 
+    idx         NUMBER,
+    num         NUMBER,         UNIQUE  NOT NULL,
+    regdate     DATE                    NOT NULL,
+-->
+
+	<select id="findCurrentNumber" resultType="int">
+		SELECT 
+			num 
+		FROM (
+			SELECT *
+			FROM test3
+			ORDER BY idx DESC
+		)
+		WHERE
+			rownum = 1
+	</select>
+	
+</mapper>
