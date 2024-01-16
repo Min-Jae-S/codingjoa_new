@@ -21,7 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
-public class TestTxPropsService2 {
+public class TestTxInnerService {
 	
 	@Autowired
 	private TestMapper2 mapper2;
@@ -43,12 +43,12 @@ public class TestTxPropsService2 {
 //			}
 			TransactionStatus status = TransactionAspectSupport.currentTransactionStatus();
 			if (status.isNewTransaction()) {
-				log.info("\t > new transaction");
+				log.info("\t > status = new transaction");
 			} else {
-				log.info("\t > not new transaction");
+				log.info("\t > status = not new transaction");
 			}
 		} catch (Exception e) {
-			log.info("\t > no transaction - {}", e.getClass().getSimpleName());
+			log.info("\t > status = no transaction - {}", e.getClass().getSimpleName());
 		}
 	}
 	

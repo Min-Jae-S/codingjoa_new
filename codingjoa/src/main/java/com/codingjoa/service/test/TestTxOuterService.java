@@ -23,7 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
-public class TestTxPropsService1 {
+public class TestTxOuterService {
 	
 	/*
 	 * @@ Transaction properties
@@ -35,7 +35,7 @@ public class TestTxPropsService1 {
 	 */
 	
 	@Autowired
-	private TestTxPropsService2 service2;
+	private TestTxInnerService innserService;
 	
 	@Autowired
 	private TestMapper1 mapper1;
@@ -57,12 +57,12 @@ public class TestTxPropsService1 {
 //			}
 			TransactionStatus status = TransactionAspectSupport.currentTransactionStatus();
 			if (status.isNewTransaction()) {
-				log.info("\t > new transaction");
+				log.info("\t > status = new transaction");
 			} else {
-				log.info("\t > not new transaction");
+				log.info("\t > status = not new transaction");
 			}
 		} catch (Exception e) {
-			log.info("\t > no transaction - {}", e.getClass().getSimpleName());
+			log.info("\t > status = no transaction - {}", e.getClass().getSimpleName());
 		}
 	}
 	
@@ -97,7 +97,7 @@ public class TestTxPropsService1 {
 			log.info("\t > insert testVo ( name = {} )", testVo.getName());
 			mapper1.insert(testVo);
 			
-			log.info("\t > throw RuntimeException in rollback1");
+			log.info("\t > will throw RuntimeException in rollback1");
 			throw new RuntimeException();
 		} catch (Exception e) {
 			log.info("\t > catch {}", e.getClass().getSimpleName());
@@ -114,12 +114,12 @@ public class TestTxPropsService1 {
 		log.info("\t > insert testVo ( name = {} )", testVo.getName());
 		mapper1.insert(testVo);
 		
-		log.info("\t > throw RuntimeException in rollback2");
+		log.info("\t > will throw RuntimeException in rollback2");
 		throw new RuntimeException("rollback2");
 	}
 	
 	@Transactional(rollbackFor = Exception.class)
-	public void rollbackForException() throws Exception { 
+	public void rollbackForEx() throws Exception { 
 		log.info("## rollbackForEx");
 		checkTransaction();
 		log.info("\t > insert testVo");
@@ -127,8 +127,8 @@ public class TestTxPropsService1 {
 		throw new SQLException("rollbackForEx");
 	}
 
-	@Transactional(rollbackFor = SQLException.class)
-	public void rollbackForSqlException() throws Exception {
+	@Transactional(rollbackFor = SQLException.class) 
+	public void rollbackForSqlEx() throws Exception {
 		log.info("## rollbackForSqlEx");
 		checkTransaction();
 		log.info("\t > insert testVo");
@@ -137,7 +137,7 @@ public class TestTxPropsService1 {
 	}
 
 	@Transactional
-	public void noRollbackForSqlException() throws Exception { 
+	public void noRollbackForSqlEx() throws Exception { 
 		log.info("## noRollbackForSqlEx");
 		checkTransaction();
 		log.info("\t > insert testVo");
@@ -146,7 +146,7 @@ public class TestTxPropsService1 {
 	}
 
 	@Transactional
-	public void checkedException() throws Exception { 
+	public void checkedEx() throws Exception { 
 		log.info("## checkedEx");
 		checkTransaction();
 		log.info("\t > insert testVo");
@@ -155,7 +155,7 @@ public class TestTxPropsService1 {
 	}
 
 	@Transactional
-	public void uncheckedException() { 
+	public void uncheckedEx() { 
 		log.info("## uncheckedEx");
 		checkTransaction();
 		log.info("\t > insert testVo");
@@ -189,7 +189,7 @@ public class TestTxPropsService1 {
 		
 		// outer: rollback, inner: rollback
 		log.info("\t > calling innerRequired...");
-		service2.innerRequired();
+		innserService.innerRequired();
 	}
 
 	@Transactional
@@ -204,19 +204,19 @@ public class TestTxPropsService1 {
 		log.info("\t > insert testVo ( name = {} )", testVo.getName());
 		mapper1.insert(testVo);
 		if (innerException) {
-			// inner: rollback, outer: commit
+			// catch + inner: rollback, outer: commit 
 			try {
 				log.info("\t > calling innerRequiresNew1...");
-				service2.innerRequiresNew1();
+				innserService.innerRequiresNew1();
 			} catch (Exception e) {
 				log.info("\t > catch {} at innerRequiresNew1", e.getClass().getSimpleName());
 			}
 		} else {
 			log.info("\t > calling innerRequiresNew2...");
-			service2.innerRequiresNew2();
+			innserService.innerRequiresNew2();
 		}
 
-		// inner: rollback, outer: rollback
+		// NO catch + inner: rollback, outer: rollback 
 //		if (innerException) {
 //			log.info("\t > calling innerRequiresNew1...");
 //			service2.innerRequiresNew1();
@@ -239,7 +239,7 @@ public class TestTxPropsService1 {
 		mapper1.insert(testVo);
 		
 		log.info("\t > calling innerRequiresNew2...");
-		service2.innerRequiresNew2();
+		innserService.innerRequiresNew2();
 		
 		log.info("\t > will throw RuntimeException in outer3");
 		throw new RuntimeException("outer3");
@@ -257,7 +257,7 @@ public class TestTxPropsService1 {
 		mapper1.insert(testVo);
 		
 		log.info("\t > calling innerMandatory...");
-		service2.innerMandatory();
+		innserService.innerMandatory();
 	}
 	
 	@Transactional
@@ -273,7 +273,7 @@ public class TestTxPropsService1 {
 		mapper1.insert(testVo);
 		try {
 			log.info("\t > calling innerNested1...");
-			service2.innerNested1();
+			innserService.innerNested1();
 		} catch (Exception e) {
 			log.info("\t > catch {} at innerNested1", e.getClass().getSimpleName());
 		}
@@ -292,7 +292,7 @@ public class TestTxPropsService1 {
 		mapper1.insert(testVo);
 		
 		log.info("\t > calling innerNested2...");
-		service2.innerNested2();
+		innserService.innerNested2();
 	}
 
 	@Transactional(isolation = Isolation.DEFAULT)

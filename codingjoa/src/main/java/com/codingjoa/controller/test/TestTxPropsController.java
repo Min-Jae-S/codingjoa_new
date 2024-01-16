@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.codingjoa.service.test.TestTxPropsService1;
+import com.codingjoa.service.test.TestTxOuterService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -30,10 +30,16 @@ public class TestTxPropsController {
 	private ApplicationContext context;
 	
 	@Autowired
-	private TestTxPropsService1 service;
+	private TestTxOuterService service;
 	
 	@Resource(name = "mainTransactionManager")
 	private PlatformTransactionManager mainTransactionManager;
+	
+	/*
+	 * @@ ROLLBACK TEST
+	 * 	- catch vs no catch
+	 * 	- checked exception vs unchecked exception
+	 */
 	
 	@GetMapping("/tx-props/rollback/test1")
 	public ResponseEntity<Object> rollbackTest1() { 
@@ -52,44 +58,53 @@ public class TestTxPropsController {
 	@GetMapping("/tx-props/rollback/test3")
 	public ResponseEntity<Object> rollbackTest3() throws Exception { 
 		log.info("## rollbackTest3");
-		service.rollbackForException();
+		service.rollbackForEx();
 		return ResponseEntity.ok("success");
 	}
 
 	@GetMapping("/tx-props/rollback/test4")
 	public ResponseEntity<Object> rollbackTest4() throws Exception { 
 		log.info("## rollbackTest4");
-		service.rollbackForSqlException();
+		service.rollbackForSqlEx();
 		return ResponseEntity.ok("success");
 	}
 
 	@GetMapping("/tx-props/rollback/test5")
 	public ResponseEntity<Object> rollbackTest5() throws Exception { 
 		log.info("## rollbackTest5");
-		service.noRollbackForSqlException();
+		service.noRollbackForSqlEx();
 		return ResponseEntity.ok("success");
 	}
 
 	@GetMapping("/tx-props/rollback/test6")
 	public ResponseEntity<Object> rollbackTest6() throws Exception { 
 		log.info("## rollbackTest6");
-		service.checkedException();
+		service.checkedEx();
 		return ResponseEntity.ok("success");
 	}
 
 	@GetMapping("/tx-props/rollback/test7")
 	public ResponseEntity<Object> rollbackTest7() { 
 		log.info("## rollbackTest7");
-		service.uncheckedException();
+		service.uncheckedEx();
 		return ResponseEntity.ok("success");
 	}
+	
+	/*
+	 * @@ PROPAGATION TEST
+	 * 	- outer = REQUIRED, 		inner = REQUIRED
+	 * 	- outer = REQUIRED, 		inner = REQUIRED_NEW
+	 * 	- outer = NO TRANSACTION, 	inner = MANDATORY
+	 * 	- outer = REQUIRED, 		inner = NESTED
+	 * 
+	 */
 
 	@GetMapping("/tx-props/propagation/test1")
 	public ResponseEntity<Object> propagationTest1() { 
 		log.info("## propagationTest1");
 		log.info("\t > outer = REQUIRED, inner = REQUIRED");
 		
-		// @@ outer: REQUIRED, inner: REQUIRED (RuntimeException)
+		// @@ outer: REQUIRED, inner: REQUIRED (inner Exception)
 		// @@ RuntimeException at inner
 		// Creating new transaction with name [outer1]: PROPAGATION_REQUIRED,ISOLATION_DEFAULT
 		// Acquired Connection [HikariProxyConnection@742011473 wrapping oracle.jdbc.driver.T4CConnection@5ff37957] for JDBC transaction
@@ -110,7 +125,7 @@ public class TestTxPropsController {
 		log.info("\t > outer = REQUIRED, inner = REQUIRED_NEW");
 		log.info("\t > innerException = {}", innerException);
 		
-		// @@ outer = REQUIRED, inner = REQUIRED_NEW, inner Exception with catch
+		// @@ outer = REQUIRED, inner = REQUIRED_NEW (inner Exception with catch)
 		// Creating new transaction with name [outer2]: PROPAGATION_REQUIRED,ISOLATION_DEFAULT
 		// Acquired Connection [HikariProxyConnection@1991964660] for JDBC transaction
 		// Suspending current transaction, creating new transaction with name [innerRollback]
