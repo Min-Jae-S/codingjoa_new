@@ -107,16 +107,7 @@ public class TestTxIsoService {
 	public void isoReadCommitted() {
 		log.info("## Isolation.READ_COMMITTED");
 		checkTrasnaction();
-		Integer firstCurrentNumber = isoMapper.findCurrentNumber();
-		log.info("\t > 1. current number = {}", firstCurrentNumber);
-		
-		insertRandomNumber();
-		Integer secondCurrentNumber = isoMapper.findCurrentNumber();
-		log.info("\t > 2. current number = {}", secondCurrentNumber);
-		
-		if (firstCurrentNumber != secondCurrentNumber) {
-			log.info("\t > NON-REPEATABLE READ occured");
-		}
+		log.info("\t > current number = {}", isoMapper.findCurrentNumber());
 	}
 
 	@Transactional(isolation = Isolation.SERIALIZABLE)
