@@ -7,6 +7,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.RandomUtils;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -21,8 +22,9 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.transaction.support.TransactionSynchronizationAdapter;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
-import com.codingjoa.mapper.test.TestOuterMapper;
 import com.codingjoa.mapper.test.TestInnerMapper;
+import com.codingjoa.mapper.test.TestIsoMapper;
+import com.codingjoa.mapper.test.TestOuterMapper;
 import com.codingjoa.test.TestVo;
 
 import lombok.extern.slf4j.Slf4j;
@@ -71,6 +73,9 @@ public class TestTxService {
 
 	@Autowired
 	private TestInnerMapper innerMapper;
+	
+	@Autowired
+	private TestIsoMapper isoMapper;
 	
 	public void doSomething1() {
 		log.info("## doSomething1 - NO Transactional");
@@ -309,6 +314,25 @@ public class TestTxService {
 				.regdate(LocalDateTime.now())
 				.build();
 		outerMapper.insert(testVo);
+	}
+	
+	/*
+	 * @@ isolation level
+	 */
+	
+	public List<Integer> findNumbers() {
+		return isoMapper.findNumbers();
+	}
+	
+	public void insertRandomNumber() {
+		int randomNumber = RandomUtils.nextInt(1, 999);
+		log.info("\t > insert random number = {}", randomNumber);
+		isoMapper.insertNumber(randomNumber);
+	}
+	
+	public void deleteNumbers() {
+		log.info("\t > delete all numbers");
+		isoMapper.deleteNumbers();
 	}
 	
 }

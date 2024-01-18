@@ -45,75 +45,75 @@
 	<div class="d-flex justify-content-between">
 		<div class="btn-group btn-group-toggle" data-toggle="buttons">
 			<label class="btn btn-secondary btn-sm active">
-				<input type="radio" name="options" value="rollback" checked>rollback
+				<input type="radio" name="options" value="rollback" checked>ROLLBACK
 			</label> 
 			<label class="btn btn-secondary btn-sm">
-				<input type="radio" name="options" value="propagation">propagation
+				<input type="radio" name="options" value="propagation">PROPAGATION
 			</label>
 			<label class="btn btn-secondary btn-sm">
-				<input type="radio" name="options" value="isolation">isolation
+				<input type="radio" name="options" value="isolation">ISOLATION
 			</label>
 			<label class="btn btn-secondary btn-sm">
-				<input type="radio" name="options" value="time-out-read-only">time out & read Only
+				<input type="radio" name="options" value="time-out-read-only">TIME OUT & READ ONLY
 			</label>
 		</div>
 	</div>
 	<p class="mb-4">tx-props.jsp</p>
 	<div class="btn-group d-flex justify-content-end">
-		<button class="btn btn-sm btn-warning" onclick="selectAll()">SELECT TEST1</button>
-		<button class="btn btn-sm btn-warning" onclick="selectAll2()">SELECT TEST2</button>
-		<button class="btn btn-sm btn-warning" onclick="removeAll()">DELETE TEST1</button>
-		<button class="btn btn-sm btn-warning" onclick="removeAll2()">DELETE TEST2</button>
+		<button class="btn btn-sm btn-secondary" onclick="selectAll()">SELECT TEST1</button>
+		<button class="btn btn-sm btn-secondary" onclick="selectAll2()">SELECT TEST2</button>
+		<button class="btn btn-sm btn-secondary" onclick="removeAll()">DELETE TEST1</button>
+		<button class="btn btn-sm btn-secondary" onclick="removeAll2()">DELETE TEST2</button>
 	</div>
 	<div class="parent-div rollback">
-		<p class="sub-p mt-4 pl-4 mb-2">- Rollback</p>
-		<div class="test d-flex justify-content-center mb-3">
+		<p class="sub-p mt-4 pl-4 mb-4">- Rollback</p>
+		<div class="test d-flex justify-content-center mb-4">
 			<button class="btn btn-lg btn-primary mx-3" onclick="rollbackTest1()">CATCH</button>
 			<button class="btn btn-lg btn-primary mx-3" onclick="rollbackTest2()">NO CATCH</button>
 			<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
-			<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
 		</div>
-		<div class="test d-flex justify-content-center mb-3">
-			<button class="btn btn-sm btn-primary mx-3" onclick="rollbackTest3()">ROLLBACK_FOR Ex</button>
-			<button class="btn btn-sm btn-primary mx-3" onclick="rollbackTest4()">ROLLBACK_FOR SQLEx</button>
-			<button class="btn btn-sm btn-primary mx-3" onclick="rollbackTest5()">NOT ROLLBACK_FOR SQLEx</button>
-			<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
+		<div class="test d-flex justify-content-center mb-4">
+			<button class="btn btn-primary mx-3" onclick="rollbackTest3()">ROLLBACK_FOR Ex</button>
+			<button class="btn btn-primary mx-3" onclick="rollbackTest4()">ROLLBACK_FOR SQLEx</button>
+			<button class="btn btn-primary mx-3" onclick="rollbackTest5()">NOT ROLLBACK_FOR SQLEx</button>
 		</div>
-		<div class="test d-flex justify-content-center">
+		<div class="test d-flex justify-content-center mb-4">
 			<button class="btn btn-lg btn-primary mx-3" onclick="rollbackTest6()">CHECKED E</button>
 			<button class="btn btn-lg btn-primary mx-3" onclick="rollbackTest7()">UNCHECKED E</button>
-			<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
 			<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
 		</div>
 	</div>
 	<div class="parent-div propagation d-none">
-		<p class="sub-p mt-4 pl-4 mb-2">- Propagation</p>
-		<div class="test d-flex justify-content-center mb-3">
-			<button class="btn btn-sm btn-primary mx-3" onclick="propagationTest1()">REQUIRED &rArr; REQUIRED<br>INNER Exception</button>
-			<button class="btn btn-sm btn-primary mx-3" onclick="propagationTest2(true)">REQUIRED &rArr; RE_NEW<br>INNER Exception</button>
-			<button class="btn btn-sm btn-primary mx-3" onclick="propagationTest2(false)">REQUIRED &rArr; RE_NEW<br>NO Exception</button>
-			<button class="btn btn-sm btn-primary mx-3" onclick="propagationTest3()">REQUIRED &rArr; RE_NEW<br>OUTER Exception</button>
+		<p class="sub-p mt-4 pl-4 mb-4">- Propagation</p>
+		<div class="test d-flex justify-content-center mb-4">
+			<button class="btn btn-primary mx-3" onclick="propagationTest1()">REQUIRED &rArr; REQUIRED<br>INNER Exception</button>
+			<button class="btn btn-primary mx-3" onclick="propagationTest2(true)">REQUIRED &rArr; RE_NEW<br>INNER Exception</button>
+			<button class="btn btn-primary mx-3" onclick="propagationTest2(false)">REQUIRED &rArr; RE_NEW<br>NO Exception</button>
+			<button class="btn btn-primary mx-3" onclick="propagationTest3()">REQUIRED &rArr; RE_NEW<br>OUTER Exception</button>
 		</div>
-		<div class="test d-flex justify-content-center">
+		<div class="test d-flex justify-content-center mb-4">
 			<button class="btn btn-primary mx-3" onclick="propagationTest4()">MANDATORY</button>
-			<button class="btn btn-sm btn-primary mx-3" onclick="propagationTest5()">REQUIRED &rArr; NESTED<br>INNER Exception</button>
-			<button class="btn btn-sm btn-primary mx-3" onclick="propagationTest6()">REQUIRED &rArr; NESTED<br>NO Exception</button>
-			<button class="btn btn-sm btn-primary mx-3 invisible" onclick="#">#</button>
+			<button class="btn btn-primary mx-3" onclick="propagationTest5()">REQUIRED &rArr; NESTED<br>INNER Exception</button>
+			<button class="btn btn-primary mx-3" onclick="propagationTest6()">REQUIRED &rArr; NESTED<br>NO Exception</button>
+			<button class="btn btn-primary mx-3 invisible" onclick="#">#</button>
 		</div>
 	</div>
 	<div class="parent-div isolation d-none">
-		<p class="sub-p mt-4 pl-4 mb-2">- Isolation Level</p>
-		<div class="test d-flex justify-content-center mb-3">
+		<p class="sub-p mt-4 pl-4 mb-4">- Isolation Level</p>
+		<div class="test d-flex justify-content-center mb-4">
 			<button class="btn btn-lg btn-primary mx-3" onclick="isolationTest1()">DEFAULT</button>
 			<button class="btn btn-lg btn-primary mx-3" onclick="isolationTest2()">READ_COMMITTED</button>
 			<button class="btn btn-lg btn-primary mx-3" onclick="isolationTest3()">SERIALIZABLE</button>
-			<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
 		</div>
-		<div class="test d-flex justify-content-center mb-3">
+		<div class="test d-flex justify-content-center mb-4">
 			<button class="btn btn-lg btn-warning mx-3" onclick="findNumbers()">NUMBERS</button>
-			<button class="btn btn-lg btn-warning mx-3" onclick="insertRandomNumber()">INSERT</button>
-			<button class="btn btn-lg btn-warning mx-3" onclick="removeNumbers()">DELETE</button>
-			<button class="btn btn-lg btn-warning mx-3 invisible" onclick="#">#</button>
+			<button class="btn btn-lg btn-warning mx-3" onclick="insertRandomNumber()">INSERT NEW</button>
+			<button class="btn btn-lg btn-warning mx-3" onclick="removeNumbers()">DELETE ALL</button>
+		</div>
+		<div class="test d-flex justify-content-center mb-4">
+			<button class="btn btn-lg btn-success mx-3" onclick="resumeReadCommitted()">RESUME<br>READ_COMMITTED</button>
+			<button class="btn btn-lg btn-success mx-3" onclick="resumeSerializable()">RESUME<br>SERIALIZABLE</button>
+			<button class="btn btn-lg btn-success mx-3 invisible" onclick="#">#</button>
 		</div>
 	</div>
 	<div class="parent-div time-out-read-only d-none">
@@ -122,13 +122,11 @@
 			<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
 			<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
 			<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
-			<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
 		</div>
 	</div>
 	<div class="parent-div time-out-read-only d-none">
 		<p class="sub-p mt-4 pl-4 mb-2">- Read Only</p>
 		<div class="test d-flex justify-content-center">
-			<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
 			<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
 			<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
 			<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
@@ -220,6 +218,7 @@
 		});		
 	}
 	
+	// rollback test
 	function rollbackTest1() {
 		console.log("## rollbackTest1");
 		$.ajax({
@@ -332,6 +331,7 @@
 		});		
 	}
 	
+	// propagation test
 	function propagationTest1() {
 		console.log("## propagationTest1");
 		$.ajax({
@@ -429,6 +429,7 @@
 		});		
 	}
 	
+	// isolation test
 	function findNumbers() {
 		console.log("## findNumbers");
 		$.ajax({
@@ -477,6 +478,54 @@
 				if (result == "success") {
 					findNumbers();
 				} 
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(jqXHR.responseJSON);
+			}
+		});		
+	}
+	
+	function resumeReadCommitted() {
+		console.log("## resumeReadCommitted");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/tx-props/isolation/resume/read-committed",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log("> result = %s", result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(jqXHR.responseJSON);
+			}
+		});		
+	}
+
+	function resumeSerializable() {
+		console.log("## resumeSerializable");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/tx-props/isolation/resume/serializable",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log("> result = %s", result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(jqXHR.responseJSON);
+			}
+		});		
+	}
+	
+	function isolationTest1() {
+		console.log("## isolationTest1");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/tx-props/isolation/default",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log("> result = %s", result);
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");

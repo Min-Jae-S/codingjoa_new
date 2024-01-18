@@ -1,8 +1,7 @@
 package com.codingjoa.service.test;
 
-import java.util.List;
+import java.util.concurrent.CountDownLatch;
 
-import org.apache.commons.lang3.RandomUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -73,48 +72,93 @@ public class TestTxIsoService {
 	 *  	This typically occurs when data insertion takes place.
 	 */
 	
+	private final CountDownLatch latch1 = new CountDownLatch(1);
+	private final CountDownLatch latch2 = new CountDownLatch(1);
+
 	@Autowired
 	private TestIsoMapper isoMapper;
+	
+	@Autowired
+	private TestTxService txService;
 	
 	private void checkTrasnaction() {
 		log.info("\t > transaction = {}", TransactionSynchronizationManager.getCurrentTransactionName()); 				// @Nullable
 		log.info("\t > isolation level = {}", TransactionSynchronizationManager.getCurrentTransactionIsolationLevel()); // @Nullable
 	}
 	
-	public List<Integer> findNumbers() {
-		return isoMapper.findNumbers();
-	}
-	
-	public void insertRandomNumber() {
-		int randomNumber = RandomUtils.nextInt(2, 999);
-		log.info("\t > create random number = {}", randomNumber);
-		isoMapper.insertNumber(randomNumber);
-	}
-	
-	public void deleteNumbers() {
-		log.info("\t > delete all numbers");
-		isoMapper.deleteNumbers();
-	}
-	
 	@Transactional(isolation = Isolation.DEFAULT)
 	public void isoDefault() {
 		log.info("## Isolation.DEFAULT");
 		checkTrasnaction();
-		log.info("\t > current number = {}", isoMapper.findCurrentNumber());
+		Integer currentNumber = isoMapper.findCurrentNumber();
+		log.info("\t > current number = {}", currentNumber);
 	}
 	
 	@Transactional(isolation = Isolation.READ_COMMITTED)
 	public void isoReadCommitted() {
 		log.info("## Isolation.READ_COMMITTED");
 		checkTrasnaction();
-		log.info("\t > current number = {}", isoMapper.findCurrentNumber());
+		
+		Integer firstCurrentNumber = isoMapper.findCurrentNumber();
+		log.info("\t > current thread = {}", Thread.currentThread().getName());
+		log.info("\t > 1. current number = {} [ {} ]", firstCurrentNumber);
+		try {
+			log.info("\t > pause transaction ( Isolation.SERIALIZABLE )");
+			latch1.await();
+		} catch (InterruptedException e) {
+			log.info("\t > {}", e.getClass().getSimpleName());
+			Thread.currentThread().interrupt();
+		}
+		
+		Integer secondCurrentNumber = isoMapper.findCurrentNumber();
+		log.info("\t > current thread = {}", Thread.currentThread().getName());
+		log.info("\t > 2. current number = {}", secondCurrentNumber);
+		
+		if (firstCurrentNumber != secondCurrentNumber) {
+			log.info("\t > NON-REPEATABLE READ");
+		} else {
+			log.info("\t > REPEATABLE READ");
+		}
 	}
 
 	@Transactional(isolation = Isolation.SERIALIZABLE)
 	public void isoSerializable() {
 		log.info("## Isolation.SERIALIZABLE");
 		checkTrasnaction();
-		log.info("\t > current number = {}", isoMapper.findCurrentNumber());
+		
+		Integer firstCurrentNumber = isoMapper.findCurrentNumber();
+		log.info("\t > current thread = {}", Thread.currentThread().getName());
+		log.info("\t > 1. current number = {} [ {} ]", firstCurrentNumber);
+		try {
+			log.info("\t > pause transaction ( Isolation.SERIALIZABLE )");
+			latch2.await();
+		} catch (InterruptedException e) {
+			log.info("\t > {}", e.getClass().getSimpleName());
+			Thread.currentThread().interrupt();
+		}
+		
+		Integer secondCurrentNumber = isoMapper.findCurrentNumber();
+		log.info("\t > current thread = {}", Thread.currentThread().getName());
+		log.info("\t > 2. current number = {}", secondCurrentNumber);
+		
+		if (firstCurrentNumber != secondCurrentNumber) {
+			log.info("\t > NON-REPEATABLE READ");
+		} else {
+			log.info("\t > REPEATABLE READ");
+		}
 	}
 	
+	public void resumeReadCommitted() {
+		log.info("\t > resume read-comitted");
+		log.info("\t > current thread = {}", Thread.currentThread().getName());
+		txService.insertRandomNumber();
+		latch1.countDown();
+	}
+	
+	public void resumeSerializable() {
+		log.info("\t > resume serializble");
+		log.info("\t > current thread = {}", Thread.currentThread().getName());
+		txService.insertRandomNumber();
+		latch2.countDown();
+	}
 }

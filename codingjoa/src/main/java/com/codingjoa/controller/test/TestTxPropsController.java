@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.codingjoa.service.test.TestTxIsoService;
 import com.codingjoa.service.test.TestTxOuterService;
+import com.codingjoa.service.test.TestTxService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -31,6 +32,9 @@ public class TestTxPropsController {
 	
 	@Autowired
 	private TestTxOuterService outerService;
+	
+	@Autowired
+	private TestTxService txService;
 	
 	@Autowired
 	private TestTxIsoService isoService;
@@ -209,7 +213,7 @@ public class TestTxPropsController {
 	@GetMapping("/tx-props/isolation/numbers")
 	public ResponseEntity<Object> findNumbers() {
 		log.info("## findNumbers");
-		List<Integer> numbers = isoService.findNumbers();
+		List<Integer> numbers = txService.findNumbers();
 		log.info("\t > numbers = {}", numbers);
 		return ResponseEntity.ok(numbers);
 	}
@@ -217,14 +221,26 @@ public class TestTxPropsController {
 	@GetMapping("/tx-props/isolation/new")
 	public ResponseEntity<Object> insertRandomNumber() {
 		log.info("## insertRandomNumber");
-		isoService.insertRandomNumber();
+		txService.insertRandomNumber();
 		return ResponseEntity.ok("success");
 	}
 	
 	@DeleteMapping("/tx-props/isolation/numbers")
 	public ResponseEntity<Object> deleteNumbers() {
 		log.info("## deleteNumbers");
-		isoService.deleteNumbers();
+		txService.deleteNumbers();
+		return ResponseEntity.ok("success");
+	}
+	
+	@GetMapping("/tx-props/isolation/resume/read-committed")
+	public ResponseEntity<Object> resumeReadCommitted() {
+		isoService.resumeReadCommitted();
+		return ResponseEntity.ok("success");
+	}
+	
+	@GetMapping("/tx-props/isolation/resume/serializable")
+	public ResponseEntity<Object> resumeSerializable() {
+		isoService.resumeSerializable();
 		return ResponseEntity.ok("success");
 	}
 	

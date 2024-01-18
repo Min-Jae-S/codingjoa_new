@@ -28,6 +28,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 
 @Slf4j
+@SuppressWarnings("unused")
 @RequiredArgsConstructor
 public class TopMenuInterceptor implements HandlerInterceptor {
 
@@ -65,27 +66,27 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
-		log.info("## {} - postHandle", this.getClass().getSimpleName());
+		//log.info("## {} - postHandle", this.getClass().getSimpleName());
 		
 		if (handler instanceof HandlerMethod) {
 			HandlerMethod handlerMethod = (HandlerMethod) handler;
 			Class<?> controllerClass = handlerMethod.getBeanType();
 			if (controllerClass.isAnnotationPresent(RestController.class)) {
-				log.info("\t > not find top menu - @RestController");
+				//log.info("\t > not find top menu - @RestController");
 				return;
 			}
 			
             MethodParameter[] methodParameters = handlerMethod.getMethodParameters();
             for (MethodParameter methodParameter : methodParameters) {
             	if (methodParameter.hasMethodAnnotation(ResponseBody.class)) {
-            		log.info("\t > not find top menu - @ResponseBody");
+            		//log.info("\t > not find top menu - @ResponseBody");
             		return;
             	}
             }
 		}
 		
 		if (modelAndView == null) {
-			log.info("\t > not find top menu - no modelAndView");
+			//log.info("\t > not find top menu - no modelAndView");
 			return;
 		}
 		
@@ -94,17 +95,17 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 		//log.info("\t > viewName = {}", viewName + ".jsp");
 		
 		if (viewName == null) {
-			log.info("\t > not find top menu - no viewName");
+			//log.info("\t > not find top menu - no viewName");
 			return;
 		}
 		
 		if (viewName.startsWith(FORWARD_URL_PREFIX)) {
-			log.info("\t > not find top menu - FORWARD_URL_PREFIX");
+			//log.info("\t > not find top menu - FORWARD_URL_PREFIX");
 			return;	
 		}
 		
 		if (viewName.startsWith(REDIRECT_URL_PREFIX)) 	{
-			log.info("\t > not find top menu - REDIRECT_URL_PREFIX");
+			//log.info("\t > not find top menu - REDIRECT_URL_PREFIX");
 			return;
 		}
 		
@@ -116,13 +117,12 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 			}
 		}
 		
-		log.info("\t > find top menu");
+		//log.info("\t > find top menu");
 		List<Category> parentCategoryList = categoryService.findParentCategoryList();
 		modelAndView.addObject("parentCategoryList", parentCategoryList);
-		log.info("\t > added top menu as model");
+		//log.info("\t > added top menu as model");
 	}
 	
-	@SuppressWarnings("unused")
 	private String getFullURI(HttpServletRequest request) {
 		StringBuilder requestURI = 
 				new StringBuilder(URLDecoder.decode(request.getRequestURI(), StandardCharsets.UTF_8));
