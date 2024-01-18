@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
-import com.codingjoa.mapper.TestMapper1;
+import com.codingjoa.mapper.test.TestOuterMapper;
 import com.codingjoa.test.TestEvent;
 import com.codingjoa.test.TestVo;
 
@@ -37,7 +37,7 @@ public class TestTxOuterService {
 	private TestTxInnerService innerService;
 	
 	@Autowired
-	private TestMapper1 mapper1;
+	private TestOuterMapper outerMapper;
 	
 	@SuppressWarnings("unused")
 	@Autowired
@@ -83,7 +83,7 @@ public class TestTxOuterService {
 				TransactionSynchronizationManager.getCurrentTransactionName(), testVo));
 		try {
 			log.info("\t > insert testVo ( name = {} )", testVo.getName());
-			mapper1.insert(testVo);
+			outerMapper.insert(testVo);
 			
 			log.info("\t > will throw RuntimeException in rollback1");
 			throw new RuntimeException();
@@ -100,7 +100,7 @@ public class TestTxOuterService {
 		applicationEventPublisher.publishEvent(new TestEvent(
 				TransactionSynchronizationManager.getCurrentTransactionName(), testVo));
 		log.info("\t > insert testVo ( name = {} )", testVo.getName());
-		mapper1.insert(testVo);
+		outerMapper.insert(testVo);
 		
 		log.info("\t > will throw RuntimeException in rollback2");
 		throw new RuntimeException("rollback2");
@@ -111,7 +111,7 @@ public class TestTxOuterService {
 		log.info("## rollbackForEx");
 		checkTransaction();
 		log.info("\t > insert testVo");
-		mapper1.insert(createTestVo("rollbackForEx"));
+		outerMapper.insert(createTestVo("rollbackForEx"));
 		throw new SQLException("rollbackForEx");
 	}
 
@@ -120,7 +120,7 @@ public class TestTxOuterService {
 		log.info("## rollbackForSqlEx");
 		checkTransaction();
 		log.info("\t > insert testVo");
-		mapper1.insert(createTestVo("rollbackForSqlEx"));
+		outerMapper.insert(createTestVo("rollbackForSqlEx"));
 		throw new SQLException("rollbackForSqlEx");
 	}
 
@@ -129,7 +129,7 @@ public class TestTxOuterService {
 		log.info("## noRollbackForSqlEx");
 		checkTransaction();
 		log.info("\t > insert testVo");
-		mapper1.insert(createTestVo("noRollbackForSqlEx"));
+		outerMapper.insert(createTestVo("noRollbackForSqlEx"));
 		throw new SQLException("noRollbackForSqlEx");
 	}
 
@@ -138,7 +138,7 @@ public class TestTxOuterService {
 		log.info("## checkedEx");
 		checkTransaction();
 		log.info("\t > insert testVo");
-		mapper1.insert(createTestVo("checkedEx"));
+		outerMapper.insert(createTestVo("checkedEx"));
 		throw new IOException("checkedEx");
 	}
 
@@ -147,7 +147,7 @@ public class TestTxOuterService {
 		log.info("## uncheckedEx");
 		checkTransaction();
 		log.info("\t > insert testVo");
-		mapper1.insert(createTestVo("uncheckedEx"));
+		outerMapper.insert(createTestVo("uncheckedEx"));
 		throw new RuntimeException("uncheckedEx");
 	}
 	
@@ -178,7 +178,7 @@ public class TestTxOuterService {
 				TransactionSynchronizationManager.getCurrentTransactionName(), testVo));
 		
 		log.info("\t > insert testVo ( name = {} )", testVo.getName());
-		mapper1.insert(testVo);
+		outerMapper.insert(testVo);
 		
 		// AOP(Proxy) self-invocation issue
 		// https://velog.io/@chullll/Transactional-%EA%B3%BC-PROXY
@@ -214,7 +214,7 @@ public class TestTxOuterService {
 				TransactionSynchronizationManager.getCurrentTransactionName(), testVo));
 		
 		log.info("\t > insert testVo ( name = {} )", testVo.getName());
-		mapper1.insert(testVo);
+		outerMapper.insert(testVo);
 		if (innerException) {
 			// catch + inner: rollback, outer: commit 
 			try {
@@ -248,7 +248,7 @@ public class TestTxOuterService {
 				TransactionSynchronizationManager.getCurrentTransactionName(), testVo));
 		
 		log.info("\t > insert testVo ( name = {} )", testVo.getName());
-		mapper1.insert(testVo);
+		outerMapper.insert(testVo);
 		
 		log.info("\t > calling innerRequiresNew2...");
 		innerService.innerRequiresNew2();
@@ -266,7 +266,7 @@ public class TestTxOuterService {
 				TransactionSynchronizationManager.getCurrentTransactionName(), testVo));
 		
 		log.info("\t > insert testVo ( name = {} )", testVo.getName());
-		mapper1.insert(testVo);
+		outerMapper.insert(testVo);
 		
 		log.info("\t > calling innerMandatory...");
 		innerService.innerMandatory();
@@ -282,7 +282,7 @@ public class TestTxOuterService {
 				TransactionSynchronizationManager.getCurrentTransactionName(), testVo));
 		
 		log.info("\t > insert testVo ( name = {} )", testVo.getName());
-		mapper1.insert(testVo);
+		outerMapper.insert(testVo);
 		try {
 			log.info("\t > calling innerNested1...");
 			innerService.innerNested1();
@@ -301,7 +301,7 @@ public class TestTxOuterService {
 				TransactionSynchronizationManager.getCurrentTransactionName(), testVo));
 		
 		log.info("\t > insert testVo ( name = {} )", testVo.getName());
-		mapper1.insert(testVo);
+		outerMapper.insert(testVo);
 		
 		log.info("\t > calling innerNested2...");
 		innerService.innerNested2();

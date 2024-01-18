@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
-import com.codingjoa.mapper.TestMapper2;
+import com.codingjoa.mapper.test.TestInnerMapper;
 import com.codingjoa.test.TestEvent;
 import com.codingjoa.test.TestVo;
 
@@ -24,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 public class TestTxInnerService {
 	
 	@Autowired
-	private TestMapper2 mapper2;
+	private TestInnerMapper innerMapper;
 	
 	@SuppressWarnings("unused")
 	@Autowired
@@ -71,7 +71,7 @@ public class TestTxInnerService {
 				TransactionSynchronizationManager.getCurrentTransactionName(), testVo));
 
 		log.info("\t > insert testVo ( name = {} )", testVo.getName());
-		mapper2.insert(testVo);
+		innerMapper.insert(testVo);
 		
 		log.info("\t > will throw RuntimeException in innerRequired");
 		throw new RuntimeException("innerRequired");
@@ -87,7 +87,7 @@ public class TestTxInnerService {
 				TransactionSynchronizationManager.getCurrentTransactionName(), testVo));
 		
 		log.info("\t > insert testVo ( name = {} )", testVo.getName());
-		mapper2.insert(testVo);
+		innerMapper.insert(testVo);
 		
 		log.info("\t > will throw RuntimeException in innerRequiresNew1");
 		throw new RuntimeException("innerRequiresNew1");
@@ -103,7 +103,7 @@ public class TestTxInnerService {
 				TransactionSynchronizationManager.getCurrentTransactionName(), testVo));
 		
 		log.info("\t > insert testVo ( name = {} )", testVo.getName());
-		mapper2.insert(testVo);
+		innerMapper.insert(testVo);
 	}
 
 	@Transactional(propagation = Propagation.MANDATORY)
@@ -122,7 +122,7 @@ public class TestTxInnerService {
 				TransactionSynchronizationManager.getCurrentTransactionName(), testVo));
 		
 		log.info("\t > insert testVo ( name = {} )", testVo.getName());
-		mapper2.insert(testVo);
+		innerMapper.insert(testVo);
 		
 		log.info("\t > will throw RuntimeException in innerNested1");
 		throw new RuntimeException("innerNested1");
@@ -138,6 +138,6 @@ public class TestTxInnerService {
 				TransactionSynchronizationManager.getCurrentTransactionName(), testVo));
 		
 		log.info("\t > insert testVo ( name = {} )", testVo.getName());
-		mapper2.insert(testVo);
+		innerMapper.insert(testVo);
 	}
 }

@@ -1,9 +1,9 @@
-package com.codingjoa.mapper;
+package com.codingjoa.mapper.test;
 
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
-public interface TestMapper3 {
+public interface TestIsoMapper {
 
 	Integer findCurrentNumber();
 	

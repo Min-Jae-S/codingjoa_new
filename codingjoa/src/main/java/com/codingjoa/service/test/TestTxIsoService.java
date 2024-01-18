@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
-import com.codingjoa.mapper.TestMapper3;
+import com.codingjoa.mapper.test.TestIsoMapper;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -71,7 +71,7 @@ public class TestTxIsoService {
 	 */
 	
 	@Autowired
-	private TestMapper3 mapper3;
+	private TestIsoMapper isoMapper;
 	
 	private void checkTrasnaction() {
 		log.info("\t > transaction = {}", TransactionSynchronizationManager.getCurrentTransactionName()); 				// @Nullable
@@ -82,21 +82,21 @@ public class TestTxIsoService {
 	public void isoDefault() {
 		log.info("## Isolation.DEFAULT");
 		checkTrasnaction();
-		log.info("\t > current number = {}", mapper3.findCurrentNumber());
+		log.info("\t > current number = {}", isoMapper.findCurrentNumber());
 	}
 	
 	@Transactional(isolation = Isolation.READ_COMMITTED)
 	public void isoReadCommitted() {
 		log.info("## Isolation.READ_COMMITTED");
 		checkTrasnaction();
-		log.info("\t > current number = {}", mapper3.findCurrentNumber());
+		log.info("\t > current number = {}", isoMapper.findCurrentNumber());
 	}
 
 	@Transactional(isolation = Isolation.SERIALIZABLE)
 	public void isoSerializable() {
 		log.info("## Isolation.SERIALIZABLE");
 		checkTrasnaction();
-		log.info("\t > current number = {}", mapper3.findCurrentNumber());
+		log.info("\t > current number = {}", isoMapper.findCurrentNumber());
 	}
 	
 }

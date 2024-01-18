@@ -21,8 +21,8 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.transaction.support.TransactionSynchronizationAdapter;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
-import com.codingjoa.mapper.TestMapper1;
-import com.codingjoa.mapper.TestMapper2;
+import com.codingjoa.mapper.test.TestOuterMapper;
+import com.codingjoa.mapper.test.TestInnerMapper;
 import com.codingjoa.test.TestVo;
 
 import lombok.extern.slf4j.Slf4j;
@@ -67,10 +67,10 @@ public class TestTxService {
 	// 		8. Datasource에 Connection 반환
 	
 	@Autowired
-	private TestMapper1 mapper;
+	private TestOuterMapper mapper;
 
 	@Autowired
-	private TestMapper2 mapper2;
+	private TestInnerMapper mapper2;
 	
 	public void doSomething1() {
 		log.info("## doSomething1 - NO Transactional");
@@ -204,7 +204,7 @@ public class TestTxService {
 	public void invokeSqlSession() throws SQLException {
 		SqlSession sqlSession = sqlSessionFactory.openSession(false);
 		log.info("\t > auto commit = {}", sqlSession.getConnection().getAutoCommit());
-		int result = sqlSession.getMapper(TestMapper1.class).insert(createTestVo());
+		int result = sqlSession.getMapper(TestOuterMapper.class).insert(createTestVo());
 		log.info("\t > inserted rows = {}", result);
 		sqlSession.close();
 	}

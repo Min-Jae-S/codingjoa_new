@@ -1,4 +1,4 @@
-package com.codingjoa.mapper;
+package com.codingjoa.mapper.test;
 
 import java.util.List;
 
@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import com.codingjoa.test.TestVo;
 
 @Mapper
-public interface TestMapper2 {
+public interface TestInnerMapper {
 	
 	List<TestVo> selectAll();
 	
