@@ -20,7 +20,7 @@
 	</select>
 	
 	<select id="findNumbers" resultType="int">
-		SELECT num FROM test3
+		SELECT num FROM test3 ORDER BY idx DESC
 	</select>
 	
 	<insert id="insertNumber" parameterType="int">

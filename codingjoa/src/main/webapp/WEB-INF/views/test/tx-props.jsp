@@ -101,9 +101,9 @@
 	<div class="parent-div isolation d-none">
 		<p class="sub-p mt-4 pl-4 mb-4">- Isolation Level</p>
 		<div class="test d-flex justify-content-center mb-4">
-			<button class="btn btn-lg btn-primary mx-3" onclick="isolationTest1()">DEFAULT</button>
 			<button class="btn btn-lg btn-primary mx-3" onclick="isolationTest2()">READ_COMMITTED</button>
 			<button class="btn btn-lg btn-primary mx-3" onclick="isolationTest3()">SERIALIZABLE</button>
+			<button class="btn btn-lg btn-primary mx-3" onclick="isolationTest1()">DEFAULT</button>
 		</div>
 		<div class="test d-flex justify-content-center mb-4">
 			<button class="btn btn-lg btn-warning mx-3" onclick="findNumbers()">NUMBERS</button>

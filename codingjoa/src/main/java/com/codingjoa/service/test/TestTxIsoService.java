@@ -72,8 +72,10 @@ public class TestTxIsoService {
 	 *  	This typically occurs when data insertion takes place.
 	 */
 	
-	private final CountDownLatch latch1 = new CountDownLatch(1);
-	private final CountDownLatch latch2 = new CountDownLatch(1);
+	private CountDownLatch latch1 = new CountDownLatch(1);
+	private CountDownLatch latch2 = new CountDownLatch(1);
+	private boolean latchWaiting1 = false; 
+	private boolean latchWaiting2 = false; 
 
 	@Autowired
 	private TestIsoMapper isoMapper;
@@ -97,13 +99,13 @@ public class TestTxIsoService {
 	@Transactional(isolation = Isolation.READ_COMMITTED)
 	public void isoReadCommitted() {
 		log.info("## Isolation.READ_COMMITTED");
-		checkTrasnaction();
+		//checkTrasnaction();
 		
 		Integer firstCurrentNumber = isoMapper.findCurrentNumber();
-		log.info("\t > current thread = {}", Thread.currentThread().getName());
-		log.info("\t > 1. current number = {} [ {} ]", firstCurrentNumber);
+		log.info("\t > (1) current number = {} [ {} ]", firstCurrentNumber, Thread.currentThread().getName());
 		try {
 			log.info("\t > pause transaction ( Isolation.SERIALIZABLE )");
+			latchWaiting1 = true;
 			latch1.await();
 		} catch (InterruptedException e) {
 			log.info("\t > {}", e.getClass().getSimpleName());
@@ -111,8 +113,7 @@ public class TestTxIsoService {
 		}
 		
 		Integer secondCurrentNumber = isoMapper.findCurrentNumber();
-		log.info("\t > current thread = {}", Thread.currentThread().getName());
-		log.info("\t > 2. current number = {}", secondCurrentNumber);
+		log.info("\t > (2) current number = {} [ {} ]", secondCurrentNumber, Thread.currentThread().getName());
 		
 		if (firstCurrentNumber != secondCurrentNumber) {
 			log.info("\t > NON-REPEATABLE READ");
@@ -124,13 +125,13 @@ public class TestTxIsoService {
 	@Transactional(isolation = Isolation.SERIALIZABLE)
 	public void isoSerializable() {
 		log.info("## Isolation.SERIALIZABLE");
-		checkTrasnaction();
+		//checkTrasnaction();
 		
 		Integer firstCurrentNumber = isoMapper.findCurrentNumber();
-		log.info("\t > current thread = {}", Thread.currentThread().getName());
-		log.info("\t > 1. current number = {} [ {} ]", firstCurrentNumber);
+		log.info("\t > (1) current number = {} [ {} ]", firstCurrentNumber, Thread.currentThread().getName());
 		try {
 			log.info("\t > pause transaction ( Isolation.SERIALIZABLE )");
+			latchWaiting2 = true;
 			latch2.await();
 		} catch (InterruptedException e) {
 			log.info("\t > {}", e.getClass().getSimpleName());
@@ -138,8 +139,7 @@ public class TestTxIsoService {
 		}
 		
 		Integer secondCurrentNumber = isoMapper.findCurrentNumber();
-		log.info("\t > current thread = {}", Thread.currentThread().getName());
-		log.info("\t > 2. current number = {}", secondCurrentNumber);
+		log.info("\t > (2) current number = {} [ {} ]", secondCurrentNumber, Thread.currentThread().getName());
 		
 		if (firstCurrentNumber != secondCurrentNumber) {
 			log.info("\t > NON-REPEATABLE READ");
@@ -149,16 +149,28 @@ public class TestTxIsoService {
 	}
 	
 	public void resumeReadCommitted() {
-		log.info("\t > resume read-comitted");
-		log.info("\t > current thread = {}", Thread.currentThread().getName());
-		txService.insertRandomNumber();
-		latch1.countDown();
+		log.info("================================================================");
+		log.info("## resumeReadCommitted [ {} ]", Thread.currentThread().getName());
+		if (latchWaiting1) {
+			txService.insertRandomNumber();
+			latch1.countDown();
+			latchWaiting1 = false;
+		} else {
+			log.info("\t > latch1 is not awaiting");
+		}
+		log.info("================================================================");
 	}
 	
 	public void resumeSerializable() {
-		log.info("\t > resume serializble");
-		log.info("\t > current thread = {}", Thread.currentThread().getName());
-		txService.insertRandomNumber();
-		latch2.countDown();
+		log.info("================================================================");
+		log.info("## resumeSerializable [ {} ]", Thread.currentThread().getName());
+		if (latchWaiting2) {
+			txService.insertRandomNumber();
+			latch2.countDown();
+			latchWaiting2 = false;
+		} else {
+			log.info("\t > latch2 is not awaiting");
+		}
+		log.info("================================================================");
 	}
 }
