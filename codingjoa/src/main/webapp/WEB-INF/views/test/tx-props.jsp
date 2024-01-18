@@ -111,7 +111,7 @@
 		</div>
 		<div class="test d-flex justify-content-center mb-3">
 			<button class="btn btn-lg btn-warning mx-3" onclick="findNumbers()">NUMBERS</button>
-			<button class="btn btn-lg btn-warning mx-3" onclick="insertRandomNumber()">INSERT NEW</button>
+			<button class="btn btn-lg btn-warning mx-3" onclick="insertRandomNumber()">INSERT</button>
 			<button class="btn btn-lg btn-warning mx-3" onclick="removeNumbers()">DELETE</button>
 			<button class="btn btn-lg btn-warning mx-3 invisible" onclick="#">#</button>
 		</div>
@@ -436,7 +436,11 @@
 			url : "${contextPath}/test/tx-props/isolation/numbers",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
-				console.log("> result = %s", result);
+				if (result == "") {
+					console.log("> result = no records");
+				} else {
+					console.log("> result = %s", result);
+				}
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
@@ -452,7 +456,11 @@
 			url : "${contextPath}/test/tx-props/isolation/new",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
-				console.log("> result = %s", result);
+				if (result == "") {
+					console.log("> result = no records");
+				} else {
+					console.log("> result = %s", result);
+				}
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
@@ -468,7 +476,11 @@
 			url : "${contextPath}/test/tx-props/isolation/numbers",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
-				console.log("> result = %s", result);
+				if (result == "") {
+					console.log("> result = no records");
+				} else {
+					console.log("> result = %s", result);
+				}
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");

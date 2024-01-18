@@ -211,21 +211,21 @@ public class TestTxPropsController {
 		log.info("## findNumbers");
 		List<Integer> numbers = isoService.findNumbers();
 		log.info("\t > numbers = {}", numbers);
-		return ResponseEntity.ok("success");
+		return ResponseEntity.ok(numbers);
 	}
 	
 	@GetMapping("/tx-props/isolation/new")
 	public ResponseEntity<Object> insertRandomNumber() {
 		log.info("## insertRandomNumber");
 		isoService.insertRandomNumber();
-		return ResponseEntity.ok("success");
+		return ResponseEntity.ok(isoService.findNumbers());
 	}
 	
 	@DeleteMapping("/tx-props/isolation/numbers")
 	public ResponseEntity<Object> deleteNumbers() {
 		log.info("## deleteNumbers");
 		isoService.deleteNumbers();
-		return ResponseEntity.ok("success");
+		return ResponseEntity.ok(isoService.findNumbers());
 	}
 	
 	@GetMapping("/tx-props/isolation/default")

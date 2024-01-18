@@ -67,10 +67,10 @@ public class TestTxService {
 	// 		8. Datasource에 Connection 반환
 	
 	@Autowired
-	private TestOuterMapper mapper;
+	private TestOuterMapper outerMapper;
 
 	@Autowired
-	private TestInnerMapper mapper2;
+	private TestInnerMapper innerMapper;
 	
 	public void doSomething1() {
 		log.info("## doSomething1 - NO Transactional");
@@ -127,36 +127,36 @@ public class TestTxService {
 	}
 	
 	public List<TestVo> selectAll() {
-		return mapper.selectAll();
+		return outerMapper.selectAll();
 	}
 
 	public List<TestVo> selectAll2() {
-		return mapper2.selectAll();
+		return innerMapper.selectAll();
 	}
 	
 	public int insertNoTx(TestVo testVo) {
-		return mapper.insert(testVo);
+		return outerMapper.insert(testVo);
 	}
 
 	@Transactional
 	public int insertTx(TestVo testVo) {
-		return mapper.insert(testVo);
+		return outerMapper.insert(testVo);
 	}
 	
 	public int update(TestVo testVo) {
-		return mapper.update(testVo);
+		return outerMapper.update(testVo);
 	}
 	
 	public int remove() {
-		return mapper.remove();
+		return outerMapper.remove();
 	}
 	
 	public int removeAll() {
-		return mapper.removeAll();
+		return outerMapper.removeAll();
 	}
 
 	public int removeAll2() {
-		return mapper2.removeAll();
+		return innerMapper.removeAll();
 	}
 	
 	private void checkTransaction(TransactionStatus transactionStatus) {
@@ -230,7 +230,7 @@ public class TestTxService {
 	}
 	
 	public void invokeMapper() {
-		int result = mapper.insert(createTestVo());
+		int result = outerMapper.insert(createTestVo());
 		log.info("\t > inserted rows = {}", result);
 	}
 	
@@ -244,7 +244,7 @@ public class TestTxService {
 
 	public void invokeNoTx() {
 		log.info("*** invokeNoTx start");
-		int result = mapper.insert(createTestVo());
+		int result = outerMapper.insert(createTestVo());
 		log.info("\t > inserted rows = {}", result);
 		log.info("*** invokeNoTx end");
 	}
@@ -252,7 +252,7 @@ public class TestTxService {
 	@Transactional
 	public void invokeTx() {
 		log.info("*** invokeTx start");
-		int result = mapper.insert(createTestVo());
+		int result = outerMapper.insert(createTestVo());
 		log.info("\t > inserted rows = {}", result);
 		log.info("*** invokeTx end");
 	}
@@ -297,7 +297,7 @@ public class TestTxService {
 				.password("A1")
 				.regdate(LocalDateTime.now())
 				.build();
-		mapper.insert(testVo);
+		outerMapper.insert(testVo);
 	}
 	
 	private void insertA2() {
@@ -308,7 +308,7 @@ public class TestTxService {
 				.password("A2")
 				.regdate(LocalDateTime.now())
 				.build();
-		mapper.insert(testVo);
+		outerMapper.insert(testVo);
 	}
 	
 }
