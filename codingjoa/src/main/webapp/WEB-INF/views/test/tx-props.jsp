@@ -456,11 +456,9 @@
 			url : "${contextPath}/test/tx-props/isolation/new",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
-				if (result == "") {
-					console.log("> result = no records");
-				} else {
-					console.log("> result = %s", result);
-				}
+				if (result == "success") {
+					findNumbers();
+				} 
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
@@ -476,11 +474,9 @@
 			url : "${contextPath}/test/tx-props/isolation/numbers",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
-				if (result == "") {
-					console.log("> result = no records");
-				} else {
-					console.log("> result = %s", result);
-				}
+				if (result == "success") {
+					findNumbers();
+				} 
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");

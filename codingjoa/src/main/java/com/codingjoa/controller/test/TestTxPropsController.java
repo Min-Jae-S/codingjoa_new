@@ -218,14 +218,14 @@ public class TestTxPropsController {
 	public ResponseEntity<Object> insertRandomNumber() {
 		log.info("## insertRandomNumber");
 		isoService.insertRandomNumber();
-		return ResponseEntity.ok(isoService.findNumbers());
+		return ResponseEntity.ok("success");
 	}
 	
 	@DeleteMapping("/tx-props/isolation/numbers")
 	public ResponseEntity<Object> deleteNumbers() {
 		log.info("## deleteNumbers");
 		isoService.deleteNumbers();
-		return ResponseEntity.ok(isoService.findNumbers());
+		return ResponseEntity.ok("success");
 	}
 	
 	@GetMapping("/tx-props/isolation/default")

@@ -92,6 +92,7 @@ public class TestTxIsoService {
 	}
 	
 	public void deleteNumbers() {
+		log.info("\t > delete all numbers");
 		isoMapper.deleteNumbers();
 	}
 	
