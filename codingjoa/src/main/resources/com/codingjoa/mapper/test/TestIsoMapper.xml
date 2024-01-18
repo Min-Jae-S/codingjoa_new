@@ -19,4 +19,25 @@
 			rownum = 1
 	</select>
 	
+	<select id="findNumbers" resultType="int">
+		SELECT num FROM test3
+	</select>
+	
+	<insert id="insertNumber">
+		<selectKey keyProperty="idx" resultType="int" order="BEFORE">
+			SELECT seq_test3.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO test3 (
+			idx,
+			num
+		) VALUES (
+			#{idx},
+			#{num}
+		)
+	</insert>
+	
+	<delete id="deleteNumbers">
+		DELETE FROM test3
+	</delete>
+	
 </mapper>

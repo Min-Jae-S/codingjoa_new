@@ -103,11 +103,17 @@
 	</div>
 	<div class="parent-div isolation d-none">
 		<p class="sub-p mt-4 pl-4 mb-2">- Isolation Level</p>
-		<div class="test d-flex justify-content-center">
+		<div class="test d-flex justify-content-center mb-3">
 			<button class="btn btn-lg btn-primary mx-3" onclick="isolationTest1()">DEFAULT</button>
 			<button class="btn btn-lg btn-primary mx-3" onclick="isolationTest2()">READ_COMMITTED</button>
 			<button class="btn btn-lg btn-primary mx-3" onclick="isolationTest3()">SERIALIZABLE</button>
 			<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
+		</div>
+		<div class="test d-flex justify-content-center mb-3">
+			<button class="btn btn-lg btn-warning mx-3" onclick="findNumbers()">NUMBERS</button>
+			<button class="btn btn-lg btn-warning mx-3" onclick="insertRandomNumber()">INSERT NEW</button>
+			<button class="btn btn-lg btn-warning mx-3" onclick="removeNumbers()">DELETE</button>
+			<button class="btn btn-lg btn-warning mx-3 invisible" onclick="#">#</button>
 		</div>
 	</div>
 	<div class="parent-div time-out-read-only d-none">
@@ -422,7 +428,55 @@
 			}
 		});		
 	}
+	
+	function findNumbers() {
+		console.log("## findNumbers");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/tx-props/isolation/numbers",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log("> result = %s", result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(jqXHR.responseJSON);
+			}
+		});		
+	}
 
+	function insertRandomNumber() {
+		console.log("## insertRandomNumber");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/tx-props/isolation/new",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log("> result = %s", result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(jqXHR.responseJSON);
+			}
+		});		
+	}
+
+	function removeNumbers() {
+		console.log("## removeNumbers");
+		$.ajax({
+			type : "DELETE",
+			url : "${contextPath}/test/tx-props/isolation/numbers",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log("> result = %s", result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(jqXHR.responseJSON);
+			}
+		});		
+	}
+	
 	function isolationTest1() {
 		console.log("## isolationTest1");
 		$.ajax({

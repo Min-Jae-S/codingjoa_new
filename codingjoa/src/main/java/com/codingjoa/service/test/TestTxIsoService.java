@@ -1,5 +1,8 @@
 package com.codingjoa.service.test;
 
+import java.util.List;
+
+import org.apache.commons.lang3.RandomUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -31,20 +34,6 @@ public class TestTxIsoService {
 	 * 	- DEFAULT ( Oracle: READ_COMMITTED, MySQL: REPEATABLE_READ )
 	 *  - READ_UNCOMMITTED, READ_COMMITTED(*), REPEATABLE_READ, SERIALIZABLE(*)
 	 *  
-	 *  - DIRTY READ
-	 *  	reading uncommitted data from another transaction
-	 *  
-	 *  - NON-REPEATABLE READ
-	 *  	Inconsistency in values despite reading the same data in a single transaction
-	 *  	typically occurring when data has been modified or deleted.
-	 *  
-	 *  - PHANTOM READ
-	 *  	This is referred to as using only the data read within one's own transaction, 
-	 *  	regardless of data committed by other transactions. 
-	 *  	It describes a situation where, within a single transaction, 
-	 *  	previously non-existent results are retrieved when the same query is executed multiple times. 
-	 *  	This typically occurs when data insertion takes place.
-	 *  
 	 *  - READ_COMMITTED	( DIRTY: X,  NON-REPEATABLE: O,  PHANTOM: O )
 	 * 		Access to changes is possible for other transactions only for committed modifications within the transaction.
 	 *  	This is the isolation level commonly used by most RDBMS systems by default.
@@ -68,6 +57,20 @@ public class TestTxIsoService {
 	 *  	In SERIALIZABLE, PHANTOM READs do not occur. 
 	 *  	Transactions happen sequentially rather than concurrently.
 	 *  	However, it is rarely used.
+	 *  
+	 *  - DIRTY READ
+	 *  	reading uncommitted data from another transaction
+	 *  
+	 *  - NON-REPEATABLE READ
+	 *  	Inconsistency in values despite reading the same data in a single transaction
+	 *  	typically occurring when data has been modified or deleted.
+	 *  
+	 *  - PHANTOM READ
+	 *  	This is referred to as using only the data read within one's own transaction, 
+	 *  	regardless of data committed by other transactions. 
+	 *  	It describes a situation where, within a single transaction, 
+	 *  	previously non-existent results are retrieved when the same query is executed multiple times. 
+	 *  	This typically occurs when data insertion takes place.
 	 */
 	
 	@Autowired
@@ -76,6 +79,20 @@ public class TestTxIsoService {
 	private void checkTrasnaction() {
 		log.info("\t > transaction = {}", TransactionSynchronizationManager.getCurrentTransactionName()); 				// @Nullable
 		log.info("\t > isolation level = {}", TransactionSynchronizationManager.getCurrentTransactionIsolationLevel()); // @Nullable
+	}
+	
+	public List<Integer> findNumbers() {
+		return isoMapper.findNumbers();
+	}
+	
+	public void insertRandomNumber() {
+		int randomNumber = RandomUtils.nextInt(2, 999);
+		log.info("\t > create random number = {}", randomNumber);
+		isoMapper.insertNumber(randomNumber);
+	}
+	
+	public void deleteNumbers() {
+		isoMapper.deleteNumbers();
 	}
 	
 	@Transactional(isolation = Isolation.DEFAULT)
@@ -89,7 +106,16 @@ public class TestTxIsoService {
 	public void isoReadCommitted() {
 		log.info("## Isolation.READ_COMMITTED");
 		checkTrasnaction();
-		log.info("\t > current number = {}", isoMapper.findCurrentNumber());
+		Integer firstCurrentNumber = isoMapper.findCurrentNumber();
+		log.info("\t > 1. current number = {}", firstCurrentNumber);
+		
+		insertRandomNumber();
+		Integer secondCurrentNumber = isoMapper.findCurrentNumber();
+		log.info("\t > 2. current number = {}", secondCurrentNumber);
+		
+		if (firstCurrentNumber != secondCurrentNumber) {
+			log.info("\t > NON-REPEATABLE READ occured");
+		}
 	}
 
 	@Transactional(isolation = Isolation.SERIALIZABLE)

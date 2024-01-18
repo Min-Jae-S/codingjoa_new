@@ -1,11 +1,14 @@
 package com.codingjoa.controller.test;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -202,6 +205,28 @@ public class TestTxPropsController {
 	 * @@ ISOLATION TEST
 	 * 	- DEFAULT, READ_COMMITTED, SERIALIZBLE
 	 */
+	
+	@GetMapping("/tx-props/isolation/numbers")
+	public ResponseEntity<Object> findNumbers() {
+		log.info("## findNumbers");
+		List<Integer> numbers = isoService.findNumbers();
+		log.info("\t > numbers = {}", numbers);
+		return ResponseEntity.ok("success");
+	}
+	
+	@GetMapping("/tx-props/isolation/new")
+	public ResponseEntity<Object> insertRandomNumber() {
+		log.info("## insertRandomNumber");
+		isoService.insertRandomNumber();
+		return ResponseEntity.ok("success");
+	}
+	
+	@DeleteMapping("/tx-props/isolation/numbers")
+	public ResponseEntity<Object> deleteNumbers() {
+		log.info("## deleteNumbers");
+		isoService.deleteNumbers();
+		return ResponseEntity.ok("success");
+	}
 	
 	@GetMapping("/tx-props/isolation/default")
 	public ResponseEntity<Object> isolationTest1() {
