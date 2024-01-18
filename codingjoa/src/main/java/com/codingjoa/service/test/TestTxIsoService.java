@@ -35,8 +35,7 @@ public class TestTxIsoService {
 	 *  	reading uncommitted data from another transaction
 	 *  
 	 *  - NON-REPEATABLE READ
-	 *  	The ability to read data committed by another transaction, resulting in potentially different outcomes 
-	 *  	when the same query is executed multiple times within a single transaction, 
+	 *  	Inconsistency in values despite reading the same data in a single transaction
 	 *  	typically occurring when data has been modified or deleted.
 	 *  
 	 *  - PHANTOM READ
@@ -56,10 +55,10 @@ public class TestTxIsoService {
 	 *  	In other words, a Non-repeatable Read occurs.
 	 *  
 	 *  - REPEATABLE_READ 	( DIRTY: X,  NON-REPEATABLE: X,  PHANTOM: O )
-	 *  	Access is possible only to committed data before the transaction begins. 
+	 *  	Only committed content before the transaction starts is available for querying. 
 	 *  	This is the default in MySQL, and in this isolation level, Non-repeatable Reads do not occur. 
-	 *  	A Shared Lock is applied to all data used by the SELECT statement until the transaction is completed. 
-	 *  	Therefore, it ensures that the content of the data retrieved within the transaction's scope remains consistent.
+	 *  	Until the transaction is completed, a Shared Lock is applied to all data used by the SELECT statement. 
+	 *  	Therefore, it ensures that the content of the data queried within the transaction scope is always consistent
 	 *  	Since the consistency of the data at the start of the transaction must be ensured, 
 	 *  	a drawback arises as the transaction's execution time lengthens, requiring continued management of multi-versions.
 	 *  	However, Phantom Reads can occur.
