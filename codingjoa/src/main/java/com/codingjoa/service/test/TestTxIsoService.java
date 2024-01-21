@@ -99,7 +99,7 @@ public class TestTxIsoService {
 	@Transactional(isolation = Isolation.READ_COMMITTED)
 	public void isoReadCommitted() {
 		log.info("## Isolation.READ_COMMITTED");
-		//checkTrasnaction();
+		checkTrasnaction();
 		
 		Integer firstCurrentNumber = isoMapper.findCurrentNumber();
 		log.info("\t > (1) current number = {} [ {} ]", firstCurrentNumber, Thread.currentThread().getName());
@@ -125,7 +125,7 @@ public class TestTxIsoService {
 	@Transactional(isolation = Isolation.SERIALIZABLE)
 	public void isoSerializable() {
 		log.info("## Isolation.SERIALIZABLE");
-		//checkTrasnaction();
+		checkTrasnaction();
 		
 		Integer firstCurrentNumber = isoMapper.findCurrentNumber();
 		log.info("\t > (1) current number = {} [ {} ]", firstCurrentNumber, Thread.currentThread().getName());
