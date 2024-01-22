@@ -18,11 +18,9 @@ public class TestTxIsoService {
 	
 	/*
 	 * @@ CannotCreateTransactionException
-	 * 	Could not open JDBC Connection for transaction; 
+	 * 	Could not open JDBC Connection for transaction; 	
 	 * 	nested exception is java.sql.SQLException: READ_COMMITTED와 SERIALIZABLE만이 적합한 트랜잭션 레벨입니다
-	 */
-	
-	/*
+	 * 
 	 * @@ Isolation Level
 	 * 	Isolation level refers to the degree of isolation between transactions, 
 	 * 	indicating how much transactions are isolated from each other.
@@ -72,10 +70,10 @@ public class TestTxIsoService {
 	 *  	This typically occurs when data insertion takes place.
 	 */
 	
-	private final CountDownLatch latch1 = new CountDownLatch(1);
-	private final CountDownLatch latch2 = new CountDownLatch(1);
-	private boolean latchWaiting1 = false; 
-	private boolean latchWaiting2 = false; 
+	private CountDownLatch latchReadCommitted = new CountDownLatch(1);
+	private CountDownLatch latchSerializable = new CountDownLatch(1);
+	private boolean latchWaitingReadCommitted = false; 
+	private boolean latchWaitingSerializable = false; 
 
 	@Autowired
 	private TestIsoMapper isoMapper;
@@ -84,8 +82,8 @@ public class TestTxIsoService {
 	private TestTxService txService;
 	
 	private void checkTrasnaction() {
-		log.info("\t > transaction = {}", TransactionSynchronizationManager.getCurrentTransactionName()); 				// @Nullable
-		log.info("\t > isolation = {}", TransactionSynchronizationManager.getCurrentTransactionIsolationLevel()); // @Nullable
+		log.info("\t > transaction = {}", TransactionSynchronizationManager.getCurrentTransactionName()); 			// @Nullable
+		log.info("\t > isolation = {}", TransactionSynchronizationManager.getCurrentTransactionIsolationLevel()); 	// @Nullable
 	}
 	
 	@Transactional(isolation = Isolation.DEFAULT)
@@ -105,8 +103,8 @@ public class TestTxIsoService {
 		log.info("\t > [1] current number = {} [ {} ]", firstCurrentNumber, Thread.currentThread().getName());
 		try {
 			log.info("\t > pause transaction ( Isolation.SERIALIZABLE )");
-			latchWaiting1 = true;
-			latch1.await();
+			latchWaitingReadCommitted = true;
+			latchReadCommitted.await();
 		} catch (InterruptedException e) {
 			log.info("\t > {}", e.getClass().getSimpleName());
 			Thread.currentThread().interrupt();
@@ -131,8 +129,8 @@ public class TestTxIsoService {
 		log.info("\t > [1] current number = {} [ {} ]", firstCurrentNumber, Thread.currentThread().getName());
 		try {
 			log.info("\t > pause transaction ( Isolation.SERIALIZABLE )");
-			latchWaiting2 = true;
-			latch2.await();
+			latchWaitingSerializable = true;
+			latchSerializable.await();
 		} catch (InterruptedException e) {
 			log.info("\t > {}", e.getClass().getSimpleName());
 			Thread.currentThread().interrupt();
@@ -151,12 +149,12 @@ public class TestTxIsoService {
 	public void resumeReadCommitted() {
 		log.info("================================================================");
 		log.info("## resumeReadCommitted [ {} ]", Thread.currentThread().getName());
-		if (latchWaiting1) {
+		if (latchWaitingReadCommitted) {
 			txService.insertRandomNumber();
-			latch1.countDown();
-			latchWaiting1 = false;
+			latchReadCommitted.countDown();
+			latchWaitingReadCommitted = false;
 		} else {
-			log.info("\t > latch1 is not awaiting");
+			log.info("\t > latchReadCommitted is not awaiting");
 		}
 		log.info("================================================================");
 	}
@@ -164,12 +162,12 @@ public class TestTxIsoService {
 	public void resumeSerializable() {
 		log.info("================================================================");
 		log.info("## resumeSerializable [ {} ]", Thread.currentThread().getName());
-		if (latchWaiting2) {
+		if (latchWaitingSerializable) {
 			txService.insertRandomNumber();
-			latch2.countDown();
-			latchWaiting2 = false;
+			latchSerializable.countDown();
+			latchWaitingSerializable = false;
 		} else {
-			log.info("\t > latch2 is not awaiting");
+			log.info("\t > latchSerializable is not awaiting");
 		}
 		log.info("================================================================");
 	}
