@@ -85,7 +85,7 @@ public class TestTxIsoService {
 	
 	private void checkTrasnaction() {
 		log.info("\t > transaction = {}", TransactionSynchronizationManager.getCurrentTransactionName()); 				// @Nullable
-		log.info("\t > isolation level = {}", TransactionSynchronizationManager.getCurrentTransactionIsolationLevel()); // @Nullable
+		log.info("\t > isolation = {}", TransactionSynchronizationManager.getCurrentTransactionIsolationLevel()); // @Nullable
 	}
 	
 	@Transactional(isolation = Isolation.DEFAULT)
@@ -102,7 +102,7 @@ public class TestTxIsoService {
 		//checkTrasnaction();
 		
 		Integer firstCurrentNumber = isoMapper.findCurrentNumber();
-		log.info("\t > (1) current number = {} [ {} ]", firstCurrentNumber, Thread.currentThread().getName());
+		log.info("\t > [1] current number = {} [ {} ]", firstCurrentNumber, Thread.currentThread().getName());
 		try {
 			log.info("\t > pause transaction ( Isolation.SERIALIZABLE )");
 			latchWaiting1 = true;
@@ -113,7 +113,7 @@ public class TestTxIsoService {
 		}
 		
 		Integer secondCurrentNumber = isoMapper.findCurrentNumber();
-		log.info("\t > (2) current number = {} [ {} ]", secondCurrentNumber, Thread.currentThread().getName());
+		log.info("\t > [2] current number = {} [ {} ]", secondCurrentNumber, Thread.currentThread().getName());
 		
 		if (firstCurrentNumber != secondCurrentNumber) {
 			log.info("\t > NON-REPEATABLE READ");
@@ -128,7 +128,7 @@ public class TestTxIsoService {
 		//checkTrasnaction();
 		
 		Integer firstCurrentNumber = isoMapper.findCurrentNumber();
-		log.info("\t > (1) current number = {} [ {} ]", firstCurrentNumber, Thread.currentThread().getName());
+		log.info("\t > [1] current number = {} [ {} ]", firstCurrentNumber, Thread.currentThread().getName());
 		try {
 			log.info("\t > pause transaction ( Isolation.SERIALIZABLE )");
 			latchWaiting2 = true;
@@ -139,7 +139,7 @@ public class TestTxIsoService {
 		}
 		
 		Integer secondCurrentNumber = isoMapper.findCurrentNumber();
-		log.info("\t > (2) current number = {} [ {} ]", secondCurrentNumber, Thread.currentThread().getName());
+		log.info("\t > [2] current number = {} [ {} ]", secondCurrentNumber, Thread.currentThread().getName());
 		
 		if (firstCurrentNumber != secondCurrentNumber) {
 			log.info("\t > NON-REPEATABLE READ");
