@@ -263,6 +263,7 @@ public class ServletConfig implements WebMvcConfigurer {
 		processor.setValidator(validator);
 		processor.setProxyTargetClass(true);
 		//log.info("\t > isProxyTargetClass = {}", processor.isProxyTargetClass());
+		return processor;
 		
 		/* 
 		 * Spring internally uses a library that can generate class-based proxies, 
@@ -279,7 +280,6 @@ public class ServletConfig implements WebMvcConfigurer {
 		 * interface-based proxy generation and ensure that method-level validation works even 
 		 * in scenarios where interface proxies are not feasible.
 		 */
-		return processor;
 	}
 
 	/*

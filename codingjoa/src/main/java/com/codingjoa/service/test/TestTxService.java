@@ -193,9 +193,9 @@ public class TestTxService {
 		log.info("\t > syncs = {}", syncActive == true ? TransactionSynchronizationManager.getSynchronizations() : "no sync");
 	}
 
-	/*******************************************************************/
-	// invoke(), invokeNoTx(), invokeTx(), payment() 
-	/*******************************************************************/
+	/********************************************************/
+	/* invoke(), invokeNoTx(), invokeTx(), payment()		*/ 
+	/********************************************************/
 	
 	@Resource(name = "mainTransactionManager")
 	private PlatformTransactionManager mainTransactionManager;
@@ -316,10 +316,7 @@ public class TestTxService {
 		outerMapper.insert(testVo);
 	}
 	
-	/*
-	 * @@ isolation level
-	 */
-	
+	// @@ ISOLATION LEVEL
 	public List<Integer> findNumbers() {
 		return isoMapper.findNumbers();
 	}

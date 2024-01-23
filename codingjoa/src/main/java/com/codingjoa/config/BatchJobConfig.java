@@ -51,7 +51,7 @@ public class BatchJobConfig {
 	}
 	
 	/* 
-	 * https://jojoldu.tistory.com/330
+	 * @@ https://jojoldu.tistory.com/330
 	 * 
 	 * In Spring Batch, you can receive parameters from external or internal sources to use them across multiple Batch components. 
 	 * These parameters are called "Job Parameters", and to use job parameters, 
