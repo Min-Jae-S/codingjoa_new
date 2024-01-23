@@ -70,8 +70,8 @@ public class TestTxIsoService {
 	 *  	This typically occurs when data insertion takes place.
 	 */
 	
-	private CountDownLatch latchReadCommitted = new CountDownLatch(1);
-	private CountDownLatch latchSerializable = new CountDownLatch(1);
+	private final CountDownLatch latchReadCommitted = new CountDownLatch(1);
+	private final CountDownLatch latchSerializable = new CountDownLatch(1);
 	private boolean latchWaitingReadCommitted = false; 
 	private boolean latchWaitingSerializable = false; 
 
