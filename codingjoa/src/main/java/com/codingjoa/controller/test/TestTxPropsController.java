@@ -205,11 +205,7 @@ public class TestTxPropsController {
 		return ResponseEntity.ok("success");
 	}
 	
-	/*
-	 * @@ ISOLATION TEST
-	 * 	- DEFAULT, READ_COMMITTED, SERIALIZBLE
-	 */
-	
+	// @@ ISOLATION TEST
 	@GetMapping("/tx-props/isolation/numbers")
 	public ResponseEntity<Object> findNumbers() {
 		log.info("## findNumbers");
