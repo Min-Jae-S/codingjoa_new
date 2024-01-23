@@ -278,9 +278,7 @@ public class ServletConfig implements WebMvcConfigurer {
 		 * Therefore, by using setProxyTargetClass(true), you can overcome the limitations of
 		 * interface-based proxy generation and ensure that method-level validation works even 
 		 * in scenarios where interface proxies are not feasible.
-		 * 
 		 */
-		
 		return processor;
 	}
 
