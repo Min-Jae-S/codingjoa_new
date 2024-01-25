@@ -338,7 +338,7 @@ public class TestTxService {
 	
 	@Transactional
 	public void updateCurrentNumber() {
-		int num = 7777;
+		int num = 0;
 		int result = isoMapper.updateCurrentNumber(num);
 		if (result > 0) {
 			log.info("\t > updated current number = {}", num);
