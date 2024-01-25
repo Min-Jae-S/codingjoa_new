@@ -243,24 +243,24 @@ public class TestTxPropsController {
 		return ResponseEntity.ok("resumeSerializable success");
 	}
 	
-	@GetMapping("/tx-props/isolation/default")
+	@GetMapping("/tx-props/isolation/read-committed")
 	public ResponseEntity<Object> isolationTest1() {
 		log.info("## isolationTest1");
-		isoService.isoDefault();
-		return ResponseEntity.ok("ISOLATION.DEFAULT success");
-	}
-	
-	@GetMapping("/tx-props/isolation/read-committed")
-	public ResponseEntity<Object> isolationTest2() {
-		log.info("## isolationTest2");
 		isoService.isoReadCommitted();
-		return ResponseEntity.ok("ISOLATION.READCOMMITTED success");
+		return ResponseEntity.ok("readCommitted success");
 	}
 	
 	@GetMapping("/tx-props/isolation/serializable")
-	public ResponseEntity<Object> isolationTest3() { 
-		log.info("## isolationTest3");
+	public ResponseEntity<Object> isolationTest2() { 
+		log.info("## isolationTest2");
 		isoService.isoSerializable();
-		return ResponseEntity.ok("ISOLATION.SERIALIZABLE success");
+		return ResponseEntity.ok("serializable success");
+	}
+	
+	@GetMapping("/tx-props/isolation/default")
+	public ResponseEntity<Object> isolationTest3() {
+		log.info("## isolationTest3");
+		isoService.isoDefault();
+		return ResponseEntity.ok("default success");
 	}
 }

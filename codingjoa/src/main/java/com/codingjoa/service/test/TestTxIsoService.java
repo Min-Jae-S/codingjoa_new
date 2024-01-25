@@ -14,6 +14,7 @@ import com.codingjoa.mapper.test.TestIsoMapper;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@SuppressWarnings("unused")
 @Service
 public class TestTxIsoService {
 	
@@ -79,21 +80,18 @@ public class TestTxIsoService {
 	@Autowired
 	private TestIsoMapper isoMapper;
 	
-	@SuppressWarnings("unused")
 	@Autowired
 	private TestTxService txService;
 	
 	private void checkTrasnaction() {
-		log.info("\t > transaction = {}", TransactionSynchronizationManager.getCurrentTransactionName()); 			// @Nullable
-		log.info("\t > isolation = {}", TransactionSynchronizationManager.getCurrentTransactionIsolationLevel()); 	// @Nullable
+		log.info("\t > transaction = {}", TransactionSynchronizationManager.getCurrentTransactionName()); 				// @Nullable
+		log.info("\t > isolation level = {}", TransactionSynchronizationManager.getCurrentTransactionIsolationLevel()); // @Nullable
 	}
 	
 	@Transactional(isolation = Isolation.DEFAULT)
 	public void isoDefault() {
 		log.info("## Isolation.DEFAULT");
-		checkTrasnaction();
-		Integer currentNumber = isoMapper.findCurrentNumber();
-		log.info("\t > current number = {}", currentNumber);
+		//checkTrasnaction();
 	}
 	
 	@Transactional(isolation = Isolation.READ_COMMITTED)

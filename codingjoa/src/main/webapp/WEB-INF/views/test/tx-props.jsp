@@ -101,9 +101,9 @@
 	<div class="parent-div isolation d-none">
 		<p class="sub-p mt-4 pl-4 mb-4">- Isolation Level</p>
 		<div class="test d-flex justify-content-center mb-4">
-			<button class="btn btn-lg btn-primary mx-3" onclick="isolationTest2()">READ_COMMITTED</button>
-			<button class="btn btn-lg btn-primary mx-3" onclick="isolationTest3()">SERIALIZABLE</button>
-			<button class="btn btn-lg btn-primary mx-3" onclick="isolationTest1()">DEFAULT</button>
+			<button class="btn btn-lg btn-primary mx-3" onclick="isolationTest1()">READ_COMMITTED</button>
+			<button class="btn btn-lg btn-primary mx-3" onclick="isolationTest2()">SERIALIZABLE</button>
+			<button class="btn btn-lg btn-primary mx-3" onclick="isolationTest3()">DEFAULT</button>
 		</div>
 		<div class="test d-flex justify-content-center mb-4">
 			<button class="btn btn-lg btn-warning mx-3" onclick="findNumbers()">FIND NUMBERS</button>
@@ -523,39 +523,7 @@
 	}
 	
 	function isolationTest1() {
-		console.log("## isolationTest1");
-		$.ajax({
-			type : "GET",
-			url : "${contextPath}/test/tx-props/isolation/default",
-			success : function(result) {
-				console.log("%c> SUCCESS", "color:green");
-				console.log("> result = %s", result);
-			},
-			error : function(jqXHR) {
-				console.log("%c> ERROR", "color:red");
-				console.log(jqXHR.responseJSON);
-			}
-		});		
-	}
-	
-	function isolationTest1() {
-		console.log("## isolationTest1");
-		$.ajax({
-			type : "GET",
-			url : "${contextPath}/test/tx-props/isolation/default",
-			success : function(result) {
-				console.log("%c> SUCCESS", "color:green");
-				console.log("> result = %s", result);
-			},
-			error : function(jqXHR) {
-				console.log("%c> ERROR", "color:red");
-				console.log(jqXHR.responseJSON);
-			}
-		});		
-	}
-
-	function isolationTest2() {
-		console.log("## isolationTest2");
+		console.log("## isolationTest1 ( read-committed )");
 		$.ajax({
 			type : "GET",
 			url : "${contextPath}/test/tx-props/isolation/read-committed",
@@ -569,12 +537,28 @@
 			}
 		});		
 	}
-	
-	function isolationTest3() {
-		console.log("## isolationTest3");
+
+	function isolationTest2() {
+		console.log("## isolationTest2 ( serializable )");
 		$.ajax({
 			type : "GET",
 			url : "${contextPath}/test/tx-props/isolation/serializable",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log("> result = %s", result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(jqXHR.responseJSON);
+			}
+		});		
+	}
+	
+	function isolationTest3() {
+		console.log("## isolationTest3 ( default )");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/tx-props/isolation/default",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);
