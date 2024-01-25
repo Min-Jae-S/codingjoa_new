@@ -11,6 +11,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -212,6 +213,14 @@ public class TestTxPropsController {
 		log.info("\t > numbers = {}", numbers);
 		return ResponseEntity.ok(numbers);
 	}
+
+	@GetMapping("/tx-props/isolation/current-number")
+	public ResponseEntity<Object> findCurrentNumber() {
+		log.info("## findCurrentNumber");
+		Integer number = txService.findCurrentNumber();
+		log.info("\t > current number = {}", number);
+		return ResponseEntity.ok(number);
+	}
 	
 	@GetMapping("/tx-props/isolation/new")
 	public ResponseEntity<Object> insertRandomNumber() {
@@ -220,6 +229,15 @@ public class TestTxPropsController {
 		List<Integer> numbers = txService.findNumbers();
 		log.info("\t > numbers = {}", numbers);
 		return ResponseEntity.ok(numbers);
+	}
+	
+	@PostMapping("/tx-props/isolation/current-number")
+	public ResponseEntity<Object> updateCurrentNumber() {
+		log.info("## updateCurrentNumber");
+		txService.updateCurrentNumber();
+		Integer number = txService.findCurrentNumber();
+		log.info("\t > current number = {}", number);
+		return ResponseEntity.ok(number);
 	}
 	
 	@DeleteMapping("/tx-props/isolation/numbers")

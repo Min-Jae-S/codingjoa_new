@@ -100,17 +100,22 @@
 	</div>
 	<div class="parent-div isolation d-none">
 		<p class="sub-p mt-4 pl-4 mb-4">- Isolation Level</p>
-		<div class="test d-flex justify-content-center mb-4">
+		<div class="test d-flex justify-content-center mb-5">
 			<button class="btn btn-lg btn-primary mx-3" onclick="isolationTest1()">READ_COMMITTED</button>
 			<button class="btn btn-lg btn-primary mx-3" onclick="isolationTest2()">SERIALIZABLE</button>
 			<button class="btn btn-lg btn-primary mx-3" onclick="isolationTest3()">DEFAULT</button>
 		</div>
-		<div class="test d-flex justify-content-center mb-4">
+		<div class="test d-flex justify-content-center mb-2">
 			<button class="btn btn-lg btn-warning mx-3" onclick="findNumbers()">FIND NUMBERS</button>
+			<button class="btn btn-lg btn-warning mx-3" onclick="findCurrentNumber()">FIND CURRENT</button>
+			<button class="btn btn-lg btn-success mx-3 invisible" onclick="#">#</button>
+		</div>
+		<div class="test d-flex justify-content-center mb-5">
 			<button class="btn btn-lg btn-warning mx-3" onclick="insertRandomNumber()">INSERT NUMBER</button>
+			<button class="btn btn-lg btn-warning mx-3" onclick="updateCurrentNumber()">UPDATE CURRENT</button>
 			<button class="btn btn-lg btn-warning mx-3" onclick="removeNumbers()">DELETE NUMBERS</button>
 		</div>
-		<div class="test d-flex justify-content-center mb-4">
+		<div class="test d-flex justify-content-center mb-5">
 			<button class="btn btn-lg btn-success mx-3" onclick="resumeReadCommitted()">RESUME<br>READ_COMMITTED</button>
 			<button class="btn btn-lg btn-success mx-3" onclick="resumeSerializable()">RESUME<br>SERIALIZABLE</button>
 			<button class="btn btn-lg btn-success mx-3 invisible" onclick="#">#</button>
@@ -450,6 +455,26 @@
 		});		
 	}
 
+	function findCurrentNumber() {
+		console.log("## findCurrentNumber");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/tx-props/isolation/current-number",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				if (result == "") {
+					console.log("> result = no records");
+				} else {
+					console.log("> result = %s", result);
+				}
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(jqXHR.responseJSON);
+			}
+		});		
+	}
+
 	function insertRandomNumber() {
 		console.log("## insertRandomNumber");
 		$.ajax({
@@ -462,6 +487,21 @@
 				} else {
 					console.log("> result = %s", result);
 				}
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(jqXHR.responseJSON);
+			}
+		});		
+	}
+
+	function updateCurrentNumber() {
+		console.log("## updateCurrentNumber");
+		$.ajax({
+			type : "POST",
+			url : "${contextPath}/test/tx-props/isolation/current-number",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");

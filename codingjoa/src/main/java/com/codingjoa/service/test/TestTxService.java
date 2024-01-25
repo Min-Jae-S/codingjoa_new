@@ -320,12 +320,22 @@ public class TestTxService {
 	public List<Integer> findNumbers() {
 		return isoMapper.findNumbers();
 	}
+
+	public Integer findCurrentNumber() {
+		return isoMapper.findCurrentNumber();
+	}
 	
 	@Transactional
 	public void insertRandomNumber() {
 		int randomNumber = RandomUtils.nextInt(1, 999);
 		log.info("\t > insert random number = {}", randomNumber);
 		isoMapper.insertNumber(randomNumber);
+	}
+	
+	@Transactional
+	public void updateCurrentNumber() {
+		log.info("\t > update current number");
+		isoMapper.updateCurrentNumber(7777);
 	}
 	
 	public void deleteNumbers() {

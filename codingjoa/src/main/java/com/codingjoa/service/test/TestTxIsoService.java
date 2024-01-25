@@ -96,14 +96,15 @@ public class TestTxIsoService {
 	
 	@Transactional(isolation = Isolation.READ_COMMITTED)
 	public void isoReadCommitted() {
-		log.info("## Isolation.READ_COMMITTED");
+		log.info("## Isolation.READ_COMMITTED [ {} ]", Thread.currentThread().getName());
 		//checkTrasnaction();
 		
-		List<Integer> firstNumbers = isoMapper.findNumbers();
-		log.info("\t > 1. numbers = {} [ {} ]", firstNumbers, Thread.currentThread().getName());
+		// first data read within the transaction
+		Integer initialNumber = isoMapper.findCurrentNumber();
+		log.info("\t > initial number = {}", initialNumber);
 		
 		try {
-			log.info("\t > pause transaction ( Isolation.READ_COMMITTED )");
+			log.info("\t > pause transaction");
 			latchWaitingReadCommitted = true;
 			latchReadCommitted = new CountDownLatch(1);
 			latchReadCommitted.await();
@@ -112,8 +113,9 @@ public class TestTxIsoService {
 			Thread.currentThread().interrupt();
 		}
 		
-		List<Integer> secondNumbers = isoMapper.findNumbers();
-		log.info("\t > 2. numbers = {} [ {} ]", secondNumbers, Thread.currentThread().getName());
+		// second data read within the same transaction
+		Integer updatedNumber = isoMapper.findCurrentNumber();
+		log.info("\t > updated number = {}", updatedNumber);
 	}
 
 	@Transactional(isolation = Isolation.SERIALIZABLE)
@@ -121,11 +123,11 @@ public class TestTxIsoService {
 		log.info("## Isolation.SERIALIZABLE");
 		//checkTrasnaction();
 		
-		List<Integer> firstNumbers = isoMapper.findNumbers();
-		log.info("\t > 1. numbers = {} [ {} ]", firstNumbers, Thread.currentThread().getName());
+		List<Integer> initialNumbers = isoMapper.findNumbers();
+		log.info("\t > initial numbers = {}", initialNumbers);
 		
 		try {
-			log.info("\t > pause transaction ( Isolation.SERIALIZABLE )");
+			log.info("\t > pause transaction  [ {} ]", Thread.currentThread().getName());
 			latchWaitingSerializable = true;
 			latchSerializable = new CountDownLatch(1);
 			latchSerializable.await();
@@ -134,15 +136,15 @@ public class TestTxIsoService {
 			Thread.currentThread().interrupt();
 		}
 		
-		List<Integer> secondNumbers = isoMapper.findNumbers();
-		log.info("\t > 2. numbers = {} [ {} ]", secondNumbers, Thread.currentThread().getName());
+		List<Integer> updatedNumbers = isoMapper.findNumbers();
+		log.info("\t > updated numbers = {}", updatedNumbers);
 	}
 	
 	public void resumeReadCommitted() {
 		log.info("==========================================================================================");
-		log.info("## resumeReadCommitted");
+		log.info("## resumeReadCommitted [ {} ]", Thread.currentThread().getName());
 		if (latchWaitingReadCommitted) {
-			log.info("\t > resume transaction ( Isolation.READ_COMMITTED ) [ {} ]", Thread.currentThread().getName());
+			log.info("\t > resume transaction");
 			latchWaitingReadCommitted = false;
 			latchReadCommitted.countDown();
 		} else {
@@ -153,9 +155,9 @@ public class TestTxIsoService {
 	
 	public void resumeSerializable() {
 		log.info("==========================================================================================");
-		log.info("## resumeSerializable");
+		log.info("## resumeSerializable [ {} ]", Thread.currentThread().getName());
 		if (latchWaitingSerializable) {
-			log.info("\t > resume transaction ( Isolation.SERIALIZABLE ) [ {} ]", Thread.currentThread().getName());
+			log.info("\t > resume transaction");
 			latchWaitingSerializable = false;
 			latchSerializable.countDown();
 		} else {

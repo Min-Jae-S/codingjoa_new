@@ -33,6 +33,17 @@
 		)
 	</insert>
 	
+	<update id="updateCurrentNumber" parameterType="int">
+		UPDATE
+			test3
+		SET
+			num = #{num}
+		WHERE
+			rownum = 1
+		ORDER BY 
+			idx DESC
+	</update>
+	
 	<delete id="deleteNumbers">
 		DELETE FROM test3
 	</delete>
