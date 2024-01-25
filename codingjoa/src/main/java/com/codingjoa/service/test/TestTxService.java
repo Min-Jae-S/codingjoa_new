@@ -321,6 +321,7 @@ public class TestTxService {
 		return isoMapper.findNumbers();
 	}
 	
+	@Transactional
 	public void insertRandomNumber() {
 		int randomNumber = RandomUtils.nextInt(1, 999);
 		log.info("\t > insert random number = {}", randomNumber);

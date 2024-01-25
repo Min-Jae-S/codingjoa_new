@@ -71,8 +71,8 @@ public class TestTxIsoService {
 	 *  	This typically occurs when data insertion takes place.
 	 */
 	
-	private CountDownLatch latchReadCommitted = new CountDownLatch(1);
-	private CountDownLatch latchSerializable = new CountDownLatch(1);
+	private CountDownLatch latchReadCommitted;
+	private CountDownLatch latchSerializable;
 	private boolean latchWaitingReadCommitted = false; 
 	private boolean latchWaitingSerializable = false; 
 
@@ -102,10 +102,12 @@ public class TestTxIsoService {
 		//checkTrasnaction();
 		
 		List<Integer> firstNumbers = isoMapper.findNumbers();
-		log.info("\t > 1. numbers = {}", firstNumbers, Thread.currentThread().getName());
+		log.info("\t > 1. numbers = {} [ {} ]", firstNumbers, Thread.currentThread().getName());
+		
 		try {
 			log.info("\t > pause transaction ( Isolation.READ_COMMITTED )");
 			latchWaitingReadCommitted = true;
+			latchReadCommitted = new CountDownLatch(1);
 			latchReadCommitted.await();
 		} catch (InterruptedException e) {
 			log.info("\t > {}", e.getClass().getSimpleName());
@@ -123,9 +125,11 @@ public class TestTxIsoService {
 		
 		List<Integer> firstNumbers = isoMapper.findNumbers();
 		log.info("\t > 1. numbers = {} [ {} ]", firstNumbers, Thread.currentThread().getName());
+		
 		try {
 			log.info("\t > pause transaction ( Isolation.SERIALIZABLE )");
 			latchWaitingSerializable = true;
+			latchSerializable = new CountDownLatch(1);
 			latchSerializable.await();
 		} catch (InterruptedException e) {
 			log.info("\t > {}", e.getClass().getSimpleName());
@@ -139,13 +143,12 @@ public class TestTxIsoService {
 	public void resumeReadCommitted() {
 		log.info("==========================================================================================");
 		log.info("## resumeReadCommitted");
-		log.info("\t > resume transaction ( Isolation.READ_COMMITTED ) [ {} ]", Thread.currentThread().getName());
 		if (latchWaitingReadCommitted) {
-			//txService.insertRandomNumber();
-			latchReadCommitted.countDown();
+			log.info("\t > resume transaction ( Isolation.READ_COMMITTED ) [ {} ]", Thread.currentThread().getName());
 			latchWaitingReadCommitted = false;
+			latchReadCommitted.countDown();
 		} else {
-			log.info("\t > latchReadCommitted is not awaiting");
+			log.info("\t > readCommitted latch is not awaiting");
 		}
 		log.info("==========================================================================================");
 	}
@@ -153,13 +156,12 @@ public class TestTxIsoService {
 	public void resumeSerializable() {
 		log.info("==========================================================================================");
 		log.info("## resumeSerializable");
-		log.info("\t > resume transaction ( Isolation.SERIALIZABLE ) [ {} ]", Thread.currentThread().getName());
 		if (latchWaitingSerializable) {
-			//txService.insertRandomNumber();
-			latchSerializable.countDown();
+			log.info("\t > resume transaction ( Isolation.SERIALIZABLE ) [ {} ]", Thread.currentThread().getName());
 			latchWaitingSerializable = false;
+			latchSerializable.countDown();
 		} else {
-			log.info("\t > latchSerializable is not awaiting");
+			log.info("\t > serializable latch is not awaiting");
 		}
 		log.info("==========================================================================================");
 	}
