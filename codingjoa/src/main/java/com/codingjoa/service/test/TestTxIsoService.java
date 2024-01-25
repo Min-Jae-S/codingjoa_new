@@ -100,7 +100,7 @@ public class TestTxIsoService {
 		//checkTrasnaction();
 		
 		Integer firstCurrentNumber = isoMapper.findCurrentNumber();
-		log.info("\t > [1] current number = {} [ {} ]", firstCurrentNumber, Thread.currentThread().getName());
+		log.info("\t > 1. current number = {} [ {} ]", firstCurrentNumber, Thread.currentThread().getName());
 		try {
 			log.info("\t > pause transaction ( Isolation.SERIALIZABLE )");
 			latchWaitingReadCommitted = true;
@@ -111,7 +111,7 @@ public class TestTxIsoService {
 		}
 		
 		Integer secondCurrentNumber = isoMapper.findCurrentNumber();
-		log.info("\t > [2] current number = {} [ {} ]", secondCurrentNumber, Thread.currentThread().getName());
+		log.info("\t > 2. current number = {} [ {} ]", secondCurrentNumber, Thread.currentThread().getName());
 		
 		if (firstCurrentNumber != secondCurrentNumber) {
 			log.info("\t > NON-REPEATABLE READ");
@@ -126,7 +126,7 @@ public class TestTxIsoService {
 		//checkTrasnaction();
 		
 		Integer firstCurrentNumber = isoMapper.findCurrentNumber();
-		log.info("\t > [1] current number = {} [ {} ]", firstCurrentNumber, Thread.currentThread().getName());
+		log.info("\t > 1. current number = {} [ {} ]", firstCurrentNumber, Thread.currentThread().getName());
 		try {
 			log.info("\t > pause transaction ( Isolation.SERIALIZABLE )");
 			latchWaitingSerializable = true;
@@ -137,7 +137,7 @@ public class TestTxIsoService {
 		}
 		
 		Integer secondCurrentNumber = isoMapper.findCurrentNumber();
-		log.info("\t > [2] current number = {} [ {} ]", secondCurrentNumber, Thread.currentThread().getName());
+		log.info("\t > 2. current number = {} [ {} ]", secondCurrentNumber, Thread.currentThread().getName());
 		
 		if (firstCurrentNumber != secondCurrentNumber) {
 			log.info("\t > NON-REPEATABLE READ");

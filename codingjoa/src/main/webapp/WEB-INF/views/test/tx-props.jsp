@@ -106,9 +106,9 @@
 			<button class="btn btn-lg btn-primary mx-3" onclick="isolationTest1()">DEFAULT</button>
 		</div>
 		<div class="test d-flex justify-content-center mb-4">
-			<button class="btn btn-lg btn-warning mx-3" onclick="findNumbers()">NUMBERS</button>
-			<button class="btn btn-lg btn-warning mx-3" onclick="insertRandomNumber()">INSERT NEW</button>
-			<button class="btn btn-lg btn-warning mx-3" onclick="removeNumbers()">DELETE ALL</button>
+			<button class="btn btn-lg btn-warning mx-3" onclick="findNumbers()">FIND NUMBERS</button>
+			<button class="btn btn-lg btn-warning mx-3" onclick="insertRandomNumber()">INSERT NUMBER</button>
+			<button class="btn btn-lg btn-warning mx-3" onclick="removeNumbers()">DELETE NUMBERS</button>
 		</div>
 		<div class="test d-flex justify-content-center mb-4">
 			<button class="btn btn-lg btn-success mx-3" onclick="resumeReadCommitted()">RESUME<br>READ_COMMITTED</button>

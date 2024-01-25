@@ -217,46 +217,46 @@ public class TestTxPropsController {
 	public ResponseEntity<Object> insertRandomNumber() {
 		log.info("## insertRandomNumber");
 		txService.insertRandomNumber();
-		return ResponseEntity.ok("success");
+		return ResponseEntity.ok("insertRandomNumber success");
 	}
 	
 	@DeleteMapping("/tx-props/isolation/numbers")
 	public ResponseEntity<Object> deleteNumbers() {
 		log.info("## deleteNumbers");
 		txService.deleteNumbers();
-		return ResponseEntity.ok("success");
+		return ResponseEntity.ok("deleteNumbers success");
 	}
 	
 	@GetMapping("/tx-props/isolation/resume/read-committed")
 	public ResponseEntity<Object> resumeReadCommitted() {
 		isoService.resumeReadCommitted();
-		return ResponseEntity.ok("success");
+		return ResponseEntity.ok("resumeReadCommitted success");
 	}
 	
 	@GetMapping("/tx-props/isolation/resume/serializable")
 	public ResponseEntity<Object> resumeSerializable() {
 		isoService.resumeSerializable();
-		return ResponseEntity.ok("success");
+		return ResponseEntity.ok("resumeSerializable success");
 	}
 	
 	@GetMapping("/tx-props/isolation/default")
 	public ResponseEntity<Object> isolationTest1() {
 		log.info("## isolationTest1");
 		isoService.isoDefault();
-		return ResponseEntity.ok("success");
+		return ResponseEntity.ok("ISOLATION.DEFAULT success");
 	}
 	
 	@GetMapping("/tx-props/isolation/read-committed")
 	public ResponseEntity<Object> isolationTest2() {
 		log.info("## isolationTest2");
 		isoService.isoReadCommitted();
-		return ResponseEntity.ok("success");
+		return ResponseEntity.ok("ISOLATION.READCOMMITTED success");
 	}
 	
 	@GetMapping("/tx-props/isolation/serializable")
 	public ResponseEntity<Object> isolationTest3() { 
 		log.info("## isolationTest3");
 		isoService.isoSerializable();
-		return ResponseEntity.ok("success");
+		return ResponseEntity.ok("ISOLATION.SERIALIZABLE success");
 	}
 }
