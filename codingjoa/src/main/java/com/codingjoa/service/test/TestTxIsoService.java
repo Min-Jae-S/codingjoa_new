@@ -1,5 +1,6 @@
 package com.codingjoa.service.test;
 
+import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -99,8 +100,8 @@ public class TestTxIsoService {
 		log.info("## Isolation.READ_COMMITTED");
 		//checkTrasnaction();
 		
-		Integer firstCurrentNumber = isoMapper.findCurrentNumber();
-		log.info("\t > 1. current number = {} [ {} ]", firstCurrentNumber, Thread.currentThread().getName());
+		List<Integer> firstNumbers = isoMapper.findNumbers();
+		log.info("\t > 1. numbers = {}", firstNumbers, Thread.currentThread().getName());
 		try {
 			log.info("\t > pause transaction ( Isolation.SERIALIZABLE )");
 			latchWaitingReadCommitted = true;
@@ -110,14 +111,8 @@ public class TestTxIsoService {
 			Thread.currentThread().interrupt();
 		}
 		
-		Integer secondCurrentNumber = isoMapper.findCurrentNumber();
-		log.info("\t > 2. current number = {} [ {} ]", secondCurrentNumber, Thread.currentThread().getName());
-		
-		if (firstCurrentNumber != secondCurrentNumber) {
-			log.info("\t > NON-REPEATABLE READ");
-		} else {
-			log.info("\t > REPEATABLE READ");
-		}
+		List<Integer> secondNumbers = isoMapper.findNumbers();
+		log.info("\t > 2. numbers = {} [ {} ]", secondNumbers, Thread.currentThread().getName());
 	}
 
 	@Transactional(isolation = Isolation.SERIALIZABLE)
@@ -125,8 +120,8 @@ public class TestTxIsoService {
 		log.info("## Isolation.SERIALIZABLE");
 		//checkTrasnaction();
 		
-		Integer firstCurrentNumber = isoMapper.findCurrentNumber();
-		log.info("\t > 1. current number = {} [ {} ]", firstCurrentNumber, Thread.currentThread().getName());
+		List<Integer> firstNumbers = isoMapper.findNumbers();
+		log.info("\t > 1. numbers = {}", firstNumbers, Thread.currentThread().getName());
 		try {
 			log.info("\t > pause transaction ( Isolation.SERIALIZABLE )");
 			latchWaitingSerializable = true;
@@ -136,14 +131,8 @@ public class TestTxIsoService {
 			Thread.currentThread().interrupt();
 		}
 		
-		Integer secondCurrentNumber = isoMapper.findCurrentNumber();
-		log.info("\t > 2. current number = {} [ {} ]", secondCurrentNumber, Thread.currentThread().getName());
-		
-		if (firstCurrentNumber != secondCurrentNumber) {
-			log.info("\t > NON-REPEATABLE READ");
-		} else {
-			log.info("\t > REPEATABLE READ");
-		}
+		List<Integer> secondNumbers = isoMapper.findNumbers();
+		log.info("\t > 2. numbers = {} [ {} ]", secondNumbers, Thread.currentThread().getName());
 	}
 	
 	public void resumeReadCommitted() {
