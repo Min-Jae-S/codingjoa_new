@@ -463,7 +463,7 @@
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				if (result == "") {
-					console.log("> result = no records");
+					console.log("> result = no record");
 				} else {
 					console.log("> result = %s", result);
 				}

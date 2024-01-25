@@ -3,12 +3,14 @@
 <mapper namespace="com.codingjoa.mapper.test.TestIsoMapper">
 <!-- 
     idx         NUMBER,
-    num         NUMBER,         UNIQUE  NOT NULL,
-    regdate     DATE                    NOT NULL,
+    num         NUMBER,			NOT NULL,
 -->
 
 	<select id="findCurrentNumber" resultType="int">
-		SELECT 
+		SELECT num
+		FROM test3
+		WHERE idx = ( SELECT MAX(idx) FROM test3 )
+		<!-- SELECT 
 			num 
 		FROM (
 			SELECT *
@@ -16,11 +18,13 @@
 			ORDER BY idx DESC
 		)
 		WHERE
-			rownum = 1
+			rownum = 1 -->
 	</select>
 	
 	<select id="findNumbers" resultType="int">
-		SELECT num FROM test3 ORDER BY idx DESC
+		SELECT num 
+		FROM test3 
+		ORDER BY idx DESC
 	</select>
 	
 	<insert id="insertNumber" parameterType="int">
@@ -34,14 +38,9 @@
 	</insert>
 	
 	<update id="updateCurrentNumber" parameterType="int">
-		UPDATE
-			test3
-		SET
-			num = #{num}
-		WHERE
-			rownum = 1
-		ORDER BY 
-			idx DESC
+		UPDATE test3
+		SET num = #{num}
+		WHERE idx = ( SELECT MAX(idx) FROM test3 )
 	</update>
 	
 	<delete id="deleteNumbers">

@@ -11,9 +11,9 @@ public interface TestIsoMapper {
 	
 	List<Integer> findNumbers();
 	
-	void insertNumber(int num);
+	int insertNumber(int num);
 	
-	void updateCurrentNumber(int num);
+	int updateCurrentNumber(int num);
 	
 	void deleteNumbers();
 	

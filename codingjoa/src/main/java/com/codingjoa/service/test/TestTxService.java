@@ -328,14 +328,23 @@ public class TestTxService {
 	@Transactional
 	public void insertRandomNumber() {
 		int randomNumber = RandomUtils.nextInt(1, 999);
-		log.info("\t > insert random number = {}", randomNumber);
-		isoMapper.insertNumber(randomNumber);
+		int result = isoMapper.insertNumber(randomNumber);
+		if (result > 0) {
+			log.info("\t > insert random number = {}", randomNumber);
+		} else {
+			log.info("\t > insert fail");
+		}
 	}
 	
 	@Transactional
 	public void updateCurrentNumber() {
-		log.info("\t > update current number");
-		isoMapper.updateCurrentNumber(7777);
+		int num = 7777;
+		int result = isoMapper.updateCurrentNumber(num);
+		if (result > 0) {
+			log.info("\t > update current number = {}", num);
+		} else {
+			log.info("\t > update fail");
+		}
 	}
 	
 	public void deleteNumbers() {
