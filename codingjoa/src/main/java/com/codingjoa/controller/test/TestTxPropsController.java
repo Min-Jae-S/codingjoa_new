@@ -210,7 +210,11 @@ public class TestTxPropsController {
 	public ResponseEntity<Object> findNumbers() {
 		log.info("## findNumbers");
 		List<Integer> numbers = txService.findNumbers();
-		log.info("\t > numbers = {}", numbers);
+		if (numbers.size() > 0) {
+			log.info("\t > numbers = {}", numbers);
+		} else {
+			log.info("\t > no numbers");
+		}
 		return ResponseEntity.ok(numbers);
 	}
 
@@ -218,7 +222,11 @@ public class TestTxPropsController {
 	public ResponseEntity<Object> findCurrentNumber() {
 		log.info("## findCurrentNumber");
 		Integer number = txService.findCurrentNumber();
-		log.info("\t > current number = {}", number);
+		if (number != null) {
+			log.info("\t > current number = {}", number);
+		} else {
+			log.info("\t > no current number");
+		}
 		return ResponseEntity.ok(number);
 	}
 	
@@ -227,7 +235,11 @@ public class TestTxPropsController {
 		log.info("## insertRandomNumber");
 		txService.insertRandomNumber();
 		List<Integer> numbers = txService.findNumbers();
-		log.info("\t > numbers = {}", numbers);
+		if (numbers.size() > 0) {
+			log.info("\t > numbers = {}", numbers);
+		} else {
+			log.info("\t > no numbers");
+		}
 		return ResponseEntity.ok(numbers);
 	}
 	
@@ -236,7 +248,11 @@ public class TestTxPropsController {
 		log.info("## updateCurrentNumber");
 		txService.updateCurrentNumber();
 		Integer number = txService.findCurrentNumber();
-		log.info("\t > current number = {}", number);
+		if (number != null) {
+			log.info("\t > current number = {}", number);
+		} else {
+			log.info("\t > no current number");
+		}
 		return ResponseEntity.ok(number);
 	}
 	
@@ -245,7 +261,11 @@ public class TestTxPropsController {
 		log.info("## deleteNumbers");
 		txService.deleteNumbers();
 		List<Integer> numbers = txService.findNumbers();
-		log.info("\t > numbers = {}", numbers);
+		if (numbers.size() > 0) {
+			log.info("\t > numbers = {}", numbers);
+		} else {
+			log.info("\t > no numbers");
+		}
 		return ResponseEntity.ok(numbers);
 	}
 	
