@@ -478,7 +478,7 @@
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				if (result == "") {
-					console.log("> result = clearly deleted records");
+					console.log("> result = deleted records clearly");
 				} else {
 					console.log("> result = records still remain");
 				}
