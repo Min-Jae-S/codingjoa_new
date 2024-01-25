@@ -348,8 +348,7 @@ public class TestTxService {
 	}
 	
 	public void deleteNumbers() {
-		log.info("\t > delete all numbers");
 		isoMapper.deleteNumbers();
+		log.info("\t > deleted all numbers");
 	}
-	
 }

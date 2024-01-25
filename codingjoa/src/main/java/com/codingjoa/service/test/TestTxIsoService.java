@@ -99,9 +99,9 @@ public class TestTxIsoService {
 		log.info("## Isolation.READ_COMMITTED [ {} ]", Thread.currentThread().getName());
 		//checkTrasnaction();
 		
-		// first data read within the transaction
-		Integer initialNumber = isoMapper.findCurrentNumber();
-		log.info("\t > initial number = {}", initialNumber);
+		// first current number read within the transaction
+		Integer initialCurrentNumber = isoMapper.findCurrentNumber();
+		log.info("\t > initial current number = {}", initialCurrentNumber);
 		
 		try {
 			log.info("\t > pause transaction");
@@ -113,9 +113,9 @@ public class TestTxIsoService {
 			Thread.currentThread().interrupt();
 		}
 		
-		// second data read within the same transaction
-		Integer updatedNumber = isoMapper.findCurrentNumber();
-		log.info("\t > updated number = {}", updatedNumber);
+		// second current number read within the same transaction
+		Integer updatedCurrentNumber = isoMapper.findCurrentNumber();
+		log.info("\t > updated current number = {}", updatedCurrentNumber);
 	}
 
 	@Transactional(isolation = Isolation.SERIALIZABLE)
@@ -123,8 +123,8 @@ public class TestTxIsoService {
 		log.info("## Isolation.SERIALIZABLE");
 		//checkTrasnaction();
 		
-		List<Integer> initialNumbers = isoMapper.findNumbers();
-		log.info("\t > initial numbers = {}", initialNumbers);
+		Integer initialCurrentNumber = isoMapper.findCurrentNumber();
+		log.info("\t > initial current number = {}", initialCurrentNumber);
 		
 		try {
 			log.info("\t > pause transaction  [ {} ]", Thread.currentThread().getName());
@@ -136,8 +136,8 @@ public class TestTxIsoService {
 			Thread.currentThread().interrupt();
 		}
 		
-		List<Integer> updatedNumbers = isoMapper.findNumbers();
-		log.info("\t > updated numbers = {}", updatedNumbers);
+		Integer updatedCurrentNumber = isoMapper.findCurrentNumber();
+		log.info("\t > updated current number = {}", updatedCurrentNumber);
 	}
 	
 	public void resumeReadCommitted() {
