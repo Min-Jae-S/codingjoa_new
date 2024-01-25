@@ -79,6 +79,7 @@ public class TestTxIsoService {
 	@Autowired
 	private TestIsoMapper isoMapper;
 	
+	@SuppressWarnings("unused")
 	@Autowired
 	private TestTxService txService;
 	
@@ -139,7 +140,7 @@ public class TestTxIsoService {
 		log.info("================================================================");
 		log.info("## resumeReadCommitted [ {} ]", Thread.currentThread().getName());
 		if (latchWaitingReadCommitted) {
-			txService.insertRandomNumber();
+			//txService.insertRandomNumber();
 			latchReadCommitted.countDown();
 			latchWaitingReadCommitted = false;
 		} else {
@@ -152,7 +153,7 @@ public class TestTxIsoService {
 		log.info("================================================================");
 		log.info("## resumeSerializable [ {} ]", Thread.currentThread().getName());
 		if (latchWaitingSerializable) {
-			txService.insertRandomNumber();
+			//txService.insertRandomNumber();
 			latchSerializable.countDown();
 			latchWaitingSerializable = false;
 		} else {
