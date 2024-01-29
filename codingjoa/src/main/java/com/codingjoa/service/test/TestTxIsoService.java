@@ -101,7 +101,6 @@ public class TestTxIsoService {
 		// first current number read within the transaction
 		Integer initialCurrentNumber = isoMapper.findCurrentNumber();
 		log.info("\t > initial current number = {}", initialCurrentNumber);
-		
 		try {
 			log.info("\t > pause transaction");
 			latchWaitingReadCommitted = true;
@@ -124,7 +123,6 @@ public class TestTxIsoService {
 		
 		Integer initialCurrentNumber = isoMapper.findCurrentNumber();
 		log.info("\t > initial current number = {}", initialCurrentNumber);
-		
 		try {
 			log.info("\t > pause transaction  [ {} ]", Thread.currentThread().getName());
 			latchWaitingSerializable = true;
