@@ -22,25 +22,19 @@
 	</select>
 	
 	<select id="findNumbers" resultType="int">
-		SELECT num 
-		FROM test3 
-		ORDER BY idx DESC
+		SELECT num FROM test3 ORDER BY idx DESC
 	</select>
 	
 	<insert id="insertNumber" parameterType="int">
-		INSERT INTO test3 (
-			idx,
-			num
-		) VALUES (
-			seq_test3.NEXTVAL,
-			#{num}
-		)
+		INSERT INTO test3 (idx, num) 
+		VALUES (seq_test3.NEXTVAL, #{num})
 	</insert>
 	
 	<update id="updateCurrentNumber" parameterType="int">
 		UPDATE test3
 		SET num = #{num}
-		WHERE idx = ( SELECT MAX(idx) FROM test3 )
+		WHERE idx = ( SELECT MAX(idx) 
+						FROM test3 )
 	</update>
 	
 	<delete id="deleteNumbers">
