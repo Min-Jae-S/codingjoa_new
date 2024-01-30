@@ -442,10 +442,10 @@
 			url : "${contextPath}/test/tx-props/isolation/numbers",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
-				if (result == "") {
-					console.log("> result = no records");
-				} else {
+				if (result.length > 0) {
 					console.log("> result = %s", result);
+				} else {
+					console.log("> result = no records");
 				}
 			},
 			error : function(jqXHR) {
@@ -462,7 +462,7 @@
 			url : "${contextPath}/test/tx-props/isolation/current-number",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
-				if (result == "") {
+				if (result === "") {
 					console.log("> result = no record");
 				} else {
 					console.log("> result = %s", result);
@@ -482,7 +482,7 @@
 			url : "${contextPath}/test/tx-props/isolation/new",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
-				if (result == "") {
+				if (result === "") {
 					console.log("> result = no records");
 				} else {
 					console.log("> result = %s", result);
@@ -517,10 +517,10 @@
 			url : "${contextPath}/test/tx-props/isolation/numbers",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
-				if (result == "") {
-					console.log("> result = deleted records clearly");
-				} else {
+				if (result.length > 0) {
 					console.log("> result = records still remain");
+				} else {
+					console.log("> result = deleted records clearly");
 				}
 			},
 			error : function(jqXHR) {
