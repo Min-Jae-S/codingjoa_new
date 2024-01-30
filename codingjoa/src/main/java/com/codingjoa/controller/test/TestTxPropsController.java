@@ -272,33 +272,33 @@ public class TestTxPropsController {
 	@GetMapping("/tx-props/isolation/resume/read-committed")
 	public ResponseEntity<Object> resumeReadCommitted() {
 		isoService.resumeReadCommitted();
-		return ResponseEntity.ok("resumeReadCommitted success");
+		return ResponseEntity.ok("RESUME READ_COMMITTED success");
 	}
 	
 	@GetMapping("/tx-props/isolation/resume/serializable")
 	public ResponseEntity<Object> resumeSerializable() {
 		isoService.resumeSerializable();
-		return ResponseEntity.ok("resumeSerializable success");
+		return ResponseEntity.ok("RESUME SERIALIZABLE success");
 	}
 	
 	@GetMapping("/tx-props/isolation/read-committed")
 	public ResponseEntity<Object> isolationTest1() {
 		log.info("## isolationTest1");
 		isoService.isoReadCommitted();
-		return ResponseEntity.ok("readCommitted success");
+		return ResponseEntity.ok("READ_COMMITTED success");
 	}
 	
 	@GetMapping("/tx-props/isolation/serializable")
 	public ResponseEntity<Object> isolationTest2() { 
 		log.info("## isolationTest2");
 		isoService.isoSerializable();
-		return ResponseEntity.ok("serializable success");
+		return ResponseEntity.ok("SERIALIZABLE success");
 	}
 	
 	@GetMapping("/tx-props/isolation/default")
 	public ResponseEntity<Object> isolationTest3() {
 		log.info("## isolationTest3");
 		isoService.isoDefault();
-		return ResponseEntity.ok("default success");
+		return ResponseEntity.ok("DEFAULT success");
 	}
 }
