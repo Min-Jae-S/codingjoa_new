@@ -37,6 +37,11 @@
 	div.test button {
 		width: 230px;
 	}
+	
+	.resume-read-committed,
+	.resume-serialziable {
+		font-size: 0.85rem;
+	}
 </style>
 </head>
 <body>
@@ -116,9 +121,25 @@
 			<button class="btn btn-lg btn-warning mx-3" onclick="removeNumbers()">DELETE NUMBERS</button>
 		</div>
 		<div class="test d-flex justify-content-center mb-5">
-			<button class="btn btn-lg btn-success mx-3" onclick="resumeReadCommitted()">RESUME<br>READ_COMMITTED</button>
-			<button class="btn btn-lg btn-success mx-3" onclick="resumeSerializable()">RESUME<br>SERIALIZABLE</button>
-			<button class="btn btn-lg btn-success mx-3 invisible" onclick="#">#</button>
+			<div class="d-flex flex-column">
+				<button class="btn btn-lg btn-success mx-3 mb-2" onclick="resumeReadCommitted()">RESUME<br>READ_COMMITTED</button>
+				<div class="resume-read-committed px-3 d-flex justify-content-between">
+					<div class="form-check form-check-inline mr-0">
+					  <input class="form-check-input" type="radio" name="resumeReadCommittedRadioOptions" value="U">
+					  <label class="form-check-label" for="inlineRadio1">NON-REPEATABLE</label>
+					</div>
+					<div class="form-check form-check-inline mr-0">
+					  <input class="form-check-input" type="radio" name="resumeReadCommittedRadioOptions" value="I">
+					  <label class="form-check-label" for="inlineRadio2">PHANTOM</label>
+					</div>
+				</div>
+			</div>
+			<div class="d-flex flex-column">
+				<button class="btn btn-lg btn-success mx-3" onclick="resumeSerializable()">RESUME<br>SERIALIZABLE</button>
+			</div>
+			<div class="d-flex flex-column">
+				<button class="btn btn-lg btn-success mx-3 invisible" onclick="#">#</button>
+			</div>
 		</div>
 	</div>
 	<div class="parent-div time-out-read-only d-none">
@@ -532,9 +553,10 @@
 	
 	function resumeReadCommitted() {
 		console.log("## resumeReadCommitted");
+		let option = $("input:radio[name='resumeReadCommittedRadioOptions']:checked").val();
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/tx-props/isolation/resume/read-committed",
+			url : "${contextPath}/test/tx-props/isolation/resume/read-committed/" + option,
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);

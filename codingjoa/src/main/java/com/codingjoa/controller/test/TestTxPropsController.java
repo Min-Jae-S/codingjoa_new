@@ -269,9 +269,10 @@ public class TestTxPropsController {
 		return ResponseEntity.ok(numbers);
 	}
 	
-	@GetMapping("/tx-props/isolation/resume/read-committed")
-	public ResponseEntity<Object> resumeReadCommitted() {
-		isoService.resumeReadCommitted();
+	@GetMapping("/tx-props/isolation/resume/read-committed/{option}")
+	public ResponseEntity<Object> resumeReadCommitted(@PathVariable String option) {
+		log.info("\t > option = {}", option);
+		isoService.resumeReadCommitted(option);
 		return ResponseEntity.ok("RESUME READ_COMMITTED success");
 	}
 	

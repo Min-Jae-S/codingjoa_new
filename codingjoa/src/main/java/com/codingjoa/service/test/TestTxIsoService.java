@@ -113,7 +113,7 @@ public class TestTxIsoService {
 		
 		// second current number read within the same transaction
 		Integer updatedCurrentNumber = isoMapper.findCurrentNumber();
-		log.info("\t > updated current number = {}", updatedCurrentNumber);
+		log.info("\t > next current number = {}", updatedCurrentNumber);
 	}
 
 	@Transactional(isolation = Isolation.SERIALIZABLE)
@@ -134,14 +134,18 @@ public class TestTxIsoService {
 		}
 		
 		Integer updatedCurrentNumber = isoMapper.findCurrentNumber();
-		log.info("\t > updated current number = {}", updatedCurrentNumber);
+		log.info("\t > next current number = {}", updatedCurrentNumber);
 	}
 	
-	public void resumeReadCommitted() {
+	public void resumeReadCommitted(String option) {
 		log.info("==========================================================================================");
 		log.info("## resumeReadCommitted [ {} ]", Thread.currentThread().getName());
 		if (latchWaitingReadCommitted) {
-			txService.updateCurrentNumber();
+			if (option == "U") {
+				txService.updateCurrentNumber();
+			} else if (option == "I") {
+				txService.insertRandomNumber();
+			}
 			log.info("\t > resume transaction");
 			latchWaitingReadCommitted = false;
 			latchReadCommitted.countDown();
