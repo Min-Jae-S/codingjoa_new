@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.codingjoa.service.test.TestTxIsoService;
 import com.codingjoa.service.test.TestTxOuterService;
 import com.codingjoa.service.test.TestTxService;
+import com.codingjoa.service.test.TestTxTimeOutService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -38,6 +39,9 @@ public class TestTxPropsController {
 	
 	@Autowired
 	private TestTxIsoService isoService;
+	
+	@Autowired
+	private TestTxTimeOutService timeoutService;
 	
 	@Resource(name = "mainTransactionManager")
 	private PlatformTransactionManager mainTransactionManager;
@@ -307,4 +311,12 @@ public class TestTxPropsController {
 		isoService.isoDefault();
 		return ResponseEntity.ok("DEFAULT success");
 	}
+	
+	// @@ TIME-OUT TEST
+	@GetMapping("/tx-props/timeout/test1")
+	public ResponseEntity<Object> timeoutTest1() {
+		log.info("## timeOutTest1");
+		timeoutService.invokeDelay();
+		return ResponseEntity.ok("timeout success");
+	} 
 }

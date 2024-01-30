@@ -60,7 +60,7 @@
 				<input type="radio" name="options" value="isolation">ISOLATION
 			</label>
 			<label class="btn btn-secondary btn-sm">
-				<input type="radio" name="options" value="time-out-read-only">TIME OUT & READ ONLY
+				<input type="radio" name="options" value="time-out-read-only">TIMEOUT & READ ONLY
 			</label>
 		</div>
 	</div>
@@ -163,18 +163,18 @@
 			</div>
 		</div>
 	</div>
-	<div class="parent-div time-out-read-only d-none">
-		<p class="sub-p mt-4 pl-4 mb-2">- Time out</p>
+	<div class="parent-div time-out-read-only mb-5 d-none">
+		<p class="sub-p mt-4 pl-4 mb-2">- Timeout</p>
 		<div class="test d-flex justify-content-center">
-			<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
+			<button class="btn btn-lg btn-primary mx-3" onclick="timeoutTest1()">test1</button>
 			<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
 			<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
 		</div>
 	</div>
-	<div class="parent-div time-out-read-only d-none">
+	<div class="parent-div time-out-read-only mb-5 d-none">
 		<p class="sub-p mt-4 pl-4 mb-2">- Read Only</p>
 		<div class="test d-flex justify-content-center">
-			<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
+			<button class="btn btn-lg btn-primary mx-3" onclick="readOnlyTest1()">test1</button>
 			<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
 			<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
 		</div>
@@ -669,6 +669,22 @@
 				console.log(jqXHR.responseJSON);
 			}
 		});		
+	}
+	
+	function timeoutTest1() {
+		console.log("## timeoutTest1");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/tx-props/timeout/test1",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log("> result = %s", result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(jqXHR.responseJSON);
+			}
+		});	
 	}
 </script>
 </body>
