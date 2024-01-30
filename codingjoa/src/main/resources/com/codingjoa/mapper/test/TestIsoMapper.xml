@@ -6,7 +6,7 @@
     num         NUMBER,			NOT NULL,
 -->
 
-	<select id="findCurrentNumber" resultType="int">
+	<select id="findCurrentNumber" resultType="int" flushCache="true">
 		SELECT 
 			num
 		FROM 
@@ -24,7 +24,7 @@
 			rownum = 1 -->
 	</select>
 	
-	<select id="findNumbers" resultType="int">
+	<select id="findNumbers" resultType="int" flushCache="true">
 		SELECT num FROM test3 ORDER BY idx DESC
 	</select>
 	

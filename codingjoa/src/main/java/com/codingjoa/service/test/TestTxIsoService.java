@@ -141,6 +141,7 @@ public class TestTxIsoService {
 		log.info("==========================================================================================");
 		log.info("## resumeReadCommitted [ {} ]", Thread.currentThread().getName());
 		if (latchWaitingReadCommitted) {
+			txService.updateCurrentNumber();
 			log.info("\t > resume transaction");
 			latchWaitingReadCommitted = false;
 			latchReadCommitted.countDown();
@@ -154,6 +155,7 @@ public class TestTxIsoService {
 		log.info("==========================================================================================");
 		log.info("## resumeSerializable [ {} ]", Thread.currentThread().getName());
 		if (latchWaitingSerializable) {
+			txService.updateCurrentNumber();
 			log.info("\t > resume transaction");
 			latchWaitingSerializable = false;
 			latchSerializable.countDown();
