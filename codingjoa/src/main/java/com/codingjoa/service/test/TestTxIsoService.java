@@ -141,26 +141,30 @@ public class TestTxIsoService {
 		log.info("==========================================================================================");
 		log.info("## resumeReadCommitted [ {} ]", Thread.currentThread().getName());
 		if (latchWaitingReadCommitted) {
-			if (option == "U") {
+			if (option.equals("U")) {
 				txService.updateCurrentNumber();
-			} else if (option == "I") {
+			} else if (option.equals("I")) {
 				txService.insertRandomNumber();
 			}
-			log.info("\t > resume transaction");
+			log.info("\t > resume read-committed transaction");
 			latchWaitingReadCommitted = false;
 			latchReadCommitted.countDown();
 		} else {
-			log.info("\t > readCommitted latch is not awaiting");
+			log.info("\t > read-committed latch is not awaiting");
 		}
 		log.info("==========================================================================================");
 	}
 	
-	public void resumeSerializable() {
+	public void resumeSerializable(String option) {
 		log.info("==========================================================================================");
 		log.info("## resumeSerializable [ {} ]", Thread.currentThread().getName());
 		if (latchWaitingSerializable) {
-			txService.updateCurrentNumber();
-			log.info("\t > resume transaction");
+			if (option.equals("U")) {
+				txService.updateCurrentNumber();
+			} else if (option.equals("I")) {
+				txService.insertRandomNumber();
+			}
+			log.info("\t > resume serializable transaction");
 			latchWaitingSerializable = false;
 			latchSerializable.countDown();
 		} else {

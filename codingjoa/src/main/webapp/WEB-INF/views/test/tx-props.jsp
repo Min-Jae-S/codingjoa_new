@@ -39,7 +39,7 @@
 	}
 	
 	.resume-read-committed,
-	.resume-serialziable {
+	.resume-serializable {
 		font-size: 0.85rem;
 	}
 </style>
@@ -123,19 +123,29 @@
 		<div class="test d-flex justify-content-center mb-5">
 			<div class="d-flex flex-column">
 				<button class="btn btn-lg btn-success mx-3 mb-2" onclick="resumeReadCommitted()">RESUME<br>READ_COMMITTED</button>
-				<div class="resume-read-committed px-3 d-flex justify-content-between">
+				<div class="resume-read-committed px-3 d-flex justify-content-around">
 					<div class="form-check form-check-inline mr-0">
-					  <input class="form-check-input" type="radio" name="resumeReadCommittedRadioOptions" value="U">
+					  <input class="form-check-input" type="radio" name="resumeReadCommittedRadioOptions" id="inlineRadio1" value="U" checked>
 					  <label class="form-check-label" for="inlineRadio1">NON-REPEATABLE</label>
 					</div>
 					<div class="form-check form-check-inline mr-0">
-					  <input class="form-check-input" type="radio" name="resumeReadCommittedRadioOptions" value="I">
+					  <input class="form-check-input" type="radio" name="resumeReadCommittedRadioOptions" id="inlineRadio2" value="I">
 					  <label class="form-check-label" for="inlineRadio2">PHANTOM</label>
 					</div>
 				</div>
 			</div>
 			<div class="d-flex flex-column">
-				<button class="btn btn-lg btn-success mx-3" onclick="resumeSerializable()">RESUME<br>SERIALIZABLE</button>
+				<button class="btn btn-lg btn-success mx-3 mb-2" onclick="resumeSerializable()">RESUME<br>SERIALIZABLE</button>
+				<div class="resume-serializable px-3 d-flex justify-content-around">
+					<div class="form-check form-check-inline mr-0">
+					  <input class="form-check-input" type="radio" name="resumeSerializableRadioOptions" id="inlineRadio3" value="U" checked>
+					  <label class="form-check-label" for="inlineRadio3">NON-REPEATABLE</label>
+					</div>
+					<div class="form-check form-check-inline mr-0">
+					  <input class="form-check-input" type="radio" name="resumeSerializableRadioOptions" id="inlineRadio4" value="I">
+					  <label class="form-check-label" for="inlineRadio4">PHANTOM</label>
+					</div>
+				</div>
 			</div>
 			<div class="d-flex flex-column">
 				<button class="btn btn-lg btn-success mx-3 invisible" onclick="#">#</button>
@@ -570,9 +580,10 @@
 
 	function resumeSerializable() {
 		console.log("## resumeSerializable");
+		let option = $("input:radio[name='resumeSerializableRadioOptions']:checked").val();
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/tx-props/isolation/resume/serializable",
+			url : "${contextPath}/test/tx-props/isolation/resume/serializable/" + option,
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);

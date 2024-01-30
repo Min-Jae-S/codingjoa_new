@@ -271,14 +271,13 @@ public class TestTxPropsController {
 	
 	@GetMapping("/tx-props/isolation/resume/read-committed/{option}")
 	public ResponseEntity<Object> resumeReadCommitted(@PathVariable String option) {
-		log.info("\t > option = {}", option);
 		isoService.resumeReadCommitted(option);
 		return ResponseEntity.ok("RESUME READ_COMMITTED success");
 	}
 	
-	@GetMapping("/tx-props/isolation/resume/serializable")
-	public ResponseEntity<Object> resumeSerializable() {
-		isoService.resumeSerializable();
+	@GetMapping("/tx-props/isolation/resume/serializable/{option}")
+	public ResponseEntity<Object> resumeSerializable(@PathVariable String option) {
+		isoService.resumeSerializable(option);
 		return ResponseEntity.ok("RESUME SERIALIZABLE success");
 	}
 	
