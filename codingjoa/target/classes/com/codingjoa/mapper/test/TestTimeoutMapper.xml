@@ -4,9 +4,8 @@
 
 	<select id="sleep" statementType="CALLABLE">
 		{ CALL 
-			DBMS_LOCK.SLEEP(
-				#{seconds, mode=IN, jdbcType=INTEGER}
-			) 
+			DBMS_LOCK.SLEEP(#{seconds}) 
+			<!-- DBMS_LOCK.SLEEP(10) -->
 		}
 	</select>
 

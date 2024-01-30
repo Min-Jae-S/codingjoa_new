@@ -33,7 +33,7 @@
 	<!-- <logger name="org.springframework.transaction" level="TRACE"/> -->
 	
 	<!-- TransactionInterceptor -->
-	<!-- <logger name="org.springframework.transaction.interceptor" level="TRACE"/> -->
+	<!-- <logger name="org.springframework.transaction.interceptor" level="INFO"/> -->
 	
 	<!-- TransactionSynchronizationManager -->
 	<!-- <logger name="org.springframework.transaction.support" level="TRACE"/> -->

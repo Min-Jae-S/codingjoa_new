@@ -14,15 +14,27 @@ public class TestTxTimeOutService {
 	
 	@Autowired
 	private TestTimeoutMapper timeoutMapper;
+	
+	@Autowired
+	private TestTxService txServivce;
 
 	@Transactional(timeout = 5)
 	public void invokeDelay() {
 		log.info("## invokeDelay");
-		try {
-			timeoutMapper.sleep(10);
-		} catch (Exception e) {
-			log.info("\t > {}", e.getClass().getSimpleName());
-		}
+		txServivce.insertRandomNumber();
+		txServivce.insertRandomNumber();
+		timeoutMapper.sleep(10);
+//		try {
+//			timeoutMapper.sleep(10);
+//		} catch (Exception e) {
+//			String type = "";
+//			if (e instanceof RuntimeException) {
+//				type = "unchecked exception";
+//			} else {
+//				type = "checked exception";
+//			}
+//			log.info("\t > {} - {}", e.getClass().getSimpleName(), type);
+//		}
 		
 //		try {
 //			TimeUnit.SECONDS.sleep(10);
