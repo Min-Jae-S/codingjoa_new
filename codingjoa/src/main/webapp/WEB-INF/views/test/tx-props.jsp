@@ -93,9 +93,15 @@
 		<p class="sub-p mt-4 pl-4 mb-4">- Propagation</p>
 		<div class="test d-flex justify-content-center mb-4">
 			<button class="btn btn-primary mx-3" onclick="propagationTest1()">REQUIRED &rArr; REQUIRED<br>INNER Exception</button>
+			<button class="btn btn-primary mx-3" onclick="propagationTest7()">REQUIRED &rArr; REQUIRED<br>OUTER Exception</button>
+			<button class="btn btn-primary mx-3 invisible" onclick="#">#</button>
+			<button class="btn btn-primary mx-3 invisible" onclick="#">#</button>
+		</div>
+		<div class="test d-flex justify-content-center mb-4">
 			<button class="btn btn-primary mx-3" onclick="propagationTest2(true)">REQUIRED &rArr; RE_NEW<br>INNER Exception</button>
 			<button class="btn btn-primary mx-3" onclick="propagationTest2(false)">REQUIRED &rArr; RE_NEW<br>NO Exception</button>
 			<button class="btn btn-primary mx-3" onclick="propagationTest3()">REQUIRED &rArr; RE_NEW<br>OUTER Exception</button>
+			<button class="btn btn-primary mx-3 invisible" onclick="#">#</button>
 		</div>
 		<div class="test d-flex justify-content-center mb-4">
 			<button class="btn btn-primary mx-3" onclick="propagationTest4()">MANDATORY</button>
@@ -172,8 +178,8 @@
 		</div>
 		<div class="test d-flex justify-content-center mb-2">
 			<button class="btn btn-lg btn-warning mx-3" onclick="findNumbers()">FIND NUMBERS</button>
-			<button class="btn btn-lg btn-warning mx-3" onclick="findCurrentNumber()">FIND CURRENT</button>
-			<button class="btn btn-lg btn-warning mx-3 invisible" onclick="#">#</button>
+			<button class="btn btn-lg btn-warning mx-3" onclick="removeNumbers()">DELETE NUMBERS</button>
+			<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
 		</div>
 	</div>
 	<div class="parent-div time-out-read-only mb-5 d-none">

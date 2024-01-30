@@ -113,7 +113,6 @@ public class TestTxPropsController {
 	public ResponseEntity<Object> propagationTest1() { 
 		log.info("## propagationTest1");
 		log.info("\t > outer = REQUIRED, inner = REQUIRED");
-		
 		// @@ outer: REQUIRED, inner: REQUIRED (inner Exception)
 		// @@ RuntimeException at inner
 		// Creating new transaction with name [outer1]: PROPAGATION_REQUIRED,ISOLATION_DEFAULT
@@ -206,6 +205,12 @@ public class TestTxPropsController {
 		// Committing JDBC transaction on Connection [HikariProxyConnection@1420424474]
 		// Releasing JDBC Connection [HikariProxyConnection@1420424474] after transaction
 		outerService.outer6();
+		return ResponseEntity.ok("success");
+	}
+
+	@GetMapping("/tx-props/propagation/test7")
+	public ResponseEntity<Object> propagationTest7() { 
+		log.info("## propagationTest7");
 		return ResponseEntity.ok("success");
 	}
 	
