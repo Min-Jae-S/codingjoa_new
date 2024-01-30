@@ -3,7 +3,11 @@
 <mapper namespace="com.codingjoa.mapper.test.TestTimeoutMapper">
 
 	<select id="sleep" statementType="CALLABLE">
-		{ CALL DBMS_LOCK.SLEEP(#{seconds}) }
+		{ CALL 
+			DBMS_LOCK.SLEEP(
+				#{seconds, mode=IN, jdbcType=INTEGER}
+			) 
+		}
 	</select>
 
 </mapper>

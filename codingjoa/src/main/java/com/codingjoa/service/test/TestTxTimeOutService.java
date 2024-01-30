@@ -18,7 +18,11 @@ public class TestTxTimeOutService {
 	@Transactional(timeout = 5)
 	public void invokeDelay() {
 		log.info("## invokeDelay");
-		timeoutMapper.sleep(10);
+		try {
+			timeoutMapper.sleep(10);
+		} catch (Exception e) {
+			log.info("\t > {}", e.getClass().getSimpleName());
+		}
 		
 //		try {
 //			TimeUnit.SECONDS.sleep(10);

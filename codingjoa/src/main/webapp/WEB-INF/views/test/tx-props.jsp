@@ -166,7 +166,7 @@
 	<div class="parent-div time-out-read-only mb-5 d-none">
 		<p class="sub-p mt-4 pl-4 mb-2">- Timeout</p>
 		<div class="test d-flex justify-content-center">
-			<button class="btn btn-lg btn-primary mx-3" onclick="timeoutTest1()">test1</button>
+			<button class="btn btn-lg btn-primary mx-3" onclick="timeoutTest1()">sleep 10sec</button>
 			<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
 			<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
 		</div>
