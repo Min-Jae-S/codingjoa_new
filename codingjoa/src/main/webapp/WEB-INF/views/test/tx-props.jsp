@@ -48,7 +48,7 @@
 <body>
 <c:import url="/WEB-INF/views/include/top-menu.jsp"/>
 <div class="container my-4 px-0">
-	<div class="d-flex justify-content-between">
+	<div class="d-flex justify-content-between ml-4 mb-3">
 		<div class="btn-group btn-group-toggle" data-toggle="buttons">
 			<label class="btn btn-secondary btn-sm active">
 				<input type="radio" name="options" value="rollback" checked>ROLLBACK
@@ -64,13 +64,13 @@
 			</label>
 		</div>
 	</div>
-	<p class="mb-4">tx-props.jsp</p>
-	<div class="btn-group d-flex justify-content-end">
-		<button class="btn btn-sm btn-secondary" onclick="selectAll()">SELECT TEST1</button>
-		<button class="btn btn-sm btn-secondary" onclick="selectAll2()">SELECT TEST2</button>
-		<button class="btn btn-sm btn-secondary" onclick="removeAll()">DELETE TEST1</button>
-		<button class="btn btn-sm btn-secondary" onclick="removeAll2()">DELETE TEST2</button>
+	<div class="btn-group d-flex ml-4 mb-3">
+		<button class="btn btn-secondary btn-sm" onclick="selectAll()">SELECT TEST1</button>
+		<button class="btn btn-secondary btn-sm" onclick="selectAll2()">SELECT TEST2</button>
+		<button class="btn btn-secondary btn-sm" onclick="removeAll()">DELETE TEST1</button>
+		<button class="btn btn-secondary btn-sm" onclick="removeAll2()">DELETE TEST2</button>
 	</div>
+	<p class="mb-4">tx-props.jsp</p>
 	<div class="parent-div rollback">
 		<p class="sub-p mt-4 pl-4 mb-4">- Rollback</p>
 		<div class="test d-flex justify-content-center mb-4">
@@ -114,7 +114,7 @@
 		<div class="test d-flex justify-content-center mb-2">
 			<button class="btn btn-lg btn-warning mx-3" onclick="findNumbers()">FIND NUMBERS</button>
 			<button class="btn btn-lg btn-warning mx-3" onclick="findCurrentNumber()">FIND CURRENT</button>
-			<button class="btn btn-lg btn-success mx-3 invisible" onclick="#">#</button>
+			<button class="btn btn-lg btn-warning mx-3 invisible" onclick="#">#</button>
 		</div>
 		<div class="test d-flex justify-content-center mb-5">
 			<button class="btn btn-lg btn-warning mx-3" onclick="insertRandomNumber()">INSERT NUMBER</button>
@@ -164,15 +164,20 @@
 		</div>
 	</div>
 	<div class="parent-div time-out-read-only mb-5 d-none">
-		<p class="sub-p mt-4 pl-4 mb-2">- Timeout</p>
-		<div class="test d-flex justify-content-center">
+		<p class="sub-p mt-4 pl-4 mb-4">- Timeout</p>
+		<div class="test d-flex justify-content-center mb-2">
 			<button class="btn btn-lg btn-primary mx-3" onclick="timeoutTest1()">sleep 10sec</button>
 			<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
 			<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
 		</div>
+		<div class="test d-flex justify-content-center mb-2">
+			<button class="btn btn-lg btn-warning mx-3" onclick="findNumbers()">FIND NUMBERS</button>
+			<button class="btn btn-lg btn-warning mx-3" onclick="findCurrentNumber()">FIND CURRENT</button>
+			<button class="btn btn-lg btn-warning mx-3 invisible" onclick="#">#</button>
+		</div>
 	</div>
 	<div class="parent-div time-out-read-only mb-5 d-none">
-		<p class="sub-p mt-4 pl-4 mb-2">- Read Only</p>
+		<p class="sub-p mt-4 pl-4 mb-4">- Read Only</p>
 		<div class="test d-flex justify-content-center">
 			<button class="btn btn-lg btn-primary mx-3" onclick="readOnlyTest1()">test1</button>
 			<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
@@ -397,7 +402,7 @@
 
 	function propagationTest2(innerException) {
 		console.log("## propagationTest2");
-		console.log("> innerException = %s", innerException);
+		console.log("> inner exception = %s", innerException);
 		$.ajax({
 			type : "GET",
 			url : "${contextPath}/test/tx-props/propagation/test2/" + innerException,

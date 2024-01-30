@@ -325,7 +325,7 @@ public class TestTxService {
 		return isoMapper.findCurrentNumber();
 	}
 	
-	//@Transactional
+	@Transactional
 	public void insertRandomNumber() {
 		int randomNumber = RandomUtils.nextInt(1, 999);
 		int result = isoMapper.insertNumber(randomNumber);
@@ -336,7 +336,7 @@ public class TestTxService {
 		}
 	}
 	
-	//@Transactional
+	@Transactional
 	public void updateCurrentNumber() {
 		int num = 0;
 		int result = isoMapper.updateCurrentNumber(num);

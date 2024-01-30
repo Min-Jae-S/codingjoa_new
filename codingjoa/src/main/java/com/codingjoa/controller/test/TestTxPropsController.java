@@ -133,7 +133,7 @@ public class TestTxPropsController {
 	public ResponseEntity<Object> propagationTest2(@PathVariable boolean innerException) { 
 		log.info("## propagationTest2");
 		log.info("\t > outer = REQUIRED, inner = REQUIRED_NEW");
-		log.info("\t > innerException = {}", innerException);
+		log.info("\t > inner exception = {}", innerException);
 		
 		// @@ outer = REQUIRED, inner = REQUIRED_NEW (inner Exception with catch)
 		// Creating new transaction with name [outer2]: PROPAGATION_REQUIRED,ISOLATION_DEFAULT
