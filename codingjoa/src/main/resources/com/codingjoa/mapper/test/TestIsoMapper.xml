@@ -7,9 +7,12 @@
 -->
 
 	<select id="findCurrentNumber" resultType="int">
-		SELECT num
-		FROM test3
-		WHERE idx = ( SELECT MAX(idx) FROM test3 )
+		SELECT 
+			num
+		FROM 
+			test3
+		WHERE 
+			idx = ( SELECT MAX(idx) FROM test3 )
 		<!-- SELECT 
 			num 
 		FROM (
@@ -31,10 +34,12 @@
 	</insert>
 	
 	<update id="updateCurrentNumber" parameterType="int">
-		UPDATE test3
-		SET num = #{num}
-		WHERE idx = ( SELECT MAX(idx) 
-						FROM test3 )
+		UPDATE 
+			test3
+		SET 
+			num = #{num}
+		WHERE 
+			idx = ( SELECT MAX(idx) FROM test3 )
 	</update>
 	
 	<delete id="deleteNumbers">

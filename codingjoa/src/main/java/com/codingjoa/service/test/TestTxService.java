@@ -58,7 +58,7 @@ public class TestTxService {
 	
 	// @@ https://obv-cloud.com/39
 	// Transaction은 Connection 단위로 이루어지기 때문에 하나의 요청에 같은 Connection을 사용할 수 있도록 보장해야 한다.
-	// 이 때 사용되는 것이 TransactionSynchronizationManager이다.
+	// 이 때, 사용되는 것이 TransactionSynchronizationManager이다.
 	// 		1. Transaction 시작
 	// 		2. Datasource에서 Connection 획득
 	// 		3. Connection을 TransactionSynchronizationManager의 ThreadLocal에 저장
@@ -120,13 +120,13 @@ public class TestTxService {
 				}
 			});
 		
-		TransactionStatus status = null;
+		TransactionStatus transactionStatus = null;
 		try {
-			status = TransactionAspectSupport.currentTransactionStatus();
+			transactionStatus = TransactionAspectSupport.currentTransactionStatus();
 		} catch (NoTransactionException e) {
 			log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
 		} finally {
-			checkTransaction(status);
+			checkTransaction(transactionStatus);
 			checkTransactionBySyncManager();
 		}
 	}

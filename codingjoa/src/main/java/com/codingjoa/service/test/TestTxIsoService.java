@@ -32,7 +32,7 @@ public class TestTxIsoService {
 	 * 	- DEFAULT ( Oracle: READ_COMMITTED, MySQL: REPEATABLE_READ )
 	 *  - READ_UNCOMMITTED, READ_COMMITTED(*), REPEATABLE_READ, SERIALIZABLE(*)
 	 *  
-	 *  - READ_COMMITTED	( DIRTY: X,  NON-REPEATABLE: O,  PHANTOM: O )
+	 *  - READ_COMMITTED	( DIRTY READ: X,  NON-REPEATABLE READ: O,  PHANTOM READ: O )
 	 * 		Access to changes is possible for other transactions only for committed modifications within the transaction.
 	 *  	This is the isolation level commonly used by most RDBMS systems by default.
 	 *  	A Shared Lock is applied during the execution of a SELECT statement. 
@@ -41,7 +41,7 @@ public class TestTxIsoService {
 	 *  	it violates the consistency of REPEATABLE READ, where the same result should always be obtained. 
 	 *  	In other words, a Non-repeatable Read occurs.
 	 *  
-	 *  - REPEATABLE_READ 	( DIRTY: X,  NON-REPEATABLE: X,  PHANTOM: O )
+	 *  - REPEATABLE_READ 	( DIRTY READ: X,  NON-REPEATABLE READ: X,  PHANTOM READ: O )
 	 *  	Only committed content before the transaction starts is available for querying. 
 	 *  	This is the default in MySQL, and in this isolation level, Non-repeatable Reads do not occur. 
 	 *  	Until the transaction is completed, a Shared Lock is applied to all data used by the SELECT statement. 
@@ -50,7 +50,7 @@ public class TestTxIsoService {
 	 *  	a drawback arises as the transaction's execution time lengthens, requiring continued management of multi-versions.
 	 *  	However, Phantom Reads can occur.
 	 *  
-	 *  - SERIALIZABLE	 	( DIRTY: X,  NON-REPEATABLE: X,  PHANTOM: X )
+	 *  - SERIALIZABLE	 	( DIRTY READ: X,  NON-REPEATABLE READ: X,  PHANTOM READ: X )
 	 *  	It is the simplest yet most stringent isolation level, but in terms of performance, it has the lowest concurrency. 
 	 *  	In SERIALIZABLE, PHANTOM READs do not occur. 
 	 *  	Transactions happen sequentially rather than concurrently.
@@ -90,13 +90,13 @@ public class TestTxIsoService {
 	@Transactional(isolation = Isolation.DEFAULT)
 	public void isoDefault() {
 		log.info("## Isolation.DEFAULT");
-		checkTrasnaction();
+		//checkTrasnaction();
 	}
 	
 	@Transactional(isolation = Isolation.READ_COMMITTED)
 	public void isoReadCommitted() {
 		log.info("## Isolation.READ_COMMITTED [ {} ]", Thread.currentThread().getName());
-		checkTrasnaction();
+		//checkTrasnaction();
 		
 		// first current number read within the transaction
 		Integer initialCurrentNumber = isoMapper.findCurrentNumber();
@@ -119,7 +119,7 @@ public class TestTxIsoService {
 	@Transactional(isolation = Isolation.SERIALIZABLE)
 	public void isoSerializable() {
 		log.info("## Isolation.SERIALIZABLE");
-		checkTrasnaction();
+		//checkTrasnaction();
 		
 		Integer initialCurrentNumber = isoMapper.findCurrentNumber();
 		log.info("\t > initial current number = {}", initialCurrentNumber);
