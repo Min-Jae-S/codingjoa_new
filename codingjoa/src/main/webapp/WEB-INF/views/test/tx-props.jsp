@@ -39,8 +39,9 @@
 	}
 	
 	.resume-read-committed,
-	.resume-serializable {
-		font-size: 0.85rem;
+	.resume-serializable,
+	.resume-default {
+		font-size: 0.8rem;
 	}
 </style>
 </head>
@@ -148,7 +149,17 @@
 				</div>
 			</div>
 			<div class="d-flex flex-column">
-				<button class="btn btn-lg btn-success mx-3 invisible" onclick="#">#</button>
+				<button class="btn btn-lg btn-success mx-3 mb-2" onclick="resumeDefault()">RESUME<br>DEFAULT</button>
+				<div class="resume-default px-3 d-flex justify-content-around">
+					<div class="form-check form-check-inline mr-0">
+					  <input class="form-check-input" type="radio" name="resumeDefaultRadioOptions" id="inlineRadio5" value="U" checked>
+					  <label class="form-check-label" for="inlineRadio5">NON-REPEATABLE</label>
+					</div>
+					<div class="form-check form-check-inline mr-0">
+					  <input class="form-check-input" type="radio" name="resumeDefaultRadioOptions" id="inlineRadio6" value="I">
+					  <label class="form-check-label" for="inlineRadio6">PHANTOM</label>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -584,6 +595,23 @@
 		$.ajax({
 			type : "GET",
 			url : "${contextPath}/test/tx-props/isolation/resume/serializable/" + option,
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log("> result = %s", result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(jqXHR.responseJSON);
+			}
+		});		
+	}
+
+	function resumeDefault() {
+		console.log("## resumeDefault");
+		let option = $("input:radio[name='resumeDefaultRadioOptions']:checked").val();
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/tx-props/isolation/resume/default/" + option,
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);

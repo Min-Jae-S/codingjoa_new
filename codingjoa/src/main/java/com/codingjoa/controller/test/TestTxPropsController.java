@@ -280,6 +280,12 @@ public class TestTxPropsController {
 		isoService.resumeSerializable(option);
 		return ResponseEntity.ok("RESUME SERIALIZABLE success");
 	}
+
+	@GetMapping("/tx-props/isolation/resume/default/{option}")
+	public ResponseEntity<Object> resumeDefault(@PathVariable String option) {
+		isoService.resumeDefault(option);
+		return ResponseEntity.ok("RESUME DEFAULT success");
+	}
 	
 	@GetMapping("/tx-props/isolation/read-committed")
 	public ResponseEntity<Object> isolationTest1() {

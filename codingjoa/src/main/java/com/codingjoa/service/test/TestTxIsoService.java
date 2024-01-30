@@ -73,8 +73,10 @@ public class TestTxIsoService {
 	
 	private CountDownLatch latchReadCommitted;
 	private CountDownLatch latchSerializable;
+	private CountDownLatch latchDefault;
 	private boolean latchWaitingReadCommitted = false; 
 	private boolean latchWaitingSerializable = false; 
+	private boolean latchWaitingDefault = false; 
 
 	@Autowired
 	private TestIsoMapper isoMapper;
@@ -87,16 +89,9 @@ public class TestTxIsoService {
 		log.info("\t > isolation level = {}", TransactionSynchronizationManager.getCurrentTransactionIsolationLevel()); // @Nullable
 	}
 	
-	@Transactional(isolation = Isolation.DEFAULT)
-	public void isoDefault() {
-		log.info("## Isolation.DEFAULT");
-		//checkTrasnaction();
-	}
-	
 	@Transactional(isolation = Isolation.READ_COMMITTED)
 	public void isoReadCommitted() {
 		log.info("## Isolation.READ_COMMITTED [ {} ]", Thread.currentThread().getName());
-		//checkTrasnaction();
 		
 		// first current number read within the transaction
 		Integer initialCurrentNumber = isoMapper.findCurrentNumber();
@@ -110,7 +105,6 @@ public class TestTxIsoService {
 			log.info("\t > {}", e.getClass().getSimpleName());
 			Thread.currentThread().interrupt();
 		}
-		
 		// second current number read within the same transaction
 		Integer updatedCurrentNumber = isoMapper.findCurrentNumber();
 		log.info("\t > next current number = {}", updatedCurrentNumber);
@@ -119,7 +113,6 @@ public class TestTxIsoService {
 	@Transactional(isolation = Isolation.SERIALIZABLE)
 	public void isoSerializable() {
 		log.info("## Isolation.SERIALIZABLE");
-		//checkTrasnaction();
 		
 		Integer initialCurrentNumber = isoMapper.findCurrentNumber();
 		log.info("\t > initial current number = {}", initialCurrentNumber);
@@ -132,7 +125,25 @@ public class TestTxIsoService {
 			log.info("\t > {}", e.getClass().getSimpleName());
 			Thread.currentThread().interrupt();
 		}
+		Integer updatedCurrentNumber = isoMapper.findCurrentNumber();
+		log.info("\t > next current number = {}", updatedCurrentNumber);
+	}
+	
+	@Transactional(isolation = Isolation.DEFAULT)
+	public void isoDefault() {
+		log.info("## Isolation.DEFAULT");
 		
+		Integer initialCurrentNumber = isoMapper.findCurrentNumber();
+		log.info("\t > initial current number = {}", initialCurrentNumber);
+		try {
+			log.info("\t > pause transaction");
+			latchWaitingDefault = true;
+			latchDefault = new CountDownLatch(1);
+			latchDefault.await();
+		} catch (InterruptedException e) {
+			log.info("\t > {}", e.getClass().getSimpleName());
+			Thread.currentThread().interrupt();
+		}
 		Integer updatedCurrentNumber = isoMapper.findCurrentNumber();
 		log.info("\t > next current number = {}", updatedCurrentNumber);
 	}
@@ -169,6 +180,24 @@ public class TestTxIsoService {
 			latchSerializable.countDown();
 		} else {
 			log.info("\t > serializable latch is not awaiting");
+		}
+		log.info("==========================================================================================");
+	}
+
+	public void resumeDefault(String option) {
+		log.info("==========================================================================================");
+		log.info("## resumeDefault [ {} ]", Thread.currentThread().getName());
+		if (latchWaitingDefault) {
+			if (option.equals("U")) {
+				txService.updateCurrentNumber();
+			} else if (option.equals("I")) {
+				txService.insertRandomNumber();
+			}
+			log.info("\t > resume default transaction");
+			latchWaitingDefault = false;
+			latchDefault.countDown();
+		} else {
+			log.info("\t > default latch is not awaiting");
 		}
 		log.info("==========================================================================================");
 	}
