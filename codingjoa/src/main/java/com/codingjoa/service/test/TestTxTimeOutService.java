@@ -18,7 +18,8 @@ public class TestTxTimeOutService {
 	@Transactional(timeout = 5)
 	public void invokeDelay() {
 		log.info("## invokeDelay");
-		timeoutMapper.invokeDelay();
+		timeoutMapper.sleep(10);
+		
 //		try {
 //			TimeUnit.SECONDS.sleep(10);
 //			//Thread.sleep(10000);
