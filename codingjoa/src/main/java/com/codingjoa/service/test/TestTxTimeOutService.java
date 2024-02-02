@@ -1,5 +1,7 @@
 package com.codingjoa.service.test;
 
+import java.util.concurrent.TimeUnit;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,7 +25,8 @@ public class TestTxTimeOutService {
 		log.info("## invokeDelay");
 		txServivce.insertRandomNumber();
 		txServivce.insertRandomNumber();
-		timeoutMapper.sleep(10);
+//		timeoutMapper.sleep(10);
+		
 //		try {
 //			timeoutMapper.sleep(10);
 //		} catch (Exception e) {
@@ -36,13 +39,13 @@ public class TestTxTimeOutService {
 //			log.info("\t > {} - {}", e.getClass().getSimpleName(), type);
 //		}
 		
-//		try {
-//			TimeUnit.SECONDS.sleep(10);
-//			//Thread.sleep(10000);
-//		} catch (InterruptedException e) {
-//			log.info("\t > {}", e.getClass().getSimpleName());
-//			Thread.currentThread().interrupt();
-//		}
+		try {
+			TimeUnit.SECONDS.sleep(10);
+			//Thread.sleep(10000);
+		} catch (InterruptedException e) {
+			log.info("\t > {}", e.getClass().getSimpleName());
+			Thread.currentThread().interrupt();
+		}
 	}
 	
 }
