@@ -10,6 +10,7 @@ import com.codingjoa.mapper.test.TestTimeoutMapper;
 
 import lombok.extern.slf4j.Slf4j;
 
+@SuppressWarnings("unused")
 @Slf4j
 @Service
 public class TestTxTimeOutService {
