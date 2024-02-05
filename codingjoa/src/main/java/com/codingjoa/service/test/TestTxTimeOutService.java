@@ -18,13 +18,12 @@ public class TestTxTimeOutService {
 	@Autowired
 	private TestTxService txServivce;
 
+	// DB delay
 	@Transactional(timeout = 5)
 	public void invokeDelay() {
 		log.info("## invokeDelay");
 		txServivce.insertRandomNumber();
 		txServivce.insertRandomNumber();
-		
-		// thread sleep --> DB sleep
 		timeoutMapper.sleep(10);
 		
 //		try {
@@ -38,15 +37,19 @@ public class TestTxTimeOutService {
 //			}
 //			log.info("\t > {} - {}", e.getClass().getSimpleName(), type);
 //		}
-		
-// @@ Thread sleep
-//		try {
-//			TimeUnit.SECONDS.sleep(10);
-//			//Thread.sleep(10000);
-//		} catch (InterruptedException e) {
-//			log.info("\t > {}", e.getClass().getSimpleName());
-//			Thread.currentThread().interrupt();
-//		}
 	}
 	
+	// thread delay
+	@Transactional(timeout = 5)
+	public void invokeDelay2() {
+		log.info("## invokeDelay2");
+		try {
+			txServivce.insertRandomNumber();
+			txServivce.insertRandomNumber();
+			Thread.sleep(10000);
+		} catch (InterruptedException e) {
+			log.info("\t > {}", e.getClass().getSimpleName());
+			Thread.currentThread().interrupt();
+		}
+	}
 }
