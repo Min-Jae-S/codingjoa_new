@@ -19,7 +19,6 @@ public class TestTxTimeOutService {
 	@Autowired
 	private TestTxService txServivce;
 	
-	@SuppressWarnings("unused")
 	@Autowired
 	private ApplicationEventPublisher applicationEventPublisher;
 
@@ -27,12 +26,13 @@ public class TestTxTimeOutService {
 	@Transactional (timeout = 5) 
 	public void induceDelayByExternalService() {
 		log.info("## induceDelayByExternalService");
+		applicationEventPublisher.publishEvent(true);
 		txServivce.insertRandomNumber();
-		txServivce.insertRandomNumber();
-		timeoutMapper.delay(10);
+		timeoutMapper.delay1(10);
+//		timeoutMapper.delay2();
 		
 //		try {
-//			timeoutMapper.delay(10);
+//			timeoutMapper.delay1(10);
 //		} catch (Exception e) {
 //			String type = "";
 //			if (e instanceof RuntimeException) {
@@ -48,8 +48,8 @@ public class TestTxTimeOutService {
 	@Transactional(timeout = 5)
 	public void induceDelayByInternalService() {
 		log.info("## induceDelayByInternalService");
+		applicationEventPublisher.publishEvent(true);
 		try {
-			txServivce.insertRandomNumber();
 			txServivce.insertRandomNumber();
 			Thread.sleep(10000);
 		} catch (InterruptedException e) {

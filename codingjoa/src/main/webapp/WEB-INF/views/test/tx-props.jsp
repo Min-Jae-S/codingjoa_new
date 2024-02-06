@@ -172,14 +172,14 @@
 	<div class="parent-div time-out-read-only mb-5 d-none">
 		<p class="sub-p mt-4 pl-4 mb-4">- Timeout</p>
 		<div class="test d-flex justify-content-center mb-2">
-			<button class="btn btn-lg btn-primary mx-3" onclick="timeoutTest1()">sleep 10sec</button>
-			<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
+			<button class="btn btn-lg btn-primary mx-3" onclick="timeoutTest1()">delay by DB</button>
+			<button class="btn btn-lg btn-primary mx-3" onclick="timeoutTest2()">delay by thread</button>
 			<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
 		</div>
 		<div class="test d-flex justify-content-center mb-2">
 			<button class="btn btn-lg btn-warning mx-3" onclick="findNumbers()">FIND NUMBERS</button>
+			<button class="btn btn-lg btn-warning mx-3" onclick="findCurrentNumber()">FIND CURRENT</button>
 			<button class="btn btn-lg btn-warning mx-3" onclick="removeNumbers()">DELETE NUMBERS</button>
-			<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
 		</div>
 	</div>
 	<div class="parent-div time-out-read-only mb-5 d-none">
@@ -687,6 +687,22 @@
 		$.ajax({
 			type : "GET",
 			url : "${contextPath}/test/tx-props/timeout/test1",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log("> result = %s", result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(jqXHR.responseJSON);
+			}
+		});	
+	}
+
+	function timeoutTest2() {
+		console.log("## timeoutTest2");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/tx-props/timeout/test2",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);
