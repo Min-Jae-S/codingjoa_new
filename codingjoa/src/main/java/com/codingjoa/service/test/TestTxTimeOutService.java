@@ -1,6 +1,7 @@
 package com.codingjoa.service.test;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,29 +18,33 @@ public class TestTxTimeOutService {
 	
 	@Autowired
 	private TestTxService txServivce;
+	
+	@SuppressWarnings("unused")
+	@Autowired
+	private ApplicationEventPublisher applicationEventPublisher;
 
 	// external delay by database
 	@Transactional (timeout = 5) 
-	public void induceDelayByExcternalService() {
-		log.info("## induceDelayByExcternalService");
+	public void induceDelayByExternalService() {
+		log.info("## induceDelayByExternalService");
 		txServivce.insertRandomNumber();
 		txServivce.insertRandomNumber();
-		//timeoutMapper.sleep(10);
+		timeoutMapper.delay(10);
 		
-		try {
-			timeoutMapper.sleep(10);
-		} catch (Exception e) {
-			String type = "";
-			if (e instanceof RuntimeException) {
-				type = "unchecked exception";
-			} else {
-				type = "checked exception";
-			}
-			log.info("\t > {} - {}", e.getClass().getSimpleName(), type);
-		}
+//		try {
+//			timeoutMapper.delay(10);
+//		} catch (Exception e) {
+//			String type = "";
+//			if (e instanceof RuntimeException) {
+//				type = "unchecked exception";
+//			} else {
+//				type = "checked exception";
+//			}
+//			log.info("\t > {} - {}", e.getClass().getSimpleName(), type);
+//		}
 	}
 	
-	// internal delay by thread sleep
+	// internal delay by thread
 	@Transactional(timeout = 5)
 	public void induceDelayByInternalService() {
 		log.info("## induceDelayByInternalService");
