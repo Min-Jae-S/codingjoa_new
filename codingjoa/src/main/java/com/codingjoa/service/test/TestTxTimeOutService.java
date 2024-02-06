@@ -29,12 +29,13 @@ public class TestTxTimeOutService {
 	private ApplicationEventPublisher applicationEventPublisher;
 
 	// external delay by database
-	@Transactional (timeout = 10) 
+	@Transactional (timeout = 5) 
 	public void induceDelayByExternalService() {
 		log.info("## induceDelayByExternalService");
 
 		txService.insertRandomNumber();
-		timeoutMapper.delay1(15);
+		
+		timeoutMapper.delay1(10);
 //		timeoutMapper.delay2();
 		
 //		try {
@@ -51,12 +52,12 @@ public class TestTxTimeOutService {
 	}
 	
 	// internal delay by thread
-	@Transactional(timeout = 10)
+	@Transactional(timeout = 5)
 	public void induceDelayByInternalService() {
 		log.info("## induceDelayByInternalService");
 		try {
 			txService.insertRandomNumber();
-			Thread.sleep(15000);
+			Thread.sleep(3);
 		} catch (InterruptedException e) {
 			log.info("\t > {}", e.getClass().getSimpleName());
 			Thread.currentThread().interrupt();
