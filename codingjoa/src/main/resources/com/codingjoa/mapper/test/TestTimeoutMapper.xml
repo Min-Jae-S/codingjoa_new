@@ -9,14 +9,4 @@
 		}
 	</select>
 	
-	<select id="sleep2">
-		SELECT 
-			num
-		FROM 
-			test3
-		WHERE 
-			idx = ( SELECT MAX(idx) FROM test3 )
-		FOR UPDATE
-	</select>
-
 </mapper>

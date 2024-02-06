@@ -19,25 +19,24 @@ public class TestTxTimeOutService {
 	private TestTxService txServivce;
 
 	// external delay by database
-	@Transactional(timeout = 5)
+	@Transactional (timeout = 5) 
 	public void induceDelayByExcternalService() {
 		log.info("## induceDelayByExcternalService");
 		txServivce.insertRandomNumber();
 		txServivce.insertRandomNumber();
 		//timeoutMapper.sleep(10);
-		timeoutMapper.sleep2();
 		
-//		try {
-//			timeoutMapper.sleep(10);
-//		} catch (Exception e) {
-//			String type = "";
-//			if (e instanceof RuntimeException) {
-//				type = "unchecked exception";
-//			} else {
-//				type = "checked exception";
-//			}
-//			log.info("\t > {} - {}", e.getClass().getSimpleName(), type);
-//		}
+		try {
+			timeoutMapper.sleep(10);
+		} catch (Exception e) {
+			String type = "";
+			if (e instanceof RuntimeException) {
+				type = "unchecked exception";
+			} else {
+				type = "checked exception";
+			}
+			log.info("\t > {} - {}", e.getClass().getSimpleName(), type);
+		}
 	}
 	
 	// internal delay by thread sleep
