@@ -3,20 +3,9 @@
 <mapper namespace="com.codingjoa.mapper.test.TestTimeoutMapper">
 
 	<select id="delay1" statementType="CALLABLE">
-		{ CALL 
-			DBMS_LOCK.SLEEP(#{seconds}) 
-			<!-- DBMS_LOCK.SLEEP(10) -->
-		}
+		<![CDATA[
+		{ CALL DBMS_LOCK.SLEEP(#{seconds}) }
+		]]>
 	</select>
 
-	<select id="delay2" resultType="int">
-		SELECT 
-			num 
-		FROM 
-			test3
-		WHERE
-			idx = ( SELECT MAX(idx) FROM test3 )
-		FOR UPDATE WAIT 10
-	</select>
-	
 </mapper>

@@ -12,6 +12,7 @@ import com.codingjoa.mapper.test.TestTimeoutMapper;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@SuppressWarnings("unused")
 @Service
 public class TestTxTimeOutService {
 	
@@ -28,21 +29,12 @@ public class TestTxTimeOutService {
 	private ApplicationEventPublisher applicationEventPublisher;
 
 	// external delay by database
-	@Transactional (timeout = 5) 
+	@Transactional (timeout = 10) 
 	public void induceDelayByExternalService() {
 		log.info("## induceDelayByExternalService");
-		applicationEventPublisher.publishEvent(true);
-		
-		//txService.insertRandomNumber();
-		int randomNumber = RandomUtils.nextInt(1, 999);
-		int result = isoMapper.insertNumber(randomNumber);
-		if (result > 0) {
-			log.info("\t > insert random number {}", randomNumber);
-		} else {
-			log.info("\t > insert fail");
-		}
-		
-		timeoutMapper.delay1(10);
+
+		txService.insertRandomNumber();
+		timeoutMapper.delay1(15);
 //		timeoutMapper.delay2();
 		
 //		try {
@@ -59,13 +51,12 @@ public class TestTxTimeOutService {
 	}
 	
 	// internal delay by thread
-	@Transactional(timeout = 5)
+	@Transactional(timeout = 10)
 	public void induceDelayByInternalService() {
 		log.info("## induceDelayByInternalService");
-		applicationEventPublisher.publishEvent(true);
 		try {
 			txService.insertRandomNumber();
-			Thread.sleep(10000);
+			Thread.sleep(15000);
 		} catch (InterruptedException e) {
 			log.info("\t > {}", e.getClass().getSimpleName());
 			Thread.currentThread().interrupt();
