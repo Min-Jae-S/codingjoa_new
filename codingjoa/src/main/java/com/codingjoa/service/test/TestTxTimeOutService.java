@@ -18,14 +18,14 @@ public class TestTxTimeOutService {
 	@Autowired
 	private TestTxService txServivce;
 
-	// DB delay
+	// external delay by database
 	@Transactional(timeout = 5)
-	public void performTimeout1() {
-		log.info("## performTimeout1");
+	public void induceDelayByExcternalService() {
+		log.info("## induceDelayByExcternalService");
 		txServivce.insertRandomNumber();
 		txServivce.insertRandomNumber();
 		//timeoutMapper.sleep(10);
-		callExternalDelayService();
+		timeoutMapper.sleep2();
 		
 //		try {
 //			timeoutMapper.sleep(10);
@@ -40,24 +40,16 @@ public class TestTxTimeOutService {
 //		}
 	}
 	
-	// thread delay
+	// internal delay by thread sleep
 	@Transactional(timeout = 5)
-	public void performTimeout2() {
-		log.info("## performTimeout2");
+	public void induceDelayByInternalService() {
+		log.info("## induceDelayByInternalService");
 		try {
 			txServivce.insertRandomNumber();
 			txServivce.insertRandomNumber();
 			Thread.sleep(10000);
 		} catch (InterruptedException e) {
 			log.info("\t > {}", e.getClass().getSimpleName());
-			Thread.currentThread().interrupt();
-		}
-	}
-	
-	private void callExternalDelayService() {
-		try {
-			Thread.sleep(10000);
-		} catch (InterruptedException e) {
 			Thread.currentThread().interrupt();
 		}
 	}

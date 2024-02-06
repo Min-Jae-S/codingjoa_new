@@ -7,4 +7,6 @@ public interface TestTimeoutMapper {
 
 	// delay procedure
 	void sleep(int seconds);
+	
+	void sleep2();
 }
