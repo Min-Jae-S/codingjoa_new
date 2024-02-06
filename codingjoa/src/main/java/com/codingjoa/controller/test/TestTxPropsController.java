@@ -47,7 +47,7 @@ public class TestTxPropsController {
 	private PlatformTransactionManager mainTransactionManager;
 	
 	/*
-	 * @@ ROLLBACK TEST
+	 * @@ ROLLBACK
 	 * 	- catch vs no catch
 	 * 	- checked exception vs unchecked exception
 	 */
@@ -102,7 +102,7 @@ public class TestTxPropsController {
 	}
 	
 	/*
-	 * @@ PROPAGATION TEST
+	 * @@ PROPAGATION
 	 * 	- outer = REQUIRED, 		inner = REQUIRED		(inner exception, outer exception)
 	 * 	- outer = REQUIRED, 		inner = REQUIRED_NEW	(inner exception, outer exception, no exception)
 	 * 	- outer = NO TRANSACTION, 	inner = MANDATORY		
@@ -127,6 +127,23 @@ public class TestTxPropsController {
 		return ResponseEntity.ok("success");
 	}
 	
+	@GetMapping("/tx-props/propagation/test7")
+	public ResponseEntity<Object> propagationTest7() { 
+		log.info("## propagationTest7");
+		log.info("\t > outer = REQUIRED, inner = REQUIRED (outer exception)");
+		// @@ outer: REQUIRED, inner: REQUIRED (outer exception)
+		// Creating new transaction with name [outer7]: PROPAGATION_REQUIRED,ISOLATION_DEFAULT
+		// Acquired Connection [HikariProxyConnection@157193855] for JDBC transaction
+		// Participating in existing transaction
+		// Participating transaction failed - marking existing transaction as rollback-only
+		// Setting JDBC transaction [HikariProxyConnection@157193855] rollback-only
+		// Initiating transaction rollback
+		// Rolling back JDBC transaction on Connection [HikariProxyConnection@157193855]
+		// Releasing JDBC Connection [HikariProxyConnection@157193855] after transaction
+		outerService.outer7(); 
+		return ResponseEntity.ok("success");
+	}
+	
 	@GetMapping("/tx-props/propagation/test2/{innerException}")
 	public ResponseEntity<Object> propagationTest2(@PathVariable boolean innerException) { 
 		log.info("## propagationTest2");
@@ -141,10 +158,12 @@ public class TestTxPropsController {
 		// Acquired Connection [HikariProxyConnection@1991964660] for JDBC transaction
 		// Suspending current transaction, creating new transaction with name [innerRollback]
 		// Acquired Connection [HikariProxyConnection@2060061152] for JDBC transaction
+		// Completing transaction for [innerRequiresNew1] after exception: java.lang.RuntimeException: innerRequiresNew1
 		// Initiating transaction rollback
 		// Rolling back JDBC transaction on Connection [HikariProxyConnection@2060061152]
 		// Releasing JDBC Connection [HikariProxyConnection@2060061152] after transaction
 		// Resuming suspended transaction after completion of inner transaction
+		// Completing transaction for [outer2]
 		// Initiating transaction commit
 		// Committing JDBC transaction on Connection [HikariProxyConnection@1991964660]
 		// Releasing JDBC Connection [HikariProxyConnection@1991964660] after transaction
@@ -154,10 +173,12 @@ public class TestTxPropsController {
 		// Acquired Connection [HikariProxyConnection@1043314600] for JDBC transaction
 		// Suspending current transaction, creating new transaction with name [innerNoRollback]
 		// Acquired Connection [HikariProxyConnection@886562008]
+		// Completing transaction for [innerRequiresNew2]
 		// Initiating transaction commit
 		// Committing JDBC transaction on Connection [HikariProxyConnection@886562008]
 		// Releasing JDBC Connection [HikariProxyConnection@886562008] after transaction
 		// Resuming suspended transaction after completion of inner transaction
+		// Completing transaction for [outer2]
 		// Initiating transaction commit
 		// Committing JDBC transaction on Connection [HikariProxyConnection@1043314600]
 		// Releasing JDBC Connection [HikariProxyConnection@1043314600] after transaction
@@ -169,6 +190,20 @@ public class TestTxPropsController {
 	public ResponseEntity<Object> propagationTest3() { 
 		log.info("## propagationTest3");
 		log.info("\t > outer = REQUIRED, inner = REQUIRED_NEW (outer exception)");
+		// @@ outer = REQUIRED, inner = REQUIRED_NEW (outer exception)
+		// Creating new transaction with name [outer3]: PROPAGATION_REQUIRED,ISOLATION_DEFAULT
+		// Acquired Connection [HikariProxyConnection@722650634] for JDBC transaction
+		// Suspending current transaction, creating new transaction with name [innerRequiresNew2]
+		// Acquired Connection [HikariProxyConnection@1744551370] for JDBC transaction
+		// Completing transaction for [innerRequiresNew2]
+		// Initiating transaction commit
+		// Committing JDBC transaction on Connection [HikariProxyConnection@1744551370]
+		// Releasing JDBC Connection [HikariProxyConnection@1744551370] after transaction
+		// Resuming suspended transaction after completion of inner transaction
+		// Completing transaction for [outer3] after exception: java.lang.RuntimeException: outer3
+		// Initiating transaction rollback
+		// Rolling back JDBC transaction on Connection [HikariProxyConnection@722650634]
+		// Releasing JDBC Connection [HikariProxyConnection@722650634] after transaction
 		outerService.outer3();
 		return ResponseEntity.ok("success");
 	}
@@ -199,7 +234,7 @@ public class TestTxPropsController {
 	@GetMapping("/tx-props/propagation/test6")
 	public ResponseEntity<Object> propagationTest6() { 
 		log.info("## propagationTest6");
-		// @@ outer = REQUIRED, inner = NESTED (NO Exception)
+		// @@ outer = REQUIRED, inner = NESTED (no Exception)
 		// Creating new transaction with name [outer6]: PROPAGATION_REQUIRED,ISOLATION_DEFAULT
 		// Acquired Connection [HikariProxyConnection@1420424474] for JDBC transaction
 		// Creating nested transaction with name [innerNested2]
@@ -211,13 +246,9 @@ public class TestTxPropsController {
 		return ResponseEntity.ok("success");
 	}
 
-	@GetMapping("/tx-props/propagation/test7")
-	public ResponseEntity<Object> propagationTest7() { 
-		log.info("## propagationTest7");
-		return ResponseEntity.ok("success");
-	}
-	
+	//-----------------------------
 	// @@ ISOLATION
+	//-----------------------------
 	@GetMapping("/tx-props/isolation/numbers")
 	public ResponseEntity<Object> findNumbers() {
 		log.info("## findNumbers");
@@ -320,7 +351,9 @@ public class TestTxPropsController {
 		return ResponseEntity.ok("DEFAULT success");
 	}
 	
-	// @@ TIME-OUT
+	//-----------------------------
+	// @@ TIMEOUT
+	//-----------------------------
 	@GetMapping("/tx-props/timeout/test1")
 	public ResponseEntity<Object> timeoutTest1() {
 		log.info("## timeoutTest1");

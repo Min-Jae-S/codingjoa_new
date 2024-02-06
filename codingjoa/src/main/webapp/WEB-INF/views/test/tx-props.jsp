@@ -92,19 +92,19 @@
 	<div class="parent-div propagation d-none">
 		<p class="sub-p mt-4 pl-4 mb-4">- propagation</p>
 		<div class="test d-flex justify-content-center mb-4">
-			<button class="btn btn-primary mx-3" onclick="propagationTest1()">REQUIRED &rArr; REQUIRED<br>INNER Exception</button>
-			<button class="btn btn-primary mx-3" onclick="propagationTest7()">REQUIRED &rArr; REQUIRED<br>OUTER Exception</button>
+			<button class="btn btn-primary mx-3" onclick="propagationTest1()">REQUIRED &rArr; REQUIRED<br>inner exception</button>
+			<button class="btn btn-primary mx-3" onclick="propagationTest7()">REQUIRED &rArr; REQUIRED<br>outer exception</button>
 			<button class="btn btn-primary mx-3 invisible" onclick="#">#</button>
 		</div>
 		<div class="test d-flex justify-content-center mb-4">
-			<button class="btn btn-primary mx-3" onclick="propagationTest2(true)">REQUIRED &rArr; RE_NEW<br>INNER Exception</button>
-			<button class="btn btn-primary mx-3" onclick="propagationTest3()">REQUIRED &rArr; RE_NEW<br>OUTER Exception</button>
-			<button class="btn btn-primary mx-3" onclick="propagationTest2(false)">REQUIRED &rArr; RE_NEW<br>NO Exception</button>
+			<button class="btn btn-primary mx-3" onclick="propagationTest2(true)">REQUIRED &rArr; RE_NEW<br>inner exception</button>
+			<button class="btn btn-primary mx-3" onclick="propagationTest3()">REQUIRED &rArr; RE_NEW<br>outer exception</button>
+			<button class="btn btn-primary mx-3" onclick="propagationTest2(false)">REQUIRED &rArr; RE_NEW<br>no exception</button>
 		</div>
 		<div class="test d-flex justify-content-center mb-4">
 			<button class="btn btn-primary mx-3" onclick="propagationTest4()">MANDATORY</button>
-			<button class="btn btn-primary mx-3" onclick="propagationTest5()">REQUIRED &rArr; NESTED<br>INNER Exception</button>
-			<button class="btn btn-primary mx-3" onclick="propagationTest6()">REQUIRED &rArr; NESTED<br>NO Exception</button>
+			<button class="btn btn-primary mx-3" onclick="propagationTest5()">REQUIRED &rArr; NESTED<br>inner exception</button>
+			<button class="btn btn-primary mx-3" onclick="propagationTest6()">REQUIRED &rArr; NESTED<br>no exception</button>
 		</div>
 	</div>
 	<div class="parent-div isolation d-none">
@@ -392,6 +392,22 @@
 		$.ajax({
 			type : "GET",
 			url : "${contextPath}/test/tx-props/propagation/test1",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log("> result = %s", result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(jqXHR.responseJSON);
+			}
+		});		
+	}
+	
+	function propagationTest7() {
+		console.log("## propagationTest7");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/tx-props/propagation/test7",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);

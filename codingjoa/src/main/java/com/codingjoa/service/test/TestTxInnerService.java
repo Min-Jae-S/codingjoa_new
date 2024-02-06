@@ -45,7 +45,7 @@ public class TestTxInnerService {
 			if (status.isNewTransaction()) {
 				log.info("\t > status = new transaction");
 			} else {
-				log.info("\t > status = not new transaction");
+				log.info("\t > status = unknown");
 			}
 		} catch (Exception e) {
 			log.info("\t > status = no transaction - {}", e.getClass().getSimpleName());
@@ -62,19 +62,32 @@ public class TestTxInnerService {
 	}
 	
 	@Transactional
-	public void innerRequired() {
-		log.info("## innerRequired");
+	public void innerRequired1() {
+		log.info("## innerRequired1");
 		checkTransaction();
 
-		TestVo testVo = createTestVo("test2.innerRequired");
+		TestVo testVo = createTestVo("innerRequired1");
 		applicationEventPublisher.publishEvent(new TestEvent(
 				TransactionSynchronizationManager.getCurrentTransactionName(), testVo));
 
 		log.info("\t > insert testVo ( name = {} )", testVo.getName());
 		innerMapper.insert(testVo);
 		
-		log.info("\t > will throw RuntimeException in innerRequired");
-		throw new RuntimeException("innerRequired");
+		log.info("\t > will throw RuntimeException in innerRequired1");
+		throw new RuntimeException("innerRequired1");
+	}
+
+	@Transactional
+	public void innerRequired2() {
+		log.info("## innerRequired2");
+		checkTransaction();
+		
+		TestVo testVo = createTestVo("innerRequired2");
+		applicationEventPublisher.publishEvent(new TestEvent(
+				TransactionSynchronizationManager.getCurrentTransactionName(), testVo));
+		
+		log.info("\t > insert testVo ( name = {} )", testVo.getName());
+		innerMapper.insert(testVo);
 	}
 
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
@@ -82,7 +95,7 @@ public class TestTxInnerService {
 		log.info("## innerRequiresNew1");
 		checkTransaction();
 		
-		TestVo testVo = createTestVo("test2.innerRequiresNew1");
+		TestVo testVo = createTestVo("innerRequiresNew1");
 		applicationEventPublisher.publishEvent(new TestEvent(
 				TransactionSynchronizationManager.getCurrentTransactionName(), testVo));
 		
@@ -98,7 +111,7 @@ public class TestTxInnerService {
 		log.info("## innerRequiresNew2");
 		checkTransaction();
 		
-		TestVo testVo = createTestVo("test2.innerRequiresNew2");
+		TestVo testVo = createTestVo("innerRequiresNew2");
 		applicationEventPublisher.publishEvent(new TestEvent(
 				TransactionSynchronizationManager.getCurrentTransactionName(), testVo));
 		
@@ -117,7 +130,7 @@ public class TestTxInnerService {
 		log.info("## innerNested1");
 		checkTransaction();
 		
-		TestVo testVo = createTestVo("test2.innerNested1");
+		TestVo testVo = createTestVo("innerNested1");
 		applicationEventPublisher.publishEvent(new TestEvent(
 				TransactionSynchronizationManager.getCurrentTransactionName(), testVo));
 		
@@ -133,7 +146,7 @@ public class TestTxInnerService {
 		log.info("## innerNested2");
 		checkTransaction();
 		
-		TestVo testVo = createTestVo("test2.innerNested2");
+		TestVo testVo = createTestVo("innerNested2");
 		applicationEventPublisher.publishEvent(new TestEvent(
 				TransactionSynchronizationManager.getCurrentTransactionName(), testVo));
 		

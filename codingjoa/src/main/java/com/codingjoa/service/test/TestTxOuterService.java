@@ -10,6 +10,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
@@ -169,11 +170,11 @@ public class TestTxOuterService {
 	 *  https://www.sktenterprise.com/bizInsight/blogDetail/dev/2639
 	 */
 	
-	@Transactional
+	@Transactional(propagation = Propagation.REQUIRED)
 	public void outer1() {
 		log.info("## outer1");
 		checkTransaction();
-		TestVo testVo = createTestVo("test1.outer1");
+		TestVo testVo = createTestVo("outer1");
 		applicationEventPublisher.publishEvent(new TestEvent(
 				TransactionSynchronizationManager.getCurrentTransactionName(), testVo));
 		
@@ -200,23 +201,41 @@ public class TestTxOuterService {
 		//innerService.innerRequired();
 		
 		// outer: rollback, inner: rollback
-		log.info("\t > calling innerRequired...");
-		innerService.innerRequired();
+		log.info("\t > calling innerRequired1...");
+		innerService.innerRequired1();
 	}
-
-	@Transactional
-	public void outer2(boolean innerException) {
-		log.info("## outer2");
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public void outer7() {
+		log.info("## outer7");
 		checkTransaction();
-		
-		TestVo testVo = createTestVo("test1.outer2");
+		TestVo testVo = createTestVo("outer7");
 		applicationEventPublisher.publishEvent(new TestEvent(
 				TransactionSynchronizationManager.getCurrentTransactionName(), testVo));
 		
 		log.info("\t > insert testVo ( name = {} )", testVo.getName());
 		outerMapper.insert(testVo);
+		
+		log.info("\t > calling innerRequired2...");
+		innerService.innerRequired2();
+		
+		log.info("\t > will throw RuntimeException in outer7");
+		throw new RuntimeException("outer7");
+	}
+
+	@Transactional(propagation = Propagation.REQUIRED)
+	public void outer2(boolean innerException) {
+		log.info("## outer2");
+		checkTransaction();
+		
+		TestVo testVo = createTestVo("outer2");
+		applicationEventPublisher.publishEvent(new TestEvent(
+				TransactionSynchronizationManager.getCurrentTransactionName(), testVo));
+		
+		log.info("\t > insert testVo ( name = {} )", testVo.getName());
+		outerMapper.insert(testVo);
+		
 		if (innerException) {
-			// catch + inner: rollback, outer: commit 
 			try {
 				log.info("\t > calling innerRequiresNew1...");
 				innerService.innerRequiresNew1();
@@ -238,12 +257,12 @@ public class TestTxOuterService {
 //		}
 	}
 	
-	@Transactional
+	@Transactional(propagation = Propagation.REQUIRED)
 	public void outer3() {
 		log.info("## outer3");
 		checkTransaction();
 		
-		TestVo testVo = createTestVo("test1.outer3");
+		TestVo testVo = createTestVo("outer3");
 		applicationEventPublisher.publishEvent(new TestEvent(
 				TransactionSynchronizationManager.getCurrentTransactionName(), testVo));
 		
@@ -261,7 +280,7 @@ public class TestTxOuterService {
 		log.info("## outer4");
 		checkTransaction();
 		
-		TestVo testVo = createTestVo("test1.outer4");
+		TestVo testVo = createTestVo("outer4");
 		applicationEventPublisher.publishEvent(new TestEvent(
 				TransactionSynchronizationManager.getCurrentTransactionName(), testVo));
 		
@@ -277,7 +296,7 @@ public class TestTxOuterService {
 		log.info("## outer5");
 		checkTransaction();
 		
-		TestVo testVo = createTestVo("test1.outer5");
+		TestVo testVo = createTestVo("outer5");
 		applicationEventPublisher.publishEvent(new TestEvent(
 				TransactionSynchronizationManager.getCurrentTransactionName(), testVo));
 		
@@ -296,7 +315,7 @@ public class TestTxOuterService {
 		log.info("## outer6");
 		checkTransaction();
 		
-		TestVo testVo = createTestVo("test1.outer6");
+		TestVo testVo = createTestVo("outer6");
 		applicationEventPublisher.publishEvent(new TestEvent(
 				TransactionSynchronizationManager.getCurrentTransactionName(), testVo));
 		

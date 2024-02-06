@@ -1,10 +1,12 @@
 package com.codingjoa.service.test;
 
+import org.apache.commons.lang3.RandomUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.codingjoa.mapper.test.TestIsoMapper;
 import com.codingjoa.mapper.test.TestTimeoutMapper;
 
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +19,10 @@ public class TestTxTimeOutService {
 	private TestTimeoutMapper timeoutMapper;
 	
 	@Autowired
-	private TestTxService txServivce;
+	private TestTxService txService;
+
+	@Autowired
+	private TestIsoMapper isoMapper;
 	
 	@Autowired
 	private ApplicationEventPublisher applicationEventPublisher;
@@ -27,7 +32,16 @@ public class TestTxTimeOutService {
 	public void induceDelayByExternalService() {
 		log.info("## induceDelayByExternalService");
 		applicationEventPublisher.publishEvent(true);
-		txServivce.insertRandomNumber();
+		
+		//txService.insertRandomNumber();
+		int randomNumber = RandomUtils.nextInt(1, 999);
+		int result = isoMapper.insertNumber(randomNumber);
+		if (result > 0) {
+			log.info("\t > insert random number {}", randomNumber);
+		} else {
+			log.info("\t > insert fail");
+		}
+		
 		timeoutMapper.delay1(10);
 //		timeoutMapper.delay2();
 		
@@ -50,7 +64,7 @@ public class TestTxTimeOutService {
 		log.info("## induceDelayByInternalService");
 		applicationEventPublisher.publishEvent(true);
 		try {
-			txServivce.insertRandomNumber();
+			txService.insertRandomNumber();
 			Thread.sleep(10000);
 		} catch (InterruptedException e) {
 			log.info("\t > {}", e.getClass().getSimpleName());
