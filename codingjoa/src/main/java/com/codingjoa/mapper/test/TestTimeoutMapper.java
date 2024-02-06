@@ -6,4 +6,5 @@ import org.apache.ibatis.annotations.Mapper;
 public interface TestTimeoutMapper {
 
 	void delay1(int seconds);
+	
 }

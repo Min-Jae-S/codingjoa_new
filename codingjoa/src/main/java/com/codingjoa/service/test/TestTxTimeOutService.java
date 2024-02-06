@@ -34,9 +34,7 @@ public class TestTxTimeOutService {
 		log.info("## induceDelayByExternalService");
 
 		txService.insertRandomNumber();
-		
 		timeoutMapper.delay1(10);
-//		timeoutMapper.delay2();
 		
 //		try {
 //			timeoutMapper.delay1(10);

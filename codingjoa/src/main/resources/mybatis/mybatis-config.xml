@@ -29,6 +29,7 @@
 		<!-- 가져온 컬럼의 데이터가 Null 이어도 Setter를 통해 데이터를 바인딩 한다. -->
 		<!-- userDetailsMap(memberImageName) -->
 		<setting name="callSettersOnNulls" value="true"/>
+		<setting name="defaultStatementTimeout" value="30"/> 
 	</settings>
 	
 	<typeAliases>
