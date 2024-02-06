@@ -20,11 +20,12 @@ public class TestTxTimeOutService {
 
 	// DB delay
 	@Transactional(timeout = 5)
-	public void invokeDelay() {
-		log.info("## invokeDelay");
+	public void performTimeout1() {
+		log.info("## performTimeout1");
 		txServivce.insertRandomNumber();
 		txServivce.insertRandomNumber();
-		timeoutMapper.sleep(10);
+		//timeoutMapper.sleep(10);
+		callExternalDelayService();
 		
 //		try {
 //			timeoutMapper.sleep(10);
@@ -41,14 +42,22 @@ public class TestTxTimeOutService {
 	
 	// thread delay
 	@Transactional(timeout = 5)
-	public void invokeDelay2() {
-		log.info("## invokeDelay2");
+	public void performTimeout2() {
+		log.info("## performTimeout2");
 		try {
 			txServivce.insertRandomNumber();
 			txServivce.insertRandomNumber();
 			Thread.sleep(10000);
 		} catch (InterruptedException e) {
 			log.info("\t > {}", e.getClass().getSimpleName());
+			Thread.currentThread().interrupt();
+		}
+	}
+	
+	private void callExternalDelayService() {
+		try {
+			Thread.sleep(10000);
+		} catch (InterruptedException e) {
 			Thread.currentThread().interrupt();
 		}
 	}

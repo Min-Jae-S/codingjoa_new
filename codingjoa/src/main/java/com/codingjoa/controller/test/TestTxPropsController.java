@@ -321,7 +321,7 @@ public class TestTxPropsController {
 	@GetMapping("/tx-props/timeout/test1")
 	public ResponseEntity<Object> timeoutTest1() {
 		log.info("## timeoutTest1");
-		timeoutService.invokeDelay();
-		return ResponseEntity.ok("timeout success");
+		timeoutService.performTimeout1();
+		return ResponseEntity.ok("timeout1 success");
 	} 
 }
