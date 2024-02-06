@@ -26,11 +26,11 @@ public class TestTxOuterService {
 	
 	/*
 	 * @@ Transaction properties
-	 * 	- DefaultTransactionDefinition implements TransactionDefinition
-	 * 	- Transaction Propagation
-	 * 	- Isolation Level
-	 * 	- Timeout
-	 * 	- Read Only
+	 * 	- DefaultTransactionDefinition implements TransactionDefinition { ... }
+	 * 	- propagation
+	 * 	- isolation level
+	 * 	- timeout
+	 * 	- readOnly
 	 */
 	
 	@Autowired

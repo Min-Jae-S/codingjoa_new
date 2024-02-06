@@ -103,18 +103,17 @@ public class TestTxPropsController {
 	
 	/*
 	 * @@ PROPAGATION TEST
-	 * 	- outer = REQUIRED, 		inner = REQUIRED
-	 * 	- outer = REQUIRED, 		inner = REQUIRED_NEW
-	 * 	- outer = NO TRANSACTION, 	inner = MANDATORY
-	 * 	- outer = REQUIRED, 		inner = NESTED
+	 * 	- outer = REQUIRED, 		inner = REQUIRED		(inner exception, outer exception)
+	 * 	- outer = REQUIRED, 		inner = REQUIRED_NEW	(inner exception, outer exception, no exception)
+	 * 	- outer = NO TRANSACTION, 	inner = MANDATORY		
+	 * 	- outer = REQUIRED, 		inner = NESTED			(inner excetpion, no exception)
 	 */
 
 	@GetMapping("/tx-props/propagation/test1")
 	public ResponseEntity<Object> propagationTest1() { 
 		log.info("## propagationTest1");
-		log.info("\t > outer = REQUIRED, inner = REQUIRED");
-		// @@ outer: REQUIRED, inner: REQUIRED (inner Exception)
-		// @@ RuntimeException at inner
+		log.info("\t > outer = REQUIRED, inner = REQUIRED (inner exception)");
+		// @@ outer: REQUIRED, inner: REQUIRED (inner exception)
 		// Creating new transaction with name [outer1]: PROPAGATION_REQUIRED,ISOLATION_DEFAULT
 		// Acquired Connection [HikariProxyConnection@742011473 wrapping oracle.jdbc.driver.T4CConnection@5ff37957] for JDBC transaction
 		// Participating in existing transaction
@@ -131,10 +130,13 @@ public class TestTxPropsController {
 	@GetMapping("/tx-props/propagation/test2/{innerException}")
 	public ResponseEntity<Object> propagationTest2(@PathVariable boolean innerException) { 
 		log.info("## propagationTest2");
-		log.info("\t > outer = REQUIRED, inner = REQUIRED_NEW");
-		log.info("\t > inner exception = {}", innerException);
+		if (innerException) {
+			log.info("\t > outer = REQUIRED, inner = REQUIRED_NEW (inner exception)");
+		} else {
+			log.info("\t > outer = REQUIRED, inner = REQUIRED_NEW (no exception)");
+		}
 		
-		// @@ outer = REQUIRED, inner = REQUIRED_NEW (inner Exception with catch)
+		// @@ outer = REQUIRED, inner = REQUIRED_NEW (inner exception with catch)
 		// Creating new transaction with name [outer2]: PROPAGATION_REQUIRED,ISOLATION_DEFAULT
 		// Acquired Connection [HikariProxyConnection@1991964660] for JDBC transaction
 		// Suspending current transaction, creating new transaction with name [innerRollback]
@@ -147,7 +149,7 @@ public class TestTxPropsController {
 		// Committing JDBC transaction on Connection [HikariProxyConnection@1991964660]
 		// Releasing JDBC Connection [HikariProxyConnection@1991964660] after transaction
 		
-		// @@ outer = REQUIRED, inner = REQUIRED_NEW (NO Exception)
+		// @@ outer = REQUIRED, inner = REQUIRED_NEW (no exception)
 		// Creating new transaction with name [outer2]: PROPAGATION_REQUIRED,ISOLATION_DEFAULT
 		// Acquired Connection [HikariProxyConnection@1043314600] for JDBC transaction
 		// Suspending current transaction, creating new transaction with name [innerNoRollback]
@@ -166,6 +168,7 @@ public class TestTxPropsController {
 	@GetMapping("/tx-props/propagation/test3")
 	public ResponseEntity<Object> propagationTest3() { 
 		log.info("## propagationTest3");
+		log.info("\t > outer = REQUIRED, inner = REQUIRED_NEW (outer exception)");
 		outerService.outer3();
 		return ResponseEntity.ok("success");
 	}
@@ -181,7 +184,7 @@ public class TestTxPropsController {
 	@GetMapping("/tx-props/propagation/test5")
 	public ResponseEntity<Object> propagationTest5() { 
 		log.info("## propagationTest5");
-		// @@ outer = REQUIRED, inner = NESTED (Exception at inner)
+		// @@ outer = REQUIRED, inner = NESTED (inner exception)
 		// Creating new transaction with name [outer5]: PROPAGATION_REQUIRED,ISOLATION_DEFAULT
 		// Acquired Connection [HikariProxyConnection@1294584318] for JDBC transaction
 		// Creating nested transaction with name [innerNested1]

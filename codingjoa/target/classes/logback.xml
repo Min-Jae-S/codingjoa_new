@@ -33,14 +33,14 @@
 	<!-- <logger name="org.springframework.transaction" level="TRACE"/> -->
 	
 	<!-- TransactionInterceptor -->
-	<!-- <logger name="org.springframework.transaction.interceptor" level="INFO"/> -->
+	<logger name="org.springframework.transaction.interceptor" level="TRACE"/>
 	
 	<!-- TransactionSynchronizationManager -->
 	<!-- <logger name="org.springframework.transaction.support" level="TRACE"/> -->
 	
 	<!-- <logger name="org.springframework.jdbc.datasource" level="TRACE"/> -->
 	<!-- <logger name="org.springframework.jdbc.datasource.DataSourceUtils" level="TRACE"/> -->
-	<logger name="org.springframework.jdbc.datasource.DataSourceTransactionManager" level="DEBUG"/>
+	<logger name="org.springframework.jdbc.datasource.DataSourceTransactionManager" level="TRACE"/>
 	
 	<logger name="org.mybatis.spring.SqlSessionUtils" level="INFO"/>
 	<logger name="org.mybatis.spring.transaction.SpringManagedTransaction" level="INFO"/>

@@ -60,7 +60,7 @@
 				<input type="radio" name="options" value="isolation">ISOLATION
 			</label>
 			<label class="btn btn-secondary btn-sm">
-				<input type="radio" name="options" value="time-out-read-only">TIMEOUT & READ ONLY
+				<input type="radio" name="options" value="time-out-read-only">TIMEOUT & READONLY
 			</label>
 		</div>
 	</div>
@@ -72,7 +72,7 @@
 	</div>
 	<p class="mb-4">tx-props.jsp</p>
 	<div class="parent-div rollback">
-		<p class="sub-p mt-4 pl-4 mb-4">- Rollback</p>
+		<p class="sub-p mt-4 pl-4 mb-4">- rollback</p>
 		<div class="test d-flex justify-content-center mb-4">
 			<button class="btn btn-lg btn-primary mx-3" onclick="rollbackTest1()">CATCH</button>
 			<button class="btn btn-lg btn-primary mx-3" onclick="rollbackTest2()">NO CATCH</button>
@@ -90,28 +90,25 @@
 		</div>
 	</div>
 	<div class="parent-div propagation d-none">
-		<p class="sub-p mt-4 pl-4 mb-4">- Propagation</p>
+		<p class="sub-p mt-4 pl-4 mb-4">- propagation</p>
 		<div class="test d-flex justify-content-center mb-4">
 			<button class="btn btn-primary mx-3" onclick="propagationTest1()">REQUIRED &rArr; REQUIRED<br>INNER Exception</button>
 			<button class="btn btn-primary mx-3" onclick="propagationTest7()">REQUIRED &rArr; REQUIRED<br>OUTER Exception</button>
 			<button class="btn btn-primary mx-3 invisible" onclick="#">#</button>
-			<button class="btn btn-primary mx-3 invisible" onclick="#">#</button>
 		</div>
 		<div class="test d-flex justify-content-center mb-4">
 			<button class="btn btn-primary mx-3" onclick="propagationTest2(true)">REQUIRED &rArr; RE_NEW<br>INNER Exception</button>
-			<button class="btn btn-primary mx-3" onclick="propagationTest2(false)">REQUIRED &rArr; RE_NEW<br>NO Exception</button>
 			<button class="btn btn-primary mx-3" onclick="propagationTest3()">REQUIRED &rArr; RE_NEW<br>OUTER Exception</button>
-			<button class="btn btn-primary mx-3 invisible" onclick="#">#</button>
+			<button class="btn btn-primary mx-3" onclick="propagationTest2(false)">REQUIRED &rArr; RE_NEW<br>NO Exception</button>
 		</div>
 		<div class="test d-flex justify-content-center mb-4">
 			<button class="btn btn-primary mx-3" onclick="propagationTest4()">MANDATORY</button>
 			<button class="btn btn-primary mx-3" onclick="propagationTest5()">REQUIRED &rArr; NESTED<br>INNER Exception</button>
 			<button class="btn btn-primary mx-3" onclick="propagationTest6()">REQUIRED &rArr; NESTED<br>NO Exception</button>
-			<button class="btn btn-primary mx-3 invisible" onclick="#">#</button>
 		</div>
 	</div>
 	<div class="parent-div isolation d-none">
-		<p class="sub-p mt-4 pl-4 mb-4">- Isolation Level</p>
+		<p class="sub-p mt-4 pl-4 mb-4">- isolation Level</p>
 		<div class="test d-flex justify-content-center mb-5">
 			<button class="btn btn-lg btn-primary mx-3" onclick="isolationTest1()">READ_COMMITTED</button>
 			<button class="btn btn-lg btn-primary mx-3" onclick="isolationTest2()">SERIALIZABLE</button>
@@ -170,10 +167,10 @@
 		</div>
 	</div>
 	<div class="parent-div time-out-read-only mb-5 d-none">
-		<p class="sub-p mt-4 pl-4 mb-4">- Timeout</p>
+		<p class="sub-p mt-4 pl-4 mb-4">- timeout</p>
 		<div class="test d-flex justify-content-center mb-2">
 			<button class="btn btn-lg btn-primary mx-3" onclick="timeoutTest1()">delay by DB</button>
-			<button class="btn btn-lg btn-primary mx-3" onclick="timeoutTest2()">delay by thread</button>
+			<button class="btn btn-lg btn-primary mx-3" onclick="timeoutTest2()">delay by THREAD</button>
 			<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
 		</div>
 		<div class="test d-flex justify-content-center mb-2">
@@ -183,7 +180,7 @@
 		</div>
 	</div>
 	<div class="parent-div time-out-read-only mb-5 d-none">
-		<p class="sub-p mt-4 pl-4 mb-4">- Read Only</p>
+		<p class="sub-p mt-4 pl-4 mb-4">- readOnly</p>
 		<div class="test d-flex justify-content-center">
 			<button class="btn btn-lg btn-primary mx-3" onclick="readOnlyTest1()">test1</button>
 			<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
