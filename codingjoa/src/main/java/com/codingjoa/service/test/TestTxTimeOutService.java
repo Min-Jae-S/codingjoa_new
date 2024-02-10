@@ -56,7 +56,7 @@ public class TestTxTimeOutService {
 		log.info("## induceDelayByInternalService");
 		try {
 			txService.insertRandomNumber();
-			Thread.sleep(10000);
+			Thread.sleep(10000); // millis
 		} catch (InterruptedException e) {
 			log.info("\t > {}", e.getClass().getSimpleName());
 			Thread.currentThread().interrupt();

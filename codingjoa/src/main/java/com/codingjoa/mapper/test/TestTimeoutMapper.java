@@ -7,4 +7,6 @@ public interface TestTimeoutMapper {
 
 	void delay1(int seconds);
 	
+	//void delay2();
+	
 }
