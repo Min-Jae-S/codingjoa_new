@@ -246,9 +246,7 @@ public class TestTxPropsController {
 		return ResponseEntity.ok("success");
 	}
 
-	//-----------------------------
 	// @@ ISOLATION
-	//-----------------------------
 	@GetMapping("/tx-props/isolation/numbers")
 	public ResponseEntity<Object> findNumbers() {
 		log.info("## findNumbers");
@@ -351,9 +349,7 @@ public class TestTxPropsController {
 		return ResponseEntity.ok("DEFAULT success");
 	}
 	
-	//-----------------------------
 	// @@ TIMEOUT
-	//-----------------------------
 	@GetMapping("/tx-props/timeout/test1")
 	public ResponseEntity<Object> timeoutTest1() {
 		log.info("## timeoutTest1");
