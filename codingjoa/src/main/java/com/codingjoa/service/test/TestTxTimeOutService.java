@@ -1,7 +1,5 @@
 package com.codingjoa.service.test;
 
-import org.apache.commons.lang3.RandomUtils;
-import org.apache.commons.lang3.ThreadUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
@@ -57,7 +55,7 @@ public class TestTxTimeOutService {
 		log.info("## induceDelayByInternalService");
 		try {
 			txService.insertRandomNumber();
-			Thread.sleep(10000); // millis
+			Thread.sleep(10000);
 		} catch (InterruptedException e) {
 			log.info("\t > {}", e.getClass().getSimpleName());
 			Thread.currentThread().interrupt();
