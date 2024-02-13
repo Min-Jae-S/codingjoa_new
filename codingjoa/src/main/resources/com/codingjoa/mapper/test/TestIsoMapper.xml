@@ -45,5 +45,11 @@
 	<delete id="deleteNumbers">
 		DELETE FROM test3
 	</delete>
+
+	<delete id="deleteCurrentNumber">
+		DELETE FROM test3
+		WHERE
+			idx = ( SELECT MAX(idx) FROM test3 )
+	</delete>
 	
 </mapper>

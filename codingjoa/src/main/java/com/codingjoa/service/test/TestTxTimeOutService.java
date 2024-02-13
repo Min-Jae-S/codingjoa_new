@@ -32,7 +32,7 @@ public class TestTxTimeOutService {
 	public void induceDelayByDB() {
 		log.info("## induceDelayByDB");
 		applicationEventPublisher.publishEvent("induceDelayByDB");
-		txService.insertRandomNumber();
+		txService.deleteCurrentNumber();
 	}
 	
 	// internal delay by thread
