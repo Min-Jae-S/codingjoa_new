@@ -258,7 +258,7 @@ public class TestTxPropsController {
 		}
 		return ResponseEntity.ok(numbers);
 	}
-
+	
 	@GetMapping("/tx-props/isolation/current-number")
 	public ResponseEntity<Object> findCurrentNumber() {
 		log.info("## findCurrentNumber");
