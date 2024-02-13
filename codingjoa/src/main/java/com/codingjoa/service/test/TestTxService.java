@@ -331,7 +331,6 @@ public class TestTxService {
 	
 	@Transactional
 	public void insertRandomNumber() {
-		log.info("## insertRandomNumber");
 		applicationEventPublisher.publishEvent("insertRandomNumber");
 		int randomNumber = RandomUtils.nextInt(1, 999);
 		int result = isoMapper.insertNumber(randomNumber);
@@ -344,7 +343,7 @@ public class TestTxService {
 	
 	@Transactional
 	public void updateCurrentNumber() {
-		log.info("## updateCurrentNumber");
+		applicationEventPublisher.publishEvent("updateCurrentNumber");
 		int num = 0;
 		int result = isoMapper.updateCurrentNumber(num);
 		if (result > 0) {
@@ -356,14 +355,14 @@ public class TestTxService {
 	
 	@Transactional
 	public void deleteNumbers() {
-		log.info("## deleteNumbers");
+		applicationEventPublisher.publishEvent("deleteNumbers");
 		isoMapper.deleteNumbers();
 		log.info("\t > delete all numbers");
 	}
 
 	@Transactional
 	public void deleteCurrentNumber() {
-		log.info("## deleteCurrentNumber");
+		applicationEventPublisher.publishEvent("deleteCurrentNumber");
 		isoMapper.deleteCurrentNumber();
 		log.info("\t > delete current number");
 	}

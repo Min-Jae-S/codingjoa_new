@@ -41,7 +41,7 @@ public class TestTxTimeOutService {
 		log.info("## induceDelayByThread");
 		applicationEventPublisher.publishEvent("induceDelayByThread");
 		try {
-			txService.insertRandomNumber();
+			txService.deleteCurrentNumber();
 			Thread.sleep(10000);
 		} catch (InterruptedException e) {
 			log.info("\t > {}", e.getClass().getSimpleName());

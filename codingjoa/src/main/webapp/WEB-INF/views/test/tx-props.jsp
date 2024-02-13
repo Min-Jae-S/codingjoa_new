@@ -175,7 +175,7 @@
 		</div>
 		<div class="test d-flex justify-content-center mb-2">
 			<button class="btn btn-lg btn-warning mx-3" onclick="findNumbers()">FIND NUMBERS</button>
-			<button class="btn btn-lg btn-warning mx-3" onclick="findCurrentNumber()">FIND CURRENT</button>
+			<button class="btn btn-lg btn-warning mx-3" onclick="insertRandomNumber()">INSERT NUMBER</button>
 			<button class="btn btn-lg btn-warning mx-3" onclick="removeNumbers()">DELETE NUMBERS</button>
 		</div>
 	</div>
