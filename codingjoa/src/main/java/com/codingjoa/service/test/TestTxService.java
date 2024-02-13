@@ -12,6 +12,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.NoTransactionException;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -76,6 +77,9 @@ public class TestTxService {
 	
 	@Autowired
 	private TestIsoMapper isoMapper;
+	
+	@Autowired
+	private ApplicationEventPublisher applicationEventPublisher;
 	
 	public void doSomething1() {
 		log.info("## doSomething1 - NO Transactional");
@@ -327,12 +331,13 @@ public class TestTxService {
 	
 	@Transactional
 	public void insertRandomNumber() {
+		applicationEventPublisher.publishEvent("insertRandomNumber");
 		int randomNumber = RandomUtils.nextInt(1, 999);
 		int result = isoMapper.insertNumber(randomNumber);
 		if (result > 0) {
-			log.info("\t > insert random number {}", randomNumber);
+			log.info("## insert random number {}", randomNumber);
 		} else {
-			log.info("\t > insert fail");
+			log.info("## insert fail");
 		}
 	}
 	
@@ -341,14 +346,14 @@ public class TestTxService {
 		int num = 0;
 		int result = isoMapper.updateCurrentNumber(num);
 		if (result > 0) {
-			log.info("\t > update current number to {}", num);
+			log.info("## update current number to {}", num);
 		} else {
-			log.info("\t > update fail");
+			log.info("## update fail");
 		}
 	}
 	
 	public void deleteNumbers() {
 		isoMapper.deleteNumbers();
-		log.info("\t > delete all numbers");
+		log.info("## delete all numbers");
 	}
 }

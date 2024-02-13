@@ -28,11 +28,11 @@ public class TestTxTimeOutService {
 	private ApplicationEventPublisher applicationEventPublisher;
 
 	// external delay by database
-//	@Transactional (timeout = 5) 
-	@Transactional
+	@Transactional (timeout = 5) 
+//	@Transactional
 	public void induceDelayByDB() {
 		log.info("## induceDelayByDB");
-		applicationEventPublisher.publishEvent(true);
+		applicationEventPublisher.publishEvent("induceDelayByDB");
 
 		txService.insertRandomNumber();
 		timeoutMapper.delay1(10);
@@ -51,6 +51,7 @@ public class TestTxTimeOutService {
 	@Transactional(timeout = 5)
 	public void induceDelayByThread() {
 		log.info("## induceDelayByThread");
+		applicationEventPublisher.publishEvent(true);
 		try {
 			txService.insertRandomNumber();
 			Thread.sleep(10000);
