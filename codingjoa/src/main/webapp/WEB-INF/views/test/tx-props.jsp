@@ -169,7 +169,7 @@
 	<div class="parent-div time-out-read-only mb-5 d-none">
 		<p class="sub-p mt-4 pl-4 mb-4">- timeout</p>
 		<div class="test d-flex justify-content-center mb-2">
-			<button class="btn btn-lg btn-primary mx-3" onclick="timeoutTest1()">delay by database</button>
+			<button class="btn btn-lg btn-primary mx-3" onclick="timeoutTest1()">delay by DB</button>
 			<button class="btn btn-lg btn-primary mx-3" onclick="timeoutTest2()">delay by thread</button>
 			<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
 		</div>

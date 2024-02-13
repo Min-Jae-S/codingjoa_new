@@ -28,30 +28,27 @@ public class TestTxTimeOutService {
 	private ApplicationEventPublisher applicationEventPublisher;
 
 	// external delay by database
-	@Transactional (timeout = 5) 
+	@Transactional (timeout = 3) 
 //	@Transactional
 	public void induceDelayByDB() {
 		log.info("## induceDelayByDB");
 		applicationEventPublisher.publishEvent("induceDelayByDB");
 
 		txService.insertRandomNumber();
-		timeoutMapper.delay1(10);
-//		try {
-//			timeoutMapper.delay1(10);
-//		} catch (Exception e) {
-//			if (e instanceof RuntimeException) {
-//				log.info("\t > {} - unchecked exception", e.getClass().getSimpleName());
-//			} else {
-//				log.info("\t > {} - checked exception", e.getClass().getSimpleName());
-//			}
-//		}
+		timeoutMapper.findCurrentNumberForUpdate();
+		Integer number = txService.findCurrentNumber();
+		if (number != null) {
+			log.info("\t > current number = {}", number);
+		} else {
+			log.info("\t > no current number");
+		}
 	}
 	
 	// internal delay by thread
-	@Transactional(timeout = 5)
+	@Transactional(timeout = 3)
 	public void induceDelayByThread() {
 		log.info("## induceDelayByThread");
-		applicationEventPublisher.publishEvent(true);
+		applicationEventPublisher.publishEvent("induceDelayByThread");
 		try {
 			txService.insertRandomNumber();
 			Thread.sleep(10000);

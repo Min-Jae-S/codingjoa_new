@@ -5,6 +5,8 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface TestTimeoutMapper {
 
-	void delay1(int seconds);
+	void delay(int seconds);
+	
+	Integer findCurrentNumberForUpdate();
 	
 }
