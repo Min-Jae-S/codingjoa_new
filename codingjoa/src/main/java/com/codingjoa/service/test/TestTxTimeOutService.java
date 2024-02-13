@@ -24,28 +24,26 @@ public class TestTxTimeOutService {
 	@Autowired
 	private TestIsoMapper isoMapper;
 	
-	@SuppressWarnings("unused")
 	@Autowired
 	private ApplicationEventPublisher applicationEventPublisher;
 
 	// external delay by database
-	@Transactional (timeout = 5) 
+//	@Transactional (timeout = 5) 
+	@Transactional
 	public void induceDelayByDB() {
 		log.info("## induceDelayByDB");
+		applicationEventPublisher.publishEvent(true);
 
 		txService.insertRandomNumber();
 		timeoutMapper.delay1(10);
-		
 //		try {
 //			timeoutMapper.delay1(10);
 //		} catch (Exception e) {
-//			String type = "";
 //			if (e instanceof RuntimeException) {
-//				type = "unchecked exception";
+//				log.info("\t > {} - unchecked exception", e.getClass().getSimpleName());
 //			} else {
-//				type = "checked exception";
+//				log.info("\t > {} - checked exception", e.getClass().getSimpleName());
 //			}
-//			log.info("\t > {} - {}", e.getClass().getSimpleName(), type);
 //		}
 	}
 	

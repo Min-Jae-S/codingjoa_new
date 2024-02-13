@@ -19,6 +19,8 @@ public class TxEventService {
 			TestEvent event = (TestEvent) obj;
 			log.info("\t > location = {}", event.getLocation());
 			log.info("\t > commit testVo ( name = {} )", event.getTestVo().getName());
+		} else {
+			log.info("\t > commit data");
 		}
 	}
 	
@@ -29,6 +31,8 @@ public class TxEventService {
 			TestEvent event = (TestEvent) obj;
 			log.info("\t > location = {}", event.getLocation());
 			log.info("\t > rollback testVo ( name = {} )", event.getTestVo().getName());
+		} else {
+			log.info("\t > commit data");
 		}
 	}
 }
