@@ -335,9 +335,9 @@ public class TestTxService {
 		int randomNumber = RandomUtils.nextInt(1, 999);
 		int result = isoMapper.insertNumber(randomNumber);
 		if (result > 0) {
-			log.info("## insert random number {}", randomNumber);
+			log.info("\t > insert random number {}", randomNumber);
 		} else {
-			log.info("## insert fail");
+			log.info("\t > insert fail");
 		}
 	}
 	
@@ -346,14 +346,14 @@ public class TestTxService {
 		int num = 0;
 		int result = isoMapper.updateCurrentNumber(num);
 		if (result > 0) {
-			log.info("## update current number to {}", num);
+			log.info("\t > update current number to {}", num);
 		} else {
-			log.info("## update fail");
+			log.info("\t > update fail");
 		}
 	}
 	
 	public void deleteNumbers() {
 		isoMapper.deleteNumbers();
-		log.info("## delete all numbers");
+		log.info("\t > delete all numbers");
 	}
 }
