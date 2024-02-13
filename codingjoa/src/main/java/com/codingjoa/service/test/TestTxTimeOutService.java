@@ -30,8 +30,8 @@ public class TestTxTimeOutService {
 
 	// external delay by database
 	@Transactional (timeout = 5) 
-	public void induceDelayByExternalService() {
-		log.info("## induceDelayByExternalService");
+	public void induceDelayByDB() {
+		log.info("## induceDelayByDB");
 
 		txService.insertRandomNumber();
 		timeoutMapper.delay1(10);
@@ -51,8 +51,8 @@ public class TestTxTimeOutService {
 	
 	// internal delay by thread
 	@Transactional(timeout = 5)
-	public void induceDelayByInternalService() {
-		log.info("## induceDelayByInternalService");
+	public void induceDelayByThread() {
+		log.info("## induceDelayByThread");
 		try {
 			txService.insertRandomNumber();
 			Thread.sleep(10000);
