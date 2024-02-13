@@ -28,13 +28,15 @@ public class TestTxTimeOutService {
 	private ApplicationEventPublisher applicationEventPublisher;
 
 	// external delay by database
-	@Transactional (timeout = 1) 
+	@Transactional (timeout = 3) 
 	public void induceDelayByDB() {
 		log.info("## induceDelayByDB");
+		applicationEventPublisher.publishEvent("induceDelayByDB");
+		txService.deleteCurrentNumber();
 	}
 	
 	// internal delay by thread
-	@Transactional(timeout = 1)
+	@Transactional(timeout = 3)
 	public void induceDelayByThread() {
 		log.info("## induceDelayByThread");
 		applicationEventPublisher.publishEvent("induceDelayByThread");
