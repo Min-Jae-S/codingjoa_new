@@ -31,10 +31,6 @@ public class TestTxTimeOutService {
 	@Transactional (timeout = 1) 
 	public void induceDelayByDB() {
 		log.info("## induceDelayByDB");
-		applicationEventPublisher.publishEvent("induceDelayByDB");
-		for(int i = 0; i < 1000; i++) {
-			txService.insertRandomNumber();
-		}
 	}
 	
 	// internal delay by thread
