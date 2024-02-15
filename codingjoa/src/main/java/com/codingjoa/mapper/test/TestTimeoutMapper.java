@@ -7,6 +7,5 @@ public interface TestTimeoutMapper {
 
 	void delay(int seconds);
 	
-	Integer findCurrentNumberForUpdate();
-	
+	//Integer findCurrentNumberForUpdate();
 }
