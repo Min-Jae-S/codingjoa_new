@@ -4,7 +4,9 @@
 
 	<select id="delay" statementType="CALLABLE">
 		<![CDATA[
-		{ CALL DBMS_LOCK.SLEEP( #{seconds} ) }
+		{ CALL 
+			DBMS_LOCK.SLEEP( #{seconds} ) 
+		}
 		]]>
 	</select>
 	

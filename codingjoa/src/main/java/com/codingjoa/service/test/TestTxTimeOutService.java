@@ -28,7 +28,7 @@ public class TestTxTimeOutService {
 	private ApplicationEventPublisher applicationEventPublisher;
 
 	// external delay by database
-	@Transactional (timeout = 3) 
+	@Transactional (timeout = 5) 
 	public void induceDelayByDB() {
 		log.info("## induceDelayByDB");
 		applicationEventPublisher.publishEvent("induceDelayByDB");
@@ -36,13 +36,13 @@ public class TestTxTimeOutService {
 	}
 	
 	// internal delay by thread
-	@Transactional(timeout = 3)
+	@Transactional(timeout = 5)
 	public void induceDelayByThread() {
 		log.info("## induceDelayByThread");
 		applicationEventPublisher.publishEvent("induceDelayByThread");
 		try {
 			txService.deleteCurrentNumber();
-			Thread.sleep(10000);
+			Thread.sleep(10000); // 10sec
 		} catch (InterruptedException e) {
 			log.info("\t > {}", e.getClass().getSimpleName());
 			Thread.currentThread().interrupt();
