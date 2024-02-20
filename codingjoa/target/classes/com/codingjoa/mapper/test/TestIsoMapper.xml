@@ -29,8 +29,13 @@
 	</select>
 	
 	<insert id="insertNumber" parameterType="int">
-		INSERT INTO test3 (idx, num) 
-		VALUES (seq_test3.NEXTVAL, #{num})
+		INSERT INTO test3 (
+			idx, 
+			num
+		) VALUES (
+			seq_test3.NEXTVAL, 
+			#{num}
+		)
 	</insert>
 	
 	<update id="updateCurrentNumber" parameterType="int">
