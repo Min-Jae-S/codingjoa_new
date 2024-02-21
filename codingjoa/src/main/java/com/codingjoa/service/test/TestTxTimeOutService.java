@@ -11,16 +11,17 @@ import com.codingjoa.mapper.test.TestTimeoutMapper;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@SuppressWarnings("unused")
 @Service
 public class TestTxTimeOutService {
 	
+	@SuppressWarnings("unused")
 	@Autowired
 	private TestTimeoutMapper timeoutMapper;
 	
 	@Autowired
 	private TestTxService txService;
 
+	@SuppressWarnings("unused")
 	@Autowired
 	private TestIsoMapper isoMapper;
 	
