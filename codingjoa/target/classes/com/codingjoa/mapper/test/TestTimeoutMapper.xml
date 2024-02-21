@@ -10,7 +10,7 @@
 		]]>
 	</select>
 	
-	<!-- <select id="findCurrentNumberForUpdate" resultType="int">
+	<select id="findCurrentNumberForUpdate" resultType="int">
 		SELECT 
 			num
 		FROM
@@ -18,6 +18,6 @@
 		WHERE
 			idx = ( SELECT MAX(idx) FROM test3 )
 		FOR UPDATE
-	</select> -->
+	</select>
 
 </mapper>
