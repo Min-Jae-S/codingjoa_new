@@ -31,6 +31,7 @@ import com.codingjoa.test.TestVo;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@SuppressWarnings("unused")
 @Service
 public class TestTxService {
 	
@@ -331,19 +332,18 @@ public class TestTxService {
 	
 	@Transactional
 	public void insertRandomNumber() {
-		applicationEventPublisher.publishEvent("insertRandomNumber");
 		int randomNumber = RandomUtils.nextInt(1, 999);
-		int result = isoMapper.insertNumber(randomNumber);
-		if (result > 0) {
-			log.info("\t > insert random number {}", randomNumber);
-		} else {
-			log.info("\t > insert fail");
-		}
+		isoMapper.insertNumber(randomNumber);
+//		int result = isoMapper.insertNumber(randomNumber);
+//		if (result > 0) {
+//			log.info("\t > insert random number {}", randomNumber);
+//		} else {
+//			log.info("\t > insert fail");
+//		}
 	}
 	
 	@Transactional
 	public void updateCurrentNumber() {
-		applicationEventPublisher.publishEvent("updateCurrentNumber");
 		int num = 0;
 		int result = isoMapper.updateCurrentNumber(num);
 		if (result > 0) {
@@ -355,14 +355,12 @@ public class TestTxService {
 	
 	@Transactional
 	public void deleteNumbers() {
-		applicationEventPublisher.publishEvent("deleteNumbers");
 		isoMapper.deleteNumbers();
 		log.info("\t > delete all numbers");
 	}
 
 	@Transactional
 	public void deleteCurrentNumber() {
-		applicationEventPublisher.publishEvent("deleteCurrentNumber");
 		int result = isoMapper.deleteCurrentNumber();
 		if (result > 0) {
 			log.info("\t > delete current number");
