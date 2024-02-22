@@ -183,7 +183,7 @@
 		<p class="sub-p mt-4 pl-4 mb-4">- readOnly</p>
 		<div class="test d-flex justify-content-center">
 			<button class="btn btn-lg btn-primary mx-3" onclick="readOnlyTest1()">test1</button>
-			<button class="btn btn-lg btn-primary mx-3" onclick="checkAutoCommit()">check AutoCommit without tx</button>
+			<button class="btn btn-lg btn-primary mx-3" onclick="checkAutoCommit()">check AutoCommit<br>without tx</button>
 			<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
 		</div>
 	</div>

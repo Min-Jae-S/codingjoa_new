@@ -46,7 +46,7 @@ import com.codingjoa.mapper.MemberMapper;
 import com.codingjoa.response.SuccessResponse;
 import com.codingjoa.security.dto.UserDetailsDto;
 import com.codingjoa.service.ImageService;
-import com.codingjoa.service.test.TestTxService;
+import com.codingjoa.service.test.tx.TestTxService;
 import com.codingjoa.test.Foo;
 import com.codingjoa.test.Test;
 import com.codingjoa.test.TestException;

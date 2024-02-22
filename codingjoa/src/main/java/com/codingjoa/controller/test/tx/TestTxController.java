@@ -1,4 +1,4 @@
-package com.codingjoa.controller.test;
+package com.codingjoa.controller.test.tx;
 
 import java.time.LocalDateTime;
 import java.util.Map;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.codingjoa.service.test.TestTxService;
+import com.codingjoa.service.test.tx.TestTxService;
 import com.codingjoa.test.TestVo;
 
 import lombok.extern.slf4j.Slf4j;

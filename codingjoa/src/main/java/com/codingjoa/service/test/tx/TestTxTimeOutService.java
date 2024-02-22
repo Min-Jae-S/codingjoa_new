@@ -1,4 +1,4 @@
-package com.codingjoa.service.test;
+package com.codingjoa.service.test.tx;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;

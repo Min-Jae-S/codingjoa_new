@@ -1,4 +1,4 @@
-package com.codingjoa.controller.test;
+package com.codingjoa.controller.test.tx;
 
 import java.util.List;
 
@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.codingjoa.service.test.TestTxIsoService;
-import com.codingjoa.service.test.TestTxOuterService;
-import com.codingjoa.service.test.TestTxService;
-import com.codingjoa.service.test.TestTxTimeOutService;
+import com.codingjoa.service.test.tx.TestTxIsoService;
+import com.codingjoa.service.test.tx.TestTxOuterService;
+import com.codingjoa.service.test.tx.TestTxService;
+import com.codingjoa.service.test.tx.TestTxTimeOutService;
 
 import lombok.extern.slf4j.Slf4j;
 
