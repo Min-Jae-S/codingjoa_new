@@ -1,4 +1,4 @@
-package com.codingjoa.service.test.tx;
+package com.codingjoa.service.test;
 
 import java.io.IOException;
 import java.sql.SQLException;

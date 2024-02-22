@@ -26,7 +26,8 @@
 	<logger name="org.springframework.security.web.access.intercept.FilterSecurityInterceptor" level="INFO"/>
 	<logger name="org.springframework.web.servlet.DispatcherServlet" level="INFO"/>
 	<logger name="org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor" level="INFO"/>
-	<logger name="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping" level="DEBUG"/>
+	<!-- <logger name="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping" level="DEBUG"/> -->
+	<logger name="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping" level="INFO"/>
 	<logger name="org.springframework.beans.factory.support.DefaultListableBeanFactory" level="INFO"/>
 	
 	<!-- Transaction -->

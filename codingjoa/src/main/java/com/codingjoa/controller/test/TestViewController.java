@@ -40,4 +40,10 @@ public class TestViewController {
 		log.info("## txProps main");
 		return "test/tx-props";
 	}
+
+	@GetMapping("/jdbc")
+	public String jdbcMain() {
+		log.info("## jdbc main");
+		return "test/jdbc";
+	}
 }
