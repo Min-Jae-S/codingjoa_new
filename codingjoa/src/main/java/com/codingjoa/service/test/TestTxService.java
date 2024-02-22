@@ -363,7 +363,11 @@ public class TestTxService {
 	@Transactional
 	public void deleteCurrentNumber() {
 		applicationEventPublisher.publishEvent("deleteCurrentNumber");
-		isoMapper.deleteCurrentNumber();
-		log.info("\t > delete current number");
+		int result = isoMapper.deleteCurrentNumber();
+		if (result > 0) {
+			log.info("\t > delete current number");
+		} else {
+			log.info("\t > there is no record OR delete fail");
+		}
 	}
 }

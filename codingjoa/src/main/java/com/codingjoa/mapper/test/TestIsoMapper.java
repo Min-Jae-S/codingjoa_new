@@ -17,6 +17,6 @@ public interface TestIsoMapper {
 	
 	void deleteNumbers();
 	
-	void deleteCurrentNumber();
+	int deleteCurrentNumber();
 	
 }
