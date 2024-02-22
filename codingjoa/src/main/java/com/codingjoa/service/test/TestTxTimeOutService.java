@@ -11,17 +11,16 @@ import com.codingjoa.mapper.test.TestTimeoutMapper;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@SuppressWarnings("unused")
 @Service
 public class TestTxTimeOutService {
 	
-	@SuppressWarnings("unused")
 	@Autowired
 	private TestTimeoutMapper timeoutMapper;
 	
 	@Autowired
 	private TestTxService txService;
 
-	@SuppressWarnings("unused")
 	@Autowired
 	private TestIsoMapper isoMapper;
 	
@@ -29,11 +28,13 @@ public class TestTxTimeOutService {
 	private ApplicationEventPublisher applicationEventPublisher;
 
 	// external delay by database
-	@Transactional (timeout = 5) 
+	@Transactional (timeout = 1) 
 	public void induceDelayByDB() {
 		log.info("## induceDelayByDB");
 		applicationEventPublisher.publishEvent("induceDelayByDB");
-		txService.deleteCurrentNumber();
+		for (int i = 0; i < 10000; i++) {
+			txService.insertRandomNumber();
+		}
 	}
 	
 	// internal delay by thread
