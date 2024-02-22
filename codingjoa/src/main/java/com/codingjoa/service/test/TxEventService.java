@@ -36,15 +36,16 @@ public class TxEventService {
 		}
 	}
 
-	@TransactionalEventListener(phase = TransactionPhase.AFTER_COMPLETION)
-	public void completionEvent(Object obj) {
-		log.info("------------- completion -------------");
-		if (obj instanceof TestEvent) {
-			TestEvent event = (TestEvent) obj;
-			log.info("\t > location = {}", event.getLocation());
-			log.info("\t > complete testVo ( name = {} )", event.getTestVo().getName());
-		} else {
-			log.info("\t > complete by '{}'", obj);
-		}
-	}
+//	@TransactionalEventListener(phase = TransactionPhase.AFTER_COMPLETION)
+//	public void completionEvent(Object obj) {
+//		log.info("------------- completion -------------");
+//		if (obj instanceof TestEvent) {
+//			TestEvent event = (TestEvent) obj;
+//			log.info("\t > location = {}", event.getLocation());
+//			log.info("\t > complete testVo ( name = {} )", event.getTestVo().getName());
+//		} else {
+//			log.info("\t > complete by '{}'", obj);
+//		}
+//	}
+	
 }
