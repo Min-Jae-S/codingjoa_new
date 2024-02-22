@@ -38,7 +38,7 @@
 <div class="container my-5">
 	<p>jdbc.jsp</p>
 	<div class="test d-flex justify-content-center mt-5">
-		<button class="btn btn-lg btn-warning mx-3" onclick="jdbcTest1()">jdbcTest1</button>
+		<button class="btn btn-lg btn-warning mx-3" onclick="jdbcTest1()">jdbcTest1<br>BASIC JDBC</button>
 		<button class="btn btn-lg btn-warning mx-3" onclick="jdbcTest2()">jdbcTest2</button>
 		<button class="btn btn-lg btn-warning mx-3 invisible" onclick="#">#</button>
 	</div>

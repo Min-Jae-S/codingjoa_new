@@ -5,11 +5,12 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.sql.DataSource;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.codingjoa.test.TestJdbc;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -17,12 +18,8 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class TestJdbcService {
 	
-	@Autowired
-	private DataSource dataSource;
-
 	public void basicJdbc() throws ClassNotFoundException, SQLException {
 		log.info("## basicJdbc");
-		
 		Connection conn = null;
 		Statement stmt = null;
 		ResultSet rs = null;
@@ -37,13 +34,14 @@ public class TestJdbcService {
 			
 		String query = "SELECT * FROM test3 ORDER BY idx DESC";
 		rs = stmt.executeQuery(query);
-			
+		
+		List<TestJdbc> list = new ArrayList<>();
 		while (rs.next()) {
 			int idx = rs.getInt("idx");
 			int num = rs.getInt("num");
-			log.info("\t > idx = {}, num = {}", idx, num);
+			list.add(new TestJdbc(idx, num));
 		}
-		
+		log.info("\t > {}", list);
 		rs.close();
 		stmt.close();
 		conn.close();
