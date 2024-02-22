@@ -23,7 +23,7 @@
 		SELECT num FROM test3 ORDER BY idx DESC
 	</select>
 	
-	<insert id="insertNumber" parameterType="int" flushCache="true">
+	<insert id="insertNumber" parameterType="int">
 		INSERT INTO test3 (
 			idx, 
 			num
@@ -31,6 +31,19 @@
 			seq_test3.NEXTVAL, 
 			#{num}
 		)
+	</insert>
+	
+	<insert id="insertNumbers" parameterType="list">
+		INSERT INTO test3 (
+			idx, 
+			num
+		) VALUES 
+		<foreach collection="list" item="item" separator=",">
+		(
+			seq_test3.NEXTVAL, 
+			#{item}
+		)
+		</foreach>
 	</insert>
 	
 	<update id="updateCurrentNumber" parameterType="int">

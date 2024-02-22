@@ -13,6 +13,8 @@ public interface TestIsoMapper {
 	
 	int insertNumber(int num);
 	
+	void insertNumbers(List<Integer> nums);
+	
 	int updateCurrentNumber(int num);
 	
 	void deleteNumbers();
