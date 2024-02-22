@@ -313,40 +313,40 @@ public class TestTxPropsController {
 	@GetMapping("/tx-props/isolation/resume/read-committed/{option}")
 	public ResponseEntity<Object> resumeReadCommitted(@PathVariable String option) {
 		isoService.resumeReadCommitted(option);
-		return ResponseEntity.ok("RESUME READ_COMMITTED success");
+		return ResponseEntity.ok("success");
 	}
 	
 	@GetMapping("/tx-props/isolation/resume/serializable/{option}")
 	public ResponseEntity<Object> resumeSerializable(@PathVariable String option) {
 		isoService.resumeSerializable(option);
-		return ResponseEntity.ok("RESUME SERIALIZABLE success");
+		return ResponseEntity.ok("success");
 	}
 
 	@GetMapping("/tx-props/isolation/resume/default/{option}")
 	public ResponseEntity<Object> resumeDefault(@PathVariable String option) {
 		isoService.resumeDefault(option);
-		return ResponseEntity.ok("RESUME DEFAULT success");
+		return ResponseEntity.ok("success");
 	}
 	
 	@GetMapping("/tx-props/isolation/read-committed")
 	public ResponseEntity<Object> isolationTest1() {
 		log.info("## isolationTest1");
 		isoService.isoReadCommitted();
-		return ResponseEntity.ok("READ_COMMITTED success");
+		return ResponseEntity.ok("success");
 	}
 	
 	@GetMapping("/tx-props/isolation/serializable")
 	public ResponseEntity<Object> isolationTest2() { 
 		log.info("## isolationTest2");
 		isoService.isoSerializable();
-		return ResponseEntity.ok("SERIALIZABLE success");
+		return ResponseEntity.ok("success");
 	}
 	
 	@GetMapping("/tx-props/isolation/default")
 	public ResponseEntity<Object> isolationTest3() {
 		log.info("## isolationTest3");
 		isoService.isoDefault();
-		return ResponseEntity.ok("DEFAULT success");
+		return ResponseEntity.ok("success");
 	}
 	
 	// @@ TIMEOUT
@@ -354,13 +354,20 @@ public class TestTxPropsController {
 	public ResponseEntity<Object> timeoutTest1() {
 		log.info("## timeoutTest1");
 		timeoutService.induceDelayByDB();
-		return ResponseEntity.ok("timeoutTest1 success");
+		return ResponseEntity.ok("success");
 	} 
 
 	@GetMapping("/tx-props/timeout/test2")
 	public ResponseEntity<Object> timeoutTest2() {
 		log.info("## timeoutTest2");
 		timeoutService.induceDelayByThread();
-		return ResponseEntity.ok("timeoutTest2 success");
+		return ResponseEntity.ok("success");
+	} 
+
+	@GetMapping("/tx-props/check-autocommit")
+	public ResponseEntity<Object> checkAutoCommit() {
+		log.info("## checkAutoCommit");
+		txService.insertRandomNumberWithoutTransaction();
+		return ResponseEntity.ok("success");
 	} 
 }

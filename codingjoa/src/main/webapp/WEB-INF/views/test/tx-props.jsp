@@ -183,7 +183,7 @@
 		<p class="sub-p mt-4 pl-4 mb-4">- readOnly</p>
 		<div class="test d-flex justify-content-center">
 			<button class="btn btn-lg btn-primary mx-3" onclick="readOnlyTest1()">test1</button>
-			<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
+			<button class="btn btn-lg btn-primary mx-3" onclick="checkAutoCommit()">NO @Transactional<br>check AutoCommit</button>
 			<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
 		</div>
 	</div>
@@ -716,6 +716,22 @@
 		$.ajax({
 			type : "GET",
 			url : "${contextPath}/test/tx-props/timeout/test2",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log("> result = %s", result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(jqXHR.responseJSON);
+			}
+		});	
+	}
+
+	function checkAutoCommit() {
+		console.log("## checkAutoCommit");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/tx-props/check-autocommit",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);
