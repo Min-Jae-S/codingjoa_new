@@ -2,7 +2,6 @@ package com.codingjoa.service.test;
 
 import java.sql.SQLException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -332,6 +331,8 @@ public class TestTxService {
 	
 	@Transactional
 	public void insertRandomNumber() {
+		log.info("## insertRandomNumber");
+		applicationEventPublisher.publishEvent("insertRandomNumber");
 		int randomNumber = RandomUtils.nextInt(1, 999);
 		int result = isoMapper.insertNumber(randomNumber);
 		if (result > 0) {
@@ -343,17 +344,17 @@ public class TestTxService {
 	
 	@Transactional
 	public void insertRandomNumbers(int count) {
+		log.info("## insertRandomNumbers");
 		applicationEventPublisher.publishEvent("insertRandomNumbers");
-		ArrayList<Integer> randomNumbers = new ArrayList<>();
-		for(int i = 0; i < count; i++) {
-			int randomNumber = RandomUtils.nextInt(1, 9999);
-			randomNumbers.add(randomNumber);
+		for (int i = 0; i < count; i++) {
+			int randomNumber = RandomUtils.nextInt(1, 999);
+			isoMapper.insertNumber(randomNumber);
 		}
-		isoMapper.insertNumbers(randomNumbers);
 	}
 	
 	@Transactional
 	public void updateCurrentNumber() {
+		log.info("## updateCurrentNumber");
 		applicationEventPublisher.publishEvent("updateCurrentNumber");
 		int num = 0;
 		int result = isoMapper.updateCurrentNumber(num);
@@ -366,6 +367,7 @@ public class TestTxService {
 	
 	@Transactional
 	public void deleteNumbers() {
+		log.info("## deleteNumbers");
 		applicationEventPublisher.publishEvent("deleteNumbers");
 		isoMapper.deleteNumbers();
 		log.info("\t > delete all numbers");
@@ -373,6 +375,7 @@ public class TestTxService {
 
 	@Transactional
 	public void deleteCurrentNumber() {
+		log.info("## deleteCurrentNumber");
 		applicationEventPublisher.publishEvent("deleteCurrentNumber");
 		int result = isoMapper.deleteCurrentNumber();
 		if (result > 0) {

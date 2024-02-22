@@ -3,7 +3,7 @@
 <configuration>
 	<settings>
 		<!-- StatementTimeout vs TransactionTimeout -->
-		<setting name="defaultStatementTimeout" value="60"/>
+		<!-- <setting name="defaultStatementTimeout" value="60"/> -->
 	
 		<!-- 해당 컬럼이 null 허용일 경우 null인 상태로 insert나 update를 처리해주는 설정, 부적합한 열 유형: 1111 -->
 		<!-- 1. JdbcType(#{columnNm, jdbcType=VARCHAR) 2. mybatis-config.xml-->

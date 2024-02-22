@@ -33,19 +33,6 @@
 		)
 	</insert>
 	
-	<insert id="insertNumbers" parameterType="list">
-		INSERT INTO test3 (
-			idx, 
-			num
-		) VALUES 
-		<foreach collection="list" item="item" separator=",">
-		(
-			seq_test3.NEXTVAL, 
-			#{item}
-		)
-		</foreach>
-	</insert>
-	
 	<update id="updateCurrentNumber" parameterType="int">
 		UPDATE 
 			test3
