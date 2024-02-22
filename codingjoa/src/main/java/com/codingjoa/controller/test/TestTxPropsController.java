@@ -367,7 +367,7 @@ public class TestTxPropsController {
 	@GetMapping("/tx-props/check-autocommit")
 	public ResponseEntity<Object> checkAutoCommit() {
 		log.info("## checkAutoCommit");
-		txService.insertRandomNumberWithoutTransaction();
+		txService.insertRandomNumberWithoutTx();
 		return ResponseEntity.ok("success");
 	} 
 }

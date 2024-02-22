@@ -342,8 +342,8 @@ public class TestTxService {
 		}
 	}
 	
-	public void insertRandomNumberWithoutTransaction() {
-		log.info("## insertRandomNumberWithoutTransaction");
+	public void insertRandomNumberWithoutTx() {
+		log.info("## insertRandomNumberWithoutTx");
 		int randomNumber = RandomUtils.nextInt(1, 999);
 		int result = isoMapper.insertNumber(randomNumber);
 		if (result > 0) {
