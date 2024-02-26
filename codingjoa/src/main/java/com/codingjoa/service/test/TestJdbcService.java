@@ -20,18 +20,18 @@ public class TestJdbcService {
 	
 	public void basicJdbc() throws ClassNotFoundException, SQLException {
 		log.info("## basicJdbc");
-		Connection conn = null;
-		Statement stmt = null;
-		ResultSet rs = null;
 		
 		String url = "jdbc:oracle:thin:@localhost:1521:orcl";
 		String user = "codingjoa";
 		String password = "1234";
-		
 		Class.forName("oracle.jdbc.driver.OracleDriver");
+
+		Connection conn = null;
+		Statement stmt = null;
+		ResultSet rs = null;
 		conn = DriverManager.getConnection(url, user, password);
+		
 		stmt = conn.createStatement();
-			
 		String query = "SELECT * FROM test3 ORDER BY idx DESC";
 		rs = stmt.executeQuery(query);
 		
@@ -42,6 +42,7 @@ public class TestJdbcService {
 			list.add(new TestJdbc(idx, num));
 		}
 		log.info("\t > {}", list);
+		
 		rs.close();
 		stmt.close();
 		conn.close();
