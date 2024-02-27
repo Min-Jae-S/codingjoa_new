@@ -40,7 +40,7 @@ public class TestJdbcService {
 	private JdbcTemplate template;
 	
 	public void jdbcBasic() throws ClassNotFoundException, SQLException {
-		log.info("## service - jdbcBasic");
+		log.info("## jdbcBasic - service");
 		Connection conn = null;
 		PreparedStatement pstmt= null;
 		ResultSet rs = null;
@@ -72,7 +72,7 @@ public class TestJdbcService {
 	}
 	
 	public void jdbcDataSource() throws SQLException {
-		log.info("## service - jdbcDataSource");
+		log.info("## jdbcDataSource - service");
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -101,7 +101,7 @@ public class TestJdbcService {
 	}
 	
 	public void jdbcTemplate() {
-		log.info("## service - jdbcTemplate");
+		log.info("## jdbcTemplate - service");
 		
 		String sql = "SELECT * FROM test3 ORDER BY idx DESC";
 		List<TestItem> list1 = template.query(sql, new RowMapper<TestItem>() {
