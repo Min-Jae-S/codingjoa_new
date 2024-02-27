@@ -20,16 +20,16 @@ public class TestJdbcController {
 	@Autowired
 	private TestJdbcService jdbcService;
 	
-	@GetMapping("/jdbc/test1")
-	public ResponseEntity<Object> jdbcTest1() throws ClassNotFoundException, SQLException { 
-		log.info("## jdbcTest1");
-		jdbcService.basicJdbc();
+	@GetMapping("/jdbc/jdbc-basic")
+	public ResponseEntity<Object> jdbcBasic() throws ClassNotFoundException, SQLException { 
+		log.info("## jdbcBasic");
+		jdbcService.jdbcBasic();
 		return ResponseEntity.ok("success");
 	}
 
-	@GetMapping("/jdbc/test2")
-	public ResponseEntity<Object> jdbcTest2() { 
-		log.info("## jdbcTest2");
+	@GetMapping("/jdbc/jdbc-template")
+	public ResponseEntity<Object> jdbcTemplate() { 
+		log.info("## jdbcTemplate");
 		return ResponseEntity.ok("success");
 	}
 	

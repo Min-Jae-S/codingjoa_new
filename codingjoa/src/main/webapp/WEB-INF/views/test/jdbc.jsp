@@ -38,23 +38,23 @@
 <div class="container my-5">
 	<p>jdbc.jsp</p>
 	<div class="test d-flex justify-content-center mt-5">
-		<button class="btn btn-lg btn-warning mx-3" onclick="jdbcTest1()">jdbcTest1<br>BASIC JDBC</button>
-		<button class="btn btn-lg btn-warning mx-3" onclick="jdbcTest2()">jdbcTest2</button>
+		<button class="btn btn-lg btn-warning mx-3" onclick="jdbcBasic()">BASIC JDBC</button>
+		<button class="btn btn-lg btn-warning mx-3" onclick="jdbcTemplate()">JDBC TEMPLATE</button>
 		<button class="btn btn-lg btn-warning mx-3 invisible" onclick="#">#</button>
 	</div>
 	<div class="test d-none justify-content-center mt-5">
-		<button class="btn btn-lg btn-outline-primary mx-3" onclick="test1()">doSomething1</button>
-		<button class="btn btn-lg btn-outline-primary mx-3" onclick="test2()">doSomething2</button>
-		<button class="btn btn-lg btn-outline-primary mx-3" onclick="test3()">doSomething3</button>
+		<button class="btn btn-lg btn-outline-primary mx-3" onclick="#">#</button>
+		<button class="btn btn-lg btn-outline-primary mx-3" onclick="#">#</button>
+		<button class="btn btn-lg btn-outline-primary mx-3" onclick="#">#</button>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 <script>
-	function jdbcTest1() {
-		console.log("## jdbcTest1");
+	function jdbcBasic() {
+		console.log("## jdbcBasic");
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/jdbc/test1",
+			url : "${contextPath}/test/jdbc/jdbc-basic",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);
@@ -66,11 +66,11 @@
 		});		
 	}
 
-	function jdbcTest2() {
-		console.log("## jdbcTest2");
+	function jdbcTemplate() {
+		console.log("## jdbcTemplate");
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/jdbc/test2",
+			url : "${contextPath}/test/jdbc/jdbc-template",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);

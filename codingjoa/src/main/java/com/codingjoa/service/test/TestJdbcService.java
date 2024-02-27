@@ -14,9 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class TestJdbcService {
 	
-	public void basicJdbc() throws ClassNotFoundException, SQLException {
-		log.info("## basicJdbc");
-		
+	public void jdbcBasic() throws ClassNotFoundException, SQLException {
 		String url = "jdbc:oracle:thin:@localhost:1521:orcl";
 		String user = "codingjoa";
 		String password = "1234";
@@ -26,7 +24,6 @@ public class TestJdbcService {
 		Statement stmt = null;
 		ResultSet rs = null;
 		conn = DriverManager.getConnection(url, user, password);
-		
 		stmt = conn.createStatement();
 		String query = "SELECT * FROM test3 ORDER BY idx DESC";
 		rs = stmt.executeQuery(query);
@@ -41,4 +38,10 @@ public class TestJdbcService {
 		stmt.close();
 		conn.close();
 	}
+	
+	public void jdbcTemplate() {
+		
+	}
 }
+	
+	
