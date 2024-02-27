@@ -5,12 +5,8 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.springframework.stereotype.Service;
-
-import com.codingjoa.test.TestJdbc;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -35,13 +31,11 @@ public class TestJdbcService {
 		String query = "SELECT * FROM test3 ORDER BY idx DESC";
 		rs = stmt.executeQuery(query);
 		
-		List<TestJdbc> list = new ArrayList<>();
 		while (rs.next()) {
 			int idx = rs.getInt("idx");
 			int num = rs.getInt("num");
-			list.add(new TestJdbc(idx, num));
+			log.info("\t > idx = {}, num = {}", idx, num);
 		}
-		log.info("\t > {}", list);
 		
 		rs.close();
 		stmt.close();
