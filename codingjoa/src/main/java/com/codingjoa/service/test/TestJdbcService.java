@@ -10,6 +10,7 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.apache.commons.lang3.RandomUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -28,7 +29,6 @@ public class TestJdbcService {
 	private static final String DB_URL = "jdbc:oracle:thin:@localhost:1521:orcl";
 	private static final String USER = "codingjoa";
 	private static final String PASSWORD = "1234";
-	private static final String SQL = "SELECT * FROM test3 ORDER BY idx DESC";
 	
 	@Autowired
 	@Qualifier("mainDataSource")
@@ -43,6 +43,8 @@ public class TestJdbcService {
 		PreparedStatement pstmt= null;
 		ResultSet rs = null;
 
+		String sql1 = "INSERT INTO test3 (idx, num) VALUES (seq_test3.NEXTVAL, ?)";
+		String sql2 = "SELECT * FROM test3 ORDER BY idx DESC";
 		try {
 			// register JDBC driver
 			Class.forName(JDBC_DRIVER);
@@ -51,9 +53,20 @@ public class TestJdbcService {
 			conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
 
 			// prepare the statement
-			pstmt = conn.prepareStatement(SQL);
+			pstmt = conn.prepareStatement(sql1);
+			pstmt.setInt(1, RandomUtils.nextInt(1, 999));
 			
 			// execute a query
+			int result = pstmt.executeUpdate();
+			if (result > 0) {
+				log.info("\t > SUCCESS");
+			}
+			
+			if (pstmt != null) {
+				pstmt.close();
+			}
+			
+			pstmt = conn.prepareStatement(sql2);
 			rs = pstmt.executeQuery();
 			List<TestItem> list = new ArrayList<>();
 			while (rs.next()) {
@@ -77,14 +90,27 @@ public class TestJdbcService {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
+		String sql1 = "INSERT INTO test3 (idx, num) VALUES (seq_test3.NEXTVAL, ?)";
+		String sql2 = "SELECT * FROM test3 ORDER BY idx DESC";
 		try {
 			// open a connection
 			conn = dataSource.getConnection();
 			
 			// prepare the statement
-			pstmt = conn.prepareStatement(SQL);
+			pstmt = conn.prepareStatement(sql1);
+			pstmt.setInt(1, RandomUtils.nextInt(1, 999));
 			
 			// execute a query
+			int result = pstmt.executeUpdate();
+			if (result > 0) {
+				log.info("\t > SUCCESS");
+			}
+			
+			if (pstmt != null) {
+				pstmt.close();
+			}
+			
+			pstmt = conn.prepareStatement(sql2);
 			rs = pstmt.executeQuery();
 			List<TestItem> list = new ArrayList<>();
 			while (rs.next()) {
@@ -103,8 +129,11 @@ public class TestJdbcService {
 	public void springJdbc() {
 		log.info("## springJdbc - service");
 		
+		String sql1 = "INSERT INTO test3 (idx, num) VALUES (seq_test3.NEXTVAL, ?)";
+		String sql2 = "SELECT * FROM test3 ORDER BY idx DESC";
+		
 		// anonymous class
-		List<TestItem> list1 = template.query(SQL, new RowMapper<TestItem>() {
+		List<TestItem> list1 = template.query(sql2, new RowMapper<TestItem>() {
 			@Override
 			public TestItem mapRow(ResultSet rs, int rowNum) throws SQLException {
 				return new TestItem(rs.getInt("idx"), rs.getInt("num"));
@@ -112,7 +141,7 @@ public class TestJdbcService {
 		});
 		
 		// lamda
-		List<TestItem> list2 = template.query(SQL, (rs, rowNum) -> {
+		List<TestItem> list2 = template.query(sql2, (rs, rowNum) -> {
 			return new TestItem(rs.getInt("idx"), rs.getInt("num"));
 		});
 		
