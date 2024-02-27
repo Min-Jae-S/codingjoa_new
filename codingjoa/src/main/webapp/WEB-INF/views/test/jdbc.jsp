@@ -38,9 +38,9 @@
 <div class="container my-5">
 	<p>jdbc.jsp</p>
 	<div class="test d-flex justify-content-center mt-5">
-		<button class="btn btn-lg btn-warning mx-3" onclick="jdbcBasic()">BASIC JDBC</button>
-		<button class="btn btn-lg btn-warning mx-3" onclick="jdbcTemplate()">JDBC TEMPLATE</button>
-		<button class="btn btn-lg btn-warning mx-3 invisible" onclick="#">#</button>
+		<button class="btn btn-lg btn-primary mx-3" onclick="jdbcBasic()">BASIC JDBC</button>
+		<button class="btn btn-lg btn-primary mx-3" onclick="jdbcDataSource()">JDBC DATA-SOURCE</button>
+		<button class="btn btn-lg btn-primary mx-3" onclick="jdbcTemplate()">JDBC TEMPLATE</button>
 	</div>
 	<div class="test d-none justify-content-center mt-5">
 		<button class="btn btn-lg btn-outline-primary mx-3" onclick="#">#</button>
@@ -55,6 +55,22 @@
 		$.ajax({
 			type : "GET",
 			url : "${contextPath}/test/jdbc/jdbc-basic",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log("> result = %s", result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(jqXHR);
+			}
+		});		
+	}
+
+	function jdbcDataSource() {
+		console.log("## jdbcDataSource");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/jdbc/jdbc-datasource",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);

@@ -24,7 +24,7 @@ public class ErrorHtmlHandler {
 	
 	@ExceptionHandler(Exception.class) // NoHandlerFoundException, NestedServletException etc..
 	protected String handleException(Exception e, HttpServletRequest request) {
-		log.info("** {} - {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
+		log.info("@@ {} - {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t > location = {}", e.getStackTrace()[0]);
 		log.info("\t > original message = {}", e.getMessage());
 		
@@ -35,7 +35,7 @@ public class ErrorHtmlHandler {
 		log.info("\t > {}", errorResponse);
 		request.setAttribute("errorResponse", errorResponse);
 		
-		//e.printStackTrace();
+		e.printStackTrace();
 		return "forward:/error/errorPage";
 	}
 	

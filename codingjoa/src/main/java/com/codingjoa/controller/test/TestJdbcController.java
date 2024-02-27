@@ -27,9 +27,17 @@ public class TestJdbcController {
 		return ResponseEntity.ok("success");
 	}
 
+	@GetMapping("/jdbc/jdbc-datasource")
+	public ResponseEntity<Object> jdbcDataSource() throws SQLException { 
+		log.info("## jdbcDataSource");
+		jdbcService.jdbcDataSource();
+		return ResponseEntity.ok("success");
+	}
+
 	@GetMapping("/jdbc/jdbc-template")
 	public ResponseEntity<Object> jdbcTemplate() { 
 		log.info("## jdbcTemplate");
+		jdbcService.jdbcTemplate();
 		return ResponseEntity.ok("success");
 	}
 	
