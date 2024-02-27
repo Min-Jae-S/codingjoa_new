@@ -5,14 +5,17 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.annotation.Resource;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
+
+import com.codingjoa.test.TestItem;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -38,7 +41,7 @@ public class TestJdbcService {
 	public void jdbcBasic() throws ClassNotFoundException, SQLException {
 		log.info("## service - jdbcBasic");
 		Connection conn = null;
-		PreparedStatement pstmt = null;
+		PreparedStatement pstmt= null;
 		ResultSet rs = null;
 
 		// register JDBC driver
@@ -53,11 +56,14 @@ public class TestJdbcService {
 		
 		// execute a query
 		rs = pstmt.executeQuery();
+		
+		List<TestItem> list = new ArrayList<>();
 		while (rs.next()) {
 			int idx = rs.getInt("idx");
 			int num = rs.getInt("num");
-			log.info("\t > idx = {}, num = {}", idx, num);
+			list.add(new TestItem(idx, num));
 		}
+		log.info("\t > {}", list);
 		
 		rs.close();
 		pstmt.close();
@@ -79,11 +85,14 @@ public class TestJdbcService {
 		
 		// execute a query
 		rs = pstmt.executeQuery();
+		
+		List<TestItem> list = new ArrayList<>();
 		while (rs.next()) {
 			int idx = rs.getInt("idx");
 			int num = rs.getInt("num");
-			log.info("\t > idx = {}, num = {}", idx, num);
+			list.add(new TestItem(idx, num));
 		}
+		log.info("\t > {}", list);
 		
 		rs.close();
 		pstmt.close();
