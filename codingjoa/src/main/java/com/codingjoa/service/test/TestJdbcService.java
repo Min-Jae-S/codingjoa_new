@@ -24,13 +24,11 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class TestJdbcService {
 	
-	// JDBC driver and database URL
-	final static String JDBC_DRIVER = "oracle.jdbc.driver.OracleDriver";
-	final static String DB_URL = "jdbc:oracle:thin:@localhost:1521:orcl";
-	
-	// database credentials
-	final static String USER = "codingjoa";
-	final static String PASSWORD = "1234";
+	// JDBC driver, database URL, database credentials
+	public static final String JDBC_DRIVER = "oracle.jdbc.driver.OracleDriver";
+	public static final String DB_URL = "jdbc:oracle:thin:@localhost:1521:orcl";
+	public static final String USER = "codingjoa";
+	public static final String PASSWORD = "1234";
 	
 	@Autowired
 	@Qualifier("mainDataSource")
@@ -118,8 +116,6 @@ public class TestJdbcService {
 		log.info("\t > list1 = {}", list1);
 		log.info("\t > list2 = {}", list2);
 	}
-	
-	
 }
 	
 	
