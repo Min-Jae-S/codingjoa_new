@@ -24,11 +24,11 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class TestJdbcService {
 	
-	// JDBC driver, database URL, database credentials
-	public static final String JDBC_DRIVER = "oracle.jdbc.driver.OracleDriver";
-	public static final String DB_URL = "jdbc:oracle:thin:@localhost:1521:orcl";
-	public static final String USER = "codingjoa";
-	public static final String PASSWORD = "1234";
+	private static final String JDBC_DRIVER = "oracle.jdbc.driver.OracleDriver";
+	private static final String DB_URL = "jdbc:oracle:thin:@localhost:1521:orcl";
+	private static final String USER = "codingjoa";
+	private static final String PASSWORD = "1234";
+	private static final String SQL = "SELECT * FROM test3 ORDER BY idx DESC";
 	
 	@Autowired
 	@Qualifier("mainDataSource")
@@ -51,8 +51,7 @@ public class TestJdbcService {
 			conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
 
 			// prepare the statement
-			String sql = "SELECT * FROM test3";
-			pstmt = conn.prepareStatement(sql);
+			pstmt = conn.prepareStatement(SQL);
 			
 			// execute a query
 			rs = pstmt.executeQuery();
@@ -83,8 +82,7 @@ public class TestJdbcService {
 			conn = dataSource.getConnection();
 			
 			// prepare the statement
-			String sql = "SELECT * FROM test3";
-			pstmt = conn.prepareStatement(sql);
+			pstmt = conn.prepareStatement(SQL);
 			
 			// execute a query
 			rs = pstmt.executeQuery();
@@ -102,18 +100,19 @@ public class TestJdbcService {
 		}
 	}
 	
-	public void jdbcTemplate() {
-		log.info("## jdbcTemplate - service");
+	public void springJdbc() {
+		log.info("## springJdbc - service");
 		
-		String sql = "SELECT * FROM test3";
-		List<TestItem> list1 = template.query(sql, new RowMapper<TestItem>() {
+		// anonymous class
+		List<TestItem> list1 = template.query(SQL, new RowMapper<TestItem>() {
 			@Override
 			public TestItem mapRow(ResultSet rs, int rowNum) throws SQLException {
 				return new TestItem(rs.getInt("idx"), rs.getInt("num"));
 			}
 		});
 		
-		List<TestItem> list2 = template.query(sql, (rs, rowNum) -> {
+		// lamda
+		List<TestItem> list2 = template.query(SQL, (rs, rowNum) -> {
 			return new TestItem(rs.getInt("idx"), rs.getInt("num"));
 		});
 		
@@ -122,28 +121,12 @@ public class TestJdbcService {
 	}
 	
 	private void close(ResultSet rs, PreparedStatement pstmt, Connection conn) {
-		if (rs != null) {
-			try {
-				rs.close();
-			} catch (SQLException e) {
-				log.info("\t > rs error, {}", e.getClass().getSimpleName());
-			}
-		}
-
-		if (pstmt != null) {
-			try {
-				pstmt.close();
-			} catch (SQLException e) {
-				log.info("\t > pstmt error, {}", e.getClass().getSimpleName());
-			}
-		}
-
-		if (pstmt != null) {
-			try {
-				pstmt.close();
-			} catch (SQLException e) {
-				log.info("\t > conn error, {}", e.getClass().getSimpleName());
-			}
+		try {
+			if (rs != null) rs.close();
+			if (pstmt != null) pstmt.close();
+			if (conn != null) conn.close();
+		} catch (SQLException e) {
+			log.info("\t > {}", e.getClass().getSimpleName());
 		}
 	}
 }

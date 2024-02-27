@@ -16,6 +16,12 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/test")
 @RestController
 public class TestJdbcController {
+
+	/*
+	 * JDBC (Java Database Connectivity) is a programming API in Java that provides a standardized way to access databases. 
+	 * The JDBC API is declared as mostly abstract interfaces, allowing it to be used regardless of the type of DBMS.
+	 * Each DBMS company provides JDBC drivers by bundling together class files that implement these interfaces.
+	 */
 	
 	@Autowired
 	private TestJdbcService jdbcService;
@@ -34,10 +40,10 @@ public class TestJdbcController {
 		return ResponseEntity.ok("success");
 	}
 
-	@GetMapping("/jdbc/jdbc-template")
-	public ResponseEntity<Object> jdbcTemplate() { 
-		log.info("## jdbcTemplate");
-		jdbcService.jdbcTemplate();
+	@GetMapping("/jdbc/spring-jdbc")
+	public ResponseEntity<Object> springJdbc() { 
+		log.info("## springJdbc");
+		jdbcService.springJdbc();
 		return ResponseEntity.ok("success");
 	}
 	

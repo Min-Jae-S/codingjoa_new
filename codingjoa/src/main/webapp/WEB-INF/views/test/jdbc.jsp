@@ -40,7 +40,7 @@
 	<div class="test d-flex justify-content-center mt-5">
 		<button class="btn btn-lg btn-primary mx-3" onclick="jdbcBasic()">BASIC JDBC</button>
 		<button class="btn btn-lg btn-primary mx-3" onclick="jdbcDataSource()">JDBC DATA-SOURCE</button>
-		<button class="btn btn-lg btn-primary mx-3" onclick="jdbcTemplate()">JDBC TEMPLATE</button>
+		<button class="btn btn-lg btn-primary mx-3" onclick="springJdbc()">SPRING JDBC<br>Using JdbcTemplate</button>
 	</div>
 	<div class="test d-none justify-content-center mt-5">
 		<button class="btn btn-lg btn-outline-primary mx-3" onclick="#">#</button>
@@ -82,11 +82,11 @@
 		});		
 	}
 
-	function jdbcTemplate() {
-		console.log("## jdbcTemplate");
+	function springJdbc() {
+		console.log("## springJdbc");
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/jdbc/jdbc-template",
+			url : "${contextPath}/test/jdbc/spring-jdbc",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);
