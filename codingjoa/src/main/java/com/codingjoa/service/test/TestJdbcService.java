@@ -37,71 +37,75 @@ public class TestJdbcService {
 	@Autowired
 	private JdbcTemplate template;
 	
-	public void jdbcBasic() throws ClassNotFoundException, SQLException {
+	public void jdbcBasic() {
 		log.info("## jdbcBasic - service");
 		Connection conn = null;
 		PreparedStatement pstmt= null;
 		ResultSet rs = null;
 
-		// register JDBC driver
-		Class.forName(JDBC_DRIVER);
-		
-		// open a connection
-		conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
-		
-		// prepare the statement
-		String sql = "SELECT * FROM test3 ORDER BY idx DESC";
-		pstmt = conn.prepareStatement(sql);
-		
-		// execute a query
-		rs = pstmt.executeQuery();
-		
-		List<TestItem> list = new ArrayList<>();
-		while (rs.next()) {
-			int idx = rs.getInt("idx");
-			int num = rs.getInt("num");
-			list.add(new TestItem(idx, num));
+		try {
+			// register JDBC driver
+			Class.forName(JDBC_DRIVER);
+			
+			// open a connection
+			conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
+
+			// prepare the statement
+			String sql = "SELECT * FROM test3";
+			pstmt = conn.prepareStatement(sql);
+			
+			// execute a query
+			rs = pstmt.executeQuery();
+			List<TestItem> list = new ArrayList<>();
+			while (rs.next()) {
+				int idx = rs.getInt("idx");
+				int num = rs.getInt("num");
+				list.add(new TestItem(idx, num));
+			}
+			log.info("\t > {}", list);
+		} catch (ClassNotFoundException e) {
+			log.info("\t > {}", e.getClass().getSimpleName());
+		} catch (SQLException e) {
+			log.info("\t > {}", e.getClass().getSimpleName());
+		} finally {
+			close(rs, pstmt, conn);
 		}
-		log.info("\t > {}", list);
-		
-		rs.close();
-		pstmt.close();
-		conn.close();
 	}
 	
-	public void jdbcDataSource() throws SQLException {
+	public void jdbcDataSource() {
 		log.info("## jdbcDataSource - service");
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
-		// open a connection
-		conn = dataSource.getConnection();
-		
-		// prepare the statement
-		String sql = "SELECT * FROM test3 ORDER BY idx DESC";
-		pstmt = conn.prepareStatement(sql);
-		
-		// execute a query
-		rs = pstmt.executeQuery();
-		
-		List<TestItem> list = new ArrayList<>();
-		while (rs.next()) {
-			int idx = rs.getInt("idx");
-			int num = rs.getInt("num");
-			list.add(new TestItem(idx, num));
+		try {
+			// open a connection
+			conn = dataSource.getConnection();
+			
+			// prepare the statement
+			String sql = "SELECT * FROM test3";
+			pstmt = conn.prepareStatement(sql);
+			
+			// execute a query
+			rs = pstmt.executeQuery();
+			List<TestItem> list = new ArrayList<>();
+			while (rs.next()) {
+				int idx = rs.getInt("idx");
+				int num = rs.getInt("num");
+				list.add(new TestItem(idx, num));
+			}
+			log.info("\t > {}", list);
+		} catch (SQLException e) {
+			log.info("\t > {}", e.getClass().getSimpleName());
+		} finally {
+			close(rs, pstmt, conn);
 		}
-		log.info("\t > {}", list);
-		
-		rs.close();
-		pstmt.close();
-		conn.close();
 	}
 	
 	public void jdbcTemplate() {
 		log.info("## jdbcTemplate - service");
 		
-		String sql = "SELECT * FROM test3 ORDER BY idx DESC";
+		String sql = "SELECT * FROM test3";
 		List<TestItem> list1 = template.query(sql, new RowMapper<TestItem>() {
 			@Override
 			public TestItem mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -115,6 +119,32 @@ public class TestJdbcService {
 		
 		log.info("\t > list1 = {}", list1);
 		log.info("\t > list2 = {}", list2);
+	}
+	
+	private void close(ResultSet rs, PreparedStatement pstmt, Connection conn) {
+		if (rs != null) {
+			try {
+				rs.close();
+			} catch (SQLException e) {
+				log.info("\t > rs error, {}", e.getClass().getSimpleName());
+			}
+		}
+
+		if (pstmt != null) {
+			try {
+				pstmt.close();
+			} catch (SQLException e) {
+				log.info("\t > pstmt error, {}", e.getClass().getSimpleName());
+			}
+		}
+
+		if (pstmt != null) {
+			try {
+				pstmt.close();
+			} catch (SQLException e) {
+				log.info("\t > conn error, {}", e.getClass().getSimpleName());
+			}
+		}
 	}
 }
 	
