@@ -13,6 +13,7 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 
 import com.codingjoa.test.TestItem;
@@ -36,7 +37,7 @@ public class TestJdbcService {
 	private DataSource dataSource;
 	
 	@Autowired
-	private JdbcTemplate jdbcTemplate;
+	private JdbcTemplate template;
 	
 	public void jdbcBasic() throws ClassNotFoundException, SQLException {
 		log.info("## service - jdbcBasic");
@@ -101,7 +102,24 @@ public class TestJdbcService {
 	
 	public void jdbcTemplate() {
 		log.info("## service - jdbcTemplate");
+		
+		String sql = "SELECT * FROM test3 ORDER BY idx DESC";
+		List<TestItem> list1 = template.query(sql, new RowMapper<TestItem>() {
+			@Override
+			public TestItem mapRow(ResultSet rs, int rowNum) throws SQLException {
+				return new TestItem(rs.getInt("idx"), rs.getInt("num"));
+			}
+		});
+		
+		List<TestItem> list2 = template.query(sql, (rs, rowNum) -> {
+			return new TestItem(rs.getInt("idx"), rs.getInt("num"));
+		});
+		
+		log.info("\t > list1 = {}", list1);
+		log.info("\t > list2 = {}", list2);
 	}
+	
+	
 }
 	
 	
