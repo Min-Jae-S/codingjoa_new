@@ -38,6 +38,16 @@ public class TestJdbcService {
 	@Autowired
 	private JdbcTemplate template;
 	
+	private void close(ResultSet rs, PreparedStatement pstmt, Connection conn) {
+		try {
+			if (rs != null) rs.close();
+			if (pstmt != null) pstmt.close();
+			if (conn != null) conn.close();
+		} catch (SQLException e) {
+			log.info("\t > {}", e.getClass().getSimpleName());
+		}
+	}
+	
 	public void jdbcBasic() {
 		log.info("## jdbcBasic - service");
 		Connection conn = null;
@@ -150,15 +160,6 @@ public class TestJdbcService {
 		log.info("\t > list2 = {}", list2);
 	}
 	
-	private void close(ResultSet rs, PreparedStatement pstmt, Connection conn) {
-		try {
-			if (rs != null) rs.close();
-			if (pstmt != null) pstmt.close();
-			if (conn != null) conn.close();
-		} catch (SQLException e) {
-			log.info("\t > {}", e.getClass().getSimpleName());
-		}
-	}
 }
 	
 	
