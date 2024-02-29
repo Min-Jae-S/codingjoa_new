@@ -21,6 +21,7 @@ import com.codingjoa.test.TestItem;
 
 import lombok.extern.slf4j.Slf4j;
 
+@SuppressWarnings("unused")
 @Slf4j
 @Service
 public class TestJdbcService {
