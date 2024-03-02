@@ -26,10 +26,10 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class TestJdbcService {
 	
-	private static final String JDBC_DRIVER = "oracle.jdbc.driver.OracleDriver";
-	private static final String DB_URL = "jdbc:oracle:thin:@localhost:1521:orcl";
-	private static final String USER = "codingjoa";
-	private static final String PASSWORD = "1234";
+	static final String JDBC_DRIVER = "oracle.jdbc.driver.OracleDriver";
+	static final String DB_URL = "jdbc:oracle:thin:@localhost:1521:orcl";
+	static final String USER = "codingjoa";
+	static final String PASSWORD = "1234";
 	
 	@Autowired
 	@Qualifier("mainDataSource")
