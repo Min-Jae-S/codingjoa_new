@@ -40,9 +40,17 @@ public class TestJdbcService {
 	
 	private void close(ResultSet rs, PreparedStatement pstmt, Connection conn) {
 		try {
-			if (rs != null) rs.close();
-			if (pstmt != null) pstmt.close();
-			if (conn != null) conn.close();
+			if (rs != null) {
+				rs.close();
+			}
+			
+			if (pstmt != null) {
+				pstmt.close();
+			}
+			
+			if (conn != null) {
+				conn.close();
+			}
 		} catch (SQLException e) {
 			log.info("\t > {}", e.getClass().getSimpleName());
 		}
