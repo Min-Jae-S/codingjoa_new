@@ -113,13 +113,8 @@ public class TestJdbcService {
 			
 			// execute a query
 			int result = pstmt.executeUpdate();
-			if (result > 0) {
-				log.info("\t > SUCCESS");
-			}
-			
-			if (pstmt != null) {
-				pstmt.close();
-			}
+			if (result > 0) log.info("\t > SUCCESS");
+			if (pstmt != null) pstmt.close();
 			
 			pstmt = conn.prepareStatement(sql2);
 			rs = pstmt.executeQuery();
