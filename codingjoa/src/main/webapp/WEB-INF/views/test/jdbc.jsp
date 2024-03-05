@@ -31,6 +31,10 @@
 	div.test button {
 		width: 230px;
 	}
+	
+	.small {
+		font-size: 0.95rem;
+	}
 </style>
 </head>
 <body>
@@ -38,14 +42,23 @@
 <div class="container my-5">
 	<p>jdbc.jsp</p>
 	<div class="test d-flex justify-content-center mt-5">
-		<button class="btn btn-lg btn-primary mx-3" onclick="basicJdbc()">BASIC JDBC</button>
-		<button class="btn btn-lg btn-primary mx-3" onclick="basicJdbcTx()">BASIC JDBC<br>Using Tx</button>
-		<button class="btn btn-lg btn-outline-primary mx-3 invisible" onclick="#">#</button>
+		<button class="btn btn-lg btn-primary mx-3 px-1" onclick="basicJdbc()">
+			<span>BASIC JDBC</span><br>
+			<span class="small">conn from driverManager</span>
+		</button>
+		<button class="btn btn-lg btn-primary mx-3 px-1" onclick="basicJdbc2()">
+			<span>BASIC JDBC</span><br>
+			<span class="small">conn from dataSource</span>
+		</button>
+		<button class="btn btn-lg btn-outline-primary mx-3 px-1 invisible" onclick="#">#</button>
 	</div>
 	<div class="test d-flex justify-content-center mt-5">
-		<button class="btn btn-lg btn-primary mx-3" onclick="springJdbc()">SPRING JDBC<br>Using JdbcTemplate</button>
-		<button class="btn btn-lg btn-outline-primary mx-3 invisible" onclick="#">#</button>
-		<button class="btn btn-lg btn-outline-primary mx-3 invisible" onclick="#">#</button>
+		<button class="btn btn-lg btn-primary mx-3 px-1" onclick="springJdbc()">
+			<span>SPRING JDBC</span><br>
+			<span class="small">using JdbcTemplate</span>
+		</button>
+		<button class="btn btn-lg btn-outline-primary mx-3 px-1 invisible" onclick="#">#</button>
+		<button class="btn btn-lg btn-outline-primary mx-3 px-1 invisible" onclick="#">#</button>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
@@ -66,11 +79,11 @@
 		});		
 	}
 
-	function basicJdbcTx() {
-		console.log("## basicJdbcTx");
+	function basicJdbc2() {
+		console.log("## basicJdbc2");
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/jdbc/basic-jdbc/tx",
+			url : "${contextPath}/test/jdbc/basic-jdbc2",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);

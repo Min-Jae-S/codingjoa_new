@@ -78,7 +78,7 @@ public class TestJdbcService {
 			// @@ insert
 			// prepare the statement
 			pstmt = conn.prepareStatement(INSERT_SQL);
-			pstmt.setInt(1, RandomUtils.nextInt(1, 9999));
+			pstmt.setInt(1, RandomUtils.nextInt(1, 999));
 			
 			// execute a query
 			int rows = pstmt.executeUpdate();
@@ -112,8 +112,8 @@ public class TestJdbcService {
 		}
 	}
 	
-	public void basicJdbcTx() {
-		log.info("## basicJdbcTx - service");
+	public void basicJdbc2() {
+		log.info("## basicJdbc2 - service");
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -123,7 +123,7 @@ public class TestJdbcService {
 			log.info("\t > auto commit = {}", conn.getAutoCommit());
 			
 			pstmt = conn.prepareStatement(INSERT_SQL);
-			pstmt.setInt(1, RandomUtils.nextInt(1, 9999));
+			pstmt.setInt(1, RandomUtils.nextInt(1, 999));
 			
 			int rows = pstmt.executeUpdate();
 			if (rows > 0) {

@@ -1,7 +1,5 @@
 package com.codingjoa.controller.test;
 
-import java.sql.SQLException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,16 +25,16 @@ public class TestJdbcController {
 	private TestJdbcService jdbcService;
 	
 	@GetMapping("/jdbc/basic-jdbc")
-	public ResponseEntity<Object> basicJdbc() throws ClassNotFoundException, SQLException { 
+	public ResponseEntity<Object> basicJdbc() { 
 		log.info("## basicJdbc");
 		jdbcService.basicJdbc();
 		return ResponseEntity.ok("success");
 	}
 
-	@GetMapping("/jdbc/basic-jdbc/tx")
-	public ResponseEntity<Object> basicJdbcTx() throws ClassNotFoundException, SQLException { 
-		log.info("## basicJdbcTx");
-		jdbcService.basicJdbcTx();
+	@GetMapping("/jdbc/basic-jdbc2")
+	public ResponseEntity<Object> basicJdbc2() { 
+		log.info("## basicJdbc2");
+		jdbcService.basicJdbc2();
 		return ResponseEntity.ok("success");
 	}
 
