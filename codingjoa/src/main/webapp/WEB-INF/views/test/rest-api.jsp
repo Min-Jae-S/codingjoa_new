@@ -53,7 +53,7 @@
 		console.log("## test1");
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/jdbc/basic-jdbc",
+			url : "${contextPath}/test/rest-api/test1",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);
@@ -69,7 +69,7 @@
 		console.log("## test2");
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/jdbc/spring-jdbc",
+			url : "${contextPath}/test/rest-api/test2",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);

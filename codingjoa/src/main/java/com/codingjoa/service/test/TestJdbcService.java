@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.PlatformTransactionManager;
 
 import com.codingjoa.test.TestItem;
 
@@ -26,10 +27,10 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class TestJdbcService {
 	
-	static final String JDBC_DRIVER = "oracle.jdbc.driver.OracleDriver";
-	static final String DB_URL = "jdbc:oracle:thin:@localhost:1521:orcl";
-	static final String USER = "codingjoa";
-	static final String PASSWORD = "1234";
+	public static final String JDBC_DRIVER = "oracle.jdbc.driver.OracleDriver";
+	public static final String DB_URL = "jdbc:oracle:thin:@localhost:1521:orcl";
+	public static final String USER = "codingjoa";
+	public static final String PASSWORD = "1234";
 	
 	@Autowired
 	@Qualifier("mainDataSource")
@@ -37,6 +38,9 @@ public class TestJdbcService {
 	
 	@Autowired
 	private JdbcTemplate template;
+	
+	@Autowired
+	private PlatformTransactionManager transactionManager;
 	
 	private void close(ResultSet rs, PreparedStatement pstmt, Connection conn) {
 		try {
