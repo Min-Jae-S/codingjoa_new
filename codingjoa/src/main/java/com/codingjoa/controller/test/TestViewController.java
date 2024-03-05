@@ -46,4 +46,10 @@ public class TestViewController {
 		log.info("## jdbc main");
 		return "test/jdbc";
 	}
+
+	@GetMapping("/rest-api")
+	public String restApiMain() {
+		log.info("## restApi main");
+		return "test/rest-api";
+	}
 }
