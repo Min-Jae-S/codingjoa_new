@@ -50,7 +50,9 @@
 			<span>BASIC JDBC</span><br>
 			<span class="small">conn from dataSource</span>
 		</button>
-		<button class="btn btn-lg btn-outline-primary mx-3 px-1 invisible" onclick="#">#</button>
+		<button class="btn btn-lg btn-secondary mx-3 px-1" onclick="findTestItems()">
+			<span>Find TestItems</span>
+		</button>
 	</div>
 	<div class="test d-flex justify-content-center mt-5">
 		<button class="btn btn-lg btn-primary mx-3 px-1" onclick="springJdbc()">
@@ -87,6 +89,23 @@
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(jqXHR);
+			}
+		});		
+	}
+	
+	function findTestItems() {
+		console.log("## findTestItems");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/jdbc/test-items",
+			dataType : "json",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log(JSON.stringify(result, null, 2));
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");

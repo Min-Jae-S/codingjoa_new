@@ -1,5 +1,7 @@
 package com.codingjoa.controller.test;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -7,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codingjoa.service.test.TestJdbcService;
+import com.codingjoa.test.TestItem;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -36,6 +39,13 @@ public class TestJdbcController {
 		log.info("## basicJdbc2");
 		jdbcService.basicJdbc2();
 		return ResponseEntity.ok("success");
+	}
+	
+	@GetMapping("/jdbc/test-items") 
+	public ResponseEntity<Object> findTestItems() { 
+		log.info("## findTestItems");
+		List<TestItem> testItems = jdbcService.findTestItems();
+		return ResponseEntity.ok(testItems);
 	}
 
 	@GetMapping("/jdbc/spring-jdbc")

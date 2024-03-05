@@ -101,7 +101,7 @@ public class TestJdbcService {
 //			while (rs.next()) {
 //				int idx = rs.getInt("idx");
 //				int num = rs.getInt("num");
-//				log.info("\t > idx = {}, num = {}", idx, num);
+//				log.info("\t > idx = {},\tnum = {}", idx, num);
 //				list.add(new TestItem(idx, num));
 //			}
 		} catch (ClassNotFoundException e) {
@@ -135,6 +135,16 @@ public class TestJdbcService {
 		} finally {
 			close(rs, pstmt, conn);
 		}
+	}
+	
+	public List<TestItem> findTestItems() {
+		log.info("## findTestItems - service");
+		return template.query(SELECT_SQL, (rs, rowNum) -> {
+			int idx = rs.getInt("idx");
+			int num = rs.getInt("num");
+			log.info("\t > idx = {},\tnum = {}", idx, num);
+			return new TestItem(idx, num);
+		});
 	}
 	
 	public void springJdbc() {
