@@ -48,6 +48,7 @@ public class TestJdbcService {
 	}
 	
 	private void close(ResultSet rs, PreparedStatement pstmt, Connection conn) {
+		log.info("## close conn, pstmt, rs");
 		try {
 			if (rs != null) rs.close();
 			if (pstmt != null) pstmt.close();
@@ -145,7 +146,7 @@ public class TestJdbcService {
 			public TestItem mapRow(ResultSet rs, int rowNum) throws SQLException {
 				int idx = rs.getInt("idx");
 				int num = rs.getInt("num");
-				log.info("\t > idx = {}, num = {}", idx, num);
+				log.info("\t > idx = {},\tnum = {}", idx, num);
 				return new TestItem(idx, num);
 			}
 		});
