@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.sql.DataSource;
 
@@ -84,8 +85,16 @@ public class TestJdbcService {
 			// execute a query
 			int rows = pstmt.executeUpdate();
 			if (rows > 0) {
-				log.info("\t > INSERT SUCCESS");
+				log.info("\t > insert success");
 			}
+			
+			log.info("-----------------------------------------");
+			log.info("\t > sleeping !!");
+			log.info("-----------------------------------------");
+			TimeUnit.SECONDS.sleep(30);
+			log.info("-----------------------------------------");
+			log.info("\t > sleep end !!");
+			log.info("-----------------------------------------");
 			
 //			if (pstmt != null) {
 //				pstmt.close();
@@ -108,6 +117,8 @@ public class TestJdbcService {
 			log.info("\t > {}", e.getClass().getSimpleName());
 		} catch (SQLException e) {
 			log.info("\t > {}", e.getClass().getSimpleName());
+		} catch (InterruptedException e) {
+			log.info("\t > {}", e.getClass().getSimpleName());
 		} finally {
 			close(rs, pstmt, conn);
 		}
@@ -128,7 +139,7 @@ public class TestJdbcService {
 			
 			int rows = pstmt.executeUpdate();
 			if (rows > 0) {
-				log.info("\t > INSERT SUCCESS");
+				log.info("\t > insert success");
 			}
 		} catch (SQLException e) {
 			log.info("\t > {}", e.getClass().getSimpleName());
