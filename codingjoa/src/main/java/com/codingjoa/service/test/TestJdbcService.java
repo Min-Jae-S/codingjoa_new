@@ -27,17 +27,17 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class TestJdbcService {
 	
-	public static final String JDBC_DRIVER = "oracle.jdbc.driver.OracleDriver";
-	public static final String DB_URL = "jdbc:oracle:thin:@localhost:1521:orcl";
-	public static final String USER = "codingjoa";
-	public static final String PASSWORD = "1234";
+	private final String JDBC_DRIVER = "oracle.jdbc.driver.OracleDriver";
+	private final String DB_URL = "jdbc:oracle:thin:@localhost:1521:orcl";
+	private final String USER = "codingjoa";
+	private final String PASSWORD = "1234";
+	private final DataSource dataSource;
+	private final JdbcTemplate template;
 	
-	@Autowired
-	@Qualifier("mainDataSource")
-	private DataSource dataSource;
-	
-	@Autowired
-	private JdbcTemplate template;
+	public TestJdbcService(@Qualifier("mainDataSource") DataSource dataSource) {
+		this.dataSource = dataSource;
+		this.template = new JdbcTemplate(dataSource);
+	}
 	
 	@Autowired
 	private PlatformTransactionManager transactionManager;
@@ -70,29 +70,30 @@ public class TestJdbcService {
 			// open a connection from autowired data source
 			//conn = dataSource.getConnection();
 
+//			pstmt = conn.prepareStatement(sql1);
+//			pstmt.setInt(1, RandomUtils.nextInt(1, 999));
+//			
+//			int result = pstmt.executeUpdate();
+//			if (result > 0) {
+//				log.info("\t > SUCCESS");
+//			}
+//			
+//			if (pstmt != null) {
+//				pstmt.close();
+//			}
+			
 			// prepare the statement
-			pstmt = conn.prepareStatement(sql1);
-			pstmt.setInt(1, RandomUtils.nextInt(1, 999));
+			pstmt = conn.prepareStatement(sql2);
 			
 			// execute a query
-			int result = pstmt.executeUpdate();
-			if (result > 0) {
-				log.info("\t > SUCCESS");
-			}
-			
-			if (pstmt != null) {
-				pstmt.close();
-			}
-			
-			pstmt = conn.prepareStatement(sql2);
 			rs = pstmt.executeQuery();
 			List<TestItem> list = new ArrayList<>();
 			while (rs.next()) {
 				int idx = rs.getInt("idx");
 				int num = rs.getInt("num");
+				log.info("\t > idx = {}, num = {}", idx, num);
 				list.add(new TestItem(idx, num));
 			}
-			log.info("\t > {}", list);
 		} catch (ClassNotFoundException e) {
 			log.info("\t > {}", e.getClass().getSimpleName());
 		} catch (SQLException e) {
@@ -112,7 +113,10 @@ public class TestJdbcService {
 		List<TestItem> list1 = template.query(sql2, new RowMapper<TestItem>() {
 			@Override
 			public TestItem mapRow(ResultSet rs, int rowNum) throws SQLException {
-				return new TestItem(rs.getInt("idx"), rs.getInt("num"));
+				int idx = rs.getInt("idx");
+				int num = rs.getInt("num");
+				log.info("\t > idx = {}, num = {}", idx, num);
+				return new TestItem(idx, num);
 			}
 		});
 		
@@ -120,9 +124,6 @@ public class TestJdbcService {
 		List<TestItem> list2 = template.query(sql2, (rs, rowNum) -> {
 			return new TestItem(rs.getInt("idx"), rs.getInt("num"));
 		});
-		
-		log.info("\t > list1 = {}", list1);
-		log.info("\t > list2 = {}", list2);
 	}
 	
 }
