@@ -13,6 +13,7 @@ import javax.sql.DataSource;
 import org.apache.commons.lang3.RandomUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
@@ -31,16 +32,20 @@ public class TestJdbcService {
 	private final String DB_URL = "jdbc:oracle:thin:@localhost:1521:orcl";
 	private final String USER = "codingjoa";
 	private final String PASSWORD = "1234";
+	
+	private final String SELECT_SQL = "SELECT * FROM test3 ORDER BY idx DESC";
+	private final String INSERT_SQL = "INSERT INTO test3 (idx, num) VALUES (seq_test3.NEXTVAL, ?)";
+	
 	private final DataSource dataSource;
 	private final JdbcTemplate template;
+	private final PlatformTransactionManager transactionManager;
 	
-	public TestJdbcService(@Qualifier("mainDataSource") DataSource dataSource) {
+	public TestJdbcService(@Qualifier("mainDataSource") DataSource dataSource, 
+			PlatformTransactionManager transactionManager) {
 		this.dataSource = dataSource;
+		this.transactionManager = transactionManager;
 		this.template = new JdbcTemplate(dataSource);
 	}
-	
-	@Autowired
-	private PlatformTransactionManager transactionManager;
 	
 	private void close(ResultSet rs, PreparedStatement pstmt, Connection conn) {
 		try {
@@ -55,35 +60,39 @@ public class TestJdbcService {
 	public void basicJdbc() {
 		log.info("## basicJdbc - service");
 		Connection conn = null;
-		PreparedStatement pstmt= null;
+		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 
-		String sql1 = "INSERT INTO test3 (idx, num) VALUES (seq_test3.NEXTVAL, ?)";
-		String sql2 = "SELECT * FROM test3 ORDER BY idx DESC";
 		try {
 			// register JDBC driver
 			Class.forName(JDBC_DRIVER);
 			
 			// open a connection from driver manager
 			conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
+			conn.setAutoCommit(false);
+			log.info("\t > auto commit = {}", conn.getAutoCommit());
 			
 			// open a connection from autowired data source
 			//conn = dataSource.getConnection();
 
-//			pstmt = conn.prepareStatement(sql1);
-//			pstmt.setInt(1, RandomUtils.nextInt(1, 999));
-//			
-//			int result = pstmt.executeUpdate();
-//			if (result > 0) {
-//				log.info("\t > SUCCESS");
-//			}
-//			
-//			if (pstmt != null) {
-//				pstmt.close();
-//			}
-			
+			// @@ insert
 			// prepare the statement
-			pstmt = conn.prepareStatement(sql2);
+			pstmt = conn.prepareStatement(INSERT_SQL);
+			pstmt.setInt(1, RandomUtils.nextInt(1, 999));
+			
+			// execute a query
+			int result = pstmt.executeUpdate();
+			if (result > 0) {
+				log.info("\t > INSERT SUCCESS");
+			}
+			
+			if (pstmt != null) {
+				pstmt.close();
+			}
+			
+			// @@ select
+			// prepare the statement
+			pstmt = conn.prepareStatement(SELECT_SQL);
 			
 			// execute a query
 			rs = pstmt.executeQuery();
@@ -103,14 +112,34 @@ public class TestJdbcService {
 		}
 	}
 	
+	public void basicJdbcTx() {
+		log.info("## basicJdbcTx - service");
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			conn = dataSource.getConnection();
+			log.info("\t > auto commit = {}", conn.getAutoCommit());
+			
+			pstmt = conn.prepareStatement(INSERT_SQL);
+			pstmt.setInt(1, RandomUtils.nextInt(1, 999));
+			int result = pstmt.executeUpdate();
+			if (result > 0) {
+				log.info("\t > INSERT SUCCESS");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rs, pstmt, conn);
+		}
+	}
+	
 	public void springJdbc() {
 		log.info("## springJdbc - service");
-		
-		String sql1 = "INSERT INTO test3 (idx, num) VALUES (seq_test3.NEXTVAL, ?)";
-		String sql2 = "SELECT * FROM test3 ORDER BY idx DESC";
-		
+
 		// anonymous class
-		List<TestItem> list1 = template.query(sql2, new RowMapper<TestItem>() {
+		List<TestItem> list1 = template.query(SELECT_SQL, new RowMapper<TestItem>() {
 			@Override
 			public TestItem mapRow(ResultSet rs, int rowNum) throws SQLException {
 				int idx = rs.getInt("idx");
@@ -121,7 +150,7 @@ public class TestJdbcService {
 		});
 		
 		// lamda
-		List<TestItem> list2 = template.query(sql2, (rs, rowNum) -> {
+		List<TestItem> list2 = template.query(SELECT_SQL, (rs, rowNum) -> {
 			return new TestItem(rs.getInt("idx"), rs.getInt("num"));
 		});
 	}

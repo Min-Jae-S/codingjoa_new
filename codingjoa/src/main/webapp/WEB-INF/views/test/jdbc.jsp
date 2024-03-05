@@ -39,12 +39,13 @@
 	<p>jdbc.jsp</p>
 	<div class="test d-flex justify-content-center mt-5">
 		<button class="btn btn-lg btn-primary mx-3" onclick="basicJdbc()">BASIC JDBC</button>
-		<button class="btn btn-lg btn-primary mx-3" onclick="springJdbc()">SPRING JDBC<br>Using JdbcTemplate</button>
+		<button class="btn btn-lg btn-primary mx-3" onclick="basicJdbcTx()">BASIC JDBC<br>Using Tx</button>
+		<button class="btn btn-lg btn-outline-primary mx-3 invisible" onclick="#">#</button>
 	</div>
-	<div class="test d-none justify-content-center mt-5">
-		<button class="btn btn-lg btn-outline-primary mx-3" onclick="#">#</button>
-		<button class="btn btn-lg btn-outline-primary mx-3" onclick="#">#</button>
-		<button class="btn btn-lg btn-outline-primary mx-3" onclick="#">#</button>
+	<div class="test d-flex justify-content-center mt-5">
+		<button class="btn btn-lg btn-primary mx-3" onclick="springJdbc()">SPRING JDBC<br>Using JdbcTemplate</button>
+		<button class="btn btn-lg btn-outline-primary mx-3 invisible" onclick="#">#</button>
+		<button class="btn btn-lg btn-outline-primary mx-3 invisible" onclick="#">#</button>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
@@ -54,6 +55,22 @@
 		$.ajax({
 			type : "GET",
 			url : "${contextPath}/test/jdbc/basic-jdbc",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log("> result = %s", result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(jqXHR);
+			}
+		});		
+	}
+
+	function basicJdbcTx() {
+		console.log("## basicJdbcTx");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/jdbc/basic-jdbc/tx",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);

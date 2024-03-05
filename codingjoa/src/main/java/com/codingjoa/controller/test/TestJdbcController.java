@@ -33,6 +33,13 @@ public class TestJdbcController {
 		return ResponseEntity.ok("success");
 	}
 
+	@GetMapping("/jdbc/basic-jdbc/tx")
+	public ResponseEntity<Object> basicJdbcTx() throws ClassNotFoundException, SQLException { 
+		log.info("## basicJdbcTx");
+		jdbcService.basicJdbcTx();
+		return ResponseEntity.ok("success");
+	}
+
 	@GetMapping("/jdbc/spring-jdbc")
 	public ResponseEntity<Object> springJdbc() { 
 		log.info("## springJdbc");
