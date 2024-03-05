@@ -78,31 +78,31 @@ public class TestJdbcService {
 			// @@ insert
 			// prepare the statement
 			pstmt = conn.prepareStatement(INSERT_SQL);
-			pstmt.setInt(1, RandomUtils.nextInt(1, 999));
+			pstmt.setInt(1, RandomUtils.nextInt(1, 9999));
 			
 			// execute a query
-			int result = pstmt.executeUpdate();
-			if (result > 0) {
+			int rows = pstmt.executeUpdate();
+			if (rows > 0) {
 				log.info("\t > INSERT SUCCESS");
 			}
 			
-			if (pstmt != null) {
-				pstmt.close();
-			}
+//			if (pstmt != null) {
+//				pstmt.close();
+//			}
 			
 			// @@ select
 			// prepare the statement
-			pstmt = conn.prepareStatement(SELECT_SQL);
-			
-			// execute a query
-			rs = pstmt.executeQuery();
-			List<TestItem> list = new ArrayList<>();
-			while (rs.next()) {
-				int idx = rs.getInt("idx");
-				int num = rs.getInt("num");
-				log.info("\t > idx = {}, num = {}", idx, num);
-				list.add(new TestItem(idx, num));
-			}
+//			pstmt = conn.prepareStatement(SELECT_SQL);
+//			
+//			// execute a query
+//			rs = pstmt.executeQuery();
+//			List<TestItem> list = new ArrayList<>();
+//			while (rs.next()) {
+//				int idx = rs.getInt("idx");
+//				int num = rs.getInt("num");
+//				log.info("\t > idx = {}, num = {}", idx, num);
+//				list.add(new TestItem(idx, num));
+//			}
 		} catch (ClassNotFoundException e) {
 			log.info("\t > {}", e.getClass().getSimpleName());
 		} catch (SQLException e) {
@@ -123,13 +123,14 @@ public class TestJdbcService {
 			log.info("\t > auto commit = {}", conn.getAutoCommit());
 			
 			pstmt = conn.prepareStatement(INSERT_SQL);
-			pstmt.setInt(1, RandomUtils.nextInt(1, 999));
-			int result = pstmt.executeUpdate();
-			if (result > 0) {
+			pstmt.setInt(1, RandomUtils.nextInt(1, 9999));
+			
+			int rows = pstmt.executeUpdate();
+			if (rows > 0) {
 				log.info("\t > INSERT SUCCESS");
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			log.info("\t > {}", e.getClass().getSimpleName());
 		} finally {
 			close(rs, pstmt, conn);
 		}
