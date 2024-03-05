@@ -26,17 +26,10 @@ public class TestJdbcController {
 	@Autowired
 	private TestJdbcService jdbcService;
 	
-	@GetMapping("/jdbc/jdbc-basic")
-	public ResponseEntity<Object> jdbcBasic() throws ClassNotFoundException, SQLException { 
-		log.info("## jdbcBasic");
-		jdbcService.jdbcBasic();
-		return ResponseEntity.ok("success");
-	}
-
-	@GetMapping("/jdbc/jdbc-datasource")
-	public ResponseEntity<Object> jdbcDataSource() throws SQLException { 
-		log.info("## jdbcDataSource");
-		jdbcService.jdbcDataSource();
+	@GetMapping("/jdbc/basic-jdbc")
+	public ResponseEntity<Object> basicJdbc() throws ClassNotFoundException, SQLException { 
+		log.info("## basicJdbc");
+		jdbcService.basicJdbc();
 		return ResponseEntity.ok("success");
 	}
 

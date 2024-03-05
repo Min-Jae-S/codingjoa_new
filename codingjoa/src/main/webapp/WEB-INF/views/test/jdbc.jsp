@@ -38,8 +38,7 @@
 <div class="container my-5">
 	<p>jdbc.jsp</p>
 	<div class="test d-flex justify-content-center mt-5">
-		<button class="btn btn-lg btn-primary mx-3" onclick="jdbcBasic()">BASIC JDBC</button>
-		<button class="btn btn-lg btn-primary mx-3" onclick="jdbcDataSource()">JDBC DATA-SOURCE</button>
+		<button class="btn btn-lg btn-primary mx-3" onclick="basicJdbc()">BASIC JDBC</button>
 		<button class="btn btn-lg btn-primary mx-3" onclick="springJdbc()">SPRING JDBC<br>Using JdbcTemplate</button>
 	</div>
 	<div class="test d-none justify-content-center mt-5">
@@ -50,27 +49,11 @@
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 <script>
-	function jdbcBasic() {
-		console.log("## jdbcBasic");
+	function basicJdbc() {
+		console.log("## basicJdbc");
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/jdbc/jdbc-basic",
-			success : function(result) {
-				console.log("%c> SUCCESS", "color:green");
-				console.log("> result = %s", result);
-			},
-			error : function(jqXHR) {
-				console.log("%c> ERROR", "color:red");
-				console.log(jqXHR);
-			}
-		});		
-	}
-
-	function jdbcDataSource() {
-		console.log("## jdbcDataSource");
-		$.ajax({
-			type : "GET",
-			url : "${contextPath}/test/jdbc/jdbc-datasource",
+			url : "${contextPath}/test/jdbc/basic-jdbc",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);

@@ -48,8 +48,8 @@ public class TestJdbcService {
 		}
 	}
 	
-	public void jdbcBasic() {
-		log.info("## jdbcBasic - service");
+	public void basicJdbc() {
+		log.info("## basicJdbc - service");
 		Connection conn = null;
 		PreparedStatement pstmt= null;
 		ResultSet rs = null;
@@ -60,8 +60,11 @@ public class TestJdbcService {
 			// register JDBC driver
 			Class.forName(JDBC_DRIVER);
 			
-			// open a connection
+			// open a connection from driver manager
 			conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
+			
+			// open a connection from autowired data source
+			//conn = dataSource.getConnection();
 
 			// prepare the statement
 			pstmt = conn.prepareStatement(sql1);
@@ -88,48 +91,6 @@ public class TestJdbcService {
 			log.info("\t > {}", list);
 		} catch (ClassNotFoundException e) {
 			log.info("\t > {}", e.getClass().getSimpleName());
-		} catch (SQLException e) {
-			log.info("\t > {}", e.getClass().getSimpleName());
-		} finally {
-			close(rs, pstmt, conn);
-		}
-	}
-	
-	public void jdbcDataSource() {
-		log.info("## jdbcDataSource - service");
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		
-		String sql1 = "INSERT INTO test3 (idx, num) VALUES (seq_test3.NEXTVAL, ?)";
-		String sql2 = "SELECT * FROM test3 ORDER BY idx DESC";
-		try {
-			// open a connection
-			conn = dataSource.getConnection();
-			
-			// prepare the statement
-			pstmt = conn.prepareStatement(sql1);
-			pstmt.setInt(1, RandomUtils.nextInt(1, 999));
-			
-			// execute a query
-			int result = pstmt.executeUpdate();
-			if (result > 0) {
-				log.info("\t > SUCCESS");
-			}
-			
-			if (pstmt != null) {
-				pstmt.close();
-			}
-			
-			pstmt = conn.prepareStatement(sql2);
-			rs = pstmt.executeQuery();
-			List<TestItem> list = new ArrayList<>();
-			while (rs.next()) {
-				int idx = rs.getInt("idx");
-				int num = rs.getInt("num");
-				list.add(new TestItem(idx, num));
-			}
-			log.info("\t > {}", list);
 		} catch (SQLException e) {
 			log.info("\t > {}", e.getClass().getSimpleName());
 		} finally {
