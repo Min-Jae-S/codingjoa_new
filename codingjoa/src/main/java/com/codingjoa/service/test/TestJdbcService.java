@@ -90,7 +90,7 @@ public class TestJdbcService {
 			
 			log.info("-----------------------------------------");
 			log.info("\t > sleeping !!");
-			log.info("-----------------------------------------");
+			log.info("-----------------------------------------" + System.lineSeparator());
 			TimeUnit.SECONDS.sleep(30);
 			log.info("-----------------------------------------");
 			log.info("\t > sleep end !!");
