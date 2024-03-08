@@ -96,10 +96,6 @@ public class TestJdbcService {
 			log.info("\t > sleep end !!");
 			log.info("-----------------------------------------");
 			
-//			if (pstmt != null) {
-//				pstmt.close();
-//			}
-			
 			// @@ select
 			// prepare the statement
 //			pstmt = conn.prepareStatement(SELECT_SQL);
