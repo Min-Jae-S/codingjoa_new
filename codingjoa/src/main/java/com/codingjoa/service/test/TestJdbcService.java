@@ -39,29 +39,29 @@ public class TestJdbcService {
 	private final String INSERT_SQL = "INSERT INTO test3 (idx, num) VALUES (seq_test3.NEXTVAL, ?)";
 	
 	private final DataSource dataSource;
-	private final JdbcTemplate template;
+	private final JdbcTemplate jdbcTemplate;
 	private final PlatformTransactionManager transactionManager;
 	
 	public TestJdbcService(@Qualifier("mainDataSource") DataSource dataSource, 
-			PlatformTransactionManager transactionManager) {
+			@Qualifier("mainTransactionManager") PlatformTransactionManager transactionManager) {
 		this.dataSource = dataSource;
 		this.transactionManager = transactionManager;
-		this.template = new JdbcTemplate(dataSource);
+		this.jdbcTemplate = new JdbcTemplate(dataSource);
 	}
 	
 	private void close(ResultSet rs, PreparedStatement pstmt, Connection conn) {
 		log.info("## close resources (conn, pstmt, rs)");
 		try {
-			if (rs != null) 	rs.close();
-			if (pstmt != null) 	pstmt.close();
-			if (conn != null)	conn.close();
-		} catch (SQLException e) {
+			if (rs != null) rs.close();
+			if (pstmt != null) pstmt.close();
+			if (conn != null) conn.close();
+		} catch (Exception e) {
 			log.info("\t > {}", e.getClass().getSimpleName());
 		}
 	}
 	
-	public void basicJdbc() {
-		log.info("## basicJdbc - service");
+	public void useDriverManager() {
+		log.info("## useDriverManager - service");
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -97,6 +97,7 @@ public class TestJdbcService {
 			 * 
 			 * In other words, regardless of the auto commit flag, 
 			 * you should always explicitly commit() or rollback() a Connection object before close()ing it
+			 * 
 			 */
 			
 			conn.rollback();
@@ -107,8 +108,8 @@ public class TestJdbcService {
 		}
 	}
 	
-	public void basicJdbc2() {
-		log.info("## basicJdbc2 - service");
+	public void useDataSource() {
+		log.info("## useDataSource - service");
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -137,7 +138,7 @@ public class TestJdbcService {
 	
 	public List<TestItem> findTestItems() {
 		log.info("## findTestItems - service");
-		return template.query(SELECT_SQL, (rs, rowNum) -> {
+		return jdbcTemplate.query(SELECT_SQL, (rs, rowNum) -> {
 			int idx = rs.getInt("idx");
 			int num = rs.getInt("num");
 			log.info("\t > idx = {},\tnum = {}", idx, num);
@@ -145,12 +146,12 @@ public class TestJdbcService {
 		});
 	}
 	
-	public void springJdbc() {
-		log.info("## springJdbc - service");
-		template.update(INSERT_SQL, RandomUtils.nextInt(1, 999));
+	public void useJdbcTemplate() {
+		log.info("## useJdbcTemplate - service");
+		jdbcTemplate.update(INSERT_SQL, RandomUtils.nextInt(1, 999));
 
 		// anonymous class
-		List<TestItem> list1 = template.query(SELECT_SQL, new RowMapper<TestItem>() {
+		List<TestItem> list1 = jdbcTemplate.query(SELECT_SQL, new RowMapper<TestItem>() {
 			@Override
 			public TestItem mapRow(ResultSet rs, int rowNum) throws SQLException {
 				int idx = rs.getInt("idx");
@@ -161,7 +162,7 @@ public class TestJdbcService {
 		});
 		
 		// lamda
-		List<TestItem> list2 = template.query(SELECT_SQL, (rs, rowNum) -> {
+		List<TestItem> list2 = jdbcTemplate.query(SELECT_SQL, (rs, rowNum) -> {
 			return new TestItem(rs.getInt("idx"), rs.getInt("num"));
 		});
 	}

@@ -45,31 +45,31 @@
 		<button class="btn btn-lg btn-secondary mx-3 px-1" onclick="findTestItems()">
 			<span>Find TestItems</span>
 		</button>
-		<button class="btn btn-lg btn-primary mx-3 px-1" onclick="basicJdbc()">
-			<span>BASIC JDBC</span><br>
+		<button class="btn btn-lg btn-primary mx-3 px-1" onclick="useDriverManager()">
+			<span>DRIVER MANAGER</span><br>
 			<span class="small">conn from driverManager</span>
 		</button>
-		<button class="btn btn-lg btn-primary mx-3 px-1" onclick="basicJdbc2()">
-			<span>BASIC JDBC</span><br>
+		<button class="btn btn-lg btn-primary mx-3 px-1" onclick="useDataSource()">
+			<span>DATASOURCE</span><br>
 			<span class="small">conn from dataSource</span>
 		</button>
 	</div>
 	<div class="test d-flex justify-content-center mt-5">
 		<button class="btn btn-lg btn-outline-primary mx-3 px-1 invisible" onclick="#">#</button>
-		<button class="btn btn-lg btn-primary mx-3 px-1" onclick="springJdbc()">
-			<span>SPRING JDBC</span><br>
-			<span class="small">using JdbcTemplate</span>
+		<button class="btn btn-lg btn-primary mx-3 px-1" onclick="useJdbcTemplate()">
+			<span>JDBC TEMPLATE</span><br>
+			<span class="small">(spring jdbc)</span>
 		</button>
 		<button class="btn btn-lg btn-outline-primary mx-3 px-1 invisible" onclick="#">#</button>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 <script>
-	function basicJdbc() {
-		console.log("## basicJdbc");
+	function useDriverManager() {
+		console.log("## useDriverManager");
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/jdbc/basic-jdbc",
+			url : "${contextPath}/test/jdbc/driver-manager",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);
@@ -81,11 +81,11 @@
 		});		
 	}
 
-	function basicJdbc2() {
-		console.log("## basicJdbc2");
+	function useDataSource() {
+		console.log("## useDataSource");
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/jdbc/basic-jdbc2",
+			url : "${contextPath}/test/jdbc/data-source",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);
@@ -118,11 +118,11 @@
 		});		
 	}
 
-	function springJdbc() {
-		console.log("## springJdbc");
+	function useJdbcTemplate() {
+		console.log("## useJdbcTemplate");
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/jdbc/spring-jdbc",
+			url : "${contextPath}/test/jdbc/jdbc-template",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);

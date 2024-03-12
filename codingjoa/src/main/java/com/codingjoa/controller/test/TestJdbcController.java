@@ -27,17 +27,17 @@ public class TestJdbcController {
 	@Autowired
 	private TestJdbcService jdbcService;
 	
-	@GetMapping("/jdbc/basic-jdbc")
-	public ResponseEntity<Object> basicJdbc() { 
-		log.info("## basicJdbc");
-		jdbcService.basicJdbc();
+	@GetMapping("/jdbc/driver-manager")
+	public ResponseEntity<Object> useDriverManager() { 
+		log.info("## useDriverManager");
+		jdbcService.useDriverManager();
 		return ResponseEntity.ok("success");
 	}
 
-	@GetMapping("/jdbc/basic-jdbc2")
-	public ResponseEntity<Object> basicJdbc2() { 
-		log.info("## basicJdbc2");
-		jdbcService.basicJdbc2();
+	@GetMapping("/jdbc/data-source")
+	public ResponseEntity<Object> useDataSource() { 
+		log.info("## useDataSource");
+		jdbcService.useDataSource();
 		return ResponseEntity.ok("success");
 	}
 	
@@ -48,10 +48,10 @@ public class TestJdbcController {
 		return ResponseEntity.ok(testItems);
 	}
 
-	@GetMapping("/jdbc/spring-jdbc")
-	public ResponseEntity<Object> springJdbc() { 
+	@GetMapping("/jdbc/jdbc-template")
+	public ResponseEntity<Object> useJdbcTemplate() { 
 		log.info("## springJdbc");
-		jdbcService.springJdbc();
+		jdbcService.useJdbcTemplate();
 		return ResponseEntity.ok("success");
 	}
 	
