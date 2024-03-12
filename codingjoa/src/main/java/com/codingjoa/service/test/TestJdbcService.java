@@ -91,9 +91,9 @@ public class TestJdbcService {
 			log.info("-----------------------------------------");
 			log.info("\t > sleeping !!");
 			log.info("-----------------------------------------" + System.lineSeparator());
-			TimeUnit.SECONDS.sleep(30);
+			TimeUnit.SECONDS.sleep(20);
 			log.info("-----------------------------------------");
-			log.info("\t > sleep end !!");
+			log.info("\t > wake up !!");
 			log.info("-----------------------------------------");
 			
 			// @@ select
