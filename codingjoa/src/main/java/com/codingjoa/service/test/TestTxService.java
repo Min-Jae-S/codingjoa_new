@@ -169,6 +169,7 @@ public class TestTxService {
 	}
 	
 	private void checkTransaction(TransactionStatus transactionStatus) {
+		log.info("## checkTransaction");
 		if (transactionStatus == null) {
 			log.info("\t > NO transaction");
 			return;

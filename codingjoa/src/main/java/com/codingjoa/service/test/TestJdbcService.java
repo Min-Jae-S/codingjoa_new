@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 import com.codingjoa.test.TestItem;
 
@@ -71,6 +72,36 @@ public class TestJdbcService {
 		} catch (Exception e) {
 			log.info("\t > {}", e.getClass().getSimpleName());
 		}
+	}
+	
+	private void checkTransaction(TransactionStatus transactionStatus) {
+		log.info("## checkTransaction");
+		if (transactionStatus == null) {
+			log.info("\t > NO transaction");
+			return;
+		}
+		
+		String status = null;
+		if (transactionStatus.isCompleted()) {
+			status = "completed";
+		} else if (transactionStatus.isRollbackOnly()) {
+			status = "rollback";
+		} else if (transactionStatus.isNewTransaction()) {
+			status = "new transaction";
+		} else {
+			status = "unknown";
+		}
+		log.info("\t > transaction status = {}", status);
+	}
+	
+	private void checkTransactionBySyncManager() {
+		log.info("## checkTransactionBySyncManager");
+		log.info("\t > current tx = {}", TransactionSynchronizationManager.getCurrentTransactionName());
+		log.info("\t > tx active = {}", TransactionSynchronizationManager.isActualTransactionActive());
+		
+		boolean syncActive = TransactionSynchronizationManager.isSynchronizationActive();
+		log.info("\t > sync active = {}", syncActive);
+		log.info("\t > syncs = {}", syncActive == true ? TransactionSynchronizationManager.getSynchronizations() : "no sync");
 	}
 	
 	public void useDriverManager() {
@@ -178,9 +209,11 @@ public class TestJdbcService {
 	
 	public void useProgrammaticTx(boolean commit) {
 		log.info("\t > will {}", (commit == true) ? "commit" : "rollback");
+		TransactionStatus status = txManager.getTransaction(new DefaultTransactionDefinition());
+		checkTransaction(status);
+		
 		Connection conn = null;
 		PreparedStatement pstmt = null;
-		TransactionStatus status = txManager.getTransaction(new DefaultTransactionDefinition());
 		try {
 			conn = dataSource.getConnection();
 			pstmt = conn.prepareStatement(INSERT_SQL);
@@ -195,6 +228,7 @@ public class TestJdbcService {
 			txManager.rollback(status);
 			log.info("\t > {}", e.getClass().getSimpleName());
 		} finally {
+			checkTransaction(status);
 			close(conn, pstmt);
 		}
 	}
