@@ -96,8 +96,8 @@ public class TestJdbcService {
 	
 	private void checkTransactionBySyncManager() {
 		log.info("## checkTransactionBySyncManager");
-		log.info("\t > current tx = {}", TransactionSynchronizationManager.getCurrentTransactionName());
-		log.info("\t > tx active = {}", TransactionSynchronizationManager.isActualTransactionActive());
+		log.info("\t > current transaction = {}", TransactionSynchronizationManager.getCurrentTransactionName());
+		log.info("\t > active transaction = {}", TransactionSynchronizationManager.isActualTransactionActive());
 		
 		boolean syncActive = TransactionSynchronizationManager.isSynchronizationActive();
 		log.info("\t > sync active = {}", syncActive);
@@ -156,6 +156,7 @@ public class TestJdbcService {
 		try {
 			// open a connection from autowired data source
 			conn = dataSource.getConnection();
+			conn.setAutoCommit(false);
 			log.info("\t > auto commit = {}", conn.getAutoCommit());
 			
 			// @@ insert
@@ -209,8 +210,9 @@ public class TestJdbcService {
 	
 	public void useProgrammaticTx(boolean commit) {
 		log.info("\t > will {}", (commit == true) ? "commit" : "rollback");
-		TransactionStatus status = txManager.getTransaction(new DefaultTransactionDefinition());
-		checkTransaction(status);
+		DefaultTransactionDefinition defaultDefinition = new DefaultTransactionDefinition();
+		defaultDefinition.setName("useProgrammaticTx");
+		TransactionStatus status = txManager.getTransaction(defaultDefinition);
 		
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -228,7 +230,6 @@ public class TestJdbcService {
 			txManager.rollback(status);
 			log.info("\t > {}", e.getClass().getSimpleName());
 		} finally {
-			checkTransaction(status);
 			close(conn, pstmt);
 		}
 	}
