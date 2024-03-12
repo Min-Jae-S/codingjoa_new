@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.PlatformTransactionManager;
 
@@ -53,7 +54,10 @@ public class TestJdbcService {
 		try {
 			if (rs != null) rs.close();
 			if (pstmt != null) pstmt.close();
-			if (conn != null) conn.close();
+			if (conn != null) {
+				log.info("\t > auto commit = {}", conn.getAutoCommit());
+				conn.close();
+			}
 		} catch (SQLException e) {
 			log.info("\t > {}", e.getClass().getSimpleName());
 		}
@@ -71,12 +75,7 @@ public class TestJdbcService {
 			
 			// open a connection from driver manager
 			conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
-			conn.setAutoCommit(false);
-			log.info("\t > auto commit = {}", conn.getAutoCommit());
 			
-			// open a connection from autowired data source
-			//conn = dataSource.getConnection();
-
 			// @@ insert
 			// prepare the statement
 			pstmt = conn.prepareStatement(INSERT_SQL);
@@ -88,13 +87,8 @@ public class TestJdbcService {
 				log.info("\t > insert success");
 			}
 			
-			log.info("-----------------------------------------");
-			log.info("\t > sleeping !!");
-			log.info("-----------------------------------------" + System.lineSeparator());
+			log.info("--------- sleep for a while -------------");
 			TimeUnit.SECONDS.sleep(20);
-			log.info("-----------------------------------------");
-			log.info("\t > wake up !!");
-			log.info("-----------------------------------------");
 			
 			// @@ select
 			// prepare the statement
@@ -109,11 +103,7 @@ public class TestJdbcService {
 //				log.info("\t > idx = {},\tnum = {}", idx, num);
 //				list.add(new TestItem(idx, num));
 //			}
-		} catch (ClassNotFoundException e) {
-			log.info("\t > {}", e.getClass().getSimpleName());
-		} catch (SQLException e) {
-			log.info("\t > {}", e.getClass().getSimpleName());
-		} catch (InterruptedException e) {
+		} catch (SQLException | ClassNotFoundException | InterruptedException e) {
 			log.info("\t > {}", e.getClass().getSimpleName());
 		} finally {
 			close(rs, pstmt, conn);
@@ -127,12 +117,16 @@ public class TestJdbcService {
 		ResultSet rs = null;
 		
 		try {
+			// open a connection from autowired data source
 			conn = dataSource.getConnection();
 			log.info("\t > auto commit = {}", conn.getAutoCommit());
 			
+			// @@ insert
+			// prepare the statement
 			pstmt = conn.prepareStatement(INSERT_SQL);
 			pstmt.setInt(1, RandomUtils.nextInt(1, 999));
 			
+			// execute a query
 			int rows = pstmt.executeUpdate();
 			if (rows > 0) {
 				log.info("\t > insert success");
