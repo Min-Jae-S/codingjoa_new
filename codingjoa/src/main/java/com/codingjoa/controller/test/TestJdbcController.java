@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,6 +29,20 @@ public class TestJdbcController {
 	@Autowired
 	private TestJdbcService jdbcService;
 	
+	@GetMapping("/jdbc/test-items") 
+	public ResponseEntity<Object> findTestItems() { 
+		log.info("## findTestItems");
+		List<TestItem> testItems = jdbcService.findTestItems();
+		return ResponseEntity.ok(testItems);
+	}
+	
+	@DeleteMapping("/jdbc/test-items") 
+	public ResponseEntity<Object> deleteTestItems() { 
+		log.info("## deleteTestItems");
+		jdbcService.deleteTestItems();
+		return ResponseEntity.ok("success");
+	}
+	
 	@GetMapping("/jdbc/driver-manager")
 	public ResponseEntity<Object> useDriverManager() { 
 		log.info("## useDriverManager");
@@ -42,13 +57,6 @@ public class TestJdbcController {
 		return ResponseEntity.ok("success");
 	}
 	
-	@GetMapping("/jdbc/test-items") 
-	public ResponseEntity<Object> findTestItems() { 
-		log.info("## findTestItems");
-		List<TestItem> testItems = jdbcService.findTestItems();
-		return ResponseEntity.ok(testItems);
-	}
-
 	@GetMapping("/jdbc/jdbc-template")
 	public ResponseEntity<Object> useJdbcTemplate() { 
 		log.info("## springJdbc");

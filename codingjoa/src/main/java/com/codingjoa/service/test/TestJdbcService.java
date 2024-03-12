@@ -39,6 +39,7 @@ public class TestJdbcService {
 	
 	private final String SELECT_SQL = "SELECT * FROM test3 ORDER BY idx DESC";
 	private final String INSERT_SQL = "INSERT INTO test3 (idx, num) VALUES (seq_test3.NEXTVAL, ?)";
+	private final String DELETE_SQL = "DELETE FROM test3";
 	
 	private final DataSource dataSource;
 	private final JdbcTemplate jdbcTemplate;
@@ -73,7 +74,6 @@ public class TestJdbcService {
 	}
 	
 	public void useDriverManager() {
-		log.info("## useDriverManager - service");
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -118,7 +118,6 @@ public class TestJdbcService {
 	}
 	
 	public void useDataSource() {
-		log.info("## useDataSource - service");
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -143,7 +142,6 @@ public class TestJdbcService {
 	}
 	
 	public List<TestItem> findTestItems() {
-		log.info("## findTestItems - service");
 		return jdbcTemplate.query(SELECT_SQL, (rs, rowNum) -> {
 			int idx = rs.getInt("idx");
 			int num = rs.getInt("num");
@@ -152,8 +150,13 @@ public class TestJdbcService {
 		});
 	}
 	
+	public void deleteTestItems() {
+		TransactionStatus status = txManager.getTransaction(new DefaultTransactionDefinition());
+		jdbcTemplate.update(DELETE_SQL);
+		txManager.commit(status);
+	}
+	
 	public void useJdbcTemplate() {
-		log.info("## useJdbcTemplate - service");
 		jdbcTemplate.update(INSERT_SQL, RandomUtils.nextInt(1, 999));
 
 		// anonymous class
@@ -174,9 +177,7 @@ public class TestJdbcService {
 	}
 	
 	public void useProgrammaticTx(boolean commit) {
-		log.info("## useProgrammaticTx - service");
 		log.info("\t > will {}", (commit == true) ? "commit" : "rollback");
-		
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		TransactionStatus status = txManager.getTransaction(new DefaultTransactionDefinition());

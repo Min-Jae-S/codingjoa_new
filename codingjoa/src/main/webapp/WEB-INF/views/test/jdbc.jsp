@@ -43,9 +43,11 @@
 	<p>jdbc.jsp</p>
 	<div class="test d-flex justify-content-center mt-5">
 		<button class="btn btn-lg btn-secondary mx-3 px-1" onclick="findTestItems()">
-			<span>Find TestItems</span>
+			<span>Find Items</span>
 		</button>
-		<button class="btn btn-lg btn-outline-primary mx-3 px-1 invisible" onclick="#">#</button>
+		<button class="btn btn-lg btn-secondary mx-3 px-1" onclick="deleteTestItems()">
+			<span>Delete Items</span>
+		</button>
 		<button class="btn btn-lg btn-outline-primary mx-3 px-1 invisible" onclick="#">#</button>
 	</div>
 	<div class="test d-flex justify-content-center mt-5">
@@ -78,6 +80,43 @@
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 <script>
+	function findTestItems() {
+		console.log("## findTestItems");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/jdbc/test-items",
+			dataType : "json",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				if (result == "") {
+					console.log("> no records");
+				} else {
+					console.log(JSON.stringify(result, null, 2));
+				}
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(jqXHR);
+			}
+		});		
+	}
+	
+	function deleteTestItems() {
+		console.log("## deleteTestItems");
+		$.ajax({
+			type : "DELETE",
+			url : "${contextPath}/test/jdbc/test-items",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log("> result = %s", result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(jqXHR);
+			}
+		});		
+	}
+
 	function useDriverManager() {
 		console.log("## useDriverManager");
 		$.ajax({
@@ -110,27 +149,6 @@
 		});		
 	}
 	
-	function findTestItems() {
-		console.log("## findTestItems");
-		$.ajax({
-			type : "GET",
-			url : "${contextPath}/test/jdbc/test-items",
-			dataType : "json",
-			success : function(result) {
-				console.log("%c> SUCCESS", "color:green");
-				if (result == "") {
-					console.log("> no records");
-				} else {
-					console.log(JSON.stringify(result, null, 2));
-				}
-			},
-			error : function(jqXHR) {
-				console.log("%c> ERROR", "color:red");
-				console.log(jqXHR);
-			}
-		});		
-	}
-
 	function useJdbcTemplate() {
 		console.log("## useJdbcTemplate");
 		$.ajax({
