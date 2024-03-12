@@ -145,7 +145,6 @@ public class TestJdbcService {
 	
 	public void springJdbc() {
 		log.info("## springJdbc - service");
-		
 		template.update(INSERT_SQL, RandomUtils.nextInt(1, 999));
 
 		// anonymous class
@@ -154,7 +153,7 @@ public class TestJdbcService {
 			public TestItem mapRow(ResultSet rs, int rowNum) throws SQLException {
 				int idx = rs.getInt("idx");
 				int num = rs.getInt("num");
-				log.info("\t > idx = {},\tnum = {}", idx, num);
+				//log.info("\t > idx = {},\tnum = {}", idx, num);
 				return new TestItem(idx, num);
 			}
 		});
