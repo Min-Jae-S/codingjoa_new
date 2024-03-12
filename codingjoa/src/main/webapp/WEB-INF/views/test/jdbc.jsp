@@ -45,22 +45,35 @@
 		<button class="btn btn-lg btn-secondary mx-3 px-1" onclick="findTestItems()">
 			<span>Find TestItems</span>
 		</button>
+		<button class="btn btn-lg btn-outline-primary mx-3 px-1 invisible" onclick="#">#</button>
+		<button class="btn btn-lg btn-outline-primary mx-3 px-1 invisible" onclick="#">#</button>
+	</div>
+	<div class="test d-flex justify-content-center mt-5">
 		<button class="btn btn-lg btn-primary mx-3 px-1" onclick="useDriverManager()">
 			<span>DRIVER MANAGER</span><br>
-			<span class="small">conn from driverManager</span>
+			<span class="small">( conn from driverManager )</span>
 		</button>
 		<button class="btn btn-lg btn-primary mx-3 px-1" onclick="useDataSource()">
 			<span>DATASOURCE</span><br>
-			<span class="small">conn from dataSource</span>
+			<span class="small">( conn from dataSource )</span>
+		</button>
+		<button class="btn btn-lg btn-primary mx-3 px-1" onclick="useJdbcTemplate()">
+			<span>JDBC TEMPLATE</span><br>
+			<span class="small">( spring jdbc )</span>
 		</button>
 	</div>
 	<div class="test d-flex justify-content-center mt-5">
-		<button class="btn btn-lg btn-outline-primary mx-3 px-1 invisible" onclick="#">#</button>
-		<button class="btn btn-lg btn-primary mx-3 px-1" onclick="useJdbcTemplate()">
-			<span>JDBC TEMPLATE</span><br>
-			<span class="small">(spring jdbc)</span>
+		<button class="btn btn-lg btn-primary mx-3 px-1" onclick="useProgrammaticTx(true)">
+			<span>Programmatic Tx</span><br>
+			<span class="small">( commit )</span>
 		</button>
-		<button class="btn btn-lg btn-outline-primary mx-3 px-1 invisible" onclick="#">#</button>
+		<button class="btn btn-lg btn-primary mx-3 px-1" onclick="useProgrammaticTx(false)">
+			<span>Programmatic Tx</span><br>
+			<span class="small">( rollback )</span>
+		</button>
+		<button class="btn btn-lg btn-primary mx-3 px-1" onclick="useDeclarativeTx()">
+			<span>Declarative Tx</span>
+		</button>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
@@ -123,6 +136,44 @@
 		$.ajax({
 			type : "GET",
 			url : "${contextPath}/test/jdbc/jdbc-template",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log("> result = %s", result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(jqXHR);
+			}
+		});		
+	}
+	
+	function useProgrammaticTx(commit) {
+		console.log("## useProgrammaticTx");
+		if (commit) {
+			console.log("> will commit");
+		} else {
+			console.log("> will rollback")
+		}
+		
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/jdbc/programmatic-tx/" + commit,
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log("> result = %s", result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(jqXHR);
+			}
+		});		
+	}
+
+	function useDeclarativeTx() {
+		console.log("## useDeclarativeTx");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/jdbc/declarative-tx",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);

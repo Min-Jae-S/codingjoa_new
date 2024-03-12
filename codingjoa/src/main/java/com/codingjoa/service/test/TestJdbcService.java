@@ -20,6 +20,8 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import com.codingjoa.test.TestItem;
 
@@ -40,19 +42,29 @@ public class TestJdbcService {
 	
 	private final DataSource dataSource;
 	private final JdbcTemplate jdbcTemplate;
-	private final PlatformTransactionManager transactionManager;
+	private final PlatformTransactionManager txManager;
 	
 	public TestJdbcService(@Qualifier("mainDataSource") DataSource dataSource, 
-			@Qualifier("mainTransactionManager") PlatformTransactionManager transactionManager) {
+			@Qualifier("mainTransactionManager") PlatformTransactionManager txManager) {
 		this.dataSource = dataSource;
-		this.transactionManager = transactionManager;
+		this.txManager = txManager;
 		this.jdbcTemplate = new JdbcTemplate(dataSource);
 	}
 	
-	private void close(ResultSet rs, PreparedStatement pstmt, Connection conn) {
+	private void close(Connection conn, PreparedStatement pstmt, ResultSet rs) {
 		log.info("## close resources (conn, pstmt, rs)");
 		try {
 			if (rs != null) rs.close();
+			if (pstmt != null) pstmt.close();
+			if (conn != null) conn.close();
+		} catch (Exception e) {
+			log.info("\t > {}", e.getClass().getSimpleName());
+		}
+	}
+	
+	private void close(Connection conn, PreparedStatement pstmt) {
+		log.info("## close resources (conn, pstmt)");
+		try {
 			if (pstmt != null) pstmt.close();
 			if (conn != null) conn.close();
 		} catch (Exception e) {
@@ -80,10 +92,7 @@ public class TestJdbcService {
 			pstmt.setInt(1, RandomUtils.nextInt(1, 999));
 			
 			// execute a query
-			int rows = pstmt.executeUpdate();
-			if (rows > 0) {
-				log.info("\t > insert success");
-			}
+			pstmt.executeUpdate();
 			
 			/*
 			 * @@ https://stackoverflow.com/questions/32736040/after-an-exception-closing-the-connection-appears-to-commit-the-transaction-eve
@@ -91,9 +100,9 @@ public class TestJdbcService {
 			 * It does not [necessarily] affect, however, the behavior of close(),
 			 * which may choose to either commit or rollback uncommitted data. As the documentation states:
 			 * 	 
-			 * | It is strongly recommended that an application explicitly commits or rolls back an active transaction 
-			 * | prior to calling the close method. If the close method is called and there is an active transaction, 
-			 * | the results are implementation-defined.
+			 * 	| It is strongly recommended that an application explicitly commits or rolls back an active transaction 
+			 * 	| prior to calling the close method. If the close method is called and there is an active transaction, 
+			 * 	| the results are implementation-defined.
 			 * 
 			 * In other words, regardless of the auto commit flag, 
 			 * you should always explicitly commit() or rollback() a Connection object before close()ing it
@@ -101,10 +110,10 @@ public class TestJdbcService {
 			 */
 			
 			conn.rollback();
-		} catch (Exception e) {
+		} catch (ClassNotFoundException | SQLException e) {
 			log.info("\t > {}", e.getClass().getSimpleName());
 		} finally {
-			close(rs, pstmt, conn);
+			close(conn, pstmt, rs);
 		}
 	}
 	
@@ -125,14 +134,11 @@ public class TestJdbcService {
 			pstmt.setInt(1, RandomUtils.nextInt(1, 999));
 			
 			// execute a query
-			int rows = pstmt.executeUpdate();
-			if (rows > 0) {
-				log.info("\t > insert success");
-			}
-		} catch (Exception e) {
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
 			log.info("\t > {}", e.getClass().getSimpleName());
 		} finally {
-			close(rs, pstmt, conn);
+			close(conn, pstmt, rs);
 		}
 	}
 	
@@ -165,6 +171,35 @@ public class TestJdbcService {
 		List<TestItem> list2 = jdbcTemplate.query(SELECT_SQL, (rs, rowNum) -> {
 			return new TestItem(rs.getInt("idx"), rs.getInt("num"));
 		});
+	}
+	
+	public void useProgrammaticTx(boolean commit) {
+		log.info("## useProgrammaticTx - service");
+		log.info("\t > will {}", (commit == true) ? "commit" : "rollback");
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		TransactionStatus status = txManager.getTransaction(new DefaultTransactionDefinition());
+		try {
+			conn = dataSource.getConnection();
+			pstmt = conn.prepareStatement(INSERT_SQL);
+			pstmt.setInt(1, RandomUtils.nextInt(1, 999));
+			pstmt.executeUpdate();
+			if (commit) {
+				txManager.commit(status);
+			} else {
+				txManager.rollback(status);
+			}
+		} catch (SQLException e) {
+			txManager.rollback(status);
+			log.info("\t > {}", e.getClass().getSimpleName());
+		} finally {
+			close(conn, pstmt);
+		}
+	}
+
+	public void useDeclarativeTx() {
+		log.info("## useDeclarativeTx - service");
 	}
 	
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -52,6 +53,19 @@ public class TestJdbcController {
 	public ResponseEntity<Object> useJdbcTemplate() { 
 		log.info("## springJdbc");
 		jdbcService.useJdbcTemplate();
+		return ResponseEntity.ok("success");
+	}
+
+	@GetMapping("/jdbc/programmatic-tx/{commit}")
+	public ResponseEntity<Object> useProgrammaticTx(@PathVariable Boolean commit) { 
+		log.info("## useProgrammaticTx");
+		jdbcService.useProgrammaticTx(commit);
+		return ResponseEntity.ok("success");
+	}
+	@GetMapping("/jdbc/declarative-tx")
+	public ResponseEntity<Object> useDeclarativeTx() { 
+		log.info("## useDeclarativeTx");
+		jdbcService.useDeclarativeTx();
 		return ResponseEntity.ok("success");
 	}
 	
