@@ -50,7 +50,7 @@ public class TestJdbcService {
 	}
 	
 	private void close(ResultSet rs, PreparedStatement pstmt, Connection conn) {
-		log.info("## close conn, pstmt, rs");
+		log.info("## close resources (conn, pstmt, rs)");
 		try {
 			if (rs != null) 	rs.close();
 			if (pstmt != null) 	pstmt.close();
@@ -72,6 +72,7 @@ public class TestJdbcService {
 			
 			// open a connection from driver manager
 			conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
+			conn.setAutoCommit(false);
 			
 			// @@ insert
 			// prepare the statement
@@ -98,6 +99,7 @@ public class TestJdbcService {
 			 * you should always explicitly commit() or rollback() a Connection object before close()ing it
 			 */
 			
+			conn.rollback();
 		} catch (Exception e) {
 			log.info("\t > {}", e.getClass().getSimpleName());
 		} finally {
