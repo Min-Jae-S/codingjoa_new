@@ -52,12 +52,9 @@ public class TestJdbcService {
 	private void close(ResultSet rs, PreparedStatement pstmt, Connection conn) {
 		log.info("## close conn, pstmt, rs");
 		try {
-			if (rs != null) rs.close();
-			if (pstmt != null) pstmt.close();
-			if (conn != null) {
-				log.info("\t > auto commit = {}", conn.getAutoCommit());
-				conn.close();
-			}
+			if (rs != null) 	rs.close();
+			if (pstmt != null) 	pstmt.close();
+			if (conn != null)	conn.close();
 		} catch (SQLException e) {
 			log.info("\t > {}", e.getClass().getSimpleName());
 		}
@@ -87,23 +84,21 @@ public class TestJdbcService {
 				log.info("\t > insert success");
 			}
 			
-			log.info("--------- sleep for a while -------------");
-			TimeUnit.SECONDS.sleep(20);
+			/*
+			 * @@ https://stackoverflow.com/questions/32736040/after-an-exception-closing-the-connection-appears-to-commit-the-transaction-eve
+			 * setting auto-commit to false means that a statement's changes won't be committed right after it's executed.
+			 * It does not [necessarily] affect, however, the behavior of close(),
+			 * which may choose to either commit or rollback uncommitted data. As the documentation states:
+			 * 	 
+			 * | It is strongly recommended that an application explicitly commits or rolls back an active transaction 
+			 * | prior to calling the close method. If the close method is called and there is an active transaction, 
+			 * | the results are implementation-defined.
+			 * 
+			 * In other words, regardless of the auto commit flag, 
+			 * you should always explicitly commit() or rollback() a Connection object before close()ing it
+			 */
 			
-			// @@ select
-			// prepare the statement
-//			pstmt = conn.prepareStatement(SELECT_SQL);
-//			
-//			// execute a query
-//			rs = pstmt.executeQuery();
-//			List<TestItem> list = new ArrayList<>();
-//			while (rs.next()) {
-//				int idx = rs.getInt("idx");
-//				int num = rs.getInt("num");
-//				log.info("\t > idx = {},\tnum = {}", idx, num);
-//				list.add(new TestItem(idx, num));
-//			}
-		} catch (SQLException | ClassNotFoundException | InterruptedException e) {
+		} catch (Exception e) {
 			log.info("\t > {}", e.getClass().getSimpleName());
 		} finally {
 			close(rs, pstmt, conn);
@@ -131,7 +126,7 @@ public class TestJdbcService {
 			if (rows > 0) {
 				log.info("\t > insert success");
 			}
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			log.info("\t > {}", e.getClass().getSimpleName());
 		} finally {
 			close(rs, pstmt, conn);
@@ -150,6 +145,8 @@ public class TestJdbcService {
 	
 	public void springJdbc() {
 		log.info("## springJdbc - service");
+		
+		template.update(INSERT_SQL, RandomUtils.nextInt(1, 999));
 
 		// anonymous class
 		List<TestItem> list1 = template.query(SELECT_SQL, new RowMapper<TestItem>() {
