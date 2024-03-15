@@ -107,8 +107,7 @@ public class TestJdbcService {
 	public void useDriverManager() {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-
+		
 		try {
 			// register JDBC driver
 			Class.forName(JDBC_DRIVER);
@@ -144,7 +143,7 @@ public class TestJdbcService {
 		} catch (ClassNotFoundException | SQLException e) {
 			log.info("\t > {}", e.getClass().getSimpleName());
 		} finally {
-			close(conn, pstmt, rs);
+			close(conn, pstmt);
 		}
 	}
 	
