@@ -75,6 +75,7 @@ public class TestJdbcService {
 	}
 	
 	private void checkTransaction(TransactionStatus transactionStatus) {
+		log.info("----------------------------------------------------------------------------------------------");
 		log.info("## checkTransaction");
 		if (transactionStatus == null) {
 			log.info("\t > NO transaction");
@@ -92,9 +93,11 @@ public class TestJdbcService {
 			status = "unknown";
 		}
 		log.info("\t > transaction status = {}", status);
+		log.info("----------------------------------------------------------------------------------------------");
 	}
 	
 	private void checkTransactionBySyncManager() {
+		log.info("----------------------------------------------------------------------------------------------");
 		log.info("## checkTransactionBySyncManager");
 		log.info("\t > current transaction = {}", TransactionSynchronizationManager.getCurrentTransactionName());
 		log.info("\t > active transaction = {}", TransactionSynchronizationManager.isActualTransactionActive());
@@ -102,6 +105,7 @@ public class TestJdbcService {
 		boolean syncActive = TransactionSynchronizationManager.isSynchronizationActive();
 		log.info("\t > sync active = {}", syncActive);
 		log.info("\t > syncs = {}", syncActive == true ? TransactionSynchronizationManager.getSynchronizations() : "no sync");
+		log.info("----------------------------------------------------------------------------------------------");
 	}
 	
 	public void useDriverManager() {
@@ -212,6 +216,7 @@ public class TestJdbcService {
 		DefaultTransactionDefinition defaultDefinition = new DefaultTransactionDefinition();
 		defaultDefinition.setName("useProgrammaticTx");
 		TransactionStatus status = txManager.getTransaction(defaultDefinition);
+		checkTransaction(status);
 		
 		Connection conn = null;
 		PreparedStatement pstmt = null;
