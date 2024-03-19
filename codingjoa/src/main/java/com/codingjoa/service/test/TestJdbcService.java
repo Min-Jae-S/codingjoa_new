@@ -217,11 +217,12 @@ public class TestJdbcService {
 		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
 		def.setName("useProgrammaticTx");
 		TransactionStatus status = txManager.getTransaction(def);
-		checkTransaction(status);
+		//checkTransaction(status);
 		
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		try {
+			// conn = dataSource.getConnection();
 			conn = DataSourceUtils.getConnection(dataSource);
 			pstmt = conn.prepareStatement(INSERT_SQL);
 			pstmt.setInt(1, RandomUtils.nextInt(1, 999));

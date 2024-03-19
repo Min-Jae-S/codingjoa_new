@@ -67,11 +67,11 @@
 	<div class="test d-flex justify-content-center mt-5">
 		<button class="btn btn-lg btn-primary mx-3 px-1" onclick="useProgrammaticTx(true)">
 			<span>Programmatic Tx</span><br>
-			<span class="small">( pstmt, commit )</span>
+			<span class="small">( commit )</span>
 		</button>
 		<button class="btn btn-lg btn-primary mx-3 px-1" onclick="useProgrammaticTx(false)">
 			<span>Programmatic Tx</span><br>
-			<span class="small">( pstmt, rollback )</span>
+			<span class="small">( rollback )</span>
 		</button>
 		<button class="btn btn-lg btn-primary mx-3 px-1" onclick="useDeclarativeTx()">
 			<span>Declarative Tx</span>
