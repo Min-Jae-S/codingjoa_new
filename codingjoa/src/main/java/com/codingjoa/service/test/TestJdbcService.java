@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -96,9 +97,9 @@ public class TestJdbcService {
 		log.info("----------------------------------------------------------------------------------------------");
 	}
 	
-	private void checkTransactionBySyncManager() {
+	private void checkTransactionSync() {
 		log.info("----------------------------------------------------------------------------------------------");
-		log.info("## checkTransactionBySyncManager");
+		log.info("## checkTransactionSync");
 		log.info("\t > current transaction = {}", TransactionSynchronizationManager.getCurrentTransactionName());
 		log.info("\t > active transaction = {}", TransactionSynchronizationManager.isActualTransactionActive());
 		
@@ -221,7 +222,7 @@ public class TestJdbcService {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		try {
-			conn = dataSource.getConnection();
+			conn = DataSourceUtils.getConnection(dataSource);
 			pstmt = conn.prepareStatement(INSERT_SQL);
 			pstmt.setInt(1, RandomUtils.nextInt(1, 999));
 			pstmt.executeUpdate();
