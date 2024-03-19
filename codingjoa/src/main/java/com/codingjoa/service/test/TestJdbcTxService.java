@@ -47,6 +47,14 @@ public class TestJdbcTxService {
 		this.dataSource = dataSource;
 	}
 	
+	private void close(Connection conn) {
+		try {
+			if (conn != null) conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public void useTx(boolean commit) {
 		Connection conn = null;
 		try {
@@ -66,19 +74,39 @@ public class TestJdbcTxService {
 			try {
 				conn.rollback();
 			} catch (SQLException e1) {
-				log.info("\t > {}", e1.getClass().getSimpleName());
+				e1.printStackTrace();
 			}
 		} finally {
-			try {
-				conn.close();
-			} catch (SQLException e) {
-				log.info("\t > {}", e.getClass().getSimpleName());
-			}
+			close(conn);
 		}
 	}
 
 	public void useTxSyncManager(boolean commit) {
-
+		TransactionSynchronizationManager.initSynchronization();
+		Connection conn = DataSourceUtils.getConnection(dataSource);
+		log.info("\t > conn from service = {}", conn);
+		
+		try {
+			conn.setAutoCommit(false);
+			
+			int num = RandomUtils.nextInt(1, 999);
+			log.info("\t > num = {}", num);
+			
+			jdbcRepository.saveItem(num);
+			if (commit) {
+				conn.commit();
+			} else {
+				conn.rollback();
+			}
+		} catch (SQLException e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		} finally {
+			close(conn);
+		}
 	}
 	
 	public void useTxManager(boolean commit) {

@@ -8,6 +8,7 @@ import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.stereotype.Repository;
 
 import com.codingjoa.test.TestItem;
@@ -27,22 +28,42 @@ public class TestJdbcTxRepository {
 		this.jdbcTemplate = new JdbcTemplate(dataSource);
 	}
 	
+	private void close(PreparedStatement pstmt) {
+		try {
+			if (pstmt != null) pstmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public void saveItem(Connection conn, int num) {
-		String sql = "INSERT INTO test3 (idx, num) VALUES (seq_test3.NEXTVAL, ?)";
 		PreparedStatement pstmt = null;
 		try {
+			String sql = "INSERT INTO test3 (idx, num) VALUES (seq_test3.NEXTVAL, ?)";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, num);
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
-			log.info("\t > {}", e.getClass().getSimpleName());
+			e.printStackTrace();
 		} finally {
-			try {
-				pstmt.close();
-			} catch (SQLException e) {
-				log.info("\t > {}", e.getClass().getSimpleName());
-			}
+			close(pstmt);
 		}
 	}
 	
+	public void saveItem(int num) {
+		Connection conn = DataSourceUtils.getConnection(dataSource);
+		log.info("\t > conn from repository = {}", conn);
+		
+		PreparedStatement pstmt = null;
+		try {
+			String sql = "INSERT INTO test3 (idx, num) VALUES (seq_test3.NEXTVAL, ?)";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, num);
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+	}
 }
