@@ -19,6 +19,14 @@ public class TestJdbcTxController {
 	@Autowired
 	private TestJdbcTxService testJdbcTxService;
 	
+	@GetMapping("/jdbc-tx/tx/{commit}")
+	public ResponseEntity<Object> useTx(@PathVariable Boolean commit) { 
+		log.info("## useTx");
+		log.info("\t > {}", (commit) ? "commit" : "rollback");
+		testJdbcTxService.useTx(commit);
+		return ResponseEntity.ok("success");
+	} 
+	
 	@GetMapping("/jdbc-tx/sync-manager/{commit}") 
 	public ResponseEntity<Object> useTxSyncManager(@PathVariable Boolean commit) { 
 		log.info("## useTxSyncManager");

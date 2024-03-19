@@ -52,9 +52,24 @@
 		<button class="btn btn-lg btn-secondary mx-3 px-1" onclick="deleteTestItems()">
 			<span>Delete Items</span>
 		</button>
-		<button class="btn btn-lg btn-outline-primary mx-3 px-1 invisible" onclick="#">#</button>
+		<button class="btn btn-lg btn-primary mx-3 px-1 invisible" onclick="#">#</button>
 	</div>
 	<div class="test d-flex justify-content-center mt-5">
+		<div class="d-flex flex-column">
+			<button class="btn btn-lg btn-primary mx-3 px-1 mb-2" onclick="useTx()">
+				<span>Tx Only</span><br>
+			</button>
+			<div class="commit-or-rollback px-3 d-flex justify-content-around">
+				<div class="form-check form-check-inline mr-0">
+				  <input class="form-check-input" type="radio" name="commitOrRollback0" id="commitRadio0" value="true" checked>
+				  <label class="form-check-label" for="commitRadio0">COMMIT</label>
+				</div>
+				<div class="form-check form-check-inline mr-0">
+				  <input class="form-check-input" type="radio" name="commitOrRollback0" id="rollbackRadio0" value="false">
+				  <label class="form-check-label" for="rollbackRadio0">ROLLBACK</label>
+				</div>
+			</div>
+		</div>
 		<div class="d-flex flex-column">
 			<button class="btn btn-lg btn-primary mx-3 px-1 mb-2" onclick="useTxSyncManager()">
 				<span>TxSyncManager</span><br>
@@ -85,8 +100,10 @@
 				</div>
 			</div>
 		</div>
+	</div>
+	<div class="test d-flex justify-content-center mt-5">
 		<div class="d-flex flex-column">
-			<button class="btn btn-lg btn-primary mx-3 px-1 mb-2" onclick="useDeclarativeTx()">
+			<button class="btn btn-lg btn-warning mx-3 px-1 mb-2" onclick="useDeclarativeTx()">
 				<span>Declarative Tx</span>
 			</button>
 			<div class="commit-or-rollback px-3 d-flex justify-content-around">
@@ -100,6 +117,8 @@
 				</div>
 			</div>
 		</div>
+		<button class="btn btn-lg btn-warning mx-3 px-1 mb-2 invisible" onclick="#">#</button>
+		<button class="btn btn-lg btn-warning mx-3 px-1 mb-2 invisible" onclick="#">#</button>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
@@ -130,6 +149,29 @@
 		$.ajax({
 			type : "DELETE",
 			url : "${contextPath}/test/jdbc/test-items",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log("> result = %s", result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(jqXHR);
+			}
+		});		
+	}
+	
+	function useTx() {
+		console.log("## useTx");
+		let option = $('input[name="commitOrRollback0"]:checked').val();
+		if (option == 'true') {
+			console.log("> will commit");
+		} else {
+			console.log("> will rollback")
+		}
+		
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/jdbc-tx/tx/" + option,
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);

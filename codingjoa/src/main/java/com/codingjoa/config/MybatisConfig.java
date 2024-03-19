@@ -9,10 +9,12 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @MapperScan("com.codingjoa.mapper")
+@ComponentScan("com.codingjoa.repository")	// for TEST
 public class MybatisConfig {
 	
 	/*
@@ -20,6 +22,7 @@ public class MybatisConfig {
 	 * 	- a Java component (Bean) responsible for creating the SqlSessionFactory
 	 * 	- SqlSessionFactory: controls the execution with the global information of MyBatis and creates SqlSession
 	 * 	- SqlSession: executes queries (created per operation unit by the factory)
+	 * 
 	 */
 	
 	@Bean 
