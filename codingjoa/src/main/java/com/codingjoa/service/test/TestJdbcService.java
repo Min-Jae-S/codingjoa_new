@@ -78,7 +78,7 @@ public class TestJdbcService {
 		log.info("----------------------------------------------------------------------------------------------");
 		log.info("## checkTransaction");
 		if (transactionStatus == null) {
-			log.info("\t > NO transaction");
+			log.info("\t > transaction status = NO transaction");
 			return;
 		}
 		
@@ -213,9 +213,9 @@ public class TestJdbcService {
 	
 	public void useProgrammaticTx(boolean commit) {
 		log.info("\t > will {}", (commit == true) ? "commit" : "rollback");
-		DefaultTransactionDefinition defaultDefinition = new DefaultTransactionDefinition();
-		defaultDefinition.setName("useProgrammaticTx");
-		TransactionStatus status = txManager.getTransaction(defaultDefinition);
+		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+		def.setName("useProgrammaticTx");
+		TransactionStatus status = txManager.getTransaction(def);
 		checkTransaction(status);
 		
 		Connection conn = null;
