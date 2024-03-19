@@ -38,7 +38,7 @@
 	<logger name="org.springframework.transaction.interceptor.TransactionInterceptor" level="TRACE"/>
 	
 	<!-- TransactionSynchronizationManager -->
-	<!-- <logger name="org.springframework.transaction.support" level="TRACE"/> -->
+	<logger name="org.springframework.transaction.support.TransactionSynchronizationManager" level="TRACE"/>
 	
 	<!-- <logger name="org.springframework.jdbc.datasource" level="TRACE"/> -->
 	<!-- <logger name="org.springframework.jdbc.datasource.DataSourceUtils" level="TRACE"/> -->

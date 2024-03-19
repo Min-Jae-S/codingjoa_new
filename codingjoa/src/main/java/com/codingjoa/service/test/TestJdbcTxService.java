@@ -21,7 +21,9 @@ import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
@@ -36,10 +38,10 @@ import lombok.extern.slf4j.Slf4j;
 public class TestJdbcTxService {
 	
 	@Autowired
-	private PlatformTransactionManager txManager;
-	
-	@Autowired
 	private TestJdbcTxRepository jdbcRepository;
+
+	@Autowired
+	private PlatformTransactionManager txManager;
 
 	private final DataSource dataSource;
 	
@@ -63,8 +65,8 @@ public class TestJdbcTxService {
 			
 			int num = RandomUtils.nextInt(1, 999);
 			log.info("\t > num = {}", num);
-			
 			jdbcRepository.saveItem(conn, num);
+			
 			if (commit) {
 				conn.commit();
 			} else {
@@ -84,15 +86,15 @@ public class TestJdbcTxService {
 	public void useTxSyncManager(boolean commit) {
 		TransactionSynchronizationManager.initSynchronization();
 		Connection conn = DataSourceUtils.getConnection(dataSource);
-		log.info("\t > conn from service = {}", conn);
+		log.info("\t > conn from service =   {}", conn);
 		
 		try {
 			conn.setAutoCommit(false);
 			
 			int num = RandomUtils.nextInt(1, 999);
 			log.info("\t > num = {}", num);
-			
 			jdbcRepository.saveItem(num);
+			
 			if (commit) {
 				conn.commit();
 			} else {
@@ -110,11 +112,31 @@ public class TestJdbcTxService {
 	}
 	
 	public void useTxManager(boolean commit) {
-
+		TransactionDefinition def = new DefaultTransactionDefinition();
+		TransactionStatus status = txManager.getTransaction(def);
+		try {
+			int num = RandomUtils.nextInt(1, 999);
+			log.info("\t > num = {}", num);
+			jdbcRepository.saveItem(num);
+			
+			if (commit) {
+				txManager.commit(status);
+			} else {
+				txManager.rollback(status);
+			}
+		} catch (RuntimeException e) {
+			txManager.rollback(status);
+		}
 	}
 	
+	@Transactional
 	public void usetDeclarativeTx(boolean commit) {
-
+		int num = RandomUtils.nextInt(1, 999);
+		log.info("\t > num = {}", num);
+		
+		if (commit) {
+			jdbcRepository.saveItem(num);
+		}
 	}
 
 }
