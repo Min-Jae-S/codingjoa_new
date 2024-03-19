@@ -38,7 +38,6 @@ public class TestJdbcTxRepository {
 			log.info("\t > {}", e.getClass().getSimpleName());
 		} finally {
 			try {
-				log.info("\t > close pstmt");
 				pstmt.close();
 			} catch (SQLException e) {
 				log.info("\t > {}", e.getClass().getSimpleName());

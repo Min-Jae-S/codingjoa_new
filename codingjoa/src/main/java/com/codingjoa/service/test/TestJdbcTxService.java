@@ -54,8 +54,9 @@ public class TestJdbcTxService {
 			conn.setAutoCommit(false);
 			
 			int num = RandomUtils.nextInt(1, 999);
-			jdbcRepository.saveItem(conn, num);
+			log.info("\t > num = {}", num);
 			
+			jdbcRepository.saveItem(conn, num);
 			if (commit) {
 				conn.commit();
 			} else {
@@ -69,7 +70,6 @@ public class TestJdbcTxService {
 			}
 		} finally {
 			try {
-				log.info("\t > close conn");
 				conn.close();
 			} catch (SQLException e) {
 				log.info("\t > {}", e.getClass().getSimpleName());
