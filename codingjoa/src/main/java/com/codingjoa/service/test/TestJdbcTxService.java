@@ -43,19 +43,16 @@ public class TestJdbcTxService {
 	private final String SELECT_SQL = "SELECT * FROM test3 ORDER BY idx DESC";
 	private final String INSERT_SQL = "INSERT INTO test3 (idx, num) VALUES (seq_test3.NEXTVAL, ?)";
 	private final String DELETE_SQL = "DELETE FROM test3";
-	
 	private final DataSource dataSource;
-	private final JdbcTemplate jdbcTemplate;
-	private final PlatformTransactionManager txManager;
+	
+	@Autowired
+	private PlatformTransactionManager txManager;
 	
 	@Autowired
 	private TestJdbcTxRepository testJdbcTxRepository;
 	
-	public TestJdbcTxService(@Qualifier("mainDataSource") DataSource dataSource, 
-			@Qualifier("mainTransactionManager") PlatformTransactionManager txManager) {
+	public TestJdbcTxService(@Qualifier("mainDataSource") DataSource dataSource) {
 		this.dataSource = dataSource;
-		this.txManager = txManager;
-		this.jdbcTemplate = new JdbcTemplate(dataSource);
 	}
 	
 	private void close(Connection conn, PreparedStatement pstmt, ResultSet rs) {
@@ -118,5 +115,16 @@ public class TestJdbcTxService {
 		log.info("----------------------------------------------------------------------------------------------");
 	}
 	
+	public void useTxSyncManager(boolean commit) {
+		log.info("## useTxSyncManager [service]");
+	}
 	
+	public void useTxManager(boolean commit) {
+		log.info("## useTxManager [service]");
+	}
+	
+	public void usetDeclarativeTx(boolean commit) {
+		log.info("## usetDeclarativeTx [service]");	
+	}
+
 }

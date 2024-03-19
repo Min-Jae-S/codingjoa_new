@@ -44,7 +44,7 @@
 <body>
 <c:import url="/WEB-INF/views/include/top-menu.jsp"/>
 <div class="container my-5">
-	<p>jdbc.jsp</p>
+	<p>jdbc-tx.jsp</p>
 	<div class="test d-flex justify-content-center mt-5">
 		<button class="btn btn-lg btn-secondary mx-3 px-1" onclick="findTestItems()">
 			<span>Find Items</span>
@@ -85,9 +85,21 @@
 				</div>
 			</div>
 		</div>
-		<button class="btn btn-lg btn-primary mx-3 px-1" onclick="useDeclarativeTx()">
-			<span>Declarative Tx</span>
-		</button>
+		<div class="d-flex flex-column">
+			<button class="btn btn-lg btn-primary mx-3 px-1 mb-2" onclick="useDeclarativeTx()">
+				<span>Declarative Tx</span>
+			</button>
+			<div class="commit-or-rollback px-3 d-flex justify-content-around">
+				<div class="form-check form-check-inline mr-0">
+				  <input class="form-check-input" type="radio" name="commitOrRollback3" id="commitRadio3" value="true" checked>
+				  <label class="form-check-label" for="commitRadio3">COMMIT</label>
+				</div>
+				<div class="form-check form-check-inline mr-0">
+				  <input class="form-check-input" type="radio" name="commitOrRollback3" id="rollbackRadio3" value="false">
+				  <label class="form-check-label" for="rollbackRadio3">ROLLBACK</label>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
@@ -137,10 +149,10 @@
 		} else {
 			console.log("> will rollback")
 		}
-		return;
+		
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/jdbc/programmatic-tx-1/" + option,
+			url : "${contextPath}/test/jdbc-tx/sync-manager/" + option,
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);
@@ -163,7 +175,7 @@
 
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/jdbc/programmatic-tx-2/" + option,
+			url : "${contextPath}/test/jdbc-tx/manager/" + option,
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);
@@ -177,9 +189,15 @@
 
 	function useDeclarativeTx() {
 		console.log("## useDeclarativeTx");
+		let option = $('input[name="commitOrRollback3"]:checked').val();
+		if (option == 'true') {
+			console.log("> will commit");
+		} else {
+			console.log("> will rollback")
+		}
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/jdbc/declarative-tx",
+			url : "${contextPath}/test/jdbc-tx/declarative-tx/" + option,
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);

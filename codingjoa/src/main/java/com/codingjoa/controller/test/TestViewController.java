@@ -50,7 +50,7 @@ public class TestViewController {
 	@GetMapping("/jdbc-tx")
 	public String jdbcTxMain() {
 		log.info("## jdbcTx main");
-		return "test/jdbc";
+		return "test/jdbc-tx";
 	}
 
 	@GetMapping("/rest-api")

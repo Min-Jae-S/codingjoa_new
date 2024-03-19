@@ -26,40 +26,40 @@ public class TestJdbcController {
 	 */
 	
 	@Autowired
-	private TestJdbcService jdbcService;
+	private TestJdbcService testJdbcService;
 	
 	@GetMapping("/jdbc/test-items") 
 	public ResponseEntity<Object> findTestItems() { 
 		log.info("## findTestItems");
-		List<TestItem> testItems = jdbcService.findTestItems();
+		List<TestItem> testItems = testJdbcService.findTestItems();
 		return ResponseEntity.ok(testItems);
 	}
 	
 	@DeleteMapping("/jdbc/test-items") 
 	public ResponseEntity<Object> deleteTestItems() { 
 		log.info("## deleteTestItems");
-		jdbcService.deleteTestItems();
+		testJdbcService.deleteTestItems();
 		return ResponseEntity.ok("success");
 	}
 	
 	@GetMapping("/jdbc/driver-manager")
 	public ResponseEntity<Object> useDriverManager() { 
 		log.info("## useDriverManager");
-		jdbcService.useDriverManager();
+		testJdbcService.useDriverManager();
 		return ResponseEntity.ok("success");
 	}
 
 	@GetMapping("/jdbc/data-source")
 	public ResponseEntity<Object> useDataSource() { 
 		log.info("## useDataSource");
-		jdbcService.useDataSource();
+		testJdbcService.useDataSource();
 		return ResponseEntity.ok("success");
 	}
 	
 	@GetMapping("/jdbc/jdbc-template")
 	public ResponseEntity<Object> useJdbcTemplate() { 
 		log.info("## springJdbc");
-		jdbcService.useJdbcTemplate();
+		testJdbcService.useJdbcTemplate();
 		return ResponseEntity.ok("success");
 	}
 
