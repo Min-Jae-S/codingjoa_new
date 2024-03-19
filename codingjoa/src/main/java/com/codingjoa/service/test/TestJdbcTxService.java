@@ -33,7 +33,7 @@ import lombok.extern.slf4j.Slf4j;
 @SuppressWarnings("unused")
 @Slf4j
 @Service
-public class TestJdbcService {
+public class TestJdbcTxService {
 	
 	private final String JDBC_DRIVER = "oracle.jdbc.driver.OracleDriver";
 	private final String DB_URL = "jdbc:oracle:thin:@localhost:1521:orcl";
@@ -48,7 +48,10 @@ public class TestJdbcService {
 	private final JdbcTemplate jdbcTemplate;
 	private final PlatformTransactionManager txManager;
 	
-	public TestJdbcService(@Qualifier("mainDataSource") DataSource dataSource, 
+	@Autowired
+	private TestJdbcTxRepository testJdbcTxRepository;
+	
+	public TestJdbcTxService(@Qualifier("mainDataSource") DataSource dataSource, 
 			@Qualifier("mainTransactionManager") PlatformTransactionManager txManager) {
 		this.dataSource = dataSource;
 		this.txManager = txManager;
@@ -115,107 +118,5 @@ public class TestJdbcService {
 		log.info("----------------------------------------------------------------------------------------------");
 	}
 	
-	public void useDriverManager() {
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		
-		try {
-			// register JDBC driver
-			Class.forName(JDBC_DRIVER);
-			
-			// open a connection from driver manager
-			conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
-			conn.setAutoCommit(false);
-			
-			// @@ insert
-			// prepare the statement
-			pstmt = conn.prepareStatement(INSERT_SQL);
-			pstmt.setInt(1, RandomUtils.nextInt(1, 999));
-			
-			// execute a query
-			pstmt.executeUpdate();
-			
-			/*
-			 * @@ https://stackoverflow.com/questions/32736040/after-an-exception-closing-the-connection-appears-to-commit-the-transaction-eve
-			 * setting auto-commit to false means that a statement's changes won't be committed right after it's executed.
-			 * It does not [necessarily] affect, however, the behavior of close(),
-			 * which may choose to either commit or rollback uncommitted data. As the documentation states:
-			 * 	 
-			 * 	| It is strongly recommended that an application explicitly commits or rolls back an active transaction 
-			 * 	| prior to calling the close method. If the close method is called and there is an active transaction, 
-			 * 	| the results are implementation-defined.
-			 * 
-			 * In other words, regardless of the auto commit flag, 
-			 * you should always explicitly commit() or rollback() a Connection object before close()ing it
-			 * 
-			 */
-			
-			conn.rollback();
-		} catch (ClassNotFoundException | SQLException e) {
-			log.info("\t > {}", e.getClass().getSimpleName());
-		} finally {
-			close(conn, pstmt);
-		}
-	}
-	
-	public void useDataSource() {
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		
-		try {
-			// open a connection from autowired data source
-			conn = dataSource.getConnection();
-			conn.setAutoCommit(false);
-			log.info("\t > auto commit = {}", conn.getAutoCommit());
-			
-			// @@ insert
-			// prepare the statement
-			pstmt = conn.prepareStatement(INSERT_SQL);
-			pstmt.setInt(1, RandomUtils.nextInt(1, 999));
-			
-			// execute a query
-			pstmt.executeUpdate();
-		} catch (SQLException e) {
-			log.info("\t > {}", e.getClass().getSimpleName());
-		} finally {
-			close(conn, pstmt, rs);
-		}
-	}
-	
-	public List<TestItem> findTestItems() {
-		return jdbcTemplate.query(SELECT_SQL, (rs, rowNum) -> {
-			int idx = rs.getInt("idx");
-			int num = rs.getInt("num");
-			log.info("\t > idx = {},\tnum = {}", idx, num);
-			return new TestItem(idx, num);
-		});
-	}
-	
-	public void deleteTestItems() {
-		TransactionStatus status = txManager.getTransaction(new DefaultTransactionDefinition());
-		jdbcTemplate.update(DELETE_SQL);
-		txManager.commit(status);
-	}
-	
-	public void useJdbcTemplate() {
-		jdbcTemplate.update(INSERT_SQL, RandomUtils.nextInt(1, 999));
-
-		// anonymous class
-		List<TestItem> list1 = jdbcTemplate.query(SELECT_SQL, new RowMapper<TestItem>() {
-			@Override
-			public TestItem mapRow(ResultSet rs, int rowNum) throws SQLException {
-				int idx = rs.getInt("idx");
-				int num = rs.getInt("num");
-				//log.info("\t > idx = {},\tnum = {}", idx, num);
-				return new TestItem(idx, num);
-			}
-		});
-		
-		// lamda
-		List<TestItem> list2 = jdbcTemplate.query(SELECT_SQL, (rs, rowNum) -> {
-			return new TestItem(rs.getInt("idx"), rs.getInt("num"));
-		});
-	}
 	
 }

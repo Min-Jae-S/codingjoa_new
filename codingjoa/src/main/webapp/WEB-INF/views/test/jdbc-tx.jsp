@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>jdbc.jsp</title>
+<title>jdbc-tx.jsp</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
@@ -35,6 +35,10 @@
 	.small {
 		font-size: 0.95rem;
 	}
+	
+	.commit-or-rollback {
+		font-size: 0.9rem;
+	}
 </style>
 </head>
 <body>
@@ -51,17 +55,38 @@
 		<button class="btn btn-lg btn-outline-primary mx-3 px-1 invisible" onclick="#">#</button>
 	</div>
 	<div class="test d-flex justify-content-center mt-5">
-		<button class="btn btn-lg btn-primary mx-3 px-1" onclick="useDriverManager()">
-			<span>DRIVER MANAGER</span><br>
-			<span class="small">( conn from driverManager )</span>
-		</button>
-		<button class="btn btn-lg btn-primary mx-3 px-1" onclick="useDataSource()">
-			<span>DATASOURCE</span><br>
-			<span class="small">( conn from dataSource )</span>
-		</button>
-		<button class="btn btn-lg btn-primary mx-3 px-1" onclick="useJdbcTemplate()">
-			<span>JDBC TEMPLATE</span><br>
-			<span class="small">( spring jdbc )</span>
+		<div class="d-flex flex-column">
+			<button class="btn btn-lg btn-primary mx-3 px-1 mb-2" onclick="useTxSyncManager()">
+				<span>TxSyncManager</span><br>
+			</button>
+			<div class="commit-or-rollback px-3 d-flex justify-content-around">
+				<div class="form-check form-check-inline mr-0">
+				  <input class="form-check-input" type="radio" name="commitOrRollback1" id="commitRadio1" value="true" checked>
+				  <label class="form-check-label" for="commitRadio1">COMMIT</label>
+				</div>
+				<div class="form-check form-check-inline mr-0">
+				  <input class="form-check-input" type="radio" name="commitOrRollback1" id="rollbackRadio1" value="false">
+				  <label class="form-check-label" for="rollbackRadio1">ROLLBACK</label>
+				</div>
+			</div>
+		</div>
+		<div class="d-flex flex-column">
+			<button class="btn btn-lg btn-primary mx-3 px-1 mb-2" onclick="useTxManager()">
+				<span>TxManager</span><br>
+			</button>
+			<div class="commit-or-rollback px-3 d-flex justify-content-around">
+				<div class="form-check form-check-inline mr-0">
+				  <input class="form-check-input" type="radio" name="commitOrRollback2" id="commitRadio2" value="true" checked>
+				  <label class="form-check-label" for="commitRadio2">COMMIT</label>
+				</div>
+				<div class="form-check form-check-inline mr-0">
+				  <input class="form-check-input" type="radio" name="commitOrRollback2" id="rollbackRadio2" value="false">
+				  <label class="form-check-label" for="rollbackRadio2">ROLLBACK</label>
+				</div>
+			</div>
+		</div>
+		<button class="btn btn-lg btn-primary mx-3 px-1" onclick="useDeclarativeTx()">
+			<span>Declarative Tx</span>
 		</button>
 	</div>
 </div>
@@ -104,11 +129,18 @@
 		});		
 	}
 
-	function useDriverManager() {
-		console.log("## useDriverManager");
+	function useTxSyncManager() {
+		console.log("## useTxSyncManager");
+		let option = $('input[name="commitOrRollback1"]:checked').val();
+		if (option == 'true') {
+			console.log("> will commit");
+		} else {
+			console.log("> will rollback")
+		}
+		return;
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/jdbc/driver-manager",
+			url : "${contextPath}/test/jdbc/programmatic-tx-1/" + option,
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);
@@ -120,11 +152,18 @@
 		});		
 	}
 
-	function useDataSource() {
-		console.log("## useDataSource");
+	function useTxManager() {
+		console.log("## useTxManager");
+		let option = $('input[name="commitOrRollback2"]:checked').val();
+		if (option == 'true') {
+			console.log("> will commit");
+		} else {
+			console.log("> will rollback")
+		}
+
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/jdbc/data-source",
+			url : "${contextPath}/test/jdbc/programmatic-tx-2/" + option,
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);
@@ -135,12 +174,12 @@
 			}
 		});		
 	}
-	
-	function useJdbcTemplate() {
-		console.log("## useJdbcTemplate");
+
+	function useDeclarativeTx() {
+		console.log("## useDeclarativeTx");
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/jdbc/jdbc-template",
+			url : "${contextPath}/test/jdbc/declarative-tx",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);
