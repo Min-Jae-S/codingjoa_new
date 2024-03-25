@@ -28,13 +28,13 @@ public class TestJdbcTxService {
 	@Autowired
 	private TestJdbcTxRepository jdbcRepository;
 
-	@Autowired
-	private PlatformTransactionManager txManager;
-
+	private final PlatformTransactionManager txManager;
 	private final DataSource dataSource;
 	
-	public TestJdbcTxService(@Qualifier("mainDataSource") DataSource dataSource) {
+	public TestJdbcTxService(@Qualifier("mainDataSource") DataSource dataSource, 
+			@Qualifier("mainTransactionManager") PlatformTransactionManager txManager) {
 		this.dataSource = dataSource;
+		this.txManager = txManager;
 	}
 	
 	private void close(Connection conn) {
