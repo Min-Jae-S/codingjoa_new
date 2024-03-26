@@ -74,7 +74,7 @@ public class TestJdbcTxService {
 	public void useTxSyncManager(boolean commit) {
 		TransactionSynchronizationManager.initSynchronization();
 		Connection conn = DataSourceUtils.getConnection(dataSource);
-		log.info("\t > conn from service =   {}", conn);
+		log.info("\t > conn from service    = {}", conn);
 		
 		try {
 			conn.setAutoCommit(false);
