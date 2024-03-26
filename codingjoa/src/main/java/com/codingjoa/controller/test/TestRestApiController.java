@@ -54,7 +54,7 @@ public class TestRestApiController {
 		return ResponseEntity.ok("success");
 	}
 
-	@GetMapping("/rest-api/num/{idx}")
+	@GetMapping("/rest-api/test3-numbers/{idx}")
 	public ResponseEntity<Object> get(@PathVariable Integer idx, RequestEntity requestEntity) { 
 		log.info("## get");
 		log.info("\t > idx = {}", idx);
@@ -62,14 +62,14 @@ public class TestRestApiController {
 		return ResponseEntity.ok("success");
 	}
 
-	@PostMapping("/rest-api/num")
+	@PostMapping("/rest-api/test3-numbers")
 	public ResponseEntity<Object> post(RequestEntity requestEntity) { 
 		log.info("## post");
 		log.info("\t > body = {}", requestEntity.getBody());
 		return ResponseEntity.ok("success");
 	}
 
-	@PutMapping("/rest-api/num/{idx}")
+	@PutMapping("/rest-api/test3-numbers/{idx}")
 	public ResponseEntity<Object> put(@PathVariable Integer idx, RequestEntity requestEntity) { 
 		log.info("## put");
 		log.info("\t > idx = {}", idx);
@@ -77,7 +77,7 @@ public class TestRestApiController {
 		return ResponseEntity.ok("success");
 	}
 
-	@PatchMapping("/rest-api/num/{idx}")
+	@PatchMapping("/rest-api/test3-numbers/{idx}")
 	public ResponseEntity<Object> patch(@PathVariable Integer idx, RequestEntity requestEntity) { 
 		log.info("## patch");
 		log.info("\t > idx = {}", idx);
@@ -85,7 +85,7 @@ public class TestRestApiController {
 		return ResponseEntity.ok("success");
 	}
 
-	@DeleteMapping("/rest-api/num/{idx}")
+	@DeleteMapping("/rest-api/test3-numbers/{idx}")
 	public ResponseEntity<Object> delete(@PathVariable Integer idx, RequestEntity requestEntity) { 
 		log.info("## delete");
 		log.info("\t > idx = {}", idx);

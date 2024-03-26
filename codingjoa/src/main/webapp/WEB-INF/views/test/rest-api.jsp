@@ -91,7 +91,7 @@
 		console.log("## GET");
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/rest-api/num/83",
+			url : "${contextPath}/test/rest-api/test3-numbers/83",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);
@@ -107,7 +107,7 @@
 		console.log("## POST");
 		$.ajax({
 			type : "POST",
-			url : "${contextPath}/test/rest-api/num",
+			url : "${contextPath}/test/rest-api/test3-numbers",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);
@@ -123,7 +123,7 @@
 		console.log("## PUT");
 		$.ajax({
 			type : "PUT",
-			url : "${contextPath}/test/rest-api/num/83",
+			url : "${contextPath}/test/rest-api/test3-numbers/83",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);
@@ -139,7 +139,7 @@
 		console.log("## PATCH");
 		$.ajax({
 			type : "PATCH",
-			url : "${contextPath}/test/rest-api/num/83",
+			url : "${contextPath}/test/rest-api/test3-numbers/83",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);
@@ -155,7 +155,7 @@
 		console.log("## DELETE");
 		$.ajax({
 			type : "DELETE",
-			url : "${contextPath}/test/rest-api/num/83",
+			url : "${contextPath}/test/rest-api/test3-numbers/83",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);
