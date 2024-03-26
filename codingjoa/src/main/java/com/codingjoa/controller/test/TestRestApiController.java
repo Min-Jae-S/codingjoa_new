@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -42,44 +43,53 @@ public class TestRestApiController {
 	}
 
 	@GetMapping("/rest-api/test2")
-	public ResponseEntity<Object> test2(HttpServletRequest request, RequestEntity entity) { 
+	public ResponseEntity<Object> test2(HttpServletRequest request, RequestEntity requestEntity) { 
 		log.info("## test2");
 //		log.info("\t ================ REQUEST ================");
 //		log.info("\t > {}  {}  {}", request.getMethod(), request.getRequestURI(), request.getProtocol());
-//		HttpHeaders headers = entity.getHeaders();
+//		HttpHeaders headers = requestEntity.getHeaders();
 //		log.info("\t > Host: {}", headers.getHost());
 //		log.info("\t > Accept: {}", headers.getAccept());
 //		log.info("\t > Connection: {}", headers.getConnection());
 		return ResponseEntity.ok("success");
 	}
 
-	@GetMapping("/rest-api/get")
-	public ResponseEntity<Object> get() { 
+	@GetMapping("/rest-api/num/{idx}")
+	public ResponseEntity<Object> get(@PathVariable Integer idx, RequestEntity requestEntity) { 
 		log.info("## get");
+		log.info("\t > idx = {}", idx);
+		log.info("\t > body = {}", requestEntity.getBody());
 		return ResponseEntity.ok("success");
 	}
 
-	@PostMapping("/rest-api/post")
-	public ResponseEntity<Object> post() { 
+	@PostMapping("/rest-api/num")
+	public ResponseEntity<Object> post(RequestEntity requestEntity) { 
 		log.info("## post");
+		log.info("\t > body = {}", requestEntity.getBody());
 		return ResponseEntity.ok("success");
 	}
 
-	@PutMapping("/rest-api/put")
-	public ResponseEntity<Object> put() { 
+	@PutMapping("/rest-api/num/{idx}")
+	public ResponseEntity<Object> put(@PathVariable Integer idx, RequestEntity requestEntity) { 
 		log.info("## put");
+		log.info("\t > idx = {}", idx);
+		log.info("\t > body = {}", requestEntity.getBody());
 		return ResponseEntity.ok("success");
 	}
 
-	@PatchMapping("/rest-api/patch")
-	public ResponseEntity<Object> patch() { 
+	@PatchMapping("/rest-api/num/{idx}")
+	public ResponseEntity<Object> patch(@PathVariable Integer idx, RequestEntity requestEntity) { 
 		log.info("## patch");
+		log.info("\t > idx = {}", idx);
+		log.info("\t > body = {}", requestEntity.getBody());
 		return ResponseEntity.ok("success");
 	}
 
-	@DeleteMapping("/rest-api/delete")
-	public ResponseEntity<Object> delete() { 
+	@DeleteMapping("/rest-api/num/{idx}")
+	public ResponseEntity<Object> delete(@PathVariable Integer idx, RequestEntity requestEntity) { 
 		log.info("## delete");
+		log.info("\t > idx = {}", idx);
+		log.info("\t > body = {}", requestEntity.getBody());
 		return ResponseEntity.ok("success");
 	}
 	
