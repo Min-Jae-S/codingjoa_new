@@ -30,11 +30,11 @@ public class TestRestApiInterceptor implements HandlerInterceptor {
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
-		log.info("=====================    RESPONSE    =====================");
+		log.info("=====================    RESPONSE   =====================");
 		log.info("{}  {}", request.getProtocol(), response.getStatus());
 		log.info("Content-Type: {}", response.getHeader("content-type"));
 //		log.info("\t > Content-Length: {}", response.getHeader("content-length"));
-		log.info("==========================================================");
+		log.info("=========================================================");
 	}
 	
 }
