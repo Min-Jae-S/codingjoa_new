@@ -42,10 +42,15 @@
 		<button class="btn btn-lg btn-primary mx-3" onclick="test2()">test2</button>
 		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
 	</div>
-	<div class="test d-none justify-content-center mt-5">
-		<button class="btn btn-lg btn-outline-primary mx-3" onclick="#">#</button>
-		<button class="btn btn-lg btn-outline-primary mx-3" onclick="#">#</button>
-		<button class="btn btn-lg btn-outline-primary mx-3" onclick="#">#</button>
+	<div class="test d-flex justify-content-center mt-5">
+		<button class="btn btn-lg btn-outline-secondary mx-3" onclick="get()">GET</button>
+		<button class="btn btn-lg btn-outline-secondary mx-3" onclick="post()">POST</button>
+		<button class="btn btn-lg btn-outline-secondary mx-3 invisible" onclick="#">#</button>
+	</div>
+	<div class="test d-flex justify-content-center mt-5">
+		<button class="btn btn-lg btn-outline-secondary mx-3" onclick="put()">PUT</button>
+		<button class="btn btn-lg btn-outline-secondary mx-3" onclick="patch()">PATCH</button>
+		<button class="btn btn-lg btn-outline-secondary mx-3" onclick="remove()">DELETE</button>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
@@ -71,6 +76,86 @@
 		$.ajax({
 			type : "GET",
 			url : "${contextPath}/test/rest-api/test2",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log("> result = %s", result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(jqXHR);
+			}
+		});		
+	}
+
+	function get() {
+		console.log("## GET");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/rest-api/get",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log("> result = %s", result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(jqXHR);
+			}
+		});		
+	}
+
+	function post() {
+		console.log("## POST");
+		$.ajax({
+			type : "POST",
+			url : "${contextPath}/test/rest-api/post",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log("> result = %s", result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(jqXHR);
+			}
+		});		
+	}
+
+	function put() {
+		console.log("## PUT");
+		$.ajax({
+			type : "PUT",
+			url : "${contextPath}/test/rest-api/put",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log("> result = %s", result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(jqXHR);
+			}
+		});		
+	}
+
+	function patch() {
+		console.log("## PATCH");
+		$.ajax({
+			type : "PATCH",
+			url : "${contextPath}/test/rest-api/patch",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log("> result = %s", result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(jqXHR);
+			}
+		});		
+	}
+
+	function remove() {
+		console.log("## DELETE");
+		$.ajax({
+			type : "DELETE",
+			url : "${contextPath}/test/rest-api/delete",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);
