@@ -74,8 +74,6 @@ public class TestJdbcTxService {
 	public void useTxSyncManager(boolean commit) {
 		TransactionSynchronizationManager.initSynchronization();
 		Connection conn = DataSourceUtils.getConnection(dataSource);
-		log.info("\t > conn from service    = {}", conn);
-		
 		try {
 			conn.setAutoCommit(false);
 			
@@ -124,6 +122,8 @@ public class TestJdbcTxService {
 		
 		if (commit) {
 			jdbcRepository.saveItem(num);
+		} else {
+			throw new RuntimeException("rollback");
 		}
 	}
 

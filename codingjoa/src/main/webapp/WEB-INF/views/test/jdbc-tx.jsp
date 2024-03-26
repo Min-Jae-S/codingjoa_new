@@ -237,6 +237,7 @@
 		} else {
 			console.log("> will rollback")
 		}
+		
 		$.ajax({
 			type : "GET",
 			url : "${contextPath}/test/jdbc-tx/declarative-tx/" + option,
@@ -246,7 +247,8 @@
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
-				console.log(jqXHR);
+				let errorResponse = JSON.parse(jqXHR.responseText);
+				console.log(JSON.stringify(errorResponse, null, 2));
 			}
 		});		
 	}

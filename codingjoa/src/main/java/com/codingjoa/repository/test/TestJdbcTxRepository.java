@@ -10,9 +10,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.stereotype.Repository;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @Repository
 public class TestJdbcTxRepository {
 
@@ -46,8 +43,6 @@ public class TestJdbcTxRepository {
 	
 	public void saveItem(int num) {
 		Connection conn = DataSourceUtils.getConnection(dataSource);
-		log.info("\t > conn from repository = {}", conn);
-		
 		PreparedStatement pstmt = null;
 		try {
 			String sql = "INSERT INTO test3 (idx, num) VALUES (seq_test3.NEXTVAL, ?)";

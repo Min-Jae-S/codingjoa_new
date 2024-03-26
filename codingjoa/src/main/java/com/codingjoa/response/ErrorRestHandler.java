@@ -61,7 +61,7 @@ public class ErrorRestHandler {
 				.build();
 		log.info("\t > {}", errorResponse);
 		
-		e.printStackTrace();
+		//e.printStackTrace();
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
 	}
 	
