@@ -58,14 +58,12 @@ public class TestRestApiController {
 	public ResponseEntity<Object> get(@PathVariable Integer idx, RequestEntity requestEntity) { 
 		log.info("## get");
 		log.info("\t > idx = {}", idx);
-		log.info("\t > body = {}", requestEntity.getBody());
 		return ResponseEntity.ok("success");
 	}
 
 	@PostMapping("/rest-api/test3-numbers")
 	public ResponseEntity<Object> post(RequestEntity requestEntity) { 
 		log.info("## post");
-		log.info("\t > body = {}", requestEntity.getBody());
 		return ResponseEntity.ok("success");
 	}
 
@@ -73,7 +71,6 @@ public class TestRestApiController {
 	public ResponseEntity<Object> put(@PathVariable Integer idx, RequestEntity requestEntity) { 
 		log.info("## put");
 		log.info("\t > idx = {}", idx);
-		log.info("\t > body = {}", requestEntity.getBody());
 		return ResponseEntity.ok("success");
 	}
 
@@ -81,7 +78,6 @@ public class TestRestApiController {
 	public ResponseEntity<Object> patch(@PathVariable Integer idx, RequestEntity requestEntity) { 
 		log.info("## patch");
 		log.info("\t > idx = {}", idx);
-		log.info("\t > body = {}", requestEntity.getBody());
 		return ResponseEntity.ok("success");
 	}
 
@@ -89,7 +85,6 @@ public class TestRestApiController {
 	public ResponseEntity<Object> delete(@PathVariable Integer idx, RequestEntity requestEntity) { 
 		log.info("## delete");
 		log.info("\t > idx = {}", idx);
-		log.info("\t > body = {}", requestEntity.getBody());
 		return ResponseEntity.ok("success");
 	}
 	
