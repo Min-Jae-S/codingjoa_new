@@ -36,21 +36,21 @@ public class TestRestApiController {
 	@GetMapping("/rest-api/test1")
 	public ResponseEntity<Object> test1(@RequestHeader Map<String, String> headers) { 
 		log.info("## test1");
-//		for (Map.Entry<String, String> entry : headers.entrySet()) {
-//			log.info("\t > {}: {}", entry.getKey(), entry.getValue());
-//		}
+		for (Map.Entry<String, String> entry : headers.entrySet()) {
+			log.info("\t > {}: {}", entry.getKey(), entry.getValue());
+		}
 		return ResponseEntity.ok("success");
 	}
 
 	@GetMapping("/rest-api/test2")
 	public ResponseEntity<Object> test2(HttpServletRequest request, RequestEntity requestEntity) { 
 		log.info("## test2");
-//		log.info("\t ================ REQUEST ================");
-//		log.info("\t > {}  {}  {}", request.getMethod(), request.getRequestURI(), request.getProtocol());
-//		HttpHeaders headers = requestEntity.getHeaders();
-//		log.info("\t > Host: {}", headers.getHost());
-//		log.info("\t > Accept: {}", headers.getAccept());
-//		log.info("\t > Connection: {}", headers.getConnection());
+		log.info("\t ================ REQUEST ================");
+		log.info("\t > {}  {}  {}", request.getMethod(), request.getRequestURI(), request.getProtocol());
+		HttpHeaders headers = requestEntity.getHeaders();
+		log.info("\t > Host: {}", headers.getHost());
+		log.info("\t > Accept: {}", headers.getAccept());
+		log.info("\t > Connection: {}", headers.getConnection());
 		return ResponseEntity.ok("success");
 	}
 
