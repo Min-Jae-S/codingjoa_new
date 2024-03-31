@@ -17,9 +17,9 @@ public class TestRestApiInterceptor implements HandlerInterceptor {
 		log.info("=====================    REQUEST    =====================");
 		log.info("{}  {}  {}", request.getMethod(), request.getRequestURI(), request.getProtocol());
 		log.info("\t > Accept: {}", request.getHeader("accept"));
-		log.info("\t > Accept-Encoding: {}", request.getHeader("accept-encoding"));
-		log.info("\t > Accept-Language: {}", request.getHeader("accept-language"));
-		log.info("\t > Connection: {}", request.getHeader("connection"));
+//		log.info("\t > Accept-Encoding: {}", request.getHeader("accept-encoding"));
+//		log.info("\t > Accept-Language: {}", request.getHeader("accept-language"));
+//		log.info("\t > Connection: {}", request.getHeader("connection"));
 		log.info("\t > Host: {}", request.getHeader("host"));
 		log.info("\t > Referer: {}", request.getHeader("referer"));
 		log.info("\t > User-Agent: {}", request.getHeader("user-agent"));
@@ -33,7 +33,7 @@ public class TestRestApiInterceptor implements HandlerInterceptor {
 		log.info("=====================    RESPONSE   =====================");
 		log.info("{}  {}", request.getProtocol(), response.getStatus());
 		log.info("\t > Content-Type: {}", response.getHeader("content-type"));
-		log.info("\t > Content-Length: {}", response.getHeader("content-length"));
+//		log.info("\t > Content-Length: {}", response.getHeader("content-length"));
 		log.info("=========================================================");
 	}
 	
