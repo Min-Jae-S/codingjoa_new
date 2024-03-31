@@ -54,6 +54,12 @@ public class TestRestApiController {
 		return ResponseEntity.ok("success");
 	}
 
+	@GetMapping("/rest-api/test2")
+	public ResponseEntity<Object> test3(HttpServletRequest request, RequestEntity requestEntity) { 
+		log.info("## test3");
+		return ResponseEntity.ok("success");
+	}
+
 	@GetMapping("/rest-api/test3-numbers/{idx}")
 	public ResponseEntity<Object> get(@PathVariable Integer idx, RequestEntity requestEntity) { 
 		log.info("## get");
