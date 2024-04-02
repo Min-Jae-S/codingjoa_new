@@ -45,8 +45,7 @@ public class TestRestApiController {
 	@GetMapping("/rest-api/test2")
 	public ResponseEntity<Object> test2(HttpServletRequest request, RequestEntity requestEntity) { 
 		log.info("## test2");
-		log.info("\t ================ REQUEST ================");
-		log.info("\t > {}  {}  {}", request.getMethod(), request.getRequestURI(), request.getProtocol());
+//		log.info("\t > {}  {}  {}", request.getMethod(), request.getRequestURI(), request.getProtocol());
 //		HttpHeaders headers = requestEntity.getHeaders();
 //		log.info("\t > Host: {}", headers.getHost());
 //		log.info("\t > Accept: {}", headers.getAccept());
@@ -54,7 +53,7 @@ public class TestRestApiController {
 		return ResponseEntity.ok("success");
 	}
 
-	@GetMapping("/rest-api/test2")
+	@GetMapping("/rest-api/test3")
 	public ResponseEntity<Object> test3(HttpServletRequest request, RequestEntity requestEntity) { 
 		log.info("## test3");
 		return ResponseEntity.ok("success");
