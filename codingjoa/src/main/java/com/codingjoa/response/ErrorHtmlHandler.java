@@ -30,7 +30,7 @@ public class ErrorHtmlHandler {
 		
 		ErrorResponse errorResponse = ErrorResponse.builder()
 				.status(HttpStatus.BAD_REQUEST)
-				.messageByCode("error.UnKnown")
+				.messageByCode("error.Universal") // error.Unknown --> error.Universal
 				.build();
 		log.info("\t > {}", errorResponse);
 		request.setAttribute("errorResponse", errorResponse);

@@ -78,7 +78,6 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
 		AnonymousAuthenticationToken auth = new AnonymousAuthenticationToken(key, "anonymousUser",
 				AuthorityUtils.createAuthorityList("ROLE_ANONYMOUS")); 
 		auth.setDetails(authenticationDetailsSource.buildDetails(request));
-		
 		return auth;
 	}
 }

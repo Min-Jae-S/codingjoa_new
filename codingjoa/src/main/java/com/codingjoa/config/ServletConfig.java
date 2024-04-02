@@ -114,6 +114,9 @@ public class ServletConfig implements WebMvcConfigurer {
 	public void configurePathMatch(PathMatchConfigurer configurer) {
 		WebMvcConfigurer.super.configurePathMatch(configurer);
 		configurer.setUseTrailingSlashMatch(true);
+		
+		// 24.04.02 변경
+		//configurer.setUseTrailingSlashMatch(false);
 		// @PathVariable을 사용하여 dot(.)이 포함된 요청 URI에서 매개변수에서 dot 이후까지 완전히 포함하기 위한 설정
 		//configurer.setUseSuffixPatternMatch(false); // In 5.3 the default becomes false
 	}
@@ -236,7 +239,6 @@ public class ServletConfig implements WebMvcConfigurer {
 				"/WEB-INF/properties/success-message",
 				"/WEB-INF/properties/validation-message"
 			);
-		
 		return source;
 	}
 	

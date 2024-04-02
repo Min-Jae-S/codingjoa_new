@@ -57,7 +57,7 @@ public class ErrorRestHandler {
 
 		ErrorResponse errorResponse = ErrorResponse.builder()
 				.status(HttpStatus.BAD_REQUEST)
-				.messageByCode("error.Unknown")
+				.messageByCode("error.Universal") // error.Unknown --> error.Universal
 				.build();
 		log.info("\t > {}", errorResponse);
 		

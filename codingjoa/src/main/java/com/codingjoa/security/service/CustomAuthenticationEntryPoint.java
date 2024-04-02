@@ -111,14 +111,12 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
 		AnonymousAuthenticationToken auth = new AnonymousAuthenticationToken(key, "anonymousUser",
 				AuthorityUtils.createAuthorityList("ROLE_ANONYMOUS")); 
 		auth.setDetails(authenticationDetailsSource.buildDetails(request));
-		
 		return auth;
 	}
 	
 	private boolean isAjaxRequest(HttpServletRequest request) {
 		String ajaxHeader = request.getHeader("x-requested-with");
 		log.info("\t > x-requested-with = {}", ajaxHeader);
-		
 		return "XMLHttpRequest".equals(ajaxHeader);
 	}
 }

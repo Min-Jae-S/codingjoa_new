@@ -29,8 +29,7 @@
 		padding-right: 1.3rem;
 	}
 	
-	div.test button,
-	div.test input {
+	div.test button {
 		width: 230px;
 	}
 </style>
@@ -45,21 +44,28 @@
 		<button class="btn btn-lg btn-primary mx-3" onclick="test3()">test3</button>
 	</div>
 	<div class="test d-flex justify-content-center mt-5">
-		<button class="btn btn-lg btn-outline-secondary mx-3" onclick="get()">GET</button>
-		<button class="btn btn-lg btn-outline-secondary mx-3" onclick="post()">POST</button>
-		<button class="btn btn-lg btn-outline-secondary mx-3 invisible" onclick="#">#</button>
+		<div class="d-flex flex-column mx-3">
+			<button class="btn btn-lg btn-outline-secondary" onclick="getMapping()">GET</button>
+		</div>
+		<div class="d-flex flex-column mx-3">
+			<button class="btn btn-lg btn-outline-secondary mb-2" onclick="getMapping2(this)">GET2</button>
+			<input type="text" class="form-control text-center">
+		</div>
+		<div class="d-flex flex-column mx-3">
+			<button class="btn btn-lg btn-outline-secondary" onclick="postMapping()">POST</button>
+		</div>
 	</div>
 	<div class="test d-flex justify-content-center mt-5">
 		<div class="d-flex flex-column mx-3">
-			<button class="btn btn-lg btn-outline-secondary mb-2" onclick="put(this)">PUT</button>
+			<button class="btn btn-lg btn-outline-secondary mb-2" onclick="putMapping(this)">PUT</button>
 			<input type="text" class="form-control text-center">
 		</div>
 		<div class="d-flex flex-column mx-3">
-			<button class="btn btn-lg btn-outline-secondary mb-2" onclick="patch(this)">PATCH</button>
+			<button class="btn btn-lg btn-outline-secondary mb-2" onclick="patchMapping(this)">PATCH</button>
 			<input type="text" class="form-control text-center">
 		</div>
 		<div class="d-flex flex-column mx-3">
-			<button class="btn btn-lg btn-outline-secondary mb-2" onclick="remove(this)">DELETE</button>
+			<button class="btn btn-lg btn-outline-secondary mb-2" onclick="deleteMapping(this)">DELETE</button>
 			<input type="text" class="form-control text-center">
 		</div>
 	</div>
@@ -114,8 +120,8 @@
 		});		
 	}
 
-	function get() {
-		console.log("## GET");
+	function getMapping() {
+		console.log("## getMapping");
 		$.ajax({
 			type : "GET",
 			url : "${contextPath}/test/rest-api/test-members",
@@ -130,11 +136,13 @@
 		});		
 	}
 
-	function post(button) {
-		console.log("## POST");
+	function getMapping2(button) {
+		console.log("## getMapping2");
+		let id = $(button).siblings('input').val();
+		console.log("id = %s", id);
 		$.ajax({
-			type : "POST",
-			url : "${contextPath}/test/rest-api/test-numbers",
+			type : "GET",
+			url : "${contextPath}/test/rest-api/test-members/" + id,
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);
@@ -146,8 +154,24 @@
 		});		
 	}
 
-	function put(button) {
-		console.log("## PUT");
+	function postMapping() {
+		console.log("## postMapping");
+		$.ajax({
+			type : "POST",
+			url : "${contextPath}/test/rest-api/test-members",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log("> result = %s", result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				parseError(jqXHR);
+			}
+		});		
+	}
+
+	function putMapping(button) {
+		console.log("## putMapping");
 		let id = $(button).siblings('input').val();
 		console.log("id = %s", id);
 		$.ajax({
@@ -164,8 +188,8 @@
 		});		
 	}
 
-	function patch(button) {
-		console.log("## PATCH");
+	function patchMapping(button) {
+		console.log("## patchMapping");
 		let id = $(button).siblings('input').val();
 		console.log("id = %s", id);
 		$.ajax({
@@ -182,8 +206,8 @@
 		});		
 	}
 
-	function remove() {
-		console.log("## DELETE");
+	function deleteMapping(button) {
+		console.log("## deleteMapping");
 		let id = $(button).siblings('input').val();
 		console.log("id = %s", id);
 		$.ajax({

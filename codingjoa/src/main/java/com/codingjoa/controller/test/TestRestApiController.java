@@ -1,5 +1,6 @@
 package com.codingjoa.controller.test;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -62,38 +63,51 @@ public class TestRestApiController {
 	}
 
 	@GetMapping("/rest-api/test-members")
-	public ResponseEntity<Object> get() { 
-		log.info("## get");
-		return ResponseEntity.ok("success");
+	public ResponseEntity<Object> getMapping() { 
+		log.info("## getMapping");
+		List<TestMember> testMembers = service.read();
+		return ResponseEntity.ok(testMembers);
+	}
+	
+	@GetMapping("/rest-api/test-members/{id}")
+	public ResponseEntity<Object> getMapping2(@PathVariable String id) { 
+		log.info("## getMapping2");
+		log.info("\t > id = {}", id);
+		TestMember testMember = service.readById(id);
+		return ResponseEntity.ok(testMember);
 	}
 
 	@PostMapping("/rest-api/test-members")
-	public ResponseEntity<Object> post(/* @RequestBody TestMember testMember */) { 
-		log.info("## post");
+	public ResponseEntity<Object> postMapping(/* @RequestBody TestMember testMember */) { 
+		log.info("## postMapping");
 		//log.info("\t > member = {}", testMember);
+		service.create();
 		return ResponseEntity.ok("success");
 	}
 
 	@PutMapping("/rest-api/test-members/{id}")
-	public ResponseEntity<Object> put(@PathVariable String id/* , @RequestBody TestMember testMember */) { 
-		log.info("## put");
+	public ResponseEntity<Object> putMapping(@PathVariable String id/* , @RequestBody TestMember testMember */) { 
+		log.info("## putMapping");
 		log.info("\t > id = {}", id);
 		//log.info("\t > member = {}", testMember);
+		service.update();
 		return ResponseEntity.ok("success");
 	}
 
 	@PatchMapping("/rest-api/test-members/{id}")
-	public ResponseEntity<Object> patch(@PathVariable String id/* , @RequestBody TestMember testMember */) { 
-		log.info("## patch");
+	public ResponseEntity<Object> patchMapping(@PathVariable String id/* , @RequestBody TestMember testMember */) { 
+		log.info("## patchMapping");
 		log.info("\t > id = {}", id);
 		//log.info("\t > member = {}", testMember);
+		service.update();
 		return ResponseEntity.ok("success");
 	}
 
 	@DeleteMapping("/rest-api/test-members/{id}")
-	public ResponseEntity<Object> delete(@PathVariable String id) { 
-		log.info("## delete");
+	public ResponseEntity<Object> deleteMapping(@PathVariable String id) { 
+		log.info("## deleteMapping");
 		log.info("\t > id = {}", id);
+		service.delete();
 		return ResponseEntity.ok("success");
 	}
 	
