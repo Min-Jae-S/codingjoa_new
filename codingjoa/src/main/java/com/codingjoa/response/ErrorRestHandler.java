@@ -51,7 +51,7 @@ public class ErrorRestHandler {
 	
 	@ExceptionHandler(Exception.class)
 	protected ResponseEntity<Object> handleException(Exception e) {
-		log.info("@@ {} - {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
+		log.info("## [Universal] {} - {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t > location = {}", e.getStackTrace()[0]);
 		log.info("\t > original message = {}", e.getMessage());
 
