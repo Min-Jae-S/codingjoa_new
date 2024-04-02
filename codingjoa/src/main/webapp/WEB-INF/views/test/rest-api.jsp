@@ -45,18 +45,9 @@
 		<button class="btn btn-lg btn-primary mx-3" onclick="test3()">test3</button>
 	</div>
 	<div class="test d-flex justify-content-center mt-5">
-		<div class="d-flex flex-column mx-3">
-			<button class="btn btn-lg btn-outline-secondary mb-2" onclick="get(this)">GET</button>
-			<input type="text" class="form-control text-center">
-		</div>
-		<div class="d-flex flex-column mx-3">
-			<button class="btn btn-lg btn-outline-secondary mb-2" onclick="post(this)">POST</button>
-			<input type="text" class="form-control text-center">
-		</div>
-		<div class="d-flex flex-column mx-3 invisible">
-			<button class="btn btn-lg btn-outline-secondary mb-2" onclick="#">#</button>
-			<input type="text" class="form-control text-center">
-		</div>
+		<button class="btn btn-lg btn-outline-secondary mx-3" onclick="get()">GET</button>
+		<button class="btn btn-lg btn-outline-secondary mx-3" onclick="post()">POST</button>
+		<button class="btn btn-lg btn-outline-secondary mx-3 invisible" onclick="#">#</button>
 	</div>
 	<div class="test d-flex justify-content-center mt-5">
 		<div class="d-flex flex-column mx-3">
@@ -123,13 +114,11 @@
 		});		
 	}
 
-	function get(button) {
+	function get() {
 		console.log("## GET");
-		let id = $(button).siblings('input').val();
-		console.log("id = %s", id);
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/rest-api/test-members/" + id,
+			url : "${contextPath}/test/rest-api/test-members",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);
@@ -145,7 +134,7 @@
 		console.log("## POST");
 		$.ajax({
 			type : "POST",
-			url : "${contextPath}/test/rest-api/test3-numbers",
+			url : "${contextPath}/test/rest-api/test-numbers",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);

@@ -61,17 +61,16 @@ public class TestRestApiController {
 		return ResponseEntity.ok("success");
 	}
 
-	@GetMapping("/rest-api/test-members/{id}")
-	public ResponseEntity<Object> get(@PathVariable String id) { 
+	@GetMapping("/rest-api/test-members")
+	public ResponseEntity<Object> get() { 
 		log.info("## get");
-		log.info("\t > id = {}", id);
 		return ResponseEntity.ok("success");
 	}
 
 	@PostMapping("/rest-api/test-members")
-	public ResponseEntity<Object> post(@RequestBody TestMember testMember) { 
+	public ResponseEntity<Object> post(/* @RequestBody TestMember testMember */) { 
 		log.info("## post");
-		log.info("\t > member = {}", testMember);
+		//log.info("\t > member = {}", testMember);
 		return ResponseEntity.ok("success");
 	}
 
