@@ -16,11 +16,13 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codingjoa.service.test.TestRestApiService;
+import com.codingjoa.test.TestMember;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -59,37 +61,40 @@ public class TestRestApiController {
 		return ResponseEntity.ok("success");
 	}
 
-	@GetMapping("/rest-api/test3-numbers/{idx}")
-	public ResponseEntity<Object> get(@PathVariable Integer idx, RequestEntity requestEntity) { 
+	@GetMapping("/rest-api/test-members/{id}")
+	public ResponseEntity<Object> get(@PathVariable String id) { 
 		log.info("## get");
-		log.info("\t > idx = {}", idx);
+		log.info("\t > id = {}", id);
 		return ResponseEntity.ok("success");
 	}
 
-	@PostMapping("/rest-api/test3-numbers")
-	public ResponseEntity<Object> post(RequestEntity requestEntity) { 
+	@PostMapping("/rest-api/test-members")
+	public ResponseEntity<Object> post(@RequestBody TestMember testMember) { 
 		log.info("## post");
+		log.info("\t > member = {}", testMember);
 		return ResponseEntity.ok("success");
 	}
 
-	@PutMapping("/rest-api/test3-numbers/{idx}")
-	public ResponseEntity<Object> put(@PathVariable Integer idx, RequestEntity requestEntity) { 
+	@PutMapping("/rest-api/test-members/{id}")
+	public ResponseEntity<Object> put(@PathVariable String id, @RequestBody TestMember testMember) { 
 		log.info("## put");
-		log.info("\t > idx = {}", idx);
+		log.info("\t > id = {}", id);
+		log.info("\t > member = {}", testMember);
 		return ResponseEntity.ok("success");
 	}
 
-	@PatchMapping("/rest-api/test3-numbers/{idx}")
-	public ResponseEntity<Object> patch(@PathVariable Integer idx, RequestEntity requestEntity) { 
+	@PatchMapping("/rest-api/test-members/{id}")
+	public ResponseEntity<Object> patch(@PathVariable String id, @RequestBody TestMember testMember) { 
 		log.info("## patch");
-		log.info("\t > idx = {}", idx);
+		log.info("\t > id = {}", id);
+		log.info("\t > member = {}", testMember);
 		return ResponseEntity.ok("success");
 	}
 
-	@DeleteMapping("/rest-api/test3-numbers/{idx}")
-	public ResponseEntity<Object> delete(@PathVariable Integer idx, RequestEntity requestEntity) { 
+	@DeleteMapping("/rest-api/test-members/{id}")
+	public ResponseEntity<Object> delete(@PathVariable String id) { 
 		log.info("## delete");
-		log.info("\t > idx = {}", idx);
+		log.info("\t > id = {}", id);
 		return ResponseEntity.ok("success");
 	}
 	

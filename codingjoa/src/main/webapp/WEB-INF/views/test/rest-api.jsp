@@ -12,6 +12,7 @@
 <link rel="stylesheet" href="${contextPath}/resources/css/common.css">
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="${contextPath}/resources/js/jquery.serialize.js"></script>
+<script src="${contextPath}/resources/js/utils.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
 <script src="https://kit.fontawesome.com/c503d71f81.js"></script>
@@ -28,7 +29,8 @@
 		padding-right: 1.3rem;
 	}
 	
-	div.test button {
+	div.test button,
+	div.test input {
 		width: 230px;
 	}
 </style>
@@ -43,14 +45,32 @@
 		<button class="btn btn-lg btn-primary mx-3" onclick="test3()">test3</button>
 	</div>
 	<div class="test d-flex justify-content-center mt-5">
-		<button class="btn btn-lg btn-outline-secondary mx-3" onclick="get()">GET</button>
-		<button class="btn btn-lg btn-outline-secondary mx-3" onclick="post()">POST</button>
-		<button class="btn btn-lg btn-outline-secondary mx-3 invisible" onclick="#">#</button>
+		<div class="d-flex flex-column mx-3">
+			<button class="btn btn-lg btn-outline-secondary mb-2" onclick="get(this)">GET</button>
+			<input type="text" class="form-control text-center">
+		</div>
+		<div class="d-flex flex-column mx-3">
+			<button class="btn btn-lg btn-outline-secondary mb-2" onclick="post(this)">POST</button>
+			<input type="text" class="form-control text-center">
+		</div>
+		<div class="d-flex flex-column mx-3 invisible">
+			<button class="btn btn-lg btn-outline-secondary mb-2" onclick="#">#</button>
+			<input type="text" class="form-control text-center">
+		</div>
 	</div>
 	<div class="test d-flex justify-content-center mt-5">
-		<button class="btn btn-lg btn-outline-secondary mx-3" onclick="put()">PUT</button>
-		<button class="btn btn-lg btn-outline-secondary mx-3" onclick="patch()">PATCH</button>
-		<button class="btn btn-lg btn-outline-secondary mx-3" onclick="remove()">DELETE</button>
+		<div class="d-flex flex-column mx-3">
+			<button class="btn btn-lg btn-outline-secondary mb-2" onclick="put(this)">PUT</button>
+			<input type="text" class="form-control text-center">
+		</div>
+		<div class="d-flex flex-column mx-3">
+			<button class="btn btn-lg btn-outline-secondary mb-2" onclick="patch(this)">PATCH</button>
+			<input type="text" class="form-control text-center">
+		</div>
+		<div class="d-flex flex-column mx-3">
+			<button class="btn btn-lg btn-outline-secondary mb-2" onclick="remove(this)">DELETE</button>
+			<input type="text" class="form-control text-center">
+		</div>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
@@ -66,7 +86,7 @@
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
-				console.log(jqXHR);
+				parseError(jqXHR);
 			}
 		});		
 	}
@@ -82,7 +102,7 @@
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
-				console.log(jqXHR);
+				parseError(jqXHR);
 			}
 		});		
 	}
@@ -98,28 +118,30 @@
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
-				console.log(jqXHR);
+				parseError(jqXHR);
 			}
 		});		
 	}
 
-	function get() {
+	function get(button) {
 		console.log("## GET");
+		let id = $(button).siblings('input').val();
+		console.log("id = %s", id);
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/rest-api/test3-numbers/83",
+			url : "${contextPath}/test/rest-api/test-members/" + id,
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
-				console.log(jqXHR);
+				parseError(jqXHR);
 			}
 		});		
 	}
 
-	function post() {
+	function post(button) {
 		console.log("## POST");
 		$.ajax({
 			type : "POST",
@@ -130,55 +152,61 @@
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
-				console.log(jqXHR);
+				parseError(jqXHR);
 			}
 		});		
 	}
 
-	function put() {
+	function put(button) {
 		console.log("## PUT");
+		let id = $(button).siblings('input').val();
+		console.log("id = %s", id);
 		$.ajax({
 			type : "PUT",
-			url : "${contextPath}/test/rest-api/test3-numbers/83",
+			url : "${contextPath}/test/rest-api/test-members/" + id,
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
-				console.log(jqXHR);
+				parseError(jqXHR);
 			}
 		});		
 	}
 
-	function patch() {
+	function patch(button) {
 		console.log("## PATCH");
+		let id = $(button).siblings('input').val();
+		console.log("id = %s", id);
 		$.ajax({
 			type : "PATCH",
-			url : "${contextPath}/test/rest-api/test3-numbers/83",
+			url : "${contextPath}/test/rest-api/test-members/" + id,
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
-				console.log(jqXHR);
+				parseError(jqXHR);
 			}
 		});		
 	}
 
 	function remove() {
 		console.log("## DELETE");
+		let id = $(button).siblings('input').val();
+		console.log("id = %s", id);
 		$.ajax({
 			type : "DELETE",
-			url : "${contextPath}/test/rest-api/test3-numbers/83",
+			url : "${contextPath}/test/rest-api/test-members/" + id,
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
-				console.log(jqXHR);
+				parseError(jqXHR);
 			}
 		});		
 	}
