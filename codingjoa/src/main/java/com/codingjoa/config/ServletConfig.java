@@ -26,6 +26,7 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
@@ -113,10 +114,12 @@ public class ServletConfig implements WebMvcConfigurer {
 	@Override
 	public void configurePathMatch(PathMatchConfigurer configurer) {
 		WebMvcConfigurer.super.configurePathMatch(configurer);
-		configurer.setUseTrailingSlashMatch(true);
+		//configurer.setUseTrailingSlashMatch(true);
 		
 		// 24.04.02 변경
-		//configurer.setUseTrailingSlashMatch(false);
+		// @GetMapping(value = { "/rest-api/test-members/", "/rest-api/test-members/{id}"})
+		configurer.setUseTrailingSlashMatch(false);
+		
 		// @PathVariable을 사용하여 dot(.)이 포함된 요청 URI에서 매개변수에서 dot 이후까지 완전히 포함하기 위한 설정
 		//configurer.setUseSuffixPatternMatch(false); // In 5.3 the default becomes false
 	}

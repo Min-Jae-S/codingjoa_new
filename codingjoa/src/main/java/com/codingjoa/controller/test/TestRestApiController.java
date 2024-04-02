@@ -69,7 +69,7 @@ public class TestRestApiController {
 		return ResponseEntity.ok(testMembers);
 	}
 	
-	@GetMapping("/rest-api/test-members/{id}")
+	@GetMapping(value = { "/rest-api/test-members/", "/rest-api/test-members/{id}" })
 	public ResponseEntity<Object> getMapping2(@PathVariable String id) { 
 		log.info("## getMapping2");
 		log.info("\t > id = {}", id);

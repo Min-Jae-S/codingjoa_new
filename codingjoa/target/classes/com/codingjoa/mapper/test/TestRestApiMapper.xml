@@ -8,23 +8,11 @@
     CONSTRAINT pk_test4 PRIMARY KEY(id)
 -->
 	<select id="findMembers" resultType="testMember">
-		SELECT
-			id,
-			name,
-			age
-		FROM 
-			test4
+		SELECT id, name, age FROM test4
 	</select>
 
 	<select id="findMemberById" resultType="testMember">
-		SELECT
-			id,
-			name,
-			age
-		FROM 
-			test4
-		WHERE
-			id = #{id}
+		SELECT id, name, age FROM test4 WHERE id = #{id}
 	</select>
 	
 </mapper>

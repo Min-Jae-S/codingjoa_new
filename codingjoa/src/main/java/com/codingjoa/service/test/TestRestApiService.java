@@ -20,7 +20,13 @@ public class TestRestApiService {
 	public List<TestMember> read() {
 		log.info("## read");
 		List<TestMember> testMembers = mapper.findMembers();
-		log.info("\t > testMembers = {}", testMembers);
+		if (testMembers.size() > 0) {
+			for (TestMember testMember : testMembers) {
+				log.info("\t > {}", testMember);
+			}
+		} else {
+			log.info("\t > No members");
+		}
 		return testMembers;
 	}
 
