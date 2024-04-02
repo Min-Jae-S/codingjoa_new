@@ -66,6 +66,7 @@ public class TestRestApiController {
 	public ResponseEntity<Object> getMapping() { 
 		log.info("## getMapping");
 		List<TestMember> testMembers = service.read();
+		log.info("\t > testMembers = {}", testMembers);
 		return ResponseEntity.ok(testMembers);
 	}
 	
@@ -74,6 +75,7 @@ public class TestRestApiController {
 		log.info("## getMapping2");
 		log.info("\t > id = {}", id);
 		TestMember testMember = service.readById(id);
+		log.info("\t > testMember = {}", testMember);
 		return ResponseEntity.ok(testMember);
 	}
 

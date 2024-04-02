@@ -127,7 +127,11 @@
 			url : "${contextPath}/test/rest-api/test-members",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
-				console.log("> result = %s", result);
+				if (result != "") {
+					console.log(JSON.stringify(result, null, 2));
+				} else {
+					console.log("> No members");
+				}
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
@@ -145,7 +149,11 @@
 			url : "${contextPath}/test/rest-api/test-members/" + id,
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
-				console.log("> result = %s", result);
+				if (result != "") {
+					console.log(JSON.stringify(result, null, 2));
+				} else {
+					console.log("> No member");
+				}
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
