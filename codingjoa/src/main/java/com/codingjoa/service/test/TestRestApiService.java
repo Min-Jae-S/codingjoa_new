@@ -19,12 +19,16 @@ public class TestRestApiService {
 
 	public List<TestMember> read() {
 		log.info("## read");
-		return mapper.findMembers();
+		List<TestMember> testMembers = mapper.findMembers();
+		log.info("\t > testMembers = {}", testMembers);
+		return testMembers;
 	}
 
 	public TestMember readById(String id) {
 		log.info("## readById");
-		return mapper.findMemberById(id);
+		TestMember testMember = mapper.findMemberById(id);
+		log.info("\t > testMember = {}", testMember);
+		return testMember;
 	}
 
 	public void create() {
