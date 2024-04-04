@@ -229,6 +229,10 @@
 		$.ajax({
 			type : "PUT",
 			url : "${contextPath}/test/rest-api/test-members/" + id,
+			data : {
+				"name" : name,
+				"age" : age
+			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);
