@@ -29,8 +29,7 @@
 		padding-right: 1.3rem;
 	}
 	
-	div.test button,
-	div.input-group {
+	.test-btn, div.input-group {
 		width: 230px;
 	}
 </style>
@@ -40,30 +39,39 @@
 <div class="container my-5">
 	<p>rest-api.jsp</p>
 	<div class="test d-flex justify-content-center mt-5">
-		<button class="btn btn-lg btn-primary mx-3" onclick="test1()">test1</button>
-		<button class="btn btn-lg btn-primary mx-3" onclick="test2()">test2</button>
-		<button class="btn btn-lg btn-primary mx-3" onclick="test3()">test3</button>
+		<button class="btn btn-primary test-btn mx-3" onclick="test1()">test1</button>
+		<button class="btn btn-primary test-btn mx-3" onclick="test2()">test2</button>
+		<button class="btn btn-primary test-btn mx-3" onclick="test3()">test3</button>
 	</div>
 	<div class="test d-flex justify-content-center mt-5">
 		<div class="d-flex flex-column mx-3">
-			<button class="btn btn-lg btn-outline-secondary" onclick="getMapping()">GET</button>
+			<button class="btn btn-outline-secondary test-btn" onclick="getMapping()">GET</button>
 		</div>
 		<div class="d-flex flex-column mx-3">
-			<button class="btn btn-lg btn-outline-secondary mb-2" onclick="getMapping2(this)">GET2</button>
-			<input type="text" class="form-control text-center">
+			<div class="input-group mb-2">
+				<div class="input-group-prepend">
+	    			<span class="input-group-text">id</span>
+	  			</div>
+				<input type="text" class="form-control text-center" id="getMapping2Id">
+				<div class="input-group-append">
+    				<button class="btn btn-outline-secondary" onclick="getMapping2()">GET2</button>
+  				</div>
+			</div>
 		</div>
 		<div class="d-flex flex-column mx-3">
-			<button class="btn btn-lg btn-outline-secondary" onclick="postMapping()">POST</button>
+			<button class="btn btn-outline-secondary test-btn" onclick="postMapping()">POST</button>
 		</div>
 	</div>
 	<div class="test d-flex justify-content-center mt-5">
 		<div class="d-flex flex-column mx-3">
-			<button class="btn btn-lg btn-outline-secondary mb-2" onclick="putMapping()">PUT</button>
 			<div class="input-group mb-2">
 				<div class="input-group-prepend">
 	    			<span class="input-group-text">id</span>
 	  			</div>
 				<input type="text" class="form-control text-center" id="putMappingId">
+				<div class="input-group-append">
+    				<button class="btn btn-outline-secondary" onclick="putMappingId()">PUT</button>
+  				</div>
 			</div>
 			<div class="input-group mb-2">
 				<div class="input-group-prepend">
@@ -79,12 +87,14 @@
 			</div>
 		</div>
 		<div class="d-flex flex-column mx-3">
-			<button class="btn btn-lg btn-outline-secondary mb-2" onclick="patchMapping()">PATCH</button>
 			<div class="input-group mb-2">
 				<div class="input-group-prepend">
 	    			<span class="input-group-text">id</span>
 	  			</div>
 				<input type="text" class="form-control text-center" id="patchMappingId">
+				<div class="input-group-append">
+    				<button class="btn btn-outline-secondary" onclick="patchMapping()">PATCH</button>
+  				</div>
 			</div>
 			<div class="input-group mb-2">
 				<div class="input-group-prepend">
@@ -100,12 +110,14 @@
 			</div>
 		</div>
 		<div class="d-flex flex-column mx-3">
-			<button class="btn btn-lg btn-outline-secondary mb-2" onclick="deleteMapping()">DELETE</button>
 			<div class="input-group mb-2">
 				<div class="input-group-prepend">
 	    			<span class="input-group-text">id</span>
 	  			</div>
 				<input type="text" class="form-control text-center" id="deleteMappingId">
+				<div class="input-group-append">
+    				<button class="btn btn-outline-secondary" onclick="deleteMapping()">DELETE</button>
+  				</div>
 			</div>
 		</div>
 	</div>
@@ -190,13 +202,12 @@
 		});
 	}
 
-	function getMapping2(button) {
+	function getMapping2() {
 		console.log("## getMapping2");
-		let id = $(button).siblings('input').val();
-		console.log("id = %s", id);
+		console.log("\t> id = %s", $("#getMapping2Id").val());
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/rest-api/test-members/" + id,
+			url : "${contextPath}/test/rest-api/test-members/" + $("#getMapping2Id").val(),
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				if (result != "") {
@@ -230,21 +241,18 @@
 
 	function putMapping() {
 		console.log("## putMapping");
-		let id = $("#putMappingId").val();
-		let name = $("#putMappingName").val();
-		let age = $("#putMappingAge").val();
-		console.log("\t> id = %s", id);
-		console.log("\t> name = %s", name);
-		console.log("\t> age = %s", age);
+		console.log("\t> id = %s", $("#putMappingId").val());
+		console.log("\t> name = %s", $("#putMappingName").val());
+		console.log("\t> age = %s", $("#putMappingAge").val());
 		
 		let sendData = {
-			"name" : name,
-			"age" : age
+			name : $("#putMappingName").val(),
+			age : $("#putMappingAge").val()
 		};
 
 		$.ajax({
 			type : "PUT",
-			url : "${contextPath}/test/rest-api/test-members/" + id,
+			url : "${contextPath}/test/rest-api/test-members/" + $("#putMappingId").val(),
 			data : JSON.stringify(sendData),
 			contentType : "application/json; charset=utf-8",
 			success : function(result) {
@@ -260,9 +268,20 @@
 
 	function patchMapping() {
 		console.log("## patchMapping");
+		console.log("\t> id = %s", $("#patchMappingId").val());
+		console.log("\t> name = %s", $("#patchMappingName").val());
+		console.log("\t> age = %s", $("#patchMappingAge").val());
+		
+		let sendData = {
+			name : $("#patchMappingName").val(),
+			age : $("#patchMappingAge").val()
+		};
+		
 		$.ajax({
 			type : "PATCH",
-			url : "${contextPath}/test/rest-api/test-members/" + id,
+			url : "${contextPath}/test/rest-api/test-members/" + $("#patchMappingId").val(),
+			data : JSON.stringify(sendData),
+			contentType : "application/json; charset=utf-8",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);
@@ -276,9 +295,10 @@
 
 	function deleteMapping() {
 		console.log("## deleteMapping");
+		console.log("\t> id = %s", $("#deleteMappingId").val());
 		$.ajax({
 			type : "DELETE",
-			url : "${contextPath}/test/rest-api/test-members/" + id,
+			url : "${contextPath}/test/rest-api/test-members/" + $("#deleteMappingId").val(),
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);

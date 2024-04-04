@@ -93,17 +93,16 @@ public class TestRestApiController {
 	public ResponseEntity<Object> putMapping(@PathVariable String id, @RequestBody TestMember testMember) { 
 		log.info("## putMapping");
 		log.info("\t > id = {}", id);
-		//log.info("\t > body = {}", requestEntity.getBody());
 		log.info("\t > member = {}", testMember);
 		service.update();
 		return ResponseEntity.ok("success");
 	}
 
 	@PatchMapping("/rest-api/test-members/{id}")
-	public ResponseEntity<Object> patchMapping(@PathVariable String id/* , @RequestBody TestMember testMember */) { 
+	public ResponseEntity<Object> patchMapping(@PathVariable String id , @RequestBody TestMember testMember ) { 
 		log.info("## patchMapping");
 		log.info("\t > id = {}", id);
-		//log.info("\t > member = {}", testMember);
+		log.info("\t > member = {}", testMember);
 		service.update();
 		return ResponseEntity.ok("success");
 	}
