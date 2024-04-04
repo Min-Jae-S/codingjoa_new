@@ -236,14 +236,16 @@
 		console.log("\t> id = %s", id);
 		console.log("\t> name = %s", name);
 		console.log("\t> age = %s", age);
+		
+		let sendData = {
+			"name" : name,
+			"age" : age
+		};
 
 		$.ajax({
 			type : "PUT",
 			url : "${contextPath}/test/rest-api/test-members/" + id,
-			data : JSON.stringify({
-				"name" : name,
-				"age" : age
-			}),
+			data : JSON.stringify(sendData),
 			contentType : "application/json; charset=utf-8",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");

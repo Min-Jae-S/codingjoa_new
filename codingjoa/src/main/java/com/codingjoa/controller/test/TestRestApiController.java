@@ -85,12 +85,15 @@ public class TestRestApiController {
 		return ResponseEntity.ok("success");
 	}
 
+	// @@ I/O error while reading input message; nested exception is java.io.IOException: Stream closed"
+	// Your error is the result of @RequestBody being used twice(or being used RequestEntity) in your controller method arguments.
+	// Using @RequestBody Spring converts incoming request body into the specified object (what closes the stream representing body at the end) 
+	// so attempting to use @RequestBody second time in the same method makes no sense as stream has been already closed.
 	@PutMapping("/rest-api/test-members/{id}")
-	public ResponseEntity<Object> putMapping(@PathVariable String id, 
-			@RequestBody TestMember testMember, RequestEntity requestEntity) { 
+	public ResponseEntity<Object> putMapping(@PathVariable String id, @RequestBody TestMember testMember) { 
 		log.info("## putMapping");
 		log.info("\t > id = {}", id);
-		log.info("\t > body = {}", requestEntity.getBody());
+		//log.info("\t > body = {}", requestEntity.getBody());
 		log.info("\t > member = {}", testMember);
 		service.update();
 		return ResponseEntity.ok("success");
