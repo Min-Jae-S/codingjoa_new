@@ -112,6 +112,16 @@
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 <script>
+	function checkJSON(str) {
+		console.log("## checkJSON");
+		try {
+			var json = JSON.parse(str);
+			return (typeof json === 'object');
+		} catch (e) {
+			return false;
+		}
+	}
+
 	function test1() {
 		console.log("## test1");
 		$.ajax({
@@ -125,7 +135,7 @@
 				console.log("%c> ERROR", "color:red");
 				parseError(jqXHR);
 			}
-		});		
+		});
 	}
 
 	function test2() {
@@ -141,7 +151,7 @@
 				console.log("%c> ERROR", "color:red");
 				parseError(jqXHR);
 			}
-		});		
+		});
 	}
 
 	function test3() {
@@ -157,7 +167,7 @@
 				console.log("%c> ERROR", "color:red");
 				parseError(jqXHR);
 			}
-		});		
+		});
 	}
 
 	function getMapping() {
@@ -177,7 +187,7 @@
 				console.log("%c> ERROR", "color:red");
 				parseError(jqXHR);
 			}
-		});		
+		});
 	}
 
 	function getMapping2(button) {
@@ -199,7 +209,7 @@
 				console.log("%c> ERROR", "color:red");
 				parseError(jqXHR);
 			}
-		});		
+		});
 	}
 
 	function postMapping() {
@@ -215,7 +225,7 @@
 				console.log("%c> ERROR", "color:red");
 				parseError(jqXHR);
 			}
-		});		
+		});
 	}
 
 	function putMapping() {
@@ -226,13 +236,15 @@
 		console.log("\t> id = %s", id);
 		console.log("\t> name = %s", name);
 		console.log("\t> age = %s", age);
+
 		$.ajax({
 			type : "PUT",
 			url : "${contextPath}/test/rest-api/test-members/" + id,
-			data : {
+			data : JSON.stringify({
 				"name" : name,
 				"age" : age
-			},
+			}),
+			contentType : "application/json; charset=utf-8",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);
@@ -241,7 +253,7 @@
 				console.log("%c> ERROR", "color:red");
 				parseError(jqXHR);
 			}
-		});		
+		});
 	}
 
 	function patchMapping() {
@@ -257,7 +269,7 @@
 				console.log("%c> ERROR", "color:red");
 				parseError(jqXHR);
 			}
-		});		
+		});
 	}
 
 	function deleteMapping() {
@@ -273,7 +285,7 @@
 				console.log("%c> ERROR", "color:red");
 				parseError(jqXHR);
 			}
-		});		
+		});
 	}
 </script>
 </body>
