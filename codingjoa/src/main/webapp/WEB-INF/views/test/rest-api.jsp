@@ -29,7 +29,8 @@
 		padding-right: 1.3rem;
 	}
 	
-	div.test button {
+	div.test button,
+	div.input-group {
 		width: 230px;
 	}
 </style>
@@ -57,16 +58,55 @@
 	</div>
 	<div class="test d-flex justify-content-center mt-5">
 		<div class="d-flex flex-column mx-3">
-			<button class="btn btn-lg btn-outline-secondary mb-2" onclick="putMapping(this)">PUT</button>
-			<input type="text" class="form-control text-center">
+			<button class="btn btn-lg btn-outline-secondary mb-2" onclick="putMapping()">PUT</button>
+			<div class="input-group mb-2">
+				<div class="input-group-prepend">
+	    			<span class="input-group-text">id</span>
+	  			</div>
+				<input type="text" class="form-control text-center" id="putMappingId">
+			</div>
+			<div class="input-group mb-2">
+				<div class="input-group-prepend">
+	    			<span class="input-group-text">name</span>
+	  			</div>
+				<input type="text" class="form-control text-center" id="putMappingName">
+			</div>
+			<div class="input-group">
+				<div class="input-group-prepend">
+	    			<span class="input-group-text">age</span>
+	  			</div>
+				<input type="text" class="form-control text-center" id="putMappingAge">
+			</div>
 		</div>
 		<div class="d-flex flex-column mx-3">
-			<button class="btn btn-lg btn-outline-secondary mb-2" onclick="patchMapping(this)">PATCH</button>
-			<input type="text" class="form-control text-center">
+			<button class="btn btn-lg btn-outline-secondary mb-2" onclick="patchMapping()">PATCH</button>
+			<div class="input-group mb-2">
+				<div class="input-group-prepend">
+	    			<span class="input-group-text">id</span>
+	  			</div>
+				<input type="text" class="form-control text-center" id="patchMappingId">
+			</div>
+			<div class="input-group mb-2">
+				<div class="input-group-prepend">
+	    			<span class="input-group-text">name</span>
+	  			</div>
+				<input type="text" class="form-control text-center" id="patchMappingName">
+			</div>
+			<div class="input-group">
+				<div class="input-group-prepend">
+	    			<span class="input-group-text">age</span>
+	  			</div>
+				<input type="text" class="form-control text-center" id="patchMappingAge">
+			</div>
 		</div>
 		<div class="d-flex flex-column mx-3">
-			<button class="btn btn-lg btn-outline-secondary mb-2" onclick="deleteMapping(this)">DELETE</button>
-			<input type="text" class="form-control text-center">
+			<button class="btn btn-lg btn-outline-secondary mb-2" onclick="deleteMapping()">DELETE</button>
+			<div class="input-group mb-2">
+				<div class="input-group-prepend">
+	    			<span class="input-group-text">id</span>
+	  			</div>
+				<input type="text" class="form-control text-center" id="deleteMappingId">
+			</div>
 		</div>
 	</div>
 </div>
@@ -178,10 +218,14 @@
 		});		
 	}
 
-	function putMapping(button) {
+	function putMapping() {
 		console.log("## putMapping");
-		let id = $(button).siblings('input').val();
-		console.log("id = %s", id);
+		let id = $("#putMappingId").val();
+		let name = $("#putMappingName").val();
+		let age = $("#putMappingAge").val();
+		console.log("\t> id = %s", id);
+		console.log("\t> name = %s", name);
+		console.log("\t> age = %s", age);
 		$.ajax({
 			type : "PUT",
 			url : "${contextPath}/test/rest-api/test-members/" + id,
@@ -196,10 +240,8 @@
 		});		
 	}
 
-	function patchMapping(button) {
+	function patchMapping() {
 		console.log("## patchMapping");
-		let id = $(button).siblings('input').val();
-		console.log("id = %s", id);
 		$.ajax({
 			type : "PATCH",
 			url : "${contextPath}/test/rest-api/test-members/" + id,
@@ -214,10 +256,8 @@
 		});		
 	}
 
-	function deleteMapping(button) {
+	function deleteMapping() {
 		console.log("## deleteMapping");
-		let id = $(button).siblings('input').val();
-		console.log("id = %s", id);
 		$.ajax({
 			type : "DELETE",
 			url : "${contextPath}/test/rest-api/test-members/" + id,
