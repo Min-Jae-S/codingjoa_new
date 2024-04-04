@@ -70,7 +70,7 @@
 	  			</div>
 				<input type="text" class="form-control text-center" id="putMappingId">
 				<div class="input-group-append">
-    				<button class="btn btn-outline-secondary" onclick="putMappingId()">PUT</button>
+    				<button class="btn btn-outline-secondary" onclick="putMapping()">PUT</button>
   				</div>
 			</div>
 			<div class="input-group mb-2">

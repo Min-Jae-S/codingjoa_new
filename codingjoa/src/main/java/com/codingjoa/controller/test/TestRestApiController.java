@@ -85,6 +85,21 @@ public class TestRestApiController {
 		return ResponseEntity.ok("success");
 	}
 
+	// @@ RESTful
+	// 자원을 이름(자원의 표현)으로 구분하여 해당 자원의 상태(정보)를 주고받는 것을 의미한다.
+	// REST는 자원 기반의 구조(ROA, Resource Oriented Architecture) 설계의 중심에 Resource가 있고 
+	// HTTP Method를 통해 Resource를 처리하도록 설계된 아키텍쳐를 의미한다.
+	// REST는 HTTP URI(Uniform Resource Identifier)를 통해 자원(Resource)을 명시하고, 
+	// HTTP Method(POST, GET, PUT, DELETE)를 통해 해당 자원에 대한 CRUD Operation을 적용하는 것을 의미한다.
+	
+	// @@ put vs patch
+	
+	// @@ idempotent method
+	// 동일한 요청을 한번 보내는 것과 여러번 연속으로 보내는 것이 같은 효과를 가지고, 서버의 상태도 동일하게 남을 때 idempotent라고 한다.
+	// A method that ensures the same resource state is returned for the same request, regardless of how many times it is made.
+	// Sometimes, there's a misconception that idempotent methods always return the same response. 
+	// However, if the server resource state remains the same, the method is idempotent regardless of the response being different.
+	
 	// @@ I/O error while reading input message; nested exception is java.io.IOException: Stream closed"
 	// Your error is the result of @RequestBody being used twice(or being used RequestEntity) in your controller method arguments.
 	// Using @RequestBody Spring converts incoming request body into the specified object (what closes the stream representing body at the end) 
@@ -99,7 +114,7 @@ public class TestRestApiController {
 	}
 
 	@PatchMapping("/rest-api/test-members/{id}")
-	public ResponseEntity<Object> patchMapping(@PathVariable String id , @RequestBody TestMember testMember ) { 
+	public ResponseEntity<Object> patchMapping(@PathVariable String id , @RequestBody TestMember testMember) { 
 		log.info("## patchMapping");
 		log.info("\t > id = {}", id);
 		log.info("\t > member = {}", testMember);
