@@ -114,8 +114,7 @@ public class ServletConfig implements WebMvcConfigurer {
 		WebMvcConfigurer.super.configurePathMatch(configurer);
 		//configurer.setUseTrailingSlashMatch(true);
 		
-		// 24.04.02 변경
-		// @GetMapping(value = { "/rest-api/test-members/", "/rest-api/test-members/{id}"})
+		// 24.04.02 변경; @GetMapping(value = { "/rest-api/test-members/", "/rest-api/test-members/{id}"})
 		configurer.setUseTrailingSlashMatch(false);
 		
 		// @PathVariable을 사용하여 dot(.)이 포함된 요청 URI에서 매개변수에서 dot 이후까지 완전히 포함하기 위한 설정
