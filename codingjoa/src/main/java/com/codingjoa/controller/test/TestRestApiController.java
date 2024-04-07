@@ -85,14 +85,14 @@ public class TestRestApiController {
 		return ResponseEntity.ok("success");
 	}
 
-	// @@ RESTful
+	// @@ REST(Representational State Transfer)
 	// 자원을 이름(자원의 표현)으로 구분하여 해당 자원의 상태(정보)를 주고받는 것을 의미한다.
 	// REST는 자원 기반의 구조(ROA, Resource Oriented Architecture) 설계의 중심에 Resource가 있고 
 	// HTTP Method를 통해 Resource를 처리하도록 설계된 아키텍쳐를 의미한다.
 	// REST는 HTTP URI(Uniform Resource Identifier)를 통해 자원(Resource)을 명시하고, 
 	// HTTP Method(POST, GET, PUT, DELETE)를 통해 해당 자원에 대한 CRUD Operation을 적용하는 것을 의미한다.
 	
-	// @@ PUT(whole, idempotent) vs PATCH(partial, not idempotent - append)
+	// @@ PUT(entire update, idempotent) - PATCH(partial update, not idempotent - append)
 	
 	// @@ idempotent method
 	// 동일한 요청을 한번 보내는 것과 여러번 연속으로 보내는 것이 같은 효과를 가지고, 서버의 상태도 동일하게 남을 때 idempotent라고 한다.
