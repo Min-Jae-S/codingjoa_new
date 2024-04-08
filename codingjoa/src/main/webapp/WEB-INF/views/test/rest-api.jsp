@@ -85,6 +85,12 @@
 	  			</div>
 				<input type="text" class="form-control text-center" id="putMappingAge">
 			</div>
+			<div class="input-group">
+				<div class="input-group-prepend">
+	    			<span class="input-group-text">email</span>
+	  			</div>
+				<input type="text" class="form-control text-center" id="putMappingEmail">
+			</div>
 		</div>
 		<div class="d-flex flex-column mx-3">
 			<div class="input-group mb-2">
@@ -107,6 +113,12 @@
 	    			<span class="input-group-text">age</span>
 	  			</div>
 				<input type="text" class="form-control text-center" id="patchMappingAge">
+			</div>
+			<div class="input-group">
+				<div class="input-group-prepend">
+	    			<span class="input-group-text">email</span>
+	  			</div>
+				<input type="text" class="form-control text-center" id="patchMappingEmail">
 			</div>
 		</div>
 		<div class="d-flex flex-column mx-3">
@@ -241,18 +253,20 @@
 
 	function putMapping() {
 		console.log("## putMapping");
-		console.log("\t> id = %s", $("#putMappingId").val());
-		console.log("\t> name = %s", $("#putMappingName").val());
-		console.log("\t> age = %s", $("#putMappingAge").val());
+		let id = $("#putMappingId").val();
+		console.log("\t> id = %s", id);
 		
 		let sendData = {
 			name : $("#putMappingName").val(),
-			age : $("#putMappingAge").val()
+			age : $("#putMappingAge").val(),
+			email : $("#putMappingEmail").val(),
 		};
+		console.log("\t > sendData = ");
+		console.log(JSON.stringify(sendData, null, 2));
 
 		$.ajax({
 			type : "PUT",
-			url : "${contextPath}/test/rest-api/test-members/" + $("#putMappingId").val(),
+			url : "${contextPath}/test/rest-api/test-members/" + id,
 			data : JSON.stringify(sendData),
 			contentType : "application/json; charset=utf-8",
 			success : function(result) {

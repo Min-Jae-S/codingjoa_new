@@ -3,8 +3,9 @@ package com.codingjoa.test;
 import lombok.Data;
 
 @Data
-public class TestMember {
+public class TestApiData {
 	
 	private String name;
 	private Integer age;
+	private String email;
 }

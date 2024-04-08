@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.codingjoa.mapper.test.TestRestApiMapper;
-import com.codingjoa.test.TestMember;
+import com.codingjoa.test.TestApiData;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -17,11 +17,11 @@ public class TestRestApiService {
 	@Autowired
 	private TestRestApiMapper mapper;
 
-	public List<TestMember> read() {
+	public List<TestApiData> read() {
 		log.info("## read");
-		List<TestMember> testMembers = mapper.findMembers();
+		List<TestApiData> testMembers = mapper.findMembers();
 		if (testMembers.size() > 0) {
-			for (TestMember testMember : testMembers) {
+			for (TestApiData testMember : testMembers) {
 				log.info("\t > {}", testMember);
 			}
 		} else {
@@ -30,9 +30,9 @@ public class TestRestApiService {
 		return testMembers;
 	}
 
-	public TestMember readById(String id) {
+	public TestApiData readById(String id) {
 		log.info("## readById");
-		TestMember testMember = mapper.findMemberById(id);
+		TestApiData testMember = mapper.findMemberById(id);
 		log.info("\t > testMember = {}", testMember);
 		return testMember;
 	}

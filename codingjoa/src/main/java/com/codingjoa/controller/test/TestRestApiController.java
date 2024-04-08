@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codingjoa.service.test.TestRestApiService;
-import com.codingjoa.test.TestMember;
+import com.codingjoa.test.TestApiData;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -65,22 +65,22 @@ public class TestRestApiController {
 	@GetMapping("/rest-api/test-members")
 	public ResponseEntity<Object> getMapping() { 
 		log.info("## getMapping");
-		List<TestMember> testMembers = service.read();
-		return ResponseEntity.ok(testMembers);
+		List<TestApiData> apiData = service.read();
+		return ResponseEntity.ok(apiData);
 	}
 	
 	@GetMapping(value = { "/rest-api/test-members/", "/rest-api/test-members/{id}" })
 	public ResponseEntity<Object> getMapping2(@PathVariable String id) { 
 		log.info("## getMapping2");
 		log.info("\t > id = {}", id);
-		TestMember testMember = service.readById(id);
-		return ResponseEntity.ok(testMember);
+		TestApiData apiData = service.readById(id);
+		return ResponseEntity.ok(apiData);
 	}
 
 	@PostMapping("/rest-api/test-members")
-	public ResponseEntity<Object> postMapping(/* @RequestBody TestMember testMember */) { 
+	public ResponseEntity<Object> postMapping(/* @RequestBody TestApiData testApiData */) { 
 		log.info("## postMapping");
-		//log.info("\t > member = {}", testMember);
+		//log.info("\t > request = {}", testApiData);
 		service.create();
 		return ResponseEntity.ok("success");
 	}
@@ -92,7 +92,7 @@ public class TestRestApiController {
 	// REST는 HTTP URI(Uniform Resource Identifier)를 통해 자원(Resource)을 명시하고, 
 	// HTTP Method(POST, GET, PUT, DELETE)를 통해 해당 자원에 대한 CRUD Operation을 적용하는 것을 의미한다.
 	
-	// @@ PUT(entire update, idempotent) - PATCH(partial update, not idempotent - append)
+	// @@ PUT(update, idempotent) - PATCH(partial update, not idempotent - append)
 	
 	// @@ idempotent method
 	// 동일한 요청을 한번 보내는 것과 여러번 연속으로 보내는 것이 같은 효과를 가지고, 서버의 상태도 동일하게 남을 때 idempotent라고 한다.
@@ -105,19 +105,19 @@ public class TestRestApiController {
 	// Using @RequestBody Spring converts incoming request body into the specified object (what closes the stream representing body at the end) 
 	// so attempting to use @RequestBody second time in the same method makes no sense as stream has been already closed.
 	@PutMapping("/rest-api/test-members/{id}")
-	public ResponseEntity<Object> putMapping(@PathVariable String id, @RequestBody TestMember testMember) { 
+	public ResponseEntity<Object> putMapping(@PathVariable String id, @RequestBody TestApiData testApiData) { 
 		log.info("## putMapping");
 		log.info("\t > id = {}", id);
-		log.info("\t > member = {}", testMember);
+		log.info("\t > request = {}", testApiData);
 		service.update();
 		return ResponseEntity.ok("success");
 	}
 
 	@PatchMapping("/rest-api/test-members/{id}")
-	public ResponseEntity<Object> patchMapping(@PathVariable String id , @RequestBody TestMember testMember) { 
+	public ResponseEntity<Object> patchMapping(@PathVariable String id , @RequestBody TestApiData testApiData) { 
 		log.info("## patchMapping");
 		log.info("\t > id = {}", id);
-		log.info("\t > member = {}", testMember);
+		log.info("\t > request = {}", testApiData);
 		service.update();
 		return ResponseEntity.ok("success");
 	}

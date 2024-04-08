@@ -4,13 +4,13 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.codingjoa.test.TestMember;
+import com.codingjoa.test.TestApiData;
 
 @Mapper
 public interface TestRestApiMapper {
 	
-	List<TestMember> findMembers();
+	List<TestApiData> findMembers();
 	
-	TestMember findMemberById(String id);
+	TestApiData findMemberById(String id);
 	
 }
