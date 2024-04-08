@@ -4,11 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -23,11 +20,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codingjoa.service.test.TestRestApiService;
-import com.codingjoa.test.TestApiData;
+import com.codingjoa.test.TestApiRequestData;
+import com.codingjoa.test.TestApiResponseData;
 
 import lombok.extern.slf4j.Slf4j;
 
-@SuppressWarnings(value = {"unused", "rawtypes"})
+@SuppressWarnings(value = "rawtypes")
 @Slf4j
 @RequestMapping("/test")
 @RestController
@@ -65,22 +63,22 @@ public class TestRestApiController {
 	@GetMapping("/rest-api/test-members")
 	public ResponseEntity<Object> getMapping() { 
 		log.info("## getMapping");
-		List<TestApiData> apiData = service.read();
-		return ResponseEntity.ok(apiData);
+		List<TestApiResponseData> responseData = service.read();
+		return ResponseEntity.ok(responseData);
 	}
 	
 	@GetMapping(value = { "/rest-api/test-members/", "/rest-api/test-members/{id}" })
 	public ResponseEntity<Object> getMapping2(@PathVariable String id) { 
 		log.info("## getMapping2");
 		log.info("\t > id = {}", id);
-		TestApiData apiData = service.readById(id);
-		return ResponseEntity.ok(apiData);
+		TestApiResponseData responseData = service.readById(id);
+		return ResponseEntity.ok(responseData);
 	}
 
 	@PostMapping("/rest-api/test-members")
-	public ResponseEntity<Object> postMapping(/* @RequestBody TestApiData testApiData */) { 
+	public ResponseEntity<Object> postMapping(/* @RequestBody TestApiRequestData requestData */) { 
 		log.info("## postMapping");
-		//log.info("\t > request = {}", testApiData);
+		//log.info("\t > request = {}", requestData);
 		service.create();
 		return ResponseEntity.ok("success");
 	}
@@ -105,19 +103,19 @@ public class TestRestApiController {
 	// Using @RequestBody Spring converts incoming request body into the specified object (what closes the stream representing body at the end) 
 	// so attempting to use @RequestBody second time in the same method makes no sense as stream has been already closed.
 	@PutMapping("/rest-api/test-members/{id}")
-	public ResponseEntity<Object> putMapping(@PathVariable String id, @RequestBody TestApiData testApiData) { 
+	public ResponseEntity<Object> putMapping(@PathVariable String id, @RequestBody TestApiRequestData requestData) { 
 		log.info("## putMapping");
 		log.info("\t > id = {}", id);
-		log.info("\t > request = {}", testApiData);
+		log.info("\t > request = {}", requestData);
 		service.update();
 		return ResponseEntity.ok("success");
 	}
 
 	@PatchMapping("/rest-api/test-members/{id}")
-	public ResponseEntity<Object> patchMapping(@PathVariable String id , @RequestBody TestApiData testApiData) { 
+	public ResponseEntity<Object> patchMapping(@PathVariable String id , @RequestBody TestApiRequestData requestData) { 
 		log.info("## patchMapping");
 		log.info("\t > id = {}", id);
-		log.info("\t > request = {}", testApiData);
+		log.info("\t > request = {}", requestData);
 		service.update();
 		return ResponseEntity.ok("success");
 	}

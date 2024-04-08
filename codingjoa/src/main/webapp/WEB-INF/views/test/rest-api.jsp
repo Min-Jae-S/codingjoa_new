@@ -216,10 +216,11 @@
 
 	function getMapping2() {
 		console.log("## getMapping2");
-		console.log("> id = %s", $("#getMapping2Id").val());
+		let id = $("#getMapping2").val();
+		console.log("> id = %s", id);
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/rest-api/test-members/" + $("#getMapping2Id").val(),
+			url : "${contextPath}/test/rest-api/test-members/" + id,
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				if (result != "") {
@@ -253,6 +254,7 @@
 
 	function putMapping() {
 		console.log("## putMapping");
+		
 		let id = $("#putMappingId").val();
 		console.log("> id = %s", id);
 		
@@ -282,18 +284,21 @@
 
 	function patchMapping() {
 		console.log("## patchMapping");
-		console.log("> id = %s", $("#patchMappingId").val());
-		console.log("> name = %s", $("#patchMappingName").val());
-		console.log("> age = %s", $("#patchMappingAge").val());
+		
+		let id = $("#patchMappingId").val();
+		console.log("> id = %s", id);
 		
 		let sendData = {
 			name : $("#patchMappingName").val(),
-			age : $("#patchMappingAge").val()
+			age : $("#patchMappingName").val(),
+			email : $("#patchMappingEmail").val(),
 		};
+		console.log("> sendData = ");
+		console.log(JSON.stringify(sendData, null, 2));
 		
 		$.ajax({
 			type : "PATCH",
-			url : "${contextPath}/test/rest-api/test-members/" + $("#patchMappingId").val(),
+			url : "${contextPath}/test/rest-api/test-members/" + id,
 			data : JSON.stringify(sendData),
 			contentType : "application/json; charset=utf-8",
 			success : function(result) {
@@ -309,10 +314,11 @@
 
 	function deleteMapping() {
 		console.log("## deleteMapping");
-		console.log("\t> id = %s", $("#deleteMappingId").val());
+		let id = $("#deleteMapping").val();
+		console.log("> id = %s", id);
 		$.ajax({
 			type : "DELETE",
-			url : "${contextPath}/test/rest-api/test-members/" + $("#deleteMappingId").val(),
+			url : "${contextPath}/test/rest-api/test-members/" + id,
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);
