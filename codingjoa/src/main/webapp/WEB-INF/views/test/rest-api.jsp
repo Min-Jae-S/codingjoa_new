@@ -202,9 +202,10 @@
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				if (result != "") {
+					console.log("> result = ");
 					console.log(JSON.stringify(result, null, 2));
 				} else {
-					console.log("> No members");
+					console.log("> no members");
 				}
 			},
 			error : function(jqXHR) {
@@ -224,9 +225,10 @@
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				if (result != "") {
+					console.log("> result = ");
 					console.log(JSON.stringify(result, null, 2));
 				} else {
-					console.log("> No member");
+					console.log("> no member");
 				}
 			},
 			error : function(jqXHR) {
@@ -243,7 +245,8 @@
 			url : "${contextPath}/test/rest-api/test-members",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
-				console.log("> result = %s", result);
+				console.log("> result = ");
+				console.log(JSON.stringify(result, null, 2));
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
@@ -273,7 +276,8 @@
 			contentType : "application/json; charset=utf-8",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
-				console.log("> result = %s", result);
+				console.log("> result = ");
+				console.log(JSON.stringify(result, null, 2));
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
