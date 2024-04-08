@@ -33,7 +33,8 @@ public class TestRestApiService {
 	}
 
 	public TestApiResponseData update(TestApiRequestData requestData, String id) {
-		return mapper.update(requestData, id);
+		mapper.update(requestData, id);
+		return mapper.findMemberById(id);
 	}
 	
 	public void delete() {

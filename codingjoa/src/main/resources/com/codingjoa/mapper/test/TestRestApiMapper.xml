@@ -17,17 +17,14 @@
 	</select>
 	
 	<update id="update">
-		<selectKey order="AFTER" resultType="testApiResponseData">
-			SELECT id, name, age, email FROM test4 WHERE id = #{id}
-		</selectKey>
-			UPDATE
-				test4
-			SET
-				name = #{requestData.name},
-				age = #{requestData.age},
-				email = #{requestData.email}
-			WHERE
-				id = #{id}
+		UPDATE
+			test4
+		SET
+			name = #{requestData.name},
+			age = #{requestData.age},
+			email = #{requestData.email}
+		WHERE
+			id = #{id}
 	</update>
 	
 </mapper>

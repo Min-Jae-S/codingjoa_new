@@ -15,6 +15,6 @@ public interface TestRestApiMapper {
 	
 	TestApiResponseData findMemberById(String id);
 	
-	TestApiResponseData update(@Param("requestData") TestApiRequestData requestData, @Param("id") String id);
+	void update(@Param("requestData") TestApiRequestData requestData, @Param("id") String id);
 	
 }
