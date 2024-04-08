@@ -37,7 +37,7 @@ public class TestRestApiService {
 		return mapper.findMemberById(id);
 	}
 	
-	public void delete() {
-		log.info("## delete");
+	public int delete(String id) {
+		return mapper.delete(id);
 	}
 }

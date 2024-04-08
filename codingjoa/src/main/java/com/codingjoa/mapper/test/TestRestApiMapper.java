@@ -17,4 +17,6 @@ public interface TestRestApiMapper {
 	
 	void update(@Param("requestData") TestApiRequestData requestData, @Param("id") String id);
 	
+	int delete(String id);
+	
 }

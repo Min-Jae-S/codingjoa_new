@@ -130,8 +130,12 @@ public class TestRestApiController {
 	public ResponseEntity<Object> deleteMapping(@PathVariable String id) { 
 		log.info("## deleteMapping");
 		log.info("\t > id = {}", id);
-		service.delete();
-		return ResponseEntity.ok("success");
+		int result = service.delete(id);
+		if (result > 0) {
+			return ResponseEntity.noContent().build();
+		} else {
+			return ResponseEntity.notFound().build();
+		}
 	}
 	
 }

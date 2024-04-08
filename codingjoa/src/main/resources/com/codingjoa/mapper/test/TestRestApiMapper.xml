@@ -27,4 +27,8 @@
 			id = #{id}
 	</update>
 	
+	<delete id="delete">
+		DELETE FROM test4 WHERE id = #{id}
+	</delete>
+	
 </mapper>
