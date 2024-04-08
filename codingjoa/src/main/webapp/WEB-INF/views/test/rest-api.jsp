@@ -79,7 +79,7 @@
 	  			</div>
 				<input type="text" class="form-control text-center" id="putMappingName">
 			</div>
-			<div class="input-group">
+			<div class="input-group mb-2">
 				<div class="input-group-prepend">
 	    			<span class="input-group-text">age</span>
 	  			</div>
@@ -108,7 +108,7 @@
 	  			</div>
 				<input type="text" class="form-control text-center" id="patchMappingName">
 			</div>
-			<div class="input-group">
+			<div class="input-group mb-2">
 				<div class="input-group-prepend">
 	    			<span class="input-group-text">age</span>
 	  			</div>
@@ -216,7 +216,7 @@
 
 	function getMapping2() {
 		console.log("## getMapping2");
-		console.log("\t> id = %s", $("#getMapping2Id").val());
+		console.log("> id = %s", $("#getMapping2Id").val());
 		$.ajax({
 			type : "GET",
 			url : "${contextPath}/test/rest-api/test-members/" + $("#getMapping2Id").val(),
@@ -254,14 +254,14 @@
 	function putMapping() {
 		console.log("## putMapping");
 		let id = $("#putMappingId").val();
-		console.log("\t> id = %s", id);
+		console.log("> id = %s", id);
 		
 		let sendData = {
 			name : $("#putMappingName").val(),
 			age : $("#putMappingAge").val(),
 			email : $("#putMappingEmail").val(),
 		};
-		console.log("\t > sendData = ");
+		console.log("> sendData = ");
 		console.log(JSON.stringify(sendData, null, 2));
 
 		$.ajax({
@@ -282,9 +282,9 @@
 
 	function patchMapping() {
 		console.log("## patchMapping");
-		console.log("\t> id = %s", $("#patchMappingId").val());
-		console.log("\t> name = %s", $("#patchMappingName").val());
-		console.log("\t> age = %s", $("#patchMappingAge").val());
+		console.log("> id = %s", $("#patchMappingId").val());
+		console.log("> name = %s", $("#patchMappingName").val());
+		console.log("> age = %s", $("#patchMappingAge").val());
 		
 		let sendData = {
 			name : $("#patchMappingName").val(),
