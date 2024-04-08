@@ -64,6 +64,13 @@ public class TestRestApiController {
 	public ResponseEntity<Object> getMapping() { 
 		log.info("## getMapping");
 		List<TestApiResponseData> responseData = service.read();
+		if (responseData.size() > 0) {
+			for (TestApiResponseData testMember : responseData) {
+				log.info("\t > {}", testMember);
+			}
+		} else {
+			log.info("\t > no data");
+		}
 		return ResponseEntity.ok(responseData);
 	}
 	
@@ -71,7 +78,9 @@ public class TestRestApiController {
 	public ResponseEntity<Object> getMapping2(@PathVariable String id) { 
 		log.info("## getMapping2");
 		log.info("\t > id = {}", id);
+		
 		TestApiResponseData responseData = service.readById(id);
+		log.info("\t > response = {}", responseData);
 		return ResponseEntity.ok(responseData);
 	}
 
@@ -107,8 +116,10 @@ public class TestRestApiController {
 		log.info("## putMapping");
 		log.info("\t > id = {}", id);
 		log.info("\t > request = {}", requestData);
-		service.update();
-		return ResponseEntity.ok("success");
+		
+		TestApiResponseData responseData = service.update(id);
+		log.info("\t > response = {}", responseData);
+		return ResponseEntity.ok(responseData);
 	}
 
 	@PatchMapping("/rest-api/test-members/{id}")
@@ -116,8 +127,10 @@ public class TestRestApiController {
 		log.info("## patchMapping");
 		log.info("\t > id = {}", id);
 		log.info("\t > request = {}", requestData);
-		service.update();
-		return ResponseEntity.ok("success");
+		
+		TestApiResponseData responseData = service.update(id);
+		log.info("\t > response = {}", responseData);
+		return ResponseEntity.ok(responseData);
 	}
 
 	@DeleteMapping("/rest-api/test-members/{id}")

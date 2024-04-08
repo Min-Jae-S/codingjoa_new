@@ -13,4 +13,6 @@ public interface TestRestApiMapper {
 	
 	TestApiResponseData findMemberById(String id);
 	
+	TestApiResponseData update(String id);
+	
 }

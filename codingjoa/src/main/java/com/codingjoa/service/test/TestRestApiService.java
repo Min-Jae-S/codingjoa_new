@@ -19,30 +19,21 @@ public class TestRestApiService {
 
 	public List<TestApiResponseData> read() {
 		log.info("## read");
-		List<TestApiResponseData> testMembers = mapper.findMembers();
-		if (testMembers.size() > 0) {
-			for (TestApiResponseData testMember : testMembers) {
-				log.info("\t > {}", testMember);
-			}
-		} else {
-			log.info("\t > No members");
-		}
-		return testMembers;
+		return mapper.findMembers();
 	}
 
 	public TestApiResponseData readById(String id) {
 		log.info("## readById");
-		TestApiResponseData testMember = mapper.findMemberById(id);
-		log.info("\t > testMember = {}", testMember);
-		return testMember;
+		return mapper.findMemberById(id);
 	}
 
 	public void create() {
 		log.info("## create");
 	}
 
-	public void update() {
+	public TestApiResponseData update(String id) {
 		log.info("## update");
+		return mapper.update(id);
 	}
 	
 	public void delete() {
