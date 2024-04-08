@@ -117,7 +117,7 @@ public class TestRestApiController {
 		log.info("\t > id = {}", id);
 		log.info("\t > request = {}", requestData);
 		
-		TestApiResponseData responseData = service.update(id);
+		TestApiResponseData responseData = service.update(requestData, id);
 		log.info("\t > response = {}", responseData);
 		return ResponseEntity.ok(responseData);
 	}
@@ -128,7 +128,7 @@ public class TestRestApiController {
 		log.info("\t > id = {}", id);
 		log.info("\t > request = {}", requestData);
 		
-		TestApiResponseData responseData = service.update(id);
+		TestApiResponseData responseData = service.update(requestData, id);
 		log.info("\t > response = {}", responseData);
 		return ResponseEntity.ok(responseData);
 	}

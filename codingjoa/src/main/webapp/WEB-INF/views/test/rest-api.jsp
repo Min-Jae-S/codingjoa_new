@@ -216,7 +216,7 @@
 
 	function getMapping2() {
 		console.log("## getMapping2");
-		let id = $("#getMapping2").val();
+		let id = $("#getMapping2Id").val();
 		console.log("> id = %s", id);
 		$.ajax({
 			type : "GET",
