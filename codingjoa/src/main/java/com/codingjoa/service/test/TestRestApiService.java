@@ -21,10 +21,12 @@ public class TestRestApiService {
 	private TestRestApiMapper mapper;
 
 	public List<TestApiResponseData> read() {
+		log.info("## read");
 		return mapper.findMembers();
 	}
 
 	public TestApiResponseData readById(String id) {
+		log.info("## readById");
 		return mapper.findMemberById(id);
 	}
 
@@ -32,12 +34,13 @@ public class TestRestApiService {
 		log.info("## create");
 	}
 
-	public TestApiResponseData update(TestApiRequestData requestData, String id) {
-		mapper.update(requestData, id);
-		return mapper.findMemberById(id);
+	public int update(TestApiRequestData requestData, String id) {
+		log.info("## update");
+		return mapper.update(requestData, id);
 	}
 	
 	public int delete(String id) {
+		log.info("## delete");
 		return mapper.delete(id);
 	}
 }

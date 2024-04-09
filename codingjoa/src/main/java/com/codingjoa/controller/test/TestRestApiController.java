@@ -110,9 +110,13 @@ public class TestRestApiController {
 		log.info("\t > id = {}", id);
 		log.info("\t > request = {}", requestData);
 		
-		TestApiResponseData responseData = service.update(requestData, id);
-		log.info("\t > response = {}", responseData);
-		return ResponseEntity.ok(responseData);
+		int result = service.update(requestData, id);
+		if (result > 0) {
+			TestApiResponseData responseData = service.readById(id);
+			return ResponseEntity.ok().body(responseData);
+		} else {
+			return ResponseEntity.noContent().build();
+		}
 	}
 
 	@PatchMapping("/rest-api/test-members/{id}")
@@ -121,9 +125,13 @@ public class TestRestApiController {
 		log.info("\t > id = {}", id);
 		log.info("\t > request = {}", requestData);
 		
-		TestApiResponseData responseData = service.update(requestData, id);
-		log.info("\t > response = {}", responseData);
-		return ResponseEntity.ok(responseData);
+		int result = service.update(requestData, id);
+		if (result > 0) {
+			TestApiResponseData responseData = service.readById(id);
+			return ResponseEntity.ok().body(responseData);
+		} else {
+			return ResponseEntity.noContent().build();
+		}
 	}
 
 	@DeleteMapping("/rest-api/test-members/{id}")
