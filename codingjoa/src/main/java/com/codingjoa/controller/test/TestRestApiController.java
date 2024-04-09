@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.codingjoa.response.ErrorResponse;
+import com.codingjoa.response.SuccessResponse;
 import com.codingjoa.service.test.TestRestApiService;
 import com.codingjoa.test.TestApiRequestData;
 import com.codingjoa.test.TestApiResponseData;
@@ -65,7 +68,7 @@ public class TestRestApiController {
 		log.info("## getMapping");
 		List<TestApiResponseData> responseData = service.read();
 		log.info("\t > response = {}", responseData);
-		return ResponseEntity.ok(responseData);
+		return ResponseEntity.ok(SuccessResponse.builder().data(responseData));
 	}
 	
 	@GetMapping(value = { "/rest-api/test-members/", "/rest-api/test-members/{id}" })
@@ -74,7 +77,7 @@ public class TestRestApiController {
 		log.info("\t > id = {}", id);
 		TestApiResponseData responseData = service.readById(id);
 		log.info("\t > response = {}", responseData);
-		return ResponseEntity.ok(responseData);
+		return ResponseEntity.ok(SuccessResponse.builder().data(responseData));
 	}
 
 	@PostMapping("/rest-api/test-members")
@@ -113,9 +116,14 @@ public class TestRestApiController {
 		int result = service.update(requestData, id);
 		if (result > 0) {
 			TestApiResponseData responseData = service.readById(id);
-			return ResponseEntity.ok().body(responseData);
+			log.info("\t > response = {}", responseData);
+			return ResponseEntity
+					.ok()
+					.body(SuccessResponse.builder().data(responseData).build());
 		} else {
-			return ResponseEntity.noContent().build();
+			return ResponseEntity
+					.status(HttpStatus.NOT_FOUND)
+					.body(ErrorResponse.builder().status(HttpStatus.NOT_FOUND).build());
 		}
 	}
 
@@ -128,9 +136,14 @@ public class TestRestApiController {
 		int result = service.update(requestData, id);
 		if (result > 0) {
 			TestApiResponseData responseData = service.readById(id);
-			return ResponseEntity.ok().body(responseData);
+			log.info("\t > response = {}", responseData);
+			return ResponseEntity
+					.ok()
+					.body(SuccessResponse.builder().data(responseData).build());
 		} else {
-			return ResponseEntity.noContent().build();
+			return ResponseEntity
+					.status(HttpStatus.NOT_FOUND)
+					.body(ErrorResponse.builder().status(HttpStatus.NOT_FOUND).build());
 		}
 	}
 
@@ -140,9 +153,13 @@ public class TestRestApiController {
 		log.info("\t > id = {}", id);
 		int result = service.delete(id);
 		if (result > 0) {
-			return ResponseEntity.noContent().build();
+			return ResponseEntity
+					.status(HttpStatus.NO_CONTENT)
+					.body(SuccessResponse.builder().status(HttpStatus.NO_CONTENT).build());
 		} else {
-			return ResponseEntity.notFound().build();
+			return ResponseEntity
+					.status(HttpStatus.NOT_FOUND)
+					.body(ErrorResponse.builder().status(HttpStatus.NOT_FOUND).build());
 		}
 	}
 	
