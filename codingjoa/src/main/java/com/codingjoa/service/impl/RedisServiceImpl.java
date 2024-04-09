@@ -18,7 +18,7 @@ public class RedisServiceImpl implements RedisService {
 	@Override
 	public void save(String key, String value) {
 		ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
-		valueOperations.set(key, value, Duration.ofMinutes(5L));
+		valueOperations.set(key, value, Duration.ofMinutes(30L));
 	}
 
 	@Override
