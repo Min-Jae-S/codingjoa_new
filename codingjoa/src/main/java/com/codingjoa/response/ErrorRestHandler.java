@@ -155,7 +155,7 @@ public class ErrorRestHandler {
 	protected ResponseEntity<Object> handleExpectedException(ExpectedException e) {
 		log.info("## {} - {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t > location = {}", e.getStackTrace()[0]);
-		log.info("\t > error code = {} / error field = {}", e.getCode(), e.getField());
+		log.info("\t > errorCode = {} / errorField = {}", e.getCode(), e.getField());
 		
 		ErrorResponseBuilder builder = ErrorResponse.builder().status(HttpStatus.BAD_REQUEST);
 		if (e.getField() == null) { 
@@ -179,7 +179,7 @@ public class ErrorRestHandler {
 	protected ResponseEntity<Object> handleTestException(TestException e) {
 		log.info("## {} - {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t > location = {}", e.getStackTrace()[0]);
-		log.info("\t > error code = {} / error field = {}", e.getCode(), e.getField());
+		log.info("\t > errorCode = {} / errorField = {}", e.getCode(), e.getField());
 		
 		TestResponseBuilder builder = TestResponse.builder().status(HttpStatus.BAD_REQUEST);
 		if (e.getField() == null) { 

@@ -6,7 +6,7 @@ let likesService = (function() {
 	function toggleBoardLikes(boardIdx, callback) {
 		console.log("## Toggle Board Likes");
 		let url = contextPath + "/api/boards/" + boardIdx + "/likes";
-		console.log("> url = '%s'", url);
+		console.log("> URL = '%s'", url);
 		
 		$.ajax({
 			type : "POST",
@@ -32,7 +32,7 @@ let likesService = (function() {
 	function toggleCommentLikes(commentIdx, callback) {
 		console.log("## Toggle Comment Likes");
 		let url = contextPath + "/api/comments/" + commentIdx + "/likes";
-		console.log("> url = '%s'", url);
+		console.log("> URL = '%s'", url);
 		
 		$.ajax({
 			type : "POST",
@@ -58,7 +58,7 @@ let likesService = (function() {
 	function getBoardLikesCnt(boardIdx, callback) {
 		console.log("## Get Board Likes Cnt");
 		let url = contextPath + "/api/boards/" + boardIdx + "/likes";
-		console.log("> url = '%s'", url);
+		console.log("> URL = '%s'", url);
 		
 		$.ajax({
 			type : "GET",

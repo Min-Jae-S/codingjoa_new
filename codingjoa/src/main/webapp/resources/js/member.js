@@ -6,7 +6,7 @@ let memberService = (function() {
 	function sendAuthCodeForJoin(obj, callback) {
 		console.log("## Send Auth Code : Join");
 		let url = contextPath + "/api/member/join/auth";
-		console.log("> url = '%s'", url);
+		console.log("> URL = '%s'", url);
 		console.log("> sendData = %s", JSON.stringify(obj, null, 2));
 		
 		$.ajax({
@@ -45,7 +45,7 @@ let memberService = (function() {
 	function sendAuthCodeForUpdate(obj, callback) {
 		console.log("## Send Auth Code : Update Email");
 		let url = contextPath + "/api/member/update-email/auth";
-		console.log("> url = '%s'", url);
+		console.log("> URL = '%s'", url);
 		console.log("> sendData = %s", JSON.stringify(obj, null, 2));
 		
 		$.ajax({
@@ -76,7 +76,7 @@ let memberService = (function() {
 	function updateEmail(obj, callback) {
 		console.log("## Update Email");
 		let url = contextPath + "/api/member/email";
-		console.log("> url = '%s'", url);
+		console.log("> URL = '%s'", url);
 		console.log("> sendData = %s", JSON.stringify(obj, null, 2));
 		
 		$.ajax({
@@ -107,7 +107,7 @@ let memberService = (function() {
 	function updateAddr(obj, callback) {
 		console.log("## Update Addr");
 		let url = contextPath + "/api/member/address";
-		console.log("> url = '%s'", url);
+		console.log("> URL = '%s'", url);
 		console.log("> sendData = %s", JSON.stringify(obj, null, 2));
 		
 		$.ajax({
@@ -138,7 +138,7 @@ let memberService = (function() {
 	function updateAgree(obj, callback) {
 		console.log("## Update Agree");
 		let url = contextPath + "/api/member/agree";
-		console.log("> url = '%s'", url);
+		console.log("> URL = '%s'", url);
 		console.log("> sendData = %s", JSON.stringify(obj, null, 2));
 		
 		$.ajax({
@@ -169,7 +169,7 @@ let memberService = (function() {
 	function getMemberDetails(callback) {
 		console.log("## Get Member Details");
 		let url = contextPath + "/api/member/details";
-		console.log("> url = '%s'", url);
+		console.log("> URL = '%s'", url);
 		
 		$.ajax({
 			type : "GET",
@@ -195,7 +195,7 @@ let memberService = (function() {
 	function checkPassword(obj, callback) {
 		console.log("## Check Password");
 		let url = contextPath + "/api/member/check/password";
-		console.log("> url = '%s'", url);
+		console.log("> URL = '%s'", url);
 		console.log("> sendData = %s", JSON.stringify(obj, null, 2));
 		
 		$.ajax({
@@ -226,7 +226,7 @@ let memberService = (function() {
 	function updatePassword(obj, callback) {
 		console.log("## Update Password");
 		let url = contextPath + "/api/member/password";
-		console.log("> url = '%s'", url);
+		console.log("> URL = '%s'", url);
 		console.log("> sendData = %s", JSON.stringify(obj, null, 2));
 		
 		$.ajax({
@@ -257,7 +257,7 @@ let memberService = (function() {
 	function findAccount(obj, callback) {
 		console.log("## Find Account");
 		let url = contextPath + "/api/member/find/account";
-		console.log("> url = '%s'", url);
+		console.log("> URL = '%s'", url);
 		console.log("> sendData = %s", JSON.stringify(obj, null, 2));
 		
 		$.ajax({
@@ -288,7 +288,7 @@ let memberService = (function() {
 	function findPassword(obj, callback) {
 		console.log("## Find Password");
 		let url = contextPath + "/api/member/find/password";
-		console.log("> url = '%s'", url);
+		console.log("> URL = '%s'", url);
 		console.log("> sendData = %s", JSON.stringify(obj, null, 2));
 		
 		$.ajax({
@@ -319,7 +319,7 @@ let memberService = (function() {
 	function resetPassword(key, obj, callback) {
 		console.log("## Reset Password");
 		let url = contextPath + "/api/member/reset/password?key=" + key;
-		console.log("> url = '%s'", url);
+		console.log("> URL = '%s'", url);
 		console.log("> sendData = %s", JSON.stringify(obj, null, 2));
 		
 		$.ajax({

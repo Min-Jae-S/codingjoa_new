@@ -6,7 +6,7 @@ let commentService = (function() {
 	function writeComment(comment, callback) {
 		console.log("## Write Comment");
 		let url = contextPath + "/api/comments";
-		console.log("> url = '%s'", url);
+		console.log("> URL = '%s'", url);
 		console.log("> comment = %s", JSON.stringify(comment, null, 2));
 		
 		$.ajax({
@@ -65,7 +65,7 @@ let commentService = (function() {
 	function getCommentList(commentBoardIdx, page, callback) {
 		console.log("## Get Comment List");
 		let url = contextPath + "/api/boards/" + commentBoardIdx + "/comments?page=" + page;
-		console.log("> url = '%s'", url);
+		console.log("> URL = '%s'", url);
 		
 		$.ajax({
 			type : "GET",
@@ -91,7 +91,7 @@ let commentService = (function() {
 	function getComment(commentIdx, callback) {
 		console.log("## Get Comment");
 		let url = contextPath + "/api/comments/" + commentIdx;
-		console.log("> url = '%s'", url);
+		console.log("> URL = '%s'", url);
 		
 		$.ajax({
 			type : "GET",
@@ -117,7 +117,7 @@ let commentService = (function() {
 	function modifyComment(commentIdx, comment, callback) {
 		console.log("## Modify Comment");
 		let url = contextPath + "/api/comments/" + commentIdx;
-		console.log("> url = '%s'", url);
+		console.log("> URL = '%s'", url);
 		console.log("> comment = %s", JSON.stringify(comment, null, 2));
 		
 		$.ajax({
@@ -146,7 +146,7 @@ let commentService = (function() {
 	function deleteComment(commentIdx, callback) {
 		console.log("## Delete Comment");
 		let url = contextPath + "/api/comments/" + commentIdx;
-		console.log("> url = '%s'", url);
+		console.log("> URL = '%s'", url);
 		
 		$.ajax({
 			type : "DELETE",

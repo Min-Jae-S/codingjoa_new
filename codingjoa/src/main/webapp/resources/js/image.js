@@ -6,7 +6,7 @@ let imageService = (function() {
 	function uploadMemberImage(formData, callback) {
 		console.log("## Upload Member Image");
 		let url = contextPath + "/api/upload/member-image";
-		console.log("> url = '%s'", url);
+		console.log("> URL = '%s'", url);
 		
 		$.ajax({
 			type : "POST",
@@ -35,7 +35,7 @@ let imageService = (function() {
 	function getMemberImageResource(memberImageName, callback) {
 		console.log("## Get Member Image Resource");
 		let url = contextPath + "/api/member/images/" + memberImageName;
-		console.log("> url = '%s'", url);
+		console.log("> URL = '%s'", url);
 		
 		$.ajax({
 			type : "GET",
