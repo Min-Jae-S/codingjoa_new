@@ -15,13 +15,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+@SuppressWarnings("serial")
 @ToString
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserDetailsDto implements UserDetails {
 
-	private static final long serialVersionUID = -6918130188428402603L;
 	private Member member;
 	private String memberRole;
 	private String memberImageName;
