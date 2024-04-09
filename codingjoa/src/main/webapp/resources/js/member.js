@@ -7,7 +7,7 @@ let memberService = (function() {
 		console.log("## Send Auth Code : Join");
 		let url = contextPath + "/api/member/join/auth";
 		console.log("> url = '%s'", url);
-		console.log("> obj = %s", JSON.stringify(obj, null, 2));
+		console.log("> sendData = %s", JSON.stringify(obj, null, 2));
 		
 		$.ajax({
 			type : "POST",
@@ -46,7 +46,7 @@ let memberService = (function() {
 		console.log("## Send Auth Code : Update Email");
 		let url = contextPath + "/api/member/update-email/auth";
 		console.log("> url = '%s'", url);
-		console.log("> obj = %s", JSON.stringify(obj, null, 2));
+		console.log("> sendData = %s", JSON.stringify(obj, null, 2));
 		
 		$.ajax({
 			type : "POST",
@@ -77,7 +77,7 @@ let memberService = (function() {
 		console.log("## Update Email");
 		let url = contextPath + "/api/member/email";
 		console.log("> url = '%s'", url);
-		console.log("> obj = %s", JSON.stringify(obj, null, 2));
+		console.log("> sendData = %s", JSON.stringify(obj, null, 2));
 		
 		$.ajax({
 			type : "PUT",
@@ -108,7 +108,7 @@ let memberService = (function() {
 		console.log("## Update Addr");
 		let url = contextPath + "/api/member/address";
 		console.log("> url = '%s'", url);
-		console.log("> obj = %s", JSON.stringify(obj, null, 2));
+		console.log("> sendData = %s", JSON.stringify(obj, null, 2));
 		
 		$.ajax({
 			type : "PUT",
@@ -139,7 +139,7 @@ let memberService = (function() {
 		console.log("## Update Agree");
 		let url = contextPath + "/api/member/agree";
 		console.log("> url = '%s'", url);
-		console.log("> obj = %s", JSON.stringify(obj, null, 2));
+		console.log("> sendData = %s", JSON.stringify(obj, null, 2));
 		
 		$.ajax({
 			type : "PUT",
@@ -196,7 +196,7 @@ let memberService = (function() {
 		console.log("## Check Password");
 		let url = contextPath + "/api/member/check/password";
 		console.log("> url = '%s'", url);
-		console.log("> obj = %s", JSON.stringify(obj, null, 2));
+		console.log("> sendData = %s", JSON.stringify(obj, null, 2));
 		
 		$.ajax({
 			type : "POST",
@@ -227,7 +227,7 @@ let memberService = (function() {
 		console.log("## Update Password");
 		let url = contextPath + "/api/member/password";
 		console.log("> url = '%s'", url);
-		console.log("> obj = %s", JSON.stringify(obj, null, 2));
+		console.log("> sendData = %s", JSON.stringify(obj, null, 2));
 		
 		$.ajax({
 			type : "PUT",
@@ -258,7 +258,7 @@ let memberService = (function() {
 		console.log("## Find Account");
 		let url = contextPath + "/api/member/find/account";
 		console.log("> url = '%s'", url);
-		console.log("> obj = %s", JSON.stringify(obj, null, 2));
+		console.log("> sendData = %s", JSON.stringify(obj, null, 2));
 		
 		$.ajax({
 			type : "POST",
@@ -289,7 +289,7 @@ let memberService = (function() {
 		console.log("## Find Password");
 		let url = contextPath + "/api/member/find/password";
 		console.log("> url = '%s'", url);
-		console.log("> obj = %s", JSON.stringify(obj, null, 2));
+		console.log("> sendData = %s", JSON.stringify(obj, null, 2));
 		
 		$.ajax({
 			type : "POST",
@@ -320,7 +320,7 @@ let memberService = (function() {
 		console.log("## Reset Password");
 		let url = contextPath + "/api/member/reset/password?key=" + key;
 		console.log("> url = '%s'", url);
-		console.log("> obj = %s", JSON.stringify(obj, null, 2));
+		console.log("> sendData = %s", JSON.stringify(obj, null, 2));
 		
 		$.ajax({
 			type : "PUT",
