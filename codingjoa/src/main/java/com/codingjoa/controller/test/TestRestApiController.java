@@ -67,8 +67,8 @@ public class TestRestApiController {
 	public ResponseEntity<Object> getMapping() { 
 		log.info("## getMapping");
 		List<TestApiResponseData> responseData = service.read();
-		log.info("\t > response = {}", responseData);
-		return ResponseEntity.ok(SuccessResponse.builder().data(responseData));
+		log.info("\t > responseData = {}", responseData);
+		return ResponseEntity.ok(SuccessResponse.builder().data(responseData).build());
 	}
 	
 	@GetMapping(value = { "/rest-api/test-members/", "/rest-api/test-members/{id}" })
@@ -76,8 +76,15 @@ public class TestRestApiController {
 		log.info("## getMapping2");
 		log.info("\t > id = {}", id);
 		TestApiResponseData responseData = service.readById(id);
-		log.info("\t > response = {}", responseData);
-		return ResponseEntity.ok(SuccessResponse.builder().data(responseData));
+		log.info("\t > responseData = {}", responseData);
+		
+		if (responseData == null) {
+			return ResponseEntity
+					.status(HttpStatus.NOT_FOUND)
+					.body(ErrorResponse.builder().status(HttpStatus.NOT_FOUND).build());
+		} else {
+			return ResponseEntity.ok(SuccessResponse.builder().data(responseData).build());
+		}
 	}
 
 	@PostMapping("/rest-api/test-members")
@@ -111,12 +118,14 @@ public class TestRestApiController {
 	public ResponseEntity<Object> putMapping(@PathVariable String id, @RequestBody TestApiRequestData requestData) { 
 		log.info("## putMapping");
 		log.info("\t > id = {}", id);
-		log.info("\t > request = {}", requestData);
+		log.info("\t > requestData = {}", requestData);
 		
 		int result = service.update(requestData, id);
+		log.info("\t > result = {}", result);
+		
 		if (result > 0) {
 			TestApiResponseData responseData = service.readById(id);
-			log.info("\t > response = {}", responseData);
+			log.info("\t > responseData = {}", responseData);
 			return ResponseEntity
 					.ok()
 					.body(SuccessResponse.builder().data(responseData).build());
@@ -131,12 +140,14 @@ public class TestRestApiController {
 	public ResponseEntity<Object> patchMapping(@PathVariable String id , @RequestBody TestApiRequestData requestData) { 
 		log.info("## patchMapping");
 		log.info("\t > id = {}", id);
-		log.info("\t > request = {}", requestData);
+		log.info("\t > requestData = {}", requestData);
 		
 		int result = service.update(requestData, id);
+		log.info("\t > result = {}", result);
+		
 		if (result > 0) {
 			TestApiResponseData responseData = service.readById(id);
-			log.info("\t > response = {}", responseData);
+			log.info("\t > responseData = {}", responseData);
 			return ResponseEntity
 					.ok()
 					.body(SuccessResponse.builder().data(responseData).build());
@@ -151,7 +162,10 @@ public class TestRestApiController {
 	public ResponseEntity<Object> deleteMapping(@PathVariable String id) { 
 		log.info("## deleteMapping");
 		log.info("\t > id = {}", id);
+		
 		int result = service.delete(id);
+		log.info("\t > result = {}", result);
+		
 		if (result > 0) {
 			return ResponseEntity
 					.status(HttpStatus.NO_CONTENT)
