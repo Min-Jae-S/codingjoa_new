@@ -69,9 +69,13 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public void checkEmailForUpdate(String memberEmail, Integer memberIdx) {
 		Member currentMember = memberMapper.findMemberByIdx(memberIdx);
+		if (currentMember == null) {
+			throw new ExpectedException("memberEmail", "error.NotFoundMember");
+		}
+		
 		String currentEmail = currentMember.getMemberEmail();
 		if (memberEmail.equals(currentEmail)) {
-			throw new ExpectedException("memberEmail", "error.NotMyEmail");
+			throw new ExpectedException("memberEmail", "error.NotCurrentEmail");
 		}
 		
 		Member member = memberMapper.findMemberByEmail(memberEmail);
