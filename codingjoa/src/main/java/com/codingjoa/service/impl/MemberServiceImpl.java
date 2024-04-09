@@ -98,7 +98,6 @@ public class MemberServiceImpl implements MemberService {
 		if (member == null) {
 			throw new ExpectedException("memberEmail", "error.NotEmailExist");
 		}
-		
 		return member.getMemberId();
 	}
 	
@@ -108,7 +107,6 @@ public class MemberServiceImpl implements MemberService {
 		if (member == null) {
 			throw new ExpectedException("memberEmail", "error.NotIdOrEmailExist");
 		}
-		
 		return member.getMemberIdx();
 	}
 
