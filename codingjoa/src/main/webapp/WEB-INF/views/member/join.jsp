@@ -113,7 +113,7 @@
 							</label>
 						</div>
 						<div class="form-group pt-4">
-							<form:button class="btn btn-primary btn-block mb-4" id="joinBtn"><%-- disabled="true" --%>회원가입</form:button>
+							<form:button class="btn btn-primary btn-block mb-4" id="joinBtn" disabled="true">회원가입</form:button>
 						</div>
 					</form:form>
 					<p class="text-center small mb-0">

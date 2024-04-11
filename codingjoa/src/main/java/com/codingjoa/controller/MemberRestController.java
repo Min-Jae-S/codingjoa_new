@@ -101,7 +101,7 @@ public class MemberRestController {
 		log.info("\t > authCode = {}", authCode);
 		
 		emailService.sendAuthCode(memberEmail, authCode);
-		redisService.save(memberEmail, authCode);
+		redisService.saveKeyAndValue(memberEmail, authCode);
 		
 		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.SendAuthCode").build());
 	}
@@ -120,7 +120,7 @@ public class MemberRestController {
 		log.info("\t > authCode = {}", authCode);
 		
 		emailService.sendAuthCode(memberEmail, authCode);
-		redisService.save(memberEmail, authCode);
+		redisService.saveKeyAndValue(memberEmail, authCode);
 		
 		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.SendAuthCode").build());
 	}
@@ -241,7 +241,7 @@ public class MemberRestController {
 		log.info("\t > attached URL = {}", uriComponents.toString());
 		
 		emailService.sendResetPasswordUrl(memberEmail, memberId, uriComponents.toString());
-		redisService.save(key, memberIdx.toString());
+		redisService.saveKeyAndValue(key, memberIdx.toString());
 		
 		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.FindPassword").build());
 	}
