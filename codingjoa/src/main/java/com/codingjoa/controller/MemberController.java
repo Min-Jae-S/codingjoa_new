@@ -60,7 +60,7 @@ public class MemberController {
 		return "member/join-success";
 	}
 
-	@RequestMapping("/login")
+	@RequestMapping("/login") 
 	public String login(@ModelAttribute LoginDto loginDto, HttpServletRequest request) {
 		log.info("## login");
 		log.info("\t > {}", loginDto);

@@ -7,7 +7,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>로그인</title>
+<title>Codingjoa : 로그인</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
@@ -50,6 +50,11 @@
 		/*color: #adb5bd;*/
 		color: grey;
 	}
+	
+	.login-wrap {
+		width: 500px;
+		margin: 0 auto;
+	}
 </style>
 </head>
 <body>
@@ -57,49 +62,45 @@
 <c:import url="/WEB-INF/views/include/top-menu.jsp"/>
 
 <div class="container login-container">
-	<div class="row">
-		<div class="col-sm-3"></div>
-		<div class="col-sm-6">
-			<div class="card shadow">
-				<div class="card-body p-5">
-					<form:form action="${contextPath}/member/loginProc" method="POST" modelAttribute="loginDto">
-						<div class="form-group mb-4">
-							<form:label path="memberId" class="font-weight-bold">아이디</form:label>
-							<form:input path="memberId" class="form-control" placeholder="아이디 입력"/>
-						</div>
-						<div class="form-group mb-4">
-							<form:label path="memberPassword" class="font-weight-bold">비밀번호</form:label>
-							<form:password path="memberPassword" class="form-control" placeholder="비밀번호 입력" showPassword="true" autocomplete="off"/>
-						</div>
-						<c:if test="${not empty errorResponse}">
-							<div class="error">
-								<!-- 아이디가 존재하지 않거나 비밀번호가 일치하지 않습니다.<br>입력한 내용을 다시 확인해주세요. -->
-								<c:out value="${errorResponse.message}" escapeXml="false"/>
-							</div>
-							<div class="error d-none">
-								<fmt:parseDate value="${errorResponse.timestamp}" pattern="yyyy-MM-dd'T'HH:mm:ss" var="parsedDateTime" type="both"/>
-								<fmt:formatDate value="${parsedDateTime}" pattern="yyyy-MM-dd'T'HH:mm:ss"/>
-							</div>
-						</c:if>
-						<div class="form-group pt-4 mb-4">
-							<form:button class="btn btn-primary btn-block">로그인</form:button>
-						</div>
-					</form:form>
-					<div class="info-member">
-						<a class="link-join" href="${contextPath}/member/join">회원가입</a>
-						<ul class="link-ul">
-							<li class="link-li">
-								<a href="${contextPath}/member/findAccount">계정 찾기</a>
-							</li>
-							<li class="link-li">
-								<a href="${contextPath}/member/findPassword">비밀번호 찾기</a>
-							</li>
-						</ul>
+	<div class="login-wrap">
+		<div class="card shadow">
+			<div class="card-body p-5">
+				<form:form action="${contextPath}/member/loginProc" method="POST" modelAttribute="loginDto">
+					<div class="form-group mb-4">
+						<form:label path="memberId" class="font-weight-bold">아이디</form:label>
+						<form:input path="memberId" class="form-control" placeholder="아이디 입력"/>
 					</div>
+					<div class="form-group mb-4">
+						<form:label path="memberPassword" class="font-weight-bold">비밀번호</form:label>
+						<form:password path="memberPassword" class="form-control" placeholder="비밀번호 입력" showPassword="true" autocomplete="off"/>
+					</div>
+					<c:if test="${not empty errorResponse}">
+						<div class="error">
+							<!-- 아이디가 존재하지 않거나 비밀번호가 일치하지 않습니다.<br>입력한 내용을 다시 확인해주세요. -->
+							<c:out value="${errorResponse.message}" escapeXml="false"/>
+						</div>
+						<div class="error d-none">
+							<fmt:parseDate value="${errorResponse.timestamp}" pattern="yyyy-MM-dd'T'HH:mm:ss" var="parsedDateTime" type="both"/>
+							<fmt:formatDate value="${parsedDateTime}" pattern="yyyy-MM-dd'T'HH:mm:ss"/>
+						</div>
+					</c:if>
+					<div class="form-group pt-4 mb-4">
+						<form:button class="btn btn-primary btn-block">로그인</form:button>
+					</div>
+				</form:form>
+				<div class="info-member">
+					<a class="link-join" href="${contextPath}/member/join">회원가입</a>
+					<ul class="link-ul">
+						<li class="link-li">
+							<a href="${contextPath}/member/findAccount">계정 찾기</a>
+						</li>
+						<li class="link-li">
+							<a href="${contextPath}/member/findPassword">비밀번호 찾기</a>
+						</li>
+					</ul>
 				</div>
 			</div>
 		</div>
-		<div class="col-sm-3"></div>
 	</div>
 </div>
 

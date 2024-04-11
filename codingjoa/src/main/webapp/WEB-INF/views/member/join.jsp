@@ -39,6 +39,11 @@
 	.join-container .card-body {
 		padding: 3.5rem;
 	}
+	
+	.join-wrap {
+		width: 620px;
+		margin: 0 auto;
+	}
 </style>
 </head>
 <body>
@@ -46,84 +51,80 @@
 <c:import url="/WEB-INF/views/include/top-menu.jsp"/>
 
 <div class="container join-container">
-	<div class="row">
-		<div class="col-sm-2"></div>
-		<div class="col-sm-8">
-			<div class="card shadow">
-				<div class="card-body">
-					<form:form action="${contextPath}/member/joinProc" method="POST" modelAttribute="joinDto">
-						<div class="form-group mb-4">
-							<form:label path="memberId" class="font-weight-bold">아이디</form:label>
-							<div class="input-group">
-								<form:input path="memberId" class="form-control" placeholder="아이디 입력"/>
+	<div class="join-wrap">
+		<div class="card shadow">
+			<div class="card-body">
+				<form:form action="${contextPath}/member/joinProc" method="POST" modelAttribute="joinDto">
+					<div class="form-group mb-4">
+						<form:label path="memberId" class="font-weight-bold">아이디</form:label>
+						<div class="input-group">
+							<form:input path="memberId" class="form-control" placeholder="아이디 입력"/>
+						</div>
+						<form:errors path="memberId" cssClass="error" />
+					</div>
+					<div class="form-group mb-4">
+						<form:label path="memberPassword" class="font-weight-bold">비밀번호</form:label>
+						<form:password path="memberPassword" class="form-control" placeholder="비밀번호 입력" showPassword="true"/>
+						<form:errors path="memberPassword" cssClass="error"/>
+					</div>
+					<div class="form-group mb-4">
+						<form:label path="confirmPassword" class="font-weight-bold">비밀번호 확인</form:label>
+						<form:password path="confirmPassword" class="form-control" placeholder="비밀번호 확인 입력" showPassword="true"/>
+						<form:errors path="confirmPassword" cssClass="error"/>
+					</div>
+					<div class="form-group mb-4">
+						<form:label path="memberEmail" class="font-weight-bold">이메일</form:label>
+						<div class="input-group mb-3">
+							<form:input path="memberEmail" class="form-control" placeholder="이메일 입력"/>
+							<div class="input-group-append">
+								<button type="button" class="btn btn-outline-secondary btn-sm" id="sendAuthCodeBtn">인증코드 받기</button>
 							</div>
-							<form:errors path="memberId" cssClass="error" />
 						</div>
-						<div class="form-group mb-4">
-							<form:label path="memberPassword" class="font-weight-bold">비밀번호</form:label>
-							<form:password path="memberPassword" class="form-control" placeholder="비밀번호 입력" showPassword="true"/>
-							<form:errors path="memberPassword" cssClass="error"/>
+						<div class="input-group">
+							<form:input path="authCode" class="form-control" placeholder="인증코드를 입력하세요."/>
 						</div>
-						<div class="form-group mb-4">
-							<form:label path="confirmPassword" class="font-weight-bold">비밀번호 확인</form:label>
-							<form:password path="confirmPassword" class="form-control" placeholder="비밀번호 확인 입력" showPassword="true"/>
-							<form:errors path="confirmPassword" cssClass="error"/>
-						</div>
-						<div class="form-group mb-4">
-							<form:label path="memberEmail" class="font-weight-bold">이메일</form:label>
-							<div class="input-group mb-3">
-								<form:input path="memberEmail" class="form-control" placeholder="이메일 입력"/>
-								<div class="input-group-append">
-									<button type="button" class="btn btn-outline-secondary btn-sm" id="sendAuthCodeBtn">인증코드 받기</button>
-								</div>
+						<form:errors path="memberEmail" cssClass="error"/>
+						<form:errors path="authCode" cssClass="error"/>
+					</div>
+					<div class="form-group">
+						<form:label path="memberZipcode" class="font-weight-bold">주소</form:label>
+					    <div class="input-group w-50">
+					    	<form:input path="memberZipcode" class="form-control" readonly="true" placeholder="우편번호 입력"/>
+							<div class="input-group-append">
+								<button type="button" class="btn btn-outline-secondary btn-sm" id="searchAddrBtn">주소 찾기</button>
 							</div>
-							<div class="input-group">
-								<form:input path="authCode" class="form-control" placeholder="인증코드를 입력하세요."/>
-							</div>
-							<form:errors path="memberEmail" cssClass="error"/>
-							<form:errors path="authCode" cssClass="error"/>
 						</div>
-						<div class="form-group">
-							<form:label path="memberZipcode" class="font-weight-bold">주소</form:label>
-						    <div class="input-group w-50">
-						    	<form:input path="memberZipcode" class="form-control" readonly="true" placeholder="우편번호 입력"/>
-								<div class="input-group-append">
-									<button type="button" class="btn btn-outline-secondary btn-sm" id="searchAddrBtn">주소 찾기</button>
-								</div>
-							</div>
-							<form:errors path="memberZipcode" cssClass="error"/>
-						</div>
-						<div class="form-group">
-							<form:input path="memberAddr" class="form-control" readonly="true" placeholder="기본주소 입력"/>
-							<form:errors path="memberAddr" cssClass="error"/>
-						</div>
-						<div class="form-group mb-4">
-							<form:input path="memberAddrDetail" class="form-control" placeholder="상세주소 입력"/>
-							<form:errors path="memberAddrDetail" cssClass="error"/>
-						</div>
-						<div class="form-check small mb-1">
-							<label class="form-check-label">
-								<form:checkbox class="form-check-input" path="memberAgree"/> 이메일 광고 수신에 동의합니다. (선택)
-							</label>
-						</div>
-						<div class="form-check small mb-1">
-							<label class="form-check-label">
-								<input class="form-check-input" type="checkbox" id="agreeJoinCheck">
-								<a href="#">이용약관</a> 및 <a href="#">개인정보 처리방침</a>에 동의합니다.
-							</label>
-						</div>
-						<div class="form-group pt-4">
-							<form:button class="btn btn-primary btn-block mb-4" id="joinBtn" disabled="true">회원가입</form:button>
-						</div>
-					</form:form>
-					<p class="text-center small mb-0">
-						<span>이미 회원이신가요?</span>
-						<span><a href="${contextPath}/member/login">로그인 하기</a></span>
-					</p>
-				</div>
+						<form:errors path="memberZipcode" cssClass="error"/>
+					</div>
+					<div class="form-group">
+						<form:input path="memberAddr" class="form-control" readonly="true" placeholder="기본주소 입력"/>
+						<form:errors path="memberAddr" cssClass="error"/>
+					</div>
+					<div class="form-group mb-4">
+						<form:input path="memberAddrDetail" class="form-control" placeholder="상세주소 입력"/>
+						<form:errors path="memberAddrDetail" cssClass="error"/>
+					</div>
+					<div class="form-check small mb-1">
+						<label class="form-check-label">
+							<form:checkbox class="form-check-input" path="memberAgree"/> 이메일 광고 수신에 동의합니다. (선택)
+						</label>
+					</div>
+					<div class="form-check small mb-1">
+						<label class="form-check-label">
+							<input class="form-check-input" type="checkbox" id="agreeJoinCheck">
+							<a href="#">이용약관</a> 및 <a href="#">개인정보 처리방침</a>에 동의합니다.
+						</label>
+					</div>
+					<div class="form-group pt-4">
+						<form:button class="btn btn-primary btn-block mb-4" id="joinBtn" disabled="true">회원가입</form:button>
+					</div>
+				</form:form>
+				<p class="text-center small mb-0">
+					<span>이미 회원이신가요?</span>
+					<span><a href="${contextPath}/member/login">로그인 하기</a></span>
+				</p>
 			</div>
 		</div>
-		<div class="col-sm-2"></div>
 	</div>
 </div>
 
