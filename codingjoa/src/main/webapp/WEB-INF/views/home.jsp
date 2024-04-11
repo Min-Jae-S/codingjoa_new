@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Codingjoa HOME</title>
+<title>Codingjoa : HOME</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
@@ -35,6 +35,11 @@
 	#configBody p:last-child {
 		margin-bottom: 0;
 	}
+	
+	.home-wrap {
+		width: 920px;
+		margin: 0 auto;
+	}
 </style>
 </head>
 <body>
@@ -42,52 +47,48 @@
 <c:import url="/WEB-INF/views/include/top-menu.jsp" />
 
 <div class="container home-container">
-	<div class="row">
-		<div class="col-sm-1"></div>
-		<div class="col-sm-10">
-			<div class="card">
-				<div class="card-header" id="configHeader">
-					<ul class="nav nav-tabs card-header-tabs">
-						<li class="nav-item">
-							<a class="nav-link active" href="${contextPath}/config/filters">Filter</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="${contextPath}/config/handler-mappings">HandlerMapping &amp; Handler</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="${contextPath}/config/interceptors">Interceptor</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="${contextPath}/config/handler-adapters">HandlerAdapter</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="${contextPath}/config/argument-resolvers">ArgumentResolver</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="${contextPath}/config/validators">Validator</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="${contextPath}/config/return-value-handlers">ReturnValueHandler</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="${contextPath}/config/view-resolvers">ViewResolver</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="${contextPath}/config/message-converters">HttpMessageConverter</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="${contextPath}/config/handler-exception-resolvers">HandlerExceptionResolver</a>
-						</li>
-					</ul>
-				</div>
-				<div class="card-body" id="configBody">
-					<!-- <h5 class="card-title">Special title treatment</h5>
-					<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-					<a href="#" class="btn btn-primary">Go somewhere</a> -->
-				</div>
+	<div class="home-wrap">
+		<div class="card">
+			<div class="card-header" id="configHeader">
+				<ul class="nav nav-tabs card-header-tabs">
+					<li class="nav-item">
+						<a class="nav-link active" href="${contextPath}/config/filters">Filter</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="${contextPath}/config/handler-mappings">HandlerMapping &amp; Handler</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="${contextPath}/config/interceptors">Interceptor</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="${contextPath}/config/handler-adapters">HandlerAdapter</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="${contextPath}/config/argument-resolvers">ArgumentResolver</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="${contextPath}/config/validators">Validator</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="${contextPath}/config/return-value-handlers">ReturnValueHandler</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="${contextPath}/config/view-resolvers">ViewResolver</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="${contextPath}/config/message-converters">HttpMessageConverter</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="${contextPath}/config/handler-exception-resolvers">HandlerExceptionResolver</a>
+					</li>
+				</ul>
+			</div>
+			<div class="card-body" id="configBody">
+				<!-- <h5 class="card-title">Special title treatment</h5>
+				<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+				<a href="#" class="btn btn-primary">Go somewhere</a> -->
 			</div>
 		</div>
-		<div class="col-sm-1"></div>
 	</div>
 </div>
 

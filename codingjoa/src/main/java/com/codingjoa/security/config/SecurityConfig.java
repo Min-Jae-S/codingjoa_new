@@ -16,9 +16,12 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import com.codingjoa.security.filter.CustomAuthenticationFilter;
 
 @Configuration
-@EnableWebSecurity//(debug = true)
+@EnableWebSecurity(debug = true)
 @ComponentScan("com.codingjoa.security.service")
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -37,26 +40,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private AuthenticationEntryPoint customAuthenticationEntryPoint;
 	
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
-	
-	@Override
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.authenticationProvider(customAuthenticationProvider);
-	}
-	
-//	@Override
-// 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//  	auth.userDetailsService(userService).passwordEncoder(passwordEncoder());
-//	}
-	
-//	@Override
-//  protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//  	auth.userDetailsService(loginIdPwValidator);
-//  }
-
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 
@@ -68,8 +51,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		 *		WebAsyncManagerIntegrationFilter
 		 * 		SecurityContextPersistenceFilter
 		 * 		HeaderWriterFilter
-		 * 		CharacterEncodingFilter
+		 * 		CharacterEncodingFilter**
 		 * 		LogoutFilter
+		 * 		CustomAuthenticationFilter**
 		 * 		UsernamePasswordAuthenticationFilter
 		 * 		RequestCacheAwareFilter
 		 * 		SecurityContextHolderAwareRequestFilter
@@ -110,6 +94,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.failureHandler(loginFailureHandler)
 				.permitAll()
 				.and()
+				.addFilterBefore(customAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
 			.logout()
 				.logoutUrl("/member/logout")
 				.clearAuthentication(true)
@@ -118,6 +103,35 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.exceptionHandling()
 				.authenticationEntryPoint(customAuthenticationEntryPoint)	// XMLHttpRequest가 아닌 다른 것으로 ajax 판단하기
 				.accessDeniedHandler(customAccessDeniedHandler); 			// ajax check 추가하기 			 
+	}
+	
+	@Override
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		auth.authenticationProvider(customAuthenticationProvider);
+	}
+	
+//	@Override
+// 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+//  	auth.userDetailsService(userService).passwordEncoder(passwordEncoder());
+//	}
+	
+//	@Override
+//  protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+//  	auth.userDetailsService(loginIdPwValidator);
+//  }
+	
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
+	
+	// https://velog.io/@hana0627/SpringSecurity-authenticationManager-must-be-specified 
+	// 4. [주의!!!] 커스텀한 필터 객체의 클래스 레벨에 @Component와 같은 애노테이션을 달지 않는다.(Config파일에서 의존성 주입을 하므로) ?? 
+	@Bean
+	public CustomAuthenticationFilter customAuthenticationFilter() throws Exception {
+		CustomAuthenticationFilter filter = new CustomAuthenticationFilter();
+		filter.setAuthenticationManager(authenticationManagerBean());
+		return filter;
 	}
 
 }
