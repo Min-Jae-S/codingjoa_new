@@ -6,7 +6,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>회원가입</title>
+<title>Codingjoa : 회원가입</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
@@ -113,7 +113,7 @@
 							</label>
 						</div>
 						<div class="form-group pt-4">
-							<form:button class="btn btn-primary btn-block mb-4" id="joinBtn" disabled="true">회원가입</form:button>
+							<form:button class="btn btn-primary btn-block mb-4" id="joinBtn"><%-- disabled="true" --%>회원가입</form:button>
 						</div>
 					</form:form>
 					<p class="text-center small mb-0">
