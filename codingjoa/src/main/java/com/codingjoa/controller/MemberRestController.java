@@ -133,7 +133,7 @@ public class MemberRestController {
 		
 		Integer memberIdx = principal.getMember().getMemberIdx();
 		memberService.updateEmail(emailAuthDto, memberIdx);
-		redisService.delete(emailAuthDto.getMemberEmail());
+		redisService.deleteKey(emailAuthDto.getMemberEmail());
 		
 		String memberId = principal.getMember().getMemberId();
 		resetAuthentication(memberId);
@@ -253,9 +253,9 @@ public class MemberRestController {
 		log.info("\t > key = {}", key);
 		log.info("\t > {}", passwordChangeDto);
 		
-		Integer memberIdx = Integer.parseInt(redisService.get(key));
+		Integer memberIdx = Integer.parseInt(redisService.findValueByKey(key));
 		memberService.updatePassword(passwordChangeDto, memberIdx);
-		redisService.delete(key);
+		redisService.deleteKey(key);
 		
 		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.ResetPassword").build());
 	}
@@ -285,7 +285,7 @@ public class MemberRestController {
 		log.info("\t > hasKey = {}", hasKey);
 
 		if (hasKey) {
-			redisService.delete(key);
+			redisService.deleteKey(key);
 			log.info("\t > after removing key from redis, hasKey = {}", redisService.hasKey(key));
 		}
 		

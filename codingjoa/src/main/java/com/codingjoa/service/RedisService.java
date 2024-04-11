@@ -6,9 +6,9 @@ public interface RedisService {
 	
 	boolean hasKey(String key);
 	
-	String get(String key);
+	String findValueByKey(String key);
 	
 	boolean isAuthCodeValid(String key, String authCode);
 	
-	void delete(String key);
+	void deleteKey(String key);
 }

@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 
 import com.codingjoa.service.RedisService;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class RedisServiceImpl implements RedisService {
 	
@@ -17,6 +20,8 @@ public class RedisServiceImpl implements RedisService {
 
 	@Override
 	public void save(String key, String value) {
+		log.info("## save");
+		log.info("\t > key = {}, value = {}", key, value);
 		ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
 		valueOperations.set(key, value, Duration.ofMinutes(30L));
 	}
@@ -27,18 +32,22 @@ public class RedisServiceImpl implements RedisService {
 	}
 	
 	@Override
-	public String get(String key) {
+	public String findValueByKey(String key) {
+		log.info("## findValueByKey");
+		log.info("\t > key = {}", key);
 		ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
 		return valueOperations.get(key);
 	}
 	
 	@Override
 	public boolean isAuthCodeValid(String key, String value) {
-		return value.equals(get(key));
+		return value.equals(findValueByKey(key));
 	}
 
 	@Override
-	public void delete(String key) {
+	public void deleteKey(String key) {
+		log.info("## deleteKey");
+		log.info("\t > key = {}", key);
 		redisTemplate.delete(key);
 	}
 

@@ -56,7 +56,7 @@ public class MemberController {
 		}
 		
 		memberService.save(joinDto);
-		redisService.delete(joinDto.getMemberEmail());
+		redisService.deleteKey(joinDto.getMemberEmail());
 		return "member/join-success";
 	}
 
