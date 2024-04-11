@@ -36,7 +36,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 		log.info("## {}", this.getClass().getSimpleName());
 		
 		/*
-		 * ## UsernamePasswordAuthenticationFilter#attemptAuthentication(HttpServletRequest, HttpServletResponse)
+		 * ref) UsernamePasswordAuthenticationFilter#attemptAuthentication(HttpServletRequest, HttpServletResponse)
 		 * String username = obtainUsername(request);
 		 * String password = obtainPassword(request);
 		 * 
