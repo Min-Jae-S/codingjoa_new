@@ -36,16 +36,24 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 		log.info("## {}", this.getClass().getSimpleName());
 		
 		/*
-		 * ref) UsernamePasswordAuthenticationFilter#attemptAuthentication(HttpServletRequest, HttpServletResponse)
-		 * String username = obtainUsername(request);
-		 * String password = obtainPassword(request);
+		 * ref) UsernamePasswordAuthenticationFilter#attemptAuthentication
+		 * public Authentication attemptAuthentication(HttpServletRequest request,
+				HttpServletResponse response) throws AuthenticationException {
 		 * 
-		 * if (username == null) { username = ""; }
-		 * if (password == null) { password = ""; }
-		 * username = username.trim()
+		 * 		String username = obtainUsername(request);
+		 * 		String password = obtainPassword(request);
 		 * 
-		 * UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(
-		 * 		username, password);
+		 * 		if (username == null) { username = ""; }
+		 * 		if (password == null) { password = ""; }
+		 * 		username = username.trim()
+		 * 
+		 * 		UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(
+		 * 				username, password);
+		 * 		...
+		 * 
+		 *  	return this.getAuthenticationManager().authenticate(authRequest);
+		 *  }
+		 *
 		 */
 		
 		String memberId = (String) authentication.getPrincipal();
