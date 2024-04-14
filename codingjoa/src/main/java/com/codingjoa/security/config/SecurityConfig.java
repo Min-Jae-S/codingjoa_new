@@ -21,7 +21,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import com.codingjoa.security.filter.CustomAuthenticationFilter;
 
 @Configuration
-@EnableWebSecurity(debug = true)
+@EnableWebSecurity(debug = false)
 @ComponentScan("com.codingjoa.security.service")
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -53,9 +53,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	 *		WebAsyncManagerIntegrationFilter
 	 * 		SecurityContextPersistenceFilter
 	 * 		HeaderWriterFilter
-	 * 		CharacterEncodingFilter**
+	 * 		(CharacterEncodingFilter)
 	 * 		LogoutFilter
-	 * 		CustomAuthenticationFilter**
+	 * 		CustomAuthenticationFilter
 	 * 		UsernamePasswordAuthenticationFilter
 	 * 		RequestCacheAwareFilter
 	 * 		SecurityContextHolderAwareRequestFilter
@@ -98,7 +98,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.failureHandler(loginFailureHandler)
 				.permitAll()
 				.and()
-				.addFilterBefore(customAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+			.addFilterBefore(customAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
 			.logout()
 				.logoutUrl("/member/logout")
 				.clearAuthentication(true)

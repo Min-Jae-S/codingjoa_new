@@ -16,6 +16,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws AuthenticationException {
 		log.info("## {}", this.getClass().getSimpleName());
+		log.info("\t > id = {}, password = {}", request.getParameter("memberId"), request.getParameter("memberPassword"));
 		return super.attemptAuthentication(request, response);
 	}
 	
