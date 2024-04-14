@@ -108,7 +108,6 @@
 
 <script>
 	$(function() {
-		// just for inspecting the error response
 		<c:if test="${not empty errorResponse}">
 			<fmt:parseDate value="${errorResponse.timestamp}" pattern="yyyy-MM-dd'T'HH:mm:ss" var="parsedDateTime" type="both"/>
 			<fmt:formatDate value="${parsedDateTime}" pattern="yyyy-MM-dd'T'HH:mm:ss" var="timestamp"/>
@@ -118,6 +117,9 @@
 				details : <c:out value='${errorResponse.details}'/>,
 				timestamp : "<c:out value='${timestamp}'/>"
 			};
+			console.log("## just for inspecting the error response");
+			console.log("## errorResponse is not JSON");
+			console.log("> errorResponse = ");
 			console.log(JSON.stringify(errorResponse, null, 2));
 		</c:if>
 	})

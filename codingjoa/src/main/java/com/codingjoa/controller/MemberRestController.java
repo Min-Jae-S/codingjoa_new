@@ -216,6 +216,8 @@ public class MemberRestController {
 		
 		String memberEmail = emailDto.getMemberEmail();
 		String memberId = memberService.getMemberIdByEmail(memberEmail);
+		log.info("\t > found memberId = {}", memberId);
+		
 		emailService.sendFoundAccount(memberEmail, memberId);
 		
 		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.FindAccount").build());
@@ -230,6 +232,7 @@ public class MemberRestController {
 		String memberId = findPasswordDto.getMemberId();
 		String memberEmail = findPasswordDto.getMemberEmail();
 		Integer memberIdx = memberService.getMemberIdxByIdAndEmail(memberId, memberEmail);
+		log.info("\t > found memberIdx = {}", memberIdx);
 		
 		String key = UUID.randomUUID().toString().replace("-", "");
 		log.info("\t > key = {}", key);
