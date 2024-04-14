@@ -40,29 +40,33 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private AuthenticationEntryPoint customAuthenticationEntryPoint;
 	
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
+	
+	/*	
+	 * 	FilterChain
+	 * 	https://gngsn.tistory.com/160
+	 * 
+	 *	Browser HTTP Request --> Security filter chain: [
+	 *		WebAsyncManagerIntegrationFilter
+	 * 		SecurityContextPersistenceFilter
+	 * 		HeaderWriterFilter
+	 * 		CharacterEncodingFilter**
+	 * 		LogoutFilter
+	 * 		CustomAuthenticationFilter**
+	 * 		UsernamePasswordAuthenticationFilter
+	 * 		RequestCacheAwareFilter
+	 * 		SecurityContextHolderAwareRequestFilter
+	 * 		AnonymousAuthenticationFilter		
+	 * 		SessionManagementFilter
+	 * 		ExceptionTranslationFilter(AuthenticationEntryPoint, AccessDeniedHandler)
+	 * 		FilterSecurityInterceptor
+	 */
+	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-
-		/*	
-		 * 	FilterChain
-		 * 	https://gngsn.tistory.com/160
-		 * 
-		 *	Browser HTTP Request --> Security filter chain: [
-		 *		WebAsyncManagerIntegrationFilter
-		 * 		SecurityContextPersistenceFilter
-		 * 		HeaderWriterFilter
-		 * 		CharacterEncodingFilter**
-		 * 		LogoutFilter
-		 * 		CustomAuthenticationFilter**
-		 * 		UsernamePasswordAuthenticationFilter
-		 * 		RequestCacheAwareFilter
-		 * 		SecurityContextHolderAwareRequestFilter
-		 * 		AnonymousAuthenticationFilter		
-		 * 		SessionManagementFilter
-		 * 		ExceptionTranslationFilter(AuthenticationEntryPoint, AccessDeniedHandler)
-		 * 		FilterSecurityInterceptor
-		 */
-		
 		http
 			.csrf().disable()
 			//.addFilterBefore(logFilter(), WebAsyncManagerIntegrationFilter.class)
@@ -108,21 +112,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.authenticationProvider(customAuthenticationProvider);
-	}
-	
-//	@Override
-// 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//  	auth.userDetailsService(userService).passwordEncoder(passwordEncoder());
-//	}
-	
-//	@Override
-//  protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//  	auth.userDetailsService(loginIdPwValidator);
-//  }
-	
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
 	}
 	
 	// https://velog.io/@hana0627/SpringSecurity-authenticationManager-must-be-specified 
