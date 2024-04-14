@@ -27,7 +27,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import org.springframework.web.util.UriComponents;
 
 import com.codingjoa.dto.AddrDto;
 import com.codingjoa.dto.AgreeDto;
@@ -237,13 +236,14 @@ public class MemberRestController {
 		String key = UUID.randomUUID().toString().replace("-", "");
 		log.info("\t > key = {}", key);
 		
-		UriComponents uriComponents = ServletUriComponentsBuilder.fromContextPath(request)
+		String url = ServletUriComponentsBuilder.fromContextPath(request)
 				.path("/member/resetPassword")
 				.queryParam("key", key)
-				.build();
-		log.info("\t > attached URL = {}", uriComponents.toString());
+				.build()
+				.toString();
+		log.info("\t > attached URL = {}", url);
 		
-		emailService.sendResetPasswordUrl(memberEmail, memberId, uriComponents.toString());
+		emailService.sendResetPasswordUrl(memberEmail, memberId, url);
 		redisService.saveKeyAndValue(key, memberIdx.toString());
 		
 		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.FindPassword").build());

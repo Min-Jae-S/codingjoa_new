@@ -64,7 +64,7 @@ public class EmailServiceImpl implements EmailService {
 
 	@Async
 	@Override
-	public void sendResetPasswordUrl(String memberEmail, String memberId, String resetPasswordUri) {
+	public void sendResetPasswordUrl(String memberEmail, String memberId, String url) {
 		try {
 			MimeMessage mimeMessage = mailSender.createMimeMessage();
 			MimeMessageHelper mailHelper = new MimeMessageHelper(mimeMessage, true, "utf-8");
@@ -72,7 +72,7 @@ public class EmailServiceImpl implements EmailService {
 			mailHelper.setTo(memberEmail);
 			mailHelper.setSubject("[CodingJoa] 비밀번호 재설정 메일입니다.");
 			
-			String html = buildTemplate(MailType.FIND_PASSWORD, memberId, resetPasswordUri);
+			String html = buildTemplate(MailType.FIND_PASSWORD, memberId, url);
 			mailHelper.setText(html, true);
 			mailSender.send(mimeMessage);
 		} catch (MessagingException e) {
