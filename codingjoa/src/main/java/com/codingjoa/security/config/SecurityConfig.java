@@ -21,7 +21,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import com.codingjoa.security.filter.CustomAuthenticationFilter;
 
 @Configuration
-@EnableWebSecurity(debug = false)
+@EnableWebSecurity(debug = true)
 @ComponentScan("com.codingjoa.security.service")
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -62,7 +62,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	 * 		AnonymousAuthenticationFilter		
 	 * 		SessionManagementFilter
 	 * 		ExceptionTranslationFilter(AuthenticationEntryPoint, AccessDeniedHandler)
-	 * 		FilterSecurityInterceptor
+	 * 		FilterSecurityInterceptor 
+	 * 	]
+	 * 
 	 */
 	
 	@Override
@@ -71,6 +73,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.csrf().disable()
 			//.addFilterBefore(logFilter(), WebAsyncManagerIntegrationFilter.class)
 			//.addFilterBefore(encodingFilter(), CsrfFilter.class)
+			.addFilterBefore(customAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
 			.authorizeRequests()
 				//.filterSecurityInterceptorOncePerRequest(false)
 				// https://stackoverflow.com/questions/19941466/spring-security-allows-unauthorized-user-access-to-restricted-url-from-a-forward
@@ -98,7 +101,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.failureHandler(loginFailureHandler)
 				.permitAll()
 				.and()
-			.addFilterBefore(customAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
 			.logout()
 				.logoutUrl("/member/logout")
 				.clearAuthentication(true)
@@ -115,7 +117,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 	
 	// https://velog.io/@hana0627/SpringSecurity-authenticationManager-must-be-specified 
-	// 4. [주의!!!] 커스텀한 필터 객체의 클래스 레벨에 @Component와 같은 애노테이션을 달지 않는다.(Config파일에서 의존성 주입을 하므로) ?? 
+	// 4. [주의!!!] 커스텀한 필터 객체의 클래스 레벨에 @Component와 같은 애노테이션을 달지 않는다.(Config파일에서 의존성 주입을 하므로)
 	@Bean
 	public CustomAuthenticationFilter customAuthenticationFilter() throws Exception {
 		CustomAuthenticationFilter filter = new CustomAuthenticationFilter();
