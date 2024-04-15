@@ -78,6 +78,7 @@ public class UpdatePasswordInterceptor implements HandlerInterceptor {
 				.status(HttpStatus.FORBIDDEN)
 				.message(message)
 				.build();
+		log.info("\t > {}", errorResponse);
 		
 		// \n --> \\n
 		response.getWriter().write(objectMapper.writeValueAsString(errorResponse));
