@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>비밀번호 재설정</title>
+<title>Codingjoa : 비밀번호 재설정</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
@@ -140,7 +140,7 @@
 				url : "${contextPath}/api/member/test/remove-key?key=" + key,
 				dataType : "json",
 				success : function(result) {
-					alert("## Remove Key From Redis");
+					alert("## Remove key from redis");
 					console.log(JSON.stringify(result, null, 2));
 				},
 				error : function(jqXHR) {

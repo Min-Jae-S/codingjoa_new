@@ -273,7 +273,8 @@ public class MemberRestController {
 		
 		if (passwordCheck != null && passwordCheck) {
 			session.removeAttribute("CHECK_PASSWORD");
-			log.info("\t > after removing CHECK_PASSWORD, CHECK_PASSWORD = {}", session.getAttribute("CHECK_PASSWORD"));
+			log.info("\t > after removing CHECK_PASSWORD");
+			log.info("\t > CHECK_PASSWORD = {}", session.getAttribute("CHECK_PASSWORD"));
 		}
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());

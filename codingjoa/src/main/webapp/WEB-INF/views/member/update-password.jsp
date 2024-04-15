@@ -141,7 +141,7 @@
 				url : "${contextPath}/api/member/test/remove-check-password",
 				dataType : "json",
 				success : function(result) {
-					alert("## Remove CHECK_PASSWORD From Session");
+					alert("## Remove CHECK_PASSWORD from session");
 					console.log(JSON.stringify(result, null, 2));
 				},
 				error : function(jqXHR) {
