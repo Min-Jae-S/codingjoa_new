@@ -289,7 +289,8 @@ public class MemberRestController {
 
 		if (hasKey) {
 			redisService.deleteKey(key);
-			log.info("\t > after removing key from redis, hasKey = {}", redisService.hasKey(key));
+			log.info("\t > after removing key from redis");
+			log.info("\t > hasKey = {}", redisService.hasKey(key));
 		}
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());

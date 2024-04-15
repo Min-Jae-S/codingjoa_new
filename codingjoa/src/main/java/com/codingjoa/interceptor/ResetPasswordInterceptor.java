@@ -37,7 +37,7 @@ public class ResetPasswordInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		log.info("## {} : preHandle", this.getClass().getSimpleName());
+		log.info("## {}", this.getClass().getSimpleName());
 
 		String key = request.getParameter("key");
 		if (!keyCheck(key)) {

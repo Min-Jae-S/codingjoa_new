@@ -33,7 +33,7 @@ public class UpdatePasswordInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		log.info("## {} : preHandle", this.getClass().getSimpleName());
+		log.info("## {}", this.getClass().getSimpleName());
 		
 		if (!passwordCheck(request)) {
 			String message =  MessageUtils.getMessage("error.NotCheckPassword");
