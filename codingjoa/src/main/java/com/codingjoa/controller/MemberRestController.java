@@ -263,35 +263,33 @@ public class MemberRestController {
 		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.ResetPassword").build());
 	}
 	
-	// test (remove CEHCK_PASSWORD)
+	// TEST (remove CEHCK_PASSWORD)
 	@GetMapping("/test/remove-check-password")
 	public ResponseEntity<Object> removeCheckPassword(HttpSession session) {
 		log.info("## removeCheckPassword");
 		
 		Boolean passwordCheck = (Boolean) session.getAttribute("CHECK_PASSWORD");
-		log.info("\t > CHECK_PASSWORD = {}", passwordCheck);
+		log.info("\t > current CHECK_PASSWORD = {}", passwordCheck);
 		
 		if (passwordCheck != null && passwordCheck) {
 			session.removeAttribute("CHECK_PASSWORD");
-			log.info("\t > after removing CHECK_PASSWORD");
-			log.info("\t > CHECK_PASSWORD = {}", session.getAttribute("CHECK_PASSWORD"));
+			log.info("\t > after removing CHECK_PASSWORD, CHECK_PASSWORD = {}", session.getAttribute("CHECK_PASSWORD"));
 		}
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 	
-	// test (remove key)
+	// TEST (remove key)
 	@GetMapping("/test/remove-key")
 	public ResponseEntity<Object> removeKey(@RequestParam(required = false) String key) {
 		log.info("## removeKey");
 		
 		boolean hasKey = (key == null) ? false : redisService.hasKey(key);
-		log.info("\t > hasKey = {}", hasKey);
+		log.info("\t > current hasKey = {}", hasKey);
 
 		if (hasKey) {
 			redisService.deleteKey(key);
-			log.info("\t > after removing key from redis");
-			log.info("\t > hasKey = {}", redisService.hasKey(key));
+			log.info("\t > after removing key from redis, hasKey = {}", redisService.hasKey(key));
 		}
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());

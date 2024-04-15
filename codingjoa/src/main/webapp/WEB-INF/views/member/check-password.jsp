@@ -56,6 +56,11 @@
 		font-size: 14px;
 		font-weight: bold;
 	}
+	
+	.check-password-wrap {
+		width: 540px;
+		margin: 0 auto;
+	}
 </style>
 </head>
 <body>
@@ -63,30 +68,26 @@
 <c:import url="/WEB-INF/views/include/top-menu.jsp"/>
 
 <div class="container check-password-container">
-	<div class="row">
-		<div class="col-sm-3"></div>
-		<div class="col-sm-6">
-			<h5 class="font-weight-bold">비밀번호 확인</h5>
-			<div class="pt-3" style="border-top: 1px solid black;">
-				<p class="title">비밀번호 재설정을 위해서 현재 비밀번호 확인을 진행합니다.</p>
-				<dl class="form-group mb-5">
-					<dt><i class="fa-solid fa-check mr-2"></i>아이디</dt>
-					<dd class="input-group">
-						<span class="inner-text"><c:out value="${principal.member.memberId}"/></span>
-					</dd>
-				</dl>
-				<dl class="form-group mb-5">
-					<dt><i class="fa-solid fa-check mr-2"></i>비밀번호</dt>
-					<dd class="input-group">
-						<input type="password" id="memberPassword" name="memberPassword" placeholder="현재 비밀번호"/>
-					</dd>
-				</dl>
-				<div class="pt-3">
-					<button type="button" class="btn btn-primary btn-block" id="checkPasswordBtn">확인</button>
-				</div>
+	<div class="check-password-wrap">
+		<h5 class="font-weight-bold">비밀번호 확인</h5>
+		<div class="pt-3" style="border-top: 1px solid black;">
+			<p class="title">비밀번호 재설정을 위해서 현재 비밀번호 확인을 진행합니다.</p>
+			<dl class="form-group mb-5">
+				<dt><i class="fa-solid fa-check mr-2"></i>아이디</dt>
+				<dd class="input-group">
+					<span class="inner-text"><c:out value="${principal.member.memberId}"/></span>
+				</dd>
+			</dl>
+			<dl class="form-group mb-5">
+				<dt><i class="fa-solid fa-check mr-2"></i>비밀번호</dt>
+				<dd class="input-group">
+					<input type="password" id="memberPassword" name="memberPassword" placeholder="현재 비밀번호"/>
+				</dd>
+			</dl>
+			<div class="pt-3">
+				<button type="button" class="btn btn-primary btn-block" id="checkPasswordBtn">확인</button>
 			</div>
 		</div>
-		<div class="col-sm-3"></div>
 	</div>
 </div>
 

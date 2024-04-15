@@ -49,8 +49,10 @@ public class ResetPasswordInterceptor implements HandlerInterceptor {
 			
 			HandlerMethod handlerMethod = (HandlerMethod) handler;
 			if (handlerMethod.getBeanType().isAnnotationPresent(RestController.class)) {
+				log.info("\t > {} '{}' --> responseJSON", request.getMethod(), request.getRequestURI());
 				responseJSON(request, response, message);
 			} else {
+				log.info("\t > {} '{}' --> responseHTML", request.getMethod(), request.getRequestURI());
 				responseHTML(request, response, message);
 			}
 			return false;

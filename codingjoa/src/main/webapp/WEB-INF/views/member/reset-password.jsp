@@ -59,6 +59,11 @@
 		margin-bottom: 40px;
 		font-size: 12px;
 	}
+	
+	.reset-password-wrap {
+		width: 540px;
+		margin: 0 auto;
+	}
 </style>
 </head>
 <body>
@@ -66,37 +71,33 @@
 <c:import url="/WEB-INF/views/include/top-menu.jsp"/>
 
 <div class="container reset-password-container">
-	<div class="row">
-		<div class="col-sm-3"></div>
-		<div class="col-sm-6">
-			<h5 class="font-weight-bold">
-				비밀번호 재설정
-				<button type="button" class="btn btn-sm btn-warning py-0 float-right" id="testBtn">Remove key</button>
-			</h5>
-			<div class="pt-3" style="border-top: 1px solid black;">
-				<p class="title">새로운 비밀번호를 입력해주세요.</p>
-				<p class="description"> 
-					<span>- 비밀번호는 8-16자 영문자, 숫자, 특수문자를 사용하세요.</span><br/>
-					<span>- 보안 정책에 따라 현재 비밀번호와 동일한 비밀번호로 변경할 수 없습니다.</span>
-				</p>
-				<dl class="form-group mb-5">
-					<dt><i class="fa-solid fa-check mr-2"></i>새로운 비밀번호</dt>
-					<dd class="input-group">
-						<input type="password" id="memberPassword" name="memberPassword" placeholder="새로운 비밀번호 입력"/>
-					</dd>
-				</dl>
-				<dl class="form-group mb-5">
-					<dt><i class="fa-solid fa-check mr-2"></i>비밀번호 확인</dt>
-					<dd class="input-group">
-						<input type="password" id="confirmPassword" name="confirmPassword" placeholder="비밀번호 확인 입력"/>
-					</dd>
-				</dl>
-				<div class="pt-3">
-					<button type="button" class="btn btn-primary btn-block" id="resetPasswordBtn">확인</button>
-				</div>				
-			</div>
+	<div class="reset-password-wrap">
+		<h5 class="font-weight-bold">
+			비밀번호 재설정
+			<button type="button" class="btn btn-sm btn-warning py-0 float-right" id="testBtn">Remove key</button>
+		</h5>
+		<div class="pt-3" style="border-top: 1px solid black;">
+			<p class="title">새로운 비밀번호를 입력해주세요.</p>
+			<p class="description"> 
+				<span>- 비밀번호는 8-16자 영문자, 숫자, 특수문자를 사용하세요.</span><br/>
+				<span>- 보안 정책에 따라 현재 비밀번호와 동일한 비밀번호로 변경할 수 없습니다.</span>
+			</p>
+			<dl class="form-group mb-5">
+				<dt><i class="fa-solid fa-check mr-2"></i>새로운 비밀번호</dt>
+				<dd class="input-group">
+					<input type="password" id="memberPassword" name="memberPassword" placeholder="새로운 비밀번호 입력"/>
+				</dd>
+			</dl>
+			<dl class="form-group mb-5">
+				<dt><i class="fa-solid fa-check mr-2"></i>비밀번호 확인</dt>
+				<dd class="input-group">
+					<input type="password" id="confirmPassword" name="confirmPassword" placeholder="비밀번호 확인 입력"/>
+				</dd>
+			</dl>
+			<div class="pt-3">
+				<button type="button" class="btn btn-primary btn-block" id="resetPasswordBtn">확인</button>
+			</div>				
 		</div>
-		<div class="col-sm-3"></div>
 	</div>
 </div>
 
