@@ -25,7 +25,8 @@ public class TestSessionController {
 		List<String> attributeNames = Collections.list(session.getAttributeNames());
 		if (attributeNames.size() > 0) {
 			attributeNames.forEach(attributeName -> {
-				log.info("\t > {} : {}", attributeName, session.getAttribute(attributeName));
+				log.info("\t > {} : {}", attributeName, 
+						session.getAttribute(attributeName).getClass().getSimpleName());
 			});
 		} else {
 			log.info("\t > no attributes");
