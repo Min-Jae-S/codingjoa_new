@@ -1,6 +1,7 @@
 package com.codingjoa.controller.test;
 
 import java.util.Collections;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -19,11 +20,15 @@ public class TestSessionController {
 	@GetMapping("/session/test1")
 	public ResponseEntity<Object> test1(HttpSession session) { 
 		log.info("## test1");
-		log.info("\t > session = {}", session);
 		log.info("\t > sessionId = {}", session.getId());
-		log.info("\t > attributeNames");
-		for (String attributeName : Collections.list(session.getAttributeNames())) {
-			log.info("\t\t - {}", attributeName);
+		
+		List<String> attributeNames = Collections.list(session.getAttributeNames());
+		if (attributeNames.size() > 0) {
+			attributeNames.forEach(attributeName -> {
+				log.info("\t > {} : {}", attributeName, session.getAttribute(attributeName));
+			});
+		} else {
+			log.info("\t > no attributes");
 		}
 		return ResponseEntity.ok("success");
 	}
