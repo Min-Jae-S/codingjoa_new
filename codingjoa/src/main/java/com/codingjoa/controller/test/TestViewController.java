@@ -58,4 +58,10 @@ public class TestViewController {
 		log.info("## restApi main");
 		return "test/rest-api";
 	}
+
+	@GetMapping("/session")
+	public String sessionMain() {
+		log.info("## session main");
+		return "test/session";
+	}
 }
