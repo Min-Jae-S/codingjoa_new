@@ -39,6 +39,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 		writer.println("location.href='" +  redirectUrl + "';");
 		writer.println("</script>");
 		writer.flush();
+		writer.close();
 	}
 
 }
