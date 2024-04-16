@@ -77,7 +77,8 @@
 	<div class="update-password-wrap">
 		<h5 class="font-weight-bold">
 			비밀번호 재설정
-			<button type="button" class="btn btn-sm btn-warning py-0 float-right" id="testBtn">Remove CHECK_PASSWORD</button>
+			<button type="button" class="btn btn-sm btn-warning py-0 float-right" id="removeCheckPasswordBtn">Remove CHECK_PASSWORD</button>
+			<button type="button" class="btn btn-sm btn-success py-0 float-right mx-1" id="createCheckPasswordBtn">Create CHECK_PASSWORD</button>
 		</h5>
 		<div class="pt-3" style="border-top: 1px solid black;">
 			<p class="title">새로운 비밀번호를 입력해주세요.</p>
@@ -136,17 +137,35 @@
 			$(this).closest("dd").css("border-bottom", "1px solid #dee2e6");
 		});
 		
-		$("#testBtn").on("click", function() {
+		$("#createCheckPasswordBtn").on("click", function() {
+			$.ajax({
+				type : "GET",
+				url : "${contextPath}/api/member/test/create-check-password",
+				dataType : "json",
+				success : function(result) {
+					console.log("%c> SUCCESS", "color:green");
+					console.log("> create CHECK_PASSWORD");
+					console.log(JSON.stringify(result, null, 2));
+				},
+				error : function(jqXHR) {
+					console.log("%c> ERROR", "color:red");
+					console.log(jqXHR);
+				}
+			});
+		});
+		
+		$("#removeCheckPasswordBtn").on("click", function() {
 			$.ajax({
 				type : "GET",
 				url : "${contextPath}/api/member/test/remove-check-password",
 				dataType : "json",
 				success : function(result) {
-					alert("## Remove CHECK_PASSWORD from session");
+					console.log("%c> SUCCESS", "color:green");
+					console.log("> remove CHECK_PASSWORD");
 					console.log(JSON.stringify(result, null, 2));
 				},
 				error : function(jqXHR) {
-					console.log("## ERROR");
+					console.log("%c> ERROR", "color:red");
 					console.log(jqXHR);
 				}
 			});

@@ -74,7 +74,7 @@
 	<div class="reset-password-wrap">
 		<h5 class="font-weight-bold">
 			비밀번호 재설정
-			<button type="button" class="btn btn-sm btn-warning py-0 float-right" id="testBtn">Remove key</button>
+			<button type="button" class="btn btn-sm btn-warning py-0 float-right" id="removeKeyBtn">Remove key</button>
 		</h5>
 		<div class="pt-3" style="border-top: 1px solid black;">
 			<p class="title">새로운 비밀번호를 입력해주세요.</p>
@@ -134,18 +134,19 @@
 			$(this).closest("dd").css("border-bottom", "1px solid #dee2e6");
 		});
 		
-		$("#testBtn").on("click", function() {
+		$("#removeKeyBtn").on("click", function() {
 			let key ="<c:out value='${key}'/>";
 			$.ajax({
 				type : "GET",
 				url : "${contextPath}/api/member/test/remove-key?key=" + key,
 				dataType : "json",
 				success : function(result) {
-					alert("## Remove key from redis");
+					console.log("%c> SUCCESS", "color:green");
+					console.log("> remove key from redis");
 					console.log(JSON.stringify(result, null, 2));
 				},
 				error : function(jqXHR) {
-					console.log("## ERROR");
+					console.log("%c> ERROR", "color:red");
 					console.log(jqXHR);
 				}
 			});

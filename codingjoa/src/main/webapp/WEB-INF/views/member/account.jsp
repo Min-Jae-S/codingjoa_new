@@ -56,6 +56,11 @@
 		font-size: 1.5rem;
 		color: #4F66AA;
 	}
+	
+	.accout-wrap {
+		width: 540px;
+		margin: 0 auto;
+	}
 </style>
 </head>
 <body>
@@ -63,29 +68,25 @@
 <c:import url="/WEB-INF/views/include/top-menu.jsp"/>
 
 <div class="container account-container">
-	<div class="row">
-		<div class="col-sm-3"></div>
-		<div class="col-sm-6">
-			<div class="list-group">
-				<div class="list-group-item list-group-item-action" onclick="location.href='${contextPath}/member/account/info'">
-					<span class="mr-4"><i class="fa-solid fa-user"></i></span>
-					<div class="item">
-						<span>계정 정보</span>
-						<p>이메일, 주소 등의 개인정보를 확인하고 관리합니다.</p>
-					</div>
-					<span class="ml-4"><i class="fa-solid fa-angle-right"></i></span>
+	<div class="accout-wrap">
+		<div class="list-group">
+			<div class="list-group-item list-group-item-action" onclick="location.href='${contextPath}/member/account/info'">
+				<span class="mr-4"><i class="fa-solid fa-user"></i></span>
+				<div class="item">
+					<span>계정 정보</span>
+					<p>이메일, 주소 등의 개인정보를 확인하고 관리합니다.</p>
 				</div>
-				<div class="list-group-item list-group-item-action" onclick="location.href='${contextPath}/member/account/checkPassword'">
-					<span class="mr-4"><i class="fa-solid fa-lock"></i></span>
-					<div class="item">
-						<span>계정 보안</span>
-						<p>비밀번호를 관리합니다.</p>
-					</div>
-					<span class="ml-4"><i class="fa-solid fa-angle-right"></i></span>
+				<span class="ml-4"><i class="fa-solid fa-angle-right"></i></span>
+			</div>
+			<div class="list-group-item list-group-item-action" onclick="location.href='${contextPath}/member/account/checkPassword'">
+				<span class="mr-4"><i class="fa-solid fa-lock"></i></span>
+				<div class="item">
+					<span>계정 보안</span>
+					<p>비밀번호를 관리합니다.</p>
 				</div>
+				<span class="ml-4"><i class="fa-solid fa-angle-right"></i></span>
 			</div>
 		</div>
-		<div class="col-sm-3"></div>
 	</div>
 </div>
 

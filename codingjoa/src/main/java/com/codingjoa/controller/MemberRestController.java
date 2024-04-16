@@ -263,6 +263,15 @@ public class MemberRestController {
 		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.ResetPassword").build());
 	}
 	
+	// TEST (create CHECK_PASSWORD)
+	@GetMapping("/test/create-check-password")
+	public ResponseEntity<Object> createCheckPassword(HttpSession session) {
+		log.info("## createCheckPassword");
+		session.setAttribute("CHECK_PASSWORD", true);
+		log.info("\t > after creating CHECK_PASSWORD, CHECK_PASSWORD = {}", session.getAttribute("CHECK_PASSWORD"));
+		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
+	}
+	
 	// TEST (remove CEHCK_PASSWORD)
 	@GetMapping("/test/remove-check-password")
 	public ResponseEntity<Object> removeCheckPassword(HttpSession session) {
