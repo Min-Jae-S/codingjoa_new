@@ -26,7 +26,7 @@ public class TestSessionController {
 		
 		long creationTime = session.getCreationTime();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		log.info("\t > created at {}", sdf.format(creationTime));
+		log.info("\t > created at '{}'", sdf.format(creationTime));
 		
 		List<String> attributeNames = Collections.list(session.getAttributeNames());
 		if (attributeNames.size() > 0) {
