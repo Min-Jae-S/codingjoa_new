@@ -1,7 +1,6 @@
 package com.codingjoa.controller.test;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 
@@ -39,7 +38,7 @@ public class TestSessionController {
 
 	@GetMapping("/session/test2")
 	public ResponseEntity<Object> test2() { 
-		log.info("## test1");
+		log.info("## test2");
 		return ResponseEntity.ok("success");
 	}
 	
