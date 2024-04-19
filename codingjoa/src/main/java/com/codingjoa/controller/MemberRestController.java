@@ -16,6 +16,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -257,18 +258,34 @@ public class MemberRestController {
 	}
 	
 	// TEST
-	@GetMapping("/remove-key")
-	public ResponseEntity<Object> removeKey(@AuthenticationPrincipal UserDetailsDto principal) {
-		log.info("## removeKey");
+	@DeleteMapping("/test/check-password/key")
+	public ResponseEntity<Object> removeKeyFromCheckingPassword(@AuthenticationPrincipal UserDetailsDto principal) {
+		log.info("## removeKeyFromCheckingPassword");
 		log.info("\t > principal = {}");
 		
 		if (principal != null) {
 			String memberId = principal.getMember().getMemberId();
 			boolean hasKey = redisService.hasKey(memberId);
-			log.info("\t hasKey = {}", hasKey);
+			log.info("\t > current hasKey = {}", hasKey);
+			
 			redisService.deleteKey(memberId);
+			log.info("\t > after removing key from redis, hasKey = {}", redisService.hasKey(memberId));
 		}
 		
+		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
+	}
+	
+	// TEST
+	@DeleteMapping("/test/find-password/key")
+	public ResponseEntity<Object> removeKeyFromFindingPassword(@RequestParam(required = false) String key) {
+		log.info("## removeKeyFromFindingPassword");
+
+		boolean hasKey = (key == null) ? false : redisService.hasKey(key);
+		log.info("\t > current hasKey = {}", hasKey);
+
+		redisService.deleteKey(key);
+		log.info("\t > after removing key from redis, hasKey = {}", redisService.hasKey(key));
+
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 	

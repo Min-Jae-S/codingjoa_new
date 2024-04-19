@@ -42,17 +42,16 @@ public class ResetPasswordInterceptor implements HandlerInterceptor {
 		String key = request.getParameter("key");
 		if (!keyCheck(key)) {
 			String message =  MessageUtils.getMessage("error.NotFindPassword");
-			log.info("\t > original message = {}", message);
+			//log.info("\t > original message = {}", message);
 			
 			message = StringUtils.removeEnd(message.replaceAll("\\.(\\s)*", ".\\\\n"), "\\n");
-			log.info("\t > processed message = {}", message);
-			
+			//log.info("\t > processed message = {}", message);
+
 			HandlerMethod handlerMethod = (HandlerMethod) handler;
+			log.info("\t > {} '{}'", request.getMethod(), request.getRequestURI());
 			if (handlerMethod.getBeanType().isAnnotationPresent(RestController.class)) {
-				log.info("\t > {} '{}' --> responseJSON", request.getMethod(), request.getRequestURI());
 				responseJSON(request, response, message);
 			} else {
-				log.info("\t > {} '{}' --> responseHTML", request.getMethod(), request.getRequestURI());
 				responseHTML(request, response, message);
 			}
 			return false;
@@ -68,6 +67,7 @@ public class ResetPasswordInterceptor implements HandlerInterceptor {
 	
 	private void responseJSON(HttpServletRequest request, HttpServletResponse response, String message)
 			throws JsonProcessingException, IOException {
+		log.info("\t > responseJSON");
 		response.setStatus(HttpStatus.FORBIDDEN.value());
 		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 		response.setCharacterEncoding(StandardCharsets.UTF_8.toString());
@@ -84,12 +84,14 @@ public class ResetPasswordInterceptor implements HandlerInterceptor {
 				.message(message)
 				.build();
 		
-		// \n --> \\n
-		response.getWriter().write(objectMapper.writeValueAsString(errorResponse));
+		PrintWriter writer = response.getWriter();
+		writer.write(objectMapper.writeValueAsString(errorResponse)); // \n --> \\n
+		writer.close();
 	}
 	
 	private void responseHTML(HttpServletRequest request, HttpServletResponse response, String message)
 			throws IOException {
+		log.info("\t > responseHTML");
 		response.setStatus(HttpStatus.FORBIDDEN.value());
 		response.setContentType(MediaType.TEXT_HTML.toString());
 		response.setCharacterEncoding(StandardCharsets.UTF_8.toString());
@@ -100,6 +102,7 @@ public class ResetPasswordInterceptor implements HandlerInterceptor {
 		writer.println("location.href='" +  request.getContextPath() + "/member/findPassword';");
 		writer.println("</script>");
 		writer.flush();
+		writer.close();
 	}
 	
 }

@@ -27,7 +27,6 @@ public class RedisServiceImpl implements RedisService {
 
 	@Override
 	public boolean hasKey(String key) {
-		log.info("## hasKey ( key = {} )", key);
 		return redisTemplate.hasKey(key);
 	}
 	
@@ -45,7 +44,6 @@ public class RedisServiceImpl implements RedisService {
 
 	@Override
 	public void deleteKey(String key) {
-		log.info("## deleteKey ( key = {} )", key);
 		redisTemplate.delete(key);
 	}
 

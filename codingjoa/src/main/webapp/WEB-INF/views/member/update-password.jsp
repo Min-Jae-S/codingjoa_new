@@ -155,8 +155,8 @@
 		
 		$("#removeKeyBtn").on("click", function() {
 			$.ajax({
-				type : "GET",
-				url : "${contextPath}/api/member/remove-key",
+				type : "DELETE",
+				url : "${contextPath}/api/member/test/check-password/key",
 				dataType : "json",
 				success : function(result) {
 					console.log("%c> SUCCESS", "color:green");
