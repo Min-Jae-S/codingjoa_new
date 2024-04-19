@@ -27,6 +27,7 @@ public class RedisServiceImpl implements RedisService {
 
 	@Override
 	public boolean hasKey(String key) {
+		log.info("## hasKey ( key = {} )", key);
 		return redisTemplate.hasKey(key);
 	}
 	

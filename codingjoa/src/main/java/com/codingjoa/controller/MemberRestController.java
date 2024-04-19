@@ -256,6 +256,22 @@ public class MemberRestController {
 		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.ResetPassword").build());
 	}
 	
+	// TEST
+	@GetMapping("/remove-key")
+	public ResponseEntity<Object> removeKey(@AuthenticationPrincipal UserDetailsDto principal) {
+		log.info("## removeKey");
+		log.info("\t > principal = {}");
+		
+		if (principal != null) {
+			String memberId = principal.getMember().getMemberId();
+			boolean hasKey = redisService.hasKey(memberId);
+			log.info("\t hasKey = {}", hasKey);
+			redisService.deleteKey(memberId);
+		}
+		
+		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
+	}
+	
 	private void resetAuthentication(String memberId) {
 		log.info("## resetAuthentication");
 		UserDetails userDetails = userDetailsService.loadUserByUsername(memberId);
