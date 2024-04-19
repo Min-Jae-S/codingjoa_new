@@ -3,7 +3,6 @@ package com.codingjoa.controller;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.apache.commons.lang3.RandomStringUtils;
@@ -255,47 +254,6 @@ public class MemberRestController {
 		redisService.deleteKey(key);
 		
 		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.ResetPassword").build());
-	}
-	
-	// TEST (create CHECK_PASSWORD)
-	@GetMapping("/test/create-check-password")
-	public ResponseEntity<Object> createCheckPassword(HttpSession session) {
-		log.info("## createCheckPassword");
-		session.setAttribute("CHECK_PASSWORD", true);
-		log.info("\t > after creating CHECK_PASSWORD, CHECK_PASSWORD = {}", session.getAttribute("CHECK_PASSWORD"));
-		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
-	}
-	
-	// TEST (remove CEHCK_PASSWORD)
-	@GetMapping("/test/remove-check-password")
-	public ResponseEntity<Object> removeCheckPassword(HttpSession session) {
-		log.info("## removeCheckPassword");
-		
-		Boolean passwordCheck = (Boolean) session.getAttribute("CHECK_PASSWORD");
-		log.info("\t > current CHECK_PASSWORD = {}", passwordCheck);
-		
-		if (passwordCheck != null && passwordCheck) {
-			session.removeAttribute("CHECK_PASSWORD");
-			log.info("\t > after removing CHECK_PASSWORD, CHECK_PASSWORD = {}", session.getAttribute("CHECK_PASSWORD"));
-		}
-		
-		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
-	}
-	
-	// TEST (remove key)
-	@GetMapping("/test/remove-key")
-	public ResponseEntity<Object> removeKey(@RequestParam(required = false) String key) {
-		log.info("## removeKey");
-		
-		boolean hasKey = (key == null) ? false : redisService.hasKey(key);
-		log.info("\t > current hasKey = {}", hasKey);
-
-		if (hasKey) {
-			redisService.deleteKey(key);
-			log.info("\t > after removing key from redis, hasKey = {}", redisService.hasKey(key));
-		}
-		
-		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 	
 	private void resetAuthentication(String memberId) {

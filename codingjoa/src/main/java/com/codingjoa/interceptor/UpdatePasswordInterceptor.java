@@ -73,7 +73,14 @@ public class UpdatePasswordInterceptor implements HandlerInterceptor {
 
 	private boolean passwordCheck() {
 		Authentication authentication  = SecurityContextHolder.getContext().getAuthentication();
+		log.info("\t > authentication = {}", authentication);
 		if (authentication == null) {
+			return false;
+		}
+		
+		Object principal = authentication.getPrincipal();
+		log.info("\t > principal = {}", principal);
+		if (!(principal instanceof UserDetailsDto)) { // "anonymousUser"
 			return false;
 		}
 		
