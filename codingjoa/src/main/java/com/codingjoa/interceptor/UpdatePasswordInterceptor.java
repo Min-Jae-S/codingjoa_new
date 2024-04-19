@@ -80,12 +80,14 @@ public class UpdatePasswordInterceptor implements HandlerInterceptor {
 		
 		Object principal = authentication.getPrincipal();
 		log.info("\t > principal = {}", principal);
-		if (!(principal instanceof UserDetailsDto)) { // "anonymousUser"
+		if (!(principal instanceof UserDetailsDto)) { // String, "anonymousUser"
 			return false;
 		}
 		
 		Member currentMember = ((UserDetailsDto) authentication.getPrincipal()).getMember();
 		String passwordCheck = redisService.findValueByKey(currentMember.getMemberId());
+		log.info("\t > passwordCheck = {}", passwordCheck);
+		
 		return "PASSWORD_CHECK".equals(passwordCheck);
 	}
 	
@@ -109,7 +111,9 @@ public class UpdatePasswordInterceptor implements HandlerInterceptor {
 		log.info("\t > {}", errorResponse);
 		
 		// \n --> \\n
-		response.getWriter().write(objectMapper.writeValueAsString(errorResponse));
+		PrintWriter writer = response.getWriter();
+		writer.write(objectMapper.writeValueAsString(errorResponse));
+		writer.close();
 	}
 	
 	private void responseHTML(HttpServletRequest request, HttpServletResponse response, String message)
