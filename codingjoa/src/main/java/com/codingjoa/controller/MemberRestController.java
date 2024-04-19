@@ -13,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -36,6 +35,7 @@ import com.codingjoa.dto.FindPasswordDto;
 import com.codingjoa.dto.MemberDetailsDto;
 import com.codingjoa.dto.PasswordChangeDto;
 import com.codingjoa.dto.PasswordDto;
+import com.codingjoa.entity.Member;
 import com.codingjoa.response.SuccessResponse;
 import com.codingjoa.security.dto.UserDetailsDto;
 import com.codingjoa.service.EmailService;
@@ -130,12 +130,10 @@ public class MemberRestController {
 		log.info("## updateEmail");
 		log.info("\t > {}", emailAuthDto);
 		
-		Integer memberIdx = principal.getMember().getMemberIdx();
-		memberService.updateEmail(emailAuthDto, memberIdx);
+		Member currentMember = principal.getMember();
+		memberService.updateEmail(emailAuthDto, currentMember.getMemberIdx());
 		redisService.deleteKey(emailAuthDto.getMemberEmail());
-		
-		String memberId = principal.getMember().getMemberId();
-		resetAuthentication(memberId);
+		resetAuthentication(currentMember.getMemberId());
 		
 		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.UpdateEmail").build());
 	}
@@ -146,11 +144,9 @@ public class MemberRestController {
 		log.info("## updateAddr");
 		log.info("\t > {}", addrDto);
 		
-		Integer memberIdx = principal.getMember().getMemberIdx();
-		memberService.updateAddr(addrDto, memberIdx);
-		
-		String memberId = principal.getMember().getMemberId();
-		resetAuthentication(memberId);
+		Member currentMember = principal.getMember();
+		memberService.updateAddr(addrDto, currentMember.getMemberIdx());
+		resetAuthentication(currentMember.getMemberId());
 		
 		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.UpdateAddr").build());
 	}
@@ -161,11 +157,9 @@ public class MemberRestController {
 		log.info("## updateAgree");
 		log.info("\t > {}", agreeDto);
 		
-		Integer memberIdx = principal.getMember().getMemberIdx();
-		memberService.updateAgree(agreeDto, memberIdx);
-		
-		String memberId = principal.getMember().getMemberId();
-		resetAuthentication(memberId);
+		Member currentMember = principal.getMember();
+		memberService.updateAgree(agreeDto, currentMember.getMemberIdx());
+		resetAuthentication(currentMember.getMemberId());
 		
 		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.UpdateAgree").build());
 	}
@@ -181,29 +175,29 @@ public class MemberRestController {
 
 	@PostMapping("/check/password")
 	public ResponseEntity<Object> checkPassword(@RequestBody @Valid PasswordDto passwordDto, 
-			@AuthenticationPrincipal UserDetailsDto principal, HttpSession session) {
+			@AuthenticationPrincipal UserDetailsDto principal) {
 		log.info("## checkPassword");
 		log.info("\t > {}", passwordDto);
 		
-		Integer memberIdx = principal.getMember().getMemberIdx();
-		memberService.checkCurrentPassword(passwordDto, memberIdx);
-		session.setAttribute("CHECK_PASSWORD", true);
+		Member currentMember = principal.getMember();
+		memberService.checkCurrentPassword(passwordDto, currentMember.getMemberIdx());
+		redisService.saveKeyAndValue(currentMember.getMemberId(), "PASSWORD_CHECK");
 		
 		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.CheckPassword").build());
 	}
 	
 	@PutMapping("/password")
 	public ResponseEntity<Object> updatePassword(@RequestBody @Valid PasswordChangeDto passwordChangeDto, 
-			@AuthenticationPrincipal UserDetailsDto principal, HttpSession session) {
+			@AuthenticationPrincipal UserDetailsDto principal) {
 		log.info("## updatePassword");
 		log.info("\t > {}", passwordChangeDto);
 		
-		Integer memberIdx = principal.getMember().getMemberIdx();
-		memberService.updatePassword(passwordChangeDto, memberIdx);
+		Member currentMember = principal.getMember();
+		memberService.updatePassword(passwordChangeDto, currentMember.getMemberIdx());
 		
-		String memberId = principal.getMember().getMemberId();
+		String memberId = currentMember.getMemberId();
+		redisService.deleteKey(memberId);
 		resetAuthentication(memberId);
-		session.removeAttribute("CHECK_PASSWORD");
 		
 		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.UpdatePassword").build());
 	}
@@ -309,9 +303,7 @@ public class MemberRestController {
 		UserDetails userDetails = userDetailsService.loadUserByUsername(memberId);
 		Authentication newAuthentication = 
 				new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-
-		SecurityContext securityContext = SecurityContextHolder.getContext();
-		securityContext.setAuthentication(newAuthentication);
+		SecurityContextHolder.getContext().setAuthentication(newAuthentication);
 		
 		//HttpSession session = request.getSession(true);
 	    //session.setAttribute("SPRING_SECURITY_CONTEXT", securityContext);

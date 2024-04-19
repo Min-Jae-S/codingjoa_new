@@ -9,33 +9,41 @@ import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 
+import com.codingjoa.entity.Member;
 import com.codingjoa.response.ErrorResponse;
+import com.codingjoa.security.dto.UserDetailsDto;
+import com.codingjoa.service.RedisService;
 import com.codingjoa.util.MessageUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@RequiredArgsConstructor
 public class UpdatePasswordInterceptor implements HandlerInterceptor {
+	
+	private final RedisService redisService;
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		log.info("## {}", this.getClass().getSimpleName());
 		
-		if (!passwordCheck(request)) {
+		if (!passwordCheck()) {
 			String message =  MessageUtils.getMessage("error.NotCheckPassword");
 			log.info("\t > original message = {}", message);
 			
@@ -55,12 +63,23 @@ public class UpdatePasswordInterceptor implements HandlerInterceptor {
 		return true;
 	}
 	
-	private boolean passwordCheck(HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		Boolean passwordCheck = (Boolean) session.getAttribute("CHECK_PASSWORD");
-		log.info("\t > CHECK_PASSWORD = {}", passwordCheck);
+//	private boolean passwordCheck(HttpServletRequest request) {
+//		HttpSession session = request.getSession();
+//		Boolean passwordCheck = (Boolean) session.getAttribute("CHECK_PASSWORD");
+//		log.info("\t > CHECK_PASSWORD = {}", passwordCheck);
+//		
+//		return (passwordCheck == null) ? false : passwordCheck;
+//	}
+
+	private boolean passwordCheck() {
+		Authentication authentication  = SecurityContextHolder.getContext().getAuthentication();
+		if (authentication == null) {
+			return false;
+		}
 		
-		return (passwordCheck == null) ? false : passwordCheck;
+		Member currentMember = ((UserDetailsDto) authentication.getPrincipal()).getMember();
+		String passwordCheck = redisService.findValueByKey(currentMember.getMemberId());
+		return "PASSWORD_CHECK".equals(passwordCheck);
 	}
 	
 	private void responseJSON(HttpServletRequest request, HttpServletResponse response, String message)
@@ -98,5 +117,6 @@ public class UpdatePasswordInterceptor implements HandlerInterceptor {
 		writer.println("location.href='" +  request.getContextPath() + "/member/account/checkPassword';");
 		writer.println("</script>");
 		writer.flush();
+		writer.close();
 	}
 }
