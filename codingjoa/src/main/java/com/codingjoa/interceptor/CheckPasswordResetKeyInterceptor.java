@@ -14,15 +14,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 
-import com.codingjoa.entity.Member;
 import com.codingjoa.response.ErrorResponse;
-import com.codingjoa.security.dto.UserDetailsDto;
 import com.codingjoa.service.RedisService;
 import com.codingjoa.util.MessageUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -34,22 +30,23 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RequiredArgsConstructor
-public class UpdatePasswordInterceptor implements HandlerInterceptor {
-	
-	private final RedisService redisService;
+public class CheckPasswordResetKeyInterceptor implements HandlerInterceptor {
 
+	private final RedisService redisService;
+	
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		log.info("## {}", this.getClass().getSimpleName());
-		
-		if (!checkPasswordConfirm()) {
-			String message =  MessageUtils.getMessage("error.NotConfirmPassword");
+
+		String key = request.getParameter("key");
+		if (!checkPasswordResetKey(key)) {
+			String message =  MessageUtils.getMessage("error.NotPasswordResetKey");
 			//log.info("\t > original message = {}", message);
 			
 			message = StringUtils.removeEnd(message.replaceAll("\\.(\\s)*", ".\\\\n"), "\\n");
 			//log.info("\t > processed message = {}", message);
-			
+
 			HandlerMethod handlerMethod = (HandlerMethod) handler;
 			log.info("\t > {} '{}'", request.getMethod(), request.getRequestURI());
 			if (handlerMethod.getBeanType().isAnnotationPresent(RestController.class)) {
@@ -59,35 +56,13 @@ public class UpdatePasswordInterceptor implements HandlerInterceptor {
 			}
 			return false;
 		}
+		
 		return true;
 	}
 	
-//	private boolean checkPasswordConfirm(HttpServletRequest request) {
-//		HttpSession session = request.getSession();
-//		Boolean passwordConfirm = (Boolean) session.getAttribute("PASSWORD_CONFIRM");
-//		log.info("\t > PASSWORD_CONFIRM = {}", passwordCheck);
-//		
-//		return (passwordConfirm == null) ? false : passwordConfirm;
-//	}
-
-	private boolean checkPasswordConfirm() {
-		Authentication authentication  = SecurityContextHolder.getContext().getAuthentication();
-		log.info("\t > authentication = {}", authentication);
-		if (authentication == null) {
-			return false;
-		}
-		
-		Object principal = authentication.getPrincipal();
-		log.info("\t > principal = {}", principal);
-		if (!(principal instanceof UserDetailsDto)) { // String, "anonymousUser"
-			return false;
-		}
-		
-		Member currentMember = ((UserDetailsDto) authentication.getPrincipal()).getMember();
-		String passwordConfirm = redisService.findValueByKey(currentMember.getMemberId());
-		log.info("\t > passwordConfirm = {}", passwordConfirm);
-		
-		return "PASSWORD_CONFIRM".equals(passwordConfirm);
+	private boolean checkPasswordResetKey(String key) {
+		log.info("\t > key = {}", key);
+		return (key == null) ? false : redisService.hasKey(key);
 	}
 	
 	private void responseJSON(HttpServletRequest request, HttpServletResponse response, String message)
@@ -108,7 +83,6 @@ public class UpdatePasswordInterceptor implements HandlerInterceptor {
 				.status(HttpStatus.FORBIDDEN)
 				.message(message)
 				.build();
-		log.info("\t > {}", errorResponse);
 		
 		PrintWriter writer = response.getWriter();
 		writer.write(objectMapper.writeValueAsString(errorResponse)); // \n --> \\n
@@ -125,9 +99,10 @@ public class UpdatePasswordInterceptor implements HandlerInterceptor {
 		PrintWriter writer = response.getWriter();
 		writer.println("<script>");
 		writer.println("alert('" + message + "');");
-		writer.println("location.href='" +  request.getContextPath() + "/member/account/checkPassword';");
+		writer.println("location.href='" +  request.getContextPath() + "/member/findPassword';");
 		writer.println("</script>");
 		writer.flush();
 		writer.close();
 	}
+	
 }

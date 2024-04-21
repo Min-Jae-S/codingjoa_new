@@ -41,9 +41,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.BeanNameViewResolver;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
-import com.codingjoa.interceptor.ResetPasswordInterceptor;
+import com.codingjoa.interceptor.CheckPasswordResetKeyInterceptor;
 import com.codingjoa.interceptor.TopMenuInterceptor;
-import com.codingjoa.interceptor.UpdatePasswordInterceptor;
+import com.codingjoa.interceptor.CheckPasswordConfirmInterceptor;
 import com.codingjoa.resolver.BoardCriteriaArgumentResolver;
 import com.codingjoa.resolver.CommentCriteriaArgumentResolver;
 import com.codingjoa.resolver.MyExceptionResolver;
@@ -135,9 +135,9 @@ public class ServletConfig implements WebMvcConfigurer {
 		registry.addInterceptor(new TopMenuInterceptor(applicationContext, categoryService))
 				.addPathPatterns("/**")
 				.excludePathPatterns("/resources/**", "/upload/**", "/api/**");
-		registry.addInterceptor(new UpdatePasswordInterceptor(redisService))
+		registry.addInterceptor(new CheckPasswordConfirmInterceptor(redisService))
 				.addPathPatterns("/member/account/updatePassword", "/api/member/password");
-		registry.addInterceptor(new ResetPasswordInterceptor(redisService))
+		registry.addInterceptor(new CheckPasswordResetKeyInterceptor(redisService))
 				.addPathPatterns("/member/resetPassword", "/api/member/reset/password");
 //		registry.addInterceptor(new TestRestApiInterceptor())
 //				.addPathPatterns("/test/rest-api/**")
