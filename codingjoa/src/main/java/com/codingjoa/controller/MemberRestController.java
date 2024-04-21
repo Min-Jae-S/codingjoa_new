@@ -244,7 +244,7 @@ public class MemberRestController {
 	}
 	
 	@PutMapping("/reset/password")
-	public ResponseEntity<Object> resetPassword(@RequestParam(name = "key", required = true) String key,
+	public ResponseEntity<Object> resetPassword(@RequestParam /* (required = true) */ String key, // pre-check in interceptor 
 			@RequestBody @Valid PasswordChangeDto passwordChangeDto) {
 		log.info("## resetPassword");
 		log.info("\t > key = {}", key);
@@ -258,10 +258,10 @@ public class MemberRestController {
 	}
 	
 	// TEST
-	@DeleteMapping("/test/check-password/key")
-	public ResponseEntity<Object> removeKeyFromCheckingPassword(@AuthenticationPrincipal UserDetailsDto principal) {
-		log.info("## removeKeyFromCheckingPassword");
-		log.info("\t > principal = {}");
+	@DeleteMapping("/test/password-confirm/key")
+	public ResponseEntity<Object> removePasswordConfirmKey(@AuthenticationPrincipal UserDetailsDto principal) {
+		log.info("## removePasswordConfirmKey");
+		log.info("\t > principal = {}", principal);
 		
 		if (principal != null) {
 			String memberId = principal.getMember().getMemberId();
@@ -276,9 +276,9 @@ public class MemberRestController {
 	}
 	
 	// TEST
-	@DeleteMapping("/test/find-password/key")
-	public ResponseEntity<Object> removeKeyFromFindingPassword(@RequestParam(required = false) String key) {
-		log.info("## removeKeyFromFindingPassword");
+	@DeleteMapping("/test/password-reset/key")
+	public ResponseEntity<Object> removePasswordResetKey(@RequestParam String key) {
+		log.info("## removePasswordResetKey");
 
 		boolean hasKey = (key == null) ? false : redisService.hasKey(key);
 		log.info("\t > current hasKey = {}", hasKey);

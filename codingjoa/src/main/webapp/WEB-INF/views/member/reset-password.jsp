@@ -74,7 +74,7 @@
 	<div class="reset-password-wrap">
 		<h5 class="font-weight-bold">
 			비밀번호 재설정
-			<button type="button" class="btn btn-sm btn-warning py-0 float-right" id="removeKeyBtn">Remove key</button>
+			<button type="button" class="btn btn-sm btn-warning py-0 float-right" id="removeKeyBtn">remove key</button>
 		</h5>
 		<div class="pt-3" style="border-top: 1px solid black;">
 			<p class="title">새로운 비밀번호를 입력해주세요.</p>
@@ -138,7 +138,7 @@
 			let key ="<c:out value='${key}'/>";
 			$.ajax({
 				type : "DELETE",
-				url : "${contextPath}/api/member/test/find-password/key?key=" + key,
+				url : "${contextPath}/api/member/test/password-reset/key?key=" + key,
 				dataType : "json",
 				success : function(result) {
 					console.log("%c> SUCCESS", "color:green");

@@ -78,7 +78,7 @@
 				</div>
 				<span class="ml-4"><i class="fa-solid fa-angle-right"></i></span>
 			</div>
-			<div class="list-group-item list-group-item-action" onclick="location.href='${contextPath}/member/account/checkPassword'">
+			<div class="list-group-item list-group-item-action" onclick="location.href='${contextPath}/member/account/confirmPassword'">
 				<span class="mr-4"><i class="fa-solid fa-lock"></i></span>
 				<div class="item">
 					<span>계정 보안</span>

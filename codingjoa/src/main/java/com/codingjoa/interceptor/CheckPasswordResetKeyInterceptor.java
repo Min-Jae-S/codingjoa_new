@@ -40,6 +40,8 @@ public class CheckPasswordResetKeyInterceptor implements HandlerInterceptor {
 		log.info("## {}", this.getClass().getSimpleName());
 
 		String key = request.getParameter("key");
+		log.info("\t > key = {}", key == null ? key : "'" + key + "'");
+		
 		if (!checkPasswordResetKey(key)) {
 			String message =  MessageUtils.getMessage("error.NotPasswordResetKey");
 			//log.info("\t > original message = {}", message);
@@ -61,8 +63,7 @@ public class CheckPasswordResetKeyInterceptor implements HandlerInterceptor {
 	}
 	
 	private boolean checkPasswordResetKey(String key) {
-		log.info("\t > key = {}", key);
-		return (key == null) ? false : redisService.hasKey(key);
+		return StringUtils.isEmpty(key) ? false : redisService.hasKey(key);
 	}
 	
 	private void responseJSON(HttpServletRequest request, HttpServletResponse response, String message)

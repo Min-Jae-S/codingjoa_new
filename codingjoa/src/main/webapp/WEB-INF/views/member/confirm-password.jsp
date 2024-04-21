@@ -110,7 +110,7 @@
 		
 		$("#memberPassword").on("keydown", function(e) {
 			if (e.keyCode == 13) {
-				$("#checkPasswordBtn").click();
+				$("#confirmPasswordBtn").click();
 			}
 		});
 		

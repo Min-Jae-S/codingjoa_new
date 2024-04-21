@@ -65,7 +65,7 @@ public class CheckPasswordConfirmInterceptor implements HandlerInterceptor {
 //	private boolean checkPasswordConfirm(HttpServletRequest request) {
 //		HttpSession session = request.getSession();
 //		Boolean passwordConfirm = (Boolean) session.getAttribute("PASSWORD_CONFIRM");
-//		log.info("\t > PASSWORD_CONFIRM = {}", passwordCheck);
+//		log.info("\t > PASSWORD_CONFIRM = {}", passwordConfirm);
 //		
 //		return (passwordConfirm == null) ? false : passwordConfirm;
 //	}
@@ -125,7 +125,7 @@ public class CheckPasswordConfirmInterceptor implements HandlerInterceptor {
 		PrintWriter writer = response.getWriter();
 		writer.println("<script>");
 		writer.println("alert('" + message + "');");
-		writer.println("location.href='" +  request.getContextPath() + "/member/account/checkPassword';");
+		writer.println("location.href='" +  request.getContextPath() + "/member/account/confirmPassword';");
 		writer.println("</script>");
 		writer.flush();
 		writer.close();

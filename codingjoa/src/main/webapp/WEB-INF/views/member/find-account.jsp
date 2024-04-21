@@ -60,6 +60,11 @@
 		align-self: center;
 		margin-left: 5px;
 	}
+	
+	.find-account-wrap {
+		width: 540px;
+		margin: 0 auto;
+	}
 </style>
 </head>
 <body>
@@ -67,28 +72,24 @@
 <c:import url="/WEB-INF/views/include/top-menu.jsp"/>
 
 <div class="container find-account-container">
-	<div class="row">
-		<div class="col-sm-3"></div>
-		<div class="col-sm-6">
-			<h5 class="font-weight-bold">계정 찾기</h5>
-			<div class="pt-3" style="border-top: 1px solid black;">
-				<p class="title">
-					<span>회원가입 시 입력한 이메일 주소로 아이디를 보내드립니다.</span>
-				</p>
-				<dl class="form-group mb-5">
-					<dt><i class="fa-solid fa-check mr-2"></i>이메일</dt>
-					<dd class="input-group" id="editEmail">
-						<div>
-							<input type="text" id="memberEmail" name="memberEmail" placeholder="이메일 입력" />
-						</div>
-					</dd>
-				</dl>
-				<div class="pt-3">
-					<button type="button" class="btn btn-primary btn-block" id="findAcountBtn">확인</button>
-				</div>
+	<div class="find-account-wrap">
+		<h5 class="font-weight-bold">계정 찾기</h5>
+		<div class="pt-3" style="border-top: 1px solid black;">
+			<p class="title">
+				<span>회원가입 시 입력한 이메일 주소로 아이디를 보내드립니다.</span>
+			</p>
+			<dl class="form-group mb-5">
+				<dt><i class="fa-solid fa-check mr-2"></i>이메일</dt>
+				<dd class="input-group" id="editEmail">
+					<div>
+						<input type="text" id="memberEmail" name="memberEmail" placeholder="이메일 입력" />
+					</div>
+				</dd>
+			</dl>
+			<div class="pt-3">
+				<button type="button" class="btn btn-primary btn-block" id="findAcountBtn">확인</button>
 			</div>
 		</div>
-		<div class="col-sm-3"></div>
 	</div>
 </div>
 
