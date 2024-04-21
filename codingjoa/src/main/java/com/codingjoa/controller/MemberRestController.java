@@ -173,17 +173,17 @@ public class MemberRestController {
 		return ResponseEntity.ok(SuccessResponse.builder().data(memberDetails).build());
 	}
 
-	@PostMapping("/check/password")
-	public ResponseEntity<Object> checkPassword(@RequestBody @Valid PasswordDto passwordDto, 
+	@PostMapping("/confirm/password")
+	public ResponseEntity<Object> confirmPassword(@RequestBody @Valid PasswordDto passwordDto, 
 			@AuthenticationPrincipal UserDetailsDto principal) {
-		log.info("## checkPassword");
+		log.info("## confirmPassword");
 		log.info("\t > {}", passwordDto);
 		
 		Member currentMember = principal.getMember();
 		memberService.checkCurrentPassword(passwordDto, currentMember.getMemberIdx());
-		redisService.saveKeyAndValue(currentMember.getMemberId(), "PASSWORD_CHECK");
+		redisService.saveKeyAndValue(currentMember.getMemberId(), "PASSWORD_CONFIRM");
 		
-		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.CheckPassword").build());
+		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.ConfirmPassword").build());
 	}
 	
 	@PutMapping("/password")

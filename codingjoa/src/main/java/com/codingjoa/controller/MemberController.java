@@ -80,10 +80,10 @@ public class MemberController {
 		return "member/info";
 	}
 
-	@GetMapping("/account/checkPassword")
-	public String checkPassword() {
-		log.info("## checkPassword");
-		return "member/check-password";
+	@GetMapping("/account/confirmPassword")
+	public String confirmPassword() {
+		log.info("## confirmPassword");
+		return "member/confirm-password";
 	}
 
 	@GetMapping("/account/updatePassword")

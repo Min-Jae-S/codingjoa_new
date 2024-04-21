@@ -43,8 +43,8 @@ public class UpdatePasswordInterceptor implements HandlerInterceptor {
 			throws Exception {
 		log.info("## {}", this.getClass().getSimpleName());
 		
-		if (!passwordCheck()) {
-			String message =  MessageUtils.getMessage("error.NotCheckPassword");
+		if (!checkPasswordConfirm()) {
+			String message =  MessageUtils.getMessage("error.NotConfirmPassword");
 			//log.info("\t > original message = {}", message);
 			
 			message = StringUtils.removeEnd(message.replaceAll("\\.(\\s)*", ".\\\\n"), "\\n");
@@ -62,15 +62,15 @@ public class UpdatePasswordInterceptor implements HandlerInterceptor {
 		return true;
 	}
 	
-//	private boolean passwordCheck(HttpServletRequest request) {
+//	private boolean checkPasswordConfirm(HttpServletRequest request) {
 //		HttpSession session = request.getSession();
-//		Boolean passwordCheck = (Boolean) session.getAttribute("CHECK_PASSWORD");
-//		log.info("\t > CHECK_PASSWORD = {}", passwordCheck);
+//		Boolean passwordConfirm = (Boolean) session.getAttribute("PASSWORD_CONFIRM");
+//		log.info("\t > PASSWORD_CONFIRM = {}", passwordCheck);
 //		
-//		return (passwordCheck == null) ? false : passwordCheck;
+//		return (passwordConfirm == null) ? false : passwordConfirm;
 //	}
 
-	private boolean passwordCheck() {
+	private boolean checkPasswordConfirm() {
 		Authentication authentication  = SecurityContextHolder.getContext().getAuthentication();
 		log.info("\t > authentication = {}", authentication);
 		if (authentication == null) {
@@ -84,10 +84,10 @@ public class UpdatePasswordInterceptor implements HandlerInterceptor {
 		}
 		
 		Member currentMember = ((UserDetailsDto) authentication.getPrincipal()).getMember();
-		String passwordCheck = redisService.findValueByKey(currentMember.getMemberId());
-		log.info("\t > passwordCheck = {}", passwordCheck);
+		String passwordConfirm = redisService.findValueByKey(currentMember.getMemberId());
+		log.info("\t > passwordConfirm = {}", passwordConfirm);
 		
-		return "PASSWORD_CHECK".equals(passwordCheck);
+		return "PASSWORD_CONFIRM".equals(passwordConfirm);
 	}
 	
 	private void responseJSON(HttpServletRequest request, HttpServletResponse response, String message)

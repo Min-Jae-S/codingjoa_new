@@ -85,7 +85,7 @@
 				</dd>
 			</dl>
 			<div class="pt-3">
-				<button type="button" class="btn btn-primary btn-block" id="checkPasswordBtn">확인</button>
+				<button type="button" class="btn btn-primary btn-block" id="confirmPasswordBtn">확인</button>
 			</div>
 		</div>
 	</div>
@@ -95,12 +95,12 @@
 
 <script>
 	$(function() {
-		$("#checkPasswordBtn").on("click", function() {
+		$("#confirmPasswordBtn").on("click", function() {
 			let obj = {
 				memberPassword : $("#memberPassword").val(),
 			};
 			
-			memberService.checkPassword(obj, function(result) {
+			memberService.confirmPassword(obj, function(result) {
 				setTimeout(function() {
 					alert(result.message);
 					location.href = "${contextPath}/member/account/updatePassword";
