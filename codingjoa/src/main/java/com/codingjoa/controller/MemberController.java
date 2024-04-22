@@ -60,13 +60,19 @@ public class MemberController {
 		return "member/join-success";
 	}
 
-	// GET	: common login
-	// POST	: login failure --> forward from LoginFailureHandler
-	@RequestMapping("/login") 
-	public String login(@ModelAttribute LoginDto loginDto, HttpServletRequest request) {
-		log.info("## login");
+	// GET : login form
+	@GetMapping("/login") 
+	public String loginForm(@ModelAttribute LoginDto loginDto) {
+		log.info("## loginForm");
+		return "member/login";
+	}
+	
+	// POST : login failure --> forward from LoginFailureHandler
+	@PostMapping("/login")
+	public String loginFailureForm(@ModelAttribute LoginDto loginDto, HttpServletRequest request) {
+		log.info("## loginFailureForm");
 		log.info("\t > {}", loginDto);
-		log.info("\t > error = {}", request.getAttribute("errorResponse"));
+		log.info("\t > {}", request.getAttribute("errorResponse"));
 		return "member/login";
 	}
 	

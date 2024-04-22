@@ -42,7 +42,7 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
 		log.info("\t > referer = {}", request.getHeader("referer"));
 		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		log.info("\t > current authentication = {}", authentication);
+		log.info("\t > current authentication token = {}", authentication);
 		
 		if (authentication == null) {
 			SecurityContextHolder.getContext().setAuthentication(createAuthentication(request));
@@ -54,25 +54,25 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
 			message = e.getMessage();
 		}
 		log.info("\t > {}", e.getClass().getSimpleName());
-		log.info("\t > original message = {}", message);
+		//log.info("\t > original message = {}", message);
 		
 		message = StringUtils.removeEnd(message.replaceAll("\\.(\\s)*", ".<br>"), "<br>");
-		log.info("\t > processed message = {}", message);
+		//log.info("\t > processed message = {}", message);
 		
 		ErrorResponse errorResponse = ErrorResponse.builder()
 				.status(HttpStatus.UNAUTHORIZED)
 				.message(message)
 				.build();
-		log.info("\t > error = {}", errorResponse);
+		//log.info("\t > error = {}", errorResponse);
 		
 		request.setAttribute("errorResponse", errorResponse);
-		log.info("\t > forward to '{}'", DEFAULT_FAILURE_URL);
+		log.info("\t > forward to {} '{}'", request.getMethod(), DEFAULT_FAILURE_URL);
 		request.getRequestDispatcher(DEFAULT_FAILURE_URL).forward(request, response);
 	}
 	
 	// ref) AnonymousAuthenticationFilter#createAuthentication(HttpServletRequest)
 	protected Authentication createAuthentication(HttpServletRequest request) {
-		log.info("\t > create authenticationToken(AnonymousAuthenticationToken)");
+		log.info("\t > create authentication token (AnonymousAuthenticationToken)");
 		
 		// null object pattern 
 		AnonymousAuthenticationToken token = new AnonymousAuthenticationToken(key, "anonymousUser",
