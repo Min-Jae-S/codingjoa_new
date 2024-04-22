@@ -97,7 +97,10 @@
 									<tr>
 										<td class="d-md-table-cell"><c:out value="${boardDetails.boardIdx}"/></td>
 										<td class="d-md-table-cell text-left">
-											<a class="board_title" href='${contextPath}/board/read?boardCategoryCode=${boardDetails.boardCategoryCode}&boardIdx=${boardDetails.boardIdx}'><c:out value="${boardDetails.boardTitle}"/></a>
+											<a class="board_title" 
+												href='${contextPath}/board/read?boardCategoryCode=${boardDetails.boardCategoryCode}&boardIdx=${boardDetails.boardIdx}'>
+												<c:out value="${boardDetails.boardTitle}"/>
+											</a>
 											<c:if test="${boardDetails.commentCnt > 0}">
 												<span class="comment-cnt"><c:out value="${boardDetails.commentCnt}"/></span>
 											</c:if>
@@ -125,7 +128,10 @@
 					</tbody>
 				</table>
 				<c:if test="${not empty board}">
-					<a class="btn btn-primary" href="${contextPath}/board/?boardCategoryCode=${boardCategoryList[status.index].categoryCode}">게시글 더보기</a>
+					<a class="btn btn-primary" 
+						href="${contextPath}/board/?boardCategoryCode=${boardCategoryList[status.index].categoryCode}">
+						게시글 더보기
+					</a>
 				</c:if>
 			</div>
 		</c:forEach>

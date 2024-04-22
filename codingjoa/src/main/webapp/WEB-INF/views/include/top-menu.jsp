@@ -18,7 +18,6 @@
 					</li>
 				</c:forEach>
 			</ul>
-			
 			<ul class="navbar-nav ml-auto">
 				<sec:authorize access="isAnonymous()">
 					<li class="nav-item mx-2">
