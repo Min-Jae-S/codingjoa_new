@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -265,8 +266,7 @@ public class MemberRestController {
 		
 		if (principal != null) {
 			String memberId = principal.getMember().getMemberId();
-			boolean hasKey = redisService.hasKey(memberId);
-			log.info("\t > current hasKey = {}", hasKey);
+			log.info("\t > current hasKey = {}", redisService.hasKey(memberId));
 			
 			redisService.deleteKey(memberId);
 			log.info("\t > after removing key from redis, hasKey = {}", redisService.hasKey(memberId));
@@ -280,7 +280,7 @@ public class MemberRestController {
 	public ResponseEntity<Object> removePasswordResetKey(@RequestParam String key) {
 		log.info("## removePasswordResetKey");
 
-		boolean hasKey = (key == null) ? false : redisService.hasKey(key);
+		boolean hasKey = StringUtils.isEmpty(key) ? false : redisService.hasKey(key);
 		log.info("\t > current hasKey = {}", hasKey);
 
 		redisService.deleteKey(key);
