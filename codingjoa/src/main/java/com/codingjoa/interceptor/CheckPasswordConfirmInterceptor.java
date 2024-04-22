@@ -92,7 +92,6 @@ public class CheckPasswordConfirmInterceptor implements HandlerInterceptor {
 	
 	private void responseJSON(HttpServletRequest request, HttpServletResponse response, String message)
 			throws JsonProcessingException, IOException {
-		log.info("\t > responseJSON");
 		response.setStatus(HttpStatus.FORBIDDEN.value());
 		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 		response.setCharacterEncoding(StandardCharsets.UTF_8.toString());
@@ -109,6 +108,7 @@ public class CheckPasswordConfirmInterceptor implements HandlerInterceptor {
 				.message(message)
 				.build();
 		log.info("\t > {}", errorResponse);
+		log.info("\t > respond with errorResponse in JSON format");
 		
 		PrintWriter writer = response.getWriter();
 		writer.write(objectMapper.writeValueAsString(errorResponse)); // \n --> \\n
@@ -117,7 +117,7 @@ public class CheckPasswordConfirmInterceptor implements HandlerInterceptor {
 	
 	private void responseHTML(HttpServletRequest request, HttpServletResponse response, String message)
 			throws IOException {
-		log.info("\t > responseHTML");
+		log.info("\t > respond with HTML format");
 		response.setStatus(HttpStatus.FORBIDDEN.value());
 		response.setContentType(MediaType.TEXT_HTML.toString());
 		response.setCharacterEncoding(StandardCharsets.UTF_8.toString());

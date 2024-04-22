@@ -66,7 +66,7 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
-		log.info("## {}", this.getClass().getSimpleName());
+		//log.info("## {} - postHandle", this.getClass().getSimpleName());
 		
 		if (handler instanceof HandlerMethod) {
 			HandlerMethod handlerMethod = (HandlerMethod) handler;

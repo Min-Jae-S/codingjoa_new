@@ -58,7 +58,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
 		log.info("## {}", this.getClass().getSimpleName());
 		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		log.info("\t > current authentication = {}", authentication);
+		log.info("\t > current authentication token = {}", authentication);
 		
 		if (authentication == null) {
 			SecurityContextHolder.getContext().setAuthentication(createAuthentication(request));
@@ -96,22 +96,25 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
 					.messageByCode("error.NotLogin")
 					.build();
 			log.info("\t > {}", errorResponse);
+			log.info("\t > respond with errorResponse in JSON format");
 			
 			response.getWriter().write(objectMapper.writeValueAsString(errorResponse));
+			response.getWriter().close();
 		} else {
+			log.info("\t > forward to {} '{}'", request.getMethod(), DEFAULT_FAILURE_URL);
 			request.getRequestDispatcher(DEFAULT_FAILURE_URL).forward(request, response);
 		}
 	}
 	
 	// ref) AnonymousAuthenticationFilter#createAuthentication(HttpServletRequest)
 	protected Authentication createAuthentication(HttpServletRequest request) {
-		log.info("\t > create authentication token which is AnonymousAuthenticationToken");
+		log.info("\t > create authentication token (AnonymousAuthenticationToken)");
 		
 		// null object pattern 
-		AnonymousAuthenticationToken auth = new AnonymousAuthenticationToken(key, "anonymousUser",
+		AnonymousAuthenticationToken token = new AnonymousAuthenticationToken(key, "anonymousUser",
 				AuthorityUtils.createAuthorityList("ROLE_ANONYMOUS")); 
-		auth.setDetails(authenticationDetailsSource.buildDetails(request));
-		return auth;
+		token.setDetails(authenticationDetailsSource.buildDetails(request));
+		return token;
 	}
 	
 	private boolean isAjaxRequest(HttpServletRequest request) {

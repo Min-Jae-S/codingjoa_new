@@ -7,7 +7,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>게시판</title>
+<title>Codingjoa : 게시판</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
@@ -63,6 +63,11 @@
 	.comment-cnt:after {
 		content: ")";
 	}
+	
+	.boards-wrap {
+		width: 820px;
+		margin: 0 auto;
+	}
 </style>
 </head>
 <body>
@@ -70,64 +75,60 @@
 <c:import url="/WEB-INF/views/include/top-menu.jsp"/>
 
 <div class="container board-container">
-	<div class="row">
-		<div class="col-sm-1"></div>
-		<div class="col-sm-10">
-			<c:forEach var="board" items="${boardList}" varStatus="status">
-				<h4 class="font-weight-bold"><c:out value="${boardCategoryList[status.index].categoryName}"/></h4>
-				<div class="table-container">
-					<table class="table">
-						<thead>
-							<tr>
-								<th class="d-md-table-cell">번호</th>
-								<th class="d-md-table-cell w-40">제목</th>
-								<th class="d-md-table-cell">작성자</th>
-								<th class="d-md-table-cell">작성일</th>
-								<th class="d-md-table-cell">조회</th>
-								<th class="d-md-table-cell">좋아요</th>
-							</tr>
-						</thead>
-						<tbody>
-							<c:choose>
-								<c:when test="${not empty board}">
-									<c:forEach var='boardDetails' items="${board}">
-										<tr>
-											<td class="d-md-table-cell"><c:out value="${boardDetails.boardIdx}"/></td>
-											<td class="d-md-table-cell text-left">
-												<a class="board_title" href='${contextPath}/board/read?boardCategoryCode=${boardDetails.boardCategoryCode}&boardIdx=${boardDetails.boardIdx}'><c:out value="${boardDetails.boardTitle}"/></a>
-												<c:if test="${boardDetails.commentCnt > 0}">
-													<span class="comment-cnt"><c:out value="${boardDetails.commentCnt}"/></span>
-												</c:if>
-											</td>
-											<td class="d-md-table-cell"><c:out value="${boardDetails.memberId}"/></td>
-											<td class="d-md-table-cell">
-												<fmt:formatDate value="${boardDetails.regdate}" type="date"/>
-											</td>
-											<td class="d-md-table-cell"><c:out value="${boardDetails.boardViews}"/></td>
-											<td class="d-md-table-cell">
-												<i class="fa-regular fa-heart mr-1"></i>
-												<c:out value="${boardDetails.boardLikesCnt}"/>
-											</td>
-										</tr>
-									</c:forEach>
-								</c:when>
-								<c:otherwise>
+	<div class="boards-wrap">
+		<c:forEach var="board" items="${boardList}" varStatus="status">
+			<h4 class="font-weight-bold"><c:out value="${boardCategoryList[status.index].categoryName}"/></h4>
+			<div class="table-container">
+				<table class="table">
+					<thead>
+						<tr>
+							<th class="d-md-table-cell">번호</th>
+							<th class="d-md-table-cell w-40">제목</th>
+							<th class="d-md-table-cell">작성자</th>
+							<th class="d-md-table-cell">작성일</th>
+							<th class="d-md-table-cell">조회</th>
+							<th class="d-md-table-cell">좋아요</th>
+						</tr>
+					</thead>
+					<tbody>
+						<c:choose>
+							<c:when test="${not empty board}">
+								<c:forEach var='boardDetails' items="${board}">
 									<tr>
-										<td colspan="6">
-											<div class="no-board py-5">등록된 게시글이 없습니다.</div>
+										<td class="d-md-table-cell"><c:out value="${boardDetails.boardIdx}"/></td>
+										<td class="d-md-table-cell text-left">
+											<a class="board_title" href='${contextPath}/board/read?boardCategoryCode=${boardDetails.boardCategoryCode}&boardIdx=${boardDetails.boardIdx}'><c:out value="${boardDetails.boardTitle}"/></a>
+											<c:if test="${boardDetails.commentCnt > 0}">
+												<span class="comment-cnt"><c:out value="${boardDetails.commentCnt}"/></span>
+											</c:if>
+										</td>
+										<td class="d-md-table-cell"><c:out value="${boardDetails.memberId}"/></td>
+										<td class="d-md-table-cell">
+											<fmt:formatDate value="${boardDetails.regdate}" type="date"/>
+										</td>
+										<td class="d-md-table-cell"><c:out value="${boardDetails.boardViews}"/></td>
+										<td class="d-md-table-cell">
+											<i class="fa-regular fa-heart mr-1"></i>
+											<c:out value="${boardDetails.boardLikesCnt}"/>
 										</td>
 									</tr>
-								</c:otherwise>
-							</c:choose>
-						</tbody>
-					</table>
-					<c:if test="${not empty board}">
-						<a class="btn btn-primary" href="${contextPath}/board/?boardCategoryCode=${boardCategoryList[status.index].categoryCode}">게시글 더보기</a>
-					</c:if>
-				</div>
-			</c:forEach>
-		</div>
-		<div class="col-sm-1"></div>
+								</c:forEach>
+							</c:when>
+							<c:otherwise>
+								<tr>
+									<td colspan="6">
+										<div class="no-board py-5">등록된 게시글이 없습니다.</div>
+									</td>
+								</tr>
+							</c:otherwise>
+						</c:choose>
+					</tbody>
+				</table>
+				<c:if test="${not empty board}">
+					<a class="btn btn-primary" href="${contextPath}/board/?boardCategoryCode=${boardCategoryList[status.index].categoryCode}">게시글 더보기</a>
+				</c:if>
+			</div>
+		</c:forEach>
 	</div>
 </div>
 
