@@ -53,7 +53,7 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
 				e instanceof UsernameNotFoundException || e instanceof BadCredentialsException) {
 			message = e.getMessage();
 		}
-		log.info("\t > excpetion = {}", e.getClass().getSimpleName());
+		log.info("\t > {}", e.getClass().getSimpleName());
 		log.info("\t > original message = {}", message);
 		
 		message = StringUtils.removeEnd(message.replaceAll("\\.(\\s)*", ".<br>"), "<br>");
@@ -63,9 +63,10 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
 				.status(HttpStatus.UNAUTHORIZED)
 				.message(message)
 				.build();
-		log.info("\t > {}", errorResponse);
+		log.info("\t > error = {}", errorResponse);
 		
 		request.setAttribute("errorResponse", errorResponse);
+		log.info("\t > forward to '{}'", DEFAULT_FAILURE_URL);
 		request.getRequestDispatcher(DEFAULT_FAILURE_URL).forward(request, response);
 	}
 	

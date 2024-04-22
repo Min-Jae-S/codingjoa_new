@@ -1,5 +1,6 @@
 package com.codingjoa.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,11 +61,12 @@ public class MemberController {
 	}
 
 	// GET	: common login
-	// POST	: login failure --> foward from LoginFailureHandler
+	// POST	: login failure --> forward from LoginFailureHandler
 	@RequestMapping("/login") 
-	public String login(@ModelAttribute LoginDto loginDto) {
+	public String login(@ModelAttribute LoginDto loginDto, HttpServletRequest request) {
 		log.info("## login");
 		log.info("\t > {}", loginDto);
+		log.info("\t > error = {}", request.getAttribute("errorResponse"));
 		return "member/login";
 	}
 	
