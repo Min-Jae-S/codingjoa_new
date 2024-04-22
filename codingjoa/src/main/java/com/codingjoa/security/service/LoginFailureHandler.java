@@ -31,8 +31,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class LoginFailureHandler implements AuthenticationFailureHandler {
 
-	private AuthenticationDetailsSource<HttpServletRequest, ?> authenticationDetailsSource = 
-			new WebAuthenticationDetailsSource();
+	private AuthenticationDetailsSource<HttpServletRequest, ?> authenticationDetailsSource = new WebAuthenticationDetailsSource();
 	private final String key = UUID.randomUUID().toString();
 	private final String DEFAULT_FAILURE_URL = "/member/login";
 	
@@ -72,12 +71,12 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
 	
 	// ref) AnonymousAuthenticationFilter#createAuthentication(HttpServletRequest)
 	protected Authentication createAuthentication(HttpServletRequest request) {
-		log.info("\t > create authentication token which is AnonymousAuthenticationToken");
+		log.info("\t > create authenticationToken(AnonymousAuthenticationToken)");
 		
 		// null object pattern 
-		AnonymousAuthenticationToken auth = new AnonymousAuthenticationToken(key, "anonymousUser",
+		AnonymousAuthenticationToken token = new AnonymousAuthenticationToken(key, "anonymousUser",
 				AuthorityUtils.createAuthorityList("ROLE_ANONYMOUS")); 
-		auth.setDetails(authenticationDetailsSource.buildDetails(request));
-		return auth;
+		token.setDetails(authenticationDetailsSource.buildDetails(request));
+		return token;
 	}
 }

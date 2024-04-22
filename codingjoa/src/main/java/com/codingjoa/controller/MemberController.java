@@ -105,7 +105,8 @@ public class MemberController {
 	}
 	
 	@GetMapping("/resetPassword")
-	public String resetPassword(@RequestParam(name = "key", required = true) String key, Model model) {
+	public String resetPassword(@RequestParam /* (required = true) */ String key, // pre-check in interceptor 
+			Model model) {
 		log.info("## resetPassword");
 		model.addAttribute("key", key);
 		return "member/reset-password";
