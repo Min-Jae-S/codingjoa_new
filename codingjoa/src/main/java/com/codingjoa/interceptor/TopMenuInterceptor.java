@@ -23,8 +23,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /*
- * 	인터셉터는 서블릿이 제공하는 기능이 아니기 때문에 DispatcherType을 쓸 수 없다.
- * 	excludePathPatterns 를 이용하여 경로를 제거한다.
+ * 	인터셉터는 서블릿이 제공하는 기능이 아니기 때문에 DispatcherType을 쓸 수 없다. 
+ *  excludePathPatterns 를 이용하여 경로를 제거한다.
  */
 
 @Slf4j
@@ -66,7 +66,7 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
-		//log.info("## {} : postHandle", this.getClass().getSimpleName());
+		log.info("## {}", this.getClass().getSimpleName());
 		
 		if (handler instanceof HandlerMethod) {
 			HandlerMethod handlerMethod = (HandlerMethod) handler;
@@ -117,7 +117,6 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 			}
 		}
 		
-		//log.info("\t > find top menu");
 		List<Category> parentCategoryList = categoryService.findParentCategoryList();
 		modelAndView.addObject("parentCategoryList", parentCategoryList);
 		//log.info("\t > added top menu as model");

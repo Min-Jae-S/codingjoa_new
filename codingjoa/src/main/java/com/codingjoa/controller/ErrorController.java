@@ -16,7 +16,6 @@ public class ErrorController {
 	public String errorPage(HttpServletRequest request) {
 		log.info("## errorPage");
 		log.info("\t > {}", request.getAttribute("errorResponse"));
-		
 		return "error/error-page";
 	}
 	

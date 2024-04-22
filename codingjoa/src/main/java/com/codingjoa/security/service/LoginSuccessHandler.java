@@ -27,6 +27,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 			Authentication authentication) throws IOException, ServletException {
 		log.info("## {}", this.getClass().getSimpleName());
 		log.info("\t > referer = {}", request.getHeader("referer"));
+		log.info("\t > current authentication token = {}", authentication);
 
 		response.setStatus(HttpStatus.OK.value());
 		response.setContentType(MediaType.TEXT_HTML.toString());
