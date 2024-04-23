@@ -22,7 +22,7 @@ public class BoardCategoryCodeValidator implements ConstraintValidator<BoardCate
 		log.info("## {}", this.getClass().getSimpleName());
 		log.info("\t > value = {}", value);
 		
+		// value can't be null? ==> @BoardCategoryCode @RequestParam int boardCategoryCode
 		return (value == null) ? false : categoryService.isBoardCategoryCode(value);
-		//return categoryService.isBoardCategoryCode(value);
 	}
 }

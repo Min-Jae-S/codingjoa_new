@@ -151,7 +151,7 @@
 			    $("<input/>", { type: "hidden", name: "boardImages", value: boardImageIdx }).appendTo($form);
 			}
 			
-			console.log("## Check FormData");
+			console.log("## Check formData");
 			console.log(JSON.stringify($form.serializeObject(), null, 2));
 			if (!confirm("게시글을 등록하시겠습니까?")) {
 				return;
@@ -203,7 +203,7 @@
 			}
 			
 			let formData = $form.serializeObject();
-			console.log("## Check FormData");
+			console.log("## Check formData");
 			console.log(JSON.stringify(formData, null, 2));
 			
 			$.ajax({
