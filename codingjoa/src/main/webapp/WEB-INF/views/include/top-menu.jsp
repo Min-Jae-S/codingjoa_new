@@ -79,16 +79,19 @@
 					console.log("%c> SUCCESS", "color:green");
 					console.log(JSON.stringify(result, null, 2));
 					
-					if (result.length == 0) {
+					let categoryList = result.data;
+					if (categoryList.length == 0) {
 						return;
 					}
 
 					let html = "<div class='dropdown-menu show'>";
-					$.each(result, function(i, value) {
+					$.each(categoryList, function(i, value) {
 						html += "<button class='dropdown-item' type='button' data-path='";
-						html += (result[i].categoryCode == result[i].categoryPath) ? 
-									"/?boardCategoryCode=" + result[i].categoryCode : result[i].categoryPath;
-						html += "'>" + result[i].categoryName + "</button>";
+						let categoryCode = categoryList[i].categoryCode;
+						let categoryPath = categoryList[i].categoryPath;
+						html += (categoryCode == categoryPath) ? 
+									"/?boardCategoryCode=" + categoryCode : categoryPath;
+						html += "'>" + categoryList[i].categoryName + "</button>";
 					});
 					html += "</div>";
 					$a.after(html);
