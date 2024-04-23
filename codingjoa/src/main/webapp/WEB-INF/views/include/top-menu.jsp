@@ -6,7 +6,7 @@
 <%-- <c:set var="principal" value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal}" /> --%>
 <!-- 상단 메뉴 -->
 <nav class="navbar navbar-custom navbar-expand-md">
-	<div class="container-fluid px-5">
+	<div class="container-fluid px-5 mt-1">
 		<a class="navbar-brand font-weight-bold" href="${contextPath}">Codingjoa</a>
 		<div class="collapse navbar-collapse">
 			<ul class="navbar-nav mr-auto">
@@ -64,17 +64,21 @@
 
 <script>
 	$(function() {
-		let timer; 
+		let timer;
 		let delay = 200;
 		
-		$(".navbar-nav .dropdown").on("mouseenter", function() {
+		$(".navbar-nav .dropdown").on("mouseenter", function(e) {
+			e.stopPropagation();
+			console.log("## mouse enter");
 			let parent_category = $(this).data("category");
 			let $a = $(this).find("a");
 			$a.css("color", "black").css("font-weight", "bold");
 			
 			timer = setTimeout(function() {
 				$.getJSON("${contextPath}/category/" + parent_category, function(data) {
-					if (data.length == 0) return;
+					if (data.length == 0) {
+						return;
+					}
 
 					let html = "<div class='dropdown-menu show'>";
 					$.each(data, function(i, value) {
@@ -87,11 +91,41 @@
 					$a.after(html);
 				});
 			}, delay);
+			
+			/*
+			$.getJSON("${contextPath}/category/" + parent_category, function(data) {
+				console.log(JSON.stringify(data, null, 2));
+				if (data.length == 0) {
+					return;
+				}
+
+				let html = "<div class='dropdown-menu show'>";
+				$.each(data, function(i, value) {
+					html += "<button class='dropdown-item' type='button' data-path='";
+					html += (data[i].categoryCode == data[i].categoryPath) ? 
+								"/?boardCategoryCode=" + data[i].categoryCode : data[i].categoryPath;
+					html += "'>" + data[i].categoryName + "</button>";
+				});
+				html += "</div>";
+				$a.after(html);
+			});
+			*/
+			
 		});
 			
-		$(".navbar-nav .dropdown").on("mouseleave", function() {
-			$(this).find(".dropdown-menu").remove();
+		$(".navbar-nav li.dropdown").on("mouseleave", function(e) {
+			e.stopPropagation();
+			console.log("## mouse leave (li.dropdown)");
 			$(this).find("a").css("color", "grey").css("font-weight", "400");
+			$(this).find(".dropdown-menu").remove();
+			clearTimeout(timer);
+		});
+
+		$(document).on("mouseleave", ".navbar-nav div.dropdown-menu", function(e) {
+			e.stopPropagation();
+			console.log("## mouse leave (div.dropdown-menu)");
+			$(this).parent().find("a").css("color", "grey").css("font-weight", "400");
+			$(this).remove();
 			clearTimeout(timer);
 		});
 		
