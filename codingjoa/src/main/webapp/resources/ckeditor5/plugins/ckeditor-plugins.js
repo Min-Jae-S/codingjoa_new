@@ -23,14 +23,14 @@ console.log("## Editor plugins ready - ckeditor-plugins.js");
 	
 	// https://github.com/ckeditor/ckeditor5/issues/5204
 	function attributeExtender(editor) {
-		console.log("\t > Extend custom attribute(dataIdx) ==> blockObject, inlineOjbect");
+		console.log("\t > Extend custom attribute(dataIdx) to blockObject and inlineOjbect");
 		editor.model.schema.extend("$blockObject", { allowAttributes: "dataIdx" });
 		editor.model.schema.extend("$inlineObject", { allowAttributes: "dataIdx" });
 	}
 	
 	// view-to-model converter(upcast)
 	function viewToModelConverter(editor) {
-		console.log("\t > Register VIEW-TO-MODEL converter ==> upcast");
+		console.log("\t > Register VIEW-TO-MODEL converter (upcast)");
 		editor.conversion.for("upcast").attributeToAttribute({
             view: "data-idx",
             model: "dataIdx"
@@ -41,10 +41,10 @@ console.log("## Editor plugins ready - ckeditor-plugins.js");
 	// https://stackoverflow.com/questions/56402202/ckeditor5-create-element-image-with-attributes
 	// https://gitlab-new.bap.jp/chinhnc2/ckeditor5/-/blob/690049ec7b8e95ba840ab1c882b5680f3a3d1dc4/packages/ckeditor5-engine/docs/framework/guides/deep-dive/conversion-preserving-custom-content.md
 	function modelToViewEditingConverter(editor) {
-		console.log("\t > Register MODEL-TO-VIEW converter ==> downcast(editng)");
+		console.log("\t > Register MODEL-TO-VIEW converter (editngDowncast)");
 		editor.conversion.for("editingDowncast").add(dispatcher => { // downcastDispatcher
             dispatcher.on("attribute:dataIdx", (evt, data, conversionApi) => {
-            	console.log("## MODEL-TO-VIEW conversion - Editing downcast");
+            	console.log("## MODEL-TO-VIEW conversion - editing downcast");
             	const modelElement = data.item;
             	if (!conversionApi.consumable.consume(modelElement, evt.name)) {
                 	return;
@@ -68,10 +68,10 @@ console.log("## Editor plugins ready - ckeditor-plugins.js");
 	
 	// model-to-view converter(data downcast)
 	function modelToViewDataConverter(editor) {
-		console.log("\t > Register MODEL-TO-VIEW converter ==> downcast(data)");
+		console.log("\t > Register MODEL-TO-VIEW converter (dataDowncast)");
 		editor.conversion.for("dataDowncast").add(dispatcher => {
 			dispatcher.on("attribute:dataIdx", (evt, data, conversionApi) => { 
-				console.log("## MODEL-TO-VIEW conversion - Data downcast");
+				console.log("## MODEL-TO-VIEW conversion - data downcast");
 				const modelElement = data.item;
             	if (!conversionApi.consumable.consume(modelElement, evt.name)) {
                 	return;

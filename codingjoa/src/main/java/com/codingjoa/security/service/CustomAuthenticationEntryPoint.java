@@ -56,6 +56,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
 	public void commence(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException authException) throws IOException, ServletException {
 		log.info("## {}", this.getClass().getSimpleName());
+		log.info("\t > referer = {}", request.getHeader("referer"));
 		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		log.info("\t > current authentication token = {}", authentication);
