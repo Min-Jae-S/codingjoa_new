@@ -75,17 +75,20 @@
 			$a.css("color", "black").css("font-weight", "bold");
 			
 			timer = setTimeout(function() {
-				$.getJSON("${contextPath}/category/" + parent_category, function(data) {
-					if (data.length == 0) {
+				$.getJSON("${contextPath}/category/" + parent_category, function(result) {
+					console.log("%c> SUCCESS", "color:green");
+					console.log(JSON.stringify(result, null, 2));
+					
+					if (result.length == 0) {
 						return;
 					}
 
 					let html = "<div class='dropdown-menu show'>";
-					$.each(data, function(i, value) {
+					$.each(result, function(i, value) {
 						html += "<button class='dropdown-item' type='button' data-path='";
-						html += (data[i].categoryCode == data[i].categoryPath) ? 
-									"/?boardCategoryCode=" + data[i].categoryCode : data[i].categoryPath;
-						html += "'>" + data[i].categoryName + "</button>";
+						html += (result[i].categoryCode == result[i].categoryPath) ? 
+									"/?boardCategoryCode=" + result[i].categoryCode : result[i].categoryPath;
+						html += "'>" + result[i].categoryName + "</button>";
 					});
 					html += "</div>";
 					$a.after(html);
@@ -109,7 +112,7 @@
 		});
 		
 		$(document).on("click", ".navbar-nav button.dropdown-item", function() {
-			let parent_path = $(this).closest(".dropdown").data("path");
+			let parent_path = $(this).closest("li.dropdown").data("path");
 			location.href = "${contextPath}" + parent_path + $(this).data("path");
 		}); 
 	});
