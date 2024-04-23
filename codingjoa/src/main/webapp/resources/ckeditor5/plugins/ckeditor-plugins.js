@@ -41,7 +41,7 @@ console.log("## Editor plugins ready - ckeditor-plugins.js");
 	// https://stackoverflow.com/questions/56402202/ckeditor5-create-element-image-with-attributes
 	// https://gitlab-new.bap.jp/chinhnc2/ckeditor5/-/blob/690049ec7b8e95ba840ab1c882b5680f3a3d1dc4/packages/ckeditor5-engine/docs/framework/guides/deep-dive/conversion-preserving-custom-content.md
 	function modelToViewEditingConverter(editor) {
-		console.log("\t > Register MODEL-TO-VIEW converter (editngDowncast)");
+		console.log("\t > Register MODEL-TO-VIEW converter (editingDowncast)");
 		editor.conversion.for("editingDowncast").add(dispatcher => { // downcastDispatcher
             dispatcher.on("attribute:dataIdx", (evt, data, conversionApi) => {
             	console.log("## MODEL-TO-VIEW conversion - editing downcast");
