@@ -65,11 +65,16 @@ public class ImageServiceImpl implements ImageService {
 
 	@Override
 	public void activateBoardImage(BoardDto boardDto) {
+		log.info("## activateBoardImage");
+		
 		List<Integer> boardImages = boardDto.getBoardImages();
-		log.info("\t > activate board images = {}", boardImages);
+		log.info("\t > boardImages = {}", boardImages);
 		
 		if (!CollectionUtils.isEmpty(boardImages)) {
+			log.info("\t > activate boardImages = {}", boardImages);
 			imageMapper.activateBoardImage(boardImages, boardDto.getBoardIdx());
+		} else {
+			log.info("\t > no boardImages to activate");
 		}
 	}
 	

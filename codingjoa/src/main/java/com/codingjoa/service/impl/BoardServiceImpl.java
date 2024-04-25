@@ -46,10 +46,10 @@ public class BoardServiceImpl implements BoardService {
 	public void writeBoard(BoardDto boardDto) {
 		Board board = modelMapper.map(boardDto, Board.class);
 		String boardContentText = Jsoup.parse(board.getBoardContent()).text();
-		log.info("\t > parse boardContent by Jsoup");
+		log.info("\t > produce boardContentText by parsing boardContent for search");
 		
 		board.setBoardContentText(boardContentText);
-		log.info("\t > writeBoardDto ==> {}", board);
+		log.info("\t > insert {}", board);
 		
 		boardMapper.insertBoard(board);
 		Integer boardIdx = board.getBoardIdx();

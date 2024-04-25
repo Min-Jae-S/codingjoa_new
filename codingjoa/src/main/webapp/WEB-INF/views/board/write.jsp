@@ -97,8 +97,8 @@
 		</div>
 		<!-- test -->
 		<div class="mt-4">
-			<button class="btn btn-warning mr-2" type="button" id="testGetDataBtn">Test getData</button>
-			<button class="btn btn-warning mr-2" type="button" id="testJsoupBtn">Test Jsoup</button>
+			<button class="btn btn-warning mr-2" type="button" id="testGetDataBtn">getData</button>
+			<button class="btn btn-warning mr-2" type="button" id="testJsoupBtn">Jsoup</button>
 		</div>
 	</div>
 </div>

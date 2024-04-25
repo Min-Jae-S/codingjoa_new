@@ -144,7 +144,7 @@ public class BoardController {
 		int boardWriterIdx = principal.getMember().getMemberIdx();
 		writeBoardDto.setBoardWriterIdx(boardWriterIdx);
 		
-		// insertBoard & activateImage
+		// insertBoard, activateImage
 		boardService.writeBoard(writeBoardDto); 
 		
 		return "redirect:/board/read?boardIdx=" + writeBoardDto.getBoardIdx();

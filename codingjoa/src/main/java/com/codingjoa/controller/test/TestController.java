@@ -398,13 +398,13 @@ public class TestController {
 		log.info("\t > {}", boardDto);
 		
 		String boardContent = boardDto.getBoardContent();
-		log.info("\t > boardContent = '{}'", boardContent);
+		log.info("\t > raw boardContent = '{}'", boardContent);
 		
 		Document doc = Jsoup.parse(boardContent);
 		log.info("\t > document = {}", System.lineSeparator() + doc);
 		
 		String boardContentText = doc.text();
-		log.info("\t > boardContentText = '{}'", boardContentText);
+		log.info("\t > processed boardContent = '{}'", boardContentText);
 		
 		SuccessResponse successResponse = SuccessResponse.builder()
 				.data(Map.of("boardContent", boardContent, "boardContentText", boardContentText))
