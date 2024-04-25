@@ -134,7 +134,7 @@ public class BoardController {
 		log.info("\t > {}", writeBoardDto);
 		
 		if (bindingResult.hasErrors()) {
-			if (bindingResult.hasFieldErrors("boardCategoryCode") || bindingResult.hasFieldErrors("boardIdx")) {
+			if (bindingResult.hasFieldErrors("boardCategoryCode") /* || bindingResult.hasFieldErrors("boardIdx") */) {
 				throw new BindException(bindingResult);
 			}
 			model.addAttribute("boardCategoryList", categoryService.findBoardCategoryList());
@@ -143,7 +143,9 @@ public class BoardController {
 		
 		int boardWriterIdx = principal.getMember().getMemberIdx();
 		writeBoardDto.setBoardWriterIdx(boardWriterIdx);
-		boardService.writeBoard(writeBoardDto); // insertBoard + activateImage
+		
+		// insertBoard & activateImage
+		boardService.writeBoard(writeBoardDto); 
 		
 		return "redirect:/board/read?boardIdx=" + writeBoardDto.getBoardIdx();
 	}
