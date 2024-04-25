@@ -27,7 +27,7 @@ public class BoardCriteriaArgumentResolver implements HandlerMethodArgumentResol
 	
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
-		return parameter.getParameterType().equals(Criteria.class) &&
+		return parameter.getParameterType().equals(Criteria.class) && 
 				parameter.hasParameterAnnotation(BoardCri.class);
 	}
 
@@ -40,7 +40,7 @@ public class BoardCriteriaArgumentResolver implements HandlerMethodArgumentResol
 		String rawRecordCnt = webRequest.getParameter("recordCnt");
 		String rawType = webRequest.getParameter("type");
 		String rawKeyword = webRequest.getParameter("keyword");
-		log.info("\t > rawPage = {}, rawRecordCnt = {}, rawType = {}, rawKeyword = {};", 
+		log.info("\t > rawPage = {}, rawRecordCnt = {}, rawType = {}, rawKeyword = '{}'", 
 				rawPage, rawRecordCnt, rawType, rawKeyword);
 		
 		rawPage = (rawPage == null) ? "" : rawPage.strip();

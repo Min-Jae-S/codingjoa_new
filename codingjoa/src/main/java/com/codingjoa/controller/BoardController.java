@@ -147,7 +147,8 @@ public class BoardController {
 		// insertBoard, activateImage
 		boardService.writeBoard(writeBoardDto); 
 		
-		return "redirect:/board/read?boardIdx=" + writeBoardDto.getBoardIdx();
+		//return "redirect:/board/read?boardIdx=" + writeBoardDto.getBoardIdx();
+		return "redirect:/board/?boardCategoryCode=" + writeBoardDto.getBoardCategoryCode();
 	}
 	
 	@GetMapping("/modify")

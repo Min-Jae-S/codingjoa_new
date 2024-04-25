@@ -51,7 +51,8 @@ public class ImageServiceImpl implements ImageService {
 		
 		BoardImage boardImage = BoardImage.builder()
 				.boardImageName(uploadFilename)
-				.boardImagePath(uploadFile.getCanonicalPath()) // absolutePath vs canonicalPath (https://dev-handbook.tistory.com/11)
+				// absolutePath vs canonicalPath (https://dev-handbook.tistory.com/11)
+				.boardImagePath(uploadFile.getCanonicalPath()) 
 				.build();
 		imageMapper.insertBoardImage(boardImage);
 		
@@ -80,12 +81,13 @@ public class ImageServiceImpl implements ImageService {
 	
 	@Override
 	public void deactivateBoardImage(BoardDto boardDto) {
+		log.info("## deactivateBoardImage");
 		int boardIdx = boardDto.getBoardIdx();
 		List<Integer> boardImages = imageMapper.findBoardImagesByBoardIdx(boardIdx)
 				.stream()
 				.map(boardImage -> boardImage.getBoardImageIdx())
 				.collect(Collectors.toList());
-		log.info("\t > deactivate board images = {}", boardImages);
+		log.info("\t > deactivate boardImages = {}", boardImages);
 		
 		// deactive된 boardImage의 index를 update와 동시에...?
 		imageMapper.deactivateBoardImage(boardIdx);
