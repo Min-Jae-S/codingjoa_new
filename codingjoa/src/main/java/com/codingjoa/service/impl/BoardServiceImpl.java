@@ -50,8 +50,8 @@ public class BoardServiceImpl implements BoardService {
 		
 		board.setBoardContentText(boardContentText);
 		log.info("\t > insert {}", board);
-		
 		boardMapper.insertBoard(board);
+		
 		Integer boardIdx = board.getBoardIdx();
 		log.info("\t > created boardIdx = {}", boardIdx);
 		
@@ -66,7 +66,7 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public BoardDetailsDto getBoardDetails(int boardIdx) {
 		Map<String, Object> boardDetailsMap = boardMapper.findBoardDetails(boardIdx);
-		log.info("\t > find boardDetails, {}", boardDetailsMap);
+		log.info("\t > find boardDetailsMap = {}", boardDetailsMap);
 		
 		if (boardDetailsMap == null) {
 			throw new ExpectedException("error.NotFoundBoard");
@@ -117,7 +117,7 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public BoardDto getModifyBoard(int boardIdx, int boardWriterIdx) {
 		Board board = boardMapper.findBoardByIdx(boardIdx);
-		log.info("\t > find modifyBoard, {}", board);
+		log.info("\t > find modifyBoard = {}", board);
 
 		if (board == null) {
 			throw new ExpectedException("error.NotFoundBoard");
@@ -138,10 +138,12 @@ public class BoardServiceImpl implements BoardService {
 	public void modifyBoard(BoardDto boardDto) {
 		Board board = modelMapper.map(boardDto, Board.class);
 		String boardContentText = Jsoup.parse(board.getBoardContent()).text();
-		board.setBoardContentText(boardContentText);
-		log.info("\t > modifyBoardDto ==> {}", board);
+		log.info("\t > produce boardContentText by parsing boardContent for search");
 
+		board.setBoardContentText(boardContentText);
+		log.info("\t > update {}", board);
 		boardMapper.updateBoard(board);
+		
 		Integer DBboardWriterIdx = board.getBoardWriterIdx();
 		log.info("\t > current boardWriterIdx = {}", boardDto.getBoardWriterIdx());
 		log.info("\t > DB boardWriterIdx = {}", DBboardWriterIdx);
@@ -166,9 +168,9 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public void deleteBoard(BoardDto boardDto) {
 		Board board = modelMapper.map(boardDto, Board.class);
-		log.info("\t > deleteBoardDto ==> {}", board);
-		
+		log.info("\t > delete {}", board);
 		boardMapper.deleteBoard(board);
+		
 		Integer DBboardWriterIdx = board.getBoardWriterIdx();
 		log.info("\t > current boardWriterIdx = {}", boardDto.getBoardWriterIdx());
 		log.info("\t > DB boardWriterIdx = {}", DBboardWriterIdx);

@@ -4,7 +4,7 @@ let imageService = (function() {
 	const contextPath = getContextPath();
 
 	function uploadMemberImage(formData, callback) {
-		console.log("## Upload Member Image");
+		console.log("## Upload memberImage");
 		let url = contextPath + "/api/upload/member-image";
 		console.log("> URL = '%s'", url);
 		
@@ -33,7 +33,7 @@ let imageService = (function() {
 	}
 
 	function getMemberImageResource(memberImageName, callback) {
-		console.log("## Get Member Image Resource");
+		console.log("## Get membeImageResource");
 		let url = contextPath + "/api/member/images/" + memberImageName;
 		console.log("> URL = '%s'", url);
 		

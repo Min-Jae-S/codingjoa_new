@@ -231,7 +231,8 @@
 	
 	/* https://stackoverflow.com/questions/54272325/how-to-style-ckeditor-content-for-read-only-display */
 	/* These styles hide weird "things" in CKeditor Viewer (read only mode) */
-	/* .ckeditor-viewer .ck.ck-editor__editable.ck-blurred .ck-widget.ck-widget_selected, 
+	/* 
+	.ckeditor-viewer .ck.ck-editor__editable.ck-blurred .ck-widget.ck-widget_selected, 
 	.ck.ck-editor__editable.ck-blurred .ck-widget.ck-widget_selected:hover {
 		outline-width: 0;
 	}
@@ -250,7 +251,13 @@
 		width: 0;
 		height: 0;
 		display: none;
-	} */
+	} 
+	*/
+	
+	.read-wrap {
+		width: 820px;
+		margin: 0 auto;
+	}
 </style>
 
 <!-- test css -->	
@@ -309,11 +316,6 @@
 		border-left: none;
 		border-right: none;
 		margin: 0 !important;
-	}
-	
-	.read-wrap {
-		width: 820px;
-		margin: 0 auto;
 	}
 </style>
 </head>
@@ -512,7 +514,7 @@
 		</div>
 		
 		<!-- likes test -->
-		<div class="test3 mt-5">
+		<div class="test3 mt-5 d-none">
 			<div class="input-group mb-4">
 				<div class="input-group-prepend">
     				<span class="input-group-text">Toggle boardLikes</span>
@@ -786,7 +788,7 @@
 <!-- test script -->
 <script>
 	$(function() {
-		// TEST write comment	
+		// test write comment	
 		$("#testWriteBtn").on("click", function() {
 			let $input = $(this).closest("div.input-group").find("input");
 			let comment = {
@@ -799,7 +801,7 @@
 			});
 		});
 
-		// TEST get commentList
+		// test get commentList
 		$("#testGetCommentListBtn").on("click", function() {
 			let $input = $(this).closest("div.input-group").find("input");
 			let commentBoardIdx = $input.first().val();
@@ -809,7 +811,7 @@
 			});
 		});
 
-		// TEST get comment
+		// test get comment
 		$("#testGetCommentBtn").on("click", function() {
 			let commentIdx = $(this).closest("div.input-group").find("input").val();
 			commentService.getComment(commentIdx, function(result) {
@@ -817,7 +819,7 @@
 			});
 		});
 
-		// TEST delete comment
+		// test delete comment
 		$("#testDeleteCommentBtn").on("click", function() {
 			let commentIdx = $(this).closest("div.input-group").find("input").val();
 			commentService.deleteComment(commentIdx, function(result) {
@@ -825,7 +827,7 @@
 			});
 		});
 
-		// TEST modify comment
+		// test modify comment
 		$("#testModifyCommentBtn").on("click", function() {
 			let $input = $(this).closest("div.input-group").find("input");
 			let commentIdx = $input.first().val();
@@ -838,7 +840,7 @@
 			});
 		});
 
-		// TEST write comment2
+		// test write comment2
 		$("button[name='writeBtn']").on("click", function() {
 			let comment = {
 				commentBoardIdx : $(this).data("idx"),
@@ -849,28 +851,28 @@
 			});
 		});
 		
-		// TEST get commentList2
+		// test get commentList2
 		$("button[name='commentListBtn']").on("click", function() {
 			commentService.getCommentList($(this).data("idx"), curCommentPage, function(result) {
 				alert(result.message);
 			});
 		});
 		
-		// TEST get comment2
+		// test get comment2
 		$("button[name='commentBtn']").on("click", function() {
 			commentService.getComment($(this).data("idx"), function(result) {
 				alert(result.message);
 			});
 		});
 
-		// Test delete comment2
+		// test delete comment2
 		$("button[name='deleteBtn']").on("click", function() {
 			commentService.deleteComment($(this).data("idx"), function(result) { 
 				alert(result.message);
 			});
 		});
 		
-		// TEST modify comment2
+		// test modify comment2
 		$("button[name='patchBtn']").on("click", function() {
 			let comment = {
 				commentContent : "aa"
@@ -880,7 +882,7 @@
 			});
 		});
 		
-		// TEST boardLikes
+		// test boardLikes
 		$("#testToggleBoardLikesBtn").on("click", function() {
 			let boardIdx = $(this).closest("div.input-group").find("input").val();
 			likesService.toggleBoardLikes(boardIdx, function(result) {
@@ -888,7 +890,7 @@
 			});
 		});
  		
-		// TEST commentLikes
+		// test commentLikes
 		$("#testToggleCommentLikesBtn").on("click", function() {
 			let commentIdx = $(this).closest("div.input-group").find("input").val();
 			likesService.toggleCommentLikes(commentIdx, function(result) {
@@ -896,7 +898,7 @@
 			});
 		});
 		
-		// TEST boardLikesCnt
+		// test boardLikesCnt
 		$("#testGetBoardLikesCntBtn").on("click", function() {
 			let boardIdx = $(this).closest("div.input-group").find("input").val();
 			likesService.getBoardLikesCnt(boardIdx, function(result) {
@@ -904,7 +906,7 @@
 			});
 		});
 
-		// TEST commentLikesCnt
+		// test commentLikesCnt
 		$("#testGetCommentLikesCntBtn").on("click", function() {
 			let commentIdx = $(this).closest("div.input-group").find("input").val();
 			likesService.getCommentLikesCnt(commentIdx, function(result) {

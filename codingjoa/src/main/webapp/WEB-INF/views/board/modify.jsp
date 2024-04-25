@@ -6,7 +6,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Codingjoa : 게시글 수정</title>
+<title>Codingjoa : 게시글 수정 (${modifyBoardDto.boardIdx})</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
@@ -52,6 +52,11 @@
 	.ck-placeholder {
 		/* font-size: 0.9rem; */
 	}
+	
+	.modify-wrap {
+		width: 820px;
+		margin: 0 auto;
+	}
 </style>
 </head>
 <body>
@@ -59,44 +64,41 @@
 <c:import url="/WEB-INF/views/include/top-menu.jsp"/>
 
 <div class="container board-container">
-	<div class="row">
-		<div class="col-sm-1"></div>
-		<div class="col-sm-10">
-			<h4 class="font-weight-bold mb-3">게시글 수정하기 (boardIdx = ${modifyBoardDto.boardIdx})</h4>
-			<div class="pt-4" style="border-top: 1px solid black;">
-				<form:form action="${contextPath}/board/modifyProc" method="POST" modelAttribute="modifyBoardDto">
-					<form:hidden path="boardIdx"/>
-					<div class="form-row">
-						<div class="form-group col-md-8">
-							<form:select class="custom-select" path="boardCategoryCode">
-								<form:options items="${boardCategoryList}" itemValue="categoryCode" itemLabel="categoryName"/>
-							</form:select>
-							<form:errors path="boardCategoryCode" cssClass="error"/>
-						</div>
-						<div class="form-group col-md-2">
-							<form:button class="btn btn-primary btn-block" id="modifyBtn">수정</form:button>
-						</div>
-						<div class="form-group col-md-2">
-							<button type="button" class="btn btn-secondary btn-block" id="resetBtn">취소</button>
-						</div>
+	<div class="modify-wrap">
+		<h4 class="font-weight-bold mb-3">게시글 수정</h4>
+		<div class="pt-4" style="border-top: 1px solid black;">
+			<form:form action="${contextPath}/board/modifyProc" method="POST" modelAttribute="modifyBoardDto">
+				<form:hidden path="boardIdx"/>
+				<div class="form-row">
+					<div class="form-group col-md-8">
+						<form:select class="custom-select" path="boardCategoryCode">
+							<form:options items="${boardCategoryList}" itemValue="categoryCode" itemLabel="categoryName"/>
+						</form:select>
+						<form:errors path="boardCategoryCode" cssClass="error"/>
 					</div>
-					<div class="form-group">
-						<form:input path="boardTitle" class="form-control" placeholder="제목을 입력하세요."/>
-						<form:errors path="boardTitle" class="error"/>
+					<div class="form-group col-md-2">
+						<form:button class="btn btn-primary btn-block" id="modifyBtn">수정</form:button>
 					</div>
-					<div class="form-group">
-						<form:textarea path="boardContent" class="d-none"/>
-						<form:errors path="boardContent" class="error"/>
+					<div class="form-group col-md-2">
+						<button type="button" class="btn btn-secondary btn-block" id="resetBtn">취소</button>
 					</div>
-				</form:form>
-			</div>
-			<!-- test -->
-			<div class="mt-4">
-				<button class="btn btn-warning mr-2" type="button" id="testGetDataBtn">Test getData</button>
-				<button class="btn btn-warning mr-2" type="button" id="testJsoupBtn">Test Jsoup</button>
-			</div>
+				</div>
+				<div class="form-group">
+					<form:input path="boardTitle" class="form-control" placeholder="제목을 입력하세요."/>
+					<form:errors path="boardTitle" class="error"/>
+				</div>
+				<div class="form-group">
+					<form:textarea path="boardContent" class="d-none"/>
+					<form:errors path="boardContent" class="error"/>
+				</div>
+			</form:form>
 		</div>
-		<div class="col-sm-1"></div>
+		
+		<!-- test -->
+		<div class="mt-4">
+			<button class="btn btn-warning mr-2" type="button" id="testGetDataBtn">getData</button>
+			<button class="btn btn-warning mr-2" type="button" id="testJsoupBtn">Jsoup</button>
+		</div>
 	</div>
 </div>
 
@@ -104,6 +106,7 @@
 
 <script>
 	let modifyEditor, originalData;
+	
 	createEditor("#boardContent")
 		.then(editor => {
 			console.log("## ModifyEditor initialize");
@@ -150,7 +153,7 @@
 			    $("<input/>", { type: "hidden", name: "boardImages", value: boardImageIdx }).appendTo($form);
 			}
 			
-			console.log("## Check FormData");
+			console.log("## Check formData");
 			console.log(JSON.stringify($form.serializeObject(), null, 2));
 			if (!confirm("게시글을 수정하시겠습니까?")) {
 				return;
@@ -183,7 +186,7 @@
 			}
 			
 			let formData = $form.serializeObject();
-			console.log("## Check FormData");
+			console.log("## Check formData");
 			console.log(JSON.stringify(formData, null, 2));
 			
 			$.ajax({

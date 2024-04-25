@@ -11,7 +11,8 @@
 		<div class="collapse navbar-collapse">
 			<ul class="navbar-nav mr-auto">
 				<c:forEach var="parentCategory" items="${parentCategoryList}">
-					<li class="nav-item dropdown mx-2 mt-1" data-category="${parentCategory.categoryCode}" data-path="${parentCategory.categoryPath}">
+					<li class="nav-item dropdown mx-2 mt-1" 
+						data-category="${parentCategory.categoryCode}" data-path="${parentCategory.categoryPath}">
 						<a href="${contextPath}${parentCategory.categoryPath}" class="nav-link">
 							<c:out value="${parentCategory.categoryName}"/>
 						</a>
@@ -65,20 +66,19 @@
 <script>
 	$(function() {
 		let timer;
-		let delay = 100;
+		let showDelay = 300;
 		
 		$(".navbar-nav li.dropdown").on("mouseenter", function(e) {
 			e.stopPropagation();
-			console.log("## Get categoryList");
-		
-			let parentCategory =  $(this).data("category"); 
-			let url = "${contextPath}/category/" + parentCategory;
-			console.log("> URL = '%s'", url);
-
+			let parentCategory = $(this).data("category");
 			let $a = $(this).find("a");
 			$a.css("color", "black").css("font-weight", "bold");
 			
 			timer = setTimeout(function() {
+				console.log("## Get categoryList");
+				let url = "${contextPath}/category/" + parentCategory;
+				console.log("> URL = '%s'", url);
+				
 				$.getJSON(url, function(result) {
 					console.log("%c> SUCCESS", "color:green");
 					console.log(JSON.stringify(result, null, 2));
@@ -94,21 +94,20 @@
 						let categoryPath = categoryList[i].categoryPath;
 						let categoryName = categoryList[i].categoryName;
 						html += "<button class='dropdown-item' type='button' data-path='";
-						html += (categoryCode == categoryPath) ? 
-									"/?boardCategoryCode=" + categoryCode : categoryPath;
+						html += (categoryCode == categoryPath) ? "/?boardCategoryCode=" + categoryCode : categoryPath;
 						html += "'>" + categoryName + "</button>";
 					});
 					html += "</div>";
 					$a.after(html);
 				});
-			}, delay);
+			}, showDelay);
 		});
 			
 		$(".navbar-nav li.dropdown").on("mouseleave", function() {
 			//console.log("## mouse leave (li.dropdown)");
+			clearTimeout(timer);
 			$(this).find("a").css("color", "grey").css("font-weight", "400");
 			$(this).find(".dropdown-menu").remove();
-			clearTimeout(timer);
 		});
 
 		$(document).on("mouseenter", ".navbar-nav button.dropdown-item", function() {
