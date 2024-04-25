@@ -51,7 +51,7 @@ public class BoardServiceImpl implements BoardService {
 		
 		boardMapper.insertBoard(board);
 		Integer DBboardIdx = board.getBoardIdx();
-		log.info("\t > DB boardIdx = {}", DBboardIdx);
+		log.info("\t > created boardIdx = {}", DBboardIdx);
 		
 		if (DBboardIdx == null) {
 			throw new ExpectedException("error.WriteBoard");

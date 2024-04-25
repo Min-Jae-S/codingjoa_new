@@ -55,6 +55,11 @@
 	.ck-placeholder {
 		/* font-size: 0.9rem; */
 	}
+	
+	.write-wrap {
+		width: 820px;
+		margin: 0 auto;
+	}
 </style>
 </head>
 <body>
@@ -62,43 +67,39 @@
 <c:import url="/WEB-INF/views/include/top-menu.jsp"/>
 
 <div class="container board-container">
-	<div class="row">
-		<div class="col-sm-1"></div>
-		<div class="col-sm-10">
-			<h4 class="font-weight-bold mb-3">게시판 글쓰기</h4>
-			<div class="pt-4" style="border-top: 1px solid black;">
-				<form:form action="${contextPath}/board/writeProc" method="POST" modelAttribute="writeBoardDto">
-					<div class="form-row">
-						<div class="form-group col-md-8">
-							<form:select class="custom-select" path="boardCategoryCode">
-								<form:options items="${boardCategoryList}" itemValue="categoryCode" itemLabel="categoryName"/>
-							</form:select>
-							<form:errors path="boardCategoryCode" cssClass="error"/>
-						</div>
-						<div class="form-group col-md-2">
-							<form:button class="btn btn-primary btn-block" id="writeBtn">등록</form:button>
-						</div>
-						<div class="form-group col-md-2">
-							<button type="reset" class="btn btn-secondary btn-block" id="resetBtn">취소</button>
-						</div>
+	<div class="write-wrap">
+		<h4 class="font-weight-bold mb-3">게시판 글쓰기</h4>
+		<div class="pt-4" style="border-top: 1px solid black;">
+			<form:form action="${contextPath}/board/writeProc" method="POST" modelAttribute="writeBoardDto">
+				<div class="form-row">
+					<div class="form-group col-md-8">
+						<form:select class="custom-select" path="boardCategoryCode">
+							<form:options items="${boardCategoryList}" itemValue="categoryCode" itemLabel="categoryName"/>
+						</form:select>
+						<form:errors path="boardCategoryCode" cssClass="error"/>
 					</div>
-					<div class="form-group">
-						<form:input path="boardTitle" class="form-control" placeholder="제목을 입력하세요."/>
-						<form:errors path="boardTitle" class="error"/>
+					<div class="form-group col-md-2">
+						<form:button class="btn btn-primary btn-block" id="writeBtn">등록</form:button>
 					</div>
-					<div class="form-group">
-						<form:textarea path="boardContent" class="d-none"/>
-						<form:errors path="boardContent" class="error"/>
+					<div class="form-group col-md-2">
+						<button type="reset" class="btn btn-secondary btn-block" id="resetBtn">취소</button>
 					</div>
-				</form:form>
-			</div>
-			<!-- test -->
-			<div class="mt-4">
-				<button class="btn btn-warning mr-2" type="button" id="testGetDataBtn">Test getData</button>
-				<button class="btn btn-warning mr-2" type="button" id="testJsoupBtn">Test Jsoup</button>
-			</div>
+				</div>
+				<div class="form-group">
+					<form:input path="boardTitle" class="form-control" placeholder="제목을 입력하세요."/>
+					<form:errors path="boardTitle" class="error"/>
+				</div>
+				<div class="form-group">
+					<form:textarea path="boardContent" class="d-none"/>
+					<form:errors path="boardContent" class="error"/>
+				</div>
+			</form:form>
 		</div>
-		<div class="col-sm-1"></div>
+		<!-- test -->
+		<div class="mt-4">
+			<button class="btn btn-warning mr-2" type="button" id="testGetDataBtn">Test getData</button>
+			<button class="btn btn-warning mr-2" type="button" id="testJsoupBtn">Test Jsoup</button>
+		</div>
 	</div>
 </div>
 
