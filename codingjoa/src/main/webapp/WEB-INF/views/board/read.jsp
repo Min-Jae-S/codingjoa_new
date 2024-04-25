@@ -8,7 +8,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title><c:out value="${boardDetails.boardTitle}"/></title>
+<title>Codingjoa : <c:out value="${boardDetails.boardTitle}"/> (${boardDetails.boardIdx})</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
@@ -310,6 +310,11 @@
 		border-right: none;
 		margin: 0 !important;
 	}
+	
+	.read-wrap {
+		width: 820px;
+		margin: 0 auto;
+	}
 </style>
 </head>
 <body>
@@ -317,244 +322,240 @@
 <c:import url="/WEB-INF/views/include/top-menu.jsp"/>
 
 <div class="container board-container">
-	<div class="row">
-		<div class="col-sm-1"></div>
-		<div class="col-sm-10">
-			<div class="card">
-				<div class="header-group">
-					<div class="category dropright mb-2">
-						<a class="board-category" 
-							href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}">
-							<c:out value="${category.categoryName}"/>
+	<div class="read-wrap">
+		<div class="card">
+			<div class="header-group">
+				<div class="category dropright mb-2">
+					<a class="board-category" 
+						href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}">
+						<c:out value="${category.categoryName}"/>
+					</a>
+					<button class="board-utils btn" data-toggle="dropdown" data-offset="0,10">
+						<i class="fa-solid fa-ellipsis-vertical"></i>
+					</button>
+					<div class="dropdown-menu">
+						<h6 class="dropdown-header">게시글 관리</h6>
+						<a class="dropdown-item" 
+							href="${contextPath}/board/modify?boardIdx=${boardDetails.boardIdx}">수정하기
 						</a>
-						<button class="board-utils btn" data-toggle="dropdown" data-offset="0,10">
-							<i class="fa-solid fa-ellipsis-vertical"></i>
+				      	<a class="dropdown-item" id="deleteBoardLink"
+				      		href="${contextPath}/board/deleteProc?boardIdx=${boardDetails.boardIdx}">삭제하기
+				     	</a>
+				     </div>
+				</div>
+				<h3 class="title mb-4"><c:out value="${boardDetails.boardTitle}"/></h3>
+				<div class="header-meta d-flex mb-2">
+					<span class="mr-3"><c:out value="${boardDetails.memberId}"/></span>
+					<span class="mr-3">
+						<fmt:formatDate value="${boardDetails.regdate}" pattern="yyyy.MM.dd. HH:mm"/>
+					</span>
+					<span class="mr-1">조회</span>
+					<span><c:out value="${boardDetails.boardViews}"/></span>
+					<div class="d-flex ml-auto">
+						<a class="mr-3" href="#">
+							<i class="fa-regular fa-comment-dots"></i>
+							<span>댓글</span>
+							<span class="comment-cnt"><c:out value="${boardDetails.commentCnt}"/></span>
+						</a>
+						<button class="btn border-0 p-0 shadow-none" type="button" id="boardLikesBtn">
+						<sec:authorize access="isAnonymous()">
+							<i class="text-grey fa-regular fa-heart"></i>
+						</sec:authorize>
+						<sec:authorize access="isAuthenticated()">
+							<sec:authentication property="principal" var="principal"/>
+							<c:choose>
+								<c:when test="${principal.isMyBoardLikes(boardDetails.boardIdx)}">
+									<i class="text-danger fa-solid fa-heart"></i>
+								</c:when>
+								<c:otherwise>
+									<i class="text-grey fa-regular fa-heart"></i>
+								</c:otherwise>
+							</c:choose>
+						</sec:authorize>
+							<span>좋아요</span>
+							<span class="board-likes-cnt"><c:out value="${boardDetails.boardLikesCnt}"/></span>
 						</button>
-						<div class="dropdown-menu">
-							<h6 class="dropdown-header">게시글 관리</h6>
-							<a class="dropdown-item" 
-								href="${contextPath}/board/modify?boardIdx=${boardDetails.boardIdx}">수정하기
-							</a>
-					      	<a class="dropdown-item" id="deleteBoardLink"
-					      		href="${contextPath}/board/deleteProc?boardIdx=${boardDetails.boardIdx}">삭제하기
-					     	</a>
-					     </div>
-					</div>
-					<h3 class="title mb-4"><c:out value="${boardDetails.boardTitle}"/> (boardIdx = ${boardDetails.boardIdx})</h3>
-					<div class="header-meta d-flex mb-2">
-						<span class="mr-3"><c:out value="${boardDetails.memberId}"/></span>
-						<span class="mr-3">
-							<fmt:formatDate value="${boardDetails.regdate}" pattern="yyyy.MM.dd. HH:mm"/>
-						</span>
-						<span class="mr-1">조회</span>
-						<span><c:out value="${boardDetails.boardViews}"/></span>
-						<div class="d-flex ml-auto">
-							<a class="mr-3" href="#">
-								<i class="fa-regular fa-comment-dots"></i>
-								<span>댓글</span>
-								<span class="comment-cnt"><c:out value="${boardDetails.commentCnt}"/></span>
-							</a>
-							<button class="btn border-0 p-0 shadow-none" type="button" id="boardLikesBtn">
-							<sec:authorize access="isAnonymous()">
-								<i class="text-grey fa-regular fa-heart"></i>
-							</sec:authorize>
-							<sec:authorize access="isAuthenticated()">
-								<sec:authentication property="principal" var="principal"/>
-								<c:choose>
-									<c:when test="${principal.isMyBoardLikes(boardDetails.boardIdx)}">
-										<i class="text-danger fa-solid fa-heart"></i>
-									</c:when>
-									<c:otherwise>
-										<i class="text-grey fa-regular fa-heart"></i>
-									</c:otherwise>
-								</c:choose>
-							</sec:authorize>
-								<span>좋아요</span>
-								<span class="board-likes-cnt"><c:out value="${boardDetails.boardLikesCnt}"/></span>
-							</button>
-						</div>
-					</div>
-				</div>
-				<div class="content-group py-4">
-					<textarea class="d-none" id="boardContent"></textarea>
-					<%-- <c:out value="${boardDetails.boardContent}" escapeXml="false"/> --%>
-				</div>
-				<div class="comment-group pt-4">
-					<div class="comment-body mb-3">
-						<span>댓글</span>
-						<span class="comment-cnt"><c:out value="${boardDetails.commentCnt}"/></span>
-					</div>
-					<div class="input-group">
-						<div class="comment-input form-control">
-							<sec:authorize access="isAuthenticated()">
-								<p class="font-weight-bold mb-2">
-									<sec:authentication property="principal.member.memberId" />
-								</p>
-							</sec:authorize>
-							<textarea id="commentContent" placeholder="댓글을 남겨보세요" rows="1"></textarea>
-							<div class="mt-2">
-								<button class="btn btn-sm" type="button" id="writeCommentBtn" disabled>등록</button>
-							</div>
-						</div>
-					</div>
-					<div class="comment-list mt-4">
-						<!-- comment -->
-					</div>
-					<div class="comment-footer mt-4">
-						<a class="btn btn-secondary" href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}&
-							${boardCri.getQueryString()}">목록</a>
-						<div class="comment-pagination">
-							<!-- pagination -->
-						</div>
 					</div>
 				</div>
 			</div>
-			
-			<!-- comment test -->
-			<div class="test1 mt-5 d-none">
-				<div class="input-group mb-4">
-					<div class="input-group-prepend">
-	    				<span class="input-group-text">Write Comment</span>
-	    				<span class="input-group-text">:</span>
-	    				<span class="input-group-text">/api/comments</span>
-	  				</div>
-	  				<input type="text" class="form-control" placeholder="boardIdx">
-	  				<input type="text" class="form-control" placeholder="content">
-	  				<div class="input-group-append">
-	    				<button class="btn btn-warning" id="testWriteBtn">TEST</button>
-	  				</div>
-				</div>
-				<div class="input-group mb-4">
-					<div class="input-group-prepend">
-						<span class="input-group-text">Get Comment List</span>
-						<span class="input-group-text">:</span>
-	    				<span class="input-group-text">/api/boards/{commentBoardIdx}/comments</span>
-	  				</div>
-	  				<input type="text" class="form-control" placeholder="boardIdx">
-	  				<input type="text" class="form-control" placeholder="page">
-	  				<div class="input-group-append">
-	    				<button class="btn btn-warning" id="testGetCommentListBtn">TEST</button>
-	  				</div>
-				</div>
-				<div class="input-group mb-4">
-					<div class="input-group-prepend">
-						<span class="input-group-text">Get Comment</span>
-						<span class="input-group-text">:</span>
-	    				<span class="input-group-text">/api/comments/{commentIdx}</span>
-	  				</div>
-	  				<input type="text" class="form-control" placeholder="idx">
-	  				<div class="input-group-append">
-	    				<button class="btn btn-warning" id="testGetCommentBtn">TEST</button>
-	  				</div>
-				</div>
-				<div class="input-group mb-4">
-					<div class="input-group-prepend">
-						<span class="input-group-text">Delete Comment</span>
-						<span class="input-group-text">:</span>
-	    				<span class="input-group-text">/api/comments/{commentIdx}</span>
-	  				</div>
-	  				<input type="text" class="form-control" placeholder="idx">
-	  				<div class="input-group-append">
-	    				<button class="btn btn-warning" id="testDeleteCommentBtn">TEST</button>
-	  				</div>
-				</div>
-				<div class="input-group mb-4">
-					<div class="input-group-prepend">
-						<span class="input-group-text">Modify Comment</span>
-						<span class="input-group-text">:</span>
-	    				<span class="input-group-text">/api/comments/{commentIdx}</span>
-	  				</div>
-	  				<input type="text" class="form-control" placeholder="idx">
-	  				<input type="text" class="form-control" placeholder="content">
-	  				<div class="input-group-append">
-	    				<button class="btn btn-warning" id="testModifyCommentBtn">TEST</button>
-	  				</div>
-				</div>
+			<div class="content-group py-4">
+				<textarea class="d-none" id="boardContent"></textarea>
+				<%-- <c:out value="${boardDetails.boardContent}" escapeXml="false"/> --%>
 			</div>
-			
-			<!-- comment test -->
-			<div class="test2 mt-5 d-none">
-				<div class="mb-4 d-flex">
-					<button class="btn">Write Comment<span>:</span></button>
-					<button class="btn btn-warning test-item" name="writeBtn" data-idx="">/api/comments; idx=?</button>
-					<button class="btn btn-warning test-item" name="writeBtn" data-idx="a">/api/comments; idx=a</button>				
-					<button class="btn btn-warning test-item" name="writeBtn" data-idx="9999">/api/comments; idx=9999</button>
+			<div class="comment-group pt-4">
+				<div class="comment-body mb-3">
+					<span>댓글</span>
+					<span class="comment-cnt"><c:out value="${boardDetails.commentCnt}"/></span>
 				</div>
-				<div class="mb-4 d-flex">
-					<button class="btn">Get Comment List<span>:</span></button>
-					<button class="btn btn-warning test-item" name="commentListBtn" data-idx="">/api/boards/?/comments</button>
-					<button class="btn btn-warning test-item" name="commentListBtn" data-idx="a">/api/boards/a/comments</button>				
-					<button class="btn btn-warning test-item" name="commentListBtn" data-idx="9999">/api/boards/9999/comments</button>
+				<div class="input-group">
+					<div class="comment-input form-control">
+						<sec:authorize access="isAuthenticated()">
+							<p class="font-weight-bold mb-2">
+								<sec:authentication property="principal.member.memberId" />
+							</p>
+						</sec:authorize>
+						<textarea id="commentContent" placeholder="댓글을 남겨보세요" rows="1"></textarea>
+						<div class="mt-2">
+							<button class="btn btn-sm" type="button" id="writeCommentBtn" disabled>등록</button>
+						</div>
+					</div>
 				</div>
-				<div class="mb-4 d-flex">
-					<button class="btn">Get Comment<span>:</span></button>
-					<button class="btn btn-warning test-item" name="commentBtn" data-idx="">/api/comments/?</button>
-					<button class="btn btn-warning test-item" name="commentBtn" data-idx="a">/api/comments/a</button>				
-					<button class="btn btn-warning test-item" name="commentBtn" data-idx="9999">/api/comments/9999</button>
+				<div class="comment-list mt-4">
+					<!-- comment -->
 				</div>
-				<div class="mb-4 d-flex">
-					<button class="btn">Delete Comment<span>:</span></button>
-					<button class="btn btn-warning test-item" name="deleteBtn" data-idx="">/api/comments/?</button>					
-					<button class="btn btn-warning test-item" name="deleteBtn" data-idx="a">/api/comments/a</button>				
-					<button class="btn btn-warning test-item" name="deleteBtn" data-idx="9999">/api/comments/9999</button>					
-				</div>
-				<div class="mb-4 d-flex">
-					<button class="btn">Modify Comment<span>:</span></button>	
-					<button class="btn btn-warning test-item" name="patchBtn" data-idx="">/api/comments/?</button>					
-					<button class="btn btn-warning test-item" name="patchBtn" data-idx="a">/api/comments/a</button>				
-					<button class="btn btn-warning test-item" name="patchBtn" data-idx="9999">/api/comments/9999</button>					
-				</div>
-			</div>
-			
-			<!-- likes test -->
-			<div class="test3 mt-5">
-				<div class="input-group mb-4">
-					<div class="input-group-prepend">
-	    				<span class="input-group-text">Toggle Board Likes</span>
-	    				<span class="input-group-text">:</span>
-	    				<span class="input-group-text">/api/boards/{boardIdx}/likes</span>
-	  				</div>
-	  				<input type="text" class="form-control" placeholder="idx">
-	  				<div class="input-group-append">
-	    				<button class="btn btn-warning" id="testToggleBoardLikesBtn">TEST</button>
-	  				</div>
-				</div>
-				<div class="input-group mb-4">
-					<div class="input-group-prepend">
-						<span class="input-group-text">Toggle Comment Likes</span>
-						<span class="input-group-text">:</span>
-	    				<span class="input-group-text">/api/comments/{commentIdx}/likes</span>
-	  				</div>
-	  				<input type="text" class="form-control" placeholder="idx">
-	  				<div class="input-group-append">
-	    				<button class="btn btn-warning" id="testToggleCommentLikesBtn">TEST</button>
-	  				</div>
-				</div>
-				<div class="input-group mb-4">
-					<div class="input-group-prepend">
-						<span class="input-group-text">Get Board Likes Cnt</span>
-						<span class="input-group-text">:</span>
-	    				<span class="input-group-text">/api/boards/{boardIdx}/likes</span>
-	  				</div>
-	  				<input type="text" class="form-control" placeholder="idx">
-	  				<div class="input-group-append">
-	    				<button class="btn btn-warning" id="testGetBoardLikesCntBtn">TEST</button>
-	  				</div>
-				</div>
-				<div class="input-group mb-4">
-					<div class="input-group-prepend">
-						<span class="input-group-text">Get Comment Likes Cnt</span>
-						<span class="input-group-text">:</span>
-	    				<span class="input-group-text">/api/comments/{commentIdx}/likes</span>
-	  				</div>
-	  				<input type="text" class="form-control" placeholder="idx">
-	  				<div class="input-group-append">
-	    				<button class="btn btn-warning" id="testGetCommentLikesCntBtn">TEST</button>
-	  				</div>
+				<div class="comment-footer mt-4">
+					<a class="btn btn-secondary" href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}&
+						${boardCri.getQueryString()}">목록</a>
+					<div class="comment-pagination">
+						<!-- pagination -->
+					</div>
 				</div>
 			</div>
 		</div>
-		<div class="col-sm-1"></div>
+		
+		<!-- comment test -->
+		<div class="test1 mt-5 d-none">
+			<div class="input-group mb-4">
+				<div class="input-group-prepend">
+    				<span class="input-group-text">Write Comment</span>
+    				<span class="input-group-text">:</span>
+    				<span class="input-group-text">/api/comments</span>
+  				</div>
+  				<input type="text" class="form-control" placeholder="boardIdx">
+  				<input type="text" class="form-control" placeholder="content">
+  				<div class="input-group-append">
+    				<button class="btn btn-warning" id="testWriteBtn">TEST</button>
+  				</div>
+			</div>
+			<div class="input-group mb-4">
+				<div class="input-group-prepend">
+					<span class="input-group-text">Get Comment List</span>
+					<span class="input-group-text">:</span>
+    				<span class="input-group-text">/api/boards/{commentBoardIdx}/comments</span>
+  				</div>
+  				<input type="text" class="form-control" placeholder="boardIdx">
+  				<input type="text" class="form-control" placeholder="page">
+  				<div class="input-group-append">
+    				<button class="btn btn-warning" id="testGetCommentListBtn">TEST</button>
+  				</div>
+			</div>
+			<div class="input-group mb-4">
+				<div class="input-group-prepend">
+					<span class="input-group-text">Get Comment</span>
+					<span class="input-group-text">:</span>
+    				<span class="input-group-text">/api/comments/{commentIdx}</span>
+  				</div>
+  				<input type="text" class="form-control" placeholder="idx">
+  				<div class="input-group-append">
+    				<button class="btn btn-warning" id="testGetCommentBtn">TEST</button>
+  				</div>
+			</div>
+			<div class="input-group mb-4">
+				<div class="input-group-prepend">
+					<span class="input-group-text">Delete Comment</span>
+					<span class="input-group-text">:</span>
+    				<span class="input-group-text">/api/comments/{commentIdx}</span>
+  				</div>
+  				<input type="text" class="form-control" placeholder="idx">
+  				<div class="input-group-append">
+    				<button class="btn btn-warning" id="testDeleteCommentBtn">TEST</button>
+  				</div>
+			</div>
+			<div class="input-group mb-4">
+				<div class="input-group-prepend">
+					<span class="input-group-text">Modify Comment</span>
+					<span class="input-group-text">:</span>
+    				<span class="input-group-text">/api/comments/{commentIdx}</span>
+  				</div>
+  				<input type="text" class="form-control" placeholder="idx">
+  				<input type="text" class="form-control" placeholder="content">
+  				<div class="input-group-append">
+    				<button class="btn btn-warning" id="testModifyCommentBtn">TEST</button>
+  				</div>
+			</div>
+		</div>
+		
+		<!-- comment test -->
+		<div class="test2 mt-5 d-none">
+			<div class="mb-4 d-flex">
+				<button class="btn">Write Comment<span>:</span></button>
+				<button class="btn btn-warning test-item" name="writeBtn" data-idx="">/api/comments; idx=?</button>
+				<button class="btn btn-warning test-item" name="writeBtn" data-idx="a">/api/comments; idx=a</button>				
+				<button class="btn btn-warning test-item" name="writeBtn" data-idx="9999">/api/comments; idx=9999</button>
+			</div>
+			<div class="mb-4 d-flex">
+				<button class="btn">Get Comment List<span>:</span></button>
+				<button class="btn btn-warning test-item" name="commentListBtn" data-idx="">/api/boards/?/comments</button>
+				<button class="btn btn-warning test-item" name="commentListBtn" data-idx="a">/api/boards/a/comments</button>				
+				<button class="btn btn-warning test-item" name="commentListBtn" data-idx="9999">/api/boards/9999/comments</button>
+			</div>
+			<div class="mb-4 d-flex">
+				<button class="btn">Get Comment<span>:</span></button>
+				<button class="btn btn-warning test-item" name="commentBtn" data-idx="">/api/comments/?</button>
+				<button class="btn btn-warning test-item" name="commentBtn" data-idx="a">/api/comments/a</button>				
+				<button class="btn btn-warning test-item" name="commentBtn" data-idx="9999">/api/comments/9999</button>
+			</div>
+			<div class="mb-4 d-flex">
+				<button class="btn">Delete Comment<span>:</span></button>
+				<button class="btn btn-warning test-item" name="deleteBtn" data-idx="">/api/comments/?</button>					
+				<button class="btn btn-warning test-item" name="deleteBtn" data-idx="a">/api/comments/a</button>				
+				<button class="btn btn-warning test-item" name="deleteBtn" data-idx="9999">/api/comments/9999</button>					
+			</div>
+			<div class="mb-4 d-flex">
+				<button class="btn">Modify Comment<span>:</span></button>	
+				<button class="btn btn-warning test-item" name="patchBtn" data-idx="">/api/comments/?</button>					
+				<button class="btn btn-warning test-item" name="patchBtn" data-idx="a">/api/comments/a</button>				
+				<button class="btn btn-warning test-item" name="patchBtn" data-idx="9999">/api/comments/9999</button>					
+			</div>
+		</div>
+		
+		<!-- likes test -->
+		<div class="test3 mt-5">
+			<div class="input-group mb-4">
+				<div class="input-group-prepend">
+    				<span class="input-group-text">Toggle Board Likes</span>
+    				<span class="input-group-text">:</span>
+    				<span class="input-group-text">/api/boards/{boardIdx}/likes</span>
+  				</div>
+  				<input type="text" class="form-control" placeholder="idx">
+  				<div class="input-group-append">
+    				<button class="btn btn-warning" id="testToggleBoardLikesBtn">TEST</button>
+  				</div>
+			</div>
+			<div class="input-group mb-4">
+				<div class="input-group-prepend">
+					<span class="input-group-text">Toggle Comment Likes</span>
+					<span class="input-group-text">:</span>
+    				<span class="input-group-text">/api/comments/{commentIdx}/likes</span>
+  				</div>
+  				<input type="text" class="form-control" placeholder="idx">
+  				<div class="input-group-append">
+    				<button class="btn btn-warning" id="testToggleCommentLikesBtn">TEST</button>
+  				</div>
+			</div>
+			<div class="input-group mb-4">
+				<div class="input-group-prepend">
+					<span class="input-group-text">Get Board Likes Cnt</span>
+					<span class="input-group-text">:</span>
+    				<span class="input-group-text">/api/boards/{boardIdx}/likes</span>
+  				</div>
+  				<input type="text" class="form-control" placeholder="idx">
+  				<div class="input-group-append">
+    				<button class="btn btn-warning" id="testGetBoardLikesCntBtn">TEST</button>
+  				</div>
+			</div>
+			<div class="input-group mb-4">
+				<div class="input-group-prepend">
+					<span class="input-group-text">Get Comment Likes Cnt</span>
+					<span class="input-group-text">:</span>
+    				<span class="input-group-text">/api/comments/{commentIdx}/likes</span>
+  				</div>
+  				<input type="text" class="form-control" placeholder="idx">
+  				<div class="input-group-append">
+    				<button class="btn btn-warning" id="testGetCommentLikesCntBtn">TEST</button>
+  				</div>
+			</div>
+		</div>
 	</div>
 </div>
 

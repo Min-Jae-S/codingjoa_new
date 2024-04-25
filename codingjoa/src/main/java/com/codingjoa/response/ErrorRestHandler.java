@@ -53,7 +53,7 @@ public class ErrorRestHandler {
 	protected ResponseEntity<Object> handleException(Exception e) {
 		log.info("## [Universal] {} - {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t > location = {}", e.getStackTrace()[0]);
-		log.info("\t > original message = {}", e.getMessage());
+		log.info("\t > message = {}", e.getMessage());
 
 		ErrorResponse errorResponse = ErrorResponse.builder()
 				.status(HttpStatus.BAD_REQUEST)
@@ -69,7 +69,7 @@ public class ErrorRestHandler {
 	protected ResponseEntity<Object> handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
 		log.info("## {} - {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t > location = {}", e.getStackTrace()[0]);
-		log.info("\t > original message = {}", e.getMessage());
+		log.info("\t > message = {}", e.getMessage());
 		
 		ErrorResponse errorResponse = ErrorResponse.builder()
 				.status(HttpStatus.BAD_REQUEST)
@@ -84,10 +84,10 @@ public class ErrorRestHandler {
 	protected ResponseEntity<Object> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
 		log.info("## {} - {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t > location = {}", e.getStackTrace()[0]);
-		log.info("\t > original message = {}", e.getMessage());
-		log.info("\t > field errors");
+		log.info("\t > message = {}", e.getMessage());
+		log.info("\t > fieldErrors");
 		e.getBindingResult().getFieldErrors().forEach(fieldError -> {
-			log.info("\t\t - {} / {}", fieldError.getField(), fieldError.getCodes()[0]);
+			log.info("\t\t - {}, {}", fieldError.getField(), fieldError.getCodes()[0]);
 		}); 
 
 		ErrorResponse errorResponse = ErrorResponse.builder()
@@ -103,8 +103,8 @@ public class ErrorRestHandler {
 	protected ResponseEntity<Object> handleConstraintViolationException(ConstraintViolationException e) {
 		log.info("## {} - {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t > location = {}", e.getStackTrace()[0]);
-		log.info("\t > original message = {}", e.getMessage());
-		log.info("\t > constraint violations");
+		log.info("\t > message = {}", e.getMessage());
+		log.info("\t > constraintViolations");
 		e.getConstraintViolations().forEach(violation -> {
 			log.info("\t\t - invalid value = {}", violation.getInvalidValue());
 		});
@@ -125,7 +125,7 @@ public class ErrorRestHandler {
 	protected ResponseEntity<Object> handleInvalidFormatException(Exception e) {
 		log.info("## {} - {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t > location = {}", e.getStackTrace()[0]);
-		log.info("\t > original message = {}", e.getMessage());
+		log.info("\t > message = {}", e.getMessage());
 
 		ErrorResponse errorResponse = ErrorResponse.builder()
 				.status(HttpStatus.BAD_REQUEST)
@@ -140,7 +140,7 @@ public class ErrorRestHandler {
 	protected ResponseEntity<Object> handleMaxUploadSizeExceededException(MaxUploadSizeExceededException e) {
 		log.info("## {} - {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t > location = {}", e.getStackTrace()[0]);
-		log.info("\t > original message = {}", e.getMessage());
+		log.info("\t > message = {}", e.getMessage());
 		
 		ErrorResponse errorResponse = ErrorResponse.builder()
 				.status(HttpStatus.BAD_REQUEST)
@@ -155,15 +155,15 @@ public class ErrorRestHandler {
 	protected ResponseEntity<Object> handleExpectedException(ExpectedException e) {
 		log.info("## {} - {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t > location = {}", e.getStackTrace()[0]);
-		log.info("\t > errorCode = {} / errorField = {}", e.getCode(), e.getField());
+		log.info("\t > errorCode = {}, errorField = {}", e.getErrorCode(), e.getErrorField());
 		
 		ErrorResponseBuilder builder = ErrorResponse.builder().status(HttpStatus.BAD_REQUEST);
-		if (e.getField() == null) { 
-			builder.messageByCode(e.getCode());
+		if (e.getErrorField() == null) { 
+			builder.messageByCode(e.getErrorCode());
 		} else { 
 			ErrorDetails errorDetails = ErrorDetails.builder()
-					.field(e.getField())
-					.messageByCode(e.getCode())
+					.field(e.getErrorField())
+					.messageByCode(e.getErrorCode())
 					.build();
 			builder.details(errorDetails);
 		}
@@ -179,15 +179,15 @@ public class ErrorRestHandler {
 	protected ResponseEntity<Object> handleTestException(TestException e) {
 		log.info("## {} - {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t > location = {}", e.getStackTrace()[0]);
-		log.info("\t > errorCode = {} / errorField = {}", e.getCode(), e.getField());
+		log.info("\t > errorCode = {}, errorField = {}", e.getErrorCode(), e.getErrorField());
 		
 		TestResponseBuilder builder = TestResponse.builder().status(HttpStatus.BAD_REQUEST);
-		if (e.getField() == null) { 
-			builder.messageByCode(e.getCode());
+		if (e.getErrorField() == null) { 
+			builder.messageByCode(e.getErrorCode());
 		} else { 
 			ErrorDetails errorDetails = ErrorDetails.builder()
-					.field(e.getField())
-					.messageByCode(e.getCode())
+					.field(e.getErrorField())
+					.messageByCode(e.getErrorCode())
 					.build();
 			builder.details(errorDetails);
 		}

@@ -26,7 +26,7 @@ public class ErrorHtmlHandler {
 	protected String handleException(Exception e, HttpServletRequest request) {
 		log.info("## [Universal] {} - {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t > location = {}", e.getStackTrace()[0]);
-		log.info("\t > original message = {}", e.getMessage());
+		log.info("\t > message = {}", e.getMessage());
 		
 		ErrorResponse errorResponse = ErrorResponse.builder()
 				.status(HttpStatus.BAD_REQUEST)
@@ -43,10 +43,10 @@ public class ErrorHtmlHandler {
 	protected String handleBindException(BindException e, HttpServletRequest request) {
 		log.info("## {} - {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t > location = {}", e.getStackTrace()[0]);
-		log.info("\t > original message = {}", e.getMessage());
-		log.info("\t > field errors");
+		log.info("\t > message = {}", e.getMessage());
+		log.info("\t > fieldErrors");
 		e.getBindingResult().getFieldErrors().forEach(fieldError -> {
-			log.info("\t\t - {} / {}", fieldError.getField(), fieldError.getCodes()[0]);
+			log.info("\t\t - {}, {}", fieldError.getField(), fieldError.getCodes()[0]);
 		}); 
 		
 		ErrorResponse errorResponse = ErrorResponse.builder()
@@ -74,8 +74,8 @@ public class ErrorHtmlHandler {
 			HttpServletRequest request) {
 		log.info("## {} - {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t > location = {}", e.getStackTrace()[0]);
-		log.info("\t > original message = {}", e.getMessage());
-		log.info("\t > constraint violations");
+		log.info("\t > message = {}", e.getMessage());
+		log.info("\t > constraintViolations");
 		e.getConstraintViolations().forEach(violation -> {
 			log.info("\t\t - invalid value = {}", violation.getInvalidValue());
 		});
@@ -97,7 +97,7 @@ public class ErrorHtmlHandler {
 	protected String handleInvalidFormatException(Exception e, HttpServletRequest request) {
 		log.info("## {} - {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t > location = {}", e.getStackTrace()[0]);
-		log.info("\t > original message = {}", e.getMessage());
+		log.info("\t > message = {}", e.getMessage());
 		
 		ErrorResponse errorResponse = ErrorResponse.builder()
 				.status(HttpStatus.BAD_REQUEST)
@@ -111,17 +111,17 @@ public class ErrorHtmlHandler {
 
 	@ExceptionHandler(ExpectedException.class)
 	protected String handleExpectedException(ExpectedException e, HttpServletRequest request) {
-		log.info("## {} : {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
+		log.info("## {} - {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t > location = {}", e.getStackTrace()[0]);
-		log.info("\t > error code = {} / error field = {}", e.getCode(), e.getField());
+		log.info("\t > errorCode = {}, errorField = {}", e.getErrorCode(), e.getErrorField());
 		
 		ErrorResponseBuilder builder = ErrorResponse.builder().status(HttpStatus.BAD_REQUEST);
-		if (e.getField() == null) { 
-			builder.messageByCode(e.getCode());
+		if (e.getErrorField() == null) { 
+			builder.messageByCode(e.getErrorCode());
 		} else { 
 			ErrorDetails errorDetails = ErrorDetails.builder()
-					.field(e.getField())
-					.messageByCode(e.getCode())
+					.field(e.getErrorField())
+					.messageByCode(e.getErrorCode())
 					.build();
 			builder.details(errorDetails);
 		}
@@ -138,15 +138,15 @@ public class ErrorHtmlHandler {
 	protected String handleTestException(TestException e, HttpServletRequest request) {
 		log.info("## {} - {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t > location = {}", e.getStackTrace()[0]);
-		log.info("\t > error code = {} / error field = {}", e.getCode(), e.getField());
+		log.info("\t > errorCode = {}, errorField = {}", e.getErrorCode(), e.getErrorField());
 		
 		TestResponseBuilder builder = TestResponse.builder().status(HttpStatus.BAD_REQUEST);
-		if (e.getField() == null) { 
-			builder.messageByCode(e.getCode());
+		if (e.getErrorField() == null) { 
+			builder.messageByCode(e.getErrorCode());
 		} else { 
 			ErrorDetails errorDetails = ErrorDetails.builder()
-					.field(e.getField())
-					.messageByCode(e.getCode())
+					.field(e.getErrorField())
+					.messageByCode(e.getErrorCode())
 					.build();
 			builder.details(errorDetails);
 		}

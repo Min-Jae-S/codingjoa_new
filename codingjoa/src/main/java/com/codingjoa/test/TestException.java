@@ -6,16 +6,16 @@ import lombok.Getter;
 @Getter
 public class TestException extends RuntimeException {
 	
-	private final String field;
-	private final String code;
+	private final String errorField;
+	private final String errorCode;
 	
-	public TestException(String code) {
-		this.field = null;
-		this.code = code;
+	public TestException(String errorCode) {
+		this.errorField = null;
+		this.errorCode = errorCode;
 	}
 
-	public TestException(String field, String code) {
-		this.field = field;
-		this.code = code;
+	public TestException(String errorField, String errorCode) {
+		this.errorField = errorField;
+		this.errorCode = errorCode;
 	}
 }
