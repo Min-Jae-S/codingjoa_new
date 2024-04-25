@@ -134,6 +134,7 @@ public class BoardController {
 		log.info("\t > {}", writeBoardDto);
 		
 		if (bindingResult.hasErrors()) {
+			log.info("\t > bindingResult hasErrors");
 			if (bindingResult.hasFieldErrors("boardCategoryCode") /* || bindingResult.hasFieldErrors("boardIdx") */) {
 				throw new BindException(bindingResult);
 			}
@@ -143,12 +144,10 @@ public class BoardController {
 		
 		int boardWriterIdx = principal.getMember().getMemberIdx();
 		writeBoardDto.setBoardWriterIdx(boardWriterIdx);
+		boardService.writeBoard(writeBoardDto); // insertBoard, activateImage
 		
-		// insertBoard, activateImage
-		boardService.writeBoard(writeBoardDto); 
-		
-		//return "redirect:/board/read?boardIdx=" + writeBoardDto.getBoardIdx();
-		return "redirect:/board/?boardCategoryCode=" + writeBoardDto.getBoardCategoryCode();
+		return "redirect:/board/read?boardIdx=" + writeBoardDto.getBoardIdx();
+		//return "redirect:/board/?boardCategoryCode=" + writeBoardDto.getBoardCategoryCode();
 	}
 	
 	@GetMapping("/modify")
@@ -171,6 +170,7 @@ public class BoardController {
 		log.info("\t > {}", modifyBoardDto);
 
 		if (bindingResult.hasErrors()) {
+			log.info("\t > bindingResult hasErrors");
 			if (bindingResult.hasFieldErrors("boardCategoryCode") || bindingResult.hasFieldErrors("boardIdx")) {
 				throw new BindException(bindingResult);
 			}
@@ -179,7 +179,7 @@ public class BoardController {
 		}
 		
 		modifyBoardDto.setBoardWriterIdx(principal.getMember().getMemberIdx());
-		boardService.modifyBoard(modifyBoardDto); // updateBoard + deactivateImage + activateImage  
+		boardService.modifyBoard(modifyBoardDto); // updateBoard, deactivateImage, activateImage  
 		
 		return "redirect:/board/read?boardIdx=" + modifyBoardDto.getBoardIdx();
 	}

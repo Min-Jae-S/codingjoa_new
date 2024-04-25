@@ -19,7 +19,7 @@ public class BoardDto {
 	@BoardCategoryCode
 	private int boardCategoryCode;
 	
-	// Cannot deserialize instance of `java.util.ArrayList<java.lang.Integer>` out of VALUE_STRING token;
+	// cannot deserialize instance of `java.util.ArrayList<java.lang.Integer>` out of VALUE_STRING token;
 	@JsonFormat(with = JsonFormat.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
 	private List<Integer> boardImages = new ArrayList<>();
 	
