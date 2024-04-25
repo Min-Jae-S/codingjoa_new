@@ -407,7 +407,9 @@
 					<a class="btn btn-secondary" href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}&
 						${boardCri.getQueryString()}">목록</a>
 					<div class="comment-pagination">
-						<!-- pagination -->
+						<!------------------------>
+						<!-- comment pagination -->
+						<!------------------------>
 					</div>
 				</div>
 			</div>
@@ -417,7 +419,7 @@
 		<div class="test1 mt-5 d-none">
 			<div class="input-group mb-4">
 				<div class="input-group-prepend">
-    				<span class="input-group-text">Write Comment</span>
+    				<span class="input-group-text">Write comment</span>
     				<span class="input-group-text">:</span>
     				<span class="input-group-text">/api/comments</span>
   				</div>
@@ -429,7 +431,7 @@
 			</div>
 			<div class="input-group mb-4">
 				<div class="input-group-prepend">
-					<span class="input-group-text">Get Comment List</span>
+					<span class="input-group-text">Get commentList</span>
 					<span class="input-group-text">:</span>
     				<span class="input-group-text">/api/boards/{commentBoardIdx}/comments</span>
   				</div>
@@ -441,7 +443,7 @@
 			</div>
 			<div class="input-group mb-4">
 				<div class="input-group-prepend">
-					<span class="input-group-text">Get Comment</span>
+					<span class="input-group-text">Get comment</span>
 					<span class="input-group-text">:</span>
     				<span class="input-group-text">/api/comments/{commentIdx}</span>
   				</div>
@@ -452,7 +454,7 @@
 			</div>
 			<div class="input-group mb-4">
 				<div class="input-group-prepend">
-					<span class="input-group-text">Delete Comment</span>
+					<span class="input-group-text">Delete comment</span>
 					<span class="input-group-text">:</span>
     				<span class="input-group-text">/api/comments/{commentIdx}</span>
   				</div>
@@ -463,7 +465,7 @@
 			</div>
 			<div class="input-group mb-4">
 				<div class="input-group-prepend">
-					<span class="input-group-text">Modify Comment</span>
+					<span class="input-group-text">Modify comment</span>
 					<span class="input-group-text">:</span>
     				<span class="input-group-text">/api/comments/{commentIdx}</span>
   				</div>
@@ -478,31 +480,31 @@
 		<!-- comment test -->
 		<div class="test2 mt-5 d-none">
 			<div class="mb-4 d-flex">
-				<button class="btn">Write Comment<span>:</span></button>
+				<button class="btn">Write comment<span>:</span></button>
 				<button class="btn btn-warning test-item" name="writeBtn" data-idx="">/api/comments; idx=?</button>
 				<button class="btn btn-warning test-item" name="writeBtn" data-idx="a">/api/comments; idx=a</button>				
 				<button class="btn btn-warning test-item" name="writeBtn" data-idx="9999">/api/comments; idx=9999</button>
 			</div>
 			<div class="mb-4 d-flex">
-				<button class="btn">Get Comment List<span>:</span></button>
+				<button class="btn">Get commentList<span>:</span></button>
 				<button class="btn btn-warning test-item" name="commentListBtn" data-idx="">/api/boards/?/comments</button>
 				<button class="btn btn-warning test-item" name="commentListBtn" data-idx="a">/api/boards/a/comments</button>				
 				<button class="btn btn-warning test-item" name="commentListBtn" data-idx="9999">/api/boards/9999/comments</button>
 			</div>
 			<div class="mb-4 d-flex">
-				<button class="btn">Get Comment<span>:</span></button>
+				<button class="btn">Get comment<span>:</span></button>
 				<button class="btn btn-warning test-item" name="commentBtn" data-idx="">/api/comments/?</button>
 				<button class="btn btn-warning test-item" name="commentBtn" data-idx="a">/api/comments/a</button>				
 				<button class="btn btn-warning test-item" name="commentBtn" data-idx="9999">/api/comments/9999</button>
 			</div>
 			<div class="mb-4 d-flex">
-				<button class="btn">Delete Comment<span>:</span></button>
+				<button class="btn">Delete comment<span>:</span></button>
 				<button class="btn btn-warning test-item" name="deleteBtn" data-idx="">/api/comments/?</button>					
 				<button class="btn btn-warning test-item" name="deleteBtn" data-idx="a">/api/comments/a</button>				
 				<button class="btn btn-warning test-item" name="deleteBtn" data-idx="9999">/api/comments/9999</button>					
 			</div>
 			<div class="mb-4 d-flex">
-				<button class="btn">Modify Comment<span>:</span></button>	
+				<button class="btn">Modify comment<span>:</span></button>	
 				<button class="btn btn-warning test-item" name="patchBtn" data-idx="">/api/comments/?</button>					
 				<button class="btn btn-warning test-item" name="patchBtn" data-idx="a">/api/comments/a</button>				
 				<button class="btn btn-warning test-item" name="patchBtn" data-idx="9999">/api/comments/9999</button>					
@@ -513,7 +515,7 @@
 		<div class="test3 mt-5">
 			<div class="input-group mb-4">
 				<div class="input-group-prepend">
-    				<span class="input-group-text">Toggle Board Likes</span>
+    				<span class="input-group-text">Toggle boardLikes</span>
     				<span class="input-group-text">:</span>
     				<span class="input-group-text">/api/boards/{boardIdx}/likes</span>
   				</div>
@@ -524,7 +526,7 @@
 			</div>
 			<div class="input-group mb-4">
 				<div class="input-group-prepend">
-					<span class="input-group-text">Toggle Comment Likes</span>
+					<span class="input-group-text">Toggle commentLikes</span>
 					<span class="input-group-text">:</span>
     				<span class="input-group-text">/api/comments/{commentIdx}/likes</span>
   				</div>
@@ -535,7 +537,7 @@
 			</div>
 			<div class="input-group mb-4">
 				<div class="input-group-prepend">
-					<span class="input-group-text">Get Board Likes Cnt</span>
+					<span class="input-group-text">Get boardLikesCnt</span>
 					<span class="input-group-text">:</span>
     				<span class="input-group-text">/api/boards/{boardIdx}/likes</span>
   				</div>
@@ -546,7 +548,7 @@
 			</div>
 			<div class="input-group mb-4">
 				<div class="input-group-prepend">
-					<span class="input-group-text">Get Comment Likes Cnt</span>
+					<span class="input-group-text">Get commentLikesCnt</span>
 					<span class="input-group-text">:</span>
     				<span class="input-group-text">/api/comments/{commentIdx}/likes</span>
   				</div>
@@ -560,136 +562,7 @@
 </div>
 
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
-<!-- test script -->
-<script>
-	$(function() {
-		// TEST write comment	
-		$("#testWriteBtn").on("click", function() {
-			let $input = $(this).closest("div.input-group").find("input");
-			let comment = {
-				commentBoardIdx : $input.first().val(),
-				commentContent : $input.last().val()
-			};
-			
-			commentService.writeComment(comment, function(result) {
-				alert(result.message);
-			});
-		});
 
-		// TEST get comment list
-		$("#testGetCommentListBtn").on("click", function() {
-			let $input = $(this).closest("div.input-group").find("input");
-			let commentBoardIdx = $input.first().val();
-			let page = $input.last().val();
-			commentService.getCommentList(commentBoardIdx, page, function(result) {
-				// ...
-			});
-		});
-
-		// TEST get comment
-		$("#testGetCommentBtn").on("click", function() {
-			let commentIdx = $(this).closest("div.input-group").find("input").val();
-			commentService.getComment(commentIdx, function(result) {
-				// ...
-			});
-		});
-
-		// TEST delete comment
-		$("#testDeleteCommentBtn").on("click", function() {
-			let commentIdx = $(this).closest("div.input-group").find("input").val();
-			commentService.deleteComment(commentIdx, function(result) {
-				alert(result.message);
-			});
-		});
-
-		// TEST modify comment
-		$("#testModifyCommentBtn").on("click", function() {
-			let $input = $(this).closest("div.input-group").find("input");
-			let commentIdx = $input.first().val();
-			let comment = {
-				commentContent : $input.last().val()
-			};
-			
-			commentService.modifyComment(commentIdx, comment, function(result) {
-				alert(result.message);
-			});
-		});
-
-		// TEST write comment2
-		$("button[name='writeBtn']").on("click", function() {
-			let comment = {
-				commentBoardIdx : $(this).data("idx"),
-				commentContent : "aa"
-			};
-			commentService.writeComment(comment, function(result) {
-				alert(result.message);
-			});
-		});
-		
-		// TEST get comment list2
-		$("button[name='commentListBtn']").on("click", function() {
-			commentService.getCommentList($(this).data("idx"), curCommentPage, function(result) {
-				alert(result.message);
-			});
-		});
-		
-		// TEST get comment2
-		$("button[name='commentBtn']").on("click", function() {
-			commentService.getComment($(this).data("idx"), function(result) {
-				alert(result.message);
-			});
-		});
-
-		// Test delete comment2
-		$("button[name='deleteBtn']").on("click", function() {
-			commentService.deleteComment($(this).data("idx"), function(result) { 
-				alert(result.message);
-			});
-		});
-		
-		// TEST modify comment2
-		$("button[name='patchBtn']").on("click", function() {
-			let comment = {
-				commentContent : "aa"
-			};
-			commentService.modifyComment($(this).data("idx"), comment, function(result) { 
-				alert(result.message);
-			});
-		});
-		
-		// TEST board likes
-		$("#testToggleBoardLikesBtn").on("click", function() {
-			let boardIdx = $(this).closest("div.input-group").find("input").val();
-			likesService.toggleBoardLikes(boardIdx, function(result) {
-				// ...
-			});
-		});
- 		
-		// TEST comment likes
-		$("#testToggleCommentLikesBtn").on("click", function() {
-			let commentIdx = $(this).closest("div.input-group").find("input").val();
-			likesService.toggleCommentLikes(commentIdx, function(result) {
-				// ...
-			});
-		});
-		
-		// TEST board likes cnt
-		$("#testGetBoardLikesCntBtn").on("click", function() {
-			let boardIdx = $(this).closest("div.input-group").find("input").val();
-			likesService.getBoardLikesCnt(boardIdx, function(result) {
-				// ...
-			});
-		});
-
-		// TEST comment likes cnt
-		$("#testGetCommentLikesCntBtn").on("click", function() {
-			let commentIdx = $(this).closest("div.input-group").find("input").val();
-			likesService.getCommentLikesCnt(commentIdx, function(result) {
-				// ...
-			});
-		});
-	});
-</script>
 <script>
 	const boardContent = '<c:out value="${boardDetails.boardContent}" escapeXml="false"/>';
 	ClassicEditor
@@ -712,7 +585,7 @@
 		const boardWriterIdx = "<c:out value='${boardDetails.boardWriterIdx}'/>";
 		let curCommentPage = 1;
 		
-		// get comment list
+		// get commentList
 		commentService.getCommentList(boardIdx, curCommentPage, function(result) {
 			let commentList = result.data.commentList;
 			let myCommentLikes = result.data.myCommentLikes;
@@ -880,7 +753,7 @@
 			});
 		});
 		
-		// board likes
+		// boardLikes
 		$("#boardLikesBtn").on("click", function() {
 			likesService.toggleBoardLikes(boardIdx, function(result) {
 				alert(result.message);
@@ -893,7 +766,7 @@
 			});
 		});
 		
-		// comment likes
+		// commentLikes
 		$(document).on("click", "button[name=commentLikesBtn]", function() {
 			let $li = $(this).closest("li");
 			let commentIdx = $li.data("comment-idx");
@@ -905,6 +778,137 @@
 					$li.find("button[name=commentLikesBtn] i").removeClass().addClass(cssClass);
 					$li.find(".comment-likes-cnt").text(result.data);
 				});
+			});
+		});
+	});
+</script>
+
+<!-- test script -->
+<script>
+	$(function() {
+		// TEST write comment	
+		$("#testWriteBtn").on("click", function() {
+			let $input = $(this).closest("div.input-group").find("input");
+			let comment = {
+				commentBoardIdx : $input.first().val(),
+				commentContent : $input.last().val()
+			};
+			
+			commentService.writeComment(comment, function(result) {
+				alert(result.message);
+			});
+		});
+
+		// TEST get commentList
+		$("#testGetCommentListBtn").on("click", function() {
+			let $input = $(this).closest("div.input-group").find("input");
+			let commentBoardIdx = $input.first().val();
+			let page = $input.last().val();
+			commentService.getCommentList(commentBoardIdx, page, function(result) {
+				// ...
+			});
+		});
+
+		// TEST get comment
+		$("#testGetCommentBtn").on("click", function() {
+			let commentIdx = $(this).closest("div.input-group").find("input").val();
+			commentService.getComment(commentIdx, function(result) {
+				// ...
+			});
+		});
+
+		// TEST delete comment
+		$("#testDeleteCommentBtn").on("click", function() {
+			let commentIdx = $(this).closest("div.input-group").find("input").val();
+			commentService.deleteComment(commentIdx, function(result) {
+				alert(result.message);
+			});
+		});
+
+		// TEST modify comment
+		$("#testModifyCommentBtn").on("click", function() {
+			let $input = $(this).closest("div.input-group").find("input");
+			let commentIdx = $input.first().val();
+			let comment = {
+				commentContent : $input.last().val()
+			};
+			
+			commentService.modifyComment(commentIdx, comment, function(result) {
+				alert(result.message);
+			});
+		});
+
+		// TEST write comment2
+		$("button[name='writeBtn']").on("click", function() {
+			let comment = {
+				commentBoardIdx : $(this).data("idx"),
+				commentContent : "aa"
+			};
+			commentService.writeComment(comment, function(result) {
+				alert(result.message);
+			});
+		});
+		
+		// TEST get commentList2
+		$("button[name='commentListBtn']").on("click", function() {
+			commentService.getCommentList($(this).data("idx"), curCommentPage, function(result) {
+				alert(result.message);
+			});
+		});
+		
+		// TEST get comment2
+		$("button[name='commentBtn']").on("click", function() {
+			commentService.getComment($(this).data("idx"), function(result) {
+				alert(result.message);
+			});
+		});
+
+		// Test delete comment2
+		$("button[name='deleteBtn']").on("click", function() {
+			commentService.deleteComment($(this).data("idx"), function(result) { 
+				alert(result.message);
+			});
+		});
+		
+		// TEST modify comment2
+		$("button[name='patchBtn']").on("click", function() {
+			let comment = {
+				commentContent : "aa"
+			};
+			commentService.modifyComment($(this).data("idx"), comment, function(result) { 
+				alert(result.message);
+			});
+		});
+		
+		// TEST boardLikes
+		$("#testToggleBoardLikesBtn").on("click", function() {
+			let boardIdx = $(this).closest("div.input-group").find("input").val();
+			likesService.toggleBoardLikes(boardIdx, function(result) {
+				// ...
+			});
+		});
+ 		
+		// TEST commentLikes
+		$("#testToggleCommentLikesBtn").on("click", function() {
+			let commentIdx = $(this).closest("div.input-group").find("input").val();
+			likesService.toggleCommentLikes(commentIdx, function(result) {
+				// ...
+			});
+		});
+		
+		// TEST boardLikesCnt
+		$("#testGetBoardLikesCntBtn").on("click", function() {
+			let boardIdx = $(this).closest("div.input-group").find("input").val();
+			likesService.getBoardLikesCnt(boardIdx, function(result) {
+				// ...
+			});
+		});
+
+		// TEST commentLikesCnt
+		$("#testGetCommentLikesCntBtn").on("click", function() {
+			let commentIdx = $(this).closest("div.input-group").find("input").val();
+			likesService.getCommentLikesCnt(commentIdx, function(result) {
+				// ...
 			});
 		});
 	});

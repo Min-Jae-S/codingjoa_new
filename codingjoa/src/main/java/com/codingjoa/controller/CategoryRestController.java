@@ -24,8 +24,8 @@ public class CategoryRestController {
 	private CategoryService categoryService;
 	
 	@GetMapping("/{categoryParentCode}")
-	public ResponseEntity<Object> findCategoryListByParent(@PathVariable("categoryParentCode") int categoryParentCode) {
-		log.info("## findCategoryListByParent");
+	public ResponseEntity<Object> getCategoryListByParent(@PathVariable("categoryParentCode") int categoryParentCode) {
+		log.info("## getCategoryListByParent");
 		List<Category> categoryList = categoryService.findCategoryListByParent(categoryParentCode);
 		return ResponseEntity.ok(SuccessResponse.builder().data(categoryList).build());
 	}

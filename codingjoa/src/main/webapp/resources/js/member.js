@@ -4,7 +4,7 @@ let memberService = (function() {
 	const contextPath = getContextPath();
 
 	function sendAuthCodeForJoin(obj, callback) {
-		console.log("## Send authCode : Join");
+		console.log("## Send authCode : join");
 		let url = contextPath + "/api/member/join/auth";
 		console.log("> URL = '%s'", url);
 		console.log("> sendData = %s", JSON.stringify(obj, null, 2));
@@ -43,7 +43,7 @@ let memberService = (function() {
 	}
 	
 	function sendAuthCodeForUpdate(obj, callback) {
-		console.log("## Send authCode : Update Email");
+		console.log("## Send authCode : update email");
 		let url = contextPath + "/api/member/update-email/auth";
 		console.log("> URL = '%s'", url);
 		console.log("> sendData = %s", JSON.stringify(obj, null, 2));
@@ -167,7 +167,7 @@ let memberService = (function() {
 	}
 
 	function getMemberDetails(callback) {
-		console.log("## Get member details");
+		console.log("## Get memberDetails");
 		let url = contextPath + "/api/member/details";
 		console.log("> URL = '%s'", url);
 		
