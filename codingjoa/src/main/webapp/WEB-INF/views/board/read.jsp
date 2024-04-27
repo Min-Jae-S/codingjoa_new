@@ -589,7 +589,7 @@
 		const boardWriterIdx = "<c:out value='${boardDetails.boardWriterIdx}'/>";
 		let curCommentPage = 1;
 		
-		// get commentList
+		// getCommentList
 		commentService.getCommentList(boardIdx, curCommentPage, function(result) {
 			let commentList = result.data.commentList;
 			let myCommentLikes = result.data.myCommentLikes;
@@ -643,7 +643,7 @@
 			}
 		});
 		
-		// write comment
+		// writeComment
 		$("#writeCommentBtn").on("click", function() {
 			let comment = {
 				commentBoardIdx : boardIdx,
@@ -667,7 +667,7 @@
 			});
 		});
 		
-		// get comment
+		// getComment
 		$(document).on("click", "button[name=showEditCommentBtn]", function() {
 			let $li =  $(this).closest("li");
 			let commentIdx = $li.data("comment-idx");
@@ -690,7 +690,7 @@
 				.next("div.input-group").remove();
 		});
 		
-		// update comment
+		// updateComment
 		$(document).on("click", "button[name=modifyCommentBtn]", function() {
 			let $li =  $(this).closest("li");
 			let commentIdx = $li.data("comment-idx");
@@ -714,7 +714,7 @@
 			});
 		});
 		
-		// delete comment
+		// deleteComment
 		$(document).on("click", "button[name=deleteCommentBtn]", function() {
 			if (!confirm("댓글을 삭제하시겠습니까?")) {
 				return;
@@ -756,7 +756,7 @@
 			});
 		});
 		
-		// boardLikes
+		// toggleBoardLikes
 		$("#boardLikesBtn").on("click", function() {
 			likesService.toggleBoardLikes(boardIdx, function(result) {
 				alert(result.message);
@@ -769,7 +769,7 @@
 			});
 		});
 		
-		// commentLikes
+		// toggleCommentLikes
 		$(document).on("click", "button[name=commentLikesBtn]", function() {
 			let $li = $(this).closest("li");
 			let commentIdx = $li.data("comment-idx");
@@ -789,7 +789,7 @@
 <!-- test script -->
 <script>
 	$(function() {
-		// test write comment	
+		// writeComment	
 		$("#testWriteBtn").on("click", function() {
 			let $input = $(this).closest("div.input-group").find("input");
 			let comment = {
@@ -802,7 +802,7 @@
 			});
 		});
 
-		// test get commentList
+		// getCommentList
 		$("#testGetCommentListBtn").on("click", function() {
 			let $input = $(this).closest("div.input-group").find("input");
 			let commentBoardIdx = $input.first().val();
@@ -812,7 +812,7 @@
 			});
 		});
 
-		// test get comment
+		// getComment
 		$("#testGetCommentBtn").on("click", function() {
 			let commentIdx = $(this).closest("div.input-group").find("input").val();
 			commentService.getComment(commentIdx, function(result) {
@@ -820,7 +820,7 @@
 			});
 		});
 
-		// test delete comment
+		// deleteComment
 		$("#testDeleteCommentBtn").on("click", function() {
 			let commentIdx = $(this).closest("div.input-group").find("input").val();
 			commentService.deleteComment(commentIdx, function(result) {
@@ -828,7 +828,7 @@
 			});
 		});
 
-		// test modify comment
+		// modifyComment
 		$("#testModifyCommentBtn").on("click", function() {
 			let $input = $(this).closest("div.input-group").find("input");
 			let commentIdx = $input.first().val();
@@ -841,7 +841,7 @@
 			});
 		});
 
-		// test write comment2
+		// writeComment2
 		$("button[name='writeBtn']").on("click", function() {
 			let comment = {
 				commentBoardIdx : $(this).data("idx"),
@@ -852,28 +852,28 @@
 			});
 		});
 		
-		// test get commentList2
+		// getCommentList2
 		$("button[name='commentListBtn']").on("click", function() {
 			commentService.getCommentList($(this).data("idx"), curCommentPage, function(result) {
 				alert(result.message);
 			});
 		});
 		
-		// test get comment2
+		// getComment2
 		$("button[name='commentBtn']").on("click", function() {
 			commentService.getComment($(this).data("idx"), function(result) {
 				alert(result.message);
 			});
 		});
 
-		// test delete comment2
+		// deleteComment2
 		$("button[name='deleteBtn']").on("click", function() {
 			commentService.deleteComment($(this).data("idx"), function(result) { 
 				alert(result.message);
 			});
 		});
 		
-		// test modify comment2
+		// modifyComment2
 		$("button[name='patchBtn']").on("click", function() {
 			let comment = {
 				commentContent : "aa"
@@ -883,7 +883,7 @@
 			});
 		});
 		
-		// test boardLikes
+		// toggleBoardLikes
 		$("#testToggleBoardLikesBtn").on("click", function() {
 			let boardIdx = $(this).closest("div.input-group").find("input").val();
 			likesService.toggleBoardLikes(boardIdx, function(result) {
@@ -891,7 +891,7 @@
 			});
 		});
  		
-		// test commentLikes
+		// toggleCommentLikes
 		$("#testToggleCommentLikesBtn").on("click", function() {
 			let commentIdx = $(this).closest("div.input-group").find("input").val();
 			likesService.toggleCommentLikes(commentIdx, function(result) {
@@ -899,7 +899,7 @@
 			});
 		});
 		
-		// test boardLikesCnt
+		// getBoardLikesCnt
 		$("#testGetBoardLikesCntBtn").on("click", function() {
 			let boardIdx = $(this).closest("div.input-group").find("input").val();
 			likesService.getBoardLikesCnt(boardIdx, function(result) {
@@ -907,7 +907,7 @@
 			});
 		});
 
-		// test commentLikesCnt
+		// getCommentLikesCnt
 		$("#testGetCommentLikesCntBtn").on("click", function() {
 			let commentIdx = $(this).closest("div.input-group").find("input").val();
 			likesService.getCommentLikesCnt(commentIdx, function(result) {

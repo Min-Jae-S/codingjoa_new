@@ -1,10 +1,10 @@
-console.log("## Comment service ready - comment.js");
+console.log("## commentService ready - comment.js");
 
 let commentService = (function() {
 	const contextPath = getContextPath();
 	
 	function writeComment(comment, callback) {
-		console.log("## Write comment");
+		console.log("## writeComment");
 		let url = contextPath + "/api/comments";
 		console.log("> URL = '%s'", url);
 		console.log("> comment = %s", JSON.stringify(comment, null, 2));
@@ -63,7 +63,7 @@ let commentService = (function() {
 	}
 	
 	function getCommentList(commentBoardIdx, page, callback) {
-		console.log("## Get commentList");
+		console.log("## getCommentList");
 		let url = contextPath + "/api/boards/" + commentBoardIdx + "/comments?page=" + page;
 		console.log("> URL = '%s'", url);
 		
@@ -89,7 +89,7 @@ let commentService = (function() {
 	}
 
 	function getComment(commentIdx, callback) {
-		console.log("## Get comment");
+		console.log("## getComment");
 		let url = contextPath + "/api/comments/" + commentIdx;
 		console.log("> URL = '%s'", url);
 		
@@ -115,7 +115,7 @@ let commentService = (function() {
 	}
 	
 	function modifyComment(commentIdx, comment, callback) {
-		console.log("## Modify comment");
+		console.log("## modifyComment");
 		let url = contextPath + "/api/comments/" + commentIdx;
 		console.log("> URL = '%s'", url);
 		console.log("> comment = %s", JSON.stringify(comment, null, 2));
@@ -144,7 +144,7 @@ let commentService = (function() {
 	}
 	
 	function deleteComment(commentIdx, callback) {
-		console.log("## Delete comment");
+		console.log("## deleteComment");
 		let url = contextPath + "/api/comments/" + commentIdx;
 		console.log("> URL = '%s'", url);
 		

@@ -1,11 +1,11 @@
-console.log("## Image service ready - image.js");
+console.log("## imageService ready - image.js");
 
 let imageService = (function() {
 	const contextPath = getContextPath();
 
 	function uploadMemberImage(formData, callback) {
-		console.log("## Upload memberImage");
-		let url = contextPath + "/api/upload/member-image";
+		console.log("## uploadMemberImage");
+		let url = contextPath + "/api/member/image"; // /api/upload/member-image --> /api/member/image
 		console.log("> URL = '%s'", url);
 		
 		$.ajax({
@@ -33,7 +33,7 @@ let imageService = (function() {
 	}
 
 	function getMemberImageResource(memberImageName, callback) {
-		console.log("## Get membeImageResource");
+		console.log("## getMemberImageResource");
 		let url = contextPath + "/api/member/images/" + memberImageName;
 		console.log("> URL = '%s'", url);
 		

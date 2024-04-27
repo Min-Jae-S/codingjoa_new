@@ -1,4 +1,4 @@
-console.log("## Rendering service ready - render.js");
+console.log("## renderService ready - render.js");
 
 function makeCommentHtml(commentList, myCommentLikes, boardWriterIdx) {
 	let html = "";

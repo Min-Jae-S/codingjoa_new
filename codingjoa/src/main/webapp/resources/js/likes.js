@@ -1,10 +1,10 @@
-console.log("## Likes service ready - likes.js");
+console.log("## likesService ready - likes.js");
 
 let likesService = (function() {
 	const contextPath = getContextPath();
 
 	function toggleBoardLikes(boardIdx, callback) {
-		console.log("## Toggle boardLikes");
+		console.log("## toggleBoardLikes");
 		let url = contextPath + "/api/boards/" + boardIdx + "/likes";
 		console.log("> URL = '%s'", url);
 		
@@ -30,7 +30,7 @@ let likesService = (function() {
 	}
 	
 	function toggleCommentLikes(commentIdx, callback) {
-		console.log("## Toggle commentLikes");
+		console.log("## toggleCommentLikes");
 		let url = contextPath + "/api/comments/" + commentIdx + "/likes";
 		console.log("> URL = '%s'", url);
 		
@@ -56,7 +56,7 @@ let likesService = (function() {
 	}
 	
 	function getBoardLikesCnt(boardIdx, callback) {
-		console.log("## Get boardLikesCnt");
+		console.log("## getBoardLikesCnt");
 		let url = contextPath + "/api/boards/" + boardIdx + "/likes";
 		console.log("> URL = '%s'", url);
 		
@@ -82,7 +82,7 @@ let likesService = (function() {
 	}
 
 	function getCommentLikesCnt(commentIdx, callback) {
-		console.log("## Get commentLikesCnt");
+		console.log("## getCommentLikesCnt");
 		let url = contextPath + "/api/comments/" + commentIdx + "/likes";
 		console.log("> url = '%s'", url);
 		

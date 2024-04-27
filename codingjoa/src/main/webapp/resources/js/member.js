@@ -1,10 +1,10 @@
-console.log("## Member service ready - member.js");
+console.log("## memberService ready - member.js");
 
 let memberService = (function() {
 	const contextPath = getContextPath();
 
 	function sendAuthCodeForJoin(obj, callback) {
-		console.log("## Send authCode : join");
+		console.log("## sendAuthCodeForJoin");
 		let url = contextPath + "/api/member/join/auth";
 		console.log("> URL = '%s'", url);
 		console.log("> sendData = %s", JSON.stringify(obj, null, 2));
@@ -43,7 +43,7 @@ let memberService = (function() {
 	}
 	
 	function sendAuthCodeForUpdate(obj, callback) {
-		console.log("## Send authCode : update email");
+		console.log("## sendAuthCodeForUpdate");
 		let url = contextPath + "/api/member/update-email/auth";
 		console.log("> URL = '%s'", url);
 		console.log("> sendData = %s", JSON.stringify(obj, null, 2));
@@ -74,7 +74,7 @@ let memberService = (function() {
 	}
 	
 	function updateEmail(obj, callback) {
-		console.log("## Update email");
+		console.log("## updateEmail");
 		let url = contextPath + "/api/member/email";
 		console.log("> URL = '%s'", url);
 		console.log("> sendData = %s", JSON.stringify(obj, null, 2));
@@ -105,7 +105,7 @@ let memberService = (function() {
 	}
 
 	function updateAddr(obj, callback) {
-		console.log("## Update addr");
+		console.log("## updateAddr");
 		let url = contextPath + "/api/member/address";
 		console.log("> URL = '%s'", url);
 		console.log("> sendData = %s", JSON.stringify(obj, null, 2));
@@ -136,7 +136,7 @@ let memberService = (function() {
 	}
 
 	function updateAgree(obj, callback) {
-		console.log("## Update agree");
+		console.log("## updateAgree");
 		let url = contextPath + "/api/member/agree";
 		console.log("> URL = '%s'", url);
 		console.log("> sendData = %s", JSON.stringify(obj, null, 2));
@@ -167,7 +167,7 @@ let memberService = (function() {
 	}
 
 	function getMemberDetails(callback) {
-		console.log("## Get memberDetails");
+		console.log("## getMemberDetails");
 		let url = contextPath + "/api/member/details";
 		console.log("> URL = '%s'", url);
 		
@@ -193,7 +193,7 @@ let memberService = (function() {
 	}
 	
 	function confirmPassword(obj, callback) {
-		console.log("## Confirm password");
+		console.log("## confirmPassword");
 		let url = contextPath + "/api/member/confirm/password";
 		console.log("> URL = '%s'", url);
 		console.log("> sendData = %s", JSON.stringify(obj, null, 2));
@@ -224,7 +224,7 @@ let memberService = (function() {
 	}
 	
 	function updatePassword(obj, callback) {
-		console.log("## Update password");
+		console.log("## updatePassword");
 		let url = contextPath + "/api/member/password";
 		console.log("> URL = '%s'", url);
 		console.log("> sendData = %s", JSON.stringify(obj, null, 2));
@@ -255,7 +255,7 @@ let memberService = (function() {
 	}
 	
 	function findAccount(obj, callback) {
-		console.log("## Find account");
+		console.log("## findAccount");
 		let url = contextPath + "/api/member/find/account";
 		console.log("> URL = '%s'", url);
 		console.log("> sendData = %s", JSON.stringify(obj, null, 2));
@@ -286,7 +286,7 @@ let memberService = (function() {
 	}
 	
 	function findPassword(obj, callback) {
-		console.log("## Find password");
+		console.log("## findPassword");
 		let url = contextPath + "/api/member/find/password";
 		console.log("> URL = '%s'", url);
 		console.log("> sendData = %s", JSON.stringify(obj, null, 2));
@@ -317,7 +317,7 @@ let memberService = (function() {
 	}
 	
 	function resetPassword(key, obj, callback) {
-		console.log("## Reset password");
+		console.log("## resetPassword");
 		let url = contextPath + "/api/member/reset/password?key=" + key;
 		console.log("> URL = '%s'", url);
 		console.log("> sendData = %s", JSON.stringify(obj, null, 2));
