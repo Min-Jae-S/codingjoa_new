@@ -403,7 +403,9 @@
 					</div>
 				</div>
 				<div class="comment-list mt-4">
-					<!-- comment -->
+					<!-------------->
+					<!-- comments -->
+					<!-------------->
 				</div>
 				<div class="comment-footer mt-4">
 					<a class="btn btn-secondary" href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}&
@@ -566,16 +568,16 @@
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 
 <script>
-	const boardContent = '<c:out value="${boardDetails.boardContent}" escapeXml="false"/>';
 	ClassicEditor
 		.create(document.querySelector("#boardContent"), {
 			toolbar: []
 		})
 		.then(editor => {
-			console.log("## Editor initialize (read-only mode)");
+			console.log("## readEditor initialize");
 			const toolbarContainer = editor.ui.view.stickyPanel;
 			editor.ui.view.top.remove(toolbarContainer);
 			editor.enableReadOnlyMode("editor");
+			const boardContent = '<c:out value="${boardDetails.boardContent}" escapeXml="false"/>';
 			editor.setData(boardContent);
 		})
 		.catch(error => {
@@ -633,12 +635,11 @@
 			$(this).height("auto");
 			$(this).height($(this).prop("scrollHeight") + "px");
 			
+			let $modifyCommentBtn = $(this).closest("div").find("button[name='modifyCommentBtn']");
 			if ($(this).val() != "") {
-				$(this).closest("div").find("button[name='modifyCommentBtn']")
-					.attr("disabled", false).addClass("btn-outline-primary");
+				$modifyCommentBtn.attr("disabled", false).addClass("btn-outline-primary");
 			} else {
-				 $(this).closest("div").find("button[name='modifyCommentBtn']")
-				 	.attr("disabled", true).removeClass("btn-outline-primary");
+				$modifyCommentBtn.attr("disabled", true).removeClass("btn-outline-primary");
 			}
 		});
 		
