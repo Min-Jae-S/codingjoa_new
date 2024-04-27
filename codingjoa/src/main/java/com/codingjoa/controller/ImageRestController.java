@@ -54,8 +54,7 @@ public class ImageRestController {
 		binder.addValidators(new UploadFileValidator());
 	}
 	
-	//@PostMapping("/upload/board-image")
-	@PostMapping("/board/image")
+	@PostMapping("/board/image") // @PostMapping("/upload/board-image")
 	public ResponseEntity<Object> uploadBoardImage(@ModelAttribute @Valid UploadFileDto uploadFileDto,
 			HttpServletRequest request) throws IllegalStateException, IOException {
 		log.info("## uploadBoardImage");
@@ -85,8 +84,7 @@ public class ImageRestController {
 		return ResponseEntity.ok(resource);
 	}
 	
-	//@PostMapping("/upload/member-image")
-	@PostMapping("/member/image")
+	@PostMapping("/member/image") // @PostMapping("/upload/member-image")
 	public ResponseEntity<Object> uploadMemberImage(@ModelAttribute @Valid UploadFileDto uploadFileDto,
 			@AuthenticationPrincipal UserDetailsDto principal, HttpServletRequest request) throws IllegalStateException, IOException {
 		log.info("## uploadMemberImage");
