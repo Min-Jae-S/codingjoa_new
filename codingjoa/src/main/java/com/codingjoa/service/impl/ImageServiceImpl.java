@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -80,13 +81,13 @@ public class ImageServiceImpl implements ImageService {
 	public void deactivateBoardImage(BoardDto boardDto) {
 		log.info("## deactivateBoardImage");
 		int boardIdx = boardDto.getBoardIdx();
-//		List<Integer> boardImages = imageMapper.findBoardImagesByBoardIdx(boardIdx)
-//				.stream()
-//				.map(boardImage -> boardImage.getBoardImageIdx())
-//				.collect(Collectors.toList());
+		List<Integer> boardImages = imageMapper.findBoardImagesByBoardIdx(boardIdx)
+				.stream()
+				.map(boardImage -> boardImage.getBoardImageIdx())
+				.collect(Collectors.toList());
 		
 		// deactive된 boardImage의 index를 동시에 update?
-		log.info("\t > deactivate boardImages by boardIdx");
+		log.info("\t > deactivate boardImages {} by boardIdx", boardImages);
 		imageMapper.deactivateBoardImage(boardIdx);
 	}
 	
