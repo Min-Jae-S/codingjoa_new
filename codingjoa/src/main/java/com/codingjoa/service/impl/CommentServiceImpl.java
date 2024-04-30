@@ -128,6 +128,7 @@ public class CommentServiceImpl implements CommentService {
 		log.info("\t > {}", comment);
 		
 		commentMapper.updateComment(comment);
+		log.info("\t > after updating comment");
 		log.info("\t > DB commentIdx = {}", comment.getCommentIdx());
 		log.info("\t > DB commentUse = {}", comment.getCommentUse());
 		log.info("\t > My commentWriterIdx = {}, DB commentWriterIdx = {}", commentDto.getCommentWriterIdx(), comment.getCommentWriterIdx());
@@ -152,6 +153,7 @@ public class CommentServiceImpl implements CommentService {
 		log.info("\t > {}", comment);
 		
 		commentMapper.deleteComment(comment);
+		log.info("\t > after deleting comment");
 		log.info("\t > DB commentIdx = {}", comment.getCommentIdx());
 		log.info("\t > DB commentUse = {}", comment.getCommentUse());
 		log.info("\t > My commentWriterIdx = {}, DB commentWriterIdx = {}", commentDto.getCommentWriterIdx(), comment.getCommentWriterIdx());

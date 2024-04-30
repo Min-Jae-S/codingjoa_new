@@ -146,6 +146,7 @@ public class BoardServiceImpl implements BoardService {
 
 		boardMapper.updateBoard(board);
 		Integer DBboardWriterIdx = board.getBoardWriterIdx();
+		log.info("\t > after updating board");
 		log.info("\t > DB boardWriterIdx = {}, My boardWriterIdx = {},", DBboardWriterIdx, boardDto.getBoardWriterIdx());
 		
 		if (DBboardWriterIdx == null) {
@@ -173,6 +174,7 @@ public class BoardServiceImpl implements BoardService {
 		
 		boardMapper.deleteBoard(board);
 		Integer DBboardWriterIdx = board.getBoardWriterIdx();
+		log.info("\t > after deleting board");
 		log.info("\t > DB boardWriterIdx = {}, My boardWriterIdx = {}", DBboardWriterIdx, boardDto.getBoardWriterIdx());
 		
 		if (DBboardWriterIdx == null) {
