@@ -30,14 +30,15 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		log.info("## {}", this.getClass().getSimpleName());
 		
 		Map<String, Object> userDetailsMap = memberMapper.findUserDetailsById(memberId);
-		log.info("\t > find userDetailsMap by '{}' = {}", memberId, userDetailsMap);
+		log.info("\t > find userDetailsMap by '{}'", memberId);
+		log.info("\t > {}", userDetailsMap);
 		
 		if (userDetailsMap == null) {
 			throw new UsernameNotFoundException(
 					MessageUtils.getMessage("error.UsernameNotFoundOrBadCredentials"));
 		}
 		
-		log.info("\t > mapping userDetailsMap to UserDetailsDto");
+		log.info("\t > convert userDetailsMap to UserDetailsDto");
 		return modelMapper.map(userDetailsMap, UserDetailsDto.class);
 	}
 }

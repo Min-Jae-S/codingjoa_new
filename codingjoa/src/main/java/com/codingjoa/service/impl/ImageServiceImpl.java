@@ -69,26 +69,35 @@ public class ImageServiceImpl implements ImageService {
 	public void activateBoardImage(BoardDto boardDto) {
 		log.info("## activateBoardImage");
 		List<Integer> boardImages = boardDto.getBoardImages();
+		log.info("\t > boardImages = {}", boardImages);
+		
 		if (!CollectionUtils.isEmpty(boardImages)) {
-			log.info("\t > activate boardImages = {}", boardImages);
+			log.info("\t > activate boardImages");
 			imageMapper.activateBoardImage(boardImages, boardDto.getBoardIdx());
 		} else {
-			log.info("\t > no boardImages to activate, boardImages = {}", boardImages);
+			log.info("\t > no boardImages to activate");
 		}
 	}
 	
 	@Override
 	public void deactivateBoardImage(BoardDto boardDto) {
 		log.info("## deactivateBoardImage");
+		//imageMapper.deactivateBoardImage(boardDto.getBoardIdx());
+		
 		int boardIdx = boardDto.getBoardIdx();
 		List<Integer> boardImages = imageMapper.findBoardImagesByBoardIdx(boardIdx)
 				.stream()
 				.map(boardImage -> boardImage.getBoardImageIdx())
 				.collect(Collectors.toList());
+		log.info("\t > find boardImages = {}", boardImages);
 		
-		// deactive된 boardImage의 index를 동시에 update?
-		log.info("\t > deactivate boardImages {} by boardIdx", boardImages);
-		imageMapper.deactivateBoardImage(boardIdx);
+		if (!boardImages.isEmpty()) {
+			// deactive된 boardImage의 index를 동시에 update?
+			log.info("\t > deactivate boardImages");
+			imageMapper.deactivateBoardImage(boardIdx);
+		} else {
+			log.info("\t > no boardImages to deactivate");
+		}
 	}
 	
 	@Override

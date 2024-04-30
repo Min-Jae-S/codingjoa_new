@@ -41,7 +41,7 @@ public class MemberServiceImpl implements MemberService {
 		joinDto.setMemberPassword(encPassword);
 		
 		Member member = modelMapper.map(joinDto, Member.class);
-		log.info("\t > mapping joinDto to member entity");
+		log.info("\t > convert joinDto to member entity");
 		log.info("\t > {}", member);
 		memberMapper.saveMember(member);
 		
