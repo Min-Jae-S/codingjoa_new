@@ -133,8 +133,8 @@ public class ImageServiceImpl implements ImageService {
 	@Override
 	public BoardImage findBoardImageByName(String boardImageName) {
 		BoardImage boardImage = imageMapper.findBoardImageByName(boardImageName);
-		log.info("\t > find boardImage by boardImageName");
-		log.info("\t > {}", boardImage);
+		//log.info("\t > find boardImage by boardImageName");
+		//log.info("\t > {}", boardImage);
 		
 		if (boardImage == null) {
 			throw new ExpectedException("error.NotFoundBoardImage");

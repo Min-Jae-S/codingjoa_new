@@ -71,12 +71,12 @@ public class ImageRestController {
 	@GetMapping(value = { "/board/images", "/board/images/{boardImageName:.+}"}, produces = MediaType.IMAGE_JPEG_VALUE) 
 	public ResponseEntity<Object> getBoardImageResource(@PathVariable String boardImageName) throws MalformedURLException {
 		log.info("## getBoardImageResource");
-		log.info("\t > boardImageName = {}", boardImageName);
+		//log.info("\t > boardImageName = {}", boardImageName);
 		
 		BoardImage boardImage = imageService.findBoardImageByName(boardImageName);
 		Path boardImagePath = Path.of(boardImage.getBoardImagePath());
 		UrlResource resource = new UrlResource(boardImagePath.toUri());
-		log.info("\t > return {}", resource);
+		//log.info("\t > return {}", resource);
 		
 		return ResponseEntity.ok(resource);
 	}
