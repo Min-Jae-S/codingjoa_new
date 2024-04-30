@@ -53,7 +53,7 @@ public class BoardServiceImpl implements BoardService {
 		boardMapper.insertBoard(board);
 		
 		Integer boardIdx = board.getBoardIdx();
-		log.info("\t > created boardIdx = {}", boardIdx);
+		log.info("\t > registerd boardIdx = {}", boardIdx);
 		
 		if (boardIdx == null) {
 			throw new ExpectedException("error.WriteBoard");
@@ -124,8 +124,7 @@ public class BoardServiceImpl implements BoardService {
 		}
 		
 		Integer DBboardWriterIdx = board.getBoardWriterIdx();
-		log.info("\t > current boardWriterIdx = {}", boardWriterIdx);
-		log.info("\t > DB boardWriterIdx = {}", DBboardWriterIdx);
+		log.info("\t > current boardWriterIdx = {}, DBboardWriterIdx = {}", boardWriterIdx, DBboardWriterIdx);
 		
 		if (DBboardWriterIdx != boardWriterIdx) {
 			throw new ExpectedException("error.NotMyBoard");
@@ -145,8 +144,7 @@ public class BoardServiceImpl implements BoardService {
 		boardMapper.updateBoard(board);
 		
 		Integer DBboardWriterIdx = board.getBoardWriterIdx();
-		log.info("\t > current boardWriterIdx = {}", boardDto.getBoardWriterIdx());
-		log.info("\t > DB boardWriterIdx = {}", DBboardWriterIdx);
+		log.info("\t > current boardWriterIdx = {}, DBboardWriterIdx = {}", boardDto.getBoardWriterIdx(), DBboardWriterIdx);
 		
 		if (DBboardWriterIdx == null) {
 			throw new ExpectedException("error.UpdateBoard");
@@ -172,8 +170,7 @@ public class BoardServiceImpl implements BoardService {
 		boardMapper.deleteBoard(board);
 		
 		Integer DBboardWriterIdx = board.getBoardWriterIdx();
-		log.info("\t > current boardWriterIdx = {}", boardDto.getBoardWriterIdx());
-		log.info("\t > DB boardWriterIdx = {}", DBboardWriterIdx);
+		log.info("\t > current boardWriterIdx = {}, DBboardWriterIdx = {}", boardDto.getBoardWriterIdx(), DBboardWriterIdx);
 		
 		if (DBboardWriterIdx == null) {
 			throw new ExpectedException("error.DeleteBoard");

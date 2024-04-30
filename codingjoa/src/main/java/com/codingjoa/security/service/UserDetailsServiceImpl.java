@@ -37,7 +37,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 					MessageUtils.getMessage("error.UsernameNotFoundOrBadCredentials"));
 		}
 		
-		log.info("\t > return UserDetailsDto converted from the userDetailsMap");
+		log.info("\t > mapping userDetailsMap to UserDetailsDto");
 		return modelMapper.map(userDetailsMap, UserDetailsDto.class);
 	}
 }

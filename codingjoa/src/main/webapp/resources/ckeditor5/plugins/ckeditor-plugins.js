@@ -1,4 +1,4 @@
-console.log("## Editor plugins ready - ckeditor-plugins.js");
+console.log("## Ckeditor-plugins ready - ckeditor-plugins.js");
 
 function uploadAdapter(editor) {
 	console.log("\t > Register upload adapter");
@@ -44,7 +44,7 @@ function modelToViewEditingConverter(editor) {
 	console.log("\t > Register MODEL-TO-VIEW converter (editingDowncast)");
 	editor.conversion.for("editingDowncast").add(dispatcher => { // downcastDispatcher
         dispatcher.on("attribute:dataIdx", (evt, data, conversionApi) => {
-        	console.log("## MODEL-TO-VIEW conversion - editing downcast");
+        	//console.log("## MODEL-TO-VIEW conversion - editing downcast");
         	const modelElement = data.item;
         	if (!conversionApi.consumable.consume(modelElement, evt.name)) {
             	return;
@@ -71,7 +71,7 @@ function modelToViewDataConverter(editor) {
 	console.log("\t > Register MODEL-TO-VIEW converter (dataDowncast)");
 	editor.conversion.for("dataDowncast").add(dispatcher => {
 		dispatcher.on("attribute:dataIdx", (evt, data, conversionApi) => { 
-			console.log("## MODEL-TO-VIEW conversion - data downcast");
+			//console.log("## MODEL-TO-VIEW conversion - data downcast");
 			const modelElement = data.item;
         	if (!conversionApi.consumable.consume(modelElement, evt.name)) {
             	return;

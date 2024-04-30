@@ -98,6 +98,7 @@
 		<!-- test -->
 		<div class="mt-4">
 			<button class="btn btn-warning mr-2" type="button" id="testGetDataBtn">getData</button>
+			<button class="btn btn-warning mr-2" type="button" id="testViewToPlainTextBtn">viewToPlainText</button>
 			<button class="btn btn-warning mr-2" type="button" id="testJsoupBtn">Jsoup</button>
 		</div>
 	</div>
@@ -162,10 +163,10 @@
 		});
 		
 		// test
-		$("#testBtn").on("click", function() {
-			console.log("## writeEditor.getData():");
+		$("#testViewToPlainTextBtn").on("click", function() {
+			console.log("## writeEditor.getData() :");
 			console.log(writeEditor.getData());
-			console.log("## plainText:");
+			console.log("## viewToPlainText :");
 			console.log(viewToPlainText(writeEditor.editing.view.document.getRoot()));
 			$(".navbar-custom").height("100");
 		});

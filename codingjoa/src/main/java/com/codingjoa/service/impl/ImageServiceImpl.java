@@ -6,7 +6,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -54,9 +53,9 @@ public class ImageServiceImpl implements ImageService {
 				// absolutePath vs canonicalPath (https://dev-handbook.tistory.com/11)
 				.boardImagePath(uploadFile.getCanonicalPath()) 
 				.build();
-		log.info("\t > upload boardImage = {}", boardImage);
-		
+		log.info("\t > insert boardImage = {}", boardImage);
 		imageMapper.insertBoardImage(boardImage);
+		
 		return boardImage;
 	}
 	
@@ -68,15 +67,12 @@ public class ImageServiceImpl implements ImageService {
 	@Override
 	public void activateBoardImage(BoardDto boardDto) {
 		log.info("## activateBoardImage");
-		
 		List<Integer> boardImages = boardDto.getBoardImages();
-		log.info("\t > boardImages = {}", boardImages);
-		
 		if (!CollectionUtils.isEmpty(boardImages)) {
 			log.info("\t > activate boardImages = {}", boardImages);
 			imageMapper.activateBoardImage(boardImages, boardDto.getBoardIdx());
 		} else {
-			log.info("\t > no boardImages to activate");
+			log.info("\t > no boardImages to activate, boardImages = {}", boardImages);
 		}
 	}
 	
@@ -84,13 +80,13 @@ public class ImageServiceImpl implements ImageService {
 	public void deactivateBoardImage(BoardDto boardDto) {
 		log.info("## deactivateBoardImage");
 		int boardIdx = boardDto.getBoardIdx();
-		List<Integer> boardImages = imageMapper.findBoardImagesByBoardIdx(boardIdx)
-				.stream()
-				.map(boardImage -> boardImage.getBoardImageIdx())
-				.collect(Collectors.toList());
-		log.info("\t > deactivate boardImages = {}", boardImages);
+//		List<Integer> boardImages = imageMapper.findBoardImagesByBoardIdx(boardIdx)
+//				.stream()
+//				.map(boardImage -> boardImage.getBoardImageIdx())
+//				.collect(Collectors.toList());
 		
-		// deactive된 boardImage의 index를 update와 동시에...?
+		// deactive된 boardImage의 index를 동시에 update?
+		log.info("\t > deactivate boardImages by boardIdx");
 		imageMapper.deactivateBoardImage(boardIdx);
 	}
 	
@@ -110,10 +106,10 @@ public class ImageServiceImpl implements ImageService {
 				.memberImageName(uploadFilename)
 				.memberImagePath(uploadFile.getCanonicalPath())
 				.build();
-
 		imageMapper.deactivateMemberImage(memberIdx);
+
+		log.info("\t > insert memberImage = {}", memberImage);
 		imageMapper.insertMemberImage(memberImage);
-		log.info("\t > uploaded memberImage = {}", memberImage);
 	}
 	
 	private File createUploadFolder(String path) {
@@ -155,8 +151,7 @@ public class ImageServiceImpl implements ImageService {
 			throw new ExpectedException("error.NotFoundMemberImage");
 		}
 		
-		log.info("\t > DB memberIdx = {}", memberImage.getMemberIdx());
-		log.info("\t > MY memberIdx = {}", memberIdx);
+		log.info("\t > current memberIdx = {}, DBmemberIdx = {}", memberIdx, memberImage.getMemberIdx());
 		if (memberImage.getMemberIdx() != memberIdx) {
 			throw new ExpectedException("error.NotMyMemberImage");
 		}
