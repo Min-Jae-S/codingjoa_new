@@ -43,10 +43,11 @@ public class CommentServiceImpl implements CommentService {
 	@Override
 	public void writeComment(CommentDto commentDto) {
 		Comment comment = modelMapper.map(commentDto, Comment.class);
-		log.info("\t > writeCommentDto ==> {}", comment);
+		log.info("\t > mapping commentDto to comment entity");
+		log.info("\t > {}", comment);
 		
 		commentMapper.insertComment(comment);
-		log.info("\t > DB commentBoardIdx = {}", comment.getCommentBoardIdx());
+		log.info("\t > after inserting comment, commentBoardIdx = {}", comment.getCommentBoardIdx());
 		
 		if (comment.getCommentBoardIdx() == null) {
 			throw new ExpectedException("error.WriteComment");
@@ -84,7 +85,7 @@ public class CommentServiceImpl implements CommentService {
 				pagedComment.add(modelMapper.map(commentDetailsMap, CommentDetailsDto.class));
 			}
 		}
-		log.info("\t > deleted comments on page {} = {}", commentCri.getPage(), deletedComment);
+		log.info("\t > deleted comments on page '{}' = {}", commentCri.getPage(), deletedComment);
 		
 		return pagedComment;
 	}
@@ -98,7 +99,7 @@ public class CommentServiceImpl implements CommentService {
 	@Override
 	public CommentDetailsDto getCommentDetails(int commentIdx, int commentWriterIdx) {
 		Map<String, Object> commentDetailsMap = commentMapper.findCommentDetails(commentIdx);
-		log.info("\t > find commentDetails, {}", commentDetailsMap);
+		log.info("\t > find commentDetails = {}", commentDetailsMap);
 		
 		if (commentDetailsMap == null) {
 			throw new ExpectedException("error.NotFoundComment");
@@ -107,8 +108,7 @@ public class CommentServiceImpl implements CommentService {
 		Boolean DBcommentUse = (Boolean) commentDetailsMap.get("commentUse");
 		Integer DBcommentWriterIdx = (Integer) commentDetailsMap.get("commentWriterIdx");
 		log.info("\t > DB commentUse = {}", DBcommentUse);
-		log.info("\t > DB commentWriterIdx = {}", DBcommentWriterIdx);
-		log.info("\t > MY commentWriterIdx = {}", commentWriterIdx);
+		log.info("\t > My commentWriterIdx = {}, DB commentWriterIdx = {}", commentWriterIdx, DBcommentWriterIdx);
 		
 		if (!DBcommentUse) {
 			throw new ExpectedException("error.AlreadyDeletedComment");
@@ -124,13 +124,13 @@ public class CommentServiceImpl implements CommentService {
 	@Override
 	public void modifyComment(CommentDto commentDto) {
 		Comment comment = modelMapper.map(commentDto, Comment.class);
-		log.info("\t > modifyCommentDto ==> {}", comment);
+		log.info("\t > mapping commentDto to comment entity");
+		log.info("\t > {}", comment);
 		
 		commentMapper.updateComment(comment);
 		log.info("\t > DB commentIdx = {}", comment.getCommentIdx());
 		log.info("\t > DB commentUse = {}", comment.getCommentUse());
-		log.info("\t > DB commentWriterIdx = {}", comment.getCommentWriterIdx());
-		log.info("\t > MY commentWriterIdx = {}", commentDto.getCommentWriterIdx());
+		log.info("\t > My commentWriterIdx = {}, DB commentWriterIdx = {}", commentDto.getCommentWriterIdx(), comment.getCommentWriterIdx());
 		
 		if (comment.getCommentIdx() == null) {
 			throw new ExpectedException("error.UpdateComment");
@@ -148,13 +148,13 @@ public class CommentServiceImpl implements CommentService {
 	@Override
 	public void deleteComment(CommentDto commentDto) {
 		Comment comment = modelMapper.map(commentDto, Comment.class);
-		log.info("\t > deleteCommentDto ==> {}", comment);
+		log.info("\t > mapping commentDto to comment entity");
+		log.info("\t > {}", comment);
 		
 		commentMapper.deleteComment(comment);
 		log.info("\t > DB commentIdx = {}", comment.getCommentIdx());
 		log.info("\t > DB commentUse = {}", comment.getCommentUse());
-		log.info("\t > DB commentWriterIdx = {}", comment.getCommentWriterIdx());
-		log.info("\t > MY commentWriterIdx = {}", commentDto.getCommentWriterIdx());
+		log.info("\t > My commentWriterIdx = {}, DB commentWriterIdx = {}", commentDto.getCommentWriterIdx(), comment.getCommentWriterIdx());
 		
 		if (comment.getCommentIdx() == null) {
 			throw new ExpectedException("error.DeleteComment");

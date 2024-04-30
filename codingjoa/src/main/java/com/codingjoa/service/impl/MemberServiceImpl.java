@@ -41,14 +41,13 @@ public class MemberServiceImpl implements MemberService {
 		joinDto.setMemberPassword(encPassword);
 		
 		Member member = modelMapper.map(joinDto, Member.class);
-		memberMapper.saveMember(member);
-		log.info("\t > mapping joinDto to member entity, save member");
+		log.info("\t > mapping joinDto to member entity");
 		log.info("\t > {}", member);
+		memberMapper.saveMember(member);
 		
 		Auth auth = new Auth(joinDto.getMemberId(), "ROLE_MEMBER");
 		memberMapper.saveAuth(auth);
-		log.info("\t > create new auth, save auth");
-		log.info("\t > {}", auth);
+		log.info("\t > create new auth = {}", auth);
 	}
 	
 	@Override
