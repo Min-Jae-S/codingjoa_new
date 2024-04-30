@@ -43,7 +43,7 @@ public class CommentServiceImpl implements CommentService {
 	@Override
 	public void writeComment(CommentDto commentDto) {
 		Comment comment = modelMapper.map(commentDto, Comment.class);
-		log.info("\t > mapping commentDto to comment entity");
+		log.info("\t > map commentDto to comment entity");
 		log.info("\t > {}", comment);
 		
 		commentMapper.insertComment(comment);
@@ -124,7 +124,7 @@ public class CommentServiceImpl implements CommentService {
 	@Override
 	public void modifyComment(CommentDto commentDto) {
 		Comment comment = modelMapper.map(commentDto, Comment.class);
-		log.info("\t > mapping commentDto to comment entity");
+		log.info("\t > map commentDto to comment entity");
 		log.info("\t > {}", comment);
 		
 		commentMapper.updateComment(comment);
@@ -148,7 +148,7 @@ public class CommentServiceImpl implements CommentService {
 	@Override
 	public void deleteComment(CommentDto commentDto) {
 		Comment comment = modelMapper.map(commentDto, Comment.class);
-		log.info("\t > mapping commentDto to comment entity");
+		log.info("\t > map commentDto to comment entity");
 		log.info("\t > {}", comment);
 		
 		commentMapper.deleteComment(comment);

@@ -36,7 +36,7 @@ public class CommentCriteriaArgumentResolver implements HandlerMethodArgumentRes
 		log.info("## {}", this.getClass().getSimpleName());
 		
 		String rawPage = webRequest.getParameter("page");
-		log.info("\t > rawPage = {};", rawPage);
+		log.info("\t > rawPage = {}", rawPage);
 		
 		rawPage = (rawPage == null) ? "" : rawPage.strip();
 		return new CommentCriteria(

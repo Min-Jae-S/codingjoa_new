@@ -102,13 +102,14 @@ public class ImageServiceImpl implements ImageService {
 		File uploadFile = new File(uploadFolder, uploadFilename);
 		file.transferTo(uploadFile);
 		
+		log.info("\t > deactivate memberImage = {}", memberIdx);
+		imageMapper.deactivateMemberImage(memberIdx);
+		
 		MemberImage memberImage = MemberImage.builder()
 				.memberIdx(memberIdx)
 				.memberImageName(uploadFilename)
 				.memberImagePath(uploadFile.getCanonicalPath())
 				.build();
-		imageMapper.deactivateMemberImage(memberIdx);
-
 		log.info("\t > insert memberImage = {}", memberImage);
 		imageMapper.insertMemberImage(memberImage);
 	}
@@ -133,7 +134,7 @@ public class ImageServiceImpl implements ImageService {
 	public BoardImage findBoardImageByName(String boardImageName) {
 		BoardImage boardImage = imageMapper.findBoardImageByName(boardImageName);
 		log.info("\t > find boardImage by boardImageName");
-		log.info("\t > boardImage = {}", boardImage);
+		log.info("\t > {}", boardImage);
 		
 		if (boardImage == null) {
 			throw new ExpectedException("error.NotFoundBoardImage");
@@ -146,13 +147,13 @@ public class ImageServiceImpl implements ImageService {
 	public MemberImage findMemberImageByName(String memberImageName, Integer memberIdx) {
 		MemberImage memberImage = imageMapper.findMemberImageByName(memberImageName);
 		log.info("\t > find memberImage by memberImageName");
-		log.info("\t > memberImage = {}", memberImage);
+		log.info("\t > {}", memberImage);
 		
 		if (memberImage == null) {
 			throw new ExpectedException("error.NotFoundMemberImage");
 		}
 		
-		log.info("\t > current memberIdx = {}, DBmemberIdx = {}", memberIdx, memberImage.getMemberIdx());
+		log.info("\t > My memberIdx = {}, DB memberIdx = {}", memberIdx, memberImage.getMemberIdx());
 		if (memberImage.getMemberIdx() != memberIdx) {
 			throw new ExpectedException("error.NotMyMemberImage");
 		}

@@ -46,14 +46,14 @@ public class BoardServiceImpl implements BoardService {
 	public void writeBoard(BoardDto boardDto) {
 		Board board = modelMapper.map(boardDto, Board.class);
 		String boardContentText = Jsoup.parse(board.getBoardContent()).text();
-		log.info("\t > produce boardContentText by parsing boardContent for search");
-		
 		board.setBoardContentText(boardContentText);
-		log.info("\t > insert {}", board);
-		boardMapper.insertBoard(board);
+		log.info("\t > map boardDto to board entity");
+		log.info("\t > produce boardContentText by parsing boardContent for search");
+		log.info("\t > {}", board);
 		
+		boardMapper.insertBoard(board);
 		Integer boardIdx = board.getBoardIdx();
-		log.info("\t > registerd boardIdx = {}", boardIdx);
+		log.info("\t > after inserting, boardIdx = {}", boardIdx);
 		
 		if (boardIdx == null) {
 			throw new ExpectedException("error.WriteBoard");
@@ -72,11 +72,13 @@ public class BoardServiceImpl implements BoardService {
 			throw new ExpectedException("error.NotFoundBoard");
 		}
 		
+		log.info("\t > map boardDetailsMap to BoardDetailsDto");
 		return modelMapper.map(boardDetailsMap, BoardDetailsDto.class);
 	}
 	
 	@Override
 	public void updateBoardViews(int boardIdx) {
+		log.info("\t > update board views");
 		boardMapper.updateBoardViews(boardIdx);
 	}
 	
@@ -137,12 +139,12 @@ public class BoardServiceImpl implements BoardService {
 	public void modifyBoard(BoardDto boardDto) {
 		Board board = modelMapper.map(boardDto, Board.class);
 		String boardContentText = Jsoup.parse(board.getBoardContent()).text();
-		log.info("\t > produce boardContentText by parsing boardContent for search");
-
 		board.setBoardContentText(boardContentText);
-		log.info("\t > update {}", board);
+		log.info("\t > map boardDto to board entity");
+		log.info("\t > produce boardContentText by parsing boardContent for search");
+		log.info("\t > {}", board);
+
 		boardMapper.updateBoard(board);
-		
 		Integer DBboardWriterIdx = board.getBoardWriterIdx();
 		log.info("\t > My boardWriterIdx = {}, DBboardWriterIdx = {}", boardDto.getBoardWriterIdx(), DBboardWriterIdx);
 		
@@ -166,9 +168,10 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public void deleteBoard(BoardDto boardDto) {
 		Board board = modelMapper.map(boardDto, Board.class);
-		log.info("\t > delete {}", board);
-		boardMapper.deleteBoard(board);
+		log.info("\t > map boardDto to board entity");
+		log.info("\t > {}", board);
 		
+		boardMapper.deleteBoard(board);
 		Integer DBboardWriterIdx = board.getBoardWriterIdx();
 		log.info("\t > My boardWriterIdx = {}, DB boardWriterIdx = {}", boardDto.getBoardWriterIdx(), DBboardWriterIdx);
 		

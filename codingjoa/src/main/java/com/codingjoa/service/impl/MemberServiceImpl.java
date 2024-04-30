@@ -46,8 +46,8 @@ public class MemberServiceImpl implements MemberService {
 		memberMapper.saveMember(member);
 		
 		Auth auth = new Auth(joinDto.getMemberId(), "ROLE_MEMBER");
-		memberMapper.saveAuth(auth);
 		log.info("\t > create new auth = {}", auth);
+		memberMapper.saveAuth(auth);
 	}
 	
 	@Override
