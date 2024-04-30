@@ -54,8 +54,9 @@ public class ImageServiceImpl implements ImageService {
 				// absolutePath vs canonicalPath (https://dev-handbook.tistory.com/11)
 				.boardImagePath(uploadFile.getCanonicalPath()) 
 				.build();
-		imageMapper.insertBoardImage(boardImage);
+		log.info("\t > upload boardImage = {}", boardImage);
 		
+		imageMapper.insertBoardImage(boardImage);
 		return boardImage;
 	}
 	

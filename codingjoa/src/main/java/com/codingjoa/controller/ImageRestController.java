@@ -58,10 +58,7 @@ public class ImageRestController {
 	public ResponseEntity<Object> uploadBoardImage(@ModelAttribute @Valid UploadFileDto uploadFileDto,
 			HttpServletRequest request) throws IllegalStateException, IOException {
 		log.info("## uploadBoardImage");
-		
 		BoardImage boardImage = imageService.uploadBoardImage(uploadFileDto.getFile());
-		log.info("\t > uploaded boardImage = {}", boardImage);
-		
 		return ResponseEntity.ok(SuccessResponse.builder()
 				.messageByCode("success.uploadBoardImage")
 				.data(new BoardImageDto(boardImage.getBoardImageIdx(), boardImage.getBoardImageName()))
