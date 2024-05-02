@@ -15,7 +15,7 @@ public interface BoardService {
 	
 	void updateBoardViews(int boardIdx);
 	
-	Criteria makeNewBoardCri(Criteria boardCri);
+	Criteria createNewBoardCri(Criteria boardCri);
 	
 	List<BoardDetailsDto> getPagedBoard(int boardCategoryCode, Criteria boardCri);
 

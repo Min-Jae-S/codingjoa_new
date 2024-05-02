@@ -83,7 +83,7 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
-	public Criteria makeNewBoardCri(Criteria boardCri) {
+	public Criteria createNewBoardCri(Criteria boardCri) {
 		Criteria newBoardCri = new Criteria(boardCri);
 		if (!"writer".equals(boardCri.getType())) {
 			return newBoardCri;

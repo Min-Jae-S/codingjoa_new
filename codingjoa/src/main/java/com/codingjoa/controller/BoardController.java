@@ -76,7 +76,7 @@ public class BoardController {
 		log.info("\t > boardCategoryCode = {}", boardCategoryCode);
 		log.info("\t > boardCri = {}", boardCri);
 
-		Criteria newBoardCri = boardService.makeNewBoardCri(boardCri);
+		Criteria newBoardCri = boardService.createNewBoardCri(boardCri);
 		log.info("\t > new boardCri = {}", newBoardCri);
 		log.info("\t > keyword regexp = {}", newBoardCri.getKeywordRegexp());
 		
@@ -133,7 +133,7 @@ public class BoardController {
 		log.info("\t > {}", writeBoardDto);
 		
 		if (bindingResult.hasErrors()) {
-			log.info("\t > bindingResult hasErrors");
+			log.info("\t > bindingResult has errors");
 			if (bindingResult.hasFieldErrors("boardCategoryCode") /* || bindingResult.hasFieldErrors("boardIdx") */) {
 				throw new BindException(bindingResult);
 			}
@@ -168,7 +168,7 @@ public class BoardController {
 		log.info("\t > {}", modifyBoardDto);
 
 		if (bindingResult.hasErrors()) {
-			log.info("\t > bindingResult hasErrors");
+			log.info("\t > bindingResult has errors");
 			if (bindingResult.hasFieldErrors("boardCategoryCode") || bindingResult.hasFieldErrors("boardIdx")) {
 				throw new BindException(bindingResult);
 			}
