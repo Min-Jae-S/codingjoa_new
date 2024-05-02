@@ -133,7 +133,7 @@ public class BoardController {
 		log.info("\t > {}", writeBoardDto);
 		
 		if (bindingResult.hasErrors()) {
-			log.info("\t > bindingResult has errors");
+			log.info("\t > bindingResult hasErrors");
 			if (bindingResult.hasFieldErrors("boardCategoryCode") /* || bindingResult.hasFieldErrors("boardIdx") */) {
 				throw new BindException(bindingResult);
 			}
@@ -168,7 +168,7 @@ public class BoardController {
 		log.info("\t > {}", modifyBoardDto);
 
 		if (bindingResult.hasErrors()) {
-			log.info("\t > bindingResult has errors");
+			log.info("\t > bindingResult hasErrors");
 			if (bindingResult.hasFieldErrors("boardCategoryCode") || bindingResult.hasFieldErrors("boardIdx")) {
 				throw new BindException(bindingResult);
 			}
