@@ -71,7 +71,6 @@ public class BoardServiceImpl implements BoardService {
 		if (boardDetailsMap == null) {
 			throw new ExpectedException("error.NotFoundBoard");
 		}
-		
 		log.info("\t > convert boardDetailsMap to BoardDetailsDto");
 		return modelMapper.map(boardDetailsMap, BoardDetailsDto.class);
 	}
@@ -157,7 +156,7 @@ public class BoardServiceImpl implements BoardService {
 			throw new ExpectedException("error.NotMyBoard");
 		}
 		
-		imageService.updateBoardImage(boardDto);
+		imageService.modifyBoardImage(boardDto);
 	}
 
 	@Override

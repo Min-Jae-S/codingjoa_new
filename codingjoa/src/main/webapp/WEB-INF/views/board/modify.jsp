@@ -109,7 +109,7 @@
 	
 	createEditor("#boardContent")
 		.then(editor => {
-			console.log("## ModifyEditor initialize");
+			console.log("## modifyEditor initialize");
 			const $file = $("span.ck-file-dialog-button").find("input[type='file']");
 			$file.attr("accept", "*/*").attr("multiple", false);
 			editor.model.document.on('change:data', () => {
@@ -153,7 +153,7 @@
 			    $("<input/>", { type: "hidden", name: "boardImages", value: boardImageIdx }).appendTo($form);
 			}
 			
-			console.log("## Check formData");
+			console.log("## check formData");
 			console.log(JSON.stringify($form.serializeObject(), null, 2));
 			if (!confirm("게시글을 수정하시겠습니까?")) {
 				return;

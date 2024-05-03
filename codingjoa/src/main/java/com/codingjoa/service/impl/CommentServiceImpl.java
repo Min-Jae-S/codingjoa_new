@@ -57,7 +57,7 @@ public class CommentServiceImpl implements CommentService {
 	@Override
 	public List<CommentDetailsDto> getPagedComment(int commentBoardIdx, CommentCriteria commentCri) {
 		Board board = boardMapper.findBoardByIdx(commentBoardIdx);
-		log.info("\t > prior to finding pagedComment, find board = {}", board);
+		log.info("\t > prior to finding pagedComment, find board");
 		
 		if (board == null) {
 			throw new ExpectedException("error.NotFoundBoard");
@@ -71,21 +71,20 @@ public class CommentServiceImpl implements CommentService {
 //				})
 //				.collect(Collectors.toList());
 		
-		List<CommentDetailsDto> pagedComment = new ArrayList<>();
-		List<Integer> deletedComment = new ArrayList<>();
 		List<Map<String, Object>> allPagedComment = commentMapper.findPagedComment(commentBoardIdx, commentCri);
-		
+		List<CommentDetailsDto> pagedComment = new ArrayList<>();
+		List<Integer> deletedComments = new ArrayList<>();
 		for (Map<String, Object> commentDetailsMap : allPagedComment) {
 			Boolean commentUse = (Boolean) commentDetailsMap.get("commentUse");
 			if (!commentUse) {
 				Integer commentIdx = (Integer) commentDetailsMap.get("commentIdx");
-				deletedComment.add(commentIdx);
+				deletedComments.add(commentIdx);
 				pagedComment.add(null);
 			} else {
 				pagedComment.add(modelMapper.map(commentDetailsMap, CommentDetailsDto.class));
 			}
 		}
-		log.info("\t > deleted comments on page '{}' = {}", commentCri.getPage(), deletedComment);
+		log.info("\t > deletedComments on page '{}' = {}", commentCri.getPage(), deletedComments);
 		
 		return pagedComment;
 	}

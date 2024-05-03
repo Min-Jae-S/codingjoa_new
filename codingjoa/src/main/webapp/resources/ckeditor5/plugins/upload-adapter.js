@@ -79,7 +79,7 @@ class UploadAdapter {
      	// containing the CSRF token generated earlier by your application.
 
         // Send the request.
-        console.log("## Send upload request");
+        console.log("## send upload request");
         this.xhr.send(data);
     }
 }

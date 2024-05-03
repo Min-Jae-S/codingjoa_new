@@ -47,10 +47,9 @@ public class CommentRestController {
 	@GetMapping("/boards/{commentBoardIdx}/comments")
 	public ResponseEntity<Object> getCommentList(@PathVariable int commentBoardIdx,
 			@CommentCri CommentCriteria commentCri, @AuthenticationPrincipal UserDetailsDto princiapl) {
-		log.info("## getCommentList");
-		log.info("\t > commentBoardIdx = {}", commentBoardIdx);
-		log.info("\t > {}", commentCri);
-		
+		log.info("## getCommentList ( commentBoardIdx = {} )", commentBoardIdx);
+		log.info("\t > commentCri = {}", commentCri);
+
 		List<CommentDetailsDto> commentList = commentService.getPagedComment(commentBoardIdx, commentCri);
 		List<Integer> myCommentLikes = (princiapl == null) ? Collections.emptyList() : princiapl.getMyCommentLikes();
 		log.info("\t > myCommentLikes = {}", myCommentLikes);
@@ -65,12 +64,9 @@ public class CommentRestController {
 	
 	@GetMapping(value = { "/comments", "/comments/{commentIdx}" })
 	public ResponseEntity<Object> getComment(@PathVariable int commentIdx, @AuthenticationPrincipal UserDetailsDto principal) {
-		log.info("## getComment");
-		log.info("\t > commentIdx = {}", commentIdx);
-		
+		log.info("## getComment ( commentIdx = {} )", commentIdx);
 		CommentDetailsDto commentDetails = 
 				commentService.getCommentDetails(commentIdx, principal.getMember().getMemberIdx());
-		
 		return ResponseEntity.ok(SuccessResponse.builder().data(commentDetails).build());
 	}
 	
@@ -90,8 +86,7 @@ public class CommentRestController {
 	@PatchMapping(value = { "/comments", "/comments/{commentIdx}" })
 	public ResponseEntity<Object> modifyComment(@PathVariable int commentIdx, 
 			@Valid @RequestBody CommentDto modifyCommentDto, @AuthenticationPrincipal UserDetailsDto principal) {
-		log.info("## modifyComment");
-		log.info("\t > commentIdx = {}", commentIdx);
+		log.info("## modifyComment ( commentIdx = {} )", commentIdx);
 		log.info("\t > {}", modifyCommentDto);
 		
 		modifyCommentDto.setCommentIdx(commentIdx);
@@ -103,9 +98,7 @@ public class CommentRestController {
 	
 	@DeleteMapping(value = { "/comments", "/comments/{commentIdx}" })
 	public ResponseEntity<Object> deleteComment(@PathVariable int commentIdx, @AuthenticationPrincipal UserDetailsDto principal) {
-		log.info("## deleteComment");
-		log.info("\t > commentIdx = {}", commentIdx);
-		
+		log.info("## deleteComment ( commentIdx = {} )", commentIdx);
 		CommentDto deleteCommentDto = new CommentDto();
 		deleteCommentDto.setCommentIdx(commentIdx);
 		deleteCommentDto.setCommentWriterIdx(principal.getMember().getMemberIdx());

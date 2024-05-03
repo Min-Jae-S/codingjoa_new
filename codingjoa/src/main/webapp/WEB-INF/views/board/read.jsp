@@ -573,7 +573,7 @@
 			toolbar: []
 		})
 		.then(editor => {
-			console.log("## readEditor initialize");
+			console.log("## readEditor initialize - readOnly mode");
 			const toolbarContainer = editor.ui.view.stickyPanel;
 			editor.ui.view.top.remove(toolbarContainer);
 			editor.enableReadOnlyMode("editor");

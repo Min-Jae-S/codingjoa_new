@@ -43,7 +43,8 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
 		log.info("\t > referer = {}", request.getHeader("referer"));
 		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		log.info("\t > current authentication token = {}", authentication);
+		log.info("\t > current auth token = {}", 
+				(authentication != null) ? authentication.getClass().getSimpleName() : authentication);
 		
 		if (authentication == null) {
 			SecurityContextHolder.getContext().setAuthentication(createAuthentication(request));

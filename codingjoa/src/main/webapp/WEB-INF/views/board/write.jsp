@@ -109,7 +109,7 @@
 	let writeEditor;
 	createEditor("#boardContent")
 		.then(editor => {
-			console.log("## WriteEditor initialize");
+			console.log("## writeEditor initialize");
 			const $file = $("span.ck-file-dialog-button").find("input[type='file']");
 			$file.attr("accept", "*/*").attr("multiple", false);
 			editor.model.document.on('change:data', () => {
@@ -195,7 +195,7 @@
 			}
 			
 			let formData = $form.serializeObject();
-			console.log("## Check formData");
+			console.log("## check formData");
 			console.log(JSON.stringify(formData, null, 2));
 			
 			$.ajax({

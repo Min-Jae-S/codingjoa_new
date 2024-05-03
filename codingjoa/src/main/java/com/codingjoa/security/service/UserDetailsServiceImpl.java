@@ -30,8 +30,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		log.info("## {}", this.getClass().getSimpleName());
 		
 		Map<String, Object> userDetailsMap = memberMapper.findUserDetailsById(memberId);
-		log.info("\t > find userDetailsMap by '{}'", memberId);
-		log.info("\t > {}", userDetailsMap);
+		log.info("\t > find userDetailsMap by memberId");
+		log.info("\t > userDetailsMap = {}", userDetailsMap);
 		
 		if (userDetailsMap == null) {
 			throw new UsernameNotFoundException(
