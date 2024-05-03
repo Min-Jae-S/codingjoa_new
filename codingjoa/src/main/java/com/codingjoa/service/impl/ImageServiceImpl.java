@@ -69,10 +69,8 @@ public class ImageServiceImpl implements ImageService {
 	public void activateBoardImage(BoardDto boardDto) {
 		log.info("## activateBoardImage");
 		List<Integer> boardImages = boardDto.getBoardImages();
-		log.info("\t > boardImages = {}", boardImages);
-		
 		if (!CollectionUtils.isEmpty(boardImages)) {
-			log.info("\t > activate boardImages");
+			log.info("\t > activate boardImages = {}", boardImages);
 			imageMapper.activateBoardImage(boardImages, boardDto.getBoardIdx());
 		} else {
 			log.info("\t > no boardImages to activate");
@@ -93,7 +91,7 @@ public class ImageServiceImpl implements ImageService {
 		
 		if (!boardImages.isEmpty()) {
 			// deactive된 boardImage의 index를 동시에 update?
-			log.info("\t > deactivate boardImages");
+			log.info("\t > deactivate boardImages = {}", boardImages);
 			imageMapper.deactivateBoardImage(boardIdx);
 		} else {
 			log.info("\t > no boardImages to deactivate");
@@ -111,7 +109,7 @@ public class ImageServiceImpl implements ImageService {
 		File uploadFile = new File(uploadFolder, uploadFilename);
 		file.transferTo(uploadFile);
 		
-		log.info("\t > deactivate memberImage = {}", memberIdx);
+		log.info("\t > deactivate memberImage");
 		imageMapper.deactivateMemberImage(memberIdx);
 		
 		MemberImage memberImage = MemberImage.builder()
@@ -155,8 +153,7 @@ public class ImageServiceImpl implements ImageService {
 	@Override
 	public MemberImage findMemberImageByName(String memberImageName, Integer memberIdx) {
 		MemberImage memberImage = imageMapper.findMemberImageByName(memberImageName);
-		log.info("\t > find memberImage by memberImageName");
-		log.info("\t > {}", memberImage);
+		log.info("\t > find memberImage = {}", memberImage);
 		
 		if (memberImage == null) {
 			throw new ExpectedException("error.NotFoundMemberImage");
