@@ -6,13 +6,11 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.codingjoa.dto.BoardDto;
@@ -69,7 +67,7 @@ public class ImageServiceImpl implements ImageService {
 	public void activateBoardImage(BoardDto boardDto) {
 		log.info("## activateBoardImage");
 		List<Integer> boardImages = boardDto.getBoardImages();
-		if (!CollectionUtils.isEmpty(boardImages)) {
+		if (!boardImages.isEmpty()) {
 			log.info("\t > activate boardImages = {}", boardImages);
 			imageMapper.activateBoardImage(boardImages, boardDto.getBoardIdx());
 		} else {
@@ -78,23 +76,18 @@ public class ImageServiceImpl implements ImageService {
 	}
 	
 	@Override
-	public void deactivateBoardImage(BoardDto boardDto) {
-		log.info("## deactivateBoardImage");
-		imageMapper.deactivateBoardImage(boardDto.getBoardIdx());
-		
+	public void updateBoardImage(BoardDto boardDto) {
+		log.info("## updateBoardImage");
+		log.info("\t > deactivate boardImages");
 		int boardIdx = boardDto.getBoardIdx();
-		List<Integer> boardImages = imageMapper.findBoardImagesByBoardIdx(boardIdx)
-				.stream()
-				.map(boardImage -> boardImage.getBoardImageIdx())
-				.collect(Collectors.toList());
-		log.info("\t > find boardImages = {}", boardImages);
+		imageMapper.deactivateBoardImage(boardIdx);
 		
-		if (!boardImages.isEmpty()) { 
-			// deactive된 boardImage의 index를 동시에 update?
-			log.info("\t > deactivate boardImages = {}", boardImages);
-			imageMapper.deactivateBoardImage(boardIdx);
+		List<Integer> boardImages = boardDto.getBoardImages();
+		if (!boardImages.isEmpty()) {
+			log.info("\t > activate boardImages = {}", boardImages);
+			imageMapper.activateBoardImage(boardImages, boardIdx);
 		} else {
-			log.info("\t > no boardImages to deactivate");
+			log.info("\t > no boardImages to activate");
 		}
 	}
 	

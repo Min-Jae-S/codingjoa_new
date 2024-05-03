@@ -53,7 +53,7 @@ public class BoardServiceImpl implements BoardService {
 		
 		boardMapper.insertBoard(board);
 		Integer boardIdx = board.getBoardIdx();
-		log.info("\t > after inserting, boardIdx = {}", boardIdx);
+		log.info("\t > after inserting board, boardIdx = {}", boardIdx);
 		
 		if (boardIdx == null) {
 			throw new ExpectedException("error.WriteBoard");
@@ -146,8 +146,8 @@ public class BoardServiceImpl implements BoardService {
 
 		boardMapper.updateBoard(board);
 		Integer DBboardWriterIdx = board.getBoardWriterIdx();
-		log.info("\t > after updating board");
-		log.info("\t > DB boardWriterIdx = {}, My boardWriterIdx = {},", DBboardWriterIdx, boardDto.getBoardWriterIdx());
+		log.info("\t > after updating board, DB boardWriterIdx = {}, My boardWriterIdx = {}", 
+				DBboardWriterIdx, boardDto.getBoardWriterIdx());
 		
 		if (DBboardWriterIdx == null) {
 			throw new ExpectedException("error.UpdateBoard");
@@ -157,8 +157,7 @@ public class BoardServiceImpl implements BoardService {
 			throw new ExpectedException("error.NotMyBoard");
 		}
 		
-		imageService.deactivateBoardImage(boardDto);
-		imageService.activateBoardImage(boardDto);
+		imageService.updateBoardImage(boardDto);
 	}
 
 	@Override
@@ -174,8 +173,8 @@ public class BoardServiceImpl implements BoardService {
 		
 		boardMapper.deleteBoard(board);
 		Integer DBboardWriterIdx = board.getBoardWriterIdx();
-		log.info("\t > after deleting board");
-		log.info("\t > DB boardWriterIdx = {}, My boardWriterIdx = {}", DBboardWriterIdx, boardDto.getBoardWriterIdx());
+		log.info("\t > after deleting board, DB boardWriterIdx = {}, My boardWriterIdx = {}", 
+				DBboardWriterIdx, boardDto.getBoardWriterIdx());
 		
 		if (DBboardWriterIdx == null) {
 			throw new ExpectedException("error.DeleteBoard");
