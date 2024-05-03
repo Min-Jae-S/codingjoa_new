@@ -149,10 +149,11 @@
 			    
 				// add boardImages
 			    let boardImageIdx = value.item.getAttribute("dataIdx");
+				console.log("## add boardImages, boardImageIdx = %s", boardImageIdx);
 			    $("<input/>", { type: "hidden", name: "boardImages", value: boardImageIdx }).appendTo($form);
 			}
 			
-			console.log("## Check formData");
+			console.log("## check formData");
 			console.log(JSON.stringify($form.serializeObject(), null, 2));
 			if (!confirm("게시글을 등록하시겠습니까?")) {
 				return;
@@ -171,12 +172,12 @@
 			}
 		});
 		
-		// test getData
+		// testGetData
 		$("#testGetDataBtn").on("click", function() {
 			console.log("> '%s'", writeEditor.getData());
 		});
 		
-		// test jsoup
+		// testJsoup
 		$("#testJsoupBtn").on("click", function() {
 			$("input[name='boardImages']").remove();
 			let $form = $("#writeBoardDto");

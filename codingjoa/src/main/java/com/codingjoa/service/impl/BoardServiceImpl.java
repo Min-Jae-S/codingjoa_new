@@ -88,7 +88,7 @@ public class BoardServiceImpl implements BoardService {
 			return newBoardCri;
 		}
 		
-		// keyword always not null
+		// keyword is always not null
 		String keyword = boardCri.getKeyword(); 
 		if (!"".equals(keyword)) {
 			String newKeyword = boardMapper.findMemberIdxByKeyword(keyword)

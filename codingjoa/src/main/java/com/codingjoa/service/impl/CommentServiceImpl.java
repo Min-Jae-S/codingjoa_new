@@ -85,7 +85,6 @@ public class CommentServiceImpl implements CommentService {
 			}
 		}
 		log.info("\t > deletedComments on page '{}' = {}", commentCri.getPage(), deletedComments);
-		
 		return pagedComment;
 	}
 	

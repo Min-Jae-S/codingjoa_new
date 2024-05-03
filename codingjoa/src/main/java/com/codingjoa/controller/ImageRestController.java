@@ -54,6 +54,7 @@ public class ImageRestController {
 		binder.addValidators(new UploadFileValidator());
 	}
 	
+	// 이미지 여러개 업로드로 변경하기
 	@PostMapping("/board/image") // @PostMapping("/upload/board-image")
 	public ResponseEntity<Object> uploadBoardImage(@ModelAttribute @Valid UploadFileDto uploadFileDto,
 			HttpServletRequest request) throws IllegalStateException, IOException {

@@ -45,6 +45,7 @@ function modelToViewEditingConverter(editor) {
 	editor.conversion.for("editingDowncast").add(dispatcher => { // downcastDispatcher
         dispatcher.on("attribute:dataIdx", (evt, data, conversionApi) => {
         	//console.log("## MODEL-TO-VIEW conversion - editing downcast");
+        	console.log("## editing downcast");
         	const modelElement = data.item;
         	if (!conversionApi.consumable.consume(modelElement, evt.name)) {
             	return;
@@ -54,7 +55,7 @@ function modelToViewEditingConverter(editor) {
             const imageContainer = conversionApi.mapper.toViewElement(modelElement);
             const imageElement = imageContainer.getChild(0);
 //            console.log("\t > modelElement		: " + modelElement.name);
-//            console.log("\t > imageContainer	: " + imageContainer.name);
+//            console.log("\t > imageContainer		: " + imageContainer.name);
 //            console.log("\t > imageElement		: " + imageElement.name);
             
             if (data.attributeNewValue !== null) {
@@ -72,6 +73,7 @@ function modelToViewDataConverter(editor) {
 	editor.conversion.for("dataDowncast").add(dispatcher => {
 		dispatcher.on("attribute:dataIdx", (evt, data, conversionApi) => { 
 			//console.log("## MODEL-TO-VIEW conversion - data downcast");
+			console.log("## data downcast");
 			const modelElement = data.item;
         	if (!conversionApi.consumable.consume(modelElement, evt.name)) {
             	return;
@@ -81,7 +83,7 @@ function modelToViewDataConverter(editor) {
             const imageContainer = conversionApi.mapper.toViewElement(modelElement);
             const imageElement = (modelElement.name === "imageBlock") ? imageContainer.getChild(0) : imageContainer;
 //            console.log("\t > modelElement		: " + modelElement.name);
-//            console.log("\t > imageContainer	: " + imageContainer.name);
+//            console.log("\t > imageContainer		: " + imageContainer.name);
 //            console.log("\t > imageElement		: " + imageElement.name);
             
             if (data.attributeNewValue !== null) {

@@ -150,6 +150,7 @@
 			    
 			    // add boardImages
 			    let boardImageIdx = value.item.getAttribute("dataIdx");
+			    console.log("## add boardImages, boardImageIdx = %s", boardImageIdx);
 			    $("<input/>", { type: "hidden", name: "boardImages", value: boardImageIdx }).appendTo($form);
 			}
 			
@@ -162,12 +163,12 @@
 			$form.submit();
 		});
 		
-		// test getData
+		// testGetData
 		$("#testGetDataBtn").on("click", function() {
 			console.log("> '%s'", modifyEditor.getData());
 		});
 		
-		// test jsoup
+		// testJsoup
 		$("#testJsoupBtn").on("click", function() {
 			$("input[name='boardImages']").remove();
 			let $form = $("#modifyBoardDto");

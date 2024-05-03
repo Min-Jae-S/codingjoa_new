@@ -52,8 +52,17 @@ public class ImageServiceImpl implements ImageService {
 				// absolutePath vs canonicalPath (https://dev-handbook.tistory.com/11)
 				.boardImagePath(uploadFile.getCanonicalPath()) 
 				.build();
-		log.info("\t > insert boardImage = {}", boardImage);
+		log.info("\t > {}", boardImage);
+		
 		imageMapper.insertBoardImage(boardImage);
+		Integer boardImageIdx = boardImage.getBoardImageIdx();
+		log.info("\t > after inserting boardImage, boardImageIdx = {}", boardImageIdx);
+		
+		// 업로드 실패 상황(insert)을 만들어 클라이언트에서 에러 확인하기
+		// 실패 후, 로컬에 저장된 업로드 파일 추후 처리 결정하기
+		if (boardImageIdx == null) { 
+			throw new ExpectedException("error.UploadBoardImage");
+		}
 		
 		return boardImage;
 	}
@@ -110,8 +119,17 @@ public class ImageServiceImpl implements ImageService {
 				.memberImageName(uploadFilename)
 				.memberImagePath(uploadFile.getCanonicalPath())
 				.build();
-		log.info("\t > insert memberImage = {}", memberImage);
+		log.info("\t > {}", memberImage);
+		
 		imageMapper.insertMemberImage(memberImage);
+		Integer memberImageIdx = memberImage.getMemberImageIdx();
+		log.info("\t > after inserting memberImage, memberImageIdx = {}", memberImageIdx);
+		
+		// 업로드 실패 상황(insert)을 만들어 클라이언트에서 에러 확인하기
+		// 실패 후, 로컬에 저장된 업로드 파일 추후 처리 결정하기
+		if (memberImageIdx == null) { 
+			throw new ExpectedException("error.UploadMemberImage");
+		}
 	}
 	
 	private File createUploadFolder(String path) {
