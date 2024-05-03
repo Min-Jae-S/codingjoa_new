@@ -80,7 +80,7 @@ public class ImageServiceImpl implements ImageService {
 	@Override
 	public void deactivateBoardImage(BoardDto boardDto) {
 		log.info("## deactivateBoardImage");
-		//imageMapper.deactivateBoardImage(boardDto.getBoardIdx());
+		imageMapper.deactivateBoardImage(boardDto.getBoardIdx());
 		
 		int boardIdx = boardDto.getBoardIdx();
 		List<Integer> boardImages = imageMapper.findBoardImagesByBoardIdx(boardIdx)
@@ -89,7 +89,7 @@ public class ImageServiceImpl implements ImageService {
 				.collect(Collectors.toList());
 		log.info("\t > find boardImages = {}", boardImages);
 		
-		if (!boardImages.isEmpty()) {
+		if (!boardImages.isEmpty()) { 
 			// deactive된 boardImage의 index를 동시에 update?
 			log.info("\t > deactivate boardImages = {}", boardImages);
 			imageMapper.deactivateBoardImage(boardIdx);
@@ -140,8 +140,7 @@ public class ImageServiceImpl implements ImageService {
 	@Override
 	public BoardImage findBoardImageByName(String boardImageName) {
 		BoardImage boardImage = imageMapper.findBoardImageByName(boardImageName);
-		//log.info("\t > find boardImage by boardImageName");
-		//log.info("\t > {}", boardImage);
+		log.info("\t > find boardImage = {}", boardImage);
 		
 		if (boardImage == null) {
 			throw new ExpectedException("error.NotFoundBoardImage");
