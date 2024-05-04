@@ -17,7 +17,7 @@ public interface ImageMapper {
 	
 	void activateBoardImage(@Param("boardImages") List<Integer> boardImages, @Param("boardIdx") int boardIdx);
 	
-	void deactivateBoardImages(int boarIdx);
+	List<Integer> deactivateBoardImages(int boarIdx);
 	
 	List<BoardImage> findBoardImagesByBoardIdx(int boardIdx);
 	
