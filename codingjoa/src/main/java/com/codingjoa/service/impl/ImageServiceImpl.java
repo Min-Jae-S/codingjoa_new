@@ -45,12 +45,15 @@ public class ImageServiceImpl implements ImageService {
 		
 		String uploadFilename = createFilename(file.getOriginalFilename());
 		File uploadFile = new File(uploadFolder, uploadFilename);
+		file.transferTo(uploadFile);
+		
 		BoardImage boardImage = BoardImage.builder()
 				.boardImageName(uploadFilename)
 				// absolutePath vs canonicalPath (https://dev-handbook.tistory.com/11)
 				.boardImagePath(uploadFile.getCanonicalPath()) 
 				.build();
-		log.info("\t > create boardImage = {}", boardImage);
+		log.info("\t > create boardImage");
+		log.info("\t > boardImage = {}", boardImage);
 		
 		imageMapper.insertBoardImage(boardImage);
 		Integer boardImageIdx = boardImage.getBoardImageIdx();
@@ -60,8 +63,6 @@ public class ImageServiceImpl implements ImageService {
 		if (boardImageIdx == null) { 
 			throw new ExpectedException("error.UploadBoardImage");
 		} 
-
-		file.transferTo(uploadFile);
 		return boardImage;
 	}
 	
@@ -85,7 +86,7 @@ public class ImageServiceImpl implements ImageService {
 	@Override
 	public void modifyBoardImage(BoardDto boardDto) {
 		log.info("## modifyBoardImage");
-		log.info("\t > deactivate boardImages");
+		log.info("\t > deactivate boardImages by boardIdx");
 		int boardIdx = boardDto.getBoardIdx();
 		imageMapper.deactivateBoardImage(boardIdx);
 		
@@ -107,12 +108,15 @@ public class ImageServiceImpl implements ImageService {
 		
 		String uploadFilename = createFilename(file.getOriginalFilename());
 		File uploadFile = new File(uploadFolder, uploadFilename);
+		file.transferTo(uploadFile);
+		
 		MemberImage memberImage = MemberImage.builder()
 				.memberIdx(memberIdx)
 				.memberImageName(uploadFilename)
 				.memberImagePath(uploadFile.getCanonicalPath())
 				.build();
-		log.info("\t > create memberImage = {}", memberImage);
+		log.info("\t > create memberImage");
+		log.info("\t > memberImage = {}", memberImage);
 		
 		// merge를 활용해서 없으면 insert, 있으면 update (deactivate + insert) 추가하기
 		log.info("\t > deactivate memberImage by memeberIdx");
@@ -126,8 +130,6 @@ public class ImageServiceImpl implements ImageService {
 		if (memberImageIdx == null) { 
 			throw new ExpectedException("error.UploadMemberImage");
 		}
-		
-		file.transferTo(uploadFile);
 	}
 	
 	private File createUploadFolder(String path) {
@@ -149,7 +151,8 @@ public class ImageServiceImpl implements ImageService {
 	@Override
 	public BoardImage findBoardImageByName(String boardImageName) {
 		BoardImage boardImage = imageMapper.findBoardImageByName(boardImageName);
-		log.info("\t > find boardImage = {}", boardImage);
+		log.info("\t > find boardImage by imageName");
+		log.info("\t > boardImage = {}", boardImage);
 		
 		if (boardImage == null) {
 			throw new ExpectedException("error.NotFoundBoardImage");
@@ -161,7 +164,8 @@ public class ImageServiceImpl implements ImageService {
 	@Override
 	public MemberImage findMemberImageByName(String memberImageName, Integer memberIdx) {
 		MemberImage memberImage = imageMapper.findMemberImageByName(memberImageName);
-		log.info("\t > find memberImage = {}", memberImage);
+		log.info("\t > find memberImage by imageName");
+		log.info("\t > memberImage = {}", memberImage);
 		
 		if (memberImage == null) {
 			throw new ExpectedException("error.NotFoundMemberImage");

@@ -73,7 +73,7 @@ public class BoardController {
 	public String getBoard(@BoardCategoryCode @RequestParam int boardCategoryCode, 
 			@BoardCri Criteria boardCri, Model model) {
 		log.info("## getBoard, boardCategoryCode = {}", boardCategoryCode);
-		log.info("\t > boardCri = {}", boardCategoryCode, boardCri);
+		log.info("\t > boardCri = {}", boardCri);
 
 		Criteria newBoardCri = boardService.createNewBoardCri(boardCri);
 		log.info("\t > newBoardCri = {}", newBoardCri);
@@ -95,8 +95,8 @@ public class BoardController {
 	
 	@GetMapping("/read")
 	public String read(@RequestParam int boardIdx, @BoardCri Criteria boardCri, Model model) {
-		log.info("## read, boardIdx ={}", boardIdx);
-		log.info("\t > boardCri = {}", boardIdx, boardCri);
+		log.info("## read, boardIdx = {}", boardIdx);
+		log.info("\t > boardCri = {}", boardCri);
 		
 		BoardDetailsDto boardDetails = boardService.getBoardDetails(boardIdx);
 		model.addAttribute("boardDetails", boardDetails);
