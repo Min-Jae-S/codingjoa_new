@@ -72,8 +72,8 @@ public class BoardController {
 	@GetMapping("/")
 	public String getBoard(@BoardCategoryCode @RequestParam int boardCategoryCode, 
 			@BoardCri Criteria boardCri, Model model) {
-		log.info("## getBoard ( boardCategoryCode = {} )", boardCategoryCode);
-		log.info("\t > boardCri = {}", boardCri);
+		log.info("## getBoard, boardCategoryCode = {}", boardCategoryCode);
+		log.info("\t > boardCri = {}", boardCategoryCode, boardCri);
 
 		Criteria newBoardCri = boardService.createNewBoardCri(boardCri);
 		log.info("\t > newBoardCri = {}", newBoardCri);
@@ -95,8 +95,8 @@ public class BoardController {
 	
 	@GetMapping("/read")
 	public String read(@RequestParam int boardIdx, @BoardCri Criteria boardCri, Model model) {
-		log.info("## read ( boardIdx = {} )", boardIdx);
-		log.info("\t > boardCri = {}", boardCri);
+		log.info("## read, boardIdx ={}", boardIdx);
+		log.info("\t > boardCri = {}", boardIdx, boardCri);
 		
 		BoardDetailsDto boardDetails = boardService.getBoardDetails(boardIdx);
 		model.addAttribute("boardDetails", boardDetails);
@@ -113,7 +113,7 @@ public class BoardController {
 	@GetMapping("/write")
 	public String write(@BoardCategoryCode @RequestParam int boardCategoryCode, 
 			/* @ModelAttribute("writeBoardDto") BoardDto writeBoardDto, */ Model model) {
-		log.info("## write ( boardCategoryCode = {} )", boardCategoryCode);
+		log.info("## write, boardCategoryCode = {}", boardCategoryCode);
 		BoardDto writeBoardDto = new BoardDto();
 		writeBoardDto.setBoardCategoryCode(boardCategoryCode);
 		model.addAttribute("writeBoardDto", writeBoardDto);
@@ -146,7 +146,7 @@ public class BoardController {
 	
 	@GetMapping("/modify")
 	public String modify(@RequestParam int boardIdx, @AuthenticationPrincipal UserDetailsDto principal, Model model) {
-		log.info("## modify ( boardIdx = {} )", boardIdx);
+		log.info("## modify, boardIdx = {}", boardIdx);
 		int boardWriterIdx = principal.getMember().getMemberIdx();
 		BoardDto modifyBoardDto = boardService.getModifyBoard(boardIdx, boardWriterIdx);
 		model.addAttribute("modifyBoardDto", modifyBoardDto);
@@ -178,7 +178,7 @@ public class BoardController {
 	
 	@GetMapping("/deleteProc")
 	public String deleteProc(@RequestParam int boardIdx, @AuthenticationPrincipal UserDetailsDto principal) {
-		log.info("## deleteProc ( boardIdx = {} )", boardIdx);
+		log.info("## deleteProc, boardIdx = {}", boardIdx);
 		BoardDto deleteBoardDto = new BoardDto();
 		deleteBoardDto.setBoardIdx(boardIdx);
 		deleteBoardDto.setBoardWriterIdx(principal.getMember().getMemberIdx());

@@ -65,8 +65,7 @@
 
 <script>
 	$(function() {
-		let timer;
-		let showDelay = 150;
+		let timer, showDelay = 150;
 		
 		$(".navbar-nav li.dropdown").on("mouseenter", function(e) {
 			e.stopPropagation();
@@ -75,7 +74,7 @@
 			$a.css("color", "black").css("font-weight", "bold");
 			
 			timer = setTimeout(function() {
-				console.log("## Get categoryList");
+				console.log("## getCategoryListByParent");
 				let url = "${contextPath}/category/" + parentCategory;
 				console.log("> URL = '%s'", url);
 				
