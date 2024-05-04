@@ -14,9 +14,9 @@ public interface ImageService {
 	
 	boolean isBoardImageUploaded(int boardImageIdx);
 	
-	void activateBoardImage(BoardDto boardDto);
+	void activateBoardImages(BoardDto boardDto);
 	
-	void modifyBoardImage(BoardDto boardDto);
+	void modifyBoardImages(BoardDto boardDto);
 	
 	void uploadMemberImage(MultipartFile file, Integer memberIdx) throws IllegalStateException, IOException;
 	

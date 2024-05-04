@@ -72,20 +72,20 @@ public class ImageServiceImpl implements ImageService {
 	}
 
 	@Override
-	public void activateBoardImage(BoardDto boardDto) {
-		log.info("## activateBoardImage");
+	public void activateBoardImages(BoardDto boardDto) {
+		log.info("## activateBoardImages");
 		List<Integer> boardImages = boardDto.getBoardImages();
 		if (!boardImages.isEmpty()) {
 			log.info("\t > activate boardImages = {}", boardImages);
-			imageMapper.activateBoardImage(boardImages, boardDto.getBoardIdx());
+			imageMapper.activateBoardImages(boardImages, boardDto.getBoardIdx());
 		} else {
 			log.info("\t > no boardImages to activate");
 		}
 	}
 	
 	@Override
-	public void modifyBoardImage(BoardDto boardDto) {
-		log.info("## modifyBoardImage");
+	public void modifyBoardImages(BoardDto boardDto) {
+		log.info("## modifyBoardImages");
 		log.info("\t > deactivate boardImages");
 		int boardIdx = boardDto.getBoardIdx();
 		imageMapper.deactivateBoardImages(boardIdx);
@@ -93,7 +93,7 @@ public class ImageServiceImpl implements ImageService {
 		List<Integer> boardImages = boardDto.getBoardImages();
 		if (!boardImages.isEmpty()) {
 			log.info("\t > activate boardImages = {}", boardImages);
-			imageMapper.activateBoardImage(boardImages, boardIdx);
+			imageMapper.activateBoardImages(boardImages, boardIdx);
 		} else {
 			log.info("\t > no boardImages to activate");
 		}

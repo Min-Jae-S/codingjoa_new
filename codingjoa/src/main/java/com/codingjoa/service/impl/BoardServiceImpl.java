@@ -60,7 +60,7 @@ public class BoardServiceImpl implements BoardService {
 		}
 
 		boardDto.setBoardIdx(boardIdx);
-		imageService.activateBoardImage(boardDto);
+		imageService.activateBoardImages(boardDto);
 	}
 
 	@Override
@@ -156,7 +156,7 @@ public class BoardServiceImpl implements BoardService {
 			throw new ExpectedException("error.NotMyBoard");
 		}
 		
-		imageService.modifyBoardImage(boardDto);
+		imageService.modifyBoardImages(boardDto);
 	}
 
 	@Override

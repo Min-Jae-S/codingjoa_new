@@ -45,7 +45,7 @@
 			board_image_idx = #{boardImageIdx}
 	</select>
 	
-	<update id="activateBoardImage" parameterType="map">
+	<update id="activateBoardImages" parameterType="map">
 		UPDATE 
 			board_image
 		SET
@@ -64,7 +64,7 @@
 			board_idx = NULL
 		WHERE
 			board_idx = #{boardIdx} 
-	</select>
+	</update>
 	
 	<select id="findBoardImagesByBoardIdx" parameterType="int" resultType="boardImage">
 		SELECT
