@@ -57,15 +57,13 @@
 			</foreach>
 	</update>
 	
-	<select id="deactivateBoardImages" parameterType="int" resultType="int" affectData="true">
+	<update id="deactivateBoardImages" parameterType="int">
 		UPDATE 
 			board_image
 		SET
 			board_idx = NULL
 		WHERE
 			board_idx = #{boardIdx} 
-		RETURNING
-			board_image_idx
 	</select>
 	
 	<select id="findBoardImagesByBoardIdx" parameterType="int" resultType="boardImage">
