@@ -45,25 +45,23 @@ public class ImageServiceImpl implements ImageService {
 		
 		String uploadFilename = createFilename(file.getOriginalFilename());
 		File uploadFile = new File(uploadFolder, uploadFilename);
-		file.transferTo(uploadFile);
-		
 		BoardImage boardImage = BoardImage.builder()
 				.boardImageName(uploadFilename)
 				// absolutePath vs canonicalPath (https://dev-handbook.tistory.com/11)
 				.boardImagePath(uploadFile.getCanonicalPath()) 
 				.build();
-		log.info("\t > {}", boardImage);
+		log.info("\t > create boardImage = {}", boardImage);
 		
 		imageMapper.insertBoardImage(boardImage);
 		Integer boardImageIdx = boardImage.getBoardImageIdx();
 		log.info("\t > after inserting boardImage, boardImageIdx = {}", boardImageIdx);
 		
 		// 업로드 실패 상황(insert)을 만들어 클라이언트에서 에러 확인하기
-		// 실패 후, 로컬에 저장된 업로드 파일 추후 처리 결정하기
 		if (boardImageIdx == null) { 
 			throw new ExpectedException("error.UploadBoardImage");
-		}
-		
+		} 
+
+		file.transferTo(uploadFile);
 		return boardImage;
 	}
 	
@@ -109,27 +107,27 @@ public class ImageServiceImpl implements ImageService {
 		
 		String uploadFilename = createFilename(file.getOriginalFilename());
 		File uploadFile = new File(uploadFolder, uploadFilename);
-		file.transferTo(uploadFile);
-		
-		log.info("\t > deactivate memberImage");
-		imageMapper.deactivateMemberImage(memberIdx);
-		
 		MemberImage memberImage = MemberImage.builder()
 				.memberIdx(memberIdx)
 				.memberImageName(uploadFilename)
 				.memberImagePath(uploadFile.getCanonicalPath())
 				.build();
-		log.info("\t > {}", memberImage);
+		log.info("\t > create memberImage = {}", memberImage);
+		
+		// merge를 활용해서 없으면 insert, 있으면 update (deactivate + insert) 추가하기
+		log.info("\t > deactivate memberImage by memeberIdx");
+		imageMapper.deactivateMemberImage(memberIdx);
 		
 		imageMapper.insertMemberImage(memberImage);
 		Integer memberImageIdx = memberImage.getMemberImageIdx();
 		log.info("\t > after inserting memberImage, memberImageIdx = {}", memberImageIdx);
 		
 		// 업로드 실패 상황(insert)을 만들어 클라이언트에서 에러 확인하기
-		// 실패 후, 로컬에 저장된 업로드 파일 추후 처리 결정하기
 		if (memberImageIdx == null) { 
 			throw new ExpectedException("error.UploadMemberImage");
 		}
+		
+		file.transferTo(uploadFile);
 	}
 	
 	private File createUploadFolder(String path) {
