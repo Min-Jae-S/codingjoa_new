@@ -130,6 +130,7 @@
 		
 		$("#writeBtn").on("click", function(e) {
 			e.preventDefault();
+			console.log("## remove hidden boardImages input");
 			$("input[name='boardImages']").remove();
 
 			let $form = $("#writeBoardDto");

@@ -57,7 +57,7 @@
 			</foreach>
 	</update>
 	
-	<update id="deactivateBoardImage" parameterType="int">
+	<update id="deactivateBoardImages" parameterType="int">
 		UPDATE 
 			board_image
 		SET

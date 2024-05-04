@@ -86,9 +86,9 @@ public class ImageServiceImpl implements ImageService {
 	@Override
 	public void modifyBoardImage(BoardDto boardDto) {
 		log.info("## modifyBoardImage");
-		log.info("\t > deactivate boardImages by boardIdx");
+		log.info("\t > deactivate boardImages");
 		int boardIdx = boardDto.getBoardIdx();
-		imageMapper.deactivateBoardImage(boardIdx);
+		imageMapper.deactivateBoardImages(boardIdx);
 		
 		List<Integer> boardImages = boardDto.getBoardImages();
 		if (!boardImages.isEmpty()) {
