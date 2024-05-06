@@ -86,7 +86,7 @@ public class ImageServiceImpl implements ImageService {
 	@Override
 	public void modifyBoardImages(BoardDto boardDto) {
 		log.info("## modifyBoardImages");
-		log.info("\t > deactivate boardImages");
+		log.info("\t > deactivate all boardImages");
 		int boardIdx = boardDto.getBoardIdx();
 		imageMapper.deactivateBoardImages(boardIdx);
 		
@@ -118,7 +118,7 @@ public class ImageServiceImpl implements ImageService {
 		log.info("\t > create memberImage");
 		log.info("\t > {}", memberImage);
 		
-		// merge를 활용해서 없으면 insert, 있으면 update (deactivate + insert) 추가하기
+		// @@ deactivateMemberImage를 merge(upsert)로 수정하기  
 		log.info("\t > deactivate memberImage by memeberIdx");
 		imageMapper.deactivateMemberImage(memberIdx);
 		
