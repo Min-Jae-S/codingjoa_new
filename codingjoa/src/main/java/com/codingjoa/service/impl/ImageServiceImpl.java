@@ -53,7 +53,7 @@ public class ImageServiceImpl implements ImageService {
 				.boardImagePath(uploadFile.getCanonicalPath()) 
 				.build();
 		log.info("\t > create boardImage");
-		log.info("\t > boardImage = {}", boardImage);
+		log.info("\t > {}", boardImage);
 		
 		imageMapper.insertBoardImage(boardImage);
 		Integer boardImageIdx = boardImage.getBoardImageIdx();
@@ -116,7 +116,7 @@ public class ImageServiceImpl implements ImageService {
 				.memberImagePath(uploadFile.getCanonicalPath())
 				.build();
 		log.info("\t > create memberImage");
-		log.info("\t > memberImage = {}", memberImage);
+		log.info("\t > {}", memberImage);
 		
 		// merge를 활용해서 없으면 insert, 있으면 update (deactivate + insert) 추가하기
 		log.info("\t > deactivate memberImage by memeberIdx");
