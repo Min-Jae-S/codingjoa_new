@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -86,14 +87,22 @@ public class ImageServiceImpl implements ImageService {
 	@Override
 	public void modifyBoardImages(BoardDto boardDto) {
 		log.info("## modifyBoardImages");
-		log.info("\t > deactivate all boardImages corresponding to boardIdx");
 		int boardIdx = boardDto.getBoardIdx();
-		imageMapper.deactivateBoardImages(boardIdx);
+		List<Integer> oldBoardImages = imageMapper.findBoardImagesByBoardIdx(boardIdx)
+				.stream()
+				.map(BoardImage -> BoardImage.getBoardIdx())
+				.collect(Collectors.toList());
+		if (!oldBoardImages.isEmpty()) {
+			log.info("\t > deactivate boardImages = {}", oldBoardImages);
+			imageMapper.deactivateBoardImages(boardIdx);
+		} else {
+			log.info("\t > no boardImages to deactivate");
+		}
 		
-		List<Integer> boardImages = boardDto.getBoardImages();
-		if (!boardImages.isEmpty()) {
-			log.info("\t > activate boardImages = {}", boardImages);
-			imageMapper.activateBoardImages(boardImages, boardIdx);
+		List<Integer> newBoardImages = boardDto.getBoardImages();
+		if (!newBoardImages.isEmpty()) {
+			log.info("\t > activate boardImages = {}", newBoardImages);
+			imageMapper.activateBoardImages(newBoardImages, boardIdx);
 		} else {
 			log.info("\t > no boardImages to activate");
 		}
