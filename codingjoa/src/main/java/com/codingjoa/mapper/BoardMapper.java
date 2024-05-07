@@ -30,7 +30,6 @@ public interface BoardMapper {
 
 	int findBoardCategoryCode(int boardIdx);
 	
-	//void deleteBoard(Board board);
 	void deleteBoard(int boardIdx);
 	
 }

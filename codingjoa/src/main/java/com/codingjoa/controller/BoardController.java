@@ -182,11 +182,8 @@ public class BoardController {
 		BoardDto deleteBoardDto = new BoardDto();
 		deleteBoardDto.setBoardIdx(boardIdx);
 		deleteBoardDto.setBoardWriterIdx(principal.getMember().getMemberIdx());
+		boardService.deleteBoard(deleteBoardDto); // ON DELETE CASCADE, ON DELETE SET NULL
 		
-		// ON DELETE CASCADE, ON DELETE SET NULL
-		boardService.deleteBoard(deleteBoardDto);
-		
-		// UriComponentsBuilder.newInstance().queryParam("boardCategoryCode", boardCategoryCode).toUriString()
 		return "redirect:/board/?boardCategoryCode=" + deleteBoardDto.getBoardCategoryCode();
 	}
 	
