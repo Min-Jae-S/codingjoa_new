@@ -23,7 +23,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
-	private AuthenticationProvider customAuthenticationProvider;
+	private AuthenticationProvider authenticationProvider;
 	
 	@Autowired
 	private AuthenticationSuccessHandler loginSuccessHandler;
@@ -32,10 +32,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private AuthenticationFailureHandler loginFailureHandler;
 	
 	@Autowired
-	private AccessDeniedHandler customAccessDeniedHandler;
+	private AccessDeniedHandler accessDeniedHandler;
 	
 	@Autowired
-	private AuthenticationEntryPoint customAuthenticationEntryPoint;
+	private AuthenticationEntryPoint authenticationEntryPoint;
 	
 	@Bean
 	public PasswordEncoder passwordEncoder() {
@@ -103,13 +103,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.invalidateHttpSession(true)
 				.and()
 			.exceptionHandling()
-				.authenticationEntryPoint(customAuthenticationEntryPoint)	// XMLHttpRequest가 아닌 다른 것으로 ajax 판단하기
-				.accessDeniedHandler(customAccessDeniedHandler); 			// ajax check 추가하기 			 
+				.authenticationEntryPoint(authenticationEntryPoint)	// XMLHttpRequest가 아닌 다른 것으로 ajax 판단하기
+				.accessDeniedHandler(accessDeniedHandler); 			// ajax check 추가하기 			 
 	}
 	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.authenticationProvider(customAuthenticationProvider);
+		auth.authenticationProvider(authenticationProvider);
 	}
 	
 }

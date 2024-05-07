@@ -53,8 +53,7 @@ public class ImageServiceImpl implements ImageService {
 				// absolutePath vs canonicalPath (https://dev-handbook.tistory.com/11)
 				.boardImagePath(uploadFile.getCanonicalPath()) 
 				.build();
-		log.info("\t > create boardImage");
-		log.info("\t > {}", boardImage);
+		log.info("\t > create boardImage = {}", boardImage);
 		
 		imageMapper.insertBoardImage(boardImage);
 		Integer boardImageIdx = boardImage.getBoardImageIdx();
@@ -119,8 +118,7 @@ public class ImageServiceImpl implements ImageService {
 				.memberImageName(uploadFilename)
 				.memberImagePath(uploadFile.getCanonicalPath())
 				.build();
-		log.info("\t > create memberImage");
-		log.info("\t > {}", memberImage);
+		log.info("\t > create memberImage = {}", memberImage);
 		
 		// @@ deactivateMemberImage를 merge(upsert)로 수정하기  
 		log.info("\t > deactivate memberImage by memeberIdx");
