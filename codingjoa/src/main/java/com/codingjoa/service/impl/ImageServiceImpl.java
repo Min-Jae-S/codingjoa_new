@@ -153,7 +153,6 @@ public class ImageServiceImpl implements ImageService {
 	@Override
 	public BoardImage findBoardImageByName(String boardImageName) {
 		BoardImage boardImage = imageMapper.findBoardImageByName(boardImageName);
-		//log.info("\t > find boardImage by imageName");
 		//log.info("\t > boardImage = {}", boardImage);
 		
 		if (boardImage == null) {
@@ -166,7 +165,7 @@ public class ImageServiceImpl implements ImageService {
 	@Override
 	public MemberImage findMemberImageByName(String memberImageName, Integer memberIdx) {
 		MemberImage memberImage = imageMapper.findMemberImageByName(memberImageName);
-		log.info("\t > find memberImage by imageName");
+		log.info("\t > find memberImage by name");
 		log.info("\t > memberImage = {}", memberImage);
 		
 		if (memberImage == null) {
