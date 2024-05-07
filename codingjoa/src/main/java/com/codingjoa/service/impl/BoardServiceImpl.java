@@ -198,23 +198,44 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public void deleteBoard(BoardDto boardDto) {
-		Board board = modelMapper.map(boardDto, Board.class);
-		log.info("\t > convert boardDto to board entity");
-		log.info("\t > {}", board);
-		
-		boardMapper.deleteBoard(board);
-		Integer DBboardWriterIdx = board.getBoardWriterIdx();
-		log.info("\t > after deleting board, DB boardWriterIdx = {}, My boardWriterIdx = {}", 
-				DBboardWriterIdx, boardDto.getBoardWriterIdx());
-		
-		if (DBboardWriterIdx == null) {
-			throw new ExpectedException("error.DeleteBoard");
+		Board deleteBoard = boardMapper.findBoardByIdx(boardDto.getBoardIdx());
+		log.info("\t > find deleteBoard = {}", deleteBoard);
+
+		if (deleteBoard == null) {
+			throw new ExpectedException("error.NotFoundBoard");
 		}
 		
-		if (DBboardWriterIdx != boardDto.getBoardWriterIdx()) {
+		Integer DBboardWriterIdx = deleteBoard.getBoardWriterIdx();
+		int boardWirterIdx = boardDto.getBoardWriterIdx();
+		log.info("\t > DB boardWriterIdx = {}, My boardWriterIdx = {}", DBboardWriterIdx, boardWirterIdx);
+		
+		if (DBboardWriterIdx != boardWirterIdx) {
 			throw new ExpectedException("error.NotMyBoard");
 		}
 		
-		boardDto.setBoardCategoryCode(board.getBoardCategoryCode());
+		boardMapper.deleteBoard(deleteBoard.getBoardIdx());
+		boardDto.setBoardCategoryCode(deleteBoard.getBoardCategoryCode());
 	}
+
+//	@Override
+//	public void deleteBoard(BoardDto boardDto) {
+//		Board board = modelMapper.map(boardDto, Board.class);
+//		log.info("\t > convert boardDto to board entity");
+//		log.info("\t > {}", board);
+//		
+//		boardMapper.deleteBoard(board);
+//		Integer DBboardWriterIdx = board.getBoardWriterIdx();
+//		log.info("\t > after deleting board, DB boardWriterIdx = {}, My boardWriterIdx = {}", 
+//				DBboardWriterIdx, boardDto.getBoardWriterIdx());
+//		
+//		if (DBboardWriterIdx == null) {
+//			throw new ExpectedException("error.DeleteBoard");
+//		}
+//		
+//		if (DBboardWriterIdx != boardDto.getBoardWriterIdx()) {
+//			throw new ExpectedException("error.NotMyBoard");
+//		}
+//		
+//		boardDto.setBoardCategoryCode(board.getBoardCategoryCode());
+//	}
 }

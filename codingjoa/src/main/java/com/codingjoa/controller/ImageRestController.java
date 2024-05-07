@@ -101,10 +101,10 @@ public class ImageRestController {
 	public ResponseEntity<Object> getMemberImageResource(@PathVariable String memberImageName, 
 			@AuthenticationPrincipal UserDetailsDto principal) throws MalformedURLException {
 		log.info("## getMemberImageResource");
-		//log.info("\t > memberImage = {}", memberImageName);
+		log.info("\t > memberImage = {}", memberImageName);
 		MemberImage memberImage = imageService.findMemberImageByName(memberImageName, principal.getMember().getMemberIdx());
 		UrlResource resource = new UrlResource("file:" + memberImage.getMemberImagePath());
-		//log.info("\t > create urlResource = {}", resource);
+		log.info("\t > create urlResource = {}", resource);
 		
 		return ResponseEntity.ok(resource);
 	}

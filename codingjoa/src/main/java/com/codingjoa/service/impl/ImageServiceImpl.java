@@ -76,11 +76,9 @@ public class ImageServiceImpl implements ImageService {
 	public void activateBoardImages(BoardDto boardDto) {
 		log.info("## activateBoardImages");
 		List<Integer> boardImages = boardDto.getBoardImages();
+		log.info("\t > activate boardImages = {}", boardImages);
 		if (!boardImages.isEmpty()) {
-			log.info("\t > activate boardImages = {}", boardImages);
 			imageMapper.activateBoardImages(boardImages, boardDto.getBoardIdx());
-		} else {
-			log.info("\t > no boardImages to activate");
 		}
 	}
 	
@@ -92,19 +90,16 @@ public class ImageServiceImpl implements ImageService {
 				.stream()
 				.map(BoardImage -> BoardImage.getBoardImageIdx())
 				.collect(Collectors.toList());
+		log.info("\t > deactivate oldBoardImages = {}", oldBoardImages);
+		
 		if (!oldBoardImages.isEmpty()) {
-			log.info("\t > deactivate boardImages = {}", oldBoardImages);
 			imageMapper.deactivateBoardImages(boardIdx);
-		} else {
-			log.info("\t > no boardImages to deactivate");
 		}
 		
 		List<Integer> newBoardImages = boardDto.getBoardImages();
+		log.info("\t > activate newBoardImages = {}", newBoardImages);
 		if (!newBoardImages.isEmpty()) {
-			log.info("\t > activate boardImages = {}", newBoardImages);
 			imageMapper.activateBoardImages(newBoardImages, boardIdx);
-		} else {
-			log.info("\t > no boardImages to activate");
 		}
 	}
 	
@@ -160,8 +155,8 @@ public class ImageServiceImpl implements ImageService {
 	@Override
 	public BoardImage findBoardImageByName(String boardImageName) {
 		BoardImage boardImage = imageMapper.findBoardImageByName(boardImageName);
-		log.info("\t > find boardImage by imageName");
-		log.info("\t > boardImage = {}", boardImage);
+		//log.info("\t > find boardImage by imageName");
+		//log.info("\t > boardImage = {}", boardImage);
 		
 		if (boardImage == null) {
 			throw new ExpectedException("error.NotFoundBoardImage");

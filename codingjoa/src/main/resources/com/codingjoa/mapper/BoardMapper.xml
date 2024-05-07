@@ -417,7 +417,14 @@
 			board_idx = #{boardIdx} 
 	</select>
 	
-	<delete id="deleteBoard" parameterType="board" statementType="CALLABLE">
+	<delete id="deleteBoard" parameterType="int">
+		DELETE FROM
+			board
+		WHERE
+			board_idx = #{boardIdx}
+	</delete>
+	
+	<!-- <delete id="deleteBoard" parameterType="board" statementType="CALLABLE">
 	{ 
 		CALL
 			DECLARE
@@ -438,6 +445,6 @@
 	        	#{boardCategoryCode, mode=OUT, jdbcType=NUMERIC, javaType=Integer} := v_board_category_code;
 			END 
 	}
-	</delete>
+	</delete> -->
 	
 </mapper>
