@@ -117,47 +117,76 @@ public class BoardServiceImpl implements BoardService {
 	
 	@Override
 	public BoardDto getModifyBoard(int boardIdx, int boardWriterIdx) {
-		Board board = boardMapper.findBoardByIdx(boardIdx);
-		log.info("\t > find modifyBoard = {}", board);
+		Board modifyBoard = boardMapper.findBoardByIdx(boardIdx);
+		log.info("\t > find modifyBoard = {}", modifyBoard);
 
-		if (board == null) {
+		if (modifyBoard == null) {
 			throw new ExpectedException("error.NotFoundBoard");
 		}
 		
-		Integer DBboardWriterIdx = board.getBoardWriterIdx();
+		Integer DBboardWriterIdx = modifyBoard.getBoardWriterIdx();
 		log.info("\t > DB boardWriterIdx = {}, My boardWriterIdx = {}", DBboardWriterIdx, boardWriterIdx);
 		
 		if (DBboardWriterIdx != boardWriterIdx) {
 			throw new ExpectedException("error.NotMyBoard");
 		}
 		
-		return modelMapper.map(board, BoardDto.class);
+		return modelMapper.map(modifyBoard, BoardDto.class);
 	}
 	
 	@Override
 	public void modifyBoard(BoardDto boardDto) {
-		Board board = modelMapper.map(boardDto, Board.class);
-		String boardContentText = Jsoup.parse(board.getBoardContent()).text();
-		board.setBoardContentText(boardContentText);
-		log.info("\t > convert boardDto to board entity");
-		log.info("\t > produce boardContentText by parsing boardContent for search");
-		log.info("\t > {}", board);
+		Board modifyBoard = boardMapper.findBoardByIdx(boardDto.getBoardIdx());
+		log.info("\t > find modifyBoard = {}", modifyBoard);
 
-		boardMapper.updateBoard(board);
-		Integer DBboardWriterIdx = board.getBoardWriterIdx();
-		log.info("\t > after updating board, DB boardWriterIdx = {}, My boardWriterIdx = {}", 
-				DBboardWriterIdx, boardDto.getBoardWriterIdx());
-		
-		if (DBboardWriterIdx == null) {
-			throw new ExpectedException("error.UpdateBoard");
+		if (modifyBoard == null) {
+			throw new ExpectedException("error.NotFoundBoard");
 		}
 		
-		if (DBboardWriterIdx != boardDto.getBoardWriterIdx()) {
+		Integer DBboardWriterIdx = modifyBoard.getBoardWriterIdx();
+		int boardWirterIdx = boardDto.getBoardWriterIdx();
+		log.info("\t > DB boardWriterIdx = {}, My boardWriterIdx = {}", DBboardWriterIdx, boardWirterIdx);
+		
+		if (DBboardWriterIdx != boardWirterIdx) {
 			throw new ExpectedException("error.NotMyBoard");
 		}
 		
+		String newBoardContent = boardDto.getBoardContent();
+		String newBoardContentText = Jsoup.parse(newBoardContent).text();
+		modifyBoard.setBoardContent(newBoardContent);
+		modifyBoard.setBoardContentText(newBoardContentText);
+		modifyBoard.setBoardTitle(boardDto.getBoardTitle());
+		modifyBoard.setBoardCategoryCode(boardDto.getBoardCategoryCode());
+		log.info("\t > new modifyBoard = {}", modifyBoard);
+
+		boardMapper.updateBoard(modifyBoard);
 		imageService.modifyBoardImages(boardDto);
 	}
+	
+//	@Override
+//	public void modifyBoard(BoardDto boardDto) {
+//		Board board = modelMapper.map(boardDto, Board.class);
+//		String boardContentText = Jsoup.parse(board.getBoardContent()).text();
+//		board.setBoardContentText(boardContentText);
+//		log.info("\t > convert boardDto to board entity");
+//		log.info("\t > produce boardContentText by parsing boardContent for search");
+//		log.info("\t > {}", board);
+//
+//		boardMapper.updateBoard(board);
+//		Integer DBboardWriterIdx = board.getBoardWriterIdx();
+//		log.info("\t > after updating board, DB boardWriterIdx = {}, My boardWriterIdx = {}", 
+//				DBboardWriterIdx, boardDto.getBoardWriterIdx());
+//		
+//		if (DBboardWriterIdx == null) {
+//			throw new ExpectedException("error.UpdateBoard");
+//		}
+//		
+//		if (DBboardWriterIdx != boardDto.getBoardWriterIdx()) {
+//			throw new ExpectedException("error.NotMyBoard");
+//		}
+//		
+//		imageService.modifyBoardImages(boardDto);
+//	}
 
 	@Override
 	public int getBoardCategoryCode(int boardIdx) {

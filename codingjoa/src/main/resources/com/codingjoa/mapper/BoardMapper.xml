@@ -371,9 +371,22 @@
 	</select>
 	
 	<update id="updateBoard" parameterType="board">
+		UPDATE
+			board
+		SET
+			board_title = #{boardTitle},
+			board_content = #{boardContent},
+			board_content_text = #{boardContentText},
+			board_category_code = #{boardCategoryCode},
+			moddate = SYSDATE
+		WHERE
+			board_idx = #{boardIdx}
+	</update>
+	
+	<!-- <update id="updateBoard" parameterType="board">
 		<selectKey keyProperty="boardWriterIdx" resultType="int" order="BEFORE">
-			<!-- nested exception is org.apache.ibatis.executor.ExecutorException: SelectKey returned no data. -->
-			<!-- SELECT board_writer_idx FROM board WHERE board_idx = #{boardIdx} -->
+			//nested exception is org.apache.ibatis.executor.ExecutorException: SelectKey returned no data.
+			//SELECT board_writer_idx FROM board WHERE board_idx = #{boardIdx}
 			SELECT 
 				MAX(board_writer_idx) 
 			FROM 
@@ -390,10 +403,10 @@
 			board_category_code = #{boardCategoryCode},
 			moddate = SYSDATE
 		WHERE
-			<!-- need to fix in case of #{boardIdx} is NULL? -->
-			<!-- always #{boardIdx} is 0? -->
+			//need to fix in case of #{boardIdx} is NULL?
+			//always #{boardIdx} is 0?
 			board_idx = #{boardIdx}
-	</update>
+	</update> -->
 	
 	<select id="findBoardCategoryCode" parameterType="int" resultType="int">
 		SELECT
