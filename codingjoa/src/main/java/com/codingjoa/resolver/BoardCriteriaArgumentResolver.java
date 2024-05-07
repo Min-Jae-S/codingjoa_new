@@ -40,8 +40,8 @@ public class BoardCriteriaArgumentResolver implements HandlerMethodArgumentResol
 		String rawRecordCnt = webRequest.getParameter("recordCnt");
 		String rawType = webRequest.getParameter("type");
 		String rawKeyword = webRequest.getParameter("keyword");
-		log.info("\t > rawPage = {}, rawRecordCnt = {}, rawType = {}, rawKeyword = '{}'", 
-				rawPage, rawRecordCnt, rawType, rawKeyword);
+		log.info("\t > rawPage = {}, rawRecordCnt = {}, rawType = {}, rawKeyword = {}", 
+				rawPage, rawRecordCnt, rawType, (rawKeyword == null) ? rawKeyword : "'" + rawKeyword + "'");
 		
 		rawPage = (rawPage == null) ? "" : rawPage.strip();
 		rawRecordCnt = (rawRecordCnt == null) ? "" : rawRecordCnt.strip();
