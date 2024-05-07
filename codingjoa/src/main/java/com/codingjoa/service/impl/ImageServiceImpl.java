@@ -90,7 +90,7 @@ public class ImageServiceImpl implements ImageService {
 		int boardIdx = boardDto.getBoardIdx();
 		List<Integer> oldBoardImages = imageMapper.findBoardImagesByBoardIdx(boardIdx)
 				.stream()
-				.map(BoardImage -> BoardImage.getBoardIdx())
+				.map(BoardImage -> BoardImage.getBoardImageIdx())
 				.collect(Collectors.toList());
 		if (!oldBoardImages.isEmpty()) {
 			log.info("\t > deactivate boardImages = {}", oldBoardImages);

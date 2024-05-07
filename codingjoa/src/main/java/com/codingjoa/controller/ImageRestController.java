@@ -72,11 +72,11 @@ public class ImageRestController {
 	@GetMapping(value = { "/board/images", "/board/images/{boardImageName:.+}"}, produces = MediaType.IMAGE_JPEG_VALUE) 
 	public ResponseEntity<Object> getBoardImageResource(@PathVariable String boardImageName) throws MalformedURLException {
 		log.info("## getBoardImageResource");
-		log.info("\t > boardImageName = {}", boardImageName);
+		//log.info("\t > boardImageName = {}", boardImageName);
 		BoardImage boardImage = imageService.findBoardImageByName(boardImageName);
 		Path boardImagePath = Path.of(boardImage.getBoardImagePath());
 		UrlResource resource = new UrlResource(boardImagePath.toUri());
-		log.info("\t > create urlResource = {}", resource);
+		//log.info("\t > create urlResource = {}", resource);
 		
 		return ResponseEntity.ok(resource);
 	}
@@ -101,10 +101,10 @@ public class ImageRestController {
 	public ResponseEntity<Object> getMemberImageResource(@PathVariable String memberImageName, 
 			@AuthenticationPrincipal UserDetailsDto principal) throws MalformedURLException {
 		log.info("## getMemberImageResource");
-		log.info("\t > memberImage = {}", memberImageName);
+		//log.info("\t > memberImage = {}", memberImageName);
 		MemberImage memberImage = imageService.findMemberImageByName(memberImageName, principal.getMember().getMemberIdx());
 		UrlResource resource = new UrlResource("file:" + memberImage.getMemberImagePath());
-		log.info("\t > create urlResource = {}", resource);
+		//log.info("\t > create urlResource = {}", resource);
 		
 		return ResponseEntity.ok(resource);
 	}

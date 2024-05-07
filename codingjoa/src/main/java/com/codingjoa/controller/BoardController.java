@@ -171,7 +171,7 @@ public class BoardController {
 		}
 		
 		modifyBoardDto.setBoardWriterIdx(principal.getMember().getMemberIdx());
-		boardService.modifyBoard(modifyBoardDto); // updateBoard, modifyBoardImage (deactivate all images -> activate)
+		boardService.modifyBoard(modifyBoardDto); // updateBoard, modifyBoardImage
 		
 		return "redirect:/board/read?boardIdx=" + modifyBoardDto.getBoardIdx();
 	}
