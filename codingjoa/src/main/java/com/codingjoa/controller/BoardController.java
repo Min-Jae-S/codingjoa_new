@@ -182,7 +182,10 @@ public class BoardController {
 		BoardDto deleteBoardDto = new BoardDto();
 		deleteBoardDto.setBoardIdx(boardIdx);
 		deleteBoardDto.setBoardWriterIdx(principal.getMember().getMemberIdx());
-		boardService.deleteBoard(deleteBoardDto); // ON DELETE CASCADE, ON DELETE SET NULL
+		
+		// ALTER TABLE board_image ADD CONSTRAINT fk_board_image_board 
+		// FOREIGN KEY(board_idx) REFERENCES board(board_idx) ON DELETE SET NULL;
+		boardService.deleteBoard(deleteBoardDto);
 		
 		return "redirect:/board/?boardCategoryCode=" + deleteBoardDto.getBoardCategoryCode();
 	}
