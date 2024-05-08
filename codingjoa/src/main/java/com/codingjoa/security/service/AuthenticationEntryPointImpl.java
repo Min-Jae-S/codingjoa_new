@@ -1,6 +1,7 @@
 package com.codingjoa.security.service;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -95,8 +96,9 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 			log.info("\t > {}", errorResponse);
 			log.info("\t > respond with errorResponse in JSON format");
 			
-			response.getWriter().write(objectMapper.writeValueAsString(errorResponse));
-			response.getWriter().close();
+			PrintWriter writer = response.getWriter();
+			writer.write(objectMapper.writeValueAsString(errorResponse));
+			writer.close();
 		} else {
 			log.info("\t > forward to {} '{}'", request.getMethod(), DEFAULT_FAILURE_URL);
 			request.getRequestDispatcher(DEFAULT_FAILURE_URL).forward(request, response);
