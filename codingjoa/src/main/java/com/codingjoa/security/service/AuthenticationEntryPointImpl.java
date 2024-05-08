@@ -98,6 +98,7 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 			
 			PrintWriter writer = response.getWriter();
 			writer.write(objectMapper.writeValueAsString(errorResponse));
+			writer.flush();
 			writer.close();
 		} else {
 			log.info("\t > forward to {} '{}'", request.getMethod(), DEFAULT_FAILURE_URL);

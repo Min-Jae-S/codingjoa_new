@@ -33,12 +33,14 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 		response.setStatus(HttpStatus.OK.value());
 		response.setContentType(MediaType.TEXT_HTML.toString());
 		response.setCharacterEncoding(StandardCharsets.UTF_8.toString());
+		
+		String script = "<script>";
+		script += "alert('" + MessageUtils.getMessage("success.Login") + "');";
+		script += "location.href='" + request.getContextPath() + "';";
+		script += "</script>";
+
 		PrintWriter writer = response.getWriter();
-		String html = "<script>";
-		html += "alert('" + MessageUtils.getMessage("success.Login") + "');";
-		html += "location.href='" + request.getContextPath() + "';";
-		html += "</script>";
-		writer.print(html);
+		writer.write(script);
 		writer.flush();
 		writer.close();
 	}

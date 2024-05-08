@@ -87,6 +87,7 @@ public class CheckPasswordResetKeyInterceptor implements HandlerInterceptor {
 		
 		PrintWriter writer = response.getWriter();
 		writer.write(objectMapper.writeValueAsString(errorResponse)); // \n --> \\n
+		writer.flush();
 		writer.close();
 	}
 	
@@ -97,11 +98,13 @@ public class CheckPasswordResetKeyInterceptor implements HandlerInterceptor {
 		response.setContentType(MediaType.TEXT_HTML.toString());
 		response.setCharacterEncoding(StandardCharsets.UTF_8.toString());
 		
+		String script = "<script>";
+		script += "alert('" + message + "');";
+		script += "location.href='" + request.getContextPath() + "/member/findPassowrd';";
+		script += "</script>";
+		
 		PrintWriter writer = response.getWriter();
-		writer.println("<script>");
-		writer.println("alert('" + message + "');");
-		writer.println("location.href='" +  request.getContextPath() + "/member/findPassword';");
-		writer.println("</script>");
+		writer.write(script);
 		writer.flush();
 		writer.close();
 	}
