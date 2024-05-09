@@ -107,8 +107,8 @@ public class CheckPasswordConfirmInterceptor implements HandlerInterceptor {
 				.status(HttpStatus.FORBIDDEN)
 				.message(message)
 				.build();
-		log.info("\t > {}", errorResponse);
 		log.info("\t > respond with errorResponse in JSON format");
+		log.info("\t > {}", errorResponse);
 		
 		PrintWriter writer = response.getWriter();
 		writer.write(objectMapper.writeValueAsString(errorResponse)); // \n --> \\n

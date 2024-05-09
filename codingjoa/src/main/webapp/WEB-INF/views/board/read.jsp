@@ -419,7 +419,7 @@
 			</div>
 		</div>
 		
-		<!-- comment test -->
+		<!-- comment test1 -->
 		<div class="test1 mt-5 d-none">
 			<div class="input-group mb-4">
 				<div class="input-group-prepend">
@@ -481,7 +481,7 @@
 			</div>
 		</div>
 		
-		<!-- comment test -->
+		<!-- comment test2 -->
 		<div class="test2 mt-5 d-none">
 			<div class="mb-4 d-flex">
 				<button class="btn">Write comment<span>:</span></button>
@@ -593,11 +593,11 @@
 		commentService.getCommentList(boardIdx, curCommentPage, function(result) {
 			let commentList = result.data.commentList;
 			let myCommentLikes = result.data.myCommentLikes;
-			let commentHtml = makeCommentHtml(commentList, myCommentLikes, boardWriterIdx);
+			let commentHtml = createCommentHtml(commentList, myCommentLikes, boardWriterIdx);
 			$("div.comment-list").html(commentHtml);
 
 			let pagination = result.data.pagination;
-			let paginationHtml = makePaginationHtml(pagination);
+			let paginationHtml = createPaginationHtml(pagination);
 			$("div.comment-pagination").html(paginationHtml);
 			$("span.comment-cnt").text(pagination.totalCnt);
 		});
@@ -655,11 +655,11 @@
 				commentService.getCommentList(boardIdx, 1, function(result) {
 					let commentList = result.data.commentList;
 					let myCommentLikes = result.data.myCommentLikes;
-					let commentHtml = makeCommentHtml(commentList, myCommentLikes, boardWriterIdx);
+					let commentHtml = createCommentHtml(commentList, myCommentLikes, boardWriterIdx);
 					$("div.comment-list").html(commentHtml);
 
 					let pagination = result.data.pagination;
-					let paginationHtml = makePaginationHtml(pagination);
+					let paginationHtml = createPaginationHtml(pagination);
 					$("div.comment-pagination").html(paginationHtml);
 					$("span.comment-cnt").text(pagination.totalCnt);	
 					$("#commentContent").val("").trigger("input");
@@ -674,7 +674,7 @@
 			
 			commentService.getComment(commentIdx, function(result) {
 				let commentDetails = result.data;
-				let editCommentHtml = makeEditCommentHtml(commentDetails);
+				let editCommentHtml = createEditCommentHtml(commentDetails);
 				$li.find("div.comment-area").addClass("d-none").after(editCommentHtml);
 				
 				let $textarea = $li.find("div.comment-edit textarea");
@@ -703,11 +703,11 @@
 				commentService.getCommentList(boardIdx, curCommentPage, function(result) {
 					let commentList = result.data.commentList;
 					let myCommentLikes = result.data.myCommentLikes;
-					let commentHtml = makeCommentHtml(commentList, myCommentLikes, boardWriterIdx);
+					let commentHtml = createCommentHtml(commentList, myCommentLikes, boardWriterIdx);
 					$("div.comment-list").html(commentHtml);
 
 					let pagination = result.data.pagination;
-					let paginationHtml = makePaginationHtml(pagination);
+					let paginationHtml = createPaginationHtml(pagination);
 					$("div.comment-pagination").html(paginationHtml);
 					$("span.comment-cnt").text(pagination.totalCnt);	
 				});
@@ -726,11 +726,11 @@
 				commentService.getCommentList(boardIdx, curCommentPage, function(result) {
 					let commentList = result.data.commentList;
 					let myCommentLikes = result.data.myCommentLikes;
-					let commentHtml = makeCommentHtml(commentList, myCommentLikes, boardWriterIdx);
+					let commentHtml = createCommentHtml(commentList, myCommentLikes, boardWriterIdx);
 					$("div.comment-list").html(commentHtml);
 
 					let pagination = result.data.pagination;
-					let paginationHtml = makePaginationHtml(pagination);
+					let paginationHtml = createPaginationHtml(pagination);
 					$("div.comment-pagination").html(paginationHtml);
 					$("span.comment-cnt").text(pagination.totalCnt);	
 				});
@@ -743,11 +743,11 @@
 			commentService.getCommentList(boardIdx, $(this).data("page"), function(result) {
 				let commentList = result.data.commentList;
 				let myCommentLikes = result.data.myCommentLikes;
-				let commentHtml = makeCommentHtml(commentList, myCommentLikes, boardWriterIdx);
+				let commentHtml = createCommentHtml(commentList, myCommentLikes, boardWriterIdx);
 				$("div.comment-list").html(commentHtml);
 
 				let pagination = result.data.pagination;
-				let paginationHtml = makePaginationHtml(pagination);
+				let paginationHtml = createPaginationHtml(pagination);
 				$("div.comment-pagination").html(paginationHtml);
 				$("span.comment-cnt").text(pagination.totalCnt);
 				

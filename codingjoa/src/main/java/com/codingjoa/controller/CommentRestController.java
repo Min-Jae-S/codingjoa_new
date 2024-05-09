@@ -41,7 +41,7 @@ public class CommentRestController {
 	private CommentService commentService;
 	
 	// https://stackoverflow.com/questions/31680960/spring-initbinder-on-requestbody
-	// @InitBinder doesn't work with @RequesBody, it can work with @ModelAttribute Annotation.
+	// @InitBinder doesn't work with @RequestBody, it can work with @ModelAttribute Annotation.
 	//binder.registerCustomEditor(String.class, new StringTrimmerEditor(false));
 
 	@GetMapping("/boards/{commentBoardIdx}/comments")

@@ -93,8 +93,8 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 					.status(HttpStatus.UNAUTHORIZED)
 					.messageByCode("error.NotLogin")
 					.build();
-			log.info("\t > {}", errorResponse);
 			log.info("\t > respond with errorResponse in JSON format");
+			log.info("\t > {}", errorResponse);
 			
 			PrintWriter writer = response.getWriter();
 			writer.write(objectMapper.writeValueAsString(errorResponse));

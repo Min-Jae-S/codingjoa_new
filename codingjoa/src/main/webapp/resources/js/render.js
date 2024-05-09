@@ -1,6 +1,7 @@
 console.log("## renderService ready - render.js");
 
-function makeCommentHtml(commentList, myCommentLikes, boardWriterIdx) {
+function createCommentHtml(commentList, myCommentLikes, boardWriterIdx) {
+	console.log("## createCommentHtml");
 	let html = "";
 	if (!(commentList.length > 0)) {
 		return html;
@@ -69,7 +70,8 @@ function makeCommentHtml(commentList, myCommentLikes, boardWriterIdx) {
 	return html;
 }
 
-function makeEditCommentHtml(commentDetails) {
+function createEditCommentHtml(commentDetails) {
+	console.log("## createEditCommentHtml");
 	let html = "<div class='input-group'>";
 	html += "<div class='comment-edit form-control'>";
 	html += "<p class='font-weight-bold mb-2'>" + commentDetails.commentWriterId + "</p>";
@@ -83,7 +85,8 @@ function makeEditCommentHtml(commentDetails) {
 	return html;
 }
 
-function makePaginationHtml(pagination) {
+function createPaginationHtml(pagination) {
+	console.log("## createPaginationHtml");
 	let html = "";
 	if (!(pagination.totalCnt > 0)) {
 		return html;
