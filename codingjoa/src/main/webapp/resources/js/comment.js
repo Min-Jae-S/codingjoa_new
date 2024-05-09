@@ -1,5 +1,3 @@
-console.log("## commentService ready - comment.js");
-
 let commentService = (function() {
 	const contextPath = getContextPath();
 	

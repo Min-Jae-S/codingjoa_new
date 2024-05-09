@@ -403,9 +403,9 @@
 					</div>
 				</div>
 				<div class="comment-list mt-4">
-					<!-------------->
-					<!-- comments -->
-					<!-------------->
+					<!------------------------>
+					<!----    comments    ---->
+					<!------------------------>
 				</div>
 				<div class="comment-footer mt-4">
 					<a class="btn btn-secondary" href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}&
@@ -420,12 +420,12 @@
 		</div>
 		
 		<!-- comment test1 -->
-		<div class="test1 mt-5 d-none">
+		<div class="test1 mt-5">
 			<div class="input-group mb-4">
 				<div class="input-group-prepend">
     				<span class="input-group-text">Write comment</span>
     				<span class="input-group-text">:</span>
-    				<span class="input-group-text">/api/comments</span>
+    				<span class="input-group-text">/comments</span>
   				</div>
   				<input type="text" class="form-control" placeholder="boardIdx">
   				<input type="text" class="form-control" placeholder="content">
@@ -437,7 +437,7 @@
 				<div class="input-group-prepend">
 					<span class="input-group-text">Get commentList</span>
 					<span class="input-group-text">:</span>
-    				<span class="input-group-text">/api/boards/{commentBoardIdx}/comments</span>
+    				<span class="input-group-text">/boards/{commentBoardIdx}/comments</span>
   				</div>
   				<input type="text" class="form-control" placeholder="boardIdx">
   				<input type="text" class="form-control" placeholder="page">
@@ -449,7 +449,7 @@
 				<div class="input-group-prepend">
 					<span class="input-group-text">Get comment</span>
 					<span class="input-group-text">:</span>
-    				<span class="input-group-text">/api/comments/{commentIdx}</span>
+    				<span class="input-group-text">/comments/{commentIdx}</span>
   				</div>
   				<input type="text" class="form-control" placeholder="idx">
   				<div class="input-group-append">
@@ -460,7 +460,7 @@
 				<div class="input-group-prepend">
 					<span class="input-group-text">Delete comment</span>
 					<span class="input-group-text">:</span>
-    				<span class="input-group-text">/api/comments/{commentIdx}</span>
+    				<span class="input-group-text">/comments/{commentIdx}</span>
   				</div>
   				<input type="text" class="form-control" placeholder="idx">
   				<div class="input-group-append">
@@ -471,7 +471,7 @@
 				<div class="input-group-prepend">
 					<span class="input-group-text">Modify comment</span>
 					<span class="input-group-text">:</span>
-    				<span class="input-group-text">/api/comments/{commentIdx}</span>
+    				<span class="input-group-text">/comments/{commentIdx}</span>
   				</div>
   				<input type="text" class="form-control" placeholder="idx">
   				<input type="text" class="form-control" placeholder="content">
@@ -485,33 +485,33 @@
 		<div class="test2 mt-5 d-none">
 			<div class="mb-4 d-flex">
 				<button class="btn">Write comment<span>:</span></button>
-				<button class="btn btn-warning test-item" name="writeBtn" data-idx="">/api/comments; idx=?</button>
-				<button class="btn btn-warning test-item" name="writeBtn" data-idx="a">/api/comments; idx=a</button>				
-				<button class="btn btn-warning test-item" name="writeBtn" data-idx="9999">/api/comments; idx=9999</button>
+				<button class="btn btn-warning test-item" name="writeBtn" data-idx="">/comments; idx=?</button>
+				<button class="btn btn-warning test-item" name="writeBtn" data-idx="a">/comments; idx=a</button>				
+				<button class="btn btn-warning test-item" name="writeBtn" data-idx="9999">/comments; idx=9999</button>
 			</div>
 			<div class="mb-4 d-flex">
 				<button class="btn">Get commentList<span>:</span></button>
-				<button class="btn btn-warning test-item" name="commentListBtn" data-idx="">/api/boards/?/comments</button>
-				<button class="btn btn-warning test-item" name="commentListBtn" data-idx="a">/api/boards/a/comments</button>				
-				<button class="btn btn-warning test-item" name="commentListBtn" data-idx="9999">/api/boards/9999/comments</button>
+				<button class="btn btn-warning test-item" name="commentListBtn" data-idx="">/boards/?/comments</button>
+				<button class="btn btn-warning test-item" name="commentListBtn" data-idx="a">/boards/a/comments</button>				
+				<button class="btn btn-warning test-item" name="commentListBtn" data-idx="9999">/boards/9999/comments</button>
 			</div>
 			<div class="mb-4 d-flex">
 				<button class="btn">Get comment<span>:</span></button>
-				<button class="btn btn-warning test-item" name="commentBtn" data-idx="">/api/comments/?</button>
-				<button class="btn btn-warning test-item" name="commentBtn" data-idx="a">/api/comments/a</button>				
-				<button class="btn btn-warning test-item" name="commentBtn" data-idx="9999">/api/comments/9999</button>
+				<button class="btn btn-warning test-item" name="commentBtn" data-idx="">/comments/?</button>
+				<button class="btn btn-warning test-item" name="commentBtn" data-idx="a">/comments/a</button>				
+				<button class="btn btn-warning test-item" name="commentBtn" data-idx="9999">/comments/9999</button>
 			</div>
 			<div class="mb-4 d-flex">
 				<button class="btn">Delete comment<span>:</span></button>
-				<button class="btn btn-warning test-item" name="deleteBtn" data-idx="">/api/comments/?</button>					
-				<button class="btn btn-warning test-item" name="deleteBtn" data-idx="a">/api/comments/a</button>				
-				<button class="btn btn-warning test-item" name="deleteBtn" data-idx="9999">/api/comments/9999</button>					
+				<button class="btn btn-warning test-item" name="deleteBtn" data-idx="">/comments/?</button>					
+				<button class="btn btn-warning test-item" name="deleteBtn" data-idx="a">/comments/a</button>				
+				<button class="btn btn-warning test-item" name="deleteBtn" data-idx="9999">/comments/9999</button>					
 			</div>
 			<div class="mb-4 d-flex">
 				<button class="btn">Modify comment<span>:</span></button>	
-				<button class="btn btn-warning test-item" name="patchBtn" data-idx="">/api/comments/?</button>					
-				<button class="btn btn-warning test-item" name="patchBtn" data-idx="a">/api/comments/a</button>				
-				<button class="btn btn-warning test-item" name="patchBtn" data-idx="9999">/api/comments/9999</button>					
+				<button class="btn btn-warning test-item" name="patchBtn" data-idx="">/comments/?</button>					
+				<button class="btn btn-warning test-item" name="patchBtn" data-idx="a">/comments/a</button>				
+				<button class="btn btn-warning test-item" name="patchBtn" data-idx="9999">/comments/9999</button>					
 			</div>
 		</div>
 		
@@ -521,7 +521,7 @@
 				<div class="input-group-prepend">
     				<span class="input-group-text">Toggle boardLikes</span>
     				<span class="input-group-text">:</span>
-    				<span class="input-group-text">/api/boards/{boardIdx}/likes</span>
+    				<span class="input-group-text">/boards/{boardIdx}/likes</span>
   				</div>
   				<input type="text" class="form-control" placeholder="idx">
   				<div class="input-group-append">
@@ -532,7 +532,7 @@
 				<div class="input-group-prepend">
 					<span class="input-group-text">Toggle commentLikes</span>
 					<span class="input-group-text">:</span>
-    				<span class="input-group-text">/api/comments/{commentIdx}/likes</span>
+    				<span class="input-group-text">/comments/{commentIdx}/likes</span>
   				</div>
   				<input type="text" class="form-control" placeholder="idx">
   				<div class="input-group-append">
@@ -543,7 +543,7 @@
 				<div class="input-group-prepend">
 					<span class="input-group-text">Get boardLikesCnt</span>
 					<span class="input-group-text">:</span>
-    				<span class="input-group-text">/api/boards/{boardIdx}/likes</span>
+    				<span class="input-group-text">/boards/{boardIdx}/likes</span>
   				</div>
   				<input type="text" class="form-control" placeholder="idx">
   				<div class="input-group-append">
@@ -554,7 +554,7 @@
 				<div class="input-group-prepend">
 					<span class="input-group-text">Get commentLikesCnt</span>
 					<span class="input-group-text">:</span>
-    				<span class="input-group-text">/api/comments/{commentIdx}/likes</span>
+    				<span class="input-group-text">/comments/{commentIdx}/likes</span>
   				</div>
   				<input type="text" class="form-control" placeholder="idx">
   				<div class="input-group-append">
@@ -573,7 +573,6 @@
 			toolbar: []
 		})
 		.then(editor => {
-			console.log("## readEditor initialize - readOnly mode");
 			const toolbarContainer = editor.ui.view.stickyPanel;
 			editor.ui.view.top.remove(toolbarContainer);
 			editor.enableReadOnlyMode("editor");

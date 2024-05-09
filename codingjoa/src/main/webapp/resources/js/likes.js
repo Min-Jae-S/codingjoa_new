@@ -1,5 +1,3 @@
-console.log("## likesService ready - likes.js");
-
 let likesService = (function() {
 	const contextPath = getContextPath();
 

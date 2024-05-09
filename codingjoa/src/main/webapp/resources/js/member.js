@@ -1,5 +1,3 @@
-console.log("## memberService ready - member.js");
-
 let memberService = (function() {
 	const contextPath = getContextPath();
 

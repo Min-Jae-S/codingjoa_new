@@ -1,5 +1,3 @@
-console.log("## renderService ready - render.js");
-
 function createCommentHtml(commentList, myCommentLikes, boardWriterIdx) {
 	console.log("## createCommentHtml");
 	let html = "";

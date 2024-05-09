@@ -1,5 +1,3 @@
-console.log("## imageService ready - image.js");
-
 let imageService = (function() {
 	const contextPath = getContextPath();
 

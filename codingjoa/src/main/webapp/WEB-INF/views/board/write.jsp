@@ -109,7 +109,6 @@
 	let writeEditor;
 	createEditor("#boardContent")
 		.then(editor => {
-			console.log("## writeEditor initialize");
 			const $file = $("span.ck-file-dialog-button").find("input[type='file']");
 			$file.attr("accept", "*/*").attr("multiple", false);
 			editor.model.document.on('change:data', () => {

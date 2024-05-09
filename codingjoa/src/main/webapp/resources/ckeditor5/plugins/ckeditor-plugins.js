@@ -1,5 +1,3 @@
-console.log("## editor plugins ready - ckeditor-plugins.js");
-
 function uploadAdapter(editor) {
 	console.log("\t > register upload adapter");
     editor.plugins.get("FileRepository").createUploadAdapter = (loader) => {
