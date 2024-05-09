@@ -92,7 +92,8 @@ public class CommentServiceImpl implements CommentService {
 				pagedComment.add(modelMapper.map(commentDetailsMap, CommentDetailsDto.class));
 			}
 		}
-		log.info("\t > deletedComments = {}", deletedComments);
+		
+		log.info("\t > deleted comments = {}", deletedComments);
 		return pagedComment;
 	}
 	
@@ -103,9 +104,9 @@ public class CommentServiceImpl implements CommentService {
 	}
 
 	@Override
-	public CommentDetailsDto getCommentDetails(int commentIdx, int commentWriterIdx) {
+	public CommentDetailsDto getModifyComment(int commentIdx, int commentWriterIdx) {
 		Map<String, Object> commentDetailsMap = commentMapper.findCommentDetails(commentIdx);
-		log.info("\t > find commentDetails = {}", commentDetailsMap);
+		log.info("\t > find commentDetailsMap = {}", commentDetailsMap);
 		
 		if (commentDetailsMap == null) {
 			throw new ExpectedException("error.NotFoundComment");

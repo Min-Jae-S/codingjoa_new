@@ -51,11 +51,13 @@ public class CommentRestController {
 		log.info("\t > commentCri = {}", commentCri);
 
 		List<CommentDetailsDto> commentList = commentService.getPagedComment(commentBoardIdx, commentCri);
-		List<Integer> myCommentLikes = (princiapl == null) ? Collections.emptyList() : princiapl.getMyCommentLikes();
-		log.info("\t > myCommentLikes = {}", myCommentLikes);
+		log.info("\t > pagedComment = {}", commentList);
 		
 		Pagination pagination = commentService.getPagination(commentBoardIdx, commentCri);
 		log.info("\t > {}", pagination);
+		
+		List<Integer> myCommentLikes = (princiapl == null) ? Collections.emptyList() : princiapl.getMyCommentLikes();
+		log.info("\t > myCommentLikes = {}", myCommentLikes);
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
 				.data(Map.of("commentList", commentList, "myCommentLikes", myCommentLikes, "pagination", pagination))
@@ -65,9 +67,9 @@ public class CommentRestController {
 	@GetMapping(value = { "/comments", "/comments/{commentIdx}" })
 	public ResponseEntity<Object> getComment(@PathVariable int commentIdx, @AuthenticationPrincipal UserDetailsDto principal) {
 		log.info("## getComment, commentIdx = {}", commentIdx);
-		CommentDetailsDto commentDetails = 
-				commentService.getCommentDetails(commentIdx, principal.getMember().getMemberIdx());
-		return ResponseEntity.ok(SuccessResponse.builder().data(commentDetails).build());
+		CommentDetailsDto modifyCommentDto = 
+				commentService.getModifyComment(commentIdx, principal.getMember().getMemberIdx());
+		return ResponseEntity.ok(SuccessResponse.builder().data(modifyCommentDto).build());
 	}
 	
 	@PostMapping("/comments")

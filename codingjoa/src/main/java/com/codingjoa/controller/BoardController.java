@@ -56,14 +56,12 @@ public class BoardController {
 	@GetMapping
 	public String getBoards(Model model) {
 		log.info("## getBoards");
-		
 		List<Category> boardCategoryList = categoryService.findBoardCategoryList();
-		model.addAttribute("boardCategoryList", boardCategoryList);
-		
 		List<List<BoardDetailsDto>> boardList = boardCategoryList
 				.stream()
 				.map(category -> boardService.getPagedBoard(category.getCategoryCode(), new Criteria(1, 5)))
 				.collect(Collectors.toList());
+		model.addAttribute("boardCategoryList", boardCategoryList);
 		model.addAttribute("boardList", boardList);
 		
 		return "board/boards";
@@ -80,14 +78,14 @@ public class BoardController {
 		log.info("\t > keywordRegexp = {}", newBoardCri.getKeywordRegexp());
 		
 		List<BoardDetailsDto> board = boardService.getPagedBoard(boardCategoryCode, newBoardCri);
-		model.addAttribute("board", board);
 		log.info("\t > pagedBoard = {}", board);
 		
 		Pagination pagination = boardService.getPagination(boardCategoryCode, newBoardCri);
-		model.addAttribute("pagination", pagination);
 		log.info("\t > {}", pagination);
 		
 		Category category = categoryService.findCategory(boardCategoryCode);
+		model.addAttribute("pagination", pagination);
+		model.addAttribute("board", board);
 		model.addAttribute("category", category);
 		
 		return "board/board";
@@ -99,13 +97,12 @@ public class BoardController {
 		log.info("\t > boardCri = {}", boardCri);
 		
 		BoardDetailsDto boardDetails = boardService.getBoardDetails(boardIdx);
-		model.addAttribute("boardDetails", boardDetails);
-		
 		Category category = categoryService.findCategory(boardDetails.getBoardCategoryCode());
-		model.addAttribute("category", category);
 
 		// 쿠키를 이용하여 조회수 중복 방지 추가하기 (https://mighty96.github.io/til/view)
 		boardService.updateBoardViews(boardIdx);
+		model.addAttribute("category", category);
+		model.addAttribute("boardDetails", boardDetails);
 		
 		return "board/read";
 	}
@@ -147,8 +144,7 @@ public class BoardController {
 	@GetMapping("/modify")
 	public String modify(@RequestParam int boardIdx, @AuthenticationPrincipal UserDetailsDto principal, Model model) {
 		log.info("## modify, boardIdx = {}", boardIdx);
-		int boardWriterIdx = principal.getMember().getMemberIdx();
-		BoardDto modifyBoardDto = boardService.getModifyBoard(boardIdx, boardWriterIdx);
+		BoardDto modifyBoardDto = boardService.getModifyBoard(boardIdx, principal.getMember().getMemberIdx());
 		model.addAttribute("modifyBoardDto", modifyBoardDto);
 		model.addAttribute("boardCategoryList", categoryService.findBoardCategoryList());
 		
