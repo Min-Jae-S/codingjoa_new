@@ -10,8 +10,30 @@
 	regdate                  DATE                         NOT NULL,
     moddate                  DATE                         NOT NULL,
 -->
-
 	<insert id="insertComment" parameterType="comment">
+		<selectKey keyProperty="commentIdx" resultType="int" order="BEFORE">
+			SELECT seq_comment.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO "comment" (
+			comment_idx,
+			comment_writer_idx,
+			comment_board_idx,
+			comment_content,
+			comment_use,
+			regdate,
+			moddate
+		) VALUES (
+			#{commentIdx},
+			#{commentWriterIdx},
+			#{commentBoardIdx},
+			#{commentContent},
+			#{commentUse},
+			SYSDATE,
+			SYSDATE
+		)
+	</insert>
+
+	<!-- <insert id="insertComment" parameterType="comment">
 		<selectKey keyProperty="commentBoardIdx" resultType="int" order="BEFORE">
 			SELECT 
 				MAX(board_idx)
@@ -42,7 +64,8 @@
 			END IF;
 		END;
 		
-		<!-- INSERT INTO "comment" (
+		
+		INSERT INTO "comment" (
 			comment_idx,
 			comment_writer_idx,
 			comment_board_idx,
@@ -61,8 +84,8 @@
 		FROM
 			DUAL
 		WHERE 
-			#{commentBoardIdx} IS NOT NULL -->
-	</insert>
+			#{commentBoardIdx} IS NOT NULL 
+	</insert> -->
 	
 	<resultMap type="map" id="commentDetailsMap">
 		<!-- java.math.BigDecimal cannot be cast to class java.lang.Integer -->

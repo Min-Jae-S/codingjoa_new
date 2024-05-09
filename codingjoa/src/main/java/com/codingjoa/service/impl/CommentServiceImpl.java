@@ -42,14 +42,22 @@ public class CommentServiceImpl implements CommentService {
 	
 	@Override
 	public void writeComment(CommentDto commentDto) {
+		Board board = boardMapper.findBoardByIdx(commentDto.getCommentBoardIdx());
+		log.info("\t > prior to inserting comment, find board");
+		
+		if (board == null) {
+			throw new ExpectedException("error.NotFoundBoard");
+		}
+		
 		Comment comment = modelMapper.map(commentDto, Comment.class);
 		log.info("\t > convert commentDto to comment entity");
 		log.info("\t > {}", comment);
 		
 		commentMapper.insertComment(comment);
-		log.info("\t > after inserting comment, commentBoardIdx = {}", comment.getCommentBoardIdx());
+		Integer commentIdx = comment.getCommentIdx();
+		log.info("\t > after inserting comment, commentIdx = {}", commentIdx);
 		
-		if (comment.getCommentBoardIdx() == null) {
+		if (commentIdx == null) {
 			throw new ExpectedException("error.WriteComment");
 		}
 	}
@@ -84,7 +92,7 @@ public class CommentServiceImpl implements CommentService {
 				pagedComment.add(modelMapper.map(commentDetailsMap, CommentDetailsDto.class));
 			}
 		}
-		log.info("\t > deletedComments on page '{}' = {}", commentCri.getPage(), deletedComments);
+		log.info("\t > deletedComments = {}", deletedComments);
 		return pagedComment;
 	}
 	
