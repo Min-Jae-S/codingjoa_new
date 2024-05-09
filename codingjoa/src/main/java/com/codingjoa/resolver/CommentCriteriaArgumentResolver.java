@@ -21,8 +21,8 @@ import lombok.extern.slf4j.Slf4j;
 @Setter
 public class CommentCriteriaArgumentResolver implements HandlerMethodArgumentResolver {
 
-	private int page;
-	private int recordCnt;
+	private int defaultPage;
+	private int defaultRecordCnt;
 	
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
@@ -35,14 +35,17 @@ public class CommentCriteriaArgumentResolver implements HandlerMethodArgumentRes
 			NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
 		log.info("## {}", this.getClass().getSimpleName());
 		
-		String rawPage = webRequest.getParameter("page");
-		log.info("\t > rawPage = {}", rawPage);
+		String page = webRequest.getParameter("page");
+		log.info("\t > page = {}", page);
 		
-		rawPage = (rawPage == null) ? "" : rawPage.strip();
-		return new CommentCriteria(
-			MyUtils.isPageNumber(rawPage) ? Integer.parseInt(rawPage) : page,
-			recordCnt
+		page = (page == null) ? "" : page.strip();
+		CommentCriteria commentCri = new CommentCriteria(
+			MyUtils.isPageNumber(page) ? Integer.parseInt(page) : defaultPage,
+			defaultRecordCnt
 		);
+		log.info("\t > resolve commentCri = {}", commentCri);
+		
+		return commentCri;
 	}
 	
 	@SuppressWarnings({ "unchecked", "unused" })

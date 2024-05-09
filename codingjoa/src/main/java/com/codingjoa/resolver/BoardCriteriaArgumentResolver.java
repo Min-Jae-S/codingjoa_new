@@ -19,11 +19,11 @@ import lombok.extern.slf4j.Slf4j;
 @Setter
 public class BoardCriteriaArgumentResolver implements HandlerMethodArgumentResolver {
 	
-	private int page;
-	private int recordCnt;
-	private String type;
-	private Map<String, Object> recordCntMap; 
-	private Map<String, Object> typeMap;
+	private int defaultPage;
+	private int defaultRecordCnt;
+	private String defaultType;
+	private Map<String, Object> recordCntGroup; 
+	private Map<String, Object> typeGroup;
 	
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
@@ -36,28 +36,29 @@ public class BoardCriteriaArgumentResolver implements HandlerMethodArgumentResol
 			NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
 		log.info("## {}", this.getClass().getSimpleName());
 		
-		String rawPage = webRequest.getParameter("page");
-		String rawRecordCnt = webRequest.getParameter("recordCnt");
-		String rawType = webRequest.getParameter("type");
-		String rawKeyword = webRequest.getParameter("keyword");
-		log.info("\t > rawPage = {}, rawRecordCnt = {}, rawType = {}, rawKeyword = {}", 
-				rawPage, rawRecordCnt, rawType, (rawKeyword == null) ? rawKeyword : "'" + rawKeyword + "'");
+		String page = webRequest.getParameter("page");
+		String recordCnt = webRequest.getParameter("recordCnt");
+		String type = webRequest.getParameter("type");
+		String keyword = webRequest.getParameter("keyword");
+		log.info("\t > page = {}, recordCnt = {}, type = {}, keyword = {}", 
+				page, recordCnt, type, (keyword == null) ? keyword : "'" + keyword + "'");
 		
-		rawPage = (rawPage == null) ? "" : rawPage.strip();
-		rawRecordCnt = (rawRecordCnt == null) ? "" : rawRecordCnt.strip();
-		rawType = (rawType == null) ? "" : rawType.strip();
-		rawKeyword = (rawKeyword == null) ? "" : rawKeyword.strip();
+		page = (page == null) ? "" : page.strip();
+		recordCnt = (recordCnt == null) ? "" : recordCnt.strip();
+		type = (type == null) ? "" : type.strip();
+		keyword = (keyword == null) ? "" : keyword.strip();
 
 		Criteria boardCri = new Criteria(
-			MyUtils.isPageNumber(rawPage) ? Integer.parseInt(rawPage) : page,
-			recordCntMap.containsKey(rawRecordCnt) ? Integer.parseInt(rawRecordCnt) : recordCnt,
-			typeMap.containsKey(rawType) ? rawType : type,
-			rawKeyword
+			MyUtils.isPageNumber(page) ? Integer.parseInt(page) : defaultPage,
+			recordCntGroup.containsKey(recordCnt) ? Integer.parseInt(recordCnt) : defaultRecordCnt,
+			typeGroup.containsKey(type) ? type : defaultType,
+			keyword
 		);
+		log.info("\t > resolve boardCri = {}", boardCri);
 		
 		mavContainer.addAttribute("boardCri", boardCri);
-		mavContainer.addAttribute("recordCntMap", recordCntMap);
-		mavContainer.addAttribute("typeMap", typeMap);
+		mavContainer.addAttribute("recordCntGroup", recordCntGroup);
+		mavContainer.addAttribute("typeGroup", typeGroup);
 		
 		return boardCri;
 	}

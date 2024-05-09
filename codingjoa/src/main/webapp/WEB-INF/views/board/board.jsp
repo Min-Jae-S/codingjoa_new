@@ -97,7 +97,7 @@
         	<form:form class="form-inline" action="${contextPath}/board/" method="GET" modelAttribute="boardCri">
         		<input type="hidden" name="boardCategoryCode" value="${category.categoryCode}">
 			  	<form:select path="type" class="custom-select custom-select-sm mr-2">
-			  		<form:options items="${typeMap}"/>
+			  		<form:options items="${typeGroup}"/>
 			  	</form:select>
 				<div class="input-group">
 					<form:input path="keyword" class="form-control form-control-sm" placeholder="검색어를 입력해주세요"/>
@@ -106,7 +106,7 @@
 				  	</div>
         		</div>
         		<form:select path="recordCnt" class="custom-select custom-select-sm ml-auto">
-					<form:options items="${recordCntMap}"/>
+					<form:options items="${recordCntGroup}"/>
         		</form:select>
 			</form:form>
 		</div>
