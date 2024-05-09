@@ -447,7 +447,7 @@
 			</div>
 			<div class="input-group mb-4">
 				<div class="input-group-prepend">
-					<span class="input-group-text">Get ModifyComment</span>
+					<span class="input-group-text">Get modifyComment</span>
 					<span class="input-group-text">:</span>
     				<span class="input-group-text">/comments/{commentIdx}</span>
   				</div>

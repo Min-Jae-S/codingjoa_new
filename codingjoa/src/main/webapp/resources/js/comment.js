@@ -170,7 +170,7 @@ let commentService = (function() {
 	return {
 		writeComment:writeComment,
 		getCommentList:getCommentList,
-		getComment:getComment,
+		getModifyComment:getModifyComment,
 		modifyComment:modifyComment,
 		deleteComment:deleteComment
 	};
