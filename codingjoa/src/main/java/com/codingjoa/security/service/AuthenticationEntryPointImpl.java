@@ -52,17 +52,17 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 	public void commence(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException authException) throws IOException, ServletException {
 		log.info("## {}", this.getClass().getSimpleName());
-		log.info("\t > referer = {}", request.getHeader("referer"));
+		//log.info("\t > referer = {}", request.getHeader("referer"));
 		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		log.info("\t > current auth token = {}", 
+		log.info("\t > current authentication token = {}", 
 				(authentication != null) ? authentication.getClass().getSimpleName() : authentication);
 		
 		if (authentication == null) {
 			SecurityContextHolder.getContext().setAuthentication(createAuthentication(request));
 		}
 		
-		/*	# ajax 요청 확인 
+		/*	@@ ajax 요청 확인 
 		 	https://0taeng.tistory.com/30
 		 	https://mohwaproject.tistory.com/entry/Ajax-%EC%A0%84%EC%86%A1-%EA%B5%AC%EB%B6%84%ED%95%98%EA%B8%B0
 		
