@@ -447,13 +447,13 @@
 			</div>
 			<div class="input-group mb-4">
 				<div class="input-group-prepend">
-					<span class="input-group-text">Get comment</span>
+					<span class="input-group-text">Get ModifyComment</span>
 					<span class="input-group-text">:</span>
     				<span class="input-group-text">/comments/{commentIdx}</span>
   				</div>
   				<input type="text" class="form-control" placeholder="idx">
   				<div class="input-group-append">
-    				<button class="btn btn-warning" id="testGetCommentBtn">TEST</button>
+    				<button class="btn btn-warning" id="testGetModifyCommentBtn">TEST</button>
   				</div>
 			</div>
 			<div class="input-group mb-4">
@@ -496,7 +496,7 @@
 				<button class="btn btn-warning test-item" name="commentListBtn" data-idx="9999">/boards/9999/comments</button>
 			</div>
 			<div class="mb-4 d-flex">
-				<button class="btn">Get comment<span>:</span></button>
+				<button class="btn">Get modifyComment<span>:</span></button>
 				<button class="btn btn-warning test-item" name="commentBtn" data-idx="">/comments/?</button>
 				<button class="btn btn-warning test-item" name="commentBtn" data-idx="a">/comments/a</button>				
 				<button class="btn btn-warning test-item" name="commentBtn" data-idx="9999">/comments/9999</button>
@@ -666,12 +666,12 @@
 			});
 		});
 		
-		// getComment
+		// getModifyComment
 		$(document).on("click", "button[name=showEditCommentBtn]", function() {
 			let $li =  $(this).closest("li");
 			let commentIdx = $li.data("comment-idx");
 			
-			commentService.getComment(commentIdx, function(result) {
+			commentService.getModifyComment(commentIdx, function(result) {
 				let commentDetails = result.data;
 				let editCommentHtml = createEditCommentHtml(commentDetails);
 				$li.find("div.comment-area").addClass("d-none").after(editCommentHtml);
@@ -811,10 +811,10 @@
 			});
 		});
 
-		// getComment
-		$("#testGetCommentBtn").on("click", function() {
+		// getModifyComment
+		$("#testGetModifyCommentBtn").on("click", function() {
 			let commentIdx = $(this).closest("div.input-group").find("input").val();
-			commentService.getComment(commentIdx, function(result) {
+			commentService.getModifyComment(commentIdx, function(result) {
 				// ...
 			});
 		});
@@ -858,9 +858,9 @@
 			});
 		});
 		
-		// getComment2
+		// getModifyComment2
 		$("button[name='commentBtn']").on("click", function() {
-			commentService.getComment($(this).data("idx"), function(result) {
+			commentService.getModifyComment($(this).data("idx"), function(result) {
 				alert(result.message);
 			});
 		});

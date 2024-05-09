@@ -65,8 +65,8 @@ public class CommentRestController {
 	}
 	
 	@GetMapping(value = { "/comments", "/comments/{commentIdx}" })
-	public ResponseEntity<Object> getComment(@PathVariable int commentIdx, @AuthenticationPrincipal UserDetailsDto principal) {
-		log.info("## getComment, commentIdx = {}", commentIdx);
+	public ResponseEntity<Object> getModifyComment(@PathVariable int commentIdx, @AuthenticationPrincipal UserDetailsDto principal) {
+		log.info("## getModifyComment, commentIdx = {}", commentIdx);
 		CommentDetailsDto modifyCommentDto = 
 				commentService.getModifyComment(commentIdx, principal.getMember().getMemberIdx());
 		return ResponseEntity.ok(SuccessResponse.builder().data(modifyCommentDto).build());

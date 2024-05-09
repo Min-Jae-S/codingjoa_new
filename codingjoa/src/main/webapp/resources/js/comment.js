@@ -86,8 +86,8 @@ let commentService = (function() {
 		});
 	}
 
-	function getComment(commentIdx, callback) {
-		console.log("## getComment");
+	function getModifyComment(commentIdx, callback) {
+		console.log("## getModifyComment");
 		let url = contextPath + "/api/comments/" + commentIdx;
 		console.log("> URL = '%s'", url);
 		
