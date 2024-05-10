@@ -54,8 +54,8 @@ public class CommentRestController {
 		log.info("\t > pagedComment = {}", commentList);
 		
 		Pagination pagination = commentService.getPagination(commentBoardIdx, commentCri);
-		log.info("\t > {}", pagination);
-		
+		log.info("\t > pagination = {}", pagination);
+
 		List<Integer> myCommentLikes = (princiapl == null) ? Collections.emptyList() : princiapl.getMyCommentLikes();
 		log.info("\t > myCommentLikes = {}", myCommentLikes);
 		
