@@ -14,7 +14,7 @@ public interface BoardMapper {
 	
 	void insertBoard(Board board);
 	
-	Map<String, Object> findBoardDetails(int boardIdx);
+	Map<String, Object> findBoardDetailsByIdx(int boardIdx);
 	
 	void updateBoardViews(int boardIdx);
 	

@@ -221,7 +221,7 @@
 			comment_board_idx = #{commentBoardIdx}
 	</select>
 	
-	<select id="findCommentDetails" parameterType="map" resultMap="commentDetailsMap">
+	<select id="findCommentDetailsByIdx" parameterType="map" resultMap="commentDetailsMap">
 		SELECT
 			a.comment_idx,
 			a.comment_writer_idx, 

@@ -105,7 +105,7 @@ public class CommentServiceImpl implements CommentService {
 
 	@Override
 	public CommentDetailsDto getModifyComment(int commentIdx, int commentWriterIdx) {
-		Map<String, Object> commentDetailsMap = commentMapper.findCommentDetails(commentIdx);
+		Map<String, Object> commentDetailsMap = commentMapper.findCommentDetailsByIdx(commentIdx);
 		log.info("\t > find commentDetailsMap = {}", commentDetailsMap);
 		
 		if (commentDetailsMap == null) {

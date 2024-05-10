@@ -53,7 +53,7 @@
 		<result property="boardLikesCnt" column="board_likes_cnt" javaType="java.lang.Integer"/>
 	</resultMap>
 	
-	<select id="findBoardDetails" parameterType="int" resultMap="boardDetailsMap">
+	<select id="findBoardDetailsByIdx" parameterType="int" resultMap="boardDetailsMap">
 		SELECT 
 			a.board_idx, 
 			a.board_title, 
@@ -98,7 +98,7 @@
 			a.board_idx = #{boardIdx} 
 	</select>
 
-	<!-- <select id="findBoardDetails" parameterType="int" resultMap="boardDetailsMap">
+	<!-- <select id="findBoardDetailsByIdx" parameterType="int" resultMap="boardDetailsMap">
 		SELECT 
 			a.board_idx, 
 			a.board_title, 
