@@ -54,10 +54,10 @@ public class CommentServiceImpl implements CommentService {
 		log.info("\t > {}", comment);
 		
 		commentMapper.insertComment(comment);
-		Integer commentIdx = comment.getCommentIdx();
-		log.info("\t > after inserting comment, commentIdx = {}", commentIdx);
+		Integer dbCommentIdx = comment.getCommentIdx();
+		log.info("\t > after inserting comment, commentIdx = {}", dbCommentIdx);
 		
-		if (commentIdx == null) {
+		if (dbCommentIdx == null) {
 			throw new ExpectedException("error.WriteComment");
 		}
 	}
@@ -83,10 +83,10 @@ public class CommentServiceImpl implements CommentService {
 		List<CommentDetailsDto> pagedComment = new ArrayList<>();
 		List<Integer> deletedComments = new ArrayList<>();
 		for (Map<String, Object> commentDetailsMap : allPagedComment) {
-			Boolean commentUse = (Boolean) commentDetailsMap.get("commentUse");
-			if (!commentUse) {
-				Integer commentIdx = (Integer) commentDetailsMap.get("commentIdx");
-				deletedComments.add(commentIdx);
+			Boolean dbCommentUse = (Boolean) commentDetailsMap.get("commentUse");
+			if (!dbCommentUse) {
+				Integer dbCommentIdx = (Integer) commentDetailsMap.get("commentIdx");
+				deletedComments.add(dbCommentIdx);
 				pagedComment.add(null);
 			} else {
 				pagedComment.add(modelMapper.map(commentDetailsMap, CommentDetailsDto.class));
@@ -112,16 +112,16 @@ public class CommentServiceImpl implements CommentService {
 			throw new ExpectedException("error.NotFoundComment");
 		}
 		
-		Boolean DBcommentUse = (Boolean) commentDetailsMap.get("commentUse");
-		Integer DBcommentWriterIdx = (Integer) commentDetailsMap.get("commentWriterIdx");
-		log.info("\t > DB commentUse = {}", DBcommentUse);
-		log.info("\t > My commentWriterIdx = {}, DB commentWriterIdx = {}", commentWriterIdx, DBcommentWriterIdx);
+		Boolean dbCommentUse = (Boolean) commentDetailsMap.get("commentUse");
+		Integer dbCommentWriterIdx = (Integer) commentDetailsMap.get("commentWriterIdx");
+		log.info("\t > dbCommentUse = {}", dbCommentUse);
+		log.info("\t > dbCommentWriterIdx = {}, commentWriterIdx = {}", dbCommentWriterIdx, commentWriterIdx);
 		
-		if (!DBcommentUse) {
+		if (!dbCommentUse) {
 			throw new ExpectedException("error.AlreadyDeletedComment");
 		}
 		
-		if (DBcommentWriterIdx != commentWriterIdx) {
+		if (dbCommentWriterIdx != commentWriterIdx) {
 			throw new ExpectedException("error.NotMyComment");
 		}
 		

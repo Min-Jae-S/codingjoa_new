@@ -53,14 +53,14 @@ public class BoardServiceImpl implements BoardService {
 		log.info("\t > {}", board);
 		
 		boardMapper.insertBoard(board);
-		Integer boardIdx = board.getBoardIdx();
-		log.info("\t > after inserting board, boardIdx = {}", boardIdx);
+		Integer dbBoardIdx = board.getBoardIdx();
+		log.info("\t > after inserting board, boardIdx = {}", dbBoardIdx);
 		
-		if (boardIdx == null) {
+		if (dbBoardIdx == null) {
 			throw new ExpectedException("error.WriteBoard");
 		}
 
-		boardDto.setBoardIdx(boardIdx);
+		boardDto.setBoardIdx(dbBoardIdx);
 		imageService.activateBoardImages(boardDto);
 	}
 
@@ -125,10 +125,10 @@ public class BoardServiceImpl implements BoardService {
 			throw new ExpectedException("error.NotFoundBoard");
 		}
 		
-		Integer DBboardWriterIdx = modifyBoard.getBoardWriterIdx();
-		log.info("\t > DB boardWriterIdx = {}, My boardWriterIdx = {}", DBboardWriterIdx, boardWriterIdx);
+		Integer dbBoardWriterIdx = modifyBoard.getBoardWriterIdx();
+		log.info("\t > dbBoardWriterIdx = {}, boardWriterIdx = {}", dbBoardWriterIdx, boardWriterIdx);
 		
-		if (DBboardWriterIdx != boardWriterIdx) {
+		if (dbBoardWriterIdx != boardWriterIdx) {
 			throw new ExpectedException("error.NotMyBoard");
 		}
 		
@@ -144,11 +144,11 @@ public class BoardServiceImpl implements BoardService {
 			throw new ExpectedException("error.NotFoundBoard");
 		}
 		
-		Integer DBboardWriterIdx = modifyBoard.getBoardWriterIdx();
+		Integer dbBoardWriterIdx = modifyBoard.getBoardWriterIdx();
 		int boardWirterIdx = boardDto.getBoardWriterIdx();
-		log.info("\t > DB boardWriterIdx = {}, My boardWriterIdx = {}", DBboardWriterIdx, boardWirterIdx);
+		log.info("\t > dbBoardWriterIdx = {}, boardWriterIdx = {}", dbBoardWriterIdx, boardWirterIdx);
 		
-		if (DBboardWriterIdx != boardWirterIdx) {
+		if (dbBoardWriterIdx != boardWirterIdx) {
 			throw new ExpectedException("error.NotMyBoard");
 		}
 		
@@ -205,11 +205,11 @@ public class BoardServiceImpl implements BoardService {
 			throw new ExpectedException("error.NotFoundBoard");
 		}
 		
-		Integer DBboardWriterIdx = deleteBoard.getBoardWriterIdx();
+		Integer dbBoardWriterIdx = deleteBoard.getBoardWriterIdx();
 		int boardWirterIdx = boardDto.getBoardWriterIdx();
-		log.info("\t > DB boardWriterIdx = {}, My boardWriterIdx = {}", DBboardWriterIdx, boardWirterIdx);
+		log.info("\t > dbBoardWriterIdx = {}, boardWriterIdx = {}", dbBoardWriterIdx, boardWirterIdx);
 		
-		if (DBboardWriterIdx != boardWirterIdx) {
+		if (dbBoardWriterIdx != boardWirterIdx) {
 			throw new ExpectedException("error.NotMyBoard");
 		}
 		

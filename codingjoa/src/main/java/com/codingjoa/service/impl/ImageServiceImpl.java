@@ -56,11 +56,11 @@ public class ImageServiceImpl implements ImageService {
 		log.info("\t > create boardImage = {}", boardImage);
 		
 		imageMapper.insertBoardImage(boardImage);
-		Integer boardImageIdx = boardImage.getBoardImageIdx();
-		log.info("\t > after inserting boardImage, boardImageIdx = {}", boardImageIdx);
+		Integer dbBoardImageIdx = boardImage.getBoardImageIdx();
+		log.info("\t > after inserting boardImage, boardImageIdx = {}", dbBoardImageIdx);
 		
 		// 업로드 실패 상황(insert)을 만들어 클라이언트에서 에러 확인하기
-		if (boardImageIdx == null) { 
+		if (dbBoardImageIdx == null) { 
 			throw new ExpectedException("error.UploadBoardImage");
 		} 
 		return boardImage;
@@ -125,11 +125,11 @@ public class ImageServiceImpl implements ImageService {
 		imageMapper.deactivateMemberImage(memberIdx);
 		
 		imageMapper.insertMemberImage(memberImage);
-		Integer memberImageIdx = memberImage.getMemberImageIdx();
-		log.info("\t > after inserting memberImage, memberImageIdx = {}", memberImageIdx);
+		Integer dbMemberImageIdx = memberImage.getMemberImageIdx();
+		log.info("\t > after inserting memberImage, memberImageIdx = {}", dbMemberImageIdx);
 		
 		// 업로드 실패 상황(insert)을 만들어 클라이언트에서 에러 확인하기
-		if (memberImageIdx == null) { 
+		if (dbMemberImageIdx == null) { 
 			throw new ExpectedException("error.UploadMemberImage");
 		}
 	}
@@ -172,8 +172,10 @@ public class ImageServiceImpl implements ImageService {
 			throw new ExpectedException("error.NotFoundMemberImage");
 		}
 		
-		log.info("\t > My memberIdx = {}, DB memberIdx = {}", memberIdx, memberImage.getMemberIdx());
-		if (memberImage.getMemberIdx() != memberIdx) {
+		Integer dbMemberIdx = memberImage.getMemberIdx();
+		log.info("\t > memberIdx = {}, dbMemberIdx = {}", memberIdx, dbMemberIdx);
+		
+		if (dbMemberIdx != memberIdx) {
 			throw new ExpectedException("error.NotMyMemberImage");
 		}
 		

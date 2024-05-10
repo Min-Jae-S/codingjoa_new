@@ -109,37 +109,37 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public void updateEmail(EmailAuthDto emailAuthDto, Integer memberIdx) {
-		Member modifiedMember = memberMapper.findMemberByIdx(memberIdx);
-		if (modifiedMember == null) {
+		Member modifyMember = memberMapper.findMemberByIdx(memberIdx);
+		if (modifyMember == null) {
 			throw new ExpectedException("error.NotFoundMember");
 		}
 		
-		modifiedMember.setMemberEmail(emailAuthDto.getMemberEmail());
-		memberMapper.updateEmail(modifiedMember);
+		modifyMember.setMemberEmail(emailAuthDto.getMemberEmail());
+		memberMapper.updateEmail(modifyMember);
 	}
 	
 	@Override
 	public void updateAddr(AddrDto addrDto, Integer memberIdx) {
-		Member modifiedMember = memberMapper.findMemberByIdx(memberIdx);
-		if (modifiedMember == null) {
+		Member modifyMember = memberMapper.findMemberByIdx(memberIdx);
+		if (modifyMember == null) {
 			throw new ExpectedException("error.NotFoundMember");
 		}
 		
-		modifiedMember.setMemberZipcode(addrDto.getMemberZipcode());
-		modifiedMember.setMemberAddr(addrDto.getMemberAddr());
-		modifiedMember.setMemberAddrDetail(addrDto.getMemberAddrDetail());
-		memberMapper.updateAddr(modifiedMember);
+		modifyMember.setMemberZipcode(addrDto.getMemberZipcode());
+		modifyMember.setMemberAddr(addrDto.getMemberAddr());
+		modifyMember.setMemberAddrDetail(addrDto.getMemberAddrDetail());
+		memberMapper.updateAddr(modifyMember);
 	}
 
 	@Override
 	public void updateAgree(AgreeDto agreeDto, Integer memberIdx) {
-		Member modifiedMember = memberMapper.findMemberByIdx(memberIdx);
-		if (modifiedMember == null) {
+		Member modifyMember = memberMapper.findMemberByIdx(memberIdx);
+		if (modifyMember == null) {
 			throw new ExpectedException("error.NotFoundMember");
 		}
 		
-		modifiedMember.setMemberAgree(agreeDto.isMemberAgree());
-		memberMapper.updateAgree(modifiedMember);
+		modifyMember.setMemberAgree(agreeDto.isMemberAgree());
+		memberMapper.updateAgree(modifyMember);
 	}
 
 	@Override
@@ -158,20 +158,20 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public void updatePassword(PasswordChangeDto passwordChangeDto, Integer memberIdx) {
-		Member modifiedMember = memberMapper.findMemberByIdx(memberIdx);
-		if (modifiedMember == null) {
+		Member modifyMember = memberMapper.findMemberByIdx(memberIdx);
+		if (modifyMember == null) {
 			throw new ExpectedException("error.NotFoundMember");
 		}
 		
 		String memberPassword = passwordChangeDto.getMemberPassword();
-		String currentPassword = modifiedMember.getMemberPassword();
+		String currentPassword = modifyMember.getMemberPassword();
 		if (passwordEncoder.matches(memberPassword, currentPassword)) {
 			throw new ExpectedException("memberPassword", "error.NotCurrentPassword");
 		}
 		
 		memberPassword = passwordEncoder.encode(memberPassword);
-		modifiedMember.setMemberPassword(memberPassword);
-		memberMapper.updatePassword(modifiedMember);
+		modifyMember.setMemberPassword(memberPassword);
+		memberMapper.updatePassword(modifyMember);
 	}
 
 }
