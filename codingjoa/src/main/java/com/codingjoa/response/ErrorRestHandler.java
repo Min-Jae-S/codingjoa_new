@@ -51,13 +51,13 @@ public class ErrorRestHandler {
 	
 	@ExceptionHandler(Exception.class)
 	protected ResponseEntity<Object> handleException(Exception e) {
-		log.info("## [Universal] {} - {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
+		log.info("## {}(Global) - {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t > location = {}", e.getStackTrace()[0]);
 		log.info("\t > message = {}", e.getMessage());
 
 		ErrorResponse errorResponse = ErrorResponse.builder()
 				.status(HttpStatus.BAD_REQUEST)
-				.messageByCode("error.Universal") // error.Unknown --> error.Universal
+				.messageByCode("error.Global") // error.Unknown --> error.Global
 				.build();
 		log.info("\t > {}", errorResponse);
 		
@@ -85,9 +85,8 @@ public class ErrorRestHandler {
 		log.info("## {} - {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t > location = {}", e.getStackTrace()[0]);
 		log.info("\t > message = {}", e.getMessage());
-		log.info("\t > fieldErrors");
 		e.getBindingResult().getFieldErrors().forEach(fieldError -> {
-			log.info("\t\t - {}, {}", fieldError.getField(), fieldError.getCodes()[0]);
+			log.info("\t > fieldError, errorField = {}, errorCode = {}", fieldError.getField(), fieldError.getCodes()[0]);
 		}); 
 
 		ErrorResponse errorResponse = ErrorResponse.builder()
@@ -104,9 +103,8 @@ public class ErrorRestHandler {
 		log.info("## {} - {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t > location = {}", e.getStackTrace()[0]);
 		log.info("\t > message = {}", e.getMessage());
-		log.info("\t > constraintViolations");
 		e.getConstraintViolations().forEach(violation -> {
-			log.info("\t\t - invalid value = {}", violation.getInvalidValue());
+			log.info("> constraintViolations, invalid value = {}", violation.getInvalidValue());
 		});
 
 		ErrorResponse errorResponse = ErrorResponse.builder()

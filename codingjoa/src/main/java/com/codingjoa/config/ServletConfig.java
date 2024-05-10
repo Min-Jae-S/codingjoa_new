@@ -162,8 +162,7 @@ public class ServletConfig implements WebMvcConfigurer {
 	public ObjectMapper myObjectMapper() {
 		return Jackson2ObjectMapperBuilder
 				.json()
-				//.deserializerByType(int.class, new IntDeserializer())
-				.featuresToEnable(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES)
+				.featuresToEnable(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES) // writeComment - CommentDto(commentBoardIdx)
 				.build();
 	}
 	
@@ -172,7 +171,7 @@ public class ServletConfig implements WebMvcConfigurer {
 		log.info("## extendHandlerExceptionResolvers");
 		WebMvcConfigurer.super.extendHandlerExceptionResolvers(resolvers);
 		resolvers.add(0, myExceptionResolver());
-		//resolvers.forEach(resolver -> log.info("\t > {}", resolver.getClass().getSimpleName()));
+		resolvers.forEach(resolver -> log.info("\t > {}", resolver.getClass().getSimpleName()));
 	}
 	
 	@Bean
