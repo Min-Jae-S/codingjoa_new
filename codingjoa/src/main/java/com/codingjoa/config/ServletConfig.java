@@ -46,7 +46,7 @@ import com.codingjoa.interceptor.TopMenuInterceptor;
 import com.codingjoa.interceptor.CheckPasswordConfirmInterceptor;
 import com.codingjoa.resolver.BoardCriteriaArgumentResolver;
 import com.codingjoa.resolver.CommentCriteriaArgumentResolver;
-import com.codingjoa.resolver.MyExceptionResolver;
+import com.codingjoa.resolver.GlobalExceptionResolver;
 import com.codingjoa.service.CategoryService;
 import com.codingjoa.service.RedisService;
 import com.codingjoa.util.MessageUtils;
@@ -170,13 +170,13 @@ public class ServletConfig implements WebMvcConfigurer {
 	public void extendHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
 		log.info("## extendHandlerExceptionResolvers");
 		WebMvcConfigurer.super.extendHandlerExceptionResolvers(resolvers);
-		resolvers.add(0, myExceptionResolver());
+		resolvers.add(0, globalExceptionResolver());
 		resolvers.forEach(resolver -> log.info("\t > {}", resolver.getClass().getSimpleName()));
 	}
 	
 	@Bean
-	public HandlerExceptionResolver myExceptionResolver() {
-		return new MyExceptionResolver();
+	public HandlerExceptionResolver globalExceptionResolver() {
+		return new GlobalExceptionResolver();
 	}
 	
 	@Bean

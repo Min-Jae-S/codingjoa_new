@@ -24,7 +24,7 @@ public class ErrorHtmlHandler {
 	
 	@ExceptionHandler(Exception.class) // NoHandlerFoundException, NestedServletException etc..
 	protected String handleException(Exception e, HttpServletRequest request) {
-		log.info("## {}(Global) - {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
+		log.info("## {} (Global) - {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
 		log.info("\t > location = {}", e.getStackTrace()[0]);
 		log.info("\t > message = {}", e.getMessage());
 		
@@ -45,7 +45,7 @@ public class ErrorHtmlHandler {
 		log.info("\t > location = {}", e.getStackTrace()[0]);
 		log.info("\t > message = {}", e.getMessage());
 		e.getBindingResult().getFieldErrors().forEach(fieldError -> {
-			log.info("\t > fieldError, errorField = {}, errorCode = {}", fieldError.getField(), fieldError.getCodes()[0]);
+			log.info("\t > errorField = {}, errorCode = {}", fieldError.getField(), fieldError.getCodes()[0]);
 		}); 
 		
 		ErrorResponse errorResponse = ErrorResponse.builder()
@@ -75,7 +75,7 @@ public class ErrorHtmlHandler {
 		log.info("\t > location = {}", e.getStackTrace()[0]);
 		log.info("\t > message = {}", e.getMessage());
 		e.getConstraintViolations().forEach(violation -> {
-			log.info("\t > constraintViolations, invalid value = {}", violation.getInvalidValue());
+			log.info("\t > invalid value = {}", violation.getInvalidValue());
 		});
 		
 		ErrorResponse errorResponse = ErrorResponse.builder()

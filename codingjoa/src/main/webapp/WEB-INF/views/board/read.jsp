@@ -458,17 +458,6 @@
 			</div>
 			<div class="input-group mb-4">
 				<div class="input-group-prepend">
-					<span class="input-group-text">Delete comment</span>
-					<span class="input-group-text">:</span>
-    				<span class="input-group-text">/comments/{commentIdx}</span>
-  				</div>
-  				<input type="text" class="form-control" placeholder="idx">
-  				<div class="input-group-append">
-    				<button class="btn btn-warning" id="testDeleteCommentBtn">TEST</button>
-  				</div>
-			</div>
-			<div class="input-group mb-4">
-				<div class="input-group-prepend">
 					<span class="input-group-text">Modify comment</span>
 					<span class="input-group-text">:</span>
     				<span class="input-group-text">/comments/{commentIdx}</span>
@@ -477,6 +466,17 @@
   				<input type="text" class="form-control" placeholder="content">
   				<div class="input-group-append">
     				<button class="btn btn-warning" id="testModifyCommentBtn">TEST</button>
+  				</div>
+			</div>
+			<div class="input-group mb-4">
+				<div class="input-group-prepend">
+					<span class="input-group-text">Delete comment</span>
+					<span class="input-group-text">:</span>
+    				<span class="input-group-text">/comments/{commentIdx}</span>
+  				</div>
+  				<input type="text" class="form-control" placeholder="idx">
+  				<div class="input-group-append">
+    				<button class="btn btn-warning" id="testDeleteCommentBtn">TEST</button>
   				</div>
 			</div>
 		</div>
@@ -502,16 +502,16 @@
 				<button class="btn btn-warning test-item" name="commentBtn" data-idx="9999">/comments/9999</button>
 			</div>
 			<div class="mb-4 d-flex">
-				<button class="btn">Delete comment<span>:</span></button>
-				<button class="btn btn-warning test-item" name="deleteBtn" data-idx="">/comments/?</button>					
-				<button class="btn btn-warning test-item" name="deleteBtn" data-idx="a">/comments/a</button>				
-				<button class="btn btn-warning test-item" name="deleteBtn" data-idx="9999">/comments/9999</button>					
-			</div>
-			<div class="mb-4 d-flex">
 				<button class="btn">Modify comment<span>:</span></button>	
 				<button class="btn btn-warning test-item" name="patchBtn" data-idx="">/comments/?</button>					
 				<button class="btn btn-warning test-item" name="patchBtn" data-idx="a">/comments/a</button>				
 				<button class="btn btn-warning test-item" name="patchBtn" data-idx="9999">/comments/9999</button>					
+			</div>
+			<div class="mb-4 d-flex">
+				<button class="btn">Delete comment<span>:</span></button>
+				<button class="btn btn-warning test-item" name="deleteBtn" data-idx="">/comments/?</button>					
+				<button class="btn btn-warning test-item" name="deleteBtn" data-idx="a">/comments/a</button>				
+				<button class="btn btn-warning test-item" name="deleteBtn" data-idx="9999">/comments/9999</button>					
 			</div>
 		</div>
 		
@@ -685,8 +685,7 @@
 
 		$(document).on("click", "button[name=closeEditCommentBtn]", function() {
 			let $li =  $(this).closest("li");
-			$li.find("div.comment-area").removeClass("d-none")
-				.next("div.input-group").remove();
+			$li.find("div.comment-area").removeClass("d-none").next("div.input-group").remove();
 		});
 		
 		// updateComment
@@ -818,15 +817,7 @@
 				// ...
 			});
 		});
-
-		// deleteComment
-		$("#testDeleteCommentBtn").on("click", function() {
-			let commentIdx = $(this).closest("div.input-group").find("input").val();
-			commentService.deleteComment(commentIdx, function(result) {
-				alert(result.message);
-			});
-		});
-
+		
 		// modifyComment
 		$("#testModifyCommentBtn").on("click", function() {
 			let $input = $(this).closest("div.input-group").find("input");
@@ -836,6 +827,14 @@
 			};
 			
 			commentService.modifyComment(commentIdx, comment, function(result) {
+				alert(result.message);
+			});
+		});
+
+		// deleteComment
+		$("#testDeleteCommentBtn").on("click", function() {
+			let commentIdx = $(this).closest("div.input-group").find("input").val();
+			commentService.deleteComment(commentIdx, function(result) {
 				alert(result.message);
 			});
 		});
@@ -865,19 +864,19 @@
 			});
 		});
 
-		// deleteComment2
-		$("button[name='deleteBtn']").on("click", function() {
-			commentService.deleteComment($(this).data("idx"), function(result) { 
-				alert(result.message);
-			});
-		});
-		
 		// modifyComment2
 		$("button[name='patchBtn']").on("click", function() {
 			let comment = {
 				commentContent : "aa"
 			};
 			commentService.modifyComment($(this).data("idx"), comment, function(result) { 
+				alert(result.message);
+			});
+		});
+		
+		// deleteComment2
+		$("button[name='deleteBtn']").on("click", function() {
+			commentService.deleteComment($(this).data("idx"), function(result) { 
 				alert(result.message);
 			});
 		});
