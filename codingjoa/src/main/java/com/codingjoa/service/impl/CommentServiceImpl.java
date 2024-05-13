@@ -130,27 +130,35 @@ public class CommentServiceImpl implements CommentService {
 	
 	@Override
 	public void modifyComment(CommentDto commentDto) {
-		Comment comment = modelMapper.map(commentDto, Comment.class);
-		log.info("\t > convert commentDto to comment entity");
-		log.info("\t > {}", comment);
+		Comment modifyComment = commentMapper.findCommentByIdx(commentDto.getCommentIdx());
+		log.info("\t > find modifyComment = {}", modifyComment);
 		
-		commentMapper.updateComment(comment);
-		log.info("\t > after updating comment");
-		log.info("\t > DB commentIdx = {}", comment.getCommentIdx());
-		log.info("\t > DB commentUse = {}", comment.getCommentUse());
-		log.info("\t > My commentWriterIdx = {}, DB commentWriterIdx = {}", commentDto.getCommentWriterIdx(), comment.getCommentWriterIdx());
-		
-		if (comment.getCommentIdx() == null) {
-			throw new ExpectedException("error.UpdateComment");
-		}
-
-		if (!comment.getCommentUse()) {
-			throw new ExpectedException("error.AlreadyDeletedComment");
+		if (modifyComment == null) {
+			throw new ExpectedException("error.NotFoundComment");
 		}
 		
-		if (comment.getCommentWriterIdx() != commentDto.getCommentWriterIdx()) {
-			throw new ExpectedException("error.NotMyComment");
-		}
+		
+//		Comment comment = modelMapper.map(commentDto, Comment.class);
+//		log.info("\t > convert commentDto to comment entity");
+//		log.info("\t > {}", comment);
+//		
+//		commentMapper.updateComment(comment);
+//		log.info("\t > after updating comment");
+//		log.info("\t > DB commentIdx = {}", comment.getCommentIdx());
+//		log.info("\t > DB commentUse = {}", comment.getCommentUse());
+//		log.info("\t > My commentWriterIdx = {}, DB commentWriterIdx = {}", commentDto.getCommentWriterIdx(), comment.getCommentWriterIdx());
+//		
+//		if (comment.getCommentIdx() == null) {
+//			throw new ExpectedException("error.UpdateComment");
+//		}
+//
+//		if (!comment.getCommentUse()) {
+//			throw new ExpectedException("error.AlreadyDeletedComment");
+//		}
+//		
+//		if (comment.getCommentWriterIdx() != commentDto.getCommentWriterIdx()) {
+//			throw new ExpectedException("error.NotMyComment");
+//		}
 	}
 	
 	@Override
