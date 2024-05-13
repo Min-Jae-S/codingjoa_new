@@ -151,6 +151,9 @@ public class CommentServiceImpl implements CommentService {
 			throw new ExpectedException("error.NotMyComment");
 		}
 		
+		// @@ update comment
+		// 1. map commentDto to Comment.class 
+		// 2. use modifyComment 
 		
 //		Comment comment = modelMapper.map(commentDto, Comment.class);
 //		log.info("\t > convert commentDto to comment entity");
