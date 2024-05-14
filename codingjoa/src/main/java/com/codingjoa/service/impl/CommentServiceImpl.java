@@ -51,7 +51,7 @@ public class CommentServiceImpl implements CommentService {
 		
 		Comment comment = modelMapper.map(commentDto, Comment.class);
 		log.info("\t > convert commentDto to comment entity");
-		log.info("\t > {}", comment);
+		log.info("\t > comment = {}", comment);
 		
 		commentMapper.insertComment(comment);
 		Integer dbCommentIdx = comment.getCommentIdx();
@@ -81,18 +81,18 @@ public class CommentServiceImpl implements CommentService {
 		
 		List<Map<String, Object>> allPagedComment = commentMapper.findPagedComment(commentBoardIdx, commentCri);
 		List<CommentDetailsDto> pagedComment = new ArrayList<>();
-		List<Integer> deletedComment = new ArrayList<>();
+		List<Integer> deletedComments = new ArrayList<>();
 		for (Map<String, Object> commentDetailsMap : allPagedComment) {
 			Boolean dbCommentUse = (Boolean) commentDetailsMap.get("commentUse");
 			if (!dbCommentUse) {
 				Integer dbCommentIdx = (Integer) commentDetailsMap.get("commentIdx");
-				deletedComment.add(dbCommentIdx);
+				deletedComments.add(dbCommentIdx);
 				pagedComment.add(null);
 			} else {
 				pagedComment.add(modelMapper.map(commentDetailsMap, CommentDetailsDto.class));
 			}
 		}
-		log.info("\t > deletedComment = {}", deletedComment);
+		log.info("\t > deletedComments = {}", deletedComments);
 		
 		return pagedComment;
 	}

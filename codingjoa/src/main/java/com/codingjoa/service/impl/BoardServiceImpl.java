@@ -50,7 +50,7 @@ public class BoardServiceImpl implements BoardService {
 		Board board = modelMapper.map(boardDto, Board.class);
 		board.setBoardContentText(boardContentText);
 		log.info("\t > convert boardDto to board entity");
-		log.info("\t > {}", board);
+		log.info("\t > board = {}", board);
 		
 		boardMapper.insertBoard(board);
 		Integer dbBoardIdx = board.getBoardIdx();
