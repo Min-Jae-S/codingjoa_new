@@ -156,49 +156,36 @@ public class CommentServiceImpl implements CommentService {
 		log.info("\t > modifyComment = {}", modifyComment);
 		
 		commentMapper.updateComment(modifyComment);
-//		
-//		commentMapper.updateComment(comment);
-//		log.info("\t > after updating comment");
-//		log.info("\t > DB commentIdx = {}", comment.getCommentIdx());
-//		log.info("\t > DB commentUse = {}", comment.getCommentUse());
-//		log.info("\t > My commentWriterIdx = {}, DB commentWriterIdx = {}", commentDto.getCommentWriterIdx(), comment.getCommentWriterIdx());
-//		
-//		if (comment.getCommentIdx() == null) {
-//			throw new ExpectedException("error.UpdateComment");
-//		}
-//
-//		if (!comment.getCommentUse()) {
-//			throw new ExpectedException("error.AlreadyDeletedComment");
-//		}
-//		
-//		if (comment.getCommentWriterIdx() != commentDto.getCommentWriterIdx()) {
-//			throw new ExpectedException("error.NotMyComment");
-//		}
 	}
 	
 	@Override
 	public void deleteComment(CommentDto commentDto) {
-		Comment comment = modelMapper.map(commentDto, Comment.class);
-		log.info("\t > convert commentDto to comment entity");
-		log.info("\t > {}", comment);
+		Comment comment = commentMapper.findCommentByIdx(commentDto.getCommentIdx());
+		log.info("\t > find comment = {}", comment);
 		
-		commentMapper.deleteComment(comment);
-		log.info("\t > after deleting comment");
-		log.info("\t > DB commentIdx = {}", comment.getCommentIdx());
-		log.info("\t > DB commentUse = {}", comment.getCommentUse());
-		log.info("\t > My commentWriterIdx = {}, DB commentWriterIdx = {}", commentDto.getCommentWriterIdx(), comment.getCommentWriterIdx());
-		
-		if (comment.getCommentIdx() == null) {
-			throw new ExpectedException("error.DeleteComment");
+		if (comment == null) {
+			throw new ExpectedException("error.NotFoundComment");
 		}
-
-		if (!comment.getCommentUse()) {
+		
+		Boolean dbCommentUse = comment.getCommentUse();
+		Integer dbCommentWriterIdx = comment.getCommentWriterIdx();
+		int commentWriterIdx = commentDto.getCommentWriterIdx();
+		log.info("\t > dbCommentUse = {}", dbCommentUse);
+		log.info("\t > dbCommentWriterIdx = {}, commentWriterIdx = {}", dbCommentWriterIdx, commentWriterIdx);
+		
+		if (!dbCommentUse) {
 			throw new ExpectedException("error.AlreadyDeletedComment");
 		}
 		
-		if (comment.getCommentWriterIdx() != commentDto.getCommentWriterIdx()) {
+		if (dbCommentWriterIdx != commentWriterIdx) {
 			throw new ExpectedException("error.NotMyComment");
 		}
+		
+		Comment deleteComment = modelMapper.map(commentDto, Comment.class);
+		log.info("\t > convert commentDto to comment entity");
+		log.info("\t > deleteComment = {}", deleteComment);
+		
+		commentMapper.deleteComment(deleteComment);
 	}
 
 }

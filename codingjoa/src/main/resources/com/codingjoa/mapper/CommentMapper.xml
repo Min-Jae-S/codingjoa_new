@@ -263,6 +263,16 @@
 	</select>
 	
 	<update id="updateComment" parameterType="comment">
+		UPDATE
+			"comment"
+		SET
+			comment_content = #{commentContent},
+			moddate = SYSDATE
+		WHERE
+			comment_idx = #{commentIdx}
+	</update>
+	
+	<!-- <update id="updateComment" parameterType="comment">
 		<selectKey keyProperty="commentIdx,commentWriterIdx,commentUse" resultType="comment" order="BEFORE">
 			SELECT
 				MAX(comment_idx) AS comment_idx,
@@ -284,9 +294,19 @@
 					comment_idx = #{commentIdx};
 			END IF;
 		END;
+	</update> -->
+	
+	<update id="deleteComment" parameterType="comment">
+		UPDATE
+			"comment"
+		SET
+			comment_use = #{commentUse},
+			moddate = SYSDATE
+		WHERE
+			comment_idx = #{commentIdx}
 	</update>
 
-	<update id="deleteComment" parameterType="comment">
+	<!-- <update id="deleteComment" parameterType="comment">
 		<selectKey keyProperty="commentIdx,commentWriterIdx,commentUse" resultType="comment" order="BEFORE">
 			SELECT
 				MAX(comment_idx) AS comment_idx,
@@ -308,6 +328,6 @@
 					comment_idx = #{commentIdx};
 			END IF;
 		END;
-	</update>
+	</update> -->
 	
 </mapper>

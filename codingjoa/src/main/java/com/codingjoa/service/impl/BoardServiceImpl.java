@@ -118,21 +118,21 @@ public class BoardServiceImpl implements BoardService {
 	
 	@Override
 	public BoardDto getModifyBoard(int boardIdx, int boardWriterIdx) {
-		Board modifyBoard = boardMapper.findBoardByIdx(boardIdx);
-		log.info("\t > find modifyBoard = {}", modifyBoard);
+		Board board = boardMapper.findBoardByIdx(boardIdx);
+		log.info("\t > find board = {}", board);
 
-		if (modifyBoard == null) {
+		if (board == null) {
 			throw new ExpectedException("error.NotFoundBoard");
 		}
 		
-		Integer dbBoardWriterIdx = modifyBoard.getBoardWriterIdx();
+		Integer dbBoardWriterIdx = board.getBoardWriterIdx();
 		log.info("\t > dbBoardWriterIdx = {}, boardWriterIdx = {}", dbBoardWriterIdx, boardWriterIdx);
 		
 		if (dbBoardWriterIdx != boardWriterIdx) {
 			throw new ExpectedException("error.NotMyBoard");
 		}
 		
-		return modelMapper.map(modifyBoard, BoardDto.class);
+		return modelMapper.map(board, BoardDto.class);
 	}
 	
 	@Override
@@ -171,14 +171,14 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public void deleteBoard(BoardDto boardDto) {
-		Board deleteBoard = boardMapper.findBoardByIdx(boardDto.getBoardIdx());
-		log.info("\t > find deleteBoard = {}", deleteBoard);
+		Board board = boardMapper.findBoardByIdx(boardDto.getBoardIdx());
+		log.info("\t > find board = {}", board);
 
-		if (deleteBoard == null) {
+		if (board == null) {
 			throw new ExpectedException("error.NotFoundBoard");
 		}
 		
-		Integer dbBoardWriterIdx = deleteBoard.getBoardWriterIdx();
+		Integer dbBoardWriterIdx = board.getBoardWriterIdx();
 		int boardWirterIdx = boardDto.getBoardWriterIdx();
 		log.info("\t > dbBoardWriterIdx = {}, boardWriterIdx = {}", dbBoardWriterIdx, boardWirterIdx);
 		
@@ -186,8 +186,8 @@ public class BoardServiceImpl implements BoardService {
 			throw new ExpectedException("error.NotMyBoard");
 		}
 		
-		boardMapper.deleteBoard(deleteBoard.getBoardIdx());
-		boardDto.setBoardCategoryCode(deleteBoard.getBoardCategoryCode());
+		boardMapper.deleteBoard(board.getBoardIdx());
+		boardDto.setBoardCategoryCode(board.getBoardCategoryCode());
 	}
 	
 }
