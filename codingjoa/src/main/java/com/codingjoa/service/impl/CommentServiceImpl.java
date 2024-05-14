@@ -130,15 +130,15 @@ public class CommentServiceImpl implements CommentService {
 	
 	@Override
 	public void modifyComment(CommentDto commentDto) {
-		Comment modifyComment = commentMapper.findCommentByIdx(commentDto.getCommentIdx());
-		log.info("\t > find modifyComment = {}", modifyComment);
+		Comment comment = commentMapper.findCommentByIdx(commentDto.getCommentIdx());
+		log.info("\t > find comment = {}", comment);
 		
-		if (modifyComment == null) {
+		if (comment == null) {
 			throw new ExpectedException("error.NotFoundComment");
 		}
 		
-		Boolean dbCommentUse = modifyComment.getCommentUse();
-		Integer dbCommentWriterIdx = modifyComment.getCommentWriterIdx();
+		Boolean dbCommentUse = comment.getCommentUse();
+		Integer dbCommentWriterIdx = comment.getCommentWriterIdx();
 		int commentWriterIdx = commentDto.getCommentWriterIdx();
 		log.info("\t > dbCommentUse = {}", dbCommentUse);
 		log.info("\t > dbCommentWriterIdx = {}, commentWriterIdx = {}", dbCommentWriterIdx, commentWriterIdx);
@@ -151,13 +151,11 @@ public class CommentServiceImpl implements CommentService {
 			throw new ExpectedException("error.NotMyComment");
 		}
 		
-		// @@ update comment
-		// 1. map commentDto to Comment.class 
-		// 2. use modifyComment 
+		Comment modifyComment = modelMapper.map(commentDto, Comment.class);
+		log.info("\t > convert commentDto to comment entity");
+		log.info("\t > modifyComment = {}", modifyComment);
 		
-//		Comment comment = modelMapper.map(commentDto, Comment.class);
-//		log.info("\t > convert commentDto to comment entity");
-//		log.info("\t > {}", comment);
+		commentMapper.updateComment(modifyComment);
 //		
 //		commentMapper.updateComment(comment);
 //		log.info("\t > after updating comment");

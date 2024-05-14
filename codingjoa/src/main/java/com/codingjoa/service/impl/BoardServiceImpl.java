@@ -44,12 +44,12 @@ public class BoardServiceImpl implements BoardService {
 	
 	@Override
 	public void writeBoard(BoardDto boardDto) {
-		Board board = modelMapper.map(boardDto, Board.class);
-		String boardContentText = Jsoup.parse(board.getBoardContent()).text();
-		log.info("\t > convert boardDto to board entity");
+		String boardContentText = Jsoup.parse(boardDto.getBoardContent()).text();
 		log.info("\t > produce boardContentText by parsing boardContent for search");
 
+		Board board = modelMapper.map(boardDto, Board.class);
 		board.setBoardContentText(boardContentText);
+		log.info("\t > convert boardDto to board entity");
 		log.info("\t > {}", board);
 		
 		boardMapper.insertBoard(board);
@@ -137,14 +137,14 @@ public class BoardServiceImpl implements BoardService {
 	
 	@Override
 	public void modifyBoard(BoardDto boardDto) {
-		Board modifyBoard = boardMapper.findBoardByIdx(boardDto.getBoardIdx());
-		log.info("\t > find modifyBoard = {}", modifyBoard);
+		Board board = boardMapper.findBoardByIdx(boardDto.getBoardIdx());
+		log.info("\t > find board = {}", board);
 
-		if (modifyBoard == null) {
+		if (board == null) {
 			throw new ExpectedException("error.NotFoundBoard");
 		}
 		
-		Integer dbBoardWriterIdx = modifyBoard.getBoardWriterIdx();
+		Integer dbBoardWriterIdx = board.getBoardWriterIdx();
 		int boardWirterIdx = boardDto.getBoardWriterIdx();
 		log.info("\t > dbBoardWriterIdx = {}, boardWriterIdx = {}", dbBoardWriterIdx, boardWirterIdx);
 		
@@ -152,45 +152,18 @@ public class BoardServiceImpl implements BoardService {
 			throw new ExpectedException("error.NotMyBoard");
 		}
 		
-		String newBoardContent = boardDto.getBoardContent();
-		String newBoardContentText = Jsoup.parse(newBoardContent).text();
+		String boardContentText = Jsoup.parse(boardDto.getBoardContent()).text();
 		log.info("\t > produce boardContentText by parsing boardContent for search");
-		
-		modifyBoard.setBoardContent(newBoardContent);
-		modifyBoard.setBoardContentText(newBoardContentText);
-		modifyBoard.setBoardTitle(boardDto.getBoardTitle());
-		modifyBoard.setBoardCategoryCode(boardDto.getBoardCategoryCode());
-		log.info("\t > new modifyBoard = {}", modifyBoard);
 
+		Board modifyBoard = modelMapper.map(boardDto, Board.class);
+		modifyBoard.setBoardContentText(boardContentText);
+		log.info("\t > convert boardDto to board entity");
+		log.info("\t > modifyBoard = {}", modifyBoard);
+		
 		boardMapper.updateBoard(modifyBoard);
 		imageService.modifyBoardImages(boardDto);
 	}
 	
-//	@Override
-//	public void modifyBoard(BoardDto boardDto) {
-//		Board board = modelMapper.map(boardDto, Board.class);
-//		String boardContentText = Jsoup.parse(board.getBoardContent()).text();
-//		board.setBoardContentText(boardContentText);
-//		log.info("\t > convert boardDto to board entity");
-//		log.info("\t > produce boardContentText by parsing boardContent for search");
-//		log.info("\t > {}", board);
-//
-//		boardMapper.updateBoard(board);
-//		Integer DBboardWriterIdx = board.getBoardWriterIdx();
-//		log.info("\t > after updating board, DB boardWriterIdx = {}, My boardWriterIdx = {}", 
-//				DBboardWriterIdx, boardDto.getBoardWriterIdx());
-//		
-//		if (DBboardWriterIdx == null) {
-//			throw new ExpectedException("error.UpdateBoard");
-//		}
-//		
-//		if (DBboardWriterIdx != boardDto.getBoardWriterIdx()) {
-//			throw new ExpectedException("error.NotMyBoard");
-//		}
-//		
-//		imageService.modifyBoardImages(boardDto);
-//	}
-
 	@Override
 	public int getBoardCategoryCode(int boardIdx) {
 		return boardMapper.findBoardCategoryCode(boardIdx);
@@ -216,26 +189,5 @@ public class BoardServiceImpl implements BoardService {
 		boardMapper.deleteBoard(deleteBoard.getBoardIdx());
 		boardDto.setBoardCategoryCode(deleteBoard.getBoardCategoryCode());
 	}
-
-//	@Override
-//	public void deleteBoard(BoardDto boardDto) {
-//		Board board = modelMapper.map(boardDto, Board.class);
-//		log.info("\t > convert boardDto to board entity");
-//		log.info("\t > {}", board);
-//		
-//		boardMapper.deleteBoard(board);
-//		Integer DBboardWriterIdx = board.getBoardWriterIdx();
-//		log.info("\t > after deleting board, DB boardWriterIdx = {}, My boardWriterIdx = {}", 
-//				DBboardWriterIdx, boardDto.getBoardWriterIdx());
-//		
-//		if (DBboardWriterIdx == null) {
-//			throw new ExpectedException("error.DeleteBoard");
-//		}
-//		
-//		if (DBboardWriterIdx != boardDto.getBoardWriterIdx()) {
-//			throw new ExpectedException("error.NotMyBoard");
-//		}
-//		
-//		boardDto.setBoardCategoryCode(board.getBoardCategoryCode());
-//	}
+	
 }
