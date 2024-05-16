@@ -74,7 +74,7 @@ public class LikesRestController {
 		commentLikesDto.setCommentIdx(commentIdx);
 		commentLikesDto.setMemberIdx(principal.getMember().getMemberIdx());
 		Integer commentLikesIdx = likesService.toggleCommentLikes(commentLikesDto);
-		log.info("\t > {}", commentLikesIdx == null ? "Insert commentLikes" : "Delete commentLikes");
+		log.info("\t > {}", commentLikesIdx == null ? "insert commentLikes" : "delete commentLikes");
 		
 		resetAuthentication(principal.getMember().getMemberId());
 		
