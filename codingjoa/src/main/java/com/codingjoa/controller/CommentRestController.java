@@ -64,7 +64,7 @@ public class CommentRestController {
 				.build());
 	}
 	
-	@GetMapping(value = { "/comments", "/comments/{commentIdx}" })
+	@GetMapping(value = { "/comments/", "/comments/{commentIdx}" })
 	public ResponseEntity<Object> getModifyComment(@PathVariable int commentIdx, @AuthenticationPrincipal UserDetailsDto principal) {
 		log.info("## getModifyComment, commentIdx = {}", commentIdx);
 		CommentDetailsDto modifyCommentDto = 
@@ -85,7 +85,7 @@ public class CommentRestController {
 		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.writeComment").build());
 	}
 	
-	@PatchMapping(value = { "/comments", "/comments/{commentIdx}" })
+	@PatchMapping(value = { "/comments/", "/comments/{commentIdx}" })
 	public ResponseEntity<Object> modifyComment(@PathVariable int commentIdx, 
 			@Valid @RequestBody CommentDto modifyCommentDto, @AuthenticationPrincipal UserDetailsDto principal) {
 		log.info("## modifyComment, commentIdx = {}", commentIdx);
@@ -98,7 +98,7 @@ public class CommentRestController {
 		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.updateComment").build());
 	}
 	
-	@DeleteMapping(value = { "/comments", "/comments/{commentIdx}" })
+	@DeleteMapping(value = { "/comments/", "/comments/{commentIdx}" })
 	public ResponseEntity<Object> deleteComment(@PathVariable int commentIdx, @AuthenticationPrincipal UserDetailsDto principal) {
 		log.info("## deleteComment, commentIdx = {}", commentIdx);
 		CommentDto deleteCommentDto = new CommentDto();

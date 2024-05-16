@@ -41,9 +41,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.BeanNameViewResolver;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
+import com.codingjoa.interceptor.CheckPasswordConfirmInterceptor;
 import com.codingjoa.interceptor.CheckPasswordResetKeyInterceptor;
 import com.codingjoa.interceptor.TopMenuInterceptor;
-import com.codingjoa.interceptor.CheckPasswordConfirmInterceptor;
 import com.codingjoa.resolver.BoardCriteriaArgumentResolver;
 import com.codingjoa.resolver.CommentCriteriaArgumentResolver;
 import com.codingjoa.resolver.GlobalExceptionResolver;
@@ -114,7 +114,9 @@ public class ServletConfig implements WebMvcConfigurer {
 		WebMvcConfigurer.super.configurePathMatch(configurer);
 		//configurer.setUseTrailingSlashMatch(true);
 		
-		// 24.04.02 변경; @GetMapping(value = { "/rest-api/test-members/", "/rest-api/test-members/{id}"})
+		// @24.04.02 변경
+		// GetMapping(value = { "/rest-api/test-members/", "/rest-api/test-members/{id}"})
+		// GetMapping(value = { "/comments/", "/comments/{commentIdx}" })
 		configurer.setUseTrailingSlashMatch(false);
 		
 		// @PathVariable을 사용하여 dot(.)이 포함된 요청 URI에서 매개변수에서 dot 이후까지 완전히 포함하기 위한 설정
