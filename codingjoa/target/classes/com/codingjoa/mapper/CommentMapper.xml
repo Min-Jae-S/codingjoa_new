@@ -296,7 +296,7 @@
 		END;
 	</update> -->
 	
-	<update id="deleteComment" parameterType="comment">
+	<delete id="deleteComment" parameterType="comment">
 		UPDATE
 			"comment"
 		SET
@@ -304,7 +304,7 @@
 			moddate = SYSDATE
 		WHERE
 			comment_idx = #{commentIdx}
-	</update>
+	</delete>
 
 	<!-- <update id="deleteComment" parameterType="comment">
 		<selectKey keyProperty="commentIdx,commentWriterIdx,commentUse" resultType="comment" order="BEFORE">

@@ -77,7 +77,6 @@ public class CommentRestController {
 			@AuthenticationPrincipal UserDetailsDto principal) {
 		log.info("## writeComment");
 		log.info("\t > {}", writeCommentDto);
-		
 		writeCommentDto.setCommentWriterIdx(principal.getMember().getMemberIdx());
 		writeCommentDto.setCommentUse(true);
 		commentService.writeComment(writeCommentDto);
@@ -90,7 +89,6 @@ public class CommentRestController {
 			@Valid @RequestBody CommentDto modifyCommentDto, @AuthenticationPrincipal UserDetailsDto principal) {
 		log.info("## modifyComment, commentIdx = {}", commentIdx);
 		log.info("\t > {}", modifyCommentDto);
-		
 		modifyCommentDto.setCommentIdx(commentIdx);
 		modifyCommentDto.setCommentWriterIdx(principal.getMember().getMemberIdx());
 		commentService.modifyComment(modifyCommentDto);
@@ -104,7 +102,6 @@ public class CommentRestController {
 		CommentDto deleteCommentDto = new CommentDto();
 		deleteCommentDto.setCommentIdx(commentIdx);
 		deleteCommentDto.setCommentWriterIdx(principal.getMember().getMemberIdx());
-		deleteCommentDto.setCommentUse(false);
 		commentService.deleteComment(deleteCommentDto); // update commentUse
 		
 		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.deleteComment").build());

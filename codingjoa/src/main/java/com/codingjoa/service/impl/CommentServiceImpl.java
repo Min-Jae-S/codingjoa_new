@@ -147,11 +147,8 @@ public class CommentServiceImpl implements CommentService {
 			throw new ExpectedException("error.NotMyComment");
 		}
 		
-		Comment modifyComment = modelMapper.map(commentDto, Comment.class);
-		log.info("\t > convert commentDto to comment entity");
-		log.info("\t > modifyComment = {}", modifyComment);
-		
-		commentMapper.updateComment(modifyComment);
+		comment.setCommentContent(commentDto.getCommentContent());
+		commentMapper.updateComment(comment);
 	}
 	
 	@Override
@@ -174,11 +171,8 @@ public class CommentServiceImpl implements CommentService {
 			throw new ExpectedException("error.NotMyComment");
 		}
 		
-		Comment deleteComment = modelMapper.map(commentDto, Comment.class);
-		log.info("\t > convert commentDto to comment entity");
-		log.info("\t > deleteComment = {}", deleteComment);
-		
-		commentMapper.deleteComment(deleteComment);
+		comment.setCommentUse(false);
+		commentMapper.deleteComment(comment);
 	}
 
 }
