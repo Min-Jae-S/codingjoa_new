@@ -42,8 +42,8 @@ public class LikesServiceImpl implements LikesService {
 		log.info("\t > boardLikesDto ==> {}", boardLikes);
 		
 		likesMapper.delOrInsBoardLikes(boardLikes);
-		log.info("\t > DB boardIdx = {}", boardLikes.getBoardIdx());
-		log.info("\t > DB boardLikesIdx = {}", boardLikes.getBoardLikesIdx());
+		log.info("\t > dbBoardIdx = {}", boardLikes.getBoardIdx());
+		log.info("\t > dbBoardLikesIdx = {}", boardLikes.getBoardLikesIdx());
 		
 		if (boardLikes.getBoardIdx() == null) {
 			throw new ExpectedException("error.NotFoundBoard");

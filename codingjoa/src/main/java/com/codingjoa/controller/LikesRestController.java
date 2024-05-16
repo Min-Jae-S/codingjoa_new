@@ -35,8 +35,7 @@ public class LikesRestController {
 	private UserDetailsService userDetailsService;
 
 	@PostMapping("/boards/{boardIdx}/likes")
-	public ResponseEntity<Object> toggleBoardLikes(@PathVariable int boardIdx,
-			@AuthenticationPrincipal UserDetailsDto principal) {
+	public ResponseEntity<Object> toggleBoardLikes(@PathVariable int boardIdx, @AuthenticationPrincipal UserDetailsDto principal) {
 		log.info("## toggleBoardLikes, boardIdx = {}", boardIdx);
 		
 		BoardLikesDto boardLikesDto = new BoardLikesDto();
@@ -68,8 +67,7 @@ public class LikesRestController {
 	}
 	
 	@PostMapping("/comments/{commentIdx}/likes")
-	public ResponseEntity<Object> toggleCommentLikes(@PathVariable int commentIdx, 
-			@AuthenticationPrincipal UserDetailsDto principal) {
+	public ResponseEntity<Object> toggleCommentLikes(@PathVariable int commentIdx, @AuthenticationPrincipal UserDetailsDto principal) {
 		log.info("## toggleCommentLikes, commentIdx = {}", commentIdx);
 		
 		CommentLikesDto commentLikesDto = new CommentLikesDto();

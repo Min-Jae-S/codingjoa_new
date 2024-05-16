@@ -347,21 +347,21 @@
 				</div>
 				<h3 class="title mb-4"><c:out value="${boardDetails.boardTitle}"/></h3>
 				<div class="header-meta d-flex mb-2">
-					<span class="mr-3"><c:out value="${boardDetails.memberId}"/></span>
-					<span class="mr-3">
+					<span class="mr-4"><c:out value="${boardDetails.memberId}"/></span>
+					<span class="mr-4">
 						<fmt:formatDate value="${boardDetails.regdate}" pattern="yyyy.MM.dd. HH:mm"/>
 					</span>
 					<span class="mr-1">조회</span>
 					<span><c:out value="${boardDetails.boardViews}"/></span>
 					<div class="d-flex ml-auto">
-						<a class="mr-3" href="#">
+						<a class="mr-4" href="#">
 							<i class="fa-regular fa-comment-dots"></i>
 							<span>댓글</span>
 							<span class="comment-cnt"><c:out value="${boardDetails.commentCnt}"/></span>
 						</a>
 						<button class="btn border-0 p-0 shadow-none" type="button" id="boardLikesBtn">
 						<sec:authorize access="isAnonymous()">
-							<i class="text-grey fa-regular fa-heart"></i>
+							<i class="fa-regular fa-heart"></i>
 						</sec:authorize>
 						<sec:authorize access="isAuthenticated()">
 							<sec:authentication property="principal" var="principal"/>
@@ -370,7 +370,7 @@
 									<i class="text-danger fa-solid fa-heart"></i>
 								</c:when>
 								<c:otherwise>
-									<i class="text-grey fa-regular fa-heart"></i>
+									<i class="fa-regular fa-heart"></i>
 								</c:otherwise>
 							</c:choose>
 						</sec:authorize>
@@ -420,7 +420,7 @@
 		</div>
 		
 		<!-- comment test1 -->
-		<div class="test1 mt-5">
+		<div class="test1 mt-5 d-none">
 			<div class="input-group mb-4">
 				<div class="input-group-prepend">
     				<span class="input-group-text">Write comment</span>
@@ -516,7 +516,7 @@
 		</div>
 		
 		<!-- likes test -->
-		<div class="test3 mt-5 d-none">
+		<div class="test3 mt-5">
 			<div class="input-group mb-4">
 				<div class="input-group-prepend">
     				<span class="input-group-text">Toggle boardLikes</span>
@@ -750,7 +750,7 @@
 				$("span.comment-cnt").text(pagination.totalCnt);
 				
 				curCommentPage = pagination.page;
-				console.log("## Current comment page = %s", curCommentPage);
+				console.log("## current comment page = %s", curCommentPage);
 			});
 		});
 		
