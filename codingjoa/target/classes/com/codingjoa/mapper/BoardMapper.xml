@@ -212,7 +212,7 @@
 		    	WHERE
 		        	<include refid="searchCriteria"/>
 					board_category_code = #{boardCategoryCode} 
-					AND
+				AND
 					<![CDATA[
 					ROWNUM <= ( #{boardCri.page} * #{boardCri.recordCnt} )
 					]]>
@@ -272,7 +272,7 @@
 		    WHERE
 		        <include refid="searchCriteria"/>
 				board_category_code = #{boardCategoryCode} 
-				AND
+			AND
 				<![CDATA[
 				ROWNUM <= ( #{page} * #{recordCnt} )
 				]]>
@@ -314,7 +314,7 @@
 			WHERE
 				<include refid="searchCriteria"/>
 				a.board_category_code = #{boardCategoryCode} 
-				AND
+			AND
 				<![CDATA[
 				ROWNUM <= ( #{page} * #{recordCnt} )
 				]]>
@@ -354,7 +354,7 @@
 			board
 		WHERE
 			board_idx = #{boardIdx} 
-			AND 
+		AND 
 			board_category_code = #{boardCategoryCode}
 	</select>
 	

@@ -74,9 +74,6 @@ public class LikesRestController {
 		commentLikesDto.setCommentIdx(commentIdx);
 		commentLikesDto.setMemberIdx(principal.getMember().getMemberIdx());
 		Integer commentLikesIdx = likesService.toggleCommentLikes(commentLikesDto);
-		log.info("\t > {}", commentLikesIdx == null ? "insert commentLikes" : "delete commentLikes");
-		
-		resetAuthentication(principal.getMember().getMemberId());
 		
 		SuccessResponseBuilder builder = SuccessResponse.builder();
 		if (commentLikesIdx == null) {
@@ -84,6 +81,8 @@ public class LikesRestController {
 		} else {
 			builder.messageByCode("success.DeleteCommentLikes").data("OFF");
 		}
+		
+		resetAuthentication(principal.getMember().getMemberId());
 		
 		return ResponseEntity.ok(builder.build());
 	}

@@ -168,7 +168,7 @@
 			member
 		WHERE
 			member_id = #{memberId}
-			AND
+		AND
 			member_email = #{memberEmail}
 	</select>
 	
