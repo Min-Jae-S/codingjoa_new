@@ -27,6 +27,6 @@ public interface BoardService {
 	
 	int getBoardCategoryCode(int boardIdx);
 	
-	void deleteBoard(BoardDto boardDto);
+	int deleteBoard(int boardIdx, int boardWriterIdx);
 	
 }

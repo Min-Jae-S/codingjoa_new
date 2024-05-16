@@ -152,8 +152,8 @@ public class CommentServiceImpl implements CommentService {
 	}
 	
 	@Override
-	public void deleteComment(CommentDto commentDto) {
-		Comment comment = commentMapper.findCommentByIdx(commentDto.getCommentIdx());
+	public void deleteComment(int commentIdx, int commentWriterIdx) {
+		Comment comment = commentMapper.findCommentByIdx(commentIdx);
 		log.info("\t > find comment = {}", comment);
 		
 		if (comment == null) {
@@ -161,13 +161,13 @@ public class CommentServiceImpl implements CommentService {
 		}
 		
 		log.info("\t > dbCommentUse = {}", comment.getCommentUse());
-		log.info("\t > dbCommentWriterIdx = {}, commentWriterIdx = {}", comment.getCommentWriterIdx(), commentDto.getCommentWriterIdx());
+		log.info("\t > dbCommentWriterIdx = {}, commentWriterIdx = {}", comment.getCommentWriterIdx(), commentWriterIdx);
 		
 		if (!comment.getCommentUse()) {
 			throw new ExpectedException("error.AlreadyDeletedComment");
 		}
 		
-		if (comment.getCommentWriterIdx() != commentDto.getCommentWriterIdx()) {
+		if (comment.getCommentWriterIdx() != commentWriterIdx) {
 			throw new ExpectedException("error.NotMyComment");
 		}
 		

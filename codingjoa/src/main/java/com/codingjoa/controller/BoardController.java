@@ -147,7 +147,6 @@ public class BoardController {
 		BoardDto modifyBoardDto = boardService.getModifyBoard(boardIdx, principal.getMember().getMemberIdx());
 		model.addAttribute("modifyBoardDto", modifyBoardDto);
 		model.addAttribute("boardCategoryList", categoryService.findBoardCategoryList());
-		
 		return "board/modify";
 	}
 	
@@ -175,15 +174,10 @@ public class BoardController {
 	@GetMapping("/deleteProc")
 	public String deleteProc(@RequestParam int boardIdx, @AuthenticationPrincipal UserDetailsDto principal) {
 		log.info("## deleteProc, boardIdx = {}", boardIdx);
-		BoardDto deleteBoardDto = new BoardDto();
-		deleteBoardDto.setBoardIdx(boardIdx);
-		deleteBoardDto.setBoardWriterIdx(principal.getMember().getMemberIdx());
-		
 		// fk_board_image_board --> ON DELETE SET NULL
 		// fk_comment_board		--> ON DELETE CASCADE
-		boardService.deleteBoard(deleteBoardDto);
-		
-		return "redirect:/board/?boardCategoryCode=" + deleteBoardDto.getBoardCategoryCode();
+		int boardCategoryCode = boardService.deleteBoard(boardIdx, principal.getMember().getMemberIdx());
+		return "redirect:/board/?boardCategoryCode=" + boardCategoryCode;
 	}
 	
 }

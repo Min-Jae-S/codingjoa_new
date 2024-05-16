@@ -170,8 +170,8 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public void deleteBoard(BoardDto boardDto) {
-		Board board = boardMapper.findBoardByIdx(boardDto.getBoardIdx());
+	public int deleteBoard(int boardIdx, int boardWriterIdx) {
+		Board board = boardMapper.findBoardByIdx(boardIdx);
 		log.info("\t > find board = {}", board);
 
 		if (board == null) {
@@ -179,15 +179,14 @@ public class BoardServiceImpl implements BoardService {
 		}
 		
 		Integer dbBoardWriterIdx = board.getBoardWriterIdx();
-		int boardWirterIdx = boardDto.getBoardWriterIdx();
-		log.info("\t > dbBoardWriterIdx = {}, boardWriterIdx = {}", dbBoardWriterIdx, boardWirterIdx);
+		log.info("\t > dbBoardWriterIdx = {}, boardWriterIdx = {}", dbBoardWriterIdx, boardWriterIdx);
 		
-		if (dbBoardWriterIdx != boardWirterIdx) {
+		if (dbBoardWriterIdx != boardWriterIdx) {
 			throw new ExpectedException("error.NotMyBoard");
 		}
 		
-		boardMapper.deleteBoard(board.getBoardIdx());
-		boardDto.setBoardCategoryCode(board.getBoardCategoryCode());
+		boardMapper.deleteBoard(board);
+		return board.getBoardCategoryCode();
 	}
 	
 }
