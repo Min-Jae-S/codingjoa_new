@@ -105,13 +105,11 @@
 		USING 
 			dual
 		ON
-			a.comment_idx = #{commentIdx}
-		AND
-			a.member_idx = #{memberIdx}
+			( a.comment_idx = #{commentIdx} AND a.member_idx = #{memberIdx} )
 		WHEN MATCHED THEN
 			DELETE 
 		WHEN NOT MATCHED THEN
-			INSERT INTO comment_likes (
+			INSERT (
 				a.comment_likes_idx,
 				a.comment_idx,
 				a.member_idx,
