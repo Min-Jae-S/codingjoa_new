@@ -137,17 +137,14 @@ public class CommentServiceImpl implements CommentService {
 			throw new ExpectedException("error.NotFoundComment");
 		}
 		
-		Boolean dbCommentUse = comment.getCommentUse();
-		Integer dbCommentWriterIdx = comment.getCommentWriterIdx();
-		int commentWriterIdx = commentDto.getCommentWriterIdx();
-		log.info("\t > dbCommentUse = {}", dbCommentUse);
-		log.info("\t > dbCommentWriterIdx = {}, commentWriterIdx = {}", dbCommentWriterIdx, commentWriterIdx);
+		log.info("\t > dbCommentUse = {}", comment.getCommentUse());
+		log.info("\t > dbCommentWriterIdx = {}, commentWriterIdx = {}", comment.getCommentWriterIdx(), commentDto.getCommentWriterIdx());
 		
-		if (!dbCommentUse) {
+		if (!comment.getCommentUse()) {
 			throw new ExpectedException("error.AlreadyDeletedComment");
 		}
 		
-		if (dbCommentWriterIdx != commentWriterIdx) {
+		if (comment.getCommentWriterIdx() != commentDto.getCommentWriterIdx()) {
 			throw new ExpectedException("error.NotMyComment");
 		}
 		
@@ -167,17 +164,14 @@ public class CommentServiceImpl implements CommentService {
 			throw new ExpectedException("error.NotFoundComment");
 		}
 		
-		Boolean dbCommentUse = comment.getCommentUse();
-		Integer dbCommentWriterIdx = comment.getCommentWriterIdx();
-		int commentWriterIdx = commentDto.getCommentWriterIdx();
-		log.info("\t > dbCommentUse = {}", dbCommentUse);
-		log.info("\t > dbCommentWriterIdx = {}, commentWriterIdx = {}", dbCommentWriterIdx, commentWriterIdx);
+		log.info("\t > dbCommentUse = {}", comment.getCommentUse());
+		log.info("\t > dbCommentWriterIdx = {}, commentWriterIdx = {}", comment.getCommentWriterIdx(), commentDto.getCommentWriterIdx());
 		
-		if (!dbCommentUse) {
+		if (!comment.getCommentUse()) {
 			throw new ExpectedException("error.AlreadyDeletedComment");
 		}
 		
-		if (dbCommentWriterIdx != commentWriterIdx) {
+		if (comment.getCommentWriterIdx() != commentDto.getCommentWriterIdx()) {
 			throw new ExpectedException("error.NotMyComment");
 		}
 		
