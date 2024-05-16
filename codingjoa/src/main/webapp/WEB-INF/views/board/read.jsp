@@ -688,7 +688,7 @@
 			$li.find("div.comment-area").removeClass("d-none").next("div.input-group").remove();
 		});
 		
-		// updateComment
+		// modifyComment
 		$(document).on("click", "button[name=modifyCommentBtn]", function() {
 			let $li =  $(this).closest("li");
 			let commentIdx = $li.data("comment-idx");

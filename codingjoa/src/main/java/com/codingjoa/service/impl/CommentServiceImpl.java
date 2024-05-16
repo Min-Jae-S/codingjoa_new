@@ -54,10 +54,9 @@ public class CommentServiceImpl implements CommentService {
 		log.info("\t > comment = {}", comment);
 		
 		commentMapper.insertComment(comment);
-		Integer dbCommentIdx = comment.getCommentIdx();
-		log.info("\t > after inserting comment, commentIdx = {}", dbCommentIdx);
+		log.info("\t > after inserting comment, commentIdx = {}", comment.getCommentIdx());
 		
-		if (dbCommentIdx == null) {
+		if (comment.getCommentIdx() == null) {
 			throw new ExpectedException("error.WriteComment");
 		}
 	}
