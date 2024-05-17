@@ -99,38 +99,24 @@
 		END;
 	</update> -->
 	
-	<update id="mergeCommentLikes" parameterType="commentLikes">
-		MERGE INTO 
-			comment_likes a
-		USING 
-			dual
-		ON
-			( a.comment_idx = #{commentIdx} AND a.member_idx = #{memberIdx} )
-		WHEN MATCHED THEN
-			DELETE 
-		WHEN NOT MATCHED THEN
-			INSERT (
-				a.comment_likes_idx,
-				a.comment_idx,
-				a.member_idx,
-				a.regdate
-			) VALUES (
-				seq_comment_likes.NEXTVAL,
-				#{commentIdx},
-				#{memberIdx},
-				SYSDATE
-			)
-		<selectKey keyProperty="commentLikesIdx" resultType="int" order="AFTER">
-			SELECT 
-				comment_likes_idx 
-			FROM 
-				comment_likes 
-			WHERE 
-				comment_idx = #{commentIdx} 
-			AND 
-				member_idx = #{memberIdx}
-		</selectKey>
-	</update>
+	<select id="findCommentLikes" parameterType="map" resultType="commentLikes">
+		SELECT 
+			*
+		FROM
+			comment_likes
+		WHERE
+			comment_idx = #{commentIdx}
+		AND
+			member_idx = #{memberIdx}
+	</select>
+	
+	<insert id="insertCommentLikes" parameterType="commetLikes">
+	
+	</insert>
+	
+	<delete id="deleteCommentLikes" parameterType="commentLikes">
+	
+	</delete>
 	
 	<!-- <update id="mergeCommentLikes" parameterType="commentLikes">
 		<selectKey keyProperty="commentIdx,commentLikesIdx" resultType="commentLikes" order="BEFORE">
@@ -192,7 +178,7 @@
 		FROM
 			comment_likes
 		WHERE
-			comment_idx = #{boardIdx}
+			comment_idx = #{commentIdx}
 	</select>
 	
 </mapper>

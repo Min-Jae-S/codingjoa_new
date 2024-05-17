@@ -53,7 +53,7 @@ public class LikesServiceImpl implements LikesService {
 	}
 	
 	@Override
-	public Integer toggleCommentLikes(CommentLikesDto commentLikesDto) {
+	public void toggleCommentLikes(CommentLikesDto commentLikesDto) {
 		Comment comment = commentMapper.findCommentByIdx(commentLikesDto.getCommentIdx());
 		log.info("\t > prior to toggling commentLikes, find comment");
 		
@@ -61,14 +61,16 @@ public class LikesServiceImpl implements LikesService {
 			throw new ExpectedException("error.NotFoundComment");
 		}
 		
-		CommentLikes commentLikes = modelMapper.map(commentLikesDto, CommentLikes.class);
-		log.info("\t > convert commentLikesDto to commentLikes entity");
-		log.info("\t > commentLikes = {}", commentLikes);
+		CommentLikes commentLikes = likesMapper.findCommentLikes(commentLikesDto.getCommentIdx(), commentLikesDto.getMemberIdx());
+		log.info("\t > to determine whether to insert or delete, find commentLikes");
 		
-		likesMapper.mergeCommentLikes(commentLikes);
-		log.info("\t > after merging commentLikes, commentLikesIdx = {}", commentLikes.getCommentLikesIdx());
-		
-		return commentLikes.getCommentLikesIdx();
+		if (commentLikes == null) {
+			log.info("\t > insert commentLikes");
+			likesMapper.insertCommentLikes(modelMapper.map(commentLikesDto, CommentLikes.class));
+		} else {
+			log.info("\t > delete commentLikes");
+			likesMapper.deleteCommentLikes(commentLikes);
+		}
 	}
 
 	@Override

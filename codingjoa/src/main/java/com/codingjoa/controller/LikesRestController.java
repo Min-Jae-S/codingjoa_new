@@ -73,18 +73,19 @@ public class LikesRestController {
 		CommentLikesDto commentLikesDto = new CommentLikesDto();
 		commentLikesDto.setCommentIdx(commentIdx);
 		commentLikesDto.setMemberIdx(principal.getMember().getMemberIdx());
-		Integer commentLikesIdx = likesService.toggleCommentLikes(commentLikesDto);
+//		Integer commentLikesIdx = likesService.toggleCommentLikes(commentLikesDto);
+//		
+//		SuccessResponseBuilder builder = SuccessResponse.builder();
+//		if (commentLikesIdx == null) {
+//			builder.messageByCode("success.InsertCommentLikes").data("ON");
+//		} else {
+//			builder.messageByCode("success.DeleteCommentLikes").data("OFF");
+//		}
+//		
+//		resetAuthentication(principal.getMember().getMemberId());
 		
-		SuccessResponseBuilder builder = SuccessResponse.builder();
-		if (commentLikesIdx == null) {
-			builder.messageByCode("success.InsertCommentLikes").data("ON");
-		} else {
-			builder.messageByCode("success.DeleteCommentLikes").data("OFF");
-		}
-		
-		resetAuthentication(principal.getMember().getMemberId());
-		
-		return ResponseEntity.ok(builder.build());
+		return ResponseEntity.ok(null);
+//		return ResponseEntity.ok(builder.build());
 	}
 
 	@GetMapping("/comments/{commentIdx}/likes")

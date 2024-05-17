@@ -7,7 +7,7 @@ public interface LikesService {
 
 	Integer toggleBoardLikes(BoardLikesDto boardLikesDto);
 	
-	Integer toggleCommentLikes(CommentLikesDto commentLikesDto);
+	void toggleCommentLikes(CommentLikesDto commentLikesDto);
 	
 	int getBoardLikesCnt(int boardIdx);
 
