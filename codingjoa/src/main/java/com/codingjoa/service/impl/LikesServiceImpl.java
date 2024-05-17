@@ -65,7 +65,10 @@ public class LikesServiceImpl implements LikesService {
 		
 		if (commentLikes == null) {
 			log.info("\t > insert commentLikes");
-			//likesMapper.insertCommentLikes(modelMapper.map(commentLikesDto, CommentLikes.class));
+			CommentLikes newCommentLikes = new CommentLikes();
+			newCommentLikes.setCommentIdx(commentIdx);
+			newCommentLikes.setMemberIdx(memberIdx);
+			likesMapper.insertCommentLikes(newCommentLikes);
 		} else {
 			log.info("\t > delete commentLikes");
 			likesMapper.deleteCommentLikes(commentLikes);

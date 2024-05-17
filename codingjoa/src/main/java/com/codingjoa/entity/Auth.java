@@ -14,10 +14,4 @@ public class Auth {
 	private Integer authIdx;
 	private String memberId;
 	private String memberRole;
-	
-	public Auth(String memberId, String memberRole) {
-		this.memberId = memberId;
-		this.memberRole = memberRole;
-	}
-	
 }
