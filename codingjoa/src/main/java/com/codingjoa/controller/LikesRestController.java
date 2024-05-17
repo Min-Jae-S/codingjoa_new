@@ -1,5 +1,7 @@
 package com.codingjoa.controller;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -68,18 +70,20 @@ public class LikesRestController {
 	@PostMapping("/comments/{commentIdx}/likes")
 	public ResponseEntity<Object> toggleCommentLikes(@PathVariable int commentIdx, @AuthenticationPrincipal UserDetailsDto principal) {
 		log.info("## toggleCommentLikes, commentIdx = {}", commentIdx);
-		likesService.toggleCommentLikes(commentIdx, principal.getMember().getMemberIdx());
-//		SuccessResponseBuilder builder = SuccessResponse.builder();
-//		if (commentLikesIdx == null) {
-//			builder.messageByCode("success.InsertCommentLikes").data("ON");
-//		} else {
-//			builder.messageByCode("success.DeleteCommentLikes").data("OFF");
-//		}
 		
+		boolean isCommentLiked = likesService.toggleCommentLikes(commentIdx, principal.getMember().getMemberIdx());
 		resetAuthentication(principal.getMember().getMemberId());
 		
-		return ResponseEntity.ok(null);
-//		return ResponseEntity.ok(builder.build());
+		SuccessResponseBuilder builder = SuccessResponse.builder();
+		if (isCommentLiked) {
+			builder.messageByCode("success.InsertCommentLikes");
+		} else {
+			builder.messageByCode("success.DeleteCommentLikes");
+		}
+		
+		return ResponseEntity.ok(builder
+				.data(Map.of("isCommentLiked", isCommentLiked))
+				.build());
 	}
 
 	@GetMapping("/comments/{commentIdx}/likes")

@@ -4,22 +4,19 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.codingjoa.entity.BoardLikes;
-import com.codingjoa.entity.CommentLikes;
 
 @Mapper
 public interface LikesMapper {
 	
-	void delOrInsBoardLikes(BoardLikes boardLikes); 	// mergeBoardLikes
+	void delOrInsBoardLikes(BoardLikes boardLikes);
 	
 	//void mergeCommentLikes(CommentLikes commentLikes);
 	
-	CommentLikes findCommentLikesByCommentAndMember(@Param("commentIdx") int commentIdx, @Param("memberIdx") int memberIdx);
+	boolean isCommentLiked(@Param("commentIdx") int commentIdx, @Param("memberIdx") int memberIdx);
 	
-	void insertCommentLikes(CommentLikes commentLikes);
+	void insertCommentLikes(@Param("commentIdx") int commentIdx, @Param("memberIdx") int memberIdx);
 	
-	void deleteCommentLikes(CommentLikes commentLikes);
-	
-	CommentLikes findCommentLikesByIdx(int commentLikesIdx);
+	void deleteCommentLikes(@Param("commentIdx") int commentIdx, @Param("memberIdx") int memberIdx);
 	
 	int findBoardLikesCnt(int boardIdx);
 

@@ -9,7 +9,6 @@ import com.codingjoa.dto.BoardLikesDto;
 import com.codingjoa.entity.Board;
 import com.codingjoa.entity.BoardLikes;
 import com.codingjoa.entity.Comment;
-import com.codingjoa.entity.CommentLikes;
 import com.codingjoa.exception.ExpectedException;
 import com.codingjoa.mapper.BoardMapper;
 import com.codingjoa.mapper.CommentMapper;
@@ -52,7 +51,7 @@ public class LikesServiceImpl implements LikesService {
 	}
 	
 	@Override
-	public void toggleCommentLikes(int commentIdx, int memberIdx) {
+	public boolean toggleCommentLikes(int commentIdx, int memberIdx) {
 		Comment comment = commentMapper.findCommentByIdx(commentIdx);
 		log.info("\t > prior to toggling commentLikes, find comment");
 		
@@ -60,19 +59,16 @@ public class LikesServiceImpl implements LikesService {
 			throw new ExpectedException("error.NotFoundComment");
 		}
 		
-		CommentLikes commentLikes = likesMapper.findCommentLikesByCommentAndMember(commentIdx, memberIdx);
-		log.info("\t > to determine whether to insert or delete, find commentLikes");
-		
-		if (commentLikes == null) {
-			log.info("\t > insert commentLikes");
-			commentLikes = new CommentLikes();
-			commentLikes.setCommentIdx(commentIdx);
-			commentLikes.setMemberIdx(memberIdx);
-			likesMapper.insertCommentLikes(commentLikes);
-		} else {
+		boolean isCommentLiked = likesMapper.isCommentLiked(commentIdx, memberIdx);
+		if (isCommentLiked) {
 			log.info("\t > delete commentLikes");
-			likesMapper.deleteCommentLikes(commentLikes);
+			likesMapper.deleteCommentLikes(commentIdx, memberIdx);
+		} else {
+			log.info("\t > insert commentLikes");
+			likesMapper.insertCommentLikes(commentIdx, memberIdx);
 		}
+		
+		return !isCommentLiked;
 	}
 
 	@Override

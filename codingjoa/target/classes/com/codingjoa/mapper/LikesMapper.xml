@@ -99,9 +99,9 @@
 		END;
 	</update> -->
 	
-	<select id="findCommentLikes" parameterType="map" resultType="commentLikes">
+	<select id="isCommentLiked" parameterType="map" resultType="boolean">
 		SELECT 
-			*
+			COUNT(*)
 		FROM
 			comment_likes
 		WHERE
