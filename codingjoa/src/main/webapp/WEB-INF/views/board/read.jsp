@@ -773,7 +773,7 @@
 			let commentIdx = $li.data("comment-idx");
 			likesService.toggleCommentLikes(commentIdx, function(result) {
 				alert(result.message);
-				let cssClass = (result.data == "ON") ? 
+				let cssClass = (result.data.isCommentLiked) ? 
 						"text-primary fa-regular fa-thumbs-up" : "text-grey fa-regular fa-thumbs-up";
 				likesService.getCommentLikesCnt(commentIdx, function(result) {
 					$li.find("button[name=commentLikesBtn] i").removeClass().addClass(cssClass);

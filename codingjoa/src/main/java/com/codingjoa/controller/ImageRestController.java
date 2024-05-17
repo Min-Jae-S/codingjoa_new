@@ -60,8 +60,9 @@ public class ImageRestController {
 			HttpServletRequest request) throws IllegalStateException, IOException {
 		log.info("## uploadBoardImage");
 		BoardImage boardImage = imageService.uploadBoardImage(uploadFileDto.getFile());
-		return ResponseEntity.ok(SuccessResponse.builder()
-				.messageByCode("success.uploadBoardImage")
+		return ResponseEntity.ok(SuccessResponse
+				.builder()
+				.messageByCode("success.UploadBoardImage")
 				.data(new BoardImageDto(boardImage.getBoardImageIdx(), boardImage.getBoardImageName()))
 				.build());
 	}
@@ -92,8 +93,9 @@ public class ImageRestController {
 		String memberId = principal.getMember().getMemberId();
 		resetAuthentication(memberId);
 		
-		return ResponseEntity.ok(SuccessResponse.builder()
-				.messageByCode("success.uploadMemberImage")
+		return ResponseEntity.ok(SuccessResponse
+				.builder()
+				.messageByCode("success.UploadMemberImage")
 				.build());
 	}
 	

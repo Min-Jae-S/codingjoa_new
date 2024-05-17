@@ -60,6 +60,8 @@ public class LikesServiceImpl implements LikesService {
 		}
 		
 		boolean isCommentLiked = likesMapper.isCommentLiked(commentIdx, memberIdx);
+		log.info("\t > check whether the comment is liked or not, isCommentLiked = {}");
+		
 		if (isCommentLiked) {
 			log.info("\t > delete commentLikes");
 			likesMapper.deleteCommentLikes(commentIdx, memberIdx);

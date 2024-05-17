@@ -81,7 +81,7 @@ public class CommentRestController {
 		writeCommentDto.setCommentUse(true);
 		commentService.writeComment(writeCommentDto);
 		
-		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.writeComment").build());
+		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.WriteComment").build());
 	}
 	
 	@PatchMapping(value = { "/comments/", "/comments/{commentIdx}" })
@@ -93,7 +93,7 @@ public class CommentRestController {
 		modifyCommentDto.setCommentWriterIdx(principal.getMember().getMemberIdx());
 		commentService.modifyComment(modifyCommentDto);
 		
-		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.updateComment").build());
+		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.UpdateComment").build());
 	}
 	
 	@DeleteMapping(value = { "/comments/", "/comments/{commentIdx}" })
@@ -101,7 +101,7 @@ public class CommentRestController {
 		log.info("## deleteComment, commentIdx = {}", commentIdx);
 		// update commentUse
 		commentService.deleteComment(commentIdx, principal.getMember().getMemberIdx()); 
-		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.deleteComment").build());
+		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.DeleteComment").build());
 	}
 	
 }
