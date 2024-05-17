@@ -13,11 +13,13 @@ public interface LikesMapper {
 	
 	//void mergeCommentLikes(CommentLikes commentLikes);
 	
-	CommentLikes findCommentLikes(@Param("commentIdx") int commentIdx, @Param("memberIdx") int memberIdx);
+	CommentLikes findCommentLikesByCommentAndMember(@Param("commentIdx") int commentIdx, @Param("memberIdx") int memberIdx);
 	
 	void insertCommentLikes(CommentLikes commentLikes);
 	
 	void deleteCommentLikes(CommentLikes commentLikes);
+	
+	CommentLikes findCommentLikesByIdx(int commentLikesIdx);
 	
 	int findBoardLikesCnt(int boardIdx);
 

@@ -75,8 +75,8 @@ public class LikesRestController {
 //		} else {
 //			builder.messageByCode("success.DeleteCommentLikes").data("OFF");
 //		}
-//		
-//		resetAuthentication(principal.getMember().getMemberId());
+		
+		resetAuthentication(principal.getMember().getMemberId());
 		
 		return ResponseEntity.ok(null);
 //		return ResponseEntity.ok(builder.build());

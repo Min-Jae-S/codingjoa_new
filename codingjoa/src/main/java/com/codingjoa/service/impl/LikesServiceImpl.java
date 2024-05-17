@@ -60,15 +60,15 @@ public class LikesServiceImpl implements LikesService {
 			throw new ExpectedException("error.NotFoundComment");
 		}
 		
-		CommentLikes commentLikes = likesMapper.findCommentLikes(commentIdx, memberIdx);
+		CommentLikes commentLikes = likesMapper.findCommentLikesByCommentAndMember(commentIdx, memberIdx);
 		log.info("\t > to determine whether to insert or delete, find commentLikes");
 		
 		if (commentLikes == null) {
 			log.info("\t > insert commentLikes");
-			CommentLikes newCommentLikes = new CommentLikes();
-			newCommentLikes.setCommentIdx(commentIdx);
-			newCommentLikes.setMemberIdx(memberIdx);
-			likesMapper.insertCommentLikes(newCommentLikes);
+			commentLikes = new CommentLikes();
+			commentLikes.setCommentIdx(commentIdx);
+			commentLikes.setMemberIdx(memberIdx);
+			likesMapper.insertCommentLikes(commentLikes);
 		} else {
 			log.info("\t > delete commentLikes");
 			likesMapper.deleteCommentLikes(commentLikes);
