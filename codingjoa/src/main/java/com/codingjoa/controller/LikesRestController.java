@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codingjoa.dto.BoardLikesDto;
-import com.codingjoa.dto.CommentLikesDto;
 import com.codingjoa.response.SuccessResponse;
 import com.codingjoa.response.SuccessResponse.SuccessResponseBuilder;
 import com.codingjoa.security.dto.UserDetailsDto;
@@ -69,12 +68,7 @@ public class LikesRestController {
 	@PostMapping("/comments/{commentIdx}/likes")
 	public ResponseEntity<Object> toggleCommentLikes(@PathVariable int commentIdx, @AuthenticationPrincipal UserDetailsDto principal) {
 		log.info("## toggleCommentLikes, commentIdx = {}", commentIdx);
-		
-		CommentLikesDto commentLikesDto = new CommentLikesDto();
-		commentLikesDto.setCommentIdx(commentIdx);
-		commentLikesDto.setMemberIdx(principal.getMember().getMemberIdx());
-//		Integer commentLikesIdx = likesService.toggleCommentLikes(commentLikesDto);
-//		
+		likesService.toggleCommentLikes(commentIdx, principal.getMember().getMemberIdx());
 //		SuccessResponseBuilder builder = SuccessResponse.builder();
 //		if (commentLikesIdx == null) {
 //			builder.messageByCode("success.InsertCommentLikes").data("ON");

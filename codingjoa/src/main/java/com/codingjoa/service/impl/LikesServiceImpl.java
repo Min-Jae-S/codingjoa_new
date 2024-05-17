@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.codingjoa.dto.BoardLikesDto;
-import com.codingjoa.dto.CommentLikesDto;
 import com.codingjoa.entity.Board;
 import com.codingjoa.entity.BoardLikes;
 import com.codingjoa.entity.Comment;
@@ -53,20 +52,20 @@ public class LikesServiceImpl implements LikesService {
 	}
 	
 	@Override
-	public void toggleCommentLikes(CommentLikesDto commentLikesDto) {
-		Comment comment = commentMapper.findCommentByIdx(commentLikesDto.getCommentIdx());
+	public void toggleCommentLikes(int commentIdx, int memberIdx) {
+		Comment comment = commentMapper.findCommentByIdx(commentIdx);
 		log.info("\t > prior to toggling commentLikes, find comment");
 		
 		if (comment == null) {
 			throw new ExpectedException("error.NotFoundComment");
 		}
 		
-		CommentLikes commentLikes = likesMapper.findCommentLikes(commentLikesDto.getCommentIdx(), commentLikesDto.getMemberIdx());
+		CommentLikes commentLikes = likesMapper.findCommentLikes(commentIdx, memberIdx);
 		log.info("\t > to determine whether to insert or delete, find commentLikes");
 		
 		if (commentLikes == null) {
 			log.info("\t > insert commentLikes");
-			likesMapper.insertCommentLikes(modelMapper.map(commentLikesDto, CommentLikes.class));
+			//likesMapper.insertCommentLikes(modelMapper.map(commentLikesDto, CommentLikes.class));
 		} else {
 			log.info("\t > delete commentLikes");
 			likesMapper.deleteCommentLikes(commentLikes);
