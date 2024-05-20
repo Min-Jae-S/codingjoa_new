@@ -72,14 +72,14 @@ public class LikesRestController {
 		log.info("## toggleCommentLikes, commentIdx = {}", commentIdx);
 		
 		boolean isCommentLiked = likesService.toggleCommentLikes(commentIdx, principal.getMember().getMemberIdx());
+		resetAuthentication(principal.getMember().getMemberId());
+
 		SuccessResponseBuilder builder = SuccessResponse.builder();
 		if (isCommentLiked) {
 			builder.messageByCode("success.InsertCommentLikes");
 		} else {
 			builder.messageByCode("success.DeleteCommentLikes");
 		}
-		
-		resetAuthentication(principal.getMember().getMemberId());
 		
 		return ResponseEntity.ok(builder
 				.data(Map.of("isCommentLiked", isCommentLiked))
