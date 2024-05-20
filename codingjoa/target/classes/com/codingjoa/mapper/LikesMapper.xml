@@ -70,14 +70,14 @@
 	</update> -->
 	
 	<insert id="insertBoardLikes" parameterType="map">
-		INSERT INTO comment_likes (
+		INSERT INTO board_likes (
 			board_likes_idx,
 			board_idx,
 			member_idx,
 			regdate
 		) VALUES (
 			seq_board_likes.NEXTVAL,
-			#{board_idx},
+			#{boardIdx},
 			#{memberIdx},
 			SYSDATE
 		)

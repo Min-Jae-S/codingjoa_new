@@ -51,8 +51,6 @@ public class CommentRestController {
 		log.info("\t > commentCri = {}", commentCri);
 
 		List<CommentDetailsDto> commentList = commentService.getPagedComment(commentBoardIdx, commentCri);
-		log.info("\t > pagedComment = {}", commentList);
-		
 		Pagination pagination = commentService.getPagination(commentBoardIdx, commentCri);
 		log.info("\t > pagination = {}", pagination);
 
@@ -99,8 +97,7 @@ public class CommentRestController {
 	@DeleteMapping(value = { "/comments/", "/comments/{commentIdx}" })
 	public ResponseEntity<Object> deleteComment(@PathVariable int commentIdx, @AuthenticationPrincipal UserDetailsDto principal) {
 		log.info("## deleteComment, commentIdx = {}", commentIdx);
-		// update commentUse
-		commentService.deleteComment(commentIdx, principal.getMember().getMemberIdx()); 
+		commentService.deleteComment(commentIdx, principal.getMember().getMemberIdx()); // update commentUse
 		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.DeleteComment").build());
 	}
 	

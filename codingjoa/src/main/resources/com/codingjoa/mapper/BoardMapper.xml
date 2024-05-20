@@ -138,7 +138,7 @@
 	</select>
 	
 	<sql id="searchCriteria">
-		<if test='boardCri.type != null and boardCri.keyword != null and boardCri.keyword != ""'>
+		<!-- <if test='boardCri.type != null and boardCri.keyword != null and boardCri.keyword != ""'> -->
 			<trim prefix="(" suffix=") AND " suffixOverrides="OR">
 				<foreach collection='boardCri.type.split("_")' item="item">
 					<trim suffix="OR">
@@ -149,15 +149,15 @@
 							REGEXP_LIKE(board_content_text, #{boardCri.keywordRegexp})
 						</if>
 						<if test='item.equals("writer")'>
-							board_writer_idx IN 
-							<foreach collection='boardCri.keyword.split("_")' item="item" separator="," open="(" close=")">
+							board_writer_idx IN
+							<foreach collection='boardCri.keyword.split(",")' item="item" separator="," open="(" close=")">
 								#{item}
 							</foreach>
 						</if> 
 					</trim>
 				</foreach>
 			</trim>
-		</if>
+		<!-- </if> -->
 	</sql>
 
 	<!-- <sql id="searchCriteria">

@@ -89,13 +89,12 @@ public class BoardServiceImpl implements BoardService {
 			return newBoardCri;
 		}
 		
-		// keyword is always not null
 		String keyword = boardCri.getKeyword(); 
 		if (!"".equals(keyword)) {
 			String newKeyword = boardMapper.findMemberIdxByKeyword(keyword)
 					.stream()
 					.map(memberIdx -> memberIdx.toString())
-					.collect(Collectors.joining("_"));
+					.collect(Collectors.joining(","));
 			newBoardCri.setKeyword(newKeyword);
 		}
 		

@@ -124,8 +124,8 @@
 				</thead>
 				<tbody>
 					<c:choose>
-						<c:when test="${not empty board}">
-							<c:forEach var='boardDetails' items="${board}">
+						<c:when test="${not empty pagedBoard}">
+							<c:forEach var='boardDetails' items="${pagedBoard}">
 								<tr>
 									<td class="d-md-table-cell"><c:out value="${boardDetails.boardIdx}"/></td>
 									<td class="d-md-table-cell text-left">

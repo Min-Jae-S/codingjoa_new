@@ -62,5 +62,4 @@ public class Criteria {
 				String.join("|", keyword.split("\\s+")) : null;
 	}
 
-
 }

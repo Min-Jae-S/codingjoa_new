@@ -77,15 +77,13 @@ public class BoardController {
 		log.info("\t > newBoardCri = {}", newBoardCri);
 		log.info("\t > keywordRegexp = {}", newBoardCri.getKeywordRegexp());
 		
-		List<BoardDetailsDto> board = boardService.getPagedBoard(boardCategoryCode, newBoardCri);
-		log.info("\t > pagedBoard = {}", board);
-		
+		List<BoardDetailsDto> pagedBoard = boardService.getPagedBoard(boardCategoryCode, newBoardCri);
 		Pagination pagination = boardService.getPagination(boardCategoryCode, newBoardCri);
 		log.info("\t > pagination = {}", pagination);
 		
 		Category category = categoryService.findCategory(boardCategoryCode);
 		model.addAttribute("pagination", pagination);
-		model.addAttribute("board", board);
+		model.addAttribute("pagedBoard", pagedBoard);
 		model.addAttribute("category", category);
 		
 		return "board/board";
