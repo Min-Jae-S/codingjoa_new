@@ -139,6 +139,7 @@
 	
 	<sql id="searchCriteria">
 		<!-- <if test='boardCri.type != null and boardCri.keyword != null and boardCri.keyword != ""'> -->
+		<if test='boardCri.keyword != ""'>
 			<trim prefix="(" suffix=") AND " suffixOverrides="OR">
 				<foreach collection='boardCri.type.split("_")' item="item">
 					<trim suffix="OR">
@@ -157,6 +158,7 @@
 					</trim>
 				</foreach>
 			</trim>
+		</if>
 		<!-- </if> -->
 	</sql>
 
