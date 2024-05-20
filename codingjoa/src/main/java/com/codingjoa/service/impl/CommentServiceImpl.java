@@ -105,7 +105,7 @@ public class CommentServiceImpl implements CommentService {
 	@Override
 	public CommentDetailsDto getModifyComment(int commentIdx, int commentWriterIdx) {
 		Map<String, Object> commentDetailsMap = commentMapper.findCommentDetailsByIdx(commentIdx);
-		log.info("\t > find commentDetailsMap = {}", commentDetailsMap);
+		log.info("\t > find commentDetailsMap");
 		
 		if (commentDetailsMap == null) {
 			throw new ExpectedException("error.NotFoundComment");
@@ -130,7 +130,7 @@ public class CommentServiceImpl implements CommentService {
 	@Override
 	public void modifyComment(CommentDto commentDto) {
 		Comment comment = commentMapper.findCommentByIdx(commentDto.getCommentIdx());
-		log.info("\t > find comment = {}", comment);
+		log.info("\t > find comment");
 		
 		if (comment == null) {
 			throw new ExpectedException("error.NotFoundComment");
@@ -154,7 +154,7 @@ public class CommentServiceImpl implements CommentService {
 	@Override
 	public void deleteComment(int commentIdx, int commentWriterIdx) {
 		Comment comment = commentMapper.findCommentByIdx(commentIdx);
-		log.info("\t > find comment = {}", comment);
+		log.info("\t > find comment");
 		
 		if (comment == null) {
 			throw new ExpectedException("error.NotFoundComment");

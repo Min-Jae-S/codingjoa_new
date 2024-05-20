@@ -67,7 +67,7 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public BoardDetailsDto getBoardDetails(int boardIdx) {
 		Map<String, Object> boardDetailsMap = boardMapper.findBoardDetailsByIdx(boardIdx);
-		log.info("\t > find boardDetailsMap = {}", boardDetailsMap);
+		log.info("\t > find boardDetailsMap");
 		
 		if (boardDetailsMap == null) {
 			throw new ExpectedException("error.NotFoundBoard");
@@ -119,7 +119,7 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public BoardDto getModifyBoard(int boardIdx, int boardWriterIdx) {
 		Board board = boardMapper.findBoardByIdx(boardIdx);
-		log.info("\t > find board = {}", board);
+		log.info("\t > find board");
 
 		if (board == null) {
 			throw new ExpectedException("error.NotFoundBoard");
@@ -138,7 +138,7 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public void modifyBoard(BoardDto boardDto) {
 		Board board = boardMapper.findBoardByIdx(boardDto.getBoardIdx());
-		log.info("\t > find board = {}", board);
+		log.info("\t > find board");
 
 		if (board == null) {
 			throw new ExpectedException("error.NotFoundBoard");
@@ -172,7 +172,7 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public int deleteBoard(int boardIdx, int boardWriterIdx) {
 		Board board = boardMapper.findBoardByIdx(boardIdx);
-		log.info("\t > find board = {}", board);
+		log.info("\t > find board");
 
 		if (board == null) {
 			throw new ExpectedException("error.NotFoundBoard");

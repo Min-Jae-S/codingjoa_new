@@ -41,7 +41,6 @@ public class LikesServiceImpl implements LikesService {
 		
 		BoardLikes boardLikes = likesMapper.findBoardLikes(boardIdx, memberIdx);
 		log.info("\t > to check whether the board is liked or not, find boardLikes");
-		log.info("\t > boardLikes = {}", boardLikes);
 		
 		if (boardLikes == null) {
 			log.info("\t > insert boardLikes");
@@ -65,7 +64,6 @@ public class LikesServiceImpl implements LikesService {
 		
 		CommentLikes commentLikes = likesMapper.findCommentLikes(commentIdx, memberIdx);
 		log.info("\t > to check whether the comment is liked or not, find commentLikes");
-		log.info("\t > commentLikes = {}", commentLikes);
 		
 		if (commentLikes == null) {
 			log.info("\t > insert commentLikes");

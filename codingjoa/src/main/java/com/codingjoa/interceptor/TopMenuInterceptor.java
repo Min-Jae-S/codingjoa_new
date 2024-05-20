@@ -72,21 +72,21 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 			HandlerMethod handlerMethod = (HandlerMethod) handler;
 			Class<?> controllerClass = handlerMethod.getBeanType();
 			if (controllerClass.isAnnotationPresent(RestController.class)) {
-				//log.info("\t > not find top menu - @RestController");
+				log.info("\t > not find top menu - @RestController");
 				return;
 			}
 			
             MethodParameter[] methodParameters = handlerMethod.getMethodParameters();
             for (MethodParameter methodParameter : methodParameters) {
             	if (methodParameter.hasMethodAnnotation(ResponseBody.class)) {
-            		//log.info("\t > not find top menu - @ResponseBody");
+            		log.info("\t > not find top menu - @ResponseBody");
             		return;
             	}
             }
 		}
 		
 		if (modelAndView == null) {
-			//log.info("\t > not find top menu - no modelAndView");
+			log.info("\t > not find top menu - no modelAndView");
 			return;
 		}
 		
@@ -95,24 +95,24 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 		//log.info("\t > viewName = {}", viewName + ".jsp");
 		
 		if (viewName == null) {
-			//log.info("\t > not find top menu - no viewName");
+			log.info("\t > not find top menu - no viewName");
 			return;
 		}
 		
 		if (viewName.startsWith(FORWARD_URL_PREFIX)) {
-			//log.info("\t > not find top menu - FORWARD_URL_PREFIX");
+			log.info("\t > not find top menu - FORWARD_URL_PREFIX");
 			return;	
 		}
 		
 		if (viewName.startsWith(REDIRECT_URL_PREFIX)) 	{
-			//log.info("\t > not find top menu - REDIRECT_URL_PREFIX");
+			log.info("\t > not find top menu - REDIRECT_URL_PREFIX");
 			return;
 		}
 		
 		String[] beanNames = applicationContext.getBeanNamesForType(MappingJackson2JsonView.class);
 		for (String beanName : beanNames) {
 			if (viewName.equals(beanName)) {
-				//log.info("\t > viewName equals MappingJackson2JsonView's beanName({})", beanName);
+				log.info("\t > viewName equals MappingJackson2JsonView's beanName({})", beanName);
 				return;
 			}
 		}
@@ -120,7 +120,8 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 		List<Category> parentCategoryList = categoryService.findParentCategoryList();
 		modelAndView.addObject("parentCategoryList", parentCategoryList);
 		//log.info("\t > added top menu as model");
-		log.info("\t > model = {}", modelAndView.getModel().keySet());
+		log.info("\t > check added model attributes");
+		log.info("\t > {}", modelAndView.getModel().keySet());
 	}
 	
 	private String getFullURI(HttpServletRequest request) {
