@@ -139,7 +139,7 @@
 	
 	<sql id="searchCriteria">
 		<!-- for cases where criteria are resolved without using the BoardCriteriaArgumentResolver -->
-		<!-- for requests to the URL '/board', the boardCriteria is determined without using the argument resolver -->
+		<!-- '/board' ==> new Criteria(1, 5) -->
 		<if test='boardCri.type != null and boardCri.keyword != null and boardCri.keyword != ""'>
 			<trim prefix="(" suffix=") AND " suffixOverrides="OR">
 				<foreach collection='boardCri.type.split("_")' item="item">
