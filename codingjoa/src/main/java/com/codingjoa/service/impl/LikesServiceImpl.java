@@ -9,6 +9,7 @@ import com.codingjoa.dto.BoardLikesDto;
 import com.codingjoa.entity.Board;
 import com.codingjoa.entity.BoardLikes;
 import com.codingjoa.entity.Comment;
+import com.codingjoa.entity.CommentLikes;
 import com.codingjoa.exception.ExpectedException;
 import com.codingjoa.mapper.BoardMapper;
 import com.codingjoa.mapper.CommentMapper;
@@ -59,18 +60,19 @@ public class LikesServiceImpl implements LikesService {
 			throw new ExpectedException("error.NotFoundComment");
 		}
 		
-		boolean isCommentLiked = likesMapper.isCommentLiked(commentIdx, memberIdx);
-		log.info("\t > check whether the comment is liked or not, isCommentLiked = {}");
+		CommentLikes commentLikes = likesMapper.findCommentLikesByCommentAndMember(commentIdx, memberIdx);
+		log.info("\t > to check whether the comment is liked or not, find commentLikes");
+		log.info("\t > commentLikes = {}", commentLikes);
 		
-		if (isCommentLiked) {
-			log.info("\t > delete commentLikes");
-			likesMapper.deleteCommentLikes(commentIdx, memberIdx);
-		} else {
+		if (commentLikes == null) {
 			log.info("\t > insert commentLikes");
 			likesMapper.insertCommentLikes(commentIdx, memberIdx);
+			return true;
+		} else {
+			log.info("\t > delete commentLikes");
+			likesMapper.deleteCommentLikes(commentLikes.getCommentLikesIdx());
+			return false;
 		}
-		
-		return !isCommentLiked;
 	}
 
 	@Override

@@ -99,9 +99,9 @@
 		END;
 	</update> -->
 	
-	<select id="isCommentLiked" parameterType="map" resultType="boolean">
+	<select id="findCommentLikesByCommentAndMember" parameterType="map" resultType="commentLikes">
 		SELECT 
-			COUNT(*)
+			*
 		FROM
 			comment_likes
 		WHERE
@@ -110,12 +110,25 @@
 			member_idx = #{memberIdx}
 	</select>
 	
-	<insert id="insertCommentLikes" parameterType="commetLikes">
-	
+	<insert id="insertCommentLikes" parameterType="map">
+		INSERT INTO comment_likes (
+			comment_likes_idx,
+			comment_idx,
+			member_idx,
+			regdate
+		) VALUES (
+			seq_comment_likes.NEXTVAL,
+			#{commentIdx},
+			#{memberIdx},
+			SYSDATE
+		)
 	</insert>
 	
-	<delete id="deleteCommentLikes" parameterType="commentLikes">
-	
+	<delete id="deleteCommentLikes" parameterType="int">
+		DELETE FROM
+			comment_likes
+		WHERE
+			comment_likes_idx = #{commentLikesIdx}
 	</delete>
 	
 	<!-- <update id="mergeCommentLikes" parameterType="commentLikes">
