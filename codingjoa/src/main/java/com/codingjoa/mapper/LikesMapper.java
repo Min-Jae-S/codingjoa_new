@@ -9,11 +9,13 @@ import com.codingjoa.entity.CommentLikes;
 @Mapper
 public interface LikesMapper {
 	
-	void delOrInsBoardLikes(BoardLikes boardLikes);
+	BoardLikes findBoardLikes(@Param("boardIdx") int boardIdx, @Param("memberIdx") int memberIdx);
 	
-	//void mergeCommentLikes(CommentLikes commentLikes);
+	void insertBoardLikes(@Param("boardIdx") int boardIdx, @Param("memberIdx") int memberIdx);
 	
-	CommentLikes findCommentLikesByCommentAndMember(@Param("commentIdx") int commentIdx, @Param("memberIdx") int memberIdx);
+	void deleteBoardLikes(int boardLikesIdx);
+
+	CommentLikes findCommentLikes(@Param("commentIdx") int commentIdx, @Param("memberIdx") int memberIdx);
 	
 	void insertCommentLikes(@Param("commentIdx") int commentIdx, @Param("memberIdx") int memberIdx);
 	

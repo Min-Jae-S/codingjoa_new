@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.codingjoa.dto.BoardLikesDto;
 import com.codingjoa.response.SuccessResponse;
 import com.codingjoa.response.SuccessResponse.SuccessResponseBuilder;
 import com.codingjoa.security.dto.UserDetailsDto;
@@ -38,23 +37,19 @@ public class LikesRestController {
 	@PostMapping("/boards/{boardIdx}/likes")
 	public ResponseEntity<Object> toggleBoardLikes(@PathVariable int boardIdx, @AuthenticationPrincipal UserDetailsDto principal) {
 		log.info("## toggleBoardLikes, boardIdx = {}", boardIdx);
-		
-		BoardLikesDto boardLikesDto = new BoardLikesDto();
-		boardLikesDto.setBoardIdx(boardIdx);
-		boardLikesDto.setMemberIdx(principal.getMember().getMemberIdx());
-		Integer boardLikesIdx = likesService.toggleBoardLikes(boardLikesDto);
-		log.info("\t > {}", boardLikesIdx == null ? "Insert boardLikes" : "Delete boardLikes");
-		
+		boolean isBoardLiked = likesService.toggleBoardLikes(boardIdx, principal.getMember().getMemberIdx());
 		resetAuthentication(principal.getMember().getMemberId());
 		
 		SuccessResponseBuilder builder = SuccessResponse.builder();
-		if (boardLikesIdx == null) {
-			builder.messageByCode("success.InsertBoardLikes").data("ON");
+		if (isBoardLiked) {
+			builder.messageByCode("success.InsertBoardLikes");
 		} else {
-			builder.messageByCode("success.DeleteBoardLikes").data("OFF");
+			builder.messageByCode("success.DeleteBoardLikes");
 		}
 		
-		return ResponseEntity.ok(builder.build());
+		return ResponseEntity.ok(builder
+				.data(Map.of("isBoardLiked", isBoardLiked))
+				.build());
 	}
 	
 	@GetMapping("/boards/{boardIdx}/likes")
@@ -64,13 +59,15 @@ public class LikesRestController {
 		int boardLikesCnt = likesService.getBoardLikesCnt(boardIdx);
 		log.info("\t > boardLikesCnt = {}", boardLikesCnt);
 		
-		return ResponseEntity.ok(SuccessResponse.builder().data(boardLikesCnt).build());
+		return ResponseEntity.ok(SuccessResponse
+				.builder()
+				.data(Map.of("boardLikesCnt", boardLikesCnt))
+				.build());
 	}
 	
 	@PostMapping("/comments/{commentIdx}/likes")
 	public ResponseEntity<Object> toggleCommentLikes(@PathVariable int commentIdx, @AuthenticationPrincipal UserDetailsDto principal) {
 		log.info("## toggleCommentLikes, commentIdx = {}", commentIdx);
-		
 		boolean isCommentLiked = likesService.toggleCommentLikes(commentIdx, principal.getMember().getMemberIdx());
 		resetAuthentication(principal.getMember().getMemberId());
 
@@ -93,7 +90,10 @@ public class LikesRestController {
 		int commentLikesCnt = likesService.getCommentLikesCnt(commentIdx);
 		log.info("\t > commentLikesCnt = {}", commentLikesCnt);
 		
-		return ResponseEntity.ok(SuccessResponse.builder().data(commentLikesCnt).build());
+		return ResponseEntity.ok(SuccessResponse
+				.builder()
+				.data(Map.of("commentLikesCnt", commentLikesCnt))
+				.build());
 	}
 	
 	private void resetAuthentication(String memberId) {

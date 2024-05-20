@@ -1,10 +1,8 @@
 package com.codingjoa.service;
 
-import com.codingjoa.dto.BoardLikesDto;
-
 public interface LikesService {
 
-	Integer toggleBoardLikes(BoardLikesDto boardLikesDto);
+	boolean toggleBoardLikes(int boardIdx, int memberIdx);
 	
 	boolean toggleCommentLikes(int commentIdx, int memberIdx);
 	

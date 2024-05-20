@@ -758,11 +758,11 @@
 		$("#boardLikesBtn").on("click", function() {
 			likesService.toggleBoardLikes(boardIdx, function(result) {
 				alert(result.message);
-				let cssClass = (result.data == "ON") ? 
+				let cssClass = (result.data.isBoardLiked) ? 
 						"text-danger fa-solid fa-heart" : "text-grey fa-regular fa-heart";
 				likesService.getBoardLikesCnt(boardIdx, function(result) {
 					$("#boardLikesBtn i").removeClass().addClass(cssClass);
-					$(".board-likes-cnt").text(result.data);
+					$(".board-likes-cnt").text(result.data.boardLikesCnt);
 				});
 			});
 		});
@@ -777,7 +777,7 @@
 						"text-primary fa-regular fa-thumbs-up" : "text-grey fa-regular fa-thumbs-up";
 				likesService.getCommentLikesCnt(commentIdx, function(result) {
 					$li.find("button[name=commentLikesBtn] i").removeClass().addClass(cssClass);
-					$li.find(".comment-likes-cnt").text(result.data);
+					$li.find(".comment-likes-cnt").text(result.data.commentLikesCnt);
 				});
 			});
 		});

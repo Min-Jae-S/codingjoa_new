@@ -1,11 +1,9 @@
 package com.codingjoa.service.impl;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.codingjoa.dto.BoardLikesDto;
 import com.codingjoa.entity.Board;
 import com.codingjoa.entity.BoardLikes;
 import com.codingjoa.entity.Comment;
@@ -32,23 +30,28 @@ public class LikesServiceImpl implements LikesService {
 	@Autowired
 	private CommentMapper commentMapper;
 	
-	@Autowired
-	private ModelMapper modelMapper;
-
 	@Override
-	public Integer toggleBoardLikes(BoardLikesDto boardLikesDto) {
-		BoardLikes boardLikes = modelMapper.map(boardLikesDto, BoardLikes.class);
-		log.info("\t > boardLikesDto ==> {}", boardLikes);
+	public boolean toggleBoardLikes(int boardIdx, int memberIdx) {
+		Board board = boardMapper.findBoardByIdx(boardIdx);
+		log.info("\t > prior to toggling boardLikes, find board");
 		
-		likesMapper.delOrInsBoardLikes(boardLikes);
-		log.info("\t > dbBoardIdx = {}", boardLikes.getBoardIdx());
-		log.info("\t > dbBoardLikesIdx = {}", boardLikes.getBoardLikesIdx());
-		
-		if (boardLikes.getBoardIdx() == null) {
+		if (board == null) {
 			throw new ExpectedException("error.NotFoundBoard");
 		}
 		
-		return boardLikes.getBoardLikesIdx();
+		BoardLikes boardLikes = likesMapper.findBoardLikes(boardIdx, memberIdx);
+		log.info("\t > to check whether the board is liked or not, find boardLikes");
+		log.info("\t > boardLikes = {}", boardLikes);
+		
+		if (boardLikes == null) {
+			log.info("\t > insert boardLikes");
+			likesMapper.insertBoardLikes(boardIdx, memberIdx);
+			return true;
+		} else {
+			log.info("\t > delete boardLikes");
+			likesMapper.deleteBoardLikes(boardLikes.getBoardLikesIdx());
+			return false;
+		}
 	}
 	
 	@Override
@@ -60,7 +63,7 @@ public class LikesServiceImpl implements LikesService {
 			throw new ExpectedException("error.NotFoundComment");
 		}
 		
-		CommentLikes commentLikes = likesMapper.findCommentLikesByCommentAndMember(commentIdx, memberIdx);
+		CommentLikes commentLikes = likesMapper.findCommentLikes(commentIdx, memberIdx);
 		log.info("\t > to check whether the comment is liked or not, find commentLikes");
 		log.info("\t > commentLikes = {}", commentLikes);
 		

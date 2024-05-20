@@ -12,8 +12,19 @@
 	member_idx              NUMBER      NOT NULL,
 	regdate                 DATE        NOT NULL,
 -->
-
-	<update id="delOrInsBoardLikes" parameterType="boardLikes">
+	
+	<select id="findBoardLikes" parameterType="map" resultType="boardLikes">
+		SELECT 
+			*
+		FROM
+			board_likes
+		WHERE
+			board_idx = #{boardIdx}
+		AND
+			member_idx = #{memberIdx}
+	</select>
+	
+	<!-- <update id="delOrInsBoardLikes" parameterType="boardLikes">
 		<selectKey keyProperty="boardIdx,boardLikesIdx" resultType="boardLikes" order="BEFORE">
 			SELECT
     			MAX(a.board_idx) AS board_idx,
@@ -56,50 +67,31 @@
 				END IF;
 			END IF;
 		END;
-	</update>
-
-	<!-- <update id="mergeBoardLikes" parameterType="boardLikes">
-		<selectKey keyProperty="boardIdx" resultType="int" order="BEFORE">
-			SELECT 
-				MAX(board_idx)
-			FROM 
-				board 
-			WHERE 
-				board_idx = #{boardIdx}
-		</selectKey>
-		BEGIN
-			IF #{boardIdx} IS NOT NULL THEN
-				MERGE INTO 
-					board_likes
-				USING
-					DUAL
-				ON (
-					board_idx = #{boardIdx} 
-					AND
-					member_idx = #{memberIdx}
-				)
-				WHEN MATCHED THEN
-					UPDATE SET
-						board_likes_idx = board_likes_idx
-					DELETE WHERE
-						board_likes_idx = board_likes_idx
-				WHEN NOT MATCHED THEN
-					INSERT (
-						board_likes_idx,
-						board_idx,
-						member_idx,
-						regdate
-					) VALUES (
-						seq_board_likes.NEXTVAL,
-						#{boardIdx},
-						#{memberIdx},
-						SYSDATE
-					);
-			END IF;
-		END;
 	</update> -->
 	
-	<select id="findCommentLikesByCommentAndMember" parameterType="map" resultType="commentLikes">
+	<insert id="insertBoardLikes" parameterType="map">
+		INSERT INTO comment_likes (
+			board_likes_idx,
+			board_idx,
+			member_idx,
+			regdate
+		) VALUES (
+			seq_board_likes.NEXTVAL,
+			#{board_idx},
+			#{memberIdx},
+			SYSDATE
+		)
+	</insert>
+	
+	<delete id="deleteBoardLikes" parameterType="int">
+		DELETE FROM
+			board_likes
+		WHERE
+			board_likes_idx = #{boardLikesIdx}
+	</delete>
+	
+	
+	<select id="findCommentLikes" parameterType="map" resultType="commentLikes">
 		SELECT 
 			*
 		FROM
