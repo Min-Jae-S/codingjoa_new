@@ -84,6 +84,7 @@ public class BoardServiceImpl implements BoardService {
 	
 	@Override
 	public Criteria createNewBoardCri(Criteria boardCri) {
+		log.info("\t > create new boardCri");
 		Criteria newBoardCri = new Criteria(boardCri);
 		if (!"writer".equals(boardCri.getType())) {
 			return newBoardCri;
@@ -103,6 +104,8 @@ public class BoardServiceImpl implements BoardService {
 	
 	@Override
 	public List<BoardDetailsDto> getPagedBoard(int boardCategoryCode, Criteria boardCri) {
+		log.info("\t > boardCri = {}", boardCri);
+		log.info("\t > keywordRegexp = {}", boardCri.getKeywordRegexp());
 		return boardMapper.findPagedBoard(boardCategoryCode, boardCri)
 				.stream()
 				.map(boardDetailsMap -> modelMapper.map(boardDetailsMap, BoardDetailsDto.class))

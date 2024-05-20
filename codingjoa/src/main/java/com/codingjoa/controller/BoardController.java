@@ -71,12 +71,7 @@ public class BoardController {
 	public String getBoard(@BoardCategoryCode @RequestParam int boardCategoryCode, 
 			@BoardCri Criteria boardCri, Model model) {
 		log.info("## getBoard, boardCategoryCode = {}", boardCategoryCode);
-		log.info("\t > boardCri = {}", boardCri);
-
 		Criteria newBoardCri = boardService.createNewBoardCri(boardCri);
-		log.info("\t > newBoardCri = {}", newBoardCri);
-		log.info("\t > keywordRegexp = {}", newBoardCri.getKeywordRegexp());
-		
 		List<BoardDetailsDto> pagedBoard = boardService.getPagedBoard(boardCategoryCode, newBoardCri);
 		Pagination pagination = boardService.getPagination(boardCategoryCode, newBoardCri);
 		log.info("\t > pagination = {}", pagination);

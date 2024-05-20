@@ -138,8 +138,9 @@
 	</select>
 	
 	<sql id="searchCriteria">
-		<!-- <if test='boardCri.type != null and boardCri.keyword != null and boardCri.keyword != ""'> -->
-		<if test='boardCri.keyword != ""'>
+		<!-- for cases where criteria are resolved without using the BoardCriteriaArgumentResolver -->
+		<!-- for requests to the URL '/board', the boardCriteria is determined without using the argument resolver -->
+		<if test='boardCri.type != null and boardCri.keyword != null and boardCri.keyword != ""'>
 			<trim prefix="(" suffix=") AND " suffixOverrides="OR">
 				<foreach collection='boardCri.type.split("_")' item="item">
 					<trim suffix="OR">
@@ -159,7 +160,6 @@
 				</foreach>
 			</trim>
 		</if>
-		<!-- </if> -->
 	</sql>
 
 	<!-- <sql id="searchCriteria">
