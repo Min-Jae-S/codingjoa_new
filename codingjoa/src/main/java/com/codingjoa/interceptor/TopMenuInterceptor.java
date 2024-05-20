@@ -66,7 +66,7 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
-		//log.info("## {} - postHandle", this.getClass().getSimpleName());
+		log.info("## {} - postHandle", this.getClass().getSimpleName());
 		
 		if (handler instanceof HandlerMethod) {
 			HandlerMethod handlerMethod = (HandlerMethod) handler;
@@ -120,6 +120,7 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 		List<Category> parentCategoryList = categoryService.findParentCategoryList();
 		modelAndView.addObject("parentCategoryList", parentCategoryList);
 		//log.info("\t > added top menu as model");
+		log.info("\t > model = {}", modelAndView.getModel().keySet());
 	}
 	
 	private String getFullURI(HttpServletRequest request) {

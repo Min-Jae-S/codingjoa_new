@@ -15,7 +15,6 @@ public class BoardDetailsDto {
 	private int boardCategoryCode;
 	private Date regdate;
 	private Date moddate;
-	
 	private String memberId;		// INNER JOIN with member
 	private int commentCnt;			// OUTER JOIN with comment
 	private int boardLikesCnt;		// OUTER JOIN with board_likes
