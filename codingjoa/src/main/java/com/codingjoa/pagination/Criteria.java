@@ -58,7 +58,8 @@ public class Criteria {
 	}
 	
 	public String getKeywordRegexp() {
-		return StringUtils.hasText(keyword) ? String.join("|", keyword.split("\\s+")) : null;
+		return StringUtils.hasText(keyword) ? 
+				String.join("|", keyword.split("\\s+")) : null;
 	}
 
 }

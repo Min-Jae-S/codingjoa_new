@@ -158,10 +158,7 @@
 	</sql> -->
 	
 	<!-- <sql id="searchCriteria">
-		for cases where criteria are resolved without using the BoardCriteriaArgumentResolver
-		'/board' ==> new Criteria(1, 5)
 		<if test='boardCri.type != null and boardCri.keyword != null and boardCri.keyword != ""'>
-		<if test='boardCri.type != null and boardCri.keywordRegexp != null'>
 			<trim prefix="(" suffix=") AND " suffixOverrides="OR">
 				<foreach collection='boardCri.type.split("_")' item="item">
 					<trim suffix="OR">
@@ -184,6 +181,7 @@
 	</sql> -->
 
 	<sql id="searchCriteria">
+		<!-- for cases where criteria are resolved without using the BoardCriteriaArgumentResolver, new Criteria(1,5) -->
 		<if test='boardCri.type != null and boardCri.keywordRegexp != null'>
 			<trim prefix="(" suffix=") AND " suffixOverrides="OR">
 				<foreach collection='boardCri.type.split("_")' item="item">
@@ -195,7 +193,7 @@
 							REGEXP_LIKE(board.board_content_text, #{boardCri.keywordRegexp})
 						</if>
 						<if test='item.equals("writer")'>
-							REGEXP_LIKE(member.member_id, #{boardCri.keywordRegexp})
+							member.member_id LIKE '%' || #{boardCri.keyword} || '%'
 						</if> 
 					</trim>
 				</foreach>
@@ -217,7 +215,8 @@
 	        	a_depth.board_views,
 	        	a_depth.board_category_code, 
 	        	a_depth.regdate,
-	        	a_depth.moddate
+	        	a_depth.moddate,
+	        	a_depth.member_id
 		    FROM (
 				SELECT
 					/*+ INDEX_DESC(board pk_board) */
@@ -228,8 +227,8 @@
 		        	board.board_views,
 		        	board.board_category_code, 
 		        	board.regdate,
-		        	board.moddate
-		        	member.member_id,
+		        	board.moddate,
+		        	member.member_id
 		    	FROM 
 		        	board
 		        INNER JOIN
@@ -239,7 +238,7 @@
 		    	WHERE
 		    		<!-- searchCriteria -->
 		        	<include refid="searchCriteria"/>
-					board_category_code = #{boardCategoryCode} 
+					board.board_category_code = #{boardCategoryCode} 
 				AND
 					<![CDATA[
 					ROWNUM <= ( #{boardCri.page} * #{boardCri.recordCnt} )
@@ -248,10 +247,6 @@
 		    WHERE 
 		    	a_depth.rn > ( ( #{boardCri.page} - 1 ) * #{boardCri.recordCnt} )
 		) a
-		INNER JOIN
-			member b
-		ON 
-			a.board_writer_idx = b.member_idx
 		LEFT OUTER JOIN (
 			SELECT 
 				comment_board_idx, 
@@ -260,9 +255,9 @@
 				"comment"
 			GROUP BY 
 				comment_board_idx
-		) c
+		) b
 		ON 
-			a.board_idx = c.comment_board_idx
+			a.board_idx = b.comment_board_idx
 		LEFT OUTER JOIN ( 
 			SELECT 
     			board_idx, 
@@ -271,9 +266,9 @@
     			board_likes
     		GROUP BY 
     			board_idx 
-    	) d
+    	) c
 		ON 
-			a.board_idx = d.board_idx
+			a.board_idx = c.board_idx
 	</select>
 
 	<!-- <select id="findPagedBoard" parameterType="map" resultMap="boardDetailsMap">
@@ -382,45 +377,21 @@
 			a.rn > ( ( #{page} - 1 ) * #{recordCnt} )
 	</select> -->
 	
-	<!-- <select id="findPagedBoard" parameterType="boardCri" resultMap="boardDetailsMap">
-		SELECT 
-			board_idx, 
-			board_title, 
-			board_writer_idx, 
-			board_views, 
-			board_category_code, 
-			regdate, 
-			member_id
-		FROM (
-			SELECT
-				/*+ INDEX_DESC(a pk_board) */ 
-				ROWNUM rn, 
-				a.board_idx, 
-				a.board_title, 
-				a.board_writer_idx, 
-				a.board_views, 
-				a.board_category_code, 
-				a.regdate, 
-				b.member_id
-			FROM
-				board a
-			INNER JOIN
-				member b
-			ON
-				a.board_writer_idx = b.member_idx
-			WHERE
-				<include refid="searchCriteria"/>
-				a.board_category_code = #{boardCategoryCode} 
-			AND
-				<![CDATA[
-				ROWNUM <= ( #{page} * #{recordCnt} )
-				]]>
-		)
-		WHERE
-			rn > ( ( #{page} - 1 ) * #{recordCnt} )
-	</select> -->
-
 	<select id="findPagedBoardTotalCnt" parameterType="map" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			board
+		INNER JOIN
+			member
+		ON
+			board.board_writer_idx = member.member_idx
+		WHERE
+			<include refid="searchCriteria"/>
+			board.board_category_code = #{boardCategoryCode}
+	</select>
+
+	<!-- <select id="findPagedBoardTotalCnt" parameterType="map" resultType="int">
 		SELECT
 			COUNT(*)
 		FROM
@@ -428,22 +399,8 @@
 		WHERE
 			<include refid="searchCriteria"/>
 			board_category_code = #{boardCategoryCode}
-	</select>
-
-	<!-- <select id="findPagedBoardTotalCnt" parameterType="cri" resultType="int">
-		SELECT
-			COUNT(*)
-		FROM
-			board a
-		INNER JOIN
-			member b
-		ON
-			a.board_writer_idx = b.member_idx
-		WHERE
-			<include refid="searchCriteria"/>
-			a.board_category_code = #{boardCategoryCode}
 	</select> -->
-	
+
 	<select id="isBoardIdxExist" parameterType="map" resultType="boolean">
 		SELECT
 			COUNT(*)
