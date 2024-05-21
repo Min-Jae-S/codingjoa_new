@@ -157,10 +157,10 @@
 		</if>
 	</sql> -->
 	
-	<sql id="searchCriteria">
-		<!-- for cases where criteria are resolved without using the BoardCriteriaArgumentResolver -->
-		<!-- '/board' ==> new Criteria(1, 5) -->
-		<!-- <if test='boardCri.type != null and boardCri.keyword != null and boardCri.keyword != ""'> -->
+	<!-- <sql id="searchCriteria">
+		for cases where criteria are resolved without using the BoardCriteriaArgumentResolver
+		'/board' ==> new Criteria(1, 5)
+		<if test='boardCri.type != null and boardCri.keyword != null and boardCri.keyword != ""'>
 		<if test='boardCri.type != null and boardCri.keywordRegexp != null'>
 			<trim prefix="(" suffix=") AND " suffixOverrides="OR">
 				<foreach collection='boardCri.type.split("_")' item="item">
@@ -181,15 +181,34 @@
 				</foreach>
 			</trim>
 		</if>
-	</sql>
+	</sql> -->
+
+	<sql id="searchCriteria">
+		<if test='boardCri.type != null and boardCri.keywordRegexp != null'>
+			<trim prefix="(" suffix=") AND " suffixOverrides="OR">
+				<foreach collection='boardCri.type.split("_")' item="item">
+					<trim suffix="OR">
+						<if test='item.equals("title")'>
+							REGEXP_LIKE(board.board_title, #{boardCri.keywordRegexp})
+						</if>
+						<if test='item.equals("content")'>
+							REGEXP_LIKE(board.board_content_text, #{boardCri.keywordRegexp})
+						</if>
+						<if test='item.equals("writer")'>
+							REGEXP_LIKE(member.member_id, #{boardCri.keywordRegexp})
+						</if> 
+					</trim>
+				</foreach>
+			</trim>
+		</if>
+	</sql> 
 
 	<select id="findPagedBoard" parameterType="map" resultMap="boardDetailsMap">
 		SELECT
-			/*+ ORDERED USE_NL(b) USE_NL(c) USE_NL(d) */
+			/*+ ORDERED USE_NL(b) USE_NL(c) */
 			a.*,
-			b.member_id,
-    		NVL(c.cnt, 0) AS comment_cnt,
-    		NVL(d.cnt, 0) AS board_likes_cnt
+    		NVL(b.cnt, 0) AS comment_cnt,
+    		NVL(c.cnt, 0) AS board_likes_cnt
 		FROM (
 		    SELECT
 		    	a_depth.board_idx, 
@@ -203,15 +222,20 @@
 				SELECT
 					/*+ INDEX_DESC(board pk_board) */
 		        	ROWNUM rn, 
-		        	board_idx, 
-		        	board_title, 
-		        	board_writer_idx, 
-		        	board_views,
-		        	board_category_code, 
-		        	regdate,
-		        	moddate
+		        	board.board_idx, 
+		        	board.board_title, 
+		        	board.board_writer_idx, 
+		        	board.board_views,
+		        	board.board_category_code, 
+		        	board.regdate,
+		        	board.moddate
+		        	member.member_id,
 		    	FROM 
 		        	board
+		        INNER JOIN
+		        	member
+		        ON
+		        	board.board_writer_idx = member.member_idx
 		    	WHERE
 		    		<!-- searchCriteria -->
 		        	<include refid="searchCriteria"/>
@@ -251,6 +275,75 @@
 		ON 
 			a.board_idx = d.board_idx
 	</select>
+
+	<!-- <select id="findPagedBoard" parameterType="map" resultMap="boardDetailsMap">
+		SELECT
+			/*+ ORDERED USE_NL(b) USE_NL(c) USE_NL(d) */
+			a.*,
+			b.member_id,
+    		NVL(c.cnt, 0) AS comment_cnt,
+    		NVL(d.cnt, 0) AS board_likes_cnt
+		FROM (
+		    SELECT
+		    	a_depth.board_idx, 
+	        	a_depth.board_title, 
+	        	a_depth.board_writer_idx, 
+	        	a_depth.board_views,
+	        	a_depth.board_category_code, 
+	        	a_depth.regdate,
+	        	a_depth.moddate
+		    FROM (
+				SELECT
+					/*+ INDEX_DESC(board pk_board) */
+		        	ROWNUM rn, 
+		        	board_idx, 
+		        	board_title, 
+		        	board_writer_idx, 
+		        	board_views,
+		        	board_category_code, 
+		        	regdate,
+		        	moddate
+		    	FROM 
+		        	board
+		    	WHERE
+		    		searchCriteria
+		        	<include refid="searchCriteria"/>
+					board_category_code = #{boardCategoryCode} 
+				AND
+					<![CDATA[
+					ROWNUM <= ( #{boardCri.page} * #{boardCri.recordCnt} )
+					]]>
+		    ) a_depth
+		    WHERE 
+		    	a_depth.rn > ( ( #{boardCri.page} - 1 ) * #{boardCri.recordCnt} )
+		) a
+		INNER JOIN
+			member b
+		ON 
+			a.board_writer_idx = b.member_idx
+		LEFT OUTER JOIN (
+			SELECT 
+				comment_board_idx, 
+				COUNT(*) cnt
+			FROM
+				"comment"
+			GROUP BY 
+				comment_board_idx
+		) c
+		ON 
+			a.board_idx = c.comment_board_idx
+		LEFT OUTER JOIN ( 
+			SELECT 
+    			board_idx, 
+    			COUNT(*) cnt
+    		FROM 
+    			board_likes
+    		GROUP BY 
+    			board_idx 
+    	) d
+		ON 
+			a.board_idx = d.board_idx
+	</select> -->
 
 	<!-- <select id="findPagedBoard" parameterType="boardCri" resultMap="boardDetailsMap">
 		SELECT

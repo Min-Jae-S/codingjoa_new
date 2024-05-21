@@ -70,9 +70,14 @@ public class BoardController {
 	@GetMapping("/")
 	public String getBoard(@BoardCategoryCode @RequestParam int boardCategoryCode, @BoardCri Criteria boardCri, Model model) {
 		log.info("## getBoard, boardCategoryCode = {}", boardCategoryCode);
-		Criteria newBoardCri = boardService.createNewBoardCri(boardCri);
-		List<BoardDetailsDto> pagedBoard = boardService.getPagedBoard(boardCategoryCode, newBoardCri);
-		Pagination pagination = boardService.getPagination(boardCategoryCode, newBoardCri);
+		log.info("\t > boardCri = {}", boardCri);
+		
+//		Criteria newBoardCri = boardService.createNewBoardCri(boardCri);
+//		List<BoardDetailsDto> pagedBoard = boardService.getPagedBoard(boardCategoryCode, newBoardCri);
+//		Pagination pagination = boardService.getPagination(boardCategoryCode, newBoardCri);
+		
+		List<BoardDetailsDto> pagedBoard = boardService.getPagedBoard(boardCategoryCode, boardCri);
+		Pagination pagination = boardService.getPagination(boardCategoryCode, boardCri);
 		log.info("\t > pagination = {}", pagination);
 		
 		Category category = categoryService.findCategory(boardCategoryCode);
@@ -86,6 +91,8 @@ public class BoardController {
 	@GetMapping("/read")
 	public String read(@RequestParam int boardIdx, @BoardCri Criteria boardCri, Model model) {
 		log.info("## read, boardIdx = {}", boardIdx);
+		log.info("\t > boardCri = {}", boardCri);
+		
 		BoardDetailsDto boardDetails = boardService.getBoardDetails(boardIdx);
 		Category category = categoryService.findCategory(boardDetails.getBoardCategoryCode());
 
