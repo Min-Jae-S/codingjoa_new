@@ -35,13 +35,11 @@ public class SecurityInitializer extends AbstractSecurityWebApplicationInitializ
 	@Override
 	protected EnumSet<DispatcherType> getSecurityDispatcherTypes() {
 		log.info("## getSecurityDispatcherTypes");
-		
 		EnumSet<DispatcherType> securityDispatcherTypes = super.getSecurityDispatcherTypes(); // REQUEST, ASYNC, ERROR
 		//EnumSet<DispatcherType> securityDispatcherTypes = EnumSet.allOf(DispatcherType.class)
 		//EnumSet<DispatcherType> securityDispatcherTypes = EnumSet.of(DispatcherType.REQUEST, DispatcherType.INCLUDE);
 		//EnumSet<DispatcherType> securityDispatcherTypes = EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD);
-		log.info("\t > {}", securityDispatcherTypes);
-		
+		log.info("\t > dispatcherTypes = {}", securityDispatcherTypes);
 		return securityDispatcherTypes;
 	}
 
@@ -56,6 +54,5 @@ public class SecurityInitializer extends AbstractSecurityWebApplicationInitializ
 		log.info("## afterSpringSecurityFilterChain");
 		super.afterSpringSecurityFilterChain(servletContext);
 	}
-	
 	
 }
