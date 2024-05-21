@@ -82,35 +82,34 @@ public class BoardServiceImpl implements BoardService {
 		boardMapper.updateBoardViews(boardIdx);
 	}
 	
-	@Override
-	public Criteria createNewBoardCri(Criteria boardCri) {
-		log.info("\t > create newBoardCri");
-		Criteria newBoardCri = new Criteria(boardCri);
-		if (!"writer".equals(boardCri.getType())) {
-			return newBoardCri;
-		}
-		
-		String keyword = boardCri.getKeyword();
-		if ("".equals(keyword)) {
-			return newBoardCri;
-		}
-		
-		log.info("\t > produce newKeyword by finding memberIdx");
-		String newKeyword = boardMapper.findMemberIdxByKeyword(keyword)
-				.stream()
-				.map(memberIdx -> memberIdx.toString())
-				.collect(Collectors.joining("_"));
-
-		if (!"".equals(keyword)) {
-			newBoardCri.setKeyword(newKeyword);
-		}
-		
-		return newBoardCri;
-	}
+//	@Override
+//	public Criteria createNewBoardCri(Criteria boardCri) {
+//		log.info("\t > create newBoardCri");
+//		Criteria newBoardCri = new Criteria(boardCri);
+//		if (!"writer".equals(boardCri.getType())) {
+//			return newBoardCri;
+//		}
+//		
+//		String keyword = boardCri.getKeyword();
+//		if ("".equals(keyword)) {
+//			return newBoardCri;
+//		}
+//		
+//		log.info("\t > produce newKeyword by finding memberIdx");
+//		String newKeyword = boardMapper.findMemberIdxByKeyword(keyword)
+//				.stream()
+//				.map(memberIdx -> memberIdx.toString())
+//				.collect(Collectors.joining("_"));
+//
+//		if (!"".equals(keyword)) {
+//			newBoardCri.setKeyword(newKeyword);
+//		}
+//		return newBoardCri;
+//	}
 	
 	@Override
 	public List<BoardDetailsDto> getPagedBoard(int boardCategoryCode, Criteria boardCri) {
-		log.info("\t > find pagedBoard by boardCategoryCode, boardCri");
+		log.info("\t > find pagedBoard");
 		log.info("\t > boardCri = {}, keywordRegexp = {}", boardCri, boardCri.getKeywordRegexp());
 		return boardMapper.findPagedBoard(boardCategoryCode, boardCri)
 				.stream()

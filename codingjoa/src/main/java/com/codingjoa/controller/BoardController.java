@@ -70,12 +70,6 @@ public class BoardController {
 	@GetMapping("/")
 	public String getBoard(@BoardCategoryCode @RequestParam int boardCategoryCode, @BoardCri Criteria boardCri, Model model) {
 		log.info("## getBoard, boardCategoryCode = {}", boardCategoryCode);
-		log.info("\t > boardCri = {}", boardCri);
-		
-//		Criteria newBoardCri = boardService.createNewBoardCri(boardCri);
-//		List<BoardDetailsDto> pagedBoard = boardService.getPagedBoard(boardCategoryCode, newBoardCri);
-//		Pagination pagination = boardService.getPagination(boardCategoryCode, newBoardCri);
-		
 		List<BoardDetailsDto> pagedBoard = boardService.getPagedBoard(boardCategoryCode, boardCri);
 		Pagination pagination = boardService.getPagination(boardCategoryCode, boardCri);
 		log.info("\t > pagination = {}", pagination);

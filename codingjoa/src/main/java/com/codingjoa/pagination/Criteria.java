@@ -30,12 +30,12 @@ public class Criteria {
 		this.keyword = keyword;
 	}
 
-	public Criteria(Criteria criteria) {
-		this.page = criteria.page;
-		this.recordCnt = criteria.recordCnt;
-		this.type = criteria.type;
-		this.keyword = criteria.keyword;
-	}
+//	public Criteria(Criteria criteria) {
+//		this.page = criteria.page;
+//		this.recordCnt = criteria.recordCnt;
+//		this.type = criteria.type;
+//		this.keyword = criteria.keyword;
+//	}
 	
 	public String getQueryString() {
 		return UriComponentsBuilder.newInstance()

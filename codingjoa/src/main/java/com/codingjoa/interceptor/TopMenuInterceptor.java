@@ -38,17 +38,16 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 	private final CategoryService categoryService;
 	
 	/*
-	 * 매핑된 핸들러가 존재하지 않거나 매핑 정보를 찾을 수 없는 경우 preHandle 메서드는 호출되지 않는다. 
-	 * 따라서 preHandle 메서드 내에서 handler 매개변수는 항상 null이 아닌 유효한 핸들러를 가리키게 된다.
+	 * If there is no mapped handler or if the mapping information cannot be found, the preHandle method is not called 
+	 * Therefore, in the preHandle method, the handler parameter always points to a valid, non-null handler.
 	 */
 	
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-//		log.info("## {} : preHandle", this.getClass().getSimpleName());
+		log.info("## {} - preHandle", this.getClass().getSimpleName());
 //		log.info("\t > URI = {} '{}'", request.getMethod(), getFullURI(request));
 //		log.info("\t > dispatcherType = {}", request.getDispatcherType());
-
 //		if (handler instanceof HandlerMethod) {
 //			HandlerMethod handlerMethod = (HandlerMethod) handler;
 //			int index = handlerMethod.toString().lastIndexOf(".");
@@ -72,21 +71,21 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 			HandlerMethod handlerMethod = (HandlerMethod) handler;
 			Class<?> controllerClass = handlerMethod.getBeanType();
 			if (controllerClass.isAnnotationPresent(RestController.class)) {
-				log.info("\t > not find top menu - @RestController");
+				//log.info("\t > not find top menu - @RestController");
 				return;
 			}
 			
             MethodParameter[] methodParameters = handlerMethod.getMethodParameters();
             for (MethodParameter methodParameter : methodParameters) {
             	if (methodParameter.hasMethodAnnotation(ResponseBody.class)) {
-            		log.info("\t > not find top menu - @ResponseBody");
+            		//log.info("\t > not find top menu - @ResponseBody");
             		return;
             	}
             }
 		}
 		
 		if (modelAndView == null) {
-			log.info("\t > not find top menu - no modelAndView");
+			//log.info("\t > not find top menu - no modelAndView");
 			return;
 		}
 		
@@ -95,24 +94,24 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 		//log.info("\t > viewName = {}", viewName + ".jsp");
 		
 		if (viewName == null) {
-			log.info("\t > not find top menu - no viewName");
+			//log.info("\t > not find top menu - no viewName");
 			return;
 		}
 		
 		if (viewName.startsWith(FORWARD_URL_PREFIX)) {
-			log.info("\t > not find top menu - FORWARD_URL_PREFIX");
+			//log.info("\t > not find top menu - FORWARD_URL_PREFIX");
 			return;	
 		}
 		
 		if (viewName.startsWith(REDIRECT_URL_PREFIX)) 	{
-			log.info("\t > not find top menu - REDIRECT_URL_PREFIX");
+			//log.info("\t > not find top menu - REDIRECT_URL_PREFIX");
 			return;
 		}
 		
 		String[] beanNames = applicationContext.getBeanNamesForType(MappingJackson2JsonView.class);
 		for (String beanName : beanNames) {
 			if (viewName.equals(beanName)) {
-				log.info("\t > viewName equals MappingJackson2JsonView's beanName({})", beanName);
+				//log.info("\t > viewName equals MappingJackson2JsonView's beanName({})", beanName);
 				return;
 			}
 		}
