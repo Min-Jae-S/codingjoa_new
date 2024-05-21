@@ -137,10 +137,31 @@
 			member_id LIKE '%' || #{keyword} || '%'
 	</select>
 	
+	<!-- <sql id="searchCriteria">
+		<if test="type != null">
+			<trim prefix="(" suffix=") AND " suffixOverrides="OR">
+				<foreach collection='type.split("_")' item="item">
+					<trim suffix="OR">
+						<if test='item.equals("title")'>
+							a.board_title LIKE '%' || #{keyword} || '%'
+						</if>
+						<if test='item.equals("content")'>
+							a.board_content_text LIKE '%' || #{keyword} || '%'
+						</if>
+						<if test='item.equals("writer")'>
+							b.member_id LIKE '%' || #{keyword} || '%'
+						</if> 
+					</trim>
+				</foreach>
+			</trim>
+		</if>
+	</sql> -->
+	
 	<sql id="searchCriteria">
 		<!-- for cases where criteria are resolved without using the BoardCriteriaArgumentResolver -->
 		<!-- '/board' ==> new Criteria(1, 5) -->
-		<if test='boardCri.type != null and boardCri.keyword != null and boardCri.keyword != ""'>
+		<!-- <if test='boardCri.type != null and boardCri.keyword != null and boardCri.keyword != ""'> -->
+		<if test='boardCri.type != null and boardCri.keyword != null'>
 			<trim prefix="(" suffix=") AND " suffixOverrides="OR">
 				<foreach collection='boardCri.type.split("_")' item="item">
 					<trim suffix="OR">
@@ -162,26 +183,6 @@
 		</if>
 	</sql>
 
-	<!-- <sql id="searchCriteria">
-		<if test="type != null">
-			<trim prefix="(" suffix=") AND " suffixOverrides="OR">
-				<foreach collection='type.split("_")' item="item">
-					<trim suffix="OR">
-						<if test='item.equals("title")'>
-							a.board_title LIKE '%' || #{keyword} || '%'
-						</if>
-						<if test='item.equals("content")'>
-							a.board_content_text LIKE '%' || #{keyword} || '%'
-						</if>
-						<if test='item.equals("writer")'>
-							b.member_id LIKE '%' || #{keyword} || '%'
-						</if> 
-					</trim>
-				</foreach>
-			</trim>
-		</if>
-	</sql> -->
-	
 	<select id="findPagedBoard" parameterType="map" resultMap="boardDetailsMap">
 		SELECT
 			/*+ ORDERED USE_NL(b) USE_NL(c) USE_NL(d) */
@@ -212,6 +213,7 @@
 		    	FROM 
 		        	board
 		    	WHERE
+		    		<!-- searchCriteria -->
 		        	<include refid="searchCriteria"/>
 					board_category_code = #{boardCategoryCode} 
 				AND

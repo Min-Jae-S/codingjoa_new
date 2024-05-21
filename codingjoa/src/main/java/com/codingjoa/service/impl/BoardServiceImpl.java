@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import com.codingjoa.dto.BoardDetailsDto;
 import com.codingjoa.dto.BoardDto;
@@ -91,7 +92,8 @@ public class BoardServiceImpl implements BoardService {
 		}
 		
 		String keyword = boardCri.getKeyword(); 
-		if (!"".equals(keyword)) {
+//		if (!"".equals(keyword)) {
+		if (!StringUtils.hasText(keyword)) {
 			String newKeyword = boardMapper.findMemberIdxByKeyword(keyword)
 					.stream()
 					.map(memberIdx -> memberIdx.toString())
@@ -104,6 +106,7 @@ public class BoardServiceImpl implements BoardService {
 	
 	@Override
 	public List<BoardDetailsDto> getPagedBoard(int boardCategoryCode, Criteria boardCri) {
+		log.info("\t > find pagedBoard by boardCri = {}", boardCri);
 		return boardMapper.findPagedBoard(boardCategoryCode, boardCri)
 				.stream()
 				.map(boardDetailsMap -> modelMapper.map(boardDetailsMap, BoardDetailsDto.class))
