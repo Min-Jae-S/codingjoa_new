@@ -127,7 +127,7 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 		StringBuilder requestURI = 
 				new StringBuilder(URLDecoder.decode(request.getRequestURI(), StandardCharsets.UTF_8));
 	    String queryString = request.getQueryString();
-	    
+
 	    if (queryString == null) {
 	        return requestURI.toString();
 	    } else {
