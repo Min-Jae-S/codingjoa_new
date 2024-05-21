@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 
 import com.codingjoa.dto.BoardDetailsDto;
 import com.codingjoa.dto.BoardDto;
@@ -92,12 +91,11 @@ public class BoardServiceImpl implements BoardService {
 		}
 		
 		String keyword = boardCri.getKeyword(); 
-//		if (!"".equals(keyword)) {
-		if (!StringUtils.hasText(keyword)) {
+		if (!"".equals(keyword)) {
 			String newKeyword = boardMapper.findMemberIdxByKeyword(keyword)
 					.stream()
 					.map(memberIdx -> memberIdx.toString())
-					.collect(Collectors.joining(","));
+					.collect(Collectors.joining("_"));
 			newBoardCri.setKeyword(newKeyword);
 		}
 		

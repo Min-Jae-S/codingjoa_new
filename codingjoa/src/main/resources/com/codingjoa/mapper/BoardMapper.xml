@@ -161,7 +161,7 @@
 		<!-- for cases where criteria are resolved without using the BoardCriteriaArgumentResolver -->
 		<!-- '/board' ==> new Criteria(1, 5) -->
 		<!-- <if test='boardCri.type != null and boardCri.keyword != null and boardCri.keyword != ""'> -->
-		<if test='boardCri.type != null and boardCri.keyword != null'>
+		<if test='boardCri.type != null and boardCri.keywordRegexp != null'>
 			<trim prefix="(" suffix=") AND " suffixOverrides="OR">
 				<foreach collection='boardCri.type.split("_")' item="item">
 					<trim suffix="OR">
@@ -173,7 +173,7 @@
 						</if>
 						<if test='item.equals("writer")'>
 							board_writer_idx IN
-							<foreach collection='boardCri.keyword.split(",")' item="item" separator="," open="(" close=")">
+							<foreach collection='boardCri.keyword.split("_")' item="item" separator="," open="(" close=")">
 								#{item}
 							</foreach>
 						</if> 
