@@ -1,5 +1,6 @@
 package com.codingjoa.pagination;
 
+import org.springframework.util.StringUtils;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import lombok.Getter;
@@ -57,7 +58,7 @@ public class Criteria {
 	}
 	
 	public String getKeywordRegexp() {
-		return (keyword != null) ? String.join("|", keyword.split("\\s+")) : null;
+		return StringUtils.hasText(keyword) ? String.join("|", keyword.split("\\s+")) : null;
 	}
 
 }
