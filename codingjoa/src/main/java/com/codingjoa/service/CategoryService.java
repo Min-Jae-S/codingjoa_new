@@ -6,17 +6,15 @@ import com.codingjoa.entity.Category;
 
 public interface CategoryService {
 	
-	List<Category> findParentCategoryList();
+	List<Category> getParentCategoryList();
 	
-	List<Category> findCategoryListByParent(int categoryParentCode);
+	List<Category> getCategoryListByParent(int categoryParentCode);
 	
-	Category findCategory(int categoryCode);
+	Category getCategory(int categoryCode);
 	
-	String findCategoryName(int categoryCode);
+	String getCategoryName(int categoryCode);
 	
-	//List<Category> findCategoryOfSameParent(int categoryCode);
-	
-	List<Category> findBoardCategoryList();
+	List<Category> getBoardCategoryList();
 	
 	boolean isBoardCategoryCode(int categoryCode);
 }

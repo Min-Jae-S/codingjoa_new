@@ -159,21 +159,23 @@ public class BoardServiceImpl implements BoardService {
 			throw new ExpectedException("error.NotMyBoard");
 		}
 		
-		String boardContentText = Jsoup.parse(boardDto.getBoardContent()).text();
+		String newBoardContent = boardDto.getBoardContent();
+		String newBoardContentText = Jsoup.parse(newBoardContent).text();
 		log.info("\t > produce boardContentText by parsing boardContent for search");
 
-		Board modifyBoard = modelMapper.map(boardDto, Board.class);
-		modifyBoard.setBoardContentText(boardContentText);
-		log.info("\t > convert boardDto to board entity");
-		log.info("\t > modifyBoard = {}", modifyBoard);
+		board.setBoardTitle(boardDto.getBoardTitle());
+		board.setBoardContent(newBoardContent);
+		board.setBoardContentText(newBoardContentText);
+		board.setBoardCategoryCode(boardDto.getBoardCategoryCode());
+		log.info("\t > modifyBoard = {}", board);
 		
-		boardMapper.updateBoard(modifyBoard);
+		boardMapper.updateBoard(board);
 		imageService.modifyBoardImages(boardDto);
 	}
 	
 	@Override
 	public int getBoardCategoryCode(int boardIdx) {
-		return boardMapper.findBoardCategoryCode(boardIdx);
+		return boardMapper.findBoardCategoryCodeByIdx(boardIdx);
 	}
 
 	@Override

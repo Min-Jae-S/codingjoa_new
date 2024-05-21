@@ -15,32 +15,28 @@ public class CategoryServiceImpl implements CategoryService {
 	@Autowired
 	CategoryMapper categoryMapper;
 	
-	public List<Category> findParentCategoryList() {
+	@Override
+	public List<Category> getParentCategoryList() {
 		return categoryMapper.findParentCategoryList();
 	}
 
 	@Override
-	public List<Category> findCategoryListByParent(int categoryParentCode) {
+	public List<Category> getCategoryListByParent(int categoryParentCode) {
 		return categoryMapper.findCategoryListByParent(categoryParentCode);
 	}
 
 	@Override
-	public Category findCategory(int categoryCode) {
+	public Category getCategory(int categoryCode) {
 		return categoryMapper.findCategory(categoryCode);
 	}
 	
 	@Override
-	public String findCategoryName(int categoryCode) {
+	public String getCategoryName(int categoryCode) {
 		return categoryMapper.findCategoryName(categoryCode);
 	}
 
-//	@Override
-//	public List<Category> findCategoryOfSameParent(int categoryCode) {
-//		return categoryMapper.findCategoryOfSameParent(categoryCode);
-//	}
-
 	@Override
-	public List<Category> findBoardCategoryList() {
+	public List<Category> getBoardCategoryList() {
 		return categoryMapper.findBoardCategoryList();
 	}
 

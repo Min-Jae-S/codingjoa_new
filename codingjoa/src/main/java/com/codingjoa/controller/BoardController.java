@@ -56,7 +56,7 @@ public class BoardController {
 	@GetMapping
 	public String getBoards(Model model) {
 		log.info("## getBoards");
-		List<Category> boardCategoryList = categoryService.findBoardCategoryList();
+		List<Category> boardCategoryList = categoryService.getBoardCategoryList();
 		List<List<BoardDetailsDto>> boardList = boardCategoryList
 				.stream()
 				.map(category -> boardService.getPagedBoard(category.getCategoryCode(), new Criteria(1, 5)))
@@ -74,7 +74,7 @@ public class BoardController {
 		Pagination pagination = boardService.getPagination(boardCategoryCode, boardCri);
 		log.info("\t > pagination = {}", pagination);
 		
-		Category category = categoryService.findCategory(boardCategoryCode);
+		Category category = categoryService.getCategory(boardCategoryCode);
 		model.addAttribute("pagination", pagination);
 		model.addAttribute("pagedBoard", pagedBoard);
 		model.addAttribute("category", category);
@@ -88,7 +88,7 @@ public class BoardController {
 		log.info("\t > boardCri = {}", boardCri);
 		
 		BoardDetailsDto boardDetails = boardService.getBoardDetails(boardIdx);
-		Category category = categoryService.findCategory(boardDetails.getBoardCategoryCode());
+		Category category = categoryService.getCategory(boardDetails.getBoardCategoryCode());
 
 		// 쿠키를 이용하여 조회수 중복 방지 추가하기 (https://mighty96.github.io/til/view)
 		boardService.updateBoardViews(boardIdx);
@@ -105,7 +105,7 @@ public class BoardController {
 		BoardDto writeBoardDto = new BoardDto();
 		writeBoardDto.setBoardCategoryCode(boardCategoryCode);
 		model.addAttribute("writeBoardDto", writeBoardDto);
-		model.addAttribute("boardCategoryList", categoryService.findBoardCategoryList());
+		model.addAttribute("boardCategoryList", categoryService.getBoardCategoryList());
 		
 		return "board/write";
 	}
@@ -121,7 +121,7 @@ public class BoardController {
 			if (bindingResult.hasFieldErrors("boardCategoryCode") /* || bindingResult.hasFieldErrors("boardIdx") */) {
 				throw new BindException(bindingResult);
 			}
-			model.addAttribute("boardCategoryList", categoryService.findBoardCategoryList());
+			model.addAttribute("boardCategoryList", categoryService.getBoardCategoryList());
 			return "board/write";
 		}
 		
@@ -136,7 +136,7 @@ public class BoardController {
 		log.info("## modify, boardIdx = {}", boardIdx);
 		BoardDto modifyBoardDto = boardService.getModifyBoard(boardIdx, principal.getMember().getMemberIdx());
 		model.addAttribute("modifyBoardDto", modifyBoardDto);
-		model.addAttribute("boardCategoryList", categoryService.findBoardCategoryList());
+		model.addAttribute("boardCategoryList", categoryService.getBoardCategoryList());
 		return "board/modify";
 	}
 	
@@ -151,7 +151,7 @@ public class BoardController {
 			if (bindingResult.hasFieldErrors("boardCategoryCode") || bindingResult.hasFieldErrors("boardIdx")) {
 				throw new BindException(bindingResult);
 			}
-			model.addAttribute("boardCategoryList", categoryService.findBoardCategoryList());
+			model.addAttribute("boardCategoryList", categoryService.getBoardCategoryList());
 			return "board/modify";
 		}
 		
