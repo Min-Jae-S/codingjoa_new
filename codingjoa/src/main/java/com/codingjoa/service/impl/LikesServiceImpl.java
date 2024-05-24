@@ -48,7 +48,7 @@ public class LikesServiceImpl implements LikesService {
 			return true;
 		} else {
 			log.info("\t > delete boardLikes");
-			likesMapper.deleteBoardLikes(boardLikes.getBoardLikesIdx());
+			likesMapper.deleteBoardLikes(boardLikes);
 			return false;
 		}
 	}
@@ -71,7 +71,7 @@ public class LikesServiceImpl implements LikesService {
 			return true;
 		} else {
 			log.info("\t > delete commentLikes");
-			likesMapper.deleteCommentLikes(commentLikes.getCommentLikesIdx());
+			likesMapper.deleteCommentLikes(commentLikes);
 			return false;
 		}
 	}

@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codingjoa.response.SuccessResponse;
-import com.codingjoa.response.SuccessResponse.SuccessResponseBuilder;
 import com.codingjoa.security.dto.UserDetailsDto;
 import com.codingjoa.service.LikesService;
 
@@ -38,16 +37,13 @@ public class LikesRestController {
 	public ResponseEntity<Object> toggleBoardLikes(@PathVariable int boardIdx, @AuthenticationPrincipal UserDetailsDto principal) {
 		log.info("## toggleBoardLikes, boardIdx = {}", boardIdx);
 		boolean isBoardLiked = likesService.toggleBoardLikes(boardIdx, principal.getMember().getMemberIdx());
+		String code = (isBoardLiked) ? "success.LikeBoard" : "success.UnlikeBoard";
+		
 		resetAuthentication(principal.getMember().getMemberId());
 		
-		SuccessResponseBuilder builder = SuccessResponse.builder();
-		if (isBoardLiked) {
-			builder.messageByCode("success.InsertBoardLikes");
-		} else {
-			builder.messageByCode("success.DeleteBoardLikes");
-		}
-		
-		return ResponseEntity.ok(builder
+		return ResponseEntity.ok(SuccessResponse
+				.builder()
+				.messageByCode(code)
 				.data(Map.of("isBoardLiked", isBoardLiked))
 				.build());
 	}
@@ -69,16 +65,13 @@ public class LikesRestController {
 	public ResponseEntity<Object> toggleCommentLikes(@PathVariable int commentIdx, @AuthenticationPrincipal UserDetailsDto principal) {
 		log.info("## toggleCommentLikes, commentIdx = {}", commentIdx);
 		boolean isCommentLiked = likesService.toggleCommentLikes(commentIdx, principal.getMember().getMemberIdx());
+		String code = (isCommentLiked) ? "success.LikeComment" : "success.UnlikeComment";
+		
 		resetAuthentication(principal.getMember().getMemberId());
 
-		SuccessResponseBuilder builder = SuccessResponse.builder();
-		if (isCommentLiked) {
-			builder.messageByCode("success.InsertCommentLikes");
-		} else {
-			builder.messageByCode("success.DeleteCommentLikes");
-		}
-		
-		return ResponseEntity.ok(builder
+		return ResponseEntity.ok(SuccessResponse
+				.builder()
+				.messageByCode(code)
 				.data(Map.of("isCommentLiked", isCommentLiked))
 				.build());
 	}

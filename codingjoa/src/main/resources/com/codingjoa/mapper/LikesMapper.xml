@@ -83,7 +83,7 @@
 		)
 	</insert>
 	
-	<delete id="deleteBoardLikes" parameterType="int">
+	<delete id="deleteBoardLikes" parameterType="boardLikes">
 		DELETE FROM
 			board_likes
 		WHERE
@@ -116,7 +116,7 @@
 		)
 	</insert>
 	
-	<delete id="deleteCommentLikes" parameterType="int">
+	<delete id="deleteCommentLikes" parameterType="commentLikes">
 		DELETE FROM
 			comment_likes
 		WHERE

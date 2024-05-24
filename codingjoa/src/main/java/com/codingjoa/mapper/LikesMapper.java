@@ -13,13 +13,13 @@ public interface LikesMapper {
 	
 	void insertBoardLikes(@Param("boardIdx") int boardIdx, @Param("memberIdx") int memberIdx);
 	
-	void deleteBoardLikes(int boardLikesIdx);
+	void deleteBoardLikes(BoardLikes boardLikes);
 
 	CommentLikes findCommentLikes(@Param("commentIdx") int commentIdx, @Param("memberIdx") int memberIdx);
 	
 	void insertCommentLikes(@Param("commentIdx") int commentIdx, @Param("memberIdx") int memberIdx);
 	
-	void deleteCommentLikes(int commentLikesIdx);
+	void deleteCommentLikes(CommentLikes commentLikes);
 	
 	int findBoardLikesCnt(int boardIdx);
 
