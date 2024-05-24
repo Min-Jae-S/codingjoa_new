@@ -672,7 +672,7 @@
 			let commentIdx = $li.data("comment-idx");
 			
 			commentService.getModifyComment(commentIdx, function(result) {
-				let commentDetails = result.data;
+				let commentDetails = result.data.commentDetails;
 				let editCommentHtml = createEditCommentHtml(commentDetails);
 				$li.find("div.comment-area").addClass("d-none").after(editCommentHtml);
 				

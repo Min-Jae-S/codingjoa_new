@@ -113,8 +113,7 @@ public class MemberRestController {
 		log.info("\t > {}", emailDto);
 
 		String memberEmail = emailDto.getMemberEmail();
-		Integer memberIdx = principal.getMember().getMemberIdx();
-		memberService.checkEmailForUpdate(memberEmail, memberIdx);
+		memberService.checkEmailForUpdate(memberEmail, principal.getMember().getMemberIdx());
 		
 		String authCode = RandomStringUtils.randomNumeric(6);
 		log.info("\t > authCode = {}", authCode);
