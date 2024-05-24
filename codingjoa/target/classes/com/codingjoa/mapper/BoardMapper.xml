@@ -181,16 +181,18 @@
 	</sql> -->
 
 	<sql id="searchCriteria">
-		<!-- for cases where criteria are resolved without using the BoardCriteriaArgumentResolver, new Criteria(1,5) -->
+		<!-- for cases where criteria are resolved without using the BoardCriteriaArgumentResolver -->
+		<!-- 1) boardCri.type = null ==> new Criteria(1,5) -->
+		<!-- 2) boardCri.boardCri.keywordRegexp = null ==> boardCri.keyword = null and boardCri.keyword = '' -->
 		<if test='boardCri.type != null and boardCri.keywordRegexp != null'>
 			<trim prefix="(" suffix=") AND " suffixOverrides="OR">
 				<foreach collection='boardCri.type.split("_")' item="item">
 					<trim suffix="OR">
 						<if test='item.equals("title")'>
-							REGEXP_LIKE(board.board_title, #{boardCri.keywordRegexp})
+							REGEXP_LIKE( board.board_title, #{boardCri.keywordRegexp} )
 						</if>
 						<if test='item.equals("content")'>
-							REGEXP_LIKE(board.board_content_text, #{boardCri.keywordRegexp})
+							REGEXP_LIKE( board.board_content_text, #{boardCri.keywordRegexp} )
 						</if>
 						<if test='item.equals("writer")'>
 							member.member_id LIKE '%' || #{boardCri.keyword} || '%'

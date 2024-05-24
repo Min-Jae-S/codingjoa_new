@@ -148,6 +148,8 @@ public class CommentServiceImpl implements CommentService {
 		}
 		
 		comment.setCommentContent(commentDto.getCommentContent());
+		log.info("\t > set up modifyComment using the found comment");
+		
 		commentMapper.updateComment(comment);
 	}
 	

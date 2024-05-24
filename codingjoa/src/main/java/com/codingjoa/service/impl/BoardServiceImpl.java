@@ -167,7 +167,7 @@ public class BoardServiceImpl implements BoardService {
 		board.setBoardContent(newBoardContent);
 		board.setBoardContentText(newBoardContentText);
 		board.setBoardCategoryCode(boardDto.getBoardCategoryCode());
-		log.info("\t > modifyBoard = {}", board);
+		log.info("\t > set up modifyBoard using the found board");
 		
 		boardMapper.updateBoard(board);
 		imageService.modifyBoardImages(boardDto);
