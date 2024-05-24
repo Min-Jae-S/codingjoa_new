@@ -137,6 +137,7 @@ public class BoardController {
 		BoardDto modifyBoardDto = boardService.getModifyBoard(boardIdx, principal.getMember().getMemberIdx());
 		model.addAttribute("modifyBoardDto", modifyBoardDto);
 		model.addAttribute("boardCategoryList", categoryService.getBoardCategoryList());
+		
 		return "board/modify";
 	}
 	
@@ -167,6 +168,7 @@ public class BoardController {
 		// fk_board_image_board --> ON DELETE SET NULL
 		// fk_comment_board		--> ON DELETE CASCADE
 		int boardCategoryCode = boardService.deleteBoard(boardIdx, principal.getMember().getMemberIdx());
+		
 		return "redirect:/board/?boardCategoryCode=" + boardCategoryCode;
 	}
 	

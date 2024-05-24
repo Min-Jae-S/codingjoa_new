@@ -23,8 +23,8 @@ public interface ImageService {
 	// test
 	BoardImage findBoardImageByIdx(Integer boardIdx);
 
-	BoardImage findBoardImageByName(String boardImageName);
+	BoardImage getBoardImageByName(String boardImageName);
 	
-	MemberImage findMemberImageByName(String profileImageName, Integer memberIdx);
+	MemberImage getMemberImageByName(String profileImageName, Integer memberIdx);
 	
 }
