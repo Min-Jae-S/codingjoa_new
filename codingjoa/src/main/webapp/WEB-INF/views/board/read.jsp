@@ -516,7 +516,7 @@
 		</div>
 		
 		<!-- likes test -->
-		<div class="test3 mt-5">
+		<div class="test3 mt-5 d-none">
 			<div class="input-group mb-4">
 				<div class="input-group-prepend">
     				<span class="input-group-text">Toggle boardLikes</span>

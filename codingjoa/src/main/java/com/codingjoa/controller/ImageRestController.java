@@ -14,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -55,11 +54,12 @@ public class ImageRestController {
 	}
 	
 	// 이미지 여러개 업로드로 변경하기
-	@PostMapping("/board/image") // @PostMapping("/upload/board-image")
+	@PostMapping("/board/image")
 	public ResponseEntity<Object> uploadBoardImage(@ModelAttribute @Valid UploadFileDto uploadFileDto,
 			HttpServletRequest request) throws IllegalStateException, IOException {
 		log.info("## uploadBoardImage");
 		BoardImage boardImage = imageService.uploadBoardImage(uploadFileDto.getFile());
+		
 		return ResponseEntity.ok(SuccessResponse
 				.builder()
 				.messageByCode("success.UploadBoardImage")
@@ -77,14 +77,14 @@ public class ImageRestController {
 		BoardImage boardImage = imageService.getBoardImageByName(boardImageName);
 		Path boardImagePath = Path.of(boardImage.getBoardImagePath());
 		UrlResource resource = new UrlResource(boardImagePath.toUri());
-		//log.info("\t > create urlResource = {}", resource);
+		log.info("\t > create urlResource = {}", resource);
 		
 		return ResponseEntity.ok(resource);
 	}
 	
-	@PostMapping("/member/image") // @PostMapping("/upload/member-image")
+	@PostMapping("/member/image")
 	public ResponseEntity<Object> uploadMemberImage(@ModelAttribute @Valid UploadFileDto uploadFileDto,
-			@AuthenticationPrincipal UserDetailsDto principal, HttpServletRequest request) throws IllegalStateException, IOException {
+			@AuthenticationPrincipal UserDetailsDto principal) throws IllegalStateException, IOException {
 		log.info("## uploadMemberImage");
 		
 		Integer memberIdx = principal.getMember().getMemberIdx();
@@ -93,10 +93,7 @@ public class ImageRestController {
 		String memberId = principal.getMember().getMemberId();
 		resetAuthentication(memberId);
 		
-		return ResponseEntity.ok(SuccessResponse
-				.builder()
-				.messageByCode("success.UploadMemberImage")
-				.build());
+		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.UploadMemberImage").build());
 	}
 	
 	@GetMapping(value = { "/member/images/", "/member/images/{memberImageName:.+}"}, produces = MediaType.IMAGE_JPEG_VALUE) 
@@ -116,11 +113,6 @@ public class ImageRestController {
 		UserDetails userDetails = userDetailsService.loadUserByUsername(memberId);
 		Authentication newAuthentication = 
 				new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-
-		SecurityContext securityContext = SecurityContextHolder.getContext();
-		securityContext.setAuthentication(newAuthentication);
-		
-		//HttpSession session = request.getSession(true);
-	    //session.setAttribute("SPRING_SECURITY_CONTEXT", securityContext);
+		SecurityContextHolder.getContext().setAuthentication(newAuthentication);
 	}
 }

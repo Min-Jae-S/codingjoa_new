@@ -12,9 +12,9 @@ import com.codingjoa.entity.Member;
 @Mapper
 public interface MemberMapper {
 	
-	int saveMember(Member member);
+	int insertMember(Member member);
 	
-	void saveAuth(Auth auth);
+	void insertAuth(Auth auth);
 	
 	boolean isIdExist(String memberId);
 	

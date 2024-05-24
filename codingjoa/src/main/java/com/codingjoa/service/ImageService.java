@@ -21,7 +21,7 @@ public interface ImageService {
 	void uploadMemberImage(MultipartFile file, Integer memberIdx) throws IllegalStateException, IOException;
 	
 	// test
-	BoardImage findBoardImageByIdx(Integer boardIdx);
+	BoardImage getBoardImageByIdx(Integer boardIdx);
 
 	BoardImage getBoardImageByName(String boardImageName);
 	

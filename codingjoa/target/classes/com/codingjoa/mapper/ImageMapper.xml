@@ -106,7 +106,7 @@
 	<!-- test -->
 	<select id="findBoardImageByIdx" parameterType="int" resultType="boardImage">
 		SELECT 
-			* 
+			*
 		FROM 
 			board_image 
 		WHERE 

@@ -122,10 +122,7 @@ public class MemberRestController {
 		emailService.sendAuthCode(memberEmail, authCode);
 		redisService.saveKeyAndValue(memberEmail, authCode);
 		
-		return ResponseEntity.ok(SuccessResponse
-				.builder()
-				.messageByCode("success.SendAuthCode")
-				.build());
+		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.SendAuthCode").build());
 	}
 	
 	@PutMapping("/email")
@@ -139,10 +136,7 @@ public class MemberRestController {
 		redisService.deleteKey(emailAuthDto.getMemberEmail());
 		resetAuthentication(currentMember.getMemberId());
 		
-		return ResponseEntity.ok(SuccessResponse
-				.builder()
-				.messageByCode("success.UpdateEmail")
-				.build());
+		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.UpdateEmail").build());
 	}
 	
 	@PutMapping("/address")
@@ -155,10 +149,7 @@ public class MemberRestController {
 		memberService.updateAddr(addrDto, currentMember.getMemberIdx());
 		resetAuthentication(currentMember.getMemberId());
 		
-		return ResponseEntity.ok(SuccessResponse
-				.builder()
-				.messageByCode("success.UpdateAddr")
-				.build());
+		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.UpdateAddr").build());
 	}
 	
 	@PutMapping("/agree")
@@ -171,10 +162,7 @@ public class MemberRestController {
 		memberService.updateAgree(agreeDto, currentMember.getMemberIdx());
 		resetAuthentication(currentMember.getMemberId());
 		
-		return ResponseEntity.ok(SuccessResponse
-				.builder()
-				.messageByCode("success.UpdateAgree")
-				.build());
+		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.UpdateAgree").build());
 	}
 	
 	@GetMapping("/details")
@@ -183,10 +171,7 @@ public class MemberRestController {
 		// antMatchers("/api/member/details").authenticated() --> principal can't be null
 		//MemberDetailsDto memberDetails = (principal != null) ? modelMapper.map(principal, MemberDetailsDto.class) : null;
 		MemberDetailsDto memberDetails = modelMapper.map(principal, MemberDetailsDto.class);
-		return ResponseEntity.ok(SuccessResponse
-				.builder()
-				.data(memberDetails)
-				.build());
+		return ResponseEntity.ok(SuccessResponse.builder().data(memberDetails).build());
 	}
 
 	@PostMapping("/confirm/password")
@@ -199,10 +184,7 @@ public class MemberRestController {
 		memberService.checkCurrentPassword(passwordDto, currentMember.getMemberIdx());
 		redisService.saveKeyAndValue(currentMember.getMemberId(), "PASSWORD_CONFIRM");
 		
-		return ResponseEntity.ok(SuccessResponse
-				.builder()
-				.messageByCode("success.ConfirmPassword")
-				.build());
+		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.ConfirmPassword").build());
 	}
 	
 	@PutMapping("/password")
@@ -218,10 +200,7 @@ public class MemberRestController {
 		redisService.deleteKey(memberId);
 		resetAuthentication(memberId);
 		
-		return ResponseEntity.ok(SuccessResponse
-				.builder()
-				.messageByCode("success.UpdatePassword")
-				.build());
+		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.UpdatePassword").build());
 	}
 	
 	@PostMapping("/find/account")
@@ -235,10 +214,7 @@ public class MemberRestController {
 		
 		emailService.sendFoundAccount(memberEmail, memberId);
 		
-		return ResponseEntity.ok(SuccessResponse
-				.builder()
-				.messageByCode("success.FindAccount")
-				.build());
+		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.FindAccount").build());
 	}
 	
 	@PostMapping("/find/password")
@@ -265,10 +241,7 @@ public class MemberRestController {
 		emailService.sendResetPasswordUrl(memberEmail, memberId, url);
 		redisService.saveKeyAndValue(key, memberIdx.toString());
 		
-		return ResponseEntity.ok(SuccessResponse
-				.builder()
-				.messageByCode("success.FindPassword")
-				.build());
+		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.FindPassword").build());
 	}
 	
 	@PutMapping("/reset/password")
@@ -282,10 +255,7 @@ public class MemberRestController {
 		memberService.updatePassword(passwordChangeDto, memberIdx);
 		redisService.deleteKey(key);
 		
-		return ResponseEntity.ok(SuccessResponse
-				.builder()
-				.messageByCode("success.ResetPassword")
-				.build());
+		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.ResetPassword").build());
 	}
 	
 	// TEST
@@ -302,10 +272,7 @@ public class MemberRestController {
 			log.info("\t > after removing key from redis, hasKey = {}", redisService.hasKey(memberId));
 		}
 		
-		return ResponseEntity.ok(SuccessResponse
-				.builder()
-				.message("success")
-				.build());
+		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 	
 	// TEST
@@ -328,8 +295,5 @@ public class MemberRestController {
 		Authentication newAuthentication = 
 				new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 		SecurityContextHolder.getContext().setAuthentication(newAuthentication);
-		
-		//HttpSession session = request.getSession(true);
-	    //session.setAttribute("SPRING_SECURITY_CONTEXT", securityContext);
 	}
 }

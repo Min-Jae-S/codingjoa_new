@@ -145,7 +145,7 @@ public class ImageServiceImpl implements ImageService {
 
 	// test
 	@Override
-	public BoardImage findBoardImageByIdx(Integer boardIdx) {
+	public BoardImage getBoardImageByIdx(Integer boardIdx) {
 		return imageMapper.findBoardImageByIdx(boardIdx);
 	}
 

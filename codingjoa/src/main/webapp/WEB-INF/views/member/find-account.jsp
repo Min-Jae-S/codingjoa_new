@@ -74,7 +74,7 @@
 <div class="container find-account-container">
 	<div class="find-account-wrap">
 		<h5 class="font-weight-bold">계정 찾기</h5>
-		<div class="pt-3" style="border-top: 1px solid black;">
+		<div class="pt-3 border-top border-dark">
 			<p class="title">
 				<span>회원가입 시 입력한 이메일 주소로 아이디를 보내드립니다.</span>
 			</p>

@@ -68,7 +68,7 @@
 <div class="container find-password-container">
 	<div class="find-password-wrap">
 		<h5 class="font-weight-bold">비밀번호 찾기</h5>
-		<div class="pt-3" style="border-top: 1px solid black;">
+		<div class="pt-3 border-top border-dark">
 			<p class="title">
 				<span>코딩조아(Codingjoa) 계정의 아이디와 등록한 이메일을 입력해주세요.</span><br/>
 				<span>입력하신 정보와 일치하는 계정이 있다면 비밀번호 재설정을 위한 링크가 이메일을 통해 전송됩니다.</span><br/>

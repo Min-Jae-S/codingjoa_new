@@ -146,7 +146,7 @@
 <div class="container info-container">
 	<div class="info-wrap">
 		<h5 class="font-weight-bold">계정 정보</h5>
-		<div class="pt-4" style="border-top: 1px solid black;">
+		<div class="pt-4 border-top border-dark">
 			<div class="mb-5 d-flex">
 				<div class="wrap-member-image mr-4">
 					<c:choose>
@@ -270,8 +270,9 @@
 				</dl>
 			</div>
 		</div>
+		
 		<!-- test -->
-		<div class="input-group pt-5 d-none">
+		<div class="input-group pt-5">
 			<div class="input-group-prepend">
    				<span class="input-group-text">/api/member/images/{memberImageName}</span>
 			</div>
@@ -298,7 +299,7 @@
 			e.stopPropagation();
 		})
 		
-		// upload member image
+		// uploadMemberImage
 		$("#memberImage").on("change", function() {
 			// jQuery object --> javaScript DOM object 
 			// let $memberImage = $(this)[0];
@@ -324,6 +325,7 @@
 		
 		$("#memberThumbImage, #navMemberImage").on("load", function() {
 			console.log("%c## IMAGE LOADING SUCCESS", "color:green");
+			console.log("> %s", this.id);
 			/* let imageURL = $(this).attr("src");
 			console.log("> revoke imageURL = %s", imageURL);
 			URL.revokeObjectURL(imageURL); */
@@ -331,9 +333,10 @@
 
 		$("#memberThumbImage, #navMemberImage").on("error", function() {
 			console.log("%c## IMAGE LOADING FAILURE", "color:red");
+			console.log("> %s", this.id);
 		});
 		
-		// send auth code
+		// sendAuthCode
 		$("#sendAuthCodeBtn").on("click", function() {
 			let obj = {
 				memberEmail : $("#memberEmail").val(),
@@ -346,7 +349,7 @@
 			});
 		});
 
-		// update email
+		// updateEmail
 		$("#updateEmailBtn").on("click", function() {
 			let obj = {
 				memberEmail : $("#memberEmail").val(),
@@ -378,7 +381,7 @@
 			}
 		});
 		
-		// update addr
+		// updateAddr
 		$("#updateAddrBtn").on("click", function() {
 			let obj = {
 				memberZipcode : $("#memberZipcode").val(),
@@ -414,7 +417,7 @@
 			}
 		});
 
-		// update agree
+		// updateAgree
 		$("#updateAgreeBtn").on("click", function() {
 			let obj = {
 				memberAgree : $("#memberAgree").prop("checked")	

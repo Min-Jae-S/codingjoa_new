@@ -430,7 +430,7 @@ public class TestController {
 		log.info("\t\t - canonical path = {}", uploadFile.getCanonicalPath());
 		
 		Integer boardImageIdx = 28;
-		BoardImage boardImage = uploadService.findBoardImageByIdx(boardImageIdx);
+		BoardImage boardImage = uploadService.getBoardImageByIdx(boardImageIdx);
 		log.info("\t > find boardImage = {}", boardImage);
 		
 		String boardImagePath = boardImage.getBoardImagePath();

@@ -66,7 +66,7 @@
 <div class="container board-container">
 	<div class="modify-wrap">
 		<h4 class="font-weight-bold mb-3">게시글 수정</h4>
-		<div class="pt-4" style="border-top: 1px solid black;">
+		<div class="pt-4 border-top border-dark">
 			<form:form action="${contextPath}/board/modifyProc" method="POST" modelAttribute="modifyBoardDto">
 				<form:hidden path="boardIdx"/>
 				<div class="form-row">

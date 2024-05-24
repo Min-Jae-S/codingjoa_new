@@ -68,10 +68,8 @@ public class CommentRestController {
 		log.info("## getModifyComment, commentIdx = {}", commentIdx);
 		CommentDetailsDto modifyCommentDto = 
 				commentService.getModifyComment(commentIdx, principal.getMember().getMemberIdx());
-		return ResponseEntity.ok(SuccessResponse
-				.builder()
-				.data(modifyCommentDto)
-				.build());
+		
+		return ResponseEntity.ok(SuccessResponse.builder().data(modifyCommentDto).build());
 	}
 	
 	@PostMapping("/comments")
@@ -82,10 +80,8 @@ public class CommentRestController {
 		writeCommentDto.setCommentWriterIdx(principal.getMember().getMemberIdx());
 		writeCommentDto.setCommentUse(true);
 		commentService.writeComment(writeCommentDto);
-		return ResponseEntity.ok(SuccessResponse
-				.builder()
-				.messageByCode("success.WriteComment")
-				.build());
+		
+		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.WriteComment").build());
 	}
 	
 	@PatchMapping(value = { "/comments/", "/comments/{commentIdx}" })
@@ -96,20 +92,16 @@ public class CommentRestController {
 		modifyCommentDto.setCommentIdx(commentIdx);
 		modifyCommentDto.setCommentWriterIdx(principal.getMember().getMemberIdx());
 		commentService.modifyComment(modifyCommentDto);
-		return ResponseEntity.ok(SuccessResponse
-				.builder()
-				.messageByCode("success.UpdateComment")
-				.build());
+		
+		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.UpdateComment").build());
 	}
 	
 	@DeleteMapping(value = { "/comments/", "/comments/{commentIdx}" })
 	public ResponseEntity<Object> deleteComment(@PathVariable int commentIdx, @AuthenticationPrincipal UserDetailsDto principal) {
 		log.info("## deleteComment, commentIdx = {}", commentIdx);
 		commentService.deleteComment(commentIdx, principal.getMember().getMemberIdx()); // update commentUse
-		return ResponseEntity.ok(SuccessResponse
-				.builder()
-				.messageByCode("success.DeleteComment")
-				.build());
+		
+		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.DeleteComment").build());
 	}
 	
 }
