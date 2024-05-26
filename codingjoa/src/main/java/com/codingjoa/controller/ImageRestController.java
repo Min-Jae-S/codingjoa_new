@@ -59,6 +59,7 @@ public class ImageRestController {
 			HttpServletRequest request) throws IllegalStateException, IOException {
 		log.info("## uploadBoardImage");
 		BoardImage boardImage = imageService.uploadBoardImage(uploadFileDto.getFile());
+		
 		return ResponseEntity.ok(SuccessResponse
 				.builder()
 				.messageByCode("success.UploadBoardImage")
@@ -77,6 +78,7 @@ public class ImageRestController {
 		Path boardImagePath = Path.of(boardImage.getBoardImagePath());
 		UrlResource resource = new UrlResource(boardImagePath.toUri());
 		//log.info("\t > create urlResource = {}", resource);
+		
 		return ResponseEntity.ok(resource);
 	}
 	

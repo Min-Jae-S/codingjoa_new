@@ -76,6 +76,7 @@ public class ImageServiceImpl implements ImageService {
 		log.info("## activateBoardImages");
 		List<Integer> boardImages = boardDto.getBoardImages();
 		log.info("\t > activate boardImages = {}", boardImages);
+		
 		if (!boardImages.isEmpty()) {
 			imageMapper.activateBoardImages(boardImages, boardDto.getBoardIdx());
 		}
@@ -97,6 +98,7 @@ public class ImageServiceImpl implements ImageService {
 		
 		List<Integer> newBoardImages = boardDto.getBoardImages();
 		log.info("\t > activate newBoardImages = {}", newBoardImages);
+		
 		if (!newBoardImages.isEmpty()) {
 			imageMapper.activateBoardImages(newBoardImages, boardIdx);
 		}
