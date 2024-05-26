@@ -59,7 +59,6 @@ public class ImageRestController {
 			HttpServletRequest request) throws IllegalStateException, IOException {
 		log.info("## uploadBoardImage");
 		BoardImage boardImage = imageService.uploadBoardImage(uploadFileDto.getFile());
-		
 		return ResponseEntity.ok(SuccessResponse
 				.builder()
 				.messageByCode("success.UploadBoardImage")
@@ -77,8 +76,7 @@ public class ImageRestController {
 		BoardImage boardImage = imageService.getBoardImageByName(boardImageName);
 		Path boardImagePath = Path.of(boardImage.getBoardImagePath());
 		UrlResource resource = new UrlResource(boardImagePath.toUri());
-		log.info("\t > create urlResource = {}", resource);
-		
+		//log.info("\t > create urlResource = {}", resource);
 		return ResponseEntity.ok(resource);
 	}
 	
@@ -96,7 +94,7 @@ public class ImageRestController {
 	public ResponseEntity<Object> getMemberImageResource(@PathVariable String memberImageName, 
 			@AuthenticationPrincipal UserDetailsDto principal) throws MalformedURLException {
 		log.info("## getMemberImageResource");
-		log.info("\t > memberImage = {}", memberImageName);
+		log.info("\t > memberImageName = {}", memberImageName);
 		MemberImage memberImage = imageService.getMemberImageByName(memberImageName, principal.getMember().getMemberIdx());
 		UrlResource resource = new UrlResource("file:" + memberImage.getMemberImagePath());
 		log.info("\t > create urlResource = {}", resource);
