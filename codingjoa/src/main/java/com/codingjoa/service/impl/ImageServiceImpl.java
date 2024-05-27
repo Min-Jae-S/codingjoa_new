@@ -50,10 +50,9 @@ public class ImageServiceImpl implements ImageService {
 		
 		BoardImage boardImage = BoardImage.builder()
 				.boardImageName(uploadFilename)
-				// absolutePath vs canonicalPath (https://dev-handbook.tistory.com/11)
-				.boardImagePath(uploadFile.getCanonicalPath()) 
+				.boardImagePath(uploadFile.getCanonicalPath()) // absolutePath vs canonicalPath (https://dev-handbook.tistory.com/11)
 				.build();
-		log.info("\t > create boardImage = {}", boardImage);
+		log.info("\t > create boardImage");
 		
 		imageMapper.insertBoardImage(boardImage);
 		log.info("\t > after inserting boardImage, boardImageIdx = {}", boardImage.getBoardImageIdx());
@@ -119,7 +118,7 @@ public class ImageServiceImpl implements ImageService {
 				.memberImageName(uploadFilename)
 				.memberImagePath(uploadFile.getCanonicalPath())
 				.build();
-		log.info("\t > create memberImage = {}", memberImage);
+		log.info("\t > create memberImage");
 		
 		imageMapper.deactivateMemberImage(memberIdx);
 		log.info("\t > deactivate oldMemberImage");
@@ -154,8 +153,7 @@ public class ImageServiceImpl implements ImageService {
 	public BoardImage getBoardImageByName(String boardImageName) {
 		BoardImage boardImage = imageMapper.findBoardImageByName(boardImageName);
 		log.info("\t > find boardImage by name");
-		log.info("\t > boardImage = {}", boardImage);
-		
+
 		if (boardImage == null) {
 			throw new ExpectedException("error.NotFoundBoardImage");
 		}
@@ -167,7 +165,6 @@ public class ImageServiceImpl implements ImageService {
 	public MemberImage getMemberImageByName(String memberImageName, Integer memberIdx) {
 		MemberImage memberImage = imageMapper.findMemberImageByName(memberImageName);
 		log.info("\t > find memberImage by name");
-		log.info("\t > memberImage = {}", memberImage);
 		
 		if (memberImage == null) {
 			throw new ExpectedException("error.NotFoundMemberImage");
