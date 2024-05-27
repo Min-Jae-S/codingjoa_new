@@ -56,10 +56,9 @@ public class ImageServiceImpl implements ImageService {
 		log.info("\t > create boardImage = {}", boardImage);
 		
 		imageMapper.insertBoardImage(boardImage);
-		Integer dbBoardImageIdx = boardImage.getBoardImageIdx();
-		log.info("\t > after inserting boardImage, boardImageIdx = {}", dbBoardImageIdx);
+		log.info("\t > after inserting boardImage, boardImageIdx = {}", boardImage.getBoardImageIdx());
 		
-		if (dbBoardImageIdx == null) { 
+		if (boardImage.getBoardImageIdx() == null) { 
 			throw new ExpectedException("error.UploadBoardImage");
 		}
 		
@@ -122,9 +121,8 @@ public class ImageServiceImpl implements ImageService {
 				.build();
 		log.info("\t > create memberImage = {}", memberImage);
 		
-		// @@ deactivateMemberImage를 merge(upsert)로 수정하기  
-		log.info("\t > deactivate memberImage by memeberIdx");
 		imageMapper.deactivateMemberImage(memberIdx);
+		log.info("\t > deactivate oldMemberImage");
 		
 		imageMapper.insertMemberImage(memberImage);
 		log.info("\t > after inserting memberImage, memberImageIdx = {}", memberImage.getMemberImageIdx());

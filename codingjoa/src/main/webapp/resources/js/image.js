@@ -3,7 +3,7 @@ let imageService = (function() {
 
 	function uploadMemberImage(formData, callback) {
 		console.log("## uploadMemberImage");
-		let url = contextPath + "/api/member/image"; // /api/upload/member-image --> /api/member/image
+		let url = contextPath + "/api/member/image";
 		console.log("> URL = '%s'", url);
 		
 		$.ajax({
@@ -30,6 +30,8 @@ let imageService = (function() {
 		});
 	}
 
-	return { uploadMemberImage:uploadMemberImage };
+	return { 
+		uploadMemberImage:uploadMemberImage 
+	};
 	
 })();

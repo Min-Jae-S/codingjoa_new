@@ -103,7 +103,8 @@ public class ImageRestController {
 			@AuthenticationPrincipal UserDetailsDto principal) throws MalformedURLException {
 		log.info("## getMemberImageResource");
 		log.info("\t > memberImageName = {}", memberImageName);
-		MemberImage memberImage = imageService.getMemberImageByName(memberImageName, principal.getMember().getMemberIdx());
+		MemberImage memberImage = 
+				imageService.getMemberImageByName(memberImageName, principal.getMember().getMemberIdx());
 		UrlResource resource = new UrlResource("file:" + memberImage.getMemberImagePath());
 		log.info("\t > create urlResource = {}", resource);
 		
