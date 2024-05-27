@@ -132,8 +132,7 @@ public class ConfigRestController {
 	@GetMapping("/interceptors")
 	public ResponseEntity<Object> getInterceptors() {
 		log.info("## getInterceptors");
-		Map<String, HandlerInterceptor> handlerInterceptorMap = 
-				webApplicationContext.getBeansOfType(HandlerInterceptor.class);
+		Map<String, HandlerInterceptor> handlerInterceptorMap = webApplicationContext.getBeansOfType(HandlerInterceptor.class);
 		handlerInterceptorMap.forEach((key, interceptor) -> 
 			log.info("\t > {} : {}", key, interceptor.getClass().getName()));
 		
@@ -214,8 +213,7 @@ public class ConfigRestController {
 //				.map(resolver -> resolver.getClass().getName())
 //				.collect(Collectors.toList());
 		
-		Map<String, ViewResolver> viewResolverMap = 
-				webApplicationContext.getBeansOfType(ViewResolver.class);
+		Map<String, ViewResolver> viewResolverMap = webApplicationContext.getBeansOfType(ViewResolver.class);
 		viewResolverMap.forEach((key, resolver) -> log.info("\t > {} : {}", key, resolver.getClass().getName()));
 		
 		List<String> viewResolvers = new ArrayList<>();
@@ -254,8 +252,7 @@ public class ConfigRestController {
 	@GetMapping("/handler-exception-resolvers")
 	public ResponseEntity<Object> getHandlerExceptionResolvers() {
 		log.info("## getHandlerExceptionResolvers");
-		HandlerExceptionResolverComposite composite = 
-				webApplicationContext.getBean(HandlerExceptionResolverComposite.class);
+		HandlerExceptionResolverComposite composite = webApplicationContext.getBean(HandlerExceptionResolverComposite.class);
 		List<String> exceptionResolvers = composite.getExceptionResolvers()
 				.stream()
 				.map(resolver -> resolver.getClass().getName())
@@ -266,8 +263,7 @@ public class ConfigRestController {
 			log.info("\t > {}", resolver.substring(resolver.lastIndexOf(".") + 1));
 		});
 		
-		Map<String, HandlerExceptionResolver> exceptionResolverMap = 
-				webApplicationContext.getBeansOfType(HandlerExceptionResolver.class);
+		Map<String, HandlerExceptionResolver> exceptionResolverMap = webApplicationContext.getBeansOfType(HandlerExceptionResolver.class);
 		log.info("  - ExceptionResolvers from HandlerExceptionResolver.class");
 		exceptionResolverMap.forEach((key, resolver) -> log.info("\t > {} : {}", key, resolver.getClass().getName()));
 		
