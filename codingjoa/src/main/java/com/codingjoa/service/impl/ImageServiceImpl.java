@@ -52,7 +52,7 @@ public class ImageServiceImpl implements ImageService {
 				.boardImageName(uploadFilename)
 				.boardImagePath(uploadFile.getCanonicalPath()) // absolutePath vs canonicalPath (https://dev-handbook.tistory.com/11)
 				.build();
-		log.info("\t > create boardImage");
+		log.info("\t > create boardImage entity");
 		
 		imageMapper.insertBoardImage(boardImage);
 		log.info("\t > after inserting boardImage, boardImageIdx = {}", boardImage.getBoardImageIdx());
@@ -103,7 +103,7 @@ public class ImageServiceImpl implements ImageService {
 	}
 	
 	@Override
-	public MemberImage uploadMemberImage(MultipartFile file, Integer memberIdx) throws IllegalStateException, IOException {
+	public void uploadMemberImage(MultipartFile file, Integer memberIdx) throws IllegalStateException, IOException {
 		File uploadFolder = createUploadFolder(memberImagePath);
 		if (!uploadFolder.exists()) {
 			uploadFolder.mkdirs();
@@ -118,7 +118,7 @@ public class ImageServiceImpl implements ImageService {
 				.memberImageName(uploadFilename)
 				.memberImagePath(uploadFile.getCanonicalPath())
 				.build();
-		log.info("\t > create memberImage");
+		log.info("\t > create memberImage entity");
 		
 		imageMapper.deactivateMemberImage(memberIdx);
 		log.info("\t > deactivate oldMemberImage");
@@ -129,8 +129,6 @@ public class ImageServiceImpl implements ImageService {
 		if (memberImage.getMemberImageIdx() == null) { 
 			throw new ExpectedException("error.UploadMemberImage");
 		}
-		
-		return memberImage;
 	}
 	
 	private File createUploadFolder(String path) {

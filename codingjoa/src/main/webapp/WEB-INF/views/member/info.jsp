@@ -311,8 +311,11 @@
 			
 			imageService.uploadMemberImage(formData, function(result) {
 				alert(result.message);
-				let memberImageUrl = "${contextPath}/api/member/images/" + result.data.memberImageName;
-				$("#memberThumbImage, #navMemberImage").attr("src", memberImageUrl);
+				memberService.getMemberDetails(function(result) {
+					let currentMember = result.data.member;
+					let memberImageUrl = "${contextPath}/api/member/images/" + currentMember.memberImageName;
+					$("#memberThumbImage, #navMemberImage").attr("src", memberImageUrl);
+				});
 			});
 		});
 		
