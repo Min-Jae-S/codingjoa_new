@@ -272,7 +272,7 @@
 		</div>
 		
 		<!-- test -->
-		<div class="input-group pt-5">
+		<div class="input-group pt-5 d-none">
 			<div class="input-group-prepend">
    				<span class="input-group-text">/api/member/images/{memberImageName}</span>
 			</div>
@@ -311,24 +311,14 @@
 			
 			imageService.uploadMemberImage(formData, function(result) {
 				alert(result.message);
-				memberService.getMemberDetails(function(result) {
-					let currentMemberImageName = result.data.memberImageName;
-					let memberImageUrl = "${contextPath}/api/member/images/" + currentMemberImageName;
-					$("#memberThumbImage, #navMemberImage").attr("src", memberImageUrl);
-					/* imageService.getMemberImageResource(currentMemberImageName, function(result) {
-						let memberImageUrl = URL.createObjectURL(result);
-						$("#memberThumbImage, #navMemberImage").attr("src", memberImageUrl);
-					}); */
-				});
+				let memberImageUrl = "${contextPath}/api/member/images/" + result.data.memberImageName;
+				$("#memberThumbImage, #navMemberImage").attr("src", memberImageUrl);
 			});
 		});
 		
 		$("#memberThumbImage, #navMemberImage").on("load", function() {
 			console.log("%c## IMAGE LOADING SUCCESS", "color:green");
 			console.log("> %s", this.id);
-			/* let imageURL = $(this).attr("src");
-			console.log("> revoke imageURL = %s", imageURL);
-			URL.revokeObjectURL(imageURL); */
 		});
 
 		$("#memberThumbImage, #navMemberImage").on("error", function() {

@@ -3,6 +3,7 @@ package com.codingjoa.controller;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Path;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -86,10 +87,15 @@ public class ImageRestController {
 	public ResponseEntity<Object> uploadMemberImage(@ModelAttribute @Valid UploadFileDto uploadFileDto,
 			@AuthenticationPrincipal UserDetailsDto principal) throws IllegalStateException, IOException {
 		log.info("## uploadMemberImage");
-		imageService.uploadMemberImage(uploadFileDto.getFile(), principal.getMember().getMemberIdx());
+		MemberImage memberImage = 
+				imageService.uploadMemberImage(uploadFileDto.getFile(), principal.getMember().getMemberIdx());
 		resetAuthentication(principal.getMember().getMemberId());
 		
-		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.UploadMemberImage").build());
+		return ResponseEntity.ok(SuccessResponse
+				.builder()
+				.messageByCode("success.UploadMemberImage")
+				.data(Map.of("memberImageName", memberImage.getMemberImageName()))
+				.build());
 	}
 	
 	@GetMapping(value = { "/member/images/", "/member/images/{memberImageName:.+}"}, produces = MediaType.IMAGE_JPEG_VALUE) 

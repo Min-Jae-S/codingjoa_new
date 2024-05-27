@@ -105,7 +105,7 @@ public class ImageServiceImpl implements ImageService {
 	}
 	
 	@Override
-	public void uploadMemberImage(MultipartFile file, Integer memberIdx) throws IllegalStateException, IOException {
+	public MemberImage uploadMemberImage(MultipartFile file, Integer memberIdx) throws IllegalStateException, IOException {
 		File uploadFolder = createUploadFolder(memberImagePath);
 		if (!uploadFolder.exists()) {
 			uploadFolder.mkdirs();
@@ -127,12 +127,13 @@ public class ImageServiceImpl implements ImageService {
 		imageMapper.deactivateMemberImage(memberIdx);
 		
 		imageMapper.insertMemberImage(memberImage);
-		Integer dbMemberImageIdx = memberImage.getMemberImageIdx();
-		log.info("\t > after inserting memberImage, memberImageIdx = {}", dbMemberImageIdx);
+		log.info("\t > after inserting memberImage, memberImageIdx = {}", memberImage.getMemberImageIdx());
 		
-		if (dbMemberImageIdx == null) { 
+		if (memberImage.getMemberImageIdx() == null) { 
 			throw new ExpectedException("error.UploadMemberImage");
 		}
+		
+		return memberImage;
 	}
 	
 	private File createUploadFolder(String path) {
