@@ -81,7 +81,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/api/comments/**").authenticated()
 				//.mvcMatchers("/api/comments/**").authenticated()
 				.antMatchers(HttpMethod.GET, "/api/comments/**/likes").permitAll()
-				.antMatchers("/api/board/image", "/api/member/image").authenticated() // upload image
+				.antMatchers("/api/board/image", "/api/member/image").authenticated()
 				.antMatchers("/api/member/images", "/api/member/images/**").authenticated()
 				.antMatchers("/api/member/details").authenticated()
 				.antMatchers("/admin/**").hasAnyRole("ADMIN")
