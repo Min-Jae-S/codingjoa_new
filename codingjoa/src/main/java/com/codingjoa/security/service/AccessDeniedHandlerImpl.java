@@ -1,6 +1,8 @@
 package com.codingjoa.security.service;
 
 import java.io.IOException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -26,6 +28,20 @@ public class AccessDeniedHandlerImpl implements AccessDeniedHandler {
 	public void handle(HttpServletRequest request, HttpServletResponse response,
 			AccessDeniedException accessDeniedException) throws IOException, ServletException {
 		log.info("## {}", this.getClass().getSimpleName());
+		log.info("\t > URI = {} '{}'", request.getMethod(), getFullURI(request));
+	}
+	
+	private String getFullURI(HttpServletRequest request) {
+		StringBuilder requestURI = 
+				new StringBuilder(URLDecoder.decode(request.getRequestURI(), StandardCharsets.UTF_8));
+	    String queryString = request.getQueryString();
+	    
+	    if (queryString == null) {
+	        return requestURI.toString();
+	    } else {
+	    	return requestURI.append('?')
+	    			.append(URLDecoder.decode(queryString, StandardCharsets.UTF_8)).toString();
+	    }
 	}
 	
 }

@@ -2,6 +2,7 @@ package com.codingjoa.security.service;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -52,6 +53,7 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 	public void commence(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException authException) throws IOException, ServletException {
 		log.info("## {}", this.getClass().getSimpleName());
+		log.info("\t > URI = {} '{}'", request.getMethod(), getFullURI(request));
 		//log.info("\t > referer = {}", request.getHeader("referer"));
 		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -115,6 +117,19 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 				AuthorityUtils.createAuthorityList("ROLE_ANONYMOUS")); 
 		token.setDetails(authenticationDetailsSource.buildDetails(request));
 		return token;
+	}
+	
+	private String getFullURI(HttpServletRequest request) {
+		StringBuilder requestURI = 
+				new StringBuilder(URLDecoder.decode(request.getRequestURI(), StandardCharsets.UTF_8));
+	    String queryString = request.getQueryString();
+	    
+	    if (queryString == null) {
+	        return requestURI.toString();
+	    } else {
+	    	return requestURI.append('?')
+	    			.append(URLDecoder.decode(queryString, StandardCharsets.UTF_8)).toString();
+	    }
 	}
 	
 	private boolean isAjaxRequest(HttpServletRequest request) {

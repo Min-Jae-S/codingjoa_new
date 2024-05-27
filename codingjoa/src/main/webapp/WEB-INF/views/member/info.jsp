@@ -312,8 +312,7 @@
 			imageService.uploadMemberImage(formData, function(result) {
 				alert(result.message);
 				memberService.getMemberDetails(function(result) {
-					let currentMember = result.data.member;
-					let memberImageUrl = "${contextPath}/api/member/images/" + currentMember.memberImageName;
+					let memberImageUrl = "${contextPath}/api/member/images/" + result.data.memberImageName;
 					$("#memberThumbImage, #navMemberImage").attr("src", memberImageUrl);
 				});
 			});
