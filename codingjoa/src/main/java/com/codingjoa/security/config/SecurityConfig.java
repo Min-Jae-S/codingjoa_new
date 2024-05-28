@@ -16,6 +16,9 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import com.codingjoa.security.filter.AjaxAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity(debug = false)
@@ -67,8 +70,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http
 			.csrf().disable()
-			//.addFilterBefore(logFilter(), WebAsyncManagerIntegrationFilter.class)
-			//.addFilterBefore(encodingFilter(), CsrfFilter.class)
 			.authorizeRequests()
 				//.filterSecurityInterceptorOncePerRequest(false)
 				// https://stackoverflow.com/questions/19941466/spring-security-allows-unauthorized-user-access-to-restricted-url-from-a-forward
@@ -97,6 +98,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.failureHandler(ajaxLoginFailureHandler)
 				.permitAll()
 				.and()
+			.addFilterBefore(ajaxAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+			//.addFilterBefore(logFilter(), WebAsyncManagerIntegrationFilter.class)
+			//.addFilterBefore(encodingFilter(), CsrfFilter.class)
 			.logout()
 				.logoutUrl("/logout")
 				.clearAuthentication(true)
@@ -110,6 +114,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.authenticationProvider(authenticationProvider);
+	}
+	
+	@Bean
+	public AjaxAuthenticationFilter ajaxAuthenticationFilter() {
+		return new AjaxAuthenticationFilter();
 	}
 	
 }

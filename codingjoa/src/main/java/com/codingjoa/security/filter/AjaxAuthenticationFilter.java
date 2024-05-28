@@ -9,15 +9,22 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
-import org.springframework.security.web.util.matcher.RequestMatcher;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class AjaxLoginFilter extends AbstractAuthenticationProcessingFilter {
+@SuppressWarnings("unused")
+public class AjaxAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
+	
+	private static final String USERNAME_KEY = "memberId";
+	private static final String PASSWORD_KEY = "memberPassword";
+	private ObjectMapper objectMapper = new ObjectMapper();
 
-	public AjaxLoginFilter(RequestMatcher requiresAuthenticationRequestMatcher) {
-		super(requiresAuthenticationRequestMatcher);
+	public AjaxAuthenticationFilter() {
+		super(new AntPathRequestMatcher("/login", "POST"));
 	}
 
 	@Override
@@ -26,5 +33,7 @@ public class AjaxLoginFilter extends AbstractAuthenticationProcessingFilter {
 		log.info("## {}", this.getClass().getSimpleName());
 		return null;
 	}
+	
+	
 
 }
