@@ -65,7 +65,7 @@
 	<div class="login-wrap">
 		<div class="card shadow">
 			<div class="card-body p-5">
-				<form:form action="${contextPath}/member/loginProc" method="POST" modelAttribute="loginDto">
+				<form:form action="${contextPath}/loginProc" method="POST" modelAttribute="loginDto">
 					<div class="form-group mb-4">
 						<form:label path="memberId" class="font-weight-bold">아이디</form:label>
 						<form:input path="memberId" class="form-control" placeholder="아이디 입력"/>

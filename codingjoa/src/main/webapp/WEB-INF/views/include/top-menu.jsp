@@ -22,7 +22,7 @@
 			<ul class="navbar-nav ml-auto">
 				<sec:authorize access="isAnonymous()">
 					<li class="nav-item mx-2 mt-1">
-						<a href="${contextPath}/member/login" class="nav-link">로그인</a>
+						<a href="${contextPath}/login" class="nav-link">로그인</a>
 					</li>
 					<li class="nav-item mx-2 mt-1">
 						<a href="${contextPath}/member/join" class="nav-link">회원가입</a>
@@ -55,7 +55,7 @@
 						<a href="${contextPath}/member/account" class="nav-link">계정 관리</a>
 					</li>
 					<li class="nav-item mx-2">
-						<a href="${contextPath}/member/logout" class="nav-link">로그아웃</a>
+						<a href="${contextPath}/logout" class="nav-link">로그아웃</a>
 					</li>
 				</sec:authorize>
 			</ul>
