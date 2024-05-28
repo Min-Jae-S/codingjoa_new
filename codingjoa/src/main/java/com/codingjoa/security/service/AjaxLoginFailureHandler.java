@@ -37,7 +37,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Component
 @Slf4j
-public class LoginFailureHandler implements AuthenticationFailureHandler {
+public class AjaxLoginFailureHandler implements AuthenticationFailureHandler {
 
 	private AuthenticationDetailsSource<HttpServletRequest, ?> authenticationDetailsSource = new WebAuthenticationDetailsSource();
 	private final String key = UUID.randomUUID().toString();
@@ -46,7 +46,6 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException e) throws IOException, ServletException {
 		log.info("## {}", this.getClass().getSimpleName());
-		log.info("\t > referer = {}", request.getHeader("referer"));
 		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		log.info("\t > current authentication token = {}", 
@@ -73,17 +72,18 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
 				.build();
 		log.info("\t > {}", errorResponse);
 		
+		response.setStatus(HttpStatus.UNAUTHORIZED.value());
+		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+		response.setCharacterEncoding(StandardCharsets.UTF_8.toString());
+		
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:ss:mm");
 		ObjectMapper objectMapper = Jackson2ObjectMapperBuilder
 				.json()
 				.timeZone(TimeZone.getTimeZone("Asia/Seoul"))
 				.serializerByType(LocalDateTime.class, new LocalDateTimeSerializer(formatter))
 				.build();
-		log.info("\t > respond with errorResponse in JSON format");
 		
-		response.setStatus(HttpStatus.UNAUTHORIZED.value());
-		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-		response.setCharacterEncoding(StandardCharsets.UTF_8.toString());
+		log.info("\t > respond with errorResponse in JSON format");
 		response.getWriter().write(objectMapper.writeValueAsString(errorResponse));
 		response.getWriter().flush();
 		

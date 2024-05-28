@@ -10,6 +10,7 @@ let loginService = (function() {
 		console.log("## login");
 		let url = contextPath + "/api/login";
 		console.log("> URL = '%s'", url);
+		console.log("> sendData = %s", JSON.stringify(formData, null, 2));
 		
 		$.ajax({
 			type : "POST",

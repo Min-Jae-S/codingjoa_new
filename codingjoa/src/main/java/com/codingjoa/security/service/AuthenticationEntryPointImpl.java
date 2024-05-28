@@ -84,17 +84,18 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 					.build();
 			log.info("\t > {}", errorResponse);
 			
+			response.setStatus(HttpStatus.UNAUTHORIZED.value());
+			response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+			response.setCharacterEncoding(StandardCharsets.UTF_8.toString());
+			
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:ss:mm");
 			ObjectMapper objectMapper = Jackson2ObjectMapperBuilder
 					.json()
 					.timeZone(TimeZone.getTimeZone("Asia/Seoul"))
 					.serializerByType(LocalDateTime.class, new LocalDateTimeSerializer(formatter))
 					.build();
-			log.info("\t > respond with errorResponse in JSON format");
 			
-			response.setStatus(HttpStatus.UNAUTHORIZED.value());
-			response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-			response.setCharacterEncoding(StandardCharsets.UTF_8.toString());
+			log.info("\t > respond with errorResponse in JSON format");
 			response.getWriter().write(objectMapper.writeValueAsString(errorResponse));
 			response.getWriter().flush();
 		} else {

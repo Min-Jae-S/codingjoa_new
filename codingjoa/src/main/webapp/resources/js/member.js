@@ -29,6 +29,7 @@ let memberService = (function() {
 				$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
 				let errorResponse = parseError(jqXHR);
 				if (errorResponse != null) {
+					//handleMemberError(errorResponse);
 					let details = errorResponse.details;
 					if (details.length > 0) {
 						$.each(details, function(index, item) {

@@ -109,9 +109,6 @@
 				memberPassword : $("#memberPassword").val()
 			};
 			
-			console.log("> formData = ");
-			console.log(JSON.stringify(formData, null, 2));
-			
 			loginService.login(formData, function(result) {
 				// ...
 			});

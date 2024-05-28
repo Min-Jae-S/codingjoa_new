@@ -26,10 +26,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private AuthenticationProvider authenticationProvider;
 	
 	@Autowired
-	private AuthenticationSuccessHandler loginSuccessHandler;
+	private AuthenticationSuccessHandler ajaxLoginSuccessHandler;
 	
 	@Autowired
-	private AuthenticationFailureHandler loginFailureHandler;
+	private AuthenticationFailureHandler ajaxLoginFailureHandler;
 	
 	@Autowired
 	private AccessDeniedHandler accessDeniedHandler;
@@ -93,8 +93,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.usernameParameter("memberId")
 				.passwordParameter("memberPassword")
 				.loginProcessingUrl("/api/login")
-				.successHandler(loginSuccessHandler)
-				.failureHandler(loginFailureHandler)
+				.successHandler(ajaxLoginSuccessHandler)
+				.failureHandler(ajaxLoginFailureHandler)
 				.permitAll()
 				.and()
 			.logout()
@@ -103,8 +103,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.invalidateHttpSession(true)
 				.and()
 			.exceptionHandling()
-				.authenticationEntryPoint(authenticationEntryPoint)	// check ajax request without using XMLHttpRequest
-				.accessDeniedHandler(accessDeniedHandler); 			// check ajax request 			 
+				.authenticationEntryPoint(authenticationEntryPoint)
+				.accessDeniedHandler(accessDeniedHandler);		 
 	}
 	
 	@Override

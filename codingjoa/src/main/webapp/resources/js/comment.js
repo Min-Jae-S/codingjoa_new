@@ -10,7 +10,7 @@ let commentService = (function() {
 		console.log("## writeComment");
 		let url = contextPath + "/api/comments";
 		console.log("> URL = '%s'", url);
-		console.log("> comment = %s", JSON.stringify(comment, null, 2));
+		console.log("> sendData = %s", JSON.stringify(comment, null, 2));
 		
 		$.ajax({
 			type : "POST",
@@ -121,7 +121,7 @@ let commentService = (function() {
 		console.log("## modifyComment");
 		let url = contextPath + "/api/comments/" + commentIdx;
 		console.log("> URL = '%s'", url);
-		console.log("> comment = %s", JSON.stringify(comment, null, 2));
+		console.log("> sendData = %s", JSON.stringify(comment, null, 2));
 		
 		$.ajax({
 			type : "PATCH",
