@@ -27,5 +27,4 @@ public class AjaxLoginFilter extends AbstractAuthenticationProcessingFilter {
 		return null;
 	}
 
-
 }
