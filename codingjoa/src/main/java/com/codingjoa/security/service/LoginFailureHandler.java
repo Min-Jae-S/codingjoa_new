@@ -24,6 +24,7 @@ import org.springframework.stereotype.Component;
 import com.codingjoa.response.ErrorResponse;
 import com.codingjoa.security.exception.LoginRequireFieldException;
 import com.codingjoa.util.MessageUtils;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -33,7 +34,7 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
 
 	private AuthenticationDetailsSource<HttpServletRequest, ?> authenticationDetailsSource = new WebAuthenticationDetailsSource();
 	private final String key = UUID.randomUUID().toString();
-	private final String DEFAULT_FAILURE_URL = "/member/login";
+	private ObjectMapper objectMapper = new ObjectMapper();
 	
 	@Override
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
@@ -49,16 +50,20 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
 			SecurityContextHolder.getContext().setAuthentication(createAuthentication(request));
 		}
 		
+//		response.setStatus(HttpStatus.UNAUTHORIZED.value());
+//		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+//		response.setCharacterEncoding(StandardCharsets.UTF_8.toString());
+		
 		String message = MessageUtils.getMessage("error.Login");
 		if (e instanceof LoginRequireFieldException || 
 				e instanceof UsernameNotFoundException || e instanceof BadCredentialsException) {
+			log.info("\t > {}", e.getClass().getSimpleName());
 			message = e.getMessage();
 		}
-		log.info("\t > {}", e.getClass().getSimpleName());
-		//log.info("\t > original message = {}", message);
+		log.info("\t > original message = {}", message);
 		
 		message = StringUtils.removeEnd(message.replaceAll("\\.(\\s)*", ".<br>"), "<br>");
-		//log.info("\t > processed message = {}", message);
+		log.info("\t > processed message = {}", message);
 		
 		ErrorResponse errorResponse = ErrorResponse.builder()
 				.status(HttpStatus.UNAUTHORIZED)
@@ -66,9 +71,10 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
 				.build();
 		log.info("\t > {}", errorResponse);
 		
-		request.setAttribute("errorResponse", errorResponse);
-		log.info("\t > forward to {} '{}'", request.getMethod(), DEFAULT_FAILURE_URL);
-		request.getRequestDispatcher(DEFAULT_FAILURE_URL).forward(request, response);
+		log.info("\t > respond with errorResponse in JSON format");
+		response.getWriter().write(objectMapper.writeValueAsString(errorResponse));
+		response.getWriter().flush();
+		
 	}
 	
 	// ref) AnonymousAuthenticationFilter#createAuthentication(HttpServletRequest)

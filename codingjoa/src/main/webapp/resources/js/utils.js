@@ -74,3 +74,15 @@ function handleImageError(errorResponse) {
 		alert(message);
 	}
 }
+
+function handleLoginError(errorResponse) {
+	let details = errorResponse.details;
+	if (details.length > 0) {
+		$.each(details, function(index, item) {
+			alert(item.message);
+		});
+	} else {
+		let message = errorResponse.message.replace(/\\n/gi,"\n");
+		alert(message);
+	}
+}

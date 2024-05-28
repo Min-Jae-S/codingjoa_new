@@ -1,7 +1,6 @@
 package com.codingjoa.security.service;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
@@ -84,24 +83,21 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 			response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 			response.setCharacterEncoding(StandardCharsets.UTF_8.toString());
 			
+			ErrorResponse errorResponse = ErrorResponse.builder()
+					.status(HttpStatus.UNAUTHORIZED)
+					.messageByCode("error.NotLogin")
+					.build();
+			log.info("\t > {}", errorResponse);
+			
+			log.info("\t > respond with errorResponse in JSON format");
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:ss:mm");
 			ObjectMapper objectMapper = Jackson2ObjectMapperBuilder
 					.json()
 					.timeZone(TimeZone.getTimeZone("Asia/Seoul"))
 					.serializerByType(LocalDateTime.class, new LocalDateTimeSerializer(formatter))
 					.build();
-			
-			ErrorResponse errorResponse = ErrorResponse.builder()
-					.status(HttpStatus.UNAUTHORIZED)
-					.messageByCode("error.NotLogin")
-					.build();
-			log.info("\t > respond with errorResponse in JSON format");
-			log.info("\t > {}", errorResponse);
-			
-			PrintWriter writer = response.getWriter();
-			writer.write(objectMapper.writeValueAsString(errorResponse));
-			writer.flush();
-			writer.close();
+			response.getWriter().write(objectMapper.writeValueAsString(errorResponse));
+			response.getWriter().flush();
 		} else {
 			log.info("\t > forward to {} '{}'", request.getMethod(), DEFAULT_FAILURE_URL);
 			request.getRequestDispatcher(DEFAULT_FAILURE_URL).forward(request, response);

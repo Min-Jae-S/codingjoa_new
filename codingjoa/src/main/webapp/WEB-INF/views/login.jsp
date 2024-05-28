@@ -15,6 +15,8 @@
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="${contextPath}/resources/js/utils.js"></script>
+<script src="${contextPath}/resources/js/login.js"></script>
 <style>
 	.info-member {
 		overflow: hidden;
@@ -102,8 +104,24 @@
 			e.preventDefault();
 			console.log("## loginForm submit");
 			
-			// ajax login
+			let formData = {
+				memberId : $("#memberId").val(),
+				memberPassword : $("#memberPassword").val()
+			};
 			
+			console.log("> formData = ");
+			console.log(JSON.stringify(formData, null, 2));
+			
+			loginService.login(formData, function(result) {
+				console.log("login success");
+			});
+			
+		});
+		
+		$("#memberId, #memberPassword").on("keydown", function(e) {
+			if (e.keyCode == 13) {
+				$("#loginForm").submit();
+			}
 		});
 	})
 </script>
