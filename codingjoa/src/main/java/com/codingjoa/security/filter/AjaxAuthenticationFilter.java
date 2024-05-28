@@ -31,7 +31,7 @@ public class AjaxAuthenticationFilter extends AbstractAuthenticationProcessingFi
 	public AjaxAuthenticationFilter() {
 		super(new AntPathRequestMatcher("/login", "POST"));
 	}
-
+	
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws AuthenticationException, IOException, ServletException {

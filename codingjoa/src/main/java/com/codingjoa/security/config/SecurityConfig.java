@@ -117,8 +117,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 	
 	@Bean
-	public AjaxAuthenticationFilter ajaxAuthenticationFilter() {
-		return new AjaxAuthenticationFilter();
+	public AjaxAuthenticationFilter ajaxAuthenticationFilter() throws Exception {
+		AjaxAuthenticationFilter filter = new AjaxAuthenticationFilter();
+		// Error creating bean with name 'ajaxAuthenticationFilter' defined in com.codingjoa.security.config.SecurityConfig: 
+		// Invocation of init method failed; nested exception is java.lang.IllegalArgumentException: authenticationManager must be specified
+		filter.setAuthenticationManager(authenticationManagerBean());
+		return filter;
 	}
 	
 }
