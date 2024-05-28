@@ -58,6 +58,22 @@ public class MemberController {
 		return "member/join-success";
 	}
 
+//	// GET : login form
+//	@GetMapping("/login") 
+//	public String loginForm(@ModelAttribute LoginDto loginDto) {
+//		log.info("## loginForm");
+//		return "member/login";
+//	}
+//	
+//	// POST : login failure --> forward from LoginFailureHandler
+//	@PostMapping("/login")
+//	public String loginFailureForm(@ModelAttribute LoginDto loginDto, HttpServletRequest request) {
+//		log.info("## loginFailureForm");
+//		log.info("\t > {}", loginDto);
+//		log.info("\t > {}", request.getAttribute("errorResponse"));
+//		return "member/login";
+//	}
+	
 	@GetMapping("/account")
 	public String account() {
 		log.info("## account");

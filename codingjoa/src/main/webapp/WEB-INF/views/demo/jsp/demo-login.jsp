@@ -65,19 +65,29 @@
 	<div class="login-wrap">
 		<div class="card shadow">
 			<div class="card-body p-5">
-				<form id="loginForm">
+				<form:form action="${contextPath}/member/loginProc" method="POST" modelAttribute="loginDto">
 					<div class="form-group mb-4">
-						<label class="font-weight-bold" for="memberId" >아이디</label>
-						<input class="form-control" type="text" name="memberId" id="memberId" placeholder="아이디 입력"/>
+						<form:label path="memberId" class="font-weight-bold">아이디</form:label>
+						<form:input path="memberId" class="form-control" placeholder="아이디 입력"/>
 					</div>
 					<div class="form-group mb-4">
-						<label class="font-weight-bold" for="memberPassword">비밀번호</label>
-						<input class="form-control" type="password" name="memberPassword" id="memberPassword" placeholder="비밀번호 입력" autocomplete="off"/>
+						<form:label path="memberPassword" class="font-weight-bold">비밀번호</form:label>
+						<form:password path="memberPassword" class="form-control" placeholder="비밀번호 입력" showPassword="true" autocomplete="off"/>
 					</div>
+					<c:if test="${not empty errorResponse}">
+						<div class="error">
+							<!-- 아이디가 존재하지 않거나 비밀번호가 일치하지 않습니다.<br>입력한 내용을 다시 확인해주세요. -->
+							<c:out value="${errorResponse.message}" escapeXml="false"/>
+						</div>
+						<div class="error d-none">
+							<fmt:parseDate value="${errorResponse.timestamp}" pattern="yyyy-MM-dd'T'HH:mm:ss" var="parsedDateTime" type="both"/>
+							<fmt:formatDate value="${parsedDateTime}" pattern="yyyy-MM-dd'T'HH:mm:ss"/>
+						</div>
+					</c:if>
 					<div class="form-group pt-4 mb-4">
-						<button class="btn btn-primary btn-block">로그인</button>
+						<form:button class="btn btn-primary btn-block">로그인</form:button>
 					</div>
-				</form>
+				</form:form>
 				<div class="info-member">
 					<a class="link-join" href="${contextPath}/member/join">회원가입</a>
 					<ul class="link-ul">
@@ -98,13 +108,19 @@
 
 <script>
 	$(function() {
-		$("#loginForm").on("submit", function(e) {
-			e.preventDefault();
-			console.log("## loginForm submit");
-			
-			// ajax login
-			
-		});
+		<c:if test="${not empty errorResponse}">
+			<fmt:parseDate value="${errorResponse.timestamp}" pattern="yyyy-MM-dd'T'HH:mm:ss" var="parsedDateTime" type="both"/>
+			<fmt:formatDate value="${parsedDateTime}" pattern="yyyy-MM-dd'T'HH:mm:ss" var="timestamp"/>
+			let errorResponse = {
+				status : <c:out value='${errorResponse.status}'/>,
+				message : "<c:out value='${errorResponse.message}' escapeXml='false'/>",
+				details : <c:out value='${errorResponse.details}'/>,
+				timestamp : "<c:out value='${timestamp}'/>"
+			};
+			console.log("## just for inspecting the error response");
+			console.log("> errorResponse is not JSON");
+			console.log(JSON.stringify(errorResponse, null, 2));
+		</c:if>
 	})
 </script>
 </body>

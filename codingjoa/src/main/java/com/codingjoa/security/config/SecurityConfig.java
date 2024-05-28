@@ -103,8 +103,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.invalidateHttpSession(true)
 				.and()
 			.exceptionHandling()
-				.authenticationEntryPoint(authenticationEntryPoint)	// XMLHttpRequest가 아닌 다른 것으로 ajax 판단하기
-				.accessDeniedHandler(accessDeniedHandler); 			// ajax check 추가하기 			 
+				.authenticationEntryPoint(authenticationEntryPoint)	// check ajax request without using XMLHttpRequest
+				.accessDeniedHandler(accessDeniedHandler); 			// check ajax request 			 
 	}
 	
 	@Override

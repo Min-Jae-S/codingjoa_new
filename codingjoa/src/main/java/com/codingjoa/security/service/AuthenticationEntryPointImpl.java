@@ -133,8 +133,6 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 	}
 	
 	private boolean isAjaxRequest(HttpServletRequest request) {
-		String ajaxHeader = request.getHeader("x-requested-with");
-		log.info("\t > x-requested-with = {}", ajaxHeader);
-		return "XMLHttpRequest".equals(ajaxHeader);
+		return "XMLHttpRequest".equals(request.getHeader("x-requested-with"));
 	}
 }

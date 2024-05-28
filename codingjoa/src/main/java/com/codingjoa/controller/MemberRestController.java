@@ -257,8 +257,7 @@ public class MemberRestController {
 		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.ResetPassword").build());
 	}
 	
-	// TEST
-	@DeleteMapping("/test/password-confirm/key")
+	@DeleteMapping("/test/password-confirm/key") // test
 	public ResponseEntity<Object> removePasswordConfirmKey(@AuthenticationPrincipal UserDetailsDto principal) {
 		log.info("## removePasswordConfirmKey");
 		log.info("\t > principal = {}", principal);
@@ -274,8 +273,7 @@ public class MemberRestController {
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 	
-	// TEST
-	@DeleteMapping("/test/password-reset/key")
+	@DeleteMapping("/test/password-reset/key") // test
 	public ResponseEntity<Object> removePasswordResetKey(@RequestParam String key) {
 		log.info("## removePasswordResetKey");
 
