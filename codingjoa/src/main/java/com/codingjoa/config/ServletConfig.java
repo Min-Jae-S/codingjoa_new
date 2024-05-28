@@ -51,6 +51,7 @@ import com.codingjoa.service.CategoryService;
 import com.codingjoa.service.RedisService;
 import com.codingjoa.util.MessageUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -195,7 +196,6 @@ public class ServletConfig implements WebMvcConfigurer {
 		resolvers.add(commentCriteriaArgumentResolver());
 	}
 
-	@SuppressWarnings("unchecked")
 	@Bean
 	public HandlerMethodArgumentResolver boardCriteriaArgumentResolver() {
 		BoardCriteriaArgumentResolver resolver = new BoardCriteriaArgumentResolver();
@@ -207,8 +207,8 @@ public class ServletConfig implements WebMvcConfigurer {
 		String jsonTypeGroup = env.getProperty("criteria.board.typeGroup");
 		ObjectMapper objectMapper = new ObjectMapper();
 		try {
-			resolver.setRecordCntGroup(objectMapper.readValue(jsonRecordCntGroup, Map.class));
-			resolver.setTypeGroup(objectMapper.readValue(jsonTypeGroup, Map.class));
+			resolver.setRecordCntGroup(objectMapper.readValue(jsonRecordCntGroup, new TypeReference<Map<String, Object>>() {}));
+			resolver.setTypeGroup(objectMapper.readValue(jsonTypeGroup,new TypeReference<Map<String, Object>>() {}));
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}

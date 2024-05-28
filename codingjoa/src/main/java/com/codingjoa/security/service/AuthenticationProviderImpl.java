@@ -11,7 +11,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import com.codingjoa.security.exception.LoginRequireFieldException;
 import com.codingjoa.util.MessageUtils;
 
 import lombok.extern.slf4j.Slf4j;
@@ -58,13 +57,6 @@ public class AuthenticationProviderImpl implements AuthenticationProvider {
 		
 		String memberId = (String) authentication.getPrincipal();
 		String memberPassword = (String) authentication.getCredentials();
-		log.info("\t > memberId = '{}', memberPassword = '{}'", memberId, memberPassword);
-		
-		if ("".equals(memberId)) {
-			throw new LoginRequireFieldException(MessageUtils.getMessage("error.LoginRequireId"));
-		} else if ("".equals(memberPassword)) {
-			throw new LoginRequireFieldException(MessageUtils.getMessage("error.LoginRequirePassword"));
-		}
 		
 		UserDetails userDetails = userDetailsService.loadUserByUsername(memberId);
 		if (!passwordEncoder.matches(memberPassword, userDetails.getPassword())) {
