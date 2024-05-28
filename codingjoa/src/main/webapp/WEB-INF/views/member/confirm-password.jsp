@@ -16,8 +16,8 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://kit.fontawesome.com/c503d71f81.js"></script>
-<script src="${contextPath}/resources/js/utils.js"></script>
 <script src="${contextPath}/resources/js/member.js"></script>
+<script src="${contextPath}/resources/js/handle-errors.js"></script>
 <style>
 	input[type="text"], input[type="password"] {
 		border: none;

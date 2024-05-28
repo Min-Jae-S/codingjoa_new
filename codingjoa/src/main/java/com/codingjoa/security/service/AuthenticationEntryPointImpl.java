@@ -53,7 +53,6 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 			AuthenticationException authException) throws IOException, ServletException {
 		log.info("## {}", this.getClass().getSimpleName());
 		log.info("\t > URI = {} '{}'", request.getMethod(), getFullURI(request));
-		//log.info("\t > referer = {}", request.getHeader("referer"));
 		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		log.info("\t > current authentication token = {}", 
@@ -79,23 +78,23 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 		*/
 		
 		if (isAjaxRequest(request)) {
-			response.setStatus(HttpStatus.UNAUTHORIZED.value());
-			response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-			response.setCharacterEncoding(StandardCharsets.UTF_8.toString());
-			
 			ErrorResponse errorResponse = ErrorResponse.builder()
 					.status(HttpStatus.UNAUTHORIZED)
 					.messageByCode("error.NotLogin")
 					.build();
 			log.info("\t > {}", errorResponse);
 			
-			log.info("\t > respond with errorResponse in JSON format");
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:ss:mm");
 			ObjectMapper objectMapper = Jackson2ObjectMapperBuilder
 					.json()
 					.timeZone(TimeZone.getTimeZone("Asia/Seoul"))
 					.serializerByType(LocalDateTime.class, new LocalDateTimeSerializer(formatter))
 					.build();
+			log.info("\t > respond with errorResponse in JSON format");
+			
+			response.setStatus(HttpStatus.UNAUTHORIZED.value());
+			response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+			response.setCharacterEncoding(StandardCharsets.UTF_8.toString());
 			response.getWriter().write(objectMapper.writeValueAsString(errorResponse));
 			response.getWriter().flush();
 		} else {
@@ -115,6 +114,10 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 		return token;
 	}
 	
+	private boolean isAjaxRequest(HttpServletRequest request) {
+		return "XMLHttpRequest".equals(request.getHeader("x-requested-with"));
+	}
+	
 	private String getFullURI(HttpServletRequest request) {
 		StringBuilder requestURI = 
 				new StringBuilder(URLDecoder.decode(request.getRequestURI(), StandardCharsets.UTF_8));
@@ -126,9 +129,5 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 	    	return requestURI.append('?')
 	    			.append(URLDecoder.decode(queryString, StandardCharsets.UTF_8)).toString();
 	    }
-	}
-	
-	private boolean isAjaxRequest(HttpServletRequest request) {
-		return "XMLHttpRequest".equals(request.getHeader("x-requested-with"));
 	}
 }

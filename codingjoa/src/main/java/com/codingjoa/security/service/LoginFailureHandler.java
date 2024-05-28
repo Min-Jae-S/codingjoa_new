@@ -1,6 +1,10 @@
 package com.codingjoa.security.service;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.TimeZone;
 import java.util.UUID;
 
 import javax.servlet.ServletException;
@@ -9,6 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationDetailsSource;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -25,6 +31,7 @@ import com.codingjoa.response.ErrorResponse;
 import com.codingjoa.security.exception.LoginRequireFieldException;
 import com.codingjoa.util.MessageUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -34,7 +41,6 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
 
 	private AuthenticationDetailsSource<HttpServletRequest, ?> authenticationDetailsSource = new WebAuthenticationDetailsSource();
 	private final String key = UUID.randomUUID().toString();
-	private ObjectMapper objectMapper = new ObjectMapper();
 	
 	@Override
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
@@ -49,10 +55,6 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
 		if (authentication == null) {
 			SecurityContextHolder.getContext().setAuthentication(createAuthentication(request));
 		}
-		
-//		response.setStatus(HttpStatus.UNAUTHORIZED.value());
-//		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-//		response.setCharacterEncoding(StandardCharsets.UTF_8.toString());
 		
 		String message = MessageUtils.getMessage("error.Login");
 		if (e instanceof LoginRequireFieldException || 
@@ -71,7 +73,17 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
 				.build();
 		log.info("\t > {}", errorResponse);
 		
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:ss:mm");
+		ObjectMapper objectMapper = Jackson2ObjectMapperBuilder
+				.json()
+				.timeZone(TimeZone.getTimeZone("Asia/Seoul"))
+				.serializerByType(LocalDateTime.class, new LocalDateTimeSerializer(formatter))
+				.build();
 		log.info("\t > respond with errorResponse in JSON format");
+		
+		response.setStatus(HttpStatus.UNAUTHORIZED.value());
+		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+		response.setCharacterEncoding(StandardCharsets.UTF_8.toString());
 		response.getWriter().write(objectMapper.writeValueAsString(errorResponse));
 		response.getWriter().flush();
 		
