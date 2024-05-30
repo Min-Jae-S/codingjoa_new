@@ -306,9 +306,6 @@
 			const formData = new FormData();
 			formData.append("file", this.files[0]);
 
-			// initialize the file input, but not with null
-			this.value = "";
-			
 			imageService.uploadMemberImage(formData, function(result) {
 				alert(result.message);
 				memberService.getMemberDetails(function(result) {

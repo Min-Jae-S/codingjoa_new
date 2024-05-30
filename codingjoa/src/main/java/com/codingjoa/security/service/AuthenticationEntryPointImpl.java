@@ -37,7 +37,6 @@ import lombok.extern.slf4j.Slf4j;
  * 	AuthenticationEntryPoint, commences an authentication scheme.
  * 	Implementations should modify the headers on the <code>ServletResponse</code> 
  * 	as necessary to commence the authentication process.
- * 
  */
 
 @Slf4j
@@ -45,8 +44,8 @@ import lombok.extern.slf4j.Slf4j;
 public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 
 	private AuthenticationDetailsSource<HttpServletRequest, ?> authenticationDetailsSource = new WebAuthenticationDetailsSource();
-	private final String key = UUID.randomUUID().toString();
-	private final String DEFAULT_FAILURE_URL = "/member/login";
+	private static final String key = UUID.randomUUID().toString();
+	private static final String DEFAULT_FAILURE_URL = "/member/login";
 
 	@Override
 	public void commence(HttpServletRequest request, HttpServletResponse response,
@@ -74,16 +73,9 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 				beforeSend: function(xmlHttpRequest) {
 					xmlHttpRequest.setRequestHeader("AJAX", "true")
 				}
-				...
 		*/
 		
 		if (isAjaxRequest(request)) {
-			ErrorResponse errorResponse = ErrorResponse.builder()
-					.status(HttpStatus.UNAUTHORIZED)
-					.messageByCode("error.NotLogin")
-					.build();
-			log.info("\t > {}", errorResponse);
-			
 			response.setStatus(HttpStatus.UNAUTHORIZED.value());
 			response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 			response.setCharacterEncoding(StandardCharsets.UTF_8.toString());
@@ -95,8 +87,15 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 					.serializerByType(LocalDateTime.class, new LocalDateTimeSerializer(formatter))
 					.build();
 			
+			ErrorResponse errorResponse = ErrorResponse.builder()
+					.status(HttpStatus.UNAUTHORIZED)
+					.messageByCode("error.NotLogin")
+					.build();
+			log.info("\t > {}", errorResponse);
+
+			log.info("\t > respond with errorResponse in JSON format");
 			response.getWriter().write(objectMapper.writeValueAsString(errorResponse));
-			response.getWriter().flush();
+			response.getWriter().close();
 		} else {
 			request.getRequestDispatcher(DEFAULT_FAILURE_URL).forward(request, response);
 		}

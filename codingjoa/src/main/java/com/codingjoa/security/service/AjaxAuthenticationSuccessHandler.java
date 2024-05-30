@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Map;
 import java.util.TimeZone;
 
 import javax.servlet.ServletException;
@@ -37,12 +38,6 @@ public class AjaxAuthenticationSuccessHandler implements AuthenticationSuccessHa
 		log.info("\t > authentication token = {}", 
 				(authentication != null) ? authentication.getClass().getSimpleName() : authentication);
 		
-		SuccessResponse successResponse = SuccessResponse.builder()
-				.status(HttpStatus.OK)
-				.messageByCode("success.Login")
-				.build();
-		log.info("\t > {}", successResponse);
-		
 		response.setStatus(HttpStatus.OK.value());
 		response.setContentType(MediaType.APPLICATION_JSON_VALUE.toString());
 		response.setCharacterEncoding(StandardCharsets.UTF_8.toString());
@@ -54,12 +49,19 @@ public class AjaxAuthenticationSuccessHandler implements AuthenticationSuccessHa
 				.serializerByType(LocalDateTime.class, new LocalDateTimeSerializer(formatter))
 				.build();
 		
+		SuccessResponse successResponse = SuccessResponse.builder()
+				.status(HttpStatus.OK)
+				.messageByCode("success.Login")
+				.data(Map.of("redirectUrl", getRedirectUrl(request, response)))
+				.build();
+		log.info("\t > {}", successResponse);
+		
+		log.info("\t > respond with successResponse in JSON format");
 		response.getWriter().write(objectMapper.writeValueAsString(successResponse));
-		response.getWriter().flush();
+		response.getWriter().close();
 	}
 	
-	@SuppressWarnings("unused")
-	private String getReturnUrl(HttpServletRequest request, HttpServletResponse response) {
+	private String getRedirectUrl(HttpServletRequest request, HttpServletResponse response) {
 		RequestCache requestCache = new HttpSessionRequestCache();
 		SavedRequest savedRequest = requestCache.getRequest(request, response);
 		if (savedRequest == null) {

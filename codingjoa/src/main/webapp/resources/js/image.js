@@ -31,6 +31,11 @@ let imageService = (function() {
 				} else {
 					alert("## parsing error");
 				}
+			},
+			complete : function(jqXHR, status) {
+				// initialize the file input, but not with null
+				//this.value = "";
+				$("#memberImageForm")[0].reset();
 			}
 		});
 	}

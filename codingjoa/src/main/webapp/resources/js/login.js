@@ -21,18 +21,22 @@ let loginService = (function() {
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
-				$("div.error").remove();
 				callback(result);
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
-				$("div.error").remove();
+				
 				let errorResponse = parseError(jqXHR);
 				if (errorResponse != null) {
 					handleLoginError(errorResponse);
 				} else {
 					alert("## parsing error");
 				}
+			},
+			complete : function(jqXHR, status) {
+				console.log("complete function");
+				$(".error").remove();
+				console.log("after remove '.error'");
 			}
 		});
 	}

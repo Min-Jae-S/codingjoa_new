@@ -6,6 +6,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -14,12 +15,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.codingjoa.security.filter.AjaxAuthenticationFilter;
-import com.codingjoa.security.service.AjaxAuthenticationFailureHandler;
-import com.codingjoa.security.service.AjaxAuthenticationProvider;
-import com.codingjoa.security.service.AjaxAuthenticationSuccessHandler;
 
 @Configuration
 @EnableWebSecurity(debug = false)
@@ -27,13 +27,13 @@ import com.codingjoa.security.service.AjaxAuthenticationSuccessHandler;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
-	private AjaxAuthenticationProvider ajaxAuthenticationProvider;
+	private AuthenticationProvider ajaxAuthenticationProvider;
 	
 	@Autowired
-	private AjaxAuthenticationSuccessHandler ajaxAuthenticationSuccessHandler;
+	private AuthenticationSuccessHandler ajaxAuthenticationSuccessHandler;
 	
 	@Autowired
-	private AjaxAuthenticationFailureHandler ajaxAuthenticationFailureHandler;
+	private AuthenticationFailureHandler ajaxAuthenticationFailureHandler;
 	
 	@Autowired
 	private AccessDeniedHandler accessDeniedHandler;

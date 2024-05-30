@@ -1,7 +1,7 @@
 package com.codingjoa.interceptor;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -38,17 +38,12 @@ public class CheckPasswordResetKeyInterceptor implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		log.info("## {}", this.getClass().getSimpleName());
+		log.info("\t > URI = {} '{}'", request.getMethod(), getFullURI(request));
 
 		String key = request.getParameter("key");
 		if (!checkPasswordResetKey(key)) {
 			String message =  MessageUtils.getMessage("error.NotPasswordResetKey");
-			//log.info("\t > original message = {}", message);
-			
-			message = StringUtils.removeEnd(message.replaceAll("\\.(\\s)*", ".\\\\n"), "\\n");
-			//log.info("\t > processed message = {}", message);
-
 			HandlerMethod handlerMethod = (HandlerMethod) handler;
-			log.info("\t > {} '{}'", request.getMethod(), request.getRequestURI());
 			if (handlerMethod.getBeanType().isAnnotationPresent(RestController.class)) {
 				responseJSON(request, response, message);
 			} else {
@@ -61,7 +56,6 @@ public class CheckPasswordResetKeyInterceptor implements HandlerInterceptor {
 	}
 	
 	private boolean checkPasswordResetKey(String key) {
-		log.info("\t > key = {}", key == null ? key : "'" + key + "'");
 		return StringUtils.isEmpty(key) ? false : redisService.hasKey(key);
 	}
 	
@@ -82,31 +76,41 @@ public class CheckPasswordResetKeyInterceptor implements HandlerInterceptor {
 				.status(HttpStatus.FORBIDDEN)
 				.message(message)
 				.build();
-		log.info("\t > respond with errorResponse in JSON format");
 		log.info("\t > {}", errorResponse);
 		
-		PrintWriter writer = response.getWriter();
-		writer.write(objectMapper.writeValueAsString(errorResponse)); // \n --> \\n
-		writer.flush();
-		writer.close();
+		log.info("\t > respond with errorResponse in JSON format");
+		response.getWriter().write(objectMapper.writeValueAsString(errorResponse)); // \n --> \\n
+		response.getWriter().close();
 	}
 	
 	private void responseHTML(HttpServletRequest request, HttpServletResponse response, String message)
 			throws IOException {
-		log.info("\t > respond HTML format");
 		response.setStatus(HttpStatus.FORBIDDEN.value());
 		response.setContentType(MediaType.TEXT_HTML.toString());
 		response.setCharacterEncoding(StandardCharsets.UTF_8.toString());
 		
 		String script = "<script>";
+		message = StringUtils.removeEnd(message.replaceAll("\\.(\\s)*", ".\\\\n"), "\\n");
 		script += "alert('" + message + "');";
 		script += "location.href='" + request.getContextPath() + "/member/findPassowrd';";
 		script += "</script>";
 		
-		PrintWriter writer = response.getWriter();
-		writer.write(script);
-		writer.flush();
-		writer.close();
+		log.info("\t > respond with HTML format");
+		response.getWriter().write(script);
+		response.getWriter().close();
+	}
+	
+	private String getFullURI(HttpServletRequest request) {
+		StringBuilder requestURI = 
+				new StringBuilder(URLDecoder.decode(request.getRequestURI(), StandardCharsets.UTF_8));
+	    String queryString = request.getQueryString();
+	    
+	    if (queryString == null) {
+	        return requestURI.toString();
+	    } else {
+	    	return requestURI.append('?')
+	    			.append(URLDecoder.decode(queryString, StandardCharsets.UTF_8)).toString();
+	    }
 	}
 	
 }
