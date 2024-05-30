@@ -28,7 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Component
-public class AjaxLoginSuccessHandler implements AuthenticationSuccessHandler {
+public class AjaxAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 	
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,

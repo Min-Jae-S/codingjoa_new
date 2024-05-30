@@ -37,7 +37,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Component
 @Slf4j
-public class AjaxLoginFailureHandler implements AuthenticationFailureHandler {
+public class AjaxAuthenticationFailureHandler implements AuthenticationFailureHandler {
 
 	private AuthenticationDetailsSource<HttpServletRequest, ?> authenticationDetailsSource = new WebAuthenticationDetailsSource();
 	private final String key = UUID.randomUUID().toString();
