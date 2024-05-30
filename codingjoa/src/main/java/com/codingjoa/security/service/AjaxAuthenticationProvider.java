@@ -44,21 +44,22 @@ public class AjaxAuthenticationProvider implements AuthenticationProvider {
 		 * 
 		 * 		if (username == null) { username = ""; }
 		 * 		if (password == null) { password = ""; }
+		 * 
 		 * 		username = username.trim()
 		 * 
 		 * 		UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(
 		 * 				username, password);
+		 * 
 		 * 		// Allow subclasses to set the "details" property
 		 * 		setDetails(request, authRequest);
 		 * 
 		 *  	return this.getAuthenticationManager().authenticate(authRequest);
 		 *  }
-		 *
+		 *  
 		 */
 		
 		String memberId = (String) authentication.getPrincipal();
 		String memberPassword = (String) authentication.getCredentials();
-		log.info("\t > memberId = '{}', memberPassword = '{}'", memberId, memberPassword);
 		
 		UserDetails userDetails = userDetailsService.loadUserByUsername(memberId);
 		if (!passwordEncoder.matches(memberPassword, userDetails.getPassword())) {

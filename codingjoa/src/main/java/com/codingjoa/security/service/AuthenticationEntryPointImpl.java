@@ -55,7 +55,7 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 		log.info("\t > URI = {} '{}'", request.getMethod(), getFullURI(request));
 		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		log.info("\t > current authentication token = {}", 
+		log.info("\t > authentication token = {}", 
 				(authentication != null) ? authentication.getClass().getSimpleName() : authentication);
 		
 		if (authentication == null) {
@@ -95,18 +95,16 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 					.serializerByType(LocalDateTime.class, new LocalDateTimeSerializer(formatter))
 					.build();
 			
-			log.info("\t > respond with errorResponse in JSON format");
 			response.getWriter().write(objectMapper.writeValueAsString(errorResponse));
 			response.getWriter().flush();
 		} else {
-			log.info("\t > forward to {} '{}'", request.getMethod(), DEFAULT_FAILURE_URL);
 			request.getRequestDispatcher(DEFAULT_FAILURE_URL).forward(request, response);
 		}
 	}
 	
 	// ref) AnonymousAuthenticationFilter#createAuthentication(HttpServletRequest)
 	protected Authentication createAuthentication(HttpServletRequest request) {
-		log.info("\t > create authentication token (AnonymousAuthenticationToken)");
+		log.info("\t > create authentication token - AnonymousAuthenticationToken");
 		
 		// null object pattern 
 		AnonymousAuthenticationToken token = new AnonymousAuthenticationToken(key, "anonymousUser",

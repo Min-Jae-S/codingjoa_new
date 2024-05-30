@@ -47,7 +47,7 @@ public class AjaxAuthenticationFailureHandler implements AuthenticationFailureHa
 		log.info("## {}", this.getClass().getSimpleName());
 		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		log.info("\t > current authentication token = {}", 
+		log.info("\t > authentication token = {}",
 				(authentication != null) ? authentication.getClass().getSimpleName() : authentication);
 		
 		if (authentication == null) {
@@ -59,8 +59,8 @@ public class AjaxAuthenticationFailureHandler implements AuthenticationFailureHa
 				e instanceof UsernameNotFoundException || e instanceof BadCredentialsException) {
 			log.info("\t > {}", e.getClass().getSimpleName());
 			message = e.getMessage();
+			//message = StringUtils.removeEnd(message.replaceAll("\\.(\\s)*", ".<br>"), "<br>");
 		}
-		//message = StringUtils.removeEnd(message.replaceAll("\\.(\\s)*", ".<br>"), "<br>");
 		
 		ErrorResponse errorResponse = ErrorResponse.builder()
 				.status(HttpStatus.UNAUTHORIZED)
@@ -85,7 +85,7 @@ public class AjaxAuthenticationFailureHandler implements AuthenticationFailureHa
 	
 	// ref) AnonymousAuthenticationFilter#createAuthentication(HttpServletRequest)
 	protected Authentication createAuthentication(HttpServletRequest request) {
-		log.info("\t > create authentication token (AnonymousAuthenticationToken)");
+		log.info("\t > create authentication token - AnonymousAuthenticationToken");
 		
 		// null object pattern 
 		AnonymousAuthenticationToken token = new AnonymousAuthenticationToken(key, "anonymousUser",

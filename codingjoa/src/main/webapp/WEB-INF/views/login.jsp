@@ -78,7 +78,6 @@
 							<input class="form-control" type="password" name="memberPassword" id="memberPassword" placeholder="비밀번호 입력" autocomplete="off"/>
 						</div>
 					</div>
-					<!-- errorResponse -->
 					<div class="form-group pt-4 mb-4">
 						<button class="btn btn-primary btn-block">로그인</button>
 					</div>
@@ -113,7 +112,6 @@
 			loginService.login(formData, function(result) {
 				alert(result.message);
 			});
-			
 		});
 		
 		$("#memberId, #memberPassword").on("keydown", function(e) {

@@ -4,7 +4,6 @@ function getContextPath() {
 }
 
 function parseError(jqXHR) {
-	console.log("## parseError");
 	console.log(jqXHR);
 	try {
 		let errorResponse = JSON.parse(jqXHR.responseText);
@@ -88,5 +87,5 @@ function handleLoginError(errorResponse) {
 	let handledMessage = errorResponse.message.replace(/\.\s*/g, ".<br>");
 	console.log("> message = %s", errorResponse.message);
 	console.log("> handled message = %s", handledMessage);
-	$(".id_pw_wrap").after("<div class='error'>" + handledMessage + "</div>");
+	$(".id_pw_wrap").after("<div class='error'><p>" + handledMessage + "</p></div>");
 }
