@@ -4,11 +4,13 @@ function getContextPath() {
 }
 
 function parseError(jqXHR) {
+	console.log(jqXHR);
 	try {
 		let errorResponse = JSON.parse(jqXHR.responseText);
 		console.log(JSON.stringify(errorResponse, null, 2));
 		return errorResponse;
 	} catch(e) {
+		console.log(e);
 		console.log("> not valid JSON");
 		return null;
 	}

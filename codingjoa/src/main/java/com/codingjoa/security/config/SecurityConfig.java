@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -55,7 +56,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	 * 		HeaderWriterFilter
 	 * 		(CharacterEncodingFilter)
 	 * 		LogoutFilter
-	 * 		(CustomAuthenticationFilter)
+	 * 		AjaxAuthenticationFilter ** added filter
 	 * 		UsernamePasswordAuthenticationFilter
 	 * 		RequestCacheAwareFilter
 	 * 		SecurityContextHolderAwareRequestFilter
@@ -92,15 +93,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.addFilterBefore(ajaxAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
 			//.addFilterBefore(logFilter(), WebAsyncManagerIntegrationFilter.class)
 			//.addFilterBefore(encodingFilter(), CsrfFilter.class)
-			.formLogin()
-				.loginPage("/login")
-				.usernameParameter("memberId")
-				.passwordParameter("memberPassword")
-				.loginProcessingUrl("/api/login")
-				.successHandler(ajaxAuthenticationSuccessHandler)
-				.failureHandler(ajaxAuthenticationFailureHandler)
-				.permitAll()
-				.and()
 			.logout()
 				.logoutUrl("/logout")
 				.clearAuthentication(true)
@@ -116,12 +108,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		auth.authenticationProvider(ajaxAuthenticationProvider);
 	}
 	
+	@Override
+	public AuthenticationManager authenticationManagerBean() throws Exception {
+		return super.authenticationManagerBean();
+	}
+
 	@Bean
 	public AjaxAuthenticationFilter ajaxAuthenticationFilter() throws Exception {
 		AjaxAuthenticationFilter filter = new AjaxAuthenticationFilter();
 		// Error creating bean with name 'ajaxAuthenticationFilter' defined in com.codingjoa.security.config.SecurityConfig: 
 		// Invocation of init method failed; nested exception is java.lang.IllegalArgumentException: authenticationManager must be specified
 		filter.setAuthenticationManager(authenticationManagerBean());
+		filter.setAuthenticationFailureHandler(ajaxAuthenticationFailureHandler);
+		filter.setAuthenticationSuccessHandler(ajaxAuthenticationSuccessHandler);
 		return filter;
 	}
 	

@@ -29,7 +29,7 @@ public class AjaxAuthenticationFilter extends AbstractAuthenticationProcessingFi
 	private ObjectMapper objectMapper = new ObjectMapper();
 
 	public AjaxAuthenticationFilter() {
-		super(new AntPathRequestMatcher("/login", "POST"));
+		super(new AntPathRequestMatcher("/api/login", "POST"));
 	}
 	
 	@Override
@@ -50,7 +50,7 @@ public class AjaxAuthenticationFilter extends AbstractAuthenticationProcessingFi
 			throw new LoginRequireFieldException(MessageUtils.getMessage("error.LoginRequirePassword"));
 		}
 		
-		memberId = memberId.trim();
+		//memberId = memberId.trim();
 		
 		UsernamePasswordAuthenticationToken authRequest = 
 				new UsernamePasswordAuthenticationToken(memberId, memberPassword);
