@@ -23,6 +23,9 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
+import org.springframework.security.web.savedrequest.RequestCache;
+import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.stereotype.Component;
 
 import com.codingjoa.response.ErrorResponse;
@@ -45,13 +48,14 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 
 	private AuthenticationDetailsSource<HttpServletRequest, ?> authenticationDetailsSource = new WebAuthenticationDetailsSource();
 	private static final String key = UUID.randomUUID().toString();
-	private static final String DEFAULT_FAILURE_URL = "/member/login";
+	private static final String DEFAULT_FAILURE_URL = "/login";
 
 	@Override
 	public void commence(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException authException) throws IOException, ServletException {
 		log.info("## {}", this.getClass().getSimpleName());
 		log.info("\t > URI = {} '{}'", request.getMethod(), getFullURI(request));
+		log.info("\t > redirectUrl = {}", getRedirectUrl(request, response));
 		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		log.info("\t > authentication token = {}", 
@@ -127,5 +131,14 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 	    	return requestURI.append('?')
 	    			.append(URLDecoder.decode(queryString, StandardCharsets.UTF_8)).toString();
 	    }
+	}
+	
+	private String getRedirectUrl(HttpServletRequest request, HttpServletResponse response) {
+		RequestCache requestCache = new HttpSessionRequestCache();
+		SavedRequest savedRequest = requestCache.getRequest(request, response);
+		if (savedRequest == null) {
+			return request.getSession().getServletContext().getContextPath();
+		}
+		return savedRequest.getRedirectUrl();
 	}
 }

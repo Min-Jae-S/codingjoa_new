@@ -14,11 +14,15 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 
+import com.codingjoa.entity.Member;
 import com.codingjoa.response.ErrorResponse;
+import com.codingjoa.security.dto.UserDetailsDto;
 import com.codingjoa.service.RedisService;
 import com.codingjoa.util.MessageUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -30,19 +34,18 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RequiredArgsConstructor
-public class CheckPasswordResetKeyInterceptor implements HandlerInterceptor {
-
-	private final RedisService redisService;
+public class PasswordConfirmInterceptor implements HandlerInterceptor {
 	
+	private final RedisService redisService;
+
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		log.info("## {}", this.getClass().getSimpleName());
 		log.info("\t > URI = {} '{}'", request.getMethod(), getFullURI(request));
-
-		String key = request.getParameter("key");
-		if (!checkPasswordResetKey(key)) {
-			String message =  MessageUtils.getMessage("error.NotPasswordResetKey");
+		
+		if (!checkPasswordConfirm()) {
+			String message =  MessageUtils.getMessage("error.NotConfirmPassword");
 			HandlerMethod handlerMethod = (HandlerMethod) handler;
 			if (handlerMethod.getBeanType().isAnnotationPresent(RestController.class)) {
 				responseJSON(request, response, message);
@@ -51,12 +54,35 @@ public class CheckPasswordResetKeyInterceptor implements HandlerInterceptor {
 			}
 			return false;
 		}
-		
 		return true;
 	}
 	
-	private boolean checkPasswordResetKey(String key) {
-		return StringUtils.isEmpty(key) ? false : redisService.hasKey(key);
+//	private boolean checkPasswordConfirm(HttpServletRequest request) {
+//		HttpSession session = request.getSession();
+//		Boolean passwordConfirm = (Boolean) session.getAttribute("PASSWORD_CONFIRM");
+//		log.info("\t > PASSWORD_CONFIRM = {}", passwordConfirm);
+//		
+//		return (passwordConfirm == null) ? false : passwordConfirm;
+//	}
+
+	private boolean checkPasswordConfirm() {
+		Authentication authentication  = SecurityContextHolder.getContext().getAuthentication();
+		log.info("\t > authentication = {}", authentication);
+		if (authentication == null) {
+			return false;
+		}
+		
+		Object principal = authentication.getPrincipal();
+		log.info("\t > principal = {}", principal);
+		if (!(principal instanceof UserDetailsDto)) { // String, "anonymousUser"
+			return false;
+		}
+		
+		Member currentMember = ((UserDetailsDto) authentication.getPrincipal()).getMember();
+		String passwordConfirm = redisService.findValueByKey(currentMember.getMemberId());
+		log.info("\t > passwordConfirm = {}", passwordConfirm);
+		
+		return "PASSWORD_CONFIRM".equals(passwordConfirm);
 	}
 	
 	private void responseJSON(HttpServletRequest request, HttpServletResponse response, String message)
@@ -92,7 +118,7 @@ public class CheckPasswordResetKeyInterceptor implements HandlerInterceptor {
 		String script = "<script>";
 		message = StringUtils.removeEnd(message.replaceAll("\\.(\\s)*", ".\\\\n"), "\\n");
 		script += "alert('" + message + "');";
-		script += "location.href='" + request.getContextPath() + "/member/findPassowrd';";
+		script += "location.href='" + request.getContextPath() + "/member/account/confirmPassword';";
 		script += "</script>";
 		
 		log.info("\t > respond with HTML format");
@@ -112,5 +138,4 @@ public class CheckPasswordResetKeyInterceptor implements HandlerInterceptor {
 	    			.append(URLDecoder.decode(queryString, StandardCharsets.UTF_8)).toString();
 	    }
 	}
-	
 }

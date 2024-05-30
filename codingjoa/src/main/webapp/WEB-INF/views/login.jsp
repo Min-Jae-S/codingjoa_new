@@ -110,10 +110,10 @@
 			};
 			
 			loginService.login(formData, function(result) {
-				console.log("success callback");
-				alert(result.message);
-				console.log("after alert");
-				//location.href=result.data.redirectUrl;
+				setTimeout(function() {
+					alert(result.message);
+					//location.href=result.data.redirectUrl;
+				}, 50);
 			});
 		});
 		
