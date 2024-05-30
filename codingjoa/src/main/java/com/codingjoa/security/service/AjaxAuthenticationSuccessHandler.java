@@ -1,6 +1,7 @@
 package com.codingjoa.security.service;
 
 import java.io.IOException;
+import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -35,6 +36,8 @@ public class AjaxAuthenticationSuccessHandler implements AuthenticationSuccessHa
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
 		log.info("## {}", this.getClass().getSimpleName());
+		log.info("\t > redirectURL = '{}'", getRedirectURL(request, response));
+		
 		log.info("\t > authentication token = {}", 
 				(authentication != null) ? authentication.getClass().getSimpleName() : authentication);
 		
@@ -52,7 +55,7 @@ public class AjaxAuthenticationSuccessHandler implements AuthenticationSuccessHa
 		SuccessResponse successResponse = SuccessResponse.builder()
 				.status(HttpStatus.OK)
 				.messageByCode("success.Login")
-				.data(Map.of("redirectUrl", getRedirectUrl(request, response)))
+				.data(Map.of("redirectUrl", getRedirectURL(request, response)))
 				.build();
 		log.info("\t > {}", successResponse);
 		
@@ -61,7 +64,7 @@ public class AjaxAuthenticationSuccessHandler implements AuthenticationSuccessHa
 		response.getWriter().close();
 	}
 	
-	private String getRedirectUrl(HttpServletRequest request, HttpServletResponse response) {
+	private String getRedirectURL(HttpServletRequest request, HttpServletResponse response) {
 		RequestCache requestCache = new HttpSessionRequestCache();
 		SavedRequest savedRequest = requestCache.getRequest(request, response);
 		if (savedRequest == null) {

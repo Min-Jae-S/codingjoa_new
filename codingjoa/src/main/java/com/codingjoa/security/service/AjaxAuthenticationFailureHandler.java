@@ -19,6 +19,9 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
+import org.springframework.security.web.savedrequest.RequestCache;
+import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.stereotype.Component;
 
 import com.codingjoa.response.ErrorResponse;
@@ -37,6 +40,7 @@ public class AjaxAuthenticationFailureHandler implements AuthenticationFailureHa
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException e) throws IOException, ServletException {
 		log.info("## {}", this.getClass().getSimpleName());
+		log.info("\t > redirectURL = '{}'", getRedirectURL(request, response));
 		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		log.info("\t > authentication token = {}",
@@ -70,5 +74,14 @@ public class AjaxAuthenticationFailureHandler implements AuthenticationFailureHa
 		log.info("\t > respond with errorResponse in JSON format");
 		response.getWriter().write(objectMapper.writeValueAsString(errorResponse));
 		response.getWriter().close();
+	}
+	
+	private String getRedirectURL(HttpServletRequest request, HttpServletResponse response) {
+		RequestCache requestCache = new HttpSessionRequestCache();
+		SavedRequest savedRequest = requestCache.getRequest(request, response);
+		if (savedRequest == null) {
+			return request.getSession().getServletContext().getContextPath();
+		}
+		return savedRequest.getRedirectUrl();
 	}
 }

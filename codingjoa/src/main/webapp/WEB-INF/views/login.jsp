@@ -117,11 +117,12 @@
 			});
 		});
 		
-		$("#memberId, #memberPassword").on("keydown", function(e) {
+		/* $("#memberId, #memberPassword").on("keydown", function(e) {
+			e.preventDefault();
 			if (e.keyCode == 13) {
 				$("#loginForm").submit();
 			}
-		});
+		}); */
 	})
 </script>
 </body>

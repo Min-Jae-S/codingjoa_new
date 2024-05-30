@@ -55,7 +55,7 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 			AuthenticationException authException) throws IOException, ServletException {
 		log.info("## {}", this.getClass().getSimpleName());
 		log.info("\t > URI = {} '{}'", request.getMethod(), getFullURI(request));
-		log.info("\t > redirectUrl = {}", getRedirectUrl(request, response));
+		log.info("\t > redirectURL = '{}'", getRedirectURL(request, response));
 		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		log.info("\t > authentication token = {}", 
@@ -133,7 +133,7 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 	    }
 	}
 	
-	private String getRedirectUrl(HttpServletRequest request, HttpServletResponse response) {
+	private String getRedirectURL(HttpServletRequest request, HttpServletResponse response) {
 		RequestCache requestCache = new HttpSessionRequestCache();
 		SavedRequest savedRequest = requestCache.getRequest(request, response);
 		if (savedRequest == null) {
