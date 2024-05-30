@@ -25,8 +25,7 @@ function handleMemberError(errorResponse) {
 				.after("<dd id='" + item.field + ".errors' class='error'>" + item.message + "</dd>");
 		});
 	} else {
-		let message = errorResponse.message.replace(/\\n/gi,"\n");
-		alert(message);
+		alert(errorResponse.message);
 	}
 }
 
@@ -38,8 +37,7 @@ function handleCommentError(errorResponse) {
 			alert(item.message);
 		});
 	} else {
-		let message = errorResponse.message.replace(/\\n/gi,"\n");
-		alert(message);
+		alert(errorResponse.message);
 	}
 }
 
@@ -51,8 +49,7 @@ function handleLikesError(errorResponse) {
 			alert(item.message);
 		});
 	} else {
-		let message = errorResponse.message.replace(/\\n/gi,"\n");
-		alert(message);
+		alert(errorResponse.message);
 	}
 }
 
@@ -64,8 +61,10 @@ function handleUploadError(errorResponse) {
 			alert(item.message);
 		});
 	} else {
-		let message = errorResponse.message.replace(/\\n/gi,"\n");
-		alert(message);
+		let handledMessage = errorResponse.message.replace(/\\n/gi, "\n");
+		console.log("> message = %s", errorResponse.message);
+		console.log("> handled message = %s", handledMessage);
+		alert(handledMessage);
 	}
 }
 
@@ -77,12 +76,17 @@ function handleImageError(errorResponse) {
 			alert(item.message);
 		});
 	} else {
-		let message = errorResponse.message.replace(/\\n/gi,"\n");
-		alert(message);
+		let handledMessage = errorResponse.message.replace(/\\n/gi, "\n");
+		console.log("> message = %s", errorResponse.message);
+		console.log("> handled message = %s", handledMessage);
+		alert(handledMessage);
 	}
 }
 
 function handleLoginError(errorResponse) {
 	console.log("## handleLoginError");
-	$(".id_pw_wrap").after("<div class='error'>" + errorResponse.message + "</div>");
+	let handledMessage = errorResponse.message.replace(/\.\s*/g, ".<br>");
+	console.log("> message = %s", errorResponse.message);
+	console.log("> handled message = %s", handledMessage);
+	$(".id_pw_wrap").after("<div class='error'>" + handledMessage + "</div>");
 }

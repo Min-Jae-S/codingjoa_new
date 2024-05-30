@@ -105,8 +105,6 @@
 	$(function() {
 		$("#loginForm").on("submit", function(e) {
 			e.preventDefault();
-			$("div.error").remove();
-			
 			let formData = {
 				memberId : $("#memberId").val(),
 				memberPassword : $("#memberPassword").val()

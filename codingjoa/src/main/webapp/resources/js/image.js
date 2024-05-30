@@ -29,7 +29,7 @@ let imageService = (function() {
 				if (errorResponse != null) {
 					handleUploadError(errorResponse);
 				} else {
-					alert("## Parsing Error");
+					alert("## parsing error");
 				}
 			}
 		});

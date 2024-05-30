@@ -11,7 +11,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
@@ -61,8 +60,7 @@ public class AjaxAuthenticationFailureHandler implements AuthenticationFailureHa
 			log.info("\t > {}", e.getClass().getSimpleName());
 			message = e.getMessage();
 		}
-		
-		message = StringUtils.removeEnd(message.replaceAll("\\.(\\s)*", ".<br>"), "<br>");
+		//message = StringUtils.removeEnd(message.replaceAll("\\.(\\s)*", ".<br>"), "<br>");
 		
 		ErrorResponse errorResponse = ErrorResponse.builder()
 				.status(HttpStatus.UNAUTHORIZED)
@@ -83,7 +81,6 @@ public class AjaxAuthenticationFailureHandler implements AuthenticationFailureHa
 		
 		response.getWriter().write(objectMapper.writeValueAsString(errorResponse));
 		response.getWriter().flush();
-		
 	}
 	
 	// ref) AnonymousAuthenticationFilter#createAuthentication(HttpServletRequest)
