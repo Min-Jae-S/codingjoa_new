@@ -68,14 +68,17 @@
 		<div class="card shadow">
 			<div class="card-body p-5">
 				<form id="loginForm">
-					<div class="form-group mb-4">
-						<label class="font-weight-bold" for="memberId" >아이디</label>
-						<input class="form-control" type="text" name="memberId" id="memberId" placeholder="아이디 입력"/>
+					<div class="id_pw_wrap">
+						<div class="form-group mb-4">
+							<label class="font-weight-bold" for="memberId" >아이디</label>
+							<input class="form-control" type="text" name="memberId" id="memberId" placeholder="아이디 입력"/>
+						</div>
+						<div class="form-group mb-4">
+							<label class="font-weight-bold" for="memberPassword">비밀번호</label>
+							<input class="form-control" type="password" name="memberPassword" id="memberPassword" placeholder="비밀번호 입력" autocomplete="off"/>
+						</div>
 					</div>
-					<div class="form-group mb-4">
-						<label class="font-weight-bold" for="memberPassword">비밀번호</label>
-						<input class="form-control" type="password" name="memberPassword" id="memberPassword" placeholder="비밀번호 입력" autocomplete="off"/>
-					</div>
+					<!-- errorResponse -->
 					<div class="form-group pt-4 mb-4">
 						<button class="btn btn-primary btn-block">로그인</button>
 					</div>
@@ -102,7 +105,7 @@
 	$(function() {
 		$("#loginForm").on("submit", function(e) {
 			e.preventDefault();
-			console.log("## loginForm submit");
+			$("div.error").remove();
 			
 			let formData = {
 				memberId : $("#memberId").val(),
@@ -110,7 +113,7 @@
 			};
 			
 			loginService.login(formData, function(result) {
-				// ...
+				alert(result.message);
 			});
 			
 		});

@@ -40,7 +40,7 @@ let memberService = (function() {
 						alert(errorResponse.message);
 					}
 				} else {
-					alert("## Parsing Error");
+					alert("## parsing error");
 				}
 			}
 		});
@@ -71,7 +71,7 @@ let memberService = (function() {
 				if (errorResponse != null) {
 					handleMemberError(errorResponse);
 				} else {
-					alert("## Parsing Error");
+					alert("## parsing error");
 				}
 			}
 		});
@@ -102,7 +102,7 @@ let memberService = (function() {
 				if (errorResponse != null) {
 					handleMemberError(errorResponse);
 				} else {
-					alert("## Parsing Error");
+					alert("## parsing error");
 				}
 			}
 		});
@@ -133,7 +133,7 @@ let memberService = (function() {
 				if (errorResponse != null) {
 					handleMemberError(errorResponse);
 				} else {
-					alert("## Parsing Error");
+					alert("## parsing error");
 				}
 			}
 		});
@@ -164,7 +164,7 @@ let memberService = (function() {
 				if (errorResponse != null) {
 					handleMemberError(errorResponse);
 				} else {
-					alert("## Parsing Error");
+					alert("## parsing error");
 				}
 			}
 		});
@@ -190,7 +190,7 @@ let memberService = (function() {
 				if (errorResponse != null) {
 					handleMemberError(errorResponse);
 				} else {
-					alert("## Parsing Error");
+					alert("## parsing error");
 				}
 			}
 		});
@@ -221,7 +221,7 @@ let memberService = (function() {
 				if (errorResponse != null) {
 					handleMemberError(errorResponse);
 				} else {
-					alert("## Parsing Error");
+					alert("## parsing error");
 				}
 			}
 		});
@@ -252,7 +252,7 @@ let memberService = (function() {
 				if (errorResponse != null) {
 					handleMemberError(errorResponse);
 				} else {
-					alert("## Parsing Error");
+					alert("## parsing error");
 				}
 			}
 		});
@@ -283,7 +283,7 @@ let memberService = (function() {
 				if (errorResponse != null) {
 					handleMemberError(errorResponse);
 				} else {
-					alert("## Parsing Error");
+					alert("## parsing error");
 				}
 			}
 		});
@@ -314,7 +314,7 @@ let memberService = (function() {
 				if (errorResponse != null) {
 					handleMemberError(errorResponse);
 				} else {
-					alert("## Parsing Error");
+					alert("## parsing error");
 				}
 			}
 		});
@@ -345,7 +345,7 @@ let memberService = (function() {
 				if (errorResponse != null) {
 					handleMemberError(errorResponse);
 				} else {
-					alert("## Parsing Error");
+					alert("## parsing error");
 				}
 			}
 		});

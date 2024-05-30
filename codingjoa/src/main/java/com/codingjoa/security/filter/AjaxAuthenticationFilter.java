@@ -50,7 +50,7 @@ public class AjaxAuthenticationFilter extends AbstractAuthenticationProcessingFi
 			throw new LoginRequireFieldException(MessageUtils.getMessage("error.LoginRequirePassword"));
 		}
 		
-		//memberId = memberId.trim();
+		memberId = memberId.trim();
 		
 		UsernamePasswordAuthenticationToken authRequest = 
 				new UsernamePasswordAuthenticationToken(memberId, memberPassword);

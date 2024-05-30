@@ -29,7 +29,7 @@ let loginService = (function() {
 				if (errorResponse != null) {
 					handleLoginError(errorResponse);
 				} else {
-					alert("## Parsing Error");
+					alert("## parsing error");
 				}
 			}
 		});

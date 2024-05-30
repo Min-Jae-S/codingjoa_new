@@ -48,7 +48,8 @@ public class AjaxAuthenticationProvider implements AuthenticationProvider {
 		 * 
 		 * 		UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(
 		 * 				username, password);
-		 * 		...
+		 * 		// Allow subclasses to set the "details" property
+		 * 		setDetails(request, authRequest);
 		 * 
 		 *  	return this.getAuthenticationManager().authenticate(authRequest);
 		 *  }
