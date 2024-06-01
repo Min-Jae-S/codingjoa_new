@@ -16,11 +16,24 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
 
+	// private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+	
+	// Request URL: http://localhost:8888/codingjoa/logout
+	// Request Method: GET
+	// Status Code: 302 Found
+	
+	// redirectMethod (GET, POST)
+	
 	@Override
 	public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
 			throws IOException, ServletException {
 		log.info("## {}", this.getClass().getSimpleName());
 		log.info("\t > authentication token = {}", (authentication != null) ? authentication.getClass().getSimpleName() : authentication);
+
+		String redirectUrl = request.getContextPath() + "/login";
+		log.info("\t > redirectUrl = {}", redirectUrl);
+		
+		response.sendRedirect(redirectUrl);
 	}
 
 }

@@ -94,7 +94,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			//.addFilterBefore(encodingFilter(), CsrfFilter.class)
 			.logout()
 				.logoutUrl("/logout")
-				.logoutSuccessUrl("/login")
 				.logoutSuccessHandler(LogoutSuccessHandler)
 				.clearAuthentication(true)
 				.invalidateHttpSession(true)
@@ -103,7 +102,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.authenticationEntryPoint(authenticationEntryPoint)
 				.accessDeniedHandler(accessDeniedHandler);		 
 	}
-	
 	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
