@@ -36,9 +36,7 @@ public class AjaxAuthenticationSuccessHandler implements AuthenticationSuccessHa
 			Authentication authentication) throws IOException, ServletException {
 		log.info("## {}", this.getClass().getSimpleName());
 		log.info("\t > redirectURL = '{}'", getRedirectURL(request, response));
-		
-		log.info("\t > authentication token = {}", 
-				(authentication != null) ? authentication.getClass().getSimpleName() : authentication);
+		log.info("\t > authentication token = {}", (authentication != null) ? authentication.getClass().getSimpleName() : authentication);
 		
 		response.setStatus(HttpStatus.OK.value());
 		response.setContentType(MediaType.APPLICATION_JSON_VALUE.toString());

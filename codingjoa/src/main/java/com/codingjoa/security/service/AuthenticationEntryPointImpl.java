@@ -58,8 +58,7 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 		log.info("\t > redirectURL = '{}'", getRedirectURL(request, response));
 		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		log.info("\t > authentication token = {}", 
-				(authentication != null) ? authentication.getClass().getSimpleName() : authentication);
+		log.info("\t > authentication token = {}", (authentication != null) ? authentication.getClass().getSimpleName() : authentication);
 		
 		if (authentication == null) {
 			SecurityContextHolder.getContext().setAuthentication(createAuthentication(request));
