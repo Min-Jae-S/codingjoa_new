@@ -33,8 +33,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		log.info("\t > find userDetailsMap by memberId");
 		
 		if (userDetailsMap == null) {
-			throw new UsernameNotFoundException(
-					MessageUtils.getMessage("error.UsernameNotFoundOrBadCredentials"));
+			throw new UsernameNotFoundException(MessageUtils.getMessage("error.UsernameNotFoundOrBadCredentials"));
 		}
 		
 		return modelMapper.map(userDetailsMap, UserDetailsDto.class);

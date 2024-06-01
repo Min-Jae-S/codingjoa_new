@@ -56,9 +56,21 @@ public class AjaxAuthenticationFailureHandler implements AuthenticationFailureHa
 				.serializerByType(LocalDateTime.class, new LocalDateTimeSerializer(formatter))
 				.build();
 		
+		/*
+		 * LoginRequireFieldException (AjaxAuthenticationFilter)
+		 * 	- no memberId or no memberPassowrd
+		 * 
+		 * UsernameNotFoundException (UserDetailsServiceImpl)
+		 * 	- not found memberId
+		 * 
+		 * BadCredentialsException (AjaxAuthenticationProvider)
+		 * 	- not matched memberid, memberPassword
+		 */
+		
 		String message = MessageUtils.getMessage("error.Login");
-		if (e instanceof LoginRequireFieldException || 
-				e instanceof UsernameNotFoundException || e instanceof BadCredentialsException) {
+		
+		if (e instanceof LoginRequireFieldException || e instanceof UsernameNotFoundException
+				|| e instanceof BadCredentialsException) {
 			log.info("\t > {}", e.getClass().getSimpleName());
 			message = e.getMessage();
 			//message = StringUtils.removeEnd(message.replaceAll("\\.(\\s)*", ".<br>"), "<br>");

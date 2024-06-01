@@ -66,7 +66,7 @@ public class AjaxAuthenticationProvider implements AuthenticationProvider {
 			throw new BadCredentialsException(MessageUtils.getMessage("error.UsernameNotFoundOrBadCredentials"));
 		}
 		
-		return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+		return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities()); // isAuthenticated = true
 	}
 
 }
