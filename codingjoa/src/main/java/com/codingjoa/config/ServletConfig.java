@@ -97,7 +97,7 @@ public class ServletConfig implements WebMvcConfigurer {
 	@Bean
 	public MappingJackson2JsonView jsonView() {
 		MappingJackson2JsonView jsonView = new MappingJackson2JsonView();
-		jsonView.setObjectMapper(myObjectMapper());
+		jsonView.setObjectMapper(objectMapper());
         return jsonView;
     }
 
@@ -156,13 +156,13 @@ public class ServletConfig implements WebMvcConfigurer {
 				// StringHttpMessageConverter defaults to ISO-8859-1
 				((StringHttpMessageConverter) converter).setDefaultCharset(StandardCharsets.UTF_8);
 			} else if (converter instanceof MappingJackson2HttpMessageConverter) {
-				((MappingJackson2HttpMessageConverter) converter).setObjectMapper(myObjectMapper());
+				((MappingJackson2HttpMessageConverter) converter).setObjectMapper(objectMapper());
 			}
 		});
 	}
 	
-	@Bean
-	public ObjectMapper myObjectMapper() {
+	@Bean // thread-safe
+	public ObjectMapper objectMapper() { 
 		return Jackson2ObjectMapperBuilder
 				.json()
 				.featuresToEnable(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES) // writeComment - CommentDto(commentBoardIdx)

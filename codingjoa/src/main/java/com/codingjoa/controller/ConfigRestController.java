@@ -34,6 +34,7 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 import org.springframework.web.servlet.view.ViewResolverComposite;
 
 import com.codingjoa.response.SuccessResponse;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -179,7 +180,6 @@ public class ConfigRestController {
 		log.info("## getValidators");
 		Map<String, Validator> validatorMap = webApplicationContext.getBeansOfType(Validator.class);
 		validatorMap.forEach((key, validator) -> log.info("\t > {} : {}", key, validator));
-		
 		return ResponseEntity.ok(SuccessResponse.builder().data(null).build());
 	}
 
@@ -268,6 +268,14 @@ public class ConfigRestController {
 		exceptionResolverMap.forEach((key, resolver) -> log.info("\t > {} : {}", key, resolver.getClass().getName()));
 		
 		return ResponseEntity.ok(SuccessResponse.builder().data(exceptionResolvers).build());
+	}
+	
+	@GetMapping("/object-mappers")
+	public ResponseEntity<Object> getObjectMappers() {
+		log.info("## getObjectMappers");
+		Map<String, ObjectMapper> objectMapperMap = webApplicationContext.getBeansOfType(ObjectMapper.class);
+		objectMapperMap.forEach((key, resolver) -> log.info("\t > {} : {}", key, resolver.getClass().getName()));
+		return ResponseEntity.ok(SuccessResponse.builder().data(null).build());
 	}
 	
 }

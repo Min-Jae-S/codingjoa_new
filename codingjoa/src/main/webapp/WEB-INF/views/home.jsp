@@ -81,6 +81,9 @@
 					<li class="nav-item">
 						<a class="nav-link" href="${contextPath}/config/handler-exception-resolvers">HandlerExceptionResolver</a>
 					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="${contextPath}/config/object-mappers">ObjectMapper</a>
+					</li>
 				</ul>
 			</div>
 			<div class="card-body" id="configBody">

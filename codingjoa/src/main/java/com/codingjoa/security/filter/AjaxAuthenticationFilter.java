@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -27,6 +28,9 @@ public class AjaxAuthenticationFilter extends AbstractAuthenticationProcessingFi
 	private static final String USERNAME_KEY = "memberId";
 	private static final String PASSWORD_KEY = "memberPassword";
 	private ObjectMapper objectMapper = new ObjectMapper();
+	
+	@Autowired
+	private ObjectMapper myObjectMapper;
 
 	public AjaxAuthenticationFilter() {
 		super(new AntPathRequestMatcher("/api/login", "POST"));
@@ -36,6 +40,8 @@ public class AjaxAuthenticationFilter extends AbstractAuthenticationProcessingFi
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws AuthenticationException, IOException, ServletException {
 		log.info("## {}", this.getClass().getSimpleName());
+		log.info("\t > objectMapper = {}", objectMapper);
+		log.info("\t > myObjectMapper = {}", myObjectMapper);
 		
 		Map<String, String> map = objectMapper.readValue(request.getReader(), new TypeReference<Map<String, String>>() {});
 		String memberId = map.get(USERNAME_KEY);
