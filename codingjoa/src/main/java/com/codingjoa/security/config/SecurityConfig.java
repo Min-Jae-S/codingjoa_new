@@ -45,11 +45,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private LogoutSuccessHandler LogoutSuccessHandler;
 	
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
-	
 	/*	
 	 * 	FilterChain
 	 * 	https://gngsn.tistory.com/160
@@ -74,7 +69,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
-			//.csrf().disable()
+			.csrf().disable()
 			.authorizeRequests()
 				//.filterSecurityInterceptorOncePerRequest(false)
 				// https://stackoverflow.com/questions/19941466/spring-security-allows-unauthorized-user-access-to-restricted-url-from-a-forward
@@ -99,6 +94,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			//.addFilterBefore(encodingFilter(), CsrfFilter.class)
 			.logout()
 				.logoutUrl("/logout")
+				.logoutSuccessUrl("/login")
 				.logoutSuccessHandler(LogoutSuccessHandler)
 				.clearAuthentication(true)
 				.invalidateHttpSession(true)
@@ -108,6 +104,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.accessDeniedHandler(accessDeniedHandler);		 
 	}
 	
+	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.authenticationProvider(ajaxAuthenticationProvider);
@@ -116,6 +113,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	public AuthenticationManager authenticationManagerBean() throws Exception {
 		return super.authenticationManagerBean();
+	}
+	
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
 	}
 
 	@Bean

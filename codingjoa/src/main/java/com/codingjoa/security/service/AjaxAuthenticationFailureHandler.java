@@ -32,8 +32,8 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Component
 @Slf4j
+@Component
 public class AjaxAuthenticationFailureHandler implements AuthenticationFailureHandler {
 
 	@Override
