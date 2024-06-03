@@ -29,7 +29,7 @@ let commentService = (function() {
 				if (errorResponse != null) {
 					handleCommentError(errorResponse);
 				} else {
-					alert("## Parsing Error");
+					alert("## parsing Error");
 				}
 			}
 		});
@@ -85,7 +85,7 @@ let commentService = (function() {
 				if (errorResponse != null) {
 					handleCommentError(errorResponse);
 				} else {
-					alert("## Parsing Error");
+					alert("## parsing Error");
 				}
 			}
 		});
@@ -111,7 +111,7 @@ let commentService = (function() {
 				if (errorResponse != null) {
 					handleCommentError(errorResponse);
 				} else {
-					alert("## Parsing Error");
+					alert("## parsing Error");
 				}
 			}
 		});
@@ -140,7 +140,7 @@ let commentService = (function() {
 				if (errorResponse != null) {
 					handleCommentError(errorResponse);
 				} else {
-					alert("## Parsing Error");
+					alert("## parsing Error");
 				}
 			}
 		});
@@ -166,7 +166,7 @@ let commentService = (function() {
 				if (errorResponse != null) {
 					handleCommentError(errorResponse);
 				} else {
-					alert("## Parsing Error");
+					alert("## parsing Error");
 				}
 			}
 		});

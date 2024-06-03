@@ -3,7 +3,7 @@ function getContextPath() {
     return location.href.substring(hostIndex, location.href.indexOf('/', hostIndex + 1));
 }
 
-let loginService = (function() {
+let authenticationService = (function() {
 	const contextPath = getContextPath();
 
 	function login(formData, callback) {
@@ -36,9 +36,33 @@ let loginService = (function() {
 			}
 		});
 	}
+	
+	function logout(formData, callback) {
+		console.log("## logout");
+		let url = contextPath + "/api/logout";
+		console.log("> URL = '%s'", url);
+		console.log("> sendData = %s", JSON.stringify(formData, null, 2));
+		
+		$.ajax({
+			type : "POST",
+			url : url,
+			data : JSON.stringify(formData),
+			contentType : "application/json; charset=utf-8",
+			dataType : "json",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log(JSON.stringify(result, null, 2));
+				callback(result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+			}
+		});
+	}
 
 	return { 
-		login:login 
+		login:login,
+		logout:logout
 	};
 	
 })();
