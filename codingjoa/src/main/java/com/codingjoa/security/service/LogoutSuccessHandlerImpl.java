@@ -34,7 +34,7 @@ public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
 	// Request Method: GET
 	// Status Code: 302 Found
 	
-	// redirectMethod (GET, POST)
+	// redirect method (GET, POST)
 	
 	@Override
 	public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
@@ -53,10 +53,13 @@ public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
 				.serializerByType(LocalDateTime.class, new LocalDateTimeSerializer(formatter))
 				.build();
 		
+		String redirectUrl = request.getContextPath() + "/login";
+		log.info("\t > redirectUrl = '{}'", redirectUrl);
+		
 		SuccessResponse successResponse = SuccessResponse.builder()
 				.status(HttpStatus.OK)
 				.messageByCode("success.Logout")
-				.data(Map.of("redirectUrl", request.getContextPath() + "/login"))
+				.data(Map.of("redirectUrl", redirectUrl))
 				.build();
 		log.info("\t > {}", successResponse);
 		

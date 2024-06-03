@@ -118,9 +118,7 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 		
 		List<Category> parentCategoryList = categoryService.getParentCategoryList();
 		modelAndView.addObject("parentCategoryList", parentCategoryList);
-		//log.info("\t > added top menu as model");
-		log.info("\t > check added model attributes");
-		log.info("\t > attrs = {}", modelAndView.getModel().keySet());
+		log.info("\t > added attrs = {}", modelAndView.getModel().keySet());
 	}
 	
 	private String getFullURI(HttpServletRequest request) {

@@ -54,13 +54,10 @@
 					<li class="nav-item mx-2">
 						<a href="${contextPath}/member/account" class="nav-link">계정 관리</a>
 					</li>
-					<%-- <li class="nav-item mx-2">
+					<li class="nav-item mx-2">
 						<a href="${contextPath}/api/logout" class="nav-link" id="logoutLink">로그아웃</a>
-					</li> --%>
+					</li>
 				</sec:authorize>
-				<li class="nav-item mx-2">
-					<a href="${contextPath}/api/logout" class="nav-link" id="logoutLink">로그아웃</a>
-				</li>
 			</ul>
 		</div>
 	</div>
@@ -142,7 +139,7 @@
 					console.log("%c> SUCCESS", "color:green");
 					console.log(JSON.stringify(result, null, 2));
 					alert(result.message);
-					//location.href = result.data.redirectUrl;
+					location.href = result.data.redirectUrl;
 				},
 				error : function(jqXHR) {
 					console.log("%c> ERROR", "color:red");
