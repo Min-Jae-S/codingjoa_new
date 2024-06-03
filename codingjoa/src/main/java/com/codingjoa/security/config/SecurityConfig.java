@@ -93,7 +93,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			//.addFilterBefore(logFilter(), WebAsyncManagerIntegrationFilter.class)
 			//.addFilterBefore(encodingFilter(), CsrfFilter.class)
 			.logout()
-				.logoutUrl("/logout")
+				.logoutUrl("/api/logout")
 				.logoutSuccessHandler(LogoutSuccessHandler)
 				.clearAuthentication(true)
 				.invalidateHttpSession(true)

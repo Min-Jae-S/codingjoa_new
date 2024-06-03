@@ -55,7 +55,7 @@
 						<a href="${contextPath}/member/account" class="nav-link">계정 관리</a>
 					</li>
 					<li class="nav-item mx-2">
-						<a href="${contextPath}/logout" class="nav-link" id="logoutLink">로그아웃</a>
+						<a href="${contextPath}/api/logout" class="nav-link" id="logoutLink">로그아웃</a>
 					</li>
 				</sec:authorize>
 			</ul>
@@ -124,11 +124,27 @@
 		
 		$("#logoutLink").on("click", function(e) {
 			e.preventDefault();
-			let $logoutForm = $("<form></form>");
-			$logoutForm.attr("method", "POST");
-			$logoutForm.attr("action", $(this).attr("href"));
-			$logoutForm.appendTo("body"); // form submission canceled because the form is not connected
-			$logoutForm.submit();
+			console.log("## logout");
+			
+			let url = $(this).attr(href);
+			console.log("> URL = '%s'", url);
+			
+			$.ajax({
+				type : "POST",
+				url : url,
+				data : JSON.stringify(formData),
+				contentType : "application/json; charset=utf-8",
+				dataType : "json",
+				success : function(result) {
+					console.log("%c> SUCCESS", "color:green");
+					console.log(JSON.stringify(result, null, 2));
+					alert(result.message);
+					location.href=result.data.redirectUrl;
+				},
+				error : function(jqXHR) {
+					console.log("%c> ERROR", "color:red");
+				}
+			});
 		});
 	});
 </script>
