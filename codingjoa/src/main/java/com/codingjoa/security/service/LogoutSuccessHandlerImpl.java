@@ -33,7 +33,7 @@ public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
 		String redirectUrl = request.getContextPath() + "/login";
 		log.info("\t > redirectUrl = {}", redirectUrl);
 		
-		response.sendRedirect(redirectUrl);
+		//response.sendRedirect(redirectUrl);
 	}
 
 }

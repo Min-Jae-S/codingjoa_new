@@ -55,7 +55,7 @@
 						<a href="${contextPath}/member/account" class="nav-link">계정 관리</a>
 					</li>
 					<li class="nav-item mx-2">
-						<a href="${contextPath}/logout" class="nav-link">로그아웃</a>
+						<a href="${contextPath}/logout" class="nav-link" id="logoutLink">로그아웃</a>
 					</li>
 				</sec:authorize>
 			</ul>
@@ -120,6 +120,15 @@
 		$(document).on("click", ".navbar-nav button.dropdown-item", function() {
 			let parentPath = $(this).closest("li.dropdown").data("path");
 			location.href = "${contextPath}" + parentPath + $(this).data("path");
-		}); 
+		});
+		
+		$("#logoutLink").on("click", function(e) {
+			e.preventDefault();
+			let $logoutForm = $("<form></form>");
+			$logoutForm.attr("method", "POST");
+			$logoutForm.attr("action", $(this).attr("href"));
+			$logoutForm.appendTo("body"); // form submission canceled because the form is not connected
+			$logoutForm.submit();
+		});
 	});
 </script>
