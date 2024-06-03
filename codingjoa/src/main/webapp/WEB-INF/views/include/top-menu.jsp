@@ -132,8 +132,8 @@
 			$.ajax({
 				type : "POST",
 				url : url,
-				data : JSON.stringify(formData),
-				contentType : "application/json; charset=utf-8",
+				//data : JSON.stringify(formData),
+				//contentType : "application/json; charset=utf-8",
 				dataType : "json",
 				success : function(result) {
 					console.log("%c> SUCCESS", "color:green");
