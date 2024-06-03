@@ -35,8 +35,7 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import lombok.extern.slf4j.Slf4j;
 
 /*	
- * 	인증 예외, 인증이 되지 않았을 경우(비로그인)
- * 
+ * 	@@ 인증 예외, 인증이 되지 않았을 경우(비로그인)
  * 	AuthenticationEntryPoint, commences an authentication scheme.
  * 	Implementations should modify the headers on the <code>ServletResponse</code> 
  * 	as necessary to commence the authentication process.
@@ -55,7 +54,6 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 			AuthenticationException authException) throws IOException, ServletException {
 		log.info("## {}", this.getClass().getSimpleName());
 		log.info("\t > URI = {} '{}'", request.getMethod(), getFullURI(request));
-		log.info("\t > redirectURL = '{}'", getRedirectURL(request, response));
 		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		log.info("\t > authentication token = {}", (authentication != null) ? authentication.getClass().getSimpleName() : authentication);
@@ -63,6 +61,8 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 		if (authentication == null) {
 			SecurityContextHolder.getContext().setAuthentication(createAuthentication(request));
 		}
+		
+		log.info("\t > redirectURL = '{}'", getRedirectURL(request, response));
 		
 		/*	@@ check ajax request 
 		 	https://0taeng.tistory.com/30
@@ -95,7 +95,7 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 					.messageByCode("error.NotLogin")
 					.build();
 			log.info("\t > {}", errorResponse);
-
+			
 			log.info("\t > respond with errorResponse in JSON format");
 			response.getWriter().write(objectMapper.writeValueAsString(errorResponse));
 			response.getWriter().close();

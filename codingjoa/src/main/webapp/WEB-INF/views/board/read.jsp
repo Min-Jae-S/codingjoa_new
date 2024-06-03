@@ -319,7 +319,7 @@
 	}
 </style>
 </head>
-<body>
+<body onselectstart="return false" ondragstart="return false">
 
 <c:import url="/WEB-INF/views/include/top-menu.jsp"/>
 
