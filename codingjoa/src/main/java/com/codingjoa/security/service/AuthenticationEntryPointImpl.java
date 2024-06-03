@@ -36,6 +36,7 @@ import lombok.extern.slf4j.Slf4j;
 
 /*	
  * 	@@ 인증 예외, 인증이 되지 않았을 경우(비로그인)
+ * 
  * 	AuthenticationEntryPoint, commences an authentication scheme.
  * 	Implementations should modify the headers on the <code>ServletResponse</code> 
  * 	as necessary to commence the authentication process.
@@ -100,6 +101,7 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 			response.getWriter().write(objectMapper.writeValueAsString(errorResponse));
 			response.getWriter().close();
 		} else {
+			log.info("\t > forward to '{}'", DEFAULT_FAILURE_URL);
 			request.getRequestDispatcher(DEFAULT_FAILURE_URL).forward(request, response);
 		}
 	}

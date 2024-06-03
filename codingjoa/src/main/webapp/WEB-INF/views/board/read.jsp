@@ -319,11 +319,11 @@
 	}
 </style>
 </head>
-<body onselectstart="return false" ondragstart="return false">
+<body>
 
 <c:import url="/WEB-INF/views/include/top-menu.jsp"/>
 
-<div class="container board-container">
+<div class="container board-container" onselectstart="return false" ondragstart="return false">
 	<div class="read-wrap">
 		<div class="card">
 			<div class="header-group">

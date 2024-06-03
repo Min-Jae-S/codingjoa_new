@@ -95,7 +95,7 @@
 		</div>
 		
 		<!-- test -->
-		<div class="mt-4">
+		<div class="mt-4 d-none">
 			<button class="btn btn-warning mr-2" type="button" id="testGetDataBtn">getData</button>
 			<button class="btn btn-warning mr-2" type="button" id="testJsoupBtn">Jsoup</button>
 		</div>
