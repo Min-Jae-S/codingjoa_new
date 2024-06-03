@@ -55,7 +55,7 @@ public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
 		
 		SuccessResponse successResponse = SuccessResponse.builder()
 				.status(HttpStatus.OK)
-				.messageByCode("success.Login")
+				.messageByCode("success.Logout")
 				.data(Map.of("redirectUrl", request.getContextPath() + "/login"))
 				.build();
 		log.info("\t > {}", successResponse);
