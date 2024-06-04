@@ -39,7 +39,7 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 
-	private static final String DEFAULT_FAILURE_URL = "/login";
+	private static final String DEFAULT_FORWARD_URL = "/login";
 
 	@Override
 	public void commence(HttpServletRequest request, HttpServletResponse response,
@@ -84,8 +84,8 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 			response.getWriter().write(objectMapper.writeValueAsString(errorResponse));
 			response.getWriter().close();
 		} else {
-			log.info("\t > forward to '{}'", DEFAULT_FAILURE_URL);
-			request.getRequestDispatcher(DEFAULT_FAILURE_URL).forward(request, response);
+			log.info("\t > forward to '{}'", DEFAULT_FORWARD_URL);
+			request.getRequestDispatcher(DEFAULT_FORWARD_URL).forward(request, response);
 		}
 	}
 	

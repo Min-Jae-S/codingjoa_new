@@ -1,7 +1,17 @@
 package com.codingjoa.controller;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
+import org.springframework.security.web.savedrequest.RequestCache;
+import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.codingjoa.response.SuccessResponse;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,6 +35,16 @@ public class MainController {
 	public String loginForm() {
 		log.info("## loginForm");
 		return "login";
+	}
+	
+	@ResponseBody
+	@GetMapping("/saved-request")
+	public ResponseEntity<Object> getSavedRequest(HttpServletRequest request, HttpServletResponse response) {
+		log.info("## getSavedRequest");
+		RequestCache requestCache = new HttpSessionRequestCache();
+		SavedRequest savedRequest = requestCache.getRequest(request, response);
+		log.info("\t > savedRequest = {}", savedRequest);
+		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 	
 }

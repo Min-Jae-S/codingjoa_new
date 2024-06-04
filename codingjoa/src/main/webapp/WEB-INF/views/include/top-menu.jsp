@@ -18,6 +18,11 @@
 						</a>
 					</li>
 				</c:forEach>
+				
+				<!-- test -->
+				<li class="nav-item mx-2 mt-1">
+					<a href="${contextPath}/saved-request" class="nav-link" id="savedRequestLink">savedRequest</a>
+				</li>
 			</ul>
 			<ul class="navbar-nav ml-auto">
 				<sec:authorize access="isAnonymous()">
@@ -142,6 +147,29 @@
 					location.href = result.data.redirectUrl;
 				},
 				error : function(jqXHR) {
+					console.log("%c> ERROR", "color:red");
+				}
+			});
+		});
+		
+		// test
+		$("#savedRequestLink").on("click", function(e) {
+			e.preventDefault();
+			console.log("## getSavedRequest");
+			
+			let url = $(this).attr("href");
+			console.log("> URL = '%s'", url);
+			
+			$.ajax({
+				type : "GET",
+				url : url,
+				dataType : "json",
+				success : function(result) {
+					console.log("%c> SUCCESS", "color:green");
+					console.log(JSON.stringify(result, null, 2));
+				},
+				error : function(jqXHR) {
+					console.log(jqXHR);
 					console.log("%c> ERROR", "color:red");
 				}
 			});

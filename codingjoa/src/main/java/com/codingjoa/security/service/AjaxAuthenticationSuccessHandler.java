@@ -48,13 +48,10 @@ public class AjaxAuthenticationSuccessHandler implements AuthenticationSuccessHa
 				.serializerByType(LocalDateTime.class, new LocalDateTimeSerializer(formatter))
 				.build();
 		
-		String redirectUrl = getRedirectURL(request, response);
-		log.info("\t > saved request from cache = '{}'", redirectUrl);
-		
 		SuccessResponse successResponse = SuccessResponse.builder()
 				.status(HttpStatus.OK)
 				.messageByCode("success.Login")
-				.data(Map.of("redirectUrl", redirectUrl))
+				.data(Map.of("redirectUrl", getRedirectURL(request, response)))
 				.build();
 		log.info("\t > {}", successResponse);
 		
