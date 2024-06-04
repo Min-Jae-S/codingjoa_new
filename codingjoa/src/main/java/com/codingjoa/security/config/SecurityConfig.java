@@ -89,6 +89,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/admin/**").hasAnyRole("ADMIN")
 				.anyRequest().permitAll()
 				.and()
+			.formLogin().disable()
 			.addFilterBefore(ajaxAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
 			//.addFilterBefore(logFilter(), WebAsyncManagerIntegrationFilter.class)
 			//.addFilterBefore(encodingFilter(), CsrfFilter.class)
