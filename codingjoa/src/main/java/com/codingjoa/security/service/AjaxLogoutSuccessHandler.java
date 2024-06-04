@@ -26,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Component
-public class AjaxLogoutSuccessHandlerImpl implements LogoutSuccessHandler {
+public class AjaxLogoutSuccessHandler implements LogoutSuccessHandler {
 
 	// private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 	
