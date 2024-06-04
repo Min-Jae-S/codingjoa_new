@@ -6,7 +6,6 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.TimeZone;
-import java.util.UUID;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -15,14 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.authentication.AuthenticationDetailsSource;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.AuthenticationEntryPoint;
-import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.security.web.savedrequest.RequestCache;
 import org.springframework.security.web.savedrequest.SavedRequest;
@@ -46,8 +39,6 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 
-	private AuthenticationDetailsSource<HttpServletRequest, ?> authenticationDetailsSource = new WebAuthenticationDetailsSource();
-	private static final String key = UUID.randomUUID().toString();
 	private static final String DEFAULT_FAILURE_URL = "/login";
 
 	@Override
@@ -55,14 +46,6 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 			AuthenticationException authException) throws IOException, ServletException {
 		log.info("## {}", this.getClass().getSimpleName());
 		log.info("\t > URI = {} '{}'", request.getMethod(), getFullURI(request));
-		
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		log.info("\t > authentication token = {}", (authentication != null) ? authentication.getClass().getSimpleName() : authentication);
-		
-		if (authentication == null) {
-			SecurityContextHolder.getContext().setAuthentication(createAuthentication(request));
-		}
-		
 		log.info("\t > saved request from cache = '{}'", getRedirectURL(request, response));
 		
 		/*	@@ check ajax request 
@@ -106,17 +89,6 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 		}
 	}
 	
-	// ref) AnonymousAuthenticationFilter#createAuthentication(HttpServletRequest)
-	protected Authentication createAuthentication(HttpServletRequest request) {
-		log.info("\t > create authentication token - AnonymousAuthenticationToken");
-		
-		// null object pattern 
-		AnonymousAuthenticationToken token = new AnonymousAuthenticationToken(key, "anonymousUser",
-				AuthorityUtils.createAuthorityList("ROLE_ANONYMOUS")); 
-		token.setDetails(authenticationDetailsSource.buildDetails(request));
-		return token;
-	}
-	
 	private boolean isAjaxRequest(HttpServletRequest request) {
 		return "XMLHttpRequest".equals(request.getHeader("x-requested-with"));
 	}
@@ -138,7 +110,7 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 		RequestCache requestCache = new HttpSessionRequestCache();
 		SavedRequest savedRequest = requestCache.getRequest(request, response);
 		if (savedRequest == null) {
-			return request.getSession().getServletContext().getContextPath();
+			return request.getContextPath();
 		}
 		return savedRequest.getRedirectUrl();
 	}

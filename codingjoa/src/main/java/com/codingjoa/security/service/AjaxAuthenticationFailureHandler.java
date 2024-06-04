@@ -42,7 +42,7 @@ public class AjaxAuthenticationFailureHandler implements AuthenticationFailureHa
 		log.info("## {}", this.getClass().getSimpleName());
 		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		log.info("\t > authentication token = {}",(authentication != null) ? authentication.getClass().getSimpleName() : authentication);
+		log.info("\t > authentication token = {}", (authentication != null) ? authentication.getClass().getSimpleName() : authentication);
 		
 		response.setStatus(HttpStatus.UNAUTHORIZED.value());
 		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
