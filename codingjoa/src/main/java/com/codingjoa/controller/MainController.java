@@ -1,5 +1,7 @@
 package com.codingjoa.controller;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -38,13 +40,23 @@ public class MainController {
 	}
 	
 	@ResponseBody
-	@GetMapping("/saved-request")
+	@GetMapping("/api/saved-request")
 	public ResponseEntity<Object> getSavedRequest(HttpServletRequest request, HttpServletResponse response) {
 		log.info("## getSavedRequest");
 		RequestCache requestCache = new HttpSessionRequestCache();
 		SavedRequest savedRequest = requestCache.getRequest(request, response);
 		log.info("\t > savedRequest = {}", savedRequest);
-		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
+		
+		String redirectUrl = request.getContextPath();
+		if (savedRequest != null) {
+			redirectUrl = savedRequest.getRedirectUrl();
+		}
+		log.info("\t > redirectUrl = {}", redirectUrl);
+		
+		return ResponseEntity.ok(SuccessResponse.builder()
+				.message("success")
+				.data(Map.of("redirectUrl", redirectUrl))
+				.build());
 	}
 	
 }
