@@ -43,7 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private AuthenticationEntryPoint authenticationEntryPoint;
 	
 	@Autowired
-	private LogoutSuccessHandler LogoutSuccessHandler;
+	private LogoutSuccessHandler ajaxLogoutSuccessHandler;
 	
 	/*	
 	 * 	FilterChain
@@ -94,7 +94,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			//.addFilterBefore(encodingFilter(), CsrfFilter.class)
 			.logout()
 				.logoutUrl("/api/logout")
-				.logoutSuccessHandler(LogoutSuccessHandler)
+				.logoutSuccessHandler(ajaxLogoutSuccessHandler)
 				.clearAuthentication(true)
 				.invalidateHttpSession(true)
 				.and()
