@@ -24,7 +24,7 @@
 					<a href="${contextPath}/api/saved-request" class="nav-link" id="savedRequestLink">savedRequest</a>
 				</li>
 				<li class="nav-item mx-2 mt-1">
-					<a href="${contextPath}/api/logout" class="nav-link" id="logoutLink">로그아웃</a>
+					<a href="${contextPath}/api/logout" class="nav-link" id="logoutLink" name="logoutLink">로그아웃</a>
 				</li>
 			</ul>
 			<ul class="navbar-nav ml-auto">
@@ -63,7 +63,7 @@
 						<a href="${contextPath}/member/account" class="nav-link">계정 관리</a>
 					</li>
 					<li class="nav-item mx-2">
-						<a href="${contextPath}/api/logout" class="nav-link" id="logoutLink">로그아웃</a>
+						<a href="${contextPath}/api/logout" class="nav-link" id="logoutLink" name="logoutLink">로그아웃</a>
 					</li>
 				</sec:authorize>
 			</ul>
@@ -130,7 +130,8 @@
 			location.href = "${contextPath}" + parentPath + $(this).data("path");
 		});
 		
-		$("#logoutLink").on("click", function(e) {
+		//$("#logoutLink").on("click", function(e) {
+		$("a[name='logoutLink']").on("click", function(e) {
 			e.preventDefault();
 			console.log("## logout");
 			

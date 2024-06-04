@@ -36,11 +36,7 @@ public class MainController {
 	@GetMapping("/login") 
 	public String loginForm(HttpServletRequest request, HttpServletResponse response) {
 		log.info("## loginForm");
-		RequestCache requestCache = new HttpSessionRequestCache();
-		SavedRequest savedRequest = requestCache.getRequest(request, response);
-		log.info("\t > savedRequest = {}", savedRequest);
-		
-		String redirectUrl = (savedRequest == null) ? request.getContextPath() : savedRequest.getRedirectUrl();
+		String redirectUrl = getRedirectURL(request, response);
 		log.info("\t > redirectUrl = {}", redirectUrl);
 		
 		return "login";
@@ -50,17 +46,19 @@ public class MainController {
 	@GetMapping("/api/saved-request")
 	public ResponseEntity<Object> getSavedRequest(HttpServletRequest request, HttpServletResponse response) {
 		log.info("## getSavedRequest");
-		RequestCache requestCache = new HttpSessionRequestCache();
-		SavedRequest savedRequest = requestCache.getRequest(request, response);
-		log.info("\t > savedRequest = {}", savedRequest);
-		
-		String redirectUrl = (savedRequest == null) ? request.getContextPath() : savedRequest.getRedirectUrl();
+		String redirectUrl = getRedirectURL(request, response);
 		log.info("\t > redirectUrl = {}", redirectUrl);
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
 				.message("success")
 				.data(Map.of("redirectUrl", redirectUrl))
 				.build());
+	}
+	
+	private String getRedirectURL(HttpServletRequest request, HttpServletResponse response) {
+		RequestCache requestCache = new HttpSessionRequestCache();
+		SavedRequest savedRequest = requestCache.getRequest(request, response); // DefaultSavedRequest 
+		return (savedRequest == null) ? request.getContextPath() : savedRequest.getRedirectUrl();
 	}
 	
 }

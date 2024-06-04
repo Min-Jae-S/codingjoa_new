@@ -46,7 +46,7 @@ public class AjaxAuthenticationFilter extends AbstractAuthenticationProcessingFi
 		String memberId = map.get(USERNAME_KEY);
 		String memberPassword = map.get(PASSWORD_KEY);
 		log.info("\t > memberId = '{}', memberPassword = '{}'", memberId, memberPassword);
-		log.info("\t > redirectUrl from savedRequest = {}", getRedirectURL(request, response));
+		log.info("\t > redirectUrl = {}", getRedirectURL(request, response));
 		
 		if (!StringUtils.hasText(memberId)) {
 			throw new LoginRequireFieldException(MessageUtils.getMessage("error.LoginRequireId"));	

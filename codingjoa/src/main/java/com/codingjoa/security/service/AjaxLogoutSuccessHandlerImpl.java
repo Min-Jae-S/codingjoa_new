@@ -54,6 +54,8 @@ public class AjaxLogoutSuccessHandlerImpl implements LogoutSuccessHandler {
 				.build();
 		
 		String redirectUrl = request.getContextPath() + "/login";
+		log.info("\t > redirectUrl = '{}'", redirectUrl);
+		
 		SuccessResponse successResponse = SuccessResponse.builder()
 				.status(HttpStatus.OK)
 				.messageByCode("success.Logout")
