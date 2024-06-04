@@ -48,7 +48,7 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 		log.info("\t > URI = {} '{}'", request.getMethod(), getFullURI(request));
 		log.info("\t > saved request from cache = '{}'", getRedirectURL(request, response));
 		
-		/*	@@ check ajax request 
+		/*
 		 	https://0taeng.tistory.com/30
 		 	https://mohwaproject.tistory.com/entry/Ajax-%EC%A0%84%EC%86%A1-%EA%B5%AC%EB%B6%84%ED%95%98%EA%B8%B0
 		

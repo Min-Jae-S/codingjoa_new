@@ -147,7 +147,7 @@
 					console.log("%c> SUCCESS", "color:green");
 					console.log(JSON.stringify(result, null, 2));
 					alert(result.message);
-					location.href = result.data.redirectUrl;
+					//location.href = result.data.redirectUrl;
 				},
 				error : function(jqXHR) {
 					console.log("%c> ERROR", "color:red");
