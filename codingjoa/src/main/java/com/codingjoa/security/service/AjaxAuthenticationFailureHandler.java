@@ -75,7 +75,7 @@ public class AjaxAuthenticationFailureHandler implements AuthenticationFailureHa
 			//message = StringUtils.removeEnd(message.replaceAll("\\.(\\s)*", ".<br>"), "<br>");
 		}
 		
-		log.info("\t > redirectUrl = '{}'", getRedirectURL(request, response));
+		log.info("\t > saved request from cache = '{}'", getRedirectURL(request, response));
 		
 		ErrorResponse errorResponse = ErrorResponse.builder()
 				.status(HttpStatus.UNAUTHORIZED)

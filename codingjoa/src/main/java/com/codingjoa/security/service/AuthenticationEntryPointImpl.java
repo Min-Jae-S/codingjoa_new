@@ -63,7 +63,7 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 			SecurityContextHolder.getContext().setAuthentication(createAuthentication(request));
 		}
 		
-		log.info("\t > redirectURL = '{}'", getRedirectURL(request, response));
+		log.info("\t > saved request from cache = '{}'", getRedirectURL(request, response));
 		
 		/*	@@ check ajax request 
 		 	https://0taeng.tistory.com/30

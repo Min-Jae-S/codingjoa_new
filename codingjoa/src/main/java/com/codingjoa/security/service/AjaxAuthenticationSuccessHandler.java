@@ -49,7 +49,7 @@ public class AjaxAuthenticationSuccessHandler implements AuthenticationSuccessHa
 				.build();
 		
 		String redirectUrl = getRedirectURL(request, response);
-		log.info("\t > redirectUrl = '{}'", redirectUrl);
+		log.info("\t > saved request from cache = '{}'", redirectUrl);
 		
 		SuccessResponse successResponse = SuccessResponse.builder()
 				.status(HttpStatus.OK)
