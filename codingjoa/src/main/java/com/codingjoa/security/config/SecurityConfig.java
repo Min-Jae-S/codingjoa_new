@@ -62,7 +62,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	 * 		AnonymousAuthenticationFilter		
 	 * 		SessionManagementFilter
 	 * 		ExceptionTranslationFilter (AuthenticationEntryPoint, AccessDeniedHandler)
-	 * 		FilterSecurityInterceptor 
+	 * 		FilterSecurityInterceptor (AuthenticationException, AccessDeniedException) 
 	 * 	]
 	 */
 	

@@ -46,7 +46,8 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 			AuthenticationException authException) throws IOException, ServletException {
 		log.info("## {}", this.getClass().getSimpleName());
 		log.info("\t > URI = {} '{}'", request.getMethod(), getFullURI(request));
-		log.info("\t > saved request from cache = '{}'", getRedirectURL(request, response));
+		log.info("\t > {} : {}", authException.getClass().getSimpleName(), authException.getMessage());
+		log.info("\t > redirectUrl from savedRequest = '{}'", getRedirectURL(request, response));
 		
 		/*
 		 	https://0taeng.tistory.com/30
@@ -108,10 +109,7 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 	
 	private String getRedirectURL(HttpServletRequest request, HttpServletResponse response) {
 		RequestCache requestCache = new HttpSessionRequestCache();
-		SavedRequest savedRequest = requestCache.getRequest(request, response);
-		if (savedRequest == null) {
-			return request.getContextPath();
-		}
-		return savedRequest.getRedirectUrl();
+		SavedRequest savedRequest = requestCache.getRequest(request, response); // DefaultSavedRequest 
+		return (savedRequest == null) ? request.getContextPath() : savedRequest.getRedirectUrl();
 	}
 }

@@ -34,8 +34,15 @@ public class MainController {
 	}
 	
 	@GetMapping("/login") 
-	public String loginForm() {
+	public String loginForm(HttpServletRequest request, HttpServletResponse response) {
 		log.info("## loginForm");
+		RequestCache requestCache = new HttpSessionRequestCache();
+		SavedRequest savedRequest = requestCache.getRequest(request, response);
+		log.info("\t > savedRequest = {}", savedRequest);
+		
+		String redirectUrl = (savedRequest == null) ? request.getContextPath() : savedRequest.getRedirectUrl();
+		log.info("\t > redirectUrl = {}", redirectUrl);
+		
 		return "login";
 	}
 	
@@ -47,10 +54,7 @@ public class MainController {
 		SavedRequest savedRequest = requestCache.getRequest(request, response);
 		log.info("\t > savedRequest = {}", savedRequest);
 		
-		String redirectUrl = request.getContextPath();
-		if (savedRequest != null) {
-			redirectUrl = savedRequest.getRedirectUrl();
-		}
+		String redirectUrl = (savedRequest == null) ? request.getContextPath() : savedRequest.getRedirectUrl();
 		log.info("\t > redirectUrl = {}", redirectUrl);
 		
 		return ResponseEntity.ok(SuccessResponse.builder()

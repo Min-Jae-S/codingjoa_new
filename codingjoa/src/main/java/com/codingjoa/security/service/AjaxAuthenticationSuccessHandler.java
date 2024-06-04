@@ -63,10 +63,7 @@ public class AjaxAuthenticationSuccessHandler implements AuthenticationSuccessHa
 	private String getRedirectURL(HttpServletRequest request, HttpServletResponse response) {
 		RequestCache requestCache = new HttpSessionRequestCache();
 		SavedRequest savedRequest = requestCache.getRequest(request, response); // DefaultSavedRequest 
-		if (savedRequest == null) {
-			return request.getContextPath();
-		}
-		return savedRequest.getRedirectUrl();
+		return (savedRequest == null) ? request.getContextPath() : savedRequest.getRedirectUrl();
 	}
 
 }
