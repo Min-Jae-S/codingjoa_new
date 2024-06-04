@@ -11,6 +11,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
+import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
+import org.springframework.security.web.savedrequest.RequestCache;
+import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.util.StringUtils;
 
@@ -43,6 +46,7 @@ public class AjaxAuthenticationFilter extends AbstractAuthenticationProcessingFi
 		String memberId = map.get(USERNAME_KEY);
 		String memberPassword = map.get(PASSWORD_KEY);
 		log.info("\t > memberId = '{}', memberPassword = '{}'", memberId, memberPassword);
+		log.info("\t > redirectUrl from savedRequest = {}", getRedirectURL(request, response));
 		
 		if (!StringUtils.hasText(memberId)) {
 			throw new LoginRequireFieldException(MessageUtils.getMessage("error.LoginRequireId"));	
@@ -58,6 +62,12 @@ public class AjaxAuthenticationFilter extends AbstractAuthenticationProcessingFi
 				new UsernamePasswordAuthenticationToken(memberId, memberPassword); // isAuthentiacated = false
 		
 		return this.getAuthenticationManager().authenticate(authRequest);
+	}
+	
+	private String getRedirectURL(HttpServletRequest request, HttpServletResponse response) {
+		RequestCache requestCache = new HttpSessionRequestCache();
+		SavedRequest savedRequest = requestCache.getRequest(request, response); // DefaultSavedRequest 
+		return (savedRequest == null) ? request.getContextPath() : savedRequest.getRedirectUrl();
 	}
 
 }

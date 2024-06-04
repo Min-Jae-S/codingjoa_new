@@ -16,9 +16,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
-import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
-import org.springframework.security.web.savedrequest.RequestCache;
-import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.stereotype.Component;
 
 import com.codingjoa.response.ErrorResponse;
@@ -39,15 +36,12 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 
-	private static final String DEFAULT_FORWARD_URL = "/login";
-
 	@Override
 	public void commence(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException authException) throws IOException, ServletException {
 		log.info("## {}", this.getClass().getSimpleName());
 		log.info("\t > URI = {} '{}'", request.getMethod(), getFullURI(request));
 		log.info("\t > {} : {}", authException.getClass().getSimpleName(), authException.getMessage());
-		log.info("\t > redirectUrl from savedRequest = '{}'", getRedirectURL(request, response));
 		
 		/*
 		 	https://0taeng.tistory.com/30
@@ -85,8 +79,9 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 			response.getWriter().write(objectMapper.writeValueAsString(errorResponse));
 			response.getWriter().close();
 		} else {
-			log.info("\t > forward to '{}'", DEFAULT_FORWARD_URL);
-			request.getRequestDispatcher(DEFAULT_FORWARD_URL).forward(request, response);
+			String redirectUrl = request.getContextPath() + "/login";
+			log.info("\t > redirect to '{}'", redirectUrl);
+			response.sendRedirect(redirectUrl);
 		}
 	}
 	
@@ -105,11 +100,5 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 	    	return requestURI.append('?')
 	    			.append(URLDecoder.decode(queryString, StandardCharsets.UTF_8)).toString();
 	    }
-	}
-	
-	private String getRedirectURL(HttpServletRequest request, HttpServletResponse response) {
-		RequestCache requestCache = new HttpSessionRequestCache();
-		SavedRequest savedRequest = requestCache.getRequest(request, response); // DefaultSavedRequest 
-		return (savedRequest == null) ? request.getContextPath() : savedRequest.getRedirectUrl();
 	}
 }
