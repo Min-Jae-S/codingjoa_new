@@ -152,6 +152,7 @@
 				},
 				error : function(jqXHR) {
 					console.log("%c> ERROR", "color:red");
+					consoel.log(jqXRH);
 				}
 			});
 		});
