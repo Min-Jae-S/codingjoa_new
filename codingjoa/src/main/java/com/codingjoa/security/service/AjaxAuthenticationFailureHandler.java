@@ -65,8 +65,8 @@ public class AjaxAuthenticationFailureHandler implements AuthenticationFailureHa
 		
 		String message = MessageUtils.getMessage("error.Login");
 		
-		if (e instanceof LoginRequireFieldException || e instanceof UsernameNotFoundException
-				|| e instanceof BadCredentialsException) {
+		if (e instanceof LoginRequireFieldException || 
+				e instanceof UsernameNotFoundException || e instanceof BadCredentialsException) {
 			log.info("\t > {} : {}", e.getClass().getSimpleName(), e.getMessage());
 			message = e.getMessage();
 			//message = StringUtils.removeEnd(message.replaceAll("\\.(\\s)*", ".<br>"), "<br>");

@@ -40,7 +40,9 @@ public class AjaxAuthenticationFilter extends AbstractAuthenticationProcessingFi
 			throws AuthenticationException, IOException, ServletException {
 		log.info("## {}", this.getClass().getSimpleName());
 		
-		// check ajax and POST
+		/*
+		 * check ajax and POST 
+		 */
 		
 		Map<String, String> map = objectMapper.readValue(request.getReader(), new TypeReference<Map<String, String>>() {});
 		String memberId = map.get(USERNAME_KEY);
