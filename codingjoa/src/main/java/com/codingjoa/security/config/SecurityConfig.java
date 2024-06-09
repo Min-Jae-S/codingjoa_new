@@ -91,8 +91,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.and()
 			.formLogin().disable()
 			.addFilterBefore(ajaxAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
-			//.addFilterBefore(logFilter(), WebAsyncManagerIntegrationFilter.class)
-			//.addFilterBefore(encodingFilter(), CsrfFilter.class)
 			.logout()
 				.logoutUrl("/api/logout")
 				.logoutSuccessHandler(ajaxLogoutSuccessHandler)
