@@ -62,6 +62,7 @@ public class AjaxAuthenticationProvider implements AuthenticationProvider {
 		String memberPassword = (String) authentication.getCredentials();
 		
 		UserDetails userDetails = userDetailsService.loadUserByUsername(memberId);
+		
 		if (!passwordEncoder.matches(memberPassword, userDetails.getPassword())) {
 			throw new BadCredentialsException(MessageUtils.getMessage("error.UsernameNotFoundOrBadCredentials"));
 		}

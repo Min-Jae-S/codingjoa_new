@@ -143,7 +143,7 @@
 				url : url,
 				//data : JSON.stringify(formData),
 				//contentType : "application/json; charset=utf-8",
-				dataType : "json",
+				//dataType : "json",
 				success : function(result) {
 					console.log("%c> SUCCESS", "color:green");
 					console.log(JSON.stringify(result, null, 2));

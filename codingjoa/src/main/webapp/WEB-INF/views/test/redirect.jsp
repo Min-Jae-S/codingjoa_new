@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>session.jsp</title>
+<title>redirect.jsp</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
@@ -37,7 +37,7 @@
 <body>
 <c:import url="/WEB-INF/views/include/top-menu.jsp"/>
 <div class="container my-5">
-	<p>session.jsp</p>
+	<p>redirect.jsp</p>
 	<div class="test d-flex justify-content-center mt-5">
 		<button class="btn btn-primary btn-lg test-btn mx-3" onclick="test1()">test1</button>
 		<button class="btn btn-primary btn-lg test-btn mx-3" onclick="test2()">test2</button>
@@ -50,7 +50,7 @@
 		console.log("## test1");
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/session/test1",
+			url : "${contextPath}/test/redirect/test1",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);
@@ -66,7 +66,7 @@
 		console.log("## test2");
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/session/test2",
+			url : "${contextPath}/test/redirect/test2",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log("> result = %s", result);

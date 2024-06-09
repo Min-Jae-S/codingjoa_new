@@ -64,4 +64,10 @@ public class TestViewController {
 		log.info("## session main");
 		return "test/session";
 	}
+	
+	@GetMapping("/redirect")
+	public String redirectMain() {
+		log.info("## redirect main");
+		return "test/redirect";
+	}
 }
