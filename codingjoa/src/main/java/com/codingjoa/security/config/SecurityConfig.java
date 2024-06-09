@@ -19,6 +19,7 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.codingjoa.security.filter.AjaxAuthenticationFilter;
 
@@ -92,7 +93,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.formLogin().disable()
 			.addFilterBefore(ajaxAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
 			.logout()
-				.logoutUrl("/api/logout")
+				//.logoutUrl("/api/logout")
+				.logoutRequestMatcher(new AntPathRequestMatcher("/api/logout", "POST"))
 				.logoutSuccessHandler(ajaxLogoutSuccessHandler)
 				.clearAuthentication(true)
 				.invalidateHttpSession(true)
