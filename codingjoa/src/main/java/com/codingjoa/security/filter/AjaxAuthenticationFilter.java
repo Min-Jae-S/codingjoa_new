@@ -11,20 +11,17 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
-import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
-import org.springframework.security.web.savedrequest.RequestCache;
-import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.util.StringUtils;
 
 import com.codingjoa.security.exception.LoginRequireFieldException;
 import com.codingjoa.util.MessageUtils;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@SuppressWarnings("unchecked")
 public class AjaxAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 	
 	private static final String USERNAME_KEY = "memberId";
@@ -44,11 +41,11 @@ public class AjaxAuthenticationFilter extends AbstractAuthenticationProcessingFi
 		 * check ajax and POST 
 		 */
 		
-		Map<String, String> map = objectMapper.readValue(request.getReader(), new TypeReference<Map<String, String>>() {});
+		Map<String, String> map = objectMapper.readValue(request.getReader(), Map.class);
+		
 		String memberId = map.get(USERNAME_KEY);
 		String memberPassword = map.get(PASSWORD_KEY);
 		log.info("\t > memberId = '{}', memberPassword = '{}'", memberId, memberPassword);
-		log.info("\t > redirectUrl = {}", getRedirectURL(request, response));
 		
 		if (!StringUtils.hasText(memberId)) {
 			throw new LoginRequireFieldException(MessageUtils.getMessage("error.LoginRequireId"));	
@@ -65,11 +62,4 @@ public class AjaxAuthenticationFilter extends AbstractAuthenticationProcessingFi
 		
 		return this.getAuthenticationManager().authenticate(authRequest);
 	}
-	
-	private String getRedirectURL(HttpServletRequest request, HttpServletResponse response) {
-		RequestCache requestCache = new HttpSessionRequestCache();
-		SavedRequest savedRequest = requestCache.getRequest(request, response); // DefaultSavedRequest 
-		return (savedRequest == null) ? request.getContextPath() : savedRequest.getRedirectUrl();
-	}
-
 }
