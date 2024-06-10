@@ -48,16 +48,19 @@ public class AjaxAuthenticationSuccessHandler implements AuthenticationSuccessHa
 				.serializerByType(LocalDateTime.class, new LocalDateTimeSerializer(formatter))
 				.build();
 		
+		String redirectUrl = getRedirectURL(request, response);
 		SuccessResponse successResponse = SuccessResponse.builder()
 				.status(HttpStatus.OK)
 				.messageByCode("success.Login")
-				.data(Map.of("redirectUrl", getRedirectURL(request, response)))
+				.data(Map.of("redirectUrl", redirectUrl))
 				.build();
 		log.info("\t > {}", successResponse);
 		
 		log.info("\t > respond with successResponse in JSON format");
 		response.getWriter().write(objectMapper.writeValueAsString(successResponse));
 		response.getWriter().close();
+		
+		//response.sendRedirect(redirectUrl);
 	}
 	
 	private String getRedirectURL(HttpServletRequest request, HttpServletResponse response) {
