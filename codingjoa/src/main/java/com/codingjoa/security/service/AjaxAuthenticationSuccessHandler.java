@@ -49,6 +49,8 @@ public class AjaxAuthenticationSuccessHandler implements AuthenticationSuccessHa
 				.build();
 		
 		String redirectUrl = getRedirectURL(request, response);
+		log.info("\t > redirectUrl = '{}'", redirectUrl);
+		
 		SuccessResponse successResponse = SuccessResponse.builder()
 				.status(HttpStatus.OK)
 				.messageByCode("success.Login")

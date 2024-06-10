@@ -41,7 +41,7 @@
 	<div class="test d-flex justify-content-center mt-5">
 		<button class="btn btn-primary btn-lg test-btn mx-3" onclick="test1()">test1</button>
 		<button class="btn btn-primary btn-lg test-btn mx-3" onclick="test2()">test2</button>
-		<button class="btn btn-primary btn-lg test-btn mx-3 invisible" onclick="test3()">test3</button>
+		<button class="btn btn-primary btn-lg test-btn mx-3" onclick="test3()">test3</button>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
