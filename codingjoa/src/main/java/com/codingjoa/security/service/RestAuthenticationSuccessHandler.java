@@ -51,7 +51,7 @@ public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHa
 		SuccessResponse successResponse = SuccessResponse.builder()
 				.status(HttpStatus.OK)
 				.messageByCode("success.Login")
-				.data(Map.of("redirectUrl", request.getContextPath()))
+				.data(Map.of("redirectUrl", request.getContextPath() + "/board"))
 				.build();
 		log.info("\t > {}", successResponse);
 		
