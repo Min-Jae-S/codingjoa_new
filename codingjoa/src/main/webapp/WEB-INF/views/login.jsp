@@ -108,7 +108,7 @@
 			let formData = {
 				memberId : $("#memberId").val(),
 				memberPassword : $("#memberPassword").val(),
-				continueUrl : "<c:out value='${continueUrl}'/>"
+				redirectUrl : "<c:out value='${url}'/>"
 			};
 			
 			authenticationService.login(formData, function(result) {

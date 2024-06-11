@@ -36,10 +36,10 @@ public class MainController {
 	}
 	
 	@GetMapping("/login") 
-	public String loginForm(@RequestParam("continue") String continueUrl, Model model) {
+	public String loginForm(@RequestParam(required = false) String url, Model model) {
 		log.info("## loginForm");
-		log.info("\t > continueUrl = {}", continueUrl);
-		model.addAttribute("continueUrl", continueUrl);
+		log.info("\t > url = {}", url);
+		model.addAttribute("url", url);
 		return "login";
 	}
 	
