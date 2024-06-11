@@ -41,11 +41,11 @@ public class RestAuthenticationFilter extends AbstractAuthenticationProcessingFi
 		 * check ajax and POST 
 		 */
 		
-		Map<String, Object> map = objectMapper.readValue(request.getReader(), Map.class);
+		Map<String, Object> loginMap = objectMapper.readValue(request.getReader(), Map.class);
+		log.info("\t > loginMap = {}", loginMap);
 		
-		String memberId = (String) map.get(USERNAME_KEY);
-		String memberPassword = (String) map.get(PASSWORD_KEY);
-		log.info("\t > memberId = '{}', memberPassword = '{}'", memberId, memberPassword);
+		String memberId = (String) loginMap.get(USERNAME_KEY);
+		String memberPassword = (String) loginMap.get(PASSWORD_KEY);
 		
 		if (!StringUtils.hasText(memberId)) {
 			throw new LoginRequireFieldException(MessageUtils.getMessage("error.LoginRequireId"));	
