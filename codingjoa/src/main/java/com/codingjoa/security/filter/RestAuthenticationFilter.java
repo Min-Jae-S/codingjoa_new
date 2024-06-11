@@ -22,13 +22,13 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @SuppressWarnings("unchecked")
-public class AjaxAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
+public class RestAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 	
 	private static final String USERNAME_KEY = "memberId";
 	private static final String PASSWORD_KEY = "memberPassword";
 	private ObjectMapper objectMapper = new ObjectMapper();
 	
-	public AjaxAuthenticationFilter() {
+	public RestAuthenticationFilter() {
 		super(new AntPathRequestMatcher("/api/login", "POST"));
 	}
 	
@@ -41,10 +41,10 @@ public class AjaxAuthenticationFilter extends AbstractAuthenticationProcessingFi
 		 * check ajax and POST 
 		 */
 		
-		Map<String, String> map = objectMapper.readValue(request.getReader(), Map.class);
+		Map<String, Object> map = objectMapper.readValue(request.getReader(), Map.class);
 		
-		String memberId = map.get(USERNAME_KEY);
-		String memberPassword = map.get(PASSWORD_KEY);
+		String memberId = (String) map.get(USERNAME_KEY);
+		String memberPassword = (String) map.get(PASSWORD_KEY);
 		log.info("\t > memberId = '{}', memberPassword = '{}'", memberId, memberPassword);
 		
 		if (!StringUtils.hasText(memberId)) {

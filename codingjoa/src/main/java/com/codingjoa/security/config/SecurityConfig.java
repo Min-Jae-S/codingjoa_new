@@ -21,7 +21,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import com.codingjoa.security.filter.AjaxAuthenticationFilter;
+import com.codingjoa.security.filter.RestAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity(debug = false)
@@ -120,8 +120,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 
 	@Bean
-	public AjaxAuthenticationFilter ajaxAuthenticationFilter() throws Exception {
-		AjaxAuthenticationFilter filter = new AjaxAuthenticationFilter();
+	public RestAuthenticationFilter ajaxAuthenticationFilter() throws Exception {
+		RestAuthenticationFilter filter = new RestAuthenticationFilter();
 		// Error creating bean with name 'ajaxAuthenticationFilter' defined in com.codingjoa.security.config.SecurityConfig: 
 		// Invocation of init method failed; nested exception is java.lang.IllegalArgumentException: authenticationManager must be specified
 		filter.setAuthenticationManager(authenticationManagerBean());

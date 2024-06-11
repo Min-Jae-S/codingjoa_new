@@ -48,21 +48,16 @@ public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHa
 				.serializerByType(LocalDateTime.class, new LocalDateTimeSerializer(formatter))
 				.build();
 		
-		String redirectUrl = request.getParameter("continue");
-		log.info("\t > redirectUrl = '{}'", redirectUrl);
-		
 		SuccessResponse successResponse = SuccessResponse.builder()
 				.status(HttpStatus.OK)
 				.messageByCode("success.Login")
-				.data(Map.of("redirectUrl", redirectUrl))
+				.data(Map.of("redirectUrl", request.getContextPath()))
 				.build();
 		log.info("\t > {}", successResponse);
 		
 		log.info("\t > respond with successResponse in JSON format");
 		response.getWriter().write(objectMapper.writeValueAsString(successResponse));
 		response.getWriter().close();
-		
-		//response.sendRedirect(redirectUrl);
 	}
 	
 	@SuppressWarnings("unused")
