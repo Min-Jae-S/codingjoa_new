@@ -31,7 +31,7 @@ public class TestRedirectController {
 		return ResponseEntity.ok("success");
 	}
 	
-	@GetMapping("/redirect/test2")
+	@GetMapping("/redirect/test3")
 	public void test3() { 
 		log.info("## test3");
 	}
