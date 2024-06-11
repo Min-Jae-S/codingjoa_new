@@ -17,6 +17,7 @@ import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.codingjoa.response.ErrorResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -79,8 +80,13 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 			response.getWriter().write(objectMapper.writeValueAsString(errorResponse));
 			response.getWriter().close();
 		} else {
-			String redirectUrl = request.getContextPath() + "/login";
-			log.info("\t > redirect to '{}'", redirectUrl);
+			String redirectUrl = ServletUriComponentsBuilder.fromContextPath(request)
+					.path("/login")
+					.queryParam("continue", getFullURI(request))
+					.build()
+					.toString();
+			log.info("\t > redirectUrl = '{}'", redirectUrl);
+			
 			response.sendRedirect(redirectUrl);
 		}
 	}
@@ -101,4 +107,5 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 	    			.append(URLDecoder.decode(queryString, StandardCharsets.UTF_8)).toString();
 	    }
 	}
+	
 }

@@ -48,7 +48,7 @@ public class AjaxAuthenticationSuccessHandler implements AuthenticationSuccessHa
 				.serializerByType(LocalDateTime.class, new LocalDateTimeSerializer(formatter))
 				.build();
 		
-		String redirectUrl = getRedirectURL(request, response);
+		String redirectUrl = request.getParameter("continue");
 		log.info("\t > redirectUrl = '{}'", redirectUrl);
 		
 		SuccessResponse successResponse = SuccessResponse.builder()
@@ -65,6 +65,7 @@ public class AjaxAuthenticationSuccessHandler implements AuthenticationSuccessHa
 		//response.sendRedirect(redirectUrl);
 	}
 	
+	@SuppressWarnings("unused")
 	private String getRedirectURL(HttpServletRequest request, HttpServletResponse response) {
 		RequestCache requestCache = new HttpSessionRequestCache();
 		SavedRequest savedRequest = requestCache.getRequest(request, response); // DefaultSavedRequest 
