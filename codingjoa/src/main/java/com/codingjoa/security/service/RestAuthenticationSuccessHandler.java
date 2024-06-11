@@ -15,7 +15,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
+import org.springframework.security.web.savedrequest.RequestCache;
+import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.stereotype.Component;
 
 import com.codingjoa.response.SuccessResponse;
@@ -26,19 +29,11 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Component
-public class AjaxLogoutSuccessHandler implements LogoutSuccessHandler {
-
-	// private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
-	
-	// Request URL: http://localhost:8888/codingjoa/logout
-	// Request Method: GET
-	// Status Code: 302 Found
-	
-	// redirect method (GET, POST)
+public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 	
 	@Override
-	public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
-			throws IOException, ServletException {
+	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
+			Authentication authentication) throws IOException, ServletException {
 		log.info("## {}", this.getClass().getSimpleName());
 		log.info("\t > authentication token = {}", (authentication != null) ? authentication.getClass().getSimpleName() : authentication);
 		
@@ -53,12 +48,12 @@ public class AjaxLogoutSuccessHandler implements LogoutSuccessHandler {
 				.serializerByType(LocalDateTime.class, new LocalDateTimeSerializer(formatter))
 				.build();
 		
-		String redirectUrl = request.getContextPath() + "/login";
+		String redirectUrl = request.getParameter("continue");
 		log.info("\t > redirectUrl = '{}'", redirectUrl);
 		
 		SuccessResponse successResponse = SuccessResponse.builder()
 				.status(HttpStatus.OK)
-				.messageByCode("success.Logout")
+				.messageByCode("success.Login")
 				.data(Map.of("redirectUrl", redirectUrl))
 				.build();
 		log.info("\t > {}", successResponse);
@@ -68,6 +63,13 @@ public class AjaxLogoutSuccessHandler implements LogoutSuccessHandler {
 		response.getWriter().close();
 		
 		//response.sendRedirect(redirectUrl);
+	}
+	
+	@SuppressWarnings("unused")
+	private String getRedirectURL(HttpServletRequest request, HttpServletResponse response) {
+		RequestCache requestCache = new HttpSessionRequestCache();
+		SavedRequest savedRequest = requestCache.getRequest(request, response); // DefaultSavedRequest 
+		return (savedRequest == null) ? request.getContextPath() : savedRequest.getRedirectUrl();
 	}
 
 }

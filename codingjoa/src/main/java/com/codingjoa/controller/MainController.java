@@ -34,11 +34,8 @@ public class MainController {
 	}
 	
 	@GetMapping("/login") 
-	public String loginForm(HttpServletRequest request, HttpServletResponse response) {
+	public String loginForm() {
 		log.info("## loginForm");
-		String redirectUrl = getRedirectURL(request, response);
-		log.info("\t > redirectUrl = {}", redirectUrl);
-		
 		return "login";
 	}
 	
