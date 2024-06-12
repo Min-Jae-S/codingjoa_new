@@ -23,9 +23,9 @@
 				<li class="nav-item mx-2 mt-1">
 					<a href="${contextPath}/api/saved-request" class="nav-link" id="savedRequestLink">savedRequest</a>
 				</li>
-				<li class="nav-item mx-2 mt-1">
+				<%-- <li class="nav-item mx-2 mt-1">
 					<a href="${contextPath}/api/logout" class="nav-link" id="logoutLink" name="logoutLink">로그아웃</a>
-				</li>
+				</li> --%>
 			</ul>
 			<ul class="navbar-nav ml-auto">
 				<sec:authorize access="isAnonymous()">
