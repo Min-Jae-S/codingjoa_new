@@ -30,7 +30,7 @@
 			<ul class="navbar-nav ml-auto">
 				<sec:authorize access="isAnonymous()">
 					<li class="nav-item mx-2 mt-1">
-						<a href="${contextPath}/login" class="nav-link" id="loginLink">로그인</a>
+						<a href="${contextPath}/login?redirect=${currentUrl}" class="nav-link" id="loginLink">로그인</a>
 					</li>
 					<li class="nav-item mx-2 mt-1">
 						<a href="${contextPath}/member/join" class="nav-link">회원가입</a>
@@ -129,13 +129,6 @@
 			let parentPath = $(this).closest("li.dropdown").data("path");
 			location.href = "${contextPath}" + parentPath + $(this).data("path");
 		});
-		
-		$("#loginLink").on("click", function(e) {
-			e.preventDefault();
-			console.log("## login");
-			console.log("> referer = %s", referer);
-		)};
-	
 		
 		//$("#logoutLink").on("click", function(e) {
 		$("a[name='logoutLink']").on("click", function(e) {
