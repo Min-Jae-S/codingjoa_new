@@ -10,9 +10,7 @@ import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.security.web.savedrequest.RequestCache;
 import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.codingjoa.response.SuccessResponse;
@@ -36,10 +34,8 @@ public class MainController {
 	}
 	
 	@GetMapping("/login") 
-	public String loginForm(@RequestParam(name = "redirect", required = false) String redirectUrl, Model model) {
+	public String loginForm() {
 		log.info("## loginForm");
-		log.info("\t > redirectUrl = {}", redirectUrl);
-		model.addAttribute("redirectUrl", redirectUrl);
 		return "login";
 	}
 	

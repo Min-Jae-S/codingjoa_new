@@ -79,7 +79,7 @@
 						</div>
 					</div>
 					<div class="form-group pt-4 mb-4">
-						<button class="btn btn-primary btn-block">로그인</button>
+						<button type="submit" class="btn btn-primary btn-block">로그인</button>
 					</div>
 				</form>
 				<div class="info-member">
@@ -105,10 +105,11 @@
 	$(function() {
 		$("#loginForm").on("submit", function(e) {
 			e.preventDefault();
+			let currentURL = new URL(location.href);
 			let formData = {
 				memberId : $("#memberId").val(),
 				memberPassword : $("#memberPassword").val(),
-				redirectUrl : "<c:out value='${redirectUrl}'/>"
+				redirectUrl : currentURL.searchParams.get("redirect")
 			};
 			
 			authenticationService.login(formData, function(result) {
