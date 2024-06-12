@@ -36,10 +36,10 @@ public class MainController {
 	}
 	
 	@GetMapping("/login") 
-	public String loginForm(@RequestParam(required = false) String url, Model model) {
+	public String loginForm(@RequestParam(required = false) String redirectUrl, Model model) {
 		log.info("## loginForm");
-		log.info("\t > url = {}", url);
-		model.addAttribute("url", url);
+		log.info("\t > redirectUrl = {}", redirectUrl);
+		model.addAttribute("redirectUrl", redirectUrl);
 		return "login";
 	}
 	

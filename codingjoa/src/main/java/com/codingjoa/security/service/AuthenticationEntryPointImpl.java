@@ -82,10 +82,10 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 		} else {
 			String redirectUrl = ServletUriComponentsBuilder.fromContextPath(request)
 					.path("/login")
-					.queryParam("url", getFullURI(request))
+					.queryParam("redirectUrl", getFullURI(request))
 					.build()
 					.toString();
-			log.info("\t > redirectUrl = '{}'", redirectUrl);
+			log.info("\t > redirectUrl = {}", redirectUrl);
 			
 			response.sendRedirect(redirectUrl);
 		}

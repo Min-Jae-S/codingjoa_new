@@ -54,7 +54,7 @@ public class RestLogoutSuccessHandler implements LogoutSuccessHandler {
 				.build();
 		
 		String redirectUrl = request.getContextPath() + "/login";
-		log.info("\t > redirectUrl = '{}'", redirectUrl);
+		log.info("\t > redirectUrl = {}", redirectUrl);
 		
 		SuccessResponse successResponse = SuccessResponse.builder()
 				.status(HttpStatus.OK)
