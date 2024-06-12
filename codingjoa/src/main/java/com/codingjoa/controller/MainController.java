@@ -36,7 +36,7 @@ public class MainController {
 	}
 	
 	@GetMapping("/login") 
-	public String loginForm(@RequestParam(required = false) String redirectUrl, Model model) {
+	public String loginForm(@RequestParam(name = "redirect", required = false) String redirectUrl, Model model) {
 		log.info("## loginForm");
 		log.info("\t > redirectUrl = {}", redirectUrl);
 		model.addAttribute("redirectUrl", redirectUrl);
