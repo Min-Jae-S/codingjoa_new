@@ -30,7 +30,7 @@
 			<ul class="navbar-nav ml-auto">
 				<sec:authorize access="isAnonymous()">
 					<li class="nav-item mx-2 mt-1">
-						<a href="${contextPath}/login?redirect=${currentUrl}" class="nav-link" id="loginLink">로그인</a>
+						<a href="${contextPath}/login" class="nav-link" id="loginLink">로그인</a>
 					</li>
 					<li class="nav-item mx-2 mt-1">
 						<a href="${contextPath}/member/join" class="nav-link">회원가입</a>
@@ -64,7 +64,7 @@
 					</li>
 					<li class="nav-item mx-2">
 						<%-- <a href="${contextPath}/api/logout" class="nav-link" id="logoutLink" name="logoutLink">로그아웃</a> --%>
-						<a href="${contextPath}/logout?redirect=${currentUrl}" class="nav-link">로그아웃</a>
+						<a href="${contextPath}/logout" class="nav-link">로그아웃</a>
 					</li>
 				</sec:authorize>
 			</ul>
@@ -129,6 +129,20 @@
 		$(document).on("click", ".navbar-nav button.dropdown-item", function() {
 			let parentPath = $(this).closest("li.dropdown").data("path");
 			location.href = "${contextPath}" + parentPath + $(this).data("path");
+		});
+		
+		$("#loginLink").on("click", function(e) {
+			e.preventDefault();
+			let loginUrl = new URL(this.href);
+			loginUrl.searchParams.set("redirect", location.href);
+			location.href = loginUrl;
+		});
+		
+		$("#logoutLink").on("click", function(e) {
+			e.preventDefault();
+			let logoutUrl = new URL(this.href);
+			logoutUrl.searchParams.set("redirect", location.href);
+			location.href = logoutUrl;
 		});
 		
 		//$("#logoutLink").on("click", function(e) {

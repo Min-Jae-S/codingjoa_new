@@ -57,6 +57,8 @@ public class RestLogoutSuccessHandler implements LogoutSuccessHandler {
 //		response.getWriter().close();
 		
 		String redirectUrl = request.getParameter("redirect");
+		log.info("\t > logout redirectUrl from parameter = {}", redirectUrl);
+		
 		if (!StringUtils.hasText(redirectUrl)) {
 			redirectUrl = request.getContextPath();
 		}

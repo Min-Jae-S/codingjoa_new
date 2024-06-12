@@ -1,7 +1,5 @@
 package com.codingjoa.interceptor;
 
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,7 +26,6 @@ import lombok.extern.slf4j.Slf4j;
  */
 
 @Slf4j
-@SuppressWarnings("unused")
 @RequiredArgsConstructor
 public class TopMenuInterceptor implements HandlerInterceptor {
 
@@ -117,24 +114,6 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 		}
 		
 		List<Category> parentCategoryList = categoryService.getParentCategoryList();
-		String currentUrl = getFullURI(request);
-		log.info("\t > currentUrl = {}", currentUrl);
-		
 		modelAndView.addObject("parentCategoryList", parentCategoryList);
-		modelAndView.addObject("currentUrl", currentUrl);
-		log.info("\t > added attrs = {}", modelAndView.getModel().keySet());
-	}
-	
-	private String getFullURI(HttpServletRequest request) {
-		StringBuilder requestURI = 
-				new StringBuilder(URLDecoder.decode(request.getRequestURI(), StandardCharsets.UTF_8));
-	    String queryString = request.getQueryString();
-
-	    if (queryString == null) {
-	        return requestURI.toString();
-	    } else {
-	    	return requestURI.append('?')
-	    			.append(URLDecoder.decode(queryString, StandardCharsets.UTF_8)).toString();
-	    }
 	}
 }
