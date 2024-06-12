@@ -64,7 +64,7 @@
 					</li>
 					<li class="nav-item mx-2">
 						<%-- <a href="${contextPath}/api/logout" class="nav-link" id="logoutLink" name="logoutLink">로그아웃</a> --%>
-						<a href="${contextPath}/logout?redirect=${redirect}" class="nav-link">로그아웃</a>
+						<a href="${contextPath}/logout?redirect=${currentUrl}" class="nav-link">로그아웃</a>
 					</li>
 				</sec:authorize>
 			</ul>

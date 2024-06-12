@@ -58,6 +58,7 @@ public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHa
 		log.info("\t > respond with successResponse in JSON format");
 		response.getWriter().write(objectMapper.writeValueAsString(successResponse));
 		response.getWriter().close();
+		//response.sendRedirect(request.getContextPath());
 	}
 	
 	@SuppressWarnings("unused")
