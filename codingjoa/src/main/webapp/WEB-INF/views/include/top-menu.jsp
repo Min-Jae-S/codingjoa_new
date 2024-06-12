@@ -23,9 +23,11 @@
 				<li class="nav-item mx-2 mt-1">
 					<a href="${contextPath}/api/saved-request" class="nav-link" id="savedRequestLink">savedRequest</a>
 				</li>
-				<%-- <li class="nav-item mx-2 mt-1">
-					<a href="${contextPath}/api/logout" class="nav-link" id="logoutLink" name="logoutLink">로그아웃</a>
-				</li> --%>
+				
+				<!-- test -->
+				<li class="nav-item mx-2 mt-1">
+					<a href="${contextPath}/logout" class="nav-link" id="logoutLink" name="logoutLink">로그아웃</a>
+				</li>
 			</ul>
 			<ul class="navbar-nav ml-auto">
 				<sec:authorize access="isAnonymous()">
@@ -63,8 +65,7 @@
 						<a href="${contextPath}/member/account" class="nav-link">계정 관리</a>
 					</li>
 					<li class="nav-item mx-2">
-						<%-- <a href="${contextPath}/api/logout" class="nav-link" id="logoutLink" name="logoutLink">로그아웃</a> --%>
-						<a href="${contextPath}/logout" class="nav-link">로그아웃</a>
+						<a href="${contextPath}/logout" class="nav-link" id="logoutLink" name="logoutLink">로그아웃</a>
 					</li>
 				</sec:authorize>
 			</ul>
@@ -135,18 +136,20 @@
 			e.preventDefault();
 			let loginUrl = new URL(this.href);
 			loginUrl.searchParams.set("redirect", location.href);
+			alert("로그인 화면으로 이동합니다.");
 			location.href = loginUrl;
 		});
 		
-		$("#logoutLink").on("click", function(e) {
+		$("a[name='logoutLink']").on("click", function(e) {
+		//$("#logoutLink").on("click", function(e) {
 			e.preventDefault();
 			let logoutUrl = new URL(this.href);
 			logoutUrl.searchParams.set("redirect", location.href);
+			alert("로그아웃을 진행합니다.");
 			location.href = logoutUrl;
 		});
 		
-		//$("#logoutLink").on("click", function(e) {
-/* 		$("a[name='logoutLink']").on("click", function(e) {
+		/*$("#logoutLink").on("click", function(e) {
 			e.preventDefault();
 			console.log("## logout");
 			
