@@ -9,6 +9,7 @@ import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
 import com.codingjoa.exception.ExpectedException;
 import com.codingjoa.response.ErrorResponse.ErrorResponseBuilder;
@@ -31,6 +32,23 @@ public class ErrorHtmlHandler {
 		ErrorResponse errorResponse = ErrorResponse.builder()
 				.status(HttpStatus.BAD_REQUEST)
 				.messageByCode("error.Global") // error.Unknown --> error.Global
+				.build();
+		log.info("\t > {}", errorResponse);
+		request.setAttribute("errorResponse", errorResponse);
+		
+		//e.printStackTrace();
+		return "forward:/error/errorPage";
+	}
+	
+	@ExceptionHandler(NoHandlerFoundException.class) 
+	protected String handleNoHandlerFoundException(Exception e, HttpServletRequest request) {
+		log.info("## {} - {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
+		log.info("\t > location = {}", e.getStackTrace()[0]);
+		log.info("\t > message = {}", e.getMessage());
+		
+		ErrorResponse errorResponse = ErrorResponse.builder()
+				.status(HttpStatus.NOT_FOUND)
+				.messageByCode("error.NotFoundPage")
 				.build();
 		log.info("\t > {}", errorResponse);
 		request.setAttribute("errorResponse", errorResponse);

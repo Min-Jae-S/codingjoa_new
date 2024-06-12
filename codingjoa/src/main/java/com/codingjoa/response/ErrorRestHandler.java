@@ -1,5 +1,6 @@
 package com.codingjoa.response;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolationException;
 
 import org.springframework.core.Ordered;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
 import com.codingjoa.exception.ExpectedException;
 import com.codingjoa.response.ErrorResponse.ErrorResponseBuilder;
@@ -63,6 +65,21 @@ public class ErrorRestHandler {
 		
 		//e.printStackTrace();
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+	}
+	
+	@ExceptionHandler(NoHandlerFoundException.class) 
+	protected ResponseEntity<Object> handleNoHandlerFoundException(Exception e, HttpServletRequest request) {
+		log.info("## {} - {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
+		log.info("\t > location = {}", e.getStackTrace()[0]);
+		log.info("\t > message = {}", e.getMessage());
+
+		ErrorResponse errorResponse = ErrorResponse.builder()
+				.status(HttpStatus.NOT_FOUND)
+				.messageByCode("error.NotFoundResource") 
+				.build();
+		log.info("\t > {}", errorResponse);
+		
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
 	}
 	
 	@ExceptionHandler(HttpMessageNotReadableException.class)
