@@ -21,12 +21,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@SuppressWarnings({ "unchecked", "unused" })
+@SuppressWarnings("unchecked")
 public class RestAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 	
 	private static final String USERNAME_KEY = "memberId";
 	private static final String PASSWORD_KEY = "memberPassword";
-	private static final String REDIRECT_URL_KEY = "redirectUrl";
+	private static final String REDIRECT_URL_KEY = "redirectUrl"; 
 	private ObjectMapper objectMapper = new ObjectMapper();
 	
 	public RestAuthenticationFilter() {
@@ -47,7 +47,10 @@ public class RestAuthenticationFilter extends AbstractAuthenticationProcessingFi
 		
 		String memberId = (String) loginMap.get(USERNAME_KEY);
 		String memberPassword = (String) loginMap.get(PASSWORD_KEY);
-		//String redirectUrl = (String) loginMap.get(REDIRECT_URL_KEY);
+		String redirectUrl = (String) loginMap.get(REDIRECT_URL_KEY);
+		
+		// temporary
+		request.setAttribute("redirectUrl", redirectUrl);
 		
 		if (!StringUtils.hasText(memberId)) {
 			throw new LoginRequireFieldException(MessageUtils.getMessage("error.LoginRequireId"));	
