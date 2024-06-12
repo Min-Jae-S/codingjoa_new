@@ -21,7 +21,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@SuppressWarnings("unchecked")
+@SuppressWarnings({ "unchecked", "unused" })
 public class RestAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 	
 	private static final String USERNAME_KEY = "memberId";

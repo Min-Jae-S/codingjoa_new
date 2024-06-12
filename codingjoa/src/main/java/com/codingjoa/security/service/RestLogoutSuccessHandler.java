@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -55,7 +56,12 @@ public class RestLogoutSuccessHandler implements LogoutSuccessHandler {
 //		response.getWriter().write(objectMapper.writeValueAsString(successResponse));
 //		response.getWriter().close();
 		
-		String redirectUrl = request.getContextPath() + request.getParameter("redirect");
+		String redirectUrl = request.getParameter("redirect");
+		if (!StringUtils.hasText(redirectUrl)) {
+			redirectUrl = request.getContextPath();
+		}
+		log.info("\t > logout redirectUrl = {}", redirectUrl);
+		
 		response.sendRedirect(redirectUrl);
 	}
 
