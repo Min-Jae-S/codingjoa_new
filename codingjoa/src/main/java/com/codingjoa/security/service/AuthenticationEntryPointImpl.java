@@ -82,7 +82,7 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 		} else {
 			String redirectUrl = ServletUriComponentsBuilder.fromContextPath(request)
 					.path("/login")
-					.queryParam("redirect", getFullURI(request))
+					.queryParam("redirect", getFullURL(request))
 					.build()
 					.toString();
 			log.info("\t > redirect = {}", redirectUrl);
@@ -96,8 +96,8 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 	}
 	
 	private String getFullURI(HttpServletRequest request) {
-		StringBuilder requestURI = 
-				new StringBuilder(URLDecoder.decode(request.getRequestURI(), StandardCharsets.UTF_8));
+		StringBuilder requestURI = new StringBuilder(
+				URLDecoder.decode(request.getRequestURI(), StandardCharsets.UTF_8));
 	    String queryString = request.getQueryString();
 	    
 	    if (queryString == null) {
@@ -106,6 +106,18 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 	    	return requestURI.append('?')
 	    			.append(URLDecoder.decode(queryString, StandardCharsets.UTF_8)).toString();
 	    }
+	}
+
+	private String getFullURL(HttpServletRequest request) {
+		StringBuffer requestURL = request.getRequestURL();
+		String queryString = request.getQueryString();
+		
+		if (queryString == null) {
+			return requestURL.toString();
+		} else {
+			return requestURL.append('?')
+					.append(URLDecoder.decode(queryString, StandardCharsets.UTF_8)).toString();
+		}
 	}
 	
 }
