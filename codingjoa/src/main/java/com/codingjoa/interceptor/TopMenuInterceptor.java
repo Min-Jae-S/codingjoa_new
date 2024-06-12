@@ -117,7 +117,12 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 		}
 		
 		List<Category> parentCategoryList = categoryService.getParentCategoryList();
+		String redirectUrl = request.getHeader("referer");
+		log.info("\t > redirectUrl = {}", redirectUrl);
+		
 		modelAndView.addObject("parentCategoryList", parentCategoryList);
+		modelAndView.addObject("redirect", redirectUrl);
+		
 		log.info("\t > added attrs = {}", modelAndView.getModel().keySet());
 	}
 	
