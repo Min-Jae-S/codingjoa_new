@@ -63,7 +63,8 @@
 						<a href="${contextPath}/member/account" class="nav-link">계정 관리</a>
 					</li>
 					<li class="nav-item mx-2">
-						<a href="${contextPath}/api/logout" class="nav-link" id="logoutLink" name="logoutLink">로그아웃</a>
+						<%-- <a href="${contextPath}/api/logout" class="nav-link" id="logoutLink" name="logoutLink">로그아웃</a> --%>
+						<a href="${contextPath}/logout?redirect=${redirect}" class="nav-link">로그아웃</a>
 					</li>
 				</sec:authorize>
 			</ul>
@@ -131,7 +132,7 @@
 		});
 		
 		//$("#logoutLink").on("click", function(e) {
-		$("a[name='logoutLink']").on("click", function(e) {
+/* 		$("a[name='logoutLink']").on("click", function(e) {
 			e.preventDefault();
 			console.log("## logout");
 			
@@ -155,7 +156,7 @@
 					consoel.log(jqXRH);
 				}
 			});
-		});
+		}); */
 		
 		// test
 		$("#savedRequestLink").on("click", function(e) {
