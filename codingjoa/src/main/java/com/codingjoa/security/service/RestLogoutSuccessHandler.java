@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.security.core.Authentication;
+import org.springframework.security.web.DefaultRedirectStrategy;
+import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -17,13 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class RestLogoutSuccessHandler implements LogoutSuccessHandler {
 
-	// private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
-	
-	// Request URL: http://localhost:8888/codingjoa/logout
-	// Request Method: GET
-	// Status Code: 302 Found
-	
-	// redirect method (GET, POST)
+	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 	
 	@Override
 	public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
@@ -64,7 +60,7 @@ public class RestLogoutSuccessHandler implements LogoutSuccessHandler {
 		}
 		log.info("\t > logout redirectUrl = {}", redirectUrl);
 		
-		response.sendRedirect(redirectUrl);
+		redirectStrategy.sendRedirect(request, response, redirectUrl);
 	}
 
 }

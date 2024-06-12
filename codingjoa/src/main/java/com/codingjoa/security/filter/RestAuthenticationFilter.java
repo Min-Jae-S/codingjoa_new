@@ -47,7 +47,7 @@ public class RestAuthenticationFilter extends AbstractAuthenticationProcessingFi
 		
 		String memberId = (String) loginMap.get(USERNAME_KEY);
 		String memberPassword = (String) loginMap.get(PASSWORD_KEY);
-		String redirectUrl = (String) loginMap.get(REDIRECT_URL_KEY);
+		//String redirectUrl = (String) loginMap.get(REDIRECT_URL_KEY);
 		
 		if (!StringUtils.hasText(memberId)) {
 			throw new LoginRequireFieldException(MessageUtils.getMessage("error.LoginRequireId"));	

@@ -28,6 +28,7 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@SuppressWarnings("unchecked")
 @Component
 public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 	
@@ -48,7 +49,8 @@ public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHa
 				.serializerByType(LocalDateTime.class, new LocalDateTimeSerializer(formatter))
 				.build();
 		
-		String redirectUrl = request.getContextPath();
+		Map<String, Object> loginMap = objectMapper.readValue(request.getReader(), Map.class);
+		String redirectUrl = (String) loginMap.get("redirectUrl");
 		log.info("\t > login redirectUrl = {}", redirectUrl);
 		
 		SuccessResponse successResponse = SuccessResponse.builder()
