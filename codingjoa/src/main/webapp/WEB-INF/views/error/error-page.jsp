@@ -29,7 +29,9 @@
 <c:import url="/WEB-INF/views/include/top-menu.jsp"/>
 
 <div class="error-container">
-	<p class="font-weight-bold text-center bg-danger text-white mb-5" style="font-size: 80px;">ERROR PAGE</p>
+	<p class="font-weight-bold text-center text-danger mb-4" style="font-size: 120px;">
+		<c:out value="${errorResponse.status}"/>
+	</p>
 	<div class="text-center px-5">
 		<c:choose>
 			<c:when test="${fn:length(errorResponse.details) > 0}">
