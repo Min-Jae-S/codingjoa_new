@@ -15,10 +15,10 @@ import org.springframework.stereotype.Component;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@SuppressWarnings("unused")
 @Component
 public class RestLogoutSuccessHandler implements LogoutSuccessHandler {
 
-	@SuppressWarnings("unused")
 	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 	
 	@Override
@@ -53,7 +53,7 @@ public class RestLogoutSuccessHandler implements LogoutSuccessHandler {
 //		response.getWriter().close();
 		
 		String redirectUrl = request.getContextPath();
-		log.info("\t > logout redirectUrl = {}", redirectUrl);
+		log.info("\t > redirect to '{}'", redirectUrl);
 		
 		//redirectStrategy.sendRedirect(request, response, redirectUrl);
 		response.sendRedirect(redirectUrl);

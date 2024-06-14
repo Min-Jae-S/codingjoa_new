@@ -81,13 +81,15 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 			response.getWriter().write(objectMapper.writeValueAsString(errorResponse));
 			response.getWriter().close();
 		} else {
-			String redirectUrl = ServletUriComponentsBuilder.fromContextPath(request)
-					.path("/login")
-					//.queryParam("redirect", getFullURL(request))
-					.build()
-					.toString();
+//			String redirectUrl = ServletUriComponentsBuilder.fromContextPath(request)
+//					.path("/login")
+//					//.queryParam("redirect", getFullURL(request))
+//					.build()
+//					.toString();
 			
-			log.info("\t > redirect to login page");
+			String redirectUrl = request.getContextPath() + "/login";
+			log.info("\t > redirect to '{}'", redirectUrl);
+			
 			response.sendRedirect(redirectUrl);
 		}
 	}

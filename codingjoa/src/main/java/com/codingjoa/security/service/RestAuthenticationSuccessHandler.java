@@ -52,13 +52,10 @@ public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHa
 		// temporary
 		//String redirectUrl = (String) request.getAttribute("redirectUrl");
 		
-		String redirectUrl = request.getContextPath();
-		log.info("\t > login redirectUrl = {}", redirectUrl);
-		
 		SuccessResponse successResponse = SuccessResponse.builder()
 				.status(HttpStatus.OK)
 				.messageByCode("success.Login")
-				.data(Map.of("redirectUrl", redirectUrl))
+				.data(Map.of("redirectUrl", request.getContextPath()))
 				.build();
 		log.info("\t > {}", successResponse);
 		
