@@ -108,8 +108,7 @@
 			let currentURL = new URL(location.href);
 			let formData = {
 				memberId : $("#memberId").val(),
-				memberPassword : $("#memberPassword").val(),
-				redirectUrl : currentURL.searchParams.get("redirect")
+				memberPassword : $("#memberPassword").val()
 			};
 			
 			authenticationService.login(formData, function(result) {

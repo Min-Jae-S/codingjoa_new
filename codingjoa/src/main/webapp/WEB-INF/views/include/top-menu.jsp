@@ -132,17 +132,6 @@
 			location.href = "${contextPath}" + parentPath + $(this).data("path");
 		});
 		
-		$("#loginLink").on("click", function(e) {
-			e.preventDefault();
-			console.log("login");
-		});
-		
-		//$("a[name='logoutLink']").on("click", function(e) {
-		$("#logoutLink").on("click", function(e) {
-			e.preventDefault();
-			console.log("logout");
-		});
-		
 		/*$("#logoutLink").on("click", function(e) {
 			e.preventDefault();
 			console.log("## logout");

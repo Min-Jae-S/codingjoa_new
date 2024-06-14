@@ -11,7 +11,6 @@ import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -19,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class RestLogoutSuccessHandler implements LogoutSuccessHandler {
 
+	@SuppressWarnings("unused")
 	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 	
 	@Override
@@ -52,13 +52,11 @@ public class RestLogoutSuccessHandler implements LogoutSuccessHandler {
 //		response.getWriter().write(objectMapper.writeValueAsString(successResponse));
 //		response.getWriter().close();
 		
-		String redirectUrl = request.getParameter("redirect");
-		if (!StringUtils.hasText(redirectUrl)) {
-			redirectUrl = "/";
-		}
+		String redirectUrl = request.getContextPath();
 		log.info("\t > logout redirectUrl = {}", redirectUrl);
 		
-		redirectStrategy.sendRedirect(request, response, redirectUrl);
+		//redirectStrategy.sendRedirect(request, response, redirectUrl);
+		response.sendRedirect(redirectUrl);
 	}
 
 }

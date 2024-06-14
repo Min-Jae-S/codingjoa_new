@@ -49,7 +49,9 @@ public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHa
 				.build();
 		
 		// temporary
-		String redirectUrl = (String) request.getAttribute("redirectUrl");
+		//String redirectUrl = (String) request.getAttribute("redirectUrl");
+		
+		String redirectUrl = request.getContextPath();
 		log.info("\t > login redirectUrl = {}", redirectUrl);
 		
 		SuccessResponse successResponse = SuccessResponse.builder()
