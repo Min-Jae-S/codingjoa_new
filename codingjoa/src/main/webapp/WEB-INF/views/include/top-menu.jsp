@@ -20,14 +20,14 @@
 				</c:forEach>
 				
 				<!-- test -->
-				<li class="nav-item mx-2 mt-1">
+				<%-- <li class="nav-item mx-2 mt-1">
 					<a href="${contextPath}/api/saved-request" class="nav-link" id="savedRequestLink">savedRequest</a>
-				</li>
+				</li> --%>
 				
 				<!-- test -->
-				<li class="nav-item mx-2 mt-1">
+				<%-- <li class="nav-item mx-2 mt-1">
 					<a href="${contextPath}/logout" class="nav-link" id="logoutLink" name="logoutLink">로그아웃</a>
-				</li>
+				</li> --%>
 			</ul>
 			<ul class="navbar-nav ml-auto">
 				<sec:authorize access="isAnonymous()">
@@ -134,17 +134,13 @@
 		
 		$("#loginLink").on("click", function(e) {
 			e.preventDefault();
-			let loginUrl = new URL(this.href);
-			loginUrl.searchParams.set("redirect", location.href);
-			location.href = loginUrl;
+			console.log("login");
 		});
 		
-		$("a[name='logoutLink']").on("click", function(e) {
-		//$("#logoutLink").on("click", function(e) {
+		//$("a[name='logoutLink']").on("click", function(e) {
+		$("#logoutLink").on("click", function(e) {
 			e.preventDefault();
-			let logoutUrl = new URL(this.href);
-			logoutUrl.searchParams.set("redirect", location.href);
-			location.href = logoutUrl;
+			console.log("logout");
 		});
 		
 		/*$("#logoutLink").on("click", function(e) {
