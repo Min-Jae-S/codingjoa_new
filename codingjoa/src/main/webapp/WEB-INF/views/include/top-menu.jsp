@@ -136,7 +136,6 @@
 			e.preventDefault();
 			let loginUrl = new URL(this.href);
 			loginUrl.searchParams.set("redirect", location.href);
-			alert("로그인 화면으로 이동합니다.");
 			location.href = loginUrl;
 		});
 		
@@ -145,7 +144,6 @@
 			e.preventDefault();
 			let logoutUrl = new URL(this.href);
 			logoutUrl.searchParams.set("redirect", location.href);
-			alert("로그아웃을 진행합니다.");
 			location.href = logoutUrl;
 		});
 		
