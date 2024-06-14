@@ -34,6 +34,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 
 @Slf4j
+@SuppressWarnings("unused")
 @Component
 public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 
@@ -85,8 +86,8 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 					//.queryParam("redirect", getFullURL(request))
 					.build()
 					.toString();
-			log.info("\t > redirect = {}", redirectUrl);
 			
+			log.info("\t > redirect to login page");
 			response.sendRedirect(redirectUrl);
 		}
 	}
@@ -108,7 +109,6 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 	    }
 	}
 
-	@SuppressWarnings("unused")
 	private String getFullURL(HttpServletRequest request) {
 		StringBuffer requestURL = request.getRequestURL();
 		String queryString = request.getQueryString();

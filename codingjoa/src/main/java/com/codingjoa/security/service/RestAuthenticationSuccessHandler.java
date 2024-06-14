@@ -28,6 +28,7 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@SuppressWarnings("unused")
 @Component
 public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 	
@@ -64,11 +65,9 @@ public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHa
 		log.info("\t > respond with successResponse in JSON format");
 		response.getWriter().write(objectMapper.writeValueAsString(successResponse));
 		response.getWriter().close();
-		
 		//response.sendRedirect(redirectUrl);
 	}
 	
-	@SuppressWarnings("unused")
 	private String getRedirectURL(HttpServletRequest request, HttpServletResponse response) {
 		RequestCache requestCache = new HttpSessionRequestCache();
 		SavedRequest savedRequest = requestCache.getRequest(request, response); // DefaultSavedRequest 

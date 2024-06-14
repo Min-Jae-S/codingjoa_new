@@ -109,12 +109,13 @@
 			let formData = {
 				memberId : $("#memberId").val(),
 				memberPassword : $("#memberPassword").val()
+				//redirectUrl : currentURL.searchParams.get("redirect")
 			};
 			
 			authenticationService.login(formData, function(result) {
 				setTimeout(function() {
 					alert(result.message);
-					//location.href = result.data.redirectUrl;
+					location.href = result.data.redirectUrl;
 				}, 50);
 			});
 		});
