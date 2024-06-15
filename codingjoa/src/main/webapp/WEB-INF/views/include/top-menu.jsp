@@ -20,14 +20,14 @@
 				</c:forEach>
 				
 				<!-- test -->
-				<%-- <li class="nav-item mx-2 mt-1">
+				<li class="nav-item mx-2 mt-1">
 					<a href="${contextPath}/api/saved-request" class="nav-link" id="savedRequestLink">savedRequest</a>
-				</li> --%>
+				</li>
 				
 				<!-- test -->
-				<%-- <li class="nav-item mx-2 mt-1">
-					<a href="${contextPath}/logout" class="nav-link" id="logoutLink" name="logoutLink">로그아웃</a>
-				</li> --%>
+				<li class="nav-item mx-2 mt-1">
+					<a href="${contextPath}/logout" class="nav-link">로그아웃</a>
+				</li>
 			</ul>
 			<ul class="navbar-nav ml-auto">
 				<sec:authorize access="isAnonymous()">
@@ -65,7 +65,7 @@
 						<a href="${contextPath}/member/account" class="nav-link">계정 관리</a>
 					</li>
 					<li class="nav-item mx-2">
-						<a href="${contextPath}/logout" class="nav-link" id="logoutLink" name="logoutLink">로그아웃</a>
+						<a href="${contextPath}/logout" class="nav-link">로그아웃</a>
 					</li>
 				</sec:authorize>
 			</ul>
