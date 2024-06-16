@@ -34,8 +34,9 @@ public class MainController {
 	}
 	
 	@GetMapping("/login") 
-	public String loginForm() {
+	public String loginForm(HttpServletRequest request) {
 		log.info("## loginForm");
+		log.info("\t > referer = {}", request.getHeader("referer"));
 		return "login";
 	}
 	
