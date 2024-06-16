@@ -14,7 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.codingjoa.entity.Category;
 import com.codingjoa.service.CategoryService;
@@ -117,7 +120,13 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 		
 		List<Category> parentCategoryList = categoryService.getParentCategoryList();
 		modelAndView.addObject("parentCategoryList", parentCategoryList);
-		modelAndView.addObject("redirect", getFullURL(request));
+
+		String loginUrl = ServletUriComponentsBuilder.fromContextPath(request)
+				.path("/login")
+				.queryParam("redirect", getFullURL(request))
+				.build()
+				.toString();
+		modelAndView.addObject("loginUrl", loginUrl);
 	}
 	
 	private String getFullURL(HttpServletRequest request) {
