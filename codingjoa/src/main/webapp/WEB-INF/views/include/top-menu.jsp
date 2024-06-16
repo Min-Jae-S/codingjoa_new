@@ -32,7 +32,14 @@
 			<ul class="navbar-nav ml-auto">
 				<sec:authorize access="isAnonymous()">
 					<li class="nav-item mx-2 mt-1">
-						<a href="${loginUrl}" class="nav-link" id="loginLink">로그인</a>
+						<c:choose>
+							<c:when test="${not empty redirect}">
+								<a href="${contextPath}/login" class="nav-link" id="loginLink">로그인</a>
+							</c:when>
+							<c:otherwise>
+								<a href="${contextPath}/login?redirect=${redirect}" class="nav-link" id="loginLink">로그인</a>
+							</c:otherwise>
+						</c:choose>
 					</li>
 					<li class="nav-item mx-2 mt-1">
 						<a href="${contextPath}/member/join" class="nav-link">회원가입</a>

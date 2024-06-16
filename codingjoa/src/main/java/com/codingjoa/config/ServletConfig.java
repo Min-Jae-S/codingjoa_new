@@ -44,6 +44,7 @@ import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 import com.codingjoa.interceptor.PasswordConfirmInterceptor;
 import com.codingjoa.interceptor.PasswordResetKeyInterceptor;
 import com.codingjoa.interceptor.TopMenuInterceptor;
+import com.codingjoa.interceptor.TopMenuLoginUrlInterceptor;
 import com.codingjoa.resolver.BoardCriteriaArgumentResolver;
 import com.codingjoa.resolver.CommentCriteriaArgumentResolver;
 import com.codingjoa.resolver.GlobalExceptionResolver;
@@ -137,6 +138,10 @@ public class ServletConfig implements WebMvcConfigurer {
 		registry.addInterceptor(new TopMenuInterceptor(applicationContext, categoryService))
 				.addPathPatterns("/**")
 				.excludePathPatterns("/resources/**", "/upload/**", "/api/**");
+		registry.addInterceptor(new TopMenuLoginUrlInterceptor())
+				.addPathPatterns("/**")
+				.excludePathPatterns("/resources/**", "/upload/**", "/api/**", "/error/**", "/login")
+				.order(0);
 		registry.addInterceptor(new PasswordConfirmInterceptor(redisService))
 				.addPathPatterns("/member/account/updatePassword", "/api/member/password");
 		registry.addInterceptor(new PasswordResetKeyInterceptor(redisService))

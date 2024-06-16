@@ -1,7 +1,5 @@
 package com.codingjoa.interceptor;
 
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import com.codingjoa.entity.Category;
@@ -118,24 +115,5 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 		
 		List<Category> parentCategoryList = categoryService.getParentCategoryList();
 		modelAndView.addObject("parentCategoryList", parentCategoryList);
-
-		String loginUrl = ServletUriComponentsBuilder.fromContextPath(request)
-				.path("/login")
-				.queryParam("redirect", getFullURL(request))
-				.build()
-				.toString();
-		modelAndView.addObject("loginUrl", loginUrl);
-	}
-	
-	private String getFullURL(HttpServletRequest request) {
-		StringBuffer requestURL = request.getRequestURL();
-		String queryString = request.getQueryString();
-		
-		if (queryString == null) {
-			return requestURL.toString();
-		} else {
-			return requestURL.append('?')
-					.append(URLDecoder.decode(queryString, StandardCharsets.UTF_8)).toString();
-		}
 	}
 }
