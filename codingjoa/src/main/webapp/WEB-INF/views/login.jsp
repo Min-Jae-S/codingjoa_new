@@ -90,7 +90,6 @@
 						</li>
 						<li class="link-li">
 							<a href="${contextPath}/member/findPassword">비밀번호 찾기</a>
-							
 						</li>
 					</ul>
 				</div>
@@ -109,7 +108,6 @@
 			let formData = {
 				memberId : $("#memberId").val(),
 				memberPassword : $("#memberPassword").val()
-				//redirectUrl : currentURL.searchParams.get("redirect")
 			};
 			
 			authenticationService.login(formData, function(result) {
