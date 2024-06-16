@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Map;
 import java.util.TimeZone;
 
 import javax.servlet.ServletException;
@@ -49,20 +48,15 @@ public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHa
 				.serializerByType(LocalDateTime.class, new LocalDateTimeSerializer(formatter))
 				.build();
 		
-		// temporary
-		//String redirectUrl = (String) request.getAttribute("redirectUrl");
-		
 		SuccessResponse successResponse = SuccessResponse.builder()
 				.status(HttpStatus.OK)
 				.messageByCode("success.Login")
-				.data(Map.of("redirectUrl", request.getContextPath()))
 				.build();
 		log.info("\t > {}", successResponse);
 		
 		log.info("\t > respond with successResponse in JSON format");
 		response.getWriter().write(objectMapper.writeValueAsString(successResponse));
 		response.getWriter().close();
-		//response.sendRedirect(redirectUrl);
 	}
 	
 	private String getRedirectURL(HttpServletRequest request, HttpServletResponse response) {

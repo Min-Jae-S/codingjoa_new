@@ -97,6 +97,7 @@
 		</div>
 	</div>
 </div>
+<c:out value=""/>
 
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 
@@ -112,7 +113,7 @@
 			authenticationService.login(formData, function(result) {
 				setTimeout(function() {
 					alert(result.message);
-					location.href = result.data.redirectUrl;
+					location.href = redirectUrl;
 				}, 50);
 			});
 		});

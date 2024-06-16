@@ -11,6 +11,7 @@ import org.springframework.security.web.savedrequest.RequestCache;
 import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.codingjoa.response.SuccessResponse;
@@ -34,9 +35,9 @@ public class MainController {
 	}
 	
 	@GetMapping("/login") 
-	public String loginForm(HttpServletRequest request) {
-		log.info("## loginForm");
-		log.info("\t > referer = {}", request.getHeader("referer"));
+	public String loginPage(@RequestParam(required = false) String redirect) {
+		log.info("## loginPage");
+		log.info("\t > redirect = {}", redirect);
 		return "login";
 	}
 	

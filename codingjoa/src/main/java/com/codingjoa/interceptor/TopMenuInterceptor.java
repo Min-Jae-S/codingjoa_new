@@ -1,5 +1,7 @@
 package com.codingjoa.interceptor;
 
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -115,5 +117,18 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 		
 		List<Category> parentCategoryList = categoryService.getParentCategoryList();
 		modelAndView.addObject("parentCategoryList", parentCategoryList);
+		modelAndView.addObject("redirect", getFullURL(request));
+	}
+	
+	private String getFullURL(HttpServletRequest request) {
+		StringBuffer requestURL = request.getRequestURL();
+		String queryString = request.getQueryString();
+		
+		if (queryString == null) {
+			return requestURL.toString();
+		} else {
+			return requestURL.append('?')
+					.append(URLDecoder.decode(queryString, StandardCharsets.UTF_8)).toString();
+		}
 	}
 }
