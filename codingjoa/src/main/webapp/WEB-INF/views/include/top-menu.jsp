@@ -115,6 +115,10 @@
 					});
 					html += "</div>";
 					$a.after(html);
+				})
+				.fail(function(jqXHR, textStatus, error) {
+					console.log("%c> ERROR", "color:red");
+					console.log(jqXHR);
 				});
 			}, showDelay);
 		});
@@ -160,7 +164,7 @@
 				},
 				error : function(jqXHR) {
 					console.log("%c> ERROR", "color:red");
-					consoel.log(jqXRH);
+					console.log(jqXHR);
 				}
 			});
 		}); */
@@ -182,8 +186,8 @@
 					console.log(JSON.stringify(result, null, 2));
 				},
 				error : function(jqXHR) {
-					console.log(jqXHR);
 					console.log("%c> ERROR", "color:red");
+					console.log(jqXHR);
 				}
 			});
 		});

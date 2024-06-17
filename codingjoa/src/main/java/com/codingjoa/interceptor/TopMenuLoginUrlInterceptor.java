@@ -16,6 +16,9 @@ public class TopMenuLoginUrlInterceptor implements HandlerInterceptor {
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
 		log.info("## {}.postHandle", this.getClass().getSimpleName());
+		if (modelAndView == null) {
+			return;
+		}
 		modelAndView.addObject("redirect", getFullURL(request));
 	}
 	
