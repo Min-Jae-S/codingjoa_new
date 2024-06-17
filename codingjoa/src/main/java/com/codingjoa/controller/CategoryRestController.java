@@ -16,7 +16,7 @@ import com.codingjoa.service.CategoryService;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@RequestMapping("/category")
+@RequestMapping("/api/category")
 @RestController
 public class CategoryRestController {
 	

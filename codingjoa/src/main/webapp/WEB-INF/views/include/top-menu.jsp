@@ -33,8 +33,8 @@
 				<sec:authorize access="isAnonymous()">
 					<li class="nav-item mx-2 mt-1">
 						<c:choose>
-							<c:when test="${not empty redirect}">
-								<a href="${contextPath}/login?redirect=${redirect}" class="nav-link">로그인</a>
+							<c:when test="${not empty loginRedirect}">
+								<a href="${contextPath}/login?redirect=${loginRedirect}" class="nav-link">로그인</a>
 							</c:when>
 							<c:otherwise>
 								<a href="${contextPath}/login" class="nav-link">로그인</a>
@@ -92,7 +92,7 @@
 			
 			timer = setTimeout(function() {
 				console.log("## getCategoryListByParent");
-				let url = "${contextPath}/category/" + parentCategory;
+				let url = "${contextPath}/api/category/" + parentCategory;
 				console.log("> URL = '%s'", url);
 				
 				$.getJSON(url, function(result) {

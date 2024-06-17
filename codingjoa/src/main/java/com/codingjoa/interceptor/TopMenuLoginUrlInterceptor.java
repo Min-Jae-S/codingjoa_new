@@ -19,7 +19,7 @@ public class TopMenuLoginUrlInterceptor implements HandlerInterceptor {
 		if (modelAndView == null) {
 			return;
 		}
-		modelAndView.addObject("redirect", getFullURL(request));
+		modelAndView.addObject("loginRedirect", getFullURL(request));
 	}
 	
 	private String getFullURL(HttpServletRequest request) {

@@ -59,7 +59,7 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 		
 		// @RestController or @ResponseBody annotation is present, the ModelAndView object will be null.
 		if (modelAndView == null) {
-			//log.info("\t > not find top menu - no modelAndView");
+			log.info("\t > not find top menu - no modelAndView");
 			return;
 		}
 		
