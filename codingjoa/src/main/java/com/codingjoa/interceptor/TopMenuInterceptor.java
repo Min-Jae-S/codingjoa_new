@@ -6,10 +6,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.context.ApplicationContext;
-import org.springframework.core.MethodParameter;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
@@ -44,23 +40,24 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 			ModelAndView modelAndView) throws Exception {
 		log.info("## {}.postHandle", this.getClass().getSimpleName());
 		
-		if (handler instanceof HandlerMethod) {
-			HandlerMethod handlerMethod = (HandlerMethod) handler;
-			Class<?> controllerClass = handlerMethod.getBeanType();
-			if (controllerClass.isAnnotationPresent(RestController.class)) {
-				//log.info("\t > not find top menu - @RestController");
-				return;
-			}
-			
-            MethodParameter[] methodParameters = handlerMethod.getMethodParameters();
-            for (MethodParameter methodParameter : methodParameters) {
-            	if (methodParameter.hasMethodAnnotation(ResponseBody.class)) {
-            		//log.info("\t > not find top menu - @ResponseBody");
-            		return;
-            	}
-            }
-		}
+//		if (handler instanceof HandlerMethod) {
+//			HandlerMethod handlerMethod = (HandlerMethod) handler;
+//			Class<?> controllerClass = handlerMethod.getBeanType();
+//			if (controllerClass.isAnnotationPresent(RestController.class)) {
+//				//log.info("\t > not find top menu - @RestController");
+//				return;
+//			}
+//			
+//			MethodParameter[] methodParameters = handlerMethod.getMethodParameters(); 
+//			for (MethodParameter methodParameter : methodParameters) {
+//				if (methodParameter.hasMethodAnnotation(ResponseBody.class)) {
+//					//log.info("\t > not find top menu - @ResponseBody");
+//            		return;
+//				}
+//			}
+//		}
 		
+		// @RestController or @ResponseBody annotation is present, the ModelAndView object will be null.
 		if (modelAndView == null) {
 			//log.info("\t > not find top menu - no modelAndView");
 			return;
@@ -71,30 +68,31 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 		//log.info("\t > viewName = {}", viewName + ".jsp");
 		
 		if (viewName == null) {
-			//log.info("\t > not find top menu - no viewName");
+			log.info("\t > not find top menu - no viewName");
 			return;
 		}
 		
 		if (viewName.startsWith(FORWARD_URL_PREFIX)) {
-			//log.info("\t > not find top menu - FORWARD_URL_PREFIX");
+			log.info("\t > not find top menu - FORWARD_URL_PREFIX");
 			return;	
 		}
 		
 		if (viewName.startsWith(REDIRECT_URL_PREFIX)) 	{
-			//log.info("\t > not find top menu - REDIRECT_URL_PREFIX");
+			log.info("\t > not find top menu - REDIRECT_URL_PREFIX");
 			return;
 		}
 		
 		String[] beanNames = applicationContext.getBeanNamesForType(MappingJackson2JsonView.class);
 		for (String beanName : beanNames) {
 			if (viewName.equals(beanName)) {
-				//log.info("\t > viewName equals MappingJackson2JsonView's beanName({})", beanName);
+				log.info("\t > viewName equals MappingJackson2JsonView's beanName({})", beanName);
 				return;
 			}
 		}
 		
 		List<Category> parentCategoryList = categoryService.getParentCategoryList();
 		modelAndView.addObject("parentCategoryList", parentCategoryList);
+		log.info("\t > added model attrs = {}", modelAndView.getModel().keySet());
 	}
 	
 //	@Override
