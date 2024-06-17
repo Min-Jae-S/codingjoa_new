@@ -40,23 +40,6 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 			ModelAndView modelAndView) throws Exception {
 		log.info("## {}.postHandle", this.getClass().getSimpleName());
 		
-//		if (handler instanceof HandlerMethod) {
-//			HandlerMethod handlerMethod = (HandlerMethod) handler;
-//			Class<?> controllerClass = handlerMethod.getBeanType();
-//			if (controllerClass.isAnnotationPresent(RestController.class)) {
-//				//log.info("\t > not find top menu - @RestController");
-//				return;
-//			}
-//			
-//			MethodParameter[] methodParameters = handlerMethod.getMethodParameters(); 
-//			for (MethodParameter methodParameter : methodParameters) {
-//				if (methodParameter.hasMethodAnnotation(ResponseBody.class)) {
-//					//log.info("\t > not find top menu - @ResponseBody");
-//            		return;
-//				}
-//			}
-//		}
-		
 		// @RestController or @ResponseBody annotation is present, the ModelAndView object will be null.
 		if (modelAndView == null) {
 			log.info("\t > not find top menu - no modelAndView");
@@ -65,7 +48,6 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 		
 		// Return the view name to be resolved by the DispatcherServlet via a ViewResolver, or null if we are using a View object.
 		String viewName = modelAndView.getViewName(); 
-		//log.info("\t > viewName = {}", viewName + ".jsp");
 		
 		if (viewName == null) {
 			log.info("\t > not find top menu - no viewName");
@@ -94,6 +76,32 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 		modelAndView.addObject("parentCategoryList", parentCategoryList);
 		log.info("\t > added model attrs = {}", modelAndView.getModel().keySet());
 	}
+	
+//	@Override
+//	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
+//			ModelAndView modelAndView) throws Exception {
+//		log.info("## {}.postHandle", this.getClass().getSimpleName());
+//		
+//		if (handler instanceof HandlerMethod) {
+//			HandlerMethod handlerMethod = (HandlerMethod) handler;
+//			Class<?> controllerClass = handlerMethod.getBeanType();
+//			if (controllerClass.isAnnotationPresent(RestController.class)) {
+//				// log.info("\t > not find top menu - @RestController");
+//				return;
+//			}
+//
+//			MethodParameter[] methodParameters = handlerMethod.getMethodParameters();
+//			for (MethodParameter methodParameter : methodParameters) {
+//				if (methodParameter.hasMethodAnnotation(ResponseBody.class)) {
+//					// log.info("\t > not find top menu - @ResponseBody");
+//					return;
+//				}
+//			}
+//		}
+//		
+//		...
+	
+//	}
 	
 //	@Override
 //	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
