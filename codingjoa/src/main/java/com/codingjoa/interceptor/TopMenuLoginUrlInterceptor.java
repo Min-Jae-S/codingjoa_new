@@ -1,5 +1,8 @@
 package com.codingjoa.interceptor;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -18,7 +21,13 @@ public class TopMenuLoginUrlInterceptor implements HandlerInterceptor {
 		log.info("## {}.postHandle", this.getClass().getSimpleName());
 
 		if (modelAndView != null) {
-			modelAndView.addObject("loginRedirect", getFullURL(request));
+			String loginRedirect = getFullURL(request);
+			log.info("\t > loginRedirect = {}", loginRedirect);
+			
+			loginRedirect = URLEncoder.encode(loginRedirect, StandardCharsets.UTF_8);
+			log.info("\t > encoded loginRedirect = {}", loginRedirect);
+			
+			modelAndView.addObject("loginRedirect", loginRedirect);
 		}
 	}
 	
@@ -29,6 +38,7 @@ public class TopMenuLoginUrlInterceptor implements HandlerInterceptor {
 		if (queryString == null) {
 			return requestURL.toString();
 		} else {
+			//return requestURL.append('?').append(URLDecoder.decode(queryString, StandardCharsets.UTF_8)).toString();
 			return requestURL.append('?').append(queryString).toString();
 		}
 	}

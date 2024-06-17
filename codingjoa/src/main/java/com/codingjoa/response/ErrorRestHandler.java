@@ -62,6 +62,7 @@ public class ErrorRestHandler {
 				.messageByCode("error.Global") // error.Unknown --> error.Global
 				.build();
 		log.info("\t > {}", errorResponse);
+		log.info("\t > respond with errorResponse in JSON format");
 		
 		//e.printStackTrace();
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
@@ -78,6 +79,7 @@ public class ErrorRestHandler {
 				.messageByCode("error.NotFoundResource") 
 				.build();
 		log.info("\t > {}", errorResponse);
+		log.info("\t > respond with errorResponse in JSON format");
 		
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
 	}
@@ -93,6 +95,7 @@ public class ErrorRestHandler {
 				.messageByCode("error.InvalidFormat")
 				.build();
 		log.info("\t > {}", errorResponse);
+		log.info("\t > respond with errorResponse in JSON format");
 		
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
 	}
@@ -111,6 +114,7 @@ public class ErrorRestHandler {
 				.bindingResult(e.getBindingResult())
 				.build();
 		log.info("\t > {}", errorResponse);
+		log.info("\t > respond with errorResponse in JSON format");
 		
 		return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(errorResponse);
 	}
@@ -129,6 +133,7 @@ public class ErrorRestHandler {
 				.message(e.getMessage())
 				.build();
 		log.info("\t > {}", errorResponse);
+		log.info("\t > respond with errorResponse in JSON format");
 
 		return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(errorResponse);
 	}
@@ -147,6 +152,7 @@ public class ErrorRestHandler {
 				.messageByCode("error.InvalidFormat")
 				.build();
 		log.info("\t > {}", errorResponse);
+		log.info("\t > respond with errorResponse in JSON format");
 		
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
 	}
@@ -162,6 +168,7 @@ public class ErrorRestHandler {
 				.messageByCode("error.ExceedSize")
 				.build();
 		log.info("\t > {}", errorResponse);
+		log.info("\t > respond with errorResponse in JSON format");
 		
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
 	}
@@ -185,6 +192,7 @@ public class ErrorRestHandler {
 		
 		ErrorResponse errorResponse = builder.build();
 		log.info("\t > {}", errorResponse);
+		log.info("\t > respond with errorResponse in JSON format");
 		
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
 	}
@@ -209,6 +217,7 @@ public class ErrorRestHandler {
 		
 		TestResponse testResponse = builder.build();
 		log.info("\t > {}", testResponse);
+		log.info("\t > respond with testResponse in JSON format");
 
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(testResponse);
 	}

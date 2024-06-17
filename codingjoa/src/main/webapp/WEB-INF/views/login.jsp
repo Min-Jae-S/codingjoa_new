@@ -104,7 +104,7 @@
 <script>
 	$(function() {
 		const redirectUrl = "<c:out value='${redirectUrl}'/>";
-		console.log("> redirectUrl = %s", redirectUrl);
+		console.log("> redirectUrl = '%s'", redirectUrl);
 		
 		$("#loginForm").on("submit", function(e) {
 			e.preventDefault();

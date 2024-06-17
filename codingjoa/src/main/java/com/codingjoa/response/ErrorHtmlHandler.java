@@ -34,7 +34,9 @@ public class ErrorHtmlHandler {
 				.messageByCode("error.Global") // error.Unknown --> error.Global
 				.build();
 		log.info("\t > {}", errorResponse);
+		
 		request.setAttribute("errorResponse", errorResponse);
+		log.info("\t > forword to '/error/errorPage'");
 		
 		//e.printStackTrace();
 		return "forward:/error/errorPage";
@@ -51,9 +53,10 @@ public class ErrorHtmlHandler {
 				.messageByCode("error.NotFoundPage")
 				.build();
 		log.info("\t > {}", errorResponse);
-		request.setAttribute("errorResponse", errorResponse);
 		
-		//e.printStackTrace();
+		request.setAttribute("errorResponse", errorResponse);
+		log.info("\t > forword to '/error/errorPage'");
+		
 		return "forward:/error/errorPage";
 	}
 	
@@ -73,6 +76,7 @@ public class ErrorHtmlHandler {
 		log.info("\t > {}", errorResponse);
 
 		request.setAttribute("errorResponse", errorResponse);
+		log.info("\t > forword to '/error/errorPage'");
 		
 //		if (isAjaxRequest(request)) {
 //			ErrorResponse response = ErrorResponse.create().bindingResult(e.getBindingResult());
@@ -83,6 +87,7 @@ public class ErrorHtmlHandler {
 //
 //		ModelAndView mav = new ModelAndView("forward:/error/errorPage");
 //		throw new ModelAndViewDefiningException(mav);
+		
 		return "forward:/error/errorPage";
 	}
 	
@@ -103,6 +108,8 @@ public class ErrorHtmlHandler {
 		log.info("\t > {}", errorResponse);
 
 		request.setAttribute("errorResponse", errorResponse);
+		log.info("\t > forword to '/error/errorPage'");
+		
 		return "forward:/error/errorPage";
 	}
 	
@@ -122,6 +129,8 @@ public class ErrorHtmlHandler {
 		log.info("\t > {}", errorResponse);
 
 		request.setAttribute("errorResponse", errorResponse);
+		log.info("\t > forword to '/error/errorPage'");
+		
 		return "forward:/error/errorPage";
 	}
 
@@ -144,8 +153,10 @@ public class ErrorHtmlHandler {
 		
 		ErrorResponse errorResponse = builder.build();
 		log.info("\t > {}", errorResponse);
-
+		
 		request.setAttribute("errorResponse", errorResponse);
+		log.info("\t > forword to '/error/errorPage'");
+
 		return "forward:/error/errorPage";
 	}
 	
@@ -169,8 +180,10 @@ public class ErrorHtmlHandler {
 		
 		TestResponse testResponse = builder.build();
 		log.info("\t > {}", testResponse);
-
+		
 		request.setAttribute("errorResponse", testResponse);
+		log.info("\t > forword to '/error/errorPage'");		
+		
 		return "forward:/error/errorPage";
 	}
 	
