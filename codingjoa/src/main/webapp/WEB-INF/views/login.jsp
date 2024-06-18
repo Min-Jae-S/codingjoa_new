@@ -97,14 +97,13 @@
 		</div>
 	</div>
 </div>
-<c:out value=""/>
 
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 
 <script>
 	$(function() {
-		const encodedRedirect = "<c:out value='${encodedRedirect}'/>";
-		console.log("> encodedRedirect = %s", encodedRedirect);
+		const redirect = "<c:out value='${redirect}' escapeXml='false'/>";
+		console.log("> redirect = %s", redirect);
 		
 		$("#loginForm").on("submit", function(e) {
 			e.preventDefault();
@@ -116,7 +115,7 @@
 			authenticationService.login(formData, function(result) {
 				setTimeout(function() {
 					alert(result.message);
-					location.href = encodedRedirect;
+					location.href = redirect;
 				}, 50);
 			});
 		});

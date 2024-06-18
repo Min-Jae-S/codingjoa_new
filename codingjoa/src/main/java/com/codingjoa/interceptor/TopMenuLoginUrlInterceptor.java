@@ -1,6 +1,5 @@
 package com.codingjoa.interceptor;
 
-import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
@@ -39,8 +38,8 @@ public class TopMenuLoginUrlInterceptor implements HandlerInterceptor {
 		if (queryString == null) {
 			return requestURL.toString();
 		} else {
-			return requestURL.append('?')
-					.append(URLDecoder.decode(queryString, StandardCharsets.UTF_8)).toString();
+			//return requestURL.append('?').append(URLDecoder.decode(queryString, StandardCharsets.UTF_8)).toString();
+			return requestURL.append('?').append(queryString).toString();
 		}
 	}
 }
