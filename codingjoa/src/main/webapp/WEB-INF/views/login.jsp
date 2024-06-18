@@ -103,8 +103,8 @@
 
 <script>
 	$(function() {
-		const redirectUrl = "<c:out value='${redirectUrl}'/>";
-		console.log("> redirectUrl = '%s'", redirectUrl);
+		const encodedRedirect = "<c:out value='${encodedRedirect}'/>";
+		console.log("> encodedRedirect = '%s'", encodedRedirect);
 		
 		$("#loginForm").on("submit", function(e) {
 			e.preventDefault();
@@ -116,7 +116,7 @@
 			authenticationService.login(formData, function(result) {
 				setTimeout(function() {
 					alert(result.message);
-					location.href = redirectUrl;
+					location.href = encodedRedirect;
 				}, 50);
 			});
 		});
