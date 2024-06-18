@@ -36,10 +36,10 @@ public class MainController {
 	}
 	
 	@GetMapping("/login") 
-	public String loginPage(@RequestParam(required = false) String redirect, Model model) {
+	public String loginPage(@RequestParam(name = "redirect", required = false) String loginSuccessRedirect, Model model) {
 		log.info("## loginPage");
-		log.info("\t > redirect = {}", redirect);
-		model.addAttribute("redirect", redirect);
+		log.info("\t > redirect = {}", loginSuccessRedirect);
+		model.addAttribute("loginSuccessRedirect", loginSuccessRedirect);
 		return "login";
 	}
 	

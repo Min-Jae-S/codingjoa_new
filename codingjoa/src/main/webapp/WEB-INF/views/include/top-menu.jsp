@@ -20,14 +20,14 @@
 				</c:forEach>
 				
 				<!-- test -->
-				<li class="nav-item mx-2 mt-1">
+				<%-- <li class="nav-item mx-2 mt-1">
 					<a href="${contextPath}/api/saved-request" class="nav-link" id="savedRequestLink">savedRequest</a>
-				</li>
+				</li> --%>
 				
 				<!-- test -->
-				<li class="nav-item mx-2 mt-1">
+				<%-- <li class="nav-item mx-2 mt-1">
 					<a href="${contextPath}/logout" class="nav-link">로그아웃</a>
-				</li>
+				</li> --%>
 			</ul>
 			<ul class="navbar-nav ml-auto">
 				<sec:authorize access="isAnonymous()">
