@@ -1,6 +1,7 @@
 package com.codingjoa.interceptor;
 
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +24,9 @@ public class TopMenuLoginUrlInterceptor implements HandlerInterceptor {
 		if (modelAndView != null) {
 			String loginRedirect = getFullURL(request);
 			log.info("\t > loginRedirect = {}", loginRedirect);
+			
+			loginRedirect = URLEncoder.encode(loginRedirect,  StandardCharsets.UTF_8);
+			log.info("\t > encoded loginRedirect = {}", loginRedirect);
 			
 			modelAndView.addObject("loginRedirect", loginRedirect);
 		}

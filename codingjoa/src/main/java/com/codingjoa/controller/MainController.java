@@ -1,7 +1,5 @@
 package com.codingjoa.controller;
 
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -41,12 +39,7 @@ public class MainController {
 	public String loginPage(@RequestParam(required = false) String redirect, Model model) {
 		log.info("## loginPage");
 		log.info("\t > redirect = {}", redirect);
-		
-		String encodedRedirect = URLEncoder.encode(redirect, StandardCharsets.UTF_8);
-		log.info("\t > encoded redirect = {}", encodedRedirect);
-		
-		model.addAttribute("encodedRedirect", encodedRedirect);
-		
+		model.addAttribute("redirect", redirect);
 		return "login";
 	}
 	

@@ -104,7 +104,7 @@
 <script>
 	$(function() {
 		const encodedRedirect = "<c:out value='${encodedRedirect}'/>";
-		console.log("> encodedRedirect = '%s'", encodedRedirect);
+		console.log("> encodedRedirect = %s", encodedRedirect);
 		
 		$("#loginForm").on("submit", function(e) {
 			e.preventDefault();
