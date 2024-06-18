@@ -54,11 +54,12 @@ public class BoardCriteriaArgumentResolver implements HandlerMethodArgumentResol
 			typeGroup.containsKey(type) ? type : defaultType,
 			keyword
 		);
-		log.info("\t > boardCri = {}", boardCri);
+		log.info("\t > resolved boardCri = {}", boardCri);
 
 		mavContainer.addAttribute("recordCntGroup", recordCntGroup);
 		mavContainer.addAttribute("typeGroup", typeGroup);
-		log.info("\t > add model attrs = recordCntGroup, typeGroup");
+		mavContainer.addAttribute("boardCri", boardCri);
+		log.info("\t > add model attrs = recordCntGroup, typeGroup, boardCri");
 		
 		return boardCri;
 	}

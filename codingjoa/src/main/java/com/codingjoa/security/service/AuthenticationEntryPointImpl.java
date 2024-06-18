@@ -73,7 +73,7 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 			
 			ErrorResponse errorResponse = ErrorResponse.builder()
 					.status(HttpStatus.UNAUTHORIZED)
-					.messageByCode("error.NotLogin")
+					.messageByCode("error.Unauthorized")
 					.build();
 			log.info("\t > {}", errorResponse);
 			

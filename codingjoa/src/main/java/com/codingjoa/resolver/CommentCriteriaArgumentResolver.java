@@ -43,7 +43,7 @@ public class CommentCriteriaArgumentResolver implements HandlerMethodArgumentRes
 			MyUtils.isPageNumber(page) ? Integer.parseInt(page) : defaultPage,
 			defaultRecordCnt
 		);
-		log.info("\t > commentCri = {}", commentCri);
+		log.info("\t > resolved commentCri = {}", commentCri);
 		
 		return commentCri;
 	}
