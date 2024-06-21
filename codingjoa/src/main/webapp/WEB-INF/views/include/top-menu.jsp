@@ -124,7 +124,6 @@
 		});
 			
 		$(".navbar-nav li.dropdown").on("mouseleave", function() {
-			//console.log("## mouse leave (li.dropdown)");
 			clearTimeout(timer);
 			$(this).find("a").css("color", "grey").css("font-weight", "400");
 			$(this).find(".dropdown-menu").remove();
@@ -143,7 +142,7 @@
 			location.href = "${contextPath}" + parentPath + $(this).data("path");
 		});
 		
-		/*$("#logoutLink").on("click", function(e) {
+		/* $("#logoutLink").on("click", function(e) {
 			e.preventDefault();
 			console.log("## logout");
 			
