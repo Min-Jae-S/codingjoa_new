@@ -4,6 +4,7 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <%-- <c:set var="principal" value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal}" /> --%>
+
 <!-- 상단 메뉴 -->
 <nav class="navbar navbar-custom navbar-expand-md">
 	<div class="container-fluid px-5">
@@ -19,12 +20,12 @@
 					</li>
 				</c:forEach>
 				
-				<!-- test -->
+				<!-- TEST -->
 				<%-- <li class="nav-item mx-2 mt-1">
 					<a href="${contextPath}/api/saved-request" class="nav-link" id="savedRequestLink">savedRequest</a>
 				</li> --%>
 				
-				<!-- test -->
+				<!-- TEST -->
 				<%-- <li class="nav-item mx-2 mt-1">
 					<a href="${contextPath}/logout" class="nav-link">로그아웃</a>
 				</li> --%>
@@ -168,7 +169,7 @@
 			});
 		}); */
 		
-		// test
+		// TEST
 		$("#savedRequestLink").on("click", function(e) {
 			e.preventDefault();
 			console.log("## getSavedRequest");
