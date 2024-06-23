@@ -23,7 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 public class MainController {
 
-	@GetMapping("")
+	@GetMapping(value = { "", "/" })
 	public String home() {
 		log.info("## home");
 		return "home";
@@ -39,9 +39,6 @@ public class MainController {
 	public String loginPage(@RequestParam(name = "redirect", required = false) String loginSuccessRedirect, Model model) {
 		log.info("## loginPage");
 		log.info("\t > redirect = {}", loginSuccessRedirect);
-		
-		// @@ loginSuccessRedirect --> resolve redirect url
-		
 		model.addAttribute("loginSuccessRedirect", loginSuccessRedirect);
 		return "login";
 	}
