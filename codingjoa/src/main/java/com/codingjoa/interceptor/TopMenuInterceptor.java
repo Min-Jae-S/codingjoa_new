@@ -31,9 +31,9 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 
 	private static final String FORWARD_URL_PREFIX = "forward:";
 	private static final String REDIRECT_URL_PREFIX = "redirect:";
-	private final List<String> excludedPatterns = Arrays.asList("/error/**", "/login");
 	private final ApplicationContext applicationContext;
 	private final CategoryService categoryService;
+	private final List<String> excludedPatterns = Arrays.asList("/error/**", "/login");
 	private final AntPathMatcher antPathMatcher = new AntPathMatcher();
 	
 	/*
@@ -80,7 +80,7 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 		
 		List<Category> parentCategoryList = categoryService.getParentCategoryList();
 		modelAndView.addObject("parentCategoryList", parentCategoryList);
-		log.info("\t > add addparentCategoryList to the modelAndView container");
+		log.info("\t > add parentCategoryList to modelAndView container");
 		
 		boolean matchesExcludedPattern = excludedPatterns.stream()
 				.anyMatch(pattern -> antPathMatcher.match(request.getContextPath() + pattern, request.getRequestURI()));
@@ -89,7 +89,7 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 			String loginRedirect = getFullURL(request);
 			loginRedirect = URLEncoder.encode(loginRedirect, StandardCharsets.UTF_8);
 			modelAndView.addObject("loginRedirect", loginRedirect);
-			log.info("\t > add loginRedirect to the modelAndView container");
+			log.info("\t > add loginRedirect to modelAndView container");
 		}
 		
 		log.info("\t > added model attrs = {}", modelAndView.getModel().keySet());

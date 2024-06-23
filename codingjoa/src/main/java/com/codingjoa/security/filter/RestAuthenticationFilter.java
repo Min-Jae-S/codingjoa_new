@@ -37,9 +37,7 @@ public class RestAuthenticationFilter extends AbstractAuthenticationProcessingFi
 			throws AuthenticationException, IOException, ServletException {
 		log.info("## {}", this.getClass().getSimpleName());
 		
-		/*
-		 * check ajax and POST 
-		 */
+		// check ajax and POST 
 		
 		Map<String, Object> loginMap = objectMapper.readValue(request.getReader(), Map.class);
 		log.info("\t > loginMap = {}", loginMap);
