@@ -23,7 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 public class MainController {
 
-	@GetMapping(value = { "", "/" })
+	@GetMapping(value = "/")
 	public String home() {
 		log.info("## home");
 		return "home";
