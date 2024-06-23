@@ -29,13 +29,13 @@ import com.codingjoa.security.filter.RestAuthenticationFilter;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
-	private AuthenticationProvider ajaxAuthenticationProvider;
+	private AuthenticationProvider restAuthenticationProvider;
 	
 	@Autowired
-	private AuthenticationSuccessHandler ajaxAuthenticationSuccessHandler;
+	private AuthenticationSuccessHandler restAuthenticationSuccessHandler;
 	
 	@Autowired
-	private AuthenticationFailureHandler ajaxAuthenticationFailureHandler;
+	private AuthenticationFailureHandler restAuthenticationFailureHandler;
 	
 	@Autowired
 	private AccessDeniedHandler accessDeniedHandler;
@@ -44,7 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private AuthenticationEntryPoint authenticationEntryPoint;
 	
 	@Autowired
-	private LogoutSuccessHandler ajaxLogoutSuccessHandler;
+	private LogoutSuccessHandler restLogoutSuccessHandler;
 	
 	/*	
 	 * 	FilterChain
@@ -96,7 +96,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				//.logoutUrl("/api/logout")
 				//.logoutRequestMatcher(new AntPathRequestMatcher("/api/logout", "POST"))
 				.logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
-				.logoutSuccessHandler(ajaxLogoutSuccessHandler)
+				.logoutSuccessHandler(restLogoutSuccessHandler)
 				.clearAuthentication(true)
 				.invalidateHttpSession(true)
 				.and()
@@ -107,7 +107,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.authenticationProvider(ajaxAuthenticationProvider);
+		auth.authenticationProvider(restAuthenticationProvider);
 	}
 	
 	@Override
@@ -126,8 +126,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		// Error creating bean with name 'ajaxAuthenticationFilter' defined in com.codingjoa.security.config.SecurityConfig: 
 		// Invocation of init method failed; nested exception is java.lang.IllegalArgumentException: authenticationManager must be specified
 		filter.setAuthenticationManager(authenticationManagerBean());
-		filter.setAuthenticationFailureHandler(ajaxAuthenticationFailureHandler);
-		filter.setAuthenticationSuccessHandler(ajaxAuthenticationSuccessHandler);
+		filter.setAuthenticationFailureHandler(restAuthenticationFailureHandler);
+		filter.setAuthenticationSuccessHandler(restAuthenticationSuccessHandler);
 		return filter;
 	}
 	
