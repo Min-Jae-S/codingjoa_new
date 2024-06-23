@@ -80,15 +80,17 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 		
 		List<Category> parentCategoryList = categoryService.getParentCategoryList();
 		modelAndView.addObject("parentCategoryList", parentCategoryList);
-		log.info("add addparentCategoryList to the modelAndView container");
+		log.info("\t > add addparentCategoryList to the modelAndView container");
 		
 		boolean matchesExcludedPattern = excludedPatterns.stream()
 				.anyMatch(pattern -> antPathMatcher.match(pattern, request.getRequestURI()));
+		log.info("\t > URI = {}, matchesExcludedPattern = {}", request.getRequestURI(), matchesExcludedPattern);
 		
 		if (!matchesExcludedPattern) {
-			String loginRedirect = URLEncoder.encode(getFullURL(request),  StandardCharsets.UTF_8);
+			String loginRedirect = getFullURL(request);
+			loginRedirect = URLEncoder.encode(loginRedirect, StandardCharsets.UTF_8);
 			modelAndView.addObject("loginRedirect", loginRedirect);
-			log.info("add loginRedirect to the modelAndView container");
+			log.info("\t > add loginRedirect to the modelAndView container");
 		}
 		
 		log.info("\t > added model attrs = {}", modelAndView.getModel().keySet());

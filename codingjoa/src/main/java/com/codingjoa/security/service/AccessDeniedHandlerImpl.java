@@ -68,7 +68,7 @@ public class AccessDeniedHandlerImpl implements AccessDeniedHandler {
 			response.getWriter().write(objectMapper.writeValueAsString(errorResponse));
 			response.getWriter().close();
 		} else {
-			String redirectUrl = request.getContextPath();
+			String redirectUrl = request.getContextPath() + "/";
 			log.info("\t > redirect to '{}'", redirectUrl);
 			
 			response.sendRedirect(redirectUrl);
