@@ -103,7 +103,7 @@
 <script>
 	$(function() {
 		const redirect = "<c:out value='${redirect}' escapeXml='false'/>";
-		console.log("## loginRedirectUrl = '%s'", loginRedirectUrl);
+		console.log("## redirect = '%s'", redirect);
 		
 		$("#loginForm").on("submit", function(e) {
 			e.preventDefault();

@@ -75,10 +75,10 @@
 					<li class="nav-item mx-2">
 						<c:choose>
 							<c:when test="${not empty currentUrl}">
-								<a href="${contextPath}/logout?redirect=${currentUrl}" class="nav-link">로그인</a>
+								<a href="${contextPath}/logout?redirect=${currentUrl}" class="nav-link">로그아웃</a>
 							</c:when>
 							<c:otherwise>
-								<a href="${contextPath}/logout" class="nav-link">로그인</a>
+								<a href="${contextPath}/logout" class="nav-link">로그아웃</a>
 							</c:otherwise>
 						</c:choose>
 					</li>
