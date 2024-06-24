@@ -87,10 +87,10 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 				.anyMatch(pattern -> antPathMatcher.match(request.getContextPath() + pattern, request.getRequestURI()));
 		
 		if (!matchesExcludedPattern) {
-			String redirectUrl = getFullURL(request);
-			redirectUrl = URLEncoder.encode(redirectUrl, StandardCharsets.UTF_8);
-			modelAndView.addObject("redirectUrl", redirectUrl);
-			log.info("\t > add redirectUrl");
+			String currentUrl = getFullURL(request);
+			currentUrl = URLEncoder.encode(currentUrl, StandardCharsets.UTF_8);
+			modelAndView.addObject("currentUrl", currentUrl);
+			log.info("\t > add currentUrl");
 		}
 		
 		log.info("\t > added model attrs = {}", modelAndView.getModel().keySet());
