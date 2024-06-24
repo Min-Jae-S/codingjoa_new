@@ -102,12 +102,15 @@
 
 <script>
 	$(function() {
+		const loginRedirectUrl = "<c:out value='${loginRedirectUrl}' escapeXml='false'/>";
+		console.log("> loginRedirectUrl = %s", loginRedirectUrl);
+		
 		$("#loginForm").on("submit", function(e) {
 			e.preventDefault();
 			let formData = {
 				memberId : $("#memberId").val(),
 				memberPassword : $("#memberPassword").val(),
-				loginRedirect : "<c:out value='${loginRedirect}' escapeXml='false'/>"
+				loginRedirectUrl : loginRedirectUrl
 			};
 			
 			authenticationService.login(formData, function(result) {

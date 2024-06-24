@@ -45,6 +45,7 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
 		log.info("## {}.postHandle", this.getClass().getSimpleName());
+		log.info("\t > URI = {}", getFullURL(request));
 		
 		// @RestController or @ResponseBody annotation is present, the ModelAndView object will be null.
 		if (modelAndView == null) {
@@ -80,16 +81,16 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 		
 		List<Category> parentCategoryList = categoryService.getParentCategoryList();
 		modelAndView.addObject("parentCategoryList", parentCategoryList);
-		log.info("\t > add parentCategoryList attr");
+		log.info("\t > add parentCategoryList");
 		
 		boolean matchesExcludedPattern = excludedPatterns.stream()
 				.anyMatch(pattern -> antPathMatcher.match(request.getContextPath() + pattern, request.getRequestURI()));
 		
 		if (!matchesExcludedPattern) {
-			String loginRedirect = getFullURL(request);
-			loginRedirect = URLEncoder.encode(loginRedirect, StandardCharsets.UTF_8);
-			modelAndView.addObject("redirect", loginRedirect);
-			log.info("\t > add redirect attr");
+			String redirectUrl = getFullURL(request);
+			redirectUrl = URLEncoder.encode(redirectUrl, StandardCharsets.UTF_8);
+			modelAndView.addObject("redirectUrl", redirectUrl);
+			log.info("\t > add redirectUrl");
 		}
 		
 		log.info("\t > added model attrs = {}", modelAndView.getModel().keySet());

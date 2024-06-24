@@ -39,7 +39,7 @@ public class MainController {
 	public String loginPage(@RequestParam(required = false) String redirect, Model model) {
 		log.info("## loginPage");
 		log.info("\t > redirect = {}", redirect);
-		model.addAttribute("loginRedirect", redirect);
+		model.addAttribute("loginRedirectUrl", redirect);
 		return "login";
 	}
 	
