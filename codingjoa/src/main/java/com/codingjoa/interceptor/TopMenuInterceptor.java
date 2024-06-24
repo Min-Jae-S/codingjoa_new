@@ -88,8 +88,8 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 		if (!matchesExcludedPattern) {
 			String loginRedirect = getFullURL(request);
 			loginRedirect = URLEncoder.encode(loginRedirect, StandardCharsets.UTF_8);
-			modelAndView.addObject("loginRedirect", loginRedirect);
-			log.info("\t > add loginRedirect attr");
+			modelAndView.addObject("redirect", loginRedirect);
+			log.info("\t > add redirect attr");
 		}
 		
 		log.info("\t > added model attrs = {}", modelAndView.getModel().keySet());
