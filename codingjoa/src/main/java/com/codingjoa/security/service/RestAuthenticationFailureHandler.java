@@ -14,7 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -24,6 +23,7 @@ import org.springframework.stereotype.Component;
 import com.codingjoa.response.ErrorResponse;
 import com.codingjoa.security.exception.LoginRequireFieldException;
 import com.codingjoa.util.MessageUtils;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 
@@ -37,20 +37,7 @@ public class RestAuthenticationFailureHandler implements AuthenticationFailureHa
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException e) throws IOException, ServletException {
 		log.info("## {}", this.getClass().getSimpleName());
-		
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		log.info("\t > authentication token = {}", (authentication != null) ? authentication.getClass().getSimpleName() : authentication);
-		
-		response.setStatus(HttpStatus.UNAUTHORIZED.value());
-		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-		response.setCharacterEncoding(StandardCharsets.UTF_8.toString());
-		
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:ss:mm");
-		ObjectMapper objectMapper = Jackson2ObjectMapperBuilder
-				.json()
-				.timeZone(TimeZone.getTimeZone("Asia/Seoul"))
-				.serializerByType(LocalDateTime.class, new LocalDateTimeSerializer(formatter))
-				.build();
+		log.info("\t > authentication token = {}", SecurityContextHolder.getContext().getAuthentication());
 		
 		/*
 		 * LoginRequireFieldException (AjaxAuthenticationFilter)
@@ -78,9 +65,21 @@ public class RestAuthenticationFailureHandler implements AuthenticationFailureHa
 				.build();
 		log.info("\t > {}", errorResponse);
 		
-		log.info("\t > respond with errorResponse in JSON format");
-		response.getWriter().write(objectMapper.writeValueAsString(errorResponse));
+		response.setStatus(HttpStatus.UNAUTHORIZED.value());
+		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+		response.setCharacterEncoding(StandardCharsets.UTF_8.toString());
+		response.getWriter().write(convertObjectToJson(errorResponse));
 		response.getWriter().close();
+	}
+	
+	private String convertObjectToJson(Object object) throws JsonProcessingException {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:ss:mm");
+		ObjectMapper objectMapper = Jackson2ObjectMapperBuilder
+				.json()
+				.timeZone(TimeZone.getTimeZone("Asia/Seoul"))
+				.serializerByType(LocalDateTime.class, new LocalDateTimeSerializer(formatter))
+				.build();
+		return objectMapper.writeValueAsString(object);
 	}
 	
 }

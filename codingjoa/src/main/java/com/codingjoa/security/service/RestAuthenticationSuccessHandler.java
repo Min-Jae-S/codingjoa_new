@@ -21,13 +21,13 @@ import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.stereotype.Component;
 
 import com.codingjoa.response.SuccessResponse;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@SuppressWarnings("unused")
 @Component
 public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 	
@@ -35,18 +35,8 @@ public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHa
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
 		log.info("## {}", this.getClass().getSimpleName());
+		log.info("\t > authentication token = {}", authentication);
 		log.info("\t > authentication details = {}", authentication.getDetails());
-		
-		response.setStatus(HttpStatus.OK.value());
-		response.setContentType(MediaType.APPLICATION_JSON_VALUE.toString());
-		response.setCharacterEncoding(StandardCharsets.UTF_8.toString());
-		
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:ss:mm");
-		ObjectMapper objectMapper = Jackson2ObjectMapperBuilder
-				.json()
-				.timeZone(TimeZone.getTimeZone("Asia/Seoul"))
-				.serializerByType(LocalDateTime.class, new LocalDateTimeSerializer(formatter))
-				.build();
 		
 		SuccessResponse successResponse = SuccessResponse.builder()
 				.status(HttpStatus.OK)
@@ -54,11 +44,24 @@ public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHa
 				.build();
 		log.info("\t > {}", successResponse);
 		
-		log.info("\t > respond with successResponse in JSON format");
-		response.getWriter().write(objectMapper.writeValueAsString(successResponse));
+		response.setStatus(HttpStatus.OK.value());
+		response.setContentType(MediaType.APPLICATION_JSON_VALUE.toString());
+		response.setCharacterEncoding(StandardCharsets.UTF_8.toString());
+		response.getWriter().write(convertObjectToJson(successResponse));
 		response.getWriter().close();
 	}
 	
+	private String convertObjectToJson(Object object) throws JsonProcessingException {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:ss:mm");
+		ObjectMapper objectMapper = Jackson2ObjectMapperBuilder
+				.json()
+				.timeZone(TimeZone.getTimeZone("Asia/Seoul"))
+				.serializerByType(LocalDateTime.class, new LocalDateTimeSerializer(formatter))
+				.build();
+		return objectMapper.writeValueAsString(object);
+	}
+	
+	@SuppressWarnings("unused")
 	private String getRedirectURL(HttpServletRequest request, HttpServletResponse response) {
 		RequestCache requestCache = new HttpSessionRequestCache();
 		SavedRequest savedRequest = requestCache.getRequest(request, response); // DefaultSavedRequest 
