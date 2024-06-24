@@ -26,7 +26,7 @@ public class RestAuthenticationFilter extends AbstractAuthenticationProcessingFi
 	
 	private static final String USERNAME_KEY = "memberId";
 	private static final String PASSWORD_KEY = "memberPassword";
-	private static final String REIDRECT_URL_KEY = "redirectUrl";
+	private static final String REDIRECT_URL_KEY = "redirectUrl";
 	private ObjectMapper objectMapper = new ObjectMapper();
 	
 	public RestAuthenticationFilter() {
@@ -45,7 +45,7 @@ public class RestAuthenticationFilter extends AbstractAuthenticationProcessingFi
 		
 		String memberId = (String) loginMap.get(USERNAME_KEY);
 		String memberPassword = (String) loginMap.get(PASSWORD_KEY);
-		String redirectUrl = (String) loginMap.get(REIDRECT_URL_KEY);
+		String redirectUrl = (String) loginMap.get(REDIRECT_URL_KEY);
 		
 		if (!StringUtils.hasText(memberId)) {
 			throw new LoginRequireFieldException(MessageUtils.getMessage("error.LoginRequireId"));	
