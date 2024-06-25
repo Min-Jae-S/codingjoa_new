@@ -3,6 +3,7 @@ package com.codingjoa.security.service;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.time.format.DateTimeFormatter;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -34,11 +35,16 @@ public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHa
 			Authentication authentication) throws IOException, ServletException {
 		log.info("## {}", this.getClass().getSimpleName());
 		log.info("\t > authentication token = {}", authentication.getClass().getSimpleName());
-		log.info("\t > authentication details = {}", authentication.getDetails());
+		
+		String details = (String) authentication.getDetails();
+		log.info("\t > authentication details = {}", details);
+		
+		// resolve redirectUrl
 		
 		SuccessResponse successResponse = SuccessResponse.builder()
 				.status(HttpStatus.OK)
 				.messageByCode("success.Login")
+				.data(Map.of("redirectUrl", details))
 				.build();
 		log.info("\t > {}", successResponse);
 		
