@@ -21,7 +21,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@SuppressWarnings({ "unchecked", "unused" })
 public class RestAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 	
 	private ObjectMapper objectMapper = new ObjectMapper();
@@ -30,6 +29,7 @@ public class RestAuthenticationFilter extends AbstractAuthenticationProcessingFi
 		super(new AntPathRequestMatcher("/api/login", "POST"));
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws AuthenticationException, IOException, ServletException {
@@ -56,9 +56,13 @@ public class RestAuthenticationFilter extends AbstractAuthenticationProcessingFi
 		UsernamePasswordAuthenticationToken authRequest = 
 				new UsernamePasswordAuthenticationToken(memberId, memberPassword); // isAuthentiacated = false
 		
-		String redirectUrl = (String) loginMap.get("redirectUrl");
-		//setDetails(authRequest, request);
+		//String redirectUrl = (String) loginMap.get("redirectUrl");
+		setDetails(request, authRequest);
 		
 		return this.getAuthenticationManager().authenticate(authRequest);
+	}
+	
+	protected void setDetails(HttpServletRequest request, UsernamePasswordAuthenticationToken authRequest) {
+		authRequest.setDetails(authenticationDetailsSource.buildDetails(request));
 	}
 }
