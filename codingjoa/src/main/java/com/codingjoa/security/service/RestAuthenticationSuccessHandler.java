@@ -34,9 +34,7 @@ public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHa
 			Authentication authentication) throws IOException, ServletException {
 		log.info("## {}", this.getClass().getSimpleName());
 		log.info("\t > authentication token = {}", authentication.getClass().getSimpleName());
-		
-		Object details = authentication.getDetails();
-		log.info("\t > authentication details = {}", (details != null) ? details.getClass().getSimpleName() : null);
+		log.info("\t > authentication details = {}", authentication.getDetails());
 		
 		SuccessResponse successResponse = SuccessResponse.builder()
 				.status(HttpStatus.OK)
@@ -55,6 +53,7 @@ public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHa
 		//DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:ss:mm");
 		ObjectMapper objectMapper = Jackson2ObjectMapperBuilder
 				.json()
+				//.serializerByType(LocalDateTime.class, new LocalDateTimeSerializer(formatter))
 				.serializers(new LocalDateTimeSerializer(DateTimeFormatter.ISO_LOCAL_DATE_TIME))
 				.build();
 		return objectMapper.writeValueAsString(object);

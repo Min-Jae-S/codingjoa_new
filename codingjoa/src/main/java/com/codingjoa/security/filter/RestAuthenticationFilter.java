@@ -56,8 +56,8 @@ public class RestAuthenticationFilter extends AbstractAuthenticationProcessingFi
 		UsernamePasswordAuthenticationToken authRequest = 
 				new UsernamePasswordAuthenticationToken(memberId, memberPassword); // isAuthentiacated = false
 		
-		//String redirectUrl = (String) loginMap.get("redirectUrl");
-		setDetails(request, authRequest);
+		String redirectUrl = (String) loginMap.get("redirectUrl");
+		setDetails(redirectUrl, authRequest);
 		
 		return this.getAuthenticationManager().authenticate(authRequest);
 	}
@@ -65,4 +65,9 @@ public class RestAuthenticationFilter extends AbstractAuthenticationProcessingFi
 	protected void setDetails(HttpServletRequest request, UsernamePasswordAuthenticationToken authRequest) {
 		authRequest.setDetails(authenticationDetailsSource.buildDetails(request));
 	}
+	
+	protected void setDetails(String redirectUrl, UsernamePasswordAuthenticationToken authRequest) {
+		authRequest.setDetails(redirectUrl);
+	}
+	
 }
