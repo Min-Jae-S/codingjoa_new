@@ -34,7 +34,7 @@ public class RestLogoutSuccessHandler implements LogoutSuccessHandler {
 	public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
 			throws IOException, ServletException {
 		log.info("## {}", this.getClass().getSimpleName());
-		log.info("\t > authentication token = {}", (authentication != null) ? authentication.getClass().getSimpleName() : authentication);
+		log.info("\t > authentication token = {}", authentication);
 		
 //		SuccessResponse successResponse = SuccessResponse.builder()
 //				.status(HttpStatus.OK)
@@ -62,11 +62,9 @@ public class RestLogoutSuccessHandler implements LogoutSuccessHandler {
 	}
 	
 	private String convertObjectToJson(Object object) throws JsonProcessingException {
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:ss:mm");
 		ObjectMapper objectMapper = Jackson2ObjectMapperBuilder
 				.json()
-				.timeZone(TimeZone.getTimeZone("Asia/Seoul"))
-				.serializerByType(LocalDateTime.class, new LocalDateTimeSerializer(formatter))
+				.serializers(new LocalDateTimeSerializer(DateTimeFormatter.ISO_LOCAL_DATE_TIME)) // yyyy-MM-dd'T'HH:ss:mm"
 				.build();
 		return objectMapper.writeValueAsString(object);
 	}

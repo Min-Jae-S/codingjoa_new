@@ -2,9 +2,7 @@ package com.codingjoa.security.service;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.TimeZone;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -73,11 +71,9 @@ public class RestAuthenticationFailureHandler implements AuthenticationFailureHa
 	}
 	
 	private String convertObjectToJson(Object object) throws JsonProcessingException {
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:ss:mm");
 		ObjectMapper objectMapper = Jackson2ObjectMapperBuilder
 				.json()
-				.timeZone(TimeZone.getTimeZone("Asia/Seoul"))
-				.serializerByType(LocalDateTime.class, new LocalDateTimeSerializer(formatter))
+				.serializers(new LocalDateTimeSerializer(DateTimeFormatter.ISO_LOCAL_DATE_TIME)) // yyyy-MM-dd'T'HH:ss:mm"
 				.build();
 		return objectMapper.writeValueAsString(object);
 	}

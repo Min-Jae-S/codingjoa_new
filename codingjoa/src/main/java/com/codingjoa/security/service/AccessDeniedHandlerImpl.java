@@ -3,9 +3,7 @@ package com.codingjoa.security.service;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.TimeZone;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +19,7 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;
 
 import com.codingjoa.response.ErrorResponse;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 
@@ -44,28 +43,19 @@ public class AccessDeniedHandlerImpl implements AccessDeniedHandler {
 		log.info("\t > {} : {}", accessDeniedException.getClass().getSimpleName(), accessDeniedException.getMessage());
 		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		log.info("\t > authentication token = {}", (authentication != null) ? authentication.getClass().getSimpleName() : authentication);
+		log.info("\t > authentication token = {}", (authentication != null) ? authentication.getClass().getSimpleName() : null);
 		
 		if (isAjaxRequest(request)) {
-			response.setStatus(HttpStatus.FORBIDDEN.value());
-			response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-			response.setCharacterEncoding(StandardCharsets.UTF_8.toString());
-			
-			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:ss:mm");
-			ObjectMapper objectMapper = Jackson2ObjectMapperBuilder
-					.json()
-					.timeZone(TimeZone.getTimeZone("Asia/Seoul"))
-					.serializerByType(LocalDateTime.class, new LocalDateTimeSerializer(formatter))
-					.build();
-			
 			ErrorResponse errorResponse = ErrorResponse.builder()
 					.status(HttpStatus.FORBIDDEN)
 					.messageByCode("error.Forbidden")
 					.build();
 			log.info("\t > {}", errorResponse);
 			
-			log.info("\t > respond with errorResponse in JSON format");
-			response.getWriter().write(objectMapper.writeValueAsString(errorResponse));
+			response.setStatus(HttpStatus.FORBIDDEN.value());
+			response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+			response.setCharacterEncoding(StandardCharsets.UTF_8.toString());
+			response.getWriter().write(convertObjectToJson(errorResponse));
 			response.getWriter().close();
 		} else {
 			String redirectUrl = request.getContextPath() + "/";
@@ -77,6 +67,14 @@ public class AccessDeniedHandlerImpl implements AccessDeniedHandler {
 	
 	private boolean isAjaxRequest(HttpServletRequest request) {
 		return "XMLHttpRequest".equals(request.getHeader("x-requested-with"));
+	}
+	
+	private String convertObjectToJson(Object object) throws JsonProcessingException {
+		ObjectMapper objectMapper = Jackson2ObjectMapperBuilder
+				.json()
+				.serializers(new LocalDateTimeSerializer(DateTimeFormatter.ISO_LOCAL_DATE_TIME)) // yyyy-MM-dd'T'HH:ss:mm"
+				.build();
+		return objectMapper.writeValueAsString(object);
 	}
 	
 	private String getFullURI(HttpServletRequest request) {
