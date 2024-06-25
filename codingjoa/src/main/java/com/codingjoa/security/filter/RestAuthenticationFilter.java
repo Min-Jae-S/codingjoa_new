@@ -24,9 +24,6 @@ import lombok.extern.slf4j.Slf4j;
 @SuppressWarnings({ "unchecked", "unused" })
 public class RestAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 	
-	private static final String USERNAME_KEY = "memberId";
-	private static final String PASSWORD_KEY = "memberPassword";
-	private static final String REDIRECT_URL_KEY = "redirectUrl";
 	private ObjectMapper objectMapper = new ObjectMapper();
 	
 	public RestAuthenticationFilter() {
@@ -43,9 +40,8 @@ public class RestAuthenticationFilter extends AbstractAuthenticationProcessingFi
 		Map<String, Object> loginMap = objectMapper.readValue(request.getReader(), Map.class);
 		log.info("\t > loginMap = {}", loginMap);
 		
-		String memberId = (String) loginMap.get(USERNAME_KEY);
-		String memberPassword = (String) loginMap.get(PASSWORD_KEY);
-		String redirectUrl = (String) loginMap.get(REDIRECT_URL_KEY);
+		String memberId = (String) loginMap.get("memberId");
+		String memberPassword = (String) loginMap.get("memberPassword");
 		
 		if (!StringUtils.hasText(memberId)) {
 			throw new LoginRequireFieldException(MessageUtils.getMessage("error.LoginRequireId"));	
@@ -59,6 +55,9 @@ public class RestAuthenticationFilter extends AbstractAuthenticationProcessingFi
 		
 		UsernamePasswordAuthenticationToken authRequest = 
 				new UsernamePasswordAuthenticationToken(memberId, memberPassword); // isAuthentiacated = false
+		
+		String redirectUrl = (String) loginMap.get("redirectUrl");
+		//setDetails(authRequest, request);
 		
 		return this.getAuthenticationManager().authenticate(authRequest);
 	}

@@ -128,6 +128,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		filter.setAuthenticationManager(authenticationManagerBean());
 		filter.setAuthenticationFailureHandler(restAuthenticationFailureHandler);
 		filter.setAuthenticationSuccessHandler(restAuthenticationSuccessHandler);
+		//filter.setAuthenticationDetailsSource(null);
 		return filter;
 	}
 	

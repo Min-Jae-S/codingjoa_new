@@ -16,11 +16,11 @@ import org.springframework.util.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@SuppressWarnings("unused")
 @Component
 public class RestLogoutSuccessHandler implements LogoutSuccessHandler {
 	
-	@SuppressWarnings("unused")
-	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+	//private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 	
 	@Override
 	public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
