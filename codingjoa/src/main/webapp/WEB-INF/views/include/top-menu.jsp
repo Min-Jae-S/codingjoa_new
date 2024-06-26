@@ -22,14 +22,19 @@
 				
 				<!-- TEST -->
 				<%-- <li class="nav-item mx-2 mt-1">
-					<a href="${contextPath}/api/saved-request" class="nav-link" id="savedRequestLink">savedRequest</a>
+					<a href="${contextPath}/api/saved-request" class="nav-link" id="savedRequestLink">get savedRequest</a>
+				</li> --%>
+				
+				<!-- TEST -->
+				<%-- <li class="nav-item mx-2 mt-1">
+					<a href="${contextPath}/api/authentication-details-check" class="nav-link" id="authenticationDetailsLink">
+						check authenticationDetails
+					</a>
 				</li> --%>
 				
 				<!-- TEST -->
 				<li class="nav-item mx-2 mt-1">
-					<a href="${contextPath}/api/authentication-details" class="nav-link" id="authenticationDetailsLink">
-						authenticationDetails
-					</a>
+					<a href="#" class="nav-link" id="naverLink">naver</a>
 				</li>
 				
 				<!-- TEST -->
@@ -206,9 +211,10 @@
 			});
 		});
 
+		// TEST
 		$("#authenticationDetailsLink").on("click", function(e) {
 			e.preventDefault();
-			console.log("## getAthenticationDetails");
+			console.log("## checkAuthenticationDetails");
 			
 			let url = $(this).attr("href");
 			console.log("> URL = '%s'", url);
@@ -226,6 +232,14 @@
 					console.log(jqXHR);
 				}
 			});
+		});
+		
+		// TEST
+		$("#naverLink").on("click", function(e) {
+			e.preventDefault();
+			console.log("## naverLink");
+			location.href = "naver.com"; // http://localhost:8888/codingjoa/naver.com 
+			//location.href = "https://www.naver.com/";
 		});
 	});
 </script>

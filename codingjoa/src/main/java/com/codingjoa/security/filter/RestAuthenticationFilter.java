@@ -59,7 +59,7 @@ public class RestAuthenticationFilter extends AbstractAuthenticationProcessingFi
 
 		String redirectUrl = (String) loginMap.get("redirectUrl");
 		authRequest.setDetails(redirectUrl);
-		log.info("\t > save redirectUrl in details field of the authentication");
+		log.info("\t > set redirectUrl in details field of the authentication");
 		
 		return this.getAuthenticationManager().authenticate(authRequest);
 	}

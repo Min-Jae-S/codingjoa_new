@@ -1,6 +1,8 @@
 package com.codingjoa.security.service;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
@@ -9,9 +11,11 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.hibernate.validator.internal.constraintvalidators.hv.URLValidator;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
+import org.springframework.lang.Nullable;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -35,7 +39,7 @@ public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHa
 		log.info("\t > authentication = {} ({})", authentication.getClass().getSimpleName(),
 				authentication.isAuthenticated() == true ? "authenticated" : "unauthenticated");
 		
-		String redirectUrl = resolveRedirectUrl(request, authentication);
+		String redirectUrl = retrieveRedirectUrl(request, authentication);
 		clearAuthenticationDetails(authentication);
 		
 		SuccessResponse successResponse = SuccessResponse.builder()
@@ -56,20 +60,37 @@ public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHa
 		response.getWriter().close();
 	}
 	
-	private String resolveRedirectUrl(HttpServletRequest request, Authentication authentication) {
+	private String retrieveRedirectUrl(HttpServletRequest request, Authentication authentication) {
 		Object details = authentication.getDetails();
         String redirectUrl = (details instanceof String) ? (String) details : null;
-        log.info("\t > original redirectUrl = {}", redirectUrl);
+        log.info("\t > initial redirectUrl = {}", redirectUrl);
 		
-        if (!StringUtils.hasText(redirectUrl)) {
+        if (!isValidUrl(redirectUrl)) {
         	redirectUrl = request.getContextPath() + "/";
 		}
-        log.info("\t > resolved redirectUrl = {}", redirectUrl);
+        log.info("\t > final redirectUrl = {}", redirectUrl);
         
 		return redirectUrl;
 	}
 	
+	
+	private boolean isValidUrl(String url) {
+		// URL format validation: verify that the URL is in the correct format
+		if (!StringUtils.hasText(url)) {
+			return false;
+		}
+		
+		try {
+			URL parsedUrl = new URL(url);
+			// Allowed domain validation: check if the redirection URL is in the list of allowed domains
+			return true;
+		} catch (MalformedURLException e) {
+			return false;
+		}
+	}
+	
 	private void clearAuthenticationDetails(Authentication authentication) {
+		log.info("\t > clear authentication details");
 		((UsernamePasswordAuthenticationToken) authentication).setDetails(null);
 	}
 	

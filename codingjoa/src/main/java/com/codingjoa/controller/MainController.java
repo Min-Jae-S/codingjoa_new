@@ -58,19 +58,20 @@ public class MainController {
 	}
 
 	@ResponseBody
-	@GetMapping("/api/authentication-details")
-	public ResponseEntity<Object> getAuthenticationDetails(Authentication authentication) {
-		log.info("## getAuthenticationDetails");
-		log.info("\t > authentication = {}", (authentication != null) ? authentication.getClass().getSimpleName() : null);
-		
-		String authenticationDetails = "";
-		if (authentication != null) {
-			authenticationDetails = (String) authentication.getDetails();
-		} 
+	@GetMapping("/api/authentication-details-check")
+	public ResponseEntity<Object> checkAuthenticationDetails(Authentication authentication) {
+		log.info("## checkAuthenticationDetails");
+		if (authentication == null) {
+			log.info("\t > authentication is null");
+		} else {
+			Object object = authentication.getDetails();
+			if (object == null) {
+				log.info("\t > authentication details is null");
+			} 
+		}
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
 				.message("success")
-				.data(Map.of("authenticationDetails", authenticationDetails))
 				.build());
 	}
 	

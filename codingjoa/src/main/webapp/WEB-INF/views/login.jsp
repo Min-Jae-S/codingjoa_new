@@ -103,7 +103,7 @@
 <script>
 	$(function() {
 		const redirect = "<c:out value='${redirect}' escapeXml='false'/>";
-		console.log("## redirect = '%s'", redirect);
+		console.log("## redirect = %s", redirect);
 		
 		$("#loginForm").on("submit", function(e) {
 			e.preventDefault();
@@ -116,7 +116,7 @@
 			authenticationService.login(formData, function(result) {
 				setTimeout(function() {
 					alert(result.message);
-					//location.href = result.data.redirectUrl;
+					location.href = result.data.redirectUrl;
 				}, 50);
 			});
 		});
