@@ -1,5 +1,7 @@
 package com.codingjoa.controller;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,6 +15,7 @@ import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -69,6 +72,31 @@ public class MainController {
 				log.info("\t > authentication details is null");
 			} 
 		}
+		
+		return ResponseEntity.ok(SuccessResponse.builder()
+				.message("success")
+				.build());
+	}
+	
+	@ResponseBody
+	@GetMapping("/api/url")
+	public ResponseEntity<Object> validateUrl(@RequestBody Map<String, Object> map) {
+		log.info("## validateUrl");
+		log.info("\t > map = {}", map);
+		
+		String url = null;
+		for (String key : map.keySet()) {
+			url = (String) map.get(key);
+		}
+		log.info("\t > url = {}", url);
+
+		URL parsedUrl = null;
+		try {
+			parsedUrl = new URL(url);
+		} catch (MalformedURLException e) {
+			log.info("> message = {}", e.getMessage());
+		}
+		log.info("\t > parsedUrl = {}", parsedUrl);
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
 				.message("success")
