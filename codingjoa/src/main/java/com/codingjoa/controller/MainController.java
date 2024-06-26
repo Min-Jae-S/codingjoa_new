@@ -80,7 +80,7 @@ public class MainController {
 	
 	@ResponseBody
 	@GetMapping("/api/url")
-	public ResponseEntity<Object> validateUrl(@RequestBody Map<String, Object> map) {
+	public ResponseEntity<Object> validateUrl(@RequestBody Map<String, Object> map, HttpServletRequest request) {
 		log.info("## validateUrl");
 		
 		String url = null;
@@ -88,21 +88,39 @@ public class MainController {
 			url = (String) map.get(key);
 		}
 		log.info("\t > url = {}", (url == null) ? null : "'" + url + "'");
-
-		URL parsedUrl = null;
-		try {
-			parsedUrl = new URL(url);
-			log.info("\t > protocol = {}", parsedUrl.getProtocol());
-			log.info("\t > host = {}", parsedUrl.getHost());
-			log.info("\t > path = {}", parsedUrl.getPath());
-		} catch (MalformedURLException e) {
-			log.info("\t > {} : {}", e.getClass().getSimpleName(), e.getMessage());
-		}
-		log.info("\t > parsedUrl = {}", parsedUrl);
+		log.info("\t > valid url ? {}", isValidUrl(request, url));
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
 				.message("success")
 				.build());
+	}
+	
+	private boolean isValidUrl(HttpServletRequest request, String url) {
+		// URL format validation, Allowed domain validation
+		try {
+			URL parsedUrl = new URL(url);
+			String protocol = parsedUrl.getProtocol();
+			
+			// if parsedUrl is not null, then protocol is not null
+			if (!protocol.equals("http") && !protocol.equals("https")) {
+				log.info("\t > invalid protocol : {}", protocol);
+				return false;
+			}
+			
+			String host = parsedUrl.getHost();
+			String currentHost = request.getServerName();
+			
+			if (!host.equals(currentHost)) {
+				log.info("\t > invalid host : {}", host);
+				return false;
+			}
+			
+			return true;
+		} catch (MalformedURLException e) {
+			log.info("\t > invalid url format");
+			log.info("\t > {} : {}", e.getClass().getSimpleName(), e.getMessage());
+			return false;
+		}
 	}
 	
 	private String getRedirectURL(HttpServletRequest request, HttpServletResponse response) {

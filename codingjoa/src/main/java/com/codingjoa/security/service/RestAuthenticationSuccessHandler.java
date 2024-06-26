@@ -18,7 +18,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
 import com.codingjoa.response.SuccessResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -63,7 +62,7 @@ public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHa
         String redirectUrl = (details instanceof String) ? (String) details : null;
         log.info("\t > initial redirectUrl = {}", redirectUrl);
 		
-        if (!isValidUrl(redirectUrl)) {
+        if (!isValidUrl(request, redirectUrl)) {
         	redirectUrl = request.getContextPath() + "/";
 		}
         log.info("\t > final redirectUrl = {}", redirectUrl);
@@ -71,12 +70,30 @@ public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHa
 		return redirectUrl;
 	}
 	
-	private boolean isValidUrl(String url) {
+	private boolean isValidUrl(HttpServletRequest request, String url) {
 		// URL format validation, Allowed domain validation
 		try {
 			URL parsedUrl = new URL(url);
+			String protocol = parsedUrl.getProtocol();
+			
+			// if parsedUrl is not null, then protocol is not null
+			if (!protocol.equals("http") && !protocol.equals("https")) {
+				log.info("\t > invalid protocol : {}", protocol);
+				return false;
+			}
+			
+			String host = parsedUrl.getHost();
+			String currentHost = request.getServerName();
+			
+			if (!host.equals(currentHost)) {
+				log.info("\t > invalid host : {}", host);
+				return false;
+			}
+			
 			return true;
 		} catch (MalformedURLException e) {
+			log.info("\t > invalid url format");
+			log.info("\t > {} : {}", e.getClass().getSimpleName(), e.getMessage());
 			return false;
 		}
 	}
