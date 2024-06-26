@@ -34,12 +34,13 @@ public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHa
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
 		log.info("## {}", this.getClass().getSimpleName());
-		log.info("\t > authentication = {}", authentication);
+		log.info("\t > authentication = {} ({})", authentication.getClass().getSimpleName(),
+				authentication.isAuthenticated() == true ? "authenticated" : "unauthenticated");
 		
 		String details = (String) authentication.getDetails();
 		log.info("\t > authentication details = '{}'", details);
 		
-		// detemine redirectUrl
+		// determine redirectUrl
 		
 		SuccessResponse successResponse = SuccessResponse.builder()
 				.status(HttpStatus.OK)
