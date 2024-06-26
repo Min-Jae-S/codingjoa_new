@@ -55,13 +55,12 @@ public class RestAuthenticationFilter extends AbstractAuthenticationProcessingFi
 		
 		UsernamePasswordAuthenticationToken authRequest = 
 				new UsernamePasswordAuthenticationToken(memberId, memberPassword); // isAuthentiacated = false
-		
+
 		String redirectUrl = (String) loginMap.get("redirectUrl");
 		authRequest.setDetails(redirectUrl);
 		
-		log.info("\t > authentication token = {} [{}]", 
-				authRequest.getClass().getSimpleName() + "@" + authRequest.getClass().hashCode(), 
-				(authRequest.isAuthenticated() == true) ? "authenticated" : "not authenticated");
+		log.info("\t > authentication = {}", authRequest.getClass().getSimpleName() + "@" + authRequest.getClass().hashCode());
+		log.info("\t > authentication = {}", authRequest);
 		
 		return this.getAuthenticationManager().authenticate(authRequest);
 	}
