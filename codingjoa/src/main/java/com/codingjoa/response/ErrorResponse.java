@@ -21,7 +21,7 @@ import lombok.ToString;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ErrorResponse {
 	
-	private int status;
+	private int status = HttpStatus.BAD_REQUEST.value();
 	private String message;
 	private List<ErrorDetails> details = new ArrayList<ErrorDetails>();
 	

@@ -34,7 +34,7 @@ public class RestLogoutSuccessHandler implements LogoutSuccessHandler {
 	public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
 			throws IOException, ServletException {
 		log.info("## {}", this.getClass().getSimpleName());
-		log.info("\t > authentication token = {}", authentication);
+		log.info("\t > authentication = {}", authentication);
 		
 //		SuccessResponse successResponse = SuccessResponse.builder()
 //				.status(HttpStatus.OK)
@@ -43,9 +43,9 @@ public class RestLogoutSuccessHandler implements LogoutSuccessHandler {
 //				.build();
 //		log.info("\t > {}", successResponse);
 //		
-//		response.setStatus(HttpStatus.OK.value());
-//		response.setContentType(MediaType.APPLICATION_JSON_VALUE.toString());
-//		response.setCharacterEncoding(StandardCharsets.UTF_8.toString());
+//		response.setStatus(HttpServletResponse.SC_OK);
+//		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+//		response.setCharacterEncoding(StandardCharsets.UTF_8.name());
 //		response.getWriter().write(convertObjectToJson(successResponse));
 //		response.getWriter().close();
 		

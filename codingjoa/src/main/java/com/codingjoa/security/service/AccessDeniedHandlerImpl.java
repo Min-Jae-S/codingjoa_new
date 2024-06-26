@@ -19,7 +19,6 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;
 
 import com.codingjoa.response.ErrorResponse;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 
@@ -43,7 +42,7 @@ public class AccessDeniedHandlerImpl implements AccessDeniedHandler {
 		log.info("\t > {} : {}", accessDeniedException.getClass().getSimpleName(), accessDeniedException.getMessage());
 		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		log.info("\t > authentication token = {}", (authentication != null) ? authentication.getClass().getSimpleName() : null);
+		log.info("\t > authentication = {}", (authentication != null) ? authentication.getClass().getSimpleName() : null);
 		
 		if (isAjaxRequest(request)) {
 			ErrorResponse errorResponse = ErrorResponse.builder()
@@ -52,10 +51,14 @@ public class AccessDeniedHandlerImpl implements AccessDeniedHandler {
 					.build();
 			log.info("\t > {}", errorResponse);
 			
-			response.setStatus(HttpStatus.FORBIDDEN.value());
+			response.setStatus(HttpServletResponse.SC_FORBIDDEN);
 			response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-			response.setCharacterEncoding(StandardCharsets.UTF_8.toString());
-			response.getWriter().write(convertObjectToJson(errorResponse));
+			response.setCharacterEncoding(StandardCharsets.UTF_8.name());
+			
+			ObjectMapper objectMapper = getObjectMapperWithSerializer();
+			String jsonResponse = objectMapper.writeValueAsString(errorResponse);
+			
+			response.getWriter().write(jsonResponse);
 			response.getWriter().close();
 		} else {
 			String redirectUrl = request.getContextPath() + "/";
@@ -69,13 +72,12 @@ public class AccessDeniedHandlerImpl implements AccessDeniedHandler {
 		return "XMLHttpRequest".equals(request.getHeader("x-requested-with"));
 	}
 	
-	private String convertObjectToJson(Object object) throws JsonProcessingException {
-		ObjectMapper objectMapper = Jackson2ObjectMapperBuilder
-				.json()
-				.serializers(new LocalDateTimeSerializer(DateTimeFormatter.ISO_LOCAL_DATE_TIME)) // yyyy-MM-dd'T'HH:ss:mm"
-				.build();
-		return objectMapper.writeValueAsString(object);
-	}
+	private ObjectMapper getObjectMapperWithSerializer() {
+        return Jackson2ObjectMapperBuilder
+                .json()
+                .serializers(new LocalDateTimeSerializer(DateTimeFormatter.ISO_LOCAL_DATE_TIME)) // yyyy-MM-dd'T'HH:ss:mm"
+                .build();
+    }
 	
 	private String getFullURI(HttpServletRequest request) {
 		StringBuilder requestURI = 

@@ -17,7 +17,7 @@ import lombok.ToString;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class SuccessResponse {
 	
-	private Integer status = HttpStatus.OK.value();
+	private int status = HttpStatus.OK.value();
 	private String message;
 	private Object data;
 	
@@ -41,7 +41,7 @@ public class SuccessResponse {
 			return this;
 		}
 
-		public SuccessResponseBuilder status(Integer status) {
+		public SuccessResponseBuilder status(int status) {
 			successResponse.status = status;
 			return this;
 		}
