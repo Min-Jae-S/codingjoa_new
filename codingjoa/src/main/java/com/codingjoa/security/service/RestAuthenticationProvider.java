@@ -33,6 +33,9 @@ public class RestAuthenticationProvider implements AuthenticationProvider {
 	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 		log.info("## {}", this.getClass().getSimpleName());
+		log.info("\t > authentication token = {} [ {} ]", 
+				authentication.getClass().getSimpleName() + "@" + authentication.getClass().hashCode(),
+				(authentication.isAuthenticated() == true) ? "authenticated" : "not authenticated");
 		
 		/*
 		 * ref) UsernamePasswordAuthenticationFilter#attemptAuthentication
@@ -67,7 +70,14 @@ public class RestAuthenticationProvider implements AuthenticationProvider {
 			throw new BadCredentialsException(MessageUtils.getMessage("error.UsernameNotFoundOrBadCredentials"));
 		}
 		
-		return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities()); // isAuthenticated = true
+		UsernamePasswordAuthenticationToken authRequest = 
+				new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+		log.info("\t > authentication token = {} [ {} ]", 
+				authRequest.getClass().getSimpleName() + "@" + authRequest.getClass().hashCode(), 
+				(authRequest.isAuthenticated() == true) ? "authenticated" : "not authenticated");
+		
+		return authRequest;
+		//return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities()); // isAuthenticated = true
 	}
 
 }

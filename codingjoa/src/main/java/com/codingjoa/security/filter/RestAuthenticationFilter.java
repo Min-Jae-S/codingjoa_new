@@ -59,6 +59,10 @@ public class RestAuthenticationFilter extends AbstractAuthenticationProcessingFi
 		String redirectUrl = (String) loginMap.get("redirectUrl");
 		authRequest.setDetails(redirectUrl);
 		
+		log.info("\t > authentication token = {} [ {} ]", 
+				authRequest.getClass().getSimpleName() + "@" + authRequest.getClass().hashCode(), 
+				(authRequest.isAuthenticated() == true) ? "authenticated" : "not authenticated");
+		
 		return this.getAuthenticationManager().authenticate(authRequest);
 	}
 	

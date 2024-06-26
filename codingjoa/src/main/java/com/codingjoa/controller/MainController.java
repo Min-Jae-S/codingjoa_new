@@ -62,9 +62,15 @@ public class MainController {
 	public ResponseEntity<Object> getAuthenticationDetails(Authentication authentication) {
 		log.info("## getAuthenticationDetails");
 		log.info("\t > authentication = {}", (authentication != null) ? authentication.getClass().getSimpleName() : null);
+		
+		String authenticationDetails = "";
+		if (authentication != null) {
+			authenticationDetails = (String) authentication.getDetails();
+		} 
+		
 		return ResponseEntity.ok(SuccessResponse.builder()
 				.message("success")
-				.data(Map.of("authenticationDetails", null))
+				.data(Map.of("authenticationDetails", authenticationDetails))
 				.build());
 	}
 	
