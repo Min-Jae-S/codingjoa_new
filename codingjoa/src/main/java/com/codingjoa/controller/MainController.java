@@ -82,19 +82,21 @@ public class MainController {
 	@GetMapping("/api/url")
 	public ResponseEntity<Object> validateUrl(@RequestBody Map<String, Object> map) {
 		log.info("## validateUrl");
-		log.info("\t > map = {}", map);
 		
 		String url = null;
 		for (String key : map.keySet()) {
 			url = (String) map.get(key);
 		}
-		log.info("\t > url = {}", url);
+		log.info("\t > url = {}", (url == null) ? null : "'" + url + "'");
 
 		URL parsedUrl = null;
 		try {
 			parsedUrl = new URL(url);
+			log.info("\t > protocol = {}", parsedUrl.getProtocol());
+			log.info("\t > host = {}", parsedUrl.getHost());
+			log.info("\t > path = {}", parsedUrl.getPath());
 		} catch (MalformedURLException e) {
-			log.info("> message = {}", e.getMessage());
+			log.info("\t > {} : {}", e.getClass().getSimpleName(), e.getMessage());
 		}
 		log.info("\t > parsedUrl = {}", parsedUrl);
 		

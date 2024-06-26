@@ -71,16 +71,10 @@ public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHa
 		return redirectUrl;
 	}
 	
-	@SuppressWarnings("unused")
 	private boolean isValidUrl(String url) {
-		// URL format validation: verify that the URL is in the correct format
-		if (!StringUtils.hasText(url)) {
-			return false;
-		}
-		
+		// URL format validation, Allowed domain validation
 		try {
 			URL parsedUrl = new URL(url);
-			// Allowed domain validation: check if the redirection URL is in the list of allowed domains
 			return true;
 		} catch (MalformedURLException e) {
 			return false;
