@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
@@ -37,15 +38,15 @@ public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHa
 		log.info("\t > authentication = {} ({})", authentication.getClass().getSimpleName(),
 				authentication.isAuthenticated() == true ? "authenticated" : "unauthenticated");
 		
-		String details = (String) authentication.getDetails();
-		log.info("\t > authentication details = '{}'", details);
-		
-		// determine redirectUrl
+		String redirectUrl = (String) authentication.getDetails();
+		log.info("\t > details = '{}'", redirectUrl);
+
+		((UsernamePasswordAuthenticationToken) authentication).setDetails(null);
 		
 		SuccessResponse successResponse = SuccessResponse.builder()
 				.status(HttpStatus.OK)
 				.messageByCode("success.Login")
-				.data(Map.of("redirectUrl", details))
+				.data(Map.of("redirectUrl", determineRedirectUrl(redirectUrl)))
 				.build();
 		log.info("\t > {}", successResponse);
 		
@@ -64,6 +65,10 @@ public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHa
 				.serializers(new LocalDateTimeSerializer(DateTimeFormatter.ISO_LOCAL_DATE_TIME))
 				.build();
 		return objectMapper.writeValueAsString(object);
+	}
+	
+	private String determineRedirectUrl(String redirectUrl) {
+		return "";
 	}
 	
 	@SuppressWarnings("unused")

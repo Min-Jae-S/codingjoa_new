@@ -3,6 +3,7 @@ package com.codingjoa.security.filter;
 import java.io.IOException;
 import java.util.Map;
 
+import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -33,7 +34,7 @@ public class RestAuthenticationFilter extends AbstractAuthenticationProcessingFi
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws AuthenticationException, IOException, ServletException {
-		log.info("## {}", this.getClass().getSimpleName());
+		log.info("## {}.attemptAuthentication", this.getClass().getSimpleName());
 		
 		// check ajax and POST 
 		
@@ -56,19 +57,18 @@ public class RestAuthenticationFilter extends AbstractAuthenticationProcessingFi
 		UsernamePasswordAuthenticationToken authRequest = 
 				new UsernamePasswordAuthenticationToken(memberId, memberPassword); // isAuthentiacated = false
 
-		log.info("\t > set details (redirect url)");
+		log.info("\t > save the redirectUrl in the details field of the authentication");
 		String redirectUrl = (String) loginMap.get("redirectUrl");
 		authRequest.setDetails(redirectUrl);
 		
 		return this.getAuthenticationManager().authenticate(authRequest);
 	}
-	
-	protected void setDetails(HttpServletRequest request, UsernamePasswordAuthenticationToken authRequest) {
-		authRequest.setDetails(authenticationDetailsSource.buildDetails(request));
-	}
-	
-	protected void setDetails(String redirectUrl, UsernamePasswordAuthenticationToken authRequest) {
-		authRequest.setDetails(redirectUrl);
+
+	@Override
+	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
+			Authentication authResult) throws IOException, ServletException {
+		log.info("## {}.successfulAuthentication", this.getClass().getSimpleName());
+		super.successfulAuthentication(request, response, chain, authResult);
 	}
 	
 }
