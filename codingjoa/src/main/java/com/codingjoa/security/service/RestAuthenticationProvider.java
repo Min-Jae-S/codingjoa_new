@@ -33,7 +33,7 @@ public class RestAuthenticationProvider implements AuthenticationProvider {
 	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 		log.info("## {}", this.getClass().getSimpleName());
-		log.info("\t > authentication token = {} [ {} ]", 
+		log.info("\t > 1. authentication token = {} [{}]", 
 				authentication.getClass().getSimpleName() + "@" + authentication.getClass().hashCode(),
 				(authentication.isAuthenticated() == true) ? "authenticated" : "not authenticated");
 		
@@ -72,7 +72,7 @@ public class RestAuthenticationProvider implements AuthenticationProvider {
 		
 		UsernamePasswordAuthenticationToken authRequest = 
 				new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-		log.info("\t > authentication token = {} [ {} ]", 
+		log.info("\t > 2. authentication token = {} [{}]", 
 				authRequest.getClass().getSimpleName() + "@" + authRequest.getClass().hashCode(), 
 				(authRequest.isAuthenticated() == true) ? "authenticated" : "not authenticated");
 		
