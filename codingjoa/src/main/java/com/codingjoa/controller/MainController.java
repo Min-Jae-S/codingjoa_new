@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.security.web.savedrequest.RequestCache;
 import org.springframework.security.web.savedrequest.SavedRequest;
@@ -53,6 +54,17 @@ public class MainController {
 		return ResponseEntity.ok(SuccessResponse.builder()
 				.message("success")
 				.data(Map.of("redirectUrl", redirectUrl))
+				.build());
+	}
+
+	@ResponseBody
+	@GetMapping("/api/authentication-details")
+	public ResponseEntity<Object> getAuthenticationDetails(Authentication authentication) {
+		log.info("## getAuthenticationDetails");
+		log.info("\t > authentication = {}", (authentication != null) ? authentication.getClass().getSimpleName() : null);
+		return ResponseEntity.ok(SuccessResponse.builder()
+				.message("success")
+				.data(Map.of("authenticationDetails", null))
 				.build());
 	}
 	
