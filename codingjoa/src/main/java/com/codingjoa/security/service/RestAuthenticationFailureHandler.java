@@ -21,7 +21,6 @@ import org.springframework.stereotype.Component;
 import com.codingjoa.response.ErrorResponse;
 import com.codingjoa.security.exception.LoginRequireFieldException;
 import com.codingjoa.util.MessageUtils;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 
@@ -63,19 +62,22 @@ public class RestAuthenticationFailureHandler implements AuthenticationFailureHa
 				.build();
 		log.info("\t > {}", errorResponse);
 		
-		response.setStatus(HttpStatus.UNAUTHORIZED.value());
+		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-		response.setCharacterEncoding(StandardCharsets.UTF_8.toString());
-		response.getWriter().write(convertObjectToJson(errorResponse));
+		response.setCharacterEncoding(StandardCharsets.UTF_8.name());
+		
+		ObjectMapper objectMapper = getObjectMapperWithSerializer();
+		String jsonResponse = objectMapper.writeValueAsString(errorResponse);
+		
+		response.getWriter().write(jsonResponse);
 		response.getWriter().close();
 	}
 	
-	private String convertObjectToJson(Object object) throws JsonProcessingException {
-		ObjectMapper objectMapper = Jackson2ObjectMapperBuilder
-				.json()
-				.serializers(new LocalDateTimeSerializer(DateTimeFormatter.ISO_LOCAL_DATE_TIME)) // yyyy-MM-dd'T'HH:ss:mm"
-				.build();
-		return objectMapper.writeValueAsString(object);
-	}
+	private ObjectMapper getObjectMapperWithSerializer() {
+        return Jackson2ObjectMapperBuilder
+                .json()
+                .serializers(new LocalDateTimeSerializer(DateTimeFormatter.ISO_LOCAL_DATE_TIME))
+                .build();
+    }
 	
 }

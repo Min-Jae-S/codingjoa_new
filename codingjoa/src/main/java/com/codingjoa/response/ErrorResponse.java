@@ -21,7 +21,7 @@ import lombok.ToString;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ErrorResponse {
 	
-	private Integer status;
+	private int status;
 	private String message;
 	private List<ErrorDetails> details = new ArrayList<ErrorDetails>();
 	
@@ -45,7 +45,7 @@ public class ErrorResponse {
 			return this;
 		}
 
-		public ErrorResponseBuilder status(Integer status) {
+		public ErrorResponseBuilder status(int status) {
 			errorResponse.status = status;
 			return this;
 		}

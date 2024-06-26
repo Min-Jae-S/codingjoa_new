@@ -15,13 +15,10 @@ import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
-import org.springframework.security.web.savedrequest.RequestCache;
-import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import com.codingjoa.response.SuccessResponse;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 
@@ -38,44 +35,51 @@ public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHa
 		log.info("\t > authentication = {} ({})", authentication.getClass().getSimpleName(),
 				authentication.isAuthenticated() == true ? "authenticated" : "unauthenticated");
 		
-		String redirectUrl = (String) authentication.getDetails();
-		log.info("\t > details = '{}'", redirectUrl);
-
-		((UsernamePasswordAuthenticationToken) authentication).setDetails(null);
+		String redirectUrl = resolveRedirectUrl(request, authentication);
+		clearAuthenticationDetails(authentication);
 		
 		SuccessResponse successResponse = SuccessResponse.builder()
 				.status(HttpStatus.OK)
 				.messageByCode("success.Login")
-				.data(Map.of("redirectUrl", determineRedirectUrl(redirectUrl)))
+				.data(Map.of("redirectUrl", redirectUrl))
 				.build();
 		log.info("\t > {}", successResponse);
 		
-		response.setStatus(HttpStatus.OK.value());
-		response.setContentType(MediaType.APPLICATION_JSON_VALUE.toString());
-		response.setCharacterEncoding(StandardCharsets.UTF_8.toString());
-		response.getWriter().write(convertObjectToJson(successResponse));
+		response.setStatus(HttpServletResponse.SC_OK);
+		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+		response.setCharacterEncoding(StandardCharsets.UTF_8.name());
+		
+		ObjectMapper objectMapper = getObjectMapperWithSerializer();
+		String jsonResponse = objectMapper.writeValueAsString(successResponse);
+        
+		response.getWriter().write(jsonResponse);
 		response.getWriter().close();
 	}
 	
-	private String convertObjectToJson(Object object) throws JsonProcessingException {
+	private String resolveRedirectUrl(HttpServletRequest request, Authentication authentication) {
+		Object details = authentication.getDetails();
+        String redirectUrl = (details instanceof String) ? (String) details : null;
+        log.info("\t > original redirectUrl = {}", redirectUrl);
+		
+        if (!StringUtils.hasText(redirectUrl)) {
+        	redirectUrl = request.getContextPath() + "/";
+		}
+        log.info("\t > resolved redirectUrl = {}", redirectUrl);
+        
+		return redirectUrl;
+	}
+	
+	private void clearAuthenticationDetails(Authentication authentication) {
+		((UsernamePasswordAuthenticationToken) authentication).setDetails(null);
+	}
+	
+	private ObjectMapper getObjectMapperWithSerializer() {
 		//DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:ss:mm");
-		ObjectMapper objectMapper = Jackson2ObjectMapperBuilder
-				.json()
-				//.serializerByType(LocalDateTime.class, new LocalDateTimeSerializer(formatter))
-				.serializers(new LocalDateTimeSerializer(DateTimeFormatter.ISO_LOCAL_DATE_TIME))
-				.build();
-		return objectMapper.writeValueAsString(object);
-	}
-	
-	private String determineRedirectUrl(String redirectUrl) {
-		return "";
-	}
-	
-	@SuppressWarnings("unused")
-	private String getRedirectURL(HttpServletRequest request, HttpServletResponse response) {
-		RequestCache requestCache = new HttpSessionRequestCache();
-		SavedRequest savedRequest = requestCache.getRequest(request, response); // DefaultSavedRequest 
-		return (savedRequest == null) ? request.getContextPath() : savedRequest.getRedirectUrl();
-	}
+        return Jackson2ObjectMapperBuilder
+                .json()
+              //.serializerByType(LocalDateTime.class, new LocalDateTimeSerializer(formatter))
+                .serializers(new LocalDateTimeSerializer(DateTimeFormatter.ISO_LOCAL_DATE_TIME))
+                .build();
+    }
 
 }
