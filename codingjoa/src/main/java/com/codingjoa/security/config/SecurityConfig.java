@@ -24,7 +24,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import com.codingjoa.security.filter.RestAuthenticationFilter;
 
 @Configuration
-@EnableWebSecurity(debug = false)
+@EnableWebSecurity // (debug = true)
 @ComponentScan("com.codingjoa.security.service")
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -44,7 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private AuthenticationEntryPoint authenticationEntryPoint;
 	
 	@Autowired
-	private LogoutSuccessHandler restLogoutSuccessHandler;
+	private LogoutSuccessHandler logoutSuccessHandler;
 	
 	/*	
 	 * 	FilterChain
@@ -96,7 +96,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				//.logoutUrl("/api/logout")
 				//.logoutRequestMatcher(new AntPathRequestMatcher("/api/logout", "POST"))
 				.logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
-				.logoutSuccessHandler(restLogoutSuccessHandler)
+				.logoutSuccessHandler(logoutSuccessHandler)
 				.clearAuthentication(true)
 				.invalidateHttpSession(true)
 				.and()
