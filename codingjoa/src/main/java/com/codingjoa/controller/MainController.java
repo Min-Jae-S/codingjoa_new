@@ -29,9 +29,6 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 public class MainController {
 	
-	@Autowired
-	private UrlValidationService urlValidationService;
-	
 	@GetMapping(value = "/")
 	public String home() {
 		log.info("## home");
@@ -48,10 +45,6 @@ public class MainController {
 	public String loginPage(@RequestParam(required = false) String redirect, Model model, HttpServletRequest request) {
 		log.info("## loginPage");
 		log.info("\t > redirect = {}", redirect);
-		
-		if (!urlValidationService.validateUrl(request, redirect)) {
-			redirect = request.getContextPath() + "/";
-		}
 		model.addAttribute("redirect", redirect);
 		
 		return "login";
@@ -99,8 +92,8 @@ public class MainController {
 		log.info("\t > request.getRequestURI() = {}", request.getRequestURI().toString());
 		log.info("\t > request.getRequestURL() = {}", request.getRequestURL());
 		
-		//boolean result = urlValidationService.validateUrl(request, url);
-		//log.info("\t > result = {}", result);
+		
+		
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
