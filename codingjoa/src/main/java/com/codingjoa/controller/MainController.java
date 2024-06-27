@@ -71,11 +71,11 @@ public class MainController {
 			url = (String) map.get(key);
 			log.info("\t > url = {}", (url == null) ? null : "'" + url + "'");
 		}
+		log.info("\t > isValidUrl ? {}", isValidUrl(request, url));
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 	
-	@SuppressWarnings("unused")
 	private boolean isValidUrl(HttpServletRequest request, String url) {
 		if (!StringUtils.hasText(url)) {
 			return false;
