@@ -18,8 +18,16 @@ public class UrlValidationServiceImpl implements UrlValidationService {
 	@Override
 	public boolean validateUrl(HttpServletRequest request, String url) {
 		log.info("## validateUrl");
-		String currentUrl = request.getRequestURL().toString();
-		return antPathMatcher.matchStart(currentUrl, url);
+		String baseUrl = getBaseURL(request);
+		return antPathMatcher.match(baseUrl + "/**", url);
+	}
+	
+	private String getBaseURL(HttpServletRequest request) {
+		StringBuffer requestURL = request.getRequestURL(); 	// http://localhost:8888/codingjoa/**
+		String contextPath = request.getContextPath();		// /codingjoa
+		
+		int contextPathIndex = requestURL.indexOf(contextPath) + contextPath.length();
+		return requestURL.substring(0, contextPathIndex);
 	}
 	
 }

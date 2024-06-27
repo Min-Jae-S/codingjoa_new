@@ -9,7 +9,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
@@ -17,9 +16,10 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
+import org.springframework.util.AntPathMatcher;
+import org.springframework.util.StringUtils;
 
 import com.codingjoa.response.SuccessResponse;
-import com.codingjoa.service.UrlValidationService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 
@@ -29,9 +29,6 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 	
-	@Autowired(required = false)
-	private UrlValidationService urlValidationService;
-	
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
@@ -39,8 +36,8 @@ public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHa
 		log.info("\t > authentication = {} ({})", authentication.getClass().getSimpleName(),
 				authentication.isAuthenticated() == true ? "authenticated" : "unauthenticated");
 		
-		String redirectUrl = obtainRedirectUrl(authentication);
-		if (!urlValidationService.validateUrl(request, redirectUrl)) {
+		String redirectUrl = retrieveRedirectUrl(authentication);
+		if (!isValidUrl(request, redirectUrl)) {
 			redirectUrl = request.getContextPath() + "/";
 		}
 		
@@ -64,9 +61,23 @@ public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHa
 		response.getWriter().close();
 	}
 	
-	private String obtainRedirectUrl(Authentication authentication) {
+	private String retrieveRedirectUrl(Authentication authentication) {
 		Object details = authentication.getDetails();
         return (details instanceof String) ? (String) details : null;
+	}
+	
+	private boolean isValidUrl(HttpServletRequest request, String url) {
+		if (!StringUtils.hasText(url)) {
+			return false;
+		}
+		
+		StringBuffer requestURL = request.getRequestURL(); 				// http://localhost:8888/codingjoa/**
+		String contextPath = request.getContextPath();					// /codingjoa
+		
+		int contextPathIndex = requestURL.indexOf(contextPath) + contextPath.length();
+		String baserUrl = requestURL.substring(0, contextPathIndex);	// http://localhost:8888/codingjoa
+		
+		return new AntPathMatcher().match(baserUrl + "/**", url);
 	}
 	
 	private void clearAuthenticationDetails(Authentication authentication) {

@@ -26,13 +26,6 @@
 				</li> --%>
 				
 				<!-- TEST -->
-				<%-- <li class="nav-item mx-2 mt-1">
-					<a href="${contextPath}/api/authentication-details-check" class="nav-link" id="authenticationDetailsLink">
-						check authenticationDetails
-					</a>
-				</li> --%>
-				
-				<!-- TEST -->
 				<li class="nav-item mx-2 mt-1">
 					<a href="#" class="nav-link" id="naverLink">naver</a>
 				</li>
@@ -192,29 +185,6 @@
 		$("#savedRequestLink").on("click", function(e) {
 			e.preventDefault();
 			console.log("## getSavedRequest");
-			
-			let url = $(this).attr("href");
-			console.log("> URL = '%s'", url);
-			
-			$.ajax({
-				type : "GET",
-				url : url,
-				dataType : "json",
-				success : function(result) {
-					console.log("%c> SUCCESS", "color:green");
-					console.log(JSON.stringify(result, null, 2));
-				},
-				error : function(jqXHR) {
-					console.log("%c> ERROR", "color:red");
-					console.log(jqXHR);
-				}
-			});
-		});
-
-		// TEST
-		$("#authenticationDetailsLink").on("click", function(e) {
-			e.preventDefault();
-			console.log("## checkAuthenticationDetails");
 			
 			let url = $(this).attr("href");
 			console.log("> URL = '%s'", url);
