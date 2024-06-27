@@ -7,7 +7,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.validator.routines.UrlValidator;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
@@ -21,12 +21,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.codingjoa.response.SuccessResponse;
+import com.codingjoa.service.UrlValidationService;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
 public class MainController {
+	
+	@Autowired
+	private UrlValidationService urlValidationService;
 	
 	@GetMapping(value = "/")
 	public String home() {
@@ -41,10 +45,15 @@ public class MainController {
 	}
 	
 	@GetMapping("/login") 
-	public String loginPage(@RequestParam(required = false) String redirect, Model model) {
+	public String loginPage(@RequestParam(required = false) String redirect, Model model, HttpServletRequest request) {
 		log.info("## loginPage");
 		log.info("\t > redirect = {}", redirect);
+		
+		if (!urlValidationService.validateUrl(request, redirect)) {
+			redirect = request.getContextPath() + "/";
+		}
 		model.addAttribute("redirect", redirect);
+		
 		return "login";
 	}
 	
@@ -73,10 +82,7 @@ public class MainController {
 				log.info("\t > authentication details is null");
 			} 
 		}
-		
-		return ResponseEntity.ok(SuccessResponse.builder()
-				.message("success")
-				.build());
+		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 	
 	@ResponseBody
@@ -87,19 +93,16 @@ public class MainController {
 		String url = null;
 		for (String key : map.keySet()) {
 			url = (String) map.get(key);
+			log.info("\t > url = {}", (url == null) ? null : "'" + url + "'");
 		}
-		log.info("\t > url = {}", (url == null) ? null : "'" + url + "'");
 		
-		//isValidUrl(request, url);
-		String[] schemes = {"http", "https"};
-		UrlValidator urlValidator = new UrlValidator(schemes, UrlValidator.ALLOW_LOCAL_URLS);
-		boolean result = urlValidator.isValid(url);
-		log.info("\t > result = {}", result);
+		log.info("\t > request.getRequestURI() = {}", request.getRequestURI().toString());
+		log.info("\t > request.getRequestURL() = {}", request.getRequestURL());
 		
+		//boolean result = urlValidationService.validateUrl(request, url);
+		//log.info("\t > result = {}", result);
 		
-		return ResponseEntity.ok(SuccessResponse.builder()
-				.message("success")
-				.build());
+		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 	
 	@SuppressWarnings("unused")

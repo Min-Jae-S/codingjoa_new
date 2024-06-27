@@ -1,8 +1,6 @@
 package com.codingjoa.security.service;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
@@ -31,7 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 	
-	@Autowired
+	@Autowired(required = false)
 	private UrlValidationService urlValidationService;
 	
 	@Override
@@ -41,7 +39,11 @@ public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHa
 		log.info("\t > authentication = {} ({})", authentication.getClass().getSimpleName(),
 				authentication.isAuthenticated() == true ? "authenticated" : "unauthenticated");
 		
-		String redirectUrl = retrieveRedirectUrl(request, authentication);
+		String redirectUrl = obtainRedirectUrl(authentication);
+		if (!urlValidationService.validateUrl(request, redirectUrl)) {
+			redirectUrl = request.getContextPath() + "/";
+		}
+		
 		clearAuthenticationDetails(authentication);
 		
 		SuccessResponse successResponse = SuccessResponse.builder()
@@ -62,45 +64,9 @@ public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHa
 		response.getWriter().close();
 	}
 	
-	private String retrieveRedirectUrl(HttpServletRequest request, Authentication authentication) {
+	private String obtainRedirectUrl(Authentication authentication) {
 		Object details = authentication.getDetails();
-        String redirectUrl = (details instanceof String) ? (String) details : null;
-        log.info("\t > initial redirectUrl = {}", redirectUrl);
-		
-        if (!isValidUrl(request, redirectUrl)) {
-        	redirectUrl = request.getContextPath() + "/";
-		}
-        log.info("\t > final redirectUrl = {}", redirectUrl);
-        
-		return redirectUrl;
-	}
-	
-	private boolean isValidUrl(HttpServletRequest request, String url) {
-		// URL format validation, Allowed domain validation
-		try {
-			URL parsedUrl = new URL(url);
-			String protocol = parsedUrl.getProtocol();
-			
-			// if parsedUrl is not null, then protocol is not null
-			if (!protocol.equals("http") && !protocol.equals("https")) {
-				log.info("\t > invalid protocol : {}", protocol);
-				return false;
-			}
-			
-			String host = parsedUrl.getHost();
-			String currentHost = request.getServerName();
-			
-			if (!host.equals(currentHost)) {
-				log.info("\t > invalid host : {}", host);
-				return false;
-			}
-			
-			return true;
-		} catch (MalformedURLException e) {
-			log.info("\t > invalid url format");
-			log.info("\t > {} : {}", e.getClass().getSimpleName(), e.getMessage());
-			return false;
-		}
+        return (details instanceof String) ? (String) details : null;
 	}
 	
 	private void clearAuthenticationDetails(Authentication authentication) {
