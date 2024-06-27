@@ -1,7 +1,7 @@
 package com.codingjoa.security.service;
 
 import java.io.IOException;
-import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.time.format.DateTimeFormatter;
 
@@ -15,6 +15,7 @@ import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.codingjoa.response.ErrorResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -38,7 +39,6 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 	public void commence(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException authException) throws IOException, ServletException {
 		log.info("## {}", this.getClass().getSimpleName());
-		log.info("\t > URI = {} '{}'", request.getMethod(), getFullURI(request));
 		log.info("\t > {} : {}", authException.getClass().getSimpleName(), authException.getMessage());
 		
 		/*
@@ -72,7 +72,12 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 			response.getWriter().write(jsonResponse);
 			response.getWriter().close();
 		} else {
-			String redirectUrl = request.getContextPath() + "/login";
+			String currentUrl = getFullURL(request);
+			String redirectUrl = ServletUriComponentsBuilder.fromContextPath(request)
+					.path("/login")
+					.queryParam("redirect", URLEncoder.encode(currentUrl, StandardCharsets.UTF_8))
+					.build()
+					.toString();
 			log.info("\t > redirect to '{}'", redirectUrl);
 			
 			response.sendRedirect(redirectUrl);
@@ -90,16 +95,14 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
                 .build();
     }
 	
-	private String getFullURI(HttpServletRequest request) {
-		StringBuilder requestURI = new StringBuilder(
-				URLDecoder.decode(request.getRequestURI(), StandardCharsets.UTF_8));
+	private String getFullURL(HttpServletRequest request) {
+		StringBuffer requestURL= request.getRequestURL();
 	    String queryString = request.getQueryString();
 	    
 	    if (queryString == null) {
-	        return requestURI.toString();
+	        return requestURL.toString();
 	    } else {
-	    	return requestURI.append('?')
-	    			.append(URLDecoder.decode(queryString, StandardCharsets.UTF_8)).toString();
+	    	return requestURL.append('?').append(queryString).toString();
 	    }
 	}
 	

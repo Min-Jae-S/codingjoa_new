@@ -14,7 +14,6 @@ import org.springframework.ui.Model;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -60,22 +59,18 @@ public class MainController {
 				.data(Map.of("redirectUrl", redirectUrl))
 				.build());
 	}
-
+	
 	@ResponseBody
 	@GetMapping("/api/url")
-	public ResponseEntity<Object> validateUrl(@RequestBody Map<String, Object> map, HttpServletRequest request) {
-		log.info("## validateUrl");
-		
-		String url = null;
-		for (String key : map.keySet()) {
-			url = (String) map.get(key);
-			log.info("\t > url = {}", (url == null) ? null : "'" + url + "'");
-		}
-		log.info("\t > isValidUrl ? {}", isValidUrl(request, url));
-		
+	public ResponseEntity<Object> getUrl(HttpServletRequest request) {
+		log.info("## getUrl");
+		log.info("\t > request.getRequestURI() = {}", request.getRequestURI());
+		log.info("\t > request.getRequestURL() = {}", request.getRequestURL());
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 	
+
+	@SuppressWarnings("unused")
 	private boolean isValidUrl(HttpServletRequest request, String url) {
 		if (!StringUtils.hasText(url)) {
 			return false;
