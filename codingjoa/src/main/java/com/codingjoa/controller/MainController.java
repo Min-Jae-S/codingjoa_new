@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.validator.routines.UrlValidator;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
@@ -26,7 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Controller
 public class MainController {
-
+	
 	@GetMapping(value = "/")
 	public String home() {
 		log.info("## home");
@@ -88,18 +89,26 @@ public class MainController {
 			url = (String) map.get(key);
 		}
 		log.info("\t > url = {}", (url == null) ? null : "'" + url + "'");
-		log.info("\t > valid url ? {}", isValidUrl(request, url));
+		
+		//isValidUrl(request, url);
+		String[] schemes = {"http", "https"};
+		UrlValidator urlValidator = new UrlValidator(schemes, UrlValidator.ALLOW_LOCAL_URLS);
+		boolean result = urlValidator.isValid(url);
+		log.info("\t > result = {}", result);
+		
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
 				.message("success")
 				.build());
 	}
 	
+	@SuppressWarnings("unused")
 	private boolean isValidUrl(HttpServletRequest request, String url) {
 		// URL format validation, Allowed domain validation
 		try {
 			URL parsedUrl = new URL(url);
 			String protocol = parsedUrl.getProtocol();
+			log.info("\t > urlProtocol = {}", protocol);
 			
 			// if parsedUrl is not null, then protocol is not null
 			if (!protocol.equals("http") && !protocol.equals("https")) {
@@ -109,12 +118,13 @@ public class MainController {
 			
 			String host = parsedUrl.getHost();
 			String currentHost = request.getServerName();
+			log.info("\t > urlHost = {}, currentHost = {}", host, currentHost);
 			
 			if (!host.equals(currentHost)) {
 				log.info("\t > invalid host : {}", host);
 				return false;
 			}
-			
+			log.info("\t > valid url");
 			return true;
 		} catch (MalformedURLException e) {
 			log.info("\t > invalid url format");
