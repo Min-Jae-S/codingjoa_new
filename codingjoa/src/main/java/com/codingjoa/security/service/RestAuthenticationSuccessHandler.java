@@ -29,6 +29,8 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 	
+	private final AntPathMatcher antPathMatcher = new AntPathMatcher();
+	
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
@@ -77,7 +79,7 @@ public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHa
 		int contextPathIndex = requestURL.indexOf(contextPath) + contextPath.length();
 		String baserUrl = requestURL.substring(0, contextPathIndex);	// http://localhost:8888/codingjoa
 		
-		return new AntPathMatcher().match(baserUrl + "/**", url);
+		return antPathMatcher.match(baserUrl + "/**", url);
 	}
 	
 	private void clearAuthenticationDetails(Authentication authentication) {

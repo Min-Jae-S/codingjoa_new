@@ -26,6 +26,8 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 public class MainController {
 	
+	private final AntPathMatcher antPathMatcher = new AntPathMatcher();
+	
 	@GetMapping(value = "/")
 	public String home() {
 		log.info("## home");
@@ -85,7 +87,7 @@ public class MainController {
 		int contextPathIndex = requestURL.indexOf(contextPath) + contextPath.length();
 		String baserUrl = requestURL.substring(0, contextPathIndex);	// http://localhost:8888/codingjoa
 		
-		return new AntPathMatcher().match(baserUrl + "/**", url);
+		return antPathMatcher.match(baserUrl + "/**", url);
 	}
 	
 	private String getRedirectURL(HttpServletRequest request, HttpServletResponse response) {
