@@ -39,12 +39,12 @@ public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHa
 				authentication.isAuthenticated() == true ? "authenticated" : "unauthenticated");
 		
 		String redirectUrl = retrieveRedirectUrl(authentication);
-		log.info("\t > initial redirectUrl = '{}'", redirectUrl);
+		log.info("\t > initial redirectUrl = {}", redirectUrl);
 		
 		if (!isValidUrl(request, redirectUrl)) {
 			redirectUrl = request.getContextPath() + "/";
 		}
-		log.info("\t > final redirectUrl = '{}'", redirectUrl);
+		log.info("\t > resolved redirectUrl = '{}'", redirectUrl);
 		
 		clearAuthenticationDetails(authentication);
 		

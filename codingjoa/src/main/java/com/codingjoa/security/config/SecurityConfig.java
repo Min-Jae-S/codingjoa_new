@@ -24,7 +24,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import com.codingjoa.security.filter.RestAuthenticationFilter;
 
 @Configuration
-@EnableWebSecurity // (debug = true)
+@EnableWebSecurity (debug = false)
 @ComponentScan("com.codingjoa.security.service")
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
