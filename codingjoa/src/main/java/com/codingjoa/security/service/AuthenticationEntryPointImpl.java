@@ -61,7 +61,6 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 					.status(HttpStatus.UNAUTHORIZED)
 					.messageByCode("error.Unauthorized")
 					.build();
-			log.info("\t > {}", errorResponse);
 			
 			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 			response.setContentType(MediaType.APPLICATION_JSON_VALUE);
@@ -79,8 +78,9 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 					.queryParam("redirect", URLEncoder.encode(currentUrl, StandardCharsets.UTF_8))
 					.build()
 					.toString();
+			
 			// http://localhost:8888/codingjoa/login?redirect=http%3A%2F%2Flocalhost%3A8888%2Fcodingjoa%2Fboard%2Fmodify%3FboardIdx%3D2082
-			log.info("\t > redirect to '{}'", redirectUrl); // 
+			log.info("\t > redirect to '{}'", redirectUrl);
 			
 			response.sendRedirect(redirectUrl);
 		}

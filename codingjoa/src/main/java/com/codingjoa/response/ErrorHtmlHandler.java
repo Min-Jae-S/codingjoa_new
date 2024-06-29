@@ -23,6 +23,8 @@ import lombok.extern.slf4j.Slf4j;
 @ControllerAdvice
 public class ErrorHtmlHandler {
 	
+	public static final String FORWARD_URL = "/error/errorPage";
+	
 	@ExceptionHandler(Exception.class) // NoHandlerFoundException, NestedServletException etc..
 	protected String handleException(Exception e, HttpServletRequest request) {
 		log.info("## {} (Global) - {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
@@ -33,13 +35,12 @@ public class ErrorHtmlHandler {
 				.status(HttpStatus.BAD_REQUEST)
 				.messageByCode("error.Global") // error.Unknown --> error.Global
 				.build();
-		log.info("\t > {}", errorResponse);
 		
 		request.setAttribute("errorResponse", errorResponse);
-		log.info("\t > forword to '/error/errorPage'");
+		log.info("\t > forward to '{}'", FORWARD_URL);	
 		
 		//e.printStackTrace();
-		return "forward:/error/errorPage";
+		return "forward:" + FORWARD_URL;
 	}
 	
 	@ExceptionHandler(NoHandlerFoundException.class) 
@@ -52,12 +53,11 @@ public class ErrorHtmlHandler {
 				.status(HttpStatus.NOT_FOUND)
 				.messageByCode("error.NotFoundPage")
 				.build();
-		log.info("\t > {}", errorResponse);
 		
 		request.setAttribute("errorResponse", errorResponse);
-		log.info("\t > forword to '/error/errorPage'");
+		log.info("\t > forward to '{}'", FORWARD_URL);	
 		
-		return "forward:/error/errorPage";
+		return "forward:" + FORWARD_URL;
 	}
 	
 	@ExceptionHandler(BindException.class)
@@ -73,10 +73,9 @@ public class ErrorHtmlHandler {
 				.status(HttpStatus.UNPROCESSABLE_ENTITY)
 				.bindingResult(e.getBindingResult())
 				.build();
-		log.info("\t > {}", errorResponse);
 
 		request.setAttribute("errorResponse", errorResponse);
-		log.info("\t > forword to '/error/errorPage'");
+		log.info("\t > forward to '{}'", FORWARD_URL);	
 		
 //		if (isAjaxRequest(request)) {
 //			ErrorResponse response = ErrorResponse.create().bindingResult(e.getBindingResult());
@@ -88,7 +87,7 @@ public class ErrorHtmlHandler {
 //		ModelAndView mav = new ModelAndView("forward:/error/errorPage");
 //		throw new ModelAndViewDefiningException(mav);
 		
-		return "forward:/error/errorPage";
+		return "forward:" + FORWARD_URL;
 	}
 	
 	@ExceptionHandler(ConstraintViolationException.class) // /board/?boardCategoryCode=11
@@ -105,12 +104,11 @@ public class ErrorHtmlHandler {
 				.status(HttpStatus.UNPROCESSABLE_ENTITY)
 				.message(e.getMessage())
 				.build();
-		log.info("\t > {}", errorResponse);
 
 		request.setAttribute("errorResponse", errorResponse);
-		log.info("\t > forword to '/error/errorPage'");
+		log.info("\t > forward to '{}'", FORWARD_URL);	
 		
-		return "forward:/error/errorPage";
+		return "forward:" + FORWARD_URL;
 	}
 	
 	@ExceptionHandler(value = { 
@@ -126,12 +124,11 @@ public class ErrorHtmlHandler {
 				.status(HttpStatus.BAD_REQUEST)
 				.messageByCode("error.InvalidFormat")
 				.build();
-		log.info("\t > {}", errorResponse);
-
-		request.setAttribute("errorResponse", errorResponse);
-		log.info("\t > forword to '/error/errorPage'");
 		
-		return "forward:/error/errorPage";
+		request.setAttribute("errorResponse", errorResponse);
+		log.info("\t > forward to '{}'", FORWARD_URL);	
+		
+		return "forward:" + FORWARD_URL;
 	}
 
 	@ExceptionHandler(ExpectedException.class)
@@ -152,12 +149,10 @@ public class ErrorHtmlHandler {
 		}
 		
 		ErrorResponse errorResponse = builder.build();
-		log.info("\t > {}", errorResponse);
-		
 		request.setAttribute("errorResponse", errorResponse);
-		log.info("\t > forword to '/error/errorPage'");
+		log.info("\t > forward to '{}'", FORWARD_URL);	
 
-		return "forward:/error/errorPage";
+		return "forward:" + FORWARD_URL;
 	}
 	
 	// TEST
@@ -179,12 +174,10 @@ public class ErrorHtmlHandler {
 		}
 		
 		TestResponse testResponse = builder.build();
-		log.info("\t > {}", testResponse);
-		
 		request.setAttribute("errorResponse", testResponse);
-		log.info("\t > forword to '/error/errorPage'");		
+		log.info("\t > forward to '{}'", FORWARD_URL);		
 		
-		return "forward:/error/errorPage";
+		return "forward:" + FORWARD_URL;
 	}
 	
 }

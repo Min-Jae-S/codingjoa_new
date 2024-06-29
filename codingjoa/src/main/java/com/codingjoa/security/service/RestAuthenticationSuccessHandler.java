@@ -39,7 +39,7 @@ public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHa
 				authentication.isAuthenticated() == true ? "authenticated" : "unauthenticated");
 		
 		String redirectUrl = retrieveRedirectUrl(authentication);
-		log.info("\t > initial redirectUrl = '{}'", redirectUrl);
+		log.info("\t > redirectUrl = '{}'", redirectUrl);
 		
 		if (!isValidUrl(request, redirectUrl)) {
 			redirectUrl = request.getContextPath() + "/";
@@ -53,7 +53,6 @@ public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHa
 				.messageByCode("success.Login")
 				.data(Map.of("redirectUrl", redirectUrl))
 				.build();
-		log.info("\t > {}", successResponse);
 		
 		response.setStatus(HttpServletResponse.SC_OK);
 		response.setContentType(MediaType.APPLICATION_JSON_VALUE);

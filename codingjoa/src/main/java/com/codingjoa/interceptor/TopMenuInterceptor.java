@@ -81,7 +81,6 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 		
 		List<Category> parentCategoryList = categoryService.getParentCategoryList();
 		modelAndView.addObject("parentCategoryList", parentCategoryList);
-		log.info("\t > add parentCategoryList");
 		
 		boolean matchesExcludedPattern = excludedPatterns.stream()
 				.anyMatch(pattern -> antPathMatcher.match(request.getContextPath() + pattern, request.getRequestURI()));
@@ -90,7 +89,6 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 			String currentUrl = getFullURL(request);
 			currentUrl = URLEncoder.encode(currentUrl, StandardCharsets.UTF_8);
 			modelAndView.addObject("currentUrl", currentUrl);
-			log.info("\t > add currentUrl");
 		}
 		
 		log.info("\t > added model attrs = {}", modelAndView.getModel().keySet());

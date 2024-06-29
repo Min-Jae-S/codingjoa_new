@@ -27,7 +27,7 @@ public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
 		log.info("\t > authentication = {}", authentication);
 		
 		String redirectUrl = request.getParameter("redirect");
-		log.info("\t > initial redirectUrl = '{}'", redirectUrl);
+		log.info("\t > redirectUrl = '{}'", redirectUrl);
 		
 		if (!isValidUrl(request, redirectUrl)) {
 			redirectUrl = request.getContextPath() + "/";

@@ -49,7 +49,6 @@ public class AccessDeniedHandlerImpl implements AccessDeniedHandler {
 					.status(HttpStatus.FORBIDDEN)
 					.messageByCode("error.Forbidden")
 					.build();
-			log.info("\t > {}", errorResponse);
 			
 			response.setStatus(HttpServletResponse.SC_FORBIDDEN);
 			response.setContentType(MediaType.APPLICATION_JSON_VALUE);
