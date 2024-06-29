@@ -40,15 +40,16 @@ public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHa
 				authentication.isAuthenticated() == true ? "authenticated" : "unauthenticated");
 		
 		String redirectUrl = retrieveRedirectUrl(authentication);
-		log.info("\t > redirectUrl = '{}'", redirectUrl);
 		
 		if (!isValidUrl(request, redirectUrl)) {
+			log.info("\t > invalid redirectUrl - default redirectUrl will be set");
 			redirectUrl = ServletUriComponentsBuilder.fromContextPath(request)
 					.path("/")
 					.build()
 					.toString();
+		} else {
+			log.info("\t > valid redirectUrl");
 		}
-		log.info("\t > resolved redirectUrl = '{}'", redirectUrl);
 		
 		clearAuthenticationDetails(authentication);
 		

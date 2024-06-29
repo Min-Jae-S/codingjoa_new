@@ -45,12 +45,14 @@ public class MainController {
 		log.info("## loginPage");
 		log.info("\t > redirect = '{}'", redirect);
 		if (!isValidUrl(request, redirect)) {
+			log.info("\t > invalid redirect - default redirectUrl will be set");
 			redirect = ServletUriComponentsBuilder.fromContextPath(request)
 					.path("/")
 					.build()
 					.toString();
+		} else {
+			log.info("\t > valid redirect");
 		}
-		log.info("\t > resolved redirect = '{}'", redirect);
 		model.addAttribute("redirect", redirect);
 		
 		return "login";
