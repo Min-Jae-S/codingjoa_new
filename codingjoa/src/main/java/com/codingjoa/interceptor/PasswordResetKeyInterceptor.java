@@ -3,9 +3,7 @@ package com.codingjoa.interceptor;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -39,6 +37,9 @@ public class PasswordResetKeyInterceptor implements HandlerInterceptor {
 			throws Exception {
 		log.info("## {}", this.getClass().getSimpleName());
 		log.info("\t > URI = {} '{}'", request.getMethod(), getFullURI(request));
+		
+		response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+		response.setCharacterEncoding(StandardCharsets.UTF_8.name());
 
 		String key = request.getParameter("key");
 		if (!checkPasswordResetKey(key)) {
@@ -61,44 +62,40 @@ public class PasswordResetKeyInterceptor implements HandlerInterceptor {
 	
 	private void responseJSON(HttpServletRequest request, HttpServletResponse response, String message)
 			throws JsonProcessingException, IOException {
-		response.setStatus(HttpStatus.FORBIDDEN.value());
-		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-		response.setCharacterEncoding(StandardCharsets.UTF_8.toString());
-		
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:ss:mm");
-		ObjectMapper objectMapper = Jackson2ObjectMapperBuilder
-				.json()
-				.timeZone(TimeZone.getTimeZone("Asia/Seoul"))
-				.serializerByType(LocalDateTime.class, new LocalDateTimeSerializer(formatter))
-				.build();
-		
 		ErrorResponse errorResponse = ErrorResponse.builder()
 				.status(HttpStatus.FORBIDDEN)
 				.message(message)
 				.build();
-		log.info("\t > {}", errorResponse);
 		
-		log.info("\t > respond with errorResponse in JSON format");
-		response.getWriter().write(objectMapper.writeValueAsString(errorResponse)); // \n --> \\n
+		ObjectMapper objectMapper = getObjectMapperWithSerializer();
+		String jsonResponse = objectMapper.writeValueAsString(errorResponse);
+
+		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+		response.getWriter().write(jsonResponse); // \n --> \\n
 		response.getWriter().close();
 	}
 	
 	private void responseHTML(HttpServletRequest request, HttpServletResponse response, String message)
 			throws IOException {
-		response.setStatus(HttpStatus.FORBIDDEN.value());
-		response.setContentType(MediaType.TEXT_HTML.toString());
-		response.setCharacterEncoding(StandardCharsets.UTF_8.toString());
-		
-		String script = "<script>";
 		message = StringUtils.removeEnd(message.replaceAll("\\.(\\s)*", ".\\\\n"), "\\n");
+		String script = "<script>";
 		script += "alert('" + message + "');";
 		script += "location.href='" + request.getContextPath() + "/member/findPassowrd';";
 		script += "</script>";
 		
-		log.info("\t > respond with HTML format");
+		response.setContentType(MediaType.TEXT_HTML_VALUE);
 		response.getWriter().write(script);
 		response.getWriter().close();
 	}
+	
+	private ObjectMapper getObjectMapperWithSerializer() {
+		//DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:ss:mm");
+        return Jackson2ObjectMapperBuilder
+                .json()
+              //.serializerByType(LocalDateTime.class, new LocalDateTimeSerializer(formatter))
+                .serializers(new LocalDateTimeSerializer(DateTimeFormatter.ISO_LOCAL_DATE_TIME))
+                .build();
+    }
 	
 	private String getFullURI(HttpServletRequest request) {
 		StringBuilder requestURI = 
