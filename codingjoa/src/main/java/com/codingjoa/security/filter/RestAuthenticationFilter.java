@@ -1,7 +1,6 @@
 package com.codingjoa.security.filter;
 
 import java.io.IOException;
-import java.util.Map;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -15,6 +14,7 @@ import org.springframework.security.web.authentication.AbstractAuthenticationPro
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.util.StringUtils;
 
+import com.codingjoa.security.dto.LoginDto;
 import com.codingjoa.security.exception.LoginRequireFieldException;
 import com.codingjoa.util.MessageUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -30,7 +30,6 @@ public class RestAuthenticationFilter extends AbstractAuthenticationProcessingFi
 		super(new AntPathRequestMatcher("/api/login", "POST"));
 	}
 	
-	@SuppressWarnings("unchecked")
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws AuthenticationException, IOException, ServletException {
@@ -38,11 +37,11 @@ public class RestAuthenticationFilter extends AbstractAuthenticationProcessingFi
 		
 		// check ajax and POST 
 		
-		Map<String, Object> loginMap = objectMapper.readValue(request.getReader(), Map.class);
-		log.info("\t > loginMap = {}", loginMap);
+		LoginDto loginDto = objectMapper.readValue(request.getReader(), LoginDto.class);
+		log.info("\t > loginMap = {}", loginDto);
 		
-		String memberId = (String) loginMap.get("memberId");
-		String memberPassword = (String) loginMap.get("memberPassword");
+		String memberId = loginDto.getMemberId();
+		String memberPassword = loginDto.getMemberPassword();
 		
 		if (!StringUtils.hasText(memberId)) {
 			throw new LoginRequireFieldException(MessageUtils.getMessage("error.LoginRequireId"));	
@@ -57,8 +56,7 @@ public class RestAuthenticationFilter extends AbstractAuthenticationProcessingFi
 		UsernamePasswordAuthenticationToken authRequest = 
 				new UsernamePasswordAuthenticationToken(memberId, memberPassword); // isAuthentiacated = false
 
-		String redirectUrl = (String) loginMap.get("redirectUrl");
-		authRequest.setDetails(redirectUrl);
+		authRequest.setDetails(loginDto.getRedirectUrl());
 		log.info("\t > set redirectUrl in details field of the authentication");
 		
 		return this.getAuthenticationManager().authenticate(authRequest);

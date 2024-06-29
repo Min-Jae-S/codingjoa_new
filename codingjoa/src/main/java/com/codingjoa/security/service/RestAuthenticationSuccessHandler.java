@@ -39,7 +39,7 @@ public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHa
 		log.info("\t > authentication = {} ({})", authentication.getClass().getSimpleName(),
 				authentication.isAuthenticated() == true ? "authenticated" : "unauthenticated");
 		
-		String redirectUrl = retrieveRedirectUrl(authentication);
+		String redirectUrl = (String) authentication.getDetails();
 		
 		if (!isValidUrl(request, redirectUrl)) {
 			log.info("\t > invalid redirectUrl - default redirectUrl will be set");
@@ -68,11 +68,6 @@ public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHa
         
 		response.getWriter().write(jsonResponse);
 		response.getWriter().close();
-	}
-	
-	private String retrieveRedirectUrl(Authentication authentication) {
-		Object details = authentication.getDetails();
-        return (details instanceof String) ? (String) details : null;
 	}
 	
 	private boolean isValidUrl(HttpServletRequest request, String url) {
