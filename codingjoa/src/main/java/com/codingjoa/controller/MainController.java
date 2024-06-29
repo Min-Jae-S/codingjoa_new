@@ -43,9 +43,9 @@ public class MainController {
 	@GetMapping("/login") 
 	public String loginPage(@RequestParam(required = false) String redirect, Model model, HttpServletRequest request) {
 		log.info("## loginPage");
-		log.info("\t > redirect = '{}'", redirect);
+		log.info("\t > redirect = {}", (redirect == null) ? null : "'" + redirect + "'");
 		if (!isValidUrl(request, redirect)) {
-			log.info("\t > invalid redirect - default redirectUrl will be set");
+			log.info("\t > invalid redirect - default redirect will be set");
 			redirect = ServletUriComponentsBuilder.fromContextPath(request)
 					.path("/")
 					.build()
