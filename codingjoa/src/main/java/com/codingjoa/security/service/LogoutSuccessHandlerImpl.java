@@ -11,6 +11,7 @@ import org.springframework.security.web.authentication.logout.LogoutSuccessHandl
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.StringUtils;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -27,12 +28,16 @@ public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
 		log.info("\t > authentication = {}", authentication);
 		
 		String redirectUrl = request.getParameter("redirect");
-		log.info("\t > redirectUrl = '{}'", redirectUrl);
 		
 		if (!isValidUrl(request, redirectUrl)) {
-			redirectUrl = request.getContextPath() + "/";
+			log.info("\t > invalid redirectUrl - default redirectUrl will be set");
+			redirectUrl = ServletUriComponentsBuilder.fromContextPath(request)
+					.path("/")
+					.build()
+					.toString();
+		} else {
+			log.info("\t > valid redirectUrl");
 		}
-		log.info("\t > resolved redirectUrl = '{}'", redirectUrl);
 		
 		log.info("\t > redirect to '{}'", redirectUrl);
 		response.sendRedirect(redirectUrl);
