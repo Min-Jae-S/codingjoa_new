@@ -26,14 +26,14 @@
 				</li> --%>
 				
 				<!-- TEST -->
-				<li class="nav-item mx-2 mt-1">
-					<a href="#" class="nav-link" id="naverLink">naver</a>
-				</li>
-				
-				<!-- TEST -->
 				<%-- <li class="nav-item mx-2 mt-1">
 					<a href="${contextPath}/logout" class="nav-link">로그아웃</a>
 				</li> --%>
+				
+				<!-- TEST -->
+				<li class="nav-item mx-2 mt-1">
+					<a href="#" class="nav-link" id="naverLink">naver</a>
+				</li>
 			</ul>
 			<ul class="navbar-nav ml-auto">
 				<sec:authorize access="isAnonymous()">

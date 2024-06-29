@@ -18,6 +18,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.StringUtils;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.codingjoa.response.SuccessResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -42,7 +43,10 @@ public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHa
 		log.info("\t > redirectUrl = '{}'", redirectUrl);
 		
 		if (!isValidUrl(request, redirectUrl)) {
-			redirectUrl = request.getContextPath() + "/";
+			redirectUrl = ServletUriComponentsBuilder.fromContextPath(request)
+					.path("/")
+					.build()
+					.toString();
 		}
 		log.info("\t > resolved redirectUrl = '{}'", redirectUrl);
 		

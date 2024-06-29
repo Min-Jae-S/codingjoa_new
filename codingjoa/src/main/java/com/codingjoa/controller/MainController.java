@@ -16,6 +16,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.codingjoa.response.SuccessResponse;
 
@@ -44,9 +45,12 @@ public class MainController {
 		log.info("## loginPage");
 		log.info("\t > redirect = '{}'", redirect);
 		if (!isValidUrl(request, redirect)) {
-			redirect = request.getContentType() + "/";
+			redirect = ServletUriComponentsBuilder.fromContextPath(request)
+					.path("/")
+					.build()
+					.toString();
 		}
-		log.info("\t > resolved redirect = ''", redirect);
+		log.info("\t > resolved redirect = '{}'", redirect);
 		model.addAttribute("redirect", redirect);
 		
 		return "login";
@@ -63,15 +67,6 @@ public class MainController {
 				.message("success")
 				.data(Map.of("redirectUrl", redirectUrl))
 				.build());
-	}
-	
-	@ResponseBody
-	@GetMapping("/api/url")
-	public ResponseEntity<Object> getUrl(HttpServletRequest request) {
-		log.info("## getUrl");
-		log.info("\t > request.getRequestURI() = {}", request.getRequestURI());
-		log.info("\t > request.getRequestURL() = {}", request.getRequestURL());
-		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 
 	private boolean isValidUrl(HttpServletRequest request, String url) {
