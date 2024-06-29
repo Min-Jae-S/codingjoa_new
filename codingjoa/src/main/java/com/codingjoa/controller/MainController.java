@@ -40,10 +40,15 @@ public class MainController {
 	}
 	
 	@GetMapping("/login") 
-	public String loginPage(@RequestParam(required = false) String redirect, Model model) {
+	public String loginPage(@RequestParam(required = false) String redirect, Model model, HttpServletRequest request) {
 		log.info("## loginPage");
-		log.info("\t > redirect = {}", redirect);
+		log.info("\t > redirect = '{}'", redirect);
+		if (!isValidUrl(request, redirect)) {
+			redirect = request.getContentType() + "/";
+		}
+		log.info("\t > resolved redirect = ''", redirect);
 		model.addAttribute("redirect", redirect);
+		
 		return "login";
 	}
 	
@@ -68,9 +73,7 @@ public class MainController {
 		log.info("\t > request.getRequestURL() = {}", request.getRequestURL());
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
-	
 
-	@SuppressWarnings("unused")
 	private boolean isValidUrl(HttpServletRequest request, String url) {
 		if (!StringUtils.hasText(url)) {
 			return false;
