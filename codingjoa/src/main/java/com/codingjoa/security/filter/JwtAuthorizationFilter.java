@@ -20,5 +20,4 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 		log.info("## {}", this.getClass().getSimpleName());
 	}
 
-
 }
