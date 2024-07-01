@@ -225,6 +225,32 @@
 		    <artifactId>jjwt-api</artifactId>
 		    <version>0.11.5</version>
 		</dependency>
+		
+		<!-- jwt-impl -->
+		<!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-impl -->
+		<!-- when calling Jwts.builder() issue : 
+			io.jsonwebtoken.lang.UnknownClassException: Unable to load class named [io.jsonwebtoken.impl.DefaultJwtBuilder] from 
+			the thread context, current, or system/application ClassLoaders. All heuristics have been exhausted. 
+			Class could not be found. Have you remembered to include the jjwt-impl.jar in your runtime classpath? -->
+		<dependency>
+		    <groupId>io.jsonwebtoken</groupId>
+		    <artifactId>jjwt-impl</artifactId>
+		    <version>0.11.5</version>
+		    <scope>runtime</scope>
+		</dependency>
+		
+		<!-- jwt-jackson  -->
+		<!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-jackson -->
+		<!-- when callindg compact() issue : 
+			Unable to find an implementation for interface io.jsonwebtoken.io.Serializer using java.util.ServiceLoader. 
+			Ensure you include a backing implementation .jar in the classpath, for example jjwt-impl.jar, 
+			or your own .jar for custom implementations. -->
+		<dependency>
+		    <groupId>io.jsonwebtoken</groupId>
+		    <artifactId>jjwt-jackson</artifactId>
+		    <version>0.11.5</version>
+		    <scope>runtime</scope>
+		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/javax.validation/validation-api -->
 		<dependency>
@@ -320,7 +346,7 @@
 		    <version>6.0.2.RELEASE</version>
 	  	</dependency>
 	  	
-	  	<!-- modelmapper -->		
+	  	<!-- model mapper -->		
 		<dependency>
 			<groupId>org.modelmapper</groupId>
 			<artifactId>modelmapper</artifactId>
