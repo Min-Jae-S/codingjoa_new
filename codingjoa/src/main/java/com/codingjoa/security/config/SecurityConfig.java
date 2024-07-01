@@ -59,16 +59,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	 *		WebAsyncManagerIntegrationFilter
 	 * 		SecurityContextPersistenceFilter
 	 * 		HeaderWriterFilter
-	 * 		(CharacterEncodingFilter)
+	 * 		CharacterEncodingFilter*
 	 * 		LogoutFilter
-	 * 		AjaxAuthenticationFilter ** added filter
+	 * 		RestAuthenticationFilter*
 	 * 		UsernamePasswordAuthenticationFilter
 	 * 		RequestCacheAwareFilter
 	 * 		SecurityContextHolderAwareRequestFilter
 	 * 		AnonymousAuthenticationFilter		
 	 * 		SessionManagementFilter
-	 * 		ExceptionTranslationFilter (AuthenticationEntryPoint, AccessDeniedHandler)
-	 * 		FilterSecurityInterceptor (AuthenticationException, AccessDeniedException) 
+	 * 		ExceptionTranslationFilter - AuthenticationEntryPoint, AccessDeniedHandler
+	 * 		FilterSecurityInterceptor - AuthenticationException, AccessDeniedException 
 	 * 	]
 	 */
 	

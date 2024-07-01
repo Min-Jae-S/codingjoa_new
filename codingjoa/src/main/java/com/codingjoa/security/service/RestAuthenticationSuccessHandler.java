@@ -3,6 +3,7 @@ package com.codingjoa.security.service;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.time.format.DateTimeFormatter;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -41,6 +42,7 @@ public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHa
 		SuccessResponse successResponse = SuccessResponse.builder()
 				.status(HttpStatus.OK)
 				.messageByCode("success.Login")
+				.data(Map.of("token", jwtProvider.createToken(authentication)))
 				.build();
 		
 		response.setStatus(HttpServletResponse.SC_OK);
