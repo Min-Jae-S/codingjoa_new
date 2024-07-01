@@ -26,7 +26,7 @@ import com.codingjoa.security.filter.RestAuthenticationFilter;
 import com.codingjoa.security.service.JwtProvider;
 
 @Configuration
-@EnableWebSecurity (debug = false)
+@EnableWebSecurity
 @ComponentScan("com.codingjoa.security.service")
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -96,7 +96,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.anyRequest().permitAll()
 				.and()
 			.formLogin().disable()
-			.addFilterBefore(resstAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+			.addFilterBefore(restAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
 			.logout()
 				//.logoutUrl("/api/logout")
 				//.logoutRequestMatcher(new AntPathRequestMatcher("/api/logout", "POST"))
@@ -126,7 +126,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 
 	@Bean
-	public RestAuthenticationFilter resstAuthenticationFilter() throws Exception {
+	public RestAuthenticationFilter restAuthenticationFilter() throws Exception {
 		RestAuthenticationFilter filter = new RestAuthenticationFilter();
 		// Error creating bean with name 'ajaxAuthenticationFilter' defined in com.codingjoa.security.config.SecurityConfig: 
 		// Invocation of init method failed; nested exception is java.lang.IllegalArgumentException: authenticationManager must be specified

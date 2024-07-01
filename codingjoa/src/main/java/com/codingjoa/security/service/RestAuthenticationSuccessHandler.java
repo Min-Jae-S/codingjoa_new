@@ -3,7 +3,6 @@ package com.codingjoa.security.service;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.time.format.DateTimeFormatter;
-import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -18,20 +17,21 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.StringUtils;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.codingjoa.response.SuccessResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @SuppressWarnings("unused")
+@RequiredArgsConstructor
 @Component
 public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 	
-	private final AntPathMatcher antPathMatcher = new AntPathMatcher();
+	private final JwtProvider jwtProvider;
 	
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
@@ -85,7 +85,7 @@ public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHa
 		int contextPathIndex = requestURL.indexOf(contextPath) + contextPath.length();
 		String baserUrl = requestURL.substring(0, contextPathIndex);	// http://localhost:8888/codingjoa
 		
-		return antPathMatcher.match(baserUrl + "/**", url);
+		return new AntPathMatcher().match(baserUrl + "/**", url);
 	}
 	
 	private void clearAuthenticationDetails(Authentication authentication) {
