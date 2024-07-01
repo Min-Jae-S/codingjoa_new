@@ -128,7 +128,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Bean
 	public RestAuthenticationFilter restAuthenticationFilter() throws Exception {
 		RestAuthenticationFilter filter = new RestAuthenticationFilter();
-		// Error creating bean with name 'ajaxAuthenticationFilter' defined in com.codingjoa.security.config.SecurityConfig: 
+		// Error creating bean with name 'restAuthenticationFilter' defined in com.codingjoa.security.config.SecurityConfig: 
 		// Invocation of init method failed; nested exception is java.lang.IllegalArgumentException: authenticationManager must be specified
 		filter.setAuthenticationManager(authenticationManagerBean());
 		filter.setAuthenticationSuccessHandler(restAuthenticationSuccessHandler);

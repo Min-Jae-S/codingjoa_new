@@ -38,6 +38,27 @@ public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHa
 			Authentication authentication) throws IOException, ServletException {
 		log.info("## {}", this.getClass().getSimpleName());
 		
+		SuccessResponse successResponse = SuccessResponse.builder()
+				.status(HttpStatus.OK)
+				.messageByCode("success.Login")
+				.build();
+		
+		response.setStatus(HttpServletResponse.SC_OK);
+		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+		response.setCharacterEncoding(StandardCharsets.UTF_8.name());
+		
+		ObjectMapper objectMapper = getObjectMapperWithSerializer();
+		String jsonResponse = objectMapper.writeValueAsString(successResponse);
+        
+		response.getWriter().write(jsonResponse);
+		response.getWriter().close();
+	}
+	
+//	@Override
+//	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
+//			Authentication authentication) throws IOException, ServletException {
+//		log.info("## {}", this.getClass().getSimpleName());
+//		
 //		String redirectUrl = (String) authentication.getDetails();
 //		
 //		if (!isValidUrl(request, redirectUrl)) {
@@ -57,22 +78,17 @@ public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHa
 //				.messageByCode("success.Login")
 //				.data(Map.of("redirectUrl", redirectUrl))
 //				.build();
-		
-		SuccessResponse successResponse = SuccessResponse.builder()
-				.status(HttpStatus.OK)
-				.messageByCode("success.Login")
-				.build();
-		
-		response.setStatus(HttpServletResponse.SC_OK);
-		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-		response.setCharacterEncoding(StandardCharsets.UTF_8.name());
-		
-		ObjectMapper objectMapper = getObjectMapperWithSerializer();
-		String jsonResponse = objectMapper.writeValueAsString(successResponse);
-        
-		response.getWriter().write(jsonResponse);
-		response.getWriter().close();
-	}
+//		
+//		response.setStatus(HttpServletResponse.SC_OK);
+//		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+//		response.setCharacterEncoding(StandardCharsets.UTF_8.name());
+//		
+//		ObjectMapper objectMapper = getObjectMapperWithSerializer();
+//		String jsonResponse = objectMapper.writeValueAsString(successResponse);
+//		
+//		response.getWriter().write(jsonResponse);
+//		response.getWriter().close();
+//	}
 	
 	private boolean isValidUrl(HttpServletRequest request, String url) {
 		if (!StringUtils.hasText(url)) {

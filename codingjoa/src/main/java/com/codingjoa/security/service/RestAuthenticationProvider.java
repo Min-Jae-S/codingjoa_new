@@ -33,8 +33,6 @@ public class RestAuthenticationProvider implements AuthenticationProvider {
 	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 		log.info("## {}", this.getClass().getSimpleName());
-		log.info("\t > authentication = {} ({})", authentication.getClass().getSimpleName(),
-				authentication.isAuthenticated() == true ? "authenticated" : "unauthenticated");
 		
 		/*
 		 * ref) UsernamePasswordAuthenticationFilter#attemptAuthentication

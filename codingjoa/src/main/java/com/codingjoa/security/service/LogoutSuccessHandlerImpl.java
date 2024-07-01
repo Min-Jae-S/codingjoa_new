@@ -25,7 +25,6 @@ public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
 	public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
 			throws IOException, ServletException {
 		log.info("## {}", this.getClass().getSimpleName());
-		log.info("\t > authentication = {}", authentication);
 		
 		String redirectUrl = request.getParameter("redirect");
 		
