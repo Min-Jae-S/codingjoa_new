@@ -15,16 +15,15 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.codingjoa.security.filter.JwtAuthenticationFilter;
 import com.codingjoa.security.filter.RestAuthenticationFilter;
-import com.codingjoa.security.service.JwtAuthenticationFailureHandler;
-import com.codingjoa.security.service.JwtAuthenticationSuccessHandler;
-import com.codingjoa.security.service.RestAuthenticationFailureHandler;
-import com.codingjoa.security.service.RestAuthenticationSuccessHandler;
+import com.codingjoa.security.service.JwtProvider;
 
 @Configuration
 @EnableWebSecurity (debug = false)
@@ -35,17 +34,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private AuthenticationProvider restAuthenticationProvider;
 	
 	@Autowired
-	private RestAuthenticationSuccessHandler restAuthenticationSuccessHandler;
+	private AuthenticationSuccessHandler restAuthenticationSuccessHandler;
 	
 	@Autowired
-	private RestAuthenticationFailureHandler restAuthenticationFailureHandler;
+	private AuthenticationFailureHandler restAuthenticationFailureHandler;
 
-	@Autowired
-	private JwtAuthenticationSuccessHandler jwtAuthenticationSuccessHandler;
-	
-	@Autowired
-	private JwtAuthenticationFailureHandler jwtAuthenticationFailureHandler;
-	
 	@Autowired
 	private AccessDeniedHandler accessDeniedHandler;
 	
@@ -54,6 +47,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
 	private LogoutSuccessHandler logoutSuccessHandler;
+	
+	@Autowired
+	private JwtProvider jwtProvider;
 	
 	/*	
 	 * 	FilterChain
@@ -100,7 +96,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.anyRequest().permitAll()
 				.and()
 			.formLogin().disable()
-			.addFilterBefore(ajaxAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+			.addFilterBefore(resstAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
 			.logout()
 				//.logoutUrl("/api/logout")
 				//.logoutRequestMatcher(new AntPathRequestMatcher("/api/logout", "POST"))
@@ -130,7 +126,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 
 	@Bean
-	public RestAuthenticationFilter ajaxAuthenticationFilter() throws Exception {
+	public RestAuthenticationFilter resstAuthenticationFilter() throws Exception {
 		RestAuthenticationFilter filter = new RestAuthenticationFilter();
 		// Error creating bean with name 'ajaxAuthenticationFilter' defined in com.codingjoa.security.config.SecurityConfig: 
 		// Invocation of init method failed; nested exception is java.lang.IllegalArgumentException: authenticationManager must be specified
@@ -142,11 +138,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Bean
 	public JwtAuthenticationFilter jwtAuthenticationFilter() throws Exception {
-		JwtAuthenticationFilter filter = new JwtAuthenticationFilter();
-		filter.setAuthenticationManager(authenticationManagerBean());
-		filter.setAuthenticationSuccessHandler(jwtAuthenticationSuccessHandler);
-		filter.setAuthenticationFailureHandler(jwtAuthenticationFailureHandler);
-		return filter;
+		return new JwtAuthenticationFilter(jwtProvider);
 	}
 	
 }

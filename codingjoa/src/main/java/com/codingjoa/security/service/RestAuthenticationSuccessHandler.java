@@ -27,6 +27,7 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@SuppressWarnings("unused")
 @Component
 public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 	
@@ -36,27 +37,30 @@ public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHa
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
 		log.info("## {}", this.getClass().getSimpleName());
-		log.info("\t > authentication = {} ({})", authentication.getClass().getSimpleName(),
-				authentication.isAuthenticated() == true ? "authenticated" : "unauthenticated");
 		
-		String redirectUrl = (String) authentication.getDetails();
-		
-		if (!isValidUrl(request, redirectUrl)) {
-			log.info("\t > invalid redirectUrl - default redirectUrl will be set");
-			redirectUrl = ServletUriComponentsBuilder.fromContextPath(request)
-					.path("/")
-					.build()
-					.toString();
-		} else {
-			log.info("\t > valid redirectUrl");
-		}
-		
-		clearAuthenticationDetails(authentication);
+//		String redirectUrl = (String) authentication.getDetails();
+//		
+//		if (!isValidUrl(request, redirectUrl)) {
+//			log.info("\t > invalid redirectUrl - default redirectUrl will be set");
+//			redirectUrl = ServletUriComponentsBuilder.fromContextPath(request)
+//					.path("/")
+//					.build()
+//					.toString();
+//		} else {
+//			log.info("\t > valid redirectUrl");
+//		}
+//		
+//		clearAuthenticationDetails(authentication);
+//		
+//		SuccessResponse successResponse = SuccessResponse.builder()
+//				.status(HttpStatus.OK)
+//				.messageByCode("success.Login")
+//				.data(Map.of("redirectUrl", redirectUrl))
+//				.build();
 		
 		SuccessResponse successResponse = SuccessResponse.builder()
 				.status(HttpStatus.OK)
 				.messageByCode("success.Login")
-				.data(Map.of("redirectUrl", redirectUrl))
 				.build();
 		
 		response.setStatus(HttpServletResponse.SC_OK);
