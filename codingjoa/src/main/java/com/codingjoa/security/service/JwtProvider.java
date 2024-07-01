@@ -3,7 +3,6 @@ package com.codingjoa.security.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
@@ -18,10 +17,11 @@ import lombok.extern.slf4j.Slf4j;
 public class JwtProvider {
 	
 	/*
+	 * @ https://yuma1029.tistory.com/15
 	 * @ JWT (Json Web Token)
-	 * 		- xxxxx.yyyyy.zzzzz // header.payload.signature
-	 * 		- header 			// type(typ), algorithm(alg)
-	 * 		- payload			// issuer(iss), subject(sub), audience(aud), issued at(iat), expired(exp) [claim]
+	 * 		- xxxxx.yyyyy.zzzzz 	// header.payload.signature
+	 * 		- header 				// type(typ), algorithm(alg)
+	 * 		- payload				// issuer(iss), subject(sub), audience(aud), issued at(iat), expired(exp) [claim]
 	 * 		- signature
 	 */
 

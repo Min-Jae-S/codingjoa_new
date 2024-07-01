@@ -28,7 +28,6 @@ import com.codingjoa.test.TestApiResponseData;
 
 import lombok.extern.slf4j.Slf4j;
 
-@SuppressWarnings(value = "rawtypes")
 @Slf4j
 @RequestMapping("/test")
 @RestController
@@ -46,6 +45,7 @@ public class TestRestApiController {
 		return ResponseEntity.ok("success");
 	}
 
+	@SuppressWarnings("rawtypes")
 	@GetMapping("/rest-api/test2")
 	public ResponseEntity<Object> test2(HttpServletRequest request, RequestEntity requestEntity) { 
 		log.info("## test2");
@@ -57,6 +57,7 @@ public class TestRestApiController {
 		return ResponseEntity.ok("success");
 	}
 
+	@SuppressWarnings("rawtypes")
 	@GetMapping("/rest-api/test3")
 	public ResponseEntity<Object> test3(HttpServletRequest request, RequestEntity requestEntity) { 
 		log.info("## test3");
