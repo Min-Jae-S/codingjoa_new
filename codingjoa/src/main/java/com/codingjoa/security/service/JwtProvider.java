@@ -1,6 +1,7 @@
 package com.codingjoa.security.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.Base64;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.core.Authentication;
@@ -8,7 +9,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.Jwts;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -26,14 +26,14 @@ public class JwtProvider {
 	 * 		- signature
 	 */
 
-	private final String secretKey;
-	private final long expireTime;
+	private final String SECRET_KEY;
+	private final long VALIDITY_IN_MILLIS;
 	private final UserDetailsService userDetailsService;
 	
-	public JwtProvider(@Value("${security.jwt.secret}") String secretKey,
-			@Value("${security.jwt.expire}") long expireTime, UserDetailsService userDetailsService) {
-		this.secretKey = secretKey;
-		this.expireTime = expireTime;
+	public JwtProvider(@Value("${security.jwt.secret-key}") String secretKey,
+			@Value("${security.jwt.validity-in-mills}") long validityInMillis, UserDetailsService userDetailsService) {
+		this.SECRET_KEY = Base64.getEncoder().encodeToString(secretKey.getBytes());
+		this.VALIDITY_IN_MILLIS = validityInMillis;
 		this.userDetailsService = userDetailsService;
 	}
 	
