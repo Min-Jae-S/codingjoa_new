@@ -1,5 +1,7 @@
 package com.codingjoa.controller.test;
 
+import java.nio.charset.StandardCharsets;
+import java.security.Key;
 import java.time.Duration;
 import java.util.Base64;
 import java.util.Date;
@@ -25,10 +27,10 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.io.Encoders;
 import io.jsonwebtoken.security.Keys;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@SuppressWarnings("unused")
 @PropertySource("/WEB-INF/properties/security.properties")
 @RequestMapping("/test/jwt")
 @RestController
@@ -45,12 +47,15 @@ public class TestJwtController {
 	
 	private final String SECRET_KEY;
 	private final long VALIDITY_IN_MILLIS;
+	private final Key KEY;
 	private final UserDetailsService userDetailsService;
 	
-	public TestJwtController(@Value("${security.jwt.secret-key}") String secretKey,
+	public TestJwtController(@Value("${security.jwt.secret-key}") String secretKey, 
 			@Value("${security.jwt.validity-in-mills}") long validityInMillis, UserDetailsService userDetailsService) {
-		this.SECRET_KEY = Base64.getEncoder().encodeToString(secretKey.getBytes());
+		this.SECRET_KEY = secretKey;
 		this.VALIDITY_IN_MILLIS = validityInMillis;
+		this.KEY = Keys.hmacShaKeyFor(Decoders.BASE64.decode(secretKey));
+		//this.KEY = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
 		this.userDetailsService = userDetailsService;
 	}
 	
@@ -58,10 +63,9 @@ public class TestJwtController {
 	public ResponseEntity<Object> createkey() {
 		log.info("## createkey");
 		
-		SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-		String secretString = Encoders.BASE64.encode(key.getEncoded());
-		log.info("\t > key = {}", key);
-		log.info("\t > secretString = {}", secretString);
+		Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+		String base64Key = Encoders.BASE64.encode(key.getEncoded());
+		log.info("\t > key = {}", base64Key);
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
@@ -69,16 +73,12 @@ public class TestJwtController {
 	@GetMapping("/compare-key")
 	public ResponseEntity<Object> comparekey() {
 		log.info("## comparekey");
-		
-		SecretKey key1 = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-		String secretString1 = Encoders.BASE64.encode(key1.getEncoded());
-		log.info("\t > key1 = {}", key1);
-		log.info("\t > secretString1 = {}", secretString1);
-		
-		SecretKey key2 = Keys.hmacShaKeyFor(Decoders.BASE64.decode(SECRET_KEY));
-		String secretString2 = Encoders.BASE64.encode(key2.getEncoded());
+		log.info("\t > KEY = {}", KEY); // SnNvbldlYlRva2VuU2VjcmV0S2V5Rm9ySnd0QXV0aGVudGljYXRpb25JblNwcmluZ1NlY3VyaXR5
+		log.info("\t > key1 = {}", Encoders.BASE64.encode(KEY.getEncoded()));
+
+		Key key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
+		String key2 = Encoders.BASE64.encode(key.getEncoded());
 		log.info("\t > key2 = {}", key2);
-		log.info("\t > secretString2 = {}", secretString2);
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
@@ -86,9 +86,6 @@ public class TestJwtController {
 	@GetMapping("/create-token")
 	public ResponseEntity<Object> createTokean(HttpServletRequest request) {
 		log.info("## createToken");
-		log.info("\t > SECRET_KEY = {}", SECRET_KEY);
-		log.info("\t > VALIDITY_IN_MILLIS = {}", VALIDITY_IN_MILLIS);
-		log.info("\t > userDetailsService = {}", userDetailsService);
 		
 		Date now = new Date(System.currentTimeMillis());
 		Date exp = new Date(now.getTime() + Duration.ofMinutes(30).toMillis());
@@ -107,23 +104,24 @@ public class TestJwtController {
 		claims.setExpiration(exp);
 		log.info("\t > claims = {}", claims);
 		
-		String token1 = Jwts.builder()
+		String token = Jwts.builder()
 			.setClaims(claims)
-			.signWith(null, issuer)
+			.signWith(KEY, SignatureAlgorithm.HS256)
 			.compact();
-		log.info("\t > token1 = {}", token1);
+		log.info("\t > token1 = {}", token);
 		
 		String token2 = Jwts.builder()
 				.setIssuer(issuer)
 				.setIssuedAt(now)
 				.setExpiration(exp)
+				.signWith(KEY, SignatureAlgorithm.HS256)
 				.compact();
 		log.info("\t > token2 = {}", token2);
-		log.info("\t > token1 == token2 ? {}", token1.equals(token2));
+		log.info("\t > token1 == token2 ? {}", token.equals(token2));
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
 				.message("success")
-				.data(Map.of("token", token1))
+				.data(Map.of("token", token))
 				.build());
 	}
 	
