@@ -1,6 +1,7 @@
 package com.codingjoa.controller.test;
 
 import java.util.Date;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -45,21 +46,35 @@ public class TestJwtController {
 		String issuer = ServletUriComponentsBuilder.fromCurrentContextPath()
 				.build()
 				.toString();
-		log.info("\t > issuer = {}", issuer);
 		claims.setIssuer(issuer);
 		
 		Date now = new Date(System.currentTimeMillis());
-		Date now2 = new Date();
-		log.info("\t > now = {}", now);
-		log.info("\t > now2 = {}", now2);
-		
 		Date exp = new Date(now.getTime());
 		
 		claims.setIssuedAt(now);
 		claims.setExpiration(exp);
 		log.info("\t > claims = {}", claims);
 		
-		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
+		// using claims
+		String token1 = Jwts.builder()
+			.setClaims(claims)
+			.compact();
+		log.info("\t > token1 = {}", token1);
+		
+		// not using claims
+		String token2 = Jwts.builder()
+				.setIssuer(issuer)
+				.setIssuedAt(now)
+				.setExpiration(exp)
+				.compact();
+		log.info("\t > token2 = {}", token2);
+		log.info("\t > token1 == token2 ? {}", token1.equals(token2));
+		
+		
+		return ResponseEntity.ok(SuccessResponse.builder()
+				.message("success")
+				.data(Map.of("token", token1))
+				.build());
 	}
 	
 }
