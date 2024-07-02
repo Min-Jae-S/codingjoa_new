@@ -8,11 +8,12 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.Jwts;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @SuppressWarnings("unused")
-//@PropertySource("/WEB-INF/properties/security.properties")
+@PropertySource("/WEB-INF/properties/security.properties")
 @Component
 public class JwtProvider {
 	
@@ -25,14 +26,16 @@ public class JwtProvider {
 	 * 		- signature
 	 */
 
-	@Value("${security.jwt.secret}")
-	private String secretKey;
+	private final String secretKey;
+	private final long expireTime;
+	private final UserDetailsService userDetailsService;
 	
-	@Value("${security.jwt.expire}")
-	private long expireTime;
-	
-	@Autowired
-	private UserDetailsService userDetailsService;
+	public JwtProvider(@Value("${security.jwt.secret}") String secretKey,
+			@Value("${security.jwt.expire}") long expireTime, UserDetailsService userDetailsService) {
+		this.secretKey = secretKey;
+		this.expireTime = expireTime;
+		this.userDetailsService = userDetailsService;
+	}
 	
 	public String createToken(Authentication authentication) {
 		return Jwts.builder().compact();
@@ -42,4 +45,6 @@ public class JwtProvider {
 		//return new UsernamePasswordAuthenticationToken
 		return null;
 	}
+
+	
 }

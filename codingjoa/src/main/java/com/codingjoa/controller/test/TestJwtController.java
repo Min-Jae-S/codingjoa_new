@@ -1,5 +1,6 @@
 package com.codingjoa.controller.test;
 
+import java.time.Duration;
 import java.util.Date;
 import java.util.Map;
 
@@ -7,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @SuppressWarnings("unused")
+@PropertySource("/WEB-INF/properties/security.properties")
 @RequestMapping("/test/jwt")
 @RestController
 public class TestJwtController {
@@ -47,6 +50,8 @@ public class TestJwtController {
 	@GetMapping("/create-token")
 	public ResponseEntity<Object> createTokean(HttpServletRequest request) {
 		log.info("## createToken");
+		log.info("\t > secretKey = {}", secretKey);
+		log.info("\t > expireTime = {}", expireTime);
 		
 		// issuer(iss), subject(sub), audience(aud), issued at(iat), expired(exp) [claim]
 		Claims claims = Jwts.claims();
@@ -56,7 +61,7 @@ public class TestJwtController {
 		claims.setIssuer(issuer);
 		
 		Date now = new Date(System.currentTimeMillis());
-		Date exp = new Date(now.getTime() + expireTime);
+		Date exp = new Date(now.getTime() + Duration.ofMinutes(30).toMillis());
 		
 		claims.setIssuedAt(now);
 		claims.setExpiration(exp);
