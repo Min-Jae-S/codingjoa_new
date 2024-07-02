@@ -1,7 +1,6 @@
 package com.codingjoa.controller.test;
 
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
+import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -40,23 +39,8 @@ public class TestJwtController {
 	@GetMapping("/create-token")
 	public ResponseEntity<Object> createTokean(HttpServletRequest request) {
 		log.info("## createToken");
-
-		String currentUrl = getFullURL(request);
-		String redirectUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
-				.path("/login")
-				.queryParam("redirect", URLEncoder.encode(currentUrl, StandardCharsets.UTF_8))
-				.build()
-				.toString();
-		log.info("\t > redirectUrl = {}", redirectUrl);
-
-		String redirectUrl2 = ServletUriComponentsBuilder.fromCurrentContextPath()
-				.path("/login")
-				.queryParam("redirect", currentUrl)
-				.encode(StandardCharsets.UTF_8)
-				.build()
-				.toString();
-		log.info("\t > redirectUrl2 = {}", redirectUrl2);
 		
+		// issuer(iss), subject(sub), audience(aud), issued at(iat), expired(exp) [claim]
 		Claims claims = Jwts.claims();
 		String issuer = ServletUriComponentsBuilder.fromCurrentContextPath()
 				.build()
@@ -64,21 +48,18 @@ public class TestJwtController {
 		log.info("\t > issuer = {}", issuer);
 		claims.setIssuer(issuer);
 		
+		Date now = new Date(System.currentTimeMillis());
+		Date now2 = new Date();
+		log.info("\t > now = {}", now);
+		log.info("\t > now2 = {}", now2);
+		
+		Date exp = new Date(now.getTime());
+		
+		claims.setIssuedAt(now);
+		claims.setExpiration(exp);
 		log.info("\t > claims = {}", claims);
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
-	
-	private String getFullURL(HttpServletRequest request) {
-		StringBuffer requestURL= request.getRequestURL();
-	    String queryString = request.getQueryString();
-	    
-	    if (queryString == null) {
-	        return requestURL.toString();
-	    } else {
-	    	return requestURL.append('?').append(queryString).toString();
-	    }
-	}
-	
 	
 }
