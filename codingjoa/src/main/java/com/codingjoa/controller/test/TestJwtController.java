@@ -20,6 +20,7 @@ import io.jsonwebtoken.Jwts;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@SuppressWarnings("unused")
 @RequestMapping("/test/jwt")
 @RestController
 public class TestJwtController {
@@ -33,7 +34,8 @@ public class TestJwtController {
 	 * 		- signature
 	 */
 	
-	@SuppressWarnings("unused")
+	private final long EXPIRE = 1000 * 60 * 30; // 30 mins
+	
 	@Autowired
 	private JwtProvider jwtProvider;
 	
@@ -49,7 +51,7 @@ public class TestJwtController {
 		claims.setIssuer(issuer);
 		
 		Date now = new Date(System.currentTimeMillis());
-		Date exp = new Date(now.getTime());
+		Date exp = new Date(now.getTime() + EXPIRE);
 		
 		claims.setIssuedAt(now);
 		claims.setExpiration(exp);

@@ -28,6 +28,9 @@ public class JwtProvider {
 	@Value("${security.jwt.secret}")
 	private String secretKey;
 	
+	@Value("${security.jwt.expire}")
+	private long expireTime;
+	
 	@Autowired
 	private UserDetailsService userDetailsService;
 	
