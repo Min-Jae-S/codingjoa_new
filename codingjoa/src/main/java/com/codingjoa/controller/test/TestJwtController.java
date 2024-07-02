@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,7 +35,11 @@ public class TestJwtController {
 	 * 		- signature
 	 */
 	
-	private final long EXPIRE = 1000 * 60 * 30; // 30 mins
+	@Value("${security.jwt.secret}")
+	private String secretKey;
+	
+	@Value("${security.jwt.expire}")
+	private long expireTime;
 	
 	@Autowired
 	private JwtProvider jwtProvider;
@@ -51,7 +56,7 @@ public class TestJwtController {
 		claims.setIssuer(issuer);
 		
 		Date now = new Date(System.currentTimeMillis());
-		Date exp = new Date(now.getTime() + EXPIRE);
+		Date exp = new Date(now.getTime() + expireTime);
 		
 		claims.setIssuedAt(now);
 		claims.setExpiration(exp);
