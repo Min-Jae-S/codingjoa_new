@@ -58,6 +58,18 @@ public class JwtProvider {
 				.signWith(KEY, SignatureAlgorithm.HS256) // HMAC + SHA256
 				.compact();
 	}
+
+	public String createToken(Member member) {
+		Date now = new Date(System.currentTimeMillis());
+		Date exp = new Date(now.getTime() + VALIDITY_IN_MILLIS);
+		
+		return Jwts.builder()
+				.setIssuer(getIssuer())
+				.setIssuedAt(now)
+				.setExpiration(exp)
+				.signWith(KEY, SignatureAlgorithm.HS256) // HMAC + SHA256
+				.compact();
+	}
 	
 	public Authentication getAuthentication(String token) {
 		//return new UsernamePasswordAuthenticationToken

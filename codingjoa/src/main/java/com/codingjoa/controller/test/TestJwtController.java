@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.codingjoa.response.SuccessResponse;
+import com.codingjoa.security.dto.UserDetailsDto;
 import com.codingjoa.security.service.JwtProvider;
 
 import io.jsonwebtoken.Claims;
@@ -33,7 +36,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@SuppressWarnings("unused")
 @RequestMapping("/test/jwt")
 @RequiredArgsConstructor
 @RestController
@@ -58,19 +60,17 @@ public class TestJwtController {
 		Key key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
 		String encodedKey = Encoders.BASE64.encode(key.getEncoded());
 		log.info("\t > encodedKey = {}", encodedKey);
-		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 	
 	@GetMapping("/create-token")
-	public ResponseEntity<Object> createTokean(Authentication authentication) {
+	public ResponseEntity<Object> createTokean() {
 		log.info("## createToken");
 		
-		String token = "";
-		if (authentication != null) {
-			token = jwtProvider.createToken(authentication);
-		}
-		log.info("\t > token = {}", token);
+		String username = "smj20228";
+		UserDetailsDto userDetailsDto = (UserDetailsDto) userDetailsService.loadUserByUsername(username);
+		String token = jwtProvider.createToken(userDetailsDto.getMember());
+		log.info("\t > token = '{}'", token);
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
 				.message("success")
