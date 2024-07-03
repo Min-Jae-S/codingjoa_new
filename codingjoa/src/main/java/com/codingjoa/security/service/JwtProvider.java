@@ -20,10 +20,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
-@SuppressWarnings("unused")
 @PropertySource("/WEB-INF/properties/security.properties")
 @Component
 public class JwtProvider {
@@ -37,13 +34,15 @@ public class JwtProvider {
 	 * 		- signature
 	 */
 
-	private final String SECRET_KEY;
+	private final Key signingKey;
 	private final long VALIDITY_IN_MILLIS;
+	
+	@SuppressWarnings("unused")
 	private final UserDetailsService userDetailsService;
 	
 	public JwtProvider(@Value("${security.jwt.secret-key}") String secretKey, 
 			@Value("${security.jwt.validity-in-mills}") long validityInMillis, UserDetailsService userDetailsService) {
-		this.SECRET_KEY = secretKey;
+		this.signingKey = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
 		this.VALIDITY_IN_MILLIS = validityInMillis;
 		this.userDetailsService = userDetailsService;
 	}
@@ -54,13 +53,12 @@ public class JwtProvider {
 		Date exp = new Date(now.getTime() + VALIDITY_IN_MILLIS);
 		
 		return Jwts.builder()
-				.setSubject(userDetails.getUsername())
 				.setHeader(createHeader())
 				.setIssuer(createIssuer())
 				.setClaims(createClaims(userDetails))
 				.setIssuedAt(now)
 				.setExpiration(exp)
-				.signWith(createSigningKey(), SignatureAlgorithm.HS256)
+				.signWith(signingKey, SignatureAlgorithm.HS256)
 				.compact();
 	}
 
@@ -69,13 +67,12 @@ public class JwtProvider {
 		Date exp = new Date(now.getTime() + VALIDITY_IN_MILLIS);
 		
 		return Jwts.builder()
-				.setSubject(userDetails.getUsername())
 				.setHeader(createHeader())
 				.setIssuer(createIssuer())
 				.setClaims(createClaims(userDetails))
 				.setIssuedAt(now)
 				.setExpiration(exp)
-				.signWith(createSigningKey(), SignatureAlgorithm.HS256)
+				.signWith(signingKey, SignatureAlgorithm.HS256)
 				.compact();
 	}
 	
@@ -100,11 +97,11 @@ public class JwtProvider {
 	
 	private Map<String, Object> createClaims(UserDetails userDetails) {
 		UserDetailsDto userDetailsDto = (UserDetailsDto) userDetails;
-		return Map.of("email", userDetailsDto.getMember().getMemberEmail(), "role", userDetailsDto.getMemberRole());
-	}
-	
-	private Key createSigningKey() {
-		return Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
+		Member member = userDetailsDto.getMember();
+		Claims claims = Jwts.claims().setSubject(member.getMemberId());
+		claims.put("email", member.getMemberEmail());
+		claims.put("role", userDetailsDto.getMemberRole());
+		return claims;
 	}
 	
 }

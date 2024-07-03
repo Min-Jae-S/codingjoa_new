@@ -14,7 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.codingjoa.response.SuccessResponse;
 import com.codingjoa.security.service.JwtProvider;
 
-import io.jsonwebtoken.Jwt;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Encoders;
 import io.jsonwebtoken.security.Keys;
@@ -23,7 +24,6 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RequestMapping("/test/jwt")
-@RequiredArgsConstructor
 @RestController
 public class TestJwtController {
 
@@ -37,39 +37,43 @@ public class TestJwtController {
 	 */
 	
 	private final String SECRET_KEY = "JsonWebTokenSecretKeyForJwtAuthenticationInSpringSecurity";
+	private final Key signingKey; 
 	private final JwtProvider jwtProvider;
 	private final UserDetailsService userDetailsService;
 	
-	@GetMapping("/key")
-	public ResponseEntity<Object> key() {
-		log.info("## key");
-		String key = Encoders.BASE64.encode(createSigningKey(SECRET_KEY).getEncoded());
+	public TestJwtController(JwtProvider jwtProvider, UserDetailsService userDetailsService) {
+		this.signingKey = Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8));;
+		this.jwtProvider = jwtProvider;
+		this.userDetailsService = userDetailsService;
+	}
+
+	@GetMapping("/test1")
+	public ResponseEntity<Object> test1() {
+		log.info("## test1");
+		String key = Encoders.BASE64.encode(signingKey.getEncoded());
 		log.info("\t > key = {}", key);
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 	
-	@GetMapping("/token")
-	public ResponseEntity<Object> token() {
-		log.info("## token");
+	@GetMapping("/test2")
+	public ResponseEntity<Object> test2() {
+		log.info("## test2");
 
 		UserDetails userDetails = userDetailsService.loadUserByUsername("smj20228");
 		String token = jwtProvider.createToken(userDetails);
+		log.info("\t > created JWT = {}", token);
 		
-		@SuppressWarnings("rawtypes")
-		Jwt jwt = Jwts.parserBuilder().setSigningKey(createSigningKey(SECRET_KEY)).build().parse(token);
-		log.info("\t > parsed jwt = {}", jwt.getClass().getSimpleName());
-		
-		log.info("\t > header = {}", jwt.getHeader());
-		log.info("\t > body = {}", jwt.getBody());
-		
+		Jws<Claims> jws = Jwts.parserBuilder()
+				.setSigningKey(signingKey)
+				.build()
+				.parseClaimsJws(token);
+		log.info("\t > parsed JWT header = {}", jws.getHeader());
+		log.info("\t > parsed JWT body = {}", jws.getBody());
+
 		return ResponseEntity.ok(SuccessResponse.builder()
 				.message("success")
 				.data(Map.of("token", token))
 				.build());
-	}
-	
-	private Key createSigningKey(String secretKey) {
-		return Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
 	}
 	
 }
