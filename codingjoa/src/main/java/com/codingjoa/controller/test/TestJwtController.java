@@ -19,7 +19,6 @@ import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Encoders;
 import io.jsonwebtoken.security.Keys;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -50,8 +49,8 @@ public class TestJwtController {
 	@GetMapping("/test1")
 	public ResponseEntity<Object> test1() {
 		log.info("## test1");
-		String key = Encoders.BASE64.encode(signingKey.getEncoded());
-		log.info("\t > key = {}", key);
+		String key = Encoders.BASE64.encode(signingKey.getEncoded()); 
+		log.info("\t > key = {}", key); // SnNvbldlYlRva2VuU2VjcmV0S2V5Rm9ySnd0QXV0aGVudGljYXRpb25JblNwcmluZ1NlY3VyaXR5
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 	
@@ -67,8 +66,9 @@ public class TestJwtController {
 				.setSigningKey(signingKey)
 				.build()
 				.parseClaimsJws(token);
-		log.info("\t > parsed JWT header = {}", jws.getHeader());
-		log.info("\t > parsed JWT body = {}", jws.getBody());
+		log.info("\t > JWT header = {}", jws.getHeader().keySet());
+		log.info("\t > JWT body = {}", jws.getBody().keySet());
+		log.info("\t > JWT signature = {}", jws.getSignature());
 
 		return ResponseEntity.ok(SuccessResponse.builder()
 				.message("success")

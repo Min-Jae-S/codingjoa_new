@@ -49,29 +49,17 @@ public class JwtProvider {
 	
 	public String createToken(Authentication authentication) {
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-		Date now = new Date(System.currentTimeMillis());
-		Date exp = new Date(now.getTime() + VALIDITY_IN_MILLIS);
-		
 		return Jwts.builder()
-				.setHeader(createHeader())
-				.setIssuer(createIssuer())
-				.setClaims(createClaims(userDetails))
-				.setIssuedAt(now)
-				.setExpiration(exp)
+				.setHeader(createHeader()) 				// typ, alg
+				.setClaims(createClaims(userDetails)) 	// sub, iss, iat, exp, email, role
 				.signWith(signingKey, SignatureAlgorithm.HS256)
 				.compact();
 	}
 
 	public String createToken(UserDetails userDetails) {
-		Date now = new Date(System.currentTimeMillis());
-		Date exp = new Date(now.getTime() + VALIDITY_IN_MILLIS);
-		
 		return Jwts.builder()
-				.setHeader(createHeader())
-				.setIssuer(createIssuer())
-				.setClaims(createClaims(userDetails))
-				.setIssuedAt(now)
-				.setExpiration(exp)
+				.setHeader(createHeader()) 				// typ, alg
+				.setClaims(createClaims(userDetails)) 	// sub, iss, iat, exp, email, role
 				.signWith(signingKey, SignatureAlgorithm.HS256)
 				.compact();
 	}
@@ -85,12 +73,6 @@ public class JwtProvider {
 		return false;
 	}
 	
-	private String createIssuer() {
-		return ServletUriComponentsBuilder.fromCurrentContextPath()
-				.build()
-				.toString();
-	}
-	
 	private Map<String, Object> createHeader() {
 		return Map.of("typ", "JWT", "alg", "HS256");
 	}
@@ -98,9 +80,18 @@ public class JwtProvider {
 	private Map<String, Object> createClaims(UserDetails userDetails) {
 		UserDetailsDto userDetailsDto = (UserDetailsDto) userDetails;
 		Member member = userDetailsDto.getMember();
-		Claims claims = Jwts.claims().setSubject(member.getMemberId());
+		
+		Date now = new Date(System.currentTimeMillis());
+		Date exp = new Date(now.getTime() + VALIDITY_IN_MILLIS);
+		
+		Claims claims = Jwts.claims()
+				.setSubject(member.getMemberId())
+				.setIssuer(ServletUriComponentsBuilder.fromCurrentContextPath().build().toString())
+				.setIssuedAt(now)
+				.setExpiration(exp);
 		claims.put("email", member.getMemberEmail());
 		claims.put("role", userDetailsDto.getMemberRole());
+		
 		return claims;
 	}
 	
