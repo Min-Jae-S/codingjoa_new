@@ -1,5 +1,6 @@
 package com.codingjoa.security.service;
 
+import java.nio.charset.StandardCharsets;
 import java.security.Key;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -35,8 +36,7 @@ public class JwtProvider {
 	
 	public JwtProvider(@Value("${security.jwt.secret-key}") String secretKey, 
 			@Value("${security.jwt.validity-in-mills}") long validityInMillis, UserDetailsService userDetailsService) {
-		this.KEY = Keys.hmacShaKeyFor(Decoders.BASE64.decode(secretKey));
-		//this.KEY = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
+		this.KEY = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
 		this.VALIDITY_IN_MILLIS = validityInMillis;
 		this.userDetailsService = userDetailsService;
 	}

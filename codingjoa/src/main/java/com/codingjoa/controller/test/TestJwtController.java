@@ -45,40 +45,22 @@ public class TestJwtController {
 	 * 		- signature
 	 */
 	
-	private final String SECRET_KEY;
-	private final long VALIDITY_IN_MILLIS;
 	private final Key KEY;
+	private final long VALIDITY_IN_MILLIS;
 	private final UserDetailsService userDetailsService;
 	
 	public TestJwtController(@Value("${security.jwt.secret-key}") String secretKey, 
 			@Value("${security.jwt.validity-in-mills}") long validityInMillis, UserDetailsService userDetailsService) {
-		this.SECRET_KEY = secretKey;
+		this.KEY = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
 		this.VALIDITY_IN_MILLIS = validityInMillis;
-		this.KEY = Keys.hmacShaKeyFor(Decoders.BASE64.decode(secretKey));
-		//this.KEY = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
 		this.userDetailsService = userDetailsService;
 	}
 	
-	@GetMapping("/create-key")
-	public ResponseEntity<Object> createkey() {
-		log.info("## createkey");
-		
-		Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-		String base64Key = Encoders.BASE64.encode(key.getEncoded());
-		log.info("\t > key = {}", base64Key);
-		
-		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
-	}
-
-	@GetMapping("/compare-key")
-	public ResponseEntity<Object> comparekey() {
-		log.info("## comparekey");
-		log.info("\t > KEY = {}", KEY); // SnNvbldlYlRva2VuU2VjcmV0S2V5Rm9ySnd0QXV0aGVudGljYXRpb25JblNwcmluZ1NlY3VyaXR5
-		log.info("\t > key1 = {}", Encoders.BASE64.encode(KEY.getEncoded()));
-
-		Key key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
-		String key2 = Encoders.BASE64.encode(key.getEncoded());
-		log.info("\t > key2 = {}", key2);
+	@GetMapping("/key")
+	public ResponseEntity<Object> getKey() {
+		log.info("## getKey");
+		String key = Encoders.BASE64.encode(KEY.getEncoded());
+		log.info("\t > key = {}", key);
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
@@ -86,13 +68,8 @@ public class TestJwtController {
 	@GetMapping("/create-token")
 	public ResponseEntity<Object> createTokean(HttpServletRequest request) {
 		log.info("## createToken");
-		
 		Date now = new Date(System.currentTimeMillis());
-		Date exp = new Date(now.getTime() + Duration.ofMinutes(30).toMillis());
-		Date exp2 = new Date(now.getTime() + VALIDITY_IN_MILLIS);
-		log.info("\t > now = {}", now.getTime());
-		log.info("\t > exp = {}", exp.getTime());
-		log.info("\t > exp2 = {}", exp2.getTime());
+		Date exp = new Date(now.getTime() + VALIDITY_IN_MILLIS);
 		
 		// issuer(iss), subject(sub), audience(aud), issued at(iat), expired(exp) [claim]
 		Claims claims = Jwts.claims();
@@ -102,13 +79,12 @@ public class TestJwtController {
 		claims.setIssuer(issuer);
 		claims.setIssuedAt(now);
 		claims.setExpiration(exp);
-		log.info("\t > claims = {}", claims);
 		
-		String token = Jwts.builder()
+		String token1 = Jwts.builder()
 			.setClaims(claims)
 			.signWith(KEY, SignatureAlgorithm.HS256)
 			.compact();
-		log.info("\t > token1 = {}", token);
+		log.info("\t > token1 = {}", token1);
 		
 		String token2 = Jwts.builder()
 				.setIssuer(issuer)
@@ -117,11 +93,10 @@ public class TestJwtController {
 				.signWith(KEY, SignatureAlgorithm.HS256)
 				.compact();
 		log.info("\t > token2 = {}", token2);
-		log.info("\t > token1 == token2 ? {}", token.equals(token2));
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
 				.message("success")
-				.data(Map.of("token", token))
+				.data(Map.of("token1", token1, "token2", token2))
 				.build());
 	}
 	
