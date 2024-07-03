@@ -2,16 +2,20 @@ package com.codingjoa.security.service;
 
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import com.codingjoa.entity.Member;
+import com.codingjoa.security.dto.UserDetailsDto;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 
@@ -42,7 +46,15 @@ public class JwtProvider {
 	}
 	
 	public String createToken(Authentication authentication) {
+		Member member = ((UserDetailsDto) authentication.getPrincipal()).getMember();
+		
+		Date now = new Date(System.currentTimeMillis());
+		Date exp = new Date(now.getTime() + VALIDITY_IN_MILLIS);
+		
 		return Jwts.builder()
+				.setIssuer(getIssuer())
+				.setIssuedAt(now)
+				.setExpiration(exp)
 				.signWith(KEY, SignatureAlgorithm.HS256) // HMAC + SHA256
 				.compact();
 	}
@@ -52,5 +64,14 @@ public class JwtProvider {
 		return null;
 	}
 	
+	public boolean validateToken(String token) {
+		return false;
+	}
+	
+	private String getIssuer() {
+		return ServletUriComponentsBuilder.fromCurrentContextPath()
+				.build()
+				.toString();
+	}
 	
 }

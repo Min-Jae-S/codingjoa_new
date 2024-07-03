@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.codingjoa.response.SuccessResponse;
+import com.codingjoa.security.service.JwtProvider;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -27,12 +29,13 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.io.Encoders;
 import io.jsonwebtoken.security.Keys;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @SuppressWarnings("unused")
-@PropertySource("/WEB-INF/properties/security.properties")
 @RequestMapping("/test/jwt")
+@RequiredArgsConstructor
 @RestController
 public class TestJwtController {
 
@@ -45,58 +48,30 @@ public class TestJwtController {
 	 * 		- signature
 	 */
 	
-	private final Key KEY;
-	private final long VALIDITY_IN_MILLIS;
+	private final String SECRET_KEY = "JsonWebTokenSecretKeyForJwtAuthenticationInSpringSecurity";
+	private final JwtProvider jwtProvider;
 	private final UserDetailsService userDetailsService;
-	
-	public TestJwtController(@Value("${security.jwt.secret-key}") String secretKey, 
-			@Value("${security.jwt.validity-in-mills}") long validityInMillis, UserDetailsService userDetailsService) {
-		this.KEY = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
-		this.VALIDITY_IN_MILLIS = validityInMillis;
-		this.userDetailsService = userDetailsService;
-	}
 	
 	@GetMapping("/key")
 	public ResponseEntity<Object> getKey() {
 		log.info("## getKey");
-		String key = Encoders.BASE64.encode(KEY.getEncoded());
-		log.info("\t > key = {}", key);
+		Key key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
+		String encodedKey = Encoders.BASE64.encode(key.getEncoded());
+		log.info("\t > encodedKey = {}", encodedKey);
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 	
 	@GetMapping("/create-token")
-	public ResponseEntity<Object> createTokean(HttpServletRequest request) {
+	public ResponseEntity<Object> createTokean(Authentication authentication) {
 		log.info("## createToken");
-		Date now = new Date(System.currentTimeMillis());
-		Date exp = new Date(now.getTime() + VALIDITY_IN_MILLIS);
 		
-		// issuer(iss), subject(sub), audience(aud), issued at(iat), expired(exp) [claim]
-		Claims claims = Jwts.claims();
-		String issuer = ServletUriComponentsBuilder.fromCurrentContextPath()
-				.build()
-				.toString();
-		claims.setIssuer(issuer);
-		claims.setIssuedAt(now);
-		claims.setExpiration(exp);
-		
-		String token1 = Jwts.builder()
-			.setClaims(claims)
-			.signWith(KEY, SignatureAlgorithm.HS256)
-			.compact();
-		log.info("\t > token1 = {}", token1);
-		
-		String token2 = Jwts.builder()
-				.setIssuer(issuer)
-				.setIssuedAt(now)
-				.setExpiration(exp)
-				.signWith(KEY, SignatureAlgorithm.HS256)
-				.compact();
-		log.info("\t > token2 = {}", token2);
+		String token = jwtProvider.createToken(authentication);
+		log.info("\t > token = {}", token);
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
 				.message("success")
-				.data(Map.of("token1", token1, "token2", token2))
+				.data(Map.of("token", token))
 				.build());
 	}
 	
