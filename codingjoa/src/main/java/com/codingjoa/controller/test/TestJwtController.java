@@ -66,7 +66,10 @@ public class TestJwtController {
 	public ResponseEntity<Object> createTokean(Authentication authentication) {
 		log.info("## createToken");
 		
-		String token = jwtProvider.createToken(authentication);
+		String token = "";
+		if (authentication != null) {
+			token = jwtProvider.createToken(authentication);
+		}
 		log.info("\t > token = {}", token);
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
