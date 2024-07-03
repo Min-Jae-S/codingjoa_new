@@ -51,15 +51,13 @@ public class TestJwtController {
 	@GetMapping("/token")
 	public ResponseEntity<Object> token() {
 		log.info("## token");
-		
-		String username = "smj20228";
-		UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-		
+
+		UserDetails userDetails = userDetailsService.loadUserByUsername("smj20228");
 		String token = jwtProvider.createToken(userDetails);
-		log.info("\t > token = {}", token);
 		
 		@SuppressWarnings("rawtypes")
 		Jwt jwt = Jwts.parserBuilder().setSigningKey(createSigningKey(SECRET_KEY)).build().parse(token);
+		log.info("\t > parsed jwt = {}", jwt.getClass().getSimpleName());
 		
 		log.info("\t > header = {}", jwt.getHeader());
 		log.info("\t > body = {}", jwt.getBody());

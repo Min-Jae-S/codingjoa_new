@@ -38,12 +38,11 @@ public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHa
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
 		log.info("## {}", this.getClass().getSimpleName());
-		log.info("\t > autentication.getName() = {}", authentication.getName());
 		
 		SuccessResponse successResponse = SuccessResponse.builder()
 				.status(HttpStatus.OK)
 				.messageByCode("success.Login")
-				//.data(Map.of("token", jwtProvider.createToken(authentication)))
+				.data(Map.of("token", jwtProvider.createToken(authentication)))
 				.build();
 		
 		response.setStatus(HttpServletResponse.SC_OK);
