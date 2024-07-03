@@ -21,7 +21,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import com.codingjoa.security.filter.JwtAuthenticationFilter;
+import com.codingjoa.security.filter.JwtVerificationFilter;
 import com.codingjoa.security.filter.RestAuthenticationFilter;
 import com.codingjoa.security.service.JwtProvider;
 
@@ -137,8 +137,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 	
 	@Bean
-	public JwtAuthenticationFilter jwtAuthenticationFilter() throws Exception {
-		return new JwtAuthenticationFilter(jwtProvider);
+	public JwtVerificationFilter jwtVerificationFilter() throws Exception {
+		return new JwtVerificationFilter(jwtProvider);
 	}
 	
 }

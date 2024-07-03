@@ -5,13 +5,13 @@ import java.security.Key;
 import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codingjoa.response.SuccessResponse;
-import com.codingjoa.security.dto.UserDetailsDto;
 import com.codingjoa.security.service.JwtProvider;
 
 import io.jsonwebtoken.Jwt;
@@ -43,24 +43,24 @@ public class TestJwtController {
 	@GetMapping("/key")
 	public ResponseEntity<Object> key() {
 		log.info("## key");
-		String key = Encoders.BASE64.encode(createKey(SECRET_KEY).getEncoded());
+		String key = Encoders.BASE64.encode(createSigningKey(SECRET_KEY).getEncoded());
 		log.info("\t > key = {}", key);
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 	
-	@SuppressWarnings("rawtypes")
 	@GetMapping("/token")
 	public ResponseEntity<Object> token() {
 		log.info("## token");
 		
 		String username = "smj20228";
-		UserDetailsDto userDetailsDto = (UserDetailsDto) userDetailsService.loadUserByUsername(username);
+		UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 		
-		String token = jwtProvider.createToken(userDetailsDto.getMember());
+		String token = jwtProvider.createToken(userDetails);
 		log.info("\t > token = {}", token);
 		
-		Key key = createKey(SECRET_KEY);
-		Jwt jwt = Jwts.parserBuilder().setSigningKey(key).build().parse(token);
+		@SuppressWarnings("rawtypes")
+		Jwt jwt = Jwts.parserBuilder().setSigningKey(createSigningKey(SECRET_KEY)).build().parse(token);
+		
 		log.info("\t > header = {}", jwt.getHeader());
 		log.info("\t > body = {}", jwt.getBody());
 		
@@ -70,7 +70,7 @@ public class TestJwtController {
 				.build());
 	}
 	
-	private Key createKey(String secretKey) {
+	private Key createSigningKey(String secretKey) {
 		return Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
 	}
 	

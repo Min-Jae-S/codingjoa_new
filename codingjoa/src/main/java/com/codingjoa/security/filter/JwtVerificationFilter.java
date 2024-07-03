@@ -17,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @SuppressWarnings("unused")
 @RequiredArgsConstructor
-public class JwtAuthenticationFilter extends OncePerRequestFilter {
+public class JwtVerificationFilter extends OncePerRequestFilter {
 	
 	private final JwtProvider jwtProvider;
 	
