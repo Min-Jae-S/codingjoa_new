@@ -14,6 +14,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.codingjoa.entity.Member;
 import com.codingjoa.security.dto.UserDetailsDto;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
@@ -47,15 +48,15 @@ public class JwtProvider {
 	
 	public String createToken(Authentication authentication) {
 		Member member = ((UserDetailsDto) authentication.getPrincipal()).getMember();
-		
 		Date now = new Date(System.currentTimeMillis());
 		Date exp = new Date(now.getTime() + VALIDITY_IN_MILLIS);
 		
 		return Jwts.builder()
-				.setIssuer(getIssuer())
+				.setIssuer(createIssuer())
 				.setIssuedAt(now)
 				.setExpiration(exp)
-				.signWith(KEY, SignatureAlgorithm.HS256) // HMAC + SHA256
+				.signWith(KEY)
+				//.signWith(KEY, SignatureAlgorithm.HS256)
 				.compact();
 	}
 
@@ -64,10 +65,10 @@ public class JwtProvider {
 		Date exp = new Date(now.getTime() + VALIDITY_IN_MILLIS);
 		
 		return Jwts.builder()
-				.setIssuer(getIssuer())
+				.setIssuer(createIssuer())
 				.setIssuedAt(now)
 				.setExpiration(exp)
-				.signWith(KEY, SignatureAlgorithm.HS256) // HMAC + SHA256
+				.signWith(KEY)
 				.compact();
 	}
 	
@@ -80,7 +81,7 @@ public class JwtProvider {
 		return false;
 	}
 	
-	private String getIssuer() {
+	private String createIssuer() {
 		return ServletUriComponentsBuilder.fromCurrentContextPath()
 				.build()
 				.toString();

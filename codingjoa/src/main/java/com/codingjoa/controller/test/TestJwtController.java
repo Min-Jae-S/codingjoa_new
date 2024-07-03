@@ -2,34 +2,20 @@ package com.codingjoa.controller.test;
 
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
-import java.time.Duration;
-import java.util.Base64;
-import java.util.Date;
 import java.util.Map;
 
-import javax.crypto.SecretKey;
-import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.codingjoa.response.SuccessResponse;
 import com.codingjoa.security.dto.UserDetailsDto;
 import com.codingjoa.security.service.JwtProvider;
 
-import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwt;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.io.Encoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
@@ -55,27 +41,37 @@ public class TestJwtController {
 	private final UserDetailsService userDetailsService;
 	
 	@GetMapping("/key")
-	public ResponseEntity<Object> getKey() {
-		log.info("## getKey");
-		Key key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
-		String encodedKey = Encoders.BASE64.encode(key.getEncoded());
-		log.info("\t > encodedKey = {}", encodedKey);
+	public ResponseEntity<Object> key() {
+		log.info("## key");
+		String key = Encoders.BASE64.encode(createKey(SECRET_KEY).getEncoded());
+		log.info("\t > key = {}", key);
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 	
-	@GetMapping("/create-token")
-	public ResponseEntity<Object> createTokean() {
-		log.info("## createToken");
+	@SuppressWarnings("rawtypes")
+	@GetMapping("/token")
+	public ResponseEntity<Object> token() {
+		log.info("## token");
 		
 		String username = "smj20228";
 		UserDetailsDto userDetailsDto = (UserDetailsDto) userDetailsService.loadUserByUsername(username);
+		
 		String token = jwtProvider.createToken(userDetailsDto.getMember());
-		log.info("\t > token = '{}'", token);
+		log.info("\t > token = {}", token);
+		
+		Key key = createKey(SECRET_KEY);
+		Jwt jwt = Jwts.parserBuilder().setSigningKey(key).build().parse(token);
+		log.info("\t > header = {}", jwt.getHeader());
+		log.info("\t > body = {}", jwt.getBody());
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
 				.message("success")
 				.data(Map.of("token", token))
 				.build());
+	}
+	
+	private Key createKey(String secretKey) {
+		return Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
 	}
 	
 }
