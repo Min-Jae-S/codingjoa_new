@@ -2,7 +2,6 @@ package com.codingjoa.controller.test;
 
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
-import java.time.Duration;
 import java.util.Date;
 import java.util.Map;
 
@@ -117,29 +116,36 @@ public class TestJwtController {
 		String illegalArgumentToken = null; // "", "   "
 		jwtProvider.validateToken(illegalArgumentToken);
 		
+		log.info("## validate multiInvalidToken"); // SignatureException 
+		String multiInvalidToken = Jwts.builder()
+				.setHeader(header)
+				.setExpiration(new Date(System.currentTimeMillis() - VALIDITY_IN_MILLIS))
+				.signWith(invalidKey, SignatureAlgorithm.HS256)
+				.compact();
+		jwtProvider.validateToken(multiInvalidToken);
+		
 		log.info("## validate noExpToken"); 
 		String noExpToken = Jwts.builder()
 				.setHeader(header)
+				.setClaims(Map.of("email", "smj20228@naver.com"))
 				.signWith(signingKey, SignatureAlgorithm.HS256)
 				.compact();
 		jwtProvider.validateToken(noExpToken);
 
-		log.info("## validate expiredToken"); 
+		log.info("## validate expiredToken"); // ExpiredJwtException 
 		String expiredToken = Jwts.builder()
 				.setHeader(header)
-				.setExpiration(new Date(System.currentTimeMillis() - 1800000))
+				.setExpiration(new Date(System.currentTimeMillis() - VALIDITY_IN_MILLIS))
 				.signWith(signingKey, SignatureAlgorithm.HS256)
 				.compact();
 		jwtProvider.validateToken(expiredToken);
 		
-		log.info("## validate randomToken");
-		String randomToken = Jwts.builder()
-				.setHeader(header)
-				.setExpiration(new Date(System.currentTimeMillis() - 1800000))
-				.signWith(invalidKey, SignatureAlgorithm.HS256)
-				.compact();
-		jwtProvider.validateToken(randomToken);
-		
+		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
+	}
+	
+	@GetMapping("/test4")
+	public ResponseEntity<Object> test4() {
+		log.info("## test4");
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 	
@@ -169,4 +175,7 @@ public class TestJwtController {
 		return Keys.hmacShaKeyFor(str.getBytes(StandardCharsets.UTF_8));
 	}
 	
+	private Claims parseClaims(String token) {
+		return Jwts.parserBuilder().setSigningKey(signingKey).build().parseClaimsJws(token).getBody();
+	}
 }

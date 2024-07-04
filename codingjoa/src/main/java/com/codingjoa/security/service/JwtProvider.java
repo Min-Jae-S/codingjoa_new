@@ -29,12 +29,11 @@ import lombok.extern.slf4j.Slf4j;
 public class JwtProvider {
 	
 	/*
-	 * @ https://yuma1029.tistory.com/15
-	 * @ JWT (Json Web Token)
-	 * 		- xxxxx.yyyyy.zzzzz 	// header.payload.signature
-	 * 		- header 				// type(typ), algorithm(alg)
-	 * 		- payload				// issuer(iss), subject(sub), audience(aud), issued at(iat), expired(exp) - claims
-	 * 		- signature
+	 * @ Json Web Token (JWT)
+	 * 	xxxxx.yyyyy.zzzzz 	// header.payload.signature
+	 * 	header 				// type(typ), algorithm(alg)
+	 * 	payload				// issuer(iss), subject(sub), audience(aud), issued at(iat), expired(exp) - claims
+	 * 	signature
 	 */
 
 	private final Key signingKey;
@@ -48,19 +47,23 @@ public class JwtProvider {
 		this.userDetailsService = userDetailsService;
 	}
 	
+	/*
+	 * header - typ, alg
+	 * claims - sub, iss, iat, exp, email, role
+	 */
 	public String createToken(Authentication authentication) {
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 		return Jwts.builder()
-				.setHeader(createHeader()) 				// typ, alg
-				.setClaims(createClaims(userDetails)) 	// sub, iss, iat, exp, email, role
+				.setHeader(createHeader()) 
+				.setClaims(createClaims(userDetails))
 				.signWith(signingKey, SignatureAlgorithm.HS256)
 				.compact();
 	}
 
 	public String createToken(UserDetails userDetails) {
 		return Jwts.builder()
-				.setHeader(createHeader()) 				// typ, alg
-				.setClaims(createClaims(userDetails)) 	// sub, iss, iat, exp, email, role
+				.setHeader(createHeader())
+				.setClaims(createClaims(userDetails))
 				.signWith(signingKey, SignatureAlgorithm.HS256)
 				.compact();
 	}
@@ -70,18 +73,27 @@ public class JwtProvider {
 		return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities()); // isAuthenticated = true
 	}
 	
+	/*
+	 * UnsupportedJwtException - if the claimsJws argument does not represent an Claims JWS
+	 * MalformedJwtException - if the claimsJws string is not a valid JWS
+	 * SignatureException - if the claimsJws JWS signature validation fails
+	 * ExpiredJwtException - if the specified JWT is a Claims JWT and the Claims has an expiration timebefore the time this method is invoked.
+	 * IllegalArgumentException - if the claimsJws string is null or empty or only whitespace
+	 */
 	public boolean validateToken(String token) {
 		try {
-			Jwts.parserBuilder().setSigningKey(signingKey).build().parseClaimsJws(token);
-			return true;
+			Claims claims = parseClaims(token);
+			Date now = new Date(System.currentTimeMillis());
+			return !claims.getExpiration().before(now);
 		} catch (Exception e) { 
-			// ExpiredJwtException >> ClaimJwtException >> JwtException 
-			// MalformedJwtException, UnsupportedJwtException, SignatureException >> JwtException
-			// IllegaArgumentException
 			log.info("\t > {} : {}", e.getClass().getSimpleName(), e.getMessage());
 			//throw e;
 			return false;
 		}
+	}
+	
+	private Claims parseClaims(String token) {
+		return Jwts.parserBuilder().setSigningKey(signingKey).build().parseClaimsJws(token).getBody();
 	}
 	
 	private Map<String, Object> createHeader() {
