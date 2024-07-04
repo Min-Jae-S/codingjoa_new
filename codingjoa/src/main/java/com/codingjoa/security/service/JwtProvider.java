@@ -12,9 +12,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.codingjoa.entity.Member;
 import com.codingjoa.security.dto.UserDetailsDto;
 
 import io.jsonwebtoken.Claims;
@@ -61,7 +61,7 @@ public class JwtProvider {
 	}
 
 	public Authentication getAuthentication(String token) {
-		String username = parseUsername(token);
+		String username = parseClaims(token).getSubject();
 		UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 		return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 	}
@@ -77,8 +77,14 @@ public class JwtProvider {
 		try {
 			Claims claims = parseClaims(token);
 			if (claims.getExpiration() == null) {
-				throw new IllegalArgumentException("'exp' is required: null");
+				throw new IllegalArgumentException("'exp' is required");
 			}
+			
+			String username = claims.getSubject();
+			if (!StringUtils.hasText(username)) {
+				throw new IllegalArgumentException("'sub' is required");
+			}
+			
 			return true;
 			//return !claims.getExpiration().before(new Date(System.currentTimeMillis()));
 		} catch (Exception e) { 
@@ -92,27 +98,20 @@ public class JwtProvider {
 		return Jwts.parserBuilder().setSigningKey(signingKey).build().parseClaimsJws(token).getBody();
 	}
 	
-	private String parseUsername(String token) {
-		return parseClaims(token).getSubject();
-	}
-	
 	private Map<String, Object> createHeader() {
 		return Map.of("typ", "JWT", "alg", "HS256");
 	}
 	
 	private Map<String, Object> createClaims(UserDetails userDetails) {
 		UserDetailsDto userDetailsDto = (UserDetailsDto) userDetails;
-		Member member = userDetailsDto.getMember();
-		
 		Date now = new Date(System.currentTimeMillis());
 		Date exp = new Date(now.getTime() + VALIDITY_IN_MILLIS);
 		
 		Claims claims = Jwts.claims()
-				.setSubject(member.getMemberId())
+				.setSubject(userDetailsDto.getUsername())
 				.setIssuer(ServletUriComponentsBuilder.fromCurrentContextPath().build().toString())
 				.setIssuedAt(now)
 				.setExpiration(exp);
-		claims.put("email", member.getMemberEmail());
 		claims.put("role", userDetailsDto.getMemberRole());
 		
 		return claims;
