@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -20,7 +21,9 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @PropertySource("/WEB-INF/properties/security.properties")
 @Component
 public class JwtProvider {
@@ -30,7 +33,7 @@ public class JwtProvider {
 	 * @ JWT (Json Web Token)
 	 * 		- xxxxx.yyyyy.zzzzz 	// header.payload.signature
 	 * 		- header 				// type(typ), algorithm(alg)
-	 * 		- payload				// issuer(iss), subject(sub), audience(aud), issued at(iat), expired(exp) [claim]
+	 * 		- payload				// issuer(iss), subject(sub), audience(aud), issued at(iat), expired(exp) - claims
 	 * 		- signature
 	 */
 
@@ -65,12 +68,23 @@ public class JwtProvider {
 	}
 	
 	public Authentication getAuthentication(String token) {
-		//return new UsernamePasswordAuthenticationToken
-		return null;
+		UserDetails userDetails = userDetailsService.loadUserByUsername(token);
+		return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities()); // isAuthenticated = true
 	}
 	
 	public boolean validateToken(String token) {
-		return false;
+		log.info("\t > validate token");
+		try {
+			Jwts.parserBuilder().setSigningKey(signingKey).build().parseClaimsJws(token);
+			return true;
+		} catch (Exception e) { 
+			// ExpiredJwtException >> ClaimJwtException >> JwtException 
+			// MalformedJwtException, UnsupportedJwtException >> JwtException
+			// NullPointerException
+			log.info("\t > {} : {}", e.getClass().getSimpleName(), e.getMessage());
+			throw e;
+			//return false;
+		}
 	}
 	
 	private Map<String, Object> createHeader() {

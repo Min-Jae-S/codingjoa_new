@@ -31,7 +31,7 @@ public class TestJwtController {
 	 * @ JWT (Json Web Token)
 	 * 		- xxxxx.yyyyy.zzzzz 	// header.payload.signature
 	 * 		- header 				// type(typ), algorithm(alg)
-	 * 		- payload				// issuer(iss), subject(sub), audience(aud), issued at(iat), expired(exp) [claim]
+	 * 		- payload				// issuer(iss), subject(sub), audience(aud), issued at(iat), expired(exp) - claims
 	 * 		- signature
 	 */
 	
@@ -60,7 +60,7 @@ public class TestJwtController {
 
 		UserDetails userDetails = userDetailsService.loadUserByUsername("smj20228");
 		String token = jwtProvider.createToken(userDetails);
-		log.info("\t > created JWT = {}", token);
+		log.info("\t > JWT = {}", token);
 		
 		Jws<Claims> jws = Jwts.parserBuilder()
 				.setSigningKey(signingKey)
@@ -74,6 +74,12 @@ public class TestJwtController {
 				.message("success")
 				.data(Map.of("token", token))
 				.build());
+	}
+
+	@GetMapping("/test3")
+	public ResponseEntity<Object> test3() {
+		log.info("## test3");
+		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 	
 }
