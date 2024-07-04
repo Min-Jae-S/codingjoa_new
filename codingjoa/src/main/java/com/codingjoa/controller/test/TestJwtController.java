@@ -7,6 +7,8 @@ import java.util.Date;
 import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -66,7 +68,8 @@ public class TestJwtController {
 		log.info("## test2");
 
 		UserDetails userDetails = userDetailsService.loadUserByUsername("smj20228");
-		String token = jwtProvider.createToken(userDetails);
+		Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+		String token = jwtProvider.createToken(authentication);
 		log.info("\t > JWT = {}", token);
 		
 		Jws<Claims> jws = Jwts.parserBuilder()
@@ -164,7 +167,7 @@ public class TestJwtController {
 				.compact();
 		jwtProvider.validateToken(expiredJwt);
 
-		// valid
+		// valid 
 		log.info("## validate valid JWT");
 		String validJwt = Jwts.builder()
 				.setClaims(Map.of("exp", new Date(System.currentTimeMillis() + VALIDITY_IN_MILLIS)))

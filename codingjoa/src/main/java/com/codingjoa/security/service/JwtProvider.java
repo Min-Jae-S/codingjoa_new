@@ -60,17 +60,10 @@ public class JwtProvider {
 				.compact();
 	}
 
-	public String createToken(UserDetails userDetails) {
-		return Jwts.builder()
-				.setHeader(createHeader())
-				.setClaims(createClaims(userDetails))
-				.signWith(signingKey, SignatureAlgorithm.HS256)
-				.compact();
-	}
-	
 	public Authentication getAuthentication(String token) {
-		UserDetails userDetails = userDetailsService.loadUserByUsername(token);
-		return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities()); // isAuthenticated = true
+		String username = parseUsername(token);
+		UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+		return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 	}
 	
 	/*
@@ -97,6 +90,10 @@ public class JwtProvider {
 	
 	private Claims parseClaims(String token) {
 		return Jwts.parserBuilder().setSigningKey(signingKey).build().parseClaimsJws(token).getBody();
+	}
+	
+	private String parseUsername(String token) {
+		return parseClaims(token).getSubject();
 	}
 	
 	private Map<String, Object> createHeader() {
