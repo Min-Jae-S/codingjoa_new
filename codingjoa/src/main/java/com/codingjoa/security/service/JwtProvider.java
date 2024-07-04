@@ -71,14 +71,13 @@ public class JwtProvider {
 	}
 	
 	public boolean validateToken(String token) {
-		log.info("\t > validate token");
 		try {
 			Jwts.parserBuilder().setSigningKey(signingKey).build().parseClaimsJws(token);
 			return true;
 		} catch (Exception e) { 
 			// ExpiredJwtException >> ClaimJwtException >> JwtException 
-			// MalformedJwtException, UnsupportedJwtException >> JwtException
-			// NullPointerException
+			// MalformedJwtException, UnsupportedJwtException, SignatureException >> JwtException
+			// IllegaArgumentException
 			log.info("\t > {} : {}", e.getClass().getSimpleName(), e.getMessage());
 			//throw e;
 			return false;

@@ -2,6 +2,7 @@ package com.codingjoa.controller.test;
 
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
+import java.time.Duration;
 import java.util.Date;
 import java.util.Map;
 
@@ -40,7 +41,7 @@ public class TestJwtController {
 	 * 		- signature
 	 */
 	
-	private final String SECRET_KEY = "JsonWebTokenSecretKeyForJwtAuthenticationInSpringSecurity";
+	private final String SECRET_KEY = "JsonWebTokenSecretKeyForJwtVerificationInSpringSecurityAndCodingjoa";
 	private final long VALIDITY_IN_MILLIS = 1800000;
 	private final Key signingKey; 
 	private final JwtProvider jwtProvider;
@@ -56,7 +57,7 @@ public class TestJwtController {
 	public ResponseEntity<Object> test1() {
 		log.info("## test1");
 		String key = Encoders.BASE64.encode(signingKey.getEncoded()); 
-		log.info("\t > key = {}", key); // SnNvbldlYlRva2VuU2VjcmV0S2V5Rm9ySnd0QXV0aGVudGljYXRpb25JblNwcmluZ1NlY3VyaXR5
+		log.info("\t > key = {}", key);
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 	
@@ -82,33 +83,65 @@ public class TestJwtController {
 				.build());
 	}
 
-	@GetMapping("/invalid-key")
-	public ResponseEntity<Object> invalidKeyTest() {
-		log.info("## invalidKeyTest");
+	@GetMapping("/test3")
+	public ResponseEntity<Object> test3() {
+		log.info("## test3");
 		
 		UserDetails userDetails = userDetailsService.loadUserByUsername("smj20228");
 		Map<String, Object> header = createHeader();
 		Map<String, Object> claims = createClaims(userDetails);
 		Key invalidKey = createKey("JsonWebTokenAuthenticationWithSpringBootTestProjectSecretKey");
 		
+		log.info("## validate invalidKeyToken"); 
 		String invalidKeyToken = Jwts.builder()
 				.setHeader(header)
 				.setClaims(claims)
 				.signWith(invalidKey, SignatureAlgorithm.HS256)
 				.compact();
-
+		jwtProvider.validateToken(invalidKeyToken); // SignatureException 
+		
+		log.info("## validate invalidAlgToken"); 
 		String invalidAlgToken = Jwts.builder()
 				.setHeader(header)
 				.setClaims(claims)
 				.signWith(signingKey, SignatureAlgorithm.HS512)
 				.compact();
+		jwtProvider.validateToken(invalidAlgToken);
+
+		log.info("## validate malformedToken1"); // MalformedJwtException
+		String malformedToken = "aaabbbccc";
+		//String malformedToken = "aaa.bbb.ccc";
+		jwtProvider.validateToken(malformedToken);
+
+		log.info("## validate illegalArgumentToken"); // IllegalArgumentException 
+		String illegalArgumentToken = null; // "", "   "
+		jwtProvider.validateToken(illegalArgumentToken);
 		
-		log.info("\t > invalidKeyToken result = {}", jwtProvider.validateToken(invalidKeyToken));
-		log.info("\t > invalidAlgToken result = {}", jwtProvider.validateToken(invalidAlgToken));
-				
+		log.info("## validate noExpToken"); 
+		String noExpToken = Jwts.builder()
+				.setHeader(header)
+				.signWith(signingKey, SignatureAlgorithm.HS256)
+				.compact();
+		jwtProvider.validateToken(noExpToken);
+
+		log.info("## validate expiredToken"); 
+		String expiredToken = Jwts.builder()
+				.setHeader(header)
+				.setExpiration(new Date(System.currentTimeMillis() - 1800000))
+				.signWith(signingKey, SignatureAlgorithm.HS256)
+				.compact();
+		jwtProvider.validateToken(expiredToken);
+		
+		log.info("## validate randomToken");
+		String randomToken = Jwts.builder()
+				.setHeader(header)
+				.setExpiration(new Date(System.currentTimeMillis() - 1800000))
+				.signWith(invalidKey, SignatureAlgorithm.HS256)
+				.compact();
+		jwtProvider.validateToken(randomToken);
+		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
-	
 	
 	private Map<String, Object> createHeader() {
 		return Map.of("typ", "JWT", "alg", "HS256");
