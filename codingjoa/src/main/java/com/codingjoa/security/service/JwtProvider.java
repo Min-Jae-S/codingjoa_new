@@ -39,8 +39,6 @@ public class JwtProvider {
 
 	private final Key signingKey;
 	private final long VALIDITY_IN_MILLIS;
-	
-	@SuppressWarnings("unused")
 	private final UserDetailsService userDetailsService;
 	
 	public JwtProvider(@Value("${security.jwt.secret-key}") String secretKey, 
@@ -82,8 +80,8 @@ public class JwtProvider {
 			// MalformedJwtException, UnsupportedJwtException >> JwtException
 			// NullPointerException
 			log.info("\t > {} : {}", e.getClass().getSimpleName(), e.getMessage());
-			throw e;
-			//return false;
+			//throw e;
+			return false;
 		}
 	}
 	

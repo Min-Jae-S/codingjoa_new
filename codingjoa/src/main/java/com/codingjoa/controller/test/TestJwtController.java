@@ -2,6 +2,7 @@ package com.codingjoa.controller.test;
 
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
+import java.util.Date;
 import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
@@ -10,13 +11,17 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.codingjoa.entity.Member;
 import com.codingjoa.response.SuccessResponse;
+import com.codingjoa.security.dto.UserDetailsDto;
 import com.codingjoa.security.service.JwtProvider;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Encoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
@@ -36,12 +41,13 @@ public class TestJwtController {
 	 */
 	
 	private final String SECRET_KEY = "JsonWebTokenSecretKeyForJwtAuthenticationInSpringSecurity";
+	private final long VALIDITY_IN_MILLIS = 1800000;
 	private final Key signingKey; 
 	private final JwtProvider jwtProvider;
 	private final UserDetailsService userDetailsService;
 	
 	public TestJwtController(JwtProvider jwtProvider, UserDetailsService userDetailsService) {
-		this.signingKey = Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8));;
+		this.signingKey = Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
 		this.jwtProvider = jwtProvider;
 		this.userDetailsService = userDetailsService;
 	}
@@ -76,10 +82,58 @@ public class TestJwtController {
 				.build());
 	}
 
-	@GetMapping("/test3")
-	public ResponseEntity<Object> test3() {
-		log.info("## test3");
+	@GetMapping("/invalid-key")
+	public ResponseEntity<Object> invalidKeyTest() {
+		log.info("## invalidKeyTest");
+		
+		UserDetails userDetails = userDetailsService.loadUserByUsername("smj20228");
+		Map<String, Object> header = createHeader();
+		Map<String, Object> claims = createClaims(userDetails);
+		Key invalidKey = createKey("JsonWebTokenAuthenticationWithSpringBootTestProjectSecretKey");
+		
+		String invalidKeyToken = Jwts.builder()
+				.setHeader(header)
+				.setClaims(claims)
+				.signWith(invalidKey, SignatureAlgorithm.HS256)
+				.compact();
+
+		String invalidAlgToken = Jwts.builder()
+				.setHeader(header)
+				.setClaims(claims)
+				.signWith(signingKey, SignatureAlgorithm.HS512)
+				.compact();
+		
+		log.info("\t > invalidKeyToken result = {}", jwtProvider.validateToken(invalidKeyToken));
+		log.info("\t > invalidAlgToken result = {}", jwtProvider.validateToken(invalidAlgToken));
+				
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
+	}
+	
+	
+	private Map<String, Object> createHeader() {
+		return Map.of("typ", "JWT", "alg", "HS256");
+	}
+	
+	private Map<String, Object> createClaims(UserDetails userDetails) {
+		UserDetailsDto userDetailsDto = (UserDetailsDto) userDetails;
+		Member member = userDetailsDto.getMember();
+		
+		Date now = new Date(System.currentTimeMillis());
+		Date exp = new Date(now.getTime() + VALIDITY_IN_MILLIS);
+		
+		Claims claims = Jwts.claims()
+				.setSubject(member.getMemberId())
+				.setIssuer(ServletUriComponentsBuilder.fromCurrentContextPath().build().toString())
+				.setIssuedAt(now)
+				.setExpiration(exp);
+		claims.put("email", member.getMemberEmail());
+		claims.put("role", userDetailsDto.getMemberRole());
+		
+		return claims;
+	}
+	
+	private Key createKey(String str) {
+		return Keys.hmacShaKeyFor(str.getBytes(StandardCharsets.UTF_8));
 	}
 	
 }
