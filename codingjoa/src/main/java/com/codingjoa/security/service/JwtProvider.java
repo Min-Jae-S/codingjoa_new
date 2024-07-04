@@ -74,7 +74,7 @@ public class JwtProvider {
 	}
 	
 	/*
-	 * UnsupportedJwtException - if the claimsJws argument does not represent an Claims JWS
+	 * UnsupportedJwtException - if the claimsJws argument does not represent an Claims JWS ex) no claims
 	 * MalformedJwtException - if the claimsJws string is not a valid JWS
 	 * SignatureException - if the claimsJws JWS signature validation fails
 	 * ExpiredJwtException - if the specified JWT is a Claims JWT and the Claims has an expiration timebefore the time this method is invoked.
@@ -83,8 +83,7 @@ public class JwtProvider {
 	public boolean validateToken(String token) {
 		try {
 			Claims claims = parseClaims(token);
-			Date now = new Date(System.currentTimeMillis());
-			return !claims.getExpiration().before(now);
+			return !claims.getExpiration().before(new Date(System.currentTimeMillis()));
 		} catch (Exception e) { 
 			log.info("\t > {} : {}", e.getClass().getSimpleName(), e.getMessage());
 			//throw e;

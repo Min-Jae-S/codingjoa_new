@@ -2,6 +2,7 @@ package com.codingjoa.controller.test;
 
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Map;
 
@@ -146,6 +147,27 @@ public class TestJwtController {
 	@GetMapping("/test4")
 	public ResponseEntity<Object> test4() {
 		log.info("## test4");
+		
+		// no claims
+		log.info("## validate no claims JWT");
+		String noClaimsJwt = Jwts.builder().signWith(signingKey, SignatureAlgorithm.HS256).compact();
+		jwtProvider.validateToken(noClaimsJwt);
+
+		// empty claims
+		log.info("## validate empty claims JWT");
+		String emptyClaimsJwt = Jwts.builder().setClaims(Collections.emptyMap()).signWith(signingKey, SignatureAlgorithm.HS256).compact();
+		jwtProvider.validateToken(emptyClaimsJwt);
+
+		// illegal expiration
+		log.info("## validate illegal expiration JWT");
+		String illegalExpJwt = Jwts.builder().setClaims(Map.of("exp", "aaa")).signWith(signingKey, SignatureAlgorithm.HS256).compact();
+		jwtProvider.validateToken(illegalExpJwt);
+		
+		// no expiration
+		log.info("## validate no expiration JWT");
+		String noExpJwt = Jwts.builder().setClaims(Map.of("email", "smj20228")).signWith(signingKey, SignatureAlgorithm.HS256).compact();
+		jwtProvider.validateToken(noExpJwt);
+		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 	
@@ -173,9 +195,5 @@ public class TestJwtController {
 	
 	private Key createKey(String str) {
 		return Keys.hmacShaKeyFor(str.getBytes(StandardCharsets.UTF_8));
-	}
-	
-	private Claims parseClaims(String token) {
-		return Jwts.parserBuilder().setSigningKey(signingKey).build().parseClaimsJws(token).getBody();
 	}
 }
