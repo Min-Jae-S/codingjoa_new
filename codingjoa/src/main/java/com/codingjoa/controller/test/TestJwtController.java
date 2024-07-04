@@ -92,13 +92,14 @@ public class TestJwtController {
 		Map<String, Object> claims = createClaims(userDetails);
 		Key invalidKey = createKey("JsonWebTokenAuthenticationWithSpringBootTestProjectSecretKey");
 		
+		// SignatureException 
 		log.info("## validate invalidKeyToken"); 
 		String invalidKeyToken = Jwts.builder()
 				.setHeader(header)
 				.setClaims(claims)
 				.signWith(invalidKey, SignatureAlgorithm.HS256)
 				.compact();
-		jwtProvider.validateToken(invalidKeyToken); // SignatureException 
+		jwtProvider.validateToken(invalidKeyToken); 
 		
 		log.info("## validate invalidAlgToken"); 
 		String invalidAlgToken = Jwts.builder()
@@ -108,38 +109,25 @@ public class TestJwtController {
 				.compact();
 		jwtProvider.validateToken(invalidAlgToken);
 
-		log.info("## validate malformedToken1"); // MalformedJwtException
+		// MalformedJwtException
+		log.info("## validate malformedToken"); 
 		String malformedToken = "aaabbbccc";
 		//String malformedToken = "aaa.bbb.ccc";
 		jwtProvider.validateToken(malformedToken);
 
-		log.info("## validate illegalArgumentToken"); // IllegalArgumentException 
+		// IllegalArgumentException 
+		log.info("## validate illegalArgumentToken"); 
 		String illegalArgumentToken = null; // "", "   "
 		jwtProvider.validateToken(illegalArgumentToken);
 		
-		log.info("## validate multiInvalidToken"); // SignatureException 
+		// SignatureException 
+		log.info("## validate multiInvalidToken"); 
 		String multiInvalidToken = Jwts.builder()
 				.setHeader(header)
 				.setExpiration(new Date(System.currentTimeMillis() - VALIDITY_IN_MILLIS))
 				.signWith(invalidKey, SignatureAlgorithm.HS256)
 				.compact();
 		jwtProvider.validateToken(multiInvalidToken);
-		
-		log.info("## validate noExpToken"); 
-		String noExpToken = Jwts.builder()
-				.setHeader(header)
-				.setClaims(Map.of("email", "smj20228@naver.com"))
-				.signWith(signingKey, SignatureAlgorithm.HS256)
-				.compact();
-		jwtProvider.validateToken(noExpToken);
-
-		log.info("## validate expiredToken"); // ExpiredJwtException 
-		String expiredToken = Jwts.builder()
-				.setHeader(header)
-				.setExpiration(new Date(System.currentTimeMillis() - VALIDITY_IN_MILLIS))
-				.signWith(signingKey, SignatureAlgorithm.HS256)
-				.compact();
-		jwtProvider.validateToken(expiredToken);
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
@@ -148,25 +136,41 @@ public class TestJwtController {
 	public ResponseEntity<Object> test4() {
 		log.info("## test4");
 		
-		// no claims
+		// no claims : UnsupportedJwtException 
 		log.info("## validate no claims JWT");
 		String noClaimsJwt = Jwts.builder().signWith(signingKey, SignatureAlgorithm.HS256).compact();
 		jwtProvider.validateToken(noClaimsJwt);
 
-		// empty claims
+		// empty claims : UnsupportedJwtException 
 		log.info("## validate empty claims JWT");
 		String emptyClaimsJwt = Jwts.builder().setClaims(Collections.emptyMap()).signWith(signingKey, SignatureAlgorithm.HS256).compact();
 		jwtProvider.validateToken(emptyClaimsJwt);
 
-		// illegal expiration
+		// illegal expiration : IllegalArgumentException
 		log.info("## validate illegal expiration JWT");
 		String illegalExpJwt = Jwts.builder().setClaims(Map.of("exp", "aaa")).signWith(signingKey, SignatureAlgorithm.HS256).compact();
 		jwtProvider.validateToken(illegalExpJwt);
 		
-		// no expiration
+		// no expiration : NullPointerException --> IllegalArgumentException
 		log.info("## validate no expiration JWT");
 		String noExpJwt = Jwts.builder().setClaims(Map.of("email", "smj20228")).signWith(signingKey, SignatureAlgorithm.HS256).compact();
 		jwtProvider.validateToken(noExpJwt);
+		
+		// expired : ExpiredJwtException
+		log.info("## validate expired JWT");
+		String expiredJwt = Jwts.builder()
+				.setClaims(Map.of("exp", new Date(System.currentTimeMillis() - VALIDITY_IN_MILLIS)))
+				.signWith(signingKey, SignatureAlgorithm.HS256)
+				.compact();
+		jwtProvider.validateToken(expiredJwt);
+
+		// valid
+		log.info("## validate valid JWT");
+		String validJwt = Jwts.builder()
+				.setClaims(Map.of("exp", new Date(System.currentTimeMillis() + VALIDITY_IN_MILLIS)))
+				.signWith(signingKey, SignatureAlgorithm.HS256)
+				.compact();
+		jwtProvider.validateToken(validJwt);
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}

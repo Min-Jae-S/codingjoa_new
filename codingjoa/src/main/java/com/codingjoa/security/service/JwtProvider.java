@@ -83,11 +83,15 @@ public class JwtProvider {
 	public boolean validateToken(String token) {
 		try {
 			Claims claims = parseClaims(token);
-			return !claims.getExpiration().before(new Date(System.currentTimeMillis()));
+			if (claims.getExpiration() == null) {
+				throw new IllegalArgumentException("'exp' is required: null");
+			}
+			return true;
+			//return !claims.getExpiration().before(new Date(System.currentTimeMillis()));
 		} catch (Exception e) { 
 			log.info("\t > {} : {}", e.getClass().getSimpleName(), e.getMessage());
-			//throw e;
 			return false;
+			//throw e;
 		}
 	}
 	
