@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.codingjoa.entity.Member;
 import com.codingjoa.response.SuccessResponse;
 import com.codingjoa.security.dto.UserDetailsDto;
 import com.codingjoa.security.service.JwtProvider;
@@ -181,17 +180,14 @@ public class TestJwtController {
 	
 	private Map<String, Object> createClaims(UserDetails userDetails) {
 		UserDetailsDto userDetailsDto = (UserDetailsDto) userDetails;
-		Member member = userDetailsDto.getMember();
-		
 		Date now = new Date(System.currentTimeMillis());
 		Date exp = new Date(now.getTime() + VALIDITY_IN_MILLIS);
 		
 		Claims claims = Jwts.claims()
-				.setSubject(member.getMemberId())
+				.setSubject(userDetailsDto.getUsername())
 				.setIssuer(ServletUriComponentsBuilder.fromCurrentContextPath().build().toString())
 				.setIssuedAt(now)
 				.setExpiration(exp);
-		claims.put("email", member.getMemberEmail());
 		claims.put("role", userDetailsDto.getMemberRole());
 		
 		return claims;
