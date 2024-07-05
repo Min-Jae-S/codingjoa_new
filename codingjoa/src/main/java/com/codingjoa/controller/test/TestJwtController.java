@@ -44,6 +44,8 @@ public class TestJwtController {
 	 */
 	
 	private final String SECRET_KEY = "JsonWebTokenSecretKeyForJwtVerificationInSpringSecurityAndCodingjoa";
+	private final String INVALID_SECRET_KEY = "InvalidJsonWebTokenSecretKeyForJwtVerificationInSpringSecurityAndCodingjoa";
+	private final String USERNAME = "smj20228";
 	private final long VALIDITY_IN_MILLIS = 1800000;
 	private final Key signingKey; 
 	private final JwtProvider jwtProvider;
@@ -67,40 +69,37 @@ public class TestJwtController {
 	public ResponseEntity<Object> test2() {
 		log.info("## test2");
 
-		UserDetails userDetails = userDetailsService.loadUserByUsername("smj20228");
+		UserDetails userDetails = userDetailsService.loadUserByUsername(USERNAME);
 		Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+		
 		String token = jwtProvider.createToken(authentication);
-		log.info("\t > JWT = {}", token);
+		log.info("\t > token = {}", token);
 		
 		Jws<Claims> jws = Jwts.parserBuilder()
 				.setSigningKey(signingKey)
 				.build()
 				.parseClaimsJws(token);
-		log.info("\t > JWT header = {}", jws.getHeader().keySet());
-		log.info("\t > JWT body = {}", jws.getBody().keySet());
-		log.info("\t > JWT signature = {}", jws.getSignature());
+		log.info("\t > token header = {}", jws.getHeader().keySet());
+		log.info("\t > token body = {}", jws.getBody().keySet());
+		log.info("\t > token signature = {}", jws.getSignature());
 
-		return ResponseEntity.ok(SuccessResponse.builder()
-				.message("success")
-				.data(Map.of("token", token))
-				.build());
+		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 
 	@GetMapping("/test3")
 	public ResponseEntity<Object> test3() {
 		log.info("## test3");
 		
-		UserDetails userDetails = userDetailsService.loadUserByUsername("smj20228");
+		UserDetails userDetails = userDetailsService.loadUserByUsername(USERNAME);
 		Map<String, Object> header = createHeader();
 		Map<String, Object> claims = createClaims(userDetails);
-		Key invalidKey = createKey("JsonWebTokenAuthenticationWithSpringBootTestProjectSecretKey");
 		
 		// SignatureException 
 		log.info("## validate invalidKeyToken"); 
 		String invalidKeyToken = Jwts.builder()
 				.setHeader(header)
 				.setClaims(claims)
-				.signWith(invalidKey, SignatureAlgorithm.HS256)
+				.signWith(createKey(INVALID_SECRET_KEY), SignatureAlgorithm.HS256)
 				.compact();
 		jwtProvider.validateToken(invalidKeyToken); 
 		
@@ -114,8 +113,7 @@ public class TestJwtController {
 
 		// MalformedJwtException
 		log.info("## validate malformedToken"); 
-		String malformedToken = "aaabbbccc";
-		//String malformedToken = "aaa.bbb.ccc";
+		String malformedToken = "aaabbbccc"; // "aaa.bbb.ccc"
 		jwtProvider.validateToken(malformedToken);
 
 		// IllegalArgumentException 
@@ -128,7 +126,7 @@ public class TestJwtController {
 		String multiInvalidToken = Jwts.builder()
 				.setHeader(header)
 				.setExpiration(new Date(System.currentTimeMillis() - VALIDITY_IN_MILLIS))
-				.signWith(invalidKey, SignatureAlgorithm.HS256)
+				.signWith(createKey(INVALID_SECRET_KEY), SignatureAlgorithm.HS256)
 				.compact();
 		jwtProvider.validateToken(multiInvalidToken);
 		
@@ -167,7 +165,6 @@ public class TestJwtController {
 				.compact();
 		jwtProvider.validateToken(expiredJwt);
 
-		// valid 
 		log.info("## validate valid JWT");
 		String validJwt = Jwts.builder()
 				.setClaims(Map.of("exp", new Date(System.currentTimeMillis() + VALIDITY_IN_MILLIS)))
@@ -203,4 +200,5 @@ public class TestJwtController {
 	private Key createKey(String str) {
 		return Keys.hmacShaKeyFor(str.getBytes(StandardCharsets.UTF_8));
 	}
+	
 }
