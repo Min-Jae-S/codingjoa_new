@@ -218,12 +218,12 @@ public class TestJwtController {
 		log.info("\t > resolved token = {}", token);
 		
 		if (jwtProvider.validateToken(token)) {
-			msg = "valid JWT";
+			msg = "valid token";
 			Authentication authentication = jwtProvider.getAuthentication(token);
 			log.info("\t > {}", msg);
 			log.info("\t > authentication = {}", authentication);
 		} else {
-			msg = "invalid JWT";
+			msg = "invalid token";
 			log.info("\t > {}", msg);
 		}
 		
@@ -261,7 +261,6 @@ public class TestJwtController {
 		if (header != null && header.startsWith("Bearer ")) {
 			token = header.split(" ")[1];
 		}
-		log.info("\t > resolved token = {}", token);
 		
 		return token;
 	}

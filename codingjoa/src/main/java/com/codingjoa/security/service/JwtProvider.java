@@ -62,7 +62,7 @@ public class JwtProvider {
 	}
 
 	public Authentication getAuthentication(String token) {
-		String username = parseJwt(token).getBody().getSubject();
+		String username = parseToken(token).getBody().getSubject();
 		UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 		return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 	}
@@ -76,8 +76,8 @@ public class JwtProvider {
 	 */
 	public boolean validateToken(String token) {
 		try {
-			Jws<Claims> jws = parseJwt(token);
-			log.info("\t > parsed JWT, header = {}, claims = {}", jws.getHeader(), jws.getBody());
+			Jws<Claims> jws = parseToken(token);
+			log.info("\t > parsed token, header = {}, claims = {}", jws.getHeader(), jws.getBody());
 			
 			Date exp = jws.getBody().getExpiration();
 			if (exp == null) {
@@ -88,9 +88,8 @@ public class JwtProvider {
 			if (!StringUtils.hasText(username)) {
 				throw new IllegalArgumentException("'sub' is required; username = " + username);
 			}
-			
-			return true;
 			//return !claims.getExpiration().before(new Date(System.currentTimeMillis()));
+			return true;
 		} catch (Exception e) { 
 			log.info("\t > {} : {}", e.getClass().getSimpleName(), e.getMessage());
 			return false;
@@ -98,7 +97,7 @@ public class JwtProvider {
 		}
 	}
 	
-	private Jws<Claims> parseJwt(String token) {
+	private Jws<Claims> parseToken(String token) {
 		return Jwts.parserBuilder().setSigningKey(signingKey).build().parseClaimsJws(token);
 	}
 	
