@@ -182,7 +182,7 @@ public class TestJwtController {
 	public ResponseEntity<Object> test5(HttpServletRequest request) {
 		log.info("## test5");
 		String header = request.getHeader(HttpHeaders.AUTHORIZATION);
-		log.info("\t > header = {}", header);
+		log.info("\t > HttpHeaders.AUTHORIZATION = {}", header);
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}

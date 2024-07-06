@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>session.jsp</title>
+<title>jwt.jsp</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
@@ -38,12 +38,30 @@
 <c:import url="/WEB-INF/views/include/top-menu.jsp"/>
 <div class="container my-5">
 	<p>jwt.jsp</p>
-	<div class="test d-flex justify-content-center mt-5">
+	<div class="test d-flex justify-content-center mt-5 mb-5">
 		<button class="btn btn-primary btn-lg test-btn mx-3" onclick="test1()">test1</button>
 		<button class="btn btn-primary btn-lg test-btn mx-3" onclick="test2()">test2</button>
 		<button class="btn btn-primary btn-lg test-btn mx-3" onclick="test3()">test3</button>
 		<button class="btn btn-primary btn-lg test-btn mx-3" onclick="test4()">test4</button>
-		<button class="btn btn-primary btn-lg test-btn mx-3" onclick="test5()">test5</button>
+	</div>
+	<div class="d-flex flex-column px-3">
+		<button class="btn btn-primary btn-lg mx-3 mb-2" onclick="test5()">
+			<span>test5</span>
+		</button>
+		<div class="px-3 d-flex justify-content-around">
+			<div class="form-check form-check-inline mr-0">
+			  <input class="form-check-input" type="radio" name="test5Radio" id="test5Radio1" value="undefined" checked>
+			  <label class="form-check-label" for="test5Radio1">no header</label>
+			</div>
+			<div class="form-check form-check-inline mr-0">
+			  <input class="form-check-input" type="radio" name="test5Radio" id="test5Radio2" value="">
+			  <label class="form-check-label" for="test5Radio2">Authorization: blank header</label>
+			</div>
+			<div class="form-check form-check-inline mr-0">
+			  <input class="form-check-input" type="radio" name="test5Radio" id="test5Radio3" value="Authorization">
+			  <label class="form-check-label" for="test5Radio3">Authorization</label>
+			</div>
+		</div>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
@@ -55,7 +73,7 @@
 			url : "${contextPath}/test/jwt/test1",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
-				console.log("> result = %s", result);
+				console.log(JSON.stringify(result, null, 2));
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
@@ -71,7 +89,7 @@
 			url : "${contextPath}/test/jwt/test2",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
-				console.log("> result = %s", result);
+				console.log(JSON.stringify(result, null, 2));
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
@@ -87,7 +105,7 @@
 			url : "${contextPath}/test/jwt/test3",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
-				console.log("> result = %s", result);
+				console.log(JSON.stringify(result, null, 2));
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
@@ -103,7 +121,8 @@
 			url : "${contextPath}/test/jwt/test4",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
-				console.log("> result = %s", result);
+				console.log(result);
+				console.log(JSON.stringify(result, null, 2));
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
@@ -114,12 +133,20 @@
 
 	function test5() {
 		console.log("## test5");
+		let option = $("[name='test5Radio']:checked").val();
+		console.log("> option = '%s'", option);
+		
 		$.ajax({
 			type : "GET",
 			url : "${contextPath}/test/jwt/test5",
+			beforeSend : function(xhr) {
+				if (option != "undefined") {
+					xhr.setRequestHeader("authorization", option);
+				}
+			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
-				console.log("> result = %s", result);
+				console.log(JSON.stringify(result, null, 2));
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
