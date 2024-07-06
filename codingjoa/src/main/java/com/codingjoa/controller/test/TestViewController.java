@@ -73,7 +73,7 @@ public class TestViewController {
 
 	@GetMapping("/jwt")
 	public String jwtMain() {
-		log.info("## redirect main");
+		log.info("## jwt main");
 		return "test/jwt";
 	}
 }

@@ -44,7 +44,7 @@
 		<button class="btn btn-primary btn-lg test-btn mx-3" onclick="test3()">test3</button>
 		<button class="btn btn-primary btn-lg test-btn mx-3" onclick="test4()">test4</button>
 	</div>
-	<div class="d-flex flex-column px-3">
+	<div class="d-flex flex-column px-3 mb-5">
 		<button class="btn btn-primary btn-lg mx-3 mb-2" onclick="test5()">
 			<span>test5</span>
 		</button>
@@ -60,6 +60,41 @@
 			<div class="form-check form-check-inline mr-0">
 			  <input class="form-check-input" type="radio" name="test5Radio" id="test5Radio3" value="Authorization">
 			  <label class="form-check-label" for="test5Radio3">Authorization</label>
+			</div>
+		</div>
+	</div>
+	<div class="d-flex flex-column px-3">
+		<button class="btn btn-primary btn-lg mx-3 mb-2" onclick="test6()">
+			<span>test6</span>
+		</button>
+		<div class="px-3 d-flex justify-content-around">
+			<div class="form-check form-check-inline mr-0">
+			  <input class="form-check-input" type="radio" name="test6Radio" id="test6Radio1" value="undefiend" checked>
+			  <label class="form-check-label" for="test6Radio1">no header</label>
+			</div>
+			<div class="form-check form-check-inline mr-0">
+			  <input class="form-check-input" type="radio" name="test6Radio" id="test6Radio2" value="">
+			  <label class="form-check-label" for="test6Radio2">empty</label>
+			</div>
+			<div class="form-check form-check-inline mr-0">
+			  <input class="form-check-input" type="radio" name="test6Radio" id="test6Radio3" value="Bearer">
+			  <label class="form-check-label" for="test6Radio3">no JWT + 'Bearer'</label>
+			</div>
+			<div class="form-check form-check-inline mr-0">
+			  <input class="form-check-input" type="radio" name="test6Radio" id="test6Radio4" value="Bearer ">
+			  <label class="form-check-label" for="test6Radio4">no JWT + 'Bearer '</label>
+			</div>
+			<div class="form-check form-check-inline mr-0">
+			  <input class="form-check-input" type="radio" name="test6Radio" id="test6Radio5" value=" Bearer ">
+			  <label class="form-check-label" for="test6Radio5">no JWT + ' Bearer '</label>
+			</div>
+			<div class="form-check form-check-inline mr-0">
+			  <input class="form-check-input" type="radio" name="test6Radio" id="test6Radio6" value="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzbWoyMDIyOCIsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODg4OC9jb2Rpbmdqb2EiLCJpYXQiOjE3MjAyNDI3MTYsImV4cCI6MTcyMDI0NDUxNiwicm9sZSI6IlJPTEVfTUVNQkVSIn0.Z-7IHPTrEXLct_DqFRRdkuW8CukO-Q2uolqp_Zu-OKs">
+			  <label class="form-check-label" for="test6Radio6">no Bearer</label>
+			</div>
+			<div class="form-check form-check-inline mr-0">
+			  <input class="form-check-input" type="radio" name="test6Radio" id="test6Radio7" value="Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzbWoyMDIyOCIsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODg4OC9jb2Rpbmdqb2EiLCJpYXQiOjE3MjAyNDI3MTYsImV4cCI6MTcyMDI0NDUxNiwicm9sZSI6IlJPTEVfTUVNQkVSIn0.Z-7IHPTrEXLct_DqFRRdkuW8CukO-Q2uolqp_Zu-OKs">
+			  <label class="form-check-label" for="test6Radio7">Bearer + JWT</label>
 			</div>
 		</div>
 	</div>
@@ -142,6 +177,31 @@
 			beforeSend : function(xhr) {
 				if (option != "undefined") {
 					xhr.setRequestHeader("authorization", option);
+					//xhr.setRequestHeader("Authorization", "Bearer " + token);
+				}
+			},
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log(JSON.stringify(result, null, 2));
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				parseError(jqXHR);
+			}
+		});
+	}
+	
+	function test6() {
+		console.log("## test6");
+		let option = $("[name='test6Radio']:checked").val();
+		console.log("> option = '%s'", option);
+		
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/jwt/test6",
+			beforeSend : function(xhr) {
+				if (option != "undefiend") {
+					xhr.setRequestHeader("Authorization", option);
 				}
 			},
 			success : function(result) {

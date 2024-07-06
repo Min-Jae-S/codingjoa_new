@@ -187,6 +187,15 @@ public class TestJwtController {
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 	
+	@GetMapping("/test6")
+	public ResponseEntity<Object> test6(HttpServletRequest request) {
+		log.info("## test6");
+		String token = resolveToken(request);
+		log.info("\t > resolved token = {}", token);
+		
+		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
+	}
+	
 	private Map<String, Object> createHeader() {
 		return Map.of("typ", "JWT", "alg", "HS256");
 	}
@@ -210,6 +219,22 @@ public class TestJwtController {
 		return Keys.hmacShaKeyFor(str.getBytes(StandardCharsets.UTF_8));
 	}
 	
+	private String resolveToken(HttpServletRequest request) {
+		String header = request.getHeader(HttpHeaders.AUTHORIZATION);
+		log.info("\t > header = {}", header == null ? null : "'" + header + "'");
+		
+		if (header != null) {
+			log.info("\t > header startsWith 'Bearer ' = {}", header.startsWith("Bearer "));
+		}
+		
+		String token = null;
+		if (header != null && header.startsWith("Bearer ")) {
+			token = header.split(" ")[1];
+		}
+		log.info("\t > token = {}", token);
+		
+		return token;
+	}
 	
 	
 }
