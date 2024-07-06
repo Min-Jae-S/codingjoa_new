@@ -6,6 +6,9 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -174,6 +177,15 @@ public class TestJwtController {
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 	
+	@GetMapping("/test5")
+	public ResponseEntity<Object> test5(HttpServletRequest request) {
+		log.info("## test5");
+		String header = request.getHeader(HttpHeaders.AUTHORIZATION);
+		log.info("\t > header = {}", header);
+		
+		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
+	}
+	
 	private Map<String, Object> createHeader() {
 		return Map.of("typ", "JWT", "alg", "HS256");
 	}
@@ -196,5 +208,7 @@ public class TestJwtController {
 	private Key createKey(String str) {
 		return Keys.hmacShaKeyFor(str.getBytes(StandardCharsets.UTF_8));
 	}
+	
+	
 	
 }
