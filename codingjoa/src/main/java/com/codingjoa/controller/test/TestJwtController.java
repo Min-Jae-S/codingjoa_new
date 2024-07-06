@@ -75,7 +75,7 @@ public class TestJwtController {
 		Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 		
 		String token = jwtProvider.createToken(authentication);
-		log.info("\t > token = {}", token);
+		log.info("\t > created token = {}", token);
 		
 		Jws<Claims> jws = Jwts.parserBuilder()
 				.setSigningKey(signingKey)
@@ -191,8 +191,7 @@ public class TestJwtController {
 	public ResponseEntity<Object> test6(HttpServletRequest request) {
 		log.info("## test6");
 		String token = resolveToken(request);
-		log.info("\t > token = {}", token);
-		
+		log.info("\t > resolved token = {}", token);
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 	
@@ -203,7 +202,7 @@ public class TestJwtController {
 		Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 		
 		String token = jwtProvider.createToken(authentication);
-		log.info("\t > token = {}", token);
+		log.info("\t > created token = {}", token);
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
 				.message("success")
@@ -214,16 +213,21 @@ public class TestJwtController {
 	@GetMapping("/token")
 	public ResponseEntity<Object> receiveToken(HttpServletRequest request) {
 		log.info("## receiveToken");
+		String msg = "";
 		String token = resolveToken(request);
+		log.info("\t > resolved token = {}", token);
+		
 		if (jwtProvider.validateToken(token)) {
-			log.info("\t > valid jwt");
+			msg = "valid JWT";
 			Authentication authentication = jwtProvider.getAuthentication(token);
+			log.info("\t > {}", msg);
 			log.info("\t > authentication = {}", authentication);
 		} else {
-			log.info("\t > invalid jwt");
+			msg = "invalid JWT";
+			log.info("\t > {}", msg);
 		}
 		
-		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
+		return ResponseEntity.ok(SuccessResponse.builder().message(msg).build());
 	}
 	
 	private Map<String, Object> createHeader() {
@@ -251,12 +255,13 @@ public class TestJwtController {
 	
 	private String resolveToken(HttpServletRequest request) {
 		String header = request.getHeader(HttpHeaders.AUTHORIZATION);
-		log.info("\t > header = {}", header == null ? null : "'" + header + "'");
+		log.info("\t > authorization header = {}", header == null ? null : "'" + header + "'");
 		
 		String token = null;
 		if (header != null && header.startsWith("Bearer ")) {
 			token = header.split(" ")[1];
 		}
+		log.info("\t > resolved token = {}", token);
 		
 		return token;
 	}

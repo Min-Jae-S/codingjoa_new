@@ -77,7 +77,7 @@ public class JwtProvider {
 	public boolean validateToken(String token) {
 		try {
 			Jws<Claims> jws = parseJwt(token);
-			log.info("\t > parsed JWT, header = {}, claims = {}", jws.getHeader().keySet(), jws.getBody().keySet());
+			log.info("\t > parsed JWT, header = {}, claims = {}", jws.getHeader(), jws.getBody());
 			
 			Date exp = jws.getBody().getExpiration();
 			if (exp == null) {

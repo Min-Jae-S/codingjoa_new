@@ -29,7 +29,7 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
 		log.info("## {}", this.getClass().getSimpleName());
 		
 		String token = resolveToken(request);
-		log.info("\t > token = {}", token);
+		log.info("\t > resolved token = {}", token);
 		
 		if (jwtProvider.validateToken(token)) {
 			Authentication authentication = jwtProvider.getAuthentication(token);
@@ -41,7 +41,7 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
 	
 	private String resolveToken(HttpServletRequest request) {
 		String header = request.getHeader(HttpHeaders.AUTHORIZATION);
-		log.info("\t > header = {}", header == null ? null : "'" + header + "'");
+		log.info("\t > authorization header = {}", header == null ? null : "'" + header + "'");
 		
 		String token = null;
 		if (header != null && header.startsWith("Bearer ")) {
