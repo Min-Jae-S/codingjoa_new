@@ -195,6 +195,21 @@ public class TestJwtController {
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
+
+	@GetMapping("/test7")
+	public ResponseEntity<Object> test7(HttpServletRequest request) {
+		log.info("## test7");
+		String token = resolveToken(request);
+		if (jwtProvider.validateToken(token)) {
+			log.info("\t > valid jwt");
+			Authentication authentication = jwtProvider.getAuthentication(token);
+			log.info("\t > authentication = {}", authentication);
+		} else {
+			log.info("\t > invalid jwt");
+		}
+		
+		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
+	}
 	
 	private Map<String, Object> createHeader() {
 		return Map.of("typ", "JWT", "alg", "HS256");

@@ -18,6 +18,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.codingjoa.security.dto.UserDetailsDto;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
@@ -96,7 +97,9 @@ public class JwtProvider {
 	}
 	
 	private Claims parseClaims(String token) {
-		return Jwts.parserBuilder().setSigningKey(signingKey).build().parseClaimsJws(token).getBody();
+		Jws<Claims> jws = Jwts.parserBuilder().setSigningKey(signingKey).build().parseClaimsJws(token);
+		log.info("\t > parsing JWT, header = {}, claims = {}", jws.getHeader().keySet(), jws.getBody().keySet());
+		return jws.getBody();
 	}
 	
 	private Map<String, Object> createHeader() {

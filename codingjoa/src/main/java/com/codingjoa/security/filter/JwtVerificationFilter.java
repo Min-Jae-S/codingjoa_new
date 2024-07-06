@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -39,6 +40,14 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
 	}
 	
 	private String resolveToken(HttpServletRequest request) {
-		return "";
+		String header = request.getHeader(HttpHeaders.AUTHORIZATION);
+		log.info("\t > header = {}", header == null ? null : "'" + header + "'");
+		
+		String token = null;
+		if (header != null && header.startsWith("Bearer ")) {
+			token = header.split(" ")[1];
+		}
+		
+		return token;
 	}
 }
