@@ -40,7 +40,6 @@ public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHa
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
 		log.info("## {}", this.getClass().getSimpleName());
-		log.info("\t > requestAttributes currently bound to the thread = {}", RequestContextHolder.getRequestAttributes());
 		
 		SuccessResponse successResponse = SuccessResponse.builder()
 				.status(HttpStatus.OK)

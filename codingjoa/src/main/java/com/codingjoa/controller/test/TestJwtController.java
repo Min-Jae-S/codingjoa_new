@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import com.codingjoa.response.SuccessResponse;
 import com.codingjoa.security.dto.UserDetailsDto;
@@ -197,9 +196,10 @@ public class TestJwtController {
 	}
 
 	@GetMapping("/test7")
-	public ResponseEntity<Object> test7() {
+	public ResponseEntity<Object> test7(HttpServletRequest request) {
 		log.info("## test7");
 		log.info("\t > requestAttributes currently bound to the thread = {}", RequestContextHolder.getRequestAttributes());
+		log.info("\t > baseUrl from currently bound to the thread = {}", ServletUriComponentsBuilder.fromContextPath(request).toString());
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 	
