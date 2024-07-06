@@ -195,10 +195,25 @@ public class TestJwtController {
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
+	
+	@GetMapping("/create-token")
+	public ResponseEntity<Object> createToken(HttpServletRequest request) {
+		log.info("## createToken");
+		UserDetails userDetails = userDetailsService.loadUserByUsername(USERNAME);
+		Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+		
+		String token = jwtProvider.createToken(authentication);
+		log.info("\t > token = {}", token);
+		
+		return ResponseEntity.ok(SuccessResponse.builder()
+				.message("success")
+				.data(Map.of("token", token))
+				.build());
+	}
 
-	@GetMapping("/test7")
-	public ResponseEntity<Object> test7(HttpServletRequest request) {
-		log.info("## test7");
+	@GetMapping("/token")
+	public ResponseEntity<Object> receiveToken(HttpServletRequest request) {
+		log.info("## receiveToken");
 		String token = resolveToken(request);
 		if (jwtProvider.validateToken(token)) {
 			log.info("\t > valid jwt");

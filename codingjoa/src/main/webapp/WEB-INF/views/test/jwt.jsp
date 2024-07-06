@@ -63,7 +63,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="d-flex flex-column px-3">
+	<div class="d-flex flex-column px-3 mb-5">
 		<button class="btn btn-primary btn-lg mx-3 mb-2" onclick="test6()">
 			<span>test6</span>
 		</button>
@@ -90,9 +90,17 @@
 			</div>
 		</div>
 	</div>
+	<div class="test d-flex justify-content-center mt-5 mb-5">
+		<button class="btn btn-warning btn-lg test-btn mx-3" onclick="createToken()">create JWT</button>
+		<button class="btn btn-warning btn-lg test-btn mx-3" onclick="sendToken()">send JWT</button>
+		<button class="btn btn-primary btn-lg test-btn mx-3 invisible" onclick="#">#</button>
+		<button class="btn btn-primary btn-lg test-btn mx-3 invisible" onclick="#">#</button>
+	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 <script>
+	let token;
+	
 	function test1() {
 		console.log("## test1");
 		$.ajax({
@@ -195,6 +203,47 @@
 				if (option != "undefiend") {
 					xhr.setRequestHeader("Authorization", option);
 				}
+			},
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log(JSON.stringify(result, null, 2));
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				parseError(jqXHR);
+			}
+		});
+	}
+	
+	function createToken() {
+		console.log("## createToken");
+		let oldToken = token;
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/jwt/create-token",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log(JSON.stringify(result, null, 2));
+				token = result.data.token;
+				console.log("> token has been renewed")
+				console.log("> old token = %s", oldToken);
+				console.log("> new token = %s", token);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				parseError(jqXHR);
+			}
+		});
+	}
+	
+	function sendToken() {
+		console.log("## sendToken");
+		console.log("> check token before seding token = %s", token);
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/jwt/token",
+			beforeSend : function(xhr) {
+				xhr.setRequestHeader("Authorization", "Bearer " + token);
 			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
