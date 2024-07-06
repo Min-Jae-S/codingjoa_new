@@ -97,6 +97,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.and()
 			.formLogin().disable()
 			.addFilterBefore(restAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+			.addFilterAfter(jwtVerificationFilter(), RestAuthenticationFilter.class)
 			.logout()
 				//.logoutUrl("/api/logout")
 				//.logoutRequestMatcher(new AntPathRequestMatcher("/api/logout", "POST"))

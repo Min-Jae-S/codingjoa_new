@@ -103,7 +103,7 @@
 		<button class="btn btn-warning btn-lg test-btn mx-3" onclick="createToken()">create JWT</button>
 		<button class="btn btn-warning btn-lg test-btn mx-3" onclick="sendToken()">send JWT</button>
 		<button class="btn btn-warning btn-lg test-btn mx-3" onclick="resetToken()">reset JWT</button>
-		<button class="btn btn-primary btn-lg test-btn mx-3 invisible" onclick="#">#</button>
+		<button class="btn btn-warning btn-lg test-btn mx-3" onclick="getCurrentToken()">current JWT</button>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
@@ -246,7 +246,6 @@
 	
 	function sendToken() {
 		console.log("## sendToken");
-		console.log("> current token = '%s'", token);
 		$.ajax({
 			type : "GET",
 			url : "${contextPath}/test/jwt/token",
@@ -267,6 +266,10 @@
 	function resetToken() {
 		console.log("## resetToken");
 		token = "";
+	}
+	
+	function getCurrentToken() {
+		console.log("## getCurrentToken");
 		console.log("> current token = '%s'", token);
 	}
 </script>

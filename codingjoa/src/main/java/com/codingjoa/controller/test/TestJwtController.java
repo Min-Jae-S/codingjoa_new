@@ -17,6 +17,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.codingjoa.response.SuccessResponse;
@@ -191,6 +192,14 @@ public class TestJwtController {
 		log.info("## test6");
 		String token = resolveToken(request);
 		log.info("\t > resolved token = {}", token == null ? null : "'" + token + "'");
+		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
+	}
+
+	@GetMapping("/test7")
+	public ResponseEntity<Object> test7() {
+		log.info("## test7");
+		log.info("\t > requestAttributes = {}", RequestContextHolder.getRequestAttributes());
+		log.info("\t > baseUrl from ServletUriComponentsBuilder = {}", ServletUriComponentsBuilder.fromCurrentContextPath().build().toString());
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 	

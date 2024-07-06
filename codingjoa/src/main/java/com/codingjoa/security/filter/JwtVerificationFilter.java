@@ -27,6 +27,7 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 		log.info("## {}", this.getClass().getSimpleName());
+		log.info("\t > URI = {}", getFullURL(request));
 		
 		String token = resolveToken(request);
 		log.info("\t > resolved token = {}", token == null ? null : "'" + token + "'");
@@ -49,5 +50,17 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
 		}
 		
 		return token;
+	}
+	
+	private String getFullURL(HttpServletRequest request) {
+		StringBuffer requestURL = request.getRequestURL();
+		String queryString = request.getQueryString();
+		
+		if (queryString == null) {
+			return requestURL.toString();
+		} else {
+			//return requestURL.append('?').append(URLDecoder.decode(queryString, StandardCharsets.UTF_8)).toString();
+			return requestURL.append('?').append(queryString).toString();
+		}
 	}
 }

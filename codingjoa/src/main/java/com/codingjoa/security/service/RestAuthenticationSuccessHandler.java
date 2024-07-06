@@ -18,6 +18,8 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.StringUtils;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.codingjoa.response.SuccessResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -38,11 +40,14 @@ public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHa
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
 		log.info("## {}", this.getClass().getSimpleName());
+		log.info("\t > requestAttributes = {}", RequestContextHolder.getRequestAttributes());
+		log.info("\t > get baseUrl from ServletUriComponentsBuilder");
+		log.info("\t > baseUrl = {}", ServletUriComponentsBuilder.fromCurrentContextPath().build().toString());
 		
 		SuccessResponse successResponse = SuccessResponse.builder()
 				.status(HttpStatus.OK)
 				.messageByCode("success.Login")
-				.data(Map.of("token", jwtProvider.createToken(authentication)))
+				//.data(Map.of("token", jwtProvider.createToken(authentication)))
 				.build();
 		
 		response.setStatus(HttpServletResponse.SC_OK);
