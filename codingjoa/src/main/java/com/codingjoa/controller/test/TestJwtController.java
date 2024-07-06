@@ -191,7 +191,7 @@ public class TestJwtController {
 	public ResponseEntity<Object> test6(HttpServletRequest request) {
 		log.info("## test6");
 		String token = resolveToken(request);
-		log.info("\t > resolved token = {}", token);
+		log.info("\t > token = {}", token);
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
@@ -223,15 +223,10 @@ public class TestJwtController {
 		String header = request.getHeader(HttpHeaders.AUTHORIZATION);
 		log.info("\t > header = {}", header == null ? null : "'" + header + "'");
 		
-		if (header != null) {
-			log.info("\t > header startsWith 'Bearer ' = {}", header.startsWith("Bearer "));
-		}
-		
 		String token = null;
 		if (header != null && header.startsWith("Bearer ")) {
 			token = header.split(" ")[1];
 		}
-		log.info("\t > token = {}", token);
 		
 		return token;
 	}

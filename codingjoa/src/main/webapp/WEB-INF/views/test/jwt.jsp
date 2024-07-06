@@ -77,24 +77,12 @@
 			  <label class="form-check-label" for="test6Radio2">empty</label>
 			</div>
 			<div class="form-check form-check-inline mr-0">
-			  <input class="form-check-input" type="radio" name="test6Radio" id="test6Radio3" value="Bearer">
-			  <label class="form-check-label" for="test6Radio3">no JWT + 'Bearer'</label>
+			  <input class="form-check-input" type="radio" name="test6Radio" id="test6Radio3" value="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzbWoyMDIyOCIsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODg4OC9jb2Rpbmdqb2EiLCJpYXQiOjE3MjAyNDI3MTYsImV4cCI6MTcyMDI0NDUxNiwicm9sZSI6IlJPTEVfTUVNQkVSIn0.Z-7IHPTrEXLct_DqFRRdkuW8CukO-Q2uolqp_Zu-OKs">
+			  <label class="form-check-label" for="test6Radio3">no Bearer</label>
 			</div>
 			<div class="form-check form-check-inline mr-0">
-			  <input class="form-check-input" type="radio" name="test6Radio" id="test6Radio4" value="Bearer ">
-			  <label class="form-check-label" for="test6Radio4">no JWT + 'Bearer '</label>
-			</div>
-			<div class="form-check form-check-inline mr-0">
-			  <input class="form-check-input" type="radio" name="test6Radio" id="test6Radio5" value=" Bearer ">
-			  <label class="form-check-label" for="test6Radio5">no JWT + ' Bearer '</label>
-			</div>
-			<div class="form-check form-check-inline mr-0">
-			  <input class="form-check-input" type="radio" name="test6Radio" id="test6Radio6" value="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzbWoyMDIyOCIsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODg4OC9jb2Rpbmdqb2EiLCJpYXQiOjE3MjAyNDI3MTYsImV4cCI6MTcyMDI0NDUxNiwicm9sZSI6IlJPTEVfTUVNQkVSIn0.Z-7IHPTrEXLct_DqFRRdkuW8CukO-Q2uolqp_Zu-OKs">
-			  <label class="form-check-label" for="test6Radio6">no Bearer</label>
-			</div>
-			<div class="form-check form-check-inline mr-0">
-			  <input class="form-check-input" type="radio" name="test6Radio" id="test6Radio7" value="Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzbWoyMDIyOCIsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODg4OC9jb2Rpbmdqb2EiLCJpYXQiOjE3MjAyNDI3MTYsImV4cCI6MTcyMDI0NDUxNiwicm9sZSI6IlJPTEVfTUVNQkVSIn0.Z-7IHPTrEXLct_DqFRRdkuW8CukO-Q2uolqp_Zu-OKs">
-			  <label class="form-check-label" for="test6Radio7">Bearer + JWT</label>
+			  <input class="form-check-input" type="radio" name="test6Radio" id="test6Radio4" value="Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzbWoyMDIyOCIsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODg4OC9jb2Rpbmdqb2EiLCJpYXQiOjE3MjAyNDI3MTYsImV4cCI6MTcyMDI0NDUxNiwicm9sZSI6IlJPTEVfTUVNQkVSIn0.Z-7IHPTrEXLct_DqFRRdkuW8CukO-Q2uolqp_Zu-OKs">
+			  <label class="form-check-label" for="test6Radio4">Bearer + JWT</label>
 			</div>
 		</div>
 	</div>
