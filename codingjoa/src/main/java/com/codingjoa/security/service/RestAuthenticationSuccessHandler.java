@@ -45,7 +45,7 @@ public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHa
 		SuccessResponse successResponse = SuccessResponse.builder()
 				.status(HttpStatus.OK)
 				.messageByCode("success.Login")
-				//.data(Map.of("token", jwtProvider.createToken(authentication)))
+				.data(Map.of("token", jwtProvider.createToken(request, authentication)))
 				.build();
 		
 		response.setStatus(HttpServletResponse.SC_OK);

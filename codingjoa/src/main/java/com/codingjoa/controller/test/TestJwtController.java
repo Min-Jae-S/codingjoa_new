@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.codingjoa.response.SuccessResponse;
 import com.codingjoa.security.dto.UserDetailsDto;
@@ -69,13 +70,13 @@ public class TestJwtController {
 	}
 	
 	@GetMapping("/test2")
-	public ResponseEntity<Object> test2() {
+	public ResponseEntity<Object> test2(HttpServletRequest request) {
 		log.info("## test2");
 
 		UserDetails userDetails = userDetailsService.loadUserByUsername(USERNAME);
 		Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 		
-		String token = jwtProvider.createToken(authentication);
+		String token = jwtProvider.createToken(request, authentication);
 		log.info("\t > created token = {}", token);
 		
 		Jws<Claims> jws = Jwts.parserBuilder()
@@ -199,7 +200,6 @@ public class TestJwtController {
 	public ResponseEntity<Object> test7() {
 		log.info("## test7");
 		log.info("\t > requestAttributes currently bound to the thread = {}", RequestContextHolder.getRequestAttributes());
-		log.info("\t > baseUrl from ServletUriComponentsBuilder = {}", ServletUriComponentsBuilder.fromCurrentContextPath().build().toString());
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 	
@@ -209,7 +209,7 @@ public class TestJwtController {
 		UserDetails userDetails = userDetailsService.loadUserByUsername(USERNAME);
 		Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 		
-		String token = jwtProvider.createToken(authentication);
+		String token = jwtProvider.createToken(request, authentication);
 		log.info("\t > created token = {}", token);
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
