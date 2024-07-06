@@ -25,12 +25,21 @@
 	}
 	
 	div.test {
-		padding-left: 1.3rem;
-		padding-right: 1.3rem;
+		padding-left: 1.5rem;
+		padding-right: 1.5rem;
 	}
 	
 	.test-btn, div.input-group {
 		width: 230px;
+	}
+	
+	div.form-check {
+		font-size: 1.1rem;
+		font-weight: 500;
+	}
+	
+	.mb-6 {
+		margin-bottom: 5rem;
 	}
 </style>
 </head>
@@ -38,13 +47,13 @@
 <c:import url="/WEB-INF/views/include/top-menu.jsp"/>
 <div class="container my-5">
 	<p>jwt.jsp</p>
-	<div class="test d-flex justify-content-center mt-5 mb-5">
+	<div class="test d-flex justify-content-between mt-5 mb-6">
 		<button class="btn btn-primary btn-lg test-btn mx-3" onclick="test1()">test1</button>
 		<button class="btn btn-primary btn-lg test-btn mx-3" onclick="test2()">test2</button>
 		<button class="btn btn-primary btn-lg test-btn mx-3" onclick="test3()">test3</button>
 		<button class="btn btn-primary btn-lg test-btn mx-3" onclick="test4()">test4</button>
 	</div>
-	<div class="d-flex flex-column px-3 mb-5">
+	<div class="test d-flex flex-column mb-6">
 		<button class="btn btn-primary btn-lg mx-3 mb-2" onclick="test5()">
 			<span>test5</span>
 		</button>
@@ -63,7 +72,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="d-flex flex-column px-3 mb-5">
+	<div class="test d-flex flex-column mb-6">
 		<button class="btn btn-primary btn-lg mx-3 mb-2" onclick="test6()">
 			<span>test6</span>
 		</button>
@@ -90,7 +99,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="test d-flex justify-content-center mt-5 mb-5">
+	<div class="test d-flex justify-content-between mt-5 mb-6">
 		<button class="btn btn-warning btn-lg test-btn mx-3" onclick="createToken()">create JWT</button>
 		<button class="btn btn-warning btn-lg test-btn mx-3" onclick="sendToken()">send JWT</button>
 		<button class="btn btn-primary btn-lg test-btn mx-3 invisible" onclick="#">#</button>
