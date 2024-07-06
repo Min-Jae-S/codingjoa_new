@@ -76,13 +76,14 @@ public class JwtProvider {
 	public boolean validateToken(String token) {
 		try {
 			Claims claims = parseClaims(token);
-			if (claims.getExpiration() == null) {
-				throw new IllegalArgumentException("'exp' is required");
+			Date exp = claims.getExpiration();
+			if (exp == null) {
+				throw new IllegalArgumentException("'exp' is required; exp = " + exp);
 			}
 			
 			String username = claims.getSubject();
 			if (!StringUtils.hasText(username)) {
-				throw new IllegalArgumentException("'sub' is required");
+				throw new IllegalArgumentException("'sub' is required; username = " + username);
 			}
 			
 			return true;

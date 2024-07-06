@@ -159,6 +159,14 @@ public class TestJwtController {
 		String noExpJwt = Jwts.builder().setClaims(Map.of("email", "smj20228")).signWith(signingKey, SignatureAlgorithm.HS256).compact();
 		jwtProvider.validateToken(noExpJwt);
 		
+		// no expiration : IllegalArgumentException
+		log.info("## validate no sub JWT");
+		String noSubJwt = Jwts.builder()
+				.setClaims(Map.of("exp", new Date(System.currentTimeMillis() + VALIDITY_IN_MILLIS)))
+				.signWith(signingKey, SignatureAlgorithm.HS256)
+				.compact();
+		jwtProvider.validateToken(noSubJwt);
+		
 		// expired : ExpiredJwtException
 		log.info("## validate expired JWT");
 		String expiredJwt = Jwts.builder()
@@ -166,13 +174,6 @@ public class TestJwtController {
 				.signWith(signingKey, SignatureAlgorithm.HS256)
 				.compact();
 		jwtProvider.validateToken(expiredJwt);
-
-		log.info("## validate valid JWT");
-		String validJwt = Jwts.builder()
-				.setClaims(Map.of("exp", new Date(System.currentTimeMillis() + VALIDITY_IN_MILLIS)))
-				.signWith(signingKey, SignatureAlgorithm.HS256)
-				.compact();
-		jwtProvider.validateToken(validJwt);
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
