@@ -99,7 +99,7 @@
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 <script>
-	let token;
+	let token = "";
 	
 	function test1() {
 		console.log("## test1");
@@ -217,17 +217,16 @@
 	
 	function createToken() {
 		console.log("## createToken");
-		let oldToken = token;
 		$.ajax({
 			type : "GET",
 			url : "${contextPath}/test/jwt/create-token",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
-				token = result.data.token;
 				console.log("> token has been renewed")
-				console.log("> old token = %s", oldToken);
-				console.log("> new token = %s", token);
+				console.log("> old token = %s", token);
+				token = result.data.token;
+				console.log("> renewd token = %s", token);
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
@@ -238,7 +237,7 @@
 	
 	function sendToken() {
 		console.log("## sendToken");
-		console.log("> check token before seding token = %s", token);
+		console.log("> current token = %s", token);
 		$.ajax({
 			type : "GET",
 			url : "${contextPath}/test/jwt/token",

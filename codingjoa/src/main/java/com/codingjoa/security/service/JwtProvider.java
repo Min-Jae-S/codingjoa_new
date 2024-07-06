@@ -62,7 +62,7 @@ public class JwtProvider {
 	}
 
 	public Authentication getAuthentication(String token) {
-		String username = parseClaims(token).getSubject();
+		String username = parseJwt(token).getBody().getSubject();
 		UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 		return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 	}
@@ -76,13 +76,15 @@ public class JwtProvider {
 	 */
 	public boolean validateToken(String token) {
 		try {
-			Claims claims = parseClaims(token);
-			Date exp = claims.getExpiration();
+			Jws<Claims> jws = parseJwt(token);
+			log.info("\t > parsed JWT, header = {}, claims = {}", jws.getHeader().keySet(), jws.getBody().keySet());
+			
+			Date exp = jws.getBody().getExpiration();
 			if (exp == null) {
 				throw new IllegalArgumentException("'exp' is required; exp = " + exp);
 			}
 			
-			String username = claims.getSubject();
+			String username = jws.getBody().getSubject();
 			if (!StringUtils.hasText(username)) {
 				throw new IllegalArgumentException("'sub' is required; username = " + username);
 			}
@@ -96,10 +98,8 @@ public class JwtProvider {
 		}
 	}
 	
-	private Claims parseClaims(String token) {
-		Jws<Claims> jws = Jwts.parserBuilder().setSigningKey(signingKey).build().parseClaimsJws(token);
-		log.info("\t > parsing JWT, header = {}, claims = {}", jws.getHeader().keySet(), jws.getBody().keySet());
-		return jws.getBody();
+	private Jws<Claims> parseJwt(String token) {
+		return Jwts.parserBuilder().setSigningKey(signingKey).build().parseClaimsJws(token);
 	}
 	
 	private Map<String, Object> createHeader() {
