@@ -190,7 +190,7 @@ public class TestJwtController {
 	public ResponseEntity<Object> test6(HttpServletRequest request) {
 		log.info("## test6");
 		String token = resolveToken(request);
-		log.info("\t > resolved token = {}", token);
+		log.info("\t > resolved token = {}", token == null ? null : "'" + token + "'");
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 	
@@ -214,7 +214,7 @@ public class TestJwtController {
 		log.info("## receiveToken");
 		String msg = "";
 		String token = resolveToken(request);
-		log.info("\t > resolved token = {}", token);
+		log.info("\t > resolved token = {}", token == null ? null : "'" + token + "'");
 		
 		if (jwtProvider.validateToken(token)) {
 			msg = "valid token";

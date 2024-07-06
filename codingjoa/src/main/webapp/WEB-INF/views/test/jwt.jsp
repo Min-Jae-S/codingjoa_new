@@ -102,7 +102,7 @@
 	<div class="test d-flex justify-content-between mt-5 mb-6">
 		<button class="btn btn-warning btn-lg test-btn mx-3" onclick="createToken()">create JWT</button>
 		<button class="btn btn-warning btn-lg test-btn mx-3" onclick="sendToken()">send JWT</button>
-		<button class="btn btn-primary btn-lg test-btn mx-3 invisible" onclick="#">#</button>
+		<button class="btn btn-warning btn-lg test-btn mx-3" onclick="resetToken()">reset JWT</button>
 		<button class="btn btn-primary btn-lg test-btn mx-3 invisible" onclick="#">#</button>
 	</div>
 </div>
@@ -233,9 +233,9 @@
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
 				console.log("> token has been renewed")
-				console.log("> old token = %s", token);
+				console.log("> old token = '%s'", token);
 				token = result.data.token;
-				console.log("> renewd token = %s", token);
+				console.log("> renewd token = '%s'", token);
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
@@ -246,7 +246,7 @@
 	
 	function sendToken() {
 		console.log("## sendToken");
-		console.log("> current token = %s", token);
+		console.log("> current token = '%s'", token);
 		$.ajax({
 			type : "GET",
 			url : "${contextPath}/test/jwt/token",
@@ -262,6 +262,12 @@
 				parseError(jqXHR);
 			}
 		});
+	}
+	
+	function resetToken() {
+		console.log("## resetToken");
+		token = "";
+		console.log("> current token = '%s'", token);
 	}
 </script>
 </body>

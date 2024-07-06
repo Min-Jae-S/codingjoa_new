@@ -29,7 +29,7 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
 		log.info("## {}", this.getClass().getSimpleName());
 		
 		String token = resolveToken(request);
-		log.info("\t > resolved token = {}", token);
+		log.info("\t > resolved token = {}", token == null ? null : "'" + token + "'");
 		
 		if (jwtProvider.validateToken(token)) {
 			Authentication authentication = jwtProvider.getAuthentication(token);
