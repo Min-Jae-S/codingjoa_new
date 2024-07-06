@@ -112,7 +112,8 @@ public class JwtProvider {
 		
 		Claims claims = Jwts.claims()
 				.setSubject(userDetailsDto.getUsername())
-				.setIssuer(ServletUriComponentsBuilder.fromCurrentContextPath().build().toString())
+				// java.lang.IllegalStateException: No current ServletRequestAttributes
+				//.setIssuer(ServletUriComponentsBuilder.fromCurrentContextPath().build().toString())
 				.setIssuedAt(now)
 				.setExpiration(exp);
 		claims.put("role", userDetailsDto.getMemberRole());

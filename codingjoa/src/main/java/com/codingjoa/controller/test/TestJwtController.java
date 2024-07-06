@@ -198,7 +198,7 @@ public class TestJwtController {
 	@GetMapping("/test7")
 	public ResponseEntity<Object> test7() {
 		log.info("## test7");
-		log.info("\t > requestAttributes = {}", RequestContextHolder.getRequestAttributes());
+		log.info("\t > requestAttributes currently bound to the thread = {}", RequestContextHolder.getRequestAttributes());
 		log.info("\t > baseUrl from ServletUriComponentsBuilder = {}", ServletUriComponentsBuilder.fromCurrentContextPath().build().toString());
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
