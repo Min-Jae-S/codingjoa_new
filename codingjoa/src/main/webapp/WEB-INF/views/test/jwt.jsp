@@ -34,8 +34,8 @@
 	}
 	
 	div.form-check {
-		font-size: 1.1rem;
-		font-weight: 500;
+		font-size: 1rem;
+		font-weight: 400;
 	}
 	
 	.mb-6 {
@@ -100,11 +100,10 @@
 		</div>
 	</div>
 	<div class="test d-flex justify-content-between mt-5 mb-6">
-		<button class="btn btn-warning btn-sm test-btn mx-3" onclick="createToken()">create JWT</button>
-		<button class="btn btn-warning btn-sm test-btn mx-3" onclick="sendToken()">send JWT</button>
-		<button class="btn btn-warning btn-sm test-btn mx-3" onclick="resetToken()">reset JWT</button>
-		<button class="btn btn-warning btn-sm test-btn mx-3" onclick="getCurrentToken()">current JWT</button>
-		<button class="btn btn-warning btn-sm test-btn mx-3" onclick="checkAuthentication()">check auth</button>
+		<button class="btn btn-warning btn-lg test-btn mx-3" onclick="createToken()">create JWT</button>
+		<button class="btn btn-warning btn-lg test-btn mx-3" onclick="sendToken()">send JWT</button>
+		<button class="btn btn-warning btn-lg test-btn mx-3" onclick="resetToken()">reset JWT</button>
+		<button class="btn btn-warning btn-lg test-btn mx-3" onclick="getCurrentToken()">current JWT</button>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
@@ -272,22 +271,6 @@
 	function getCurrentToken() {
 		console.log("## getCurrentToken");
 		console.log("> current token = '%s'", token);
-	}
-	
-	function checkAuthentication() {
-		console.log("## checkAuthentication");
-		$.ajax({
-			type : "GET",
-			url : "${contextPath}/test/jwt/check-authentication",
-			success : function(result) {
-				console.log("%c> SUCCESS", "color:green");
-				console.log(JSON.stringify(result, null, 2));
-			},
-			error : function(jqXHR) {
-				console.log("%c> ERROR", "color:red");
-				parseError(jqXHR);
-			}
-		});
 	}
 </script>
 </body>

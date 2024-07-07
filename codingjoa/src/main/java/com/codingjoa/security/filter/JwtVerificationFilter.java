@@ -30,7 +30,11 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
 		log.info("\t > URI = {}", getFullURL(request));
 		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		log.info("\t > auth = {}", auth == null ? null : auth.getClass().getSimpleName() + " : " + auth.getName());
+		if (auth == null) {
+			log.info("\t > authentication is null");
+		} else {
+			log.info("\t > authentication is not null; {} : details = {}", auth.getClass().getSimpleName(), auth.getDetails());
+		}
 		
 		String token = resolveToken(request);
 		log.info("\t > resolved token = {}", token == null ? null : "'" + token + "'");

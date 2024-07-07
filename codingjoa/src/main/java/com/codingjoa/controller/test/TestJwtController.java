@@ -222,28 +222,24 @@ public class TestJwtController {
 	@GetMapping("/token")
 	public ResponseEntity<Object> receiveToken(HttpServletRequest request) {
 		log.info("## receiveToken");
-		String msg = "";
-		String token = resolveToken(request);
-		log.info("\t > resolved token = {}", token == null ? null : "'" + token + "'");
-		
-		if (jwtProvider.validateToken(token)) {
-			msg = "valid token";
-			Authentication authentication = jwtProvider.getAuthentication(token);
-			log.info("\t > {}", msg);
-			log.info("\t > authentication = {}", authentication);
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (auth == null) {
+			log.info("\t > authentication is null");
 		} else {
-			msg = "invalid token";
-			log.info("\t > {}", msg);
+			log.info("\t > authentication is not null; details = {}", auth.getDetails());
 		}
-		
-		return ResponseEntity.ok(SuccessResponse.builder().message(msg).build());
+		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 
 	@GetMapping("/check-authentication")
 	public ResponseEntity<Object> checkAuthentication() {
 		log.info("## checkAuthentication");
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		log.info("\t > auth = {}", auth == null ? null : auth.getClass().getSimpleName() + " : " + auth.getName());
+		if (auth == null) {
+			log.info("\t > authentication is null");
+		} else {
+			log.info("\t > authentication is not null; {} : details = {}", auth.getClass().getSimpleName(), auth.getDetails());
+		}
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 	

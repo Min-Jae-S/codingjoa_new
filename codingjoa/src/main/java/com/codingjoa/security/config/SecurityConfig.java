@@ -104,6 +104,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.anyRequest().permitAll()
 				.and()
 			.formLogin().disable()
+			// CheckAuthenticationFilter >> RestAuthenticationFilter >> JwtVerificationFilter
 			.addFilterBefore(restAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
 			.addFilterAfter(jwtVerificationFilter(), RestAuthenticationFilter.class)
 			.addFilterBefore(checkAuthenticationFilter(), RestAuthenticationFilter.class)

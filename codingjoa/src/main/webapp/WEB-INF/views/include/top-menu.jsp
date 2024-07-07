@@ -31,8 +31,12 @@
 				</li> --%>
 				
 				<!-- TEST -->
-				<li class="nav-item mx-2 mt-1">
+				<!-- <li class="nav-item mx-2 mt-1">
 					<a href="#" class="nav-link" id="naverLink">naver</a>
+				</li> -->
+				
+				<li class="nav-item mx-2 mt-1">
+					<a href="#" class="nav-link" id="authenticationLink">authentication</a>
 				</li>
 			</ul>
 			<ul class="navbar-nav ml-auto">
@@ -211,6 +215,24 @@
 			console.log("## naverLink");
 			location.href = "naver.com"; // http://localhost:8888/codingjoa/naver.com 
 			//location.href = "https://www.naver.com/";
+		});
+
+		// TEST
+		$("#authenticationLink").on("click", function(e) {
+			e.preventDefault();
+			console.log("## authenticationLink");
+			$.ajax({
+				type : "GET",
+				url : "${contextPath}/test/jwt/check-authentication",
+				success : function(result) {
+					console.log("%c> SUCCESS", "color:green");
+					console.log(JSON.stringify(result, null, 2));
+				},
+				error : function(jqXHR) {
+					console.log("%c> ERROR", "color:red");
+					parseError(jqXHR);
+				}
+			});
 		});
 	});
 </script>
