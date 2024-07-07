@@ -58,7 +58,6 @@ public class RestAuthenticationFailureHandler implements AuthenticationFailureHa
 				.status(HttpStatus.UNAUTHORIZED)
 				.message(message)
 				.build();
-		log.info("\t > {}", errorResponse);
 		
 		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 		response.setContentType(MediaType.APPLICATION_JSON_VALUE);

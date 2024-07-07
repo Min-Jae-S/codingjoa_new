@@ -68,7 +68,7 @@ public class JwtProvider {
 		UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 		UsernamePasswordAuthenticationToken authentication = 
 				new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-		authentication.setDetails("JwtVerificationFilter");
+		authentication.setDetails("JwtAuthorizationFilter");
 		return authentication;
 	}
 	

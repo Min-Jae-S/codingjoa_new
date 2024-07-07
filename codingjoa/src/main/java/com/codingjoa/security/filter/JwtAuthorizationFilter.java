@@ -28,24 +28,14 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 			throws ServletException, IOException {
 		log.info("## {}", this.getClass().getSimpleName());
 		
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		if (auth == null) {
-			log.info("\t > before token validation, authentication = {}", auth);
-		} else {
-			log.info("\t > before token validation, authentication = {}, details = {}", auth.getClass().getSimpleName(), auth.getDetails());
-		}
-		
 		String token = resolveToken(request);
+		
 		if (jwtProvider.validateToken(token)) {
+			log.info("\t > valid JWT, setting authenticaion in the security context");
 			Authentication authentication = jwtProvider.getAuthentication(token);
 			SecurityContextHolder.getContext().setAuthentication(authentication);
-		}
-		
-		auth = SecurityContextHolder.getContext().getAuthentication();
-		if (auth == null) {
-			log.info("\t > after token validation, authentication = {}", auth);
 		} else {
-			log.info("\t > after token validation, authentication = {}, details = {}", auth.getClass().getSimpleName(), auth.getDetails());
+			log.info("\t > missing or invalid JWT, no authenticaion set in the security context");
 		}
 		
 		filterChain.doFilter(request, response);

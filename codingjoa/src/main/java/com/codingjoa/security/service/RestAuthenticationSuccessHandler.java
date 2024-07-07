@@ -42,13 +42,6 @@ public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHa
 			Authentication authentication) throws IOException, ServletException {
 		log.info("## {}", this.getClass().getSimpleName());
 		
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		if (auth == null) {
-			log.info("\t > from security context, authentication = {}", auth);
-		} else {
-			log.info("\t > from security context, authentication = {}, details = {}", auth.getClass().getSimpleName(), auth.getDetails());
-		}
-		
 		SuccessResponse successResponse = SuccessResponse.builder()
 				.status(HttpStatus.OK)
 				.messageByCode("success.Login")

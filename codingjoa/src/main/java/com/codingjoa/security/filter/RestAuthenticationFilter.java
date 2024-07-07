@@ -65,8 +65,7 @@ public class RestAuthenticationFilter extends AbstractAuthenticationProcessingFi
 	@Override
 	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
 			Authentication authResult) throws IOException, ServletException {
-		log.info("## {}.successfulAuthentication", this.getClass().getSimpleName());
-		//super.successfulAuthentication(request, response, chain, authResult);
+		super.successfulAuthentication(request, response, chain, authResult); // SecurityContextHolder.getContext().setAuthentication(authResult);
 	}
 	
 }
