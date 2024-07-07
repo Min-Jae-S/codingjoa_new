@@ -27,6 +27,9 @@ import com.codingjoa.security.filter.JwtVerificationFilter;
 import com.codingjoa.security.filter.RestAuthenticationFilter;
 import com.codingjoa.security.service.JwtProvider;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Configuration
 @EnableWebSecurity
 @ComponentScan("com.codingjoa.security.service")
@@ -73,7 +76,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	 * 		FilterSecurityInterceptor - AuthenticationException, AccessDeniedException 
 	 * 	]
 	 */
-
+	
 	@Override
 	public void configure(WebSecurity web) throws Exception {
 		//web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations()));

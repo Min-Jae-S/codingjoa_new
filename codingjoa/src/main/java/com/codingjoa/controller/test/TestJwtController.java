@@ -224,9 +224,9 @@ public class TestJwtController {
 		log.info("## receiveToken");
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (auth == null) {
-			log.info("\t > authentication is null");
+			log.info("\t > authentication = {}", auth);
 		} else {
-			log.info("\t > authentication is not null; details = {}", auth.getDetails());
+			log.info("\t > authentication = {}, details = {}", auth.getClass().getSimpleName(), auth.getDetails());
 		}
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
@@ -236,9 +236,9 @@ public class TestJwtController {
 		log.info("## checkAuthentication");
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (auth == null) {
-			log.info("\t > authentication is null");
+			log.info("\t > authentication = {}", auth);
 		} else {
-			log.info("\t > authentication is not null; {} : details = {}", auth.getClass().getSimpleName(), auth.getDetails());
+			log.info("\t > authentication = {}, details = {}", auth.getClass().getSimpleName(), auth.getDetails());
 		}
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}

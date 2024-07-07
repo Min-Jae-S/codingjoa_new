@@ -25,9 +25,9 @@ public class CheckAuthenticationFilter extends OncePerRequestFilter {
 		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (auth == null) {
-			log.info("\t > authentication is null");
+			log.info("\t > authentication = {}", auth);
 		} else {
-			log.info("\t > authentication is not null; {} : details = {}", auth.getClass().getSimpleName(), auth.getDetails());
+			log.info("\t > authentication = {}, details = {}", auth.getClass().getSimpleName(), auth.getDetails());
 		}
 		
 		filterChain.doFilter(request, response);
