@@ -298,7 +298,6 @@
 				if (checked) {
 					xhr.setRequestHeader("Authorization", "Bearer " + token);
 				}
-				
 			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
