@@ -106,7 +106,7 @@
 		<button class="btn btn-warning btn-lg test-btn mx-3" onclick="getCurrentToken()">current JWT</button>
 	</div>
 	<div class="test d-flex flex-column mb-6">
-		<button class="btn btn-primary btn-lg mx-3 mb-2" onclick="test7()">
+		<button class="btn btn-warning btn-lg mx-3 mb-2" onclick="test7()">
 			<span>test7</span>
 		</button>
 		<div class="px-3 d-flex justify-content-around">
@@ -249,7 +249,7 @@
 				console.log("> token has been renewed")
 				console.log("> old token = '%s'", token);
 				token = result.data.token;
-				console.log("> renewd token = '%s'", token);
+				console.log("> renewed token = '%s'", token);
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");

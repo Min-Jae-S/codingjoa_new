@@ -14,12 +14,10 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.StringUtils;
-import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.codingjoa.response.SuccessResponse;
@@ -30,7 +28,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@SuppressWarnings("unused")
 @RequiredArgsConstructor
 @Component
 public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
@@ -42,10 +39,13 @@ public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHa
 			Authentication authentication) throws IOException, ServletException {
 		log.info("## {}", this.getClass().getSimpleName());
 		
+		String token = jwtProvider.createToken(request, authentication);
+		String redirectUrl = resolveRedirectUrl(request, authentication);
+		
 		SuccessResponse successResponse = SuccessResponse.builder()
 				.status(HttpStatus.OK)
 				.messageByCode("success.Login")
-				.data(Map.of("token", jwtProvider.createToken(request, authentication)))
+				.data(Map.of("token", token, "redirectUrl", redirectUrl))
 				.build();
 		
 		response.setStatus(HttpServletResponse.SC_OK);
@@ -96,6 +96,21 @@ public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHa
 //		response.getWriter().close();
 //	}
 	
+	private String resolveRedirectUrl(HttpServletRequest request, Authentication authentication) {
+		String redirectUrl = (String) authentication.getDetails();
+		
+		if (!isValidUrl(request, redirectUrl)) {
+			log.info("\t > missing or invalid redirectUrl, setting default redirectUrl");
+			return ServletUriComponentsBuilder.fromContextPath(request)
+					.path("/")
+					.build()
+					.toString();
+		} else {
+			log.info("\t > valid redirectUrl, setting redirectUrl from request");
+			return redirectUrl;
+		}
+	}
+	
 	private boolean isValidUrl(HttpServletRequest request, String url) {
 		if (!StringUtils.hasText(url)) {
 			return false;
@@ -110,6 +125,7 @@ public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHa
 		return new AntPathMatcher().match(baserUrl + "/**", url);
 	}
 	
+	@SuppressWarnings("unused")
 	private void clearAuthenticationDetails(Authentication authentication) {
 		log.info("\t > clear authentication details");
 		((UsernamePasswordAuthenticationToken) authentication).setDetails(null);

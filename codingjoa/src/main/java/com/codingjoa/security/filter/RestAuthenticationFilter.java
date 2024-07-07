@@ -55,9 +55,9 @@ public class RestAuthenticationFilter extends AbstractAuthenticationProcessingFi
 		
 		UsernamePasswordAuthenticationToken authRequest = 
 				new UsernamePasswordAuthenticationToken(memberId, memberPassword); // isAuthentiacated = false
-		authRequest.setDetails("RestAuthenticationFilter");
-		//authRequest.setDetails(loginDto.getRedirectUrl());
-		//log.info("\t > set redirectUrl in details field of the authentication");
+
+		authRequest.setDetails(loginDto.getRedirectUrl());
+		log.info("\t > setting redirectUrl in details field of the authentication");
 		
 		return this.getAuthenticationManager().authenticate(authRequest);
 	}
