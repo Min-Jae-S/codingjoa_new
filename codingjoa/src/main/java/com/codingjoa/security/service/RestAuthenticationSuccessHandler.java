@@ -44,9 +44,9 @@ public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHa
 		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (auth == null) {
-			log.info("\t > from SecurityContextHolder, authentication = {}", auth);
+			log.info("\t > from security context, authentication = {}", auth);
 		} else {
-			log.info("\t > from SecurityContextHolder, authentication = {}, details = {}", auth.getClass().getSimpleName(), auth.getDetails());
+			log.info("\t > from security context, authentication = {}, details = {}", auth.getClass().getSimpleName(), auth.getDetails());
 		}
 		
 		SuccessResponse successResponse = SuccessResponse.builder()
