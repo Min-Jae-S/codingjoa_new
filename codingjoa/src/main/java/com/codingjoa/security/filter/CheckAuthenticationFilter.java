@@ -16,12 +16,10 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class CheckAuthenticationFilter extends OncePerRequestFilter {
 	
-	
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 		log.info("## {}", this.getClass().getSimpleName());
-		log.info("\t > URI = {}", getFullURL(request));
 		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (auth == null) {
@@ -33,6 +31,7 @@ public class CheckAuthenticationFilter extends OncePerRequestFilter {
 		filterChain.doFilter(request, response);
 	}
 	
+	@SuppressWarnings("unused")
 	private String getFullURL(HttpServletRequest request) {
 		StringBuffer requestURL = request.getRequestURL();
 		String queryString = request.getQueryString();

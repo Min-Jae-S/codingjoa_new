@@ -268,14 +268,11 @@ public class TestJwtController {
 	
 	private String resolveToken(HttpServletRequest request) {
 		String header = request.getHeader(HttpHeaders.AUTHORIZATION);
-		log.info("\t > authorization header = {}", header == null ? null : "'" + header + "'");
-		
-		String token = null;
 		if (header != null && header.startsWith("Bearer ")) {
-			token = header.split(" ")[1];
+			return header.split(" ")[1];
 		}
 		
-		return token;
+		return null;
 	}
 	
 	

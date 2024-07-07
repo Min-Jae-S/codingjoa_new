@@ -27,21 +27,25 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 		log.info("## {}", this.getClass().getSimpleName());
-		log.info("\t > URI = {}", getFullURL(request));
 		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (auth == null) {
-			log.info("\t > authentication = {}", auth);
+			log.info("\t > before token validation, authentication = {}", auth);
 		} else {
-			log.info("\t > authentication = {}, details = {}", auth.getClass().getSimpleName(), auth.getDetails());
+			log.info("\t > before token validation, authentication = {}, details = {}", auth.getClass().getSimpleName(), auth.getDetails());
 		}
 		
 		String token = resolveToken(request);
-		log.info("\t > resolved token = {}", token == null ? null : "'" + token + "'");
-		
 		if (jwtProvider.validateToken(token)) {
 			Authentication authentication = jwtProvider.getAuthentication(token);
 			SecurityContextHolder.getContext().setAuthentication(authentication);
+		}
+		
+		auth = SecurityContextHolder.getContext().getAuthentication();
+		if (auth == null) {
+			log.info("\t > after token validation, authentication = {}", auth);
+		} else {
+			log.info("\t > after token validation, authentication = {}, details = {}", auth.getClass().getSimpleName(), auth.getDetails());
 		}
 		
 		filterChain.doFilter(request, response);
@@ -49,16 +53,14 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
 	
 	private String resolveToken(HttpServletRequest request) {
 		String header = request.getHeader(HttpHeaders.AUTHORIZATION);
-		log.info("\t > authorization header = {}", header == null ? null : "'" + header + "'");
-		
-		String token = null;
 		if (header != null && header.startsWith("Bearer ")) {
-			token = header.split(" ")[1];
+			return header.split(" ")[1];
 		}
 		
-		return token;
+		return null;
 	}
 	
+	@SuppressWarnings("unused")
 	private String getFullURL(HttpServletRequest request) {
 		StringBuffer requestURL = request.getRequestURL();
 		String queryString = request.getQueryString();

@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -27,9 +28,6 @@ import com.codingjoa.security.filter.JwtVerificationFilter;
 import com.codingjoa.security.filter.RestAuthenticationFilter;
 import com.codingjoa.security.service.JwtProvider;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @Configuration
 @EnableWebSecurity
 @ComponentScan("com.codingjoa.security.service")
@@ -87,6 +85,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http
 			.csrf().disable()
+			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+			.and()
 			.authorizeRequests()
 				// https://stackoverflow.com/questions/19941466/spring-security-allows-unauthorized-user-access-to-restricted-url-from-a-forward
 				//.filterSecurityInterceptorOncePerRequest(false)
@@ -105,7 +105,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/api/member/details").authenticated()
 				.antMatchers("/admin/**").hasAnyRole("ADMIN")
 				.anyRequest().permitAll()
-				.and()
+			.and()
 			.formLogin().disable()
 			// CheckAuthenticationFilter >> RestAuthenticationFilter >> JwtVerificationFilter
 			.addFilterBefore(restAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
@@ -118,7 +118,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.logoutSuccessHandler(logoutSuccessHandler)
 				.clearAuthentication(true)
 				.invalidateHttpSession(true)
-				.and()
+			.and()
 			.exceptionHandling()
 				.authenticationEntryPoint(authenticationEntryPoint)
 				.accessDeniedHandler(accessDeniedHandler);		 
