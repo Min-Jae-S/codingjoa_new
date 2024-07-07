@@ -66,7 +66,7 @@ public class RestAuthenticationFailureHandler implements AuthenticationFailureHa
 		ObjectMapper objectMapper = getObjectMapperWithSerializer();
 		String jsonResponse = objectMapper.writeValueAsString(errorResponse);
 		
-		log.info("\t > respond with error reponse in JSON format");
+		log.info("\t > respond with error response in JSON format");
 		response.getWriter().write(jsonResponse);
 		response.getWriter().close();
 	}
