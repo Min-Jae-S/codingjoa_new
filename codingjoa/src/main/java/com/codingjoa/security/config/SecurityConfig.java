@@ -22,6 +22,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import com.codingjoa.security.filter.CheckAuthenticationFilter;
 import com.codingjoa.security.filter.JwtVerificationFilter;
 import com.codingjoa.security.filter.RestAuthenticationFilter;
 import com.codingjoa.security.service.JwtProvider;
@@ -105,6 +106,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.formLogin().disable()
 			.addFilterBefore(restAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
 			.addFilterAfter(jwtVerificationFilter(), RestAuthenticationFilter.class)
+			.addFilterBefore(checkAuthenticationFilter(), RestAuthenticationFilter.class)
 			.logout()
 				//.logoutUrl("/api/logout")
 				//.logoutRequestMatcher(new AntPathRequestMatcher("/api/logout", "POST"))
@@ -147,6 +149,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Bean
 	public JwtVerificationFilter jwtVerificationFilter() throws Exception {
 		return new JwtVerificationFilter(jwtProvider);
+	}
+
+	@Bean
+	public CheckAuthenticationFilter checkAuthenticationFilter() {
+		return new CheckAuthenticationFilter();
 	}
 	
 }
