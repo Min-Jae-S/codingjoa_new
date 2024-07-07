@@ -12,6 +12,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -236,6 +237,14 @@ public class TestJwtController {
 		}
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message(msg).build());
+	}
+
+	@GetMapping("/check-authentication")
+	public ResponseEntity<Object> checkAuthentication() {
+		log.info("## checkAuthentication");
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		log.info("\t > auth = {}", auth == null ? null : auth.getClass().getSimpleName() + " : " + auth.getName());
+		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 	
 	private Map<String, Object> createHeader() {

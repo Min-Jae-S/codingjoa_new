@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -21,7 +22,9 @@ public class CheckAuthenticationFilter extends OncePerRequestFilter {
 			throws ServletException, IOException {
 		log.info("## {}", this.getClass().getSimpleName());
 		log.info("\t > URI = {}", getFullURL(request));
-		log.info("\t > authentiation from SecurityContextHolder = {}", SecurityContextHolder.getContext().getAuthentication());
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		log.info("\t > auth = {}", auth == null ? null : auth.getClass().getSimpleName() + " : " + auth.getName());
 		
 		filterChain.doFilter(request, response);
 	}

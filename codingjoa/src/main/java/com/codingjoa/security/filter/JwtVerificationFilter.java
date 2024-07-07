@@ -28,7 +28,9 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
 			throws ServletException, IOException {
 		log.info("## {}", this.getClass().getSimpleName());
 		log.info("\t > URI = {}", getFullURL(request));
-		log.info("\t > authentiation from SecurityContextHolder = {}", SecurityContextHolder.getContext().getAuthentication());
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		log.info("\t > auth = {}", auth == null ? null : auth.getClass().getSimpleName() + " : " + auth.getName());
 		
 		String token = resolveToken(request);
 		log.info("\t > resolved token = {}", token == null ? null : "'" + token + "'");
