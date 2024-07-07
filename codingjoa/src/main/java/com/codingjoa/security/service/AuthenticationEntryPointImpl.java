@@ -70,6 +70,7 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 			ObjectMapper objectMapper = getObjectMapperWithSerializer();
 			String jsonResponse = objectMapper.writeValueAsString(errorResponse);
 			
+			log.info("\t > respond with error reponse in JSON format");
 			response.getWriter().write(jsonResponse);
 			response.getWriter().close();
 		} else {

@@ -55,6 +55,7 @@ public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHa
 		ObjectMapper objectMapper = getObjectMapperWithSerializer();
 		String jsonResponse = objectMapper.writeValueAsString(successResponse);
         
+		log.info("\t > respond with success reponse in JSON format");
 		response.getWriter().write(jsonResponse);
 		response.getWriter().close();
 	}

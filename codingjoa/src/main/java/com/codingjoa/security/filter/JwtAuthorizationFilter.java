@@ -29,6 +29,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 		log.info("## {}", this.getClass().getSimpleName());
 		
 		String token = resolveToken(request);
+		log.info("\t > resolved token = {}", token == null ? null : "'" + token + "'");
 		
 		if (jwtProvider.validateToken(token)) {
 			log.info("\t > valid JWT, setting authenticaion in the security context");

@@ -104,7 +104,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/api/member/details").authenticated()
 				.antMatchers("/admin/**").hasAnyRole("ADMIN")
 				// test
-				.antMatchers("/test/jwt/test7", "/test/jwt/test8").authenticated()
+				.antMatchers("/test/jwt/test7").authenticated()
 				.anyRequest().permitAll()
 			.and()
 			.formLogin().disable()
