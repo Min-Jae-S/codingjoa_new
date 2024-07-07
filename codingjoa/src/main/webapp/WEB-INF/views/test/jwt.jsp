@@ -105,6 +105,21 @@
 		<button class="btn btn-warning btn-lg test-btn mx-3" onclick="resetToken()">reset JWT</button>
 		<button class="btn btn-warning btn-lg test-btn mx-3" onclick="getCurrentToken()">current JWT</button>
 	</div>
+	<div class="test d-flex flex-column mb-6">
+		<button class="btn btn-primary btn-lg mx-3 mb-2" onclick="test7()">
+			<span>test7</span>
+		</button>
+		<div class="px-3 d-flex justify-content-around">
+			<div class="form-check form-check-inline mr-0">
+			  <input class="form-check-input" type="radio" name="test7Radio" id="test7Radio1" checked>
+			  <label class="form-check-label" for="test7Radio1">no JWT</label>
+			</div>
+			<div class="form-check form-check-inline mr-0">
+			  <input class="form-check-input" type="radio" name="test7Radio" id="test7Radio2">
+			  <label class="form-check-label" for="test7Radio2">yes JWT</label>
+			</div>
+		</div>
+	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 <script>
@@ -165,7 +180,6 @@
 			url : "${contextPath}/test/jwt/test4",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
-				console.log(result);
 				console.log(JSON.stringify(result, null, 2));
 			},
 			error : function(jqXHR) {
@@ -271,6 +285,29 @@
 	function getCurrentToken() {
 		console.log("## getCurrentToken");
 		console.log("> current token = '%s'", token);
+	}
+	
+	function test7() {
+		console.log("## test7");
+		let checked = $("#test7Radio2").prop("checked");
+		
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/jwt/test7",
+			beforeSend : function(xhr) {
+				if (checked) {
+					xhr.setRequestHeader("Authorization", "Bearer " + token);
+				}
+			},
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log(JSON.stringify(result, null, 2));
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				parseError(jqXHR);
+			}
+		});
 	}
 </script>
 </body>

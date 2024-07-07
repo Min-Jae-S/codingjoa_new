@@ -18,7 +18,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.codingjoa.response.SuccessResponse;
@@ -196,14 +195,6 @@ public class TestJwtController {
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 
-	@GetMapping("/test7")
-	public ResponseEntity<Object> test7(HttpServletRequest request) {
-		log.info("## test7");
-		log.info("\t > requestAttributes currently bound to the thread = {}", RequestContextHolder.getRequestAttributes());
-		log.info("\t > baseUrl from currently bound to the thread = {}", ServletUriComponentsBuilder.fromContextPath(request).toString());
-		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
-	}
-	
 	@GetMapping("/create-token")
 	public ResponseEntity<Object> createToken(HttpServletRequest request) {
 		log.info("## createToken");
@@ -234,6 +225,18 @@ public class TestJwtController {
 	@GetMapping("/check-authentication")
 	public ResponseEntity<Object> checkAuthentication() {
 		log.info("## checkAuthentication");
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (auth == null) {
+			log.info("\t > authentication = {}", auth);
+		} else {
+			log.info("\t > authentication = {}, details = {}", auth.getClass().getSimpleName(), auth.getDetails());
+		}
+		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
+	}
+	
+	@GetMapping("/test7")
+	public ResponseEntity<Object> test7() {
+		log.info("## test7");
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (auth == null) {
 			log.info("\t > authentication = {}", auth);

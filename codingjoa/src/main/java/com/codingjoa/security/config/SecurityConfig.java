@@ -103,6 +103,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/api/member/images", "/api/member/images/**").authenticated()
 				.antMatchers("/api/member/details").authenticated()
 				.antMatchers("/admin/**").hasAnyRole("ADMIN")
+				// test
+				.antMatchers("/test/jwt/test7", "/test/jwt/test8").authenticated()
 				.anyRequest().permitAll()
 			.and()
 			.formLogin().disable()
