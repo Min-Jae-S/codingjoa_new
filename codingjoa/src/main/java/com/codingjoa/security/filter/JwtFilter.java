@@ -18,7 +18,6 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.codingjoa.security.service.JwtProvider;
-import com.codingjoa.util.Utils;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -71,10 +70,12 @@ public class JwtFilter extends OncePerRequestFilter {
 	@Override
 	protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
 		log.info("## {}.shouldNotFilter", this.getClass().getSimpleName());
-		log.info("\t > URL = {}", Utils.getFullURL(request));
-		
 		boolean matchesIncludePattern = includeMatchers.stream().anyMatch(matcher -> matcher.matches(request));
-		log.info("\t > matches = {}", matchesIncludePattern);
+		if (matchesIncludePattern) {
+			log.info("\t > enter into JwtFilter");
+		} else {
+			log.info("\t > no enter into JwtFilter");
+		}
 		
 		return !matchesIncludePattern;
 	}

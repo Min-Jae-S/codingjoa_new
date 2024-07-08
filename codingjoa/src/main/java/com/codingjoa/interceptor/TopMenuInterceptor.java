@@ -91,9 +91,12 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 		boolean matchesExcludePattern = excludeMatchers.stream().anyMatch(matcher -> matcher.matches(request));
 		
 		if (!matchesExcludePattern) {
+			log.info("\t > no matches excludePatterns, setting currentUrl as model attribute");
 			String currentUrl = Utils.getFullURL(request);
 			currentUrl = URLEncoder.encode(currentUrl, StandardCharsets.UTF_8);
 			modelAndView.addObject("currentUrl", currentUrl);
+		} else {
+			log.info("\t > matches excludePatterns, no currentUrl set");
 		}
 		
 		log.info("\t > added model attrs = {}", modelAndView.getModel().keySet());
