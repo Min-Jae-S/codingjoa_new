@@ -92,15 +92,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/member/account/**").authenticated()
 				.antMatchers("/board/write", "/board/writeProc", "/board/modify", "/board/modifyProc", "/board/deleteProc").authenticated()
 				// the order of the rules matters and the more specific rules should go first --> "/api/boards/**", "/api/comments/**"
-				.antMatchers("/api/boards/**/comments").permitAll()
-				.antMatchers(HttpMethod.GET, "/api/boards/**/likes").permitAll()
+				.antMatchers(HttpMethod.GET, "/api/boards/**/likes", "/api/boards/**/comments").permitAll()
 				.antMatchers("/api/boards/**").authenticated()
 				.antMatchers(HttpMethod.GET, "/api/comments/**/likes").permitAll()
 				.antMatchers("/api/comments/**").authenticated() 
 				//.mvcMatchers("/api/comments/**").authenticated()
 				.antMatchers("/api/board/image", "/api/member/image").authenticated()
-				.antMatchers("/api/member/images", "/api/member/images/**").authenticated()
-				.antMatchers("/api/member/details").authenticated()
+				.antMatchers("/api/member/images", "/api/member/images/**", "/api/member/details").authenticated()
 				.antMatchers("/admin/**").hasAnyRole("ADMIN")
 				.anyRequest().permitAll()
 			.and()
@@ -149,22 +147,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Bean
 	public JwtFilter jwtFilter() throws Exception {
 		JwtFilter filter = new JwtFilter(jwtProvider);
-		filter.addIncludeMathers(
-				"/member/account/**",
-				"/board/write", 
-				"/board/writeProc", 
-				"/board/modify", 
-				"/board/modifyProc", 
-				"/board/deleteProc",
-				"/api/boards/**",
-				"/api/comments/**",
-				"/api/board/image", 
-				"/api/member/image",
-				"/api/member/images", 
-				"/api/member/images/**",
-				"/api/member/details",
-				"/test/jwt/test7"
-			);
+		filter.addIncludeMatchers("/member/account/**");
+		filter.addIncludeMatchers("/board/write", "/board/writeProc", "/board/modify", "/board/modifyProc", "/board/deleteProc");
+		filter.addIncludeMatchers("/api/boards/**");
+		filter.addIncludeMatchers("/api/comments/**");
+		filter.addIncludeMatchers("/api/board/image", "/api/member/image");
+		filter.addIncludeMatchers("/api/member/images", "/api/member/images/**", "/api/member/details");
+		filter.addIncludeMatchers("/test/jwt/test7");
+		filter.addExcludeMatchers(HttpMethod.GET, "/api/boards/**/likes", "/api/boards/**/comments");
+		filter.addExcludeMatchers(HttpMethod.GET, "/api/comments/**/likes");
 		return filter;
 	}
 	

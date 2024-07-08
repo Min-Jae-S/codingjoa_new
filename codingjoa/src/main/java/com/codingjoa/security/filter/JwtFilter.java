@@ -18,6 +18,7 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.codingjoa.security.service.JwtProvider;
+import com.codingjoa.util.Utils;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +29,7 @@ public class JwtFilter extends OncePerRequestFilter {
 	
 	private final JwtProvider jwtProvider;
 	private List<RequestMatcher> includeMatchers = new ArrayList<>();
+	private List<RequestMatcher> excludeMatchers = new ArrayList<>();
 	
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -47,15 +49,22 @@ public class JwtFilter extends OncePerRequestFilter {
 		filterChain.doFilter(request, response);
 	}
 	
-	public void addIncludeMathers(String... antPatterns) {
-		addIncludeMathers(null, antPatterns);
-	}
-	
-	public void addIncludeMathers(HttpMethod httpMethod, String... antPatterns) {
-		String method = httpMethod == null ? null : httpMethod.toString();
-		for (String pattern : antPatterns) {
-			includeMatchers.add(new AntPathRequestMatcher(pattern, method));
+	@Override
+	protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+		log.info("## {}.shouldNotFilter", this.getClass().getSimpleName());
+		log.info("\t > URI = {} '{}'", request.getMethod(), Utils.getFullURI(request));
+		
+		boolean matchesIncludePattern = includeMatchers.stream().anyMatch(matcher -> matcher.matches(request)); 
+		boolean matchesExcludePattern = excludeMatchers.stream().anyMatch(matcher -> matcher.matches(request));
+		log.info("\t > matchesIncludePattern = {}, matchesExcludePattern = {}", matchesIncludePattern, matchesExcludePattern);
+		
+		if (matchesIncludePattern) {
+			log.info("\t > enter into JwtFilter : '{}'", request.getRequestURI());
+		} else {
+			log.info("\t > no enter into JwtFilter : '{}'", request.getRequestURI());
 		}
+		
+		return !matchesIncludePattern;
 	}
 	
 	private String resolveToken(HttpServletRequest request) {
@@ -67,16 +76,26 @@ public class JwtFilter extends OncePerRequestFilter {
 		return null;
 	}
 	
-	@Override
-	protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-		log.info("## {}.shouldNotFilter", this.getClass().getSimpleName());
-		boolean matchesIncludePattern = includeMatchers.stream().anyMatch(matcher -> matcher.matches(request));
-		if (matchesIncludePattern) {
-			log.info("\t > enter into JwtFilter");
-		} else {
-			log.info("\t > no enter into JwtFilter");
-		}
-		
-		return !matchesIncludePattern;
+	public void addIncludeMatchers(String... antPatterns) {
+		addIncludeMatchers(null, antPatterns);
 	}
+	
+	public void addIncludeMatchers(HttpMethod httpMethod, String... antPatterns) {
+		String method = httpMethod == null ? null : httpMethod.toString();
+		for (String pattern : antPatterns) {
+			includeMatchers.add(new AntPathRequestMatcher(pattern, method));
+		}
+	}
+
+	public void addExcludeMatchers(String... antPatterns) {
+		addExcludeMatchers(null, antPatterns);
+	}
+	
+	public void addExcludeMatchers(HttpMethod httpMethod, String... antPatterns) {
+		String method = httpMethod == null ? null : httpMethod.toString();
+		for (String pattern : antPatterns) {
+			excludeMatchers.add(new AntPathRequestMatcher(pattern, method));
+		}
+	}
+	
 }
