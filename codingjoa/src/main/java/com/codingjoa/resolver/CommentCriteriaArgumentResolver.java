@@ -12,7 +12,7 @@ import org.springframework.web.servlet.HandlerMapping;
 
 import com.codingjoa.annotation.CommentCri;
 import com.codingjoa.pagination.CommentCriteria;
-import com.codingjoa.util.MyUtils;
+import com.codingjoa.util.Utils;
 
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -40,7 +40,7 @@ public class CommentCriteriaArgumentResolver implements HandlerMethodArgumentRes
 		
 		page = (page == null) ? "" : page.strip();
 		CommentCriteria commentCri = new CommentCriteria(
-			MyUtils.isPageNumber(page) ? Integer.parseInt(page) : defaultPage,
+			Utils.isPageNumber(page) ? Integer.parseInt(page) : defaultPage,
 			defaultRecordCnt
 		);
 		log.info("\t > resolved commentCri = {}", commentCri);

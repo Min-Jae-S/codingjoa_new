@@ -22,6 +22,7 @@ import com.codingjoa.response.SuccessResponse;
 
 import lombok.extern.slf4j.Slf4j;
 
+
 @Slf4j
 @Controller
 public class MainController {
@@ -42,7 +43,18 @@ public class MainController {
 	public String loginPage(@RequestParam(required = false) String redirect, Model model, HttpServletRequest request) {
 		log.info("## loginPage");
 		log.info("\t > redirect = {}", (redirect == null) ? null : "'" + redirect + "'");
-		model.addAttribute("redirect", resolveRedirect(request, redirect));
+		
+		if (!isValidUrl(request, redirect)) {
+			log.info("\t > missing or invalid redirect, setting default redirect");
+			redirect = ServletUriComponentsBuilder.fromContextPath(request)
+					.path("/")
+					.build()
+					.toString();
+		} else {
+			log.info("\t > valid redirect, setting redirect from request");
+		}
+		
+		model.addAttribute("redirect", redirect);
 		return "login";
 	}
 	
@@ -59,19 +71,6 @@ public class MainController {
 				.build());
 	}
 	
-	private String resolveRedirect(HttpServletRequest request, String redirect) {
-		if (!isValidUrl(request, redirect)) {
-			log.info("\t > missing or invalid redirect, setting default redirect");
-			return ServletUriComponentsBuilder.fromContextPath(request)
-					.path("/")
-					.build()
-					.toString();
-		} else {
-			log.info("\t > valid redirect, setting redirect from request");
-			return redirect;
-		}
-	}
-
 	private boolean isValidUrl(HttpServletRequest request, String url) {
 		if (!StringUtils.hasText(url)) {
 			return false;

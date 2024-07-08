@@ -24,7 +24,6 @@ import com.codingjoa.security.service.AjaxAuthenticationFailureHandler;
 import com.codingjoa.security.service.AjaxAuthenticationProvider;
 import com.codingjoa.security.service.AjaxAuthenticationSuccessHandler;
 import com.codingjoa.security.service.AuthenticationEntryPointImpl;
-import com.codingjoa.security.service.JwtFilterUrlRegistry;
 import com.codingjoa.security.service.JwtProvider;
 import com.codingjoa.security.service.LogoutSuccessHandlerImpl;
 
@@ -53,9 +52,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
 	private JwtProvider jwtProvider;
-	
-	@Autowired
-	private JwtFilterUrlRegistry jwtFilterUrlRegistry;
 	
 	/*	
 	 * 	FilterChain
@@ -86,7 +82,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		addAuthenticatedUrls();
 		http
 			.csrf().disable()
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -153,11 +148,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Bean
 	public JwtFilter jwtFilter() throws Exception {
-		return new JwtFilter(jwtProvider, jwtFilterUrlRegistry);
-	}
-	
-	private void addAuthenticatedUrls() {
-		jwtFilterUrlRegistry.addPatterns(
+		JwtFilter filter = new JwtFilter(jwtProvider);
+		filter.addPatterns(
 				"/member/account/**",
 				"/board/write", 
 				"/board/writeProc", 
@@ -166,13 +158,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				"/board/deleteProc",
 				"/api/boards/**",
 				"/api/comments/**",
-				"/api/board/image",
+				"/api/board/image", 
 				"/api/member/image",
 				"/api/member/images", 
 				"/api/member/images/**",
 				"/api/member/details",
 				"/test/jwt/test7"
-		);
+			);
+		return filter;
 	}
-
+	
 }

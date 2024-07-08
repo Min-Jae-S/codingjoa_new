@@ -16,6 +16,7 @@ import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import com.codingjoa.entity.Category;
 import com.codingjoa.service.CategoryService;
+import com.codingjoa.util.Utils;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -45,7 +46,7 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
 		log.info("## {}.postHandle", this.getClass().getSimpleName());
-		log.info("\t > URI = {}", getFullURL(request));
+		log.info("\t > URI = {} '{}'", request.getMethod(), Utils.getFullURI(request));
 		
 		// @RestController or @ResponseBody annotation is present, the ModelAndView object will be null.
 		if (modelAndView == null) {
@@ -86,24 +87,12 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 				.anyMatch(pattern -> antPathMatcher.match(request.getContextPath() + pattern, request.getRequestURI()));
 		
 		if (!matchesExcludedPattern) {
-			String currentUrl = getFullURL(request);
+			String currentUrl = Utils.getFullURL(request);
 			currentUrl = URLEncoder.encode(currentUrl, StandardCharsets.UTF_8);
 			modelAndView.addObject("currentUrl", currentUrl);
 		}
 		
 		log.info("\t > added model attrs = {}", modelAndView.getModel().keySet());
-	}
-	
-	private String getFullURL(HttpServletRequest request) {
-		StringBuffer requestURL = request.getRequestURL();
-		String queryString = request.getQueryString();
-		
-		if (queryString == null) {
-			return requestURL.toString();
-		} else {
-			//return requestURL.append('?').append(URLDecoder.decode(queryString, StandardCharsets.UTF_8)).toString();
-			return requestURL.append('?').append(queryString).toString();
-		}
 	}
 	
 //	@Override

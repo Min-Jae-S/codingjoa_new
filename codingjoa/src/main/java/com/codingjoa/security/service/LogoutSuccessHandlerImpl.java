@@ -19,27 +19,25 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
 	
-	private final AntPathMatcher antPathMatcher = new AntPathMatcher();
-	
 	@Override
 	public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
 			throws IOException, ServletException {
 		log.info("## {}", this.getClass().getSimpleName());
 		
-		String redirectUrl = request.getParameter("redirect");
+		String redirect = request.getParameter("redirect");
 		
-		if (!isValidUrl(request, redirectUrl)) {
-			log.info("\t > invalid redirectUrl - default redirectUrl will be set");
-			redirectUrl = ServletUriComponentsBuilder.fromContextPath(request)
+		if (!isValidUrl(request, redirect)) {
+			log.info("\t > missing or invalid redirect, setting default redirect");
+			redirect = ServletUriComponentsBuilder.fromContextPath(request)
 					.path("/")
 					.build()
 					.toString();
 		} else {
-			log.info("\t > valid redirectUrl");
+			log.info("\t > valid redirect, setting redirect from request");
 		}
 		
-		log.info("\t > redirect to '{}'", redirectUrl);
-		response.sendRedirect(redirectUrl);
+		log.info("\t > redirect to '{}'", redirect);
+		response.sendRedirect(redirect);
 		//redirectStrategy.sendRedirect(request, response, redirectUrl);
 	}
 	
@@ -54,7 +52,7 @@ public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
 		int contextPathIndex = requestURL.indexOf(contextPath) + contextPath.length();
 		String baserUrl = requestURL.substring(0, contextPathIndex);	// http://localhost:8888/codingjoa
 		
-		return antPathMatcher.match(baserUrl + "/**", url);
+		return new AntPathMatcher().match(baserUrl + "/**", url);
 	}
 
 }

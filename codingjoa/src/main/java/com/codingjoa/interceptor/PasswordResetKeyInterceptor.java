@@ -1,7 +1,6 @@
 package com.codingjoa.interceptor;
 
 import java.io.IOException;
-import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.time.format.DateTimeFormatter;
 
@@ -19,6 +18,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import com.codingjoa.response.ErrorResponse;
 import com.codingjoa.service.RedisService;
 import com.codingjoa.util.MessageUtils;
+import com.codingjoa.util.Utils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
@@ -36,7 +36,7 @@ public class PasswordResetKeyInterceptor implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		log.info("## {}", this.getClass().getSimpleName());
-		log.info("\t > URI = {} '{}'", request.getMethod(), getFullURI(request));
+		log.info("\t > URI = {} '{}'", request.getMethod(), Utils.getFullURI(request));
 		
 		response.setStatus(HttpServletResponse.SC_FORBIDDEN);
 		response.setCharacterEncoding(StandardCharsets.UTF_8.name());
@@ -98,18 +98,5 @@ public class PasswordResetKeyInterceptor implements HandlerInterceptor {
                 .serializers(new LocalDateTimeSerializer(DateTimeFormatter.ISO_LOCAL_DATE_TIME))
                 .build();
     }
-	
-	private String getFullURI(HttpServletRequest request) {
-		StringBuilder requestURI = 
-				new StringBuilder(URLDecoder.decode(request.getRequestURI(), StandardCharsets.UTF_8));
-	    String queryString = request.getQueryString();
-	    
-	    if (queryString == null) {
-	        return requestURI.toString();
-	    } else {
-	    	return requestURI.append('?')
-	    			.append(URLDecoder.decode(queryString, StandardCharsets.UTF_8)).toString();
-	    }
-	}
 	
 }

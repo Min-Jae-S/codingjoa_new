@@ -18,6 +18,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.codingjoa.response.ErrorResponse;
+import com.codingjoa.util.Utils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 
@@ -39,7 +40,7 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 	public void commence(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException authException) throws IOException, ServletException {
 		log.info("## {}", this.getClass().getSimpleName());
-		log.info("\t > URI = {}", request.getRequestURI());
+		log.info("\t > URL = {}", Utils.getFullURL(request));
 		log.info("\t > {} : {}", authException.getClass().getSimpleName(), authException.getMessage());
 		
 		/*
@@ -74,7 +75,7 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 			response.getWriter().write(jsonResponse);
 			response.getWriter().close();
 		} else {
-			String currentUrl = getFullURL(request);
+			String currentUrl = Utils.getFullURL(request);
 			String redirectUrl = ServletUriComponentsBuilder.fromContextPath(request)
 					.path("/login")
 					.queryParam("redirect", URLEncoder.encode(currentUrl, StandardCharsets.UTF_8))
@@ -98,16 +99,5 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
                 .serializers(new LocalDateTimeSerializer(DateTimeFormatter.ISO_LOCAL_DATE_TIME)) // yyyy-MM-dd'T'HH:ss:mm"
                 .build();
     }
-	
-	private String getFullURL(HttpServletRequest request) {
-		StringBuffer requestURL= request.getRequestURL();
-	    String queryString = request.getQueryString();
-	    
-	    if (queryString == null) {
-	        return requestURL.toString();
-	    } else {
-	    	return requestURL.append('?').append(queryString).toString();
-	    }
-	}
 	
 }

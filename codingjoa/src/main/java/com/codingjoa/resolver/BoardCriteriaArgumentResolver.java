@@ -10,7 +10,7 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 
 import com.codingjoa.annotation.BoardCri;
 import com.codingjoa.pagination.Criteria;
-import com.codingjoa.util.MyUtils;
+import com.codingjoa.util.Utils;
 
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -49,7 +49,7 @@ public class BoardCriteriaArgumentResolver implements HandlerMethodArgumentResol
 		keyword = (keyword == null) ? "" : keyword.strip();
 
 		Criteria boardCri = new Criteria(
-			MyUtils.isPageNumber(page) ? Integer.parseInt(page) : defaultPage,
+			Utils.isPageNumber(page) ? Integer.parseInt(page) : defaultPage,
 			recordCntGroup.containsKey(recordCnt) ? Integer.parseInt(recordCnt) : defaultRecordCnt,
 			typeGroup.containsKey(type) ? type : defaultType,
 			keyword
