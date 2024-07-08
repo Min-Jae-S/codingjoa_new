@@ -12,6 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.codingjoa.security.service.JwtFilterUrlRegistry;
 import com.codingjoa.security.service.JwtProvider;
 
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 public class JwtFilter extends OncePerRequestFilter {
 	
 	private final JwtProvider jwtProvider;
+	private final JwtFilterUrlRegistry jwtFilterUrlRegistry;
 	
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -61,5 +63,16 @@ public class JwtFilter extends OncePerRequestFilter {
 			//return requestURL.append('?').append(URLDecoder.decode(queryString, StandardCharsets.UTF_8)).toString();
 			return requestURL.append('?').append(queryString).toString();
 		}
+	}
+
+	@Override
+	protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+		log.info("## {}.shouldNotFilter", this.getClass().getSimpleName());
+		log.info("\t > URI = {}", getFullURL(request));
+		boolean matches = jwtFilterUrlRegistry.getIncludeMatchers()
+				.stream()
+				.noneMatch(matcher -> matcher.matches(request));
+		log.info("\t > matches = {}", matches);
+		return matches;
 	}
 }
