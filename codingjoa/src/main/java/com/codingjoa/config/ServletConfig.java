@@ -134,7 +134,9 @@ public class ServletConfig implements WebMvcConfigurer {
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		WebMvcConfigurer.super.addInterceptors(registry);
-		registry.addInterceptor(new TopMenuInterceptor(applicationContext, categoryService))
+		TopMenuInterceptor topMenuInterceptor = new TopMenuInterceptor(applicationContext, categoryService);
+		topMenuInterceptor.addExcludeMatchers("/error/**", "/login");
+		registry.addInterceptor(topMenuInterceptor)
 				.addPathPatterns("/**")
 				.excludePathPatterns("/resources/**", "/api/**");
 		registry.addInterceptor(new PasswordConfirmInterceptor(redisService))

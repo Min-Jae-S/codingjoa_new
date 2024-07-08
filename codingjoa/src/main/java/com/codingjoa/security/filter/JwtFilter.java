@@ -28,7 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 public class JwtFilter extends OncePerRequestFilter {
 	
 	private final JwtProvider jwtProvider;
-	private List<RequestMatcher> includePatterns = new ArrayList<>();
+	private List<RequestMatcher> includeMatchers = new ArrayList<>();
 	
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -48,14 +48,14 @@ public class JwtFilter extends OncePerRequestFilter {
 		filterChain.doFilter(request, response);
 	}
 	
-	public void addPatterns(String... antPatterns) {
-		addPatterns(null, antPatterns);
+	public void addIncludeMathers(String... antPatterns) {
+		addIncludeMathers(null, antPatterns);
 	}
 	
-	public void addPatterns(HttpMethod httpMethod, String... antPatterns) {
+	public void addIncludeMathers(HttpMethod httpMethod, String... antPatterns) {
 		String method = httpMethod == null ? null : httpMethod.toString();
 		for (String pattern : antPatterns) {
-			includePatterns.add(new AntPathRequestMatcher(pattern, method));
+			includeMatchers.add(new AntPathRequestMatcher(pattern, method));
 		}
 	}
 	
@@ -72,9 +72,10 @@ public class JwtFilter extends OncePerRequestFilter {
 	protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
 		log.info("## {}.shouldNotFilter", this.getClass().getSimpleName());
 		log.info("\t > URL = {}", Utils.getFullURL(request));
-		boolean matches = includePatterns.stream().noneMatch(matcher -> matcher.matches(request));
-		log.info("\t > matches = {}", matches);
 		
-		return matches;
+		boolean matchesIncludePattern = includeMatchers.stream().anyMatch(matcher -> matcher.matches(request));
+		log.info("\t > matches = {}", matchesIncludePattern);
+		
+		return !matchesIncludePattern;
 	}
 }

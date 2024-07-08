@@ -149,7 +149,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Bean
 	public JwtFilter jwtFilter() throws Exception {
 		JwtFilter filter = new JwtFilter(jwtProvider);
-		filter.addPatterns(
+		filter.addIncludeMathers(
 				"/member/account/**",
 				"/board/write", 
 				"/board/writeProc", 

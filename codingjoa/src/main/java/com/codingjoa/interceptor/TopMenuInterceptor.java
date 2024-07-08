@@ -2,14 +2,15 @@ package com.codingjoa.interceptor;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.context.ApplicationContext;
-import org.springframework.util.AntPathMatcher;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
@@ -34,8 +35,9 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 	private static final String REDIRECT_URL_PREFIX = "redirect:";
 	private final ApplicationContext applicationContext;
 	private final CategoryService categoryService;
-	private final List<String> excludedPatterns = Arrays.asList("/error/**", "/login");
-	private final AntPathMatcher antPathMatcher = new AntPathMatcher();
+	
+	//private final List<String> excludePatterns = Arrays.asList("/error/**", "/login");
+	private List<RequestMatcher> excludeMatchers = new ArrayList<>();
 	
 	/*
 	 * If there is no mapped handler or if the mapping information cannot be found, the preHandle method is not called 
@@ -83,16 +85,24 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 		List<Category> parentCategoryList = categoryService.getParentCategoryList();
 		modelAndView.addObject("parentCategoryList", parentCategoryList);
 		
-		boolean matchesExcludedPattern = excludedPatterns.stream()
-				.anyMatch(pattern -> antPathMatcher.match(request.getContextPath() + pattern, request.getRequestURI()));
+//		boolean matchesExcludePattern = excludePatterns.stream()
+//				.anyMatch(pattern -> antPathMatcher.match(request.getContextPath() + pattern, request.getRequestURI()));
+
+		boolean matchesExcludePattern = excludeMatchers.stream().anyMatch(matcher -> matcher.matches(request));
 		
-		if (!matchesExcludedPattern) {
+		if (!matchesExcludePattern) {
 			String currentUrl = Utils.getFullURL(request);
 			currentUrl = URLEncoder.encode(currentUrl, StandardCharsets.UTF_8);
 			modelAndView.addObject("currentUrl", currentUrl);
 		}
 		
 		log.info("\t > added model attrs = {}", modelAndView.getModel().keySet());
+	}
+	
+	public void addExcludeMatchers(String... antPatterns) {
+		for (String pattern : antPatterns) {
+			excludeMatchers.add(new AntPathRequestMatcher(pattern, null));
+		}
 	}
 	
 //	@Override
