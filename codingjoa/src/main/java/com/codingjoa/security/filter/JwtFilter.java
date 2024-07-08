@@ -73,6 +73,7 @@ public class JwtFilter extends OncePerRequestFilter {
 				.stream()
 				.noneMatch(matcher -> matcher.matches(request));
 		log.info("\t > matches = {}", matches);
+		
 		return matches;
 	}
 }
