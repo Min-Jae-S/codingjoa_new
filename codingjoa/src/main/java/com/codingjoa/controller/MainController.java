@@ -42,17 +42,7 @@ public class MainController {
 	public String loginPage(@RequestParam(required = false) String redirect, Model model, HttpServletRequest request) {
 		log.info("## loginPage");
 		log.info("\t > redirect = {}", (redirect == null) ? null : "'" + redirect + "'");
-		if (!isValidUrl(request, redirect)) {
-			log.info("\t > invalid redirect - default redirect will be set");
-			redirect = ServletUriComponentsBuilder.fromContextPath(request)
-					.path("/")
-					.build()
-					.toString();
-		} else {
-			log.info("\t > valid redirect");
-		}
-		model.addAttribute("redirect", redirect);
-		
+		model.addAttribute("redirect", resolveRedirect(request, redirect));
 		return "login";
 	}
 	
@@ -67,6 +57,19 @@ public class MainController {
 				.message("success")
 				.data(Map.of("redirectUrl", redirectUrl))
 				.build());
+	}
+	
+	private String resolveRedirect(HttpServletRequest request, String redirect) {
+		if (!isValidUrl(request, redirect)) {
+			log.info("\t > missing or invalid redirect, setting default redirect");
+			return ServletUriComponentsBuilder.fromContextPath(request)
+					.path("/")
+					.build()
+					.toString();
+		} else {
+			log.info("\t > valid redirect, setting redirect from request");
+			return redirect;
+		}
 	}
 
 	private boolean isValidUrl(HttpServletRequest request, String url) {
