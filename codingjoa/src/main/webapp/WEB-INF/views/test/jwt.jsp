@@ -244,7 +244,7 @@
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
 				console.log("> JWT has been renewed")
-				jwt = result.data.jwt;
+				jwt = result.data.token;
 				alertJwt(jwt);
 			},
 			error : function(jqXHR) {

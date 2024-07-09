@@ -40,7 +40,7 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 	public void commence(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException authException) throws IOException, ServletException {
 		log.info("## {}", this.getClass().getSimpleName());
-		log.info("\t > URL = {}", Utils.getFullURL(request));
+		log.info("\t > URI = {} '{}'", request.getMethod(), request.getRequestURI());
 		log.info("\t > {} : {}", authException.getClass().getSimpleName(), authException.getMessage());
 		
 		/*

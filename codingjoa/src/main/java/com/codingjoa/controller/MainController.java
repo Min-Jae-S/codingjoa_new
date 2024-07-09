@@ -80,7 +80,6 @@ public class MainController {
 				.path("/**")
 				.build()
 				.toString();
-		
 		return new AntPathMatcher().match(pattern, url);
 	}
 	

@@ -50,7 +50,6 @@ public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
 				.path("/**")
 				.build()
 				.toString();
-		
 		return new AntPathMatcher().match(pattern, url);
 	}
 

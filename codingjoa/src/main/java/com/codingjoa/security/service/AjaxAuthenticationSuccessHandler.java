@@ -55,7 +55,7 @@ public class AjaxAuthenticationSuccessHandler implements AuthenticationSuccessHa
 		SuccessResponse successResponse = SuccessResponse.builder()
 				.status(HttpStatus.OK)
 				.messageByCode("success.Login")
-				.data(Map.of("jwt", jwt, "redirectUrl", redirectUrl))
+				.data(Map.of("token", jwt, "redirectUrl", redirectUrl))
 				.build();
 		
 		response.setStatus(HttpServletResponse.SC_OK);
@@ -87,7 +87,6 @@ public class AjaxAuthenticationSuccessHandler implements AuthenticationSuccessHa
 				.path("/**")
 				.build()
 				.toString();
-		
 		return new AntPathMatcher().match(pattern, url);
 	}
 	

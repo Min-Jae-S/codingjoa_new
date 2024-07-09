@@ -18,7 +18,6 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;
 
 import com.codingjoa.response.ErrorResponse;
-import com.codingjoa.util.Utils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 
@@ -38,7 +37,7 @@ public class AccessDeniedHandlerImpl implements AccessDeniedHandler {
 	public void handle(HttpServletRequest request, HttpServletResponse response,
 			AccessDeniedException accessDeniedException) throws IOException, ServletException {
 		log.info("## {}", this.getClass().getSimpleName());
-		log.info("\t > URL = {}", Utils.getFullURL(request));
+		log.info("\t > URI = {} '{}'", request.getMethod(), request.getRequestURI());
 		log.info("\t > {} : {}", accessDeniedException.getClass().getSimpleName(), accessDeniedException.getMessage());
 		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
