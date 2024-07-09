@@ -29,7 +29,6 @@ public class JwtFilter extends OncePerRequestFilter {
 	
 	private final JwtProvider jwtProvider;
 	private List<RequestMatcher> includeMatchers = new ArrayList<>();
-	private List<RequestMatcher> excludeMatchers = new ArrayList<>();
 	
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -55,13 +54,10 @@ public class JwtFilter extends OncePerRequestFilter {
 		log.info("\t > URI = {} '{}'", request.getMethod(), Utils.getFullURI(request));
 		
 		boolean matchesIncludePattern = includeMatchers.stream().anyMatch(matcher -> matcher.matches(request)); 
-		boolean matchesExcludePattern = excludeMatchers.stream().anyMatch(matcher -> matcher.matches(request));
-		log.info("\t > matchesIncludePattern = {}, matchesExcludePattern = {}", matchesIncludePattern, matchesExcludePattern);
-		
 		if (matchesIncludePattern) {
-			log.info("\t > enter into JwtFilter : '{}'", request.getRequestURI());
+			log.info("\t > enter into JwtFilter");
 		} else {
-			log.info("\t > no enter into JwtFilter : '{}'", request.getRequestURI());
+			log.info("\t > no enter into JwtFilter");
 		}
 		
 		return !matchesIncludePattern;
@@ -84,17 +80,6 @@ public class JwtFilter extends OncePerRequestFilter {
 		String method = httpMethod == null ? null : httpMethod.toString();
 		for (String pattern : antPatterns) {
 			includeMatchers.add(new AntPathRequestMatcher(pattern, method));
-		}
-	}
-
-	public void addExcludeMatchers(String... antPatterns) {
-		addExcludeMatchers(null, antPatterns);
-	}
-	
-	public void addExcludeMatchers(HttpMethod httpMethod, String... antPatterns) {
-		String method = httpMethod == null ? null : httpMethod.toString();
-		for (String pattern : antPatterns) {
-			excludeMatchers.add(new AntPathRequestMatcher(pattern, method));
 		}
 	}
 	

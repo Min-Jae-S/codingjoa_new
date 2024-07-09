@@ -91,14 +91,43 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				//.filterSecurityInterceptorOncePerRequest(false)
 				.antMatchers("/member/account/**").authenticated()
 				.antMatchers("/board/write", "/board/writeProc", "/board/modify", "/board/modifyProc", "/board/deleteProc").authenticated()
-				// the order of the rules matters and the more specific rules should go first --> "/api/boards/**", "/api/comments/**"
-				.antMatchers(HttpMethod.GET, "/api/boards/**/likes", "/api/boards/**/comments").permitAll()
-				.antMatchers("/api/boards/**").authenticated()
-				.antMatchers(HttpMethod.GET, "/api/comments/**/likes").permitAll()
-				.antMatchers("/api/comments/**").authenticated() 
-				//.mvcMatchers("/api/comments/**").authenticated()
-				.antMatchers("/api/board/image", "/api/member/image").authenticated()
-				.antMatchers("/api/member/images", "/api/member/images/**", "/api/member/details").authenticated()
+				// the order of the rules matters and the more specific rules should go first
+				//.antMatchers("/api/comments/**/likes").permitAll()
+				//.antMatchers("/api/comments/**").authenticated()
+				
+				/*
+				 * @RequestMapping("/api")
+				 * LikesRestController {
+				 * 		@PostMapping("/boards/{boardIdx}/likes") 			toggleBoardLikes	-->	authenticated
+				 * 		@GetMapping("/boards/{boardIdx}/likes") 			getBoardLikesCnt	--> permitAll
+				 * 		@PostMapping("/comments/{commentIdx}/likes")		toggleCommentLikes	--> authenticated
+				 * 		@GetMapping("/comments/{commentIdx}/likes")			getCommentLikesCnt	--> permitAll
+				 * }
+				 * 
+				 * @RequestMapping("/api")
+				 * CommentRestController {
+				 * 		@GetMapping("/boards/{commentBoardIdx}/comments")					getCommentList		--> permitAll
+				 * 		@GetMapping(value = { "/comments/", "/comments/{commentIdx}" })		getModifyComment 	--> authenticated
+				 * 		@PostMapping("/comments")											writeComment		--> authenticated		
+				 * 		@PatchMapping(value = { "/comments/", "/comments/{commentIdx}" })	modifyComment		--> authenticated
+				 * 		@DeleteMapping(value = { "/comments/", "/comments/{commentIdx}" })	deleteComment		--> authenticated
+				 * }
+				 * 
+				 * @RequestMapping("/api")
+				 * ImageRestController {
+				 * 		@PostMapping("/board/image")														uploadBoardImage		--> authenticated
+				 * 		@GetMapping(value = { "/board/images/", "/board/images/{boardImageName:.+}"})		getBoardImageResource	--> permitAll
+				 * 		@PostMapping("/member/image")														uploadMemberImage		--> authenticated
+				 * 		@GetMapping(value = { "/member/images/", "/member/images/{memberImageName:.+}"})	getMemberImageResource	--> authenticated
+				 * }
+				 * 
+				 */
+				
+				.antMatchers(HttpMethod.POST, "/api/boards/*/likes", "/api/comments/*/likes").authenticated()
+				.antMatchers("/api/comments", "/comments/", "/api/comments/*").authenticated()
+				.antMatchers(HttpMethod.POST, "/api/board/image", "/api/member/image").authenticated()
+				.antMatchers("/api/member/images", "/api/member/images/*").authenticated()
+				.antMatchers("/api/member/details").authenticated()
 				.antMatchers("/admin/**").hasAnyRole("ADMIN")
 				.anyRequest().permitAll()
 			.and()
@@ -149,13 +178,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		JwtFilter filter = new JwtFilter(jwtProvider);
 		filter.addIncludeMatchers("/member/account/**");
 		filter.addIncludeMatchers("/board/write", "/board/writeProc", "/board/modify", "/board/modifyProc", "/board/deleteProc");
-		filter.addIncludeMatchers("/api/boards/**");
-		filter.addIncludeMatchers("/api/comments/**");
-		filter.addIncludeMatchers("/api/board/image", "/api/member/image");
-		filter.addIncludeMatchers("/api/member/images", "/api/member/images/**", "/api/member/details");
+		filter.addIncludeMatchers(HttpMethod.POST, "/api/boards/*/likes", "/api/comments/*/likes");
+		filter.addIncludeMatchers("/api/comments", "/comments/", "/api/comments/*");
+		filter.addIncludeMatchers(HttpMethod.POST, "/api/board/image", "/api/member/image");
+		filter.addIncludeMatchers("/api/member/images", "/api/member/images/*");
+		filter.addIncludeMatchers("/api/member/details");
 		filter.addIncludeMatchers("/test/jwt/test7");
-		filter.addExcludeMatchers(HttpMethod.GET, "/api/boards/**/likes", "/api/boards/**/comments");
-		filter.addExcludeMatchers(HttpMethod.GET, "/api/comments/**/likes");
 		return filter;
 	}
 	
