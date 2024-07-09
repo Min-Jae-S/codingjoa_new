@@ -39,15 +39,15 @@ public class AjaxAuthenticationSuccessHandler implements AuthenticationSuccessHa
 			Authentication authentication) throws IOException, ServletException {
 		log.info("## {}", this.getClass().getSimpleName());
 		
-		String jwt = jwtProvider.createJwt(request, authentication);
+		String jwt = jwtProvider.createJwt(authentication, request);
 		String redirectUrl = (String) authentication.getDetails();
-		
-		if(validateUrl(request, redirectUrl)) {
+
+		if(!isValidUrl(redirectUrl, request)) {
+			log.info("\t > missing or invalid redirectUrl, setting default redirectUrl");
 			redirectUrl = ServletUriComponentsBuilder.fromContextPath(request)
 					.path("/")
 					.build()
 					.toString();
-			log.info("\t > missing or invalid redirectUrl, setting default redirectUrl");
 		} else {
 			log.info("\t > valid redirectUrl, setting redirectUrl from request");
 		}
@@ -70,18 +70,25 @@ public class AjaxAuthenticationSuccessHandler implements AuthenticationSuccessHa
 		response.getWriter().close();
 	}
 	
-	private boolean validateUrl(HttpServletRequest request, String url) {
+	private boolean isValidUrl(String url, HttpServletRequest request) {
 		if (!StringUtils.hasText(url)) {
 			return false;
 		}
 		
-		StringBuffer requestURL = request.getRequestURL(); 				// http://localhost:8888/codingjoa/**
-		String contextPath = request.getContextPath();					// /codingjoa
+//		StringBuffer requestURL = request.getRequestURL(); 				// http://localhost:8888/codingjoa/**
+//		String contextPath = request.getContextPath();					// /codingjoa
+//		
+//		int contextPathIndex = requestURL.indexOf(contextPath) + contextPath.length();
+//		String baserUrl = requestURL.substring(0, contextPathIndex);	// http://localhost:8888/codingjoa
+//		
+//		return new AntPathMatcher().match(baserUrl + "/**", url);
 		
-		int contextPathIndex = requestURL.indexOf(contextPath) + contextPath.length();
-		String baserUrl = requestURL.substring(0, contextPathIndex);	// http://localhost:8888/codingjoa
+		String pattern = ServletUriComponentsBuilder.fromContextPath(request)
+				.path("/**")
+				.build()
+				.toString();
 		
-		return new AntPathMatcher().match(baserUrl + "/**", url);
+		return new AntPathMatcher().match(pattern, url);
 	}
 	
 	@SuppressWarnings("unused")

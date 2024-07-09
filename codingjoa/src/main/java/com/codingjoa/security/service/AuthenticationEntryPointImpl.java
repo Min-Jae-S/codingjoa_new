@@ -84,7 +84,6 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 			
 			// http://localhost:8888/codingjoa/login?redirect=http%3A%2F%2Flocalhost%3A8888%2Fcodingjoa%2Fboard%2Fmodify%3FboardIdx%3D2082
 			log.info("\t > redirect to '{}'", redirectUrl);
-			
 			response.sendRedirect(redirectUrl);
 		}
 	}

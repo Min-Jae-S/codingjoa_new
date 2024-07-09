@@ -76,7 +76,7 @@ public class TestJwtController {
 		UserDetails userDetails = userDetailsService.loadUserByUsername(USERNAME);
 		Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 		
-		String jwt = jwtProvider.createJwt(request, authentication);
+		String jwt = jwtProvider.createJwt(authentication, request);
 		log.info("\t > created JWT = {}", jwt);
 		
 		Jws<Claims> jws = Jwts.parserBuilder()
@@ -105,7 +105,7 @@ public class TestJwtController {
 				.setClaims(claims)
 				.signWith(createKey(INVALID_SECRET_KEY), SignatureAlgorithm.HS256)
 				.compact();
-		jwtProvider.validateJwt(invalidKeyJwt); 
+		log.info("\t > result = {}", jwtProvider.isValidJwt(invalidKeyJwt)); 
 		
 		log.info("## validate invalid algorithm JWT"); 
 		String invalidAlgJwt = Jwts.builder()
@@ -113,17 +113,17 @@ public class TestJwtController {
 				.setClaims(claims)
 				.signWith(signingKey, SignatureAlgorithm.HS512)
 				.compact();
-		jwtProvider.validateJwt(invalidAlgJwt);
+		log.info("\t > result = {}", jwtProvider.isValidJwt(invalidAlgJwt));
 
 		// MalformedJwtException
 		log.info("## validate malformed JWT"); 
 		String malformedJwt = "aaabbbccc"; // "aaa.bbb.ccc"
-		jwtProvider.validateJwt(malformedJwt);
+		log.info("\t > result = {}", jwtProvider.isValidJwt(malformedJwt));
 
 		// IllegalArgumentException 
 		log.info("## validate illegal argument JWT"); 
 		String illegalArgumentJwt = null; // "", "   "
-		jwtProvider.validateJwt(illegalArgumentJwt);
+		log.info("\t > result = {}", jwtProvider.isValidJwt(illegalArgumentJwt));
 		
 		// SignatureException 
 		log.info("## validate multiple invalid JWT"); 
@@ -132,7 +132,7 @@ public class TestJwtController {
 				.setExpiration(new Date(System.currentTimeMillis() - VALIDITY_IN_MILLIS))
 				.signWith(createKey(INVALID_SECRET_KEY), SignatureAlgorithm.HS256)
 				.compact();
-		jwtProvider.validateJwt(multiInvalidJwt);
+		log.info("\t > result = {}", jwtProvider.isValidJwt(multiInvalidJwt));
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
@@ -144,22 +144,31 @@ public class TestJwtController {
 		// no claims : UnsupportedJwtException 
 		log.info("## validate no claims JWT");
 		String noClaimsJwt = Jwts.builder().signWith(signingKey, SignatureAlgorithm.HS256).compact();
-		jwtProvider.validateJwt(noClaimsJwt);
+		log.info("\t > result = {}", jwtProvider.isValidJwt(noClaimsJwt));
 
 		// empty claims : UnsupportedJwtException 
 		log.info("## validate empty claims JWT");
-		String emptyClaimsJwt = Jwts.builder().setClaims(Collections.emptyMap()).signWith(signingKey, SignatureAlgorithm.HS256).compact();
-		jwtProvider.validateJwt(emptyClaimsJwt);
+		String emptyClaimsJwt = Jwts.builder()
+				.setClaims(Collections.emptyMap())
+				.signWith(signingKey, SignatureAlgorithm.HS256)
+				.compact();
+		log.info("\t > result = {}", jwtProvider.isValidJwt(emptyClaimsJwt));
 
 		// illegal expiration : IllegalArgumentException
 		log.info("## validate illegal expiration JWT");
-		String illegalExpJwt = Jwts.builder().setClaims(Map.of("exp", "aaa")).signWith(signingKey, SignatureAlgorithm.HS256).compact();
-		jwtProvider.validateJwt(illegalExpJwt);
+		String illegalExpJwt = Jwts.builder()
+				.setClaims(Map.of("exp", "aaa"))
+				.signWith(signingKey, SignatureAlgorithm.HS256)
+				.compact();
+		log.info("\t > result = {}", jwtProvider.isValidJwt(illegalExpJwt));
 		
 		// no expiration : NullPointerException --> IllegalArgumentException
 		log.info("## validate no expiration JWT");
-		String noExpJwt = Jwts.builder().setClaims(Map.of("email", "smj20228")).signWith(signingKey, SignatureAlgorithm.HS256).compact();
-		jwtProvider.validateJwt(noExpJwt);
+		String noExpJwt = Jwts.builder()
+				.setClaims(Map.of("email", "smj20228"))
+				.signWith(signingKey, SignatureAlgorithm.HS256)
+				.compact();
+		log.info("\t > result = {}", jwtProvider.isValidJwt(noExpJwt));
 		
 		// no expiration : IllegalArgumentException
 		log.info("## validate no sub JWT");
@@ -167,7 +176,7 @@ public class TestJwtController {
 				.setClaims(Map.of("exp", new Date(System.currentTimeMillis() + VALIDITY_IN_MILLIS)))
 				.signWith(signingKey, SignatureAlgorithm.HS256)
 				.compact();
-		jwtProvider.validateJwt(noSubJwt);
+		log.info("\t > result = {}", jwtProvider.isValidJwt(noSubJwt));
 		
 		// expired : ExpiredJwtException
 		log.info("## validate expired JWT");
@@ -175,7 +184,7 @@ public class TestJwtController {
 				.setClaims(Map.of("exp", new Date(System.currentTimeMillis() - VALIDITY_IN_MILLIS)))
 				.signWith(signingKey, SignatureAlgorithm.HS256)
 				.compact();
-		jwtProvider.validateJwt(expiredJwt);
+		log.info("\t > result = {}", jwtProvider.isValidJwt(expiredJwt));
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
@@ -202,7 +211,7 @@ public class TestJwtController {
 		UserDetails userDetails = userDetailsService.loadUserByUsername(USERNAME);
 		Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 		
-		String jwt = jwtProvider.createJwt(request, authentication);
+		String jwt = jwtProvider.createJwt(authentication, request);
 		log.info("\t > created JWT = {}", jwt);
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
@@ -217,7 +226,7 @@ public class TestJwtController {
 		String jwt = resolveJwt(request);
 		log.info("\t > resolved JWT = {}", jwt);
 		
-		jwtProvider.validateJwt(jwt);
+		jwtProvider.isValidJwt(jwt);
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}

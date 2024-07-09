@@ -44,7 +44,7 @@ public class MainController {
 		log.info("## loginPage");
 		log.info("\t > redirect = {}", (redirect == null) ? null : "'" + redirect + "'");
 		
-		if (!validateUrl(request, redirect)) {
+		if (!isValidUrl(redirect, request)) {
 			log.info("\t > missing or invalid redirect, setting default redirect");
 			redirect = ServletUriComponentsBuilder.fromContextPath(request)
 					.path("/")
@@ -71,18 +71,17 @@ public class MainController {
 				.build());
 	}
 	
-	private boolean validateUrl(HttpServletRequest request, String url) {
+	private boolean isValidUrl(String url, HttpServletRequest request) {
 		if (!StringUtils.hasText(url)) {
 			return false;
 		}
 		
-		StringBuffer requestURL = request.getRequestURL(); 				// http://localhost:8888/codingjoa/**
-		String contextPath = request.getContextPath();					// /codingjoa
+		String pattern = ServletUriComponentsBuilder.fromContextPath(request)
+				.path("/**")
+				.build()
+				.toString();
 		
-		int contextPathIndex = requestURL.indexOf(contextPath) + contextPath.length();
-		String baserUrl = requestURL.substring(0, contextPathIndex);	// http://localhost:8888/codingjoa
-		
-		return new AntPathMatcher().match(baserUrl + "/**", url);
+		return new AntPathMatcher().match(pattern, url);
 	}
 	
 	private String getRedirectURL(HttpServletRequest request, HttpServletResponse response) {

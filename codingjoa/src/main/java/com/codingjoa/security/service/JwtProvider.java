@@ -54,11 +54,11 @@ public class JwtProvider {
 	 * header - typ, alg
 	 * claims - sub, iss, iat, exp, email, role
 	 */
-	public String createJwt(HttpServletRequest request, Authentication authentication) {
+	public String createJwt(Authentication authentication, HttpServletRequest request) {
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 		return Jwts.builder()
 				.setHeader(createHeader()) 
-				.setClaims(createClaims(request, userDetails))
+				.setClaims(createClaims(userDetails, request))
 				.signWith(signingKey, SignatureAlgorithm.HS256)
 				.compact();
 	}
@@ -66,10 +66,7 @@ public class JwtProvider {
 	public Authentication getAuthentication(String jwt) {
 		String username = parseJwt(jwt).getBody().getSubject();
 		UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-		UsernamePasswordAuthenticationToken authentication = 
-				new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-		authentication.setDetails("JwtAuthencationFilter");
-		return authentication;
+		return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 	}
 	
 	/*
@@ -79,7 +76,7 @@ public class JwtProvider {
 	 * ExpiredJwtException - if the specified JWT is a Claims JWT and the Claims has an expiration timebefore the time this method is invoked.
 	 * IllegalArgumentException - if the claimsJws string is null or empty or only whitespace
 	 */
-	public boolean validateJwt(String jwt) {
+	public boolean isValidJwt(String jwt) {
 		try {
 			Jws<Claims> jws = parseJwt(jwt);
 			log.info("\t > parsed JWT, header = {}, claims = {}", jws.getHeader(), jws.getBody());
@@ -110,7 +107,7 @@ public class JwtProvider {
 		return Map.of("typ", "JWT", "alg", "HS256");
 	}
 	
-	private Map<String, Object> createClaims(HttpServletRequest request, UserDetails userDetails) {
+	private Map<String, Object> createClaims(UserDetails userDetails, HttpServletRequest request) {
 		UserDetailsDto userDetailsDto = (UserDetailsDto) userDetails;
 		Date now = new Date(System.currentTimeMillis());
 		Date exp = new Date(now.getTime() + VALIDITY_IN_MILLIS);
