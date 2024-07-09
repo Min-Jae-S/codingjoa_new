@@ -100,7 +100,7 @@
 <script>
 	$(function() {
 		let timer;
-		let showDelay = 100;
+		let showDelay = 300;
 		
 		$(".navbar-nav li.dropdown").on("mouseenter", function(e) {
 			e.stopPropagation();

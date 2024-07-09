@@ -76,4 +76,10 @@ public class TestViewController {
 		log.info("## jwt main");
 		return "test/jwt";
 	}
+
+	@GetMapping("/cookie")
+	public String cookieMain() {
+		log.info("## cookie main");
+		return "test/cookie";
+	}
 }
