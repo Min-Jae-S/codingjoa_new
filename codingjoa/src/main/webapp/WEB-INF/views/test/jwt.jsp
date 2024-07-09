@@ -276,20 +276,19 @@
 	}
 	
 	function resetJwt() {
-		console.log("## resetJwt");
 		jwt = "";
 		alertJwt(jwt);
 	}
 	
 	function getCurrentJwt() {
-		console.log("## getCurrentJwt");
 		alertJwt(jwt);
 	}
 	
 	function test7() {
 		console.log("## test7");
-		let checked = $("#test7Radio2").prop("checked");
+		alertJwt(jwt);
 		
+		let checked = $("#test7Radio2").prop("checked");
 		$.ajax({
 			type : "GET",
 			url : "${contextPath}/test/jwt/test7",
@@ -311,9 +310,9 @@
 	
 	function alertJwt(jwt) {
 		if (jwt == "") {
-			alert("no JWT");
+			alert("current JWT : JWT is empty");
 		} else {
-			alert(jwt);
+			alert("current JWT : " + jwt);
 		}
 	}
 </script>

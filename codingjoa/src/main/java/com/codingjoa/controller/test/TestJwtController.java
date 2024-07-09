@@ -228,7 +228,7 @@ public class TestJwtController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		try {
 			log.info("\t > authentication = {}", auth.getClass().getSimpleName());
-			log.info("\t > details = {}", auth.getDetails());
+			log.info("\t > details = {}", auth.getDetails().getClass().getSimpleName());
 		} catch (NullPointerException e) {
 			log.info("\t > authentication = null");
 		}

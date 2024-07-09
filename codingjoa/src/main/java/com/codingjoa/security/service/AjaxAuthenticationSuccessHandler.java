@@ -40,7 +40,17 @@ public class AjaxAuthenticationSuccessHandler implements AuthenticationSuccessHa
 		log.info("## {}", this.getClass().getSimpleName());
 		
 		String jwt = jwtProvider.createJwt(request, authentication);
-		String redirectUrl = resolveRedirectUrl(request, authentication);
+		String redirectUrl = (String) authentication.getDetails();
+		
+		if(validateUrl(request, redirectUrl)) {
+			redirectUrl = ServletUriComponentsBuilder.fromContextPath(request)
+					.path("/")
+					.build()
+					.toString();
+			log.info("\t > missing or invalid redirectUrl, setting default redirectUrl");
+		} else {
+			log.info("\t > valid redirectUrl, setting redirectUrl from request");
+		}
 		
 		SuccessResponse successResponse = SuccessResponse.builder()
 				.status(HttpStatus.OK)
@@ -60,58 +70,7 @@ public class AjaxAuthenticationSuccessHandler implements AuthenticationSuccessHa
 		response.getWriter().close();
 	}
 	
-//	@Override
-//	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
-//			Authentication authentication) throws IOException, ServletException {
-//		log.info("## {}", this.getClass().getSimpleName());
-//		
-//		String redirectUrl = (String) authentication.getDetails();
-//		
-//		if (!isValidUrl(request, redirectUrl)) {
-//			log.info("\t > invalid redirectUrl - default redirectUrl will be set");
-//			redirectUrl = ServletUriComponentsBuilder.fromContextPath(request)
-//					.path("/")
-//					.build()
-//					.toString();
-//		} else {
-//			log.info("\t > valid redirectUrl");
-//		}
-//		
-//		clearAuthenticationDetails(authentication);
-//		
-//		SuccessResponse successResponse = SuccessResponse.builder()
-//				.status(HttpStatus.OK)
-//				.messageByCode("success.Login")
-//				.data(Map.of("redirectUrl", redirectUrl))
-//				.build();
-//		
-//		response.setStatus(HttpServletResponse.SC_OK);
-//		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-//		response.setCharacterEncoding(StandardCharsets.UTF_8.name());
-//		
-//		ObjectMapper objectMapper = getObjectMapperWithSerializer();
-//		String jsonResponse = objectMapper.writeValueAsString(successResponse);
-//		
-//		response.getWriter().write(jsonResponse);
-//		response.getWriter().close();
-//	}
-	
-	private String resolveRedirectUrl(HttpServletRequest request, Authentication authentication) {
-		String redirectUrl = (String) authentication.getDetails();
-		
-		if (!isValidUrl(request, redirectUrl)) {
-			log.info("\t > missing or invalid redirectUrl, setting default redirectUrl");
-			return ServletUriComponentsBuilder.fromContextPath(request)
-					.path("/")
-					.build()
-					.toString();
-		} else {
-			log.info("\t > valid redirectUrl, setting redirectUrl from request");
-			return redirectUrl;
-		}
-	}
-	
-	private boolean isValidUrl(HttpServletRequest request, String url) {
+	private boolean validateUrl(HttpServletRequest request, String url) {
 		if (!StringUtils.hasText(url)) {
 			return false;
 		}

@@ -26,7 +26,7 @@ public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
 		
 		String redirect = request.getParameter("redirect");
 		
-		if (!isValidUrl(request, redirect)) {
+		if (!validateUrl(request, redirect)) {
 			log.info("\t > missing or invalid redirect, setting default redirect");
 			redirect = ServletUriComponentsBuilder.fromContextPath(request)
 					.path("/")
@@ -41,7 +41,7 @@ public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
 		//redirectStrategy.sendRedirect(request, response, redirectUrl);
 	}
 	
-	private boolean isValidUrl(HttpServletRequest request, String url) {
+	private boolean validateUrl(HttpServletRequest request, String url) {
 		if (!StringUtils.hasText(url)) {
 			return false;
 		}

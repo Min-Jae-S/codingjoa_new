@@ -44,7 +44,7 @@ public class MainController {
 		log.info("## loginPage");
 		log.info("\t > redirect = {}", (redirect == null) ? null : "'" + redirect + "'");
 		
-		if (!isValidUrl(request, redirect)) {
+		if (!validateUrl(request, redirect)) {
 			log.info("\t > missing or invalid redirect, setting default redirect");
 			redirect = ServletUriComponentsBuilder.fromContextPath(request)
 					.path("/")
@@ -71,7 +71,7 @@ public class MainController {
 				.build());
 	}
 	
-	private boolean isValidUrl(HttpServletRequest request, String url) {
+	private boolean validateUrl(HttpServletRequest request, String url) {
 		if (!StringUtils.hasText(url)) {
 			return false;
 		}
