@@ -39,13 +39,13 @@ public class AjaxAuthenticationSuccessHandler implements AuthenticationSuccessHa
 			Authentication authentication) throws IOException, ServletException {
 		log.info("## {}", this.getClass().getSimpleName());
 		
-		String token = jwtProvider.createToken(request, authentication);
+		String jwt = jwtProvider.createJwt(request, authentication);
 		String redirectUrl = resolveRedirectUrl(request, authentication);
 		
 		SuccessResponse successResponse = SuccessResponse.builder()
 				.status(HttpStatus.OK)
 				.messageByCode("success.Login")
-				.data(Map.of("token", token, "redirectUrl", redirectUrl))
+				.data(Map.of("jwt", jwt, "redirectUrl", redirectUrl))
 				.build();
 		
 		response.setStatus(HttpServletResponse.SC_OK);

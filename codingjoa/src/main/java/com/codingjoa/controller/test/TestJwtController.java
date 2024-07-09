@@ -12,6 +12,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -49,7 +50,7 @@ public class TestJwtController {
 	private final String SECRET_KEY = "JsonWebTokenSecretKeyForJwtVerificationInSpringSecurityAndCodingjoa";
 	private final String INVALID_SECRET_KEY = "InvalidJsonWebTokenSecretKeyForJwtVerificationInSpringSecurityAndCodingjoa";
 	private final String USERNAME = "smj20228";
-	private final long VALIDITY_IN_MILLIS = 1800000;
+	private final long VALIDITY_IN_MILLIS = 1800000; // 1000 * 60 * 30 (30 mins)
 	private final Key signingKey; 
 	private final JwtProvider jwtProvider;
 	private final UserDetailsService userDetailsService;
@@ -75,16 +76,16 @@ public class TestJwtController {
 		UserDetails userDetails = userDetailsService.loadUserByUsername(USERNAME);
 		Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 		
-		String token = jwtProvider.createToken(request, authentication);
-		log.info("\t > created token = {}", token);
+		String jwt = jwtProvider.createJwt(request, authentication);
+		log.info("\t > created JWT = {}", jwt);
 		
 		Jws<Claims> jws = Jwts.parserBuilder()
 				.setSigningKey(signingKey)
 				.build()
-				.parseClaimsJws(token);
-		log.info("\t > token header = {}", jws.getHeader().keySet());
-		log.info("\t > token body = {}", jws.getBody().keySet());
-		log.info("\t > token signature = {}", jws.getSignature());
+				.parseClaimsJws(jwt);
+		log.info("\t > JWT header = {}", jws.getHeader().keySet());
+		log.info("\t > JWT body = {}", jws.getBody().keySet());
+		log.info("\t > JWT signature = {}", jws.getSignature());
 
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
@@ -98,40 +99,40 @@ public class TestJwtController {
 		Map<String, Object> claims = createClaims(userDetails);
 		
 		// SignatureException 
-		log.info("## validate invalidKeyToken"); 
-		String invalidKeyToken = Jwts.builder()
+		log.info("## validate invalid key JWT"); 
+		String invalidKeyJwt = Jwts.builder()
 				.setHeader(header)
 				.setClaims(claims)
 				.signWith(createKey(INVALID_SECRET_KEY), SignatureAlgorithm.HS256)
 				.compact();
-		jwtProvider.validateToken(invalidKeyToken); 
+		jwtProvider.validateJwt(invalidKeyJwt); 
 		
-		log.info("## validate invalidAlgToken"); 
-		String invalidAlgToken = Jwts.builder()
+		log.info("## validate invalid algorithm JWT"); 
+		String invalidAlgJwt = Jwts.builder()
 				.setHeader(header)
 				.setClaims(claims)
 				.signWith(signingKey, SignatureAlgorithm.HS512)
 				.compact();
-		jwtProvider.validateToken(invalidAlgToken);
+		jwtProvider.validateJwt(invalidAlgJwt);
 
 		// MalformedJwtException
-		log.info("## validate malformedToken"); 
-		String malformedToken = "aaabbbccc"; // "aaa.bbb.ccc"
-		jwtProvider.validateToken(malformedToken);
+		log.info("## validate malformed JWT"); 
+		String malformedJwt = "aaabbbccc"; // "aaa.bbb.ccc"
+		jwtProvider.validateJwt(malformedJwt);
 
 		// IllegalArgumentException 
-		log.info("## validate illegalArgumentToken"); 
-		String illegalArgumentToken = null; // "", "   "
-		jwtProvider.validateToken(illegalArgumentToken);
+		log.info("## validate illegal argument JWT"); 
+		String illegalArgumentJwt = null; // "", "   "
+		jwtProvider.validateJwt(illegalArgumentJwt);
 		
 		// SignatureException 
-		log.info("## validate multiInvalidToken"); 
-		String multiInvalidToken = Jwts.builder()
+		log.info("## validate multiple invalid JWT"); 
+		String multiInvalidJwt = Jwts.builder()
 				.setHeader(header)
 				.setExpiration(new Date(System.currentTimeMillis() - VALIDITY_IN_MILLIS))
 				.signWith(createKey(INVALID_SECRET_KEY), SignatureAlgorithm.HS256)
 				.compact();
-		jwtProvider.validateToken(multiInvalidToken);
+		jwtProvider.validateJwt(multiInvalidJwt);
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
@@ -143,22 +144,22 @@ public class TestJwtController {
 		// no claims : UnsupportedJwtException 
 		log.info("## validate no claims JWT");
 		String noClaimsJwt = Jwts.builder().signWith(signingKey, SignatureAlgorithm.HS256).compact();
-		jwtProvider.validateToken(noClaimsJwt);
+		jwtProvider.validateJwt(noClaimsJwt);
 
 		// empty claims : UnsupportedJwtException 
 		log.info("## validate empty claims JWT");
 		String emptyClaimsJwt = Jwts.builder().setClaims(Collections.emptyMap()).signWith(signingKey, SignatureAlgorithm.HS256).compact();
-		jwtProvider.validateToken(emptyClaimsJwt);
+		jwtProvider.validateJwt(emptyClaimsJwt);
 
 		// illegal expiration : IllegalArgumentException
 		log.info("## validate illegal expiration JWT");
 		String illegalExpJwt = Jwts.builder().setClaims(Map.of("exp", "aaa")).signWith(signingKey, SignatureAlgorithm.HS256).compact();
-		jwtProvider.validateToken(illegalExpJwt);
+		jwtProvider.validateJwt(illegalExpJwt);
 		
 		// no expiration : NullPointerException --> IllegalArgumentException
 		log.info("## validate no expiration JWT");
 		String noExpJwt = Jwts.builder().setClaims(Map.of("email", "smj20228")).signWith(signingKey, SignatureAlgorithm.HS256).compact();
-		jwtProvider.validateToken(noExpJwt);
+		jwtProvider.validateJwt(noExpJwt);
 		
 		// no expiration : IllegalArgumentException
 		log.info("## validate no sub JWT");
@@ -166,7 +167,7 @@ public class TestJwtController {
 				.setClaims(Map.of("exp", new Date(System.currentTimeMillis() + VALIDITY_IN_MILLIS)))
 				.signWith(signingKey, SignatureAlgorithm.HS256)
 				.compact();
-		jwtProvider.validateToken(noSubJwt);
+		jwtProvider.validateJwt(noSubJwt);
 		
 		// expired : ExpiredJwtException
 		log.info("## validate expired JWT");
@@ -174,7 +175,7 @@ public class TestJwtController {
 				.setClaims(Map.of("exp", new Date(System.currentTimeMillis() - VALIDITY_IN_MILLIS)))
 				.signWith(signingKey, SignatureAlgorithm.HS256)
 				.compact();
-		jwtProvider.validateToken(expiredJwt);
+		jwtProvider.validateJwt(expiredJwt);
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
@@ -190,35 +191,34 @@ public class TestJwtController {
 	@GetMapping("/test6")
 	public ResponseEntity<Object> test6(HttpServletRequest request) {
 		log.info("## test6");
-		String token = resolveToken(request);
-		log.info("\t > resolved token = {}", token == null ? null : "'" + token + "'");
+		String jwt = resolveJwt(request);
+		log.info("\t > resolved JWT = {}", jwt == null ? null : "'" + jwt + "'");
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 
-	@GetMapping("/create-token")
-	public ResponseEntity<Object> createToken(HttpServletRequest request) {
-		log.info("## createToken");
+	@GetMapping("/create-jwt")
+	public ResponseEntity<Object> createJwt(HttpServletRequest request) {
+		log.info("## createJwt");
 		UserDetails userDetails = userDetailsService.loadUserByUsername(USERNAME);
 		Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 		
-		String token = jwtProvider.createToken(request, authentication);
-		log.info("\t > created token = {}", token);
+		String jwt = jwtProvider.createJwt(request, authentication);
+		log.info("\t > created JWT = {}", jwt);
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
 				.message("success")
-				.data(Map.of("token", token))
+				.data(Map.of("jwt", jwt))
 				.build());
 	}
 
-	@GetMapping("/token")
-	public ResponseEntity<Object> receiveToken(HttpServletRequest request) {
-		log.info("## receiveToken");
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		if (auth == null) {
-			log.info("\t > authentication = {}", auth);
-		} else {
-			log.info("\t > authentication = {}, details = {}", auth.getClass().getSimpleName(), auth.getDetails());
-		}
+	@GetMapping("/send-jwt")
+	public ResponseEntity<Object> getJwt(HttpServletRequest request) {
+		log.info("## getJwt");
+		String jwt = resolveJwt(request);
+		log.info("\t > resolved JWT = {}", jwt);
+		
+		jwtProvider.validateJwt(jwt);
+		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 
@@ -226,23 +226,27 @@ public class TestJwtController {
 	public ResponseEntity<Object> checkAuthentication() {
 		log.info("## checkAuthentication");
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		if (auth == null) {
-			log.info("\t > authentication = {}", auth);
-		} else {
-			log.info("\t > authentication = {}, details = {}", auth.getClass().getSimpleName(), auth.getDetails());
+		try {
+			log.info("\t > authentication = {}", auth.getClass().getSimpleName());
+			log.info("\t > details = {}", auth.getDetails());
+		} catch (NullPointerException e) {
+			log.info("\t > authentication = null");
 		}
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 	
 	@GetMapping("/test7")
-	public ResponseEntity<Object> test7() {
+	public ResponseEntity<Object> test7(@AuthenticationPrincipal UserDetailsDto principal) {
 		log.info("## test7");
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		if (auth == null) {
-			log.info("\t > authentication = {}", auth);
-		} else {
-			log.info("\t > authentication = {}, details = {}", auth.getClass().getSimpleName(), auth.getDetails());
+		try {
+			log.info("\t > authentication = {}", auth.getClass().getSimpleName());
+			log.info("\t > details = {}", auth.getDetails());
+		} catch (NullPointerException e) {
+			log.info("\t > authentication = null");
 		}
+		log.info("\t > principal = {}", principal);
+		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 	
@@ -269,7 +273,7 @@ public class TestJwtController {
 		return Keys.hmacShaKeyFor(str.getBytes(StandardCharsets.UTF_8));
 	}
 	
-	private String resolveToken(HttpServletRequest request) {
+	private String resolveJwt(HttpServletRequest request) {
 		String header = request.getHeader(HttpHeaders.AUTHORIZATION);
 		if (header != null && header.startsWith("Bearer ")) {
 			return header.split(" ")[1];

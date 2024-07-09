@@ -18,7 +18,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.codingjoa.security.filter.AjaxAuthenticationFilter;
-import com.codingjoa.security.filter.JwtFilter;
+import com.codingjoa.security.filter.JwtAutenticationFilter;
 import com.codingjoa.security.service.AccessDeniedHandlerImpl;
 import com.codingjoa.security.service.AjaxAuthenticationFailureHandler;
 import com.codingjoa.security.service.AjaxAuthenticationProvider;
@@ -128,12 +128,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers(HttpMethod.POST, "/api/board/image", "/api/member/image").authenticated()
 				.antMatchers("/api/member/images", "/api/member/images/*").authenticated()
 				.antMatchers("/api/member/details").authenticated()
+				.antMatchers("/test/jwt/test7").authenticated()
 				.antMatchers("/admin/**").hasAnyRole("ADMIN")
 				.anyRequest().permitAll()
 			.and()
 			.formLogin().disable()
 			.addFilterBefore(ajaxAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
-			.addFilterAfter(jwtFilter(), AjaxAuthenticationFilter.class)
+			.addFilterAfter(jwtAutenticationFilter(), AjaxAuthenticationFilter.class)
 			.logout()
 				//.logoutUrl("/api/logout")
 				//.logoutRequestMatcher(new AntPathRequestMatcher("/api/logout", "POST"))
@@ -174,8 +175,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 	
 	@Bean
-	public JwtFilter jwtFilter() throws Exception {
-		JwtFilter filter = new JwtFilter(jwtProvider);
+	public JwtAutenticationFilter jwtAutenticationFilter() throws Exception {
+		JwtAutenticationFilter filter = new JwtAutenticationFilter(jwtProvider);
 		filter.addIncludeMatchers("/member/account/**");
 		filter.addIncludeMatchers("/board/write", "/board/writeProc", "/board/modify", "/board/modifyProc", "/board/deleteProc");
 		filter.addIncludeMatchers(HttpMethod.POST, "/api/boards/*/likes", "/api/comments/*/likes");

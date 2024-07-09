@@ -18,14 +18,13 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.codingjoa.security.service.JwtProvider;
-import com.codingjoa.util.Utils;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RequiredArgsConstructor
-public class JwtFilter extends OncePerRequestFilter {
+public class JwtAutenticationFilter extends OncePerRequestFilter {
 	
 	private final JwtProvider jwtProvider;
 	private List<RequestMatcher> includeMatchers = new ArrayList<>();
@@ -35,11 +34,11 @@ public class JwtFilter extends OncePerRequestFilter {
 			throws ServletException, IOException {
 		log.info("## {}", this.getClass().getSimpleName());
 		
-		String token = resolveToken(request);
+		String jwt = resolveJwt(request);
 		
-		if (jwtProvider.validateToken(token)) {
+		if (jwtProvider.validateJwt(jwt)) {
 			log.info("\t > valid JWT, setting authenticaion in the security context");
-			Authentication authentication = jwtProvider.getAuthentication(token);
+			Authentication authentication = jwtProvider.getAuthentication(jwt);
 			SecurityContextHolder.getContext().setAuthentication(authentication);
 		} else {
 			log.info("\t > missing or invalid JWT, no authenticaion set in the security context");
@@ -51,19 +50,17 @@ public class JwtFilter extends OncePerRequestFilter {
 	@Override
 	protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
 		log.info("## {}.shouldNotFilter", this.getClass().getSimpleName());
-		log.info("\t > URI = {} '{}'", request.getMethod(), Utils.getFullURI(request));
-		
 		boolean matchesIncludePattern = includeMatchers.stream().anyMatch(matcher -> matcher.matches(request)); 
 		if (matchesIncludePattern) {
-			log.info("\t > enter into JwtFilter");
+			log.info("\t > enter into JwtFilter : {} '{}'", request.getMethod(), request.getRequestURI());
 		} else {
-			log.info("\t > no enter into JwtFilter");
+			log.info("\t > no enter into JwtFilter : {} '{}'", request.getMethod(), request.getRequestURI());
 		}
 		
 		return !matchesIncludePattern;
 	}
 	
-	private String resolveToken(HttpServletRequest request) {
+	private String resolveJwt(HttpServletRequest request) {
 		String header = request.getHeader(HttpHeaders.AUTHORIZATION);
 		if (header != null && header.startsWith("Bearer ")) {
 			return header.split(" ")[1];

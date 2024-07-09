@@ -54,7 +54,7 @@ public class JwtProvider {
 	 * header - typ, alg
 	 * claims - sub, iss, iat, exp, email, role
 	 */
-	public String createToken(HttpServletRequest request, Authentication authentication) {
+	public String createJwt(HttpServletRequest request, Authentication authentication) {
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 		return Jwts.builder()
 				.setHeader(createHeader()) 
@@ -63,12 +63,12 @@ public class JwtProvider {
 				.compact();
 	}
 
-	public Authentication getAuthentication(String token) {
-		String username = parseToken(token).getBody().getSubject();
+	public Authentication getAuthentication(String jwt) {
+		String username = parseJwt(jwt).getBody().getSubject();
 		UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 		UsernamePasswordAuthenticationToken authentication = 
 				new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-		authentication.setDetails("JwtAuthorizationFilter");
+		authentication.setDetails("JwtAuthencationFilter");
 		return authentication;
 	}
 	
@@ -79,10 +79,10 @@ public class JwtProvider {
 	 * ExpiredJwtException - if the specified JWT is a Claims JWT and the Claims has an expiration timebefore the time this method is invoked.
 	 * IllegalArgumentException - if the claimsJws string is null or empty or only whitespace
 	 */
-	public boolean validateToken(String token) {
+	public boolean validateJwt(String jwt) {
 		try {
-			Jws<Claims> jws = parseToken(token);
-			log.info("\t > parsed token, header = {}, claims = {}", jws.getHeader(), jws.getBody());
+			Jws<Claims> jws = parseJwt(jwt);
+			log.info("\t > parsed JWT, header = {}, claims = {}", jws.getHeader(), jws.getBody());
 			
 			Date exp = jws.getBody().getExpiration();
 			if (exp == null) {
@@ -102,8 +102,8 @@ public class JwtProvider {
 		}
 	}
 	
-	private Jws<Claims> parseToken(String token) {
-		return Jwts.parserBuilder().setSigningKey(signingKey).build().parseClaimsJws(token);
+	private Jws<Claims> parseJwt(String jwt) {
+		return Jwts.parserBuilder().setSigningKey(signingKey).build().parseClaimsJws(jwt);
 	}
 	
 	private Map<String, Object> createHeader() {
@@ -119,7 +119,7 @@ public class JwtProvider {
 				.setSubject(userDetailsDto.getUsername())
 				// java.lang.IllegalStateException: No current ServletRequestAttributes
 				//.setIssuer(ServletUriComponentsBuilder.fromCurrentContextPath().build().toString())
-				.setIssuer(ServletUriComponentsBuilder.fromContextPath(request).toString())
+				.setIssuer(ServletUriComponentsBuilder.fromContextPath(request).build().toString())
 				.setIssuedAt(now)
 				.setExpiration(exp);
 		claims.put("role", userDetailsDto.getMemberRole());

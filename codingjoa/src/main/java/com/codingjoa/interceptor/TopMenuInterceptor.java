@@ -46,7 +46,6 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
 		log.info("## {}.postHandle", this.getClass().getSimpleName());
-		log.info("\t > URI = {} '{}'", request.getMethod(), Utils.getFullURI(request));
 		
 		// @RestController or @ResponseBody annotation is present, the ModelAndView object will be null.
 		if (modelAndView == null) {

@@ -38,24 +38,21 @@
 		font-weight: 400;
 	}
 	
-	.mb-6 {
-		margin-bottom: 4.5rem;
-	}
 </style>
 </head>
 <body>
 <c:import url="/WEB-INF/views/include/top-menu.jsp"/>
 <div class="container my-5">
 	<p>jwt.jsp</p>
-	<div class="test d-flex justify-content-between mt-5 mb-6">
+	<div class="test d-flex justify-content-between mt-5 mb-5">
 		<button class="btn btn-primary btn-lg test-btn mx-3" onclick="test1()">test1</button>
 		<button class="btn btn-primary btn-lg test-btn mx-3" onclick="test2()">test2</button>
 		<button class="btn btn-primary btn-lg test-btn mx-3" onclick="test3()">test3</button>
 		<button class="btn btn-primary btn-lg test-btn mx-3" onclick="test4()">test4</button>
 	</div>
-	<div class="test d-flex flex-column mb-6">
+	<div class="test d-flex flex-column mb-5">
 		<button class="btn btn-primary btn-lg mx-3 mb-2" onclick="test5()">
-			<span>test5</span>
+			<span>test5 : send header</span>
 		</button>
 		<div class="px-3 d-flex justify-content-around">
 			<div class="form-check form-check-inline mr-0">
@@ -72,9 +69,9 @@
 			</div>
 		</div>
 	</div>
-	<div class="test d-flex flex-column mb-6">
+	<div class="test d-flex flex-column mb-5">
 		<button class="btn btn-primary btn-lg mx-3 mb-2" onclick="test6()">
-			<span>test6</span>
+			<span>test6 : send JWT</span>
 		</button>
 		<div class="px-3 d-flex justify-content-around">
 			<div class="form-check form-check-inline mr-0">
@@ -99,31 +96,31 @@
 			</div>
 		</div>
 	</div>
-	<div class="test d-flex justify-content-between mt-5 mb-6">
-		<button class="btn btn-warning btn-lg test-btn mx-3" onclick="createToken()">create JWT</button>
-		<button class="btn btn-warning btn-lg test-btn mx-3" onclick="sendToken()">send JWT</button>
-		<button class="btn btn-warning btn-lg test-btn mx-3" onclick="resetToken()">reset JWT</button>
-		<button class="btn btn-warning btn-lg test-btn mx-3" onclick="getCurrentToken()">current JWT</button>
+	<div class="test d-flex justify-content-between mt-5 mb-5">
+		<button class="btn btn-secondary btn-lg test-btn mx-3" onclick="getCurrentJwt()">current JWT</button>
+		<button class="btn btn-warning btn-lg test-btn mx-3" onclick="createJwt()">create JWT</button>
+		<button class="btn btn-warning btn-lg test-btn mx-3" onclick="sendJwt()">send JWT</button>
+		<button class="btn btn-warning btn-lg test-btn mx-3" onclick="resetJwt()">reset JWT</button>
 	</div>
 	<div class="test d-flex flex-column mb-6">
 		<button class="btn btn-warning btn-lg mx-3 mb-2" onclick="test7()">
-			<span>test7</span>
+			<span>test7 : requests requiring authentication </span>
 		</button>
 		<div class="px-3 d-flex justify-content-around">
 			<div class="form-check form-check-inline mr-0">
 			  <input class="form-check-input" type="radio" name="test7Radio" id="test7Radio1" checked>
-			  <label class="form-check-label" for="test7Radio1">no JWT</label>
+			  <label class="form-check-label" for="test7Radio1">without JWT</label>
 			</div>
 			<div class="form-check form-check-inline mr-0">
 			  <input class="form-check-input" type="radio" name="test7Radio" id="test7Radio2">
-			  <label class="form-check-label" for="test7Radio2">yes JWT</label>
+			  <label class="form-check-label" for="test7Radio2">with JWT</label>
 			</div>
 		</div>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 <script>
-	let token = "";
+	let jwt = "";
 	
 	function test1() {
 		console.log("## test1");
@@ -200,7 +197,7 @@
 			beforeSend : function(xhr) {
 				if (option != "undefined") {
 					xhr.setRequestHeader("authorization", option);
-					//xhr.setRequestHeader("Authorization", "Bearer " + token);
+					//xhr.setRequestHeader("Authorization", "Bearer " + jwt);
 				}
 			},
 			success : function(result) {
@@ -238,18 +235,17 @@
 		});
 	}
 	
-	function createToken() {
-		console.log("## createToken");
+	function createJwt() {
+		console.log("## createJwt");
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/jwt/create-token",
+			url : "${contextPath}/test/jwt/create-jwt",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
-				console.log("> token has been renewed")
-				console.log("> old token = '%s'", token);
-				token = result.data.token;
-				console.log("> renewed token = '%s'", token);
+				console.log("> JWT has been renewed")
+				jwt = result.data.jwt;
+				alertJwt(jwt);
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
@@ -258,13 +254,15 @@
 		});
 	}
 	
-	function sendToken() {
-		console.log("## sendToken");
+	function sendJwt() {
+		console.log("## sendJwt");
+		alertJwt(jwt);
+		
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/jwt/token",
+			url : "${contextPath}/test/jwt/send-jwt",
 			beforeSend : function(xhr) {
-				xhr.setRequestHeader("Authorization", "Bearer " + token);
+				xhr.setRequestHeader("Authorization", "Bearer " + jwt);
 			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
@@ -277,14 +275,15 @@
 		});
 	}
 	
-	function resetToken() {
-		console.log("## resetToken");
-		token = "";
+	function resetJwt() {
+		console.log("## resetJwt");
+		jwt = "";
+		alertJwt(jwt);
 	}
 	
-	function getCurrentToken() {
-		console.log("## getCurrentToken");
-		console.log("> current token = '%s'", token);
+	function getCurrentJwt() {
+		console.log("## getCurrentJwt");
+		alertJwt(jwt);
 	}
 	
 	function test7() {
@@ -296,7 +295,7 @@
 			url : "${contextPath}/test/jwt/test7",
 			beforeSend : function(xhr) {
 				if (checked) {
-					xhr.setRequestHeader("Authorization", "Bearer " + token);
+					xhr.setRequestHeader("Authorization", "Bearer " + jwt);
 				}
 			},
 			success : function(result) {
@@ -308,6 +307,14 @@
 				parseError(jqXHR);
 			}
 		});
+	}
+	
+	function alertJwt(jwt) {
+		if (jwt == "") {
+			alert("no JWT");
+		} else {
+			alert(jwt);
+		}
 	}
 </script>
 </body>
