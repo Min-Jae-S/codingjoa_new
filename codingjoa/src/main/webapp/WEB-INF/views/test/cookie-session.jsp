@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>cookie.jsp</title>
+<title>cookie-session.jsp</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
@@ -43,7 +43,7 @@
 <body>
 <c:import url="/WEB-INF/views/include/top-menu.jsp"/>
 <div class="container my-5">
-	<p>cookie.jsp</p>
+	<p>cookie-session.jsp</p>
 	<div class="test d-flex justify-content-between mt-5 mb-5">
 		<button class="btn btn-primary btn-lg test-btn mx-3" onclick="test1()">test1</button>
 		<button class="btn btn-primary btn-lg test-btn mx-3" onclick="createCookie()">create cookie</button>

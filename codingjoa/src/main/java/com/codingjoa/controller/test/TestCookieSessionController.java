@@ -2,6 +2,7 @@ package com.codingjoa.controller.test;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,10 +19,10 @@ import lombok.extern.slf4j.Slf4j;
 public class TestCookieSessionController {
 
 	@GetMapping("/test1")
-	public ResponseEntity<Object> test1(HttpServletRequest request) {
+	public ResponseEntity<Object> test1(HttpServletRequest request, HttpServletResponse response) {
 		log.info("## test1");
 		for (Cookie cookie : request.getCookies()) {
-			log.info("\t > name = {}, value = {}", cookie.getName(), cookie.getValue());
+			log.info("\t > cookie name = {}, cookie value = {}", cookie.getName(), cookie.getValue());
 		}
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
