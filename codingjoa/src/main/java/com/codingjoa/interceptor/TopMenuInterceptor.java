@@ -35,8 +35,6 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 	private static final String REDIRECT_URL_PREFIX = "redirect:";
 	private final ApplicationContext applicationContext;
 	private final CategoryService categoryService;
-	
-	//private final List<String> excludePatterns = Arrays.asList("/error/**", "/login");
 	private List<RequestMatcher> excludeMatchers = new ArrayList<>();
 	
 	/*
@@ -87,7 +85,6 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 		
 //		boolean matchesExcludePattern = excludePatterns.stream()
 //				.anyMatch(pattern -> antPathMatcher.match(request.getContextPath() + pattern, request.getRequestURI()));
-
 		boolean matchesExcludePattern = excludeMatchers.stream().anyMatch(matcher -> matcher.matches(request));
 		
 		if (!matchesExcludePattern) {
