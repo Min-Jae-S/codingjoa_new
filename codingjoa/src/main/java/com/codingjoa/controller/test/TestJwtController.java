@@ -261,7 +261,7 @@ public class TestJwtController {
 	
 	@GetMapping("/test8")
 	public ResponseEntity<Object> test8(@AuthenticationPrincipal UserDetailsDto principal) {
-		log.info("## test7");
+		log.info("## test8");
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		try {
 			log.info("\t > authentication = {}", auth.getClass().getSimpleName());

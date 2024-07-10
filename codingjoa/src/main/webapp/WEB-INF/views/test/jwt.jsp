@@ -118,10 +118,10 @@
 		</div>
 	</div>
 	<div class="test d-flex justify-content-between mt-5 mb-5">
-		<button class="btn btn-primary btn-lg test-btn mx-3" onclick="test8()">test8 : jwt from localStorage</button>
-		<button class="btn btn-primary btn-lg test-btn mx-3" onclick="#">#</button>
-		<button class="btn btn-primary btn-lg test-btn mx-3" onclick="#">#</button>
-		<button class="btn btn-primary btn-lg test-btn mx-3" onclick="#">#</button>
+		<button class="btn btn-primary btn-lg test-btn mx-3" onclick="test8()">test8</button>
+		<button class="btn btn-primary btn-lg test-btn mx-3 invisible" onclick="#">#</button>
+		<button class="btn btn-primary btn-lg test-btn mx-3 invisible" onclick="#">#</button>
+		<button class="btn btn-primary btn-lg test-btn mx-3 invisible" onclick="#">#</button>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
@@ -317,12 +317,12 @@
 	function test8() {
 		console.log("## test8");
 		
-		let accessToken = localStorage.get("accessToken");
+		let accessToken = localStorage.getItem("accessToken");
 		alertJwt(accessToken);
 		
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/jwt/test7",
+			url : "${contextPath}/test/jwt/test8",
 			beforeSend : function(xhr) {
 				if (accessToken != "") {
 					xhr.setRequestHeader("Authorization", "Bearer " + accessToken);

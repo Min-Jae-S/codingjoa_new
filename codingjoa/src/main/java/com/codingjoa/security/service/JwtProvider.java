@@ -66,7 +66,10 @@ public class JwtProvider {
 	public Authentication getAuthentication(String jwt) {
 		String username = parseJwt(jwt).getBody().getSubject();
 		UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-		return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+		UsernamePasswordAuthenticationToken authRequest = 
+				new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+		authRequest.setDetails("JwtFilter");
+		return authRequest;
 	}
 	
 	/*
