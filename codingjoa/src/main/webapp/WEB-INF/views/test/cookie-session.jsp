@@ -54,6 +54,11 @@
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 <script>
+	function checkCookie() {
+		console.log("## checkCookie");
+		alert(document.cookie);
+	}
+
 	function test1() {
 		console.log("## test1");
 		$.ajax({
@@ -102,10 +107,6 @@
 		});
 	}
 	
-	function checkCookie() {
-		console.log("## checkCookie");
-		console.log(document.cookie);
-	}
 </script>
 </body>
 </html>
