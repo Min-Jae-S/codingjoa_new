@@ -48,7 +48,7 @@
 		<button class="btn btn-primary btn-lg test-btn mx-3" onclick="test1()">test1</button>
 		<button class="btn btn-primary btn-lg test-btn mx-3" onclick="test2()">test2</button>
 		<button class="btn btn-primary btn-lg test-btn mx-3" onclick="createCookie()">create cookie</button>
-		<button class="btn btn-primary btn-lg test-btn mx-3 invisible" onclick="test3()">test3</button>
+		<button class="btn btn-secondary btn-lg test-btn mx-3" onclick="checkCookie()">check cookie</button>
 	</div>
 	
 </div>
@@ -100,6 +100,11 @@
 				parseError(jqXHR);
 			}
 		});
+	}
+	
+	function checkCookie() {
+		console.log("## checkCookie");
+		console.log(document.cookie);
 	}
 </script>
 </body>

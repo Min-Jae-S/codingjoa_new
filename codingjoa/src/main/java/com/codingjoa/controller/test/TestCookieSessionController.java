@@ -1,5 +1,7 @@
 package com.codingjoa.controller.test;
 
+import java.util.UUID;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,7 +25,7 @@ public class TestCookieSessionController {
 	public ResponseEntity<Object> test1(HttpServletRequest request, HttpServletResponse response) {
 		log.info("## test1");
 		for (Cookie cookie : request.getCookies()) {
-			log.info("\t > cookie name = {}, cookie value = {}", cookie.getName(), cookie.getValue());
+			log.info("\t > {} = {}", cookie.getName(), cookie.getValue());
 		}
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
@@ -38,9 +40,26 @@ public class TestCookieSessionController {
 	}
 
 	@GetMapping("/create-cookie")
-	public ResponseEntity<Object> createCookie() {
+	public ResponseEntity<Object> createCookie(HttpServletResponse response) {
 		log.info("## createCookie");
+		Cookie cookie1 = new Cookie("cookie1", createRandomUUID());
+		Cookie cookie2 = new Cookie("cookie2", createRandomUUID());
+		Cookie cookie3 = new Cookie("cookie3", createRandomUUID());
+		cookie3.setHttpOnly(true);
+		
+		log.info("\t > cookie1 = {}", cookie1);
+		log.info("\t > cookie2 = {}", cookie2);
+		log.info("\t > cookie3 = {}", cookie3);
+		
+		response.addCookie(cookie1);
+		response.addCookie(cookie2);
+		response.addCookie(cookie3);
+		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
+	}
+	
+	private String createRandomUUID() {
+		return  UUID.randomUUID().toString().replace("-", "");
 	}
 	
 }
