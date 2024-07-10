@@ -117,6 +117,12 @@
 			</div>
 		</div>
 	</div>
+	<div class="test d-flex justify-content-between mt-5 mb-5">
+		<button class="btn btn-primary btn-lg test-btn mx-3" onclick="test8()">test8 : jwt from localStorage</button>
+		<button class="btn btn-primary btn-lg test-btn mx-3" onclick="#">#</button>
+		<button class="btn btn-primary btn-lg test-btn mx-3" onclick="#">#</button>
+		<button class="btn btn-primary btn-lg test-btn mx-3" onclick="#">#</button>
+	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 <script>
@@ -295,6 +301,31 @@
 			beforeSend : function(xhr) {
 				if (checked) {
 					xhr.setRequestHeader("Authorization", "Bearer " + jwt);
+				}
+			},
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log(JSON.stringify(result, null, 2));
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				parseError(jqXHR);
+			}
+		});
+	}
+
+	function test8() {
+		console.log("## test8");
+		
+		let accessToken = localStorage.get("accessToken");
+		alertJwt(accessToken);
+		
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/jwt/test7",
+			beforeSend : function(xhr) {
+				if (accessToken != "") {
+					xhr.setRequestHeader("Authorization", "Bearer " + accessToken);
 				}
 			},
 			success : function(result) {

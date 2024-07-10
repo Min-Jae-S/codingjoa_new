@@ -259,6 +259,21 @@ public class TestJwtController {
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 	
+	@GetMapping("/test8")
+	public ResponseEntity<Object> test8(@AuthenticationPrincipal UserDetailsDto principal) {
+		log.info("## test7");
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		try {
+			log.info("\t > authentication = {}", auth.getClass().getSimpleName());
+			log.info("\t > details = {}", auth.getDetails());
+		} catch (NullPointerException e) {
+			log.info("\t > authentication = null");
+		}
+		log.info("\t > principal = {}", principal);
+		
+		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
+	}
+	
 	private Map<String, Object> createHeader() {
 		return Map.of("typ", "JWT", "alg", "HS256");
 	}

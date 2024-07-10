@@ -128,7 +128,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers(HttpMethod.POST, "/api/board/image", "/api/member/image").authenticated()
 				.antMatchers("/api/member/images", "/api/member/images/*").authenticated()
 				.antMatchers("/api/member/details").authenticated()
-				.antMatchers("/test/jwt/test7").authenticated()
+				.antMatchers("/test/jwt/test7", "/test/jwt/test8").authenticated()
 				.antMatchers("/admin/**").hasAnyRole("ADMIN")
 				.anyRequest().permitAll()
 			.and()
@@ -184,7 +184,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		filter.addIncludeMatchers(HttpMethod.POST, "/api/board/image", "/api/member/image");
 		filter.addIncludeMatchers("/api/member/images", "/api/member/images/*");
 		filter.addIncludeMatchers("/api/member/details");
-		filter.addIncludeMatchers("/test/jwt/test7");
+		filter.addIncludeMatchers("/test/jwt/test7", "/test/jwst/test8");
 		return filter;
 	}
 	
