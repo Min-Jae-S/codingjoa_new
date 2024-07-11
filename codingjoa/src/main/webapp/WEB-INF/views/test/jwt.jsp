@@ -102,7 +102,7 @@
 		<button class="btn btn-warning btn-lg test-btn mx-3" onclick="sendJwt()">send JWT</button>
 		<button class="btn btn-warning btn-lg test-btn mx-3" onclick="resetJwt()">reset JWT</button>
 	</div>
-	<div class="test d-flex flex-column mb-6">
+	<div class="test d-flex flex-column mb-5">
 		<button class="btn btn-warning btn-lg mx-3 mb-2" onclick="test7()">
 			<span>test7 : requests requiring authentication </span>
 		</button>
@@ -315,9 +315,9 @@
 	}
 
 	function test8() {
-		console.log("## test8");
+		console.log("## test8 : from sessionStorage");
 		
-		let accessToken = localStorage.getItem("accessToken");
+		let accessToken = sessionStorage.getItem("accessToken")
 		alertJwt(accessToken);
 		
 		$.ajax({
