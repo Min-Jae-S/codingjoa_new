@@ -116,8 +116,8 @@
 			authenticationService.login(formData, function(result) {
 				setTimeout(function() {
 					alert(result.message);
-					sessionStorage.setItem("accessToken", result.data.accessToken);
-					location.href = result.data.redirectUrl;
+					//sessionStorage.setItem("accessToken", result.data.accessToken);
+					//location.href = result.data.redirectUrl;
 				}, 50);
 			});
 		});

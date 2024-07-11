@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Map;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -39,7 +40,6 @@ public class AjaxAuthenticationSuccessHandler implements AuthenticationSuccessHa
 			Authentication authentication) throws IOException, ServletException {
 		log.info("## {}", this.getClass().getSimpleName());
 		
-		String jwt = jwtProvider.createJwt(authentication, request);
 		String redirectUrl = (String) authentication.getDetails();
 
 		if(!isValidUrl(redirectUrl, request)) {
@@ -55,8 +55,11 @@ public class AjaxAuthenticationSuccessHandler implements AuthenticationSuccessHa
 		SuccessResponse successResponse = SuccessResponse.builder()
 				.status(HttpStatus.OK)
 				.messageByCode("success.Login")
-				.data(Map.of("accessToken", jwt, "redirectUrl", redirectUrl))
+				.data(Map.of("redirectUrl", redirectUrl))
 				.build();
+		
+		String jwt = jwtProvider.createJwt(authentication, request);
+		response.addCookie(createCookie(jwt));
 		
 		response.setStatus(HttpServletResponse.SC_OK);
 		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
@@ -104,5 +107,14 @@ public class AjaxAuthenticationSuccessHandler implements AuthenticationSuccessHa
                 .serializers(new LocalDateTimeSerializer(DateTimeFormatter.ISO_LOCAL_DATE_TIME))
                 .build();
     }
+	
+	private Cookie createCookie(String jwt) {
+		Cookie cookie = new Cookie("access_token", jwt);
+		cookie.setHttpOnly(true);
+		cookie.setSecure(true);
+		cookie.setMaxAge(3600); // 60 * 60, 1hour
+		
+		return cookie;
+	}
 
 }
