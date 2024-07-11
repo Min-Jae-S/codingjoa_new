@@ -184,7 +184,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		filter.addIncludeMatchers(HttpMethod.POST, "/api/board/image", "/api/member/image");
 		filter.addIncludeMatchers("/api/member/images", "/api/member/images/*");
 		filter.addIncludeMatchers("/api/member/details");
-		filter.addIncludeMatchers("/test/jwt/test7", "/test/jwst/test8");
+		filter.addIncludeMatchers("/test/jwt/test7", "/test/jwt/test8");
 		return filter;
 	}
 	

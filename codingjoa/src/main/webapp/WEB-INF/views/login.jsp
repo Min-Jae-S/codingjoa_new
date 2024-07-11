@@ -117,7 +117,7 @@
 				setTimeout(function() {
 					alert(result.message);
 					sessionStorage.setItem("accessToken", result.data.accessToken);
-					//location.href = result.data.redirectUrl;
+					location.href = result.data.redirectUrl;
 				}, 50);
 			});
 		});
