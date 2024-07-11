@@ -1,6 +1,8 @@
 package com.codingjoa.security.filter;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -8,8 +10,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.codingjoa.security.service.JwtProvider;
@@ -19,9 +24,10 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RequiredArgsConstructor
-public class JwtFilter extends OncePerRequestFilter {
+public class JwtMathcerFilter extends OncePerRequestFilter {
 	
 	private final JwtProvider jwtProvider;
+	private List<RequestMatcher> includeMatchers = new ArrayList<>();
 	
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -41,6 +47,22 @@ public class JwtFilter extends OncePerRequestFilter {
 		filterChain.doFilter(request, response);
 	}
 	
+	@Override
+	protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+		log.info("## {}.shouldNotFilter", this.getClass().getSimpleName());
+		boolean matchesIncludePattern = includeMatchers.stream().anyMatch(matcher -> matcher.matches(request));
+		
+		if (matchesIncludePattern) {
+			log.info("\t > enter into {} : {} '{}'", 
+					this.getClass().getSimpleName(), request.getMethod(), request.getRequestURI());
+		} else {
+			log.info("\t > no enter into {} : {} '{}'", 
+					this.getClass().getSimpleName(), request.getMethod(), request.getRequestURI());
+		}
+		
+		return !matchesIncludePattern;
+	}
+	
 	private String resolveJwt(HttpServletRequest request) {
 		String header = request.getHeader(HttpHeaders.AUTHORIZATION);
 		if (header != null && header.startsWith("Bearer ")) {
@@ -48,6 +70,17 @@ public class JwtFilter extends OncePerRequestFilter {
 		}
 		
 		return null;
+	}
+	
+	public void addIncludeMatchers(String... antPatterns) {
+		addIncludeMatchers(null, antPatterns);
+	}
+	
+	public void addIncludeMatchers(HttpMethod httpMethod, String... antPatterns) {
+		String method = httpMethod == null ? null : httpMethod.toString();
+		for (String pattern : antPatterns) {
+			includeMatchers.add(new AntPathRequestMatcher(pattern, method));
+		}
 	}
 	
 }

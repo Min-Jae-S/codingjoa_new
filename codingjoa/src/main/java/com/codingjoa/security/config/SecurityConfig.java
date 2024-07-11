@@ -19,6 +19,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.codingjoa.security.filter.AjaxAuthenticationFilter;
 import com.codingjoa.security.filter.JwtFilter;
+import com.codingjoa.security.filter.JwtMathcerFilter;
 import com.codingjoa.security.service.AccessDeniedHandlerImpl;
 import com.codingjoa.security.service.AjaxAuthenticationFailureHandler;
 import com.codingjoa.security.service.AjaxAuthenticationProvider;
@@ -135,6 +136,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.formLogin().disable()
 			.addFilterBefore(ajaxAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
 			.addFilterAfter(jwtFilter(), AjaxAuthenticationFilter.class)
+			//.addFilterAfter(jwtMatcherFilter(), AjaxAuthenticationFilter.class)
 			.logout()
 				//.logoutUrl("/api/logout")
 				//.logoutRequestMatcher(new AntPathRequestMatcher("/api/logout", "POST"))
@@ -176,7 +178,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Bean
 	public JwtFilter jwtFilter() throws Exception {
-		JwtFilter filter = new JwtFilter(jwtProvider);
+		return new JwtFilter(jwtProvider);
+	}
+	
+	@Bean
+	public JwtMathcerFilter jwtMatcherFilter() throws Exception {
+		JwtMathcerFilter filter = new JwtMathcerFilter(jwtProvider);
 		filter.addIncludeMatchers("/member/account/**");
 		filter.addIncludeMatchers("/board/write", "/board/writeProc", "/board/modify", "/board/modifyProc", "/board/deleteProc");
 		filter.addIncludeMatchers(HttpMethod.POST, "/api/boards/*/likes", "/api/comments/*/likes");
