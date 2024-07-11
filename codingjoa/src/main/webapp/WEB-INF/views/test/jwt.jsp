@@ -97,7 +97,7 @@
 		</div>
 	</div>
 	<div class="test d-flex justify-content-between mt-5 mb-5">
-		<button class="btn btn-secondary btn-lg test-btn mx-3" onclick="getCurrentJwt()">current JWT</button>
+		<button class="btn btn-secondary btn-lg test-btn mx-3" onclick="getInMemoryJwt()">in-memory JWT</button>
 		<button class="btn btn-warning btn-lg test-btn mx-3" onclick="createJwt()">create JWT</button>
 		<button class="btn btn-warning btn-lg test-btn mx-3" onclick="sendJwt()">send JWT</button>
 		<button class="btn btn-warning btn-lg test-btn mx-3" onclick="resetJwt()">reset JWT</button>
@@ -286,7 +286,7 @@
 		alertJwt(jwt);
 	}
 	
-	function getCurrentJwt() {
+	function getInMemoryJwt() {
 		alertJwt(jwt);
 	}
 	
