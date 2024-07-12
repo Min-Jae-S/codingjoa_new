@@ -116,7 +116,7 @@
 			authenticationService.login(formData, function(result) {
 				setTimeout(function() {
 					alert(result.message);
-					//location.href = result.data.redirectUrl;
+					location.href = result.data.redirectUrl;
 				}, 50);
 			});
 		});

@@ -26,7 +26,8 @@ public class JwtFilter extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
-		log.info("## {}.doFilterInternal", this.getClass().getSimpleName());
+		log.info("## {}", this.getClass().getSimpleName());
+		log.info("\t > URI = {} '{}'", request.getMethod(), request.getRequestURI());
 		
 		String jwt = resolveJwt(request);
 		
@@ -45,24 +46,12 @@ public class JwtFilter extends OncePerRequestFilter {
 		Cookie[] cookies = request.getCookies();
 		if (cookies != null) {
 			for (Cookie cookie : cookies) {
-				String name = cookie.getName();
-				if ("access_token".equals(name)) {
+				if ("access_token".equals(cookie.getName())) {
 					return cookie.getValue();
 				}
 			}
 		}
-		
 		return null;
 	}
-
-//	private String resolveJwt(HttpServletRequest request) {
-//		String header = request.getHeader(HttpHeaders.AUTHORIZATION);
-//		if (header != null && header.startsWith("Bearer ")) {
-//			return header.split(" ")[1];
-//		}
-//		
-//		return null;
-//	}
-	
 	
 }

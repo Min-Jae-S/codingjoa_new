@@ -32,7 +32,7 @@ public class JwtMathcerFilter extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
-		log.info("## {}.doFilterInternal", this.getClass().getSimpleName());
+		log.info("## {}", this.getClass().getSimpleName());
 		
 		String jwt = resolveJwt(request);
 		
