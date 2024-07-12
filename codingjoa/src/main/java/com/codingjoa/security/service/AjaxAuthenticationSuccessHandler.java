@@ -41,7 +41,6 @@ public class AjaxAuthenticationSuccessHandler implements AuthenticationSuccessHa
 		log.info("## {}", this.getClass().getSimpleName());
 		
 		String redirectUrl = (String) authentication.getDetails();
-
 		if(!isValidUrl(redirectUrl, request)) {
 			log.info("\t > missing or invalid redirectUrl, setting default redirectUrl");
 			redirectUrl = ServletUriComponentsBuilder.fromContextPath(request)
@@ -61,7 +60,7 @@ public class AjaxAuthenticationSuccessHandler implements AuthenticationSuccessHa
 		String jwt = jwtProvider.createJwt(authentication, request);
 		Cookie cookie = createCookie(jwt);
 		response.addCookie(cookie);
-		log.info("\t > set-cookie : {}", cookie);
+		log.info("\t > set-cookie : {}", cookie.getName());
 		
 		response.setStatus(HttpServletResponse.SC_OK);
 		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
@@ -114,6 +113,7 @@ public class AjaxAuthenticationSuccessHandler implements AuthenticationSuccessHa
 		Cookie cookie = new Cookie("access_token", jwt);
 		cookie.setHttpOnly(true);
 		cookie.setSecure(true);
+		cookie.setPath("/");
 		return cookie;
 	}
 
