@@ -59,7 +59,9 @@ public class AjaxAuthenticationSuccessHandler implements AuthenticationSuccessHa
 				.build();
 		
 		String jwt = jwtProvider.createJwt(authentication, request);
-		response.addCookie(createCookie(jwt));
+		Cookie cookie = createCookie(jwt);
+		response.addCookie(cookie);
+		log.info("\t > set-cookie : {}", cookie);
 		
 		response.setStatus(HttpServletResponse.SC_OK);
 		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
