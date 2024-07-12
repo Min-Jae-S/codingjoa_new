@@ -42,10 +42,13 @@ public class JwtFilter extends OncePerRequestFilter {
 	}
 	
 	private String resolveJwt(HttpServletRequest request) {
-		for (Cookie cookie : request.getCookies()) {
-			String name = cookie.getName();
-			if ("access_token".equals(name)) {
-				return cookie.getValue();
+		Cookie[] cookies = request.getCookies();
+		if (cookies != null) {
+			for (Cookie cookie : cookies) {
+				String name = cookie.getName();
+				if ("access_token".equals(name)) {
+					return cookie.getValue();
+				}
 			}
 		}
 		

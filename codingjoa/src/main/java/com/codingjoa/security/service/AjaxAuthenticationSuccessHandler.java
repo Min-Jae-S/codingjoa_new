@@ -112,8 +112,6 @@ public class AjaxAuthenticationSuccessHandler implements AuthenticationSuccessHa
 		Cookie cookie = new Cookie("access_token", jwt);
 		cookie.setHttpOnly(true);
 		cookie.setSecure(true);
-		cookie.setMaxAge(3600); // 60 * 60, 1hour
-		
 		return cookie;
 	}
 
