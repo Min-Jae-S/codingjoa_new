@@ -53,11 +53,9 @@ public class JwtMathcerFilter extends OncePerRequestFilter {
 		boolean matchesIncludePattern = includeMatchers.stream().anyMatch(matcher -> matcher.matches(request));
 		
 		if (matchesIncludePattern) {
-			log.info("\t > enter into {} : {} '{}'", 
-					this.getClass().getSimpleName(), request.getMethod(), request.getRequestURI());
+			log.info("\t > enter into {} : {} '{}'", this.getClass().getSimpleName(), request.getMethod(), request.getRequestURI());
 		} else {
-			log.info("\t > no enter into {} : {} '{}'", 
-					this.getClass().getSimpleName(), request.getMethod(), request.getRequestURI());
+			log.info("\t > no enter into {} : {} '{}'", this.getClass().getSimpleName(), request.getMethod(), request.getRequestURI());
 		}
 		
 		return !matchesIncludePattern;
