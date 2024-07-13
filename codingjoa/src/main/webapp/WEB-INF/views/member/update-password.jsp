@@ -3,7 +3,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
-<c:set var="principal" value="${SPRING_SECURITY_CONTEXT.authentication.principal}" />
 <!DOCTYPE html>
 <html>
 <head>

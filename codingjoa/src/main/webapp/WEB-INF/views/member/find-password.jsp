@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />  
@@ -82,7 +81,7 @@
 			<dl class="form-group mb-5">
 				<dt><i class="fa-solid fa-check mr-2"></i>이메일</dt>
 				<dd class="input-group" id="editEmail">
-					<input type="text" id="memberEmail" name="memberEmail" placeholder="이메일 입력" />
+					<input type="text" id="memberEmail" name="memberEmail" placeholder="이메일 입력"/>
 				</dd>
 			</dl>
 			<div class="pt-3">
