@@ -34,9 +34,10 @@
 					<a href="#" class="nav-link" id="naverLink">naver</a>
 				</li> -->
 				
-				<li class="nav-item mx-2 mt-1">
+				<!-- TEST -->
+				<!-- <li class="nav-item mx-2 mt-1">
 					<a href="#" class="nav-link" id="authenticationLink">authentication</a>
-				</li>
+				</li> -->
 			</ul>
 			<ul class="navbar-nav ml-auto">
 				<sec:authorize access="isAnonymous()">
