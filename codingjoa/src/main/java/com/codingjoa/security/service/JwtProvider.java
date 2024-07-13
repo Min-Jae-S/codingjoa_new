@@ -2,6 +2,9 @@ package com.codingjoa.security.service;
 
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Map;
 
@@ -86,13 +89,17 @@ public class JwtProvider {
 			
 			Date exp = jws.getBody().getExpiration();
 			if (exp == null) {
-				throw new IllegalArgumentException("'exp' is required; exp = " + exp);
+				throw new IllegalArgumentException("'exp' is required");
 			}
+			
+			LocalDateTime dateTime = LocalDateTime.ofInstant(exp.toInstant(), ZoneId.systemDefault());
+			log.info("\t > exp = {}", dateTime.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
 			
 			String username = jws.getBody().getSubject();
 			if (!StringUtils.hasText(username)) {
-				throw new IllegalArgumentException("'sub' is required; username = " + username);
+				throw new IllegalArgumentException("'sub' is required");
 			}
+			
 			//return !claims.getExpiration().before(new Date(System.currentTimeMillis()));
 			return true;
 		} catch (Exception e) { 
@@ -105,7 +112,7 @@ public class JwtProvider {
 	private Jws<Claims> parseJwt(String jwt) {
 		return Jwts.parserBuilder().setSigningKey(signingKey).build().parseClaimsJws(jwt);
 	}
-	
+
 	private Map<String, Object> createHeader() {
 		return Map.of("typ", "JWT", "alg", "HS256");
 	}

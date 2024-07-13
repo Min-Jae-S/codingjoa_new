@@ -71,7 +71,7 @@
 	</div>
 	<div class="test d-flex flex-column mb-5">
 		<button class="btn btn-primary btn-lg mx-3 mb-2" onclick="test6()">
-			<span>test6 : send JWT</span>
+			<span>test6 : send JWT (just resolving JWT)</span>
 		</button>
 		<div class="px-3 d-flex justify-content-around">
 			<div class="form-check form-check-inline mr-0">

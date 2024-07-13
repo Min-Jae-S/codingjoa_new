@@ -77,7 +77,6 @@ public class ImageRestController {
 		Path boardImagePath = Path.of(boardImage.getBoardImagePath());
 		UrlResource urlResource = new UrlResource(boardImagePath.toUri());
 		log.info("\t > create urlResource using boardImagePath");
-		log.info("\t > {}", urlResource.getDescription());
 		
 		return ResponseEntity.ok(urlResource);
 	}
@@ -100,7 +99,6 @@ public class ImageRestController {
 				imageService.getMemberImageByName(memberImageName, principal.getMember().getMemberIdx());
 		UrlResource urlResource = new UrlResource("file:" + memberImage.getMemberImagePath());
 		log.info("\t > create urlResource using memberImagePath");
-		log.info("\t > {}", urlResource.getDescription());
 		
 		return ResponseEntity.ok(urlResource);
 	}
