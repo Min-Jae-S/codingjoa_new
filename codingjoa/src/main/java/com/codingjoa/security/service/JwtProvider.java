@@ -43,7 +43,7 @@ public class JwtProvider {
 	 */
 
 	private final Key signingKey;
-	private final long VALIDITY_IN_MILLIS;
+	private final long VALIDITY_IN_MILLIS; // 1000 * 60 * 60 (1 hour)
 	private final UserDetailsService userDetailsService;
 	
 	public JwtProvider(@Value("${security.jwt.secret-key}") String secretKey, 

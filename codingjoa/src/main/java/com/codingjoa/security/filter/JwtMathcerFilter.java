@@ -37,9 +37,9 @@ public class JwtMathcerFilter extends OncePerRequestFilter {
 		String jwt = resolveJwt(request);
 		
 		if (jwtProvider.isValidJwt(jwt)) {
-			log.info("\t > valid JWT, setting authenticaion in the security context");
 			Authentication authentication = jwtProvider.getAuthentication(jwt);
 			SecurityContextHolder.getContext().setAuthentication(authentication);
+			log.info("\t > valid JWT, setting authenticaion in the security context");
 		} else {
 			log.info("\t > missing or invalid JWT, no authenticaion set in the security context");
 		}

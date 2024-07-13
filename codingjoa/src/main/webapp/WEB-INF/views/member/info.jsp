@@ -2,8 +2,11 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
-<c:set var="principal" value="${SPRING_SECURITY_CONTEXT.authentication.principal}" />
+<%-- <c:set var="principal" value="${SPRING_SECURITY_CONTEXT.authentication.principal}" /> --%>
+<sec:authentication property="principal" var="principal"/>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -151,8 +154,7 @@
 				<div class="wrap-member-image mr-4">
 					<c:choose>
 						<c:when test="${not empty principal.memberImageName}">
-							<img class="member-thumb-image" id="memberThumbImage" 
-								src="${contextPath}/api/member/images/${principal.memberImageName}">
+							<img class="member-thumb-image" id="memberThumbImage" src="${contextPath}/api/member/images/${principal.memberImageName}">
 						</c:when>
 						<c:otherwise>
 							<img class="member-thumb-image" id="memberThumbImage" src="${contextPath}/resources/images/img_profile.png">

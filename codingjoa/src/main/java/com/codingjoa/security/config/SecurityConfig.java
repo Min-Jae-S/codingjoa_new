@@ -15,6 +15,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -24,8 +26,6 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import com.codingjoa.security.filter.JwtFilter;
 import com.codingjoa.security.filter.JwtMathcerFilter;
 import com.codingjoa.security.filter.LoginFilter;
-import com.codingjoa.security.service.AccessDeniedHandlerImpl;
-import com.codingjoa.security.service.AuthenticationEntryPointImpl;
 import com.codingjoa.security.service.JwtProvider;
 
 @Configuration
@@ -43,10 +43,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private AuthenticationFailureHandler loginFailureHandler;
 
 	@Autowired
-	private AccessDeniedHandlerImpl accessDeniedHandler;
+	private AccessDeniedHandler accessDeniedHandler;
 	
 	@Autowired
-	private AuthenticationEntryPointImpl authenticationEntryPoint;
+	private AuthenticationEntryPoint authenticationEntryPoint;
 	
 	@Autowired
 	private LogoutSuccessHandler logoutSuccessHandler;

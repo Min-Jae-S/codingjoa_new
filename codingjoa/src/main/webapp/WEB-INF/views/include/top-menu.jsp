@@ -12,8 +12,7 @@
 		<div class="collapse navbar-collapse">
 			<ul class="navbar-nav mr-auto">
 				<c:forEach var="parentCategory" items="${parentCategoryList}">
-					<li class="nav-item dropdown mx-2 mt-1" 
-						data-category="${parentCategory.categoryCode}" data-path="${parentCategory.categoryPath}">
+					<li class="nav-item dropdown mx-2 mt-1" data-category="${parentCategory.categoryCode}" data-path="${parentCategory.categoryPath}">
 						<a href="${contextPath}${parentCategory.categoryPath}" class="nav-link">
 							<c:out value="${parentCategory.categoryName}"/>
 						</a>
@@ -60,8 +59,7 @@
 					<li class="nav-item mr-1">
 						<c:choose>
 							<c:when test="${not empty principal.memberImageName}">
-								<img class="nav-member-image" id="navMemberImage" 
-									src="${contextPath}/api/member/images/${principal.memberImageName}">
+								<img class="nav-member-image" id="navMemberImage" src="${contextPath}/api/member/images/${principal.memberImageName}">
 							</c:when>
 							<c:otherwise>
 								<img class="nav-member-image" id="navMemberImage" src="${contextPath}/resources/images/img_profile.png">
