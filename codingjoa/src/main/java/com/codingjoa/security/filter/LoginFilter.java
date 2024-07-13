@@ -22,11 +22,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class AjaxAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
+public class LoginFilter extends AbstractAuthenticationProcessingFilter {
 	
 	private ObjectMapper objectMapper = new ObjectMapper();
 	
-	public AjaxAuthenticationFilter() {
+	public LoginFilter() {
 		super(new AntPathRequestMatcher("/api/login", "POST"));
 	}
 	

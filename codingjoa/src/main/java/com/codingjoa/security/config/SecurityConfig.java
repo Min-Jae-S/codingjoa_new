@@ -6,6 +6,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -14,19 +15,18 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import com.codingjoa.security.filter.AjaxAuthenticationFilter;
 import com.codingjoa.security.filter.JwtFilter;
 import com.codingjoa.security.filter.JwtMathcerFilter;
+import com.codingjoa.security.filter.LoginFilter;
 import com.codingjoa.security.service.AccessDeniedHandlerImpl;
-import com.codingjoa.security.service.AjaxAuthenticationFailureHandler;
-import com.codingjoa.security.service.AjaxAuthenticationProvider;
-import com.codingjoa.security.service.AjaxAuthenticationSuccessHandler;
 import com.codingjoa.security.service.AuthenticationEntryPointImpl;
 import com.codingjoa.security.service.JwtProvider;
-import com.codingjoa.security.service.LogoutSuccessHandlerImpl;
 
 @Configuration
 @EnableWebSecurity
@@ -34,13 +34,13 @@ import com.codingjoa.security.service.LogoutSuccessHandlerImpl;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
-	private AjaxAuthenticationProvider ajaxAuthenticationProvider;
+	private AuthenticationProvider loginProvider;
 	
 	@Autowired
-	private AjaxAuthenticationSuccessHandler ajaxAuthenticationSuccessHandler;
+	private AuthenticationSuccessHandler loginSuccessHandler;
 	
 	@Autowired
-	private AjaxAuthenticationFailureHandler ajaxAuthenticationFailureHandler;
+	private AuthenticationFailureHandler loginFailureHandler;
 
 	@Autowired
 	private AccessDeniedHandlerImpl accessDeniedHandler;
@@ -49,7 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private AuthenticationEntryPointImpl authenticationEntryPoint;
 	
 	@Autowired
-	private LogoutSuccessHandlerImpl logoutSuccessHandler;
+	private LogoutSuccessHandler logoutSuccessHandler;
 	
 	@Autowired
 	private JwtProvider jwtProvider;
@@ -63,7 +63,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	 * 		SecurityContextPersistenceFilter
 	 * 		HeaderWriterFilter
 	 * 		LogoutFilter
-	 * 		AjaxAuthenticationFilter*
+	 * 		LoginFilter*
 	 * 		JwtFilter*
 	 * 		UsernamePasswordAuthenticationFilter
 	 * 		RequestCacheAwareFilter
@@ -134,8 +134,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.anyRequest().permitAll()
 			.and()
 			.formLogin().disable()
-			.addFilterBefore(ajaxAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
-			.addFilterAfter(jwtFilter(), AjaxAuthenticationFilter.class)
+			.addFilterBefore(loginFilter(), UsernamePasswordAuthenticationFilter.class)
+			.addFilterAfter(jwtFilter(), LoginFilter.class)
 			//.addFilterAfter(jwtMatcherFilter(), AjaxAuthenticationFilter.class)
 			.logout()
 				//.logoutUrl("/api/logout")
@@ -152,7 +152,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.authenticationProvider(ajaxAuthenticationProvider);
+		auth.authenticationProvider(loginProvider);
 	}
 	
 	@Override
@@ -166,13 +166,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 
 	@Bean
-	public AjaxAuthenticationFilter ajaxAuthenticationFilter() throws Exception {
-		AjaxAuthenticationFilter filter = new AjaxAuthenticationFilter();
+	public LoginFilter loginFilter() throws Exception {
+		LoginFilter filter = new LoginFilter();
 		// Error creating bean with name 'ajaxAuthenticationFilter' defined in com.codingjoa.security.config.SecurityConfig: 
 		// Invocation of init method failed; nested exception is java.lang.IllegalArgumentException: authenticationManager must be specified
 		filter.setAuthenticationManager(authenticationManagerBean());
-		filter.setAuthenticationSuccessHandler(ajaxAuthenticationSuccessHandler);
-		filter.setAuthenticationFailureHandler(ajaxAuthenticationFailureHandler);
+		filter.setAuthenticationSuccessHandler(loginSuccessHandler);
+		filter.setAuthenticationFailureHandler(loginFailureHandler);
 		return filter;
 	}
 	
