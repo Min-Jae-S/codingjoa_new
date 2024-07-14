@@ -32,10 +32,10 @@ public class ImageServiceImpl implements ImageService {
 	private ImageMapper imageMapper;
 	
 	@Value("${image.board.path}")
-	private String boardImagePath;
+	private String boardImagePath; // D:/Dev/upload/image/board/
 	
 	@Value("${image.member.path}")
-	private String memberImagePath;
+	private String memberImagePath; // D:/Dev/upload/image/member/
 	
 	@Override
 	public BoardImage uploadBoardImage(MultipartFile file) throws IllegalStateException, IOException {
@@ -103,7 +103,7 @@ public class ImageServiceImpl implements ImageService {
 	}
 	
 	@Override
-	public void uploadMemberImage(MultipartFile file, Integer memberIdx) throws IllegalStateException, IOException {
+	public MemberImage uploadMemberImage(MultipartFile file, Integer memberIdx) throws IllegalStateException, IOException {
 		File uploadFolder = createUploadFolder(memberImagePath);
 		if (!uploadFolder.exists()) {
 			uploadFolder.mkdirs();
@@ -129,6 +129,8 @@ public class ImageServiceImpl implements ImageService {
 		if (memberImage.getMemberImageIdx() == null) { 
 			throw new ExpectedException("error.UploadMemberImage");
 		}
+		
+		return memberImage;
 	}
 	
 	private File createUploadFolder(String path) {

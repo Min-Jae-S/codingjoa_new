@@ -18,7 +18,7 @@ public interface ImageService {
 	
 	void modifyBoardImages(BoardDto boardDto);
 	
-	void uploadMemberImage(MultipartFile file, Integer memberIdx) throws IllegalStateException, IOException;
+	MemberImage uploadMemberImage(MultipartFile file, Integer memberIdx) throws IllegalStateException, IOException;
 	
 	BoardImage getBoardImageByIdx(Integer boardIdx); // test
 

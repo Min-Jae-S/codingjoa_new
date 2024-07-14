@@ -313,10 +313,11 @@
 
 			imageService.uploadMemberImage(formData, function(result) {
 				alert(result.message);
-				memberService.getMemberDetails(function(result) {
+				$("#memberThumbImage, #navMemberImage").attr("src", result.data.memberImageUrl);
+				/* memberService.getMemberDetails(function(result) {
 					let memberImageUrl = "${contextPath}/api/member/images/" + result.data.memberImageName;
 					$("#memberThumbImage, #navMemberImage").attr("src", memberImageUrl);
-				});
+				}); */
 			});
 		});
 		

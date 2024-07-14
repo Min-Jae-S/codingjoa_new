@@ -3,6 +3,7 @@ package com.codingjoa.controller;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Path;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.codingjoa.dto.BoardImageDto;
 import com.codingjoa.dto.UploadFileDto;
@@ -85,24 +87,33 @@ public class ImageRestController {
 	public ResponseEntity<Object> uploadMemberImage(@ModelAttribute @Valid UploadFileDto uploadFileDto,
 			@AuthenticationPrincipal UserDetailsDto principal) throws IllegalStateException, IOException {
 		log.info("## uploadMemberImage");
-		imageService.uploadMemberImage(uploadFileDto.getFile(), principal.getMember().getMemberIdx());
-		resetAuthentication(principal.getMember().getMemberId());
+		MemberImage memberImage = imageService.uploadMemberImage(uploadFileDto.getFile(), principal.getMember().getMemberIdx());
+		//resetAuthentication(principal.getMember().getMemberId());
 		
-		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.UploadMemberImage").build());
+		String memberImageUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
+				.path("/member/images/{memberImage}")
+				.buildAndExpand(memberImage.getMemberImageName())
+				.toString();
+		
+		return ResponseEntity.ok(SuccessResponse
+				.builder()
+				.messageByCode("success.UploadMemberImage")
+				.data(Map.of("memberImageUrl", memberImageUrl))
+				.build());
 	}
 	
 	@GetMapping(value = { "/member/images/", "/member/images/{memberImageName:.+}"}, produces = MediaType.IMAGE_JPEG_VALUE) 
 	public ResponseEntity<Object> getMemberImageResource(@PathVariable String memberImageName, 
 			@AuthenticationPrincipal UserDetailsDto principal) throws MalformedURLException {
 		log.info("## getMemberImageResource");
-		MemberImage memberImage = 
-				imageService.getMemberImageByName(memberImageName, principal.getMember().getMemberIdx());
+		MemberImage memberImage = imageService.getMemberImageByName(memberImageName, principal.getMember().getMemberIdx());
 		UrlResource urlResource = new UrlResource("file:" + memberImage.getMemberImagePath());
 		log.info("\t > create urlResource using memberImagePath");
 		
 		return ResponseEntity.ok(urlResource);
 	}
 	
+	@SuppressWarnings("unused")
 	private void resetAuthentication(String memberId) {
 		log.info("## resetAuthentication");
 		UserDetails userDetails = userDetailsService.loadUserByUsername(memberId);
