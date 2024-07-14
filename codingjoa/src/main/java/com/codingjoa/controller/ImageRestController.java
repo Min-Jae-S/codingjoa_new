@@ -62,10 +62,16 @@ public class ImageRestController {
 		log.info("## uploadBoardImage");
 		BoardImage boardImage = imageService.uploadBoardImage(uploadFileDto.getFile());
 		
+		String boardImageUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
+				.path("/api/board/images/")
+				.path(boardImage.getBoardImageName())
+				.build()
+				.getPath();
+		
 		return ResponseEntity.ok(SuccessResponse
 				.builder()
 				.messageByCode("success.UploadBoardImage")
-				.data(new BoardImageDto(boardImage.getBoardImageIdx(), boardImage.getBoardImageName()))
+				.data(new BoardImageDto(boardImage.getBoardImageIdx(), boardImageUrl))
 				.build());
 	}
 	
@@ -91,9 +97,10 @@ public class ImageRestController {
 		//resetAuthentication(principal.getMember().getMemberId());
 		
 		String memberImageUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
-				.path("/api/member/images/{memberImage}")
-				.buildAndExpand(memberImage.getMemberImageName())
-				.toString();
+				.path("/api/member/images/")
+				.path(memberImage.getMemberImageName())
+				.build()
+				.getPath();
 		
 		return ResponseEntity.ok(SuccessResponse
 				.builder()

@@ -4,7 +4,7 @@
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <%-- <c:set var="principal" value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal}" /> --%>
 
-<!-- 상단 메뉴 -->
+<!-- navbar -->
 <nav class="navbar navbar-custom navbar-expand-md">
 	<div class="container-fluid px-5">
 		<a class="navbar-brand font-weight-bold" href="${contextPath}">Codingjoa</a>

@@ -2,16 +2,18 @@ package com.codingjoa.security.service;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.time.Duration;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -58,9 +60,14 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 				.build();
 		
 		String jwt = jwtProvider.createJwt(authentication, request);
-		Cookie cookie = createCookie(jwt);
-		response.addCookie(cookie);
-		log.info("\t > set-cookie : {}", cookie.getName());
+		ResponseCookie jwtCookie = ResponseCookie.from("access_token", jwt)
+				.httpOnly(true)
+				.secure(true)
+				.sameSite("Strict")
+				.maxAge(Duration.ofHours(1))
+				.build();
+		response.setHeader(HttpHeaders.SET_COOKIE, jwtCookie.toString());
+		log.info("\t > setting jwt-cookie : {}", jwtCookie);
 		
 		response.setStatus(HttpServletResponse.SC_OK);
 		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
@@ -109,12 +116,4 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
                 .build();
     }
 	
-	private Cookie createCookie(String jwt) {
-		Cookie cookie = new Cookie("access_token", jwt);
-		cookie.setHttpOnly(true);
-		cookie.setSecure(true);
-		cookie.setPath("/");
-		return cookie;
-	}
-
 }
