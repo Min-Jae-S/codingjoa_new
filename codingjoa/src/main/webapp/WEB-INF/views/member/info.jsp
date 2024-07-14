@@ -321,16 +321,6 @@
 			});
 		});
 		
-		$("#memberThumbImage, #navMemberImage").on("load", function() {
-			console.log("%c## IMAGE LOADING SUCCESS", "color:green");
-			console.log("> %s", this.id);
-		});
-
-		$("#memberThumbImage, #navMemberImage").on("error", function() {
-			console.log("%c## IMAGE LOADING FAILURE", "color:red");
-			console.log("> %s", this.id);
-		});
-		
 		// sendAuthCode
 		$("#sendAuthCodeBtn").on("click", function() {
 			let obj = {

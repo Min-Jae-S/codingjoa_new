@@ -91,7 +91,7 @@ public class ImageRestController {
 		//resetAuthentication(principal.getMember().getMemberId());
 		
 		String memberImageUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
-				.path("/member/images/{memberImage}")
+				.path("/api/member/images/{memberImage}")
 				.buildAndExpand(memberImage.getMemberImageName())
 				.toString();
 		
