@@ -5,6 +5,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.codingjoa.response.SuccessResponse;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -15,6 +17,7 @@ public class TestOAuthController {
 	@GetMapping("/test1")
 	public ResponseEntity<Object> test1() {
 		log.info("## test1");
-		return null;
+		
+		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 }

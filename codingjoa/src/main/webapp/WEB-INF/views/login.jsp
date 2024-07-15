@@ -24,7 +24,7 @@
 	}
 	
 	.info-member a {
-		text-decoration-line: none;
+		/* text-decoration-line: none; */
 		/*color: #495057;*/
 		color: grey;
 	}
@@ -55,6 +55,12 @@
 	.login-wrap {
 		width: 500px;
 		margin: 0 auto;
+	}
+	
+	.social-login-header {
+    	font-weight: 500;
+    	color: #0f1317;
+    	text-align: center;
 	}
 </style>
 </head>
@@ -91,6 +97,13 @@
 							<a href="${contextPath}/member/findPassword">비밀번호 찾기</a>
 						</li>
 					</ul>
+				</div>
+				<div class="social-login mt-5">
+					<div class="social-login-header">
+						<span>SNS 계정 로그인</span>
+					</div>
+					<div class="social-login-body">
+					</div>
 				</div>
 			</div>
 		</div>

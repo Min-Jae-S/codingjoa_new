@@ -14,10 +14,10 @@ body {
 	margin-top: 10rem;
 }
 
-.login-container {
+/* .login-container {
 	margin-top: 8.5rem;
 	margin-bottom: 8.5rem;
-}
+} */
 
 .join-container,
 .info-container,
@@ -25,7 +25,8 @@ body {
 .update-password-container,
 .reset-password-container,
 .find-account-container,
-.find-password-container {
+.find-password-container,
+.login-container {
 	margin-top: 7rem;
 	margin-bottom: 7rem;
 }
