@@ -68,6 +68,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 				.secure(true)
 				.sameSite("Strict")
 				.build();
+		
 		response.setHeader(HttpHeaders.SET_COOKIE, jwtCookie.toString());
 		log.info("\t > setting jwt cookie : {}", jwtCookie);
 		

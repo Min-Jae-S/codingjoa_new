@@ -82,4 +82,10 @@ public class TestViewController {
 		log.info("## cookieSession main");
 		return "test/cookie-session";
 	}
+
+	@GetMapping("/oauth")
+	public String oauthMain() {
+		log.info("## oauth main");
+		return "test/oauth";
+	}
 }
