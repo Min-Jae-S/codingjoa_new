@@ -21,10 +21,11 @@
 		overflow: hidden;
 		font-size: 85%;
     	font-weight: 400;
+    	margin-bottom: 3rem;
 	}
 	
 	.info-member a {
-		/* text-decoration-line: none; */
+		text-decoration-line: none;
 		/*color: #495057;*/
 		color: grey;
 	}
@@ -57,10 +58,30 @@
 		margin: 0 auto;
 	}
 	
-	.social-login-header {
-    	font-weight: 500;
-    	color: #0f1317;
-    	text-align: center;
+	.social-login {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+	
+	.social-login-line {
+		position: relative;
+    	bottom: -8px;
+    	margin: 0;
+    	width: 100%;
+	}
+	
+	.social-login-title {
+		font-size: 85%;
+    	font-weight: 400;
+    	color: grey;
+    	z-index: 1;
+    	background-color: white;
+    	line-height: 16px;
+	}
+	
+	.social-login-body {
+		display: flex;
 	}
 </style>
 </head>
@@ -98,11 +119,12 @@
 						</li>
 					</ul>
 				</div>
-				<div class="social-login mt-5">
-					<div class="social-login-header">
-						<span>SNS 계정 로그인</span>
-					</div>
+				<div class="social-login">
+					<hr class="social-login-line">
+					<span class="social-login-title mb-4 px-3">SNS 계정 로그인</span>
 					<div class="social-login-body">
+						<button class="btn btn-primary mx-3">button1</button>
+						<button class="btn btn-primary mx-3">button2</button>
 					</div>
 				</div>
 			</div>

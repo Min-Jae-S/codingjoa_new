@@ -32,7 +32,7 @@ public class MainController {
 		log.info("## home");
 		return "home";
 	}
-	
+
 	@GetMapping("/accessDenied")
 	public String accessDenied() {
 		log.info("## accessDenied");
