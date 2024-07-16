@@ -31,24 +31,11 @@
 	
 	div.test button {
 		width: 183px;
-		height: 45px;
 	}
 	
 	div.form-check {
 		font-size: 1rem;
 		font-weight: 400;
-	}
-	
-	.social-login-btn {
-		border-radius: 8px;
-		border: none;
-		background-color: transparent;
-		/* background-size: contain; */
-		background-repeat: no-repeat;
-	}
-	
-	.kakao {
-		background-image: url(/codingjoa/resources/images/test/kakao_login_medium_narrow.png);
 	}
 </style>
 </head>
@@ -57,17 +44,17 @@
 <div class="container my-5">
 	<p>oauth2.jsp</p>
 	<div class="test mt-5 mb-5 px-5">
-		<button class="social-login-btn kakao" onclick="kakaoLogin()"/>
-		<button class="btn btn-lg btn-primary" onclick="test1()">test1</button>
+		<a href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}">
+			<img src="${contextPath}/resources/images/test/kakao_login_medium_narrow.png">
+		</a>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 <script>
-	function kakaoLogin() {
-		console.log("## kakaoLogin");
+	function test1() {
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/oauth2/code/kakao",
+			url : "${contextPath}/test/oauth2/test1",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
