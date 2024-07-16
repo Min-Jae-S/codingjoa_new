@@ -58,6 +58,10 @@
 		margin: 0 auto;
 	}
 	
+	.login-wrap .card {
+		border-radius: 16px;
+	}
+	
 	.social-login {
 		display: flex;
 		flex-direction: column;
@@ -80,13 +84,13 @@
     	line-height: 16px;
     	padding-left: 1rem;
     	padding-right: 1rem;
-    	margin-bottom: 2rem;
+    	margin-bottom: 2.2rem;
 	}
 	
 	.social-login-body {
 		display: flex;
 		justify-content: center;
-		column-gap: 25px;
+		column-gap: 30px;
 	}
 	
 	.social-login-btn {
@@ -121,7 +125,7 @@
 
 <div class="container login-container">
 	<div class="login-wrap">
-		<div class="card shadow">
+		<div class="card">
 			<div class="card-body p-5">
 				<form id="loginForm">
 					<div class="id_pw_wrap">

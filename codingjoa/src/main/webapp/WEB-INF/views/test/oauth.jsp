@@ -24,30 +24,27 @@
 	}
 	
 	div.test {
-		padding-left: 1.5rem;
-		padding-right: 1.5rem;
+		display: flex;
+		column-gap: 25px;
 	}
 	
-	.test-btn, div.input-group {
-		width: 230px;
+	div.test button {
+		width: 200px;
 	}
 	
 	div.form-check {
 		font-size: 1rem;
 		font-weight: 400;
 	}
-	
 </style>
 </head>
 <body>
 <c:import url="/WEB-INF/views/include/top-menu.jsp"/>
 <div class="container my-5">
 	<p>oauth.jsp</p>
-	<div class="test d-flex justify-content-between mt-5 mb-5">
-		<button class="btn btn-primary btn-lg test-btn mx-3" onclick="test1()">test1</button>
-		<button class="btn btn-primary btn-lg test-btn mx-3 invisible" onclick="#">#</button>
-		<button class="btn btn-primary btn-lg test-btn mx-3 invisible" onclick="#">#</button>
-		<button class="btn btn-primary btn-lg test-btn mx-3 invisible" onclick="#">#</button>
+	<div class="test mt-5 mb-5 px-5">
+		<button class="btn btn-primary btn-lg" onclick="test1()">test1</button>
+		<button class="btn btn-primary btn-lg" onclick="test2()">test2 : kakao</button>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
@@ -57,6 +54,22 @@
 		$.ajax({
 			type : "GET",
 			url : "${contextPath}/test/oauth/test1",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log(JSON.stringify(result, null, 2));
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				parseError(jqXHR);
+			}
+		});
+	}
+
+	function test2() {
+		console.log("## test2");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/oauth/test2",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));

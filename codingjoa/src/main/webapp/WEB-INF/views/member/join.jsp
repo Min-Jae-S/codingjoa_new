@@ -43,6 +43,10 @@
 		width: 620px;
 		margin: 0 auto;
 	}
+	
+	.join-wrap .card {
+		border-radius: 16px;
+	}
 </style>
 </head>
 <body>
@@ -51,7 +55,7 @@
 
 <div class="container join-container">
 	<div class="join-wrap">
-		<div class="card shadow">
+		<div class="card">
 			<div class="card-body">
 				<form:form action="${contextPath}/member/joinProc" method="POST" modelAttribute="joinDto">
 					<div class="form-group mb-4">
