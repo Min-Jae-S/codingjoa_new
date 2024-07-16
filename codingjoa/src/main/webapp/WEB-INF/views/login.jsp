@@ -100,6 +100,7 @@
 		border: none;
 		background-color: transparent;
 		background-size: contain;
+		background-repeat: no-repeat;
 	}
 
 	.kakao {

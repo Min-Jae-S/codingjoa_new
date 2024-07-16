@@ -133,6 +133,7 @@
 		border-radius: 50%;
 		background-image: url(/codingjoa/resources/images/img_camera3.png);
 		background-size: contain;
+		background-repeat: no-repeat;
 	}
 	
 	.info-wrap {

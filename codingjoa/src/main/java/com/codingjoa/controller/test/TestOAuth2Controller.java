@@ -3,6 +3,7 @@ package com.codingjoa.controller.test;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codingjoa.response.SuccessResponse;
@@ -10,19 +11,16 @@ import com.codingjoa.response.SuccessResponse;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@RequestMapping("/test/oauth")
+@RequestMapping("/test/oauth2")
 @RestController
-public class TestOAuthController {
+public class TestOAuth2Controller {
 
-	@GetMapping("/test1")
-	public ResponseEntity<Object> test1() {
-		log.info("## test1");
+	@GetMapping("/code/kakao")
+	public ResponseEntity<Object> kakaoLogin(@RequestParam String code) {
+		log.info("## kakaoLogin");
+		log.info("\t > code = {}", code);
+		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 
-	@GetMapping("/test2")
-	public ResponseEntity<Object> test2() {
-		log.info("## test2");
-		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
-	}
 }

@@ -14,7 +14,7 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 
 	@Override
 	public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
-		log.info("\t > {}.loadUserByUsername", this.getClass().getSimpleName());
+		log.info("\t > {}.loadUser", this.getClass().getSimpleName());
 		return null;
 	}
 

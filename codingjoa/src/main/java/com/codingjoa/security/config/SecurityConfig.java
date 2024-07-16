@@ -106,7 +106,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.and()
 			.formLogin().disable()
 			.addFilterBefore(loginAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
-			.addFilterAfter(jwtAuthenticationFilter(), LoginAuthenticationFilter.class)
+			.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
 			.logout()
 				//.logoutUrl("/api/logout")
 				//.logoutRequestMatcher(new AntPathRequestMatcher("/api/logout", "POST"))
