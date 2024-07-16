@@ -128,7 +128,7 @@
 		    <scope>test</scope>
 		</dependency>
 		
-		<!-- spring batch core -->
+		<!-- spring batch -->
 		<!-- https://mvnrepository.com/artifact/org.springframework.batch/spring-batch-core -->
 		<dependency>
 		    <groupId>org.springframework.batch</groupId>
@@ -216,6 +216,14 @@
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-taglibs</artifactId>
 			<version>${org.springframework.security-version}</version>
+		</dependency>
+		
+		<!-- spring security-oauth2 -->
+		<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-oauth2-client -->
+		<dependency>
+		    <groupId>org.springframework.security</groupId>
+		    <artifactId>spring-security-oauth2-client</artifactId>
+		    <version>${org.springframework.security-version}</version>
 		</dependency>
 		
 		<!-- jwt -->

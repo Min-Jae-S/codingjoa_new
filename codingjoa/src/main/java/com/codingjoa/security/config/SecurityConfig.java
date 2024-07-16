@@ -6,7 +6,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -17,16 +16,17 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.AccessDeniedHandler;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import com.codingjoa.security.filter.JwtFilter;
-import com.codingjoa.security.filter.JwtMathcerFilter;
-import com.codingjoa.security.filter.LoginFilter;
+import com.codingjoa.security.filter.JwtAuthenticationFilter;
+import com.codingjoa.security.filter.JwtAuthenticationMathcerFilter;
+import com.codingjoa.security.filter.LoginAuthenticationFilter;
 import com.codingjoa.security.service.JwtProvider;
+import com.codingjoa.security.service.LoginAutenticationProvider;
+import com.codingjoa.security.service.LoginFailureHandler;
+import com.codingjoa.security.service.LoginSuccessHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -34,13 +34,13 @@ import com.codingjoa.security.service.JwtProvider;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
-	private AuthenticationProvider loginProvider;
+	private LoginAutenticationProvider loginAutenticationProvider;
 	
 	@Autowired
-	private AuthenticationSuccessHandler loginSuccessHandler;
+	private LoginSuccessHandler loginSuccessHandler;
 	
 	@Autowired
-	private AuthenticationFailureHandler loginFailureHandler;
+	private LoginFailureHandler loginFailureHandler;
 
 	@Autowired
 	private AccessDeniedHandler accessDeniedHandler;
@@ -95,35 +95,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				// the order of the rules matters and the more specific rules should go first
 				//.antMatchers("/api/comments/**/likes").permitAll()
 				//.antMatchers("/api/comments/**").authenticated()
-				
-				/*
-				 * @RequestMapping("/api")
-				 * LikesRestController {
-				 * 		@PostMapping("/boards/{boardIdx}/likes") 			toggleBoardLikes	-->	authenticated
-				 * 		@GetMapping("/boards/{boardIdx}/likes") 			getBoardLikesCnt	--> permitAll
-				 * 		@PostMapping("/comments/{commentIdx}/likes")		toggleCommentLikes	--> authenticated
-				 * 		@GetMapping("/comments/{commentIdx}/likes")			getCommentLikesCnt	--> permitAll
-				 * }
-				 * 
-				 * @RequestMapping("/api")
-				 * CommentRestController {
-				 * 		@GetMapping("/boards/{commentBoardIdx}/comments")					getCommentList		--> permitAll
-				 * 		@GetMapping(value = { "/comments/", "/comments/{commentIdx}" })		getModifyComment 	--> authenticated
-				 * 		@PostMapping("/comments")											writeComment		--> authenticated		
-				 * 		@PatchMapping(value = { "/comments/", "/comments/{commentIdx}" })	modifyComment		--> authenticated
-				 * 		@DeleteMapping(value = { "/comments/", "/comments/{commentIdx}" })	deleteComment		--> authenticated
-				 * }
-				 * 
-				 * @RequestMapping("/api")
-				 * ImageRestController {
-				 * 		@PostMapping("/board/image")														uploadBoardImage		--> authenticated
-				 * 		@GetMapping(value = { "/board/images/", "/board/images/{boardImageName:.+}"})		getBoardImageResource	--> permitAll
-				 * 		@PostMapping("/member/image")														uploadMemberImage		--> authenticated
-				 * 		@GetMapping(value = { "/member/images/", "/member/images/{memberImageName:.+}"})	getMemberImageResource	--> authenticated
-				 * }
-				 * 
-				 */
-				
 				.antMatchers(HttpMethod.POST, "/api/boards/*/likes", "/api/comments/*/likes").authenticated()
 				.antMatchers("/api/comments", "/comments/", "/api/comments/*").authenticated()
 				.antMatchers(HttpMethod.POST, "/api/board/image", "/api/member/image").authenticated()
@@ -134,9 +105,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.anyRequest().permitAll()
 			.and()
 			.formLogin().disable()
-			.addFilterBefore(loginFilter(), UsernamePasswordAuthenticationFilter.class)
-			.addFilterAfter(jwtFilter(), LoginFilter.class)
-			//.addFilterAfter(jwtMatcherFilter(), AjaxAuthenticationFilter.class)
+			.addFilterBefore(loginAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+			.addFilterAfter(jwtAuthenticationFilter(), LoginAuthenticationFilter.class)
 			.logout()
 				//.logoutUrl("/api/logout")
 				//.logoutRequestMatcher(new AntPathRequestMatcher("/api/logout", "POST"))
@@ -152,7 +122,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.authenticationProvider(loginProvider);
+		auth.authenticationProvider(loginAutenticationProvider);
 	}
 	
 	@Override
@@ -166,8 +136,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 
 	@Bean
-	public LoginFilter loginFilter() throws Exception {
-		LoginFilter filter = new LoginFilter();
+	public LoginAuthenticationFilter loginAuthenticationFilter() throws Exception {
+		LoginAuthenticationFilter filter = new LoginAuthenticationFilter();
 		// Error creating bean with name 'ajaxAuthenticationFilter' defined in com.codingjoa.security.config.SecurityConfig: 
 		// Invocation of init method failed; nested exception is java.lang.IllegalArgumentException: authenticationManager must be specified
 		filter.setAuthenticationManager(authenticationManagerBean());
@@ -177,13 +147,41 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 	
 	@Bean
-	public JwtFilter jwtFilter() throws Exception {
-		return new JwtFilter(jwtProvider);
+	public JwtAuthenticationFilter jwtAuthenticationFilter() throws Exception {
+		return new JwtAuthenticationFilter(jwtProvider);
 	}
 	
+	/*
+	 * @RequestMapping("/api")
+	 * LikesRestController {
+	 * 		@PostMapping("/boards/{boardIdx}/likes") 			toggleBoardLikes	-->	authenticated
+	 * 		@GetMapping("/boards/{boardIdx}/likes") 			getBoardLikesCnt	--> permitAll
+	 * 		@PostMapping("/comments/{commentIdx}/likes")		toggleCommentLikes	--> authenticated
+	 * 		@GetMapping("/comments/{commentIdx}/likes")			getCommentLikesCnt	--> permitAll
+	 * }
+	 * 
+	 * @RequestMapping("/api")
+	 * CommentRestController {
+	 * 		@GetMapping("/boards/{commentBoardIdx}/comments")					getCommentList		--> permitAll
+	 * 		@GetMapping(value = { "/comments/", "/comments/{commentIdx}" })		getModifyComment 	--> authenticated
+	 * 		@PostMapping("/comments")											writeComment		--> authenticated		
+	 * 		@PatchMapping(value = { "/comments/", "/comments/{commentIdx}" })	modifyComment		--> authenticated
+	 * 		@DeleteMapping(value = { "/comments/", "/comments/{commentIdx}" })	deleteComment		--> authenticated
+	 * }
+	 * 
+	 * @RequestMapping("/api")
+	 * ImageRestController {
+	 * 		@PostMapping("/board/image")														uploadBoardImage		--> authenticated
+	 * 		@GetMapping(value = { "/board/images/", "/board/images/{boardImageName:.+}"})		getBoardImageResource	--> permitAll
+	 * 		@PostMapping("/member/image")														uploadMemberImage		--> authenticated
+	 * 		@GetMapping(value = { "/member/images/", "/member/images/{memberImageName:.+}"})	getMemberImageResource	--> authenticated
+	 * }
+	 * 
+	 */
+	
 	@Bean
-	public JwtMathcerFilter jwtMatcherFilter() throws Exception {
-		JwtMathcerFilter filter = new JwtMathcerFilter(jwtProvider);
+	public JwtAuthenticationMathcerFilter jwtAuthenticationMathcerFilter() throws Exception {
+		JwtAuthenticationMathcerFilter filter = new JwtAuthenticationMathcerFilter(jwtProvider);
 		filter.addIncludeMatchers("/member/account/**");
 		filter.addIncludeMatchers("/board/write", "/board/writeProc", "/board/modify", "/board/modifyProc", "/board/deleteProc");
 		filter.addIncludeMatchers(HttpMethod.POST, "/api/boards/*/likes", "/api/comments/*/likes");

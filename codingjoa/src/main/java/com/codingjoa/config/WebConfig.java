@@ -3,6 +3,7 @@ package com.codingjoa.config;
 import java.util.EnumSet;
 
 import javax.servlet.DispatcherType;
+import javax.servlet.Filter;
 import javax.servlet.FilterRegistration;
 import javax.servlet.MultipartConfigElement;
 import javax.servlet.ServletContext;
@@ -52,6 +53,15 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 	}
 	
 	@Override
+	protected Filter[] getServletFilters() {
+		log.info("## getServletFilters");
+		CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter();
+		characterEncodingFilter.setEncoding("UTF-8");
+		characterEncodingFilter.setForceEncoding(true);
+		return new Filter[] { characterEncodingFilter };
+	}
+
+	@Override
 	protected void customizeRegistration(Dynamic registration) {
 		
 		/*
@@ -84,30 +94,32 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 	public void onStartup(ServletContext servletContext) throws ServletException {
 		log.info("## onStartup");
 		super.onStartup(servletContext);
-		registerCharacterEncodingFilter(servletContext);
+		//registerCharacterEncodingFilter(servletContext);
 		//registerLogFilter(servletContext);
 	}
 
+	@SuppressWarnings("unused")
 	private void registerCharacterEncodingFilter(ServletContext servletContext) {
 		log.info("## registerCharacterEncodingFilter");
-		FilterRegistration.Dynamic encodingFilterReg = 
-				servletContext.addFilter("CharacterEncodingFilter", new CharacterEncodingFilter());
-		encodingFilterReg.setInitParameter("encoding", "UTF-8");
-		encodingFilterReg.setInitParameter("forceEncoding", "true");
+		CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter();
+		FilterRegistration.Dynamic filterRegistration = servletContext.addFilter("CharacterEncodingFilter", characterEncodingFilter);
+		filterRegistration.setInitParameter("encoding", "UTF-8");
+		filterRegistration.setInitParameter("forceEncoding", "true");
 
 		// isMatchAfter가 true면 filter의 순서를 뒤에, false면 순서를 앞으로 배치
 		EnumSet<DispatcherType> dispatcherTypes = EnumSet.allOf(DispatcherType.class);
-		encodingFilterReg.addMappingForUrlPatterns(dispatcherTypes, false, "/*");
+		filterRegistration.addMappingForUrlPatterns(dispatcherTypes, false, "/*");
 	}
 	
 	@SuppressWarnings("unused")
 	private void registerLogFilter(ServletContext servletContext) {
 		log.info("## registerLogFilter");
-		FilterRegistration.Dynamic logFilterReg = servletContext.addFilter("LogFilter", new LogFilter());
-		logFilterReg.setInitParameter("excludePatterns", "/resources/, /upload/");
+		LogFilter logFilter = new LogFilter();
+		FilterRegistration.Dynamic filterRegistration = servletContext.addFilter("LogFilter", logFilter);
+		filterRegistration.setInitParameter("excludePatterns", "/resources/, /upload/");
 		
 		EnumSet<DispatcherType> dispatcherTypes = EnumSet.of(DispatcherType.REQUEST, DispatcherType.ASYNC, DispatcherType.ERROR);
-		logFilterReg.addMappingForUrlPatterns(dispatcherTypes, false, "/*");
+		filterRegistration.addMappingForUrlPatterns(dispatcherTypes, false, "/*");
 	}
 	
 }
