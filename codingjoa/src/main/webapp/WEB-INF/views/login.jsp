@@ -78,10 +78,40 @@
     	z-index: 1;
     	background-color: white;
     	line-height: 16px;
+    	padding-left: 1rem;
+    	padding-right: 1rem;
+    	margin-bottom: 2rem;
 	}
 	
 	.social-login-body {
 		display: flex;
+		justify-content: center;
+		column-gap: 25px;
+	}
+	
+	.social-login-btn {
+		width: 52px;
+		height: 52px;
+		border-radius: 8px;
+		border: none;
+		background-color: transparent;
+		background-size: contain;
+	}
+
+	.kakao {
+		background-image: url(/codingjoa/resources/images/kakao.png);
+	}
+	
+	.naver {
+		background-image: url(/codingjoa/resources/images/naver.png);
+	}
+	
+	.google {
+		background-image: url(/codingjoa/resources/images/google.png);
+	}
+	
+	.github {
+		background-image: url(/codingjoa/resources/images/github.png);
 	}
 </style>
 </head>
@@ -121,10 +151,12 @@
 				</div>
 				<div class="social-login">
 					<hr class="social-login-line">
-					<span class="social-login-title mb-4 px-3">SNS 계정 로그인</span>
+					<span class="social-login-title">SNS 계정 로그인</span>
 					<div class="social-login-body">
-						<button class="btn btn-primary mx-3">button1</button>
-						<button class="btn btn-primary mx-3">button2</button>
+						<button class="social-login-btn kakao"/>
+						<button class="social-login-btn google"/>
+						<button class="social-login-btn naver"/>
+						<button class="social-login-btn github"/>
 					</div>
 				</div>
 			</div>

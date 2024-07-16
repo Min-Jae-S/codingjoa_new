@@ -131,7 +131,7 @@
 		height: 35px;
 		border: 1px solid white;
 		border-radius: 50%;
-		background-image: url('/codingjoa/resources/images/img_camera3.png');
+		background-image: url(/codingjoa/resources/images/img_camera3.png);
 		background-size: contain;
 	}
 	

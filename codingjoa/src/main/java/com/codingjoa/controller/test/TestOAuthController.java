@@ -17,7 +17,6 @@ public class TestOAuthController {
 	@GetMapping("/test1")
 	public ResponseEntity<Object> test1() {
 		log.info("## test1");
-		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 }
