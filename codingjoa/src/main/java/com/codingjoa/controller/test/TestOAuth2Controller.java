@@ -19,6 +19,8 @@ import org.springframework.web.client.RestTemplate;
 import com.codingjoa.response.SuccessResponse;
 import com.codingjoa.security.dto.KakaoMemberDto;
 import com.codingjoa.security.dto.KakaoTokenResponseDto;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -50,11 +52,19 @@ public class TestOAuth2Controller {
 		String accessToken = getKakaoToken(code);
 		log.info("\t > accessToken = {}", accessToken);
 		
-		Map<String, String> kakaoMember = getKakaoMember(accessToken);
-		log.info("\t > kakaoMember = {}", kakaoMember.keySet());
-		
 //		KakaoMemberDto kakaoMemberDto = getKakaoMember(accessToken);
 //		log.info("\t > kakaoMemberDto = {}", kakaoMemberDto);
+		String jsonKaKaoMember = getKakaoMember(accessToken);
+		log.info("\t > {}", jsonKaKaoMember);
+		
+		ObjectMapper objectMapper = new ObjectMapper();
+		try {
+			Object json = objectMapper.readValue(jsonKaKaoMember, Object.class);
+			String prettyStirng = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(json);
+			log.info("\t > {}", prettyStirng);
+		} catch (JsonProcessingException e) {
+			log.info("\t > {} : {}", e.getClass().getSimpleName(), e.getMessage());
+		}
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
@@ -94,8 +104,7 @@ public class TestOAuth2Controller {
 		return responseEntity.getBody().getAccessToken();
 	}
 	
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	private Map<String, String> getKakaoMember(String accessToken) throws URISyntaxException {
+	private String getKakaoMember(String accessToken) throws URISyntaxException {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add(HttpHeaders.CONTENT_TYPE, "application/x-www-form-urlencoded;charset=utf-8");
 		headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken);
@@ -106,7 +115,7 @@ public class TestOAuth2Controller {
 				.body(null);
 		
 		RestTemplate restTemplate = new RestTemplate();
-		ResponseEntity<Map> responseEntity = restTemplate.exchange(requestEntity, Map.class);
+		ResponseEntity<String> responseEntity = restTemplate.exchange(requestEntity, String.class);
 		
 		return responseEntity.getBody();
 	}
