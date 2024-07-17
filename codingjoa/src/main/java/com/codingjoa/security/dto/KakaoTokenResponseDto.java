@@ -18,7 +18,7 @@ import lombok.ToString;
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 //@NoArgsConstructor 	// requires a default constructor to deserialize an object
 //@JsonIgnoreProperties // already DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES enabled
-public class KakaoResponseDto {
+public class KakaoTokenResponseDto {
 
 	public String tokenType;
 	public String accessToken;

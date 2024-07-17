@@ -94,7 +94,6 @@ public class TestViewController {
 
 	@Value("${security.oauth2.kakao.auth-url}")
 	private String kakaoAuthUrl;
-	
 
 	@GetMapping("/oauth2")
 	public String oAuth2Main(Model model) {

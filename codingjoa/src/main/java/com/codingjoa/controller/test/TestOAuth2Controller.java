@@ -14,10 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import com.codingjoa.response.SuccessResponse;
-import com.codingjoa.security.dto.KakaoResponseDto;
+import com.codingjoa.security.dto.KakaoTokenResponseDto;
 
 import lombok.extern.slf4j.Slf4j;
 
+@SuppressWarnings("unused")
 @Slf4j
 @RequestMapping("/test/oauth2")
 @RestController
@@ -36,14 +37,20 @@ public class TestOAuth2Controller {
 	public ResponseEntity<Object> kakaoCallback(@RequestParam String code) {
 		log.info("## kakaoCallback");
 		
-		// get authorization code from kakao
-		log.info("\t > authorization code = {}", code);
+		// authorization code from kakao
+		log.info("\t > authorization code from kakao = {}", code);
 		
-		// header : conetent-type
+		// access token from kakao
+		String accessToken = getKakaoToken(code);
+		log.info("\t > accessToken = {}", accessToken);
+		
+		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
+	}
+	
+	private String getKakaoToken(String code) {
 		HttpHeaders header = new HttpHeaders();
 		header.add(HttpHeaders.CONTENT_TYPE, "application/x-www-form-urlencoded;charset=utf-8");
 		
-		// body : grant_type, client_id, redirect_uri, code
 		MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
 		body.add("grant_type", "authorization_code");
 		body.add("client_id", kakaoClientId);
@@ -57,17 +64,30 @@ public class TestOAuth2Controller {
 //				.queryParam("code", code)
 //				.build().toUri();
 		
-		// send a new request to receive access token
+//		Flux<KakaoTokenResponseDto> response = webClient.post()
+//        	.uri(uri)
+//        	.contentType(MediaType.APPLICATION_JSON)
+//        	.retrieve()
+//        	.bodyToFlux(KakaoTokenResponseDto.class);
+		
+		log.info("\t > to obtain an access token, send a new request"); 
 		RestTemplate restTemplate = new RestTemplate();
-		ResponseEntity<KakaoResponseDto> kakaoResponse = restTemplate.exchange(
+		ResponseEntity<KakaoTokenResponseDto> kakaoTokenResponse = restTemplate.exchange(
 				kakaoAccessTokenUrl, 
 				HttpMethod.POST, 
 				new HttpEntity<>(body, header), 
-				KakaoResponseDto.class
+				KakaoTokenResponseDto.class
 		);
-		log.info("\t > kakao response = {}", kakaoResponse.getBody());
 		
-		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
+		KakaoTokenResponseDto kakaoTokenResponseDto = kakaoTokenResponse.getBody();
+		log.info("\t > kakaoTokenResponseDto = {}", kakaoTokenResponse.getBody());
+		
+		return kakaoTokenResponseDto.getAccessToken();
 	}
+	
+	private String getKakaoUserInfo() {
+		return null;
+	}
+	
 
 }
