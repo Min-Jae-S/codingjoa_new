@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import com.codingjoa.response.SuccessResponse;
+import com.codingjoa.security.dto.KakaoResponseDto;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -58,13 +59,13 @@ public class TestOAuth2Controller {
 		
 		// send a new request to receive access token
 		RestTemplate restTemplate = new RestTemplate();
-		ResponseEntity<Object> response = restTemplate.exchange(
+		ResponseEntity<KakaoResponseDto> kakaoResponse = restTemplate.exchange(
 				kakaoAccessTokenUrl, 
 				HttpMethod.POST, 
 				new HttpEntity<>(body, header), 
-				Object.class
+				KakaoResponseDto.class
 		);
-		log.info("\t > response = {}", response);
+		log.info("\t > kakao response = {}", kakaoResponse);
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
