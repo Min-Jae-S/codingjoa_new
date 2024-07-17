@@ -43,13 +43,13 @@ public class JwtProvider {
 	 */
 
 	private final Key signingKey;
-	private final long VALIDITY_IN_MILLIS; // 1000 * 60 * 60 (1 hour)
+	private final long validityInMillis; // 1000 * 60 * 60 (1 hour)
 	private final UserDetailsService userDetailsService;
 	
 	public JwtProvider(@Value("${security.jwt.secret-key}") String secretKey, 
 			@Value("${security.jwt.validity-in-mills}") long validityInMillis, UserDetailsService userDetailsService) {
 		this.signingKey = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
-		this.VALIDITY_IN_MILLIS = validityInMillis;
+		this.validityInMillis = validityInMillis;
 		this.userDetailsService = userDetailsService;
 	}
 	
@@ -120,7 +120,7 @@ public class JwtProvider {
 	private Map<String, Object> createClaims(UserDetails userDetails, HttpServletRequest request) {
 		UserDetailsDto userDetailsDto = (UserDetailsDto) userDetails;
 		Date now = new Date(System.currentTimeMillis());
-		Date exp = new Date(now.getTime() + VALIDITY_IN_MILLIS);
+		Date exp = new Date(now.getTime() + validityInMillis);
 		
 		Claims claims = Jwts.claims()
 				.setSubject(userDetailsDto.getUsername())

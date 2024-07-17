@@ -47,16 +47,16 @@ public class TestJwtController {
 	 * 		- signature
 	 */
 	
-	private final String SECRET_KEY = "JsonWebTokenSecretKeyForJwtVerificationInSpringSecurityAndCodingjoa";
-	private final String INVALID_SECRET_KEY = "InvalidJsonWebTokenSecretKeyForJwtVerificationInSpringSecurityAndCodingjoa";
-	private final String USERNAME = "smj20228";
-	private final long VALIDITY_IN_MILLIS = 1800000; // 1000 * 60 * 30 (30 mins)
+	private final String secretKey = "JsonWebTokenSecretKeyForJwtVerificationInSpringSecurityAndCodingjoa";
+	private final String invalidSecretKey= "InvalidJsonWebTokenSecretKeyForJwtVerificationInSpringSecurityAndCodingjoa";
+	private final String username = "smj20228";
+	private final long validityInMillis = 1800000; // 1000 * 60 * 30 (30 mins)
 	private final Key signingKey; 
 	private final JwtProvider jwtProvider;
 	private final UserDetailsService userDetailsService;
 	
 	public TestJwtController(JwtProvider jwtProvider, UserDetailsService userDetailsService) {
-		this.signingKey = Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
+		this.signingKey = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
 		this.jwtProvider = jwtProvider;
 		this.userDetailsService = userDetailsService;
 	}
@@ -73,7 +73,7 @@ public class TestJwtController {
 	public ResponseEntity<Object> test2(HttpServletRequest request) {
 		log.info("## test2");
 
-		UserDetails userDetails = userDetailsService.loadUserByUsername(USERNAME);
+		UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 		Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 		
 		String jwt = jwtProvider.createJwt(authentication, request);
@@ -94,7 +94,7 @@ public class TestJwtController {
 	public ResponseEntity<Object> test3() {
 		log.info("## test3");
 		
-		UserDetails userDetails = userDetailsService.loadUserByUsername(USERNAME);
+		UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 		Map<String, Object> header = createHeader();
 		Map<String, Object> claims = createClaims(userDetails);
 		
@@ -103,7 +103,7 @@ public class TestJwtController {
 		String invalidKeyJwt = Jwts.builder()
 				.setHeader(header)
 				.setClaims(claims)
-				.signWith(createKey(INVALID_SECRET_KEY), SignatureAlgorithm.HS256)
+				.signWith(createKey(invalidSecretKey), SignatureAlgorithm.HS256)
 				.compact();
 		log.info("\t > result = {}", jwtProvider.isValidJwt(invalidKeyJwt)); 
 		
@@ -129,8 +129,8 @@ public class TestJwtController {
 		log.info("## validate multiple invalid JWT"); 
 		String multiInvalidJwt = Jwts.builder()
 				.setHeader(header)
-				.setExpiration(new Date(System.currentTimeMillis() - VALIDITY_IN_MILLIS))
-				.signWith(createKey(INVALID_SECRET_KEY), SignatureAlgorithm.HS256)
+				.setExpiration(new Date(System.currentTimeMillis() - validityInMillis))
+				.signWith(createKey(invalidSecretKey), SignatureAlgorithm.HS256)
 				.compact();
 		log.info("\t > result = {}", jwtProvider.isValidJwt(multiInvalidJwt));
 		
@@ -173,7 +173,7 @@ public class TestJwtController {
 		// no expiration : IllegalArgumentException
 		log.info("## validate no sub JWT");
 		String noSubJwt = Jwts.builder()
-				.setClaims(Map.of("exp", new Date(System.currentTimeMillis() + VALIDITY_IN_MILLIS)))
+				.setClaims(Map.of("exp", new Date(System.currentTimeMillis() + validityInMillis)))
 				.signWith(signingKey, SignatureAlgorithm.HS256)
 				.compact();
 		log.info("\t > result = {}", jwtProvider.isValidJwt(noSubJwt));
@@ -181,7 +181,7 @@ public class TestJwtController {
 		// expired : ExpiredJwtException
 		log.info("## validate expired JWT");
 		String expiredJwt = Jwts.builder()
-				.setClaims(Map.of("exp", new Date(System.currentTimeMillis() - VALIDITY_IN_MILLIS)))
+				.setClaims(Map.of("exp", new Date(System.currentTimeMillis() - validityInMillis)))
 				.signWith(signingKey, SignatureAlgorithm.HS256)
 				.compact();
 		log.info("\t > result = {}", jwtProvider.isValidJwt(expiredJwt));
@@ -208,7 +208,7 @@ public class TestJwtController {
 	@GetMapping("/create-jwt")
 	public ResponseEntity<Object> createJwt(HttpServletRequest request) {
 		log.info("## createJwt");
-		UserDetails userDetails = userDetailsService.loadUserByUsername(USERNAME);
+		UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 		Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 		
 		String jwt = jwtProvider.createJwt(authentication, request);
@@ -281,7 +281,7 @@ public class TestJwtController {
 	private Map<String, Object> createClaims(UserDetails userDetails) {
 		UserDetailsDto userDetailsDto = (UserDetailsDto) userDetails;
 		Date now = new Date(System.currentTimeMillis());
-		Date exp = new Date(now.getTime() + VALIDITY_IN_MILLIS);
+		Date exp = new Date(now.getTime() + validityInMillis);
 		
 		Claims claims = Jwts.claims()
 				.setSubject(userDetailsDto.getUsername())

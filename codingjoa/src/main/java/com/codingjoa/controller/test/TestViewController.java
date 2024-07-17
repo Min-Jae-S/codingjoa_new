@@ -1,5 +1,6 @@
 package com.codingjoa.controller.test;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -84,16 +85,22 @@ public class TestViewController {
 		return "test/cookie-session";
 	}
 	
-	private final String REST_API_KEY = "a4bfed5a0f06c18566476fdb677bd1b6";
-	private final String REDIRECT_URI = "http://localhost:8888/codingjoa/test/oauth2/code/kakao";
+	private final String kakaoClientId;
+	private final String kakaoRedirectUri;
+	
+	public TestViewController(@Value("${security.oauth2.kakao.client-id}") String kakaoClientId, 
+			@Value("${security.oauth2.kakao.redirect-uri}") String kakaoRedirectUri) {
+		this.kakaoClientId = kakaoClientId;
+		this.kakaoRedirectUri = kakaoRedirectUri;
+	}
 
 	@GetMapping("/oauth2")
 	public String oAuth2Main(Model model) {
 		log.info("## oAuth2 main");
-		log.info("\t > REST_API_KEY = {}", REST_API_KEY);
-		log.info("\t > REDIRECT_URI = {}", REDIRECT_URI);
-		model.addAttribute("REST_API_KEY", REST_API_KEY);
-		model.addAttribute("REDIRECT_URI", REDIRECT_URI);
+		log.info("\t > kakaoClientId = {}", kakaoClientId);
+		log.info("\t > kakaoRedirectUri = {}", kakaoRedirectUri);
+		model.addAttribute("kakaoClientId", kakaoClientId);
+		model.addAttribute("kakaoRedirectUri", kakaoRedirectUri);
 		return "test/oauth2";
 	}
 }
