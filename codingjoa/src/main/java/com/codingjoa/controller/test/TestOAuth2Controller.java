@@ -65,7 +65,7 @@ public class TestOAuth2Controller {
 				new HttpEntity<>(body, header), 
 				KakaoResponseDto.class
 		);
-		log.info("\t > kakao response = {}", kakaoResponse);
+		log.info("\t > kakao response = {}", kakaoResponse.getBody());
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}

@@ -106,9 +106,8 @@ public class TestViewController {
 				.queryParam("redirect_uri", kakaoRedirectUri)
 				.build()
 				.toString();
-		log.info("\t > kakaoLoginUrl = {}", kakaoLoginUrl);
-		
 		model.addAttribute("kakaoLoginUrl", kakaoLoginUrl);
+		
 		return "test/oauth2";
 	}
 }

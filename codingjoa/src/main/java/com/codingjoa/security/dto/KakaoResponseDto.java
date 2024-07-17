@@ -3,8 +3,11 @@ package com.codingjoa.security.dto;
 import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
 import lombok.Getter;
+import lombok.ToString;
 
 //    "token_type":"bearer",
 //    "access_token":"${ACCESS_TOKEN}",
@@ -13,23 +16,23 @@ import lombok.Getter;
 //    "refresh_token_expires_in":5184000,
 //    "scope":"account_email profile"
 
-@Getter
-//@NoArgsConstructor // for deserializing
-//@JsonIgnoreProperties
+@Getter 
+@ToString
+@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
+//@NoArgsConstructor 	// requires a default constructor to deserialize an object
+//@JsonIgnoreProperties // already DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES enabled
 public class KakaoResponseDto {
 
 	public String tokenType;
 	public String accessToken;
 	
-	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-	public LocalDateTime expiresIn;
+	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
+	public LocalDateTime expiresIn; // timezone issue, shape
 	
-	public String idToken;
+	public String refreshToken;
 	
-	public String refresh_token;
-	
-	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-	public LocalDateTime refresh_token_expires_in;
+	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
+	public LocalDateTime refreshTokenExpiresIn;
 	
 	public String scope;
 }
