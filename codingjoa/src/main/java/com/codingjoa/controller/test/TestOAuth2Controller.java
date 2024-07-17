@@ -1,9 +1,11 @@
 package com.codingjoa.controller.test;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
+import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -15,6 +17,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.codingjoa.response.SuccessResponse;
 import com.codingjoa.security.dto.KakaoTokenResponseDto;
+import com.codingjoa.security.dto.KakaoMemberDto;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -30,32 +33,42 @@ public class TestOAuth2Controller {
 	@Value("${security.oauth2.kakao.redirect-uri}")
 	private String kakaoRedirectUri;
 	
-	@Value("${security.oauth2.kakao.access-token-url}")
-	private String kakaoAccessTokenUrl;
+	@Value("${security.oauth2.kakao.token-url}")
+	private String kakaoTokenUrl;
+
+	@Value("${security.oauth2.kakao.member-url}")
+	private String kakaoMemberUrl;
 	
 	@GetMapping("/kakao/callback")
-	public ResponseEntity<Object> kakaoCallback(@RequestParam String code) {
+	public ResponseEntity<Object> kakaoCallback(@RequestParam String code) throws URISyntaxException {
 		log.info("## kakaoCallback");
 		
 		// authorization code from kakao
-		log.info("\t > authorization code from kakao = {}", code);
+		log.info("\t > authorization code = {}", code);
 		
-		// access token from kakao
 		String accessToken = getKakaoToken(code);
 		log.info("\t > accessToken = {}", accessToken);
+		
+		KakaoMemberDto kakaoMemberDto = getKakaoMember(accessToken);
+		log.info("\t > kakaoMemberDto = {}", kakaoMemberDto);
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 	
-	private String getKakaoToken(String code) {
-		HttpHeaders header = new HttpHeaders();
-		header.add(HttpHeaders.CONTENT_TYPE, "application/x-www-form-urlencoded;charset=utf-8");
+	private String getKakaoToken(String code) throws URISyntaxException {
+		HttpHeaders headers = new HttpHeaders();
+		headers.add(HttpHeaders.CONTENT_TYPE, "application/x-www-form-urlencoded;charset=utf-8");
 		
 		MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
 		body.add("grant_type", "authorization_code");
 		body.add("client_id", kakaoClientId);
 		body.add("redirect_uri", kakaoRedirectUri);
 		body.add("code", code);
+		
+		RequestEntity<MultiValueMap<String, String>> requestEntity = RequestEntity
+				.post(new URI(kakaoTokenUrl))
+				.headers(headers)
+				.body(body);
 		
 //		URI uri = UriComponentsBuilder.fromHttpUrl(kakaoAccessTokenUrl)
 //			.queryParam("grant_type", "authorization_code")
@@ -70,23 +83,27 @@ public class TestOAuth2Controller {
 //				.retrieve()
 //				.bodyToFlux(KakaoTokenResponseDto.class);
 		
-		log.info("\t > to obtain an access token, send a new request"); 
 		RestTemplate restTemplate = new RestTemplate();
-		ResponseEntity<KakaoTokenResponseDto> kakaoTokenResponse = restTemplate.exchange(
-				kakaoAccessTokenUrl, 
-				HttpMethod.POST, 
-				new HttpEntity<>(body, header), 
-				KakaoTokenResponseDto.class
-		);
+		ResponseEntity<KakaoTokenResponseDto> responseEntity = restTemplate.exchange(requestEntity, KakaoTokenResponseDto.class);
+		log.info("\t > KakaoTokenResponseDto = {}", responseEntity.getBody());
 		
-		KakaoTokenResponseDto kakaoTokenResponseDto = kakaoTokenResponse.getBody();
-		log.info("\t > kakaoTokenResponseDto = {}", kakaoTokenResponse.getBody());
-		
-		return kakaoTokenResponseDto.getAccessToken();
+		return responseEntity.getBody().getAccessToken();
 	}
 	
-	private String getKakaoUserInfo() {
-		return null;
+	private KakaoMemberDto getKakaoMember(String accessToken) throws URISyntaxException {
+		HttpHeaders headers = new HttpHeaders();
+		headers.add(HttpHeaders.CONTENT_TYPE, "application/x-www-form-urlencoded;charset=utf-8");
+		headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken);
+		
+		RequestEntity<Void> requestEntity = RequestEntity
+				.post(new URI(kakaoMemberUrl))
+				.headers(headers)
+				.body(null);
+		
+		RestTemplate restTemplate = new RestTemplate();
+		ResponseEntity<KakaoMemberDto> responseEntity = restTemplate.exchange(requestEntity, KakaoMemberDto.class);
+
+		return responseEntity.getBody();
 	}
 	
 
