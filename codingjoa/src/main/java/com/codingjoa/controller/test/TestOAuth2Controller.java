@@ -58,17 +58,17 @@ public class TestOAuth2Controller {
 		body.add("code", code);
 		
 //		URI uri = UriComponentsBuilder.fromHttpUrl(kakaoAccessTokenUrl)
-//				.queryParam("grant_type", "authorization_code")
-//				.queryParam("client_id", kakaoClientId)
-//				.queryParam("redirect_uri", kakaoRedirectUri)
-//				.queryParam("code", code)
-//				.build().toUri();
-		
+//			.queryParam("grant_type", "authorization_code")
+//			.queryParam("client_id", kakaoClientId)
+//			.queryParam("redirect_uri", kakaoRedirectUri)
+//			.queryParam("code", code)
+//			.build().toUri();
+
 //		Flux<KakaoTokenResponseDto> response = webClient.post()
-//        	.uri(uri)
-//        	.contentType(MediaType.APPLICATION_JSON)
-//        	.retrieve()
-//        	.bodyToFlux(KakaoTokenResponseDto.class);
+//				.uri(uri)
+//				.contentType(MediaType.APPLICATION_JSON)
+//				.retrieve()
+//				.bodyToFlux(KakaoTokenResponseDto.class);
 		
 		log.info("\t > to obtain an access token, send a new request"); 
 		RestTemplate restTemplate = new RestTemplate();
