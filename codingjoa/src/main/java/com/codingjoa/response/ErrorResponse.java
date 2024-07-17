@@ -23,7 +23,7 @@ public class ErrorResponse {
 	
 	private int status = HttpStatus.BAD_REQUEST.value();
 	private String message;
-	private List<ErrorDetails> details = new ArrayList<ErrorDetails>();
+	private List<ErrorDetails> details = new ArrayList<>();
 	
 	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
 	private LocalDateTime timestamp = LocalDateTime.now();

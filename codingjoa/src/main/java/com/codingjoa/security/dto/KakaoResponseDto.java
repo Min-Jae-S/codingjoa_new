@@ -2,8 +2,10 @@ package com.codingjoa.security.dto;
 
 import java.time.LocalDateTime;
 
+import com.codingjoa.deserializer.UnixTimestampDeserializer;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
 import lombok.Getter;
@@ -26,11 +28,13 @@ public class KakaoResponseDto {
 	public String tokenType;
 	public String accessToken;
 	
+	@JsonDeserialize(using= UnixTimestampDeserializer.class)
 	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
 	public LocalDateTime expiresIn; // timezone issue, shape
 	
 	public String refreshToken;
 	
+	@JsonDeserialize(using= UnixTimestampDeserializer.class)
 	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
 	public LocalDateTime refreshTokenExpiresIn;
 	
