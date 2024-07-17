@@ -16,13 +16,13 @@ import lombok.extern.slf4j.Slf4j;
 public class TestOAuth2Controller {
 	
 	@GetMapping("/code/kakao")
-	public ResponseEntity<Object> kakaoLogin(@RequestParam String code) {
-		log.info("## kakaoLogin");
+	public ResponseEntity<Object> getAuthorizationCode(@RequestParam String code) {
+		log.info("## getAuthorizationCode");
 		
 		// get authorization code from kakao
 		log.info("\t > authorization code = {}", code);
 		
-		// to receive a token, send a request
+		// to receive a token, send a new request
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
