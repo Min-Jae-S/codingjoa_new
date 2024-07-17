@@ -2,6 +2,7 @@ package com.codingjoa.controller.test;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
@@ -16,8 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import com.codingjoa.response.SuccessResponse;
-import com.codingjoa.security.dto.KakaoTokenResponseDto;
 import com.codingjoa.security.dto.KakaoMemberDto;
+import com.codingjoa.security.dto.KakaoTokenResponseDto;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -49,8 +50,11 @@ public class TestOAuth2Controller {
 		String accessToken = getKakaoToken(code);
 		log.info("\t > accessToken = {}", accessToken);
 		
-		KakaoMemberDto kakaoMemberDto = getKakaoMember(accessToken);
-		log.info("\t > kakaoMemberDto = {}", kakaoMemberDto);
+		Map<String, String> kakaoMember = getKakaoMember(accessToken);
+		log.info("\t > kakaoMember = {}", kakaoMember.keySet());
+		
+//		KakaoMemberDto kakaoMemberDto = getKakaoMember(accessToken);
+//		log.info("\t > kakaoMemberDto = {}", kakaoMemberDto);
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
@@ -90,7 +94,8 @@ public class TestOAuth2Controller {
 		return responseEntity.getBody().getAccessToken();
 	}
 	
-	private KakaoMemberDto getKakaoMember(String accessToken) throws URISyntaxException {
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	private Map<String, String> getKakaoMember(String accessToken) throws URISyntaxException {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add(HttpHeaders.CONTENT_TYPE, "application/x-www-form-urlencoded;charset=utf-8");
 		headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken);
@@ -101,10 +106,25 @@ public class TestOAuth2Controller {
 				.body(null);
 		
 		RestTemplate restTemplate = new RestTemplate();
-		ResponseEntity<KakaoMemberDto> responseEntity = restTemplate.exchange(requestEntity, KakaoMemberDto.class);
-
+		ResponseEntity<Map> responseEntity = restTemplate.exchange(requestEntity, Map.class);
+		
 		return responseEntity.getBody();
 	}
 	
+//	private KakaoMemberDto getKakaoMember(String accessToken) throws URISyntaxException {
+//		HttpHeaders headers = new HttpHeaders();
+//		headers.add(HttpHeaders.CONTENT_TYPE, "application/x-www-form-urlencoded;charset=utf-8");
+//		headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken);
+//		
+//		RequestEntity<Void> requestEntity = RequestEntity
+//				.post(new URI(kakaoMemberUrl))
+//				.headers(headers)
+//				.body(null);
+//		
+//		RestTemplate restTemplate = new RestTemplate();
+//		ResponseEntity<KakaoMemberDto> responseEntity = restTemplate.exchange(requestEntity, KakaoMemberDto.class);
+//		
+//		return responseEntity.getBody();
+//	}
 
 }
