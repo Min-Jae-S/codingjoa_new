@@ -44,7 +44,7 @@
 <div class="container my-5">
 	<p>oauth2.jsp</p>
 	<div class="test mt-5 mb-5 px-5">
-		<a href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${kakaoClientId}&redirect_uri=${kakaoRedirectUri}">
+		<a href="${kakaoLoginUrl}">
 			<img src="${contextPath}/resources/images/test/kakao_login_medium_narrow.png">
 		</a>
 	</div>

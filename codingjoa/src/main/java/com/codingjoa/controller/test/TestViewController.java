@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -85,22 +86,29 @@ public class TestViewController {
 		return "test/cookie-session";
 	}
 	
-	private final String kakaoClientId;
-	private final String kakaoRedirectUri;
+	@Value("${security.oauth2.kakao.client-id}")
+	private String kakaoClientId;
 	
-	public TestViewController(@Value("${security.oauth2.kakao.client-id}") String kakaoClientId, 
-			@Value("${security.oauth2.kakao.redirect-uri}") String kakaoRedirectUri) {
-		this.kakaoClientId = kakaoClientId;
-		this.kakaoRedirectUri = kakaoRedirectUri;
-	}
+	@Value("${security.oauth2.kakao.redirect-uri}")
+	private String kakaoRedirectUri;
+
+	@Value("${security.oauth2.kakao.auth-url}")
+	private String kakaoAuthUrl;
+	
 
 	@GetMapping("/oauth2")
 	public String oAuth2Main(Model model) {
 		log.info("## oAuth2 main");
-		log.info("\t > kakaoClientId = {}", kakaoClientId);
-		log.info("\t > kakaoRedirectUri = {}", kakaoRedirectUri);
-		model.addAttribute("kakaoClientId", kakaoClientId);
-		model.addAttribute("kakaoRedirectUri", kakaoRedirectUri);
+		
+		String kakaoLoginUrl = UriComponentsBuilder.fromHttpUrl(kakaoAuthUrl)
+				.queryParam("response_type", "code")
+				.queryParam("client_id", kakaoClientId)
+				.queryParam("redirect_uri", kakaoRedirectUri)
+				.build()
+				.toString();
+		log.info("\t > kakaoLoginUrl = {}", kakaoLoginUrl);
+		
+		model.addAttribute("kakaoLoginUrl", kakaoLoginUrl);
 		return "test/oauth2";
 	}
 }
