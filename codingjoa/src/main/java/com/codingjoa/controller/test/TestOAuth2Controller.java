@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import com.codingjoa.response.SuccessResponse;
-import com.codingjoa.security.dto.KakaoMemberDto;
+import com.codingjoa.security.dto.KakaoMemberResponseDto;
 import com.codingjoa.security.dto.KakaoTokenResponseDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -52,8 +52,8 @@ public class TestOAuth2Controller {
 		String accessToken = getKakaoToken(code);
 		log.info("\t > accessToken = {}", accessToken);
 		
-//		KakaoMemberDto kakaoMemberDto = getKakaoMember(accessToken);
-//		log.info("\t > kakaoMemberDto = {}", kakaoMemberDto);
+//		KakaoMemberResponseDto KakaoMemberResponseDto = getKakaoMember(accessToken);
+//		log.info("\t > kakaoMemberResponseDto = {}", kakaoMemberResponseDto);
 		
 		String jsonKaKaoMember = getKakaoMember(accessToken);
 		ObjectMapper objectMapper = new ObjectMapper();
@@ -119,7 +119,7 @@ public class TestOAuth2Controller {
 		return responseEntity.getBody();
 	}
 	
-//	private KakaoMemberDto getKakaoMember(String accessToken) throws URISyntaxException {
+//	private KakaoMemberResponseDto getKakaoMember(String accessToken) throws URISyntaxException {
 //		HttpHeaders headers = new HttpHeaders();
 //		headers.add(HttpHeaders.CONTENT_TYPE, "application/x-www-form-urlencoded;charset=utf-8");
 //		headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken);
@@ -130,7 +130,7 @@ public class TestOAuth2Controller {
 //				.body(null);
 //		
 //		RestTemplate restTemplate = new RestTemplate();
-//		ResponseEntity<KakaoMemberDto> responseEntity = restTemplate.exchange(requestEntity, KakaoMemberDto.class);
+//		ResponseEntity<KakaoMemberResponseDto> responseEntity = restTemplate.exchange(requestEntity, KakaoMemberResponseDto.class);
 //		
 //		return responseEntity.getBody();
 //	}
