@@ -20,11 +20,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import com.codingjoa.security.filter.JwtAuthenticationFilter;
-import com.codingjoa.security.filter.JwtAuthenticationMathcerFilter;
-import com.codingjoa.security.filter.LoginAuthenticationFilter;
+import com.codingjoa.security.filter.JwtFilter;
+import com.codingjoa.security.filter.JwtMathcerFilter;
+import com.codingjoa.security.filter.LoginFilter;
 import com.codingjoa.security.service.JwtProvider;
-import com.codingjoa.security.service.LoginAutenticationProvider;
+import com.codingjoa.security.service.LoginProvider;
 import com.codingjoa.security.service.LoginFailureHandler;
 import com.codingjoa.security.service.LoginSuccessHandler;
 
@@ -34,7 +34,7 @@ import com.codingjoa.security.service.LoginSuccessHandler;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
-	private LoginAutenticationProvider loginAutenticationProvider;
+	private LoginProvider loginProvider;
 	
 	@Autowired
 	private LoginSuccessHandler loginSuccessHandler;
@@ -105,8 +105,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.anyRequest().permitAll()
 			.and()
 			.formLogin().disable()
-			.addFilterBefore(loginAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
-			.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+			.addFilterBefore(loginFilter(), UsernamePasswordAuthenticationFilter.class)
+			.addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter.class)
 			.logout()
 				//.logoutUrl("/api/logout")
 				//.logoutRequestMatcher(new AntPathRequestMatcher("/api/logout", "POST"))
@@ -122,7 +122,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.authenticationProvider(loginAutenticationProvider);
+		auth.authenticationProvider(loginProvider);
 	}
 	
 	@Override
@@ -136,8 +136,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 
 	@Bean
-	public LoginAuthenticationFilter loginAuthenticationFilter() throws Exception {
-		LoginAuthenticationFilter filter = new LoginAuthenticationFilter();
+	public LoginFilter loginFilter() throws Exception {
+		LoginFilter filter = new LoginFilter();
 		// Error creating bean with name 'ajaxAuthenticationFilter' defined in com.codingjoa.security.config.SecurityConfig: 
 		// Invocation of init method failed; nested exception is java.lang.IllegalArgumentException: authenticationManager must be specified
 		filter.setAuthenticationManager(authenticationManagerBean());
@@ -147,8 +147,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 	
 	@Bean
-	public JwtAuthenticationFilter jwtAuthenticationFilter() throws Exception {
-		return new JwtAuthenticationFilter(jwtProvider);
+	public JwtFilter jwtFilter() throws Exception {
+		return new JwtFilter(jwtProvider);
 	}
 	
 	/*
@@ -180,8 +180,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	 */
 	
 	@Bean
-	public JwtAuthenticationMathcerFilter jwtAuthenticationMathcerFilter() throws Exception {
-		JwtAuthenticationMathcerFilter filter = new JwtAuthenticationMathcerFilter(jwtProvider);
+	public JwtMathcerFilter jwtMathcerFilter() throws Exception {
+		JwtMathcerFilter filter = new JwtMathcerFilter(jwtProvider);
 		filter.addIncludeMatchers("/member/account/**");
 		filter.addIncludeMatchers("/board/write", "/board/writeProc", "/board/modify", "/board/modifyProc", "/board/deleteProc");
 		filter.addIncludeMatchers(HttpMethod.POST, "/api/boards/*/likes", "/api/comments/*/likes");

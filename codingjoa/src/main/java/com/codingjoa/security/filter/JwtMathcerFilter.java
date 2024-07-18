@@ -24,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RequiredArgsConstructor
-public class JwtAuthenticationMathcerFilter extends OncePerRequestFilter {
+public class JwtMathcerFilter extends OncePerRequestFilter {
 	
 	private final JwtProvider jwtProvider;
 	private List<RequestMatcher> includeMatchers = new ArrayList<>();
