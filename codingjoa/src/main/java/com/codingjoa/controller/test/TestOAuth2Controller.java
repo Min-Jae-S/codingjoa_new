@@ -54,14 +54,13 @@ public class TestOAuth2Controller {
 		
 //		KakaoMemberDto kakaoMemberDto = getKakaoMember(accessToken);
 //		log.info("\t > kakaoMemberDto = {}", kakaoMemberDto);
-		String jsonKaKaoMember = getKakaoMember(accessToken);
-		log.info("\t > {}", jsonKaKaoMember);
 		
+		String jsonKaKaoMember = getKakaoMember(accessToken);
 		ObjectMapper objectMapper = new ObjectMapper();
 		try {
 			Object json = objectMapper.readValue(jsonKaKaoMember, Object.class);
 			String prettyStirng = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(json);
-			log.info("\t > {}", prettyStirng);
+			log.info("\t > jsonKaKaoMember = {}{}", System.lineSeparator(), prettyStirng);
 		} catch (JsonProcessingException e) {
 			log.info("\t > {} : {}", e.getClass().getSimpleName(), e.getMessage());
 		}
