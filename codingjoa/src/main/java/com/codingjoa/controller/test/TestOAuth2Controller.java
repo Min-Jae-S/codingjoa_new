@@ -66,7 +66,7 @@ public class TestOAuth2Controller {
 		
 		ResponseEntity<String> responseEntity1 = restTemplate.exchange(requestEntity1, String.class);
 		String jsonKakaoToken = responseEntity1.getBody();
-		log.info("## 1. obtain kakao access token : {}", JsonUtils.formatJson(jsonKakaoToken));
+		log.info("## 1. obtain kakao access token {}", JsonUtils.formatJson(jsonKakaoToken));
 		
 		KakaoResponseTokenDto kakaoResponseTokenDto = objectMapper.readValue(jsonKakaoToken, KakaoResponseTokenDto.class);
 		String accessToken = kakaoResponseTokenDto.getAccessToken();
@@ -83,7 +83,7 @@ public class TestOAuth2Controller {
 		
 		ResponseEntity<String> responseEntity2 = restTemplate.exchange(requestEntity2, String.class);
 		String jsonKakaoMember= responseEntity2.getBody();
-		log.info("## 2. obtain kakao member : {}", JsonUtils.formatJson(jsonKakaoMember));
+		log.info("## 2. obtain kakao member {}", JsonUtils.formatJson(jsonKakaoMember));
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
@@ -96,6 +96,7 @@ public class TestOAuth2Controller {
 		
 		// 1. obtain access token ( https://nid.naver.com/oauth2.0/token )
 		HttpHeaders headers1 = new HttpHeaders();
+		headers1.add(HttpHeaders.CONTENT_TYPE, "application/x-www-form-urlencoded;charset=utf-8");
 		
 		MultiValueMap<String, String> body1 = new LinkedMultiValueMap<>();
 		body1.add("grant_type", "authorization_code");
@@ -103,18 +104,19 @@ public class TestOAuth2Controller {
 		body1.add("client_secret", naverApi.getClientSecret());
 		body1.add("redirect_uri", naverApi.getRedirectUri());
 		body1.add("code", code);
-		//body1.add("state", state);
+		body1.add("state", state);
 		
 		RequestEntity<MultiValueMap<String, String>> requestEntity1 = RequestEntity
 				.post(new URI(naverApi.getTokenUrl()))
+				.headers(headers1)
 				.body(body1);
 		
 		ResponseEntity<String> responseEntity1 = restTemplate.exchange(requestEntity1, String.class);
 		String jsonNaverToken = responseEntity1.getBody();
-		log.info("\t > 1. obtain naver access token : {}", JsonUtils.formatJson(jsonNaverToken));
+		log.info("## 1. obtain naver access token {}", JsonUtils.formatJson(jsonNaverToken));
 		
 		// 2. obtain naver member ( https://openapi.naver.com/v1/nid/me )
-		log.info("\t > 2. obtain naver member");
+		log.info("## 2. obtain naver member");
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
