@@ -134,7 +134,7 @@ public class TestOAuth2Controller {
 				.build();
 		
 		ResponseEntity<String> responseEntity3 = restTemplate.exchange(requestEntity3, String.class);
-		String jsonNaverAddress= responseEntity2.getBody();
+		String jsonNaverAddress= responseEntity3.getBody();
 		log.info("## 3. obtain address {}", JsonUtils.formatJson(jsonNaverAddress));
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());

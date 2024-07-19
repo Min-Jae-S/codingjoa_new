@@ -14,8 +14,8 @@ import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.templatemode.TemplateMode;
 
-@Configuration
 @PropertySource("/WEB-INF/properties/mail.properties")
+@Configuration
 public class EmailConfig {
 	
 	@Autowired

@@ -12,9 +12,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
-@Configuration
-@MapperScan("com.codingjoa.mapper")
 @ComponentScan("com.codingjoa.repository")	// for TEST
+@MapperScan("com.codingjoa.mapper")
+@Configuration
 public class MybatisConfig {
 	
 	/*
