@@ -2,10 +2,8 @@ package com.codingjoa.controller.test;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
@@ -20,11 +18,11 @@ import org.springframework.web.client.RestTemplate;
 import com.codingjoa.response.SuccessResponse;
 import com.codingjoa.security.api.KakaoApi;
 import com.codingjoa.security.api.NaverApi;
-import com.codingjoa.security.dto.KakaoMemberResponseDto;
 import com.codingjoa.security.dto.KakaoTokenResponseDto;
 import com.codingjoa.security.dto.NaverTokenResponseDto;
-import com.fasterxml.jackson.core.JsonProcessingException;
+import com.codingjoa.util.JsonUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nimbusds.jose.shaded.gson.JsonParser;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -34,29 +32,58 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 public class TestOAuth2Controller {
 	
+	private final RestTemplate restTemplate = new RestTemplate();
+	private final ObjectMapper objectMapper = new ObjectMapper();
+
 	@Autowired
 	private KakaoApi kakaoApi;
 	
 	@Autowired
 	private NaverApi naverApi;
 	
+	
 	@GetMapping("/kakao/callback")
-	public ResponseEntity<Object> kakaoCallback(@RequestParam String code) throws URISyntaxException {
+	public ResponseEntity<Object> kakaoCallback(@RequestParam String code) throws Exception {
 		log.info("## kakaoCallback");
 		log.info("\t > authorization code = {}", code);
 		
-		String accessToken = getKakaoToken(code);
+		// 1. Obtain Access Token ( https://kauth.kakao.com/oauth/token )
+		HttpHeaders headers1 = new HttpHeaders();
+		headers1.add(HttpHeaders.CONTENT_TYPE, "application/x-www-form-urlencoded;charset=utf-8");
+		
+		MultiValueMap<String, String> body1 = new LinkedMultiValueMap<>();
+		body1.add("grant_type", "authorization_code");
+		body1.add("client_id", kakaoApi.getClientId());
+		body1.add("client_secret", kakaoApi.getClientSecret());
+		body1.add("redirect_uri", kakaoApi.getRedirectUri());
+		body1.add("code", code);
+		
+		RequestEntity<MultiValueMap<String, String>> requestEntity1 = RequestEntity
+				.post(new URI(naverApi.getTokenUrl()))
+				.headers(headers1)
+				.body(body1);
+		
+		ResponseEntity<String> responseEntity1 = restTemplate.exchange(requestEntity1, String.class);
+		String jsonKakaoToken = responseEntity1.getBody();
+		log.info("\t > jsonKakaoToken = {}", JsonUtils.formatJson(jsonKakaoToken));
+		
+		String accessToken = objectMapper.readTree(jsonKakaoToken).get("access_token").asText();
 		log.info("\t > accessToken = {}", accessToken);
 		
-		String jsonKaKaoMember = getKakaoMember(accessToken);
-		ObjectMapper objectMapper = new ObjectMapper();
-		try {
-			Object json = objectMapper.readValue(jsonKaKaoMember, Object.class);
-			String prettyStirng = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(json);
-			log.info("\t > jsonKaKaoMember = {}{}", System.lineSeparator(), prettyStirng);
-		} catch (JsonProcessingException e) {
-			log.info("\t > {} : {}", e.getClass().getSimpleName(), e.getMessage());
-		}
+		
+		// 2. Obtain Kakao Member Information ( https://kapi.kakao.com/v2/user/me )
+		HttpHeaders headers2 = new HttpHeaders();
+		headers2.add(HttpHeaders.CONTENT_TYPE, "application/x-www-form-urlencoded;charset=utf-8");
+		headers2.add(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken);
+		
+		RequestEntity<Void> requestEntity2 = RequestEntity
+				.post(new URI(kakaoApi.getMemberUrl()))
+				.headers(headers2)
+				.body(null);
+		
+		ResponseEntity<String> responseEntity2 = restTemplate.exchange(requestEntity2, String.class);
+		String jsonKakaoMember= responseEntity1.getBody();
+		log.info("\t > jsonKakaoMember = {}", JsonUtils.formatJson(jsonKakaoMember));
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
@@ -77,7 +104,6 @@ public class TestOAuth2Controller {
 				.post(new URI(naverApi.getTokenUrl()))
 				.body(body);
 		
-		RestTemplate restTemplate = new RestTemplate();
 		ResponseEntity<NaverTokenResponseDto> responseEntity = restTemplate.exchange(requestEntity, NaverTokenResponseDto.class);
 		log.info("\t > naverTokenResponseDto = {}", responseEntity.getBody());
 		
@@ -91,7 +117,7 @@ public class TestOAuth2Controller {
 		MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
 		body.add("grant_type", "authorization_code");
 		body.add("client_id", kakaoApi.getClientId());
-		//body.add("client_secret", kakaoApi.getClientSecret());
+		body.add("client_secret", kakaoApi.getClientSecret());
 		body.add("redirect_uri", kakaoApi.getRedirectUri());
 		body.add("code", code);
 		
@@ -113,7 +139,6 @@ public class TestOAuth2Controller {
 //				.retrieve()
 //				.bodyToFlux(KakaoTokenResponseDto.class);
 		
-		RestTemplate restTemplate = new RestTemplate();
 		ResponseEntity<KakaoTokenResponseDto> responseEntity = restTemplate.exchange(requestEntity, KakaoTokenResponseDto.class);
 		log.info("\t > kakaoTokenResponseDto = {}", responseEntity.getBody());
 		
@@ -130,7 +155,6 @@ public class TestOAuth2Controller {
 				.headers(headers)
 				.body(null);
 		
-		RestTemplate restTemplate = new RestTemplate();
 		ResponseEntity<String> responseEntity = restTemplate.exchange(requestEntity, String.class);
 		
 		return responseEntity.getBody();
@@ -150,7 +174,6 @@ public class TestOAuth2Controller {
 				.post(new URI(naverApi.getTokenUrl()))
 				.body(body);
 		
-		RestTemplate restTemplate = new RestTemplate();
 		ResponseEntity<KakaoTokenResponseDto> responseEntity = restTemplate.exchange(requestEntity, KakaoTokenResponseDto.class);
 		log.info("\t > naverTokenResponseDto = {}", responseEntity.getBody());
 		
