@@ -109,6 +109,7 @@ public class TestViewController {
 				.queryParam("response_type", "code")
 				.queryParam("client_id", kakaoApi.getClientId())
 				.queryParam("redirect_uri", kakaoApi.getRedirectUri())
+				.queryParam("prompt", "login") // re-authenticate the user regardless of previous login status
 				.build()
 				.toString();
 	}

@@ -127,6 +127,16 @@ public class TestOAuth2Controller {
 		String jsonNaverMember= responseEntity2.getBody();
 		log.info("## 2. obtain naver member {}", JsonUtils.formatJson(jsonNaverMember));
 		
+		// 3. obtain address ( https://openapi.naver.com/v1/nid/payaddress )
+		RequestEntity<Void> requestEntity3 = RequestEntity
+				.get(new URI(naverApi.getAddressUrl()))
+				.headers(headers2)
+				.build();
+		
+		ResponseEntity<String> responseEntity3 = restTemplate.exchange(requestEntity3, String.class);
+		String jsonNaverAddress= responseEntity2.getBody();
+		log.info("## 3. obtain address {}", JsonUtils.formatJson(jsonNaverAddress));
+		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 	

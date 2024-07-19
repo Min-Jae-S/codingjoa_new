@@ -26,5 +26,8 @@ public class NaverApi {
 	
 	@Value("${security.oauth2.naver.member-url}")
 	private String memberUrl;
+
+	@Value("${security.oauth2.naver.address-url}")
+	private String addressUrl;
 	
 }
