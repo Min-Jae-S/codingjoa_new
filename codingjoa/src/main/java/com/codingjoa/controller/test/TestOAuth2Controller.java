@@ -95,9 +95,6 @@ public class TestOAuth2Controller {
 		log.info("\t > state = {}", state);
 		
 		// 1. obtain access token ( https://nid.naver.com/oauth2.0/token )
-		HttpHeaders headers1 = new HttpHeaders();
-		headers1.add(HttpHeaders.CONTENT_TYPE, "application/x-www-form-urlencoded;charset=utf-8");
-		
 		MultiValueMap<String, String> body1 = new LinkedMultiValueMap<>();
 		body1.add("grant_type", "authorization_code");
 		body1.add("client_id", naverApi.getClientId());
@@ -108,7 +105,6 @@ public class TestOAuth2Controller {
 		
 		RequestEntity<MultiValueMap<String, String>> requestEntity1 = RequestEntity
 				.post(new URI(naverApi.getTokenUrl()))
-				.headers(headers1)
 				.body(body1);
 		
 		ResponseEntity<String> responseEntity1 = restTemplate.exchange(requestEntity1, String.class);
@@ -120,13 +116,12 @@ public class TestOAuth2Controller {
 		
 		// 2. obtain naver member ( https://openapi.naver.com/v1/nid/me )
 		HttpHeaders headers2 = new HttpHeaders();
-		headers2.add(HttpHeaders.CONTENT_TYPE, "application/x-www-form-urlencoded;charset=utf-8");
 		headers2.add(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken);
 		
 		RequestEntity<Void> requestEntity2 = RequestEntity
-				.post(new URI(naverApi.getMemberUrl()))
+				.get(new URI(naverApi.getMemberUrl()))
 				.headers(headers2)
-				.body(null);
+				.build();
 		
 		ResponseEntity<String> responseEntity2 = restTemplate.exchange(requestEntity2, String.class);
 		String jsonNaverMember= responseEntity2.getBody();
