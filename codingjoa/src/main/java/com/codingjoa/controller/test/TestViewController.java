@@ -118,7 +118,7 @@ public class TestViewController {
 		return UriComponentsBuilder.fromHttpUrl(naverApi.getAuthorizeUrl())
 				.queryParam("response_type", "code")
 				.queryParam("client_id", naverApi.getClientId())
-				.queryParam("state", "STATE_STRING")
+				.queryParam("state", "test")
 				.queryParam("redirect_uri", naverApi.getRedirectUri())
 				.build()
 				.toString();

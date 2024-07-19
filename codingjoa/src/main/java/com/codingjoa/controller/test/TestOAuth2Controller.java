@@ -2,6 +2,7 @@ package com.codingjoa.controller.test;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -20,14 +21,12 @@ import com.codingjoa.security.api.KakaoApi;
 import com.codingjoa.security.api.NaverApi;
 import com.codingjoa.security.dto.KakaoResponseMemberDto;
 import com.codingjoa.security.dto.KakaoResponseTokenDto;
-import com.codingjoa.security.dto.NaverResponseTokenDto;
 import com.codingjoa.util.JsonUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nimbusds.jose.shaded.gson.JsonParser;
 
 import lombok.extern.slf4j.Slf4j;
 
-@SuppressWarnings("unused")
+@SuppressWarnings({ "unused", "unchecked" })
 @Slf4j
 @RequestMapping("/test/oauth2")
 @RestController
@@ -68,8 +67,9 @@ public class TestOAuth2Controller {
 		String jsonKakaoToken = responseEntity1.getBody();
 		log.info("## 1. obtain kakao access token {}", JsonUtils.formatJson(jsonKakaoToken));
 		
-		KakaoResponseTokenDto kakaoResponseTokenDto = objectMapper.readValue(jsonKakaoToken, KakaoResponseTokenDto.class);
-		String accessToken = kakaoResponseTokenDto.getAccessToken();
+		
+		Map<String, String> map = objectMapper.readValue(jsonKakaoToken, Map.class);
+		String accessToken = map.get("access_token");
 		
 		// 2. obtain kakao member ( https://kapi.kakao.com/v2/user/me )
 		HttpHeaders headers2 = new HttpHeaders();
@@ -89,7 +89,7 @@ public class TestOAuth2Controller {
 	}
 	
 	@GetMapping("/naver/callback")
-	public ResponseEntity<Object> naverCallback(@RequestParam String code, @RequestParam String state) throws URISyntaxException {
+	public ResponseEntity<Object> naverCallback(@RequestParam String code, @RequestParam String state) throws Exception {
 		log.info("## naverCallback");
 		log.info("\t > authorization code = {}", code);
 		log.info("\t > state = {}", state);
@@ -115,8 +115,22 @@ public class TestOAuth2Controller {
 		String jsonNaverToken = responseEntity1.getBody();
 		log.info("## 1. obtain naver access token {}", JsonUtils.formatJson(jsonNaverToken));
 		
+		Map<String, String> map = objectMapper.readValue(jsonNaverToken, Map.class);
+		String accessToken = map.get("access_token");
+		
 		// 2. obtain naver member ( https://openapi.naver.com/v1/nid/me )
-		log.info("## 2. obtain naver member");
+		HttpHeaders headers2 = new HttpHeaders();
+		headers2.add(HttpHeaders.CONTENT_TYPE, "application/x-www-form-urlencoded;charset=utf-8");
+		headers2.add(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken);
+		
+		RequestEntity<Void> requestEntity2 = RequestEntity
+				.post(new URI(naverApi.getMemberUrl()))
+				.headers(headers2)
+				.body(null);
+		
+		ResponseEntity<String> responseEntity2 = restTemplate.exchange(requestEntity2, String.class);
+		String jsonNaverMember= responseEntity2.getBody();
+		log.info("## 2. obtain naver member {}", JsonUtils.formatJson(jsonNaverMember));
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
