@@ -16,7 +16,7 @@ import lombok.ToString;
 @ToString
 @Getter 
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
-public class NaverTokenResponseDto {
+public class NaverResponseTokenDto {
 
 	public String accessToken;
 	public String refreshToken;

@@ -37,6 +37,11 @@
 		font-size: 1rem;
 		font-weight: 400;
 	}
+	
+	.social-login-btn {
+		width: 183px;
+		height: 45px;
+	}
 </style>
 </head>
 <body>
@@ -45,10 +50,10 @@
 	<p>oauth2.jsp</p>
 	<div class="test mt-5 mb-5 px-5">
 		<a href="${kakaoLoginUrl}">
-			<img src="${contextPath}/resources/images/test/kakao_login_medium_narrow.png">
+			<img class="social-login-btn" src="${contextPath}/resources/images/test/kakao_login_medium_narrow.png">
 		</a>
 		<a href="${naverLoginUrl}">
-			<img src="${contextPath}/resources/images/test/kakao_login_medium_narrow.png">
+			<img class="social-login-btn" src="${contextPath}/resources/images/test/naver_login_medium_narrow.png">
 		</a>
 	</div>
 </div>

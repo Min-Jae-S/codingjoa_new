@@ -26,9 +26,8 @@ import lombok.ToString;
 @ToString
 @Getter
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
-public class KakaoMemberResponseDto {
+public class KakaoResponseMemberDto {
 
 	private Long id;
 	private LocalDateTime connectedAt;
-	
 }

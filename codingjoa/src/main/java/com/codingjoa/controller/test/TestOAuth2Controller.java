@@ -18,8 +18,9 @@ import org.springframework.web.client.RestTemplate;
 import com.codingjoa.response.SuccessResponse;
 import com.codingjoa.security.api.KakaoApi;
 import com.codingjoa.security.api.NaverApi;
-import com.codingjoa.security.dto.KakaoTokenResponseDto;
-import com.codingjoa.security.dto.NaverTokenResponseDto;
+import com.codingjoa.security.dto.KakaoResponseMemberDto;
+import com.codingjoa.security.dto.KakaoResponseTokenDto;
+import com.codingjoa.security.dto.NaverResponseTokenDto;
 import com.codingjoa.util.JsonUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nimbusds.jose.shaded.gson.JsonParser;
@@ -47,7 +48,7 @@ public class TestOAuth2Controller {
 		log.info("## kakaoCallback");
 		log.info("\t > authorization code = {}", code);
 		
-		// 1. Obtain Access Token ( https://kauth.kakao.com/oauth/token )
+		// 1. obtain access token ( https://kauth.kakao.com/oauth/token )
 		HttpHeaders headers1 = new HttpHeaders();
 		headers1.add(HttpHeaders.CONTENT_TYPE, "application/x-www-form-urlencoded;charset=utf-8");
 		
@@ -59,19 +60,18 @@ public class TestOAuth2Controller {
 		body1.add("code", code);
 		
 		RequestEntity<MultiValueMap<String, String>> requestEntity1 = RequestEntity
-				.post(new URI(naverApi.getTokenUrl()))
+				.post(new URI(kakaoApi.getTokenUrl()))
 				.headers(headers1)
 				.body(body1);
 		
 		ResponseEntity<String> responseEntity1 = restTemplate.exchange(requestEntity1, String.class);
 		String jsonKakaoToken = responseEntity1.getBody();
-		log.info("\t > jsonKakaoToken = {}", JsonUtils.formatJson(jsonKakaoToken));
+		log.info("## 1. obtain kakao access token : {}", JsonUtils.formatJson(jsonKakaoToken));
 		
-		String accessToken = objectMapper.readTree(jsonKakaoToken).get("access_token").asText();
-		log.info("\t > accessToken = {}", accessToken);
+		KakaoResponseTokenDto kakaoResponseTokenDto = objectMapper.readValue(jsonKakaoToken, KakaoResponseTokenDto.class);
+		String accessToken = kakaoResponseTokenDto.getAccessToken();
 		
-		
-		// 2. Obtain Kakao Member Information ( https://kapi.kakao.com/v2/user/me )
+		// 2. obtain kakao member ( https://kapi.kakao.com/v2/user/me )
 		HttpHeaders headers2 = new HttpHeaders();
 		headers2.add(HttpHeaders.CONTENT_TYPE, "application/x-www-form-urlencoded;charset=utf-8");
 		headers2.add(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken);
@@ -82,8 +82,8 @@ public class TestOAuth2Controller {
 				.body(null);
 		
 		ResponseEntity<String> responseEntity2 = restTemplate.exchange(requestEntity2, String.class);
-		String jsonKakaoMember= responseEntity1.getBody();
-		log.info("\t > jsonKakaoMember = {}", JsonUtils.formatJson(jsonKakaoMember));
+		String jsonKakaoMember= responseEntity2.getBody();
+		log.info("## 2. obtain kakao member : {}", JsonUtils.formatJson(jsonKakaoMember));
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
@@ -94,18 +94,27 @@ public class TestOAuth2Controller {
 		log.info("\t > authorization code = {}", code);
 		log.info("\t > state = {}", state);
 		
-		MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
-		body.add("grant_type", "authorization_code");
-		body.add("client_id", naverApi.getClientId());
-		body.add("redirect_uri", naverApi.getRedirectUri());
-		body.add("code", code);
+		// 1. obtain access token ( https://nid.naver.com/oauth2.0/token )
+		HttpHeaders headers1 = new HttpHeaders();
 		
-		RequestEntity<MultiValueMap<String, String>> requestEntity = RequestEntity
+		MultiValueMap<String, String> body1 = new LinkedMultiValueMap<>();
+		body1.add("grant_type", "authorization_code");
+		body1.add("client_id", naverApi.getClientId());
+		body1.add("client_secret", naverApi.getClientSecret());
+		body1.add("redirect_uri", naverApi.getRedirectUri());
+		body1.add("code", code);
+		//body1.add("state", state);
+		
+		RequestEntity<MultiValueMap<String, String>> requestEntity1 = RequestEntity
 				.post(new URI(naverApi.getTokenUrl()))
-				.body(body);
+				.body(body1);
 		
-		ResponseEntity<NaverTokenResponseDto> responseEntity = restTemplate.exchange(requestEntity, NaverTokenResponseDto.class);
-		log.info("\t > naverTokenResponseDto = {}", responseEntity.getBody());
+		ResponseEntity<String> responseEntity1 = restTemplate.exchange(requestEntity1, String.class);
+		String jsonNaverToken = responseEntity1.getBody();
+		log.info("\t > 1. obtain naver access token : {}", JsonUtils.formatJson(jsonNaverToken));
+		
+		// 2. obtain naver member ( https://openapi.naver.com/v1/nid/me )
+		log.info("\t > 2. obtain naver member");
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
@@ -139,13 +148,12 @@ public class TestOAuth2Controller {
 //				.retrieve()
 //				.bodyToFlux(KakaoTokenResponseDto.class);
 		
-		ResponseEntity<KakaoTokenResponseDto> responseEntity = restTemplate.exchange(requestEntity, KakaoTokenResponseDto.class);
-		log.info("\t > kakaoTokenResponseDto = {}", responseEntity.getBody());
+		ResponseEntity<KakaoResponseTokenDto> responseEntity = restTemplate.exchange(requestEntity, KakaoResponseTokenDto.class);
 		
 		return responseEntity.getBody().getAccessToken();
 	}
 	
-	private String getKakaoMember(String accessToken) throws URISyntaxException {
+	private KakaoResponseMemberDto getKakaoMember(String accessToken) throws URISyntaxException {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add(HttpHeaders.CONTENT_TYPE, "application/x-www-form-urlencoded;charset=utf-8");
 		headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken);
@@ -154,8 +162,7 @@ public class TestOAuth2Controller {
 				.post(new URI(kakaoApi.getMemberUrl()))
 				.headers(headers)
 				.body(null);
-		
-		ResponseEntity<String> responseEntity = restTemplate.exchange(requestEntity, String.class);
+		ResponseEntity<KakaoResponseMemberDto> responseEntity = restTemplate.exchange(requestEntity, KakaoResponseMemberDto.class);
 		
 		return responseEntity.getBody();
 	}
@@ -174,7 +181,7 @@ public class TestOAuth2Controller {
 				.post(new URI(naverApi.getTokenUrl()))
 				.body(body);
 		
-		ResponseEntity<KakaoTokenResponseDto> responseEntity = restTemplate.exchange(requestEntity, KakaoTokenResponseDto.class);
+		ResponseEntity<KakaoResponseTokenDto> responseEntity = restTemplate.exchange(requestEntity, KakaoResponseTokenDto.class);
 		log.info("\t > naverTokenResponseDto = {}", responseEntity.getBody());
 		
 		return responseEntity.getBody().getAccessToken();
