@@ -99,13 +99,13 @@ public class TestViewController {
 	public String oAuth2Main(Model model) {
 		log.info("## oAuth2 main");
 		model.addAttribute("kakaoLoginUrl", createKakaoLoginUrl());
-		//model.addAttribute("naverLoginUrl", createNaverLoginUrl());
+		model.addAttribute("naverLoginUrl", createNaverLoginUrl());
 		return "test/oauth2";
 	}
 	
 	private String createKakaoLoginUrl() {
 		// https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}
-		return UriComponentsBuilder.fromHttpUrl(kakaoApi.getAuthorizationUrl())
+		return UriComponentsBuilder.fromHttpUrl(kakaoApi.getAuthorizeUrl())
 				.queryParam("response_type", "code")
 				.queryParam("client_id", kakaoApi.getClientId())
 				.queryParam("redirect_uri", kakaoApi.getRedirectUri())
@@ -113,11 +113,12 @@ public class TestViewController {
 				.toString();
 	}
 	
-	@SuppressWarnings("unused")
 	private String createNaverLoginUrl() {
-		return UriComponentsBuilder.fromHttpUrl(naverApi.getAuthorizationUrl())
+		// https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=CLIENT_ID&state=STATE_STRING&redirect_uri=CALLBACK_URL
+		return UriComponentsBuilder.fromHttpUrl(naverApi.getAuthorizeUrl())
 				.queryParam("response_type", "code")
 				.queryParam("client_id", naverApi.getClientId())
+				.queryParam("state", "STATE_STRING")
 				.queryParam("redirect_uri", naverApi.getRedirectUri())
 				.build()
 				.toString();

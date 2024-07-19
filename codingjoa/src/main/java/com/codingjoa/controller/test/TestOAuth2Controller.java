@@ -19,8 +19,10 @@ import org.springframework.web.client.RestTemplate;
 
 import com.codingjoa.response.SuccessResponse;
 import com.codingjoa.security.api.KakaoApi;
+import com.codingjoa.security.api.NaverApi;
 import com.codingjoa.security.dto.KakaoMemberResponseDto;
 import com.codingjoa.security.dto.KakaoTokenResponseDto;
+import com.codingjoa.security.dto.NaverTokenResponseDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -35,18 +37,16 @@ public class TestOAuth2Controller {
 	@Autowired
 	private KakaoApi kakaoApi;
 	
+	@Autowired
+	private NaverApi naverApi;
+	
 	@GetMapping("/kakao/callback")
 	public ResponseEntity<Object> kakaoCallback(@RequestParam String code) throws URISyntaxException {
 		log.info("## kakaoCallback");
-		
-		// authorization code from kakao
 		log.info("\t > authorization code = {}", code);
 		
 		String accessToken = getKakaoToken(code);
 		log.info("\t > accessToken = {}", accessToken);
-		
-//		KakaoMemberResponseDto KakaoMemberResponseDto = getKakaoMember(accessToken);
-//		log.info("\t > kakaoMemberResponseDto = {}", kakaoMemberResponseDto);
 		
 		String jsonKaKaoMember = getKakaoMember(accessToken);
 		ObjectMapper objectMapper = new ObjectMapper();
@@ -61,6 +61,29 @@ public class TestOAuth2Controller {
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 	
+	@GetMapping("/naver/callback")
+	public ResponseEntity<Object> naverCallback(@RequestParam String code, @RequestParam String state) throws URISyntaxException {
+		log.info("## naverCallback");
+		log.info("\t > authorization code = {}", code);
+		log.info("\t > state = {}", state);
+		
+		MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
+		body.add("grant_type", "authorization_code");
+		body.add("client_id", naverApi.getClientId());
+		body.add("redirect_uri", naverApi.getRedirectUri());
+		body.add("code", code);
+		
+		RequestEntity<MultiValueMap<String, String>> requestEntity = RequestEntity
+				.post(new URI(naverApi.getTokenUrl()))
+				.body(body);
+		
+		RestTemplate restTemplate = new RestTemplate();
+		ResponseEntity<NaverTokenResponseDto> responseEntity = restTemplate.exchange(requestEntity, NaverTokenResponseDto.class);
+		log.info("\t > naverTokenResponseDto = {}", responseEntity.getBody());
+		
+		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
+	}
+	
 	private String getKakaoToken(String code) throws URISyntaxException {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add(HttpHeaders.CONTENT_TYPE, "application/x-www-form-urlencoded;charset=utf-8");
@@ -68,6 +91,7 @@ public class TestOAuth2Controller {
 		MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
 		body.add("grant_type", "authorization_code");
 		body.add("client_id", kakaoApi.getClientId());
+		//body.add("client_secret", kakaoApi.getClientSecret());
 		body.add("redirect_uri", kakaoApi.getRedirectUri());
 		body.add("code", code);
 		
@@ -91,7 +115,7 @@ public class TestOAuth2Controller {
 		
 		RestTemplate restTemplate = new RestTemplate();
 		ResponseEntity<KakaoTokenResponseDto> responseEntity = restTemplate.exchange(requestEntity, KakaoTokenResponseDto.class);
-		log.info("\t > KakaoTokenResponseDto = {}", responseEntity.getBody());
+		log.info("\t > kakaoTokenResponseDto = {}", responseEntity.getBody());
 		
 		return responseEntity.getBody().getAccessToken();
 	}
@@ -112,20 +136,26 @@ public class TestOAuth2Controller {
 		return responseEntity.getBody();
 	}
 	
-//	private KakaoMemberResponseDto getKakaoMember(String accessToken) throws URISyntaxException {
-//		HttpHeaders headers = new HttpHeaders();
-//		headers.add(HttpHeaders.CONTENT_TYPE, "application/x-www-form-urlencoded;charset=utf-8");
-//		headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken);
-//		
-//		RequestEntity<Void> requestEntity = RequestEntity
-//				.post(new URI(kakaoMemberUrl))
-//				.headers(headers)
-//				.body(null);
-//		
-//		RestTemplate restTemplate = new RestTemplate();
-//		ResponseEntity<KakaoMemberResponseDto> responseEntity = restTemplate.exchange(requestEntity, KakaoMemberResponseDto.class);
-//		
-//		return responseEntity.getBody();
-//	}
+	private String getNaverToken(String code) throws URISyntaxException {
+		HttpHeaders headers = new HttpHeaders();
+		headers.add(HttpHeaders.CONTENT_TYPE, "application/x-www-form-urlencoded;charset=utf-8");
+		
+		MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
+		body.add("grant_type", "authorization_code");
+		body.add("client_id", naverApi.getClientId());
+		body.add("redirect_uri", naverApi.getRedirectUri());
+		body.add("code", code);
+		
+		RequestEntity<MultiValueMap<String, String>> requestEntity = RequestEntity
+				.post(new URI(naverApi.getTokenUrl()))
+				.body(body);
+		
+		RestTemplate restTemplate = new RestTemplate();
+		ResponseEntity<KakaoTokenResponseDto> responseEntity = restTemplate.exchange(requestEntity, KakaoTokenResponseDto.class);
+		log.info("\t > naverTokenResponseDto = {}", responseEntity.getBody());
+		
+		return responseEntity.getBody().getAccessToken();
+	}
+	
 
 }

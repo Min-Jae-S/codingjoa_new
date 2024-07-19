@@ -47,6 +47,9 @@
 		<a href="${kakaoLoginUrl}">
 			<img src="${contextPath}/resources/images/test/kakao_login_medium_narrow.png">
 		</a>
+		<a href="${naverLoginUrl}">
+			<img src="${contextPath}/resources/images/test/kakao_login_medium_narrow.png">
+		</a>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>

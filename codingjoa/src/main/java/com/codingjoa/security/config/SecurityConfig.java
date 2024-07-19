@@ -31,6 +31,7 @@ import com.codingjoa.security.service.LoginSuccessHandler;
 @Configuration
 @EnableWebSecurity
 @ComponentScan("com.codingjoa.security.service")
+@ComponentScan("com.codingjoa.security.api")
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
