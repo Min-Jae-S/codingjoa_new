@@ -1,11 +1,14 @@
 package com.codingjoa.controller.test;
 
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import com.codingjoa.security.api.KakaoApi;
+import com.codingjoa.security.api.NaverApi;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -86,27 +89,37 @@ public class TestViewController {
 		return "test/cookie-session";
 	}
 	
-	@Value("${security.oauth2.kakao.client-id}")
-	private String kakaoClientId;
+	@Autowired
+	private KakaoApi kakaoApi;
 	
-	@Value("${security.oauth2.kakao.redirect-uri}")
-	private String kakaoRedirectUri;
-
-	@Value("${security.oauth2.kakao.auth-url}")
-	private String kakaoAuthUrl;
+	@Autowired
+	private NaverApi naverApi;
 
 	@GetMapping("/oauth2")
 	public String oAuth2Main(Model model) {
 		log.info("## oAuth2 main");
-		
-		String kakaoLoginUrl = UriComponentsBuilder.fromHttpUrl(kakaoAuthUrl)
+		model.addAttribute("kakaoLoginUrl", createKakaoLoginUrl());
+		//model.addAttribute("naverLoginUrl", createNaverLoginUrl());
+		return "test/oauth2";
+	}
+	
+	private String createKakaoLoginUrl() {
+		// https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}
+		return UriComponentsBuilder.fromHttpUrl(kakaoApi.getAuthorizationUrl())
 				.queryParam("response_type", "code")
-				.queryParam("client_id", kakaoClientId)
-				.queryParam("redirect_uri", kakaoRedirectUri)
+				.queryParam("client_id", kakaoApi.getClientId())
+				.queryParam("redirect_uri", kakaoApi.getRedirectUri())
 				.build()
 				.toString();
-		model.addAttribute("kakaoLoginUrl", kakaoLoginUrl);
-		
-		return "test/oauth2";
+	}
+	
+	@SuppressWarnings("unused")
+	private String createNaverLoginUrl() {
+		return UriComponentsBuilder.fromHttpUrl(naverApi.getAuthorizationUrl())
+				.queryParam("response_type", "code")
+				.queryParam("client_id", naverApi.getClientId())
+				.queryParam("redirect_uri", naverApi.getRedirectUri())
+				.build()
+				.toString();
 	}
 }

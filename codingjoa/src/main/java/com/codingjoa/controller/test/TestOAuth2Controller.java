@@ -4,6 +4,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.RequestEntity;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import com.codingjoa.response.SuccessResponse;
+import com.codingjoa.security.api.KakaoApi;
 import com.codingjoa.security.dto.KakaoMemberResponseDto;
 import com.codingjoa.security.dto.KakaoTokenResponseDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -30,17 +32,8 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 public class TestOAuth2Controller {
 	
-	@Value("${security.oauth2.kakao.client-id}")
-	private String kakaoClientId;
-
-	@Value("${security.oauth2.kakao.redirect-uri}")
-	private String kakaoRedirectUri;
-	
-	@Value("${security.oauth2.kakao.token-url}")
-	private String kakaoTokenUrl;
-
-	@Value("${security.oauth2.kakao.member-url}")
-	private String kakaoMemberUrl;
+	@Autowired
+	private KakaoApi kakaoApi;
 	
 	@GetMapping("/kakao/callback")
 	public ResponseEntity<Object> kakaoCallback(@RequestParam String code) throws URISyntaxException {
@@ -74,12 +67,12 @@ public class TestOAuth2Controller {
 		
 		MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
 		body.add("grant_type", "authorization_code");
-		body.add("client_id", kakaoClientId);
-		body.add("redirect_uri", kakaoRedirectUri);
+		body.add("client_id", kakaoApi.getClientId());
+		body.add("redirect_uri", kakaoApi.getRedirectUri());
 		body.add("code", code);
 		
 		RequestEntity<MultiValueMap<String, String>> requestEntity = RequestEntity
-				.post(new URI(kakaoTokenUrl))
+				.post(new URI(kakaoApi.getTokenUrl()))
 				.headers(headers)
 				.body(body);
 		
@@ -109,7 +102,7 @@ public class TestOAuth2Controller {
 		headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken);
 		
 		RequestEntity<Void> requestEntity = RequestEntity
-				.post(new URI(kakaoMemberUrl))
+				.post(new URI(kakaoApi.getMemberUrl()))
 				.headers(headers)
 				.body(null);
 		
