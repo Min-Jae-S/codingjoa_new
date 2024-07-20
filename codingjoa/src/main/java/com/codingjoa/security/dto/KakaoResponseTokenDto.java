@@ -1,7 +1,7 @@
 package com.codingjoa.security.dto;
 
-import com.fasterxml.jackson.databind.PropertyNamingStrategy;
-import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Getter;
 import lombok.ToString;
@@ -17,16 +17,27 @@ import lombok.ToString;
 
 @ToString
 @Getter 
-@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
+//@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 //@NoArgsConstructor // requires a default constructor to deserialize an object
-//@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class KakaoResponseTokenDto {
 
+	@JsonProperty("token_type")
 	public String tokenType;
+	
+	@JsonProperty("access_token")
 	public String accessToken;
-	public Integer expiresIn; 
+	
+	@JsonProperty("expires_in")
+	public Integer expiresIn;
+	
+	@JsonProperty("refresh_token")
 	public String refreshToken;
+	
+	@JsonProperty("refresh_token_expires_in")
 	public Integer refreshTokenExpiresIn;
+	
+	@JsonProperty("scope")
 	public String scope;
 	
 }

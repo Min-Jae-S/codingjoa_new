@@ -66,22 +66,32 @@ public class ApiService {
 		return response.getBody().getAccessToken();
 	}
 	
-	public KakaoResponseMemberDto getKakaoMember(String accessToken) {
+	public KakaoResponseMemberDto getKakaoMember(String accessToken) throws Exception {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add(HttpHeaders.CONTENT_TYPE, "application/x-www-form-urlencoded;charset=utf-8");
 		headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken);
 		
 		HttpEntity<Void> request = new HttpEntity<>(headers);
 		
-		ResponseEntity<KakaoResponseMemberDto> response = restTemplate.exchange(
+//		ResponseEntity<KakaoResponseMemberDto> response = restTemplate.exchange(
+//				kakaoApi.getMemberUrl(),
+//				HttpMethod.POST,
+//				request, 
+//				KakaoResponseMemberDto.class
+//		);
+//		
+//		return response.getBody();
+		
+		ResponseEntity<String> response = restTemplate.exchange(
 				kakaoApi.getMemberUrl(),
 				HttpMethod.POST,
 				request, 
-				KakaoResponseMemberDto.class
+				String.class
 		);
 		log.info("## obtain kakao member {}", JsonUtils.formatJson(response.getBody()));
 		
-		return response.getBody();
+		return objectMapper.readValue(response.getBody(), KakaoResponseMemberDto.class);
+		
 	}
 
 	public String getNaverAccessToken(String code, String state) {

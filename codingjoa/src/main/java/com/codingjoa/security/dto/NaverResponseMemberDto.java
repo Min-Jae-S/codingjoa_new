@@ -1,7 +1,7 @@
 package com.codingjoa.security.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
 import lombok.Getter;
 import lombok.ToString;
@@ -23,16 +23,10 @@ import lombok.ToString;
 
 @ToString
 @Getter
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class KakaoResponseMemberDto {
+@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
+public class NaverResponseMemberDto {
 
-	@JsonProperty("id")
 	private Long id;
-	
-	@JsonProperty("connected_at")
 	private String connectedAt;
-	
-	@JsonProperty("properties.nickname")
-	private String nickname;
 	
 }
