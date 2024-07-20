@@ -70,9 +70,6 @@ public class TestOAuth2Controller {
 		// 2. obtain member ( https://openapi.naver.com/v1/nid/me )
 		Map<String, String> naverMember = apiService.getNaverMember(accessToken);
 		
-		// 3. obtain address ( https://openapi.naver.com/v1/nid/payaddress )
-		Map<String, String> naverAddress = apiService.getNaverAddress(accessToken);
-		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 	

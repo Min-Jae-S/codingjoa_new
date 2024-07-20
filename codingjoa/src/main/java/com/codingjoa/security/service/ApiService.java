@@ -128,23 +128,4 @@ public class ApiService {
 		return objectMapper.readValue(jsonNaverMember, Map.class);
 	}
 	
-	public Map<String, String> getNaverAddress(String accessToken) throws Exception {
-		HttpHeaders headers = new HttpHeaders();
-		headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken);
-		
-		HttpEntity<Void> request = new HttpEntity<>(headers);
-		
-		ResponseEntity<String> response = restTemplate.exchange(
-				naverApi.getAddressUrl(),
-				HttpMethod.GET,
-				request, 
-				String.class
-		);
-		
-		String jsonNaverAddress= response.getBody();
-		log.info("## obtain naver address {}", JsonUtils.formatJson(jsonNaverAddress));
-		
-		return objectMapper.readValue(jsonNaverAddress, Map.class);
-	}
-
 }
