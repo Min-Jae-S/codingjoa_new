@@ -86,6 +86,7 @@ public class ApiService {
 
 	public String getNaverAccessToken(String code, String state) {
 		HttpHeaders headers = new HttpHeaders();
+		headers.add(HttpHeaders.CONTENT_TYPE, "application/x-www-form-urlencoded;charset=utf-8");
 		
 		MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
 		body.add("grant_type", "authorization_code");
@@ -95,8 +96,7 @@ public class ApiService {
 		body.add("code", code);
 		body.add("state", state);
 		
-		HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(headers, body);
-		log.info("\t > [header] content-type = {}", request.getHeaders().getContentType());
+		HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(body, headers);
 		
 		ResponseEntity<NaverResponseTokenDto> response = restTemplate.exchange(
 				naverApi.getTokenUrl(),
