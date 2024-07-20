@@ -36,7 +36,7 @@ public class KakaoResponseMemberDto {
 	private String nickname;
 	
 	@JsonProperty("kakao_account")
-	private void unpackNickname(JsonNode kakaoAccount) {
+	private void unpackKakaoAccount(JsonNode kakaoAccount) {
 		this.nickname = kakaoAccount.path("profile").path("nickname").asText();
 	}
 	

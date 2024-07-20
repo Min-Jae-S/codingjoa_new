@@ -1,40 +1,30 @@
 package com.codingjoa.security.service;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import com.codingjoa.security.api.KakaoApi;
 import com.codingjoa.security.api.NaverApi;
 import com.codingjoa.security.dto.KakaoResponseMemberDto;
 import com.codingjoa.security.dto.KakaoResponseTokenDto;
+import com.codingjoa.security.dto.NaverResponseMemberDto;
 import com.codingjoa.security.dto.NaverResponseTokenDto;
 import com.codingjoa.util.JsonUtils;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.extern.slf4j.Slf4j;
 
-@SuppressWarnings({ "unused", "unchecked" })
 @Slf4j
 @Service
 public class ApiService {
 	
 	private final RestTemplate restTemplate = new RestTemplate();
-	private final ObjectMapper objectMapper = new ObjectMapper();
 	
 	@Autowired
 	private KakaoApi kakaoApi;
@@ -61,12 +51,12 @@ public class ApiService {
 				request, 
 				KakaoResponseTokenDto.class
 		);
-		log.info("## obtain access token {}", JsonUtils.formatJson(response.getBody()));
+		log.info("## obtain accessToken {}", JsonUtils.formatJson(response.getBody()));
 		
 		return response.getBody().getAccessToken();
 	}
 	
-	public KakaoResponseMemberDto getKakaoMember(String accessToken) throws Exception {
+	public KakaoResponseMemberDto getKakaoMember(String accessToken) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add(HttpHeaders.CONTENT_TYPE, "application/x-www-form-urlencoded;charset=utf-8");
 		headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken);
@@ -79,7 +69,7 @@ public class ApiService {
 				request, 
 				KakaoResponseMemberDto.class
 		);
-		log.info("## obtain kakao member {}", JsonUtils.formatJson(response.getBody()));
+		log.info("## obtain kakaoMember {}", JsonUtils.formatJson(response.getBody()));
 		
 		return response.getBody();
 	}
@@ -104,28 +94,26 @@ public class ApiService {
 				request, 
 				NaverResponseTokenDto.class
 		);
-		log.info("## obtain access token {}", JsonUtils.formatJson(response.getBody()));
+		log.info("## obtain accessToken {}", JsonUtils.formatJson(response.getBody()));
 		
 		return response.getBody().getAccessToken();
 	}
 	
-	public Map<String, String> getNaverMember(String accessToken) throws Exception {
+	public NaverResponseMemberDto getNaverMember(String accessToken) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken);
 		
 		HttpEntity<Void> request = new HttpEntity<>(headers);
 		
-		ResponseEntity<String> response = restTemplate.exchange(
+		ResponseEntity<NaverResponseMemberDto> response = restTemplate.exchange(
 				naverApi.getMemberUrl(),
 				HttpMethod.GET,
 				request, 
-				String.class
+				NaverResponseMemberDto.class
 		);
+		log.info("## obtain naverMember {}", JsonUtils.formatJson(response.getBody()));
 		
-		String jsonNaverMember= response.getBody();
-		log.info("## obtain naver member {}", JsonUtils.formatJson(jsonNaverMember));
-		
-		return objectMapper.readValue(jsonNaverMember, Map.class);
+		return response.getBody();
 	}
 	
 }
