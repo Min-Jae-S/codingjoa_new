@@ -53,18 +53,9 @@ public class ApiService {
 				.headers(headers)
 				.body(body);
 		
-		String jsonKakaoToken = null;
-		try {
-			ResponseEntity<String> response = restTemplate.exchange(request, String.class);
-			jsonKakaoToken = response.getBody();
-			log.info("## 1. obtain access token {}", JsonUtils.formatJson(jsonKakaoToken));
-		} catch (HttpClientErrorException e) {
-			// org.springframework.web.client.HttpClientErrorException$Unauthorized: 401 Unauthorized: [no body]
-			log.info("\t > status code = {}", e.getStatusCode());
-			log.info("\t > response body = {}", e.getResponseBodyAsString());
-			log.info("\t > status text = {}", e.getStatusText());
-			log.info("\t > headers = {}", e.getResponseHeaders());
-		}
+		ResponseEntity<String> response = restTemplate.exchange(request, String.class);
+		String jsonKakaoToken = response.getBody();
+		log.info("## 1. obtain access token {}", JsonUtils.formatJson(jsonKakaoToken));
 		
 		return (String) objectMapper.readValue(jsonKakaoToken, Map.class).get("access_token");
 	}
