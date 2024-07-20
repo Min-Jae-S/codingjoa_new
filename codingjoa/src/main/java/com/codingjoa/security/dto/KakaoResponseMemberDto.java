@@ -2,6 +2,7 @@ package com.codingjoa.security.dto;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
@@ -29,5 +30,7 @@ import lombok.ToString;
 public class KakaoResponseMemberDto {
 
 	private Long id;
+	
+	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
 	private LocalDateTime connectedAt;
 }

@@ -5,7 +5,9 @@ import java.net.URISyntaxException;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.codingjoa.security.api.KakaoApi;
 import com.codingjoa.security.api.NaverApi;
+import com.codingjoa.security.dto.KakaoResponseMemberDto;
 import com.codingjoa.security.dto.KakaoResponseTokenDto;
 import com.codingjoa.security.dto.NaverResponseTokenDto;
 import com.codingjoa.util.JsonUtils;
@@ -39,7 +42,7 @@ public class ApiService {
 	@Autowired
 	private NaverApi naverApi;
 	
-	public String getKakaoAccessToken(String code) throws Exception {
+	public String getKakaoAccessToken(String code) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add(HttpHeaders.CONTENT_TYPE, "application/x-www-form-urlencoded;charset=utf-8");
 		
@@ -50,35 +53,40 @@ public class ApiService {
 		body.add("redirect_uri", kakaoApi.getRedirectUri());
 		body.add("code", code);
 		
-		RequestEntity<MultiValueMap<String, String>> request = RequestEntity
-				.post(new URI(kakaoApi.getTokenUrl()))
-				.headers(headers)
-				.body(body);
+		HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(body, headers);
 		
-		ResponseEntity<KakaoResponseTokenDto> response = restTemplate.exchange(request, KakaoResponseTokenDto.class);
-		log.info("## 1. obtain access token {}", JsonUtils.formatJson(response.getBody()));
+		ResponseEntity<KakaoResponseTokenDto> response = restTemplate.exchange(
+				kakaoApi.getTokenUrl(),
+				HttpMethod.POST,
+				request, 
+				KakaoResponseTokenDto.class
+		);
+		log.info("## obtain access token {}", JsonUtils.formatJson(response.getBody()));
 		
 		return response.getBody().getAccessToken();
 	}
 	
-	public Map<String, String> getKakaoMember(String accessToken) throws Exception {
+	public KakaoResponseMemberDto getKakaoMember(String accessToken) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add(HttpHeaders.CONTENT_TYPE, "application/x-www-form-urlencoded;charset=utf-8");
 		headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken);
 		
-		RequestEntity<Void> request = RequestEntity
-				.post(new URI(kakaoApi.getMemberUrl()))
-				.headers(headers)
-				.build();
+		HttpEntity<Void> request = new HttpEntity<>(headers);
 		
-		ResponseEntity<String> response = restTemplate.exchange(request, String.class);
-		String jsonKakaoMember= response.getBody();
-		log.info("## 2. obtain member {}", JsonUtils.formatJson(jsonKakaoMember));
+		ResponseEntity<KakaoResponseMemberDto> response = restTemplate.exchange(
+				kakaoApi.getMemberUrl(),
+				HttpMethod.POST,
+				request, 
+				KakaoResponseMemberDto.class
+		);
+		log.info("## obtain kakao member {}", JsonUtils.formatJson(response.getBody()));
 		
-		return objectMapper.readValue(jsonKakaoMember, Map.class);
+		return response.getBody();
 	}
 
-	public String getNaverAccessToken(String code, String state) throws Exception {
+	public String getNaverAccessToken(String code, String state) {
+		HttpHeaders headers = new HttpHeaders();
+		
 		MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
 		body.add("grant_type", "authorization_code");
 		body.add("client_id", naverApi.getClientId());
@@ -87,12 +95,16 @@ public class ApiService {
 		body.add("code", code);
 		body.add("state", state);
 		
-		RequestEntity<MultiValueMap<String, String>> request = RequestEntity
-				.post(new URI(naverApi.getTokenUrl()))
-				.body(body);
+		HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(headers, body);
+		log.info("\t > [header] content-type = {}", request.getHeaders().getContentType());
 		
-		ResponseEntity<NaverResponseTokenDto> response = restTemplate.exchange(request, NaverResponseTokenDto.class);
-		log.info("## 1. obtain access token {}", JsonUtils.formatJson(response.getBody()));
+		ResponseEntity<NaverResponseTokenDto> response = restTemplate.exchange(
+				naverApi.getTokenUrl(),
+				HttpMethod.POST,
+				request, 
+				NaverResponseTokenDto.class
+		);
+		log.info("## obtain access token {}", JsonUtils.formatJson(response.getBody()));
 		
 		return response.getBody().getAccessToken();
 	}
@@ -101,14 +113,17 @@ public class ApiService {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken);
 		
-		RequestEntity<Void> request = RequestEntity
-				.get(new URI(naverApi.getMemberUrl()))
-				.headers(headers)
-				.build();
+		HttpEntity<Void> request = new HttpEntity<>(headers);
 		
-		ResponseEntity<String> response = restTemplate.exchange(request, String.class);
+		ResponseEntity<String> response = restTemplate.exchange(
+				naverApi.getMemberUrl(),
+				HttpMethod.GET,
+				request, 
+				String.class
+		);
+		
 		String jsonNaverMember= response.getBody();
-		log.info("## 2. obtain member {}", JsonUtils.formatJson(jsonNaverMember));
+		log.info("## obtain naver member {}", JsonUtils.formatJson(jsonNaverMember));
 		
 		return objectMapper.readValue(jsonNaverMember, Map.class);
 	}
@@ -117,14 +132,17 @@ public class ApiService {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken);
 		
-		RequestEntity<Void> request = RequestEntity
-				.get(new URI(naverApi.getAddressUrl()))
-				.headers(headers)
-				.build();
+		HttpEntity<Void> request = new HttpEntity<>(headers);
 		
-		ResponseEntity<String> response = restTemplate.exchange(request, String.class);
+		ResponseEntity<String> response = restTemplate.exchange(
+				naverApi.getAddressUrl(),
+				HttpMethod.GET,
+				request, 
+				String.class
+		);
+		
 		String jsonNaverAddress= response.getBody();
-		log.info("## 3. obtain address {}", JsonUtils.formatJson(jsonNaverAddress));
+		log.info("## obtain naver address {}", JsonUtils.formatJson(jsonNaverAddress));
 		
 		return objectMapper.readValue(jsonNaverAddress, Map.class);
 	}

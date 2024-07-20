@@ -53,7 +53,7 @@ public class TestOAuth2Controller {
 		String accessToken = apiService.getKakaoAccessToken(code);
 		
 		// 2. obtain member ( https://kapi.kakao.com/v2/user/me )
-		Map<String, String> kakaoMember = apiService.getKakaoMember(accessToken);
+		KakaoResponseMemberDto kakaoMember = apiService.getKakaoMember(accessToken);
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
