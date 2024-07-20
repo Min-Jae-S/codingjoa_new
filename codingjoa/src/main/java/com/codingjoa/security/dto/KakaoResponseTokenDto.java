@@ -6,17 +6,20 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Getter;
 import lombok.ToString;
 
-//    "token_type":"bearer",
-//    "access_token":"${ACCESS_TOKEN}",
-//    "expires_in":43199,
-//    "refresh_token":"${REFRESH_TOKEN}",
-//    "refresh_token_expires_in":5184000,
-//    "scope":"account_email profile"
+//	{
+//	  "token_type" : "bearer",
+//	  "access_token" : "${ACCESS_TOKEN}",
+//	  "expires_in" : 21599,
+//	  "refresh_token" : "${REFRESH_TOKEN}",
+//	  "refresh_token_expires_in" : 5183999,
+//	  "scope" : "profile_image profile_nickname"
+//	}
 
 @ToString
 @Getter 
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
-//@NoArgsConstructor 	// requires a default constructor to deserialize an object
+//@NoArgsConstructor // requires a default constructor to deserialize an object
+//@JsonIgnoreProperties(ignoreUnknown = true)
 public class KakaoResponseTokenDto {
 
 	public String tokenType;

@@ -16,6 +16,8 @@ import org.springframework.web.client.RestTemplate;
 
 import com.codingjoa.security.api.KakaoApi;
 import com.codingjoa.security.api.NaverApi;
+import com.codingjoa.security.dto.KakaoResponseTokenDto;
+import com.codingjoa.security.dto.NaverResponseTokenDto;
 import com.codingjoa.util.JsonUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -53,11 +55,10 @@ public class ApiService {
 				.headers(headers)
 				.body(body);
 		
-		ResponseEntity<String> response = restTemplate.exchange(request, String.class);
-		String jsonKakaoToken = response.getBody();
-		log.info("## 1. obtain access token {}", JsonUtils.formatJson(jsonKakaoToken));
+		ResponseEntity<KakaoResponseTokenDto> response = restTemplate.exchange(request, KakaoResponseTokenDto.class);
+		log.info("## 1. obtain access token {}", JsonUtils.formatJson(response.getBody()));
 		
-		return (String) objectMapper.readValue(jsonKakaoToken, Map.class).get("access_token");
+		return response.getBody().getAccessToken();
 	}
 	
 	public Map<String, String> getKakaoMember(String accessToken) throws Exception {
@@ -90,11 +91,10 @@ public class ApiService {
 				.post(new URI(naverApi.getTokenUrl()))
 				.body(body);
 		
-		ResponseEntity<String> response = restTemplate.exchange(request, String.class);
-		String jsonNaverToken = response.getBody();
-		log.info("## 1. obtain access token {}", JsonUtils.formatJson(jsonNaverToken));
+		ResponseEntity<NaverResponseTokenDto> response = restTemplate.exchange(request, NaverResponseTokenDto.class);
+		log.info("## 1. obtain access token {}", JsonUtils.formatJson(response.getBody()));
 		
-		return (String) objectMapper.readValue(jsonNaverToken, Map.class).get("access_token");
+		return response.getBody().getAccessToken();
 	}
 	
 	public Map<String, String> getNaverMember(String accessToken) throws Exception {
