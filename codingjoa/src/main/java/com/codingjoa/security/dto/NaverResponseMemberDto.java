@@ -1,7 +1,7 @@
 package com.codingjoa.security.dto;
 
-import com.fasterxml.jackson.databind.PropertyNamingStrategy;
-import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.JsonNode;
 
 import lombok.Getter;
 import lombok.ToString;
@@ -23,10 +23,19 @@ import lombok.ToString;
 
 @ToString
 @Getter
-@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class NaverResponseMemberDto {
-
+	
+	@JsonProperty("id")
 	private Long id;
+	
+	@JsonProperty("connected_at")
 	private String connectedAt;
+	
+	private String nickname;
+	
+	@JsonProperty("kakao_account")
+	private void unpackNickname(JsonNode kakaoAccount) {
+		this.nickname = kakaoAccount.path("profile").path("nickname").asText();
+	}
 	
 }

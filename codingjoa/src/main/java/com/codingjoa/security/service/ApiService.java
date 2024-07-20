@@ -73,25 +73,15 @@ public class ApiService {
 		
 		HttpEntity<Void> request = new HttpEntity<>(headers);
 		
-//		ResponseEntity<KakaoResponseMemberDto> response = restTemplate.exchange(
-//				kakaoApi.getMemberUrl(),
-//				HttpMethod.POST,
-//				request, 
-//				KakaoResponseMemberDto.class
-//		);
-//		
-//		return response.getBody();
-		
-		ResponseEntity<String> response = restTemplate.exchange(
+		ResponseEntity<KakaoResponseMemberDto> response = restTemplate.exchange(
 				kakaoApi.getMemberUrl(),
 				HttpMethod.POST,
 				request, 
-				String.class
+				KakaoResponseMemberDto.class
 		);
 		log.info("## obtain kakao member {}", JsonUtils.formatJson(response.getBody()));
 		
-		return objectMapper.readValue(response.getBody(), KakaoResponseMemberDto.class);
-		
+		return response.getBody();
 	}
 
 	public String getNaverAccessToken(String code, String state) {

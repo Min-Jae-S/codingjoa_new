@@ -54,7 +54,6 @@ public class TestOAuth2Controller {
 		
 		// 2. obtain member ( https://kapi.kakao.com/v2/user/me )
 		KakaoResponseMemberDto kakaoMember = apiService.getKakaoMember(accessToken);
-		log.info("\t > {}", kakaoMember);
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}

@@ -2,6 +2,7 @@ package com.codingjoa.security.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.JsonNode;
 
 import lombok.Getter;
 import lombok.ToString;
@@ -32,7 +33,11 @@ public class KakaoResponseMemberDto {
 	@JsonProperty("connected_at")
 	private String connectedAt;
 	
-	@JsonProperty("properties.nickname")
 	private String nickname;
+	
+	@JsonProperty("kakao_account")
+	private void unpackNickname(JsonNode kakaoAccount) {
+		this.nickname = kakaoAccount.path("profile").path("nickname").asText();
+	}
 	
 }
