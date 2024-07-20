@@ -1,5 +1,8 @@
 package com.codingjoa.controller.test;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -109,7 +112,8 @@ public class TestViewController {
 				.queryParam("response_type", "code")
 				.queryParam("client_id", kakaoApi.getClientId())
 				.queryParam("redirect_uri", kakaoApi.getRedirectUri())
-				.queryParam("prompt", "login") // re-authenticate the user regardless of previous login status
+				//.queryParam("redirect_uri", URLEncoder.encode(kakaoApi.getRedirectUri(), StandardCharsets.UTF_8))
+				//.queryParam("prompt", "login") // re-authenticate the user regardless of previous login status
 				.build()
 				.toString();
 	}
@@ -120,7 +124,7 @@ public class TestViewController {
 				.queryParam("response_type", "code")
 				.queryParam("client_id", naverApi.getClientId())
 				.queryParam("state", "test")
-				.queryParam("redirect_uri", naverApi.getRedirectUri())
+				.queryParam("redirect_uri", URLEncoder.encode(naverApi.getRedirectUri(), StandardCharsets.UTF_8))
 				.build()
 				.toString();
 	}
