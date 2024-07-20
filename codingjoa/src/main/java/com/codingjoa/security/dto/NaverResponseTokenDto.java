@@ -7,10 +7,10 @@ import lombok.Getter;
 import lombok.ToString;
 
 //	{
-//	  "access_token" : "${ACCESS_TOKEN},
+//	  "access_token" : "${ACCESS_TOKEN}",
 //	  "refresh_token" : "${REFRESH_TOKEN}",
 //	  "token_type" : "bearer",
-//	  "expires_in" : "3600"
+//	  "expires_in" : 3600
 //	}
 
 @ToString
