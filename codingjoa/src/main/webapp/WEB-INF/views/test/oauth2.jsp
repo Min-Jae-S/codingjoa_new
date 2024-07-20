@@ -49,9 +49,7 @@
 <div class="container my-5">
 	<p>oauth2.jsp</p>
 	<div class="test mt-5 mb-5 px-5">
-		
-		<%-- <a href="<c:out value='${kakaoLoginUrl}'/>"> --%>
-		<a href="${kakaoLoginUrl}">
+		<a href="<c:out value='${kakaoLoginUrl}'/>">
 			<img class="social-login-btn" src="${contextPath}/resources/images/test/kakao_login_medium_narrow.png">
 		</a>
 		<a href="<c:out value='${naverLoginUrl}'/>">

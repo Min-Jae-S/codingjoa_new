@@ -109,11 +109,11 @@ public class TestViewController {
 	private String createKakaoLoginUrl() {
 		// https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}
 		return UriComponentsBuilder.fromHttpUrl(kakaoApi.getAuthorizeUrl())
+				.queryParam("redirect_uri", kakaoApi.getRedirectUri())
 				.queryParam("response_type", "code")
 				.queryParam("client_id", kakaoApi.getClientId())
-				.queryParam("redirect_uri", kakaoApi.getRedirectUri())
 				//.queryParam("redirect_uri", URLEncoder.encode(kakaoApi.getRedirectUri(), StandardCharsets.UTF_8))
-				//.queryParam("prompt", "login") // re-authenticate the user regardless of previous login status
+				.queryParam("prompt", "login") // re-authenticate the user regardless of previous login status
 				.build()
 				.toString();
 	}

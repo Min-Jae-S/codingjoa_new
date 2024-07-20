@@ -48,7 +48,6 @@ public class TestOAuth2Controller {
 	public ResponseEntity<Object> kakaoCallback(@RequestParam String code) throws Exception {
 		log.info("## kakaoCallback");
 		log.info("\t > authorization code = {}", code);
-		log.info("\t > kakaoApi = {}", kakaoApi);
 		
 		// 1. obtain access token ( https://kauth.kakao.com/oauth/token )
 		String accessToken = apiService.getKakaoAccessToken(code);

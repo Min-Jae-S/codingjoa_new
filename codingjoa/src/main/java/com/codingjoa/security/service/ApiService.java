@@ -44,14 +44,14 @@ public class ApiService {
 		MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
 		body.add("grant_type", "authorization_code");
 		body.add("client_id", kakaoApi.getClientId());
-		//body.add("client_secret", kakaoApi.getClientSecret());
+		body.add("client_secret", kakaoApi.getClientSecret());
 		body.add("redirect_uri", kakaoApi.getRedirectUri());
 		body.add("code", code);
 		
 		RequestEntity<MultiValueMap<String, String>> request = RequestEntity
 				.post(new URI(kakaoApi.getTokenUrl()))
 				.headers(headers)
-				.body(headers);
+				.body(body);
 		
 		String jsonKakaoToken = null;
 		try {
