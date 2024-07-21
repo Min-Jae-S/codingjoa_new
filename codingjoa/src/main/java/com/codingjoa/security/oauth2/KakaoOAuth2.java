@@ -1,4 +1,4 @@
-package com.codingjoa.security.api;
+package com.codingjoa.security.oauth2;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -9,7 +9,7 @@ import lombok.ToString;
 @ToString
 @Getter
 @Component
-public class KakaoApi {
+public class KakaoOAuth2 {
 	
 	@Value("${security.oauth2.kakao.client-id}")
 	private String clientId;

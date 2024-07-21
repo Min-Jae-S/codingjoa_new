@@ -6,50 +6,36 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 
 import com.codingjoa.response.SuccessResponse;
-import com.codingjoa.security.api.KakaoApi;
-import com.codingjoa.security.api.NaverApi;
 import com.codingjoa.security.dto.KakaoResponseMemberDto;
 import com.codingjoa.security.dto.KakaoResponseTokenDto;
 import com.codingjoa.security.dto.NaverResponseMemberDto;
 import com.codingjoa.security.dto.NaverResponseTokenDto;
-import com.codingjoa.security.service.ApiService;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.codingjoa.security.service.OAuth2Service;
 
 import lombok.extern.slf4j.Slf4j;
 
-@SuppressWarnings("unused")
 @Slf4j
 @RequestMapping("/test/oauth2")
 @RestController
 public class TestOAuth2Controller {
 	
-	private final RestTemplate restTemplate = new RestTemplate();
-	private final ObjectMapper objectMapper = new ObjectMapper();
-
 	@Autowired
-	private KakaoApi kakaoApi;
-	
-	@Autowired
-	private NaverApi naverApi;
-	
-	@Autowired
-	private ApiService apiService;
+	private OAuth2Service oAuth2Service;
 	
 	@GetMapping("/kakao/callback")
 	public ResponseEntity<Object> kakaoCallback(@RequestParam String code) throws Exception {
 		log.info("## kakaoCallback");
 		log.info("\t > authorization code = {}", code);
 		
-		KakaoResponseTokenDto kakaoToken = apiService.getKakaoToken(code);
-		log.info("\t > 1. obtain kakaoToken ( {} )", kakaoApi.getTokenUrl());
-		log.info("\t > kakaoToken = {}", kakaoToken);
+		KakaoResponseTokenDto kakaoToken = oAuth2Service.getKakaoToken(code);
+		log.info("\t > 1. request kakaoToken ( https://kauth.kakao.com/oauth/token )");
+		log.info("\t > {}", kakaoToken);
 		
-		KakaoResponseMemberDto kakaoMember = apiService.getKakaoMember(kakaoToken.getAccessToken());
-		log.info("\t > 2. obtain kakaoMember ( {} )", kakaoApi.getMemberUrl());
-		log.info("\t > kakaoMember = {}", kakaoMember);
+		KakaoResponseMemberDto kakaoMember = oAuth2Service.getKakaoMember(kakaoToken.getAccessToken());
+		log.info("\t > 2. request kakaoMember ( https://kapi.kakao.com/v2/user/me )");
+		log.info("\t > {}", kakaoMember);
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
@@ -59,13 +45,13 @@ public class TestOAuth2Controller {
 		log.info("## naverCallback");
 		log.info("\t > authorization code = {}, state = {}", code, state);
 		
-		NaverResponseTokenDto naverToken = apiService.getNaverToken(code, state);
-		log.info("\t > 1. obtain naverToken ( {} )", naverApi.getTokenUrl());
-		log.info("\t > naverToken = {}", naverToken);
+		NaverResponseTokenDto naverToken = oAuth2Service.getNaverToken(code, state);
+		log.info("\t > 1. request naverToken ( https://nid.naver.com/oauth2.0/token )");
+		log.info("\t > {}", naverToken);
 		
-		NaverResponseMemberDto naverMember = apiService.getNaverMember(naverToken.getAccessToken());
-		log.info("\t > 2. obtain naverMember ( {} )", naverApi.getMemberUrl());
-		log.info("\t > naverMember = {}", naverMember);
+		NaverResponseMemberDto naverMember = oAuth2Service.getNaverMember(naverToken.getAccessToken());
+		log.info("\t > 2. request naverMember ( https://openapi.naver.com/v1/nid/me )");
+		log.info("\t > {}", naverMember);
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}

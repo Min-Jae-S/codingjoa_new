@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.codingjoa.security.api.KakaoApi;
-import com.codingjoa.security.api.NaverApi;
+import com.codingjoa.security.oauth2.KakaoOAuth2;
+import com.codingjoa.security.oauth2.NaverOAuth2;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -93,10 +93,10 @@ public class TestViewController {
 	}
 	
 	@Autowired
-	private KakaoApi kakaoApi;
+	private KakaoOAuth2 kakaoOAuth2;
 	
 	@Autowired
-	private NaverApi naverApi;
+	private NaverOAuth2 naverOAuth2;
 
 	@GetMapping("/oauth2")
 	public String oAuth2Main(Model model) {
@@ -108,10 +108,10 @@ public class TestViewController {
 	
 	private String createKakaoLoginUrl() {
 		// https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}
-		return UriComponentsBuilder.fromHttpUrl(kakaoApi.getAuthorizeUrl())
+		return UriComponentsBuilder.fromHttpUrl(kakaoOAuth2.getAuthorizeUrl())
 				.queryParam("response_type", "code")
-				.queryParam("client_id", kakaoApi.getClientId())
-				.queryParam("redirect_uri", URLEncoder.encode(kakaoApi.getRedirectUri(), StandardCharsets.UTF_8))
+				.queryParam("client_id", kakaoOAuth2.getClientId())
+				.queryParam("redirect_uri", URLEncoder.encode(kakaoOAuth2.getRedirectUri(), StandardCharsets.UTF_8))
 				//.queryParam("prompt", "login") // re-authenticate the user regardless of previous login status
 				.build()
 				.toString();
@@ -119,10 +119,10 @@ public class TestViewController {
 	
 	private String createNaverLoginUrl() {
 		// https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=CLIENT_ID&state=STATE_STRING&redirect_uri=CALLBACK_URL
-		return UriComponentsBuilder.fromHttpUrl(naverApi.getAuthorizeUrl())
+		return UriComponentsBuilder.fromHttpUrl(naverOAuth2.getAuthorizeUrl())
 				.queryParam("response_type", "code")
-				.queryParam("client_id", naverApi.getClientId())
-				.queryParam("redirect_uri", URLEncoder.encode(naverApi.getRedirectUri(), StandardCharsets.UTF_8))
+				.queryParam("client_id", naverOAuth2.getClientId())
+				.queryParam("redirect_uri", URLEncoder.encode(naverOAuth2.getRedirectUri(), StandardCharsets.UTF_8))
 				.queryParam("state", "test")
 				.build()
 				.toString();

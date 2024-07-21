@@ -1,4 +1,4 @@
-package com.codingjoa.security.api;
+package com.codingjoa.security.oauth2;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -7,7 +7,7 @@ import lombok.Getter;
 
 @Getter
 @Component
-public class NaverApi {
+public class NaverOAuth2 {
 
 	@Value("${security.oauth2.naver.client-id}")
 	private String clientId;
