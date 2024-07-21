@@ -17,7 +17,7 @@ public class KakaoOAuth2 {
 	@Value("${security.oauth2.kakao.client-secret}")
 	private String clientSecret;
 	
-	@Value("${security.oauth2.kakao.redirect-uri}")
+	@Value("${security.oauth2.kakao.redirect-url}")
 	private String redirectUri;
 	
 	@Value("${security.oauth2.kakao.authorize-url}")

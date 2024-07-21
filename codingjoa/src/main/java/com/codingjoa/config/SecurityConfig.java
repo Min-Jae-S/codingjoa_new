@@ -20,11 +20,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
+import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.AccessDeniedHandler;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
@@ -90,7 +90,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public void configure(WebSecurity web) throws Exception {
 		//web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations()));
 		web.ignoring().antMatchers("/resources/**");
-		web.debug(true);
+		//web.debug(true);
 	}
 	
 	@Override
@@ -119,8 +119,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.formLogin().disable()
 			.oauth2Login()
 			.and()
-			.addFilterBefore(loginFilter(), UsernamePasswordAuthenticationFilter.class)
-			.addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter.class)
+			.addFilterBefore(loginFilter(), OAuth2LoginAuthenticationFilter.class)
+			.addFilterBefore(jwtFilter(), OAuth2LoginAuthenticationFilter.class)
 			.logout()
 				//.logoutUrl("/api/logout")
 				//.logoutRequestMatcher(new AntPathRequestMatcher("/api/logout", "POST"))
@@ -234,6 +234,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.tokenUri(kakaoOAuth2.getTokenUrl())
 				.userInfoUri(kakaoOAuth2.getMemberUrl())
 				.clientName("kakao")
+				.clientId("kakao")
 				.build();
 		
 		ClientRegistration naverRegistration = ClientRegistration.withRegistrationId("naver")
@@ -244,6 +245,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.tokenUri(naverOAuth2.getTokenUrl())
 				.userInfoUri(naverOAuth2.getMemberUrl())
 				.clientName("naver")
+				.clientId("naver")
 				.build();
 		
 		List<ClientRegistration> registrations = Arrays.asList(kakaoRegistration, naverRegistration);

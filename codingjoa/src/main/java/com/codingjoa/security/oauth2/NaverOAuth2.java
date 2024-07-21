@@ -4,7 +4,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import lombok.Getter;
+import lombok.ToString;
 
+@ToString
 @Getter
 @Component
 public class NaverOAuth2 {
@@ -15,7 +17,7 @@ public class NaverOAuth2 {
 	@Value("${security.oauth2.naver.client-secret}")
 	private String clientSecret;
 	
-	@Value("${security.oauth2.naver.redirect-uri}")
+	@Value("${security.oauth2.naver.redirect-url}")
 	private String redirectUri;
 	
 	@Value("${security.oauth2.naver.authorize-url}")
