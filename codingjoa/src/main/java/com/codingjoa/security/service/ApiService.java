@@ -16,7 +16,6 @@ import com.codingjoa.security.dto.KakaoResponseMemberDto;
 import com.codingjoa.security.dto.KakaoResponseTokenDto;
 import com.codingjoa.security.dto.NaverResponseMemberDto;
 import com.codingjoa.security.dto.NaverResponseTokenDto;
-import com.codingjoa.util.JsonUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -51,7 +50,8 @@ public class ApiService {
 				request, 
 				KakaoResponseTokenDto.class
 		);
-		log.info("## obtain accessToken {}", JsonUtils.formatJson(response.getBody()));
+		//log.info("## 1. obtain accessToken {}", JsonUtils.formatJson(response.getBody()));
+		log.info("{}", response.getBody());
 		
 		return response.getBody().getAccessToken();
 	}
@@ -69,7 +69,8 @@ public class ApiService {
 				request, 
 				KakaoResponseMemberDto.class
 		);
-		log.info("## obtain kakaoMember {}", JsonUtils.formatJson(response.getBody()));
+		//log.info("## 2. obtain kakaoMember {}", JsonUtils.formatJson(response.getBody()));
+		log.info("{}", response.getBody());
 		
 		return response.getBody();
 	}
@@ -94,7 +95,8 @@ public class ApiService {
 				request, 
 				NaverResponseTokenDto.class
 		);
-		log.info("## obtain accessToken {}", JsonUtils.formatJson(response.getBody()));
+		//log.info("## 1. obtain accessToken {}", JsonUtils.formatJson(response.getBody()));
+		log.info("{}", response.getBody());
 		
 		return response.getBody().getAccessToken();
 	}
@@ -111,7 +113,8 @@ public class ApiService {
 				request, 
 				NaverResponseMemberDto.class
 		);
-		log.info("## obtain naverMember {}", JsonUtils.formatJson(response.getBody()));
+		//log.info("## 2. obtain naverMember {}", JsonUtils.formatJson(response.getBody()));
+		log.info("{}", response.getBody());
 		
 		return response.getBody();
 	}
