@@ -97,27 +97,17 @@
 		width: 52px;
 		height: 52px;
 		border-radius: 8px;
+	}
+	
+	/* .social-login-btn {
+		width: 52px;
+		height: 52px;
+		border-radius: 8px;
 		border: none;
 		background-color: transparent;
 		background-size: contain;
 		background-repeat: no-repeat;
-	}
-
-	.kakao {
-		background-image: url(/codingjoa/resources/images/kakao.png);
-	}
-	
-	.naver {
-		background-image: url(/codingjoa/resources/images/naver.png);
-	}
-	
-	.google {
-		background-image: url(/codingjoa/resources/images/google.png);
-	}
-	
-	.github {
-		background-image: url(/codingjoa/resources/images/github.png);
-	}
+	} */
 </style>
 </head>
 <body>
@@ -158,10 +148,18 @@
 					<hr class="social-login-line">
 					<span class="social-login-title">SNS 계정 로그인</span>
 					<div class="social-login-body">
-						<button class="social-login-btn kakao"/>
-						<button class="social-login-btn google"/>
-						<button class="social-login-btn naver"/>
-						<button class="social-login-btn github"/>
+						<a href="${contextPath}/oauth2/authorization/kakao">
+							<img class="social-login-btn" src="${contextPath}/resources/images/kakao.png">
+						</a>
+						<a href="${contextPath}/oauth2/authorization/naver">
+							<img class="social-login-btn" src="${contextPath}/resources/images/naver.png">
+						</a>
+						<a href="#">
+							<img class="social-login-btn" src="${contextPath}/resources/images/google.png">
+						</a>
+						<a href="#">
+							<img class="social-login-btn" src="${contextPath}/resources/images/github.png">
+						</a>
 					</div>
 				</div>
 			</div>

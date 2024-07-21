@@ -66,17 +66,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private JwtProvider jwtProvider;
 	
 	/*	
-	 * 	FilterChain
-	 * 	https://gngsn.tistory.com/160
-	 * 
 	 *	Browser HTTP Request --> Security filter chain: [
 	 *		WebAsyncManagerIntegrationFilter
 	 * 		SecurityContextPersistenceFilter
 	 * 		HeaderWriterFilter
 	 * 		LogoutFilter
+	 * 		OAuth2AuthorizationRequestRedirectFilter
 	 * 		LoginFilter*
 	 * 		JwtFilter*
-	 * 		UsernamePasswordAuthenticationFilter
+	 * 		OAuth2LoginAuthenticationFilter
 	 * 		RequestCacheAwareFilter
 	 * 		SecurityContextHolderAwareRequestFilter
 	 * 		AnonymousAuthenticationFilter		
