@@ -1,4 +1,4 @@
-package com.codingjoa.security.config;
+package com.codingjoa.config;
 
 import java.util.EnumSet;
 

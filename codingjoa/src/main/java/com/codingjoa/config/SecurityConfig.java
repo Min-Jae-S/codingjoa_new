@@ -1,4 +1,7 @@
-package com.codingjoa.security.config;
+package com.codingjoa.config;
+
+import java.util.Arrays;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -14,6 +17,11 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.registration.ClientRegistration;
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
+import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
+import org.springframework.security.oauth2.core.AuthorizationGrantType;
+import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -23,9 +31,11 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import com.codingjoa.security.filter.JwtFilter;
 import com.codingjoa.security.filter.JwtMathcerFilter;
 import com.codingjoa.security.filter.LoginFilter;
+import com.codingjoa.security.oauth2.KakaoOAuth2;
+import com.codingjoa.security.oauth2.NaverOAuth2;
 import com.codingjoa.security.service.JwtProvider;
-import com.codingjoa.security.service.LoginProvider;
 import com.codingjoa.security.service.LoginFailureHandler;
+import com.codingjoa.security.service.LoginProvider;
 import com.codingjoa.security.service.LoginSuccessHandler;
 
 @ComponentScan("com.codingjoa.security.service")
@@ -80,6 +90,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public void configure(WebSecurity web) throws Exception {
 		//web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations()));
 		web.ignoring().antMatchers("/resources/**");
+		web.debug(true);
 	}
 	
 	@Override
@@ -106,6 +117,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.anyRequest().permitAll()
 			.and()
 			.formLogin().disable()
+			.oauth2Login()
+			.and()
 			.addFilterBefore(loginFilter(), UsernamePasswordAuthenticationFilter.class)
 			.addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter.class)
 			.logout()
@@ -192,6 +205,49 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		filter.addIncludeMatchers("/api/member/details");
 		filter.addIncludeMatchers("/test/jwt/test7", "/test/jwt/test8");
 		return filter;
+	}
+	
+	@Autowired
+	private KakaoOAuth2 kakaoOAuth2;
+	
+	@Autowired
+	private NaverOAuth2 naverOAuth2;
+	
+	/*
+	 * ClientRegistration.Builder builder = ClientRegistration.withRegistrationId(registrationId);
+	 * builder.clientAuthenticationMethod(method);
+	 * builder.authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE);
+	 * builder.redirectUriTemplate(redirectUri);
+	 * builder.authorizationUri("https://github.com/login/oauth/authorize");
+	 * builder.tokenUri("https://github.com/login/oauth/access_token");
+	 * builder.userInfoUri("https://api.github.com/user");
+	 * builder.clientName("GitHub");
+	 */
+				
+	@Bean
+	public ClientRegistrationRepository clientRegistrationRepository() {
+		ClientRegistration kakaoRegistration = ClientRegistration.withRegistrationId("kakao")
+				.clientAuthenticationMethod(ClientAuthenticationMethod.POST)
+				.authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
+				.redirectUriTemplate(kakaoOAuth2.getRedirectUri())
+				.authorizationUri(kakaoOAuth2.getAuthorizeUrl())
+				.tokenUri(kakaoOAuth2.getTokenUrl())
+				.userInfoUri(kakaoOAuth2.getMemberUrl())
+				.clientName("kakao")
+				.build();
+		
+		ClientRegistration naverRegistration = ClientRegistration.withRegistrationId("naver")
+				.clientAuthenticationMethod(ClientAuthenticationMethod.POST)
+				.authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
+				.redirectUriTemplate(naverOAuth2.getRedirectUri())
+				.authorizationUri(naverOAuth2.getAuthorizeUrl())
+				.tokenUri(naverOAuth2.getTokenUrl())
+				.userInfoUri(naverOAuth2.getMemberUrl())
+				.clientName("naver")
+				.build();
+		
+		List<ClientRegistration> registrations = Arrays.asList(kakaoRegistration, naverRegistration);
+		return new InMemoryClientRegistrationRepository(registrations);
 	}
 	
 }

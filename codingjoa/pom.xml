@@ -218,7 +218,7 @@
 			<version>${org.springframework.security-version}</version>
 		</dependency>
 		
-		<!-- spring security-oauth2 -->
+		<!-- spring security-oauth2-client -->
 		<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-oauth2-client -->
 		<dependency>
 		    <groupId>org.springframework.security</groupId>

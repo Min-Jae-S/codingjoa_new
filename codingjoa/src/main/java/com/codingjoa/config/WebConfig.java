@@ -17,7 +17,6 @@ import org.springframework.web.servlet.FrameworkServlet;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 import com.codingjoa.filter.LogFilter;
-import com.codingjoa.security.config.SecurityConfig;
 
 import lombok.extern.slf4j.Slf4j;
 
