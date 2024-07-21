@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
 import lombok.Getter;
-import lombok.ToString;
 
 //	{
 //	  "access_token" : "${ACCESS_TOKEN}",
@@ -13,7 +12,6 @@ import lombok.ToString;
 //	  "expires_in" : 3600
 //	}
 
-@ToString
 @Getter 
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class NaverResponseTokenDto {
@@ -21,6 +19,12 @@ public class NaverResponseTokenDto {
 	public String accessToken;
 	public String refreshToken;
 	public String tokenType;
-	public Integer expiresIn; 
+	public Integer expiresIn;
+	
+	@Override
+	public String toString() {
+		return "(accessToken=" + accessToken + ", refreshToken=" + refreshToken + ", tokenType="
+				+ tokenType + ", expiresIn=" + expiresIn + ")";
+	} 
 	
 }

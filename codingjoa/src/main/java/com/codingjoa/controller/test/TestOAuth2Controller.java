@@ -1,15 +1,7 @@
 package com.codingjoa.controller.test;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,6 +14,7 @@ import com.codingjoa.security.api.NaverApi;
 import com.codingjoa.security.dto.KakaoResponseMemberDto;
 import com.codingjoa.security.dto.KakaoResponseTokenDto;
 import com.codingjoa.security.dto.NaverResponseMemberDto;
+import com.codingjoa.security.dto.NaverResponseTokenDto;
 import com.codingjoa.security.service.ApiService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -50,11 +43,13 @@ public class TestOAuth2Controller {
 		log.info("## kakaoCallback");
 		log.info("\t > authorization code = {}", code);
 		
-		// 1. obtain accessToken ( https://kauth.kakao.com/oauth/token )
-		String accessToken = apiService.getKakaoAccessToken(code);
+		KakaoResponseTokenDto kakaoToken = apiService.getKakaoToken(code);
+		log.info("\t > 1. obtain kakaoToken ( {} )", kakaoApi.getTokenUrl());
+		log.info("\t > kakaoToken = {}", kakaoToken);
 		
-		// 2. obtain kakaoMember ( https://kapi.kakao.com/v2/user/me )
-		KakaoResponseMemberDto kakaoMember = apiService.getKakaoMember(accessToken);
+		KakaoResponseMemberDto kakaoMember = apiService.getKakaoMember(kakaoToken.getAccessToken());
+		log.info("\t > 2. obtain kakaoMember ( {} )", kakaoApi.getMemberUrl());
+		log.info("\t > kakaoMember = {}", kakaoMember);
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
@@ -62,14 +57,15 @@ public class TestOAuth2Controller {
 	@GetMapping("/naver/callback")
 	public ResponseEntity<Object> naverCallback(@RequestParam String code, @RequestParam String state) throws Exception {
 		log.info("## naverCallback");
-		log.info("\t > authorization code = {}", code);
-		log.info("\t > state = {}", state);
+		log.info("\t > authorization code = {}, state = {}", code, state);
 		
-		// 1. obtain accessToken ( https://nid.naver.com/oauth2.0/token )
-		String accessToken = apiService.getNaverAccessToken(code, state);
+		NaverResponseTokenDto naverToken = apiService.getNaverToken(code, state);
+		log.info("\t > 1. obtain naverToken ( {} )", naverApi.getTokenUrl());
+		log.info("\t > naverToken = {}", naverToken);
 		
-		// 2. obtain naverMember ( https://openapi.naver.com/v1/nid/me )
-		NaverResponseMemberDto naverMember = apiService.getNaverMember(accessToken);
+		NaverResponseMemberDto naverMember = apiService.getNaverMember(naverToken.getAccessToken());
+		log.info("\t > 2. obtain naverMember ( {} )", naverApi.getMemberUrl());
+		log.info("\t > naverMember = {}", naverMember);
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}

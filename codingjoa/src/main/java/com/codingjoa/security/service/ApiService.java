@@ -17,9 +17,6 @@ import com.codingjoa.security.dto.KakaoResponseTokenDto;
 import com.codingjoa.security.dto.NaverResponseMemberDto;
 import com.codingjoa.security.dto.NaverResponseTokenDto;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @Service
 public class ApiService {
 	
@@ -31,7 +28,7 @@ public class ApiService {
 	@Autowired
 	private NaverApi naverApi;
 	
-	public String getKakaoAccessToken(String code) {
+	public KakaoResponseTokenDto getKakaoToken(String code) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add(HttpHeaders.CONTENT_TYPE, "application/x-www-form-urlencoded;charset=utf-8");
 		
@@ -50,10 +47,8 @@ public class ApiService {
 				request, 
 				KakaoResponseTokenDto.class
 		);
-		//log.info("## 1. obtain accessToken {}", JsonUtils.formatJson(response.getBody()));
-		log.info("{}", response.getBody());
 		
-		return response.getBody().getAccessToken();
+		return response.getBody();
 	}
 	
 	public KakaoResponseMemberDto getKakaoMember(String accessToken) {
@@ -69,13 +64,11 @@ public class ApiService {
 				request, 
 				KakaoResponseMemberDto.class
 		);
-		//log.info("## 2. obtain kakaoMember {}", JsonUtils.formatJson(response.getBody()));
-		log.info("{}", response.getBody());
 		
 		return response.getBody();
 	}
 
-	public String getNaverAccessToken(String code, String state) {
+	public NaverResponseTokenDto getNaverToken(String code, String state) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add(HttpHeaders.CONTENT_TYPE, "application/x-www-form-urlencoded;charset=utf-8");
 		
@@ -95,10 +88,8 @@ public class ApiService {
 				request, 
 				NaverResponseTokenDto.class
 		);
-		//log.info("## 1. obtain accessToken {}", JsonUtils.formatJson(response.getBody()));
-		log.info("{}", response.getBody());
 		
-		return response.getBody().getAccessToken();
+		return response.getBody();
 	}
 	
 	public NaverResponseMemberDto getNaverMember(String accessToken) {
@@ -113,8 +104,6 @@ public class ApiService {
 				request, 
 				NaverResponseMemberDto.class
 		);
-		//log.info("## 2. obtain naverMember {}", JsonUtils.formatJson(response.getBody()));
-		log.info("{}", response.getBody());
 		
 		return response.getBody();
 	}
