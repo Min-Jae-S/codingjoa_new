@@ -95,6 +95,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http
 			.csrf().disable()
+			.formLogin().disable()
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 			.and()
 			.authorizeRequests()
@@ -114,8 +115,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/admin/**").hasAnyRole("ADMIN")
 				.anyRequest().permitAll()
 			.and()
-			.formLogin().disable()
 			.oauth2Login()
+				.authorizationEndpoint()
+					//OAuth2AuthorizationRequestRedirectFilter, DEFAULT_AUTHORIZATION_REQUEST_BASE_URI = "/oauth2/authorization";
+					.baseUri("/oauth2/authorization")
+					.and()
 			.and()
 			.addFilterBefore(loginFilter(), OAuth2LoginAuthenticationFilter.class)
 			.addFilterBefore(jwtFilter(), OAuth2LoginAuthenticationFilter.class)
@@ -163,34 +167,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		return new JwtFilter(jwtProvider);
 	}
 	
-	/*
-	 * @RequestMapping("/api")
-	 * LikesRestController {
-	 * 		@PostMapping("/boards/{boardIdx}/likes") 			toggleBoardLikes	-->	authenticated
-	 * 		@GetMapping("/boards/{boardIdx}/likes") 			getBoardLikesCnt	--> permitAll
-	 * 		@PostMapping("/comments/{commentIdx}/likes")		toggleCommentLikes	--> authenticated
-	 * 		@GetMapping("/comments/{commentIdx}/likes")			getCommentLikesCnt	--> permitAll
-	 * }
-	 * 
-	 * @RequestMapping("/api")
-	 * CommentRestController {
-	 * 		@GetMapping("/boards/{commentBoardIdx}/comments")					getCommentList		--> permitAll
-	 * 		@GetMapping(value = { "/comments/", "/comments/{commentIdx}" })		getModifyComment 	--> authenticated
-	 * 		@PostMapping("/comments")											writeComment		--> authenticated		
-	 * 		@PatchMapping(value = { "/comments/", "/comments/{commentIdx}" })	modifyComment		--> authenticated
-	 * 		@DeleteMapping(value = { "/comments/", "/comments/{commentIdx}" })	deleteComment		--> authenticated
-	 * }
-	 * 
-	 * @RequestMapping("/api")
-	 * ImageRestController {
-	 * 		@PostMapping("/board/image")														uploadBoardImage		--> authenticated
-	 * 		@GetMapping(value = { "/board/images/", "/board/images/{boardImageName:.+}"})		getBoardImageResource	--> permitAll
-	 * 		@PostMapping("/member/image")														uploadMemberImage		--> authenticated
-	 * 		@GetMapping(value = { "/member/images/", "/member/images/{memberImageName:.+}"})	getMemberImageResource	--> authenticated
-	 * }
-	 * 
-	 */
-	
 	@Bean
 	public JwtMathcerFilter jwtMathcerFilter() throws Exception {
 		JwtMathcerFilter filter = new JwtMathcerFilter(jwtProvider);
@@ -213,7 +189,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Bean
 	public ClientRegistrationRepository clientRegistrationRepository() {
-		ClientRegistration kakaoRegistration = ClientRegistration.withRegistrationId("kakao")
+		List<ClientRegistration> registrations = Arrays.asList(getKakaoClientRegistration(), getNaverClientRegistration());
+		return new InMemoryClientRegistrationRepository(registrations);
+	}
+	
+	private ClientRegistration getKakaoClientRegistration() {
+		return ClientRegistration.withRegistrationId("kakao")
 				.clientAuthenticationMethod(ClientAuthenticationMethod.POST)
 				.authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
 				.redirectUriTemplate(kakaoOAuth2.getRedirectUri())
@@ -223,8 +204,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.clientId(kakaoOAuth2.getClientId())
 				.clientSecret(kakaoOAuth2.getClientSecret())
 				.build();
-		
-		ClientRegistration naverRegistration = ClientRegistration.withRegistrationId("naver")
+	}
+
+	private ClientRegistration getNaverClientRegistration() {
+		return ClientRegistration.withRegistrationId("naver")
 				.clientAuthenticationMethod(ClientAuthenticationMethod.POST)
 				.authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
 				.redirectUriTemplate(naverOAuth2.getRedirectUri())
@@ -234,9 +217,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.clientId(naverOAuth2.getClientId())
 				.clientSecret(naverOAuth2.getClientSecret())
 				.build();
-		
-		List<ClientRegistration> registrations = Arrays.asList(kakaoRegistration, naverRegistration);
-		return new InMemoryClientRegistrationRepository(registrations);
 	}
+	
 	
 }
