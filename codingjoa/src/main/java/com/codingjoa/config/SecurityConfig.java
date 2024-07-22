@@ -195,7 +195,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		);
 		
 		for (OAuth2Provider provider : OAuth2Provider.values()) {
-			
+			log.info("\t > provider = {}", provider);
 		}
 		
 		return new InMemoryClientRegistrationRepository(registrations);
