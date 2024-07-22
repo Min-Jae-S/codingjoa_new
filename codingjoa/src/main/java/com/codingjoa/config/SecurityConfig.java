@@ -21,18 +21,18 @@ import org.springframework.security.oauth2.client.registration.ClientRegistratio
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
 import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter;
-import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import com.codingjoa.propeties.OAuth2Properties;
+import com.codingjoa.propeties.OAuth2Properties.KakaoOAuth2Properties;
+import com.codingjoa.propeties.OAuth2Properties.NaverOAuth2Properties;
 import com.codingjoa.security.filter.JwtFilter;
 import com.codingjoa.security.filter.JwtMathcerFilter;
 import com.codingjoa.security.filter.LoginFilter;
-import com.codingjoa.security.oauth2.KakaoOAuth2;
-import com.codingjoa.security.oauth2.NaverOAuth2;
 import com.codingjoa.security.service.JwtProvider;
 import com.codingjoa.security.service.LoginFailureHandler;
 import com.codingjoa.security.service.LoginProvider;
@@ -181,41 +181,37 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		return filter;
 	}
 	
-	@Autowired
-	private KakaoOAuth2 kakaoOAuth2;
-	
-	@Autowired
-	private NaverOAuth2 naverOAuth2;
-	
 	@Bean
-	public ClientRegistrationRepository clientRegistrationRepository() {
-		List<ClientRegistration> registrations = Arrays.asList(getKakaoClientRegistration(), getNaverClientRegistration());
+	public ClientRegistrationRepository clientRegistrationRepository(OAuth2Properties oAuth2Properties) {
+		ClientRegistration kakaoClientRegistration = kakaoClientRegistration(oAuth2Properties.getKakaoOAuth2Properties());
+		ClientRegistration naverClientRegistration = naverClientRegistration(oAuth2Properties.getNaverOAuth2Properties());
+		List<ClientRegistration> registrations = Arrays.asList(kakaoClientRegistration, naverClientRegistration);
 		return new InMemoryClientRegistrationRepository(registrations);
 	}
 	
-	private ClientRegistration getKakaoClientRegistration() {
+	private ClientRegistration kakaoClientRegistration(KakaoOAuth2Properties kakaoOAuth2Properties) {
 		return ClientRegistration.withRegistrationId("kakao")
 				.clientAuthenticationMethod(ClientAuthenticationMethod.POST)
-				.authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-				.redirectUriTemplate(kakaoOAuth2.getRedirectUri())
-				.authorizationUri(kakaoOAuth2.getAuthorizeUrl())
-				.tokenUri(kakaoOAuth2.getTokenUrl())
-				.userInfoUri(kakaoOAuth2.getMemberUrl())
-				.clientId(kakaoOAuth2.getClientId())
-				.clientSecret(kakaoOAuth2.getClientSecret())
+				.authorizationGrantType(kakaoOAuth2Properties.getAuthorizationGrantType())
+				.redirectUriTemplate(kakaoOAuth2Properties.getRedirectUri())
+				.authorizationUri(kakaoOAuth2Properties.getAuthorizationUri())
+				.tokenUri(kakaoOAuth2Properties.getTokenUri())
+				.userInfoUri(kakaoOAuth2Properties.getUserInfoUri())
+				.clientId(kakaoOAuth2Properties.getClientId())
+				.clientSecret(kakaoOAuth2Properties.getClientSecret())
 				.build();
 	}
 
-	private ClientRegistration getNaverClientRegistration() {
+	private ClientRegistration naverClientRegistration(NaverOAuth2Properties naverOAuth2Properties) {
 		return ClientRegistration.withRegistrationId("naver")
 				.clientAuthenticationMethod(ClientAuthenticationMethod.POST)
-				.authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-				.redirectUriTemplate(naverOAuth2.getRedirectUri())
-				.authorizationUri(naverOAuth2.getAuthorizeUrl())
-				.tokenUri(naverOAuth2.getTokenUrl())
-				.userInfoUri(naverOAuth2.getMemberUrl())
-				.clientId(naverOAuth2.getClientId())
-				.clientSecret(naverOAuth2.getClientSecret())
+				.authorizationGrantType(naverOAuth2Properties.getAuthorizationGrantType())
+				.redirectUriTemplate(naverOAuth2Properties.getRedirectUri())
+				.authorizationUri(naverOAuth2Properties.getAuthorizationUri())
+				.tokenUri(naverOAuth2Properties.getTokenUri())
+				.userInfoUri(naverOAuth2Properties.getUserInfoUri())
+				.clientId(naverOAuth2Properties.getClientId())
+				.clientSecret(naverOAuth2Properties.getClientSecret())
 				.build();
 	}
 	
