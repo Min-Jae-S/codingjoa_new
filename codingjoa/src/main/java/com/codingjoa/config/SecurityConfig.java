@@ -211,17 +211,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private NaverOAuth2 naverOAuth2;
 	
-	/*
-	 * ClientRegistration.Builder builder = ClientRegistration.withRegistrationId(registrationId);
-	 * builder.clientAuthenticationMethod(method);
-	 * builder.authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE);
-	 * builder.redirectUriTemplate(redirectUri);
-	 * builder.authorizationUri("https://github.com/login/oauth/authorize");
-	 * builder.tokenUri("https://github.com/login/oauth/access_token");
-	 * builder.userInfoUri("https://api.github.com/user");
-	 * builder.clientName("GitHub");
-	 */
-				
 	@Bean
 	public ClientRegistrationRepository clientRegistrationRepository() {
 		ClientRegistration kakaoRegistration = ClientRegistration.withRegistrationId("kakao")
@@ -231,8 +220,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.authorizationUri(kakaoOAuth2.getAuthorizeUrl())
 				.tokenUri(kakaoOAuth2.getTokenUrl())
 				.userInfoUri(kakaoOAuth2.getMemberUrl())
-				.clientName("kakao")
-				.clientId("kakao")
+				.clientId(kakaoOAuth2.getClientId())
+				.clientSecret(kakaoOAuth2.getClientSecret())
 				.build();
 		
 		ClientRegistration naverRegistration = ClientRegistration.withRegistrationId("naver")
@@ -242,8 +231,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.authorizationUri(naverOAuth2.getAuthorizeUrl())
 				.tokenUri(naverOAuth2.getTokenUrl())
 				.userInfoUri(naverOAuth2.getMemberUrl())
-				.clientName("naver")
-				.clientId("naver")
+				.clientId(naverOAuth2.getClientId())
+				.clientSecret(naverOAuth2.getClientSecret())
 				.build();
 		
 		List<ClientRegistration> registrations = Arrays.asList(kakaoRegistration, naverRegistration);
