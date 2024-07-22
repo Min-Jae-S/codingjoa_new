@@ -27,23 +27,27 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import com.codingjoa.propeties.OAuth2Properties;
-import com.codingjoa.propeties.OAuth2Properties.KakaoOAuth2Properties;
-import com.codingjoa.propeties.OAuth2Properties.NaverOAuth2Properties;
 import com.codingjoa.security.filter.JwtFilter;
 import com.codingjoa.security.filter.JwtMathcerFilter;
 import com.codingjoa.security.filter.LoginFilter;
+import com.codingjoa.security.oauth2.OAuth2Properties;
+import com.codingjoa.security.oauth2.OAuth2Properties.KakaoOAuth2Properties;
+import com.codingjoa.security.oauth2.OAuth2Properties.NaverOAuth2Properties;
+import com.codingjoa.security.oauth2.OAuth2Provider;
 import com.codingjoa.security.service.JwtProvider;
 import com.codingjoa.security.service.LoginFailureHandler;
 import com.codingjoa.security.service.LoginProvider;
 import com.codingjoa.security.service.LoginSuccessHandler;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @ComponentScan("com.codingjoa.security.service")
 @ComponentScan("com.codingjoa.security.oauth2")
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-
+	
 	@Autowired
 	private LoginProvider loginProvider;
 	
@@ -183,9 +187,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Bean
 	public ClientRegistrationRepository clientRegistrationRepository(OAuth2Properties oAuth2Properties) {
-		ClientRegistration kakaoClientRegistration = kakaoClientRegistration(oAuth2Properties.getKakaoOAuth2Properties());
-		ClientRegistration naverClientRegistration = naverClientRegistration(oAuth2Properties.getNaverOAuth2Properties());
-		List<ClientRegistration> registrations = Arrays.asList(kakaoClientRegistration, naverClientRegistration);
+		log.info("## clientRegistrationRepository");
+		
+		List<ClientRegistration> registrations = Arrays.asList(
+				kakaoClientRegistration(oAuth2Properties.getKakaoOAuth2Properties()), 
+				naverClientRegistration(oAuth2Properties.getNaverOAuth2Properties())
+		);
+		
+		for (OAuth2Provider provider : OAuth2Provider.values()) {
+			
+		}
+		
 		return new InMemoryClientRegistrationRepository(registrations);
 	}
 	

@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codingjoa.response.SuccessResponse;
-import com.codingjoa.security.dto.KakaoResponseMemberDto;
-import com.codingjoa.security.dto.KakaoResponseTokenDto;
-import com.codingjoa.security.dto.NaverResponseMemberDto;
-import com.codingjoa.security.dto.NaverResponseTokenDto;
+import com.codingjoa.security.dto.KakaoUserInfoResponse;
+import com.codingjoa.security.dto.KakaoTokenResponse;
+import com.codingjoa.security.dto.NaverUserInfoResponse;
+import com.codingjoa.security.dto.NaverTokenResponse;
 import com.codingjoa.security.service.OAuth2Service;
 
 import lombok.extern.slf4j.Slf4j;
@@ -29,13 +29,13 @@ public class TestOAuth2Controller {
 		log.info("## kakaoCallback");
 		log.info("\t > authorization code = {}", code);
 		
-		KakaoResponseTokenDto kakaoToken = oAuth2Service.getKakaoToken(code);
+		KakaoTokenResponse kakaoToken = oAuth2Service.getKakaoToken(code);
 		log.info("\t > 1. request kakaoToken ( https://kauth.kakao.com/oauth/token )");
 		log.info("\t > {}", kakaoToken);
 		
-		KakaoResponseMemberDto kakaoMember = oAuth2Service.getKakaoMember(kakaoToken.getAccessToken());
-		log.info("\t > 2. request kakaoMember ( https://kapi.kakao.com/v2/user/me )");
-		log.info("\t > {}", kakaoMember);
+		KakaoUserInfoResponse kakaoUserInfo = oAuth2Service.getKakaoUserInfo(kakaoToken.getAccessToken());
+		log.info("\t > 2. request kakaoUserInfo ( https://kapi.kakao.com/v2/user/me )");
+		log.info("\t > {}", kakaoUserInfo);
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
@@ -45,13 +45,13 @@ public class TestOAuth2Controller {
 		log.info("## naverCallback");
 		log.info("\t > authorization code = {}, state = {}", code, state);
 		
-		NaverResponseTokenDto naverToken = oAuth2Service.getNaverToken(code, state);
+		NaverTokenResponse naverToken = oAuth2Service.getNaverToken(code, state);
 		log.info("\t > 1. request naverToken ( https://nid.naver.com/oauth2.0/token )");
 		log.info("\t > {}", naverToken);
 		
-		NaverResponseMemberDto naverMember = oAuth2Service.getNaverMember(naverToken.getAccessToken());
-		log.info("\t > 2. request naverMember ( https://openapi.naver.com/v1/nid/me )");
-		log.info("\t > {}", naverMember);
+		NaverUserInfoResponse naverUserInfo = oAuth2Service.getNaverUserInfo(naverToken.getAccessToken());
+		log.info("\t > 2. request naverUserInfo ( https://openapi.naver.com/v1/nid/me )");
+		log.info("\t > {}", naverUserInfo);
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}

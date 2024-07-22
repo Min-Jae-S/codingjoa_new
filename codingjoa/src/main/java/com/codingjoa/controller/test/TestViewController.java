@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.codingjoa.propeties.OAuth2Properties;
-import com.codingjoa.propeties.OAuth2Properties.KakaoOAuth2Properties;
-import com.codingjoa.propeties.OAuth2Properties.NaverOAuth2Properties;
+import com.codingjoa.security.oauth2.OAuth2Properties;
+import com.codingjoa.security.oauth2.OAuth2Properties.KakaoOAuth2Properties;
+import com.codingjoa.security.oauth2.OAuth2Properties.NaverOAuth2Properties;
 
 import lombok.extern.slf4j.Slf4j;
 

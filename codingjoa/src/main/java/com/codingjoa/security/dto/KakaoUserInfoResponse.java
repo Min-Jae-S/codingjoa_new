@@ -23,7 +23,7 @@ import lombok.Getter;
 
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class KakaoResponseMemberDto {
+public class KakaoUserInfoResponse {
 
 	private Long id;
 	

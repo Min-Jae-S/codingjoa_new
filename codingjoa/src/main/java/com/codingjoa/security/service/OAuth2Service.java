@@ -10,13 +10,13 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import com.codingjoa.propeties.OAuth2Properties;
-import com.codingjoa.propeties.OAuth2Properties.KakaoOAuth2Properties;
-import com.codingjoa.propeties.OAuth2Properties.NaverOAuth2Properties;
-import com.codingjoa.security.dto.KakaoResponseMemberDto;
-import com.codingjoa.security.dto.KakaoResponseTokenDto;
-import com.codingjoa.security.dto.NaverResponseMemberDto;
-import com.codingjoa.security.dto.NaverResponseTokenDto;
+import com.codingjoa.security.dto.KakaoUserInfoResponse;
+import com.codingjoa.security.dto.KakaoTokenResponse;
+import com.codingjoa.security.dto.NaverUserInfoResponse;
+import com.codingjoa.security.dto.NaverTokenResponse;
+import com.codingjoa.security.oauth2.OAuth2Properties;
+import com.codingjoa.security.oauth2.OAuth2Properties.KakaoOAuth2Properties;
+import com.codingjoa.security.oauth2.OAuth2Properties.NaverOAuth2Properties;
 
 @Service
 public class OAuth2Service {
@@ -26,7 +26,7 @@ public class OAuth2Service {
 	@Autowired
 	private OAuth2Properties oAuth2Properties;
 	
-	public KakaoResponseTokenDto getKakaoToken(String code) {
+	public KakaoTokenResponse getKakaoToken(String code) {
 		KakaoOAuth2Properties kakaoOAuth2 = oAuth2Properties.getKakaoOAuth2Properties();
 
 		HttpHeaders headers = new HttpHeaders();
@@ -41,17 +41,17 @@ public class OAuth2Service {
 		
 		HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(body, headers);
 		
-		ResponseEntity<KakaoResponseTokenDto> response = restTemplate.exchange(
+		ResponseEntity<KakaoTokenResponse> response = restTemplate.exchange(
 				kakaoOAuth2.getTokenUri(),
 				HttpMethod.POST,
 				request, 
-				KakaoResponseTokenDto.class
+				KakaoTokenResponse.class
 		);
 		
 		return response.getBody();
 	}
 	
-	public KakaoResponseMemberDto getKakaoMember(String accessToken) {
+	public KakaoUserInfoResponse getKakaoUserInfo(String accessToken) {
 		KakaoOAuth2Properties kakaoOAuth2 = oAuth2Properties.getKakaoOAuth2Properties();
 
 		HttpHeaders headers = new HttpHeaders();
@@ -60,17 +60,17 @@ public class OAuth2Service {
 		
 		HttpEntity<Void> request = new HttpEntity<>(headers);
 		
-		ResponseEntity<KakaoResponseMemberDto> response = restTemplate.exchange(
+		ResponseEntity<KakaoUserInfoResponse> response = restTemplate.exchange(
 				kakaoOAuth2.getUserInfoUri(),
 				HttpMethod.POST,
 				request, 
-				KakaoResponseMemberDto.class
+				KakaoUserInfoResponse.class
 		);
 		
 		return response.getBody();
 	}
 
-	public NaverResponseTokenDto getNaverToken(String code, String state) {
+	public NaverTokenResponse getNaverToken(String code, String state) {
 		NaverOAuth2Properties naverOAuth2 = oAuth2Properties.getNaverOAuth2Properties();
 		
 		HttpHeaders headers = new HttpHeaders();
@@ -86,17 +86,17 @@ public class OAuth2Service {
 		
 		HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(body, headers);
 		
-		ResponseEntity<NaverResponseTokenDto> response = restTemplate.exchange(
+		ResponseEntity<NaverTokenResponse> response = restTemplate.exchange(
 				naverOAuth2.getTokenUri(),
 				HttpMethod.POST,
 				request, 
-				NaverResponseTokenDto.class
+				NaverTokenResponse.class
 		);
 		
 		return response.getBody();
 	}
 	
-	public NaverResponseMemberDto getNaverMember(String accessToken) {
+	public NaverUserInfoResponse getNaverUserInfo(String accessToken) {
 		NaverOAuth2Properties naverOAuth2 = oAuth2Properties.getNaverOAuth2Properties();
 		
 		HttpHeaders headers = new HttpHeaders();
@@ -104,11 +104,11 @@ public class OAuth2Service {
 		
 		HttpEntity<Void> request = new HttpEntity<>(headers);
 		
-		ResponseEntity<NaverResponseMemberDto> response = restTemplate.exchange(
+		ResponseEntity<NaverUserInfoResponse> response = restTemplate.exchange(
 				naverOAuth2.getUserInfoUri(),
 				HttpMethod.GET,
 				request, 
-				NaverResponseMemberDto.class
+				NaverUserInfoResponse.class
 		);
 		
 		return response.getBody();

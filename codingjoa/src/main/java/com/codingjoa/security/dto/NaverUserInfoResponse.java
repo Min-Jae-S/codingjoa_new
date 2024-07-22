@@ -18,7 +18,7 @@ import lombok.Getter;
 
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class NaverResponseMemberDto {
+public class NaverUserInfoResponse {
 	
 	@JsonProperty("resultcode")
 	private String resultCode;

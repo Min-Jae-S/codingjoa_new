@@ -1,4 +1,4 @@
-package com.codingjoa.propeties;
+package com.codingjoa.security.oauth2;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
