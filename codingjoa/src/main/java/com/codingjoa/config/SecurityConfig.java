@@ -18,21 +18,17 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
-import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
 import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter;
-import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.codingjoa.security.filter.JwtFilter;
 import com.codingjoa.security.filter.JwtMathcerFilter;
 import com.codingjoa.security.filter.LoginFilter;
-import com.codingjoa.security.oauth2.OAuth2Properties;
-import com.codingjoa.security.oauth2.OAuth2Properties.KakaoOAuth2Properties;
-import com.codingjoa.security.oauth2.OAuth2Properties.NaverOAuth2Properties;
 import com.codingjoa.security.oauth2.OAuth2Provider;
 import com.codingjoa.security.service.JwtProvider;
 import com.codingjoa.security.service.LoginFailureHandler;
@@ -101,7 +97,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.csrf().disable()
 			.formLogin().disable()
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-			.and()
+				.and()
 			.authorizeRequests()
 				// https://stackoverflow.com/questions/19941466/spring-security-allows-unauthorized-user-access-to-restricted-url-from-a-forward
 				//.filterSecurityInterceptorOncePerRequest(false)
@@ -118,15 +114,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/test/jwt/test7", "/test/jwt/test8").authenticated()
 				.antMatchers("/admin/**").hasAnyRole("ADMIN")
 				.anyRequest().permitAll()
-			.and()
+				.and()
 			.oauth2Login()
 				.authorizationEndpoint()
 					//OAuth2AuthorizationRequestRedirectFilter, DEFAULT_AUTHORIZATION_REQUEST_BASE_URI = "/oauth2/authorization";
 					.baseUri("/oauth2/authorization")
 					.and()
-			.and()
+				.and()
 			.addFilterBefore(loginFilter(), OAuth2LoginAuthenticationFilter.class)
-			.addFilterBefore(jwtFilter(), OAuth2LoginAuthenticationFilter.class)
+			// https://velog.io/@tmdgh0221/Spring-Security-%EC%99%80-OAuth-2.0-%EC%99%80-JWT-%EC%9D%98-%EC%BD%9C%EB%9D%BC%EB%B3%B4
+			// add it right after the LogoutFilter, which is the point just before the actual authentication process takes place.
+			.addFilterAfter(jwtFilter(), LogoutFilter.class)
 			.logout()
 				//.logoutUrl("/api/logout")
 				//.logoutRequestMatcher(new AntPathRequestMatcher("/api/logout", "POST"))
@@ -134,7 +132,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.logoutSuccessHandler(logoutSuccessHandler)
 				.clearAuthentication(true)
 				.invalidateHttpSession(true)
-			.and()
+				.and()
 			.exceptionHandling()
 				.authenticationEntryPoint(authenticationEntryPoint)
 				.accessDeniedHandler(accessDeniedHandler);		 
@@ -186,46 +184,50 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 	
 	@Bean
-	public ClientRegistrationRepository clientRegistrationRepository(OAuth2Properties oAuth2Properties) {
-		log.info("## clientRegistrationRepository");
-		
-		List<ClientRegistration> registrations = Arrays.asList(
-				kakaoClientRegistration(oAuth2Properties.getKakaoOAuth2Properties()), 
-				naverClientRegistration(oAuth2Properties.getNaverOAuth2Properties())
-		);
-		
-		for (OAuth2Provider provider : OAuth2Provider.values()) {
-			log.info("\t > provider = {}", provider);
-		}
-		
+	public InMemoryClientRegistrationRepository clientRegistrationRepository() {
+		List<ClientRegistration> registrations = Arrays.asList(kakaoClientRegistration(), naverClientRegistration());
 		return new InMemoryClientRegistrationRepository(registrations);
 	}
 	
-	private ClientRegistration kakaoClientRegistration(KakaoOAuth2Properties kakaoOAuth2Properties) {
-		return ClientRegistration.withRegistrationId("kakao")
-				.clientAuthenticationMethod(ClientAuthenticationMethod.POST)
-				.authorizationGrantType(kakaoOAuth2Properties.getAuthorizationGrantType())
-				.redirectUriTemplate(kakaoOAuth2Properties.getRedirectUri())
-				.authorizationUri(kakaoOAuth2Properties.getAuthorizationUri())
-				.tokenUri(kakaoOAuth2Properties.getTokenUri())
-				.userInfoUri(kakaoOAuth2Properties.getUserInfoUri())
-				.clientId(kakaoOAuth2Properties.getClientId())
-				.clientSecret(kakaoOAuth2Properties.getClientSecret())
+	private ClientRegistration kakaoClientRegistration() {
+		return OAuth2Provider.KAKAO.getBuilder("kakao")
+				.clientId(null)
+				.clientSecret(null)
 				.build();
 	}
 
-	private ClientRegistration naverClientRegistration(NaverOAuth2Properties naverOAuth2Properties) {
-		return ClientRegistration.withRegistrationId("naver")
-				.clientAuthenticationMethod(ClientAuthenticationMethod.POST)
-				.authorizationGrantType(naverOAuth2Properties.getAuthorizationGrantType())
-				.redirectUriTemplate(naverOAuth2Properties.getRedirectUri())
-				.authorizationUri(naverOAuth2Properties.getAuthorizationUri())
-				.tokenUri(naverOAuth2Properties.getTokenUri())
-				.userInfoUri(naverOAuth2Properties.getUserInfoUri())
-				.clientId(naverOAuth2Properties.getClientId())
-				.clientSecret(naverOAuth2Properties.getClientSecret())
+	private ClientRegistration naverClientRegistration() {
+		return OAuth2Provider.NAVER.getBuilder("naver")
+				.clientId(null)
+				.clientSecret(null)
 				.build();
 	}
+	
+//	private ClientRegistration kakaoClientRegistration(KakaoOAuth2Properties kakaoOAuth2Properties) {
+//		return ClientRegistration.withRegistrationId("kakao")
+//				.clientAuthenticationMethod(ClientAuthenticationMethod.POST)
+//				.authorizationGrantType(kakaoOAuth2Properties.getAuthorizationGrantType())
+//				.redirectUriTemplate(kakaoOAuth2Properties.getRedirectUri())
+//				.authorizationUri(kakaoOAuth2Properties.getAuthorizationUri())
+//				.tokenUri(kakaoOAuth2Properties.getTokenUri())
+//				.userInfoUri(kakaoOAuth2Properties.getUserInfoUri())
+//				.clientId(kakaoOAuth2Properties.getClientId())
+//				.clientSecret(kakaoOAuth2Properties.getClientSecret())
+//				.build();
+//	}
+//
+//	private ClientRegistration naverClientRegistration(NaverOAuth2Properties naverOAuth2Properties) {
+//		return ClientRegistration.withRegistrationId("naver")
+//				.clientAuthenticationMethod(ClientAuthenticationMethod.POST)
+//				.authorizationGrantType(naverOAuth2Properties.getAuthorizationGrantType())
+//				.redirectUriTemplate(naverOAuth2Properties.getRedirectUri())
+//				.authorizationUri(naverOAuth2Properties.getAuthorizationUri())
+//				.tokenUri(naverOAuth2Properties.getTokenUri())
+//				.userInfoUri(naverOAuth2Properties.getUserInfoUri())
+//				.clientId(naverOAuth2Properties.getClientId())
+//				.clientSecret(naverOAuth2Properties.getClientSecret())
+//				.build();
+//	}
 	
 	
 }

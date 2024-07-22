@@ -56,6 +56,9 @@
 			<img class="social-login-btn" src="${contextPath}/resources/images/test/naver_login_medium_narrow.png">
 		</a>
 	</div>
+	<div class="test mt-5 mb-5 px-5">
+		<button class="btn btn-primary" onclick="test1()">test1</button>
+	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 <script>

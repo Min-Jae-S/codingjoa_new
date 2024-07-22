@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codingjoa.response.SuccessResponse;
-import com.codingjoa.security.dto.KakaoUserInfoResponse;
 import com.codingjoa.security.dto.KakaoTokenResponse;
-import com.codingjoa.security.dto.NaverUserInfoResponse;
+import com.codingjoa.security.dto.KakaoUserInfoResponse;
 import com.codingjoa.security.dto.NaverTokenResponse;
+import com.codingjoa.security.dto.NaverUserInfoResponse;
 import com.codingjoa.security.service.OAuth2Service;
 
 import lombok.extern.slf4j.Slf4j;
@@ -68,5 +68,11 @@ public class TestOAuth2Controller {
 	//		.contentType(MediaType.APPLICATION_JSON)
 	//		.retrieve()
 	//		.bodyToFlux(KakaoTokenResponseDto.class);
+	
+	@GetMapping("/test1")
+	public ResponseEntity<Object> test() {
+		log.info("## test1");
+		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
+	}
 
 }
