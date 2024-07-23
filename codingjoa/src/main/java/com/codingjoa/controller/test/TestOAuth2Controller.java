@@ -30,11 +30,11 @@ public class TestOAuth2Controller {
 		log.info("\t > authorization code = {}", code);
 		
 		KakaoTokenResponse kakaoToken = oAuth2Service.getKakaoToken(code);
-		log.info("\t > 1. request kakaoToken ( https://kauth.kakao.com/oauth/token )");
+		log.info("\t > request kakaoToken ( https://kauth.kakao.com/oauth/token )");
 		log.info("\t > {}", kakaoToken);
 		
 		KakaoUserInfoResponse kakaoUserInfo = oAuth2Service.getKakaoUserInfo(kakaoToken.getAccessToken());
-		log.info("\t > 2. request kakaoUserInfo ( https://kapi.kakao.com/v2/user/me )");
+		log.info("\t > request kakaoUserInfo ( https://kapi.kakao.com/v2/user/me )");
 		log.info("\t > {}", kakaoUserInfo);
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
@@ -46,11 +46,11 @@ public class TestOAuth2Controller {
 		log.info("\t > authorization code = {}, state = {}", code, state);
 		
 		NaverTokenResponse naverToken = oAuth2Service.getNaverToken(code, state);
-		log.info("\t > 1. request naverToken ( https://nid.naver.com/oauth2.0/token )");
+		log.info("\t > request naverToken ( https://nid.naver.com/oauth2.0/token )");
 		log.info("\t > {}", naverToken);
 		
 		NaverUserInfoResponse naverUserInfo = oAuth2Service.getNaverUserInfo(naverToken.getAccessToken());
-		log.info("\t > 2. request naverUserInfo ( https://openapi.naver.com/v1/nid/me )");
+		log.info("\t > request naverUserInfo ( https://openapi.naver.com/v1/nid/me )");
 		log.info("\t > {}", naverUserInfo);
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
