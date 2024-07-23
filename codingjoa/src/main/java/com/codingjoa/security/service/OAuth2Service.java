@@ -29,6 +29,7 @@ public class OAuth2Service {
 	private final ClientRegistration kakaoRegistration;
 	private final ClientRegistration naverRegistration;
 	
+	//@Autowired
 	public OAuth2Service(@Autowired InMemoryClientRegistrationRepository clientRegistrationRepository) {
 		this.kakaoRegistration = clientRegistrationRepository.findByRegistrationId("kakao");
 		this.naverRegistration = clientRegistrationRepository.findByRegistrationId("naver");
@@ -37,17 +38,8 @@ public class OAuth2Service {
 	@PostConstruct
 	public void init() {
 		log.info("## {}.init", this.getClass().getSimpleName());
-		log.info("\t > kakao.registrationId = {}", kakaoRegistration.getRegistrationId());
 		log.info("\t > kakao.redirectUri = {}", kakaoRegistration.getRedirectUriTemplate());
-		log.info("\t > kakao.authorizationUri = {}", kakaoRegistration.getProviderDetails().getAuthorizationUri());
-		log.info("\t > kakao.tokenUri = {}", kakaoRegistration.getProviderDetails().getTokenUri());
-		log.info("\t > kakao.userInfoUri = {}", kakaoRegistration.getProviderDetails().getUserInfoEndpoint().getUri());
-		log.info("\t > naver.registrationId = {}", naverRegistration.getRegistrationId());
 		log.info("\t > naver.redirectUri = {}", naverRegistration.getRedirectUriTemplate());
-		log.info("\t > naver.authorizationUri = {}", naverRegistration.getProviderDetails().getAuthorizationUri());
-		log.info("\t > naver.tokenUri = {}", naverRegistration.getProviderDetails().getTokenUri());
-		log.info("\t > naver.userInfoUri = {}", naverRegistration.getProviderDetails().getUserInfoEndpoint().getUri());
-		log.info("======================================================================================================");
 	}
 	
 	public KakaoTokenResponse getKakaoToken(String code) {

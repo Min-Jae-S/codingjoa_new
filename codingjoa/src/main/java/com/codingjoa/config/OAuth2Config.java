@@ -37,6 +37,7 @@ public class OAuth2Config {
 		return OAuth2Provider.NAVER.getBuilder("naver")
 				.clientId(env.getProperty("security.oauth2.client.registration.naver.client-id"))
 				.clientSecret(env.getProperty("security.oauth2.client.registration.naver.client-secret"))
+				.clientSecret(env.getProperty("security.oauth2.client.registration.naver.client-secret"))
 				.build();
 	}
 }

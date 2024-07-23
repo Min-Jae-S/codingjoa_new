@@ -1,12 +1,19 @@
 package com.codingjoa.controller.test;
 
+import java.nio.charset.StandardCharsets;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
+import org.springframework.security.oauth2.client.web.DefaultOAuth2AuthorizationRequestResolver;
+import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestResolver;
+import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationResponseType;
+import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -93,20 +100,40 @@ public class TestViewController {
 	@GetMapping("/oauth2")
 	public String oAuth2Main(Model model) {
 		log.info("## oAuth2 main");
-		model.addAttribute("kakaoLoginUrl", getKakaoLoginUrl());
-		model.addAttribute("naverLoginUrl", getNaverLoginUrl());
+		String kakaoLoginUrl = buildKakaoLoginUrl();
+		String naverLoginUrl = buildNaverLoginUrl();
+		log.info("\t > kakaoLoginUrl = {}", kakaoLoginUrl);
+		log.info("\t > naverLoginUrl = {}", naverLoginUrl);
+		
+		model.addAttribute("kakaoLoginUrl", kakaoLoginUrl);
+		model.addAttribute("naverLoginUrl", naverLoginUrl);
 		return "test/oauth2";
 	}
-	
-	private String getKakaoLoginUrl() {
+
+	private String buildKakaoLoginUrl() {
 		// https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}
 		ClientRegistration kakaoClinetRegistration = clientRegistrationRepository.findByRegistrationId("kakao");
-		return kakaoClinetRegistration.getProviderDetails().getAuthorizationUri();
+		String authorizationUri = kakaoClinetRegistration.getProviderDetails().getAuthorizationUri();
+		return UriComponentsBuilder.fromHttpUrl(authorizationUri)
+				.queryParam("respnse_type", OAuth2AuthorizationResponseType.CODE.getValue())
+				.queryParam("client_id", kakaoClinetRegistration.getClientId())
+				.queryParam("redirect_uri", kakaoClinetRegistration.getRedirectUriTemplate())
+				.encode(StandardCharsets.UTF_8)
+				.toUriString();
+		
 	}
 	
-	private String getNaverLoginUrl() {
+	private String buildNaverLoginUrl() {
 		// https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=CLIENT_ID&state=STATE_STRING&redirect_uri=CALLBACK_URL
-		ClientRegistration kakaoClinetRegistration = clientRegistrationRepository.findByRegistrationId("naver");
-		return kakaoClinetRegistration.getProviderDetails().getAuthorizationUri();
+		ClientRegistration naverClinetRegistration = clientRegistrationRepository.findByRegistrationId("naver");
+		String authorizationUri = naverClinetRegistration.getProviderDetails().getAuthorizationUri();
+		return UriComponentsBuilder.fromHttpUrl(authorizationUri)
+				.queryParam("respnse_type", OAuth2AuthorizationResponseType.CODE.getValue())
+				.queryParam("client_id", naverClinetRegistration.getClientId())
+				.queryParam("redirect_uri", naverClinetRegistration.getRedirectUriTemplate())
+				.queryParam("state", "STATE_STRING")
+				.encode(StandardCharsets.UTF_8)
+				.toUriString();
 	}
+	
 }
