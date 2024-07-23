@@ -1,7 +1,6 @@
 package com.codingjoa.security.oauth2;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.stereotype.Component;
 
 import lombok.Getter;
@@ -36,10 +35,10 @@ public class OAuth2Properties {
             @Value("${security.oauth2.client.registration.naver.user-name-attribute}") String naverUserNameAttribute
     ) {
 		this.kakaoOAuth2Properties = new KakaoOAuth2Properties(kakaoClientId, kakaoClientSecret, kakaoClientName,
-				kakaoRedirectUri, new AuthorizationGrantType(kakaoAuthorizationGrantType), kakaoScope,
+				kakaoRedirectUri, kakaoAuthorizationGrantType, kakaoScope,
 				kakaoAuthorizationUri, kakaoTokenUri, kakaoUserInfoUri, kakaoUserNameAttribute);
 		this.naverOAuth2Properties = new NaverOAuth2Properties(naverClientId, naverClientSecret, naverClientName,
-				naverRedirectUri, new AuthorizationGrantType(naverAuthorizationGrantType), naverScope,
+				naverRedirectUri, naverAuthorizationGrantType, naverScope,
 				naverAuthorizationUri, naverTokenUri, naverUserInfoUri, naverUserNameAttribute);
     }
 	
@@ -55,7 +54,7 @@ public class OAuth2Properties {
 		private final String clientSecret;
 		private final String clinetName;
 		private final String redirectUri;
-		private final AuthorizationGrantType authorizationGrantType;
+		private final String authorizationGrantType;
 		private final String scope;
 		private final String authorizationUri;
 		private final String tokenUri;
@@ -72,7 +71,7 @@ public class OAuth2Properties {
 		private final String clientSecret;
 		private final String clinetName;
 		private final String redirectUri;
-		private final AuthorizationGrantType authorizationGrantType;
+		private final String authorizationGrantType;
 		private final String scope;
 		private final String authorizationUri;
 		private final String tokenUri;

@@ -1,6 +1,7 @@
 package com.codingjoa.config;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -185,18 +186,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Bean
 	public InMemoryClientRegistrationRepository clientRegistrationRepository() {
-		List<ClientRegistration> registrations = Arrays.asList(kakaoClientRegistration(), naverClientRegistration());
+		//List<ClientRegistration> registrations = Arrays.asList(kakaoClientRegistration(), naverClientRegistration());
+		List<ClientRegistration> registrations = Collections.emptyList(); 
 		return new InMemoryClientRegistrationRepository(registrations);
 	}
 	
-	private ClientRegistration kakaoClientRegistration() {
-		return OAuth2Provider.KAKAO.getBuilder("kakao")
-				.clientId(null)
-				.clientSecret(null)
-				.build();
-	}
 
-	private ClientRegistration naverClientRegistration() {
+	private ClientRegistration getClientRegistration(String providerId) {
 		return OAuth2Provider.NAVER.getBuilder("naver")
 				.clientId(null)
 				.clientSecret(null)

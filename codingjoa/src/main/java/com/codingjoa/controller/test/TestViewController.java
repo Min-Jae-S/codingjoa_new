@@ -99,13 +99,13 @@ public class TestViewController {
 	@GetMapping("/oauth2")
 	public String oAuth2Main(Model model) {
 		log.info("## oAuth2 main");
-		log.info("\t > kakaoLogin = {}", createKakaoLoginUrl());
+		log.info("\t > kakaoLogin = {}", getKakaoLoginUrl());
 //		model.addAttribute("kakaoLoginUrl", createKakaoLoginUrl(oAuth2Properties.getKakaoOAuth2Properties()));
 //		model.addAttribute("naverLoginUrl", createNaverLoginUrl(oAuth2Properties.getNaverOAuth2Properties()));
 		return "test/oauth2";
 	}
 	
-	private String createKakaoLoginUrl() {
+	private String getKakaoLoginUrl() {
 		// https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}
 		ClientRegistration kakaoClinetRegistration = clientRegistrationRepository.findByRegistrationId("kakao");
 		return kakaoClinetRegistration.getProviderDetails().getAuthorizationUri();
@@ -119,7 +119,7 @@ public class TestViewController {
 	}
 	
 	@SuppressWarnings("unused")
-	private String createNaverLoginUrl(NaverOAuth2Properties naverOAuth2) {
+	private String getNaverLoginUrl(NaverOAuth2Properties naverOAuth2) {
 		// https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=CLIENT_ID&state=STATE_STRING&redirect_uri=CALLBACK_URL
 		return UriComponentsBuilder.fromHttpUrl(naverOAuth2.getAuthorizationUri())
 				.queryParam("response_type", "code")

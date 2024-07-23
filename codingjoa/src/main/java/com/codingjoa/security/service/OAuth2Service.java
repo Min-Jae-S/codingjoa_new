@@ -33,7 +33,7 @@ public class OAuth2Service {
 		headers.add(HttpHeaders.CONTENT_TYPE, "application/x-www-form-urlencoded;charset=utf-8");
 		
 		MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
-		body.add("grant_type", kakaoOAuth2.getAuthorizationGrantType().getValue());
+		body.add("grant_type", kakaoOAuth2.getAuthorizationGrantType());
 		body.add("client_id", kakaoOAuth2.getClientId());
 		body.add("client_secret", kakaoOAuth2.getClientSecret());
 		body.add("redirect_uri", kakaoOAuth2.getRedirectUri());
@@ -77,7 +77,7 @@ public class OAuth2Service {
 		headers.add(HttpHeaders.CONTENT_TYPE, "application/x-www-form-urlencoded;charset=utf-8");
 		
 		MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
-		body.add("grant_type", naverOAuth2.getAuthorizationGrantType().getValue());
+		body.add("grant_type", naverOAuth2.getAuthorizationGrantType());
 		body.add("client_id", naverOAuth2.getClientId());
 		body.add("client_secret", naverOAuth2.getClientSecret());
 		body.add("redirect_uri", naverOAuth2.getRedirectUri());
