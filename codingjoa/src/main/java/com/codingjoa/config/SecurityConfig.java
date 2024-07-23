@@ -1,9 +1,5 @@
 package com.codingjoa.config;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -18,8 +14,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.client.registration.ClientRegistration;
-import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
 import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.AccessDeniedHandler;
@@ -30,9 +24,6 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import com.codingjoa.security.filter.JwtFilter;
 import com.codingjoa.security.filter.JwtMathcerFilter;
 import com.codingjoa.security.filter.LoginFilter;
-import com.codingjoa.security.oauth2.OAuth2ClientProperties;
-import com.codingjoa.security.oauth2.OAuth2Properties;
-import com.codingjoa.security.oauth2.OAuth2Provider;
 import com.codingjoa.security.service.JwtProvider;
 import com.codingjoa.security.service.LoginFailureHandler;
 import com.codingjoa.security.service.LoginProvider;
@@ -182,38 +173,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		filter.addIncludeMatchers("/test/jwt/test7", "/test/jwt/test8");
 		return filter;
 	}
-	
-	@Bean
-	public InMemoryClientRegistrationRepository clientRegistrationRepository1(OAuth2Properties properties) {
-		List<ClientRegistration> registrations = Arrays.asList(
-				kakaoClientRegistration(properties), naverClientRegistration(properties));
-		return new InMemoryClientRegistrationRepository(registrations);
-	}
-
-	@Bean
-	public InMemoryClientRegistrationRepository clientRegistrationRepository2(OAuth2ClientProperties properties) {
-		List<ClientRegistration> registrations = new ArrayList<>();
-		return new InMemoryClientRegistrationRepository(registrations);
-	}
-	
-	private ClientRegistration kakaoClientRegistration(OAuth2Properties properties) {
-		return OAuth2Provider.KAKAO.getBuilder("kakao")
-				.clientId(properties.getKakaoOAuth2Properties().getClientId())
-				.clientSecret( properties.getKakaoOAuth2Properties().getClientSecret())
-				.build();
-	}
-
-	private ClientRegistration naverClientRegistration(OAuth2Properties properties) {
-		return OAuth2Provider.KAKAO.getBuilder("naver")
-				.clientId(properties.getNaverOAuth2Properties().getClientId())
-				.clientSecret(properties.getNaverOAuth2Properties().getClientSecret())
-				.build();
-	}
-	
-	@SuppressWarnings("unused")
-	private ClientRegistration getClientRegistration(String providerId) {
-		return null;
-	}
-	
 	
 }

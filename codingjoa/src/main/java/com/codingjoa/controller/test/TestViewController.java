@@ -1,8 +1,5 @@
 package com.codingjoa.controller.test;
 
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
@@ -10,9 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.util.UriComponentsBuilder;
-
-import com.codingjoa.security.oauth2.OAuth2Properties.NaverOAuth2Properties;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -99,9 +93,8 @@ public class TestViewController {
 	@GetMapping("/oauth2")
 	public String oAuth2Main(Model model) {
 		log.info("## oAuth2 main");
-		log.info("\t > kakaoLogin = {}", getKakaoLoginUrl());
-//		model.addAttribute("kakaoLoginUrl", createKakaoLoginUrl(oAuth2Properties.getKakaoOAuth2Properties()));
-//		model.addAttribute("naverLoginUrl", createNaverLoginUrl(oAuth2Properties.getNaverOAuth2Properties()));
+		model.addAttribute("kakaoLoginUrl", getKakaoLoginUrl());
+		model.addAttribute("naverLoginUrl", getNaverLoginUrl());
 		return "test/oauth2";
 	}
 	
@@ -109,24 +102,11 @@ public class TestViewController {
 		// https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}
 		ClientRegistration kakaoClinetRegistration = clientRegistrationRepository.findByRegistrationId("kakao");
 		return kakaoClinetRegistration.getProviderDetails().getAuthorizationUri();
-//		return UriComponentsBuilder.fromHttpUrl(kakaoClinetRegistration.get)
-//				.queryParam("response_type", "code")
-//				.queryParam("client_id", kakaoOAuth2.getClientId())
-//				.queryParam("redirect_uri", URLEncoder.encode(kakaoOAuth2.getRedirectUri(), StandardCharsets.UTF_8))
-//				//.queryParam("prompt", "login") // re-authenticate the user regardless of previous login status
-//				.build()
-//				.toString();
 	}
 	
-	@SuppressWarnings("unused")
-	private String getNaverLoginUrl(NaverOAuth2Properties naverOAuth2) {
+	private String getNaverLoginUrl() {
 		// https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=CLIENT_ID&state=STATE_STRING&redirect_uri=CALLBACK_URL
-		return UriComponentsBuilder.fromHttpUrl(naverOAuth2.getAuthorizationUri())
-				.queryParam("response_type", "code")
-				.queryParam("client_id", naverOAuth2.getClientId())
-				.queryParam("redirect_uri", URLEncoder.encode(naverOAuth2.getRedirectUri(), StandardCharsets.UTF_8))
-				.queryParam("state", "test")
-				.build()
-				.toString();
+		ClientRegistration kakaoClinetRegistration = clientRegistrationRepository.findByRegistrationId("naver");
+		return kakaoClinetRegistration.getProviderDetails().getAuthorizationUri();
 	}
 }

@@ -14,6 +14,7 @@ import lombok.Setter;
 
 @Getter
 @Component
+//@ConfigurationProperties(prefix = "spring.security.oauth2.client")
 public class OAuth2ClientProperties {
 	
 	private final Map<String, Registration> registration = new HashMap<>();
