@@ -1,12 +1,16 @@
 package com.codingjoa.security.oauth2;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @ToString
 @Getter
 @Component
@@ -42,6 +46,11 @@ public class OAuth2Properties {
 				naverAuthorizationUri, naverTokenUri, naverUserInfoUri, naverUserNameAttribute);
     }
 	
+	@PostConstruct
+	public void init() {
+		log.info("## {}.init", this.getClass().getSimpleName());
+	}
+	
 	private final KakaoOAuth2Properties kakaoOAuth2Properties;
 	private final NaverOAuth2Properties naverOAuth2Properties;
 	
@@ -49,7 +58,6 @@ public class OAuth2Properties {
 	@Getter
 	@RequiredArgsConstructor
 	public static class KakaoOAuth2Properties {
-		
 		private final String clientId;
 		private final String clientSecret;
 		private final String clinetName;
@@ -66,7 +74,6 @@ public class OAuth2Properties {
 	@Getter
 	@RequiredArgsConstructor
 	public static class NaverOAuth2Properties {
-		
 		private final String clientId;
 		private final String clientSecret;
 		private final String clinetName;
@@ -77,6 +84,5 @@ public class OAuth2Properties {
 		private final String tokenUri;
 		private final String userInfoUri;
 		private final String userNameAttribute;
-		
 	}
 }

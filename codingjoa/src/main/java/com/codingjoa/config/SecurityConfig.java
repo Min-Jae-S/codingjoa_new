@@ -1,7 +1,7 @@
 package com.codingjoa.config;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,15 +30,14 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import com.codingjoa.security.filter.JwtFilter;
 import com.codingjoa.security.filter.JwtMathcerFilter;
 import com.codingjoa.security.filter.LoginFilter;
+import com.codingjoa.security.oauth2.OAuth2ClientProperties;
+import com.codingjoa.security.oauth2.OAuth2Properties;
 import com.codingjoa.security.oauth2.OAuth2Provider;
 import com.codingjoa.security.service.JwtProvider;
 import com.codingjoa.security.service.LoginFailureHandler;
 import com.codingjoa.security.service.LoginProvider;
 import com.codingjoa.security.service.LoginSuccessHandler;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @ComponentScan("com.codingjoa.security.service")
 @ComponentScan("com.codingjoa.security.oauth2")
 @EnableWebSecurity
@@ -185,45 +184,36 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 	
 	@Bean
-	public InMemoryClientRegistrationRepository clientRegistrationRepository() {
-		//List<ClientRegistration> registrations = Arrays.asList(kakaoClientRegistration(), naverClientRegistration());
-		List<ClientRegistration> registrations = Collections.emptyList(); 
+	public InMemoryClientRegistrationRepository clientRegistrationRepository1(OAuth2Properties properties) {
+		List<ClientRegistration> registrations = Arrays.asList(
+				kakaoClientRegistration(properties), naverClientRegistration(properties));
+		return new InMemoryClientRegistrationRepository(registrations);
+	}
+
+	@Bean
+	public InMemoryClientRegistrationRepository clientRegistrationRepository2(OAuth2ClientProperties properties) {
+		List<ClientRegistration> registrations = new ArrayList<>();
 		return new InMemoryClientRegistrationRepository(registrations);
 	}
 	
+	private ClientRegistration kakaoClientRegistration(OAuth2Properties properties) {
+		return OAuth2Provider.KAKAO.getBuilder("kakao")
+				.clientId(properties.getKakaoOAuth2Properties().getClientId())
+				.clientSecret( properties.getKakaoOAuth2Properties().getClientSecret())
+				.build();
+	}
 
-	private ClientRegistration getClientRegistration(String providerId) {
-		return OAuth2Provider.NAVER.getBuilder("naver")
-				.clientId(null)
-				.clientSecret(null)
+	private ClientRegistration naverClientRegistration(OAuth2Properties properties) {
+		return OAuth2Provider.KAKAO.getBuilder("naver")
+				.clientId(properties.getNaverOAuth2Properties().getClientId())
+				.clientSecret(properties.getNaverOAuth2Properties().getClientSecret())
 				.build();
 	}
 	
-//	private ClientRegistration kakaoClientRegistration(KakaoOAuth2Properties kakaoOAuth2Properties) {
-//		return ClientRegistration.withRegistrationId("kakao")
-//				.clientAuthenticationMethod(ClientAuthenticationMethod.POST)
-//				.authorizationGrantType(kakaoOAuth2Properties.getAuthorizationGrantType())
-//				.redirectUriTemplate(kakaoOAuth2Properties.getRedirectUri())
-//				.authorizationUri(kakaoOAuth2Properties.getAuthorizationUri())
-//				.tokenUri(kakaoOAuth2Properties.getTokenUri())
-//				.userInfoUri(kakaoOAuth2Properties.getUserInfoUri())
-//				.clientId(kakaoOAuth2Properties.getClientId())
-//				.clientSecret(kakaoOAuth2Properties.getClientSecret())
-//				.build();
-//	}
-//
-//	private ClientRegistration naverClientRegistration(NaverOAuth2Properties naverOAuth2Properties) {
-//		return ClientRegistration.withRegistrationId("naver")
-//				.clientAuthenticationMethod(ClientAuthenticationMethod.POST)
-//				.authorizationGrantType(naverOAuth2Properties.getAuthorizationGrantType())
-//				.redirectUriTemplate(naverOAuth2Properties.getRedirectUri())
-//				.authorizationUri(naverOAuth2Properties.getAuthorizationUri())
-//				.tokenUri(naverOAuth2Properties.getTokenUri())
-//				.userInfoUri(naverOAuth2Properties.getUserInfoUri())
-//				.clientId(naverOAuth2Properties.getClientId())
-//				.clientSecret(naverOAuth2Properties.getClientSecret())
-//				.build();
-//	}
+	@SuppressWarnings("unused")
+	private ClientRegistration getClientRegistration(String providerId) {
+		return null;
+	}
 	
 	
 }
