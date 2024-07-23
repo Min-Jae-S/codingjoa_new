@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
@@ -12,6 +13,7 @@ import org.springframework.security.oauth2.client.registration.InMemoryClientReg
 
 import com.codingjoa.security.oauth2.OAuth2Provider;
 
+@ComponentScan("com.codingjoa.security.oauth2")
 @Configuration
 public class OAuth2Config {
 
@@ -19,7 +21,7 @@ public class OAuth2Config {
 	private Environment env;
 	
 	@Bean
-	public InMemoryClientRegistrationRepository clientRegistrationRepository1() {
+	public InMemoryClientRegistrationRepository clientRegistrationRepository() {
 		List<ClientRegistration> registrations = Arrays.asList(kakaoClientRegistration(), naverClientRegistration());
 		return new InMemoryClientRegistrationRepository(registrations);
 	}

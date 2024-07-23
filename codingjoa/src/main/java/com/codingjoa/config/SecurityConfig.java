@@ -32,7 +32,6 @@ import com.codingjoa.security.service.LoginSuccessHandler;
 
 @Import(OAuth2Config.class)
 @ComponentScan("com.codingjoa.security.service")
-@ComponentScan("com.codingjoa.security.oauth2")
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -108,15 +107,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/admin/**").hasAnyRole("ADMIN")
 				.anyRequest().permitAll()
 				.and()
-			.oauth2Login()
-				.authorizationEndpoint()
-					//OAuth2AuthorizationRequestRedirectFilter, DEFAULT_AUTHORIZATION_REQUEST_BASE_URI = "/oauth2/authorization";
-					.baseUri("/oauth2/authorization")
-					.and()
+			.oauth2Login() // authorizationEndpoint() --> OAuth2AuthorizationRequestRedirectFilter, DEFAULT_AUTHORIZATION_REQUEST_BASE_URI = "/oauth2/authorization";
 				.and()
-			.addFilterBefore(loginFilter(), OAuth2LoginAuthenticationFilter.class)
 			// https://velog.io/@tmdgh0221/Spring-Security-%EC%99%80-OAuth-2.0-%EC%99%80-JWT-%EC%9D%98-%EC%BD%9C%EB%9D%BC%EB%B3%B4
 			// add it right after the LogoutFilter, which is the point just before the actual authentication process takes place.
+			.addFilterBefore(loginFilter(), OAuth2LoginAuthenticationFilter.class)
 			.addFilterAfter(jwtFilter(), LogoutFilter.class)
 			.logout()
 				//.logoutUrl("/api/logout")

@@ -38,17 +38,11 @@ public class OAuth2Service {
 	public void init() {
 		log.info("## {}.init", this.getClass().getSimpleName());
 		log.info("\t > kakao.registrationId = {}", kakaoRegistration.getRegistrationId());
-		log.info("\t > kakao.clientId = {}", kakaoRegistration.getClientId());
-		log.info("\t > kakao.clientSecret = {}", kakaoRegistration.getClientSecret());
-		log.info("\t > kakao.authorizationGrantType = {}", kakaoRegistration.getAuthorizationGrantType().getValue());
 		log.info("\t > kakao.redirectUri = {}", kakaoRegistration.getRedirectUriTemplate());
 		log.info("\t > kakao.authorizationUri = {}", kakaoRegistration.getProviderDetails().getAuthorizationUri());
 		log.info("\t > kakao.tokenUri = {}", kakaoRegistration.getProviderDetails().getTokenUri());
 		log.info("\t > kakao.userInfoUri = {}", kakaoRegistration.getProviderDetails().getUserInfoEndpoint().getUri());
 		log.info("\t > naver.registrationId = {}", naverRegistration.getRegistrationId());
-		log.info("\t > naver.clientId = {}", naverRegistration.getClientId());
-		log.info("\t > naver.clientSecret = {}", naverRegistration.getClientSecret());
-		log.info("\t > naver.authorizationGrantType = {}", naverRegistration.getAuthorizationGrantType().getValue());
 		log.info("\t > naver.redirectUri = {}", naverRegistration.getRedirectUriTemplate());
 		log.info("\t > naver.authorizationUri = {}", naverRegistration.getProviderDetails().getAuthorizationUri());
 		log.info("\t > naver.tokenUri = {}", naverRegistration.getProviderDetails().getTokenUri());
