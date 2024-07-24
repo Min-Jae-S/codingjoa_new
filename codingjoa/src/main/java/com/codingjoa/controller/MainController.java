@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import com.codingjoa.response.SuccessResponse;
 
@@ -41,27 +40,37 @@ public class MainController {
 	}
 	
 	@GetMapping("/login") 
-	public String loginPage(@RequestParam(required = false) String redirect, Model model, HttpServletRequest request) {
+	public String loginPage(@RequestParam(name = "redirect", required = false) String redirectUrl, Model model) {
 		log.info("## loginPage");
-		log.info("\t > redirect = {}", (redirect == null) ? null : "'" + redirect + "'");
+		log.info("\t > redirect = {}", (redirectUrl == null) ? null : "'" + redirectUrl + "'");
+		model.addAttribute("redirectUrl", resolveRedirectUrl(redirectUrl));
 		
-		if (!isValidUrl(redirect, request)) {
+		return "login";
+	}
+	
+	private boolean isValidUrl(String url) {
+		if (!StringUtils.hasText(url)) {
+			return false;
+		}
+		
+		String pattern = ServletUriComponentsBuilder.fromCurrentContextPath()
+				.path("/**")
+				.build()
+				.toString();
+		return new AntPathMatcher().match(pattern, url);
+	}
+	
+	private String resolveRedirectUrl(String redirect) {
+		if (!isValidUrl(redirect)) {
 			log.info("\t > missing or invalid redirect, setting default redirect");
-			redirect = ServletUriComponentsBuilder.fromContextPath(request)
+			return ServletUriComponentsBuilder.fromCurrentContextPath()
 					.path("/")
 					.build()
 					.toString();
 		} else {
 			log.info("\t > valid redirect, setting redirect from request");
+			return redirect;
 		}
-		
-		
-		model.addAttribute("redirect", redirect);
-		return "login";
-	}
-	
-	private String resolveRedirect(HttpServletRequest request) {
-		return null;
 	}
 	
 	@ResponseBody
@@ -75,18 +84,6 @@ public class MainController {
 				.message("success")
 				.data(Map.of("redirectUrl", redirectUrl))
 				.build());
-	}
-	
-	private boolean isValidUrl(String url, HttpServletRequest request) {
-		if (!StringUtils.hasText(url)) {
-			return false;
-		}
-		
-		String pattern = ServletUriComponentsBuilder.fromContextPath(request)
-				.path("/**")
-				.build()
-				.toString();
-		return new AntPathMatcher().match(pattern, url);
 	}
 	
 	private String getRedirectURL(HttpServletRequest request, HttpServletResponse response) {

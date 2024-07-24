@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import lombok.Getter;
+import lombok.ToString;
 
 //	{
 //	  "id" : 3625815491,
@@ -21,6 +22,7 @@ import lombok.Getter;
 //	  }
 //	}
 
+@ToString
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class KakaoUserInfoResponse {
@@ -35,11 +37,6 @@ public class KakaoUserInfoResponse {
 	@JsonProperty("kakao_account")
 	private void unpackKakaoAccount(JsonNode kakaoAccount) {
 		this.nickname = kakaoAccount.path("profile").path("nickname").asText();
-	}
-
-	@Override
-	public String toString() {
-		return "(id=" + id + ", connectedAt=" + connectedAt + ", nickname=" + nickname + ")";
 	}
 	
 }

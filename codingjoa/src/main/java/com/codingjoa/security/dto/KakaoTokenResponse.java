@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
 import lombok.Getter;
+import lombok.ToString;
 
 //	{
 //	  "token_type" : "bearer",
@@ -15,6 +16,7 @@ import lombok.Getter;
 //	  "scope" : "profile_image profile_nickname"
 //	}
 
+@ToString
 @Getter 
 //@NoArgsConstructor // requires a default constructor to deserialize an object
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
@@ -27,12 +29,5 @@ public class KakaoTokenResponse {
 	public String refreshToken;
 	public Integer refreshTokenExpiresIn;
 	public String scope;
-	
-	@Override
-	public String toString() {
-		return "(tokenType=" + tokenType + ", accessToken=" + accessToken + ", expiresIn="
-				+ expiresIn + ", refreshToken=" + refreshToken + ", refreshTokenExpiresIn=" + refreshTokenExpiresIn
-				+ ", scope=" + scope + ")";
-	}
 	
 }

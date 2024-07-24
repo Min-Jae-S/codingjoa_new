@@ -1,6 +1,5 @@
 package com.codingjoa.interceptor;
 
-import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +13,7 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
+import org.springframework.web.util.UriUtils;
 
 import com.codingjoa.entity.Category;
 import com.codingjoa.service.CategoryService;
@@ -89,8 +89,7 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 		if (!matchesExcludePattern) {
 			log.info("\t > no matches excludePatterns, setting currentUrl as model attribute");
 			String currentUrl = Utils.getFullURL(request);
-			currentUrl = URLEncoder.encode(currentUrl, StandardCharsets.UTF_8);
-			modelAndView.addObject("currentUrl", currentUrl);
+			modelAndView.addObject("currentUrl", encode(currentUrl));
 		} else {
 			log.info("\t > matches excludePatterns, no currentUrl set");
 		}
@@ -102,6 +101,10 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 		for (String pattern : antPatterns) {
 			excludeMatchers.add(new AntPathRequestMatcher(pattern, null));
 		}
+	}
+	
+	private String encode(String value) {
+		return UriUtils.encode(value, StandardCharsets.UTF_8);
 	}
 	
 //	@Override

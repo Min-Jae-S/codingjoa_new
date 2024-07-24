@@ -42,11 +42,10 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 			Authentication authentication) throws IOException, ServletException {
 		log.info("## {}", this.getClass().getSimpleName());
 		
-		String redirectUrl = (String) authentication.getDetails();
 		SuccessResponse successResponse = SuccessResponse.builder()
 				.status(HttpStatus.OK)
 				.messageByCode("success.Login")
-				.data(Map.of("redirectUrl", resolveRedirectUrl(redirectUrl, request)))
+				.data(Map.of("redirectUrl", resolveRedirectUrl(authentication, request)))
 				.build();
 		
 		String jwt = jwtProvider.createJwt(authentication, request);
@@ -94,7 +93,9 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 		return new AntPathMatcher().match(pattern, url);
 	}
 	
-	private String resolveRedirectUrl(String redirectUrl, HttpServletRequest request) {
+	private String resolveRedirectUrl(Authentication authentication, HttpServletRequest request) {
+		String redirectUrl = (String) authentication.getDetails();
+		
 		if (!isValidUrl(redirectUrl, request)) {
 			log.info("\t > missing or invalid redirectUrl, setting default redirectUrl");
 			return ServletUriComponentsBuilder.fromContextPath(request)

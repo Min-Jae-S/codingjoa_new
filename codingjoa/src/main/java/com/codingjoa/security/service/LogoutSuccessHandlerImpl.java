@@ -24,20 +24,10 @@ public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
 			throws IOException, ServletException {
 		log.info("## {}", this.getClass().getSimpleName());
 		
-		String redirect = request.getParameter("redirect");
+		String redirectUrl = resolveRedirectUrl(request);
+		log.info("\t > redirect to '{}'", redirectUrl);
 		
-		if (!isValidUrl(redirect, request)) {
-			log.info("\t > missing or invalid redirect, setting default redirect");
-			redirect = ServletUriComponentsBuilder.fromContextPath(request)
-					.path("/")
-					.build()
-					.toString();
-		} else {
-			log.info("\t > valid redirect, setting redirect from request");
-		}
-		
-		log.info("\t > redirect to '{}'", redirect);
-		response.sendRedirect(redirect);
+		response.sendRedirect(redirectUrl);
 		//redirectStrategy.sendRedirect(request, response, redirectUrl);
 	}
 	
@@ -53,8 +43,19 @@ public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
 		return new AntPathMatcher().match(pattern, url);
 	}
 	
-	private String resolveRedirectUrl(String redirectUrl, HttpServletRequest request) {
-		return null;
+	private String resolveRedirectUrl(HttpServletRequest request) {
+		String redirectUrl = request.getParameter("redirect");
+		
+		if (!isValidUrl(redirectUrl, request)) {
+			log.info("\t > missing or invalid redirectUrl, setting default redirectUrl");
+			return ServletUriComponentsBuilder.fromContextPath(request)
+					.path("/")
+					.build()
+					.toString();
+		} else {
+			log.info("\t > valid redirectUrl, setting redirectUrl from request");
+			return redirectUrl;
+		}
 	}
 
 }

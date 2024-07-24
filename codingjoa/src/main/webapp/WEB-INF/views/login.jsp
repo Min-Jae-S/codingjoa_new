@@ -176,7 +176,7 @@
 			let formData = {
 				memberId : $("#memberId").val(),
 				memberPassword : $("#memberPassword").val(),
-				redirectUrl : "<c:out value='${redirect}' escapeXml='false'/>"
+				redirectUrl : "<c:out value='${redirectUrl}' escapeXml='false'/>"
 			};
 			
 			authenticationService.login(formData, function(result) {

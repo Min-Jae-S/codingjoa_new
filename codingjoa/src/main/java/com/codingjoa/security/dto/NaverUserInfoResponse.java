@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import lombok.Getter;
+import lombok.ToString;
 
 //	{
 //	  "resultcode" : "00",
@@ -16,6 +17,7 @@ import lombok.Getter;
 //	  }
 //	}
 
+@ToString
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class NaverUserInfoResponse {
@@ -35,10 +37,4 @@ public class NaverUserInfoResponse {
 		this.name = response.path("name").asText();
 	}
 
-	@Override
-	public String toString() {
-		return "(resultCode=" + resultCode + ", message=" + message + ", id=" + id + ", email="
-				+ email + ", name=" + name + ")";
-	}
-	
 }
