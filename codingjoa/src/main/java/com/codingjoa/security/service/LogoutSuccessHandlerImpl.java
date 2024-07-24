@@ -52,5 +52,9 @@ public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
 				.toString();
 		return new AntPathMatcher().match(pattern, url);
 	}
+	
+	private String resolveRedirectUrl(String redirectUrl, HttpServletRequest request) {
+		return null;
+	}
 
 }

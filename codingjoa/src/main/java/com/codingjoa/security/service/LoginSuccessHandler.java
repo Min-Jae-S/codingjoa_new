@@ -43,20 +43,10 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 		log.info("## {}", this.getClass().getSimpleName());
 		
 		String redirectUrl = (String) authentication.getDetails();
-		if(!isValidUrl(redirectUrl, request)) {
-			log.info("\t > missing or invalid redirectUrl, setting default redirectUrl");
-			redirectUrl = ServletUriComponentsBuilder.fromContextPath(request)
-					.path("/")
-					.build()
-					.toString();
-		} else {
-			log.info("\t > valid redirectUrl, setting redirectUrl from request");
-		}
-		
 		SuccessResponse successResponse = SuccessResponse.builder()
 				.status(HttpStatus.OK)
 				.messageByCode("success.Login")
-				.data(Map.of("redirectUrl", redirectUrl))
+				.data(Map.of("redirectUrl", resolveRedirectUrl(redirectUrl, request)))
 				.build();
 		
 		String jwt = jwtProvider.createJwt(authentication, request);
@@ -102,6 +92,19 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 				.build()
 				.toString();
 		return new AntPathMatcher().match(pattern, url);
+	}
+	
+	private String resolveRedirectUrl(String redirectUrl, HttpServletRequest request) {
+		if (!isValidUrl(redirectUrl, request)) {
+			log.info("\t > missing or invalid redirectUrl, setting default redirectUrl");
+			return ServletUriComponentsBuilder.fromContextPath(request)
+					.path("/")
+					.build()
+					.toString();
+		} else {
+			log.info("\t > valid redirectUrl, setting redirectUrl from request");
+			return redirectUrl;
+		}
 	}
 	
 	@SuppressWarnings("unused")

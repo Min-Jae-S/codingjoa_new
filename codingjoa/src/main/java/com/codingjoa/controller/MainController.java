@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.codingjoa.response.SuccessResponse;
 
@@ -54,8 +55,13 @@ public class MainController {
 			log.info("\t > valid redirect, setting redirect from request");
 		}
 		
+		
 		model.addAttribute("redirect", redirect);
 		return "login";
+	}
+	
+	private String resolveRedirect(HttpServletRequest request) {
+		return null;
 	}
 	
 	@ResponseBody
