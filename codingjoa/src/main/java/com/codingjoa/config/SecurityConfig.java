@@ -59,7 +59,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private JwtProvider jwtProvider;
 	
-	
 	@Qualifier("mainClientRegistrationRepository")
 	@Autowired
 	private ClientRegistrationRepository clientRegistrationRepository;

@@ -1,7 +1,5 @@
 package com.codingjoa.security.service;
 
-import javax.annotation.PostConstruct;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpEntity;
@@ -20,9 +18,6 @@ import com.codingjoa.security.dto.KakaoUserInfoResponse;
 import com.codingjoa.security.dto.NaverTokenResponse;
 import com.codingjoa.security.dto.NaverUserInfoResponse;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @Service
 public class OAuth2Service {
 	
@@ -34,13 +29,6 @@ public class OAuth2Service {
 	public OAuth2Service(@Qualifier("subClientRegistrationRepository") InMemoryClientRegistrationRepository clientRegistrationRepository) {
 		this.kakaoRegistration = clientRegistrationRepository.findByRegistrationId("kakao");
 		this.naverRegistration = clientRegistrationRepository.findByRegistrationId("naver");
-	}
-	
-	@PostConstruct
-	public void init() {
-		log.info("## {}.init", this.getClass().getSimpleName());
-		log.info("\t > kakao.redirectUri = {}", kakaoRegistration.getRedirectUriTemplate());
-		log.info("\t > naver.redirectUri = {}", naverRegistration.getRedirectUriTemplate());
 	}
 	
 	public KakaoTokenResponse getKakaoToken(String code) {
