@@ -3,6 +3,7 @@ package com.codingjoa.security.service;
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -29,8 +30,8 @@ public class OAuth2Service {
 	private final ClientRegistration kakaoRegistration;
 	private final ClientRegistration naverRegistration;
 	
-	//@Autowired
-	public OAuth2Service(@Autowired InMemoryClientRegistrationRepository clientRegistrationRepository) {
+	@Autowired
+	public OAuth2Service(@Qualifier("subClientRegistrationRepository") InMemoryClientRegistrationRepository clientRegistrationRepository) {
 		this.kakaoRegistration = clientRegistrationRepository.findByRegistrationId("kakao");
 		this.naverRegistration = clientRegistrationRepository.findByRegistrationId("naver");
 	}

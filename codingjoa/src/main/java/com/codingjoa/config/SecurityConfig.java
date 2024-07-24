@@ -1,6 +1,7 @@
 package com.codingjoa.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -58,6 +59,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private JwtProvider jwtProvider;
 	
+	
+	@Qualifier("mainClientRegistrationRepository")
 	@Autowired
 	private ClientRegistrationRepository clientRegistrationRepository;
 	

@@ -3,12 +3,10 @@ package com.codingjoa.controller.test;
 import java.nio.charset.StandardCharsets;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
-import org.springframework.security.oauth2.client.web.DefaultOAuth2AuthorizationRequestResolver;
-import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestResolver;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationResponseType;
-import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -94,6 +92,7 @@ public class TestViewController {
 		return "test/cookie-session";
 	}
 	
+	@Qualifier("subClientRegistrationRepository")
 	@Autowired
 	private InMemoryClientRegistrationRepository clientRegistrationRepository;
 	
@@ -112,12 +111,12 @@ public class TestViewController {
 
 	private String buildKakaoLoginUrl() {
 		// https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}
-		ClientRegistration kakaoClinetRegistration = clientRegistrationRepository.findByRegistrationId("kakao");
-		String authorizationUri = kakaoClinetRegistration.getProviderDetails().getAuthorizationUri();
+		ClientRegistration kakaoRegistration = clientRegistrationRepository.findByRegistrationId("kakao");
+		String authorizationUri = kakaoRegistration.getProviderDetails().getAuthorizationUri();
 		return UriComponentsBuilder.fromHttpUrl(authorizationUri)
 				.queryParam("respnse_type", OAuth2AuthorizationResponseType.CODE.getValue())
-				.queryParam("client_id", kakaoClinetRegistration.getClientId())
-				.queryParam("redirect_uri", kakaoClinetRegistration.getRedirectUriTemplate())
+				.queryParam("client_id", kakaoRegistration.getClientId())
+				.queryParam("redirect_uri", kakaoRegistration.getRedirectUriTemplate())
 				.encode(StandardCharsets.UTF_8)
 				.toUriString();
 		
@@ -125,12 +124,12 @@ public class TestViewController {
 	
 	private String buildNaverLoginUrl() {
 		// https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=CLIENT_ID&state=STATE_STRING&redirect_uri=CALLBACK_URL
-		ClientRegistration naverClinetRegistration = clientRegistrationRepository.findByRegistrationId("naver");
-		String authorizationUri = naverClinetRegistration.getProviderDetails().getAuthorizationUri();
+		ClientRegistration naverRegistration = clientRegistrationRepository.findByRegistrationId("naver");
+		String authorizationUri = naverRegistration.getProviderDetails().getAuthorizationUri();
 		return UriComponentsBuilder.fromHttpUrl(authorizationUri)
 				.queryParam("respnse_type", OAuth2AuthorizationResponseType.CODE.getValue())
-				.queryParam("client_id", naverClinetRegistration.getClientId())
-				.queryParam("redirect_uri", naverClinetRegistration.getRedirectUriTemplate())
+				.queryParam("client_id", naverRegistration.getClientId())
+				.queryParam("redirect_uri", naverRegistration.getRedirectUriTemplate())
 				.queryParam("state", "STATE_STRING")
 				.encode(StandardCharsets.UTF_8)
 				.toUriString();
