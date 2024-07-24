@@ -113,7 +113,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/admin/**").hasAnyRole("ADMIN")
 				.anyRequest().permitAll()
 				.and()
-			.oauth2Login() // authorizationEndpoint() --> OAuth2AuthorizationRequestRedirectFilter, DEFAULT_AUTHORIZATION_REQUEST_BASE_URI = "/oauth2/authorization";
+			.oauth2Login() 
+				.authorizationEndpoint()
+					// OAuth2AuthorizationRequestRedirectFilter, DEFAULT_AUTHORIZATION_REQUEST_BASE_URI = "/oauth2/authorization"
+					// /login/{registrationId}
+					.baseUri("/login") 
+					.and()
 				.clientRegistrationRepository(clientRegistrationRepository)
 				.and()
 			// https://velog.io/@tmdgh0221/Spring-Security-%EC%99%80-OAuth-2.0-%EC%99%80-JWT-%EC%9D%98-%EC%BD%9C%EB%9D%BC%EB%B3%B4

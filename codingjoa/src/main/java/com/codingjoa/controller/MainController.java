@@ -44,7 +44,6 @@ public class MainController {
 		log.info("## loginPage");
 		log.info("\t > redirect = {}", (redirectUrl == null) ? null : "'" + redirectUrl + "'");
 		model.addAttribute("redirectUrl", resolveRedirectUrl(redirectUrl));
-		
 		return "login";
 	}
 	

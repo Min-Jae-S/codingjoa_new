@@ -148,16 +148,16 @@
 					<hr class="social-login-line">
 					<span class="social-login-title">SNS 계정 로그인</span>
 					<div class="social-login-body">
-						<a href="${contextPath}/oauth2/authorization/kakao">
+						<a href="${contextPath}/login/kakao">
 							<img class="social-login-btn" src="${contextPath}/resources/images/kakao.png">
 						</a>
-						<a href="${contextPath}/oauth2/authorization/naver">
+						<a href="${contextPath}/login/naver">
 							<img class="social-login-btn" src="${contextPath}/resources/images/naver.png">
 						</a>
-						<a href="#">
+						<a href="${contextPath}/login/google">
 							<img class="social-login-btn" src="${contextPath}/resources/images/google.png">
 						</a>
-						<a href="#">
+						<a href="${contextPath}/login/google">
 							<img class="social-login-btn" src="${contextPath}/resources/images/github.png">
 						</a>
 					</div>
