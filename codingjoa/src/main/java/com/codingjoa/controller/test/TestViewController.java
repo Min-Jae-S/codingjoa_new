@@ -3,24 +3,17 @@ package com.codingjoa.controller.test;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.crypto.keygen.Base64StringKeyGenerator;
 import org.springframework.security.crypto.keygen.StringKeyGenerator;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
-import org.springframework.security.oauth2.client.web.DefaultOAuth2AuthorizationRequestResolver;
-import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationResponseType;
-import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.CollectionUtils;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -121,54 +114,52 @@ public class TestViewController {
 	
 	private String buildAuthorizationRequestUri(ClientRegistration clientRegistration) {
 		MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-		params.set("response_type", encodeQueryParam(OAuth2AuthorizationResponseType.CODE.getValue()));
-		params.set("client_id", encodeQueryParam(clientRegistration.getClientId()));
-		params.set("redirect_uri", encodeQueryParam(clientRegistration.getRedirectUriTemplate()));
+		params.set("response_type", encode(OAuth2AuthorizationResponseType.CODE.getValue()));
+		params.set("client_id", encode(clientRegistration.getClientId()));
+		params.set("redirect_uri", encode(clientRegistration.getRedirectUriTemplate()));
 		
 		if (clientRegistration.getRegistrationId().equals("naver")) {
-			StringKeyGenerator stateGenerator = new Base64StringKeyGenerator(Base64.getUrlEncoder());
-			String state = stateGenerator.generateKey();
-			params.set("state", encodeQueryParam(state));
+			String state = generateState();
+			params.set("state", encode(state));
 		}
-		
+
 		return UriComponentsBuilder.fromHttpUrl(clientRegistration.getProviderDetails().getAuthorizationUri())
 				.queryParams(params)
 				.build()
 				.toUriString();
 	}
-
+	
 	@SuppressWarnings("unused")
-	private String resolveKakaoLoginUrl() {
+	private String buildKakaoLoginUrl() {
 		ClientRegistration kakaoRegistration = clientRegistrationRepository.findByRegistrationId("kakao");
 		// https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}
-		String authorizationUri = kakaoRegistration.getProviderDetails().getAuthorizationUri();
-		
-		return UriComponentsBuilder.fromHttpUrl(authorizationUri)
+		return UriComponentsBuilder.fromHttpUrl(kakaoRegistration.getProviderDetails().getAuthorizationUri())
 				.queryParam("response_type", OAuth2AuthorizationResponseType.CODE.getValue())
 				.queryParam("client_id", kakaoRegistration.getClientId())
 				.queryParam("redirect_uri", kakaoRegistration.getRedirectUriTemplate())
-				.encode(StandardCharsets.UTF_8)
 				.toUriString();
 		
 	}
 	
 	@SuppressWarnings("unused")
-	private String resolveNaverLoginUrl() {
+	private String buildNaverLoginUrl() {
 		ClientRegistration naverRegistration = clientRegistrationRepository.findByRegistrationId("naver");
 		// https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=CLIENT_ID&state=STATE_STRING&redirect_uri=CALLBACK_URL
-		String authorizationUri = naverRegistration.getProviderDetails().getAuthorizationUri();
-		
-		return UriComponentsBuilder.fromHttpUrl(authorizationUri)
+		return UriComponentsBuilder.fromHttpUrl(naverRegistration.getProviderDetails().getAuthorizationUri())
 				.queryParam("response_type", OAuth2AuthorizationResponseType.CODE.getValue())
 				.queryParam("client_id", naverRegistration.getClientId())
 				.queryParam("redirect_uri", naverRegistration.getRedirectUriTemplate())
-				.queryParam("state", "STATE_STRING")
-				.encode(StandardCharsets.UTF_8)
+				.queryParam("state", generateState())
 				.toUriString();
 	}
 	
-	private String encodeQueryParam(String value) {
-		return UriUtils.encodeQueryParam(value, StandardCharsets.UTF_8);
+	private String generateState() {
+		StringKeyGenerator stateGenerator = new Base64StringKeyGenerator(Base64.getUrlEncoder());
+		return stateGenerator.generateKey();
+	}
+	
+	private String encode(String value) {
+		return UriUtils.encode(value, StandardCharsets.UTF_8);
 	}
 	
 }

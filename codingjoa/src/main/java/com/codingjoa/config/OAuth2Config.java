@@ -18,13 +18,13 @@ public class OAuth2Config {
 	@Autowired
 	private Environment env;
 	
-	@Bean
+	@Bean(name = "mainClientRegistrationRepository")
 	public InMemoryClientRegistrationRepository mainClientRegistrationRepository() {
 		List<ClientRegistration> registrations = Arrays.asList(kakaoClientRegistration(), naverClientRegistration());
 		return new InMemoryClientRegistrationRepository(registrations);
 	}
 
-	@Bean
+	@Bean(name = "subClientRegistrationRepository")
 	public InMemoryClientRegistrationRepository subClientRegistrationRepository() {
 		List<ClientRegistration> registrations = Arrays.asList(kakaoClientRegistration(false), naverClientRegistration(false));
 		return new InMemoryClientRegistrationRepository(registrations);
