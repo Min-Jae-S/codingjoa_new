@@ -117,7 +117,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.authorizationEndpoint()
 					// OAuth2AuthorizationRequestRedirectFilter, DEFAULT_AUTHORIZATION_REQUEST_BASE_URI = "/oauth2/authorization"
 					// /login/{registrationId}
-					.baseUri("/login") 
+					.baseUri("/login")
+					.and()
+				.redirectionEndpoint()
+					// OAuth2Provider, DEFAULT_REDIRECT_URL = "{baseUrl}/{action}/oauth2/code/{registrationId}";
+					//.baseUri("/login/{registrationId}/callback")
 					.and()
 				.clientRegistrationRepository(clientRegistrationRepository)
 				.and()
