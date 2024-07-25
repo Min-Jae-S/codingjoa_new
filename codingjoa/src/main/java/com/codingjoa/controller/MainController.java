@@ -5,7 +5,12 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
+import org.springframework.security.oauth2.client.web.DefaultOAuth2AuthorizationRequestResolver;
+import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.security.web.savedrequest.RequestCache;
 import org.springframework.security.web.savedrequest.SavedRequest;
@@ -21,6 +26,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.codingjoa.response.SuccessResponse;
 
 import lombok.extern.slf4j.Slf4j;
+
 
 
 @Slf4j
@@ -39,11 +45,24 @@ public class MainController {
 		return "access-denied";
 	}
 	
+	@Qualifier("mainClientRegistrationRepository")
+	@Autowired
+	private InMemoryClientRegistrationRepository clientRegistrationRepository;
+	
 	@GetMapping("/login") 
-	public String loginPage(@RequestParam(name = "redirect", required = false) String redirectUrl, Model model) {
+	public String loginPage(@RequestParam(name = "redirect", required = false) String redirectUrl, Model model, HttpServletRequest request) {
 		log.info("## loginPage");
 		log.info("\t > redirect = {}", (redirectUrl == null) ? null : "'" + redirectUrl + "'");
 		model.addAttribute("redirectUrl", resolveRedirectUrl(redirectUrl));
+		
+		DefaultOAuth2AuthorizationRequestResolver authorizationRequestResolver = 
+				new DefaultOAuth2AuthorizationRequestResolver(clientRegistrationRepository, "/login");
+		clientRegistrationRepository.forEach(clinetRegistration -> {
+			OAuth2AuthorizationRequest authorizationRequest = authorizationRequestResolver.resolve(request, clinetRegistration.getRegistrationId());
+			// URI string is encoded in the application/x-www-form-urlencoded MIME format.
+			log.info("\t > authorizationRequestUri = {} ", authorizationRequest.getAuthorizationRequestUri());
+		});
+		
 		return "login";
 	}
 	
