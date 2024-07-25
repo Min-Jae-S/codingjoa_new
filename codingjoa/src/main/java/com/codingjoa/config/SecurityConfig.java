@@ -17,12 +17,16 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
+import org.springframework.security.oauth2.client.web.DefaultOAuth2AuthorizationRequestResolver;
+import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestResolver;
 import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.codingjoa.security.filter.JwtFilter;
 import com.codingjoa.security.filter.JwtMathcerFilter;
@@ -32,6 +36,9 @@ import com.codingjoa.security.service.LoginFailureHandler;
 import com.codingjoa.security.service.LoginProvider;
 import com.codingjoa.security.service.LoginSuccessHandler;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Import(OAuth2Config.class)
 @ComponentScan("com.codingjoa.security.service")
 @EnableWebSecurity
@@ -115,10 +122,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.and()
 			.oauth2Login() 
 				.authorizationEndpoint()
-					.baseUri("/login")
+					.authorizationRequestResolver(authorizationRequestResolver(this.clientRegistrationRepository))
 					.and()
 				.redirectionEndpoint()
-					
 					.and()
 				.clientRegistrationRepository(clientRegistrationRepository)
 				.and()
@@ -182,6 +188,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		filter.addIncludeMatchers("/api/member/details");
 		filter.addIncludeMatchers("/test/jwt/test7", "/test/jwt/test8");
 		return filter;
+	}
+	
+	private OAuth2AuthorizationRequestResolver authorizationRequestResolver(ClientRegistrationRepository clientRegistrationRepository) {
+		DefaultOAuth2AuthorizationRequestResolver resolver = new DefaultOAuth2AuthorizationRequestResolver(
+				clientRegistrationRepository, "/login");
+		resolver.setAuthorizationRequestCustomizer(customizer -> {
+			customizer.authorizationRequestUri(uriBuilder -> {
+				UriComponents originalComponents = ((UriComponentsBuilder) uriBuilder).build();
+				log.info("\t > {}", originalComponents.getQueryParams().get("redirect_uri"));
+				return originalComponents.toUri();
+			});
+		});
+		
+		return resolver;
 	}
 	
 	
