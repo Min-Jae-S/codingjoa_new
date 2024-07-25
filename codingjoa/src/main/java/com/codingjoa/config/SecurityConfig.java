@@ -124,12 +124,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.anyRequest().permitAll()
 				.and()
 			.oauth2Login() 
+				.clientRegistrationRepository(clientRegistrationRepository)
 				.authorizationEndpoint()
-					.authorizationRequestResolver(authorizationRequestResolver(this.clientRegistrationRepository))
+					.baseUri("/login/*")
+					.authorizationRequestResolver(authorizationRequestResolver(clientRegistrationRepository))
 					.and()
 				.redirectionEndpoint()
+					.baseUri("/login/*/callback")
 					.and()
-				.clientRegistrationRepository(clientRegistrationRepository)
 				.and()
 			// https://velog.io/@tmdgh0221/Spring-Security-%EC%99%80-OAuth-2.0-%EC%99%80-JWT-%EC%9D%98-%EC%BD%9C%EB%9D%BC%EB%B3%B4
 			// add it right after the LogoutFilter, which is the point just before the actual authentication process takes place.
@@ -193,7 +195,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		return filter;
 	}
 	
-	private OAuth2AuthorizationRequestResolver authorizationRequestResolver(ClientRegistrationRepository clientRegistrationRepository) {
+	private OAuth2AuthorizationRequestResolver authorizationRequestResolver(
+			ClientRegistrationRepository clientRegistrationRepository) {
 		DefaultOAuth2AuthorizationRequestResolver resolver = new DefaultOAuth2AuthorizationRequestResolver(
 				clientRegistrationRepository, "/login");
 		
@@ -201,23 +204,27 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			log.info("## AuthorizationRequestCustomizer");
 			
 			OAuth2AuthorizationRequest authorizationRequest = customizer.build();
-			String authorizationRequestUri = authorizationRequest.getAuthorizationRequestUri();
-			
-			UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(authorizationRequestUri);
-			
-			String redirectUriParam = builder.build().getQueryParams().getFirst("redirect_uri");
-			redirectUriParam = UriUtils.decode(redirectUriParam,  StandardCharsets.UTF_8);
-			redirectUriParam = UriUtils.encode(redirectUriParam, StandardCharsets.UTF_8);
-			
-			String newAuthorizationRequestUri = builder.replaceQueryParam("redirect_uri", redirectUriParam)
-					.build().toUriString();
-			customizer.authorizationRequestUri(newAuthorizationRequestUri);
-			
-			log.info("\t > callBackUri = {}", authorizationRequest.getRedirectUri());
-			log.info("\t > redirectUriParam = {}", redirectUriParam);
+			String customizedAuthorizationRequestUri = getCustomizedAuthorizationRequestUri(authorizationRequest);
+			customizer.authorizationRequestUri(customizedAuthorizationRequestUri);
 		});
 		
 		return resolver;
+	}
+	
+	private String getCustomizedAuthorizationRequestUri(OAuth2AuthorizationRequest authorizationRequest) {
+		String authorizationRequestUri = authorizationRequest.getAuthorizationRequestUri();
+		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(authorizationRequestUri);
+		
+		String authorizationResponseUri = builder.build().getQueryParams().getFirst("redirect_uri");
+		log.info("\t > partially encoded redirect_uri = {}", authorizationResponseUri);
+		
+		String decodedAuthorizationResponseUri = UriUtils.decode(authorizationResponseUri,  StandardCharsets.UTF_8);
+		log.info("\t > decoded redirect_uri = {}", decodedAuthorizationResponseUri);
+		
+		String encodedAuthorizationResponseUri = UriUtils.encode(decodedAuthorizationResponseUri, StandardCharsets.UTF_8);
+		log.info("\t > fully encoded redirect_uri = {}", encodedAuthorizationResponseUri);
+		 
+		 return builder.replaceQueryParam("redirect_uri", encodedAuthorizationResponseUri).build().toUriString();
 	}
 	
 	
