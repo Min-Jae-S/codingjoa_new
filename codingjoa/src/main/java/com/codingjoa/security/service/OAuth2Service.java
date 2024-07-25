@@ -26,10 +26,11 @@ public class OAuth2Service {
 	private final ClientRegistration naverRegistration;
 	
 	@Autowired
-	public OAuth2Service(@Qualifier("subClientRegistrationRepository") InMemoryClientRegistrationRepository clientRegistrationRepository) {
+	public OAuth2Service(@Qualifier("testClientRegistrationRepository") InMemoryClientRegistrationRepository clientRegistrationRepository) {
 		this.kakaoRegistration = clientRegistrationRepository.findByRegistrationId("kakao");
 		this.naverRegistration = clientRegistrationRepository.findByRegistrationId("naver");
 	}
+
 	
 	public KakaoTokenResponse getKakaoToken(String code) {
 		HttpHeaders headers = new HttpHeaders();

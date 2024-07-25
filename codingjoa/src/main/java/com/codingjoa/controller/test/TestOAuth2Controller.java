@@ -80,7 +80,7 @@ public class TestOAuth2Controller {
 	//		.bodyToFlux(KakaoTokenResponseDto.class);
 	
 	
-	@Qualifier("mainClientRegistrationRepository")
+	@Qualifier("testClientRegistrationRepository")
 	@Autowired
 	private InMemoryClientRegistrationRepository clientRegistrationRepository;
 	
@@ -89,22 +89,23 @@ public class TestOAuth2Controller {
 		log.info("## test1");
 		
 		ClientRegistration clientRegistration = clientRegistrationRepository.findByRegistrationId("kakao");
-		DefaultOAuth2AuthorizationRequestResolver resolver = new DefaultOAuth2AuthorizationRequestResolver(
-				clientRegistrationRepository, "/oauth2/authorization");
+		DefaultOAuth2AuthorizationRequestResolver resolver = new DefaultOAuth2AuthorizationRequestResolver(clientRegistrationRepository, "/oauth2/authorization");
 		OAuth2AuthorizationRequest authorizationRequest = resolver.resolve(request, clientRegistration.getRegistrationId());
 		
-		String authorizationRequestUri1 = authorizationRequest.getAuthorizationRequestUri();
-		String authorizationRequestUri2 = buildAuthorizationRequestUri(clientRegistration);
-		
-		log.info("\t > authorizationRequestUri1 = {}", authorizationRequestUri1);
-		log.info("\t > authorizationRequestUri2 = {}", authorizationRequestUri2);
+		log.info("\t > response_type = {}", authorizationRequest.getResponseType().getValue());
+		log.info("\t > client_id = {}", authorizationRequest.getClientId());
+		log.info("\t > redirect_uri = {}", authorizationRequest.getRedirectUri());
+		log.info("==================================================================================");
+		log.info("\t > authorization_uri = {}", authorizationRequest.getAuthorizationUri());
+		log.info("\t > authorization_request_uri = {}", authorizationRequest.getAuthorizationRequestUri());
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 	
-	
+	@SuppressWarnings("unused")
 	private String buildAuthorizationRequestUri(ClientRegistration clientRegistration) {
 		// https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}
+		log.info("\t > redirectUriTemplate = {}", clientRegistration.getRedirectUriTemplate());
 		return UriComponentsBuilder.fromHttpUrl(clientRegistration.getProviderDetails().getAuthorizationUri())
 				.queryParam("response_type", OAuth2AuthorizationResponseType.CODE.getValue())
 				.queryParam("client_id", clientRegistration.getClientId())
