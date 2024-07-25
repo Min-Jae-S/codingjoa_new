@@ -105,7 +105,7 @@ public class TestViewController {
 	private final InMemoryClientRegistrationRepository clientRegistrationRepository;
 	private final DefaultOAuth2AuthorizationRequestResolver authorizationRequestResolver;
 
-	public TestViewController(@Qualifier("subClientRegistrationRepository") InMemoryClientRegistrationRepository clientRegistrationRepository) {
+	public TestViewController(@Qualifier("testClientRegistrationRepository") InMemoryClientRegistrationRepository clientRegistrationRepository) {
 		this.clientRegistrationRepository = clientRegistrationRepository;
 		this.authorizationRequestResolver = new DefaultOAuth2AuthorizationRequestResolver(clientRegistrationRepository,
 				DEFAULT_AUTHORIZATION_REQUEST_BASE_URI);
@@ -170,8 +170,7 @@ public class TestViewController {
 	}
 	
 	private String generateState() {
-		StringKeyGenerator stateGenerator = new Base64StringKeyGenerator(Base64.getUrlEncoder());
-		return stateGenerator.generateKey();
+		new Base64StringKeyGenerator(Base64.getUrlEncoder()).generateKey();
 	}
 	
 	private String encode(String value) {

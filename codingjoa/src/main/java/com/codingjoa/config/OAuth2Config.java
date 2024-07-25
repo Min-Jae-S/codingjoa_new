@@ -50,14 +50,16 @@ public class OAuth2Config {
 	}
 
 	private ClientRegistration getClientRegistration(String registrationId) {
-		String registrationKey = "spring.security.oauth2.client.registration." + registrationId + ".";
-		String providerKey = "spring.security.oauth2.client.provider." + registrationId + ".";
+		String registrationKey = "security.oauth2.client.registration." + registrationId + ".";
+		String providerKey = "security.oauth2.client.provider." + registrationId + ".";
+		
 		return ClientRegistration.withRegistrationId(registrationId)
-				.clientId(env.getProperty(registrationKey + "clinet-id"))
+				.clientId(env.getProperty(registrationKey + "client-id"))
 				.clientSecret(env.getProperty(registrationKey + "client-secret"))
 				.clientName(env.getProperty(registrationKey + "client-name"))
 				.redirectUriTemplate(env.getProperty(registrationKey + "redirect-uri-template"))
-				.authorizationGrantType(env.getProperty(registrationKey + "authorization-grant-type", AuthorizationGrantType.class))
+				.authorizationGrantType(new AuthorizationGrantType(
+						env.getProperty(registrationKey + "authorization-grant-type")))
 				.authorizationUri(env.getProperty(providerKey + "authorization-uri"))
 				.tokenUri(env.getProperty(providerKey + "token-uri"))
 				.userInfoUri(env.getProperty(providerKey + "user-info-uri"))

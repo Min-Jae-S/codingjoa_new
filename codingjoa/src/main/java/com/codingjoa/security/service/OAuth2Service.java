@@ -30,7 +30,6 @@ public class OAuth2Service {
 		this.kakaoRegistration = clientRegistrationRepository.findByRegistrationId("kakao");
 		this.naverRegistration = clientRegistrationRepository.findByRegistrationId("naver");
 	}
-
 	
 	public KakaoTokenResponse getKakaoToken(String code) {
 		HttpHeaders headers = new HttpHeaders();
