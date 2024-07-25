@@ -1,5 +1,7 @@
 package com.codingjoa.controller.test;
 
+import java.nio.charset.StandardCharsets;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
+import org.springframework.web.util.UriUtils;
 
 import com.codingjoa.response.SuccessResponse;
 import com.codingjoa.security.dto.KakaoTokenResponse;
@@ -92,14 +95,23 @@ public class TestOAuth2Controller {
 		DefaultOAuth2AuthorizationRequestResolver resolver = new DefaultOAuth2AuthorizationRequestResolver(clientRegistrationRepository, "/oauth2/authorization");
 		OAuth2AuthorizationRequest authorizationRequest = resolver.resolve(request, clientRegistration.getRegistrationId());
 		
-		log.info("\t > response_type = {}", authorizationRequest.getResponseType().getValue());
-		log.info("\t > client_id = {}", authorizationRequest.getClientId());
-		log.info("\t > redirect_uri = {}", authorizationRequest.getRedirectUri());
-		log.info("==================================================================================");
-		log.info("\t > authorization_uri = {}", authorizationRequest.getAuthorizationUri());
-		log.info("\t > authorization_request_uri = {}", authorizationRequest.getAuthorizationRequestUri());
+		String redirectUri = authorizationRequest.getRedirectUri();
+		String authorizationRequestUri = authorizationRequest.getAuthorizationRequestUri();;
+		log.info("\t > redirectUri = {}", redirectUri);
+		log.info("\t > encode redirectUri = {}", encodeQueryParam(redirectUri));
+		
+		log.info("\t > authorizationRequestUri = {}", authorizationRequestUri);
+		log.info("\t > encode authorizationRequestUri = {}", encodeQueryParam(authorizationRequestUri));
+		
+		String uri = "https://kauth.kakao.com/oauth/authorize?response_type=#$#@#";
+		log.info("\t > uri = {}", uri);
+		log.info("\t > encode uri = {}", encodeQueryParam(uri));
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
+	}
+	
+	private static String encodeQueryParam(String value) {
+		return UriUtils.encodeQueryParam(value, StandardCharsets.UTF_8);
 	}
 	
 	@SuppressWarnings("unused")

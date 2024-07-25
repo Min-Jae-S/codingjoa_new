@@ -145,6 +145,15 @@ public class TestViewController {
 				.toUriString();
 	}
 	
+	private String generateState() {
+		StringKeyGenerator stateGenerator = new Base64StringKeyGenerator(Base64.getUrlEncoder());
+		return stateGenerator.generateKey();
+	}
+	
+	private String encode(String value) {
+		return UriUtils.encode(value, StandardCharsets.UTF_8);
+	}
+	
 	@SuppressWarnings("unused")
 	private String buildKakaoLoginUrl() {
 		ClientRegistration kakaoRegistration = clientRegistrationRepository.findByRegistrationId("kakao");
@@ -167,15 +176,6 @@ public class TestViewController {
 				.queryParam("redirect_uri", naverRegistration.getRedirectUriTemplate())
 				.queryParam("state", generateState())
 				.toUriString();
-	}
-	
-	private String generateState() {
-		StringKeyGenerator stateGenerator = new Base64StringKeyGenerator(Base64.getUrlEncoder());
-		return stateGenerator.generateKey();
-	}
-	
-	private String encode(String value) {
-		return UriUtils.encode(value, StandardCharsets.UTF_8);
 	}
 	
 }
