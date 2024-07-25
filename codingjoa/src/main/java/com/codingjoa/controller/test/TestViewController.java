@@ -122,7 +122,6 @@ public class TestViewController {
 		clientRegistrationRepository.forEach(clientRegistration -> {
 			String registrationId = clientRegistration.getRegistrationId();
 			OAuth2AuthorizationRequest authorizationRequest = authorizationRequestResolver.resolve(request, registrationId);
-			log.info("\t > authorizationUri = {}", authorizationRequest.getAuthorizationUri());
 			log.info("\t > authorizationRequestUri = {}", authorizationRequest.getAuthorizationRequestUri());
 		});
 		
