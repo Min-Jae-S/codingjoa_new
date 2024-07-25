@@ -28,6 +28,7 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.web.util.UriUtils;
 
 import com.codingjoa.security.filter.JwtFilter;
@@ -195,18 +196,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private OAuth2AuthorizationRequestResolver authorizationRequestResolver(ClientRegistrationRepository clientRegistrationRepository) {
 		DefaultOAuth2AuthorizationRequestResolver resolver = new DefaultOAuth2AuthorizationRequestResolver(
 				clientRegistrationRepository, "/login");
+		
 		resolver.setAuthorizationRequestCustomizer(customizer -> {
-			OAuth2AuthorizationRequest authorizationRequest = customizer.build();
-			String redirectUri = authorizationRequest.getRedirectUri();
-			String authorizationRequestUri = authorizationRequest.getAuthorizationRequestUri();
-			String originalAuthorizationRequestUri = UriUtils.decode(authorizationRequestUri, StandardCharsets.UTF_8);
-			String encodedAuthorizationRequestUri = UriUtils.encode(originalAuthorizationRequestUri, StandardCharsets.UTF_8);
-			log.info("\t > authorizationRequestResolver.redirectUri = {}", redirectUri);
-			log.info("\t > authorizationRequestResolver.authorizationRequestUri = {}", authorizationRequestUri);
-			log.info("\t > authorizationRequestResolver.originnalAuthorizationRequestUri = {}", originalAuthorizationRequestUri);
-			log.info("\t > authorizationRequestResolver.encodedAuthorizationRequestUri = {}", encodedAuthorizationRequestUri);
+			log.info("## AuthorizationRequestCustomizer");
 			
-			customizer.authorizationRequestUri(authorizationRequestUri);
+			OAuth2AuthorizationRequest authorizationRequest = customizer.build();
+			String authorizationRequestUri = authorizationRequest.getAuthorizationRequestUri();
+			
+			UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(authorizationRequestUri);
+			
+			String redirectUriParam = builder.build().getQueryParams().getFirst("redirect_uri");
+			redirectUriParam = UriUtils.decode(redirectUriParam,  StandardCharsets.UTF_8);
+			redirectUriParam = UriUtils.encode(redirectUriParam, StandardCharsets.UTF_8);
+			
+			String newAuthorizationRequestUri = builder.replaceQueryParam("redirect_uri", redirectUriParam)
+					.build().toUriString();
+			customizer.authorizationRequestUri(newAuthorizationRequestUri);
+			
+			log.info("\t > callBackUri = {}", authorizationRequest.getRedirectUri());
+			log.info("\t > redirectUriParam = {}", redirectUriParam);
 		});
 		
 		return resolver;
