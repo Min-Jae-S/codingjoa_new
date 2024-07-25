@@ -1,5 +1,7 @@
 package com.codingjoa.config;
 
+import java.nio.charset.StandardCharsets;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -20,13 +22,13 @@ import org.springframework.security.oauth2.client.registration.ClientRegistratio
 import org.springframework.security.oauth2.client.web.DefaultOAuth2AuthorizationRequestResolver;
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestResolver;
 import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter;
+import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.web.util.UriComponents;
-import org.springframework.web.util.UriComponentsBuilder;
+import org.springframework.web.util.UriUtils;
 
 import com.codingjoa.security.filter.JwtFilter;
 import com.codingjoa.security.filter.JwtMathcerFilter;
@@ -194,11 +196,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		DefaultOAuth2AuthorizationRequestResolver resolver = new DefaultOAuth2AuthorizationRequestResolver(
 				clientRegistrationRepository, "/login");
 		resolver.setAuthorizationRequestCustomizer(customizer -> {
-			customizer.authorizationRequestUri(uriBuilder -> {
-				UriComponents originalComponents = ((UriComponentsBuilder) uriBuilder).build();
-				log.info("\t > {}", originalComponents.getQueryParams().get("redirect_uri"));
-				return originalComponents.toUri();
-			});
+			OAuth2AuthorizationRequest authorizationRequest = customizer.build();
+			String redirectUri = authorizationRequest.getRedirectUri();
+			String authorizationRequestUri = authorizationRequest.getAuthorizationRequestUri();
+			String originalAuthorizationRequestUri = UriUtils.decode(authorizationRequestUri, StandardCharsets.UTF_8);
+			String encodedAuthorizationRequestUri = UriUtils.encode(originalAuthorizationRequestUri, StandardCharsets.UTF_8);
+			log.info("\t > authorizationRequestResolver.redirectUri = {}", redirectUri);
+			log.info("\t > authorizationRequestResolver.authorizationRequestUri = {}", authorizationRequestUri);
+			log.info("\t > authorizationRequestResolver.originnalAuthorizationRequestUri = {}", originalAuthorizationRequestUri);
+			log.info("\t > authorizationRequestResolver.encodedAuthorizationRequestUri = {}", encodedAuthorizationRequestUri);
+			
+			customizer.authorizationRequestUri(authorizationRequestUri);
 		});
 		
 		return resolver;
