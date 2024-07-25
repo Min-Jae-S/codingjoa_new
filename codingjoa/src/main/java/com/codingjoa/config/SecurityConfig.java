@@ -115,13 +115,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.and()
 			.oauth2Login() 
 				.authorizationEndpoint()
-					// OAuth2AuthorizationRequestRedirectFilter, DEFAULT_AUTHORIZATION_REQUEST_BASE_URI = "/oauth2/authorization"
-					// /login/{registrationId}
 					.baseUri("/login")
 					.and()
 				.redirectionEndpoint()
-					// OAuth2Provider, DEFAULT_REDIRECT_URL = "{baseUrl}/{action}/oauth2/code/{registrationId}";
-					//.baseUri("/login/{registrationId}/callback")
+					
 					.and()
 				.clientRegistrationRepository(clientRegistrationRepository)
 				.and()
@@ -139,7 +136,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.and()
 			.exceptionHandling()
 				.authenticationEntryPoint(authenticationEntryPoint)
-				.accessDeniedHandler(accessDeniedHandler);		 
+				.accessDeniedHandler(accessDeniedHandler);
 	}
 	
 	@Override
@@ -186,5 +183,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		filter.addIncludeMatchers("/test/jwt/test7", "/test/jwt/test8");
 		return filter;
 	}
+	
 	
 }

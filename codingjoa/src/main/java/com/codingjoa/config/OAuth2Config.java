@@ -13,6 +13,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
+import org.springframework.security.oauth2.client.web.DefaultOAuth2AuthorizationRequestResolver;
+import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter;
+import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestResolver;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 
 import com.codingjoa.security.oauth2.OAuth2ClientProperties;
@@ -38,6 +41,19 @@ public class OAuth2Config {
 				.map(registrationId -> getClientRegistration(registrationId))
 				.collect(Collectors.toList());
 		return new InMemoryClientRegistrationRepository(registrations);
+	}
+	
+	@Bean
+	public OAuth2AuthorizationRequestResolver authorizationRequestResolver() {
+		DefaultOAuth2AuthorizationRequestResolver resolver = new DefaultOAuth2AuthorizationRequestResolver(
+				mainClientRegistrationRepository(), OAuth2AuthorizationRequestRedirectFilter.DEFAULT_AUTHORIZATION_REQUEST_BASE_URI);
+		resolver.setAuthorizationRequestCustomizer(customizer -> {
+			customizer.authorizationRequestUri(uriBuilder -> {
+				return null;
+			});
+		});
+		
+		return resolver;
 	}
 	
 	private ClientRegistration kakaoClientRegistration() {

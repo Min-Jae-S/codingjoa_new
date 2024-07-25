@@ -2,6 +2,7 @@ package com.codingjoa.controller.test;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -123,7 +124,13 @@ public class TestViewController {
 			String registrationId = clientRegistration.getRegistrationId();
 			OAuth2AuthorizationRequest authorizationRequest = authorizationRequestResolver.resolve(request, registrationId);
 			log.info("\t > authorizationRequestUri = {}", authorizationRequest.getAuthorizationRequestUri());
+			
+			OAuth2AuthorizationRequest authorizationRequest2 = OAuth2AuthorizationRequest.from(authorizationRequest)
+					.additionalParameters(Map.of("param1", "#ADF=//"))
+					.build();
+			log.info("\t > authorizationRequestUri2 = {}", authorizationRequest2.getAuthorizationRequestUri());
 		});
+		
 		
 		return "test/oauth2";
 	}
