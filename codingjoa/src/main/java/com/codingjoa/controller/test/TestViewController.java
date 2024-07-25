@@ -170,7 +170,8 @@ public class TestViewController {
 	}
 	
 	private String generateState() {
-		new Base64StringKeyGenerator(Base64.getUrlEncoder()).generateKey();
+		StringKeyGenerator stateGenerator = new Base64StringKeyGenerator(Base64.getUrlEncoder());
+		return stateGenerator.generateKey();
 	}
 	
 	private String encode(String value) {
