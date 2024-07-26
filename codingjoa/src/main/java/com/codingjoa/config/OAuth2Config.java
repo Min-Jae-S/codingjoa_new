@@ -16,6 +16,7 @@ import org.springframework.security.oauth2.client.registration.ClientRegistratio
 import org.springframework.security.oauth2.client.registration.ClientRegistration.Builder;
 import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
+import org.springframework.util.StringUtils;
 
 import com.codingjoa.security.oauth2.CustomOAuth2Provider;
 import com.codingjoa.security.oauth2.OAuth2ClientProperties;
@@ -156,11 +157,19 @@ public class OAuth2Config {
 	
 	//OAuth2ClientPropertiesMapper.getCommonProvider
 	private CommonOAuth2Provider getCommonProvider(String providerId) {
-		return CommonOAuth2Provider.valueOf(providerId);
+		try {
+			return CommonOAuth2Provider.valueOf(providerId.toUpperCase());
+		} catch (Exception e) {
+			return null;
+		}
 	}
 
 	private CustomOAuth2Provider getCustomProvider(String providerId) {
-		return CustomOAuth2Provider.valueOf(providerId);
+		try {
+			return CustomOAuth2Provider.valueOf(providerId.toUpperCase());
+		} catch (Exception e) {
+			return null;
+		}
 	}
 	
 }

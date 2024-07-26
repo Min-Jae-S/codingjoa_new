@@ -1,5 +1,9 @@
 package com.codingjoa.controller.test;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -22,6 +26,7 @@ import com.codingjoa.security.dto.KakaoTokenResponse;
 import com.codingjoa.security.dto.KakaoUserInfoResponse;
 import com.codingjoa.security.dto.NaverTokenResponse;
 import com.codingjoa.security.dto.NaverUserInfoResponse;
+import com.codingjoa.security.oauth2.CustomOAuth2Provider;
 import com.codingjoa.security.service.OAuth2Service;
 
 import lombok.extern.slf4j.Slf4j;
@@ -102,12 +107,29 @@ public class TestOAuth2Controller {
 	@GetMapping("/test2")
 	public ResponseEntity<Object> test2() {
 		log.info("## test2");
-		for (CommonOAuth2Provider provider : CommonOAuth2Provider.values()) {
-			String providerName = provider.toString();
-			log.info("\t > providerName = {}", providerName);
+		List<CommonOAuth2Provider> commonOAuth2Providers = Arrays.stream(CommonOAuth2Provider.values())
+				.collect(Collectors.toList());
+		List<CustomOAuth2Provider> customOAuth2Providers = Arrays.stream(CustomOAuth2Provider.values())
+				.collect(Collectors.toList());
+		log.info("\t > commonOAuth2Providers = {}", commonOAuth2Providers);
+		log.info("\t > customOAuth2Providers = {}", customOAuth2Providers);
+		
+		CustomOAuth2Provider kakaoOAuth2Provider;
+		CustomOAuth2Provider KAKAOAuth2Provider;
+		try {
+			kakaoOAuth2Provider = CustomOAuth2Provider.valueOf("kakao");
+		} catch (Exception e) {
+			kakaoOAuth2Provider = null;
 		}
-		log.info("\t > CommonOAuth2Provider.valueOf(\"kakao\") = {}", CommonOAuth2Provider.valueOf("kakao"));
-		log.info("\t > CommonOAuth2Provider.valueOf(\"KAKAO\") = {}", CommonOAuth2Provider.valueOf("KAKAO"));
+		
+		try {
+			KAKAOAuth2Provider = CustomOAuth2Provider.valueOf("KAKAO");
+		} catch (Exception e) {
+			KAKAOAuth2Provider = null;
+		}
+		
+		log.info("\t > kakaoOAuth2Provider = {}", kakaoOAuth2Provider);
+		log.info("\t > KAKAOAuth2Provider = {}", KAKAOAuth2Provider);
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
