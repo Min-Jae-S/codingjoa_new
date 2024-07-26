@@ -11,13 +11,17 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
+import org.springframework.security.config.oauth2.client.CommonOAuth2Provider;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
+import org.springframework.security.oauth2.client.registration.ClientRegistration.Builder;
 import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 
+import com.codingjoa.security.oauth2.CustomOAuth2Provider;
 import com.codingjoa.security.oauth2.OAuth2ClientProperties;
-import com.codingjoa.security.oauth2.OAuth2Provider;
+import com.codingjoa.security.oauth2.OAuth2ClientProperties.Provider;
 
+@SuppressWarnings("unused")
 @ComponentScan("com.codingjoa.security.oauth2")
 @Configuration
 public class OAuth2Config {
@@ -41,14 +45,14 @@ public class OAuth2Config {
 	}
 	
 	private ClientRegistration kakaoClientRegistration() {
-		return OAuth2Provider.KAKAO.getBuilder("kakao")
+		return CustomOAuth2Provider.KAKAO.getBuilder("kakao")
 				.clientId(env.getProperty("security.oauth2.client.registration.kakao.client-id"))
 				.clientSecret(env.getProperty("security.oauth2.client.registration.kakao.client-secret"))
 				.build();
 	}
 	
 	private ClientRegistration naverClientRegistration() {
-		return OAuth2Provider.NAVER.getBuilder("naver")
+		return CustomOAuth2Provider.NAVER.getBuilder("naver")
 				.clientId(env.getProperty("security.oauth2.client.registration.naver.client-id"))
 				.clientSecret(env.getProperty("security.oauth2.client.registration.naver.client-secret"))
 				.build();
@@ -71,14 +75,92 @@ public class OAuth2Config {
 	}
 	
 	//OAuth2ClientPropertiesRegistrationAdapter.getRegistrations(OAuth2ClientProperties properties)
-	@SuppressWarnings("unused")
+	//OAuth2ClientPropertiesMapper.asClientRegistrations()
 	private Map<String, ClientRegistration> getClientRegistrations(OAuth2ClientProperties properties) {
 		Map<String, ClientRegistration> clientRegistrations = new HashMap<>();
-		properties.getRegistration().forEach((key, value) -> {
-			
+		properties.getRegistration().forEach((key, value) -> { // Map<String, Registration> 
+			clientRegistrations.put(key, 
+					getClientRegistration(key, value, properties.getProvider()));
 		});
 		
 		return clientRegistrations;
+	}
+	
+	private ClientRegistration getClientRegistration(String registrationId,
+			OAuth2ClientProperties.Registration properties, Map<String, Provider> providers) {
+//		Builder builder = getBuilderFromIssuerIfPossible(registrationId, properties.getProvider(), providers);
+//		if (builder == null) {
+//			builder = getBuilder(registrationId, properties.getProvider(), providers);
+//		}
+//		PropertyMapper map = PropertyMapper.get().alwaysApplyingWhenNonNull();
+//		map.from(properties::getClientId).to(builder::clientId);
+//		map.from(properties::getClientSecret).to(builder::clientSecret);
+//		map.from(properties::getClientAuthenticationMethod)
+//			.as(ClientAuthenticationMethod::new)
+//			.to(builder::clientAuthenticationMethod);
+//		map.from(properties::getAuthorizationGrantType)
+//			.as(AuthorizationGrantType::new)
+//			.to(builder::authorizationGrantType);
+//		map.from(properties::getRedirectUri).to(builder::redirectUri);
+//		map.from(properties::getScope).as(StringUtils::toStringArray).to(builder::scope);
+//		map.from(properties::getClientName).to(builder::clientName);
+//		
+//		return builder.build();
+		return null;
+	}
+	
+	private Builder getBuilderFromIssuerIfPossible(String registrationId, String configuredProviderId,
+			Map<String, Provider> providers) {
+//		String providerId = (configuredProviderId != null) ? configuredProviderId : registrationId;
+//		if (providers.containsKey(providerId)) {
+//			Provider provider = providers.get(providerId);
+//			String issuer = provider.getIssuerUri();
+//			if (issuer != null) {
+//				Builder builder = ClientRegistrations.fromIssuerLocation(issuer).registrationId(registrationId);
+//				return getBuilder(builder, provider);
+//			}
+//		}
+		return null;
+	}
+	
+	////OAuth2ClientPropertiesMapper.getBuilder 
+	private Builder getBuilder(String registrationId, String configuredProviderId, Map<String, Provider> providers) {
+		String providerId = (configuredProviderId != null) ? configuredProviderId : registrationId;
+		
+		CommonOAuth2Provider provider = getCommonProvider(providerId);
+		if (provider == null && !providers.containsKey(providerId)) {
+			throw new IllegalStateException(getErrorMessage(configuredProviderId, registrationId));
+		}
+		
+		Builder builder = (provider != null) ? provider.getBuilder(registrationId)
+				: ClientRegistration.withRegistrationId(registrationId);
+		if (providers.containsKey(providerId)) {
+			return getBuilder(builder, providers.get(providerId));
+		}
+		
+		return builder;
+	}
+	
+	//OAuth2ClientPropertiesMapper.getBuilder 
+	private Builder getBuilder(Builder builder, Provider provider) {
+		builder.authorizationUri(provider.getAuthorizationUri());
+		builder.tokenUri(provider.getTokenUri());
+		builder.userInfoUri(provider.getUserInfoUri());
+		return builder;
+	}
+	
+	private String getErrorMessage(String configuredProviderId, String registrationId) {
+		return ((configuredProviderId != null) ? "Unknown provider ID '" + configuredProviderId + "'"
+				: "Provider ID must be specified for client registration '" + registrationId + "'");
+	}
+	
+	//OAuth2ClientPropertiesMapper.getCommonProvider
+	private CommonOAuth2Provider getCommonProvider(String providerId) {
+		return CommonOAuth2Provider.valueOf(providerId);
+	}
+
+	private CustomOAuth2Provider getCustomProvider(String providerId) {
+		return CustomOAuth2Provider.valueOf(providerId);
 	}
 	
 }

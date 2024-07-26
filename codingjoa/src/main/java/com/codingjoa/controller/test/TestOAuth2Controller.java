@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.config.oauth2.client.CommonOAuth2Provider;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
 import org.springframework.security.oauth2.client.web.DefaultOAuth2AuthorizationRequestResolver;
@@ -84,7 +85,7 @@ public class TestOAuth2Controller {
 	private InMemoryClientRegistrationRepository clientRegistrationRepository;
 	
 	@GetMapping("/test1")
-	public ResponseEntity<Object> test(HttpServletRequest request, HttpServletResponse response) {
+	public ResponseEntity<Object> test1(HttpServletRequest request, HttpServletResponse response) {
 		log.info("## test1");
 		
 		ClientRegistration clientRegistration = clientRegistrationRepository.findByRegistrationId("kakao");
@@ -94,6 +95,19 @@ public class TestOAuth2Controller {
 		
 		log.info("\t > redirectUri = {}", authorizationRequest.getRedirectUri());
 		log.info("\t > authorizationRequestUri = {}", authorizationRequest.getAuthorizationRequestUri());
+		
+		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
+	}
+
+	@GetMapping("/test2")
+	public ResponseEntity<Object> test2() {
+		log.info("## test2");
+		for (CommonOAuth2Provider provider : CommonOAuth2Provider.values()) {
+			String providerName = provider.toString();
+			log.info("\t > providerName = {}", providerName);
+		}
+		log.info("\t > CommonOAuth2Provider.valueOf(\"kakao\") = {}", CommonOAuth2Provider.valueOf("kakao"));
+		log.info("\t > CommonOAuth2Provider.valueOf(\"KAKAO\") = {}", CommonOAuth2Provider.valueOf("KAKAO"));
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}

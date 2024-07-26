@@ -5,7 +5,7 @@ import org.springframework.security.oauth2.client.registration.ClientRegistratio
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 
-public enum OAuth2Provider {
+public enum CustomOAuth2Provider {
 	
 	/*
 	 * security.oauth2.client.provider.kakao.authorization-uri=https://kauth.kakao.com/oauth/authorize

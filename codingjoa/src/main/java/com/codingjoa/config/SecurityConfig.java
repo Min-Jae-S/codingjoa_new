@@ -202,7 +202,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		
 		resolver.setAuthorizationRequestCustomizer(customizer -> {
 			log.info("## AuthorizationRequestCustomizer");
-			log.info("\t > customize authorizationRequestUri, particularly the authorizationResponseUri - redirect_uri)");
+			log.info("\t > customize authorizationRequestUri, particularly the authorizationResponseUri (redirect_uri)");
 			
 			OAuth2AuthorizationRequest authorizationRequest = customizer.build();
 			String customizedAuthorizationRequestUri = getCustomizedAuthorizationRequestUri(authorizationRequest);
