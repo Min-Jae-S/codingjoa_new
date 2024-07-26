@@ -25,8 +25,8 @@ public class OAuth2Config {
 	@Autowired
 	private Environment env;
 	
-	@Bean(name = "mainClientRegistrationRepository")
-	public InMemoryClientRegistrationRepository mainClientRegistrationRepository() {
+	@Bean(name = "clientRegistrationRepository")
+	public InMemoryClientRegistrationRepository clientRegistrationRepository() {
 		List<ClientRegistration> registrations = Arrays.asList(kakaoClientRegistration(), naverClientRegistration());
 		return new InMemoryClientRegistrationRepository(registrations);
 	}
@@ -62,7 +62,7 @@ public class OAuth2Config {
 				.clientId(env.getProperty(registrationKey + "client-id"))
 				.clientSecret(env.getProperty(registrationKey + "client-secret"))
 				.clientName(env.getProperty(registrationKey + "client-name"))
-				.redirectUriTemplate(env.getProperty(registrationKey + "redirect-uri-template"))
+				.redirectUriTemplate(env.getProperty(registrationKey + "redirect-uri")) // "redirect-uri-template" --> "redirect-uri"
 				.authorizationGrantType(new AuthorizationGrantType(env.getProperty(registrationKey + "authorization-grant-type")))
 				.authorizationUri(env.getProperty(providerKey + "authorization-uri"))
 				.tokenUri(env.getProperty(providerKey + "token-uri"))

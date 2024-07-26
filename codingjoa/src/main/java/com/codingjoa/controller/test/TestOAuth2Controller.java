@@ -1,7 +1,5 @@
 package com.codingjoa.controller.test;
 
-import java.nio.charset.StandardCharsets;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -11,14 +9,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
 import org.springframework.security.oauth2.client.web.DefaultOAuth2AuthorizationRequestResolver;
+import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
-import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationResponseType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.util.UriComponentsBuilder;
-import org.springframework.web.util.UriUtils;
 
 import com.codingjoa.response.SuccessResponse;
 import com.codingjoa.security.dto.KakaoTokenResponse;
@@ -92,37 +88,14 @@ public class TestOAuth2Controller {
 		log.info("## test1");
 		
 		ClientRegistration clientRegistration = clientRegistrationRepository.findByRegistrationId("kakao");
-		DefaultOAuth2AuthorizationRequestResolver resolver = new DefaultOAuth2AuthorizationRequestResolver(clientRegistrationRepository, "/oauth2/authorization");
+		DefaultOAuth2AuthorizationRequestResolver resolver = new DefaultOAuth2AuthorizationRequestResolver(
+				clientRegistrationRepository, OAuth2AuthorizationRequestRedirectFilter.DEFAULT_AUTHORIZATION_REQUEST_BASE_URI);
 		OAuth2AuthorizationRequest authorizationRequest = resolver.resolve(request, clientRegistration.getRegistrationId());
 		
-		String redirectUri = authorizationRequest.getRedirectUri();
-		String authorizationRequestUri = authorizationRequest.getAuthorizationRequestUri();;
-		log.info("\t > redirectUri = {}", redirectUri);
-		log.info("\t > encode redirectUri = {}", encodeQueryParam(redirectUri));
-		
-		log.info("\t > authorizationRequestUri = {}", authorizationRequestUri);
-		log.info("\t > encode authorizationRequestUri = {}", encodeQueryParam(authorizationRequestUri));
-		
-		String uri = "https://kauth.kakao.com/oauth/authorize?response_type=#$#@#";
-		log.info("\t > uri = {}", uri);
-		log.info("\t > encode uri = {}", encodeQueryParam(uri));
+		log.info("\t > redirectUri = {}", authorizationRequest.getRedirectUri());
+		log.info("\t > authorizationRequestUri = {}", authorizationRequest.getAuthorizationRequestUri());
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
-	}
-	
-	private static String encodeQueryParam(String value) {
-		return UriUtils.encodeQueryParam(value, StandardCharsets.UTF_8);
-	}
-	
-	@SuppressWarnings("unused")
-	private String buildAuthorizationRequestUri(ClientRegistration clientRegistration) {
-		// https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}
-		log.info("\t > redirectUriTemplate = {}", clientRegistration.getRedirectUriTemplate());
-		return UriComponentsBuilder.fromHttpUrl(clientRegistration.getProviderDetails().getAuthorizationUri())
-				.queryParam("response_type", OAuth2AuthorizationResponseType.CODE.getValue())
-				.queryParam("client_id", clientRegistration.getClientId())
-				.queryParam("redirect_uri", clientRegistration.getRedirectUriTemplate())
-				.toUriString();
 	}
 
 }

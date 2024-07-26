@@ -2,7 +2,6 @@ package com.codingjoa.controller.test;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -12,6 +11,7 @@ import org.springframework.security.crypto.keygen.StringKeyGenerator;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
 import org.springframework.security.oauth2.client.web.DefaultOAuth2AuthorizationRequestResolver;
+import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationResponseType;
 import org.springframework.stereotype.Controller;
@@ -102,14 +102,14 @@ public class TestViewController {
 		return "test/cookie-session";
 	}
 	
-	private static final String DEFAULT_AUTHORIZATION_REQUEST_BASE_URI = "/oauth2/authorization";
 	private final InMemoryClientRegistrationRepository clientRegistrationRepository;
 	private final DefaultOAuth2AuthorizationRequestResolver authorizationRequestResolver;
 
-	public TestViewController(@Qualifier("testClientRegistrationRepository") InMemoryClientRegistrationRepository clientRegistrationRepository) {
+	public TestViewController(
+			@Qualifier("testClientRegistrationRepository") InMemoryClientRegistrationRepository clientRegistrationRepository) {
 		this.clientRegistrationRepository = clientRegistrationRepository;
 		this.authorizationRequestResolver = new DefaultOAuth2AuthorizationRequestResolver(clientRegistrationRepository,
-				DEFAULT_AUTHORIZATION_REQUEST_BASE_URI);
+				OAuth2AuthorizationRequestRedirectFilter.DEFAULT_AUTHORIZATION_REQUEST_BASE_URI);
 	}
 
 	@GetMapping("/oauth2")
@@ -117,20 +117,16 @@ public class TestViewController {
 		log.info("## oAuth2 main");
 		clientRegistrationRepository.forEach(clientRegistration -> {
 			String attributeName = clientRegistration.getRegistrationId() + "LoginUrl"; // kakaoLoginUrl, naverLoginUrl
-			model.addAttribute(attributeName, buildAuthorizationRequestUri(clientRegistration));
+			String authorizationRequestUri = buildAuthorizationRequestUri(clientRegistration);
+			model.addAttribute(attributeName, authorizationRequestUri);
+			log.info("\t > customized authorizationRequestUri = {}", authorizationRequestUri);
 		});
 
 		clientRegistrationRepository.forEach(clientRegistration -> {
 			String registrationId = clientRegistration.getRegistrationId();
 			OAuth2AuthorizationRequest authorizationRequest = authorizationRequestResolver.resolve(request, registrationId);
-			log.info("\t > authorizationRequestUri = {}", authorizationRequest.getAuthorizationRequestUri());
-			
-			OAuth2AuthorizationRequest authorizationRequest2 = OAuth2AuthorizationRequest.from(authorizationRequest)
-					.additionalParameters(Map.of("param1", "#ADF=//"))
-					.build();
-			log.info("\t > authorizationRequestUri2 = {}", authorizationRequest2.getAuthorizationRequestUri());
+			log.info("\t > resolved authorizationRequestUri = {}", authorizationRequest.getAuthorizationRequestUri());
 		});
-		
 		
 		return "test/oauth2";
 	}

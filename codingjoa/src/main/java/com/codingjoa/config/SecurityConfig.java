@@ -69,7 +69,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private JwtProvider jwtProvider;
 	
-	@Qualifier("mainClientRegistrationRepository")
+	@Qualifier("clientRegistrationRepository")
 	@Autowired
 	private ClientRegistrationRepository clientRegistrationRepository;
 	
@@ -202,6 +202,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		
 		resolver.setAuthorizationRequestCustomizer(customizer -> {
 			log.info("## AuthorizationRequestCustomizer");
+			log.info("\t > customize authorizationRequestUri, particularly the authorizationResponseUri - redirect_uri)");
 			
 			OAuth2AuthorizationRequest authorizationRequest = customizer.build();
 			String customizedAuthorizationRequestUri = getCustomizedAuthorizationRequestUri(authorizationRequest);
@@ -216,13 +217,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(authorizationRequestUri);
 		
 		String authorizationResponseUri = builder.build().getQueryParams().getFirst("redirect_uri");
-		log.info("\t > partially encoded redirect_uri = {}", authorizationResponseUri);
-		
 		String decodedAuthorizationResponseUri = UriUtils.decode(authorizationResponseUri,  StandardCharsets.UTF_8);
-		log.info("\t > decoded redirect_uri = {}", decodedAuthorizationResponseUri);
-		
 		String encodedAuthorizationResponseUri = UriUtils.encode(decodedAuthorizationResponseUri, StandardCharsets.UTF_8);
-		log.info("\t > fully encoded redirect_uri = {}", encodedAuthorizationResponseUri);
 		 
 		 return builder.replaceQueryParam("redirect_uri", encodedAuthorizationResponseUri).build().toUriString();
 	}
