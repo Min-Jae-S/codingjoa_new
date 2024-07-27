@@ -61,13 +61,13 @@ public class LoginProvider implements AuthenticationProvider {
 		String memberId = (String) authentication.getPrincipal();
 		String memberPassword = (String) authentication.getCredentials();
 		
-		UserDetails userDetails = userDetailsService.loadUserByUsername(memberId);
+		UserDetails loadedUser = userDetailsService.loadUserByUsername(memberId);
 		
-		if (!passwordEncoder.matches(memberPassword, userDetails.getPassword())) {
+		if (!passwordEncoder.matches(memberPassword, loadedUser.getPassword())) {
 			throw new BadCredentialsException(MessageUtils.getMessage("error.UsernameNotFoundOrBadCredentials"));
 		}
 		
-		return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities()); // isAuthenticated = true
+		return new UsernamePasswordAuthenticationToken(loadedUser, null, loadedUser.getAuthorities()); // isAuthenticated = true
 	}
 
 }

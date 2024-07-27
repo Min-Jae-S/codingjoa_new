@@ -151,12 +151,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.accessDeniedHandler(accessDeniedHandler);
 	}
 	
-	@Override
+	@Override // register provider wiht AuthenticationManager
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.authenticationProvider(loginProvider);
 	}
 	
-	@Bean(name ="authenticationManager")
+	@Bean
 	@Override
 	public AuthenticationManager authenticationManagerBean() throws Exception {
 		return super.authenticationManagerBean();
