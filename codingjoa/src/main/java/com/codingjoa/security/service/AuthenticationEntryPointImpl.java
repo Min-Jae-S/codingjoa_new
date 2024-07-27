@@ -15,12 +15,12 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
+import org.springframework.security.web.util.UrlUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.web.util.UriUtils;
 
 import com.codingjoa.response.ErrorResponse;
-import com.codingjoa.util.Utils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 
@@ -79,19 +79,21 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 			response.getWriter().write(jsonResponse);
 			response.getWriter().close();
 		} else {
-			String currentUrl = Utils.getFullURL(request);
-			String redirectUrl = ServletUriComponentsBuilder.fromContextPath(request)
-					.path("/login")
-					.queryParam("redirect", UriUtils.encode(currentUrl, StandardCharsets.UTF_8))
-					.build()
-					.toUriString();
-			
 			// http://localhost:8888/codingjoa/login?redirect=http%3A%2F%2Flocalhost%3A8888%2Fcodingjoa%2Fboard%2Fmodify%3FboardIdx%3D2082
 			//log.info("\t > redirect to '{}'", redirectUrl);
 			//response.sendRedirect(redirectUrl);
-			
-			redirectStrategy.sendRedirect(request, response, redirectUrl);
+			redirectStrategy.sendRedirect(request, response, buildRedirectUrl(request));
 		}
+	}
+	
+	private String buildRedirectUrl(HttpServletRequest request) {
+		String currentUrl = UrlUtils.buildFullRequestUrl(request);
+		return ServletUriComponentsBuilder.fromContextPath(request)
+				.path("/login")
+				.queryParam("redirect", UriUtils.encode(currentUrl, StandardCharsets.UTF_8))
+				.build()
+				.toUriString();
+		
 	}
 	
 	private boolean isAjaxRequest(HttpServletRequest request) {
