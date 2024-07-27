@@ -1,7 +1,6 @@
 package com.codingjoa.security.service;
 
 import java.io.IOException;
-import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.time.format.DateTimeFormatter;
 
@@ -14,8 +13,11 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.DefaultRedirectStrategy;
+import org.springframework.security.web.RedirectStrategy;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.web.util.UriUtils;
 
 import com.codingjoa.response.ErrorResponse;
 import com.codingjoa.util.Utils;
@@ -36,6 +38,8 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 
+	private final RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+	
 	@Override
 	public void commence(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException authException) throws IOException, ServletException {
@@ -78,13 +82,15 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 			String currentUrl = Utils.getFullURL(request);
 			String redirectUrl = ServletUriComponentsBuilder.fromContextPath(request)
 					.path("/login")
-					.queryParam("redirect", URLEncoder.encode(currentUrl, StandardCharsets.UTF_8))
+					.queryParam("redirect", UriUtils.encode(currentUrl, StandardCharsets.UTF_8))
 					.build()
-					.toString();
+					.toUriString();
 			
 			// http://localhost:8888/codingjoa/login?redirect=http%3A%2F%2Flocalhost%3A8888%2Fcodingjoa%2Fboard%2Fmodify%3FboardIdx%3D2082
-			log.info("\t > redirect to '{}'", redirectUrl);
-			response.sendRedirect(redirectUrl);
+			//log.info("\t > redirect to '{}'", redirectUrl);
+			//response.sendRedirect(redirectUrl);
+			
+			redirectStrategy.sendRedirect(request, response, redirectUrl);
 		}
 	}
 	

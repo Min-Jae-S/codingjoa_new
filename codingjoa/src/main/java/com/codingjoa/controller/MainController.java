@@ -54,7 +54,7 @@ public class MainController {
 		String pattern = ServletUriComponentsBuilder.fromCurrentContextPath()
 				.path("/**")
 				.build()
-				.toString();
+				.toUriString();
 		return new AntPathMatcher().match(pattern, url);
 	}
 	
@@ -64,7 +64,7 @@ public class MainController {
 			return ServletUriComponentsBuilder.fromCurrentContextPath()
 					.path("/")
 					.build()
-					.toString();
+					.toUriString();
 		} else {
 			log.info("\t > valid redirect, setting redirect from request");
 			return redirect;

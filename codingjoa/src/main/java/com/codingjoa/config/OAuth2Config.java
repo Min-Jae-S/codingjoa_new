@@ -16,7 +16,6 @@ import org.springframework.security.oauth2.client.registration.ClientRegistratio
 import org.springframework.security.oauth2.client.registration.ClientRegistration.Builder;
 import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
-import org.springframework.util.StringUtils;
 
 import com.codingjoa.security.oauth2.CustomOAuth2Provider;
 import com.codingjoa.security.oauth2.OAuth2ClientProperties;
@@ -75,8 +74,8 @@ public class OAuth2Config {
 				.build();
 	}
 	
-	//OAuth2ClientPropertiesRegistrationAdapter.getRegistrations(OAuth2ClientProperties properties)
-	//OAuth2ClientPropertiesMapper.asClientRegistrations()
+	// OAuth2ClientPropertiesRegistrationAdapter.getRegistrations
+	// OAuth2ClientPropertiesMapper.asClientRegistrations
 	private Map<String, ClientRegistration> getClientRegistrations(OAuth2ClientProperties properties) {
 		Map<String, ClientRegistration> clientRegistrations = new HashMap<>();
 		properties.getRegistration().forEach((key, value) -> { // Map<String, Registration> 
@@ -87,6 +86,7 @@ public class OAuth2Config {
 		return clientRegistrations;
 	}
 	
+	// OAuth2ClientPropertiesMapper.getClientRegistration
 	private ClientRegistration getClientRegistration(String registrationId,
 			OAuth2ClientProperties.Registration properties, Map<String, Provider> providers) {
 //		Builder builder = getBuilderFromIssuerIfPossible(registrationId, properties.getProvider(), providers);
@@ -110,6 +110,7 @@ public class OAuth2Config {
 		return null;
 	}
 	
+	// OAuth2ClientPropertiesMapper.getBuilderFromIssuerIfPossible
 	private Builder getBuilderFromIssuerIfPossible(String registrationId, String configuredProviderId,
 			Map<String, Provider> providers) {
 //		String providerId = (configuredProviderId != null) ? configuredProviderId : registrationId;
@@ -124,7 +125,7 @@ public class OAuth2Config {
 		return null;
 	}
 	
-	////OAuth2ClientPropertiesMapper.getBuilder 
+	// OAuth2ClientPropertiesMapper.getBuilder
 	private Builder getBuilder(String registrationId, String configuredProviderId, Map<String, Provider> providers) {
 		String providerId = (configuredProviderId != null) ? configuredProviderId : registrationId;
 		
@@ -142,20 +143,22 @@ public class OAuth2Config {
 		return builder;
 	}
 	
-	//OAuth2ClientPropertiesMapper.getBuilder 
+	// OAuth2ClientPropertiesMapper.getBuilder
 	private Builder getBuilder(Builder builder, Provider provider) {
 		builder.authorizationUri(provider.getAuthorizationUri());
 		builder.tokenUri(provider.getTokenUri());
 		builder.userInfoUri(provider.getUserInfoUri());
+		builder.userNameAttributeName(provider.getUserNameAttribute());
 		return builder;
 	}
 	
+	// OAuth2ClientPropertiesMapper.getErrorMessage
 	private String getErrorMessage(String configuredProviderId, String registrationId) {
 		return ((configuredProviderId != null) ? "Unknown provider ID '" + configuredProviderId + "'"
 				: "Provider ID must be specified for client registration '" + registrationId + "'");
 	}
 	
-	//OAuth2ClientPropertiesMapper.getCommonProvider
+	// OAuth2ClientPropertiesMapper.getCommonProvider
 	private CommonOAuth2Provider getCommonProvider(String providerId) {
 		try {
 			return CommonOAuth2Provider.valueOf(providerId.toUpperCase());

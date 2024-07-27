@@ -89,7 +89,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 		String pattern = ServletUriComponentsBuilder.fromContextPath(request)
 				.path("/**")
 				.build()
-				.toString();
+				.toUriString();
 		return new AntPathMatcher().match(pattern, url);
 	}
 	
@@ -101,7 +101,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 			return ServletUriComponentsBuilder.fromContextPath(request)
 					.path("/")
 					.build()
-					.toString();
+					.toUriString();
 		} else {
 			log.info("\t > valid redirectUrl, setting redirectUrl from request");
 			return redirectUrl;

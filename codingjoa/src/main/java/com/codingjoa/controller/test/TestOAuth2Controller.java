@@ -3,6 +3,7 @@ package com.codingjoa.controller.test;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -107,12 +108,10 @@ public class TestOAuth2Controller {
 	@GetMapping("/test2")
 	public ResponseEntity<Object> test2() {
 		log.info("## test2");
-		List<CommonOAuth2Provider> commonOAuth2Providers = Arrays.stream(CommonOAuth2Provider.values())
+		List<Object> oAuth2Providers = Stream
+				.concat(Arrays.stream(CommonOAuth2Provider.values()), Arrays.stream(CustomOAuth2Provider.values()))
 				.collect(Collectors.toList());
-		List<CustomOAuth2Provider> customOAuth2Providers = Arrays.stream(CustomOAuth2Provider.values())
-				.collect(Collectors.toList());
-		log.info("\t > commonOAuth2Providers = {}", commonOAuth2Providers);
-		log.info("\t > customOAuth2Providers = {}", customOAuth2Providers);
+		log.info("\t > oAuth2Providers = {}", oAuth2Providers);
 		
 		CustomOAuth2Provider kakaoOAuth2Provider;
 		CustomOAuth2Provider KAKAOAuth2Provider;

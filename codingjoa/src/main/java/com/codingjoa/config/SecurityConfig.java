@@ -123,7 +123,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/admin/**").hasAnyRole("ADMIN")
 				.anyRequest().permitAll()
 				.and()
-			.oauth2Login() 
+			.oauth2Login()
 				.clientRegistrationRepository(clientRegistrationRepository)
 				.authorizationEndpoint()
 					.baseUri("/login/*")
@@ -195,8 +195,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		return filter;
 	}
 	
-	private OAuth2AuthorizationRequestResolver authorizationRequestResolver(
-			ClientRegistrationRepository clientRegistrationRepository) {
+	private OAuth2AuthorizationRequestResolver authorizationRequestResolver(ClientRegistrationRepository clientRegistrationRepository) {
 		DefaultOAuth2AuthorizationRequestResolver resolver = new DefaultOAuth2AuthorizationRequestResolver(
 				clientRegistrationRepository, "/login");
 		
