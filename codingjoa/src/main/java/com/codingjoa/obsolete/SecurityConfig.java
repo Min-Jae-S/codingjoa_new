@@ -1,19 +1,15 @@
-package com.codingjoa.config;
+package com.codingjoa.obsolete;
 
 import java.nio.charset.StandardCharsets;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -32,8 +28,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.web.util.UriUtils;
 
 import com.codingjoa.security.filter.JwtFilter;
+import com.codingjoa.security.filter.JwtMathcerFilter;
 import com.codingjoa.security.filter.LoginFilter;
-import com.codingjoa.security.filter.OAuth2LoginFilter;
 import com.codingjoa.security.service.JwtProvider;
 import com.codingjoa.security.service.LoginFailureHandler;
 import com.codingjoa.security.service.LoginProvider;
@@ -42,10 +38,6 @@ import com.codingjoa.security.service.LoginSuccessHandler;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@Import(OAuth2Config.class)
-@ComponentScan("com.codingjoa.security.service")
-@EnableWebSecurity
-@Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
@@ -136,8 +128,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			// https://velog.io/@tmdgh0221/Spring-Security-%EC%99%80-OAuth-2.0-%EC%99%80-JWT-%EC%9D%98-%EC%BD%9C%EB%9D%BC%EB%B3%B4
 			// add it right after the LogoutFilter, which is the point just before the actual authentication process takes place.
 			.addFilterBefore(loginFilter(), OAuth2LoginAuthenticationFilter.class)
-			.addFilterBefore(oAuth2LoginFilter(), OAuth2LoginAuthenticationFilter.class)
-			.addFilterAfter(jwtFilter(), LogoutFilter.class)
+			.addFilterAfter(new JwtFilter(jwtProvider), LogoutFilter.class)
 			.logout()
 				//.logoutUrl("/api/logout")
 				//.logoutRequestMatcher(new AntPathRequestMatcher("/api/logout", "POST"))
@@ -156,7 +147,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		auth.authenticationProvider(loginProvider);
 	}
 	
-	@Bean(name ="authenticationManager")
 	@Override
 	public AuthenticationManager authenticationManagerBean() throws Exception {
 		return super.authenticationManagerBean();
@@ -177,12 +167,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		return filter;
 	}
 	
-	private JwtFilter jwtFilter() {
-		return new JwtFilter(jwtProvider);
-	}
-	
-	private OAuth2LoginFilter oAuth2LoginFilter() {
-		return null;
+	@SuppressWarnings("unused")
+	private JwtMathcerFilter jwtMathcerFilter() throws Exception {
+		JwtMathcerFilter filter = new JwtMathcerFilter(jwtProvider);
+		filter.addIncludeMatchers("/member/account/**");
+		filter.addIncludeMatchers("/board/write", "/board/writeProc", "/board/modify", "/board/modifyProc", "/board/deleteProc");
+		filter.addIncludeMatchers(HttpMethod.POST, "/api/boards/*/likes", "/api/comments/*/likes");
+		filter.addIncludeMatchers("/api/comments", "/comments/", "/api/comments/*");
+		filter.addIncludeMatchers(HttpMethod.POST, "/api/board/image", "/api/member/image");
+		filter.addIncludeMatchers("/api/member/images", "/api/member/images/*");
+		filter.addIncludeMatchers("/api/member/details");
+		filter.addIncludeMatchers("/test/jwt/test7", "/test/jwt/test8");
+		return filter;
 	}
 	
 	private OAuth2AuthorizationRequestResolver authorizationRequestResolver(ClientRegistrationRepository clientRegistrationRepository) {

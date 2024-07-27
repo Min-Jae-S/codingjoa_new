@@ -31,7 +31,7 @@ public class OAuth2Service {
 		this.naverRegistration = clientRegistrationRepository.findByRegistrationId("naver");
 	}
 	
-	public KakaoTokenResponse getKakaoToken(String code) {
+	public KakaoTokenResponse getKakaoToken(String code, String state) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add(HttpHeaders.CONTENT_TYPE, "application/x-www-form-urlencoded;charset=utf-8");
 		
@@ -41,6 +41,7 @@ public class OAuth2Service {
 		body.add("client_secret", kakaoRegistration.getClientSecret());
 		body.add("redirect_uri", kakaoRegistration.getRedirectUriTemplate());
 		body.add("code", code);
+		body.add("state", state);
 		
 		HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(body, headers);
 		

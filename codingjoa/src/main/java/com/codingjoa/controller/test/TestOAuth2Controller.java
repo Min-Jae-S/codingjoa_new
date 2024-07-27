@@ -29,6 +29,7 @@ import com.codingjoa.security.dto.NaverTokenResponse;
 import com.codingjoa.security.dto.NaverUserInfoResponse;
 import com.codingjoa.security.oauth2.CustomOAuth2Provider;
 import com.codingjoa.security.service.OAuth2Service;
+import com.codingjoa.util.JsonUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -41,17 +42,18 @@ public class TestOAuth2Controller {
 	private OAuth2Service oAuth2Service;
 	
 	@GetMapping("/kakao/callback")
-	public ResponseEntity<Object> kakaoCallback(@RequestParam String code) throws Exception {
+	public ResponseEntity<Object> kakaoCallback(@RequestParam String code, @RequestParam String state) throws Exception {
 		log.info("## kakaoCallback");
 		log.info("\t > authorization code = {}", code);
+		log.info("\t > state = {}", state);
 		
-		KakaoTokenResponse kakaoToken = oAuth2Service.getKakaoToken(code);
-		log.info("\t > request kakaoToken ( https://kauth.kakao.com/oauth/token )");
-		log.info("\t > {}", kakaoToken);
+		KakaoTokenResponse kakaoToken = oAuth2Service.getKakaoToken(code, state);
+		log.info("\t > request kakaoToken");
+		log.info("{}", JsonUtils.formatJson(kakaoToken));
 		
 		KakaoUserInfoResponse kakaoUserInfo = oAuth2Service.getKakaoUserInfo(kakaoToken.getAccessToken());
-		log.info("\t > request kakaoUserInfo ( https://kapi.kakao.com/v2/user/me )");
-		log.info("\t > {}", kakaoUserInfo);
+		log.info("\t > request kakaoUserInfo");
+		log.info("{}", JsonUtils.formatJson(kakaoUserInfo));
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
@@ -59,15 +61,16 @@ public class TestOAuth2Controller {
 	@GetMapping("/naver/callback")
 	public ResponseEntity<Object> naverCallback(@RequestParam String code, @RequestParam String state) throws Exception {
 		log.info("## naverCallback");
-		log.info("\t > authorization code = {}, state = {}", code, state);
+		log.info("\t > authorization code = {}", code);
+		log.info("\t > state = {}", state);
 		
 		NaverTokenResponse naverToken = oAuth2Service.getNaverToken(code, state);
-		log.info("\t > request naverToken ( https://nid.naver.com/oauth2.0/token )");
-		log.info("\t > {}", naverToken);
+		log.info("\t > request naverToken");
+		log.info("{}", JsonUtils.formatJson(naverToken));
 		
 		NaverUserInfoResponse naverUserInfo = oAuth2Service.getNaverUserInfo(naverToken.getAccessToken());
-		log.info("\t > request naverUserInfo ( https://openapi.naver.com/v1/nid/me )");
-		log.info("\t > {}", naverUserInfo);
+		log.info("\t > request naverUserInfo");
+		log.info("{}", JsonUtils.formatJson(naverUserInfo));
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}

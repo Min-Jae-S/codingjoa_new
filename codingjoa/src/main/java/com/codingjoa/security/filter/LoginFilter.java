@@ -24,10 +24,15 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class LoginFilter extends AbstractAuthenticationProcessingFilter {
 	
+	public static final String DEFAULT_FILTER_PROCESSES_URL= "/login";
 	private ObjectMapper objectMapper = new ObjectMapper();
 	
 	public LoginFilter() {
-		super(new AntPathRequestMatcher("/api/login", "POST"));
+		super(new AntPathRequestMatcher(DEFAULT_FILTER_PROCESSES_URL, "POST"));
+	}
+	
+	public LoginFilter(String filterProcessesUrl) {
+		super(new AntPathRequestMatcher(filterProcessesUrl, "POST"));
 	}
 	
 	@Override

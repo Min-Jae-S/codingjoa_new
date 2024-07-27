@@ -112,7 +112,6 @@ public class TestViewController {
 			String attributeName = clientRegistration.getRegistrationId() + "LoginUrl"; // kakaoLoginUrl, naverLoginUrl
 			String authorizationRequestUri = buildAuthorizationRequestUri(clientRegistration);
 			model.addAttribute(attributeName, authorizationRequestUri);
-			log.info("\t > customized authorizationRequestUri = {}", authorizationRequestUri);
 		});
 
 		return "test/oauth2";
@@ -123,11 +122,12 @@ public class TestViewController {
 		params.set("response_type", encode(OAuth2AuthorizationResponseType.CODE.getValue()));
 		params.set("client_id", encode(clientRegistration.getClientId()));
 		params.set("redirect_uri", encode(clientRegistration.getRedirectUriTemplate()));
+		params.set("state", encode(generateState()));
 		
-		if (clientRegistration.getRegistrationId().equals("naver")) {
-			String state = generateState();
-			params.set("state", encode(state));
-		}
+//		if (clientRegistration.getRegistrationId().equals("naver")) {
+//			String state = generateState();
+//			params.set("state", encode(state));
+//		}
 
 		return UriComponentsBuilder.fromHttpUrl(clientRegistration.getProviderDetails().getAuthorizationUri())
 				.queryParams(params)
