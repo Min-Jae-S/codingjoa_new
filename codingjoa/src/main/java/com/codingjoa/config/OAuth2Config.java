@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.core.env.Environment;
 import org.springframework.security.config.oauth2.client.CommonOAuth2Provider;
 import org.springframework.security.oauth2.client.InMemoryOAuth2AuthorizedClientService;
@@ -24,6 +25,9 @@ import com.codingjoa.security.oauth2.CustomOAuth2Provider;
 import com.codingjoa.security.oauth2.OAuth2ClientProperties;
 import com.codingjoa.security.oauth2.OAuth2ClientProperties.Provider;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @SuppressWarnings("unused")
 @ComponentScan("com.codingjoa.security.oauth2")
 @Configuration
@@ -32,6 +36,7 @@ public class OAuth2Config {
 	@Autowired
 	private Environment env;
 	
+	@Primary
 	@Bean(name = "clientRegistrationRepository")
 	public InMemoryClientRegistrationRepository clientRegistrationRepository() {
 		List<ClientRegistration> registrations = Arrays.asList(
