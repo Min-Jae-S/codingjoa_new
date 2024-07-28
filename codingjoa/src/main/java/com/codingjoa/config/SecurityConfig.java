@@ -8,7 +8,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -25,7 +24,6 @@ import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationF
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.AccessDeniedHandler;
-import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -138,8 +136,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			// https://velog.io/@tmdgh0221/Spring-Security-%EC%99%80-OAuth-2.0-%EC%99%80-JWT-%EC%9D%98-%EC%BD%9C%EB%9D%BC%EB%B3%B4
 			// add it right after the LogoutFilter, which is the point just before the actual authentication process takes place.
 			.addFilterBefore(loginFilter(), OAuth2LoginAuthenticationFilter.class)
-			.addFilterBefore(oAuth2LoginFilter(),OAuth2LoginAuthenticationFilter.class)
-			.addFilterAfter(jwtFilter(), LogoutFilter.class)
+			.addFilterBefore(oAuth2LoginFilter(), OAuth2LoginAuthenticationFilter.class)
+			.addFilterAfter(jwtFilter(), OAuth2LoginAuthenticationFilter.class)
 			.logout()
 				//.logoutUrl("/api/logout")
 				//.logoutRequestMatcher(new AntPathRequestMatcher("/api/logout", "POST"))
@@ -159,18 +157,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 	
 	@Bean
-	@Override
-	public AuthenticationManager authenticationManagerBean() throws Exception {
-		return super.authenticationManagerBean();
-	}
-	
-	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
 
 	private LoginFilter loginFilter() throws Exception {
-		LoginFilter filter = new LoginFilter("/api/login");
+		LoginFilter filter = new LoginFilter();
 		// Error creating bean with name 'loginFilter' defined in com.codingjoa.security.config.SecurityConfig: 
 		// Invocation of init method failed; nested exception is java.lang.IllegalArgumentException: authenticationManager must be specified
 		filter.setAuthenticationManager(authenticationManagerBean());
@@ -179,12 +171,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		return filter;
 	}
 	
-	private JwtFilter jwtFilter() {
-		return new JwtFilter(jwtProvider);
+	private OAuth2LoginFilter oAuth2LoginFilter() throws Exception {
+		OAuth2LoginFilter filter = new OAuth2LoginFilter(clientRegistrationRepository, oAuth2AuthorizedClientService);
+		filter.setAuthenticationManager(authenticationManagerBean());
+		return filter;
 	}
 	
-	private OAuth2LoginFilter oAuth2LoginFilter() {
-		return new OAuth2LoginFilter(clientRegistrationRepository, oAuth2AuthorizedClientService);
+	private JwtFilter jwtFilter() {
+		return new JwtFilter(jwtProvider);
 	}
 	
 	private OAuth2AuthorizationRequestResolver authorizationRequestResolver() {

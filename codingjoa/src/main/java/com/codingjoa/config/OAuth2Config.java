@@ -38,8 +38,7 @@ public class OAuth2Config {
 	@Primary
 	@Bean(name = "clientRegistrationRepository")
 	public InMemoryClientRegistrationRepository clientRegistrationRepository() {
-		List<ClientRegistration> registrations = Arrays.asList(
-				this.kakaoClientRegistration(), this.naverClientRegistration());
+		List<ClientRegistration> registrations = Arrays.asList(kakaoClientRegistration(), naverClientRegistration());
 		return new InMemoryClientRegistrationRepository(registrations);
 	}
 
@@ -47,7 +46,7 @@ public class OAuth2Config {
 	public InMemoryClientRegistrationRepository testClientRegistrationRepository() {
 		List<ClientRegistration> registrations = Arrays.asList("kakao", "naver")
 				.stream()
-				.map(registrationId -> this.getClientRegistration(registrationId))
+				.map(registrationId -> getClientRegistration(registrationId))
 				.collect(Collectors.toList());
 		return new InMemoryClientRegistrationRepository(registrations);
 	}
