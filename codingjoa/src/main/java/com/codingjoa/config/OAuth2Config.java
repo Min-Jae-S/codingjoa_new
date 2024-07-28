@@ -55,6 +55,11 @@ public class OAuth2Config {
 	public OAuth2AuthorizedClientService oAuth2AuthorizedClientService() {
 		return new InMemoryOAuth2AuthorizedClientService(clientRegistrationRepository());
 	}
+
+//	@Bean
+//	public OAuth2AuthorizedClientRepository oAuth2AuthorizedClientRepository() {
+//		return new AuthenticatedPrincipalOAuth2AuthorizedClientRepository(oAuth2AuthorizedClientService());
+//	}
 	
 	private ClientRegistration kakaoClientRegistration() {
 		return CustomOAuth2Provider.KAKAO.getBuilder("kakao")

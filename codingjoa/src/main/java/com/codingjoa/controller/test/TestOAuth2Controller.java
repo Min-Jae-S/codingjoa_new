@@ -2,20 +2,16 @@ package com.codingjoa.controller.test;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.BeanFactoryUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.ApplicationContext;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.config.oauth2.client.CommonOAuth2Provider;
-import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
 import org.springframework.security.oauth2.client.web.DefaultOAuth2AuthorizationRequestResolver;
@@ -32,18 +28,18 @@ import com.codingjoa.security.dto.KakaoUserInfoResponse;
 import com.codingjoa.security.dto.NaverTokenResponse;
 import com.codingjoa.security.dto.NaverUserInfoResponse;
 import com.codingjoa.security.oauth2.CustomOAuth2Provider;
-import com.codingjoa.security.service.OAuth2Service;
-import com.codingjoa.util.JsonUtils;
+import com.codingjoa.security.service.TestOAuth2Service;
 
 import lombok.extern.slf4j.Slf4j;
 
+@SuppressWarnings("unused")
 @Slf4j
 @RequestMapping("/test/oauth2")
 @RestController
-public class TestOAuth2Controller<B> {
+public class TestOAuth2Controller {
 	
 	@Autowired
-	private OAuth2Service oAuth2Service;
+	private TestOAuth2Service testOAuth2Service;
 	
 	@GetMapping("/kakao/callback")
 	public ResponseEntity<Object> kakaoCallback(@RequestParam String code, @RequestParam String state) throws Exception {
@@ -51,13 +47,11 @@ public class TestOAuth2Controller<B> {
 		log.info("\t > authorization code = {}", code);
 		log.info("\t > state = {}", state);
 		
-		KakaoTokenResponse kakaoToken = oAuth2Service.getKakaoToken(code, state);
 		log.info("\t > request kakaoToken");
-		log.info("{}", JsonUtils.formatJson(kakaoToken));
+		KakaoTokenResponse kakaoToken = testOAuth2Service.getKakaoToken(code, state);
 		
-		KakaoUserInfoResponse kakaoUserInfo = oAuth2Service.getKakaoUserInfo(kakaoToken.getAccessToken());
 		log.info("\t > request kakaoUserInfo");
-		log.info("{}", JsonUtils.formatJson(kakaoUserInfo));
+		KakaoUserInfoResponse kakaoUserInfo = testOAuth2Service.getKakaoUserInfo(kakaoToken.getAccessToken());
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
@@ -68,13 +62,11 @@ public class TestOAuth2Controller<B> {
 		log.info("\t > authorization code = {}", code);
 		log.info("\t > state = {}", state);
 		
-		NaverTokenResponse naverToken = oAuth2Service.getNaverToken(code, state);
 		log.info("\t > request naverToken");
-		log.info("{}", JsonUtils.formatJson(naverToken));
+		NaverTokenResponse naverToken = testOAuth2Service.getNaverToken(code, state);
 		
-		NaverUserInfoResponse naverUserInfo = oAuth2Service.getNaverUserInfo(naverToken.getAccessToken());
 		log.info("\t > request naverUserInfo");
-		log.info("{}", JsonUtils.formatJson(naverUserInfo));
+		NaverUserInfoResponse naverUserInfo = testOAuth2Service.getNaverUserInfo(naverToken.getAccessToken());
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
@@ -139,12 +131,5 @@ public class TestOAuth2Controller<B> {
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
-	
-	@GetMapping("/test3")
-	public ResponseEntity<Object> test3(HttpServletRequest request, HttpServletResponse response, B builder) {
-		log.info("## test3");
-		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
-	}
-	
 
 }

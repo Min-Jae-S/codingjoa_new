@@ -12,8 +12,6 @@ import org.springframework.security.oauth2.client.registration.ClientRegistratio
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepository;
 import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter;
 
-import com.codingjoa.util.JsonUtils;
-
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -44,7 +42,7 @@ public class OAuth2LoginFilter extends OAuth2LoginAuthenticationFilter {
 		log.info("## {}.attemptAuthentication", this.getClass().getSimpleName());
 		
 		Map<String, String[]> authorizationResponseMap = request.getParameterMap();
-		log.info("\t {}", JsonUtils.formatJson(authorizationResponseMap));
+		log.info("\t > authorizationResponse = {}", authorizationResponseMap.keySet());
 		
 		return super.attemptAuthentication(request, response);
 	}

@@ -96,7 +96,6 @@
 	.social-login-btn {
 		width: 52px;
 		height: 52px;
-		border-radius: 8px;
 	}
 	
 	/* .social-login-btn {
@@ -154,10 +153,10 @@
 						<a href="${contextPath}/login/naver">
 							<img class="social-login-btn" src="${contextPath}/resources/images/naver.png">
 						</a>
-						<a href="${contextPath}/login/google">
+						<a href="#">
 							<img class="social-login-btn" src="${contextPath}/resources/images/google.png">
 						</a>
-						<a href="${contextPath}/login/google">
+						<a href="#">
 							<img class="social-login-btn" src="${contextPath}/resources/images/github.png">
 						</a>
 					</div>

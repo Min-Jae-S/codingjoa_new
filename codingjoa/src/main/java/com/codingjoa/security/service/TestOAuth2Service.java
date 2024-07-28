@@ -17,16 +17,22 @@ import com.codingjoa.security.dto.KakaoTokenResponse;
 import com.codingjoa.security.dto.KakaoUserInfoResponse;
 import com.codingjoa.security.dto.NaverTokenResponse;
 import com.codingjoa.security.dto.NaverUserInfoResponse;
+import com.codingjoa.util.JsonUtils;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
-public class OAuth2Service {
+public class TestOAuth2Service {
 	
-	private final RestTemplate restTemplate  = new RestTemplate();
+	private final RestTemplate restTemplate = new RestTemplate();
+	private final ObjectMapper objectMapper = new ObjectMapper();
 	private final ClientRegistration kakaoRegistration;
 	private final ClientRegistration naverRegistration;
 	
 	@Autowired
-	public OAuth2Service(@Qualifier("testClientRegistrationRepository") InMemoryClientRegistrationRepository clientRegistrationRepository) {
+	public TestOAuth2Service(@Qualifier("testClientRegistrationRepository") InMemoryClientRegistrationRepository clientRegistrationRepository) {
 		this.kakaoRegistration = clientRegistrationRepository.findByRegistrationId("kakao");
 		this.naverRegistration = clientRegistrationRepository.findByRegistrationId("naver");
 	}
@@ -45,14 +51,17 @@ public class OAuth2Service {
 		
 		HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(body, headers);
 		
-		ResponseEntity<KakaoTokenResponse> response = restTemplate.exchange(
+		ResponseEntity<String> response = restTemplate.exchange(
 				kakaoRegistration.getProviderDetails().getTokenUri(),
 				HttpMethod.POST,
 				request, 
-				KakaoTokenResponse.class
+				String.class
 		);
 		
-		return response.getBody();
+		String responseJson = response.getBody();
+		log.info("{}", JsonUtils.formatJson(responseJson));
+		
+		return parseJson(responseJson, KakaoTokenResponse.class);
 	}
 	
 	public KakaoUserInfoResponse getKakaoUserInfo(String accessToken) {
@@ -62,14 +71,17 @@ public class OAuth2Service {
 		
 		HttpEntity<Void> request = new HttpEntity<>(headers);
 		
-		ResponseEntity<KakaoUserInfoResponse> response = restTemplate.exchange(
+		ResponseEntity<String> response = restTemplate.exchange(
 				kakaoRegistration.getProviderDetails().getUserInfoEndpoint().getUri(),
 				HttpMethod.POST,
 				request, 
-				KakaoUserInfoResponse.class
+				String.class
 		);
 		
-		return response.getBody();
+		String responseJson = response.getBody();
+		log.info("{}", JsonUtils.formatJson(responseJson));
+		
+		return parseJson(responseJson, KakaoUserInfoResponse.class);
 	}
 
 	public NaverTokenResponse getNaverToken(String code, String state) {
@@ -86,14 +98,17 @@ public class OAuth2Service {
 		
 		HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(body, headers);
 		
-		ResponseEntity<NaverTokenResponse> response = restTemplate.exchange(
+		ResponseEntity<String> response = restTemplate.exchange(
 				naverRegistration.getProviderDetails().getTokenUri(),
 				HttpMethod.POST,
 				request, 
-				NaverTokenResponse.class
+				String.class
 		);
 		
-		return response.getBody();
+		String responseJson = response.getBody();
+		log.info("{}", JsonUtils.formatJson(responseJson));
+		
+		return parseJson(responseJson, NaverTokenResponse.class);
 	}
 	
 	public NaverUserInfoResponse getNaverUserInfo(String accessToken) {
@@ -102,14 +117,26 @@ public class OAuth2Service {
 		
 		HttpEntity<Void> request = new HttpEntity<>(headers);
 		
-		ResponseEntity<NaverUserInfoResponse> response = restTemplate.exchange(
+		ResponseEntity<String> response = restTemplate.exchange(
 				naverRegistration.getProviderDetails().getUserInfoEndpoint().getUri(),
 				HttpMethod.GET,
 				request, 
-				NaverUserInfoResponse.class
+				String.class
 		);
 		
-		return response.getBody();
+		String responseJson = response.getBody();
+		log.info("{}", JsonUtils.formatJson(responseJson));
+		
+		return parseJson(responseJson, NaverUserInfoResponse.class);
+	}
+	
+	private <T> T parseJson(String json, Class<T> clazz) {
+		try {
+			return objectMapper.readValue(json, clazz);
+		} catch (Exception e) {
+			log.info("\t > {} : {}", e.getClass().getSimpleName(), e.getMessage());
+			return null;
+		}
 	}
 	
 }
