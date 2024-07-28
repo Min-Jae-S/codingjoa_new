@@ -3,7 +3,6 @@ package com.codingjoa.config;
 import java.nio.charset.StandardCharsets;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -26,8 +25,6 @@ import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationF
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.AccessDeniedHandler;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -72,7 +69,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private JwtProvider jwtProvider;
 	
-	@Qualifier("clientRegistrationRepository")
 	@Autowired
 	private ClientRegistrationRepository clientRegistrationRepository;
 	
@@ -133,7 +129,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.clientRegistrationRepository(clientRegistrationRepository)
 				.authorizationEndpoint()
 					.baseUri("/login/*")
-					.authorizationRequestResolver(authorizationRequestResolver(clientRegistrationRepository))
+					.authorizationRequestResolver(authorizationRequestResolver())
 					.and()
 				.redirectionEndpoint()
 					.baseUri("/login/*/callback")
@@ -141,10 +137,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.and()
 			// https://velog.io/@tmdgh0221/Spring-Security-%EC%99%80-OAuth-2.0-%EC%99%80-JWT-%EC%9D%98-%EC%BD%9C%EB%9D%BC%EB%B3%B4
 			// add it right after the LogoutFilter, which is the point just before the actual authentication process takes place.
-			.addFilterBefore(loginFilter(loginSuccessHandler, loginFailureHandler), OAuth2LoginAuthenticationFilter.class)
-			.addFilterBefore(oAuth2LoginFilter(clientRegistrationRepository, oAuth2AuthorizedClientService),
-						OAuth2LoginAuthenticationFilter.class)
-			.addFilterAfter(jwtFilter(jwtProvider), LogoutFilter.class)
+			.addFilterBefore(loginFilter(), OAuth2LoginAuthenticationFilter.class)
+			.addFilterBefore(oAuth2LoginFilter(),OAuth2LoginAuthenticationFilter.class)
+			.addFilterAfter(jwtFilter(), LogoutFilter.class)
 			.logout()
 				//.logoutUrl("/api/logout")
 				//.logoutRequestMatcher(new AntPathRequestMatcher("/api/logout", "POST"))
@@ -174,8 +169,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		return new BCryptPasswordEncoder();
 	}
 
-	private LoginFilter loginFilter(AuthenticationSuccessHandler loginSuccessHandler,
-			AuthenticationFailureHandler loginFailureHandler) throws Exception {
+	private LoginFilter loginFilter() throws Exception {
 		LoginFilter filter = new LoginFilter("/api/login");
 		// Error creating bean with name 'loginFilter' defined in com.codingjoa.security.config.SecurityConfig: 
 		// Invocation of init method failed; nested exception is java.lang.IllegalArgumentException: authenticationManager must be specified
@@ -185,16 +179,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		return filter;
 	}
 	
-	private JwtFilter jwtFilter(JwtProvider jwtProvider) {
+	private JwtFilter jwtFilter() {
 		return new JwtFilter(jwtProvider);
 	}
 	
-	private OAuth2LoginFilter oAuth2LoginFilter(ClientRegistrationRepository clientRegistrationRepository, 
-			OAuth2AuthorizedClientService outh2AuthorizedClientService) {
+	private OAuth2LoginFilter oAuth2LoginFilter() {
 		return new OAuth2LoginFilter(clientRegistrationRepository, oAuth2AuthorizedClientService);
 	}
 	
-	private OAuth2AuthorizationRequestResolver authorizationRequestResolver(ClientRegistrationRepository clientRegistrationRepository) {
+	private OAuth2AuthorizationRequestResolver authorizationRequestResolver() {
 		DefaultOAuth2AuthorizationRequestResolver resolver = new DefaultOAuth2AuthorizationRequestResolver(
 				clientRegistrationRepository, "/login");
 		

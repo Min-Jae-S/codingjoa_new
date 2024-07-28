@@ -17,7 +17,6 @@ import org.springframework.security.oauth2.client.InMemoryOAuth2AuthorizedClient
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.registration.ClientRegistration.Builder;
-import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 
@@ -54,9 +53,8 @@ public class OAuth2Config {
 	}
 	
 	@Bean
-	public OAuth2AuthorizedClientService oAuth2AuthorizedClientService(
-			ClientRegistrationRepository clientRegistrationRepository) {
-		return new InMemoryOAuth2AuthorizedClientService(clientRegistrationRepository);
+	public OAuth2AuthorizedClientService oAuth2AuthorizedClientService() {
+		return new InMemoryOAuth2AuthorizedClientService(clientRegistrationRepository());
 	}
 	
 	private ClientRegistration kakaoClientRegistration() {

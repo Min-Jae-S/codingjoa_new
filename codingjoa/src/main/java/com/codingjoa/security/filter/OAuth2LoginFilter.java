@@ -18,19 +18,23 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class OAuth2LoginFilter extends OAuth2LoginAuthenticationFilter {
+	
+	public static final String DEFAULT_FILTER_PROCESSES_URI = "/login/*/callback";
 
 	public OAuth2LoginFilter(ClientRegistrationRepository clientRegistrationRepository,
-			OAuth2AuthorizedClientService authorizedClientService) {
-		super(clientRegistrationRepository, authorizedClientService);
+								OAuth2AuthorizedClientService authorizedClientService) {
+		super(clientRegistrationRepository, authorizedClientService, DEFAULT_FILTER_PROCESSES_URI);
 	}
-
+	
 	public OAuth2LoginFilter(ClientRegistrationRepository clientRegistrationRepository,
-			OAuth2AuthorizedClientRepository authorizedClientRepository, String filterProcessesUrl) {
+								OAuth2AuthorizedClientRepository authorizedClientRepository, 
+								String filterProcessesUrl) {
 		super(clientRegistrationRepository, authorizedClientRepository, filterProcessesUrl);
 	}
 
 	public OAuth2LoginFilter(ClientRegistrationRepository clientRegistrationRepository,
-			OAuth2AuthorizedClientService authorizedClientService, String filterProcessesUrl) {
+								OAuth2AuthorizedClientService authorizedClientService, 
+								String filterProcessesUrl) {
 		super(clientRegistrationRepository, authorizedClientService, filterProcessesUrl);
 	}
 
