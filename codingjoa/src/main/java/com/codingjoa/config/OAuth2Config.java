@@ -12,8 +12,11 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.security.config.oauth2.client.CommonOAuth2Provider;
+import org.springframework.security.oauth2.client.InMemoryOAuth2AuthorizedClientService;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.registration.ClientRegistration.Builder;
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 
@@ -31,7 +34,8 @@ public class OAuth2Config {
 	
 	@Bean(name = "clientRegistrationRepository")
 	public InMemoryClientRegistrationRepository clientRegistrationRepository() {
-		List<ClientRegistration> registrations = Arrays.asList(kakaoClientRegistration(), naverClientRegistration());
+		List<ClientRegistration> registrations = Arrays.asList(
+				this.kakaoClientRegistration(), this.naverClientRegistration());
 		return new InMemoryClientRegistrationRepository(registrations);
 	}
 
@@ -39,9 +43,15 @@ public class OAuth2Config {
 	public InMemoryClientRegistrationRepository testClientRegistrationRepository() {
 		List<ClientRegistration> registrations = Arrays.asList("kakao", "naver")
 				.stream()
-				.map(registrationId -> getClientRegistration(registrationId))
+				.map(registrationId -> this.getClientRegistration(registrationId))
 				.collect(Collectors.toList());
 		return new InMemoryClientRegistrationRepository(registrations);
+	}
+	
+	@Bean
+	public OAuth2AuthorizedClientService oAuth2AuthorizedClientService(
+			ClientRegistrationRepository clientRegistrationRepository) {
+		return new InMemoryOAuth2AuthorizedClientService(clientRegistrationRepository);
 	}
 	
 	private ClientRegistration kakaoClientRegistration() {

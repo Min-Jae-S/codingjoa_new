@@ -182,6 +182,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 	
 	private OAuth2LoginFilter oAuth2LoginFilter() {
+		OAuth2LoginFilter filter = new OAuth2LoginFilter(clientRegistrationRepository, null);
 		return null;
 	}
 	

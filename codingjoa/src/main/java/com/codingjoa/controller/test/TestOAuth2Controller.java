@@ -2,16 +2,20 @@ package com.codingjoa.controller.test;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.BeanFactoryUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationContext;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.config.oauth2.client.CommonOAuth2Provider;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
 import org.springframework.security.oauth2.client.web.DefaultOAuth2AuthorizationRequestResolver;
@@ -36,7 +40,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequestMapping("/test/oauth2")
 @RestController
-public class TestOAuth2Controller {
+public class TestOAuth2Controller<B> {
 	
 	@Autowired
 	private OAuth2Service oAuth2Service;
@@ -135,5 +139,12 @@ public class TestOAuth2Controller {
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
+	
+	@GetMapping("/test3")
+	public ResponseEntity<Object> test3(HttpServletRequest request, HttpServletResponse response, B builder) {
+		log.info("## test3");
+		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
+	}
+	
 
 }
