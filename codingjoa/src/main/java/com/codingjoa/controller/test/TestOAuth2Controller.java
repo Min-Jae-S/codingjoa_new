@@ -1,12 +1,17 @@
 package com.codingjoa.controller.test;
 
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Enumeration;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -128,6 +133,22 @@ public class TestOAuth2Controller {
 		
 		log.info("\t > kakaoOAuth2Provider = {}", kakaoOAuth2Provider);
 		log.info("\t > KAKAOAuth2Provider = {}", KAKAOAuth2Provider);
+		
+		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
+	}
+	
+	@GetMapping("/test3")
+	public ResponseEntity<Object> test3(HttpSession session) {
+		log.info("## test3");
+		
+		List<String> attributeNames = Collections.list(session.getAttributeNames());
+		if (!attributeNames.isEmpty()) {
+			attributeNames.forEach(attributeName -> {
+				log.info("\t > {} = {}", attributeName, session.getAttribute(attributeName));
+			});
+		} else {
+			log.info("\t > no session attributes");
+		}
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
