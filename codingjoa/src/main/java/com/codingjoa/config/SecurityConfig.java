@@ -1,6 +1,7 @@
 package com.codingjoa.config;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -22,6 +23,7 @@ import org.springframework.security.oauth2.client.web.DefaultOAuth2Authorization
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestResolver;
 import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
+import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
@@ -187,11 +189,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		
 		resolver.setAuthorizationRequestCustomizer(customizer -> {
 			log.info("## AuthorizationRequestCustomizer");
-			log.info("\t > customize authorizationRequestUri, particularly the authorizationResponseUri (redirect_uri)");
-			
+			log.info("\t > customize authorizationRequestUri - fully encoded redirect_uri, add params(kakao : prompt)");
+
 			OAuth2AuthorizationRequest authorizationRequest = customizer.build();
 			String customizedAuthorizationRequestUri = getCustomizedAuthorizationRequestUri(authorizationRequest);
 			customizer.authorizationRequestUri(customizedAuthorizationRequestUri);
+			
+			authorizationRequest.getAttributes().forEach((key, value) -> {
+				log.info("\t > attr key = {}, value = {}", key, value);
+			});
+			
+			String registrationId = (String) authorizationRequest.getAttribute(OAuth2ParameterNames.REGISTRATION_ID);
+			if (registrationId.equals("kakao")) {
+				customizer.additionalParameters(Map.of("prompt", "login"));
+			}
+			
 		});
 		
 		return resolver;
@@ -205,7 +217,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		String decodedAuthorizationResponseUri = UriUtils.decode(authorizationResponseUri,  StandardCharsets.UTF_8);
 		String encodedAuthorizationResponseUri = UriUtils.encode(decodedAuthorizationResponseUri, StandardCharsets.UTF_8);
 		 
-		 return builder.replaceQueryParam("redirect_uri", encodedAuthorizationResponseUri).build().toUriString();
+		return builder.replaceQueryParam("redirect_uri", encodedAuthorizationResponseUri).build().toUriString();
 	}
 	
 	

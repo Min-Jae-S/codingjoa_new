@@ -51,7 +51,6 @@ public class OAuth2LoginFilter extends OAuth2LoginAuthenticationFilter {
 		
 		Map<String, OAuth2AuthorizationRequest> authorizationRequests = getAuthorizationRequests(request);
 		if (!authorizationRequests.isEmpty()) {
-			log.info("\t > authorizationRequests session = {}", authorizationRequests.keySet());
 			authorizationRequests.forEach((key, value) -> {
 				log.info("\t > state from session = {}", key);
 			});
