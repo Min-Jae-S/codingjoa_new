@@ -20,6 +20,7 @@ import org.springframework.security.config.oauth2.client.CommonOAuth2Provider;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
 import org.springframework.security.oauth2.client.web.DefaultOAuth2AuthorizationRequestResolver;
+import org.springframework.security.oauth2.client.web.HttpSessionOAuth2AuthorizationRequestRepository;
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -137,18 +138,17 @@ public class TestOAuth2Controller {
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 	
+	@SuppressWarnings("unchecked")
 	@GetMapping("/test3")
-	public ResponseEntity<Object> test3(HttpSession session) {
+	public ResponseEntity<Object> test3(HttpServletRequest request) {
 		log.info("## test3");
+		HttpSession session = request.getSession(false);
+		String authorizationRequestAttrName = 
+				HttpSessionOAuth2AuthorizationRequestRepository.class.getName() +  ".AUTHORIZATION_REQUEST";
 		
-		List<String> attributeNames = Collections.list(session.getAttributeNames());
-		if (!attributeNames.isEmpty()) {
-			attributeNames.forEach(attributeName -> {
-				log.info("\t > {} = {}", attributeName, session.getAttribute(attributeName));
-			});
-		} else {
-			log.info("\t > no session attributes");
-		}
+		Map<String, OAuth2AuthorizationRequest> authorizationRequests = session == null ? null :
+			(Map<String, OAuth2AuthorizationRequest>) session.getAttribute(authorizationRequestAttrName);
+		log.info("\t > authorizationRequests saved in the session = {}", authorizationRequests);
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}

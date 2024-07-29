@@ -1,7 +1,7 @@
 package com.codingjoa.config;
 
 import java.nio.charset.StandardCharsets;
-import java.util.Map;
+import java.util.function.Consumer;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -186,38 +186,37 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private OAuth2AuthorizationRequestResolver authorizationRequestResolver() {
 		DefaultOAuth2AuthorizationRequestResolver resolver = new DefaultOAuth2AuthorizationRequestResolver(
 				clientRegistrationRepository, "/login");
-		
-		resolver.setAuthorizationRequestCustomizer(customizer -> {
-			log.info("## AuthorizationRequestCustomizer");
-			log.info("\t > customize authorizationRequestUri - fully encoded redirect_uri, add params(kakao : prompt)");
-
-			OAuth2AuthorizationRequest authorizationRequest = customizer.build();
-			String customizedAuthorizationRequestUri = getCustomizedAuthorizationRequestUri(authorizationRequest);
-			customizer.authorizationRequestUri(customizedAuthorizationRequestUri);
-			
-			authorizationRequest.getAttributes().forEach((key, value) -> {
-				log.info("\t > attr key = {}, value = {}", key, value);
-			});
-			
-			String registrationId = (String) authorizationRequest.getAttribute(OAuth2ParameterNames.REGISTRATION_ID);
-			if (registrationId.equals("kakao")) {
-				customizer.additionalParameters(Map.of("prompt", "login"));
-			}
-			
-		});
+		resolver.setAuthorizationRequestCustomizer(authorizationRequestCustomizer());
 		
 		return resolver;
 	}
 	
-	private String getCustomizedAuthorizationRequestUri(OAuth2AuthorizationRequest authorizationRequest) {
+	private Consumer<OAuth2AuthorizationRequest.Builder> authorizationRequestCustomizer() {
+		return customizer -> {
+			log.info("## AuthorizationRequestCustomizer");
+			log.info("\t > customize authorizationRequestUri (fully encoded redirect_uri, adding parameter)");
+
+			OAuth2AuthorizationRequest authorizationRequest = customizer.build();
+			String customizedAuthorizationRequestUri = customizeAuthorizationRequestUri(authorizationRequest);
+			customizer.authorizationRequestUri(customizedAuthorizationRequestUri);
+		};
+	}
+	
+	private String customizeAuthorizationRequestUri(OAuth2AuthorizationRequest authorizationRequest) {
 		String authorizationRequestUri = authorizationRequest.getAuthorizationRequestUri();
 		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(authorizationRequestUri);
 		
 		String authorizationResponseUri = builder.build().getQueryParams().getFirst("redirect_uri");
-		String decodedAuthorizationResponseUri = UriUtils.decode(authorizationResponseUri,  StandardCharsets.UTF_8);
+		String decodedAuthorizationResponseUri = UriUtils.decode(authorizationResponseUri, StandardCharsets.UTF_8);
 		String encodedAuthorizationResponseUri = UriUtils.encode(decodedAuthorizationResponseUri, StandardCharsets.UTF_8);
-		 
-		return builder.replaceQueryParam("redirect_uri", encodedAuthorizationResponseUri).build().toUriString();
+		builder.replaceQueryParam("redirect_uri", encodedAuthorizationResponseUri);
+		
+		String registrationId = (String) authorizationRequest.getAttribute(OAuth2ParameterNames.REGISTRATION_ID);
+		if (registrationId.equals("kakao")) {
+			builder.queryParam("prompt", "login");
+		}
+		
+		return builder.toUriString();
 	}
 	
 	
