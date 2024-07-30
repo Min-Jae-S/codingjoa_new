@@ -144,4 +144,10 @@ public class TestViewController {
 		return UriUtils.encode(value, StandardCharsets.UTF_8);
 	}
 	
+	@GetMapping("/login")
+	public String loginMain() {
+		log.info("## loginMain main");
+		return "test/login";
+	}
+	
 }

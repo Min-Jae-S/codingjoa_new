@@ -171,7 +171,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override // register provider with AuthenticationManager (ProviderManager)
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.authenticationProvider(loginProvider);
-		//auth.authenticationProvider(oAuth2LoginProvider);
+		auth.authenticationProvider(oAuth2LoginProvider);
 	}
 
 	@Bean
@@ -192,7 +192,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private OAuth2LoginFilter oAuth2LoginFilter() throws Exception {
 		OAuth2LoginFilter filter = new OAuth2LoginFilter(clientRegistrationRepository, oAuth2AuthorizedClientService);
 		filter.setAuthenticationManager(authenticationManagerBean());
-		
 		return filter;
 	}
 	
@@ -204,7 +203,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		DefaultOAuth2AuthorizationRequestResolver resolver = new DefaultOAuth2AuthorizationRequestResolver(
 				clientRegistrationRepository, "/login");
 		resolver.setAuthorizationRequestCustomizer(authorizationRequestCustomizer());
-		
 		return resolver;
 	}
 	
