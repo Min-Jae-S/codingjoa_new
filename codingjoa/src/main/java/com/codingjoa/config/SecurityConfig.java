@@ -173,7 +173,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		auth.authenticationProvider(loginProvider);
 		//auth.authenticationProvider(oAuth2LoginProvider);
 	}
-	
+
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
@@ -188,10 +188,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		filter.setAuthenticationFailureHandler(loginFailureHandler);
 		return filter;
 	}
-	
+
 	private OAuth2LoginFilter oAuth2LoginFilter() throws Exception {
 		OAuth2LoginFilter filter = new OAuth2LoginFilter(clientRegistrationRepository, oAuth2AuthorizedClientService);
 		filter.setAuthenticationManager(authenticationManagerBean());
+		
 		return filter;
 	}
 	
