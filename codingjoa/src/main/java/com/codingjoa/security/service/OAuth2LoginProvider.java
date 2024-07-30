@@ -1,5 +1,10 @@
 package com.codingjoa.security.service;
 
+import java.lang.reflect.Field;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -25,30 +30,44 @@ public class OAuth2LoginProvider implements AuthenticationProvider { // OAuth2Lo
 		log.info("## {}", this.getClass().getSimpleName());
 		log.info("\t > starting authentication of the {}", authentication.getClass().getSimpleName());
 		
-		// authenticationRequest = oAuth2LoginToken
+		// ## OAuth2LoginAuthenticationFilter.attemptAuthentication() {
+		// 		OAuth2LoginAuthenticationToken authenticationRequest = new OAuth2LoginAuthenticationToken(
+		//			clientRegistration, new OAuth2AuthorizationExchange(authorizationRequest, authorizationResponse));
+		//		...
+		//
+		//		OAuth2LoginAuthenticationToken authenticationResult =
+		//			(OAuth2LoginAuthenticationToken) this.getAuthenticationManager().authenticate(authenticationRequest);
+		// }
+		
 		OAuth2LoginAuthenticationToken oAuth2LoginToken = (OAuth2LoginAuthenticationToken) authentication;
 		
 		ClientRegistration clientRegistration = oAuth2LoginToken.getClientRegistration();
-		log.info("\t > [authenticationRequest] clientRegistration = {}", clientRegistration);
+		log.info("\t > clientRegistration = {}", getInstanceDetails(clientRegistration));
 		
-		OAuth2AuthorizationExchange exchange = oAuth2LoginToken.getAuthorizationExchange();
-		log.info("\t > [authenticationRequest] exchange = {}", exchange);
+		OAuth2AuthorizationExchange oAuth2Exchange = oAuth2LoginToken.getAuthorizationExchange();
+		log.info("\t > oAuth2Exchange = {}", getInstanceDetails(oAuth2Exchange));
 		
-		if (exchange != null) {
-			log.info("\t > [authenticationRequest] exchange.authorizationRequest = {}", exchange.getAuthorizationRequest());
-			log.info("\t > [authenticationRequest] exchange.authorizationResponse = {}", exchange.getAuthorizationResponse());
-		}
+		// from back-end session
+		log.info("\t > oAuth2AuthorizationRequest = {}", getInstanceDetails(oAuth2Exchange.getAuthorizationRequest()));
+		
+		// from authorization server
+		log.info("\t > oAuth2AuthorizationResponse = {}", getInstanceDetails(oAuth2Exchange.getAuthorizationResponse()));
 		
 		OAuth2AccessToken oAuthAccessToken = oAuth2LoginToken.getAccessToken();
-		log.info("\t > [authenticationRequest] oAuthAccessToken = {}", oAuthAccessToken);
-		
-		if (oAuthAccessToken != null) {
-			log.info("\t > [authenticationRequest] oAuthAccessToken.tokenValue = {}", oAuthAccessToken.getTokenValue());
-			log.info("\t > [authenticationRequest] oAuthAccessToken.tokenType = {}", oAuthAccessToken.getTokenType().getValue());
-		}
+		log.info("\t > oAuthAccessToken = {}", getInstanceDetails(oAuthAccessToken));
 		
 		return null;
 	}
-
+	
+	private List<String> getInstanceDetails(Object object) {
+		if (object == null) {
+			return null;
+		}
+		
+		Field[] fields = object.getClass().getDeclaredFields();
+		return Arrays.stream(fields)
+				.map(field -> field.getName())
+				.collect(Collectors.toList());
+	}
 
 }

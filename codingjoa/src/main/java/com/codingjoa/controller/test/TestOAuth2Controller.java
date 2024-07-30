@@ -144,9 +144,13 @@ public class TestOAuth2Controller {
 				HttpSessionOAuth2AuthorizationRequestRepository.class.getName() +  ".AUTHORIZATION_REQUEST";
 		
 		Map<String, OAuth2AuthorizationRequest> authorizationRequests = getAuthorizationRequests(request);
-		authorizationRequests.forEach((key, value) -> {
-			log.info("\t > state from current session = {}", key);
-		});
+		if (!authorizationRequests.isEmpty()) {
+			authorizationRequests.forEach((key, value) -> {
+				log.info("\t > state from session = {}", key);
+			});
+		} else {
+			log.info("\t > no authorizationRequests in the session");
+		}
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
