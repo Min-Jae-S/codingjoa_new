@@ -37,6 +37,7 @@ import com.codingjoa.security.service.JwtProvider;
 import com.codingjoa.security.service.LoginFailureHandler;
 import com.codingjoa.security.service.LoginProvider;
 import com.codingjoa.security.service.LoginSuccessHandler;
+import com.codingjoa.security.service.OAuth2LoginProvider;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -49,6 +50,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
 	private LoginProvider loginProvider;
+	
+	@Autowired
+	private OAuth2LoginProvider oAuth2LoginProvider;
 	
 	@Autowired
 	private LoginSuccessHandler loginSuccessHandler;
@@ -156,9 +160,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.accessDeniedHandler(accessDeniedHandler);
 	}
 	
-	@Override // register provider with AuthenticationManager
+	@Override // register provider with AuthenticationManager (ProviderManager)
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.authenticationProvider(loginProvider);
+		auth.authenticationProvider(oAuth2LoginProvider);
 	}
 	
 	@Bean

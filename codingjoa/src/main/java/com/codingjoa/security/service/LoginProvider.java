@@ -17,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Component
-public class LoginProvider implements AuthenticationProvider {
+public class LoginProvider implements AuthenticationProvider { // AbstractUserDetailsAuthenticationProvider (DaoAuthenticationProvider)
 	
 	@Autowired
 	private UserDetailsService userDetailsService;
@@ -33,6 +33,7 @@ public class LoginProvider implements AuthenticationProvider {
 	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 		log.info("## {}", this.getClass().getSimpleName());
+		log.info("\t > starting authentication of the {}", authentication.getClass().getSimpleName());
 		
 		/*
 		 * ref) UsernamePasswordAuthenticationFilter#attemptAuthentication
