@@ -56,9 +56,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private LoginProvider loginProvider;
 	
 	@Autowired
-	private OAuth2LoginProvider oAuth2LoginProvider;
-	
-	@Autowired
 	private LoginSuccessHandler loginSuccessHandler;
 	
 	@Autowired
@@ -88,11 +85,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private OAuth2AuthorizedClientService oAuth2AuthorizedClientService;
 	
-	@PostConstruct
-	public void init() {
-		log.info("## SecurityConfig init");
-		log.info("\t > loginProvider = {}", loginProvider);
-	}
+	@Autowired
+	private OAuth2LoginProvider oAuth2LoginProvider;
 	
 	/*	
 	 *	Browser HTTP Request --> Security filter chain: [
@@ -191,6 +185,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		// Error creating bean with name 'loginFilter' defined in com.codingjoa.security.config.SecurityConfig: 
 		// Invocation of init method failed; nested exception is java.lang.IllegalArgumentException: authenticationManager must be specified
 		filter.setAuthenticationManager(authenticationManager());
+		//filter.setAuthenticationManager(authenticationManagerBean());
 		filter.setAuthenticationSuccessHandler(loginSuccessHandler);
 		filter.setAuthenticationFailureHandler(loginFailureHandler);
 		return filter;
@@ -198,7 +193,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	private OAuth2LoginFilter oAuth2LoginFilter() throws Exception {
 		OAuth2LoginFilter filter = new OAuth2LoginFilter(clientRegistrationRepository, oAuth2AuthorizedClientService);
-		filter.setAuthenticationManager(authenticationManager());
+		filter.setAuthenticationManager(authenticationManager());			// ProviderManager
+		//filter.setAuthenticationManager(authenticationManagerBean()); 	// AuthenticationManagerDelegator
 		return filter;
 	}
 	
@@ -243,7 +239,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 //	@Bean
 //	@Override
-//	public AuthenticationManager authenticationManagerBean() throws Exception { // AuthenticationManagerDelegator
+//	public AuthenticationManager authenticationManagerBean() throws Exception { 
 //		return super.authenticationManagerBean();
 //	}
 //

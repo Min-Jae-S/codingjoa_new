@@ -5,21 +5,30 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthorizationCodeAuthenticationToken;
 import org.springframework.security.oauth2.client.authentication.OAuth2LoginAuthenticationToken;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationExchange;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Component;
 
 import lombok.extern.slf4j.Slf4j;
 
+@SuppressWarnings("unused")
 @Slf4j
 @Component
 public class OAuth2LoginProvider implements AuthenticationProvider { // OAuth2LoginAuthenticationProvider
-
+	
+	@Autowired(required = false)
+	private OAuth2UserService<OAuth2UserRequest, OAuth2User> userService;
+	
 	@Override
 	public boolean supports(Class<?> authentication) {
 		return OAuth2LoginAuthenticationToken.class.isAssignableFrom(authentication);
@@ -30,17 +39,26 @@ public class OAuth2LoginProvider implements AuthenticationProvider { // OAuth2Lo
 		log.info("## {}", this.getClass().getSimpleName());
 		log.info("\t > starting authentication of the {}", authentication.getClass().getSimpleName());
 		
-		// ## OAuth2LoginAuthenticationFilter.attemptAuthentication() {
-		// 		OAuth2LoginAuthenticationToken authenticationRequest = new OAuth2LoginAuthenticationToken(
-		//			clientRegistration, new OAuth2AuthorizationExchange(authorizationRequest, authorizationResponse));
-		//		...
-		//
-		//		OAuth2LoginAuthenticationToken authenticationResult =
-		//			(OAuth2LoginAuthenticationToken) this.getAuthenticationManager().authenticate(authenticationRequest);
-		// }
-		
 		OAuth2LoginAuthenticationToken oAuth2LoginToken = (OAuth2LoginAuthenticationToken) authentication;
+		//checkOAuth2LoginToken(oAuth2LoginToken);
 		
+		OAuth2AuthorizationCodeAuthenticationToken authorizationCodeAuthenticationToken;
+		
+		return null;
+	}
+	
+	private List<String> getFieldNames(Object object) {
+		if (object == null) {
+			return null;
+		}
+		
+		Field[] fields = object.getClass().getDeclaredFields();
+		return Arrays.stream(fields)
+				.map(field -> field.getName())
+				.collect(Collectors.toList());
+	}
+	
+	private void checkOAuth2LoginToken(OAuth2LoginAuthenticationToken oAuth2LoginToken) {
 		ClientRegistration clientRegistration = oAuth2LoginToken.getClientRegistration();
 		log.info("\t > clientRegistration = {}", getFieldNames(clientRegistration));
 		
@@ -56,19 +74,6 @@ public class OAuth2LoginProvider implements AuthenticationProvider { // OAuth2Lo
 		OAuth2AccessToken oAuthAccessToken = oAuth2LoginToken.getAccessToken();
 		log.info("\t > oAuth2AccessToken = {}", getFieldNames(oAuthAccessToken));
 		log.info("\t > oAuth2Details = {}", getFieldNames(oAuth2LoginToken.getDetails()));
-		
-		return null;
-	}
-	
-	private List<String> getFieldNames(Object object) {
-		if (object == null) {
-			return null;
-		}
-		
-		Field[] fields = object.getClass().getDeclaredFields();
-		return Arrays.stream(fields)
-				.map(field -> field.getName())
-				.collect(Collectors.toList());
 	}
 
 }
