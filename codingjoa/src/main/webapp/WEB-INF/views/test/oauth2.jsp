@@ -60,6 +60,7 @@
 		<button class="btn btn-primary" onclick="test1()">test1</button>
 		<button class="btn btn-primary" onclick="test2()">test2</button>
 		<button class="btn btn-primary" onclick="test3()">test3</button>
+		<button class="btn btn-primary" onclick="test4()">test4</button>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
@@ -98,6 +99,21 @@
 		$.ajax({
 			type : "GET",
 			url : "${contextPath}/test/oauth2/test3",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log(JSON.stringify(result, null, 2));
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				parseError(jqXHR);
+			}
+		});
+	}
+
+	function test4() {
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/oauth2/test4",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));

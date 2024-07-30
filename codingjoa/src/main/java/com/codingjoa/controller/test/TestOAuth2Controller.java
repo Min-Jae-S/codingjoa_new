@@ -14,6 +14,8 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.config.oauth2.client.CommonOAuth2Provider;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
@@ -151,6 +153,21 @@ public class TestOAuth2Controller {
 		} else {
 			log.info("\t > no authorizationRequests in the session");
 		}
+		
+		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
+	}
+	
+	@Autowired(required = false)
+	private AuthenticationManager authenticationManager;
+	
+	@Autowired(required = false)
+	private ProviderManager providerManager;
+
+	@GetMapping("/test4")
+	public ResponseEntity<Object> test4() {
+		log.info("## test4");
+		log.info("\t > authenticationManager = {}", authenticationManager);
+		log.info("\t > providerManager = {}", providerManager);
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
