@@ -58,6 +58,7 @@ public class OAuth2LoginFilter extends OAuth2LoginAuthenticationFilter {
 			log.info("\t > no authorizationRequests in the session");
 		}
 		
+		
 		return super.attemptAuthentication(request, response);
 	}
 	

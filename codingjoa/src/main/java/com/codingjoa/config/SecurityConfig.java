@@ -23,7 +23,6 @@ import org.springframework.security.oauth2.client.web.DefaultOAuth2Authorization
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestResolver;
 import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
-import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
@@ -108,6 +107,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.formLogin().disable()
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 				.and()
+				
 			.authorizeRequests()
 				// https://stackoverflow.com/questions/19941466/spring-security-allows-unauthorized-user-access-to-restricted-url-from-a-forward
 				//.filterSecurityInterceptorOncePerRequest(false)
@@ -125,6 +125,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/admin/**").hasAnyRole("ADMIN")
 				.anyRequest().permitAll()
 				.and()
+				
 			.oauth2Login()
 				.clientRegistrationRepository(clientRegistrationRepository)
 				.authorizationEndpoint()
@@ -140,6 +141,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.addFilterBefore(loginFilter(), OAuth2LoginAuthenticationFilter.class)
 			.addFilterBefore(oAuth2LoginFilter(), OAuth2LoginAuthenticationFilter.class)
 			.addFilterAfter(jwtFilter(), OAuth2LoginAuthenticationFilter.class)
+				
 			.logout()
 				//.logoutUrl("/api/logout")
 				//.logoutRequestMatcher(new AntPathRequestMatcher("/api/logout", "POST"))
@@ -148,6 +150,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.clearAuthentication(true)
 				.invalidateHttpSession(true)
 				.and()
+				
 			.exceptionHandling()
 				.authenticationEntryPoint(authenticationEntryPoint)
 				.accessDeniedHandler(accessDeniedHandler);
@@ -211,10 +214,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		String encodedAuthorizationResponseUri = UriUtils.encode(decodedAuthorizationResponseUri, StandardCharsets.UTF_8);
 		builder.replaceQueryParam("redirect_uri", encodedAuthorizationResponseUri);
 		
-		String registrationId = (String) authorizationRequest.getAttribute(OAuth2ParameterNames.REGISTRATION_ID);
-		if (registrationId.equals("kakao")) {
-			builder.queryParam("prompt", "login");
-		}
+//		String registrationId = (String) authorizationRequest.getAttribute(OAuth2ParameterNames.REGISTRATION_ID);
+//		if (registrationId.equals("kakao")) {
+//			builder.queryParam("prompt", "login");
+//		}
 		
 		return builder.build().toUriString();
 	}
