@@ -37,7 +37,9 @@ import com.codingjoa.security.service.JwtProvider;
 import com.codingjoa.security.service.LoginFailureHandler;
 import com.codingjoa.security.service.LoginProvider;
 import com.codingjoa.security.service.LoginSuccessHandler;
+import com.codingjoa.security.service.OAuth2LoginFailureHandler;
 import com.codingjoa.security.service.OAuth2LoginProvider;
+import com.codingjoa.security.service.OAuth2LoginSuccessHandler;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -59,6 +61,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
 	private LoginFailureHandler loginFailureHandler;
+
+	@Autowired
+	private OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
+	
+	@Autowired
+	private OAuth2LoginFailureHandler oAuth2LoginFailureHandler;
 
 	@Autowired
 	private AccessDeniedHandler accessDeniedHandler;
@@ -139,7 +147,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.redirectionEndpoint()
 					.baseUri("/login/*/callback")
 					.and()
+				.successHandler(oAuth2LoginSuccessHandler)
+				.failureHandler(oAuth2LoginFailureHandler)
 				.and()
+				
 			// https://velog.io/@tmdgh0221/Spring-Security-%EC%99%80-OAuth-2.0-%EC%99%80-JWT-%EC%9D%98-%EC%BD%9C%EB%9D%BC%EB%B3%B4
 			// add it right after the LogoutFilter, which is the point just before the actual authentication process takes place.
 			.addFilterBefore(loginFilter(), OAuth2LoginAuthenticationFilter.class)
@@ -163,7 +174,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override // register provider with AuthenticationManager (ProviderManager)
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.authenticationProvider(loginProvider);
-		auth.authenticationProvider(oAuth2LoginProvider);
+		//auth.authenticationProvider(oAuth2LoginProvider);
 	}
 	
 	@Bean

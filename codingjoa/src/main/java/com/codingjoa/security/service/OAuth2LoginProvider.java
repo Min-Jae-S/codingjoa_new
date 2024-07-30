@@ -42,24 +42,25 @@ public class OAuth2LoginProvider implements AuthenticationProvider { // OAuth2Lo
 		OAuth2LoginAuthenticationToken oAuth2LoginToken = (OAuth2LoginAuthenticationToken) authentication;
 		
 		ClientRegistration clientRegistration = oAuth2LoginToken.getClientRegistration();
-		log.info("\t > clientRegistration = {}", getInstanceDetails(clientRegistration));
+		log.info("\t > clientRegistration = {}", getFieldNames(clientRegistration));
 		
 		OAuth2AuthorizationExchange oAuth2Exchange = oAuth2LoginToken.getAuthorizationExchange();
-		log.info("\t > oAuth2Exchange = {}", getInstanceDetails(oAuth2Exchange));
+		log.info("\t > oAuth2Exchange = {}", getFieldNames(oAuth2Exchange));
 		
 		// from back-end session
-		log.info("\t > oAuth2AuthorizationRequest = {}", getInstanceDetails(oAuth2Exchange.getAuthorizationRequest()));
+		log.info("\t > oAuth2AuthorizationRequest = {}", getFieldNames(oAuth2Exchange.getAuthorizationRequest()));
 		
 		// from authorization server
-		log.info("\t > oAuth2AuthorizationResponse = {}", getInstanceDetails(oAuth2Exchange.getAuthorizationResponse()));
+		log.info("\t > oAuth2AuthorizationResponse = {}", getFieldNames(oAuth2Exchange.getAuthorizationResponse()));
 		
 		OAuth2AccessToken oAuthAccessToken = oAuth2LoginToken.getAccessToken();
-		log.info("\t > oAuthAccessToken = {}", getInstanceDetails(oAuthAccessToken));
+		log.info("\t > oAuth2AccessToken = {}", getFieldNames(oAuthAccessToken));
+		log.info("\t > oAuth2Details = {}", getFieldNames(oAuth2LoginToken.getDetails()));
 		
 		return null;
 	}
 	
-	private List<String> getInstanceDetails(Object object) {
+	private List<String> getFieldNames(Object object) {
 		if (object == null) {
 			return null;
 		}
