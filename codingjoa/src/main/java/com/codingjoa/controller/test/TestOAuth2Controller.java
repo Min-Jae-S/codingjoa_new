@@ -1,9 +1,7 @@
 package com.codingjoa.controller.test;
 
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -138,7 +136,6 @@ public class TestOAuth2Controller {
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 	
-	@SuppressWarnings("unchecked")
 	@GetMapping("/test3")
 	public ResponseEntity<Object> test3(HttpServletRequest request) {
 		log.info("## test3");
@@ -146,11 +143,26 @@ public class TestOAuth2Controller {
 		String authorizationRequestAttrName = 
 				HttpSessionOAuth2AuthorizationRequestRepository.class.getName() +  ".AUTHORIZATION_REQUEST";
 		
-		Map<String, OAuth2AuthorizationRequest> authorizationRequests = session == null ? null :
-			(Map<String, OAuth2AuthorizationRequest>) session.getAttribute(authorizationRequestAttrName);
-		log.info("\t > authorizationRequests saved in the session = {}", authorizationRequests);
+		Map<String, OAuth2AuthorizationRequest> authorizationRequests = getAuthorizationRequests(request);
+		authorizationRequests.forEach((key, value) -> {
+			log.info("\t > state from current session = {}", key);
+		});
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
+	}
+	
+	@SuppressWarnings("unchecked")
+	private Map<String, OAuth2AuthorizationRequest> getAuthorizationRequests(HttpServletRequest request) {
+		HttpSession session = request.getSession(false);
+		String authorizationRequestAttrName = 
+				HttpSessionOAuth2AuthorizationRequestRepository.class.getName() +  ".AUTHORIZATION_REQUEST";
+		Map<String, OAuth2AuthorizationRequest> authorizationRequests = session == null ? null :
+				(Map<String, OAuth2AuthorizationRequest>) session.getAttribute(authorizationRequestAttrName);
+		if (authorizationRequests == null) {
+			return new HashMap<>();
+		}
+		
+		return authorizationRequests;
 	}
 
 }

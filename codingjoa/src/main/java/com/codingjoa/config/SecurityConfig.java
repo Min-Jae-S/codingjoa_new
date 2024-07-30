@@ -153,7 +153,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.accessDeniedHandler(accessDeniedHandler);
 	}
 	
-	@Override // register provider wiht AuthenticationManager
+	@Override // register provider with AuthenticationManager
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.authenticationProvider(loginProvider);
 	}
