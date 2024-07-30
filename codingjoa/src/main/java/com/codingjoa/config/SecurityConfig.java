@@ -53,6 +53,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private LoginProvider loginProvider;
 	
+	@SuppressWarnings("unused")
 	@Autowired
 	private OAuth2LoginProvider oAuth2LoginProvider;
 	
@@ -119,7 +120,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.formLogin().disable()
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 				.and()
-				
 			.authorizeRequests()
 				// https://stackoverflow.com/questions/19941466/spring-security-allows-unauthorized-user-access-to-restricted-url-from-a-forward
 				//.filterSecurityInterceptorOncePerRequest(false)
@@ -137,26 +137,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/admin/**").hasAnyRole("ADMIN")
 				.anyRequest().permitAll()
 				.and()
-				
 			.oauth2Login()
 				.clientRegistrationRepository(clientRegistrationRepository)
-				.authorizationEndpoint()
-					.baseUri("/login/*")
-					.authorizationRequestResolver(authorizationRequestResolver())
-					.and()
-				.redirectionEndpoint()
-					.baseUri("/login/*/callback")
-					.and()
+				.redirectionEndpoint(config -> config.baseUri("/login/*/callback"))
+				.authorizationEndpoint(config -> {
+					config.baseUri("/login/*");
+					config.authorizationRequestResolver(authorizationRequestResolver());
+				})
+				//.tokenEndpoint(config -> config.accessTokenResponseClient(null))
+				//.userInfoEndpoint(config -> config.userService(null))
 				.successHandler(oAuth2LoginSuccessHandler)
 				.failureHandler(oAuth2LoginFailureHandler)
 				.and()
-				
-			// https://velog.io/@tmdgh0221/Spring-Security-%EC%99%80-OAuth-2.0-%EC%99%80-JWT-%EC%9D%98-%EC%BD%9C%EB%9D%BC%EB%B3%B4
-			// add it right after the LogoutFilter, which is the point just before the actual authentication process takes place.
-			.addFilterBefore(loginFilter(), OAuth2LoginAuthenticationFilter.class)
-			.addFilterBefore(oAuth2LoginFilter(), OAuth2LoginAuthenticationFilter.class)
-			.addFilterAfter(jwtFilter(), OAuth2LoginAuthenticationFilter.class)
-				
 			.logout()
 				//.logoutUrl("/api/logout")
 				//.logoutRequestMatcher(new AntPathRequestMatcher("/api/logout", "POST"))
@@ -165,10 +157,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.clearAuthentication(true)
 				.invalidateHttpSession(true)
 				.and()
-				
 			.exceptionHandling()
 				.authenticationEntryPoint(authenticationEntryPoint)
-				.accessDeniedHandler(accessDeniedHandler);
+				.accessDeniedHandler(accessDeniedHandler)
+				.and()
+			// https://velog.io/@tmdgh0221/Spring-Security-%EC%99%80-OAuth-2.0-%EC%99%80-JWT-%EC%9D%98-%EC%BD%9C%EB%9D%BC%EB%B3%B4
+			// add it right after the LogoutFilter, which is the point just before the actual authentication process takes place.
+			.addFilterBefore(loginFilter(), OAuth2LoginAuthenticationFilter.class)
+			.addFilterBefore(oAuth2LoginFilter(), OAuth2LoginAuthenticationFilter.class)
+			.addFilterAfter(jwtFilter(), OAuth2LoginAuthenticationFilter.class);
 	}
 	
 	@Override // register provider with AuthenticationManager (ProviderManager)
