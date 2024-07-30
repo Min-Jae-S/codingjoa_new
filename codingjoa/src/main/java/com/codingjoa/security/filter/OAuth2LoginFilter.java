@@ -47,12 +47,12 @@ public class OAuth2LoginFilter extends OAuth2LoginAuthenticationFilter {
 		
 		Map<String, String[]> authorizationResponseMap = request.getParameterMap();
 		log.info("\t > authorizationResponse = {}", authorizationResponseMap.keySet());
-		log.info("\t > state from authorizationResponse = {}", authorizationResponseMap.get("state")[0]);
+		log.info("\t > state from authorization response = {}", authorizationResponseMap.get("state")[0]);
 		
 		Map<String, OAuth2AuthorizationRequest> authorizationRequests = getAuthorizationRequests(request);
 		if (!authorizationRequests.isEmpty()) {
 			authorizationRequests.forEach((key, value) -> {
-				log.info("\t > state from session = {}", key);
+				log.info("\t > state from current session = {}", key);
 			});
 		} else {
 			log.info("\t > no authorizationRequests in the session");
@@ -62,6 +62,7 @@ public class OAuth2LoginFilter extends OAuth2LoginAuthenticationFilter {
 	}
 	
 	// HttpSessionOAuth2AuthorizationRequestRepository
+	// HttpCookieOAuth2AuthorizationRequestRepository 
 	@SuppressWarnings("unchecked")
 	private Map<String, OAuth2AuthorizationRequest> getAuthorizationRequests(HttpServletRequest request) {
 		HttpSession session = request.getSession(false);

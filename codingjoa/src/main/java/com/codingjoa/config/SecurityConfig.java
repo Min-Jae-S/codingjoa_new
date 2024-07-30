@@ -216,7 +216,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			builder.queryParam("prompt", "login");
 		}
 		
-		return builder.toUriString();
+		return builder.build().toUriString();
 	}
 	
 	
