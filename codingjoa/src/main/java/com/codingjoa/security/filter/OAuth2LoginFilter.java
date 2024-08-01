@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
@@ -67,11 +68,23 @@ public class OAuth2LoginFilter extends OAuth2LoginAuthenticationFilter {
 		
 		String stateParamter = request.getParameter(OAuth2ParameterNames.STATE);
 		Map<String, OAuth2AuthorizationRequest> authorizationRequests = this.getAuthorizationRequests(request);
-		log.info("\t > before removing authorizationRequest, exsists ? = {}", authorizationRequests.containsKey(stateParamter));
+		log.info("\t > before removing authorizationRequest, exists ? {}", authorizationRequests.containsKey(stateParamter));
 
 		OAuth2AuthorizationRequest authorizationRequest =
 				this.authorizationRequestRepository.removeAuthorizationRequest(request, response);
-		log.info("\t > after removing authorizationRequest, exsists? = {}", authorizationRequests.containsKey(stateParamter));
+		log.info("\t > after removing authorizationRequest, exists ? {}", authorizationRequests.containsKey(stateParamter));
+		
+		// clientRegistration of OAuth2AuthorizationRequest from session 
+		String registrationId = authorizationRequest.getAttribute(OAuth2ParameterNames.REGISTRATION_ID);
+		ClientRegistration clientRegistration = this.clientRegistrationRepository.findByRegistrationId(registrationId);
+		
+		// redirectUri from reqeust (authroization response)
+		String redirectUri = UriComponentsBuilder.fromHttpUrl(UrlUtils.buildFullRequestUrl(request))
+				.replaceQuery(null)
+				.build()
+				.toUriString();
+		log.info("\t > referer = {}", request.getHeader(HttpHeaders.REFERER));
+		log.info("\t > redirectUri = {}", redirectUri);
 		
 		log.info("\t > delegating authentication attempt to {}", this.getClass().getSuperclass().getSimpleName());
 		return super.attemptAuthentication(request, response);
