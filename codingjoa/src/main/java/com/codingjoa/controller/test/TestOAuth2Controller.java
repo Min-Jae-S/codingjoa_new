@@ -1,7 +1,6 @@
 package com.codingjoa.controller.test;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,31 +19,22 @@ import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.config.oauth2.client.CommonOAuth2Provider;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
-import org.springframework.security.oauth2.client.web.AuthorizationRequestRepository;
 import org.springframework.security.oauth2.client.web.DefaultOAuth2AuthorizationRequestResolver;
 import org.springframework.security.oauth2.client.web.HttpSessionOAuth2AuthorizationRequestRepository;
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter;
-import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestResolver;
-import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
-import org.springframework.security.oauth2.core.OAuth2Error;
-import org.springframework.security.oauth2.core.OAuth2ErrorCodes;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
-import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
-import org.springframework.security.web.util.UrlUtils;
-import org.springframework.util.Assert;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import com.codingjoa.response.SuccessResponse;
+import com.codingjoa.security.dto.KakaoTokenResponse;
+import com.codingjoa.security.dto.KakaoUserInfoResponse;
+import com.codingjoa.security.dto.NaverTokenResponse;
+import com.codingjoa.security.dto.NaverUserInfoResponse;
 import com.codingjoa.security.oauth2.CustomOAuth2Provider;
 import com.codingjoa.security.service.TestOAuth2Service;
-import com.codingjoa.util.Utils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -57,124 +47,35 @@ public class TestOAuth2Controller {
 	@Autowired
 	private TestOAuth2Service testOAuth2Service;
 	
-	@Autowired
-	private OAuth2AuthorizationRequestResolver authorizationRequestResolver;
-	
-	private AuthorizationRequestRepository<OAuth2AuthorizationRequest> authorizationRequestRepository = 
-			new HttpSessionOAuth2AuthorizationRequestRepository();
-	
-	private static final String DEFAULT_AUTHORIZATION_REQUEST_ATTR_NAME =
-			HttpSessionOAuth2AuthorizationRequestRepository.class.getName() + ".AUTHORIZATION_REQUEST";
-	
-	@GetMapping("/{registrationId}/callback")
-	public ResponseEntity<Object> socialCallback(HttpServletRequest request, HttpServletResponse response,
-			@PathVariable String registrationId) {
-		log.info("## socialCallback");
+	@GetMapping("/kakao/callback")
+	public ResponseEntity<Object> kakaoCallback(@RequestParam String code, @RequestParam String state) throws Exception {
+		log.info("## kakaoCallback");
+		log.info("\t > authorization code = {}", code);
+		log.info("\t > state = {}", state);
 		
-		MultiValueMap<String, String> params = toMultiMap(request.getParameterMap());
-		log.info("\t > callback params = {}", params.keySet());
-		log.info("\t > state = {}", params.getFirst("state"));
+		log.info("\t > request kakaoToken");
+		KakaoTokenResponse kakaoToken = testOAuth2Service.getKakaoToken(code, state);
 		
-		boolean isAuthorizationResponseSuccess = isAuthorizationResponseSuccess(params);
-		log.info("\t > isAuthorizationResponseSuccess = {}", isAuthorizationResponseSuccess);
-
-		boolean isAuthorizationResponseError = isAuthorizationResponseError(params);
-		log.info("\t > isAuthorizationResponseError = {}", isAuthorizationResponseError);
-		
-		boolean isAuthorizationResponse = isAuthorizationResponse(params);
-		log.info("\t > isAuthorizationResponse = {}", isAuthorizationResponse);
-		
-		if (!isAuthorizationResponse(params)) {
-			OAuth2Error oauth2Error = new OAuth2Error(OAuth2ErrorCodes.INVALID_REQUEST);
-			throw new OAuth2AuthenticationException(oauth2Error, oauth2Error.toString());
-		}
-		
-		/* save authorizationRequests in the session */
-		/* authorizationRequestRepository.saveAuthorizationRequest(authorizationRequest, request, response); */
-		OAuth2AuthorizationRequest oAuth2AuthorizationRequest = authorizationRequestResolver.resolve(request, registrationId);
-		Map<String, OAuth2AuthorizationRequest> authorizationRequests = getAuthorizationRequests(request);
-		authorizationRequests.put(params.getFirst("state"), oAuth2AuthorizationRequest);
-		request.getSession().setAttribute(DEFAULT_AUTHORIZATION_REQUEST_ATTR_NAME, authorizationRequests);
-		
-		OAuth2AuthorizationRequest originalRequest = authorizationRequestRepository.removeAuthorizationRequest(request, response);
-		log.info("\t > originalRequest = {}", originalRequest);
-		
-//		String redirectUri = UriComponentsBuilder.fromHttpUrl(UrlUtils.buildFullRequestUrl(request))
-//				.replaceQuery(null)
-//				.build()
-//				.toUriString();
-//		log.info("\t > redirectUri = {}", redirectUri);
+		log.info("\t > request kakaoUserInfo");
+		KakaoUserInfoResponse kakaoUserInfo = testOAuth2Service.getKakaoUserInfo(kakaoToken.getAccessToken());
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 	
-	private Map<String, OAuth2AuthorizationRequest> getAuthorizationRequests(HttpServletRequest request) {
-		HttpSession session = request.getSession(false);
-		Map<String, OAuth2AuthorizationRequest> authorizationRequests = session == null ? null :
-				(Map<String, OAuth2AuthorizationRequest>) session.getAttribute(DEFAULT_AUTHORIZATION_REQUEST_ATTR_NAME);
-		if (authorizationRequests == null) {
-			return new HashMap<>();
-		}
-		return authorizationRequests;
+	@GetMapping("/naver/callback")
+	public ResponseEntity<Object> naverCallback(@RequestParam String code, @RequestParam String state) throws Exception {
+		log.info("## naverCallback");
+		log.info("\t > authorization code = {}", code);
+		log.info("\t > state = {}", state);
+		
+		log.info("\t > request naverToken");
+		NaverTokenResponse naverToken = testOAuth2Service.getNaverToken(code, state);
+		
+		log.info("\t > request naverUserInfo");
+		NaverUserInfoResponse naverUserInfo = testOAuth2Service.getNaverUserInfo(naverToken.getAccessToken());
+		
+		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
-	
-	static MultiValueMap<String, String> toMultiMap(Map<String, String[]> map) {
-		MultiValueMap<String, String> params = new LinkedMultiValueMap<>(map.size());
-		map.forEach((key, values) -> {
-			if (values.length > 0) {
-				for (String value : values) {
-					params.add(key, value);
-				}
-			}
-		});
-		return params;
-	}
-	
-	static boolean isAuthorizationResponse(MultiValueMap<String, String> params) {
-		return isAuthorizationResponseSuccess(params) || isAuthorizationResponseError(params);
-	}
-
-	static boolean isAuthorizationResponseSuccess(MultiValueMap<String, String> params) {
-		String code = params.getFirst(OAuth2ParameterNames.CODE);
-		String state = params.getFirst(OAuth2ParameterNames.STATE);
-		return StringUtils.hasText(code) && StringUtils.hasText(state);
-	}
-
-	static boolean isAuthorizationResponseError(MultiValueMap<String, String> params) {
-		String error = params.getFirst(OAuth2ParameterNames.ERROR);
-		String state = params.getFirst(OAuth2ParameterNames.STATE);
-		return StringUtils.hasText(error) && StringUtils.hasText(state);
-	}
-	
-//	@GetMapping("/kakao/callback")
-//	public ResponseEntity<Object> kakaoCallback(@RequestParam String code, @RequestParam String state) throws Exception {
-//		log.info("## kakaoCallback");
-//		log.info("\t > authorization code = {}", code);
-//		log.info("\t > state = {}", state);
-//		
-//		log.info("\t > request kakaoToken");
-//		KakaoTokenResponse kakaoToken = testOAuth2Service.getKakaoToken(code, state);
-//		
-//		log.info("\t > request kakaoUserInfo");
-//		KakaoUserInfoResponse kakaoUserInfo = testOAuth2Service.getKakaoUserInfo(kakaoToken.getAccessToken());
-//		
-//		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
-//	}
-//	
-//	@GetMapping("/naver/callback")
-//	public ResponseEntity<Object> naverCallback(@RequestParam String code, @RequestParam String state) throws Exception {
-//		log.info("## naverCallback");
-//		log.info("\t > authorization code = {}", code);
-//		log.info("\t > state = {}", state);
-//		
-//		log.info("\t > request naverToken");
-//		NaverTokenResponse naverToken = testOAuth2Service.getNaverToken(code, state);
-//		
-//		log.info("\t > request naverUserInfo");
-//		NaverUserInfoResponse naverUserInfo = testOAuth2Service.getNaverUserInfo(naverToken.getAccessToken());
-//		
-//		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
-//	}
 	
 	//	URI uri = UriComponentsBuilder.fromHttpUrl(kakaoAccessTokenUrl)
 	//		.queryParam("grant_type", "authorization_code")
@@ -193,6 +94,9 @@ public class TestOAuth2Controller {
 	@Qualifier("testClientRegistrationRepository")
 	@Autowired
 	private InMemoryClientRegistrationRepository clientRegistrationRepository;
+	
+	private static final String DEFAULT_AUTHORIZATION_REQUEST_ATTR_NAME = 
+			HttpSessionOAuth2AuthorizationRequestRepository.class.getName() + ".AUTHORIZATION_REQUEST";
 	
 	@GetMapping("/test1")
 	public ResponseEntity<Object> test1(HttpServletRequest request, HttpServletResponse response) {
@@ -240,11 +144,9 @@ public class TestOAuth2Controller {
 	@GetMapping("/test3")
 	public ResponseEntity<Object> test3(HttpServletRequest request) {
 		log.info("## test3");
-		HttpSession session = request.getSession(false);
-		String authorizationRequestAttrName = 
-				HttpSessionOAuth2AuthorizationRequestRepository.class.getName() +  ".AUTHORIZATION_REQUEST";
-		
 		Map<String, OAuth2AuthorizationRequest> authorizationRequests = getAuthorizationRequests(request);
+		log.info("\t > authorizationRequests = {}", authorizationRequests == null ? "null" : authorizationRequests.keySet());
+		
 		if (!authorizationRequests.isEmpty()) {
 			authorizationRequests.forEach((key, value) -> {
 				log.info("\t > state from session = {}", key);
@@ -254,6 +156,17 @@ public class TestOAuth2Controller {
 		}
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
+	}
+	
+	private Map<String, OAuth2AuthorizationRequest> getAuthorizationRequests(HttpServletRequest request) {
+		HttpSession session = request.getSession(false);
+		Map<String, OAuth2AuthorizationRequest> authorizationRequests = session == null ? null :
+				(Map<String, OAuth2AuthorizationRequest>) session.getAttribute(DEFAULT_AUTHORIZATION_REQUEST_ATTR_NAME);
+		if (authorizationRequests == null) {
+			return new HashMap<>();
+		}
+		
+		return authorizationRequests;
 	}
 	
 	@Autowired(required = false)
