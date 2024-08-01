@@ -15,9 +15,15 @@ import org.springframework.core.env.Environment;
 import org.springframework.security.config.oauth2.client.CommonOAuth2Provider;
 import org.springframework.security.oauth2.client.InMemoryOAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
+import org.springframework.security.oauth2.client.endpoint.DefaultAuthorizationCodeTokenResponseClient;
+import org.springframework.security.oauth2.client.endpoint.OAuth2AccessTokenResponseClient;
+import org.springframework.security.oauth2.client.endpoint.OAuth2AuthorizationCodeGrantRequest;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.registration.ClientRegistration.Builder;
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
+import org.springframework.security.oauth2.client.web.AuthenticatedPrincipalOAuth2AuthorizedClientRepository;
+import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepository;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 
 import com.codingjoa.security.oauth2.CustomOAuth2Provider;
@@ -37,13 +43,13 @@ public class OAuth2Config {
 	
 	@Primary
 	@Bean(name = "clientRegistrationRepository")
-	public InMemoryClientRegistrationRepository clientRegistrationRepository() {
+	public ClientRegistrationRepository clientRegistrationRepository() {
 		List<ClientRegistration> registrations = Arrays.asList(kakaoClientRegistration(), naverClientRegistration());
 		return new InMemoryClientRegistrationRepository(registrations);
 	}
 
 	@Bean(name = "testClientRegistrationRepository")
-	public InMemoryClientRegistrationRepository testClientRegistrationRepository() {
+	public ClientRegistrationRepository testClientRegistrationRepository() {
 		List<ClientRegistration> registrations = Arrays.asList("kakao", "naver")
 				.stream()
 				.map(registrationId -> getClientRegistration(registrationId))
@@ -52,14 +58,21 @@ public class OAuth2Config {
 	}
 	
 	@Bean
-	public OAuth2AuthorizedClientService oAuth2AuthorizedClientService() {
-		return new InMemoryOAuth2AuthorizedClientService(clientRegistrationRepository());
+	public OAuth2AuthorizedClientService oAuth2AuthorizedClientService(
+			ClientRegistrationRepository clientRegistrationRepository) {
+		return new InMemoryOAuth2AuthorizedClientService(clientRegistrationRepository);
 	}
-
-//	@Bean
-//	public OAuth2AuthorizedClientRepository oAuth2AuthorizedClientRepository() {
-//		return new AuthenticatedPrincipalOAuth2AuthorizedClientRepository(oAuth2AuthorizedClientService());
-//	}
+	
+	@Bean
+	public OAuth2AuthorizedClientRepository oAuth2AuthorizedClientRepository(
+			OAuth2AuthorizedClientService oAuth2AuthorizedClientService) {
+		return new AuthenticatedPrincipalOAuth2AuthorizedClientRepository(oAuth2AuthorizedClientService);
+	}
+	
+	@Bean
+	public OAuth2AccessTokenResponseClient<OAuth2AuthorizationCodeGrantRequest> accessTokenResponseClient() {
+		return new DefaultAuthorizationCodeTokenResponseClient();
+	}
 	
 	private ClientRegistration kakaoClientRegistration() {
 		return CustomOAuth2Provider.KAKAO.getBuilder("kakao")

@@ -90,7 +90,6 @@ public class TestOAuth2Controller {
 	//		.retrieve()
 	//		.bodyToFlux(KakaoTokenResponseDto.class);
 	
-	
 	@Qualifier("testClientRegistrationRepository")
 	@Autowired
 	private InMemoryClientRegistrationRepository clientRegistrationRepository;

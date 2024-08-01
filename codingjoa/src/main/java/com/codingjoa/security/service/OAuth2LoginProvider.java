@@ -4,8 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthorizationCodeAuthenticationProvider;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthorizationCodeAuthenticationToken;
 import org.springframework.security.oauth2.client.authentication.OAuth2LoginAuthenticationToken;
+import org.springframework.security.oauth2.client.endpoint.OAuth2AccessTokenResponseClient;
+import org.springframework.security.oauth2.client.endpoint.OAuth2AuthorizationCodeGrantRequest;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
@@ -23,9 +26,17 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class OAuth2LoginProvider implements AuthenticationProvider { // OAuth2LoginAuthenticationProvider
 	
-	@Autowired(required = false)
-	private OAuth2UserService<OAuth2UserRequest, OAuth2User> userService;
+	private final OAuth2AuthorizationCodeAuthenticationProvider authorizationCodeAuthenticationProvider;
+	private final OAuth2UserService<OAuth2UserRequest, OAuth2User> userService;
 	
+	@Autowired
+	public OAuth2LoginProvider(
+			OAuth2AccessTokenResponseClient<OAuth2AuthorizationCodeGrantRequest> accessTokenResponseClient,
+			OAuth2UserService<OAuth2UserRequest, OAuth2User> userService) {
+		this.authorizationCodeAuthenticationProvider = new OAuth2AuthorizationCodeAuthenticationProvider(accessTokenResponseClient);
+		this.userService = userService;
+	}
+
 	@Override
 	public boolean supports(Class<?> authentication) {
 		return OAuth2LoginAuthenticationToken.class.isAssignableFrom(authentication);

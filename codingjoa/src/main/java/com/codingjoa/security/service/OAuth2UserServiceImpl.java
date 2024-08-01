@@ -23,9 +23,8 @@ import lombok.extern.slf4j.Slf4j;
 
 @SuppressWarnings("unused")
 @Slf4j
-//@Service
+@Service
 public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
-	
 	
 	private final RestTemplate restTemplate = new RestTemplate();
 	

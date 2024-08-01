@@ -3,7 +3,6 @@ package com.codingjoa.security.service;
 import java.util.Map;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -13,17 +12,16 @@ import com.codingjoa.mapper.MemberMapper;
 import com.codingjoa.security.dto.UserDetailsDto;
 import com.codingjoa.util.MessageUtils;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@RequiredArgsConstructor
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-	@Autowired
-	private MemberMapper memberMapper;
-	
-	@Autowired
-	private ModelMapper modelMapper;
+	private final MemberMapper memberMapper;
+	private final ModelMapper modelMapper;
 	
 	@Override
 	public UserDetails loadUserByUsername(String memberId) throws UsernameNotFoundException {

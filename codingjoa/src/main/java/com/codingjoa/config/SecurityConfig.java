@@ -18,6 +18,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
+import org.springframework.security.oauth2.client.endpoint.OAuth2AccessTokenResponseClient;
+import org.springframework.security.oauth2.client.endpoint.OAuth2AuthorizationCodeGrantRequest;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.web.DefaultOAuth2AuthorizationRequestResolver;
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestResolver;
@@ -43,6 +45,7 @@ import com.codingjoa.security.service.OAuth2LoginSuccessHandler;
 
 import lombok.extern.slf4j.Slf4j;
 
+@SuppressWarnings("unused")
 @Slf4j
 @Import(OAuth2Config.class)
 @ComponentScan("com.codingjoa.security.service")
@@ -85,6 +88,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
 	private OAuth2LoginProvider oAuth2LoginProvider;
+	
+	@Autowired
+	private OAuth2AccessTokenResponseClient<OAuth2AuthorizationCodeGrantRequest> accessTokenResponseClient;
 	
 	/*	
 	 *	Browser HTTP Request --> Security filter chain: [
@@ -139,11 +145,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.oauth2Login()
 				.clientRegistrationRepository(clientRegistrationRepository)
 				.redirectionEndpoint(config -> config.baseUri("/login/*/callback"))
-				.authorizationEndpoint(config -> {
+				.authorizationEndpoint(config  -> {
 					config.baseUri("/login/*");
 					config.authorizationRequestResolver(authorizationRequestResolver());
 				})
-				//.tokenEndpoint(config -> config.accessTokenResponseClient(null))
+				//.tokenEndpoint(config -> config.accessTokenResponseClient(accessTokenResponseClient))
 				//.userInfoEndpoint(config -> config.userService(null))
 				.successHandler(oAuth2LoginSuccessHandler)
 				.failureHandler(oAuth2LoginFailureHandler)
@@ -200,7 +206,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		return new JwtFilter(jwtProvider);
 	}
 	
-	public OAuth2AuthorizationRequestResolver authorizationRequestResolver() {
+	private OAuth2AuthorizationRequestResolver authorizationRequestResolver() {
 		DefaultOAuth2AuthorizationRequestResolver resolver = new DefaultOAuth2AuthorizationRequestResolver(
 				clientRegistrationRepository, "/login");
 		resolver.setAuthorizationRequestCustomizer(authorizationRequestCustomizer());

@@ -7,7 +7,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
-import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -32,7 +32,7 @@ public class TestOAuth2Service {
 	private final ClientRegistration naverRegistration;
 	
 	@Autowired
-	public TestOAuth2Service(@Qualifier("testClientRegistrationRepository") InMemoryClientRegistrationRepository clientRegistrationRepository) {
+	public TestOAuth2Service(@Qualifier("testClientRegistrationRepository") ClientRegistrationRepository clientRegistrationRepository) {
 		this.kakaoRegistration = clientRegistrationRepository.findByRegistrationId("kakao");
 		this.naverRegistration = clientRegistrationRepository.findByRegistrationId("naver");
 	}
