@@ -200,7 +200,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		return new JwtFilter(jwtProvider);
 	}
 	
-	@Bean
 	public OAuth2AuthorizationRequestResolver authorizationRequestResolver() {
 		DefaultOAuth2AuthorizationRequestResolver resolver = new DefaultOAuth2AuthorizationRequestResolver(
 				clientRegistrationRepository, "/login");
