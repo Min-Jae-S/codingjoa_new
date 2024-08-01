@@ -1,6 +1,5 @@
 package com.codingjoa.security.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -9,22 +8,22 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Component;
 
 import com.codingjoa.util.MessageUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@Component
 public class LoginProvider implements AuthenticationProvider { // AbstractUserDetailsAuthenticationProvider (DaoAuthenticationProvider)
 	
-	@Autowired
-	private UserDetailsService userDetailsService;
+	private final UserDetailsService userDetailsService;
+	private final PasswordEncoder passwordEncoder;
 	
-	@Autowired
-	private PasswordEncoder passwordEncoder;
-	
+	public LoginProvider(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
+		this.userDetailsService = userDetailsService;
+		this.passwordEncoder = passwordEncoder;
+	}
+
 	@Override
 	public boolean supports(Class<?> authentication) {
 		return UsernamePasswordAuthenticationToken.class.isAssignableFrom(authentication);

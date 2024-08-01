@@ -1,6 +1,5 @@
 package com.codingjoa.security.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -15,7 +14,6 @@ import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationExchange;
 import org.springframework.security.oauth2.core.user.OAuth2User;
-import org.springframework.stereotype.Component;
 
 import com.codingjoa.util.Utils;
 
@@ -23,13 +21,11 @@ import lombok.extern.slf4j.Slf4j;
 
 @SuppressWarnings("unused")
 @Slf4j
-@Component
 public class OAuth2LoginProvider implements AuthenticationProvider { // OAuth2LoginAuthenticationProvider
 	
 	private final OAuth2AuthorizationCodeAuthenticationProvider authorizationCodeAuthenticationProvider;
 	private final OAuth2UserService<OAuth2UserRequest, OAuth2User> userService;
 	
-	@Autowired
 	public OAuth2LoginProvider(
 			OAuth2AccessTokenResponseClient<OAuth2AuthorizationCodeGrantRequest> accessTokenResponseClient,
 			OAuth2UserService<OAuth2UserRequest, OAuth2User> userService) {

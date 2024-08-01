@@ -3,7 +3,6 @@ package com.codingjoa.config;
 import java.nio.charset.StandardCharsets;
 import java.util.function.Consumer;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -15,16 +14,20 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.endpoint.OAuth2AccessTokenResponseClient;
 import org.springframework.security.oauth2.client.endpoint.OAuth2AuthorizationCodeGrantRequest;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.client.web.DefaultOAuth2AuthorizationRequestResolver;
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestResolver;
 import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
@@ -43,54 +46,30 @@ import com.codingjoa.security.service.OAuth2LoginFailureHandler;
 import com.codingjoa.security.service.OAuth2LoginProvider;
 import com.codingjoa.security.service.OAuth2LoginSuccessHandler;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-@SuppressWarnings("unused")
 @Slf4j
 @Import(OAuth2Config.class)
 @ComponentScan("com.codingjoa.security.service")
 @EnableWebSecurity
+@RequiredArgsConstructor
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
-	@Autowired
-	private LoginProvider loginProvider;
-	
-	@Autowired
-	private LoginSuccessHandler loginSuccessHandler;
-	
-	@Autowired
-	private LoginFailureHandler loginFailureHandler;
-
-	@Autowired
-	private OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
-	
-	@Autowired
-	private OAuth2LoginFailureHandler oAuth2LoginFailureHandler;
-
-	@Autowired
-	private AccessDeniedHandler accessDeniedHandler;
-	
-	@Autowired
-	private AuthenticationEntryPoint authenticationEntryPoint;
-	
-	@Autowired
-	private LogoutSuccessHandler logoutSuccessHandler;
-	
-	@Autowired
-	private JwtProvider jwtProvider;
-	
-	@Autowired
-	private ClientRegistrationRepository clientRegistrationRepository;
-	
-	@Autowired
-	private OAuth2AuthorizedClientService oAuth2AuthorizedClientService;
-	
-	@Autowired
-	private OAuth2LoginProvider oAuth2LoginProvider;
-	
-	@Autowired
-	private OAuth2AccessTokenResponseClient<OAuth2AuthorizationCodeGrantRequest> accessTokenResponseClient;
+	private final UserDetailsService userDetailsService;
+	private final LoginSuccessHandler loginSuccessHandler;
+	private final LoginFailureHandler loginFailureHandler;
+	private final OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
+	private final OAuth2LoginFailureHandler oAuth2LoginFailureHandler;
+	private final AccessDeniedHandler accessDeniedHandler;
+	private final AuthenticationEntryPoint authenticationEntryPoint;
+	private final LogoutSuccessHandler logoutSuccessHandler;
+	private final JwtProvider jwtProvider;
+	private final ClientRegistrationRepository clientRegistrationRepository;
+	private final OAuth2AuthorizedClientService oAuth2AuthorizedClientService;
+	private final OAuth2AccessTokenResponseClient<OAuth2AuthorizationCodeGrantRequest> accessTokenResponseClient;
+	private final OAuth2UserService<OAuth2UserRequest, OAuth2User> oAuth2UserServce;
 	
 	/*	
 	 *	Browser HTTP Request --> Security filter chain: [
@@ -175,15 +154,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Override // register provider with AuthenticationManager
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.authenticationProvider(loginProvider);
-		auth.authenticationProvider(oAuth2LoginProvider);
+		auth.authenticationProvider(new LoginProvider(userDetailsService, passwordEncoder()));
+		auth.authenticationProvider(new OAuth2LoginProvider(accessTokenResponseClient, oAuth2UserServce));
 	}
 	
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-
+	
 	private LoginFilter loginFilter() throws Exception {
 		LoginFilter filter = new LoginFilter();
 		// Error creating bean with name 'loginFilter' defined in com.codingjoa.security.config.SecurityConfig: 
