@@ -1,7 +1,11 @@
 package com.codingjoa.util;
 
+import java.lang.reflect.Field;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -51,6 +55,17 @@ public class Utils {
 	    	//return requestURI.append('?').append(URLDecoder.decode(queryString, StandardCharsets.UTF_8)).toString();
 	    	return requestURI.append('?').append(queryString).toString();
 	    }
+	}
+	
+	public static List<String> getFieldNames(Object object) {
+		if (object == null) {
+			return null;
+		}
+		
+		Field[] fields = object.getClass().getDeclaredFields();
+		return Arrays.stream(fields)
+				.map(field -> field.getName())
+				.collect(Collectors.toList());
 	}
 	
 }

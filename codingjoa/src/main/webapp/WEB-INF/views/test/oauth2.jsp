@@ -55,8 +55,8 @@
 		<a href="<c:out value='${naverLoginUrl}'/>">
 			<img class="social-login-btn" src="${contextPath}/resources/images/test/naver.png">
 		</a>
-		<a class="btn btn-warning" href="${contextPath}/test/oauth2/aaa/callback">
-			<span>trigger invalid authorzation</span>
+		<a class="btn btn-danger" href="${contextPath}/test/oauth2/aaa/callback">
+			trigger invalid auth
 		</a>
 	</div>
 	<div class="test mt-5 mb-5 px-5">

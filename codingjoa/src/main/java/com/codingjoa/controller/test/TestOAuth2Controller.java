@@ -1,6 +1,7 @@
 package com.codingjoa.controller.test;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,16 +20,23 @@ import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.config.oauth2.client.CommonOAuth2Provider;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
+import org.springframework.security.oauth2.client.web.AuthorizationRequestRepository;
 import org.springframework.security.oauth2.client.web.DefaultOAuth2AuthorizationRequestResolver;
 import org.springframework.security.oauth2.client.web.HttpSessionOAuth2AuthorizationRequestRepository;
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter;
+import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestResolver;
+import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
+import org.springframework.security.oauth2.core.OAuth2Error;
+import org.springframework.security.oauth2.core.OAuth2ErrorCodes;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.web.util.UrlUtils;
+import org.springframework.util.Assert;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -36,10 +44,11 @@ import org.springframework.web.util.UriComponentsBuilder;
 import com.codingjoa.response.SuccessResponse;
 import com.codingjoa.security.oauth2.CustomOAuth2Provider;
 import com.codingjoa.security.service.TestOAuth2Service;
+import com.codingjoa.util.Utils;
 
 import lombok.extern.slf4j.Slf4j;
 
-@SuppressWarnings("unused")
+@SuppressWarnings({ "unused", "unchecked" })
 @Slf4j
 @RequestMapping("/test/oauth2")
 @RestController
@@ -48,24 +57,65 @@ public class TestOAuth2Controller {
 	@Autowired
 	private TestOAuth2Service testOAuth2Service;
 	
-	@GetMapping("/*/callback")
-	public ResponseEntity<Object> socialCallback(HttpServletRequest request) {
+	@Autowired
+	private OAuth2AuthorizationRequestResolver authorizationRequestResolver;
+	
+	private AuthorizationRequestRepository<OAuth2AuthorizationRequest> authorizationRequestRepository = 
+			new HttpSessionOAuth2AuthorizationRequestRepository();
+	
+	private static final String DEFAULT_AUTHORIZATION_REQUEST_ATTR_NAME =
+			HttpSessionOAuth2AuthorizationRequestRepository.class.getName() + ".AUTHORIZATION_REQUEST";
+	
+	@GetMapping("/{registrationId}/callback")
+	public ResponseEntity<Object> socialCallback(HttpServletRequest request, HttpServletResponse response,
+			@PathVariable String registrationId) {
 		log.info("## socialCallback");
 		
 		MultiValueMap<String, String> params = toMultiMap(request.getParameterMap());
-		log.info("\t > authorization response = {}", params);
+		log.info("\t > callback params = {}", params.keySet());
+		log.info("\t > state = {}", params.getFirst("state"));
+		
+		boolean isAuthorizationResponseSuccess = isAuthorizationResponseSuccess(params);
+		log.info("\t > isAuthorizationResponseSuccess = {}", isAuthorizationResponseSuccess);
+
+		boolean isAuthorizationResponseError = isAuthorizationResponseError(params);
+		log.info("\t > isAuthorizationResponseError = {}", isAuthorizationResponseError);
+		
+		boolean isAuthorizationResponse = isAuthorizationResponse(params);
+		log.info("\t > isAuthorizationResponse = {}", isAuthorizationResponse);
 		
 		if (!isAuthorizationResponse(params)) {
-			log.info("\t > not authorization response");
+			OAuth2Error oauth2Error = new OAuth2Error(OAuth2ErrorCodes.INVALID_REQUEST);
+			throw new OAuth2AuthenticationException(oauth2Error, oauth2Error.toString());
 		}
 		
-		String redirectUri = UriComponentsBuilder.fromHttpUrl(UrlUtils.buildFullRequestUrl(request))
-				.replaceQuery(null)
-				.build()
-				.toUriString();
-		log.info("\t > redirectUri = {}", redirectUri);
+		/* save authorizationRequests in the session */
+		/* authorizationRequestRepository.saveAuthorizationRequest(authorizationRequest, request, response); */
+		OAuth2AuthorizationRequest oAuth2AuthorizationRequest = authorizationRequestResolver.resolve(request, registrationId);
+		Map<String, OAuth2AuthorizationRequest> authorizationRequests = getAuthorizationRequests(request);
+		authorizationRequests.put(params.getFirst("state"), oAuth2AuthorizationRequest);
+		request.getSession().setAttribute(DEFAULT_AUTHORIZATION_REQUEST_ATTR_NAME, authorizationRequests);
+		
+		OAuth2AuthorizationRequest originalRequest = authorizationRequestRepository.removeAuthorizationRequest(request, response);
+		log.info("\t > originalRequest = {}", originalRequest);
+		
+//		String redirectUri = UriComponentsBuilder.fromHttpUrl(UrlUtils.buildFullRequestUrl(request))
+//				.replaceQuery(null)
+//				.build()
+//				.toUriString();
+//		log.info("\t > redirectUri = {}", redirectUri);
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
+	}
+	
+	private Map<String, OAuth2AuthorizationRequest> getAuthorizationRequests(HttpServletRequest request) {
+		HttpSession session = request.getSession(false);
+		Map<String, OAuth2AuthorizationRequest> authorizationRequests = session == null ? null :
+				(Map<String, OAuth2AuthorizationRequest>) session.getAttribute(DEFAULT_AUTHORIZATION_REQUEST_ATTR_NAME);
+		if (authorizationRequests == null) {
+			return new HashMap<>();
+		}
+		return authorizationRequests;
 	}
 	
 	static MultiValueMap<String, String> toMultiMap(Map<String, String[]> map) {
@@ -85,21 +135,16 @@ public class TestOAuth2Controller {
 	}
 
 	static boolean isAuthorizationResponseSuccess(MultiValueMap<String, String> params) {
-		log.info("## isAuthorizationResponseSuccess");
-		log.info("\t > params.getFirst(OAuth2ParameterNames.CODE) = {}", params.getFirst(OAuth2ParameterNames.CODE));
-		log.info("\t > params.getFirst(OAuth2ParameterNames.STATE) = {}", params.getFirst(OAuth2ParameterNames.STATE));
-		return StringUtils.hasText(params.getFirst(OAuth2ParameterNames.CODE)) &&
-			StringUtils.hasText(params.getFirst(OAuth2ParameterNames.STATE));
+		String code = params.getFirst(OAuth2ParameterNames.CODE);
+		String state = params.getFirst(OAuth2ParameterNames.STATE);
+		return StringUtils.hasText(code) && StringUtils.hasText(state);
 	}
 
 	static boolean isAuthorizationResponseError(MultiValueMap<String, String> params) {
-		log.info("## isAuthorizationResponseError");
-		log.info("\t > params.getFirst(OAuth2ParameterNames.ERROR) = {}", params.getFirst(OAuth2ParameterNames.ERROR));
-		log.info("\t > params.getFirst(OAuth2ParameterNames.STATE) = {}", params.getFirst(OAuth2ParameterNames.STATE));
-		return StringUtils.hasText(params.getFirst(OAuth2ParameterNames.ERROR)) &&
-			StringUtils.hasText(params.getFirst(OAuth2ParameterNames.STATE));
+		String error = params.getFirst(OAuth2ParameterNames.ERROR);
+		String state = params.getFirst(OAuth2ParameterNames.STATE);
+		return StringUtils.hasText(error) && StringUtils.hasText(state);
 	}
-	
 	
 //	@GetMapping("/kakao/callback")
 //	public ResponseEntity<Object> kakaoCallback(@RequestParam String code, @RequestParam String state) throws Exception {
@@ -224,20 +269,6 @@ public class TestOAuth2Controller {
 		log.info("\t > providerManager = {}", providerManager);
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
-	}
-	
-	@SuppressWarnings("unchecked")
-	private Map<String, OAuth2AuthorizationRequest> getAuthorizationRequests(HttpServletRequest request) {
-		HttpSession session = request.getSession(false);
-		String authorizationRequestAttrName = 
-				HttpSessionOAuth2AuthorizationRequestRepository.class.getName() +  ".AUTHORIZATION_REQUEST";
-		Map<String, OAuth2AuthorizationRequest> authorizationRequests = session == null ? null :
-				(Map<String, OAuth2AuthorizationRequest>) session.getAttribute(authorizationRequestAttrName);
-		if (authorizationRequests == null) {
-			return new HashMap<>();
-		}
-		
-		return authorizationRequests;
 	}
 
 }
