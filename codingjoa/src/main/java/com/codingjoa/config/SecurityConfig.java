@@ -3,8 +3,6 @@ package com.codingjoa.config;
 import java.nio.charset.StandardCharsets;
 import java.util.function.Consumer;
 
-import javax.annotation.PostConstruct;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -237,12 +235,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		return builder.build().toUriString();
 	}
 	
-//	@Bean
+//	@Bean(name = BeanIds.AUTHENTICATION_MANAGER)
 //	@Override
 //	public AuthenticationManager authenticationManagerBean() throws Exception { 
 //		return super.authenticationManagerBean();
 //	}
-//
+	
 //	@Override
 //	protected AuthenticationManager authenticationManager() throws Exception { // ProviderManager
 //		log.info("## authenticationManager");
