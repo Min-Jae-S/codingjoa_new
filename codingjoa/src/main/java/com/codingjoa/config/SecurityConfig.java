@@ -149,7 +149,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			// add it right after the LogoutFilter, which is the point just before the actual authentication process takes place.
 			.addFilterBefore(loginFilter(), OAuth2LoginAuthenticationFilter.class)
 			.addFilterBefore(oAuth2LoginFilter(), OAuth2LoginAuthenticationFilter.class)
-			.addFilterAfter(jwtFilter(), OAuth2LoginAuthenticationFilter.class);
+			.addFilterAfter(new JwtFilter(jwtProvider), OAuth2LoginAuthenticationFilter.class);
 	}
 	
 	@Override // register provider with AuthenticationManager
@@ -179,10 +179,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		filter.setAuthenticationManager(authenticationManager());			// ProviderManager
 		//filter.setAuthenticationManager(authenticationManagerBean()); 	// AuthenticationManagerDelegator
 		return filter;
-	}
-	
-	private JwtFilter jwtFilter() {
-		return new JwtFilter(jwtProvider);
 	}
 	
 	private OAuth2AuthorizationRequestResolver authorizationRequestResolver() {

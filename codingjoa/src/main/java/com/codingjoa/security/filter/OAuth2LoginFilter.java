@@ -69,11 +69,11 @@ public class OAuth2LoginFilter extends OAuth2LoginAuthenticationFilter {
 		
 		String stateParamter = request.getParameter(OAuth2ParameterNames.STATE);
 		Map<String, OAuth2AuthorizationRequest> authorizationRequests = this.getAuthorizationRequests(request);
-		log.info("\t > before removing authorizationRequest, exists ? {}", authorizationRequests.containsKey(stateParamter));
+		//log.info("\t > before removing authorizationRequest, exists ? {}", authorizationRequests.containsKey(stateParamter));
 
 		OAuth2AuthorizationRequest authorizationRequest =
 				this.authorizationRequestRepository.removeAuthorizationRequest(request, response);
-		log.info("\t > after removing authorizationRequest, exists ? {}", authorizationRequests.containsKey(stateParamter));
+		//log.info("\t > after removing authorizationRequest, exists ? {}", authorizationRequests.containsKey(stateParamter));
 		
 		// clientRegistration of OAuth2AuthorizationRequest removed from session 
 		String registrationId = authorizationRequest.getAttribute(OAuth2ParameterNames.REGISTRATION_ID);
@@ -97,7 +97,7 @@ public class OAuth2LoginFilter extends OAuth2LoginAuthenticationFilter {
 		//		(OAuth2LoginAuthenticationToken) this.getAuthenticationManager().authenticate(authenticationRequest);
 		
 		this.authorizationRequestRepository.saveAuthorizationRequest(authorizationRequest, request, response);
-		log.info("\t > save removed authorizationRequest for test");
+		//log.info("\t > save removed authorizationRequest for test");
 		
 		log.info("\t > delegating authentication attempt to {}", this.getClass().getSuperclass().getSimpleName());
 		return super.attemptAuthentication(request, response);
