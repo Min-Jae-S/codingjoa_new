@@ -23,16 +23,17 @@ import org.springframework.security.oauth2.client.web.DefaultOAuth2Authorization
 import org.springframework.security.oauth2.client.web.HttpSessionOAuth2AuthorizationRequestRepository;
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
+import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
+import org.springframework.security.web.util.UrlUtils;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.codingjoa.response.SuccessResponse;
-import com.codingjoa.security.dto.KakaoTokenResponse;
-import com.codingjoa.security.dto.KakaoUserInfoResponse;
-import com.codingjoa.security.dto.NaverTokenResponse;
-import com.codingjoa.security.dto.NaverUserInfoResponse;
 import com.codingjoa.security.oauth2.CustomOAuth2Provider;
 import com.codingjoa.security.service.TestOAuth2Service;
 
@@ -47,35 +48,88 @@ public class TestOAuth2Controller {
 	@Autowired
 	private TestOAuth2Service testOAuth2Service;
 	
-	@GetMapping("/kakao/callback")
-	public ResponseEntity<Object> kakaoCallback(@RequestParam String code, @RequestParam String state) throws Exception {
-		log.info("## kakaoCallback");
-		log.info("\t > authorization code = {}", code);
-		log.info("\t > state = {}", state);
+	@GetMapping("/*/callback")
+	public ResponseEntity<Object> socialCallback(HttpServletRequest request) {
+		log.info("## socialCallback");
 		
-		log.info("\t > request kakaoToken");
-		KakaoTokenResponse kakaoToken = testOAuth2Service.getKakaoToken(code, state);
+		MultiValueMap<String, String> params = toMultiMap(request.getParameterMap());
+		log.info("\t > authorization response = {}", params);
 		
-		log.info("\t > request kakaoUserInfo");
-		KakaoUserInfoResponse kakaoUserInfo = testOAuth2Service.getKakaoUserInfo(kakaoToken.getAccessToken());
+		if (!isAuthorizationResponse(params)) {
+			log.info("\t > not authorization response");
+		}
+		
+		String redirectUri = UriComponentsBuilder.fromHttpUrl(UrlUtils.buildFullRequestUrl(request))
+				.replaceQuery(null)
+				.build()
+				.toUriString();
+		log.info("\t > redirectUri = {}", redirectUri);
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 	
-	@GetMapping("/naver/callback")
-	public ResponseEntity<Object> naverCallback(@RequestParam String code, @RequestParam String state) throws Exception {
-		log.info("## naverCallback");
-		log.info("\t > authorization code = {}", code);
-		log.info("\t > state = {}", state);
-		
-		log.info("\t > request naverToken");
-		NaverTokenResponse naverToken = testOAuth2Service.getNaverToken(code, state);
-		
-		log.info("\t > request naverUserInfo");
-		NaverUserInfoResponse naverUserInfo = testOAuth2Service.getNaverUserInfo(naverToken.getAccessToken());
-		
-		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
+	static MultiValueMap<String, String> toMultiMap(Map<String, String[]> map) {
+		MultiValueMap<String, String> params = new LinkedMultiValueMap<>(map.size());
+		map.forEach((key, values) -> {
+			if (values.length > 0) {
+				for (String value : values) {
+					params.add(key, value);
+				}
+			}
+		});
+		return params;
 	}
+	
+	static boolean isAuthorizationResponse(MultiValueMap<String, String> params) {
+		return isAuthorizationResponseSuccess(params) || isAuthorizationResponseError(params);
+	}
+
+	static boolean isAuthorizationResponseSuccess(MultiValueMap<String, String> params) {
+		log.info("## isAuthorizationResponseSuccess");
+		log.info("\t > params.getFirst(OAuth2ParameterNames.CODE) = {}", params.getFirst(OAuth2ParameterNames.CODE));
+		log.info("\t > params.getFirst(OAuth2ParameterNames.STATE) = {}", params.getFirst(OAuth2ParameterNames.STATE));
+		return StringUtils.hasText(params.getFirst(OAuth2ParameterNames.CODE)) &&
+			StringUtils.hasText(params.getFirst(OAuth2ParameterNames.STATE));
+	}
+
+	static boolean isAuthorizationResponseError(MultiValueMap<String, String> params) {
+		log.info("## isAuthorizationResponseError");
+		log.info("\t > params.getFirst(OAuth2ParameterNames.ERROR) = {}", params.getFirst(OAuth2ParameterNames.ERROR));
+		log.info("\t > params.getFirst(OAuth2ParameterNames.STATE) = {}", params.getFirst(OAuth2ParameterNames.STATE));
+		return StringUtils.hasText(params.getFirst(OAuth2ParameterNames.ERROR)) &&
+			StringUtils.hasText(params.getFirst(OAuth2ParameterNames.STATE));
+	}
+	
+	
+//	@GetMapping("/kakao/callback")
+//	public ResponseEntity<Object> kakaoCallback(@RequestParam String code, @RequestParam String state) throws Exception {
+//		log.info("## kakaoCallback");
+//		log.info("\t > authorization code = {}", code);
+//		log.info("\t > state = {}", state);
+//		
+//		log.info("\t > request kakaoToken");
+//		KakaoTokenResponse kakaoToken = testOAuth2Service.getKakaoToken(code, state);
+//		
+//		log.info("\t > request kakaoUserInfo");
+//		KakaoUserInfoResponse kakaoUserInfo = testOAuth2Service.getKakaoUserInfo(kakaoToken.getAccessToken());
+//		
+//		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
+//	}
+//	
+//	@GetMapping("/naver/callback")
+//	public ResponseEntity<Object> naverCallback(@RequestParam String code, @RequestParam String state) throws Exception {
+//		log.info("## naverCallback");
+//		log.info("\t > authorization code = {}", code);
+//		log.info("\t > state = {}", state);
+//		
+//		log.info("\t > request naverToken");
+//		NaverTokenResponse naverToken = testOAuth2Service.getNaverToken(code, state);
+//		
+//		log.info("\t > request naverUserInfo");
+//		NaverUserInfoResponse naverUserInfo = testOAuth2Service.getNaverUserInfo(naverToken.getAccessToken());
+//		
+//		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
+//	}
 	
 	//	URI uri = UriComponentsBuilder.fromHttpUrl(kakaoAccessTokenUrl)
 	//		.queryParam("grant_type", "authorization_code")
