@@ -11,18 +11,19 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
+import org.springframework.security.oauth2.client.authentication.OAuth2LoginAuthenticationToken;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.web.AuthorizationRequestRepository;
 import org.springframework.security.oauth2.client.web.HttpSessionOAuth2AuthorizationRequestRepository;
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepository;
 import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter;
+import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationExchange;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.web.util.UrlUtils;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.util.StringUtils;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import lombok.extern.slf4j.Slf4j;
@@ -74,17 +75,29 @@ public class OAuth2LoginFilter extends OAuth2LoginAuthenticationFilter {
 				this.authorizationRequestRepository.removeAuthorizationRequest(request, response);
 		log.info("\t > after removing authorizationRequest, exists ? {}", authorizationRequests.containsKey(stateParamter));
 		
-		// clientRegistration of OAuth2AuthorizationRequest from session 
+		// clientRegistration of OAuth2AuthorizationRequest removed from session 
 		String registrationId = authorizationRequest.getAttribute(OAuth2ParameterNames.REGISTRATION_ID);
 		ClientRegistration clientRegistration = this.clientRegistrationRepository.findByRegistrationId(registrationId);
 		
-		// redirectUri from reqeust (authroization response)
+		// redirectUri
 		String redirectUri = UriComponentsBuilder.fromHttpUrl(UrlUtils.buildFullRequestUrl(request))
 				.replaceQuery(null)
 				.build()
 				.toUriString();
-		log.info("\t > referer = {}", request.getHeader(HttpHeaders.REFERER));
-		log.info("\t > redirectUri = {}", redirectUri);
+		
+		// ## generate OAuth2AuthorizationResponse using params(authoriation code, state) and redirectUri
+		// OAuth2AuthorizationResponse authorizationResponse = OAuth2AuthorizationResponseUtils.convert(params, redirectUri);
+		
+		// ## generate OAuth2LoginAuthenticationToken using clientRegistration, authorizationRequest, authorizationResponse
+		// OAuth2LoginAuthenticationToken authenticationRequest = new OAuth2LoginAuthenticationToken(
+		//		clientRegistration, new OAuth2AuthorizationExchange(authorizationRequest, authorizationResponse));
+		
+		// ## autheticate OAuth2LoginAuthenticationToken by OAuth2LoginAuthenticationProvider
+		// OAuth2LoginAuthenticationToken authenticationResult =
+		//		(OAuth2LoginAuthenticationToken) this.getAuthenticationManager().authenticate(authenticationRequest);
+		
+		this.authorizationRequestRepository.saveAuthorizationRequest(authorizationRequest, request, response);
+		log.info("\t > save removed authorizationRequest for test");
 		
 		log.info("\t > delegating authentication attempt to {}", this.getClass().getSuperclass().getSimpleName());
 		return super.attemptAuthentication(request, response);
