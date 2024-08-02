@@ -11,18 +11,15 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.codingjoa.util.MessageUtils;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@RequiredArgsConstructor
 public class LoginProvider implements AuthenticationProvider { // AbstractUserDetailsAuthenticationProvider (DaoAuthenticationProvider)
 	
 	private final UserDetailsService userDetailsService;
 	private final PasswordEncoder passwordEncoder;
-	
-	public LoginProvider(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
-		this.userDetailsService = userDetailsService;
-		this.passwordEncoder = passwordEncoder;
-	}
 
 	@Override
 	public boolean supports(Class<?> authentication) {
@@ -34,29 +31,6 @@ public class LoginProvider implements AuthenticationProvider { // AbstractUserDe
 		log.info("## {}", this.getClass().getSimpleName());
 		log.info("\t > starting authentication of the {}", authentication.getClass().getSimpleName());
 		
-		/*
-		 * ref) UsernamePasswordAuthenticationFilter#attemptAuthentication
-		 * public Authentication attemptAuthentication(HttpServletRequest request,
-				HttpServletResponse response) throws AuthenticationException {
-		 * 
-		 * 		String username = obtainUsername(request);
-		 * 		String password = obtainPassword(request);
-		 * 
-		 * 		if (username == null) { username = ""; }
-		 * 		if (password == null) { password = ""; }
-		 * 
-		 * 		username = username.trim()
-		 * 
-		 * 		UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(
-		 * 				username, password);
-		 * 
-		 * 		// Allow subclasses to set the "details" property
-		 * 		setDetails(request, authRequest);
-		 * 
-		 *  	return this.getAuthenticationManager().authenticate(authRequest);
-		 *  }
-		 *  
-		 */
 		UsernamePasswordAuthenticationToken loginToken = (UsernamePasswordAuthenticationToken) authentication;
 		String memberId = (String) loginToken.getPrincipal();
 		String memberPassword = (String) loginToken.getCredentials();

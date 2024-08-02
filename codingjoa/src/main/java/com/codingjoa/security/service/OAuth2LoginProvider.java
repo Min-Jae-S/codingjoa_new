@@ -18,11 +18,8 @@ import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
-import com.codingjoa.util.JsonUtils;
-
 import lombok.extern.slf4j.Slf4j;
 
-@SuppressWarnings("unused")
 @Slf4j
 public class OAuth2LoginProvider implements AuthenticationProvider { // OAuth2LoginAuthenticationProvider
 	
@@ -59,19 +56,18 @@ public class OAuth2LoginProvider implements AuthenticationProvider { // OAuth2Lo
 		
 		OAuth2AccessToken accessToken = authenticatedAuthCodeToken.getAccessToken();
 		Map<String, Object> additionalParameters = authenticatedAuthCodeToken.getAdditionalParameters();
-		log.info("{}", JsonUtils.formatJson(accessToken));
-		log.info("{}", JsonUtils.formatJson(additionalParameters));
+		log.info("\t > accessToken = {}", accessToken);
+		log.info("\t > additionalParameters = {}", additionalParameters);
 		
+		// request userInfo
 		OAuth2UserRequest oAuth2UserRequest = new OAuth2UserRequest(
 				authenticatedAuthCodeToken.getClientRegistration(), accessToken, additionalParameters);
-		
-		log.info("## request userInfo");
 		OAuth2User loadedOAuth2User = oAuth2UserService.loadUser(oAuth2UserRequest);
 		
 		Collection<? extends GrantedAuthority> mappedAuthorities = 
 				authoritiesMapper.mapAuthorities(loadedOAuth2User.getAuthorities());
 		
-		log.info("## generate authenticated loginToken");
+		log.info("\t > generate authenticated loginToken and return this token");
 		OAuth2LoginAuthenticationToken authenticatedLoginToken = new OAuth2LoginAuthenticationToken(
 				loginToken.getClientRegistration(),
 				loginToken.getAuthorizationExchange(),
