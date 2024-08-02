@@ -4,6 +4,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class JsonUtils {
 
 	private static final ObjectMapper mapper = new ObjectMapper();
@@ -15,14 +18,13 @@ public class JsonUtils {
     
     public static String formatJson(Object obj) {
     	try {
-    		if (obj instanceof String) {
-        		JsonNode jsonNode = mapper.readTree((String) obj);
-        		return System.lineSeparator() + mapper.writeValueAsString(jsonNode);
-        	} else {
-        		return System.lineSeparator() + mapper.writeValueAsString(obj);
-        	}
+    		String json = mapper.writeValueAsString(obj);
+    		JsonNode jsonNode = mapper.readTree((String) json);
+    		return System.lineSeparator() + mapper.writeValueAsString(jsonNode);
     	} catch(Exception e) {
-    		throw new RuntimeException("format json failure", e);
+    		log.error("\t > {} : {}", e.getClass().getSimpleName(), e.getMessage());
+    		return null;
     	}
     }
+    
 }

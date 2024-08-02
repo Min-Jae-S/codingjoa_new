@@ -58,10 +58,10 @@ public class TestOAuth2Service {
 				String.class
 		);
 		
-		String responseJson = response.getBody();
-		log.info("{}", JsonUtils.formatJson(responseJson));
+		String responseBody = response.getBody();
+		log.info("{}", JsonUtils.formatJson(responseBody));
 		
-		return parseJson(responseJson, KakaoTokenResponse.class);
+		return parseJson(responseBody, KakaoTokenResponse.class);
 	}
 	
 	public KakaoUserInfoResponse getKakaoUserInfo(String accessToken) {
@@ -78,10 +78,10 @@ public class TestOAuth2Service {
 				String.class
 		);
 		
-		String responseJson = response.getBody();
-		log.info("{}", JsonUtils.formatJson(responseJson));
+		String responseBody = response.getBody();
+		log.info("{}", JsonUtils.formatJson(responseBody));
 		
-		return parseJson(responseJson, KakaoUserInfoResponse.class);
+		return parseJson(responseBody, KakaoUserInfoResponse.class);
 	}
 
 	public NaverTokenResponse getNaverToken(String code, String state) {
@@ -105,10 +105,10 @@ public class TestOAuth2Service {
 				String.class
 		);
 		
-		String responseJson = response.getBody();
-		log.info("{}", JsonUtils.formatJson(responseJson));
+		String responseBody = response.getBody();
+		log.info("{}", JsonUtils.formatJson(responseBody));
 		
-		return parseJson(responseJson, NaverTokenResponse.class);
+		return parseJson(responseBody, NaverTokenResponse.class);
 	}
 	
 	public NaverUserInfoResponse getNaverUserInfo(String accessToken) {
@@ -124,10 +124,10 @@ public class TestOAuth2Service {
 				String.class
 		);
 		
-		String responseJson = response.getBody();
-		log.info("{}", JsonUtils.formatJson(responseJson));
+		String responseBody = response.getBody();
+		log.info("{}", JsonUtils.formatJson(responseBody));
 		
-		return parseJson(responseJson, NaverUserInfoResponse.class);
+		return parseJson(responseBody, NaverUserInfoResponse.class);
 	}
 	
 	private <T> T parseJson(String json, Class<T> clazz) {

@@ -85,14 +85,14 @@ public class OAuth2LoginFilter extends OAuth2LoginAuthenticationFilter {
 				.build()
 				.toUriString();
 		
-		// ## generate OAuth2AuthorizationResponse using params(authoriation code, state) and redirectUri
+		// # generate OAuth2AuthorizationResponse using params(authoriation code, state) and redirectUri
 		// OAuth2AuthorizationResponse authorizationResponse = OAuth2AuthorizationResponseUtils.convert(params, redirectUri);
 		
-		// ## generate OAuth2LoginAuthenticationToken using clientRegistration, authorizationRequest, authorizationResponse
+		// # generate OAuth2LoginAuthenticationToken using clientRegistration, authorizationRequest, authorizationResponse
 		// OAuth2LoginAuthenticationToken authenticationRequest = new OAuth2LoginAuthenticationToken(
 		//		clientRegistration, new OAuth2AuthorizationExchange(authorizationRequest, authorizationResponse));
 		
-		// ## autheticate OAuth2LoginAuthenticationToken by OAuth2LoginAuthenticationProvider
+		// # authenticate OAuth2LoginAuthenticationToken by OAuth2LoginAuthenticationProvider
 		// OAuth2LoginAuthenticationToken authenticationResult =
 		//		(OAuth2LoginAuthenticationToken) this.getAuthenticationManager().authenticate(authenticationRequest);
 		

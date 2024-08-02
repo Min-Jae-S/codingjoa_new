@@ -1,18 +1,20 @@
 package com.codingjoa.security.service;
 
+import java.util.Collection;
+import java.util.Map;
+
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthorizationCodeAuthenticationProvider;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthorizationCodeAuthenticationToken;
 import org.springframework.security.oauth2.client.authentication.OAuth2LoginAuthenticationToken;
 import org.springframework.security.oauth2.client.endpoint.OAuth2AccessTokenResponseClient;
 import org.springframework.security.oauth2.client.endpoint.OAuth2AuthorizationCodeGrantRequest;
-import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.OAuth2AccessToken;
-import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationExchange;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import com.codingjoa.util.Utils;
@@ -44,29 +46,25 @@ public class OAuth2LoginProvider implements AuthenticationProvider { // OAuth2Lo
 		log.info("\t > starting authentication of the {}", authentication.getClass().getSimpleName());
 		
 		OAuth2LoginAuthenticationToken oAuth2LoginToken = (OAuth2LoginAuthenticationToken) authentication;
-		//checkOAuth2LoginToken(oAuth2LoginToken);
+		Utils.specifiy(oAuth2LoginToken, OAuth2LoginAuthenticationToken.class);
 		
-		OAuth2AuthorizationCodeAuthenticationToken authorizationCodeAuthenticationToken;
+		OAuth2AuthorizationCodeAuthenticationToken oAuth2AuthCodeToken = new OAuth2AuthorizationCodeAuthenticationToken(
+				oAuth2LoginToken.getClientRegistration(), oAuth2LoginToken.getAuthorizationExchange());
+		Utils.specifiy(oAuth2AuthCodeToken, OAuth2AuthorizationCodeAuthenticationToken.class);
+		
+		// authenticate authorization code (receiving an access token)
+		OAuth2AuthorizationCodeAuthenticationToken authenticatedOAuth2AuthCodeToken = 
+				(OAuth2AuthorizationCodeAuthenticationToken) authorizationCodeAuthenticationProvider.authenticate(oAuth2AuthCodeToken);
+		
+		// generate OAuth2UserRequest using clientRegistration, accessToken, additionaParamters
+		OAuth2UserRequest oAuth2UserRequest = new OAuth2UserRequest(
+				authenticatedOAuth2AuthCodeToken.getClientRegistration(), 
+				authenticatedOAuth2AuthCodeToken.getAccessToken(), 
+				authenticatedOAuth2AuthCodeToken.getAdditionalParameters());
+		
+		OAuth2User oauth2User = this.userService.loadUser(oAuth2UserRequest);
 		
 		return null;
-	}
-	
-	private void checkOAuth2LoginToken(OAuth2LoginAuthenticationToken oAuth2LoginToken) {
-		ClientRegistration clientRegistration = oAuth2LoginToken.getClientRegistration();
-		log.info("\t > clientRegistration = {}", Utils.getFieldNames(clientRegistration));
-		
-		OAuth2AuthorizationExchange oAuth2Exchange = oAuth2LoginToken.getAuthorizationExchange();
-		log.info("\t > oAuth2Exchange = {}", Utils.getFieldNames(oAuth2Exchange));
-		
-		// from back-end session
-		log.info("\t > oAuth2AuthorizationRequest = {}", Utils.getFieldNames(oAuth2Exchange.getAuthorizationRequest()));
-		
-		// from authorization server
-		log.info("\t > oAuth2AuthorizationResponse = {}", Utils.getFieldNames(oAuth2Exchange.getAuthorizationResponse()));
-		
-		OAuth2AccessToken oAuthAccessToken = oAuth2LoginToken.getAccessToken();
-		log.info("\t > oAuth2AccessToken = {}", Utils.getFieldNames(oAuthAccessToken));
-		log.info("\t > oAuth2Details = {}", Utils.getFieldNames(oAuth2LoginToken.getDetails()));
 	}
 
 }
