@@ -53,10 +53,10 @@ public class TestOAuth2Controller {
 		log.info("\t > authorization code = {}", code);
 		log.info("\t > state = {}", state);
 		
-		log.info("\t > request kakaoToken");
+		log.info("## request kakaoToken");
 		KakaoTokenResponse kakaoToken = testOAuth2Service.getKakaoToken(code, state);
 		
-		log.info("\t > request kakaoUserInfo");
+		log.info("## request kakaoUserInfo");
 		KakaoUserInfoResponse kakaoUserInfo = testOAuth2Service.getKakaoUserInfo(kakaoToken.getAccessToken());
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
@@ -68,10 +68,10 @@ public class TestOAuth2Controller {
 		log.info("\t > authorization code = {}", code);
 		log.info("\t > state = {}", state);
 		
-		log.info("\t > request naverToken");
+		log.info("## request naverToken");
 		NaverTokenResponse naverToken = testOAuth2Service.getNaverToken(code, state);
 		
-		log.info("\t > request naverUserInfo");
+		log.info("##request naverUserInfo");
 		NaverUserInfoResponse naverUserInfo = testOAuth2Service.getNaverUserInfo(naverToken.getAccessToken());
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());

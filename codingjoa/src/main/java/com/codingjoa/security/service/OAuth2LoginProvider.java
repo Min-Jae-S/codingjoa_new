@@ -17,7 +17,9 @@ import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
+import com.codingjoa.util.JsonUtils;
 import com.codingjoa.util.Utils;
+import com.nimbusds.oauth2.sdk.token.AccessToken;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -46,22 +48,25 @@ public class OAuth2LoginProvider implements AuthenticationProvider { // OAuth2Lo
 		log.info("\t > starting authentication of the {}", authentication.getClass().getSimpleName());
 		
 		OAuth2LoginAuthenticationToken oAuth2LoginToken = (OAuth2LoginAuthenticationToken) authentication;
-		log.info("\t > oAuth2LoginToken = {}", Utils.specifiyFields(oAuth2LoginToken));
 		
 		OAuth2AuthorizationCodeAuthenticationToken oAuth2AuthCodeToken = new OAuth2AuthorizationCodeAuthenticationToken(
 				oAuth2LoginToken.getClientRegistration(), oAuth2LoginToken.getAuthorizationExchange());
-		log.info("\t > oAuth2AuthCodeToken = {}", Utils.specifiyFields(oAuth2AuthCodeToken));
 		
-		// authenticate authorization code (receiving an access token)
-		OAuth2AuthorizationCodeAuthenticationToken authenticatedOAuth2AuthCodeToken = 
+		
+		log.info("## request accessToken"); // authenticate authorization code 
+		OAuth2AuthorizationCodeAuthenticationToken authenticatedOAuth2AuthCodeToken =
 				(OAuth2AuthorizationCodeAuthenticationToken) authorizationCodeAuthenticationProvider.authenticate(oAuth2AuthCodeToken);
 		
-		// generate OAuth2UserRequest using clientRegistration, accessToken, additionaParamters
-		OAuth2UserRequest oAuth2UserRequest = new OAuth2UserRequest(
-				authenticatedOAuth2AuthCodeToken.getClientRegistration(), 
-				authenticatedOAuth2AuthCodeToken.getAccessToken(), 
-				authenticatedOAuth2AuthCodeToken.getAdditionalParameters());
+		OAuth2AccessToken accessToken = authenticatedOAuth2AuthCodeToken.getAccessToken();
+		Map<String, Object> additionalParameters = authenticatedOAuth2AuthCodeToken.getAdditionalParameters();
+		log.info("{}", JsonUtils.formatJson(accessToken));
+		log.info("{}", JsonUtils.formatJson(additionalParameters));
 		
+		// generate OAuth2UserRequest using clientRegistration, accessToken, additionalParameters
+		OAuth2UserRequest oAuth2UserRequest = new OAuth2UserRequest(
+				authenticatedOAuth2AuthCodeToken.getClientRegistration(), accessToken, additionalParameters);
+		
+		log.info("## request userInfo");
 		OAuth2User oauth2User = this.userService.loadUser(oAuth2UserRequest);
 		
 		return null;

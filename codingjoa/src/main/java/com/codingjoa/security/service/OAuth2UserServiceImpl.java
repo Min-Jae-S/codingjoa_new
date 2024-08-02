@@ -10,6 +10,8 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.codingjoa.util.JsonUtils;
+
 import lombok.extern.slf4j.Slf4j;
 
 //	{
@@ -33,24 +35,12 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 		log.info("## {}.loadUser", this.getClass().getSimpleName());
 		
 		OAuth2AccessToken oAuth2AccessToken = userRequest.getAccessToken();
-		log.info("\t > accessToken = {}", oAuth2AccessToken.getTokenValue());
-		log.info("\t > tokenType = {}", oAuth2AccessToken.getTokenType().getValue());
-		log.info("\t > issuedAt = {}", oAuth2AccessToken.getIssuedAt());
-		log.info("\t > expiresAt = {}", oAuth2AccessToken.getExpiresAt());
-		log.info("\t > scopes = {}", oAuth2AccessToken.getScopes());
-		
-		userRequest.getAdditionalParameters().forEach((key, value) -> {
-			log.info("\t > {} = {}", key, value);
-		});
-		
 		ClientRegistration clientRegistration = userRequest.getClientRegistration();
 		log.info("## before requesting social userInfo, check the userInfoEndpoint configuration : {}",
 				clientRegistration.getClientName());
 		
 		UserInfoEndpoint userInfoEndpoint = clientRegistration.getProviderDetails().getUserInfoEndpoint();
-		log.info("\t > userInfoUri = {}", userInfoEndpoint.getUri());
-		log.info("\t > authenticationMethod = {}", userInfoEndpoint.getAuthenticationMethod());
-		log.info("\t > userNameAttribute = {}", userInfoEndpoint.getUserNameAttributeName());
+		log.info("{}", JsonUtils.formatJson(userInfoEndpoint));
 		
 		return null;
 	}
