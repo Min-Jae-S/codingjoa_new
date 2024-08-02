@@ -101,6 +101,7 @@ public class OAuth2Config {
 				.authorizationUri(env.getProperty(providerKey + "authorization-uri"))
 				.tokenUri(env.getProperty(providerKey + "token-uri"))
 				.userInfoUri(env.getProperty(providerKey + "user-info-uri"))
+				.userNameAttributeName(env.getProperty(providerKey + "user-name-attribute"))
 				.build();
 	}
 	

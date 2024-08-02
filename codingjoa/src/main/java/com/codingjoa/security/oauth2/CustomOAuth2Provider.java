@@ -20,10 +20,9 @@ public enum CustomOAuth2Provider {
 					.authorizationUri("https://kauth.kakao.com/oauth/authorize")
 					.tokenUri("https://kauth.kakao.com/oauth/token")
 					.userInfoUri("https://kapi.kakao.com/v2/user/me")
-					//.userNameAttributeName(IdTokenClaimNames.SUB);
+					.userNameAttributeName("id")
 					.clientName("Kakao");
 		}
-		
 	},
 	
 	/*
@@ -39,10 +38,9 @@ public enum CustomOAuth2Provider {
 					.authorizationUri("https://nid.naver.com/oauth2.0/authorize")
 					.tokenUri("https://nid.naver.com/oauth2.0/token")
 					.userInfoUri("https://openapi.naver.com/v1/nid/me")
-					//.userNameAttributeName(IdTokenClaimNames.SUB);
+					.userNameAttributeName("response")
 					.clientName("Naver");
 		}
-		
 	};
 	
 	//private static final String DEFAULT_REDIRECT_URL = "{baseUrl}/{action}/oauth2/code/{registrationId}";

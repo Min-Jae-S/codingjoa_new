@@ -136,8 +136,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.userInfoEndpoint(config -> 
 					config.userService(oAuth2UserServce)
 				)
-				.successHandler(oAuth2LoginSuccessHandler)
-				.failureHandler(oAuth2LoginFailureHandler)
+				//.successHandler(oAuth2LoginSuccessHandler)
+				//.failureHandler(oAuth2LoginFailureHandler)
 				.and()
 			.logout()
 				//.logoutUrl("/api/logout")
@@ -184,6 +184,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		OAuth2LoginFilter filter = new OAuth2LoginFilter(clientRegistrationRepository, oAuth2AuthorizedClientService);
 		filter.setAuthenticationManager(authenticationManager());			// ProviderManager
 		//filter.setAuthenticationManager(authenticationManagerBean()); 	// AuthenticationManagerDelegator
+		filter.setAuthenticationSuccessHandler(oAuth2LoginSuccessHandler);
+		filter.setAuthenticationFailureHandler(oAuth2LoginFailureHandler);
 		return filter;
 	}
 	
