@@ -37,20 +37,22 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 		this.restOperations = restTemplate;
 	}
 
-	// ref) OAuth2LoginAuthenticationProvider.authenticate
-	//		...
-	// 		OAuth2AccessToken accessToken = authorizationCodeAuthenticationToken.getAccessToken();
-	//		Map<String, Object> additionalParameters = authorizationCodeAuthenticationToken.getAdditionalParameters();
+	// ref) OAuth2LoginAuthenticationProvider.authenticate() {
+	//			...
+	// 			OAuth2AccessToken accessToken = authorizationCodeAuthenticationToken.getAccessToken();
+	//			Map<String, Object> additionalParameters = authorizationCodeAuthenticationToken.getAdditionalParameters();
 	//
-	//		OAuth2User oauth2User = this.userService.loadUser(new OAuth2UserRequest(
+	//			OAuth2User oauth2User = this.userService.loadUser(new OAuth2UserRequest(
 	//				loginAuthenticationToken.getClientRegistration(), accessToken, additionalParameters));
+	//			...
+	//		}
 	
 	@Override
 	public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
 		log.info("## {}.loadUser", this.getClass().getSimpleName());
 		
 		UserInfoEndpoint userInfoEndpoint = userRequest.getClientRegistration().getProviderDetails().getUserInfoEndpoint();
-		log.info("## check userInfoEndpoint component before requesting userInfo");
+		log.info("\t > check userInfoEndpoint component before requesting userInfo");
 		
 		String userInfoUri = userInfoEndpoint.getUri();
 		log.info("\t > userInfoUri = {}", userInfoUri);

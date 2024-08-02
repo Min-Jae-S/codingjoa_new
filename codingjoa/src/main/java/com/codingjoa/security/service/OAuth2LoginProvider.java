@@ -18,6 +18,8 @@ import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
+import com.codingjoa.util.Utils;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -56,7 +58,7 @@ public class OAuth2LoginProvider implements AuthenticationProvider { // OAuth2Lo
 		
 		OAuth2AccessToken accessToken = authenticatedAuthCodeToken.getAccessToken();
 		Map<String, Object> additionalParameters = authenticatedAuthCodeToken.getAdditionalParameters();
-		log.info("\t > accessToken = {}", accessToken);
+		log.info("\t > accessToken = {}", Utils.specifiyFields(accessToken));
 		log.info("\t > additionalParameters = {}", additionalParameters);
 		
 		// request userInfo

@@ -123,13 +123,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.and()
 			.oauth2Login()
 				.clientRegistrationRepository(clientRegistrationRepository)
-				.redirectionEndpoint(config -> config.baseUri("/login/*/callback"))
+				.redirectionEndpoint(config -> 
+					config.baseUri("/login/*/callback")
+				)
 				.authorizationEndpoint(config  -> {
 					config.baseUri("/login/*");
 					config.authorizationRequestResolver(authorizationRequestResolver());
 				})
-				//.tokenEndpoint(config -> config.accessTokenResponseClient(accessTokenResponseClient))
-				//.userInfoEndpoint(config -> config.userService(null))
+				.tokenEndpoint(config -> 
+					config.accessTokenResponseClient(accessTokenResponseClient)
+				)
+				.userInfoEndpoint(config -> 
+					config.userService(oAuth2UserServce)
+				)
 				.successHandler(oAuth2LoginSuccessHandler)
 				.failureHandler(oAuth2LoginFailureHandler)
 				.and()

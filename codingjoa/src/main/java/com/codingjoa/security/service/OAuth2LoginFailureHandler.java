@@ -20,6 +20,7 @@ public class OAuth2LoginFailureHandler implements AuthenticationFailureHandler {
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException exception) throws IOException, ServletException {
 		log.info("## {}", this.getClass().getSimpleName());
+		log.info("\t > {} : {}", exception.getClass().getSimpleName(), exception.getMessage());
 	}
 
 }
