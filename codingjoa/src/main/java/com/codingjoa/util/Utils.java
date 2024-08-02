@@ -3,8 +3,9 @@ package com.codingjoa.util;
 import java.lang.reflect.Field;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -59,26 +60,16 @@ public class Utils {
 	    }
 	}
 	
-	public static void specifiy(Object object, Class<?> clazz) {
+	public static List<String> specifiyFields(Object object) {
 		if (object == null) {
-			log.info("\t > {} = null", clazz.getSimpleName());
-			return;
+			return null;
 		}
 		
-		Map<String, Object> map = new HashMap<>();
-		try {
-			Field[] fields = object.getClass().getDeclaredFields();
-			for (Field field : fields) {
-				field.setAccessible(true);
-				String fieldName = field.getName();
-				Object fieldValue = field.get(fieldName);
-				map.put(fieldName, fieldValue);
-			}
-		} catch (IllegalAccessException e) {
-			log.error("\t > {} : {}", e.getClass().getSimpleName(), e.getMessage());
-		}
-		
-		log.info("\t > {}", JsonUtils.formatJson(map));
+		Field[] fields = object.getClass().getDeclaredFields();
+		return Arrays.stream(fields)
+				.map(field -> field.getName())
+				.collect(Collectors.toList());
 	}
+		
 	
 }
