@@ -58,13 +58,11 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter {
 		
 		memberId = memberId.trim();
 		
-		UsernamePasswordAuthenticationToken authRequest = 
-				new UsernamePasswordAuthenticationToken(memberId, memberPassword); // isAuthentiacated = false
-
-		authRequest.setDetails(loginDto.getRedirectUrl());
-		log.info("\t > setting redirectUrl in details field of the authentication");
+		UsernamePasswordAuthenticationToken loginToken = new UsernamePasswordAuthenticationToken(memberId, memberPassword);
+		loginToken.setDetails(loginDto.getRedirectUrl());
+		log.info("\t > set the redirectUrl in the details of the loginToken");
 		
-		return this.getAuthenticationManager().authenticate(authRequest);
+		return this.getAuthenticationManager().authenticate(loginToken);
 	}
 
 	@Override

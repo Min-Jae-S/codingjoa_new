@@ -67,7 +67,10 @@ public class LoginProvider implements AuthenticationProvider { // AbstractUserDe
 			throw new BadCredentialsException(MessageUtils.getMessage("error.UsernameNotFoundOrBadCredentials"));
 		}
 		
-		return new UsernamePasswordAuthenticationToken(loadedUser, null, loadedUser.getAuthorities()); // isAuthenticated = true
+		UsernamePasswordAuthenticationToken authenticatedLoginToken = new UsernamePasswordAuthenticationToken(
+				loadedUser, null, loadedUser.getAuthorities());
+		
+		return authenticatedLoginToken;
 	}
 
 }

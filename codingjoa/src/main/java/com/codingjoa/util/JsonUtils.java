@@ -18,8 +18,14 @@ public class JsonUtils {
     
     public static String formatJson(Object obj) {
     	try {
-    		String json = mapper.writeValueAsString(obj);
-    		JsonNode jsonNode = mapper.readTree((String) json);
+    		String json;
+    		if (obj instanceof String) {
+    			json = (String) obj;
+    		} else {
+    			json = mapper.writeValueAsString(obj);
+    		}
+    		
+    		JsonNode jsonNode = mapper.readTree(json);
     		return System.lineSeparator() + mapper.writeValueAsString(jsonNode);
     	} catch(Exception e) {
     		log.error("\t > {} : {}", e.getClass().getSimpleName(), e.getMessage());
