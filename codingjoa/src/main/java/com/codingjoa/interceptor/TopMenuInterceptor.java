@@ -1,18 +1,15 @@
 package com.codingjoa.interceptor;
 
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.context.ApplicationContext;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 import org.springframework.web.util.UriUtils;
 
 import com.codingjoa.entity.Category;
@@ -33,9 +30,9 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 
 	private static final String FORWARD_URL_PREFIX = "forward:";
 	private static final String REDIRECT_URL_PREFIX = "redirect:";
-	private final ApplicationContext applicationContext;
+	private static final String JSON_VIEW = "jsonView";
+	private final List<String> excludePatterns = Arrays.asList("/error/**", "/login");
 	private final CategoryService categoryService;
-	private List<RequestMatcher> excludeMatchers = new ArrayList<>();
 	
 	/*
 	 * If there is no mapped handler or if the mapping information cannot be found, the preHandle method is not called 
@@ -53,9 +50,8 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 			return;
 		}
 		
-		// Return the view name to be resolved by the DispatcherServlet via a ViewResolver, or null if we are using a View object.
+		// Return the view name to be resolved by the DispatcherServlet via a ViewResolver, or null if using a view object.
 		String viewName = modelAndView.getViewName(); 
-		
 		if (viewName == null) {
 			log.info("\t > not find top menu - no viewName");
 			return;
@@ -71,12 +67,9 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 			return;
 		}
 		
-		String[] beanNames = applicationContext.getBeanNamesForType(MappingJackson2JsonView.class);
-		for (String beanName : beanNames) {
-			if (viewName.equals(beanName)) {
-				log.info("\t > viewName equals MappingJackson2JsonView's beanName({})", beanName);
-				return;
-			}
+		if (viewName.equals(JSON_VIEW)) {
+			log.info("\t > not find top menu - JSON_VIEW");
+			return;
 		}
 		
 		List<Category> parentCategoryList = categoryService.getParentCategoryList();
@@ -84,7 +77,9 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 		
 //		boolean matchesExcludePattern = excludePatterns.stream()
 //				.anyMatch(pattern -> antPathMatcher.match(request.getContextPath() + pattern, request.getRequestURI()));
-		boolean matchesExcludePattern = excludeMatchers.stream().anyMatch(matcher -> matcher.matches(request));
+//		boolean matchesExcludePattern = excludeMatchers.stream().anyMatch(matcher -> matcher.matches(request));
+		boolean matchesExcludePattern = excludePatterns.stream()
+				.anyMatch(pattern -> new AntPathRequestMatcher(pattern).matches(request));
 		
 		if (!matchesExcludePattern) {
 			log.info("\t > no matches excludePatterns, setting currentUrl as model attribute");
@@ -95,12 +90,6 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 		}
 		
 		log.info("\t > added model attrs = {}", modelAndView.getModel().keySet());
-	}
-	
-	public void addExcludeMatchers(String... antPatterns) {
-		for (String pattern : antPatterns) {
-			excludeMatchers.add(new AntPathRequestMatcher(pattern, null));
-		}
 	}
 	
 	private String encode(String value) {

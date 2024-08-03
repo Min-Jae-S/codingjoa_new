@@ -8,7 +8,6 @@ import java.util.Map;
 import javax.validation.Validator;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -57,6 +56,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -67,20 +67,13 @@ import lombok.extern.slf4j.Slf4j;
 @ComponentScan("com.codingjoa.response")	// including @ControllerAdvice, @RestControllerAdvice
 @EnableTransactionManagement
 @EnableWebMvc 
+@RequiredArgsConstructor
 @Configuration
 public class ServletConfig implements WebMvcConfigurer {
 	
-	@Autowired
-	private Environment env;
-	
-	@Autowired
-	private ApplicationContext applicationContext;
-	
-	@Autowired
-	private CategoryService categoryService;
-	
-	@Autowired
-	private RedisService redisService;
+	private final Environment env;
+	private final CategoryService categoryService;
+	private final RedisService redisService;
 	
 	@Override
 	public void configureViewResolvers(ViewResolverRegistry registry) {
@@ -137,9 +130,7 @@ public class ServletConfig implements WebMvcConfigurer {
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		WebMvcConfigurer.super.addInterceptors(registry);
-		TopMenuInterceptor topMenuInterceptor = new TopMenuInterceptor(applicationContext, categoryService);
-		topMenuInterceptor.addExcludeMatchers("/error/**", "/login");
-		registry.addInterceptor(topMenuInterceptor)
+		registry.addInterceptor(new TopMenuInterceptor(categoryService))
 				.addPathPatterns("/**")
 				.excludePathPatterns("/resources/**", "/api/**");
 		registry.addInterceptor(new PasswordConfirmInterceptor(redisService))
@@ -155,7 +146,7 @@ public class ServletConfig implements WebMvcConfigurer {
 	public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
 		log.info("## extendMessageConverters");
 		converters.stream().forEach(converter -> { 
-			//log.info("\t > {}", converter.getClass().getSimpleName());
+			log.info("\t > {}", converter.getClass().getSimpleName());
 			if (converter instanceof StringHttpMessageConverter) {
 				// StringHttpMessageConverter defaults to ISO-8859-1
 				((StringHttpMessageConverter) converter).setDefaultCharset(StandardCharsets.UTF_8);
@@ -247,24 +238,13 @@ public class ServletConfig implements WebMvcConfigurer {
 	
 	@Bean
 	public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer(
-			ResourcePatternResolver resolver) {
-//		log.info("## propertySourcesPlaceholderConfigurer");
-//		log.info("\t > resourcePatternResolver = {}", resolver);
-//		
-//		PropertySourcesPlaceholderConfigurer configuer = new PropertySourcesPlaceholderConfigurer();
-//		try {
-//			Resource[] resources = resolver.getResources("classpath:/WEB-INF/properties/*.properties");
-//			log.info("\t > resources = {}");
-//			
-//			configuer.setLocations(resources);
-//			configuer.setFileEncoding("UTF-8");
-//		} catch (Exception e) {
-//			log.info("\t > {} : {}", e.getClass().getSimpleName(), e.getMessage());
-//		}
-//		
-//		return configuer;
-		
-		return new PropertySourcesPlaceholderConfigurer();
+			ResourcePatternResolver resourcePatternResolver, Environment env) throws IOException {
+		PropertySourcesPlaceholderConfigurer configuer = new PropertySourcesPlaceholderConfigurer();
+		Resource[] resources = resourcePatternResolver.getResources("WEB-INF/properties/*.properties");
+		configuer.setLocations(resources);
+		configuer.setEnvironment(env);
+		configuer.setFileEncoding("UTF-8");
+		return configuer;
 	}
 	
 	@Bean
@@ -274,8 +254,7 @@ public class ServletConfig implements WebMvcConfigurer {
 		source.setBasenames(
 				"/WEB-INF/properties/error-message", 
 				"/WEB-INF/properties/success-message",
-				"/WEB-INF/properties/validation-message"
-			);
+				"/WEB-INF/properties/validation-message");
 		return source;
 	}
 	

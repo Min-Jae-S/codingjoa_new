@@ -1,12 +1,15 @@
 package com.codingjoa.controller.test;
 
-import java.util.Map;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.env.Environment;
-import org.springframework.core.env.PropertiesPropertySource;
 import org.springframework.core.env.PropertySources;
+import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,45 +30,38 @@ public class TestPropertiesController {
 	private Environment env;
 	
 	@Autowired
-	private ResourcePatternResolver resourcePatternResolver;
-	
-	@Autowired
 	private PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer;
 	
-//	@Value("${test.param1}")
-//	private String param1;
-//	
-//	private final String param2;
-//	
-//	public TestPropertiesController(@Value("${test.param2}") String param2) {
-//		this.param2 = param2;
-//	}
+	@Autowired
+	private ResourcePatternResolver resourcePatternResolver;
+	
+	@Value("${test.param1}")
+	private String param1;
+	
+	private final String param2;
+	
+	public TestPropertiesController(@Value("${test.param2}") String param2) {
+		this.param2 = param2;
+	}
 
 	@GetMapping("/test1")
 	public ResponseEntity<Object> test1() throws Exception {
 		log.info("## test1");
 		log.info("\t > param1 from env = {}", env.getProperty("test.param1"));
-//		log.info("\t > param1 from @value = {}", param1);
-//		log.info("\t > param2 = {}", param2);
-		
-		log.info("\t > resourcePatternResolver = {}",
-				(resourcePatternResolver == null) ? null : resourcePatternResolver.getClass().getName());
+		log.info("\t > param1 from @value = {}", param1);
+		log.info("\t > param2 from @value = {}", param2);
 		
 		PropertySources propertySources = propertySourcesPlaceholderConfigurer.getAppliedPropertySources();
 		log.info("\t > propertySources = {}",
 				(propertySources == null) ? null : propertySources.getClass().getName());
 		
-		propertySources.forEach(source -> {
-			if (source instanceof PropertiesPropertySource) {
-				PropertiesPropertySource propertiesPropertySource = (PropertiesPropertySource) source;
-				Map<String, Object> map = propertiesPropertySource.getSource();
-				if (map.isEmpty()) {
-					log.info("\t > no properties");
-				} else {
-					log.info("\t > property = {}", map.keySet());
-				}
-			}
-		});
+		propertySources.forEach(source -> log.info("\t > source = {}", source.getName()));
+		
+		Resource[] resources = resourcePatternResolver.getResources("WEB-INF/properties/*.properties");
+		List<String> resourceFileNames = Arrays.stream(resources)
+				.map(resource -> resource.getFilename())
+				.collect(Collectors.toList());
+		log.info("\t > resourceFileNames = {}", resourceFileNames);
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
