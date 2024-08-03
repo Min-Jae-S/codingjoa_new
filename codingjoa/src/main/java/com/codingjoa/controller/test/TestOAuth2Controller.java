@@ -182,5 +182,4 @@ public class TestOAuth2Controller {
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
-
 }

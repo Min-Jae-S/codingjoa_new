@@ -226,7 +226,23 @@ public class ServletConfig implements WebMvcConfigurer {
 		return resolver;
 	}
 	
-	@Bean
+	/*
+	 * PropertySourcesPlaceholderConfigurer is a BeanFactoryPostProcessor that performs the task of replacing ${} placeholders
+	 * after the bean factory has finished creating all bean definitions, and then proceeds to create the bean objects.
+	 * ex) @Value("${...}") within @Configuration classes
+	 * 
+	 * @ https://mangkyu.tistory.com/177
+	 * @ https://mangkyu.tistory.com/214
+	 * Special consideration must be taken for @Bean methods that return Spring BeanFactoryPostProcessor (BFPP) types. 
+	 * Because BFPP objects must be instantiated very early in the container lifecycle, 
+	 * they can interfere with processing of annotations such as @Autowired, @Value, and @PostConstruct within @Configuration classes. 
+	 * To avoid these lifecycle issues, mark BFPP-returning @Bean methods as static.
+	 * By marking this method as static, it can be invoked without causing instantiation of its declaring @Configuration class, 
+	 * thus avoiding the above-mentioned lifecycle conflicts.
+	 * 
+	 */
+	
+	@Bean 
 	public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
 		return new PropertySourcesPlaceholderConfigurer();
 	}

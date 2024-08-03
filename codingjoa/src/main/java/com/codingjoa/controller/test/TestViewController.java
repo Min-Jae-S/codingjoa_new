@@ -149,5 +149,11 @@ public class TestViewController {
 		log.info("## loginMain main");
 		return "test/login";
 	}
+
+	@GetMapping("/properties")
+	public String propertiesMain() {
+		log.info("## loginMain main");
+		return "test/properties";
+	}
 	
 }

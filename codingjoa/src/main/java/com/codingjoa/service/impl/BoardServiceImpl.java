@@ -8,6 +8,7 @@ import org.jsoup.Jsoup;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,7 +25,7 @@ import com.codingjoa.service.ImageService;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-//@PropertySource("/WEB-INF/properties/pagination.properties")
+@PropertySource("/WEB-INF/properties/pagination.properties")
 @Transactional
 @Service
 public class BoardServiceImpl implements BoardService {

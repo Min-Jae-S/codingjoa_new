@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>oauth2.jsp</title>
+<title>properties.jsp</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"> -->
@@ -47,26 +47,9 @@
 <body>
 <c:import url="/WEB-INF/views/include/top-menu.jsp"/>
 <div class="container my-5">
-	<p>oauth2.jsp</p>
-	<div class="test mt-5 mb-5 px-5">
-		<a href="<c:out value='${kakaoLoginUrl}'/>">
-			<img class="social-login-btn" src="${contextPath}/resources/images/test/kakao.png">
-		</a>
-		<a href="<c:out value='${naverLoginUrl}'/>">
-			<img class="social-login-btn" src="${contextPath}/resources/images/test/naver.png">
-		</a>
-		<a class="btn btn-danger" href="${contextPath}/test/oauth2/aaa/callback">
-			trigger invalid auth
-		</a>
-	</div>
+	<p>properties.jsp</p>
 	<div class="test mt-5 mb-5 px-5">
 		<button class="btn btn-primary" onclick="test1()">test1</button>
-		<button class="btn btn-primary" onclick="test2()">test2</button>
-		<button class="btn btn-primary" onclick="test3()">test3</button>
-		<button class="btn btn-primary" onclick="test4()">test4</button>
-	</div>
-	<div class="test mt-5 mb-5 px-5">
-		<button class="btn btn-primary" onclick="test5()">test5</button>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
@@ -74,52 +57,7 @@
 	function test1() {
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/oauth2/test1",
-			success : function(result) {
-				console.log("%c> SUCCESS", "color:green");
-				console.log(JSON.stringify(result, null, 2));
-			},
-			error : function(jqXHR) {
-				console.log("%c> ERROR", "color:red");
-				parseError(jqXHR);
-			}
-		});
-	}
-
-	function test2() {
-		$.ajax({
-			type : "GET",
-			url : "${contextPath}/test/oauth2/test2",
-			success : function(result) {
-				console.log("%c> SUCCESS", "color:green");
-				console.log(JSON.stringify(result, null, 2));
-			},
-			error : function(jqXHR) {
-				console.log("%c> ERROR", "color:red");
-				parseError(jqXHR);
-			}
-		});
-	}
-
-	function test3() {
-		$.ajax({
-			type : "GET",
-			url : "${contextPath}/test/oauth2/test3",
-			success : function(result) {
-				console.log("%c> SUCCESS", "color:green");
-				console.log(JSON.stringify(result, null, 2));
-			},
-			error : function(jqXHR) {
-				console.log("%c> ERROR", "color:red");
-				parseError(jqXHR);
-			}
-		});
-	}
-
-	function test4() {
-		$.ajax({
-			type : "GET",
-			url : "${contextPath}/test/oauth2/test4",
+			url : "${contextPath}/test/properties/test1",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
