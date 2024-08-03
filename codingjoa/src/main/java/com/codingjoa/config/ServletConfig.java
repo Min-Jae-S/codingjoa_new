@@ -1,5 +1,6 @@
 package com.codingjoa.config;
 
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +20,8 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.Ordered;
 import org.springframework.core.env.Environment;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
@@ -243,8 +246,23 @@ public class ServletConfig implements WebMvcConfigurer {
 	 */
 	
 	@Bean
-	public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
-		return new PropertySourcesPlaceholderConfigurer();
+	public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer(
+			ResourcePatternResolver resolver) {
+		log.info("## propertySourcesPlaceholderConfigurer");
+		log.info("\t > resourcePatternResolver = {}", resolver);
+		
+		PropertySourcesPlaceholderConfigurer configuer = new PropertySourcesPlaceholderConfigurer();
+		try {
+			Resource[] resources = resolver.getResources("classpath:/WEB-INF/properties/*.properties");
+			log.info("\t > resources = {}");
+			
+			configuer.setLocations(resources);
+			configuer.setFileEncoding("UTF-8");
+		} catch (Exception e) {
+			log.info("\t > {} : {}", e.getClass().getSimpleName(), e.getMessage());
+		}
+		
+		return configuer;
 	}
 	
 	@Bean
