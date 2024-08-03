@@ -28,15 +28,18 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class ImageServiceImpl implements ImageService {
 	
+	private final ImageMapper imageMapper;
+	private final String boardImagePath; // D:/Dev/upload/image/board/
+	private final String memberImagePath; // D:/Dev/upload/image/member/
+	
 	@Autowired
-	private ImageMapper imageMapper;
-	
-	@Value("${image.board.path}")
-	private String boardImagePath; // D:/Dev/upload/image/board/
-	
-	@Value("${image.member.path}")
-	private String memberImagePath; // D:/Dev/upload/image/member/
-	
+	public ImageServiceImpl(ImageMapper imageMapper, @Value("${image.board.path}") String boardImagePath,
+			@Value("${image.member.path}") String memberImagePath) {
+		this.imageMapper = imageMapper;
+		this.boardImagePath = boardImagePath; 
+		this.memberImagePath = memberImagePath;
+	}
+
 	@Override
 	public BoardImage uploadBoardImage(MultipartFile file) throws IllegalStateException, IOException {
 		File uploadFolder = createUploadFolder(boardImagePath);

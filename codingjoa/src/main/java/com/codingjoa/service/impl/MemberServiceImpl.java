@@ -1,7 +1,6 @@
 package com.codingjoa.service.impl;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,21 +17,18 @@ import com.codingjoa.exception.ExpectedException;
 import com.codingjoa.mapper.MemberMapper;
 import com.codingjoa.service.MemberService;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Transactional
+@RequiredArgsConstructor
 @Service
 public class MemberServiceImpl implements MemberService {
 	
-	@Autowired
-	private MemberMapper memberMapper;
-	
-	@Autowired
-	private PasswordEncoder passwordEncoder;
-
-	@Autowired
-	private ModelMapper modelMapper;
+	private final MemberMapper memberMapper;
+	private final PasswordEncoder passwordEncoder;
+	private final ModelMapper modelMapper;
 	
 	@Override
 	public void save(JoinDto joinDto) {

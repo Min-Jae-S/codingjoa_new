@@ -3,7 +3,6 @@ package com.codingjoa.service.impl;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
@@ -14,14 +13,14 @@ import org.thymeleaf.context.Context;
 import com.codingjoa.enumclass.MailType;
 import com.codingjoa.service.EmailService;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 @Service
 public class EmailServiceImpl implements EmailService {
 
-	@Autowired
-	private JavaMailSender mailSender;
-	
-	@Autowired
-	private TemplateEngine templateEngine;
+	private final JavaMailSender mailSender;
+	private final TemplateEngine templateEngine;
 	
 	@Async 
 	@Override

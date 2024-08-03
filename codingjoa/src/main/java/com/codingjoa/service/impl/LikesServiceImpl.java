@@ -1,6 +1,5 @@
 package com.codingjoa.service.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,21 +13,18 @@ import com.codingjoa.mapper.CommentMapper;
 import com.codingjoa.mapper.LikesMapper;
 import com.codingjoa.service.LikesService;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Transactional
+@RequiredArgsConstructor
 @Service
 public class LikesServiceImpl implements LikesService {
 
-	@Autowired
-	private LikesMapper likesMapper;
-	
-	@Autowired
-	private BoardMapper boardMapper;
-	
-	@Autowired
-	private CommentMapper commentMapper;
+	private final LikesMapper likesMapper;
+	private final BoardMapper boardMapper;
+	private final CommentMapper commentMapper;
 	
 	@Override
 	public boolean toggleBoardLikes(int boardIdx, int memberIdx) {

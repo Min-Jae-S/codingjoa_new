@@ -10,6 +10,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -46,7 +47,9 @@ public class JwtProvider {
 	private final long validityInMillis; // 1000 * 60 * 60 (1 hour)
 	private final UserDetailsService userDetailsService;
 	
-	public JwtProvider(@Value("${security.jwt.secret-key}") String secretKey, 
+	// since Spring 4.3, if a class has only one constructor, the @Autowired annotation can be omitted.
+	@Autowired
+	public JwtProvider(@Value("${security.jwt.secret-key}") String secretKey,
 			@Value("${security.jwt.validity-in-mills}") long validityInMillis, UserDetailsService userDetailsService) {
 		this.signingKey = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
 		this.validityInMillis = validityInMillis;

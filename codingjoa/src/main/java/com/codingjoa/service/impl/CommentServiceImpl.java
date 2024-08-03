@@ -28,18 +28,20 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class CommentServiceImpl implements CommentService {
 
-	@Autowired
-	private CommentMapper commentMapper;
+	private final CommentMapper commentMapper;
+	private final BoardMapper boardMapper;
+	private final ModelMapper modelMapper;
+	private final int pageRange;
 	
 	@Autowired
-	private BoardMapper boardMapper;
-	
-	@Autowired
-	private ModelMapper modelMapper;
-	
-	@Value("${pagination.pageRange}")
-	private int pageRange;
-	
+	public CommentServiceImpl(CommentMapper commentMapper, BoardMapper boardMapper, ModelMapper modelMapper,
+			@Value("${pagination.pageRange}") int pageRange) {
+		this.commentMapper = commentMapper;
+		this.boardMapper = boardMapper;
+		this.modelMapper = modelMapper;
+		this.pageRange = pageRange;
+	}
+
 	@Override
 	public void writeComment(CommentDto commentDto) {
 		Board board = boardMapper.findBoardByIdx(commentDto.getCommentBoardIdx());

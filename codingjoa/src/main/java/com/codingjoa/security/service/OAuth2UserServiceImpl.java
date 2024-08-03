@@ -1,5 +1,7 @@
 package com.codingjoa.security.service;
 
+import java.util.Map;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
@@ -9,6 +11,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
 import com.codingjoa.mapper.MemberMapper;
+import com.codingjoa.util.JsonUtils;
 import com.codingjoa.util.Utils;
 
 import lombok.RequiredArgsConstructor;
@@ -42,6 +45,9 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 		
 		OAuth2UserService<OAuth2UserRequest, OAuth2User> delegate = new DefaultOAuth2UserService();
 		OAuth2User loadOAuth2User = delegate.loadUser(userRequest);
+		
+		Map<String, Object> userAttributes = loadOAuth2User.getAttributes();
+		log.info("\t > {}", JsonUtils.formatJson(userAttributes));
 
 		return null;
 	}

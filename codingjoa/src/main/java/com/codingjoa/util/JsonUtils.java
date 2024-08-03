@@ -9,11 +9,11 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class JsonUtils {
 
-	private static final ObjectMapper mapper = new ObjectMapper();
+	private static final ObjectMapper objectMapper = new ObjectMapper();
     
     // initialize objectMapper to enable pretty-printing
     static {
-    	mapper.enable(SerializationFeature.INDENT_OUTPUT);
+    	objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
     }
     
     public static String formatJson(Object obj) {
@@ -22,11 +22,11 @@ public class JsonUtils {
     		if (obj instanceof String) {
     			json = (String) obj;
     		} else {
-    			json = mapper.writeValueAsString(obj);
+    			json = objectMapper.writeValueAsString(obj);
     		}
     		
-    		JsonNode jsonNode = mapper.readTree(json);
-    		return System.lineSeparator() + mapper.writeValueAsString(jsonNode);
+    		JsonNode jsonNode = objectMapper.readTree(json);
+    		return System.lineSeparator() + objectMapper.writeValueAsString(jsonNode);
     	} catch(Exception e) {
     		log.error("\t > {} : {}", e.getClass().getSimpleName(), e.getMessage());
     		return null;

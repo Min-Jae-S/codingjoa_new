@@ -5,16 +5,24 @@ import org.modelmapper.config.Configuration.AccessLevel;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 
 @Configuration
 public class ModelMapperConfig {
 	
 	@Bean
-	public ModelMapper modelMapper() {
+    @Primary
+    public ModelMapper defaultModelMapper() {
+		ModelMapper modelMapper = new ModelMapper();
+		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+        return modelMapper;
+    }
+	
+	@Bean // to enable mapping for UserDetailsDto without setters, it is necessary to configure fieldAccessLevel and fieldMatchingEnabled
+	public ModelMapper customModelMapper() {
 		ModelMapper modelMapper = new ModelMapper();
 		modelMapper.getConfiguration()
 			.setMatchingStrategy(MatchingStrategies.STRICT)
-			// setter가 없는 Dto(UserDetailsDto)에 대한 mapping을 위해 fieldAccessLevel과 fieldMatchingEnabled를 설정 
 			.setFieldAccessLevel(AccessLevel.PRIVATE)
 			.setFieldMatchingEnabled(true);
 		return modelMapper;
