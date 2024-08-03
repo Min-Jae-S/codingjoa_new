@@ -248,21 +248,23 @@ public class ServletConfig implements WebMvcConfigurer {
 	@Bean
 	public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer(
 			ResourcePatternResolver resolver) {
-		log.info("## propertySourcesPlaceholderConfigurer");
-		log.info("\t > resourcePatternResolver = {}", resolver);
+//		log.info("## propertySourcesPlaceholderConfigurer");
+//		log.info("\t > resourcePatternResolver = {}", resolver);
+//		
+//		PropertySourcesPlaceholderConfigurer configuer = new PropertySourcesPlaceholderConfigurer();
+//		try {
+//			Resource[] resources = resolver.getResources("classpath:/WEB-INF/properties/*.properties");
+//			log.info("\t > resources = {}");
+//			
+//			configuer.setLocations(resources);
+//			configuer.setFileEncoding("UTF-8");
+//		} catch (Exception e) {
+//			log.info("\t > {} : {}", e.getClass().getSimpleName(), e.getMessage());
+//		}
+//		
+//		return configuer;
 		
-		PropertySourcesPlaceholderConfigurer configuer = new PropertySourcesPlaceholderConfigurer();
-		try {
-			Resource[] resources = resolver.getResources("classpath:/WEB-INF/properties/*.properties");
-			log.info("\t > resources = {}");
-			
-			configuer.setLocations(resources);
-			configuer.setFileEncoding("UTF-8");
-		} catch (Exception e) {
-			log.info("\t > {} : {}", e.getClass().getSimpleName(), e.getMessage());
-		}
-		
-		return configuer;
+		return new PropertySourcesPlaceholderConfigurer();
 	}
 	
 	@Bean
