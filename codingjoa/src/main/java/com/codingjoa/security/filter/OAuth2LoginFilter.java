@@ -68,7 +68,7 @@ public class OAuth2LoginFilter extends OAuth2LoginAuthenticationFilter {
 		log.info("\t > params = {}", params.keySet());
 		
 		String stateParamter = request.getParameter(OAuth2ParameterNames.STATE);
-		Map<String, OAuth2AuthorizationRequest> authorizationRequests = this.getAuthorizationRequests(request);
+		Map<String, OAuth2AuthorizationRequest> authorizationRequests = getAuthorizationRequests(request);
 		//log.info("\t > before removing authorizationRequest, exists ? {}", authorizationRequests.containsKey(stateParamter));
 
 		OAuth2AuthorizationRequest authorizationRequest =
@@ -96,7 +96,7 @@ public class OAuth2LoginFilter extends OAuth2LoginAuthenticationFilter {
 		// OAuth2LoginAuthenticationToken authenticationResult =
 		//		(OAuth2LoginAuthenticationToken) this.getAuthenticationManager().authenticate(authenticationRequest);
 		
-		this.authorizationRequestRepository.saveAuthorizationRequest(authorizationRequest, request, response);
+		authorizationRequestRepository.saveAuthorizationRequest(authorizationRequest, request, response);
 		//log.info("\t > save removed authorizationRequest for test");
 		
 		log.info("\t > delegating authentication attempt to {}", this.getClass().getSuperclass().getSimpleName());
