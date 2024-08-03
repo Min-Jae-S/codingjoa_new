@@ -242,7 +242,7 @@ public class ServletConfig implements WebMvcConfigurer {
 	 * 
 	 */
 	
-	@Bean 
+	@Bean
 	public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
 		return new PropertySourcesPlaceholderConfigurer();
 	}
