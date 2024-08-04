@@ -2,6 +2,7 @@ package com.codingjoa.config;
 
 import java.io.IOException;
 
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -9,18 +10,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
-import org.springframework.core.env.Environment;
 import org.springframework.core.io.Resource;
-import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 
 import com.codingjoa.util.MessageUtils;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @ComponentScan("com.codingjoa.security")
 @ComponentScan("com.codingjoa.service") 	// @TransactionEventListener
 @ComponentScan("com.codingjoa.response")	// @ControllerAdvice, @RestControllerAdvice
@@ -75,17 +71,16 @@ public class AppConfig {
 	
 	@Bean
 	public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer(
-			ResourcePatternResolver resourcePatternResolver, Environment env) throws IOException {
-		log.info("## propertySourcesPlaceholderConfigurer");
-		log.info("\t > env = {}", env);
-		
+			ApplicationContext applicationContext) {
 		PropertySourcesPlaceholderConfigurer configuer = new PropertySourcesPlaceholderConfigurer();
-		Resource[] resources = resourcePatternResolver.getResources("WEB-INF/properties/*.properties");
-		configuer.setLocations(resources);
-		configuer.setEnvironment(env);
-		configuer.setFileEncoding("UTF-8");
+		try {
+			Resource[] resources = applicationContext.getResources("WEB-INF/properties/*.properties"); // resourcePatternResolver
+			configuer.setLocations(resources);
+			configuer.setFileEncoding("UTF-8");
+		} catch (IOException e) {
+			e.printStackTrace();
+		} 
+		
 		return configuer;
 	}
-	
-	
 }

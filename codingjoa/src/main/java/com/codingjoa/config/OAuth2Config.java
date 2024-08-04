@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.security.config.oauth2.client.CommonOAuth2Provider;
 import org.springframework.security.oauth2.client.InMemoryOAuth2AuthorizedClientService;
@@ -35,6 +36,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @SuppressWarnings("unused")
 @Slf4j
+@PropertySource("/WEB-INF/properties/security.properties")
 @RequiredArgsConstructor
 @Configuration
 public class OAuth2Config {

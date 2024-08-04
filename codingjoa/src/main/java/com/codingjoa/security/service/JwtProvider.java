@@ -8,7 +8,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Map;
 
-import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +30,6 @@ import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-//@PropertySource("/WEB-INF/properties/security.properties")
 @Component
 public class JwtProvider {
 	
@@ -55,12 +53,6 @@ public class JwtProvider {
 		this.signingKey = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
 		this.validityInMillis = validityInMillis;
 		this.userDetailsService = userDetailsService;
-	}
-	
-	@PostConstruct
-	public void init() {
-		log.info("## JwtProvider.init");
-		log.info("\t > validityInMillis = {}", validityInMillis);
 	}
 	
 	/*
