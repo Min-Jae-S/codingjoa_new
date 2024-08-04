@@ -7,7 +7,6 @@ import java.util.Map;
 
 import javax.validation.Validator;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -21,6 +20,7 @@ import org.springframework.core.Ordered;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.ResourcePatternResolver;
+import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
@@ -52,6 +52,7 @@ import com.codingjoa.resolver.GlobalExceptionResolver;
 import com.codingjoa.service.CategoryService;
 import com.codingjoa.service.RedisService;
 import com.codingjoa.util.MessageUtils;
+import com.fasterxml.jackson.core.JsonEncoding;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -93,6 +94,8 @@ public class ServletConfig implements WebMvcConfigurer {
 	public MappingJackson2JsonView jsonView() {
 		MappingJackson2JsonView jsonView = new MappingJackson2JsonView();
 		jsonView.setObjectMapper(objectMapper());
+		jsonView.setContentType(MediaType.APPLICATION_JSON_VALUE);
+		jsonView.setEncoding(JsonEncoding.UTF8);
         return jsonView;
     }
 
@@ -233,12 +236,14 @@ public class ServletConfig implements WebMvcConfigurer {
 	 * To avoid these lifecycle issues, mark BFPP-returning @Bean methods as static.
 	 * By marking this method as static, it can be invoked without causing instantiation of its declaring @Configuration class, 
 	 * thus avoiding the above-mentioned lifecycle conflicts.
-	 * 
 	 */
 	
 	@Bean
 	public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer(
 			ResourcePatternResolver resourcePatternResolver, Environment env) throws IOException {
+		log.info("## propertySourcesPlaceholderConfigurer");
+		log.info("\t > env = {}", env);
+		
 		PropertySourcesPlaceholderConfigurer configuer = new PropertySourcesPlaceholderConfigurer();
 		Resource[] resources = resourcePatternResolver.getResources("WEB-INF/properties/*.properties");
 		configuer.setLocations(resources);

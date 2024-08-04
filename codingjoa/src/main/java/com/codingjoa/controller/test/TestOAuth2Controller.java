@@ -34,7 +34,7 @@ import com.codingjoa.security.dto.KakaoUserInfoResponse;
 import com.codingjoa.security.dto.NaverTokenResponse;
 import com.codingjoa.security.dto.NaverUserInfoResponse;
 import com.codingjoa.security.oauth2.CustomOAuth2Provider;
-import com.codingjoa.security.service.TestOAuth2Service;
+import com.codingjoa.security.oauth2.service.TestOAuth2Service;
 
 import lombok.extern.slf4j.Slf4j;
 

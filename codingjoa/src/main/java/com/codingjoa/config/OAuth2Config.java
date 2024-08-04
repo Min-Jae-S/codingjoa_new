@@ -30,16 +30,16 @@ import com.codingjoa.security.oauth2.CustomOAuth2Provider;
 import com.codingjoa.security.oauth2.OAuth2ClientProperties;
 import com.codingjoa.security.oauth2.OAuth2ClientProperties.Provider;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @SuppressWarnings("unused")
-@ComponentScan("com.codingjoa.security.oauth2")
+@Slf4j
+@RequiredArgsConstructor
 @Configuration
 public class OAuth2Config {
 
-	@Autowired
-	private Environment env;
+	private final Environment env;
 	
 	@Primary
 	@Bean(name = "clientRegistrationRepository")

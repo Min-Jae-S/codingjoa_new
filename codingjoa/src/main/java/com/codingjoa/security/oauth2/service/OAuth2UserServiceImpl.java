@@ -1,4 +1,4 @@
-package com.codingjoa.security.service;
+package com.codingjoa.security.oauth2.service;
 
 import java.util.Map;
 

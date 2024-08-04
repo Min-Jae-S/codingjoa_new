@@ -1,4 +1,4 @@
-package com.codingjoa.security.service;
+package com.codingjoa.security.oauth2.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

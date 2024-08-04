@@ -2,7 +2,6 @@ package com.codingjoa.config;
 
 import java.util.Properties;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -14,12 +13,14 @@ import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.templatemode.TemplateMode;
 
+import lombok.RequiredArgsConstructor;
+
 @PropertySource("/WEB-INF/properties/mail.properties")
+@RequiredArgsConstructor
 @Configuration
 public class EmailConfig {
 	
-	@Autowired
-	private Environment env;
+	private final Environment env;
 	
 	@Bean
 	public JavaMailSender mailSeneder() {

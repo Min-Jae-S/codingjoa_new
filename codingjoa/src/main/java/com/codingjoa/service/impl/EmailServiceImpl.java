@@ -79,19 +79,20 @@ public class EmailServiceImpl implements EmailService {
 	}
 	
 	private String buildTemplate(MailType mailType, String... variable) {
+		String template;
 		Context context = new Context();
 		if (mailType == MailType.AUTH_CODE) {
 			context.setVariable("authCode", variable[0]);
-			return templateEngine.process("template/auth-code-mail", context);
-			
+			template = "template/auth-code-mail";
 		} else if (mailType == MailType.FIND_ACCOUNT) {
 			context.setVariable("memberId", variable[0]);
-			return templateEngine.process("template/find-account-mail", context);
-			
+			template = "template/find-account-mail";
 		} else { // MailType.FIND_PASSWORD
 			context.setVariable("memberId", variable[0]);
 			context.setVariable("resetPasswordUri", variable[1]);
-			return templateEngine.process("template/find-password-mail", context);
+			template = "template/find-password-mail";
 		}
+		
+		return templateEngine.process(template, context);
 	}
 }

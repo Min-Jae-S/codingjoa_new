@@ -24,11 +24,13 @@ import com.codingjoa.quartz.JobA;
 import com.codingjoa.quartz.JobB;
 import com.codingjoa.quartz.QuartzJob;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @SuppressWarnings("unused")
 @Slf4j
 @ComponentScan("com.codingjoa.quartz") // DI for SchedulerService, JobListener, TriggerListener
+@RequiredArgsConstructor
 @Configuration
 public class QuartzConfig {
 	
@@ -42,11 +44,8 @@ public class QuartzConfig {
 	 * 	> stop (interrupt, unscheduleJob, pauseJob, deleteJob)
 	 */
 	
-	@Autowired
-	private JobListener jobListener;
-
-	@Autowired
-    private TriggerListener triggerListener;
+	private final JobListener jobListener;
+    private final TriggerListener triggerListener;
 	
 	@Bean
 	public SchedulerFactoryBean schedulerFactoryBean() {

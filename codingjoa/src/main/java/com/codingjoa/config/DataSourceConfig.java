@@ -2,7 +2,6 @@ package com.codingjoa.config;
 
 import javax.sql.DataSource;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -14,12 +13,14 @@ import org.springframework.transaction.PlatformTransactionManager;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
+import lombok.RequiredArgsConstructor;
+
 @PropertySource("/WEB-INF/properties/datasource.properties")
+@RequiredArgsConstructor
 @Configuration
 public class DataSourceConfig {
 	
-	@Autowired
-	private Environment env;
+	private final Environment env;
 	
 	@Bean
 	public HikariConfig mainHikariConfig() {

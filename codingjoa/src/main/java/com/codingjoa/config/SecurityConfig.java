@@ -6,7 +6,6 @@ import java.util.function.Consumer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -38,22 +37,21 @@ import org.springframework.web.util.UriUtils;
 import com.codingjoa.security.filter.JwtFilter;
 import com.codingjoa.security.filter.LoginFilter;
 import com.codingjoa.security.filter.OAuth2LoginFilter;
+import com.codingjoa.security.oauth2.service.OAuth2LoginFailureHandler;
+import com.codingjoa.security.oauth2.service.OAuth2LoginProvider;
+import com.codingjoa.security.oauth2.service.OAuth2LoginSuccessHandler;
 import com.codingjoa.security.service.JwtProvider;
 import com.codingjoa.security.service.LoginFailureHandler;
 import com.codingjoa.security.service.LoginProvider;
 import com.codingjoa.security.service.LoginSuccessHandler;
-import com.codingjoa.security.service.OAuth2LoginFailureHandler;
-import com.codingjoa.security.service.OAuth2LoginProvider;
-import com.codingjoa.security.service.OAuth2LoginSuccessHandler;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@Import(OAuth2Config.class)
-@ComponentScan("com.codingjoa.security.service")
-@EnableWebSecurity
+@ComponentScan("com.codingjoa.security")
 @RequiredArgsConstructor
+@EnableWebSecurity
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	

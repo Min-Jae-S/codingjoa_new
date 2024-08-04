@@ -50,7 +50,8 @@ public class JwtProvider {
 	// since Spring 4.3, if a class has only one constructor, the @Autowired annotation can be omitted.
 	@Autowired
 	public JwtProvider(@Value("${security.jwt.secret-key}") String secretKey,
-			@Value("${security.jwt.validity-in-mills}") long validityInMillis, UserDetailsService userDetailsService) {
+						@Value("${security.jwt.validity-in-mills}") long validityInMillis, 
+						UserDetailsService userDetailsService) {
 		this.signingKey = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
 		this.validityInMillis = validityInMillis;
 		this.userDetailsService = userDetailsService;
