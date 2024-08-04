@@ -10,6 +10,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration.Dynamic;
 
+import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.DispatcherServlet;
@@ -98,6 +99,13 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
 		super.onStartup(servletContext);
 		//registerCharacterEncodingFilter(servletContext);
 		//registerLogFilter(servletContext);
+	}
+
+	@Override
+	protected ApplicationContextInitializer<?>[] getRootApplicationContextInitializers() {
+		log.info("## getRootApplicationContextInitializers");
+		//ApplicationContextInitializer<?>[] existingInitializers = super.getRootApplicationContextInitializers(); // null
+		return new ApplicationContextInitializer<?>[] { new AppContextInitializer() };
 	}
 
 	private void registerCharacterEncodingFilter(ServletContext servletContext) {
