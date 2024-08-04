@@ -26,7 +26,8 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
 	@Override
 	protected Class<?>[] getRootConfigClasses() {
 		log.info("## getRootConfigClasses");
-		return new Class[] { 
+		return new Class[] {
+				AppConfig.class,
 				DataSourceConfig.class,
 				MybatisConfig.class,
 				SecurityConfig.class,
@@ -35,7 +36,8 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
 				RedisConfig.class,
 				QuartzConfig.class,
 				BatchConfig.class,
-				BatchJobConfig.class
+				BatchJobConfig.class,
+				OAuth2Config.class
 		};
 	}
 

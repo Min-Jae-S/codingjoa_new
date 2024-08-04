@@ -1,6 +1,5 @@
 package com.codingjoa.config;
 
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
@@ -13,19 +12,12 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.context.support.MessageSourceAccessor;
-import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
-import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.Ordered;
 import org.springframework.core.env.Environment;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
-import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
@@ -51,10 +43,8 @@ import com.codingjoa.resolver.CommentCriteriaArgumentResolver;
 import com.codingjoa.resolver.GlobalExceptionResolver;
 import com.codingjoa.service.CategoryService;
 import com.codingjoa.service.RedisService;
-import com.codingjoa.util.MessageUtils;
 import com.fasterxml.jackson.core.JsonEncoding;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -64,9 +54,6 @@ import lombok.extern.slf4j.Slf4j;
 @PropertySource("/WEB-INF/properties/upload-path.properties")
 @PropertySource("/WEB-INF/properties/criteria.properties")
 @ComponentScan("com.codingjoa.controller")
-@ComponentScan("com.codingjoa.service") 	// including @TransactionEventListener
-@ComponentScan("com.codingjoa.response")	// including @ControllerAdvice, @RestControllerAdvice
-@EnableTransactionManagement
 @EnableWebMvc 
 @RequiredArgsConstructor
 @Configuration
@@ -75,6 +62,8 @@ public class ServletConfig implements WebMvcConfigurer {
 	private final Environment env;
 	private final CategoryService categoryService;
 	private final RedisService redisService;
+	private final ObjectMapper objectMapper;
+	private final MessageSource messageSource;
 	
 	@Override
 	public void configureViewResolvers(ViewResolverRegistry registry) {
@@ -93,7 +82,7 @@ public class ServletConfig implements WebMvcConfigurer {
 	@Bean
 	public MappingJackson2JsonView jsonView() {
 		MappingJackson2JsonView jsonView = new MappingJackson2JsonView();
-		jsonView.setObjectMapper(objectMapper());
+		jsonView.setObjectMapper(objectMapper);
 		jsonView.setContentType(MediaType.APPLICATION_JSON_VALUE);
 		jsonView.setEncoding(JsonEncoding.UTF8);
         return jsonView;
@@ -154,17 +143,9 @@ public class ServletConfig implements WebMvcConfigurer {
 				// StringHttpMessageConverter defaults to ISO-8859-1
 				((StringHttpMessageConverter) converter).setDefaultCharset(StandardCharsets.UTF_8);
 			} else if (converter instanceof MappingJackson2HttpMessageConverter) {
-				((MappingJackson2HttpMessageConverter) converter).setObjectMapper(objectMapper());
+				((MappingJackson2HttpMessageConverter) converter).setObjectMapper(objectMapper);
 			}
 		});
-	}
-	
-	@Bean // thread-safe
-	public ObjectMapper objectMapper() { 
-		return Jackson2ObjectMapperBuilder
-				.json()
-				.featuresToEnable(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES) // writeComment - CommentDto(commentBoardIdx)
-				.build();
 	}
 	
 	@Override
@@ -223,58 +204,6 @@ public class ServletConfig implements WebMvcConfigurer {
 		return resolver;
 	}
 	
-	/*
-	 * PropertySourcesPlaceholderConfigurer is a BeanFactoryPostProcessor that performs the task of replacing ${} placeholders
-	 * after the bean factory has finished creating all bean definitions, and then proceeds to create the bean objects.
-	 * ex) @Value("${...}") within @Configuration classes
-	 * 
-	 * @ https://mangkyu.tistory.com/177
-	 * @ https://mangkyu.tistory.com/214
-	 * Special consideration must be taken for @Bean methods that return Spring BeanFactoryPostProcessor (BFPP) types. 
-	 * Because BFPP objects must be instantiated very early in the container lifecycle, 
-	 * they can interfere with processing of annotations such as @Autowired, @Value, and @PostConstruct within @Configuration classes. 
-	 * To avoid these lifecycle issues, mark BFPP-returning @Bean methods as static.
-	 * By marking this method as static, it can be invoked without causing instantiation of its declaring @Configuration class, 
-	 * thus avoiding the above-mentioned lifecycle conflicts.
-	 */
-	
-	@Bean
-	public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer(
-			ResourcePatternResolver resourcePatternResolver, Environment env) throws IOException {
-		log.info("## propertySourcesPlaceholderConfigurer");
-		log.info("\t > env = {}", env);
-		
-		PropertySourcesPlaceholderConfigurer configuer = new PropertySourcesPlaceholderConfigurer();
-		Resource[] resources = resourcePatternResolver.getResources("WEB-INF/properties/*.properties");
-		configuer.setLocations(resources);
-		configuer.setEnvironment(env);
-		configuer.setFileEncoding("UTF-8");
-		return configuer;
-	}
-	
-	@Bean
-	public MessageSource messageSource() {
-		ReloadableResourceBundleMessageSource source = new ReloadableResourceBundleMessageSource();
-		source.setDefaultEncoding("UTF-8");
-		source.setBasenames(
-				"/WEB-INF/properties/error-message", 
-				"/WEB-INF/properties/success-message",
-				"/WEB-INF/properties/validation-message");
-		return source;
-	}
-	
-	@Bean
-	public MessageSourceAccessor messageSourceAccessor() {
-		return new MessageSourceAccessor(messageSource());
-	}
-	
-	@Bean
-	public MessageUtils messageUtils() {
-		MessageUtils messageUtils = new MessageUtils();
-		messageUtils.setMessageSourceAccessor(messageSourceAccessor());
-		return messageUtils;
-	}
-	
 	/* 
 	 * Classes that implement the BeanPostProcessor interface are instantiated on startup, 
 	 * as part of the special startup phase of the ApplicationContext, before any other beans.
@@ -323,7 +252,7 @@ public class ServletConfig implements WebMvcConfigurer {
 	@Bean
 	public LocalValidatorFactoryBean validator() {
 		LocalValidatorFactoryBean factoryBean = new LocalValidatorFactoryBean();
-		factoryBean.setValidationMessageSource(messageSource());
+		factoryBean.setValidationMessageSource(messageSource);
 		//factoryBean.getValidationPropertyMap().put("hibernate.validator.fail_fast", "true");
 		return factoryBean;
 	}
