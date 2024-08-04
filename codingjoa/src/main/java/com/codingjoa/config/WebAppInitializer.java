@@ -20,6 +20,7 @@ import com.codingjoa.filter.LogFilter;
 
 import lombok.extern.slf4j.Slf4j;
 
+@SuppressWarnings("unused")
 @Slf4j
 public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 	
@@ -99,7 +100,6 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
 		//registerLogFilter(servletContext);
 	}
 
-	@SuppressWarnings("unused")
 	private void registerCharacterEncodingFilter(ServletContext servletContext) {
 		log.info("## registerCharacterEncodingFilter");
 		CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter();
@@ -112,7 +112,6 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
 		filterRegistration.addMappingForUrlPatterns(dispatcherTypes, false, "/*");
 	}
 	
-	@SuppressWarnings("unused")
 	private void registerLogFilter(ServletContext servletContext) {
 		log.info("## registerLogFilter");
 		LogFilter logFilter = new LogFilter();
@@ -122,5 +121,7 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
 		EnumSet<DispatcherType> dispatcherTypes = EnumSet.of(DispatcherType.REQUEST, DispatcherType.ASYNC, DispatcherType.ERROR);
 		filterRegistration.addMappingForUrlPatterns(dispatcherTypes, false, "/*");
 	}
+	
+	
 	
 }
