@@ -17,7 +17,6 @@ import com.codingjoa.util.MessageUtils;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-@ComponentScan("com.codingjoa.security")
 @ComponentScan("com.codingjoa.service") 	// @TransactionEventListener
 @ComponentScan("com.codingjoa.response")	// @ControllerAdvice, @RestControllerAdvice
 @Configuration
@@ -67,6 +66,29 @@ public class AppConfig {
 	 * To avoid these lifecycle issues, mark BFPP-returning @Bean methods as static.
 	 * By marking this method as static, it can be invoked without causing instantiation of its declaring @Configuration class, 
 	 * thus avoiding the above-mentioned lifecycle conflicts.
+	 * 
+	 * Since Spring 3.1, PropertySourcesPlaceholderConfigurer is used internally, 
+	 * and if it cannot find ${...} values, it retrieves properties from the Environment. 
+	 * For cases where setting Environment variables is required, implementation through @PropertySource is needed.
+	 * 
+	 * @ https://spring.io/blog/2011/02/15/spring-3-1-m1-unified-property-management
+	 * @ https://velog.io/@dailylifecoding/Spring-PropertySourcesPlaceholderConfigurer-%EB%8A%94-Environment.getProperty-%EB%A1%9C-%EC%9D%BD%EC%9D%84-%EC%88%98-%EC%97%86%EB%8B%A4
+	 * It's the PropertySourcesPlaceholderConfigurer who uses Environment and not vice versa.
+	 * In other words, PropertySourcesPlaceholderConfigurer uses Environment to resolve property placeholders, 
+	 * but Environment does not use PropertySourcesPlaceholderConfigurer.
+	 * 
+	 * When PropertySourcesPlaceholderConfigurer is registered as a bean, 
+	 * the BeanFactoryPostProcessor handles the configuration file loading and injection. 
+	 * There were no issues with @Value or other lifecycle components that occur after the bean creation, 
+	 * because they are processed after the BeanFactoryPostProcessor. 
+	 * However, issues arise when the order of PropertySource loading could not be guaranteed. 
+	 * The key method of EnvironmentPostProcessor, postProcessEnvironment(), is invoked at the point 
+	 * when the ApplicationContext is being refreshed. 
+	 * Therefore, it is executed somewhere between the start of the Spring application and before the context is fully configured, 
+	 * ensuring that injection can be guaranteed before the properties are used by the libraries.
+	 * 
+	 * "Spring generally recommends property injection through EnvironmentPostProcessor"
+	 * 
 	 */
 	
 	@Bean

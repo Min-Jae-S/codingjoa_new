@@ -1,4 +1,4 @@
-package com.codingjoa.config;
+package com.codingjoa.config.initializer;
 
 import java.util.EnumSet;
 

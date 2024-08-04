@@ -49,11 +49,9 @@ public class BatchConfig extends DefaultBatchConfigurer {
 	
 	@PostConstruct
 	public void init() {
-		log.info("======================================================================================================");
-		log.info("@ BatchConfig");
+		log.info("## BatchConfig.init");
 		log.info("\t > dataSource = {}", dataSource);
 		log.info("\t > transactionManager = {}", transactionManager);
-		log.info("======================================================================================================");
 	}
 	
 	@Autowired

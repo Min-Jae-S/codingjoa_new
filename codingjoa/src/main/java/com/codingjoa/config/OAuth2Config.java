@@ -36,7 +36,6 @@ import lombok.extern.slf4j.Slf4j;
 
 @SuppressWarnings("unused")
 @Slf4j
-@PropertySource("/WEB-INF/properties/security.properties")
 @RequiredArgsConstructor
 @Configuration
 public class OAuth2Config {

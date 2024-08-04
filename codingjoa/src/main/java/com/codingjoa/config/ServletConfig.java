@@ -11,7 +11,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.Ordered;
 import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
@@ -51,11 +50,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@PropertySource("/WEB-INF/properties/upload-path.properties")
-@PropertySource("/WEB-INF/properties/criteria.properties")
 @ComponentScan("com.codingjoa.controller")
-@EnableWebMvc 
 @RequiredArgsConstructor
+@EnableWebMvc 
 @Configuration
 public class ServletConfig implements WebMvcConfigurer {
 	
