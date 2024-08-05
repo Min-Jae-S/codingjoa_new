@@ -54,20 +54,15 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 		OAuth2UserService<OAuth2UserRequest, OAuth2User> delegate = new DefaultOAuth2UserService();
 		log.info("\t > delegating loading user to {}", delegate.getClass().getSimpleName());
 		
-		OAuth2User loadedOAuth2User = delegate.loadUser(userRequest);
-		log.info("\t > loadedOAuth2User = {}", loadedOAuth2User);
-		
-		Map<String, Object> userAttributes = loadedOAuth2User.getAttributes();
-		log.info("\t > loadedOAuth2User.getAttributes() = {}", JsonUtils.formatJson(userAttributes));
-		log.info("\t > loadedOAuth2User.getAuthorities() = {}", loadedOAuth2User.getAuthorities());
-		log.info("\t > loadedOAuth2User.getName() = {}", loadedOAuth2User.getName()); // name of authenticated principal
+		OAuth2User loadedOAuth2User = delegate.loadUser(userRequest);  // attributes, authorities, nameAttributeKey
+		Map<String, Object> attributes = loadedOAuth2User.getAttributes();
+		log.info("\t > attributes = {}", JsonUtils.formatJson(attributes));
 
-		Set<GrantedAuthority> authorities = new LinkedHashSet<>();
-		authorities.add(new OAuth2UserAuthority(userAttributes));
-		log.info("\t > authorities = {}", authorities);
+		String userNameAttributeName = userRequest.getClientRegistration().getProviderDetails().getUserInfoEndpoint()
+				.getUserNameAttributeName();
+		log.info("\t > userNameAttributeName = {}", userNameAttributeName);
 		
-		return new DefaultOAuth2User(Collections.singleton(new SimpleGrantedAuthority("ROLE_MEMBER")), 
-				userAttributes, loadedOAuth2User.getName());
+		return new DefaultOAuth2User(Set.of(new SimpleGrantedAuthority("ROLE_MEMBER")), attributes, userNameAttributeName);
 	}
 	
 }

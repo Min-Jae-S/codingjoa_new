@@ -1,8 +1,8 @@
 package com.codingjoa.security.dto;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -31,7 +31,7 @@ public class UserDetailsDto implements UserDetails {
 	//@JsonIgnore
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return Collections.singleton(new SimpleGrantedAuthority(memberRole));
+		return Set.of(new SimpleGrantedAuthority(memberRole));
 	}
 
 	@Override
