@@ -33,7 +33,7 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 import org.springframework.web.servlet.view.ViewResolverComposite;
 
-import com.codingjoa.response.SuccessResponse;
+import com.codingjoa.dto.SuccessResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.extern.slf4j.Slf4j;

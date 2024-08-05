@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.codingjoa.response.SuccessResponse;
+import com.codingjoa.dto.SuccessResponse;
 
 import lombok.extern.slf4j.Slf4j;
 

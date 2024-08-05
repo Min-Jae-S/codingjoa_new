@@ -40,10 +40,10 @@ import org.springframework.web.util.UriComponents;
 
 import com.codingjoa.dto.BoardDto;
 import com.codingjoa.dto.MemberDetailsDto;
+import com.codingjoa.dto.SuccessResponse;
 import com.codingjoa.entity.BoardImage;
 import com.codingjoa.exception.ExpectedException;
 import com.codingjoa.mapper.MemberMapper;
-import com.codingjoa.response.SuccessResponse;
 import com.codingjoa.security.dto.UserDetailsDto;
 import com.codingjoa.service.ImageService;
 import com.codingjoa.service.test.TestTxService;

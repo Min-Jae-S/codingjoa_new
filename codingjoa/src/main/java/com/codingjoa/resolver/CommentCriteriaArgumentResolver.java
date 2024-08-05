@@ -2,8 +2,6 @@ package com.codingjoa.resolver;
 
 import java.util.Map;
 
-import javax.annotation.PostConstruct;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
@@ -28,17 +26,10 @@ public class CommentCriteriaArgumentResolver implements HandlerMethodArgumentRes
 	private final int defaultRecordCnt;
 	
 	public CommentCriteriaArgumentResolver(
-			@Value("criteria.comment.page") int defaultPage, 
-			@Value("criteria.comment.recordCnt") int defaultRecordCnt) {
+			@Value("${criteria.comment.page}") int defaultPage, 
+			@Value("${criteria.comment.recordCnt}") int defaultRecordCnt) {
 		this.defaultPage = defaultPage;
 		this.defaultRecordCnt = defaultRecordCnt;
-	}
-	
-	@PostConstruct
-	public void init() {
-		log.info("{}.init", this.getClass().getSimpleName());
-		log.info("\t > defaultPage = {}", defaultPage);
-		log.info("\t > defaultRecordCnt = {}", defaultRecordCnt);
 	}
 	
 	@Override

@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 
-import com.codingjoa.response.ErrorDetails;
+import com.codingjoa.dto.ErrorDetails;
 import com.codingjoa.util.MessageUtils;
 import com.fasterxml.jackson.annotation.JsonFormat;
 

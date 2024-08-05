@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codingjoa.entity.Category;
-import com.codingjoa.response.SuccessResponse;
+import com.codingjoa.dto.SuccessResponse;
 import com.codingjoa.service.CategoryService;
 
 import lombok.extern.slf4j.Slf4j;

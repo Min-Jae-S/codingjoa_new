@@ -2,8 +2,6 @@ package com.codingjoa.resolver;
 
 import java.util.Map;
 
-import javax.annotation.PostConstruct;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
@@ -29,11 +27,11 @@ public class BoardCriteriaArgumentResolver implements HandlerMethodArgumentResol
 	private final Map<String, Object> typeGroup;
 	
 	public BoardCriteriaArgumentResolver(
-			@Value("criteria.board.page") int defaultPage, 
-			@Value("criteria.board.recordCnt") int defaultRecordCnt, 
-			@Value("criteria.board.type") String defaultType,
-			@Value("criteria.board.recordCntGroup") Map<String, Object> recordCntGroup, 
-			@Value("criteria.board.typeGroup") Map<String, Object> typeGroup) {
+			@Value("${criteria.board.page}") int defaultPage, 
+			@Value("${criteria.board.recordCnt}") int defaultRecordCnt, 
+			@Value("${criteria.board.type}") String defaultType,
+			@Value("#{${criteria.board.recordCntGroup}}") Map<String, Object> recordCntGroup, 
+			@Value("#{${criteria.board.typeGroup}}") Map<String, Object> typeGroup) {
 		this.defaultPage = defaultPage;
 		this.defaultRecordCnt = defaultRecordCnt;
 		this.defaultType = defaultType;
@@ -41,16 +39,6 @@ public class BoardCriteriaArgumentResolver implements HandlerMethodArgumentResol
 		this.typeGroup = typeGroup;
 	}
 	
-	@PostConstruct
-	public void init() {
-		log.info("{}.init", this.getClass().getSimpleName());
-		log.info("\t > defaultPage = {}", defaultPage);
-		log.info("\t > defaultRecordCnt = {}", defaultRecordCnt);
-		log.info("\t > defaultType = {}", defaultType);
-		log.info("\t > recordCntGroup = {}", recordCntGroup);
-		log.info("\t > typeGroup = {}", typeGroup);
-	}
-
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
 		return parameter.getParameterType().equals(Criteria.class) && 

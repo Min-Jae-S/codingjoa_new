@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 
-import com.codingjoa.response.ErrorResponse;
+import com.codingjoa.dto.ErrorResponse;
 import com.codingjoa.service.RedisService;
 import com.codingjoa.util.MessageUtils;
 import com.codingjoa.util.Utils;

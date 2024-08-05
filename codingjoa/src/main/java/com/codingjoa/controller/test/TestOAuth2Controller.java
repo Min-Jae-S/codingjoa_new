@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.codingjoa.response.SuccessResponse;
+import com.codingjoa.dto.SuccessResponse;
 import com.codingjoa.security.dto.KakaoTokenResponse;
 import com.codingjoa.security.dto.KakaoUserInfoResponse;
 import com.codingjoa.security.dto.NaverTokenResponse;

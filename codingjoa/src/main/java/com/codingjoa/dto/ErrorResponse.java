@@ -1,4 +1,4 @@
-package com.codingjoa.response;
+package com.codingjoa.dto;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

@@ -15,8 +15,8 @@ import org.springframework.core.io.Resource;
 import com.codingjoa.util.MessageUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-@ComponentScan("com.codingjoa.service") 	// @TransactionEventListener
-@ComponentScan("com.codingjoa.response")	// @ControllerAdvice, @RestControllerAdvice
+@ComponentScan("com.codingjoa.service") // @TransactionEventListener
+@ComponentScan("com.codingjoa.handler")	// @ControllerAdvice, @RestControllerAdvice
 @Configuration
 public class AppConfig {
 	

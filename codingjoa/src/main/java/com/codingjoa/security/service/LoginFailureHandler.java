@@ -17,7 +17,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
 
-import com.codingjoa.response.ErrorResponse;
+import com.codingjoa.dto.ErrorResponse;
 import com.codingjoa.security.exception.LoginRequireFieldException;
 import com.codingjoa.util.MessageUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;

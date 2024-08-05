@@ -32,7 +32,7 @@ import com.codingjoa.dto.BoardImageDto;
 import com.codingjoa.dto.UploadFileDto;
 import com.codingjoa.entity.BoardImage;
 import com.codingjoa.entity.MemberImage;
-import com.codingjoa.response.SuccessResponse;
+import com.codingjoa.dto.SuccessResponse;
 import com.codingjoa.security.dto.UserDetailsDto;
 import com.codingjoa.service.ImageService;
 import com.codingjoa.validator.UploadFileValidator;

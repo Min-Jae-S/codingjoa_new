@@ -21,9 +21,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.codingjoa.annotation.CommentCri;
 import com.codingjoa.dto.CommentDetailsDto;
 import com.codingjoa.dto.CommentDto;
+import com.codingjoa.dto.SuccessResponse;
 import com.codingjoa.pagination.CommentCriteria;
 import com.codingjoa.pagination.Pagination;
-import com.codingjoa.response.SuccessResponse;
 import com.codingjoa.security.dto.UserDetailsDto;
 import com.codingjoa.service.CommentService;
 

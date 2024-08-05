@@ -1,4 +1,4 @@
-package com.codingjoa.response;
+package com.codingjoa.handler;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolationException;
@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
+import com.codingjoa.dto.ErrorDetails;
+import com.codingjoa.dto.ErrorResponse;
+import com.codingjoa.dto.ErrorResponse.ErrorResponseBuilder;
 import com.codingjoa.exception.ExpectedException;
-import com.codingjoa.response.ErrorResponse.ErrorResponseBuilder;
 import com.codingjoa.test.TestException;
 import com.codingjoa.test.TestResponse;
 import com.codingjoa.test.TestResponse.TestResponseBuilder;
