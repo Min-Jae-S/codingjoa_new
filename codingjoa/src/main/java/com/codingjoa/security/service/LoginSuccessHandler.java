@@ -42,10 +42,11 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 			Authentication authentication) throws IOException, ServletException {
 		log.info("## {}", this.getClass().getSimpleName());
 		
+		String reidrectUrl = resolveRedirectUrl(authentication, request);
 		SuccessResponse successResponse = SuccessResponse.builder()
 				.status(HttpStatus.OK)
 				.messageByCode("success.Login")
-				.data(Map.of("redirectUrl", resolveRedirectUrl(authentication, request)))
+				.data(Map.of("redirectUrl", reidrectUrl))
 				.build();
 		
 		String jwt = jwtProvider.createJwt(authentication, request);

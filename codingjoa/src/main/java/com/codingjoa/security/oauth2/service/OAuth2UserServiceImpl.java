@@ -57,10 +57,11 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 		OAuth2UserService<OAuth2UserRequest, OAuth2User> delegate = new DefaultOAuth2UserService();
 		log.info("\t > delegating loading user to {}", delegate.getClass().getSimpleName());
 		
-		OAuth2User loadedOAuth2User = delegate.loadUser(userRequest);  // attributes, authorities, nameAttributeKey
+		OAuth2User loadedOAuth2User = delegate.loadUser(userRequest); 
 		Map<String, Object> attributes = loadedOAuth2User.getAttributes();
 		log.info("\t > attributes = {}", JsonUtils.formatJson(attributes));
 		
+		 // attributes, authorities, nameAttributeKey (userNameAttributeName)
 		return new DefaultOAuth2User(Set.of(new SimpleGrantedAuthority("ROLE_MEMBER")), attributes, userNameAttributeName);
 	}
 	

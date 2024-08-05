@@ -70,7 +70,6 @@ public class OAuth2LoginProvider implements AuthenticationProvider { // OAuth2Lo
 		Collection<? extends GrantedAuthority> mappedAuthorities = 
 				authoritiesMapper.mapAuthorities(loadedOAuth2User.getAuthorities());
 		
-		log.info("\t > generate authenticated loginToken and return this token");
 		OAuth2LoginAuthenticationToken authenticatedLoginToken = new OAuth2LoginAuthenticationToken(
 				loginToken.getClientRegistration(),
 				loginToken.getAuthorizationExchange(),
