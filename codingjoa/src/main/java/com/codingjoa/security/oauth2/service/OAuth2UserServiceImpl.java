@@ -50,6 +50,9 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 	public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
 		log.info("## {}.loadUser", this.getClass().getSimpleName());
 		log.info("\t > userRequest = {}", Utils.specifiyFields(userRequest));
+		String userNameAttributeName = userRequest.getClientRegistration().getProviderDetails().getUserInfoEndpoint()
+				.getUserNameAttributeName();
+		log.info("\t > userNameAttributeName = {}", userNameAttributeName);
 		
 		OAuth2UserService<OAuth2UserRequest, OAuth2User> delegate = new DefaultOAuth2UserService();
 		log.info("\t > delegating loading user to {}", delegate.getClass().getSimpleName());
@@ -57,10 +60,6 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 		OAuth2User loadedOAuth2User = delegate.loadUser(userRequest);  // attributes, authorities, nameAttributeKey
 		Map<String, Object> attributes = loadedOAuth2User.getAttributes();
 		log.info("\t > attributes = {}", JsonUtils.formatJson(attributes));
-
-		String userNameAttributeName = userRequest.getClientRegistration().getProviderDetails().getUserInfoEndpoint()
-				.getUserNameAttributeName();
-		log.info("\t > userNameAttributeName = {}", userNameAttributeName);
 		
 		return new DefaultOAuth2User(Set.of(new SimpleGrantedAuthority("ROLE_MEMBER")), attributes, userNameAttributeName);
 	}
