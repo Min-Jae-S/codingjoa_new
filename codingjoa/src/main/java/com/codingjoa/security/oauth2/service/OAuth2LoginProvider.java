@@ -59,9 +59,9 @@ public class OAuth2LoginProvider implements AuthenticationProvider { // OAuth2Lo
 		OAuth2AccessToken accessToken = authenticatedAuthCodeToken.getAccessToken();
 		Map<String, Object> additionalParameters = authenticatedAuthCodeToken.getAdditionalParameters();
 		log.info("\t > accessToken = {}", Utils.specifiyFields(accessToken));
-		log.info("\t > additionalParameters = {}", additionalParameters);
+		log.info("\t > additionalParameters = {}", additionalParameters.keySet());
 		
-		// request userInfo
+		log.info("## request userInfo"); 
 		OAuth2UserRequest oAuth2UserRequest = new OAuth2UserRequest(
 				authenticatedAuthCodeToken.getClientRegistration(), accessToken, additionalParameters);
 		OAuth2User loadedOAuth2User = oAuth2UserService.loadUser(oAuth2UserRequest);

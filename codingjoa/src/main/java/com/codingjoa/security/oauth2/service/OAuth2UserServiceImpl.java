@@ -44,10 +44,12 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 		log.info("\t > userRequest = {}", Utils.specifiyFields(userRequest));
 		
 		OAuth2UserService<OAuth2UserRequest, OAuth2User> delegate = new DefaultOAuth2UserService();
+		
+		log.info("\t > delegating loading user to {}", delegate.getClass().getSimpleName());
 		OAuth2User loadOAuth2User = delegate.loadUser(userRequest);
 		
 		Map<String, Object> userAttributes = loadOAuth2User.getAttributes();
-		log.info("\t > {}", JsonUtils.formatJson(userAttributes));
+		log.info("\t > userAttributes = {}", JsonUtils.formatJson(userAttributes));
 
 		return null;
 	}
