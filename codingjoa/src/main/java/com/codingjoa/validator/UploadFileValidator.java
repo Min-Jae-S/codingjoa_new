@@ -15,7 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class UploadFileValidator implements Validator {
 
-	private static long MAX_FILE_SIZE = 10 * 1024 * 1024;
+	private static final long MAX_FILE_SIZE = 10 * 1024 * 1024;
 
 	@Override
 	public boolean supports(Class<?> clazz) {

@@ -9,15 +9,15 @@ import org.springframework.validation.Validator;
 import com.codingjoa.dto.EmailAuthDto;
 import com.codingjoa.service.RedisService;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class EmailAuthValidator implements Validator {
 	
-	private final String EMAIL_REGEXP = "^[_a-z0-9-]+(.[_a-z0-9-]+)*@(?:\\w+\\.)+\\w+$";
-	private RedisService redisService;
+	private static final String EMAIL_REGEXP = "^[_a-z0-9-]+(.[_a-z0-9-]+)*@(?:\\w+\\.)+\\w+$";
+	private final RedisService redisService;
 
 	@Override
 	public boolean supports(Class<?> clazz) {

@@ -2,7 +2,11 @@ package com.codingjoa.resolver;
 
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.MethodParameter;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.context.request.RequestAttributes;
@@ -14,15 +18,28 @@ import com.codingjoa.annotation.CommentCri;
 import com.codingjoa.pagination.CommentCriteria;
 import com.codingjoa.util.Utils;
 
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@Setter
+@Component
 public class CommentCriteriaArgumentResolver implements HandlerMethodArgumentResolver {
 
-	private int defaultPage;
-	private int defaultRecordCnt;
+	private final int defaultPage;
+	private final int defaultRecordCnt;
+	
+	public CommentCriteriaArgumentResolver(
+			@Value("criteria.comment.page") int defaultPage, 
+			@Value("criteria.comment.recordCnt") int defaultRecordCnt) {
+		this.defaultPage = defaultPage;
+		this.defaultRecordCnt = defaultRecordCnt;
+	}
+	
+	@PostConstruct
+	public void init() {
+		log.info("{}.init", this.getClass().getSimpleName());
+		log.info("\t > defaultPage = {}", defaultPage);
+		log.info("\t > defaultRecordCnt = {}", defaultRecordCnt);
+	}
 	
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
@@ -53,4 +70,5 @@ public class CommentCriteriaArgumentResolver implements HandlerMethodArgumentRes
 		return (Map<String, String>) webRequest.getAttribute(
 				HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE, RequestAttributes.SCOPE_REQUEST);
 	}
+
 }

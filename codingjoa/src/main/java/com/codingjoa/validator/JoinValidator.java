@@ -10,18 +10,18 @@ import com.codingjoa.dto.JoinDto;
 import com.codingjoa.service.MemberService;
 import com.codingjoa.service.RedisService;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class JoinValidator implements Validator {
 
-	private final String ID_REGEXP = "^([a-z0-9]{6,12})$";
-	private final String PASSWORD_REGEXP = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[!@#$%^&*()])(?=\\S+$).{8,16}$";
-	private final String EMAIL_REGEXP = "^[_a-z0-9-]+(.[_a-z0-9-]+)*@(?:\\w+\\.)+\\w+$";
-	private MemberService memberService;
-	private RedisService redisService;
+	private static final String ID_REGEXP = "^([a-z0-9]{6,12})$";
+	private static final String PASSWORD_REGEXP = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[!@#$%^&*()])(?=\\S+$).{8,16}$";
+	private static final String EMAIL_REGEXP = "^[_a-z0-9-]+(.[_a-z0-9-]+)*@(?:\\w+\\.)+\\w+$";
+	private final MemberService memberService;
+	private final RedisService redisService;
 
 	@Override
 	public boolean supports(Class<?> clazz) {

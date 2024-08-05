@@ -2,7 +2,11 @@ package com.codingjoa.resolver;
 
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.MethodParameter;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
@@ -12,19 +16,41 @@ import com.codingjoa.annotation.BoardCri;
 import com.codingjoa.pagination.Criteria;
 import com.codingjoa.util.Utils;
 
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@Setter
+@Component
 public class BoardCriteriaArgumentResolver implements HandlerMethodArgumentResolver {
 	
-	private int defaultPage;
-	private int defaultRecordCnt;
-	private String defaultType;
-	private Map<String, Object> recordCntGroup; 
-	private Map<String, Object> typeGroup;
+	private final int defaultPage;
+	private final int defaultRecordCnt;
+	private final String defaultType;
+	private final Map<String, Object> recordCntGroup; 
+	private final Map<String, Object> typeGroup;
 	
+	public BoardCriteriaArgumentResolver(
+			@Value("criteria.board.page") int defaultPage, 
+			@Value("criteria.board.recordCnt") int defaultRecordCnt, 
+			@Value("criteria.board.type") String defaultType,
+			@Value("criteria.board.recordCntGroup") Map<String, Object> recordCntGroup, 
+			@Value("criteria.board.typeGroup") Map<String, Object> typeGroup) {
+		this.defaultPage = defaultPage;
+		this.defaultRecordCnt = defaultRecordCnt;
+		this.defaultType = defaultType;
+		this.recordCntGroup = recordCntGroup;
+		this.typeGroup = typeGroup;
+	}
+	
+	@PostConstruct
+	public void init() {
+		log.info("{}.init", this.getClass().getSimpleName());
+		log.info("\t > defaultPage = {}", defaultPage);
+		log.info("\t > defaultRecordCnt = {}", defaultRecordCnt);
+		log.info("\t > defaultType = {}", defaultType);
+		log.info("\t > recordCntGroup = {}", recordCntGroup);
+		log.info("\t > typeGroup = {}", typeGroup);
+	}
+
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
 		return parameter.getParameterType().equals(Criteria.class) && 

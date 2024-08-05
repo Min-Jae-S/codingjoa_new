@@ -1,7 +1,5 @@
 package com.codingjoa.config;
 
-import javax.annotation.PostConstruct;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,9 +7,6 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @Configuration
 public class RedisConfig {
 	
@@ -21,13 +16,6 @@ public class RedisConfig {
 	public RedisConfig(@Value("${redis.host}") String host, @Value("${redis.port}") int port) {
 		this.host = host;
 		this.port = port;
-	}
-	
-	@PostConstruct
-	public void init() {
-		log.info("## RedisConfig");
-		log.info("\t > host = {}", host);
-		log.info("\t > port = {}", port);
 	}
 
 	@Bean

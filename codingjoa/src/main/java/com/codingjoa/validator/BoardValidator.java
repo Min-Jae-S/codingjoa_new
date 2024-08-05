@@ -9,14 +9,14 @@ import org.springframework.validation.Validator;
 import com.codingjoa.dto.BoardDto;
 import com.codingjoa.service.ImageService;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class BoardValidator implements Validator {
 
-	private ImageService imageService;
+	private final ImageService imageService;
 	
 	@Override
 	public boolean supports(Class<?> clazz) {

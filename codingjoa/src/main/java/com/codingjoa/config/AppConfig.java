@@ -11,10 +11,8 @@ import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.io.Resource;
-import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 
 import com.codingjoa.util.MessageUtils;
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @ComponentScan("com.codingjoa.service") 	// @TransactionEventListener
@@ -24,10 +22,7 @@ public class AppConfig {
 	
 	@Bean // thread-safe
 	public ObjectMapper objectMapper() { 
-		return Jackson2ObjectMapperBuilder
-				.json()
-				.featuresToEnable(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES) // writeComment - CommentDto(commentBoardIdx)
-				.build();
+		return new ObjectMapper();
 	}
 	
 	@Bean
@@ -92,17 +87,15 @@ public class AppConfig {
 	 */
 	
 	@Bean
-	public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer(
-			ApplicationContext applicationContext) {
+	public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer(ApplicationContext context) {
 		PropertySourcesPlaceholderConfigurer configuer = new PropertySourcesPlaceholderConfigurer();
 		try {
-			Resource[] resources = applicationContext.getResources("WEB-INF/properties/*.properties"); // resourcePatternResolver
+			Resource[] resources = context.getResources("WEB-INF/properties/*.properties"); // resourcePatternResolver
 			configuer.setLocations(resources);
 			configuer.setFileEncoding("UTF-8");
 		} catch (IOException e) {
 			e.printStackTrace();
 		} 
-		
 		return configuer;
 	}
 }

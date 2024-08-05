@@ -2,7 +2,6 @@ package com.codingjoa.config;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;
-import java.util.Map;
 
 import javax.validation.Validator;
 
@@ -43,7 +42,7 @@ import com.codingjoa.resolver.GlobalExceptionResolver;
 import com.codingjoa.service.CategoryService;
 import com.codingjoa.service.RedisService;
 import com.fasterxml.jackson.core.JsonEncoding;
-import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -51,6 +50,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @ComponentScan("com.codingjoa.controller")
+@ComponentScan("com.codingjoa.resolver")
 @RequiredArgsConstructor
 @EnableWebMvc 
 @Configuration
@@ -59,7 +59,9 @@ public class ServletConfig implements WebMvcConfigurer {
 	private final Environment env;
 	private final CategoryService categoryService;
 	private final RedisService redisService;
-	private final ObjectMapper objectMapper;
+	private final BoardCriteriaArgumentResolver boardCriteriaArgumentResolver;
+	private final CommentCriteriaArgumentResolver commentCriteriaArgumentResolver;
+	private final GlobalExceptionResolver globalExceptionResolver;
 	private final MessageSource messageSource;
 	
 	@Override
@@ -79,7 +81,7 @@ public class ServletConfig implements WebMvcConfigurer {
 	@Bean
 	public MappingJackson2JsonView jsonView() {
 		MappingJackson2JsonView jsonView = new MappingJackson2JsonView();
-		jsonView.setObjectMapper(objectMapper);
+		jsonView.setObjectMapper(new ObjectMapper());
 		jsonView.setContentType(MediaType.APPLICATION_JSON_VALUE);
 		jsonView.setEncoding(JsonEncoding.UTF8);
         return jsonView;
@@ -140,6 +142,8 @@ public class ServletConfig implements WebMvcConfigurer {
 				// StringHttpMessageConverter defaults to ISO-8859-1
 				((StringHttpMessageConverter) converter).setDefaultCharset(StandardCharsets.UTF_8);
 			} else if (converter instanceof MappingJackson2HttpMessageConverter) {
+				ObjectMapper objectMapper = new ObjectMapper();
+				objectMapper.enable(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES); // writeComment - CommentDto(commentBoardIdx)
 				((MappingJackson2HttpMessageConverter) converter).setObjectMapper(objectMapper);
 			}
 		});
@@ -149,13 +153,15 @@ public class ServletConfig implements WebMvcConfigurer {
 	public void extendHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
 		log.info("## extendHandlerExceptionResolvers");
 		WebMvcConfigurer.super.extendHandlerExceptionResolvers(resolvers);
-		resolvers.add(0, globalExceptionResolver());
+		resolvers.add(0, globalExceptionResolver);
 		resolvers.forEach(resolver -> log.info("\t > {}", resolver.getClass().getSimpleName()));
 	}
 	
-	@Bean
-	public HandlerExceptionResolver globalExceptionResolver() {
-		return new GlobalExceptionResolver();
+	@Override
+	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
+		WebMvcConfigurer.super.addArgumentResolvers(resolvers);
+		resolvers.add(boardCriteriaArgumentResolver);
+		resolvers.add(commentCriteriaArgumentResolver);
 	}
 	
 	@Bean
@@ -163,42 +169,6 @@ public class ServletConfig implements WebMvcConfigurer {
 		// MultipartResolver: StandardServletMultipartResolver, CommonsMultipartResolver
 		// CommonsMultipartResolver 사용시 commons-fileupload 라이브러리 추가
 		return new StandardServletMultipartResolver();
-	}
-
-	@Override
-	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
-		WebMvcConfigurer.super.addArgumentResolvers(resolvers);
-		resolvers.add(boardCriteriaArgumentResolver());
-		resolvers.add(commentCriteriaArgumentResolver());
-	}
-
-	@SuppressWarnings("unchecked")
-	@Bean
-	public HandlerMethodArgumentResolver boardCriteriaArgumentResolver() {
-		BoardCriteriaArgumentResolver resolver = new BoardCriteriaArgumentResolver();
-		resolver.setDefaultPage(env.getProperty("criteria.board.page", Integer.class));
-		resolver.setDefaultRecordCnt(env.getProperty("criteria.board.recordCnt", Integer.class));
-		resolver.setDefaultType(env.getProperty("criteria.board.type"));
-		
-		String jsonRecordCntGroup = env.getProperty("criteria.board.recordCntGroup");
-		String jsonTypeGroup = env.getProperty("criteria.board.typeGroup");
-		ObjectMapper objectMapper = new ObjectMapper();
-		try {
-			resolver.setRecordCntGroup(objectMapper.readValue(jsonRecordCntGroup, Map.class));
-			resolver.setTypeGroup(objectMapper.readValue(jsonTypeGroup, Map.class));
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-		}
-		
-		return resolver;
-	}
-
-	@Bean
-	public HandlerMethodArgumentResolver commentCriteriaArgumentResolver() {
-		CommentCriteriaArgumentResolver resolver = new CommentCriteriaArgumentResolver();
-		resolver.setDefaultPage(env.getProperty("criteria.comment.page", Integer.class));
-		resolver.setDefaultRecordCnt(env.getProperty("criteria.comment.recordCnt", Integer.class));
-		return resolver;
 	}
 	
 	/* 
