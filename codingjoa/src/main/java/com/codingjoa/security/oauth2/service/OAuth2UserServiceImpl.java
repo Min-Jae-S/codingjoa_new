@@ -1,13 +1,21 @@
 package com.codingjoa.security.oauth2.service;
 
+import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.Map;
+import java.util.Set;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
+import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.security.oauth2.core.user.OAuth2UserAuthority;
 import org.springframework.stereotype.Service;
 
 import com.codingjoa.mapper.MemberMapper;
@@ -44,14 +52,22 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 		log.info("\t > userRequest = {}", Utils.specifiyFields(userRequest));
 		
 		OAuth2UserService<OAuth2UserRequest, OAuth2User> delegate = new DefaultOAuth2UserService();
-		
 		log.info("\t > delegating loading user to {}", delegate.getClass().getSimpleName());
-		OAuth2User loadOAuth2User = delegate.loadUser(userRequest);
 		
-		Map<String, Object> userAttributes = loadOAuth2User.getAttributes();
-		log.info("\t > userAttributes = {}", JsonUtils.formatJson(userAttributes));
+		OAuth2User loadedOAuth2User = delegate.loadUser(userRequest);
+		log.info("\t > loadedOAuth2User = {}", loadedOAuth2User);
+		
+		Map<String, Object> userAttributes = loadedOAuth2User.getAttributes();
+		log.info("\t > loadedOAuth2User.getAttributes() = {}", JsonUtils.formatJson(userAttributes));
+		log.info("\t > loadedOAuth2User.getAuthorities() = {}", loadedOAuth2User.getAuthorities());
+		log.info("\t > loadedOAuth2User.getName() = {}", loadedOAuth2User.getName()); // name of authenticated principal
 
-		return null;
+		Set<GrantedAuthority> authorities = new LinkedHashSet<>();
+		authorities.add(new OAuth2UserAuthority(userAttributes));
+		log.info("\t > authorities = {}", authorities);
+		
+		return new DefaultOAuth2User(Collections.singleton(new SimpleGrantedAuthority("ROLE_MEMBER")), 
+				userAttributes, loadedOAuth2User.getName());
 	}
 	
 }

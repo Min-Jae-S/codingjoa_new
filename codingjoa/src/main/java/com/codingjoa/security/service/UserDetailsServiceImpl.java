@@ -18,13 +18,13 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
-public class UserServiceImpl implements UserDetailsService {
+public class UserDetailsServiceImpl implements UserDetailsService {
 
 	private final MemberMapper memberMapper;
 	private final ModelMapper modelMapper;
 	
 	@Autowired
-	public UserServiceImpl(MemberMapper memberMapper, @Qualifier("customModelMapper") ModelMapper modelMapper) {
+	public UserDetailsServiceImpl(MemberMapper memberMapper, @Qualifier("customModelMapper") ModelMapper modelMapper) {
 		this.memberMapper = memberMapper;
 		this.modelMapper = modelMapper;
 	}
