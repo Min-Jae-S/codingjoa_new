@@ -34,7 +34,7 @@ import com.codingjoa.filter.LogFilter;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
+public class WebInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 	
 	@Override
 	protected Class<?>[] getRootConfigClasses() {

@@ -100,8 +100,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http
 			.csrf().disable()
 			.formLogin().disable()
-			// SecurityContextPersistenceFilter, HttpSessionSecurityContextRepository
-			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+			// SecurityContextPersistenceFilter, SessionManagementFilter, HttpSessionSecurityContextRepository
+			.sessionManagement()
+				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 				.and()
 			.authorizeRequests()
 				// https://stackoverflow.com/questions/19941466/spring-security-allows-unauthorized-user-access-to-restricted-url-from-a-forward
