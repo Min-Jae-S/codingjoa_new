@@ -1,21 +1,10 @@
 package com.codingjoa.security.oauth2.service;
 
-import java.util.Collections;
-import java.util.LinkedHashSet;
-import java.util.Map;
-import java.util.Set;
-
-import org.modelmapper.ModelMapper;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
-import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
-import org.springframework.security.oauth2.core.user.OAuth2UserAuthority;
 import org.springframework.stereotype.Service;
 
 import com.codingjoa.mapper.MemberMapper;
@@ -50,19 +39,14 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 	public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
 		log.info("## {}.loadUser", this.getClass().getSimpleName());
 		log.info("\t > userRequest = {}", Utils.specifiyFields(userRequest));
-		String userNameAttributeName = userRequest.getClientRegistration().getProviderDetails().getUserInfoEndpoint()
-				.getUserNameAttributeName();
-		log.info("\t > userNameAttributeName = {}", userNameAttributeName);
 		
 		OAuth2UserService<OAuth2UserRequest, OAuth2User> delegate = new DefaultOAuth2UserService();
 		log.info("\t > delegating loading user to {}", delegate.getClass().getSimpleName());
 		
 		OAuth2User loadedOAuth2User = delegate.loadUser(userRequest); 
-		Map<String, Object> attributes = loadedOAuth2User.getAttributes();
-		log.info("\t > attributes = {}", JsonUtils.formatJson(attributes));
+		log.info("\t > attributes = {}", JsonUtils.formatJson(loadedOAuth2User.getAttributes()));
 		
-		 // attributes, authorities, nameAttributeKey (userNameAttributeName)
-		return new DefaultOAuth2User(Set.of(new SimpleGrantedAuthority("ROLE_MEMBER")), attributes, userNameAttributeName);
+		return loadedOAuth2User;
 	}
 	
 }
