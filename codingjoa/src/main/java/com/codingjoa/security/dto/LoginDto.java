@@ -11,6 +11,6 @@ public class LoginDto {
 
 	private String memberId;
 	private String memberPassword;
-	private String redirectUrl;
+	private String continueUrl;
 	
 }

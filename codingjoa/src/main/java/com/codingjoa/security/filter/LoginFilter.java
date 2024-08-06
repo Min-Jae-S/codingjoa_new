@@ -63,8 +63,8 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter { // Use
 		// authenticate UsernamePasswordAuthenticationToken by LoginProvider
 		UsernamePasswordAuthenticationToken authenticatedLoginToken = 
 				(UsernamePasswordAuthenticationToken) this.getAuthenticationManager().authenticate(loginToken);
-		authenticatedLoginToken.setDetails(loginDto.getRedirectUrl());
-		log.info("# set the redirectUrl in the details of the authenticated loginToken");
+		authenticatedLoginToken.setDetails(loginDto.getContinueUrl());
+		log.info("# set the continueUrl in the details of the authenticated loginToken");
 		
 		return authenticatedLoginToken;
 	}

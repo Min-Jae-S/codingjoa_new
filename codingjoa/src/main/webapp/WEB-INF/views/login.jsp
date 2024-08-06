@@ -170,18 +170,20 @@
 
 <script>
 	$(function() {
+		const continueUrl =  "<c:out value='${continueUrl}' escapeXml='false'/>";
+		
 		$("#loginForm").on("submit", function(e) {
 			e.preventDefault();
 			let formData = {
 				memberId : $("#memberId").val(),
 				memberPassword : $("#memberPassword").val(),
-				redirectUrl : "<c:out value='${redirectUrl}' escapeXml='false'/>"
+				continueUrl : continueUrl
 			};
 			
 			authenticationService.login(formData, function(result) {
 				setTimeout(function() {
 					alert(result.message);
-					location.href = result.data.redirectUrl;
+					location.href = result.data.continueUrl;
 				}, 50);
 			});
 		});

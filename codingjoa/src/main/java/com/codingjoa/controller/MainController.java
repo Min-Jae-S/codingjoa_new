@@ -39,10 +39,10 @@ public class MainController {
 	}
 	
 	@GetMapping("/login") 
-	public String loginPage(@RequestParam(name = "redirect", required = false) String redirectUrl, Model model, HttpServletRequest request) {
+	public String loginPage(@RequestParam(name = "continue", required = false) String continueUrl, Model model, HttpServletRequest request) {
 		log.info("## loginPage");
-		log.info("\t > redirect = {}", (redirectUrl == null) ? null : "'" + redirectUrl + "'");
-		model.addAttribute("redirectUrl", resolveRedirectUrl(redirectUrl));
+		log.info("\t > continue = {}", (continueUrl == null) ? null : "'" + continueUrl + "'");
+		model.addAttribute("continueUrl", resolveContinueUrl(continueUrl));
 		return "login";
 	}
 	
@@ -58,16 +58,16 @@ public class MainController {
 		return new AntPathMatcher().match(pattern, url);
 	}
 	
-	private String resolveRedirectUrl(String redirect) {
-		if (!isValidUrl(redirect)) {
-			log.info("\t > missing or invalid redirect, setting default redirect");
+	private String resolveContinueUrl(String continueUrl) {
+		if (!isValidUrl(continueUrl)) {
+			log.info("\t > missing or invalid continueUrl, setting default continueUrl");
 			return ServletUriComponentsBuilder.fromCurrentContextPath()
 					.path("/")
 					.build()
 					.toUriString();
 		} else {
-			log.info("\t > valid redirect, setting redirect from request");
-			return redirect;
+			log.info("\t > valid continueUrl, setting continueUrl from request");
+			return continueUrl;
 		}
 	}
 	

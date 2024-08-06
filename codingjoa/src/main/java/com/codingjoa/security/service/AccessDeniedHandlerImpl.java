@@ -14,6 +14,8 @@ import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.DefaultRedirectStrategy;
+import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;
 
@@ -32,6 +34,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Component
 public class AccessDeniedHandlerImpl implements AccessDeniedHandler {
+	
+	private final RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
 	@Override
 	public void handle(HttpServletRequest request, HttpServletResponse response,
@@ -60,10 +64,7 @@ public class AccessDeniedHandlerImpl implements AccessDeniedHandler {
 			response.getWriter().write(jsonResponse);
 			response.getWriter().close();
 		} else {
-			String redirectUrl = request.getContextPath() + "/";
-			log.info("\t > redirect to '{}'", redirectUrl);
-			
-			response.sendRedirect(redirectUrl);
+			redirectStrategy.sendRedirect(request, response, request.getContextPath() + "/");
 		}
 	}
 	

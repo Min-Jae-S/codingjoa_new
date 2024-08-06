@@ -42,11 +42,11 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 			Authentication authentication) throws IOException, ServletException {
 		log.info("## {}", this.getClass().getSimpleName());
 		
-		String reidrectUrl = resolveRedirectUrl(authentication, request);
+		String continueUrl = resolveContinueUrl(authentication, request);
 		SuccessResponse successResponse = SuccessResponse.builder()
 				.status(HttpStatus.OK)
 				.messageByCode("success.Login")
-				.data(Map.of("redirectUrl", reidrectUrl))
+				.data(Map.of("continueUrl", continueUrl))
 				.build();
 		
 		String jwt = jwtProvider.createJwt(authentication, request);
@@ -94,18 +94,18 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 		return new AntPathMatcher().match(pattern, url);
 	}
 	
-	private String resolveRedirectUrl(Authentication authentication, HttpServletRequest request) {
-		String redirectUrl = (String) authentication.getDetails();
+	private String resolveContinueUrl(Authentication authentication, HttpServletRequest request) {
+		String continueUrl = (String) authentication.getDetails();
 		
-		if (!isValidUrl(redirectUrl, request)) {
-			log.info("\t > missing or invalid redirectUrl, setting default redirectUrl");
+		if (!isValidUrl(continueUrl, request)) {
+			log.info("\t > missing or invalid continueUrl, setting default continueUrl");
 			return ServletUriComponentsBuilder.fromContextPath(request)
 					.path("/")
 					.build()
 					.toUriString();
 		} else {
-			log.info("\t > valid redirectUrl, setting redirectUrl from request");
-			return redirectUrl;
+			log.info("\t > valid continueUrl, setting continueUrl from request");
+			return continueUrl;
 		}
 	}
 	

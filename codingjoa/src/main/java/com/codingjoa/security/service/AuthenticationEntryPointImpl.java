@@ -79,21 +79,17 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 			response.getWriter().write(jsonResponse);
 			response.getWriter().close();
 		} else {
-			// http://localhost:8888/codingjoa/login?redirect=http%3A%2F%2Flocalhost%3A8888%2Fcodingjoa%2Fboard%2Fmodify%3FboardIdx%3D2082
-			//log.info("\t > redirect to '{}'", redirectUrl);
-			//response.sendRedirect(redirectUrl);
-			redirectStrategy.sendRedirect(request, response, buildRedirectUrl(request));
+			redirectStrategy.sendRedirect(request, response, buildContinueUrl(request));
 		}
 	}
 	
-	private String buildRedirectUrl(HttpServletRequest request) {
+	private String buildContinueUrl(HttpServletRequest request) {
 		String currentUrl = UrlUtils.buildFullRequestUrl(request);
 		return ServletUriComponentsBuilder.fromContextPath(request)
 				.path("/login")
-				.queryParam("redirect", UriUtils.encode(currentUrl, StandardCharsets.UTF_8))
+				.queryParam("continue", UriUtils.encode(currentUrl, StandardCharsets.UTF_8))
 				.build()
 				.toUriString();
-		
 	}
 	
 	private boolean isAjaxRequest(HttpServletRequest request) {

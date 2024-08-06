@@ -43,7 +43,7 @@
 					<li class="nav-item mx-2 mt-1">
 						<c:choose>
 							<c:when test="${not empty currentUrl}">
-								<a href="${contextPath}/login?redirect=${currentUrl}" class="nav-link">로그인</a>
+								<a href="${contextPath}/login?continue=${currentUrl}" class="nav-link">로그인</a>
 							</c:when>
 							<c:otherwise>
 								<a href="${contextPath}/login" class="nav-link">로그인</a>
