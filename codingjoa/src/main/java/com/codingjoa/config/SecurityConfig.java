@@ -7,8 +7,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -171,18 +169,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		return new BCryptPasswordEncoder();
 	}
 	
-	@Bean(name = BeanIds.AUTHENTICATION_MANAGER)
-	@Override
-	public AuthenticationManager authenticationManagerBean() throws Exception { 
-		return super.authenticationManagerBean();
-	}
-	
 	private LoginFilter loginFilter() throws Exception {
 		LoginFilter filter = new LoginFilter();
 		// Error creating bean with name 'loginFilter' defined in com.codingjoa.security.config.SecurityConfig: 
 		// Invocation of init method failed; nested exception is java.lang.IllegalArgumentException: authenticationManager must be specified
-		//filter.setAuthenticationManager(authenticationManager());
-		filter.setAuthenticationManager(this.authenticationManagerBean());
+		//filter.setAuthenticationManager(this.authenticationManagerBean());
+		filter.setAuthenticationManager(this.authenticationManager());
 		filter.setAuthenticationSuccessHandler(loginSuccessHandler);
 		filter.setAuthenticationFailureHandler(loginFailureHandler);
 		return filter;
@@ -190,8 +182,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	private OAuth2LoginFilter oAuth2LoginFilter() throws Exception {
 		OAuth2LoginFilter filter = new OAuth2LoginFilter(clientRegistrationRepository, oAuth2AuthorizedClientRepository);
-		//filter.setAuthenticationManager(authenticationManager());			// by ProviderManager
-		filter.setAuthenticationManager(this.authenticationManagerBean()); 	// by AuthenticationManagerDelegator
+		//filter.setAuthenticationManager(this.authenticationManagerBean()); 	// by AuthenticationManagerDelegator
+		filter.setAuthenticationManager(this.authenticationManager());			// by ProviderManager
 		filter.setAuthenticationSuccessHandler(oAuth2LoginSuccessHandler);
 		filter.setAuthenticationFailureHandler(oAuth2LoginFailureHandler);
 		return filter;
@@ -231,20 +223,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		
 		return builder.build().toUriString();
 	}
-	
-//	@Override
-//	protected AuthenticationManager authenticationManager() throws Exception { // ProviderManager
-//		log.info("## authenticationManager");
-//		AuthenticationManager authenticationManager = super.authenticationManager();
-//		log.info("\t > authenticationManager = {}", authenticationManager.getClass().getSimpleName());
-//		
-//		if (authenticationManager instanceof ProviderManager) {
-//			ProviderManager providerManager = (ProviderManager) authenticationManager;
-//			providerManager.getProviders().forEach(provider -> {
-//				log.info("\t > registerd provider = {}", provider);
-//			});
-//		}
-//		return authenticationManager;
-//	}
 	
 }

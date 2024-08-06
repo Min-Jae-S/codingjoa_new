@@ -28,6 +28,8 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.codingjoa.util.Utils;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -65,7 +67,7 @@ public class OAuth2LoginFilter extends AbstractAuthenticationProcessingFilter { 
 		
 		OAuth2AuthorizationRequest authorizationRequest = 
 				authorizationRequestRepository.removeAuthorizationRequest(request, response);
-		log.info("\t > removed from the session, authorizationRequest = {}", authorizationRequest);
+		log.info("\t > removed from the session, authorizationRequest = {}", Utils.specifiyFields(authorizationRequest));
 		
 		if (authorizationRequest == null) {
 			OAuth2Error oAuth2Error = new OAuth2Error("");
@@ -122,10 +124,10 @@ public class OAuth2LoginFilter extends AbstractAuthenticationProcessingFilter { 
 		return params;
 	}
 	
-	static OAuth2AuthorizationResponse convert(MultiValueMap<String, String> request, String redirectUri) {
-		String code = request.getFirst(OAuth2ParameterNames.CODE);
-		String errorCode = request.getFirst(OAuth2ParameterNames.ERROR);
-		String state = request.getFirst(OAuth2ParameterNames.STATE);
+	static OAuth2AuthorizationResponse convert(MultiValueMap<String, String> params, String redirectUri) {
+		String code = params.getFirst(OAuth2ParameterNames.CODE);
+		String errorCode = params.getFirst(OAuth2ParameterNames.ERROR);
+		String state = params.getFirst(OAuth2ParameterNames.STATE);
 
 		if (StringUtils.hasText(code)) {
 			return OAuth2AuthorizationResponse.success(code)
@@ -133,8 +135,8 @@ public class OAuth2LoginFilter extends AbstractAuthenticationProcessingFilter { 
 				.state(state)
 				.build();
 		} else {
-			String errorDescription = request.getFirst(OAuth2ParameterNames.ERROR_DESCRIPTION);
-			String errorUri = request.getFirst(OAuth2ParameterNames.ERROR_URI);
+			String errorDescription = params.getFirst(OAuth2ParameterNames.ERROR_DESCRIPTION);
+			String errorUri = params.getFirst(OAuth2ParameterNames.ERROR_URI);
 			return OAuth2AuthorizationResponse.error(errorCode)
 				.redirectUri(redirectUri)
 				.errorDescription(errorDescription)
