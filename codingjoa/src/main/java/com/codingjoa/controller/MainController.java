@@ -17,8 +17,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.web.util.UriUtils;
 
 import com.codingjoa.dto.SuccessResponse;
+import com.nimbusds.jose.util.StandardCharset;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -64,10 +66,11 @@ public class MainController {
 			return ServletUriComponentsBuilder.fromCurrentContextPath()
 					.path("/")
 					.build()
+					.encode(StandardCharset.UTF_8)
 					.toUriString();
 		} else {
 			log.info("\t > valid continueUrl, setting continueUrl from request");
-			return continueUrl;
+			return UriUtils.encode(continueUrl, StandardCharset.UTF_8);
 		}
 	}
 	

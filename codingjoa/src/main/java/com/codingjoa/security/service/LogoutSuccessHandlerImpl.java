@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.security.core.Authentication;
+import org.springframework.security.web.DefaultRedirectStrategy;
+import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
@@ -19,16 +21,14 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
 	
+	private final RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+	
 	@Override
 	public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
 			throws IOException, ServletException {
 		log.info("## {}", this.getClass().getSimpleName());
-		
-		String redirectUrl = resolveRedirectUrl(request);
-		log.info("\t > redirect to '{}'", redirectUrl);
-		
-		response.sendRedirect(redirectUrl);
-		//redirectStrategy.sendRedirect(request, response, redirectUrl);
+		String continueUrl = resolveContinueUrl(request);
+		redirectStrategy.sendRedirect(request, response, continueUrl);
 	}
 	
 	private boolean isValidUrl(String url, HttpServletRequest request) {
@@ -43,18 +43,18 @@ public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
 		return new AntPathMatcher().match(pattern, url);
 	}
 	
-	private String resolveRedirectUrl(HttpServletRequest request) {
-		String redirectUrl = request.getParameter("redirect");
+	private String resolveContinueUrl(HttpServletRequest request) {
+		String continueUrl = request.getParameter("continue");
 		
-		if (!isValidUrl(redirectUrl, request)) {
-			log.info("\t > missing or invalid redirectUrl, setting default redirectUrl");
+		if (!isValidUrl(continueUrl, request)) {
+			log.info("\t > missing or invalid continueUrl, setting default continueUrl");
 			return ServletUriComponentsBuilder.fromContextPath(request)
 					.path("/")
 					.build()
 					.toUriString();
 		} else {
-			log.info("\t > valid redirectUrl, setting redirectUrl from request");
-			return redirectUrl;
+			log.info("\t > valid continueUrl, setting continueUrl from request");
+			return continueUrl;
 		}
 	}
 

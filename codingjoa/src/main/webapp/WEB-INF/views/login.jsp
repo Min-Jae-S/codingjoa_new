@@ -147,10 +147,10 @@
 					<hr class="social-login-line">
 					<span class="social-login-title">SNS 계정 로그인</span>
 					<div class="social-login-body">
-						<a href="${contextPath}/login/kakao">
+						<a href="${contextPath}/login/kakao?continue=${continueUrl}">
 							<img class="social-login-btn" src="${contextPath}/resources/images/kakao.png">
 						</a>
-						<a href="${contextPath}/login/naver">
+						<a href="${contextPath}/login/naver?continue=${continueUrl}">
 							<img class="social-login-btn" src="${contextPath}/resources/images/naver.png">
 						</a>
 						<a href="#">
@@ -170,14 +170,14 @@
 
 <script>
 	$(function() {
-		const continueUrl =  "<c:out value='${continueUrl}' escapeXml='false'/>";
+		//const continueUrl = "<c:out value='${continueUrl}' escapeXml='false'/>";
 		
 		$("#loginForm").on("submit", function(e) {
 			e.preventDefault();
 			let formData = {
 				memberId : $("#memberId").val(),
 				memberPassword : $("#memberPassword").val(),
-				continueUrl : continueUrl
+				continueUrl : "<c:out value='${continueUrl}'/>"
 			};
 			
 			authenticationService.login(formData, function(result) {

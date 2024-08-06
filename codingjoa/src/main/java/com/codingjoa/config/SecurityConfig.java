@@ -44,6 +44,7 @@ import com.codingjoa.security.service.JwtProvider;
 import com.codingjoa.security.service.LoginFailureHandler;
 import com.codingjoa.security.service.LoginProvider;
 import com.codingjoa.security.service.LoginSuccessHandler;
+import com.codingjoa.util.JsonUtils;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -199,9 +200,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private Consumer<OAuth2AuthorizationRequest.Builder> authorizationRequestCustomizer() {
 		return customizer -> {
 			log.info("## AuthorizationRequestCustomizer");
-			log.info("\t > customize authorizationRequestUri (fully encoded redirect_uri, adding parameter)");
 
 			OAuth2AuthorizationRequest authorizationRequest = customizer.build();
+			log.info("\t > authorizationRequest = {}", JsonUtils.formatJson(authorizationRequest));
+			
+			log.info("\t > customize authorizationRequestUri (fully encoded redirect_uri, adding parameter)");
 			String customizedAuthorizationRequestUri = customizeAuthorizationRequestUri(authorizationRequest);
 			customizer.authorizationRequestUri(customizedAuthorizationRequestUri);
 		};
