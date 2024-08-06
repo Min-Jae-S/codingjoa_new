@@ -7,7 +7,6 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMapper;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthorizationCodeAuthenticationProvider;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthorizationCodeAuthenticationToken;
 import org.springframework.security.oauth2.client.authentication.OAuth2LoginAuthenticationToken;
@@ -27,7 +26,6 @@ public class OAuth2LoginProvider implements AuthenticationProvider { // OAuth2Lo
 	
 	private final OAuth2AuthorizationCodeAuthenticationProvider authorizationCodeAuthenticationProvider;
 	private final OAuth2UserService<OAuth2UserRequest, OAuth2User> oAuth2UserService;
-	private GrantedAuthoritiesMapper authoritiesMapper = (authorities -> authorities);
 	
 	public OAuth2LoginProvider(
 			OAuth2AccessTokenResponseClient<OAuth2AuthorizationCodeGrantRequest> accessTokenResponseClient,
@@ -51,7 +49,7 @@ public class OAuth2LoginProvider implements AuthenticationProvider { // OAuth2Lo
 		OAuth2AuthorizationCodeAuthenticationToken authCodeToken = new OAuth2AuthorizationCodeAuthenticationToken(
 				loginToken.getClientRegistration(), loginToken.getAuthorizationExchange());
 		
-		// authenticate authorization code 
+		// authenticate authorization code
 		log.info("## request accessToken"); 
 		OAuth2AuthorizationCodeAuthenticationToken authenticatedAuthCodeToken =
 				(OAuth2AuthorizationCodeAuthenticationToken) authorizationCodeAuthenticationProvider.authenticate(authCodeToken);
@@ -66,9 +64,10 @@ public class OAuth2LoginProvider implements AuthenticationProvider { // OAuth2Lo
 				authenticatedAuthCodeToken.getClientRegistration(), accessToken, additionalParameters);
 		OAuth2User loadedOAuth2User = oAuth2UserService.loadUser(oAuth2UserRequest);
 		log.info("## loadedOAuth2User = {}", loadedOAuth2User);
+		log.info("\t > attributes = {}", loadedOAuth2User.getAttributes());
 		
-		Collection<? extends GrantedAuthority> mappedAuthorities = 
-				authoritiesMapper.mapAuthorities(loadedOAuth2User.getAuthorities());
+		Collection<? extends GrantedAuthority> mappedAuthorities = loadedOAuth2User.getAuthorities();
+		log.info("\t > mappedAuthorities = {}", mappedAuthorities);
 		
 		OAuth2LoginAuthenticationToken authenticatedLoginToken = new OAuth2LoginAuthenticationToken(
 				loginToken.getClientRegistration(),
@@ -77,7 +76,10 @@ public class OAuth2LoginProvider implements AuthenticationProvider { // OAuth2Lo
 				mappedAuthorities,
 				accessToken,
 				authenticatedAuthCodeToken.getRefreshToken());
-		authenticatedLoginToken.setDetails(loginToken.getDetails());
+		
+		Object details = loginToken.getDetails();
+		log.info("\t > details = {}", details);
+		authenticatedLoginToken.setDetails(details);
 		
 		return authenticatedLoginToken;
 	}

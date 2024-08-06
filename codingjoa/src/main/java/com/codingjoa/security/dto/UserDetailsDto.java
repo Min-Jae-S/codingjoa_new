@@ -1,6 +1,7 @@
 package com.codingjoa.security.dto;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -31,7 +32,9 @@ public class UserDetailsDto implements UserDetails {
 	//@JsonIgnore
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return Set.of(new SimpleGrantedAuthority(memberRole));
+		Set<GrantedAuthority> authorities = new HashSet<>();
+		authorities.add(new SimpleGrantedAuthority(memberRole));
+		return authorities;
 	}
 
 	@Override

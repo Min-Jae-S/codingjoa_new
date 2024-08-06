@@ -1,14 +1,19 @@
 package com.codingjoa.security.oauth2.service;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
+import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
 import com.codingjoa.mapper.MemberMapper;
-import com.codingjoa.util.JsonUtils;
 import com.codingjoa.util.Utils;
 
 import lombok.RequiredArgsConstructor;
@@ -41,12 +46,17 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 		log.info("\t > userRequest = {}", Utils.specifiyFields(userRequest));
 		
 		OAuth2UserService<OAuth2UserRequest, OAuth2User> delegate = new DefaultOAuth2UserService();
-		log.info("\t > delegating loading user to {}", delegate.getClass().getSimpleName());
+
+		log.info("\t > delegate to the {} for loading a user", delegate.getClass().getSimpleName());
+		OAuth2User loadedOAuth2User = delegate.loadUser(userRequest);
 		
-		OAuth2User loadedOAuth2User = delegate.loadUser(userRequest); 
-		log.info("\t > attributes = {}", JsonUtils.formatJson(loadedOAuth2User.getAttributes()));
+		Set<GrantedAuthority> mappedAuthorities = new HashSet<>();
+		mappedAuthorities.add(new SimpleGrantedAuthority("ROLE_MEMBER"));
 		
-		return loadedOAuth2User;
+		String userNameAttributeName = userRequest.getClientRegistration().getProviderDetails()
+				.getUserInfoEndpoint().getUserNameAttributeName();
+		
+		return new DefaultOAuth2User(mappedAuthorities, loadedOAuth2User.getAttributes(), userNameAttributeName);
 	}
 	
 }
