@@ -43,15 +43,15 @@
 	<logger name="org.springframework.security.web.DefaultRedirectStrategy" level="DEBUG" additivity="false">
 		<appender-ref ref="debug_console"/>
 	</logger>
-	<logger name="org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter" level="DEBUG" additivity="false">
-		<appender-ref ref="debug_console"/>
-	</logger>
+	<logger name="org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter"/>
 	<logger name="org.springframework.security.authentication.ProviderManager" level="DEBUG" additivity="false">
 		<appender-ref ref="debug_console"/>
 	</logger>
-	<logger name="org.springframework.web.client" level="DEBUG" additivity="false">
+	<logger name="org.springframework.web.client" level="DEBUG" additivity="false"> <!-- restTemplate -->
 		<appender-ref ref="debug_console"/>
-	</logger>
+	
+	<logger name="org.springframework.security.web.context.SecurityContextPersistenceFilter" level="DEBUG"/>
+	<logger name="org.springframework.security.web.context.HttpSessionSecurityContextRepository" level="DEBUG"/>
 	
 	<!-- Transaction -->
 	<!-- <logger name="org.springframework.transaction" level="TRACE"/> -->
