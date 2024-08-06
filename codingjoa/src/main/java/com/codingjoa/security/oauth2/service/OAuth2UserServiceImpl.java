@@ -22,16 +22,41 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /*
- * # kakao (https://developers.kakao.com/docs/latest/ko/kakaologin/rest-api)
+ * @@ kakao (https://developers.kakao.com/docs/latest/ko/kakaologin/rest-api)
  *  - GET/POST, https://kapi.kakao.com/v2/user/me
  *  - header
  * 		> Authorization: Bearer ${ACCESS_TOKEN}
  * 		> Content-type: application/x-www-form-urlencoded;charset=utf-8
- * 
- * # naver (https://developers.naver.com/docs/login/profile/profile.md)
+	{
+		"id" : 3625815491,
+		"connected_at" : "2024-07-17T05:59:35Z",
+		"properties" : {
+			"nickname" : "서민재"
+		},
+		"kakao_account" : {
+			"profile_nickname_needs_agreement" : false,
+			"profile" : {
+				"nickname" : "서민재",
+				"is_default_nickname" : false
+			}
+		}
+	}
+	
+ * @@ naver (https://developers.naver.com/docs/login/profile/profile.md)
  * 	- GET, https://openapi.naver.com/v1/nid/me
  * 	- header
  * 		> Authorization: Bearer ${ACCESS_TOKEN}
+ * 		> Content-type: application/x-www-form-urlencoded;charset=utf-8
+	{
+		"resultcode" : "00",
+		"message" : "success",
+		"response" : {
+			"id" : "UYTs-zkmWvHlYIrBiwcqLJu7i04g94NbIlfeuEOl-Og",
+			"email" : "smj20228@naver.com",
+			"name" : "서민재"
+		}
+	}
+ * 
  */
 
 @SuppressWarnings("unused")
@@ -52,7 +77,7 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 		
 		OAuth2User loadedOAuth2User = delegate.loadUser(userRequest);
 		Map<String, Object> userAttributes = loadedOAuth2User.getAttributes();
-		log.info("\t > userAttributes = {}", JsonUtils.formatJson(userAttributes));
+		log.info("\t > userAttributes = {}", userAttributes);
 		
 		Set<GrantedAuthority> mappedAuthorities = new HashSet<>();
 		mappedAuthorities.add(new SimpleGrantedAuthority("ROLE_MEMBER"));
@@ -60,7 +85,7 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 		
 		String userNameAttributeName = userRequest.getClientRegistration().getProviderDetails()
 				.getUserInfoEndpoint().getUserNameAttributeName();
-		log.info("\t > userNameAttributeName = {}", userNameAttributeName);
+		log.info("\t > userNameAttributeName = {}", userNameAttributeName); // id, response
 		
 		return new DefaultOAuth2User(mappedAuthorities, userAttributes, userNameAttributeName);
 	}
