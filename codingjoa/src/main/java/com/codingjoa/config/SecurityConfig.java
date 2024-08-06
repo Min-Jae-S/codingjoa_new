@@ -16,7 +16,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.endpoint.OAuth2AccessTokenResponseClient;
 import org.springframework.security.oauth2.client.endpoint.OAuth2AuthorizationCodeGrantRequest;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
@@ -24,6 +23,7 @@ import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.client.web.DefaultOAuth2AuthorizationRequestResolver;
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestResolver;
+import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepository;
 import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -65,7 +65,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private final LogoutSuccessHandler logoutSuccessHandler;
 	private final JwtProvider jwtProvider;
 	private final ClientRegistrationRepository clientRegistrationRepository;
-	private final OAuth2AuthorizedClientService oAuth2AuthorizedClientService;
+	private final OAuth2AuthorizedClientRepository oAuth2AuthorizedClientRepository;
 	private final OAuth2AccessTokenResponseClient<OAuth2AuthorizationCodeGrantRequest> accessTokenResponseClient;
 	private final OAuth2UserService<OAuth2UserRequest, OAuth2User> oAuth2UserServce;
 	
@@ -181,7 +181,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 
 	private OAuth2LoginFilter oAuth2LoginFilter() throws Exception {
-		OAuth2LoginFilter filter = new OAuth2LoginFilter(clientRegistrationRepository, oAuth2AuthorizedClientService);
+		OAuth2LoginFilter filter = new OAuth2LoginFilter(clientRegistrationRepository, oAuth2AuthorizedClientRepository);
 		filter.setAuthenticationManager(authenticationManager());			// ProviderManager
 		//filter.setAuthenticationManager(authenticationManagerBean()); 	// AuthenticationManagerDelegator
 		filter.setAuthenticationSuccessHandler(oAuth2LoginSuccessHandler);

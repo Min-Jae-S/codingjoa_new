@@ -7,18 +7,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
-import org.springframework.security.oauth2.client.authentication.OAuth2LoginAuthenticationToken;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
+import org.springframework.security.oauth2.client.web.AuthenticatedPrincipalOAuth2AuthorizedClientRepository;
 import org.springframework.security.oauth2.client.web.AuthorizationRequestRepository;
 import org.springframework.security.oauth2.client.web.HttpSessionOAuth2AuthorizationRequestRepository;
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepository;
 import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter;
-import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationExchange;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.web.util.UrlUtils;
@@ -35,28 +33,23 @@ public class OAuth2LoginFilter extends OAuth2LoginAuthenticationFilter {
 	public static final String DEFAULT_FILTER_PROCESSES_URI = "/login/*/callback";
 	private static final String DEFAULT_AUTHORIZATION_REQUEST_ATTR_NAME =
 			HttpSessionOAuth2AuthorizationRequestRepository.class.getName() + ".AUTHORIZATION_REQUEST";
+	private final ClientRegistrationRepository clientRegistrationRepository;
+	private final OAuth2AuthorizedClientRepository authorizedClientRepository;
 	private AuthorizationRequestRepository<OAuth2AuthorizationRequest> authorizationRequestRepository = 
 			new HttpSessionOAuth2AuthorizationRequestRepository();
-	private ClientRegistrationRepository clientRegistrationRepository;
-
+	
 	public OAuth2LoginFilter(ClientRegistrationRepository clientRegistrationRepository,
 								OAuth2AuthorizedClientService authorizedClientService) {
 		super(clientRegistrationRepository, authorizedClientService, DEFAULT_FILTER_PROCESSES_URI);
 		this.clientRegistrationRepository = clientRegistrationRepository;
-	}
-	
-	public OAuth2LoginFilter(ClientRegistrationRepository clientRegistrationRepository,
-								OAuth2AuthorizedClientRepository authorizedClientRepository, 
-								String filterProcessesUrl) {
-		super(clientRegistrationRepository, authorizedClientRepository, filterProcessesUrl);
-		this.clientRegistrationRepository = clientRegistrationRepository;
+		this.authorizedClientRepository = new AuthenticatedPrincipalOAuth2AuthorizedClientRepository(authorizedClientService);
 	}
 
 	public OAuth2LoginFilter(ClientRegistrationRepository clientRegistrationRepository,
-								OAuth2AuthorizedClientService authorizedClientService, 
-								String filterProcessesUrl) {
-		super(clientRegistrationRepository, authorizedClientService, filterProcessesUrl);
+								OAuth2AuthorizedClientRepository authorizedClientRepository) {
+		super(clientRegistrationRepository, authorizedClientRepository, DEFAULT_FILTER_PROCESSES_URI);
 		this.clientRegistrationRepository = clientRegistrationRepository;
+		this.authorizedClientRepository = authorizedClientRepository;
 	}
 
 	@Override
@@ -68,10 +61,10 @@ public class OAuth2LoginFilter extends OAuth2LoginAuthenticationFilter {
 		log.info("\t > params = {}", params.keySet());
 		
 		String stateParamter = request.getParameter(OAuth2ParameterNames.STATE);
-		Map<String, OAuth2AuthorizationRequest> authorizationRequests = getAuthorizationRequests(request);
+		Map<String, OAuth2AuthorizationRequest> authorizationRequests = this.getAuthorizationRequests(request);
 		//log.info("\t > before removing authorizationRequest, exists ? {}", authorizationRequests.containsKey(stateParamter));
 
-		OAuth2AuthorizationRequest authorizationRequest =
+		OAuth2AuthorizationRequest authorizationRequest = 
 				this.authorizationRequestRepository.removeAuthorizationRequest(request, response);
 		//log.info("\t > after removing authorizationRequest, exists ? {}", authorizationRequests.containsKey(stateParamter));
 		
