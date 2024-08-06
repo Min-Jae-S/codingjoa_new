@@ -7,6 +7,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.security.web.util.UrlUtils;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -14,7 +15,6 @@ import org.springframework.web.util.UriUtils;
 
 import com.codingjoa.entity.Category;
 import com.codingjoa.service.CategoryService;
-import com.codingjoa.util.Utils;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -83,8 +83,8 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 		
 		if (!matchesExcludePattern) {
 			log.info("\t > no matches excludePatterns, setting currentUrl as model attribute");
-			String currentUrl = Utils.getFullURL(request);
-			modelAndView.addObject("currentUrl", encode(currentUrl));
+			String currentUrl = UrlUtils.buildFullRequestUrl(request);
+			modelAndView.addObject("currentUrl", UriUtils.encode(currentUrl, StandardCharsets.UTF_8));
 		} else {
 			log.info("\t > matches excludePatterns, no currentUrl set");
 		}
@@ -92,9 +92,6 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 		log.info("\t > added model attrs = {}", modelAndView.getModel().keySet());
 	}
 	
-	private String encode(String value) {
-		return UriUtils.encode(value, StandardCharsets.UTF_8);
-	}
 	
 //	@Override
 //	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
