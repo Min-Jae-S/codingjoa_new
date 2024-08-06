@@ -8,22 +8,20 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
-import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.client.authentication.OAuth2LoginAuthenticationToken;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
-import org.springframework.security.oauth2.client.web.AuthenticatedPrincipalOAuth2AuthorizedClientRepository;
 import org.springframework.security.oauth2.client.web.AuthorizationRequestRepository;
 import org.springframework.security.oauth2.client.web.HttpSessionOAuth2AuthorizationRequestRepository;
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepository;
-import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.OAuth2Error;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationExchange;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationResponse;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
+import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.UrlUtils;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -32,9 +30,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import lombok.extern.slf4j.Slf4j;
 
-@SuppressWarnings("unused")
 @Slf4j
-public class OAuth2LoginFilter extends OAuth2LoginAuthenticationFilter {
+public class OAuth2LoginFilter extends AbstractAuthenticationProcessingFilter { // OAuth2LoginAuthenticationFilter
 	
 	public static final String DEFAULT_FILTER_PROCESSES_URI = "/login/*/callback";
 	private final ClientRegistrationRepository clientRegistrationRepository;
@@ -44,7 +41,15 @@ public class OAuth2LoginFilter extends OAuth2LoginAuthenticationFilter {
 	
 	public OAuth2LoginFilter(ClientRegistrationRepository clientRegistrationRepository,
 								OAuth2AuthorizedClientRepository authorizedClientRepository) {
-		super(clientRegistrationRepository, authorizedClientRepository, DEFAULT_FILTER_PROCESSES_URI);
+		super(DEFAULT_FILTER_PROCESSES_URI);
+		this.clientRegistrationRepository = clientRegistrationRepository;
+		this.authorizedClientRepository = authorizedClientRepository;
+	}
+
+	public OAuth2LoginFilter(ClientRegistrationRepository clientRegistrationRepository,
+								OAuth2AuthorizedClientRepository authorizedClientRepository,
+								String filterProcessesUrl) {
+		super(filterProcessesUrl);
 		this.clientRegistrationRepository = clientRegistrationRepository;
 		this.authorizedClientRepository = authorizedClientRepository;
 	}
@@ -55,16 +60,18 @@ public class OAuth2LoginFilter extends OAuth2LoginAuthenticationFilter {
 		log.info("## {}.attemptAuthentication", this.getClass().getSimpleName());
 		
 		MultiValueMap<String, String> params = toMultiMap(request.getParameterMap());
-		log.info("\t > params = {}", params.keySet());
+		log.info("\t > authorization code = {}", params.getFirst(OAuth2ParameterNames.CODE));
+		log.info("\t > state = {}", params.getFirst(OAuth2ParameterNames.STATE));
 		
 		OAuth2AuthorizationRequest authorizationRequest = 
 				authorizationRequestRepository.removeAuthorizationRequest(request, response);
+		log.info("\t > removed from the session, authorizationRequest = {}", authorizationRequest);
+		
 		if (authorizationRequest == null) {
 			OAuth2Error oAuth2Error = new OAuth2Error("");
 			throw new OAuth2AuthenticationException(oAuth2Error);
 		}
 		
-		// clientRegistration of OAuth2AuthorizationRequest removed from session 
 		String registrationId = authorizationRequest.getAttribute(OAuth2ParameterNames.REGISTRATION_ID);
 		ClientRegistration clientRegistration = clientRegistrationRepository.findByRegistrationId(registrationId);
 		if (clientRegistration == null) {
@@ -79,8 +86,7 @@ public class OAuth2LoginFilter extends OAuth2LoginAuthenticationFilter {
 		
 		OAuth2AuthorizationResponse authorizationResponse = convert(params, redirectUri);
 		OAuth2AuthorizationExchange authorizationExchange = new OAuth2AuthorizationExchange(authorizationRequest, authorizationResponse);
-		OAuth2LoginAuthenticationToken loginToken = 
-				new OAuth2LoginAuthenticationToken(clientRegistration, authorizationExchange);
+		OAuth2LoginAuthenticationToken loginToken = new OAuth2LoginAuthenticationToken(clientRegistration, authorizationExchange);
 		
 		// authenticate OAuth2LoginAuthenticationToken by OAuth2LoginProvider
 		OAuth2LoginAuthenticationToken authenticatedLoginToken = 

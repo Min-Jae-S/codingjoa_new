@@ -46,8 +46,8 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 		log.info("\t > userRequest = {}", Utils.specifiyFields(userRequest));
 		
 		OAuth2UserService<OAuth2UserRequest, OAuth2User> delegate = new DefaultOAuth2UserService();
-
 		log.info("\t > delegate to the {} for loading a user", delegate.getClass().getSimpleName());
+		
 		OAuth2User loadedOAuth2User = delegate.loadUser(userRequest);
 		
 		Set<GrantedAuthority> mappedAuthorities = new HashSet<>();

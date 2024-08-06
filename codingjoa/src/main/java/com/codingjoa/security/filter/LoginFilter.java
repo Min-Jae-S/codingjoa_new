@@ -22,7 +22,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class LoginFilter extends AbstractAuthenticationProcessingFilter {
+public class LoginFilter extends AbstractAuthenticationProcessingFilter { // UsernamePasswordAuthenticationFilter
 	
 	public static final String DEFAULT_FILTER_PROCESSES_URL= "/api/login";
 	private final ObjectMapper objectMapper = new ObjectMapper();

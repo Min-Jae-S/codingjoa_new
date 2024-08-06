@@ -50,7 +50,7 @@ public class OAuth2LoginProvider implements AuthenticationProvider { // OAuth2Lo
 				loginToken.getClientRegistration(), loginToken.getAuthorizationExchange());
 		
 		// authenticate authorization code
-		log.info("## request accessToken"); 
+		log.info("## request accessToken - {}", authorizationCodeAuthenticationProvider.getClass().getSimpleName()); 
 		OAuth2AuthorizationCodeAuthenticationToken authenticatedAuthCodeToken =
 				(OAuth2AuthorizationCodeAuthenticationToken) authorizationCodeAuthenticationProvider.authenticate(authCodeToken);
 		
@@ -59,7 +59,7 @@ public class OAuth2LoginProvider implements AuthenticationProvider { // OAuth2Lo
 		log.info("\t > accessToken = {}", Utils.specifiyFields(accessToken));
 		log.info("\t > additionalParameters = {}", additionalParameters.keySet());
 		
-		log.info("## request userInfo"); 
+		log.info("## request userInfo - {}", oAuth2UserService.getClass().getSimpleName()); 
 		OAuth2UserRequest oAuth2UserRequest = new OAuth2UserRequest(
 				authenticatedAuthCodeToken.getClientRegistration(), accessToken, additionalParameters);
 		OAuth2User loadedOAuth2User = oAuth2UserService.loadUser(oAuth2UserRequest);
