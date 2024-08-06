@@ -170,7 +170,6 @@
 
 <script>
 	$(function() {
-		//const continueUrl = "<c:out value='${continueUrl}' escapeXml='false'/>";
 		
 		$("#loginForm").on("submit", function(e) {
 			e.preventDefault();

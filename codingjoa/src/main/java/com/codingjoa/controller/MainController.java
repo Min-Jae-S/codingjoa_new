@@ -44,7 +44,8 @@ public class MainController {
 	public String loginPage(@RequestParam(name = "continue", required = false) String continueUrl, Model model) {
 		log.info("## loginPage");
 		log.info("\t > continue = {}", (continueUrl == null) ? null : "'" + continueUrl + "'");
-		model.addAttribute("continueUrl", resolveContinueUrl(continueUrl));
+		String newContinueUrl = resolveContinueUrl(continueUrl);
+		model.addAttribute("continueUrl", UriUtils.encode(newContinueUrl, StandardCharset.UTF_8));
 		return "login";
 	}
 	
@@ -55,7 +56,7 @@ public class MainController {
 		
 		String pattern = ServletUriComponentsBuilder.fromCurrentContextPath()
 				.path("/**")
-				.build()
+				.build(false)
 				.toUriString();
 		return new AntPathMatcher().match(pattern, url);
 	}
@@ -66,11 +67,10 @@ public class MainController {
 			return ServletUriComponentsBuilder.fromCurrentContextPath()
 					.path("/")
 					.build()
-					.encode(StandardCharset.UTF_8)
 					.toUriString();
 		} else {
 			log.info("\t > valid continueUrl, setting continueUrl from request");
-			return UriUtils.encode(continueUrl, StandardCharset.UTF_8);
+			return continueUrl;
 		}
 	}
 	

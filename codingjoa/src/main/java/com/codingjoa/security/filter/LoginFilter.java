@@ -13,11 +13,13 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.util.StringUtils;
+import org.springframework.web.util.UriUtils;
 
 import com.codingjoa.security.dto.LoginDto;
 import com.codingjoa.security.exception.LoginRequireFieldException;
 import com.codingjoa.util.MessageUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nimbusds.jose.util.StandardCharset;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -63,8 +65,10 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter { // Use
 		// authenticate UsernamePasswordAuthenticationToken by LoginProvider
 		UsernamePasswordAuthenticationToken authenticatedLoginToken = 
 				(UsernamePasswordAuthenticationToken) this.getAuthenticationManager().authenticate(loginToken);
-		authenticatedLoginToken.setDetails(loginDto.getContinueUrl());
-		log.info("# set the continueUrl in the details of the authenticated loginToken");
+		
+		String continueUrl = loginDto.getContinueUrl();
+		authenticatedLoginToken.setDetails(UriUtils.decode(continueUrl, StandardCharset.UTF_8));
+		log.info("## set the continueUrl in the details of the authenticated loginToken");
 		
 		return authenticatedLoginToken;
 	}

@@ -79,12 +79,12 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 			response.getWriter().write(jsonResponse);
 			response.getWriter().close();
 		} else {
-			String continueUrl = buildContinueUrl(request);
-			redirectStrategy.sendRedirect(request, response, continueUrl);
+			String loginUrl = buildLoginUrl(request);
+			redirectStrategy.sendRedirect(request, response, loginUrl);
 		}
 	}
 	
-	private String buildContinueUrl(HttpServletRequest request) {
+	private String buildLoginUrl(HttpServletRequest request) {
 		String currentUrl = UrlUtils.buildFullRequestUrl(request);
 		return ServletUriComponentsBuilder.fromContextPath(request)
 				.path("/login")
