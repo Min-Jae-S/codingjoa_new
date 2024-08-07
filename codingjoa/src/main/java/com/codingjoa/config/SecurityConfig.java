@@ -40,9 +40,7 @@ import com.codingjoa.security.service.LoginProvider;
 import com.codingjoa.security.service.LoginSuccessHandler;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @ComponentScan("com.codingjoa.security")
 @RequiredArgsConstructor
 @EnableWebSecurity
@@ -184,9 +182,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 	
 	private OAuth2AuthorizationRequestResolver authorizationRequestResolver() {
-		OAuth2CustomAuthorizationRequestResolver resolver = new OAuth2CustomAuthorizationRequestResolver(
-				clientRegistrationRepository, "/login");
-		return resolver;
+		return new OAuth2CustomAuthorizationRequestResolver(clientRegistrationRepository, "/login");
 	}
 	
 }
