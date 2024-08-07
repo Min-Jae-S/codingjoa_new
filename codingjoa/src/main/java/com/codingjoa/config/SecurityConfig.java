@@ -21,7 +21,6 @@ import org.springframework.security.oauth2.client.endpoint.OAuth2AuthorizationCo
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
-import org.springframework.security.oauth2.client.web.DefaultOAuth2AuthorizationRequestResolver;
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestResolver;
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepository;
 import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter;
@@ -37,6 +36,7 @@ import org.springframework.web.util.UriUtils;
 import com.codingjoa.security.filter.JwtFilter;
 import com.codingjoa.security.filter.LoginFilter;
 import com.codingjoa.security.filter.OAuth2LoginFilter;
+import com.codingjoa.security.oauth2.service.OAuth2CustomAuthorizationRequestResolver;
 import com.codingjoa.security.oauth2.service.OAuth2LoginFailureHandler;
 import com.codingjoa.security.oauth2.service.OAuth2LoginProvider;
 import com.codingjoa.security.oauth2.service.OAuth2LoginSuccessHandler;
@@ -191,14 +191,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 	
 	private OAuth2AuthorizationRequestResolver authorizationRequestResolver() {
-		DefaultOAuth2AuthorizationRequestResolver resolver = new DefaultOAuth2AuthorizationRequestResolver(
+//		DefaultOAuth2AuthorizationRequestResolver resolver = new DefaultOAuth2AuthorizationRequestResolver(
+//				clientRegistrationRepository, "/login");
+//		resolver.setAuthorizationRequestCustomizer(authorizationRequestCustomizer());
+		OAuth2CustomAuthorizationRequestResolver resolver = new OAuth2CustomAuthorizationRequestResolver(
 				clientRegistrationRepository, "/login");
-		resolver.setAuthorizationRequestCustomizer(authorizationRequestCustomizer());
 		return resolver;
-		
-		
 	}
 	
+	@SuppressWarnings("unused")
 	private Consumer<OAuth2AuthorizationRequest.Builder> authorizationRequestCustomizer() {
 		return customizer -> {
 			log.info("## AuthorizationRequestCustomizer");

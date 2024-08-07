@@ -1,6 +1,7 @@
 package com.codingjoa.obsolete;
 
 import java.nio.charset.StandardCharsets;
+import java.util.function.Consumer;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -34,9 +35,11 @@ import com.codingjoa.security.service.JwtProvider;
 import com.codingjoa.security.service.LoginFailureHandler;
 import com.codingjoa.security.service.LoginProvider;
 import com.codingjoa.security.service.LoginSuccessHandler;
+import com.codingjoa.util.JsonUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
+@SuppressWarnings("unused")
 @Slf4j
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
@@ -167,7 +170,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		return filter;
 	}
 	
-	@SuppressWarnings("unused")
 	private JwtMathcerFilter jwtMathcerFilter() throws Exception {
 		JwtMathcerFilter filter = new JwtMathcerFilter(jwtProvider);
 		filter.addIncludeMatchers("/member/account/**");
@@ -190,7 +192,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			log.info("\t > customize authorizationRequestUri, particularly the authorizationResponseUri (redirect_uri)");
 			
 			OAuth2AuthorizationRequest authorizationRequest = customizer.build();
-			String customizedAuthorizationRequestUri = getCustomizedAuthorizationRequestUri(authorizationRequest);
+			String customizedAuthorizationRequestUri = customizeAuthorizationRequestUri(authorizationRequest);
 			customizer.authorizationRequestUri(customizedAuthorizationRequestUri);
 		});
 		
@@ -206,6 +208,35 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		String encodedAuthorizationResponseUri = UriUtils.encode(decodedAuthorizationResponseUri, StandardCharsets.UTF_8);
 		 
 		 return builder.replaceQueryParam("redirect_uri", encodedAuthorizationResponseUri).build().toUriString();
+	}
+	
+	private Consumer<OAuth2AuthorizationRequest.Builder> authorizationRequestCustomizer() {
+		return customizer -> {
+			log.info("## AuthorizationRequestCustomizer");
+			OAuth2AuthorizationRequest authorizationRequest = customizer.build();
+			log.info("\t > origianl authorizationRequest = {}", JsonUtils.formatJson(authorizationRequest));
+			
+			log.info("\t > customize authorizationRequestUri");
+			String customizedAuthorizationRequestUri = customizeAuthorizationRequestUri(authorizationRequest);
+			customizer.authorizationRequestUri(customizedAuthorizationRequestUri);
+		};
+	}
+	
+	private String customizeAuthorizationRequestUri(OAuth2AuthorizationRequest authorizationRequest) {
+		String authorizationRequestUri = authorizationRequest.getAuthorizationRequestUri();
+		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(authorizationRequestUri);
+		
+		String authorizationResponseUri = builder.build().getQueryParams().getFirst("redirect_uri");
+		String decodedAuthorizationResponseUri = UriUtils.decode(authorizationResponseUri, StandardCharsets.UTF_8);
+		String encodedAuthorizationResponseUri = UriUtils.encode(decodedAuthorizationResponseUri, StandardCharsets.UTF_8);
+		builder.replaceQueryParam("redirect_uri", encodedAuthorizationResponseUri);
+		
+//		String registrationId = (String) authorizationRequest.getAttribute(OAuth2ParameterNames.REGISTRATION_ID);
+//		if (registrationId.equals("kakao")) {
+//			builder.queryParam("prompt", "login");
+//		}
+		
+		return builder.build().toUriString();
 	}
 	
 	

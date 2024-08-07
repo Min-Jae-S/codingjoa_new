@@ -17,6 +17,10 @@ public class JsonUtils {
     }
     
     public static String formatJson(Object obj) {
+    	if (obj == null) {
+    		return null;
+    	}
+    	
     	try {
     		String json;
     		if (obj instanceof String) {
