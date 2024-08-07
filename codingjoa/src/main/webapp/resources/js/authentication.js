@@ -6,9 +6,9 @@ function getContextPath() {
 let authenticationService = (function() {
 	const contextPath = getContextPath();
 
-	function login(formData, callback) {
+	function login(formData, continueUrl, callback) {
 		console.log("## login");
-		let url = contextPath + "/api/login";
+		let url = contextPath + "/api/login?continue=" + continueUrl;
 		console.log("> URL = '%s'", url);
 		console.log("> sendData = %s", JSON.stringify(formData, null, 2));
 		

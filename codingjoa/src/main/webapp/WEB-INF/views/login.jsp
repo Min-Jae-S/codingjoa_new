@@ -170,16 +170,15 @@
 
 <script>
 	$(function() {
-		
+		const continueUrl : "<c:out value='${continueUrl}'/>"
 		$("#loginForm").on("submit", function(e) {
 			e.preventDefault();
 			let formData = {
 				memberId : $("#memberId").val(),
 				memberPassword : $("#memberPassword").val(),
-				continueUrl : "<c:out value='${continueUrl}'/>"
 			};
 			
-			authenticationService.login(formData, function(result) {
+			authenticationService.login(formData, continueUrl, function(result) {
 				setTimeout(function() {
 					alert(result.message);
 					location.href = result.data.continueUrl;

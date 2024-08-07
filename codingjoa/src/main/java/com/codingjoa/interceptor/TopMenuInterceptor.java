@@ -82,11 +82,11 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 				.anyMatch(pattern -> new AntPathRequestMatcher(pattern).matches(request));
 		
 		if (!matchesExcludePattern) {
-			log.info("\t > no matches excludePatterns, setting currentUrl as model attribute");
+			log.info("\t > no matches excludePatterns, setting loginMenuUrl as model attribute");
 			String currentUrl = UrlUtils.buildFullRequestUrl(request);
-			modelAndView.addObject("currentUrl", UriUtils.encode(currentUrl, StandardCharsets.UTF_8));
+			modelAndView.addObject("loginMenuUrl", UriUtils.encode(currentUrl, StandardCharsets.UTF_8));
 		} else {
-			log.info("\t > matches excludePatterns, no currentUrl set");
+			log.info("\t > matches excludePatterns, no loginMenuUrl set");
 		}
 		
 		log.info("\t > added model attrs = {}", modelAndView.getModel().keySet());

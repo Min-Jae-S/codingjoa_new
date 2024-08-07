@@ -195,16 +195,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				clientRegistrationRepository, "/login");
 		resolver.setAuthorizationRequestCustomizer(authorizationRequestCustomizer());
 		return resolver;
+		
+		
 	}
 	
 	private Consumer<OAuth2AuthorizationRequest.Builder> authorizationRequestCustomizer() {
 		return customizer -> {
 			log.info("## AuthorizationRequestCustomizer");
-
 			OAuth2AuthorizationRequest authorizationRequest = customizer.build();
-			log.info("\t > authorizationRequest = {}", JsonUtils.formatJson(authorizationRequest));
+			log.info("\t > origianl authorizationRequest = {}", JsonUtils.formatJson(authorizationRequest));
 			
-			log.info("\t > customize authorizationRequestUri (fully encoded redirect_uri, adding parameter)");
+			log.info("\t > customize authorizationRequestUri");
 			String customizedAuthorizationRequestUri = customizeAuthorizationRequestUri(authorizationRequest);
 			customizer.authorizationRequestUri(customizedAuthorizationRequestUri);
 		};

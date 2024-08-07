@@ -66,7 +66,7 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter { // Use
 		UsernamePasswordAuthenticationToken authenticatedLoginToken = 
 				(UsernamePasswordAuthenticationToken) this.getAuthenticationManager().authenticate(loginToken);
 		
-		String continueUrl = loginDto.getContinueUrl();
+		String continueUrl = request.getParameter("continue");
 		authenticatedLoginToken.setDetails(UriUtils.decode(continueUrl, StandardCharset.UTF_8));
 		log.info("## set the continueUrl in the details of the authenticated loginToken");
 		
