@@ -44,6 +44,9 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter { // Use
 		
 		// check ajax and POST 
 		
+		String continueUrl = request.getParameter("continue");
+		log.info("\t > continue = {}", continueUrl == null ? null : "'" + continueUrl + "'");
+
 		LoginDto loginDto = objectMapper.readValue(request.getReader(), LoginDto.class);
 		log.info("\t > {}", loginDto);
 		
@@ -66,7 +69,6 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter { // Use
 		UsernamePasswordAuthenticationToken authenticatedLoginToken = 
 				(UsernamePasswordAuthenticationToken) this.getAuthenticationManager().authenticate(loginToken);
 		
-		String continueUrl = request.getParameter("continue");
 		authenticatedLoginToken.setDetails(UriUtils.decode(continueUrl, StandardCharset.UTF_8));
 		log.info("## set the continueUrl in the details of the authenticated loginToken");
 		

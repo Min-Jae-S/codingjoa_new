@@ -1,8 +1,5 @@
 package com.codingjoa.config;
 
-import java.nio.charset.StandardCharsets;
-import java.util.function.Consumer;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -24,14 +21,11 @@ import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestResolver;
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepository;
 import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter;
-import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.web.util.UriComponentsBuilder;
-import org.springframework.web.util.UriUtils;
 
 import com.codingjoa.security.filter.JwtFilter;
 import com.codingjoa.security.filter.LoginFilter;
@@ -44,7 +38,6 @@ import com.codingjoa.security.service.JwtProvider;
 import com.codingjoa.security.service.LoginFailureHandler;
 import com.codingjoa.security.service.LoginProvider;
 import com.codingjoa.security.service.LoginSuccessHandler;
-import com.codingjoa.util.JsonUtils;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -191,42 +184,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 	
 	private OAuth2AuthorizationRequestResolver authorizationRequestResolver() {
-//		DefaultOAuth2AuthorizationRequestResolver resolver = new DefaultOAuth2AuthorizationRequestResolver(
-//				clientRegistrationRepository, "/login");
-//		resolver.setAuthorizationRequestCustomizer(authorizationRequestCustomizer());
 		OAuth2CustomAuthorizationRequestResolver resolver = new OAuth2CustomAuthorizationRequestResolver(
 				clientRegistrationRepository, "/login");
 		return resolver;
-	}
-	
-	@SuppressWarnings("unused")
-	private Consumer<OAuth2AuthorizationRequest.Builder> authorizationRequestCustomizer() {
-		return customizer -> {
-			log.info("## AuthorizationRequestCustomizer");
-			OAuth2AuthorizationRequest authorizationRequest = customizer.build();
-			log.info("\t > origianl authorizationRequest = {}", JsonUtils.formatJson(authorizationRequest));
-			
-			log.info("\t > customize authorizationRequestUri");
-			String customizedAuthorizationRequestUri = customizeAuthorizationRequestUri(authorizationRequest);
-			customizer.authorizationRequestUri(customizedAuthorizationRequestUri);
-		};
-	}
-	
-	private String customizeAuthorizationRequestUri(OAuth2AuthorizationRequest authorizationRequest) {
-		String authorizationRequestUri = authorizationRequest.getAuthorizationRequestUri();
-		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(authorizationRequestUri);
-		
-		String authorizationResponseUri = builder.build().getQueryParams().getFirst("redirect_uri");
-		String decodedAuthorizationResponseUri = UriUtils.decode(authorizationResponseUri, StandardCharsets.UTF_8);
-		String encodedAuthorizationResponseUri = UriUtils.encode(decodedAuthorizationResponseUri, StandardCharsets.UTF_8);
-		builder.replaceQueryParam("redirect_uri", encodedAuthorizationResponseUri);
-		
-//		String registrationId = (String) authorizationRequest.getAttribute(OAuth2ParameterNames.REGISTRATION_ID);
-//		if (registrationId.equals("kakao")) {
-//			builder.queryParam("prompt", "login");
-//		}
-		
-		return builder.build().toUriString();
 	}
 	
 }

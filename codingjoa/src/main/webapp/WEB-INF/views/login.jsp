@@ -170,7 +170,7 @@
 
 <script>
 	$(function() {
-		const continueUrl : "<c:out value='${continueUrl}'/>"
+		const continueUrl = "<c:out value='${continueUrl}'/>";
 		$("#loginForm").on("submit", function(e) {
 			e.preventDefault();
 			let formData = {
