@@ -27,7 +27,7 @@ public class LogFilter implements Filter {
 	
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
-		log.info("## {} init", filterConfig.getFilterName());
+		log.info("## {}.init", filterConfig.getFilterName());
 
 		String excludePatterns = filterConfig.getInitParameter("excludePatterns");
 		log.info("\t > initParamter excludePatterns = '{}'", excludePatterns);

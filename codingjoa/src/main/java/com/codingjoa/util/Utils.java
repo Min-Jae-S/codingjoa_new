@@ -88,6 +88,10 @@ public class Utils {
 				.map(field -> field.getName())
 				.collect(Collectors.toList());
 	}
+	
+	public static String formatString(String input) {
+		return (input == null) ? null : "'" + input + "'";
+	}
 		
 	
 }

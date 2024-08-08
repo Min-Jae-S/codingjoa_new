@@ -14,6 +14,8 @@ import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.web.util.UriUtils;
 
+import com.codingjoa.util.Utils;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -44,6 +46,8 @@ public class OAuth2CustomAuthorizationRequestResolver implements OAuth2Authoriza
 		String authorizationRequestUri = customizeAuthorizationRequestUri(authorizationRequest);
 		
 		String continueParamter = getContinueParameter(request);
+		log.info("\t > continue = {}", Utils.formatString(continueParamter));
+		
 		Map<String, Object> attributes = new HashMap<>(authorizationRequest.getAttributes());
 		attributes.put("continue", continueParamter);
 		
@@ -75,9 +79,7 @@ public class OAuth2CustomAuthorizationRequestResolver implements OAuth2Authoriza
 	}
 	
 	private String getContinueParameter(HttpServletRequest request) {
-		String continueParameter = request.getParameter("continue");
-		log.info("\t > continue = {}", continueParameter == null ? null : "'" + continueParameter + "'");
-		return continueParameter;
+		return request.getParameter("continue");
 	}
 
 }

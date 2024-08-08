@@ -17,6 +17,7 @@ import org.springframework.util.StringUtils;
 import com.codingjoa.security.dto.LoginDto;
 import com.codingjoa.security.exception.LoginRequireFieldException;
 import com.codingjoa.util.MessageUtils;
+import com.codingjoa.util.Utils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.extern.slf4j.Slf4j;
@@ -43,7 +44,7 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter { // Use
 		// check ajax and POST 
 		
 		String continueParameter = request.getParameter("continue");
-		log.info("\t > continue = {}", continueParameter == null ? null : "'" + continueParameter + "'");
+		log.info("\t > continue = {}", Utils.formatString(continueParameter));
 
 		LoginDto loginDto = objectMapper.readValue(request.getReader(), LoginDto.class);
 		log.info("\t > loginDto = {}", loginDto);

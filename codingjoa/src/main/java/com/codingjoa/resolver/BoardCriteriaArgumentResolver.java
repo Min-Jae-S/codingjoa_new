@@ -54,8 +54,7 @@ public class BoardCriteriaArgumentResolver implements HandlerMethodArgumentResol
 		String recordCnt = webRequest.getParameter("recordCnt");
 		String type = webRequest.getParameter("type");
 		String keyword = webRequest.getParameter("keyword");
-		log.info("\t > page = {}, recordCnt = {}, type = {}, keyword = {}", 
-				page, recordCnt, type, (keyword == null) ? keyword : "'" + keyword + "'");
+		log.info("\t > page = {}, recordCnt = {}, type = {}, keyword = {}", page, recordCnt, type, Utils.formatString(keyword));
 		
 		page = (page == null) ? "" : page.strip();
 		recordCnt = (recordCnt == null) ? "" : recordCnt.strip();

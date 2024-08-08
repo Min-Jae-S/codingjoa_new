@@ -20,6 +20,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.web.util.UriUtils;
 
 import com.codingjoa.dto.SuccessResponse;
+import com.codingjoa.util.Utils;
 import com.nimbusds.jose.util.StandardCharset;
 
 import lombok.extern.slf4j.Slf4j;
@@ -43,7 +44,7 @@ public class MainController {
 	@GetMapping("/login") 
 	public String loginPage(@RequestParam(name = "continue", required = false) String continueUrl, Model model) {
 		log.info("## loginPage");
-		log.info("\t > continue = {}", (continueUrl == null) ? null : "'" + continueUrl + "'");
+		log.info("\t > continue = {}", Utils.formatString(continueUrl));
 		String newContinueUrl = resolveContinueUrl(continueUrl);
 		model.addAttribute("continueUrl", UriUtils.encode(newContinueUrl, StandardCharset.UTF_8));
 		return "login";

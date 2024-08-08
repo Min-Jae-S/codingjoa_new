@@ -44,7 +44,7 @@ public class CommentCriteriaArgumentResolver implements HandlerMethodArgumentRes
 		log.info("## {}", this.getClass().getSimpleName());
 		
 		String page = webRequest.getParameter("page");
-		log.info("\t > page = {}", page);
+		log.info("\t > page = {}", Utils.formatString(page));
 		
 		page = (page == null) ? "" : page.strip();
 		CommentCriteria commentCri = new CommentCriteria(
