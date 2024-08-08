@@ -75,6 +75,21 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 		response.getWriter().close();
 	}
 	
+	private String resolveContinueUrl(Authentication authentication, HttpServletRequest request) {
+		String continueUrl = (String) authentication.getDetails();
+		
+		if (!isValidUrl(continueUrl, request)) {
+			log.info("\t > missing or invalid continueUrl, setting default continueUrl");
+			return ServletUriComponentsBuilder.fromContextPath(request)
+					.path("/")
+					.build()
+					.toUriString();
+		} else {
+			log.info("\t > valid continueUrl, setting continueUrl from request");
+			return continueUrl;
+		}
+	}
+	
 	private boolean isValidUrl(String url, HttpServletRequest request) {
 		if (!StringUtils.hasText(url)) {
 			return false;
@@ -93,21 +108,6 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 				.build()
 				.toUriString();
 		return new AntPathMatcher().match(pattern, url);
-	}
-	
-	private String resolveContinueUrl(Authentication authentication, HttpServletRequest request) {
-		String continueUrl = (String) authentication.getDetails();
-		
-		if (!isValidUrl(continueUrl, request)) {
-			log.info("\t > missing or invalid continueUrl, setting default continueUrl");
-			return ServletUriComponentsBuilder.fromContextPath(request)
-					.path("/")
-					.build()
-					.toUriString();
-		} else {
-			log.info("\t > valid continueUrl, setting continueUrl from request");
-			return continueUrl;
-		}
 	}
 	
 	@SuppressWarnings("unused")

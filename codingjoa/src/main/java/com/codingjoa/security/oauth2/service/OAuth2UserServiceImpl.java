@@ -93,7 +93,5 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 		
 		return new DefaultOAuth2User(mappedAuthorities, oAuth2User.getAttributes(), userNameAttributeName);
 	}
-
-	
 	
 }
