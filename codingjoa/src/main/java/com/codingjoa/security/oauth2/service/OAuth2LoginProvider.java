@@ -1,11 +1,8 @@
 package com.codingjoa.security.oauth2.service;
 
-import java.util.Collection;
-
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthorizationCodeAuthenticationProvider;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthorizationCodeAuthenticationToken;
 import org.springframework.security.oauth2.client.authentication.OAuth2LoginAuthenticationToken;
@@ -48,23 +45,23 @@ public class OAuth2LoginProvider implements AuthenticationProvider { // OAuth2Lo
 				loginToken.getClientRegistration(), loginToken.getAuthorizationExchange());
 		
 		// request access token (authenticate authorization code)
-		log.info("\t > request accessToken by {}", authorizationCodeAuthenticationProvider.getClass().getSimpleName()); 
+		log.info("\t > request for accessToken"); 
 		OAuth2AuthorizationCodeAuthenticationToken authenticatedAuthCodeToken =
 				(OAuth2AuthorizationCodeAuthenticationToken) authorizationCodeAuthenticationProvider.authenticate(authCodeToken);
-		log.info("\t > result, authenticatedAuthCodeToken = {}", Utils.specifiyFields(authenticatedAuthCodeToken));
+		log.info("\t > received accessToken response, authenticatedAuthCodeToken = {}", Utils.specifiyFields(authenticatedAuthCodeToken));
 		
 		// request user info
-		OAuth2UserRequest oAuth2UserRequest = new OAuth2UserRequest(authenticatedAuthCodeToken.getClientRegistration(),
-				authenticatedAuthCodeToken.getAccessToken(), authenticatedAuthCodeToken.getAdditionalParameters());
-		OAuth2User resolvedOauth2User = oAuth2UserService.loadUser(oAuth2UserRequest);
-		
-		Collection<? extends GrantedAuthority> mappedAuthorities = resolvedOauth2User.getAuthorities();
+		OAuth2UserRequest oAuth2UserRequest = new OAuth2UserRequest(
+				authenticatedAuthCodeToken.getClientRegistration(),
+				authenticatedAuthCodeToken.getAccessToken(), 
+				authenticatedAuthCodeToken.getAdditionalParameters());
+		OAuth2User resolvedOAuth2User = oAuth2UserService.loadUser(oAuth2UserRequest);
 		
 		return new OAuth2LoginAuthenticationToken(
 				loginToken.getClientRegistration(),
 				loginToken.getAuthorizationExchange(),
-				resolvedOauth2User,
-				mappedAuthorities,
+				resolvedOAuth2User,
+				resolvedOAuth2User.getAuthorities(), // mappedAuthorities, already mapped authorites
 				authenticatedAuthCodeToken.getAccessToken(),
 				authenticatedAuthCodeToken.getRefreshToken());
 	}

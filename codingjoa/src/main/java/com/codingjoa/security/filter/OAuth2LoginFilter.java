@@ -28,6 +28,8 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.codingjoa.util.Utils;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -87,7 +89,7 @@ public class OAuth2LoginFilter extends AbstractAuthenticationProcessingFilter { 
 		OAuth2AuthorizationExchange authorizationExchange = new OAuth2AuthorizationExchange(authorizationRequest, authorizationResponse);
 		OAuth2LoginAuthenticationToken loginToken = new OAuth2LoginAuthenticationToken(clientRegistration, authorizationExchange);
 		
-		// authenticate OAuth2LoginAuthenticationToken by OAuth2LoginProvider
+		// authenticate OAuth2LoginAuthenticationToken by OAuth2LoginProvider (request for access token and user information)
 		OAuth2LoginAuthenticationToken authenticatedLoginToken = 
 				(OAuth2LoginAuthenticationToken) this.getAuthenticationManager().authenticate(loginToken);
 		String continueUrl = authorizationRequest.getAttribute("continue");
@@ -97,7 +99,7 @@ public class OAuth2LoginFilter extends AbstractAuthenticationProcessingFilter { 
 				 authenticatedLoginToken.getAuthorities(),
 				 authenticatedLoginToken.getClientRegistration().getRegistrationId());
 		oAuth2AuthenticationToken.setDetails(continueUrl);
-		log.info("## set the continueUrl in authenticated token : {}", continueUrl);
+		log.info("## set the continueUrl in authenticated token : {}", Utils.formatString(continueUrl));
 
 		OAuth2AuthorizedClient authorizedClient = new OAuth2AuthorizedClient(
 				authenticatedLoginToken.getClientRegistration(),

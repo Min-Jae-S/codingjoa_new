@@ -32,12 +32,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String memberId) throws UsernameNotFoundException {
 		log.info("## {}.loadUserByUsername", this.getClass().getSimpleName());
-		Map<String, Object> userDetailsMap = memberMapper.findUserDetailsById(memberId);
+		Map<String, Object> userDetails = memberMapper.findUserDetailsById(memberId);
 		
-		if (userDetailsMap == null) {
+		if (userDetails == null) {
 			throw new UsernameNotFoundException(MessageUtils.getMessage("error.UsernameNotFoundOrBadCredentials"));
 		}
 		
-		return modelMapper.map(userDetailsMap, UserDetailsDto.class);
+		return modelMapper.map(userDetails, UserDetailsDto.class);
 	}
 }
