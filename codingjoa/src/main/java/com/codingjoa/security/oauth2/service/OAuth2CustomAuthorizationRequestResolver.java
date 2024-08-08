@@ -86,6 +86,8 @@ public class OAuth2CustomAuthorizationRequestResolver implements OAuth2Authoriza
 	
 	private String resolveContinueUrl(HttpServletRequest request) {
 		String continueUrl = request.getParameter("continue");
+		log.info("\t > continue = {}", continueUrl);
+		
 		return UriUtils.encode(continueUrl, StandardCharsets.UTF_8);
 	}
 

@@ -60,9 +60,11 @@ public class OAuth2LoginFilter extends AbstractAuthenticationProcessingFilter { 
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws AuthenticationException {
 		log.info("## {}.attemptAuthentication", this.getClass().getSimpleName());
+		log.info("\t > raw params = {}", request.getParameterMap().keySet());
 		
 		MultiValueMap<String, String> params = toMultiMap(request.getParameterMap());
-		log.info("\t > authorization code = {}", params.getFirst(OAuth2ParameterNames.CODE));
+		log.info("\t > params = {}", params.keySet());
+		log.info("\t > code = {}", params.getFirst(OAuth2ParameterNames.CODE));
 		log.info("\t > state = {}", params.getFirst(OAuth2ParameterNames.STATE));
 		
 		OAuth2AuthorizationRequest authorizationRequest = 

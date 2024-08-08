@@ -18,6 +18,7 @@ import org.springframework.security.oauth2.client.endpoint.OAuth2AuthorizationCo
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
+import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter;
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestResolver;
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepository;
 import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter;
@@ -67,10 +68,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	 * 		SecurityContextPersistenceFilter
 	 * 		HeaderWriterFilter
 	 * 		LogoutFilter
-	 * 		OAuth2AuthorizationRequestRedirectFilter
 	 * 		LoginFilter*
-	 * 		JwtFilter*
+	 * 		OAuth2AuthorizationRequestRedirectFilter
+	 * 		OAuthLoginFilter*
 	 * 		OAuth2LoginAuthenticationFilter
+	 * 		JwtFilter*
 	 * 		RequestCacheAwareFilter
 	 * 		SecurityContextHolderAwareRequestFilter
 	 * 		AnonymousAuthenticationFilter		
@@ -119,7 +121,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 					config.baseUri("/login/*/callback")
 				)
 				.authorizationEndpoint(config  -> {
-					config.baseUri("/login/*");
+					//config.baseUri("/login/*");
 					config.authorizationRequestResolver(authorizationRequestResolver());
 				})
 				.tokenEndpoint(config -> 
@@ -145,7 +147,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.and()
 			// https://velog.io/@tmdgh0221/Spring-Security-%EC%99%80-OAuth-2.0-%EC%99%80-JWT-%EC%9D%98-%EC%BD%9C%EB%9D%BC%EB%B3%B4
 			// add it right after the LogoutFilter, which is the point just before the actual authentication process takes place.
-			.addFilterBefore(loginFilter(), OAuth2LoginAuthenticationFilter.class)
+			.addFilterBefore(loginFilter(), OAuth2AuthorizationRequestRedirectFilter.class)
 			.addFilterBefore(oAuth2LoginFilter(), OAuth2LoginAuthenticationFilter.class)
 			.addFilterAfter(new JwtFilter(jwtProvider), OAuth2LoginAuthenticationFilter.class);
 	}
