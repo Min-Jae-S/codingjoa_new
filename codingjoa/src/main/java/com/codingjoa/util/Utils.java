@@ -9,6 +9,8 @@ import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.security.web.util.UrlUtils;
+
 public class Utils {
 
 	public static boolean isPageNumber(String str) {
@@ -32,6 +34,11 @@ public class Utils {
 //		}
 	}
 	
+	/*
+	 * StringBuffer, thread-safe
+	 * StringBuilder, single-thread
+	 * 
+	 */
 	public static String getFullURL(HttpServletRequest request) {
 		StringBuffer requestURL = request.getRequestURL();
 		String queryString = request.getQueryString();
@@ -39,22 +46,27 @@ public class Utils {
 		if (queryString == null) {
 			return requestURL.toString();
 		} else {
-			//return requestURL.append('?').append(URLDecoder.decode(queryString, StandardCharsets.UTF_8)).toString();
-			return requestURL.append('?').append(queryString).toString();
+			//return requestURL.append("?").append(URLDecoder.decode(queryString, StandardCharsets.UTF_8)).toString();
+			return requestURL.append("?").append(queryString).toString();
 		}
 	}
 	
 	public static String getFullURI(HttpServletRequest request) {
-		StringBuilder requestURI = 
-				new StringBuilder(URLDecoder.decode(request.getRequestURI(), StandardCharsets.UTF_8));
+		StringBuffer requestURI = new StringBuffer(URLDecoder.decode(request.getRequestURI(), StandardCharsets.UTF_8));
 	    String queryString = request.getQueryString();
 	    
 	    if (queryString == null) {
 	        return requestURI.toString();
 	    } else {
 	    	//return requestURI.append('?').append(URLDecoder.decode(queryString, StandardCharsets.UTF_8)).toString();
-	    	return requestURI.append('?').append(queryString).toString();
+	    	return requestURI.append("?").append(queryString).toString();
 	    }
+	}
+	
+	public static String getHttpRequestLine(HttpServletRequest request) {
+		StringBuffer requestMethod = new StringBuffer(request.getMethod());
+		String fullRequestUrl = UrlUtils.buildFullRequestUrl(request);
+		return requestMethod.append(" '").append(fullRequestUrl).append("'").toString();
 	}
 	
 	public static List<String> specifiyFields(Object object) {

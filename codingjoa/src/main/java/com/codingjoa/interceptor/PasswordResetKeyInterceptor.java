@@ -36,7 +36,7 @@ public class PasswordResetKeyInterceptor implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		log.info("## {}", this.getClass().getSimpleName());
-		log.info("\t > URI = {} '{}'", request.getMethod(), Utils.getFullURI(request));
+		log.info("\t > request-line = {}", Utils.getHttpRequestLine(request));
 		
 		response.setStatus(HttpServletResponse.SC_FORBIDDEN);
 		response.setCharacterEncoding(StandardCharsets.UTF_8.name());
