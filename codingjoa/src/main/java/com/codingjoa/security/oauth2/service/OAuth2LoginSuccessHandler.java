@@ -8,9 +8,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.web.DefaultRedirectStrategy;
+import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
@@ -30,6 +33,7 @@ import lombok.extern.slf4j.Slf4j;
 public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 
 	private final JwtProvider jwtProvider;
+	private final RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 	
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
@@ -53,18 +57,13 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 				.secure(true)
 				.sameSite("Strict")
 				.build();
-	}
-	
-	private boolean isValidUrl(String url, HttpServletRequest request) {
-		if (!StringUtils.hasText(url)) {
-			return false;
-		}
 		
-		String pattern = ServletUriComponentsBuilder.fromContextPath(request)
-				.path("/**")
-				.build()
-				.toUriString();
-		return new AntPathMatcher().match(pattern, url);
+		response.setHeader(HttpHeaders.SET_COOKIE, jwtCookie.toString());
+		log.info("\t > set jwtCookie : {}", jwtCookie);
+		
+		// opation1 : after forwading to view(jsp), using successResponse, alert message and redirect to contineUrl on the client-side
+		// opation2 : directly redirect to continueUrl on the server-side
+		
 	}
 	
 	private String resolveContinueUrl(Authentication authentication, HttpServletRequest request) {
@@ -81,6 +80,17 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 			return continueUrl;
 		}
 	}
-
+	
+	private boolean isValidUrl(String url, HttpServletRequest request) {
+		if (!StringUtils.hasText(url)) {
+			return false;
+		}
+		
+		String pattern = ServletUriComponentsBuilder.fromContextPath(request)
+				.path("/**")
+				.build()
+				.toUriString();
+		return new AntPathMatcher().match(pattern, url);
+	}
 
 }

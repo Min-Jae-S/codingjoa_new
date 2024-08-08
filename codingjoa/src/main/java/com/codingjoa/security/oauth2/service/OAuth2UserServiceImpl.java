@@ -70,24 +70,27 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 	@Override
 	public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
 		log.info("## {}.loadUser", this.getClass().getSimpleName());
-		log.info("\t > userRequest = {}", Utils.specifiyFields(userRequest));
-		
+		log.info("\t > request userInfo by {}", this.getClass().getSimpleName());
+
 		OAuth2UserService<OAuth2UserRequest, OAuth2User> delegate = new DefaultOAuth2UserService();
 		log.info("\t > delegate to the {} for loading a user", delegate.getClass().getSimpleName());
 		
 		OAuth2User loadedOAuth2User = delegate.loadUser(userRequest);
 		Map<String, Object> userAttributes = loadedOAuth2User.getAttributes();
-		log.info("\t > userAttributes = {}", userAttributes);
+		//log.info("\t > userAttributes = {}", userAttributes);
 		
 		Set<GrantedAuthority> mappedAuthorities = new HashSet<>();
 		mappedAuthorities.add(new SimpleGrantedAuthority("ROLE_MEMBER"));
-		log.info("\t > mappedAuthorities = {}", mappedAuthorities);
+		//log.info("\t > mappedAuthorities = {}", mappedAuthorities);
 		
 		String userNameAttributeName = userRequest.getClientRegistration().getProviderDetails()
 				.getUserInfoEndpoint().getUserNameAttributeName();
-		log.info("\t > userNameAttributeName = {}", userNameAttributeName); // id, response
+		//log.info("\t > userNameAttributeName = {}", userNameAttributeName); // id, response
 		
-		return new DefaultOAuth2User(mappedAuthorities, userAttributes, userNameAttributeName);
+		OAuth2User resolvedOAuth2User = new DefaultOAuth2User(mappedAuthorities, userAttributes, userNameAttributeName);
+		log.info("\t > resolvedOAuth2User = {}", resolvedOAuth2User);
+		
+		return resolvedOAuth2User;
 	}
 	
 }

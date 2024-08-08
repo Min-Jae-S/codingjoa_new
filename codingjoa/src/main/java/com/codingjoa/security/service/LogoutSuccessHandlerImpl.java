@@ -31,18 +31,6 @@ public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
 		redirectStrategy.sendRedirect(request, response, continueUrl);
 	}
 	
-	private boolean isValidUrl(String url, HttpServletRequest request) {
-		if (!StringUtils.hasText(url)) {
-			return false;
-		}
-		
-		String pattern = ServletUriComponentsBuilder.fromContextPath(request)
-				.path("/**")
-				.build()
-				.toUriString();
-		return new AntPathMatcher().match(pattern, url);
-	}
-	
 	private String resolveContinueUrl(HttpServletRequest request) {
 		String continueUrl = request.getParameter("continue");
 		
@@ -57,5 +45,18 @@ public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
 			return continueUrl;
 		}
 	}
+	
+	private boolean isValidUrl(String url, HttpServletRequest request) {
+		if (!StringUtils.hasText(url)) {
+			return false;
+		}
+		
+		String pattern = ServletUriComponentsBuilder.fromContextPath(request)
+				.path("/**")
+				.build()
+				.toUriString();
+		return new AntPathMatcher().match(pattern, url);
+	}
+	
 
 }

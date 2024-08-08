@@ -9,8 +9,6 @@ import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.security.web.util.UrlUtils;
-
 public class Utils {
 
 	public static boolean isPageNumber(String str) {
@@ -65,8 +63,8 @@ public class Utils {
 	
 	public static String getHttpRequestLine(HttpServletRequest request) {
 		StringBuffer requestMethod = new StringBuffer(request.getMethod());
-		String fullRequestUrl = UrlUtils.buildFullRequestUrl(request);
-		return requestMethod.append(" '").append(fullRequestUrl).append("'").toString();
+		String fullUri = getFullURI(request);
+		return requestMethod.append(" '").append(fullUri).append("'").toString();
 	}
 	
 	public static List<String> specifiyFields(Object object) {

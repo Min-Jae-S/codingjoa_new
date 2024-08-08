@@ -28,8 +28,6 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.codingjoa.util.Utils;
-
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -62,12 +60,11 @@ public class OAuth2LoginFilter extends AbstractAuthenticationProcessingFilter { 
 		log.info("## {}.attemptAuthentication", this.getClass().getSimpleName());
 		
 		MultiValueMap<String, String> params = toMultiMap(request.getParameterMap());
-		log.info("\t > code = {}", params.getFirst(OAuth2ParameterNames.CODE));
-		log.info("\t > state = {}", params.getFirst(OAuth2ParameterNames.STATE));
+		log.info("\t > received authorization response, params = {}", params.keySet());
 		
 		OAuth2AuthorizationRequest authorizationRequest = 
 				authorizationRequestRepository.removeAuthorizationRequest(request, response);
-		log.info("\t > removed from the session, authorizationRequest = {}", Utils.specifiyFields(authorizationRequest));
+		log.info("\t > remove authorizationRequest from the session");
 		
 		if (authorizationRequest == null) {
 			OAuth2Error oAuth2Error = new OAuth2Error("");
@@ -95,11 +92,12 @@ public class OAuth2LoginFilter extends AbstractAuthenticationProcessingFilter { 
 				(OAuth2LoginAuthenticationToken) this.getAuthenticationManager().authenticate(loginToken);
 		String continueUrl = authorizationRequest.getAttribute("continue");
 		
-		OAuth2AuthenticationToken oauth2Authentication = new OAuth2AuthenticationToken(
+		OAuth2AuthenticationToken oAuth2AuthenticationToken = new OAuth2AuthenticationToken(
 				 authenticatedLoginToken.getPrincipal(),
 				 authenticatedLoginToken.getAuthorities(),
 				 authenticatedLoginToken.getClientRegistration().getRegistrationId());
-		oauth2Authentication.setDetails(continueUrl);
+		oAuth2AuthenticationToken.setDetails(continueUrl);
+		log.info("## set the continueUrl in authenticated token : {}", continueUrl);
 
 		OAuth2AuthorizedClient authorizedClient = new OAuth2AuthorizedClient(
 				authenticatedLoginToken.getClientRegistration(),
@@ -107,9 +105,9 @@ public class OAuth2LoginFilter extends AbstractAuthenticationProcessingFilter { 
 				authenticatedLoginToken.getAccessToken(),
 				authenticatedLoginToken.getRefreshToken());
 
-		authorizedClientRepository.saveAuthorizedClient(authorizedClient, oauth2Authentication, request, response);
+		authorizedClientRepository.saveAuthorizedClient(authorizedClient, oAuth2AuthenticationToken, request, response);
 		
-		return oauth2Authentication;
+		return oAuth2AuthenticationToken;
 	}
 	
 	static MultiValueMap<String, String> toMultiMap(Map<String, String[]> map) {
@@ -131,18 +129,18 @@ public class OAuth2LoginFilter extends AbstractAuthenticationProcessingFilter { 
 
 		if (StringUtils.hasText(code)) {
 			return OAuth2AuthorizationResponse.success(code)
-				.redirectUri(redirectUri)
-				.state(state)
-				.build();
+					.redirectUri(redirectUri)
+					.state(state)
+					.build();
 		} else {
 			String errorDescription = params.getFirst(OAuth2ParameterNames.ERROR_DESCRIPTION);
 			String errorUri = params.getFirst(OAuth2ParameterNames.ERROR_URI);
 			return OAuth2AuthorizationResponse.error(errorCode)
-				.redirectUri(redirectUri)
-				.errorDescription(errorDescription)
-				.errorUri(errorUri)
-				.state(state)
-				.build();
+					.redirectUri(redirectUri)
+					.errorDescription(errorDescription)
+					.errorUri(errorUri)
+					.state(state)
+					.build();
 		}
 	}
 

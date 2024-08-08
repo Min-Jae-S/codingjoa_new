@@ -67,9 +67,8 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter { // Use
 		// authenticate UsernamePasswordAuthenticationToken by LoginProvider
 		UsernamePasswordAuthenticationToken authenticatedLoginToken = 
 				(UsernamePasswordAuthenticationToken) this.getAuthenticationManager().authenticate(loginToken);
-		
 		authenticatedLoginToken.setDetails(continueParameter);
-		log.info("## set the continueUrl in the details of the authenticated loginToken");
+		log.info("## set the continueUrl in authenticated token : {}", continueParameter);
 		
 		return authenticatedLoginToken;
 	}
@@ -77,7 +76,8 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter { // Use
 	@Override
 	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
 			Authentication authResult) throws IOException, ServletException {
-		super.successfulAuthentication(request, response, chain, authResult); // SecurityContextHolder.getContext().setAuthentication(authResult);
+		// SecurityContextHolder.getContext().setAuthentication(authResult);
+		super.successfulAuthentication(request, response, chain, authResult);
 	}
 	
 }

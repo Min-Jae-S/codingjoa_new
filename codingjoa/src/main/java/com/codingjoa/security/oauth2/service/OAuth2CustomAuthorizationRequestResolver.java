@@ -10,11 +10,8 @@ import org.springframework.security.oauth2.client.registration.ClientRegistratio
 import org.springframework.security.oauth2.client.web.DefaultOAuth2AuthorizationRequestResolver;
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestResolver;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
-import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.web.util.UriUtils;
-
-import com.codingjoa.util.Utils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -45,11 +42,8 @@ public class OAuth2CustomAuthorizationRequestResolver implements OAuth2Authoriza
 		log.info("## {}.customize", this.getClass().getSimpleName());
 		String authorizationRequestUri = customizeAuthorizationRequestUri(authorizationRequest);
 		
-		String continueParamter = getContinueParameter(request);
-		log.info("\t > continue = {}", Utils.formatString(continueParamter));
-		
 		Map<String, Object> attributes = new HashMap<>(authorizationRequest.getAttributes());
-		attributes.put("continue", continueParamter);
+		attributes.put("continue", getContinueParameter(request));
 		
 		return OAuth2AuthorizationRequest.from(authorizationRequest)
 				.authorizationRequestUri(authorizationRequestUri)
@@ -65,10 +59,10 @@ public class OAuth2CustomAuthorizationRequestResolver implements OAuth2Authoriza
 		String redirectUriParam = builder.build().getQueryParams().getFirst("redirect_uri");
 		builder.replaceQueryParam("redirect_uri", restoreAndEncode(redirectUriParam));
 		
-		String registrationId = (String) authorizationRequest.getAttribute(OAuth2ParameterNames.REGISTRATION_ID);
-		if (registrationId.equals("kakao")) {
-			builder.queryParam("prompt", "login");
-		}
+//		String registrationId = (String) authorizationRequest.getAttribute(OAuth2ParameterNames.REGISTRATION_ID);
+//		if (registrationId.equals("kakao")) {
+//			builder.queryParam("prompt", "login");
+//		}
 		
 		return builder.build().toUriString();
 	}

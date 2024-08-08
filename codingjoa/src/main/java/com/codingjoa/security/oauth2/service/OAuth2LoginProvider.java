@@ -1,7 +1,6 @@
 package com.codingjoa.security.oauth2.service;
 
 import java.util.Collection;
-import java.util.Map;
 
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;
@@ -14,7 +13,6 @@ import org.springframework.security.oauth2.client.endpoint.OAuth2AccessTokenResp
 import org.springframework.security.oauth2.client.endpoint.OAuth2AuthorizationCodeGrantRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
-import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import com.codingjoa.util.Utils;
@@ -49,30 +47,25 @@ public class OAuth2LoginProvider implements AuthenticationProvider { // OAuth2Lo
 		OAuth2AuthorizationCodeAuthenticationToken authCodeToken = new OAuth2AuthorizationCodeAuthenticationToken(
 				loginToken.getClientRegistration(), loginToken.getAuthorizationExchange());
 		
-		// authenticate authorization code
-		log.info("## request accessToken - {}", authorizationCodeAuthenticationProvider.getClass().getSimpleName()); 
+		// request access token (authenticate authorization code)
+		log.info("\t > request accessToken by {}", authorizationCodeAuthenticationProvider.getClass().getSimpleName()); 
 		OAuth2AuthorizationCodeAuthenticationToken authenticatedAuthCodeToken =
 				(OAuth2AuthorizationCodeAuthenticationToken) authorizationCodeAuthenticationProvider.authenticate(authCodeToken);
+		log.info("\t > result, authenticatedAuthCodeToken = {}", Utils.specifiyFields(authenticatedAuthCodeToken));
 		
-		OAuth2AccessToken accessToken = authenticatedAuthCodeToken.getAccessToken();
-		Map<String, Object> additionalParameters = authenticatedAuthCodeToken.getAdditionalParameters();
-		log.info("\t > accessToken = {}", Utils.specifiyFields(accessToken));
-		log.info("\t > additionalParameters = {}", additionalParameters.keySet());
+		// request user info
+		OAuth2UserRequest oAuth2UserRequest = new OAuth2UserRequest(authenticatedAuthCodeToken.getClientRegistration(),
+				authenticatedAuthCodeToken.getAccessToken(), authenticatedAuthCodeToken.getAdditionalParameters());
+		OAuth2User resolvedOauth2User = oAuth2UserService.loadUser(oAuth2UserRequest);
 		
-		log.info("## request userInfo - {}", oAuth2UserService.getClass().getSimpleName()); 
-		OAuth2UserRequest oAuth2UserRequest = new OAuth2UserRequest(
-				authenticatedAuthCodeToken.getClientRegistration(), accessToken, additionalParameters);
-		OAuth2User loadedOAuth2User = oAuth2UserService.loadUser(oAuth2UserRequest);
-		log.info("## loadedOAuth2User = {}", loadedOAuth2User);
-		
-		Collection<? extends GrantedAuthority> mappedAuthorities = loadedOAuth2User.getAuthorities();
+		Collection<? extends GrantedAuthority> mappedAuthorities = resolvedOauth2User.getAuthorities();
 		
 		return new OAuth2LoginAuthenticationToken(
 				loginToken.getClientRegistration(),
 				loginToken.getAuthorizationExchange(),
-				loadedOAuth2User,
+				resolvedOauth2User,
 				mappedAuthorities,
-				accessToken,
+				authenticatedAuthCodeToken.getAccessToken(),
 				authenticatedAuthCodeToken.getRefreshToken());
 	}
 

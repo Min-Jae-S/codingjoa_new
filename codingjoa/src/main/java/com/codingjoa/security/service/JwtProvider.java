@@ -4,7 +4,6 @@ import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Map;
 
@@ -29,6 +28,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 
+@SuppressWarnings("unused")
 @Slf4j
 @Component
 public class JwtProvider {
@@ -89,7 +89,7 @@ public class JwtProvider {
 	public boolean isValidJwt(String jwt) {
 		try {
 			Jws<Claims> jws = parseJwt(jwt);
-			log.info("\t > parsed JWT, header = {}, claims = {}", jws.getHeader(), jws.getBody());
+			//log.info("\t > parsed JWT, header = {}, claims = {}", jws.getHeader(), jws.getBody());
 			
 			Date exp = jws.getBody().getExpiration();
 			if (exp == null) {
@@ -97,7 +97,7 @@ public class JwtProvider {
 			}
 			
 			LocalDateTime dateTime = LocalDateTime.ofInstant(exp.toInstant(), ZoneId.systemDefault());
-			log.info("\t > exp = {}", dateTime.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+			//log.info("\t > exp = {}", dateTime.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
 			
 			String username = jws.getBody().getSubject();
 			if (!StringUtils.hasText(username)) {
@@ -107,7 +107,7 @@ public class JwtProvider {
 			//return !claims.getExpiration().before(new Date(System.currentTimeMillis()));
 			return true;
 		} catch (Exception e) { 
-			log.info("\t > {} : {}", e.getClass().getSimpleName(), e.getMessage());
+			//log.info("\t > {} : {}", e.getClass().getSimpleName(), e.getMessage());
 			return false;
 			//throw e;
 		}
