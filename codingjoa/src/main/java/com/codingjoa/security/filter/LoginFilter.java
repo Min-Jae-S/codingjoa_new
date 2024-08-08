@@ -13,13 +13,11 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.util.StringUtils;
-import org.springframework.web.util.UriUtils;
 
 import com.codingjoa.security.dto.LoginDto;
 import com.codingjoa.security.exception.LoginRequireFieldException;
 import com.codingjoa.util.MessageUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nimbusds.jose.util.StandardCharset;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -48,7 +46,7 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter { // Use
 		log.info("\t > continue = {}", continueUrl == null ? null : "'" + continueUrl + "'");
 
 		LoginDto loginDto = objectMapper.readValue(request.getReader(), LoginDto.class);
-		log.info("\t > {}", loginDto);
+		log.info("\t > loginDto = {}", loginDto);
 		
 		String memberId = loginDto.getMemberId();
 		String memberPassword = loginDto.getMemberPassword();
@@ -69,7 +67,7 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter { // Use
 		UsernamePasswordAuthenticationToken authenticatedLoginToken = 
 				(UsernamePasswordAuthenticationToken) this.getAuthenticationManager().authenticate(loginToken);
 		
-		authenticatedLoginToken.setDetails(UriUtils.decode(continueUrl, StandardCharset.UTF_8));
+		authenticatedLoginToken.setDetails(continueUrl);
 		log.info("## set the continueUrl in the details of the authenticated loginToken");
 		
 		return authenticatedLoginToken;
@@ -78,8 +76,7 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter { // Use
 	@Override
 	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
 			Authentication authResult) throws IOException, ServletException {
-		// SecurityContextHolder.getContext().setAuthentication(authResult);
-		super.successfulAuthentication(request, response, chain, authResult); 
+		super.successfulAuthentication(request, response, chain, authResult); // SecurityContextHolder.getContext().setAuthentication(authResult);
 	}
 	
 }

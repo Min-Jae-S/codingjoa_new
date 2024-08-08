@@ -25,8 +25,8 @@ public class OAuth2CustomAuthorizationRequestResolver implements OAuth2Authoriza
 	
 	public OAuth2CustomAuthorizationRequestResolver(ClientRegistrationRepository clientRegistrationRepository,
 													String authorizationRequestBaseUri) {
-		this.defaultResolver = new DefaultOAuth2AuthorizationRequestResolver(
-				clientRegistrationRepository, authorizationRequestBaseUri);
+		this.defaultResolver = new DefaultOAuth2AuthorizationRequestResolver(clientRegistrationRepository, 
+				authorizationRequestBaseUri);
 	}
 
 	@Override
@@ -47,12 +47,12 @@ public class OAuth2CustomAuthorizationRequestResolver implements OAuth2Authoriza
 		
 		String authorizationRequestUri = customizeAuthorizationRequestUri(authorizationRequest);
 		
-		Map<String, Object> additionalParams = new HashMap<String, Object>(authorizationRequest.getAdditionalParameters());
-		additionalParams.put("continue", resolveContinueUrl(request));
+		Map<String, Object> attributes = new HashMap<String, Object>(authorizationRequest.getAttributes());
+		attributes.put("continue", obtainContinueUrl(request));
 		
 		OAuth2AuthorizationRequest customizedAuthorizationRequest = OAuth2AuthorizationRequest.from(authorizationRequest)
 				.authorizationRequestUri(authorizationRequestUri)
-				.additionalParameters(additionalParams)
+				.attributes(attributes)
 				.build();
 		log.info("\t > customized authorizationRequest = {}", JsonUtils.formatJson(customizedAuthorizationRequest));
 		
@@ -80,11 +80,10 @@ public class OAuth2CustomAuthorizationRequestResolver implements OAuth2Authoriza
 		return UriUtils.encode(restoredUri, StandardCharsets.UTF_8);
 	}
 	
-	private String resolveContinueUrl(HttpServletRequest request) {
+	private String obtainContinueUrl(HttpServletRequest request) {
 		String continueUrl = request.getParameter("continue");
-		log.info("\t > continue = {}", continueUrl);
-		
-		return UriUtils.encode(continueUrl, StandardCharsets.UTF_8);
+		log.info("\t > continue = {}", continueUrl == null ? null : "'" + continueUrl + "'");
+		return continueUrl;
 	}
 
 }
