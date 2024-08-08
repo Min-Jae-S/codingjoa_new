@@ -15,10 +15,13 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.codingjoa.security.dto.OAuth2UserDto;
 import com.codingjoa.security.dto.UserDetailsDto;
 
 import io.jsonwebtoken.Claims;
@@ -60,10 +63,9 @@ public class JwtProvider {
 	 * claims - sub, iss, iat, exp, email, role
 	 */
 	public String createJwt(Authentication authentication, HttpServletRequest request) {
-		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 		return Jwts.builder()
 				.setHeader(createHeader()) 
-				.setClaims(createClaims(userDetails, request))
+				.setClaims(createClaims(authentication, request))
 				.signWith(signingKey, SignatureAlgorithm.HS256)
 				.compact();
 	}
@@ -121,19 +123,28 @@ public class JwtProvider {
 		return Map.of("typ", "JWT", "alg", "HS256");
 	}
 	
-	private Map<String, Object> createClaims(UserDetails userDetails, HttpServletRequest request) {
-		UserDetailsDto userDetailsDto = (UserDetailsDto) userDetails;
+	private Map<String, Object> createClaims(Authentication authentication, HttpServletRequest request) {
 		Date now = new Date(System.currentTimeMillis());
 		Date exp = new Date(now.getTime() + validityInMillis);
 		
 		Claims claims = Jwts.claims()
-				.setSubject(userDetailsDto.getUsername())
 				// java.lang.IllegalStateException: No current ServletRequestAttributes
-				//.setIssuer(ServletUriComponentsBuilder.fromCurrentContextPath().build().toString())
-				.setIssuer(ServletUriComponentsBuilder.fromContextPath(request).build().toString())
+				//.setIssuer(ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString())
+				.setIssuer(ServletUriComponentsBuilder.fromContextPath(request).build().toUriString())
 				.setIssuedAt(now)
 				.setExpiration(exp);
-		claims.put("role", userDetailsDto.getMemberRole());
+		
+		// UserDetails(UserDetailsDto), OAuth2User(OAuth2UserDto)
+		Object principal = authentication.getPrincipal(); 
+		
+		if (principal instanceof UserDetailsDto) {
+			UserDetailsDto userDetailsDto = (UserDetailsDto) principal;
+			claims.put("email", userDetailsDto.getMember().getMemberEmail());
+			claims.put("role", userDetailsDto.getMemberRole());
+		} else if (principal instanceof OAuth2UserDto) {
+			OAuth2UserDto oAuth2UserDto = (OAuth2UserDto) principal;
+			// ...
+		}
 		
 		return claims;
 	}

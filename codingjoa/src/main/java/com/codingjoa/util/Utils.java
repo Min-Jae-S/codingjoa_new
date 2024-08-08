@@ -46,10 +46,7 @@ public class Utils {
 //		}
 	}
 	
-	/*
-	 * StringBuffer, thread-safe
-	 * StringBuilder, single-thread
-	 */
+	// StringBuffer: thread-safe, StringBuilder: single-thread
 	public static String getFullURL(HttpServletRequest request) {
 		StringBuffer requestURL = request.getRequestURL();
 		String queryString = request.getQueryString();
