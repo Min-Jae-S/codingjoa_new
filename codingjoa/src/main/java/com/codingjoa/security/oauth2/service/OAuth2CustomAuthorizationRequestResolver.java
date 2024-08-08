@@ -25,29 +25,25 @@ public class OAuth2CustomAuthorizationRequestResolver implements OAuth2Authoriza
 	
 	public OAuth2CustomAuthorizationRequestResolver(ClientRegistrationRepository clientRegistrationRepository,
 													String authorizationRequestBaseUri) {
-		this.defaultResolver = new DefaultOAuth2AuthorizationRequestResolver(clientRegistrationRepository,
-				authorizationRequestBaseUri);
+		this.defaultResolver = new DefaultOAuth2AuthorizationRequestResolver(
+				clientRegistrationRepository, authorizationRequestBaseUri);
 	}
 
 	@Override
 	public OAuth2AuthorizationRequest resolve(HttpServletRequest request) {
 		OAuth2AuthorizationRequest authorizationRequest = defaultResolver.resolve(request);
-		return customize(request, authorizationRequest);
+		return authorizationRequest == null ? authorizationRequest : customize(request, authorizationRequest);
 	}
 
 	@Override
 	public OAuth2AuthorizationRequest resolve(HttpServletRequest request, String clientRegistrationId) {
 		OAuth2AuthorizationRequest authorizationRequest = defaultResolver.resolve(request, clientRegistrationId);
-		return customize(request, authorizationRequest);
+		return authorizationRequest == null ? authorizationRequest : customize(request, authorizationRequest);
 	}
 	
 	private OAuth2AuthorizationRequest customize(HttpServletRequest request, OAuth2AuthorizationRequest authorizationRequest) {
 		log.info("## {}.customize", this.getClass().getSimpleName());
 		log.info("\t > original authorizationRequest = {}", JsonUtils.formatJson(authorizationRequest));
-		
-		if (authorizationRequest == null) {
-			return null;
-		}
 		
 		String authorizationRequestUri = customizeAuthorizationRequestUri(authorizationRequest);
 		

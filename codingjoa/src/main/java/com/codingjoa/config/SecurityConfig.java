@@ -121,8 +121,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 					config.baseUri("/login/*/callback")
 				)
 				.authorizationEndpoint(config  -> {
-					//config.baseUri("/login/*");
 					config.authorizationRequestResolver(authorizationRequestResolver());
+					//config.authorizationRequestRepository(null);
 				})
 				.tokenEndpoint(config -> 
 					config.accessTokenResponseClient(accessTokenResponseClient)
