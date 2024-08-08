@@ -14,8 +14,6 @@ import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.web.util.UriUtils;
 
-import com.codingjoa.util.JsonUtils;
-
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -43,20 +41,16 @@ public class OAuth2CustomAuthorizationRequestResolver implements OAuth2Authoriza
 	
 	private OAuth2AuthorizationRequest customize(HttpServletRequest request, OAuth2AuthorizationRequest authorizationRequest) {
 		log.info("## {}.customize", this.getClass().getSimpleName());
-		log.info("\t > original authorizationRequest = {}", JsonUtils.formatJson(authorizationRequest));
-		
 		String authorizationRequestUri = customizeAuthorizationRequestUri(authorizationRequest);
 		
-		Map<String, Object> attributes = new HashMap<String, Object>(authorizationRequest.getAttributes());
-		attributes.put("continue", obtainContinueUrl(request));
+		String continueParamter = getContinueParameter(request);
+		Map<String, Object> attributes = new HashMap<>(authorizationRequest.getAttributes());
+		attributes.put("continue", continueParamter);
 		
-		OAuth2AuthorizationRequest customizedAuthorizationRequest = OAuth2AuthorizationRequest.from(authorizationRequest)
+		return OAuth2AuthorizationRequest.from(authorizationRequest)
 				.authorizationRequestUri(authorizationRequestUri)
 				.attributes(attributes)
 				.build();
-		log.info("\t > customized authorizationRequest = {}", JsonUtils.formatJson(customizedAuthorizationRequest));
-		
-		return customizedAuthorizationRequest;
 	}
 	
 	private String customizeAuthorizationRequestUri(OAuth2AuthorizationRequest authorizationRequest) {
@@ -80,10 +74,10 @@ public class OAuth2CustomAuthorizationRequestResolver implements OAuth2Authoriza
 		return UriUtils.encode(restoredUri, StandardCharsets.UTF_8);
 	}
 	
-	private String obtainContinueUrl(HttpServletRequest request) {
-		String continueUrl = request.getParameter("continue");
-		log.info("\t > continue = {}", continueUrl == null ? null : "'" + continueUrl + "'");
-		return continueUrl;
+	private String getContinueParameter(HttpServletRequest request) {
+		String continueParameter = request.getParameter("continue");
+		log.info("\t > continue = {}", continueParameter == null ? null : "'" + continueParameter + "'");
+		return continueParameter;
 	}
 
 }

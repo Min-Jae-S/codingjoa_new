@@ -122,7 +122,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				)
 				.authorizationEndpoint(config  -> {
 					config.authorizationRequestResolver(authorizationRequestResolver());
-					//config.authorizationRequestRepository(null);
+					//config.authorizationRequestRepository(null); // session or cookie
 				})
 				.tokenEndpoint(config -> 
 					config.accessTokenResponseClient(accessTokenResponseClient)

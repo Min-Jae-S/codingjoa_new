@@ -60,10 +60,8 @@ public class OAuth2LoginFilter extends AbstractAuthenticationProcessingFilter { 
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws AuthenticationException {
 		log.info("## {}.attemptAuthentication", this.getClass().getSimpleName());
-		log.info("\t > raw params = {}", request.getParameterMap().keySet());
 		
 		MultiValueMap<String, String> params = toMultiMap(request.getParameterMap());
-		log.info("\t > params = {}", params.keySet());
 		log.info("\t > code = {}", params.getFirst(OAuth2ParameterNames.CODE));
 		log.info("\t > state = {}", params.getFirst(OAuth2ParameterNames.STATE));
 		
@@ -95,13 +93,13 @@ public class OAuth2LoginFilter extends AbstractAuthenticationProcessingFilter { 
 		// authenticate OAuth2LoginAuthenticationToken by OAuth2LoginProvider
 		OAuth2LoginAuthenticationToken authenticatedLoginToken = 
 				(OAuth2LoginAuthenticationToken) this.getAuthenticationManager().authenticate(loginToken);
-		Object details = null;
+		String continueUrl = authorizationRequest.getAttribute("continue");
 		
 		OAuth2AuthenticationToken oauth2Authentication = new OAuth2AuthenticationToken(
 				 authenticatedLoginToken.getPrincipal(),
 				 authenticatedLoginToken.getAuthorities(),
 				 authenticatedLoginToken.getClientRegistration().getRegistrationId());
-		oauth2Authentication.setDetails(details);
+		oauth2Authentication.setDetails(continueUrl);
 
 		OAuth2AuthorizedClient authorizedClient = new OAuth2AuthorizedClient(
 				authenticatedLoginToken.getClientRegistration(),

@@ -41,6 +41,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
 		log.info("## {}", this.getClass().getSimpleName());
+		log.info("\t > authenticated token = {}", authentication.getClass().getSimpleName());
 		
 		String continueUrl = resolveContinueUrl(authentication, request);
 		SuccessResponse successResponse = SuccessResponse.builder()
