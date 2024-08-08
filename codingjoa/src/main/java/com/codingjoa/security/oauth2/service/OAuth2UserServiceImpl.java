@@ -1,6 +1,7 @@
 package com.codingjoa.security.oauth2.service;
 
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import org.modelmapper.ModelMapper;
@@ -17,6 +18,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
 import com.codingjoa.mapper.MemberMapper;
+import com.codingjoa.util.Utils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -79,7 +81,15 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 		log.info("\t > delegate to the {} for loading a user", delegate.getClass().getSimpleName());
 		
 		OAuth2User loadedOAuth2User = delegate.loadUser(userRequest);
-		log.info("\t > received userInfo response, loadedOAuth2User = {}", loadedOAuth2User);
+		log.info("\t > received userInfo response, loadedOAuth2User = {}", Utils.specifiyFields(loadedOAuth2User));
+		
+		Map<String, Object> userAttributes = loadedOAuth2User.getAttributes();
+		String nameAttributeKey =  userRequest.getClientRegistration().getProviderDetails()
+				.getUserInfoEndpoint().getUserNameAttributeName();
+		String name = loadedOAuth2User.getName(); //  getAttributes().get(nameAttributeKey);
+		log.info("\t > userAttributes = {}", userAttributes);
+		log.info("\t > nameAttributeKey = {}", nameAttributeKey);
+		log.info("\t > name = {}", name);
 		
 		return loadedOAuth2User;
 	}
@@ -88,6 +98,7 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 		Set<GrantedAuthority> mappedAuthorities = new HashSet<>();
 		mappedAuthorities.add(new SimpleGrantedAuthority("ROLE_MEMBER"));
 		
+		// kakao: id, naver: response
 		String userNameAttributeName = userRequest.getClientRegistration().getProviderDetails()
 				.getUserInfoEndpoint().getUserNameAttributeName();
 		

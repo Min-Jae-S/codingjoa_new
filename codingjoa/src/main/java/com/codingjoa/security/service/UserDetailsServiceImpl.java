@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.codingjoa.mapper.MemberMapper;
 import com.codingjoa.security.dto.UserDetailsDto;
 import com.codingjoa.util.MessageUtils;
+import com.codingjoa.util.Utils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -32,7 +33,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String memberId) throws UsernameNotFoundException {
 		log.info("## {}.loadUserByUsername", this.getClass().getSimpleName());
+		
 		Map<String, Object> userDetails = memberMapper.findUserDetailsById(memberId);
+		log.info("\t > userDetails = {}", Utils.formatJson(userDetails));
 		
 		if (userDetails == null) {
 			throw new UsernameNotFoundException(MessageUtils.getMessage("error.UsernameNotFoundOrBadCredentials"));

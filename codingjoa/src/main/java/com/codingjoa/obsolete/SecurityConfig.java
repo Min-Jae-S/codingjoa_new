@@ -35,7 +35,7 @@ import com.codingjoa.security.service.JwtProvider;
 import com.codingjoa.security.service.LoginFailureHandler;
 import com.codingjoa.security.service.LoginProvider;
 import com.codingjoa.security.service.LoginSuccessHandler;
-import com.codingjoa.util.JsonUtils;
+import com.codingjoa.util.Utils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -214,7 +214,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		return customizer -> {
 			log.info("## AuthorizationRequestCustomizer");
 			OAuth2AuthorizationRequest authorizationRequest = customizer.build();
-			log.info("\t > origianl authorizationRequest = {}", JsonUtils.formatJson(authorizationRequest));
+			log.info("\t > origianl authorizationRequest = {}", Utils.formatJson(authorizationRequest));
 			
 			log.info("\t > customize authorizationRequestUri");
 			String customizedAuthorizationRequestUri = customizeAuthorizationRequestUri(authorizationRequest);

@@ -92,7 +92,6 @@ public class OAuth2LoginFilter extends AbstractAuthenticationProcessingFilter { 
 		// authenticate OAuth2LoginAuthenticationToken by OAuth2LoginProvider (request for accessToken and userInfo)
 		OAuth2LoginAuthenticationToken authenticatedLoginToken = 
 				(OAuth2LoginAuthenticationToken) this.getAuthenticationManager().authenticate(loginToken);
-		log.info("## authenticatedLoginToken is authenticated? {}", authenticatedLoginToken.isAuthenticated());
 		String continueUrl = authorizationRequest.getAttribute("continue");
 		
 		OAuth2AuthenticationToken oAuth2AuthenticationToken = new OAuth2AuthenticationToken(
@@ -100,7 +99,6 @@ public class OAuth2LoginFilter extends AbstractAuthenticationProcessingFilter { 
 				 authenticatedLoginToken.getAuthorities(),
 				 authenticatedLoginToken.getClientRegistration().getRegistrationId());
 		oAuth2AuthenticationToken.setDetails(continueUrl);
-		log.info("## oAuth2AuthenticationToken is authenticated? {}", oAuth2AuthenticationToken.isAuthenticated());
 		log.info("## set the continueUrl in authenticated token : {}", Utils.formatString(continueUrl));
 
 		OAuth2AuthorizedClient authorizedClient = new OAuth2AuthorizedClient(

@@ -17,7 +17,7 @@ import com.codingjoa.security.dto.KakaoTokenResponse;
 import com.codingjoa.security.dto.KakaoUserInfoResponse;
 import com.codingjoa.security.dto.NaverTokenResponse;
 import com.codingjoa.security.dto.NaverUserInfoResponse;
-import com.codingjoa.util.JsonUtils;
+import com.codingjoa.util.Utils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.extern.slf4j.Slf4j;
@@ -59,7 +59,7 @@ public class TestOAuth2Service {
 		);
 		
 		String responseBody = response.getBody();
-		log.info("{}", JsonUtils.formatJson(responseBody));
+		log.info("{}", Utils.formatJson(responseBody));
 		
 		return parseJson(responseBody, KakaoTokenResponse.class);
 	}
@@ -79,7 +79,7 @@ public class TestOAuth2Service {
 		);
 		
 		String responseBody = response.getBody();
-		log.info("{}", JsonUtils.formatJson(responseBody));
+		log.info("{}", Utils.formatJson(responseBody));
 		
 		return parseJson(responseBody, KakaoUserInfoResponse.class);
 	}
@@ -106,7 +106,7 @@ public class TestOAuth2Service {
 		);
 		
 		String responseBody = response.getBody();
-		log.info("{}", JsonUtils.formatJson(responseBody));
+		log.info("{}", Utils.formatJson(responseBody));
 		
 		return parseJson(responseBody, NaverTokenResponse.class);
 	}
@@ -125,7 +125,7 @@ public class TestOAuth2Service {
 		);
 		
 		String responseBody = response.getBody();
-		log.info("{}", JsonUtils.formatJson(responseBody));
+		log.info("{}", Utils.formatJson(responseBody));
 		
 		return parseJson(responseBody, NaverUserInfoResponse.class);
 	}

@@ -29,7 +29,7 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestOperations;
 import org.springframework.web.client.RestTemplate;
 
-import com.codingjoa.util.JsonUtils;
+import com.codingjoa.util.Utils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -121,7 +121,7 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 		}
 		
 		Map<String, Object> userAttributes = response.getBody();
-		log.info("{}", JsonUtils.formatJson(userAttributes));
+		log.info("{}", Utils.formatJson(userAttributes));
 		
 		Set<GrantedAuthority> authorities = new LinkedHashSet<>();
 		authorities.add(new OAuth2UserAuthority(userAttributes));
