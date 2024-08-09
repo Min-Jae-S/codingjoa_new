@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
@@ -18,6 +19,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
 import com.codingjoa.mapper.MemberMapper;
+import com.codingjoa.security.dto.OAuth2UserDto;
 import com.codingjoa.util.Utils;
 
 import lombok.extern.slf4j.Slf4j;
@@ -91,7 +93,14 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 		log.info("\t > nameAttributeKey = {}", nameAttributeKey);
 		log.info("\t > name = {}", name);
 		
-		return loadedOAuth2User;
+		String memberEmail = null;
+		Map<String, Object> userDetails = memberMapper.findUserDetailsByEmail(memberEmail);
+		
+		if (userDetails == null) {
+			
+		}
+		
+		return modelMapper.map(userDetails, OAuth2UserDto.class);
 	}
 	
 	private OAuth2User resolveOAuth2User(OAuth2UserRequest userRequest, OAuth2User oAuth2User) {
@@ -103,6 +112,10 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 				.getUserInfoEndpoint().getUserNameAttributeName();
 		
 		return new DefaultOAuth2User(mappedAuthorities, oAuth2User.getAttributes(), userNameAttributeName);
+	}
+	
+	private UserDetails save() {
+		return null;
 	}
 	
 }
