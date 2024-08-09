@@ -97,7 +97,7 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 		Map<String, Object> userDetails = memberMapper.findUserDetailsByEmail(memberEmail);
 		
 		if (userDetails == null) {
-			
+			userDetails = save(); // save new member
 		}
 		
 		return modelMapper.map(userDetails, OAuth2UserDto.class);
@@ -114,7 +114,7 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 		return new DefaultOAuth2User(mappedAuthorities, oAuth2User.getAttributes(), userNameAttributeName);
 	}
 	
-	private UserDetails save() {
+	private Map<String, Object> save() {
 		return null;
 	}
 	
