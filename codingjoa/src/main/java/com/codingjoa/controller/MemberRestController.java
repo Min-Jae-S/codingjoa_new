@@ -1,14 +1,14 @@
 package com.codingjoa.controller;
 
+import java.io.IOException;
+import java.util.Map;
 import java.util.UUID;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -20,6 +20,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -37,9 +38,12 @@ import com.codingjoa.dto.MemberDetailsDto;
 import com.codingjoa.dto.PasswordChangeDto;
 import com.codingjoa.dto.PasswordDto;
 import com.codingjoa.dto.SuccessResponse;
+import com.codingjoa.dto.UploadFileDto;
 import com.codingjoa.entity.Member;
+import com.codingjoa.entity.MemberImage;
 import com.codingjoa.security.dto.UserDetailsDto;
 import com.codingjoa.service.EmailService;
+import com.codingjoa.service.ImageService;
 import com.codingjoa.service.MemberService;
 import com.codingjoa.service.RedisService;
 import com.codingjoa.validator.EmailAuthValidator;
@@ -47,27 +51,21 @@ import com.codingjoa.validator.EmailValidator;
 import com.codingjoa.validator.FindPasswordValidator;
 import com.codingjoa.validator.PasswordChangeValidator;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RequestMapping("/api/member")
+@RequiredArgsConstructor
 @RestController
 public class MemberRestController {
 	
-	@Autowired
-	private MemberService memberService;
-	
-	@Autowired
-	private UserDetailsService userDetailsService;
-	
-	@Autowired
-	private EmailService emailService;
-	
-	@Autowired
-	private RedisService redisService;
-	
-	@Autowired
-	private ModelMapper modelMapper;
+	private final MemberService memberService;
+	private final UserDetailsService userDetailsService;
+	private final EmailService emailService;
+	private final RedisService redisService;
+	private final ImageService imageService;
+	private final ModelMapper modelMapper;
 	
 	@InitBinder("emailDto")
 	public void InitBinderEmail(WebDataBinder binder) {
@@ -217,8 +215,7 @@ public class MemberRestController {
 	}
 	
 	@PostMapping("/find/password")
-	public ResponseEntity<Object> findPassword(@RequestBody @Valid FindPasswordDto findPasswordDto, 
-			HttpServletRequest request) {
+	public ResponseEntity<Object> findPassword(@RequestBody @Valid FindPasswordDto findPasswordDto) {
 		log.info("## findPassword");
 		log.info("\t > {}", findPasswordDto);
 		
@@ -230,7 +227,7 @@ public class MemberRestController {
 		String key = UUID.randomUUID().toString().replace("-", "");
 		log.info("\t > key = {}", key);
 		
-		String url = ServletUriComponentsBuilder.fromContextPath(request)
+		String url = ServletUriComponentsBuilder.fromCurrentContextPath()
 				.path("/member/resetPassword")
 				.queryParam("key", key)
 				.build()
@@ -256,6 +253,27 @@ public class MemberRestController {
 		
 		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.ResetPassword").build());
 	}
+	
+	@PostMapping("/image")
+	public ResponseEntity<Object> uploadMemberImage(@ModelAttribute @Valid UploadFileDto uploadFileDto,
+			@AuthenticationPrincipal UserDetailsDto principal) throws IllegalStateException, IOException {
+		log.info("## uploadMemberImage");
+		MemberImage memberImage = imageService.uploadMemberImage(uploadFileDto.getFile(), principal.getMember().getMemberIdx());
+		//resetAuthentication(principal.getMember().getMemberId());
+		
+		String memberImageUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
+				.path("/api/member/images/")
+				.path(memberImage.getMemberImageName())
+				.build()
+				.getPath();
+		
+		return ResponseEntity.ok(SuccessResponse
+				.builder()
+				.messageByCode("success.UploadMemberImage")
+				.data(Map.of("memberImageUrl", memberImageUrl))
+				.build());
+	}
+	
 	
 	@DeleteMapping("/test/password-confirm/key") // test
 	public ResponseEntity<Object> removePasswordConfirmKey(@AuthenticationPrincipal UserDetailsDto principal) {

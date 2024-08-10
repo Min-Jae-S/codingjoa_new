@@ -3,7 +3,6 @@ package com.codingjoa.controller;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Path;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -29,10 +28,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.codingjoa.dto.BoardImageDto;
+import com.codingjoa.dto.SuccessResponse;
 import com.codingjoa.dto.UploadFileDto;
 import com.codingjoa.entity.BoardImage;
 import com.codingjoa.entity.MemberImage;
-import com.codingjoa.dto.SuccessResponse;
 import com.codingjoa.security.dto.UserDetailsDto;
 import com.codingjoa.service.ImageService;
 import com.codingjoa.validator.UploadFileValidator;
@@ -89,25 +88,25 @@ public class ImageRestController {
 		return ResponseEntity.ok(urlResource);
 	}
 	
-	@PostMapping("/member/image")
-	public ResponseEntity<Object> uploadMemberImage(@ModelAttribute @Valid UploadFileDto uploadFileDto,
-			@AuthenticationPrincipal UserDetailsDto principal) throws IllegalStateException, IOException {
-		log.info("## uploadMemberImage");
-		MemberImage memberImage = imageService.uploadMemberImage(uploadFileDto.getFile(), principal.getMember().getMemberIdx());
-		//resetAuthentication(principal.getMember().getMemberId());
-		
-		String memberImageUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
-				.path("/api/member/images/")
-				.path(memberImage.getMemberImageName())
-				.build()
-				.getPath();
-		
-		return ResponseEntity.ok(SuccessResponse
-				.builder()
-				.messageByCode("success.UploadMemberImage")
-				.data(Map.of("memberImageUrl", memberImageUrl))
-				.build());
-	}
+//	@PostMapping("/member/image")
+//	public ResponseEntity<Object> uploadMemberImage(@ModelAttribute @Valid UploadFileDto uploadFileDto,
+//			@AuthenticationPrincipal UserDetailsDto principal) throws IllegalStateException, IOException {
+//		log.info("## uploadMemberImage");
+//		MemberImage memberImage = imageService.uploadMemberImage(uploadFileDto.getFile(), principal.getMember().getMemberIdx());
+//		//resetAuthentication(principal.getMember().getMemberId());
+//		
+//		String memberImageUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
+//				.path("/api/member/images/")
+//				.path(memberImage.getMemberImageName())
+//				.build()
+//				.getPath();
+//		
+//		return ResponseEntity.ok(SuccessResponse
+//				.builder()
+//				.messageByCode("success.UploadMemberImage")
+//				.data(Map.of("memberImageUrl", memberImageUrl))
+//				.build());
+//	}
 	
 	@GetMapping(value = { "/member/images/", "/member/images/{memberImageName:.+}"}, produces = MediaType.IMAGE_JPEG_VALUE) 
 	public ResponseEntity<Object> getMemberImageResource(@PathVariable String memberImageName, 
