@@ -40,6 +40,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		if (userDetails == null) {
 			throw new UsernameNotFoundException(MessageUtils.getMessage("error.UsernameNotFoundOrBadCredentials"));
 		}
+		
+		String memberImagePath = (String) userDetails.get("memberImagePath");
 
 		return modelMapper.map(userDetails, UserDetailsDto.class);
 	}
