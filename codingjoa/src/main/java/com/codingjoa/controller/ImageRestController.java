@@ -4,10 +4,8 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Path;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -36,28 +34,27 @@ import com.codingjoa.security.dto.UserDetailsDto;
 import com.codingjoa.service.ImageService;
 import com.codingjoa.validator.UploadFileValidator;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@RestController
 @RequestMapping("/api")
+@RequiredArgsConstructor
+@RestController
 public class ImageRestController {
 	
-	@Autowired
-	private ImageService imageService;
-	
-	@Autowired
-	private UserDetailsService userDetailsService;
+	private final ImageService imageService;
+	private final UserDetailsService userDetailsService;
 	
 	@InitBinder("uploadFileDto")
 	public void initBinderUpload(WebDataBinder binder) {
 		binder.addValidators(new UploadFileValidator());
 	}
 	
-	// 이미지 여러개 업로드로 변경하기
+	// change to allow multiple image uploads
 	@PostMapping("/board/image")
-	public ResponseEntity<Object> uploadBoardImage(@ModelAttribute @Valid UploadFileDto uploadFileDto,
-			HttpServletRequest request) throws IllegalStateException, IOException {
+	public ResponseEntity<Object> uploadBoardImage(@ModelAttribute @Valid UploadFileDto uploadFileDto)
+			throws IllegalStateException, IOException {
 		log.info("## uploadBoardImage");
 		BoardImage boardImage = imageService.uploadBoardImage(uploadFileDto.getFile());
 		

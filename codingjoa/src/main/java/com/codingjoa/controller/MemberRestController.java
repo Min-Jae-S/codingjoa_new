@@ -50,6 +50,7 @@ import com.codingjoa.validator.EmailAuthValidator;
 import com.codingjoa.validator.EmailValidator;
 import com.codingjoa.validator.FindPasswordValidator;
 import com.codingjoa.validator.PasswordChangeValidator;
+import com.codingjoa.validator.UploadFileValidator;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -85,6 +86,11 @@ public class MemberRestController {
 	@InitBinder("passwordChangeDto")
 	public void InitBinderPasswordChange(WebDataBinder binder) {
 		binder.addValidators(new PasswordChangeValidator());
+	}
+	
+	@InitBinder("uploadFileDto")
+	public void initBinderUpload(WebDataBinder binder) {
+		binder.addValidators(new UploadFileValidator());
 	}
 
 	@PostMapping("/join/auth")
@@ -258,12 +264,12 @@ public class MemberRestController {
 	public ResponseEntity<Object> uploadMemberImage(@ModelAttribute @Valid UploadFileDto uploadFileDto,
 			@AuthenticationPrincipal UserDetailsDto principal) throws IllegalStateException, IOException {
 		log.info("## uploadMemberImage");
-		MemberImage memberImage = imageService.uploadMemberImage(uploadFileDto.getFile(), principal.getMember().getMemberIdx());
+		MemberImage memberImage = imageService.uploadMemberImage(uploadFileDto.getFile(),
+				principal.getMember().getMemberIdx());
 		//resetAuthentication(principal.getMember().getMemberId());
 		
 		String memberImageUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
-				.path("/api/member/images/")
-				.path(memberImage.getMemberImageName())
+				.path("/api/member/images/" + memberImage.getMemberImageName())
 				.build()
 				.getPath();
 		
