@@ -60,7 +60,7 @@
 
 	<resultMap id="userDetailsMap" type="map">
 		<result property="memberRole" column="member_role"/>
-		<result property="memberImageName" column="member_image_name"/>
+		<result property="memberImagePath" column="member_image_path"/>
 		<association property="member" javaType="member">
 			<id property="memberIdx" column="member_idx"/>
 			<result property="memberId" column="member_id"/>
@@ -85,9 +85,9 @@
 		SELECT 
 			a.*,
 			b.member_role,
-			c.board_idx,
-			d.comment_idx,
-			e.member_image_name
+			c.member_image_path,
+			d.board_idx,
+			e.comment_idx,
 		FROM
 			member a
 		INNER JOIN
@@ -95,15 +95,15 @@
 		ON
 			a.member_id = b.member_id
 		LEFT OUTER JOIN
-			board_likes c
+			member_image c
 		ON
 			a.member_idx = c.member_idx
 		LEFT OUTER JOIN
-			comment_likes d
+			board_likes d
 		ON
 			a.member_idx = d.member_idx
 		LEFT OUTER JOIN
-			member_image e
+			comment_likes e
 		ON
 			a.member_idx = e.member_idx
 		WHERE

@@ -21,13 +21,13 @@ import lombok.ToString;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserDetailsDto implements UserDetails {
+public class UserDetailsDto implements UserDetails { // consider implementing OAuth2User 
 
-	private Member member;
-	private String memberRole;
-	private String memberImageName;
-	private List<Integer> myBoardLikes;
-	private List<Integer> myCommentLikes;
+	private Member member;						// from member
+	private String memberRole;					// inner join auth
+	private String memberImageUrl;				// left outer join member_image
+	private List<Integer> myBoardLikes;			// left outer join board_likes
+	private List<Integer> myCommentLikes;		// left outer join comment_likes
 
 	//@JsonIgnore
 	@Override
