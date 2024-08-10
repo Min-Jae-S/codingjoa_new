@@ -5,6 +5,8 @@ import java.security.Key;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -28,7 +30,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 
-@SuppressWarnings({ "unused" })
+@SuppressWarnings({ "unused", "unchecked" })
 @Slf4j
 @Component
 public class JwtProvider {
@@ -70,12 +72,15 @@ public class JwtProvider {
 	// https://velog.io/@tmdgh0221/Spring-Security-%EC%99%80-OAuth-2.0-%EC%99%80-JWT-%EC%9D%98-%EC%BD%9C%EB%9D%BC%EB%B3%B4
 	// check comment: to fully leverage the advantages of using JWT, it's preferable to avoid database access during the verification process.
 	public Authentication getAuthentication(String jwt) {
-		String username = parseJwt(jwt).getBody().getSubject();
-		UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-		UsernamePasswordAuthenticationToken token = 
-				new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-		token.setDetails("JwtFilter");
-		return token;
+		Authentication authentication = null;
+		String memberId = parseJwt(jwt).getBody().getSubject();
+		if (memberId != null) {
+			UserDetails userDetails = userDetailsService.loadUserByUsername(memberId);
+			authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+		} else {
+			//
+		}
+		return authentication;
 	}
 	
 	/*
@@ -88,10 +93,13 @@ public class JwtProvider {
 	public boolean isValidJwt(String jwt) {
 		try {
 			Jws<Claims> jws = parseJwt(jwt);
-			log.info("\t > parsed JWT = {}", List.of(jws.getHeader().keySet(), jws.getBody().keySet()));
+			List<String> keys = (List<String>) Stream.of(jws.getHeader(), jws.getBody())
+				.flatMap(map -> map.keySet().stream())
+				.collect(Collectors.toList());
+			log.info("\t > parsed JWT = {}", keys);
 			
 			Date exp = jws.getBody().getExpiration();
-			if (jws.getBody().getExpiration() == null) {
+			if (exp == null) {
 				throw new IllegalArgumentException("'exp' is required");
 			}
 			
@@ -141,6 +149,7 @@ public class JwtProvider {
 		
 		if (principal instanceof UserDetailsDto) {
 			UserDetailsDto userDetailsDto = (UserDetailsDto) principal;
+			claims.setSubject(userDetailsDto.getUsername());
 			claims.put("email", userDetailsDto.getMember().getMemberEmail());
 			claims.put("role", userDetailsDto.getMemberRole());
 		} else if (principal instanceof OAuth2UserDto) {

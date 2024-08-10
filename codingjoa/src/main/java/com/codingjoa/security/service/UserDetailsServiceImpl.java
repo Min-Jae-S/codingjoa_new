@@ -35,12 +35,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		log.info("## {}.loadUserByUsername", this.getClass().getSimpleName());
 		
 		Map<String, Object> userDetails = memberMapper.findUserDetailsById(memberId);
-		log.info("\t > userDetails = {}", Utils.formatJson(userDetails));
-		
 		if (userDetails == null) {
 			throw new UsernameNotFoundException(MessageUtils.getMessage("error.UsernameNotFoundOrBadCredentials"));
 		}
-		
+
+		log.info("{}", Utils.formatJson(userDetails));
 		return modelMapper.map(userDetails, UserDetailsDto.class);
 	}
 }

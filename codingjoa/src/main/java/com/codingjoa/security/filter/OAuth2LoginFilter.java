@@ -99,7 +99,7 @@ public class OAuth2LoginFilter extends AbstractAuthenticationProcessingFilter { 
 				 authenticatedLoginToken.getAuthorities(),
 				 authenticatedLoginToken.getClientRegistration().getRegistrationId());
 		oAuth2AuthenticationToken.setDetails(continueUrl);
-		log.info("## set the continueUrl in authenticated token : {}", Utils.formatString(continueUrl));
+		log.info("## set the continueUrl in details : {}", Utils.formatString(continueUrl));
 
 		OAuth2AuthorizedClient authorizedClient = new OAuth2AuthorizedClient(
 				authenticatedLoginToken.getClientRegistration(),
