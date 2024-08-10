@@ -41,8 +41,8 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
 		log.info("## {}", this.getClass().getSimpleName());
-		log.info("\t > authentication = {}", authentication.getClass().getSimpleName());
-		log.info("\t > principal = {}", authentication.getPrincipal().getClass().getSimpleName());
+		log.info("\t > authentication = {}, principal = {}", 
+				authentication.getClass().getSimpleName(), authentication.getPrincipal().getClass().getSimpleName());
 		
 		String continueUrl = resolveContinueUrl(authentication, request);
 		SuccessResponse successResponse = SuccessResponse.builder()
@@ -52,7 +52,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 				.build();
 		
 		String jwt = jwtProvider.createJwt(authentication, request);
-		ResponseCookie jwtCookie = ResponseCookie.from("access_token", jwt)
+		ResponseCookie jwtCookie = ResponseCookie.from("ACCESS_TOKEN", jwt)
 				.domain("localhost")
 				.path(request.getContextPath())
 				.maxAge(Duration.ofHours(1))

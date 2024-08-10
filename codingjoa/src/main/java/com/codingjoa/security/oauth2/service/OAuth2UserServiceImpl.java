@@ -8,6 +8,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -86,21 +87,19 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 		log.info("\t > received userInfo response, loadedOAuth2User = {}", Utils.specifiyFields(loadedOAuth2User));
 		
 		Map<String, Object> userAttributes = loadedOAuth2User.getAttributes();
-		String nameAttributeKey =  userRequest.getClientRegistration().getProviderDetails()
-				.getUserInfoEndpoint().getUserNameAttributeName();
-		String name = loadedOAuth2User.getName(); //  getAttributes().get(nameAttributeKey);
 		log.info("\t > userAttributes = {}", userAttributes);
-		log.info("\t > nameAttributeKey = {}", nameAttributeKey);
-		log.info("\t > name = {}", name);
 		
-		String memberEmail = null;
-		Map<String, Object> userDetails = memberMapper.findUserDetailsByEmail(memberEmail);
 		
-		if (userDetails == null) {
-			userDetails = save(); // save new member
-		}
+		return loadedOAuth2User;
 		
-		return modelMapper.map(userDetails, OAuth2UserDto.class);
+//		String memberEmail = null;
+//		Map<String, Object> userDetails = memberMapper.findUserDetailsByEmail(memberEmail);
+//		
+//		if (userDetails == null) {
+//			userDetails = save(); // save new member
+//		}
+//		
+//		return modelMapper.map(userDetails, OAuth2UserDto.class);
 	}
 	
 	private OAuth2User resolveOAuth2User(OAuth2UserRequest userRequest, OAuth2User oAuth2User) {

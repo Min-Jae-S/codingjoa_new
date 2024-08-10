@@ -4,8 +4,12 @@ import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -75,10 +79,10 @@ public class JwtProvider {
 	public Authentication getAuthentication(String jwt) {
 		String username = parseJwt(jwt).getBody().getSubject();
 		UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-		UsernamePasswordAuthenticationToken authRequest = 
+		UsernamePasswordAuthenticationToken token = 
 				new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-		authRequest.setDetails("JwtFilter");
-		return authRequest;
+		token.setDetails("JwtFilter");
+		return token;
 	}
 	
 	/*
@@ -91,7 +95,7 @@ public class JwtProvider {
 	public boolean isValidJwt(String jwt) {
 		try {
 			Jws<Claims> jws = parseJwt(jwt);
-			//log.info("\t > parsed JWT, header = {}, claims = {}", jws.getHeader(), jws.getBody());
+			log.info("\t > parsed JWT, header = {}, body = {}", jws.getHeader(), jws.getBody());
 			
 			Date exp = jws.getBody().getExpiration();
 			if (exp == null) {
