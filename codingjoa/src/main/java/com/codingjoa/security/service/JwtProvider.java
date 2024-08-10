@@ -2,14 +2,9 @@ package com.codingjoa.security.service;
 
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -19,8 +14,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -35,7 +28,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 
-@SuppressWarnings("unused")
+@SuppressWarnings({ "unused" })
 @Slf4j
 @Component
 public class JwtProvider {
@@ -95,25 +88,30 @@ public class JwtProvider {
 	public boolean isValidJwt(String jwt) {
 		try {
 			Jws<Claims> jws = parseJwt(jwt);
-			log.info("\t > parsed JWT, header = {}, body = {}", jws.getHeader(), jws.getBody());
+			log.info("\t > parsed JWT = {}", List.of(jws.getHeader().keySet(), jws.getBody().keySet()));
 			
 			Date exp = jws.getBody().getExpiration();
-			if (exp == null) {
+			if (jws.getBody().getExpiration() == null) {
 				throw new IllegalArgumentException("'exp' is required");
 			}
 			
-			LocalDateTime dateTime = LocalDateTime.ofInstant(exp.toInstant(), ZoneId.systemDefault());
+			//LocalDateTime dateTime = LocalDateTime.ofInstant(exp.toInstant(), ZoneId.systemDefault());
 			//log.info("\t > exp = {}", dateTime.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
 			
-			String username = jws.getBody().getSubject();
-			if (!StringUtils.hasText(username)) {
-				throw new IllegalArgumentException("'sub' is required");
+			String email = (String) jws.getBody().get("email");
+			if (!StringUtils.hasText(email)) {
+				throw new IllegalArgumentException("'email' is required");
+			}
+
+			String role = (String) jws.getBody().get("role");
+			if (!StringUtils.hasText(role)) {
+				throw new IllegalArgumentException("'role' is required");
 			}
 			
-			//return !claims.getExpiration().before(new Date(System.currentTimeMillis()));
 			return true;
+			//return !claims.getExpiration().before(new Date(System.currentTimeMillis()));
 		} catch (Exception e) { 
-			//log.info("\t > {} : {}", e.getClass().getSimpleName(), e.getMessage());
+			log.info("\t > missing or invalid JWT : {}", e.getMessage());
 			return false;
 			//throw e;
 		}

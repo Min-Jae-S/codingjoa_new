@@ -36,8 +36,6 @@ public class JwtFilter extends OncePerRequestFilter {
 			log.info("\t > valid JWT, setting authenticaion in the security context");
 			Authentication authentication = jwtProvider.getAuthentication(jwt);
 			SecurityContextHolder.getContext().setAuthentication(authentication);
-		} else {
-			log.info("\t > missing or invalid JWT, no authenticaion set in the security context");
 		}
 		
 		filterChain.doFilter(request, response);
