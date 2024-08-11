@@ -5,7 +5,6 @@
 	board_image_idx          NUMBER,
 	board_idx                NUMBER              NULL,
 	board_image_name         VARCHAR2(200)       NOT NULL,
-    board_image_path         VARCHAR2(200)       NOT NULL,
 	regdate                  DATE                NOT NULL,
 -->
 	
@@ -13,7 +12,6 @@
 	member_image_idx         NUMBER,
 	member_idx               NUMBER              NULL,
 	member_image_name        VARCHAR2(200)       NOT NULL,
-    member_image_path        VARCHAR2(200)       NOT NULL,
 	regdate                  DATE                NOT NULL,
 -->
 
@@ -25,13 +23,11 @@
 			board_image_idx,
 			board_idx,
 			board_image_name,
-			board_image_path,
 			regdate
 		) VALUES (
 			#{boardImageIdx},
 			#{boardIdx},
 			#{boardImageName},
-			#{boardImagePath},
 			SYSDATE
 		)
 	</insert>
@@ -92,44 +88,14 @@
 			member_image_idx,
 			member_idx,
 			member_image_name,
-			member_image_path,
 			regdate
 		) VALUES (
 			#{memberImageIdx},
 			#{memberIdx},
 			#{memberImageName},
-			#{memberImagePath},
 			SYSDATE
 		)
 	</insert>
-	
-	<!-- test -->
-	<select id="findBoardImageByIdx" parameterType="int" resultType="boardImage">
-		SELECT 
-			*
-		FROM 
-			board_image 
-		WHERE 
-			board_image_idx = #{boardImageIdx}
-	</select>
-
-	<select id="findBoardImageByName" parameterType="string" resultType="boardImage">
-		SELECT 
-			*
-		FROM 
-			board_image 
-		WHERE 
-			board_image_name = #{boardImageName}
-	</select>
-
-	<select id="findMemberImageByName" parameterType="string" resultType="memberImage">
-		SELECT 
-			*
-		FROM 
-			member_image 
-		WHERE 
-			member_image_name = #{memberImageName}
-	</select>
 	
 	<select id="findTempBoardImages" resultType="boardImage">
 		SELECT

@@ -25,13 +25,6 @@ public interface ImageMapper {
 
 	void insertMemberImage(MemberImage memberImage);
 	
-	// test
-	BoardImage findBoardImageByIdx(Integer boardImageIdx);
-	
-	BoardImage findBoardImageByName(String boardImageName);
-	
-	MemberImage findMemberImageByName(String memberImageName);
-	
 	List<BoardImage> findTempBoardImages();
 	
 	List<MemberImage> findTempMemberImages();

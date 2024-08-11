@@ -176,6 +176,26 @@ public class MemberRestController {
 		MemberDetailsDto memberDetails = modelMapper.map(principal, MemberDetailsDto.class);
 		return ResponseEntity.ok(SuccessResponse.builder().data(memberDetails).build());
 	}
+	
+	@PostMapping("/image")
+	public ResponseEntity<Object> uploadMemberImage(@ModelAttribute @Valid UploadFileDto uploadFileDto,
+			@AuthenticationPrincipal UserDetailsDto principal) throws IllegalStateException, IOException {
+		log.info("## uploadMemberImage");
+		MemberImage memberImage = imageService.uploadMemberImage(uploadFileDto.getFile(),
+				principal.getMember().getMemberIdx());
+		//resetAuthentication(principal.getMember().getMemberId());
+		
+		String memberImageUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
+				.path("/member/images/" + memberImage.getMemberImageName())
+				.build()
+				.getPath();
+		
+		return ResponseEntity.ok(SuccessResponse
+				.builder()
+				.messageByCode("success.UploadMemberImage")
+				.data(Map.of("memberImageUrl", memberImageUrl))
+				.build());
+	}
 
 	@PostMapping("/confirm/password")
 	public ResponseEntity<Object> confirmPassword(@RequestBody @Valid PasswordDto passwordDto, 
@@ -259,27 +279,6 @@ public class MemberRestController {
 		
 		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.ResetPassword").build());
 	}
-	
-	@PostMapping("/image")
-	public ResponseEntity<Object> uploadMemberImage(@ModelAttribute @Valid UploadFileDto uploadFileDto,
-			@AuthenticationPrincipal UserDetailsDto principal) throws IllegalStateException, IOException {
-		log.info("## uploadMemberImage");
-		MemberImage memberImage = imageService.uploadMemberImage(uploadFileDto.getFile(),
-				principal.getMember().getMemberIdx());
-		//resetAuthentication(principal.getMember().getMemberId());
-		
-		String memberImageUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
-				.path("/api/member/images/" + memberImage.getMemberImageName())
-				.build()
-				.getPath();
-		
-		return ResponseEntity.ok(SuccessResponse
-				.builder()
-				.messageByCode("success.UploadMemberImage")
-				.data(Map.of("memberImageUrl", memberImageUrl))
-				.build());
-	}
-	
 	
 	@DeleteMapping("/test/password-confirm/key") // test
 	public ResponseEntity<Object> removePasswordConfirmKey(@AuthenticationPrincipal UserDetailsDto principal) {

@@ -153,8 +153,8 @@
 			<div class="mb-5 d-flex">
 				<div class="wrap-member-image mr-4">
 					<c:choose>
-						<c:when test="${not empty principal.memberImageName}">
-							<img class="member-thumb-image" id="memberThumbImage" src="${contextPath}/api/member/images/${principal.memberImageName}">
+						<c:when test="${not empty principal.memberImageUrl}">
+							<img class="member-thumb-image" id="memberThumbImage" src="${principal.memberImageUrl}">
 						</c:when>
 						<c:otherwise>
 							<img class="member-thumb-image" id="memberThumbImage" src="${contextPath}/resources/images/img_profile.png">
@@ -272,17 +272,6 @@
 				</dl>
 			</div>
 		</div>
-		
-		<!-- test -->
-		<div class="input-group pt-5 d-none">
-			<div class="input-group-prepend">
-   				<span class="input-group-text">/api/member/images/{memberImageName}</span>
-			</div>
-			<input type="text" class="form-control" placeholder="memberImageName" style="border: 1px solid #ced4da;">
-			<div class="input-group-append">
-   				<button class="btn btn-warning" id="testGetMemberImageBtn" onclick="testGetMemberImage(this)">TEST</button>
-			</div>
-		</div>
 	</div>
 </div>
 
@@ -315,10 +304,6 @@
 			imageService.uploadMemberImage(formData, function(result) {
 				alert(result.message);
 				$("#memberThumbImage, #navMemberImage").attr("src", result.data.memberImageUrl);
-				/* memberService.getMemberDetails(function(result) {
-					let memberImageUrl = "${contextPath}/api/member/images/" + result.data.memberImageName;
-					$("#memberThumbImage, #navMemberImage").attr("src", memberImageUrl);
-				}); */
 			});
 		});
 		
@@ -489,15 +474,6 @@
                 document.getElementById("memberAddrDetail").focus();
             }
         }).open();
-    }
-    
-    // test
-    function testGetMemberImage(target) {
-    	let testMemberImageName = $(target).closest("div.input-group").find("input").val();
-		imageService.getMemberImageResource(testMemberImageName, function(result) {
-			let memberImageUrl = URL.createObjectURL(result);
-			$("#memberThumbImage, #navMemberImage").attr("src", memberImageUrl);
-		});
     }
 </script>
 </body>

@@ -20,10 +20,4 @@ public interface ImageService {
 	
 	MemberImage uploadMemberImage(MultipartFile file, Integer memberIdx) throws IllegalStateException, IOException;
 	
-	BoardImage getBoardImageByIdx(Integer boardIdx); // test
-
-	BoardImage getBoardImageByName(String boardImageName);
-	
-	MemberImage getMemberImageByName(String profileImageName, Integer memberIdx);
-	
 }
