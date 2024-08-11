@@ -5,6 +5,7 @@
 	board_image_idx          NUMBER,
 	board_idx                NUMBER              NULL,
 	board_image_name         VARCHAR2(200)       NOT NULL,
+	board_image_url         VARCHAR2(200)       NOT NULL,
 	regdate                  DATE                NOT NULL,
 -->
 	
@@ -12,6 +13,7 @@
 	member_image_idx         NUMBER,
 	member_idx               NUMBER              NULL,
 	member_image_name        VARCHAR2(200)       NOT NULL,
+	member_image_url         VARCHAR2(200)       NOT NULL,
 	regdate                  DATE                NOT NULL,
 -->
 
@@ -23,11 +25,13 @@
 			board_image_idx,
 			board_idx,
 			board_image_name,
+			board_image_url
 			regdate
 		) VALUES (
 			#{boardImageIdx},
 			#{boardIdx},
 			#{boardImageName},
+			#{boardImageUrl},
 			SYSDATE
 		)
 	</insert>
@@ -88,11 +92,13 @@
 			member_image_idx,
 			member_idx,
 			member_image_name,
+			member_image_url,
 			regdate
 		) VALUES (
 			#{memberImageIdx},
 			#{memberIdx},
 			#{memberImageName},
+			#{memberImageUrl},
 			SYSDATE
 		)
 	</insert>

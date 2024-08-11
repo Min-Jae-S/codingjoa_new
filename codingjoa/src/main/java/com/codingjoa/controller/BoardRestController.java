@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.codingjoa.dto.BoardImageDto;
 import com.codingjoa.dto.SuccessResponse;
@@ -34,15 +33,10 @@ public class BoardRestController {
 		log.info("## uploadBoardImage");
 		BoardImage boardImage = imageService.uploadBoardImage(uploadFileDto.getFile());
 		
-		String boardImageUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
-				.path("/board/images/" + boardImage.getBoardImageName())
-				.build()
-				.getPath();
-		
 		return ResponseEntity.ok(SuccessResponse
 				.builder()
 				.messageByCode("success.UploadBoardImage")
-				.data(new BoardImageDto(boardImage.getBoardImageIdx(), boardImageUrl))
+				.data(new BoardImageDto(boardImage.getBoardImageIdx(), boardImage.getBoardImageUrl()))
 				.build());
 	}
 

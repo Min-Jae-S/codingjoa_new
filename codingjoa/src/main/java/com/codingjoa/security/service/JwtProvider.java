@@ -77,13 +77,10 @@ public class JwtProvider {
 	public Authentication getAuthentication(String jwt) {
 		Claims claims = parseJwt(jwt).getBody();
 		String memberId = claims.getSubject();
-		if (memberId != null) {
-			UserDetails userDetails = userDetailsService.loadUserByUsername(memberId);
-			return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-		} else {
-			//
-			return null;
-		}
+		UserDetails userDetails = userDetailsService.loadUserByUsername(memberId);
+		
+		return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+	
 	}
 	
 	/*

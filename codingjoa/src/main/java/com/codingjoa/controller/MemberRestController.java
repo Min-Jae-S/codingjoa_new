@@ -181,7 +181,7 @@ public class MemberRestController {
 	public ResponseEntity<Object> uploadMemberImage(@ModelAttribute @Valid UploadFileDto uploadFileDto,
 			@AuthenticationPrincipal UserDetailsDto principal) throws IllegalStateException, IOException {
 		log.info("## uploadMemberImage");
-		MemberImage memberImage = imageService.uploadMemberImage(uploadFileDto.getFile(),
+		MemberImage memberImage = imageService.uploadMemberImage(uploadFileDto.getFile(), 
 				principal.getMember().getMemberIdx());
 		//resetAuthentication(principal.getMember().getMemberId());
 		

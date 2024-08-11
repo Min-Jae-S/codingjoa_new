@@ -60,7 +60,7 @@
 
 	<resultMap id="userDetailsMap" type="map">
 		<result property="memberRole" column="member_role"/>
-		<result property="memberImageName" column="member_image_name"/>
+		<result property="memberImageUrl" column="member_image_url"/>
 		<association property="member" javaType="member">
 			<id property="memberIdx" column="member_idx"/>
 			<result property="memberId" column="member_id"/>
@@ -85,7 +85,7 @@
 		SELECT 
 			a.*,
 			b.member_role,
-			c.member_image_name,
+			c.member_image_url,
 			d.board_idx,
 			e.comment_idx
 		FROM

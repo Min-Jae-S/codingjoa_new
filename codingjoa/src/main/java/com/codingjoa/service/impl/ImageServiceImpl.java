@@ -2,8 +2,6 @@ package com.codingjoa.service.impl;
 
 import java.io.File;
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -43,7 +41,7 @@ public class ImageServiceImpl implements ImageService {
 
 	@Override
 	public BoardImage uploadBoardImage(MultipartFile file) throws IllegalStateException, IOException {
-		File uploadFolder = createUploadFolder(boardImageDir);
+		File uploadFolder = new File(boardImageDir);
 		if (!uploadFolder.exists()) {
 			uploadFolder.mkdirs();
 		}
@@ -52,7 +50,10 @@ public class ImageServiceImpl implements ImageService {
 		File uploadFile = new File(uploadFolder, uploadFilename);
 		file.transferTo(uploadFile);
 		
-		String boardImageUrl = createImageUrl("/board/images/" + uploadFilename);
+		String boardImageUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
+				.path("/board/images/{filename}")
+				.buildAndExpand(uploadFilename)
+				.toUriString();
 		
 		// absolutePath vs canonicalPath (https://dev-handbook.tistory.com/11)
 		BoardImage boardImage = BoardImage.builder()
@@ -111,7 +112,7 @@ public class ImageServiceImpl implements ImageService {
 	
 	@Override
 	public MemberImage uploadMemberImage(MultipartFile file, Integer memberIdx) throws IllegalStateException, IOException {
-		File uploadFolder = createUploadFolder(memberImageDir);
+		File uploadFolder = new File(memberImageDir);
 		if (!uploadFolder.exists()) {
 			uploadFolder.mkdirs();
 		}
@@ -120,7 +121,10 @@ public class ImageServiceImpl implements ImageService {
 		File uploadFile = new File(uploadFolder, uploadFilename);
 		file.transferTo(uploadFile);
 
-		String memberImageUrl = createImageUrl("/member/images/" + uploadFilename);
+		String memberImageUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
+				.path("/member/images/{filename}")
+				.buildAndExpand(uploadFilename)
+				.toUriString();
 		
 		MemberImage memberImage = MemberImage.builder()
 				.memberIdx(memberIdx)
@@ -142,21 +146,8 @@ public class ImageServiceImpl implements ImageService {
 		return memberImage;
 	}
 	
-	private File createUploadFolder(String path) {
-		LocalDateTime date = LocalDateTime.now();
-		String child = date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-		return new File(path, child);
-	}
-	
 	private String createFilename(String originalFilename) {
 		return UUID.randomUUID() + "_" + originalFilename;
-	}
-	
-	private String createImageUrl(String path) {
-		return ServletUriComponentsBuilder.fromCurrentContextPath()
-				.path(path)
-				.build()
-				.toUriString();
 	}
 
 }
