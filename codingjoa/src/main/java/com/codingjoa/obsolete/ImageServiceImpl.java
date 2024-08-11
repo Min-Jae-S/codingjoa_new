@@ -145,41 +145,41 @@ public class ImageServiceImpl implements ImageService {
 		return UUID.randomUUID() + "_" + originalFilename;
 	}
 
-	// test
-	@Override
-	public BoardImage getBoardImageByIdx(Integer boardIdx) {
-		return imageMapper.findBoardImageByIdx(boardIdx);
-	}
-
-	@Override
-	public BoardImage getBoardImageByName(String boardImageName) {
-		BoardImage boardImage = imageMapper.findBoardImageByName(boardImageName);
-		log.info("\t > find boardImage by name");
-
-		if (boardImage == null) {
-			throw new ExpectedException("error.NotFoundBoardImage");
-		}
-		
-		return boardImage;
-	}
-
-	@Override
-	public MemberImage getMemberImageByName(String memberImageName, Integer memberIdx) {
-		MemberImage memberImage = imageMapper.findMemberImageByName(memberImageName);
-		log.info("\t > find memberImage by name");
-		
-		if (memberImage == null) {
-			throw new ExpectedException("error.NotFoundMemberImage");
-		}
-		
-		Integer dbMemberIdx = memberImage.getMemberIdx();
-		log.info("\t > memberIdx = {}, dbMemberIdx = {}", memberIdx, dbMemberIdx);
-		
-		if (dbMemberIdx != memberIdx) {
-			throw new ExpectedException("error.NotMyMemberImage");
-		}
-		
-		return memberImage;
-	}
+//	// test
+//	@Override
+//	public BoardImage getBoardImageByIdx(Integer boardIdx) {
+//		return imageMapper.findBoardImageByIdx(boardIdx);
+//	}
+//
+//	@Override
+//	public BoardImage getBoardImageByName(String boardImageName) {
+//		BoardImage boardImage = imageMapper.findBoardImageByName(boardImageName);
+//		log.info("\t > find boardImage by name");
+//
+//		if (boardImage == null) {
+//			throw new ExpectedException("error.NotFoundBoardImage");
+//		}
+//		
+//		return boardImage;
+//	}
+//
+//	@Override
+//	public MemberImage getMemberImageByName(String memberImageName, Integer memberIdx) {
+//		MemberImage memberImage = imageMapper.findMemberImageByName(memberImageName);
+//		log.info("\t > find memberImage by name");
+//		
+//		if (memberImage == null) {
+//			throw new ExpectedException("error.NotFoundMemberImage");
+//		}
+//		
+//		Integer dbMemberIdx = memberImage.getMemberIdx();
+//		log.info("\t > memberIdx = {}, dbMemberIdx = {}", memberIdx, dbMemberIdx);
+//		
+//		if (dbMemberIdx != memberIdx) {
+//			throw new ExpectedException("error.NotMyMemberImage");
+//		}
+//		
+//		return memberImage;
+//	}
 	
 }

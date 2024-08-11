@@ -20,7 +20,7 @@ class UploadAdapter {
         // integration to choose the right communication channel. This example uses
         // a POST request with JSON as a data structure but your configuration could be different.
         const xhr = this.xhr = new XMLHttpRequest();
-        xhr.open('POST', contextPath + "/api/board/image", true); // /api/upload/board-image --> /api/board/image 
+        xhr.open('POST', contextPath + "/api/board/image", true);
         xhr.responseType = 'json';
     }
 

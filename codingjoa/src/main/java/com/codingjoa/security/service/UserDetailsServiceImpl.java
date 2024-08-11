@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.codingjoa.mapper.MemberMapper;
 import com.codingjoa.security.dto.UserDetailsDto;
@@ -34,15 +35,20 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	public UserDetails loadUserByUsername(String memberId) throws UsernameNotFoundException {
 		log.info("## {}.loadUserByUsername", this.getClass().getSimpleName());
 		
-		Map<String, Object> userDetails = memberMapper.findUserDetailsById(memberId);
-		log.info("{}", Utils.formatJson(userDetails));
+		Map<String, Object> userDetailsMap = memberMapper.findUserDetailsById(memberId);
+		log.info("{}", Utils.formatJson(userDetailsMap));
 
-		if (userDetails == null) {
+		if (userDetailsMap == null) {
 			throw new UsernameNotFoundException(MessageUtils.getMessage("error.UsernameNotFoundOrBadCredentials"));
 		}
 		
-		String memberImagePath = (String) userDetails.get("memberImagePath");
+		String memberImageName = (String) userDetailsMap.get("memberImageName");
+		String memberImageUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
+				.path("/member/images/" + memberImageName)
+				.build()
+				.getPath();
+		userDetailsMap.put("memberImageUrl", memberImageUrl);
 
-		return modelMapper.map(userDetails, UserDetailsDto.class);
+		return modelMapper.map(userDetailsMap, UserDetailsDto.class);
 	}
 }
