@@ -27,6 +27,7 @@ public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
 	public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
 			throws IOException, ServletException {
 		log.info("## {}", this.getClass().getSimpleName());
+		
 		String continueUrl = resolveContinueUrl(request);
 		redirectStrategy.sendRedirect(request, response, continueUrl);
 	}
@@ -35,13 +36,13 @@ public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
 		String continueUrl = request.getParameter("continue");
 		
 		if (!isValidUrl(continueUrl, request)) {
-			log.info("\t > missing or invalid continueUrl, setting default continueUrl");
+			log.info("\t > missing or invalid continueUrl, default continueUrl resolved");
 			return ServletUriComponentsBuilder.fromContextPath(request)
 					.path("/")
 					.build()
 					.toUriString();
 		} else {
-			log.info("\t > valid continueUrl, setting continueUrl from request");
+			log.info("\t > valid continueUrl, this continueUrl resolved");
 			return continueUrl;
 		}
 	}

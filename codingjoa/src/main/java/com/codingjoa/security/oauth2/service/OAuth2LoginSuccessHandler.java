@@ -39,8 +39,6 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
 		log.info("## {}", this.getClass().getSimpleName());
-		log.info("\t > authentication = {}, principal = {}", 
-				authentication.getClass().getSimpleName(), authentication.getPrincipal().getClass().getSimpleName());
 		
 		String continueUrl = resolveContinueUrl(authentication, request);
 		SuccessResponse successResponse = SuccessResponse.builder()
@@ -60,7 +58,7 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 				.build();
 		
 		response.setHeader(HttpHeaders.SET_COOKIE, jwtCookie.toString());
-		log.info("\t > set jwtCookie : {}", jwtCookie);
+		log.info("\t > distribute JWT as a cookie");
 		
 		// opation1 : after forwading to view(jsp), using successResponse, alert message and redirect to contineUrl on the client-side
 		// opation2 : directly redirect to continueUrl on the server-side
@@ -71,13 +69,13 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 		String continueUrl = (String) authentication.getDetails();
 		
 		if (!isValidUrl(continueUrl, request)) {
-			log.info("\t > missing or invalid continueUrl, setting default continueUrl");
+			log.info("\t > missing or invalid continueUrl, default continueUrl resolved");
 			return ServletUriComponentsBuilder.fromContextPath(request)
 					.path("/")
 					.build()
 					.toUriString();
 		} else {
-			log.info("\t > valid continueUrl, setting continueUrl from request");
+			log.info("\t > valid continueUrl, this continueUrl resolved");
 			return continueUrl;
 		}
 	}
