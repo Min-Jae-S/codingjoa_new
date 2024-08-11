@@ -25,6 +25,7 @@ import org.springframework.web.util.UriUtils;
 
 import com.codingjoa.security.dto.OAuth2UserDto;
 import com.codingjoa.security.dto.UserDetailsDto;
+import com.codingjoa.util.Utils;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -93,10 +94,10 @@ public class JwtProvider {
 	public boolean isValidJwt(String jwt) {
 		try {
 			Jws<Claims> jws = parseJwt(jwt);
-			List<String> keys = (List<String>) Stream.of(jws.getHeader(), jws.getBody())
-				.flatMap(map -> map.keySet().stream())
-				.collect(Collectors.toList());
-			log.info("\t > parsed JWT = {}", keys);
+//			List<String> keys = (List<String>) Stream.of(jws.getHeader(), jws.getBody())
+//				.flatMap(map -> map.keySet().stream())
+//				.collect(Collectors.toList());
+			log.info("\t > parsed JWT = {}", Utils.formatJson(jws.getBody()));
 			
 			Date exp = jws.getBody().getExpiration();
 			if (exp == null) {
@@ -140,8 +141,7 @@ public class JwtProvider {
 		Claims claims = Jwts.claims()
 				// java.lang.IllegalStateException: No current ServletRequestAttributes
 				//.setIssuer(ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString())
-				//.setIssuer(ServletUriComponentsBuilder.fromContextPath(request).build().toUriString())
-				.setIssuer(UrlUtils.buildRequestUrl(request))
+				.setIssuer(ServletUriComponentsBuilder.fromContextPath(request).build().toUriString())
 				.setIssuedAt(now)
 				.setExpiration(exp);
 		

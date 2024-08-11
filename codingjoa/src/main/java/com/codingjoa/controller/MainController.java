@@ -64,13 +64,13 @@ public class MainController {
 	
 	private String resolveContinueUrl(String continueUrl) {
 		if (!isValidUrl(continueUrl)) {
-			log.info("\t > missing or invalid continueUrl, setting default continueUrl");
+			log.info("\t > missing or invalid continueUrl, default continueUrl resolved");
 			return ServletUriComponentsBuilder.fromCurrentContextPath()
 					.path("/")
 					.build()
 					.toUriString();
 		} else {
-			log.info("\t > valid continueUrl, setting continueUrl from request");
+			log.info("\t > valid continueUrl, this continueUrl resolved");
 			return continueUrl;
 		}
 	}

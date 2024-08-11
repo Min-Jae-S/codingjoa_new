@@ -43,7 +43,9 @@ public class ImageServiceImpl implements ImageService {
 	public BoardImage uploadBoardImage(MultipartFile file) throws IllegalStateException, IOException {
 		File uploadFolder = new File(boardImageDir);
 		if (!uploadFolder.exists()) {
-			uploadFolder.mkdirs();
+			if (!uploadFolder.mkdirs()) {
+				throw new IOException("failed to create driectory : " + boardImageDir);
+			}
 		}
 		
 		String uploadFilename = createFilename(file.getOriginalFilename());
