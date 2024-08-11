@@ -185,15 +185,10 @@ public class MemberRestController {
 				principal.getMember().getMemberIdx());
 		//resetAuthentication(principal.getMember().getMemberId());
 		
-		String memberImageUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
-				.path("/member/images/" + memberImage.getMemberImageName())
-				.build()
-				.getPath();
-		
 		return ResponseEntity.ok(SuccessResponse
 				.builder()
 				.messageByCode("success.UploadMemberImage")
-				.data(Map.of("memberImageUrl", memberImageUrl))
+				.data(Map.of("memberImageUrl", memberImage.getMemberImageUrl()))
 				.build());
 	}
 

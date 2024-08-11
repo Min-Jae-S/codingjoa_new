@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.codingjoa.dto.BoardDto;
 import com.codingjoa.entity.BoardImage;
@@ -51,9 +52,12 @@ public class ImageServiceImpl implements ImageService {
 		File uploadFile = new File(uploadFolder, uploadFilename);
 		file.transferTo(uploadFile);
 		
+		String boardImageUrl = createImageUrl("/board/images/" + uploadFilename);
+		
 		// absolutePath vs canonicalPath (https://dev-handbook.tistory.com/11)
 		BoardImage boardImage = BoardImage.builder()
 				.boardImageName(uploadFilename)
+				.boardImageUrl(boardImageUrl)
 				.build();
 		log.info("\t > create boardImage entity");
 		
@@ -115,10 +119,13 @@ public class ImageServiceImpl implements ImageService {
 		String uploadFilename = createFilename(file.getOriginalFilename());
 		File uploadFile = new File(uploadFolder, uploadFilename);
 		file.transferTo(uploadFile);
+
+		String memberImageUrl = createImageUrl("/member/images/" + uploadFilename);
 		
 		MemberImage memberImage = MemberImage.builder()
 				.memberIdx(memberIdx)
 				.memberImageName(uploadFilename)
+				.memberImageUrl(memberImageUrl)
 				.build();
 		log.info("\t > create memberImage entity");
 		
@@ -143,6 +150,13 @@ public class ImageServiceImpl implements ImageService {
 	
 	private String createFilename(String originalFilename) {
 		return UUID.randomUUID() + "_" + originalFilename;
+	}
+	
+	private String createImageUrl(String path) {
+		return ServletUriComponentsBuilder.fromCurrentContextPath()
+				.path(path)
+				.build()
+				.toUriString();
 	}
 
 }
