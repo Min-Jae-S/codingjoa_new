@@ -59,8 +59,7 @@ public class ImageRestController {
 		BoardImage boardImage = imageService.uploadBoardImage(uploadFileDto.getFile());
 		
 		String boardImageUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
-				.path("/api/board/images/")
-				.path(boardImage.getBoardImageName())
+				.path("/api/board/images/" + boardImage.getBoardImageName())
 				.build()
 				.getPath();
 		
