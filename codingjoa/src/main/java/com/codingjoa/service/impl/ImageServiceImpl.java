@@ -44,7 +44,7 @@ public class ImageServiceImpl implements ImageService {
 		File uploadFolder = new File(boardImageDir);
 		if (!uploadFolder.exists()) {
 			if (!uploadFolder.mkdirs()) {
-				throw new IOException("failed to create driectory : " + boardImageDir);
+				throw new RuntimeException("failed to create directory: " + boardImageDir);
 			}
 		}
 		
@@ -116,7 +116,9 @@ public class ImageServiceImpl implements ImageService {
 	public MemberImage uploadMemberImage(MultipartFile file, Integer memberIdx) throws IllegalStateException, IOException {
 		File uploadFolder = new File(memberImageDir);
 		if (!uploadFolder.exists()) {
-			uploadFolder.mkdirs();
+			if (!uploadFolder.mkdirs()) {
+				throw new RuntimeException("failed to create directory: " + memberImageDir);
+			}
 		}
 		
 		String uploadFilename = createFilename(file.getOriginalFilename());
