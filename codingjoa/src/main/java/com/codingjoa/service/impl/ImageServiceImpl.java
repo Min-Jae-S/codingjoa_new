@@ -34,7 +34,7 @@ public class ImageServiceImpl implements ImageService {
 	
 	@Autowired
 	public ImageServiceImpl(ImageMapper imageMapper, @Value("${upload.dir.board.image}") String boardImageDir,
-			@Value("${upload.dir.memeber.image}") String memberImageDir) {
+			@Value("${upload.dir.member.image}") String memberImageDir) {
 		this.imageMapper = imageMapper;
 		this.boardImageDir = boardImageDir; 
 		this.memberImageDir = memberImageDir;

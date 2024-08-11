@@ -87,7 +87,7 @@
 			b.member_role,
 			c.member_image_name,
 			d.board_idx,
-			e.comment_idx,
+			e.comment_idx
 		FROM
 			member a
 		INNER JOIN

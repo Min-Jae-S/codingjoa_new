@@ -16,9 +16,12 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.util.UrlUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.web.util.UriComponentsBuilder;
+import org.springframework.web.util.UriUtils;
 
 import com.codingjoa.security.dto.OAuth2UserDto;
 import com.codingjoa.security.dto.UserDetailsDto;
@@ -72,15 +75,15 @@ public class JwtProvider {
 	// https://velog.io/@tmdgh0221/Spring-Security-%EC%99%80-OAuth-2.0-%EC%99%80-JWT-%EC%9D%98-%EC%BD%9C%EB%9D%BC%EB%B3%B4
 	// check comment: to fully leverage the advantages of using JWT, it's preferable to avoid database access during the verification process.
 	public Authentication getAuthentication(String jwt) {
-		Authentication authentication = null;
-		String memberId = parseJwt(jwt).getBody().getSubject();
+		Claims claims = parseJwt(jwt).getBody();
+		String memberId = claims.getSubject();
 		if (memberId != null) {
 			UserDetails userDetails = userDetailsService.loadUserByUsername(memberId);
-			authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+			return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 		} else {
 			//
+			return null;
 		}
-		return authentication;
 	}
 	
 	/*
@@ -140,7 +143,8 @@ public class JwtProvider {
 		Claims claims = Jwts.claims()
 				// java.lang.IllegalStateException: No current ServletRequestAttributes
 				//.setIssuer(ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString())
-				.setIssuer(ServletUriComponentsBuilder.fromContextPath(request).build().toUriString())
+				//.setIssuer(ServletUriComponentsBuilder.fromContextPath(request).build().toUriString())
+				.setIssuer(UrlUtils.buildRequestUrl(request))
 				.setIssuedAt(now)
 				.setExpiration(exp);
 		
@@ -152,6 +156,7 @@ public class JwtProvider {
 			claims.setSubject(userDetailsDto.getUsername());
 			claims.put("email", userDetailsDto.getMember().getMemberEmail());
 			claims.put("role", userDetailsDto.getMemberRole());
+			claims.put("image_url", userDetailsDto.getMemberImageUrl());
 		} else if (principal instanceof OAuth2UserDto) {
 			OAuth2UserDto oAuth2UserDto = (OAuth2UserDto) principal;
 			// ...
