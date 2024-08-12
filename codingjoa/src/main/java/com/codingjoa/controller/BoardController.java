@@ -3,7 +3,6 @@ package com.codingjoa.controller;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,28 +24,25 @@ import com.codingjoa.dto.BoardDto;
 import com.codingjoa.entity.Category;
 import com.codingjoa.pagination.Criteria;
 import com.codingjoa.pagination.Pagination;
-import com.codingjoa.security.dto.UserDetailsDto;
+import com.codingjoa.security.dto.PrincipalDetails;
 import com.codingjoa.service.BoardService;
 import com.codingjoa.service.CategoryService;
 import com.codingjoa.service.ImageService;
 import com.codingjoa.validator.BoardValidator;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Validated
 @RequestMapping("/board")
+@RequiredArgsConstructor
 @Controller 
 public class BoardController {
 	
-	@Autowired 
-	private CategoryService categoryService;
-
-	@Autowired
-	private BoardService boardService;
-	
-	@Autowired
-	private ImageService imageService;
+	private final CategoryService categoryService;
+	private final BoardService boardService;
+	private final ImageService imageService;
 	
 	@InitBinder (value = { "writeBoardDto", "modifyBoardDto" })
 	protected void initBinderBoard(WebDataBinder binder) {
@@ -116,7 +112,7 @@ public class BoardController {
 	
 	@PostMapping("/writeProc")
 	public String writeProc(@Validated @ModelAttribute("writeBoardDto") BoardDto writeBoardDto, 
-			 BindingResult bindingResult, @AuthenticationPrincipal UserDetailsDto principal, Model model) throws BindException {
+			 BindingResult bindingResult, @AuthenticationPrincipal PrincipalDetails principal, Model model) throws BindException {
 		log.info("## writeProc");
 		log.info("\t > {}", writeBoardDto);
 		
@@ -136,7 +132,7 @@ public class BoardController {
 	}
 	
 	@GetMapping("/modify")
-	public String modify(@RequestParam int boardIdx, @AuthenticationPrincipal UserDetailsDto principal, Model model) {
+	public String modify(@RequestParam int boardIdx, @AuthenticationPrincipal PrincipalDetails principal, Model model) {
 		log.info("## modify, boardIdx = {}", boardIdx);
 		BoardDto modifyBoardDto = boardService.getModifyBoard(boardIdx, principal.getMember().getMemberIdx());
 		model.addAttribute("modifyBoardDto", modifyBoardDto);
@@ -147,7 +143,7 @@ public class BoardController {
 	
 	@PostMapping("/modifyProc")
 	public String modifyProc(@Validated @ModelAttribute("modifyBoardDto") BoardDto modifyBoardDto, 
-			BindingResult bindingResult, @AuthenticationPrincipal UserDetailsDto principal, Model model) throws BindException {
+			BindingResult bindingResult, @AuthenticationPrincipal PrincipalDetails principal, Model model) throws BindException {
 		log.info("## modifyProc");
 		log.info("\t > {}", modifyBoardDto);
 
@@ -167,7 +163,7 @@ public class BoardController {
 	}
 	
 	@GetMapping("/deleteProc")
-	public String deleteProc(@RequestParam int boardIdx, @AuthenticationPrincipal UserDetailsDto principal) {
+	public String deleteProc(@RequestParam int boardIdx, @AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## deleteProc, boardIdx = {}", boardIdx);
 		// fk_board_image_board --> ON DELETE SET NULL
 		// fk_comment_board		--> ON DELETE CASCADE

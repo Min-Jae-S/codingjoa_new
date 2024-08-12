@@ -2,7 +2,6 @@ package com.codingjoa.controller;
 
 import javax.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,18 +18,17 @@ import com.codingjoa.service.MemberService;
 import com.codingjoa.service.RedisService;
 import com.codingjoa.validator.JoinValidator;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RequestMapping("/member")
+@RequiredArgsConstructor
 @Controller
 public class MemberController {
 
-	@Autowired
-	private MemberService memberService;
-	
-	@Autowired
-	private RedisService redisService;
+	private final MemberService memberService;
+	private final RedisService redisService;
 
 	@InitBinder("joinDto")
 	public void initBinderJoin(WebDataBinder binder) {

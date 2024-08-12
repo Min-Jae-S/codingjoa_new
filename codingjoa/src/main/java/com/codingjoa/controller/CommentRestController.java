@@ -6,7 +6,6 @@ import java.util.Map;
 
 import javax.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,9 +23,10 @@ import com.codingjoa.dto.CommentDto;
 import com.codingjoa.dto.SuccessResponse;
 import com.codingjoa.pagination.CommentCriteria;
 import com.codingjoa.pagination.Pagination;
-import com.codingjoa.security.dto.UserDetailsDto;
+import com.codingjoa.security.dto.PrincipalDetails;
 import com.codingjoa.service.CommentService;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 // https://velog.io/@yoojkim/Rest-API-RESTful%ED%95%98%EA%B2%8C-URL-%EC%84%A4%EA%B3%84%ED%95%98%EA%B8%B0
@@ -34,11 +34,11 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RequestMapping("/api")
+@RequiredArgsConstructor
 @RestController
 public class CommentRestController {
 	
-	@Autowired
-	private CommentService commentService;
+	private final CommentService commentService;
 	
 	// https://stackoverflow.com/questions/31680960/spring-initbinder-on-requestbody
 	// @InitBinder doesn't work with @RequestBody, it can work with @ModelAttribute Annotation.
@@ -46,7 +46,7 @@ public class CommentRestController {
 
 	@GetMapping("/boards/{commentBoardIdx}/comments")
 	public ResponseEntity<Object> getCommentList(@PathVariable int commentBoardIdx,
-			@CommentCri CommentCriteria commentCri, @AuthenticationPrincipal UserDetailsDto princiapl) {
+			@CommentCri CommentCriteria commentCri, @AuthenticationPrincipal PrincipalDetails princiapl) {
 		log.info("## getCommentList, commentBoardIdx = {}", commentBoardIdx);
 		log.info("\t > commentCri = {}", commentCri);
 
@@ -64,7 +64,7 @@ public class CommentRestController {
 	}
 	
 	@GetMapping(value = { "/comments/", "/comments/{commentIdx}" })
-	public ResponseEntity<Object> getModifyComment(@PathVariable int commentIdx, @AuthenticationPrincipal UserDetailsDto principal) {
+	public ResponseEntity<Object> getModifyComment(@PathVariable int commentIdx, @AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## getModifyComment, commentIdx = {}", commentIdx);
 		CommentDetailsDto commentDetails = 
 				commentService.getModifyComment(commentIdx, principal.getMember().getMemberIdx());
@@ -77,7 +77,7 @@ public class CommentRestController {
 	
 	@PostMapping("/comments")
 	public ResponseEntity<Object> writeComment(@Valid @RequestBody CommentDto writeCommentDto, 
-			@AuthenticationPrincipal UserDetailsDto principal) {
+			@AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## writeComment");
 		log.info("\t > {}", writeCommentDto);
 		writeCommentDto.setCommentWriterIdx(principal.getMember().getMemberIdx());
@@ -89,7 +89,7 @@ public class CommentRestController {
 	
 	@PatchMapping(value = { "/comments/", "/comments/{commentIdx}" })
 	public ResponseEntity<Object> modifyComment(@PathVariable int commentIdx, 
-			@Valid @RequestBody CommentDto modifyCommentDto, @AuthenticationPrincipal UserDetailsDto principal) {
+			@Valid @RequestBody CommentDto modifyCommentDto, @AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## modifyComment, commentIdx = {}", commentIdx);
 		log.info("\t > {}", modifyCommentDto);
 		modifyCommentDto.setCommentIdx(commentIdx);
@@ -100,7 +100,7 @@ public class CommentRestController {
 	}
 	
 	@DeleteMapping(value = { "/comments/", "/comments/{commentIdx}" })
-	public ResponseEntity<Object> deleteComment(@PathVariable int commentIdx, @AuthenticationPrincipal UserDetailsDto principal) {
+	public ResponseEntity<Object> deleteComment(@PathVariable int commentIdx, @AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## deleteComment, commentIdx = {}", commentIdx);
 		commentService.deleteComment(commentIdx, principal.getMember().getMemberIdx()); // update commentUse
 		

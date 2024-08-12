@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.codingjoa.dto.SuccessResponse;
-import com.codingjoa.security.dto.UserDetailsDto;
+import com.codingjoa.security.dto.PrincipalDetails;
 import com.codingjoa.security.service.JwtProvider;
 
 import io.jsonwebtoken.Claims;
@@ -245,7 +245,7 @@ public class TestJwtController {
 	}
 	
 	@GetMapping("/test7")
-	public ResponseEntity<Object> test7(@AuthenticationPrincipal UserDetailsDto principal) {
+	public ResponseEntity<Object> test7(@AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## test7");
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		try {
@@ -260,7 +260,7 @@ public class TestJwtController {
 	}
 	
 	@GetMapping("/test8")
-	public ResponseEntity<Object> test8(@AuthenticationPrincipal UserDetailsDto principal) {
+	public ResponseEntity<Object> test8(@AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## test8");
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		try {
@@ -279,7 +279,7 @@ public class TestJwtController {
 	}
 	
 	private Map<String, Object> createClaims(UserDetails userDetails) {
-		UserDetailsDto userDetailsDto = (UserDetailsDto) userDetails;
+		PrincipalDetails userDetailsDto = (PrincipalDetails) userDetails;
 		Date now = new Date(System.currentTimeMillis());
 		Date exp = new Date(now.getTime() + validityInMillis);
 		

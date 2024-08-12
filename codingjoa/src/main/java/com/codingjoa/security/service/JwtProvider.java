@@ -18,7 +18,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.codingjoa.security.dto.OAuth2UserDto;
-import com.codingjoa.security.dto.UserDetailsDto;
+import com.codingjoa.security.dto.PrincipalDetails;
 import com.codingjoa.util.Utils;
 
 import io.jsonwebtoken.Claims;
@@ -142,8 +142,8 @@ public class JwtProvider {
 		// UserDetails(UserDetailsDto), OAuth2User(OAuth2UserDto)
 		Object principal = authentication.getPrincipal(); 
 		
-		if (principal instanceof UserDetailsDto) {
-			UserDetailsDto userDetailsDto = (UserDetailsDto) principal;
+		if (principal instanceof PrincipalDetails) {
+			PrincipalDetails userDetailsDto = (PrincipalDetails) principal;
 			claims.setSubject(userDetailsDto.getUsername());
 			claims.put("email", userDetailsDto.getMember().getMemberEmail());
 			claims.put("role", userDetailsDto.getMemberRole());

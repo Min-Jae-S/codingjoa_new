@@ -30,8 +30,6 @@ public class JwtFilter extends OncePerRequestFilter {
 		log.info("## {}", this.getClass().getSimpleName());
 		log.info("\t > request-line = {}", Utils.getHttpRequestLine(request));
 
-		request.getParameterMap().forEach((key, value) -> log.info("\t > {} = {}", key, value));
-		
 		String jwt = resolveJwt(request);
 		
 		if (jwtProvider.isValidJwt(jwt)) {

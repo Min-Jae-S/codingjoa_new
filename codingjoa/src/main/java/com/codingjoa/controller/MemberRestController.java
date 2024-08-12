@@ -41,7 +41,7 @@ import com.codingjoa.dto.SuccessResponse;
 import com.codingjoa.dto.UploadFileDto;
 import com.codingjoa.entity.Member;
 import com.codingjoa.entity.MemberImage;
-import com.codingjoa.security.dto.UserDetailsDto;
+import com.codingjoa.security.dto.PrincipalDetails;
 import com.codingjoa.service.EmailService;
 import com.codingjoa.service.ImageService;
 import com.codingjoa.service.MemberService;
@@ -112,7 +112,7 @@ public class MemberRestController {
 	
 	@PostMapping("/update-email/auth")
 	public ResponseEntity<Object> sendAuthCodeForUpdate(@RequestBody @Valid EmailDto emailDto, 
-			@AuthenticationPrincipal UserDetailsDto principal) {
+			@AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## sendAuthCodeForUpdate");
 		log.info("\t > {}", emailDto);
 
@@ -130,7 +130,7 @@ public class MemberRestController {
 	
 	@PutMapping("/email")
 	public ResponseEntity<Object> updateEmail(@RequestBody @Valid EmailAuthDto emailAuthDto,
-			@AuthenticationPrincipal UserDetailsDto principal) {
+			@AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## updateEmail");
 		log.info("\t > {}", emailAuthDto);
 		
@@ -144,7 +144,7 @@ public class MemberRestController {
 	
 	@PutMapping("/address")
 	public ResponseEntity<Object> updateAddr(@RequestBody @Valid AddrDto addrDto, 
-			@AuthenticationPrincipal UserDetailsDto principal) {
+			@AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## updateAddr");
 		log.info("\t > {}", addrDto);
 		
@@ -157,7 +157,7 @@ public class MemberRestController {
 	
 	@PutMapping("/agree")
 	public ResponseEntity<Object> updateAgree(@RequestBody AgreeDto agreeDto, 
-			@AuthenticationPrincipal UserDetailsDto principal) {
+			@AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## updateAgree");
 		log.info("\t > {}", agreeDto);
 		
@@ -169,7 +169,7 @@ public class MemberRestController {
 	}
 	
 	@GetMapping("/details")
-	public ResponseEntity<Object> getMemberDetails(@AuthenticationPrincipal UserDetailsDto principal) {
+	public ResponseEntity<Object> getMemberDetails(@AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## getMemberDetails");
 		// antMatchers("/api/member/details").authenticated() --> principal can't be null
 		//MemberDetailsDto memberDetails = (principal != null) ? modelMapper.map(principal, MemberDetailsDto.class) : null;
@@ -179,7 +179,7 @@ public class MemberRestController {
 	
 	@PostMapping("/image")
 	public ResponseEntity<Object> uploadMemberImage(@ModelAttribute @Valid UploadFileDto uploadFileDto,
-			@AuthenticationPrincipal UserDetailsDto principal) throws IllegalStateException, IOException {
+			@AuthenticationPrincipal PrincipalDetails principal) throws IllegalStateException, IOException {
 		log.info("## uploadMemberImage");
 		MemberImage memberImage = imageService.uploadMemberImage(uploadFileDto.getFile(), 
 				principal.getMember().getMemberIdx());
@@ -194,7 +194,7 @@ public class MemberRestController {
 
 	@PostMapping("/confirm/password")
 	public ResponseEntity<Object> confirmPassword(@RequestBody @Valid PasswordDto passwordDto, 
-			@AuthenticationPrincipal UserDetailsDto principal) {
+			@AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## confirmPassword");
 		log.info("\t > {}", passwordDto);
 		
@@ -207,7 +207,7 @@ public class MemberRestController {
 	
 	@PutMapping("/password")
 	public ResponseEntity<Object> updatePassword(@RequestBody @Valid PasswordChangeDto passwordChangeDto, 
-			@AuthenticationPrincipal UserDetailsDto principal) {
+			@AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## updatePassword");
 		log.info("\t > {}", passwordChangeDto);
 		
@@ -276,7 +276,7 @@ public class MemberRestController {
 	}
 	
 	@DeleteMapping("/test/password-confirm/key") // test
-	public ResponseEntity<Object> removePasswordConfirmKey(@AuthenticationPrincipal UserDetailsDto principal) {
+	public ResponseEntity<Object> removePasswordConfirmKey(@AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## removePasswordConfirmKey");
 		log.info("\t > principal = {}", principal);
 		

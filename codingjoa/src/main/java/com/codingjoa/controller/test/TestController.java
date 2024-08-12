@@ -39,7 +39,7 @@ import com.codingjoa.dto.MemberDetailsDto;
 import com.codingjoa.dto.SuccessResponse;
 import com.codingjoa.exception.ExpectedException;
 import com.codingjoa.mapper.MemberMapper;
-import com.codingjoa.security.dto.UserDetailsDto;
+import com.codingjoa.security.dto.PrincipalDetails;
 import com.codingjoa.service.test.TestTxService;
 import com.codingjoa.test.Foo;
 import com.codingjoa.test.Test;
@@ -387,7 +387,7 @@ public class TestController {
 
 	@ResponseBody
 	@PostMapping("/test-jsoup")
-	public ResponseEntity<Object> testJsoup(@RequestBody BoardDto boardDto, @AuthenticationPrincipal UserDetailsDto principal) {
+	public ResponseEntity<Object> testJsoup(@RequestBody BoardDto boardDto, @AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## testJsoup");
 		log.info("\t > {}", boardDto);
 		
@@ -413,7 +413,7 @@ public class TestController {
 	private ModelMapper modelMapper;
 	
 	@GetMapping("/user-details")
-	public ResponseEntity<Object> testUserDetails(@AuthenticationPrincipal UserDetailsDto principal) {
+	public ResponseEntity<Object> testUserDetails(@AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## testUserDetails");
 		Map<String, Object> userDetailsMap = null;
 		MemberDetailsDto memberDetails = null;

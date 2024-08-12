@@ -11,7 +11,6 @@ import javax.servlet.ServletContext;
 import javax.validation.Validator;
 
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.web.FilterChainProxy;
 import org.springframework.security.web.SecurityFilterChain;
@@ -36,15 +35,16 @@ import org.springframework.web.servlet.view.ViewResolverComposite;
 import com.codingjoa.dto.SuccessResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RequestMapping("/config")
+@RequiredArgsConstructor
 @RestController
 public class ConfigRestController {
 	
-	@Autowired // WebApplicationContext = ApplicationContext + getServletContext()
-	private WebApplicationContext webApplicationContext;
+	private final WebApplicationContext webApplicationContext; // ApplicationContext + getServletContext()
 
 	@GetMapping("/filters")
 	public ResponseEntity<Object> getFilters() {

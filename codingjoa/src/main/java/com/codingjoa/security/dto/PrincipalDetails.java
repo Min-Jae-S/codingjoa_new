@@ -11,17 +11,15 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.codingjoa.entity.Member;
 
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @SuppressWarnings("serial")
 @ToString
 @Getter
-@NoArgsConstructor
-@AllArgsConstructor
-public class UserDetailsDto implements UserDetails { // consider implementing OAuth2User 
+@Builder
+public class PrincipalDetails implements UserDetails { // consider implementing OAuth2User 
 
 	private Member member;						// from member
 	private String memberRole;					// inner join auth
@@ -71,4 +69,5 @@ public class UserDetailsDto implements UserDetails { // consider implementing OA
 	public boolean isMyBoardLikes(int boardIdx) {
 		return myBoardLikes.contains(boardIdx);
 	}
+
 }

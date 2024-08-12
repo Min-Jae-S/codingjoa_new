@@ -2,7 +2,6 @@ package com.codingjoa.controller;
 
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -17,24 +16,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codingjoa.dto.SuccessResponse;
-import com.codingjoa.security.dto.UserDetailsDto;
+import com.codingjoa.security.dto.PrincipalDetails;
 import com.codingjoa.service.LikesService;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RequestMapping("/api")
+@RequiredArgsConstructor
 @RestController
 public class LikesRestController {
 	
-	@Autowired
-	private LikesService likesService;
-	
-	@Autowired
-	private UserDetailsService userDetailsService;
+	private final LikesService likesService;
+	private final UserDetailsService userDetailsService;
 
 	@PostMapping("/boards/{boardIdx}/likes")
-	public ResponseEntity<Object> toggleBoardLikes(@PathVariable int boardIdx, @AuthenticationPrincipal UserDetailsDto principal) {
+	public ResponseEntity<Object> toggleBoardLikes(@PathVariable int boardIdx, @AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## toggleBoardLikes, boardIdx = {}", boardIdx);
 		boolean isBoardLiked = likesService.toggleBoardLikes(boardIdx, principal.getMember().getMemberIdx());
 		String code = (isBoardLiked) ? "success.LikeBoard" : "success.UnlikeBoard";
@@ -61,7 +59,7 @@ public class LikesRestController {
 	}
 	
 	@PostMapping("/comments/{commentIdx}/likes")
-	public ResponseEntity<Object> toggleCommentLikes(@PathVariable int commentIdx, @AuthenticationPrincipal UserDetailsDto principal) {
+	public ResponseEntity<Object> toggleCommentLikes(@PathVariable int commentIdx, @AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## toggleCommentLikes, commentIdx = {}", commentIdx);
 		boolean isCommentLiked = likesService.toggleCommentLikes(commentIdx, principal.getMember().getMemberIdx());
 		String code = (isCommentLiked) ? "success.LikeComment" : "success.UnlikeComment";

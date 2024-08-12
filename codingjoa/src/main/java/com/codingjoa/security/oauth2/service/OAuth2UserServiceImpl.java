@@ -89,7 +89,6 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 		Map<String, Object> userAttributes = loadedOAuth2User.getAttributes();
 		log.info("\t > userAttributes = {}", userAttributes);
 		
-		
 		return loadedOAuth2User;
 		
 //		String memberEmail = null;

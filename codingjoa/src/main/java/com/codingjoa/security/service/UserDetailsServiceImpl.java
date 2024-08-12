@@ -11,7 +11,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.codingjoa.mapper.MemberMapper;
-import com.codingjoa.security.dto.UserDetailsDto;
+import com.codingjoa.security.dto.PrincipalDetails;
 import com.codingjoa.util.MessageUtils;
 
 import lombok.extern.slf4j.Slf4j;
@@ -33,15 +33,15 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	public UserDetails loadUserByUsername(String memberId) throws UsernameNotFoundException {
 		log.info("## {}.loadUserByUsername", this.getClass().getSimpleName());
 		
-		Map<String, Object> userDetailsMap = memberMapper.findUserDetailsById(memberId);
+		Map<String, Object> map = memberMapper.findUserDetailsById(memberId);
 
-		if (userDetailsMap == null) {
+		if (map == null) {
 			throw new UsernameNotFoundException(MessageUtils.getMessage("error.UsernameNotFoundOrBadCredentials"));
 		}
 		
-		UserDetails mappedUserDetails = modelMapper.map(userDetailsMap, UserDetailsDto.class);
-		//log.info("\t > mappedUserDetails = {}", Utils.formatJson(mappedUserDetails));
+		PrincipalDetails principalDetails = modelMapper.map(map, PrincipalDetails.class);
+		//log.info("\t > principalDetails = {}", Utils.formatJson(principalDetails));
 
-		return mappedUserDetails;
+		return principalDetails;
 	}
 }

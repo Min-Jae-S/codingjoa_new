@@ -17,7 +17,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 import com.codingjoa.dto.ErrorResponse;
 import com.codingjoa.entity.Member;
-import com.codingjoa.security.dto.UserDetailsDto;
+import com.codingjoa.security.dto.PrincipalDetails;
 import com.codingjoa.service.RedisService;
 import com.codingjoa.util.MessageUtils;
 import com.codingjoa.util.Utils;
@@ -75,11 +75,11 @@ public class PasswordConfirmInterceptor implements HandlerInterceptor {
 		
 		Object principal = authentication.getPrincipal();
 		log.info("\t > principal = {}", principal);
-		if (!(principal instanceof UserDetailsDto)) { // String, "anonymousUser"
+		if (!(principal instanceof PrincipalDetails)) { // String, "anonymousUser"
 			return false;
 		}
 		
-		Member currentMember = ((UserDetailsDto) authentication.getPrincipal()).getMember();
+		Member currentMember = ((PrincipalDetails) authentication.getPrincipal()).getMember();
 		String passwordConfirm = redisService.findValueByKey(currentMember.getMemberId());
 		log.info("\t > passwordConfirm = {}", passwordConfirm);
 		
