@@ -25,7 +25,7 @@
 			board_image_idx,
 			board_idx,
 			board_image_name,
-			board_image_url
+			board_image_url,
 			regdate
 		) VALUES (
 			#{boardImageIdx},

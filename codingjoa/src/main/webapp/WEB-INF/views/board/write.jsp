@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
@@ -79,10 +78,10 @@
 						<form:errors path="boardCategoryCode" cssClass="error"/>
 					</div>
 					<div class="form-group col-md-2">
-						<form:button class="btn btn-primary btn-block" id="writeBtn">등록</form:button>
+						<form:button class="btn btn-primary btn-block" id="writeBoardBtn">등록</form:button>
 					</div>
 					<div class="form-group col-md-2">
-						<button type="reset" class="btn btn-secondary btn-block" id="resetBtn">취소</button>
+						<button type="reset" class="btn btn-secondary btn-block" id="resetBoardBtn">취소</button>
 					</div>
 				</div>
 				<div class="form-group">
@@ -122,12 +121,12 @@
 		});
 	
 	$(function() {
-		$("#resetBtn").on("click", function() {
+		$("#resetBoardBtn").on("click", function() {
 			$("#writeBoardDto").trigger("reset"); 
 			writeEditor.setData("");
 		});
 		
-		$("#writeBtn").on("click", function(e) {
+		$("#writeBoardBtn").on("click", function(e) {
 			e.preventDefault();
 			console.log("## remove hidden boardImages input");
 			$("input[name='boardImages']").remove();

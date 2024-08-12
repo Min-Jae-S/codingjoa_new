@@ -52,6 +52,17 @@
 		<button class="btn btn-primary" onclick="test1()">test1</button>
 		<button class="btn btn-primary" onclick="test2()">test2</button>
 	</div>
+	<form action="${contextPath}/test" method="POST" >
+		<div class="form-group">
+			<label for="param1">param1</label> 
+			<input type="text" class="form-control" id="param1" name="param1"> 
+		</div>
+		<div class="form-group">
+			<label for="param2">param2</label> 
+			<input type="text" class="form-control" id="param2" name="param2"> 
+		</div>
+		<button type="submit" class="btn btn-primary">Submit</button>
+	</form>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 <script>

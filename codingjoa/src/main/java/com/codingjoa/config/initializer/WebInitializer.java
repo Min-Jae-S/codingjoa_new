@@ -35,6 +35,7 @@ import com.codingjoa.filter.LogFilter;
 
 import lombok.extern.slf4j.Slf4j;
 
+@SuppressWarnings("unused")
 @Slf4j
 public class WebInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 	
@@ -133,7 +134,6 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
 		registration.setMultipartConfig(config);
 	}
 	
-	@SuppressWarnings("unused")
 	private void registerCharacterEncodingFilter(ServletContext servletContext) {
 		log.info("## registerCharacterEncodingFilter");
 		CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter();
@@ -146,7 +146,6 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
 		filterRegistration.addMappingForUrlPatterns(dispatcherTypes, false, "/*");
 	}
 	
-	@SuppressWarnings("unused")
 	private void registerLogFilter(ServletContext servletContext) {
 		log.info("## registerLogFilter");
 		LogFilter logFilter = new LogFilter();

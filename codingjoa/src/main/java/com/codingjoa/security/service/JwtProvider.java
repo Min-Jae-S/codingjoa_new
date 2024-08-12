@@ -91,7 +91,7 @@ public class JwtProvider {
 //			List<String> keys = (List<String>) Stream.of(jws.getHeader(), jws.getBody())
 //				.flatMap(map -> map.keySet().stream())
 //				.collect(Collectors.toList());
-			log.info("\t > parsed JWT = {}", Utils.formatJson(jws.getBody()));
+//			log.info("\t > parsed JWT = {}", Utils.formatJson(jws.getBody()));
 			
 			Date exp = jws.getBody().getExpiration();
 			if (exp == null) {

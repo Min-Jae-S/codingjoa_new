@@ -29,11 +29,13 @@ public class JwtFilter extends OncePerRequestFilter {
 			throws ServletException, IOException {
 		log.info("## {}", this.getClass().getSimpleName());
 		log.info("\t > request-line = {}", Utils.getHttpRequestLine(request));
+
+		request.getParameterMap().forEach((key, value) -> log.info("\t {} = {}", key, value));
 		
 		String jwt = resolveJwt(request);
 		
 		if (jwtProvider.isValidJwt(jwt)) {
-			log.info("\t > valid JWT, setting authenticaion in the security context");
+			log.info("\t > valid JWT, set authenticaion in the security context temporarily");
 			Authentication authentication = jwtProvider.getAuthentication(jwt);
 			SecurityContextHolder.getContext().setAuthentication(authentication);
 		}

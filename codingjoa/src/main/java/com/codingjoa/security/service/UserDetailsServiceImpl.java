@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import com.codingjoa.mapper.MemberMapper;
 import com.codingjoa.security.dto.UserDetailsDto;
 import com.codingjoa.util.MessageUtils;
-import com.codingjoa.util.Utils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -41,7 +40,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		}
 		
 		UserDetails mappedUserDetails = modelMapper.map(userDetailsMap, UserDetailsDto.class);
-		log.info("\t > mappedUserDetails = {}", Utils.formatJson(mappedUserDetails));
+		//log.info("\t > mappedUserDetails = {}", Utils.formatJson(mappedUserDetails));
 
 		return mappedUserDetails;
 	}
