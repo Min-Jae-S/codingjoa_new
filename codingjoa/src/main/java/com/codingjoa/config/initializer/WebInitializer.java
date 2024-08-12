@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.EnumSet;
 
 import javax.servlet.DispatcherType;
-import javax.servlet.Filter;
 import javax.servlet.FilterRegistration;
 import javax.servlet.MultipartConfigElement;
 import javax.servlet.ServletContext;
@@ -35,7 +34,6 @@ import com.codingjoa.filter.LogFilter;
 
 import lombok.extern.slf4j.Slf4j;
 
-@SuppressWarnings("unused")
 @Slf4j
 public class WebInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 	
@@ -70,15 +68,6 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
 	}
 	
 	@Override
-	protected Filter[] getServletFilters() {
-		log.info("## getServletFilters");
-		CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter();
-		characterEncodingFilter.setEncoding("UTF-8");
-		characterEncodingFilter.setForceEncoding(true);
-		return new Filter[] { characterEncodingFilter };
-	}
-	
-	@Override
 	protected ApplicationContextInitializer<?>[] getRootApplicationContextInitializers() {
 		log.info("## getRootApplicationContextInitializers");
 		//ApplicationContextInitializer<?>[] existingInitializers = super.getRootApplicationContextInitializers(); // null
@@ -98,7 +87,7 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
 	public void onStartup(ServletContext servletContext) throws ServletException {
 		log.info("## onStartup");
 		super.onStartup(servletContext);
-		//registerCharacterEncodingFilter(servletContext);
+		registerCharacterEncodingFilter(servletContext);
 		//registerLogFilter(servletContext);
 	}
 	
@@ -141,11 +130,12 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
 		filterRegistration.setInitParameter("encoding", "UTF-8");
 		filterRegistration.setInitParameter("forceEncoding", "true");
 
-		// isMatchAfter가 true면 filter의 순서를 뒤에, false면 순서를 앞으로 배치
-		EnumSet<DispatcherType> dispatcherTypes = EnumSet.allOf(DispatcherType.class);
-		filterRegistration.addMappingForUrlPatterns(dispatcherTypes, false, "/*");
+		// If isMatchAfter is set to true, the filter is placed after existing filters in the chain; 
+		// if false, the filter is placed before existing filters.
+		filterRegistration.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, "/*");
 	}
 	
+	@SuppressWarnings("unused")
 	private void registerLogFilter(ServletContext servletContext) {
 		log.info("## registerLogFilter");
 		LogFilter logFilter = new LogFilter();

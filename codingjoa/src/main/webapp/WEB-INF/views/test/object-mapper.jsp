@@ -49,10 +49,10 @@
 <div class="container my-5">
 	<p>object-mapper.jsp</p>
 	<div class="test mt-5 mb-5 px-5">
-		<button class="btn btn-primary" onclick="test1()">test1</button>
+		<button class="btn btn-primary" onclick="test1('가나다')">test1</button>
 		<button class="btn btn-primary" onclick="test2()">test2</button>
 	</div>
-	<form action="${contextPath}/test" method="POST" >
+	<form class="px-5" action="${contextPath}/test" method="POST" >
 		<div class="form-group">
 			<label for="param1">param1</label> 
 			<input type="text" class="form-control" id="param1" name="param1"> 
@@ -66,10 +66,10 @@
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 <script>
-	function test1() {
+	function test1(param1) {
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/object-mapper/test1",
+			url : "${contextPath}/test/object-mapper/test1?parma1=" + param1,
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
