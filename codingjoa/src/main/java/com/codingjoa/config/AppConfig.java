@@ -1,6 +1,7 @@
 package com.codingjoa.config;
 
 import java.io.IOException;
+import java.time.format.DateTimeFormatter;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.MessageSource;
@@ -11,9 +12,12 @@ import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.io.Resource;
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 
 import com.codingjoa.util.MessageUtils;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 
 @ComponentScan("com.codingjoa.service") // @TransactionEventListener
 @ComponentScan("com.codingjoa.handler")	// @ControllerAdvice, @RestControllerAdvice
@@ -22,7 +26,13 @@ public class AppConfig {
 	
 	@Bean // thread-safe
 	public ObjectMapper objectMapper() { 
-		return new ObjectMapper();
+		//DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:ss:mm");
+        return Jackson2ObjectMapperBuilder
+        		.json()
+        		//.serializerByType(LocalDateTime.class, new LocalDateTimeSerializer(formatter))
+                .serializers(new LocalDateTimeSerializer(DateTimeFormatter.ISO_LOCAL_DATE_TIME))
+                .featuresToEnable(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES) // writeComment - CommentDto(commentBoardIdx)
+                .build();
 	}
 	
 	@Bean

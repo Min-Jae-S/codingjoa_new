@@ -156,4 +156,10 @@ public class TestViewController {
 		return "test/properties";
 	}
 	
+	@GetMapping("/object-mapper")
+	public String objectMapper() {
+		log.info("## objectMapper main");
+		return "test/object-mapper";
+	}
+	
 }

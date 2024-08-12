@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 import org.springframework.http.HttpStatus;
 
 import com.codingjoa.util.MessageUtils;
-import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -20,8 +19,6 @@ public class SuccessResponse {
 	private int status = HttpStatus.OK.value();
 	private String message;
 	private Object data;
-	
-	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
 	private LocalDateTime timestamp = LocalDateTime.now();
 	
 	public static SuccessResponseBuilder builder() {

@@ -42,7 +42,6 @@ import com.codingjoa.resolver.GlobalExceptionResolver;
 import com.codingjoa.service.CategoryService;
 import com.codingjoa.service.RedisService;
 import com.fasterxml.jackson.core.JsonEncoding;
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -63,6 +62,7 @@ public class ServletConfig implements WebMvcConfigurer {
 	private final CommentCriteriaArgumentResolver commentCriteriaArgumentResolver;
 	private final GlobalExceptionResolver globalExceptionResolver;
 	private final MessageSource messageSource;
+	private final ObjectMapper objectMapper;
 	
 	@Override
 	public void configureViewResolvers(ViewResolverRegistry registry) {
@@ -81,7 +81,7 @@ public class ServletConfig implements WebMvcConfigurer {
 	@Bean
 	public MappingJackson2JsonView jsonView() {
 		MappingJackson2JsonView jsonView = new MappingJackson2JsonView();
-		jsonView.setObjectMapper(new ObjectMapper());
+		jsonView.setObjectMapper(objectMapper);
 		jsonView.setContentType(MediaType.APPLICATION_JSON_VALUE);
 		jsonView.setEncoding(JsonEncoding.UTF8);
         return jsonView;
@@ -93,9 +93,9 @@ public class ServletConfig implements WebMvcConfigurer {
 		registry.addResourceHandler("/resources/**")
 				.addResourceLocations("/resources/");
 		registry.addResourceHandler("/member/images/**")
-				.addResourceLocations("file:///" + env.getProperty("upload.dir.board.image")); // D:/Dev/upload/board/images/
-		registry.addResourceHandler("/board/images/**")
 				.addResourceLocations("file:///" + env.getProperty("upload.dir.member.image")); // D:/Dev/upload/member/images/
+		registry.addResourceHandler("/board/images/**")
+				.addResourceLocations("file:///" + env.getProperty("upload.dir.board.image")); 	// D:/Dev/upload/board/images/
 	}
 
 	@Override
@@ -144,8 +144,6 @@ public class ServletConfig implements WebMvcConfigurer {
 				// StringHttpMessageConverter defaults to ISO-8859-1
 				((StringHttpMessageConverter) converter).setDefaultCharset(StandardCharsets.UTF_8);
 			} else if (converter instanceof MappingJackson2HttpMessageConverter) {
-				ObjectMapper objectMapper = new ObjectMapper();
-				objectMapper.enable(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES); // writeComment - CommentDto(commentBoardIdx)
 				((MappingJackson2HttpMessageConverter) converter).setObjectMapper(objectMapper);
 			}
 		});
@@ -169,7 +167,7 @@ public class ServletConfig implements WebMvcConfigurer {
 	@Bean
 	public MultipartResolver multipartResolver() {
 		// MultipartResolver: StandardServletMultipartResolver, CommonsMultipartResolver
-		// CommonsMultipartResolver 사용시 commons-fileupload 라이브러리 추가
+		// add the commons-fileupload library when using CommonsMultipartResolver
 		return new StandardServletMultipartResolver();
 	}
 	

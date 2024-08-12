@@ -3,7 +3,6 @@ package com.codingjoa.security.service;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
-import java.time.format.DateTimeFormatter;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -14,7 +13,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseCookie;
-import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -25,7 +23,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.codingjoa.dto.SuccessResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,6 +33,7 @@ import lombok.extern.slf4j.Slf4j;
 public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 	
 	private final JwtProvider jwtProvider;
+	private final ObjectMapper objectMapper;
 	
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
@@ -65,11 +63,9 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 		response.setStatus(HttpServletResponse.SC_OK);
 		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 		response.setCharacterEncoding(StandardCharsets.UTF_8.name());
-		
-		ObjectMapper objectMapper = getObjectMapperWithSerializer();
-		String jsonResponse = objectMapper.writeValueAsString(successResponse);
         
 		log.info("\t > respond with success response in JSON format");
+		String jsonResponse = objectMapper.writeValueAsString(successResponse);
 		response.getWriter().write(jsonResponse);
 		response.getWriter().close();
 	}
@@ -114,14 +110,5 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 		log.info("\t > clear authentication details");
 		((UsernamePasswordAuthenticationToken) authentication).setDetails(null);
 	}
-	
-	private ObjectMapper getObjectMapperWithSerializer() {
-		//DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:ss:mm");
-        return Jackson2ObjectMapperBuilder
-                .json()
-              //.serializerByType(LocalDateTime.class, new LocalDateTimeSerializer(formatter))
-                .serializers(new LocalDateTimeSerializer(DateTimeFormatter.ISO_LOCAL_DATE_TIME))
-                .build();
-    }
 	
 }
