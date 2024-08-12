@@ -1,6 +1,7 @@
 package com.codingjoa.config;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 import org.springframework.context.ApplicationContext;
@@ -26,11 +27,11 @@ public class AppConfig {
 	
 	@Bean // thread-safe
 	public ObjectMapper objectMapper() { 
-		//DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:ss:mm");
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:ss:mm");
         return Jackson2ObjectMapperBuilder
         		.json()
-        		//.serializerByType(LocalDateTime.class, new LocalDateTimeSerializer(formatter))
-                .serializers(new LocalDateTimeSerializer(DateTimeFormatter.ISO_LOCAL_DATE_TIME))
+        		.serializerByType(LocalDateTime.class, new LocalDateTimeSerializer(formatter))
+                //.serializers(new LocalDateTimeSerializer(DateTimeFormatter.ISO_LOCAL_DATE_TIME))
                 .featuresToEnable(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES) // writeComment - CommentDto(commentBoardIdx)
                 .build();
 	}

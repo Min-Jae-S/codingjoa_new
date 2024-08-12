@@ -126,9 +126,9 @@ public class ServletConfig implements WebMvcConfigurer {
 		registry.addInterceptor(new TopMenuInterceptor(categoryService))
 				.addPathPatterns("/**")
 				.excludePathPatterns("/resources/**", "/api/**");
-		registry.addInterceptor(new PasswordConfirmInterceptor(redisService))
+		registry.addInterceptor(new PasswordConfirmInterceptor(redisService, objectMapper))
 				.addPathPatterns("/member/account/updatePassword", "/api/member/password");
-		registry.addInterceptor(new PasswordResetKeyInterceptor(redisService))
+		registry.addInterceptor(new PasswordResetKeyInterceptor(redisService, objectMapper))
 				.addPathPatterns("/member/resetPassword", "/api/member/reset/password");
 //		registry.addInterceptor(new TestRestApiInterceptor())
 //				.addPathPatterns("/test/rest-api/**")

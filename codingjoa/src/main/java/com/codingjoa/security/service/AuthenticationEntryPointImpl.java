@@ -2,7 +2,6 @@ package com.codingjoa.security.service;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.time.format.DateTimeFormatter;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -10,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.DefaultRedirectStrategy;
@@ -23,8 +21,8 @@ import org.springframework.web.util.UriUtils;
 import com.codingjoa.dto.ErrorResponse;
 import com.codingjoa.util.Utils;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /*	
@@ -36,9 +34,11 @@ import lombok.extern.slf4j.Slf4j;
  */
 
 @Slf4j
+@RequiredArgsConstructor
 @Component
 public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 
+	private final ObjectMapper objectMapper;
 	private final RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 	
 	@Override
@@ -73,10 +73,8 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 			response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 			response.setCharacterEncoding(StandardCharsets.UTF_8.name());
 			
-			ObjectMapper objectMapper = getObjectMapperWithSerializer();
-			String jsonResponse = objectMapper.writeValueAsString(errorResponse);
-			
 			log.info("\t > respond with error response in JSON format");
+			String jsonResponse = objectMapper.writeValueAsString(errorResponse);
 			response.getWriter().write(jsonResponse);
 			response.getWriter().close();
 		} else {
@@ -97,12 +95,5 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 	private boolean isAjaxRequest(HttpServletRequest request) {
 		return "XMLHttpRequest".equals(request.getHeader("x-requested-with"));
 	}
-	
-	private ObjectMapper getObjectMapperWithSerializer() {
-        return Jackson2ObjectMapperBuilder
-                .json()
-                .serializers(new LocalDateTimeSerializer(DateTimeFormatter.ISO_LOCAL_DATE_TIME)) // yyyy-MM-dd'T'HH:ss:mm"
-                .build();
-    }
 	
 }

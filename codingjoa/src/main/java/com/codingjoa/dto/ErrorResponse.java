@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 
 import com.codingjoa.util.MessageUtils;
-import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -24,9 +23,7 @@ public class ErrorResponse {
 	private int status = HttpStatus.BAD_REQUEST.value();
 	private String message;
 	private List<ErrorDetails> details = new ArrayList<>();
-	
-	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
-	private LocalDateTime timestamp = LocalDateTime.now();
+	private LocalDateTime timestamp = LocalDateTime.now(); // @JsonProperty
 	
 	public static ErrorResponseBuilder builder() {
 		return new ErrorResponseBuilder();

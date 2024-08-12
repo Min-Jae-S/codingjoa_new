@@ -2,7 +2,6 @@ package com.codingjoa.interceptor;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.time.format.DateTimeFormatter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -10,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -21,7 +19,6 @@ import com.codingjoa.util.MessageUtils;
 import com.codingjoa.util.Utils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 public class PasswordResetKeyInterceptor implements HandlerInterceptor {
 
 	private final RedisService redisService;
+	private final ObjectMapper objectMapper;
 	
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
@@ -46,8 +44,10 @@ public class PasswordResetKeyInterceptor implements HandlerInterceptor {
 			String message =  MessageUtils.getMessage("error.NotPasswordResetKey");
 			HandlerMethod handlerMethod = (HandlerMethod) handler;
 			if (handlerMethod.getBeanType().isAnnotationPresent(RestController.class)) {
+				response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 				responseJSON(request, response, message);
 			} else {
+				response.setContentType(MediaType.TEXT_HTML_VALUE);
 				responseHTML(request, response, message);
 			}
 			return false;
@@ -67,11 +67,8 @@ public class PasswordResetKeyInterceptor implements HandlerInterceptor {
 				.message(message)
 				.build();
 		
-		ObjectMapper objectMapper = getObjectMapperWithSerializer();
-		String jsonResponse = objectMapper.writeValueAsString(errorResponse);
-
 		log.info("\t > respond with error response in JSON format");
-		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+		String jsonResponse = objectMapper.writeValueAsString(errorResponse);
 		response.getWriter().write(jsonResponse); // \n --> \\n
 		response.getWriter().close();
 	}
@@ -85,18 +82,7 @@ public class PasswordResetKeyInterceptor implements HandlerInterceptor {
 		script += "</script>";
 		
 		log.info("\t > respond with errors response in HTML format");
-		response.setContentType(MediaType.TEXT_HTML_VALUE);
 		response.getWriter().write(script);
 		response.getWriter().close();
 	}
-	
-	private ObjectMapper getObjectMapperWithSerializer() {
-		//DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:ss:mm");
-        return Jackson2ObjectMapperBuilder
-                .json()
-              //.serializerByType(LocalDateTime.class, new LocalDateTimeSerializer(formatter))
-                .serializers(new LocalDateTimeSerializer(DateTimeFormatter.ISO_LOCAL_DATE_TIME))
-                .build();
-    }
-	
 }
