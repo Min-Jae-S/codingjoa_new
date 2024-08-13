@@ -214,7 +214,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		return customizer -> {
 			log.info("## AuthorizationRequestCustomizer");
 			OAuth2AuthorizationRequest authorizationRequest = customizer.build();
-			log.info("\t > origianl authorizationRequest = {}", Utils.formatJson(authorizationRequest));
+			log.info("\t > origianl authorizationRequest = {}", Utils.formatPrettyJson(authorizationRequest));
 			
 			log.info("\t > customize authorizationRequestUri");
 			String customizedAuthorizationRequestUri = customizeAuthorizationRequestUri(authorizationRequest);

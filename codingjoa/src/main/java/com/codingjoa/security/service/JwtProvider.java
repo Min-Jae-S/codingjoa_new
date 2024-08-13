@@ -73,11 +73,21 @@ public class JwtProvider {
 	// check comment: to fully leverage the advantages of using JWT, it's preferable to avoid database access during the verification process.
 	public Authentication getAuthentication(String jwt) {
 		Claims claims = parseJwt(jwt).getBody();
-		String memberId = claims.getSubject();
-		UserDetails userDetails = userDetailsService.loadUserByUsername(memberId);
+		String id = claims.getSubject();
+		String email = (String) claims.get("email");
+		String role = (String) claims.get("role");
+		String imageUrl = (String) claims.get("image_url");
+		String provider = (String) claims.get("provider");
 		
-		return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-	
+		PrincipalDetails pincipalDetails = PrincipalDetails.builder()
+				.memberId(id)
+				.memberEmail(email)
+				.memberImageUrl(imageUrl)
+				.memberRole(role)
+				.provider(provider)
+				.build();
+		
+		return new UsernamePasswordAuthenticationToken(pincipalDetails, null, pincipalDetails.getAuthorities());
 	}
 	
 	/*
@@ -90,12 +100,10 @@ public class JwtProvider {
 	public boolean isValidJwt(String jwt) {
 		try {
 			Jws<Claims> jws = parseJwt(jwt);
-//			List<String> keys = (List<String>) Stream.of(jws.getHeader(), jws.getBody())
-//				.flatMap(map -> map.keySet().stream())
-//				.collect(Collectors.toList());
-//			log.info("\t > parsed JWT = {}", Utils.formatJson(jws.getBody()));
+			Claims claims = jws.getBody();
+			log.info("\t > parsed JWT = {}", Utils.formatPrettyJson(claims));
 			
-			Date exp = jws.getBody().getExpiration();
+			Date exp = claims.getExpiration();
 			if (exp == null) {
 				throw new IllegalArgumentException("'exp' is required");
 			}
@@ -103,12 +111,12 @@ public class JwtProvider {
 			//LocalDateTime dateTime = LocalDateTime.ofInstant(exp.toInstant(), ZoneId.systemDefault());
 			//log.info("\t > exp = {}", dateTime.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
 			
-			String email = (String) jws.getBody().get("email");
+			String email = (String) claims.get("email");
 			if (!StringUtils.hasText(email)) {
 				throw new IllegalArgumentException("'email' is required");
 			}
 
-			String role = (String) jws.getBody().get("role");
+			String role = (String) claims.get("role");
 			if (!StringUtils.hasText(role)) {
 				throw new IllegalArgumentException("'role' is required");
 			}

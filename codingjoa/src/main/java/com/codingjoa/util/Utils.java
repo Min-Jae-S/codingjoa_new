@@ -97,7 +97,7 @@ public class Utils {
 				.collect(Collectors.toList());
 	}
 	
-	public static String formatJson(Object obj) {
+	public static String formatPrettyJson(Object obj) {
     	if (obj == null) {
     		return null;
     	}

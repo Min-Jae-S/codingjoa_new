@@ -59,7 +59,7 @@ public class TestOAuth2Service {
 		);
 		
 		String responseBody = response.getBody();
-		log.info("{}", Utils.formatJson(responseBody));
+		log.info("{}", Utils.formatPrettyJson(responseBody));
 		
 		return parseJson(responseBody, KakaoTokenResponse.class);
 	}
@@ -79,7 +79,7 @@ public class TestOAuth2Service {
 		);
 		
 		String responseBody = response.getBody();
-		log.info("{}", Utils.formatJson(responseBody));
+		log.info("{}", Utils.formatPrettyJson(responseBody));
 		
 		return parseJson(responseBody, KakaoUserInfoResponse.class);
 	}
@@ -106,7 +106,7 @@ public class TestOAuth2Service {
 		);
 		
 		String responseBody = response.getBody();
-		log.info("{}", Utils.formatJson(responseBody));
+		log.info("{}", Utils.formatPrettyJson(responseBody));
 		
 		return parseJson(responseBody, NaverTokenResponse.class);
 	}
@@ -125,7 +125,7 @@ public class TestOAuth2Service {
 		);
 		
 		String responseBody = response.getBody();
-		log.info("{}", Utils.formatJson(responseBody));
+		log.info("{}", Utils.formatPrettyJson(responseBody));
 		
 		return parseJson(responseBody, NaverUserInfoResponse.class);
 	}

@@ -40,10 +40,12 @@ public class OAuth2CustomAuthorizationRequestResolver implements OAuth2Authoriza
 	
 	private OAuth2AuthorizationRequest customize(HttpServletRequest request, OAuth2AuthorizationRequest authorizationRequest) {
 		log.info("## {}.customize", this.getClass().getSimpleName());
+		log.info("\t > customize authorization request uri : fully encoding, adding prompt paramter");
+		log.info("\t > add the 'continue' param to the attributes of OAuth2AuthorizationRequest");
 		String authorizationRequestUri = customizeAuthorizationRequestUri(authorizationRequest);
 		
 		Map<String, Object> attributes = new HashMap<>(authorizationRequest.getAttributes());
-		attributes.put("continue", getContinueParameter(request));
+		attributes.put("continue", request.getParameter("continue"));
 		
 		return OAuth2AuthorizationRequest.from(authorizationRequest)
 				.authorizationRequestUri(authorizationRequestUri)
@@ -70,10 +72,6 @@ public class OAuth2CustomAuthorizationRequestResolver implements OAuth2Authoriza
 	private String restoreAndEncode(String value) {
 		String restoredUri = UriUtils.decode(value, StandardCharsets.UTF_8);
 		return UriUtils.encode(restoredUri, StandardCharsets.UTF_8);
-	}
-	
-	private String getContinueParameter(HttpServletRequest request) {
-		return request.getParameter("continue");
 	}
 
 }

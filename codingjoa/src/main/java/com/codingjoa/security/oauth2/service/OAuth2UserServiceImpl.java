@@ -11,6 +11,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
@@ -26,44 +27,61 @@ import com.codingjoa.util.Utils;
 
 import lombok.extern.slf4j.Slf4j;
 
-/* * @@ kakao (https://developers.kakao.com/docs/latest/ko/kakaologin/rest-api)
- *  - GET/POST, https://kapi.kakao.com/v2/user/me
- *  - header
- * 		> Authorization: Bearer ${ACCESS_TOKEN}
- * 		> Content-type: application/x-www-form-urlencoded;charset=utf-8
-	{
-		"id" : 3625815491,
-		"connected_at" : "2024-07-17T05:59:35Z",
-		"properties" : {
-			"nickname" : "서민재"
-		},
-		"kakao_account" : {
-			"profile_nickname_needs_agreement" : false,
-			"profile" : {
-				"nickname" : "서민재",
-				"is_default_nickname" : false
+/*
+	@@ kakao (https://developers.kakao.com/docs/latest/ko/kakaologin/rest-api)
+		- GET/POST, https://kapi.kakao.com/v2/user/me
+		- header
+			> Authorization: Bearer ${ACCESS_TOKEN}
+			> Content-type: application/x-www-form-urlencoded;charset=utf-8
+		- body
+		{
+		    "id":123456789,
+		    "connected_at": "2022-04-11T01:45:28Z",
+		    "kakao_account": { 
+		        "profile_nickname_needs_agreement" : false,
+		        "profile_image_needs_agreement" : false,
+		        "profile": {
+		            "nickname": "홍길동",
+		            "thumbnail_image_url": "http://yyy.kakao.com/.../img_110x110.jpg",
+		            "profile_image_url": "http://yyy.kakao.com/dn/.../img_640x640.jpg",
+		            "is_default_image":false,
+		            "is_default_nickname": false
+		        },
+		        "name_needs_agreement":false, 
+		        "name":"홍길동",
+		        "email_needs_agreement":false, 
+		        "is_email_valid": true,   
+		        "is_email_verified": true,
+		        "email": "sample@sample.com",
+		    },
+		    "properties":{
+		        "${CUSTOM_PROPERTY_KEY}": "${CUSTOM_PROPERTY_VALUE}",
+		        ...
+		    },
+		    "for_partner": {
+		        "uuid": "${UUID}"
+		    }
+		}
+	
+ 	@@ naver (https://developers.naver.com/docs/login/profile/profile.md)
+ 		- GET, https://openapi.naver.com/v1/nid/me
+  		- header
+ 			> Authorization: Bearer ${ACCESS_TOKEN}
+ 			> Content-type: application/x-www-form-urlencoded;charset=utf-8
+ 		- body
+		{
+			"resultcode" : "00",
+			"message" : "success",
+			"response" : {
+				"id" : "UYTs-zkmWvHlYIrBiwcqLJu7i04g94NbIlfeuEOl-Og",
+				"email" : "smj20228@naver.com",
+				"name" : "서민재"
 			}
 		}
-	}
-	
- * @@ naver (https://developers.naver.com/docs/login/profile/profile.md)
- * 	- GET, https://openapi.naver.com/v1/nid/me
- * 	- header
- * 		> Authorization: Bearer ${ACCESS_TOKEN}
- * 		> Content-type: application/x-www-form-urlencoded;charset=utf-8
-	{
-		"resultcode" : "00",
-		"message" : "success",
-		"response" : {
-			"id" : "UYTs-zkmWvHlYIrBiwcqLJu7i04g94NbIlfeuEOl-Og",
-			"email" : "smj20228@naver.com",
-			"name" : "서민재"
-		}
-	}
- * 
+		
  */
 
-@SuppressWarnings("unused")
+@SuppressWarnings({ "unused", "unchecked" })
 @Slf4j
 @Service
 public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
@@ -87,19 +105,27 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 		OAuth2User loadedOAuth2User = delegate.loadUser(userRequest);
 		log.info("\t > received userInfo response, loadedOAuth2User = {}", Utils.specifiyFields(loadedOAuth2User));
 		
-		Map<String, Object> userAttributes = loadedOAuth2User.getAttributes();
-		log.info("\t > userAttributes = {}", userAttributes);
+		Map<String, Object> attributes = loadedOAuth2User.getAttributes();
+		log.info("\t > {}", Utils.formatPrettyJson(attributes));
 		
-		//return loadedOAuth2User;
+		String provider =  userRequest.getClientRegistration().getRegistrationId();
+		String attributeKeyName = userRequest.getClientRegistration().getProviderDetails().getUserInfoEndpoint()
+				.getUserNameAttributeName();
+		log.info("\t > provider = {}, attributeKeyName = {}", provider, attributeKeyName); // kakao:id, naver:response
 		
-		String memberEmail = null;
+		String memberEmail = extractEmail(provider, attributes);
+		log.info("\t > extracted email = {}", memberEmail);
+		
 		Map<String, Object> userDetailsMap = memberMapper.findUserDetailsByEmail(memberEmail);
 		
 		if (userDetailsMap == null) {
 			userDetailsMap = save(); // save new member
 		}
 		
-		return modelMapper.map(userDetailsMap, PrincipalDetails.class);
+		PrincipalDetails principalDetails = modelMapper.map(userDetailsMap, PrincipalDetails.class);
+		//log.info("\t > principalDetails = {}", Utils.formatJson(principalDetails));
+		
+		return principalDetails;
 	}
 	
 	private OAuth2User resolveOAuth2User(OAuth2UserRequest userRequest, OAuth2User oAuth2User) {
@@ -115,6 +141,18 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 	
 	private Map<String, Object> save() {
 		return null;
+	}
+	
+	private String extractEmail(String provider, Map<String, Object> attributes) {
+		if (provider.equals("kakao")) {
+			Map<String, Object> kakaoAccount = (Map<String, Object>) attributes.get("kakao_account");
+			return (String) kakaoAccount.get("email");
+		} else if (provider.equals("naver")) {
+			Map<String, Object> response = (Map<String, Object>) attributes.get("response");
+			return (String) response.get("email");
+		} else {
+			throw new RuntimeException("invalId provider");
+		}
 	}
 	
 }

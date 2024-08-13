@@ -121,7 +121,7 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 		}
 		
 		Map<String, Object> userAttributes = response.getBody();
-		log.info("{}", Utils.formatJson(userAttributes));
+		log.info("{}", Utils.formatPrettyJson(userAttributes));
 		
 		Set<GrantedAuthority> authorities = new LinkedHashSet<>();
 		authorities.add(new OAuth2UserAuthority(userAttributes));

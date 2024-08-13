@@ -23,11 +23,14 @@ import lombok.ToString;
 @Builder
 public class PrincipalDetails implements UserDetails, OAuth2User { // consider implementing OAuth2User 
 
-	private Member member;						// from member
-	private String memberRole;					// inner join auth
-	private String memberImageUrl;				// left outer join member_image
-	private List<Integer> myBoardLikes;			// left outer join board_likes
-	private List<Integer> myCommentLikes;		// left outer join comment_likes
+	private Member member;
+	private String memberId;
+	private String memberEmail;
+	private String memberRole;	
+	private String memberImageUrl;
+	private String provider;
+	private List<Integer> myBoardLikes;
+	private List<Integer> myCommentLikes;
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
