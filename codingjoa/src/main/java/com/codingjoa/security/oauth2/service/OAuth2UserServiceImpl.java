@@ -92,14 +92,14 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 		
 		//return loadedOAuth2User;
 		
-		String email = null;
-		Map<String, Object> map = memberMapper.findUserDetailsByEmail(email);
+		String memberEmail = null;
+		Map<String, Object> userDetailsMap = memberMapper.findUserDetailsByEmail(memberEmail);
 		
-		if (map == null) {
-			map = save(); // save new member
+		if (userDetailsMap == null) {
+			userDetailsMap = save(); // save new member
 		}
 		
-		return modelMapper.map(map, PrincipalDetails.class);
+		return modelMapper.map(userDetailsMap, PrincipalDetails.class);
 	}
 	
 	private OAuth2User resolveOAuth2User(OAuth2UserRequest userRequest, OAuth2User oAuth2User) {

@@ -107,7 +107,36 @@
 		ON
 			a.member_idx = e.member_idx
 		WHERE
-			a.member_id = #{memberId}
+			a.member_email = #{memberId}
+	</select>
+	
+	<select id="findUserDetailsByEmail" parameterType="string" resultMap="userDetailsMap">
+		SELECT 
+			a.*,
+			b.member_role,
+			c.member_image_url,
+			d.board_idx,
+			e.comment_idx
+		FROM
+			member a
+		INNER JOIN
+			auth b
+		ON
+			a.member_id = b.member_id
+		LEFT OUTER JOIN
+			member_image c
+		ON
+			a.member_idx = c.member_idx
+		LEFT OUTER JOIN
+			board_likes d
+		ON
+			a.member_idx = d.member_idx
+		LEFT OUTER JOIN
+			comment_likes e
+		ON
+			a.member_idx = e.member_idx
+		WHERE
+			a.member_email = #{memberEmail}
 	</select>
 	
 	<select id="findMemberByIdx" parameterType="int" resultType="member">

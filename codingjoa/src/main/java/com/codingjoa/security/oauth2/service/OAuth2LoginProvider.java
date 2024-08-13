@@ -61,7 +61,7 @@ public class OAuth2LoginProvider implements AuthenticationProvider { // OAuth2Lo
 				loginToken.getClientRegistration(),
 				loginToken.getAuthorizationExchange(),
 				loadedUser,
-				loadedUser.getAuthorities(), // mappedAuthorities, already mapped authorites
+				loadedUser.getAuthorities(), // authorities already mapped in OAuth2UserService (mappedAuthorites)
 				authenticatedAuthCodeToken.getAccessToken(),
 				authenticatedAuthCodeToken.getRefreshToken());
 		
