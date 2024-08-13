@@ -13,10 +13,12 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.codingjoa.entity.Member;
 import com.codingjoa.security.dto.OAuth2UserDto;
 import com.codingjoa.security.dto.PrincipalDetails;
 import com.codingjoa.util.Utils;
@@ -139,19 +141,11 @@ public class JwtProvider {
 				.setIssuedAt(now)
 				.setExpiration(exp);
 		
-		// UserDetails(UserDetailsDto), OAuth2User(OAuth2UserDto)
-		Object principal = authentication.getPrincipal(); 
-		
-		if (principal instanceof PrincipalDetails) {
-			PrincipalDetails userDetailsDto = (PrincipalDetails) principal;
-			claims.setSubject(userDetailsDto.getUsername());
-			claims.put("email", userDetailsDto.getMember().getMemberEmail());
-			claims.put("role", userDetailsDto.getMemberRole());
-			claims.put("image_url", userDetailsDto.getMemberImageUrl());
-		} else if (principal instanceof OAuth2UserDto) {
-			OAuth2UserDto oAuth2UserDto = (OAuth2UserDto) principal;
-			// ...
-		}
+		PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
+		claims.setSubject(principalDetails.getMember().getMemberId());
+		claims.put("email", principalDetails.getMember().getMemberEmail());
+		claims.put("role", principalDetails.getMemberRole());
+		claims.put("image_url", principalDetails.getMemberImageUrl());
 		
 		return claims;
 	}

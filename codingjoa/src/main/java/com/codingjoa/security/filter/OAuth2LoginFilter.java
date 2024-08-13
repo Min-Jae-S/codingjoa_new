@@ -1,7 +1,10 @@
 package com.codingjoa.security.filter;
 
+import java.io.IOException;
 import java.util.Map;
 
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -112,6 +115,12 @@ public class OAuth2LoginFilter extends AbstractAuthenticationProcessingFilter { 
 		return oAuth2AuthenticationToken;
 	}
 	
+	@Override
+	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
+			Authentication authResult) throws IOException, ServletException {
+		super.successfulAuthentication(request, response, chain, authResult); // SecurityContextHolder.getContext().setAuthentication(authResult)
+	}
+
 	static MultiValueMap<String, String> toMultiMap(Map<String, String[]> map) {
 		MultiValueMap<String, String> params = new LinkedMultiValueMap<>(map.size());
 		map.forEach((key, values) -> {

@@ -76,8 +76,7 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter { // Use
 	@Override
 	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
 			Authentication authResult) throws IOException, ServletException {
-		// SecurityContextHolder.getContext().setAuthentication(authResult);
-		super.successfulAuthentication(request, response, chain, authResult);
+		super.successfulAuthentication(request, response, chain, authResult); // SecurityContextHolder.getContext().setAuthentication(authResult)
 	}
 	
 }
