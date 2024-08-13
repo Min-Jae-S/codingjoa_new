@@ -119,11 +119,11 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 		Map<String, Object> userDetailsMap = memberMapper.findUserDetailsByEmail(memberEmail);
 		
 		if (userDetailsMap == null) {
-			userDetailsMap = save(); // save new member
+			userDetailsMap = save();
 		}
 		
 		PrincipalDetails principalDetails = modelMapper.map(userDetailsMap, PrincipalDetails.class);
-		//log.info("\t > principalDetails = {}", Utils.formatJson(principalDetails));
+		//log.info("\t > principalDetails = {}", Utils.formatPrettyJson(principalDetails));
 		
 		return principalDetails;
 	}
@@ -132,7 +132,6 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 		Set<GrantedAuthority> mappedAuthorities = new HashSet<>();
 		mappedAuthorities.add(new SimpleGrantedAuthority("ROLE_MEMBER"));
 		
-		// kakao: id, naver: response
 		String userNameAttributeName = userRequest.getClientRegistration().getProviderDetails()
 				.getUserInfoEndpoint().getUserNameAttributeName();
 		
