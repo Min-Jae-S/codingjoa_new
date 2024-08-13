@@ -16,6 +16,7 @@ import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserServ
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
+import org.springframework.security.oauth2.core.OAuth2Error;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
@@ -86,6 +87,8 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
 	
+	private static final String INVALID_PROVIDER_ERROR_CODE = "invalid_provider";
+	private static final String MISSING_EMAIL_RESPONSE_ERROR_CODE = "missing_email_response";
 	private final MemberMapper memberMapper;
 	private final ModelMapper modelMapper;
 	private final OAuth2UserService<OAuth2UserRequest, OAuth2User> delegate = new DefaultOAuth2UserService();
@@ -115,6 +118,10 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 		
 		String memberEmail = extractEmail(provider, attributes);
 		log.info("\t > extracted email = {}", memberEmail);
+		
+		if (memberEmail == null) {
+			throw new OAuth2AuthenticationException(new OAuth2Error(MISSING_EMAIL_RESPONSE_ERROR_CODE));
+		}
 		
 		Map<String, Object> userDetailsMap = memberMapper.findUserDetailsByEmail(memberEmail);
 		
@@ -150,8 +157,9 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 			Map<String, Object> response = (Map<String, Object>) attributes.get("response");
 			return (String) response.get("email");
 		} else {
-			throw new RuntimeException("invalId provider");
+			throw new OAuth2AuthenticationException(new OAuth2Error(INVALID_PROVIDER_ERROR_CODE));
 		}
+		
 	}
 	
 }
