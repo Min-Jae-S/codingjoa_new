@@ -27,7 +27,7 @@ import org.springframework.security.oauth2.client.web.AuthenticatedPrincipalOAut
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepository;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 
-import com.codingjoa.security.oauth2.CustomOAuth2Provider;
+import com.codingjoa.security.oauth2.OAuth2CustomProvider;
 import com.codingjoa.security.oauth2.OAuth2ClientProperties;
 import com.codingjoa.security.oauth2.OAuth2ClientProperties.Provider;
 
@@ -76,14 +76,14 @@ public class OAuth2Config {
 	}
 	
 	private ClientRegistration kakaoClientRegistration() {
-		return CustomOAuth2Provider.KAKAO.getBuilder("kakao")
+		return OAuth2CustomProvider.KAKAO.getBuilder("kakao")
 				.clientId(env.getProperty("security.oauth2.client.registration.kakao.client-id"))
 				.clientSecret(env.getProperty("security.oauth2.client.registration.kakao.client-secret"))
 				.build();
 	}
 	
 	private ClientRegistration naverClientRegistration() {
-		return CustomOAuth2Provider.NAVER.getBuilder("naver")
+		return OAuth2CustomProvider.NAVER.getBuilder("naver")
 				.clientId(env.getProperty("security.oauth2.client.registration.naver.client-id"))
 				.clientSecret(env.getProperty("security.oauth2.client.registration.naver.client-secret"))
 				.build();
@@ -199,9 +199,9 @@ public class OAuth2Config {
 		}
 	}
 
-	private CustomOAuth2Provider getCustomProvider(String providerId) {
+	private OAuth2CustomProvider getCustomProvider(String providerId) {
 		try {
-			return CustomOAuth2Provider.valueOf(providerId.toUpperCase());
+			return OAuth2CustomProvider.valueOf(providerId.toUpperCase());
 		} catch (Exception e) {
 			return null;
 		}

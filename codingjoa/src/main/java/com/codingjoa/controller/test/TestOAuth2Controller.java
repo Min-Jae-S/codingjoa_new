@@ -33,7 +33,7 @@ import com.codingjoa.security.dto.KakaoTokenResponse;
 import com.codingjoa.security.dto.KakaoUserInfoResponse;
 import com.codingjoa.security.dto.NaverTokenResponse;
 import com.codingjoa.security.dto.NaverUserInfoResponse;
-import com.codingjoa.security.oauth2.CustomOAuth2Provider;
+import com.codingjoa.security.oauth2.OAuth2CustomProvider;
 import com.codingjoa.security.oauth2.service.TestOAuth2Service;
 
 import lombok.extern.slf4j.Slf4j;
@@ -116,20 +116,20 @@ public class TestOAuth2Controller {
 	public ResponseEntity<Object> test2() {
 		log.info("## test2");
 		List<Object> oAuth2Providers = Stream
-				.concat(Arrays.stream(CommonOAuth2Provider.values()), Arrays.stream(CustomOAuth2Provider.values()))
+				.concat(Arrays.stream(CommonOAuth2Provider.values()), Arrays.stream(OAuth2CustomProvider.values()))
 				.collect(Collectors.toList());
 		log.info("\t > oAuth2Providers = {}", oAuth2Providers);
 		
-		CustomOAuth2Provider kakaoOAuth2Provider;
-		CustomOAuth2Provider KAKAOAuth2Provider;
+		OAuth2CustomProvider kakaoOAuth2Provider;
+		OAuth2CustomProvider KAKAOAuth2Provider;
 		try {
-			kakaoOAuth2Provider = CustomOAuth2Provider.valueOf("kakao");
+			kakaoOAuth2Provider = OAuth2CustomProvider.valueOf("kakao");
 		} catch (Exception e) {
 			kakaoOAuth2Provider = null;
 		}
 		
 		try {
-			KAKAOAuth2Provider = CustomOAuth2Provider.valueOf("KAKAO");
+			KAKAOAuth2Provider = OAuth2CustomProvider.valueOf("KAKAO");
 		} catch (Exception e) {
 			KAKAOAuth2Provider = null;
 		}

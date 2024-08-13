@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import com.codingjoa.mapper.MemberMapper;
 import com.codingjoa.security.dto.OAuth2UserDto;
+import com.codingjoa.security.dto.PrincipalDetails;
 import com.codingjoa.util.Utils;
 
 import lombok.extern.slf4j.Slf4j;
@@ -89,16 +90,16 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 		Map<String, Object> userAttributes = loadedOAuth2User.getAttributes();
 		log.info("\t > userAttributes = {}", userAttributes);
 		
-		return loadedOAuth2User;
+		//return loadedOAuth2User;
 		
-//		String memberEmail = null;
-//		Map<String, Object> userDetails = memberMapper.findUserDetailsByEmail(memberEmail);
-//		
-//		if (userDetails == null) {
-//			userDetails = save(); // save new member
-//		}
-//		
-//		return modelMapper.map(userDetails, OAuth2UserDto.class);
+		String email = null;
+		Map<String, Object> map = memberMapper.findUserDetailsByEmail(email);
+		
+		if (map == null) {
+			map = save(); // save new member
+		}
+		
+		return modelMapper.map(map, PrincipalDetails.class);
 	}
 	
 	private OAuth2User resolveOAuth2User(OAuth2UserRequest userRequest, OAuth2User oAuth2User) {
