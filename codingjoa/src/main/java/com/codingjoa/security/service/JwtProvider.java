@@ -87,15 +87,12 @@ public class JwtProvider {
 		try {
 			Jws<Claims> jws = parseJwt(jwt);
 			Claims claims = jws.getBody();
-			log.info("\t > parsed JWT = {}", Utils.formatPrettyJson(claims));
+			log.info("\t > parsed JWT = {}", claims);
 			
 			Date exp = claims.getExpiration();
 			if (exp == null) {
 				throw new IllegalArgumentException("'exp' is required");
 			}
-			
-			//LocalDateTime dateTime = LocalDateTime.ofInstant(exp.toInstant(), ZoneId.systemDefault());
-			//log.info("\t > exp = {}", dateTime.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
 			
 			String email = (String) claims.get("email");
 			if (!StringUtils.hasText(email)) {
@@ -105,6 +102,11 @@ public class JwtProvider {
 			String role = (String) claims.get("role");
 			if (!StringUtils.hasText(role)) {
 				throw new IllegalArgumentException("'role' is required");
+			}
+			
+			String provider = (String) claims.get("provider");
+			if (!StringUtils.hasText(provider)) {
+				throw new IllegalArgumentException("'provider' is required");
 			}
 			
 			return true;
@@ -142,11 +144,13 @@ public class JwtProvider {
 		claims.put("image_url", principalDetails.getImageUrl());
 
 		if (authentication instanceof UsernamePasswordAuthenticationToken) {
-			claims.put("provider", "LOCAL");
+			claims.put("provider", "local");
 		} else if (authentication instanceof OAuth2AuthenticationToken) {
 			OAuth2AuthenticationToken oAuth2AuthenticationToken = (OAuth2AuthenticationToken) authentication;
 			claims.put("provider", oAuth2AuthenticationToken.getAuthorizedClientRegistrationId());
 		}
+		
+		log.info("\t > created claims = {}", claims);
 		
 		return claims;
 	}

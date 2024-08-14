@@ -47,6 +47,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 				.data(Map.of("continueUrl", continueUrl))
 				.build();
 		
+		log.info("\t > create JWT and distribute as a cookie");
 		String jwt = jwtProvider.createJwt(authentication, request);
 		ResponseCookie jwtCookie = ResponseCookie.from("ACCESS_TOKEN", jwt)
 				.domain("localhost")
@@ -56,10 +57,8 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 				.secure(true)
 				.sameSite("Strict")
 				.build();
-
-		response.setHeader(HttpHeaders.SET_COOKIE, jwtCookie.toString());
-		log.info("\t > distribute JWT as a cookie");
 		
+		response.setHeader(HttpHeaders.SET_COOKIE, jwtCookie.toString());
 		response.setStatus(HttpServletResponse.SC_OK);
 		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 		response.setCharacterEncoding(StandardCharsets.UTF_8.name());
