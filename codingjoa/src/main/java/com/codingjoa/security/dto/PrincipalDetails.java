@@ -29,6 +29,7 @@ public class PrincipalDetails implements UserDetails, OAuth2User { // consider i
 
 	private Member member;
 	private String memberId;
+	
 	private String memberEmail;
 	private String memberRole;	
 	private String memberImageUrl;

@@ -39,6 +39,7 @@ import lombok.extern.slf4j.Slf4j;
 public class OAuth2LoginFilter extends AbstractAuthenticationProcessingFilter { // OAuth2LoginAuthenticationFilter
 	
 	public static final String DEFAULT_FILTER_PROCESSES_URI = "/login/*/callback";
+	
 	private final ClientRegistrationRepository clientRegistrationRepository;
 	private final OAuth2AuthorizedClientRepository authorizedClientRepository;
 	private AuthorizationRequestRepository<OAuth2AuthorizationRequest> authorizationRequestRepository = 

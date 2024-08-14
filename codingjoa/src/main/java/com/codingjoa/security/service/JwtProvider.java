@@ -43,6 +43,7 @@ public class JwtProvider {
 	 * 	signature
 	 */
 
+	
 	private final Key signingKey;
 	private final long validityInMillis; // 1000 * 60 * 60 (1 hour)
 	private final UserDetailsService userDetailsService;

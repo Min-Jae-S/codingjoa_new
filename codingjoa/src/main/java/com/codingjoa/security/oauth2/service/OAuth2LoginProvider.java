@@ -20,6 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 public class OAuth2LoginProvider implements AuthenticationProvider { // OAuth2LoginAuthenticationProvider
 	
 	private final OAuth2AuthorizationCodeAuthenticationProvider authorizationCodeAuthenticationProvider;
+	
 	private final OAuth2UserService<OAuth2UserRequest, OAuth2User> oAuth2UserService;
 	
 	public OAuth2LoginProvider(
