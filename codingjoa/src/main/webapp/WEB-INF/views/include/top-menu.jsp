@@ -48,8 +48,8 @@
 					<sec:authentication property="principal" var="principal"/>
 					<li class="nav-item mr-1">
 						<c:choose>
-							<c:when test="${not empty principal.memberImageUrl}">
-								<img class="nav-member-image" id="navMemberImage" src="${principal.memberImageUrl}">
+							<c:when test="${not empty principal.imageUrl}">
+								<img class="nav-member-image" id="navMemberImage" src="${principal.imageUrl}">
 							</c:when>
 							<c:otherwise>
 								<img class="nav-member-image" id="navMemberImage" src="${contextPath}/resources/images/img_profile.png">
@@ -59,7 +59,7 @@
 					<li class="nav-item mr-2">
 						<a class="nav-link text-body" href="${contextPath}/member/account/info">
 							<span class="font-weight-bold">
-								<c:out value="${principal.memberId}"/>
+								<c:out value="${principal.id}"/>
 							</span>
 						</a>
 					</li>

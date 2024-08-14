@@ -13,44 +13,43 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import com.codingjoa.entity.Member;
 
-import lombok.AllArgsConstructor;
+import io.jsonwebtoken.Claims;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @SuppressWarnings("serial")
 @ToString
 @Getter
-@AllArgsConstructor
-@NoArgsConstructor
 @Builder
 public class PrincipalDetails implements UserDetails, OAuth2User { // consider implementing OAuth2User 
 
-	private Member member;
-	private String memberId;
-	private String memberEmail;
-	private String memberRole;	
-	private String memberImageUrl;
-	private String provider;
-	private List<Integer> myBoardLikes;
-	private List<Integer> myCommentLikes;
+	private final Member member;
+	private final String role;					// INNER JOIN auth	
+	private final String imageUrl;				// LEFT OUTER JOIN member_iamge
+	private final List<Integer> myBoardLikes;	// LEFT OUTER JOIN board_likes
+	private final List<Integer> myCommentLikes;	// LEFT OUTER JOIN comment_likes
+
+	private final String id;
+	private final String password;
+	private final String email;
+	private final String provider;
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		Set<GrantedAuthority> authorities = new HashSet<>();
-		authorities.add(new SimpleGrantedAuthority(memberRole));
+		authorities.add(new SimpleGrantedAuthority(role));
 		return authorities;
 	}
 
 	@Override
 	public String getUsername() {
-		return member.getMemberId();
+		return id;
 	}
 
 	@Override
 	public String getPassword() {
-		return member.getMemberPassword();
+		return password;
 	}
 
 	// more details(active, locked, expired...)
@@ -86,6 +85,27 @@ public class PrincipalDetails implements UserDetails, OAuth2User { // consider i
 	@Override
 	public String getName() {
 		return null;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static PrincipalDetails from(Map<String, Object> map) {
+		Member member = (Member) map.get("member");
+		return PrincipalDetails.builder()
+				.member(member)
+				.role((String) map.get("memberRole"))
+				.imageUrl((String) map.get("memberImageUrl"))
+				.myBoardLikes((List<Integer>) map.get("myBoardLikes"))
+				.myCommentLikes((List<Integer>) map.get("myCommentLikes"))
+				.id(member.getMemberId())
+				.password(member.getMemberPassword())
+				.email(member.getMemberEmail())
+				.provider(null)
+				.build();
+	}
+
+	public static PrincipalDetails from(Claims claims) {
+		return PrincipalDetails.builder()
+				.build();
 	}
 
 }

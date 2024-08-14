@@ -4,9 +4,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -22,6 +19,7 @@ import com.codingjoa.mapper.MemberMapper;
 import com.codingjoa.security.dto.PrincipalDetails;
 import com.codingjoa.util.Utils;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /*
@@ -80,20 +78,14 @@ import lombok.extern.slf4j.Slf4j;
 
 @SuppressWarnings({ "unused", "unchecked" })
 @Slf4j
+@RequiredArgsConstructor
 @Service
 public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
 	
 	private static final String INVALID_PROVIDER_ERROR_CODE = "invalid_provider";
 	private static final String MISSING_EMAIL_RESPONSE_ERROR_CODE = "missing_email_response";
 	private final MemberMapper memberMapper;
-	private final ModelMapper modelMapper;
 	private final OAuth2UserService<OAuth2UserRequest, OAuth2User> delegate = new DefaultOAuth2UserService();
-	
-	@Autowired
-	public OAuth2UserServiceImpl(MemberMapper memberMapper, @Qualifier("customModelMapper") ModelMapper modelMapper) {
-		this.memberMapper = memberMapper;
-		this.modelMapper = modelMapper;
-	}
 	
 	@Override
 	public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
@@ -127,7 +119,7 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 			log.info("\t > already a registered member");
 		}
 		
-		PrincipalDetails principalDetails = modelMapper.map(userDetailsMap, PrincipalDetails.class);
+		PrincipalDetails principalDetails = PrincipalDetails.from(userDetailsMap);
 		//log.info("\t > principalDetails = {}", Utils.formatPrettyJson(principalDetails));
 		
 		return principalDetails;

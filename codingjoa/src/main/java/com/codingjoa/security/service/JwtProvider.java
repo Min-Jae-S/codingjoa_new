@@ -11,15 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.codingjoa.entity.Member;
-import com.codingjoa.security.dto.OAuth2UserDto;
 import com.codingjoa.security.dto.PrincipalDetails;
 import com.codingjoa.util.Utils;
 
@@ -80,10 +77,10 @@ public class JwtProvider {
 		String provider = (String) claims.get("provider");
 		
 		PrincipalDetails pincipalDetails = PrincipalDetails.builder()
-				.memberId(id)
-				.memberEmail(email)
-				.memberImageUrl(imageUrl)
-				.memberRole(role)
+				.id(id)
+				.email(email)
+				.imageUrl(imageUrl)
+				.role(role)
 				.provider(provider)
 				.build();
 		
@@ -157,10 +154,10 @@ public class JwtProvider {
 		}
 		
 		PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
-		claims.setSubject(principalDetails.getMember().getMemberId());
-		claims.put("email", principalDetails.getMember().getMemberEmail());
-		claims.put("role", principalDetails.getMemberRole());
-		claims.put("image_url", principalDetails.getMemberImageUrl());
+		claims.setSubject(principalDetails.getId());
+		claims.put("email", principalDetails.getEmail());
+		claims.put("role", principalDetails.getRole());
+		claims.put("image_url", principalDetails.getImageUrl());
 		
 		return claims;
 	}
