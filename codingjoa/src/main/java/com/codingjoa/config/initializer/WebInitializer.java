@@ -23,7 +23,6 @@ import com.codingjoa.config.BatchConfig;
 import com.codingjoa.config.BatchJobConfig;
 import com.codingjoa.config.DataSourceConfig;
 import com.codingjoa.config.EmailConfig;
-import com.codingjoa.config.ModelMapperConfig;
 import com.codingjoa.config.MybatisConfig;
 import com.codingjoa.config.OAuth2Config;
 import com.codingjoa.config.QuartzConfig;
@@ -45,7 +44,6 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
 				DataSourceConfig.class,
 				MybatisConfig.class,
 				SecurityConfig.class,
-				ModelMapperConfig.class,
 				EmailConfig.class, 
 				RedisConfig.class,
 				QuartzConfig.class,

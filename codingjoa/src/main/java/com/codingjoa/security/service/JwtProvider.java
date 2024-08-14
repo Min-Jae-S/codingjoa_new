@@ -70,19 +70,8 @@ public class JwtProvider {
 	// check comment: to fully leverage the advantages of using JWT, it's preferable to avoid database access during the verification process.
 	public Authentication getAuthentication(String jwt) {
 		Claims claims = parseJwt(jwt).getBody();
-		String id = claims.getSubject();
-		String email = (String) claims.get("email");
-		String role = (String) claims.get("role");
-		String imageUrl = (String) claims.get("image_url");
-		String provider = (String) claims.get("provider");
-		
-		PrincipalDetails pincipalDetails = PrincipalDetails.builder()
-				.id(id)
-				.email(email)
-				.imageUrl(imageUrl)
-				.role(role)
-				.provider(provider)
-				.build();
+		PrincipalDetails pincipalDetails = PrincipalDetails.from(claims);
+		//log.info("\t > principalDetails = {}", Utils.formatPrettyJson(principalDetails));
 		
 		return new UsernamePasswordAuthenticationToken(pincipalDetails, null, pincipalDetails.getAuthorities());
 	}

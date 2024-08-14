@@ -14,6 +14,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import com.codingjoa.entity.Member;
 
 import io.jsonwebtoken.Claims;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
@@ -21,7 +22,7 @@ import lombok.ToString;
 @SuppressWarnings("serial")
 @ToString
 @Getter
-@Builder
+@Builder(access = AccessLevel.PRIVATE)
 public class PrincipalDetails implements UserDetails, OAuth2User { // consider implementing OAuth2User 
 
 	private final Member member;
@@ -105,6 +106,11 @@ public class PrincipalDetails implements UserDetails, OAuth2User { // consider i
 
 	public static PrincipalDetails from(Claims claims) {
 		return PrincipalDetails.builder()
+				.id(claims.getSubject())
+				.role((String) claims.get("role"))
+				.email((String) claims.get("email"))
+				.imageUrl((String) claims.get("image_url"))
+				.provider((String) claims.get("provider"))
 				.build();
 	}
 
