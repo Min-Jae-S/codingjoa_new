@@ -37,7 +37,6 @@ public class PrincipalDetails implements UserDetails, OAuth2User { // consider i
 	@Builder
 	public PrincipalDetails(Member member, String role, String imageUrl, List<Integer> myBoardLikes,
 			List<Integer> myCommentLikes, String id, String password, String email, String provider) {
-		super();
 		this.member = member;
 		this.role = role;
 		this.imageUrl = imageUrl;

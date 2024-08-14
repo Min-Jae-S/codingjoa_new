@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /*
  	member_idx              NUMBER,
@@ -21,6 +22,7 @@ import lombok.Data;
     moddate                 DATE                    NOT NULL,
 */
 
+@NoArgsConstructor
 @Data
 public class Member {
 
@@ -45,7 +47,6 @@ public class Member {
 	@Builder
 	public Member(Integer memberIdx, String memberId, String memberPassword, String memberEmail, String memberZipcode,
 			String memberAddr, String memberAddrDetail, Boolean memberAgree, Date regdate, Date moddate) {
-		super();
 		this.memberIdx = memberIdx;
 		this.memberId = memberId;
 		this.memberPassword = memberPassword;
