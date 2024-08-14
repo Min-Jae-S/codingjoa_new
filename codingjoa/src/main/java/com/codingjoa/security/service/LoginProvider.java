@@ -33,7 +33,6 @@ public class LoginProvider implements AuthenticationProvider { // AbstractUserDe
 		
 		UsernamePasswordAuthenticationToken loginToken = (UsernamePasswordAuthenticationToken) authentication;
 		String memberId = loginToken.getName();
-		
 		String memberPassword = (String) loginToken.getCredentials();
 		
 		UserDetails loadedUser = userDetailsService.loadUserByUsername(memberId); // PrincipalDetails

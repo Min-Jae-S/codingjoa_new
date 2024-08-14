@@ -125,7 +125,6 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 			throw new OAuth2AuthenticationException(oAuth2Error, oAuth2Error.toString());
 		}
 		
-		
 		Map<String, Object> userDetailsMap = memberMapper.findUserDetailsByEmail(memberEmail);
 		
 		if (userDetailsMap == null) {

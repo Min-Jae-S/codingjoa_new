@@ -27,7 +27,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	public UserDetailsServiceImpl(MemberMapper memberMapper, @Qualifier("customModelMapper") ModelMapper modelMapper) {
 		this.memberMapper = memberMapper;
 		this.modelMapper = modelMapper;
-		
 	}
 
 	@Override
