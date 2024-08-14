@@ -111,22 +111,26 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 		Map<String, Object> attributes = loadedOAuth2User.getAttributes();
 		log.info("\t > {}", Utils.formatPrettyJson(attributes));
 		
-		String provider =  userRequest.getClientRegistration().getRegistrationId();
+		String provider = userRequest.getClientRegistration().getRegistrationId();
 		String attributeKeyName = userRequest.getClientRegistration().getProviderDetails().getUserInfoEndpoint()
 				.getUserNameAttributeName();
 		log.info("\t > provider = {}, attributeKeyName = {}", provider, attributeKeyName); // kakao:id, naver:response
 		
 		String memberEmail = extractEmail(provider, attributes);
-		log.info("\t > extracted email = {}", memberEmail);
+		log.info("\t > email from attibutes = {}", memberEmail);
 		
 		if (memberEmail == null) {
-			throw new OAuth2AuthenticationException(new OAuth2Error(MISSING_EMAIL_RESPONSE_ERROR_CODE));
+			OAuth2Error oAuth2Error = new OAuth2Error(MISSING_EMAIL_RESPONSE_ERROR_CODE, 
+					"An error occurred while attempting to extract 'email' from attibutes", null);
+			throw new OAuth2AuthenticationException(oAuth2Error, oAuth2Error.toString());
 		}
 		
 		Map<String, Object> userDetailsMap = memberMapper.findUserDetailsByEmail(memberEmail);
 		
 		if (userDetailsMap == null) {
-			userDetailsMap = save();
+			log.info("\t > not a registered member, proceed with the registration");
+		} else {
+			log.info("\t > already a registered member");
 		}
 		
 		PrincipalDetails principalDetails = modelMapper.map(userDetailsMap, PrincipalDetails.class);
@@ -157,7 +161,8 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 			Map<String, Object> response = (Map<String, Object>) attributes.get("response");
 			return (String) response.get("email");
 		} else {
-			throw new OAuth2AuthenticationException(new OAuth2Error(INVALID_PROVIDER_ERROR_CODE));
+			OAuth2Error oAuth2Error = new OAuth2Error(INVALID_PROVIDER_ERROR_CODE, "Invalid provider: " + provider, null);
+			throw new OAuth2AuthenticationException(oAuth2Error, oAuth2Error.toString());
 		}
 		
 	}

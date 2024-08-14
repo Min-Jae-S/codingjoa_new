@@ -24,10 +24,8 @@ public class OAuth2LoginFailureHandler implements AuthenticationFailureHandler {
 		
 		if (exception instanceof OAuth2AuthenticationException) {
 			OAuth2AuthenticationException e = (OAuth2AuthenticationException) exception;
-			log.info("\t > {} : {}", e.getClass().getSimpleName(), e.getError().getErrorCode());
-		} else {
-			log.info("\t > {} : {}", exception.getClass().getSimpleName(), exception.getMessage());
-		}
+			log.info("\t > {} : {}", e.getClass().getSimpleName(), e.getMessage());
+		} 
 	}
 
 }

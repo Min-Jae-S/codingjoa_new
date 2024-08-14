@@ -13,13 +13,17 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import com.codingjoa.entity.Member;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @SuppressWarnings("serial")
 @ToString
 @Getter
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class PrincipalDetails implements UserDetails, OAuth2User { // consider implementing OAuth2User 
 
