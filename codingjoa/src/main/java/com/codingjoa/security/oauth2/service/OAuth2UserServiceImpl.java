@@ -8,10 +8,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
@@ -22,7 +19,6 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
 import com.codingjoa.mapper.MemberMapper;
-import com.codingjoa.security.dto.OAuth2UserDto;
 import com.codingjoa.security.dto.PrincipalDetails;
 import com.codingjoa.util.Utils;
 
@@ -106,10 +102,8 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 		log.info("\t > delegate to the {} for loading a user", delegate.getClass().getSimpleName());
 		
 		OAuth2User loadedOAuth2User = delegate.loadUser(userRequest);
-		log.info("\t > received userInfo response, loadedOAuth2User = {}", Utils.specifiyFields(loadedOAuth2User));
-		
 		Map<String, Object> attributes = loadedOAuth2User.getAttributes();
-		log.info("\t > {}", Utils.formatPrettyJson(attributes));
+		log.info("\t > received userInfo response {}", Utils.formatPrettyJson(attributes));
 		
 		String provider = userRequest.getClientRegistration().getRegistrationId();
 		String attributeKeyName = userRequest.getClientRegistration().getProviderDetails().getUserInfoEndpoint()
@@ -117,7 +111,7 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 		log.info("\t > provider = {}, attributeKeyName = {}", provider, attributeKeyName); // kakao:id, naver:response
 		
 		String memberEmail = extractEmail(provider, attributes);
-		log.info("\t > email from attibutes = {}", memberEmail);
+		log.info("\t > email from attributes = {}", memberEmail);
 		
 		if (memberEmail == null) {
 			OAuth2Error oAuth2Error = new OAuth2Error(MISSING_EMAIL_RESPONSE_ERROR_CODE, 
@@ -147,10 +141,6 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 				.getUserInfoEndpoint().getUserNameAttributeName();
 		
 		return new DefaultOAuth2User(mappedAuthorities, oAuth2User.getAttributes(), userNameAttributeName);
-	}
-	
-	private Map<String, Object> save() {
-		return null;
 	}
 	
 	private String extractEmail(String provider, Map<String, Object> attributes) {
