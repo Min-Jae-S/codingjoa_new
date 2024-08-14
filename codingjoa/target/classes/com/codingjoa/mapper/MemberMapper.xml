@@ -89,7 +89,7 @@
 	
 	<select id="findUserDetailsById" parameterType="string" resultMap="userDetailsMap">
 		SELECT 
-			a.*
+			a.*,
 			b.member_role,
 			c.member_image_url,
 			d.board_idx,

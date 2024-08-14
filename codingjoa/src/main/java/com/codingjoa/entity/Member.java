@@ -22,7 +22,7 @@ import lombok.NoArgsConstructor;
     moddate                 DATE                    NOT NULL,
 */
 
-@NoArgsConstructor
+@NoArgsConstructor // for mybatis resultSet
 @Data
 public class Member {
 

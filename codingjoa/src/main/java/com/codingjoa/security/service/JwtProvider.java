@@ -135,18 +135,18 @@ public class JwtProvider {
 				.setIssuedAt(now)
 				.setExpiration(exp);
 		
+		PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
+		claims.setSubject(principalDetails.getId());
+		claims.put("email", principalDetails.getEmail());
+		claims.put("role", principalDetails.getRole());
+		claims.put("image_url", principalDetails.getImageUrl());
+
 		if (authentication instanceof UsernamePasswordAuthenticationToken) {
 			claims.put("provider", "LOCAL");
 		} else if (authentication instanceof OAuth2AuthenticationToken) {
 			OAuth2AuthenticationToken oAuth2AuthenticationToken = (OAuth2AuthenticationToken) authentication;
 			claims.put("provider", oAuth2AuthenticationToken.getAuthorizedClientRegistrationId());
 		}
-		
-		PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
-		claims.setSubject(principalDetails.getId());
-		claims.put("email", principalDetails.getEmail());
-		claims.put("role", principalDetails.getRole());
-		claims.put("image_url", principalDetails.getImageUrl());
 		
 		return claims;
 	}
