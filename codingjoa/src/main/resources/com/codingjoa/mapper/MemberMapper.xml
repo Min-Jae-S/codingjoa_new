@@ -99,7 +99,7 @@
 		INNER JOIN
 			auth b
 		ON
-			a.member_id = b.member_id
+			a.member_idx = b.member_idx
 		LEFT OUTER JOIN
 			member_image c
 		ON
@@ -113,7 +113,7 @@
 		ON
 			a.member_idx = e.member_idx
 		WHERE
-			a.memberId = #{memberId}
+			a.member_id = #{memberId}
 	</select>
 	
 	<select id="findUserDetailsByEmail" parameterType="string" resultMap="userDetailsMap">
@@ -128,7 +128,7 @@
 		INNER JOIN
 			auth b
 		ON
-			a.member_id = b.member_id
+			a.member_idx = b.member_idx
 		LEFT OUTER JOIN
 			member_image c
 		ON

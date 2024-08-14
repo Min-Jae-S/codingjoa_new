@@ -14,7 +14,6 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import com.codingjoa.entity.Member;
 
 import io.jsonwebtoken.Claims;
-import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
@@ -22,7 +21,6 @@ import lombok.ToString;
 @SuppressWarnings("serial")
 @ToString
 @Getter
-@Builder(access = AccessLevel.PRIVATE)
 public class PrincipalDetails implements UserDetails, OAuth2User { // consider implementing OAuth2User 
 
 	private final Member member;
@@ -35,6 +33,21 @@ public class PrincipalDetails implements UserDetails, OAuth2User { // consider i
 	private final String password;
 	private final String email;
 	private final String provider;
+	
+	@Builder
+	public PrincipalDetails(Member member, String role, String imageUrl, List<Integer> myBoardLikes,
+			List<Integer> myCommentLikes, String id, String password, String email, String provider) {
+		super();
+		this.member = member;
+		this.role = role;
+		this.imageUrl = imageUrl;
+		this.myBoardLikes = myBoardLikes;
+		this.myCommentLikes = myCommentLikes;
+		this.id = id;
+		this.password = password;
+		this.email = email;
+		this.provider = provider;
+	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {

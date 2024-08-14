@@ -21,7 +21,6 @@ import lombok.Data;
     moddate                 DATE                    NOT NULL,
 */
 
-@Builder
 @Data
 public class Member {
 
@@ -42,5 +41,20 @@ public class Member {
 	
 	@JsonFormat(pattern = "yyyy.MM.dd. HH:mm", timezone = "Asia/Seoul")
 	private Date moddate;
-	
+
+	@Builder
+	public Member(Integer memberIdx, String memberId, String memberPassword, String memberEmail, String memberZipcode,
+			String memberAddr, String memberAddrDetail, Boolean memberAgree, Date regdate, Date moddate) {
+		super();
+		this.memberIdx = memberIdx;
+		this.memberId = memberId;
+		this.memberPassword = memberPassword;
+		this.memberEmail = memberEmail;
+		this.memberZipcode = memberZipcode;
+		this.memberAddr = memberAddr;
+		this.memberAddrDetail = memberAddrDetail;
+		this.memberAgree = memberAgree;
+		this.regdate = regdate;
+		this.moddate = moddate;
+	}
 }

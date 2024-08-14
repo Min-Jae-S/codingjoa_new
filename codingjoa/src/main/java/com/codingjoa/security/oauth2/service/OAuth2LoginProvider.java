@@ -12,6 +12,7 @@ import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
+import com.codingjoa.entity.Member;
 import com.codingjoa.util.Utils;
 
 import lombok.extern.slf4j.Slf4j;
