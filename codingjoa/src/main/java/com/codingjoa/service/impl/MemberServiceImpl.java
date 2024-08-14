@@ -1,6 +1,5 @@
 package com.codingjoa.service.impl;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,7 +27,6 @@ public class MemberServiceImpl implements MemberService {
 	
 	private final MemberMapper memberMapper;
 	private final PasswordEncoder passwordEncoder;
-	private final ModelMapper modelMapper;
 	
 	@Override
 	public void save(JoinDto joinDto) {
@@ -36,16 +34,31 @@ public class MemberServiceImpl implements MemberService {
 		String encPassword = passwordEncoder.encode(rawPassword);
 		joinDto.setMemberPassword(encPassword);
 		
-		Member member = modelMapper.map(joinDto, Member.class);
+		Member member = joinDto.toEntity();
 		log.info("\t > convert joinDto to member entity");
-		log.info("\t > {}", member);
-		memberMapper.insertMember(member);
+		log.info("\t > member = {}", member);
 		
-		Auth auth = new Auth();
-		auth.setMemberId(joinDto.getMemberId());
-		auth.setMemberRole("ROLE_MEMBER");
+		memberMapper.insertMember(member);
+		Integer dbMemberIdx = member.getMemberIdx();
+		log.info("\t > after inserting member, memberIdx = {}", dbMemberIdx);
+		
+		if (dbMemberIdx == null) {
+			throw new ExpectedException("error.InsertMember");
+		}
+		
+		Auth auth = Auth.builder()
+				.memberIdx(dbMemberIdx)
+				.memberRole("ROLE_MEMBER")
+				.build();
 		log.info("\t > create new auth = {}", auth);
+		
 		memberMapper.insertAuth(auth);
+		Integer dbAuthIdx = auth.getAuthIdx();
+		log.info("\t > after inserting auth, authIdx = {}", dbAuthIdx);
+		
+		if (dbAuthIdx == null) {
+			throw new ExpectedException("error.InsertAuth");
+		}
 	}
 	
 	@Override

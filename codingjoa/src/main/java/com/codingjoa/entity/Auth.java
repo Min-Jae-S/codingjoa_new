@@ -1,17 +1,19 @@
 package com.codingjoa.entity;
 
+import lombok.Builder;
 import lombok.Data;
 
 /*
 	auth_idx        NUMBER,
-	member_id       VARCHAR2(50)  UNIQUE    NOT NULL,
-	member_role     VARCHAR2(30)  			NOT NULL,
+	member_idx      NUMBER      	NOT NULL,
+	member_role     VARCHAR2(30)  	NOT NULL,
 */
 
+@Builder
 @Data
 public class Auth {
 
 	private Integer authIdx;
-	private String memberId;
+	private Integer memberIdx;
 	private String memberRole;
 }

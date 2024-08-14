@@ -12,7 +12,7 @@ import com.codingjoa.entity.Member;
 @Mapper
 public interface MemberMapper {
 	
-	int insertMember(Member member);
+	void insertMember(Member member);
 	
 	void insertAuth(Auth auth);
 	

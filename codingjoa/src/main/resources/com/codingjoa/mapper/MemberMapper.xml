@@ -3,6 +3,9 @@
 <mapper namespace="com.codingjoa.mapper.MemberMapper">
 
 	<insert id="insertMember" parameterType="member">
+		<selectKey keyProperty="memberIdx" resultType="int" order="BEFORE">
+			SELECT seq_member.NEXTVAL FROM DUAL
+		</selectKey>
 		INSERT INTO member (
 			member_idx,
 			member_id,
@@ -15,7 +18,7 @@
 			regdate,
 			moddate
 		) VALUES (
-			seq_member.NEXTVAL,
+			#{memberIdx},
 			#{memberId},
 			#{memberPassword},
 			#{memberEmail},
@@ -29,13 +32,16 @@
 	</insert>
 	
 	<insert id="insertAuth" parameterType="auth">
+		<selectKey keyProperty="authIdx" resultType="int" order="BEFORE">
+			SELECT seq_auth.NEXTVAL FROM DUAL
+		</selectKey>
 		INSERT INTO auth (
 			auth_idx,
-			member_id,
+			member_idx,
 			member_role
 		) VALUES (
-			seq_auth.NEXTVAL,
-			#{memberId},
+			#{authIdx},
+			#{memberIdx},
 			#{memberRole}
 		)
 	</insert>
@@ -107,7 +113,7 @@
 		ON
 			a.member_idx = e.member_idx
 		WHERE
-			a.member_email = #{memberId}
+			a.memberId = #{memberId}
 	</select>
 	
 	<select id="findUserDetailsByEmail" parameterType="string" resultMap="userDetailsMap">

@@ -5,6 +5,7 @@ import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import lombok.Builder;
 import lombok.Data;
 
 /*
@@ -20,6 +21,7 @@ import lombok.Data;
     moddate                 DATE                    NOT NULL,
 */
 
+@Builder
 @Data
 public class Member {
 
