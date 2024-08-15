@@ -120,7 +120,7 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 		}
 		
 		PrincipalDetails principalDetails = PrincipalDetails.from(userDetailsMap);
-		//log.info("\t > principalDetails = {}", Utils.formatPrettyJson(principalDetails));
+		log.info("{}", Utils.formatPrettyJson(principalDetails));
 		
 		return principalDetails;
 	}

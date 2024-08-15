@@ -71,7 +71,7 @@ public class JwtProvider {
 	public Authentication getAuthentication(String jwt) {
 		Claims claims = parseJwt(jwt).getBody();
 		PrincipalDetails pincipalDetails = PrincipalDetails.from(claims);
-		//log.info("\t > principalDetails = {}", Utils.formatPrettyJson(principalDetails));
+		log.info("{}", Utils.formatPrettyJson(pincipalDetails));
 		
 		return new UsernamePasswordAuthenticationToken(pincipalDetails, null, pincipalDetails.getAuthorities());
 	}
@@ -151,7 +151,6 @@ public class JwtProvider {
 		}
 		
 		log.info("\t > created claims = {}", claims);
-		
 		return claims;
 	}
 	

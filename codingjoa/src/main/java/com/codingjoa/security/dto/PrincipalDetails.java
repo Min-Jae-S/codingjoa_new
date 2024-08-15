@@ -105,14 +105,13 @@ public class PrincipalDetails implements UserDetails, OAuth2User { // consider i
 		Member member = (Member) map.get("member");
 		return PrincipalDetails.builder()
 				.member(member)
+				.id(member.getMemberId())
+				.password(member.getMemberPassword())
+				.email(member.getMemberEmail())
 				.role((String) map.get("memberRole"))
 				.imageUrl((String) map.get("memberImageUrl"))
 				.myBoardLikes((List<Integer>) map.get("myBoardLikes"))
 				.myCommentLikes((List<Integer>) map.get("myCommentLikes"))
-				.id(member.getMemberId())
-				.password(member.getMemberPassword())
-				.email(member.getMemberEmail())
-				.provider(null)
 				.build();
 	}
 

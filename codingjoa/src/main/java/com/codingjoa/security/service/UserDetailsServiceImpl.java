@@ -33,7 +33,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		}
 		
 		PrincipalDetails principalDetails = PrincipalDetails.from(userDetailsMap);
-		log.info("\t > {}", Utils.formatPrettyJson(principalDetails));
+		log.info("{}", Utils.formatPrettyJson(principalDetails));
 
 		return principalDetails;
 	}
