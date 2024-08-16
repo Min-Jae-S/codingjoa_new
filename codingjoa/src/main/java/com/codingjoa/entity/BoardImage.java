@@ -2,7 +2,6 @@ package com.codingjoa.entity;
 
 import java.util.Date;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,8 +14,6 @@ import lombok.NoArgsConstructor;
 	regdate                 DATE                NOT NULL,
 */
 
-@Builder
-@AllArgsConstructor
 @NoArgsConstructor
 @Data
 public class BoardImage {
@@ -26,4 +23,16 @@ public class BoardImage {
 	private String boardImageName;
 	private String boardImageUrl;
 	private Date regdate;
+	
+	@Builder
+	private BoardImage(Integer boardImageIdx, Integer boardIdx, String boardImageName, String boardImageUrl,
+			Date regdate) {
+		this.boardImageIdx = boardImageIdx;
+		this.boardIdx = boardIdx;
+		this.boardImageName = boardImageName;
+		this.boardImageUrl = boardImageUrl;
+		this.regdate = regdate;
+	}
+	
+	
 }

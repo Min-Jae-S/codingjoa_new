@@ -181,14 +181,14 @@
 					<dt><i class="fa-solid fa-check mr-2"></i>이메일</dt>
 					<dd class="input-group" id="showEmail">
 						<div>
-							<span class="inner-text"><c:out value="${principal.member.email}"/></span>
+							<span class="inner-text"><c:out value="${principal.email}"/></span>
 						</div>
 						<button class="btn btn-outline-primary btn-sm" id="showEmailBtn">수정</button>
 					</dd>
 					<!-- d-none(#editEmail) -->
 					<dd class="input-group" id="editEmail">
 						<form>
-							<input type="text" id="memberEmail" name="memberEmail" value="${principal.member.email}"/>
+							<input type="text" id="memberEmail" name="memberEmail" value="${principal.email}"/>
 						</form>
 						<div>
 							<button class="btn btn-warning btn-sm" type="button" id="sendAuthCodeBtn">인증코드 받기</button>
@@ -247,7 +247,7 @@
 					<dd class="input-group" id="showAgree">
 						<div class="form-check form-check-inline mr-0">
 							<label class="form-check-label label-disabled">
-								<input class="form-check-input" type="checkbox" ${principal.member.memberAgree == true ? 'checked' : ''} disabled/>
+								<input class="form-check-input" type="checkbox" <%-- ${principal.member.memberAgree == true ? 'checked' : ''} --%> disabled/>
 								<span class="inner-text">이메일 광고 수신에 동의합니다.</span>
 							</label>
 						</div>
@@ -259,7 +259,7 @@
 							<div class="form-check form-check-inline">
 								<label class="form-check-label">
 									<input class="form-check-input" type="checkbox" id="memberAgree" name="memberAgree" 
-										${principal.member.memberAgree == true ? 'checked' : ''}>
+										<%-- ${principal.member.memberAgree == true ? 'checked' : ''}> --%>
 									<span class="inner-text">이메일 광고 수신에 동의합니다.</span>
 								</label>
 							</div>

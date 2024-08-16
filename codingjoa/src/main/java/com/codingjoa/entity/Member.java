@@ -45,7 +45,7 @@ public class Member {
 	private Date moddate;
 
 	@Builder
-	public Member(Integer memberIdx, String memberId, String memberPassword, String memberEmail, String memberZipcode,
+	private Member(Integer memberIdx, String memberId, String memberPassword, String memberEmail, String memberZipcode,
 			String memberAddr, String memberAddrDetail, Boolean memberAgree, Date regdate, Date moddate) {
 		this.memberIdx = memberIdx;
 		this.memberId = memberId;
