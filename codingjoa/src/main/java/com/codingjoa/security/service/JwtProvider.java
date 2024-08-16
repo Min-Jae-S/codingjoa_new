@@ -149,7 +149,7 @@ public class JwtProvider {
 			claims.put("provider", oAuth2AuthenticationToken.getAuthorizedClientRegistrationId());
 		}
 		
-		log.info("\t > created claims = {}", claims);
+		log.info("\t > created claims = {}", Utils.formatPrettyJson(claims));
 		return claims;
 	}
 	

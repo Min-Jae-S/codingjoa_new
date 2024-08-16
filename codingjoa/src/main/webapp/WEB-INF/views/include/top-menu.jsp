@@ -59,7 +59,7 @@
 					<li class="nav-item mr-2">
 						<a class="nav-link text-body" href="${contextPath}/member/account/info">
 							<span class="font-weight-bold">
-								<c:out value="${principal.id}"/>
+								<c:out value="${principal.nickname}"/>
 							</span>
 						</a>
 					</li>

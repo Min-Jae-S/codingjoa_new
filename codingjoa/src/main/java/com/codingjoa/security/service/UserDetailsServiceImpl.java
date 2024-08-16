@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.codingjoa.mapper.MemberMapper;
 import com.codingjoa.security.dto.PrincipalDetails;
 import com.codingjoa.util.MessageUtils;
+import com.codingjoa.util.Utils;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,10 +31,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		if (userDetailsMap == null) {
 			throw new UsernameNotFoundException(MessageUtils.getMessage("error.EmailNotFound"));
 		}
-		log.info("\t > userDetailsMap = {}", userDetailsMap);
+		log.info("\t > userDetailsMap = {}", Utils.formatPrettyJson(userDetailsMap));
 		
 		PrincipalDetails principalDetails = PrincipalDetails.from(userDetailsMap);
-		log.info("\t > principalDetails = {}", principalDetails);
+		log.info("\t > principalDetails = {}", Utils.formatPrettyJson(principalDetails));
 
 		return principalDetails;
 	}

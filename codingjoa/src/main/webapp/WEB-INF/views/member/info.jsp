@@ -169,9 +169,9 @@
 				</div>
 				<div class="w-100 pt-2">
 					<dl class="form-group">
-						<dt><i class="fa-solid fa-check mr-2"></i>아이디</dt>
+						<dt><i class="fa-solid fa-check mr-2"></i>이메일</dt>
 						<dd class="input-group">
-							<span class="inner-text"><c:out value="${principal.id}"/></span>
+							<span class="inner-text"><c:out value="${principal.email}"/></span>
 						</dd>
 					</dl>
 				</div>
