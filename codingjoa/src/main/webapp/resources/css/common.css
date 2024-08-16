@@ -20,7 +20,7 @@ body {
 }
 
 .join-container,
-.info-container,
+.account-container,
 .check-password-container,
 .update-password-container,
 .reset-password-container,
@@ -32,12 +32,7 @@ body {
 
 .board-container {
 	margin-top: 6rem;
-	margin-bottom: 8rem;	
-}
-
-.account-container {
-	margin-top: 11.5rem;
-	margin-bottom: 11.5rem;
+	margin-bottom: 8rem;
 }
 
 input::placeholder {

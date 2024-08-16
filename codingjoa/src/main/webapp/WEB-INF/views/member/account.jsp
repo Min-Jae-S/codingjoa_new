@@ -20,14 +20,13 @@
 <script src="${contextPath}/resources/js/image.js"></script>
 <script src="${contextPath}/resources/js/handle-errors.js"></script>
 <style>
-	input[type="text"] {
+	input[type="text"], input[type="password"] {
 		border: none;
 		width: 100%;
 		padding: 5px 0 5px 7px;
-		/* padding: 3px 0 3px 7px; */
 	}
 	
-	input[type="text"]:focus {
+	input[type="text"]:focus, input[type="password"]:focus {
 		outline: none;
 	}
 	
@@ -62,15 +61,19 @@
 		border-bottom: 1px solid #dee2e6;
 	}
 	
-	dd.input-group > form, #showEmail > div, 
-	#showZipcode > div, #showAgree > div, 
+	dd.input-group > form,
+	#showNickname > div, 
+	#showEmail > div, 
+	#showZipcode > div, 
+	#showAgree > div,
+	#showPassword > div,
 	.inner-text, label {
 		display: flex;
 		flex: 1 1 auto;
 		align-items: center;
 	}
 	
-	#editEmail, #editAuthCode, #editZipcode, #editAddr, #editAddrDetail, #editAgree {
+	#editNickname, #editEmail, #editAuthCode, #editZipcode, #editAddr, #editAddrDetail, #editAgree, #editPassword {
 		display: none;
 		border-bottom: 1px solid #868e96;
 	}
@@ -134,12 +137,12 @@
 		background-repeat: no-repeat;
 	}
 	
-	.info-wrap {
+	.account-wrap {
 		width: 620px;
 		margin: 0 auto;
 	}
 	
-	.profile-wrap {
+	.profile-wrap, .security-wrap {
 		border: 1px solid #d7e2eb;
    	 	border-radius: 16px;
 	}
@@ -149,10 +152,10 @@
 
 <c:import url="/WEB-INF/views/include/top-menu.jsp"/>
 
-<div class="container info-container">
-	<div class="info-wrap">
+<div class="container account-container">
+	<div class="account-wrap">
 		<div class="border-bottom border-dark">
-			<h5 class="font-weight-bold">계정 정보</h5>
+			<h4 class="font-weight-bold">계정 관리</h4>
 		</div>
 		<div class="mt-4 p-4 profile-wrap">
 			<div class="mb-5 d-flex">
@@ -175,8 +178,21 @@
 				<div class="w-100 pt-2">
 					<dl class="form-group">
 						<dt><i class="fa-solid fa-check mr-2"></i>닉네임</dt>
-						<dd class="input-group">
-							<span class="inner-text"><c:out value="${principal.nickname}"/></span>
+						<dd class="input-group" id="showNickname">
+							<div>
+								<span class="inner-text"><c:out value="${principal.nickname}"/></span>
+							</div>
+							<button class="btn btn-outline-primary btn-sm" id="showNicknameBtn">수정</button>
+						</dd>
+						<!-- d-none(#editNickname) -->
+						<dd class="input-group" id="editNickname">
+							<form>
+								<input type="text" id="memberNickname" name="memberNickname" value="${principal.nickname}"/>
+							</form>
+							<div>
+								<button class="btn btn-outline-primary btn-sm" type="button" id="updateNicknameBtn">확인</button>
+								<button class="btn btn-outline-secondary btn-sm" type="button" id="resetNicknameBtn">취소</button>
+							</div>
 						</dd>
 					</dl>
 				</div>
@@ -246,8 +262,8 @@
 					</dd>
 				</dl>
 			</div>
-			<div class="mb-5">
-				<dl class="form-group mb-5">
+			<div>
+				<dl class="form-group">
 					<dt><i class="fa-solid fa-check mr-2"></i>이메일 수신</dt>
 					<dd class="input-group" id="showAgree">
 						<div class="form-check form-check-inline mr-0">
@@ -272,6 +288,29 @@
 						<div>
 							<button class="btn btn-outline-primary btn-sm" type="button" id="updateAgreeBtn">확인</button>
 							<button class="btn btn-outline-secondary btn-sm" type="button" id="resetAgreeBtn">취소</button>
+						</div>
+					</dd>
+				</dl>
+			</div>
+		</div>
+		<div class="mt-4 p-4 security-wrap">
+			<div>
+				<dl class="form-group">
+					<dt><i class="fa-solid fa-check mr-2"></i>비밀번호</dt>
+					<dd class="input-group" id="showPassword">
+						<div>
+							<span class="inner-text">********</span>
+						</div>
+						<button class="btn btn-outline-primary btn-sm" id="showPasswordBtn">수정</button>
+					</dd>
+					<!-- d-none(#editPassword) -->
+					<dd class="input-group" id="editPassword">
+						<form>
+							<input type="password" id="memberPassword" name="memberPassword" value="********"/>
+						</form>
+						<div>
+							<button class="btn btn-outline-primary btn-sm" type="button" id="updatePasswordBtn">확인</button>
+							<button class="btn btn-outline-secondary btn-sm" type="button" id="resetPasswordBtn">취소</button>
 						</div>
 					</dd>
 				</dl>
@@ -371,12 +410,9 @@
 				alert(result.message);
 				memberService.getMemberDetails(function(result) {
 					let currentMember = result.data.member;
-					$("#editZipcode").find("form")
-						.html("<input type='text' id='memberZipcode' name='memberZipcode' value='" + currentMember.memberZipcode + "' readonly>");
-					$("#editAddr").find("form")
-						.html("<input type='text' id='memberAddr' name='memberAddr' value='" + currentMember.memberAddr + "' readonly>");
-					$("#editAddrDetail").find("form")
-						.html("<input type='text' id='memberAddrDetail' name='memberAddrDetail' value='" + currentMember.memberAddrDetail + "'>");
+					$("#editZipcode").find("form").html("<input type='text' id='memberZipcode' name='memberZipcode' value='" + currentMember.memberZipcode + "' readonly>");
+					$("#editAddr").find("form").html("<input type='text' id='memberAddr' name='memberAddr' value='" + currentMember.memberAddr + "' readonly>");
+					$("#editAddrDetail").find("form").html("<input type='text' id='memberAddrDetail' name='memberAddrDetail' value='" + currentMember.memberAddrDetail + "'>");
 					$("#showZipcode").find("span").text(currentMember.memberZipcode);
 					$("#showAddr").find("span").text(currentMember.memberAddr);
 					$("#showAddrDetail").find("span").text(currentMember.memberAddrDetail);
@@ -413,6 +449,18 @@
 					$("#resetAgreeBtn").click();
 				});
 			});
+		});
+		
+		$("#showNicknameBtn").on("click", function() {
+			$("#showNickname").css("display", "none");
+			$("#editNickname, #editNickname > div").css("display", "flex");
+		});
+		
+		$("#resetNicknameBtn").on("click", function() {
+			$("#showNickname\\.errors, .success").remove();
+			$("#showNickname").css("display", "flex");
+			$("#editNickname, #editNickname > div").css("display", "none");
+			$("#editNickname").find("form")[0].reset();
 		});
 		
 		$("#showEmailBtn").on("click", function() {
@@ -454,6 +502,18 @@
 			$("#showAgree").css("display", "flex");
 			$("#editAgree, #editAgree > div").css("display", "none");
 			$("#editAgree").find("form")[0].reset();
+		});
+		
+		$("#showPasswordBtn").on("click", function() {
+			$("#showPassword").css("display", "none");
+			$("#editPassword, #editPassword > div").css("display", "flex");
+		});
+		
+		$("#resetPasswordBtn").on("click", function() {
+			$("#showPassword\\.errors, .success").remove();
+			$("#showPassword").css("display", "flex");
+			$("#editPassword, #editPassword > div").css("display", "none");
+			$("#editPassword").find("form")[0].reset();
 		});
 	});
 	
