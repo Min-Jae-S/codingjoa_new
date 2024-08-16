@@ -62,7 +62,7 @@ public class BoardCriteriaArgumentResolver implements HandlerMethodArgumentResol
 		keyword = (keyword == null) ? "" : keyword.strip();
 
 		Criteria boardCri = new Criteria(
-			Utils.isPageNumber(page) ? Integer.parseInt(page) : defaultPage,
+			Utils.isNaturalNumber(page) ? Integer.parseInt(page) : defaultPage,
 			recordCntGroup.containsKey(recordCnt) ? Integer.parseInt(recordCnt) : defaultRecordCnt,
 			typeGroup.containsKey(type) ? type : defaultType,
 			keyword

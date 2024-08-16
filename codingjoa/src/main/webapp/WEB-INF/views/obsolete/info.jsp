@@ -4,8 +4,6 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <sec:authentication property="principal" var="principal"/>
-<!-- SessionCreationPolicy.STATELESS -->
-<%-- <c:set var="principal" value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal}" /> --%> 
 <!DOCTYPE html>
 <html>
 <head>
@@ -169,7 +167,7 @@
 				</div>
 				<div class="w-100 pt-2">
 					<dl class="form-group">
-						<dt><i class="fa-solid fa-check mr-2"></i>닉네임/dt>
+						<dt><i class="fa-solid fa-check mr-2"></i>닉네임</dt>
 						<dd class="input-group">
 							<span class="inner-text"><c:out value="${principal.nickname}"/></span>
 						</dd>
@@ -280,6 +278,8 @@
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
 	$(function() {
+		const idx = '<c:out value="${principal.idx}"/>'; 
+		
 		$("#uploadMemberImageBtn").on("click", function() {
 			$("#memberImage").click();
 		});

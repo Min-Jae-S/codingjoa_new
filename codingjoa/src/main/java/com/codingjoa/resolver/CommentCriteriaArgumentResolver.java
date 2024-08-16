@@ -48,7 +48,7 @@ public class CommentCriteriaArgumentResolver implements HandlerMethodArgumentRes
 		
 		page = (page == null) ? "" : page.strip();
 		CommentCriteria commentCri = new CommentCriteria(
-			Utils.isPageNumber(page) ? Integer.parseInt(page) : defaultPage,
+			Utils.isNaturalNumber(page) ? Integer.parseInt(page) : defaultPage,
 			defaultRecordCnt
 		);
 		log.info("\t > resolved commentCri = {}", commentCri);

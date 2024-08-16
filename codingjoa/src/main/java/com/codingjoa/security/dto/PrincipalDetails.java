@@ -1,5 +1,6 @@
 package com.codingjoa.security.dto;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -19,7 +20,7 @@ import lombok.ToString;
 @SuppressWarnings("serial")
 @ToString
 @Getter
-public class PrincipalDetails implements UserDetails, OAuth2User { // consider implementing OAuth2User 
+public class PrincipalDetails implements UserDetails, OAuth2User {
 
 	private final Integer idx;					// FROM member
 	private final String email;					
@@ -41,8 +42,8 @@ public class PrincipalDetails implements UserDetails, OAuth2User { // consider i
 		this.role = role;
 		this.imageUrl = imageUrl;
 		this.provider = provider;
-		this.myBoardLikes = myBoardLikes;
-		this.myCommentLikes = myCommentLikes;
+		this.myBoardLikes =  (myBoardLikes != null) ? myBoardLikes : new ArrayList<>();
+		this.myCommentLikes = (myCommentLikes != null) ? myCommentLikes : new ArrayList<>();
 	}
 	
 	@Override

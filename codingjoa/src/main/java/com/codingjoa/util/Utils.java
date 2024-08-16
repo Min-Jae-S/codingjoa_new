@@ -25,7 +25,7 @@ public class Utils {
     	objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
     }
 
-	public static boolean isPageNumber(String str) {
+	public static boolean isNaturalNumber(String str) {
 		try {
 			int pageNumber = Integer.parseInt(str);
 			return pageNumber > 0;

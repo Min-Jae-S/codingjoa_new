@@ -7,16 +7,9 @@ import java.util.UUID;
 import javax.validation.Valid;
 
 import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,7 +29,6 @@ import com.codingjoa.dto.PasswordChangeDto;
 import com.codingjoa.dto.PasswordDto;
 import com.codingjoa.dto.SuccessResponse;
 import com.codingjoa.dto.UploadFileDto;
-import com.codingjoa.entity.Member;
 import com.codingjoa.entity.MemberImage;
 import com.codingjoa.security.dto.PrincipalDetails;
 import com.codingjoa.service.EmailService;
@@ -59,7 +51,6 @@ import lombok.extern.slf4j.Slf4j;
 public class MemberRestController {
 	
 	private final MemberService memberService;
-	private final UserDetailsService userDetailsService;
 	private final EmailService emailService;
 	private final RedisService redisService;
 	private final ImageService imageService;
@@ -113,7 +104,7 @@ public class MemberRestController {
 		log.info("\t > {}", emailDto);
 
 		String memberEmail = emailDto.getMemberEmail();
-		memberService.checkEmailForUpdate(memberEmail, principal.getMember().getMemberIdx());
+		memberService.checkEmailForUpdate(memberEmail, principal.getIdx());
 		
 		String authCode = RandomStringUtils.randomNumeric(6);
 		log.info("\t > authCode = {}", authCode);
@@ -129,9 +120,7 @@ public class MemberRestController {
 			@AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## updateEmail");
 		log.info("\t > {}", emailAuthDto);
-		
-		Member currentMember = principal.getMember();
-		memberService.updateEmail(emailAuthDto, currentMember.getMemberIdx());
+		memberService.updateEmail(emailAuthDto, principal.getIdx());
 		redisService.deleteKey(emailAuthDto.getMemberEmail());
 		
 		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.UpdateEmail").build());
@@ -142,9 +131,7 @@ public class MemberRestController {
 			@AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## updateAddr");
 		log.info("\t > {}", addrDto);
-		
-		Member currentMember = principal.getMember();
-		memberService.updateAddr(addrDto, currentMember.getMemberIdx());
+		memberService.updateAddr(addrDto, principal.getIdx());
 		
 		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.UpdateAddr").build());
 	}
@@ -154,9 +141,7 @@ public class MemberRestController {
 			@AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## updateAgree");
 		log.info("\t > {}", agreeDto);
-		
-		Member currentMember = principal.getMember();
-		memberService.updateAgree(agreeDto, currentMember.getMemberIdx());
+		memberService.updateAgree(agreeDto, principal.getIdx());
 		
 		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.UpdateAgree").build());
 	}
@@ -174,8 +159,7 @@ public class MemberRestController {
 	public ResponseEntity<Object> uploadMemberImage(@ModelAttribute @Valid UploadFileDto uploadFileDto,
 			@AuthenticationPrincipal PrincipalDetails principal) throws IllegalStateException, IOException {
 		log.info("## uploadMemberImage");
-		MemberImage memberImage = imageService.uploadMemberImage(uploadFileDto.getFile(), 
-				principal.getMember().getMemberIdx());
+		MemberImage memberImage = imageService.uploadMemberImage(uploadFileDto.getFile(), principal.getIdx());
 		
 		return ResponseEntity.ok(SuccessResponse
 				.builder()
@@ -189,10 +173,8 @@ public class MemberRestController {
 			@AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## confirmPassword");
 		log.info("\t > {}", passwordDto);
-		
-		Member currentMember = principal.getMember();
-		memberService.checkCurrentPassword(passwordDto, currentMember.getMemberIdx());
-		redisService.saveKeyAndValue(currentMember.getMemberId(), "PASSWORD_CONFIRM");
+		memberService.checkCurrentPassword(passwordDto, principal.getIdx());
+		redisService.saveKeyAndValue(principal.getEmail(), "PASSWORD_CONFIRM");
 		
 		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.ConfirmPassword").build());
 	}
@@ -203,11 +185,8 @@ public class MemberRestController {
 		log.info("## updatePassword");
 		log.info("\t > {}", passwordChangeDto);
 		
-		Member currentMember = principal.getMember();
-		memberService.updatePassword(passwordChangeDto, currentMember.getMemberIdx());
-		
-		String memberId = currentMember.getMemberId();
-		redisService.deleteKey(memberId);
+		memberService.updatePassword(passwordChangeDto, principal.getIdx());
+		redisService.deleteKey(principal.getEmail());
 		
 		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.UpdatePassword").build());
 	}
@@ -266,41 +245,4 @@ public class MemberRestController {
 		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.ResetPassword").build());
 	}
 	
-	@DeleteMapping("/test/password-confirm/key") // test
-	public ResponseEntity<Object> removePasswordConfirmKey(@AuthenticationPrincipal PrincipalDetails principal) {
-		log.info("## removePasswordConfirmKey");
-		log.info("\t > principal = {}", principal);
-		
-		if (principal != null) {
-			String memberId = principal.getMember().getMemberId();
-			log.info("\t > current hasKey = {}", redisService.hasKey(memberId));
-			
-			redisService.deleteKey(memberId);
-			log.info("\t > after removing key from redis, hasKey = {}", redisService.hasKey(memberId));
-		}
-		
-		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
-	}
-	
-	@DeleteMapping("/test/password-reset/key") // test
-	public ResponseEntity<Object> removePasswordResetKey(@RequestParam String key) {
-		log.info("## removePasswordResetKey");
-
-		boolean hasKey = StringUtils.isEmpty(key) ? false : redisService.hasKey(key);
-		log.info("\t > current hasKey = {}", hasKey);
-
-		redisService.deleteKey(key);
-		log.info("\t > after removing key from redis, hasKey = {}", redisService.hasKey(key));
-
-		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
-	}
-	
-	@SuppressWarnings("unused")
-	private void resetAuthentication(String memberId) {
-		log.info("## resetAuthentication");
-		UserDetails userDetails = userDetailsService.loadUserByUsername(memberId);
-		Authentication newAuthentication = 
-				new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-		SecurityContextHolder.getContext().setAuthentication(newAuthentication);
-	}
 }

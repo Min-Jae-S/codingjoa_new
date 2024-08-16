@@ -5,12 +5,15 @@ import java.security.Key;
 import java.util.Date;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.codingjoa.security.dto.PrincipalDetails;
 import com.codingjoa.util.Utils;
@@ -49,10 +52,10 @@ public class JwtProvider {
 	 * header - typ, alg
 	 * claims - sub, iss, iat, exp, email, role
 	 */
-	public String createJwt(Authentication authentication) {
+	public String createJwt(Authentication authentication, HttpServletRequest request) {
 		return Jwts.builder()
 				.setHeader(createHeader()) 
-				.setClaims(createClaims(authentication))
+				.setClaims(createClaims(authentication, request))
 				.signWith(signingKey, SignatureAlgorithm.HS256)
 				.compact();
 	}
@@ -62,8 +65,6 @@ public class JwtProvider {
 	public Authentication getAuthentication(String jwt) {
 		Claims claims = parseJwt(jwt).getBody();
 		PrincipalDetails pincipal = PrincipalDetails.from(claims);
-		log.info("{}", Utils.formatPrettyJson(pincipal));
-		
 		return new UsernamePasswordAuthenticationToken(pincipal, null, pincipal.getAuthorities());
 	}
 	
@@ -77,14 +78,22 @@ public class JwtProvider {
 	public boolean isValidJwt(String jwt) {
 		try {
 			Claims claims = parseJwt(jwt).getBody();
-			log.info("\t > parsed JWT = {}", claims);
+			String sub = claims.getSubject();
+			if (!Utils.isNaturalNumber(sub)) {
+				throw new IllegalArgumentException("'sub' invalid");
+			}
 			
-			return true;
+			if (claims.getExpiration() == null) {
+				throw new IllegalArgumentException("'exp' required");
+			}
+
+			// email, nickname, role ...
+			
 			//return !claims.getExpiration().before(new Date(System.currentTimeMillis()));
+			return true;
 		} catch (Exception e) { 
 			log.info("\t > missing or invalid JWT : {}", e.getMessage());
 			return false;
-			//throw e;
 		}
 	}
 	
@@ -96,15 +105,14 @@ public class JwtProvider {
 		return Map.of("typ", "JWT", "alg", "HS256");
 	}
 	
-	private Map<String, Object> createClaims(Authentication authentication) {
+	private Map<String, Object> createClaims(Authentication authentication, HttpServletRequest request) {
 		Date now = new Date(System.currentTimeMillis());
 		Date exp = new Date(now.getTime() + validityInMillis);
 		
 		Claims claims = Jwts.claims()
 				// java.lang.IllegalStateException: No current ServletRequestAttributes
 				//.setIssuer(ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString())
-				//.setIssuer(ServletUriComponentsBuilder.fromContextPath(request).build().toUriString())
-				.setIssuer("codingjoa")
+				.setIssuer(ServletUriComponentsBuilder.fromContextPath(request).build().toUriString())
 				.setIssuedAt(now)
 				.setExpiration(exp);
 		
