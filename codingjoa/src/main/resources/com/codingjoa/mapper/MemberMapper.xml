@@ -11,9 +11,6 @@
 			member_email,
 			member_password,
 			member_nickname,
-			member_zipcode,
-			member_addr,
-			member_addr_detail,
 			member_agree,
 			created_at,
 			updated_at
@@ -22,9 +19,6 @@
 			#{memberEmail},
 			#{memberPassword},
 			#{memberNickname},
-			#{memberZipcode},
-			#{memberAddr},
-			#{memberAddrDetail},
 			#{memberAgree},
 			SYSDATE,
 			SYSDATE
@@ -65,6 +59,7 @@
 	</select>
 
 	<resultMap id="userDetailsMap" type="map">
+		<result property="memberIdx" column="member_idx"/>
 		<result property="memberEmail" column="member_email"/>
 		<result property="memberPassword" column="member_password"/>
 		<result property="memberNickname" column="member_nickname"/>
@@ -79,7 +74,8 @@
 	</resultMap>
 	
 	<select id="findUserDetailsByEmail" parameterType="string" resultMap="userDetailsMap">
-		SELECT 
+		SELECT
+			a.member_idx,
 			a.member_email,
 			a.member_password,
 			a.member_nickname,
@@ -109,9 +105,12 @@
 			a.member_email = #{memberEmail}
 	</select>
 	
-	<!-- <select id="findUserDetailsById" parameterType="string" resultMap="userDetailsMap">
-		SELECT 
-			a.*,
+	<select id="findUserDetailsByIdx" parameterType="int" resultMap="userDetailsMap">
+		SELECT
+			a.member_idx,
+			a.member_email,
+			a.member_password,
+			a.member_nickname,
 			b.member_role,
 			c.member_image_url,
 			d.board_idx,
@@ -135,10 +134,8 @@
 		ON
 			a.member_idx = e.member_idx
 		WHERE
-			a.member_id = #{memberId}
-	</select> -->
-	
-	
+			a.member_idx = #{memberIdx}
+	</select>
 	
 	<select id="findMemberByIdx" parameterType="int" resultType="member">
 		SELECT

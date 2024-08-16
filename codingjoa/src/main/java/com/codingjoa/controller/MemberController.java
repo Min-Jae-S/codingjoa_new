@@ -68,7 +68,6 @@ public class MemberController {
 	public String info(@AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## info");
 		log.info("\t > principal = {}", principal);
-		// id, email, image, zipcode, addr, addrDetail, agree
 		return "member/info";
 	}
 

@@ -21,7 +21,8 @@ import lombok.ToString;
 @Getter
 public class PrincipalDetails implements UserDetails, OAuth2User { // consider implementing OAuth2User 
 
-	private final String email;					// FROM member
+	private final Integer idx;					// FROM member
+	private final String email;					
 	private final String password;
 	private final String nickname;
 	private final String role;					// INNER JOIN auth	
@@ -31,8 +32,9 @@ public class PrincipalDetails implements UserDetails, OAuth2User { // consider i
 	private final List<Integer> myCommentLikes;	// LEFT OUTER JOIN comment_likes
 
 	@Builder
-	private PrincipalDetails(String email, String password, String nickname, String role, String imageUrl,
+	private PrincipalDetails(Integer idx, String email, String password, String nickname, String role, String imageUrl,
 			String provider, List<Integer> myBoardLikes, List<Integer> myCommentLikes) {
+		this.idx = idx;
 		this.email = email;
 		this.password = password;
 		this.nickname = nickname;
@@ -98,6 +100,7 @@ public class PrincipalDetails implements UserDetails, OAuth2User { // consider i
 	@SuppressWarnings("unchecked")
 	public static PrincipalDetails from(Map<String, Object> map) {
 		return PrincipalDetails.builder()
+				.idx((Integer) map.get("memberIdx"))
 				.email((String) map.get("memberEmail"))
 				.password((String) map.get("memberPassword"))
 				.nickname((String) map.get("memberNickname"))
@@ -110,6 +113,7 @@ public class PrincipalDetails implements UserDetails, OAuth2User { // consider i
 
 	public static PrincipalDetails from(Claims claims) {
 		return PrincipalDetails.builder()
+				.idx(Integer.parseInt(claims.getSubject()))
 				.email((String) claims.get("email"))
 				.nickname((String) claims.get("nickname"))
 				.role((String) claims.get("role"))
@@ -117,7 +121,5 @@ public class PrincipalDetails implements UserDetails, OAuth2User { // consider i
 				.provider((String) claims.get("provider"))
 				.build();
 	}
-
-	
 
 }

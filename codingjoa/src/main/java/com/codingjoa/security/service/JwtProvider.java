@@ -84,6 +84,11 @@ public class JwtProvider {
 			Claims claims = jws.getBody();
 			log.info("\t > parsed JWT = {}", claims);
 			
+			String idx = claims.getSubject();
+			if (!StringUtils.hasText(idx)) {
+				throw new IllegalArgumentException("'idx' is required");
+			}
+			
 			String email = (String) claims.get("email");
 			if (!StringUtils.hasText(email)) {
 				throw new IllegalArgumentException("'email' is required");
@@ -136,11 +141,12 @@ public class JwtProvider {
 				.setIssuedAt(now)
 				.setExpiration(exp);
 		
-		PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
-		claims.put("email", principalDetails.getEmail());
-		claims.put("nickname", principalDetails.getNickname());
-		claims.put("role", principalDetails.getRole());
-		claims.put("image_url", principalDetails.getImageUrl());
+		PrincipalDetails principal = (PrincipalDetails) authentication.getPrincipal();
+		claims.setSubject(String.valueOf(principal.getIdx()));
+		claims.put("email", principal.getEmail());
+		claims.put("nickname", principal.getNickname());
+		claims.put("role", principal.getRole());
+		claims.put("image_url", principal.getImageUrl());
 
 		if (authentication instanceof UsernamePasswordAuthenticationToken) {
 			claims.put("provider", "local");

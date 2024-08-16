@@ -20,8 +20,6 @@ public interface MemberMapper {
 	
 	Member findMemberByEmail(String memberEmail);
 	
-	Map<String, Object> findUserDetailsById(String memberId); // using in UserDetailsService
-	
 	Member findMemberByIdx(Integer memberIdx);
 	
 	void updateEmail(Member member);
@@ -34,6 +32,7 @@ public interface MemberMapper {
 	
 	Member findMemeberByIdAndEmail(@Param("memberId") String memberId, @Param("memberEmail") String memberEmail);
 	
-	Map<String, Object> findUserDetailsByEmail(String memberEmail); // using in OAuth2UserService
+	Map<String, Object> findUserDetailsByEmail(String memberEmail); // using in UserDetailsService, OAuth2UserService
 	
+	Map<String, Object> findUserDetailsByIdx(Integer memberIdx);
 }
