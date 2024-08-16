@@ -59,7 +59,8 @@
 	</select>
 
 	<resultMap id="userDetailsMap" type="map">
-		<result property="memberIdx" column="member_idx"/>
+		<!-- java.lang.ClassCastException: class java.math.BigDecimal cannot be cast to class java.lang.Integer -->
+		<result property="memberIdx" column="member_idx" javaType="int"/> 
 		<result property="memberEmail" column="member_email"/>
 		<result property="memberPassword" column="member_password"/>
 		<result property="memberNickname" column="member_nickname"/>

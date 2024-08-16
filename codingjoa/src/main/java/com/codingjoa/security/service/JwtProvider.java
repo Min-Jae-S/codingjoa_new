@@ -5,16 +5,12 @@ import java.security.Key;
 import java.util.Date;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.codingjoa.security.dto.PrincipalDetails;
 import com.codingjoa.util.Utils;
@@ -53,10 +49,10 @@ public class JwtProvider {
 	 * header - typ, alg
 	 * claims - sub, iss, iat, exp, email, role
 	 */
-	public String createJwt(Authentication authentication, HttpServletRequest request) {
+	public String createJwt(Authentication authentication) {
 		return Jwts.builder()
 				.setHeader(createHeader()) 
-				.setClaims(createClaims(authentication, request))
+				.setClaims(createClaims(authentication))
 				.signWith(signingKey, SignatureAlgorithm.HS256)
 				.compact();
 	}
@@ -65,10 +61,10 @@ public class JwtProvider {
 	// check comment: to fully leverage the advantages of using JWT, it's preferable to avoid database access during the verification process.
 	public Authentication getAuthentication(String jwt) {
 		Claims claims = parseJwt(jwt).getBody();
-		PrincipalDetails pincipalDetails = PrincipalDetails.from(claims);
-		log.info("{}", Utils.formatPrettyJson(pincipalDetails));
+		PrincipalDetails pincipal = PrincipalDetails.from(claims);
+		log.info("{}", Utils.formatPrettyJson(pincipal));
 		
-		return new UsernamePasswordAuthenticationToken(pincipalDetails, null, pincipalDetails.getAuthorities());
+		return new UsernamePasswordAuthenticationToken(pincipal, null, pincipal.getAuthorities());
 	}
 	
 	/*
@@ -80,38 +76,8 @@ public class JwtProvider {
 	 */
 	public boolean isValidJwt(String jwt) {
 		try {
-			Jws<Claims> jws = parseJwt(jwt);
-			Claims claims = jws.getBody();
+			Claims claims = parseJwt(jwt).getBody();
 			log.info("\t > parsed JWT = {}", claims);
-			
-			String idx = claims.getSubject();
-			if (!StringUtils.hasText(idx)) {
-				throw new IllegalArgumentException("'idx' is required");
-			}
-			
-			String email = (String) claims.get("email");
-			if (!StringUtils.hasText(email)) {
-				throw new IllegalArgumentException("'email' is required");
-			}
-
-			String nickname = (String) claims.get("nickname");
-			if (!StringUtils.hasText(nickname)) {
-				throw new IllegalArgumentException("'nickname' is required");
-			}
-
-			String role = (String) claims.get("role");
-			if (!StringUtils.hasText(role)) {
-				throw new IllegalArgumentException("'role' is required");
-			}
-			
-			String provider = (String) claims.get("provider");
-			if (!StringUtils.hasText(provider)) {
-				throw new IllegalArgumentException("'provider' is required");
-			}
-			
-			if (claims.getExpiration() == null) {
-				throw new IllegalArgumentException("'exp' is required");
-			}
 			
 			return true;
 			//return !claims.getExpiration().before(new Date(System.currentTimeMillis()));
@@ -130,14 +96,15 @@ public class JwtProvider {
 		return Map.of("typ", "JWT", "alg", "HS256");
 	}
 	
-	private Map<String, Object> createClaims(Authentication authentication, HttpServletRequest request) {
+	private Map<String, Object> createClaims(Authentication authentication) {
 		Date now = new Date(System.currentTimeMillis());
 		Date exp = new Date(now.getTime() + validityInMillis);
 		
 		Claims claims = Jwts.claims()
 				// java.lang.IllegalStateException: No current ServletRequestAttributes
 				//.setIssuer(ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString())
-				.setIssuer(ServletUriComponentsBuilder.fromContextPath(request).build().toUriString())
+				//.setIssuer(ServletUriComponentsBuilder.fromContextPath(request).build().toUriString())
+				.setIssuer("codingjoa")
 				.setIssuedAt(now)
 				.setExpiration(exp);
 		
@@ -147,6 +114,7 @@ public class JwtProvider {
 		claims.put("nickname", principal.getNickname());
 		claims.put("role", principal.getRole());
 		claims.put("image_url", principal.getImageUrl());
+		claims.put("token_type", "access_token");
 
 		if (authentication instanceof UsernamePasswordAuthenticationToken) {
 			claims.put("provider", "local");

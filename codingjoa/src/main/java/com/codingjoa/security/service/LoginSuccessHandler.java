@@ -48,7 +48,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 				.build();
 		
 		log.info("\t > create JWT and distribute as a cookie");
-		String jwt = jwtProvider.createJwt(authentication, request);
+		String jwt = jwtProvider.createJwt(authentication);
 		ResponseCookie jwtCookie = ResponseCookie.from("ACCESS_TOKEN", jwt)
 				.domain("localhost")
 				.path(request.getContextPath())

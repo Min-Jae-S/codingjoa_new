@@ -47,7 +47,7 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 				.data(Map.of("continueUrl", continueUrl))
 				.build();
 		
-		String jwt = jwtProvider.createJwt(authentication, request);
+		String jwt = jwtProvider.createJwt(authentication);
 		ResponseCookie jwtCookie = ResponseCookie.from("ACCESS_TOKEN", jwt)
 				.domain("localhost")
 				.path(request.getContextPath())
