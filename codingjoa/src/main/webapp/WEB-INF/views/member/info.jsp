@@ -153,8 +153,8 @@
 			<div class="mb-5 d-flex">
 				<div class="wrap-member-image mr-4">
 					<c:choose>
-						<c:when test="${not empty principal.memberImageUrl}">
-							<img class="member-thumb-image" id="memberThumbImage" src="${principal.memberImageUrl}">
+						<c:when test="${not empty principal.imageUrl}">
+							<img class="member-thumb-image" id="memberThumbImage" src="${principal.imageUrl}">
 						</c:when>
 						<c:otherwise>
 							<img class="member-thumb-image" id="memberThumbImage" src="${contextPath}/resources/images/img_profile.png">
@@ -171,7 +171,7 @@
 					<dl class="form-group">
 						<dt><i class="fa-solid fa-check mr-2"></i>아이디</dt>
 						<dd class="input-group">
-							<span class="inner-text"><c:out value="${principal.member.memberId}"/></span>
+							<span class="inner-text"><c:out value="${principal.id}"/></span>
 						</dd>
 					</dl>
 				</div>
@@ -181,14 +181,14 @@
 					<dt><i class="fa-solid fa-check mr-2"></i>이메일</dt>
 					<dd class="input-group" id="showEmail">
 						<div>
-							<span class="inner-text"><c:out value="${principal.member.memberEmail}"/></span>
+							<span class="inner-text"><c:out value="${principal.member.email}"/></span>
 						</div>
 						<button class="btn btn-outline-primary btn-sm" id="showEmailBtn">수정</button>
 					</dd>
 					<!-- d-none(#editEmail) -->
 					<dd class="input-group" id="editEmail">
 						<form>
-							<input type="text" id="memberEmail" name="memberEmail" value="${principal.member.memberEmail}"/>
+							<input type="text" id="memberEmail" name="memberEmail" value="${principal.member.email}"/>
 						</form>
 						<div>
 							<button class="btn btn-warning btn-sm" type="button" id="sendAuthCodeBtn">인증코드 받기</button>
@@ -206,20 +206,20 @@
 					<dt><i class="fa-solid fa-check mr-2"></i>주소</dt>
 					<dd class="input-group" id="showZipcode">
 						<div>
-							<span class="inner-text"><c:out value="${principal.member.memberZipcode}"/></span>
+							<span class="inner-text"><%-- <c:out value="${principal.member.memberZipcode}"/> --%></span>
 						</div>
 						<button class="btn btn-outline-primary btn-sm" type="button" id="showAddrBtn">수정</button>
 					</dd>
 					<dd class="input-group" id="showAddr">
-						<span class="inner-text"><c:out value="${principal.member.memberAddr}"/></span>
+						<span class="inner-text"><%-- <c:out value="${principal.member.memberAddr}"/> --%></span>
 					</dd>
 					<dd class="input-group" id="showAddrDetail">
-						<span class="inner-text"><c:out value="${principal.member.memberAddrDetail}"/></span>
+						<span class="inner-text"><%-- <c:out value="${principal.member.memberAddrDetail}"/> --%></span>
 					</dd>
 					<!-- d-none(#editZipcode) -->
 					<dd class="input-group" id="editZipcode">
 						<form>
-							<input type="text" id="memberZipcode" name="memberZipcode" value="${principal.member.memberZipcode}" readonly/> 
+							<input type="text" id="memberZipcode" name="memberZipcode" <%-- value="${principal.member.memberZipcode}" --%> readonly/> 
 						</form>
 						<div>
 							<button class="btn btn-warning btn-sm" type="button" id="searchAddrBtn">주소 찾기</button>
@@ -230,13 +230,13 @@
 					<!-- d-none(#editAddr) -->
 					<dd class="input-group" id="editAddr">
 						<form>
-							<input type="text" id="memberAddr" name="memberAddr" value="${principal.member.memberAddr}" readonly/>
+							<input type="text" id="memberAddr" name="memberAddr" <%-- value="${principal.member.memberAddr}" --%> readonly/>
 						</form>
 					</dd>
 					<!-- d-none(#editAddrDetail) -->
 					<dd class="input-group" id="editAddrDetail">
 						<form>
-							<input type="text" id="memberAddrDetail" name="memberAddrDetail" value="${principal.member.memberAddrDetail}"/>
+							<input type="text" id="memberAddrDetail" name="memberAddrDetail" <%-- value="${principal.member.memberAddrDetail}" --%>/>
 						</form>
 					</dd>
 				</dl>

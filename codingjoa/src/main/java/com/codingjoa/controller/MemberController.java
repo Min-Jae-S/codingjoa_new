@@ -2,6 +2,7 @@ package com.codingjoa.controller;
 
 import javax.validation.Valid;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.codingjoa.dto.JoinDto;
+import com.codingjoa.security.dto.PrincipalDetails;
 import com.codingjoa.service.MemberService;
 import com.codingjoa.service.RedisService;
 import com.codingjoa.validator.JoinValidator;
@@ -63,8 +65,10 @@ public class MemberController {
 	}
 
 	@GetMapping("/account/info")
-	public String info() {
+	public String info(@AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## info");
+		log.info("\t > principal = {}", principal);
+		// id, email, image, zipcode, addr, addrDetail, agree
 		return "member/info";
 	}
 
