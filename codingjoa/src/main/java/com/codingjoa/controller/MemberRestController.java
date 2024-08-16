@@ -8,7 +8,6 @@ import javax.validation.Valid;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -18,7 +17,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,7 +32,6 @@ import com.codingjoa.dto.AgreeDto;
 import com.codingjoa.dto.EmailAuthDto;
 import com.codingjoa.dto.EmailDto;
 import com.codingjoa.dto.FindPasswordDto;
-import com.codingjoa.dto.MemberDetailsDto;
 import com.codingjoa.dto.PasswordChangeDto;
 import com.codingjoa.dto.PasswordDto;
 import com.codingjoa.dto.SuccessResponse;
@@ -66,7 +63,6 @@ public class MemberRestController {
 	private final EmailService emailService;
 	private final RedisService redisService;
 	private final ImageService imageService;
-	private final ModelMapper modelMapper;
 	
 	@InitBinder("emailDto")
 	public void InitBinderEmail(WebDataBinder binder) {
@@ -137,7 +133,6 @@ public class MemberRestController {
 		Member currentMember = principal.getMember();
 		memberService.updateEmail(emailAuthDto, currentMember.getMemberIdx());
 		redisService.deleteKey(emailAuthDto.getMemberEmail());
-		resetAuthentication(currentMember.getMemberId());
 		
 		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.UpdateEmail").build());
 	}
@@ -150,7 +145,6 @@ public class MemberRestController {
 		
 		Member currentMember = principal.getMember();
 		memberService.updateAddr(addrDto, currentMember.getMemberIdx());
-		resetAuthentication(currentMember.getMemberId());
 		
 		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.UpdateAddr").build());
 	}
@@ -163,19 +157,18 @@ public class MemberRestController {
 		
 		Member currentMember = principal.getMember();
 		memberService.updateAgree(agreeDto, currentMember.getMemberIdx());
-		resetAuthentication(currentMember.getMemberId());
 		
 		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.UpdateAgree").build());
 	}
 	
-	@GetMapping("/details")
-	public ResponseEntity<Object> getMemberDetails(@AuthenticationPrincipal PrincipalDetails principal) {
-		log.info("## getMemberDetails");
-		// antMatchers("/api/member/details").authenticated() --> principal can't be null
-		//MemberDetailsDto memberDetails = (principal != null) ? modelMapper.map(principal, MemberDetailsDto.class) : null;
-		MemberDetailsDto memberDetails = modelMapper.map(principal, MemberDetailsDto.class);
-		return ResponseEntity.ok(SuccessResponse.builder().data(memberDetails).build());
-	}
+//	@GetMapping("/details")
+//	public ResponseEntity<Object> getMemberDetails(@AuthenticationPrincipal PrincipalDetails principal) {
+//		log.info("## getMemberDetails");
+//		// antMatchers("/api/member/details").authenticated() --> principal can't be null
+//		//MemberDetailsDto memberDetails = (principal != null) ? modelMapper.map(principal, MemberDetailsDto.class) : null;
+//		MemberDetailsDto memberDetails = modelMapper.map(principal, MemberDetailsDto.class);
+//		return ResponseEntity.ok(SuccessResponse.builder().data(memberDetails).build());
+//	}
 	
 	@PostMapping("/image")
 	public ResponseEntity<Object> uploadMemberImage(@ModelAttribute @Valid UploadFileDto uploadFileDto,
@@ -183,7 +176,6 @@ public class MemberRestController {
 		log.info("## uploadMemberImage");
 		MemberImage memberImage = imageService.uploadMemberImage(uploadFileDto.getFile(), 
 				principal.getMember().getMemberIdx());
-		//resetAuthentication(principal.getMember().getMemberId());
 		
 		return ResponseEntity.ok(SuccessResponse
 				.builder()
@@ -216,7 +208,6 @@ public class MemberRestController {
 		
 		String memberId = currentMember.getMemberId();
 		redisService.deleteKey(memberId);
-		resetAuthentication(memberId);
 		
 		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.UpdatePassword").build());
 	}
@@ -304,6 +295,7 @@ public class MemberRestController {
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 	
+	@SuppressWarnings("unused")
 	private void resetAuthentication(String memberId) {
 		log.info("## resetAuthentication");
 		UserDetails userDetails = userDetailsService.loadUserByUsername(memberId);

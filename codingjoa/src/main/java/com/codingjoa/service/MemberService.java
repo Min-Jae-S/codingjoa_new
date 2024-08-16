@@ -11,7 +11,7 @@ public interface MemberService {
 
 	void save(JoinDto joinDto); // member, auth
 	
-	boolean isIdExist(String memberId);
+	boolean isNicknameExist(String memberNickname);
 	
 	void checkEmailForJoin(String memeberEmail);
 	

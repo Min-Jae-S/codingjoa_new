@@ -35,35 +35,37 @@ public class MemberServiceImpl implements MemberService {
 		joinDto.setMemberPassword(encPassword);
 		
 		Member member = joinDto.toEntity();
-		log.info("\t > convert joinDto to member entity");
+		log.info("\t > convert JoinDto to member entity");
 		log.info("\t > member = {}", member);
 		
 		memberMapper.insertMember(member);
-		Integer dbMemberIdx = member.getMemberIdx();
-		log.info("\t > after inserting member, memberIdx = {}", dbMemberIdx);
 		
-		if (dbMemberIdx == null) {
+		Integer memberIdx = member.getMemberIdx();
+		log.info("\t > after inserting member, memberIdx = {}", memberIdx);
+		
+		if (memberIdx == null) {
 			throw new ExpectedException("error.InsertMember");
 		}
 		
 		Auth auth = Auth.builder()
-				.memberIdx(dbMemberIdx)
+				.memberIdx(memberIdx)
 				.memberRole("ROLE_MEMBER")
 				.build();
 		log.info("\t > create new auth = {}", auth);
 		
 		memberMapper.insertAuth(auth);
-		Integer dbAuthIdx = auth.getAuthIdx();
-		log.info("\t > after inserting auth, authIdx = {}", dbAuthIdx);
 		
-		if (dbAuthIdx == null) {
+		Integer authIdx = auth.getAuthIdx();
+		log.info("\t > after inserting auth, authIdx = {}", authIdx);
+		
+		if (authIdx == null) {
 			throw new ExpectedException("error.InsertAuth");
 		}
 	}
 	
 	@Override
-	public boolean isIdExist(String memberId) {
-		return memberMapper.isIdExist(memberId);
+	public boolean isNicknameExist(String memberNickname) {
+		return memberMapper.isNicknameExist(memberNickname);
 	}
 
 	@Override

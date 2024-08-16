@@ -34,7 +34,7 @@ public class MemberController {
 
 	@InitBinder("joinDto")
 	public void initBinderJoin(WebDataBinder binder) {
-		binder.addValidators(new JoinValidator(memberService, redisService));
+		binder.addValidators(new JoinValidator(redisService, memberService));
 	}
 
 	@GetMapping("/join")
@@ -44,9 +44,9 @@ public class MemberController {
 		return "member/join";
 	}
 
-	@PostMapping("/joinProc")
-	public String joinProc(@ModelAttribute @Valid JoinDto joinDto, BindingResult bindingResult) {
-		log.info("## joinProc");
+	@PostMapping("/join")
+	public String join(@ModelAttribute @Valid JoinDto joinDto, BindingResult bindingResult) {
+		log.info("## join");
 		log.info("\t > {}", joinDto);
 
 		if (bindingResult.hasErrors()) {

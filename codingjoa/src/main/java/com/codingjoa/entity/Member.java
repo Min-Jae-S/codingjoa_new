@@ -6,56 +6,56 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 /*
- 	member_idx              NUMBER,
-    member_id               VARCHAR2(50)    UNIQUE  NOT NULL,
-    member_password         VARCHAR2(70)            NOT NULL,
+    member_idx              NUMBER,
     member_email            VARCHAR2(100)   UNIQUE  NOT NULL,
-    member_zipcode          CHAR(5)                 NOT NULL,
-    member_addr             VARCHAR2(150)           NOT NULL,
-    member_addr_detail      VARCHAR2(150)           NOT NULL,
+    member_password         VARCHAR2(70)            NULL,
+    member_nickname         VARCHAR2(50)    UNIQUE  NOT NULL,
+    member_zipcode          CHAR(5)                 NULL,
+    member_addr             VARCHAR2(150)           NULL,
+    member_addr_detail      VARCHAR2(150)           NULL,
     member_agree            CHAR(1)                 NOT NULL,
-    regdate                 DATE                    NOT NULL,
-    moddate                 DATE                    NOT NULL,
+    created_at              DATE                    NOT NULL,
+    updated_at              DATE                    NOT NULL,
 */
 
+@ToString
+@Getter
 @NoArgsConstructor // for mybatis resultSet
-@Data
 public class Member {
 
 	private Integer memberIdx;
-	private String memberId;
+	private String memberEmail;
 	
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private String memberPassword;
 	
-	private String memberEmail;
+	private String memberNickname;
 	private String memberZipcode;
 	private String memberAddr;
 	private String memberAddrDetail;
 	private Boolean memberAgree;
 	
 	@JsonFormat(pattern = "yyyy.MM.dd. HH:mm", timezone = "Asia/Seoul")
-	private Date regdate;
+	private Date createdAt;
 	
 	@JsonFormat(pattern = "yyyy.MM.dd. HH:mm", timezone = "Asia/Seoul")
-	private Date moddate;
-
+	private Date updatedAt;
+	
 	@Builder
-	private Member(Integer memberIdx, String memberId, String memberPassword, String memberEmail, String memberZipcode,
-			String memberAddr, String memberAddrDetail, Boolean memberAgree, Date regdate, Date moddate) {
+	private Member(Integer memberIdx, String memberEmail, String memberPassword, String memberNickname,
+			String memberZipcode, String memberAddr, String memberAddrDetail, Boolean memberAgree) {
 		this.memberIdx = memberIdx;
-		this.memberId = memberId;
-		this.memberPassword = memberPassword;
 		this.memberEmail = memberEmail;
+		this.memberPassword = memberPassword;
+		this.memberNickname = memberNickname;
 		this.memberZipcode = memberZipcode;
 		this.memberAddr = memberAddr;
 		this.memberAddrDetail = memberAddrDetail;
 		this.memberAgree = memberAgree;
-		this.regdate = regdate;
-		this.moddate = moddate;
 	}
 }

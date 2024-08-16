@@ -17,10 +17,6 @@
 <script src="${contextPath}/resources/js/member.js"></script>
 <script src="${contextPath}/resources/js/handle-errors.js"></script>
 <style>
-	.form-control:read-only {
- 		background-color: white;
-	}
-	
 	.form-control:disabled {
 		background-color: #f2f2f2;
 	}
@@ -28,11 +24,6 @@
 	span.error, span.success {
 		display: inline-block;
 		padding-top: 7px;
-	}
-	
-	input[name="memberZipcode"], 
-	input[name="memberAddr"] {
-		cursor: pointer;
 	}
 	
 	.join-container .card-body {
@@ -57,24 +48,7 @@
 	<div class="join-wrap">
 		<div class="card">
 			<div class="card-body">
-				<form:form action="${contextPath}/member/joinProc" method="POST" modelAttribute="joinDto">
-					<div class="form-group mb-4">
-						<form:label path="memberId" class="font-weight-bold">아이디</form:label>
-						<div class="input-group">
-							<form:input path="memberId" class="form-control" placeholder="아이디 입력"/>
-						</div>
-						<form:errors path="memberId" cssClass="error" />
-					</div>
-					<div class="form-group mb-4">
-						<form:label path="memberPassword" class="font-weight-bold">비밀번호</form:label>
-						<form:password path="memberPassword" class="form-control" placeholder="비밀번호 입력" showPassword="true"/>
-						<form:errors path="memberPassword" cssClass="error"/>
-					</div>
-					<div class="form-group mb-4">
-						<form:label path="confirmPassword" class="font-weight-bold">비밀번호 확인</form:label>
-						<form:password path="confirmPassword" class="form-control" placeholder="비밀번호 확인 입력" showPassword="true"/>
-						<form:errors path="confirmPassword" cssClass="error"/>
-					</div>
+				<form:form action="${contextPath}/member/join" method="POST" modelAttribute="joinDto">
 					<div class="form-group mb-4">
 						<form:label path="memberEmail" class="font-weight-bold">이메일</form:label>
 						<div class="input-group mb-3">
@@ -89,23 +63,26 @@
 						<form:errors path="memberEmail" cssClass="error"/>
 						<form:errors path="authCode" cssClass="error"/>
 					</div>
-					<div class="form-group">
-						<form:label path="memberZipcode" class="font-weight-bold">주소</form:label>
-					    <div class="input-group w-50">
-					    	<form:input path="memberZipcode" class="form-control" readonly="true" placeholder="우편번호 입력"/>
-							<div class="input-group-append">
-								<button type="button" class="btn btn-outline-secondary btn-sm" id="searchAddrBtn">주소 찾기</button>
-							</div>
+					<div class="form-group mb-4">
+						<form:label path="memberNickname" class="font-weight-bold">닉네임</form:label>
+						<div class="input-group">
+							<form:input path="memberNickname" class="form-control" placeholder="닉네임 입력"/>
 						</div>
-						<form:errors path="memberZipcode" cssClass="error"/>
-					</div>
-					<div class="form-group">
-						<form:input path="memberAddr" class="form-control" readonly="true" placeholder="기본주소 입력"/>
-						<form:errors path="memberAddr" cssClass="error"/>
+						<form:errors path="memberNickname" cssClass="error"/>
 					</div>
 					<div class="form-group mb-4">
-						<form:input path="memberAddrDetail" class="form-control" placeholder="상세주소 입력"/>
-						<form:errors path="memberAddrDetail" cssClass="error"/>
+						<form:label path="memberPassword" class="font-weight-bold">비밀번호</form:label>
+						<div class="input-group">
+							<form:password path="memberPassword" class="form-control" placeholder="비밀번호 입력" showPassword="true"/>
+						</div>
+						<form:errors path="memberPassword" cssClass="error"/>
+					</div>
+					<div class="form-group mb-4">
+						<form:label path="confirmPassword" class="font-weight-bold">비밀번호 확인</form:label>
+						<div class="input-group">
+							<form:password path="confirmPassword" class="form-control" placeholder="비밀번호 확인 입력" showPassword="true"/>
+						</div>
+						<form:errors path="confirmPassword" cssClass="error"/>
 					</div>
 					<div class="form-check small mb-1">
 						<label class="form-check-label">
@@ -161,38 +138,7 @@
 				$("#joinBtn").attr("disabled", true);
 			}
 		});
-		
-		$("#searchAddrBtn, #memberZipcode, #memberAddr").on("click", function() {
-			execPostcode();
-		});
 	});
-	
-    function execPostcode() {
-        new daum.Postcode({
-            oncomplete: function(data) {
-                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
-
-                // 각 주소의 노출 규칙에 따라 주소를 조합한다.
-                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-                let addr = ''; // 주소 변수
-
-                //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
-                if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
-                    addr = data.roadAddress;
-                } else { // 사용자가 지번 주소를 선택했을 경우(J)
-                    addr = data.jibunAddress;
-                }
-
-                // 우편번호와 주소 정보를 해당 필드에 넣는다.
-                document.getElementById('memberZipcode').value = data.zonecode;
-                document.getElementById("memberAddr").value = addr;
-                document.getElementById("memberAddrDetail").value = '';
-               
-                // 커서를 상세주소 필드로 이동한다.
-                document.getElementById("memberAddrDetail").focus();
-            }
-        }).open();
-    }
 </script>
 </body>
 </html>

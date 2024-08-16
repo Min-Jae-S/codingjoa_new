@@ -23,21 +23,19 @@ import lombok.ToString;
 @Getter
 public class PrincipalDetails implements UserDetails, OAuth2User { // consider implementing OAuth2User 
 
-	private final Member member;
+	private final String id;
+	private final String password;
+	private final String email;
+	private final String provider;
 	private final String role;					// INNER JOIN auth	
 	private final String imageUrl;				// LEFT OUTER JOIN member_iamge
 	private final List<Integer> myBoardLikes;	// LEFT OUTER JOIN board_likes
 	private final List<Integer> myCommentLikes;	// LEFT OUTER JOIN comment_likes
 
-	private final String id;
-	private final String password;
-	private final String email;
-	private final String provider;
 	
 	@Builder
 	public PrincipalDetails(Member member, String role, String imageUrl, List<Integer> myBoardLikes,
 			List<Integer> myCommentLikes, String id, String password, String email, String provider) {
-		this.member = member;
 		this.role = role;
 		this.imageUrl = imageUrl;
 		this.myBoardLikes = myBoardLikes;
@@ -102,12 +100,9 @@ public class PrincipalDetails implements UserDetails, OAuth2User { // consider i
 	
 	@SuppressWarnings("unchecked")
 	public static PrincipalDetails from(Map<String, Object> map) {
-		Member member = (Member) map.get("member");
 		return PrincipalDetails.builder()
-				.member(member)
-				.id(member.getMemberId())
-				.password(member.getMemberPassword())
 				.email(member.getMemberEmail())
+				.password(member.getMemberPassword())
 				.role((String) map.get("memberRole"))
 				.imageUrl((String) map.get("memberImageUrl"))
 				.myBoardLikes((List<Integer>) map.get("myBoardLikes"))

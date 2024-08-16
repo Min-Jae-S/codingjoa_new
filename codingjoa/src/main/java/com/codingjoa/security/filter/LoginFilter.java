@@ -46,20 +46,20 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter { // Use
 		LoginDto loginDto = objectMapper.readValue(request.getReader(), LoginDto.class);
 		log.info("\t > loginDto = {}", loginDto);
 		
-		String memberId = loginDto.getMemberId();
+		String memberEmail = loginDto.getMemberEmail();
 		String memberPassword = loginDto.getMemberPassword();
 		
-		if (!StringUtils.hasText(memberId)) {
-			throw new LoginRequireFieldException(MessageUtils.getMessage("error.LoginRequireId"));	
+		if (!StringUtils.hasText(memberEmail)) {
+			throw new LoginRequireFieldException(MessageUtils.getMessage("error.LoginRequireEmail"));	
 		}
 		
 		if (!StringUtils.hasText(memberPassword)) {
 			throw new LoginRequireFieldException(MessageUtils.getMessage("error.LoginRequirePassword"));
 		}
 		
-		memberId = memberId.trim();
+		memberEmail = memberEmail.trim();
 		
-		UsernamePasswordAuthenticationToken loginToken = new UsernamePasswordAuthenticationToken(memberId, memberPassword);
+		UsernamePasswordAuthenticationToken loginToken = new UsernamePasswordAuthenticationToken(memberEmail, memberPassword);
 		
 		// authenticate UsernamePasswordAuthenticationToken by LoginProvider
 		UsernamePasswordAuthenticationToken authenticatedLoginToken = 

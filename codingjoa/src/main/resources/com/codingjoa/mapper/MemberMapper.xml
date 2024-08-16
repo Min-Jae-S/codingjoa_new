@@ -8,20 +8,20 @@
 		</selectKey>
 		INSERT INTO member (
 			member_idx,
-			member_id,
-			member_password,
 			member_email,
+			member_password,
+			member_nickname,
 			member_zipcode,
 			member_addr,
 			member_addr_detail,
 			member_agree,
-			regdate,
-			moddate
+			created_at,
+			updated_at
 		) VALUES (
 			#{memberIdx},
-			#{memberId},
-			#{memberPassword},
 			#{memberEmail},
+			#{memberPassword},
+			#{memberNickname},
 			#{memberZipcode},
 			#{memberAddr},
 			#{memberAddrDetail},
@@ -46,13 +46,13 @@
 		)
 	</insert>
 	
-	<select id="isIdExist" parameterType="string" resultType="boolean">
+	<select id="isNicknameExist" parameterType="string" resultType="boolean">
 		SELECT
 			COUNT(*)
 		FROM
 			member
 		WHERE
-			member_id = #{memberId}
+			member_nickname = #{memberNickname}
 	</select>
 	
 	<select id="findMemberByEmail" parameterType="string" resultType="member">

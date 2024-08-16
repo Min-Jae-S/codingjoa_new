@@ -23,13 +23,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	private final MemberMapper memberMapper;
 
 	@Override
-	public UserDetails loadUserByUsername(String memberId) throws UsernameNotFoundException {
+	public UserDetails loadUserByUsername(String memberEmail) throws UsernameNotFoundException {
 		log.info("## {}.loadUserByUsername", this.getClass().getSimpleName());
 		
-		Map<String, Object> userDetailsMap = memberMapper.findUserDetailsById(memberId);
+		Map<String, Object> userDetailsMap = memberMapper.findUserDetailsByEmail(memberEmail);
 
 		if (userDetailsMap == null) {
-			throw new UsernameNotFoundException(MessageUtils.getMessage("error.UsernameNotFoundOrBadCredentials"));
+			throw new UsernameNotFoundException(MessageUtils.getMessage("error.EmailNotFound"));
 		}
 		
 		PrincipalDetails principalDetails = PrincipalDetails.from(userDetailsMap);

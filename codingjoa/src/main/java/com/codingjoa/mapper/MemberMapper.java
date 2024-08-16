@@ -16,7 +16,7 @@ public interface MemberMapper {
 	
 	void insertAuth(Auth auth);
 	
-	boolean isIdExist(String memberId);
+	boolean isNicknameExist(String memberNickname);
 	
 	Member findMemberByEmail(String memberEmail);
 	

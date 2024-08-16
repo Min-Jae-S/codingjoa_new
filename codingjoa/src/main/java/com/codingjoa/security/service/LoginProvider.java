@@ -32,13 +32,13 @@ public class LoginProvider implements AuthenticationProvider { // AbstractUserDe
 		log.info("\t > starting authentication of the {}", authentication.getClass().getSimpleName());
 		
 		UsernamePasswordAuthenticationToken loginToken = (UsernamePasswordAuthenticationToken) authentication;
-		String memberId = loginToken.getName();
+		String memberEmail = loginToken.getName();
 		String memberPassword = (String) loginToken.getCredentials();
 		
-		UserDetails loadedUser = userDetailsService.loadUserByUsername(memberId); // PrincipalDetails
+		UserDetails loadedUser = userDetailsService.loadUserByUsername(memberEmail); // PrincipalDetails
 		
 		if (!passwordEncoder.matches(memberPassword, loadedUser.getPassword())) {
-			throw new BadCredentialsException(MessageUtils.getMessage("error.UsernameNotFoundOrBadCredentials"));
+			throw new BadCredentialsException(MessageUtils.getMessage("error.BadCredentials"));
 		}
 		
 		UsernamePasswordAuthenticationToken authenticatedLoginToken = new UsernamePasswordAuthenticationToken(
