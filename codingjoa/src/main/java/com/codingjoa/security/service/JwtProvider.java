@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -27,7 +26,6 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 
-@SuppressWarnings({ "unused" })
 @Slf4j
 @Component
 public class JwtProvider {
@@ -42,16 +40,13 @@ public class JwtProvider {
 
 	private final Key signingKey;
 	private final long validityInMillis; // 1000 * 60 * 60 (1 hour)
-	private final UserDetailsService userDetailsService;
 	
 	// since Spring 4.3, if a class has only one constructor, the @Autowired annotation can be omitted.
 	@Autowired
 	public JwtProvider(@Value("${security.jwt.secret-key}") String secretKey,
-						@Value("${security.jwt.validity-in-mills}") long validityInMillis, 
-						UserDetailsService userDetailsService) {
+						@Value("${security.jwt.validity-in-mills}") long validityInMillis) { 
 		this.signingKey = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
 		this.validityInMillis = validityInMillis;
-		this.userDetailsService = userDetailsService;
 	}
 	
 	/*
@@ -89,14 +84,14 @@ public class JwtProvider {
 			Claims claims = jws.getBody();
 			log.info("\t > parsed JWT = {}", claims);
 			
-			Date exp = claims.getExpiration();
-			if (exp == null) {
-				throw new IllegalArgumentException("'exp' is required");
-			}
-			
 			String email = (String) claims.get("email");
 			if (!StringUtils.hasText(email)) {
 				throw new IllegalArgumentException("'email' is required");
+			}
+
+			String nickname = (String) claims.get("nickname");
+			if (!StringUtils.hasText(nickname)) {
+				throw new IllegalArgumentException("'nickname' is required");
 			}
 
 			String role = (String) claims.get("role");
@@ -107,6 +102,10 @@ public class JwtProvider {
 			String provider = (String) claims.get("provider");
 			if (!StringUtils.hasText(provider)) {
 				throw new IllegalArgumentException("'provider' is required");
+			}
+			
+			if (claims.getExpiration() == null) {
+				throw new IllegalArgumentException("'exp' is required");
 			}
 			
 			return true;
@@ -138,8 +137,8 @@ public class JwtProvider {
 				.setExpiration(exp);
 		
 		PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
-		claims.setSubject(principalDetails.getId());
 		claims.put("email", principalDetails.getEmail());
+		claims.put("nickname", principalDetails.getNickname());
 		claims.put("role", principalDetails.getRole());
 		claims.put("image_url", principalDetails.getImageUrl());
 

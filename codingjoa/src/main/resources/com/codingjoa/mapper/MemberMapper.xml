@@ -65,20 +65,11 @@
 	</select>
 
 	<resultMap id="userDetailsMap" type="map">
+		<result property="memberEmail" column="member_email"/>
+		<result property="memberPassword" column="member_password"/>
+		<result property="memberNickname" column="member_nickname"/>
 		<result property="memberRole" column="member_role"/>
 		<result property="memberImageUrl" column="member_image_url"/>
-		<association property="member" javaType="member">
-			<id property="memberIdx" column="member_idx"/>
-			<result property="memberId" column="member_id"/>
-			<result property="memberPassword" column="member_password"/>
-			<result property="memberEmail" column="member_email"/>
-			<result property="memberZipcode" column="member_zipcode"/>
-			<result property="memberAddr" column="member_addr"/>
-			<result property="memberAddrDetail" column="member_addr_detail"/>
-			<result property="memberAgree" column="member_agree"/>
-			<result property="regdate" column="regdate"/>
-			<result property="moddate" column="moddate"/>
-		</association>
 		<collection property="myBoardLikes" javaType="list" ofType="int">
 			<result column="board_idx"/>
 		</collection>
@@ -87,7 +78,38 @@
 		</collection>
 	</resultMap>
 	
-	<select id="findUserDetailsById" parameterType="string" resultMap="userDetailsMap">
+	<select id="findUserDetailsByEmail" parameterType="string" resultMap="userDetailsMap">
+		SELECT 
+			a.member_email,
+			a.member_password,
+			a.member_nickname,
+			b.member_role,
+			c.member_image_url,
+			d.board_idx,
+			e.comment_idx
+		FROM
+			member a
+		INNER JOIN
+			auth b
+		ON
+			a.member_idx = b.member_idx
+		LEFT OUTER JOIN
+			member_image c
+		ON
+			a.member_idx = c.member_idx
+		LEFT OUTER JOIN
+			board_likes d
+		ON
+			a.member_idx = d.member_idx
+		LEFT OUTER JOIN
+			comment_likes e
+		ON
+			a.member_idx = e.member_idx
+		WHERE
+			a.member_email = #{memberEmail}
+	</select>
+	
+	<!-- <select id="findUserDetailsById" parameterType="string" resultMap="userDetailsMap">
 		SELECT 
 			a.*,
 			b.member_role,
@@ -114,36 +136,9 @@
 			a.member_idx = e.member_idx
 		WHERE
 			a.member_id = #{memberId}
-	</select>
+	</select> -->
 	
-	<select id="findUserDetailsByEmail" parameterType="string" resultMap="userDetailsMap">
-		SELECT 
-			a.*,
-			b.member_role,
-			c.member_image_url,
-			d.board_idx,
-			e.comment_idx
-		FROM
-			member a
-		INNER JOIN
-			auth b
-		ON
-			a.member_idx = b.member_idx
-		LEFT OUTER JOIN
-			member_image c
-		ON
-			a.member_idx = c.member_idx
-		LEFT OUTER JOIN
-			board_likes d
-		ON
-			a.member_idx = d.member_idx
-		LEFT OUTER JOIN
-			comment_likes e
-		ON
-			a.member_idx = e.member_idx
-		WHERE
-			a.member_email = #{memberEmail}
-	</select>
+	
 	
 	<select id="findMemberByIdx" parameterType="int" resultType="member">
 		SELECT

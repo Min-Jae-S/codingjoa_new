@@ -11,8 +11,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
-import com.codingjoa.entity.Member;
-
 import io.jsonwebtoken.Claims;
 import lombok.Builder;
 import lombok.Getter;
@@ -23,29 +21,28 @@ import lombok.ToString;
 @Getter
 public class PrincipalDetails implements UserDetails, OAuth2User { // consider implementing OAuth2User 
 
-	private final String id;
+	private final String email;					// FROM member
 	private final String password;
-	private final String email;
-	private final String provider;
+	private final String nickname;
 	private final String role;					// INNER JOIN auth	
 	private final String imageUrl;				// LEFT OUTER JOIN member_iamge
+	private final String provider;
 	private final List<Integer> myBoardLikes;	// LEFT OUTER JOIN board_likes
 	private final List<Integer> myCommentLikes;	// LEFT OUTER JOIN comment_likes
 
-	
 	@Builder
-	public PrincipalDetails(Member member, String role, String imageUrl, List<Integer> myBoardLikes,
-			List<Integer> myCommentLikes, String id, String password, String email, String provider) {
+	private PrincipalDetails(String email, String password, String nickname, String role, String imageUrl,
+			String provider, List<Integer> myBoardLikes, List<Integer> myCommentLikes) {
+		this.email = email;
+		this.password = password;
+		this.nickname = nickname;
 		this.role = role;
 		this.imageUrl = imageUrl;
+		this.provider = provider;
 		this.myBoardLikes = myBoardLikes;
 		this.myCommentLikes = myCommentLikes;
-		this.id = id;
-		this.password = password;
-		this.email = email;
-		this.provider = provider;
 	}
-
+	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		Set<GrantedAuthority> authorities = new HashSet<>();
@@ -55,12 +52,12 @@ public class PrincipalDetails implements UserDetails, OAuth2User { // consider i
 
 	@Override
 	public String getUsername() {
-		return id;
+		return this.email;
 	}
 
 	@Override
 	public String getPassword() {
-		return password;
+		return this.password;
 	}
 
 	// more details(active, locked, expired...)
@@ -101,8 +98,9 @@ public class PrincipalDetails implements UserDetails, OAuth2User { // consider i
 	@SuppressWarnings("unchecked")
 	public static PrincipalDetails from(Map<String, Object> map) {
 		return PrincipalDetails.builder()
-				.email(member.getMemberEmail())
-				.password(member.getMemberPassword())
+				.email((String) map.get("memberEmail"))
+				.password((String) map.get("memberPassword"))
+				.nickname((String) map.get("memberNickname"))
 				.role((String) map.get("memberRole"))
 				.imageUrl((String) map.get("memberImageUrl"))
 				.myBoardLikes((List<Integer>) map.get("myBoardLikes"))
@@ -112,12 +110,14 @@ public class PrincipalDetails implements UserDetails, OAuth2User { // consider i
 
 	public static PrincipalDetails from(Claims claims) {
 		return PrincipalDetails.builder()
-				.id(claims.getSubject())
-				.role((String) claims.get("role"))
 				.email((String) claims.get("email"))
+				.nickname((String) claims.get("nickname"))
+				.role((String) claims.get("role"))
 				.imageUrl((String) claims.get("image_url"))
 				.provider((String) claims.get("provider"))
 				.build();
 	}
+
+	
 
 }
