@@ -1,4 +1,4 @@
-package com.codingjoa.interceptor;
+package com.codingjoa.obsolete;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;

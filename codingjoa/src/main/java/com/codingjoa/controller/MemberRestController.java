@@ -26,7 +26,6 @@ import com.codingjoa.dto.EmailAuthDto;
 import com.codingjoa.dto.EmailDto;
 import com.codingjoa.dto.FindPasswordDto;
 import com.codingjoa.dto.PasswordChangeDto;
-import com.codingjoa.dto.PasswordDto;
 import com.codingjoa.dto.SuccessResponse;
 import com.codingjoa.dto.UploadFileDto;
 import com.codingjoa.entity.MemberImage;
@@ -168,17 +167,6 @@ public class MemberRestController {
 				.build());
 	}
 
-	@PostMapping("/confirm/password")
-	public ResponseEntity<Object> confirmPassword(@RequestBody @Valid PasswordDto passwordDto, 
-			@AuthenticationPrincipal PrincipalDetails principal) {
-		log.info("## confirmPassword");
-		log.info("\t > {}", passwordDto);
-		memberService.checkCurrentPassword(passwordDto, principal.getIdx());
-		redisService.saveKeyAndValue(principal.getEmail(), "PASSWORD_CONFIRM");
-		
-		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.ConfirmPassword").build());
-	}
-	
 	@PutMapping("/password")
 	public ResponseEntity<Object> updatePassword(@RequestBody @Valid PasswordChangeDto passwordChangeDto, 
 			@AuthenticationPrincipal PrincipalDetails principal) {

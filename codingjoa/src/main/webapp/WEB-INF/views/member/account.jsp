@@ -7,7 +7,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Codingjoa : 계정 정보</title>
+<title>Codingjoa : 계정 관리</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
@@ -158,6 +158,7 @@
 			<h4 class="font-weight-bold">계정 관리</h4>
 		</div>
 		<div class="mt-4 p-4 profile-wrap">
+			<h5 class="mb-3 font-weight-bold">계정 정보</h5>
 			<div class="mb-5 d-flex">
 				<div class="wrap-member-image mr-4">
 					<c:choose>
@@ -294,6 +295,7 @@
 			</div>
 		</div>
 		<div class="mt-4 p-4 security-wrap">
+			<h5 class="mb-4 font-weight-bold">계정 보안</h5>
 			<div>
 				<dl class="form-group">
 					<dt><i class="fa-solid fa-check mr-2"></i>비밀번호</dt>

@@ -46,22 +46,18 @@
 				</sec:authorize>
 				<sec:authorize access="isAuthenticated()">
 					<sec:authentication property="principal" var="principal"/>
-					<li class="nav-item mr-1">
+					<li class="nav-item mx-2">
 						<c:choose>
 							<c:when test="${not empty principal.imageUrl}">
-								<img class="nav-member-image" id="navMemberImage" src="${principal.imageUrl}">
+								<img class="nav-member-image mr-1" id="navMemberImage" src="${principal.imageUrl}">
 							</c:when>
 							<c:otherwise>
-								<img class="nav-member-image" id="navMemberImage" src="${contextPath}/resources/images/img_profile.png">
+								<img class="nav-member-image mr-1" id="navMemberImage" src="${contextPath}/resources/images/img_profile.png">
 							</c:otherwise>
 						</c:choose>
-					</li>
-					<li class="nav-item mr-2">
-						<a class="nav-link text-body" href="${contextPath}/member/account/info">
-							<span class="font-weight-bold">
-								<c:out value="${principal.nickname}"/>
-							</span>
-						</a>
+						<span class="nav-link font-weight-bold text-body">
+							<c:out value="${principal.nickname}"/>
+						</span>
 					</li>
 					<li class="nav-item">
 						<span class="nav-link" style="pointer-events: none;">|</span>
