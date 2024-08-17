@@ -1,9 +1,12 @@
 package com.codingjoa.service.impl;
 
+import java.util.Map;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.codingjoa.dto.MemberInfoDto;
 import com.codingjoa.dto.AddrDto;
 import com.codingjoa.dto.AgreeDto;
 import com.codingjoa.dto.EmailAuthDto;
@@ -103,6 +106,17 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override
+	public MemberInfoDto getMemberInfoByIdx(Integer memberIdx) {
+		Member member = memberMapper.findMemberByIdx(memberIdx);
+		if (member == null) {
+			
+		}
+		
+		return null;
+	}
+	
+	
+	@Override
 	public String getMemberIdByEmail(String memberEmail) {
 		Member member = memberMapper.findMemberByEmail(memberEmail);
 		if (member == null) {
@@ -186,5 +200,7 @@ public class MemberServiceImpl implements MemberService {
 		modifyMember.setMemberPassword(memberPassword);
 		memberMapper.updatePassword(modifyMember);
 	}
+
+	
 
 }

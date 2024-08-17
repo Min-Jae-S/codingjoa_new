@@ -10,6 +10,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,6 +26,7 @@ import com.codingjoa.dto.AgreeDto;
 import com.codingjoa.dto.EmailAuthDto;
 import com.codingjoa.dto.EmailDto;
 import com.codingjoa.dto.FindPasswordDto;
+import com.codingjoa.dto.MemberInfoDto;
 import com.codingjoa.dto.PasswordChangeDto;
 import com.codingjoa.dto.SuccessResponse;
 import com.codingjoa.dto.UploadFileDto;
@@ -112,6 +114,13 @@ public class MemberRestController {
 		redisService.saveKeyAndValue(memberEmail, authCode);
 		
 		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.SendAuthCode").build());
+	}
+	
+	@GetMapping("/account")
+	public ResponseEntity<Object> getMemberInfo(@AuthenticationPrincipal PrincipalDetails principal) {
+		log.info("## getMemberInfo");
+		MemberInfoDto memberInfo = memberService.getMemberInfoByIdx(principal.getIdx());
+		return ResponseEntity.ok(SuccessResponse.builder().data(memberInfo).build());
 	}
 	
 	@PutMapping("/email")

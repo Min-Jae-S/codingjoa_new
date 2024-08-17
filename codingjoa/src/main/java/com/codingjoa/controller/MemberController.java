@@ -62,12 +62,6 @@ public class MemberController {
 		return "member/account";
 	}
 
-	@GetMapping("/account/confirmPassword")
-	public String confirmPassword() {
-		log.info("## confirmPassword");
-		return "member/confirm-password";
-	}
-
 	@GetMapping("/account/updatePassword")
 	public String updatePassword() {
 		log.info("## updatePassword");

@@ -181,14 +181,14 @@
 						<dt><i class="fa-solid fa-check mr-2"></i>닉네임</dt>
 						<dd class="input-group" id="showNickname">
 							<div>
-								<span class="inner-text"><c:out value="${principal.nickname}"/></span>
+								<span class="inner-text"></span>
 							</div>
 							<button class="btn btn-outline-primary btn-sm" id="showNicknameBtn">수정</button>
 						</dd>
 						<!-- d-none(#editNickname) -->
 						<dd class="input-group" id="editNickname">
 							<form>
-								<input type="text" id="memberNickname" name="memberNickname" value="${principal.nickname}"/>
+								<input type="text" id="memberNickname" name="memberNickname"/>
 							</form>
 							<div>
 								<button class="btn btn-outline-primary btn-sm" type="button" id="updateNicknameBtn">확인</button>
@@ -203,14 +203,14 @@
 					<dt><i class="fa-solid fa-check mr-2"></i>이메일</dt>
 					<dd class="input-group" id="showEmail">
 						<div>
-							<span class="inner-text"><c:out value="${principal.email}"/></span>
+							<span class="inner-text"></span>
 						</div>
 						<button class="btn btn-outline-primary btn-sm" id="showEmailBtn">수정</button>
 					</dd>
 					<!-- d-none(#editEmail) -->
 					<dd class="input-group" id="editEmail">
 						<form>
-							<input type="text" id="memberEmail" name="memberEmail" value="${principal.email}"/>
+							<input type="text" id="memberEmail" name="memberEmail"/>
 						</form>
 						<div>
 							<button class="btn btn-warning btn-sm" type="button" id="sendAuthCodeBtn">인증코드 받기</button>
@@ -228,20 +228,20 @@
 					<dt><i class="fa-solid fa-check mr-2"></i>주소</dt>
 					<dd class="input-group" id="showZipcode">
 						<div>
-							<span class="inner-text"><%-- <c:out value="${principal.member.memberZipcode}"/> --%></span>
+							<span class="inner-text"></span>
 						</div>
 						<button class="btn btn-outline-primary btn-sm" type="button" id="showAddrBtn">수정</button>
 					</dd>
 					<dd class="input-group" id="showAddr">
-						<span class="inner-text"><%-- <c:out value="${principal.member.memberAddr}"/> --%></span>
+						<span class="inner-text"></span>
 					</dd>
 					<dd class="input-group" id="showAddrDetail">
-						<span class="inner-text"><%-- <c:out value="${principal.member.memberAddrDetail}"/> --%></span>
+						<span class="inner-text"></span>
 					</dd>
 					<!-- d-none(#editZipcode) -->
 					<dd class="input-group" id="editZipcode">
 						<form>
-							<input type="text" id="memberZipcode" name="memberZipcode" <%-- value="${principal.member.memberZipcode}" --%> readonly/> 
+							<input type="text" id="memberZipcode" name="memberZipcode" readonly/> 
 						</form>
 						<div>
 							<button class="btn btn-warning btn-sm" type="button" id="searchAddrBtn">주소 찾기</button>
@@ -252,13 +252,13 @@
 					<!-- d-none(#editAddr) -->
 					<dd class="input-group" id="editAddr">
 						<form>
-							<input type="text" id="memberAddr" name="memberAddr" <%-- value="${principal.member.memberAddr}" --%> readonly/>
+							<input type="text" id="memberAddr" name="memberAddr" readonly/>
 						</form>
 					</dd>
 					<!-- d-none(#editAddrDetail) -->
 					<dd class="input-group" id="editAddrDetail">
 						<form>
-							<input type="text" id="memberAddrDetail" name="memberAddrDetail" <%-- value="${principal.member.memberAddrDetail}" --%>/>
+							<input type="text" id="memberAddrDetail" name="memberAddrDetail"/>
 						</form>
 					</dd>
 				</dl>
@@ -269,7 +269,7 @@
 					<dd class="input-group" id="showAgree">
 						<div class="form-check form-check-inline mr-0">
 							<label class="form-check-label label-disabled">
-								<input class="form-check-input" type="checkbox" <%-- ${principal.member.memberAgree == true ? 'checked' : ''} --%> disabled/>
+								<input class="form-check-input" type="checkbox" disabled/>
 								<span class="inner-text">이메일 광고 수신에 동의합니다.</span>
 							</label>
 						</div>
@@ -280,8 +280,7 @@
 						<form>
 							<div class="form-check form-check-inline">
 								<label class="form-check-label">
-									<input class="form-check-input" type="checkbox" id="memberAgree" name="memberAgree" 
-										<%-- ${principal.member.memberAgree == true ? 'checked' : ''}> --%>
+									<input class="form-check-input" type="checkbox" id="memberAgree" name="memberAgree" />
 									<span class="inner-text">이메일 광고 수신에 동의합니다.</span>
 								</label>
 							</div>
@@ -326,7 +325,18 @@
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
 	$(function() {
-		const idx = '<c:out value="${principal.idx}"/>'; 
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/api/member/account",
+			dataType : "json",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log(JSON.stringify(result, null, 2));
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+			}
+		});
 		
 		$("#uploadMemberImageBtn").on("click", function() {
 			$("#memberImage").click();
@@ -338,7 +348,6 @@
 			e.stopPropagation();
 		})
 		
-		// uploadMemberImage
 		$("#memberImage").on("change", function() {
 			// jQuery object --> javaScript DOM object 
 			// let $memberImage = $(this)[0];
@@ -355,7 +364,6 @@
 			});
 		});
 		
-		// sendAuthCode
 		$("#sendAuthCodeBtn").on("click", function() {
 			let obj = {
 				memberEmail : $("#memberEmail").val(),
@@ -368,7 +376,6 @@
 			});
 		});
 
-		// updateEmail
 		$("#updateEmailBtn").on("click", function() {
 			let obj = {
 				memberEmail : $("#memberEmail").val(),
@@ -400,7 +407,6 @@
 			}
 		});
 		
-		// updateAddr
 		$("#updateAddrBtn").on("click", function() {
 			let obj = {
 				memberZipcode : $("#memberZipcode").val(),
@@ -433,7 +439,6 @@
 			}
 		});
 
-		// updateAgree
 		$("#updateAgreeBtn").on("click", function() {
 			let obj = {
 				memberAgree : $("#memberAgree").prop("checked")	

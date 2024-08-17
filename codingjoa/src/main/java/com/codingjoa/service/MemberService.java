@@ -1,5 +1,6 @@
 package com.codingjoa.service;
 
+import com.codingjoa.dto.MemberInfoDto;
 import com.codingjoa.dto.AddrDto;
 import com.codingjoa.dto.AgreeDto;
 import com.codingjoa.dto.EmailAuthDto;
@@ -9,7 +10,7 @@ import com.codingjoa.dto.PasswordDto;
 
 public interface MemberService {
 
-	void save(JoinDto joinDto); // member, auth
+	void save(JoinDto joinDto);
 	
 	boolean isNicknameExist(String memberNickname);
 	
@@ -18,6 +19,8 @@ public interface MemberService {
 	void checkEmailForUpdate(String memberEmail, Integer memberIdx);
 	
 	void checkEmailForReset(String memberEmail);
+	
+	MemberInfoDto getMemberInfoByIdx(Integer memberIdx);
 	
 	String getMemberIdByEmail(String memberEmail);
 	
