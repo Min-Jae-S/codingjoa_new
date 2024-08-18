@@ -302,7 +302,7 @@
 					<!-- d-none(#editPassword) -->
 					<dd class="input-group" id="editPassword">
 						<form>
-							<input type="password" id="memberPassword" name="memberPassword" placeholder="******"/>
+							<input type="password" id="memberPassword" name="memberPassword" placeholder="********"/>
 						</form>
 						<div>
 							<button class="btn btn-outline-primary btn-sm" type="button" id="updatePasswordBtn">확인</button>

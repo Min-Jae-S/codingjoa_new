@@ -15,4 +15,5 @@ public class AddrDto {
 	
 	@NotBlank
 	private String memberAddrDetail;
+	
 }
