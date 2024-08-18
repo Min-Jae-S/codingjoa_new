@@ -183,7 +183,7 @@
 						<!-- d-none(#editNickname) -->
 						<dd class="input-group" id="editNickname">
 							<form>
-								<input type="text" id="memberNickname" name="memberNickname"  placeholder="닉네임을 입력해주세요."/>
+								<input type="text" id="memberNickname" name="memberNickname" placeholder="닉네임을 입력해주세요."/>
 							</form>
 							<div>
 								<button class="btn btn-outline-primary btn-sm" type="button" id="updateNicknameBtn">확인</button>
@@ -408,6 +408,27 @@
 				$("#authCode").focus();
 			});
 		});
+		
+		$("#updateNicknameBtn").on("click", function() {
+			let obj = {
+				memberNickname : $("#memberNickname").val()
+			};
+			
+			memberService.updateNickname(obj, function(result) {
+				alert(result.message);
+				memberService.getMemberInfo(function(result) {
+					$("#memberNickname").attr("value", result.data.memberNickname);
+					$("#showNickname span").text(result.data.memberNickname);
+					$("#resetNicknameBtn").click();
+				});
+			});
+		});
+		
+		$(document).on("keydown", "#memberNickname", function(e) {
+			if (e.keyCode == 13) {
+				$("#updateNicknameBtn").click();
+			}
+		});
 
 		$("#updateEmailBtn").on("click", function() {
 			let obj = {
@@ -427,7 +448,6 @@
 		
 		$(document).on("keydown", "#memberEmail", function(e) {
 			if (e.keyCode == 13) {
-				e.preventDefault();
 				$("#sendAuthCodeBtn").click();
 			}
 		});
@@ -491,7 +511,7 @@
 		});
 		
 		$("#resetNicknameBtn").on("click", function() {
-			$("#showNickname\\.errors, .success").remove();
+			$("#memberNickname\\.errors").remove();
 			$("#showNickname").css("display", "flex");
 			$("#editNickname, #editNickname > div").css("display", "none");
 			$("#editNickname").find("form")[0].reset();

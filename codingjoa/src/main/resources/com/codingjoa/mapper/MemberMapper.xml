@@ -176,6 +176,16 @@
 			member_idx = #{memberIdx}
 	</select>
 	
+	<update id="updateNickname" parameterType="member">
+		UPDATE 
+			member
+		SET
+			member_nickname = #{memberNickname},
+			moddate = SYSDATE
+		WHERE
+			member_idx = #{memberIdx}
+	</update>
+	
 	<update id="updateEmail" parameterType="member">
 		UPDATE 
 			member

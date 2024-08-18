@@ -77,29 +77,35 @@ let memberService = (function() {
 		});
 	}
 	
-	function getMemberInfo(callback) {
-		console.log("## getMemberInfo");
-		let url = contextPath + "/api/member/account";
+	function updateNickname(obj, callback) {
+		console.log("## updateNickname");
+		let url = contextPath + "/api/member/account/nickname";
 		console.log("> URL = '%s'", url);
+		console.log("> sendData = %s", JSON.stringify(obj, null, 2));
 		
 		$.ajax({
-			type : "GET",
+			type : "PUT",
 			url : url,
+			data : JSON.stringify(obj),
+			contentType : "application/json; charset=utf-8",
 			dataType : "json",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
+				$("#memberNickname\\.errors").remove();
 				callback(result);
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
+				$("#memberNickname\\.errors").remove();
+				let errorResponse = parseError(jqXHR);
 				if (errorResponse != null) {
 					handleMemberError(errorResponse);
 				} else {
 					alert("## parsing error");
 				}
 			}
-		});	
+		});
 	}
 	
 	function updateEmail(obj, callback) {
@@ -122,8 +128,8 @@ let memberService = (function() {
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
-				let errorResponse = parseError(jqXHR);
 				$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
+				let errorResponse = parseError(jqXHR);
 				if (errorResponse != null) {
 					handleMemberError(errorResponse);
 				} else {
@@ -193,6 +199,32 @@ let memberService = (function() {
 				}
 			}
 		});
+	}
+	
+	function getMemberInfo(callback) {
+		console.log("## getMemberInfo");
+		let url = contextPath + "/api/member/account";
+		console.log("> URL = '%s'", url);
+		
+		$.ajax({
+			type : "GET",
+			url : url,
+			dataType : "json",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log(JSON.stringify(result, null, 2));
+				callback(result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				let errorResponse = parseError(jqXHR);
+				if (errorResponse != null) {
+					handleMemberError(errorResponse);
+				} else {
+					alert("## parsing error");
+				}
+			}
+		});	
 	}
 
 	function getMemberDetails(callback) {
@@ -379,10 +411,11 @@ let memberService = (function() {
 	return {
 		sendAuthCodeForJoin:sendAuthCodeForJoin,
 		sendAuthCodeForUpdate:sendAuthCodeForUpdate,
-		getMemberInfo:getMemberInfo,
+		updateNickname:updateNickname,
 		updateEmail:updateEmail,
 		updateAddr:updateAddr,
 		updateAgree:updateAgree,
+		getMemberInfo:getMemberInfo,
 		getMemberDetails:getMemberDetails,
 		confirmPassword:confirmPassword,
 		updatePassword:updatePassword,
