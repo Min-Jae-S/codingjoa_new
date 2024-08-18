@@ -45,7 +45,7 @@
 								<img class="nav-member-image mr-1" id="navMemberImage" src="${contextPath}/resources/images/img_profile.png">
 							</c:otherwise>
 						</c:choose>
-						<span class="nav-link font-weight-bold text-body">
+						<span class="nav-link font-weight-bold text-body" id="navMemberNickname">
 							<c:out value="${principal.nickname}"/>
 						</span>
 					</li>

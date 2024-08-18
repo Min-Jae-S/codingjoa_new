@@ -136,7 +136,6 @@
 		border-radius: 50%;
 		background-image: url(/codingjoa/resources/images/img_camera3.png);
 		background-size: contain;
-		background-repeat: no-repeat;
 	}
 	
 	.account-wrap {
@@ -319,60 +318,60 @@
 
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
-	$(function() {
-		const defaultMemberImageUrl = "${contextPath}/resources/images/img_profile.png";
-		
-		memberService.getMemberInfo(function(result) {
-			let memberInfo = result.data;
-			
-			if (memberInfo.memberImageUrl != "") {
-				$("#memberThumbImage").attr("src", memberInfo.memberImageUrl);
-			} else {
-				$("#memberThumbImage").attr("src", defaultMemberImageUrl);
-			}
-			
-			$("#memberNickname").attr("value", memberInfo.memberNickname);
-			$("#showNickname span").text(memberInfo.memberNickname);
-			
-			$("#memberEmail").attr("value", memberInfo.memberEmail);
-			$("#showEmail span").text(memberInfo.memberEmail);
-			
-			$("#memberZipcode").attr("value", memberInfo.memberZipcode);
-			$("#memberAddr").attr("value", memberInfo.memberAddr);
-			$("#memberAddrDetail").attr("value", memberInfo.memberAddrDetail);
-			
-			if (memberInfo.memberZipcode != "") {
-				$("#showZipcode span").text(memberInfo.memberZipcode);
-				$("#showAddrBtn").html("수정");
-			} else {
-				$("#showZipcode span").text("우편번호를 등록해주세요.");
-				$("#showAddrBtn").html("등록");
-			}
-			
-			if (memberInfo.memberAddr != "") {
-				$("#showAddr span").text(memberInfo.memberAddr);
-			} else {
-				$("#showAddr span").text("기본주소를 등록해주세요.");
-			}
+	const defaultMemberImageUrl = "${contextPath}/resources/images/img_profile.png";
 
-			if (memberInfo.memberAddrDetail != "") {
-				$("#showAddrDetail span").text(memberInfo.memberAddrDetail);
-			} else {
-				$("#showAddrDetail span").text("상세주소를 등록해주세요.");
-			}
-			
-			$("#showAgree input[type='checkbox']").prop("checked", memberInfo.memberAgree);
-			$("#memberAgree").prop("checked", memberInfo.memberAgree);
-			
-			if (memberInfo.hasPassword == true) {
-				$("#showPassword span").text("********");
-				$("#showPasswordBtn").html("수정");
-			} else {
-				$("#showPassword span").text("비밀번호를 등록해주세요.");
-				$("#showPasswordBtn").html("등록");
-			};
-		});
-			
+	memberService.getMemberInfo(function(result) {
+		let memberInfo = result.data;
+		
+		if (memberInfo.memberImageUrl != "") {
+			$("#memberThumbImage").attr("src", memberInfo.memberImageUrl);
+		} else {
+			$("#memberThumbImage").attr("src", defaultMemberImageUrl);
+		}
+		
+		$("#memberNickname").attr("value", memberInfo.memberNickname);
+		$("#showNickname span").text(memberInfo.memberNickname);
+		
+		$("#memberEmail").attr("value", memberInfo.memberEmail);
+		$("#showEmail span").text(memberInfo.memberEmail);
+		
+		$("#memberZipcode").attr("value", memberInfo.memberZipcode);
+		$("#memberAddr").attr("value", memberInfo.memberAddr);
+		$("#memberAddrDetail").attr("value", memberInfo.memberAddrDetail);
+		
+		if (memberInfo.memberZipcode != "") {
+			$("#showZipcode span").text(memberInfo.memberZipcode);
+			$("#showAddrBtn").html("수정");
+		} else {
+			$("#showZipcode span").text("우편번호를 등록해주세요.");
+			$("#showAddrBtn").html("등록");
+		}
+		
+		if (memberInfo.memberAddr != "") {
+			$("#showAddr span").text(memberInfo.memberAddr);
+		} else {
+			$("#showAddr span").text("기본주소를 등록해주세요.");
+		}
+	
+		if (memberInfo.memberAddrDetail != "") {
+			$("#showAddrDetail span").text(memberInfo.memberAddrDetail);
+		} else {
+			$("#showAddrDetail span").text("상세주소를 등록해주세요.");
+		}
+		
+		$("#showAgree input[type='checkbox']").prop("checked", memberInfo.memberAgree);
+		$("#memberAgree").prop("checked", memberInfo.memberAgree);
+		
+		if (memberInfo.hasPassword == true) {
+			$("#showPassword span").text("********");
+			$("#showPasswordBtn").html("수정");
+		} else {
+			$("#showPassword span").text("비밀번호를 등록해주세요.");
+			$("#showPasswordBtn").html("등록");
+		};
+	});
+
+	$(function() {
 		$("#uploadMemberImageBtn").on("click", function() {
 			$("#memberImage").click();
 		});
@@ -421,6 +420,7 @@
 				memberService.getMemberInfo(function(result) {
 					$("#memberNickname").attr("value", result.data.memberNickname);
 					$("#showNickname span").text(result.data.memberNickname);
+					$("#navMemberNickname").text(result.data.memberNickname);
 					$("#resetNicknameBtn").click();
 				});
 			});
@@ -428,6 +428,7 @@
 		
 		$(document).on("keydown", "#memberNickname", function(e) {
 			if (e.keyCode == 13) {
+				e.preventDefault();
 				$("#updateNicknameBtn").click();
 			}
 		});
@@ -450,12 +451,14 @@
 		
 		$(document).on("keydown", "#memberEmail", function(e) {
 			if (e.keyCode == 13) {
+				e.preventDefault();
 				$("#sendAuthCodeBtn").click();
 			}
 		});
 		
 		$(document).on("keydown", "#authCode", function(e) {
 			if (e.keyCode == 13) {
+				e.preventDefault();
 				$("#updateEmailBtn").click();
 			}
 		});
@@ -488,6 +491,7 @@
 		
 		$(document).on("keydown", "#memberAddrDetail", function(e) {
 			if (e.keyCode == 13) {
+				e.preventDefault();
 				$("#updateAddrBtn").click();
 			}
 		});
@@ -590,8 +594,20 @@
 
                 // 우편번호와 주소 정보를 해당 필드에 넣는다.
                 document.getElementById('memberZipcode').value = data.zonecode;
-                document.getElementById("memberAddr").value = addr;
-                document.getElementById("memberAddrDetail").value = '';
+                document.getElementById('memberAddr').value = addr;
+                document.getElementById('memberAddrDetail').value = '';
+                
+                // 우편번호와 주소에 해당하는 에러메세지를 제거한다.
+                let zipcodeErrorElement = document.getElementById('memberZipcode.errors');
+                let addrErrorElement = document.getElementById('memberAddr.errors');
+                
+                if (zipcodeErrorElement != null) {
+                	zpicodeErrorElement.remove();
+                }
+                
+                if (addrErrorElement != null) {
+                	addrErrorElement.remove();
+                }
 
                 // 커서를 상세주소 필드로 이동한다.
                 document.getElementById("memberAddrDetail").focus();
