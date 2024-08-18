@@ -1,6 +1,7 @@
 package com.codingjoa.service;
 
 import com.codingjoa.dto.MemberInfoDto;
+import com.codingjoa.dto.NicknameDto;
 import com.codingjoa.dto.AddrDto;
 import com.codingjoa.dto.AgreeDto;
 import com.codingjoa.dto.EmailAuthDto;
@@ -25,6 +26,8 @@ public interface MemberService {
 	String getMemberIdByEmail(String memberEmail);
 	
 	Integer getMemberIdxByIdAndEmail(String memberId, String memberEmail);
+	
+	void updateNickname(NicknameDto nicknameDto, Integer memberIdx);
 	
 	void updateEmail(EmailAuthDto emailAuthDto, Integer memberIdx);
 	

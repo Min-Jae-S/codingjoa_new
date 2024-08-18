@@ -27,6 +27,7 @@ import com.codingjoa.dto.EmailAuthDto;
 import com.codingjoa.dto.EmailDto;
 import com.codingjoa.dto.FindPasswordDto;
 import com.codingjoa.dto.MemberInfoDto;
+import com.codingjoa.dto.NicknameDto;
 import com.codingjoa.dto.PasswordChangeDto;
 import com.codingjoa.dto.SuccessResponse;
 import com.codingjoa.dto.UploadFileDto;
@@ -39,6 +40,7 @@ import com.codingjoa.service.RedisService;
 import com.codingjoa.validator.EmailAuthValidator;
 import com.codingjoa.validator.EmailValidator;
 import com.codingjoa.validator.FindPasswordValidator;
+import com.codingjoa.validator.NicknameValidator;
 import com.codingjoa.validator.PasswordChangeValidator;
 import com.codingjoa.validator.UploadFileValidator;
 
@@ -59,6 +61,11 @@ public class MemberRestController {
 	@InitBinder("emailDto")
 	public void InitBinderEmail(WebDataBinder binder) {
 		binder.addValidators(new EmailValidator());
+	}
+
+	@InitBinder("nicknameDto")
+	public void InitBinderNicknmae(WebDataBinder binder) {
+		binder.addValidators(new NicknameValidator());
 	}
 	
 	@InitBinder("emailAuthDto")
@@ -121,6 +128,16 @@ public class MemberRestController {
 		log.info("## getMemberInfo");
 		MemberInfoDto memberInfo = memberService.getMemberInfoByIdx(principal.getIdx());
 		return ResponseEntity.ok(SuccessResponse.builder().data(memberInfo).build());
+	}
+	
+	@PutMapping("/account/nickname")
+	public ResponseEntity<Object> updateNickname(@RequestBody @Valid NicknameDto nicknameDto,
+			@AuthenticationPrincipal PrincipalDetails principal) {
+		log.info("## updateNickname");
+		log.info("\t > {}", nicknameDto);
+		memberService.updateNickname(nicknameDto, principal.getIdx());
+		
+		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.UpdateNickname").build());
 	}
 	
 	@PutMapping("/account/email")

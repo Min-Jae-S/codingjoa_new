@@ -24,6 +24,8 @@ public interface MemberMapper {
 	
 	Member findMemberByIdx(Integer memberIdx);
 	
+	void updateNickname(Member member);
+	
 	void updateEmail(Member member);
 	
 	void updateAddr(Member member);

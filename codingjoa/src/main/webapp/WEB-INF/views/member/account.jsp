@@ -417,10 +417,9 @@
 			
 			memberService.updateEmail(obj, function(result) {
 				alert(result.message);
-				memberService.getMemberDetails(function(result) {
-					let currentMember = result.data.member;
-					$("#memberEmail").attr("value", currentMember.memberEmail);
-					$("#showEmail span").text(currentMember.memberEmail);
+				memberService.getMemberInfo(function(result) {
+					$("#memberEmail").attr("value", result.data.memberEmail);
+					$("#showEmail span").text(result.data.memberEmail);
 					$("#resetEmailBtn").click();
 				});
 			});
@@ -448,14 +447,13 @@
 			
 			memberService.updateAddr(obj, function(result) {
 				alert(result.message);
-				memberService.getMemberDetails(function(result) {
-					let currentMember = result.data.member;
-					$("#memberZipcode").attr("value", currentMember.memberZipcode);
-					$("#memberAddr").attr("value", currentMember.memberAddr);
-					$("#memberAddrDetail").attr("value", currentMember.memberAddrDetail);
-					$("#showZipcode span").text(currentMember.memberZipcode);
-					$("#showAddr span").text(currentMember.memberAddr);
-					$("#showAddrDetail span").text(currentMember.memberAddrDetail);
+				memberService.getMemberInfo(function(result) {
+					$("#memberZipcode").attr("value", result.data.memberZipcode);
+					$("#showZipcode span").text(result.data.memberZipcode);
+					$("#memberAddr").attr("value", result.data.memberAddr);
+					$("#showAddr span").text(result.data.memberAddr);
+					$("#memberAddrDetail").attr("value", result.data.memberAddrDetail);
+					$("#showAddrDetail span").text(result.data.memberAddrDetail);
 					$("#showAddrBtn").html("수정");
 					$("#resetAddrBtn").click();
 				});
@@ -480,9 +478,8 @@
 			memberService.updateAgree(obj, function(result) {
 				alert(result.message);
 				memberService.getMemberDetails(function(result) {
-					let currentMember = result.data.member;
-					$("#memberAgree").prop("checked", currentMember.memberAgree);
-					$("#showAgree input[type='checkbox']").prop("checked", currentMember.memberAgree);
+					$("#memberAgree").prop("checked", result.data.memberAgree);
+					$("#showAgree input[type='checkbox']").prop("checked", result.data.memberAgree);
 					$("#resetAgreeBtn").click();
 				});
 			});

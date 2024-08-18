@@ -11,6 +11,7 @@ import com.codingjoa.dto.AgreeDto;
 import com.codingjoa.dto.EmailAuthDto;
 import com.codingjoa.dto.JoinDto;
 import com.codingjoa.dto.MemberInfoDto;
+import com.codingjoa.dto.NicknameDto;
 import com.codingjoa.dto.PasswordChangeDto;
 import com.codingjoa.dto.PasswordDto;
 import com.codingjoa.entity.Auth;
@@ -133,6 +134,20 @@ public class MemberServiceImpl implements MemberService {
 		}
 		return member.getMemberIdx();
 	}
+	
+	@Override
+	public void updateNickname(NicknameDto nicknameDto, Integer memberIdx) {
+		Member member = memberMapper.findMemberByIdx(memberIdx);
+		if (member == null) {
+			throw new ExpectedException("error.NotFoundMember");
+		}
+		
+		Member modifyMember = Member.builder()
+				.memberIdx(memberIdx)
+				.memberNickname(nicknameDto.getMemberNickname())
+				.build();
+		memberMapper.updateNickname(modifyMember);
+	}
 
 	@Override
 	public void updateEmail(EmailAuthDto emailAuthDto, Integer memberIdx) {
@@ -211,7 +226,5 @@ public class MemberServiceImpl implements MemberService {
 				.build();
 		memberMapper.updatePassword(modifyMember);
 	}
-
-	
 
 }
