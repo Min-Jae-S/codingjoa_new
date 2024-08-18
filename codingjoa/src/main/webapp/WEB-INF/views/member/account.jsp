@@ -24,6 +24,7 @@
 		border: none;
 		width: 100%;
 		padding: 5px 0 5px 7px;
+		font-size: 14px;
 	}
 	
 	input[type="text"]:focus, input[type="password"]:focus {
@@ -34,6 +35,7 @@
 		border-radius: 0.5rem;
 		padding: 5px 0 5px 7px;
 		/* padding: 3px 0 3px 7px; */
+		font-size: 14px;
 	}
 	
 	label {
@@ -181,7 +183,7 @@
 						<!-- d-none(#editNickname) -->
 						<dd class="input-group" id="editNickname">
 							<form>
-								<input type="text" id="memberNickname" name="memberNickname"/>
+								<input type="text" id="memberNickname" name="memberNickname"  placeholder="닉네임을 입력해주세요."/>
 							</form>
 							<div>
 								<button class="btn btn-outline-primary btn-sm" type="button" id="updateNicknameBtn">확인</button>
@@ -203,7 +205,7 @@
 					<!-- d-none(#editEmail) -->
 					<dd class="input-group" id="editEmail">
 						<form>
-							<input type="text" id="memberEmail" name="memberEmail"/>
+							<input type="text" id="memberEmail" name="memberEmail" placeholder="이메일을 입력해주세요."/>
 						</form>
 						<div>
 							<button class="btn btn-warning btn-sm" type="button" id="sendAuthCodeBtn">인증코드 받기</button>
@@ -212,7 +214,7 @@
 						</div>
 					</dd>
 					<dd class="input-group" id="editAuthCode">
-						<input type="text" id="authCode" name="authCode" placeholder="인증코드를 입력하세요.">
+						<input type="text" id="authCode" name="authCode" placeholder="인증코드를 입력해주세요.">
 					</dd>
 				</dl>
 			</div>
@@ -223,7 +225,7 @@
 						<div>
 							<span class="inner-text"></span>
 						</div>
-						<button class="btn btn-outline-primary btn-sm" type="button" id="showAddrBtn">수정</button>
+						<button class="btn btn-outline-primary btn-sm" type="button" id="showAddrBtn"></button>
 					</dd>
 					<dd class="input-group" id="showAddr">
 						<span class="inner-text"></span>
@@ -233,7 +235,9 @@
 					</dd>
 					<!-- d-none(#editZipcode) -->
 					<dd class="input-group" id="editZipcode">
-						<form><input type="text" id="memberZipcode" name="memberZipcode" placeholder="우편번호" readonly/></form>
+						<form>
+							<input type="text" id="memberZipcode" name="memberZipcode" placeholder="우편번호를 등록해주세요." readonly/>
+						</form>
 						<div>
 							<button class="btn btn-warning btn-sm" type="button" id="searchAddrBtn">주소 찾기</button>
 							<button class="btn btn-outline-primary btn-sm" type="button" id="updateAddrBtn">확인</button>
@@ -243,13 +247,13 @@
 					<!-- d-none(#editAddr) -->
 					<dd class="input-group" id="editAddr">
 						<form>
-							<input type="text" id="memberAddr" name="memberAddr" placeholder="기본주소" readonly/>
+							<input type="text" id="memberAddr" name="memberAddr" placeholder="기본주소를 등록해주세요." readonly/>
 						</form>
 					</dd>
 					<!-- d-none(#editAddrDetail) -->
 					<dd class="input-group" id="editAddrDetail">
 						<form>
-							<input type="text" id="memberAddrDetail" name="memberAddrDetail" placeholder="상세주소"/>
+							<input type="text" id="memberAddrDetail" name="memberAddrDetail" placeholder="상세주소를 등록해주세요."/>
 						</form>
 					</dd>
 				</dl>
@@ -293,7 +297,7 @@
 						<div>
 							<span class="inner-text"></span>
 						</div>
-						<button class="btn btn-outline-primary btn-sm" id="showPasswordBtn">수정</button>
+						<button class="btn btn-outline-primary btn-sm" id="showPasswordBtn"></button>
 					</dd>
 					<!-- d-none(#editPassword) -->
 					<dd class="input-group" id="editPassword">
@@ -317,44 +321,53 @@
 <script>
 	$(function() {
 		const defaultMemberImageUrl = "${contextPath}/resources/images/img_profile.png";
+		
 		memberService.getMemberInfo(function(result) {
 			let memberInfo = result.data;
-			let memberImageUrl = (memberInfo.memberImageUrl == "") ? defaultMemberImageUrl : memberInfo.memberImageUrl;
-			$("#memberThumbImage").attr("src", memberImageUrl);
-			$("#showNickname span").text(memberInfo.memberNickname);
+			
+			if (memberInfo.memberImageUrl != "") {
+				$("#memberThumbImage").attr("src", memberInfo.memberImageUrl);
+			} else {
+				$("#memberThumbImage").attr("src", defaultMemberImageUrl);
+			}
+			
 			$("#memberNickname").attr("value", memberInfo.memberNickname);
-			$("#showEmail span").text(memberInfo.memberEmail);
+			$("#showNickname span").text(memberInfo.memberNickname);
+			
 			$("#memberEmail").attr("value", memberInfo.memberEmail);
-			
-			if (memberInfo.memberZipcode == "") {
-				$("#showZipcode span").text("우편번호를 등록해주세요.");
-			} else {
-				$("#showZipcode span").text(memberInfo.memberZipcode);
-				
-			}
-			
-			if (memberInfo.memberAddr == "") {
-				$("#showAddr span").text("기본주소를 등록해주세요.");
-			} else {
-				$("#showAddr span").text(memberInfo.memberAddr);
-			}
-
-			if (memberInfo.memberAddrDetail == "") {
-				$("#showAddr span").text("상세주소를 등록해주세요.");
-			} else {
-				$("#showAddr span").text(memberInfo.memberAddrDetail);
-			}
+			$("#showEmail span").text(memberInfo.memberEmail);
 			
 			$("#memberZipcode").attr("value", memberInfo.memberZipcode);
 			$("#memberAddr").attr("value", memberInfo.memberAddr);
 			$("#memberAddrDetail").attr("value", memberInfo.memberAddrDetail);
-			$("#showAgree checkbox").prop("checked", memberInfo.memberAgree);
+			
+			if (memberInfo.memberZipcode != "") {
+				$("#showZipcode span").text(memberInfo.memberZipcode);
+			} else {
+				$("#showZipcode span").text("우편번호를 등록해주세요.");
+				$("#showAddrBtn").html("등록");
+			}
+			
+			if (memberInfo.memberAddr != "") {
+				$("#showAddr span").text(memberInfo.memberAddr);
+			} else {
+				$("#showAddr span").text("기본주소를 등록해주세요.");
+			}
+
+			if (memberInfo.memberAddrDetail != "") {
+				$("#showAddrDetail span").text(memberInfo.memberAddrDetail);
+			} else {
+				$("#showAddrDetail span").text("상세주소를 등록해주세요.");
+			}
+			
+			$("#showAgree input[type='checkbox']").prop("checked", memberInfo.memberAgree);
 			$("#memberAgree").prop("checked", memberInfo.memberAgree);
 			
-			if (memberInfo.hasPassword) {
-				$("#showPassword span").text("******");
+			if (memberInfo.hasPassword == true) {
+				$("#showPassword span").text("********");
 			} else {
 				$("#showPassword span").text("비밀번호를 등록해주세요.");
+				$("showPasswordBtn").html("등록");
 			};
 		});
 			
@@ -406,9 +419,8 @@
 				alert(result.message);
 				memberService.getMemberDetails(function(result) {
 					let currentMember = result.data.member;
-					$("#editEmail").find("form")
-						.html("<input type='text' id='memberEmail' name='memberEmail' value='" + currentMember.memberEmail + "'>");
-					$("#showEmail").find("span").text(currentMember.memberEmail);
+					$("#memberEmail").attr("value", currentMember.memberEmail);
+					$("#showEmail span").text(currentMember.memberEmail);
 					$("#resetEmailBtn").click();
 				});
 			});
@@ -438,12 +450,13 @@
 				alert(result.message);
 				memberService.getMemberDetails(function(result) {
 					let currentMember = result.data.member;
-					$("#editZipcode").find("form").html("<input type='text' id='memberZipcode' name='memberZipcode' value='" + currentMember.memberZipcode + "' readonly>");
-					$("#editAddr").find("form").html("<input type='text' id='memberAddr' name='memberAddr' value='" + currentMember.memberAddr + "' readonly>");
-					$("#editAddrDetail").find("form").html("<input type='text' id='memberAddrDetail' name='memberAddrDetail' value='" + currentMember.memberAddrDetail + "'>");
-					$("#showZipcode").find("span").text(currentMember.memberZipcode);
-					$("#showAddr").find("span").text(currentMember.memberAddr);
-					$("#showAddrDetail").find("span").text(currentMember.memberAddrDetail);
+					$("#memberZipcode").attr("value", currentMember.memberZipcode);
+					$("#memberAddr").attr("value", currentMember.memberAddr);
+					$("#memberAddrDetail").attr("value", currentMember.memberAddrDetail);
+					$("#showZipcode span").text(currentMember.memberZipcode);
+					$("#showAddr span").text(currentMember.memberAddr);
+					$("#showAddrDetail span").text(currentMember.memberAddrDetail);
+					$("#showAddrBtn").html("수정");
 					$("#resetAddrBtn").click();
 				});
 			});
@@ -468,11 +481,8 @@
 				alert(result.message);
 				memberService.getMemberDetails(function(result) {
 					let currentMember = result.data.member;
-					let checkValue = (currentMember.memberAgree == true) ? "checked" : "";
-					$("#editAgree").find("label")
-						.html("<input class='form-check-input' type='checkbox' id='memberAgree' name='memberAgree' " + checkValue + ">" 
-								+ "<span class='inner-text'>이메일 광고 수신에 동의합니다.<span/>");
-					$("#showAgree").find("input").prop("checked", currentMember.memberAgree);
+					$("#memberAgree").prop("checked", currentMember.memberAgree);
+					$("#showAgree input[type='checkbox']").prop("checked", currentMember.memberAgree);
 					$("#resetAgreeBtn").click();
 				});
 			});
