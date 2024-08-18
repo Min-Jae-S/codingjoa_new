@@ -77,9 +77,34 @@ let memberService = (function() {
 		});
 	}
 	
+	function getMemberInfo(callback) {
+		console.log("## getMemberInfo");
+		let url = contextPath + "/api/member/account";
+		console.log("> URL = '%s'", url);
+		
+		$.ajax({
+			type : "GET",
+			url : url,
+			dataType : "json",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log(JSON.stringify(result, null, 2));
+				callback(result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				if (errorResponse != null) {
+					handleMemberError(errorResponse);
+				} else {
+					alert("## parsing error");
+				}
+			}
+		});	
+	}
+	
 	function updateEmail(obj, callback) {
 		console.log("## updateEmail");
-		let url = contextPath + "/api/member/email";
+		let url = contextPath + "/api/member/account/email";
 		console.log("> URL = '%s'", url);
 		console.log("> sendData = %s", JSON.stringify(obj, null, 2));
 		
@@ -110,7 +135,7 @@ let memberService = (function() {
 
 	function updateAddr(obj, callback) {
 		console.log("## updateAddr");
-		let url = contextPath + "/api/member/address";
+		let url = contextPath + "/api/member/account/address";
 		console.log("> URL = '%s'", url);
 		console.log("> sendData = %s", JSON.stringify(obj, null, 2));
 		
@@ -141,7 +166,7 @@ let memberService = (function() {
 
 	function updateAgree(obj, callback) {
 		console.log("## updateAgree");
-		let url = contextPath + "/api/member/agree";
+		let url = contextPath + "/api/member/account/agree";
 		console.log("> URL = '%s'", url);
 		console.log("> sendData = %s", JSON.stringify(obj, null, 2));
 		
@@ -354,6 +379,7 @@ let memberService = (function() {
 	return {
 		sendAuthCodeForJoin:sendAuthCodeForJoin,
 		sendAuthCodeForUpdate:sendAuthCodeForUpdate,
+		getMemberInfo:getMemberInfo,
 		updateEmail:updateEmail,
 		updateAddr:updateAddr,
 		updateAgree:updateAgree,

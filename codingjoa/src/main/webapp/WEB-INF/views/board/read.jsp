@@ -588,7 +588,6 @@
 		const boardWriterIdx = "<c:out value='${boardDetails.boardWriterIdx}'/>";
 		let curCommentPage = 1;
 		
-		// getCommentList
 		commentService.getCommentList(boardIdx, curCommentPage, function(result) {
 			let commentList = result.data.commentList;
 			let myCommentLikes = result.data.myCommentLikes;

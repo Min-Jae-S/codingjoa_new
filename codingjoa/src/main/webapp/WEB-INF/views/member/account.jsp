@@ -161,14 +161,7 @@
 			<h5 class="mb-3 font-weight-bold">계정 정보</h5>
 			<div class="mb-5 d-flex">
 				<div class="wrap-member-image mr-4">
-					<c:choose>
-						<c:when test="${not empty principal.imageUrl}">
-							<img class="member-thumb-image" id="memberThumbImage" src="${principal.imageUrl}">
-						</c:when>
-						<c:otherwise>
-							<img class="member-thumb-image" id="memberThumbImage" src="${contextPath}/resources/images/img_profile.png">
-						</c:otherwise>
-					</c:choose>
+					<img class="member-thumb-image" id="memberThumbImage">
 					<button type="button" class="member-image-btn" id="uploadMemberImageBtn">
 						<span class="member-image-icon"></span>
 						<form id="memberImageForm">
@@ -240,9 +233,7 @@
 					</dd>
 					<!-- d-none(#editZipcode) -->
 					<dd class="input-group" id="editZipcode">
-						<form>
-							<input type="text" id="memberZipcode" name="memberZipcode" readonly/> 
-						</form>
+						<form><input type="text" id="memberZipcode" name="memberZipcode" placeholder="우편번호" readonly/></form>
 						<div>
 							<button class="btn btn-warning btn-sm" type="button" id="searchAddrBtn">주소 찾기</button>
 							<button class="btn btn-outline-primary btn-sm" type="button" id="updateAddrBtn">확인</button>
@@ -252,13 +243,13 @@
 					<!-- d-none(#editAddr) -->
 					<dd class="input-group" id="editAddr">
 						<form>
-							<input type="text" id="memberAddr" name="memberAddr" readonly/>
+							<input type="text" id="memberAddr" name="memberAddr" placeholder="기본주소" readonly/>
 						</form>
 					</dd>
 					<!-- d-none(#editAddrDetail) -->
 					<dd class="input-group" id="editAddrDetail">
 						<form>
-							<input type="text" id="memberAddrDetail" name="memberAddrDetail"/>
+							<input type="text" id="memberAddrDetail" name="memberAddrDetail" placeholder="상세주소"/>
 						</form>
 					</dd>
 				</dl>
@@ -280,7 +271,7 @@
 						<form>
 							<div class="form-check form-check-inline">
 								<label class="form-check-label">
-									<input class="form-check-input" type="checkbox" id="memberAgree" name="memberAgree" />
+									<input class="form-check-input" type="checkbox" id="memberAgree" name="memberAgree"/>
 									<span class="inner-text">이메일 광고 수신에 동의합니다.</span>
 								</label>
 							</div>
@@ -300,14 +291,14 @@
 					<dt><i class="fa-solid fa-check mr-2"></i>비밀번호</dt>
 					<dd class="input-group" id="showPassword">
 						<div>
-							<span class="inner-text">********</span>
+							<span class="inner-text"></span>
 						</div>
 						<button class="btn btn-outline-primary btn-sm" id="showPasswordBtn">수정</button>
 					</dd>
 					<!-- d-none(#editPassword) -->
 					<dd class="input-group" id="editPassword">
 						<form>
-							<input type="password" id="memberPassword" name="memberPassword" value="********"/>
+							<input type="password" id="memberPassword" name="memberPassword" placeholder="******"/>
 						</form>
 						<div>
 							<button class="btn btn-outline-primary btn-sm" type="button" id="updatePasswordBtn">확인</button>
@@ -325,19 +316,48 @@
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
 	$(function() {
-		$.ajax({
-			type : "GET",
-			url : "${contextPath}/api/member/account",
-			dataType : "json",
-			success : function(result) {
-				console.log("%c> SUCCESS", "color:green");
-				console.log(JSON.stringify(result, null, 2));
-			},
-			error : function(jqXHR) {
-				console.log("%c> ERROR", "color:red");
+		const defaultMemberImageUrl = "${contextPath}/resources/images/img_profile.png";
+		memberService.getMemberInfo(function(result) {
+			let memberInfo = result.data;
+			let memberImageUrl = (memberInfo.memberImageUrl == "") ? defaultMemberImageUrl : memberInfo.memberImageUrl;
+			$("#memberThumbImage").attr("src", memberImageUrl);
+			$("#showNickname span").text(memberInfo.memberNickname);
+			$("#memberNickname").attr("value", memberInfo.memberNickname);
+			$("#showEmail span").text(memberInfo.memberEmail);
+			$("#memberEmail").attr("value", memberInfo.memberEmail);
+			
+			if (memberInfo.memberZipcode == "") {
+				$("#showZipcode span").text("우편번호를 등록해주세요.");
+			} else {
+				$("#showZipcode span").text(memberInfo.memberZipcode);
+				
 			}
+			
+			if (memberInfo.memberAddr == "") {
+				$("#showAddr span").text("기본주소를 등록해주세요.");
+			} else {
+				$("#showAddr span").text(memberInfo.memberAddr);
+			}
+
+			if (memberInfo.memberAddrDetail == "") {
+				$("#showAddr span").text("상세주소를 등록해주세요.");
+			} else {
+				$("#showAddr span").text(memberInfo.memberAddrDetail);
+			}
+			
+			$("#memberZipcode").attr("value", memberInfo.memberZipcode);
+			$("#memberAddr").attr("value", memberInfo.memberAddr);
+			$("#memberAddrDetail").attr("value", memberInfo.memberAddrDetail);
+			$("#showAgree checkbox").prop("checked", memberInfo.memberAgree);
+			$("#memberAgree").prop("checked", memberInfo.memberAgree);
+			
+			if (memberInfo.hasPassword) {
+				$("#showPassword span").text("******");
+			} else {
+				$("#showPassword span").text("비밀번호를 등록해주세요.");
+			};
 		});
-		
+			
 		$("#uploadMemberImageBtn").on("click", function() {
 			$("#memberImage").click();
 		});
