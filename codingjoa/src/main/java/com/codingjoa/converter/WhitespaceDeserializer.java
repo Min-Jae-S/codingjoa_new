@@ -1,4 +1,4 @@
-package com.codingjoa.deserializer;
+package com.codingjoa.converter;
 
 import java.io.IOException;
 

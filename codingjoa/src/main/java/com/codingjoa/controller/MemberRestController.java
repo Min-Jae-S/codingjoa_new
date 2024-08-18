@@ -123,7 +123,7 @@ public class MemberRestController {
 		return ResponseEntity.ok(SuccessResponse.builder().data(memberInfo).build());
 	}
 	
-	@PutMapping("/email")
+	@PutMapping("/account/email")
 	public ResponseEntity<Object> updateEmail(@RequestBody @Valid EmailAuthDto emailAuthDto,
 			@AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## updateEmail");
@@ -134,17 +134,17 @@ public class MemberRestController {
 		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.UpdateEmail").build());
 	}
 	
-	@PutMapping("/address")
-	public ResponseEntity<Object> updateAddr(@RequestBody @Valid AddrDto addrDto, 
+	@PutMapping("/account/address")
+	public ResponseEntity<Object> updateAddress(@RequestBody @Valid AddrDto addrDto, 
 			@AuthenticationPrincipal PrincipalDetails principal) {
-		log.info("## updateAddr");
+		log.info("## updateAddress");
 		log.info("\t > {}", addrDto);
 		memberService.updateAddr(addrDto, principal.getIdx());
 		
-		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.UpdateAddr").build());
+		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.UpdateAddress").build());
 	}
 	
-	@PutMapping("/agree")
+	@PutMapping("/account/agree")
 	public ResponseEntity<Object> updateAgree(@RequestBody AgreeDto agreeDto, 
 			@AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## updateAgree");

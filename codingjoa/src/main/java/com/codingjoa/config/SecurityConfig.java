@@ -101,7 +101,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.authorizeRequests()
 				// https://stackoverflow.com/questions/19941466/spring-security-allows-unauthorized-user-access-to-restricted-url-from-a-forward
 				//.filterSecurityInterceptorOncePerRequest(false)
-				.antMatchers("/member/account/**").authenticated()
+				.antMatchers("/member/account/**", "/api/member/account/**").authenticated()
 				.antMatchers("/board/write", "/board/writeProc", "/board/modify", "/board/modifyProc", "/board/deleteProc").authenticated()
 				// the order of the rules matters and the more specific rules should go first
 				//.antMatchers("/api/comments/**/likes").permitAll()

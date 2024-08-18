@@ -41,16 +41,16 @@ public class MemberInfoDto {
 	public static MemberInfoDto from(Map<String, Object> map) {
 		return MemberInfoDto.builder()
 				.memberIdx((int) map.get("memberIdx"))
-				.memberEmail((String) map.get("memberEmal"))
-				.hasPassword((Boolean) map.get("memberPassword") == null ? false : true)
+				.memberEmail((String) map.get("memberEmail"))
+				.hasPassword((String) map.get("memberPassword") != null ? true : false)
 				.memberNickname((String) map.get("memberNickname"))
-				.memberZipcode((String) map.get("memberNickname"))
-				.memberAddr((String) map.get("memberNickname"))
-				.memberAddrDetail((String) map.get("memberNickname"))
+				.memberZipcode((String) map.get("memberZipcode"))
+				.memberAddr((String) map.get("memberAddr"))
+				.memberAddrDetail((String) map.get("memberAddrDetail"))
 				.memberAgree((boolean) map.get("memberAgree"))
 				.createdAt((Date) map.get("createdAt"))
 				.updatedAt((Date) map.get("updatedAt"))
-				.memberImageUrl((String) map.get("memberNickname"))
+				.memberImageUrl((String) map.get("memberImageUrl"))
 				.build();
 	}
 	

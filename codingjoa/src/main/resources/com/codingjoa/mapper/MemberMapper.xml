@@ -58,7 +58,7 @@
 		<result property="memberZipcode" column="member_zipcode"/>
 		<result property="memberAddr" column="member_addr"/>
 		<result property="memberAddrDetail" column="member_addr_detail"/>
-		<result property="memberAgree" column="member_agree"/>
+		<result property="memberAgree" column="member_agree" javaType="boolean"/>
 		<result property="createdAt" column="created_at"/>
 		<result property="updatedAt" column="updated_at"/>
 		<result property="memberImageUrl" column="member_image_url"/>
