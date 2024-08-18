@@ -8,7 +8,7 @@ let imageService = (function() {
 
 	function uploadMemberImage(formData, callback) {
 		console.log("## uploadMemberImage");
-		let url = contextPath + "/api/member/image";
+		let url = contextPath + "/api/member/account/image";
 		console.log("> URL = '%s'", url);
 		
 		$.ajax({
