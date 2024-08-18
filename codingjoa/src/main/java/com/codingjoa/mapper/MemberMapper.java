@@ -18,6 +18,8 @@ public interface MemberMapper {
 	
 	boolean isNicknameExist(String memberNickname);
 	
+	Map<String, Object> findMemberInfoByIdx(Integer memberIdx);
+	
 	Member findMemberByEmail(String memberEmail);
 	
 	Member findMemberByIdx(Integer memberIdx);

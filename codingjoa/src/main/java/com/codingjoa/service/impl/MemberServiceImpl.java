@@ -107,12 +107,14 @@ public class MemberServiceImpl implements MemberService {
 	
 	@Override
 	public MemberInfoDto getMemberInfoByIdx(Integer memberIdx) {
-		Member member = memberMapper.findMemberByIdx(memberIdx);
-		if (member == null) {
-			
+		Map<String, Object> memberInfoMap = memberMapper.findMemberInfoByIdx(memberIdx);
+		log.info("\t > memberInfoMap = {}", memberInfoMap);
+		
+		if (memberInfoMap == null) {
+		
 		}
 		
-		return null;
+		return MemberInfoDto.from(memberInfoMap);
 	}
 	
 	
