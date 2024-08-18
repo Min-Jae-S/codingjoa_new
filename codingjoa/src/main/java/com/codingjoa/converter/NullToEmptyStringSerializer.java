@@ -10,10 +10,6 @@ public class NullToEmptyStringSerializer extends JsonSerializer<Object> {
 
 	@Override
 	public void serialize(Object value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
-		if (value == null) {
-			gen.writeString("");
-		} else {
-			gen.writeObject(value);
-		}
+		gen.writeString("");
 	}
 }

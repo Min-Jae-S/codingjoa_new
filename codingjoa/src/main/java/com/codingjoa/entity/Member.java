@@ -2,9 +2,6 @@ package com.codingjoa.entity;
 
 import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,20 +27,13 @@ public class Member {
 
 	private Integer memberIdx;
 	private String memberEmail;
-	
-	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private String memberPassword;
-	
 	private String memberNickname;
 	private String memberZipcode;
 	private String memberAddr;
 	private String memberAddrDetail;
 	private Boolean memberAgree;
-	
-	@JsonFormat(pattern = "yyyy.MM.dd. HH:mm", timezone = "Asia/Seoul")
 	private Date createdAt;
-	
-	@JsonFormat(pattern = "yyyy.MM.dd. HH:mm", timezone = "Asia/Seoul")
 	private Date updatedAt;
 	
 	@Builder

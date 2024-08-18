@@ -65,6 +65,8 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
         
 		log.info("\t > respond with success response in JSON format");
 		String jsonResponse = objectMapper.writeValueAsString(successResponse);
+		log.info("\t > jsonResponse = {}", jsonResponse);
+		
 		response.getWriter().write(jsonResponse);
 		response.getWriter().close();
 	}
