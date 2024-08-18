@@ -181,7 +181,7 @@
 			member
 		SET
 			member_nickname = #{memberNickname},
-			moddate = SYSDATE
+			updated_at = SYSDATE
 		WHERE
 			member_idx = #{memberIdx}
 	</update>
@@ -191,7 +191,7 @@
 			member
 		SET
 			member_email = #{memberEmail},
-			moddate = SYSDATE
+			updated_at = SYSDATE
 		WHERE
 			member_idx = #{memberIdx}
 	</update>
@@ -203,7 +203,7 @@
 			member_zipcode = #{memberZipcode},
 			member_addr = #{memberAddr},
 			member_addr_detail = #{memberAddrDetail},
-			moddate = SYSDATE
+			updated_at = SYSDATE
 		WHERE
 			member_idx = #{memberIdx}
 	</update>
@@ -213,7 +213,7 @@
 			member
 		SET
 			member_agree = #{memberAgree},
-			moddate = SYSDATE
+			updated_at = SYSDATE
 		WHERE
 			member_idx = #{memberIdx}
 	</update>
@@ -223,7 +223,7 @@
 			member
 		SET
 			member_password = #{memberPassword},
-			moddate = SYSDATE
+			updated_at = SYSDATE
 		WHERE
 			member_idx = #{memberIdx}
 	</update>

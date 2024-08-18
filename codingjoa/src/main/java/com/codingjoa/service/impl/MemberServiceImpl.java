@@ -110,7 +110,7 @@ public class MemberServiceImpl implements MemberService {
 	public MemberInfoDto getMemberInfoByIdx(Integer memberIdx) {
 		Map<String, Object> memberInfoMap = memberMapper.findMemberInfoByIdx(memberIdx);
 		if (memberInfoMap == null) {
-			throw new ExpectedException("memberIdx", "error.NotFoundMemberInfo");
+			throw new ExpectedException("error.NotFoundMemberInfo");
 		}
 		
 		return MemberInfoDto.from(memberInfoMap);
@@ -142,9 +142,15 @@ public class MemberServiceImpl implements MemberService {
 			throw new ExpectedException("error.NotFoundMember");
 		}
 		
+		String memberNickname = nicknameDto.getMemberNickname();
+		String currentNickname = member.getMemberNickname();
+		if (isNicknameExist(memberNickname) && !memberNickname.equals(currentNickname)) {
+			throw new ExpectedException("memberNickname", "error.NicknameExist");
+		}
+		
 		Member modifyMember = Member.builder()
 				.memberIdx(memberIdx)
-				.memberNickname(nicknameDto.getMemberNickname())
+				.memberNickname(memberNickname)
 				.build();
 		memberMapper.updateNickname(modifyMember);
 	}

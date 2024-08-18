@@ -343,6 +343,7 @@
 			
 			if (memberInfo.memberZipcode != "") {
 				$("#showZipcode span").text(memberInfo.memberZipcode);
+				$("#showAddrBtn").html("수정");
 			} else {
 				$("#showZipcode span").text("우편번호를 등록해주세요.");
 				$("#showAddrBtn").html("등록");
@@ -365,9 +366,10 @@
 			
 			if (memberInfo.hasPassword == true) {
 				$("#showPassword span").text("********");
+				$("#showPasswordBtn").html("수정");
 			} else {
 				$("#showPassword span").text("비밀번호를 등록해주세요.");
-				$("showPasswordBtn").html("등록");
+				$("#showPasswordBtn").html("등록");
 			};
 		});
 			
