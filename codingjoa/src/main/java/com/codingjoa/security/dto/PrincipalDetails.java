@@ -1,7 +1,7 @@
 package com.codingjoa.security.dto;
 
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -37,13 +37,13 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 			String provider, List<Integer> myBoardLikes, List<Integer> myCommentLikes) {
 		this.idx = idx;
 		this.email = email;
-		this.password = password;
+		this.password = (password != null) ? password : "";
 		this.nickname = nickname;
 		this.role = role;
-		this.imageUrl = imageUrl;
+		this.imageUrl = (imageUrl != null) ? imageUrl : "";
 		this.provider = provider;
-		this.myBoardLikes =  (myBoardLikes != null) ? myBoardLikes : new ArrayList<>();
-		this.myCommentLikes = (myCommentLikes != null) ? myCommentLikes : new ArrayList<>();
+		this.myBoardLikes =  (myBoardLikes != null) ? myBoardLikes : Collections.emptyList();
+		this.myCommentLikes = (myCommentLikes != null) ? myCommentLikes : Collections.emptyList();
 	}
 	
 	@Override

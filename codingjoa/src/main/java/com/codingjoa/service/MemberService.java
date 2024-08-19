@@ -9,7 +9,6 @@ import com.codingjoa.dto.JoinDto;
 import com.codingjoa.dto.MemberInfoDto;
 import com.codingjoa.dto.NicknameDto;
 import com.codingjoa.dto.PasswordChangeDto;
-import com.codingjoa.dto.PasswordDto;
 
 public interface MemberService {
 
@@ -37,10 +36,8 @@ public interface MemberService {
 	
 	void updateAgree(AgreeDto agreeDto, Integer memberIdx);
 	
-	void checkCurrentPassword(PasswordDto passwordDto, Integer memberIdx);
-	
 	void updatePassword(PasswordChangeDto passwordChangeDto, Integer memberIdx);
-	
+
 	UserDetails getUserDetailsByIdx(Integer memberIdx);
 	
 }

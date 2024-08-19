@@ -36,7 +36,7 @@ public interface MemberMapper {
 	
 	Member findMemeberByIdAndEmail(@Param("memberId") String memberId, @Param("memberEmail") String memberEmail);
 	
-	Map<String, Object> findUserDetailsByEmail(String memberEmail); // using in UserDetailsService, OAuth2UserService
+	Map<String, Object> findUserDetailsByEmail(String memberEmail); // for authentication in UserDetailsService, OAuth2UserService
 	
-	Map<String, Object> findUserDetailsByIdx(Integer memberIdx);
+	Map<String, Object> findUserDetailsByIdx(Integer memberIdx);	// for jwt reissuance after updating
 }

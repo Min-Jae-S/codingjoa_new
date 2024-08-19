@@ -14,7 +14,6 @@ import com.codingjoa.dto.JoinDto;
 import com.codingjoa.dto.MemberInfoDto;
 import com.codingjoa.dto.NicknameDto;
 import com.codingjoa.dto.PasswordChangeDto;
-import com.codingjoa.dto.PasswordDto;
 import com.codingjoa.entity.Auth;
 import com.codingjoa.entity.Member;
 import com.codingjoa.exception.ExpectedException;
@@ -202,35 +201,26 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override
-	public void checkCurrentPassword(PasswordDto passwordDto, Integer memberIdx) {
-		Member member = memberMapper.findMemberByIdx(memberIdx);
-		if (member == null) {
-			throw new ExpectedException("error.NotFoundMember");
-		}
-		
-		String memberPassword = passwordDto.getMemberPassword();
-		String currentPassword = member.getMemberPassword();
-		if (!passwordEncoder.matches(memberPassword, currentPassword)) {
-			throw new ExpectedException("memberPassword", "error.BadCredentials");
-		}
-	}
-
-	@Override
 	public void updatePassword(PasswordChangeDto passwordChangeDto, Integer memberIdx) {
 		Member member = memberMapper.findMemberByIdx(memberIdx);
 		if (member == null) {
 			throw new ExpectedException("error.NotFoundMember");
 		}
 		
-		String memberPassword = passwordChangeDto.getMemberPassword();
-		String currentPassword = member.getMemberPassword();
-		if (passwordEncoder.matches(memberPassword, currentPassword)) {
-			throw new ExpectedException("memberPassword", "error.NotCurrentPassword");
+		String memberPassword = member.getMemberPassword();
+		String currentPasswordInput = passwordChangeDto.getCurrentPassword();
+		if (!passwordEncoder.matches(memberPassword, currentPasswordInput)) {
+			throw new ExpectedException("currentPassword", "error.BadCredentials");
+		}
+		
+		String newPasswordInput = passwordChangeDto.getNewPassword();
+		if (passwordEncoder.matches(memberPassword, newPasswordInput)) {
+			throw new ExpectedException("newPassword", "error.NotCurrentPassword");
 		}
 		
 		Member modifyMember = Member.builder()
 				.memberIdx(memberIdx)
-				.memberPassword(passwordEncoder.encode(memberPassword))
+				.memberPassword(passwordEncoder.encode(newPasswordInput))
 				.build();
 		memberMapper.updatePassword(modifyMember);
 	}

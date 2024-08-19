@@ -230,6 +230,37 @@ let memberService = (function() {
 		});
 	}
 	
+	function updatePassword(obj, callback) {
+		console.log("## updatePassword");
+		let url = contextPath + "/api/member/account/password";
+		console.log("> URL = '%s'", url);
+		console.log("> sendData = %s", JSON.stringify(obj, null, 2));
+		
+		$.ajax({
+			type : "PUT",
+			url : url,
+			data : JSON.stringify(obj),
+			contentType : "application/json; charset=utf-8",
+			dataType : "json",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				$("#currentPassword\\.errors, #newPassword\\.errors, #confirmPassword\\.errors").remove();
+				console.log(JSON.stringify(result, null, 2));
+				callback(result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				$("#currentPassword\\.errors, #newPassword\\.errors, #confirmPassword\\.errors").remove();
+				let errorResponse = parseError(jqXHR);
+				if (errorResponse != null) {
+					handleMemberError(errorResponse);
+				} else {
+					alert("## parsing error");
+				}
+			}
+		});
+	}
+	
 	function getMemberInfo(callback) {
 		console.log("## getMemberInfo");
 		let url = contextPath + "/api/member/account";
@@ -302,37 +333,6 @@ let memberService = (function() {
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR","color:red");
-				$(".error").remove();
-				let errorResponse = parseError(jqXHR);
-				if (errorResponse != null) {
-					handleMemberError(errorResponse);
-				} else {
-					alert("## parsing error");
-				}
-			}
-		});
-	}
-	
-	function updatePassword(obj, callback) {
-		console.log("## updatePassword");
-		let url = contextPath + "/api/member/password";
-		console.log("> URL = '%s'", url);
-		console.log("> sendData = %s", JSON.stringify(obj, null, 2));
-		
-		$.ajax({
-			type : "PUT",
-			url : url,
-			data : JSON.stringify(obj),
-			contentType : "application/json; charset=utf-8",
-			dataType : "json",
-			success : function(result) {
-				console.log("%c> SUCCESS", "color:green");
-				$(".error").remove();
-				console.log(JSON.stringify(result, null, 2));
-				callback(result);
-			},
-			error : function(jqXHR) {
-				console.log("%c> ERROR", "color:red");
 				$(".error").remove();
 				let errorResponse = parseError(jqXHR);
 				if (errorResponse != null) {
@@ -445,10 +445,10 @@ let memberService = (function() {
 		updateEmail:updateEmail,
 		updateAddr:updateAddr,
 		updateAgree:updateAgree,
+		updatePassword:updatePassword,
 		getMemberInfo:getMemberInfo,
 		getMemberDetails:getMemberDetails,
 		confirmPassword:confirmPassword,
-		updatePassword:updatePassword,
 		findAccount:findAccount,
 		findPassword:findPassword,
 		resetPassword:resetPassword

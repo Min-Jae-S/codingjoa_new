@@ -25,16 +25,22 @@ public class PasswordChangeValidator implements Validator {
 		log.info("## {}", this.getClass().getSimpleName());
 
 		PasswordChangeDto passwordsDto = (PasswordChangeDto) target;
-		String memberPassword = passwordsDto.getMemberPassword();
+		String currentPassword = passwordsDto.getCurrentPassword();
+		String newPassword = passwordsDto.getNewPassword();
 		String confirmPassword = passwordsDto.getConfirmPassword();
+		
+		if (!StringUtils.hasText(currentPassword)) {
+			errors.rejectValue("currentPassword", "NotBlank");
+			return;
+		} 
 
-		if (!StringUtils.hasText(memberPassword)) {
-			errors.rejectValue("memberPassword", "NotBlank");
+		if (!StringUtils.hasText(newPassword)) {
+			errors.rejectValue("newPassword", "NotBlank");
 			return;
 		} 
 		
-		if (!Pattern.matches(PASSWORD_REGEXP, memberPassword)) {
-			errors.rejectValue("memberPassword", "Pattern");
+		if (!Pattern.matches(PASSWORD_REGEXP, newPassword)) {
+			errors.rejectValue("newPassword", "Pattern");
 			return;
 		}
 
@@ -48,8 +54,8 @@ public class PasswordChangeValidator implements Validator {
 			return;
 		}
 
-		if (!memberPassword.equals(confirmPassword)) {
-			errors.rejectValue("memberPassword", "NotEquals");
+		if (!newPassword.equals(confirmPassword)) {
+			errors.rejectValue("newPassword", "NotEquals");
 			errors.rejectValue("confirmPassword", "NotEquals");
 			return;
 		}

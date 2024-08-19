@@ -511,6 +511,21 @@
 				});
 			});
 		});
+
+		$("#updatePasswordBtn").on("click", function() {
+			let obj = {
+				currentPassword : $("#currentPassword").val(),
+				newPassword : $("#newPassword").val(),
+				confirmPassword : $("#confirmPassword").val()
+			};
+			
+			memberService.updatePassword(obj, function(result) {
+				alert(result.message);
+				memberService.getMemberDetails(function(result) {
+					$("#resetPasswordBtn").click();
+				});
+			});
+		});
 		
 		$("#showNicknameBtn").on("click", function() {
 			$("#showNickname").css("display", "none");

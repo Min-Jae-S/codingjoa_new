@@ -198,7 +198,7 @@ public class MemberRestController {
 	
 	@PostMapping("/account/image")
 	public ResponseEntity<Object> updateImage(@ModelAttribute @Valid UploadFileDto uploadFileDto,
-			@AuthenticationPrincipal PrincipalDetails principal, HttpServletRequest request) throws IllegalStateException, IOException {
+			@AuthenticationPrincipal PrincipalDetails principal, HttpServletRequest request) {
 		log.info("## updateImage");
 		imageService.updateMemberImage(uploadFileDto.getFile(), principal.getIdx());
 		
@@ -212,14 +212,17 @@ public class MemberRestController {
 
 	@PutMapping("/account/password")
 	public ResponseEntity<Object> updatePassword(@RequestBody @Valid PasswordChangeDto passwordChangeDto, 
-			@AuthenticationPrincipal PrincipalDetails principal) {
+			@AuthenticationPrincipal PrincipalDetails principal, HttpServletRequest request) {
 		log.info("## updatePassword");
 		log.info("\t > {}", passwordChangeDto);
-		
 		memberService.updatePassword(passwordChangeDto, principal.getIdx());
-		redisService.deleteKey(principal.getEmail());
 		
-		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.UpdatePassword").build());
+		UserDetails userDetails = memberService.getUserDetailsByIdx(principal.getIdx());
+		HttpHeaders headers = createJwtCookieHeader(userDetails, request);
+		
+		return ResponseEntity.ok()
+				.headers(headers)
+				.body(SuccessResponse.builder().messageByCode("success.UpdatePassword").build());
 	}
 	
 	@PostMapping("/find/account")
