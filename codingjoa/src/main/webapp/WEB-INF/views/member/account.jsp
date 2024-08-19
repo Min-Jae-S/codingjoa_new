@@ -162,7 +162,7 @@
 			<div class="mb-5 d-flex">
 				<div class="wrap-member-image mr-4">
 					<img class="member-thumb-image" id="memberThumbImage">
-					<button type="button" class="member-image-btn" id="uploadMemberImageBtn">
+					<button type="button" class="member-image-btn" id="updateMemberImageBtn">
 						<span class="member-image-icon"></span>
 						<form id="memberImageForm">
 							<input type="file" id="memberImage" name="memberImage">
@@ -371,12 +371,12 @@
 	});
 
 	$(function() {
-		$("#uploadMemberImageBtn").on("click", function() {
+		$("#updateMemberImageBtn").on("click", function() {
 			$("#memberImage").click();
 		});
 		
 		// prevent stack overflow (Uncaught RangeError: Maximum call stack size exceeded)
-		// since #memberImage(file) is a child element of #uploadMemberImageBtn, event propagation occurs
+		// since #memberImage(file) is a child element of #updateMemberImageBtn, event propagation occurs
 		$("#memberImage").on("click", function(e) {
 			e.stopPropagation();
 		})

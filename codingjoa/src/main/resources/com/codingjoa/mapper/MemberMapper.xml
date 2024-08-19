@@ -70,10 +70,16 @@
 			b.member_image_url
 		FROM
 			member a
-		LEFT OUTER JOIN
-			member_image b
+		LEFT OUTER JOIN (
+			SELECT
+				member_idx,
+				member_image_url,
+				ROW_NUMBER() OVER (PARTITION BY member_idx ORDER BY created_at DESC) AS rn
+			FROM
+				member_image
+		) b
 		ON
-			a.member_idx = b.member_idx
+			a.member_idx = b.member_idx AND b.rn = 1
 		WHERE
 			a.member_idx = #{memberIdx}
 	</select>
@@ -110,10 +116,16 @@
 			auth b
 		ON
 			a.member_idx = b.member_idx
-		LEFT OUTER JOIN
-			member_image c
+		LEFT OUTER JOIN (
+			SELECT
+				member_idx,
+				member_image_url,
+				ROW_NUMBER() OVER (PARTITION BY member_idx ORDER BY created_at DESC) AS rn
+			FROM
+				member_image
+		) c
 		ON
-			a.member_idx = c.member_idx
+			a.member_idx = c.member_idx AND c.rn = 1 
 		LEFT OUTER JOIN
 			board_likes d
 		ON
@@ -142,10 +154,16 @@
 			auth b
 		ON
 			a.member_idx = b.member_idx
-		LEFT OUTER JOIN
-			member_image c
+		LEFT OUTER JOIN (
+			SELECT
+				member_idx,
+				member_image_url,
+				ROW_NUMBER() OVER (PARTITION BY member_idx ORDER BY created_at DESC) AS rn
+			FROM
+				member_image
+		) c
 		ON
-			a.member_idx = c.member_idx
+			a.member_idx = c.member_idx AND c.rn = 1 
 		LEFT OUTER JOIN
 			board_likes d
 		ON

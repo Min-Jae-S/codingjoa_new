@@ -129,8 +129,8 @@ public class ImageServiceImpl implements ImageService {
 			throw new ExpectedException("error.UploadMemberImage");
 		}
 		
-		imageMapper.deactivateMemberImage(memberIdx);
-		log.info("\t > deactivate oldMemberImage");
+		//imageMapper.deactivateMemberImage(memberIdx);
+		//log.info("\t > deactivate oldMemberImage");
 		
 		String memberImageUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
 				.path("/member/images/{filename}")

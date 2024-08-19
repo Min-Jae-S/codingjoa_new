@@ -26,11 +26,15 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		log.info("## {}.loadUserByUsername", this.getClass().getSimpleName());
 		
 		Map<String, Object> userDetailsMap = memberMapper.findUserDetailsByEmail(memberEmail);
+		log.info("\t > userDetailsMap = {}", userDetailsMap);
 
 		if (userDetailsMap == null) {
 			throw new UsernameNotFoundException(MessageUtils.getMessage("error.EmailNotFound"));
 		}
 		
-		return PrincipalDetails.from(userDetailsMap);
+		PrincipalDetails principalDetails = PrincipalDetails.from(userDetailsMap);
+		log.info("\t > principalDetails = {}", principalDetails);
+		
+		return principalDetails;
 	}
 }
