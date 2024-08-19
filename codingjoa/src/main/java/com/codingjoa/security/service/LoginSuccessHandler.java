@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseCookie;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -57,6 +58,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 		
 		String continueUrl = resolveContinueUrl(authentication, request);
 		SuccessResponse successResponse = SuccessResponse.builder()
+				.status(HttpStatus.OK)
 				.messageByCode("success.Login")
 				.data(Map.of("continueUrl", continueUrl))
 				.build();

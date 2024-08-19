@@ -3,6 +3,7 @@ package com.codingjoa.security.oauth2.service;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -15,6 +16,8 @@ import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
+import com.codingjoa.entity.Auth;
+import com.codingjoa.entity.Member;
 import com.codingjoa.mapper.MemberMapper;
 import com.codingjoa.security.dto.PrincipalDetails;
 import com.codingjoa.util.Utils;
@@ -115,14 +118,27 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 		
 		if (userDetailsMap == null) {
 			log.info("\t > not a registered member, proceed with the registration");
+			String memberNickname = UUID.randomUUID().toString().replace("-", "");
+			Member member = Member.builder()
+					.memberEmail(memberEmail)
+					.memberNickname(memberNickname)
+					.memberAgree(false)
+					.build();
+			memberMapper.insertMember(member);
+			
+			Integer memberIdx = member.getMemberIdx();
+			Auth auth = Auth.builder()
+					.memberIdx(memberIdx)
+					.memberRole("ROLE_MEMBER")
+					.build();
+			memberMapper.insertAuth(auth);
+			
+			userDetailsMap = memberMapper.findUserDetailsByIdx(memberIdx);
 		} else {
 			log.info("\t > already a registered member");
 		}
 		
-		PrincipalDetails principalDetails = PrincipalDetails.from(userDetailsMap);
-		log.info("{}", Utils.formatPrettyJson(principalDetails));
-		
-		return principalDetails;
+		return PrincipalDetails.from(userDetailsMap);
 	}
 	
 	private OAuth2User resolveOAuth2User(OAuth2UserRequest userRequest, OAuth2User oAuth2User) {
@@ -146,7 +162,6 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 			OAuth2Error oAuth2Error = new OAuth2Error(INVALID_PROVIDER_ERROR_CODE, "Invalid provider: " + provider, null);
 			throw new OAuth2AuthenticationException(oAuth2Error, oAuth2Error.toString());
 		}
-		
 	}
 	
 }

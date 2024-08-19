@@ -40,13 +40,7 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 			Authentication authentication) throws IOException, ServletException {
 		log.info("## {}", this.getClass().getSimpleName());
 		
-		String continueUrl = resolveContinueUrl(authentication, request);
-		SuccessResponse successResponse = SuccessResponse.builder()
-				.status(HttpStatus.OK)
-				.messageByCode("success.Login")
-				.data(Map.of("continueUrl", continueUrl))
-				.build();
-		
+		log.info("\t > create JWT and issue it as a cookie");
 		String jwt = jwtProvider.createJwt(authentication, request);
 		ResponseCookie jwtCookie = ResponseCookie.from("ACCESS_TOKEN", jwt)
 				.domain("localhost")
@@ -56,13 +50,18 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 				.secure(true)
 				.sameSite("Strict")
 				.build();
-		
 		response.setHeader(HttpHeaders.SET_COOKIE, jwtCookie.toString());
-		log.info("\t > distribute JWT as a cookie");
+
+		String continueUrl = resolveContinueUrl(authentication, request);
+		SuccessResponse successResponse = SuccessResponse.builder()
+				.status(HttpStatus.OK)
+				.messageByCode("success.Login")
+				.data(Map.of("continueUrl", continueUrl))
+				.build();
 		
 		// opation1 : after forwading to view(jsp), using successResponse, alert message and redirect to contineUrl on the client-side
 		// opation2 : directly redirect to continueUrl on the server-side
-		
+		redirectStrategy.sendRedirect(request, response, continueUrl);
 	}
 	
 	private String resolveContinueUrl(Authentication authentication, HttpServletRequest request) {

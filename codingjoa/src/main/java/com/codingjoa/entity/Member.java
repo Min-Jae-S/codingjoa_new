@@ -26,13 +26,13 @@ import lombok.ToString;
 public class Member {
 
 	private Integer memberIdx;
-	private String memberEmail;
+	private String memberEmail;			// NOT NULL
 	private String memberPassword;
-	private String memberNickname;
+	private String memberNickname;		// NOT NULL
 	private String memberZipcode;
 	private String memberAddr;
 	private String memberAddrDetail;
-	private Boolean memberAgree;
+	private Boolean memberAgree;		// NOT NULL
 	private Date createdAt;
 	private Date updatedAt;
 	
