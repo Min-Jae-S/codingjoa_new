@@ -52,20 +52,20 @@ function handleLikesError(errorResponse) {
 	}
 }
 
-function handleUploadError(errorResponse) {
-	console.log("## handleUploadError");
-	let details = errorResponse.details;
-	if (details.length > 0) {
-		$.each(details, function(index, item) {
-			alert(item.message);
-		});
-	} else {
-		let handledMessage = errorResponse.message.replace(/\\n/gi, "\n");
-		console.log("> message = %s", errorResponse.message);
-		console.log("> handled message = %s", handledMessage);
-		alert(handledMessage);
-	}
-}
+//function handleUploadError(errorResponse) {
+//	console.log("## handleUploadError");
+//	let details = errorResponse.details;
+//	if (details.length > 0) {
+//		$.each(details, function(index, item) {
+//			alert(item.message);
+//		});
+//	} else {
+//		let handledMessage = errorResponse.message.replace(/\\n/gi, "\n");
+//		console.log("> message = %s", errorResponse.message);
+//		console.log("> handled message = %s", handledMessage);
+//		alert(handledMessage);
+//	}
+//}
 
 function handleImageError(errorResponse) {
 	console.log("## handleImageError");

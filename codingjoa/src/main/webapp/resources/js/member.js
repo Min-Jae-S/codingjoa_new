@@ -77,6 +77,35 @@ let memberService = (function() {
 		});
 	}
 	
+	function updateMemberImage(formData, callback) {
+		console.log("## updateMemberImage");
+		let url = contextPath + "/api/member/account/image";
+		console.log("> URL = '%s'", url);
+		
+		$.ajax({
+			type : "POST",
+			url : url,
+			processData: false,
+		    contentType: false,
+			data : formData,
+			dataType : "json",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log(JSON.stringify(result, null, 2));
+				callback(result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				let errorResponse = parseError(jqXHR);
+				if (errorResponse != null) {
+					handleImageError(errorResponse);
+				} else {
+					alert("## parsing error");
+				}
+			}
+		});
+	}
+	
 	function updateNickname(obj, callback) {
 		console.log("## updateNickname");
 		let url = contextPath + "/api/member/account/nickname";
@@ -411,6 +440,7 @@ let memberService = (function() {
 	return {
 		sendAuthCodeForJoin:sendAuthCodeForJoin,
 		sendAuthCodeForUpdate:sendAuthCodeForUpdate,
+		updateMemberImage:updateMemberImage,
 		updateNickname:updateNickname,
 		updateEmail:updateEmail,
 		updateAddr:updateAddr,

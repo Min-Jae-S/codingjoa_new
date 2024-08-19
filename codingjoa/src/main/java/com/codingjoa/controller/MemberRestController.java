@@ -200,7 +200,7 @@ public class MemberRestController {
 	public ResponseEntity<Object> updateImage(@ModelAttribute @Valid UploadFileDto uploadFileDto,
 			@AuthenticationPrincipal PrincipalDetails principal, HttpServletRequest request) throws IllegalStateException, IOException {
 		log.info("## updateImage");
-		imageService.uploadMemberImage(uploadFileDto.getFile(), principal.getIdx());
+		imageService.updateMemberImage(uploadFileDto.getFile(), principal.getIdx());
 		
 		UserDetails userDetails = memberService.getUserDetailsByIdx(principal.getIdx());
 		HttpHeaders headers = createJwtCookieHeader(userDetails, request);

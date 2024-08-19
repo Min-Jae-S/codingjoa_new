@@ -17,7 +17,6 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
 <script src="https://kit.fontawesome.com/c503d71f81.js"></script>
 <script src="${contextPath}/resources/js/member.js"></script>
-<script src="${contextPath}/resources/js/image.js"></script>
 <script src="${contextPath}/resources/js/handle-errors.js"></script>
 <style>
 	input[type="text"], input[type="password"] {
@@ -392,9 +391,11 @@
 			//this.value = "";
 			$("#memberImageForm")[0].reset();
 
-			imageService.uploadMemberImage(formData, function(result) {
+			memberService.updateMemberImage(formData, function(result) {
 				alert(result.message);
-				$("#memberThumbImage, #navMemberImage").attr("src", result.data.memberImageUrl);
+				memberService.getMemberInfo(function(result) {
+					$("#memberThumbImage, #navMemberImage").attr("src", result.data.memberImageUrl);
+				});
 			});
 		});
 		
