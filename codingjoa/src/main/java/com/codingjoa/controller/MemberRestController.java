@@ -1,15 +1,22 @@
 package com.codingjoa.controller;
 
 import java.io.IOException;
+import java.time.Duration;
 import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -139,14 +146,21 @@ public class MemberRestController {
 	
 	@PutMapping("/account/nickname")
 	public ResponseEntity<Object> updateNickname(@RequestBody @Valid NicknameDto nicknameDto,
-			@AuthenticationPrincipal PrincipalDetails principal) {
+			@AuthenticationPrincipal PrincipalDetails principal, HttpServletRequest request) {
 		log.info("## updateNickname");
 		log.info("\t > {}", nicknameDto);
 		memberService.updateNickname(nicknameDto, principal.getIdx());
 		
-		// jwt 재발급
+		UserDetails userDetails = memberService.getUserDetailsByIdx(principal.getIdx());
+		Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+		ResponseCookie jwtCookie = createJwtCookie(authentication, request);
 		
-		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.UpdateNickname").build());
+		HttpHeaders headers = new HttpHeaders();
+		headers.add(HttpHeaders.SET_COOKIE, jwtCookie.toString());
+		
+		return ResponseEntity.ok()
+				.headers(headers)
+				.body(SuccessResponse.builder().messageByCode("success.UpdateNickname").build());
 	}
 	
 	@PutMapping("/account/email")
@@ -188,13 +202,12 @@ public class MemberRestController {
 		log.info("## uploadMemberImage");
 		MemberImage memberImage = imageService.uploadMemberImage(uploadFileDto.getFile(), principal.getIdx());
 		
-		// jwt 재발급
-		
-		return ResponseEntity.ok(SuccessResponse
-				.builder()
+		SuccessResponse successReponse = SuccessResponse.builder()
 				.messageByCode("success.UploadMemberImage")
 				.data(Map.of("memberImageUrl", memberImage.getMemberImageUrl()))
-				.build());
+				.build();
+		
+		return ResponseEntity.ok(successReponse);
 	}
 
 	@PutMapping("/account/password")
@@ -263,8 +276,16 @@ public class MemberRestController {
 		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.ResetPassword").build());
 	}
 	
-	private void refreshJwt(JwtProvider jwtProvider, HttpServletRequest response) {
-		// create jwt, distribute as cookie
+	private ResponseCookie createJwtCookie(Authentication authentication, HttpServletRequest request) {
+		String jwt = jwtProvider.createJwt(authentication, request);
+		return ResponseCookie.from("ACCESS_TOKEN", jwt)
+				.domain("localhost")
+				.path(request.getContextPath())
+				.maxAge(Duration.ofHours(1))
+				.httpOnly(true)
+				.secure(true)
+				.sameSite("Strict")
+				.build();
 	}
 	
 }

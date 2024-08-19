@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseCookie;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -39,14 +38,6 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
 		log.info("## {}", this.getClass().getSimpleName());
-		
-		String continueUrl = resolveContinueUrl(authentication, request);
-		SuccessResponse successResponse = SuccessResponse.builder()
-				.status(HttpStatus.OK)
-				.messageByCode("success.Login")
-				.data(Map.of("continueUrl", continueUrl))
-				.build();
-		
 		log.info("\t > create JWT and distribute as a cookie");
 		String jwt = jwtProvider.createJwt(authentication, request);
 		ResponseCookie jwtCookie = ResponseCookie.from("ACCESS_TOKEN", jwt)
@@ -57,16 +48,19 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 				.secure(true)
 				.sameSite("Strict")
 				.build();
-		
 		response.setHeader(HttpHeaders.SET_COOKIE, jwtCookie.toString());
 		response.setStatus(HttpServletResponse.SC_OK);
 		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 		response.setCharacterEncoding(StandardCharsets.UTF_8.name());
+		
+		String continueUrl = resolveContinueUrl(authentication, request);
+		SuccessResponse successResponse = SuccessResponse.builder()
+				.messageByCode("success.Login")
+				.data(Map.of("continueUrl", continueUrl))
+				.build();
         
 		log.info("\t > respond with success response in JSON format");
 		String jsonResponse = objectMapper.writeValueAsString(successResponse);
-		log.info("\t > jsonResponse = {}", jsonResponse);
-		
 		response.getWriter().write(jsonResponse);
 		response.getWriter().close();
 	}

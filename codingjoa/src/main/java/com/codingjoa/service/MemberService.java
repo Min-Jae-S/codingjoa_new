@@ -2,6 +2,9 @@ package com.codingjoa.service;
 
 import com.codingjoa.dto.MemberInfoDto;
 import com.codingjoa.dto.NicknameDto;
+
+import org.springframework.security.core.userdetails.UserDetails;
+
 import com.codingjoa.dto.AddrDto;
 import com.codingjoa.dto.AgreeDto;
 import com.codingjoa.dto.EmailAuthDto;
@@ -38,5 +41,7 @@ public interface MemberService {
 	void checkCurrentPassword(PasswordDto passwordDto, Integer memberIdx);
 	
 	void updatePassword(PasswordChangeDto passwordChangeDto, Integer memberIdx);
+	
+	UserDetails getUserDetailsByIdx(Integer memberIdx);
 	
 }

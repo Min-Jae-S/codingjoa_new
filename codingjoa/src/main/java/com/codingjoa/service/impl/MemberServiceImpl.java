@@ -2,6 +2,7 @@ package com.codingjoa.service.impl;
 
 import java.util.Map;
 
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +19,7 @@ import com.codingjoa.entity.Auth;
 import com.codingjoa.entity.Member;
 import com.codingjoa.exception.ExpectedException;
 import com.codingjoa.mapper.MemberMapper;
+import com.codingjoa.security.dto.PrincipalDetails;
 import com.codingjoa.service.MemberService;
 
 import lombok.RequiredArgsConstructor;
@@ -231,6 +233,15 @@ public class MemberServiceImpl implements MemberService {
 				.memberPassword(passwordEncoder.encode(memberPassword))
 				.build();
 		memberMapper.updatePassword(modifyMember);
+	}
+	
+	public UserDetails getUserDetailsByIdx(Integer memberIdx) {
+		Map<String, Object> userDetailsMap = memberMapper.findUserDetailsByIdx(memberIdx);
+		if (userDetailsMap == null) {
+			throw new ExpectedException("error.NotFoundMember");
+		}
+		
+		return PrincipalDetails.from(userDetailsMap);
 	}
 
 }
