@@ -1,11 +1,13 @@
 package com.codingjoa.service.impl;
 
+import java.io.IOException;
 import java.util.Map;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.codingjoa.dto.AddrDto;
 import com.codingjoa.dto.AgreeDto;
@@ -15,11 +17,14 @@ import com.codingjoa.dto.MemberInfoDto;
 import com.codingjoa.dto.NicknameDto;
 import com.codingjoa.dto.PasswordChangeDto;
 import com.codingjoa.dto.PasswordDto;
+import com.codingjoa.dto.UploadFileDto;
 import com.codingjoa.entity.Auth;
 import com.codingjoa.entity.Member;
+import com.codingjoa.entity.MemberImage;
 import com.codingjoa.exception.ExpectedException;
 import com.codingjoa.mapper.MemberMapper;
 import com.codingjoa.security.dto.PrincipalDetails;
+import com.codingjoa.service.ImageService;
 import com.codingjoa.service.MemberService;
 
 import lombok.RequiredArgsConstructor;
@@ -33,6 +38,7 @@ public class MemberServiceImpl implements MemberService {
 	
 	private final MemberMapper memberMapper;
 	private final PasswordEncoder passwordEncoder;
+	private final ImageService imageService;
 	
 	@Override
 	public void save(JoinDto joinDto) {
@@ -200,6 +206,33 @@ public class MemberServiceImpl implements MemberService {
 				.build();
 		memberMapper.updateAgree(modifyMember);
 	}
+	
+	@Override
+	public void updateImage(UploadFileDto uploadFileDto, Integer memberIdx) {
+		String uploadFilename = null;
+		try {
+			uploadFilename = imageService.uploadMemberImage(uploadFileDto.getFile(), memberIdx);
+		} catch (Exception e) {
+			throw new ExpectedException("error.UploadMemberImage");
+		}
+		
+		String memberImageUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
+				.path("/member/images/{filename}")
+				.buildAndExpand(uploadFilename)
+				.toUriString();
+		
+		MemberImage memberImage = MemberImage.builder()
+				.memberIdx(memberIdx)
+				.memberImageName(uploadFilename)
+				.memberImageUrl(memberImageUrl)
+				.build();
+		log.info("\t > create memberImage entity");
+		
+		if (memberImage.getMemberImageIdx() == null) { 
+			throw new ExpectedException("error.UpdateMemberImage");
+		}
+		
+	}
 
 	@Override
 	public void checkCurrentPassword(PasswordDto passwordDto, Integer memberIdx) {
@@ -235,6 +268,7 @@ public class MemberServiceImpl implements MemberService {
 		memberMapper.updatePassword(modifyMember);
 	}
 	
+	@Override
 	public UserDetails getUserDetailsByIdx(Integer memberIdx) {
 		Map<String, Object> userDetailsMap = memberMapper.findUserDetailsByIdx(memberIdx);
 		if (userDetailsMap == null) {
@@ -243,5 +277,7 @@ public class MemberServiceImpl implements MemberService {
 		
 		return PrincipalDetails.from(userDetailsMap);
 	}
+
+	
 
 }

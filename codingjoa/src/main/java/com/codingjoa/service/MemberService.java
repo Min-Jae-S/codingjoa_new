@@ -1,16 +1,16 @@
 package com.codingjoa.service;
 
-import com.codingjoa.dto.MemberInfoDto;
-import com.codingjoa.dto.NicknameDto;
-
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.codingjoa.dto.AddrDto;
 import com.codingjoa.dto.AgreeDto;
 import com.codingjoa.dto.EmailAuthDto;
 import com.codingjoa.dto.JoinDto;
+import com.codingjoa.dto.MemberInfoDto;
+import com.codingjoa.dto.NicknameDto;
 import com.codingjoa.dto.PasswordChangeDto;
 import com.codingjoa.dto.PasswordDto;
+import com.codingjoa.dto.UploadFileDto;
 
 public interface MemberService {
 
@@ -37,6 +37,8 @@ public interface MemberService {
 	void updateAddr(AddrDto addrDto, Integer memberIdx);
 	
 	void updateAgree(AgreeDto agreeDto, Integer memberIdx);
+	
+	void updateImage(UploadFileDto uploadFileDto, Integer memberIdx);
 	
 	void checkCurrentPassword(PasswordDto passwordDto, Integer memberIdx);
 	

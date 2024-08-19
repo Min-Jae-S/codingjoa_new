@@ -1,6 +1,7 @@
 package com.codingjoa.controller;
 
 import java.io.IOException;
+import java.net.http.HttpRequest;
 import java.time.Duration;
 import java.util.Map;
 import java.util.UUID;
@@ -152,11 +153,7 @@ public class MemberRestController {
 		memberService.updateNickname(nicknameDto, principal.getIdx());
 		
 		UserDetails userDetails = memberService.getUserDetailsByIdx(principal.getIdx());
-		Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-		ResponseCookie jwtCookie = createJwtCookie(authentication, request);
-		
-		HttpHeaders headers = new HttpHeaders();
-		headers.add(HttpHeaders.SET_COOKIE, jwtCookie.toString());
+		HttpHeaders headers = createJwtCookieHeader(userDetails, request);
 		
 		return ResponseEntity.ok()
 				.headers(headers)
@@ -165,15 +162,18 @@ public class MemberRestController {
 	
 	@PutMapping("/account/email")
 	public ResponseEntity<Object> updateEmail(@RequestBody @Valid EmailAuthDto emailAuthDto,
-			@AuthenticationPrincipal PrincipalDetails principal) {
+			@AuthenticationPrincipal PrincipalDetails principal, HttpServletRequest request) {
 		log.info("## updateEmail");
 		log.info("\t > {}", emailAuthDto);
 		memberService.updateEmail(emailAuthDto, principal.getIdx());
 		redisService.deleteKey(emailAuthDto.getMemberEmail());
 		
-		// jwt 재발급
+		UserDetails userDetails = memberService.getUserDetailsByIdx(principal.getIdx());
+		HttpHeaders headers = createJwtCookieHeader(userDetails, request);
 		
-		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.UpdateEmail").build());
+		return ResponseEntity.ok()
+				.headers(headers)
+				.body(SuccessResponse.builder().messageByCode("success.UpdateEmail").build());
 	}
 	
 	@PutMapping("/account/address")
@@ -197,17 +197,17 @@ public class MemberRestController {
 	}
 	
 	@PostMapping("/account/image")
-	public ResponseEntity<Object> uploadMemberImage(@ModelAttribute @Valid UploadFileDto uploadFileDto,
-			@AuthenticationPrincipal PrincipalDetails principal) throws IllegalStateException, IOException {
-		log.info("## uploadMemberImage");
-		MemberImage memberImage = imageService.uploadMemberImage(uploadFileDto.getFile(), principal.getIdx());
+	public ResponseEntity<Object> updateImage(@ModelAttribute @Valid UploadFileDto uploadFileDto,
+			@AuthenticationPrincipal PrincipalDetails principal, HttpServletRequest request) throws IllegalStateException, IOException {
+		log.info("## updateImage");
+		imageService.uploadMemberImage(uploadFileDto.getFile(), principal.getIdx());
 		
-		SuccessResponse successReponse = SuccessResponse.builder()
-				.messageByCode("success.UploadMemberImage")
-				.data(Map.of("memberImageUrl", memberImage.getMemberImageUrl()))
-				.build();
+		UserDetails userDetails = memberService.getUserDetailsByIdx(principal.getIdx());
+		HttpHeaders headers = createJwtCookieHeader(userDetails, request);
 		
-		return ResponseEntity.ok(successReponse);
+		return ResponseEntity.ok()
+				.headers(headers)
+				.body(SuccessResponse.builder().messageByCode("success.UpdateMemberImage").build());
 	}
 
 	@PutMapping("/account/password")
@@ -276,9 +276,11 @@ public class MemberRestController {
 		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.ResetPassword").build());
 	}
 	
-	private ResponseCookie createJwtCookie(Authentication authentication, HttpServletRequest request) {
+	private HttpHeaders createJwtCookieHeader(UserDetails userDetails, HttpServletRequest request) {
+		Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 		String jwt = jwtProvider.createJwt(authentication, request);
-		return ResponseCookie.from("ACCESS_TOKEN", jwt)
+		
+		ResponseCookie jwtCookie = ResponseCookie.from("ACCESS_TOKEN", jwt)
 				.domain("localhost")
 				.path(request.getContextPath())
 				.maxAge(Duration.ofHours(1))
@@ -286,6 +288,10 @@ public class MemberRestController {
 				.secure(true)
 				.sameSite("Strict")
 				.build();
+		
+		HttpHeaders headers = new HttpHeaders();
+		headers.add(HttpHeaders.SET_COOKIE, jwtCookie.toString());
+		return headers;
 	}
 	
 }

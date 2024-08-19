@@ -15,7 +15,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.codingjoa.dto.BoardDto;
 import com.codingjoa.entity.BoardImage;
-import com.codingjoa.entity.MemberImage;
 import com.codingjoa.exception.ExpectedException;
 import com.codingjoa.mapper.ImageMapper;
 import com.codingjoa.service.ImageService;
@@ -113,41 +112,41 @@ public class ImageServiceImpl implements ImageService {
 	}
 	
 	@Override
-	public MemberImage uploadMemberImage(MultipartFile file, Integer memberIdx) throws IllegalStateException, IOException {
+	public String uploadMemberImage(MultipartFile file, Integer memberIdx) throws IllegalStateException, IOException {
 		File uploadFolder = new File(memberImageDir);
 		if (!uploadFolder.exists()) {
 			if (!uploadFolder.mkdirs()) {
-				throw new RuntimeException("failed to create directory: " + memberImageDir);
+				throw new IllegalStateException("failed to create directory: " + memberImageDir);
 			}
 		}
 		
 		String uploadFilename = createFilename(file.getOriginalFilename());
 		File uploadFile = new File(uploadFolder, uploadFilename);
 		file.transferTo(uploadFile);
+		
+		return uploadFilename;
 
-		String memberImageUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
-				.path("/member/images/{filename}")
-				.buildAndExpand(uploadFilename)
-				.toUriString();
-		
-		MemberImage memberImage = MemberImage.builder()
-				.memberIdx(memberIdx)
-				.memberImageName(uploadFilename)
-				.memberImageUrl(memberImageUrl)
-				.build();
-		log.info("\t > create memberImage entity");
-		
-		imageMapper.deactivateMemberImage(memberIdx);
-		log.info("\t > deactivate oldMemberImage");
-		
-		imageMapper.insertMemberImage(memberImage);
-		log.info("\t > after inserting memberImage, memberImageIdx = {}", memberImage.getMemberImageIdx());
-		
-		if (memberImage.getMemberImageIdx() == null) { 
-			throw new ExpectedException("error.UploadMemberImage");
-		}
-		
-		return memberImage;
+//		String memberImageUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
+//				.path("/member/images/{filename}")
+//				.buildAndExpand(uploadFilename)
+//				.toUriString();
+//		
+//		MemberImage memberImage = MemberImage.builder()
+//				.memberIdx(memberIdx)
+//				.memberImageName(uploadFilename)
+//				.memberImageUrl(memberImageUrl)
+//				.build();
+//		log.info("\t > create memberImage entity");
+//		
+//		imageMapper.deactivateMemberImage(memberIdx);
+//		log.info("\t > deactivate oldMemberImage");
+//		
+//		imageMapper.insertMemberImage(memberImage);
+//		log.info("\t > after inserting memberImage, memberImageIdx = {}", memberImage.getMemberImageIdx());
+//		
+//		if (memberImage.getMemberImageIdx() == null) { 
+//			throw new ExpectedException("error.UploadMemberImage");
+//		}
 	}
 	
 	private String createFilename(String originalFilename) {
