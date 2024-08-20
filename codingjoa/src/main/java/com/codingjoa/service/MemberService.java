@@ -9,6 +9,7 @@ import com.codingjoa.dto.JoinDto;
 import com.codingjoa.dto.MemberInfoDto;
 import com.codingjoa.dto.NicknameDto;
 import com.codingjoa.dto.PasswordChangeDto;
+import com.codingjoa.dto.PasswordDto;
 
 public interface MemberService {
 
@@ -22,9 +23,7 @@ public interface MemberService {
 	
 	void checkEmailForReset(String memberEmail);
 	
-	MemberInfoDto getMemberInfoByIdx(Integer memberIdx);
-	
-	String getMemberIdByEmail(String memberEmail);
+	//String getMemberIdByEmail(String memberEmail);
 	
 	Integer getMemberIdxByIdAndEmail(String memberId, String memberEmail);
 	
@@ -37,6 +36,10 @@ public interface MemberService {
 	void updateAgree(AgreeDto agreeDto, Integer memberIdx);
 	
 	void updatePassword(PasswordChangeDto passwordChangeDto, Integer memberIdx);
+	
+	void updatePassword(PasswordDto passwordDto, Integer memberIdx);
+	
+	MemberInfoDto getMemberInfoByIdx(Integer memberIdx);
 
 	UserDetails getUserDetailsByIdx(Integer memberIdx);
 	

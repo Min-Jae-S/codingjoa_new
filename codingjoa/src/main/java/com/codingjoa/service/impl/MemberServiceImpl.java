@@ -14,6 +14,7 @@ import com.codingjoa.dto.JoinDto;
 import com.codingjoa.dto.MemberInfoDto;
 import com.codingjoa.dto.NicknameDto;
 import com.codingjoa.dto.PasswordChangeDto;
+import com.codingjoa.dto.PasswordDto;
 import com.codingjoa.entity.Auth;
 import com.codingjoa.entity.Member;
 import com.codingjoa.exception.ExpectedException;
@@ -107,25 +108,14 @@ public class MemberServiceImpl implements MemberService {
 		}
 	}
 	
-	@Override
-	public MemberInfoDto getMemberInfoByIdx(Integer memberIdx) {
-		Map<String, Object> memberInfoMap = memberMapper.findMemberInfoByIdx(memberIdx);
-		if (memberInfoMap == null) {
-			throw new ExpectedException("error.NotFoundMemberInfo");
-		}
-		
-		return MemberInfoDto.from(memberInfoMap);
-	}
-	
-	
-	@Override
-	public String getMemberIdByEmail(String memberEmail) {
-		Member member = memberMapper.findMemberByEmail(memberEmail);
-		if (member == null) {
-			throw new ExpectedException("memberEmail", "error.NotEmailExist");
-		}
-		return member.getMemberId();
-	}
+//	@Override
+//	public String getMemberIdByEmail(String memberEmail) {
+//		Member member = memberMapper.findMemberByEmail(memberEmail);
+//		if (member == null) {
+//			throw new ExpectedException("memberEmail", "error.NotEmailExist");
+//		}
+//		return member.getMemberId();
+//	}
 	
 	@Override
 	public Integer getMemberIdxByIdAndEmail(String memberId, String memberEmail) {
@@ -226,6 +216,31 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override
+	public void updatePassword(PasswordDto passwordDto, Integer memberIdx) {
+		Member member = memberMapper.findMemberByIdx(memberIdx);
+		if (member == null) {
+			throw new ExpectedException("error.NotFoundMember");
+		}
+		
+		String newPassword = passwordDto.getNewPassword();
+		Member modifyMember = Member.builder()
+				.memberIdx(memberIdx)
+				.memberPassword(passwordEncoder.encode(newPassword))
+				.build();
+		memberMapper.updatePassword(modifyMember);
+	}
+	
+	@Override
+	public MemberInfoDto getMemberInfoByIdx(Integer memberIdx) {
+		Map<String, Object> memberInfoMap = memberMapper.findMemberInfoByIdx(memberIdx);
+		if (memberInfoMap == null) {
+			throw new ExpectedException("error.NotFoundMemberInfo");
+		}
+		
+		return MemberInfoDto.from(memberInfoMap);
+	}
+	
+	@Override
 	public UserDetails getUserDetailsByIdx(Integer memberIdx) {
 		Map<String, Object> userDetailsMap = memberMapper.findUserDetailsByIdx(memberIdx);
 		if (userDetailsMap == null) {
@@ -234,7 +249,5 @@ public class MemberServiceImpl implements MemberService {
 		
 		return PrincipalDetails.from(userDetailsMap);
 	}
-
-	
 
 }

@@ -321,7 +321,6 @@
 
 	memberService.getMemberInfo(function(result) {
 		let memberInfo = result.data;
-		
 		if (memberInfo.memberImageUrl != "") {
 			$("#memberThumbImage").attr("src", memberInfo.memberImageUrl);
 		} else {
@@ -533,7 +532,7 @@
 		});
 		
 		$("#resetNicknameBtn").on("click", function() {
-			$("#memberNickname\\.errors").remove();
+			$(this).closest("dl").find(".error").remove(); // $("#memberNickname\\.errors").remove();
 			$("#showNickname").css("display", "flex");
 			$("#editNickname, #editNickname > div").css("display", "none");
 			$("#editNickname").find("form")[0].reset();
@@ -545,10 +544,9 @@
 		});
 		
 		$("#resetEmailBtn").on("click", function() {
-			$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
+			$(this).closest("dl").find(".error, .success").remove(); // $("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
 			$("#showEmail").css("display", "flex");
 			$("#editEmail, #editEmail > div, #editAuthCode").css("display", "none");
-			
 			$("#editEmail").find("form")[0].reset();
 			$("#authCode").val("");
 		});
@@ -559,7 +557,7 @@
 		});
 
 		$("#resetAddrBtn").on("click", function() {
-			$("#memberZipcode\\.errors, #memberAddr\\.errors, #memberAddrDetail\\.errors").remove();
+			$(this).closest("dl").find(".error").remove(); // $("#memberZipcode\\.errors, #memberAddr\\.errors, #memberAddrDetail\\.errors").remove();
 			$("#showZipcode, #showAddr, #showAddrDetail").css("display", "flex");
 			$("#editZipcode, #editZipcode > div, #editAddr, #editAddrDetail").css("display", "none");
 			
@@ -574,7 +572,7 @@
 		});
 		
 		$("#resetAgreeBtn").on("click", function() {
-			$("#memberAgree\\.errors").remove();
+			$(this).closest("dl").find(".error").remove(); // $("#memberAgree\\.errors").remove();
 			$("#showAgree").css("display", "flex");
 			$("#editAgree, #editAgree > div").css("display", "none");
 			$("#editAgree").find("form")[0].reset();
@@ -586,7 +584,7 @@
 		});
 		
 		$("#resetPasswordBtn").on("click", function() {
-			$("#showPassword\\.errors, .success").remove();
+			$(this).closest("dl").find(".error").remove(); // $("#showPassword\\.errors").remove();
 			$("#showPassword").css("display", "flex");
 			$("#editPassword, #editPassword > div").css("display", "none");
 			$("#editPassword").find("form")[0].reset();
@@ -618,7 +616,7 @@
                 let addrErrorElement = document.getElementById('memberAddr.errors');
                 
                 if (zipcodeErrorElement != null) {
-                	zpicodeErrorElement.remove();
+                	zipcodeErrorElement.remove();
                 }
                 
                 if (addrErrorElement != null) {

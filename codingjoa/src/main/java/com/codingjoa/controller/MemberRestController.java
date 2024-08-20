@@ -1,13 +1,9 @@
 package com.codingjoa.controller;
 
-import java.io.IOException;
-import java.net.http.HttpRequest;
 import java.time.Duration;
-import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.apache.commons.lang3.RandomStringUtils;
@@ -39,9 +35,9 @@ import com.codingjoa.dto.FindPasswordDto;
 import com.codingjoa.dto.MemberInfoDto;
 import com.codingjoa.dto.NicknameDto;
 import com.codingjoa.dto.PasswordChangeDto;
+import com.codingjoa.dto.PasswordDto;
 import com.codingjoa.dto.SuccessResponse;
 import com.codingjoa.dto.UploadFileDto;
-import com.codingjoa.entity.MemberImage;
 import com.codingjoa.security.dto.PrincipalDetails;
 import com.codingjoa.security.service.JwtProvider;
 import com.codingjoa.service.EmailService;
@@ -138,13 +134,6 @@ public class MemberRestController {
 		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.SendAuthCode").build());
 	}
 	
-	@GetMapping("/account")
-	public ResponseEntity<Object> getMemberInfo(@AuthenticationPrincipal PrincipalDetails principal) {
-		log.info("## getMemberInfo");
-		MemberInfoDto memberInfo = memberService.getMemberInfoByIdx(principal.getIdx());
-		return ResponseEntity.ok(SuccessResponse.builder().data(memberInfo).build());
-	}
-	
 	@PutMapping("/account/nickname")
 	public ResponseEntity<Object> updateNickname(@RequestBody @Valid NicknameDto nicknameDto,
 			@AuthenticationPrincipal PrincipalDetails principal, HttpServletRequest request) {
@@ -225,19 +214,41 @@ public class MemberRestController {
 				.body(SuccessResponse.builder().messageByCode("success.UpdatePassword").build());
 	}
 	
-	@PostMapping("/find/account")
-	public ResponseEntity<Object> findAccount(@RequestBody @Valid EmailDto emailDto) {
-		log.info("## findAccount");
-		log.info("\t > {}", emailDto);
+	@PostMapping("/account/password")
+	public ResponseEntity<Object> savePassword(@RequestBody @Valid PasswordDto passwordDto, 
+			@AuthenticationPrincipal PrincipalDetails principal, HttpServletRequest request) {
+		log.info("## savePassword");
+		log.info("\t > {}", passwordDto);
+		memberService.updatePassword(passwordDto, principal.getIdx());
 		
-		String memberEmail = emailDto.getMemberEmail();
-		String memberId = memberService.getMemberIdByEmail(memberEmail);
-		log.info("\t > found memberId = {}", memberId);
+		UserDetails userDetails = memberService.getUserDetailsByIdx(principal.getIdx());
+		HttpHeaders headers = createJwtCookieHeader(userDetails, request);
 		
-		emailService.sendFoundAccount(memberEmail, memberId);
-		
-		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.FindAccount").build());
+		return ResponseEntity.ok()
+				.headers(headers)
+				.body(SuccessResponse.builder().messageByCode("success.UpdatePassword").build());
 	}
+	
+	@GetMapping("/account")
+	public ResponseEntity<Object> getMemberInfo(@AuthenticationPrincipal PrincipalDetails principal) {
+		log.info("## getMemberInfo");
+		MemberInfoDto memberInfo = memberService.getMemberInfoByIdx(principal.getIdx());
+		return ResponseEntity.ok(SuccessResponse.builder().data(memberInfo).build());
+	}
+	
+//	@PostMapping("/find/account")
+//	public ResponseEntity<Object> findAccount(@RequestBody @Valid EmailDto emailDto) {
+//		log.info("## findAccount");
+//		log.info("\t > {}", emailDto);
+//		
+//		String memberEmail = emailDto.getMemberEmail();
+//		String memberId = memberService.getMemberIdByEmail(memberEmail);
+//		log.info("\t > found memberId = {}", memberId);
+//		
+//		emailService.sendFoundAccount(memberEmail, memberId);
+//		
+//		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.FindAccount").build());
+//	}
 	
 	@PostMapping("/find/password")
 	public ResponseEntity<Object> findPassword(@RequestBody @Valid FindPasswordDto findPasswordDto) {
