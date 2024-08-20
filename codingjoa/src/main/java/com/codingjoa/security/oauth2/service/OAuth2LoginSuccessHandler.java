@@ -48,7 +48,7 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 				.maxAge(Duration.ofHours(1))
 				.httpOnly(true)
 				.secure(true)
-				.sameSite("Strict")
+				.sameSite("Lax") // strict -> lax
 				.build();
 		response.setHeader(HttpHeaders.SET_COOKIE, jwtCookie.toString());
 

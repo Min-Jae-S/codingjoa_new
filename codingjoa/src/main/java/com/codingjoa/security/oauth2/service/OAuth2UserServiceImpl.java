@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -118,10 +119,15 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 		
 		if (userDetailsMap == null) {
 			log.info("\t > not a registered member, proceed with the registration");
-			String memberNickname = UUID.randomUUID().toString().replace("-", "");
+
+			String randomNickname;
+			do {
+				randomNickname = RandomStringUtils.randomAlphanumeric(2, 10);
+			} while (memberMapper.isNicknameExist(randomNickname));
+			
 			Member member = Member.builder()
 					.memberEmail(memberEmail)
-					.memberNickname(memberNickname)
+					.memberNickname(randomNickname)
 					.memberAgree(false)
 					.build();
 			memberMapper.insertMember(member);

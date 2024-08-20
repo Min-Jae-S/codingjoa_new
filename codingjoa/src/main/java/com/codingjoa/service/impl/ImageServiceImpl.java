@@ -156,6 +156,4 @@ public class ImageServiceImpl implements ImageService {
 		return UUID.randomUUID() + "_" + originalFilename;
 	}
 
-	
-
 }
