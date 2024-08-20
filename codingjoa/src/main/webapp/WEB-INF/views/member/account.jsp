@@ -74,7 +74,8 @@
 		align-items: center;
 	}
 	
-	#editNickname, #editEmail, #editAuthCode, #editZipcode, #editAddr, #editAddrDetail, #editAgree, #editPassword {
+	#editNickname, #editEmail, #editAuthCode, #editZipcode, #editAddr, 
+	#editAddrDetail, #editAgree, #editNewPassword, #editConfirmPassword {
 		display: none;
 		border-bottom: 1px solid #868e96;
 	}
@@ -211,6 +212,7 @@
 							<button class="btn btn-outline-secondary btn-sm" type="button" id="resetEmailBtn">취소</button>
 						</div>
 					</dd>
+					<!-- d-none(#editAuthCode) -->
 					<dd class="input-group" id="editAuthCode">
 						<input type="text" id="authCode" name="authCode" placeholder="인증코드를 입력해주세요.">
 					</dd>
@@ -288,26 +290,10 @@
 		</div>
 		<div class="mt-4 p-4 security-wrap">
 			<h5 class="mb-4 font-weight-bold">계정 보안</h5>
-			<div>
-				<dl class="form-group">
-					<dt><i class="fa-solid fa-check mr-2"></i>비밀번호</dt>
-					<dd class="input-group" id="showPassword">
-						<div>
-							<span class="inner-text"></span>
-						</div>
-						<button class="btn btn-outline-primary btn-sm" id="showPasswordBtn"></button>
-					</dd>
-					<!-- d-none(#editPassword) -->
-					<dd class="input-group" id="editPassword">
-						<form>
-							<input type="password" id="memberPassword" name="memberPassword" placeholder="********"/>
-						</form>
-						<div>
-							<button class="btn btn-outline-primary btn-sm" type="button" id="updatePasswordBtn">확인</button>
-							<button class="btn btn-outline-secondary btn-sm" type="button" id="resetPasswordBtn">취소</button>
-						</div>
-					</dd>
-				</dl>
+			<div class="password-form-wrap">
+				<!--------------------------------------------------------------------------------->
+				<!----   paswordForm by createPasswordSaveForm(), createPasswordChangeForm()   ---->
+				<!--------------------------------------------------------------------------------->
 			</div>
 		</div>
 	</div>
@@ -361,11 +347,9 @@
 		$("#memberAgree").prop("checked", memberInfo.memberAgree);
 		
 		if (memberInfo.hasPassword == true) {
-			$("#showPassword span").text("********");
-			$("#showPasswordBtn").html("수정");
+			$("div.password-form-wrap").html(createPasswordChangeForm());
 		} else {
-			$("#showPassword span").text("비밀번호를 등록해주세요.");
-			$("#showPasswordBtn").html("등록");
+			$("div.password-form-wrap").html(createPasswordSaveForm());
 		};
 	});
 
@@ -511,7 +495,7 @@
 			});
 		});
 
-		$("#updatePasswordBtn").on("click", function() {
+		$(document).on("click", "#updatePasswordBtn", function() {
 			let obj = {
 				currentPassword : $("#currentPassword").val(),
 				newPassword : $("#newPassword").val(),
@@ -525,41 +509,55 @@
 				});
 			});
 		});
+
+		$(document).on("click", "#savePasswordBtn", function() {
+			let obj = {
+				newPassword : $("#newPassword").val(),
+				confirmPassword : $("#confirmPassword").val()
+			};
+			
+			memberService.savePassword(obj, function(result) {
+				alert(result.message);
+				memberService.getMemberDetails(function(result) {
+					$("#resetPasswordBtn").click();
+				});
+			});
+		});
 		
 		$("#showNicknameBtn").on("click", function() {
 			$("#showNickname").css("display", "none");
-			$("#editNickname, #editNickname > div").css("display", "flex");
+			$("#editNickname").css("display", "flex");
 		});
 		
 		$("#resetNicknameBtn").on("click", function() {
-			$(this).closest("dl").find(".error").remove(); // $("#memberNickname\\.errors").remove();
+			$(this).closest("dl").find(".error").remove();
 			$("#showNickname").css("display", "flex");
-			$("#editNickname, #editNickname > div").css("display", "none");
+			$("#editNickname").css("display", "none");
 			$("#editNickname").find("form")[0].reset();
 		});
 		
 		$("#showEmailBtn").on("click", function() {
 			$("#showEmail").css("display", "none");
-			$("#editEmail, #editEmail > div, #editAuthCode").css("display", "flex");
+			$("#editEmail, #editAuthCode").css("display", "flex");
 		});
 		
 		$("#resetEmailBtn").on("click", function() {
 			$(this).closest("dl").find(".error, .success").remove(); // $("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
 			$("#showEmail").css("display", "flex");
-			$("#editEmail, #editEmail > div, #editAuthCode").css("display", "none");
+			$("#editEmail, #editAuthCode").css("display", "none");
 			$("#editEmail").find("form")[0].reset();
 			$("#authCode").val("");
 		});
 		
 		$("#showAddrBtn").on("click", function() {
 			$("#showZipcode, #showAddr, #showAddrDetail").css("display", "none");
-			$("#editZipcode, #editZipcode > div, #editAddr, #editAddrDetail").css("display", "flex");	
+			$("#editZipcode, #editAddr, #editAddrDetail").css("display", "flex");	
 		});
 
 		$("#resetAddrBtn").on("click", function() {
-			$(this).closest("dl").find(".error").remove(); // $("#memberZipcode\\.errors, #memberAddr\\.errors, #memberAddrDetail\\.errors").remove();
+			$(this).closest("dl").find(".error").remove();
 			$("#showZipcode, #showAddr, #showAddrDetail").css("display", "flex");
-			$("#editZipcode, #editZipcode > div, #editAddr, #editAddrDetail").css("display", "none");
+			$("#editZipcode, #editAddr, #editAddrDetail").css("display", "none");
 			
 			$("#editZipcode").find("form")[0].reset();
 			$("#editAddr").find("form")[0].reset();
@@ -568,26 +566,26 @@
 		
 		$("#showAgreeBtn").on("click", function() {
 			$("#showAgree").css("display", "none");
-			$("#editAgree, #editAgree > div").css("display", "flex");
+			$("#editAgree").css("display", "flex");
 		});
 		
 		$("#resetAgreeBtn").on("click", function() {
-			$(this).closest("dl").find(".error").remove(); // $("#memberAgree\\.errors").remove();
+			$(this).closest("dl").find(".error").remove();
 			$("#showAgree").css("display", "flex");
-			$("#editAgree, #editAgree > div").css("display", "none");
+			$("#editAgree").css("display", "none");
 			$("#editAgree").find("form")[0].reset();
 		});
 		
-		$("#showPasswordBtn").on("click", function() {
+		$(document).on("click", "#showPasswordBtn", function() {
 			$("#showPassword").css("display", "none");
-			$("#editPassword, #editPassword > div").css("display", "flex");
+			$("#editNewPassword, #editConfirmPassword").css("display", "flex");
 		});
 		
-		$("#resetPasswordBtn").on("click", function() {
-			$(this).closest("dl").find(".error").remove(); // $("#showPassword\\.errors").remove();
+		$(document).on("click", "#resetPasswordBtn", function() {
+			$(this).closest("dl").find(".error").remove();
 			$("#showPassword").css("display", "flex");
-			$("#editPassword, #editPassword > div").css("display", "none");
-			$("#editPassword").find("form")[0].reset();
+			$("#editNewPassword, #editConfirmPassword").css("display", "none");
+			$("#editNewPassword").find("form")[0].reset();
 		});
 	});
 	
@@ -627,6 +625,72 @@
                 document.getElementById("memberAddrDetail").focus();
             }
         }).open();
+    }
+    
+    function createPasswordSaveForm() {
+    	let html = '<dl class="form-group">';
+    	html += '<dt><i class="fa-solid fa-check mr-2"></i>비밀번호</dt>';
+    	html += '<dd class="input-group" id="showPassword">';
+    	html += '<div>';
+    	html += '<span class="inner-text">비밀번호를 등록해주세요.</span>';
+    	html += '</div>';
+    	html += '<button class="btn btn-outline-primary btn-sm" id="showPasswordBtn">등록</button>';
+    	html += '</dd>';
+    	
+    	html += '<!-- d-none(#editNewPassword) -->';
+		html += '<dd class="input-group" id="editNewPassword">';
+		html += '<form>';
+		html += '<input type="password" id="newPassword" name="newPassword" placeholder="새로운 비밀번호를 입력해주세요."/>';
+		html +=	'</form>';
+		html += '<div>';
+		html += '<button class="btn btn-outline-primary btn-sm" type="button" id="savePasswordBtn">확인</button>';
+		html += '<button class="btn btn-outline-secondary btn-sm" type="button" id="resetPasswordBtn">취소</button>';
+		html += '</div>';
+		html += '</dd>';
+		html += '<!-- d-none(#editConfirmPassword) -->';
+		html += '<dd class="input-group" id="editConfirmPassword">';
+		html += '<form>';
+		html += '<input type="password" id="confirmPassword" name="confirmPassword" placeholder="확인 비밀번호를 입력해주세요."/>';
+		html += '</form>';
+		html += '</dd>';
+		html += '</dl>';
+    	return html;
+    }
+    
+    function createdPasswordChangeForm() {
+    	let html = '<dl class="form-group">';
+    	html += '<dt><i class="fa-solid fa-check mr-2"></i>비밀번호</dt>';
+    	html += '<dd class="input-group" id="showPassword">';
+    	html += '<div>';
+    	html += '<span class="inner-text">********</span>';
+    	html += '</div>';
+    	html += '<button class="btn btn-outline-primary btn-sm" id="showPasswordBtn">수정</button>';
+    	html += '</dd>';
+    	
+    	html += '<!-- d-none(#editCurrentPassword) -->';
+    	html += '<dd class="input-group" id="editCurrentPassword">';
+    	html += '<form>';
+    	html += '<input type="password" id="currentPassword" name="currentPassword" placeholder="현재 비밀번호를 입력해주세요."/>';
+    	html += '</form>';
+    	html += '<div>';
+    	html += '<button class="btn btn-outline-primary btn-sm" type="button" id="updatePasswordBtn">확인</button>';
+    	html += '<button class="btn btn-outline-secondary btn-sm" type="button" id="resetPasswordBtn">취소</button>';
+    	html += '</div>';
+    	html += '</dd>';
+    	html += '<!-- d-none(#editNewPassword) -->';
+    	html += '<dd class="input-group" id="editNewPassword">';
+    	html += '<form>';
+    	html += '<input type="password" id="newPassword" name="newPassword" placeholder="새로운 비밀번호를 입력해주세요."/>';
+    	html += '</form>';
+    	html += '</dd>';
+    	html += '<!-- d-none(#editConfirmPassword) -->';
+    	html += '<dd class="input-group" id="editConfirmPassword">';
+    	html += '<form>';
+    	html += '<input type="password" id="confirmPassword" name="confirmPassword" placeholder="확인 비밀번호를 입력해주세요."/>';
+    	html += '</form>';
+    	html += '</dd>';
+    	html += '</dl>';
+    	return html;
     }
 </script>
 </body>
