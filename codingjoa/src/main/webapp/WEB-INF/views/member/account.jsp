@@ -19,14 +19,15 @@
 <script src="${contextPath}/resources/js/member.js"></script>
 <script src="${contextPath}/resources/js/handle-errors.js"></script>
 <style>
-	input[type="text"], input[type="password"] {
+	.form-wrap input[type="text"], 
+	.form-wrap input[type="password"] {
 		border: none;
 		flex-grow: 1;
 		padding: 5px 0 5px 7px;
 		font-size: 14px;
 	}
 	
-	#editAgree > div.form-check.form-check-inline {
+	.form-wrap .form-check {
 		flex-grow: 1;
 	}
 	
@@ -45,7 +46,7 @@
 		padding-left: 7px;
 	}
 	
-	.inner-text:not(#editAgree .inner-text), .label-disabled {
+	.inner-text:not(.form-wrap .inner-text), .label-disabled {
 		color: #545454;
 		background-color: #f7f7f7;
 	}
@@ -59,7 +60,7 @@
 		padding-left: 7px;
 	}
 	
-	div.form-wrap dd {
+	div.form-wrap dd.input-group {
 		padding: 13px 0 5px 0;
 		border-bottom: 1px solid #868e96;
 	}
@@ -182,11 +183,11 @@
 							</dd>
 						</div>
 						<div class="form-wrap d-none">
-							<form>
+							<form id="nicknameForm">
 								<dd class="input-group">
 									<input type="text" id="memberNickname" name="memberNickname" placeholder="닉네임을 입력해주세요."/>
 									<div>
-										<button class="btn btn-outline-primary btn-sm" type="button" id="updateNicknameBtn">확인</button>
+										<button class="btn btn-outline-primary btn-sm" type="submit" id="updateNicknameBtn">확인</button>
 										<button class="btn btn-outline-secondary btn-sm" type="reset" id="resetNicknameBtn">취소</button>
 									</div>
 								</dd>
@@ -207,12 +208,12 @@
 						</dd>
 					</div>
 					<div class="form-wrap d-none">
-						<form>
+						<form id="emailForm">
 							<dd class="input-group">
 								<input type="text" id="memberEmail" name="memberEmail" placeholder="이메일을 입력해주세요."/>
 								<div>
 									<button class="btn btn-warning btn-sm" type="button" id="sendAuthCodeBtn">인증코드 받기</button>
-									<button class="btn btn-outline-primary btn-sm" type="button" id="updateEmailBtn">확인</button>
+									<button class="btn btn-outline-primary btn-sm" type="submit" id="updateEmailBtn">확인</button>
 									<button class="btn btn-outline-secondary btn-sm" type="reset" id="resetEmailBtn">취소</button>
 								</div>
 							</dd>
@@ -241,12 +242,12 @@
 						</dd>
 					</div>
 					<div class="form-wrap d-none">
-						<form>
+						<form id="addrForm">
 							<dd class="input-group">
 								<input type="text" id="memberZipcode" name="memberZipcode" placeholder="우편번호를 등록해주세요." readonly/>
 								<div>
 									<button class="btn btn-warning btn-sm" type="button" id="searchAddrBtn">주소 찾기</button>
-									<button class="btn btn-outline-primary btn-sm" type="button" id="updateAddrBtn">확인</button>
+									<button class="btn btn-outline-primary btn-sm" type="submit" id="updateAddrBtn">확인</button>
 									<button class="btn btn-outline-secondary btn-sm" type="reset" id="resetAddrBtn">취소</button>
 								</div>
 							</dd>
@@ -275,8 +276,8 @@
 						</dd>
 					</div>
 					<div class="form-wrap d-none">
-						<form>
-							<dd class="input-group" id="editAgree">
+						<form id="agreeForm">
+							<dd class="input-group">
 								<div class="form-check form-check-inline">
 									<label class="form-check-label">
 										<input class="form-check-input" type="checkbox" id="memberAgree" name="memberAgree"/>
@@ -284,7 +285,7 @@
 									</label>
 								</div>
 								<div>
-									<button class="btn btn-outline-primary btn-sm" type="button" id="updateAgreeBtn">확인</button>
+									<button class="btn btn-outline-primary btn-sm" type="submit" id="updateAgreeBtn">확인</button>
 									<button class="btn btn-outline-secondary btn-sm" type="reset" id="resetAgreeBtn">취소</button>
 								</div>
 							</dd>
@@ -310,11 +311,11 @@
 	    				</dd>
     				</div>
     				<div class="form-wrap d-none">
-    					<form>
+    					<form id="passwordChangeForm">
 		    				<dd class="input-group">
 	    						<input type="password" id="currentPassword" name="currentPassword" placeholder="현재 비밀번호를 입력해주세요."/>
 		    					<div>
-		    						<button class="btn btn-outline-primary btn-sm" type="button" id="updatePasswordBtn">확인</button>
+		    						<button class="btn btn-outline-primary btn-sm" type="submit" id="updatePasswordBtn">확인</button>
 		    						<button class="btn btn-outline-secondary btn-sm" type="reset" id="resetPasswordBtn">취소</button>
 		    					</div>
 		    				</dd>
@@ -420,19 +421,8 @@
 			});
 		});
 		
-		$("#sendAuthCodeBtn").on("click", function() {
-			let obj = {
-				memberEmail : $("#memberEmail").val(),
-			};
-			
-			memberService.sendAuthCodeForUpdate(obj, function(result) {
-				$("#authCode").closest("dd").after("<dd class='success'>" + result.message + "</dd>");
-				$("#authCode").val("");
-				$("#authCode").focus();
-			});
-		});
-		
-		$("#updateNicknameBtn").on("click", function() {
+		$("#nicknameForm").on("submit", function(e) {
+			e.preventDefault();
 			let obj = {
 				memberNickname : $("#memberNickname").val()
 			};
@@ -448,7 +438,27 @@
 			});
 		});
 		
-		$("#updateEmailBtn").on("click", function() {
+		$("#sendAuthCodeBtn").on("click", function() {
+			let obj = {
+				memberEmail : $("#memberEmail").val(),
+			};
+			
+			memberService.sendAuthCodeForUpdate(obj, function(result) {
+				$("#authCode").closest("dd").after("<dd class='success'>" + result.message + "</dd>");
+				$("#authCode").val("");
+				$("#authCode").focus();
+			});
+		});
+		
+		$("#memberEmail").on("keydown", function(e) {
+			if (e.keyCode == 13) {
+				e.preventDefault();
+				$("#sendAuthCodeBtn").click();
+			}
+		});
+
+		$("#emailForm").on("submit", function(e) {
+			e.preventDefault();
 			let obj = {
 				memberEmail : $("#memberEmail").val(),
 				authCode : $("#authCode").val()
@@ -464,7 +474,8 @@
 			});
 		});
 		
-		$("#updateAddrBtn").on("click", function() {
+		$("#addrForm").on("submit", function(e) {
+			e.preventDefault();
 			let obj = {
 				memberZipcode : $("#memberZipcode").val(),
 				memberAddr : $("#memberAddr").val(),
@@ -486,7 +497,8 @@
 			});
 		});
 
-		$("#updateAgreeBtn").on("click", function() {
+		$("#agreeForm").on("submit", function(e) {
+			e.preventDefault();
 			let obj = {
 				memberAgree : $("#memberAgree").prop("checked")	
 			};
@@ -506,7 +518,8 @@
 			});
 		});
 
-		$(document).on("click", "#updatePasswordBtn", function() {
+		$(document).on("submit", "#passwordChangeForm", function(e) {
+			e.preventDefault();
 			let obj = {
 				currentPassword : $("#currentPassword").val(),
 				newPassword : $("#newPassword").val(),
@@ -515,16 +528,12 @@
 			
 			memberService.updatePassword(obj, function(result) {
 				alert(result.message);
-				memberService.getMemberInfo(function(result) {
-					if (result.data.hasPassword) {
-						$("security-wrap div.form-wrap").html(createPasswordChangeForm());
-					} 
-					$("#resetPasswordBtn").click();
-				});
+				$("#resetPasswordBtn").click();
 			});
 		});
 
-		$(document).on("click", "#savePasswordBtn", function() {
+		$(document).on("submit", "#passwordSaveForm", function(e) {
+			e.preventDefault();
 			let obj = {
 				newPassword : $("#newPassword").val(),
 				confirmPassword : $("#confirmPassword").val()
@@ -532,52 +541,13 @@
 			
 			memberService.savePassword(obj, function(result) {
 				alert(result.message);
-				memberService.getMemberInfo(function(result) {
-					if (result.data.hasPassword) {
-						$(".security-wrap div.form-wrap").html(createPasswordChangeForm());
-					} 
-					$("#resetPasswordBtn").click();
-				});
+				$(".security-wrap div.form-wrap").html(createPasswordChangeForm());
+				$("#resetPasswordBtn").click();
 			});
 		});
 		
 		$(document).on("click", "#searchAddrBtn, #memberZipcode, #memberAddr", function() {
 			execPostcode();
-		});
-		
-		$(document).on("keydown", "#memberNickname", function(e) {
-			if (e.keyCode == 13) {
-				e.preventDefault();
-				$("#updateNicknameBtn").click();
-			}
-		});
-		
-		$(document).on("keydown", "#memberEmail", function(e) {
-			if (e.keyCode == 13) {
-				e.preventDefault();
-				$("#sendAuthCodeBtn").click();
-			}
-		});
-		
-		$(document).on("keydown", "#authCode", function(e) {
-			if (e.keyCode == 13) {
-				e.preventDefault();
-				$("#updateEmailBtn").click();
-			}
-		});
-		
-		$(document).on("keydown", "#memberAddrDetail", function(e) {
-			if (e.keyCode == 13) {
-				e.preventDefault();
-				$("#updateAddrBtn").click();
-			}
-		});
-
-		$(document).on("keydown", "#currentPassword, #newPassword, #confirmPassword", function(e) {
-			if (e.keyCode == 13) {
-				e.preventDefault();
-				$("#updatePasswordBtn").click();
-			}
 		});
 		
 		$(document).on("click", "#showNicknameBtn, #showEmailBtn, #showAddrBtn, #showAgreeBtn, #showPasswordBtn", function() {
@@ -589,8 +559,8 @@
 		$(document).on("click", "#resetNicknameBtn, #resetEmailBtn, #resetAddrBtn, #resetAgreeBtn, #resetPasswordBtn", function() {
 			let $dl = $(this).closest("dl");
 			$dl.find(".error, .success").remove();
-			$dl.find("div.show-wrap").removeClass("d-none"); 	//$dl.find("div.show-wrap").css("display", "flex");
-			$dl.find("div.form-wrap").addClass("d-none"); 		//$dl.find("div.form-wrap").css("display", "none");
+			$dl.find("div.show-wrap").removeClass("d-none"); 	// $dl.find("div.show-wrap").css("display", "flex");
+			$dl.find("div.form-wrap").addClass("d-none"); 		// $dl.find("div.form-wrap").css("display", "none");
 		});
 	});
 	
