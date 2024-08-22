@@ -14,7 +14,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -55,7 +54,6 @@ import com.codingjoa.validator.UploadFileValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-@SuppressWarnings("unused")
 @Slf4j
 @RequestMapping("/api/member")
 @RequiredArgsConstructor
@@ -66,8 +64,6 @@ public class MemberRestController {
 	private final EmailService emailService;
 	private final RedisService redisService;
 	private final ImageService imageService;
-	
-	private final UserDetailsService userDetailsService;
 	private final JwtProvider jwtProvider;
 	
 	@InitBinder("emailDto")
@@ -212,12 +208,7 @@ public class MemberRestController {
 		log.info("\t > {}", passwordChangeDto);
 		memberService.updatePassword(passwordChangeDto, principal.getIdx());
 		
-		UserDetails userDetails = memberService.getUserDetailsByIdx(principal.getIdx());
-		HttpHeaders headers = createJwtCookieHeader(userDetails, request);
-		
-		return ResponseEntity.ok()
-				.headers(headers)
-				.body(SuccessResponse.builder().messageByCode("success.UpdatePassword").build());
+		return ResponseEntity.ok().body(SuccessResponse.builder().messageByCode("success.UpdatePassword").build());
 	}
 	
 	@PostMapping("/account/password")
@@ -227,12 +218,7 @@ public class MemberRestController {
 		log.info("\t > {}", passwordDto);
 		memberService.updatePassword(passwordDto, principal.getIdx());
 		
-		UserDetails userDetails = memberService.getUserDetailsByIdx(principal.getIdx());
-		HttpHeaders headers = createJwtCookieHeader(userDetails, request);
-		
-		return ResponseEntity.ok()
-				.headers(headers)
-				.body(SuccessResponse.builder().messageByCode("success.SavePassword").build());
+		return ResponseEntity.ok().body(SuccessResponse.builder().messageByCode("success.SavePassword").build());
 	}
 	
 	@GetMapping("/account")

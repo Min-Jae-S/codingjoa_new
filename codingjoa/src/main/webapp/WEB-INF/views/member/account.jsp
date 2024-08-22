@@ -75,7 +75,7 @@
 	}
 	
 	#editNickname, #editEmail, #editAuthCode, #editZipcode, #editAddr, 
-	#editAddrDetail, #editAgree, #editNewPassword, #editConfirmPassword {
+	#editAddrDetail, #editAgree, #editNewPassword, #editConfirmPassword, #editCurrentPassword {
 		display: none;
 		border-bottom: 1px solid #868e96;
 	}
@@ -214,7 +214,9 @@
 					</dd>
 					<!-- d-none(#editAuthCode) -->
 					<dd class="input-group" id="editAuthCode">
-						<input type="text" id="authCode" name="authCode" placeholder="인증코드를 입력해주세요.">
+						<form>
+							<input type="text" id="authCode" name="authCode" placeholder="인증코드를 입력해주세요.">
+						</form>
 					</dd>
 				</dl>
 			</div>
@@ -264,7 +266,7 @@
 					<dd class="input-group" id="showAgree">
 						<div class="form-check form-check-inline mr-0">
 							<label class="form-check-label label-disabled">
-								<input class="form-check-input" type="checkbox" disabled/>
+								<input class="form-check-input" type="checkbox" disabled />
 								<span class="inner-text">이메일 광고 수신에 동의합니다.</span>
 							</label>
 						</div>
@@ -343,8 +345,13 @@
 			$("#showAddrDetail span").text("상세주소를 등록해주세요.");
 		}
 		
-		$("#showAgree input[type='checkbox']").prop("checked", memberInfo.memberAgree);
-		$("#memberAgree").prop("checked", memberInfo.memberAgree);
+		if (memberInfo.memberAgree) {
+			$("#showAgree input[type='checkbox']").attr("checked", "checked");
+			$("#memberAgree").attr("checked", "checked");
+		} else {
+			$("#showAgree input[type='checkbox']").removeAttr("checked");
+			$("#memberAgree").removeAttr("checked");
+		}
 		
 		if (memberInfo.hasPassword) {
 			$("div.password-form-wrap").html(createPasswordChangeForm());
@@ -410,13 +417,6 @@
 			});
 		});
 		
-		$(document).on("keydown", "#memberNickname", function(e) {
-			if (e.keyCode == 13) {
-				e.preventDefault();
-				$("#updateNicknameBtn").click();
-			}
-		});
-
 		$("#updateEmailBtn").on("click", function() {
 			let obj = {
 				memberEmail : $("#memberEmail").val(),
@@ -431,20 +431,6 @@
 					$("#resetEmailBtn").click();
 				});
 			});
-		});
-		
-		$(document).on("keydown", "#memberEmail", function(e) {
-			if (e.keyCode == 13) {
-				e.preventDefault();
-				$("#sendAuthCodeBtn").click();
-			}
-		});
-		
-		$(document).on("keydown", "#authCode", function(e) {
-			if (e.keyCode == 13) {
-				e.preventDefault();
-				$("#updateEmailBtn").click();
-			}
 		});
 		
 		$("#updateAddrBtn").on("click", function() {
@@ -468,17 +454,6 @@
 				});
 			});
 		});
-		
-		$(document).on("click", "#searchAddrBtn, #memberZipcode, #memberAddr", function() {
-			execPostcode();
-		});
-		
-		$(document).on("keydown", "#memberAddrDetail", function(e) {
-			if (e.keyCode == 13) {
-				e.preventDefault();
-				$("#updateAddrBtn").click();
-			}
-		});
 
 		$("#updateAgreeBtn").on("click", function() {
 			let obj = {
@@ -488,8 +463,13 @@
 			memberService.updateAgree(obj, function(result) {
 				alert(result.message);
 				memberService.getMemberInfo(function(result) {
-					$("#memberAgree").prop("checked", result.data.memberAgree);
-					$("#showAgree input[type='checkbox']").prop("checked", result.data.memberAgree);
+					if (result.data.memberAgree) {
+						$("#memberAgree").attr("checked", "checked");
+						$("#showAgree input[type='checkbox']").attr("checked", "checked");
+					} else {
+						$("#memberAgree").removeAttr("checked");
+						$("#showAgree input[type='checkbox']").removeAttr("checked");
+					}
 					$("#resetAgreeBtn").click();
 				});
 			});
@@ -505,6 +485,9 @@
 			memberService.updatePassword(obj, function(result) {
 				alert(result.message);
 				memberService.getMemberInfo(function(result) {
+					if (result.data.hasPassword) {
+						$("div.password-form-wrap").html(createPasswordChangeForm());
+					} 
 					$("#resetPasswordBtn").click();
 				});
 			});
@@ -527,68 +510,52 @@
 			});
 		});
 		
-		$("#showNicknameBtn").on("click", function() {
-			$("#showNickname").css("display", "none");
-			$("#editNickname").css("display", "flex");
+		$(document).on("click", "#searchAddrBtn, #memberZipcode, #memberAddr", function() {
+			execPostcode();
 		});
 		
-		$("#resetNicknameBtn").on("click", function() {
-			$(this).closest("dl").find(".error").remove();
-			$("#showNickname").css("display", "flex");
-			$("#editNickname").css("display", "none");
-			$("#editNickname").find("form")[0].reset();
+		$(document).on("keydown", "#memberNickname", function(e) {
+			if (e.keyCode == 13) {
+				e.preventDefault();
+				$("#updateNicknameBtn").click();
+			}
 		});
 		
-		$("#showEmailBtn").on("click", function() {
-			$("#showEmail").css("display", "none");
-			$("#editEmail, #editAuthCode").css("display", "flex");
+		$(document).on("keydown", "#memberEmail", function(e) {
+			if (e.keyCode == 13) {
+				e.preventDefault();
+				$("#sendAuthCodeBtn").click();
+			}
 		});
 		
-		$("#resetEmailBtn").on("click", function() {
-			$(this).closest("dl").find(".error, .success").remove(); // $("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
-			$("#showEmail").css("display", "flex");
-			$("#editEmail, #editAuthCode").css("display", "none");
-			$("#editEmail").find("form")[0].reset();
-			$("#authCode").val("");
+		$(document).on("keydown", "#authCode", function(e) {
+			if (e.keyCode == 13) {
+				e.preventDefault();
+				$("#updateEmailBtn").click();
+			}
 		});
 		
-		$("#showAddrBtn").on("click", function() {
-			$("#showZipcode, #showAddr, #showAddrDetail").css("display", "none");
-			$("#editZipcode, #editAddr, #editAddrDetail").css("display", "flex");	
+		$(document).on("keydown", "#memberAddrDetail", function(e) {
+			if (e.keyCode == 13) {
+				e.preventDefault();
+				$("#updateAddrBtn").click();
+			}
+		});
+		
+		$(document).on("click", "#showNicknameBtn, #showEmailBtn, #showAddrBtn, #showAgreeBtn, #showPasswordBtn", function() {
+			let $dl = $(this).closest("dl");
+			$dl.find("dd[id^='show']").css("display", "none"); 
+			$dl.find("dd[id^='edit']").css("display", "flex");
 		});
 
-		$("#resetAddrBtn").on("click", function() {
-			$(this).closest("dl").find(".error").remove();
-			$("#showZipcode, #showAddr, #showAddrDetail").css("display", "flex");
-			$("#editZipcode, #editAddr, #editAddrDetail").css("display", "none");
-			
-			$("#editZipcode").find("form")[0].reset();
-			$("#editAddr").find("form")[0].reset();
-			$("#editAddrDetail").find("form")[0].reset();
-		});
-		
-		$("#showAgreeBtn").on("click", function() {
-			$("#showAgree").css("display", "none");
-			$("#editAgree").css("display", "flex");
-		});
-		
-		$("#resetAgreeBtn").on("click", function() {
-			$(this).closest("dl").find(".error").remove();
-			$("#showAgree").css("display", "flex");
-			$("#editAgree").css("display", "none");
-			$("#editAgree").find("form")[0].reset();
-		});
-		
-		$(document).on("click", "#showPasswordBtn", function() {
-			$("#showPassword").css("display", "none");
-			$("#editNewPassword, #editConfirmPassword").css("display", "flex");
-		});
-		
-		$(document).on("click", "#resetPasswordBtn", function() {
-			$(this).closest("dl").find(".error").remove();
-			$("#showPassword").css("display", "flex");
-			$("#editNewPassword, #editConfirmPassword").css("display", "none");
-			$("#editNewPassword").find("form")[0].reset();
+		$(document).on("click", "#resetNicknameBtn, #resetEmailBtn, #resetAddrBtn, #resetAgreeBtn, #resetPasswordBtn", function() {
+			let $dl = $(this).closest("dl");
+			$dl.find(".error, .success").remove();
+			$dl.find("dd[id^='show']").css("display", "flex");
+			$dl.find("dd[id^='edit']").css("display", "none");
+			$dl.find("form").each(function() {
+				this.reset();
+			});
 		});
 	});
 	
@@ -660,7 +627,7 @@
     	return html;
     }
     
-    function createdPasswordChangeForm() {
+    function createPasswordChangeForm() {
     	let html = '<dl class="form-group">';
     	html += '<dt><i class="fa-solid fa-check mr-2"></i>비밀번호</dt>';
     	html += '<dd class="input-group" id="showPassword">';
