@@ -31,7 +31,7 @@
 		flex-grow: 1;
 	}
 	
-	input[type="text"]:focus, input[type="password"]:focus {
+	input[type="text"]:focus, input[type="password"]:focus, input[type="checkbox"]:focus {
 		outline: none;
 	}
 	
@@ -167,7 +167,7 @@
 					<button type="button" class="member-image-btn" id="updateMemberImageBtn">
 						<span class="member-image-icon"></span>
 						<form id="imageForm">
-							<input type="file" id="memberImage" name="memberImage">
+							<input type="file" id="memberImage" name="memberImage"/>
 						</form>
 					</button>
 				</div>
@@ -179,7 +179,7 @@
 								<div>
 									<span class="inner-text"></span>
 								</div>
-								<button class="btn btn-outline-primary btn-sm" type="button">수정</button>
+								<button type="button" class="btn btn-outline-primary btn-sm">수정</button>
 							</dd>
 						</div>
 						<div class="form-wrap d-none">
@@ -187,8 +187,8 @@
 								<dd class="input-group">
 									<input type="text" id="memberNickname" name="memberNickname" placeholder="닉네임을 입력해주세요."/>
 									<div>
-										<button class="btn btn-outline-primary btn-sm" type="submit">확인</button>
-										<button class="btn btn-outline-secondary btn-sm" type="reset">취소</button>
+										<button type="submit" class="btn btn-outline-primary btn-sm">확인</button>
+										<button type="reset" class="btn btn-outline-secondary btn-sm">취소</button>
 									</div>
 								</dd>
 							</form>
@@ -204,7 +204,7 @@
 							<div>
 								<span class="inner-text"></span>
 							</div>
-							<button class="btn btn-outline-primary btn-sm" type="button">수정</button>
+							<button type="button" class="btn btn-outline-primary btn-sm">수정</button>
 						</dd>
 					</div>
 					<div class="form-wrap d-none">
@@ -212,13 +212,13 @@
 							<dd class="input-group">
 								<input type="text" id="memberEmail" name="memberEmail" placeholder="이메일을 입력해주세요."/>
 								<div>
-									<button class="btn btn-warning btn-sm" type="button" id="sendAuthCodeBtn">인증코드 받기</button>
-									<button class="btn btn-outline-primary btn-sm" type="submit">확인</button>
-									<button class="btn btn-outline-secondary btn-sm" type="reset">취소</button>
+									<button type="button" class="btn btn-warning btn-sm" id="sendAuthCodeBtn">인증코드 받기</button>
+									<button type="submit" class="btn btn-outline-primary btn-sm">확인</button>
+									<button type="reset" class="btn btn-outline-secondary btn-sm">취소</button>
 								</div>
 							</dd>
 							<dd class="input-group" id="editAuthCode">
-								<input type="text" id="authCode" name="authCode" placeholder="인증코드를 입력해주세요.">
+								<input type="text" id="authCode" name="authCode" placeholder="인증코드를 입력해주세요."/>
 							</dd>
 						</form>
 					</div>
@@ -232,7 +232,7 @@
 							<div>
 								<span class="inner-text"></span>
 							</div>
-							<button class="btn btn-outline-primary btn-sm" type="button"></button>
+							<button type="button" class="btn btn-outline-primary btn-sm"></button>
 						</dd>
 						<dd class="input-group" id="showAddr">
 							<span class="inner-text"></span>
@@ -246,9 +246,9 @@
 							<dd class="input-group">
 								<input type="text" id="memberZipcode" name="memberZipcode" placeholder="우편번호를 등록해주세요." readonly/>
 								<div>
-									<button class="btn btn-warning btn-sm" type="button" id="searchAddrBtn">주소 찾기</button>
-									<button class="btn btn-outline-primary btn-sm" type="submit">확인</button>
-									<button class="btn btn-outline-secondary btn-sm" type="reset">취소</button>
+									<button type="button" class="btn btn-warning btn-sm" id="searchAddrBtn">주소 찾기</button>
+									<button type="submit" class="btn btn-outline-primary btn-sm">확인</button>
+									<button type="reset" class="btn btn-outline-secondary btn-sm">취소</button>
 								</div>
 							</dd>
 							<dd class="input-group">
@@ -268,11 +268,11 @@
 						<dd class="input-group" id="showAgree">
 							<div class="form-check form-check-inline mr-0">
 								<label class="form-check-label label-disabled">
-									<input class="form-check-input" type="checkbox" disabled/>
+									<input type="checkbox" class="form-check-input" disabled/>
 									<span class="inner-text">이메일 광고 수신에 동의합니다.</span>
 								</label>
 							</div>
-							<button class="btn btn-outline-primary btn-sm" type="button">수정</button>
+							<button type="button" class="btn btn-outline-primary btn-sm">수정</button>
 						</dd>
 					</div>
 					<div class="form-wrap d-none">
@@ -280,13 +280,13 @@
 							<dd class="input-group">
 								<div class="form-check form-check-inline">
 									<label class="form-check-label">
-										<input class="form-check-input" type="checkbox" id="memberAgree" name="memberAgree"/>
+										<input type="checkbox" class="form-check-input" id="memberAgree" name="memberAgree"/>
 										<span class="inner-text">이메일 광고 수신에 동의합니다.</span>
 									</label>
 								</div>
 								<div>
-									<button class="btn btn-outline-primary btn-sm" type="submit">확인</button>
-									<button class="btn btn-outline-secondary btn-sm" type="reset">취소</button>
+									<button type="submit" class="btn btn-outline-primary btn-sm">확인</button>
+									<button type="reset" class="btn btn-outline-secondary btn-sm" >취소</button>
 								</div>
 							</dd>
 						</form>
@@ -322,36 +322,32 @@
 		$("#memberEmail").attr("value", memberInfo.memberEmail);
 		$("#showEmail span").text(memberInfo.memberEmail);
 		
-		$("#memberZipcode").attr("value", memberInfo.memberZipcode);
-		$("#memberAddr").attr("value", memberInfo.memberAddr);
-		$("#memberAddrDetail").attr("value", memberInfo.memberAddrDetail);
-		
 		if (memberInfo.memberZipcode != "") {
+			$("#memberZipcode").attr("value", memberInfo.memberZipcode);
 			$("#showZipcode span").text(memberInfo.memberZipcode);
 			$("#showZipcode button").html("수정");
 		} else {
-			$("#showZipcode span").text("우편번호를 등록해주세요.");
+			$("#showZipcode span").text("주소를 등록해주세요.");
 			$("#showZipcode button").html("등록");
+			$("#showAddr, #showAddrDetail").addClass("d-none");
 		}
 		
 		if (memberInfo.memberAddr != "") {
+			$("#memberAddr").attr("value", memberInfo.memberAddr);
 			$("#showAddr span").text(memberInfo.memberAddr);
-		} else {
-			$("#showAddr span").text("기본주소를 등록해주세요.");
 		}
-	
+		
 		if (memberInfo.memberAddrDetail != "") {
+			$("#memberAddrDetail").attr("value", memberInfo.memberAddrDetail);
 			$("#showAddrDetail span").text(memberInfo.memberAddrDetail);
-		} else {
-			$("#showAddrDetail span").text("상세주소를 등록해주세요.");
 		}
 		
 		if (memberInfo.memberAgree) {
-			$("#showAgree input[type='checkbox']").attr("checked", "checked");
 			$("#memberAgree").attr("checked", "checked");
+			$("#showAgree input[type='checkbox']").attr("checked", "checked");
 		} else {
-			$("#showAgree input[type='checkbox']").removeAttr("checked");
 			$("#memberAgree").removeAttr("checked");
+			$("#showAgree input[type='checkbox']").removeAttr("checked");
 		}
 		
 		if (memberInfo.hasPassword) {
@@ -460,7 +456,8 @@
 					$("#showAddr span").text(result.data.memberAddr);
 					$("#memberAddrDetail").attr("value", result.data.memberAddrDetail);
 					$("#showAddrDetail span").text(result.data.memberAddrDetail);
-					$("#showAddrBtn").html("수정");
+					$("#showZipcode button").html("수정");
+					$("#showAddr, #showAddrDetail").removeClass("d-none");
 					$("#addrForm button[type='reset']").click();
 				});
 			});
