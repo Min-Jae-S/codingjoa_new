@@ -14,7 +14,7 @@ import com.codingjoa.dto.JoinDto;
 import com.codingjoa.dto.MemberInfoDto;
 import com.codingjoa.dto.NicknameDto;
 import com.codingjoa.dto.PasswordChangeDto;
-import com.codingjoa.dto.PasswordDto;
+import com.codingjoa.dto.PasswordSaveDto;
 import com.codingjoa.entity.Auth;
 import com.codingjoa.entity.Member;
 import com.codingjoa.exception.ExpectedException;
@@ -216,7 +216,7 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override
-	public void updatePassword(PasswordDto passwordDto, Integer memberIdx) {
+	public void updatePassword(PasswordSaveDto passwordDto, Integer memberIdx) {
 		Member member = memberMapper.findMemberByIdx(memberIdx);
 		if (member == null) {
 			throw new ExpectedException("error.NotFoundMember");

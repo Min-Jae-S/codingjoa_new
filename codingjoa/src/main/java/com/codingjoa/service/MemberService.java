@@ -9,7 +9,7 @@ import com.codingjoa.dto.JoinDto;
 import com.codingjoa.dto.MemberInfoDto;
 import com.codingjoa.dto.NicknameDto;
 import com.codingjoa.dto.PasswordChangeDto;
-import com.codingjoa.dto.PasswordDto;
+import com.codingjoa.dto.PasswordSaveDto;
 
 public interface MemberService {
 
@@ -37,7 +37,7 @@ public interface MemberService {
 	
 	void updatePassword(PasswordChangeDto passwordChangeDto, Integer memberIdx);
 	
-	void updatePassword(PasswordDto passwordDto, Integer memberIdx);
+	void updatePassword(PasswordSaveDto passwordDto, Integer memberIdx);
 	
 	MemberInfoDto getMemberInfoByIdx(Integer memberIdx);
 

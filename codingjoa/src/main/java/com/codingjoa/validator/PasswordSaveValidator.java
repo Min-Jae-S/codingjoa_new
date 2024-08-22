@@ -6,27 +6,27 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import com.codingjoa.dto.PasswordDto;
+import com.codingjoa.dto.PasswordSaveDto;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class PasswordValidator implements Validator {
+public class PasswordSaveValidator implements Validator {
 
 	private static final String PASSWORD_REGEXP = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[!@#$%^&*()])(?=\\S+$).{8,16}$";
 
 	@Override
 	public boolean supports(Class<?> clazz) {
-		return PasswordDto.class.isAssignableFrom(clazz);
+		return PasswordSaveDto.class.isAssignableFrom(clazz);
 	}
 
 	@Override
 	public void validate(Object target, Errors errors) {
 		log.info("## {}", this.getClass().getSimpleName());
 
-		PasswordDto passwordDto = (PasswordDto) target;
-		String newPassword = passwordDto.getNewPassword();
-		String confirmPassword = passwordDto.getConfirmPassword();
+		PasswordSaveDto passwordSaveDto = (PasswordSaveDto) target;
+		String newPassword = passwordSaveDto.getNewPassword();
+		String confirmPassword = passwordSaveDto.getConfirmPassword();
 		
 		if (!StringUtils.hasText(newPassword)) {
 			errors.rejectValue("newPassword", "NotBlank");

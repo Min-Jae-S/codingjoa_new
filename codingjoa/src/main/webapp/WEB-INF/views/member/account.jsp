@@ -346,7 +346,7 @@
 		$("#showAgree input[type='checkbox']").prop("checked", memberInfo.memberAgree);
 		$("#memberAgree").prop("checked", memberInfo.memberAgree);
 		
-		if (memberInfo.hasPassword == true) {
+		if (memberInfo.hasPassword) {
 			$("div.password-form-wrap").html(createPasswordChangeForm());
 		} else {
 			$("div.password-form-wrap").html(createPasswordSaveForm());
@@ -487,7 +487,7 @@
 			
 			memberService.updateAgree(obj, function(result) {
 				alert(result.message);
-				memberService.getMemberDetails(function(result) {
+				memberService.getMemberInfo(function(result) {
 					$("#memberAgree").prop("checked", result.data.memberAgree);
 					$("#showAgree input[type='checkbox']").prop("checked", result.data.memberAgree);
 					$("#resetAgreeBtn").click();
@@ -504,7 +504,7 @@
 			
 			memberService.updatePassword(obj, function(result) {
 				alert(result.message);
-				memberService.getMemberDetails(function(result) {
+				memberService.getMemberInfo(function(result) {
 					$("#resetPasswordBtn").click();
 				});
 			});
@@ -518,7 +518,10 @@
 			
 			memberService.savePassword(obj, function(result) {
 				alert(result.message);
-				memberService.getMemberDetails(function(result) {
+				memberService.getMemberInfo(function(result) {
+					if (result.data.hasPassword) {
+						$("div.password-form-wrap").html(createPasswordChangeForm());
+					} 
 					$("#resetPasswordBtn").click();
 				});
 			});

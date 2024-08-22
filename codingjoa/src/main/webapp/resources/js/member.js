@@ -317,32 +317,6 @@ let memberService = (function() {
 			}
 		});	
 	}
-
-	function getMemberDetails(callback) {
-		console.log("## getMemberDetails");
-		let url = contextPath + "/api/member/details";
-		console.log("> URL = '%s'", url);
-		
-		$.ajax({
-			type : "GET",
-			url : url,
-			dataType : "json",
-			success : function(result) {
-				console.log("%c> SUCCESS", "color:green");
-				console.log(JSON.stringify(result, null, 2));
-				callback(result);
-			},
-			error : function(jqXHR) {
-				console.log("%c> ERROR", "color:red");
-				let errorResponse = parseError(jqXHR);
-				if (errorResponse != null) {
-					handleMemberError(errorResponse);
-				} else {
-					alert("## parsing error");
-				}
-			}
-		});
-	}
 	
 	function confirmPassword(obj, callback) {
 		console.log("## confirmPassword");
@@ -479,7 +453,6 @@ let memberService = (function() {
 		updatePassword:updatePassword,
 		savePassword:savePassword,
 		getMemberInfo:getMemberInfo,
-		getMemberDetails:getMemberDetails,
 		confirmPassword:confirmPassword,
 		findAccount:findAccount,
 		findPassword:findPassword,

@@ -35,7 +35,7 @@ import com.codingjoa.dto.FindPasswordDto;
 import com.codingjoa.dto.MemberInfoDto;
 import com.codingjoa.dto.NicknameDto;
 import com.codingjoa.dto.PasswordChangeDto;
-import com.codingjoa.dto.PasswordDto;
+import com.codingjoa.dto.PasswordSaveDto;
 import com.codingjoa.dto.SuccessResponse;
 import com.codingjoa.dto.UploadFileDto;
 import com.codingjoa.security.dto.PrincipalDetails;
@@ -49,6 +49,7 @@ import com.codingjoa.validator.EmailValidator;
 import com.codingjoa.validator.FindPasswordValidator;
 import com.codingjoa.validator.NicknameValidator;
 import com.codingjoa.validator.PasswordChangeValidator;
+import com.codingjoa.validator.PasswordSaveValidator;
 import com.codingjoa.validator.UploadFileValidator;
 
 import lombok.RequiredArgsConstructor;
@@ -93,6 +94,11 @@ public class MemberRestController {
 	public void InitBinderPasswordChange(WebDataBinder binder) {
 		binder.addValidators(new PasswordChangeValidator());
 	}
+
+	@InitBinder("passwordSaveDto")
+	public void InitBinderPasswordSave(WebDataBinder binder) {
+		binder.addValidators(new PasswordSaveValidator());
+	}
 	
 	@InitBinder("uploadFileDto")
 	public void initBinderUpload(WebDataBinder binder) {
@@ -132,6 +138,20 @@ public class MemberRestController {
 		redisService.saveKeyAndValue(memberEmail, authCode);
 		
 		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.SendAuthCode").build());
+	}
+	
+	@PostMapping("/account/image")
+	public ResponseEntity<Object> updateImage(@ModelAttribute @Valid UploadFileDto uploadFileDto,
+			@AuthenticationPrincipal PrincipalDetails principal, HttpServletRequest request) {
+		log.info("## updateImage");
+		imageService.updateMemberImage(uploadFileDto.getFile(), principal.getIdx());
+		
+		UserDetails userDetails = memberService.getUserDetailsByIdx(principal.getIdx());
+		HttpHeaders headers = createJwtCookieHeader(userDetails, request);
+		
+		return ResponseEntity.ok()
+				.headers(headers)
+				.body(SuccessResponse.builder().messageByCode("success.UpdateMemberImage").build());
 	}
 	
 	@PutMapping("/account/nickname")
@@ -185,20 +205,6 @@ public class MemberRestController {
 		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.UpdateAgree").build());
 	}
 	
-	@PostMapping("/account/image")
-	public ResponseEntity<Object> updateImage(@ModelAttribute @Valid UploadFileDto uploadFileDto,
-			@AuthenticationPrincipal PrincipalDetails principal, HttpServletRequest request) {
-		log.info("## updateImage");
-		imageService.updateMemberImage(uploadFileDto.getFile(), principal.getIdx());
-		
-		UserDetails userDetails = memberService.getUserDetailsByIdx(principal.getIdx());
-		HttpHeaders headers = createJwtCookieHeader(userDetails, request);
-		
-		return ResponseEntity.ok()
-				.headers(headers)
-				.body(SuccessResponse.builder().messageByCode("success.UpdateMemberImage").build());
-	}
-
 	@PutMapping("/account/password")
 	public ResponseEntity<Object> updatePassword(@RequestBody @Valid PasswordChangeDto passwordChangeDto, 
 			@AuthenticationPrincipal PrincipalDetails principal, HttpServletRequest request) {
@@ -215,7 +221,7 @@ public class MemberRestController {
 	}
 	
 	@PostMapping("/account/password")
-	public ResponseEntity<Object> savePassword(@RequestBody @Valid PasswordDto passwordDto, 
+	public ResponseEntity<Object> savePassword(@RequestBody @Valid PasswordSaveDto passwordDto, 
 			@AuthenticationPrincipal PrincipalDetails principal, HttpServletRequest request) {
 		log.info("## savePassword");
 		log.info("\t > {}", passwordDto);
@@ -226,7 +232,7 @@ public class MemberRestController {
 		
 		return ResponseEntity.ok()
 				.headers(headers)
-				.body(SuccessResponse.builder().messageByCode("success.UpdatePassword").build());
+				.body(SuccessResponse.builder().messageByCode("success.SavePassword").build());
 	}
 	
 	@GetMapping("/account")

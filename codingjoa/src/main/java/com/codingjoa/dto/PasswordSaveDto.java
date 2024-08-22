@@ -3,7 +3,7 @@ package com.codingjoa.dto;
 import lombok.Data;
 
 @Data
-public class PasswordDto {
+public class PasswordSaveDto {
 	
 	private String newPassword;
 	private String confirmPassword;
