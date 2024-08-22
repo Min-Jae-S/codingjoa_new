@@ -145,8 +145,10 @@
 	}
 	
 	.profile-wrap, .security-wrap {
-		border: 1px solid #d7e2eb;
+		border: 1px solid rgba(0, 0, 0, .125);
    	 	border-radius: 16px;
+   	 	padding: 2.5rem;
+   	 	margin-top: 2rem;
 	}
 </style>
 </head>
@@ -159,7 +161,7 @@
 		<div class="border-bottom border-dark">
 			<h4 class="font-weight-bold">계정 관리</h4>
 		</div>
-		<div class="mt-4 p-4 profile-wrap">
+		<div class="profile-wrap">
 			<h5 class="mb-3 font-weight-bold">계정 정보</h5>
 			<div class="mb-5 d-flex">
 				<div class="wrap-member-image mr-4">
@@ -294,7 +296,7 @@
 				</dl>
 			</div>
 		</div>
-		<div class="mt-4 p-4 security-wrap">
+		<div class="security-wrap">
 			<!--------------------------------------------------------------------------------->
 			<!----   paswordForm by createPasswordSaveForm(), createPasswordChangeForm()   ---->
 			<!--------------------------------------------------------------------------------->

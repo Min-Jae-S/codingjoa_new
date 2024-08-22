@@ -27,7 +27,7 @@
 	}
 	
 	.join-container .card-body {
-		padding: 3.5rem;
+		padding: 2.5rem;
 	}
 	
 	.join-wrap {
@@ -37,6 +37,7 @@
 	
 	.join-wrap .card {
 		border-radius: 16px;
+		margin-top: 2rem;
 	}
 </style>
 </head>
@@ -46,6 +47,9 @@
 
 <div class="container join-container">
 	<div class="join-wrap">
+		<div class="border-bottom border-dark">
+			<h4 class="font-weight-bold">회원 가입</h4>
+		</div>
 		<div class="card">
 			<div class="card-body">
 				<form:form action="${contextPath}/member/join" method="POST" modelAttribute="joinDto">
