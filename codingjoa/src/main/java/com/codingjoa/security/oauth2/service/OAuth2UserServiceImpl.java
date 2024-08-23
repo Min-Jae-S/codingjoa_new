@@ -130,12 +130,12 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 				throw new OAuth2AuthenticationException(oAuth2Error, oAuth2Error.toString());
 			}
 			
-			while(memberMapper.isNicknameExist(nickname)) {
+			while (memberMapper.isNicknameExist(nickname)) {
 				if (nickname.length() > 6) {
 					 nickname = nickname.substring(0, 6);
 				}
 				nickname = nickname + RandomStringUtils.randomNumeric(4);
-				log.info("\t > created new nickname due to conflict: {}", nickname);
+				log.info("\t > create new nickname due to conflict: {}", nickname);
 			}
 			
 			Member member = Member.builder()

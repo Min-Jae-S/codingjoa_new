@@ -216,7 +216,7 @@ public class MemberRestController {
 			@AuthenticationPrincipal PrincipalDetails principal, HttpServletRequest request) {
 		log.info("## savePassword");
 		log.info("\t > {}", passwordDto);
-		memberService.updatePassword(passwordDto, principal.getIdx());
+		memberService.savePassword(passwordDto, principal.getIdx());
 		
 		return ResponseEntity.ok().body(SuccessResponse.builder().messageByCode("success.SavePassword").build());
 	}

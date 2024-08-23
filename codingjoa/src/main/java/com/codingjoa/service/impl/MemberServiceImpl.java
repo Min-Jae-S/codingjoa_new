@@ -47,10 +47,8 @@ public class MemberServiceImpl implements MemberService {
 		memberMapper.insertMember(member);
 		
 		Integer memberIdx = member.getMemberIdx();
-		log.info("\t > after inserting member, memberIdx = {}", memberIdx);
-		
 		if (memberIdx == null) {
-			throw new ExpectedException("error.InsertMember");
+			throw new ExpectedException("error.SaveMember");
 		}
 		
 		Auth auth = Auth.builder()
@@ -62,10 +60,8 @@ public class MemberServiceImpl implements MemberService {
 		memberMapper.insertAuth(auth);
 		
 		Integer authIdx = auth.getAuthIdx();
-		log.info("\t > after inserting auth, authIdx = {}", authIdx);
-		
 		if (authIdx == null) {
-			throw new ExpectedException("error.InsertAuth");
+			throw new ExpectedException("error.SaveAuth");
 		}
 	}
 	
@@ -126,77 +122,95 @@ public class MemberServiceImpl implements MemberService {
 		return member.getMemberIdx();
 	}
 	
-	@Override
-	public void updateNickname(NicknameDto nicknameDto, Integer memberIdx) {
+	private Member getMemberByIdx(Integer memberIdx) {
 		Member member = memberMapper.findMemberByIdx(memberIdx);
 		if (member == null) {
 			throw new ExpectedException("error.NotFoundMember");
 		}
-		
-		String memberNickname = nicknameDto.getMemberNickname();
+		return member;
+	}
+	
+	@Override
+	public void updateNickname(NicknameDto nicknameDto, Integer memberIdx) {
+		Member member = getMemberByIdx(memberIdx);
 		String currentNickname = member.getMemberNickname();
+		String memberNickname = nicknameDto.getMemberNickname();
+		
 		if (isNicknameExist(memberNickname) && !memberNickname.equals(currentNickname)) {
 			throw new ExpectedException("memberNickname", "error.NicknameExist");
 		}
 		
 		Member modifyMember = Member.builder()
-				.memberIdx(memberIdx)
+				.memberIdx(member.getMemberIdx())
 				.memberNickname(memberNickname)
 				.build();
-		memberMapper.updateNickname(modifyMember);
+		
+		int result = memberMapper.updateNickname(modifyMember);
+		if (result > 0) {
+			log.info("\t > nickname update successful");
+		} else {
+			log.info("\t > nickname update failed");
+			throw new ExpectedException("error.UpdateNickname");
+		}
 	}
 
 	@Override
 	public void updateEmail(EmailAuthDto emailAuthDto, Integer memberIdx) {
-		Member member = memberMapper.findMemberByIdx(memberIdx);
-		if (member == null) {
-			throw new ExpectedException("error.NotFoundMember");
-		}
-		
+		Member member = getMemberByIdx(memberIdx);
 		Member modifyMember = Member.builder()
-				.memberIdx(memberIdx)
+				.memberIdx(member.getMemberIdx())
 				.memberEmail(emailAuthDto.getMemberEmail())
 				.build();
-		memberMapper.updateEmail(modifyMember);
+		
+		int result = memberMapper.updateEmail(modifyMember);
+		if (result > 0) {
+			log.info("\t > email update successful");
+		} else {
+			log.info("\t > email update failed");
+			throw new ExpectedException("error.UpdateEmail");
+		}
 	}
 	
 	@Override
 	public void updateAddr(AddrDto addrDto, Integer memberIdx) {
-		Member member = memberMapper.findMemberByIdx(memberIdx);
-		if (member == null) {
-			throw new ExpectedException("error.NotFoundMember");
-		}
-		
+		Member member = getMemberByIdx(memberIdx);
 		Member modifyMember = Member.builder()
-				.memberIdx(memberIdx)
+				.memberIdx(member.getMemberIdx())
 				.memberZipcode(addrDto.getMemberZipcode())
 				.memberAddr(addrDto.getMemberAddr())
 				.memberAddrDetail(addrDto.getMemberAddrDetail())
 				.build();
-		memberMapper.updateAddr(modifyMember);
+		
+		int result = memberMapper.updateAddr(modifyMember);
+		if (result > 0) {
+			log.info("\t > addr update successful");
+		} else {
+			log.info("\t > addr update failed");
+			throw new ExpectedException("error.UpdateAddr");
+		}
 	}
 
 	@Override
 	public void updateAgree(AgreeDto agreeDto, Integer memberIdx) {
-		Member member = memberMapper.findMemberByIdx(memberIdx);
-		if (member == null) {
-			throw new ExpectedException("error.NotFoundMember");
-		}
+		Member member = getMemberByIdx(memberIdx);
 		
 		Member modifyMember = Member.builder()
-				.memberIdx(memberIdx)
+				.memberIdx(member.getMemberIdx())
 				.memberAgree(agreeDto.isMemberAgree())
 				.build();
-		memberMapper.updateAgree(modifyMember);
+		
+		int result = memberMapper.updateAgree(modifyMember);
+		if (result > 0) {
+			log.info("\t > agree update successful");
+		} else {
+			log.info("\t > agree update failed");
+			throw new ExpectedException("error.UpdateAgree");
+		}
 	}
 	
 	@Override
 	public void updatePassword(PasswordChangeDto passwordChangeDto, Integer memberIdx) {
-		Member member = memberMapper.findMemberByIdx(memberIdx);
-		if (member == null) {
-			throw new ExpectedException("error.NotFoundMember");
-		}
-		
+		Member member = getMemberByIdx(memberIdx);
 		String memberPassword = member.getMemberPassword();
 		String currentPasswordInput = passwordChangeDto.getCurrentPassword();
 		if (!passwordEncoder.matches(memberPassword, currentPasswordInput)) {
@@ -209,25 +223,35 @@ public class MemberServiceImpl implements MemberService {
 		}
 		
 		Member modifyMember = Member.builder()
-				.memberIdx(memberIdx)
+				.memberIdx(member.getMemberIdx())
 				.memberPassword(passwordEncoder.encode(newPasswordInput))
 				.build();
-		memberMapper.updatePassword(modifyMember);
+		
+		int result = memberMapper.updatePassword(modifyMember);
+		if (result > 0) {
+			log.info("\t > password update successful");
+		} else {
+			log.info("\t > password update failed");
+			throw new ExpectedException("error.UpdatePassword");
+		}
 	}
 	
 	@Override
-	public void updatePassword(PasswordSaveDto passwordDto, Integer memberIdx) {
-		Member member = memberMapper.findMemberByIdx(memberIdx);
-		if (member == null) {
-			throw new ExpectedException("error.NotFoundMember");
-		}
-		
-		String newPassword = passwordDto.getNewPassword();
+	public void savePassword(PasswordSaveDto passwordSaveDto, Integer memberIdx) {
+		Member member = getMemberByIdx(memberIdx);
+		String newPassword = passwordSaveDto.getNewPassword();
 		Member modifyMember = Member.builder()
-				.memberIdx(memberIdx)
+				.memberIdx(member.getMemberIdx())
 				.memberPassword(passwordEncoder.encode(newPassword))
 				.build();
-		memberMapper.updatePassword(modifyMember);
+		
+		int result = memberMapper.updatePassword(modifyMember);
+		if (result > 0) {
+			log.info("\t > password save successful");
+		} else {
+			log.info("\t > password save failed");
+			throw new ExpectedException("error.SavePassword");
+		}
 	}
 	
 	@Override

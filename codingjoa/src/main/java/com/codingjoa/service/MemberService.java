@@ -37,7 +37,7 @@ public interface MemberService {
 	
 	void updatePassword(PasswordChangeDto passwordChangeDto, Integer memberIdx);
 	
-	void updatePassword(PasswordSaveDto passwordDto, Integer memberIdx);
+	void savePassword(PasswordSaveDto passwordSaveDto, Integer memberIdx);
 	
 	MemberInfoDto getMemberInfoByIdx(Integer memberIdx);
 

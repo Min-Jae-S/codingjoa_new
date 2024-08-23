@@ -24,15 +24,15 @@ public interface MemberMapper {
 	
 	Member findMemberByIdx(Integer memberIdx);
 	
-	void updateNickname(Member member);
+	int updateNickname(Member member);
 	
-	void updateEmail(Member member);
+	int updateEmail(Member member);
 	
-	void updateAddr(Member member);
+	int updateAddr(Member member);
 	
-	void updateAgree(Member member);
+	int updateAgree(Member member);
 	
-	void updatePassword(Member member);
+	int updatePassword(Member member);
 	
 	Member findMemeberByIdAndEmail(@Param("memberId") String memberId, @Param("memberEmail") String memberEmail);
 	
