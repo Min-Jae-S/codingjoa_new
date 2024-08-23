@@ -28,7 +28,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		Map<String, Object> userDetailsMap = memberMapper.findUserDetailsByEmail(memberEmail);
 
 		if (userDetailsMap == null) {
-			throw new UsernameNotFoundException(MessageUtils.getMessage("error.EmailNotFound"));
+			throw new UsernameNotFoundException(MessageUtils.getMessage("error.InvalidCredential"));
 		}
 		
 		return PrincipalDetails.from(userDetailsMap);
