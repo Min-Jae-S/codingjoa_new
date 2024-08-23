@@ -208,7 +208,12 @@ public class MemberRestController {
 		log.info("\t > {}", passwordChangeDto);
 		memberService.updatePassword(passwordChangeDto, principal.getIdx());
 		
-		return ResponseEntity.ok().body(SuccessResponse.builder().messageByCode("success.UpdatePassword").build());
+		UserDetails userDetails = memberService.getUserDetailsByIdx(principal.getIdx());
+		HttpHeaders headers = createJwtCookieHeader(userDetails, request);
+		
+		return ResponseEntity.ok()
+				.headers(headers)
+				.body(SuccessResponse.builder().messageByCode("success.UpdatePassword").build());
 	}
 	
 	@PostMapping("/account/password")
@@ -218,7 +223,12 @@ public class MemberRestController {
 		log.info("\t > {}", passwordDto);
 		memberService.savePassword(passwordDto, principal.getIdx());
 		
-		return ResponseEntity.ok().body(SuccessResponse.builder().messageByCode("success.SavePassword").build());
+		UserDetails userDetails = memberService.getUserDetailsByIdx(principal.getIdx());
+		HttpHeaders headers = createJwtCookieHeader(userDetails, request);
+		
+		return ResponseEntity.ok()
+				.headers(headers)
+				.body(SuccessResponse.builder().messageByCode("success.SavePassword").build());
 	}
 	
 	@GetMapping("/account")

@@ -193,7 +193,6 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public void updateAgree(AgreeDto agreeDto, Integer memberIdx) {
 		Member member = getMemberByIdx(memberIdx);
-		
 		Member modifyMember = Member.builder()
 				.memberIdx(member.getMemberIdx())
 				.memberAgree(agreeDto.isMemberAgree())
@@ -210,15 +209,17 @@ public class MemberServiceImpl implements MemberService {
 	
 	@Override
 	public void updatePassword(PasswordChangeDto passwordChangeDto, Integer memberIdx) {
+		log.info("\t > passwordEncoder = {}", passwordEncoder);
+		
 		Member member = getMemberByIdx(memberIdx);
 		String memberPassword = member.getMemberPassword();
 		String currentPasswordInput = passwordChangeDto.getCurrentPassword();
-		if (!passwordEncoder.matches(memberPassword, currentPasswordInput)) {
+		if (!passwordEncoder.matches(currentPasswordInput, memberPassword)) {
 			throw new ExpectedException("currentPassword", "error.BadCredentials");
 		}
 		
 		String newPasswordInput = passwordChangeDto.getNewPassword();
-		if (passwordEncoder.matches(memberPassword, newPasswordInput)) {
+		if (passwordEncoder.matches(newPasswordInput, memberPassword)) {
 			throw new ExpectedException("newPassword", "error.NotCurrentPassword");
 		}
 		
@@ -238,11 +239,16 @@ public class MemberServiceImpl implements MemberService {
 	
 	@Override
 	public void savePassword(PasswordSaveDto passwordSaveDto, Integer memberIdx) {
+		log.info("\t > passwordEncoder = {}", passwordEncoder);
+		
 		Member member = getMemberByIdx(memberIdx);
 		String newPassword = passwordSaveDto.getNewPassword();
+		String encPassword = passwordEncoder.encode(newPassword);
+		log.info("\t > encPassword = {}", encPassword);
+		
 		Member modifyMember = Member.builder()
 				.memberIdx(member.getMemberIdx())
-				.memberPassword(passwordEncoder.encode(newPassword))
+				.memberPassword(encPassword)
 				.build();
 		
 		int result = memberMapper.updatePassword(modifyMember);
