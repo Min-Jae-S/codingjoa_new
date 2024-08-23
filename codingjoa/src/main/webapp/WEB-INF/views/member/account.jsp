@@ -328,23 +328,17 @@
 		const memberZipcode = memberInfo.memberZipcode;
 		const memberAddr = memberInfo.memberAddr;
 		const memberAddrDetail = memberInfo.memberAddrDetail;
-		if (memberZipcode != "") {
-			$("#memberZipcode").attr("value", memberZipcode);
-			$("#showZipcode span").text(memberZipcode);
-		}
+		$("#memberZipcode").attr("value", memberZipcode);
+		$("#showZipcode span").text(memberZipcode);
+	
+		$("#memberAddr").attr("value", memberAddr);
+		$("#showAddr span").text(memberAddr);
+	
+		$("#memberAddrDetail").attr("value", memberAddrDetail);
+		$("#showAddrDetail span").text(memberAddrDetail);
 		
-		if (memberAddr != "") {
-			$("#memberAddr").attr("value", memberAddr);
-			$("#showAddr span").text(memberAddr);
-		}
-		
-		if (memberAddrDetail != "") {
-			$("#memberAddrDetail").attr("value", memberAddrDetail);
-			$("#showAddrDetail span").text(memberAddrDetail);
-		}
-		
-		const allAddrFilled = memberZipcode && memberAddr && memberAddrDetail;
-		if (allAddrFilled) {
+		const allAddrsFilled = memberZipcode && memberAddr && memberAddrDetail;
+		if (allAddrsFilled) {
 			$("#showZipcode button").html("수정");
 			$("#showAddr, #showAddrDetail").removeClass("d-none");
 		} else {
@@ -504,7 +498,7 @@
 			
 			memberService.updatePassword(obj, function(result) {
 				alert(result.message);
-				$("#passwordChangeForm button[type='reset']").click();
+				$("div.security-wrap").html(createPasswordChangeForm());
 			});
 		});
 
