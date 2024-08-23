@@ -44,23 +44,25 @@ public class MemberServiceImpl implements MemberService {
 		log.info("\t > convert JoinDto to member entity");
 		log.info("\t > member = {}", member);
 		
-		memberMapper.insertMember(member);
-		
-		Integer memberIdx = member.getMemberIdx();
-		if (memberIdx == null) {
+		int memberSaveResult = memberMapper.insertMember(member);
+		if (memberSaveResult > 0) {
+			log.info("\t > member save successful");
+		} else {
+			log.info("\t > member save failed");
 			throw new ExpectedException("error.SaveMember");
 		}
 		
 		Auth auth = Auth.builder()
-				.memberIdx(memberIdx)
+				.memberIdx(member.getMemberIdx())
 				.memberRole("ROLE_MEMBER")
 				.build();
 		log.info("\t > create new auth = {}", auth);
 		
-		memberMapper.insertAuth(auth);
-		
-		Integer authIdx = auth.getAuthIdx();
-		if (authIdx == null) {
+		int authSaveResult = memberMapper.insertAuth(auth);
+		if (authSaveResult > 0) {
+			log.info("\t > auth save successful");
+		} else {
+			log.info("\t > auth save failed");
 			throw new ExpectedException("error.SaveAuth");
 		}
 	}
