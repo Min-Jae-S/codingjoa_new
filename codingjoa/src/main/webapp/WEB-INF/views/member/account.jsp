@@ -67,15 +67,16 @@
 	
 	div.form-wrap form {
 		width: 100%;
-		overflow: hidden;
+		/* overflow: hidden; */
 	}
 	
 	div.show-wrap {
-		overflow: hidden;
+		/* overflow: hidden; */
 	}
 	
 	div.show-wrap dd {
 		padding: 13px 0 5px 0;
+		margin-right: 5px;
 		border-bottom: 1px solid #dee2e6;
 	}
 	
@@ -311,7 +312,7 @@
 	const defaultMemberImageUrl = "${contextPath}/resources/images/img_profile.png";
 
 	memberService.getMemberInfo(function(result) {
-		let memberInfo = result.data;
+		const memberInfo = result.data;
 		if (memberInfo.memberImageUrl != "") {
 			$("#memberThumbImage").attr("src", memberInfo.memberImageUrl);
 		} else {
@@ -324,24 +325,31 @@
 		$("#memberEmail").attr("value", memberInfo.memberEmail);
 		$("#showEmail span").text(memberInfo.memberEmail);
 		
-		if (memberInfo.memberZipcode != "") {
-			$("#memberZipcode").attr("value", memberInfo.memberZipcode);
-			$("#showZipcode span").text(memberInfo.memberZipcode);
+		const memberZipcode = memberInfo.memberZipcode;
+		const memberAddr = memberInfo.memberAddr;
+		const memberAddrDetail = memberInfo.memberAddrDetail;
+		if (memberZipcode != "") {
+			$("#memberZipcode").attr("value", memberZipcode);
+			$("#showZipcode span").text(memberZipcode);
+		}
+		
+		if (memberAddr != "") {
+			$("#memberAddr").attr("value", memberAddr);
+			$("#showAddr span").text(memberAddr);
+		}
+		
+		if (memberAddrDetail != "") {
+			$("#memberAddrDetail").attr("value", memberAddrDetail);
+			$("#showAddrDetail span").text(memberAddrDetail);
+		}
+		
+		const allAddrFilled = memberZipcode && memberAddr && memberAddrDetail;
+		if (allAddrFilled) {
 			$("#showZipcode button").html("수정");
+			$("#showAddr, #showAddrDetail").removeClass("d-none");
 		} else {
-			$("#showZipcode span").text("주소를 등록해주세요.");
 			$("#showZipcode button").html("등록");
 			$("#showAddr, #showAddrDetail").addClass("d-none");
-		}
-		
-		if (memberInfo.memberAddr != "") {
-			$("#memberAddr").attr("value", memberInfo.memberAddr);
-			$("#showAddr span").text(memberInfo.memberAddr);
-		}
-		
-		if (memberInfo.memberAddrDetail != "") {
-			$("#memberAddrDetail").attr("value", memberInfo.memberAddrDetail);
-			$("#showAddrDetail span").text(memberInfo.memberAddrDetail);
 		}
 		
 		if (memberInfo.memberAgree) {
@@ -356,7 +364,7 @@
 			$("div.security-wrap").html(createPasswordChangeForm());
 		} else {
 			$("div.security-wrap").html(createPasswordSaveForm());
-		};
+		}
 	});
 
 	$(function() {
@@ -519,15 +527,17 @@
 		
 		$(document).on("click", "dd[id^='show'] button", function() {
 			let $dl = $(this).closest("dl");
-			$dl.find("div.show-wrap").addClass("d-none"); 		// $dl.find("div.show-wrap").css("display", "none"); 
-			$dl.find("div.form-wrap").removeClass("d-none");	// $dl.find("div.form-wrap").css("display", "flex");
+			$dl.find("div.show-wrap").addClass("d-none");
+			$dl.find("div.form-wrap").removeClass("d-none");
+			//$dl.find("div.show-wrap, div.form-wrap").toggleClass("d-none");
 		});
 
 		$(document).on("click", "button[type='reset']", function() {
 			let $dl = $(this).closest("dl");
 			$dl.find(".error, .success").remove();
-			$dl.find("div.show-wrap").removeClass("d-none"); 	// $dl.find("div.show-wrap").css("display", "flex");
-			$dl.find("div.form-wrap").addClass("d-none"); 		// $dl.find("div.form-wrap").css("display", "none");
+			$dl.find("div.show-wrap").removeClass("d-none");
+			$dl.find("div.form-wrap").addClass("d-none");
+			//$dl.find("div.show-wrap, div.form-wrap").toggleClass("d-none");
 		});
 	});
 	

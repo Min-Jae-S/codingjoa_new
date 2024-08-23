@@ -209,8 +209,6 @@ public class MemberServiceImpl implements MemberService {
 	
 	@Override
 	public void updatePassword(PasswordChangeDto passwordChangeDto, Integer memberIdx) {
-		log.info("\t > passwordEncoder = {}", passwordEncoder);
-		
 		Member member = getMemberByIdx(memberIdx);
 		String memberPassword = member.getMemberPassword();
 		String currentPasswordInput = passwordChangeDto.getCurrentPassword();
@@ -239,16 +237,11 @@ public class MemberServiceImpl implements MemberService {
 	
 	@Override
 	public void savePassword(PasswordSaveDto passwordSaveDto, Integer memberIdx) {
-		log.info("\t > passwordEncoder = {}", passwordEncoder);
-		
 		Member member = getMemberByIdx(memberIdx);
 		String newPassword = passwordSaveDto.getNewPassword();
-		String encPassword = passwordEncoder.encode(newPassword);
-		log.info("\t > encPassword = {}", encPassword);
-		
 		Member modifyMember = Member.builder()
 				.memberIdx(member.getMemberIdx())
-				.memberPassword(encPassword)
+				.memberPassword(passwordEncoder.encode(newPassword))
 				.build();
 		
 		int result = memberMapper.updatePassword(modifyMember);
