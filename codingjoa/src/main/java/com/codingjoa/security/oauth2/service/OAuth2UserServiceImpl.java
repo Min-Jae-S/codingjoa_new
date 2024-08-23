@@ -73,6 +73,7 @@ import lombok.extern.slf4j.Slf4j;
 			"message" : "success",
 			"response" : {
 				"id" : "UYTs-zkmWvHlYIrBiwcqLJu7i04g94NbIlfeuEOl-Og",
+				"nickname" : "크하하하하",
 				"email" : "smj20228@naver.com",
 				"name" : "서민재"
 			}
@@ -86,8 +87,8 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
 	
-	private static final String INVALID_PROVIDER_ERROR_CODE = "invalid_provider";
 	private static final String MISSING_EMAIL_RESPONSE_ERROR_CODE = "missing_email_response";
+	private static final String MISSING_NICKNAME_RESPONSE_ERROR_CODE = "missing_nickname_response";
 	private final MemberMapper memberMapper;
 	private final OAuth2UserService<OAuth2UserRequest, OAuth2User> delegate = new DefaultOAuth2UserService();
 	
@@ -106,28 +107,40 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 				.getUserNameAttributeName();
 		log.info("\t > provider = {}, attributeKeyName = {}", provider, attributeKeyName); // kakao:id, naver:response
 		
-		String memberEmail = extractEmail(provider, attributes);
-		log.info("\t > email from attributes = {}", memberEmail);
+		String email = extractEmail(provider, attributes);
+		log.info("\t > email from attributes = {}", email);
 		
-		if (memberEmail == null) {
+		if (email == null) {
 			OAuth2Error oAuth2Error = new OAuth2Error(MISSING_EMAIL_RESPONSE_ERROR_CODE, 
 					"An error occurred while attempting to extract 'email' from attibutes", null);
 			throw new OAuth2AuthenticationException(oAuth2Error, oAuth2Error.toString());
 		}
 		
-		Map<String, Object> userDetailsMap = memberMapper.findUserDetailsByEmail(memberEmail);
+		Map<String, Object> userDetailsMap = memberMapper.findUserDetailsByEmail(email);
 		
 		if (userDetailsMap == null) {
 			log.info("\t > not a registered member, proceed with the registration");
 
-			String randomNickname;
-			do {
-				randomNickname = RandomStringUtils.randomAlphanumeric(2, 10);
-			} while (memberMapper.isNicknameExist(randomNickname));
+			String nickname = extractNickname(provider, attributes);
+			log.info("\t > nickname from attributes = {}", nickname);
+			
+			if (nickname == null) {
+				OAuth2Error oAuth2Error = new OAuth2Error(MISSING_NICKNAME_RESPONSE_ERROR_CODE, 
+						"An error occurred while attempting to extract 'nickname' from attibutes", null);
+				throw new OAuth2AuthenticationException(oAuth2Error, oAuth2Error.toString());
+			}
+			
+			while(memberMapper.isNicknameExist(nickname)) {
+				if (nickname.length() > 6) {
+					 nickname = nickname.substring(0, 6);
+				}
+				nickname = nickname + RandomStringUtils.randomNumeric(4);
+				log.info("\t > created new nickname due to conflict: {}", nickname);
+			}
 			
 			Member member = Member.builder()
-					.memberEmail(memberEmail)
-					.memberNickname(randomNickname)
+					.memberEmail(email)
+					.memberNickname(nickname)
 					.memberAgree(false)
 					.build();
 			memberMapper.insertMember(member);
@@ -165,8 +178,20 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 			Map<String, Object> response = (Map<String, Object>) attributes.get("response");
 			return (String) response.get("email");
 		} else {
-			OAuth2Error oAuth2Error = new OAuth2Error(INVALID_PROVIDER_ERROR_CODE, "Invalid provider: " + provider, null);
-			throw new OAuth2AuthenticationException(oAuth2Error, oAuth2Error.toString());
+			return null;
+		}
+	}
+
+	private String extractNickname(String provider, Map<String, Object> attributes) {
+		if (provider.equals("kakao")) {
+			Map<String, Object> kakaoAccount = (Map<String, Object>) attributes.get("kakao_account");
+			Map<String, Object> profile = (Map<String, Object>) kakaoAccount.get("profile");
+			return (String) profile.get("nickname");
+		} else if (provider.equals("naver")) {
+			Map<String, Object> response = (Map<String, Object>) attributes.get("response");
+			return (String) response.get("nickname");
+		} else {
+			return null;
 		}
 	}
 	
