@@ -233,14 +233,14 @@
 					<div class="show-wrap">
 						<dd class="input-group" id="showZipcode">
 							<div>
-								<span class="inner-text"></span>
+								<span class="inner-text">주소를 등록해주세요.</span>
 							</div>
-							<button type="button" class="btn btn-outline-primary btn-sm"></button>
+							<button type="button" class="btn btn-outline-primary btn-sm">등록</button>
 						</dd>
-						<dd class="input-group" id="showAddr">
+						<dd class="input-group d-none" id="showAddr">
 							<span class="inner-text"></span>
 						</dd>
-						<dd class="input-group" id="showAddrDetail">
+						<dd class="input-group d-none" id="showAddrDetail">
 							<span class="inner-text"></span>
 						</dd>
 					</div>
@@ -298,9 +298,34 @@
 			</div>
 		</div>
 		<div class="security-wrap">
-			<!--------------------------------------------------------------------------------->
-			<!----   paswordForm by createPasswordSaveForm(), createPasswordChangeForm()   ---->
-			<!--------------------------------------------------------------------------------->
+			<h5 class="mb-4 font-weight-bold">계정 보안</h5>
+			<div>
+				<dl class="form-group">
+					<dt><i class="fa-solid fa-check mr-2"></i>비밀번호</dt>
+					<div class="show-wrap">
+						<dd class="input-group" id="showPassword">
+							<div>
+								<span class="inner-text">비밀번호를 등록해주세요.</span>
+							</div>
+							<button class="btn btn-outline-primary btn-sm">등록</button>
+						</dd>
+					</div>
+					<div class="form-wrap d-none">
+						<form id="passwordSaveForm">
+							<dd class="input-group">
+								<input type="password" id="newPassword" name="newPassword" placeholder="새로운 비밀번호를 입력해주세요."/>
+								<div>
+									<button class="btn btn-outline-primary btn-sm" type="submit">확인</button>
+									<button class="btn btn-outline-secondary btn-sm" type="reset">취소</button>
+								</div>
+							</dd>
+							<dd class="input-group">
+								<input type="password" id="confirmPassword" name="confirmPassword" placeholder="확인 비밀번호를 입력해주세요."/>
+							</dd>
+						</form>
+					</div>
+				</dl>
+			</div>
 		</div>
 	</div>
 </div>
@@ -328,22 +353,26 @@
 		const memberZipcode = memberInfo.memberZipcode;
 		const memberAddr = memberInfo.memberAddr;
 		const memberAddrDetail = memberInfo.memberAddrDetail;
-		$("#memberZipcode").attr("value", memberZipcode);
-		$("#showZipcode span").text(memberZipcode);
-	
-		$("#memberAddr").attr("value", memberAddr);
-		$("#showAddr span").text(memberAddr);
-	
-		$("#memberAddrDetail").attr("value", memberAddrDetail);
-		$("#showAddrDetail span").text(memberAddrDetail);
+		
+		if (memberZipcode != "") {
+			$("#memberZipcode").attr("value", memberZipcode);
+			$("#showZipcode span").text(memberZipcode);
+		}
+		
+		if (memberAddr != "") {
+			$("#memberAddr").attr("value", memberAddr);
+			$("#showAddr span").text(memberAddr);
+		}
+		
+		if (memberAddrDetail != "") {
+			$("#memberAddrDetail").attr("value", memberAddrDetail);
+			$("#showAddrDetail span").text(memberAddrDetail);
+		}
 		
 		const allAddrsFilled = memberZipcode && memberAddr && memberAddrDetail;
 		if (allAddrsFilled) {
 			$("#showZipcode button").html("수정");
 			$("#showAddr, #showAddrDetail").removeClass("d-none");
-		} else {
-			$("#showZipcode button").html("등록");
-			$("#showAddr, #showAddrDetail").addClass("d-none");
 		}
 		
 		if (memberInfo.memberAgree) {
@@ -356,8 +385,6 @@
 		
 		if (memberInfo.hasPassword) {
 			$("div.security-wrap").html(createPasswordChangeForm());
-		} else {
-			$("div.security-wrap").html(createPasswordSaveForm());
 		}
 	});
 
@@ -455,10 +482,10 @@
 				alert(result.message);
 				memberService.getMemberInfo(function(result) {
 					$("#memberZipcode").attr("value", result.data.memberZipcode);
-					$("#showZipcode span").text(result.data.memberZipcode);
 					$("#memberAddr").attr("value", result.data.memberAddr);
-					$("#showAddr span").text(result.data.memberAddr);
 					$("#memberAddrDetail").attr("value", result.data.memberAddrDetail);
+					$("#showZipcode span").text(result.data.memberZipcode);
+					$("#showAddr span").text(result.data.memberAddr);
 					$("#showAddrDetail span").text(result.data.memberAddrDetail);
 					$("#showZipcode button").html("수정");
 					$("#showAddr, #showAddrDetail").removeClass("d-none");
@@ -498,7 +525,7 @@
 			
 			memberService.updatePassword(obj, function(result) {
 				alert(result.message);
-				$("div.security-wrap").html(createPasswordChangeForm());
+				$("#passwordChangeForm button[type='reset']").click();
 			});
 		});
 
@@ -606,38 +633,6 @@
     	html += '</dl>';
     	html += '</div>';
     	return html;
-    }
-    
-    function createPasswordSaveForm() {
-    	let html = '<h5 class="mb-4 font-weight-bold">계정 보안</h5>';
-    	html += '<div>';
-    	html += '<dl class="form-group">';
-    	html += '<dt><i class="fa-solid fa-check mr-2"></i>비밀번호</dt>';
-    	html += '<div class="show-wrap">';
-    	html += '<dd class="input-group" id="showPassword">';
-    	html += '<div>';
-    	html += '<span class="inner-text">비밀번호를 등록해주세요.</span>';
-    	html += '</div>';
-    	html += '<button class="btn btn-outline-primary btn-sm">등록</button>';
-    	html += '</dd>';
-    	html += '</div>';
-    	html += '<div class="form-wrap d-none">';
-    	html += '<form id="passwordSaveForm">';
-    	html += '<dd class="input-group">';
-    	html += '<input type="password" id="newPassword" name="newPassword" placeholder="새로운 비밀번호를 입력해주세요."/>';
-    	html += '<div>';
-    	html += '<button class="btn btn-outline-primary btn-sm" type="submit">확인</button>';
-    	html += '<button class="btn btn-outline-secondary btn-sm" type="reset">취소</button>';
-    	html += '</div>';
-    	html += '</dd>';
-    	html += '<dd class="input-group">';
-    	html += '<input type="password" id="confirmPassword" name="confirmPassword" placeholder="확인 비밀번호를 입력해주세요."/>';
-    	html += '</dd>';
-    	html += '</form>';
-    	html += '</div>';
-    	html += '</dl>';
-    	html += '</div>';
-		return html;
     }
 </script>
 </body>
