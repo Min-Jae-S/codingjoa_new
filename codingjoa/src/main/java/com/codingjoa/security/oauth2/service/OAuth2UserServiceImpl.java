@@ -117,6 +117,7 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 		}
 		
 		Map<String, Object> userDetailsMap = memberMapper.findUserDetailsByEmail(email);
+		
 		if (userDetailsMap == null) {
 			log.info("\t > not a registered member, proceed with the registration");
 
