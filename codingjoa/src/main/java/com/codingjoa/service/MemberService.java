@@ -1,11 +1,14 @@
 package com.codingjoa.service;
 
+import java.util.Map;
+
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.codingjoa.dto.AddrDto;
 import com.codingjoa.dto.AgreeDto;
 import com.codingjoa.dto.EmailAuthDto;
 import com.codingjoa.dto.JoinDto;
+import com.codingjoa.dto.JoinOAuth2Dto;
 import com.codingjoa.dto.MemberInfoDto;
 import com.codingjoa.dto.NicknameDto;
 import com.codingjoa.dto.PasswordChangeDto;
@@ -13,7 +16,9 @@ import com.codingjoa.dto.PasswordSaveDto;
 
 public interface MemberService {
 
-	void save(JoinDto joinDto);
+	void saveMember(JoinDto joinDto);
+	
+	void saveOAuth2Member(JoinOAuth2Dto joinOAuth2Dto);
 	
 	boolean isNicknameExist(String memberNickname);
 	
@@ -40,6 +45,8 @@ public interface MemberService {
 	void savePassword(PasswordSaveDto passwordSaveDto, Integer memberIdx);
 	
 	MemberInfoDto getMemberInfoByIdx(Integer memberIdx);
+	
+	Map<String, Object> getUserDetailsByEmail(String memberEmail); // UserDetailsServiceImpl, OAuth2UserServiceImpl
 
 	UserDetails getUserDetailsByIdx(Integer memberIdx);
 	

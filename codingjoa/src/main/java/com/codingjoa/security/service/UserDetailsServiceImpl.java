@@ -7,8 +7,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.codingjoa.mapper.MemberMapper;
 import com.codingjoa.security.dto.PrincipalDetails;
+import com.codingjoa.service.MemberService;
 import com.codingjoa.util.MessageUtils;
 
 import lombok.RequiredArgsConstructor;
@@ -19,18 +19,22 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-	private final MemberMapper memberMapper;
+	private final MemberService memberService;
 
 	@Override
 	public UserDetails loadUserByUsername(String memberEmail) throws UsernameNotFoundException {
 		log.info("## {}.loadUserByUsername", this.getClass().getSimpleName());
 		
-		Map<String, Object> userDetailsMap = memberMapper.findUserDetailsByEmail(memberEmail);
+		Map<String, Object> userDetailsMap = memberService.getUserDetailsByEmail(memberEmail);
+		log.info("\t > userDetailsMap = {}", userDetailsMap);
 
 		if (userDetailsMap == null) {
 			throw new UsernameNotFoundException(MessageUtils.getMessage("error.InvalidCredential"));
 		}
 		
-		return PrincipalDetails.from(userDetailsMap);
+		PrincipalDetails principalDetails = PrincipalDetails.from(userDetailsMap);
+		log.info("\t > principalDetails = {}", principalDetails);
+		
+		return principalDetails;
 	}
 }

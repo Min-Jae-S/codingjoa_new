@@ -44,7 +44,7 @@
 		<selectKey keyProperty="snsIdx" resultType="int" order="BEFORE">
 			SELECT seq_sns_info.NEXTVAL FROM DUAL
 		</selectKey>
-		INSERT INTO auth (
+		INSERT INTO sns_info (
 			sns_idx,
 			member_idx,
 			sns_provider,

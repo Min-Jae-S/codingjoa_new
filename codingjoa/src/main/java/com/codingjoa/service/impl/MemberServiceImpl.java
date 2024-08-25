@@ -11,6 +11,7 @@ import com.codingjoa.dto.AddrDto;
 import com.codingjoa.dto.AgreeDto;
 import com.codingjoa.dto.EmailAuthDto;
 import com.codingjoa.dto.JoinDto;
+import com.codingjoa.dto.JoinOAuth2Dto;
 import com.codingjoa.dto.MemberInfoDto;
 import com.codingjoa.dto.NicknameDto;
 import com.codingjoa.dto.PasswordChangeDto;
@@ -35,7 +36,7 @@ public class MemberServiceImpl implements MemberService {
 	private final PasswordEncoder passwordEncoder;
 	
 	@Override
-	public void save(JoinDto joinDto) {
+	public void saveMember(JoinDto joinDto) {
 		String rawPassword = joinDto.getMemberPassword();
 		String encPassword = passwordEncoder.encode(rawPassword);
 		joinDto.setMemberPassword(encPassword);
@@ -64,6 +65,11 @@ public class MemberServiceImpl implements MemberService {
 			log.info("\t > auth save failed");
 			throw new ExpectedException("error.SaveAuth");
 		}
+	}
+	
+	@Override
+	public void saveOAuth2Member(JoinOAuth2Dto joinOAuth2Dto) {
+		// TODO Auto-generated method stub
 	}
 	
 	@Override
@@ -265,6 +271,11 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override
+	public Map<String, Object> getUserDetailsByEmail(String memberEmail) {
+		return memberMapper.findUserDetailsByEmail(memberEmail);
+	}
+	
+	@Override
 	public UserDetails getUserDetailsByIdx(Integer memberIdx) {
 		Map<String, Object> userDetailsMap = memberMapper.findUserDetailsByIdx(memberIdx);
 		if (userDetailsMap == null) {
@@ -274,4 +285,5 @@ public class MemberServiceImpl implements MemberService {
 		return PrincipalDetails.from(userDetailsMap);
 	}
 
+	
 }

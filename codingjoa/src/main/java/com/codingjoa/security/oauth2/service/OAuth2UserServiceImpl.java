@@ -22,6 +22,7 @@ import com.codingjoa.entity.Member;
 import com.codingjoa.entity.SnsInfo;
 import com.codingjoa.mapper.MemberMapper;
 import com.codingjoa.security.dto.PrincipalDetails;
+import com.codingjoa.service.MemberService;
 import com.codingjoa.util.Utils;
 
 import lombok.RequiredArgsConstructor;
@@ -90,7 +91,7 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 	
 	private static final String MISSING_EMAIL_RESPONSE_ERROR_CODE = "missing_email_response";
 	private static final String MISSING_NICKNAME_RESPONSE_ERROR_CODE = "missing_nickname_response";
-	private final MemberMapper memberMapper;
+	private final MemberService memberService;
 	private final OAuth2UserService<OAuth2UserRequest, OAuth2User> delegate = new DefaultOAuth2UserService();
 	
 	@Override
@@ -117,8 +118,8 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 			throw new OAuth2AuthenticationException(oAuth2Error, oAuth2Error.toString());
 		}
 		
-		Map<String, Object> userDetailsMap = memberMapper.findUserDetailsByEmail(email);
-		log.info("\t > userDetilasMap by email = {}", userDetailsMap);
+		Map<String, Object> userDetailsMap = memberService.getUserDetailsByEmail(email);
+		log.info("\t > userDetilasMap = {}", userDetailsMap);
 		
 		if (userDetailsMap == null) {
 			log.info("\t > not a registered member, proceed with the registration");
@@ -132,46 +133,51 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 				throw new OAuth2AuthenticationException(oAuth2Error, oAuth2Error.toString());
 			}
 			
-			while (memberMapper.isNicknameExist(nickname)) {
-				if (nickname.length() > 6) {
-					 nickname = nickname.substring(0, 6);
-				}
-				nickname = nickname + RandomStringUtils.randomNumeric(4);
-				log.info("\t > create new nickname due to conflict: {}", nickname);
-			}
+			// @@ to apply the transaction, move the corresponding logic to the MemberService.
+			// 1. create joinOAuth2Dto using OAuth2Attributes
+			// 2. save OAuth2Member
 			
-			Member member = Member.builder()
-					.memberEmail(email)
-					.memberNickname(nickname)
-					.memberAgree(false)
-					.build();
-			log.info("\t > create member entity = {}", member);
+//			while (memberMapper.isNicknameExist(nickname)) {
+//				if (nickname.length() > 6) {
+//					 nickname = nickname.substring(0, 6);
+//				}
+//				nickname = nickname + RandomStringUtils.randomNumeric(4);
+//				log.info("\t > create new nickname due to conflict: {}", nickname);
+//			}
+//			
+//			Member member = Member.builder()
+//					.memberEmail(email)
+//					.memberNickname(nickname)
+//					.memberAgree(false)
+//					.build();
+//			log.info("\t > create member entity = {}", member);
+//			
+//			memberMapper.insertMember(member);
+//			
+//			Auth auth = Auth.builder()
+//					.memberIdx(member.getMemberIdx())
+//					.memberRole("ROLE_MEMBER")
+//					.build();
+//			log.info("\t > create auth entity = {}", auth);
+//			
+//			memberMapper.insertAuth(auth);
+//			
+//			SnsInfo snsInfo = SnsInfo.builder()
+//					.memberIdx(member.getMemberIdx())
+//					.snsProvider(provider)
+//					.build();
+//			log.info("\t > create snsInfo entity = {}", snsInfo);
+//			
+//			memberMapper.insertSnsInfo(snsInfo);
 			
-			memberMapper.insertMember(member);
-			
-			Auth auth = Auth.builder()
-					.memberIdx(member.getMemberIdx())
-					.memberRole("ROLE_MEMBER")
-					.build();
-			log.info("\t > create auth entity = {}", auth);
-			
-			memberMapper.insertAuth(auth);
-			
-			SnsInfo snsInfo = SnsInfo.builder()
-					.memberIdx(member.getMemberIdx())
-					.snsProvider(provider)
-					.build();
-			log.info("\t > create snsInfo entity = {}", snsInfo);
-			
-			memberMapper.insertSnsInfo(snsInfo);
-			
-			userDetailsMap = memberMapper.findUserDetailsByIdx(member.getMemberIdx());
-			log.info("\t > userDetilasMap by idx = {}", userDetailsMap);
-		} else {
-			log.info("\t > already a registered member");
+			userDetailsMap = memberService.getUserDetailsByEmail(email);
+			log.info("\t > after saving OAuth2Member, userDetilasMap = {}", userDetailsMap);
 		}
 		
-		return PrincipalDetails.from(userDetailsMap);
+		PrincipalDetails principalDetails = PrincipalDetails.from(userDetailsMap);
+		log.info("\t > principalDetails = {}", principalDetails);
+		
+		return principalDetails;
 	}
 	
 	private OAuth2User resolveOAuth2User(OAuth2UserRequest userRequest, OAuth2User oAuth2User) {
