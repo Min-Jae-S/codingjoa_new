@@ -3,9 +3,7 @@ package com.codingjoa.security.oauth2.service;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.UUID;
 
-import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -17,10 +15,6 @@ import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
-import com.codingjoa.entity.Auth;
-import com.codingjoa.entity.Member;
-import com.codingjoa.entity.SnsInfo;
-import com.codingjoa.mapper.MemberMapper;
 import com.codingjoa.security.dto.PrincipalDetails;
 import com.codingjoa.service.MemberService;
 import com.codingjoa.util.Utils;
@@ -133,42 +127,7 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 				throw new OAuth2AuthenticationException(oAuth2Error, oAuth2Error.toString());
 			}
 			
-			// @@ to apply the transaction, move the corresponding logic to the MemberService.
-			// 1. create joinOAuth2Dto using OAuth2Attributes
-			// 2. save OAuth2Member
-			
-//			while (memberMapper.isNicknameExist(nickname)) {
-//				if (nickname.length() > 6) {
-//					 nickname = nickname.substring(0, 6);
-//				}
-//				nickname = nickname + RandomStringUtils.randomNumeric(4);
-//				log.info("\t > create new nickname due to conflict: {}", nickname);
-//			}
-//			
-//			Member member = Member.builder()
-//					.memberEmail(email)
-//					.memberNickname(nickname)
-//					.memberAgree(false)
-//					.build();
-//			log.info("\t > create member entity = {}", member);
-//			
-//			memberMapper.insertMember(member);
-//			
-//			Auth auth = Auth.builder()
-//					.memberIdx(member.getMemberIdx())
-//					.memberRole("ROLE_MEMBER")
-//					.build();
-//			log.info("\t > create auth entity = {}", auth);
-//			
-//			memberMapper.insertAuth(auth);
-//			
-//			SnsInfo snsInfo = SnsInfo.builder()
-//					.memberIdx(member.getMemberIdx())
-//					.snsProvider(provider)
-//					.build();
-//			log.info("\t > create snsInfo entity = {}", snsInfo);
-//			
-//			memberMapper.insertSnsInfo(snsInfo);
+			memberService.saveOAuth2Member(nickname, email, provider);
 			
 			userDetailsMap = memberService.getUserDetailsByEmail(email);
 			log.info("\t > after saving OAuth2Member, userDetilasMap = {}", userDetailsMap);

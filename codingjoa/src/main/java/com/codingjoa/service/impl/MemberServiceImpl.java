@@ -2,6 +2,7 @@ package com.codingjoa.service.impl;
 
 import java.util.Map;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -11,13 +12,13 @@ import com.codingjoa.dto.AddrDto;
 import com.codingjoa.dto.AgreeDto;
 import com.codingjoa.dto.EmailAuthDto;
 import com.codingjoa.dto.JoinDto;
-import com.codingjoa.dto.JoinOAuth2Dto;
 import com.codingjoa.dto.MemberInfoDto;
 import com.codingjoa.dto.NicknameDto;
 import com.codingjoa.dto.PasswordChangeDto;
 import com.codingjoa.dto.PasswordSaveDto;
 import com.codingjoa.entity.Auth;
 import com.codingjoa.entity.Member;
+import com.codingjoa.entity.SnsInfo;
 import com.codingjoa.exception.ExpectedException;
 import com.codingjoa.mapper.MemberMapper;
 import com.codingjoa.security.dto.PrincipalDetails;
@@ -68,8 +69,43 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override
-	public void saveOAuth2Member(JoinOAuth2Dto joinOAuth2Dto) {
-		// TODO Auto-generated method stub
+	public void saveOAuth2Member(String memberNickname, String memberEmail, String provider) {
+		final int MAX_NICKNAME_LENGTH = 10;
+		final int RANDOM_SUFFIX_LENGTH = 4;
+		
+		if (memberNickname.length() + RANDOM_SUFFIX_LENGTH > MAX_NICKNAME_LENGTH) {
+			memberNickname = memberNickname.substring(0, 6);
+		}
+		
+		while (memberMapper.isNicknameExist(memberNickname)) {
+			memberNickname = memberNickname + RandomStringUtils.randomNumeric(RANDOM_SUFFIX_LENGTH);
+			log.info("\t > create new nickname due to conflict: {}", memberNickname);
+		}
+	
+		Member member = Member.builder()
+				.memberNickname(memberNickname) 
+				.memberEmail(memberEmail)
+				.memberAgree(false)
+				.build();
+		log.info("\t > create member entity = {}", member);
+		
+		memberMapper.insertMember(member);
+			
+		Auth auth = Auth.builder()
+				.memberIdx(member.getMemberIdx())
+				.memberRole("ROLE_MEMBER")
+				.build();
+		log.info("\t > create auth entity = {}", auth);
+			
+		memberMapper.insertAuth(auth);
+			
+		SnsInfo snsInfo = SnsInfo.builder()
+				.memberIdx(member.getMemberIdx())
+				.snsProvider(provider)
+				.build();
+		log.info("\t > create snsInfo entity = {}", snsInfo);
+			
+		memberMapper.insertSnsInfo(snsInfo);
 	}
 	
 	@Override

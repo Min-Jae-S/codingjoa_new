@@ -8,7 +8,6 @@ import com.codingjoa.dto.AddrDto;
 import com.codingjoa.dto.AgreeDto;
 import com.codingjoa.dto.EmailAuthDto;
 import com.codingjoa.dto.JoinDto;
-import com.codingjoa.dto.JoinOAuth2Dto;
 import com.codingjoa.dto.MemberInfoDto;
 import com.codingjoa.dto.NicknameDto;
 import com.codingjoa.dto.PasswordChangeDto;
@@ -18,7 +17,7 @@ public interface MemberService {
 
 	void saveMember(JoinDto joinDto);
 	
-	void saveOAuth2Member(JoinOAuth2Dto joinOAuth2Dto);
+	void saveOAuth2Member(String memberNickname, String memberEmail, String provider);
 	
 	boolean isNicknameExist(String memberNickname);
 	
