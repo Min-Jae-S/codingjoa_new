@@ -71,6 +71,7 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public void saveOAuth2Member(String memberNickname, String memberEmail, String provider) {
 		String resolvedNickname = resolveNickname(memberNickname);
+		log.info("\t > resovled nickname = {}", resolvedNickname);
 		
 		Member member = Member.builder()
 				.memberNickname(resolvedNickname) 
@@ -107,8 +108,8 @@ public class MemberServiceImpl implements MemberService {
 	        		? memberNickname.substring(0, MAX_BASE_NICKNAME_LENGTH ) 
 	        		: memberNickname;
 			do {
-				memberNickname = baseNickname + RandomStringUtils.randomNumeric(RANDOM_SUFFIX_LENGTH);
 				log.info("\t > create new nickname due to conflict: {}", memberNickname);
+				memberNickname = baseNickname + RandomStringUtils.randomNumeric(RANDOM_SUFFIX_LENGTH);
 			} while (memberMapper.isNicknameExist(memberNickname)); 
 		}
 		
