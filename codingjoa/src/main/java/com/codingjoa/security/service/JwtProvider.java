@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -50,7 +49,7 @@ public class JwtProvider {
 	
 	/*
 	 * header - typ, alg
-	 * claims - sub, iss, iat, exp, email, role
+	 * claims - sub, iss, iat, exp, email, nickname, role, image_url, provider, token_type
 	 */
 	public String createJwt(Authentication authentication, HttpServletRequest request) {
 		return Jwts.builder()
@@ -116,22 +115,18 @@ public class JwtProvider {
 				.setIssuedAt(now)
 				.setExpiration(exp);
 		
+		// authentication (UsernamePasswordAuthenticationToken, OAuth2AuthenticationToken)
 		PrincipalDetails principal = (PrincipalDetails) authentication.getPrincipal();
 		claims.setSubject(String.valueOf(principal.getIdx()));
 		claims.put("email", principal.getEmail());
 		claims.put("nickname", principal.getNickname());
 		claims.put("role", principal.getRole());
 		claims.put("image_url", principal.getImageUrl());
+		claims.put("provider", principal.getProvider());
 		claims.put("token_type", "access_token");
-
-		if (authentication instanceof UsernamePasswordAuthenticationToken) {
-			claims.put("provider", "local");
-		} else if (authentication instanceof OAuth2AuthenticationToken) {
-			OAuth2AuthenticationToken oAuth2AuthenticationToken = (OAuth2AuthenticationToken) authentication;
-			claims.put("provider", oAuth2AuthenticationToken.getAuthorizedClientRegistrationId());
-		}
 		
 		log.info("\t > created claims = {}", Utils.formatPrettyJson(claims));
+		
 		return claims;
 	}
 	

@@ -99,7 +99,7 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public static PrincipalDetails from(Map<String, Object> map) {
+	public static PrincipalDetails from(Map<String, Object> map) { // from database
 		return PrincipalDetails.builder()
 				.idx((Integer) map.get("memberIdx"))
 				.email((String) map.get("memberEmail"))
@@ -113,7 +113,7 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 				.build();
 	}
 
-	public static PrincipalDetails from(Claims claims) {
+	public static PrincipalDetails from(Claims claims) { // from jwt
 		return PrincipalDetails.builder()
 				.idx(Integer.parseInt(claims.getSubject()))
 				.email((String) claims.get("email"))

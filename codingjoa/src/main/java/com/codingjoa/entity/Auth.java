@@ -27,5 +27,4 @@ public class Auth {
 		this.memberRole = memberRole;
 	}
 	
-	
 }

@@ -41,8 +41,7 @@ public class MemberServiceImpl implements MemberService {
 		joinDto.setMemberPassword(encPassword);
 		
 		Member member = joinDto.toEntity();
-		log.info("\t > convert JoinDto to member entity");
-		log.info("\t > member = {}", member);
+		log.info("\t > convert JoinDto to member entity = {}", member);
 		
 		int memberSaveResult = memberMapper.insertMember(member);
 		if (memberSaveResult > 0) {
@@ -56,7 +55,7 @@ public class MemberServiceImpl implements MemberService {
 				.memberIdx(member.getMemberIdx())
 				.memberRole("ROLE_MEMBER")
 				.build();
-		log.info("\t > create new auth = {}", auth);
+		log.info("\t > create auth entity = {}", auth);
 		
 		int authSaveResult = memberMapper.insertAuth(auth);
 		if (authSaveResult > 0) {

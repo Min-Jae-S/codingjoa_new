@@ -48,4 +48,5 @@ public class Member {
 		this.memberAddrDetail = memberAddrDetail;
 		this.memberAgree = memberAgree;
 	}
+	
 }

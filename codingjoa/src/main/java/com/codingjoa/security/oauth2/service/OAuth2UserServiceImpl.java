@@ -145,18 +145,24 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 					.memberNickname(nickname)
 					.memberAgree(false)
 					.build();
+			log.info("\t > create member entity = {}", member);
+			
 			memberMapper.insertMember(member);
 			
 			Auth auth = Auth.builder()
 					.memberIdx(member.getMemberIdx())
 					.memberRole("ROLE_MEMBER")
 					.build();
+			log.info("\t > create auth entity = {}", auth);
+			
 			memberMapper.insertAuth(auth);
 			
 			SnsInfo snsInfo = SnsInfo.builder()
 					.memberIdx(member.getMemberIdx())
 					.snsProvider(provider)
 					.build();
+			log.info("\t > create snsInfo entity = {}", snsInfo);
+			
 			memberMapper.insertSnsInfo(snsInfo);
 			
 			userDetailsMap = memberMapper.findUserDetailsByIdx(member.getMemberIdx());
