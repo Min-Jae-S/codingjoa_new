@@ -1,7 +1,9 @@
 package com.codingjoa.entity;
 
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 /*
 	auth_idx        NUMBER,
@@ -9,7 +11,9 @@ import lombok.Data;
 	member_role     VARCHAR2(30)  	NOT NULL,
 */
 
-@Data
+@ToString
+@Getter
+@NoArgsConstructor
 public class Auth {
 
 	private Integer authIdx;

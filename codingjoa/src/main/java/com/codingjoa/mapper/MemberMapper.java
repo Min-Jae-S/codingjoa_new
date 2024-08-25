@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.codingjoa.entity.Auth;
 import com.codingjoa.entity.Member;
+import com.codingjoa.entity.SnsInfo;
 
 
 @Mapper
@@ -15,6 +16,8 @@ public interface MemberMapper {
 	int insertMember(Member member);
 	
 	int insertAuth(Auth auth);
+	
+	int insertSnsInfo(SnsInfo snsInfo);
 	
 	boolean isNicknameExist(String memberNickname);
 	

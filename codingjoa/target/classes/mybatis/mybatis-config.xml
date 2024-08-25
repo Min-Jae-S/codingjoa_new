@@ -38,6 +38,7 @@
 		<!-- entity -->
 		<typeAlias type="com.codingjoa.entity.Member" alias="member"/>
 		<typeAlias type="com.codingjoa.entity.Auth" alias="auth"/>
+		<typeAlias type="com.codingjoa.entity.SnsInfo" alias="snsInfo"/>
 		<typeAlias type="com.codingjoa.entity.Category" alias="category"/>
 		<typeAlias type="com.codingjoa.entity.Board" alias="board"/>
 		<typeAlias type="com.codingjoa.entity.BoardImage" alias="boardImage"/>

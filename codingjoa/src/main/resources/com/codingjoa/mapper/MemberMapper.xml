@@ -39,6 +39,23 @@
 			#{memberRole}
 		)
 	</insert>
+
+	<insert id="insertSnsInfo" parameterType="snsInfo">
+		<selectKey keyProperty="snsIdx" resultType="int" order="BEFORE">
+			SELECT seq_sns_info.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO auth (
+			sns_idx,
+			member_idx,
+			sns_provider,
+			created_at
+		) VALUES (
+			#{snsIdx},
+			#{memberIdx},
+			#{snsProvider},
+			SYSDATE
+		)
+	</insert>
 	
 	<select id="isNicknameExist" parameterType="string" resultType="boolean">
 		SELECT
@@ -92,6 +109,7 @@
 		<result property="memberNickname" column="member_nickname"/>
 		<result property="memberRole" column="member_role"/>
 		<result property="memberImageUrl" column="member_image_url"/>
+		<result property="snsProvider" column="sns_provider"/>
 		<collection property="myBoardLikes" javaType="list" ofType="int">
 			<result column="board_idx"/>
 		</collection>
@@ -108,8 +126,9 @@
 			a.member_nickname,
 			b.member_role,
 			c.member_image_url,
-			d.board_idx,
-			e.comment_idx
+			d.sns_provider,
+			e.board_idx,
+			f.comment_idx
 		FROM
 			member a
 		INNER JOIN
@@ -127,17 +146,21 @@
 		ON
 			a.member_idx = c.member_idx AND c.rn = 1 
 		LEFT OUTER JOIN
-			board_likes d
+			sns_info d
 		ON
 			a.member_idx = d.member_idx
 		LEFT OUTER JOIN
-			comment_likes e
+			board_likes e
 		ON
 			a.member_idx = e.member_idx
+		LEFT OUTER JOIN
+			comment_likes f
+		ON
+			a.member_idx = f.member_idx
 		WHERE
 			a.member_email = #{memberEmail}
 	</select>
-	
+
 	<select id="findUserDetailsByIdx" parameterType="int" resultMap="userDetailsMap">
 		SELECT
 			a.member_idx,
@@ -146,8 +169,9 @@
 			a.member_nickname,
 			b.member_role,
 			c.member_image_url,
-			d.board_idx,
-			e.comment_idx
+			d.sns_provider,
+			e.board_idx,
+			f.comment_idx
 		FROM
 			member a
 		INNER JOIN
@@ -165,13 +189,17 @@
 		ON
 			a.member_idx = c.member_idx AND c.rn = 1 
 		LEFT OUTER JOIN
-			board_likes d
+			sns_info d
 		ON
 			a.member_idx = d.member_idx
 		LEFT OUTER JOIN
-			comment_likes e
+			board_likes e
 		ON
 			a.member_idx = e.member_idx
+		LEFT OUTER JOIN
+			comment_likes f
+		ON
+			a.member_idx = f.member_idx
 		WHERE
 			a.member_idx = #{memberIdx}
 	</select>

@@ -28,7 +28,7 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 	private final String nickname;
 	private final String role;					// INNER JOIN auth	
 	private final String imageUrl;				// LEFT OUTER JOIN member_iamge
-	private final String provider;
+	private final String provider;				// LEFT OUTER JOIN sns_info
 	private final List<Integer> myBoardLikes;	// LEFT OUTER JOIN board_likes
 	private final List<Integer> myCommentLikes;	// LEFT OUTER JOIN comment_likes
 
@@ -41,7 +41,7 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 		this.nickname = nickname;
 		this.role = role;
 		this.imageUrl = (imageUrl != null) ? imageUrl : "";
-		this.provider = provider;
+		this.provider = (provider != null) ? provider : "local";
 		this.myBoardLikes =  (myBoardLikes != null) ? myBoardLikes : Collections.emptyList();
 		this.myCommentLikes = (myCommentLikes != null) ? myCommentLikes : Collections.emptyList();
 	}
@@ -107,6 +107,7 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 				.nickname((String) map.get("memberNickname"))
 				.role((String) map.get("memberRole"))
 				.imageUrl((String) map.get("memberImageUrl"))
+				.provider((String) map.get("snsProvider"))
 				.myBoardLikes((List<Integer>) map.get("myBoardLikes"))
 				.myCommentLikes((List<Integer>) map.get("myCommentLikes"))
 				.build();

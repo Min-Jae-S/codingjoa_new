@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import com.codingjoa.entity.Auth;
 import com.codingjoa.entity.Member;
+import com.codingjoa.entity.SnsInfo;
 import com.codingjoa.mapper.MemberMapper;
 import com.codingjoa.security.dto.PrincipalDetails;
 import com.codingjoa.util.Utils;
@@ -117,12 +118,7 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 		}
 		
 		Map<String, Object> userDetailsMap = memberMapper.findUserDetailsByEmail(email);
-		
-		if (userDetailsMap != null) {
-			return PrincipalDetails.from(userDetailsMap);
-		} else {
-			
-		}
+		log.info("\t > userDetilasMap by email = {}", userDetailsMap);
 		
 		if (userDetailsMap == null) {
 			log.info("\t > not a registered member, proceed with the registration");
@@ -156,13 +152,20 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 					.memberRole("ROLE_MEMBER")
 					.build();
 			memberMapper.insertAuth(auth);
-
-			Map<String, Object> savedUserDetailsMap = memberMapper.findUserDetailsByIdx(member.getMemberIdx());
-			return PrincipalDetails.from(savedUserDetailsMap);
+			
+			SnsInfo snsInfo = SnsInfo.builder()
+					.memberIdx(member.getMemberIdx())
+					.snsProvider(provider)
+					.build();
+			memberMapper.insertSnsInfo(snsInfo);
+			
+			userDetailsMap = memberMapper.findUserDetailsByIdx(member.getMemberIdx());
+			log.info("\t > userDetilasMap by idx = {}", userDetailsMap);
 		} else {
 			log.info("\t > already a registered member");
-			return PrincipalDetails.from(userDetailsMap);
 		}
+		
+		return PrincipalDetails.from(userDetailsMap);
 	}
 	
 	private OAuth2User resolveOAuth2User(OAuth2UserRequest userRequest, OAuth2User oAuth2User) {
