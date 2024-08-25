@@ -70,16 +70,13 @@ public class MemberServiceImpl implements MemberService {
 	
 	@Override
 	public void saveOAuth2Member(String memberNickname, String memberEmail, String provider) {
-		final int MAX_NICKNAME_LENGTH = 10;
-		final int RANDOM_SUFFIX_LENGTH = 4;
+		memberNickname = memberNickname.substring(0, 10);
 		
-		if (memberNickname.length() + RANDOM_SUFFIX_LENGTH > MAX_NICKNAME_LENGTH) {
-			memberNickname = memberNickname.substring(0, 6);
-		}
-		
-		while (memberMapper.isNicknameExist(memberNickname)) {
-			memberNickname = memberNickname + RandomStringUtils.randomNumeric(RANDOM_SUFFIX_LENGTH);
-			log.info("\t > create new nickname due to conflict: {}", memberNickname);
+		if (memberMapper.isNicknameExist(memberNickname)) {
+			String baseNickname = (memberNickname.length() > 6) ? memberNickname.substring(0, 6) : memberNickname;
+			while (memberMapper.isNicknameExist(memberNickname)) {
+				memberNickname = baseNickname + RandomStringUtils.randomNumeric(4);
+			}
 		}
 	
 		Member member = Member.builder()
