@@ -118,6 +118,12 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 		
 		Map<String, Object> userDetailsMap = memberMapper.findUserDetailsByEmail(email);
 		
+		if (userDetailsMap != null) {
+			return PrincipalDetails.from(userDetailsMap);
+		} else {
+			
+		}
+		
 		if (userDetailsMap == null) {
 			log.info("\t > not a registered member, proceed with the registration");
 
@@ -150,13 +156,13 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 					.memberRole("ROLE_MEMBER")
 					.build();
 			memberMapper.insertAuth(auth);
-			
-			userDetailsMap = memberMapper.findUserDetailsByIdx(member.getMemberIdx());
+
+			Map<String, Object> savedUserDetailsMap = memberMapper.findUserDetailsByIdx(member.getMemberIdx());
+			return PrincipalDetails.from(savedUserDetailsMap);
 		} else {
 			log.info("\t > already a registered member");
+			return PrincipalDetails.from(userDetailsMap);
 		}
-		
-		return PrincipalDetails.from(userDetailsMap);
 	}
 	
 	private OAuth2User resolveOAuth2User(OAuth2UserRequest userRequest, OAuth2User oAuth2User) {
