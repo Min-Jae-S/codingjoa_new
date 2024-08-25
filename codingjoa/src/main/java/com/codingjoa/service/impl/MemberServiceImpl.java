@@ -70,17 +70,10 @@ public class MemberServiceImpl implements MemberService {
 	
 	@Override
 	public void saveOAuth2Member(String memberNickname, String memberEmail, String provider) {
-		memberNickname = memberNickname.substring(0, 10);
+		String resolvedNickname = resolveNickname(memberNickname);
 		
-		if (memberMapper.isNicknameExist(memberNickname)) {
-			String baseNickname = (memberNickname.length() > 6) ? memberNickname.substring(0, 6) : memberNickname;
-			while (memberMapper.isNicknameExist(memberNickname)) {
-				memberNickname = baseNickname + RandomStringUtils.randomNumeric(4);
-			}
-		}
-	
 		Member member = Member.builder()
-				.memberNickname(memberNickname) 
+				.memberNickname(resolvedNickname) 
 				.memberEmail(memberEmail)
 				.memberAgree(false)
 				.build();
@@ -103,6 +96,23 @@ public class MemberServiceImpl implements MemberService {
 		log.info("\t > create snsInfo entity = {}", snsInfo);
 			
 		memberMapper.insertSnsInfo(snsInfo);
+	}
+	
+	private String resolveNickname(String memberNickname) {
+		final int MAX_BASE_NICKNAME_LENGTH = 6;
+		final int RANDOM_SUFFIX_LENGTH = 4;
+		
+		if (memberMapper.isNicknameExist(memberNickname)) {
+	        String baseNickname = (memberNickname.length() > MAX_BASE_NICKNAME_LENGTH) 
+	        		? memberNickname.substring(0, MAX_BASE_NICKNAME_LENGTH ) 
+	        		: memberNickname;
+			do {
+				memberNickname = baseNickname + RandomStringUtils.randomNumeric(RANDOM_SUFFIX_LENGTH);
+				log.info("\t > create new nickname due to conflict: {}", memberNickname);
+			} while (memberMapper.isNicknameExist(memberNickname)); 
+		}
+		
+		return memberNickname;
 	}
 	
 	@Override

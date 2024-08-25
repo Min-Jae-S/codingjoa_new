@@ -85,6 +85,7 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 	
 	private static final String MISSING_EMAIL_RESPONSE_ERROR_CODE = "missing_email_response";
 	private static final String MISSING_NICKNAME_RESPONSE_ERROR_CODE = "missing_nickname_response";
+	private static final int MAX_NICKNAME_LENGTH = 10;
 	private final MemberService memberService;
 	private final OAuth2UserService<OAuth2UserRequest, OAuth2User> delegate = new DefaultOAuth2UserService();
 	
@@ -127,6 +128,8 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 				throw new OAuth2AuthenticationException(oAuth2Error, oAuth2Error.toString());
 			}
 			
+			// to apply transactions, move the member save logic to "memberService"
+			nickname = nickname.substring(0, MAX_NICKNAME_LENGTH);
 			memberService.saveOAuth2Member(nickname, email, provider);
 			
 			userDetailsMap = memberService.getUserDetailsByEmail(email);
