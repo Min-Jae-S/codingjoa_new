@@ -45,8 +45,8 @@ public class MainController {
 	public String loginPage(@RequestParam(name = "continue", required = false) String continueUrl, Model model) {
 		log.info("## loginPage");
 		log.info("\t > continue = {}", Utils.formatString(continueUrl));
-		String newContinueUrl = resolveContinueUrl(continueUrl);
-		model.addAttribute("continueUrl", UriUtils.encode(newContinueUrl, StandardCharset.UTF_8));
+		String resolvedContinueUrl = resolveContinueUrl(continueUrl);
+		model.addAttribute("continueUrl", UriUtils.encode(resolvedContinueUrl, StandardCharset.UTF_8));
 		return "login";
 	}
 	
@@ -64,13 +64,13 @@ public class MainController {
 	
 	private String resolveContinueUrl(String continueUrl) {
 		if (!isValidUrl(continueUrl)) {
-			log.info("\t > missing or invalid continueUrl, default continueUrl resolved");
+			log.info("\t > missing or invalid continueUrl provided, default continueUrl will be used");
 			return ServletUriComponentsBuilder.fromCurrentContextPath()
 					.path("/")
 					.build()
 					.toUriString();
 		} else {
-			log.info("\t > valid continueUrl, this continueUrl resolved");
+			log.info("\t > valid continueUrl provided, this continueUrl will be used");
 			return continueUrl;
 		}
 	}

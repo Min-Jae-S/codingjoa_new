@@ -73,13 +73,13 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 		String continueUrl = (String) authentication.getDetails();
 		
 		if (!isValidUrl(continueUrl, request)) {
-			log.info("\t > missing or invalid continueUrl, default continueUrl resolved");
+			log.info("\t > missing or invalid continueUrl provided, default continueUrl will be used");
 			return ServletUriComponentsBuilder.fromContextPath(request)
 					.path("/")
 					.build()
 					.toUriString();
 		} else {
-			log.info("\t > valid continueUrl, this continueUrl resolved");
+			log.info("\t > valid continueUrl provided, this continueUrl will be used");
 			return continueUrl;
 		}
 	}

@@ -6,6 +6,7 @@ import java.util.Set;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
@@ -98,9 +99,9 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 		Map<String, Object> attributes = loadedOAuth2User.getAttributes();
 		log.info("\t > received userInfo response {}", Utils.formatPrettyJson(attributes));
 		
-		String provider = userRequest.getClientRegistration().getRegistrationId();
-		String attributeKeyName = userRequest.getClientRegistration().getProviderDetails().getUserInfoEndpoint()
-				.getUserNameAttributeName();
+		ClientRegistration clientRegistration = userRequest.getClientRegistration();
+		String provider = clientRegistration.getRegistrationId();
+		String attributeKeyName = clientRegistration.getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
 		log.info("\t > provider = {}, attributeKeyName = {}", provider, attributeKeyName); // kakao:id, naver:response
 		
 		String email = extractEmail(provider, attributes);
