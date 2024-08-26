@@ -132,6 +132,7 @@ public class OAuth2LoginFilter extends AbstractAuthenticationProcessingFilter { 
 				}
 			}
 		});
+		
 		return params;
 	}
 	

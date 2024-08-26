@@ -17,6 +17,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
 import com.codingjoa.security.dto.PrincipalDetails;
+import com.codingjoa.security.oauth2.OAuthAttributes;
 import com.codingjoa.service.MemberService;
 import com.codingjoa.util.Utils;
 
@@ -99,10 +100,12 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 		Map<String, Object> attributes = loadedOAuth2User.getAttributes();
 		log.info("\t > received userInfo response {}", Utils.formatPrettyJson(attributes));
 		
-		ClientRegistration clientRegistration = userRequest.getClientRegistration();
-		String provider = clientRegistration.getRegistrationId();
-		String attributeKeyName = clientRegistration.getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
+		String provider = userRequest.getClientRegistration().getRegistrationId();
+		String attributeKeyName = userRequest.getClientRegistration()
+				.getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
 		log.info("\t > provider = {}, attributeKeyName = {}", provider, attributeKeyName); // kakao:id, naver:response
+		
+		OAuthAttributes oAuthAttributes = OAuthAttributes.of(provider, attributeKeyName, attributes);
 		
 		String email = extractEmail(provider, attributes);
 		log.info("\t > email from attributes = {}", email);
