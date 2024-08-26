@@ -86,8 +86,8 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 	private static final String MISSING_EMAIL_RESPONSE_ERROR_CODE = "missing_email_response";
 	private static final String MISSING_NICKNAME_RESPONSE_ERROR_CODE = "missing_nickname_response";
 	private static final int MAX_NICKNAME_LENGTH = 10;
-	private final MemberService memberService;
 	private final OAuth2UserService<OAuth2UserRequest, OAuth2User> delegate = new DefaultOAuth2UserService();
+	private final MemberService memberService;
 	
 	@Override
 	public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
@@ -113,13 +113,12 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 			throw new OAuth2AuthenticationException(oAuth2Error, oAuth2Error.toString());
 		}
 		
-		Map<String, Object> userDetailsMap = memberService.getUserDetailsByEmail(email);
-		log.info("\t > userDetilasMap = {}", userDetailsMap);
+		PrincipalDetails principalDetails = memberService.getUserDetailsByEmail(email);
+		log.info("\t > principalDetails = {}", principalDetails);
 		
-		if (userDetailsMap == null) {
-			log.info("\t > not a registered member, proceed with the registration");
-
+		if (principalDetails == null) {
 			String nickname = extractNickname(provider, attributes);
+			log.info("\t > not a registered member, proceed with the registration");
 			log.info("\t > nickname from attributes = {}", nickname);
 			
 			if (nickname == null) {
@@ -132,12 +131,9 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 			nickname = nickname.substring(0, MAX_NICKNAME_LENGTH);
 			memberService.saveOAuth2Member(nickname, email, provider);
 			
-			userDetailsMap = memberService.getUserDetailsByEmail(email);
-			log.info("\t > after saving OAuth2Member, userDetilasMap = {}", userDetailsMap);
+			principalDetails = memberService.getUserDetailsByEmail(email);
+			log.info("\t > after saving OAuth2Member, principalDetails = {}", principalDetails);
 		}
-		
-		PrincipalDetails principalDetails = PrincipalDetails.from(userDetailsMap);
-		log.info("\t > principalDetails = {}", principalDetails);
 		
 		return principalDetails;
 	}

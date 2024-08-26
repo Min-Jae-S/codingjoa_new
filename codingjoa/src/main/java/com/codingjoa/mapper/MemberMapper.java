@@ -41,5 +41,5 @@ public interface MemberMapper {
 	
 	Map<String, Object> findUserDetailsByEmail(String memberEmail); // for authentication in UserDetailsService, OAuth2UserService
 	
-	Map<String, Object> findUserDetailsByIdx(Integer memberIdx);	// for jwt re-issuance after updating
+	Map<String, Object> findUserDetailsByIdx(Integer memberIdx);	// for JWT re-issuance after updating
 }

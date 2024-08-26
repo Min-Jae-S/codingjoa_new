@@ -1,6 +1,5 @@
 package com.codingjoa.config;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -11,7 +10,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.endpoint.OAuth2AccessTokenResponseClient;
 import org.springframework.security.oauth2.client.endpoint.OAuth2AuthorizationCodeGrantRequest;
@@ -49,6 +47,7 @@ import lombok.RequiredArgsConstructor;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	private final UserDetailsService userDetailsService;
+	private final PasswordEncoder passwordEncoder;
 	private final LoginSuccessHandler loginSuccessHandler;
 	private final LoginFailureHandler loginFailureHandler;
 	private final OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
@@ -60,7 +59,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private final ClientRegistrationRepository clientRegistrationRepository;
 	private final OAuth2AuthorizedClientRepository oAuth2AuthorizedClientRepository;
 	private final OAuth2AccessTokenResponseClient<OAuth2AuthorizationCodeGrantRequest> accessTokenResponseClient;
-	private final OAuth2UserService<OAuth2UserRequest, OAuth2User> oAuth2UserServce;
+	private final OAuth2UserService<OAuth2UserRequest, OAuth2User> oAuth2UserService;
 	
 	/*	
 	 *	Browser HTTP Request --> Security filter chain: [
@@ -128,7 +127,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 					config.accessTokenResponseClient(accessTokenResponseClient)
 				)
 				.userInfoEndpoint(config -> 
-					config.userService(oAuth2UserServce)
+					config.userService(oAuth2UserService)
 				)
 				//.successHandler(oAuth2LoginSuccessHandler)
 				//.failureHandler(oAuth2LoginFailureHandler)
@@ -154,13 +153,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Override // register provider with AuthenticationManager
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.authenticationProvider(new LoginProvider(userDetailsService, passwordEncoder()));
-		auth.authenticationProvider(new OAuth2LoginProvider(accessTokenResponseClient, oAuth2UserServce));
-	}
-	
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
+		auth.authenticationProvider(new LoginProvider(userDetailsService, passwordEncoder));
+		auth.authenticationProvider(new OAuth2LoginProvider(accessTokenResponseClient, oAuth2UserService));
 	}
 	
 	private LoginFilter loginFilter() throws Exception {

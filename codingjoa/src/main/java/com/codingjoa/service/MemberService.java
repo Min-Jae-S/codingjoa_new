@@ -1,9 +1,5 @@
 package com.codingjoa.service;
 
-import java.util.Map;
-
-import org.springframework.security.core.userdetails.UserDetails;
-
 import com.codingjoa.dto.AddrDto;
 import com.codingjoa.dto.AgreeDto;
 import com.codingjoa.dto.EmailAuthDto;
@@ -12,6 +8,7 @@ import com.codingjoa.dto.MemberInfoDto;
 import com.codingjoa.dto.NicknameDto;
 import com.codingjoa.dto.PasswordChangeDto;
 import com.codingjoa.dto.PasswordSaveDto;
+import com.codingjoa.security.dto.PrincipalDetails;
 
 public interface MemberService {
 
@@ -45,8 +42,8 @@ public interface MemberService {
 	
 	MemberInfoDto getMemberInfoByIdx(Integer memberIdx);
 	
-	Map<String, Object> getUserDetailsByEmail(String memberEmail); // UserDetailsServiceImpl, OAuth2UserServiceImpl
+	PrincipalDetails getUserDetailsByEmail(String memberEmail); // for authentication in UserDetailsService, OAuth2UserService
 
-	UserDetails getUserDetailsByIdx(Integer memberIdx);
+	PrincipalDetails getUserDetailsByIdx(Integer memberIdx);	// for JWT re-issuance after updating
 	
 }

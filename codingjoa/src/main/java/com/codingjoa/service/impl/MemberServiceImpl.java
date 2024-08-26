@@ -3,7 +3,6 @@ package com.codingjoa.service.impl;
 import java.util.Map;
 
 import org.apache.commons.lang3.RandomStringUtils;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -315,12 +314,15 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override
-	public Map<String, Object> getUserDetailsByEmail(String memberEmail) {
-		return memberMapper.findUserDetailsByEmail(memberEmail);
+	public PrincipalDetails getUserDetailsByEmail(String memberEmail) {
+		Map<String, Object> userDetails = memberMapper.findUserDetailsByEmail(memberEmail);
+		log.info("\t > userDetails = {}", userDetails);
+		
+		return (userDetails == null) ? null : PrincipalDetails.from(userDetails);
 	}
 	
 	@Override
-	public UserDetails getUserDetailsByIdx(Integer memberIdx) {
+	public PrincipalDetails getUserDetailsByIdx(Integer memberIdx) {
 		Map<String, Object> userDetailsMap = memberMapper.findUserDetailsByIdx(memberIdx);
 		if (userDetailsMap == null) {
 			throw new ExpectedException("error.NotFoundMember");
@@ -328,6 +330,5 @@ public class MemberServiceImpl implements MemberService {
 		
 		return PrincipalDetails.from(userDetailsMap);
 	}
-
 	
 }
