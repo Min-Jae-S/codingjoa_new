@@ -24,8 +24,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		log.info("## {}.loadUserByUsername", this.getClass().getSimpleName());
 		
 		PrincipalDetails principalDetails = memberService.getUserDetailsByEmail(memberEmail);
-		log.info("\t > principalDetails = {}", principalDetails);
-
+		
 		if (principalDetails == null) {
 			throw new UsernameNotFoundException(MessageUtils.getMessage("error.BadCredential"));
 		}

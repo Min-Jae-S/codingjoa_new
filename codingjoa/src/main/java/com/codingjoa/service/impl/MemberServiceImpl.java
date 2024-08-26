@@ -99,17 +99,21 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	private String resolveNickname(String memberNickname) {
-		final int MAX_BASE_NICKNAME_LENGTH = 6;
+		final int MAX_NICKNAME_LENGTH = 10;
 		final int RANDOM_SUFFIX_LENGTH = 4;
+		final int MAX_BASE_NICKNAME_LENGTH = MAX_NICKNAME_LENGTH - RANDOM_SUFFIX_LENGTH;
+		
+		if (memberNickname.length() > MAX_NICKNAME_LENGTH) {
+			memberNickname = memberNickname.substring(0, MAX_NICKNAME_LENGTH);
+		}
 		
 		if (memberMapper.isNicknameExist(memberNickname)) {
 	        String baseNickname = (memberNickname.length() > MAX_BASE_NICKNAME_LENGTH) 
 	        		? memberNickname.substring(0, MAX_BASE_NICKNAME_LENGTH) 
 	        		: memberNickname;
-	        log.info("\t > baseNickname = {}", baseNickname);
 	        
 			do {
-				log.info("\t > create new nickname due to conflict: {}", memberNickname);
+				log.info("\t > create new nickname based on '{}' due to conflict: {}", baseNickname, memberNickname);
 				memberNickname = baseNickname + RandomStringUtils.randomNumeric(RANDOM_SUFFIX_LENGTH);
 			} while (memberMapper.isNicknameExist(memberNickname)); 
 		}
@@ -309,7 +313,7 @@ public class MemberServiceImpl implements MemberService {
 	public MemberInfoDto getMemberInfoByIdx(Integer memberIdx) {
 		Map<String, Object> memberInfoMap = memberMapper.findMemberInfoByIdx(memberIdx);
 		if (memberInfoMap == null) {
-			throw new ExpectedException("error.NotFoundMemberInfo");
+			throw new ExpectedException("error.NotFoundMember");
 		}
 		
 		return MemberInfoDto.from(memberInfoMap);
@@ -318,8 +322,6 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public PrincipalDetails getUserDetailsByEmail(String memberEmail) {
 		Map<String, Object> userDetailsMap = memberMapper.findUserDetailsByEmail(memberEmail);
-		log.info("\t > userDetailsMap = {}", userDetailsMap);
-		
 		return (userDetailsMap == null) ? null : PrincipalDetails.from(userDetailsMap);
 	}
 	

@@ -85,7 +85,6 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 	
 	private static final String MISSING_EMAIL_RESPONSE_ERROR_CODE = "missing_email_response";
 	private static final String MISSING_NICKNAME_RESPONSE_ERROR_CODE = "missing_nickname_response";
-	private static final int MAX_NICKNAME_LENGTH = 10;
 	private final OAuth2UserService<OAuth2UserRequest, OAuth2User> delegate = new DefaultOAuth2UserService();
 	private final MemberService memberService;
 	
@@ -114,10 +113,9 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 		}
 		
 		PrincipalDetails principalDetails = memberService.getUserDetailsByEmail(email);
-		log.info("\t > principalDetails = {}", principalDetails);
 		
 		if (principalDetails == null) {
-			log.info("\t > not a registered member, proceed with the registration");
+			log.info("\t > proceed with the registration");
 
 			String nickname = extractNickname(provider, attributes);
 			log.info("\t > nickname from attributes = {}", nickname);
@@ -129,11 +127,9 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 			}
 			
 			// to apply transactions, move the OAuth2Member save logic to "memberService"
-			nickname = nickname.substring(0, MAX_NICKNAME_LENGTH);
 			memberService.saveOAuth2Member(nickname, email, provider);
-			
-			principalDetails = memberService.getUserDetailsByEmail(email);
-			log.info("\t > after saving OAuth2Member, principalDetails = {}", principalDetails);
+
+			return memberService.getUserDetailsByEmail(email);
 		}
 		
 		return principalDetails;
