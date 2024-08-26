@@ -21,6 +21,7 @@ import com.codingjoa.entity.SnsInfo;
 import com.codingjoa.exception.ExpectedException;
 import com.codingjoa.mapper.MemberMapper;
 import com.codingjoa.security.dto.PrincipalDetails;
+import com.codingjoa.security.oauth2.OAuth2Attributes;
 import com.codingjoa.service.MemberService;
 
 import lombok.RequiredArgsConstructor;
@@ -68,13 +69,13 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override
-	public void saveOAuth2Member(String memberNickname, String memberEmail, String provider) {
-		String resolvedNickname = resolveNickname(memberNickname);
-		log.info("\t > resovled nickname = {}", resolvedNickname);
+	public void saveOAuth2Member(OAuth2Attributes oAuth2Attributes) {
+		String memberNickname = resolveNickname(oAuth2Attributes.getNickname());
+		log.info("\t > resovled nickname = {}", memberNickname);
 		
 		Member member = Member.builder()
-				.memberNickname(resolvedNickname) 
-				.memberEmail(memberEmail)
+				.memberNickname(memberNickname) 
+				.memberEmail(oAuth2Attributes.getEmail())
 				.memberAgree(false)
 				.build();
 		log.info("\t > create member entity = {}", member);
@@ -91,34 +92,34 @@ public class MemberServiceImpl implements MemberService {
 			
 		SnsInfo snsInfo = SnsInfo.builder()
 				.memberIdx(member.getMemberIdx())
-				.snsProvider(provider)
+				.snsProvider(oAuth2Attributes.getProivder())
 				.build();
 		log.info("\t > create snsInfo entity = {}", snsInfo);
 			
 		memberMapper.insertSnsInfo(snsInfo);
 	}
 	
-	private String resolveNickname(String memberNickname) {
+	private String resolveNickname(String nickname) {
 		final int MAX_NICKNAME_LENGTH = 10;
 		final int RANDOM_SUFFIX_LENGTH = 4;
 		final int MAX_BASE_NICKNAME_LENGTH = MAX_NICKNAME_LENGTH - RANDOM_SUFFIX_LENGTH;
 		
-		if (memberNickname.length() > MAX_NICKNAME_LENGTH) {
-			memberNickname = memberNickname.substring(0, MAX_NICKNAME_LENGTH);
+		if (nickname.length() > MAX_NICKNAME_LENGTH) {
+			nickname = nickname.substring(0, MAX_NICKNAME_LENGTH);
 		}
 		
-		if (memberMapper.isNicknameExist(memberNickname)) {
-	        String baseNickname = (memberNickname.length() > MAX_BASE_NICKNAME_LENGTH) 
-	        		? memberNickname.substring(0, MAX_BASE_NICKNAME_LENGTH) 
-	        		: memberNickname;
+		if (memberMapper.isNicknameExist(nickname)) {
+	        String baseNickname = (nickname.length() > MAX_BASE_NICKNAME_LENGTH) 
+	        		? nickname.substring(0, MAX_BASE_NICKNAME_LENGTH) 
+	        		: nickname;
 	        
 			do {
-				log.info("\t > create new nickname based on '{}' due to conflict: {}", baseNickname, memberNickname);
-				memberNickname = baseNickname + RandomStringUtils.randomNumeric(RANDOM_SUFFIX_LENGTH);
-			} while (memberMapper.isNicknameExist(memberNickname)); 
+				log.info("\t > create new nickname based on '{}' due to conflict: {}", baseNickname, nickname);
+				nickname = baseNickname + RandomStringUtils.randomNumeric(RANDOM_SUFFIX_LENGTH);
+			} while (memberMapper.isNicknameExist(nickname)); 
 		}
 		
-		return memberNickname;
+		return nickname;
 	}
 	
 	@Override

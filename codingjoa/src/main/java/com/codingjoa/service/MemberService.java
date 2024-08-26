@@ -9,12 +9,13 @@ import com.codingjoa.dto.NicknameDto;
 import com.codingjoa.dto.PasswordChangeDto;
 import com.codingjoa.dto.PasswordSaveDto;
 import com.codingjoa.security.dto.PrincipalDetails;
+import com.codingjoa.security.oauth2.OAuth2Attributes;
 
 public interface MemberService {
 
 	void saveMember(JoinDto joinDto);
 	
-	void saveOAuth2Member(String memberNickname, String memberEmail, String provider);
+	void saveOAuth2Member(OAuth2Attributes oAuth2Attributes);
 	
 	boolean isNicknameExist(String memberNickname);
 	
