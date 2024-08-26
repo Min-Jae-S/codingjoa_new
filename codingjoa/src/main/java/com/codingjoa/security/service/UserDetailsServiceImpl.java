@@ -27,7 +27,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		log.info("\t > principalDetails = {}", principalDetails);
 
 		if (principalDetails == null) {
-			throw new UsernameNotFoundException(MessageUtils.getMessage("error.InvalidCredential"));
+			throw new UsernameNotFoundException(MessageUtils.getMessage("error.BadCredential"));
 		}
 		
 		return principalDetails;

@@ -13,7 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -142,8 +142,8 @@ public class MemberRestController {
 		log.info("## updateImage");
 		imageService.updateMemberImage(uploadFileDto.getFile(), principal.getIdx());
 		
-		UserDetails userDetails = memberService.getUserDetailsByIdx(principal.getIdx());
-		HttpHeaders headers = createJwtCookieHeader(userDetails, request);
+		PrincipalDetails newPrincipal = memberService.getUserDetailsByIdx(principal.getIdx());
+		HttpHeaders headers = createJwtCookieHeader(newPrincipal, request);
 		
 		return ResponseEntity.ok()
 				.headers(headers)
@@ -157,8 +157,8 @@ public class MemberRestController {
 		log.info("\t > {}", nicknameDto);
 		memberService.updateNickname(nicknameDto, principal.getIdx());
 		
-		UserDetails userDetails = memberService.getUserDetailsByIdx(principal.getIdx());
-		HttpHeaders headers = createJwtCookieHeader(userDetails, request);
+		PrincipalDetails newPrincipal = memberService.getUserDetailsByIdx(principal.getIdx());
+		HttpHeaders headers = createJwtCookieHeader(newPrincipal, request);
 		
 		return ResponseEntity.ok()
 				.headers(headers)
@@ -173,8 +173,8 @@ public class MemberRestController {
 		memberService.updateEmail(emailAuthDto, principal.getIdx());
 		redisService.deleteKey(emailAuthDto.getMemberEmail());
 		
-		UserDetails userDetails = memberService.getUserDetailsByIdx(principal.getIdx());
-		HttpHeaders headers = createJwtCookieHeader(userDetails, request);
+		PrincipalDetails newPrincipal = memberService.getUserDetailsByIdx(principal.getIdx());
+		HttpHeaders headers = createJwtCookieHeader(newPrincipal, request);
 		
 		return ResponseEntity.ok()
 				.headers(headers)
@@ -208,8 +208,8 @@ public class MemberRestController {
 		log.info("\t > {}", passwordChangeDto);
 		memberService.updatePassword(passwordChangeDto, principal.getIdx());
 		
-		UserDetails userDetails = memberService.getUserDetailsByIdx(principal.getIdx());
-		HttpHeaders headers = createJwtCookieHeader(userDetails, request);
+		PrincipalDetails newPrincipal = memberService.getUserDetailsByIdx(principal.getIdx());
+		HttpHeaders headers = createJwtCookieHeader(newPrincipal, request);
 		
 		return ResponseEntity.ok()
 				.headers(headers)
@@ -223,8 +223,8 @@ public class MemberRestController {
 		log.info("\t > {}", passwordDto);
 		memberService.savePassword(passwordDto, principal.getIdx());
 		
-		UserDetails userDetails = memberService.getUserDetailsByIdx(principal.getIdx());
-		HttpHeaders headers = createJwtCookieHeader(userDetails, request);
+		PrincipalDetails newPrincipal = memberService.getUserDetailsByIdx(principal.getIdx());
+		HttpHeaders headers = createJwtCookieHeader(newPrincipal, request);
 		
 		return ResponseEntity.ok()
 				.headers(headers)
@@ -292,10 +292,15 @@ public class MemberRestController {
 		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.ResetPassword").build());
 	}
 	
-	private HttpHeaders createJwtCookieHeader(UserDetails userDetails, HttpServletRequest request) {
-		Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-		String jwt = jwtProvider.createJwt(authentication, request);
+	private HttpHeaders createJwtCookieHeader(PrincipalDetails principal, HttpServletRequest request) {
+		Authentication authentication;
+		if (principal.getProvider().equals("local")) {
+			 authentication = new UsernamePasswordAuthenticationToken(principal, null, principal.getAuthorities());
+		} else {
+			 authentication = new OAuth2AuthenticationToken(principal, principal.getAuthorities(), principal.getProvider());
+		}
 		
+		String jwt = jwtProvider.createJwt(authentication, request);
 		ResponseCookie jwtCookie = ResponseCookie.from("ACCESS_TOKEN", jwt)
 				.domain("localhost")
 				.path(request.getContextPath())

@@ -38,7 +38,7 @@ public class LoginProvider implements AuthenticationProvider { // AbstractUserDe
 		UserDetails loadedUser = userDetailsService.loadUserByUsername(memberEmail); // PrincipalDetails
 		
 		if (!passwordEncoder.matches(memberPassword, loadedUser.getPassword())) {
-			throw new BadCredentialsException(MessageUtils.getMessage("error.InvalidCredential"));
+			throw new BadCredentialsException(MessageUtils.getMessage("error.BadCredential"));
 		}
 		
 		UsernamePasswordAuthenticationToken authenticatedLoginToken = new UsernamePasswordAuthenticationToken(

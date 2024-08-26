@@ -13,11 +13,11 @@ import com.codingjoa.entity.SnsInfo;
 @Mapper
 public interface MemberMapper {
 	
-	int insertMember(Member member);
+	boolean insertMember(Member member);
 	
-	int insertAuth(Auth auth);
+	boolean insertAuth(Auth auth);
 	
-	int insertSnsInfo(SnsInfo snsInfo);
+	boolean insertSnsInfo(SnsInfo snsInfo);
 	
 	boolean isNicknameExist(String memberNickname);
 	
@@ -27,15 +27,15 @@ public interface MemberMapper {
 	
 	Member findMemberByIdx(Integer memberIdx);
 	
-	int updateNickname(Member member);
+	boolean updateNickname(Member member);
 	
-	int updateEmail(Member member);
+	boolean updateEmail(Member member);
 	
-	int updateAddr(Member member);
+	boolean updateAddr(Member member);
 	
-	int updateAgree(Member member);
+	boolean updateAgree(Member member);
 	
-	int updatePassword(Member member);
+	boolean updatePassword(Member member);
 	
 	Member findMemeberByIdAndEmail(@Param("memberId") String memberId, @Param("memberEmail") String memberEmail);
 	

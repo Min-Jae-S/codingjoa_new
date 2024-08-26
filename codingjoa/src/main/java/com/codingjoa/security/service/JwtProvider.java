@@ -79,16 +79,16 @@ public class JwtProvider {
 			Claims claims = parseJwt(jwt).getBody();
 			String sub = claims.getSubject();
 			if (!Utils.isNaturalNumber(sub)) {
-				throw new IllegalArgumentException("'sub' invalid");
+				throw new IllegalArgumentException("'sub' is invalid");
 			}
 			
-			if (claims.getExpiration() == null) {
-				throw new IllegalArgumentException("'exp' required");
+			Date exp = claims.getExpiration();
+			if (exp == null) {
+				throw new IllegalArgumentException("'exp' is required");
 			}
 
 			// email, nickname, role ...
-			
-			//return !claims.getExpiration().before(new Date(System.currentTimeMillis()));
+			//return !exp.before(new Date(System.currentTimeMillis()));
 			return true;
 		} catch (Exception e) { 
 			log.info("\t > missing or invalid JWT : {}", e.getMessage());

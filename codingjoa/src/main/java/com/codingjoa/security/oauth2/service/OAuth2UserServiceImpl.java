@@ -117,8 +117,9 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 		log.info("\t > principalDetails = {}", principalDetails);
 		
 		if (principalDetails == null) {
-			String nickname = extractNickname(provider, attributes);
 			log.info("\t > not a registered member, proceed with the registration");
+
+			String nickname = extractNickname(provider, attributes);
 			log.info("\t > nickname from attributes = {}", nickname);
 			
 			if (nickname == null) {
@@ -127,7 +128,7 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 				throw new OAuth2AuthenticationException(oAuth2Error, oAuth2Error.toString());
 			}
 			
-			// to apply transactions, move the member save logic to "memberService"
+			// to apply transactions, move the OAuth2Member save logic to "memberService"
 			nickname = nickname.substring(0, MAX_NICKNAME_LENGTH);
 			memberService.saveOAuth2Member(nickname, email, provider);
 			

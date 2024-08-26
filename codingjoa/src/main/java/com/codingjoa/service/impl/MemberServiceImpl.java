@@ -44,8 +44,8 @@ public class MemberServiceImpl implements MemberService {
 		Member member = joinDto.toEntity();
 		log.info("\t > convert JoinDto to member entity = {}", member);
 		
-		int memberSaveResult = memberMapper.insertMember(member);
-		if (memberSaveResult > 0) {
+		boolean isMemberSaved = memberMapper.insertMember(member);
+		if (isMemberSaved) {
 			log.info("\t > member save successful");
 		} else {
 			log.info("\t > member save failed");
@@ -58,8 +58,8 @@ public class MemberServiceImpl implements MemberService {
 				.build();
 		log.info("\t > create auth entity = {}", auth);
 		
-		int authSaveResult = memberMapper.insertAuth(auth);
-		if (authSaveResult > 0) {
+		boolean isAuthSaved = memberMapper.insertAuth(auth);
+		if (isAuthSaved) {
 			log.info("\t > auth save successful");
 		} else {
 			log.info("\t > auth save failed");
@@ -104,8 +104,10 @@ public class MemberServiceImpl implements MemberService {
 		
 		if (memberMapper.isNicknameExist(memberNickname)) {
 	        String baseNickname = (memberNickname.length() > MAX_BASE_NICKNAME_LENGTH) 
-	        		? memberNickname.substring(0, MAX_BASE_NICKNAME_LENGTH ) 
+	        		? memberNickname.substring(0, MAX_BASE_NICKNAME_LENGTH) 
 	        		: memberNickname;
+	        log.info("\t > baseNickname = {}", baseNickname);
+	        
 			do {
 				log.info("\t > create new nickname due to conflict: {}", memberNickname);
 				memberNickname = baseNickname + RandomStringUtils.randomNumeric(RANDOM_SUFFIX_LENGTH);
@@ -195,8 +197,8 @@ public class MemberServiceImpl implements MemberService {
 				.memberNickname(memberNickname)
 				.build();
 		
-		int result = memberMapper.updateNickname(modifyMember);
-		if (result > 0) {
+		boolean isUpdated = memberMapper.updateNickname(modifyMember);
+		if (isUpdated) {
 			log.info("\t > nickname update successful");
 		} else {
 			log.info("\t > nickname update failed");
@@ -212,8 +214,8 @@ public class MemberServiceImpl implements MemberService {
 				.memberEmail(emailAuthDto.getMemberEmail())
 				.build();
 		
-		int result = memberMapper.updateEmail(modifyMember);
-		if (result > 0) {
+		boolean isUpdated = memberMapper.updateEmail(modifyMember);
+		if (isUpdated) {
 			log.info("\t > email update successful");
 		} else {
 			log.info("\t > email update failed");
@@ -231,8 +233,8 @@ public class MemberServiceImpl implements MemberService {
 				.memberAddrDetail(addrDto.getMemberAddrDetail())
 				.build();
 		
-		int result = memberMapper.updateAddr(modifyMember);
-		if (result > 0) {
+		boolean isUpdated = memberMapper.updateAddr(modifyMember);
+		if (isUpdated) {
 			log.info("\t > addr update successful");
 		} else {
 			log.info("\t > addr update failed");
@@ -248,8 +250,8 @@ public class MemberServiceImpl implements MemberService {
 				.memberAgree(agreeDto.isMemberAgree())
 				.build();
 		
-		int result = memberMapper.updateAgree(modifyMember);
-		if (result > 0) {
+		boolean isUpdated = memberMapper.updateAgree(modifyMember);
+		if (isUpdated) {
 			log.info("\t > agree update successful");
 		} else {
 			log.info("\t > agree update failed");
@@ -263,12 +265,12 @@ public class MemberServiceImpl implements MemberService {
 		String memberPassword = member.getMemberPassword();
 		String currentPasswordInput = passwordChangeDto.getCurrentPassword();
 		if (!passwordEncoder.matches(currentPasswordInput, memberPassword)) {
-			throw new ExpectedException("currentPassword", "error.BadCredentials");
+			throw new ExpectedException("currentPassword", "error.MismatchPassword");
 		}
 		
 		String newPasswordInput = passwordChangeDto.getNewPassword();
 		if (passwordEncoder.matches(newPasswordInput, memberPassword)) {
-			throw new ExpectedException("newPassword", "error.NotCurrentPassword");
+			throw new ExpectedException("newPassword", "error.SameAsPassword");
 		}
 		
 		Member modifyMember = Member.builder()
@@ -276,8 +278,8 @@ public class MemberServiceImpl implements MemberService {
 				.memberPassword(passwordEncoder.encode(newPasswordInput))
 				.build();
 		
-		int result = memberMapper.updatePassword(modifyMember);
-		if (result > 0) {
+		boolean isUpdated = memberMapper.updatePassword(modifyMember);
+		if (isUpdated) {
 			log.info("\t > password update successful");
 		} else {
 			log.info("\t > password update failed");
@@ -294,8 +296,8 @@ public class MemberServiceImpl implements MemberService {
 				.memberPassword(passwordEncoder.encode(newPassword))
 				.build();
 		
-		int result = memberMapper.updatePassword(modifyMember);
-		if (result > 0) {
+		boolean isSaved = memberMapper.updatePassword(modifyMember);
+		if (isSaved) {
 			log.info("\t > password save successful");
 		} else {
 			log.info("\t > password save failed");
@@ -315,10 +317,10 @@ public class MemberServiceImpl implements MemberService {
 	
 	@Override
 	public PrincipalDetails getUserDetailsByEmail(String memberEmail) {
-		Map<String, Object> userDetails = memberMapper.findUserDetailsByEmail(memberEmail);
-		log.info("\t > userDetails = {}", userDetails);
+		Map<String, Object> userDetailsMap = memberMapper.findUserDetailsByEmail(memberEmail);
+		log.info("\t > userDetailsMap = {}", userDetailsMap);
 		
-		return (userDetails == null) ? null : PrincipalDetails.from(userDetails);
+		return (userDetailsMap == null) ? null : PrincipalDetails.from(userDetailsMap);
 	}
 	
 	@Override
