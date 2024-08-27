@@ -35,6 +35,7 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 	private final OAuth2UserService<OAuth2UserRequest, OAuth2User> delegate = new DefaultOAuth2UserService();
 	private final MemberService memberService;
 	
+	
 	@Override
 	public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
 		log.info("## {}.loadUser", this.getClass().getSimpleName());
