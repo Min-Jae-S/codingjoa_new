@@ -40,6 +40,7 @@ public class MainController {
 		log.info("## accessDenied");
 		return "access-denied";
 	}
+
 	
 	@GetMapping("/login") 
 	public String loginPage(@RequestParam(name = "continue", required = false) String continueUrl, Model model) {
