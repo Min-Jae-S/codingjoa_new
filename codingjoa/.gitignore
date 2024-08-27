@@ -16,6 +16,9 @@ local.properties
 .recommenders
 .classpath
 
+### properties ###
+src/main/**/*.properties
+
 # External tool builders
 .externalToolBuilders/
 
