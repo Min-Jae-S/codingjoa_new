@@ -42,8 +42,9 @@ public class OAuth2Config {
 	@Primary
 	@Bean(name = "clientRegistrationRepository")
 	public ClientRegistrationRepository clientRegistrationRepository() {
-		List<ClientRegistration> registrations = Arrays.asList(
-				kakaoClientRegistration(), naverClientRegistration(), googleClientRegistration());
+		List<ClientRegistration> registrations = Arrays.asList(kakaoClientRegistration(), naverClientRegistration());
+		/*List<ClientRegistration> registrations = Arrays.asList(
+				kakaoClientRegistration(), naverClientRegistration(), googleClientRegistration());*/
 		return new InMemoryClientRegistrationRepository(registrations);
 	}
 
