@@ -141,6 +141,7 @@ public class OAuth2LoginFilter extends AbstractAuthenticationProcessingFilter { 
 		String errorCode = params.getFirst(OAuth2ParameterNames.ERROR);
 		String state = params.getFirst(OAuth2ParameterNames.STATE);
 
+		
 		if (StringUtils.hasText(code)) {
 			return OAuth2AuthorizationResponse.success(code)
 					.redirectUri(redirectUri)
