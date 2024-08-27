@@ -104,7 +104,7 @@ public class MemberServiceImpl implements MemberService {
 		final int RANDOM_SUFFIX_LENGTH = 4;
 		final int MAX_BASE_NICKNAME_LENGTH = MAX_NICKNAME_LENGTH - RANDOM_SUFFIX_LENGTH;
 		
-		nickname = nickname.replaceAll("\\s+", "");
+		nickname = nickname.replaceAll("\\s+", ""); // google: MinJae Suh --> MinJaeSuh
 		
 		if (nickname.length() > MAX_NICKNAME_LENGTH) {
 			nickname = nickname.substring(0, MAX_NICKNAME_LENGTH);
