@@ -92,7 +92,7 @@ public class MemberServiceImpl implements MemberService {
 			
 		SnsInfo snsInfo = SnsInfo.builder()
 				.memberIdx(member.getMemberIdx())
-				.snsProvider(oAuth2Attributes.getProivder())
+				.snsProvider(oAuth2Attributes.getProvider())
 				.build();
 		log.info("\t > create snsInfo entity = {}", snsInfo);
 			
@@ -103,6 +103,8 @@ public class MemberServiceImpl implements MemberService {
 		final int MAX_NICKNAME_LENGTH = 10;
 		final int RANDOM_SUFFIX_LENGTH = 4;
 		final int MAX_BASE_NICKNAME_LENGTH = MAX_NICKNAME_LENGTH - RANDOM_SUFFIX_LENGTH;
+		
+		nickname = nickname.replaceAll("\\s+", "");
 		
 		if (nickname.length() > MAX_NICKNAME_LENGTH) {
 			nickname = nickname.substring(0, MAX_NICKNAME_LENGTH);

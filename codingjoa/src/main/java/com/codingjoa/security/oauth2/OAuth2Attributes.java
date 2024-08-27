@@ -4,8 +4,10 @@ import java.util.Map;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.ToString;
 
 @SuppressWarnings("unchecked")
+@ToString
 @Getter
 public class OAuth2Attributes {
 	
@@ -97,9 +99,9 @@ public class OAuth2Attributes {
 	  "sub": "103707946781717949594",
 	  "email": "dsds550@gmail.com",
 	  "verified_email": true,
-	  "name": "홍길동",
-	  "given_name": "길동",
-	  "family_name": "홍",
+	  "name": "MinJae Suh",
+	  "given_name": "MinJae",
+	  "family_name": "Suh",
 	  "picture": "https://lh3.googleusercontent.com/a/AEdFTp5OW4CIt13eg5K6j6v4Ma03Bm1dgtwKlpP3PUo7=s96-c",
 	  "locale": "ko"
 	}
@@ -109,6 +111,8 @@ public class OAuth2Attributes {
 				.attributes(attributes)
 				.nameAttributeKey(userNameAttributeName)
 				.provider("google")
+				.email((String) attributes.get("email"))
+				.nickname((String) attributes.get("name"))
 				.build();
 	}
 	

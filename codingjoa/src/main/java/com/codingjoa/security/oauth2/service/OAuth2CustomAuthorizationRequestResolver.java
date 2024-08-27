@@ -29,12 +29,14 @@ public class OAuth2CustomAuthorizationRequestResolver implements OAuth2Authoriza
 
 	@Override
 	public OAuth2AuthorizationRequest resolve(HttpServletRequest request) {
+		log.info("## {}.resolve(request)", this.getClass().getSimpleName());
 		OAuth2AuthorizationRequest authorizationRequest = defaultResolver.resolve(request);
 		return authorizationRequest == null ? authorizationRequest : customize(request, authorizationRequest);
 	}
 
 	@Override
 	public OAuth2AuthorizationRequest resolve(HttpServletRequest request, String clientRegistrationId) {
+		log.info("## {}.resolve(request, clientRegistrationId)", this.getClass().getSimpleName());
 		OAuth2AuthorizationRequest authorizationRequest = defaultResolver.resolve(request, clientRegistrationId);
 		return authorizationRequest == null ? authorizationRequest : customize(request, authorizationRequest);
 	}
