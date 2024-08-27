@@ -47,6 +47,18 @@ import lombok.Getter;
 				"name" : "서민재"
 			}
 		}
+		
+	@@ google
+		{
+		  "id": "103707946781717949594",
+		  "email": "dsds550@gmail.com",
+		  "verified_email": true,
+		  "name": "윤성호",
+		  "given_name": "성호",
+		  "family_name": "윤",
+		  "picture": "https://lh3.googleusercontent.com/a/AEdFTp5OW4CIt13eg5K6j6v4Ma03Bm1dgtwKlpP3PUo7=s96-c",
+		  "locale": "ko"
+		}
 	
 */
 
@@ -55,16 +67,17 @@ public class OAuth2Attributes {
 	
 	private Map<String, Object> attributes;
 	private String nameAttributeKey;
-	private String proivder;
 	private String email;
 	private String nickname;
+	private String provider;
 	
 	@Builder
-	private OAuth2Attributes(Map<String, Object> attributes, String nameAttributeKey, String email, String nickname) {
+	private OAuth2Attributes(Map<String, Object> attributes, String nameAttributeKey, String email, String nickname, String provider) {
 		this.attributes = attributes;
 		this.nameAttributeKey = nameAttributeKey;
 		this.email = email;
 		this.nickname = nickname;
+		this.provider = provider;
 	}
 	
 	public static OAuth2Attributes of(String registrationId, String userNameAttributeName, Map<String, Object> attributes) {

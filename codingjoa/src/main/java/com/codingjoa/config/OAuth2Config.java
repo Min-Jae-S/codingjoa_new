@@ -6,12 +6,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.security.config.oauth2.client.CommonOAuth2Provider;
 import org.springframework.security.oauth2.client.InMemoryOAuth2AuthorizedClientService;
@@ -27,9 +24,9 @@ import org.springframework.security.oauth2.client.web.AuthenticatedPrincipalOAut
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepository;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 
-import com.codingjoa.security.oauth2.OAuth2CustomProvider;
 import com.codingjoa.security.oauth2.OAuth2ClientProperties;
 import com.codingjoa.security.oauth2.OAuth2ClientProperties.Provider;
+import com.codingjoa.security.oauth2.OAuth2CustomProvider;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -45,7 +42,8 @@ public class OAuth2Config {
 	@Primary
 	@Bean(name = "clientRegistrationRepository")
 	public ClientRegistrationRepository clientRegistrationRepository() {
-		List<ClientRegistration> registrations = Arrays.asList(kakaoClientRegistration(), naverClientRegistration());
+		List<ClientRegistration> registrations = Arrays.asList(
+				kakaoClientRegistration(), naverClientRegistration(), googleClientRegistration());
 		return new InMemoryClientRegistrationRepository(registrations);
 	}
 
@@ -86,6 +84,14 @@ public class OAuth2Config {
 		return OAuth2CustomProvider.NAVER.getBuilder("naver")
 				.clientId(env.getProperty("security.oauth2.client.registration.naver.client-id"))
 				.clientSecret(env.getProperty("security.oauth2.client.registration.naver.client-secret"))
+				.build();
+	}
+
+	private ClientRegistration googleClientRegistration() {
+		return CommonOAuth2Provider.GOOGLE.getBuilder("google")
+				.clientId(env.getProperty("security.oauth2.client.registration.google.client-id"))
+				.clientSecret(env.getProperty("security.oauth2.client.registration.google.client-secret"))
+				.redirectUriTemplate(env.getProperty("security.oauth2.client.registration.google.redirect-uri-template"))
 				.build();
 	}
 

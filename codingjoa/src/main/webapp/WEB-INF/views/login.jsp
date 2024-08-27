@@ -153,7 +153,7 @@
 						<a href="${contextPath}/login/naver?continue=${continueUrl}">
 							<img class="social-login-btn" src="${contextPath}/resources/images/naver.png">
 						</a>
-						<a href="#">
+						<a href="${contextPath}/login/google?continue=${continueUrl}">
 							<img class="social-login-btn" src="${contextPath}/resources/images/google.png">
 						</a>
 						<a href="#">
