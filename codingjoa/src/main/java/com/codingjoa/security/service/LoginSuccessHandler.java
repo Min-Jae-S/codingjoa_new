@@ -44,14 +44,15 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 		String jwt = jwtProvider.createJwt(authentication, request);
 		ResponseCookie jwtCookie = ResponseCookie.from("ACCESS_TOKEN", jwt)
 				.domain("localhost")
-				.path(request.getContextPath())
+				.path("/")
 				.maxAge(Duration.ofHours(1))
 				.httpOnly(true)
 				.secure(true)
 				.sameSite("Lax") // strict -> lax
 				.build();
 		
-		response.setHeader(HttpHeaders.SET_COOKIE, jwtCookie.toString());
+		//response.setHeader(HttpHeaders.SET_COOKIE, jwtCookie.toString());
+		response.addHeader(HttpHeaders.SET_COOKIE, jwtCookie.toString());
 		response.setStatus(HttpServletResponse.SC_OK);
 		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 		response.setCharacterEncoding(StandardCharsets.UTF_8.name());

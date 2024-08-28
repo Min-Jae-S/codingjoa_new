@@ -1,10 +1,13 @@
 package com.codingjoa.security.oauth2.service;
 
+import java.time.Duration;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.oauth2.client.web.AuthorizationRequestRepository;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
@@ -24,6 +27,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class HttpCookieOAuth2AuthorizationRequestRepository implements AuthorizationRequestRepository<OAuth2AuthorizationRequest> {
 
+	private static final String OAUTH2_AUTHORIZATION_REQUEST_COOKIE_NAME = "OAUTH2.AUTHORIZATION_REQUEST";
+	private static final String OAUTH2_CONTINUE_PARAM_COOKIE_NAME = "OAUTH2.CONTINUE_PARAM";
+	
 	@Override
 	public OAuth2AuthorizationRequest loadAuthorizationRequest(HttpServletRequest request) {
 		log.info("## {}.loadAuthorizationRequest");
@@ -41,8 +47,8 @@ public class HttpCookieOAuth2AuthorizationRequestRepository implements Authoriza
 	public void saveAuthorizationRequest(OAuth2AuthorizationRequest authorizationRequest, HttpServletRequest request,
 			HttpServletResponse response) {
 		log.info("## {}.saveAuthorizationRequest");
-		// authorizationRequest resolved by the 'OAuth2AuthorizationRequestResolver'
 		
+		// authorizationRequest resolved by the 'OAuth2AuthorizationRequestResolver'
 		if (authorizationRequest == null) {
 			this.removeAuthorizationRequest(request, response);
 			return;
@@ -52,7 +58,7 @@ public class HttpCookieOAuth2AuthorizationRequestRepository implements Authoriza
 		Map<String, OAuth2AuthorizationRequest> authorizationRequests = this.getAuthorizationRequests(request);
 		authorizationRequests.put(state, authorizationRequest);
 		
-		// @@ will put authorizationRequests to cookie instead session
+		// will put authorizationRequests to cookie instead of session
 		//request.getSession().setAttribute(this.sessionAttributeName, authorizationRequests);
 	}
 
@@ -79,6 +85,18 @@ public class HttpCookieOAuth2AuthorizationRequestRepository implements Authoriza
 	private Map<String, OAuth2AuthorizationRequest> getAuthorizationRequests(HttpServletRequest request) {
 		Map<String, OAuth2AuthorizationRequest> authorizationRequests = null;
 		return authorizationRequests;
+	}
+	
+	private void addCookie(HttpServletResponse response, String name, String value) {
+		ResponseCookie cookie = ResponseCookie.from(name, value)
+				.domain("localhost")
+				.path("/")
+				.maxAge(Duration.ofMinutes(10))
+				.httpOnly(true)
+				.secure(true)
+				.sameSite("Lax")
+				.build();
+		response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
 	}
 
 }
