@@ -1,7 +1,9 @@
-package com.codingjoa.security.dto;
+package com.codingjoa.obsolete;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -20,29 +22,35 @@ import lombok.ToString;
 @Getter
 public class PrincipalDetails implements UserDetails, OAuth2User {
 
-	private final Integer idx;							// FROM member
+	private final Integer idx;					// FROM member
 	private final String email;					
 	private final String password;
 	private final String nickname;
-	private final String imageUrl;						// LEFT OUTER JOIN member_iamge
-	private final String provider;						// LEFT OUTER JOIN sns_info
-	private final Set<GrantedAuthority> authorities;	// INNER JOIN auth
+	private final String role;					// INNER JOIN auth	
+	private final String imageUrl;				// LEFT OUTER JOIN member_iamge
+	private final String provider;				// LEFT OUTER JOIN sns_info
+	private final List<Integer> myBoardLikes;	// LEFT OUTER JOIN board_likes
+	private final List<Integer> myCommentLikes;	// LEFT OUTER JOIN comment_likes
 
 	@Builder
-	private PrincipalDetails(Integer idx, String email, String password, String nickname, String imageUrl,
-			String provider, Set<GrantedAuthority> authorities) {
+	private PrincipalDetails(Integer idx, String email, String password, String nickname, String role, String imageUrl,
+			String provider, List<Integer> myBoardLikes, List<Integer> myCommentLikes) {
 		this.idx = idx;
 		this.email = email;
 		this.password = (password != null) ? password : "";
 		this.nickname = nickname;
+		this.role = role;
 		this.imageUrl = (imageUrl != null) ? imageUrl : "";
 		this.provider = (provider != null) ? provider : "local";
-		this.authorities = authorities;
+		this.myBoardLikes =  (myBoardLikes != null) ? myBoardLikes : Collections.emptyList();
+		this.myCommentLikes = (myCommentLikes != null) ? myCommentLikes : Collections.emptyList();
 	}
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return this.authorities;
+		Set<GrantedAuthority> authorities = new HashSet<>();
+		authorities.add(new SimpleGrantedAuthority(role));
+		return authorities;
 	}
 
 	@Override
@@ -55,6 +63,7 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 		return this.password;
 	}
 
+	// more details(active, locked, expired...)
 	@Override
 	public boolean isAccountNonExpired() {
 		return true;
@@ -75,6 +84,10 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 		return true;
 	}
 	
+	public boolean isMyBoardLikes(int boardIdx) {
+		return myBoardLikes.contains(boardIdx);
+	}
+
 	@Override
 	public Map<String, Object> getAttributes() {
 		return null;
@@ -85,45 +98,29 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 		return null;
 	}
 	
-	private static Set<GrantedAuthority> convertToAuthorites(Set<String> memberRoles) {
-		Set<GrantedAuthority> authorities = new HashSet<>();
-		for(String role : memberRoles) {
-			authorities.add(new SimpleGrantedAuthority(role));
-		}
-		return authorities;
-	}
-
-	private static Set<GrantedAuthority> convertToAuthorites(String roles) {
-		Set<GrantedAuthority> authorities = new HashSet<>();
-		for (String role : roles.split(",")) {
-			authorities.add(new SimpleGrantedAuthority(role));
-		}
-		return authorities;
-	}
-	
 	@SuppressWarnings("unchecked")
 	public static PrincipalDetails from(Map<String, Object> map) { // from database
-		Set<String> memberRoles = (Set<String>) map.get("memberRoles");
 		return PrincipalDetails.builder()
 				.idx((Integer) map.get("memberIdx"))
 				.email((String) map.get("memberEmail"))
 				.password((String) map.get("memberPassword"))
 				.nickname((String) map.get("memberNickname"))
+				.role((String) map.get("memberRole"))
 				.imageUrl((String) map.get("memberImageUrl"))
 				.provider((String) map.get("snsProvider"))
-				.authorities(convertToAuthorites(memberRoles))
+				.myBoardLikes((List<Integer>) map.get("myBoardLikes"))
+				.myCommentLikes((List<Integer>) map.get("myCommentLikes"))
 				.build();
 	}
 
 	public static PrincipalDetails from(Claims claims) { // from jwt
-		String roles = (String) claims.get("roles");
 		return PrincipalDetails.builder()
 				.idx(Integer.parseInt(claims.getSubject()))
 				.email((String) claims.get("email"))
 				.nickname((String) claims.get("nickname"))
+				.role((String) claims.get("role"))
 				.imageUrl((String) claims.get("image_url"))
 				.provider((String) claims.get("provider"))
-				.authorities(convertToAuthorites(roles))
 				.build();
 	}
 

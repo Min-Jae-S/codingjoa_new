@@ -325,12 +325,16 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public PrincipalDetails getUserDetailsByEmail(String memberEmail) {
 		Map<String, Object> userDetailsMap = memberMapper.findUserDetailsByEmail(memberEmail);
+		log.info("\t > userDetailsMap = {}", userDetailsMap);
+		
 		return (userDetailsMap == null) ? null : PrincipalDetails.from(userDetailsMap);
 	}
 	
 	@Override
 	public PrincipalDetails getUserDetailsByIdx(Integer memberIdx) {
 		Map<String, Object> userDetailsMap = memberMapper.findUserDetailsByIdx(memberIdx);
+		log.info("\t > userDetailsMap = {}", userDetailsMap);
+		
 		if (userDetailsMap == null) {
 			throw new ExpectedException("error.NotFoundMember");
 		}

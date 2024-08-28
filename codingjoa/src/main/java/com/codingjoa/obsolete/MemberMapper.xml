@@ -107,10 +107,14 @@
 		<result property="memberEmail" column="member_email"/>
 		<result property="memberPassword" column="member_password"/>
 		<result property="memberNickname" column="member_nickname"/>
+		<result property="memberRole" column="member_role"/>
 		<result property="memberImageUrl" column="member_image_url"/>
 		<result property="snsProvider" column="sns_provider"/>
-		<collection property="memberRoles" javaType="set" ofType="string">
-			<result column="member_role"/>
+		<collection property="myBoardLikes" javaType="list" ofType="int">
+			<result column="board_idx"/>
+		</collection>
+		<collection property="myCommentLikes" javaType="list" ofType="int">
+			<result column="comment_idx"/>
 		</collection>
 	</resultMap>
 	
@@ -120,11 +124,17 @@
 			a.member_email,
 			a.member_password,
 			a.member_nickname,
-			b.member_image_url,
-			c.sns_provider,
-			d.member_role
+			b.member_role,
+			c.member_image_url,
+			d.sns_provider,
+			e.board_idx,
+			f.comment_idx
 		FROM
 			member a
+		INNER JOIN
+			auth b
+		ON
+			a.member_idx = b.member_idx
 		LEFT OUTER JOIN (
 			SELECT
 				member_idx,
@@ -132,17 +142,21 @@
 				ROW_NUMBER() OVER (PARTITION BY member_idx ORDER BY created_at DESC) AS rn
 			FROM
 				member_image
-		) b
+		) c
 		ON
-			a.member_idx = b.member_idx AND b.rn = 1 
+			a.member_idx = c.member_idx AND c.rn = 1 
 		LEFT OUTER JOIN
-			sns_info c
-		ON
-			a.member_idx = c.member_idx
-		INNER JOIN
-			auth d
+			sns_info d
 		ON
 			a.member_idx = d.member_idx
+		LEFT OUTER JOIN
+			board_likes e
+		ON
+			a.member_idx = e.member_idx
+		LEFT OUTER JOIN
+			comment_likes f
+		ON
+			a.member_idx = f.member_idx
 		WHERE
 			a.member_email = #{memberEmail}
 	</select>
@@ -153,11 +167,17 @@
 			a.member_email,
 			a.member_password,
 			a.member_nickname,
-			b.member_image_url,
-			c.sns_provider,
-			d.member_role
+			b.member_role,
+			c.member_image_url,
+			d.sns_provider,
+			e.board_idx,
+			f.comment_idx
 		FROM
 			member a
+		INNER JOIN
+			auth b
+		ON
+			a.member_idx = b.member_idx
 		LEFT OUTER JOIN (
 			SELECT
 				member_idx,
@@ -165,17 +185,21 @@
 				ROW_NUMBER() OVER (PARTITION BY member_idx ORDER BY created_at DESC) AS rn
 			FROM
 				member_image
-		) b
+		) c
 		ON
-			a.member_idx = b.member_idx AND b.rn = 1 
+			a.member_idx = c.member_idx AND c.rn = 1 
 		LEFT OUTER JOIN
-			sns_info c
-		ON
-			a.member_idx = c.member_idx
-		INNER JOIN
-			auth d
+			sns_info d
 		ON
 			a.member_idx = d.member_idx
+		LEFT OUTER JOIN
+			board_likes e
+		ON
+			a.member_idx = e.member_idx
+		LEFT OUTER JOIN
+			comment_likes f
+		ON
+			a.member_idx = f.member_idx
 		WHERE
 			a.member_idx = #{memberIdx}
 	</select>
