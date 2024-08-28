@@ -83,10 +83,7 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 			principalDetails = memberService.getUserDetailsByEmail(email);
 		}
 		
-		principalDetails.setAttributes(attributes);
-		principalDetails.setNameAttributeKey(attributeKeyName);
-		
-		return principalDetails;
+		return PrincipalDetails.from(principalDetails, attributes, attributeKeyName);
 	}
 	
 	@SuppressWarnings("unused")

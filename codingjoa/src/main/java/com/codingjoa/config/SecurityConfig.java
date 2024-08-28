@@ -16,10 +16,12 @@ import org.springframework.security.oauth2.client.endpoint.OAuth2AuthorizationCo
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
+import org.springframework.security.oauth2.client.web.AuthorizationRequestRepository;
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter;
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestResolver;
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepository;
 import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter;
+import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.AccessDeniedHandler;
@@ -29,6 +31,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import com.codingjoa.security.filter.JwtFilter;
 import com.codingjoa.security.filter.LoginFilter;
 import com.codingjoa.security.filter.OAuth2LoginFilter;
+import com.codingjoa.security.oauth2.service.HttpCookieOAuth2AuthorizationRequestRepository;
 import com.codingjoa.security.oauth2.service.OAuth2CustomAuthorizationRequestResolver;
 import com.codingjoa.security.oauth2.service.OAuth2LoginFailureHandler;
 import com.codingjoa.security.oauth2.service.OAuth2LoginProvider;
@@ -118,7 +121,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.clientRegistrationRepository(clientRegistrationRepository)
 				.authorizationEndpoint(config  -> {
 					config.authorizationRequestResolver(authorizationRequestResolver());
-					//config.authorizationRequestRepository(null); // session or cookie
+					config.authorizationRequestRepository(authorizationRequestRepository());
 				})
 				.redirectionEndpoint(config -> 
 					config.baseUri("/login/*/callback")
@@ -179,6 +182,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	private OAuth2AuthorizationRequestResolver authorizationRequestResolver() {
 		return new OAuth2CustomAuthorizationRequestResolver(clientRegistrationRepository, "/login");
+	}
+	
+	// ref) HttpSessionOAuth2AuthorizationRequestRepository
+	private AuthorizationRequestRepository<OAuth2AuthorizationRequest> authorizationRequestRepository() {
+		return new HttpCookieOAuth2AuthorizationRequestRepository();
 	}
 	
 }

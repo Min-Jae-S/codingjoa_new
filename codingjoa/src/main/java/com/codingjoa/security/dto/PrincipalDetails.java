@@ -89,14 +89,6 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 		return this.getAttribute(this.nameAttributeKey).toString();
 	}
 	
-	public void setAttributes(Map<String, Object> attributes) {
-		this.attributes = attributes;
-	}
-
-	public void setNameAttributeKey(String nameAttributeKey) {
-		this.nameAttributeKey = nameAttributeKey;
-	}
-	
 	@SuppressWarnings("unchecked")
 	public static PrincipalDetails from(Map<String, Object> map) { // from DB
 		List<String> memberRoles = (List<String>) map.get("memberRoles");
@@ -111,6 +103,13 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 				.build();
 	}
 
+	public static PrincipalDetails from(PrincipalDetails principalDetails, Map<String, Object> attribute,
+			String nameAttributeKey) { 
+		principalDetails.setAttributes(attribute);
+		principalDetails.setNameAttributeKey(nameAttributeKey);
+		return principalDetails;
+	}
+
 	public static PrincipalDetails from(Claims claims) { // from JWT
 		String roles = (String) claims.get("roles");
 		return PrincipalDetails.builder()
@@ -121,6 +120,14 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 				.provider((String) claims.get("provider"))
 				.authorities(convert(roles))
 				.build();
+	}
+	
+	private void setAttributes(Map<String, Object> attributes) {
+		this.attributes = attributes;
+	}
+
+	private void setNameAttributeKey(String nameAttributeKey) {
+		this.nameAttributeKey = nameAttributeKey;
 	}
 	
 	private static List<GrantedAuthority> convert(List<String> memberRoles) {
