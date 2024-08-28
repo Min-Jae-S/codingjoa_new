@@ -125,7 +125,7 @@ public class BoardController {
 			return "board/write";
 		}
 		
-		writeBoardDto.setBoardWriterIdx(principal.getMember().getMemberIdx());
+		writeBoardDto.setBoardWriterIdx(principal.getIdx());
 		boardService.writeBoard(writeBoardDto); // insertBoard, activateImage
 		
 		return "redirect:/board/read?boardIdx=" + writeBoardDto.getBoardIdx();
@@ -134,7 +134,7 @@ public class BoardController {
 	@GetMapping("/modify")
 	public String modify(@RequestParam int boardIdx, @AuthenticationPrincipal PrincipalDetails principal, Model model) {
 		log.info("## modify, boardIdx = {}", boardIdx);
-		BoardDto modifyBoardDto = boardService.getModifyBoard(boardIdx, principal.getMember().getMemberIdx());
+		BoardDto modifyBoardDto = boardService.getModifyBoard(boardIdx, principal.getIdx());
 		model.addAttribute("modifyBoardDto", modifyBoardDto);
 		model.addAttribute("boardCategoryList", categoryService.getBoardCategoryList());
 		
@@ -156,7 +156,7 @@ public class BoardController {
 			return "board/modify";
 		}
 		
-		modifyBoardDto.setBoardWriterIdx(principal.getMember().getMemberIdx());
+		modifyBoardDto.setBoardWriterIdx(principal.getIdx());
 		boardService.modifyBoard(modifyBoardDto); // updateBoard, modifyBoardImage
 		
 		return "redirect:/board/read?boardIdx=" + modifyBoardDto.getBoardIdx();
@@ -167,7 +167,7 @@ public class BoardController {
 		log.info("## deleteProc, boardIdx = {}", boardIdx);
 		// fk_board_image_board --> ON DELETE SET NULL
 		// fk_comment_board		--> ON DELETE CASCADE
-		int boardCategoryCode = boardService.deleteBoard(boardIdx, principal.getMember().getMemberIdx());
+		int boardCategoryCode = boardService.deleteBoard(boardIdx, principal.getIdx());
 		
 		return "redirect:/board/?boardCategoryCode=" + boardCategoryCode;
 	}

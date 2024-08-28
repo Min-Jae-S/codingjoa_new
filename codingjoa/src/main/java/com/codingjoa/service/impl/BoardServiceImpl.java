@@ -133,7 +133,7 @@ public class BoardServiceImpl implements BoardService {
 			throw new ExpectedException("error.NotFoundBoard");
 		}
 		
-		Integer dbBoardWriterIdx = board.getBoardWriterIdx();
+		Integer dbBoardWriterIdx = board.getMemberIdx();
 		log.info("\t > dbBoardWriterIdx = {}, boardWriterIdx = {}", dbBoardWriterIdx, boardWriterIdx);
 		
 		if (dbBoardWriterIdx != boardWriterIdx) {
@@ -152,7 +152,7 @@ public class BoardServiceImpl implements BoardService {
 			throw new ExpectedException("error.NotFoundBoard");
 		}
 		
-		Integer dbBoardWriterIdx = board.getBoardWriterIdx();
+		Integer dbBoardWriterIdx = board.getMemberIdx();
 		int boardWirterIdx = boardDto.getBoardWriterIdx();
 		log.info("\t > dbBoardWriterIdx = {}, boardWriterIdx = {}", dbBoardWriterIdx, boardWirterIdx);
 		
@@ -188,7 +188,7 @@ public class BoardServiceImpl implements BoardService {
 			throw new ExpectedException("error.NotFoundBoard");
 		}
 		
-		Integer dbBoardWriterIdx = board.getBoardWriterIdx();
+		Integer dbBoardWriterIdx = board.getMemberIdx();
 		log.info("\t > dbBoardWriterIdx = {}, boardWriterIdx = {}", dbBoardWriterIdx, boardWriterIdx);
 		
 		if (dbBoardWriterIdx != boardWriterIdx) {

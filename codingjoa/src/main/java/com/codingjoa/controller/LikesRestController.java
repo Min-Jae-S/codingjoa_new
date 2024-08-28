@@ -34,9 +34,9 @@ public class LikesRestController {
 	@PostMapping("/boards/{boardIdx}/likes")
 	public ResponseEntity<Object> toggleBoardLikes(@PathVariable int boardIdx, @AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## toggleBoardLikes, boardIdx = {}", boardIdx);
-		boolean isBoardLiked = likesService.toggleBoardLikes(boardIdx, principal.getMember().getMemberIdx());
+		boolean isBoardLiked = likesService.toggleBoardLikes(boardIdx, principal.getIdx());
 		String code = (isBoardLiked) ? "success.LikeBoard" : "success.UnlikeBoard";
-		resetAuthentication(principal.getMember().getMemberId());
+		//resetAuthentication(principal.getMember().getMemberId());
 		
 		return ResponseEntity.ok(SuccessResponse
 				.builder()
@@ -61,9 +61,9 @@ public class LikesRestController {
 	@PostMapping("/comments/{commentIdx}/likes")
 	public ResponseEntity<Object> toggleCommentLikes(@PathVariable int commentIdx, @AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## toggleCommentLikes, commentIdx = {}", commentIdx);
-		boolean isCommentLiked = likesService.toggleCommentLikes(commentIdx, principal.getMember().getMemberIdx());
+		boolean isCommentLiked = likesService.toggleCommentLikes(commentIdx, principal.getIdx());
 		String code = (isCommentLiked) ? "success.LikeComment" : "success.UnlikeComment";
-		resetAuthentication(principal.getMember().getMemberId());
+		//resetAuthentication(principal.getMember().getMemberId());
 
 		return ResponseEntity.ok(SuccessResponse
 				.builder()
@@ -85,6 +85,7 @@ public class LikesRestController {
 				.build());
 	}
 	
+	@SuppressWarnings("unused")
 	private void resetAuthentication(String memberId) {
 		log.info("## resetAuthentication");
 		UserDetails userDetails = userDetailsService.loadUserByUsername(memberId);

@@ -1,6 +1,5 @@
 package com.codingjoa.controller;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -54,12 +53,13 @@ public class CommentRestController {
 		Pagination pagination = commentService.getPagination(commentBoardIdx, commentCri);
 		log.info("\t > pagination = {}", pagination);
 
-		List<Integer> myCommentLikes = (princiapl == null) ? Collections.emptyList() : princiapl.getMyCommentLikes();
-		log.info("\t > myCommentLikes = {}", myCommentLikes);
+//		List<Integer> myCommentLikes = (princiapl == null) ? Collections.emptyList() : princiapl.getMyCommentLikes();
+//		log.info("\t > myCommentLikes = {}", myCommentLikes);
 		
 		return ResponseEntity.ok(SuccessResponse
 				.builder()
-				.data(Map.of("commentList", commentList, "myCommentLikes", myCommentLikes, "pagination", pagination))
+				//.data(Map.of("commentList", commentList, "myCommentLikes", myCommentLikes, "pagination", pagination))
+				.data(Map.of("commentList", commentList, "pagination", pagination))
 				.build());
 	}
 	
@@ -67,7 +67,7 @@ public class CommentRestController {
 	public ResponseEntity<Object> getModifyComment(@PathVariable int commentIdx, @AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## getModifyComment, commentIdx = {}", commentIdx);
 		CommentDetailsDto commentDetails = 
-				commentService.getModifyComment(commentIdx, principal.getMember().getMemberIdx());
+				commentService.getModifyComment(commentIdx, principal.getIdx());
 		
 		return ResponseEntity.ok(SuccessResponse
 				.builder()
@@ -80,7 +80,7 @@ public class CommentRestController {
 			@AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## writeComment");
 		log.info("\t > {}", writeCommentDto);
-		writeCommentDto.setCommentWriterIdx(principal.getMember().getMemberIdx());
+		writeCommentDto.setCommentWriterIdx(principal.getIdx());
 		writeCommentDto.setCommentUse(true);
 		commentService.writeComment(writeCommentDto);
 		
@@ -93,7 +93,7 @@ public class CommentRestController {
 		log.info("## modifyComment, commentIdx = {}", commentIdx);
 		log.info("\t > {}", modifyCommentDto);
 		modifyCommentDto.setCommentIdx(commentIdx);
-		modifyCommentDto.setCommentWriterIdx(principal.getMember().getMemberIdx());
+		modifyCommentDto.setCommentWriterIdx(principal.getIdx());
 		commentService.modifyComment(modifyCommentDto);
 		
 		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.UpdateComment").build());
@@ -102,7 +102,7 @@ public class CommentRestController {
 	@DeleteMapping(value = { "/comments/", "/comments/{commentIdx}" })
 	public ResponseEntity<Object> deleteComment(@PathVariable int commentIdx, @AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## deleteComment, commentIdx = {}", commentIdx);
-		commentService.deleteComment(commentIdx, principal.getMember().getMemberIdx()); // update commentUse
+		commentService.deleteComment(commentIdx, principal.getIdx()); // update commentUse
 		
 		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.DeleteComment").build());
 	}

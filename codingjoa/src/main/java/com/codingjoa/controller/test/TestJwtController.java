@@ -278,17 +278,18 @@ public class TestJwtController {
 		return Map.of("typ", "JWT", "alg", "HS256");
 	}
 	
+	@SuppressWarnings("unused")
 	private Map<String, Object> createClaims(UserDetails userDetails) {
 		PrincipalDetails principalDetails = (PrincipalDetails) userDetails;
 		Date now = new Date(System.currentTimeMillis());
 		Date exp = new Date(now.getTime() + validityInMillis);
 		
 		Claims claims = Jwts.claims()
-				.setSubject(principalDetails.getId())
+				//.setSubject(principalDetails.getId())
 				.setIssuer(ServletUriComponentsBuilder.fromCurrentContextPath().build().toString())
 				.setIssuedAt(now)
 				.setExpiration(exp);
-		claims.put("role", principalDetails.getRole());
+		//claims.put("role", principalDetails.getRole());
 		
 		return claims;
 	}

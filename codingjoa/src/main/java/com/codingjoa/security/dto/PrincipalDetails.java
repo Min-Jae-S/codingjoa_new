@@ -85,7 +85,7 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 		return null;
 	}
 	
-	private static List<GrantedAuthority> convertToAuthorites(List<String> memberRoles) {
+	private static List<GrantedAuthority> convert(List<String> memberRoles) {
 		List<GrantedAuthority> authorities = new ArrayList<>();
 		for(String role : memberRoles) {
 			authorities.add(new SimpleGrantedAuthority(role));
@@ -93,7 +93,7 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 		return authorities;
 	}
 
-	private static List<GrantedAuthority> convertToAuthorites(String roles) {
+	private static List<GrantedAuthority> convert(String roles) {
 		List<GrantedAuthority> authorities = new ArrayList<>();
 		for (String role : roles.split(",")) {
 			authorities.add(new SimpleGrantedAuthority(role));
@@ -102,7 +102,7 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public static PrincipalDetails from(Map<String, Object> map) { // from database
+	public static PrincipalDetails from(Map<String, Object> map) { // from DB
 		List<String> memberRoles = (List<String>) map.get("memberRoles");
 		return PrincipalDetails.builder()
 				.idx((Integer) map.get("memberIdx"))
@@ -111,11 +111,11 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 				.nickname((String) map.get("memberNickname"))
 				.imageUrl((String) map.get("memberImageUrl"))
 				.provider((String) map.get("snsProvider"))
-				.authorities(convertToAuthorites(memberRoles))
+				.authorities(convert(memberRoles))
 				.build();
 	}
 
-	public static PrincipalDetails from(Claims claims) { // from jwt
+	public static PrincipalDetails from(Claims claims) { // from JWT
 		String roles = (String) claims.get("roles");
 		return PrincipalDetails.builder()
 				.idx(Integer.parseInt(claims.getSubject()))
@@ -123,7 +123,7 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 				.nickname((String) claims.get("nickname"))
 				.imageUrl((String) claims.get("image_url"))
 				.provider((String) claims.get("provider"))
-				.authorities(convertToAuthorites(roles))
+				.authorities(convert(roles))
 				.build();
 	}
 
