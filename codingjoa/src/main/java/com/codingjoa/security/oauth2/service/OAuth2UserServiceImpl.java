@@ -1,8 +1,8 @@
 package com.codingjoa.security.oauth2.service;
 
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -80,16 +80,18 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 			
 			// to apply transactions, move the OAuth2Member save logic to "memberService"
 			memberService.saveOAuth2Member(oAuth2Attributes);
-
-			return memberService.getUserDetailsByEmail(email);
+			principalDetails = memberService.getUserDetailsByEmail(email);
 		}
+		
+		principalDetails.setAttributes(attributes);
+		principalDetails.setNameAttributeKey(attributeKeyName);
 		
 		return principalDetails;
 	}
 	
 	@SuppressWarnings("unused")
 	private OAuth2User resolveOAuth2User(OAuth2UserRequest userRequest, OAuth2User oAuth2User) {
-		Set<GrantedAuthority> mappedAuthorities = new HashSet<>();
+		List<GrantedAuthority> mappedAuthorities = new ArrayList<>();
 		mappedAuthorities.add(new SimpleGrantedAuthority("ROLE_MEMBER"));
 		
 		String userNameAttributeName = userRequest.getClientRegistration().getProviderDetails()

@@ -31,14 +31,20 @@ public class OAuth2CustomAuthorizationRequestResolver implements OAuth2Authoriza
 	public OAuth2AuthorizationRequest resolve(HttpServletRequest request) {
 		log.info("## {}.resolve(request)", this.getClass().getSimpleName());
 		OAuth2AuthorizationRequest authorizationRequest = defaultResolver.resolve(request);
-		return authorizationRequest == null ? authorizationRequest : customize(request, authorizationRequest);
+		if (authorizationRequest == null) {
+			log.info("\t > without sending a redirect for authorization, will pass the request to the next filter");
+			return authorizationRequest;
+		} else {
+			log.info("\t > will send redirect for authorization in 'OAuth2AuthorizationRequestRedirectFilter'");
+			return customize(request, authorizationRequest);
+		}
 	}
 
 	@Override
 	public OAuth2AuthorizationRequest resolve(HttpServletRequest request, String clientRegistrationId) {
 		log.info("## {}.resolve(request, clientRegistrationId)", this.getClass().getSimpleName());
 		OAuth2AuthorizationRequest authorizationRequest = defaultResolver.resolve(request, clientRegistrationId);
-		return authorizationRequest == null ? authorizationRequest : customize(request, authorizationRequest);
+		return (authorizationRequest == null) ? authorizationRequest : customize(request, authorizationRequest);
 	}
 	
 	private OAuth2AuthorizationRequest customize(HttpServletRequest request, OAuth2AuthorizationRequest authorizationRequest) {

@@ -65,7 +65,7 @@ public class OAuth2LoginFilter extends AbstractAuthenticationProcessingFilter { 
 		log.info("## {}.attemptAuthentication", this.getClass().getSimpleName());
 		
 		MultiValueMap<String, String> params = toMultiMap(request.getParameterMap());
-		log.info("\t > received authorization response, params = {}", params.keySet());
+		log.info("\t > received authorization response, params = {}", Utils.formatPrettyJson(params));
 		
 		OAuth2AuthorizationRequest authorizationRequest = 
 				authorizationRequestRepository.removeAuthorizationRequest(request, response);

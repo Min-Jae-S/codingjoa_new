@@ -27,10 +27,14 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 	private final String imageUrl;						// LEFT OUTER JOIN member_iamge
 	private final String provider;						// LEFT OUTER JOIN sns_info
 	private final List<GrantedAuthority> authorities;	// INNER JOIN auth
+	
+	/* only OAuth2User */
+	private Map<String, Object> attributes;
+	private String nameAttributeKey;
 
 	@Builder
 	private PrincipalDetails(Integer idx, String email, String password, String nickname, String imageUrl,
-			String provider, List<GrantedAuthority> authorities) {
+			String provider, List<GrantedAuthority> authorities, Map<String, Object> attributes) {
 		this.idx = idx;
 		this.email = email;
 		this.password = (password != null) ? password : "";
@@ -77,28 +81,20 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 	
 	@Override
 	public Map<String, Object> getAttributes() {
-		return null;
+		return this.attributes;
 	}
 
 	@Override
 	public String getName() {
-		return null;
+		return this.getAttribute(this.nameAttributeKey).toString();
 	}
 	
-	private static List<GrantedAuthority> convert(List<String> memberRoles) {
-		List<GrantedAuthority> authorities = new ArrayList<>();
-		for(String role : memberRoles) {
-			authorities.add(new SimpleGrantedAuthority(role));
-		}
-		return authorities;
+	public void setAttributes(Map<String, Object> attributes) {
+		this.attributes = attributes;
 	}
 
-	private static List<GrantedAuthority> convert(String roles) {
-		List<GrantedAuthority> authorities = new ArrayList<>();
-		for (String role : roles.split(",")) {
-			authorities.add(new SimpleGrantedAuthority(role));
-		}
-		return authorities;
+	public void setNameAttributeKey(String nameAttributeKey) {
+		this.nameAttributeKey = nameAttributeKey;
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -125,6 +121,22 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 				.provider((String) claims.get("provider"))
 				.authorities(convert(roles))
 				.build();
+	}
+	
+	private static List<GrantedAuthority> convert(List<String> memberRoles) {
+		List<GrantedAuthority> authorities = new ArrayList<>();
+		for(String role : memberRoles) {
+			authorities.add(new SimpleGrantedAuthority(role));
+		}
+		return authorities;
+	}
+
+	private static List<GrantedAuthority> convert(String roles) {
+		List<GrantedAuthority> authorities = new ArrayList<>();
+		for (String role : roles.split(",")) {
+			authorities.add(new SimpleGrantedAuthority(role));
+		}
+		return authorities;
 	}
 
 }
