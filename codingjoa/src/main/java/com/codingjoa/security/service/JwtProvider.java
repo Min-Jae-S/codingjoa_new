@@ -4,6 +4,8 @@ import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -11,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -104,6 +107,7 @@ public class JwtProvider {
 		return Map.of("typ", "JWT", "alg", "HS256");
 	}
 	
+	@SuppressWarnings("unchecked")
 	private Map<String, Object> createClaims(Authentication authentication, HttpServletRequest request) {
 		Date now = new Date(System.currentTimeMillis());
 		Date exp = new Date(now.getTime() + validityInMillis);
@@ -117,10 +121,17 @@ public class JwtProvider {
 		
 		// authentication (UsernamePasswordAuthenticationToken, OAuth2AuthenticationToken)
 		PrincipalDetails principal = (PrincipalDetails) authentication.getPrincipal();
+		
+		Set<GrantedAuthority> authorities = (Set<GrantedAuthority>) principal.getAuthorities();
+		String roles = authorities
+				.stream()
+				.map(authority -> authority.getAuthority())
+				.collect(Collectors.joining(","));
+		
 		claims.setSubject(String.valueOf(principal.getIdx()));
 		claims.put("email", principal.getEmail());
 		claims.put("nickname", principal.getNickname());
-		claims.put("role", principal.getRole());
+		claims.put("roles", roles);
 		claims.put("image_url", principal.getImageUrl());
 		claims.put("provider", principal.getProvider());
 		claims.put("token_type", "access_token");
