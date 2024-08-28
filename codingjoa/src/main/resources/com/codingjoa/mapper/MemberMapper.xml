@@ -109,7 +109,7 @@
 		<result property="memberNickname" column="member_nickname"/>
 		<result property="memberImageUrl" column="member_image_url"/>
 		<result property="snsProvider" column="sns_provider"/>
-		<collection property="memberRoles" javaType="set" ofType="string">
+		<collection property="memberRoles" javaType="list" ofType="string">
 			<result column="member_role"/>
 		</collection>
 	</resultMap>

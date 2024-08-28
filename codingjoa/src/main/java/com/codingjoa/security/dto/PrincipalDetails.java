@@ -1,9 +1,9 @@
 package com.codingjoa.security.dto;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -26,11 +26,11 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 	private final String nickname;
 	private final String imageUrl;						// LEFT OUTER JOIN member_iamge
 	private final String provider;						// LEFT OUTER JOIN sns_info
-	private final Set<GrantedAuthority> authorities;	// INNER JOIN auth
+	private final List<GrantedAuthority> authorities;	// INNER JOIN auth
 
 	@Builder
 	private PrincipalDetails(Integer idx, String email, String password, String nickname, String imageUrl,
-			String provider, Set<GrantedAuthority> authorities) {
+			String provider, List<GrantedAuthority> authorities) {
 		this.idx = idx;
 		this.email = email;
 		this.password = (password != null) ? password : "";
@@ -85,16 +85,16 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 		return null;
 	}
 	
-	private static Set<GrantedAuthority> convertToAuthorites(Set<String> memberRoles) {
-		Set<GrantedAuthority> authorities = new HashSet<>();
+	private static List<GrantedAuthority> convertToAuthorites(List<String> memberRoles) {
+		List<GrantedAuthority> authorities = new ArrayList<>();
 		for(String role : memberRoles) {
 			authorities.add(new SimpleGrantedAuthority(role));
 		}
 		return authorities;
 	}
 
-	private static Set<GrantedAuthority> convertToAuthorites(String roles) {
-		Set<GrantedAuthority> authorities = new HashSet<>();
+	private static List<GrantedAuthority> convertToAuthorites(String roles) {
+		List<GrantedAuthority> authorities = new ArrayList<>();
 		for (String role : roles.split(",")) {
 			authorities.add(new SimpleGrantedAuthority(role));
 		}
@@ -103,7 +103,7 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 	
 	@SuppressWarnings("unchecked")
 	public static PrincipalDetails from(Map<String, Object> map) { // from database
-		Set<String> memberRoles = (Set<String>) map.get("memberRoles");
+		List<String> memberRoles = (List<String>) map.get("memberRoles");
 		return PrincipalDetails.builder()
 				.idx((Integer) map.get("memberIdx"))
 				.email((String) map.get("memberEmail"))

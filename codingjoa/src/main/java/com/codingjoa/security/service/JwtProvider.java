@@ -3,8 +3,8 @@ package com.codingjoa.security.service;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
@@ -122,7 +122,7 @@ public class JwtProvider {
 		// authentication (UsernamePasswordAuthenticationToken, OAuth2AuthenticationToken)
 		PrincipalDetails principal = (PrincipalDetails) authentication.getPrincipal();
 		
-		Set<GrantedAuthority> authorities = (Set<GrantedAuthority>) principal.getAuthorities();
+		List<GrantedAuthority> authorities = (List<GrantedAuthority>) principal.getAuthorities();
 		String roles = authorities
 				.stream()
 				.map(authority -> authority.getAuthority())

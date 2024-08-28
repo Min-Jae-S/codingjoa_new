@@ -13,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -293,13 +292,8 @@ public class MemberRestController {
 	}
 	
 	private HttpHeaders createJwtCookieHeader(PrincipalDetails principal, HttpServletRequest request) {
-		Authentication authentication;
-		if (principal.getProvider().equals("local")) {
-			 authentication = new UsernamePasswordAuthenticationToken(principal, null, principal.getAuthorities());
-		} else {
-			 authentication = new OAuth2AuthenticationToken(principal, principal.getAuthorities(), principal.getProvider());
-		}
-		
+		Authentication authentication = new UsernamePasswordAuthenticationToken(principal, null, principal.getAuthorities());
+
 		String jwt = jwtProvider.createJwt(authentication, request);
 		ResponseCookie jwtCookie = ResponseCookie.from("ACCESS_TOKEN", jwt)
 				.domain("localhost")
