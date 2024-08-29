@@ -15,7 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 public class UriUtils {
 
 	// TopMenuInterceptor 
-	public static String buildContinueUrl(HttpServletRequest request) {
+	public static String buildCurrentUrl(HttpServletRequest request) {
 		String currentUrl = UrlUtils.buildFullRequestUrl(request);
 		return encode(currentUrl);
 	}
@@ -24,15 +24,15 @@ public class UriUtils {
 	public static String buildLoginUrl(HttpServletRequest request) {
 		return ServletUriComponentsBuilder.fromContextPath(request)
 				.path("/login")
-				.queryParam("continue", buildContinueUrl(request))
+				.queryParam("continue", buildCurrentUrl(request))
 				.build()
 				.toUriString();
 	}
 	
-	public static String resolveUrl(String url) {
-		if (!isAuthorizedUrl(url)) {
+	public static String resolveUrl(String url, HttpServletRequest request) {
+		if (!isAuthorizedUrl(url, request)) {
 			log.info("\t > missing or unauthorized url provided, default url will be used");
-			return ServletUriComponentsBuilder.fromCurrentContextPath()
+			return ServletUriComponentsBuilder.fromContextPath(request)
 					.path("/")
 					.build()
 					.toUriString();
@@ -46,12 +46,12 @@ public class UriUtils {
 		return org.springframework.web.util.UriUtils.encode(url, StandardCharsets.UTF_8);
 	}
 	
-	private static boolean isAuthorizedUrl(String url) {
+	private static boolean isAuthorizedUrl(String url, HttpServletRequest request) {
 		if (!StringUtils.hasText(url)) {
 			return false;
 		}
 		
-		String pattern = ServletUriComponentsBuilder.fromCurrentContextPath()
+		String pattern = ServletUriComponentsBuilder.fromContextPath(request)
 				.path("/**")
 				.build(false)
 				.toUriString();
