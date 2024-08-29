@@ -18,7 +18,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.codingjoa.security.dto.PrincipalDetails;
-import com.codingjoa.util.Utils;
+import com.codingjoa.util.FormatUtils;
+import com.codingjoa.util.NumberUtils;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -78,10 +79,11 @@ public class JwtProvider {
 	 * IllegalArgumentException - if the claimsJws string is null or empty or only whitespace
 	 */
 	public boolean isValidJwt(String jwt) {
+		
 		try {
 			Claims claims = parseJwt(jwt).getBody();
 			String sub = claims.getSubject();
-			if (!Utils.isNaturalNumber(sub)) {
+			if (!NumberUtils.isNaturalNumber(sub)) {
 				throw new IllegalArgumentException("'sub' is invalid");
 			}
 			
@@ -136,7 +138,7 @@ public class JwtProvider {
 		claims.put("provider", principal.getProvider());
 		claims.put("token_type", "access_token");
 		
-		log.info("\t > created claims = {}", Utils.formatPrettyJson(claims));
+		log.info("\t > created claims = {}", FormatUtils.formatPrettyJson(claims));
 		
 		return claims;
 	}

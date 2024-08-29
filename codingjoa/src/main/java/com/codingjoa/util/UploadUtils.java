@@ -5,7 +5,7 @@ import java.util.UUID;
 
 import org.springframework.web.multipart.MultipartFile;
 
-public class UploadFileUtils {
+public class UploadUtils {
 	
 	public static String upload(String path, MultipartFile file) {
 		File uploadFolder = new File(path);

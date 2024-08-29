@@ -19,7 +19,7 @@ import org.springframework.util.StringUtils;
 import com.codingjoa.security.dto.PrincipalDetails;
 import com.codingjoa.security.oauth2.OAuth2Attributes;
 import com.codingjoa.service.MemberService;
-import com.codingjoa.util.Utils;
+import com.codingjoa.util.FormatUtils;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -44,14 +44,14 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 		OAuth2User loadedOAuth2User = delegate.loadUser(userRequest);
 		
 		Map<String, Object> attributes = loadedOAuth2User.getAttributes();
-		log.info("\t > received userInfo response = {}", Utils.formatPrettyJson(attributes));
+		log.info("\t > received userInfo response = {}", FormatUtils.formatPrettyJson(attributes));
 		
 		String registrationId = userRequest.getClientRegistration().getRegistrationId();
 		String attributeKeyName = userRequest.getClientRegistration()
 				.getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
 		
 		OAuth2Attributes oAuth2Attributes = OAuth2Attributes.of(registrationId, attributeKeyName, attributes);
-		log.info("\t > oAuth2Attributes = {}", Utils.formatPrettyJson(oAuth2Attributes));
+		log.info("\t > oAuth2Attributes = {}", FormatUtils.formatPrettyJson(oAuth2Attributes));
 		
 		if (oAuth2Attributes == null) {
 			OAuth2Error oauth2Error = new OAuth2Error(INVALID_REGISTRATION_ID_ERROR_CODE,

@@ -20,7 +20,7 @@ import com.codingjoa.pagination.Criteria;
 import com.codingjoa.pagination.Pagination;
 import com.codingjoa.service.BoardService;
 import com.codingjoa.service.ImageService;
-import com.codingjoa.util.Utils;
+import com.codingjoa.util.FormatUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -68,7 +68,7 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public BoardDetailsDto getBoardDetails(int boardIdx) {
 		Map<String, Object> boardDetailsMap = boardMapper.findBoardDetailsByIdx(boardIdx);
-		log.info("\t > find boardDetailsMap = {}", Utils.specifiyFields(boardDetailsMap));
+		log.info("\t > find boardDetailsMap = {}", FormatUtils.formatFields(boardDetailsMap));
 		
 		if (boardDetailsMap == null) {
 			throw new ExpectedException("error.NotFoundBoard");

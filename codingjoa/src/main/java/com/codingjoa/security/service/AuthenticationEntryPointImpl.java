@@ -19,7 +19,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.web.util.UriUtils;
 
 import com.codingjoa.dto.ErrorResponse;
-import com.codingjoa.util.Utils;
+import com.codingjoa.util.HttpRequestUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -45,7 +45,7 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 	public void commence(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException authException) throws IOException, ServletException {
 		log.info("## {}", this.getClass().getSimpleName());
-		log.info("\t > request-line = {}", Utils.getHttpRequestLine(request));
+		log.info("\t > request-line = {}", HttpRequestUtils.getHttpRequestLine(request));
 		log.info("\t > {} : {}", authException.getClass().getSimpleName(), authException.getMessage());
 		
 		/*

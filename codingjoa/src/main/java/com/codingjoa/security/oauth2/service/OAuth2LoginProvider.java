@@ -12,7 +12,7 @@ import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
-import com.codingjoa.util.Utils;
+import com.codingjoa.util.FormatUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -48,7 +48,7 @@ public class OAuth2LoginProvider implements AuthenticationProvider { // OAuth2Lo
 		log.info("\t > request for accessToken"); 
 		OAuth2AuthorizationCodeAuthenticationToken authenticatedAuthCodeToken =
 				(OAuth2AuthorizationCodeAuthenticationToken) authorizationCodeAuthenticationProvider.authenticate(authCodeToken);
-		log.info("\t > received accessToken response, authenticatedAuthCodeToken = {}", Utils.specifiyFields(authenticatedAuthCodeToken));
+		log.info("\t > received accessToken response, authenticatedAuthCodeToken = {}", FormatUtils.formatFields(authenticatedAuthCodeToken));
 				
 		// request user info
 		OAuth2UserRequest oAuth2UserRequest = new OAuth2UserRequest(

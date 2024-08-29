@@ -12,7 +12,8 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 
 import com.codingjoa.annotation.BoardCri;
 import com.codingjoa.pagination.Criteria;
-import com.codingjoa.util.Utils;
+import com.codingjoa.util.FormatUtils;
+import com.codingjoa.util.NumberUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -54,7 +55,7 @@ public class BoardCriteriaArgumentResolver implements HandlerMethodArgumentResol
 		String recordCnt = webRequest.getParameter("recordCnt");
 		String type = webRequest.getParameter("type");
 		String keyword = webRequest.getParameter("keyword");
-		log.info("\t > page = {}, recordCnt = {}, type = {}, keyword = {}", page, recordCnt, type, Utils.formatString(keyword));
+		log.info("\t > page = {}, recordCnt = {}, type = {}, keyword = {}", page, recordCnt, type, FormatUtils.formatString(keyword));
 		
 		page = (page == null) ? "" : page.strip();
 		recordCnt = (recordCnt == null) ? "" : recordCnt.strip();
@@ -62,7 +63,7 @@ public class BoardCriteriaArgumentResolver implements HandlerMethodArgumentResol
 		keyword = (keyword == null) ? "" : keyword.strip();
 
 		Criteria boardCri = new Criteria(
-			Utils.isNaturalNumber(page) ? Integer.parseInt(page) : defaultPage,
+			NumberUtils.isNaturalNumber(page) ? Integer.parseInt(page) : defaultPage,
 			recordCntGroup.containsKey(recordCnt) ? Integer.parseInt(recordCnt) : defaultRecordCnt,
 			typeGroup.containsKey(type) ? type : defaultType,
 			keyword

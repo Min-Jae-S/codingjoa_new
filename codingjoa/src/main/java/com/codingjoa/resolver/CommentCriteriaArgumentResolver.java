@@ -14,7 +14,8 @@ import org.springframework.web.servlet.HandlerMapping;
 
 import com.codingjoa.annotation.CommentCri;
 import com.codingjoa.pagination.CommentCriteria;
-import com.codingjoa.util.Utils;
+import com.codingjoa.util.FormatUtils;
+import com.codingjoa.util.NumberUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -44,11 +45,11 @@ public class CommentCriteriaArgumentResolver implements HandlerMethodArgumentRes
 		log.info("## {}", this.getClass().getSimpleName());
 		
 		String page = webRequest.getParameter("page");
-		log.info("\t > page = {}", Utils.formatString(page));
+		log.info("\t > page = {}", FormatUtils.formatString(page));
 		
 		page = (page == null) ? "" : page.strip();
 		CommentCriteria commentCri = new CommentCriteria(
-			Utils.isNaturalNumber(page) ? Integer.parseInt(page) : defaultPage,
+			NumberUtils.isNaturalNumber(page) ? Integer.parseInt(page) : defaultPage,
 			defaultRecordCnt
 		);
 		log.info("\t > resolved commentCri = {}", commentCri);

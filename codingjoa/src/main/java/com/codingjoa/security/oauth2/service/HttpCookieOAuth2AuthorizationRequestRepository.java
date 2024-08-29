@@ -1,13 +1,10 @@
 package com.codingjoa.security.oauth2.service;
 
-import java.time.Duration;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseCookie;
 import org.springframework.security.oauth2.client.web.AuthorizationRequestRepository;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
@@ -85,18 +82,6 @@ public class HttpCookieOAuth2AuthorizationRequestRepository implements Authoriza
 	private Map<String, OAuth2AuthorizationRequest> getAuthorizationRequests(HttpServletRequest request) {
 		Map<String, OAuth2AuthorizationRequest> authorizationRequests = null;
 		return authorizationRequests;
-	}
-	
-	private void addCookie(HttpServletResponse response, String name, String value) {
-		ResponseCookie cookie = ResponseCookie.from(name, value)
-				.domain("localhost")
-				.path("/")
-				.maxAge(Duration.ofMinutes(10))
-				.httpOnly(true)
-				.secure(true)
-				.sameSite("Lax")
-				.build();
-		response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
 	}
 
 }

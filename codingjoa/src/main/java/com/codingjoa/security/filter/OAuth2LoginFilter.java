@@ -31,7 +31,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.codingjoa.util.Utils;
+import com.codingjoa.util.FormatUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -65,7 +65,7 @@ public class OAuth2LoginFilter extends AbstractAuthenticationProcessingFilter { 
 		log.info("## {}.attemptAuthentication", this.getClass().getSimpleName());
 		
 		MultiValueMap<String, String> params = toMultiMap(request.getParameterMap());
-		log.info("\t > received authorization response, params = {}", Utils.formatPrettyJson(params));
+		log.info("\t > received authorization response, params = {}", FormatUtils.formatPrettyJson(params));
 		
 		OAuth2AuthorizationRequest authorizationRequest = 
 				authorizationRequestRepository.removeAuthorizationRequest(request, response);
@@ -103,7 +103,7 @@ public class OAuth2LoginFilter extends AbstractAuthenticationProcessingFilter { 
 
 		String continueUrl = authorizationRequest.getAttribute("continue");
 		oAuth2AuthenticationToken.setDetails(continueUrl);
-		log.info("## set the continueUrl in details : {}", Utils.formatString(continueUrl));
+		log.info("## set the continueUrl in details : {}", FormatUtils.formatString(continueUrl));
 
 		OAuth2AuthorizedClient authorizedClient = new OAuth2AuthorizedClient(
 				authenticatedLoginToken.getClientRegistration(),

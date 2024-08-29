@@ -16,7 +16,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import com.codingjoa.dto.ErrorResponse;
 import com.codingjoa.service.RedisService;
 import com.codingjoa.util.MessageUtils;
-import com.codingjoa.util.Utils;
+import com.codingjoa.util.HttpRequestUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -34,7 +34,7 @@ public class PasswordResetKeyInterceptor implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		log.info("## {}", this.getClass().getSimpleName());
-		log.info("\t > request-line = {}", Utils.getHttpRequestLine(request));
+		log.info("\t > request-line = {}", HttpRequestUtils.getHttpRequestLine(request));
 		
 		response.setStatus(HttpServletResponse.SC_FORBIDDEN);
 		response.setCharacterEncoding(StandardCharsets.UTF_8.name());

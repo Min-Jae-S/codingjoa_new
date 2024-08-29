@@ -16,8 +16,8 @@ import org.springframework.util.StringUtils;
 
 import com.codingjoa.security.dto.LoginDto;
 import com.codingjoa.security.exception.LoginRequireFieldException;
+import com.codingjoa.util.FormatUtils;
 import com.codingjoa.util.MessageUtils;
-import com.codingjoa.util.Utils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.extern.slf4j.Slf4j;
@@ -67,7 +67,7 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter { // Use
 		
 		String continueParameter = request.getParameter("continue");
 		authenticatedLoginToken.setDetails(continueParameter);
-		log.info("## set the continueUrl in details : {}", Utils.formatString(continueParameter));
+		log.info("## set the continueUrl in details : {}", FormatUtils.formatString(continueParameter));
 		
 		return authenticatedLoginToken;
 	}
