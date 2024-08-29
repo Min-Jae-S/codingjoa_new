@@ -1,26 +1,24 @@
 package com.codingjoa.interceptor;
 
-import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.security.web.util.UrlUtils;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.util.UriUtils;
 
 import com.codingjoa.entity.Category;
 import com.codingjoa.service.CategoryService;
+import com.codingjoa.util.UriUtils;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /*
- * 	인터셉터는 서블릿이 제공하는 기능이 아니기 때문에 DispatcherType을 쓸 수 없다. 
+ * 수 없다. 
  *  excludePathPatterns 를 이용하여 경로를 제거한다.
  */
 
@@ -82,9 +80,8 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 				.anyMatch(pattern -> new AntPathRequestMatcher(pattern).matches(request));
 		
 		if (!matchesExcludePattern) {
-			log.info("\t > no matches excludePatterns, setting loginMenuUrl as model attribute");
-			String currentUrl = UrlUtils.buildFullRequestUrl(request);
-			modelAndView.addObject("loginMenuUrl", UriUtils.encode(currentUrl, StandardCharsets.UTF_8));
+			log.info("\t > no matches excludePatterns, setting continueUrl as model attribute");
+			modelAndView.addObject("continueUrl", UriUtils.buildContinueUrl(request));
 		} else {
 			log.info("\t > matches excludePatterns, no loginMenuUrl set");
 		}

@@ -50,18 +50,6 @@ public class MainController {
 		return "login";
 	}
 	
-	private boolean isValidUrl(String url) {
-		if (!StringUtils.hasText(url)) {
-			return false;
-		}
-		
-		String pattern = ServletUriComponentsBuilder.fromCurrentContextPath()
-				.path("/**")
-				.build(false)
-				.toUriString();
-		return new AntPathMatcher().match(pattern, url);
-	}
-	
 	private String resolveContinueUrl(String continueUrl) {
 		if (!isValidUrl(continueUrl)) {
 			log.info("\t > missing or invalid continueUrl provided, default continueUrl will be used");
@@ -73,6 +61,18 @@ public class MainController {
 			log.info("\t > valid continueUrl provided, this continueUrl will be used");
 			return continueUrl;
 		}
+	}
+	
+	private boolean isValidUrl(String url) {
+		if (!StringUtils.hasText(url)) {
+			return false;
+		}
+		
+		String pattern = ServletUriComponentsBuilder.fromCurrentContextPath()
+				.path("/**")
+				.build(false)
+				.toUriString();
+		return new AntPathMatcher().match(pattern, url);
 	}
 	
 	@ResponseBody

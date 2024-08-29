@@ -13,13 +13,11 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
-import org.springframework.security.web.util.UrlUtils;
 import org.springframework.stereotype.Component;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import org.springframework.web.util.UriUtils;
 
 import com.codingjoa.dto.ErrorResponse;
-import com.codingjoa.util.HttpRequestUtils;
+import com.codingjoa.util.HttpUtils;
+import com.codingjoa.util.UriUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -45,7 +43,7 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 	public void commence(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException authException) throws IOException, ServletException {
 		log.info("## {}", this.getClass().getSimpleName());
-		log.info("\t > request-line = {}", HttpRequestUtils.getHttpRequestLine(request));
+		log.info("\t > request-line = {}", HttpUtils.getHttpRequestLine(request));
 		log.info("\t > {} : {}", authException.getClass().getSimpleName(), authException.getMessage());
 		
 		/*
@@ -60,7 +58,6 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 		 * 		beforeSend: function(xmlHttpRequest) {
 		 * 			xmlHttpRequest.setRequestHeader("AJAX", "true")
 		 * 		}
-		 *
 		 */
 		
 		if (isAjaxRequest(request)) {
@@ -78,18 +75,8 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 			response.getWriter().write(jsonResponse);
 			response.getWriter().close();
 		} else {
-			String loginUrl = buildLoginUrl(request);
-			redirectStrategy.sendRedirect(request, response, loginUrl);
+			redirectStrategy.sendRedirect(request, response, UriUtils.buildLoginUrl(request));
 		}
-	}
-	
-	private String buildLoginUrl(HttpServletRequest request) {
-		String currentUrl = UrlUtils.buildFullRequestUrl(request);
-		return ServletUriComponentsBuilder.fromContextPath(request)
-				.path("/login")
-				.queryParam("continue", UriUtils.encode(currentUrl, StandardCharsets.UTF_8))
-				.build()
-				.toUriString();
 	}
 	
 	private boolean isAjaxRequest(HttpServletRequest request) {

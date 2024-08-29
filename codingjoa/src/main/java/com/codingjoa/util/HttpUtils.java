@@ -5,7 +5,7 @@ import java.nio.charset.StandardCharsets;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class HttpRequestUtils {
+public class HttpUtils {
 
 	// StringBuffer: thread-safe, StringBuilder: single-thread
 	public static String getFullURL(HttpServletRequest request) {

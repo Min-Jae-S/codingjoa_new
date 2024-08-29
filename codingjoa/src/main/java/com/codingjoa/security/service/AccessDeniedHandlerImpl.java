@@ -18,7 +18,7 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;
 
 import com.codingjoa.dto.ErrorResponse;
-import com.codingjoa.util.HttpRequestUtils;
+import com.codingjoa.util.HttpUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -42,7 +42,7 @@ public class AccessDeniedHandlerImpl implements AccessDeniedHandler {
 	public void handle(HttpServletRequest request, HttpServletResponse response,
 			AccessDeniedException accessDeniedException) throws IOException, ServletException {
 		log.info("## {}", this.getClass().getSimpleName());
-		log.info("\t > request-line = {}", HttpRequestUtils.getHttpRequestLine(request));
+		log.info("\t > request-line = {}", HttpUtils.getHttpRequestLine(request));
 		log.info("\t > {} : {}", accessDeniedException.getClass().getSimpleName(), accessDeniedException.getMessage());
 		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

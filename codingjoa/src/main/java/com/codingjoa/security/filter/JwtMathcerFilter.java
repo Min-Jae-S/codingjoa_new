@@ -18,7 +18,7 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.codingjoa.security.service.JwtProvider;
-import com.codingjoa.util.HttpRequestUtils;
+import com.codingjoa.util.HttpUtils;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,7 +34,7 @@ public class JwtMathcerFilter extends OncePerRequestFilter {
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 		log.info("## {}", this.getClass().getSimpleName());
-		log.info("\t > request-line = {}", HttpRequestUtils.getHttpRequestLine(request));
+		log.info("\t > request-line = {}", HttpUtils.getHttpRequestLine(request));
 		
 		String jwt = resolveJwt(request);
 		
@@ -55,9 +55,9 @@ public class JwtMathcerFilter extends OncePerRequestFilter {
 		boolean matchesIncludePattern = includeMatchers.stream().anyMatch(matcher -> matcher.matches(request));
 		
 		if (matchesIncludePattern) {
-			log.info("\t > enter into {} : {}", this.getClass().getSimpleName(), HttpRequestUtils.getHttpRequestLine(request));
+			log.info("\t > enter into {} : {}", this.getClass().getSimpleName(), HttpUtils.getHttpRequestLine(request));
 		} else {
-			log.info("\t > no enter into {} : {}", this.getClass().getSimpleName(), HttpRequestUtils.getHttpRequestLine(request));
+			log.info("\t > no enter into {} : {}", this.getClass().getSimpleName(), HttpUtils.getHttpRequestLine(request));
 		}
 		
 		return !matchesIncludePattern;

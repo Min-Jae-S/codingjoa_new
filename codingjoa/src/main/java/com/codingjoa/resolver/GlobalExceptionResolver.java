@@ -8,7 +8,7 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.codingjoa.util.HttpRequestUtils;
+import com.codingjoa.util.HttpUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -20,7 +20,7 @@ public class GlobalExceptionResolver implements HandlerExceptionResolver {
 	public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler, 
 			Exception ex) {
 		log.info("## {}", this.getClass().getSimpleName());
-		log.info("\t > request-line = {}", HttpRequestUtils.getHttpRequestLine(request));
+		log.info("\t > request-line = {}", HttpUtils.getHttpRequestLine(request));
 		log.info("\t > {} : {}", ex.getClass().getSimpleName(), ex.getMessage());
 
 		if (handler == null) {
