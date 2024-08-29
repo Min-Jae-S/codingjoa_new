@@ -75,7 +75,10 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 			response.getWriter().write(jsonResponse);
 			response.getWriter().close();
 		} else {
-			redirectStrategy.sendRedirect(request, response, UriUtils.buildLoginUrl(request));
+			String loginUrl = UriUtils.buildLoginUrl(request);
+			log.info("\t > loginUrl = {}", loginUrl);
+			
+			redirectStrategy.sendRedirect(request, response, loginUrl);
 		}
 	}
 	

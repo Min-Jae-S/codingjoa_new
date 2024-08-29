@@ -11,17 +11,12 @@ import org.springframework.security.web.savedrequest.RequestCache;
 import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.AntPathMatcher;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import org.springframework.web.util.UriUtils;
 
 import com.codingjoa.dto.SuccessResponse;
 import com.codingjoa.util.FormatUtils;
-import com.nimbusds.jose.util.StandardCharset;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -45,34 +40,7 @@ public class MainController {
 	public String loginPage(@RequestParam(name = "continue", required = false) String continueUrl, Model model) {
 		log.info("## loginPage");
 		log.info("\t > continue = {}", FormatUtils.formatString(continueUrl));
-		String resolvedContinueUrl = resolveContinueUrl(continueUrl);
-		model.addAttribute("continueUrl", UriUtils.encode(resolvedContinueUrl, StandardCharset.UTF_8));
 		return "login";
-	}
-	
-	private String resolveContinueUrl(String continueUrl) {
-		if (!isValidUrl(continueUrl)) {
-			log.info("\t > missing or invalid continueUrl provided, default continueUrl will be used");
-			return ServletUriComponentsBuilder.fromCurrentContextPath()
-					.path("/")
-					.build()
-					.toUriString();
-		} else {
-			log.info("\t > valid continueUrl provided, this continueUrl will be used");
-			return continueUrl;
-		}
-	}
-	
-	private boolean isValidUrl(String url) {
-		if (!StringUtils.hasText(url)) {
-			return false;
-		}
-		
-		String pattern = ServletUriComponentsBuilder.fromCurrentContextPath()
-				.path("/**")
-				.build(false)
-				.toUriString();
-		return new AntPathMatcher().match(pattern, url);
 	}
 	
 	@ResponseBody

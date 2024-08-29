@@ -171,6 +171,9 @@
 <script>
 	$(function() {
 		const continueUrl = "<c:out value='${continueUrl}'/>";
+		console.log("## continueUrl = %s", continueUrl);
+		console.log("## decoded continueUrl = %s", decodeURI(continueUrl));
+		
 		$("#loginForm").on("submit", function(e) {
 			e.preventDefault();
 			let formData = {

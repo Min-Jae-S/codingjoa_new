@@ -21,14 +21,7 @@
 			<ul class="navbar-nav ml-auto">
 				<sec:authorize access="isAnonymous()">
 					<li class="nav-item mx-2 mt-1">
-						<c:choose>
-							<c:when test="${not empty continueUrl}">
-								<a href="${contextPath}/login?continue=${continueUrl}" class="nav-link">로그인</a>
-							</c:when>
-							<c:otherwise>
-								<a href="${contextPath}/login" class="nav-link">로그인</a>
-							</c:otherwise>
-						</c:choose>
+						<a href="${contextPath}/login?continue=${continueUrl}" class="nav-link">로그인</a>
 					</li>
 					<li class="nav-item mx-2 mt-1">
 						<a href="${contextPath}/member/join" class="nav-link">회원가입</a>
