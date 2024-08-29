@@ -16,12 +16,10 @@ import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
-import org.springframework.util.AntPathMatcher;
-import org.springframework.util.StringUtils;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.codingjoa.dto.SuccessResponse;
 import com.codingjoa.security.service.JwtProvider;
+import com.codingjoa.util.UriUtils;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -53,43 +51,15 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 		//response.setHeader(HttpHeaders.SET_COOKIE, jwtCookie.toString());
 		response.addHeader(HttpHeaders.SET_COOKIE, jwtCookie.toString());
 
-		String continueUrl = resolveContinueUrl(authentication, request);
+		String continueUrl = (String) authentication.getDetails();
 		SuccessResponse successResponse = SuccessResponse.builder()
 				.status(HttpStatus.OK)
 				.messageByCode("success.Login")
-				.data(Map.of("continueUrl", continueUrl))
+				.data(Map.of("continueUrl", UriUtils.resolveContinueUrl(continueUrl, request)))
 				.build();
 		
 		// opation1 : after forwading to view(jsp), using successResponse, alert message and redirect to contineUrl on the client-side
 		// opation2 : directly redirect to continueUrl on the server-side
-		redirectStrategy.sendRedirect(request, response, continueUrl);
+		redirectStrategy.sendRedirect(request, response, UriUtils.resolveContinueUrl(continueUrl, request));
 	}
-	
-	private String resolveContinueUrl(Authentication authentication, HttpServletRequest request) {
-		String continueUrl = (String) authentication.getDetails();
-		
-		if (!isValidUrl(continueUrl, request)) {
-			log.info("\t > missing or invalid continueUrl provided, default continueUrl will be used");
-			return ServletUriComponentsBuilder.fromContextPath(request)
-					.path("/")
-					.build()
-					.toUriString();
-		} else {
-			log.info("\t > valid continueUrl provided, this continueUrl will be used");
-			return continueUrl;
-		}
-	}
-	
-	private boolean isValidUrl(String url, HttpServletRequest request) {
-		if (!StringUtils.hasText(url)) {
-			return false;
-		}
-		
-		String pattern = ServletUriComponentsBuilder.fromContextPath(request)
-				.path("/**")
-				.build()
-				.toUriString();
-		return new AntPathMatcher().match(pattern, url);
-	}
-
 }

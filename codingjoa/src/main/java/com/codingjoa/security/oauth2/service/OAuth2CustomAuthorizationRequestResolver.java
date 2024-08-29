@@ -49,7 +49,7 @@ public class OAuth2CustomAuthorizationRequestResolver implements OAuth2Authoriza
 	
 	private OAuth2AuthorizationRequest customize(HttpServletRequest request, OAuth2AuthorizationRequest authorizationRequest) {
 		log.info("## {}.customize", this.getClass().getSimpleName());
-		log.info("\t > customize authorization request uri : fully encoding, adding prompt paramter");
+		log.info("\t > customize authorizationRequestUri - fully encoding, adding prompt paramter");
 		String authorizationRequestUri = customizeAuthorizationRequestUri(authorizationRequest);
 		
 		log.info("\t > put a 'continue' param into the attributes of OAuth2AuthorizationRequest");

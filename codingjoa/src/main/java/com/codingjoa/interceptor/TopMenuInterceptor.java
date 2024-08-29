@@ -23,8 +23,8 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 	private static final String FORWARD_URL_PREFIX = "forward:";
 	private static final String REDIRECT_URL_PREFIX = "redirect:";
 	private static final String JSON_VIEW = "jsonView";
-	private final AntPathRequestMatcher loginMatcher = new AntPathRequestMatcher("/login");
-	private final AntPathRequestMatcher errorMatcher = new AntPathRequestMatcher("/error");
+	private final AntPathRequestMatcher loginMatcher = new AntPathRequestMatcher("/login", "GET");
+	private final AntPathRequestMatcher errorMatcher = new AntPathRequestMatcher("/error", "GET");
 	private final CategoryService categoryService;
 	
 	/*
@@ -68,13 +68,15 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 		List<Category> parentCategoryList = categoryService.getParentCategoryList();
 		modelAndView.addObject("parentCategoryList", parentCategoryList);
 		
+		String currentUrl;
 		if (loginMatcher.matches(request) || errorMatcher.matches(request)) {
-			log.info("\t > matching loginPattern or errorPattern");
-			modelAndView.addObject("continueUrl", "");
+			log.info("\t > matching loginPattern or errorPattern, set currentUrl to an empty string");
+			currentUrl = "";
 		} else {
-			log.info("\t > not matching loginPattern or errorPattern");
-			modelAndView.addObject("continueUrl", UriUtils.buildCurrentUrl(request));
+			log.info("\t > not matching loginPattern or errorPattern, set currentUrl to the current request URL");
+			currentUrl = UriUtils.buildCurrentUrl(request);
 		}
+		modelAndView.addObject("currentUrl", currentUrl);
 		
 		log.info("\t > added model attrs = {}", modelAndView.getModel().keySet());
 	}

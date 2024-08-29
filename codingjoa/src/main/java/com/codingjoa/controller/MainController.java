@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.codingjoa.dto.SuccessResponse;
 import com.codingjoa.util.FormatUtils;
+import com.codingjoa.util.UriUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -37,9 +38,10 @@ public class MainController {
 	}
 
 	@GetMapping("/login") 
-	public String loginPage(@RequestParam(name = "continue", required = false) String continueUrl, Model model) {
+	public String loginPage(@RequestParam(name = "continue", required = false) String continueUrl, Model model, HttpServletRequest request) {
 		log.info("## loginPage");
 		log.info("\t > continue = {}", FormatUtils.formatString(continueUrl));
+		model.addAttribute("continueUrl", UriUtils.resolveContinueUrl(continueUrl, request));
 		return "login";
 	}
 	

@@ -17,11 +17,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
-import org.springframework.util.AntPathMatcher;
-import org.springframework.util.StringUtils;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.codingjoa.dto.SuccessResponse;
+import com.codingjoa.util.UriUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -57,52 +55,17 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 		response.setCharacterEncoding(StandardCharsets.UTF_8.name());
 		
-		String continueUrl = resolveContinueUrl(authentication, request);
+		String continueUrl = (String) authentication.getDetails();
 		SuccessResponse successResponse = SuccessResponse.builder()
 				.status(HttpStatus.OK)
 				.messageByCode("success.Login")
-				.data(Map.of("continueUrl", continueUrl))
+				.data(Map.of("continueUrl", UriUtils.resolveContinueUrl(continueUrl, request)))
 				.build();
         
 		log.info("\t > respond with success response in JSON format");
 		String jsonResponse = objectMapper.writeValueAsString(successResponse);
 		response.getWriter().write(jsonResponse);
 		response.getWriter().close();
-	}
-	
-	private String resolveContinueUrl(Authentication authentication, HttpServletRequest request) {
-		String continueUrl = (String) authentication.getDetails();
-		
-		if (!isValidUrl(continueUrl, request)) {
-			log.info("\t > missing or invalid continueUrl provided, default continueUrl will be used");
-			return ServletUriComponentsBuilder.fromContextPath(request)
-					.path("/")
-					.build()
-					.toUriString();
-		} else {
-			log.info("\t > valid continueUrl provided, this continueUrl will be used");
-			return continueUrl;
-		}
-	}
-	
-	private boolean isValidUrl(String url, HttpServletRequest request) {
-		if (!StringUtils.hasText(url)) {
-			return false;
-		}
-		
-//		StringBuffer requestURL = request.getRequestURL(); 				// http://localhost:8888/codingjoa/**
-//		String contextPath = request.getContextPath();					// /codingjoa
-//		
-//		int contextPathIndex = requestURL.indexOf(contextPath) + contextPath.length();
-//		String baserUrl = requestURL.substring(0, contextPathIndex);	// http://localhost:8888/codingjoa
-//		
-//		return new AntPathMatcher().match(baserUrl + "/**", url);
-		
-		String pattern = ServletUriComponentsBuilder.fromContextPath(request)
-				.path("/**")
-				.build()
-				.toUriString();
-		return new AntPathMatcher().match(pattern, url);
 	}
 	
 	@SuppressWarnings("unused")
