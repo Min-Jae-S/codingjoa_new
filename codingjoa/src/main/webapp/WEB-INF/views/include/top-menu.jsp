@@ -94,9 +94,8 @@
 						let categoryCode = categoryList[i].categoryCode;
 						let categoryPath = categoryList[i].categoryPath;
 						let categoryName = categoryList[i].categoryName;
-						html += "<button class='dropdown-item' type='button' data-path='";
-						html += (categoryCode == categoryPath) ? "/?boardCategoryCode=" + categoryCode : categoryPath;
-						html += "'>" + categoryName + "</button>";
+						let path = (categoryCode == categoryPath) ? "/?boardCategoryCode=" + categoryCode : categoryPath;
+						html += "<button class='dropdown-item' type='button' data-path='" + path + "'>" + categoryName + "</button>";
 					});
 					html += "</div>";
 					$a.after(html);

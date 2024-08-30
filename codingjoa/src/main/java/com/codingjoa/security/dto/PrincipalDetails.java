@@ -28,13 +28,12 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 	private final String provider;						// LEFT OUTER JOIN sns_info
 	private final List<GrantedAuthority> authorities;	// INNER JOIN auth
 	
-	/* only OAuth2User */
-	private Map<String, Object> attributes;
+	private Map<String, Object> attributes;				// OAuth2User
 	private String nameAttributeKey;
 
 	@Builder
 	private PrincipalDetails(Integer idx, String email, String password, String nickname, String imageUrl,
-			String provider, List<GrantedAuthority> authorities, Map<String, Object> attributes) {
+			String provider, List<GrantedAuthority> authorities) {
 		this.idx = idx;
 		this.email = email;
 		this.password = (password != null) ? password : "";
@@ -86,11 +85,11 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 
 	@Override
 	public String getName() {
-		return this.getAttribute(this.nameAttributeKey).toString();
+		return this.getAttributes().get(this.nameAttributeKey).toString();
 	}
 	
 	@SuppressWarnings("unchecked")
-	public static PrincipalDetails from(Map<String, Object> map) { // from DB
+	public static PrincipalDetails from(Map<String, Object> map) { // from database
 		List<String> memberRoles = (List<String>) map.get("memberRoles");
 		return PrincipalDetails.builder()
 				.idx((Integer) map.get("memberIdx"))
@@ -103,9 +102,9 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 				.build();
 	}
 
-	public static PrincipalDetails from(PrincipalDetails principalDetails, Map<String, Object> attribute,
+	public static PrincipalDetails from(PrincipalDetails principalDetails, Map<String, Object> attributes,
 			String nameAttributeKey) { 
-		principalDetails.setAttributes(attribute);
+		principalDetails.setAttributes(attributes);
 		principalDetails.setNameAttributeKey(nameAttributeKey);
 		return principalDetails;
 	}
@@ -132,7 +131,7 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 	
 	private static List<GrantedAuthority> convert(List<String> memberRoles) {
 		List<GrantedAuthority> authorities = new ArrayList<>();
-		for(String role : memberRoles) {
+		for (String role : memberRoles) {
 			authorities.add(new SimpleGrantedAuthority(role));
 		}
 		return authorities;
