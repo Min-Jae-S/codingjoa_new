@@ -21,11 +21,12 @@ import lombok.extern.slf4j.Slf4j;
  * so that it can later compare it with the value returned by the OAuth2 provider.
  */
 
+@SuppressWarnings("unused")
 @Slf4j
 public class HttpCookieOAuth2AuthorizationRequestRepository implements AuthorizationRequestRepository<OAuth2AuthorizationRequest> {
 
 	private static final String OAUTH2_AUTHORIZATION_REQUEST_COOKIE_NAME = "OAUTH2.AUTHORIZATION_REQUEST";
-	private static final String OAUTH2_CONTINUE_PARAM_COOKIE_NAME = "OAUTH2.CONTINUE_PARAM";
+	private static final String CONTINUE_PARAM_COOKIE_NAME = "CONTINUE";
 	
 	@Override
 	public OAuth2AuthorizationRequest loadAuthorizationRequest(HttpServletRequest request) {
