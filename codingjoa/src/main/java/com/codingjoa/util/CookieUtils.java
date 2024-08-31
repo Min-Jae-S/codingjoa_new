@@ -14,11 +14,11 @@ import org.springframework.http.ResponseCookie;
 
 public class CookieUtils {
 	
-	public static void addCookie(HttpServletResponse response, String name, String value, long cookieExpireSeconds) {
+	public static void addCookie(HttpServletResponse response, String name, String value, long expireSeconds) {
 		ResponseCookie cookie = ResponseCookie.from(name, value)
 				.domain("localhost")
 				.path("/")
-				.maxAge(Duration.ofSeconds(cookieExpireSeconds))
+				.maxAge(Duration.ofSeconds(expireSeconds))
 				.httpOnly(true)
 				.secure(true)
 				.sameSite("Lax") // Strict -> Lax
@@ -26,21 +26,20 @@ public class CookieUtils {
 		response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
 	}
 	
-	public void removeCookie(HttpServletRequest request, HttpServletResponse response, String value) {
+	public static void removeCookie(HttpServletRequest request, HttpServletResponse response, String name) {
 		
 	}
 	
 	public static Cookie getCookie(HttpServletRequest request, String name) {
 		Cookie[] cookies = request.getCookies();
-		if (cookies != null && cookies.length > 0) {
-			for (Cookie cookie : cookies) {
-				if (cookie.getName().equals(name)) {
-					return cookie;
-				}
-			}
-		}
+	    if (cookies == null || cookies.length == 0) {
+	        return null;
+	    }
 		
-		return null;
+	    return Arrays.stream(cookies)
+                .filter(cookie -> name.equals(cookie.getName()))
+                .findFirst()
+                .orElse(null);
 	}
 	
 	public static List<String> getCookies(HttpServletRequest request) {
