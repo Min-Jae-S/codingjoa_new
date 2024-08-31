@@ -31,6 +31,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.codingjoa.security.oauth2.service.HttpCookieOAuth2AuthorizationRequestRepository;
+import com.codingjoa.util.CookieUtils;
 import com.codingjoa.util.FormatUtils;
 
 import lombok.extern.slf4j.Slf4j;
@@ -65,13 +66,14 @@ public class OAuth2LoginFilter extends AbstractAuthenticationProcessingFilter { 
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws AuthenticationException {
 		log.info("## {}.attemptAuthentication", this.getClass().getSimpleName());
+		log.info("\t > cookies = {}", CookieUtils.getCookies(request));
 		
 		MultiValueMap<String, String> params = toMultiMap(request.getParameterMap());
 		log.info("\t > received authorization response, params = {}", FormatUtils.formatPrettyJson(params));
 		
-		OAuth2AuthorizationRequest authorizationRequest = 
-				authorizationRequestRepository.removeAuthorizationRequest(request, response);
-		log.info("\t > remove authorizationRequest from the cookie");
+		OAuth2AuthorizationRequest authorizationRequest = authorizationRequestRepository.removeAuthorizationRequest(request, response);
+		log.info("\t > remove authorizationRequest from the cookie = {}", 
+				(authorizationRequest == null) ? null : FormatUtils.formatPrettyJson(authorizationRequest));
 		
 		if (authorizationRequest == null) {
 			OAuth2Error oAuth2Error = new OAuth2Error(AUTHORIZATION_REQUEST_NOT_FOUND_ERROR_CODE);
