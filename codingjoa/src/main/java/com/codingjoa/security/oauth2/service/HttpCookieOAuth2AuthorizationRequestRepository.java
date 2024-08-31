@@ -30,7 +30,7 @@ import lombok.extern.slf4j.Slf4j;
  * so that it can later compare it with the value returned by the OAuth2 provider.
  */
 
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "unchecked"})
 @Slf4j
 public class HttpCookieOAuth2AuthorizationRequestRepository implements AuthorizationRequestRepository<OAuth2AuthorizationRequest> {
 
@@ -38,7 +38,7 @@ public class HttpCookieOAuth2AuthorizationRequestRepository implements Authoriza
 	private static final String CONTINUE_PARAM_COOKIE_NAME = "CONTINUE";
 
 	private static final String DEFAULT_AUTHORIZATION_REQUEST_ATTR_NAME =
-			HttpSessionOAuth2AuthorizationRequestRepository.class.getName() +  ".AUTHORIZATION_REQUEST";
+			HttpSessionOAuth2AuthorizationRequestRepository.class.getName() + ".AUTHORIZATION_REQUEST";
 	
 	@Override
 	public OAuth2AuthorizationRequest loadAuthorizationRequest(HttpServletRequest request) {
@@ -81,37 +81,40 @@ public class HttpCookieOAuth2AuthorizationRequestRepository implements Authoriza
 			return null;
 		}
 		
-		OAuth2AuthorizationRequest originalRequest = this.getAuthorizationRequest(request);
-		
-		// ...
-		
+		Map<String, OAuth2AuthorizationRequest> authorizationRequests = this.getAuthorizationRequests(request);
+		OAuth2AuthorizationRequest originalRequest = authorizationRequests.remove(stateParameter);
+//		if (!authorizationRequests.isEmpty()) {
+//			request.getSession().setAttribute(this.sessionAttributeName, authorizationRequests);
+//		} else {
+//			request.getSession().removeAttribute(this.sessionAttributeName);
+//		}
 		return originalRequest;
 	}
 	
-	private OAuth2AuthorizationRequest getAuthorizationRequest(HttpServletRequest request) {
-		Cookie authorizationRequestCookie = CookieUtils.getCookie(request, AUTHORIZATION_REQUEST_COOKIE_NAME);
-		return (authorizationRequestCookie == null) ? null : deserialize(authorizationRequestCookie, OAuth2AuthorizationRequest.class);
+	private Map<String, OAuth2AuthorizationRequest> getAuthorizationRequests(HttpServletRequest request) {
+		Cookie cookie = CookieUtils.getCookie(request, AUTHORIZATION_REQUEST_COOKIE_NAME);
+		return (cookie == null) ? null : deserialize(cookie.getValue());
 	}
 	
-	@SuppressWarnings("unchecked")
-	private Map<String, OAuth2AuthorizationRequest> getAuthorizationRequests(HttpServletRequest request) {
-		HttpSession session = request.getSession(false);
-		Map<String, OAuth2AuthorizationRequest> authorizationRequests = session == null ? null :
-				(Map<String, OAuth2AuthorizationRequest>) session.getAttribute(DEFAULT_AUTHORIZATION_REQUEST_ATTR_NAME);
-		if (authorizationRequests == null) {
-			return new HashMap<>();
-		}
-		return authorizationRequests;
-	}
+//	@SuppressWarnings("unchecked")
+//	private Map<String, OAuth2AuthorizationRequest> getAuthorizationRequests(HttpServletRequest request) {
+//		HttpSession session = request.getSession(false);
+//		Map<String, OAuth2AuthorizationRequest> authorizationRequests = session == null ? null :
+//				(Map<String, OAuth2AuthorizationRequest>) session.getAttribute(DEFAULT_AUTHORIZATION_REQUEST_ATTR_NAME);
+//		if (authorizationRequests == null) {
+//			return new HashMap<>();
+//		}
+//		return authorizationRequests;
+//	}
 	
 	private static String serialize(Object object) {
 		byte[] serializedBytes = SerializationUtils.serialize(object);
         return Base64.getUrlEncoder().encodeToString(serializedBytes);
     }
 	
-	private static <T> T deserialize(Cookie cookie, Class<T> clazz) {
-		byte[] decodedBytes = Base64.getUrlDecoder().decode(cookie.getValue());
-		return clazz.cast(SerializationUtils.deserialize(decodedBytes));
+	private static Map<String, OAuth2AuthorizationRequest> deserialize(String value) {
+		byte[] decodedBytes = Base64.getUrlDecoder().decode(value);
+		return (Map<String, OAuth2AuthorizationRequest>) SerializationUtils.deserialize(decodedBytes);
 	}
 
 }

@@ -16,7 +16,6 @@ import org.springframework.security.oauth2.client.authentication.OAuth2LoginAuth
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.web.AuthorizationRequestRepository;
-import org.springframework.security.oauth2.client.web.HttpSessionOAuth2AuthorizationRequestRepository;
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepository;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.OAuth2Error;
@@ -31,6 +30,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.codingjoa.security.oauth2.service.HttpCookieOAuth2AuthorizationRequestRepository;
 import com.codingjoa.util.FormatUtils;
 
 import lombok.extern.slf4j.Slf4j;
@@ -39,10 +39,12 @@ import lombok.extern.slf4j.Slf4j;
 public class OAuth2LoginFilter extends AbstractAuthenticationProcessingFilter { // OAuth2LoginAuthenticationFilter
 	
 	public static final String DEFAULT_FILTER_PROCESSES_URI = "/login/*/callback";
+	private static final String AUTHORIZATION_REQUEST_NOT_FOUND_ERROR_CODE = "authorization_request_not_found";
+	private static final String CLIENT_REGISTRATION_NOT_FOUND_ERROR_CODE = "client_registration_not_found";
+	private final AuthorizationRequestRepository<OAuth2AuthorizationRequest> authorizationRequestRepository = 
+			new HttpCookieOAuth2AuthorizationRequestRepository();
 	private final ClientRegistrationRepository clientRegistrationRepository;
 	private final OAuth2AuthorizedClientRepository authorizedClientRepository;
-	private AuthorizationRequestRepository<OAuth2AuthorizationRequest> authorizationRequestRepository = 
-			new HttpSessionOAuth2AuthorizationRequestRepository();
 	
 	public OAuth2LoginFilter(ClientRegistrationRepository clientRegistrationRepository,
 								OAuth2AuthorizedClientRepository authorizedClientRepository) {
@@ -69,17 +71,17 @@ public class OAuth2LoginFilter extends AbstractAuthenticationProcessingFilter { 
 		
 		OAuth2AuthorizationRequest authorizationRequest = 
 				authorizationRequestRepository.removeAuthorizationRequest(request, response);
-		log.info("\t > remove authorizationRequest from the session");
+		log.info("\t > remove authorizationRequest from the cookie");
 		
 		if (authorizationRequest == null) {
-			OAuth2Error oAuth2Error = new OAuth2Error("");
+			OAuth2Error oAuth2Error = new OAuth2Error(AUTHORIZATION_REQUEST_NOT_FOUND_ERROR_CODE);
 			throw new OAuth2AuthenticationException(oAuth2Error);
 		}
 		
 		String registrationId = authorizationRequest.getAttribute(OAuth2ParameterNames.REGISTRATION_ID);
 		ClientRegistration clientRegistration = clientRegistrationRepository.findByRegistrationId(registrationId);
 		if (clientRegistration == null) {
-			OAuth2Error oAuth2Error = new OAuth2Error("");
+			OAuth2Error oAuth2Error = new OAuth2Error(CLIENT_REGISTRATION_NOT_FOUND_ERROR_CODE);
 			throw new OAuth2AuthenticationException(oAuth2Error);
 		}
 		
