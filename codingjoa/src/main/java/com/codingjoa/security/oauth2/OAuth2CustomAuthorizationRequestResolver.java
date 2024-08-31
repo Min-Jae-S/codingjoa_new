@@ -1,4 +1,4 @@
-package com.codingjoa.security.oauth2.service;
+package com.codingjoa.security.oauth2;
 
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;

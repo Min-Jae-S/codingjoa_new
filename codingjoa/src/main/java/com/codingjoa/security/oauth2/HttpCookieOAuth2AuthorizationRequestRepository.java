@@ -1,4 +1,4 @@
-package com.codingjoa.security.oauth2.service;
+package com.codingjoa.security.oauth2;
 
 import java.util.Base64;
 import java.util.HashMap;
@@ -35,7 +35,7 @@ import lombok.extern.slf4j.Slf4j;
 public class HttpCookieOAuth2AuthorizationRequestRepository implements AuthorizationRequestRepository<OAuth2AuthorizationRequest> {
 
 	private static final String AUTHORIZATION_REQUEST_COOKIE_NAME = "AUTHORIZATION_REQUEST";
-	private static final long COOKIE_EXPIRATION = 600;
+	private static final long COOKIE_EXPIRE_SECONDS = 600;
 	
 	@Override
 	public OAuth2AuthorizationRequest loadAuthorizationRequest(HttpServletRequest request) {
@@ -66,7 +66,7 @@ public class HttpCookieOAuth2AuthorizationRequestRepository implements Authoriza
 		authorizationRequests.put(state, authorizationRequest);
 		
 		// will put authorizationRequests to cookie instead of session
-		CookieUtils.addCookie(response, AUTHORIZATION_REQUEST_COOKIE_NAME, serialize(authorizationRequests), COOKIE_EXPIRATION);
+		CookieUtils.addCookie(response, AUTHORIZATION_REQUEST_COOKIE_NAME, serialize(authorizationRequests), COOKIE_EXPIRE_SECONDS);
 	}
 
 	@Override

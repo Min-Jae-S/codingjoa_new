@@ -30,7 +30,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.codingjoa.security.oauth2.service.HttpCookieOAuth2AuthorizationRequestRepository;
+import com.codingjoa.security.oauth2.HttpCookieOAuth2AuthorizationRequestRepository;
 import com.codingjoa.util.CookieUtils;
 import com.codingjoa.util.FormatUtils;
 
