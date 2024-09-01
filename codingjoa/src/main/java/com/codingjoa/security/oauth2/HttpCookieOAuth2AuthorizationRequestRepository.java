@@ -47,10 +47,8 @@ public class HttpCookieOAuth2AuthorizationRequestRepository implements Authoriza
 	public void saveAuthorizationRequest(OAuth2AuthorizationRequest authorizationRequest, HttpServletRequest request,
 			HttpServletResponse response) {
 		log.info("## {}.saveAuthorizationRequest");
-		
-		// authorizationRequest resolved by the 'OAuth2AuthorizationRequestResolver'
 		if (authorizationRequest == null) {
-			this.removeAuthorizationRequest(request, response);
+			CookieUtils.removeCookie(request, response, AUTHORIZATION_REQUEST_COOKIE_NAME);
 			return;
 		}
 
@@ -67,14 +65,14 @@ public class HttpCookieOAuth2AuthorizationRequestRepository implements Authoriza
 		}
 		
 		OAuth2AuthorizationRequest originalRequest = this.getAuthorizationRequest(request);
-		CookieUtils.removeCookie(request, response, AUTHORIZATION_REQUEST_COOKIE_NAME);
+		log.info("\t > deserialzed originalRequest = {}", originalRequest);
 		if (originalRequest == null) {
 			return null;
 		}
 		
-		String state = originalRequest.getState();
+		CookieUtils.removeCookie(request, response, AUTHORIZATION_REQUEST_COOKIE_NAME);
 		
-		return stateParameter.equals(state) ? originalRequest : null;
+		return stateParameter.equals(originalRequest.getState()) ? originalRequest : null;
 	}
 	
 	@Deprecated
@@ -89,12 +87,12 @@ public class HttpCookieOAuth2AuthorizationRequestRepository implements Authoriza
 		return (cookie == null) ? null : deserialize(cookie);
 	}
 	
-	private static String serialize(Object object) {
+	private String serialize(Object object) {
 		byte[] serializedBytes = SerializationUtils.serialize(object);
         return Base64.getUrlEncoder().encodeToString(serializedBytes);
     }
 	
-	private static OAuth2AuthorizationRequest deserialize(Cookie cookie) {
+	private OAuth2AuthorizationRequest deserialize(Cookie cookie) {
 		byte[] decodedBytes = Base64.getUrlDecoder().decode(cookie.getValue());
 		return (OAuth2AuthorizationRequest) SerializationUtils.deserialize(decodedBytes);
 	}

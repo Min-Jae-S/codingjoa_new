@@ -2,6 +2,7 @@ package com.codingjoa.util;
 
 import java.time.Duration;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,7 +17,7 @@ public class CookieUtils {
 	
 	public static void addCookie(HttpServletResponse response, String name, String value, long expireSeconds) {
 		ResponseCookie cookie = ResponseCookie.from(name, value)
-				.domain("localhost")
+				//.domain("localhost")
 				.path("/")
 				.maxAge(Duration.ofSeconds(expireSeconds))
 				.httpOnly(true)
@@ -27,11 +28,7 @@ public class CookieUtils {
 	}
 	
 	public static void removeCookie(HttpServletRequest request, HttpServletResponse response, String name) {
-		Cookie cookie = getCookie(request, name);
-		if (cookie != null) {
-			cookie.setMaxAge(0);
-			response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
-		}
+		addCookie(response, name, null, 0);
 	}
 	
 	public static Cookie getCookie(HttpServletRequest request, String name) {
@@ -49,7 +46,7 @@ public class CookieUtils {
 	public static List<String> getCookies(HttpServletRequest request) {
 		Cookie[] cookies = request.getCookies();
 		if (cookies == null) {
-			return null;
+			return Collections.emptyList();
 		}
 		
 		return Arrays.stream(cookies)
