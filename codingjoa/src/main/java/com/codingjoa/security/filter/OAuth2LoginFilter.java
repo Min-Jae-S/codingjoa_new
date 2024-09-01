@@ -69,11 +69,11 @@ public class OAuth2LoginFilter extends AbstractAuthenticationProcessingFilter { 
 		log.info("\t > cookies = {}", CookieUtils.getCookies(request));
 		
 		MultiValueMap<String, String> params = toMultiMap(request.getParameterMap());
-		log.info("\t > received authorization response, params = {}", FormatUtils.formatPrettyJson(params));
+		log.info("\t > received authorization response, params = {}", params.keySet());
 		
 		OAuth2AuthorizationRequest authorizationRequest = authorizationRequestRepository.removeAuthorizationRequest(request, response);
 		log.info("\t > remove authorizationRequest from the cookie = {}", 
-				(authorizationRequest == null) ? null : FormatUtils.formatPrettyJson(authorizationRequest));
+				(authorizationRequest == null) ? null : authorizationRequest.getClass().getSimpleName());
 		
 		if (authorizationRequest == null) {
 			OAuth2Error oAuth2Error = new OAuth2Error(AUTHORIZATION_REQUEST_NOT_FOUND_ERROR_CODE);

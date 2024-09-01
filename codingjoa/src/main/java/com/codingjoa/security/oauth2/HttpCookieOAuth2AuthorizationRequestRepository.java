@@ -1,5 +1,6 @@
 package com.codingjoa.security.oauth2;
 
+import java.time.Duration;
 import java.util.Base64;
 
 import javax.servlet.http.Cookie;
@@ -29,11 +30,11 @@ import lombok.extern.slf4j.Slf4j;
 public class HttpCookieOAuth2AuthorizationRequestRepository implements AuthorizationRequestRepository<OAuth2AuthorizationRequest> {
 
 	private static final String AUTHORIZATION_REQUEST_COOKIE_NAME = "AUTHORIZATION_REQUEST";
-	private static final long EXPIRE_SECONDS = 300;
+	private static final long COOKIE_EXPIRE_SECONDS =  Duration.ofMinutes(5l).getSeconds();
 	
 	@Override
 	public OAuth2AuthorizationRequest loadAuthorizationRequest(HttpServletRequest request) {
-		log.info("## {}.loadAuthorizationRequest");
+		log.info("## {}.loadAuthorizationRequest", this.getClass().getSimpleName());
 		
 		String stateParameter = request.getParameter(OAuth2ParameterNames.STATE);
 		if (stateParameter == null) {
@@ -46,39 +47,44 @@ public class HttpCookieOAuth2AuthorizationRequestRepository implements Authoriza
 	@Override
 	public void saveAuthorizationRequest(OAuth2AuthorizationRequest authorizationRequest, HttpServletRequest request,
 			HttpServletResponse response) {
-		log.info("## {}.saveAuthorizationRequest");
+		log.info("## {}.saveAuthorizationRequest", this.getClass().getSimpleName());
 		if (authorizationRequest == null) {
 			CookieUtils.removeCookie(request, response, AUTHORIZATION_REQUEST_COOKIE_NAME);
 			return;
 		}
 
 		// put authorizationRequests to cookie instead of session
-		CookieUtils.addCookie(response, AUTHORIZATION_REQUEST_COOKIE_NAME, serialize(authorizationRequest), EXPIRE_SECONDS);
+		CookieUtils.addCookie(response, AUTHORIZATION_REQUEST_COOKIE_NAME, serialize(authorizationRequest), COOKIE_EXPIRE_SECONDS);
 	}
 
 	@Override
 	public OAuth2AuthorizationRequest removeAuthorizationRequest(HttpServletRequest request, HttpServletResponse response) {
-		log.info("## {}.removeAuthorizationRequest(request, response");
+		log.info("## {}.removeAuthorizationRequest(request, response)", this.getClass().getSimpleName());
+		
 		String stateParameter = request.getParameter(OAuth2ParameterNames.STATE);
+		log.info("\t > stateParameter = {}", stateParameter);
+		
 		if (stateParameter == null) {
 			return null;
 		}
 		
 		OAuth2AuthorizationRequest originalRequest = this.getAuthorizationRequest(request);
-		log.info("\t > deserialzed originalRequest = {}", originalRequest);
 		if (originalRequest == null) {
 			return null;
 		}
 		
 		CookieUtils.removeCookie(request, response, AUTHORIZATION_REQUEST_COOKIE_NAME);
 		
-		return stateParameter.equals(originalRequest.getState()) ? originalRequest : null;
+		String state = originalRequest.getState();
+		log.info("\t > state from originalRequest = {}", state);
+		
+		return stateParameter.equals(state) ? originalRequest : null;
 	}
 	
 	@Deprecated
 	@Override
 	public OAuth2AuthorizationRequest removeAuthorizationRequest(HttpServletRequest request) {
-		log.info("## {}.removeAuthorizationRequest(request)");
+		log.info("## {}.removeAuthorizationRequest(request)", this.getClass().getSimpleName());
 		return null;
 	}
 	

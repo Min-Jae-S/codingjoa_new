@@ -2,6 +2,7 @@ package com.codingjoa.util;
 
 import java.time.Duration;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -12,6 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class CookieUtils {
 	
 	public static void addCookie(HttpServletResponse response, String name, String value, long expireSeconds) {
@@ -27,7 +31,13 @@ public class CookieUtils {
 	}
 	
 	public static void removeCookie(HttpServletRequest request, HttpServletResponse response, String name) {
-		addCookie(response, name, null, 0);
+		log.info("## removeCookie");
+		
+		Cookie cookie = getCookie(request, name);
+		if (cookie != null) {
+			log.info("\t > cookie exist : {} {}", cookie.getName(), cookie.getValue());
+			addCookie(response, name, null, 0);
+		}
 	}
 	
 	public static Cookie getCookie(HttpServletRequest request, String name) {
@@ -45,8 +55,7 @@ public class CookieUtils {
 	public static List<String> getCookies(HttpServletRequest request) {
 		Cookie[] cookies = request.getCookies();
 		if (cookies == null) {
-			//return Collections.emptyList();
-			return null;
+			return Collections.emptyList();
 		}
 		
 		return Arrays.stream(cookies)

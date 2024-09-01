@@ -19,6 +19,7 @@ import org.springframework.stereotype.Component;
 
 import com.codingjoa.dto.SuccessResponse;
 import com.codingjoa.security.service.JwtProvider;
+import com.codingjoa.util.CookieUtils;
 import com.codingjoa.util.UriUtils;
 
 import lombok.RequiredArgsConstructor;
@@ -30,6 +31,8 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 
+	private static final String JWT_COOKIE_NAME = "ACCESS_TOKEN";
+	private static final long COOKIE_EXPIRE_SECONDS = Duration.ofHours(1l).getSeconds();
 	private final JwtProvider jwtProvider;
 	private final RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 	
@@ -40,26 +43,19 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 		
 		log.info("\t > create JWT and issue it as a cookie");
 		String jwt = jwtProvider.createJwt(authentication, request);
-		ResponseCookie jwtCookie = ResponseCookie.from("ACCESS_TOKEN", jwt)
-				.domain("localhost")
-				.path("/")
-				.maxAge(Duration.ofHours(1))
-				.httpOnly(true)
-				.secure(true)
-				.sameSite("Lax") // strict -> lax
-				.build();
-		//response.setHeader(HttpHeaders.SET_COOKIE, jwtCookie.toString());
-		response.addHeader(HttpHeaders.SET_COOKIE, jwtCookie.toString());
+		CookieUtils.addCookie(response, JWT_COOKIE_NAME, jwt, COOKIE_EXPIRE_SECONDS);
 
 		String continueUrl = (String) authentication.getDetails();
+		continueUrl = UriUtils.resolveContinueUrl(continueUrl, request);
+		
 		SuccessResponse successResponse = SuccessResponse.builder()
 				.status(HttpStatus.OK)
 				.messageByCode("success.Login")
-				.data(Map.of("continueUrl", UriUtils.resolveContinueUrl(continueUrl, request)))
+				.data(Map.of("continueUrl", continueUrl))
 				.build();
 		
 		// opation1 : after forwading to view(jsp), using successResponse, alert message and redirect to contineUrl on the client-side
 		// opation2 : directly redirect to continueUrl on the server-side
-		redirectStrategy.sendRedirect(request, response, UriUtils.resolveContinueUrl(continueUrl, request));
+		redirectStrategy.sendRedirect(request, response, continueUrl);
 	}
 }
