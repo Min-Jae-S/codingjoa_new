@@ -2,7 +2,6 @@ package com.codingjoa.util;
 
 import java.time.Duration;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -46,7 +45,8 @@ public class CookieUtils {
 	public static List<String> getCookies(HttpServletRequest request) {
 		Cookie[] cookies = request.getCookies();
 		if (cookies == null) {
-			return Collections.emptyList();
+			//return Collections.emptyList();
+			return null;
 		}
 		
 		return Arrays.stream(cookies)
