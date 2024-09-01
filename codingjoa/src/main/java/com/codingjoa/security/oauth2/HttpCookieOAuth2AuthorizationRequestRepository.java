@@ -29,7 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 public class HttpCookieOAuth2AuthorizationRequestRepository implements AuthorizationRequestRepository<OAuth2AuthorizationRequest> {
 
 	private static final String AUTHORIZATION_REQUEST_COOKIE_NAME = "AUTHORIZATION_REQUEST";
-	private static final long EXPIRE_SECONDS = 600;
+	private static final long EXPIRE_SECONDS = 300;
 	
 	@Override
 	public OAuth2AuthorizationRequest loadAuthorizationRequest(HttpServletRequest request) {
