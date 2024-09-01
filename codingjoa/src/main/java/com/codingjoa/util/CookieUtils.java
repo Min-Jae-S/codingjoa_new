@@ -29,7 +29,7 @@ public class CookieUtils {
 	public static void removeCookie(HttpServletRequest request, HttpServletResponse response, String name) {
 		Cookie cookie = getCookie(request, name);
 		cookie.setMaxAge(0);
-		response.addHeader(name, cookie.toString());
+		response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
 	}
 	
 	public static Cookie getCookie(HttpServletRequest request, String name) {
