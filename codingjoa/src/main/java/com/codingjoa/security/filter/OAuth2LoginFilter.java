@@ -72,9 +72,6 @@ public class OAuth2LoginFilter extends AbstractAuthenticationProcessingFilter { 
 		log.info("\t > received authorization response, params = {}", params.keySet());
 		
 		OAuth2AuthorizationRequest authorizationRequest = authorizationRequestRepository.removeAuthorizationRequest(request, response);
-		log.info("\t > remove authorizationRequest from the cookie = {}", 
-				(authorizationRequest == null) ? null : authorizationRequest.getClass().getSimpleName());
-		
 		if (authorizationRequest == null) {
 			OAuth2Error oAuth2Error = new OAuth2Error(AUTHORIZATION_REQUEST_NOT_FOUND_ERROR_CODE);
 			throw new OAuth2AuthenticationException(oAuth2Error);

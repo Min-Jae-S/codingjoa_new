@@ -13,9 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 public class CookieUtils {
 	
 	public static void addCookie(HttpServletResponse response, String name, String value, long expireSeconds) {
@@ -31,13 +28,7 @@ public class CookieUtils {
 	}
 	
 	public static void removeCookie(HttpServletRequest request, HttpServletResponse response, String name) {
-		log.info("## removeCookie");
-		
-		Cookie cookie = getCookie(request, name);
-		if (cookie != null) {
-			log.info("\t > cookie exist : {} {}", cookie.getName(), cookie.getValue());
-			addCookie(response, name, null, 0);
-		}
+		addCookie(response, name, null, 0);
 	}
 	
 	public static Cookie getCookie(HttpServletRequest request, String name) {

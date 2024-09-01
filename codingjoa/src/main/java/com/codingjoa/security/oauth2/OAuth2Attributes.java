@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 
-@SuppressWarnings("unchecked")
 @ToString
 @Getter
 public class OAuth2Attributes {
@@ -59,6 +58,7 @@ public class OAuth2Attributes {
 	    ...
 	}
 */
+	@SuppressWarnings("unchecked")
 	private static OAuth2Attributes ofKakao(String userNameAttributeName, Map<String, Object> attributes) {
 		Map<String, Object> kakaoAccount = (Map<String, Object>) attributes.get("kakao_account");
 		Map<String, Object> profile = (Map<String, Object>) kakaoAccount.get("profile");
@@ -67,7 +67,7 @@ public class OAuth2Attributes {
 				.nameAttributeKey(userNameAttributeName)
 				.provider("kakao")
 				.email((String) kakaoAccount.get("email"))
-				.nickname((String) profile.get("nicknmae"))
+				.nickname((String) profile.get("nickname"))
 				.build();
 	}
 	
@@ -83,6 +83,7 @@ public class OAuth2Attributes {
 		}
 	}	
 */
+	@SuppressWarnings("unchecked")
 	private static OAuth2Attributes ofNaver(String userNameAttributeName, Map<String, Object> attributes) {
 		Map<String, Object> response = (Map<String, Object>) attributes.get("response");
 		return OAuth2Attributes.builder()
@@ -90,7 +91,7 @@ public class OAuth2Attributes {
 				.nameAttributeKey(userNameAttributeName)
 				.provider("naver")
 				.email((String) response.get("email"))
-				.nickname((String) response.get("nicknmae"))
+				.nickname((String) response.get("nickname"))
 				.build();
 	}
 	

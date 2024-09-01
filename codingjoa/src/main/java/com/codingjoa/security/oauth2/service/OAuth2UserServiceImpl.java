@@ -44,14 +44,14 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 		OAuth2User loadedOAuth2User = delegate.loadUser(userRequest);
 		
 		Map<String, Object> attributes = loadedOAuth2User.getAttributes();
-		log.info("\t > received userInfo response = {}", FormatUtils.formatPrettyJson(attributes));
+		log.info("\t > received userInfo {}", FormatUtils.formatPrettyJson(attributes));
 		
 		String registrationId = userRequest.getClientRegistration().getRegistrationId();
 		String attributeKeyName = userRequest.getClientRegistration()
 				.getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
 		
 		OAuth2Attributes oAuth2Attributes = OAuth2Attributes.of(registrationId, attributeKeyName, attributes);
-		log.info("\t > oAuth2Attributes = {}", FormatUtils.formatPrettyJson(oAuth2Attributes));
+		log.info("\t > created oAuth2Attributes {}", FormatUtils.formatPrettyJson(oAuth2Attributes));
 		
 		if (oAuth2Attributes == null) {
 			OAuth2Error oauth2Error = new OAuth2Error(INVALID_REGISTRATION_ID_ERROR_CODE,
@@ -66,21 +66,23 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 			throw new OAuth2AuthenticationException(oAuth2Error, oAuth2Error.toString());
 		}
 		
+		String nickname = oAuth2Attributes.getNickname();
+		if (!StringUtils.hasText(nickname)) {
+			OAuth2Error oAuth2Error = new OAuth2Error(MISSING_NICKNAME_RESPONSE_ERROR_CODE, 
+					"Missing required 'nickname' attribute", null);
+			throw new OAuth2AuthenticationException(oAuth2Error, oAuth2Error.toString());
+		}
+		
 		PrincipalDetails principalDetails = memberService.getUserDetailsByEmail(email);
 		
 		if (principalDetails == null) {
 			log.info("\t > proceed with the registration");
 
-			String nickname = oAuth2Attributes.getNickname();
-			if (!StringUtils.hasText(nickname)) {
-				OAuth2Error oAuth2Error = new OAuth2Error(MISSING_NICKNAME_RESPONSE_ERROR_CODE, 
-						"Missing required 'nickname' attribute", null);
-				throw new OAuth2AuthenticationException(oAuth2Error, oAuth2Error.toString());
-			}
-			
 			// to apply transactions, move the OAuth2Member save logic to "memberService"
 			memberService.saveOAuth2Member(oAuth2Attributes);
 			principalDetails = memberService.getUserDetailsByEmail(email);
+		} else {
+			log.info("\t > already registered user");
 		}
 		
 		return PrincipalDetails.from(principalDetails, attributes, attributeKeyName);
