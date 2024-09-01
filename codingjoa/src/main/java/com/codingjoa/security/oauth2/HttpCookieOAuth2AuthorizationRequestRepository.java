@@ -72,9 +72,12 @@ public class HttpCookieOAuth2AuthorizationRequestRepository implements Authoriza
 			return null;
 		}
 		
-		return stateParameter.equals(originalRequest.getState()) ? originalRequest : null;
+		String state = originalRequest.getState();
+		
+		return stateParameter.equals(state) ? originalRequest : null;
 	}
 	
+	@Deprecated
 	@Override
 	public OAuth2AuthorizationRequest removeAuthorizationRequest(HttpServletRequest request) {
 		log.info("## {}.removeAuthorizationRequest(request)");
