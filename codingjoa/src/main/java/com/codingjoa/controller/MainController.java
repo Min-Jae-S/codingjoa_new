@@ -39,7 +39,7 @@ public class MainController {
 	@GetMapping("/login") 
 	public String loginPage(@RequestParam(name = "continue", required = false) String continueUrl, Model model) {
 		log.info("## loginPage");
-		log.info("\t > continue = {}", FormatUtils.formatString(continueUrl));
+		log.info("\t > continueUrl = {}", FormatUtils.formatString(continueUrl));
 		model.addAttribute("continueUrl", continueUrl);
 		return "login";
 	}

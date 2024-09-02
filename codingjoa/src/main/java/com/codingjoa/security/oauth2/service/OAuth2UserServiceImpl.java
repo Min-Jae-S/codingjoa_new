@@ -50,6 +50,8 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 				.getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
 		
 		OAuth2Attributes oAuth2Attributes = OAuth2Attributes.of(registrationId, attributeKeyName, attributes);
+		log.info("\t > created oAuth2Attributes {}", FormatUtils.formatPrettyJson(oAuth2Attributes));
+		
 		if (oAuth2Attributes == null) {
 			OAuth2Error oauth2Error = new OAuth2Error(INVALID_REGISTRATION_ID_ERROR_CODE,
 					"An error occurred due to invalid registrationId: " + registrationId, null);

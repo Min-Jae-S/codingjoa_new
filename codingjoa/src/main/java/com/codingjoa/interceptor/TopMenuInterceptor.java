@@ -5,6 +5,9 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -68,15 +71,19 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 		List<Category> parentCategoryList = categoryService.getParentCategoryList();
 		modelAndView.addObject("parentCategoryList", parentCategoryList);
 		
-		String currentUrl;
-		if (loginMatcher.matches(request) || errorMatcher.matches(request)) {
-			log.info("\t > matching loginPattern or errorPattern, set currentUrl to an empty string");
-			currentUrl = "";
-		} else {
-			log.info("\t > not matching loginPattern or errorPattern, set currentUrl to the current request URL");
-			currentUrl = UriUtils.buildCurrentUrl(request);
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (authentication != null && authentication instanceof AnonymousAuthenticationToken) {
+			String currentUrl;
+			if (loginMatcher.matches(request) || errorMatcher.matches(request)) {
+				currentUrl = "";
+				log.info("\t > matching loginPattern or errorPattern, set currentUrl to an empty string");
+			} else {
+				currentUrl = UriUtils.buildCurrentUrl(request);
+				log.info("\t > not matching loginPattern or errorPattern");
+				log.info("\t > set currentUrl to the current request URL: {}", currentUrl);
+			}
+			modelAndView.addObject("currentUrl", currentUrl);
 		}
-		modelAndView.addObject("currentUrl", currentUrl);
 		
 		log.info("\t > added model attrs = {}", modelAndView.getModel().keySet());
 	}

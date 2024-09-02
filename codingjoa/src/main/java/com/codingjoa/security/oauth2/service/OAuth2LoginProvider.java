@@ -46,7 +46,7 @@ public class OAuth2LoginProvider implements AuthenticationProvider { // OAuth2Lo
 		log.info("\t > request for accessToken"); 
 		OAuth2AuthorizationCodeAuthenticationToken authenticatedAuthCodeToken =
 				(OAuth2AuthorizationCodeAuthenticationToken) authorizationCodeAuthenticationProvider.authenticate(authCodeToken);
-		log.info("\t > received accessToken = {}", authenticatedAuthCodeToken.getAccessToken());
+		log.info("\t > received accessToken");
 				
 		// request user info
 		OAuth2UserRequest oAuth2UserRequest = new OAuth2UserRequest(
