@@ -52,9 +52,9 @@ public class OAuth2CustomAuthorizationRequestResolver implements OAuth2Authoriza
 		log.info("\t > customize authorizationRequestUri: fully encoding, adding prompt paramter");
 		String authorizationRequestUri = customizeAuthorizationRequestUri(authorizationRequest);
 		
-		log.info("\t > put a 'continue' param into the attributes of OAuth2AuthorizationRequest");
+		log.info("\t > put a 'continue_url' param into the attributes of OAuth2AuthorizationRequest");
 		Map<String, Object> attributes = new HashMap<>(authorizationRequest.getAttributes());
-		attributes.put("continue", request.getParameter("continue"));
+		attributes.put("continue_url", request.getParameter("continue"));
 		
 		return OAuth2AuthorizationRequest.from(authorizationRequest)
 				.authorizationRequestUri(authorizationRequestUri)

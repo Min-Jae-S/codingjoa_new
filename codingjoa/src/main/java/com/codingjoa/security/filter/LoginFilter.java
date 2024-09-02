@@ -67,7 +67,7 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter { // Use
 		
 		String continueParameter = request.getParameter("continue");
 		authenticatedLoginToken.setDetails(continueParameter);
-		log.info("## set the continueUrl in details : {}", FormatUtils.formatString(continueParameter));
+		log.info("## set the continueUrl in details: {}", FormatUtils.formatString(continueParameter));
 		
 		return authenticatedLoginToken;
 	}

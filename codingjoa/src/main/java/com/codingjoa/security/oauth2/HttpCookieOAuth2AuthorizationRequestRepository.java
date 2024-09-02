@@ -62,8 +62,6 @@ public class HttpCookieOAuth2AuthorizationRequestRepository implements Authoriza
 		log.info("## {}.removeAuthorizationRequest(request, response)", this.getClass().getSimpleName());
 		
 		String stateParameter = request.getParameter(OAuth2ParameterNames.STATE);
-		log.info("\t > state from callback = {}", stateParameter);
-		
 		if (stateParameter == null) {
 			return null;
 		}
@@ -73,12 +71,9 @@ public class HttpCookieOAuth2AuthorizationRequestRepository implements Authoriza
 			return null;
 		}
 		
-		//CookieUtils.removeCookie(request, response, AUTHORIZATION_REQUEST_COOKIE_NAME);
+		CookieUtils.removeCookie(request, response, AUTHORIZATION_REQUEST_COOKIE_NAME);
 		
-		String state = originalRequest.getState();
-		log.info("\t > state from cookie = {}", state);
-		
-		return stateParameter.equals(state) ? originalRequest : null;
+		return stateParameter.equals(originalRequest.getState()) ? originalRequest : null;
 	}
 	
 	@Deprecated

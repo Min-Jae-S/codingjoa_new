@@ -50,8 +50,6 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 				.getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
 		
 		OAuth2Attributes oAuth2Attributes = OAuth2Attributes.of(registrationId, attributeKeyName, attributes);
-		log.info("\t > created oAuth2Attributes {}", FormatUtils.formatPrettyJson(oAuth2Attributes));
-		
 		if (oAuth2Attributes == null) {
 			OAuth2Error oauth2Error = new OAuth2Error(INVALID_REGISTRATION_ID_ERROR_CODE,
 					"An error occurred due to invalid registrationId: " + registrationId, null);
@@ -80,9 +78,7 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 			// to apply transactions, move the OAuth2Member save logic to "memberService"
 			memberService.saveOAuth2Member(oAuth2Attributes);
 			principalDetails = memberService.getUserDetailsByEmail(email);
-		} else {
-			log.info("\t > already registered user");
-		}
+		} 
 		
 		return PrincipalDetails.from(principalDetails, attributes, attributeKeyName);
 	}

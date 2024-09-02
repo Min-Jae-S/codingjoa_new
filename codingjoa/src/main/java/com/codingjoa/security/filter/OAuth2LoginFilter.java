@@ -66,7 +66,7 @@ public class OAuth2LoginFilter extends AbstractAuthenticationProcessingFilter { 
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws AuthenticationException {
 		log.info("## {}.attemptAuthentication", this.getClass().getSimpleName());
-		log.info("\t > cookies = {}", CookieUtils.getCookies(request));
+		log.info("\t > current cookies = {}", CookieUtils.getCookies(request));
 		
 		MultiValueMap<String, String> params = toMultiMap(request.getParameterMap());
 		log.info("\t > received authorization response, params = {}", params.keySet());
@@ -102,9 +102,9 @@ public class OAuth2LoginFilter extends AbstractAuthenticationProcessingFilter { 
 				authenticatedLoginToken.getAuthorities(),
 				authenticatedLoginToken.getClientRegistration().getRegistrationId());
 
-		String continueUrl = authorizationRequest.getAttribute("continue");
+		String continueUrl = authorizationRequest.getAttribute("continue_url");
 		oAuth2AuthenticationToken.setDetails(continueUrl);
-		log.info("## set the continueUrl in details : {}", FormatUtils.formatString(continueUrl));
+		log.info("## set the continueUrl in details: {}", FormatUtils.formatString(continueUrl));
 
 		OAuth2AuthorizedClient authorizedClient = new OAuth2AuthorizedClient(
 				authenticatedLoginToken.getClientRegistration(),

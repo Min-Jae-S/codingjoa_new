@@ -30,18 +30,21 @@ public class UriUtils {
 				.toUriString();
 	}
 	
-	// MainController, LoginSuccessHandler, OAuth2LoginSuccessHandler
+	// LoginSuccessHandler, OAuth2LoginSuccessHandler
 	public static String resolveContinueUrl(String url, HttpServletRequest request) {
+		String continueUrl;
 		if (isAuthorizedUrl(url, request)) {
-			log.info("\t > authorized URL provided, using this URL");
-			return url;
-		} 
-			
-		log.info("\t > missing or unauthorized URL provided, using default URL");
-		return ServletUriComponentsBuilder.fromContextPath(request)
-	            .path("/")
-	            .build()
-	            .toUriString();
+			continueUrl = url;
+			log.info("\t > authorized URL provided, using this URL: {}", FormatUtils.formatString(continueUrl));
+		} else {
+			continueUrl = ServletUriComponentsBuilder.fromContextPath(request)
+					.path("/")
+					.build()
+					.toUriString();
+			log.info("\t > missing or unauthorized URL provided, using default URL: {}", FormatUtils.formatString(continueUrl));
+		}
+		
+		return continueUrl;
 	}
 	
 	private static boolean isAuthorizedUrl(String url, HttpServletRequest request) {
