@@ -73,7 +73,7 @@ public class HttpCookieOAuth2AuthorizationRequestRepository implements Authoriza
 			return null;
 		}
 		
-		CookieUtils.removeCookie(request, response, AUTHORIZATION_REQUEST_COOKIE_NAME);
+		//CookieUtils.removeCookie(request, response, AUTHORIZATION_REQUEST_COOKIE_NAME);
 		
 		String state = originalRequest.getState();
 		log.info("\t > state from cookie = {}", state);

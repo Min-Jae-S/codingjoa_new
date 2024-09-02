@@ -25,6 +25,7 @@ public class CookieUtils {
 				.sameSite("Lax") // Strict -> Lax
 				.build();
 		response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+		//response.setHeader(HttpHeaders.SET_COOKIE, cookie.toString());
 	}
 	
 	public static void removeCookie(HttpServletRequest request, HttpServletResponse response, String name) {

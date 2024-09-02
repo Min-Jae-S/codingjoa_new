@@ -42,7 +42,6 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 		log.info("\t > delegate to the {} for loading a user", delegate.getClass().getSimpleName());
 		
 		OAuth2User loadedOAuth2User = delegate.loadUser(userRequest);
-		
 		Map<String, Object> attributes = loadedOAuth2User.getAttributes();
 		log.info("\t > received userInfo {}", FormatUtils.formatPrettyJson(attributes));
 		

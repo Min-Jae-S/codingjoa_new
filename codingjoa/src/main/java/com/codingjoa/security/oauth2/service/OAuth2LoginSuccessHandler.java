@@ -33,8 +33,8 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 
 	private static final String JWT_COOKIE_NAME = "ACCESS_TOKEN";
 	private static final long COOKIE_EXPIRE_SECONDS = Duration.ofHours(1l).getSeconds();
-	private final JwtProvider jwtProvider;
 	private final RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+	private final JwtProvider jwtProvider;
 	
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
