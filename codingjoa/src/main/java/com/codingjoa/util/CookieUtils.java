@@ -18,7 +18,7 @@ public class CookieUtils {
 	public static void addCookie(HttpServletResponse response, String name, String value, long expireSeconds) {
 		ResponseCookie cookie = ResponseCookie.from(name, value)
 				//.domain("localhost")
-				.path("/")
+				.path("/codingjoa")
 				.maxAge(Duration.ofSeconds(expireSeconds))
 				.httpOnly(true)
 				.secure(true)
