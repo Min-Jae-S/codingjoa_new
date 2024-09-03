@@ -36,10 +36,10 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 			String provider, List<GrantedAuthority> authorities) {
 		this.idx = idx;
 		this.email = email;
-		this.password = password;
+		this.password = (password == null) ? "" : password;
 		this.nickname = nickname;
-		this.imageUrl = imageUrl;
-		this.provider = provider;
+		this.imageUrl = (imageUrl == null) ? "" : imageUrl;
+		this.provider = (provider == null) ? "local" : provider;
 		this.authorities = authorities;
 	}
 	
