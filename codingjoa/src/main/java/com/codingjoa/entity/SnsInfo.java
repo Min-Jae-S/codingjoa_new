@@ -10,7 +10,9 @@ import lombok.ToString;
 /*
 	sns_idx                 NUMBER,
 	member_idx              NUMBER              NOT NULL,
-	sns_provider            VARCHAR2(10)        NOT NULL,
+    sns_id                  VARCHAR2(200)       NOT NULL,
+	sns_provider            VARCHAR2(20)        NOT NULL,
+    connected_at            DATE                NULL,
 	created_at              DATE                NOT NULL,
 */
 
@@ -21,13 +23,18 @@ public class SnsInfo {
 
 	private Integer snsIdx;
 	private Integer memberIdx;
+	private String snsId;
 	private String snsProvider;
+	private Date connectedAt;
 	private Date createdAt;
 	
 	@Builder
-	private SnsInfo(Integer snsIdx, Integer memberIdx, String snsProvider) {
+	private SnsInfo(Integer snsIdx, Integer memberIdx, String snsId, String snsProvider, Date connectedAt) {
 		this.snsIdx = snsIdx;
 		this.memberIdx = memberIdx;
+		this.snsId = snsId;
 		this.snsProvider = snsProvider;
+		this.connectedAt = connectedAt;
 	}
+	
 }

@@ -5,7 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -14,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.codingjoa.entity.Category;
 import com.codingjoa.service.CategoryService;
+import com.codingjoa.util.FormatUtils;
 import com.codingjoa.util.UriUtils;
 
 import lombok.RequiredArgsConstructor;
@@ -72,19 +73,18 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 		modelAndView.addObject("parentCategoryList", parentCategoryList);
 		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		if (authentication != null && authentication instanceof AnonymousAuthenticationToken) {
-			String currentUrl;
-			if (loginMatcher.matches(request) || errorMatcher.matches(request)) {
-				currentUrl = "";
-				log.info("\t > matching loginPattern or errorPattern, set currentUrl to an empty string");
-			} else {
-				currentUrl = UriUtils.buildCurrentUrl(request);
-				log.info("\t > not matching loginPattern or errorPattern");
-				log.info("\t > set currentUrl to the current request URL: {}", currentUrl);
-			}
-			modelAndView.addObject("currentUrl", currentUrl);
+		if (authentication instanceof UsernamePasswordAuthenticationToken) {
+			log.info("\t > added model attrs = {}", modelAndView.getModel().keySet());
+			return;
 		}
 		
+		String currentUrl = "";
+		if (!loginMatcher.matches(request) && !errorMatcher.matches(request)) {
+			currentUrl = UriUtils.buildCurrentUrl(request);
+		}
+		log.info("\t > set currentUrl: {}", FormatUtils.formatString(currentUrl));
+		
+		modelAndView.addObject("currentUrl", currentUrl);
 		log.info("\t > added model attrs = {}", modelAndView.getModel().keySet());
 	}
 	
