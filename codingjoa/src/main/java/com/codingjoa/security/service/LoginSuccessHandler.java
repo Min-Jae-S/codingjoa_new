@@ -44,17 +44,19 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 		CookieUtils.addCookie(response, JWT_COOKIE_NAME, jwt, COOKIE_EXPIRE_SECONDS);
 
 		String continueUrl = (String) authentication.getDetails();
+		continueUrl = UriUtils.resolveContinueUrl(continueUrl, request);
+		
 		SuccessResponse successResponse = SuccessResponse.builder()
 				.status(HttpStatus.OK)
 				.messageByCode("success.Login")
-				.data(Map.of("continueUrl", UriUtils.resolveContinueUrl(continueUrl, request)))
+				.data(Map.of("continueUrl", continueUrl))
 				.build();
 		
 		response.setStatus(HttpServletResponse.SC_OK);
 		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 		response.setCharacterEncoding(StandardCharsets.UTF_8.name());
         
-		log.info("\t > respond with success response in JSON format");
+		log.info("\t > respond with successResponse in JSON format");
 		String jsonResponse = objectMapper.writeValueAsString(successResponse);
 		response.getWriter().write(jsonResponse);
 		response.getWriter().close();

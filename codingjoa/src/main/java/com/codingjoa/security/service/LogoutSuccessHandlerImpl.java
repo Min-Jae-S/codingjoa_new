@@ -11,9 +11,8 @@ import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.stereotype.Component;
-import org.springframework.util.AntPathMatcher;
-import org.springframework.util.StringUtils;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import com.codingjoa.util.UriUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -28,36 +27,10 @@ public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
 			throws IOException, ServletException {
 		log.info("## {}", this.getClass().getSimpleName());
 		
-		String continueUrl = resolveContinueUrl(request);
+		String continueUrl = request.getParameter("continue");
+		continueUrl = UriUtils.resolveContinueUrl(continueUrl, request);
+		
 		redirectStrategy.sendRedirect(request, response, continueUrl);
 	}
-	
-	private String resolveContinueUrl(HttpServletRequest request) {
-		String continueUrl = request.getParameter("continue");
-		
-		if (!isValidUrl(continueUrl, request)) {
-			log.info("\t > missing or invalid continueUrl provided, default continueUrl will be used");
-			return ServletUriComponentsBuilder.fromContextPath(request)
-					.path("/")
-					.build()
-					.toUriString();
-		} else {
-			log.info("\t > valid continueUrl provided, this continueUrl will be used");
-			return continueUrl;
-		}
-	}
-	
-	private boolean isValidUrl(String url, HttpServletRequest request) {
-		if (!StringUtils.hasText(url)) {
-			return false;
-		}
-		
-		String pattern = ServletUriComponentsBuilder.fromContextPath(request)
-				.path("/**")
-				.build()
-				.toUriString();
-		return new AntPathMatcher().match(pattern, url);
-	}
-	
 
 }

@@ -124,6 +124,11 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override
+	public void connectOAuth2Member(OAuth2Attributes oAuth2Attributes) {
+		// TODO Auto-generated method stub
+	}
+	
+	@Override
 	public boolean isNicknameExist(String memberNickname) {
 		return memberMapper.isNicknameExist(memberNickname);
 	}
@@ -336,5 +341,5 @@ public class MemberServiceImpl implements MemberService {
 		
 		return PrincipalDetails.from(userDetailsMap);
 	}
-	
+
 }

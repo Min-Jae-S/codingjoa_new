@@ -64,7 +64,7 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
 		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 		response.setCharacterEncoding(StandardCharsets.UTF_8.name());
 		
-		log.info("\t > respond with error response in JSON format");
+		log.info("\t > respond with errorResponse in JSON format");
 		String jsonResponse = objectMapper.writeValueAsString(errorResponse);
 		response.getWriter().write(jsonResponse);
 		response.getWriter().close();

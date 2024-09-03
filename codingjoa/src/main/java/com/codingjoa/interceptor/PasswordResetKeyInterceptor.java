@@ -67,7 +67,7 @@ public class PasswordResetKeyInterceptor implements HandlerInterceptor {
 				.message(message)
 				.build();
 		
-		log.info("\t > respond with error response in JSON format");
+		log.info("\t > respond with errorResponse in JSON format");
 		String jsonResponse = objectMapper.writeValueAsString(errorResponse);
 		response.getWriter().write(jsonResponse); // \n --> \\n
 		response.getWriter().close();
@@ -81,7 +81,7 @@ public class PasswordResetKeyInterceptor implements HandlerInterceptor {
 		script += "location.href='" + request.getContextPath() + "/member/findPassowrd';";
 		script += "</script>";
 		
-		log.info("\t > respond with errors response in HTML format");
+		log.info("\t > respond with errorsResponse in HTML format");
 		response.getWriter().write(script);
 		response.getWriter().close();
 	}
