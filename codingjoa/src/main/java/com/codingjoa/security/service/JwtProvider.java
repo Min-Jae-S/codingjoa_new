@@ -18,6 +18,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.codingjoa.security.dto.PrincipalDetails;
+import com.codingjoa.util.FormatUtils;
 import com.codingjoa.util.NumberUtils;
 
 import io.jsonwebtoken.Claims;
@@ -136,7 +137,7 @@ public class JwtProvider {
 		claims.put("image_url", principal.getImageUrl());
 		claims.put("provider", principal.getProvider());
 		claims.put("token_type", "access_token");
-		//log.info("\t > created claims {}", FormatUtils.formatPrettyJson(claims));
+		log.info("\t > created claims {}", FormatUtils.formatPrettyJson(claims));
 		
 		return claims;
 	}

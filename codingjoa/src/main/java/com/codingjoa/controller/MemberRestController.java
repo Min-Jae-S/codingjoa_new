@@ -4,11 +4,10 @@ import java.time.Duration;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.apache.commons.lang3.RandomStringUtils;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -42,6 +41,7 @@ import com.codingjoa.service.EmailService;
 import com.codingjoa.service.ImageService;
 import com.codingjoa.service.MemberService;
 import com.codingjoa.service.RedisService;
+import com.codingjoa.util.CookieUtils;
 import com.codingjoa.validator.EmailAuthValidator;
 import com.codingjoa.validator.EmailValidator;
 import com.codingjoa.validator.FindPasswordValidator;
@@ -59,6 +59,8 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 public class MemberRestController {
 	
+	private static final String JWT_COOKIE_NAME = "ACCESS_TOKEN";
+	private static final long COOKIE_EXPIRE_SECONDS = Duration.ofHours(1l).getSeconds();
 	private final MemberService memberService;
 	private final EmailService emailService;
 	private final RedisService redisService;
@@ -137,47 +139,41 @@ public class MemberRestController {
 	
 	@PostMapping("/account/image")
 	public ResponseEntity<Object> updateImage(@ModelAttribute @Valid UploadFileDto uploadFileDto,
-			@AuthenticationPrincipal PrincipalDetails principal, HttpServletRequest request) {
+			@AuthenticationPrincipal PrincipalDetails principal, HttpServletRequest request, HttpServletResponse response) {
 		log.info("## updateImage");
 		imageService.updateMemberImage(uploadFileDto.getFile(), principal.getIdx());
 		
 		PrincipalDetails newPrincipal = memberService.getUserDetailsByIdx(principal.getIdx());
-		HttpHeaders headers = createJwtCookieHeader(newPrincipal, request);
+		addJwtCookie(newPrincipal, request, response);
 		
-		return ResponseEntity.ok()
-				.headers(headers)
-				.body(SuccessResponse.builder().messageByCode("success.UpdateMemberImage").build());
+		return ResponseEntity.ok().body(SuccessResponse.builder().messageByCode("success.UpdateMemberImage").build());
 	}
 	
 	@PutMapping("/account/nickname")
 	public ResponseEntity<Object> updateNickname(@RequestBody @Valid NicknameDto nicknameDto,
-			@AuthenticationPrincipal PrincipalDetails principal, HttpServletRequest request) {
+			@AuthenticationPrincipal PrincipalDetails principal, HttpServletRequest request, HttpServletResponse response) {
 		log.info("## updateNickname");
 		log.info("\t > {}", nicknameDto);
 		memberService.updateNickname(nicknameDto, principal.getIdx());
 		
 		PrincipalDetails newPrincipal = memberService.getUserDetailsByIdx(principal.getIdx());
-		HttpHeaders headers = createJwtCookieHeader(newPrincipal, request);
+		addJwtCookie(newPrincipal, request, response);
 		
-		return ResponseEntity.ok()
-				.headers(headers)
-				.body(SuccessResponse.builder().messageByCode("success.UpdateNickname").build());
+		return ResponseEntity.ok().body(SuccessResponse.builder().messageByCode("success.UpdateNickname").build());
 	}
 	
 	@PutMapping("/account/email")
 	public ResponseEntity<Object> updateEmail(@RequestBody @Valid EmailAuthDto emailAuthDto,
-			@AuthenticationPrincipal PrincipalDetails principal, HttpServletRequest request) {
+			@AuthenticationPrincipal PrincipalDetails principal, HttpServletRequest request, HttpServletResponse response) {
 		log.info("## updateEmail");
 		log.info("\t > {}", emailAuthDto);
 		memberService.updateEmail(emailAuthDto, principal.getIdx());
 		redisService.deleteKey(emailAuthDto.getMemberEmail());
 		
 		PrincipalDetails newPrincipal = memberService.getUserDetailsByIdx(principal.getIdx());
-		HttpHeaders headers = createJwtCookieHeader(newPrincipal, request);
+		addJwtCookie(newPrincipal, request, response);
 		
-		return ResponseEntity.ok()
-				.headers(headers)
-				.body(SuccessResponse.builder().messageByCode("success.UpdateEmail").build());
+		return ResponseEntity.ok().body(SuccessResponse.builder().messageByCode("success.UpdateEmail").build());
 	}
 	
 	@PutMapping("/account/address")
@@ -202,32 +198,28 @@ public class MemberRestController {
 	
 	@PutMapping("/account/password")
 	public ResponseEntity<Object> updatePassword(@RequestBody @Valid PasswordChangeDto passwordChangeDto, 
-			@AuthenticationPrincipal PrincipalDetails principal, HttpServletRequest request) {
+			@AuthenticationPrincipal PrincipalDetails principal, HttpServletRequest request, HttpServletResponse response) {
 		log.info("## updatePassword");
 		log.info("\t > {}", passwordChangeDto);
 		memberService.updatePassword(passwordChangeDto, principal.getIdx());
 		
 		PrincipalDetails newPrincipal = memberService.getUserDetailsByIdx(principal.getIdx());
-		HttpHeaders headers = createJwtCookieHeader(newPrincipal, request);
+		addJwtCookie(newPrincipal, request, response);
 		
-		return ResponseEntity.ok()
-				.headers(headers)
-				.body(SuccessResponse.builder().messageByCode("success.UpdatePassword").build());
+		return ResponseEntity.ok().body(SuccessResponse.builder().messageByCode("success.UpdatePassword").build());
 	}
 	
 	@PostMapping("/account/password")
 	public ResponseEntity<Object> savePassword(@RequestBody @Valid PasswordSaveDto passwordDto, 
-			@AuthenticationPrincipal PrincipalDetails principal, HttpServletRequest request) {
+			@AuthenticationPrincipal PrincipalDetails principal, HttpServletRequest request, HttpServletResponse response) {
 		log.info("## savePassword");
 		log.info("\t > {}", passwordDto);
 		memberService.savePassword(passwordDto, principal.getIdx());
 		
 		PrincipalDetails newPrincipal = memberService.getUserDetailsByIdx(principal.getIdx());
-		HttpHeaders headers = createJwtCookieHeader(newPrincipal, request);
+		addJwtCookie(newPrincipal, request, response);
 		
-		return ResponseEntity.ok()
-				.headers(headers)
-				.body(SuccessResponse.builder().messageByCode("success.SavePassword").build());
+		return ResponseEntity.ok().body(SuccessResponse.builder().messageByCode("success.SavePassword").build());
 	}
 	
 	@GetMapping("/account")
@@ -291,22 +283,10 @@ public class MemberRestController {
 		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.ResetPassword").build());
 	}
 	
-	private HttpHeaders createJwtCookieHeader(PrincipalDetails principal, HttpServletRequest request) {
+	private void addJwtCookie(PrincipalDetails principal, HttpServletRequest request, HttpServletResponse response) {
 		Authentication authentication = new UsernamePasswordAuthenticationToken(principal, null, principal.getAuthorities());
-
 		String jwt = jwtProvider.createJwt(authentication, request);
-		ResponseCookie jwtCookie = ResponseCookie.from("ACCESS_TOKEN", jwt)
-				.domain("localhost")
-				.path(request.getContextPath())
-				.maxAge(Duration.ofHours(1))
-				.httpOnly(true)
-				.secure(true)
-				.sameSite("Strict")
-				.build();
-		
-		HttpHeaders headers = new HttpHeaders();
-		headers.add(HttpHeaders.SET_COOKIE, jwtCookie.toString());
-		return headers;
+		CookieUtils.addCookie(response, JWT_COOKIE_NAME, jwt, COOKIE_EXPIRE_SECONDS);
 	}
 	
 }

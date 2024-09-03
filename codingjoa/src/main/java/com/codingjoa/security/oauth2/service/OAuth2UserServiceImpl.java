@@ -27,13 +27,14 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
 	
-	private final OAuth2UserService<OAuth2UserRequest, OAuth2User> delegate = new DefaultOAuth2UserService();
 	private final MemberService memberService;
 	
 	@Override
 	public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
 		log.info("## {}.loadUser", this.getClass().getSimpleName());
 		log.info("\t > request for userInfo");
+		
+		OAuth2UserService<OAuth2UserRequest, OAuth2User> delegate = new DefaultOAuth2UserService();
 		log.info("\t > delegate to the {} for loading a user", delegate.getClass().getSimpleName());
 		
 		OAuth2User loadedOAuth2User = delegate.loadUser(userRequest);
@@ -49,11 +50,11 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 		
 		String email = oAuth2Attributes.getEmail();
 		PrincipalDetails principalDetails = memberService.getUserDetailsByEmail(email);
+		log.info("\t > principalDetails = {}", principalDetails);
 		
 		if (principalDetails == null) {
 			log.info("\t > proceed with the registration");
-
-			// to apply transactions, move the OAuth2Member save logic to "memberService"
+			// to apply spring transaction, move save logic to "memberService"
 			memberService.saveOAuth2Member(oAuth2Attributes);
 			principalDetails = memberService.getUserDetailsByEmail(email);
 		} 
