@@ -51,21 +51,30 @@ public class TestCookieController {
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 
-	@GetMapping("/test1")
-	public ResponseEntity<Object> test1(HttpServletRequest request, HttpServletResponse response) {
-		log.info("## test1");
-		addCookie1(response, "TEST", "1234");
+	@GetMapping("/add/cookie1")
+	public ResponseEntity<Object> addCookie1(HttpServletRequest request, HttpServletResponse response) {
+		log.info("## addCookie1");
+		addCookie(response, "TEST", "1234");
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 
-	@GetMapping("/test2")
-	public ResponseEntity<Object> test2(HttpServletRequest request, HttpServletResponse response) {
+	@GetMapping("/add/cookie2")
+	public ResponseEntity<Object> addCookie2(HttpServletRequest request, HttpServletResponse response) {
 		log.info("## test2");
-		addCookie2(response, "TEST", "5678");
+		addResponseCookie(response, "TEST", "5678");
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 
-	private void addCookie1(HttpServletResponse response, String name, String value) {
+	@GetMapping("/add/cookies")
+	public ResponseEntity<Object> addCookies(HttpServletRequest request, HttpServletResponse response) {
+		log.info("## addCookies");
+		for (int i=0; i<3; i++) {
+			addCookie(response, "TEST" + i, createRandomValue());
+		}
+		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
+	}
+
+	private void addResponseCookie(HttpServletResponse response, String name, String value) {
 		ResponseCookie cookie = ResponseCookie.from(name, value)
 				.path("/codingjoa")
 				.maxAge(Duration.ofMinutes(5))
@@ -76,11 +85,15 @@ public class TestCookieController {
 		response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
 	}
 
-	private void addCookie2(HttpServletResponse response, String name, String value) {
+	private void addCookie(HttpServletResponse response, String name, String value) {
 		Cookie cookie = new Cookie(name, value);
 		cookie.setPath("/codingjoa");
 		cookie.setMaxAge((int) Duration.ofMinutes(10).toSeconds());
 		response.addCookie(cookie);
+	}
+	
+	private String createRandomValue() {
+		return  UUID.randomUUID().toString().replace("-", "");
 	}
 	
 }

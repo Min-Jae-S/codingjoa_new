@@ -37,7 +37,7 @@ public class CookieUtils {
 	}
 	
 	public static void removeCookies(HttpServletRequest request, HttpServletResponse response) {
-		getCookieNames(request).forEach(cookieName -> removeCookie(response, cookieName));
+		getCookies(request).forEach(cookie -> removeCookie(response, cookie.getName()));
 	}
 	
 	public static Cookie getCookie(HttpServletRequest request, String name) {
@@ -47,18 +47,23 @@ public class CookieUtils {
 	    }
 		
 	    return Arrays.stream(cookies)
-                .filter(cookie -> name.equals(cookie.getName()))
+                .filter(cookie -> cookie.getName().equals(name))
                 .findFirst()
                 .orElse(null);
 	}
 	
-	public static List<String> getCookieNames(HttpServletRequest request) {
+	public static List<Cookie> getCookies(HttpServletRequest request) {
 		Cookie[] cookies = request.getCookies();
 		if (cookies == null) {
 			return Collections.emptyList();
 		}
 		
 		return Arrays.stream(cookies)
+				.collect(Collectors.toList());
+	}
+	
+	public static List<String> getCookieNames(HttpServletRequest request) {
+		return getCookies(request).stream()
 				.map(cookie -> cookie.getName())
 				.collect(Collectors.toList());
 	}

@@ -29,7 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class HttpCookieOAuth2AuthorizationRequestRepository implements AuthorizationRequestRepository<OAuth2AuthorizationRequest> {
 
-	private static final String AUTHORIZATION_REQUEST_COOKIE_NAME = "AUTHORIZATION_REQUEST";
+	private static final String AUTHORIZATION_REQUEST_COOKIE = "AUTHORIZATION_REQUEST";
 	private static final long COOKIE_EXPIRE_SECONDS =  Duration.ofMinutes(5l).getSeconds();
 	
 	@Override
@@ -49,12 +49,12 @@ public class HttpCookieOAuth2AuthorizationRequestRepository implements Authoriza
 			HttpServletResponse response) {
 		log.info("## {}.saveAuthorizationRequest", this.getClass().getSimpleName());
 		if (authorizationRequest == null) {
-			CookieUtils.removeCookie(response, AUTHORIZATION_REQUEST_COOKIE_NAME);
+			CookieUtils.removeCookie(response, AUTHORIZATION_REQUEST_COOKIE);
 			return;
 		}
 
 		// put authorizationRequests to cookie instead of session
-		CookieUtils.addCookie(response, AUTHORIZATION_REQUEST_COOKIE_NAME, serialize(authorizationRequest), COOKIE_EXPIRE_SECONDS);
+		CookieUtils.addCookie(response, AUTHORIZATION_REQUEST_COOKIE, serialize(authorizationRequest), COOKIE_EXPIRE_SECONDS);
 	}
 
 	@Override
@@ -71,7 +71,7 @@ public class HttpCookieOAuth2AuthorizationRequestRepository implements Authoriza
 			return null;
 		}
 		
-		CookieUtils.removeCookie(response, AUTHORIZATION_REQUEST_COOKIE_NAME);
+		CookieUtils.removeCookie(response, AUTHORIZATION_REQUEST_COOKIE);
 		
 		return stateParameter.equals(originalRequest.getState()) ? originalRequest : null;
 	}
@@ -84,7 +84,7 @@ public class HttpCookieOAuth2AuthorizationRequestRepository implements Authoriza
 	}
 	
 	private OAuth2AuthorizationRequest getAuthorizationRequest(HttpServletRequest request) {
-		Cookie cookie = CookieUtils.getCookie(request, AUTHORIZATION_REQUEST_COOKIE_NAME);
+		Cookie cookie = CookieUtils.getCookie(request, AUTHORIZATION_REQUEST_COOKIE);
 		return (cookie == null) ? null : deserialize(cookie);
 	}
 	

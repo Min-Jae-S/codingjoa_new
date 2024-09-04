@@ -43,12 +43,12 @@ public class TestCookieSessionController {
 	@GetMapping("/create-cookie")
 	public ResponseEntity<Object> createCookie(HttpServletResponse response) {
 		log.info("## createCookie");
-		Cookie cookie1 = new Cookie("cookie1", createRandomUUID());
-		Cookie cookie2 = new Cookie("cookie2", createRandomUUID());
-		Cookie cookie3 = new Cookie("cookie3", createRandomUUID());
+		Cookie cookie1 = new Cookie("cookie1", createRandomValue());
+		Cookie cookie2 = new Cookie("cookie2", createRandomValue());
+		Cookie cookie3 = new Cookie("cookie3", createRandomValue());
 		cookie3.setMaxAge(3600);
 		
-		Cookie cookie4 = new Cookie("cookie4", createRandomUUID());
+		Cookie cookie4 = new Cookie("cookie4", createRandomValue());
 		cookie4.setHttpOnly(true);
 		
 		Cookie[] cookies = new Cookie[] {cookie1, cookie2, cookie3, cookie4};
@@ -64,7 +64,7 @@ public class TestCookieSessionController {
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 	
-	private String createRandomUUID() {
+	private String createRandomValue() {
 		return  UUID.randomUUID().toString().replace("-", "");
 	}
 	

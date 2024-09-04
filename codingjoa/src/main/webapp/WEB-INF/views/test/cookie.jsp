@@ -43,8 +43,9 @@
 		<button class="btn btn-secondary btn-lg" onclick="remove()">remove cookies</button>
 	</div>
 	<div class="test mt-5 mb-5 px-5">
-		<button class="btn btn-primary btn-lg" onclick="test1()">test1</button>
-		<button class="btn btn-primary btn-lg" onclick="test2()">test2</button>
+		<button class="btn btn-primary btn-lg" onclick="addCookie1()">addCookie1</button>
+		<button class="btn btn-primary btn-lg" onclick="addCookie2()">addCookie2</button>
+		<button class="btn btn-primary btn-lg" onclick="addCookies()">addCookies</button>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
@@ -81,11 +82,11 @@
 		});
 	}
 
-	function test1() {
-		console.log("## test1");
+	function addCookie1() {
+		console.log("## addCookie1");
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/cookie/test1",
+			url : "${contextPath}/test/cookie/add/cookie1",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
@@ -97,11 +98,27 @@
 		});
 	}
 
-	function test2() {
-		console.log("## test2");
+	function addCookie2() {
+		console.log("## addCookie2");
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/cookie/test2",
+			url : "${contextPath}/test/cookie/add/cookie2",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log(JSON.stringify(result, null, 2));
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				parseError(jqXHR);
+			}
+		});
+	}
+
+	function addCookies() {
+		console.log("## addCookies");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/cookie/add/cookies",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
