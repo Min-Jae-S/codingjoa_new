@@ -161,5 +161,11 @@ public class TestViewController {
 		log.info("## objectMapper main");
 		return "test/object-mapper";
 	}
+
+	@GetMapping("/cookie")
+	public String cookie() {
+		log.info("## cookie main");
+		return "test/cookie";
+	}
 	
 }

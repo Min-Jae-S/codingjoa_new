@@ -28,8 +28,16 @@ public class CookieUtils {
 		//response.setHeader(HttpHeaders.SET_COOKIE, cookie.toString());
 	}
 	
-	public static void removeCookie(HttpServletRequest request, HttpServletResponse response, String name) {
-		addCookie(response, name, null, 0);
+	public static void removeCookie(HttpServletResponse response, String name) {
+		//addCookie(response, name, null, 0);
+		Cookie cookie = new Cookie(name, null);
+		cookie.setPath("/codingjoa");
+		cookie.setMaxAge(0);
+		response.addCookie(cookie);
+	}
+	
+	public static void removeCookies(HttpServletRequest request, HttpServletResponse response) {
+		getCookies(request).forEach(cookieName -> removeCookie(response, cookieName));
 	}
 	
 	public static Cookie getCookie(HttpServletRequest request, String name) {

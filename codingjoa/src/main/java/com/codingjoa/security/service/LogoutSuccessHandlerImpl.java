@@ -12,6 +12,8 @@ import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.stereotype.Component;
 
+import com.codingjoa.util.CookieUtils;
+import com.codingjoa.util.FormatUtils;
 import com.codingjoa.util.UriUtils;
 
 import lombok.extern.slf4j.Slf4j;
@@ -27,9 +29,12 @@ public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
 			throws IOException, ServletException {
 		log.info("## {}", this.getClass().getSimpleName());
 		
-		String continueUrl = request.getParameter("continue");
-		continueUrl = UriUtils.resolveContinueUrl(continueUrl, request);
+		CookieUtils.removeCookies(request, response);
 		
+		String continueUrl = request.getParameter("continue");
+		log.info("\t > continueUrl = {}", FormatUtils.formatString(continueUrl));
+		
+		continueUrl = UriUtils.resolveContinueUrl(continueUrl, request);
 		redirectStrategy.sendRedirect(request, response, continueUrl);
 	}
 

@@ -82,16 +82,15 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 			return;
 		}
 		
-		String loginCurrentUrl = "";
 		if (!loginMatcher.matches(request) && !errorMatcher.matches(request)) {
-			loginCurrentUrl = currentUrl;
-			log.info("\t > not matching loginPattern or errorPattern");
+			modelAndView.addObject("loginCurrentUrl", currentUrl);
+			log.info("\t > no match for loginPattern or errorPattern");
 			log.info("\t > set loginCurrentUrl to the current request URL: {}", FormatUtils.formatString(currentUrl));
  		} else {
- 			log.info("\t > matching loginPattern or errorPattern, set loginCurrentUrl to an empty string");
+ 			modelAndView.addObject("loginCurrentUrl", "");
+ 			log.info("\t > matched loginPattern or errorPattern, set loginCurrentUrl to an empty string");
 		}
 		
-		modelAndView.addObject("loginCurrentUrl", loginCurrentUrl);
 		log.info("\t > added model attrs = {}", modelAndView.getModel().keySet());
 	}
 	

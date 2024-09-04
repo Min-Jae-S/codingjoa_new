@@ -30,7 +30,7 @@ public class UriUtils {
 				.toUriString();
 	}
 	
-	// LoginSuccessHandler, OAuth2LoginSuccessHandler
+	// LoginSuccessHandler, OAuth2LoginSuccessHandler, LogoutSuccessHandler
 	public static String resolveContinueUrl(String url, HttpServletRequest request) {
 		String continueUrl;
 		if (isAuthorizedUrl(url, request)) {
