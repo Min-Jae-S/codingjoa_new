@@ -32,11 +32,13 @@
 		INSERT INTO auth (
 			auth_idx,
 			member_idx,
-			member_role
+			member_role,
+			created_at
 		) VALUES (
 			#{authIdx},
 			#{memberIdx},
-			#{memberRole}
+			#{memberRole},
+			SYSDATE
 		)
 	</insert>
 
@@ -80,8 +82,8 @@
 		<result property="memberAddr" column="member_addr"/>
 		<result property="memberAddrDetail" column="member_addr_detail"/>
 		<result property="memberAgree" column="member_agree" javaType="boolean"/>
-		<result property="createdAt" column="created_at"/>
-		<result property="updatedAt" column="updated_at"/>
+		<result property="createdAt" column="created_at" javaType="java.time.LocalDateTime"/>
+		<result property="updatedAt" column="updated_at" javaType="java.time.LocalDateTime"/>
 		<result property="memberImageUrl" column="member_image_url"/>
 	</resultMap>
 	
