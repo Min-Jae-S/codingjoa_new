@@ -25,29 +25,26 @@
 	}
 	
 	div.test {
-		padding-left: 1.5rem;
-		padding-right: 1.5rem;
+		display: flex;
+		column-gap: 30px;
 	}
 	
-	.test-btn, div.input-group {
-		width: 230px;
+	div.test button {
+		width: 183px;
 	}
-	
-	div.form-check {
-		font-size: 1rem;
-		font-weight: 400;
-	}
-	
 </style>
 </head>
 <body>
 <c:import url="/WEB-INF/views/include/top-menu.jsp"/>
 <div class="container my-5">
 	<p>cookie.jsp</p>
-	<div class="test d-flex justify-content-between mt-5 mb-5">
-		<button class="btn btn-secondary btn-lg test-btn mx-3" onclick="check()">check cookie</button>
-		<button class="btn btn-primary btn-lg test-btn mx-3" onclick="test1()">test1</button>
-		<button class="btn btn-primary btn-lg test-btn mx-3" onclick="test2()">test2</button>
+	<div class="test mt-5 mb-5 px-5">
+		<button class="btn btn-secondary btn-lg" onclick="check()">check cookies</button>
+		<button class="btn btn-secondary btn-lg" onclick="remove()">remove cookies</button>
+	</div>
+	<div class="test mt-5 mb-5 px-5">
+		<button class="btn btn-primary btn-lg" onclick="test1()">test1</button>
+		<button class="btn btn-primary btn-lg" onclick="test2()">test2</button>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
@@ -57,6 +54,22 @@
 		$.ajax({
 			type : "GET",
 			url : "${contextPath}/test/cookie/check",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log(JSON.stringify(result, null, 2));
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				parseError(jqXHR);
+			}
+		});
+	}
+
+	function remove() {
+		console.log("## remove");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/cookie/remove",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));

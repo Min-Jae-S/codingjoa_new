@@ -37,7 +37,7 @@ public class CookieUtils {
 	}
 	
 	public static void removeCookies(HttpServletRequest request, HttpServletResponse response) {
-		getCookies(request).forEach(cookieName -> removeCookie(response, cookieName));
+		getCookieNames(request).forEach(cookieName -> removeCookie(response, cookieName));
 	}
 	
 	public static Cookie getCookie(HttpServletRequest request, String name) {
@@ -52,7 +52,7 @@ public class CookieUtils {
                 .orElse(null);
 	}
 	
-	public static List<String> getCookies(HttpServletRequest request) {
+	public static List<String> getCookieNames(HttpServletRequest request) {
 		Cookie[] cookies = request.getCookies();
 		if (cookies == null) {
 			return Collections.emptyList();

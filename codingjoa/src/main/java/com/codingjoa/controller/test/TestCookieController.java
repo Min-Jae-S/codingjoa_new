@@ -30,26 +30,43 @@ public class TestCookieController {
 	@GetMapping("/check")
 	public ResponseEntity<Object> check(HttpServletRequest request, HttpServletResponse response) {
 		log.info("## check");
-		log.info("\t > cookies = {}", CookieUtils.getCookies(request));
+		log.info("\t > cookies = {}", CookieUtils.getCookieNames(request));
+		
+		Cookie[] cookies = request.getCookies();
+		if (cookies == null || cookies.length == 0) {
+			log.info("\t > no cookies");
+		} else {
+			for (Cookie cookie : cookies) {
+				log.info("\t > name = {}, value = {}", cookie.getName(), cookie.getValue());
+			}
+		}
+		
+		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
+	}
+
+	@GetMapping("/remove")
+	public ResponseEntity<Object> remove(HttpServletRequest request, HttpServletResponse response) {
+		log.info("## remove");
+		CookieUtils.removeCookies(request, response);
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 
 	@GetMapping("/test1")
 	public ResponseEntity<Object> test1(HttpServletRequest request, HttpServletResponse response) {
 		log.info("## test1");
-		addCookie1(response, "TEST", "ABCD"); // 5 mins
+		addCookie1(response, "TEST", "1234");
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 
 	@GetMapping("/test2")
 	public ResponseEntity<Object> test2(HttpServletRequest request, HttpServletResponse response) {
 		log.info("## test2");
-		addCookie2(response, "TEST", "ABCD"); // 10 mins
+		addCookie2(response, "TEST", "5678");
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 
 	private void addCookie1(HttpServletResponse response, String name, String value) {
-		ResponseCookie cookie = ResponseCookie.from(name, "ABCD")
+		ResponseCookie cookie = ResponseCookie.from(name, value)
 				.path("/codingjoa")
 				.maxAge(Duration.ofMinutes(5))
 				.httpOnly(true)
@@ -63,8 +80,7 @@ public class TestCookieController {
 		Cookie cookie = new Cookie(name, value);
 		cookie.setPath("/codingjoa");
 		cookie.setMaxAge((int) Duration.ofMinutes(10).toSeconds());
-		response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+		response.addCookie(cookie);
 	}
-	
 	
 }
