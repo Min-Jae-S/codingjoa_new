@@ -1,6 +1,6 @@
 package com.codingjoa.entity;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -33,8 +33,8 @@ public class Member {
 	private String memberAddr;
 	private String memberAddrDetail;
 	private Boolean memberAgree;
-	private Date createdAt;
-	private Date updatedAt;
+	private LocalDateTime createdAt;
+	private LocalDateTime updatedAt;
 	
 	@Builder
 	private Member(Integer memberIdx, String memberEmail, String memberPassword, String memberNickname,

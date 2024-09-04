@@ -61,7 +61,8 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 		
 		if (principalDetails.getProvider().equals("local")) {
 			log.info("\t > process connection to an existing member");
-			memberService.connectOAuth2Member(oAuth2Attributes);
+			memberService.saveOAuth2Member(oAuth2Attributes, principalDetails.getIdx());
+			principalDetails = memberService.getUserDetailsByEmail(email);
 		}
 		
 		return PrincipalDetails.from(principalDetails, attributes, attributeKeyName);

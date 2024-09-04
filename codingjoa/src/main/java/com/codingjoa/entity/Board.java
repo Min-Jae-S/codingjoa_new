@@ -1,6 +1,6 @@
 package com.codingjoa.entity;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import lombok.Data;
 
@@ -26,8 +26,8 @@ public class Board {
 	private String boardContentText;
 	private Integer boardCategoryCode;
 	private Integer boardViews;
-	private Date createdAt;
-	private Date updatedAt;
+	private LocalDateTime createdAt;
+	private LocalDateTime updatedAt;
 	
 	@Override
 	public String toString() {

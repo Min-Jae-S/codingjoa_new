@@ -41,18 +41,22 @@
 	</insert>
 
 	<insert id="insertSnsInfo" parameterType="snsInfo">
-		<selectKey keyProperty="snsIdx" resultType="int" order="BEFORE">
+		<selectKey keyProperty="snsInfoIdx" resultType="int" order="BEFORE">
 			SELECT seq_sns_info.NEXTVAL FROM DUAL
 		</selectKey>
 		INSERT INTO sns_info (
-			sns_idx,
+			sns_info_idx,
 			member_idx,
+			sns_id,
 			sns_provider,
+			connected_at,
 			created_at
 		) VALUES (
-			#{snsIdx},
+			#{snsInfoIdx},
 			#{memberIdx},
+			#{snsId},
 			#{snsProvider},
+			#{connectedAt},
 			SYSDATE
 		)
 	</insert>

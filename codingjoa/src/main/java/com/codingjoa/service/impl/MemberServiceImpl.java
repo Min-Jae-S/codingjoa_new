@@ -1,5 +1,6 @@
 package com.codingjoa.service.impl;
 
+import java.time.LocalDateTime;
 import java.util.Map;
 
 import org.apache.commons.lang3.RandomStringUtils;
@@ -85,7 +86,6 @@ public class MemberServiceImpl implements MemberService {
 				.memberIdx(member.getMemberIdx())
 				.snsId(oAuth2Attributes.getId())
 				.snsProvider(oAuth2Attributes.getProvider())
-				.connectedAt(null)
 				.build();
 		log.info("\t > create snsInfo entity = {}", snsInfo);
 		memberMapper.insertSnsInfo(snsInfo);
@@ -124,8 +124,15 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override
-	public void connectOAuth2Member(OAuth2Attributes oAuth2Attributes) {
-		// TODO Auto-generated method stub
+	public void saveOAuth2Member(OAuth2Attributes oAuth2Attributes, Integer memberIdx) {
+		SnsInfo snsInfo = SnsInfo.builder()
+				.memberIdx(memberIdx)
+				.snsId(oAuth2Attributes.getId())
+				.snsProvider(oAuth2Attributes.getProvider())
+				.connectedAt(LocalDateTime.now())
+				.build();
+		log.info("\t > create snsInfo entity = {}", snsInfo);
+		memberMapper.insertSnsInfo(snsInfo);
 	}
 	
 	@Override

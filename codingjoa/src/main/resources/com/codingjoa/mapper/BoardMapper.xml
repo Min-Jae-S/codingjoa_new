@@ -42,15 +42,15 @@
 		<id property="boardIdx" column="board_idx"/>
 		<result property="boardTitle" column="board_title"/>
 		<!-- <result property="boardContent" column="board_content" typeHandler="clobTypeHandler"/> -->
-		<result property="boardContent" column="board_content" jdbcType="CLOB" javaType="java.lang.String" />
-		<result property="boardWriterIdx" column="board_writer_idx" javaType="java.lang.Integer"/>
-		<result property="boardViews" column="board_views" javaType="java.lang.Integer"/>
-		<result property="boardCategoryCode" column="board_category_code" javaType="java.lang.Integer"/>
+		<result property="boardContent" column="board_content" jdbcType="CLOB" javaType="string"/>
+		<result property="boardWriterIdx" column="board_writer_idx" javaType="int"/>
+		<result property="boardViews" column="board_views" javaType="int"/>
+		<result property="boardCategoryCode" column="board_category_code" javaType="int"/>
 		<result property="regdate" column="regdate" javaType="java.util.Date"/>
 		<result property="moddate" column="moddate" javaType="java.util.Date"/>
-		<result property="memberId" column="member_id" javaType="java.lang.String"/>
-		<result property="commentCnt" column="comment_cnt" javaType="java.lang.Integer"/>
-		<result property="boardLikesCnt" column="board_likes_cnt" javaType="java.lang.Integer"/>
+		<result property="memberId" column="member_id" javaType="string"/>
+		<result property="commentCnt" column="comment_cnt" javaType="int"/>
+		<result property="boardLikesCnt" column="board_likes_cnt" javaType="string"/>
 	</resultMap>
 	
 	<select id="findBoardDetailsByIdx" parameterType="int" resultMap="boardDetailsMap">
