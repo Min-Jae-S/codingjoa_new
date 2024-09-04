@@ -23,7 +23,7 @@ public interface ImageMapper {
 	
 	void deactivateMemberImage(int memberIdx);
 
-	void insertMemberImage(MemberImage memberImage);
+	boolean insertMemberImage(MemberImage memberImage);
 	
 	List<BoardImage> findTempBoardImages();
 	

@@ -72,19 +72,26 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 		List<Category> parentCategoryList = categoryService.getParentCategoryList();
 		modelAndView.addObject("parentCategoryList", parentCategoryList);
 		
+		String currentUrl = UriUtils.buildCurrentUrl(request);
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		
 		if (authentication instanceof UsernamePasswordAuthenticationToken) {
+			modelAndView.addObject("logoutCurrentUrl", currentUrl);
+			log.info("\t > set logoutCurrentUrl to the current request URL: {}", FormatUtils.formatString(currentUrl));
 			log.info("\t > added model attrs = {}", modelAndView.getModel().keySet());
 			return;
 		}
 		
-		String currentUrl = "";
+		String loginCurrentUrl = "";
 		if (!loginMatcher.matches(request) && !errorMatcher.matches(request)) {
-			currentUrl = UriUtils.buildCurrentUrl(request);
+			loginCurrentUrl = currentUrl;
+			log.info("\t > not matching loginPattern or errorPattern");
+			log.info("\t > set loginCurrentUrl to the current request URL: {}", FormatUtils.formatString(currentUrl));
+ 		} else {
+ 			log.info("\t > matching loginPattern or errorPattern, set loginCurrentUrl to an empty string");
 		}
-		log.info("\t > set currentUrl: {}", FormatUtils.formatString(currentUrl));
 		
-		modelAndView.addObject("currentUrl", currentUrl);
+		modelAndView.addObject("loginCurrentUrl", loginCurrentUrl);
 		log.info("\t > added model attrs = {}", modelAndView.getModel().keySet());
 	}
 	

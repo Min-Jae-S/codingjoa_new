@@ -71,6 +71,7 @@ public class OAuth2Attributes {
 		Map<String, Object> kakaoAccount = (Map<String, Object>) attributes.get("kakao_account");
 		Map<String, Object> profile = (Map<String, Object>) kakaoAccount.get("profile");
 		return getBuilder(userNameAttributeName, attributes)
+				.id((String) attributes.get("id"))
 				.email((String) kakaoAccount.get("email"))
 				.nickname((String) profile.get("nickname"))
 				.provider("kakao")
@@ -93,6 +94,7 @@ public class OAuth2Attributes {
 	private static OAuth2Attributes ofNaver(String userNameAttributeName, Map<String, Object> attributes) {
 		Map<String, Object> response = (Map<String, Object>) attributes.get("response");
 		return getBuilder(userNameAttributeName, attributes)
+				.id((String) response.get("id"))
 				.email((String) response.get("email"))
 				.nickname((String) response.get("nickname"))
 				.provider("naver")
@@ -113,6 +115,7 @@ public class OAuth2Attributes {
 */		
 	private static OAuth2Attributes ofGoogle(String userNameAttributeName, Map<String, Object> attributes) {
 		return getBuilder(userNameAttributeName, attributes)
+				.id((String) attributes.get("sub"))
 				.email((String) attributes.get("email"))
 				.nickname((String) attributes.get("name"))
 				.provider("google")
@@ -122,8 +125,7 @@ public class OAuth2Attributes {
 	private static OAuth2AttributesBuilder getBuilder(String userNameAttributeName, Map<String, Object> attributes) {
 		return OAuth2Attributes.builder()
 				.attributes(attributes)
-				.nameAttributeKey(userNameAttributeName)
-				.id((String) attributes.get(userNameAttributeName));
+				.nameAttributeKey(userNameAttributeName);
 	}
 	
 }

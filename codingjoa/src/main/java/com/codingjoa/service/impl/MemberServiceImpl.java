@@ -47,10 +47,7 @@ public class MemberServiceImpl implements MemberService {
 		log.info("\t > convert JoinDto to member entity = {}", member);
 		
 		boolean isMemberSaved = memberMapper.insertMember(member);
-		if (isMemberSaved) {
-			log.info("\t > member save successful");
-		} else {
-			log.info("\t > member save failed");
+		if (!isMemberSaved) {
 			throw new ExpectedException("error.SaveMember");
 		}
 		
@@ -61,10 +58,7 @@ public class MemberServiceImpl implements MemberService {
 		log.info("\t > create auth entity = {}", auth);
 		
 		boolean isAuthSaved = memberMapper.insertAuth(auth);
-		if (isAuthSaved) {
-			log.info("\t > auth save successful");
-		} else {
-			log.info("\t > auth save failed");
+		if (!isAuthSaved) {
 			throw new ExpectedException("error.SaveAuth");
 		}
 	}
@@ -216,10 +210,7 @@ public class MemberServiceImpl implements MemberService {
 				.build();
 		
 		boolean isUpdated = memberMapper.updateNickname(modifyMember);
-		if (isUpdated) {
-			log.info("\t > nickname update successful");
-		} else {
-			log.info("\t > nickname update failed");
+		if (!isUpdated) {
 			throw new ExpectedException("error.UpdateNickname");
 		}
 	}
@@ -233,12 +224,11 @@ public class MemberServiceImpl implements MemberService {
 				.build();
 		
 		boolean isUpdated = memberMapper.updateEmail(modifyMember);
-		if (isUpdated) {
-			log.info("\t > email update successful");
-		} else {
-			log.info("\t > email update failed");
+		if (!isUpdated) {
 			throw new ExpectedException("error.UpdateEmail");
 		}
+		
+		// need update snsInfo
 	}
 	
 	@Override
@@ -252,10 +242,7 @@ public class MemberServiceImpl implements MemberService {
 				.build();
 		
 		boolean isUpdated = memberMapper.updateAddr(modifyMember);
-		if (isUpdated) {
-			log.info("\t > addr update successful");
-		} else {
-			log.info("\t > addr update failed");
+		if (!isUpdated) {
 			throw new ExpectedException("error.UpdateAddr");
 		}
 	}
@@ -269,10 +256,7 @@ public class MemberServiceImpl implements MemberService {
 				.build();
 		
 		boolean isUpdated = memberMapper.updateAgree(modifyMember);
-		if (isUpdated) {
-			log.info("\t > agree update successful");
-		} else {
-			log.info("\t > agree update failed");
+		if (!isUpdated) {
 			throw new ExpectedException("error.UpdateAgree");
 		}
 	}
@@ -297,10 +281,7 @@ public class MemberServiceImpl implements MemberService {
 				.build();
 		
 		boolean isUpdated = memberMapper.updatePassword(modifyMember);
-		if (isUpdated) {
-			log.info("\t > password update successful");
-		} else {
-			log.info("\t > password update failed");
+		if (!isUpdated) {
 			throw new ExpectedException("error.UpdatePassword");
 		}
 	}
@@ -315,10 +296,7 @@ public class MemberServiceImpl implements MemberService {
 				.build();
 		
 		boolean isSaved = memberMapper.updatePassword(modifyMember);
-		if (isSaved) {
-			log.info("\t > password save successful");
-		} else {
-			log.info("\t > password save failed");
+		if (!isSaved) {
 			throw new ExpectedException("error.SavePassword");
 		}
 	}

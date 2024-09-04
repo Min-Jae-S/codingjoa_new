@@ -21,7 +21,7 @@
 			<ul class="navbar-nav ml-auto">
 				<sec:authorize access="isAnonymous()">
 					<li class="nav-item mx-2 mt-1">
-						<a href="${contextPath}/login?continue=${currentUrl}" class="nav-link">로그인</a>
+						<a href="${contextPath}/login?continue=${loginCurrentUrl}" class="nav-link">로그인</a>
 					</li>
 					<li class="nav-item mx-2 mt-1">
 						<a href="${contextPath}/member/join" class="nav-link">회원가입</a>
@@ -49,14 +49,7 @@
 						<a href="${contextPath}/member/account" class="nav-link">계정 관리</a>
 					</li>
 					<li class="nav-item mx-2">
-						<c:choose>
-							<c:when test="${not empty currentUrl}">
-								<a href="${contextPath}/logout?redirect=${currentUrl}" class="nav-link">로그아웃</a>
-							</c:when>
-							<c:otherwise>
-								<a href="${contextPath}/logout" class="nav-link">로그아웃</a>
-							</c:otherwise>
-						</c:choose>
+						<a href="${contextPath}/logout?continue=${logoutCurrentUrl}" class="nav-link">로그아웃</a>
 					</li>
 				</sec:authorize>
 			</ul>

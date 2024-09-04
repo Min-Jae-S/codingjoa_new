@@ -113,7 +113,7 @@ public class ImageServiceImpl implements ImageService {
 	}
 	
 	@Override
-	public void updateMemberImage(MultipartFile file, Integer memberIdx) {
+	public void uploadMemberImage(MultipartFile file, Integer memberIdx) {
 		File uploadFolder = new File(memberImageDir);
 		if (!uploadFolder.exists()) {
 			if (!uploadFolder.mkdirs()) {
@@ -142,13 +142,11 @@ public class ImageServiceImpl implements ImageService {
 				.memberImageName(uploadFilename)
 				.memberImageUrl(memberImageUrl)
 				.build();
-		log.info("\t > create memberImage entity");
+		log.info("\t > create memberImage entity = {}", memberImage);
 		
-		imageMapper.insertMemberImage(memberImage);
-		log.info("\t > after inserting memberImage, memberImageIdx = {}", memberImage.getMemberImageIdx());
-		
-		if (memberImage.getMemberImageIdx() == null) { 
-			throw new ExpectedException("error.UpdateMemberImage");
+		boolean isSaved = imageMapper.insertMemberImage(memberImage);
+		if (!isSaved) { 
+			throw new ExpectedException("error.updateMemberImage");
 		}
 	}
 	

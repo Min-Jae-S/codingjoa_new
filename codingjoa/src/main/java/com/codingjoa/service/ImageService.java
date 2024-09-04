@@ -17,6 +17,6 @@ public interface ImageService {
 	
 	void modifyBoardImages(BoardDto boardDto);
 	
-	void updateMemberImage(MultipartFile file, Integer memberIdx);
+	void uploadMemberImage(MultipartFile file, Integer memberIdx);
 	
 }
