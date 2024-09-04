@@ -31,16 +31,6 @@ public class TestCookieController {
 	public ResponseEntity<Object> check(HttpServletRequest request, HttpServletResponse response) {
 		log.info("## check");
 		log.info("\t > cookies = {}", CookieUtils.getCookieNames(request));
-		
-		Cookie[] cookies = request.getCookies();
-		if (cookies == null || cookies.length == 0) {
-			log.info("\t > no cookies");
-		} else {
-			for (Cookie cookie : cookies) {
-				log.info("\t > name = {}, value = {}", cookie.getName(), cookie.getValue());
-			}
-		}
-		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 
@@ -68,7 +58,7 @@ public class TestCookieController {
 	@GetMapping("/add/cookies")
 	public ResponseEntity<Object> addCookies(HttpServletRequest request, HttpServletResponse response) {
 		log.info("## addCookies");
-		for (int i=0; i<3; i++) {
+		for (int i=1; i<=3; i++) {
 			addCookie(response, "TEST" + i, createRandomValue());
 		}
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
