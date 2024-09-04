@@ -44,6 +44,7 @@ public class AppConfig {
 		
 		// https://simsimeie.tistory.com/2
 		objectMapper.getSerializerProvider().setNullValueSerializer(new NullToEmptyStringSerializer());
+		
         return objectMapper;
 	}
 	

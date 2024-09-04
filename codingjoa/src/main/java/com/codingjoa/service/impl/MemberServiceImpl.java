@@ -124,7 +124,7 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override
-	public void saveOAuth2Member(OAuth2Attributes oAuth2Attributes, Integer memberIdx) {
+	public void connectOAuth2Member(OAuth2Attributes oAuth2Attributes, Integer memberIdx) {
 		SnsInfo snsInfo = SnsInfo.builder()
 				.memberIdx(memberIdx)
 				.snsId(oAuth2Attributes.getId())

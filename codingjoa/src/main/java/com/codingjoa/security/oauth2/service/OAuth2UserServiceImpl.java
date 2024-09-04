@@ -53,15 +53,13 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 		log.info("\t > principalDetails = {}", principalDetails);
 		
 		if (principalDetails == null) {
-			log.info("\t > process member registration");
+			log.info("\t > register new member using OAtuh2 account");
 			// to apply spring transaction, move save logic to "memberService"
 			memberService.saveOAuth2Member(oAuth2Attributes);
 			principalDetails = memberService.getUserDetailsByEmail(email);
-		} 
-		
-		if (principalDetails.getProvider().equals("local")) {
-			log.info("\t > process connection to an existing member");
-			memberService.saveOAuth2Member(oAuth2Attributes, principalDetails.getIdx());
+		} else if (principalDetails.getProvider().equals("local")) {
+			log.info("\t > connect existing member with OAuth2 account");
+			memberService.connectOAuth2Member(oAuth2Attributes, principalDetails.getIdx());
 			principalDetails = memberService.getUserDetailsByEmail(email);
 		}
 		

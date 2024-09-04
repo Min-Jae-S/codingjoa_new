@@ -17,7 +17,7 @@ public interface MemberService {
 	
 	void saveOAuth2Member(OAuth2Attributes oAuth2Attributes);
 	
-	void saveOAuth2Member(OAuth2Attributes oAuth2Attributes, Integer memberIdx);
+	void connectOAuth2Member(OAuth2Attributes oAuth2Attributes, Integer memberIdx);
 	
 	boolean isNicknameExist(String memberNickname);
 	
