@@ -59,7 +59,7 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 public class MemberRestController {
 	
-	private static final String JWT_COOKIE_NAME = "ACCESS_TOKEN";
+	private static final String JWT_COOKIE = "ACCESS_TOKEN";
 	private static final long COOKIE_EXPIRE_SECONDS = Duration.ofHours(1l).getSeconds();
 	private final MemberService memberService;
 	private final EmailService emailService;
@@ -286,7 +286,7 @@ public class MemberRestController {
 	private void addJwtCookie(PrincipalDetails principal, HttpServletRequest request, HttpServletResponse response) {
 		Authentication authentication = new UsernamePasswordAuthenticationToken(principal, null, principal.getAuthorities());
 		String jwt = jwtProvider.createJwt(authentication, request);
-		CookieUtils.addCookie(response, JWT_COOKIE_NAME, jwt, COOKIE_EXPIRE_SECONDS);
+		CookieUtils.addCookie(response, JWT_COOKIE, jwt, COOKIE_EXPIRE_SECONDS);
 	}
 	
 }

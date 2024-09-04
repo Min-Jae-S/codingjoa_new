@@ -31,7 +31,7 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 
-	private static final String JWT_COOKIE_NAME = "ACCESS_TOKEN";
+	private static final String JWT_COOKIE = "ACCESS_TOKEN";
 	private static final long COOKIE_EXPIRE_SECONDS = Duration.ofHours(1l).getSeconds();
 	private final RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 	private final JwtProvider jwtProvider;
@@ -43,7 +43,7 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 		
 		log.info("\t > create JWT and issue it as a cookie");
 		String jwt = jwtProvider.createJwt(authentication, request);
-		CookieUtils.addCookie(response, JWT_COOKIE_NAME, jwt, COOKIE_EXPIRE_SECONDS);
+		CookieUtils.addCookie(response, JWT_COOKIE, jwt, COOKIE_EXPIRE_SECONDS);
 
 		String continueUrl = (String) authentication.getDetails();
 		continueUrl = UriUtils.resolveContinueUrl(continueUrl, request);
