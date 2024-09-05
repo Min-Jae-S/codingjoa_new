@@ -13,6 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.codingjoa.security.service.JwtProvider;
+import com.codingjoa.util.CookieUtils;
 import com.codingjoa.util.HttpUtils;
 
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class JwtFilter extends OncePerRequestFilter {
 	
+	private static final String JWT_COOKIE = "AUTHORIZATION_REQUEST";
 	private final JwtProvider jwtProvider;
 	
 	@Override
@@ -44,16 +46,8 @@ public class JwtFilter extends OncePerRequestFilter {
 	}
 	
 	private String resolveJwt(HttpServletRequest request) {
-		Cookie[] cookies = request.getCookies();
-		if (cookies != null && cookies.length > 0) {
-			for (Cookie cookie : cookies) {
-				if (cookie.getName().equals("ACCESS_TOKEN")) {
-					return cookie.getValue();
-				}
-			}
-		}
-		
-		return null;
+		Cookie cookie = CookieUtils.getCookie(request, JWT_COOKIE);
+		return (cookie == null) ? null : cookie.getValue();
 	}
 	
 }

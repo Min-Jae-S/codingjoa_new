@@ -12,11 +12,11 @@ import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.stereotype.Component;
 
-import com.codingjoa.util.CookieUtils;
 import com.codingjoa.util.UriUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
+@SuppressWarnings("unused")
 @Slf4j
 @Component
 public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
@@ -31,8 +31,8 @@ public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
 		log.info("## {}", this.getClass().getSimpleName());
 		
 		//CookieUtils.removeCookies(request, response);
-		CookieUtils.removeCookie(response, JWT_COOKIE);
-		CookieUtils.removeCookie(response, SESSION_COOKIE);
+		//CookieUtils.removeCookie(response, JWT_COOKIE);
+		//CookieUtils.removeCookie(response, SESSION_COOKIE);
 		
 		String continueUrl = request.getParameter("continue");
 		continueUrl = UriUtils.resolveContinueUrl(continueUrl, request);
