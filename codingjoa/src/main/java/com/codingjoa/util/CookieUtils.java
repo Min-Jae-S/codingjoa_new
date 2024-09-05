@@ -16,7 +16,8 @@ import org.springframework.http.ResponseCookie;
 public class CookieUtils {
 	
 	public static void addCookie(HttpServletRequest request, HttpServletResponse response, String name, String value, long expireSeconds) {
-		String cookiePath = request.getContextPath() + "/"; // cookie path in CookieClearingLogoutHandler
+		// cookiePath in CookieClearingLogoutHandler
+		String cookiePath = request.getContextPath() + "/";
 		ResponseCookie cookie = ResponseCookie.from(name, value)
 				//.domain("localhost")
 				.path(cookiePath) 
