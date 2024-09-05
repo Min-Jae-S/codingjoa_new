@@ -1,6 +1,5 @@
 package com.codingjoa.util;
 
-import java.time.Duration;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -10,28 +9,29 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseCookie;
-
 public class CookieUtils {
 	
 	public static void addCookie(HttpServletResponse response, String name, String value, long expireSeconds) {
-		ResponseCookie cookie = ResponseCookie.from(name, value)
-				//.domain("localhost")
-				.path("/codingjoa")
-				.maxAge(Duration.ofSeconds(expireSeconds))
-				.httpOnly(true)
-				.secure(true)
-				.sameSite("Lax") // Strict -> Lax
-				.build();
-		response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
-		//response.setHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+//		ResponseCookie cookie = ResponseCookie.from(name, value)
+//				//.domain("localhost")
+//				.path("/codingjoa")
+//				.maxAge(Duration.ofSeconds(expireSeconds))
+//				.httpOnly(true)
+//				.secure(true)
+//				.sameSite("Lax") // Strict -> Lax
+//				.build();
+//		response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+		
+		Cookie cookie = new Cookie(name, value);
+		cookie.setPath("/codingjoa/");
+		cookie.setMaxAge((int) expireSeconds);
+		response.addCookie(cookie);
 	}
 	
 	public static void removeCookie(HttpServletResponse response, String name) {
 		//addCookie(response, name, null, 0);
 		Cookie cookie = new Cookie(name, null);
-		cookie.setPath("/codingjoa");
+		cookie.setPath("/codingjoa/");
 		cookie.setMaxAge(0);
 		response.addCookie(cookie);
 	}

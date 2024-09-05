@@ -23,7 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class JwtFilter extends OncePerRequestFilter {
 	
-	private static final String JWT_COOKIE = "AUTHORIZATION_REQUEST";
+	private static final String JWT_COOKIE = "ACCESS_TOKEN";
 	private final JwtProvider jwtProvider;
 	
 	@Override

@@ -6,6 +6,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
@@ -33,6 +34,9 @@ public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
 		//CookieUtils.removeCookies(request, response);
 		//CookieUtils.removeCookie(response, JWT_COOKIE);
 		//CookieUtils.removeCookie(response, SESSION_COOKIE);
+		
+		String responseHeader = response.getHeader(HttpHeaders.SET_COOKIE);
+		log.info("\t > set-cookie = {}", responseHeader);
 		
 		String continueUrl = request.getParameter("continue");
 		continueUrl = UriUtils.resolveContinueUrl(continueUrl, request);
