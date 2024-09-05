@@ -49,12 +49,13 @@ public class HttpCookieOAuth2AuthorizationRequestRepository implements Authoriza
 			HttpServletResponse response) {
 		log.info("## {}.saveAuthorizationRequest", this.getClass().getSimpleName());
 		if (authorizationRequest == null) {
-			CookieUtils.removeCookie(response, AUTHORIZATION_REQUEST_COOKIE);
+			CookieUtils.removeCookie(request, response, AUTHORIZATION_REQUEST_COOKIE);
 			return;
 		}
 
 		// put authorizationRequests to cookie instead of session
-		CookieUtils.addCookie(response, AUTHORIZATION_REQUEST_COOKIE, serialize(authorizationRequest), COOKIE_EXPIRE_SECONDS);
+		CookieUtils.addCookie(
+				request, response, AUTHORIZATION_REQUEST_COOKIE, serialize(authorizationRequest), COOKIE_EXPIRE_SECONDS);
 	}
 
 	@Override
@@ -71,7 +72,7 @@ public class HttpCookieOAuth2AuthorizationRequestRepository implements Authoriza
 			return null;
 		}
 		
-		CookieUtils.removeCookie(response, AUTHORIZATION_REQUEST_COOKIE);
+		CookieUtils.removeCookie(request, response, AUTHORIZATION_REQUEST_COOKIE);
 		
 		return stateParameter.equals(originalRequest.getState()) ? originalRequest : null;
 	}

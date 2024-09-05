@@ -44,45 +44,34 @@ public class TestCookieController {
 	@GetMapping("/add/cookie1")
 	public ResponseEntity<Object> addCookie1(HttpServletRequest request, HttpServletResponse response) {
 		log.info("## addCookie1");
-		addCookie(response, "TEST", "1234");
+		CookieUtils.addCookie(request, response, "TEST", "abcd", 300); // 5 mins
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 
 	@GetMapping("/add/cookie2")
 	public ResponseEntity<Object> addCookie2(HttpServletRequest request, HttpServletResponse response) {
-		log.info("## test2");
-		addResponseCookie(response, "TEST", "5678");
+		log.info("## addCookie2");
+		addCookie(request, response, "TEST", "ABCD"); // 10 mins
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 
 	@GetMapping("/add/cookies")
 	public ResponseEntity<Object> addCookies(HttpServletRequest request, HttpServletResponse response) {
 		log.info("## addCookies");
-		for (int i=1; i<=3; i++) {
-			addCookie(response, "TEST" + i, createRandomValue());
+		for (int i = 1; i <= 3; i++) {
+			addCookie(request, response, "TEST" + i, createCookieValue());
 		}
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 
-	private void addResponseCookie(HttpServletResponse response, String name, String value) {
-		ResponseCookie cookie = ResponseCookie.from(name, value)
-				.path("/codingjoa")
-				.maxAge(Duration.ofMinutes(5))
-				.httpOnly(true)
-				.secure(true)
-				.sameSite("Lax") // Strict -> Lax
-				.build();
-		response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
-	}
-
-	private void addCookie(HttpServletResponse response, String name, String value) {
+	private void addCookie(HttpServletRequest request, HttpServletResponse response, String name, String value) {
 		Cookie cookie = new Cookie(name, value);
-		cookie.setPath("/codingjoa");
+		cookie.setPath(request.getContextPath() + "/");
 		cookie.setMaxAge((int) Duration.ofMinutes(10).toSeconds());
 		response.addCookie(cookie);
 	}
 	
-	private String createRandomValue() {
+	private String createCookieValue() {
 		return  UUID.randomUUID().toString().replace("-", "");
 	}
 	

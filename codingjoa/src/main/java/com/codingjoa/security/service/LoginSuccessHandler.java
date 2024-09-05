@@ -41,7 +41,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 		
 		log.info("\t > create JWT and issue it as a cookie");
 		String jwt = jwtProvider.createJwt(authentication, request);
-		CookieUtils.addCookie(response, JWT_COOKIE, jwt, COOKIE_EXPIRE_SECONDS);
+		CookieUtils.addCookie(request, response, JWT_COOKIE, jwt, COOKIE_EXPIRE_SECONDS);
 
 		String continueUrl = (String) authentication.getDetails();
 		continueUrl = UriUtils.resolveContinueUrl(continueUrl, request);

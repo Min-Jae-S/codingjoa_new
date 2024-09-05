@@ -286,7 +286,7 @@ public class MemberRestController {
 	private void addJwtCookie(PrincipalDetails principal, HttpServletRequest request, HttpServletResponse response) {
 		Authentication authentication = new UsernamePasswordAuthenticationToken(principal, null, principal.getAuthorities());
 		String jwt = jwtProvider.createJwt(authentication, request);
-		CookieUtils.addCookie(response, JWT_COOKIE, jwt, COOKIE_EXPIRE_SECONDS);
+		CookieUtils.addCookie(request, response, JWT_COOKIE, jwt, COOKIE_EXPIRE_SECONDS);
 	}
 	
 }

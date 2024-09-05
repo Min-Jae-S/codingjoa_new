@@ -43,8 +43,8 @@
 		<button class="btn btn-secondary btn-lg" onclick="remove()">remove cookies</button>
 	</div>
 	<div class="test mt-5 mb-5 px-5">
-		<button class="btn btn-primary btn-lg" onclick="addCookie1()">addCookie1</button>
-		<button class="btn btn-primary btn-lg" onclick="addCookie2()">addCookie2</button>
+		<button class="btn btn-primary btn-lg" onclick="addCookie1()">addCookie by CookieUtils</button>
+		<button class="btn btn-primary btn-lg" onclick="addCookie2()">addCookie by new Cookie()</button>
 		<button class="btn btn-primary btn-lg" onclick="addCookies()">addCookies</button>
 	</div>
 </div>
