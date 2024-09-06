@@ -44,7 +44,7 @@ public class OAuth2LoginFailureHandler implements AuthenticationFailureHandler {
 				.build();
 		
 		request.setAttribute("errorResponse", errorResponse);
-		request.getRequestDispatcher("feedback/failure.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/views/feedback/failure.jsp").forward(request, response);
 	}
 
 }

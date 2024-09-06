@@ -56,6 +56,7 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 		
 		// opation1 : after forwading to view(jsp), using successResponse, alert message and redirect to contineUrl on the client-side
 		// opation2 : directly redirect to continueUrl on the server-side
+		
 		//redirectStrategy.sendRedirect(request, response, continueUrl);
 		request.setAttribute("successResponse", successResponse);
 		request.getRequestDispatcher("/WEB-INF/views/feedback/success.jsp").forward(request, response);
