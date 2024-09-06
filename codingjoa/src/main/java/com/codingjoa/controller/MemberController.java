@@ -2,6 +2,7 @@ package com.codingjoa.controller;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
@@ -15,12 +16,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.codingjoa.dto.JoinDto;
 import com.codingjoa.dto.SuccessResponse;
 import com.codingjoa.service.MemberService;
 import com.codingjoa.service.RedisService;
+import com.codingjoa.util.UriUtils;
 import com.codingjoa.validator.JoinValidator;
 
 import lombok.RequiredArgsConstructor;
@@ -48,7 +49,7 @@ public class MemberController {
 	}
 
 	@PostMapping("/join")
-	public String join(@ModelAttribute @Valid JoinDto joinDto, BindingResult bindingResult, Model model) {
+	public String join(@ModelAttribute @Valid JoinDto joinDto, BindingResult bindingResult, HttpServletRequest request) {
 		log.info("## join");
 		log.info("\t > {}", joinDto);
 
@@ -62,20 +63,13 @@ public class MemberController {
 		SuccessResponse successResponse = SuccessResponse.builder()
 				.status(HttpStatus.OK)
 				.messageByCode("success.Join")
-				.data(Map.of("redirectUrl", buildLoginUrl()))
+				.data(Map.of("redirectUrl", UriUtils.buildDefaultLoginUrl(request)))
 				.build();
-		model.addAttribute("successResponse", successResponse);
+		request.setAttribute("successResponse", successResponse);
 		
 		return "feedback/success";
 	}
 	
-	private String buildLoginUrl() {
-		return ServletUriComponentsBuilder.fromCurrentContextPath()
-				.path("/login")
-				.build()
-				.toUriString();
-	}
-
 	@GetMapping("/account")
 	public String account() {
 		log.info("## account");

@@ -42,6 +42,8 @@ public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
 		request.setAttribute("successResponse", successResponse);
 		
 		//redirectStrategy.sendRedirect(request, response, continueUrl);
+		
+		// forward to feedback/success.jsp
 	}
 
 }

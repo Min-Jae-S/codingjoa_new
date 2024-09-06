@@ -30,6 +30,14 @@ public class UriUtils {
 				.toUriString();
 	}
 	
+	public static String buildDefaultLoginUrl(HttpServletRequest request) {
+		return ServletUriComponentsBuilder.fromContextPath(request)
+				.path("/login")
+				.queryParam("continue", "")
+				.build()
+				.toUriString();
+	}
+	
 	// LoginSuccessHandler, OAuth2LoginSuccessHandler, LogoutSuccessHandler
 	public static String resolveContinueUrl(String url, HttpServletRequest request) {
 		String continueUrl;

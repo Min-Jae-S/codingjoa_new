@@ -51,7 +51,7 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 		SuccessResponse successResponse = SuccessResponse.builder()
 				.status(HttpStatus.OK)
 				.messageByCode("success.Login")
-				.data(Map.of("continueUrl", continueUrl))
+				.data(Map.of("redirectUrl", continueUrl))
 				.build();
 		
 		// opation1 : after forwading to view(jsp), using successResponse, alert message and redirect to contineUrl on the client-side

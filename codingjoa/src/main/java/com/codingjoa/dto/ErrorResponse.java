@@ -1,7 +1,6 @@
 package com.codingjoa.dto;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,7 +21,7 @@ public class ErrorResponse {
 	
 	private int status = HttpStatus.BAD_REQUEST.value();
 	private String message;
-	private List<ErrorDetails> details = new ArrayList<>();
+	private Object details;
 	private LocalDateTime timestamp = LocalDateTime.now(); // @JsonProperty
 	
 	public static ErrorResponseBuilder builder() {
@@ -58,12 +57,17 @@ public class ErrorResponse {
 		}
 		
 		public ErrorResponseBuilder details(ErrorDetails errorDetails) {
-			errorResponse.details.add(errorDetails);
-            return this;
+			errorResponse.details = errorDetails;
+			return this;
         }
 
 		public ErrorResponseBuilder details(List<ErrorDetails> errorDetails) {
-			errorResponse.details.addAll(errorDetails);
+			errorResponse.details = errorDetails;
+			return this;
+		}
+
+		public ErrorResponseBuilder details(Object obj) {
+			errorResponse.details = obj;
 			return this;
 		}
 		
@@ -76,7 +80,7 @@ public class ErrorResponse {
 							.build()
 					)
 					.collect(Collectors.toList());
-			errorResponse.details.addAll(errorDetails);
+			errorResponse.details = errorDetails;
 			return this;
 		}
 		
