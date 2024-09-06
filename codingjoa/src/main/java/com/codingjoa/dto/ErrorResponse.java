@@ -9,20 +9,25 @@ import org.springframework.validation.BindingResult;
 
 import com.codingjoa.util.MessageUtils;
 
-import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @ToString
 @Getter
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+//@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ErrorResponse {
 	
-	private int status = HttpStatus.BAD_REQUEST.value();
+	private int status;
 	private String message;
 	private Object details;
-	private LocalDateTime timestamp = LocalDateTime.now(); // @JsonProperty
+	private LocalDateTime timestamp;
+	
+	private ErrorResponse() {
+		this.status = HttpStatus.BAD_REQUEST.value();
+		this.message = "";
+		this.details = null;
+		this.timestamp = LocalDateTime.now();
+	}
 	
 	public static ErrorResponseBuilder builder() {
 		return new ErrorResponseBuilder();

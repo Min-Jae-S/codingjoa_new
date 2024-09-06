@@ -6,20 +6,25 @@ import org.springframework.http.HttpStatus;
 
 import com.codingjoa.util.MessageUtils;
 
-import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @ToString
 @Getter
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+//@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class SuccessResponse {
 	
-	private int status = HttpStatus.OK.value();
+	private int status;
 	private String message;
 	private Object data;
-	private LocalDateTime timestamp = LocalDateTime.now();
+	private LocalDateTime timestamp;
+	
+	private SuccessResponse() {
+		this.status = HttpStatus.OK.value();
+		this.message = "";
+		this.data = null;
+		this.timestamp = LocalDateTime.now();
+	}
 	
 	public static SuccessResponseBuilder builder() {
 		return new SuccessResponseBuilder();
