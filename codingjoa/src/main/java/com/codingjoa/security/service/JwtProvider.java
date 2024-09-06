@@ -99,7 +99,8 @@ public class JwtProvider {
 			//return !exp.before(new Date(System.currentTimeMillis()));
 			return true;
 		} catch (Exception e) { 
-			log.info("\t > missing or invalid JWT: {}", e.getMessage());
+			log.info("\t > missing or invalid JWT");
+			log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
 			return false;
 		}
 	}
@@ -142,7 +143,6 @@ public class JwtProvider {
 		claims.put("token_type", "access_token");
 		
 		//log.info("\t > created claims {}", FormatUtils.formatPrettyJson(claims));
-		
 		return claims;
 	}
 	

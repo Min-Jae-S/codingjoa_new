@@ -70,6 +70,7 @@ public class OAuth2LoginFilter extends AbstractAuthenticationProcessingFilter { 
 		
 		MultiValueMap<String, String> params = toMultiMap(request.getParameterMap());
 		log.info("\t > received authorization response, params = {}", params.keySet());
+		log.info("\t > prompt = {}", params.getFirst("prompt"));
 		
 		OAuth2AuthorizationRequest authorizationRequest = authorizationRequestRepository.removeAuthorizationRequest(request, response);
 		if (authorizationRequest == null) {
@@ -78,6 +79,8 @@ public class OAuth2LoginFilter extends AbstractAuthenticationProcessingFilter { 
 		}
 		
 		String registrationId = authorizationRequest.getAttribute(OAuth2ParameterNames.REGISTRATION_ID);
+		log.info("\t > registrationId = {}", registrationId);
+		
 		ClientRegistration clientRegistration = clientRegistrationRepository.findByRegistrationId(registrationId);
 		if (clientRegistration == null) {
 			OAuth2Error oAuth2Error = new OAuth2Error(CLIENT_REGISTRATION_NOT_FOUND_ERROR_CODE);

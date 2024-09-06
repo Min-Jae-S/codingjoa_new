@@ -29,9 +29,9 @@ public class ErrorHtmlHandler {
 	
 	@ExceptionHandler(Exception.class) // NoHandlerFoundException, NestedServletException etc..
 	protected String handleException(Exception e, HttpServletRequest request) {
-		log.info("## {} (Global) - {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
+		log.info("## {}.handleException", this.getClass().getSimpleName());
+		log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
 		log.info("\t > location = {}", e.getStackTrace()[0]);
-		log.info("\t > message = {}", e.getMessage());
 		
 		ErrorResponse errorResponse = ErrorResponse.builder()
 				.status(HttpStatus.BAD_REQUEST)
@@ -47,9 +47,9 @@ public class ErrorHtmlHandler {
 	
 	@ExceptionHandler(NoHandlerFoundException.class) 
 	protected String handleNoHandlerFoundException(Exception e, HttpServletRequest request) {
-		log.info("## {} - {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
+		log.info("## {}.handleNoHandlerFoundException", this.getClass().getSimpleName());
+		log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
 		log.info("\t > location = {}", e.getStackTrace()[0]);
-		log.info("\t > message = {}", e.getMessage());
 		
 		ErrorResponse errorResponse = ErrorResponse.builder()
 				.status(HttpStatus.NOT_FOUND)
@@ -64,9 +64,10 @@ public class ErrorHtmlHandler {
 	
 	@ExceptionHandler(BindException.class)
 	protected String handleBindException(BindException e, HttpServletRequest request) {
-		log.info("## {} - {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
+		log.info("## {}.handleBindException", this.getClass().getSimpleName());
+		log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
 		log.info("\t > location = {}", e.getStackTrace()[0]);
-		log.info("\t > message = {}", e.getMessage());
+		
 		e.getBindingResult().getFieldErrors().forEach(fieldError -> {
 			log.info("\t > errorField = {}, errorCode = {}", fieldError.getField(), fieldError.getCodes()[0]);
 		}); 
@@ -95,9 +96,10 @@ public class ErrorHtmlHandler {
 	@ExceptionHandler(ConstraintViolationException.class) // /board/?boardCategoryCode=11
 	protected String handleConstraintViolationException(ConstraintViolationException e, 
 			HttpServletRequest request) {
-		log.info("## {} - {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
+		log.info("## {}.handleConstraintViolationException", this.getClass().getSimpleName());
+		log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
 		log.info("\t > location = {}", e.getStackTrace()[0]);
-		log.info("\t > message = {}", e.getMessage());
+		
 		e.getConstraintViolations().forEach(violation -> {
 			log.info("\t > invalid value = {}", violation.getInvalidValue());
 		});
@@ -118,9 +120,9 @@ public class ErrorHtmlHandler {
 		MethodArgumentTypeMismatchException.class		// /board/read?boardIdx=, /board/read?boardIdx=aa 
 	})
 	protected String handleInvalidFormatException(Exception e, HttpServletRequest request) {
-		log.info("## {} - {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
+		log.info("## {}.handleInvalidFormatException", this.getClass().getSimpleName());
+		log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
 		log.info("\t > location = {}", e.getStackTrace()[0]);
-		log.info("\t > message = {}", e.getMessage());
 		
 		ErrorResponse errorResponse = ErrorResponse.builder()
 				.status(HttpStatus.BAD_REQUEST)
@@ -135,7 +137,8 @@ public class ErrorHtmlHandler {
 
 	@ExceptionHandler(ExpectedException.class)
 	protected String handleExpectedException(ExpectedException e, HttpServletRequest request) {
-		log.info("## {} - {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
+		log.info("## {}.handleExpectedException", this.getClass().getSimpleName());
+		log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
 		log.info("\t > location = {}", e.getStackTrace()[0]);
 		log.info("\t > errorCode = {}, errorField = {}", e.getErrorCode(), e.getErrorField());
 		
@@ -160,7 +163,8 @@ public class ErrorHtmlHandler {
 	// TEST
 	@ExceptionHandler(TestException.class)
 	protected String handleTestException(TestException e, HttpServletRequest request) {
-		log.info("## {} - {}", this.getClass().getSimpleName(), e.getClass().getSimpleName());
+		log.info("## {}.handleTestException", this.getClass().getSimpleName());
+		log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
 		log.info("\t > location = {}", e.getStackTrace()[0]);
 		log.info("\t > errorCode = {}, errorField = {}", e.getErrorCode(), e.getErrorField());
 		

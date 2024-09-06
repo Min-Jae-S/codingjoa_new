@@ -49,12 +49,11 @@ public class OAuth2CustomAuthorizationRequestResolver implements OAuth2Authoriza
 	
 	private OAuth2AuthorizationRequest customize(HttpServletRequest request, OAuth2AuthorizationRequest authorizationRequest) {
 		log.info("## {}.customize", this.getClass().getSimpleName());
-		log.info("\t > customize authorizationRequestUri: fully encoding, adding prompt paramter");
 		String authorizationRequestUri = customizeAuthorizationRequestUri(authorizationRequest);
 		
-		log.info("\t > put a 'continue_url' param into the attributes of OAuth2AuthorizationRequest");
 		Map<String, Object> attributes = new HashMap<>(authorizationRequest.getAttributes());
 		attributes.put("continue_url", request.getParameter("continue"));
+		log.info("\t > 'continue_url' param from request is included in the attributes of OAuth2AuthorizationRequest");
 		
 		return OAuth2AuthorizationRequest.from(authorizationRequest)
 				.authorizationRequestUri(authorizationRequestUri)
@@ -64,15 +63,15 @@ public class OAuth2CustomAuthorizationRequestResolver implements OAuth2Authoriza
 	
 	private String customizeAuthorizationRequestUri(OAuth2AuthorizationRequest authorizationRequest) {
 		// https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=a4bfed5a0f06c18566476fdb677bd1b6&state=zVJpDVYxZG33s7R9u6Ig7SfEXP9BReYvygoOEEjofPA%3D&redirect_uri=http://localhost:8888/codingjoa/login/kakao/callback"
-		String authorizationRequestUri = authorizationRequest.getAuthorizationRequestUri();
-
-		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(authorizationRequestUri);
+		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(authorizationRequest.getAuthorizationRequestUri());
 		String redirectUriParam = builder.build().getQueryParams().getFirst("redirect_uri");
 		builder.replaceQueryParam("redirect_uri", restoreAndEncode(redirectUriParam));
+		log.info("\t > 'redirect_uri' param is re-encoded");
 		
 		String registrationId = (String) authorizationRequest.getAttribute(OAuth2ParameterNames.REGISTRATION_ID);
-		if (registrationId.equals("kakao")) {
+		if (registrationId.equals("kakao") || registrationId.equals("google")) {
 			builder.queryParam("prompt", "login");
+			log.info("\t > 'prompt' param is added");
 		}
 		
 		return builder.build().toUriString();

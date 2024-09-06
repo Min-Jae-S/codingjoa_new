@@ -50,7 +50,7 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
 		
 		if (e instanceof LoginRequireFieldException || e instanceof UsernameNotFoundException
 				|| e instanceof BadCredentialsException) {
-			log.info("\t > {} : {}", e.getClass().getSimpleName(), e.getMessage());
+			log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
 			message = e.getMessage();
 			//message = StringUtils.removeEnd(message.replaceAll("\\.(\\s)*", ".<br>"), "<br>");
 		}

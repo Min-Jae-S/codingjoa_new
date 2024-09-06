@@ -21,7 +21,7 @@ public class GlobalExceptionResolver implements HandlerExceptionResolver {
 			Exception ex) {
 		log.info("## {}", this.getClass().getSimpleName());
 		log.info("\t > request-line = {}", HttpUtils.getHttpRequestLine(request));
-		log.info("\t > {} : {}", ex.getClass().getSimpleName(), ex.getMessage());
+		log.info("\t > {}: {}", ex.getClass().getSimpleName(), ex.getMessage());
 
 		if (handler == null) {
 			log.info("\t > handler is not resolved yet");
