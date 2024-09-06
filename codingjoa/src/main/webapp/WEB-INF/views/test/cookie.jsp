@@ -39,8 +39,8 @@
 <div class="container my-5">
 	<p>cookie.jsp</p>
 	<div class="test mt-5 mb-5 px-5">
-		<button class="btn btn-secondary btn-lg" onclick="check()">check cookies</button>
-		<button class="btn btn-secondary btn-lg" onclick="remove()">remove cookies</button>
+		<button class="btn btn-secondary btn-lg" onclick="checkCookies()">check cookies</button>
+		<button class="btn btn-secondary btn-lg" onclick="removeCookies()">remove cookies</button>
 	</div>
 	<div class="test mt-5 mb-5 px-5">
 		<button class="btn btn-primary btn-lg" onclick="addCookie1()">addCookie<br>by CookieUtils</button>
@@ -50,8 +50,8 @@
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 <script>
-	function check() {
-		console.log("## check");
+	function checkCookies() {
+		console.log("## checkCookies");
 		$.ajax({
 			type : "GET",
 			url : "${contextPath}/test/cookie/check",
@@ -66,8 +66,8 @@
 		});
 	}
 
-	function remove() {
-		console.log("## remove");
+	function removeCookies() {
+		console.log("## removeCookies");
 		$.ajax({
 			type : "GET",
 			url : "${contextPath}/test/cookie/remove",
