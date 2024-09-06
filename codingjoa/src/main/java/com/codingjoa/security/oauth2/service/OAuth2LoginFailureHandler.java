@@ -43,7 +43,8 @@ public class OAuth2LoginFailureHandler implements AuthenticationFailureHandler {
 				.details(Map.of("redirectUrl", UriUtils.buildDefaultLoginUrl(request)))
 				.build();
 		
-		// forward to feedback/failure.jsp
+		request.setAttribute("errorResponse", errorResponse);
+		request.getRequestDispatcher("/WEB-INF/views/feedback/failure.jsp").forward(request, response);
 	}
 
 }

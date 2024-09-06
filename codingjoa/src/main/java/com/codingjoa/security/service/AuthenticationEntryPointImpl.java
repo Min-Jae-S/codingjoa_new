@@ -80,8 +80,8 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 			response.getWriter().close();
 		} else {
 			//redirectStrategy.sendRedirect(request, response, loginUrl);
-
-			// forward to feedback/failure.jsp
+			request.setAttribute("errorResponse", errorResponse);
+			request.getRequestDispatcher("/WEB-INF/views/feedback/failure.jsp").forward(request, response);
 		}
 	}
 	

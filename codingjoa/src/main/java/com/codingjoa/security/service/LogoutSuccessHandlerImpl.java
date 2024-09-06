@@ -39,11 +39,10 @@ public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
 				.messageByCode("success.Logout")
 				.data(Map.of("redirectUrl", continueUrl))
 				.build();
-		request.setAttribute("successResponse", successResponse);
 		
 		//redirectStrategy.sendRedirect(request, response, continueUrl);
-		
-		// forward to feedback/success.jsp
+		request.setAttribute("successResponse", successResponse);
+		request.getRequestDispatcher("/WEB-INF/views/feedback/success.jsp").forward(request, response);
 	}
 
 }
