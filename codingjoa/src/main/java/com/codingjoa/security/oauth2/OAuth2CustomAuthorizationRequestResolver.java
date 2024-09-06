@@ -69,9 +69,16 @@ public class OAuth2CustomAuthorizationRequestResolver implements OAuth2Authoriza
 		log.info("\t > 'redirect_uri' param is re-encoded");
 		
 		String registrationId = (String) authorizationRequest.getAttribute(OAuth2ParameterNames.REGISTRATION_ID);
-		if (registrationId.equals("kakao") || registrationId.equals("google")) {
-			builder.queryParam("prompt", "login");
-			log.info("\t > 'prompt' param is added");
+		String promptParam = null;
+		if (registrationId.equals("kakao")) {
+			promptParam = "login";
+		} else if (registrationId.equals("google")) {
+			promptParam = "select_account";
+		}
+		
+		if (promptParam != null) {
+			builder.queryParam("prompt", promptParam);
+			log.info("\t > 'prompt' param is added with '{}'", promptParam);
 		}
 		
 		return builder.build().toUriString();
