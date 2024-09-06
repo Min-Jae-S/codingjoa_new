@@ -1,7 +1,10 @@
 package com.codingjoa.controller;
 
+import java.util.Map;
+
 import javax.validation.Valid;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,8 +15,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.codingjoa.dto.JoinDto;
+import com.codingjoa.dto.SuccessResponse;
 import com.codingjoa.service.MemberService;
 import com.codingjoa.service.RedisService;
 import com.codingjoa.validator.JoinValidator;
@@ -43,7 +48,7 @@ public class MemberController {
 	}
 
 	@PostMapping("/join")
-	public String join(@ModelAttribute @Valid JoinDto joinDto, BindingResult bindingResult) {
+	public String join(@ModelAttribute @Valid JoinDto joinDto, BindingResult bindingResult, Model model) {
 		log.info("## join");
 		log.info("\t > {}", joinDto);
 
@@ -53,7 +58,22 @@ public class MemberController {
 		
 		memberService.saveMember(joinDto);
 		redisService.deleteKey(joinDto.getMemberEmail());
-		return "member/join-success";
+		
+		SuccessResponse successResponse = SuccessResponse.builder()
+				.status(HttpStatus.OK)
+				.messageByCode("success.Join")
+				.data(Map.of("redirectUrl", buildLoginUrl()))
+				.build();
+		model.addAttribute("successResponse", successResponse);
+		
+		return "feedback/success";
+	}
+	
+	private String buildLoginUrl() {
+		return ServletUriComponentsBuilder.fromCurrentContextPath()
+				.path("/login")
+				.build()
+				.toUriString();
 	}
 
 	@GetMapping("/account")
