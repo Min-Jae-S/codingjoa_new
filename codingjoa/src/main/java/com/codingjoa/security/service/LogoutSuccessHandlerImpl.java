@@ -37,7 +37,8 @@ public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
 		SuccessResponse successResponse = SuccessResponse.builder()
 				.status(HttpStatus.OK)
 				.messageByCode("success.Logout")
-				.data(Map.of("redirectUrl", continueUrl))
+				//.data(Map.of("redirectUrl", continueUrl))
+				.details(Map.of("redirectUrl", continueUrl))
 				.build();
 		
 		//redirectStrategy.sendRedirect(request, response, continueUrl);
