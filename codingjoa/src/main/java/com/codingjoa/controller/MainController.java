@@ -53,7 +53,8 @@ public class MainController {
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
 				.message("success")
-				.data(Map.of("redirectUrl", redirectUrl))
+				//.data(Map.of("redirectUrl", redirectUrl))
+				.details(Map.of("redirectUrl", redirectUrl))
 				.build());
 	}
 	

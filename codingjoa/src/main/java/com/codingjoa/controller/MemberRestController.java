@@ -226,7 +226,9 @@ public class MemberRestController {
 	public ResponseEntity<Object> getMemberInfo(@AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## getMemberInfo");
 		MemberInfoDto memberInfo = memberService.getMemberInfoByIdx(principal.getIdx());
-		return ResponseEntity.ok(SuccessResponse.builder().data(memberInfo).build());
+		
+		//return ResponseEntity.ok(SuccessResponse.builder().data(memberInfo).build());
+		return ResponseEntity.ok(SuccessResponse.builder().details(memberInfo).build());
 	}
 	
 //	@PostMapping("/find/account")

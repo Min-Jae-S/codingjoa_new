@@ -216,7 +216,8 @@ public class TestJwtController {
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
 				.message("success")
-				.data(Map.of("jwt", jwt))
+				//.data(Map.of("jwt", jwt))
+				.details(Map.of("jwt", jwt))
 				.build());
 	}
 

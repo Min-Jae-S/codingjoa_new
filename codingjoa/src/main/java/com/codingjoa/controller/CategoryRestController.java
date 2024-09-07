@@ -27,7 +27,9 @@ public class CategoryRestController {
 	public ResponseEntity<Object> getCategoryListByParent(@PathVariable("categoryParentCode") int categoryParentCode) {
 		log.info("## getCategoryListByParent");
 		List<Category> categoryList = categoryService.getCategoryListByParent(categoryParentCode);
-		return ResponseEntity.ok(SuccessResponse.builder().data(categoryList).build());
+		
+		//return ResponseEntity.ok(SuccessResponse.builder().data(categoryList).build());
+		return ResponseEntity.ok(SuccessResponse.builder().details(categoryList).build());
 	}
 	
 }

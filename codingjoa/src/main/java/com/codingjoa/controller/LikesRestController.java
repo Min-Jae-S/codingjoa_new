@@ -41,7 +41,8 @@ public class LikesRestController {
 		return ResponseEntity.ok(SuccessResponse
 				.builder()
 				.messageByCode(code)
-				.data(Map.of("isBoardLiked", isBoardLiked))
+				//.data(Map.of("isBoardLiked", isBoardLiked))
+				.details(Map.of("isBoardLiked", isBoardLiked))
 				.build());
 	}
 	
@@ -54,7 +55,8 @@ public class LikesRestController {
 		
 		return ResponseEntity.ok(SuccessResponse
 				.builder()
-				.data(Map.of("boardLikesCnt", boardLikesCnt))
+				//.data(Map.of("boardLikesCnt", boardLikesCnt))
+				.details(Map.of("boardLikesCnt", boardLikesCnt))
 				.build());
 	}
 	
@@ -68,7 +70,8 @@ public class LikesRestController {
 		return ResponseEntity.ok(SuccessResponse
 				.builder()
 				.messageByCode(code)
-				.data(Map.of("isCommentLiked", isCommentLiked))
+				//.data(Map.of("isCommentLiked", isCommentLiked))
+				.details(Map.of("isCommentLiked", isCommentLiked))
 				.build());
 	}
 
@@ -81,7 +84,8 @@ public class LikesRestController {
 		
 		return ResponseEntity.ok(SuccessResponse
 				.builder()
-				.data(Map.of("commentLikesCnt", commentLikesCnt))
+				//.data(Map.of("commentLikesCnt", commentLikesCnt))
+				.details(Map.of("commentLikesCnt", commentLikesCnt))
 				.build());
 	}
 	

@@ -59,7 +59,8 @@ public class CommentRestController {
 		return ResponseEntity.ok(SuccessResponse
 				.builder()
 				//.data(Map.of("commentList", commentList, "myCommentLikes", myCommentLikes, "pagination", pagination))
-				.data(Map.of("commentList", commentList, "pagination", pagination))
+				//.data(Map.of("commentList", commentList, "pagination", pagination))
+				.details(Map.of("commentList", commentList, "pagination", pagination))
 				.build());
 	}
 	
@@ -71,7 +72,8 @@ public class CommentRestController {
 		
 		return ResponseEntity.ok(SuccessResponse
 				.builder()
-				.data(Map.of("commentDetails", commentDetails))
+				//.data(Map.of("commentDetails", commentDetails))
+				.details(Map.of("commentDetails", commentDetails))
 				.build());
 	}
 	
