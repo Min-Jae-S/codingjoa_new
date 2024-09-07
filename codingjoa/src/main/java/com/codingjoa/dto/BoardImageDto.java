@@ -1,14 +1,28 @@
 package com.codingjoa.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.codingjoa.entity.BoardImage;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+import lombok.Builder;
+import lombok.Getter;
+import lombok.ToString;
+
+@ToString
+@Getter
 public class BoardImageDto {
 
 	private Integer boardImageIdx;
 	private String boardImageUrl;
+	
+	@Builder
+	private BoardImageDto(Integer boardImageIdx, String boardImageUrl) {
+		this.boardImageIdx = boardImageIdx;
+		this.boardImageUrl = boardImageUrl;
+	}
+	
+	public static BoardImageDto from(BoardImage boardImage) {
+		return BoardImageDto.builder()
+				.boardImageIdx(boardImage.getBoardImageIdx())
+				.boardImageUrl(boardImage.getBoardImageUrl())
+				.build();
+	}
 }

@@ -36,7 +36,8 @@ public class BoardRestController {
 		return ResponseEntity.ok(SuccessResponse
 				.builder()
 				.messageByCode("success.UploadBoardImage")
-				.data(new BoardImageDto(boardImage.getBoardImageIdx(), boardImage.getBoardImageUrl()))
+				//.data(new BoardImageDto(boardImage.getBoardImageIdx(), boardImage.getBoardImageUrl()))
+				.details(BoardImageDto.from(boardImage))
 				.build());
 	}
 

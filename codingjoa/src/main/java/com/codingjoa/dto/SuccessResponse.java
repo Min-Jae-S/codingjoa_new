@@ -16,13 +16,13 @@ public class SuccessResponse {
 	
 	private int status;
 	private String message;
-	private Object data;
+	private Object details; //private Object data;
 	private LocalDateTime timestamp;
 	
 	private SuccessResponse() {
 		this.status = HttpStatus.OK.value();
 		this.message = "";
-		this.data = null;
+		this.details = null; //this.data = null;
 		this.timestamp = LocalDateTime.now();
 	}
 	
@@ -58,10 +58,15 @@ public class SuccessResponse {
 			return this;
 		}
 
-		public SuccessResponseBuilder data(Object data) {
-			successResponse.data = data;
+		public SuccessResponseBuilder details(Object details) {
+			successResponse.details = details;
 			return this;
 		}
+		
+//		public SuccessResponseBuilder data(Object data) {
+//			successResponse.data = data;
+//			return this;
+//		}
 		
 		public SuccessResponse build() {
 			return successResponse;
