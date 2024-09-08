@@ -60,12 +60,12 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 		 * 		}
 		 */
 		
+		ErrorResponse errorResponse = ErrorResponse.builder()
+				.status(HttpStatus.UNAUTHORIZED)
+				.messageByCode("error.Unauthorized")
+				.build();
+		
 		if (isAjaxRequest(request)) {
-			ErrorResponse errorResponse = ErrorResponse.builder()
-					.status(HttpStatus.UNAUTHORIZED)
-					.messageByCode("error.Unauthorized")
-					.build();
-			
 			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 			response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 			response.setCharacterEncoding(StandardCharsets.UTF_8.name());
@@ -75,6 +75,8 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 			response.getWriter().write(jsonResponse);
 			response.getWriter().close();
 		} else {
+			//request.setAttribute("errorResponse", errorResponse);
+			//request.getRequestDispatcher("/WEB-INF/views/feedback/failure.jsp").forward(request, response);
 			redirectStrategy.sendRedirect(request, response, UriUtils.buildLoginUrl(request));
 		}
 	}
