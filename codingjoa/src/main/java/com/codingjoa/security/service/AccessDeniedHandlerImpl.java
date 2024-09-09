@@ -63,7 +63,7 @@ public class AccessDeniedHandlerImpl implements AccessDeniedHandler {
 			response.getWriter().write(jsonResponse);
 			response.getWriter().close();
 		} else {
-			redirectStrategy.sendRedirect(request, response, request.getContextPath() + "/");
+			redirectStrategy.sendRedirect(request, response, "/");
 		}
 	}
 	

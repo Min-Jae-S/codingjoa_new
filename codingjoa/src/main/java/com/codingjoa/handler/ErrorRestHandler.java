@@ -55,7 +55,7 @@ public class ErrorRestHandler {
 	
 	@ExceptionHandler(Exception.class)
 	protected ResponseEntity<Object> handleException(Exception e) {
-		log.info("## {}.handleException", this.getClass().getSimpleName());
+		log.info("## {}.handleEx", this.getClass().getSimpleName());
 		log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
 		log.info("\t > location = {}", e.getStackTrace()[0]);
 
@@ -70,7 +70,7 @@ public class ErrorRestHandler {
 	
 	@ExceptionHandler(NoHandlerFoundException.class) 
 	protected ResponseEntity<Object> handleNoHandlerFoundException(Exception e, HttpServletRequest request) {
-		log.info("## {}.handleNoHandlerFoundException", this.getClass().getSimpleName());
+		log.info("## {}.handleNoHandlerFoundEx", this.getClass().getSimpleName());
 		log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
 		log.info("\t > location = {}", e.getStackTrace()[0]);
 
@@ -84,7 +84,7 @@ public class ErrorRestHandler {
 	
 	@ExceptionHandler(HttpMessageNotReadableException.class)
 	protected ResponseEntity<Object> handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
-		log.info("## {}.handleHttpMessageNotReadableException", this.getClass().getSimpleName());
+		log.info("## {}.handleHttpMessageNotReadableEx", this.getClass().getSimpleName());
 		log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
 		log.info("\t > location = {}", e.getStackTrace()[0]);
 		
@@ -98,7 +98,7 @@ public class ErrorRestHandler {
 	
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	protected ResponseEntity<Object> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
-		log.info("## {}.handleMethodArgumentNotValidException", this.getClass().getSimpleName());
+		log.info("## {}.handleMethodArgumentNotValidEx", this.getClass().getSimpleName());
 		log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
 		log.info("\t > location = {}", e.getStackTrace()[0]);
 		
@@ -116,7 +116,7 @@ public class ErrorRestHandler {
 	
 	@ExceptionHandler(ConstraintViolationException.class)
 	protected ResponseEntity<Object> handleConstraintViolationException(ConstraintViolationException e) {
-		log.info("## {}.handleConstraintViolationException", this.getClass().getSimpleName());
+		log.info("## {}.handleConstraintViolationEx", this.getClass().getSimpleName());
 		log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
 		log.info("\t > location = {}", e.getStackTrace()[0]);
 		
@@ -137,7 +137,7 @@ public class ErrorRestHandler {
 		MethodArgumentTypeMismatchException.class,	// api/comments/aa
 	})
 	protected ResponseEntity<Object> handleInvalidFormatException(Exception e) {
-		log.info("## {}.handleInvalidFormatException", this.getClass().getSimpleName());
+		log.info("## {}.handleInvalidFormatEx", this.getClass().getSimpleName());
 		log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
 		log.info("\t > location = {}", e.getStackTrace()[0]);
 
@@ -151,7 +151,7 @@ public class ErrorRestHandler {
 	
 	@ExceptionHandler(MaxUploadSizeExceededException.class)
 	protected ResponseEntity<Object> handleMaxUploadSizeExceededException(MaxUploadSizeExceededException e) {
-		log.info("## {}.handleMaxUploadSizeExceededException", this.getClass().getSimpleName());
+		log.info("## {}.handleMaxUploadSizeExceededEx", this.getClass().getSimpleName());
 		log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
 		log.info("\t > location = {}", e.getStackTrace()[0]);
 		
@@ -165,7 +165,7 @@ public class ErrorRestHandler {
 	
 	@ExceptionHandler(ExpectedException.class)
 	protected ResponseEntity<Object> handleExpectedException(ExpectedException e) {
-		log.info("## {}.handleExpectedException", this.getClass().getSimpleName());
+		log.info("## {}.handleExpectedEx", this.getClass().getSimpleName());
 		log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
 		log.info("\t > location = {}", e.getStackTrace()[0]);
 		log.info("\t > errorCode = {}, errorField = {}", e.getErrorCode(), e.getErrorField());
@@ -182,13 +182,13 @@ public class ErrorRestHandler {
 		}
 		
 		ErrorResponse errorResponse = builder.build();
+		
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
 	}
 	
-	// TEST
 	@ExceptionHandler(TestException.class)
 	protected ResponseEntity<Object> handleTestException(TestException e) {
-		log.info("## {}.handleTestException", this.getClass().getSimpleName());
+		log.info("## {}.handleTestEx", this.getClass().getSimpleName());
 		log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
 		log.info("\t > location = {}", e.getStackTrace()[0]);
 		log.info("\t > errorCode = {}, errorField = {}", e.getErrorCode(), e.getErrorField());
@@ -205,6 +205,7 @@ public class ErrorRestHandler {
 		}
 		
 		TestResponse testResponse = builder.build();
+		
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(testResponse);
 	}
 	

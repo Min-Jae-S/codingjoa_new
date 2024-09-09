@@ -12,7 +12,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -241,36 +240,6 @@ public class TestJwtController {
 		} catch (NullPointerException e) {
 			log.info("\t > authentication = null");
 		}
-		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
-	}
-	
-	@GetMapping("/test7")
-	public ResponseEntity<Object> test7(@AuthenticationPrincipal PrincipalDetails principal) {
-		log.info("## test7");
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		try {
-			log.info("\t > authentication = {}", auth.getClass().getSimpleName());
-			log.info("\t > details = {}", auth.getDetails());
-		} catch (NullPointerException e) {
-			log.info("\t > authentication = null");
-		}
-		log.info("\t > principal = {}", principal);
-		
-		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
-	}
-	
-	@GetMapping("/test8")
-	public ResponseEntity<Object> test8(@AuthenticationPrincipal PrincipalDetails principal) {
-		log.info("## test8");
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		try {
-			log.info("\t > authentication = {}", auth.getClass().getSimpleName());
-			log.info("\t > details = {}", auth.getDetails());
-		} catch (NullPointerException e) {
-			log.info("\t > authentication = null");
-		}
-		log.info("\t > principal = {}", principal);
-		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 	

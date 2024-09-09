@@ -4,9 +4,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>ADMIN | Codingjoa</title>
 </head>
 <body>
-	<h1>Admin Test...</h1>
+	<h1>ADMIN TEST</h1>
 </body>
 </html>

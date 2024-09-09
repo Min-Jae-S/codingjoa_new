@@ -30,6 +30,7 @@ public class UriUtils {
 				.toUriString();
 	}
 	
+	// OAuth2LoginFailureHandler, MemberController.join
 	public static String buildDefaultLoginUrl(HttpServletRequest request) {
 		return ServletUriComponentsBuilder.fromContextPath(request)
 				.path("/login")

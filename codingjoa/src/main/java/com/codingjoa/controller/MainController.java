@@ -30,12 +30,6 @@ public class MainController {
 		return "home";
 	}
 
-	@GetMapping("/accessDenied")
-	public String accessDenied() {
-		log.info("## accessDenied");
-		return "access-denied";
-	}
-
 	@GetMapping("/login") 
 	public String loginPage(@RequestParam(name = "continue", required = false) String continueUrl, Model model) {
 		log.info("## loginPage");
@@ -54,7 +48,6 @@ public class MainController {
 		return ResponseEntity.ok(SuccessResponse.builder()
 				.message("success")
 				.data(Map.of("redirectUrl", redirectUrl))
-				//.details(Map.of("redirectUrl", redirectUrl))
 				.build());
 	}
 	

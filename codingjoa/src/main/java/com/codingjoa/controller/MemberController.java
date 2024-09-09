@@ -94,6 +94,4 @@ public class MemberController {
 		model.addAttribute("key", key);
 		return "member/reset-password";
 	}
-	
-	
 }

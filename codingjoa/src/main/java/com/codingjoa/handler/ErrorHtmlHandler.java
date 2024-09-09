@@ -25,11 +25,11 @@ import lombok.extern.slf4j.Slf4j;
 @ControllerAdvice
 public class ErrorHtmlHandler {
 	
-	public static final String FORWARD_URL = "/error/errorPage";
+	public static final String FORWARD_URL = "/error";
 	
 	@ExceptionHandler(Exception.class) // NoHandlerFoundException, NestedServletException etc..
 	protected String handleException(Exception e, HttpServletRequest request) {
-		log.info("## {}.handleException", this.getClass().getSimpleName());
+		log.info("## {}.handleEx", this.getClass().getSimpleName());
 		log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
 		log.info("\t > location = {}", e.getStackTrace()[0]);
 		
@@ -47,7 +47,7 @@ public class ErrorHtmlHandler {
 	
 	@ExceptionHandler(NoHandlerFoundException.class) 
 	protected String handleNoHandlerFoundException(Exception e, HttpServletRequest request) {
-		log.info("## {}.handleNoHandlerFoundException", this.getClass().getSimpleName());
+		log.info("## {}.handleNoHandlerFoundEx", this.getClass().getSimpleName());
 		log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
 		log.info("\t > location = {}", e.getStackTrace()[0]);
 		
@@ -64,7 +64,7 @@ public class ErrorHtmlHandler {
 	
 	@ExceptionHandler(BindException.class)
 	protected String handleBindException(BindException e, HttpServletRequest request) {
-		log.info("## {}.handleBindException", this.getClass().getSimpleName());
+		log.info("## {}.handleBindEx", this.getClass().getSimpleName());
 		log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
 		log.info("\t > location = {}", e.getStackTrace()[0]);
 		
@@ -96,7 +96,7 @@ public class ErrorHtmlHandler {
 	@ExceptionHandler(ConstraintViolationException.class) // /board/?boardCategoryCode=11
 	protected String handleConstraintViolationException(ConstraintViolationException e, 
 			HttpServletRequest request) {
-		log.info("## {}.handleConstraintViolationException", this.getClass().getSimpleName());
+		log.info("## {}.handleConstraintViolationEx", this.getClass().getSimpleName());
 		log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
 		log.info("\t > location = {}", e.getStackTrace()[0]);
 		
@@ -120,7 +120,7 @@ public class ErrorHtmlHandler {
 		MethodArgumentTypeMismatchException.class		// /board/read?boardIdx=, /board/read?boardIdx=aa 
 	})
 	protected String handleInvalidFormatException(Exception e, HttpServletRequest request) {
-		log.info("## {}.handleInvalidFormatException", this.getClass().getSimpleName());
+		log.info("## {}.handleInvalidFormatEx", this.getClass().getSimpleName());
 		log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
 		log.info("\t > location = {}", e.getStackTrace()[0]);
 		
@@ -137,7 +137,7 @@ public class ErrorHtmlHandler {
 
 	@ExceptionHandler(ExpectedException.class)
 	protected String handleExpectedException(ExpectedException e, HttpServletRequest request) {
-		log.info("## {}.handleExpectedException", this.getClass().getSimpleName());
+		log.info("## {}.handleExpectedEx", this.getClass().getSimpleName());
 		log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
 		log.info("\t > location = {}", e.getStackTrace()[0]);
 		log.info("\t > errorCode = {}, errorField = {}", e.getErrorCode(), e.getErrorField());
@@ -160,10 +160,9 @@ public class ErrorHtmlHandler {
 		return "forward:" + FORWARD_URL;
 	}
 	
-	// TEST
 	@ExceptionHandler(TestException.class)
 	protected String handleTestException(TestException e, HttpServletRequest request) {
-		log.info("## {}.handleTestException", this.getClass().getSimpleName());
+		log.info("## {}.handleTestEx", this.getClass().getSimpleName());
 		log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
 		log.info("\t > location = {}", e.getStackTrace()[0]);
 		log.info("\t > errorCode = {}, errorField = {}", e.getErrorCode(), e.getErrorField());
