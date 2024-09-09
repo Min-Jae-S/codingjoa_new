@@ -32,7 +32,8 @@ public class ImageServiceImpl implements ImageService {
 	private final String memberImageDir; 	// D:/Dev/upload/member/images/
 	
 	@Autowired
-	public ImageServiceImpl(ImageMapper imageMapper, @Value("${upload.dir.board.image}") String boardImageDir,
+	public ImageServiceImpl(ImageMapper imageMapper, 
+			@Value("${upload.dir.board.image}") String boardImageDir,
 			@Value("${upload.dir.member.image}") String memberImageDir) {
 		this.imageMapper = imageMapper;
 		this.boardImageDir = boardImageDir; 
@@ -44,13 +45,17 @@ public class ImageServiceImpl implements ImageService {
 		File uploadFolder = new File(boardImageDir);
 		if (!uploadFolder.exists()) {
 			if (!uploadFolder.mkdirs()) {
-				throw new RuntimeException("failed to create directory: " + boardImageDir);
+				throw new ExpectedException("error.UploadBoardImage");
 			}
 		}
 		
 		String uploadFilename = createFilename(file.getOriginalFilename());
 		File uploadFile = new File(uploadFolder, uploadFilename);
-		file.transferTo(uploadFile);
+		try {
+			file.transferTo(uploadFile);
+		} catch (Exception e) {
+			throw new ExpectedException("error.UploadBoardImage");
+		}
 		
 		String boardImageUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
 				.path("/board/images/{filename}")
@@ -113,7 +118,7 @@ public class ImageServiceImpl implements ImageService {
 	}
 	
 	@Override
-	public void uploadMemberImage(MultipartFile file, Integer memberIdx) {
+	public void handleMemberImage(MultipartFile file, Integer memberIdx) {
 		File uploadFolder = new File(memberImageDir);
 		if (!uploadFolder.exists()) {
 			if (!uploadFolder.mkdirs()) {
@@ -146,11 +151,11 @@ public class ImageServiceImpl implements ImageService {
 		
 		boolean isSaved = imageMapper.insertMemberImage(memberImage);
 		if (!isSaved) { 
-			throw new ExpectedException("error.updateMemberImage");
+			throw new ExpectedException("error.UpdateMemberImage");
 		}
 	}
 	
-	private String createFilename(String originalFilename) {
+	private static String createFilename(String originalFilename) {
 		return UUID.randomUUID() + "_" + originalFilename;
 	}
 

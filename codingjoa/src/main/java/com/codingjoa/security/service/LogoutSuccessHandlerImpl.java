@@ -35,7 +35,7 @@ public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
 		//redirectStrategy.sendRedirect(request, response, continueUrl);
 		request.setAttribute("message", MessageUtils.getMessage("success.Logout"));
 		request.setAttribute("redirectUrl", continueUrl);
-		request.getRequestDispatcher("/WEB-INF/views/feedback/success.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/views/feedback.jsp").forward(request, response);
 	}
 
 }

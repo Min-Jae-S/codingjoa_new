@@ -121,7 +121,7 @@
 			let url = $(this).attr("href");
 			getConfig(url, function(result) {
 				let message = result.message;
-				if (message != null) {
+				if (message != "") {
 					alert(message);
 				}
 				
