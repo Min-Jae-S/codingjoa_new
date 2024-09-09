@@ -16,7 +16,6 @@ public class SuccessResponse {
 	
 	private int status;
 	private String message;
-	//private Object details;
 	private Object data;
 	private LocalDateTime timestamp;
 	
@@ -59,11 +58,6 @@ public class SuccessResponse {
 			return this;
 		}
 
-//		public SuccessResponseBuilder details(Object details) {
-//			successResponse.details = details;
-//			return this;
-//		}
-		
 		public SuccessResponseBuilder data(Object data) {
 			successResponse.data = data;
 			return this;

@@ -69,8 +69,7 @@ public class TestRestApiController {
 		log.info("## getMapping");
 		List<TestApiResponseData> responseData = service.read();
 		log.info("\t > responseData = {}", responseData);
-		//return ResponseEntity.ok(SuccessResponse.builder().data(responseData).build());
-		return ResponseEntity.ok(SuccessResponse.builder().details(responseData).build());
+		return ResponseEntity.ok(SuccessResponse.builder().data(responseData).build());
 	}
 	
 	@GetMapping(value = { "/rest-api/test-members/", "/rest-api/test-members/{id}" })
@@ -85,8 +84,7 @@ public class TestRestApiController {
 					.status(HttpStatus.NOT_FOUND)
 					.body(ErrorResponse.builder().status(HttpStatus.NOT_FOUND).build());
 		} else {
-			//return ResponseEntity.ok(SuccessResponse.builder().data(responseData).build());
-			return ResponseEntity.ok(SuccessResponse.builder().details(responseData).build());
+			return ResponseEntity.ok(SuccessResponse.builder().data(responseData).build());
 		}
 	}
 
@@ -131,8 +129,7 @@ public class TestRestApiController {
 			log.info("\t > responseData = {}", responseData);
 			return ResponseEntity
 					.ok()
-					//.body(SuccessResponse.builder().data(responseData).build());
-					.body(SuccessResponse.builder().details(responseData).build());
+					.body(SuccessResponse.builder().data(responseData).build());
 		} else {
 			return ResponseEntity
 					.status(HttpStatus.NOT_FOUND)
@@ -154,8 +151,7 @@ public class TestRestApiController {
 			log.info("\t > responseData = {}", responseData);
 			return ResponseEntity
 					.ok()
-					//.body(SuccessResponse.builder().data(responseData).build());
-					.body(SuccessResponse.builder().details(responseData).build());
+					.body(SuccessResponse.builder().data(responseData).build());
 		} else {
 			return ResponseEntity
 					.status(HttpStatus.NOT_FOUND)

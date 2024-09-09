@@ -227,8 +227,7 @@ public class MemberRestController {
 		log.info("## getMemberInfo");
 		MemberInfoDto memberInfo = memberService.getMemberInfoByIdx(principal.getIdx());
 		
-		//return ResponseEntity.ok(SuccessResponse.builder().data(memberInfo).build());
-		return ResponseEntity.ok(SuccessResponse.builder().details(memberInfo).build());
+		return ResponseEntity.ok(SuccessResponse.builder().data(memberInfo).build());
 	}
 	
 //	@PostMapping("/find/account")

@@ -63,8 +63,8 @@ public class MemberController {
 		SuccessResponse successResponse = SuccessResponse.builder()
 				.status(HttpStatus.OK)
 				.messageByCode("success.Join")
-				//.data(Map.of("redirectUrl", UriUtils.buildDefaultLoginUrl(request)))
-				.details(Map.of("redirectUrl", UriUtils.buildDefaultLoginUrl(request)))
+				.data(Map.of("redirectUrl", UriUtils.buildDefaultLoginUrl(request)))
+				//.details(Map.of("redirectUrl", UriUtils.buildDefaultLoginUrl(request)))
 				.build();
 		request.setAttribute("successResponse", successResponse);
 		
