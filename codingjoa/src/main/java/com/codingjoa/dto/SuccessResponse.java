@@ -16,26 +16,27 @@ public class SuccessResponse {
 	
 	private int status;
 	private String message;
-	private Object details; // private Object data;
+	//private Object details;
+	private Object data;
 	private LocalDateTime timestamp;
 	
-	private SuccessResponse() {
-		this.status = HttpStatus.OK.value();
-		this.message = "";
-		this.details = null; // this.data = null;
-		this.timestamp = LocalDateTime.now();
+	private SuccessResponse(int status, String message, Object data, LocalDateTime timestamp) {
+		this.status = status;
+		this.message = message;
+		this.data = data;
+		this.timestamp = timestamp;
 	}
 	
 	public static SuccessResponseBuilder builder() {
 		return new SuccessResponseBuilder();
 	}
-	
+
 	@ToString
 	public static class SuccessResponseBuilder {
 		private SuccessResponse successResponse;
 
 		private SuccessResponseBuilder() {
-			this.successResponse = new SuccessResponse();
+			this.successResponse = new SuccessResponse(HttpStatus.OK.value(), "", null, LocalDateTime.now());
 		}
 		
 		public SuccessResponseBuilder status(HttpStatus httpStatus) {
@@ -58,15 +59,15 @@ public class SuccessResponse {
 			return this;
 		}
 
-		public SuccessResponseBuilder details(Object details) {
-			successResponse.details = details;
-			return this;
-		}
-		
-//		public SuccessResponseBuilder data(Object data) {
-//			successResponse.data = data;
+//		public SuccessResponseBuilder details(Object details) {
+//			successResponse.details = details;
 //			return this;
 //		}
+		
+		public SuccessResponseBuilder data(Object data) {
+			successResponse.data = data;
+			return this;
+		}
 		
 		public SuccessResponse build() {
 			return successResponse;

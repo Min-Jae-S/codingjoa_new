@@ -22,11 +22,11 @@ public class ErrorResponse {
 	private Object details;
 	private LocalDateTime timestamp;
 	
-	private ErrorResponse() {
-		this.status = HttpStatus.BAD_REQUEST.value();
-		this.message = "";
-		this.details = null;
-		this.timestamp = LocalDateTime.now();
+	private ErrorResponse(int status, String message, Object details, LocalDateTime timestamp) {
+		this.status = status;
+		this.message = message;
+		this.details = details;
+		this.timestamp = timestamp;
 	}
 	
 	public static ErrorResponseBuilder builder() {
@@ -38,7 +38,7 @@ public class ErrorResponse {
 		private ErrorResponse errorResponse;
 
 		private ErrorResponseBuilder() {
-			this.errorResponse = new ErrorResponse();
+			this.errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST.value(), "", null, LocalDateTime.now());
 		}
 		
 		public ErrorResponseBuilder status(HttpStatus httpStatus) {
