@@ -20,6 +20,7 @@ import org.springframework.stereotype.Component;
 import com.codingjoa.dto.SuccessResponse;
 import com.codingjoa.security.service.JwtProvider;
 import com.codingjoa.util.CookieUtils;
+import com.codingjoa.util.MessageUtils;
 import com.codingjoa.util.UriUtils;
 
 import lombok.RequiredArgsConstructor;
@@ -48,17 +49,12 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 		String continueUrl = (String) authentication.getDetails();
 		continueUrl = UriUtils.resolveContinueUrl(continueUrl, request);
 		
-		SuccessResponse successResponse = SuccessResponse.builder()
-				.status(HttpStatus.OK)
-				.messageByCode("success.Login")
-				.data(Map.of("redirectUrl", continueUrl))
-				.build();
-		
-		// opation1 : after forwading to view(jsp), using successResponse, alert message and redirect to contineUrl on the client-side
-		// opation2 : directly redirect to continueUrl on the server-side
+		// opation1 : after forwading to view(jsp), alert message and redirect to contineUrl on the client-side
+		// opation2 : directly redirect to continueUrl using redirectStrategy
 		
 		//redirectStrategy.sendRedirect(request, response, continueUrl);
-		request.setAttribute("successResponse", successResponse);
-		request.getRequestDispatcher("/WEB-INF/views/feedback/success.jsp").forward(request, response);
+		request.setAttribute("message", MessageUtils.getMessage("success.Login"));
+		request.setAttribute("redirectUrl", continueUrl);
+		request.getRequestDispatcher("/WEB-INF/views/feedback.jsp").forward(request, response);
 	}
 }

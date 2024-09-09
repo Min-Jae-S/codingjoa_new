@@ -1,11 +1,8 @@
 package com.codingjoa.controller;
 
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,9 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.codingjoa.dto.JoinDto;
-import com.codingjoa.dto.SuccessResponse;
 import com.codingjoa.service.MemberService;
 import com.codingjoa.service.RedisService;
+import com.codingjoa.util.MessageUtils;
 import com.codingjoa.util.UriUtils;
 import com.codingjoa.validator.JoinValidator;
 
@@ -60,15 +57,10 @@ public class MemberController {
 		memberService.saveMember(joinDto);
 		redisService.deleteKey(joinDto.getMemberEmail());
 		
-		SuccessResponse successResponse = SuccessResponse.builder()
-				.status(HttpStatus.OK)
-				.messageByCode("success.Join")
-				.data(Map.of("redirectUrl", UriUtils.buildDefaultLoginUrl(request)))
-				//.details(Map.of("redirectUrl", UriUtils.buildDefaultLoginUrl(request)))
-				.build();
-		request.setAttribute("successResponse", successResponse);
+		request.setAttribute("message", MessageUtils.getMessage("success.Join"));
+		request.setAttribute("redirectUrl", UriUtils.buildDefaultLoginUrl(request));
 		
-		return "feedback/success";
+		return "feedback";
 	}
 	
 	@GetMapping("/account")
