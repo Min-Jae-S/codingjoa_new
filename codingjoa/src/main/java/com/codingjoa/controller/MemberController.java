@@ -95,4 +95,5 @@ public class MemberController {
 		return "member/reset-password";
 	}
 	
+	
 }
