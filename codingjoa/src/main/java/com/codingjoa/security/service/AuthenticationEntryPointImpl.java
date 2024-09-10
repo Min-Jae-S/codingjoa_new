@@ -77,7 +77,9 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 		} else {
 			//request.setAttribute("errorResponse", errorResponse);
 			//request.getRequestDispatcher("/WEB-INF/views/feedback.jsp").forward(request, response);
-			redirectStrategy.sendRedirect(request, response, UriUtils.buildLoginUrl(request));
+			String redirectUrl = UriUtils.buildLoginUrl(request);
+			log.info("\t > redirectUrl = {}", redirectUrl);
+			redirectStrategy.sendRedirect(request, response, redirectUrl);
 		}
 	}
 	

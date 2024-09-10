@@ -43,7 +43,7 @@
 </head>
 <body>
 
-<c:import url="/WEB-INF/views/include/top-menu.jsp" />
+<c:import url="/WEB-INF/views/include/top-menu.jsp"/>
 
 <div class="container home-container">
 	<div class="home-wrap">

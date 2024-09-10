@@ -36,7 +36,7 @@ public class OAuth2LoginFailureHandler implements AuthenticationFailureHandler {
 		
 		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 		request.setAttribute("message", message);
-		request.setAttribute("redirectUrl", UriUtils.buildDefaultLoginUrl(request));
+		request.setAttribute("redirectUrl", UriUtils.buildLoginUrl(request, ""));
 		request.getRequestDispatcher("/WEB-INF/views/feedback.jsp").forward(request, response);
 	}
 }
