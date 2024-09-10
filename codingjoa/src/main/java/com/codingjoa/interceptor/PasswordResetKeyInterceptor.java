@@ -1,6 +1,5 @@
 package com.codingjoa.interceptor;
 
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,9 +14,8 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 import com.codingjoa.dto.ErrorResponse;
 import com.codingjoa.service.RedisService;
-import com.codingjoa.util.MessageUtils;
 import com.codingjoa.util.HttpUtils;
-import com.fasterxml.jackson.core.JsonProcessingException;
+import com.codingjoa.util.MessageUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -36,19 +34,15 @@ public class PasswordResetKeyInterceptor implements HandlerInterceptor {
 		log.info("## {}", this.getClass().getSimpleName());
 		log.info("\t > request-line = {}", HttpUtils.getHttpRequestLine(request));
 		
-		response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-		response.setCharacterEncoding(StandardCharsets.UTF_8.name());
-
 		String key = request.getParameter("key");
-		if (!checkPasswordResetKey(key)) {
-			String message =  MessageUtils.getMessage("error.NotPasswordResetKey");
-			HandlerMethod handlerMethod = (HandlerMethod) handler;
-			if (handlerMethod.getBeanType().isAnnotationPresent(RestController.class)) {
-				response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-				responseJSON(request, response, message);
+		if (!isPasswordResetKey(key)) {
+			response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+			response.setCharacterEncoding(StandardCharsets.UTF_8.name());
+			
+			if (isRestController(handler)) {
+				respondJson(response);
 			} else {
-				response.setContentType(MediaType.TEXT_HTML_VALUE);
-				responseHTML(request, response, message);
+				respondJsp(request, response);
 			}
 			return false;
 		}
@@ -56,33 +50,39 @@ public class PasswordResetKeyInterceptor implements HandlerInterceptor {
 		return true;
 	}
 	
-	private boolean checkPasswordResetKey(String key) {
-		return StringUtils.isEmpty(key) ? false : redisService.hasKey(key);
+	private boolean isPasswordResetKey(String key) {
+		return StringUtils.isNotEmpty(key) && redisService.hasKey(key);
 	}
 	
-	private void responseJSON(HttpServletRequest request, HttpServletResponse response, String message)
-			throws JsonProcessingException, IOException {
+	private boolean isRestController(Object handler) {
+		if (handler instanceof HandlerMethod) {
+			HandlerMethod handlerMethod = (HandlerMethod) handler;
+			return handlerMethod.getBeanType().isAnnotationPresent(RestController.class);
+		}
+		return false;
+	}
+	
+	private void respondJson(HttpServletResponse response) throws Exception {
 		ErrorResponse errorResponse = ErrorResponse.builder()
 				.status(HttpStatus.FORBIDDEN)
-				.message(message)
+				.message(MessageUtils.getMessage("error.NotPasswordResetKey"))
 				.build();
 		
 		log.info("\t > respond with errorResponse in JSON format");
 		String jsonResponse = objectMapper.writeValueAsString(errorResponse);
+		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 		response.getWriter().write(jsonResponse); // \n --> \\n
 		response.getWriter().close();
 	}
 	
-	private void responseHTML(HttpServletRequest request, HttpServletResponse response, String message)
-			throws IOException {
+	private void respondJsp(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String message = MessageUtils.getMessage("error.NotPasswordResetKey");
 		message = StringUtils.removeEnd(message.replaceAll("\\.(\\s)*", ".\\\\n"), "\\n");
-		String script = "<script>";
-		script += "alert('" + message + "');";
-		script += "location.href='" + request.getContextPath() + "/member/findPassowrd';";
-		script += "</script>";
+		request.setAttribute("message", message);
+		request.setAttribute("redirectUrl", request.getContextPath() + "/member/findPassowrd");
 		
-		log.info("\t > respond with errorsResponse in HTML format");
-		response.getWriter().write(script);
-		response.getWriter().close();
+		log.info("\t > forward to feedback.jsp");
+		request.getRequestDispatcher("/WEB-INF/views/feedback.jsp").forward(request, response);
 	}
+
 }

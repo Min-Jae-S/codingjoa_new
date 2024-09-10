@@ -19,6 +19,7 @@ import org.springframework.stereotype.Component;
 
 import com.codingjoa.dto.ErrorResponse;
 import com.codingjoa.util.HttpUtils;
+import com.codingjoa.util.UriUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -30,6 +31,7 @@ import lombok.extern.slf4j.Slf4j;
  * 	AccessDeniedHandler, handles an access denied failure.
  */
 
+@SuppressWarnings("unused")
 @Slf4j
 @RequiredArgsConstructor
 @Component
@@ -43,27 +45,32 @@ public class AccessDeniedHandlerImpl implements AccessDeniedHandler {
 			AccessDeniedException accessDeniedException) throws IOException, ServletException {
 		log.info("## {}", this.getClass().getSimpleName());
 		log.info("\t > request-line = {}", HttpUtils.getHttpRequestLine(request));
-		log.info("\t > {} : {}", accessDeniedException.getClass().getSimpleName(), accessDeniedException.getMessage());
+		log.info("\t > {}: {}", accessDeniedException.getClass().getSimpleName(), accessDeniedException.getMessage());
+		
+		response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+		response.setCharacterEncoding(StandardCharsets.UTF_8.name());
 		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		log.info("\t > authentication = {}", (authentication != null) ? authentication.getClass().getSimpleName() : null);
 		
+		ErrorResponse errorResponse = ErrorResponse.builder()
+				.status(HttpStatus.FORBIDDEN)
+				.messageByCode("error.Forbidden")
+				.build();
+		
 		if (isAjaxRequest(request)) {
-			ErrorResponse errorResponse = ErrorResponse.builder()
-					.status(HttpStatus.FORBIDDEN)
-					.messageByCode("error.Forbidden")
-					.build();
-			
-			response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-			response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-			response.setCharacterEncoding(StandardCharsets.UTF_8.name());
-			
 			log.info("\t > respond with error response in JSON format");
 			String jsonResponse = objectMapper.writeValueAsString(errorResponse);
+			response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 			response.getWriter().write(jsonResponse);
 			response.getWriter().close();
 		} else {
-			redirectStrategy.sendRedirect(request, response, "/");
+			request.setAttribute("message", errorResponse.getMessage());
+			request.setAttribute("redirectUrl", UriUtils.buildLoginUrl(request, ""));
+			
+			log.info("\t > forward to feedback.jsp");
+			request.getRequestDispatcher("/WEB-INF/views/feedback.jsp").forward(request, response);
+			//redirectStrategy.sendRedirect(request, response, "/");
 		}
 	}
 	

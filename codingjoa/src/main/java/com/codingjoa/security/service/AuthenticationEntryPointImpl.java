@@ -31,6 +31,7 @@ import lombok.extern.slf4j.Slf4j;
  * 	as necessary to commence the authentication process.
  */
 
+@SuppressWarnings("unused")
 @Slf4j
 @RequiredArgsConstructor
 @Component
@@ -45,6 +46,9 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 		log.info("## {}", this.getClass().getSimpleName());
 		log.info("\t > request-line = {}", HttpUtils.getHttpRequestLine(request));
 		log.info("\t > {}: {}", authException.getClass().getSimpleName(), authException.getMessage());
+		
+		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+		response.setCharacterEncoding(StandardCharsets.UTF_8.name());
 		
 		/*
 		 * https://0taeng.tistory.com/30
@@ -66,20 +70,18 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 				.build();
 		
 		if (isAjaxRequest(request)) {
-			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-			response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-			response.setCharacterEncoding(StandardCharsets.UTF_8.name());
-			
 			log.info("\t > respond with error response in JSON format");
 			String jsonResponse = objectMapper.writeValueAsString(errorResponse);
+			response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 			response.getWriter().write(jsonResponse);
 			response.getWriter().close();
 		} else {
-			//request.setAttribute("errorResponse", errorResponse);
-			//request.getRequestDispatcher("/WEB-INF/views/feedback.jsp").forward(request, response);
-			String redirectUrl = UriUtils.buildLoginUrl(request);
-			log.info("\t > redirectUrl = {}", redirectUrl);
-			redirectStrategy.sendRedirect(request, response, redirectUrl);
+			//redirectStrategy.sendRedirect(request, response, UriUtils.buildLoginUrl(request));
+			request.setAttribute("message", errorResponse.getMessage());
+			request.setAttribute("redirectUrl", UriUtils.buildLoginUrl(request));
+
+			log.info("\t > forward to feedback.jsp");
+			request.getRequestDispatcher("/WEB-INF/views/feedback.jsp").forward(request, response);
 		}
 	}
 	
