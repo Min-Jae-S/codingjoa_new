@@ -47,7 +47,10 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 		CookieUtils.addCookie(request, response, JWT_COOKIE, jwt, COOKIE_EXPIRE_SECONDS);
 
 		String continueUrl = (String) authentication.getDetails();
+		log.info("\t > continueUrl from details = '{}'", continueUrl);
+		
 		continueUrl = UriUtils.resolveContinueUrl(continueUrl, request);
+		log.info("\t > resolved continueUrl = '{}'", continueUrl);
 		
 		// option1 : after forwading to view(jsp), alert message and redirect to contineUrl on the client-side
 		// option2 : directly redirect to continueUrl using redirectStrategy

@@ -171,6 +171,7 @@
 <script>
 	$(function() {
 		const continueUrl = "<c:out value='${continueUrl}'/>";
+		console.log("## continueUrl = '%s'", continueUrl);
 		
 		$("#loginForm").on("submit", function(e) {
 			e.preventDefault();

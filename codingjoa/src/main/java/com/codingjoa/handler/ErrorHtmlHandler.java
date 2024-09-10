@@ -25,13 +25,10 @@ import lombok.extern.slf4j.Slf4j;
 @ControllerAdvice
 public class ErrorHtmlHandler {
 	
-	public static final String FORWARD_URL = "/error";
-	
 	@ExceptionHandler(Exception.class) // NoHandlerFoundException, NestedServletException etc..
 	protected String handleException(Exception e, HttpServletRequest request) {
 		log.info("## {}.handleEx", this.getClass().getSimpleName());
 		log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
-		log.info("\t > location = {}", e.getStackTrace()[0]);
 		
 		ErrorResponse errorResponse = ErrorResponse.builder()
 				.status(HttpStatus.BAD_REQUEST)
@@ -39,17 +36,13 @@ public class ErrorHtmlHandler {
 				.build();
 		
 		request.setAttribute("errorResponse", errorResponse);
-		log.info("\t > forward to '{}'", FORWARD_URL);	
-		
-		//e.printStackTrace();
-		return "forward:" + FORWARD_URL;
+		return "error";
 	}
 	
 	@ExceptionHandler(NoHandlerFoundException.class) 
 	protected String handleNoHandlerFoundException(Exception e, HttpServletRequest request) {
 		log.info("## {}.handleNoHandlerFoundEx", this.getClass().getSimpleName());
 		log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
-		log.info("\t > location = {}", e.getStackTrace()[0]);
 		
 		ErrorResponse errorResponse = ErrorResponse.builder()
 				.status(HttpStatus.NOT_FOUND)
@@ -57,16 +50,13 @@ public class ErrorHtmlHandler {
 				.build();
 		
 		request.setAttribute("errorResponse", errorResponse);
-		log.info("\t > forward to '{}'", FORWARD_URL);	
-		
-		return "forward:" + FORWARD_URL;
+		return "error";
 	}
 	
 	@ExceptionHandler(BindException.class)
 	protected String handleBindException(BindException e, HttpServletRequest request) {
 		log.info("## {}.handleBindEx", this.getClass().getSimpleName());
 		log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
-		log.info("\t > location = {}", e.getStackTrace()[0]);
 		
 		e.getBindingResult().getFieldErrors().forEach(fieldError -> {
 			log.info("\t > errorField = {}, errorCode = {}", fieldError.getField(), fieldError.getCodes()[0]);
@@ -77,9 +67,6 @@ public class ErrorHtmlHandler {
 				.bindingResult(e.getBindingResult())
 				.build();
 
-		request.setAttribute("errorResponse", errorResponse);
-		log.info("\t > forward to '{}'", FORWARD_URL);	
-		
 //		if (isAjaxRequest(request)) {
 //			ErrorResponse response = ErrorResponse.create().bindingResult(e.getBindingResult());
 //			log.info("\t > {}", response);
@@ -90,7 +77,8 @@ public class ErrorHtmlHandler {
 //		ModelAndView mav = new ModelAndView("forward:/error/errorPage");
 //		throw new ModelAndViewDefiningException(mav);
 		
-		return "forward:" + FORWARD_URL;
+		request.setAttribute("errorResponse", errorResponse);
+		return "error";
 	}
 	
 	@ExceptionHandler(ConstraintViolationException.class) // /board/?boardCategoryCode=11
@@ -98,7 +86,6 @@ public class ErrorHtmlHandler {
 			HttpServletRequest request) {
 		log.info("## {}.handleConstraintViolationEx", this.getClass().getSimpleName());
 		log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
-		log.info("\t > location = {}", e.getStackTrace()[0]);
 		
 		e.getConstraintViolations().forEach(violation -> {
 			log.info("\t > invalid value = {}", violation.getInvalidValue());
@@ -110,9 +97,7 @@ public class ErrorHtmlHandler {
 				.build();
 
 		request.setAttribute("errorResponse", errorResponse);
-		log.info("\t > forward to '{}'", FORWARD_URL);	
-		
-		return "forward:" + FORWARD_URL;
+		return "error";
 	}
 	
 	@ExceptionHandler(value = { 
@@ -122,7 +107,6 @@ public class ErrorHtmlHandler {
 	protected String handleInvalidFormatException(Exception e, HttpServletRequest request) {
 		log.info("## {}.handleInvalidFormatEx", this.getClass().getSimpleName());
 		log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
-		log.info("\t > location = {}", e.getStackTrace()[0]);
 		
 		ErrorResponse errorResponse = ErrorResponse.builder()
 				.status(HttpStatus.BAD_REQUEST)
@@ -130,16 +114,13 @@ public class ErrorHtmlHandler {
 				.build();
 		
 		request.setAttribute("errorResponse", errorResponse);
-		log.info("\t > forward to '{}'", FORWARD_URL);	
-		
-		return "forward:" + FORWARD_URL;
+		return "error";
 	}
 
 	@ExceptionHandler(ExpectedException.class)
 	protected String handleExpectedException(ExpectedException e, HttpServletRequest request) {
 		log.info("## {}.handleExpectedEx", this.getClass().getSimpleName());
 		log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
-		log.info("\t > location = {}", e.getStackTrace()[0]);
 		log.info("\t > errorCode = {}, errorField = {}", e.getErrorCode(), e.getErrorField());
 		
 		ErrorResponseBuilder builder = ErrorResponse.builder().status(HttpStatus.BAD_REQUEST);
@@ -155,16 +136,13 @@ public class ErrorHtmlHandler {
 		
 		ErrorResponse errorResponse = builder.build();
 		request.setAttribute("errorResponse", errorResponse);
-		log.info("\t > forward to '{}'", FORWARD_URL);	
-
-		return "forward:" + FORWARD_URL;
+		return "error";
 	}
 	
 	@ExceptionHandler(TestException.class)
 	protected String handleTestException(TestException e, HttpServletRequest request) {
 		log.info("## {}.handleTestEx", this.getClass().getSimpleName());
 		log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
-		log.info("\t > location = {}", e.getStackTrace()[0]);
 		log.info("\t > errorCode = {}, errorField = {}", e.getErrorCode(), e.getErrorField());
 		
 		TestResponseBuilder builder = TestResponse.builder().status(HttpStatus.BAD_REQUEST);
@@ -180,9 +158,7 @@ public class ErrorHtmlHandler {
 		
 		TestResponse testResponse = builder.build();
 		request.setAttribute("errorResponse", testResponse);
-		log.info("\t > forward to '{}'", FORWARD_URL);		
-		
-		return "forward:" + FORWARD_URL;
+		return "error";
 	}
 	
 }

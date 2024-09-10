@@ -3,7 +3,11 @@
 <script>
 	let message = "<c:out value='${message}'/>";
 	let redirectUrl = "<c:out value='${redirectUrl}'/>";
+	console.log("## message = %s", message);
+	console.log("## redirectUrl = '%s'", redirectUrl);
 	
-	if (message != "") alert(message);
+	if (message != "") {
+		alert(message);
+	}
 	location.href = redirectUrl;
 </script>

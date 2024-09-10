@@ -57,7 +57,6 @@ public class ErrorRestHandler {
 	protected ResponseEntity<Object> handleException(Exception e) {
 		log.info("## {}.handleEx", this.getClass().getSimpleName());
 		log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
-		log.info("\t > location = {}", e.getStackTrace()[0]);
 
 		ErrorResponse errorResponse = ErrorResponse.builder()
 				.status(HttpStatus.BAD_REQUEST)
@@ -72,7 +71,6 @@ public class ErrorRestHandler {
 	protected ResponseEntity<Object> handleNoHandlerFoundException(Exception e, HttpServletRequest request) {
 		log.info("## {}.handleNoHandlerFoundEx", this.getClass().getSimpleName());
 		log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
-		log.info("\t > location = {}", e.getStackTrace()[0]);
 
 		ErrorResponse errorResponse = ErrorResponse.builder()
 				.status(HttpStatus.NOT_FOUND)
@@ -86,7 +84,6 @@ public class ErrorRestHandler {
 	protected ResponseEntity<Object> handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
 		log.info("## {}.handleHttpMessageNotReadableEx", this.getClass().getSimpleName());
 		log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
-		log.info("\t > location = {}", e.getStackTrace()[0]);
 		
 		ErrorResponse errorResponse = ErrorResponse.builder()
 				.status(HttpStatus.BAD_REQUEST)
@@ -100,7 +97,6 @@ public class ErrorRestHandler {
 	protected ResponseEntity<Object> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
 		log.info("## {}.handleMethodArgumentNotValidEx", this.getClass().getSimpleName());
 		log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
-		log.info("\t > location = {}", e.getStackTrace()[0]);
 		
 		e.getBindingResult().getFieldErrors().forEach(fieldError -> {
 			log.info("\t > errorField = {}, errorCode = {}", fieldError.getField(), fieldError.getCodes()[0]);
@@ -118,7 +114,6 @@ public class ErrorRestHandler {
 	protected ResponseEntity<Object> handleConstraintViolationException(ConstraintViolationException e) {
 		log.info("## {}.handleConstraintViolationEx", this.getClass().getSimpleName());
 		log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
-		log.info("\t > location = {}", e.getStackTrace()[0]);
 		
 		e.getConstraintViolations().forEach(violation -> {
 			log.info("> invalid value = {}", violation.getInvalidValue());
@@ -139,7 +134,6 @@ public class ErrorRestHandler {
 	protected ResponseEntity<Object> handleInvalidFormatException(Exception e) {
 		log.info("## {}.handleInvalidFormatEx", this.getClass().getSimpleName());
 		log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
-		log.info("\t > location = {}", e.getStackTrace()[0]);
 
 		ErrorResponse errorResponse = ErrorResponse.builder()
 				.status(HttpStatus.BAD_REQUEST)
@@ -153,7 +147,6 @@ public class ErrorRestHandler {
 	protected ResponseEntity<Object> handleMaxUploadSizeExceededException(MaxUploadSizeExceededException e) {
 		log.info("## {}.handleMaxUploadSizeExceededEx", this.getClass().getSimpleName());
 		log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
-		log.info("\t > location = {}", e.getStackTrace()[0]);
 		
 		ErrorResponse errorResponse = ErrorResponse.builder()
 				.status(HttpStatus.BAD_REQUEST)
@@ -167,7 +160,6 @@ public class ErrorRestHandler {
 	protected ResponseEntity<Object> handleExpectedException(ExpectedException e) {
 		log.info("## {}.handleExpectedEx", this.getClass().getSimpleName());
 		log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
-		log.info("\t > location = {}", e.getStackTrace()[0]);
 		log.info("\t > errorCode = {}, errorField = {}", e.getErrorCode(), e.getErrorField());
 		
 		ErrorResponseBuilder builder = ErrorResponse.builder().status(HttpStatus.BAD_REQUEST);
@@ -190,7 +182,6 @@ public class ErrorRestHandler {
 	protected ResponseEntity<Object> handleTestException(TestException e) {
 		log.info("## {}.handleTestEx", this.getClass().getSimpleName());
 		log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
-		log.info("\t > location = {}", e.getStackTrace()[0]);
 		log.info("\t > errorCode = {}, errorField = {}", e.getErrorCode(), e.getErrorField());
 		
 		TestResponseBuilder builder = TestResponse.builder().status(HttpStatus.BAD_REQUEST);
