@@ -60,21 +60,14 @@ public class CommentRestController {
 				.builder()
 				//.data(Map.of("commentList", commentList, "myCommentLikes", myCommentLikes, "pagination", pagination))
 				.data(Map.of("commentList", commentList, "pagination", pagination))
-				//.details(Map.of("commentList", commentList, "pagination", pagination))
 				.build());
 	}
 	
 	@GetMapping(value = { "/comments/", "/comments/{commentIdx}" })
 	public ResponseEntity<Object> getModifyComment(@PathVariable int commentIdx, @AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## getModifyComment, commentIdx = {}", commentIdx);
-		CommentDetailsDto commentDetails = 
-				commentService.getModifyComment(commentIdx, principal.getIdx());
-		
-		return ResponseEntity.ok(SuccessResponse
-				.builder()
-				.data(Map.of("commentDetails", commentDetails))
-				//.details(Map.of("commentDetails", commentDetails))
-				.build());
+		CommentDetailsDto commentDetails = commentService.getModifyComment(commentIdx, principal.getIdx());
+		return ResponseEntity.ok(SuccessResponse.builder().data(commentDetails).build());
 	}
 	
 	@PostMapping("/comments")

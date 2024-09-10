@@ -1,7 +1,26 @@
+function createCategoryMenuHtml(categoryList) {
+	console.log("## createCategoryMenuHtml");
+	let html = "";
+	if (categoryList.length == 0) {
+		return html;
+	}
+	
+	html += "<div class='dropdown-menu show'>";
+	$.each(categoryList, function(index, value) {
+		let categoryCode = categoryList[index].categoryCode;
+		let categoryPath = categoryList[index].categoryPath;
+		let categoryName = categoryList[index].categoryName;
+		let path = (categoryCode == categoryPath) ? "/?boardCategoryCode=" + categoryCode : categoryPath;
+		html += "<button class='dropdown-item' type='button' data-path='" + path + "'>" + categoryName + "</button>";
+	});
+	html += "</div>";
+	return html;
+}
+
 function createCommentHtml(commentList, myCommentLikes, boardWriterIdx) {
 	console.log("## createCommentHtml");
 	let html = "";
-	if (!(commentList.length > 0)) {
+	if (commentList.length == 0) {
 		return html;
 	}
 	
@@ -86,7 +105,7 @@ function createEditCommentHtml(commentDetails) {
 function createPaginationHtml(pagination) {
 	console.log("## createPaginationHtml");
 	let html = "";
-	if (!(pagination.totalCnt > 0)) {
+	if (pagination.totalCnt == 0) {
 		return html;
 	}
 	

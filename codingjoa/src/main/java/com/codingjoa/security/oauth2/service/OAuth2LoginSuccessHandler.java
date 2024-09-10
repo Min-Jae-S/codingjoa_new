@@ -15,11 +15,13 @@ import org.springframework.stereotype.Component;
 
 import com.codingjoa.security.service.JwtProvider;
 import com.codingjoa.util.CookieUtils;
+import com.codingjoa.util.MessageUtils;
 import com.codingjoa.util.UriUtils;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+@SuppressWarnings("unused")
 @Slf4j
 @RequiredArgsConstructor
 @Component
@@ -45,11 +47,11 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 		// option1 : after forwading to view(jsp), alert message and redirect to contineUrl on the client-side
 		// option2 : directly redirect to continueUrl using redirectStrategy
 		
-		redirectStrategy.sendRedirect(request, response, continueUrl);
-		//request.setAttribute("message", MessageUtils.getMessage("success.Login"));
-		//request.setAttribute("redirectUrl", continueUrl);
+		request.setAttribute("message", MessageUtils.getMessage("success.Login"));
+		request.setAttribute("redirectUrl", continueUrl);
 		
-		//log.info("\t > forward to feedback.jsp");
-		//request.getRequestDispatcher("/WEB-INF/views/feedback.jsp").forward(request, response);
+		log.info("\t > forward to feedback.jsp");
+		request.getRequestDispatcher("/WEB-INF/views/feedback.jsp").forward(request, response);
+		//redirectStrategy.sendRedirect(request, response, continueUrl);
 	}
 }

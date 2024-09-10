@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<c:set var="contextPath" value="${pageContext.request.contextPath}" />
+<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 <%-- <c:set var="principal" value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal}" /> --%>
 
 <!-- navbar -->
@@ -57,10 +57,11 @@
 	</div>
 </nav>
 
+<script src="${contextPath}/resources/js/render.js"></script>
 <script>
 	$(function() {
 		let timer;
-		let showDelay = 300;
+		let showDelay = 100;
 		
 		$(".navbar-nav li.dropdown").on("mouseenter", function(e) {
 			e.stopPropagation();
@@ -78,20 +79,8 @@
 					console.log(JSON.stringify(result, null, 2));
 					
 					let categoryList = result.data;
-					if (categoryList.length == 0) {
-						return;
-					}
-
-					let html = "<div class='dropdown-menu show'>";
-					$.each(categoryList, function(i, value) {
-						let categoryCode = categoryList[i].categoryCode;
-						let categoryPath = categoryList[i].categoryPath;
-						let categoryName = categoryList[i].categoryName;
-						let path = (categoryCode == categoryPath) ? "/?boardCategoryCode=" + categoryCode : categoryPath;
-						html += "<button class='dropdown-item' type='button' data-path='" + path + "'>" + categoryName + "</button>";
-					});
-					html += "</div>";
-					$a.after(html);
+					let categoryMenuHtml = createCategoryMenuHtml(categoryList);
+					$a.after(categoryMenuHtml);
 				})
 				.fail(function(jqXHR, textStatus, error) {
 					console.log("%c> ERROR", "color:red");

@@ -182,8 +182,8 @@
 			
 			authenticationService.login(formData, continueUrl, function(result) {
 				setTimeout(function() {
-					//alert(result.message);
-					location.href = result.data.continueUrl;
+					alert(result.message);
+					location.href = result.data;
 				}, 50);
 			});
 		});

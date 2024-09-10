@@ -79,7 +79,6 @@ public class ConfigRestController {
 		}
 		
 		return ResponseEntity.ok(SuccessResponse.builder().data(filters).build());
-		//return ResponseEntity.ok(SuccessResponse.builder().details(filters).build());
 	}
 	
 	@GetMapping("/handler-mappings")
@@ -129,7 +128,6 @@ public class ConfigRestController {
 		}
 		
 		return ResponseEntity.ok(SuccessResponse.builder().data(handlerMappings).build());
-		//return ResponseEntity.ok(SuccessResponse.builder().details(handlerMappings).build());
 	}
 
 	@GetMapping("/interceptors")
@@ -145,14 +143,13 @@ public class ConfigRestController {
 				.collect(Collectors.toList());
 		
 		return ResponseEntity.ok(SuccessResponse.builder().data(interceptors).build());
-		//return ResponseEntity.ok(SuccessResponse.builder().details(interceptors).build());
 	}
 	
 	@GetMapping("/handler-adapters")
 	public ResponseEntity<Object> getHandlerAdapters() {
 		log.info("## getHandlerAdapters");
 		Map<String, HandlerAdapter> handlerAdapterMap = webApplicationContext.getBeansOfType(HandlerAdapter.class);
-		handlerAdapterMap.forEach((key, adapter) -> log.info("\t > {} : {}", key, adapter.getClass().getName()));
+		handlerAdapterMap.forEach((key, adapter) -> log.info("\t > {}: {}", key, adapter.getClass().getName()));
 		
 		List<String> handlerAdapters = handlerAdapterMap.values()
 				.stream()
@@ -160,7 +157,6 @@ public class ConfigRestController {
 				.collect(Collectors.toList());
 		
 		return ResponseEntity.ok(SuccessResponse.builder().data(handlerAdapters).build());
-		//return ResponseEntity.ok(SuccessResponse.builder().details(handlerAdapters).build());
 	}
 
 	@GetMapping("/argument-resolvers")
@@ -177,17 +173,15 @@ public class ConfigRestController {
 		});
 		
 		return ResponseEntity.ok(SuccessResponse.builder().data(argumentResolvers).build());
-		//return ResponseEntity.ok(SuccessResponse.builder().details(argumentResolvers).build());
 	}
 
 	@GetMapping("/validators")
 	public ResponseEntity<Object> getValidators() {
 		log.info("## getValidators");
 		Map<String, Validator> validatorMap = webApplicationContext.getBeansOfType(Validator.class);
-		validatorMap.forEach((key, validator) -> log.info("\t > {} : {}", key, validator));
+		validatorMap.forEach((key, validator) -> log.info("\t > {}: {}", key, validator));
 		
 		return ResponseEntity.ok(SuccessResponse.builder().data(null).build());
-		//return ResponseEntity.ok(SuccessResponse.builder().details(null).build());
 	}
 
 	@GetMapping("/return-value-handlers")
@@ -208,7 +202,6 @@ public class ConfigRestController {
 		});
 		
 		return ResponseEntity.ok(SuccessResponse.builder().data(returnValueHandlers).build());
-		//return ResponseEntity.ok(SuccessResponse.builder().details(returnValueHandlers).build());
 	}
 
 	@GetMapping("/view-resolvers")
@@ -222,7 +215,7 @@ public class ConfigRestController {
 //				.collect(Collectors.toList());
 		
 		Map<String, ViewResolver> viewResolverMap = webApplicationContext.getBeansOfType(ViewResolver.class);
-		viewResolverMap.forEach((key, resolver) -> log.info("\t > {} : {}", key, resolver.getClass().getName()));
+		viewResolverMap.forEach((key, resolver) -> log.info("\t > {}: {}", key, resolver.getClass().getName()));
 		
 		List<String> viewResolvers = new ArrayList<>();
 		for (ViewResolver viewResolver : viewResolverMap.values()) {
@@ -239,7 +232,6 @@ public class ConfigRestController {
 		}
 		
 		return ResponseEntity.ok(SuccessResponse.builder().data(viewResolvers).build());
-		//return ResponseEntity.ok(SuccessResponse.builder().details(viewResolvers).build());
 	}
 	
 	@GetMapping("/message-converters")
@@ -256,7 +248,6 @@ public class ConfigRestController {
 		});
 		
 		return ResponseEntity.ok(SuccessResponse.builder().data(messageConverters).build());
-		//return ResponseEntity.ok(SuccessResponse.builder().details(messageConverters).build());
 	}
 	
 	@GetMapping("/handler-exception-resolvers")
@@ -275,20 +266,18 @@ public class ConfigRestController {
 		
 		Map<String, HandlerExceptionResolver> exceptionResolverMap = webApplicationContext.getBeansOfType(HandlerExceptionResolver.class);
 		log.info("  - ExceptionResolvers from HandlerExceptionResolver.class");
-		exceptionResolverMap.forEach((key, resolver) -> log.info("\t > {} : {}", key, resolver.getClass().getName()));
+		exceptionResolverMap.forEach((key, resolver) -> log.info("\t > {}: {}", key, resolver.getClass().getName()));
 		
 		return ResponseEntity.ok(SuccessResponse.builder().data(exceptionResolvers).build());
-		//return ResponseEntity.ok(SuccessResponse.builder().details(exceptionResolvers).build());
 	}
 	
 	@GetMapping("/object-mappers")
 	public ResponseEntity<Object> getObjectMappers() {
 		log.info("## getObjectMappers");
 		Map<String, ObjectMapper> objectMapperMap = webApplicationContext.getBeansOfType(ObjectMapper.class);
-		objectMapperMap.forEach((key, resolver) -> log.info("\t > {} : {}", key, resolver.getClass().getName()));
+		objectMapperMap.forEach((key, resolver) -> log.info("\t > {}: {}", key, resolver.getClass().getName()));
 		
 		return ResponseEntity.ok(SuccessResponse.builder().data(null).build());
-		//return ResponseEntity.ok(SuccessResponse.builder().details(null).build());
 	}
 	
 }

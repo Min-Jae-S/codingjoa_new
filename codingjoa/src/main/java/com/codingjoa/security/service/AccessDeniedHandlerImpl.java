@@ -66,7 +66,7 @@ public class AccessDeniedHandlerImpl implements AccessDeniedHandler {
 			response.getWriter().close();
 		} else {
 			request.setAttribute("message", errorResponse.getMessage());
-			request.setAttribute("redirectUrl", UriUtils.buildLoginUrl(request, ""));
+			request.setAttribute("redirectUrl", request.getContextPath() + "/");
 			
 			log.info("\t > forward to feedback.jsp");
 			request.getRequestDispatcher("/WEB-INF/views/feedback.jsp").forward(request, response);

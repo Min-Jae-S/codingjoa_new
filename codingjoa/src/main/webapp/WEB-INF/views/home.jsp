@@ -101,7 +101,7 @@
 		/* let url = $("#configHeader a.active").attr("href");
 		getConfig(url, function(result) {
 			let message = result.message;
-			if (message != null) {
+			if (message != "") {
 				alert(message);
 			}
 			
@@ -126,8 +126,8 @@
 				}
 				
 				let list = result.data;
-				if (list != null && list.length != 0) {
-					let configHtml = makeConfigHtml(list);
+				if (list.length != 0) {
+					let configHtml = createConfigHtml(list);
 					$("#configBody").html(configHtml);
 				}
 			});
@@ -151,23 +151,19 @@
 		});
 	}
 	
-	function makeConfigHtml(list) {
+	function createConfigHtml(list) {
 		let html = "";
 		$.each(list, function(index, item) {
 			if (typeof item == "string") {
 				html += "<p class='card-text'>";
-				//html += "<i class='fa-solid fa-hashtag mr-2'></i>" + item + "</p>";
 				html += "<i class='fa-solid fa-asterisk mr-2'></i>" + item + "</p>";
 			} else {
 				$.each(item, function(key, value) {
 					html += "<p class='card-text'>";
-					//html += "<i class='fa-solid fa-hashtag mr-2'></i>" + key + "</p>";
 					html += "<i class='fa-solid fa-asterisk mr-2'></i>" +  key + "</p>";
 					$.each(value, function(index, item) {
 						html += "<p class='card-text'>";
 						html += "<i class='fa-solid fa-caret-right ml-4 mr-2'></i>" + item + "</p>";
-						//html += "<i class='fa-solid fa-arrow-right ml-4 mr-2'></i>" + item + "</p>";
-						//html += "<span class='ml-4 mr-2'>–</span>" + item + "</p>";
 					});
 				});
 			}

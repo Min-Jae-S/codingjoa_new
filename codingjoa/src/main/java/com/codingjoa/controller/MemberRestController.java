@@ -226,7 +226,6 @@ public class MemberRestController {
 	public ResponseEntity<Object> getMemberInfo(@AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## getMemberInfo");
 		MemberInfoDto memberInfo = memberService.getMemberInfoByIdx(principal.getIdx());
-		
 		return ResponseEntity.ok(SuccessResponse.builder().data(memberInfo).build());
 	}
 	
