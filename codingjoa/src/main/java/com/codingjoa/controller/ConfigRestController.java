@@ -1,6 +1,7 @@
 package com.codingjoa.controller;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -85,7 +86,7 @@ public class ConfigRestController {
 	public ResponseEntity<Object> getHandlerMappings() {
 		log.info("## getHandlerMappings");
 		Map<String, HandlerMapping> handlerMappingMap = webApplicationContext.getBeansOfType(HandlerMapping.class);
-		handlerMappingMap.forEach((key, mapping) -> log.info("\t > {} : {}", key, mapping));
+		handlerMappingMap.forEach((key, mapping) -> log.info("\t > {}: {}", key, mapping));
 		
 		List<Object> handlerMappings = new ArrayList<>();
 		for (HandlerMapping handlerMapping : handlerMappingMap.values()) {
@@ -181,7 +182,7 @@ public class ConfigRestController {
 		Map<String, Validator> validatorMap = webApplicationContext.getBeansOfType(Validator.class);
 		validatorMap.forEach((key, validator) -> log.info("\t > {}: {}", key, validator));
 		
-		return ResponseEntity.ok(SuccessResponse.builder().data(null).build());
+		return ResponseEntity.ok(SuccessResponse.builder().data(Collections.emptyList()).build());
 	}
 
 	@GetMapping("/return-value-handlers")
@@ -277,7 +278,7 @@ public class ConfigRestController {
 		Map<String, ObjectMapper> objectMapperMap = webApplicationContext.getBeansOfType(ObjectMapper.class);
 		objectMapperMap.forEach((key, resolver) -> log.info("\t > {}: {}", key, resolver.getClass().getName()));
 		
-		return ResponseEntity.ok(SuccessResponse.builder().data(null).build());
+		return ResponseEntity.ok(SuccessResponse.builder().data(Collections.emptyList()).build());
 	}
 	
 }
