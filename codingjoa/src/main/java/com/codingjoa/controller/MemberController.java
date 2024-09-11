@@ -58,7 +58,7 @@ public class MemberController {
 		redisService.deleteKey(joinDto.getMemberEmail());
 		
 		request.setAttribute("message", MessageUtils.getMessage("success.Join"));
-		request.setAttribute("redirectUrl", UriUtils.buildLoginUrl(request, ""));
+		request.setAttribute("continueUrl", UriUtils.buildLoginUrl(request, ""));
 		
 		return "feedback";
 	}

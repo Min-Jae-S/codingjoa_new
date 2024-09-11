@@ -48,7 +48,7 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 		// option2 : directly redirect to continueUrl using redirectStrategy
 		
 		request.setAttribute("message", MessageUtils.getMessage("success.Login"));
-		request.setAttribute("redirectUrl", continueUrl);
+		request.setAttribute("continueUrl", continueUrl);
 		
 		log.info("\t > forward to feedback.jsp");
 		request.getRequestDispatcher("/WEB-INF/views/feedback.jsp").forward(request, response);
