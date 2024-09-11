@@ -44,25 +44,23 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public void writeBoard(BoardDto boardDto) {
-		String boardContentText = Jsoup.parse(boardDto.getBoardContent()).text();
+	public Integer writeBoard(BoardDto boardDto) {
 		log.info("\t > produce boardContentText by parsing boardContent for search");
+		String boardContentText = Jsoup.parse(boardDto.getBoardContent()).text();
+		boardDto.setBoardContentText(boardContentText);
 
-		Board board = modelMapper.map(boardDto, Board.class);
-		board.setBoardContentText(boardContentText);
-		log.info("\t > convert boardDto to board entity");
-		log.info("\t > board = {}", board);
+		Board board = boardDto.toEntity();
+		log.info("\t > convert boardDto to board entity = {}", board);
 		
-		boardMapper.insertBoard(board);
-		Integer dbBoardIdx = board.getBoardIdx();
-		log.info("\t > after inserting board, boardIdx = {}", dbBoardIdx);
-		
-		if (dbBoardIdx == null) {
+		boolean isBoardSaved = boardMapper.insertBoard(board);
+		if (!isBoardSaved) {
 			throw new ExpectedException("error.WriteBoard");
 		}
-
-		boardDto.setBoardIdx(dbBoardIdx);
-		imageService.activateBoardImages(boardDto);
+		
+		Integer boardIdx = board.getBoardIdx();
+		imageService.activateBoardImages(boardDto.getBoardImages(), boardIdx);
+		
+		return boardIdx;
 	}
 
 	@Override
@@ -153,7 +151,7 @@ public class BoardServiceImpl implements BoardService {
 		}
 		
 		Integer dbBoardWriterIdx = board.getMemberIdx();
-		int boardWirterIdx = boardDto.getBoardWriterIdx();
+		int boardWirterIdx = boardDto.getMemberIdx();
 		log.info("\t > dbBoardWriterIdx = {}, boardWriterIdx = {}", dbBoardWriterIdx, boardWirterIdx);
 		
 		if (dbBoardWriterIdx != boardWirterIdx) {
@@ -164,10 +162,10 @@ public class BoardServiceImpl implements BoardService {
 		String newBoardContentText = Jsoup.parse(newBoardContent).text();
 		log.info("\t > produce boardContentText by parsing boardContent for search");
 
-		board.setBoardTitle(boardDto.getBoardTitle());
-		board.setBoardContent(newBoardContent);
-		board.setBoardContentText(newBoardContentText);
-		board.setBoardCategoryCode(boardDto.getBoardCategoryCode());
+//		board.setBoardTitle(boardDto.getBoardTitle());
+//		board.setBoardContent(newBoardContent);
+//		board.setBoardContentText(newBoardContentText);
+//		board.setBoardCategoryCode(boardDto.getBoardCategoryCode());
 		log.info("\t > set up modifyBoard using the found board");
 		
 		boardMapper.updateBoard(board);

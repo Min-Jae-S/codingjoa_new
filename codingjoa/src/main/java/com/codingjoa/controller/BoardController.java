@@ -125,10 +125,10 @@ public class BoardController {
 			return "board/write";
 		}
 		
-		writeBoardDto.setBoardWriterIdx(principal.getIdx());
-		boardService.writeBoard(writeBoardDto); // insertBoard, activateImage
+		writeBoardDto.setMemberIdx(principal.getIdx());
+		Integer boardIdx = boardService.writeBoard(writeBoardDto); // insertBoard & activateImage
 		
-		return "redirect:/board/read?boardIdx=" + writeBoardDto.getBoardIdx();
+		return "redirect:/board/read?boardIdx=" + boardIdx;
 	}
 	
 	@GetMapping("/modify")
@@ -156,7 +156,7 @@ public class BoardController {
 			return "board/modify";
 		}
 		
-		modifyBoardDto.setBoardWriterIdx(principal.getIdx());
+		modifyBoardDto.setMemberIdx(principal.getIdx());
 		boardService.modifyBoard(modifyBoardDto); // updateBoard, modifyBoardImage
 		
 		return "redirect:/board/read?boardIdx=" + modifyBoardDto.getBoardIdx();

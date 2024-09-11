@@ -15,9 +15,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
+import org.springframework.security.web.savedrequest.RequestCache;
+import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.stereotype.Component;
 
 import com.codingjoa.dto.ErrorResponse;
+import com.codingjoa.util.FormatUtils;
 import com.codingjoa.util.HttpUtils;
 import com.codingjoa.util.UriUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -50,9 +54,6 @@ public class AccessDeniedHandlerImpl implements AccessDeniedHandler {
 		response.setStatus(HttpServletResponse.SC_FORBIDDEN);
 		response.setCharacterEncoding(StandardCharsets.UTF_8.name());
 		
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		log.info("\t > authentication = {}", (authentication != null) ? authentication.getClass().getSimpleName() : null);
-		
 		ErrorResponse errorResponse = ErrorResponse.builder()
 				.status(HttpStatus.FORBIDDEN)
 				.messageByCode("error.Forbidden")
@@ -65,8 +66,12 @@ public class AccessDeniedHandlerImpl implements AccessDeniedHandler {
 			response.getWriter().write(jsonResponse);
 			response.getWriter().close();
 		} else {
+			
+			String continueUrl = getConinueUrl(request, response);
+			log.info("\t > continueUrl = {}", FormatUtils.formatString(continueUrl));
+			
 			request.setAttribute("message", errorResponse.getMessage());
-			request.setAttribute("continueUrl", request.getContextPath() + "/");
+			request.setAttribute("continueUrl", continueUrl);
 			
 			log.info("\t > forward to feedback.jsp");
 			request.getRequestDispatcher("/WEB-INF/views/feedback.jsp").forward(request, response);
@@ -76,6 +81,12 @@ public class AccessDeniedHandlerImpl implements AccessDeniedHandler {
 	
 	private boolean isAjaxRequest(HttpServletRequest request) {
 		return "XMLHttpRequest".equals(request.getHeader("x-requested-with"));
+	}
+	
+	private String getConinueUrl(HttpServletRequest request, HttpServletResponse response) {
+		RequestCache requestCache = new HttpSessionRequestCache();
+		SavedRequest savedRequest = requestCache.getRequest(request, response); // DefaultSavedRequest 
+		return (savedRequest == null) ? request.getContextPath() + "/" : savedRequest.getRedirectUrl();
 	}
 	
 }

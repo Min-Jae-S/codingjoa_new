@@ -2,7 +2,9 @@ package com.codingjoa.entity;
 
 import java.time.LocalDateTime;
 
-import lombok.Data;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /*
 	board_idx               NUMBER,
@@ -16,7 +18,8 @@ import lombok.Data;
     updated_at              DATE                        NOT NULL,
 */
 
-@Data
+@Getter
+@NoArgsConstructor // for mybatis resultSet
 public class Board {
 
 	private Integer boardIdx;
@@ -28,6 +31,18 @@ public class Board {
 	private Integer boardViews;
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
+	
+	@Builder
+	private Board(Integer boardIdx, Integer memberIdx, String boardTitle, String boardContent, String boardContentText,
+			Integer boardCategoryCode, Integer boardViews, LocalDateTime createdAt, LocalDateTime updatedAt) {
+		this.boardIdx = boardIdx;
+		this.memberIdx = memberIdx;
+		this.boardTitle = boardTitle;
+		this.boardContent = boardContent;
+		this.boardContentText = boardContentText;
+		this.boardCategoryCode = boardCategoryCode;
+		this.boardViews = boardViews;
+	}
 	
 	@Override
 	public String toString() {

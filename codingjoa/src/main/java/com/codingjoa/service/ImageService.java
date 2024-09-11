@@ -1,6 +1,7 @@
 package com.codingjoa.service;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -13,7 +14,7 @@ public interface ImageService {
 	
 	boolean isBoardImageUploaded(int boardImageIdx);
 	
-	void activateBoardImages(BoardDto boardDto);
+	void activateBoardImages(List<Integer> boardImages, Integer boardIdx);
 	
 	void modifyBoardImages(BoardDto boardDto);
 	

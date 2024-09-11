@@ -3,14 +3,14 @@
 <mapper namespace="com.codingjoa.mapper.BoardMapper">
 <!--  
 	board_idx               NUMBER,
+    member_idx              NUMBER                      NOT NULL,
 	board_title             VARCHAR2(500)               NOT NULL,
     board_content           CLOB                        NOT NULL,
     board_content_text      CLOB                        NULL,
-    board_writer_idx        NUMBER                      NOT NULL,
 	board_category_code     NUMBER                      NOT NULL,
     board_views             NUMBER          DEFAULT 0   NOT NULL,
-	regdate                 DATE                        NOT NULL,
-    moddate                 DATE                        NOT NULL,
+	created_at              DATE                        NOT NULL,
+    updated_at              DATE                        NOT NULL,
 -->
 
 	<insert id="insertBoard" parameterType="board">
@@ -19,19 +19,19 @@
 		</selectKey>
 		INSERT INTO board (
 			board_idx,
+			member_idx,
 			board_title,
 			board_content,
 			board_content_text,
-			board_writer_idx,
 			board_category_code,
-			regdate,
-			moddate
+			created_at,
+			updated_at
 		) VALUES (
 			#{boardIdx},
+			#{memberIdx},
 			#{boardTitle},
 			#{boardContent},
 			#{boardContentText},
-			#{boardWriterIdx},
 			#{boardCategoryCode},
 			SYSDATE,
 			SYSDATE
@@ -41,9 +41,9 @@
 	<resultMap type="map" id="boardDetailsMap">
 		<id property="boardIdx" column="board_idx"/>
 		<result property="boardTitle" column="board_title"/>
+		<result property="memberIdx" column="member_idx" javaType="int"/>
 		<!-- <result property="boardContent" column="board_content" typeHandler="clobTypeHandler"/> -->
 		<result property="boardContent" column="board_content" jdbcType="CLOB" javaType="string"/>
-		<result property="boardWriterIdx" column="board_writer_idx" javaType="int"/>
 		<result property="boardViews" column="board_views" javaType="int"/>
 		<result property="boardCategoryCode" column="board_category_code" javaType="int"/>
 		<result property="regdate" column="regdate" javaType="java.util.Date"/>
@@ -56,9 +56,9 @@
 	<select id="findBoardDetailsByIdx" parameterType="int" resultMap="boardDetailsMap">
 		SELECT 
 			a.board_idx, 
+			a.member_idx, 
 			a.board_title, 
 			a.board_content, 
-			a.board_writer_idx, 
 			a.board_views, 
 			a.board_category_code, 
 			a.regdate, 
@@ -71,7 +71,7 @@
 		INNER JOIN
 			member b
 		ON
-			a.board_writer_idx = b.member_idx
+			a.member_idx = b.member_idx
 		LEFT OUTER JOIN (
 			SELECT 
 				comment_board_idx, 
