@@ -20,7 +20,7 @@ import lombok.ToString;
 @Getter
 public class PrincipalDetails implements UserDetails, OAuth2User {
 
-	private final Integer idx;							// FROM member
+	private final int idx;							// FROM member
 	private final String email;					
 	private final String password;
 	private final String nickname;
@@ -92,7 +92,7 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 	public static PrincipalDetails from(Map<String, Object> map) { // from database
 		List<String> memberRoles = (List<String>) map.get("memberRoles");
 		return PrincipalDetails.builder()
-				.idx((Integer) map.get("memberIdx"))
+				.idx((int) map.get("memberIdx"))
 				.email((String) map.get("memberEmail"))
 				.password((String) map.get("memberPassword"))
 				.nickname((String) map.get("memberNickname"))

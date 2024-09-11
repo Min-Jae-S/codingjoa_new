@@ -40,15 +40,15 @@
 	
 	<resultMap type="map" id="boardDetailsMap">
 		<id property="boardIdx" column="board_idx"/>
-		<result property="boardTitle" column="board_title"/>
 		<result property="memberIdx" column="member_idx" javaType="int"/>
+		<result property="boardTitle" column="board_title" javaType="string"/>
 		<!-- <result property="boardContent" column="board_content" typeHandler="clobTypeHandler"/> -->
 		<result property="boardContent" column="board_content" jdbcType="CLOB" javaType="string"/>
 		<result property="boardViews" column="board_views" javaType="int"/>
 		<result property="boardCategoryCode" column="board_category_code" javaType="int"/>
-		<result property="regdate" column="regdate" javaType="java.util.Date"/>
-		<result property="moddate" column="moddate" javaType="java.util.Date"/>
-		<result property="memberId" column="member_id" javaType="string"/>
+		<result property="createdAt" column="created_at" javaType="java.time.LocalDateTime"/>
+		<result property="updatedAt" column="updated_at" javaType="java.time.LocalDateTime"/>
+		<result property="memberNickname" column="member_nickname" javaType="string"/>
 		<result property="commentCnt" column="comment_cnt" javaType="int"/>
 		<result property="boardLikesCnt" column="board_likes_cnt" javaType="string"/>
 	</resultMap>
@@ -61,9 +61,9 @@
 			a.board_content, 
 			a.board_views, 
 			a.board_category_code, 
-			a.regdate, 
-			a.moddate,
-			b.member_id,
+			a.created_at, 
+			a.updated_at,
+			b.member_nickname,
 			NVL(c.cnt, 0) AS comment_cnt,
     		NVL(d.cnt, 0) AS board_likes_cnt
 		FROM
@@ -74,15 +74,15 @@
 			a.member_idx = b.member_idx
 		LEFT OUTER JOIN (
 			SELECT 
-				comment_board_idx, 
+				board_idx, 
 				COUNT(*) cnt
 			FROM
 				"comment"
 			GROUP BY 
-				comment_board_idx
+				board_idx
 		) c
 		ON 
-			a.board_idx = c.comment_board_idx
+			a.board_idx = c.board_idx
 		LEFT OUTER JOIN ( 
 			SELECT 
     			board_idx, 
@@ -154,7 +154,7 @@
 							REGEXP_LIKE( board.board_content_text, #{boardCri.keywordRegexp} )
 						</if>
 						<if test='item.equals("writer")'>
-							member.member_id LIKE '%' || #{boardCri.keyword} || '%'
+							member.member_nickname LIKE '%' || #{boardCri.keyword} || '%'
 						</if> 
 					</trim>
 				</foreach>
@@ -166,43 +166,43 @@
 		SELECT
 			/*+ ORDERED USE_NL(b) USE_NL(c) */
 			a.board_idx,
+			a.member_idx,
 			a.board_title,
-			a.board_writer_idx,
 			a.board_views,
 			a.board_category_code,
-			a.regdate,
-			a.moddate,
-			a.member_id,
+			a.created_at,
+			a.updated_at,
+			a.member_nickname,
     		NVL(b.cnt, 0) AS comment_cnt,
     		NVL(c.cnt, 0) AS board_likes_cnt
 		FROM (
 		    SELECT
-		    	a_depth.board_idx, 
+		    	a_depth.board_idx,
+		    	a_depth.member_idx,
 	        	a_depth.board_title, 
-	        	a_depth.board_writer_idx, 
 	        	a_depth.board_views,
 	        	a_depth.board_category_code, 
-	        	a_depth.regdate,
-	        	a_depth.moddate,
-	        	a_depth.member_id
+	        	a_depth.created_at,
+	        	a_depth.updated_at,
+	        	a_depth.member_nickname
 		    FROM (
 				SELECT
 					/*+ INDEX_DESC(board pk_board) */
 		        	ROWNUM rn, 
 		        	board.board_idx, 
+		        	board.member_idx,
 		        	board.board_title, 
-		        	board.board_writer_idx, 
 		        	board.board_views,
 		        	board.board_category_code, 
-		        	board.regdate,
-		        	board.moddate,
-		        	member.member_id
+		        	board.created_at,
+		        	board.updated_at,
+		        	member.member_ninkname
 		    	FROM 
 		        	board
 		        INNER JOIN
 		        	member
 		        ON
-		        	board.board_writer_idx = member.member_idx
+		        	board.member_idx = member.member_idx
 		    	WHERE
 		    		<!-- searchCriteria -->
 		        	<include refid="searchCriteria"/>
@@ -217,15 +217,15 @@
 		) a
 		LEFT OUTER JOIN (
 			SELECT 
-				comment_board_idx, 
+				board_idx, 
 				COUNT(*) cnt
 			FROM
 				"comment"
 			GROUP BY 
-				comment_board_idx
+				board_idx
 		) b
 		ON 
-			a.board_idx = b.comment_board_idx
+			a.board_idx = b.board_idx
 		LEFT OUTER JOIN ( 
 			SELECT 
     			board_idx, 

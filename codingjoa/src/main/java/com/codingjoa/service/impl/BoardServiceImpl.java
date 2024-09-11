@@ -72,7 +72,7 @@ public class BoardServiceImpl implements BoardService {
 			throw new ExpectedException("error.NotFoundBoard");
 		}
 		
-		return modelMapper.map(boardDetailsMap, BoardDetailsDto.class);
+		return BoardDetailsDto.from(boardDetailsMap);
 	}
 	
 	@Override
@@ -131,10 +131,7 @@ public class BoardServiceImpl implements BoardService {
 			throw new ExpectedException("error.NotFoundBoard");
 		}
 		
-		Integer dbBoardWriterIdx = board.getMemberIdx();
-		log.info("\t > dbBoardWriterIdx = {}, boardWriterIdx = {}", dbBoardWriterIdx, boardWriterIdx);
-		
-		if (dbBoardWriterIdx != boardWriterIdx) {
+		if (board.getMemberIdx() != boardWriterIdx) {
 			throw new ExpectedException("error.NotMyBoard");
 		}
 		
