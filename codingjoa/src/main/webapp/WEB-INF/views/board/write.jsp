@@ -69,7 +69,7 @@
 	<div class="write-wrap">
 		<h4 class="font-weight-bold mb-3">게시판 글쓰기</h4>
 		<div class="pt-4 border-top border-dark">
-			<form:form action="${contextPath}/board/writeProc" method="POST" modelAttribute="writeBoardDto">
+			<form:form action="${contextPath}/board/write" method="POST" modelAttribute="writeBoardDto">
 				<div class="form-row">
 					<div class="form-group col-md-8">
 						<form:select class="custom-select" path="boardCategoryCode">

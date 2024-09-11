@@ -347,9 +347,9 @@
 				</div>
 				<h3 class="title mb-4"><c:out value="${boardDetails.boardTitle}"/></h3>
 				<div class="header-meta d-flex mb-2">
-					<span class="mr-4"><c:out value="${boardDetails.memberId}"/></span>
+					<span class="mr-4"><c:out value="${boardDetails.memberNickname}"/></span>
 					<span class="mr-4">
-						<fmt:formatDate value="${boardDetails.regdate}" pattern="yyyy.MM.dd. HH:mm"/>
+						<fmt:formatDate value="${boardDetails.createdAt}" pattern="yyyy.MM.dd. HH:mm"/>
 					</span>
 					<span class="mr-1">조회</span>
 					<span><c:out value="${boardDetails.boardViews}"/></span>
@@ -585,7 +585,7 @@
 	
 	$(function() {
 		const boardIdx = "<c:out value='${boardDetails.boardIdx}'/>";
-		const boardWriterIdx = "<c:out value='${boardDetails.boardWriterIdx}'/>";
+		const boardWriterIdx = "<c:out value='${boardDetails.memberIdx}'/>";
 		let curCommentPage = 1;
 		
 		commentService.getCommentList(boardIdx, curCommentPage, function(result) {

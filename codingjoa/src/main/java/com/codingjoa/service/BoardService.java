@@ -9,7 +9,7 @@ import com.codingjoa.pagination.Pagination;
 
 public interface BoardService {
 	
-	Integer writeBoard(BoardDto boardDto);
+	Integer saveBoard(BoardDto boardDto);
 	
 	BoardDetailsDto getBoardDetails(int boardIdx);
 	
@@ -19,9 +19,9 @@ public interface BoardService {
 
 	Pagination getPagination(int boardCategoryCode, Criteria boardCri);
 	
-	BoardDto getModifyBoard(int boardIdx, int boardWriterIdx);
+	BoardDto getModifyBoard(int boardIdx, int memberIdx);
 	
-	void modifyBoard(BoardDto boardDto);
+	void updateBoard(BoardDto boardDto);
 	
 	int getBoardCategoryCode(int boardIdx);
 	

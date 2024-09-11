@@ -26,7 +26,7 @@ public interface BoardMapper {
 	
 	Board findBoardByIdx(int boardIdx);
 	
-	void updateBoard(Board board);
+	boolean updateBoard(Board board);
 
 	int findBoardCategoryCodeByIdx(int boardIdx);
 	

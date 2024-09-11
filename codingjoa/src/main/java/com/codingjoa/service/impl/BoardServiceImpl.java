@@ -30,21 +30,19 @@ import lombok.extern.slf4j.Slf4j;
 public class BoardServiceImpl implements BoardService {
 
 	private final BoardMapper boardMapper;
-	private final ModelMapper modelMapper;
 	private final ImageService imageService;
 	private final int pageRange;
 	
 	@Autowired
-	public BoardServiceImpl(BoardMapper boardMapper, ModelMapper modelMapper, ImageService imageService,
+	public BoardServiceImpl(BoardMapper boardMapper, ImageService imageService,
 			@Value("${pagination.pageRange}") int pageRange) {
 		this.boardMapper = boardMapper;
-		this.modelMapper = modelMapper;
 		this.imageService = imageService;
 		this.pageRange = pageRange;
 	}
 
 	@Override
-	public Integer writeBoard(BoardDto boardDto) {
+	public Integer saveBoard(BoardDto boardDto) {
 		log.info("\t > produce boardContentText by parsing boardContent for search");
 		String boardContentText = Jsoup.parse(boardDto.getBoardContent()).text();
 		boardDto.setBoardContentText(boardContentText);
@@ -54,7 +52,7 @@ public class BoardServiceImpl implements BoardService {
 		
 		boolean isBoardSaved = boardMapper.insertBoard(board);
 		if (!isBoardSaved) {
-			throw new ExpectedException("error.WriteBoard");
+			throw new ExpectedException("error.SaveBoard");
 		}
 		
 		Integer boardIdx = board.getBoardIdx();
@@ -112,7 +110,7 @@ public class BoardServiceImpl implements BoardService {
 		log.info("\t > boardCri = {}, keywordRegexp = {}", boardCri, boardCri.getKeywordRegexp());
 		return boardMapper.findPagedBoard(boardCategoryCode, boardCri)
 				.stream()
-				.map(boardDetailsMap -> modelMapper.map(boardDetailsMap, BoardDetailsDto.class))
+				.map(boardDetailsMap -> BoardDetailsDto.from(boardDetailsMap))
 				.collect(Collectors.toList());
 	}
 
@@ -123,49 +121,46 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
-	public BoardDto getModifyBoard(int boardIdx, int boardWriterIdx) {
+	public BoardDto getModifyBoard(int boardIdx, int memberIdx) {
 		Board board = boardMapper.findBoardByIdx(boardIdx);
-		log.info("\t > find board");
+		log.info("\t > find board = {}", board);
 
 		if (board == null) {
 			throw new ExpectedException("error.NotFoundBoard");
 		}
 		
-		if (board.getMemberIdx() != boardWriterIdx) {
+		if (board.getMemberIdx() != memberIdx) {
 			throw new ExpectedException("error.NotMyBoard");
 		}
 		
-		return modelMapper.map(board, BoardDto.class);
+		return BoardDto.from(board);
 	}
 	
 	@Override
-	public void modifyBoard(BoardDto boardDto) {
+	public void updateBoard(BoardDto boardDto) {
 		Board board = boardMapper.findBoardByIdx(boardDto.getBoardIdx());
-		log.info("\t > find board");
+		log.info("\t > find board = {}", board);
 
 		if (board == null) {
 			throw new ExpectedException("error.NotFoundBoard");
 		}
 		
-		Integer dbBoardWriterIdx = board.getMemberIdx();
-		int boardWirterIdx = boardDto.getMemberIdx();
-		log.info("\t > dbBoardWriterIdx = {}, boardWriterIdx = {}", dbBoardWriterIdx, boardWirterIdx);
-		
-		if (dbBoardWriterIdx != boardWirterIdx) {
+		if (board.getMemberIdx() !=  boardDto.getMemberIdx()) {
 			throw new ExpectedException("error.NotMyBoard");
 		}
 		
-		String newBoardContent = boardDto.getBoardContent();
-		String newBoardContentText = Jsoup.parse(newBoardContent).text();
 		log.info("\t > produce boardContentText by parsing boardContent for search");
-
-//		board.setBoardTitle(boardDto.getBoardTitle());
-//		board.setBoardContent(newBoardContent);
-//		board.setBoardContentText(newBoardContentText);
-//		board.setBoardCategoryCode(boardDto.getBoardCategoryCode());
-		log.info("\t > set up modifyBoard using the found board");
+		String boardContentText = Jsoup.parse(boardDto.getBoardContent()).text();
+		boardDto.setBoardContentText(boardContentText);
 		
-		boardMapper.updateBoard(board);
+		Board modifiyBoard = boardDto.toEntity();
+		log.info("\t > convert boardDto to board entity = {}", modifiyBoard);
+		
+		boolean isUpdated = boardMapper.updateBoard(modifiyBoard);
+		if (!isUpdated) {
+			throw new ExpectedException("error.UpdateBoard");
+		}
+		
 		imageService.modifyBoardImages(boardDto);
 	}
 	

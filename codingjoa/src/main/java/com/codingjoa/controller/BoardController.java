@@ -110,7 +110,7 @@ public class BoardController {
 		return "board/write";
 	}
 	
-	@PostMapping("/writeProc")
+	@PostMapping("/write")
 	public String writeProc(@Validated @ModelAttribute("writeBoardDto") BoardDto writeBoardDto, 
 			 BindingResult bindingResult, @AuthenticationPrincipal PrincipalDetails principal, Model model) throws BindException {
 		log.info("## writeProc");
@@ -126,14 +126,15 @@ public class BoardController {
 		}
 		
 		writeBoardDto.setMemberIdx(principal.getIdx());
-		Integer boardIdx = boardService.writeBoard(writeBoardDto); // insertBoard & activateImage
+		Integer boardIdx = boardService.saveBoard(writeBoardDto); // insertBoard & activateImage
 		
 		return "redirect:/board/read?boardIdx=" + boardIdx;
 	}
 	
 	@GetMapping("/modify")
 	public String modify(@RequestParam int boardIdx, @AuthenticationPrincipal PrincipalDetails principal, Model model) {
-		log.info("## modify, boardIdx = {}", boardIdx);
+		log.info("## modify");
+		log.info("\t > boardIdx = {}", boardIdx);
 		BoardDto modifyBoardDto = boardService.getModifyBoard(boardIdx, principal.getIdx());
 		model.addAttribute("modifyBoardDto", modifyBoardDto);
 		model.addAttribute("boardCategoryList", categoryService.getBoardCategoryList());
@@ -141,11 +142,11 @@ public class BoardController {
 		return "board/modify";
 	}
 	
-	@PostMapping("/modifyProc")
+	@PostMapping("/modify")
 	public String modifyProc(@Validated @ModelAttribute("modifyBoardDto") BoardDto modifyBoardDto, 
 			BindingResult bindingResult, @AuthenticationPrincipal PrincipalDetails principal, Model model) throws BindException {
 		log.info("## modifyProc");
-		log.info("\t > {}", modifyBoardDto);
+		log.info("\t > modifyBoardDto = {}", modifyBoardDto);
 
 		if (bindingResult.hasErrors()) {
 			log.info("\t > bindingResult hasErrors");
@@ -157,14 +158,15 @@ public class BoardController {
 		}
 		
 		modifyBoardDto.setMemberIdx(principal.getIdx());
-		boardService.modifyBoard(modifyBoardDto); // updateBoard, modifyBoardImage
+		boardService.updateBoard(modifyBoardDto); // updateBoard, modifyBoardImage
 		
 		return "redirect:/board/read?boardIdx=" + modifyBoardDto.getBoardIdx();
 	}
 	
 	@GetMapping("/deleteProc")
 	public String deleteProc(@RequestParam int boardIdx, @AuthenticationPrincipal PrincipalDetails principal) {
-		log.info("## deleteProc, boardIdx = {}", boardIdx);
+		log.info("## deleteProc");
+		log.info("\t > boardIdx = {}", boardIdx);
 		// fk_board_image_board --> ON DELETE SET NULL
 		// fk_comment_board		--> ON DELETE CASCADE
 		int boardCategoryCode = boardService.deleteBoard(boardIdx, principal.getIdx());
