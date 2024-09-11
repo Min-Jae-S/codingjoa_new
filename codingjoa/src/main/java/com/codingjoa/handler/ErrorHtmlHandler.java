@@ -38,7 +38,7 @@ public class ErrorHtmlHandler {
 				.build();
 		request.setAttribute("errorResponse", errorResponse);
 		
-		log.info("\t > forward to {}", FORWARD_URL);
+		log.info("\t > forward to '{}'", FORWARD_URL);
 		return "forward:" + FORWARD_URL;
 	}
 	
@@ -53,7 +53,7 @@ public class ErrorHtmlHandler {
 				.build();
 		request.setAttribute("errorResponse", errorResponse);
 		
-		log.info("\t > forward to {}", FORWARD_URL);
+		log.info("\t > forward to '{}'", FORWARD_URL);
 		return "forward:" + FORWARD_URL;
 	}
 	
@@ -82,7 +82,7 @@ public class ErrorHtmlHandler {
 //		ModelAndView mav = new ModelAndView("forward:/error/errorPage");
 //		throw new ModelAndViewDefiningException(mav);
 		
-		log.info("\t > forward to {}", FORWARD_URL);
+		log.info("\t > forward to '{}'", FORWARD_URL);
 		return "forward:" + FORWARD_URL;
 	}
 	
@@ -102,7 +102,7 @@ public class ErrorHtmlHandler {
 				.build();
 		request.setAttribute("errorResponse", errorResponse);
 		
-		log.info("\t > forward to {}", FORWARD_URL);
+		log.info("\t > forward to '{}'", FORWARD_URL);
 		return "forward:" + FORWARD_URL;
 	}
 	
@@ -120,7 +120,7 @@ public class ErrorHtmlHandler {
 				.build();
 		request.setAttribute("errorResponse", errorResponse);
 		
-		log.info("\t > forward to {}", FORWARD_URL);
+		log.info("\t > forward to '{}'", FORWARD_URL);
 		return "forward:" + FORWARD_URL;
 	}
 
@@ -142,7 +142,7 @@ public class ErrorHtmlHandler {
 		}
 		request.setAttribute("errorResponse", builder.build());
 		
-		log.info("\t > forward to {}", FORWARD_URL);
+		log.info("\t > forward to '{}'", FORWARD_URL);
 		return "forward:" + FORWARD_URL;
 	}
 	
@@ -164,7 +164,7 @@ public class ErrorHtmlHandler {
 		}
 		request.setAttribute("errorResponse", builder.build());
 		
-		log.info("\t > forward to {}", FORWARD_URL);
+		log.info("\t > forward to '{}'", FORWARD_URL);
 		return "forward:" + FORWARD_URL;
 	}
 	

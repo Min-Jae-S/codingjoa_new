@@ -81,7 +81,7 @@ public class PasswordResetKeyInterceptor implements HandlerInterceptor {
 		request.setAttribute("message", message);
 		request.setAttribute("continueUrl", request.getContextPath() + "/member/findPassowrd");
 		
-		log.info("\t > forward to feedback.jsp");
+		log.info("\t > forward to 'feedback.jsp'");
 		request.getRequestDispatcher("/WEB-INF/views/feedback.jsp").forward(request, response);
 	}
 

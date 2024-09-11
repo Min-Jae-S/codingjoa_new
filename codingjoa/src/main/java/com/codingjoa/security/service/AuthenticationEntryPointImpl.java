@@ -69,7 +69,7 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 				.build();
 		
 		if (isAjaxRequest(request)) {
-			log.info("\t > respond with error response in JSON format");
+			log.info("\t > respond with errorResponse in JSON format");
 			String jsonResponse = objectMapper.writeValueAsString(errorResponse);
 			response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 			response.getWriter().write(jsonResponse);
@@ -79,7 +79,7 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 			//request.setAttribute("message", errorResponse.getMessage());
 			//request.setAttribute("continueUrl", UriUtils.buildLoginUrl(request));
 
-			//log.info("\t > forward to feedback.jsp");
+			//log.info("\t > forward to 'feedback.jsp'");
 			//request.getRequestDispatcher("/WEB-INF/views/feedback.jsp").forward(request, response);
 		}
 	}

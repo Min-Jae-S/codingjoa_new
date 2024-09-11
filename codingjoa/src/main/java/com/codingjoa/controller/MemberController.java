@@ -41,14 +41,14 @@ public class MemberController {
 	@GetMapping("/join")
 	public String join(@ModelAttribute JoinDto joinDto) {
 		log.info("## join");
-		log.info("\t > {}", joinDto);
+		log.info("\t > joinDto = {}", joinDto);
 		return "member/join";
 	}
 
 	@PostMapping("/join")
 	public String join(@ModelAttribute @Valid JoinDto joinDto, BindingResult bindingResult, HttpServletRequest request) {
 		log.info("## join");
-		log.info("\t > {}", joinDto);
+		log.info("\t > joinDto = {}", joinDto);
 
 		if (bindingResult.hasErrors()) {
 			return "member/join";
