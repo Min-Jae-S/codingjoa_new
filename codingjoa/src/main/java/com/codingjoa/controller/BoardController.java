@@ -114,7 +114,7 @@ public class BoardController {
 	public String writeProc(@Validated @ModelAttribute("writeBoardDto") BoardDto writeBoardDto, 
 			 BindingResult bindingResult, @AuthenticationPrincipal PrincipalDetails principal, Model model) throws BindException {
 		log.info("## writeProc");
-		log.info("\t > {}", writeBoardDto);
+		log.info("\t > writeBoardDto = {}", writeBoardDto);
 		
 		if (bindingResult.hasErrors()) {
 			log.info("\t > bindingResult hasErrors");
@@ -133,8 +133,7 @@ public class BoardController {
 	
 	@GetMapping("/modify")
 	public String modify(@RequestParam int boardIdx, @AuthenticationPrincipal PrincipalDetails principal, Model model) {
-		log.info("## modify");
-		log.info("\t > boardIdx = {}", boardIdx);
+		log.info("## modify, boardIdx = {}", boardIdx);
 		BoardDto modifyBoardDto = boardService.getModifyBoard(boardIdx, principal.getIdx());
 		model.addAttribute("modifyBoardDto", modifyBoardDto);
 		model.addAttribute("boardCategoryList", categoryService.getBoardCategoryList());

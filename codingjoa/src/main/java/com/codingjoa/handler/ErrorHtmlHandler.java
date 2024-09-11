@@ -25,8 +25,10 @@ import lombok.extern.slf4j.Slf4j;
 @ControllerAdvice
 public class ErrorHtmlHandler {
 	
+	private static final String FORWARD_URL = "/error";
+	
 	@ExceptionHandler(Exception.class) // NoHandlerFoundException, NestedServletException etc..
-	protected String handleException(Exception e, HttpServletRequest request) {
+	protected String handleEx(Exception e, HttpServletRequest request) {
 		log.info("## {}.handleEx", this.getClass().getSimpleName());
 		log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
 		
@@ -34,13 +36,14 @@ public class ErrorHtmlHandler {
 				.status(HttpStatus.BAD_REQUEST)
 				.messageByCode("error.Global") // error.Unknown --> error.Global
 				.build();
-		
 		request.setAttribute("errorResponse", errorResponse);
-		return "error";
+		
+		log.info("\t > forward to {}", FORWARD_URL);
+		return "forward:" + FORWARD_URL;
 	}
 	
 	@ExceptionHandler(NoHandlerFoundException.class) 
-	protected String handleNoHandlerFoundException(Exception e, HttpServletRequest request) {
+	protected String handleNoHandlerFoundEx(Exception e, HttpServletRequest request) {
 		log.info("## {}.handleNoHandlerFoundEx", this.getClass().getSimpleName());
 		log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
 		
@@ -48,13 +51,14 @@ public class ErrorHtmlHandler {
 				.status(HttpStatus.NOT_FOUND)
 				.messageByCode("error.NotFoundPage")
 				.build();
-		
 		request.setAttribute("errorResponse", errorResponse);
-		return "error";
+		
+		log.info("\t > forward to {}", FORWARD_URL);
+		return "forward:" + FORWARD_URL;
 	}
 	
 	@ExceptionHandler(BindException.class)
-	protected String handleBindException(BindException e, HttpServletRequest request) {
+	protected String handleBindEx(BindException e, HttpServletRequest request) {
 		log.info("## {}.handleBindEx", this.getClass().getSimpleName());
 		log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
 		
@@ -66,6 +70,7 @@ public class ErrorHtmlHandler {
 				.status(HttpStatus.UNPROCESSABLE_ENTITY)
 				.bindingResult(e.getBindingResult())
 				.build();
+		request.setAttribute("errorResponse", errorResponse);
 
 //		if (isAjaxRequest(request)) {
 //			ErrorResponse response = ErrorResponse.create().bindingResult(e.getBindingResult());
@@ -77,12 +82,12 @@ public class ErrorHtmlHandler {
 //		ModelAndView mav = new ModelAndView("forward:/error/errorPage");
 //		throw new ModelAndViewDefiningException(mav);
 		
-		request.setAttribute("errorResponse", errorResponse);
-		return "error";
+		log.info("\t > forward to {}", FORWARD_URL);
+		return "forward:" + FORWARD_URL;
 	}
 	
 	@ExceptionHandler(ConstraintViolationException.class) // /board/?boardCategoryCode=11
-	protected String handleConstraintViolationException(ConstraintViolationException e, 
+	protected String handleConstraintViolationEx(ConstraintViolationException e, 
 			HttpServletRequest request) {
 		log.info("## {}.handleConstraintViolationEx", this.getClass().getSimpleName());
 		log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
@@ -95,16 +100,17 @@ public class ErrorHtmlHandler {
 				.status(HttpStatus.UNPROCESSABLE_ENTITY)
 				.message(e.getMessage())
 				.build();
-
 		request.setAttribute("errorResponse", errorResponse);
-		return "error";
+		
+		log.info("\t > forward to {}", FORWARD_URL);
+		return "forward:" + FORWARD_URL;
 	}
 	
 	@ExceptionHandler(value = { 
 		MissingServletRequestParameterException.class,	// /board/read
 		MethodArgumentTypeMismatchException.class		// /board/read?boardIdx=, /board/read?boardIdx=aa 
 	})
-	protected String handleInvalidFormatException(Exception e, HttpServletRequest request) {
+	protected String handleInvalidFormatEx(Exception e, HttpServletRequest request) {
 		log.info("## {}.handleInvalidFormatEx", this.getClass().getSimpleName());
 		log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
 		
@@ -112,13 +118,14 @@ public class ErrorHtmlHandler {
 				.status(HttpStatus.BAD_REQUEST)
 				.messageByCode("error.InvalidFormat")
 				.build();
-		
 		request.setAttribute("errorResponse", errorResponse);
-		return "error";
+		
+		log.info("\t > forward to {}", FORWARD_URL);
+		return "forward:" + FORWARD_URL;
 	}
 
 	@ExceptionHandler(ExpectedException.class)
-	protected String handleExpectedException(ExpectedException e, HttpServletRequest request) {
+	protected String handleExpectedEx(ExpectedException e, HttpServletRequest request) {
 		log.info("## {}.handleExpectedEx", this.getClass().getSimpleName());
 		log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
 		log.info("\t > errorCode = {}, errorField = {}", e.getErrorCode(), e.getErrorField());
@@ -133,14 +140,14 @@ public class ErrorHtmlHandler {
 					.build();
 			builder.details(errorDetails);
 		}
+		request.setAttribute("errorResponse", builder.build());
 		
-		ErrorResponse errorResponse = builder.build();
-		request.setAttribute("errorResponse", errorResponse);
-		return "error";
+		log.info("\t > forward to {}", FORWARD_URL);
+		return "forward:" + FORWARD_URL;
 	}
 	
 	@ExceptionHandler(TestException.class)
-	protected String handleTestException(TestException e, HttpServletRequest request) {
+	protected String handleTestEx(TestException e, HttpServletRequest request) {
 		log.info("## {}.handleTestEx", this.getClass().getSimpleName());
 		log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
 		log.info("\t > errorCode = {}, errorField = {}", e.getErrorCode(), e.getErrorField());
@@ -155,10 +162,10 @@ public class ErrorHtmlHandler {
 					.build();
 			builder.details(errorDetails);
 		}
+		request.setAttribute("errorResponse", builder.build());
 		
-		TestResponse testResponse = builder.build();
-		request.setAttribute("errorResponse", testResponse);
-		return "error";
+		log.info("\t > forward to {}", FORWARD_URL);
+		return "forward:" + FORWARD_URL;
 	}
 	
 }

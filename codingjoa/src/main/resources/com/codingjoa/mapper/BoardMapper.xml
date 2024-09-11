@@ -196,7 +196,7 @@
 		        	board.board_category_code, 
 		        	board.created_at,
 		        	board.updated_at,
-		        	member.member_ninkname
+		        	member.member_nickname
 		    	FROM 
 		        	board
 		        INNER JOIN
@@ -269,7 +269,6 @@
 		    	FROM 
 		        	board
 		    	WHERE
-		    		searchCriteria
 		        	<include refid="searchCriteria"/>
 					board_category_code = #{boardCategoryCode} 
 				AND
@@ -316,7 +315,7 @@
 		INNER JOIN
 			member
 		ON
-			board.board_writer_idx = member.member_idx
+			board.member_idx = member.member_idx
 		WHERE
 			<include refid="searchCriteria"/>
 			board.board_category_code = #{boardCategoryCode}
@@ -360,7 +359,7 @@
 			board_content = #{boardContent},
 			board_content_text = #{boardContentText},
 			board_category_code = #{boardCategoryCode},
-			moddate = SYSDATE
+			updated_at = SYSDATE
 		WHERE
 			board_idx = #{boardIdx}
 	</update>

@@ -54,7 +54,7 @@ import lombok.extern.slf4j.Slf4j;
 public class ErrorRestHandler {
 	
 	@ExceptionHandler(Exception.class)
-	protected ResponseEntity<Object> handleException(Exception e) {
+	protected ResponseEntity<Object> handleEx(Exception e) {
 		log.info("## {}.handleEx", this.getClass().getSimpleName());
 		log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
 
@@ -63,12 +63,12 @@ public class ErrorRestHandler {
 				.messageByCode("error.Global") // error.Unknown --> error.Global
 				.build();
 		
-		//e.printStackTrace();
+		log.info("\t > respond with errorResponse in JSON format");
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
 	}
 	
 	@ExceptionHandler(NoHandlerFoundException.class) 
-	protected ResponseEntity<Object> handleNoHandlerFoundException(Exception e, HttpServletRequest request) {
+	protected ResponseEntity<Object> handleNoHandlerFoundEx(Exception e, HttpServletRequest request) {
 		log.info("## {}.handleNoHandlerFoundEx", this.getClass().getSimpleName());
 		log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
 
@@ -77,11 +77,12 @@ public class ErrorRestHandler {
 				.messageByCode("error.NotFoundResource") 
 				.build();
 		
+		log.info("\t > respond with errorResponse in JSON format");
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
 	}
 	
 	@ExceptionHandler(HttpMessageNotReadableException.class)
-	protected ResponseEntity<Object> handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
+	protected ResponseEntity<Object> handleHttpMessageNotReadableEx(HttpMessageNotReadableException e) {
 		log.info("## {}.handleHttpMessageNotReadableEx", this.getClass().getSimpleName());
 		log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
 		
@@ -90,11 +91,12 @@ public class ErrorRestHandler {
 				.messageByCode("error.InvalidFormat")
 				.build();
 		
+		log.info("\t > respond with errorResponse in JSON format");
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
 	}
 	
 	@ExceptionHandler(MethodArgumentNotValidException.class)
-	protected ResponseEntity<Object> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
+	protected ResponseEntity<Object> handleMethodArgumentNotValidEx(MethodArgumentNotValidException e) {
 		log.info("## {}.handleMethodArgumentNotValidEx", this.getClass().getSimpleName());
 		log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
 		
@@ -107,11 +109,12 @@ public class ErrorRestHandler {
 				.bindingResult(e.getBindingResult())
 				.build();
 		
+		log.info("\t > respond with errorResponse in JSON format");
 		return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(errorResponse);
 	}
 	
 	@ExceptionHandler(ConstraintViolationException.class)
-	protected ResponseEntity<Object> handleConstraintViolationException(ConstraintViolationException e) {
+	protected ResponseEntity<Object> handleConstraintViolationEx(ConstraintViolationException e) {
 		log.info("## {}.handleConstraintViolationEx", this.getClass().getSimpleName());
 		log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
 		
@@ -123,7 +126,8 @@ public class ErrorRestHandler {
 				.status(HttpStatus.UNPROCESSABLE_ENTITY)
 				.message(e.getMessage())
 				.build();
-
+		
+		log.info("\t > respond with errorResponse in JSON format");
 		return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(errorResponse);
 	}
 	
@@ -131,7 +135,7 @@ public class ErrorRestHandler {
 		MissingPathVariableException.class,			// api/comments/
 		MethodArgumentTypeMismatchException.class,	// api/comments/aa
 	})
-	protected ResponseEntity<Object> handleInvalidFormatException(Exception e) {
+	protected ResponseEntity<Object> handleInvalidFormatEx(Exception e) {
 		log.info("## {}.handleInvalidFormatEx", this.getClass().getSimpleName());
 		log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
 
@@ -140,11 +144,12 @@ public class ErrorRestHandler {
 				.messageByCode("error.InvalidFormat")
 				.build();
 		
+		log.info("\t > respond with errorResponse in JSON format");
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
 	}
 	
 	@ExceptionHandler(MaxUploadSizeExceededException.class)
-	protected ResponseEntity<Object> handleMaxUploadSizeExceededException(MaxUploadSizeExceededException e) {
+	protected ResponseEntity<Object> handleMaxUploadSizeExceededEx(MaxUploadSizeExceededException e) {
 		log.info("## {}.handleMaxUploadSizeExceededEx", this.getClass().getSimpleName());
 		log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
 		
@@ -153,11 +158,12 @@ public class ErrorRestHandler {
 				.messageByCode("error.ExceedSize")
 				.build();
 		
+		log.info("\t > respond with errorResponse in JSON format");
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
 	}
 	
 	@ExceptionHandler(ExpectedException.class)
-	protected ResponseEntity<Object> handleExpectedException(ExpectedException e) {
+	protected ResponseEntity<Object> handleExpectedEx(ExpectedException e) {
 		log.info("## {}.handleExpectedEx", this.getClass().getSimpleName());
 		log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
 		log.info("\t > errorCode = {}, errorField = {}", e.getErrorCode(), e.getErrorField());
@@ -173,13 +179,12 @@ public class ErrorRestHandler {
 			builder.details(errorDetails);
 		}
 		
-		ErrorResponse errorResponse = builder.build();
-		
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+		log.info("\t > respond with errorResponse in JSON format");
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(builder.build());
 	}
 	
 	@ExceptionHandler(TestException.class)
-	protected ResponseEntity<Object> handleTestException(TestException e) {
+	protected ResponseEntity<Object> handleTestEx(TestException e) {
 		log.info("## {}.handleTestEx", this.getClass().getSimpleName());
 		log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
 		log.info("\t > errorCode = {}, errorField = {}", e.getErrorCode(), e.getErrorField());
@@ -195,9 +200,8 @@ public class ErrorRestHandler {
 			builder.details(errorDetails);
 		}
 		
-		TestResponse testResponse = builder.build();
-		
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(testResponse);
+		log.info("\t > respond with errorResponse in JSON format");
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(builder.build());
 	}
 	
 }
