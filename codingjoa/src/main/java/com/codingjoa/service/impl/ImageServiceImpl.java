@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.codingjoa.dto.BoardDto;
 import com.codingjoa.entity.BoardImage;
 import com.codingjoa.entity.MemberImage;
 import com.codingjoa.exception.ExpectedException;
@@ -92,29 +91,31 @@ public class ImageServiceImpl implements ImageService {
 			return;
 		}
 		
+		log.info("\t > activate boardImages");
 		imageMapper.activateBoardImages(boardImages, boardIdx);
 	}
 	
 	@Override
-	public void modifyBoardImages(BoardDto boardDto) {
+	public void modifyBoardImages(List<Integer> boardImages, Integer boardIdx) {
 		log.info("## modifyBoardImages");
-		int boardIdx = boardDto.getBoardIdx();
 		List<Integer> oldBoardImages = imageMapper.findBoardImagesByBoardIdx(boardIdx)
 				.stream()
 				.map(BoardImage -> BoardImage.getBoardImageIdx())
 				.collect(Collectors.toList());
-		log.info("\t > deactivate oldBoardImages = {}", oldBoardImages);
+		log.info("\t > target oldBoardImages = {}", oldBoardImages);
 		
 		if (!oldBoardImages.isEmpty()) {
+			log.info("\t > deactivate oldBoardImages");
 			imageMapper.deactivateBoardImages(boardIdx);
 		}
 		
-		List<Integer> newBoardImages = boardDto.getBoardImages();
-		log.info("\t > activate newBoardImages = {}", newBoardImages);
-		
-		if (!newBoardImages.isEmpty()) {
-			imageMapper.activateBoardImages(newBoardImages, boardIdx);
+		log.info("\t > target boardImages = {}", boardImages);
+		if (boardImages.isEmpty()) {
+			return;
 		}
+		
+		log.info("\t > activate boardImages");
+		imageMapper.activateBoardImages(boardImages, boardIdx);
 	}
 	
 	@Override

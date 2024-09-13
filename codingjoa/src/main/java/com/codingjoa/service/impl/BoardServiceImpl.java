@@ -136,7 +136,7 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
-	public void updateBoard(BoardDto boardDto) {
+	public Integer updateBoard(BoardDto boardDto) {
 		Board board = boardMapper.findBoardByIdx(boardDto.getBoardIdx());
 		log.info("\t > find board = {}", board);
 
@@ -160,7 +160,10 @@ public class BoardServiceImpl implements BoardService {
 			throw new ExpectedException("error.UpdateBoard");
 		}
 		
-		imageService.modifyBoardImages(boardDto);
+		Integer boardIdx = board.getBoardIdx();
+		imageService.modifyBoardImages(boardDto.getBoardImages(), boardIdx);
+		
+		return boardIdx;
 	}
 	
 	@Override
@@ -176,7 +179,6 @@ public class BoardServiceImpl implements BoardService {
 		if (board == null) {
 			throw new ExpectedException("error.NotFoundBoard");
 		}
-		
 		
 		if (board.getMemberIdx() != memberIdx) {
 			throw new ExpectedException("error.NotMyBoard");

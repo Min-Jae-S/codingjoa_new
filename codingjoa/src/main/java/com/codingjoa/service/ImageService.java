@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import com.codingjoa.dto.BoardDto;
 import com.codingjoa.entity.BoardImage;
 
 public interface ImageService {
@@ -16,7 +15,7 @@ public interface ImageService {
 	
 	void activateBoardImages(List<Integer> boardImages, Integer boardIdx);
 	
-	void modifyBoardImages(BoardDto boardDto);
+	void modifyBoardImages(List<Integer> boardImages, Integer boardIdx);
 	
 	void handleMemberImage(MultipartFile file, Integer memberIdx);
 	

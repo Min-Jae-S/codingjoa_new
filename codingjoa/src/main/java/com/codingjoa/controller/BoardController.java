@@ -152,14 +152,15 @@ public class BoardController {
 			if (bindingResult.hasFieldErrors("boardCategoryCode") || bindingResult.hasFieldErrors("boardIdx")) {
 				throw new BindException(bindingResult);
 			}
+			
 			model.addAttribute("boardCategoryList", categoryService.getBoardCategoryList());
 			return "board/modify";
 		}
 		
 		modifyBoardDto.setMemberIdx(principal.getIdx());
-		boardService.updateBoard(modifyBoardDto); // updateBoard, modifyBoardImage
+		Integer boardIdx = boardService.updateBoard(modifyBoardDto); // updateBoard & deactivateImage & activateImage
 		
-		return "redirect:/board/read?boardIdx=" + modifyBoardDto.getBoardIdx();
+		return "redirect:/board/read?boardIdx=" + boardIdx;
 	}
 	
 	@GetMapping("/deleteProc")

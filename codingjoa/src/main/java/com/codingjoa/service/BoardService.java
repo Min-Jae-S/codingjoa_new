@@ -21,7 +21,7 @@ public interface BoardService {
 	
 	BoardDto getModifyBoard(int boardIdx, int memberIdx);
 	
-	void updateBoard(BoardDto boardDto);
+	Integer updateBoard(BoardDto boardDto);
 	
 	int getBoardCategoryCode(int boardIdx);
 	
