@@ -169,22 +169,24 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public int deleteBoard(int boardIdx, int boardWriterIdx) {
+	public int deleteBoard(int boardIdx, int memberIdx) {
 		Board board = boardMapper.findBoardByIdx(boardIdx);
-		log.info("\t > find board");
+		log.info("\t > find board = {}", board);
 
 		if (board == null) {
 			throw new ExpectedException("error.NotFoundBoard");
 		}
 		
-		Integer dbBoardWriterIdx = board.getMemberIdx();
-		log.info("\t > dbBoardWriterIdx = {}, boardWriterIdx = {}", dbBoardWriterIdx, boardWriterIdx);
 		
-		if (dbBoardWriterIdx != boardWriterIdx) {
+		if (board.getMemberIdx() != memberIdx) {
 			throw new ExpectedException("error.NotMyBoard");
 		}
 		
-		boardMapper.deleteBoard(board);
+		boolean isDeleted = boardMapper.deleteBoard(board);
+		if (!isDeleted) {
+			throw new ExpectedException("error.DeleteBoard");
+		}
+		
 		return board.getBoardCategoryCode();
 	}
 	
