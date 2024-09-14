@@ -121,8 +121,7 @@ public class BoardServiceImpl implements BoardService {
 		return new Pagination(totalCnt, boardCri.getPage(), boardCri.getRecordCnt(), pageRange);
 	}
 	
-	@Override
-	public BoardDto getModifyBoard(int boardIdx, int memberIdx) {
+	private Board getBoardByIdx(int boardIdx) {
 		Board board = boardMapper.findBoardByIdx(boardIdx);
 		log.info("\t > find board = {}", board);
 
@@ -130,6 +129,12 @@ public class BoardServiceImpl implements BoardService {
 			throw new ExpectedException("error.NotFoundBoard");
 		}
 		
+		return board;
+	}
+	
+	@Override
+	public BoardDto getModifyBoard(int boardIdx, int memberIdx) {
+		Board board = getBoardByIdx(boardIdx);
 		if (board.getMemberIdx() != memberIdx) {
 			throw new ExpectedException("error.NotMyBoard");
 		}
@@ -139,13 +144,7 @@ public class BoardServiceImpl implements BoardService {
 	
 	@Override
 	public Integer updateBoard(BoardDto boardDto) {
-		Board board = boardMapper.findBoardByIdx(boardDto.getBoardIdx());
-		log.info("\t > find board = {}", board);
-
-		if (board == null) {
-			throw new ExpectedException("error.NotFoundBoard");
-		}
-		
+		Board board = getBoardByIdx(boardDto.getBoardIdx());
 		if (board.getMemberIdx() != boardDto.getMemberIdx()) {
 			throw new ExpectedException("error.NotMyBoard");
 		}
@@ -175,13 +174,7 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public int deleteBoard(int boardIdx, int memberIdx) {
-		Board board = boardMapper.findBoardByIdx(boardIdx);
-		log.info("\t > find board = {}", board);
-
-		if (board == null) {
-			throw new ExpectedException("error.NotFoundBoard");
-		}
-		
+		Board board = getBoardByIdx(boardIdx);
 		if (board.getMemberIdx() != memberIdx) {
 			throw new ExpectedException("error.NotMyBoard");
 		}

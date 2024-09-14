@@ -183,6 +183,7 @@ public class MemberServiceImpl implements MemberService {
 		if (member == null) {
 			throw new ExpectedException("memberEmail", "error.NotIdOrEmailExist");
 		}
+		
 		return member.getMemberIdx();
 	}
 	
@@ -191,6 +192,7 @@ public class MemberServiceImpl implements MemberService {
 		if (member == null) {
 			throw new ExpectedException("error.NotFoundMember");
 		}
+		
 		return member;
 	}
 	
