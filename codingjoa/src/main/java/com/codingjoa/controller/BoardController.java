@@ -165,8 +165,8 @@ public class BoardController {
 	
 	@GetMapping("/deleteProc")
 	public String deleteProc(@RequestParam int boardIdx, @AuthenticationPrincipal PrincipalDetails principal) {
-		log.info("## deleteProc");
-		log.info("\t > boardIdx = {}", boardIdx);
+		log.info("## deleteProc, bordIdx = {}", boardIdx);
+
 		// fk_board_image_board --> ON DELETE SET NULL
 		// fk_comment_board		--> ON DELETE CASCADE
 		int boardCategoryCode = boardService.deleteBoard(boardIdx, principal.getIdx());

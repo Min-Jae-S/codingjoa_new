@@ -144,7 +144,7 @@ public class BoardServiceImpl implements BoardService {
 			throw new ExpectedException("error.NotFoundBoard");
 		}
 		
-		if (board.getMemberIdx() !=  boardDto.getMemberIdx()) {
+		if (board.getMemberIdx() != boardDto.getMemberIdx()) {
 			throw new ExpectedException("error.NotMyBoard");
 		}
 		
