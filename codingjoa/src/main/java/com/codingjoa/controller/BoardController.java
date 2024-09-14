@@ -89,8 +89,7 @@ public class BoardController {
 		BoardDetailsDto boardDetails = boardService.getBoardDetails(boardIdx);
 		Category category = categoryService.getCategory(boardDetails.getBoardCategoryCode());
 
-		// 쿠키를 이용하여 조회수 중복 방지 추가하기 (https://mighty96.github.io/til/view)
-		boardService.updateBoardViews(boardIdx);
+		boardService.updateBoardViews(boardIdx); // 쿠키를 이용하여 조회수 중복 방지 추가하기 (https://mighty96.github.io/til/view)
 
 		model.addAttribute("boardDetails", boardDetails);
 		model.addAttribute("category", category);
@@ -99,8 +98,7 @@ public class BoardController {
 	}
 	
 	@GetMapping("/write")
-	public String write(@BoardCategoryCode @RequestParam int boardCategoryCode, 
-			/* @ModelAttribute("writeBoardDto") BoardDto writeBoardDto, */ Model model) {
+	public String write(@BoardCategoryCode @RequestParam int boardCategoryCode, Model model) {
 		log.info("## write, boardCategoryCode = {}", boardCategoryCode);
 		BoardDto writeBoardDto = new BoardDto();
 		writeBoardDto.setBoardCategoryCode(boardCategoryCode);
@@ -118,9 +116,11 @@ public class BoardController {
 		
 		if (bindingResult.hasErrors()) {
 			log.info("\t > bindingResult hasErrors");
-			if (bindingResult.hasFieldErrors("boardCategoryCode") /* || bindingResult.hasFieldErrors("boardIdx") */) {
+			// if (bindingResult.hasFieldErrors("boardCategoryCode") || bindingResult.hasFieldErrors("boardIdx")) {
+			if (bindingResult.hasFieldErrors("boardCategoryCode")) {
 				throw new BindException(bindingResult);
 			}
+			
 			model.addAttribute("boardCategoryList", categoryService.getBoardCategoryList());
 			return "board/write";
 		}
