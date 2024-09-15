@@ -67,11 +67,11 @@ public class AccessDeniedHandlerImpl implements AccessDeniedHandler {
 			response.getWriter().write(jsonResponse);
 			response.getWriter().close();
 		} else {
-			String continueUrl = request.getHeader(HttpHeaders.REFERER);
-			continueUrl = UriUtils.resolveContinueUrl(continueUrl, request);
+			String referer = request.getHeader(HttpHeaders.REFERER);
+			log.info("\t > referer = {}", referer);
 			
+			request.setAttribute("continueUrl", UriUtils.resolveContinueUrl(referer, request));
 			request.setAttribute("message", errorResponse.getMessage());
-			request.setAttribute("continueUrl", continueUrl);
 			
 			log.info("\t > forward to 'feedback.jsp'");
 			request.getRequestDispatcher("/WEB-INF/views/feedback.jsp").forward(request, response);

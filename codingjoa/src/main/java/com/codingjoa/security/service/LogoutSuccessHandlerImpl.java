@@ -30,10 +30,8 @@ public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
 		log.info("## {}", this.getClass().getSimpleName());
 		
 		String continueUrl = request.getParameter("continue");
-		continueUrl = UriUtils.resolveContinueUrl(continueUrl, request);
-		
+		request.setAttribute("continueUrl", UriUtils.resolveContinueUrl(continueUrl, request));
 		request.setAttribute("message", MessageUtils.getMessage("success.Logout"));
-		request.setAttribute("continueUrl", continueUrl);
 		
 		log.info("\t > forward to feedback.jsp");
 		request.getRequestDispatcher("/WEB-INF/views/feedback.jsp").forward(request, response);

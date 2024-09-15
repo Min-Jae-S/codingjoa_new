@@ -41,14 +41,12 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 		String jwt = jwtProvider.createJwt(authentication, request);
 		CookieUtils.addCookie(request, response, JWT_COOKIE, jwt, COOKIE_EXPIRE_SECONDS);
 
-		String continueUrl = (String) authentication.getDetails();
-		continueUrl = UriUtils.resolveContinueUrl(continueUrl, request);
-		
 		// option1 : after forwading to view(jsp), alert message and redirect to contineUrl on the client-side
 		// option2 : directly redirect to continueUrl using redirectStrategy
 		
+		String continueUrl = (String) authentication.getDetails();
+		request.setAttribute("continueUrl", UriUtils.resolveContinueUrl(continueUrl, request));
 		request.setAttribute("message", MessageUtils.getMessage("success.Login"));
-		request.setAttribute("continueUrl", continueUrl);
 		
 		log.info("\t > forward to 'feedback.jsp'");
 		request.getRequestDispatcher("/WEB-INF/views/feedback.jsp").forward(request, response);
