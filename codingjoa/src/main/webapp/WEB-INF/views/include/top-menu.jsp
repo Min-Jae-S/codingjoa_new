@@ -18,10 +18,13 @@
 					</li>
 				</c:forEach>
 				<li class="nav-item mx-2">
-					<a href="${contextPath}/admin" class="nav-link">admin</a>
+					<a href="${contextPath}/member/account" class="nav-link">/account</a>
 				</li>
 				<li class="nav-item mx-2">
-					<a href="${contextPath}/member/account" class="nav-link">account</a>
+					<a href="${contextPath}/admin" class="nav-link">/admin</a>
+				</li>
+				<li class="nav-item mx-2">
+					<a href="${contextPath}/api/admin" class="nav-link" id="adminApiLink">/api/admin</a>
 				</li>
 			</ul>
 			<ul class="navbar-nav ml-auto">
@@ -64,6 +67,7 @@
 </nav>
 
 <script src="${contextPath}/resources/js/render.js"></script>
+<script src="${contextPath}/resources/js/handle-errors.js"></script>
 <script>
 	$(function() {
 		let timer;
@@ -90,7 +94,7 @@
 				})
 				.fail(function(jqXHR, textStatus, error) {
 					console.log("%c> ERROR", "color:red");
-					console.log(jqXHR);
+					parseError(jqXHR);
 				});
 			}, showDelay);
 		});
@@ -112,6 +116,22 @@
 		$(document).on("click", ".navbar-nav button.dropdown-item", function() {
 			let parentPath = $(this).closest("li.dropdown").data("path");
 			location.href = "${contextPath}" + parentPath + $(this).data("path");
+		});
+		
+		$("#adminApiLink").on("click", function(e) {
+			e.preventDefault();
+			console.log("## adminApi");
+			let url = $(this).getAttribute("href");
+			console.log("> URL = '%s'", url);
+			
+			$.getJSON(url, function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log(JSON.stringify(result, null, 2));
+			})
+			.fail(function(jqXHR, textStatus, error) {
+				console.log("%c> ERROR", "color:red");
+				parseError(jqXHR);
+			});
 		});
 	});
 </script>
