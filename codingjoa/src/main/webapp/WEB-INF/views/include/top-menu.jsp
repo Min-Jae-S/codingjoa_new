@@ -15,6 +15,9 @@
 						<a href="${contextPath}${parentCategory.categoryPath}" class="nav-link">
 							<c:out value="${parentCategory.categoryName}"/>
 						</a>
+						<div class="dropdown-menu">
+							<!-- categories -->
+						</div>
 					</li>
 				</c:forEach>
 				<li class="nav-item dropdown test mx-2 mt-1">
@@ -69,47 +72,46 @@
 <script src="${contextPath}/resources/js/handle-errors.js"></script>
 <script>
 	$(function() {
-		let timer, delay = 100;
+		const $dropdowns = $("li.category div.dropdown-menu");
 		
 		$("li.category").on("mouseenter", function(e) {
-			e.stopPropagation();
-			$("li.category .dropdown-menu").remove();
+			e.stopPropagation()
+			$(this).find("a").css("color", "black").css("font-weight", "bold");
 			
-			let parentCategory = $(this).data("category");
-			let $a = $(this).find("a");
-			$a.css("color", "black").css("font-weight", "bold");
+			console.log("## getCategoryListByParent");
+			let url = "${contextPath}/api/category/" + $(this).data("category");
+			console.log("> URL = '%s'", url);
 			
-			timer = setTimeout(function() {
-				console.log("## getCategoryListByParent");
-				let url = "${contextPath}/api/category/" + parentCategory;
-				console.log("> URL = '%s'", url);
+			let $dropdown = $(this).find("div.dropdown-menu");
+			$.getJSON(url, function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log(JSON.stringify(result, null, 2));
 				
-				$.getJSON(url, function(result) {
-					console.log("%c> SUCCESS", "color:green");
-					console.log(JSON.stringify(result, null, 2));
-					
-					let categoryList = result.data;
-					let categoryMenuHtml = createCategoryMenuHtml(categoryList);
-					$a.after(categoryMenuHtml);
-				})
-				.fail(function(jqXHR, textStatus, error) {
-					console.log("%c> ERROR", "color:red");
-					parseError(jqXHR);
-				});
-			}, delay);
+				let categoryList = result.data;
+				let categoryMenuHtml = createCategoryMenuHtml(categoryList);
+				if (categoryMenuHtml != "") {
+					$dropdown.html(categoryMenuHtml);
+					$dropdown.addClass("show");
+				}
+			})
+			.fail(function(jqXHR, textStatus, error) {
+				console.log("%c> ERROR", "color:red");
+				parseError(jqXHR);
+			});
 		});
 		
-		$("li.category").on("mouseleave", function() {
-			clearTimeout(timer);
-			$("li.category .dropdown-menu").remove();
+		$("li.category").on("mouseleave", function(e) {
+			e.stopPropagation()
 			$(this).find("a").css("color", "grey").css("font-weight", "400");
 		});
 
-		$(document).on("mouseenter", "li.category button.dropdown-item", function() {
+		$(document).on("mouseenter", "li.category button.dropdown-item", function(e) {
+			e.stopPropagation();
 			$(this).css("color", "black").css("font-weight", "bold");
 		});
 
-		$(document).on("mouseleave", "li.category button.dropdown-item", function() {
+		$(document).on("mouseleave", "li.category button.dropdown-item", function(e) {
+			e.stopPropagation();
 			$(this).css("color", "grey").css("font-weight", "400");
 		});
 		
@@ -119,17 +121,11 @@
 		});
 		
 		$("li.test").on("mouseenter", function(e) {
-			e.stopPropagation();
 			$(this).find("a").css("color", "black").css("font-weight", "bold");
-			$dropdown = $(this).find("div.dropdown-menu");
-			
-			timer = setTimeout(function() {
-				$dropdown.addClass("show");
-			}, delay);
+			$(this).find("div.dropdown-menu").addClass("show");
 		});
 
 		$("li.test").on("mouseleave", function(e) {
-			clearTimeout(timer);
 			$(this).find("a").css("color", "grey").css("font-weight", "400");
 			$(this).find("div.dropdown-menu").removeClass("show");
 		});

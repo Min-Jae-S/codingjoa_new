@@ -5,7 +5,6 @@ function createCategoryMenuHtml(categoryList) {
 		return html;
 	}
 	
-	html += "<div class='dropdown-menu show'>";
 	$.each(categoryList, function(index, value) {
 		let categoryCode = categoryList[index].categoryCode;
 		let categoryPath = categoryList[index].categoryPath;
@@ -13,7 +12,7 @@ function createCategoryMenuHtml(categoryList) {
 		let path = (categoryCode == categoryPath) ? "/?boardCategoryCode=" + categoryCode : categoryPath;
 		html += "<button class='dropdown-item' type='button' data-path='" + path + "'>" + categoryName + "</button>";
 	});
-	html += "</div>";
+	
 	return html;
 }
 
