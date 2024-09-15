@@ -50,6 +50,7 @@ public class AccessDeniedHandlerImpl implements AccessDeniedHandler {
 		log.info("## {}", this.getClass().getSimpleName());
 		log.info("\t > request-line = {}", HttpUtils.getHttpRequestLine(request));
 		log.info("\t > {}: {}", accessDeniedException.getClass().getSimpleName(), accessDeniedException.getMessage());
+		log.info("\t > savedRequest = {}", getSavedRequest(request, response));
 		
 		response.setStatus(HttpServletResponse.SC_FORBIDDEN);
 		response.setCharacterEncoding(StandardCharsets.UTF_8.name());
@@ -66,11 +67,8 @@ public class AccessDeniedHandlerImpl implements AccessDeniedHandler {
 			response.getWriter().write(jsonResponse);
 			response.getWriter().close();
 		} else {
-			String continueUrl = getConinueUrl(request, response);
-			log.info("\t > continueUrl = {}", FormatUtils.formatString(continueUrl));
-			
 			request.setAttribute("message", errorResponse.getMessage());
-			request.setAttribute("continueUrl", continueUrl);
+			request.setAttribute("continueUrl", request.getContextPath() + "/");
 			
 			log.info("\t > forward to 'feedback.jsp'");
 			request.getRequestDispatcher("/WEB-INF/views/feedback.jsp").forward(request, response);
@@ -82,10 +80,10 @@ public class AccessDeniedHandlerImpl implements AccessDeniedHandler {
 		return "XMLHttpRequest".equals(request.getHeader("x-requested-with"));
 	}
 	
-	private String getConinueUrl(HttpServletRequest request, HttpServletResponse response) {
+	private SavedRequest getSavedRequest(HttpServletRequest request, HttpServletResponse response) {
 		RequestCache requestCache = new HttpSessionRequestCache();
-		SavedRequest savedRequest = requestCache.getRequest(request, response); // DefaultSavedRequest 
-		return (savedRequest == null) ? request.getContextPath() + "/" : savedRequest.getRedirectUrl();
+		SavedRequest savedRequest = requestCache.getRequest(request, response); // DefaultSavedRequest
+		return savedRequest;
 	}
 	
 }
