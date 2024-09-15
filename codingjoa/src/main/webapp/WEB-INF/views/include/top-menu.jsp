@@ -20,9 +20,9 @@
 				<li class="nav-item dropdown test mx-2 mt-1">
 					<a href="#" class="nav-link">TEST</a>
 					<div class="dropdown-menu">
-						<button class="dropdown-item" type="button">공지 게시판</button>
-						<button class="dropdown-item" type="button">질문 게시판</button>
-						<button class="dropdown-item" type="button">자유 게시판</button>
+						<button class="dropdown-item" type="button" onclick="location.href='${contextPath}/member/account'">/member/account</button>
+						<button class="dropdown-item" type="button" onclick="location.href='${contextPath}/admin'">/admin</button>
+						<button class="dropdown-item" type="button" id="adminApiLink">/api/admin</button>
 					</div>
 				</li>
 			</ul>
@@ -69,11 +69,10 @@
 <script src="${contextPath}/resources/js/handle-errors.js"></script>
 <script>
 	$(function() {
-		let timer;
-		let showDelay = 200;
+		let timer, delay = 100;
 		
-		$(".navbar-nav li.category").on("mouseenter", function(e) {
-			//e.stopPropagation();
+		$("li.category").on("mouseenter", function(e) {
+			e.stopPropagation();
 			$(".navbar-nav .dropdown-menu").remove();
 			
 			let parentCategory = $(this).data("category");
@@ -97,41 +96,47 @@
 					console.log("%c> ERROR", "color:red");
 					parseError(jqXHR);
 				});
-			}, showDelay);
+			}, delay);
 		});
 		
-		$(".navbar-nav li.category").on("mouseleave", function() {
+		$("li.category").on("mouseleave", function() {
 			clearTimeout(timer);
 			$(".navbar-nav .dropdown-menu").remove();
 			$(this).find("a").css("color", "grey").css("font-weight", "400");
 		});
 
-		$(document).on("mouseenter", ".navbar-nav button.dropdown-item", function() {
+		$(document).on("mouseenter", "li.category button.dropdown-item", function() {
 			$(this).css("color", "black").css("font-weight", "bold");
 		});
 
-		$(document).on("mouseleave", ".navbar-nav button.dropdown-item", function() {
+		$(document).on("mouseleave", "li.category button.dropdown-item", function() {
 			$(this).css("color", "grey").css("font-weight", "400");
 		});
 		
-		$(document).on("click", ".navbar-nav button.dropdown-item", function() {
+		$(document).on("click", "li.category button.dropdown-item", function() {
 			let parentPath = $(this).closest("li.dropdown").data("path");
 			location.href = "${contextPath}" + parentPath + $(this).data("path");
 		});
 		
-		$(".navbar-nav li.test").on("mouseenter", function(e) {
-			//e.stopPropagation();
-			let $a = $(this).find("a");
-			$a.css("color", "black").css("font-weight", "bold");
+		$("li.test").on("mouseenter", function(e) {
+			e.stopPropagation();
+			$(this).find("a").css("color", "black").css("font-weight", "bold");
+			$dropdown = $(this).find("div.dropdown-menu");
 			
 			timer = setTimeout(function() {
-				// ...
-			}, showDelay);
+				$dropdown.addClass("show");
+			}, delay);
 		});
 
-		$(".navbar-nav li.test").on("mouseleave", function(e) {
+		$("li.test").on("mouseleave", function(e) {
 			clearTimeout(timer);
 			$(this).find("a").css("color", "grey").css("font-weight", "400");
+			$(this).find("div.dropdown-menu").removeClass("show");
+		});
+
+		$("li.test button.dropdown-item").on("click", function() {
+			$(this).find("a").css("color", "grey").css("font-weight", "400");
+			$(this).find("div.dropdown-menu").removeClass("show");
 		});
 		
 		$("#adminApiLink").on("click", function(e) {
