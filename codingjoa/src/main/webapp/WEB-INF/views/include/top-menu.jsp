@@ -22,7 +22,7 @@
 					<div class="dropdown-menu">
 						<button class="dropdown-item" type="button" onclick="location.href='${contextPath}/member/account'">/member/account</button>
 						<button class="dropdown-item" type="button" onclick="location.href='${contextPath}/admin'">/admin</button>
-						<button class="dropdown-item" type="button" id="adminApiLink">/api/admin</button>
+						<button class="dropdown-item" type="button" onclick="adminApi('${contextPath}/api/admin')">/api/admin</button>
 					</div>
 				</li>
 			</ul>
@@ -73,7 +73,7 @@
 		
 		$("li.category").on("mouseenter", function(e) {
 			e.stopPropagation();
-			$(".navbar-nav .dropdown-menu").remove();
+			$("li.category .dropdown-menu").remove();
 			
 			let parentCategory = $(this).data("category");
 			let $a = $(this).find("a");
@@ -101,7 +101,7 @@
 		
 		$("li.category").on("mouseleave", function() {
 			clearTimeout(timer);
-			$(".navbar-nav .dropdown-menu").remove();
+			$("li.category .dropdown-menu").remove();
 			$(this).find("a").css("color", "grey").css("font-weight", "400");
 		});
 
@@ -133,26 +133,28 @@
 			$(this).find("a").css("color", "grey").css("font-weight", "400");
 			$(this).find("div.dropdown-menu").removeClass("show");
 		});
+		
+		$("li.test button.dropdown-item").on("mouseenter", function() {
+			$(this).css("color", "black").css("font-weight", "bold");
+		});
 
-		$("li.test button.dropdown-item").on("click", function() {
-			$(this).find("a").css("color", "grey").css("font-weight", "400");
-			$(this).find("div.dropdown-menu").removeClass("show");
+		$("li.test button.dropdown-item").on("mouseleave", function() {
+			$(this).css("color", "grey").css("font-weight", "400");
 		});
 		
-		$("#adminApiLink").on("click", function(e) {
-			e.preventDefault();
-			console.log("## adminApi");
-			let url = $(this).attr("href");
-			console.log("> URL = '%s'", url);
-			
-			$.getJSON(url, function(result) {
-				console.log("%c> SUCCESS", "color:green");
-				console.log(JSON.stringify(result, null, 2));
-			})
-			.fail(function(jqXHR, textStatus, error) {
-				console.log("%c> ERROR", "color:red");
-				parseError(jqXHR);
-			});
-		});
 	});
+	
+	function adminApi(url) {
+		console.log("## adminApi");
+		console.log("> URL = '%s'", url);
+		
+		$.getJSON(url, function(result) {
+			console.log("%c> SUCCESS", "color:green");
+			console.log(JSON.stringify(result, null, 2));
+		})
+		.fail(function(jqXHR, textStatus, error) {
+			console.log("%c> ERROR", "color:red");
+			parseError(jqXHR);
+		});
+	}
 </script>
