@@ -11,20 +11,19 @@
 		<div class="collapse navbar-collapse">
 			<ul class="navbar-nav mr-auto">
 				<c:forEach var="parentCategory" items="${parentCategoryList}">
-					<li class="nav-item dropdown mx-2 mt-1" data-category="${parentCategory.categoryCode}" data-path="${parentCategory.categoryPath}">
+					<li class="nav-item dropdown category mx-2 mt-1" data-category="${parentCategory.categoryCode}" data-path="${parentCategory.categoryPath}">
 						<a href="${contextPath}${parentCategory.categoryPath}" class="nav-link">
 							<c:out value="${parentCategory.categoryName}"/>
 						</a>
 					</li>
 				</c:forEach>
-				<li class="nav-item mx-2">
-					<a href="${contextPath}/member/account" class="nav-link">/account</a>
-				</li>
-				<li class="nav-item mx-2">
-					<a href="${contextPath}/admin" class="nav-link">/admin</a>
-				</li>
-				<li class="nav-item mx-2">
-					<a href="${contextPath}/api/admin" class="nav-link" id="adminApiLink">/api/admin</a>
+				<li class="nav-item dropdown test mx-2 mt-1">
+					<a href="#" class="nav-link">TEST</a>
+					<div class="dropdown-menu">
+						<button class="dropdown-item" type="button">공지 게시판</button>
+						<button class="dropdown-item" type="button">질문 게시판</button>
+						<button class="dropdown-item" type="button">자유 게시판</button>
+					</div>
 				</li>
 			</ul>
 			<ul class="navbar-nav ml-auto">
@@ -71,10 +70,12 @@
 <script>
 	$(function() {
 		let timer;
-		let showDelay = 100;
+		let showDelay = 200;
 		
-		$(".navbar-nav li.dropdown").on("mouseenter", function(e) {
-			e.stopPropagation();
+		$(".navbar-nav li.category").on("mouseenter", function(e) {
+			//e.stopPropagation();
+			$(".navbar-nav .dropdown-menu").remove();
+			
 			let parentCategory = $(this).data("category");
 			let $a = $(this).find("a");
 			$a.css("color", "black").css("font-weight", "bold");
@@ -98,15 +99,15 @@
 				});
 			}, showDelay);
 		});
-			
-		$(".navbar-nav li.dropdown").on("mouseleave", function() {
+		
+		$(".navbar-nav li.category").on("mouseleave", function() {
 			clearTimeout(timer);
+			$(".navbar-nav .dropdown-menu").remove();
 			$(this).find("a").css("color", "grey").css("font-weight", "400");
-			$(this).find(".dropdown-menu").remove();
 		});
 
 		$(document).on("mouseenter", ".navbar-nav button.dropdown-item", function() {
-			$(this).css("color", "black").css("font-weight", "bold").css("background-color", "transparent");
+			$(this).css("color", "black").css("font-weight", "bold");
 		});
 
 		$(document).on("mouseleave", ".navbar-nav button.dropdown-item", function() {
@@ -118,10 +119,25 @@
 			location.href = "${contextPath}" + parentPath + $(this).data("path");
 		});
 		
+		$(".navbar-nav li.test").on("mouseenter", function(e) {
+			//e.stopPropagation();
+			let $a = $(this).find("a");
+			$a.css("color", "black").css("font-weight", "bold");
+			
+			timer = setTimeout(function() {
+				// ...
+			}, showDelay);
+		});
+
+		$(".navbar-nav li.test").on("mouseleave", function(e) {
+			clearTimeout(timer);
+			$(this).find("a").css("color", "grey").css("font-weight", "400");
+		});
+		
 		$("#adminApiLink").on("click", function(e) {
 			e.preventDefault();
 			console.log("## adminApi");
-			let url = $(this).getAttribute("href");
+			let url = $(this).attr("href");
 			console.log("> URL = '%s'", url);
 			
 			$.getJSON(url, function(result) {

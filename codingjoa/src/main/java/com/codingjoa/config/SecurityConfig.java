@@ -113,7 +113,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers(HttpMethod.POST, "/api/board/image", "/api/member/image").authenticated()
 				.antMatchers("/api/member/images", "/api/member/images/*").authenticated()
 				.antMatchers("/api/member/details").authenticated()
-				.antMatchers("/admin/**").hasAnyRole("ADMIN")
+				.antMatchers("/admin/**", "/api/admin/**").hasAnyRole("ADMIN")
 				.anyRequest().permitAll()
 				.and()
 			.oauth2Login()
