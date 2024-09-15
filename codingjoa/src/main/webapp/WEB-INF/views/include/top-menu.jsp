@@ -72,10 +72,9 @@
 <script src="${contextPath}/resources/js/handle-errors.js"></script>
 <script>
 	$(function() {
-		const $dropdowns = $("li.category div.dropdown-menu");
+		let timer, delay = 100;
 		
-		$("li.category").on("mouseenter", function(e) {
-			e.stopPropagation()
+		$("li.category").on("mouseenter", function() {
 			$(this).find("a").css("color", "black").css("font-weight", "bold");
 			
 			console.log("## getCategoryListByParent");
@@ -83,35 +82,38 @@
 			console.log("> URL = '%s'", url);
 			
 			let $dropdown = $(this).find("div.dropdown-menu");
-			$.getJSON(url, function(result) {
-				console.log("%c> SUCCESS", "color:green");
-				console.log(JSON.stringify(result, null, 2));
-				
-				let categoryList = result.data;
-				let categoryMenuHtml = createCategoryMenuHtml(categoryList);
-				if (categoryMenuHtml != "") {
-					$dropdown.html(categoryMenuHtml);
-					$dropdown.addClass("show");
-				}
-			})
-			.fail(function(jqXHR, textStatus, error) {
-				console.log("%c> ERROR", "color:red");
-				parseError(jqXHR);
-			});
+			timer = setTimeout(function() {
+				$.getJSON(url, function(result) {
+					console.log("%c> SUCCESS", "color:green");
+					console.log(JSON.stringify(result, null, 2));
+					
+					let categoryList = result.data;
+					let categoryMenuHtml = createCategoryMenuHtml(categoryList);
+					if (categoryMenuHtml != "") {
+						$dropdown.html(categoryMenuHtml);
+						$dropdown.addClass("show");
+					}
+				})
+				.fail(function(jqXHR, textStatus, error) {
+					console.log("%c> ERROR", "color:red");
+					parseError(jqXHR);
+				})
+			}, delay);
 		});
 		
-		$("li.category").on("mouseleave", function(e) {
-			e.stopPropagation()
+		$("li.category").on("mouseleave", function() {
+			clearTimeout(timer);
 			$(this).find("a").css("color", "grey").css("font-weight", "400");
+			let $dropdowns = $("li.category div.dropdown-menu");
+			$dropdowns.removeClass("show");
+			$dropdowns.empty();
 		});
 
-		$(document).on("mouseenter", "li.category button.dropdown-item", function(e) {
-			e.stopPropagation();
+		$(document).on("mouseenter", "li.category button.dropdown-item", function() {
 			$(this).css("color", "black").css("font-weight", "bold");
 		});
 
-		$(document).on("mouseleave", "li.category button.dropdown-item", function(e) {
-			e.stopPropagation();
+		$(document).on("mouseleave", "li.category button.dropdown-item", function() {
 			$(this).css("color", "grey").css("font-weight", "400");
 		});
 		
