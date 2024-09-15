@@ -68,8 +68,8 @@
 	</div>
 </nav>
 
+<script src="${contextPath}/resources/js/category.js"></script>
 <script src="${contextPath}/resources/js/render.js"></script>
-<script src="${contextPath}/resources/js/handle-errors.js"></script>
 <script>
 	$(function() {
 		let timer, delay = 100;
@@ -77,27 +77,17 @@
 		$("li.category").on("mouseenter", function() {
 			$(this).find("a").css("color", "black").css("font-weight", "bold");
 			
-			console.log("## getCategoryListByParent");
-			let url = "${contextPath}/api/category/" + $(this).data("category");
-			console.log("> URL = '%s'", url);
-			
+			let category = $(this).data("category");
 			let $dropdown = $(this).find("div.dropdown-menu");
 			timer = setTimeout(function() {
-				$.getJSON(url, function(result) {
-					console.log("%c> SUCCESS", "color:green");
-					console.log(JSON.stringify(result, null, 2));
-					
+				categoryService.getCategoryListByParent(category, function(result) {
 					let categoryList = result.data;
 					let categoryMenuHtml = createCategoryMenuHtml(categoryList);
 					if (categoryMenuHtml != "") {
 						$dropdown.html(categoryMenuHtml);
 						$dropdown.addClass("show");
 					}
-				})
-				.fail(function(jqXHR, textStatus, error) {
-					console.log("%c> ERROR", "color:red");
-					parseError(jqXHR);
-				})
+				});
 			}, delay);
 		});
 		
@@ -122,12 +112,12 @@
 			location.href = "${contextPath}" + parentPath + $(this).data("path");
 		});
 		
-		$("li.test").on("mouseenter", function(e) {
+		$("li.test").on("mouseenter", function() {
 			$(this).find("a").css("color", "black").css("font-weight", "bold");
 			$(this).find("div.dropdown-menu").addClass("show");
 		});
 
-		$("li.test").on("mouseleave", function(e) {
+		$("li.test").on("mouseleave", function() {
 			$(this).find("a").css("color", "grey").css("font-weight", "400");
 			$(this).find("div.dropdown-menu").removeClass("show");
 		});
@@ -139,7 +129,6 @@
 		$("li.test button.dropdown-item").on("mouseleave", function() {
 			$(this).css("color", "grey").css("font-weight", "400");
 		});
-		
 	});
 	
 	function adminApi(url) {
@@ -152,7 +141,8 @@
 		})
 		.fail(function(jqXHR, textStatus, error) {
 			console.log("%c> ERROR", "color:red");
-			parseError(jqXHR);
+			let errorResponse = JSON.parse(jqXHR.responseText);
+			console.log(JSON.stringify(errorResponse, null, 2));
 		});
 	}
 </script>

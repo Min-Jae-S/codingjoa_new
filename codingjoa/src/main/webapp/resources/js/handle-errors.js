@@ -18,7 +18,6 @@ function parseError(jqXHR) {
 function handleMemberError(errorResponse) {
 	console.log("## handleMemberError");
 	let details = errorResponse.details;
-	let message = errorResponse.message;
 	if (details.length > 0) {
 		$.each(details, function(index, item) {
 			$("#" + item.field).closest("dd").after("<dd id='" + item.field + ".errors' class='error'>" + item.message + "</dd>");
@@ -26,6 +25,7 @@ function handleMemberError(errorResponse) {
 		return;
 	}
 	
+	let message = errorResponse.message;
 	if (message != "") {
 		alert(message);
 	}
@@ -34,7 +34,6 @@ function handleMemberError(errorResponse) {
 function handleCommentError(errorResponse) {
 	console.log("## handleCommentError");
 	let details = errorResponse.details;
-	let message = errorResponse.message;
 	if (details.length > 0) {
 		$.each(details, function(index, item) {
 			alert(item.message);
@@ -42,6 +41,7 @@ function handleCommentError(errorResponse) {
 		return ;
 	} 
 	
+	let message = errorResponse.message;
 	if (message != "") {
 		alert(message);
 	}
@@ -51,7 +51,6 @@ function handleCommentError(errorResponse) {
 function handleLikesError(errorResponse) {
 	console.log("## handleLikesError");
 	let details = errorResponse.details;
-	let message = errorResponse.message;
 	if (details.length > 0) {
 		$.each(details, function(index, item) {
 			alert(item.message);
@@ -59,6 +58,7 @@ function handleLikesError(errorResponse) {
 		return;
 	}
 	
+	let message = errorResponse.message;
 	if (message != "") {
 		alert(message);
 	}
@@ -67,7 +67,6 @@ function handleLikesError(errorResponse) {
 function handleImageError(errorResponse) {
 	console.log("## handleImageError");
 	let details = errorResponse.details;
-	let message = errorResponse.message;
 	if (details.length > 0) {
 		$.each(details, function(index, item) {
 			alert(item.message);
@@ -75,7 +74,9 @@ function handleImageError(errorResponse) {
 		return;
 	}
 	
+	let message = errorResponse.message;
 	console.log("> original message = %s", message);
+	
 	if (message != "") {
 		message = message.replace(/\\n/gi, "\n");
 		console.log("> handled message = %s", message);
@@ -87,6 +88,7 @@ function handleLoginError(errorResponse) {
 	console.log("## handleLoginError");
 	let message = errorResponse.message;
 	console.log("> original message = %s", message);
+	
 	if (message != "") {
 		message = message.replace(/\.\s*/g, ".<br>");
 		console.log("> handled message = %s", message);
