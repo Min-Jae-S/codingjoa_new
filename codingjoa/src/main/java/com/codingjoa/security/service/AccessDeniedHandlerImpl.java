@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.AccessDeniedException;
@@ -50,7 +51,6 @@ public class AccessDeniedHandlerImpl implements AccessDeniedHandler {
 		log.info("## {}", this.getClass().getSimpleName());
 		log.info("\t > request-line = {}", HttpUtils.getHttpRequestLine(request));
 		log.info("\t > {}: {}", accessDeniedException.getClass().getSimpleName(), accessDeniedException.getMessage());
-		log.info("\t > savedRequest = {}", getSavedRequest(request, response));
 		
 		response.setStatus(HttpServletResponse.SC_FORBIDDEN);
 		response.setCharacterEncoding(StandardCharsets.UTF_8.name());
@@ -67,8 +67,11 @@ public class AccessDeniedHandlerImpl implements AccessDeniedHandler {
 			response.getWriter().write(jsonResponse);
 			response.getWriter().close();
 		} else {
+			String continueUrl = request.getHeader(HttpHeaders.REFERER);
+			continueUrl = UriUtils.resolveContinueUrl(continueUrl, request);
+			
 			request.setAttribute("message", errorResponse.getMessage());
-			request.setAttribute("continueUrl", request.getContextPath() + "/");
+			request.setAttribute("continueUrl", continueUrl);
 			
 			log.info("\t > forward to 'feedback.jsp'");
 			request.getRequestDispatcher("/WEB-INF/views/feedback.jsp").forward(request, response);
@@ -78,12 +81,6 @@ public class AccessDeniedHandlerImpl implements AccessDeniedHandler {
 	
 	private boolean isAjaxRequest(HttpServletRequest request) {
 		return "XMLHttpRequest".equals(request.getHeader("x-requested-with"));
-	}
-	
-	private SavedRequest getSavedRequest(HttpServletRequest request, HttpServletResponse response) {
-		RequestCache requestCache = new HttpSessionRequestCache();
-		SavedRequest savedRequest = requestCache.getRequest(request, response); // DefaultSavedRequest
-		return savedRequest;
 	}
 	
 }

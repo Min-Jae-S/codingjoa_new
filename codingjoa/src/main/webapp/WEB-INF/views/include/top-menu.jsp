@@ -20,6 +20,9 @@
 				<li class="nav-item mx-2">
 					<a href="${contextPath}/admin" class="nav-link">admin</a>
 				</li>
+				<li class="nav-item mx-2">
+					<a href="${contextPath}/member/account" class="nav-link">account</a>
+				</li>
 			</ul>
 			<ul class="navbar-nav ml-auto">
 				<sec:authorize access="isAnonymous()">

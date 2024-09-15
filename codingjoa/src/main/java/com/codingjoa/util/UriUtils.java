@@ -42,7 +42,7 @@ public class UriUtils {
 		return ServletUriComponentsBuilder.fromContextPath(request).path("/login");
 	}
 	
-	// LoginSuccessHandler, OAuth2LoginSuccessHandler, LogoutSuccessHandler
+	// LoginSuccessHandler, OAuth2LoginSuccessHandler, LogoutSuccessHandlerImpl, AccessDeniedHandlerImpl
 	public static String resolveContinueUrl(String url, HttpServletRequest request) {
 		String continueUrl;
 		if (isAuthorizedUrl(url, request)) {

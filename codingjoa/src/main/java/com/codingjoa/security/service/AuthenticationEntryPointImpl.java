@@ -13,9 +13,6 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
-import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
-import org.springframework.security.web.savedrequest.RequestCache;
-import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.stereotype.Component;
 
 import com.codingjoa.dto.ErrorResponse;
@@ -48,7 +45,6 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 		log.info("## {}", this.getClass().getSimpleName());
 		log.info("\t > request-line = {}", HttpUtils.getHttpRequestLine(request));
 		log.info("\t > {}: {}", authException.getClass().getSimpleName(), authException.getMessage());
-		log.info("\t > savedRequest = {}", getSavedRequest(request, response));
 		
 		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 		response.setCharacterEncoding(StandardCharsets.UTF_8.name());
@@ -90,12 +86,6 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 	
 	private boolean isAjaxRequest(HttpServletRequest request) {
 		return "XMLHttpRequest".equals(request.getHeader("x-requested-with"));
-	}
-	
-	private SavedRequest getSavedRequest(HttpServletRequest request, HttpServletResponse response) {
-		RequestCache requestCache = new HttpSessionRequestCache();
-		SavedRequest savedRequest = requestCache.getRequest(request, response); // DefaultSavedRequest
-		return savedRequest;
 	}
 	
 }
