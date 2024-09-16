@@ -74,10 +74,10 @@ public class CommentRestController {
 	public ResponseEntity<Object> writeComment(@Valid @RequestBody CommentDto writeCommentDto, 
 			@AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## writeComment");
-		log.info("\t > {}", writeCommentDto);
-		writeCommentDto.setCommentWriterIdx(principal.getIdx());
+		log.info("\t > writeCommentDto = {}", writeCommentDto);
+		writeCommentDto.setMemberIdx(principal.getIdx());
 		writeCommentDto.setCommentUse(true);
-		commentService.writeComment(writeCommentDto);
+		commentService.saveComment(writeCommentDto);
 		
 		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.WriteComment").build());
 	}
@@ -88,8 +88,8 @@ public class CommentRestController {
 		log.info("## modifyComment, commentIdx = {}", commentIdx);
 		log.info("\t > {}", modifyCommentDto);
 		modifyCommentDto.setCommentIdx(commentIdx);
-		modifyCommentDto.setCommentWriterIdx(principal.getIdx());
-		commentService.modifyComment(modifyCommentDto);
+		modifyCommentDto.setMemberIdx(principal.getIdx());
+		commentService.updateComment(modifyCommentDto);
 		
 		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.UpdateComment").build());
 	}

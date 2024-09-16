@@ -15,9 +15,9 @@ public interface CommentService {
 	
 	Pagination getPagination(int commentBoardIdx, CommentCriteria commentCri);
 	
-	CommentDetailsDto getModifyComment(int commentIdx, int commentWriterIdx);
+	CommentDetailsDto getModifyComment(int commentIdx, int memberIdx);
 	
 	void updateComment(CommentDto commentDto);
 	
-	void deleteComment(int commentIdx, int commentWriterIdx);
+	void deleteComment(int commentIdx, int memberIdx);
 }

@@ -44,21 +44,19 @@ public class CommentServiceImpl implements CommentService {
 
 	@Override
 	public void saveComment(CommentDto commentDto) {
-		Board board = boardMapper.findBoardByIdx(commentDto.getCommentBoardIdx());
+		Board board = boardMapper.findBoardByIdx(commentDto.getBoardIdx());
 		log.info("\t > prior to inserting comment, find board");
 		
 		if (board == null) {
 			throw new ExpectedException("error.NotFoundBoard");
 		}
 		
-		Comment comment = modelMapper.map(commentDto, Comment.class);
+		Comment comment = commentDto.toEntity();
 		log.info("\t > convert commentDto to comment entity = {}", comment);
 		
-		commentMapper.insertComment(comment);
-		log.info("\t > after inserting comment, commentIdx = {}", comment.getCommentIdx());
-		
-		if (comment.getCommentIdx() == null) {
-			throw new ExpectedException("error.WriteComment");
+		boolean isSaved = commentMapper.insertComment(comment);
+		if (!isSaved) {
+			throw new ExpectedException("error.SaveComment");
 		}
 	}
 	
@@ -104,24 +102,24 @@ public class CommentServiceImpl implements CommentService {
 	}
 
 	@Override
-	public CommentDetailsDto getModifyComment(int commentIdx, int commentWriterIdx) {
+	public CommentDetailsDto getModifyComment(int commentIdx, int memberIdx) {
 		Map<String, Object> commentDetailsMap = commentMapper.findCommentDetailsByIdx(commentIdx);
-		log.info("\t > find commentDetailsMap");
+		log.info("\t > find commentDetailsMap = {}", commentDetailsMap);
 		
 		if (commentDetailsMap == null) {
 			throw new ExpectedException("error.NotFoundComment");
 		}
 		
 		Boolean dbCommentUse = (Boolean) commentDetailsMap.get("commentUse");
-		Integer dbCommentWriterIdx = (Integer) commentDetailsMap.get("commentWriterIdx");
+		Integer dbMemberIdx = (Integer) commentDetailsMap.get("memberIdx");
 		log.info("\t > dbCommentUse = {}", dbCommentUse);
-		log.info("\t > dbCommentWriterIdx = {}, commentWriterIdx = {}", dbCommentWriterIdx, commentWriterIdx);
+		log.info("\t > dbMemberIdx = {}, memberIdx = {}", dbMemberIdx, memberIdx);
 		
 		if (!dbCommentUse) {
 			throw new ExpectedException("error.AlreadyDeletedComment");
 		}
 		
-		if (dbCommentWriterIdx != commentWriterIdx) {
+		if (dbMemberIdx != memberIdx) {
 			throw new ExpectedException("error.NotMyComment");
 		}
 		
@@ -143,43 +141,37 @@ public class CommentServiceImpl implements CommentService {
 	public void updateComment(CommentDto commentDto) {
 		Comment comment = getCommentByIdx(commentDto.getCommentIdx());
 		log.info("\t > dbCommentUse = {}", comment.getCommentUse());
-		log.info("\t > dbCommentWriterIdx = {}, commentWriterIdx = {}", comment.getCommentWriterIdx(), commentDto.getCommentWriterIdx());
+		log.info("\t > dbCommentWriterIdx = {}, commentWriterIdx = {}", comment.getMemberIdx(), commentDto.getMemberIdx());
 		
 		if (!comment.getCommentUse()) {
 			throw new ExpectedException("error.AlreadyDeletedComment");
 		}
 		
-		if (comment.getCommentWriterIdx() != commentDto.getCommentWriterIdx()) {
+		if (comment.getMemberIdx() != commentDto.getMemberIdx()) {
 			throw new ExpectedException("error.NotMyComment");
 		}
 		
-		comment.setCommentContent(commentDto.getCommentContent());
+		//comment.setCommentContent(commentDto.getCommentContent());
 		log.info("\t > set up modifyComment using the found comment");
 		
 		commentMapper.updateComment(comment);
 	}
 	
 	@Override
-	public void deleteComment(int commentIdx, int commentWriterIdx) {
-		Comment comment = commentMapper.findCommentByIdx(commentIdx);
-		log.info("\t > find comment");
-		
-		if (comment == null) {
-			throw new ExpectedException("error.NotFoundComment");
-		}
-		
+	public void deleteComment(int commentIdx, int memberIdx) {
+		Comment comment = getCommentByIdx(commentIdx);
 		log.info("\t > dbCommentUse = {}", comment.getCommentUse());
-		log.info("\t > dbCommentWriterIdx = {}, commentWriterIdx = {}", comment.getCommentWriterIdx(), commentWriterIdx);
+		log.info("\t > dbMemberIdx = {}, memberIdx = {}", comment.getMemberIdx(), memberIdx);
 		
 		if (!comment.getCommentUse()) {
 			throw new ExpectedException("error.AlreadyDeletedComment");
 		}
 		
-		if (comment.getCommentWriterIdx() != commentWriterIdx) {
+		if (comment.getMemberIdx() != memberIdx) {
 			throw new ExpectedException("error.NotMyComment");
 		}
 		
-		comment.setCommentUse(false);
+		//comment.setCommentUse(false);
 		commentMapper.deleteComment(comment);
 	}
 
