@@ -9,7 +9,7 @@ import com.codingjoa.pagination.Pagination;
 
 public interface CommentService {
 
-	void writeComment(CommentDto commentDto);
+	void saveComment(CommentDto commentDto);
 	
 	List<CommentDetailsDto> getPagedComment(int commentBoardIdx, CommentCriteria commentCri);
 	
@@ -17,7 +17,7 @@ public interface CommentService {
 	
 	CommentDetailsDto getModifyComment(int commentIdx, int commentWriterIdx);
 	
-	void modifyComment(CommentDto commentDto);
+	void updateComment(CommentDto commentDto);
 	
 	void deleteComment(int commentIdx, int commentWriterIdx);
 }

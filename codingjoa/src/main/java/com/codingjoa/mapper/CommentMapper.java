@@ -12,7 +12,7 @@ import com.codingjoa.pagination.CommentCriteria;
 @Mapper
 public interface CommentMapper {
 	
-	void insertComment(Comment comment);
+	boolean insertComment(Comment comment);
 
 	List<Map<String, Object>> findPagedComment(@Param("commentBoardIdx") int commentBoardIdx, @Param("commentCri") CommentCriteria commentCri);
 	
@@ -22,7 +22,7 @@ public interface CommentMapper {
 	
 	Comment findCommentByIdx(int commentIdx);
 	
-	void updateComment(Comment comment);
+	boolean updateComment(Comment comment);
 	
-	void deleteComment(Comment comment);
+	boolean deleteComment(Comment comment);
 }

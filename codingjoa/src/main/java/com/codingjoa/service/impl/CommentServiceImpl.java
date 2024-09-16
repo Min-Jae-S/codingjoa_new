@@ -43,7 +43,7 @@ public class CommentServiceImpl implements CommentService {
 	}
 
 	@Override
-	public void writeComment(CommentDto commentDto) {
+	public void saveComment(CommentDto commentDto) {
 		Board board = boardMapper.findBoardByIdx(commentDto.getCommentBoardIdx());
 		log.info("\t > prior to inserting comment, find board");
 		
@@ -52,8 +52,7 @@ public class CommentServiceImpl implements CommentService {
 		}
 		
 		Comment comment = modelMapper.map(commentDto, Comment.class);
-		log.info("\t > convert commentDto to comment entity");
-		log.info("\t > comment = {}", comment);
+		log.info("\t > convert commentDto to comment entity = {}", comment);
 		
 		commentMapper.insertComment(comment);
 		log.info("\t > after inserting comment, commentIdx = {}", comment.getCommentIdx());
@@ -129,15 +128,20 @@ public class CommentServiceImpl implements CommentService {
 		return modelMapper.map(commentDetailsMap, CommentDetailsDto.class);
 	}
 	
-	@Override
-	public void modifyComment(CommentDto commentDto) {
-		Comment comment = commentMapper.findCommentByIdx(commentDto.getCommentIdx());
-		log.info("\t > find comment");
+	private Comment getCommentByIdx(Integer commentIdx) {
+		Comment comment = commentMapper.findCommentByIdx(commentIdx);
+		log.info("\t > find comment = {}", comment);
 		
 		if (comment == null) {
 			throw new ExpectedException("error.NotFoundComment");
 		}
 		
+		return comment;
+	}
+	
+	@Override
+	public void updateComment(CommentDto commentDto) {
+		Comment comment = getCommentByIdx(commentDto.getCommentIdx());
 		log.info("\t > dbCommentUse = {}", comment.getCommentUse());
 		log.info("\t > dbCommentWriterIdx = {}, commentWriterIdx = {}", comment.getCommentWriterIdx(), commentDto.getCommentWriterIdx());
 		
