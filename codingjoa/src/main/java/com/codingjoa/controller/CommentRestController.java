@@ -86,7 +86,7 @@ public class CommentRestController {
 	public ResponseEntity<Object> modifyComment(@PathVariable int commentIdx, 
 			@Valid @RequestBody CommentDto modifyCommentDto, @AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## modifyComment, commentIdx = {}", commentIdx);
-		log.info("\t > {}", modifyCommentDto);
+		log.info("\t > modifyCommentDto = {}", modifyCommentDto);
 		modifyCommentDto.setCommentIdx(commentIdx);
 		modifyCommentDto.setMemberIdx(principal.getIdx());
 		commentService.updateComment(modifyCommentDto);

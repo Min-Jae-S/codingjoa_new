@@ -98,7 +98,6 @@ public class MemberServiceImpl implements MemberService {
 		final int MAX_BASE_NICKNAME_LENGTH = MAX_NICKNAME_LENGTH - RANDOM_SUFFIX_LENGTH;
 		
 		nickname = nickname.replaceAll("\\s+", ""); // google: MinJae Suh --> MinJaeSuh
-		
 		if (nickname.length() > MAX_NICKNAME_LENGTH) {
 			nickname = nickname.substring(0, MAX_NICKNAME_LENGTH);
 		}
@@ -107,7 +106,6 @@ public class MemberServiceImpl implements MemberService {
 	        String baseNickname = (nickname.length() > MAX_BASE_NICKNAME_LENGTH) 
 	        		? nickname.substring(0, MAX_BASE_NICKNAME_LENGTH) 
 	        		: nickname;
-	        
 			do {
 				log.info("\t > create new nickname based on '{}' due to conflict: {}", baseNickname, nickname);
 				nickname = baseNickname + RandomStringUtils.randomNumeric(RANDOM_SUFFIX_LENGTH);
@@ -126,6 +124,7 @@ public class MemberServiceImpl implements MemberService {
 				.connectedAt(LocalDateTime.now())
 				.build();
 		log.info("\t > create snsInfo entity = {}", snsInfo);
+		
 		memberMapper.insertSnsInfo(snsInfo);
 	}
 	
@@ -230,7 +229,8 @@ public class MemberServiceImpl implements MemberService {
 			throw new ExpectedException("error.UpdateEmail");
 		}
 		
-		// need update snsInfo
+		// update snsInfo
+		// ...
 	}
 	
 	@Override

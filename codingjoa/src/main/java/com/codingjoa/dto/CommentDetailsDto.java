@@ -51,6 +51,15 @@ public class CommentDetailsDto {
 
 	public static CommentDetailsDto from(Map<String, Object> map) {
 		return CommentDetailsDto.builder()
+				.commentIdx((int) map.get("commentIdx"))
+				.memberIdx((int) map.get("memberIdx"))
+				.boardIdx((int) map.get("boardIdx"))
+				.commentContent((String) map.get("commentContent"))
+				.commentUse((boolean) map.get("commentUse"))
+				.createdAt((LocalDateTime) map.get("createdAt"))
+				.updatedAt((LocalDateTime) map.get("updatedAt"))
+				.memberNickname((String) map.get("memberNickname"))
+				.commentLikesCnt((int) map.get("commentLikesCnt"))
 				.build();
 	}
 	

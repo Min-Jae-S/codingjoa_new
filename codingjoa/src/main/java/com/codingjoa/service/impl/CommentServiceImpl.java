@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -31,15 +30,13 @@ public class CommentServiceImpl implements CommentService {
 
 	private final CommentMapper commentMapper;
 	private final BoardMapper boardMapper;
-	private final ModelMapper modelMapper;
 	private final int pageRange;
 	
 	@Autowired
-	public CommentServiceImpl(CommentMapper commentMapper, BoardMapper boardMapper, ModelMapper modelMapper,
+	public CommentServiceImpl(CommentMapper commentMapper, BoardMapper boardMapper,
 			@Value("${pagination.pageRange}") int pageRange) {
 		this.commentMapper = commentMapper;
 		this.boardMapper = boardMapper;
-		this.modelMapper = modelMapper;
 		this.pageRange = pageRange;
 	}
 
@@ -82,13 +79,12 @@ public class CommentServiceImpl implements CommentService {
 		List<CommentDetailsDto> pagedComment = new ArrayList<>();
 		List<Integer> deletedComments = new ArrayList<>();
 		for (Map<String, Object> commentDetailsMap : allPagedComment) {
-			Boolean dbCommentUse = (Boolean) commentDetailsMap.get("commentUse");
-			if (!dbCommentUse) {
-				Integer dbCommentIdx = (Integer) commentDetailsMap.get("commentIdx");
-				deletedComments.add(dbCommentIdx);
-				pagedComment.add(null);
+			CommentDetailsDto commentDetails = CommentDetailsDto.from(commentDetailsMap);
+			if (commentDetails.isCommentUse()) {
+				pagedComment.add(commentDetails);
 			} else {
-				pagedComment.add(modelMapper.map(commentDetailsMap, CommentDetailsDto.class));
+				pagedComment.add(null);
+				deletedComments.add(commentDetails.getCommentIdx());
 			}
 		}
 		log.info("\t > deletedComments = {}", deletedComments);
