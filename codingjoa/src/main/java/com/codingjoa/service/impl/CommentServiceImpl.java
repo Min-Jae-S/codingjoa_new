@@ -20,6 +20,7 @@ import com.codingjoa.mapper.CommentMapper;
 import com.codingjoa.pagination.CommentCriteria;
 import com.codingjoa.pagination.Pagination;
 import com.codingjoa.service.CommentService;
+import com.codingjoa.util.FormatUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -104,26 +105,22 @@ public class CommentServiceImpl implements CommentService {
 	@Override
 	public CommentDetailsDto getModifyComment(int commentIdx, int memberIdx) {
 		Map<String, Object> commentDetailsMap = commentMapper.findCommentDetailsByIdx(commentIdx);
-		log.info("\t > find commentDetailsMap = {}", commentDetailsMap);
+		log.info("\t > find commentDetailsMap = {}", FormatUtils.formatFields(commentDetailsMap));
 		
 		if (commentDetailsMap == null) {
 			throw new ExpectedException("error.NotFoundComment");
 		}
 		
-		Boolean dbCommentUse = (Boolean) commentDetailsMap.get("commentUse");
-		Integer dbMemberIdx = (Integer) commentDetailsMap.get("memberIdx");
-		log.info("\t > dbCommentUse = {}", dbCommentUse);
-		log.info("\t > dbMemberIdx = {}, memberIdx = {}", dbMemberIdx, memberIdx);
-		
-		if (!dbCommentUse) {
+		CommentDetailsDto commentDetails = CommentDetailsDto.from(commentDetailsMap);
+		if (!commentDetails.isCommentUse()) {
 			throw new ExpectedException("error.AlreadyDeletedComment");
 		}
 		
-		if (dbMemberIdx != memberIdx) {
+		if (commentDetails.getMemberIdx() != memberIdx) {
 			throw new ExpectedException("error.NotMyComment");
 		}
 		
-		return modelMapper.map(commentDetailsMap, CommentDetailsDto.class);
+		return commentDetails;
 	}
 	
 	private Comment getCommentByIdx(Integer commentIdx) {
@@ -140,9 +137,6 @@ public class CommentServiceImpl implements CommentService {
 	@Override
 	public void updateComment(CommentDto commentDto) {
 		Comment comment = getCommentByIdx(commentDto.getCommentIdx());
-		log.info("\t > dbCommentUse = {}", comment.getCommentUse());
-		log.info("\t > dbCommentWriterIdx = {}, commentWriterIdx = {}", comment.getMemberIdx(), commentDto.getMemberIdx());
-		
 		if (!comment.getCommentUse()) {
 			throw new ExpectedException("error.AlreadyDeletedComment");
 		}
@@ -151,18 +145,18 @@ public class CommentServiceImpl implements CommentService {
 			throw new ExpectedException("error.NotMyComment");
 		}
 		
-		//comment.setCommentContent(commentDto.getCommentContent());
-		log.info("\t > set up modifyComment using the found comment");
+		Comment modifyComment = commentDto.toEntity();
+		log.info("\t > convert commentDto to comment entity = {}", modifyComment);
 		
-		commentMapper.updateComment(comment);
+		boolean isUpdated = commentMapper.updateComment(modifyComment);
+		if (!isUpdated) {
+			throw new ExpectedException("error.UpdateComment");
+		}
 	}
 	
 	@Override
 	public void deleteComment(int commentIdx, int memberIdx) {
 		Comment comment = getCommentByIdx(commentIdx);
-		log.info("\t > dbCommentUse = {}", comment.getCommentUse());
-		log.info("\t > dbMemberIdx = {}, memberIdx = {}", comment.getMemberIdx(), memberIdx);
-		
 		if (!comment.getCommentUse()) {
 			throw new ExpectedException("error.AlreadyDeletedComment");
 		}
@@ -171,8 +165,15 @@ public class CommentServiceImpl implements CommentService {
 			throw new ExpectedException("error.NotMyComment");
 		}
 		
-		//comment.setCommentUse(false);
-		commentMapper.deleteComment(comment);
+		Comment deleteComment = Comment.builder()
+				.commentIdx(comment.getCommentIdx())
+				.commentUse(false)
+				.build();
+		
+		boolean isDeleted = commentMapper.deleteComment(deleteComment);
+		if (!isDeleted) {
+			throw new ExpectedException("error.DeleteComment");
+		}
 	}
 
 }

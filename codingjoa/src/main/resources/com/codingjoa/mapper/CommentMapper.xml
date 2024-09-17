@@ -90,53 +90,53 @@
 	<resultMap type="map" id="commentDetailsMap">
 		<!-- java.math.BigDecimal cannot be cast to class java.lang.Integer -->
 		<!-- javaType >>  java.lang.Integer -->
-		<id property="commentIdx" column="comment_idx" javaType="java.lang.Integer"/>
-		<result property="commentWriterIdx" column="comment_writer_idx" javaType="java.lang.Integer"/>
-		<result property="commentBoardIdx" column="comment_board_idx" javaType="java.lang.Integer"/>
-		<result property="commentContent" column="comment_content" javaType="java.lang.String"/>
-		<result property="commentUse" column="comment_use" javaType="java.lang.Boolean"/>
-		<result property="regdate" column="regdate" javaType="java.util.Date"/>
-		<result property="moddate" column="moddate" javaType="java.util.Date"/>
-		<result property="commentWriterId" column="comment_writer_id" javaType="java.lang.String"/>
-		<result property="commentLikesCnt" column="comment_likes_cnt" javaType="java.lang.Integer"/>
+		<id property="commentIdx" column="comment_idx" javaType="int"/>
+		<result property="memberIdx" column="member_idx" javaType="int"/>
+		<result property="boardIdx" column="board_idx" javaType="int"/>
+		<result property="commentContent" column="comment_content" javaType="string"/>
+		<result property="commentUse" column="comment_use" javaType="boolean"/>
+		<result property="createdAt" column="created_at" javaType="java.time.LocalDateTime"/>
+		<result property="updatedAt" column="updated_at" javaType="java.time.LocalDateTime"/>
+		<result property="memberNickname" column="member_nickname" javaType="string"/>
+		<result property="commentLikesCnt" column="comment_likes_cnt" javaType="int"/>
 	</resultMap>
 	
 	<select id="findPagedComment" parameterType="map" resultMap="commentDetailsMap">
 		SELECT
     		/*+ ORDERED USE_NL(b) USE_NL(c) */
 			a.comment_idx,
-			a.comment_writer_idx, 
-			a.comment_board_idx,
+			a.member_idx, 
+			a.board_idx,
 			a.comment_content,
 			a.comment_use,
-	        a.regdate,
-	        a.moddate,
-    		b.member_id AS comment_writer_id,
+	        a.created_at,
+	        a.updated_at,
+    		b.member_nickname,
     		NVL(c.cnt, 0) AS comment_likes_cnt
 		FROM (
 			SELECT
 				a_depth.comment_idx,
-		        a_depth.comment_writer_idx,
-		        a_depth.comment_board_idx,
+		        a_depth.member_idx,
+		        a_depth.board_idx,
 		        a_depth.comment_content, 
 		        a_depth.comment_use,
-		        a_depth.regdate,
-		        a_depth.moddate
+		        a_depth.created_at,
+		        a_depth.updated_at
 			FROM (
 				SELECT
 					/*+ INDEX_DESC("comment" pk_comment) */
 			        ROWNUM rn, 
 			        comment_idx,
-			        comment_writer_idx,
-			        comment_board_idx,
+			        member_idx,
+			        board_idx,
 			        comment_content, 
 			        comment_use,
-			        regdate,
-			        moddate
+			        created_at,
+			        updated_at
 			    FROM 
 			        "comment"
 			    WHERE
-			    	comment_board_idx = #{commentBoardIdx} 
+			    	board_idx = #{boardIdx} 
 			    AND
 					<![CDATA[
 					ROWNUM <= ( #{commentCri.page} * #{commentCri.recordCnt} )
@@ -148,7 +148,7 @@
 		INNER JOIN
 			member b
 		ON 
-			a.comment_writer_idx = b.member_idx
+			a.member_idx = b.member_idx
 		LEFT OUTER JOIN (
 			SELECT
 				comment_idx, 
@@ -218,26 +218,26 @@
 		FROM
 			"comment"
 		WHERE
-			comment_board_idx = #{commentBoardIdx}
+			boardIdx = #{boardIdx}
 	</select>
 	
 	<select id="findCommentDetailsByIdx" parameterType="map" resultMap="commentDetailsMap">
 		SELECT
 			a.comment_idx,
-			a.comment_writer_idx, 
-			a.comment_board_idx,
+			a.member_idx, 
+			a.board_idx,
 			a.comment_content,
 			a.comment_use,
-	        a.regdate,
-	        a.moddate,
-    		b.member_id AS comment_writer_id,
+	        a.created_at,
+	        a.updated_at,
+    		b.member_nickname,
     		NVL(c.cnt, 0) AS comment_likes_cnt
 		FROM
 			"comment" a
 		INNER JOIN
 			member b
 		ON
-			a.comment_writer_idx = b.member_idx
+			a.member_idx = b.member_idx
 		LEFT OUTER JOIN (
 			SELECT
 				comment_idx, 
@@ -267,7 +267,7 @@
 			"comment"
 		SET
 			comment_content = #{commentContent},
-			moddate = SYSDATE
+			updated_at = SYSDATE
 		WHERE
 			comment_idx = #{commentIdx}
 	</update>
@@ -301,7 +301,7 @@
 			"comment"
 		SET
 			comment_use = #{commentUse},
-			moddate = SYSDATE
+			updated_at = SYSDATE
 		WHERE
 			comment_idx = #{commentIdx}
 	</delete>

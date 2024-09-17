@@ -72,7 +72,8 @@
 <script src="${contextPath}/resources/js/render.js"></script>
 <script>
 	$(function() {
-		let timer, delay = 100;
+		let timer; 
+		let delay = 100;
 		
 		$("li.category").on("mouseenter", function() {
 			$(this).find("a").css("color", "black").css("font-weight", "bold");
