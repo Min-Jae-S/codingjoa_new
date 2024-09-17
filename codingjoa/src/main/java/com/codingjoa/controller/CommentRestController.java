@@ -43,14 +43,14 @@ public class CommentRestController {
 	// @InitBinder doesn't work with @RequestBody, it can work with @ModelAttribute Annotation.
 	//binder.registerCustomEditor(String.class, new StringTrimmerEditor(false));
 
-	@GetMapping("/boards/{commentBoardIdx}/comments")
-	public ResponseEntity<Object> getCommentList(@PathVariable int commentBoardIdx,
+	@GetMapping("/boards/{boardIdx}/comments")
+	public ResponseEntity<Object> getCommentList(@PathVariable int boardIdx,
 			@CommentCri CommentCriteria commentCri, @AuthenticationPrincipal PrincipalDetails princiapl) {
-		log.info("## getCommentList, commentBoardIdx = {}", commentBoardIdx);
+		log.info("## getCommentList, boardIdx = {}", boardIdx);
 		log.info("\t > commentCri = {}", commentCri);
 
-		List<CommentDetailsDto> commentList = commentService.getPagedComment(commentBoardIdx, commentCri);
-		Pagination pagination = commentService.getPagination(commentBoardIdx, commentCri);
+		List<CommentDetailsDto> commentList = commentService.getPagedComment(boardIdx, commentCri);
+		Pagination pagination = commentService.getPagination(boardIdx, commentCri);
 		log.info("\t > pagination = {}", pagination);
 
 //		List<Integer> myCommentLikes = (princiapl == null) ? Collections.emptyList() : princiapl.getMyCommentLikes();

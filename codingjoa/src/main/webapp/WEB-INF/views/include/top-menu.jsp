@@ -76,6 +76,7 @@
 		let delay = 100;
 		
 		$("li.category").on("mouseenter", function() {
+			clearTimeout(timer);
 			$(this).find("a").css("color", "black").css("font-weight", "bold");
 			
 			let category = $(this).data("category");

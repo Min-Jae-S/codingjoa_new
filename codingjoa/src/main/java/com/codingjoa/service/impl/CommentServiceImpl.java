@@ -1,8 +1,8 @@
 package com.codingjoa.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -59,42 +59,42 @@ public class CommentServiceImpl implements CommentService {
 	}
 	
 	@Override
-	public List<CommentDetailsDto> getPagedComment(int commentBoardIdx, CommentCriteria commentCri) {
-		Board board = boardMapper.findBoardByIdx(commentBoardIdx);
+	public List<CommentDetailsDto> getPagedComment(int boardIdx, CommentCriteria commentCri) {
+		Board board = boardMapper.findBoardByIdx(boardIdx);
 		log.info("\t > prior to finding pagedComment, find board");
 		
 		if (board == null) {
 			throw new ExpectedException("error.NotFoundBoard");
 		}
 		
-//		List<CommentDetailsDto> pagedComment = commentMapper.findPagedComment(commentBoardIdx, commentCri)
-//				.stream()
-//				.map(commentDetailsMap -> {
-//					Boolean commentUse = (Boolean) commentDetailsMap.get("commentUse");
-//					return commentUse ? modelMapper.map(commentDetailsMap, CommentDetailsDto.class) : null;
-//				})
-//				.collect(Collectors.toList());
-		
-		List<Map<String, Object>> allPagedComment = commentMapper.findPagedComment(commentBoardIdx, commentCri);
-		List<CommentDetailsDto> pagedComment = new ArrayList<>();
-		List<Integer> deletedComments = new ArrayList<>();
-		for (Map<String, Object> commentDetailsMap : allPagedComment) {
-			CommentDetailsDto commentDetails = CommentDetailsDto.from(commentDetailsMap);
-			if (commentDetails.isCommentUse()) {
-				pagedComment.add(commentDetails);
-			} else {
-				pagedComment.add(null);
-				deletedComments.add(commentDetails.getCommentIdx());
-			}
-		}
-		log.info("\t > deletedComments = {}", deletedComments);
-		
+		List<CommentDetailsDto> pagedComment = commentMapper.findPagedComment(board.getBoardIdx(), commentCri)
+				.stream()
+				.map(commentDetailsMap -> {
+					CommentDetailsDto commentDetails = CommentDetailsDto.from(commentDetailsMap);
+					return commentDetails.isCommentUse() ? commentDetails : null;
+				})
+				.collect(Collectors.toList());
+
 		return pagedComment;
+		
+//		List<Map<String, Object>> allPagedComment = commentMapper.findPagedComment(board.getBoardIdx(), commentCri);
+//		List<CommentDetailsDto> pagedComment = new ArrayList<>();
+//		List<Integer> deletedComments = new ArrayList<>();
+//		for (Map<String, Object> commentDetailsMap : allPagedComment) {
+//			CommentDetailsDto commentDetails = CommentDetailsDto.from(commentDetailsMap);
+//			if (commentDetails.isCommentUse()) {
+//				pagedComment.add(commentDetails);
+//			} else {
+//				pagedComment.add(null);
+//				deletedComments.add(commentDetails.getCommentIdx());
+//			}
+//		}
+//		log.info("\t > deletedComments = {}", deletedComments);
 	}
 	
 	@Override
-	public Pagination getPagination(int commentBoardIdx, CommentCriteria commentCri) {
-		int totalCnt = commentMapper.findPagedCommentTotalCnt(commentBoardIdx, commentCri);
+	public Pagination getPagination(int boardIdx, CommentCriteria commentCri) {
+		int totalCnt = commentMapper.findCommentTotalCnt(boardIdx);
 		return new Pagination(totalCnt, commentCri.getPage(), commentCri.getRecordCnt(), pageRange);
 	}
 
@@ -119,7 +119,7 @@ public class CommentServiceImpl implements CommentService {
 		return commentDetails;
 	}
 	
-	private Comment getCommentByIdx(Integer commentIdx) {
+	private Comment getCommentByIdx(int commentIdx) {
 		Comment comment = commentMapper.findCommentByIdx(commentIdx);
 		log.info("\t > find comment = {}", comment);
 		

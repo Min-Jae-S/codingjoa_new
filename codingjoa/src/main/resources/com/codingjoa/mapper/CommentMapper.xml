@@ -212,7 +212,7 @@
 			a.rn > ( ( #{commentCri.page} - 1 ) * #{commentCri.recordCnt} )
 	</select> -->
 	
-	<select id="findPagedCommentTotalCnt" parameterType="map" resultType="int">
+	<select id="findCommentTotalCnt" resultType="int">
 		SELECT
 			COUNT(*)
 		FROM

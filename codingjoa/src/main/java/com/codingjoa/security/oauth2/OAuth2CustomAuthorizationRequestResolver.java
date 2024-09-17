@@ -32,10 +32,10 @@ public class OAuth2CustomAuthorizationRequestResolver implements OAuth2Authoriza
 		log.info("## {}.resolve(request)", this.getClass().getSimpleName());
 		OAuth2AuthorizationRequest authorizationRequest = defaultResolver.resolve(request);
 		if (authorizationRequest == null) {
-			log.info("\t > not redirect for authorization, will pass the request to the next filter");
+			log.info("\t > not redirect for authorization, pass the request to the next filter");
 			return authorizationRequest;
 		} else {
-			log.info("\t > will redirect for authorization in 'OAuth2AuthorizationRequestRedirectFilter'");
+			log.info("\t > redirect for authorization in 'OAuth2AuthorizationRequestRedirectFilter'");
 			return customize(request, authorizationRequest);
 		}
 	}
