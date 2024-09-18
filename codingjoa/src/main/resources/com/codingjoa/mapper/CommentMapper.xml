@@ -166,28 +166,28 @@
 		SELECT
     		/*+ LEADING(b) INDEX_DESC(a pk_comment) */ 
 			a.comment_idx,
-			a.comment_writer_idx, 
-			a.comment_board_idx,
+			a.member_idx, 
+			a.board_idx,
 			a.comment_content,
 			a.comment_use,
-	        a.regdate,
-	        a.moddate,
+	        a.created_at,
+	        a.updated_at,
     		b.member_id AS comment_writer_id,
     		NVL(c.cnt, 0) AS comment_likes_cnt
 		FROM (
 		    SELECT
 		        ROWNUM rn, 
 		        comment_idx,
-		        comment_writer_idx,
-		        comment_board_idx,
+		        member_idx,
+		       	board_idx,
 		        comment_content, 
 		        comment_use,
-		        regdate,
-		        moddate
+		        created_at,
+		        updated_at
 		    FROM 
 		        "comment"
 		    WHERE
-		    	comment_board_idx = #{commentBoardIdx} 
+		    	board_idx = #{boardIdx} 
 		    	AND
 				<![CDATA[
 				ROWNUM <= ( #{commentCri.page} * #{commentCri.recordCnt} )
@@ -196,7 +196,7 @@
 		INNER JOIN
 			member b
 		ON 
-			a.comment_writer_idx = b.member_idx
+			a.member_idx = b.member_idx
 		LEFT OUTER JOIN (
 			SELECT
 				comment_idx, 
@@ -276,7 +276,7 @@
 		<selectKey keyProperty="commentIdx,commentWriterIdx,commentUse" resultType="comment" order="BEFORE">
 			SELECT
 				MAX(comment_idx) AS comment_idx,
-				MAX(comment_writer_idx) AS comment_writer_idx,
+				MAX(member_idx) AS member_idx,
 				MAX(comment_use) AS comment_use
 			FROM
 				"comment" 
@@ -289,7 +289,7 @@
 					"comment"
 				SET
 					comment_content = #{commentContent},
-					moddate = SYSDATE
+					updated_at = SYSDATE
 				WHERE
 					comment_idx = #{commentIdx};
 			END IF;
@@ -310,7 +310,7 @@
 		<selectKey keyProperty="commentIdx,commentWriterIdx,commentUse" resultType="comment" order="BEFORE">
 			SELECT
 				MAX(comment_idx) AS comment_idx,
-				MAX(comment_writer_idx) AS comment_writer_idx,
+				MAX(member_idx) AS member_idx,
 				MAX(comment_use) AS comment_use
 			FROM
 				"comment" 
@@ -323,7 +323,7 @@
 					"comment"
 				SET
 					comment_use = 0,
-					moddate = SYSDATE
+					updated_at = SYSDATE
 				WHERE
 					comment_idx = #{commentIdx};
 			END IF;
