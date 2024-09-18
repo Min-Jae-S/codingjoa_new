@@ -17,7 +17,7 @@
 		INSERT INTO "comment" (
 			comment_idx,
 			member_idx,
-			comment_board_idx,
+			board_idx,
 			comment_content,
 			comment_use,
 			created_at,
@@ -25,7 +25,7 @@
 		) VALUES (
 			#{commentIdx},
 			#{memberIdx},
-			#{commentBoardIdx},
+			#{boardIdx},
 			#{commentContent},
 			#{commentUse},
 			SYSDATE,

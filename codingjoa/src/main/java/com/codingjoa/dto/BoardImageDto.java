@@ -10,11 +10,11 @@ import lombok.ToString;
 @Getter
 public class BoardImageDto {
 
-	private Integer boardImageIdx;
+	private int boardImageIdx;
 	private String boardImageUrl;
 	
 	@Builder
-	private BoardImageDto(Integer boardImageIdx, String boardImageUrl) {
+	private BoardImageDto(int boardImageIdx, String boardImageUrl) {
 		this.boardImageIdx = boardImageIdx;
 		this.boardImageUrl = boardImageUrl;
 	}

@@ -5,12 +5,12 @@
 	board_likes_idx         NUMBER,
     board_idx           	NUMBER      NOT NULL,
 	member_idx          	NUMBER      NOT NULL,
-	regdate                 DATE        NOT NULL,
+	created_at              DATE        NOT NULL,
 	
 	comment_likes_idx       NUMBER,
     comment_idx             NUMBER      NOT NULL,
-	member_idx              NUMBER      NOT NULL,
-	regdate                 DATE        NOT NULL,
+	member_idx             	NUMBER      NOT NULL,
+	created_at              DATE        NOT NULL,
 -->
 	
 	<select id="findBoardLikes" parameterType="map" resultType="boardLikes">
@@ -74,7 +74,7 @@
 			board_likes_idx,
 			board_idx,
 			member_idx,
-			regdate
+			created_at
 		) VALUES (
 			seq_board_likes.NEXTVAL,
 			#{boardIdx},
@@ -107,7 +107,7 @@
 			comment_likes_idx,
 			comment_idx,
 			member_idx,
-			regdate
+			created_at
 		) VALUES (
 			seq_comment_likes.NEXTVAL,
 			#{commentIdx},
