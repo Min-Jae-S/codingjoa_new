@@ -2,7 +2,6 @@ package com.codingjoa.controller;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -68,6 +67,7 @@ public class BoardController {
 		log.info("## getBoard, boardCategoryCode = {}", boardCategoryCode);
 		
 		List<BoardDetailsDto> pagedBoard = boardService.getPagedBoard(boardCategoryCode, boardCri);
+		log.info("\t > pagedBoard = {}", pagedBoard);
 		
 		Pagination pagination = boardService.getPagination(boardCategoryCode, boardCri);
 		log.info("\t > pagination = {}", pagination);

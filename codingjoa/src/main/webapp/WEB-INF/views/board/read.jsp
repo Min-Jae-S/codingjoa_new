@@ -348,10 +348,7 @@
 				<h3 class="title mb-4"><c:out value="${boardDetails.boardTitle}"/></h3>
 				<div class="header-meta d-flex mb-2">
 					<span class="mr-4"><c:out value="${boardDetails.memberNickname}"/></span>
-					<span class="mr-4">
-						<%-- <fmt:formatDate value="${boardDetails.createdAt}" pattern="yyyy.MM.dd. HH:mm"/> --%>
-						<c:out value="${boardDetails.createdAt}"/>
-					</span>
+					<span class="mr-4"><c:out value="${boardDetails.createdAt}"/></span>
 					<span class="mr-1">조회</span>
 					<span><c:out value="${boardDetails.boardViews}"/></span>
 					<div class="d-flex ml-auto">

@@ -95,7 +95,7 @@ public class ServletConfig implements WebMvcConfigurer {
 		registry.addResourceHandler("/board/images/**")
 				.addResourceLocations("file:///" + env.getProperty("upload.dir.board.image")); 	// D:/Dev/upload/board/images/
 	}
-
+	
 	@Override
 	public void configurePathMatch(PathMatchConfigurer configurer) {
 		WebMvcConfigurer.super.configurePathMatch(configurer);
@@ -219,11 +219,5 @@ public class ServletConfig implements WebMvcConfigurer {
 		//factoryBean.getValidationPropertyMap().put("hibernate.validator.fail_fast", "true");
 		return factoryBean;
 	}
-
-//	@Override
-//	public void addFormatters(FormatterRegistry registry) {
-//		log.info("## addFormatters");
-//		registry.addConverter(new TestConverter());
-//	}
 	
 }

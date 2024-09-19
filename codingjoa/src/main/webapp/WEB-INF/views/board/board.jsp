@@ -137,10 +137,7 @@
 										</c:if>
 									</td>
 									<td class="d-md-table-cell"><c:out value="${boardDetails.memberNickname}"/></td>
-									<td class="d-md-table-cell">
-										<%-- <fmt:formatDate value="${boardDetails.createdAt}" type="date"/> --%>
-										<c:out value="${boardDetails.createdAt}"/>
-									</td>
+									<td class="d-md-table-cell"><c:out value="${boardDetails.createdAt}"/></td>
 									<td class="d-md-table-cell"><c:out value="${boardDetails.boardViews}"/></td>
 									<td class="d-md-table-cell">
 										<%-- <sec:authorize access="isAnonymous()">
