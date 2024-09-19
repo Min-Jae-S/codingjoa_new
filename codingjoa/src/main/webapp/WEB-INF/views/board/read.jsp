@@ -348,7 +348,7 @@
 				<h3 class="title mb-4"><c:out value="${boardDetails.boardTitle}"/></h3>
 				<div class="header-meta d-flex mb-2">
 					<span class="mr-4"><c:out value="${boardDetails.memberNickname}"/></span>
-					<span class="mr-4"><c:out value="${boardDetails.createdAt}"/></span>
+					<span class="mr-4"><c:out value="${boardDetails.fullCreatedAt}"/></span>
 					<span class="mr-1">조회</span>
 					<span><c:out value="${boardDetails.boardViews}"/></span>
 					<div class="d-flex ml-auto">
@@ -407,7 +407,7 @@
 				</div>
 				<div class="comment-footer mt-4">
 					<a class="btn btn-secondary" href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}&
-						${boardCri.getQueryString()}">목록</a>
+						${boardCri.queryString}">목록</a>
 					<div class="comment-pagination">
 						<!------------------------>
 						<!-- comment pagination -->

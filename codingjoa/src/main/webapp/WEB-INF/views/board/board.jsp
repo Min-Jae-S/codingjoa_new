@@ -130,14 +130,14 @@
 									<td class="d-md-table-cell"><c:out value="${boardDetails.boardIdx}"/></td>
 									<td class="d-md-table-cell text-left">
 										<a class="board_title" href="${contextPath}/board/read?boardIdx=${boardDetails.boardIdx}&
-											${boardCri.getQueryString()}"><c:out value="${boardDetails.boardTitle}"/>
+											${boardCri.queryString}"><c:out value="${boardDetails.boardTitle}"/>
 										</a>
 										<c:if test="${boardDetails.commentCnt > 0}">
 											<span class="comment-cnt"><c:out value="${boardDetails.commentCnt}"/></span>
 										</c:if>
 									</td>
 									<td class="d-md-table-cell"><c:out value="${boardDetails.memberNickname}"/></td>
-									<td class="d-md-table-cell"><c:out value="${boardDetails.createdAt}"/></td>
+									<td class="d-md-table-cell"><c:out value="${boardDetails.formattedCreatedAt}"/></td>
 									<td class="d-md-table-cell"><c:out value="${boardDetails.boardViews}"/></td>
 									<td class="d-md-table-cell">
 										<%-- <sec:authorize access="isAnonymous()">
@@ -178,21 +178,21 @@
 				<c:if test="${pagination.prev}">
 					<li class="page-item">
 						<a class="page-link" href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}&
-							${boardCri.getQueryString(pagination.prevPage)}"><i class="fa-solid fa-chevron-left"></i>
+							${boardCri.queryString(pagination.prevPage)}"><i class="fa-solid fa-chevron-left"></i>
 						</a>
 					</li>
 				</c:if>
 				<c:forEach var="item" begin="${pagination.startPage}" end="${pagination.endPage}">
 					<li class="page-item ${item eq pagination.page ? 'active' : ''}">
 						<a class="page-link" href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}&
-							${boardCri.getQueryString(item)}">${item}
+							${boardCri.queryString(item)}">${item}
 						</a>
 					</li>
 				</c:forEach>
 				<c:if test="${pagination.next}">
 					<li class="page-item">
 						<a class="page-link" href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}&
-							${boardCri.getQueryString(pagination.nextPage)}"><i class="fa-solid fa-chevron-right"></i>
+							${boardCri.queryString(pagination.nextPage)}"><i class="fa-solid fa-chevron-right"></i>
 						</a>
 					</li>
 				</c:if>

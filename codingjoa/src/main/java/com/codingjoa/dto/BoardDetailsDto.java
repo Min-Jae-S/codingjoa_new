@@ -1,6 +1,8 @@
 package com.codingjoa.dto;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
 
 import lombok.Builder;
@@ -61,6 +63,27 @@ public class BoardDetailsDto {
 				.commentCnt((int) map.get("commentCnt"))
 				.boardLikesCnt((int) map.get("boardLikesCnt"))
 				.build();
+	}
+
+	public String getFullCreatedAt() {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd. HH:mm");
+		return this.createdAt.format(formatter);
+	}
+	
+	public String getFormattedCreatedAt() {
+		return format(this.createdAt);
+	}
+
+	public String getFormattedUpdatedAt() {
+		return format(this.updatedAt);
+	}
+	
+	private String format(LocalDateTime dateTime) {
+		DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy.MM.dd.");
+		DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+		
+		LocalDate today = LocalDate.now();
+		return dateTime.toLocalDate().isEqual(today) ? dateTime.format(timeFormatter) : dateTime.format(dateFormatter);
 	}
 	
 }
