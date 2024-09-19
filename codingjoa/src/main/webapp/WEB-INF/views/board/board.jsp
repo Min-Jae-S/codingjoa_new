@@ -174,8 +174,7 @@
 			</table>
 		</div>
 		<div class="mb-3" style="height: 38px;">
-			<a class="btn btn-primary" 
-				href="${contextPath}/board/write?boardCategoryCode=${category.categoryCode}">글쓰기</a>
+			<a class="btn btn-primary" href="${contextPath}/board/write?boardCategoryCode=${category.categoryCode}">글쓰기</a>
 		</div>
 		<div class="pt-3">
 			<ul class="pagination justify-content-center">

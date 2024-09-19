@@ -218,7 +218,7 @@
 		FROM
 			"comment"
 		WHERE
-			boardIdx = #{boardIdx}
+			board_idx = #{boardIdx}
 	</select>
 	
 	<select id="findCommentDetailsByIdx" parameterType="map" resultMap="commentDetailsMap">

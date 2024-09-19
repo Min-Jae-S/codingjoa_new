@@ -8,7 +8,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title><c:out value="${boardDetails.boardTitle}"/> (${boardDetails.boardIdx}) | Codingjoa</title>
+<title><c:out value="${boardDetails.boardTitle}"/> | Codingjoa</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
@@ -337,11 +337,11 @@
 					</button>
 					<div class="dropdown-menu">
 						<h6 class="dropdown-header">게시글 관리</h6>
-						<a class="dropdown-item" 
-							href="${contextPath}/board/modify?boardIdx=${boardDetails.boardIdx}">수정하기
+						<a class="dropdown-item" href="${contextPath}/board/modify?boardIdx=${boardDetails.boardIdx}">
+							수정하기
 						</a>
-				      	<a class="dropdown-item" id="deleteBoardLink"
-				      		href="${contextPath}/board/deleteProc?boardIdx=${boardDetails.boardIdx}">삭제하기
+				      	<a class="dropdown-item" href="${contextPath}/board/delete?boardIdx=${boardDetails.boardIdx}" id="deleteBoardLink">
+				      		삭제하기
 				     	</a>
 				     </div>
 				</div>
@@ -349,7 +349,8 @@
 				<div class="header-meta d-flex mb-2">
 					<span class="mr-4"><c:out value="${boardDetails.memberNickname}"/></span>
 					<span class="mr-4">
-						<fmt:formatDate value="${boardDetails.createdAt}" pattern="yyyy.MM.dd. HH:mm"/>
+						<%-- <fmt:formatDate value="${boardDetails.createdAt}" pattern="yyyy.MM.dd. HH:mm"/> --%>
+						<c:out value="${boardDetails.createdAt}"/>
 					</span>
 					<span class="mr-1">조회</span>
 					<span><c:out value="${boardDetails.boardViews}"/></span>
@@ -360,7 +361,7 @@
 							<span class="comment-cnt"><c:out value="${boardDetails.commentCnt}"/></span>
 						</a>
 						<button class="btn border-0 p-0 shadow-none" type="button" id="boardLikesBtn">
-						<sec:authorize access="isAnonymous()">
+						<%-- <sec:authorize access="isAnonymous()">
 							<i class="fa-regular fa-heart"></i>
 						</sec:authorize>
 						<sec:authorize access="isAuthenticated()">
@@ -373,7 +374,7 @@
 									<i class="fa-regular fa-heart"></i>
 								</c:otherwise>
 							</c:choose>
-						</sec:authorize>
+						</sec:authorize> --%>
 							<span>좋아요</span>
 							<span class="board-likes-cnt"><c:out value="${boardDetails.boardLikesCnt}"/></span>
 						</button>
@@ -393,7 +394,7 @@
 					<div class="comment-input form-control">
 						<sec:authorize access="isAuthenticated()">
 							<p class="font-weight-bold mb-2">
-								<sec:authentication property="principal.member.memberId" />
+								<sec:authentication property="principal.nickname" />
 							</p>
 						</sec:authorize>
 						<textarea id="commentContent" placeholder="댓글을 남겨보세요" rows="1"></textarea>

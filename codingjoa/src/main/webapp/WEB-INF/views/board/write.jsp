@@ -89,13 +89,13 @@
 					<form:errors path="boardTitle" class="error"/>
 				</div>
 				<div class="form-group">
-					<form:textarea path="boardContent" class="d-none"/>
+					<form:textarea path="boardContent"/>
 					<form:errors path="boardContent" class="error"/>
 				</div>
 			</form:form>
 		</div>
 		<!-- test -->
-		<div class="mt-4">
+		<div class="mt-4 d-none">
 			<button class="btn btn-warning mr-2" type="button" id="testGetDataBtn">getData</button>
 			<button class="btn btn-warning mr-2" type="button" id="testJsoupBtn">Jsoup</button>
 		</div>
@@ -121,21 +121,22 @@
 		});
 	
 	$(function() {
-		$("#resetBoardBtn").on("click", function() {
-			$("#writeBoardDto").trigger("reset"); 
+		const $form = $("#writeBoardDto");
+		
+		$("#resetBoardBtn").on("click", function(e) {
+			e.preventDefault();
+			$form.trigger("reset"); 
 			writeEditor.setData("");
 		});
 		
 		$("#writeBoardBtn").on("click", function(e) {
 			e.preventDefault();
-			console.log("## remove hidden boardImages input");
+			console.log("## initialize boardImages input");
 			$("input[name='boardImages']").remove();
 
-			let $form = $("#writeBoardDto");
-			const range = writeEditor.model.createRangeIn(writeEditor.model.document.getRoot());
-			
 			// TreeWalker instance
 			// Position iterator class. It allows to iterate forward and backward over the document.
+			const range = writeEditor.model.createRangeIn(writeEditor.model.document.getRoot());
 			for (const value of range.getWalker({ ignoreElementEnd: true })) { 
 			    if (!value.item.is("element")) {
 			    	continue;
@@ -148,11 +149,11 @@
 			    
 				// add boardImages
 			    let boardImageIdx = value.item.getAttribute("dataIdx");
-				console.log("## add boardImages, boardImageIdx = %s", boardImageIdx);
+				console.log("## add boardImage, boardImageIdx = %s", boardImageIdx);
 			    $("<input/>", { type: "hidden", name: "boardImages", value: boardImageIdx }).appendTo($form);
 			}
 			
-			console.log("## check formData");
+			console.log("## check form data");
 			console.log(JSON.stringify($form.serializeObject(), null, 2));
 			if (!confirm("게시글을 등록하시겠습니까?")) {
 				return;
@@ -179,7 +180,7 @@
 		// testJsoup
 		$("#testJsoupBtn").on("click", function() {
 			$("input[name='boardImages']").remove();
-			let $form = $("#writeBoardDto");
+
 			const range = writeEditor.model.createRangeIn(writeEditor.model.document.getRoot());
 			for (const value of range.getWalker({ ignoreElementEnd: true })) { 
 			    if (!value.item.is("element")) {
@@ -194,9 +195,8 @@
 			    $("<input/>", { type: "hidden", name: "boardImages", value: boardImageIdx }).appendTo($form);
 			}
 			
-			let formData = $form.serializeObject();
-			console.log("## check formData");
-			console.log(JSON.stringify(formData, null, 2));
+			console.log("## check form data");
+			console.log(JSON.stringify($form.serializeObject(), null, 2));
 			
 			$.ajax({
 				type : "POST",
