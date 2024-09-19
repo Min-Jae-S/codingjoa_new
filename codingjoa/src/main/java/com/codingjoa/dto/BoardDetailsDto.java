@@ -3,8 +3,6 @@ package com.codingjoa.dto;
 import java.time.LocalDateTime;
 import java.util.Map;
 
-import com.codingjoa.util.DateTimeUtils;
-
 import lombok.Builder;
 import lombok.Getter;
 
@@ -17,16 +15,16 @@ public class BoardDetailsDto {
 	private String boardContent;
 	private int boardViews;
 	private int boardCategoryCode;
-	private String createdAt;
-	private String updatedAt;
+	private LocalDateTime createdAt;
+	private LocalDateTime updatedAt;
 	private String memberNickname;		// from INNER JOIN with member
 	private int commentCnt;				// from OUTER JOIN with comment
 	private int boardLikesCnt;			// from OUTER JOIN with board_likes
 	
 	@Builder
 	private BoardDetailsDto(int boardIdx, int memberIdx, String boardTitle, String boardContent, int boardViews,
-			int boardCategoryCode, String createdAt, String updatedAt, String memberNickname, int commentCnt,
-			int boardLikesCnt) {
+			int boardCategoryCode, LocalDateTime createdAt, LocalDateTime updatedAt, String memberNickname,
+			int commentCnt, int boardLikesCnt) {
 		this.boardIdx = boardIdx;
 		this.memberIdx = memberIdx;
 		this.boardTitle = boardTitle;
@@ -50,8 +48,6 @@ public class BoardDetailsDto {
 	}
 	
 	public static BoardDetailsDto from(Map<String, Object> map) {
-		LocalDateTime createdAt = (LocalDateTime) map.get("createdAt");
-		LocalDateTime updatedAt = (LocalDateTime) map.get("updatedAt");
 		return BoardDetailsDto.builder()
 				.boardIdx((int) map.get("boardIdx"))
 				.memberIdx((int) map.get("memberIdx"))
@@ -59,8 +55,8 @@ public class BoardDetailsDto {
 				.boardContent((String) map.get("boardContent"))
 				.boardViews((int) map.get("boardViews"))
 				.boardCategoryCode((int) map.get("boardCategoryCode"))
-				.createdAt(DateTimeUtils.format(createdAt))
-				.updatedAt(DateTimeUtils.format(updatedAt))
+				.createdAt((LocalDateTime) map.get("createdAt"))
+				.updatedAt((LocalDateTime) map.get("updatedAt"))
 				.memberNickname((String) map.get("memberNickname"))
 				.commentCnt((int) map.get("commentCnt"))
 				.boardLikesCnt((int) map.get("boardLikesCnt"))

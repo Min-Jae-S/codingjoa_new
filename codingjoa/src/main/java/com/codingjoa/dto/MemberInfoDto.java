@@ -3,7 +3,7 @@ package com.codingjoa.dto;
 import java.time.LocalDateTime;
 import java.util.Map;
 
-import com.codingjoa.util.DateTimeUtils;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Builder;
 import lombok.Data;
@@ -19,14 +19,19 @@ public class MemberInfoDto {
 	private String memberAddr;
 	private String memberAddrDetail;
 	private boolean memberAgree;
-	private String createdAt;
-	private String updatedAt;
+	
+	@JsonFormat(pattern = "yyyy.MM.dd. HH:mm")
+	private LocalDateTime createdAt;
+
+	@JsonFormat(pattern = "yyyy.MM.dd. HH:mm")
+	private LocalDateTime updatedAt;
+	
 	private String memberImageUrl;
 	
 	@Builder
 	private MemberInfoDto(int memberIdx, String memberEmail, boolean hasPassword, String memberNickname,
 			String memberZipcode, String memberAddr, String memberAddrDetail, String memberImageUrl,
-			boolean memberAgree, String createdAt, String updatedAt) {
+			boolean memberAgree, LocalDateTime createdAt, LocalDateTime updatedAt) {
 		this.memberIdx = memberIdx;
 		this.memberEmail = memberEmail;
 		this.hasPassword = hasPassword;
@@ -41,8 +46,6 @@ public class MemberInfoDto {
 	}
 	
 	public static MemberInfoDto from(Map<String, Object> map) {
-		LocalDateTime createdAt = (LocalDateTime) map.get("createdAt");
-		LocalDateTime updatedAt = (LocalDateTime) map.get("updatedAt");
 		return MemberInfoDto.builder()
 				.memberIdx((int) map.get("memberIdx"))
 				.memberEmail((String) map.get("memberEmail"))
@@ -52,8 +55,8 @@ public class MemberInfoDto {
 				.memberAddr((String) map.get("memberAddr"))
 				.memberAddrDetail((String) map.get("memberAddrDetail"))
 				.memberAgree((boolean) map.get("memberAgree"))
-				.createdAt(DateTimeUtils.format(createdAt))
-				.updatedAt(DateTimeUtils.format(updatedAt))
+				.createdAt((LocalDateTime) map.get("createdAt"))
+				.updatedAt((LocalDateTime) map.get("updatedAt"))
 				.memberImageUrl((String) map.get("memberImageUrl"))
 				.build();
 	}
