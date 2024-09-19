@@ -16,7 +16,7 @@ function createCategoryMenuHtml(categoryList) {
 	return html;
 }
 
-function createCommentHtml(commentList, myCommentLikes, boardWriterIdx) {
+function createCommentHtml(commentList, myCommentLikes, memberIdx) {
 	console.log("## createCommentHtml");
 	let html = "";
 	if (commentList.length == 0) {
@@ -45,13 +45,13 @@ function createCommentHtml(commentList, myCommentLikes, boardWriterIdx) {
 		html += "<div class='comment-area'>";
 		html += "<div class='comment-area-header'>";
 		html += "<div class='comment-info'>";
-		//html += "<span class='comment-writer mr-2'>" + commentDetails.commentWriterId + "</span>";
-		html += "<span class='comment-writer mr-2'>" + commentDetails.commentWriterId + " (" + commentDetails.commentIdx + ")</span>";
-		if (commentDetails.commentWriterIdx == boardWriterIdx) {
+		//html += "<span class='comment-writer mr-2'>" + commentDetails.memberNickname + "</span>";
+		html += "<span class='comment-writer mr-2'>" + commentDetails.memberNickname + " (" + commentDetails.commentIdx + ")</span>";
+		if (commentDetails.memberIdx == memberIdx) {
 			html += "<span class='badge badge-pill badge-primary mr-2'>작성자</span>"
 		}
-		html += "<span class='comment-regdate'>" + commentDetails.regdate + "</span>";
-		html += "<span class='comment-moddate d-none'>" + commentDetails.moddate + "</span>";
+		html += "<span class='comment-regdate'>" + commentDetails.createdAt + "</span>";
+		html += "<span class='comment-moddate d-none'>" + commentDetails.updatedAt + "</span>";
 		html += "</div>";
 		html += "<div class='comment-content' style='white-space:pre-wrap;line-height:180%;'>";
 		html += "<p>" + commentDetails.commentContent.replace(/(?:\r\n|\r|\n)/g, "<br>") + "</p>";
@@ -90,7 +90,7 @@ function createEditCommentHtml(commentDetails) {
 	console.log("## createEditCommentHtml");
 	let html = "<div class='input-group'>";
 	html += "<div class='comment-edit form-control'>";
-	html += "<p class='font-weight-bold mb-2'>" + commentDetails.commentWriterId + "</p>";
+	html += "<p class='font-weight-bold mb-2'>" + commentDetails.memberNickname + "</p>";
 	html += "<textarea rows='1' style='white-space: pre;'>" + commentDetails.commentContent + "</textarea>";
 	html += "<div class='mt-2'>";
 	html += "<button class='btn btn-outline-primary btn-sm mr-2' name='modifyCommentBtn'>수정</button>";

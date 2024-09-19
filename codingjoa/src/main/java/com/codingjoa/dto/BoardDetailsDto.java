@@ -3,6 +3,8 @@ package com.codingjoa.dto;
 import java.time.LocalDateTime;
 import java.util.Map;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.Builder;
 import lombok.Getter;
 
@@ -15,8 +17,13 @@ public class BoardDetailsDto {
 	private String boardContent;
 	private int boardViews;
 	private int boardCategoryCode;
+	
+	@DateTimeFormat(pattern = "yyyy.MM.dd. HH:mm")
 	private LocalDateTime createdAt;
+	
+	@DateTimeFormat(pattern = "yyyy.MM.dd. HH:mm")
 	private LocalDateTime updatedAt;
+	
 	private String memberNickname;		// INNER JOIN with member
 	private int commentCnt;				// OUTER JOIN with comment
 	private int boardLikesCnt;			// OUTER JOIN with board_likes

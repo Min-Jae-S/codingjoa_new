@@ -97,17 +97,17 @@
 									<tr>
 										<td class="d-md-table-cell"><c:out value="${boardDetails.boardIdx}"/></td>
 										<td class="d-md-table-cell text-left">
-											<a class="board_title" 
-												href='${contextPath}/board/read?boardCategoryCode=${boardDetails.boardCategoryCode}&boardIdx=${boardDetails.boardIdx}'>
-												<c:out value="${boardDetails.boardTitle}"/>
+											<a class="board_title" href='${contextPath}/board/read?boardIdx=${boardDetails.boardIdx}&
+												boardCategoryCode=${boardDetails.boardCategoryCode}'><c:out value="${boardDetails.boardTitle}"/>
 											</a>
 											<c:if test="${boardDetails.commentCnt > 0}">
 												<span class="comment-cnt"><c:out value="${boardDetails.commentCnt}"/></span>
 											</c:if>
 										</td>
-										<td class="d-md-table-cell"><c:out value="${boardDetails.memberId}"/></td>
+										<td class="d-md-table-cell"><c:out value="${boardDetails.memberNickname}"/></td>
 										<td class="d-md-table-cell">
-											<fmt:formatDate value="${boardDetails.regdate}" type="date"/>
+											<%-- <fmt:formatDate value="${boardDetails.createdAt}" type="date"/> --%>
+											<c:out value="${boardDetails.createdAt}"/>
 										</td>
 										<td class="d-md-table-cell"><c:out value="${boardDetails.boardViews}"/></td>
 										<td class="d-md-table-cell">

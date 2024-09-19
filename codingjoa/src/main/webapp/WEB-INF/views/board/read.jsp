@@ -585,19 +585,21 @@
 		});
 	
 	$(function() {
+		const $commentDiv = $("div.comment-list");
+		const $commentPageDiv = $("div.comment-pagination");
 		const boardIdx = "<c:out value='${boardDetails.boardIdx}'/>";
-		const boardWriterIdx = "<c:out value='${boardDetails.memberIdx}'/>";
+		const memberIdx = "<c:out value='${boardDetails.memberIdx}'/>";
 		let curCommentPage = 1;
 		
 		commentService.getCommentList(boardIdx, curCommentPage, function(result) {
 			let commentList = result.data.commentList;
 			let myCommentLikes = result.data.myCommentLikes;
-			let commentHtml = createCommentHtml(commentList, myCommentLikes, boardWriterIdx);
-			$("div.comment-list").html(commentHtml);
+			let commentHtml = createCommentHtml(commentList, myCommentLikes, memberIdx);
+			$commentDiv.html(commentHtml);
 
 			let pagination = result.data.pagination;
 			let paginationHtml = createPaginationHtml(pagination);
-			$("div.comment-pagination").html(paginationHtml);
+			$commentPageDiv.html(paginationHtml);
 			$("span.comment-cnt").text(pagination.totalCnt);
 		});
 		
@@ -645,8 +647,8 @@
 		// writeComment
 		$("#writeCommentBtn").on("click", function() {
 			let comment = {
-				commentBoardIdx : boardIdx,
-				commentContent : $("#commentContent").val(),
+				"boardIdx" : boardIdx,
+				"commentContent" : $("#commentContent").val(),
 			};
 			
 			commentService.writeComment(comment, function(result) {
@@ -654,12 +656,12 @@
 				commentService.getCommentList(boardIdx, 1, function(result) {
 					let commentList = result.data.commentList;
 					let myCommentLikes = result.data.myCommentLikes;
-					let commentHtml = createCommentHtml(commentList, myCommentLikes, boardWriterIdx);
-					$("div.comment-list").html(commentHtml);
+					let commentHtml = createCommentHtml(commentList, myCommentLikes, memberIdx);
+					$commentDiv.html(commentHtml);
 
 					let pagination = result.data.pagination;
 					let paginationHtml = createPaginationHtml(pagination);
-					$("div.comment-pagination").html(paginationHtml);
+					$commentPageDiv.html(paginationHtml);
 					$("span.comment-cnt").text(pagination.totalCnt);	
 					$("#commentContent").val("").trigger("input");
 				});
@@ -693,7 +695,7 @@
 			let $li =  $(this).closest("li");
 			let commentIdx = $li.data("comment-idx");
 			let comment = {
-				commentContent : $li.find("div.comment-edit textarea").val(),
+				"commentContent" : $li.find("div.comment-edit textarea").val(),
 			};
 			
 			commentService.modifyComment(commentIdx, comment, function(result) {
@@ -701,12 +703,12 @@
 				commentService.getCommentList(boardIdx, curCommentPage, function(result) {
 					let commentList = result.data.commentList;
 					let myCommentLikes = result.data.myCommentLikes;
-					let commentHtml = createCommentHtml(commentList, myCommentLikes, boardWriterIdx);
-					$("div.comment-list").html(commentHtml);
+					let commentHtml = createCommentHtml(commentList, myCommentLikes, memberIdx);
+					$commentDiv.html(commentHtml);
 
 					let pagination = result.data.pagination;
 					let paginationHtml = createPaginationHtml(pagination);
-					$("div.comment-pagination").html(paginationHtml);
+					$commentPageDiv.html(paginationHtml);
 					$("span.comment-cnt").text(pagination.totalCnt);	
 				});
 			});
@@ -724,7 +726,7 @@
 				commentService.getCommentList(boardIdx, curCommentPage, function(result) {
 					let commentList = result.data.commentList;
 					let myCommentLikes = result.data.myCommentLikes;
-					let commentHtml = createCommentHtml(commentList, myCommentLikes, boardWriterIdx);
+					let commentHtml = createCommentHtml(commentList, myCommentLikes, memberIdx);
 					$("div.comment-list").html(commentHtml);
 
 					let pagination = result.data.pagination;
@@ -741,7 +743,7 @@
 			commentService.getCommentList(boardIdx, $(this).data("page"), function(result) {
 				let commentList = result.data.commentList;
 				let myCommentLikes = result.data.myCommentLikes;
-				let commentHtml = createCommentHtml(commentList, myCommentLikes, boardWriterIdx);
+				let commentHtml = createCommentHtml(commentList, myCommentLikes, memberIdx);
 				$("div.comment-list").html(commentHtml);
 
 				let pagination = result.data.pagination;

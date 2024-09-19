@@ -3,6 +3,8 @@ package com.codingjoa.dto;
 import java.time.LocalDateTime;
 import java.util.Map;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Builder;
@@ -20,9 +22,11 @@ public class MemberInfoDto {
 	private String memberAddrDetail;
 	private boolean memberAgree;
 	
+	@DateTimeFormat(pattern = "yyyy.MM.dd. HH:mm")
 	@JsonFormat(pattern = "yyyy.MM.dd. HH:mm")
 	private LocalDateTime createdAt;
 	
+	@DateTimeFormat(pattern = "yyyy.MM.dd. HH:mm")
 	@JsonFormat(pattern = "yyyy.MM.dd. HH:mm")
 	private LocalDateTime updatedAt;
 	

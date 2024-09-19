@@ -130,20 +130,20 @@
 									<td class="d-md-table-cell"><c:out value="${boardDetails.boardIdx}"/></td>
 									<td class="d-md-table-cell text-left">
 										<a class="board_title" href="${contextPath}/board/read?boardIdx=${boardDetails.boardIdx}&
-											${boardCri.getQueryString()}">
-											<c:out value="${boardDetails.boardTitle}"/>
+											${boardCri.getQueryString()}"><c:out value="${boardDetails.boardTitle}"/>
 										</a>
 										<c:if test="${boardDetails.commentCnt > 0}">
 											<span class="comment-cnt"><c:out value="${boardDetails.commentCnt}"/></span>
 										</c:if>
 									</td>
-									<td class="d-md-table-cell"><c:out value="${boardDetails.memberId}"/></td>
+									<td class="d-md-table-cell"><c:out value="${boardDetails.memberNickname}"/></td>
 									<td class="d-md-table-cell">
-										<fmt:formatDate value="${boardDetails.regdate}" type="date"/>
+										<%-- <fmt:formatDate value="${boardDetails.createdAt}" type="date"/> --%>
+										<c:out value="${boardDetails.createdAt}"/>
 									</td>
 									<td class="d-md-table-cell"><c:out value="${boardDetails.boardViews}"/></td>
 									<td class="d-md-table-cell">
-										<sec:authorize access="isAnonymous()">
+										<%-- <sec:authorize access="isAnonymous()">
 											<i class="fa-regular fa-heart"></i>
 										</sec:authorize>
 										<sec:authorize access="isAuthenticated()">
@@ -156,7 +156,7 @@
 													<i class="fa-regular fa-heart"></i>
 												</c:otherwise>
 											</c:choose>
-										</sec:authorize>
+										</sec:authorize> --%>
 										<span class="board-likes-cnt"><c:out value="${boardDetails.boardLikesCnt}"/></span>
 									</td>
 								</tr>
@@ -181,19 +181,22 @@
 				<c:if test="${pagination.prev}">
 					<li class="page-item">
 						<a class="page-link" href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}&
-							${boardCri.getQueryString(pagination.prevPage)}"><i class="fa-solid fa-chevron-left"></i></a>
+							${boardCri.getQueryString(pagination.prevPage)}"><i class="fa-solid fa-chevron-left"></i>
+						</a>
 					</li>
 				</c:if>
 				<c:forEach var="item" begin="${pagination.startPage}" end="${pagination.endPage}">
 					<li class="page-item ${item eq pagination.page ? 'active' : ''}">
 						<a class="page-link" href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}&
-							${boardCri.getQueryString(item)}">${item}</a>
+							${boardCri.getQueryString(item)}">${item}
+						</a>
 					</li>
 				</c:forEach>
 				<c:if test="${pagination.next}">
 					<li class="page-item">
 						<a class="page-link" href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}&
-							${boardCri.getQueryString(pagination.nextPage)}"><i class="fa-solid fa-chevron-right"></i></a>
+							${boardCri.getQueryString(pagination.nextPage)}"><i class="fa-solid fa-chevron-right"></i>
+						</a>
 					</li>
 				</c:if>
 			</ul>
