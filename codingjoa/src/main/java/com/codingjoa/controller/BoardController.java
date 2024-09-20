@@ -49,12 +49,14 @@ public class BoardController {
 	}
 	
 	@GetMapping
-	public String getBoards(Model model) {
+	public String getBoards(@AuthenticationPrincipal PrincipalDetails principal, Model model) {
 		log.info("## getBoards");
 		List<Category> boardCategoryList = categoryService.getBoardCategoryList();
+		Integer memberIdx = (principal == null) ? null : principal.getIdx();
+		
 		List<List<BoardDetailsDto>> boardList = boardCategoryList
 				.stream()
-				.map(category -> boardService.getPagedBoard(category.getCategoryCode(), new Criteria(1, 5)))
+				.map(category -> boardService.getPagedBoard(category.getCategoryCode(), memberIdx, new Criteria(1, 5)))
 				.collect(Collectors.toList());
 		model.addAttribute("boardCategoryList", boardCategoryList);
 		model.addAttribute("boardList", boardList);
@@ -63,17 +65,20 @@ public class BoardController {
 	}
 	
 	@GetMapping("/")
-	public String getBoard(@BoardCategoryCode @RequestParam int boardCategoryCode, @BoardCri Criteria boardCri, Model model) {
+	public String getBoard(@BoardCategoryCode @RequestParam int boardCategoryCode, @BoardCri Criteria boardCri,
+			@AuthenticationPrincipal PrincipalDetails principal, Model model) {
 		log.info("## getBoard, boardCategoryCode = {}", boardCategoryCode);
+	
+		Integer memberIdx = (principal == null) ? null : principal.getIdx();
+		log.info("\t > memberIdx = {}", memberIdx);
 		
-		List<BoardDetailsDto> pagedBoard = boardService.getPagedBoard(boardCategoryCode, boardCri);
+		List<BoardDetailsDto> pagedBoard = boardService.getPagedBoard(boardCategoryCode, memberIdx, boardCri);
 		log.info("\t > pagedBoard = {}", pagedBoard);
 		
 		Pagination pagination = boardService.getPagination(boardCategoryCode, boardCri);
 		log.info("\t > pagination = {}", pagination);
 		
 		Category category = categoryService.getCategory(boardCategoryCode);
-		model.addAttribute("boardCri", boardCri);
 		model.addAttribute("pagedBoard", pagedBoard);
 		model.addAttribute("pagination", pagination);
 		model.addAttribute("category", category);
@@ -82,11 +87,15 @@ public class BoardController {
 	}
 	
 	@GetMapping("/read")
-	public String read(@RequestParam int boardIdx, @BoardCri Criteria boardCri, Model model) {
+	public String read(@RequestParam int boardIdx, @BoardCri Criteria boardCri,
+			@AuthenticationPrincipal PrincipalDetails principal, Model model) {
 		log.info("## read, boardIdx = {}", boardIdx);
+		
+		Integer memberIdx = (principal == null) ? null : principal.getIdx();
+		log.info("\t > memberIdx = {}", memberIdx);
 		log.info("\t > boardCri = {}", boardCri);
 		
-		BoardDetailsDto boardDetails = boardService.getBoardDetails(boardIdx);
+		BoardDetailsDto boardDetails = boardService.getBoardDetails(boardIdx, memberIdx);
 		Category category = categoryService.getCategory(boardDetails.getBoardCategoryCode());
 
 		boardService.updateBoardViews(boardIdx); // 쿠키를 이용하여 조회수 중복 방지 추가하기 (https://mighty96.github.io/til/view)

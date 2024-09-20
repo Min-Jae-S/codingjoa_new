@@ -60,7 +60,7 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public BoardDetailsDto getBoardDetails(int boardIdx) {
+	public BoardDetailsDto getBoardDetails(int boardIdx, Integer memberIdx) {
 		Map<String, Object> boardDetailsMap = boardMapper.findBoardDetailsByIdx(boardIdx);
 		log.info("\t > find boardDetailsMap = {}", boardDetailsMap);
 		
@@ -103,11 +103,11 @@ public class BoardServiceImpl implements BoardService {
 //	}
 	
 	@Override
-	public List<BoardDetailsDto> getPagedBoard(int boardCategoryCode, Criteria boardCri) {
+	public List<BoardDetailsDto> getPagedBoard(int boardCategoryCode, Integer memberIdx, Criteria boardCri) {
 		log.info("\t > find pagedBoard");
 		log.info("\t > boardCri = {}", boardCri);
 		log.info("\t > keywordRegexp = {}", boardCri.getKeywordRegexp());
-		
+
 		return boardMapper.findPagedBoard(boardCategoryCode, boardCri)
 				.stream()
 				.map(boardDetailsMap -> BoardDetailsDto.from(boardDetailsMap))

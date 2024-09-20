@@ -20,13 +20,14 @@ import lombok.ToString;
 @Getter
 public class PrincipalDetails implements UserDetails, OAuth2User {
 
-	private final int idx;								// from member
+	private final int idx;
 	private final String email;					
 	private final String password;
 	private final String nickname;
 	private final String imageUrl;						// from LEFT OUTER JOIN member_iamge
 	private final String provider;						// from LEFT OUTER JOIN sns_info
 	private final List<GrantedAuthority> authorities;	// from INNER JOIN auth
+	
 	private Map<String, Object> attributes;				// OAuth2User
 	private String nameAttributeKey;
 

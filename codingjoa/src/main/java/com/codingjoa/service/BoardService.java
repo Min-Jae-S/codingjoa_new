@@ -11,11 +11,11 @@ public interface BoardService {
 	
 	Integer saveBoard(BoardDto boardDto);
 	
-	BoardDetailsDto getBoardDetails(int boardIdx);
+	BoardDetailsDto getBoardDetails(int boardIdx, Integer memberIdx);
 	
 	void updateBoardViews(int boardIdx);
 	
-	List<BoardDetailsDto> getPagedBoard(int boardCategoryCode, Criteria boardCri);
+	List<BoardDetailsDto> getPagedBoard(int boardCategoryCode, Integer memberIdx, Criteria boardCri);
 
 	Pagination getPagination(int boardCategoryCode, Criteria boardCri);
 	

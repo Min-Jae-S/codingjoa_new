@@ -19,8 +19,9 @@ public class BoardDetailsDto {
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
 	private String memberNickname;		// from INNER JOIN with member
-	private int commentCnt;				// from OUTER JOIN with comment
-	private int boardLikesCnt;			// from OUTER JOIN with board_likes
+	private int commentCnt;				// from LEFT OUTER JOIN with comment
+	private int boardLikesCnt;			// from LEFT OUTER JOIN with board_likes
+	private Boolean isLiked;
 	
 	@Builder
 	private BoardDetailsDto(int boardIdx, String boardTitle, String boardContent, int boardViews, int boardCategoryCode,
