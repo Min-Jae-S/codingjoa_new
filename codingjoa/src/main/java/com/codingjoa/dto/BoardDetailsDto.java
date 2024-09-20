@@ -66,7 +66,7 @@ public class BoardDetailsDto {
 	}
 
 	public String getFullCreatedAt() {
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd. HH:mm");
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm");
 		return this.createdAt.format(formatter);
 	}
 	
@@ -79,7 +79,7 @@ public class BoardDetailsDto {
 	}
 	
 	private String format(LocalDateTime dateTime) {
-		DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy.MM.dd.");
+		DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy.MM.dd");
 		DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
 		
 		LocalDate today = LocalDate.now();
