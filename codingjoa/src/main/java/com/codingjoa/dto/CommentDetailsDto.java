@@ -17,10 +17,10 @@ public class CommentDetailsDto {
 	private String commentContent;
 	private boolean commentUse;
 	
-	@JsonFormat(pattern = "yyyy.MM.dd. HH:mm")
+	@JsonFormat(pattern = "yyyy.MM.dd HH:mm")
 	private LocalDateTime createdAt;
 	
-	@JsonFormat(pattern = "yyyy.MM.dd. HH:mm")
+	@JsonFormat(pattern = "yyyy.MM.dd HH:mm")
 	private LocalDateTime updatedAt;
 	
 	private String memberNickname;		// from INNER JOIN with member

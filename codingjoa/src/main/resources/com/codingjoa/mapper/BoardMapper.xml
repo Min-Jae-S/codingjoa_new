@@ -40,7 +40,6 @@
 	
 	<resultMap type="map" id="boardDetailsMap">
 		<id property="boardIdx" column="board_idx" javaType="int"/>
-		<result property="memberIdx" column="member_idx" javaType="int"/>
 		<result property="boardTitle" column="board_title" javaType="string"/>
 		<!-- <result property="boardContent" column="board_content" typeHandler="clobTypeHandler"/> -->
 		<result property="boardContent" column="board_content" jdbcType="CLOB" javaType="string"/>
@@ -56,7 +55,6 @@
 	<select id="findBoardDetailsByIdx" parameterType="int" resultMap="boardDetailsMap">
 		SELECT 
 			a.board_idx, 
-			a.member_idx, 
 			a.board_title, 
 			a.board_content, 
 			a.board_views, 
@@ -166,7 +164,6 @@
 		SELECT
 			/*+ ORDERED USE_NL(b) USE_NL(c) */
 			a.board_idx,
-			a.member_idx,
 			a.board_title,
 			a.board_views,
 			a.board_category_code,
@@ -178,7 +175,6 @@
 		FROM (
 		    SELECT
 		    	a_depth.board_idx,
-		    	a_depth.member_idx,
 	        	a_depth.board_title, 
 	        	a_depth.board_views,
 	        	a_depth.board_category_code, 
@@ -190,7 +186,6 @@
 					/*+ INDEX_DESC(board pk_board) */
 		        	ROWNUM rn, 
 		        	board.board_idx, 
-		        	board.member_idx,
 		        	board.board_title, 
 		        	board.board_views,
 		        	board.board_category_code, 

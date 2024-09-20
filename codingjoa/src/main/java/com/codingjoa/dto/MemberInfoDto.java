@@ -20,10 +20,10 @@ public class MemberInfoDto {
 	private String memberAddrDetail;
 	private boolean memberAgree;
 	
-	@JsonFormat(pattern = "yyyy.MM.dd. HH:mm")
+	@JsonFormat(pattern = "yyyy.MM.dd HH:mm")
 	private LocalDateTime createdAt;
 
-	@JsonFormat(pattern = "yyyy.MM.dd. HH:mm")
+	@JsonFormat(pattern = "yyyy.MM.dd HH:mm")
 	private LocalDateTime updatedAt;
 	
 	private String memberImageUrl;

@@ -12,7 +12,6 @@ import lombok.Getter;
 public class BoardDetailsDto {
 
 	private int boardIdx;
-	private int memberIdx;
 	private String boardTitle;
 	private String boardContent;
 	private int boardViews;
@@ -24,11 +23,10 @@ public class BoardDetailsDto {
 	private int boardLikesCnt;			// from OUTER JOIN with board_likes
 	
 	@Builder
-	private BoardDetailsDto(int boardIdx, int memberIdx, String boardTitle, String boardContent, int boardViews,
-			int boardCategoryCode, LocalDateTime createdAt, LocalDateTime updatedAt, String memberNickname,
-			int commentCnt, int boardLikesCnt) {
+	private BoardDetailsDto(int boardIdx, String boardTitle, String boardContent, int boardViews, int boardCategoryCode,
+			LocalDateTime createdAt, LocalDateTime updatedAt, String memberNickname, int commentCnt,
+			int boardLikesCnt) {
 		this.boardIdx = boardIdx;
-		this.memberIdx = memberIdx;
 		this.boardTitle = boardTitle;
 		this.boardContent = boardContent;
 		this.boardViews = boardViews;
@@ -43,16 +41,15 @@ public class BoardDetailsDto {
 	@Override
 	public String toString() {
 		String escapedBoardContent = (boardContent != null) ? boardContent.replace("\r\n", "\\r\\n") : null;
-		return "BoardDetailsDto [boardIdx=" + boardIdx + ", memberIdx=" + memberIdx + ", boardTitle=" + boardTitle
-				+ ", boardContent=" + escapedBoardContent + ", boardViews=" + boardViews + ", boardCategoryCode="
-				+ boardCategoryCode + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", memberNickname="
-				+ memberNickname + ", commentCnt=" + commentCnt + ", boardLikesCnt=" + boardLikesCnt + "]";
+		return "BoardDetailsDto [boardIdx=" + boardIdx + ", boardTitle=" + boardTitle + ", boardContent=" + escapedBoardContent
+				+ ", boardViews=" + boardViews + ", boardCategoryCode=" + boardCategoryCode + ", createdAt=" + createdAt
+				+ ", updatedAt=" + updatedAt + ", memberNickname=" + memberNickname + ", commentCnt=" + commentCnt
+				+ ", boardLikesCnt=" + boardLikesCnt + "]";
 	}
 	
 	public static BoardDetailsDto from(Map<String, Object> map) {
 		return BoardDetailsDto.builder()
 				.boardIdx((int) map.get("boardIdx"))
-				.memberIdx((int) map.get("memberIdx"))
 				.boardTitle((String) map.get("boardTitle"))
 				.boardContent((String) map.get("boardContent"))
 				.boardViews((int) map.get("boardViews"))
