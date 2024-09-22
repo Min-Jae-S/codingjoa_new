@@ -50,7 +50,7 @@
 		<result property="memberNickname" column="member_nickname" javaType="string"/>
 		<result property="commentCnt" column="comment_cnt" javaType="int"/>
 		<result property="boardLikesCnt" column="board_likes_cnt" javaType="int"/>
-		<result property="isLiked" column="is_liked" javaType="boolean"/>
+		<result property="boardLike" column="board_like" javaType="boolean"/>
 	</resultMap>
 	
 	<select id="findBoardDetails" parameterType="int" resultMap="boardDetailsMap">
@@ -65,7 +65,7 @@
 			b.member_nickname,
 			NVL(c.cnt, 0) AS comment_cnt,
     		NVL(d.cnt, 0) AS board_likes_cnt,
-    		CASE WHEN e.board_idx IS NOT NULL THEN 1 ELSE 0 END AS is_liked
+    		CASE WHEN e.board_idx IS NOT NULL THEN 1 ELSE 0 END AS board_like
 		FROM
 			board a
 		INNER JOIN
@@ -174,7 +174,7 @@
 
 	<select id="findPagedBoard" parameterType="map" resultMap="boardDetailsMap">
 		SELECT
-			/*+ ORDERED USE_NL(b) USE_NL(c) */
+			/*+ ORDERED USE_NL(b) USE_NL(c) USE_NL(d) */
 			a.board_idx,
 			a.board_title,
 			a.board_views,
@@ -184,7 +184,7 @@
 			a.member_nickname,
     		NVL(b.cnt, 0) AS comment_cnt,
     		NVL(c.cnt, 0) AS board_likes_cnt,
-    		CASE WHEN d.board_idx IS NOT NULL THEN 1 ELSE 0 END AS is_liked
+    		CASE WHEN d.board_idx IS NOT NULL THEN 1 ELSE 0 END AS board_like
 		FROM (
 		    SELECT
 		    	a_depth.board_idx,
