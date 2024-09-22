@@ -53,7 +53,7 @@
 		<result property="isLiked" column="is_liked" javaType="boolean"/>
 	</resultMap>
 	
-	<select id="findBoardDetailsByIdx" parameterType="int" resultMap="boardDetailsMap">
+	<select id="findBoardDetails" parameterType="int" resultMap="boardDetailsMap">
 		SELECT 
 			a.board_idx, 
 			a.board_title, 

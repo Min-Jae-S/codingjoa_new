@@ -11,20 +11,20 @@ public interface BoardService {
 	
 	Integer saveBoard(BoardDto boardDto);
 	
-	BoardDetailsDto getBoardDetails(int boardIdx, Integer memberIdx);
+	BoardDetailsDto getBoardDetails(Integer boardIdx, Integer memberIdx);
 	
-	void updateBoardViews(int boardIdx);
+	void updateBoardViews(Integer boardIdx);
 	
-	List<BoardDetailsDto> getPagedBoard(int boardCategoryCode, Integer memberIdx, Criteria boardCri);
+	List<BoardDetailsDto> getPagedBoard(int boardCategoryCode, Criteria boardCri, Integer memberIdx);
 
 	Pagination getPagination(int boardCategoryCode, Criteria boardCri);
 	
-	BoardDto getModifyBoard(int boardIdx, int memberIdx);
+	BoardDto getModifyBoard(Integer boardIdx, Integer memberIdx);
 	
 	Integer updateBoard(BoardDto boardDto);
 	
-	int getBoardCategoryCode(int boardIdx);
+	int getBoardCategoryCode(Integer boardIdx);
 	
-	int deleteBoard(int boardIdx, int memberIdx);
+	int deleteBoard(Integer boardIdx, Integer memberIdx);
 	
 }

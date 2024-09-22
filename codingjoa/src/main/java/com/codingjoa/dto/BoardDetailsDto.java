@@ -21,12 +21,12 @@ public class BoardDetailsDto {
 	private String memberNickname;		// from INNER JOIN with member
 	private int commentCnt;				// from LEFT OUTER JOIN with comment
 	private int boardLikesCnt;			// from LEFT OUTER JOIN with board_likes
-	private Boolean isLiked;
+	private boolean isLiked;
 	
 	@Builder
 	private BoardDetailsDto(int boardIdx, String boardTitle, String boardContent, int boardViews, int boardCategoryCode,
 			LocalDateTime createdAt, LocalDateTime updatedAt, String memberNickname, int commentCnt, int boardLikesCnt,
-			Boolean isLiked) {
+			boolean isLiked) {
 		this.boardIdx = boardIdx;
 		this.boardTitle = boardTitle;
 		this.boardContent = boardContent;
@@ -61,7 +61,7 @@ public class BoardDetailsDto {
 				.memberNickname((String) map.get("memberNickname"))
 				.commentCnt((int) map.get("commentCnt"))
 				.boardLikesCnt((int) map.get("boardLikesCnt"))
-				.isLiked((Boolean) map.get("isLiked"))
+				.isLiked((boolean) map.get("isLiked"))
 				.build();
 	}
 
@@ -81,7 +81,6 @@ public class BoardDetailsDto {
 	private String format(LocalDateTime dateTime) {
 		DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy.MM.dd");
 		DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
-		
 		LocalDate today = LocalDate.now();
 		return dateTime.toLocalDate().isEqual(today) ? dateTime.format(timeFormatter) : dateTime.format(dateFormatter);
 	}

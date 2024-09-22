@@ -14,21 +14,22 @@ public interface BoardMapper {
 	
 	boolean insertBoard(Board board);
 	
-	Map<String, Object> findBoardDetailsByIdx(int boardIdx);
+	Map<String, Object> findBoardDetails(Integer boardIdx, Integer memberIdx);
 	
-	void updateBoardViews(int boardIdx);
+	void updateBoardViews(Integer boardIdx);
 	
 	//List<Integer> findMemberIdxByKeyword(String keyword);
 	
-	List<Map<String, Object>> findPagedBoard(@Param("boardCategoryCode") int boardCategoryCode, @Param("boardCri") Criteria boardCri);
+	List<Map<String, Object>> findPagedBoard(@Param("boardCategoryCode") int boardCategoryCode,
+			@Param("boardCri") Criteria boardCri, @Param("memberIdx") Integer memberIdx);
 
 	int findPagedBoardTotalCnt(@Param("boardCategoryCode") int boardCategoryCode, @Param("boardCri") Criteria boardCri);
 	
-	Board findBoardByIdx(int boardIdx);
+	Board findBoardByIdx(Integer boardIdx);
 	
 	boolean updateBoard(Board board);
 
-	int findBoardCategoryCodeByIdx(int boardIdx);
+	int findBoardCategoryCodeByIdx(Integer boardIdx);
 	
 	boolean deleteBoard(Board board);
 	

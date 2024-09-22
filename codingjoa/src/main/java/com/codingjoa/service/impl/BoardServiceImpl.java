@@ -60,8 +60,8 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public BoardDetailsDto getBoardDetails(int boardIdx, Integer memberIdx) {
-		Map<String, Object> boardDetailsMap = boardMapper.findBoardDetailsByIdx(boardIdx);
+	public BoardDetailsDto getBoardDetails(Integer boardIdx, Integer memberIdx) {
+		Map<String, Object> boardDetailsMap = boardMapper.findBoardDetails(boardIdx, memberIdx);
 		log.info("\t > find boardDetailsMap = {}", boardDetailsMap);
 		
 		if (boardDetailsMap == null) {
@@ -72,7 +72,7 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
-	public void updateBoardViews(int boardIdx) {
+	public void updateBoardViews(Integer boardIdx) {
 		log.info("\t > update boardViews");
 		boardMapper.updateBoardViews(boardIdx);
 	}
@@ -103,12 +103,12 @@ public class BoardServiceImpl implements BoardService {
 //	}
 	
 	@Override
-	public List<BoardDetailsDto> getPagedBoard(int boardCategoryCode, Integer memberIdx, Criteria boardCri) {
+	public List<BoardDetailsDto> getPagedBoard(int boardCategoryCode, Criteria boardCri, Integer memberIdx) {
 		log.info("\t > find pagedBoard");
 		log.info("\t > boardCri = {}", boardCri);
 		log.info("\t > keywordRegexp = {}", boardCri.getKeywordRegexp());
 
-		return boardMapper.findPagedBoard(boardCategoryCode, boardCri)
+		return boardMapper.findPagedBoard(boardCategoryCode, boardCri, memberIdx)
 				.stream()
 				.map(boardDetailsMap -> BoardDetailsDto.from(boardDetailsMap))
 				.collect(Collectors.toList());
@@ -120,7 +120,7 @@ public class BoardServiceImpl implements BoardService {
 		return new Pagination(totalCnt, boardCri.getPage(), boardCri.getRecordCnt(), pageRange);
 	}
 	
-	private Board getBoardByIdx(int boardIdx) {
+	private Board getBoardByIdx(Integer boardIdx) {
 		Board board = boardMapper.findBoardByIdx(boardIdx);
 		log.info("\t > find board = {}", board);
 
@@ -132,7 +132,7 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
-	public BoardDto getModifyBoard(int boardIdx, int memberIdx) {
+	public BoardDto getModifyBoard(Integer boardIdx, Integer memberIdx) {
 		Board board = getBoardByIdx(boardIdx);
 		if (board.getMemberIdx() != memberIdx) {
 			throw new ExpectedException("error.NotMyBoard");
@@ -167,12 +167,12 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
-	public int getBoardCategoryCode(int boardIdx) {
+	public int getBoardCategoryCode(Integer boardIdx) {
 		return boardMapper.findBoardCategoryCodeByIdx(boardIdx);
 	}
 
 	@Override
-	public int deleteBoard(int boardIdx, int memberIdx) {
+	public int deleteBoard(Integer boardIdx, Integer memberIdx) {
 		Board board = getBoardByIdx(boardIdx);
 		if (board.getMemberIdx() != memberIdx) {
 			throw new ExpectedException("error.NotMyBoard");
