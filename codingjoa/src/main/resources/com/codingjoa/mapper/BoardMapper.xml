@@ -50,6 +50,7 @@
 		<result property="memberNickname" column="member_nickname" javaType="string"/>
 		<result property="commentCnt" column="comment_cnt" javaType="int"/>
 		<result property="boardLikesCnt" column="board_likes_cnt" javaType="int"/>
+		<result property="isLiked" column="is_liked" javaType="boolean"/>
 	</resultMap>
 	
 	<select id="findBoardDetailsByIdx" parameterType="int" resultMap="boardDetailsMap">

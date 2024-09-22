@@ -25,8 +25,8 @@ public class BoardDetailsDto {
 	
 	@Builder
 	private BoardDetailsDto(int boardIdx, String boardTitle, String boardContent, int boardViews, int boardCategoryCode,
-			LocalDateTime createdAt, LocalDateTime updatedAt, String memberNickname, int commentCnt,
-			int boardLikesCnt) {
+			LocalDateTime createdAt, LocalDateTime updatedAt, String memberNickname, int commentCnt, int boardLikesCnt,
+			Boolean isLiked) {
 		this.boardIdx = boardIdx;
 		this.boardTitle = boardTitle;
 		this.boardContent = boardContent;
@@ -37,6 +37,7 @@ public class BoardDetailsDto {
 		this.memberNickname = memberNickname;
 		this.commentCnt = commentCnt;
 		this.boardLikesCnt = boardLikesCnt;
+		this.isLiked = isLiked;
 	}
 	
 	@Override
@@ -60,6 +61,7 @@ public class BoardDetailsDto {
 				.memberNickname((String) map.get("memberNickname"))
 				.commentCnt((int) map.get("commentCnt"))
 				.boardLikesCnt((int) map.get("boardLikesCnt"))
+				.isLiked((Boolean) map.get("isLiked"))
 				.build();
 	}
 
