@@ -56,7 +56,7 @@ public class BoardController {
 		
 		List<List<BoardDetailsDto>> boardList = boardCategoryList
 				.stream()
-				.map(category -> boardService.getPagedBoard(category.getCategoryCode(), memberIdx, new Criteria(1, 5)))
+				.map(category -> boardService.getPagedBoard(category.getCategoryCode(), new Criteria(1, 5), memberIdx))
 				.collect(Collectors.toList());
 		model.addAttribute("boardCategoryList", boardCategoryList);
 		model.addAttribute("boardList", boardList);
@@ -72,7 +72,7 @@ public class BoardController {
 		Integer memberIdx = (principal == null) ? null : principal.getIdx();
 		log.info("\t > memberIdx = {}", memberIdx);
 		
-		List<BoardDetailsDto> pagedBoard = boardService.getPagedBoard(boardCategoryCode, memberIdx, boardCri);
+		List<BoardDetailsDto> pagedBoard = boardService.getPagedBoard(boardCategoryCode, boardCri, memberIdx);
 		log.info("\t > pagedBoard = {}", pagedBoard);
 		
 		Pagination pagination = boardService.getPagination(boardCategoryCode, boardCri);
