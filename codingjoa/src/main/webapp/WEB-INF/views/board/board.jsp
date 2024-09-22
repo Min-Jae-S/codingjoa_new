@@ -127,7 +127,9 @@
 						<c:when test="${not empty pagedBoard}">
 							<c:forEach var='boardDetails' items="${pagedBoard}">
 								<tr>
-									<td class="d-md-table-cell"><c:out value="${boardDetails.boardIdx}"/></td>
+									<td class="d-md-table-cell">
+										<span><c:out value="${boardDetails.boardIdx}"/></span>
+									</td>
 									<td class="d-md-table-cell text-left">
 										<a class="board_title" href="${contextPath}/board/read?boardIdx=${boardDetails.boardIdx}&
 											${boardCri.queryString}"><c:out value="${boardDetails.boardTitle}"/>
@@ -136,24 +138,24 @@
 											<span class="comment-cnt"><c:out value="${boardDetails.commentCnt}"/></span>
 										</c:if>
 									</td>
-									<td class="d-md-table-cell"><c:out value="${boardDetails.memberNickname}"/></td>
-									<td class="d-md-table-cell"><c:out value="${boardDetails.formattedCreatedAt}"/></td>
-									<td class="d-md-table-cell"><c:out value="${boardDetails.boardViews}"/></td>
 									<td class="d-md-table-cell">
-										<%-- <sec:authorize access="isAnonymous()">
-											<i class="fa-regular fa-heart"></i>
-										</sec:authorize>
-										<sec:authorize access="isAuthenticated()">
-											<sec:authentication property="principal" var="principal"/>
-											<c:choose>
-												<c:when test="${principal.isMyBoardLikes(boardDetails.boardIdx)}">
-													<i class="text-danger fa-solid fa-heart"></i>
-												</c:when>
-												<c:otherwise>
-													<i class="fa-regular fa-heart"></i>
-												</c:otherwise>
-											</c:choose>
-										</sec:authorize> --%>
+										<span><c:out value="${boardDetails.memberNickname}"/></span>
+									</td>
+									<td class="d-md-table-cell">
+										<span><c:out value="${boardDetails.formattedCreatedAt}"/></span>
+									</td>
+									<td class="d-md-table-cell">
+										<span><c:out value="${boardDetails.boardViews}"/></span>
+									</td>
+									<td class="d-md-table-cell">
+										<c:choose>
+											<c:when test="${boardDetails.isLikes}">
+												<i class="fa-solid fa-heart text-danger"></i>
+											</c:when>
+											<c:otherwise>
+												<i class="fa-regular fa-heart"></i>
+											</c:otherwise>
+										</c:choose>
 										<span class="board-likes-cnt"><c:out value="${boardDetails.boardLikesCnt}"/></span>
 									</td>
 								</tr>
@@ -170,7 +172,7 @@
 				</tbody>
 			</table>
 		</div>
-		<div class="mb-3" style="height: 38px;">
+		<div class="mb-3" style="height:38px;">
 			<a class="btn btn-primary" href="${contextPath}/board/write?boardCategoryCode=${category.categoryCode}">글쓰기</a>
 		</div>
 		<div class="pt-3">

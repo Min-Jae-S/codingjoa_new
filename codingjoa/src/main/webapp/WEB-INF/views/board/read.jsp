@@ -358,20 +358,14 @@
 							<span class="comment-cnt"><c:out value="${boardDetails.commentCnt}"/></span>
 						</a>
 						<button class="btn border-0 p-0 shadow-none" type="button" id="boardLikesBtn">
-						<%-- <sec:authorize access="isAnonymous()">
-							<i class="fa-regular fa-heart"></i>
-						</sec:authorize>
-						<sec:authorize access="isAuthenticated()">
-							<sec:authentication property="principal" var="principal"/>
 							<c:choose>
-								<c:when test="${principal.isMyBoardLikes(boardDetails.boardIdx)}">
-									<i class="text-danger fa-solid fa-heart"></i>
+								<c:when test="${boardDetails.isLikes}">
+									<i class="fa-heart fa-solid text-danger"></i>
 								</c:when>
 								<c:otherwise>
-									<i class="fa-regular fa-heart"></i>
+									<i class="fa-heart fa-regular"></i>
 								</c:otherwise>
 							</c:choose>
-						</sec:authorize> --%>
 							<span>좋아요</span>
 							<span class="board-likes-cnt"><c:out value="${boardDetails.boardLikesCnt}"/></span>
 						</button>
