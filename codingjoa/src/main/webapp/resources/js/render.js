@@ -47,9 +47,9 @@ function createCommentHtml(pagedComment) {
 		html += "<div class='comment-info'>";
 		//html += "<span class='comment-writer mr-2'>" + commentDetails.memberNickname + "</span>";
 		html += "<span class='comment-writer mr-2'>" + commentDetails.memberNickname + " (" + commentDetails.commentIdx + ")</span>";
-//		if (commentDetails.memberIdx == memberIdx) {
-//			html += "<span class='badge badge-pill badge-primary mr-2'>작성자</span>"
-//		}
+		if (commentDetails.isBoardWriter) {
+			html += "<span class='badge badge-pill badge-primary mr-2'>작성자</span>"
+		}
 		html += "<span class='comment-regdate'>" + commentDetails.createdAt + "</span>";
 		html += "<span class='comment-moddate d-none'>" + commentDetails.updatedAt + "</span>";
 		html += "</div>";
@@ -86,12 +86,12 @@ function createCommentHtml(pagedComment) {
 	return html;
 }
 
-function createEditCommentHtml(commentDetails) {
+function createEditCommentHtml(commentContent) {
 	console.log("## createEditCommentHtml");
 	let html = "<div class='input-group'>";
 	html += "<div class='comment-edit form-control'>";
-	html += "<p class='font-weight-bold mb-2'>" + commentDetails.memberNickname + "</p>";
-	html += "<textarea rows='1' style='white-space: pre;'>" + commentDetails.commentContent + "</textarea>";
+	//html += "<p class='font-weight-bold mb-2'>" + commentDetails.memberNickname + "</p>";
+	html += "<textarea rows='1' style='white-space: pre;'>" + commentContent + "</textarea>";
 	html += "<div class='mt-2'>";
 	html += "<button class='btn btn-outline-primary btn-sm mr-2' name='modifyCommentBtn'>수정</button>";
 	html += "<button class='btn btn-outline-secondary btn-sm' name='closeEditCommentBtn'>취소</button>";

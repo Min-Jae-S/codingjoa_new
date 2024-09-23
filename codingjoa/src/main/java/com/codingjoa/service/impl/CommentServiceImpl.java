@@ -1,7 +1,6 @@
 package com.codingjoa.service.impl;
 
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,7 +69,7 @@ public class CommentServiceImpl implements CommentService {
 		List<CommentDetailsDto> pagedComment = commentMapper.findPagedComment(board.getBoardIdx(), commentCri, memberIdx)
 				.stream()
 				.map(commentDetailsMap -> {
-					CommentDetailsDto commentDetails = CommentDetailsDto.from(commentDetailsMap);
+					CommentDetailsDto commentDetails = CommentDetailsDto.from(commentDetailsMap, memberIdx);
 					return commentDetails.isCommentUse() ? commentDetails : null;
 				})
 				.collect(Collectors.toList());
@@ -99,24 +98,17 @@ public class CommentServiceImpl implements CommentService {
 	}
 
 	@Override
-	public CommentDetailsDto getModifyComment(Integer commentIdx, Integer memberIdx) {
-		Map<String, Object> commentDetailsMap = commentMapper.findCommentDetails(commentIdx, memberIdx);
-		log.info("\t > find commentDetailsMap = {}", commentDetailsMap);
-		
-		if (commentDetailsMap == null) {
-			throw new ExpectedException("error.NotFoundComment");
-		}
-		
-		CommentDetailsDto commentDetails = CommentDetailsDto.from(commentDetailsMap);
-		if (!commentDetails.isCommentUse()) {
+	public Comment getModifyComment(Integer commentIdx, Integer memberIdx) {
+		Comment comment = getCommentByIdx(commentIdx);
+		if (!comment.getCommentUse()) {
 			throw new ExpectedException("error.AlreadyDeletedComment");
 		}
 		
-		if (commentDetails.getMemberIdx() != memberIdx) {
+		if (comment.getMemberIdx() != memberIdx) {
 			throw new ExpectedException("error.NotMyComment");
 		}
 		
-		return commentDetails;
+		return comment;
 	}
 	
 	private Comment getCommentByIdx(int commentIdx) {

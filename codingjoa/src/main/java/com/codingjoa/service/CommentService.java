@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.codingjoa.dto.CommentDetailsDto;
 import com.codingjoa.dto.CommentDto;
+import com.codingjoa.entity.Comment;
 import com.codingjoa.pagination.CommentCriteria;
 import com.codingjoa.pagination.Pagination;
 
@@ -15,7 +16,7 @@ public interface CommentService {
 	
 	Pagination getPagination(Integer boardIdx, CommentCriteria commentCri);
 	
-	CommentDetailsDto getModifyComment(Integer commentIdx, Integer memberIdx);
+	Comment getModifyComment(Integer commentIdx, Integer memberIdx);
 	
 	void updateComment(CommentDto commentDto);
 	
