@@ -44,9 +44,9 @@ public class CommentRestController {
 	//binder.registerCustomEditor(String.class, new StringTrimmerEditor(false));
 
 	@GetMapping("/boards/{boardIdx}/comments")
-	public ResponseEntity<Object> getCommentList(@PathVariable int boardIdx,
+	public ResponseEntity<Object> getPagedComment(@PathVariable int boardIdx,
 			@CommentCri CommentCriteria commentCri, @AuthenticationPrincipal PrincipalDetails principal) {
-		log.info("## getCommentList, boardIdx = {}", boardIdx);
+		log.info("## getPagedComment, boardIdx = {}", boardIdx);
 		log.info("\t > commentCri = {}", commentCri);
 		
 		Integer memberIdx = (principal == null) ? null : principal.getIdx();
@@ -58,12 +58,8 @@ public class CommentRestController {
 		Pagination pagination = commentService.getPagination(boardIdx, commentCri);
 		log.info("\t > pagination = {}", pagination);
 
-//		List<Integer> myCommentLikes = (princiapl == null) ? Collections.emptyList() : princiapl.getMyCommentLikes();
-//		log.info("\t > myCommentLikes = {}", myCommentLikes);
-		
 		return ResponseEntity.ok(SuccessResponse
 				.builder()
-				//.data(Map.of("commentList", commentList, "pagination", pagination))
 				.data(Map.of("pagedComment", pagedComment, "pagination", pagination))
 				.build());
 	}

@@ -385,7 +385,8 @@
 					<div class="comment-input form-control">
 						<sec:authorize access="isAuthenticated()">
 							<p class="font-weight-bold mb-2">
-								<sec:authentication property="principal.nickname" />
+								<%-- <sec:authentication property="principal.nickname"/> --%>
+								<c:out value="${principal.nickname}"/>
 							</p>
 						</sec:authorize>
 						<textarea id="commentContent" placeholder="댓글을 남겨보세요" rows="1"></textarea>
@@ -427,7 +428,7 @@
 			</div>
 			<div class="input-group mb-4">
 				<div class="input-group-prepend">
-					<span class="input-group-text">Get commentList</span>
+					<span class="input-group-text">Get pagedComment</span>
 					<span class="input-group-text">:</span>
     				<span class="input-group-text">/boards/{commentBoardIdx}/comments</span>
   				</div>
@@ -482,7 +483,7 @@
 				<button class="btn btn-warning test-item" name="writeBtn" data-idx="9999">/comments; idx=9999</button>
 			</div>
 			<div class="mb-4 d-flex">
-				<button class="btn">Get commentList<span>:</span></button>
+				<button class="btn">Get pagedComment<span>:</span></button>
 				<button class="btn btn-warning test-item" name="commentListBtn" data-idx="">/boards/?/comments</button>
 				<button class="btn btn-warning test-item" name="commentListBtn" data-idx="a">/boards/a/comments</button>				
 				<button class="btn btn-warning test-item" name="commentListBtn" data-idx="9999">/boards/9999/comments</button>
@@ -581,9 +582,9 @@
 		const boardIdx = "<c:out value='${boardDetails.boardIdx}'/>";
 		let curCommentPage = 1;
 		
-		commentService.getCommentList(boardIdx, curCommentPage, function(result) {
-			let commentList = result.data.commentList;
-			let commentHtml = createCommentHtml(commentList);
+		commentService.getPagedComment(boardIdx, curCommentPage, function(result) {
+			let pagedComment = result.data.pagedComment;
+			let commentHtml = createCommentHtml(pagedComment);
 			$commentDiv.html(commentHtml);
 
 			let pagination = result.data.pagination;
@@ -642,9 +643,9 @@
 			
 			commentService.writeComment(comment, function(result) {
 				alert(result.message);
-				commentService.getCommentList(boardIdx, 1, function(result) {
-					let commentList = result.data.commentList;
-					let commentHtml = createCommentHtml(commentList);
+				commentService.getPagedComment(boardIdx, 1, function(result) {
+					let pagedComment = result.data.pagedComment;
+					let commentHtml = createCommentHtml(pagedComment);
 					$commentDiv.html(commentHtml);
 
 					let pagination = result.data.pagination;
@@ -688,9 +689,9 @@
 			
 			commentService.modifyComment(commentIdx, comment, function(result) {
 				alert(result.message);
-				commentService.getCommentList(boardIdx, curCommentPage, function(result) {
-					let commentList = result.data.commentList;
-					let commentHtml = createCommentHtml(commentList);
+				commentService.getPagedComment(boardIdx, curCommentPage, function(result) {
+					let pagedComment = result.data.pagedComment;
+					let commentHtml = createCommentHtml(pagedComment);
 					$commentDiv.html(commentHtml);
 
 					let pagination = result.data.pagination;
@@ -710,9 +711,9 @@
 			let commentIdx = $(this).closest("li").data("comment-idx");
 			commentService.deleteComment(commentIdx, function(result) {
 				alert(result.message);
-				commentService.getCommentList(boardIdx, curCommentPage, function(result) {
-					let commentList = result.data.commentList;
-					let commentHtml = createCommentHtml(commentList);
+				commentService.getPagedComment(boardIdx, curCommentPage, function(result) {
+					let pagedComment = result.data.pagedComment;
+					let commentHtml = createCommentHtml(pagedComment);
 					$("div.comment-list").html(commentHtml);
 
 					let pagination = result.data.pagination;
@@ -726,9 +727,9 @@
 		// pagination
 		$(document).on("click", "a.page-link", function(e) {
 			e.preventDefault();
-			commentService.getCommentList(boardIdx, $(this).data("page"), function(result) {
-				let commentList = result.data.commentList;
-				let commentHtml = createCommentHtml(commentList);
+			commentService.getPagedComment(boardIdx, $(this).data("page"), function(result) {
+				let pagedComment = result.data.pagedComment;
+				let commentHtml = createCommentHtml(pagedComment);
 				$("div.comment-list").html(commentHtml);
 
 				let pagination = result.data.pagination;
@@ -787,12 +788,12 @@
 			});
 		});
 
-		// getCommentList
+		// getPagedComment
 		$("#testGetCommentListBtn").on("click", function() {
 			let $input = $(this).closest("div.input-group").find("input");
 			let commentBoardIdx = $input.first().val();
 			let page = $input.last().val();
-			commentService.getCommentList(commentBoardIdx, page, function(result) {
+			commentService.getPagedComment(commentBoardIdx, page, function(result) {
 				// ...
 			});
 		});
@@ -837,9 +838,9 @@
 			});
 		});
 		
-		// getCommentList2
+		// getPagedComment2
 		$("button[name='commentListBtn']").on("click", function() {
-			commentService.getCommentList($(this).data("idx"), curCommentPage, function(result) {
+			commentService.getPagedComment($(this).data("idx"), curCommentPage, function(result) {
 				alert(result.message);
 			});
 		});

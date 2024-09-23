@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Builder;
 import lombok.Data;
@@ -12,6 +13,10 @@ import lombok.Data;
 public class CommentDetailsDto {
 
 	private int commentIdx;
+	
+	@JsonIgnore
+	private int memberIdx;
+	
 	private String commentContent;
 	private boolean commentUse;
 	
@@ -26,9 +31,11 @@ public class CommentDetailsDto {
 	private boolean commentLike;		// from LEFT OUTER JOIN with comment_likes
 	
 	@Builder
-	private CommentDetailsDto(int commentIdx, String commentContent, boolean commentUse, LocalDateTime createdAt,
-			LocalDateTime updatedAt, String memberNickname, int commentLikesCnt, boolean commentLike) {
+	private CommentDetailsDto(int commentIdx, int memberIdx, String commentContent, boolean commentUse,
+			LocalDateTime createdAt, LocalDateTime updatedAt, String memberNickname, int commentLikesCnt,
+			boolean commentLike) {
 		this.commentIdx = commentIdx;
+		this.memberIdx = memberIdx;
 		this.commentContent = commentContent;
 		this.commentUse = commentUse;
 		this.createdAt = createdAt;
@@ -41,14 +48,16 @@ public class CommentDetailsDto {
 	@Override
 	public String toString() {
 		String escapedCommentContent = (commentContent != null) ? commentContent.replace("\n", "\\n") : null;
-		return "CommentDetailsDto [commentIdx=" + commentIdx + ", commentContent=" + escapedCommentContent + ", commentUse="
-				+ commentUse + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", memberNickname="
-				+ memberNickname + ", commentLikesCnt=" + commentLikesCnt + ", commentLike=" + commentLike + "]";
+		return "CommentDetailsDto [commentIdx=" + commentIdx + ", memberIdx=" + memberIdx + ", commentContent="
+				+ escapedCommentContent + ", commentUse=" + commentUse + ", createdAt=" + createdAt + ", updatedAt="
+				+ updatedAt + ", memberNickname=" + memberNickname + ", commentLikesCnt=" + commentLikesCnt
+				+ ", commentLike=" + commentLike + "]";
 	}
 	
 	public static CommentDetailsDto from(Map<String, Object> map) {
 		return CommentDetailsDto.builder()
 				.commentIdx((int) map.get("commentIdx"))
+				.memberIdx((int) map.get("memberIdx"))
 				.commentContent((String) map.get("commentContent"))
 				.commentUse((boolean) map.get("commentUse"))
 				.createdAt((LocalDateTime) map.get("createdAt"))
@@ -58,5 +67,4 @@ public class CommentDetailsDto {
 				.commentLike((boolean) map.get("commentLike"))
 				.build();
 	}
-	
 }

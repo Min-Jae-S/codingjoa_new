@@ -19,7 +19,6 @@ import com.codingjoa.mapper.CommentMapper;
 import com.codingjoa.pagination.CommentCriteria;
 import com.codingjoa.pagination.Pagination;
 import com.codingjoa.service.CommentService;
-import com.codingjoa.util.FormatUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -102,7 +101,7 @@ public class CommentServiceImpl implements CommentService {
 	@Override
 	public CommentDetailsDto getModifyComment(Integer commentIdx, Integer memberIdx) {
 		Map<String, Object> commentDetailsMap = commentMapper.findCommentDetails(commentIdx, memberIdx);
-		log.info("\t > find commentDetailsMap = {}", FormatUtils.formatFields(commentDetailsMap));
+		log.info("\t > find commentDetailsMap = {}", commentDetailsMap);
 		
 		if (commentDetailsMap == null) {
 			throw new ExpectedException("error.NotFoundComment");
@@ -113,9 +112,9 @@ public class CommentServiceImpl implements CommentService {
 			throw new ExpectedException("error.AlreadyDeletedComment");
 		}
 		
-//		if (commentDetails.getMemberIdx() != memberIdx) {
-//			throw new ExpectedException("error.NotMyComment");
-//		}
+		if (commentDetails.getMemberIdx() != memberIdx) {
+			throw new ExpectedException("error.NotMyComment");
+		}
 		
 		return commentDetails;
 	}

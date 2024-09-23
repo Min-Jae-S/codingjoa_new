@@ -65,9 +65,9 @@ let commentService = (function() {
 		*/
 	}
 	
-	function getCommentList(commentBoardIdx, page, callback) {
-		console.log("## getCommentList");
-		let url = contextPath + "/api/boards/" + commentBoardIdx + "/comments?page=" + page;
+	function getPagedComment(boardIdx, page, callback) {
+		console.log("## getPagedComment");
+		let url = contextPath + "/api/boards/" + boardIdx + "/comments?page=" + page;
 		console.log("> URL = '%s'", url);
 		
 		$.ajax({
@@ -174,7 +174,7 @@ let commentService = (function() {
 	
 	return {
 		writeComment:writeComment,
-		getCommentList:getCommentList,
+		getPagedComment:getPagedComment,
 		getModifyComment:getModifyComment,
 		modifyComment:modifyComment,
 		deleteComment:deleteComment

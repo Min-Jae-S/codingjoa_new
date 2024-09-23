@@ -65,9 +65,9 @@ public class BoardController {
 	}
 	
 	@GetMapping("/")
-	public String getBoard(@BoardCategoryCode @RequestParam int boardCategoryCode, @BoardCri Criteria boardCri,
+	public String getPagedBoard(@BoardCategoryCode @RequestParam int boardCategoryCode, @BoardCri Criteria boardCri,
 			@AuthenticationPrincipal PrincipalDetails principal, Model model) {
-		log.info("## getBoard, boardCategoryCode = {}", boardCategoryCode);
+		log.info("## getPagedBoard, boardCategoryCode = {}", boardCategoryCode);
 		log.info("\t > boardCri = {}", boardCri);
 		log.info("\t > keywordRegexp = {}", boardCri.getKeywordRegexp());
 	

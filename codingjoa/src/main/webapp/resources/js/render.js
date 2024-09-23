@@ -16,15 +16,15 @@ function createCategoryMenuHtml(categoryList) {
 	return html;
 }
 
-function createCommentHtml(commentList) {
+function createCommentHtml(pagedComment) {
 	console.log("## createCommentHtml");
 	let html = "";
-	if (commentList.length == 0) {
+	if (pagedComment.length == 0) {
 		return html;
 	}
 	
 	html += "<ul class='list-group list-group-flush'>";
-	$.each(commentList, function(index, commentDetails) {
+	$.each(pagedComment, function(index, commentDetails) {
 		if (commentDetails == null) {
 			html += "<li class='list-group-item deleted-comment'>";
 			html += "<div class='comment-area'>";
@@ -70,11 +70,11 @@ function createCommentHtml(commentList) {
 		html += "</div>";
 		html += "<div class='mt-auto'>"
 		html += "<button class='btn border-0 p-0 shadow-none' type='button' name='commentLikesBtn'>";
-//		if (myCommentLikes.includes(commentDetails.commentIdx)) {
-//			html += "<i class='text-primary fa-regular fa-thumbs-up'></i> ";
-//		} else {
-//			html += "<i class='text-grey fa-regular fa-thumbs-up'></i> ";
-//		}
+		if (commentDetails.commentLike) {
+			html += "<i class='fa-thumbs-up fa-regular text-primary'></i> ";
+		} else {
+			html += "<i class='fa-thumbs-up fa-regular text-grey'></i>";
+		}
 		html += "<span class='comment-likes-cnt'>" + commentDetails.commentLikesCnt + "</span>";
 		html += "</button>";
 		html += "</div>";
