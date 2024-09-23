@@ -579,13 +579,10 @@
 		const $commentDiv = $("div.comment-list");
 		const $commentPageDiv = $("div.comment-pagination");
 		const boardIdx = "<c:out value='${boardDetails.boardIdx}'/>";
-		//const memberIdx = "<c:out value='${boardDetails.memberIdx}'/>";
 		let curCommentPage = 1;
 		
 		commentService.getCommentList(boardIdx, curCommentPage, function(result) {
 			let commentList = result.data.commentList;
-			//let myCommentLikes = result.data.myCommentLikes;
-			//let commentHtml = createCommentHtml(commentList, myCommentLikes, memberIdx);
 			let commentHtml = createCommentHtml(commentList);
 			$commentDiv.html(commentHtml);
 
@@ -647,8 +644,6 @@
 				alert(result.message);
 				commentService.getCommentList(boardIdx, 1, function(result) {
 					let commentList = result.data.commentList;
-					//let myCommentLikes = result.data.myCommentLikes;
-					//let commentHtml = createCommentHtml(commentList, myCommentLikes, memberIdx);
 					let commentHtml = createCommentHtml(commentList);
 					$commentDiv.html(commentHtml);
 
@@ -695,8 +690,6 @@
 				alert(result.message);
 				commentService.getCommentList(boardIdx, curCommentPage, function(result) {
 					let commentList = result.data.commentList;
-					//let myCommentLikes = result.data.myCommentLikes;
-					//let commentHtml = createCommentHtml(commentList, myCommentLikes, memberIdx);
 					let commentHtml = createCommentHtml(commentList);
 					$commentDiv.html(commentHtml);
 
@@ -719,8 +712,6 @@
 				alert(result.message);
 				commentService.getCommentList(boardIdx, curCommentPage, function(result) {
 					let commentList = result.data.commentList;
-					//let myCommentLikes = result.data.myCommentLikes;
-					//let commentHtml = createCommentHtml(commentList, myCommentLikes, memberIdx);
 					let commentHtml = createCommentHtml(commentList);
 					$("div.comment-list").html(commentHtml);
 
@@ -737,8 +728,6 @@
 			e.preventDefault();
 			commentService.getCommentList(boardIdx, $(this).data("page"), function(result) {
 				let commentList = result.data.commentList;
-				//let myCommentLikes = result.data.myCommentLikes;
-				//let commentHtml = createCommentHtml(commentList, myCommentLikes, memberIdx);
 				let commentHtml = createCommentHtml(commentList);
 				$("div.comment-list").html(commentHtml);
 

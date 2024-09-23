@@ -21,7 +21,7 @@ public class BoardDetailsDto {
 	private String memberNickname;		// from INNER JOIN with member
 	private int commentCnt;				// from LEFT OUTER JOIN with comment
 	private int boardLikesCnt;			// from LEFT OUTER JOIN with board_likes
-	private boolean boardLike;
+	private boolean boardLike;			// from LEFT OUTER JOIN with board_likes
 	
 	@Builder
 	private BoardDetailsDto(int boardIdx, String boardTitle, String boardContent, int boardViews, int boardCategoryCode,
@@ -65,17 +65,17 @@ public class BoardDetailsDto {
 				.build();
 	}
 
-	public String getFullCreatedAt() {
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm");
-		return this.createdAt.format(formatter);
-	}
-	
-	public String getFormattedCreatedAt() {
+	public String getCreatedAt() {
 		return format(this.createdAt);
 	}
 
-	public String getFormattedUpdatedAt() {
+	public String getUpdatedAt() {
 		return format(this.updatedAt);
+	}
+	
+	public String getFullCreatedAt() {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm");
+		return this.createdAt.format(formatter);
 	}
 	
 	private String format(LocalDateTime dateTime) {

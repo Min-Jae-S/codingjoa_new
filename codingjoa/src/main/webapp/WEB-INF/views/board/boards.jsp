@@ -110,7 +110,7 @@
 											<span><c:out value="${boardDetails.memberNickname}"/></span>
 										</td>
 										<td class="d-md-table-cell">
-											<span><c:out value="${boardDetails.formattedCreatedAt}"/></span>
+											<span><c:out value="${boardDetails.createdAt}"/></span>
 										</td>
 										<td class="d-md-table-cell">
 											<span><c:out value="${boardDetails.boardViews}"/></span>
@@ -118,10 +118,10 @@
 										<td class="d-md-table-cell">
 											<c:choose>
 												<c:when test="${boardDetails.boardLike}">
-													<i class="fa-solid fa-heart text-danger"></i>
+													<i class="fa-heart fa-solid text-danger"></i>
 												</c:when>
 												<c:otherwise>
-													<i class="fa-regular fa-heart"></i>
+													<i class="fa-heart fa-regular"></i>
 												</c:otherwise>
 											</c:choose>
 											<span><c:out value="${boardDetails.boardLikesCnt}"/></span>
