@@ -89,7 +89,7 @@
 	
 	<resultMap type="map" id="commentDetailsMap">
 		<!-- java.math.BigDecimal cannot be cast to class java.lang.Integer -->
-		<!-- javaType >>  java.lang.Integer -->
+		<!-- javaType >> java.lang.Integer -->
 		<id property="commentIdx" column="comment_idx" javaType="int"/>
 		<result property="memberIdx" column="member_idx" javaType="int"/>
 		<result property="commentContent" column="comment_content" javaType="string"/>
@@ -97,6 +97,7 @@
 		<result property="createdAt" column="created_at" javaType="java.time.LocalDateTime"/>
 		<result property="updatedAt" column="updated_at" javaType="java.time.LocalDateTime"/>
 		<result property="memberNickname" column="member_nickname" javaType="string"/>
+		<result property="commentLikesCnt" column="comment_likes_cnt" javaType="int"/>
 		<result property="commentLike" column="comment_like" javaType="boolean"/>
 	</resultMap>
 	
