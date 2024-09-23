@@ -45,11 +45,16 @@ public class CommentRestController {
 
 	@GetMapping("/boards/{boardIdx}/comments")
 	public ResponseEntity<Object> getCommentList(@PathVariable int boardIdx,
-			@CommentCri CommentCriteria commentCri, @AuthenticationPrincipal PrincipalDetails princiapl) {
+			@CommentCri CommentCriteria commentCri, @AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## getCommentList, boardIdx = {}", boardIdx);
 		log.info("\t > commentCri = {}", commentCri);
+		
+		Integer memberIdx = (principal == null) ? null : principal.getIdx();
+		log.info("\t > memberIdx = {}", memberIdx);
 
-		List<CommentDetailsDto> commentList = commentService.getPagedComment(boardIdx, commentCri);
+		List<CommentDetailsDto> pagedComment = commentService.getPagedComment(boardIdx, commentCri, memberIdx);
+		log.info("\t > pagedComment = {}", pagedComment);
+		
 		Pagination pagination = commentService.getPagination(boardIdx, commentCri);
 		log.info("\t > pagination = {}", pagination);
 
@@ -58,8 +63,8 @@ public class CommentRestController {
 		
 		return ResponseEntity.ok(SuccessResponse
 				.builder()
-				//.data(Map.of("commentList", commentList, "myCommentLikes", myCommentLikes, "pagination", pagination))
-				.data(Map.of("commentList", commentList, "pagination", pagination))
+				//.data(Map.of("commentList", commentList, "pagination", pagination))
+				.data(Map.of("pagedComment", pagedComment, "pagination", pagination))
 				.build());
 	}
 	

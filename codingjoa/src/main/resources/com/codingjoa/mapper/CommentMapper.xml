@@ -91,33 +91,33 @@
 		<!-- java.math.BigDecimal cannot be cast to class java.lang.Integer -->
 		<!-- javaType >>  java.lang.Integer -->
 		<id property="commentIdx" column="comment_idx" javaType="int"/>
-		<result property="memberIdx" column="member_idx" javaType="int"/>
-		<result property="boardIdx" column="board_idx" javaType="int"/>
 		<result property="commentContent" column="comment_content" javaType="string"/>
 		<result property="commentUse" column="comment_use" javaType="boolean"/>
 		<result property="createdAt" column="created_at" javaType="java.time.LocalDateTime"/>
 		<result property="updatedAt" column="updated_at" javaType="java.time.LocalDateTime"/>
 		<result property="memberNickname" column="member_nickname" javaType="string"/>
 		<result property="commentLikesCnt" column="comment_likes_cnt" javaType="int"/>
+		<result property="commentLike" column="comment_like" javaType="boolean"/>
 	</resultMap>
 	
 	<select id="findPagedComment" parameterType="map" resultMap="commentDetailsMap">
 		SELECT
-    		/*+ ORDERED USE_NL(b) USE_NL(c) */
+    		/*+ ORDERED USE_NL(b) USE_NL(c) USE_NL(d) */
 			a.comment_idx,
-			a.member_idx, 
-			a.board_idx,
 			a.comment_content,
 			a.comment_use,
 	        a.created_at,
 	        a.updated_at,
     		b.member_nickname,
-    		NVL(c.cnt, 0) AS comment_likes_cnt
+    		NVL(c.cnt, 0) AS comment_likes_cnt,
+    		CASE 
+    			WHEN d.comment_idx IS NOT NULL THEN 1 
+    			ELSE 0 
+    		END AS comment_like
 		FROM (
 			SELECT
 				a_depth.comment_idx,
 		        a_depth.member_idx,
-		        a_depth.board_idx,
 		        a_depth.comment_content, 
 		        a_depth.comment_use,
 		        a_depth.created_at,
@@ -128,7 +128,6 @@
 			        ROWNUM rn, 
 			        comment_idx,
 			        member_idx,
-			        board_idx,
 			        comment_content, 
 			        comment_use,
 			        created_at,
@@ -160,6 +159,16 @@
 		) c
 		ON
 			a.comment_idx = c.comment_idx
+		LEFT OUTER JOIN (
+			SELECT
+				comment_idx
+			FROM
+				comment_likes
+			WHERE
+				member_idx = #{memberIdx}
+		) d
+		ON
+			a.comment_idx = d.comment_idx
 	</select>
 
 	<!-- <select id="findPagedComment" parameterType="map" resultMap="commentDetailsMap">
@@ -221,17 +230,19 @@
 			board_idx = #{boardIdx}
 	</select>
 	
-	<select id="findCommentDetailsByIdx" parameterType="map" resultMap="commentDetailsMap">
+	<select id="findCommentDetails" parameterType="map" resultMap="commentDetailsMap">
 		SELECT
 			a.comment_idx,
-			a.member_idx, 
-			a.board_idx,
 			a.comment_content,
 			a.comment_use,
 	        a.created_at,
 	        a.updated_at,
     		b.member_nickname,
-    		NVL(c.cnt, 0) AS comment_likes_cnt
+    		NVL(c.cnt, 0) AS comment_likes_cnt,
+    		CASE 
+    			WHEN d.comment_idx IS NOT NULL THEN 1 
+    			ELSE 0 
+    		END AS comment_like
 		FROM
 			"comment" a
 		INNER JOIN
@@ -249,6 +260,16 @@
 		) c
 		ON
 			a.comment_idx = c.comment_idx
+		LEFT OUTER JOIN (
+			SELECT
+				comment_idx
+			FROM
+				comment_likes
+			WHERE
+				member_idx = #{memberIdx}	
+		) d
+		ON
+			a.comment_idx = d.comment_idx
 		WHERE
 			a.comment_idx = #{commentIdx}
 	</select>

@@ -11,13 +11,13 @@ public interface CommentService {
 
 	void saveComment(CommentDto commentDto);
 	
-	List<CommentDetailsDto> getPagedComment(int boardIdx, CommentCriteria commentCri);
+	List<CommentDetailsDto> getPagedComment(Integer boardIdx, CommentCriteria commentCri, Integer memberIdx);
 	
-	Pagination getPagination(int boardIdx, CommentCriteria commentCri);
+	Pagination getPagination(Integer boardIdx, CommentCriteria commentCri);
 	
-	CommentDetailsDto getModifyComment(int commentIdx, int memberIdx);
+	CommentDetailsDto getModifyComment(Integer commentIdx, Integer memberIdx);
 	
 	void updateComment(CommentDto commentDto);
 	
-	void deleteComment(int commentIdx, int memberIdx);
+	void deleteComment(Integer commentIdx, Integer memberIdx);
 }

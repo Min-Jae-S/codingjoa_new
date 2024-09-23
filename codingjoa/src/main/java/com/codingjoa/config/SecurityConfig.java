@@ -104,15 +104,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				// https://stackoverflow.com/questions/19941466/spring-security-allows-unauthorized-user-access-to-restricted-url-from-a-forward
 				//.filterSecurityInterceptorOncePerRequest(false)
 				.antMatchers("/member/account/**", "/api/member/account/**").authenticated()
-				.antMatchers("/board/write", "/board/writeProc", "/board/modify", "/board/modifyProc", "/board/deleteProc").authenticated()
+				.antMatchers("/board/write", "/board/modify", "/board/delete").authenticated()
 				// the order of the rules matters and the more specific rules should go first
 				//.antMatchers("/api/comments/**/likes").permitAll()
 				//.antMatchers("/api/comments/**").authenticated()
 				.antMatchers(HttpMethod.POST, "/api/boards/*/likes", "/api/comments/*/likes").authenticated()
 				.antMatchers("/api/comments", "/comments/", "/api/comments/*").authenticated()
-				.antMatchers(HttpMethod.POST, "/api/board/image", "/api/member/image").authenticated()
-				.antMatchers("/api/member/images", "/api/member/images/*").authenticated()
-				.antMatchers("/api/member/details").authenticated()
+				.antMatchers(HttpMethod.POST, "/api/board/image").authenticated()
 				.antMatchers("/admin/**", "/api/admin/**").hasAnyRole("ADMIN")
 				.anyRequest().permitAll()
 				.and()

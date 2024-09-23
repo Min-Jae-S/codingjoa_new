@@ -59,7 +59,7 @@ public class CommentServiceImpl implements CommentService {
 	}
 	
 	@Override
-	public List<CommentDetailsDto> getPagedComment(int boardIdx, CommentCriteria commentCri) {
+	public List<CommentDetailsDto> getPagedComment(Integer boardIdx, CommentCriteria commentCri, Integer memberIdx) {
 		Board board = boardMapper.findBoardByIdx(boardIdx);
 		log.info("\t > prior to finding pagedComment, find board");
 		
@@ -67,7 +67,8 @@ public class CommentServiceImpl implements CommentService {
 			throw new ExpectedException("error.NotFoundBoard");
 		}
 		
-		List<CommentDetailsDto> pagedComment = commentMapper.findPagedComment(board.getBoardIdx(), commentCri)
+		log.info("\t > find pagedComment");
+		List<CommentDetailsDto> pagedComment = commentMapper.findPagedComment(board.getBoardIdx(), commentCri, memberIdx)
 				.stream()
 				.map(commentDetailsMap -> {
 					CommentDetailsDto commentDetails = CommentDetailsDto.from(commentDetailsMap);
@@ -93,14 +94,14 @@ public class CommentServiceImpl implements CommentService {
 	}
 	
 	@Override
-	public Pagination getPagination(int boardIdx, CommentCriteria commentCri) {
+	public Pagination getPagination(Integer boardIdx, CommentCriteria commentCri) {
 		int totalCnt = commentMapper.findCommentTotalCnt(boardIdx);
 		return new Pagination(totalCnt, commentCri.getPage(), commentCri.getRecordCnt(), pageRange);
 	}
 
 	@Override
-	public CommentDetailsDto getModifyComment(int commentIdx, int memberIdx) {
-		Map<String, Object> commentDetailsMap = commentMapper.findCommentDetailsByIdx(commentIdx);
+	public CommentDetailsDto getModifyComment(Integer commentIdx, Integer memberIdx) {
+		Map<String, Object> commentDetailsMap = commentMapper.findCommentDetails(commentIdx, memberIdx);
 		log.info("\t > find commentDetailsMap = {}", FormatUtils.formatFields(commentDetailsMap));
 		
 		if (commentDetailsMap == null) {
@@ -112,9 +113,9 @@ public class CommentServiceImpl implements CommentService {
 			throw new ExpectedException("error.AlreadyDeletedComment");
 		}
 		
-		if (commentDetails.getMemberIdx() != memberIdx) {
-			throw new ExpectedException("error.NotMyComment");
-		}
+//		if (commentDetails.getMemberIdx() != memberIdx) {
+//			throw new ExpectedException("error.NotMyComment");
+//		}
 		
 		return commentDetails;
 	}
@@ -151,7 +152,7 @@ public class CommentServiceImpl implements CommentService {
 	}
 	
 	@Override
-	public void deleteComment(int commentIdx, int memberIdx) {
+	public void deleteComment(Integer commentIdx, Integer memberIdx) {
 		Comment comment = getCommentByIdx(commentIdx);
 		if (!comment.getCommentUse()) {
 			throw new ExpectedException("error.AlreadyDeletedComment");

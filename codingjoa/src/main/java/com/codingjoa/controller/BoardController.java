@@ -68,6 +68,8 @@ public class BoardController {
 	public String getBoard(@BoardCategoryCode @RequestParam int boardCategoryCode, @BoardCri Criteria boardCri,
 			@AuthenticationPrincipal PrincipalDetails principal, Model model) {
 		log.info("## getBoard, boardCategoryCode = {}", boardCategoryCode);
+		log.info("\t > boardCri = {}", boardCri);
+		log.info("\t > keywordRegexp = {}", boardCri.getKeywordRegexp());
 	
 		Integer memberIdx = (principal == null) ? null : principal.getIdx();
 		log.info("\t > memberIdx = {}", memberIdx);
@@ -118,9 +120,9 @@ public class BoardController {
 	}
 	
 	@PostMapping("/write")
-	public String writeProc(@Validated @ModelAttribute("writeBoardDto") BoardDto writeBoardDto, 
+	public String write(@Validated @ModelAttribute("writeBoardDto") BoardDto writeBoardDto, 
 			 BindingResult bindingResult, @AuthenticationPrincipal PrincipalDetails principal, Model model) throws BindException {
-		log.info("## writeProc");
+		log.info("## write");
 		log.info("\t > writeBoardDto = {}", writeBoardDto);
 		
 		if (bindingResult.hasErrors()) {
@@ -151,9 +153,9 @@ public class BoardController {
 	}
 	
 	@PostMapping("/modify")
-	public String modifyProc(@Validated @ModelAttribute("modifyBoardDto") BoardDto modifyBoardDto, 
+	public String modify(@Validated @ModelAttribute("modifyBoardDto") BoardDto modifyBoardDto, 
 			BindingResult bindingResult, @AuthenticationPrincipal PrincipalDetails principal, Model model) throws BindException {
-		log.info("## modifyProc");
+		log.info("## modify");
 		log.info("\t > modifyBoardDto = {}", modifyBoardDto);
 
 		if (bindingResult.hasErrors()) {
@@ -172,9 +174,9 @@ public class BoardController {
 		return "redirect:/board/read?boardIdx=" + boardIdx;
 	}
 	
-	@GetMapping("/deleteProc")
-	public String deleteProc(@RequestParam int boardIdx, @AuthenticationPrincipal PrincipalDetails principal) {
-		log.info("## deleteProc, bordIdx = {}", boardIdx);
+	@GetMapping("/delete")
+	public String delete(@RequestParam int boardIdx, @AuthenticationPrincipal PrincipalDetails principal) {
+		log.info("## delete, bordIdx = {}", boardIdx);
 
 		// fk_board_image_board --> ON DELETE SET NULL
 		// fk_comment_board		--> ON DELETE CASCADE
