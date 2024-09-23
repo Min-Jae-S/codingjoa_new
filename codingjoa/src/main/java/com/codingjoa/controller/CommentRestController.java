@@ -57,7 +57,7 @@ public class CommentRestController {
 		log.info("\t > pagedComment = {}", pagedComment);
 		
 		Pagination pagination = commentService.getPagination(boardIdx, commentCri);
-		log.info("\t > pagination = {}", pagination);
+		log.info("\t > comment pagination = {}", pagination);
 		
 		Map<String, Object> data = new HashMap<>();
 		data.put("pagedComment", pagedComment);

@@ -8,8 +8,10 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor // for deserializing (JSON --> Object)
 public class CommentDto {
 
 	private int commentIdx;
@@ -41,6 +43,11 @@ public class CommentDto {
 
 	public Comment toEntity() {
 		return Comment.builder()
+				.commentIdx(this.commentIdx)
+				.memberIdx(this.memberIdx)
+				.boardIdx(this.boardIdx)
+				.commentContent(this.commentContent)
+				.commentUse(this.commentUse)
 				.build();
 	}
 	

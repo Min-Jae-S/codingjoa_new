@@ -50,6 +50,7 @@ public class BoardDto {
 	
 	public Board toEntity() {
 		return Board.builder()
+				.boardIdx(this.boardIdx)
 				.memberIdx(this.memberIdx)
 				.boardTitle(this.boardTitle)
 				.boardContent(this.boardContent)

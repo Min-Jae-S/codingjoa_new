@@ -78,7 +78,7 @@ public class BoardController {
 		log.info("\t > pagedBoard = {}", pagedBoard);
 		
 		Pagination pagination = boardService.getPagination(boardCategoryCode, boardCri);
-		log.info("\t > pagination = {}", pagination);
+		log.info("\t > board pagination = {}", pagination);
 		
 		Category category = categoryService.getCategory(boardCategoryCode);
 		model.addAttribute("pagedBoard", pagedBoard);
