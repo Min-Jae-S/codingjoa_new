@@ -16,7 +16,7 @@ function createCategoryMenuHtml(categoryList) {
 	return html;
 }
 
-function createCommentHtml(commentList, myCommentLikes, memberIdx) {
+function createCommentHtml(commentList) {
 	console.log("## createCommentHtml");
 	let html = "";
 	if (commentList.length == 0) {
@@ -47,9 +47,9 @@ function createCommentHtml(commentList, myCommentLikes, memberIdx) {
 		html += "<div class='comment-info'>";
 		//html += "<span class='comment-writer mr-2'>" + commentDetails.memberNickname + "</span>";
 		html += "<span class='comment-writer mr-2'>" + commentDetails.memberNickname + " (" + commentDetails.commentIdx + ")</span>";
-		if (commentDetails.memberIdx == memberIdx) {
-			html += "<span class='badge badge-pill badge-primary mr-2'>작성자</span>"
-		}
+//		if (commentDetails.memberIdx == memberIdx) {
+//			html += "<span class='badge badge-pill badge-primary mr-2'>작성자</span>"
+//		}
 		html += "<span class='comment-regdate'>" + commentDetails.createdAt + "</span>";
 		html += "<span class='comment-moddate d-none'>" + commentDetails.updatedAt + "</span>";
 		html += "</div>";
@@ -70,11 +70,11 @@ function createCommentHtml(commentList, myCommentLikes, memberIdx) {
 		html += "</div>";
 		html += "<div class='mt-auto'>"
 		html += "<button class='btn border-0 p-0 shadow-none' type='button' name='commentLikesBtn'>";
-		if (myCommentLikes.includes(commentDetails.commentIdx)) {
-			html += "<i class='text-primary fa-regular fa-thumbs-up'></i> ";
-		} else {
-			html += "<i class='text-grey fa-regular fa-thumbs-up'></i> ";
-		}
+//		if (myCommentLikes.includes(commentDetails.commentIdx)) {
+//			html += "<i class='text-primary fa-regular fa-thumbs-up'></i> ";
+//		} else {
+//			html += "<i class='text-grey fa-regular fa-thumbs-up'></i> ";
+//		}
 		html += "<span class='comment-likes-cnt'>" + commentDetails.commentLikesCnt + "</span>";
 		html += "</button>";
 		html += "</div>";

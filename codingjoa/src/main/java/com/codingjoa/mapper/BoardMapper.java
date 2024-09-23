@@ -14,7 +14,7 @@ public interface BoardMapper {
 	
 	boolean insertBoard(Board board);
 	
-	Map<String, Object> findBoardDetails(Integer boardIdx, Integer memberIdx);
+	Map<String, Object> findBoardDetails(@Param("boardIdx") Integer boardIdx, @Param("memberIdx") Integer memberIdx);
 	
 	void updateBoardViews(Integer boardIdx);
 	
