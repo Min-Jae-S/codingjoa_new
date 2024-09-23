@@ -175,31 +175,33 @@
 		<div class="mb-3" style="height:38px;">
 			<a class="btn btn-primary" href="${contextPath}/board/write?boardCategoryCode=${category.categoryCode}">글쓰기</a>
 		</div>
-		<div class="pt-3">
-			<ul class="pagination justify-content-center">
-				<c:if test="${pagination.prev}">
-					<li class="page-item">
-						<a class="page-link" href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}&
-							${boardCri.getQueryString(pagination.prevPage)}"><i class="fa-solid fa-chevron-left"></i>
-						</a>
-					</li>
-				</c:if>
-				<c:forEach var="item" begin="${pagination.startPage}" end="${pagination.endPage}">
-					<li class="page-item ${item eq pagination.page ? 'active' : ''}">
-						<a class="page-link" href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}&
-							${boardCri.getQueryString(item)}">${item}
-						</a>
-					</li>
-				</c:forEach>
-				<c:if test="${pagination.next}">
-					<li class="page-item">
-						<a class="page-link" href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}&
-							${boardCri.getQueryString(pagination.nextPage)}"><i class="fa-solid fa-chevron-right"></i>
-						</a>
-					</li>
-				</c:if>
-			</ul>
-		</div>
+		<c:if test="${not empty pagination}">
+			<div class="pt-3">
+				<ul class="pagination justify-content-center">
+					<c:if test="${pagination.prev}">
+						<li class="page-item">
+							<a class="page-link" href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}&
+								${boardCri.getQueryString(pagination.prevPage)}"><i class="fa-solid fa-chevron-left"></i>
+							</a>
+						</li>
+					</c:if>
+					<c:forEach var="item" begin="${pagination.startPage}" end="${pagination.endPage}">
+						<li class="page-item ${item eq pagination.page ? 'active' : ''}">
+							<a class="page-link" href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}&
+								${boardCri.getQueryString(item)}">${item}
+							</a>
+						</li>
+					</c:forEach>
+					<c:if test="${pagination.next}">
+						<li class="page-item">
+							<a class="page-link" href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}&
+								${boardCri.getQueryString(pagination.nextPage)}"><i class="fa-solid fa-chevron-right"></i>
+							</a>
+						</li>
+					</c:if>
+				</ul>
+			</div>
+		</c:if>
 	</div>	
 </div>
 

@@ -1,5 +1,6 @@
 package com.codingjoa.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -57,11 +58,12 @@ public class CommentRestController {
 		
 		Pagination pagination = commentService.getPagination(boardIdx, commentCri);
 		log.info("\t > pagination = {}", pagination);
+		
+		Map<String, Object> data = new HashMap<>();
+		data.put("pagedComment", pagedComment);
+		data.put("pagination", pagination);
 
-		return ResponseEntity.ok(SuccessResponse
-				.builder()
-				.data(Map.of("pagedComment", pagedComment, "pagination", pagination))
-				.build());
+		return ResponseEntity.ok(SuccessResponse.builder().data(data).build());
 	}
 	
 	@GetMapping(value = { "/comments/", "/comments/{commentIdx}" })

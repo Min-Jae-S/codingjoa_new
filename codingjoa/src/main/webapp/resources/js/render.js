@@ -104,7 +104,7 @@ function createEditCommentHtml(commentDetails) {
 function createPaginationHtml(pagination) {
 	console.log("## createPaginationHtml");
 	let html = "";
-	if (pagination.totalCnt == 0) {
+	if (pagination == "") {
 		return html;
 	}
 	
