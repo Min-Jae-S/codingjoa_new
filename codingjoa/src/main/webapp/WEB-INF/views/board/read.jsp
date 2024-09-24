@@ -359,7 +359,7 @@
 						</a>
 						<button class="btn border-0 p-0 shadow-none" type="button" id="boardLikesBtn">
 							<c:choose>
-								<c:when test="${boardDetails.isBoardLiked}">
+								<c:when test="${boardDetails.boardLiked}">
 									<i class="fa-heart fa-solid text-danger"></i>
 								</c:when>
 								<c:otherwise>

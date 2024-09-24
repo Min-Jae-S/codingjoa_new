@@ -50,7 +50,7 @@
 		<result property="memberNickname" column="member_nickname" javaType="string"/>
 		<result property="commentCnt" column="comment_cnt" javaType="int"/>
 		<result property="boardLikesCnt" column="board_likes_cnt" javaType="int"/>
-		<result property="isBoardLike" column="is_board_liked" javaType="boolean"/>
+		<result property="boardLiked" column="board_liked" javaType="boolean"/>
 	</resultMap>
 	
 	<select id="findBoardDetails" parameterType="map" resultMap="boardDetailsMap">
@@ -68,7 +68,7 @@
     		CASE 
     			WHEN e.board_idx IS NOT NULL THEN 1 
     			ELSE 0 
-    		END AS is_board_liked
+    		END AS board_liked
 		FROM
 			board a
 		INNER JOIN
@@ -190,7 +190,7 @@
     		CASE 
     			WHEN d.board_idx IS NOT NULL THEN 1 
     			ELSE 0 
-    		END AS is_board_liked
+    		END AS board_liked
 		FROM (
 		    SELECT
 		    	a_depth.board_idx,

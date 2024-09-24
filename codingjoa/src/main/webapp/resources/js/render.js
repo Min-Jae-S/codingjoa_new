@@ -46,7 +46,7 @@ function createCommentHtml(pagedComment) {
 		html += "<div class='comment-area-header'>";
 		html += "<div class='comment-info'>";
 		html += "<span class='comment-writer mr-2'>" + commentDetails.memberNickname + "</span>";
-		if (commentDetails.isBoardWriter) {
+		if (commentDetails.boardWriterMatches) {
 			html += "<span class='badge badge-pill badge-primary mr-2'>작성자</span>"
 		}
 		html += "<span class='comment-regdate'>" + commentDetails.createdAt + "</span>";
@@ -69,12 +69,12 @@ function createCommentHtml(pagedComment) {
 		html += "</div>";
 		html += "<div class='mt-auto'>"
 		html += "<button class='btn border-0 p-0 shadow-none' type='button' name='commentLikesBtn'>";
-		if (commentDetails.isCommentLiked) {
-			html += "<i class='fa-thumbs-up fa-regular text-primary'></i> "; 	// 끝의 공백을 의도적으로 추가
+		if (commentDetails.commentLiked) {
+			html += "<i class='fa-thumbs-up fa-regular text-primary'></i>";
 		} else {
-			html += "<i class='fa-thumbs-up fa-regular text-grey'></i> ";		// 끝의 공백을 의도적으로 추가
+			html += "<i class='fa-thumbs-up fa-regular text-grey'></i>";
 		}
-		html += "<span class='comment-likes-cnt'>" + commentDetails.commentLikesCnt + "</span>";
+		html += " <span class='comment-likes-cnt'>" + commentDetails.commentLikesCnt + "</span>"; // 앞의 공백을 의도적으로 추가
 		html += "</button>";
 		html += "</div>";
 		html += "</div>";
