@@ -70,9 +70,9 @@ function createCommentHtml(pagedComment) {
 		html += "<div class='mt-auto'>"
 		html += "<button class='btn border-0 p-0 shadow-none' type='button' name='commentLikesBtn'>";
 		if (commentDetails.isCommentLiked) {
-			html += "<i class='fa-thumbs-up fa-regular text-primary'></i> ";
+			html += "<i class='fa-thumbs-up fa-regular text-primary'></i> "; 	// 끝의 공백을 의도적으로 추가
 		} else {
-			html += "<i class='fa-thumbs-up fa-regular text-grey'></i>";
+			html += "<i class='fa-thumbs-up fa-regular text-grey'></i> ";		// 끝의 공백을 의도적으로 추가
 		}
 		html += "<span class='comment-likes-cnt'>" + commentDetails.commentLikesCnt + "</span>";
 		html += "</button>";

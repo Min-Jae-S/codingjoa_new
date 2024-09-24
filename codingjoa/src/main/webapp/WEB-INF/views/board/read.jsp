@@ -220,7 +220,7 @@
 	}
 	
 	button[name="commentLikesBtn"] i {
-		font-size: 1.2rem;
+		font-size: 1.1rem;
 	}
 	
 	.ck-read-only {
@@ -359,7 +359,7 @@
 						</a>
 						<button class="btn border-0 p-0 shadow-none" type="button" id="boardLikesBtn">
 							<c:choose>
-								<c:when test="${boardDetails.boardLike}">
+								<c:when test="${boardDetails.isBoardLiked}">
 									<i class="fa-heart fa-solid text-danger"></i>
 								</c:when>
 								<c:otherwise>

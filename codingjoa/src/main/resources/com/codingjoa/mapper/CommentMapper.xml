@@ -91,11 +91,11 @@
 		<!-- java.math.BigDecimal cannot be cast to class java.lang.Integer -->
 		<!-- javaType >> java.lang.Integer -->
 		<id property="commentIdx" column="comment_idx" javaType="int"/>
-		<result property="memberIdx" column="member_idx" javaType="int"/>
 		<result property="commentContent" column="comment_content" javaType="string"/>
 		<result property="commentUse" column="comment_use" javaType="boolean"/>
 		<result property="createdAt" column="created_at" javaType="java.time.LocalDateTime"/>
 		<result property="updatedAt" column="updated_at" javaType="java.time.LocalDateTime"/>
+		<result property="isBoardWriter" column="is_board_writer" javaType="boolean"/>
 		<result property="memberNickname" column="member_nickname" javaType="string"/>
 		<result property="commentLikesCnt" column="comment_likes_cnt" javaType="int"/>
 		<result property="isCommentLiked" column="is_comment_liked" javaType="boolean"/>
@@ -105,12 +105,93 @@
 		SELECT
     		/*+ ORDERED USE_NL(b) USE_NL(c) USE_NL(d) */
 			a.comment_idx,
-			a.member_idx,
+			a.comment_content,
+			a.comment_use,
+	        a.created_at,
+	        a.updated_at,
+	        a.is_board_writer,
+    		b.member_nickname,
+    		NVL(c.cnt, 0) AS comment_likes_cnt,
+    		CASE 
+    			WHEN d.comment_idx IS NOT NULL THEN 1 
+    			ELSE 0 
+    		END AS is_comment_liked
+		FROM (
+			SELECT
+				a_depth.comment_idx,
+		        a_depth.member_idx,
+		        a_depth.comment_content, 
+		        a_depth.comment_use,
+		        a_depth.created_at,
+		        a_depth.updated_at,
+		        a_depth.is_board_writer
+			FROM (
+				SELECT
+					/*+ INDEX_DESC("comment" pk_comment) */
+			        ROWNUM rn, 
+			        "comment".comment_idx,
+			        "comment".member_idx,
+			        "comment".comment_content, 
+			        "comment".comment_use,
+			        "comment".created_at,
+			        "comment".updated_at,
+			        CASE
+			        	WHEN board.member_idx = "comment".member_idx THEN 1
+			        	ELSE 0
+			        END AS is_board_writer
+			    FROM 
+			        "comment"
+			    INNER JOIN
+			    	board
+			    ON
+			    	"comment".board_idx = board.board_idx
+			    WHERE
+			    	board.board_idx = #{boardIdx} 
+			    AND
+					<![CDATA[
+					ROWNUM <= ( #{commentCri.page} * #{commentCri.recordCnt} )
+					]]>
+			) a_depth
+			WHERE
+				a_depth.rn > ( ( #{commentCri.page} - 1 ) * #{commentCri.recordCnt} )
+		) a
+		INNER JOIN
+			member b
+		ON 
+			a.member_idx = b.member_idx
+		LEFT OUTER JOIN (
+			SELECT
+				comment_idx, 
+				COUNT(*) cnt
+			FROM
+				comment_likes
+			GROUP BY
+				comment_idx	
+		) c
+		ON
+			a.comment_idx = c.comment_idx
+		LEFT OUTER JOIN (
+			SELECT
+				comment_idx
+			FROM
+				comment_likes
+			WHERE
+				member_idx = #{memberIdx}
+		) d
+		ON
+			a.comment_idx = d.comment_idx
+	</select>
+	
+	<!-- <select id="findPagedComment" parameterType="map" resultMap="commentDetailsMap">
+		SELECT
+    		/*+ ORDERED USE_NL(b) USE_NL(c) USE_NL(d) */
+			a.comment_idx,
 			a.comment_content,
 			a.comment_use,
 	        a.created_at,
 	        a.updated_at,
     		b.member_nickname,
+    		b.member_idx
     		NVL(c.cnt, 0) AS comment_likes_cnt,
     		CASE 
     			WHEN d.comment_idx IS NOT NULL THEN 1 
@@ -171,7 +252,7 @@
 		) d
 		ON
 			a.comment_idx = d.comment_idx
-	</select>
+	</select> -->
 
 	<!-- <select id="findPagedComment" parameterType="map" resultMap="commentDetailsMap">
 		SELECT

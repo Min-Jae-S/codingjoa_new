@@ -117,7 +117,7 @@
 										</td>
 										<td class="d-md-table-cell">
 											<c:choose>
-												<c:when test="${boardDetails.boardLike}">
+												<c:when test="${boardDetails.isBoardLiked}">
 													<i class="fa-heart fa-solid text-danger"></i>
 												</c:when>
 												<c:otherwise>
