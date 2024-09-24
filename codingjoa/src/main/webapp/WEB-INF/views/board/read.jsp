@@ -605,11 +605,9 @@
 				$(this).height($(this).prop("scrollHeight") + "px");
 				
 				if ($(this).val() != "") {
-					$(this).closest("div").find("button")
-						.attr("disabled", false).addClass("btn-outline-primary");
+					$(this).closest("div").find("button").attr("disabled", false).addClass("btn-outline-primary");
 				} else {
-					$(this).closest("div").find("button")
-						.attr("disabled", true).removeClass("btn-outline-primary");
+					$(this).closest("div").find("button").attr("disabled", true).removeClass("btn-outline-primary");
 				}
 			}
 		});
@@ -746,8 +744,7 @@
 		$("#boardLikesBtn").on("click", function() {
 			likesService.toggleBoardLikes(boardIdx, function(result) {
 				alert(result.message);
-				let cssClass = (result.data.isBoardLiked) ? 
-						"text-danger fa-solid fa-heart" : "text-grey fa-regular fa-heart";
+				let cssClass = (result.data.isBoardLiked) ? "fa-heart fa-solid text-danger" : "fa-heart fa-regular text-grey";
 				likesService.getBoardLikesCnt(boardIdx, function(result) {
 					$("#boardLikesBtn i").removeClass().addClass(cssClass);
 					$(".board-likes-cnt").text(result.data.boardLikesCnt);
@@ -761,8 +758,7 @@
 			let commentIdx = $li.data("comment-idx");
 			likesService.toggleCommentLikes(commentIdx, function(result) {
 				alert(result.message);
-				let cssClass = (result.data.isCommentLiked) ? 
-						"text-primary fa-regular fa-thumbs-up" : "text-grey fa-regular fa-thumbs-up";
+				let cssClass = (result.data.isCommentLiked) ? "fa-regular fa-thumbs-up text-primary" : "fa-regular fa-thumbs-up text-grey";
 				likesService.getCommentLikesCnt(commentIdx, function(result) {
 					$li.find("button[name=commentLikesBtn] i").removeClass().addClass(cssClass);
 					$li.find(".comment-likes-cnt").text(result.data.commentLikesCnt);

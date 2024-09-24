@@ -98,7 +98,7 @@
 		<result property="updatedAt" column="updated_at" javaType="java.time.LocalDateTime"/>
 		<result property="memberNickname" column="member_nickname" javaType="string"/>
 		<result property="commentLikesCnt" column="comment_likes_cnt" javaType="int"/>
-		<result property="commentLike" column="comment_like" javaType="boolean"/>
+		<result property="isCommentLiked" column="is_comment_liked" javaType="boolean"/>
 	</resultMap>
 	
 	<select id="findPagedComment" parameterType="map" resultMap="commentDetailsMap">
@@ -115,7 +115,7 @@
     		CASE 
     			WHEN d.comment_idx IS NOT NULL THEN 1 
     			ELSE 0 
-    		END AS comment_like
+    		END AS is_comment_liked
 		FROM (
 			SELECT
 				a_depth.comment_idx,
@@ -245,7 +245,7 @@
     		CASE 
     			WHEN d.comment_idx IS NOT NULL THEN 1 
     			ELSE 0 
-    		END AS comment_like
+    		END AS is_comment_liked
 		FROM
 			"comment" a
 		INNER JOIN

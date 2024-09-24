@@ -23,12 +23,12 @@ public class CommentDetailsDto {
 	
 	private String memberNickname;		// from INNER JOIN with member
 	private int commentLikesCnt;		// from LEFT OUTER JOIN with comment_likes
-	private boolean commentLike;		// from LEFT OUTER JOIN with comment_likes
+	private boolean isCommentLiked;		// from LEFT OUTER JOIN with comment_likes
 	private boolean isBoardWriter;
 	
 	@Builder
 	private CommentDetailsDto(int commentIdx, String commentContent, boolean commentUse, LocalDateTime createdAt,
-			LocalDateTime updatedAt, String memberNickname, int commentLikesCnt, boolean commentLike,
+			LocalDateTime updatedAt, String memberNickname, int commentLikesCnt, boolean isCommentLiked,
 			boolean isBoardWriter) {
 		this.commentIdx = commentIdx;
 		this.commentContent = commentContent;
@@ -37,7 +37,7 @@ public class CommentDetailsDto {
 		this.updatedAt = updatedAt;
 		this.memberNickname = memberNickname;
 		this.commentLikesCnt = commentLikesCnt;
-		this.commentLike = commentLike;
+		this.isCommentLiked = isCommentLiked;
 		this.isBoardWriter = isBoardWriter;
 	}
 	
@@ -51,7 +51,7 @@ public class CommentDetailsDto {
 				.updatedAt((LocalDateTime) map.get("updatedAt"))
 				.memberNickname((String) map.get("memberNickname"))
 				.commentLikesCnt((int) map.get("commentLikesCnt"))
-				.commentLike((boolean) map.get("commentLike"))
+				.isCommentLiked((boolean) map.get("isCommentLiked"))
 				.isBoardWriter(memberIdx == null ? false : memberIdx == commentWriterIdx)
 				.build();
 	}
@@ -61,8 +61,8 @@ public class CommentDetailsDto {
 		String escapedCommentContent = (commentContent != null) ? commentContent.replace("\n", "\\n") : null;
 		return "CommentDetailsDto [commentIdx=" + commentIdx + ", commentContent=" + escapedCommentContent
 				+ ", commentUse=" + commentUse + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt
-				+ ", memberNickname=" + memberNickname + ", commentLikesCnt=" + commentLikesCnt + ", commentLike="
-				+ commentLike + ", isBoardWriter=" + isBoardWriter + "]";
+				+ ", memberNickname=" + memberNickname + ", commentLikesCnt=" + commentLikesCnt + ", isCommentLiked="
+				+ isCommentLiked + ", isBoardWriter=" + isBoardWriter + "]";
 	}
 	
 }
