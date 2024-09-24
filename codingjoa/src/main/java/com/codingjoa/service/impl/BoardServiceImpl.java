@@ -131,7 +131,7 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public BoardDto getModifyBoard(Integer boardIdx, Integer memberIdx) {
 		Board board = getBoardByIdx(boardIdx);
-		if (board.getMemberIdx() != memberIdx) {
+		if (!board.getMemberIdx().equals(memberIdx)) {
 			throw new ExpectedException("error.NotMyBoard");
 		}
 		
@@ -171,7 +171,7 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public int deleteBoard(Integer boardIdx, Integer memberIdx) {
 		Board board = getBoardByIdx(boardIdx);
-		if (board.getMemberIdx() != memberIdx) {
+		if (!board.getMemberIdx().equals(memberIdx)) {
 			throw new ExpectedException("error.NotMyBoard");
 		}
 		

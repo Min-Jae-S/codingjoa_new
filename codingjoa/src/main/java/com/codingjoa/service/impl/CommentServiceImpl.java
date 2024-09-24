@@ -104,14 +104,14 @@ public class CommentServiceImpl implements CommentService {
 			throw new ExpectedException("error.AlreadyDeletedComment");
 		}
 		
-		if (comment.getMemberIdx() != memberIdx) {
+		if (!comment.getMemberIdx().equals(memberIdx)) {
 			throw new ExpectedException("error.NotMyComment");
 		}
 		
 		return comment;
 	}
 	
-	private Comment getCommentByIdx(int commentIdx) {
+	private Comment getCommentByIdx(Integer commentIdx) {
 		Comment comment = commentMapper.findCommentByIdx(commentIdx);
 		log.info("\t > find comment = {}", comment);
 		
@@ -149,7 +149,7 @@ public class CommentServiceImpl implements CommentService {
 			throw new ExpectedException("error.AlreadyDeletedComment");
 		}
 		
-		if (comment.getMemberIdx() != memberIdx) {
+		if (!comment.getMemberIdx().equals(memberIdx)) {
 			throw new ExpectedException("error.NotMyComment");
 		}
 		
