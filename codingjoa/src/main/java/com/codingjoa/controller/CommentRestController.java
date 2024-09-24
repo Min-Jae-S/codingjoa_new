@@ -21,7 +21,6 @@ import com.codingjoa.annotation.CommentCri;
 import com.codingjoa.dto.CommentDetailsDto;
 import com.codingjoa.dto.CommentDto;
 import com.codingjoa.dto.SuccessResponse;
-import com.codingjoa.entity.Comment;
 import com.codingjoa.pagination.CommentCriteria;
 import com.codingjoa.pagination.Pagination;
 import com.codingjoa.security.dto.PrincipalDetails;
@@ -68,10 +67,10 @@ public class CommentRestController {
 	}
 	
 	@GetMapping(value = { "/comments/", "/comments/{commentIdx}" })
-	public ResponseEntity<Object> getModifyComment(@PathVariable int commentIdx, @AuthenticationPrincipal PrincipalDetails principal) {
-		log.info("## getModifyComment, commentIdx = {}", commentIdx);
-		Comment comment = commentService.getModifyComment(commentIdx, principal.getIdx());
-		return ResponseEntity.ok(SuccessResponse.builder().data(comment.getCommentContent()).build());
+	public ResponseEntity<Object> getCommentContent(@PathVariable int commentIdx, @AuthenticationPrincipal PrincipalDetails principal) {
+		log.info("## getCommentContent, commentIdx = {}", commentIdx);
+		String commentContent = commentService.getCommentContent(commentIdx, principal.getIdx());
+		return ResponseEntity.ok(SuccessResponse.builder().data(commentContent).build());
 	}
 	
 	@PostMapping("/comments")

@@ -98,7 +98,7 @@ public class CommentServiceImpl implements CommentService {
 	}
 
 	@Override
-	public Comment getModifyComment(Integer commentIdx, Integer memberIdx) {
+	public String getCommentContent(Integer commentIdx, Integer memberIdx) {
 		Comment comment = getCommentByIdx(commentIdx);
 		if (!comment.getCommentUse()) {
 			throw new ExpectedException("error.AlreadyDeletedComment");
@@ -108,7 +108,7 @@ public class CommentServiceImpl implements CommentService {
 			throw new ExpectedException("error.NotMyComment");
 		}
 		
-		return comment;
+		return comment.getCommentContent();
 	}
 	
 	private Comment getCommentByIdx(Integer commentIdx) {

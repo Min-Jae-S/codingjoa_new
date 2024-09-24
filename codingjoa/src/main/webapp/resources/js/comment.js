@@ -91,8 +91,8 @@ let commentService = (function() {
 		});
 	}
 
-	function getModifyComment(commentIdx, callback) {
-		console.log("## getModifyComment");
+	function getCommentContent(commentIdx, callback) {
+		console.log("## getCommentContent");
 		let url = contextPath + "/api/comments/" + commentIdx;
 		console.log("> URL = '%s'", url);
 		
@@ -175,7 +175,7 @@ let commentService = (function() {
 	return {
 		writeComment:writeComment,
 		getPagedComment:getPagedComment,
-		getModifyComment:getModifyComment,
+		getCommentContent:getCommentContent,
 		modifyComment:modifyComment,
 		deleteComment:deleteComment
 	};

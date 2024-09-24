@@ -391,7 +391,7 @@
 						</sec:authorize>
 						<textarea id="commentContent" placeholder="댓글을 남겨보세요" rows="1"></textarea>
 						<div class="mt-2">
-							<button class="btn btn-sm" type="button" id="writeCommentBtn" disabled>등록</button>
+							<button class="btn btn-sm btn-outline-secondary" type="button" id="writeCommentBtn" disabled>등록</button>
 						</div>
 					</div>
 				</div>
@@ -603,11 +603,12 @@
 			"input":function() {
 				$(this).height("auto");
 				$(this).height($(this).prop("scrollHeight") + "px");
-				
+
+				let $writeCommentBtn = $(this).closest("div").find("button");
 				if ($(this).val() != "") {
-					$(this).closest("div").find("button").attr("disabled", false).addClass("btn-outline-primary");
+					$writeCommentBtn.attr("disabled", false).removeClass().addClass("btn btn-sm btn-outline-primary");
 				} else {
-					$(this).closest("div").find("button").attr("disabled", true).removeClass("btn-outline-primary");
+					$writeCommentBtn.attr("disabled", true).removeClass().addClass("btn btn-sm btn-outline-secondary");
 				}
 			}
 		});
@@ -626,9 +627,9 @@
 			
 			let $modifyCommentBtn = $(this).closest("div").find("button[name='modifyCommentBtn']");
 			if ($(this).val() != "") {
-				$modifyCommentBtn.attr("disabled", false).addClass("btn-outline-primary");
+				$modifyCommentBtn.attr("disabled", false).removeClass().addClass("btn btn-sm btn-outline-primary");
 			} else {
-				$modifyCommentBtn.attr("disabled", true).removeClass("btn-outline-primary");
+				$modifyCommentBtn.attr("disabled", true).removeClass().addClass("btn btn-sm btn-outline-secondary");
 			}
 		});
 		
@@ -655,12 +656,12 @@
 			});
 		});
 		
-		// getModifyComment
+		// getCommentContent
 		$(document).on("click", "button[name=showEditCommentBtn]", function() {
 			let $li =  $(this).closest("li");
 			let commentIdx = $li.data("comment-idx");
 			
-			commentService.getModifyComment(commentIdx, function(result) {
+			commentService.getCommentContent(commentIdx, function(result) {
 				let commentContent = result.data;
 				let editCommentHtml = createEditCommentHtml(commentContent);
 				$li.find("div.comment-area").addClass("d-none").after(editCommentHtml);

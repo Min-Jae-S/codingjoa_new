@@ -49,8 +49,8 @@ function createCommentHtml(pagedComment) {
 		if (commentDetails.boardWriterMatches) {
 			html += "<span class='badge badge-pill badge-primary mr-2'>작성자</span>"
 		}
-		html += "<span class='comment-regdate'>" + commentDetails.createdAt + "</span>";
-		html += "<span class='comment-moddate d-none'>" + commentDetails.updatedAt + "</span>";
+		html += "<span>" + commentDetails.createdAt + "</span>";
+		html += "<span class='d-none'>" + commentDetails.updatedAt + "</span>";
 		html += "</div>";
 		html += "<div class='comment-content' style='white-space:pre-wrap;line-height:180%;'>";
 		html += "<p>" + commentDetails.commentContent.replace(/(?:\r\n|\r|\n)/g, "<br>") + "</p>";
@@ -92,8 +92,8 @@ function createEditCommentHtml(commentContent) {
 	//html += "<p class='font-weight-bold mb-2'>" + commentDetails.memberNickname + "</p>";
 	html += "<textarea rows='1' style='white-space: pre;'>" + commentContent + "</textarea>";
 	html += "<div class='mt-2'>";
-	html += "<button class='btn btn-outline-primary btn-sm mr-2' name='modifyCommentBtn'>수정</button>";
-	html += "<button class='btn btn-outline-secondary btn-sm' name='closeEditCommentBtn'>취소</button>";
+	html += "<button class='btn btn-sm btn-outline-primary' name='modifyCommentBtn'>수정</button>";
+	html += "<button class='btn btn-sm btn-outline-secondary ml-2' name='closeEditCommentBtn'>취소</button>";
 	html += "</div>";		
 	html += "</div>";			
 	html += "</div>";	
