@@ -154,7 +154,9 @@
 	}
 	
 	.comment-list .list-group-item {
-		padding: 1.25rem 0;
+		/* padding: 1.25rem 0; */
+		padding: 1.3rem;
+		background-color: #F1F5FC;
 	}
 	
 	.comment-info { 
@@ -572,7 +574,7 @@
 				<input type="hidden" name="boardTitle" value="${boardDetails.boardTitle}"/>
 			</form>
 		</div>
-		<div class="mt-4">
+		<div class="mt-4 d-none">
 			<button class="btn btn-warning" onclick="getFormData()">getFormData</button>
 		</div>
 	</div>

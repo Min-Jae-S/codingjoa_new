@@ -25,7 +25,7 @@ function createCommentHtml(pagedComment) {
 	
 	html += "<ul class='list-group list-group-flush'>";
 	$.each(pagedComment, function(index, commentDetails) {
-		if (commentDetails == null) {
+		if (commentDetails == "") {
 			html += "<li class='list-group-item deleted-comment'>";
 			html += "<div class='comment-area'>";
 			html += "<div class='comment-area-header'>";
@@ -92,8 +92,8 @@ function createEditCommentHtml(commentContent) {
 	//html += "<p class='font-weight-bold mb-2'>" + commentDetails.memberNickname + "</p>";
 	html += "<textarea rows='1' style='white-space: pre;'>" + commentContent + "</textarea>";
 	html += "<div class='mt-2'>";
-	html += "<button class='btn btn-sm btn-outline-primary' name='modifyCommentBtn'>수정</button>";
-	html += "<button class='btn btn-sm btn-outline-secondary ml-2' name='closeEditCommentBtn'>취소</button>";
+	html += "<button class='btn btn-sm btn-outline-primary' type='submit' name='modifyCommentBtn'>수정</button>";
+	html += "<button class='btn btn-sm btn-outline-secondary ml-2' type='button' name='closeEditCommentBtn'>취소</button>";
 	html += "</div>";		
 	html += "</div>";			
 	html += "</div>";	
