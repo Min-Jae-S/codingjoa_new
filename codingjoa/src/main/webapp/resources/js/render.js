@@ -49,34 +49,35 @@ function createCommentHtml(pagedComment) {
 		if (commentDetails.boardWriterMatches) {
 			html += "<span class='badge badge-pill badge-primary mr-2'>작성자</span>"
 		}
-		html += "<span>" + commentDetails.createdAt + "</span>";
-		html += "<span class='d-none'>" + commentDetails.updatedAt + "</span>";
+		html += "<span class='comment-createdat'>" + commentDetails.createdAt + "</span>";
+		html += "<span class='comment-updatedat d-none'>" + commentDetails.updatedAt + "</span>";
 		html += "</div>";
-		html += "<div class='comment-content' style='white-space:pre-wrap;line-height:180%;'>";
-		html += "<p>" + commentDetails.commentContent.replace(/(?:\r\n|\r|\n)/g, "<br>") + "</p>";
-		html += "</div>";
-		html += "</div>";
-		html += "<div class='comment-area-footer'>";
-		html += "<div class='dropright'>";
-		html += "<button class='comment-utils btn' data-toggle='dropdown' data-offset='0,10'>";
+		html += "<div class='dropright ml-auto'>";
+		html += "<button class='comment-utils btn' data-toggle='dropdown' data-offset='0,10' aria-expanded='false'>";
 		html += "<i class='fa-solid fa-ellipsis-vertical'></i>";
 		html += "</button>";
 		html += "<div class='dropdown-menu'>";
 		html += "<h6 class='dropdown-header'>댓글 관리</h6>";
-		html += "<button class='dropdown-item' name='showEditCommentBtn'>수정하기</button>";
-		html += "<button class='dropdown-item' name='deleteCommentBtn'>삭제하기</button>";
+		html += "<button class='dropdown-item' type='button' name='showEditCommentBtn'>수정하기</button>";
+		html += "<button class='dropdown-item' type='button' name='deleteCommentBtn'>삭제하기</button>";
 		html += "</div>";
 		html += "</div>";
-		html += "<div class='mt-auto'>"
-		html += "<button class='btn border-0 p-0 shadow-none' type='button' name='commentLikesBtn'>";
+		html += "</div>";
+		html += "<div class='comment-area-body'>";
+		//html += "<div class='comment-content' style='white-space:pre-wrap;line-height:180%;'>";
+		html += "<div class='comment-content' style='line-height:180%;'>";
+		html += "<p>" + commentDetails.commentContent.replace(/(?:\r\n|\r|\n)/g, "<br>") + "</p>";
+		html += "</div>";
+		html += "</div>";
+		html += "<div class='comment-area-footer'>";
+		html += "<button class='btn border-0 p-0 shadow-none ml-auto' type='button' name='commentLikesBtn'>";
 		if (commentDetails.commentLiked) {
 			html += "<i class='fa-thumbs-up fa-regular text-primary'></i>";
 		} else {
 			html += "<i class='fa-thumbs-up fa-regular text-grey'></i>";
 		}
-		html += " <span class='comment-likes-cnt'>" + commentDetails.commentLikesCnt + "</span>"; // 앞의 공백을 의도적으로 추가
+		html += " <span class='comment-likes-cnt'>" + commentDetails.commentLikesCnt + "</span>"; // 앞의 공백을 의도적으로 추가		
 		html += "</button>";
-		html += "</div>";
 		html += "</div>";
 		html += "</div>";
 		html += "</li>";
