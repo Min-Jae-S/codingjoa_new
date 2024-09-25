@@ -402,7 +402,7 @@
 		$("#memberImage").on("change", function() {
 			// jQuery object --> javaScript DOM object 
 			// let $memberImage = $(this)[0];
-			const formData = new FormData();
+			let formData = new FormData();
 			formData.append("file", this.files[0]);
 			
 			// initialize the file input, but not with null

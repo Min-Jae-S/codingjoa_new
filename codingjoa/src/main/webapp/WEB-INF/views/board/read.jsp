@@ -17,6 +17,7 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://kit.fontawesome.com/c503d71f81.js"></script>
+<script src="${contextPath}/resources/js/jquery.serialize-object.js"></script>
 <script src="${contextPath}/resources/js/comment.js"></script>
 <script src="${contextPath}/resources/js/likes.js"></script>
 <script src="${contextPath}/resources/js/handle-errors.js"></script>
@@ -381,20 +382,22 @@
 					<span>댓글</span>
 					<span class="comment-cnt"><c:out value="${boardDetails.commentCnt}"/></span>
 				</div>
-				<div class="input-group">
-					<div class="comment-input form-control">
-						<sec:authorize access="isAuthenticated()">
-							<p class="font-weight-bold mb-2">
-								<%-- <sec:authentication property="principal.nickname"/> --%>
-								<c:out value="${principal.nickname}"/>
-							</p>
-						</sec:authorize>
-						<textarea id="commentContent" placeholder="댓글을 남겨보세요" rows="1"></textarea>
-						<div class="mt-2">
-							<button class="btn btn-sm btn-outline-secondary" type="button" id="writeCommentBtn" disabled>등록</button>
+				<form id="writeCommentForm">
+					<input type="hidden" name="boardIdx" value="${boardDetails.boardIdx}">
+					<div class="input-group">
+						<div class="comment-input form-control">
+							<sec:authorize access="isAuthenticated()">
+								<p class="font-weight-bold mb-2">
+									<sec:authentication property="principal.nickname"/>
+								</p>
+							</sec:authorize>
+							<textarea id="commentContent" name="commentContent" placeholder="댓글을 남겨보세요" rows="1"></textarea>
+							<div class="mt-2">
+								<button class="btn btn-sm btn-outline-secondary" type="submit" id="writeCommentBtn" disabled>등록</button>
+							</div>
 						</div>
 					</div>
-				</div>
+				</form>
 				<div class="comment-list mt-4">
 					<!------------------------>
 					<!----    comments    ---->
@@ -625,7 +628,7 @@
 			$(this).height("auto");
 			$(this).height($(this).prop("scrollHeight") + "px");
 			
-			let $modifyCommentBtn = $(this).closest("div").find("button[name='modifyCommentBtn']");
+			let $modifyCommentBtn = $(this).closest("div").find("button");
 			if ($(this).val() != "") {
 				$modifyCommentBtn.attr("disabled", false).removeClass().addClass("btn btn-sm btn-outline-primary");
 			} else {
@@ -634,7 +637,7 @@
 		});
 		
 		// writeComment
-		$("#writeCommentBtn").on("click", function() {
+		/* $("#writeCommentBtn").on("click", function() {
 			let comment = {
 				"boardIdx" : boardIdx,
 				"commentContent" : $("#commentContent").val(),
@@ -652,6 +655,28 @@
 					$commentPageDiv.html(paginationHtml);
 					$("span.comment-cnt").text(pagination.totalCnt);	
 					$("#commentContent").val("").trigger("input");
+				});
+			});
+		}); */
+
+		$("#writeCommentForm").on("submit", function(e) {
+			e.preventDefault();
+			let $form = $(this);
+			let comment = $form.serializeObject();
+			
+			commentService.writeComment(comment, function(result) {
+				alert(result.message);
+				commentService.getPagedComment(boardIdx, 1, function(result) {
+					let pagedComment = result.data.pagedComment;
+					let commentHtml = createCommentHtml(pagedComment);
+					$commentDiv.html(commentHtml);
+
+					let pagination = result.data.pagination;
+					let paginationHtml = createPaginationHtml(pagination);
+					$commentPageDiv.html(paginationHtml);
+					$("span.comment-cnt").text(pagination.totalCnt);	
+					$form.trigger("reset");
+					$form.find("textarea").trigger("input");
 				});
 			});
 		});
