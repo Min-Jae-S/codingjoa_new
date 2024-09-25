@@ -148,7 +148,7 @@
 		color: #ced4da; 
 	}
 	
-	.comment-body {
+	.comment-cnt-wrap {
 		font-size: 1.3rem;
 		font-weight: bold;
 	}
@@ -205,11 +205,11 @@
 		padding-right: 0;
 	}
 	
-	.comment-footer {
+	.comment-group-footer {
 		position: relative;
 	}
 	
-	.comment-footer .comment-pagination {
+	.comment-group-footer .comment-pagination {
 		position: absolute;
         top: 50%;
         left: 50%;
@@ -378,32 +378,38 @@
 				<%-- <c:out value="${boardDetails.boardContent}" escapeXml="false"/> --%>
 			</div>
 			<div class="comment-group pt-4">
-				<div class="comment-body mb-3">
-					<span>댓글</span>
-					<span class="comment-cnt"><c:out value="${boardDetails.commentCnt}"/></span>
-				</div>
-				<form id="writeCommentForm">
-					<input type="hidden" name="boardIdx" value="${boardDetails.boardIdx}">
-					<div class="input-group">
-						<div class="comment-input form-control">
-							<sec:authorize access="isAuthenticated()">
-								<p class="font-weight-bold mb-2">
-									<sec:authentication property="principal.nickname"/>
-								</p>
-							</sec:authorize>
-							<textarea id="commentContent" name="commentContent" placeholder="댓글을 남겨보세요" rows="1"></textarea>
-							<div class="mt-2">
-								<button class="btn btn-sm btn-outline-secondary" type="submit" id="writeCommentBtn" disabled>등록</button>
-							</div>
+					<div class="comment-group-header">
+						<div class="comment-cnt-wrap mb-3">
+							<span>댓글</span>
+							<span class="comment-cnt"><c:out value="${boardDetails.commentCnt}"/></span>
+						</div>
+						<div class="comment-write-wrap">
+							<form>
+								<div class="input-group">
+									<div class="comment-input form-control">
+										<sec:authorize access="isAuthenticated()">
+											<p class="font-weight-bold mb-2">
+												<sec:authentication property="principal.nickname"/>
+											</p>
+										</sec:authorize>
+										<textarea name="commentContent" placeholder="댓글을 남겨보세요" rows="1"></textarea>
+										<input type="hidden" name="boardIdx" value="${boardDetails.boardIdx}">
+										<div class="mt-2">
+											<button class="btn btn-sm btn-outline-secondary" type="submit" disabled>등록</button>
+										</div>
+									</div>
+								</div>
+							</form>
 						</div>
 					</div>
-				</form>
-				<div class="comment-list mt-4">
-					<!------------------------>
-					<!----    comments    ---->
-					<!------------------------>
+				<div class="comment-group-body mt-4">
+					<div class="comment-list">
+						<!------------------------>
+						<!----    comments    ---->
+						<!------------------------>
+					</div>
 				</div>
-				<div class="comment-footer mt-4">
+				<div class="comment-group-footer mt-4">
 					<a class="btn btn-secondary" href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}&
 						${boardCri.queryString}">목록</a>
 					<div class="comment-pagination">
@@ -558,6 +564,17 @@
   				</div>
 			</div>
 		</div>
+		
+		<!-- form test -->
+		<div class="test4">
+			<form class="d-none">
+				<input type="hidden" name="boardIdx" value="${boardDetails.boardIdx}"/>
+				<input type="hidden" name="boardTitle" value="${boardDetails.boardTitle}"/>
+			</form>
+		</div>
+		<div class="mt-4">
+			<button class="btn btn-warning" onclick="getFormData()">getFormData</button>
+		</div>
 	</div>
 </div>
 
@@ -600,66 +617,27 @@
 			return confirm("게시글을 삭제하시겠습니까?");
 		});
 		
-		$("#commentContent").on({
-			"focus":function() { $(this).closest("div").addClass("textarea-border"); },
-			"blur" :function() { $(this).closest("div").removeClass("textarea-border"); },
-			"input":function() {
-				$(this).height("auto");
-				$(this).height($(this).prop("scrollHeight") + "px");
-
-				let $writeCommentBtn = $(this).closest("div").find("button");
-				if ($(this).val() != "") {
-					$writeCommentBtn.attr("disabled", false).removeClass().addClass("btn btn-sm btn-outline-primary");
-				} else {
-					$writeCommentBtn.attr("disabled", true).removeClass().addClass("btn btn-sm btn-outline-secondary");
-				}
-			}
-		});
-		
-		$(document).on("focus", ".comment-edit textarea", function() {
+		$(document).on("focus", ".comment-group textarea", function() {
 			$(this).closest("div").addClass("textarea-border");
 		});
 		
-		$(document).on("blur", ".comment-edit textarea", function() {
+		$(document).on("blur", ".comment-group textarea", function() {
 			$(this).closest("div").removeClass("textarea-border");
 		});
 		
-		$(document).on("input", ".comment-edit textarea", function() {
+		$(document).on("input", ".comment-group textarea", function() {
 			$(this).height("auto");
 			$(this).height($(this).prop("scrollHeight") + "px");
 			
-			let $modifyCommentBtn = $(this).closest("div").find("button");
+			let $submitBtn = $(this).closest("div").find("button[type='submit']");
 			if ($(this).val() != "") {
-				$modifyCommentBtn.attr("disabled", false).removeClass().addClass("btn btn-sm btn-outline-primary");
+				$submitBtn.attr("disabled", false).removeClass().addClass("btn btn-sm btn-outline-primary");
 			} else {
-				$modifyCommentBtn.attr("disabled", true).removeClass().addClass("btn btn-sm btn-outline-secondary");
+				$submitBtn.attr("disabled", true).removeClass().addClass("btn btn-sm btn-outline-secondary");
 			}
 		});
 		
-		// writeComment
-		/* $("#writeCommentBtn").on("click", function() {
-			let comment = {
-				"boardIdx" : boardIdx,
-				"commentContent" : $("#commentContent").val(),
-			};
-			
-			commentService.writeComment(comment, function(result) {
-				alert(result.message);
-				commentService.getPagedComment(boardIdx, 1, function(result) {
-					let pagedComment = result.data.pagedComment;
-					let commentHtml = createCommentHtml(pagedComment);
-					$commentDiv.html(commentHtml);
-
-					let pagination = result.data.pagination;
-					let paginationHtml = createPaginationHtml(pagination);
-					$commentPageDiv.html(paginationHtml);
-					$("span.comment-cnt").text(pagination.totalCnt);	
-					$("#commentContent").val("").trigger("input");
-				});
-			});
-		}); */
-
-		$("#writeCommentForm").on("submit", function(e) {
+		$(".comment-write-wrap form").on("submit", function(e) {
 			e.preventDefault();
 			let $form = $(this);
 			let comment = $form.serializeObject();
@@ -684,7 +662,7 @@
 		// getCommentContent
 		$(document).on("click", "button[name=showEditCommentBtn]", function() {
 			let $li =  $(this).closest("li");
-			let commentIdx = $li.data("comment-idx");
+			let commentIdx = $li.data("idx");
 			
 			commentService.getCommentContent(commentIdx, function(result) {
 				let commentContent = result.data;
@@ -706,7 +684,7 @@
 		// modifyComment
 		$(document).on("click", "button[name=modifyCommentBtn]", function() {
 			let $li =  $(this).closest("li");
-			let commentIdx = $li.data("comment-idx");
+			let commentIdx = $li.data("idx");
 			let comment = {
 				"commentContent" : $li.find("div.comment-edit textarea").val(),
 			};
@@ -732,7 +710,7 @@
 				return;
 			}
 			
-			let commentIdx = $(this).closest("li").data("comment-idx");
+			let commentIdx = $(this).closest("li").data("idx");
 			commentService.deleteComment(commentIdx, function(result) {
 				alert(result.message);
 				commentService.getPagedComment(boardIdx, curCommentPage, function(result) {
@@ -781,7 +759,7 @@
 		// toggleCommentLikes
 		$(document).on("click", "button[name=commentLikesBtn]", function() {
 			let $li = $(this).closest("li");
-			let commentIdx = $li.data("comment-idx");
+			let commentIdx = $li.data("idx");
 			likesService.toggleCommentLikes(commentIdx, function(result) {
 				alert(result.message);
 				let cssClass = (result.data.isCommentLiked) ? "fa-regular fa-thumbs-up text-primary" : "fa-regular fa-thumbs-up text-grey";
@@ -923,6 +901,14 @@
 			});
 		});
 	});
+	
+	function getFormData() {
+		let $form = $("div.test4").find("form");
+		let boardIdx = $form.find("input[name='boardIdx']").val();
+		let boardTitle = $form.find("input[name='boardTitle']").val();
+		console.log("## boardIdx = %s", boardIdx);
+		console.log("## boardTitle = %s", boardTitle);
+	}
 </script>
 </body>
 </html>

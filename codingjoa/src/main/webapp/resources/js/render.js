@@ -41,7 +41,7 @@ function createCommentHtml(pagedComment) {
 			return true;
 		}
 		
-		html += "<li class='list-group-item' data-comment-idx='" + commentDetails.commentIdx + "'>";
+		html += "<li class='list-group-item' data-idx='" + commentDetails.commentIdx + "'>";
 		html += "<div class='comment-area'>";
 		html += "<div class='comment-area-header'>";
 		html += "<div class='comment-info'>";

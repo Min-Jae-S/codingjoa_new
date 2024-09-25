@@ -29,7 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 	
 	private static final String JWT_COOKIE = "ACCESS_TOKEN";
-	private static final long COOKIE_EXPIRE_SECONDS = Duration.ofHours(1l).getSeconds();
+	private static final long COOKIE_EXPIRE_SECONDS = Duration.ofHours(6L).getSeconds();
 	private final JwtProvider jwtProvider;
 	private final ObjectMapper objectMapper;
 	
