@@ -173,7 +173,7 @@
 		/* margin-bottom: 0; */
 	}
 	
-	.deleted-comment .comment-content {
+	.deleted-comment {
 		color: #868e96;
 	}
 	
@@ -603,16 +603,32 @@
 			console.error(error);
 		});
 	
+	function saveCommentsInMap(pagedComment, commentMap) {
+		commentMap.clear();
+		if (pagedComment.length == 0) {
+			return;
+		}
+		
+		$.each(pagedComment, function(index, commentDetails) {
+			if (commentDetails != "") {
+				map.set(commentDetails.commentIdx, commentDetails.commentContent);
+			}
+		});
+	}
+	
 	$(function() {
-		const $commentDiv = $("div.comment-list");
+		const $commentListDiv = $("div.comment-list");
 		const $commentPageDiv = $("div.comment-pagination");
 		const boardIdx = "<c:out value='${boardDetails.boardIdx}'/>";
+		let commentMap = new Map();
 		let curCommentPage = 1;
 		
 		commentService.getPagedComment(boardIdx, curCommentPage, function(result) {
 			let pagedComment = result.data.pagedComment;
+			saveCommentsInMap(pagedComment, commentMap);
+			
 			let commentHtml = createCommentHtml(pagedComment);
-			$commentDiv.html(commentHtml);
+			$commentListDiv.html(commentHtml);
 
 			let pagination = result.data.pagination;
 			let paginationHtml = createPaginationHtml(pagination);
@@ -653,8 +669,11 @@
 				alert(result.message);
 				commentService.getPagedComment(boardIdx, 1, function(result) {
 					let pagedComment = result.data.pagedComment;
+					saveCommentsInMap(pagedComment, commentMap);
+					console.log(commentMap);
+					
 					let commentHtml = createCommentHtml(pagedComment);
-					$commentDiv.html(commentHtml);
+					$commentListDiv.html(commentHtml);
 
 					let pagination = result.data.pagination;
 					let paginationHtml = createPaginationHtml(pagination);
@@ -668,7 +687,7 @@
 		
 		// getCommentContent
 		$(document).on("click", "button[name=showEditCommentBtn]", function() {
-			let $li =  $(this).closest("li");
+			let $li = $(this).closest("li");
 			let commentIdx = $li.data("idx");
 			
 			commentService.getCommentContent(commentIdx, function(result) {
@@ -684,13 +703,13 @@
 		});
 
 		$(document).on("click", "button[name=closeEditCommentBtn]", function() {
-			let $li =  $(this).closest("li");
+			let $li = $(this).closest("li");
 			$li.find("div.comment-area").removeClass("d-none").next("div.input-group").remove();
 		});
 		
 		// modifyComment
 		$(document).on("click", "button[name=modifyCommentBtn]", function() {
-			let $li =  $(this).closest("li");
+			let $li = $(this).closest("li");
 			let commentIdx = $li.data("idx");
 			let comment = {
 				"commentContent" : $li.find("div.comment-edit textarea").val(),
@@ -700,8 +719,11 @@
 				alert(result.message);
 				commentService.getPagedComment(boardIdx, curCommentPage, function(result) {
 					let pagedComment = result.data.pagedComment;
+					saveCommentsInMap(pagedComment, commentMap);
+					console.log(commentMap);
+					
 					let commentHtml = createCommentHtml(pagedComment);
-					$commentDiv.html(commentHtml);
+					$commentListDiv.html(commentHtml);
 
 					let pagination = result.data.pagination;
 					let paginationHtml = createPaginationHtml(pagination);
@@ -722,12 +744,15 @@
 				alert(result.message);
 				commentService.getPagedComment(boardIdx, curCommentPage, function(result) {
 					let pagedComment = result.data.pagedComment;
+					saveCommentsInMap(pagedComment, commentMap);
+					console.log(commentMap);
+					
 					let commentHtml = createCommentHtml(pagedComment);
-					$("div.comment-list").html(commentHtml);
+					$commentListDiv.html(commentHtml);
 
 					let pagination = result.data.pagination;
 					let paginationHtml = createPaginationHtml(pagination);
-					$("div.comment-pagination").html(paginationHtml);
+					$commentPageDiv.html(paginationHtml);
 					$("span.comment-cnt").text(pagination.totalCnt);	
 				});
 			});
@@ -738,16 +763,19 @@
 			e.preventDefault();
 			commentService.getPagedComment(boardIdx, $(this).data("page"), function(result) {
 				let pagedComment = result.data.pagedComment;
+				saveCommentsInMap(pagedComment, commentMap);
+				console.log(commentMap);
+				
 				let commentHtml = createCommentHtml(pagedComment);
-				$("div.comment-list").html(commentHtml);
+				$commentListDiv.html(commentHtml);
 
 				let pagination = result.data.pagination;
 				let paginationHtml = createPaginationHtml(pagination);
-				$("div.comment-pagination").html(paginationHtml);
+				$commentPageDiv.html(paginationHtml);
 				$("span.comment-cnt").text(pagination.totalCnt);
 				
 				curCommentPage = pagination.page;
-				console.log("## current comment page = %s", curCommentPage);
+				console.log("## curCommentPage = %s", curCommentPage);
 			});
 		});
 		

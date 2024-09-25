@@ -26,14 +26,16 @@ function createCommentHtml(pagedComment) {
 	html += "<ul class='list-group list-group-flush'>";
 	$.each(pagedComment, function(index, commentDetails) {
 		if (commentDetails == "") {
-			html += "<li class='list-group-item deleted-comment'>";
+			html += "<li class='list-group-item'>";
 			html += "<div class='comment-area'>";
 			html += "<div class='comment-area-header'>";
 			html += "<div class='comment-info'>";
 			html += "<span class='comment-writer'>삭제된 댓글</span>";
 			html += "</div>";
-			html += "<div class='comment-content'>";
-			html += "<span>삭제된 댓글입니다.</span>";
+			html += "</div>";
+			html += "<div class='comment-area-body'>";
+			html += "<div class='comment-content deleted-comment' style='line-height:180%;'>";
+			html += "<p>삭제된 댓글입니다.</p>";
 			html += "</div>";
 			html += "</div>";
 			html += "</div>";
