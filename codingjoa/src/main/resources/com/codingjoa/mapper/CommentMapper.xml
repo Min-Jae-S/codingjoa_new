@@ -313,51 +313,6 @@
 			board_idx = #{boardIdx}
 	</select>
 	
-	<select id="findCommentDetails" parameterType="map" resultMap="commentDetailsMap">
-		SELECT
-			a.comment_idx,
-			a.member_idx,
-			a.comment_content,
-			a.comment_use,
-	        a.created_at,
-	        a.updated_at,
-    		b.member_nickname,
-    		NVL(c.cnt, 0) AS comment_likes_cnt,
-    		CASE 
-    			WHEN d.comment_idx IS NOT NULL THEN 1 
-    			ELSE 0 
-    		END AS comment_liked
-		FROM
-			"comment" a
-		INNER JOIN
-			member b
-		ON
-			a.member_idx = b.member_idx
-		LEFT OUTER JOIN (
-			SELECT
-				comment_idx, 
-				COUNT(*) cnt
-			FROM
-				comment_likes
-			GROUP BY
-				comment_idx	
-		) c
-		ON
-			a.comment_idx = c.comment_idx
-		LEFT OUTER JOIN (
-			SELECT
-				comment_idx
-			FROM
-				comment_likes
-			WHERE
-				member_idx = #{memberIdx}	
-		) d
-		ON
-			a.comment_idx = d.comment_idx
-		WHERE
-			a.comment_idx = #{commentIdx}
-	</select>
-	
 	<select id="findCommentByIdx" resultType="comment">
 		SELECT
 			*

@@ -19,8 +19,6 @@ public interface CommentMapper {
 	
 	int findCommentTotalCnt(Integer boardIdx);
 	
-	Map<String, Object> findCommentDetails(@Param("commentIdx") Integer commentIdx, @Param("memberIdx") Integer memberIdx);
-	
 	Comment findCommentByIdx(Integer commentIdx);
 	
 	boolean updateComment(Comment comment);

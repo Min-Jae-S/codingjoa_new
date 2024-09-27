@@ -66,13 +66,6 @@ public class CommentRestController {
 		return ResponseEntity.ok(SuccessResponse.builder().data(data).build());
 	}
 	
-	@GetMapping(value = { "/comments/", "/comments/{commentIdx}" })
-	public ResponseEntity<Object> getCommentContent(@PathVariable int commentIdx, @AuthenticationPrincipal PrincipalDetails principal) {
-		log.info("## getCommentContent, commentIdx = {}", commentIdx);
-		String commentContent = commentService.getCommentContent(commentIdx, principal.getIdx());
-		return ResponseEntity.ok(SuccessResponse.builder().data(commentContent).build());
-	}
-	
 	@PostMapping("/comments")
 	public ResponseEntity<Object> writeComment(@Valid @RequestBody CommentDto writeCommentDto, 
 			@AuthenticationPrincipal PrincipalDetails principal) {

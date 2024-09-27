@@ -91,32 +91,6 @@ let commentService = (function() {
 		});
 	}
 
-	function getCommentContent(commentIdx, callback) {
-		console.log("## getCommentContent");
-		let url = contextPath + "/api/comments/" + commentIdx;
-		console.log("> URL = '%s'", url);
-		
-		$.ajax({
-			type : "GET",
-			url : url,
-			dataType : "json",
-			success : function(result) {
-				console.log("%c> SUCCESS", "color:green");
-				console.log(JSON.stringify(result, null, 2));
-				callback(result);
-			},
-			error : function(jqXHR) {
-				console.log("%c> ERROR", "color:red");
-				let errorResponse = parseError(jqXHR);
-				if (errorResponse != null) {
-					handleCommentError(errorResponse);
-				} else {
-					alert("## parsing Error");
-				}
-			}
-		});
-	}
-	
 	function modifyComment(commentIdx, comment, callback) {
 		console.log("## modifyComment");
 		let url = contextPath + "/api/comments/" + commentIdx;
@@ -175,7 +149,6 @@ let commentService = (function() {
 	return {
 		writeComment:writeComment,
 		getPagedComment:getPagedComment,
-		getCommentContent:getCommentContent,
 		modifyComment:modifyComment,
 		deleteComment:deleteComment
 	};

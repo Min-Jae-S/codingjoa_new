@@ -15,8 +15,6 @@ public interface CommentService {
 	
 	Pagination getPagination(Integer boardIdx, CommentCriteria commentCri);
 	
-	String getCommentContent(Integer commentIdx, Integer memberIdx);
-	
 	void updateComment(CommentDto commentDto);
 	
 	void deleteComment(Integer commentIdx, Integer memberIdx);

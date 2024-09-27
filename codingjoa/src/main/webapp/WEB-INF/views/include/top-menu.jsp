@@ -73,7 +73,8 @@
 <script>
 	$(function() {
 		let timer; 
-		let delay = 100;
+		let delay = 200;
+		let $dropdowns = $("li.category div.dropdown-menu");
 		
 		$("li.category").on("mouseenter", function() {
 			clearTimeout(timer);
@@ -96,7 +97,6 @@
 		$("li.category").on("mouseleave", function() {
 			clearTimeout(timer);
 			$(this).find("a").css("color", "grey").css("font-weight", "400");
-			let $dropdowns = $("li.category div.dropdown-menu");
 			$dropdowns.removeClass("show");
 			$dropdowns.empty();
 		});

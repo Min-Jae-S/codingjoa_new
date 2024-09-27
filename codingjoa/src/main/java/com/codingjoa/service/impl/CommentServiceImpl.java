@@ -97,20 +97,6 @@ public class CommentServiceImpl implements CommentService {
 		return (totalCnt != 0) ? new Pagination(totalCnt, commentCri.getPage(), commentCri.getRecordCnt(), pageRange) : null;
 	}
 
-	@Override
-	public String getCommentContent(Integer commentIdx, Integer memberIdx) {
-		Comment comment = getCommentByIdx(commentIdx);
-		if (!comment.getCommentUse()) {
-			throw new ExpectedException("error.AlreadyDeletedComment");
-		}
-		
-		if (!comment.getMemberIdx().equals(memberIdx)) {
-			throw new ExpectedException("error.NotMyComment");
-		}
-		
-		return comment.getCommentContent();
-	}
-	
 	private Comment getCommentByIdx(Integer commentIdx) {
 		Comment comment = commentMapper.findCommentByIdx(commentIdx);
 		log.info("\t > find comment = {}", comment);

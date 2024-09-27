@@ -611,7 +611,7 @@
 		
 		$.each(pagedComment, function(index, commentDetails) {
 			if (commentDetails != "") {
-				map.set(commentDetails.commentIdx, commentDetails.commentContent);
+				commentMap.set(commentDetails.commentIdx, commentDetails);
 			}
 		});
 	}
@@ -627,8 +627,8 @@
 			let pagedComment = result.data.pagedComment;
 			saveCommentsInMap(pagedComment, commentMap);
 			
-			let commentHtml = createCommentHtml(pagedComment);
-			$commentListDiv.html(commentHtml);
+			let pagedCommentHtml = createPagedCommentHtml(pagedComment);
+			$commentListDiv.html(pagedCommentHtml);
 
 			let pagination = result.data.pagination;
 			let paginationHtml = createPaginationHtml(pagination);
@@ -670,14 +670,14 @@
 				commentService.getPagedComment(boardIdx, 1, function(result) {
 					let pagedComment = result.data.pagedComment;
 					saveCommentsInMap(pagedComment, commentMap);
-					console.log(commentMap);
 					
-					let commentHtml = createCommentHtml(pagedComment);
-					$commentListDiv.html(commentHtml);
+					let pagedCommentHtml = createPagedCommentHtml(pagedComment);
+					$commentListDiv.html(pagedCommentHtml);
 
 					let pagination = result.data.pagination;
 					let paginationHtml = createPaginationHtml(pagination);
 					$commentPageDiv.html(paginationHtml);
+					
 					$("span.comment-cnt").text(pagination.totalCnt);	
 					$form.trigger("reset");
 					$form.find("textarea").trigger("input");
@@ -685,25 +685,23 @@
 			});
 		});
 		
-		// getCommentContent
 		$(document).on("click", "button[name=showEditCommentBtn]", function() {
 			let $li = $(this).closest("li");
 			let commentIdx = $li.data("idx");
-			
-			commentService.getCommentContent(commentIdx, function(result) {
-				let commentContent = result.data;
-				let editCommentHtml = createEditCommentHtml(commentContent);
-				$li.find("div.comment-area").addClass("d-none").after(editCommentHtml);
+			let commentDetails = commentMap.get(commentIdx);
+			let editCommentHtml = createEditCommentHtml(commentDetails);
+			$li.find("div.comment-area").addClass("d-none").after(editCommentHtml);
 				
-				let $textarea = $li.find("div.comment-edit textarea");
-				$textarea.height("auto");
-				$textarea.height($textarea.prop("scrollHeight") + "px");
-				$textarea.focus();
-			});
+			let $textarea = $li.find("div.comment-edit textarea");
+			$textarea.trigger("input");
+			$textarea.focus();
 		});
 
 		$(document).on("click", "button[name=closeEditCommentBtn]", function() {
 			let $li = $(this).closest("li");
+			let commentIdx = $li.data("idx");
+			let commentDetails = commentMap.get(commentIdx);
+			
 			$li.find("div.comment-area").removeClass("d-none").next("div.input-group").remove();
 		});
 		
@@ -720,14 +718,14 @@
 				commentService.getPagedComment(boardIdx, curCommentPage, function(result) {
 					let pagedComment = result.data.pagedComment;
 					saveCommentsInMap(pagedComment, commentMap);
-					console.log(commentMap);
 					
-					let commentHtml = createCommentHtml(pagedComment);
-					$commentListDiv.html(commentHtml);
+					let pagedCommentHtml = createPagedCommentHtml(pagedComment);
+					$commentListDiv.html(pagedCommentHtml);
 
 					let pagination = result.data.pagination;
 					let paginationHtml = createPaginationHtml(pagination);
 					$commentPageDiv.html(paginationHtml);
+					
 					$("span.comment-cnt").text(pagination.totalCnt);	
 				});
 			});
@@ -745,14 +743,14 @@
 				commentService.getPagedComment(boardIdx, curCommentPage, function(result) {
 					let pagedComment = result.data.pagedComment;
 					saveCommentsInMap(pagedComment, commentMap);
-					console.log(commentMap);
 					
-					let commentHtml = createCommentHtml(pagedComment);
-					$commentListDiv.html(commentHtml);
+					let pagedCommentHtml = createPagedCommentHtml(pagedComment);
+					$commentListDiv.html(pagedCommentHtml);
 
 					let pagination = result.data.pagination;
 					let paginationHtml = createPaginationHtml(pagination);
 					$commentPageDiv.html(paginationHtml);
+					
 					$("span.comment-cnt").text(pagination.totalCnt);	
 				});
 			});
@@ -764,16 +762,15 @@
 			commentService.getPagedComment(boardIdx, $(this).data("page"), function(result) {
 				let pagedComment = result.data.pagedComment;
 				saveCommentsInMap(pagedComment, commentMap);
-				console.log(commentMap);
 				
-				let commentHtml = createCommentHtml(pagedComment);
-				$commentListDiv.html(commentHtml);
+				let pagedCommentHtml = createCommentHtml(pagedComment);
+				$commentListDiv.html(pagedCommentHtml);
 
 				let pagination = result.data.pagination;
 				let paginationHtml = createPaginationHtml(pagination);
 				$commentPageDiv.html(paginationHtml);
-				$("span.comment-cnt").text(pagination.totalCnt);
 				
+				$("span.comment-cnt").text(pagination.totalCnt);
 				curCommentPage = pagination.page;
 				console.log("## curCommentPage = %s", curCommentPage);
 			});
