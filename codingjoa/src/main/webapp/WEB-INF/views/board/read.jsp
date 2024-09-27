@@ -155,12 +155,12 @@
 	
 	.comment-list .list-group-item {
 		/* padding: 1.25rem 0; */
-		padding: 1.3rem;
+		padding: 1.7rem;
 		background-color: #F1F5FC;
 	}
 	
-	.comment-info { 
-		margin-bottom: 1rem; 
+	.comment-area-header { 
+		margin-bottom: 0.5rem; 
 	}
 	
 	.comment-writer {
@@ -399,7 +399,7 @@
 												<sec:authentication property="principal.nickname"/>
 											</p>
 										</sec:authorize>
-										<textarea name="commentContent" placeholder="댓글을 남겨보세요" rows="1"></textarea>
+										<textarea name="commentContent" rows="1" placeholder="댓글을 남겨보세요"></textarea>
 										<input type="hidden" name="boardIdx" value="${boardDetails.boardIdx}">
 										<div class="mt-2">
 											<button class="btn btn-sm btn-outline-secondary" type="submit" disabled>등록</button>
@@ -660,7 +660,25 @@
 			}
 		});
 		
-		$(".comment-write-wrap form").on("submit", function(e) {
+		// show editComment form
+		$(document).on("click", "button[name=showEditCommentBtn]", function() {
+			let $li = $(this).closest("li");
+			let commentDetails = commentMap.get($li.data("idx"));
+			let editCommentHtml = createEditCommentHtml(commentDetails);
+			$li.html(editCommentHtml);
+			$li.find("textarea").trigger("input").focus();
+		});
+
+		// close editComment form
+		$(document).on("click", ".comment-edit-wrap button[type='button']", function() {
+			let $li = $(this).closest("li");
+			let commentDetails = commentMap.get($li.data("idx"));
+			let commentHtml = createCommentHtml(commentDetails);
+			$li.html(createCommentHtml(commentDetails));
+		});
+		
+		// writeComment
+		$(document).on("submit", ".comment-write-wrap form", function(e) {
 			e.preventDefault();
 			let $form = $(this);
 			let comment = $form.serializeObject();
@@ -684,34 +702,12 @@
 				});
 			});
 		});
-		
-		$(document).on("click", "button[name=showEditCommentBtn]", function() {
-			let $li = $(this).closest("li");
-			let commentIdx = $li.data("idx");
-			let commentDetails = commentMap.get(commentIdx);
-			let editCommentHtml = createEditCommentHtml(commentDetails);
-			$li.find("div.comment-area").addClass("d-none").after(editCommentHtml);
-				
-			let $textarea = $li.find("div.comment-edit textarea");
-			$textarea.trigger("input");
-			$textarea.focus();
-		});
 
-		$(document).on("click", "button[name=closeEditCommentBtn]", function() {
-			let $li = $(this).closest("li");
-			let commentIdx = $li.data("idx");
-			let commentDetails = commentMap.get(commentIdx);
-			
-			$li.find("div.comment-area").removeClass("d-none").next("div.input-group").remove();
-		});
-		
 		// modifyComment
-		$(document).on("click", "button[name=modifyCommentBtn]", function() {
-			let $li = $(this).closest("li");
-			let commentIdx = $li.data("idx");
-			let comment = {
-				"commentContent" : $li.find("div.comment-edit textarea").val(),
-			};
+		$(document).on("submit", ".comment-edit-wrap form", function(e) {
+			e.preventDefault();
+			let comment = $(this).serializeObject();
+			let commentIdx =$(this).closest("li").data("idx");
 			
 			commentService.modifyComment(commentIdx, comment, function(result) {
 				alert(result.message);

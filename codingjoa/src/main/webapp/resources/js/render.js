@@ -42,15 +42,17 @@ function createPagedCommentHtml(pagedComment) {
 			html += "</li>";
 			return true;
 		}
+		
+		html += "<li class='list-group-item' data-idx='" + commentDetails.commentIdx + "'>";
 		html += createCommentHtml(commentDetails);
+		html += "</li>";
 	});
 	html += "</ul>";
 	return html;
 }
 
 function createCommentHtml(commentDetails) {
-	console.log("## createCommentHtml");
-	let html = "<li class='list-group-item' data-idx='" + commentDetails.commentIdx + "'>";
+	let html = "";
 	html += "<div class='comment-area'>";
 	html += "<div class='comment-area-header'>";
 	html += "<div class='comment-info'>";
@@ -89,23 +91,26 @@ function createCommentHtml(commentDetails) {
 	html += "</button>";
 	html += "</div>";
 	html += "</div>";
-	html += "</li>";
 	return html;
 }
 
 function createEditCommentHtml(commentDetails) {
-	console.log("## createEditCommentHtml");
-	let html = "<div class='input-group'>";
+	let html = "";
+	html += "<div class='comment-edit-wrap'>";
+	html += "<form>"
+	html += "<div class='input-group'>";
 	html += "<div class='comment-edit form-control'>";
 	html += "<p class='font-weight-bold mb-2'>" + commentDetails.memberNickname + "</p>";
-	//html += "<textarea rows='1' style='white-space: pre;'>" + commentDetails.commentContent + "</textarea>";
-	html += "<textarea rows='1' style='white-space: pre;line-height:180%;'>" + commentDetails.commentContent + "</textarea>";
+	//html += "<textarea rows='1' style='white-space:pre;style='line-height:180%;'>" + commentDetails.commentContent + "</textarea>";
+	html += "<textarea name='commentContent' rows='1' style='line-height:180%;'>" + commentDetails.commentContent + "</textarea>";
 	html += "<div class='mt-2'>";
-	html += "<button class='btn btn-sm btn-outline-primary' type='submit' name='modifyCommentBtn'>수정</button>";
-	html += "<button class='btn btn-sm btn-outline-secondary ml-2' type='button' name='closeEditCommentBtn'>취소</button>";
+	html += "<button class='btn btn-sm btn-outline-primary' type='submit'>수정</button>";
+	html += "<button class='btn btn-sm btn-outline-secondary ml-2' type='button'>취소</button>";
 	html += "</div>";		
 	html += "</div>";			
 	html += "</div>";	
+	html += "</form>";
+	html += "</div>";
 	return html;
 }
 
