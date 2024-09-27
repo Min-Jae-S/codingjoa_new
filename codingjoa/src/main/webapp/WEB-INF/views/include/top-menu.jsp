@@ -87,8 +87,7 @@
 					let categoryList = result.data;
 					let categoryMenuHtml = createCategoryMenuHtml(categoryList);
 					if (categoryMenuHtml != "") {
-						$dropdown.html(categoryMenuHtml);
-						$dropdown.addClass("show");
+						$dropdown.html(categoryMenuHtml).addClass("show");
 					}
 				});
 			}, delay);
@@ -97,8 +96,7 @@
 		$("li.category").on("mouseleave", function() {
 			clearTimeout(timer);
 			$(this).find("a").css("color", "grey").css("font-weight", "400");
-			$dropdowns.removeClass("show");
-			$dropdowns.empty();
+			$dropdowns.removeClass("show").empty();
 		});
 
 		$(document).on("mouseenter", "li.category button.dropdown-item", function() {

@@ -603,7 +603,7 @@
 			console.error(error);
 		});
 	
-	function saveCommentsInMap(pagedComment, commentMap) {
+	function saveCommentsAsMap(pagedComment, commentMap) {
 		commentMap.clear();
 		if (pagedComment.length == 0) {
 			return;
@@ -625,7 +625,7 @@
 		
 		commentService.getPagedComment(boardIdx, curCommentPage, function(result) {
 			let pagedComment = result.data.pagedComment;
-			saveCommentsInMap(pagedComment, commentMap);
+			saveCommentsAsMap(pagedComment, commentMap);
 			
 			let pagedCommentHtml = createPagedCommentHtml(pagedComment);
 			$commentListDiv.html(pagedCommentHtml);
@@ -687,7 +687,7 @@
 				alert(result.message);
 				commentService.getPagedComment(boardIdx, 1, function(result) {
 					let pagedComment = result.data.pagedComment;
-					saveCommentsInMap(pagedComment, commentMap);
+					saveCommentsAsMap(pagedComment, commentMap);
 					
 					let pagedCommentHtml = createPagedCommentHtml(pagedComment);
 					$commentListDiv.html(pagedCommentHtml);
@@ -713,7 +713,7 @@
 				alert(result.message);
 				commentService.getPagedComment(boardIdx, curCommentPage, function(result) {
 					let pagedComment = result.data.pagedComment;
-					saveCommentsInMap(pagedComment, commentMap);
+					saveCommentsAsMap(pagedComment, commentMap);
 					
 					let pagedCommentHtml = createPagedCommentHtml(pagedComment);
 					$commentListDiv.html(pagedCommentHtml);
@@ -738,7 +738,7 @@
 				alert(result.message);
 				commentService.getPagedComment(boardIdx, curCommentPage, function(result) {
 					let pagedComment = result.data.pagedComment;
-					saveCommentsInMap(pagedComment, commentMap);
+					saveCommentsAsMap(pagedComment, commentMap);
 					
 					let pagedCommentHtml = createPagedCommentHtml(pagedComment);
 					$commentListDiv.html(pagedCommentHtml);
@@ -757,7 +757,7 @@
 			e.preventDefault();
 			commentService.getPagedComment(boardIdx, $(this).data("page"), function(result) {
 				let pagedComment = result.data.pagedComment;
-				saveCommentsInMap(pagedComment, commentMap);
+				saveCommentsAsMap(pagedComment, commentMap);
 				
 				let pagedCommentHtml = createCommentHtml(pagedComment);
 				$commentListDiv.html(pagedCommentHtml);
