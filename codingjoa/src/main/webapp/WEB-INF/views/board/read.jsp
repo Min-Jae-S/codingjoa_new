@@ -633,7 +633,7 @@
 			let pagination = result.data.pagination;
 			let paginationHtml = createPaginationHtml(pagination);
 			$commentPageDiv.html(paginationHtml);
-			$("span.comment-cnt").text(pagination.totalCnt);
+			$(".comment-cnt").text(pagination.totalCnt);
 		});
 		
 		$("#deleteBoardLink").on("click", function() {
@@ -696,7 +696,7 @@
 					let paginationHtml = createPaginationHtml(pagination);
 					$commentPageDiv.html(paginationHtml);
 					
-					$("span.comment-cnt").text(pagination.totalCnt);	
+					$(".comment-cnt").text(pagination.totalCnt);	
 					$form.trigger("reset");
 					$form.find("textarea").trigger("input");
 				});
@@ -722,7 +722,7 @@
 					let paginationHtml = createPaginationHtml(pagination);
 					$commentPageDiv.html(paginationHtml);
 					
-					$("span.comment-cnt").text(pagination.totalCnt);	
+					$(".comment-cnt").text(pagination.totalCnt);	
 				});
 			});
 		});
@@ -747,7 +747,7 @@
 					let paginationHtml = createPaginationHtml(pagination);
 					$commentPageDiv.html(paginationHtml);
 					
-					$("span.comment-cnt").text(pagination.totalCnt);	
+					$(".comment-cnt").text(pagination.totalCnt);	
 				});
 			});
 		});
@@ -766,7 +766,7 @@
 				let paginationHtml = createPaginationHtml(pagination);
 				$commentPageDiv.html(paginationHtml);
 				
-				$("span.comment-cnt").text(pagination.totalCnt);
+				$(".comment-cnt").text(pagination.totalCnt);
 				curCommentPage = pagination.page;
 				console.log("## curCommentPage = %s", curCommentPage);
 			});
@@ -778,8 +778,9 @@
 				alert(result.message);
 				let boardLiked = result.data;
 				let cssClass = (boardLiked) ? "fa-heart fa-solid text-danger" : "fa-heart fa-regular text-grey";
+				
+				$("#boardLikesBtn i").removeClass().addClass(cssClass);
 				likesService.getBoardLikesCnt(boardIdx, function(result) {
-					$("#boardLikesBtn i").removeClass().addClass(cssClass);
 					$(".board-likes-cnt").text(result.data);
 				});
 			});
@@ -789,12 +790,14 @@
 		$(document).on("click", "button[name=commentLikesBtn]", function() {
 			let $li = $(this).closest("li");
 			let commentIdx = $li.data("idx");
+			
 			likesService.toggleCommentLikes(commentIdx, function(result) {
 				alert(result.message);
 				let commentLiked = result.data;
 				let cssClass = (commentLiked) ? "fa-regular fa-thumbs-up text-primary" : "fa-regular fa-thumbs-up text-grey";
+				$li.find("button[name=commentLikesBtn] i").removeClass().addClass(cssClass);
+				
 				likesService.getCommentLikesCnt(commentIdx, function(result) {
-					$li.find("button[name=commentLikesBtn] i").removeClass().addClass(cssClass);
 					$li.find(".comment-likes-cnt").text(result.data);
 				});
 			});
