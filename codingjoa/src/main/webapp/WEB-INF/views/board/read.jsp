@@ -776,10 +776,11 @@
 		$("#boardLikesBtn").on("click", function() {
 			likesService.toggleBoardLikes(boardIdx, function(result) {
 				alert(result.message);
-				let cssClass = (result.data.isBoardLiked) ? "fa-heart fa-solid text-danger" : "fa-heart fa-regular text-grey";
+				let boardLiked = result.data;
+				let cssClass = (boardLiked) ? "fa-heart fa-solid text-danger" : "fa-heart fa-regular text-grey";
 				likesService.getBoardLikesCnt(boardIdx, function(result) {
 					$("#boardLikesBtn i").removeClass().addClass(cssClass);
-					$(".board-likes-cnt").text(result.data.boardLikesCnt);
+					$(".board-likes-cnt").text(result.data);
 				});
 			});
 		});
@@ -790,10 +791,11 @@
 			let commentIdx = $li.data("idx");
 			likesService.toggleCommentLikes(commentIdx, function(result) {
 				alert(result.message);
-				let cssClass = (result.data.isCommentLiked) ? "fa-regular fa-thumbs-up text-primary" : "fa-regular fa-thumbs-up text-grey";
+				let commentLiked = result.data;
+				let cssClass = (commentLiked) ? "fa-regular fa-thumbs-up text-primary" : "fa-regular fa-thumbs-up text-grey";
 				likesService.getCommentLikesCnt(commentIdx, function(result) {
 					$li.find("button[name=commentLikesBtn] i").removeClass().addClass(cssClass);
-					$li.find(".comment-likes-cnt").text(result.data.commentLikesCnt);
+					$li.find(".comment-likes-cnt").text(result.data);
 				});
 			});
 		});

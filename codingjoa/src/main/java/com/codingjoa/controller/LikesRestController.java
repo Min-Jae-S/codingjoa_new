@@ -1,7 +1,5 @@
 package com.codingjoa.controller;
 
-import java.util.Map;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -34,15 +32,11 @@ public class LikesRestController {
 	@PostMapping("/boards/{boardIdx}/likes")
 	public ResponseEntity<Object> toggleBoardLikes(@PathVariable int boardIdx, @AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## toggleBoardLikes, boardIdx = {}", boardIdx);
-		boolean isBoardLiked = likesService.toggleBoardLikes(boardIdx, principal.getIdx());
-		String code = (isBoardLiked) ? "success.LikeBoard" : "success.UnlikeBoard";
+		boolean booardLiked = likesService.toggleBoardLikes(boardIdx, principal.getIdx());
+		String code = (booardLiked) ? "success.LikeBoard" : "success.UnlikeBoard";
 		//resetAuthentication(principal.getMember().getMemberId());
 		
-		return ResponseEntity.ok(SuccessResponse
-				.builder()
-				.messageByCode(code)
-				.data(Map.of("isBoardLiked", isBoardLiked))
-				.build());
+		return ResponseEntity.ok(SuccessResponse.builder().messageByCode(code).data(booardLiked).build());
 	}
 	
 	@GetMapping("/boards/{boardIdx}/likes")
@@ -52,24 +46,17 @@ public class LikesRestController {
 		int boardLikesCnt = likesService.getBoardLikesCnt(boardIdx);
 		log.info("\t > boardLikesCnt = {}", boardLikesCnt);
 		
-		return ResponseEntity.ok(SuccessResponse
-				.builder()
-				.data(Map.of("boardLikesCnt", boardLikesCnt))
-				.build());
+		return ResponseEntity.ok(SuccessResponse.builder().data(boardLikesCnt).build());
 	}
 	
 	@PostMapping("/comments/{commentIdx}/likes")
 	public ResponseEntity<Object> toggleCommentLikes(@PathVariable int commentIdx, @AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## toggleCommentLikes, commentIdx = {}", commentIdx);
-		boolean isCommentLiked = likesService.toggleCommentLikes(commentIdx, principal.getIdx());
-		String code = (isCommentLiked) ? "success.LikeComment" : "success.UnlikeComment";
+		boolean commentLiked = likesService.toggleCommentLikes(commentIdx, principal.getIdx());
+		String code = (commentLiked) ? "success.LikeComment" : "success.UnlikeComment";
 		//resetAuthentication(principal.getMember().getMemberId());
 
-		return ResponseEntity.ok(SuccessResponse
-				.builder()
-				.messageByCode(code)
-				.data(Map.of("isCommentLiked", isCommentLiked))
-				.build());
+		return ResponseEntity.ok(SuccessResponse.builder().messageByCode(code).data(commentLiked).build());
 	}
 
 	@GetMapping("/comments/{commentIdx}/likes")
@@ -79,10 +66,7 @@ public class LikesRestController {
 		int commentLikesCnt = likesService.getCommentLikesCnt(commentIdx);
 		log.info("\t > commentLikesCnt = {}", commentLikesCnt);
 		
-		return ResponseEntity.ok(SuccessResponse
-				.builder()
-				.data(Map.of("commentLikesCnt", commentLikesCnt))
-				.build());
+		return ResponseEntity.ok(SuccessResponse.builder().data(commentLikesCnt).build());
 	}
 	
 	@SuppressWarnings("unused")
