@@ -95,6 +95,7 @@
 		<result property="commentUse" column="comment_use" javaType="boolean"/>
 		<result property="createdAt" column="created_at" javaType="java.time.LocalDateTime"/>
 		<result property="updatedAt" column="updated_at" javaType="java.time.LocalDateTime"/>
+		<result property="commentWriterMatches" column="comment_writer_matches" javaType="boolean"/>
 		<result property="boardWriterMatches" column="board_writer_matches" javaType="boolean"/>
 		<result property="memberNickname" column="member_nickname" javaType="string"/>
 		<result property="memberImageUrl" column="member_image_url" javaType="string"/>
@@ -110,6 +111,7 @@
 			a.comment_use,
 	        a.created_at,
 	        a.updated_at,
+	        a.comment_writer_matches,
 	        a.board_writer_matches,
     		b.member_nickname,
     		c.member_image_url,
@@ -121,11 +123,12 @@
 		FROM (
 			SELECT
 				a_depth.comment_idx,
-		        a_depth.member_idx,
+				a_depth.member_idx,
 		        a_depth.comment_content, 
 		        a_depth.comment_use,
 		        a_depth.created_at,
 		        a_depth.updated_at,
+		        a_depth.comment_writer_matches,
 		        a_depth.board_writer_matches
 			FROM (
 				SELECT
@@ -138,7 +141,11 @@
 			        "comment".created_at,
 			        "comment".updated_at,
 			        CASE
-			        	WHEN board.member_idx = "comment".member_idx THEN 1
+	        			WHEN "comment".member_idx = #{memberIdx} THEN 1
+	        			ELSE 0
+	        		END AS comment_writer_matches,
+			        CASE
+			        	WHEN "comment".member_idx = board.member_idx THEN 1
 			        	ELSE 0
 			        END AS board_writer_matches
 			    FROM 

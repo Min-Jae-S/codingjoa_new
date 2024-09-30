@@ -18,6 +18,7 @@ public class BoardDetailsDto {
 	private int boardCategoryCode;
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
+	private boolean isBoardWriter;
 	private String memberNickname;		// from INNER JOIN with member
 	private int commentCnt;				// from LEFT OUTER JOIN with comment
 	private int boardLikesCnt;			// from LEFT OUTER JOIN with board_likes
@@ -25,7 +26,7 @@ public class BoardDetailsDto {
 	
 	@Builder
 	private BoardDetailsDto(int boardIdx, String boardTitle, String boardContent, int boardViews, int boardCategoryCode,
-			LocalDateTime createdAt, LocalDateTime updatedAt, String memberNickname, int commentCnt, int boardLikesCnt,
+			LocalDateTime createdAt, LocalDateTime updatedAt, boolean isBoardWriter, String memberNickname, int commentCnt, int boardLikesCnt,
 			boolean isBoardLiked) {
 		this.boardIdx = boardIdx;
 		this.boardTitle = boardTitle;
@@ -34,6 +35,7 @@ public class BoardDetailsDto {
 		this.boardCategoryCode = boardCategoryCode;
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;
+		this.isBoardWriter = isBoardWriter;
 		this.memberNickname = memberNickname;
 		this.commentCnt = commentCnt;
 		this.boardLikesCnt = boardLikesCnt;
@@ -58,6 +60,7 @@ public class BoardDetailsDto {
 				.boardCategoryCode((int) map.get("boardCategoryCode"))
 				.createdAt((LocalDateTime) map.get("createdAt"))
 				.updatedAt((LocalDateTime) map.get("updatedAt"))
+				.isBoardWriter((boolean) map.get("isBoardWriter"))
 				.memberNickname((String) map.get("memberNickname"))
 				.commentCnt((int) map.get("commentCnt"))
 				.boardLikesCnt((int) map.get("boardLikesCnt"))

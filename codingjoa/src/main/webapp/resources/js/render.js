@@ -64,7 +64,16 @@ function createCommentHtml(commentDetails) {
 	html += "<span class='comment-updatedat d-none'>" + commentDetails.updatedAt + "</span>";
 	html += "</div>";
 	html += "<div class='dropright ml-auto'>";
-	html += "<button class='comment-utils btn' data-toggle='dropdown' data-offset='0,10' aria-expanded='false'>";
+	
+	//let disabledAttr = commentDetails.commentWriterMatches ? "" : "disabled";
+	//html += "<button class='comment-utils-btn btn' data-toggle='dropdown' data-offset='0,10' aria-expanded='false' ${disabledAttr}>";
+	
+	if (commentDetails.commentWriterMatches) {
+		html += "<button class='comment-utils-btn btn' data-toggle='dropdown' data-offset='0,10' aria-expanded='false'>";
+	} else {
+		html += "<button class='comment-utils-btn btn' data-toggle='dropdown' data-offset='0,10' aria-expanded='false' disabled>";
+	}
+	
 	html += "<i class='fa-solid fa-ellipsis-vertical'></i>";
 	html += "</button>";
 	html += "<div class='dropdown-menu'>";

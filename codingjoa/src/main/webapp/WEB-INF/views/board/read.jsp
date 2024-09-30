@@ -54,7 +54,7 @@
 		margin-left: 0.25rem;
 	}
 	
-	.board-utils {
+	.board-utils-btn {
 		float: right;
 		box-shadow: none !important;
 		padding-top: 0;
@@ -170,7 +170,7 @@
 	}
 	
 	.comment-content p {
-		/* margin-bottom: 0; */
+		margin-bottom: 0.5rem !important;
 	}
 	
 	.deleted-comment {
@@ -198,10 +198,13 @@
 		margin-left: auto;
 	} */
 	
-	.comment-utils {
-		float: right;
+	.comment-utils-btn {
 		box-shadow: none !important;
-		padding-top: 0;
+		padding-top: 0 !important;
+		padding-bottom: 0 !important;;
+		margin: 0 !important;;
+		vertical-align: top !important;;
+		border: none !important;
 	}
 	
 	.textarea-border {
@@ -210,6 +213,11 @@
 	
 	.dropright button {
 		padding-right: 0;
+	}
+	
+	.dropright button:disabled {
+		opacity: 0.4 !important;
+		cursor: not-allowed !important;
 	}
 	
 	.comment-group-footer {
@@ -340,7 +348,8 @@
 						href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}">
 						<c:out value="${category.categoryName}"/>
 					</a>
-					<button class="board-utils btn" data-toggle="dropdown" data-offset="0,10">
+					<button class="board-utils-btn btn" data-toggle="dropdown" data-offset="0,10" 
+						${boardDetails.boardWriter ? '' : disabled}>
 						<i class="fa-solid fa-ellipsis-vertical"></i>
 					</button>
 					<div class="dropdown-menu">
@@ -366,14 +375,7 @@
 							<span class="comment-cnt"><c:out value="${boardDetails.commentCnt}"/></span>
 						</a>
 						<button class="btn border-0 p-0 shadow-none" type="button" id="boardLikesBtn">
-							<c:choose>
-								<c:when test="${boardDetails.boardLiked}">
-									<i class="fa-heart fa-solid text-danger"></i>
-								</c:when>
-								<c:otherwise>
-									<i class="fa-heart fa-regular"></i>
-								</c:otherwise>
-							</c:choose>
+							<i class="fa-heart ${boardDetails.boardLiked ? 'fa-solid text-danger' : 'fa-regular'}"/></i>
 							<span>좋아요</span>
 							<span class="board-likes-cnt"><c:out value="${boardDetails.boardLikesCnt}"/></span>
 						</button>
@@ -402,7 +404,7 @@
 										<textarea name="commentContent" rows="1" placeholder="댓글을 남겨보세요"></textarea>
 										<input type="hidden" name="boardIdx" value="${boardDetails.boardIdx}">
 										<div class="mt-2">
-											<button class="btn btn-sm btn-outline-secondary" type="submit" disabled>등록</button>
+											<button class="btn btn-sm btn-outline-secondary" type="submit">등록</button>
 										</div>
 									</div>
 								</div>
@@ -654,9 +656,11 @@
 			
 			let $submitBtn = $(this).closest("div").find("button[type='submit']");
 			if ($(this).val() != "") {
-				$submitBtn.attr("disabled", false).removeClass().addClass("btn btn-sm btn-outline-primary");
+				//$submitBtn.prop("disabled", false).removeClass().addClass("btn btn-sm btn-outline-primary");
+				$submitBtn.removeClass().addClass("btn btn-sm btn-primary");
 			} else {
-				$submitBtn.attr("disabled", true).removeClass().addClass("btn btn-sm btn-outline-secondary");
+				//$submitBtn.prop("disabled", true).removeClass().addClass("btn btn-sm btn-outline-secondary");
+				$submitBtn.removeClass().addClass("btn btn-sm btn-outline-secondary");
 			}
 		});
 		
@@ -707,7 +711,7 @@
 		$(document).on("submit", ".comment-edit-wrap form", function(e) {
 			e.preventDefault();
 			let comment = $(this).serializeObject();
-			let commentIdx =$(this).closest("li").data("idx");
+			let commentIdx = $(this).closest("li").data("idx");
 			
 			commentService.modifyComment(commentIdx, comment, function(result) {
 				alert(result.message);
@@ -778,8 +782,8 @@
 				alert(result.message);
 				let boardLiked = result.data;
 				let cssClass = (boardLiked) ? "fa-heart fa-solid text-danger" : "fa-heart fa-regular text-grey";
-				
 				$("#boardLikesBtn i").removeClass().addClass(cssClass);
+				
 				likesService.getBoardLikesCnt(boardIdx, function(result) {
 					$(".board-likes-cnt").text(result.data);
 				});

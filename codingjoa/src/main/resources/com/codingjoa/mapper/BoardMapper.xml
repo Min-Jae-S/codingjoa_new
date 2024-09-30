@@ -47,6 +47,7 @@
 		<result property="boardCategoryCode" column="board_category_code" javaType="int"/>
 		<result property="createdAt" column="created_at" javaType="java.time.LocalDateTime"/>
 		<result property="updatedAt" column="updated_at" javaType="java.time.LocalDateTime"/>
+		<result property="isBoardWriter" column="is_board_writer" javaType="boolean"/>
 		<result property="memberNickname" column="member_nickname" javaType="string"/>
 		<result property="commentCnt" column="comment_cnt" javaType="int"/>
 		<result property="boardLikesCnt" column="board_likes_cnt" javaType="int"/>
@@ -62,6 +63,10 @@
 			a.board_category_code, 
 			a.created_at, 
 			a.updated_at,
+			CASE
+				WHEN a.member_idx = #{memberIdx} THEN 1
+				ELSE 0
+			END AS is_board_writer,
 			b.member_nickname,
 			NVL(c.cnt, 0) AS comment_cnt,
     		NVL(d.cnt, 0) AS board_likes_cnt,

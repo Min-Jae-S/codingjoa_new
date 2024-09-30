@@ -22,23 +22,25 @@ public class CommentDetailsDto {
 	@JsonFormat(pattern = "yyyy.MM.dd HH:mm:ss")
 	private LocalDateTime updatedAt;
 	
+	private boolean commentWriterMatches;
 	private boolean boardWriterMatches;
-	private String memberNickname;		// from INNER JOIN with member
-	private String memberImageUrl;		// from LEFT OUTER JOIN wiht member_image
-	private int commentLikesCnt;		// from LEFT OUTER JOIN with comment_likes
+	private String memberNickname;			// from INNER JOIN with member
+	private String memberImageUrl;			// from LEFT OUTER JOIN wiht member_image
+	private int commentLikesCnt;			// from LEFT OUTER JOIN with comment_likes
 	
 	@JsonProperty("isCommentLiked")
-	private boolean isCommentLiked;		// from LEFT OUTER JOIN with comment_likes
+	private boolean isCommentLiked;			// from LEFT OUTER JOIN with comment_likes
 	
 	@Builder
 	private CommentDetailsDto(int commentIdx, String commentContent, boolean commentUse, LocalDateTime createdAt,
-			LocalDateTime updatedAt, boolean boardWriterMatches, String memberNickname, String memberImageUrl,
-			int commentLikesCnt, boolean isCommentLiked) {
+			LocalDateTime updatedAt, boolean commentWriterMatches, boolean boardWriterMatches, String memberNickname,
+			String memberImageUrl, int commentLikesCnt, boolean isCommentLiked) {
 		this.commentIdx = commentIdx;
 		this.commentContent = commentContent;
 		this.commentUse = commentUse;
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;
+		this.commentWriterMatches = commentWriterMatches;
 		this.boardWriterMatches = boardWriterMatches;
 		this.memberNickname = memberNickname;
 		this.memberImageUrl = memberImageUrl;
@@ -53,6 +55,7 @@ public class CommentDetailsDto {
 				.commentUse((boolean) map.get("commentUse"))
 				.createdAt((LocalDateTime) map.get("createdAt"))
 				.updatedAt((LocalDateTime) map.get("updatedAt"))
+				.commentWriterMatches((boolean) map.get("commentWriterMatches"))
 				.boardWriterMatches((boolean) map.get("boardWriterMatches"))
 				.memberNickname((String) map.get("memberNickname"))
 				.memberImageUrl((String) map.get("memberImageUrl"))
@@ -66,9 +69,9 @@ public class CommentDetailsDto {
 		String escapedCommentContent = (commentContent != null) ? commentContent.replace("\n", "\\n") : null;
 		return "CommentDetailsDto [commentIdx=" + commentIdx + ", commentContent=" + escapedCommentContent
 				+ ", commentUse=" + commentUse + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt
-				+ ", boardWriterMatches=" + boardWriterMatches + ", memberNickname=" + memberNickname
-				+ ", memberImageUrl=" + memberImageUrl + ", commentLikesCnt=" + commentLikesCnt + ", isCommentLiked="
-				+ isCommentLiked + "]";
+				+ ", commentWriterMatches=" + commentWriterMatches + ", boardWriterMatches=" + boardWriterMatches
+				+ ", memberNickname=" + memberNickname + ", memberImageUrl=" + memberImageUrl + ", commentLikesCnt="
+				+ commentLikesCnt + ", isCommentLiked=" + isCommentLiked + "]";
 	}
 	
 }
