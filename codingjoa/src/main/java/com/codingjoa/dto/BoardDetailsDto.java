@@ -21,12 +21,12 @@ public class BoardDetailsDto {
 	private String memberNickname;		// from INNER JOIN with member
 	private int commentCnt;				// from LEFT OUTER JOIN with comment
 	private int boardLikesCnt;			// from LEFT OUTER JOIN with board_likes
-	private boolean boardLiked;			// from LEFT OUTER JOIN with board_likes
+	private boolean isBoardLiked;		// from LEFT OUTER JOIN with board_likes
 	
 	@Builder
 	private BoardDetailsDto(int boardIdx, String boardTitle, String boardContent, int boardViews, int boardCategoryCode,
 			LocalDateTime createdAt, LocalDateTime updatedAt, String memberNickname, int commentCnt, int boardLikesCnt,
-			boolean boardLiked) {
+			boolean isBoardLiked) {
 		this.boardIdx = boardIdx;
 		this.boardTitle = boardTitle;
 		this.boardContent = boardContent;
@@ -37,7 +37,7 @@ public class BoardDetailsDto {
 		this.memberNickname = memberNickname;
 		this.commentCnt = commentCnt;
 		this.boardLikesCnt = boardLikesCnt;
-		this.boardLiked = boardLiked;
+		this.isBoardLiked = isBoardLiked;
 	}
 	
 	@Override
@@ -46,7 +46,7 @@ public class BoardDetailsDto {
 		return "BoardDetailsDto [boardIdx=" + boardIdx + ", boardTitle=" + boardTitle + ", boardContent=" + escapedBoardContent
 				+ ", boardViews=" + boardViews + ", boardCategoryCode=" + boardCategoryCode + ", createdAt=" + createdAt
 				+ ", updatedAt=" + updatedAt + ", memberNickname=" + memberNickname + ", commentCnt=" + commentCnt
-				+ ", boardLikesCnt=" + boardLikesCnt + ", boardLiked=" + boardLiked + "]";
+				+ ", boardLikesCnt=" + boardLikesCnt + ", isBoardLiked=" + isBoardLiked + "]";
 	}
 	
 	public static BoardDetailsDto from(Map<String, Object> map) {
@@ -61,7 +61,7 @@ public class BoardDetailsDto {
 				.memberNickname((String) map.get("memberNickname"))
 				.commentCnt((int) map.get("commentCnt"))
 				.boardLikesCnt((int) map.get("boardLikesCnt"))
-				.boardLiked((boolean) map.get("boardLiked"))
+				.isBoardLiked((boolean) map.get("isBoardLiked"))
 				.build();
 	}
 

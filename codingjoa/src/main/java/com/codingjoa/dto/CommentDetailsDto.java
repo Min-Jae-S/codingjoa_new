@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Builder;
 import lombok.Data;
@@ -25,12 +26,14 @@ public class CommentDetailsDto {
 	private String memberNickname;		// from INNER JOIN with member
 	private String memberImageUrl;		// from LEFT OUTER JOIN wiht member_image
 	private int commentLikesCnt;		// from LEFT OUTER JOIN with comment_likes
-	private boolean commentLiked;		// from LEFT OUTER JOIN with comment_likes
+	
+	@JsonProperty("isCommentLiked")
+	private boolean isCommentLiked;		// from LEFT OUTER JOIN with comment_likes
 	
 	@Builder
 	private CommentDetailsDto(int commentIdx, String commentContent, boolean commentUse, LocalDateTime createdAt,
 			LocalDateTime updatedAt, boolean boardWriterMatches, String memberNickname, String memberImageUrl,
-			int commentLikesCnt, boolean commentLiked) {
+			int commentLikesCnt, boolean isCommentLiked) {
 		this.commentIdx = commentIdx;
 		this.commentContent = commentContent;
 		this.commentUse = commentUse;
@@ -40,7 +43,7 @@ public class CommentDetailsDto {
 		this.memberNickname = memberNickname;
 		this.memberImageUrl = memberImageUrl;
 		this.commentLikesCnt = commentLikesCnt;
-		this.commentLiked = commentLiked;
+		this.isCommentLiked = isCommentLiked;
 	}
 	
 	public static CommentDetailsDto from(Map<String, Object> map) {
@@ -54,7 +57,7 @@ public class CommentDetailsDto {
 				.memberNickname((String) map.get("memberNickname"))
 				.memberImageUrl((String) map.get("memberImageUrl"))
 				.commentLikesCnt((int) map.get("commentLikesCnt"))
-				.commentLiked((boolean) map.get("commentLiked"))
+				.isCommentLiked((boolean) map.get("isCommentLiked"))
 				.build();
 	}
 
@@ -64,7 +67,8 @@ public class CommentDetailsDto {
 		return "CommentDetailsDto [commentIdx=" + commentIdx + ", commentContent=" + escapedCommentContent
 				+ ", commentUse=" + commentUse + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt
 				+ ", boardWriterMatches=" + boardWriterMatches + ", memberNickname=" + memberNickname
-				+ ", memberImageUrl=" + memberImageUrl + ", commentLikesCnt=" + commentLikesCnt + ", commentLiked="
-				+ commentLiked + "]";
+				+ ", memberImageUrl=" + memberImageUrl + ", commentLikesCnt=" + commentLikesCnt + ", isCommentLiked="
+				+ isCommentLiked + "]";
 	}
+	
 }

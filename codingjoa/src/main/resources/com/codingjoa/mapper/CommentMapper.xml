@@ -99,7 +99,7 @@
 		<result property="memberNickname" column="member_nickname" javaType="string"/>
 		<result property="memberImageUrl" column="member_image_url" javaType="string"/>
 		<result property="commentLikesCnt" column="comment_likes_cnt" javaType="int"/>
-		<result property="commentLiked" column="comment_liked" javaType="boolean"/>
+		<result property="isCommentLiked" column="is_comment_liked" javaType="boolean"/>
 	</resultMap>
 	
 	<select id="findPagedComment" parameterType="map" resultMap="commentDetailsMap">
@@ -112,12 +112,12 @@
 	        a.updated_at,
 	        a.board_writer_matches,
     		b.member_nickname,
-    		NVL(c.member_image_url, '') AS member_image_url,
+    		c.member_image_url,
     		NVL(d.cnt, 0) AS comment_likes_cnt,
     		CASE 
     			WHEN e.comment_idx IS NOT NULL THEN 1 
     			ELSE 0 
-    		END AS comment_liked
+    		END AS is_comment_liked
 		FROM (
 			SELECT
 				a_depth.comment_idx,

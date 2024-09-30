@@ -32,11 +32,11 @@ public class LikesRestController {
 	@PostMapping("/boards/{boardIdx}/likes")
 	public ResponseEntity<Object> toggleBoardLikes(@PathVariable int boardIdx, @AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## toggleBoardLikes, boardIdx = {}", boardIdx);
-		boolean booardLiked = likesService.toggleBoardLikes(boardIdx, principal.getIdx());
-		String code = (booardLiked) ? "success.LikeBoard" : "success.UnlikeBoard";
+		boolean isBooardLiked = likesService.toggleBoardLikes(boardIdx, principal.getIdx());
+		String code = (isBooardLiked) ? "success.LikeBoard" : "success.UnlikeBoard";
 		//resetAuthentication(principal.getMember().getMemberId());
 		
-		return ResponseEntity.ok(SuccessResponse.builder().messageByCode(code).data(booardLiked).build());
+		return ResponseEntity.ok(SuccessResponse.builder().messageByCode(code).data(isBooardLiked).build());
 	}
 	
 	@GetMapping("/boards/{boardIdx}/likes")
@@ -52,11 +52,11 @@ public class LikesRestController {
 	@PostMapping("/comments/{commentIdx}/likes")
 	public ResponseEntity<Object> toggleCommentLikes(@PathVariable int commentIdx, @AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## toggleCommentLikes, commentIdx = {}", commentIdx);
-		boolean commentLiked = likesService.toggleCommentLikes(commentIdx, principal.getIdx());
-		String code = (commentLiked) ? "success.LikeComment" : "success.UnlikeComment";
+		boolean isCommentLiked = likesService.toggleCommentLikes(commentIdx, principal.getIdx());
+		String code = (isCommentLiked) ? "success.LikeComment" : "success.UnlikeComment";
 		//resetAuthentication(principal.getMember().getMemberId());
 
-		return ResponseEntity.ok(SuccessResponse.builder().messageByCode(code).data(commentLiked).build());
+		return ResponseEntity.ok(SuccessResponse.builder().messageByCode(code).data(isCommentLiked).build());
 	}
 
 	@GetMapping("/comments/{commentIdx}/likes")

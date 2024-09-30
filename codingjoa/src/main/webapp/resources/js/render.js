@@ -82,7 +82,7 @@ function createCommentHtml(commentDetails) {
 	html += "</div>";
 	html += "<div class='comment-area-footer'>";
 	html += "<button class='btn border-0 p-0 shadow-none ml-auto' type='button' name='commentLikesBtn'>";
-	if (commentDetails.commentLiked) {
+	if (commentDetails.isCommentLiked) {
 		html += "<i class='fa-thumbs-up fa-regular text-primary'></i>";
 	} else {
 		html += "<i class='fa-thumbs-up fa-regular text-grey'></i>";
