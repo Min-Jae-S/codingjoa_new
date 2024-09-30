@@ -97,6 +97,7 @@
 		<result property="updatedAt" column="updated_at" javaType="java.time.LocalDateTime"/>
 		<result property="boardWriterMatches" column="board_writer_matches" javaType="boolean"/>
 		<result property="memberNickname" column="member_nickname" javaType="string"/>
+		<result property="memberImageUrl" column="member_image_url" javaType="string"/>
 		<result property="commentLikesCnt" column="comment_likes_cnt" javaType="int"/>
 		<result property="commentLiked" column="comment_liked" javaType="boolean"/>
 	</resultMap>
@@ -111,9 +112,10 @@
 	        a.updated_at,
 	        a.board_writer_matches,
     		b.member_nickname,
-    		NVL(c.cnt, 0) AS comment_likes_cnt,
+    		NVL(c.member_image_url, '') AS member_image_url,
+    		NVL(d.cnt, 0) AS comment_likes_cnt,
     		CASE 
-    			WHEN d.comment_idx IS NOT NULL THEN 1 
+    			WHEN e.comment_idx IS NOT NULL THEN 1 
     			ELSE 0 
     		END AS comment_liked
 		FROM (
@@ -159,6 +161,10 @@
 			member b
 		ON 
 			a.member_idx = b.member_idx
+		LEFT OUTER JOIN
+			member_image c
+		ON
+			a.member_idx = c.member_idx
 		LEFT OUTER JOIN (
 			SELECT
 				comment_idx, 
@@ -167,9 +173,9 @@
 				comment_likes
 			GROUP BY
 				comment_idx	
-		) c
+		) d
 		ON
-			a.comment_idx = c.comment_idx
+			a.comment_idx = d.comment_idx
 		LEFT OUTER JOIN (
 			SELECT
 				comment_idx
@@ -177,9 +183,9 @@
 				comment_likes
 			WHERE
 				member_idx = #{memberIdx}
-		) d
+		) e
 		ON
-			a.comment_idx = d.comment_idx
+			a.comment_idx = e.comment_idx
 	</select>
 	
 	<!-- <select id="findPagedComment" parameterType="map" resultMap="commentDetailsMap">

@@ -23,13 +23,14 @@ public class CommentDetailsDto {
 	
 	private boolean boardWriterMatches;
 	private String memberNickname;		// from INNER JOIN with member
+	private String memberImageUrl;		// from LEFT OUTER JOIN wiht member_image
 	private int commentLikesCnt;		// from LEFT OUTER JOIN with comment_likes
 	private boolean commentLiked;		// from LEFT OUTER JOIN with comment_likes
 	
 	@Builder
 	private CommentDetailsDto(int commentIdx, String commentContent, boolean commentUse, LocalDateTime createdAt,
-			LocalDateTime updatedAt, boolean boardWriterMatches, String memberNickname, int commentLikesCnt,
-			boolean commentLiked) {
+			LocalDateTime updatedAt, boolean boardWriterMatches, String memberNickname, String memberImageUrl,
+			int commentLikesCnt, boolean commentLiked) {
 		this.commentIdx = commentIdx;
 		this.commentContent = commentContent;
 		this.commentUse = commentUse;
@@ -37,6 +38,7 @@ public class CommentDetailsDto {
 		this.updatedAt = updatedAt;
 		this.boardWriterMatches = boardWriterMatches;
 		this.memberNickname = memberNickname;
+		this.memberImageUrl = memberImageUrl;
 		this.commentLikesCnt = commentLikesCnt;
 		this.commentLiked = commentLiked;
 	}
@@ -50,6 +52,7 @@ public class CommentDetailsDto {
 				.updatedAt((LocalDateTime) map.get("updatedAt"))
 				.boardWriterMatches((boolean) map.get("boardWriterMatches"))
 				.memberNickname((String) map.get("memberNickname"))
+				.memberImageUrl((String) map.get("memberImageUrl"))
 				.commentLikesCnt((int) map.get("commentLikesCnt"))
 				.commentLiked((boolean) map.get("commentLiked"))
 				.build();
@@ -61,6 +64,7 @@ public class CommentDetailsDto {
 		return "CommentDetailsDto [commentIdx=" + commentIdx + ", commentContent=" + escapedCommentContent
 				+ ", commentUse=" + commentUse + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt
 				+ ", boardWriterMatches=" + boardWriterMatches + ", memberNickname=" + memberNickname
-				+ ", commentLikesCnt=" + commentLikesCnt + ", commentLiked=" + commentLiked + "]";
+				+ ", memberImageUrl=" + memberImageUrl + ", commentLikesCnt=" + commentLikesCnt + ", commentLiked="
+				+ commentLiked + "]";
 	}
 }
