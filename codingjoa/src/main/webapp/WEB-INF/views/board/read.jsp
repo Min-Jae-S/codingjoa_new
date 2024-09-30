@@ -759,7 +759,7 @@
 				let pagedComment = result.data.pagedComment;
 				saveCommentsAsMap(pagedComment, commentMap);
 				
-				let pagedCommentHtml = createCommentHtml(pagedComment);
+				let pagedCommentHtml = createPagedCommentHtml(pagedComment);
 				$commentListDiv.html(pagedCommentHtml);
 
 				let pagination = result.data.pagination;

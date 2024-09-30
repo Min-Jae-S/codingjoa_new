@@ -54,8 +54,6 @@ public class CommentRestController {
 		log.info("\t > memberIdx = {}", memberIdx);
 
 		List<CommentDetailsDto> pagedComment = commentService.getPagedComment(boardIdx, commentCri, memberIdx);
-		log.info("\t > pagedComment = {}", pagedComment);
-		
 		Pagination pagination = commentService.getPagination(boardIdx, commentCri);
 		log.info("\t > comment pagination = {}", pagination);
 		

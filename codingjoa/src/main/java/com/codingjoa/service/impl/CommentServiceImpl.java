@@ -65,7 +65,6 @@ public class CommentServiceImpl implements CommentService {
 			throw new ExpectedException("error.NotFoundBoard");
 		}
 		
-		log.info("\t > find pagedComment");
 		List<CommentDetailsDto> pagedComment = commentMapper.findPagedComment(board.getBoardIdx(), commentCri, memberIdx)
 				.stream()
 				.map(commentDetailsMap -> {
@@ -73,22 +72,9 @@ public class CommentServiceImpl implements CommentService {
 					return commentDetails.isCommentUse() ? commentDetails : null;
 				})
 				.collect(Collectors.toList());
+		log.info("\t > find pagedComment");
 
 		return pagedComment;
-		
-//		List<Map<String, Object>> allPagedComment = commentMapper.findPagedComment(board.getBoardIdx(), commentCri);
-//		List<CommentDetailsDto> pagedComment = new ArrayList<>();
-//		List<Integer> deletedComments = new ArrayList<>();
-//		for (Map<String, Object> commentDetailsMap : allPagedComment) {
-//			CommentDetailsDto commentDetails = CommentDetailsDto.from(commentDetailsMap);
-//			if (commentDetails.isCommentUse()) {
-//				pagedComment.add(commentDetails);
-//			} else {
-//				pagedComment.add(null);
-//				deletedComments.add(commentDetails.getCommentIdx());
-//			}
-//		}
-//		log.info("\t > deletedComments = {}", deletedComments);
 	}
 	
 	@Override
