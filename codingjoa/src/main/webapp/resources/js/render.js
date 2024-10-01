@@ -53,12 +53,20 @@ function createPagedCommentHtml(pagedComment) {
 
 function createCommentHtml(commentDetails) {
 	let html = "";
+	html += "<div class='comment-thum'>";
+	if (commentDetails.memberImageUrl == "") {
+		html += "<img src='/codingjoa/resources/images/img_profile.png'>";
+	} else {
+		html += "<img src='" + commentDetails.memberImageUrl + "'>";
+	}
+	
+	html += "</div>";
 	html += "<div class='comment-area'>";
 	html += "<div class='comment-area-header'>";
 	html += "<div class='comment-info'>";
-	html += "<span class='comment-writer mr-2'>" + commentDetails.memberNickname + "</span>";
+	html += "<span class='comment-writer'>" + commentDetails.memberNickname + "</span>";
 	if (commentDetails.isBoardWriter) {
-		html += "<span class='badge badge-pill badge-primary mr-2'>작성자</span>"
+		html += "<span class='badge badge-pill badge-primary'>작성자</span>";
 	}
 	
 	html += "<span class='comment-createdat'>" + commentDetails.createdAt + "</span>";

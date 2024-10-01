@@ -83,17 +83,30 @@
 		border-bottom: 1px solid #e9ecef;
 	}
 	
-	.header-group .header-meta {
+	.board-info {
+		display: flex;
+		margin-bottom: .5rem !important;
 		font-size: 1rem;
-		/* color: #868e96; */
-		/* color: #979797; */
-		/* color: #757575; */
 	}
 	
-	.header-group .header-meta a {
+	.board-info a {
 		color: black;
 		text-decoration: none;
 	}
+	
+	.board-info .board-info-left {
+		display: flex;
+		align-items: center;
+		gap: 1.5rem;
+	}
+	
+	.board-info .board-info-right {
+		display: flex;
+		margin-left: auto;
+		align-items: center;
+		gap: 1.5rem;
+	}
+	
 	
 /* 	.comment-createdat {
 		font-size: 13px;
@@ -153,10 +166,28 @@
 		font-weight: bold;
 	}
 	
-	.comment-list .list-group-item {
+	.comment-list li {
 		/* padding: 1.25rem 0; */
-		padding: 1.7rem;
-		background-color: #F1F5FC;
+		/* padding: 1.7rem; */
+		padding: 28px 28px 28px 98px;
+		background-color: #f1f5fc;
+	}
+	
+	.comment-list .comment-thum {
+		position: absolute;
+		top: 29px;
+		left: 28px;
+		width: 48px;
+		height: 48px;
+		border-radius: 50%;
+		background-repeat: no-repeat;
+	}
+	
+	.comment-list .comment-thum img {
+		width: 48px;
+		height: 48px;
+		border-radius: 50%;
+		border: 1px solid #dee2e6 !important
 	}
 	
 	.comment-area-header { 
@@ -166,7 +197,6 @@
 	.comment-writer {
 		color: #495057;
 		font-weight: bold;
-		margin-right: 0.25rem;
 	}
 	
 	.comment-content p {
@@ -180,6 +210,12 @@
 	.comment-area-header, 
 	.comment-area-footer {
 		display:flex;
+	}
+	
+	.comment-info {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
 	}
 	
 	/* .comment-area {
@@ -362,13 +398,14 @@
 				     </div>
 				</div>
 				<h3 class="title mb-4"><c:out value="${boardDetails.boardTitle}"/></h3>
-				<div class="header-meta d-flex mb-2">
-					<span class="mr-4"><c:out value="${boardDetails.memberNickname}"/></span>
-					<span class="mr-4"><c:out value="${boardDetails.fullCreatedAt}"/></span>
-					<span class="mr-1">조회</span>
-					<span><c:out value="${boardDetails.boardViews}"/></span>
-					<div class="d-flex ml-auto">
-						<a class="mr-4" href="#">
+				<div class="board-info">
+					<div class="board-info-left">
+						<span><c:out value="${boardDetails.memberNickname}"/></span>
+						<span><c:out value="${boardDetails.fullCreatedAt}"/></span>
+						<span>조회 <c:out value="${boardDetails.boardViews}"/></span>
+					</div>
+					<div class="board-info-right">
+						<a href="#">
 							<i class="fa-regular fa-comment-dots"></i>
 							<span>댓글</span>
 							<span class="comment-cnt"><c:out value="${boardDetails.commentCnt}"/></span>
@@ -415,39 +452,6 @@
 						<!------------------------>
 						<!----    comments    ---->
 						<!------------------------>
-						<li class="list-group-item" data-idx="44">
-							<div class="comment-area">
-								<div class="comment-area-header">
-									<div class="comment-info">
-										<span class="comment-writer mr-2">MINJAE</span>
-										<span class="badge badge-pill badge-primary mr-2">작성자</span>
-										<span class="comment-createdat">2024.09.30 17:49:29</span>
-										<span class="comment-updatedat d-none">2024.09.30 17:49:29</span>
-									</div>
-										<div class="dropright ml-auto">
-											<button class="comment-utils-btn btn" data-toggle="dropdown" data-offset="0,10" aria-expanded="false" disabled="">
-												<i class="fa-solid fa-ellipsis-vertical" aria-hidden="true"></i>
-											</button>
-										<div class="dropdown-menu">
-											<h6 class="dropdown-header">댓글 관리</h6>
-											<button class="dropdown-item" type="button" name="showEditCommentBtn">수정하기</button>
-											<button class="dropdown-item" type="button" name="deleteCommentBtn">삭제하기</button>
-										</div>
-									</div>
-								</div>
-									<div class="comment-area-body">
-										<div class="comment-content" style="line-height:180%;">
-											<p>@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@</p>
-										</div>
-									</div>
-									<div class="comment-area-footer">
-										<button class="btn border-0 p-0 shadow-none ml-auto" type="button" name="commentLikesBtn">
-											<i class="fa-thumbs-up fa-regular text-grey" aria-hidden="true"></i> 
-										<span class="comment-likes-cnt">0</span>
-									</button>
-								</div>
-							</div>
-						</li>
 					</div>
 				</div>
 				<div class="comment-group-footer mt-4">
@@ -659,7 +663,7 @@
 		let commentMap = new Map();
 		let curCommentPage = 1;
 		
-		/* commentService.getPagedComment(boardIdx, curCommentPage, function(result) {
+		commentService.getPagedComment(boardIdx, curCommentPage, function(result) {
 			let pagedComment = result.data.pagedComment;
 			saveCommentsAsMap(pagedComment, commentMap);
 			
@@ -670,7 +674,7 @@
 			let paginationHtml = createPaginationHtml(pagination);
 			$commentPageDiv.html(paginationHtml);
 			$(".comment-cnt").text(pagination.totalCnt);
-		}); */
+		});
 		
 		$("#deleteBoardLink").on("click", function() {
 			return confirm("게시글을 삭제하시겠습니까?");
