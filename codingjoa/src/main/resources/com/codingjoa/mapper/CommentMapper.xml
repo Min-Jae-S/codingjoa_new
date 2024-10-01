@@ -124,7 +124,7 @@
 			SELECT
 				a_depth.comment_idx,
 				a_depth.member_idx,
-		        a_depth.comment_content, 
+		        a_depth.comment_content,
 		        a_depth.comment_use,
 		        a_depth.created_at,
 		        a_depth.updated_at,

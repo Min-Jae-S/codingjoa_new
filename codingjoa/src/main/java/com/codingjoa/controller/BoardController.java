@@ -98,6 +98,8 @@ public class BoardController {
 		log.info("\t > boardCri = {}", boardCri);
 		
 		BoardDetailsDto boardDetails = boardService.getBoardDetails(boardIdx, memberIdx);
+		log.info("\t > boardDetails = {}", boardDetails);
+		
 		Category category = categoryService.getCategory(boardDetails.getBoardCategoryCode());
 
 		boardService.updateBoardViews(boardIdx); // 쿠키를 이용하여 조회수 중복 방지 추가하기 (https://mighty96.github.io/til/view)

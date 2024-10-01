@@ -45,10 +45,11 @@ public class BoardDetailsDto {
 	@Override
 	public String toString() {
 		String escapedBoardContent = (boardContent != null) ? boardContent.replace("\r\n", "\\r\\n") : null;
-		return "BoardDetailsDto [boardIdx=" + boardIdx + ", boardTitle=" + boardTitle + ", boardContent=" + escapedBoardContent
-				+ ", boardViews=" + boardViews + ", boardCategoryCode=" + boardCategoryCode + ", createdAt=" + createdAt
-				+ ", updatedAt=" + updatedAt + ", memberNickname=" + memberNickname + ", commentCnt=" + commentCnt
-				+ ", boardLikesCnt=" + boardLikesCnt + ", isBoardLiked=" + isBoardLiked + "]";
+		return "BoardDetailsDto [boardIdx=" + boardIdx + ", boardTitle=" + boardTitle + ", boardContent="
+				+ escapedBoardContent + ", boardViews=" + boardViews + ", boardCategoryCode=" + boardCategoryCode
+				+ ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", isBoardWriter=" + isBoardWriter
+				+ ", memberNickname=" + memberNickname + ", commentCnt=" + commentCnt + ", boardLikesCnt="
+				+ boardLikesCnt + ", isBoardLiked=" + isBoardLiked + "]";
 	}
 	
 	public static BoardDetailsDto from(Map<String, Object> map) {

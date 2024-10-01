@@ -348,8 +348,7 @@
 						href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}">
 						<c:out value="${category.categoryName}"/>
 					</a>
-					<button class="board-utils-btn btn" data-toggle="dropdown" data-offset="0,10" 
-						${boardDetails.boardWriter ? '' : disabled}>
+					<button class="board-utils-btn btn" data-toggle="dropdown" data-offset="0,10" ${boardDetails.boardWriter ? '' : 'disabled'}>
 						<i class="fa-solid fa-ellipsis-vertical"></i>
 					</button>
 					<div class="dropdown-menu">
@@ -581,6 +580,7 @@
 				<input type="hidden" name="boardTitle" value="${boardDetails.boardTitle}"/>
 			</form>
 		</div>
+		
 		<div class="mt-4 d-none">
 			<button class="btn btn-warning" onclick="getFormData()">getFormData</button>
 		</div>

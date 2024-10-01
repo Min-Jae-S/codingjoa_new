@@ -60,6 +60,7 @@ function createCommentHtml(commentDetails) {
 	if (commentDetails.isBoardWriter) {
 		html += "<span class='badge badge-pill badge-primary mr-2'>작성자</span>"
 	}
+	
 	html += "<span class='comment-createdat'>" + commentDetails.createdAt + "</span>";
 	html += "<span class='comment-updatedat d-none'>" + commentDetails.updatedAt + "</span>";
 	html += "</div>";
@@ -93,6 +94,7 @@ function createCommentHtml(commentDetails) {
 	} else {
 		html += "<i class='fa-thumbs-up fa-regular text-grey'></i>";
 	}
+	
 	html += " <span class='comment-likes-cnt'>" + commentDetails.commentLikesCnt + "</span>"; // 앞의 공백을 의도적으로 추가		
 	html += "</button>";
 	html += "</div>";

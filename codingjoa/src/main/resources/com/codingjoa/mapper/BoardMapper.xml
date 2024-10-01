@@ -189,6 +189,7 @@
 			a.board_category_code,
 			a.created_at,
 			a.updated_at,
+			a.is_board_writer,
 			a.member_nickname,
     		NVL(b.cnt, 0) AS comment_cnt,
     		NVL(c.cnt, 0) AS board_likes_cnt,
@@ -204,6 +205,7 @@
 	        	a_depth.board_category_code, 
 	        	a_depth.created_at,
 	        	a_depth.updated_at,
+	        	a_depth.is_board_writer,
 	        	a_depth.member_nickname
 		    FROM (
 				SELECT
@@ -215,6 +217,10 @@
 		        	board.board_category_code, 
 		        	board.created_at,
 		        	board.updated_at,
+		        	CASE
+						WHEN board.member_idx = #{memberIdx} THEN 1
+						ELSE 0
+					END AS is_board_writer,
 		        	member.member_nickname
 		    	FROM 
 		        	board
