@@ -57,18 +57,15 @@ function createCommentHtml(commentDetails) {
 	html += "<div class='comment-area-header'>";
 	html += "<div class='comment-info'>";
 	html += "<span class='comment-writer mr-2'>" + commentDetails.memberNickname + "</span>";
-	if (commentDetails.boardWriterMatches) {
+	if (commentDetails.isBoardWriter) {
 		html += "<span class='badge badge-pill badge-primary mr-2'>작성자</span>"
 	}
 	html += "<span class='comment-createdat'>" + commentDetails.createdAt + "</span>";
 	html += "<span class='comment-updatedat d-none'>" + commentDetails.updatedAt + "</span>";
 	html += "</div>";
 	html += "<div class='dropright ml-auto'>";
-	
-	//let disabledAttr = commentDetails.commentWriterMatches ? "" : "disabled";
-	//html += "<button class='comment-utils-btn btn' data-toggle='dropdown' data-offset='0,10' aria-expanded='false' ${disabledAttr}>";
-	
-	if (commentDetails.commentWriterMatches) {
+	//html += "<button class='comment-utils-btn btn' data-toggle='dropdown' data-offset='0,10' ${commentDetails.isCommentWriter ? '' : 'disabled'}>";
+	if (commentDetails.isCommentWriter) {
 		html += "<button class='comment-utils-btn btn' data-toggle='dropdown' data-offset='0,10' aria-expanded='false'>";
 	} else {
 		html += "<button class='comment-utils-btn btn' data-toggle='dropdown' data-offset='0,10' aria-expanded='false' disabled>";
