@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Builder;
@@ -14,6 +15,8 @@ public class CommentDetailsDto {
 
 	private int commentIdx;
 	private String commentContent;
+	
+	@JsonIgnore
 	private boolean commentUse;
 	
 	@JsonFormat(pattern = "yyyy.MM.dd HH:mm:ss")

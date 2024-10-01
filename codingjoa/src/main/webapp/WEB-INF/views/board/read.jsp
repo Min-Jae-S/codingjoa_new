@@ -217,7 +217,7 @@
 	
 	.dropright button:disabled {
 		opacity: 0.4 !important;
-		cursor: not-allowed !important;
+		/* cursor: not-allowed !important; */
 	}
 	
 	.comment-group-footer {
@@ -415,6 +415,39 @@
 						<!------------------------>
 						<!----    comments    ---->
 						<!------------------------>
+						<li class="list-group-item" data-idx="44">
+							<div class="comment-area">
+								<div class="comment-area-header">
+									<div class="comment-info">
+										<span class="comment-writer mr-2">MINJAE</span>
+										<span class="badge badge-pill badge-primary mr-2">작성자</span>
+										<span class="comment-createdat">2024.09.30 17:49:29</span>
+										<span class="comment-updatedat d-none">2024.09.30 17:49:29</span>
+									</div>
+										<div class="dropright ml-auto">
+											<button class="comment-utils-btn btn" data-toggle="dropdown" data-offset="0,10" aria-expanded="false" disabled="">
+												<i class="fa-solid fa-ellipsis-vertical" aria-hidden="true"></i>
+											</button>
+										<div class="dropdown-menu">
+											<h6 class="dropdown-header">댓글 관리</h6>
+											<button class="dropdown-item" type="button" name="showEditCommentBtn">수정하기</button>
+											<button class="dropdown-item" type="button" name="deleteCommentBtn">삭제하기</button>
+										</div>
+									</div>
+								</div>
+									<div class="comment-area-body">
+										<div class="comment-content" style="line-height:180%;">
+											<p>@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@</p>
+										</div>
+									</div>
+									<div class="comment-area-footer">
+										<button class="btn border-0 p-0 shadow-none ml-auto" type="button" name="commentLikesBtn">
+											<i class="fa-thumbs-up fa-regular text-grey" aria-hidden="true"></i> 
+										<span class="comment-likes-cnt">0</span>
+									</button>
+								</div>
+							</div>
+						</li>
 					</div>
 				</div>
 				<div class="comment-group-footer mt-4">
@@ -581,6 +614,7 @@
 			</form>
 		</div>
 		
+		<!-- execute test -->
 		<div class="mt-4 d-none">
 			<button class="btn btn-warning" onclick="getFormData()">getFormData</button>
 		</div>
@@ -625,7 +659,7 @@
 		let commentMap = new Map();
 		let curCommentPage = 1;
 		
-		commentService.getPagedComment(boardIdx, curCommentPage, function(result) {
+		/* commentService.getPagedComment(boardIdx, curCommentPage, function(result) {
 			let pagedComment = result.data.pagedComment;
 			saveCommentsAsMap(pagedComment, commentMap);
 			
@@ -636,7 +670,7 @@
 			let paginationHtml = createPaginationHtml(pagination);
 			$commentPageDiv.html(paginationHtml);
 			$(".comment-cnt").text(pagination.totalCnt);
-		});
+		}); */
 		
 		$("#deleteBoardLink").on("click", function() {
 			return confirm("게시글을 삭제하시겠습니까?");
