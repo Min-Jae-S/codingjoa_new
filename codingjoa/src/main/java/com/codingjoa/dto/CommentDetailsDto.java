@@ -25,48 +25,48 @@ public class CommentDetailsDto {
 	@JsonFormat(pattern = "yyyy.MM.dd HH:mm:ss")
 	private LocalDateTime updatedAt;
 	
+	private String commentWriterNickname;	// from INNER JOIN with member
+	private String commentWriterImageUrl;	// from LEFT OUTER JOIN wiht member_image
+	private int commentLikesCnt;			// from LEFT OUTER JOIN with comment_likes
+	
 	@JsonProperty("isCommentWriter")
 	private boolean isCommentWriter;
 	
 	@JsonProperty("isBoardWriter")
 	private boolean isBoardWriter;
 	
-	private String memberNickname;			// from INNER JOIN with member
-	private String memberImageUrl;			// from LEFT OUTER JOIN wiht member_image
-	private int commentLikesCnt;			// from LEFT OUTER JOIN with comment_likes
-	
 	@JsonProperty("isCommentLiked")
-	private boolean isCommentLiked;			// from LEFT OUTER JOIN with comment_likes
+	private boolean isCommentLiked;			
 	
 	@Builder
 	private CommentDetailsDto(int commentIdx, String commentContent, boolean commentUse, LocalDateTime createdAt,
-			LocalDateTime updatedAt, boolean isCommentWriter, boolean isBoardWriter, String memberNickname,
-			String memberImageUrl, int commentLikesCnt, boolean isCommentLiked) {
+			LocalDateTime updatedAt, boolean isCommentWriter, boolean isBoardWriter, String commentWriterNickname,
+			String commentWriterImageUrl, int commentLikesCnt, boolean isCommentLiked) {
 		this.commentIdx = commentIdx;
 		this.commentContent = commentContent;
 		this.commentUse = commentUse;
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;
+		this.commentWriterNickname = commentWriterNickname;
+		this.commentWriterImageUrl = commentWriterImageUrl;
+		this.commentLikesCnt = commentLikesCnt;
 		this.isCommentWriter = isCommentWriter;
 		this.isBoardWriter = isBoardWriter;
-		this.memberNickname = memberNickname;
-		this.memberImageUrl = memberImageUrl;
-		this.commentLikesCnt = commentLikesCnt;
 		this.isCommentLiked = isCommentLiked;
 	}
 	
-	public static CommentDetailsDto from(Map<String, Object> map) {
+	public static CommentDetailsDto from(Map<String, Object> map, Integer memberIdx) {
 		return CommentDetailsDto.builder()
 				.commentIdx((int) map.get("commentIdx"))
 				.commentContent((String) map.get("commentContent"))
 				.commentUse((boolean) map.get("commentUse"))
 				.createdAt((LocalDateTime) map.get("createdAt"))
 				.updatedAt((LocalDateTime) map.get("updatedAt"))
+				.commentWriterNickname((String) map.get("commentWriterNickname"))
+				.commentWriterImageUrl((String) map.get("commentWriterImageUrl"))
+				.commentLikesCnt((int) map.get("commentLikesCnt"))
 				.isCommentWriter((boolean) map.get("isCommentWriter"))
 				.isBoardWriter((boolean) map.get("isBoardWriter"))
-				.memberNickname((String) map.get("memberNickname"))
-				.memberImageUrl((String) map.get("memberImageUrl"))
-				.commentLikesCnt((int) map.get("commentLikesCnt"))
 				.isCommentLiked((boolean) map.get("isCommentLiked"))
 				.build();
 	}
@@ -76,9 +76,10 @@ public class CommentDetailsDto {
 		String escapedCommentContent = (commentContent != null) ? commentContent.replace("\n", "\\n") : null;
 		return "CommentDetailsDto [commentIdx=" + commentIdx + ", commentContent=" + escapedCommentContent
 				+ ", commentUse=" + commentUse + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt
-				+ ", isCommentWriter=" + isCommentWriter + ", isBoardWriter =" + isBoardWriter + ", memberNickname="
-				+ memberNickname + ", memberImageUrl=" + memberImageUrl + ", commentLikesCnt=" + commentLikesCnt
-				+ ", isCommentLiked=" + isCommentLiked + "]";
+				+ ", isCommentWriter=" + isCommentWriter + ", isBoardWriter =" + isBoardWriter
+				+ ", commentWriterNickname=" + commentWriterNickname + ", commentWriterImageUrl="
+				+ commentWriterImageUrl + ", commentLikesCnt=" + commentLikesCnt + ", isCommentLiked=" + isCommentLiked
+				+ "]";
 	}
 	
 }

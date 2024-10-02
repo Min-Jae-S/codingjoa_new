@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 public class CommentDto {
 
 	private int commentIdx;
-	private int memberIdx;
+	private int commentWriterIdx;
 	private int boardIdx;
 
 	@JsonDeserialize(using = WhitespaceDeserializer.class)
@@ -25,10 +25,9 @@ public class CommentDto {
 	private boolean commentUse;
 	
 	@Builder
-	private CommentDto(int commentIdx, int memberIdx, int boardIdx, @NotBlank String commentContent,
-			boolean commentUse) {
+	private CommentDto(int commentIdx, int commentWriterIdx, int boardIdx, String commentContent, boolean commentUse) {
 		this.commentIdx = commentIdx;
-		this.memberIdx = memberIdx;
+		this.commentWriterIdx = commentWriterIdx;
 		this.boardIdx = boardIdx;
 		this.commentContent = commentContent;
 		this.commentUse = commentUse;
@@ -37,14 +36,14 @@ public class CommentDto {
 	@Override
 	public String toString() {
 		String escapedCommentContent = (commentContent != null) ? commentContent.replace("\n", "\\n") : null;
-		return "CommentDto [commentIdx=" + commentIdx + ", memberIdx=" + memberIdx + ", boardIdx=" + boardIdx
-				+ ", commentContent=" + escapedCommentContent + ", commentUse=" + commentUse + "]";
+		return "CommentDto [commentIdx=" + commentIdx + ", commentWriterIdx=" + commentWriterIdx + ", boardIdx="
+				+ boardIdx + ", commentContent=" + escapedCommentContent + ", commentUse=" + commentUse + "]";
 	}
 
 	public Comment toEntity() {
 		return Comment.builder()
 				.commentIdx(this.commentIdx)
-				.memberIdx(this.memberIdx)
+				.commentWriterIdx(this.commentWriterIdx)
 				.boardIdx(this.boardIdx)
 				.commentContent(this.commentContent)
 				.commentUse(this.commentUse)

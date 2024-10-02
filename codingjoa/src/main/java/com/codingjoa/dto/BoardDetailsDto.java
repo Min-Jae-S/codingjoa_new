@@ -8,9 +8,7 @@ import java.util.Map;
 
 import lombok.Builder;
 import lombok.Getter;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @Getter
 public class BoardDetailsDto {
 
@@ -55,11 +53,7 @@ public class BoardDetailsDto {
 				+ ", isBoardWriter=" + isBoardWriter + ", isBoardLiked=" + isBoardLiked + "]";
 	}
 	
-	@SuppressWarnings("unchecked")
 	public static BoardDetailsDto from(Map<String, Object> map, Integer memberIdx) {
-		List<Integer> boardLikers = (List<Integer>) map.get("boardLikers");
-		log.info("\t > boardLikers = {}", boardLikers);
-		
 		return BoardDetailsDto.builder()
 				.boardIdx((int) map.get("boardIdx"))
 				.boardTitle((String) map.get("boardTitle"))
@@ -77,18 +71,12 @@ public class BoardDetailsDto {
 	}
 	
 	private static boolean checkBoardWriter(Map<String, Object> map, Integer memberIdx) {
-		if (memberIdx == null) {
-			return false;
-		}
 		Integer boardWriterIdx = (Integer) map.get("boardWriterIdx");
 		return memberIdx.equals(boardWriterIdx);
 	}
 	
 	@SuppressWarnings("unchecked")
 	private static boolean checkBoardLiked(Map<String, Object> map, Integer memberIdx) {
-		if (memberIdx == null) {
-			return false;
-		}
 		List<Integer> boardLikers = (List<Integer>) map.get("boardLikers");
 		return boardLikers.contains(memberIdx);
 	}

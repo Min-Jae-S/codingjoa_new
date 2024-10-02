@@ -51,12 +51,12 @@
 		<result property="boardWriterNickname" column="board_writer_nickname" javaType="string"/>
 		<result property="commentCnt" column="comment_cnt" javaType="int"/>
 		<result property="boardLikesCnt" column="board_likes_cnt" javaType="int"/>
-		<collection property="boardLikers" javaType="list">
-			<result property="memberIdx" column="member_idx" javaType="int"/>
+		<collection property="boardLikers" javaType="list" ofType="int">
+			<result column="member_idx"/>
 		</collection>
 	</resultMap>
 	
-	<select id="findBoardDetails" parameterType="int" resultMap="boardDetailsMap">
+	<select id="findBoardDetailsByIdx" parameterType="int" resultMap="boardDetailsMap">
 		SELECT 
 			a.board_idx,
 			a.board_writer_idx, 
@@ -75,7 +75,7 @@
 		INNER JOIN
 			member b
 		ON
-			a.member_idx = b.member_idx
+			a.board_writer_idx = b.member_idx
 		LEFT OUTER JOIN (
 			SELECT 
 				board_idx, 

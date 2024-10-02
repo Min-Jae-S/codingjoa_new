@@ -54,6 +54,7 @@ public class CommentRestController {
 		log.info("\t > memberIdx = {}", memberIdx);
 
 		List<CommentDetailsDto> pagedComment = commentService.getPagedComment(boardIdx, commentCri, memberIdx);
+		
 		Pagination pagination = commentService.getPagination(boardIdx, commentCri);
 		log.info("\t > comment pagination = {}", pagination);
 		
@@ -69,7 +70,7 @@ public class CommentRestController {
 			@AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## writeComment");
 		log.info("\t > writeCommentDto = {}", writeCommentDto);
-		writeCommentDto.setMemberIdx(principal.getIdx());
+		writeCommentDto.setCommentWriterIdx(principal.getIdx());
 		writeCommentDto.setCommentUse(true);
 		commentService.saveComment(writeCommentDto);
 		
@@ -82,7 +83,7 @@ public class CommentRestController {
 		log.info("## modifyComment, commentIdx = {}", commentIdx);
 		log.info("\t > modifyCommentDto = {}", modifyCommentDto);
 		modifyCommentDto.setCommentIdx(commentIdx);
-		modifyCommentDto.setMemberIdx(principal.getIdx());
+		modifyCommentDto.setCommentWriterIdx(principal.getIdx());
 		commentService.updateComment(modifyCommentDto);
 		
 		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.UpdateComment").build());

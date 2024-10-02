@@ -14,10 +14,10 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
 <link rel="stylesheet" href="${contextPath}/resources/css/common.css">
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="${contextPath}/resources/js/jquery.serialize.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://kit.fontawesome.com/c503d71f81.js"></script>
-<script src="${contextPath}/resources/js/jquery.serialize-object.js"></script>
 <script src="${contextPath}/resources/js/comment.js"></script>
 <script src="${contextPath}/resources/js/likes.js"></script>
 <script src="${contextPath}/resources/js/handle-errors.js"></script>

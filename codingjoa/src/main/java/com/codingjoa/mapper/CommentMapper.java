@@ -14,12 +14,11 @@ public interface CommentMapper {
 	
 	boolean insertComment(Comment comment);
 
-	List<Map<String, Object>> findPagedComment(@Param("boardIdx") Integer boardIdx,
-			@Param("commentCri") CommentCriteria commentCri, @Param("memberIdx") Integer memberIdx);
+	List<Map<String, Object>> findPagedComment(@Param("boardIdx") Integer boardIdx, @Param("commentCri") CommentCriteria commentCri);
 	
-	int findCommentTotalCnt(Integer boardIdx);
+	int findCommentTotalCnt(int boardIdx);
 	
-	Comment findCommentByIdx(Integer commentIdx);
+	Comment findCommentByIdx(int commentIdx);
 	
 	boolean updateComment(Comment comment);
 	
