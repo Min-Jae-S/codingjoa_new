@@ -3,7 +3,7 @@
 <mapper namespace="com.codingjoa.mapper.BoardMapper">
 <!--  
 	board_idx               NUMBER,
-    member_idx              NUMBER                      NOT NULL,
+    board_writer_idx        NUMBER                      NOT NULL,
 	board_title             VARCHAR2(500)               NOT NULL,
     board_content           CLOB                        NOT NULL,
     board_content_text      CLOB                        NULL,
@@ -19,7 +19,7 @@
 		</selectKey>
 		INSERT INTO board (
 			board_idx,
-			member_idx,
+			board_writer_idx,
 			board_title,
 			board_content,
 			board_content_text,
@@ -28,7 +28,7 @@
 			updated_at
 		) VALUES (
 			#{boardIdx},
-			#{memberIdx},
+			#{boardWriterIdx},
 			#{boardTitle},
 			#{boardContent},
 			#{boardContentText},
@@ -41,39 +41,32 @@
 	<resultMap type="map" id="boardDetailsMap">
 		<id property="boardIdx" column="board_idx" javaType="int"/>
 		<result property="boardTitle" column="board_title" javaType="string"/>
+		<result property="boardWriterIdx" column="board_writer_idx" javaType="int"/>
 		<!-- <result property="boardContent" column="board_content" typeHandler="clobTypeHandler"/> -->
 		<result property="boardContent" column="board_content" jdbcType="CLOB" javaType="string"/>
 		<result property="boardViews" column="board_views" javaType="int"/>
 		<result property="boardCategoryCode" column="board_category_code" javaType="int"/>
 		<result property="createdAt" column="created_at" javaType="java.time.LocalDateTime"/>
 		<result property="updatedAt" column="updated_at" javaType="java.time.LocalDateTime"/>
-		<result property="isBoardWriter" column="is_board_writer" javaType="boolean"/>
-		<result property="memberNickname" column="member_nickname" javaType="string"/>
+		<result property="boardWriterNickname" column="board_writer_nickname" javaType="string"/>
 		<result property="commentCnt" column="comment_cnt" javaType="int"/>
 		<result property="boardLikesCnt" column="board_likes_cnt" javaType="int"/>
-		<result property="isBoardLiked" column="is_board_liked" javaType="boolean"/>
 	</resultMap>
 	
-	<select id="findBoardDetails" parameterType="map" resultMap="boardDetailsMap">
+	<select id="findBoardDetails" parameterType="int" resultMap="boardDetailsMap">
 		SELECT 
-			a.board_idx, 
+			a.board_idx,
+			a.board_writer_idx, 
 			a.board_title, 
 			a.board_content, 
 			a.board_views, 
 			a.board_category_code, 
 			a.created_at, 
 			a.updated_at,
-			CASE
-				WHEN a.member_idx = #{memberIdx} THEN 1
-				ELSE 0
-			END AS is_board_writer,
-			b.member_nickname,
+			b.member_nickname AS board_writer_nickname,
 			NVL(c.cnt, 0) AS comment_cnt,
     		NVL(d.cnt, 0) AS board_likes_cnt,
-    		CASE 
-    			WHEN e.board_idx IS NOT NULL THEN 1 
-    			ELSE 0 
-    		END AS is_board_liked
+  			d.member_idx AS board_likers
 		FROM
 			board a
 		INNER JOIN
@@ -93,7 +86,8 @@
 			a.board_idx = c.board_idx
 		LEFT OUTER JOIN ( 
 			SELECT 
-    			board_idx, 
+    			board_idx,
+    			member_idx, 
     			COUNT(*) cnt
     		FROM 
     			board_likes
@@ -102,16 +96,6 @@
     	) d
 		ON 
 			a.board_idx = d.board_idx
-		LEFT OUTER JOIN ( 
-			SELECT 
-    			board_idx
-    		FROM 
-    			board_likes
-    		WHERE
-    			member_idx = #{memberIdx}
-    	) e
-		ON 
-			a.board_idx = e.board_idx
 		WHERE
 			a.board_idx = #{boardIdx} 
 	</select>
@@ -184,50 +168,44 @@
 		SELECT
 			/*+ ORDERED USE_NL(b) USE_NL(c) USE_NL(d) */
 			a.board_idx,
+			a.board_writer_idx,
 			a.board_title,
 			a.board_views,
 			a.board_category_code,
 			a.created_at,
 			a.updated_at,
-			a.is_board_writer,
-			a.member_nickname,
+			a.member_nickname AS board_writer_nickname,
     		NVL(b.cnt, 0) AS comment_cnt,
     		NVL(c.cnt, 0) AS board_likes_cnt,
-    		CASE 
-    			WHEN d.board_idx IS NOT NULL THEN 1 
-    			ELSE 0 
-    		END AS is_board_liked
+   			c.member_idx AS board_likers
 		FROM (
 		    SELECT
 		    	a_depth.board_idx,
+		    	a_depth.board_writer_idx,
 	        	a_depth.board_title, 
 	        	a_depth.board_views,
 	        	a_depth.board_category_code, 
 	        	a_depth.created_at,
 	        	a_depth.updated_at,
-	        	a_depth.is_board_writer,
 	        	a_depth.member_nickname
 		    FROM (
 				SELECT
 					/*+ INDEX_DESC(board pk_board) */
 		        	ROWNUM rn, 
-		        	board.board_idx, 
+		        	board.board_idx,
+		        	board.board_writer_idx, 
 		        	board.board_title, 
 		        	board.board_views,
 		        	board.board_category_code, 
 		        	board.created_at,
 		        	board.updated_at,
-		        	CASE
-						WHEN board.member_idx = #{memberIdx} THEN 1
-						ELSE 0
-					END AS is_board_writer,
 		        	member.member_nickname
 		    	FROM 
 		        	board
 		        INNER JOIN
 		        	member
 		        ON
-		        	board.member_idx = member.member_idx
+		        	board.board_writer_idx = member.member_idx
 		    	WHERE
 		    		<!-- searchCriteria -->
 		        	<include refid="searchCriteria"/>
@@ -253,7 +231,8 @@
 			a.board_idx = b.board_idx
 		LEFT OUTER JOIN ( 
 			SELECT 
-    			board_idx, 
+    			board_idx,
+    			member_idx, 
     			COUNT(*) cnt
     		FROM 
     			board_likes
@@ -262,16 +241,6 @@
     	) c
 		ON 
 			a.board_idx = c.board_idx
-		LEFT OUTER JOIN ( 
-			SELECT 
-    			board_idx
-    		FROM 
-    			board_likes
-    		WHERE
-    			member_idx = #{memberIdx} 
-    	) d
-		ON 
-			a.board_idx = d.board_idx
 	</select>
 
 	<!-- <select id="findPagedBoard" parameterType="map" resultMap="boardDetailsMap">
@@ -350,7 +319,7 @@
 		INNER JOIN
 			member
 		ON
-			board.member_idx = member.member_idx
+			board.board_writer_idx = member.member_idx
 		WHERE
 			<include refid="searchCriteria"/>
 			board.board_category_code = #{boardCategoryCode}

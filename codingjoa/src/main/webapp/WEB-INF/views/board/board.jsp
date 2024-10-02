@@ -139,7 +139,7 @@
 										</c:if>
 									</td>
 									<td class="d-md-table-cell">
-										<span><c:out value="${boardDetails.memberNickname}"/></span>
+										<span><c:out value="${boardDetails.boardWriterNickname}"/></span>
 									</td>
 									<td class="d-md-table-cell">
 										<span><c:out value="${boardDetails.createdAt}"/></span>

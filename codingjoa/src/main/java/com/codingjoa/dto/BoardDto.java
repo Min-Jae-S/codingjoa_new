@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 public class BoardDto {
 	
 	private int boardIdx;
-	private int memberIdx;
+	private int boardWriterIdx;
 	private String boardTitle;
 	private String boardContent;
 	private String boardContentText;
@@ -29,10 +29,10 @@ public class BoardDto {
 	private List<Integer> boardImages = new ArrayList<>();
 	
 	@Builder
-	private BoardDto(int boardIdx, int memberIdx, String boardTitle, String boardContent, String boardContentText,
+	private BoardDto(int boardIdx, int boardWriterIdx, String boardTitle, String boardContent, String boardContentText,
 			int boardCategoryCode, List<Integer> boardImages) {
 		this.boardIdx = boardIdx;
-		this.memberIdx = memberIdx;
+		this.boardWriterIdx = boardWriterIdx;
 		this.boardTitle = boardTitle;
 		this.boardContent = boardContent;
 		this.boardContentText = boardContentText;
@@ -43,7 +43,7 @@ public class BoardDto {
 	@Override
 	public String toString() {
 		String escapedBoardContent = (boardContent != null) ? boardContent.replace("\r\n", "\\r\\n") : null;
-		return "BoardDto [boardIdx=" + boardIdx + ", memberIdx=" + memberIdx + ", boardTitle=" + boardTitle
+		return "BoardDto [boardIdx=" + boardIdx + ", boardWriterIdx=" + boardWriterIdx + ", boardTitle=" + boardTitle
 				+ ", boardContent=" + escapedBoardContent + ", boardContentText=" + boardContentText + ", boardCategoryCode="
 				+ boardCategoryCode + ", boardImages=" + boardImages + "]";
 	}
@@ -51,7 +51,7 @@ public class BoardDto {
 	public Board toEntity() {
 		return Board.builder()
 				.boardIdx(this.boardIdx)
-				.memberIdx(this.memberIdx)
+				.boardWriterIdx(this.boardWriterIdx)
 				.boardTitle(this.boardTitle)
 				.boardContent(this.boardContent)
 				.boardContentText(this.boardContentText)
@@ -62,7 +62,7 @@ public class BoardDto {
 	public static BoardDto from(Board board) {
 		return BoardDto.builder()
 				.boardIdx(board.getBoardIdx())
-				.memberIdx(board.getMemberIdx())
+				.boardWriterIdx(board.getBoardWriterIdx())
 				.boardTitle(board.getBoardTitle())
 				.boardContent(board.getBoardContent())
 				.boardCategoryCode(board.getBoardCategoryCode())

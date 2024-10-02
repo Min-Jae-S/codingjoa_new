@@ -138,7 +138,7 @@ public class BoardController {
 			return "board/write";
 		}
 		
-		writeBoardDto.setMemberIdx(principal.getIdx());
+		writeBoardDto.setBoardWriterIdx(principal.getIdx());
 		Integer boardIdx = boardService.saveBoard(writeBoardDto); // insertBoard & activateImage
 		
 		return "redirect:/board/read?boardIdx=" + boardIdx;
@@ -170,7 +170,7 @@ public class BoardController {
 			return "board/modify";
 		}
 		
-		modifyBoardDto.setMemberIdx(principal.getIdx());
+		modifyBoardDto.setBoardWriterIdx(principal.getIdx());
 		Integer boardIdx = boardService.updateBoard(modifyBoardDto); // updateBoard & deactivateImage & activateImage
 		
 		return "redirect:/board/read?boardIdx=" + boardIdx;

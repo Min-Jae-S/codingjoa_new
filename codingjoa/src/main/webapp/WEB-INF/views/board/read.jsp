@@ -384,7 +384,8 @@
 						href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}">
 						<c:out value="${category.categoryName}"/>
 					</a>
-					<button class="board-utils-btn btn" data-toggle="dropdown" data-offset="0,10" ${boardDetails.boardWriter ? '' : 'disabled'}>
+					<button class="board-utils-btn btn" data-toggle="dropdown" data-offset="0,10" 
+						${boardDetails.boardWriter ? '' : 'disabled'}>
 						<i class="fa-solid fa-ellipsis-vertical"></i>
 					</button>
 					<div class="dropdown-menu">
@@ -400,7 +401,7 @@
 				<h3 class="title mb-4"><c:out value="${boardDetails.boardTitle}"/></h3>
 				<div class="board-info">
 					<div class="board-info-left">
-						<span><c:out value="${boardDetails.memberNickname}"/></span>
+						<span><c:out value="${boardDetails.boardWriterNickname}"/></span>
 						<span><c:out value="${boardDetails.fullCreatedAt}"/></span>
 						<span>조회 <c:out value="${boardDetails.boardViews}"/></span>
 					</div>
