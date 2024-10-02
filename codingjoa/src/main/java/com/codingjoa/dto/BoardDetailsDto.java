@@ -8,7 +8,9 @@ import java.util.Map;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Getter
 public class BoardDetailsDto {
 
@@ -48,12 +50,16 @@ public class BoardDetailsDto {
 		String escapedBoardContent = (boardContent != null) ? boardContent.replace("\r\n", "\\r\\n") : null;
 		return "BoardDetailsDto [boardIdx=" + boardIdx + ", boardTitle=" + boardTitle + ", boardContent="
 				+ escapedBoardContent + ", boardViews=" + boardViews + ", boardCategoryCode=" + boardCategoryCode
-				+ ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", isBoardWriter=" + isBoardWriter
-				+ ", boardWriterNickname=" + boardWriterNickname + ", commentCnt=" + commentCnt + ", boardLikesCnt="
-				+ boardLikesCnt + ", isBoardLiked=" + isBoardLiked + "]";
+				+ ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", boardWriterNickname="
+				+ boardWriterNickname + ", commentCnt=" + commentCnt + ", boardLikesCnt=" + boardLikesCnt
+				+ ", isBoardWriter=" + isBoardWriter + ", isBoardLiked=" + isBoardLiked + "]";
 	}
 	
+	@SuppressWarnings("unchecked")
 	public static BoardDetailsDto from(Map<String, Object> map, Integer memberIdx) {
+		List<Integer> boardLikers = (List<Integer>) map.get("boardLikers");
+		log.info("\t > boardLikers = {}", boardLikers);
+		
 		return BoardDetailsDto.builder()
 				.boardIdx((int) map.get("boardIdx"))
 				.boardTitle((String) map.get("boardTitle"))

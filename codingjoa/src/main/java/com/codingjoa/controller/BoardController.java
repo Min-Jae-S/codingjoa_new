@@ -75,7 +75,10 @@ public class BoardController {
 		log.info("\t > memberIdx = {}", memberIdx);
 		
 		List<BoardDetailsDto> pagedBoard = boardService.getPagedBoard(boardCategoryCode, boardCri, memberIdx);
-		log.info("\t > pagedBoard = {}", pagedBoard);
+		for (BoardDetailsDto boardDetails : pagedBoard) {
+			log.info("\t\t - boardIdx = {}, isBoardLiked = {}, isBoardWriter = {}", 
+					boardDetails.getBoardIdx(), boardDetails.isBoardLiked(), boardDetails.isBoardWriter());
+		}
 		
 		Pagination pagination = boardService.getPagination(boardCategoryCode, boardCri);
 		log.info("\t > board pagination = {}", pagination);
