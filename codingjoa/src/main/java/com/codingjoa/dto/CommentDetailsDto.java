@@ -1,6 +1,7 @@
 package com.codingjoa.dto;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -29,11 +30,11 @@ public class CommentDetailsDto {
 	private String commentWriterImageUrl;	// from LEFT OUTER JOIN wiht member_image
 	private int commentLikesCnt;			// from LEFT OUTER JOIN with comment_likes
 	
-	@JsonProperty("isCommentWriter")
-	private boolean isCommentWriter;
-	
 	@JsonProperty("isBoardWriter")
 	private boolean isBoardWriter;
+
+	@JsonProperty("isCommentWriter")
+	private boolean isCommentWriter;
 	
 	@JsonProperty("isCommentLiked")
 	private boolean isCommentLiked;			
@@ -50,8 +51,8 @@ public class CommentDetailsDto {
 		this.commentWriterNickname = commentWriterNickname;
 		this.commentWriterImageUrl = commentWriterImageUrl;
 		this.commentLikesCnt = commentLikesCnt;
-		this.isCommentWriter = isCommentWriter;
 		this.isBoardWriter = isBoardWriter;
+		this.isCommentWriter = isCommentWriter;
 		this.isCommentLiked = isCommentLiked;
 	}
 	
@@ -65,10 +66,26 @@ public class CommentDetailsDto {
 				.commentWriterNickname((String) map.get("commentWriterNickname"))
 				.commentWriterImageUrl((String) map.get("commentWriterImageUrl"))
 				.commentLikesCnt((int) map.get("commentLikesCnt"))
-				.isCommentWriter((boolean) map.get("isCommentWriter"))
-				.isBoardWriter((boolean) map.get("isBoardWriter"))
-				.isCommentLiked((boolean) map.get("isCommentLiked"))
+				.isBoardWriter(checkBoardWriter(map, memberIdx))
+				.isCommentWriter(checkCommentWriter(map, memberIdx))
+				.isCommentLiked(checkCommentLiked(map, memberIdx))
 				.build();
+	}
+	
+	private static boolean checkBoardWriter(Map<String, Object> map, Integer memberIdx) {
+		Integer boardWriterIdx = (Integer) map.get("boardWriterIdx");
+		return memberIdx.equals(boardWriterIdx);
+	}
+
+	private static boolean checkCommentWriter(Map<String, Object> map, Integer memberIdx) {
+		Integer commentWriterIdx = (Integer) map.get("commentWriterIdx");
+		return memberIdx.equals(commentWriterIdx);
+	}
+	
+	@SuppressWarnings("unchecked")
+	private static boolean checkCommentLiked(Map<String, Object> map, Integer memberIdx) {
+		List<Integer> commentLikers = (List<Integer>) map.get("commentLikers");
+		return commentLikers.contains(memberIdx);
 	}
 
 	@Override
