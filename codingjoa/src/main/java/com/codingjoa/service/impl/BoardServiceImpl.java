@@ -61,14 +61,14 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public BoardDetailsDto getBoardDetails(int boardIdx, Integer memberIdx) {
-		Map<String, Object> boardDetailsMap = boardMapper.findBoardDetailsByIdx(boardIdx);
+		Map<String, Object> boardDetailsMap = boardMapper.findBoardDetailsByIdx(boardIdx, memberIdx);
 		log.info("\t > find boardDetailsMap = {}", boardDetailsMap);
 		
 		if (boardDetailsMap == null) {
 			throw new ExpectedException("error.NotFoundBoard");
 		}
 		
-		return BoardDetailsDto.from(boardDetailsMap, memberIdx);
+		return BoardDetailsDto.from(boardDetailsMap);
 	}
 	
 	@Override
@@ -104,9 +104,9 @@ public class BoardServiceImpl implements BoardService {
 	
 	@Override
 	public List<BoardDetailsDto> getPagedBoard(int boardCategoryCode, Criteria boardCri, Integer memberIdx) {
-		return boardMapper.findPagedBoard(boardCategoryCode, boardCri)
+		return boardMapper.findPagedBoard(boardCategoryCode, boardCri, memberIdx)
 				.stream()
-				.map(boardDetailsMap -> BoardDetailsDto.from(boardDetailsMap, memberIdx))
+				.map(boardDetailsMap -> BoardDetailsDto.from(boardDetailsMap))
 				.collect(Collectors.toList());
 	}
 

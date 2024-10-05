@@ -3,7 +3,6 @@ package com.codingjoa.dto;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 import java.util.Map;
 
 import lombok.Builder;
@@ -53,7 +52,7 @@ public class BoardDetailsDto {
 				+ ", isBoardWriter=" + isBoardWriter + ", isBoardLiked=" + isBoardLiked + "]";
 	}
 	
-	public static BoardDetailsDto from(Map<String, Object> map, Integer memberIdx) {
+	public static BoardDetailsDto from(Map<String, Object> map) {
 		return BoardDetailsDto.builder()
 				.boardIdx((int) map.get("boardIdx"))
 				.boardTitle((String) map.get("boardTitle"))
@@ -65,22 +64,11 @@ public class BoardDetailsDto {
 				.boardWriterNickname((String) map.get("boardWriterNickname"))
 				.commentCnt((int) map.get("commentCnt"))
 				.boardLikesCnt((int) map.get("boardLikesCnt"))
-				.isBoardWriter(checkBoardWriter(map, memberIdx))
-				.isBoardLiked(checkBoardLiked(map, memberIdx))
+				.isBoardWriter((boolean) map.get("isBoardWriter"))
+				.isBoardLiked((boolean) map.get("isBoardLiked"))
 				.build();
 	}
 	
-	private static boolean checkBoardWriter(Map<String, Object> map, Integer memberIdx) {
-		Integer boardWriterIdx = (Integer) map.get("boardWriterIdx");
-		return boardWriterIdx.equals(memberIdx);
-	}
-	
-	@SuppressWarnings("unchecked")
-	private static boolean checkBoardLiked(Map<String, Object> map, Integer memberIdx) {
-		List<Integer> boardLikers = (List<Integer>) map.get("boardLikers");
-		return boardLikers.contains(memberIdx);
-	}
-
 	public String getCreatedAt() {
 		return format(this.createdAt);
 	}

@@ -115,7 +115,7 @@
 	        a.updated_at,
 	        a.board_writer_idx,
     		b.member_nickname AS comment_writer_nickname,
-    		c.member_image_url AS comment_writer_image_url
+    		c.member_image_url AS comment_writer_image_url,
     		NVL(d.cnt, 0) AS comment_likes_cnt,
     		d.member_idx
 		FROM (
@@ -165,7 +165,7 @@
 		LEFT OUTER JOIN (
 			SELECT
 				comment_idx,
-				member_idx
+				member_idx,
 				COUNT(*) cnt
 			FROM
 				comment_likes

@@ -14,13 +14,14 @@ public interface BoardMapper {
 	
 	boolean insertBoard(Board board);
 	
-	Map<String, Object> findBoardDetailsByIdx(int boardIdx);
+	Map<String, Object> findBoardDetailsByIdx(@Param("boardIdx") int boardIdx, @Param("memberIdx") Integer memberIdx);
 	
 	void updateBoardViews(int boardIdx);
 	
 	//List<Integer> findMemberIdxByKeyword(String keyword);
 	
-	List<Map<String, Object>> findPagedBoard(@Param("boardCategoryCode") int boardCategoryCode, @Param("boardCri") Criteria boardCri);
+	List<Map<String, Object>> findPagedBoard(@Param("boardCategoryCode") int boardCategoryCode,
+			@Param("boardCri") Criteria boardCri, @Param("memberIdx") Integer memberIdx);
 
 	int findPagedBoardTotalCnt(@Param("boardCategoryCode") int boardCategoryCode, @Param("boardCri") Criteria boardCri);
 	
