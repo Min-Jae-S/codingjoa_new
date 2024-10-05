@@ -106,6 +106,8 @@
 
 <script>
 	let writeEditor;
+	const $form = $("#writeBoardDto");
+	
 	createEditor("#boardContent")
 		.then(editor => {
 			const $file = $("span.ck-file-dialog-button").find("input[type='file']");
@@ -121,8 +123,6 @@
 		});
 	
 	$(function() {
-		const $form = $("#writeBoardDto");
-		
 		$("#resetBoardBtn").on("click", function(e) {
 			e.preventDefault();
 			$form.trigger("reset"); 
@@ -131,7 +131,7 @@
 		
 		$("#writeBoardBtn").on("click", function(e) {
 			e.preventDefault();
-			console.log("## initialize boardImages input");
+			console.log("## initialize boardImages");
 			$("input[name='boardImages']").remove();
 
 			// TreeWalker instance

@@ -54,19 +54,19 @@ function createPagedCommentHtml(pagedComment) {
 function createCommentHtml(commentDetails) {
 	let html = "";
 	html += "<div class='comment-thum'>";
-	if (commentDetails.memberImageUrl == "") {
+	if (commentDetails.commentWriterImageUrl == "") {
 		html += "<img src='/codingjoa/resources/images/img_profile.png'>";
 	} else {
-		html += "<img src='" + commentDetails.memberImageUrl + "'>";
+		html += "<img src='" + commentDetails.commentWriterImageUrl + "'>";
 	}
 	
 	html += "</div>";
 	html += "<div class='comment-area'>";
 	html += "<div class='comment-area-header'>";
 	html += "<div class='comment-info'>";
-	html += "<span class='comment-writer'>" + commentDetails.memberNickname + "</span>";
+	html += "<span class='comment-writer'>" + commentDetails.commentWriterNickname + "</span>";
 	if (commentDetails.isBoardWriter) {
-		html += "<span class='badge badge-pill badge-primary'>작성자</span>";
+		html += "<span class='badge badge-pill badge-primary'>글쓴이</span>";
 	}
 	
 	html += "<span class='comment-createdat'>" + commentDetails.createdAt + "</span>";
@@ -116,7 +116,7 @@ function createEditCommentHtml(commentDetails) {
 	html += "<form>"
 	html += "<div class='input-group'>";
 	html += "<div class='comment-edit form-control'>";
-	html += "<p class='font-weight-bold mb-2'>" + commentDetails.memberNickname + "</p>";
+	html += "<p class='font-weight-bold mb-2'>" + commentDetails.commentWriterNickname + "</p>";
 	//html += "<textarea rows='1' style='white-space:pre;style='line-height:180%;'>" + commentDetails.commentContent + "</textarea>";
 	html += "<textarea name='commentContent' rows='1' style='line-height:180%;'>" + commentDetails.commentContent + "</textarea>";
 	html += "<div class='mt-2'>";

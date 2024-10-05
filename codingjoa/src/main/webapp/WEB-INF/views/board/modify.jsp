@@ -6,7 +6,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Codingjoa : 게시글 수정 (${modifyBoardDto.boardIdx})</title>
+<title>Codingjoa : 게시글 수정</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
@@ -105,7 +105,8 @@
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 
 <script>
-	let modifyEditor, originalData;
+	let modifyEditor, originalContent;
+	const $form = $("#modifyBoardDto");
 	
 	createEditor("#boardContent")
 		.then(editor => {
@@ -115,7 +116,7 @@
 				let boardContent = editor.getData();
 				$("#boardContent").val(boardContent);
 			});
-			originalData = editor.getData();
+			originalContent = editor.getData();
 			modifyEditor = editor;
 		})
 		.catch(error => {
@@ -124,20 +125,18 @@
 	
 	$(function() {
 		$("#resetBtn").on("click", function() {
-			$("#modifyBoardDto").trigger("reset");
-			modifyEditor.setData(originalData);
+			$form.trigger("reset");
+			modifyEditor.setData(originalContent);
 		});
 		
 		$("#modifyBtn").on("click", function(e) {
 			e.preventDefault();
-			console.log("## remove hidden boardImages input");
+			console.log("## initialize boardImages");
 			$("input[name='boardImages']").remove();
-			
-			let $form = $("#modifyBoardDto");
-			const range = modifyEditor.model.createRangeIn(modifyEditor.model.document.getRoot());
 
 			// TreeWalker instance
 			// Position iterator class. It allows to iterate forward and backward over the document.
+			const range = modifyEditor.model.createRangeIn(modifyEditor.model.document.getRoot());
 			for (const value of range.getWalker({ ignoreElementEnd: true })) { 
 			    if (!value.item.is("element")) {
 			    	continue;
@@ -171,7 +170,7 @@
 		// testJsoup
 		$("#testJsoupBtn").on("click", function() {
 			$("input[name='boardImages']").remove();
-			let $form = $("#modifyBoardDto");
+			
 			const range = modifyEditor.model.createRangeIn(modifyEditor.model.document.getRoot());
 			for (const value of range.getWalker({ ignoreElementEnd: true })) { 
 			    if (!value.item.is("element")) {

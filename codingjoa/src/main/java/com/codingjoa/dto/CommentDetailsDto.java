@@ -28,14 +28,8 @@ public class CommentDetailsDto {
 	private String commentWriterNickname;	// from INNER JOIN with member
 	private String commentWriterImageUrl;	// from LEFT OUTER JOIN wiht member_image
 	private int commentLikesCnt;			// from LEFT OUTER JOIN with comment_likes
-	
-	@JsonProperty("isBoardWriter")
 	private boolean isBoardWriter;
-
-	@JsonProperty("isCommentWriter")
 	private boolean isCommentWriter;
-	
-	@JsonProperty("isCommentLiked")
 	private boolean isCommentLiked;			
 	
 	@Builder
@@ -80,5 +74,24 @@ public class CommentDetailsDto {
 				+ commentWriterImageUrl + ", commentLikesCnt=" + commentLikesCnt + ", isBoardWriter=" + isBoardWriter
 				+ ", isCommentWriter=" + isCommentWriter + ", isCommentLiked=" + isCommentLiked + "]";
 	}
+
+	@JsonProperty("isBoardWriter")
+	public boolean isBoardWriter() {
+		return this.isBoardWriter;
+	}
+
+	@JsonProperty("isCommentWriter")
+	public boolean isCommentWriter() {
+		return this.isCommentWriter;
+	}
+
+	@JsonProperty("isCommentLiked")
+	public boolean isCommentLiked() {
+		return this.isCommentLiked;
+	}
+
+	
+	
+	
 	
 }

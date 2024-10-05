@@ -107,7 +107,6 @@
 		SELECT
     		/*+ ORDERED USE_NL(b) USE_NL(c) USE_NL(d) */
 			a.comment_idx,
-			a.comment_writer_idx,
 			a.comment_content,
 			a.comment_use,
 	        a.created_at,
@@ -117,7 +116,7 @@
     		c.member_image_url AS comment_writer_image_url,
     		NVL(d.cnt, 0) AS comment_likes_cnt,
     		CASE
-    			WHEN a.board_writer_idx = #{memberIdx} THEN 1
+    			WHEN a.comment_writer_idx = a.board_writer_idx THEN 1
     			ELSE 0
     		END AS is_board_writer,
     		CASE

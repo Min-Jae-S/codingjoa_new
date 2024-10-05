@@ -252,7 +252,7 @@
 	}
 	
 	.dropright button:disabled {
-		opacity: 0.4 !important;
+		opacity: 0.3 !important;
 		/* cursor: not-allowed !important; */
 	}
 	
@@ -406,11 +406,11 @@
 						<span>조회 <c:out value="${boardDetails.boardViews}"/></span>
 					</div>
 					<div class="board-info-right">
-						<a href="#">
+						<div>
 							<i class="fa-regular fa-comment-dots"></i>
 							<span>댓글</span>
 							<span class="comment-cnt"><c:out value="${boardDetails.commentCnt}"/></span>
-						</a>
+						</div>
 						<button class="btn border-0 p-0 shadow-none" type="button" id="boardLikesBtn">
 							<i class="fa-heart ${boardDetails.boardLiked ? 'fa-solid text-danger' : 'fa-regular'}"/></i>
 							<span>좋아요</span>
