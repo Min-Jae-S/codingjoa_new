@@ -117,7 +117,7 @@
     		b.member_nickname AS comment_writer_nickname,
     		c.member_image_url AS comment_writer_image_url
     		NVL(d.cnt, 0) AS comment_likes_cnt,
-    		e.member_idx
+    		d.member_idx
 		FROM (
 			SELECT
 				a_depth.comment_idx,
@@ -164,19 +164,17 @@
 			a.comment_writer_idx = c.member_idx
 		LEFT OUTER JOIN (
 			SELECT
-				comment_idx, 
+				comment_idx,
+				member_idx
 				COUNT(*) cnt
 			FROM
 				comment_likes
 			GROUP BY
-				comment_idx	
+				comment_idx,
+				member_idx
 		) d
 		ON
 			a.comment_idx = d.comment_idx
-		LEFT OUTER JOIN
-			comment_likes e
-		ON
-			a.comment_idx = e.comment_idx
 	</select>
 	
 	<!-- <select id="findPagedComment" parameterType="map" resultMap="commentDetailsMap">

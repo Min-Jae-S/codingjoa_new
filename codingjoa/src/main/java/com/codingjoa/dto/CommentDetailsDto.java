@@ -93,10 +93,9 @@ public class CommentDetailsDto {
 		String escapedCommentContent = (commentContent != null) ? commentContent.replace("\n", "\\n") : null;
 		return "CommentDetailsDto [commentIdx=" + commentIdx + ", commentContent=" + escapedCommentContent
 				+ ", commentUse=" + commentUse + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt
-				+ ", isCommentWriter=" + isCommentWriter + ", isBoardWriter =" + isBoardWriter
 				+ ", commentWriterNickname=" + commentWriterNickname + ", commentWriterImageUrl="
-				+ commentWriterImageUrl + ", commentLikesCnt=" + commentLikesCnt + ", isCommentLiked=" + isCommentLiked
-				+ "]";
+				+ commentWriterImageUrl + ", commentLikesCnt=" + commentLikesCnt + ", isBoardWriter=" + isBoardWriter
+				+ ", isCommentWriter=" + isCommentWriter + ", isCommentLiked=" + isCommentLiked + "]";
 	}
 	
 }
