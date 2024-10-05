@@ -1,7 +1,6 @@
 package com.codingjoa.dto;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -56,7 +55,7 @@ public class CommentDetailsDto {
 		this.isCommentLiked = isCommentLiked;
 	}
 	
-	public static CommentDetailsDto from(Map<String, Object> map, Integer memberIdx) {
+	public static CommentDetailsDto from(Map<String, Object> map) {
 		return CommentDetailsDto.builder()
 				.commentIdx((int) map.get("commentIdx"))
 				.commentContent((String) map.get("commentContent"))
@@ -66,28 +65,12 @@ public class CommentDetailsDto {
 				.commentWriterNickname((String) map.get("commentWriterNickname"))
 				.commentWriterImageUrl((String) map.get("commentWriterImageUrl"))
 				.commentLikesCnt((int) map.get("commentLikesCnt"))
-				.isBoardWriter(checkBoardWriter(map, memberIdx))
-				.isCommentWriter(checkCommentWriter(map, memberIdx))
-				.isCommentLiked(checkCommentLiked(map, memberIdx))
+				.isBoardWriter((boolean) map.get("isBoardWriter"))
+				.isCommentWriter((boolean) map.get("isCommentWriter"))
+				.isCommentLiked((boolean) map.get("isCommentLiked"))
 				.build();
 	}
 	
-	private static boolean checkBoardWriter(Map<String, Object> map, Integer memberIdx) {
-		Integer boardWriterIdx = (Integer) map.get("boardWriterIdx");
-		return boardWriterIdx.equals(memberIdx);
-	}
-
-	private static boolean checkCommentWriter(Map<String, Object> map, Integer memberIdx) {
-		Integer commentWriterIdx = (Integer) map.get("commentWriterIdx");
-		return commentWriterIdx.equals(memberIdx);
-	}
-	
-	@SuppressWarnings("unchecked")
-	private static boolean checkCommentLiked(Map<String, Object> map, Integer memberIdx) {
-		List<Integer> commentLikers = (List<Integer>) map.get("commentLikers");
-		return commentLikers.contains(memberIdx);
-	}
-
 	@Override
 	public String toString() {
 		String escapedCommentContent = (commentContent != null) ? commentContent.replace("\n", "\\n") : null;

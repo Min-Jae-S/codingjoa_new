@@ -65,10 +65,10 @@ public class CommentServiceImpl implements CommentService {
 			throw new ExpectedException("error.NotFoundBoard");
 		}
 		
-		List<CommentDetailsDto> pagedComment = commentMapper.findPagedComment(board.getBoardIdx(), commentCri)
+		List<CommentDetailsDto> pagedComment = commentMapper.findPagedComment(board.getBoardIdx(), commentCri, memberIdx)
 				.stream()
 				.map(commentDetailsMap -> {
-					CommentDetailsDto commentDetails = CommentDetailsDto.from(commentDetailsMap, memberIdx);
+					CommentDetailsDto commentDetails = CommentDetailsDto.from(commentDetailsMap);
 					return commentDetails.isCommentUse() ? commentDetails : null;
 				})
 				.collect(Collectors.toList());

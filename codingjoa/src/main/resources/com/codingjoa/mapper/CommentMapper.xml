@@ -90,7 +90,6 @@
 		<!-- java.math.BigDecimal cannot be cast to class java.lang.Integer -->
 		<!-- javaType >> java.lang.Integer -->
 		<id property="commentIdx" column="comment_idx" javaType="int"/>
-		<result property="commentWriterIdx" column="comment_writer_idx" javaType="int"/>
 		<result property="commentContent" column="comment_content" javaType="string"/>
 		<result property="commentUse" column="comment_use" javaType="boolean"/>
 		<result property="createdAt" column="created_at" javaType="java.time.LocalDateTime"/>
@@ -99,9 +98,9 @@
 		<result property="commentWriterNickname" column="comment_writer_nickname" javaType="string"/>
 		<result property="commentWriterImageUrl" column="comment_writer_image_url" javaType="string"/>
 		<result property="commentLikesCnt" column="comment_likes_cnt" javaType="int"/>
-		<collection property="commentLikers" javaType="list" ofType="int">
-			<result column="member_idx"/>
-		</collection>
+		<result property="isBoardWriter" column="is_board_writer" javaType="boolean"/>
+		<result property="isCommentWriter" column="is_comment_writer" javaType="boolean"/>
+		<result property="isCommentLiked" column="is_comment_liked" javaType="boolean"/>
 	</resultMap>
 	
 	<select id="findPagedComment" parameterType="map" resultMap="commentDetailsMap">
@@ -117,7 +116,23 @@
     		b.member_nickname AS comment_writer_nickname,
     		c.member_image_url AS comment_writer_image_url,
     		NVL(d.cnt, 0) AS comment_likes_cnt,
-    		d.member_idx
+    		CASE
+    			WHEN a.board_writer_idx = #{memberIdx} THEN 1
+    			ELSE 0
+    		END AS is_board_writer,
+    		CASE
+    			WHEN a.comment_writer_idx = #{memberIdx} THEN 1
+    			ELSE 0
+    		END AS is_comment_writer,
+    		CASE
+    			WHEN EXISTS ( 
+    				SELECT 1 
+    				FROM comment_likes e 
+    				WHERE e.comment_idx = a.comment_idx
+    				AND e.member_idx = #{memberIdx} 
+    			) THEN 1
+    			ELSE 0
+    		END AS is_comment_liked
 		FROM (
 			SELECT
 				a_depth.comment_idx,
@@ -165,13 +180,11 @@
 		LEFT OUTER JOIN (
 			SELECT
 				comment_idx,
-				member_idx,
 				COUNT(*) cnt
 			FROM
 				comment_likes
 			GROUP BY
-				comment_idx,
-				member_idx
+				comment_idx
 		) d
 		ON
 			a.comment_idx = d.comment_idx

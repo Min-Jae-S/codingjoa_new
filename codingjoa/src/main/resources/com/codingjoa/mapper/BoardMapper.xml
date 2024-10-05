@@ -50,8 +50,8 @@
 		<result property="boardWriterNickname" column="board_writer_nickname" javaType="string"/>
 		<result property="commentCnt" column="comment_cnt" javaType="int"/>
 		<result property="boardLikesCnt" column="board_likes_cnt" javaType="int"/>
-		<result property="isBoardLiked" column="is_board_liked" javaType="boolean"/>
 		<result property="isBoardWriter" column="is_board_writer" javaType="boolean"/>
+		<result property="isBoardLiked" column="is_board_liked" javaType="boolean"/>
 	</resultMap>
 	
 	<select id="findBoardDetailsByIdx" parameterType="map" resultMap="boardDetailsMap">
@@ -67,18 +67,18 @@
 			NVL(c.cnt, 0) AS comment_cnt,
     		NVL(d.cnt, 0) AS board_likes_cnt,
     		CASE
-    			WHEN EXIST (
-    				SELECT 1
-    				FROM board_likes e
-    				WEHRE e.member_idx = a.board_idx
-    				AND e.member_idx = #{memberIdx}
-    			) THEN 1
-    			ELSE 0
-    		END AS is_board_liked,
-    		CASE
     			WHEN a.board_writer_idx = #{memberIdx} THEN 1
     			ELSE 0
-    		END AS is_board_writer
+    		END AS is_board_writer,
+    		CASE
+    			WHEN EXISTS ( 
+    				SELECT 1 
+    				FROM board_likes e 
+    				WHERE e.board_idx = a.board_idx 
+    				AND e.member_idx = #{memberIdx} 
+    			) THEN 1
+    			ELSE 0
+    		END AS is_board_liked
 		FROM
 			board a
 		INNER JOIN
@@ -179,7 +179,6 @@
 		SELECT
 			/*+ ORDERED USE_NL(b) USE_NL(c) USE_NL(d) */
 			a.board_idx,
-			a.board_writer_idx,
 			a.board_title,
 			a.board_views,
 			a.board_category_code,
@@ -188,7 +187,19 @@
 			a.member_nickname AS board_writer_nickname,
     		NVL(b.cnt, 0) AS comment_cnt,
     		NVL(c.cnt, 0) AS board_likes_cnt,
-   			c.member_idx
+    		CASE
+    			WHEN a.board_writer_idx = #{memberIdx} THEN 1
+    			ELSE 0
+    		END AS is_board_writer,
+   			CASE
+    			WHEN EXISTS ( 
+    				SELECT 1 
+    				FROM board_likes d
+    				WHERE d.board_idx = a.board_idx 
+    				AND d.member_idx = #{memberIdx} 
+    			) THEN 1
+    			ELSE 0
+    		END AS is_board_liked
 		FROM (
 		    SELECT
 		    	a_depth.board_idx,
