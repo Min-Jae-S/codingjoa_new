@@ -74,12 +74,12 @@ public class CommentDetailsDto {
 	
 	private static boolean checkBoardWriter(Map<String, Object> map, Integer memberIdx) {
 		Integer boardWriterIdx = (Integer) map.get("boardWriterIdx");
-		return memberIdx.equals(boardWriterIdx);
+		return boardWriterIdx.equals(memberIdx);
 	}
 
 	private static boolean checkCommentWriter(Map<String, Object> map, Integer memberIdx) {
 		Integer commentWriterIdx = (Integer) map.get("commentWriterIdx");
-		return memberIdx.equals(commentWriterIdx);
+		return commentWriterIdx.equals(memberIdx);
 	}
 	
 	@SuppressWarnings("unchecked")

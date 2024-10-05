@@ -72,7 +72,7 @@ public class BoardDetailsDto {
 	
 	private static boolean checkBoardWriter(Map<String, Object> map, Integer memberIdx) {
 		Integer boardWriterIdx = (Integer) map.get("boardWriterIdx");
-		return memberIdx.equals(boardWriterIdx);
+		return boardWriterIdx.equals(memberIdx);
 	}
 	
 	@SuppressWarnings("unchecked")
