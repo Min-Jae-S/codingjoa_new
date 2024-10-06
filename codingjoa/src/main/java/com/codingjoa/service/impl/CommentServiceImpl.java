@@ -124,12 +124,13 @@ public class CommentServiceImpl implements CommentService {
 			throw new ExpectedException("error.NotMyComment");
 		}
 		
-		Comment deleteComment = Comment.builder()
-				.commentIdx(comment.getCommentIdx())
-				.commentUse(false)
-				.build();
+//		Comment deleteComment = Comment.builder()
+//				.commentIdx(comment.getCommentIdx())
+//				.commentUse(false)
+//				.build();
 		
-		boolean isDeleted = commentMapper.deleteComment(deleteComment);
+//		boolean isDeleted = commentMapper.deleteComment(deleteComment);
+		boolean isDeleted = commentMapper.deleteComment(commentIdx);
 		if (!isDeleted) {
 			throw new ExpectedException("error.DeleteComment");
 		}
