@@ -32,59 +32,6 @@
 			SYSDATE
 		)
 	</insert>
-
-	<!-- <insert id="insertComment" parameterType="comment">
-		<selectKey keyProperty="commentBoardIdx" resultType="int" order="BEFORE">
-			SELECT 
-				MAX(board_idx)
-			FROM 
-				board 
-			WHERE 
-				board_idx = #{commentBoardIdx}
-		</selectKey>
-		BEGIN
-			IF #{commentBoardIdx} IS NOT NULL THEN 
-				INSERT INTO "comment" (
-					comment_idx,
-					comment_writer_idx,
-					comment_board_idx,
-					comment_content,
-					comment_use,
-					regdate,
-					moddate
-				) VALUES (
-					seq_comment.NEXTVAL,
-					#{commentWriterIdx},
-					#{commentBoardIdx},
-					#{commentContent},
-					#{commentUse},
-					SYSDATE,
-					SYSDATE
-				);
-			END IF;
-		END;
-		
-		INSERT INTO "comment" (
-			comment_idx,
-			comment_writer_idx,
-			comment_board_idx,
-			comment_content,
-			comment_use,
-			regdate,
-			moddate
-		) SELECT 
-			seq_comment.NEXTVAL,
-			#{commentWriterIdx},
-			#{commentBoardIdx},
-			#{commentContent},
-			#{commentUse},
-			SYSDATE,
-			SYSDATE,
-		FROM
-			DUAL
-		WHERE 
-			#{commentBoardIdx} IS NOT NULL 
-	</insert> -->
 	
 	<resultMap type="map" id="commentDetailsMap">
 		<!-- java.math.BigDecimal cannot be cast to class java.lang.Integer -->
@@ -339,30 +286,6 @@
 			comment_idx = #{commentIdx}
 	</update>
 	
-	<!-- <update id="updateComment" parameterType="comment">
-		<selectKey keyProperty="commentIdx,commentWriterIdx,commentUse" resultType="comment" order="BEFORE">
-			SELECT
-				MAX(comment_idx) AS comment_idx,
-				MAX(member_idx) AS member_idx,
-				MAX(comment_use) AS comment_use
-			FROM
-				"comment" 
-			WHERE 
-				comment_idx = #{commentIdx}
-		</selectKey>
-		BEGIN
-			IF #{commentIdx} IS NOT NULL THEN 
-				UPDATE
-					"comment"
-				SET
-					comment_content = #{commentContent},
-					updated_at = SYSDATE
-				WHERE
-					comment_idx = #{commentIdx};
-			END IF;
-		END;
-	</update> -->
-	
 	<delete id="deleteComment" parameterType="comment">
 		UPDATE
 			"comment"
@@ -372,29 +295,5 @@
 		WHERE
 			comment_idx = #{commentIdx}
 	</delete>
-
-	<!-- <update id="deleteComment" parameterType="comment">
-		<selectKey keyProperty="commentIdx,commentWriterIdx,commentUse" resultType="comment" order="BEFORE">
-			SELECT
-				MAX(comment_idx) AS comment_idx,
-				MAX(member_idx) AS member_idx,
-				MAX(comment_use) AS comment_use
-			FROM
-				"comment" 
-			WHERE 
-				comment_idx = #{commentIdx}
-		</selectKey>
-		BEGIN
-			IF #{commentIdx} IS NOT NULL THEN 
-				UPDATE
-					"comment"
-				SET
-					comment_use = 0,
-					updated_at = SYSDATE
-				WHERE
-					comment_idx = #{commentIdx};
-			END IF;
-		END;
-	</update> -->
 	
 </mapper>

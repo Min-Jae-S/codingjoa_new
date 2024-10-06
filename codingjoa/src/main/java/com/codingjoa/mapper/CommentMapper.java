@@ -23,6 +23,5 @@ public interface CommentMapper {
 	
 	boolean updateComment(Comment comment);
 	
-	//boolean deleteComment(Comment comment);
-	boolean deleteComment(int commentIdx);
+	boolean deleteComment(Comment comment);
 }
