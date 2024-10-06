@@ -380,12 +380,10 @@
 		<div class="card">
 			<div class="header-group">
 				<div class="category dropright mb-2">
-					<a class="board-category" 
-						href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}">
+					<a class="board-category" href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}">
 						<c:out value="${category.categoryName}"/>
 					</a>
-					<button class="board-utils-btn btn" data-toggle="dropdown" data-offset="0,10" 
-						${boardDetails.boardWriter ? '' : 'disabled'}>
+					<button class="board-utils-btn btn" data-toggle="dropdown" data-offset="0,10" ${boardDetails.boardWriter ? '' : 'disabled'}>
 						<i class="fa-solid fa-ellipsis-vertical"></i>
 					</button>
 					<div class="dropdown-menu">
@@ -457,7 +455,8 @@
 				</div>
 				<div class="comment-group-footer mt-4">
 					<a class="btn btn-secondary" href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}&
-						${boardCri.queryString}">목록</a>
+						${boardCri.queryString}">목록
+					</a>
 					<div class="comment-pagination">
 						<!------------------------>
 						<!-- comment pagination -->
