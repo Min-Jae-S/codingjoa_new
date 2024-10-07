@@ -5,10 +5,10 @@ function createCategoryMenuHtml(categoryList) {
 		return html;
 	}
 	
-	$.each(categoryList, function(index, value) {
-		let categoryCode = categoryList[index].categoryCode;
-		let categoryPath = categoryList[index].categoryPath;
-		let categoryName = categoryList[index].categoryName;
+	$.each(categoryList, function(i, value) {
+		let categoryCode = categoryList[i].categoryCode;
+		let categoryPath = categoryList[i].categoryPath;
+		let categoryName = categoryList[i].categoryName;
 		let path = (categoryCode == categoryPath) ? "/?boardCategoryCode=" + categoryCode : categoryPath;
 		html += "<button class='dropdown-item' type='button' data-path='" + path + "'>" + categoryName + "</button>";
 	});
@@ -24,7 +24,7 @@ function createPagedCommentHtml(pagedComment) {
 	}
 	
 	html += "<ul class='list-group list-group-flush'>";
-	$.each(pagedComment, function(index, commentDetails) {
+	$.each(pagedComment, function(i, commentDetails) {
 		if (commentDetails == "") {
 			html += "<li class='list-group-item'>";
 			html += "<div class='comment-area'>";
@@ -54,6 +54,7 @@ function createPagedCommentHtml(pagedComment) {
 function createCommentHtml(commentDetails) {
 	let html = "";
 	html += "<div class='comment-thum'>";
+	
 	if (commentDetails.commentWriterImageUrl == "") {
 		html += "<img src='/codingjoa/resources/images/img_profile.png'>";
 	} else {
@@ -65,6 +66,7 @@ function createCommentHtml(commentDetails) {
 	html += "<div class='comment-area-header'>";
 	html += "<div class='comment-info'>";
 	html += "<span class='comment-writer'>" + commentDetails.commentWriterNickname + "</span>";
+	
 	if (commentDetails.isBoardWriter) {
 		html += "<span class='badge badge-pill badge-primary'>글쓴이</span>";
 	}
@@ -73,6 +75,7 @@ function createCommentHtml(commentDetails) {
 	html += "<span class='comment-updatedat d-none'>" + commentDetails.updatedAt + "</span>";
 	html += "</div>";
 	html += "<div class='dropright ml-auto'>";
+	
 	//html += "<button class='comment-utils-btn btn' data-toggle='dropdown' data-offset='0,10' ${commentDetails.isCommentWriter ? '' : 'disabled'}>";
 	if (commentDetails.isCommentWriter) {
 		html += "<button class='comment-utils-btn btn' data-toggle='dropdown' data-offset='0,10' aria-expanded='false'>";
@@ -97,6 +100,7 @@ function createCommentHtml(commentDetails) {
 	html += "</div>";
 	html += "<div class='comment-area-footer'>";
 	html += "<button class='btn border-0 p-0 shadow-none ml-auto' type='button' name='commentLikesBtn'>";
+	
 	if (commentDetails.isCommentLiked) {
 		html += "<i class='fa-thumbs-up fa-regular text-primary'></i>";
 	} else {
