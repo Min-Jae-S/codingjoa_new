@@ -75,10 +75,10 @@ public class BoardController {
 		log.info("\t > memberIdx = {}", memberIdx);
 		
 		List<BoardDetailsDto> pagedBoard = boardService.getPagedBoard(boardCategoryCode, boardCri, memberIdx);
-		for (BoardDetailsDto boardDetails : pagedBoard) {
+		pagedBoard.forEach(boardDetails -> {
 			log.info("\t\t - boardIdx = {}, isBoardLiked = {}, isBoardWriter = {}", 
 					boardDetails.getBoardIdx(), boardDetails.isBoardLiked(), boardDetails.isBoardWriter());
-		}
+		});
 		
 		Pagination pagination = boardService.getPagination(boardCategoryCode, boardCri);
 		log.info("\t > board pagination = {}", pagination);
@@ -95,10 +95,10 @@ public class BoardController {
 	public String read(@RequestParam int boardIdx, @BoardCri Criteria boardCri,
 			@AuthenticationPrincipal PrincipalDetails principal, Model model) {
 		log.info("## read, boardIdx = {}", boardIdx);
+		log.info("\t > boardCri = {}", boardCri);
 		
 		Integer memberIdx = (principal == null) ? null : principal.getIdx();
 		log.info("\t > memberIdx = {}", memberIdx);
-		log.info("\t > boardCri = {}", boardCri);
 		
 		BoardDetailsDto boardDetails = boardService.getBoardDetails(boardIdx, memberIdx);
 		log.info("\t > boardDetails = {}", boardDetails);
