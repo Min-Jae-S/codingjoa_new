@@ -93,6 +93,7 @@ public class CommentRestController {
 	public ResponseEntity<Object> deleteComment(@PathVariable int commentIdx, @AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## deleteComment, commentIdx = {}", commentIdx);
 		commentService.deleteComment(commentIdx, principal.getIdx()); // update commentUse
+		
 		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.DeleteComment").build());
 	}
 	

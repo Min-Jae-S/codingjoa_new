@@ -138,7 +138,7 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
-	public Integer updateBoard(BoardDto boardDto) {
+	public Board updateBoard(BoardDto boardDto) {
 		Board board = getBoardByIdx(boardDto.getBoardIdx());
 		if (board.getBoardWriterIdx() != boardDto.getBoardWriterIdx()) {
 			throw new ExpectedException("error.NotMyBoard");
@@ -156,10 +156,9 @@ public class BoardServiceImpl implements BoardService {
 			throw new ExpectedException("error.UpdateBoard");
 		}
 		
-		Integer boardIdx = board.getBoardIdx();
-		imageService.modifyBoardImages(boardDto.getBoardImages(), boardIdx);
+		imageService.modifyBoardImages(boardDto.getBoardImages(), modifiyBoard.getBoardIdx());
 		
-		return boardIdx;
+		return modifiyBoard;
 	}
 	
 	@Override
@@ -168,7 +167,7 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public int deleteBoard(int boardIdx, int memberIdx) {
+	public Board deleteBoard(int boardIdx, int memberIdx) {
 		Board board = getBoardByIdx(boardIdx);
 		if (board.getBoardWriterIdx() != memberIdx) {
 			throw new ExpectedException("error.NotMyBoard");
@@ -179,8 +178,7 @@ public class BoardServiceImpl implements BoardService {
 			throw new ExpectedException("error.DeleteBoard");
 		}
 		
-		return board.getBoardCategoryCode();
+		return board;
 	}
-	
 	
 }

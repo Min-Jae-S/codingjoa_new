@@ -20,6 +20,7 @@ import com.codingjoa.annotation.BoardCategoryCode;
 import com.codingjoa.annotation.BoardCri;
 import com.codingjoa.dto.BoardDetailsDto;
 import com.codingjoa.dto.BoardDto;
+import com.codingjoa.entity.Board;
 import com.codingjoa.entity.Category;
 import com.codingjoa.pagination.Criteria;
 import com.codingjoa.pagination.Pagination;
@@ -174,9 +175,9 @@ public class BoardController {
 		}
 		
 		modifyBoardDto.setBoardWriterIdx(principal.getIdx());
-		Integer boardIdx = boardService.updateBoard(modifyBoardDto); // updateBoard & deactivateImage & activateImage
+		Board modifiedBoard = boardService.updateBoard(modifyBoardDto); // updateBoard & deactivateImage & activateImage
 		
-		return "redirect:/board/read?boardIdx=" + boardIdx;
+		return "redirect:/board/read?boardIdx=" + modifiedBoard.getBoardIdx();
 	}
 	
 	@GetMapping("/delete")
@@ -185,9 +186,9 @@ public class BoardController {
 
 		// fk_board_image_board --> ON DELETE SET NULL
 		// fk_comment_board		--> ON DELETE CASCADE
-		int boardCategoryCode = boardService.deleteBoard(boardIdx, principal.getIdx());
+		Board deletedBoard = boardService.deleteBoard(boardIdx, principal.getIdx());
 		
-		return "redirect:/board/?boardCategoryCode=" + boardCategoryCode;
+		return "redirect:/board/?boardCategoryCode=" + deletedBoard.getBoardCategoryCode();
 	}
 	
 }
