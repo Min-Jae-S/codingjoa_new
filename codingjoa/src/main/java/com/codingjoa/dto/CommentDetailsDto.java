@@ -15,8 +15,6 @@ public class CommentDetailsDto {
 
 	private int commentIdx;
 	private String commentContent;
-	
-	@JsonIgnore
 	private boolean commentUse;
 	
 	@JsonFormat(pattern = "yyyy.MM.dd HH:mm:ss")
@@ -74,6 +72,11 @@ public class CommentDetailsDto {
 				+ commentWriterImageUrl + ", commentLikesCnt=" + commentLikesCnt + ", isBoardWriter=" + isBoardWriter
 				+ ", isCommentWriter=" + isCommentWriter + ", isCommentLiked=" + isCommentLiked + "]";
 	}
+	
+	@JsonIgnore
+	public boolean isCommentUse() {
+		return this.isCommentLiked;
+	}
 
 	@JsonProperty("isBoardWriter")
 	public boolean isBoardWriter() {
@@ -89,9 +92,5 @@ public class CommentDetailsDto {
 	public boolean isCommentLiked() {
 		return this.isCommentLiked;
 	}
-
-	
-	
-	
 	
 }

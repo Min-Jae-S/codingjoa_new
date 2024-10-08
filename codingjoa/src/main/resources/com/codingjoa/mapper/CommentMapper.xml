@@ -10,6 +10,7 @@
 	created_at               DATE                         NOT NULL,
     updated_at               DATE                         NOT NULL,
 -->
+
 	<insert id="insertComment" parameterType="comment">
 		<selectKey keyProperty="commentIdx" resultType="int" order="BEFORE">
 			SELECT seq_comment.NEXTVAL FROM DUAL
@@ -35,7 +36,6 @@
 	
 	<resultMap type="map" id="commentDetailsMap">
 		<!-- java.math.BigDecimal cannot be cast to class java.lang.Integer -->
-		<!-- javaType >> java.lang.Integer -->
 		<id property="commentIdx" column="comment_idx" javaType="int"/>
 		<result property="commentContent" column="comment_content" javaType="string"/>
 		<result property="commentUse" column="comment_use" javaType="boolean"/>
