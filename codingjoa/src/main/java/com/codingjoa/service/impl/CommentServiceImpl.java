@@ -69,7 +69,8 @@ public class CommentServiceImpl implements CommentService {
 				.stream()
 				.map(commentDetailsMap -> {
 					CommentDetailsDto commentDetails = CommentDetailsDto.from(commentDetailsMap);
-					return commentDetails.isCommentUse() ? commentDetails : null;
+					log.info("\t\t - {}", commentDetails.getInfo());
+					return commentDetails.isCommentInUse() ? commentDetails : null;
 				})
 				.collect(Collectors.toList());
 

@@ -15,14 +15,14 @@ public class CommentDetailsDto {
 
 	private int commentIdx;
 	private String commentContent;
-	private boolean commentUse;
+	private boolean isCommentInUse;
 	
 	@JsonFormat(pattern = "yyyy.MM.dd HH:mm:ss")
 	private LocalDateTime createdAt;
 	
 	@JsonFormat(pattern = "yyyy.MM.dd HH:mm:ss")
 	private LocalDateTime updatedAt;
-	
+
 	private String commentWriterNickname;	// from INNER JOIN with member
 	private String commentWriterImageUrl;	// from LEFT OUTER JOIN wiht member_image
 	private int commentLikesCnt;			// from LEFT OUTER JOIN with comment_likes
@@ -31,12 +31,12 @@ public class CommentDetailsDto {
 	private boolean isCommentLiked;			
 	
 	@Builder
-	private CommentDetailsDto(int commentIdx, String commentContent, boolean commentUse, LocalDateTime createdAt,
+	private CommentDetailsDto(int commentIdx, String commentContent, boolean isCommentInUse, LocalDateTime createdAt,
 			LocalDateTime updatedAt, boolean isCommentWriter, boolean isBoardWriter, String commentWriterNickname,
 			String commentWriterImageUrl, int commentLikesCnt, boolean isCommentLiked) {
 		this.commentIdx = commentIdx;
 		this.commentContent = commentContent;
-		this.commentUse = commentUse;
+		this.isCommentInUse = isCommentInUse;
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;
 		this.commentWriterNickname = commentWriterNickname;
@@ -51,7 +51,7 @@ public class CommentDetailsDto {
 		return CommentDetailsDto.builder()
 				.commentIdx((int) map.get("commentIdx"))
 				.commentContent((String) map.get("commentContent"))
-				.commentUse((boolean) map.get("commentUse"))
+				.isCommentInUse((boolean) map.get("commentUse"))
 				.createdAt((LocalDateTime) map.get("createdAt"))
 				.updatedAt((LocalDateTime) map.get("updatedAt"))
 				.commentWriterNickname((String) map.get("commentWriterNickname"))
@@ -67,30 +67,36 @@ public class CommentDetailsDto {
 	public String toString() {
 		String escapedCommentContent = (commentContent != null) ? commentContent.replace("\n", "\\n") : null;
 		return "CommentDetailsDto [commentIdx=" + commentIdx + ", commentContent=" + escapedCommentContent
-				+ ", commentUse=" + commentUse + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt
+				+ ", isCommentInUse=" + isCommentInUse + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt
 				+ ", commentWriterNickname=" + commentWriterNickname + ", commentWriterImageUrl="
 				+ commentWriterImageUrl + ", commentLikesCnt=" + commentLikesCnt + ", isBoardWriter=" + isBoardWriter
 				+ ", isCommentWriter=" + isCommentWriter + ", isCommentLiked=" + isCommentLiked + "]";
 	}
 	
 	@JsonIgnore
-	public boolean isCommentUse() {
-		return this.isCommentLiked;
+	public String getInfo() {
+		return "commentIdx=" + commentIdx + ", isCommentInUse=" + isCommentInUse + ", isBoardWriter=" + isBoardWriter
+				+ ", isCommentWriter=" + isCommentWriter + ", isCommentLiked=" + isCommentLiked;
 	}
-
+	
+	@JsonIgnore
+	public boolean isCommentInUse() {
+		return isCommentInUse;
+	}
+	
 	@JsonProperty("isBoardWriter")
 	public boolean isBoardWriter() {
-		return this.isBoardWriter;
+		return isBoardWriter;
 	}
 
 	@JsonProperty("isCommentWriter")
 	public boolean isCommentWriter() {
-		return this.isCommentWriter;
+		return isCommentWriter;
 	}
 
 	@JsonProperty("isCommentLiked")
 	public boolean isCommentLiked() {
-		return this.isCommentLiked;
+		return isCommentLiked;
 	}
 	
 }
