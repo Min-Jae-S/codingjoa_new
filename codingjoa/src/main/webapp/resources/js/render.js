@@ -54,7 +54,6 @@ function createPagedCommentHtml(pagedComment) {
 function createCommentHtml(commentDetails) {
 	let html = "";
 	html += "<div class='comment-thum'>";
-	
 	if (commentDetails.commentWriterImageUrl == "") {
 		html += "<img src='/codingjoa/resources/images/img_profile.png'>";
 	} else {
@@ -66,7 +65,6 @@ function createCommentHtml(commentDetails) {
 	html += "<div class='comment-area-header'>";
 	html += "<div class='comment-info'>";
 	html += "<span class='comment-writer'>" + commentDetails.commentWriterNickname + "</span>";
-	
 	if (commentDetails.isBoardWriter) {
 		html += "<span class='badge badge-pill badge-primary'>글쓴이</span>";
 	}
@@ -75,7 +73,6 @@ function createCommentHtml(commentDetails) {
 	html += "<span class='comment-updatedat d-none'>" + commentDetails.updatedAt + "</span>";
 	html += "</div>";
 	html += "<div class='dropright ml-auto'>";
-	
 	//html += "<button class='comment-utils-btn btn' data-toggle='dropdown' data-offset='0,10' ${commentDetails.isCommentWriter ? '' : 'disabled'}>";
 	if (commentDetails.isCommentWriter) {
 		html += "<button class='comment-utils-btn btn' data-toggle='dropdown' data-offset='0,10' aria-expanded='false'>";
@@ -93,14 +90,12 @@ function createCommentHtml(commentDetails) {
 	html += "</div>";
 	html += "</div>";
 	html += "<div class='comment-area-body'>";
-	//html += "<div class='comment-content' style='white-space:pre-wrap;line-height:180%;'>";
-	html += "<div class='comment-content' style='line-height:180%;'>";
+	html += "<div class='comment-content'>";
 	html += "<p>" + commentDetails.commentContent.replace(/(?:\r\n|\r|\n)/g, "<br>") + "</p>";
 	html += "</div>";
 	html += "</div>";
 	html += "<div class='comment-area-footer'>";
 	html += "<button class='btn border-0 p-0 shadow-none ml-auto' type='button' name='commentLikesBtn'>";
-	
 	if (commentDetails.isCommentLiked) {
 		html += "<i class='fa-thumbs-up fa-regular text-primary'></i>";
 	} else {
@@ -114,8 +109,16 @@ function createCommentHtml(commentDetails) {
 	return html;
 }
 
-function createEditCommentHtml(commentDetails) {
+/*function createEditCommentHtml(commentDetails) {
 	let html = "";
+	html += "<div class='comment-thum'>";
+	if (commentDetails.commentWriterImageUrl == "") {
+		html += "<img src='/codingjoa/resources/images/img_profile.png'>";
+	} else {
+		html += "<img src='" + commentDetails.commentWriterImageUrl + "'>";
+	}
+	
+	html += "</div>";
 	html += "<div class='comment-edit-wrap'>";
 	html += "<form>"
 	html += "<div class='input-group'>";
@@ -130,6 +133,45 @@ function createEditCommentHtml(commentDetails) {
 	html += "</div>";			
 	html += "</div>";	
 	html += "</form>";
+	html += "</div>";
+	return html;
+}*/
+
+function createEditCommentHtml(commentDetails) {
+	let html = "";
+	html += "<div class='comment-thum'>";
+	if (commentDetails.commentWriterImageUrl == "") {
+		html += "<img src='/codingjoa/resources/images/img_profile.png'>";
+	} else {
+		html += "<img src='" + commentDetails.commentWriterImageUrl + "'>";
+	}
+	
+	html += "</div>";
+	html += "<div class='comment-area'>";
+	html += "<div class='comment-area-header'>";
+	html += "<div class='comment-info'>";
+	html += "<span class='comment-writer'>" + commentDetails.commentWriterNickname + "</span>";
+	if (commentDetails.isBoardWriter) {
+		html += "<span class='badge badge-pill badge-primary'>글쓴이</span>";
+	}
+	
+	html += "<span class='comment-createdat'>" + commentDetails.createdAt + "</span>";
+	html += "<span class='comment-updatedat d-none'>" + commentDetails.updatedAt + "</span>";
+	html += "</div>";
+	html += "</div>";
+	html += "<div class='comment-edit-wrap'>";
+	html += "<form>"
+	html += "<div class='input-group'>";
+	html += "<div class='comment-edit form-control'>";
+	html += "<textarea name='commentContent' rows='1'>" + commentDetails.commentContent + "</textarea>";
+	html += "<div class='mt-2'>";
+	html += "<button class='btn btn-sm btn-outline-primary' type='submit'>수정</button>";
+	html += "<button class='btn btn-sm btn-outline-secondary ml-2' type='button'>취소</button>";
+	html += "</div>";		
+	html += "</div>";			
+	html += "</div>";	
+	html += "</form>";
+	html += "</div>";
 	html += "</div>";
 	return html;
 }
