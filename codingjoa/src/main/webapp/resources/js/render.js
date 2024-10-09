@@ -26,7 +26,7 @@ function createPagedCommentHtml(pagedComment) {
 	html += "<ul class='list-group list-group-flush'>";
 	$.each(pagedComment, function(i, commentDetails) {
 		if (commentDetails == "") {
-			html += "<li class='list-group-item'>";
+			html += "<li class='list-group-item deleted-comment'>";
 			html += "<div class='comment-area'>";
 			html += "<div class='comment-area-header'>";
 			html += "<div class='comment-info'>";
@@ -34,7 +34,7 @@ function createPagedCommentHtml(pagedComment) {
 			html += "</div>";
 			html += "</div>";
 			html += "<div class='comment-area-body'>";
-			html += "<div class='comment-content deleted-comment' style='line-height:180%;'>";
+			html += "<div class='comment-content' style='line-height:180%;'>";
 			html += "<p>삭제된 댓글입니다.</p>";
 			html += "</div>";
 			html += "</div>";

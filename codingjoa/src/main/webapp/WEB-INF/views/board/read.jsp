@@ -167,10 +167,12 @@
 	}
 	
 	.comment-list li {
-		/* padding: 1.25rem 0; */
-		/* padding: 1.7rem; */
 		padding: 28px 28px 28px 98px;
 		background-color: #f1f5fc;
+	}
+	
+	.comment-list li.deleted-comment {
+		padding-left: 28px;
 	}
 	
 	.comment-list .comment-thum {
@@ -203,7 +205,7 @@
 		margin-bottom: 0.5rem !important;
 	}
 	
-	.deleted-comment {
+	.deleted-comment .comment-content{
 		color: #868e96;
 	}
 	
