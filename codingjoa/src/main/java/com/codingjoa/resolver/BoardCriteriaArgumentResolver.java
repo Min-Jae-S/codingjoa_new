@@ -11,7 +11,7 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 import com.codingjoa.annotation.BoardCri;
-import com.codingjoa.pagination.Criteria;
+import com.codingjoa.pagination.BoardCriteria;
 import com.codingjoa.util.FormatUtils;
 import com.codingjoa.util.NumberUtils;
 
@@ -42,7 +42,7 @@ public class BoardCriteriaArgumentResolver implements HandlerMethodArgumentResol
 	
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
-		return parameter.getParameterType().equals(Criteria.class) && 
+		return parameter.getParameterType().equals(BoardCriteria.class) && 
 				parameter.hasParameterAnnotation(BoardCri.class);
 	}
 
@@ -62,7 +62,7 @@ public class BoardCriteriaArgumentResolver implements HandlerMethodArgumentResol
 		type = (type == null) ? "" : type.strip();
 		keyword = (keyword == null) ? "" : keyword.strip();
 
-		Criteria boardCri = new Criteria(
+		BoardCriteria boardCri = new BoardCriteria(
 			NumberUtils.isNaturalNumber(page) ? Integer.parseInt(page) : defaultPage,
 			recordCntGroup.containsKey(recordCnt) ? Integer.parseInt(recordCnt) : defaultRecordCnt,
 			typeGroup.containsKey(type) ? type : defaultType,

@@ -4,27 +4,23 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
 
-@ToString
 @Getter
-@Setter
-public class Criteria {
+public class BoardCriteria {
 	
 	private int page;
 	private int recordCnt;
 	private String type;
 	private String keyword;
 	
-	public Criteria() { }
+	public BoardCriteria() { }
 	
-	public Criteria(int page, int recordCnt) {
+	public BoardCriteria(int page, int recordCnt) {
 		this.page = page;
 		this.recordCnt = recordCnt;
 	}
 	
-	public Criteria(int page, int recordCnt, String type, String keyword) {
+	public BoardCriteria(int page, int recordCnt, String type, String keyword) {
 		this(page, recordCnt);
 		this.type = type;
 		this.keyword = keyword;
@@ -52,6 +48,12 @@ public class Criteria {
 	
 	public String getKeywordRegexp() {
 		return StringUtils.hasText(keyword) ? String.join("|", keyword.split("\\s+")) : null;
+	}
+
+	@Override
+	public String toString() {
+		return "Criteria [page=" + page + ", recordCnt=" + recordCnt + ", type=" + type + ", keyword=" + keyword
+				+ ", getKeywordRegexp()=" + getKeywordRegexp() + "]";
 	}
 
 }

@@ -80,7 +80,7 @@ public class CommentServiceImpl implements CommentService {
 	@Override
 	public Pagination getPagination(int boardIdx, CommentCriteria commentCri) {
 		int totalCnt = commentMapper.findCommentTotalCnt(boardIdx);
-		return (totalCnt != 0) ? new Pagination(totalCnt, commentCri.getPage(), commentCri.getRecordCnt(), pageRange) : null;
+		return (totalCnt > 0) ? new Pagination(totalCnt, commentCri.getPage(), commentCri.getRecordCnt(), pageRange) : null;
 	}
 
 	private Comment getCommentByIdx(int commentIdx) {

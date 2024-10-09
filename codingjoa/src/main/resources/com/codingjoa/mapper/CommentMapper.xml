@@ -74,7 +74,7 @@
     			WHEN EXISTS ( 
     				SELECT 1 
     				FROM comment_likes e 
-    				WHERE e.comment_idx = a.comment_idx
+    				WHERE e.comment_idx = a.comment_idx 
     				AND e.member_idx = #{memberIdx} 
     			) THEN 1
     			ELSE 0

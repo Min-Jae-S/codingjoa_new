@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.codingjoa.entity.Board;
-import com.codingjoa.pagination.Criteria;
+import com.codingjoa.pagination.BoardCriteria;
 
 @Mapper
 public interface BoardMapper {
@@ -21,9 +21,9 @@ public interface BoardMapper {
 	//List<Integer> findMemberIdxByKeyword(String keyword);
 	
 	List<Map<String, Object>> findPagedBoard(@Param("boardCategoryCode") int boardCategoryCode,
-			@Param("boardCri") Criteria boardCri, @Param("memberIdx") Integer memberIdx);
+			@Param("boardCri") BoardCriteria boardCri, @Param("memberIdx") Integer memberIdx);
 
-	int findPagedBoardTotalCnt(@Param("boardCategoryCode") int boardCategoryCode, @Param("boardCri") Criteria boardCri);
+	int findPagedBoardTotalCnt(@Param("boardCategoryCode") int boardCategoryCode, @Param("boardCri") BoardCriteria boardCri);
 	
 	Board findBoardByIdx(int boardIdx);
 	

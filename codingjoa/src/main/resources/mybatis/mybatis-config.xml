@@ -48,7 +48,7 @@
 		<typeAlias type="com.codingjoa.entity.CommentLikes" alias="commentLikes"/>
 		
 		<!-- pagination -->
-		<typeAlias type="com.codingjoa.pagination.Criteria" alias="boardCri"/>
+		<typeAlias type="com.codingjoa.pagination.BoardCriteria" alias="boardCri"/>
 		<typeAlias type="com.codingjoa.pagination.CommentCriteria" alias="commentCri"/>
 
 		<!-- test -->

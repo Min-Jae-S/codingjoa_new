@@ -15,7 +15,7 @@ import com.codingjoa.dto.BoardDto;
 import com.codingjoa.entity.Board;
 import com.codingjoa.exception.ExpectedException;
 import com.codingjoa.mapper.BoardMapper;
-import com.codingjoa.pagination.Criteria;
+import com.codingjoa.pagination.BoardCriteria;
 import com.codingjoa.pagination.Pagination;
 import com.codingjoa.service.BoardService;
 import com.codingjoa.service.ImageService;
@@ -103,17 +103,21 @@ public class BoardServiceImpl implements BoardService {
 //	}
 	
 	@Override
-	public List<BoardDetailsDto> getPagedBoard(int boardCategoryCode, Criteria boardCri, Integer memberIdx) {
+	public List<BoardDetailsDto> getPagedBoard(int boardCategoryCode, BoardCriteria boardCri, Integer memberIdx) {
 		return boardMapper.findPagedBoard(boardCategoryCode, boardCri, memberIdx)
 				.stream()
-				.map(boardDetailsMap -> BoardDetailsDto.from(boardDetailsMap))
+				.map(boardDetailsMap -> {
+					BoardDetailsDto boardDetails = BoardDetailsDto.from(boardDetailsMap);
+					log.info("\t\t - {}", boardDetails.getInfo());
+					return boardDetails;
+				})
 				.collect(Collectors.toList());
 	}
 
 	@Override
-	public Pagination getPagination(int boardCategoryCode, Criteria boardCri) {
+	public Pagination getPagination(int boardCategoryCode, BoardCriteria boardCri) {
 		int totalCnt = boardMapper.findPagedBoardTotalCnt(boardCategoryCode, boardCri);
-		return (totalCnt != 0) ? new Pagination(totalCnt, boardCri.getPage(), boardCri.getRecordCnt(), pageRange) : null;
+		return (totalCnt > 0) ? new Pagination(totalCnt, boardCri.getPage(), boardCri.getRecordCnt(), pageRange) : null;
 	}
 	
 	private Board getBoardByIdx(int boardIdx) {

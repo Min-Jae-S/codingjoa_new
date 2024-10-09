@@ -2,6 +2,7 @@ package com.codingjoa.controller;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,7 +23,7 @@ import com.codingjoa.dto.BoardDetailsDto;
 import com.codingjoa.dto.BoardDto;
 import com.codingjoa.entity.Board;
 import com.codingjoa.entity.Category;
-import com.codingjoa.pagination.Criteria;
+import com.codingjoa.pagination.BoardCriteria;
 import com.codingjoa.pagination.Pagination;
 import com.codingjoa.security.dto.PrincipalDetails;
 import com.codingjoa.service.BoardService;
@@ -57,7 +58,7 @@ public class BoardController {
 		
 		List<List<BoardDetailsDto>> boardList = boardCategoryList
 				.stream()
-				.map(category -> boardService.getPagedBoard(category.getCategoryCode(), new Criteria(1, 5), memberIdx))
+				.map(category -> boardService.getPagedBoard(category.getCategoryCode(), new BoardCriteria(1, 5), memberIdx))
 				.collect(Collectors.toList());
 		model.addAttribute("boardCategoryList", boardCategoryList);
 		model.addAttribute("boardList", boardList);
@@ -66,20 +67,16 @@ public class BoardController {
 	}
 	
 	@GetMapping("/")
-	public String getPagedBoard(@BoardCategoryCode @RequestParam int boardCategoryCode, @BoardCri Criteria boardCri,
+	public String getPagedBoard(@BoardCategoryCode @RequestParam int boardCategoryCode, @BoardCri BoardCriteria boardCri,
 			@AuthenticationPrincipal PrincipalDetails principal, Model model) {
 		log.info("## getPagedBoard, boardCategoryCode = {}", boardCategoryCode);
 		log.info("\t > boardCri = {}", boardCri);
-		log.info("\t > keywordRegexp = {}", boardCri.getKeywordRegexp());
 	
 		Integer memberIdx = (principal == null) ? null : principal.getIdx();
 		log.info("\t > memberIdx = {}", memberIdx);
 		
 		List<BoardDetailsDto> pagedBoard = boardService.getPagedBoard(boardCategoryCode, boardCri, memberIdx);
-		pagedBoard.forEach(boardDetails -> {
-			log.info("\t\t - boardIdx = {}, isBoardLiked = {}, isBoardWriter = {}", 
-					boardDetails.getBoardIdx(), boardDetails.isBoardLiked(), boardDetails.isBoardWriter());
-		});
+		log.info("\t > pagedBoard = {}", pagedBoard);
 		
 		Pagination pagination = boardService.getPagination(boardCategoryCode, boardCri);
 		log.info("\t > board pagination = {}", pagination);
@@ -93,7 +90,7 @@ public class BoardController {
 	}
 	
 	@GetMapping("/read")
-	public String read(@RequestParam int boardIdx, @BoardCri Criteria boardCri,
+	public String read(@RequestParam int boardIdx, @BoardCri BoardCriteria boardCri,
 			@AuthenticationPrincipal PrincipalDetails principal, Model model) {
 		log.info("## read, boardIdx = {}", boardIdx);
 		log.info("\t > boardCri = {}", boardCri);
