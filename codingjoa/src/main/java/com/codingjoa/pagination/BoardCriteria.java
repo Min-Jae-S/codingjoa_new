@@ -13,7 +13,9 @@ public class BoardCriteria {
 	private String type;
 	private String keyword;
 	
-	public BoardCriteria() { }
+	public BoardCriteria() {
+		
+	}
 	
 	public BoardCriteria(int page, int recordCnt) {
 		this.page = page;
@@ -52,7 +54,7 @@ public class BoardCriteria {
 
 	@Override
 	public String toString() {
-		return "Criteria [page=" + page + ", recordCnt=" + recordCnt + ", type=" + type + ", keyword=" + keyword
+		return "BoardCriteria [page=" + page + ", recordCnt=" + recordCnt + ", type=" + type + ", keyword=" + keyword
 				+ ", getKeywordRegexp()=" + getKeywordRegexp() + "]";
 	}
 

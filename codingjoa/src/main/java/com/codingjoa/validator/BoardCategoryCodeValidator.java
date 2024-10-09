@@ -24,4 +24,5 @@ public class BoardCategoryCodeValidator implements ConstraintValidator<BoardCate
 		// value can't be null? ==> @BoardCategoryCode @RequestParam int boardCategoryCode
 		return (value == null) ? false : categoryService.isBoardCategoryCode(value);
 	}
+	
 }

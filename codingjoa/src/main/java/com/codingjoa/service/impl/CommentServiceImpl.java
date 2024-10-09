@@ -65,6 +65,7 @@ public class CommentServiceImpl implements CommentService {
 			throw new ExpectedException("error.NotFoundBoard");
 		}
 		
+		log.info("\t > find pagedComment");
 		List<CommentDetailsDto> pagedComment = commentMapper.findPagedComment(board.getBoardIdx(), commentCri, memberIdx)
 				.stream()
 				.map(commentDetailsMap -> {

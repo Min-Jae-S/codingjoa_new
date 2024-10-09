@@ -120,15 +120,6 @@
 			board_idx = #{boardIdx}
 	</update>
 	
-	<!-- <select id="findMemberIdxByKeyword" parameterType="string" resultType="int">
-		SELECT
-			member_idx
-		FROM
-			member
-		WHERE
-			member_id LIKE '%' || #{keyword} || '%'
-	</select> -->
-	
 	<!-- <sql id="searchCriteria">
 		<if test='boardCri.type != null and boardCri.keyword != null and boardCri.keyword != ""'>
 			<trim prefix="(" suffix=") AND " suffixOverrides="OR">
@@ -154,8 +145,8 @@
 
 	<sql id="searchCriteria">
 		<!-- for cases where criteria are resolved without using the BoardCriteriaArgumentResolver -->
-		<!-- 1) boardCri.type = null ==> new Criteria(1,5) -->
-		<!-- 2) boardCri.boardCri.keywordRegexp = null ==> boardCri.keyword = null and boardCri.keyword = '' -->
+		<!-- 1) boardCri.type = null ==> new BoardCriteria(1,5) -->
+		<!-- 2) boardCri.boardCri.keywordRegexp = null ==> boardCri.keyword = null or boardCri.keyword = '' -->
 		<if test='boardCri.type != null and boardCri.keywordRegexp != null'>
 			<trim prefix="(" suffix=") AND " suffixOverrides="OR">
 				<foreach collection='boardCri.type.split("_")' item="item">
@@ -177,7 +168,7 @@
 
 	<select id="findPagedBoard" parameterType="map" resultMap="boardDetailsMap">
 		SELECT
-			/*+ ORDERED USE_NL(b) USE_NL(c) USE_NL(d) */
+			/*+ ORDERED USE_NL(b) USE_NL(c) */
 			a.board_idx,
 			a.board_title,
 			a.board_views,
@@ -346,17 +337,6 @@
 			board.board_category_code = #{boardCategoryCode}
 	</select>
 
-	<select id="isBoardIdxExist" parameterType="map" resultType="boolean">
-		SELECT
-			COUNT(*)
-		FROM
-			board
-		WHERE
-			board_idx = #{boardIdx} 
-		AND 
-			board_category_code = #{boardCategoryCode}
-	</select>
-	
 	<select id="findBoardByIdx" parameterType="int" resultType="board">
 		SELECT
 			*

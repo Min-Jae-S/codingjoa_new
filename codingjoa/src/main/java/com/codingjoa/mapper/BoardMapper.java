@@ -18,8 +18,6 @@ public interface BoardMapper {
 	
 	void updateBoardViews(int boardIdx);
 	
-	//List<Integer> findMemberIdxByKeyword(String keyword);
-	
 	List<Map<String, Object>> findPagedBoard(@Param("boardCategoryCode") int boardCategoryCode,
 			@Param("boardCri") BoardCriteria boardCri, @Param("memberIdx") Integer memberIdx);
 

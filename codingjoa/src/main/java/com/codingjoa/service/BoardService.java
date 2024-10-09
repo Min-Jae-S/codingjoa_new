@@ -10,7 +10,7 @@ import com.codingjoa.pagination.Pagination;
 
 public interface BoardService {
 	
-	Integer saveBoard(BoardDto boardDto);
+	Board saveBoard(BoardDto boardDto);
 	
 	BoardDetailsDto getBoardDetails(int boardIdx, Integer memberIdx);
 	

@@ -76,7 +76,6 @@ public class BoardController {
 		log.info("\t > memberIdx = {}", memberIdx);
 		
 		List<BoardDetailsDto> pagedBoard = boardService.getPagedBoard(boardCategoryCode, boardCri, memberIdx);
-		log.info("\t > pagedBoard = {}", pagedBoard);
 		
 		Pagination pagination = boardService.getPagination(boardCategoryCode, boardCri);
 		log.info("\t > board pagination = {}", pagination);
@@ -140,9 +139,9 @@ public class BoardController {
 		}
 		
 		writeBoardDto.setBoardWriterIdx(principal.getIdx());
-		Integer boardIdx = boardService.saveBoard(writeBoardDto); // insertBoard & activateImage
+		Board savedBoard = boardService.saveBoard(writeBoardDto); // insertBoard & activateImage
 		
-		return "redirect:/board/read?boardIdx=" + boardIdx;
+		return "redirect:/board/read?boardIdx=" + savedBoard.getBoardIdx();
 	}
 	
 	@GetMapping("/modify")

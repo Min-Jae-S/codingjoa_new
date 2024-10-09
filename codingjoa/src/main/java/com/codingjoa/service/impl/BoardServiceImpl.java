@@ -40,7 +40,7 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public Integer saveBoard(BoardDto boardDto) {
+	public Board saveBoard(BoardDto boardDto) {
 		log.info("\t > produce boardContentText by parsing boardContent for search");
 		String boardContentText = Jsoup.parse(boardDto.getBoardContent()).text();
 		boardDto.setBoardContentText(boardContentText);
@@ -53,10 +53,9 @@ public class BoardServiceImpl implements BoardService {
 			throw new ExpectedException("error.SaveBoard");
 		}
 		
-		Integer boardIdx = board.getBoardIdx();
-		imageService.activateBoardImages(boardDto.getBoardImages(), boardIdx);
+		imageService.activateBoardImages(boardDto.getBoardImages(), board.getBoardIdx());
 		
-		return boardIdx;
+		return board;
 	}
 
 	@Override
@@ -77,33 +76,9 @@ public class BoardServiceImpl implements BoardService {
 		boardMapper.updateBoardViews(boardIdx);
 	}
 	
-//	@Override
-//	public Criteria createNewBoardCri(Criteria boardCri) {
-//		log.info("\t > create newBoardCri");
-//		Criteria newBoardCri = new Criteria(boardCri);
-//		if (!"writer".equals(boardCri.getType())) {
-//			return newBoardCri;
-//		}
-//		
-//		String keyword = boardCri.getKeyword();
-//		if ("".equals(keyword)) {
-//			return newBoardCri;
-//		}
-//		
-//		log.info("\t > produce newKeyword by finding memberIdx");
-//		String newKeyword = boardMapper.findMemberIdxByKeyword(keyword)
-//				.stream()
-//				.map(memberIdx -> memberIdx.toString())
-//				.collect(Collectors.joining("_"));
-//
-//		if (!"".equals(keyword)) {
-//			newBoardCri.setKeyword(newKeyword);
-//		}
-//		return newBoardCri;
-//	}
-	
 	@Override
 	public List<BoardDetailsDto> getPagedBoard(int boardCategoryCode, BoardCriteria boardCri, Integer memberIdx) {
+		log.info("\t > find pagedBoard");
 		return boardMapper.findPagedBoard(boardCategoryCode, boardCri, memberIdx)
 				.stream()
 				.map(boardDetailsMap -> {

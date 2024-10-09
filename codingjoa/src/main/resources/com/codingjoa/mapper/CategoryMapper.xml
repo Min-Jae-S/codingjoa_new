@@ -85,20 +85,5 @@
 		AND 
 			category_parent_code = 1
 	</select>
-	<!-- <select id="isBoardCategoryCode" parameterType="int" resultType="boolean">
-		SELECT
-			COUNT(*)
-		FROM
-			category
-		WHERE
-			category_code = #{categoryCode}
-			AND
-			category_parent_code = ( SELECT 
-										category_code 
-									 FROM 
-									 	category 
-									 WHERE 
-									 	category_path = '/board' AND category_parent_code IS NULL )
-	</select> -->
 	
 </mapper>
