@@ -95,7 +95,8 @@ public class BoardServiceImpl implements BoardService {
 		return (totalCnt > 0) ? new Pagination(totalCnt, boardCri.getPage(), boardCri.getRecordCnt(), pageRange) : null;
 	}
 	
-	private Board getBoardByIdx(int boardIdx) {
+	@Override
+	public BoardDto getModifyBoard(int boardIdx, int memberIdx) {
 		Board board = boardMapper.findBoardByIdx(boardIdx);
 		log.info("\t > find board = {}", board);
 
@@ -103,12 +104,6 @@ public class BoardServiceImpl implements BoardService {
 			throw new ExpectedException("error.NotFoundBoard");
 		}
 		
-		return board;
-	}
-	
-	@Override
-	public BoardDto getModifyBoard(int boardIdx, int memberIdx) {
-		Board board = getBoardByIdx(boardIdx);
 		if (board.getBoardWriterIdx() != memberIdx) {
 			throw new ExpectedException("error.NotMyBoard");
 		}
@@ -118,7 +113,13 @@ public class BoardServiceImpl implements BoardService {
 	
 	@Override
 	public Board updateBoard(BoardDto boardDto) {
-		Board board = getBoardByIdx(boardDto.getBoardIdx());
+		Board board = boardMapper.findBoardByIdx(boardDto.getBoardIdx());
+		log.info("\t > find board = {}", board);
+
+		if (board == null) {
+			throw new ExpectedException("error.NotFoundBoard");
+		}
+		
 		if (board.getBoardWriterIdx() != boardDto.getBoardWriterIdx()) {
 			throw new ExpectedException("error.NotMyBoard");
 		}
@@ -135,7 +136,7 @@ public class BoardServiceImpl implements BoardService {
 			throw new ExpectedException("error.UpdateBoard");
 		}
 		
-		imageService.replaceBoardImages(boardDto.getBoardImages(), modifiyBoard.getBoardIdx());
+		imageService.updateBoardImages(boardDto.getBoardImages(), modifiyBoard.getBoardIdx());
 		
 		return modifiyBoard;
 	}
@@ -147,7 +148,13 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public Board deleteBoard(int boardIdx, int memberIdx) {
-		Board board = getBoardByIdx(boardIdx);
+		Board board = boardMapper.findBoardByIdx(boardIdx);
+		log.info("\t > find board = {}", board);
+
+		if (board == null) {
+			throw new ExpectedException("error.NotFoundBoard");
+		}
+		
 		if (board.getBoardWriterIdx() != memberIdx) {
 			throw new ExpectedException("error.NotMyBoard");
 		}

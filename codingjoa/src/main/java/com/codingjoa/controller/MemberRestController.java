@@ -141,7 +141,7 @@ public class MemberRestController {
 	public ResponseEntity<Object> updateMemberImage(@ModelAttribute @Valid UploadFileDto uploadFileDto,
 			@AuthenticationPrincipal PrincipalDetails principal, HttpServletRequest request, HttpServletResponse response) {
 		log.info("## updateMemberImage");
-		imageService.replaceMemberImage(uploadFileDto.getFile(), principal.getIdx());
+		imageService.updateMemberImage(uploadFileDto.getFile(), principal.getIdx());
 		
 		PrincipalDetails newPrincipal = memberService.getUserDetailsByIdx(principal.getIdx());
 		addJwtCookie(newPrincipal, request, response);

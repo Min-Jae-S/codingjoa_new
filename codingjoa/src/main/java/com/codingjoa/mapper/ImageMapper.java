@@ -19,8 +19,6 @@ public interface ImageMapper {
 	
 	void deactivateBoardImages(int boardIdx);
 	
-	List<BoardImage> findBoardImagesByBoardIdx(int boardIdx);
-	
 	void deactivateMemberImage(int memberIdx);
 
 	boolean insertMemberImage(MemberImage memberImage);

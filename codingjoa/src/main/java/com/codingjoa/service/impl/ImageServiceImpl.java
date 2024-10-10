@@ -1,10 +1,8 @@
 package com.codingjoa.service.impl;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -41,16 +39,16 @@ public class ImageServiceImpl implements ImageService {
 	}
 
 	@Override
-	public BoardImageDto saveBoardImage(MultipartFile file) throws IllegalStateException, IOException {
-		File uploadFolder = new File(boardImageDir);
-		if (!uploadFolder.exists()) {
-			if (!uploadFolder.mkdirs()) {
+	public BoardImageDto saveBoardImage(MultipartFile file) {
+		File folder = new File(boardImageDir);
+		if (!folder.exists()) {
+			if (!folder.mkdirs()) {
 				throw new ExpectedException("error.UploadBoardImage");
 			}
 		}
 		
-		String boardImageName = createFilename(file.getOriginalFilename());
-		File uploadFile = new File(uploadFolder, boardImageName);
+		String filename = createFilename(file.getOriginalFilename());
+		File uploadFile = new File(folder, filename);
 		try {
 			file.transferTo(uploadFile);
 		} catch (Exception e) {
@@ -59,19 +57,19 @@ public class ImageServiceImpl implements ImageService {
 		
 		String boardImageUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
 				.path("/board/images/{filename}")
-				.buildAndExpand(boardImageName)
+				.buildAndExpand(filename)
 				.toUriString();
 		
 		// absolutePath vs canonicalPath (https://dev-handbook.tistory.com/11)
 		BoardImage boardImage = BoardImage.builder()
-				.boardImageName(boardImageName)
+				.boardImageName(filename)
 				.boardImageUrl(boardImageUrl)
 				.build();
 		log.info("\t > create boardImage entity = {}", boardImage);
 		
 		boolean isSaved = imageMapper.insertBoardImage(boardImage);
 		if (!isSaved) {
-			throw new ExpectedException("error.UploadBoardImage");
+			throw new ExpectedException("error.SaveBoardImage");
 		}
 		
 		return BoardImageDto.from(boardImage);
@@ -84,48 +82,38 @@ public class ImageServiceImpl implements ImageService {
 
 	@Override
 	public void activateBoardImages(List<Integer> boardImages, Integer boardIdx) {
-		log.info("\t > target boardImages = {}", boardImages);
+		log.info("\t > activate boardImages = {}", boardImages);
 		if (boardImages.isEmpty()) {
 			return;
 		}
 		
-		log.info("\t > activate boardImages");
 		imageMapper.activateBoardImages(boardImages, boardIdx);
 	}
 	
 	@Override
-	public void replaceBoardImages(List<Integer> boardImages, Integer boardIdx) {
-		List<Integer> oldBoardImages = imageMapper.findBoardImagesByBoardIdx(boardIdx)
-				.stream()
-				.map(BoardImage -> BoardImage.getBoardImageIdx())
-				.collect(Collectors.toList());
-		log.info("\t > target oldBoardImages = {}", oldBoardImages);
+	public void updateBoardImages(List<Integer> boardImages, Integer boardIdx) {
+		log.info("\t > deactivate oldBoardImages");
+		imageMapper.deactivateBoardImages(boardIdx);
 		
-		if (!oldBoardImages.isEmpty()) {
-			log.info("\t > deactivate oldBoardImages");
-			imageMapper.deactivateBoardImages(boardIdx);
-		}
-		
-		log.info("\t > target boardImages = {}", boardImages);
+		log.info("\t > activate boardImages = {}", boardImages);
 		if (boardImages.isEmpty()) {
 			return;
 		}
 		
-		log.info("\t > activate boardImages");
 		imageMapper.activateBoardImages(boardImages, boardIdx);
 	}
 	
 	@Override
-	public void replaceMemberImage(MultipartFile file, Integer memberIdx) {
-		File uploadFolder = new File(memberImageDir);
-		if (!uploadFolder.exists()) {
-			if (!uploadFolder.mkdirs()) {
+	public void updateMemberImage(MultipartFile file, Integer memberIdx) {
+		File folder = new File(memberImageDir);
+		if (!folder.exists()) {
+			if (!folder.mkdirs()) {
 				throw new ExpectedException("error.UploadMemberImage");
 			}
 		}
 		
-		String memberImageName = createFilename(file.getOriginalFilename());
-		File uploadFile = new File(uploadFolder, memberImageName);
+		String filename = createFilename(file.getOriginalFilename());
+		File uploadFile = new File(folder, filename);
 		try {
 			file.transferTo(uploadFile);
 		} catch (Exception e) {
@@ -137,12 +125,12 @@ public class ImageServiceImpl implements ImageService {
 		
 		String memberImageUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
 				.path("/member/images/{filename}")
-				.buildAndExpand(memberImageName)
+				.buildAndExpand(filename)
 				.toUriString();
 		
 		MemberImage memberImage = MemberImage.builder()
 				.memberIdx(memberIdx)
-				.memberImageName(memberImageName)
+				.memberImageName(filename)
 				.memberImageUrl(memberImageUrl)
 				.build();
 		log.info("\t > create memberImage entity = {}", memberImage);

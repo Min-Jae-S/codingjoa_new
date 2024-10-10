@@ -145,8 +145,8 @@
 
 	<sql id="searchCriteria">
 		<!-- for cases where criteria are resolved without using the BoardCriteriaArgumentResolver -->
-		<!-- 1) boardCri.type = null ==> new BoardCriteria(1,5) -->
-		<!-- 2) boardCri.boardCri.keywordRegexp = null ==> boardCri.keyword = null or boardCri.keyword = '' -->
+		<!-- 1) new BoardCriteria(1,5) ==> boardCri.type = null
+		<!-- 2) boardCri.keyword = null or boardCri.keyword = '' ==> boardCri.boardCri.keywordRegexp = null -->
 		<if test='boardCri.type != null and boardCri.keywordRegexp != null'>
 			<trim prefix="(" suffix=") AND " suffixOverrides="OR">
 				<foreach collection='boardCri.type.split("_")' item="item">
