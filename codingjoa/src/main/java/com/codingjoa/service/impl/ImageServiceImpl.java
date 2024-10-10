@@ -66,6 +66,7 @@ public class ImageServiceImpl implements ImageService {
 				.boardImageUrl(boardImageUrl)
 				.build();
 		log.info("\t > create boardImage entity = {}", boardImage);
+		log.info("\t > save boardImage");
 		
 		boolean isSaved = imageMapper.insertBoardImage(boardImage);
 		if (!isSaved) {
@@ -92,10 +93,10 @@ public class ImageServiceImpl implements ImageService {
 	
 	@Override
 	public void updateBoardImages(List<Integer> boardImages, Integer boardIdx) {
-		log.info("\t > deactivate oldBoardImages");
+		log.info("\t > deactivate old boardImages");
 		imageMapper.deactivateBoardImages(boardIdx);
 		
-		log.info("\t > activate boardImages = {}", boardImages);
+		log.info("\t > activate new boardImages = {}", boardImages);
 		if (boardImages.isEmpty()) {
 			return;
 		}
@@ -120,7 +121,7 @@ public class ImageServiceImpl implements ImageService {
 			throw new ExpectedException("error.UploadMemberImage");
 		}
 		
-		log.info("\t > deactivate oldMemberImage");
+		log.info("\t > deactivate old memberImage");
 		imageMapper.deactivateMemberImage(memberIdx);
 		
 		String memberImageUrl = ServletUriComponentsBuilder.fromCurrentContextPath()

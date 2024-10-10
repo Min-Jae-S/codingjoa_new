@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.codingjoa.annotation.BoardCategoryCode;
 import com.codingjoa.entity.Board;
-import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Builder;
 import lombok.Data;
@@ -25,7 +24,9 @@ public class BoardDto {
 	private int boardCategoryCode;
 	
 	// cannot deserialize instance of `java.util.ArrayList<java.lang.Integer>` out of VALUE_STRING token;
-	@JsonFormat(with = JsonFormat.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
+	// It is used when the data is expected to come primarily in the form of lists or arrays, 
+	// but sometimes a single value may be received in the form of an array, and should be handled the same way
+	//@JsonFormat(with = JsonFormat.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
 	private List<Integer> boardImages = new ArrayList<>();
 	
 	@Builder
