@@ -135,7 +135,7 @@ public class BoardServiceImpl implements BoardService {
 			throw new ExpectedException("error.UpdateBoard");
 		}
 		
-		imageService.modifyBoardImages(boardDto.getBoardImages(), modifiyBoard.getBoardIdx());
+		imageService.replaceBoardImages(boardDto.getBoardImages(), modifiyBoard.getBoardIdx());
 		
 		return modifiyBoard;
 	}

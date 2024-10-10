@@ -9,14 +9,14 @@ import com.codingjoa.dto.BoardImageDto;
 
 public interface ImageService {
 	
-	BoardImageDto uploadBoardImage(MultipartFile file) throws IllegalStateException, IOException;
+	BoardImageDto saveBoardImage(MultipartFile file) throws IllegalStateException, IOException;
 	
 	boolean isBoardImageUploaded(int boardImageIdx);
 	
 	void activateBoardImages(List<Integer> boardImages, Integer boardIdx);
 	
-	void modifyBoardImages(List<Integer> boardImages, Integer boardIdx);
+	void replaceBoardImages(List<Integer> boardImages, Integer boardIdx); // deactivate + activate
 	
-	void uploadMemberImage(MultipartFile file, Integer memberIdx);
+	void replaceMemberImage(MultipartFile file, Integer memberIdx);
 	
 }

@@ -41,7 +41,7 @@ public class ImageServiceImpl implements ImageService {
 	}
 
 	@Override
-	public BoardImageDto uploadBoardImage(MultipartFile file) throws IllegalStateException, IOException {
+	public BoardImageDto saveBoardImage(MultipartFile file) throws IllegalStateException, IOException {
 		File uploadFolder = new File(boardImageDir);
 		if (!uploadFolder.exists()) {
 			if (!uploadFolder.mkdirs()) {
@@ -84,7 +84,6 @@ public class ImageServiceImpl implements ImageService {
 
 	@Override
 	public void activateBoardImages(List<Integer> boardImages, Integer boardIdx) {
-		log.info("## activateBoardImages");
 		log.info("\t > target boardImages = {}", boardImages);
 		if (boardImages.isEmpty()) {
 			return;
@@ -95,8 +94,7 @@ public class ImageServiceImpl implements ImageService {
 	}
 	
 	@Override
-	public void modifyBoardImages(List<Integer> boardImages, Integer boardIdx) {
-		log.info("## modifyBoardImages");
+	public void replaceBoardImages(List<Integer> boardImages, Integer boardIdx) {
 		List<Integer> oldBoardImages = imageMapper.findBoardImagesByBoardIdx(boardIdx)
 				.stream()
 				.map(BoardImage -> BoardImage.getBoardImageIdx())
@@ -118,7 +116,7 @@ public class ImageServiceImpl implements ImageService {
 	}
 	
 	@Override
-	public void uploadMemberImage(MultipartFile file, Integer memberIdx) {
+	public void replaceMemberImage(MultipartFile file, Integer memberIdx) {
 		File uploadFolder = new File(memberImageDir);
 		if (!uploadFolder.exists()) {
 			if (!uploadFolder.mkdirs()) {
@@ -134,8 +132,8 @@ public class ImageServiceImpl implements ImageService {
 			throw new ExpectedException("error.UploadMemberImage");
 		}
 		
-		//imageMapper.deactivateMemberImage(memberIdx);
-		//log.info("\t > deactivate oldMemberImage");
+		log.info("\t > deactivate oldMemberImage");
+		imageMapper.deactivateMemberImage(memberIdx);
 		
 		String memberImageUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
 				.path("/member/images/{filename}")

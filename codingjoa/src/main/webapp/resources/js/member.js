@@ -83,7 +83,7 @@ let memberService = (function() {
 		console.log("> URL = '%s'", url);
 		
 		$.ajax({
-			type : "POST",
+			type : "PUT",
 			url : url,
 			processData: false,
 		    contentType: false,
