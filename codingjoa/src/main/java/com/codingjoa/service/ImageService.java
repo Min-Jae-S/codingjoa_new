@@ -5,11 +5,11 @@ import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import com.codingjoa.entity.BoardImage;
+import com.codingjoa.dto.BoardImageDto;
 
 public interface ImageService {
 	
-	BoardImage uploadBoardImage(MultipartFile file) throws IllegalStateException, IOException;
+	BoardImageDto uploadBoardImage(MultipartFile file) throws IllegalStateException, IOException;
 	
 	boolean isBoardImageUploaded(int boardImageIdx);
 	
@@ -17,6 +17,6 @@ public interface ImageService {
 	
 	void modifyBoardImages(List<Integer> boardImages, Integer boardIdx);
 	
-	void handleMemberImage(MultipartFile file, Integer memberIdx);
+	void uploadMemberImage(MultipartFile file, Integer memberIdx);
 	
 }

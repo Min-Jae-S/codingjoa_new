@@ -11,7 +11,7 @@ import com.codingjoa.entity.MemberImage;
 @Mapper
 public interface ImageMapper {
 
-	void insertBoardImage(BoardImage boardImage);
+	boolean insertBoardImage(BoardImage boardImage);
 	
 	boolean isBoardImageUploaded(int boardImageIdx);
 	
