@@ -53,9 +53,11 @@ public class BoardController {
 	@GetMapping
 	public String getBoards(@AuthenticationPrincipal PrincipalDetails principal, Model model) {
 		log.info("## getBoards");
-		List<Category> boardCategoryList = categoryService.getBoardCategoryList();
-		Integer memberIdx = (principal == null) ? null : principal.getIdx();
 		
+		Integer memberIdx = (principal == null) ? null : principal.getIdx();
+		log.info("\t > memberIdx = {}", memberIdx);
+		
+		List<Category> boardCategoryList = categoryService.getBoardCategoryList();
 		List<List<BoardDetailsDto>> boardList = boardCategoryList
 				.stream()
 				.map(category -> boardService.getPagedBoard(category.getCategoryCode(), new BoardCriteria(1, 5), memberIdx))
@@ -128,8 +130,12 @@ public class BoardController {
 		log.info("\t > writeBoardDto = {}", writeBoardDto);
 		
 		if (bindingResult.hasErrors()) {
-			log.info("\t > bindingResult hasErrors");
-			// if (bindingResult.hasFieldErrors("boardCategoryCode") || bindingResult.hasFieldErrors("boardIdx")) {
+			List<String> errorFields = bindingResult.getFieldErrors()
+					.stream()
+					.map(fieldError -> fieldError.getField())
+					.collect(Collectors.toList());
+			log.info("\t > bindingResult hasErrors = {}", errorFields);
+			
 			if (bindingResult.hasFieldErrors("boardCategoryCode")) {
 				throw new BindException(bindingResult);
 			}
@@ -161,7 +167,12 @@ public class BoardController {
 		log.info("\t > modifyBoardDto = {}", modifyBoardDto);
 
 		if (bindingResult.hasErrors()) {
-			log.info("\t > bindingResult hasErrors");
+			List<String> errorFields = bindingResult.getFieldErrors()
+					.stream()
+					.map(fieldError -> fieldError.getField())
+					.collect(Collectors.toList());
+			log.info("\t > bindingResult hasErrors = {}", errorFields);
+			
 			if (bindingResult.hasFieldErrors("boardCategoryCode") || bindingResult.hasFieldErrors("boardIdx")) {
 				throw new BindException(bindingResult);
 			}
