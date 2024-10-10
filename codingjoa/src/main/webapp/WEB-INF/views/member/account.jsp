@@ -3,7 +3,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
-<sec:authentication property="principal" var="principal"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -337,7 +336,7 @@
 	const defaultMemberImageUrl = "${contextPath}/resources/images/img_profile.png";
 
 	memberService.getMemberInfo(function(result) {
-		const memberInfo = result.data;
+		let memberInfo = result.data;
 		if (memberInfo.memberImageUrl != "") {
 			$("#memberThumbImage").attr("src", memberInfo.memberImageUrl);
 		} else {
@@ -350,9 +349,9 @@
 		$("#memberEmail").attr("value", memberInfo.memberEmail);
 		$("#showEmail span").text(memberInfo.memberEmail);
 		
-		const memberZipcode = memberInfo.memberZipcode;
-		const memberAddr = memberInfo.memberAddr;
-		const memberAddrDetail = memberInfo.memberAddrDetail;
+		let memberZipcode = memberInfo.memberZipcode;
+		let memberAddr = memberInfo.memberAddr;
+		let memberAddrDetail = memberInfo.memberAddrDetail;
 		
 		if (memberZipcode != "") {
 			$("#memberZipcode").attr("value", memberZipcode);
@@ -369,7 +368,7 @@
 			$("#showAddrDetail span").text(memberAddrDetail);
 		}
 		
-		const allAddrsFilled = memberZipcode && memberAddr && memberAddrDetail;
+		let allAddrsFilled = memberZipcode && memberAddr && memberAddrDetail;
 		if (allAddrsFilled) {
 			$("#showZipcode button").html("수정");
 			$("#showAddr, #showAddrDetail").removeClass("d-none");
@@ -397,7 +396,7 @@
 		// since #memberImage(file) is a child element of #updateMemberImageBtn, event propagation occurs
 		$("#memberImage").on("click", function(e) {
 			e.stopPropagation();
-		})
+		});
 		
 		$("#memberImage").on("change", function() {
 			// jQuery object --> javaScript DOM object 
@@ -439,7 +438,7 @@
 				memberEmail : $("#memberEmail").val(),
 			};
 			
-			memberService.sendAuthCodeForUpdate(obj, function(result) {
+			memberService.sendAuthCodeForEmailUpdate(obj, function(result) {
 				$("#authCode").closest("dd").after("<dd class='success'>" + result.message + "</dd>");
 				$("#authCode").val("");
 				$("#authCode").focus();

@@ -16,9 +16,8 @@ class UploadAdapter {
     }
 
     _initRequest() {
-     	// Note that your request may look different. It is up to you and your editor
-        // integration to choose the right communication channel. This example uses
-        // a POST request with JSON as a data structure but your configuration could be different.
+     	// Note that your request may look different. It is up to you and your editor integration to choose the right communication channel. 
+    	// This example uses a POST request with JSON as a data structure but your configuration could be different.
         const xhr = this.xhr = new XMLHttpRequest();
         xhr.open('POST', contextPath + "/api/board/image", true);
         xhr.responseType = 'json';

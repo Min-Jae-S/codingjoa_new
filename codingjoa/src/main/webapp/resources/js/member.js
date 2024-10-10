@@ -46,9 +46,9 @@ let memberService = (function() {
 		});
 	}
 	
-	function sendAuthCodeForUpdate(obj, callback) {
-		console.log("## sendAuthCodeForUpdate");
-		let url = contextPath + "/api/member/update-email/auth";
+	function sendAuthCodeForEmailUpdate(obj, callback) {
+		console.log("## sendAuthCodeForEmailUpdate");
+		let url = contextPath + "/api/member/account/email/auth";
 		console.log("> URL = '%s'", url);
 		console.log("> sendData = %s", JSON.stringify(obj, null, 2));
 		
