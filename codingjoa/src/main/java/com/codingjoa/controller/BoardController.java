@@ -182,7 +182,7 @@ public class BoardController {
 		}
 		
 		modifyBoardDto.setBoardWriterIdx(principal.getIdx());
-		Board modifiedBoard = boardService.updateBoard(modifyBoardDto); // updateBoard & deactivateImage & activateImage
+		Board modifiedBoard = boardService.modifyBoard(modifyBoardDto); // updateBoard, deactivateBoardImage, activateImage
 		
 		return "redirect:/board/read?boardIdx=" + modifiedBoard.getBoardIdx();
 	}

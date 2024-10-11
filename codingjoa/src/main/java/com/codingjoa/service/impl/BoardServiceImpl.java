@@ -112,7 +112,7 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
-	public Board updateBoard(BoardDto boardDto) {
+	public Board modifyBoard(BoardDto boardDto) {
 		Board board = boardMapper.findBoardByIdx(boardDto.getBoardIdx());
 		log.info("\t > find board = {}", board);
 

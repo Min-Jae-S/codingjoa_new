@@ -135,10 +135,11 @@ public class ImageServiceImpl implements ImageService {
 				.memberImageUrl(memberImageUrl)
 				.build();
 		log.info("\t > create memberImage entity = {}", memberImage);
+		log.info("\t > save memberImage");
 		
 		boolean isSaved = imageMapper.insertMemberImage(memberImage);
 		if (!isSaved) { 
-			throw new ExpectedException("error.UpdateMemberImage");
+			throw new ExpectedException("error.SaveMemberImage");
 		}
 	}
 	

@@ -22,7 +22,7 @@ public interface BoardService {
 	
 	BoardDto getModifyBoard(int boardIdx, int memberIdx);
 	
-	Board updateBoard(BoardDto boardDto);
+	Board modifyBoard(BoardDto boardDto);
 	
 	int getBoardCategoryCode(int boardIdx);
 	
