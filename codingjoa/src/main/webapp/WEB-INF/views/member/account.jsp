@@ -111,7 +111,7 @@
 		border-radius: 0.5rem;
 	}	
 	
-	.wrap-member-image {
+	.member-image-wrap {
 		position: relative;
 	}
 	
@@ -164,7 +164,7 @@
 		<div class="profile-wrap">
 			<h5 class="mb-3 font-weight-bold">계정 정보</h5>
 			<div class="mb-5 d-flex">
-				<div class="wrap-member-image mr-4">
+				<div class="member-image-wrap mr-4">
 					<img class="member-thumb-image" id="memberThumbImage">
 					<button type="button" class="member-image-btn" id="updateMemberImageBtn">
 						<span class="member-image-icon"></span>

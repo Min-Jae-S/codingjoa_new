@@ -444,7 +444,7 @@ let memberService = (function() {
 
 	return {
 		sendAuthCodeForJoin:sendAuthCodeForJoin,
-		sendAuthCodeForUpdate:sendAuthCodeForUpdate,
+		sendAuthCodeForEmailUpdate:sendAuthCodeForEmailUpdate,
 		updateMemberImage:updateMemberImage,
 		updateNickname:updateNickname,
 		updateEmail:updateEmail,

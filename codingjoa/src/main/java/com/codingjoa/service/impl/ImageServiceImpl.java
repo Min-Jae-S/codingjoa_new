@@ -73,6 +73,7 @@ public class ImageServiceImpl implements ImageService {
 			throw new ExpectedException("error.SaveBoardImage");
 		}
 		
+		log.info("\t > saved boardImage = {}", boardImage);
 		return BoardImageDto.from(boardImage);
 	}
 	
@@ -135,12 +136,13 @@ public class ImageServiceImpl implements ImageService {
 				.memberImageUrl(memberImageUrl)
 				.build();
 		log.info("\t > create memberImage entity = {}", memberImage);
-		log.info("\t > save memberImage");
 		
 		boolean isSaved = imageMapper.insertMemberImage(memberImage);
 		if (!isSaved) { 
 			throw new ExpectedException("error.SaveMemberImage");
 		}
+		
+		log.info("\t > saved memberImage = {}", memberImage);
 	}
 	
 	private static String createFilename(String originalFilename) {

@@ -146,6 +146,7 @@ public class BoardController {
 		
 		writeBoardDto.setBoardWriterIdx(principal.getIdx());
 		Board savedBoard = boardService.saveBoard(writeBoardDto); // insertBoard & activateImage
+		log.info("\t > saved board = {}", savedBoard);
 		
 		return "redirect:/board/read?boardIdx=" + savedBoard.getBoardIdx();
 	}
@@ -183,6 +184,7 @@ public class BoardController {
 		
 		modifyBoardDto.setBoardWriterIdx(principal.getIdx());
 		Board modifiedBoard = boardService.modifyBoard(modifyBoardDto); // updateBoard, deactivateBoardImage, activateImage
+		log.info("\t > modified board = {}", modifiedBoard);
 		
 		return "redirect:/board/read?boardIdx=" + modifiedBoard.getBoardIdx();
 	}
@@ -194,6 +196,7 @@ public class BoardController {
 		// fk_board_image_board --> ON DELETE SET NULL
 		// fk_comment_board		--> ON DELETE CASCADE
 		Board deletedBoard = boardService.deleteBoard(boardIdx, principal.getIdx());
+		log.info("\t > deleted board = {}", deletedBoard);
 		
 		return "redirect:/board/?boardCategoryCode=" + deletedBoard.getBoardCategoryCode();
 	}
