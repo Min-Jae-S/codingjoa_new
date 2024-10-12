@@ -54,6 +54,8 @@ public class CommentServiceImpl implements CommentService {
 		if (!isSaved) {
 			throw new ExpectedException("error.SaveComment");
 		}
+		
+		log.info("\t > saved comment = {}", comment);
 	}
 	
 	@Override
@@ -84,20 +86,15 @@ public class CommentServiceImpl implements CommentService {
 		return (totalCnt > 0) ? new Pagination(totalCnt, commentCri.getPage(), commentCri.getRecordCnt(), pageRange) : null;
 	}
 
-	private Comment getCommentByIdx(int commentIdx) {
-		Comment comment = commentMapper.findCommentByIdx(commentIdx);
+	@Override
+	public void updateComment(CommentDto commentDto) {
+		Comment comment = commentMapper.findCommentByIdx(commentDto.getCommentIdx());
 		log.info("\t > find comment = {}", comment);
 		
 		if (comment == null) {
 			throw new ExpectedException("error.NotFoundComment");
 		}
 		
-		return comment;
-	}
-	
-	@Override
-	public void updateComment(CommentDto commentDto) {
-		Comment comment = getCommentByIdx(commentDto.getCommentIdx());
 		if (!comment.getCommentUse()) {
 			throw new ExpectedException("error.AlreadyDeletedComment");
 		}
@@ -117,7 +114,13 @@ public class CommentServiceImpl implements CommentService {
 	
 	@Override
 	public void deleteComment(int commentIdx, int memberIdx) {
-		Comment comment = getCommentByIdx(commentIdx);
+		Comment comment = commentMapper.findCommentByIdx(commentIdx);
+		log.info("\t > find comment = {}", comment);
+		
+		if (comment == null) {
+			throw new ExpectedException("error.NotFoundComment");
+		}
+		
 		if (!comment.getCommentUse()) {
 			throw new ExpectedException("error.AlreadyDeletedComment");
 		}

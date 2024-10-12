@@ -53,6 +53,7 @@ public class BoardServiceImpl implements BoardService {
 			throw new ExpectedException("error.SaveBoard");
 		}
 		
+		log.info("\t > saved board = {}", board);
 		imageService.activateBoardImages(boardDto.getBoardImages(), board.getBoardIdx());
 		
 		return board;
@@ -72,7 +73,7 @@ public class BoardServiceImpl implements BoardService {
 	
 	@Override
 	public void updateBoardViews(int boardIdx) {
-		log.info("\t > update boardViews");
+		log.info("\t > update board views");
 		boardMapper.updateBoardViews(boardIdx);
 	}
 	
