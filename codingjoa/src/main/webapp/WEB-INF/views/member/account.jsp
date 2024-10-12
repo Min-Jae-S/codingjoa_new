@@ -179,7 +179,9 @@
 						<div class="show-wrap">
 							<dd class="input-group" id="showNickname">
 								<div>
-									<span class="inner-text"></span>
+									<span class="inner-text">
+										<!-- nickname -->
+									</span>
 								</div>
 								<button type="button" class="btn btn-outline-primary btn-sm">수정</button>
 							</dd>
@@ -204,7 +206,9 @@
 					<div class="show-wrap">
 						<dd class="input-group" id="showEmail">
 							<div>
-								<span class="inner-text"></span>
+								<span class="inner-text">
+									<!-- email -->
+								</span>
 							</div>
 							<button type="button" class="btn btn-outline-primary btn-sm">수정</button>
 						</dd>
@@ -237,10 +241,14 @@
 							<button type="button" class="btn btn-outline-primary btn-sm">등록</button>
 						</dd>
 						<dd class="input-group d-none" id="showAddr">
-							<span class="inner-text"></span>
+							<span class="inner-text">
+								<!-- addr -->
+							</span>
 						</dd>
 						<dd class="input-group d-none" id="showAddrDetail">
-							<span class="inner-text"></span>
+							<span class="inner-text">
+								<!-- addrDetail -->
+							</span>
 						</dd>
 					</div>
 					<div class="form-wrap d-none">
