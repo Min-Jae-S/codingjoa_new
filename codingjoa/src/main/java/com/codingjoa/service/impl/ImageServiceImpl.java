@@ -60,8 +60,7 @@ public class ImageServiceImpl implements ImageService {
 				.buildAndExpand(filename)
 				.toUriString();
 		
-		// absolutePath vs canonicalPath (https://dev-handbook.tistory.com/11)
-		BoardImage boardImage = BoardImage.builder()
+		BoardImage boardImage = BoardImage.builder() // absolutePath vs canonicalPath (https://dev-handbook.tistory.com/11)
 				.boardImageName(filename)
 				.boardImageUrl(boardImageUrl)
 				.build();
