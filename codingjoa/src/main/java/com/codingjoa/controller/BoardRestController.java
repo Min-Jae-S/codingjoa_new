@@ -30,6 +30,7 @@ public class BoardRestController {
 	public ResponseEntity<Object> uploadBoardImage(@ModelAttribute @Valid UploadFileDto uploadFileDto)
 			throws IllegalStateException, IOException {
 		log.info("## uploadBoardImage");
+		
 		BoardImageDto boardImage = imageService.saveBoardImage(uploadFileDto.getFile());
 		return ResponseEntity.ok(SuccessResponse
 				.builder()
