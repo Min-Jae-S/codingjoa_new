@@ -49,11 +49,12 @@ public class BoardServiceImpl implements BoardService {
 		log.info("\t > convert boardDto to board entity = {}", board);
 		
 		boolean isBoardSaved = boardMapper.insertBoard(board);
+		log.info("\t > saved board = {}", board);
+
 		if (!isBoardSaved) {
 			throw new ExpectedException("error.SaveBoard");
 		}
 		
-		log.info("\t > saved board = {}", board);
 		imageService.activateBoardImages(boardDto.getBoardImages(), board.getBoardIdx());
 		
 		return board;

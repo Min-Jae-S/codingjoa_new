@@ -74,7 +74,9 @@ public class MemberServiceImpl implements MemberService {
 				.memberAgree(false)
 				.build();
 		log.info("\t > create member entity = {}", member);
+		
 		memberMapper.insertMember(member);
+		log.info("\t > saved member = {}", member);
 		
 		SnsInfo snsInfo = SnsInfo.builder()
 				.memberIdx(member.getMemberIdx())
@@ -82,14 +84,18 @@ public class MemberServiceImpl implements MemberService {
 				.snsProvider(oAuth2Attributes.getProvider())
 				.build();
 		log.info("\t > create snsInfo entity = {}", snsInfo);
+		
 		memberMapper.insertSnsInfo(snsInfo);
+		log.info("\t > saved snsInfo = {}", snsInfo);
 
 		Auth auth = Auth.builder()
 				.memberIdx(member.getMemberIdx())
 				.memberRole("ROLE_MEMBER")
 				.build();
 		log.info("\t > create auth entity = {}", auth);
+		
 		memberMapper.insertAuth(auth);
+		log.info("\t > saved auth = {}", auth);
 	}
 	
 	private String resolveNickname(String nickname) {
