@@ -51,11 +51,12 @@ public class CommentServiceImpl implements CommentService {
 		log.info("\t > convert commentDto to comment entity = {}", comment);
 		
 		boolean isSaved = commentMapper.insertComment(comment);
+		log.info("\t > saved comment = {}", comment);
+
 		if (!isSaved) {
 			throw new ExpectedException("error.SaveComment");
 		}
 		
-		log.info("\t > saved comment = {}", comment);
 	}
 	
 	@Override
@@ -68,7 +69,7 @@ public class CommentServiceImpl implements CommentService {
 		}
 		
 		log.info("\t > find pagedComment");
-		List<CommentDetailsDto> pagedComment = commentMapper.findPagedComment(board.getBoardIdx(), commentCri, memberIdx)
+		List<CommentDetailsDto> pagedComment = commentMapper.findPagedComment(boardIdx, commentCri, memberIdx)
 				.stream()
 				.map(commentDetailsMap -> {
 					CommentDetailsDto commentDetails = CommentDetailsDto.from(commentDetailsMap);

@@ -27,8 +27,6 @@ public class Pagination {
 	public Pagination(int totalCnt, int page, int recordCnt, int pageRange) {
 		this.totalCnt = totalCnt;
 		this.page = page;
-		prev = true;
-		next = true;
 		
 		// 556/10 = 55 --> 56
 		pageCnt = totalCnt / recordCnt;
@@ -43,6 +41,7 @@ public class Pagination {
 		// |  	21 - 30		|	  21	|	 30		|
 		
 		startPage = ((page - 1) / pageRange) * pageRange + 1;
+		
 		endPage = startPage + pageRange - 1;
 		if (endPage > pageCnt) {
 			endPage = pageCnt;
@@ -52,12 +51,16 @@ public class Pagination {
 		if (prevPage < 1) {
 			prevPage = startPage;
 			prev = false;
+		} else {
+			prev = true;
 		}
 		
 		nextPage = endPage + 1;
 		if (nextPage > pageCnt) {
 			nextPage = pageCnt;
 			next = false;
+		} else {
+			next = true;
 		}
 	}
 }

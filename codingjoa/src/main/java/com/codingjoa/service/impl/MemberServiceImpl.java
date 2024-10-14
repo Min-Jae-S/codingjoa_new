@@ -47,6 +47,8 @@ public class MemberServiceImpl implements MemberService {
 		log.info("\t > convert JoinDto to member entity = {}", member);
 		
 		boolean isMemberSaved = memberMapper.insertMember(member);
+		log.info("\t > saved member = {}", member);
+		
 		if (!isMemberSaved) {
 			throw new ExpectedException("error.SaveMember");
 		}
@@ -58,6 +60,8 @@ public class MemberServiceImpl implements MemberService {
 		log.info("\t > create auth entity = {}", auth);
 		
 		boolean isAuthSaved = memberMapper.insertAuth(auth);
+		log.info("\t > saved auth = {}", auth);
+		
 		if (!isAuthSaved) {
 			throw new ExpectedException("error.SaveAuth");
 		}
@@ -75,8 +79,12 @@ public class MemberServiceImpl implements MemberService {
 				.build();
 		log.info("\t > create member entity = {}", member);
 		
-		memberMapper.insertMember(member);
+		boolean isMemberSaved = memberMapper.insertMember(member);
 		log.info("\t > saved member = {}", member);
+		
+		if (!isMemberSaved) {
+			throw new ExpectedException("error.SaveMember");
+		}
 		
 		SnsInfo snsInfo = SnsInfo.builder()
 				.memberIdx(member.getMemberIdx())
@@ -85,8 +93,12 @@ public class MemberServiceImpl implements MemberService {
 				.build();
 		log.info("\t > create snsInfo entity = {}", snsInfo);
 		
-		memberMapper.insertSnsInfo(snsInfo);
+		boolean isSnsInfoSaved = memberMapper.insertSnsInfo(snsInfo);
 		log.info("\t > saved snsInfo = {}", snsInfo);
+		
+		if (!isSnsInfoSaved) {
+			throw new ExpectedException("error.SaveSnsInfo");
+		}
 
 		Auth auth = Auth.builder()
 				.memberIdx(member.getMemberIdx())
@@ -94,8 +106,12 @@ public class MemberServiceImpl implements MemberService {
 				.build();
 		log.info("\t > create auth entity = {}", auth);
 		
-		memberMapper.insertAuth(auth);
+		boolean isAuthSaved = memberMapper.insertAuth(auth);
 		log.info("\t > saved auth = {}", auth);
+		
+		if (!isAuthSaved) {
+			throw new ExpectedException("error.SaveAuth");
+		}
 	}
 	
 	private String resolveNickname(String nickname) {
