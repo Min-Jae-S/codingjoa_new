@@ -136,7 +136,7 @@ public class ConfigRestController {
 		log.info("## getInterceptors");
 		Map<String, HandlerInterceptor> handlerInterceptorMap = webApplicationContext.getBeansOfType(HandlerInterceptor.class);
 		handlerInterceptorMap.forEach((key, interceptor) -> 
-			log.info("\t > {} : {}", key, interceptor.getClass().getName()));
+			log.info("\t > {}: {}", key, interceptor.getClass().getName()));
 		
 		List<String> interceptors = handlerInterceptorMap.values()
 				.stream()
@@ -260,14 +260,14 @@ public class ConfigRestController {
 				.map(resolver -> resolver.getClass().getName())
 				.collect(Collectors.toList());
 		
-		log.info("  - ExceptionResolvers from HandlerExceptionResolverComposite.class");
+		log.info("\t > ExceptionResolvers from HandlerExceptionResolverComposite.class");
 		exceptionResolvers.forEach(resolver -> {
-			log.info("\t > {}", resolver.substring(resolver.lastIndexOf(".") + 1));
+			log.info("\t\t - {}", resolver.substring(resolver.lastIndexOf(".") + 1));
 		});
 		
 		Map<String, HandlerExceptionResolver> exceptionResolverMap = webApplicationContext.getBeansOfType(HandlerExceptionResolver.class);
-		log.info("  - ExceptionResolvers from HandlerExceptionResolver.class");
-		exceptionResolverMap.forEach((key, resolver) -> log.info("\t > {}: {}", key, resolver.getClass().getName()));
+		log.info("\t > ExceptionResolvers from HandlerExceptionResolver.class");
+		exceptionResolverMap.forEach((key, resolver) -> log.info("\t\t - {}: {}", key, resolver.getClass().getName()));
 		
 		return ResponseEntity.ok(SuccessResponse.builder().data(exceptionResolvers).build());
 	}

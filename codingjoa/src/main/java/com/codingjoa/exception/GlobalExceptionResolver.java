@@ -1,4 +1,4 @@
-package com.codingjoa.resolver;
+package com.codingjoa.exception;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

@@ -33,11 +33,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.BeanNameViewResolver;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
+import com.codingjoa.exception.GlobalExceptionResolver;
 import com.codingjoa.interceptor.PasswordResetKeyInterceptor;
 import com.codingjoa.interceptor.TopMenuInterceptor;
 import com.codingjoa.resolver.BoardCriteriaArgumentResolver;
 import com.codingjoa.resolver.CommentCriteriaArgumentResolver;
-import com.codingjoa.resolver.GlobalExceptionResolver;
 import com.codingjoa.service.CategoryService;
 import com.codingjoa.service.RedisService;
 import com.fasterxml.jackson.core.JsonEncoding;
@@ -47,8 +47,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@ComponentScan("com.codingjoa.controller")
+@ComponentScan("com.codingjoa.controller") 
 @ComponentScan("com.codingjoa.resolver")
+@ComponentScan("com.codingjoa.exception")
 @RequiredArgsConstructor
 @EnableWebMvc 
 @Configuration

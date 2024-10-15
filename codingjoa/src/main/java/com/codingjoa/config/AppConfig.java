@@ -25,8 +25,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 
-@ComponentScan("com.codingjoa.service") // @TransactionEventListener
-@ComponentScan("com.codingjoa.handler")	// @ControllerAdvice, @RestControllerAdvice
+@ComponentScan("com.codingjoa.service") 	// @TransactionEventListener
 @Configuration
 public class AppConfig {
 	

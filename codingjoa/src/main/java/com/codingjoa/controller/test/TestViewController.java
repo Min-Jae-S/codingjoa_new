@@ -167,5 +167,11 @@ public class TestViewController {
 		log.info("## cookie main");
 		return "test/cookie";
 	}
+
+	@GetMapping("/aop")
+	public String aop() {
+		log.info("## aop main");
+		return "test/aop";
+	}
 	
 }
