@@ -1,4 +1,4 @@
-package com.codingjoa.test;
+package com.codingjoa.exception;
 
 import lombok.Getter;
 

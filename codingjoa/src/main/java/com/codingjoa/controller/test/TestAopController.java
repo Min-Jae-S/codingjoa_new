@@ -1,8 +1,5 @@
 package com.codingjoa.controller.test;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,8 +14,14 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 public class TestAopController {
 
+	@GetMapping("/exception")
+	public void triggerException() {
+		log.info("## triggerException");
+		throw new RuntimeException();
+	}
+	
 	@GetMapping("/test1")
-	public ResponseEntity<Object> test1(HttpServletRequest request, HttpServletResponse response) {
+	public ResponseEntity<Object> test1() {
 		log.info("## test1");
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}

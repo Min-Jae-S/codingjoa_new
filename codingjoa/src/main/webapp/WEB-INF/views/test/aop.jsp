@@ -29,7 +29,7 @@
 		column-gap: 30px;
 	}
 	
-	div.test button {
+	.btn-fixed {
 		width: 183px;
 	}
 </style>
@@ -39,11 +39,47 @@
 <div class="container my-5">
 	<p>aop.jsp</p>
 	<div class="test mt-5 mb-5 px-5">
-		<button class="btn btn-primary btn-lg" onclick="test1()">test1</button>
+		<button class="btn btn-warning btn-lg" onclick="triggerNoHandlerFoundException()">NoHandlerFoundException</button>
+		<button class="btn btn-warning btn-lg" onclick="triggerRuntimeException()">RuntimeException</button>
+	</div>
+	<div class="test mt-5 mb-5 px-5">
+		<button class="btn btn-primary btn-lg btn-fixed" onclick="test1()">test1</button>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 <script>
+	function triggerNoHandlerFoundException() {
+		console.log("## triggerNoHandlerFoundException");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/aop/aa",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log(JSON.stringify(result, null, 2));
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				parseError(jqXHR);
+			}
+		});
+	}
+
+	function triggerRuntimeException() {
+		console.log("## triggerRuntimeException");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/aop/exception",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log(JSON.stringify(result, null, 2));
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				parseError(jqXHR);
+			}
+		});
+	}
+
 	function test1() {
 		console.log("## test1");
 		$.ajax({

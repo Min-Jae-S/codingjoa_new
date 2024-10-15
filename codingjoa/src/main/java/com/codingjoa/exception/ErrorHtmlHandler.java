@@ -14,7 +14,6 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 import com.codingjoa.dto.ErrorDetails;
 import com.codingjoa.dto.ErrorResponse;
 import com.codingjoa.dto.ErrorResponse.ErrorResponseBuilder;
-import com.codingjoa.test.TestException;
 import com.codingjoa.test.TestResponse;
 import com.codingjoa.test.TestResponse.TestResponseBuilder;
 
@@ -30,7 +29,7 @@ public class ErrorHtmlHandler {
 	protected String handleEx(Exception e, HttpServletRequest request) {
 		log.info("## {}.handleEx", this.getClass().getSimpleName());
 		log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
-		e.printStackTrace();
+		//e.printStackTrace();
 		
 		ErrorResponse errorResponse = ErrorResponse.builder()
 				.status(HttpStatus.BAD_REQUEST)

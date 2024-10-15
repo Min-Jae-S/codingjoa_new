@@ -32,6 +32,7 @@ public class GlobalExceptionResolver implements HandlerExceptionResolver {
 		} else {
 			log.info("\t > handler = {}", handler.getClass().getSimpleName());
 		}
+		
 		return null;
 	}
 	
