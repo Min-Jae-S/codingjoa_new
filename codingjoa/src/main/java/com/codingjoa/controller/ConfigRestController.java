@@ -251,9 +251,13 @@ public class ConfigRestController {
 		return ResponseEntity.ok(SuccessResponse.builder().data(messageConverters).build());
 	}
 	
-	@GetMapping("/handler-exception-resolvers")
-	public ResponseEntity<Object> getHandlerExceptionResolvers() {
-		log.info("## getHandlerExceptionResolvers");
+	@GetMapping("/exception-resolvers")
+	public ResponseEntity<Object> getExceptionResolvers() {
+		log.info("## getExceptionResolvers");
+		Map<String, HandlerExceptionResolver> exceptionResolverMap = webApplicationContext.getBeansOfType(HandlerExceptionResolver.class);
+		log.info("\t > ExceptionResolvers from HandlerExceptionResolver.class");
+		exceptionResolverMap.forEach((key, resolver) -> log.info("\t\t - {}", resolver.getClass().getName()));
+
 		HandlerExceptionResolverComposite composite = webApplicationContext.getBean(HandlerExceptionResolverComposite.class);
 		List<String> exceptionResolvers = composite.getExceptionResolvers()
 				.stream()
@@ -264,10 +268,6 @@ public class ConfigRestController {
 		exceptionResolvers.forEach(resolver -> {
 			log.info("\t\t - {}", resolver.substring(resolver.lastIndexOf(".") + 1));
 		});
-		
-		Map<String, HandlerExceptionResolver> exceptionResolverMap = webApplicationContext.getBeansOfType(HandlerExceptionResolver.class);
-		log.info("\t > ExceptionResolvers from HandlerExceptionResolver.class");
-		exceptionResolverMap.forEach((key, resolver) -> log.info("\t\t - {}: {}", key, resolver.getClass().getName()));
 		
 		return ResponseEntity.ok(SuccessResponse.builder().data(exceptionResolvers).build());
 	}

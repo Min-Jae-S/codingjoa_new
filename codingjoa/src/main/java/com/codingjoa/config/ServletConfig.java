@@ -33,7 +33,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.BeanNameViewResolver;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
-import com.codingjoa.exception.GlobalExceptionResolver;
+import com.codingjoa.exception.ExceptionResolver;
 import com.codingjoa.interceptor.PasswordResetKeyInterceptor;
 import com.codingjoa.interceptor.TopMenuInterceptor;
 import com.codingjoa.resolver.BoardCriteriaArgumentResolver;
@@ -60,7 +60,7 @@ public class ServletConfig implements WebMvcConfigurer {
 	private final RedisService redisService;
 	private final BoardCriteriaArgumentResolver boardCriteriaArgumentResolver;
 	private final CommentCriteriaArgumentResolver commentCriteriaArgumentResolver;
-	private final GlobalExceptionResolver globalExceptionResolver;
+	private final ExceptionResolver exceptionResolver;
 	private final MessageSource messageSource;
 	private final ObjectMapper objectMapper;
 	
@@ -150,7 +150,7 @@ public class ServletConfig implements WebMvcConfigurer {
 	public void extendHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
 		log.info("## extendHandlerExceptionResolvers");
 		WebMvcConfigurer.super.extendHandlerExceptionResolvers(resolvers);
-		resolvers.add(0, globalExceptionResolver);
+		resolvers.add(0, exceptionResolver);
 		resolvers.forEach(resolver -> log.info("\t > {}", resolver.getClass().getSimpleName()));
 	}
 	

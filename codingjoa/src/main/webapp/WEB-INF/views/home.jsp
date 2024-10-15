@@ -78,7 +78,7 @@
 						<a class="nav-link" href="${contextPath}/config/message-converters">HttpMessageConverter</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="${contextPath}/config/handler-exception-resolvers">HandlerExceptionResolver</a>
+						<a class="nav-link" href="${contextPath}/config/exception-resolvers">ExceptionResolver</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="${contextPath}/config/object-mappers">ObjectMapper</a>
