@@ -72,8 +72,10 @@ public class ConfigRestController {
 						.map(filter -> filter.getClass().getName())
 						.collect(Collectors.toList());
 				filters.add(Map.of(filterName, securityFilters));
-				securityFilters.forEach(filter -> 
-					log.info("\t\t - {}", filter.substring(filter.lastIndexOf(".") + 1)));
+				securityFilters.forEach(filter -> {
+					int beginIndex = filter.lastIndexOf(".") + 1;
+					log.info("\t\t - {}", filter.substring(beginIndex));
+				});
 			} catch (NoSuchBeanDefinitionException e) {
 				filters.add(filterName);
 			}
@@ -170,7 +172,8 @@ public class ConfigRestController {
 				.collect(Collectors.toList());
 		
 		argumentResolvers.forEach(resolver -> { 
-			log.info("\t > {}", resolver.substring(resolver.lastIndexOf(".") + 1));
+			int beiginIndex = resolver.lastIndexOf(".") + 1;
+			log.info("\t > {}", resolver.substring(beiginIndex));
 		});
 		
 		return ResponseEntity.ok(SuccessResponse.builder().data(argumentResolvers).build());
@@ -199,7 +202,8 @@ public class ConfigRestController {
 				.collect(Collectors.toList());
 		
 		returnValueHandlers.forEach(handler -> {
-			log.info("\t > {}", handler.substring(handler.lastIndexOf(".") + 1));
+			int beginIndex = handler.lastIndexOf(".") + 1;
+			log.info("\t > {}", handler.substring(beginIndex));
 		});
 		
 		return ResponseEntity.ok(SuccessResponse.builder().data(returnValueHandlers).build());
@@ -245,7 +249,8 @@ public class ConfigRestController {
 				.collect(Collectors.toList());
 		
 		messageConverters.forEach(converter -> {
-			log.info("\t > {}", converter.substring(converter.lastIndexOf(".") + 1));
+			int beginIndex = converter.lastIndexOf(".") + 1;
+			log.info("\t > {}", converter.substring(beginIndex));
 		});
 		
 		return ResponseEntity.ok(SuccessResponse.builder().data(messageConverters).build());
@@ -266,7 +271,8 @@ public class ConfigRestController {
 		
 		log.info("\t > ExceptionResolvers from HandlerExceptionResolverComposite.class");
 		exceptionResolvers.forEach(resolver -> {
-			log.info("\t\t - {}", resolver.substring(resolver.lastIndexOf(".") + 1));
+			int beginIndex = resolver.lastIndexOf(".") + 1;
+			log.info("\t\t - {}", resolver.substring(beginIndex));
 		});
 		
 		return ResponseEntity.ok(SuccessResponse.builder().data(exceptionResolvers).build());

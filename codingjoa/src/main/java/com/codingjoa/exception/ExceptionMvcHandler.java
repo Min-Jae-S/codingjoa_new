@@ -21,7 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @ControllerAdvice
-public class ErrorHtmlHandler {
+public class ExceptionMvcHandler {
 	
 	private static final String FORWARD_URL = "/error";
 	

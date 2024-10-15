@@ -49,7 +49,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @RestControllerAdvice(annotations = RestController.class)
-public class ErrorRestHandler {
+public class ExceptionRestHandler {
 	
 	@ExceptionHandler(Exception.class)
 	protected ResponseEntity<Object> handleEx(Exception e) {

@@ -38,7 +38,8 @@ public class ErrorResponse {
 		private ErrorResponse errorResponse;
 
 		private ErrorResponseBuilder() {
-			this.errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST.value(), "", null, LocalDateTime.now());
+			//this.errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST.value(), "", null, LocalDateTime.now());
+			this.errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST.value(), null, null, LocalDateTime.now());
 		}
 		
 		public ErrorResponseBuilder status(HttpStatus httpStatus) {

@@ -21,10 +21,11 @@ public class ExceptionResolver implements HandlerExceptionResolver {
 			Exception ex) {
 		log.info("## {}", this.getClass().getSimpleName());
 		log.info("\t > request-line = {}", HttpUtils.getHttpRequestLine(request));
+		log.info("\t > x-requested-with = {}", request.getHeader("x-requested-with"));
 		log.info("\t > {}: {}", ex.getClass().getSimpleName(), ex.getMessage());
 
 		if (handler == null) {
-			log.info("\t > handler is not resolved yet");
+			log.info("\t > handler is not resolved");
 		} else if (handler instanceof HandlerMethod) {
 			HandlerMethod handlerMethod = (HandlerMethod) handler;
 			int index = handlerMethod.toString().lastIndexOf(".");

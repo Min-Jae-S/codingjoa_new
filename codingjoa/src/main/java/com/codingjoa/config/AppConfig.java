@@ -25,7 +25,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 
-@ComponentScan("com.codingjoa.service") 	// @TransactionEventListener
+@ComponentScan("com.codingjoa.service") // @TransactionEventListener
 @Configuration
 public class AppConfig {
 	
@@ -51,9 +51,7 @@ public class AppConfig {
 	public MessageSource messageSource() {
 		ReloadableResourceBundleMessageSource source = new ReloadableResourceBundleMessageSource();
 		source.setDefaultEncoding("UTF-8");
-		source.setBasenames(
-				"/WEB-INF/properties/error-message", 
-				"/WEB-INF/properties/success-message",
+		source.setBasenames("/WEB-INF/properties/error-message", "/WEB-INF/properties/success-message", 
 				"/WEB-INF/properties/validation-message");
 		return source;
 	}
