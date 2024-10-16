@@ -1,5 +1,7 @@
 package com.codingjoa.filter.test;
 
+import java.io.IOException;
+
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -21,9 +23,10 @@ public class TestAopFilter implements Filter {
 	}
 
 	@Override
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) {
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		log.info("## {}.doFilter", this.getClass().getSimpleName());
-		log.info("\t > request-line = {}", HttpUtils.getHttpRequestLine((HttpServletRequest)request));
+		log.info("\t > request-line = {}", HttpUtils.getHttpRequestLine((HttpServletRequest) request));
+		chain.doFilter(request, response);
 		throw new RuntimeException();
 	}
 

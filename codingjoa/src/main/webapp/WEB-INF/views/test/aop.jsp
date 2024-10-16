@@ -40,15 +40,23 @@
 	<p>aop.jsp</p>
 	<div class="test mt-5 mb-5 px-5">
 		<button class="btn btn-warning btn-lg" onclick="triggerNoHandlerFoundException()">NoHandlerFoundException</button>
-		<button class="btn btn-warning btn-lg btn-fixed" onclick="triggerExceptionByMvc()">Ex by Mvc</button>
-		<button class="btn btn-warning btn-lg btn-fixed" onclick="triggerExceptionByAjax()">Ex by Ajax</button>
+		<button class="btn btn-warning btn-lg btn-fixed" onclick="triggerExceptionByMvc()">Ex by mvc</button>
+		<button class="btn btn-warning btn-lg btn-fixed" onclick="triggerExceptionByAjax()">Ex by ajax</button>
 	</div>
-	<div class="test mt-5 mb-5 px-5">
-		<button class="btn btn-primary btn-lg btn-fixed" onclick="triggerExceptionInFilter()">Ex in filter</button>
-		<button class="btn btn-primary btn-lg btn-fixed" onclick="triggerExceptionInInterceptor()">Ex in interceptor</button>
-		<button class="btn btn-primary btn-lg btn-fixed" onclick="triggerExceptionInController()">Ex in controller</button>
+	<h4 class="px-5">- by mvc</h4>
+	<div class="test mb-5 px-5">
+		<button class="btn btn-primary btn-lg btn-fixed" onclick="triggerExceptionInControllerByMvc()">Ex in controller</button>
+		<button class="btn btn-primary btn-lg btn-fixed" onclick="triggerExceptionInInterceptorByMvc()">Ex in interceptor</button>
+		<button class="btn btn-primary btn-lg btn-fixed" onclick="triggerExceptionInFilterByMvc()">Ex in filter</button>
 	</div>
-	<div class="test mt-5 mb-5 px-5">
+	<h4 class="px-5">- by ajax</h4>
+	<div class="test mb-5 px-5">
+		<button class="btn btn-primary btn-lg btn-fixed" onclick="triggerExceptionInControllerByAjax()">Ex in controller</button>
+		<button class="btn btn-primary btn-lg btn-fixed" onclick="triggerExceptionInInterceptorByAjax()">Ex in interceptor</button>
+		<button class="btn btn-primary btn-lg btn-fixed" onclick="triggerExceptionInFilterByAjax()">Ex in filter</button>
+	</div>
+	<h4 class="invisible">invisible</h4>
+	<div class="test mb-5 px-5">
 		<button class="btn btn-primary btn-lg btn-fixed" onclick="test1()">test1</button>
 	</div>
 </div>
@@ -91,11 +99,26 @@
 		});
 	}
 	
-	function triggerExceptionInFilter() {
-		console.log("## triggerExceptionInFilter");
+	function triggerExceptionInControllerByMvc() {
+		alert("## triggerExceptionInControllerByMvc");
+		location.href = "${contextPath}/test/aop/exception/controller";
+	}
+
+	function triggerExceptionInInterceptorByMvc() {
+		alert("## triggerExceptionInInterceptorByMvc");
+		location.href = "${contextPath}/test/aop/exception/interceptor";
+	}
+	
+	function triggerExceptionInFilterByMvc() {
+		alert("## triggerExceptionInFilterByMvc");
+		location.href = "${contextPath}/test/aop/exception/filter";
+	}
+	
+	function triggerExceptionInControllerByAjax() {
+		console.log("## triggerExceptionInControllerByAjax");
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/api/aop/exception/filter",
+			url : "${contextPath}/test/api/aop/exception/controller",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
@@ -107,8 +130,8 @@
 		});
 	}
 	
-	function triggerExceptionInInterceptor() {
-		console.log("## triggerExceptionInInterceptor");
+	function triggerExceptionInInterceptorByAjax() {
+		console.log("## triggerExceptionInInterceptorByAjax");
 		$.ajax({
 			type : "GET",
 			url : "${contextPath}/test/api/aop/exception/interceptor",
@@ -123,11 +146,11 @@
 		});
 	}
 	
-	function triggerExceptionInController() {
-		console.log("## triggerExceptionInController");
+	function triggerExceptionInFilterByAjax() {
+		console.log("## triggerExceptionInFilterByAjax");
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/api/aop/exception/controller",
+			url : "${contextPath}/test/api/aop/exception/filter",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));

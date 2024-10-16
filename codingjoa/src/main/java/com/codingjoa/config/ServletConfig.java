@@ -132,7 +132,7 @@ public class ServletConfig implements WebMvcConfigurer {
 //				.addPathPatterns("/test/rest-api/**")
 //				.excludePathPatterns("/test/rest-api");
 		registry.addInterceptor(new TestAopInterceptor())
-				.addPathPatterns("/test/api/aop/exception/interceptor");
+				.addPathPatterns("/test/api/aop/exception/interceptor", "/test/aop/exception/interceptor");
 	}
 
 	@Override

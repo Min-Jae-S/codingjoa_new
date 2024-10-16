@@ -151,7 +151,7 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
 		TestAopFilter testAopFilter = new TestAopFilter();
 		FilterRegistration.Dynamic filterRegistration = servletContext.addFilter("TestAopFilter", testAopFilter);
 		EnumSet<DispatcherType> dispatcherTypes = EnumSet.of(DispatcherType.REQUEST, DispatcherType.ASYNC, DispatcherType.ERROR);
-		filterRegistration.addMappingForUrlPatterns(dispatcherTypes, false, "/test/api/aop/exception/filter");
+		filterRegistration.addMappingForUrlPatterns(dispatcherTypes, false, "/test/api/aop/exception/filter", "/test/aop/exception/filter");
 	}
 	
 }

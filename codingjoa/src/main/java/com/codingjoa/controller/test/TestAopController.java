@@ -17,4 +17,22 @@ public class TestAopController {
 		throw new RuntimeException();
 	}
 	
+	@GetMapping("/exception/controller")
+	public void triggerExceptionInController() {
+		log.info("## triggerExceptionInController");
+		throw new RuntimeException();
+	}
+	
+	@GetMapping("/exception/interceptor")
+	public void triggerExceptionInInterceptor() {
+		log.info("## triggerExceptionInInterceptor");
+		throw new RuntimeException();
+	}
+	
+	@GetMapping("/exception/filter")
+	public void triggerExceptionInFilter() {
+		log.info("## triggerExceptionInFilter");
+		throw new RuntimeException();
+	}
+	
 }

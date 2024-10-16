@@ -20,9 +20,9 @@ public class TestAopRestController {
 		throw new RuntimeException();
 	}
 
-	@GetMapping("/exception/filter")
-	public void triggerExceptionInFilter() {
-		log.info("## triggerExceptionInFilter");
+	@GetMapping("/exception/controller")
+	public void triggerExceptionInController() {
+		log.info("## triggerExceptionInController");
 		throw new RuntimeException();
 	}
 	
@@ -32,9 +32,9 @@ public class TestAopRestController {
 		throw new RuntimeException();
 	}
 	
-	@GetMapping("/exception/controller")
-	public void triggerExceptionInController() {
-		log.info("## triggerExceptionInController");
+	@GetMapping("/exception/filter")
+	public void triggerExceptionInFilter() {
+		log.info("## triggerExceptionInFilter");
 		throw new RuntimeException();
 	}
 	
