@@ -43,9 +43,9 @@
 		<button class="btn btn-warning btn-lg" onclick="triggerRuntimeException()">RuntimeException</button>
 	</div>
 	<div class="test mt-5 mb-5 px-5">
-		<button class="btn btn-warning btn-lg" onclick="triggerExceptionInFilter()">Ex in filter</button>
-		<button class="btn btn-warning btn-lg" onclick="triggerExceptionInInterceptor()">Ex in interceptor</button>
-		<button class="btn btn-warning btn-lg" onclick="triggerExceptionInController()">Ex in controller</button>
+		<button class="btn btn-primary btn-lg btn-fixed" onclick="triggerExceptionInFilter()">Ex in filter</button>
+		<button class="btn btn-primary btn-lg btn-fixed" onclick="triggerExceptionInInterceptor()">Ex in interceptor</button>
+		<button class="btn btn-primary btn-lg btn-fixed" onclick="triggerExceptionInController()">Ex in controller</button>
 	</div>
 	<div class="test mt-5 mb-5 px-5">
 		<button class="btn btn-primary btn-lg btn-fixed" onclick="test1()">test1</button>
@@ -105,7 +105,7 @@
 		console.log("## triggerExceptionInInterceptor");
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/exception/interceptor",
+			url : "${contextPath}/test/aop/exception/interceptor",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
@@ -121,7 +121,7 @@
 		console.log("## triggerExceptionInController");
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/exception/controller",
+			url : "${contextPath}/test/aop/exception/controller",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));

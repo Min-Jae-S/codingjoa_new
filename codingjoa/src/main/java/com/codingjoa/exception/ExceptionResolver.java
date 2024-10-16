@@ -4,6 +4,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -21,18 +24,25 @@ public class ExceptionResolver implements HandlerExceptionResolver {
 		log.info("## {}", this.getClass().getSimpleName());
 		log.info("\t > request-line = {}", HttpUtils.getHttpRequestLine(request));
 		log.info("\t > x-requested-with = {}", request.getHeader("x-requested-with"));
-		log.info("\t > handler = {}", (handler == null) ? null : handler.getClass().getSimpleName());
-		log.info("\t > {}: {}", ex.getClass().getSimpleName(), ex.getMessage());
+		log.info("\t > triggered exception = {}; {}", ex.getClass().getSimpleName(), ex.getMessage());
 
-//		if (handler == null) {
-//			log.info("\t > handler is not resolved");
-//		} else if (handler instanceof HandlerMethod) {
-//			HandlerMethod handlerMethod = (HandlerMethod) handler;
-//			int index = handlerMethod.toString().lastIndexOf(".");
-//			log.info("\t > handler = {}", handlerMethod.toString().substring(index + 1));
-//		} else {
-//			log.info("\t > handler = {}", handler.getClass().getSimpleName());
-//		}
+		if (handler == null) {
+			log.info("\t > handler = {}", handler);
+			log.info("\t > since the handler hasn't been resolved, can't check for @Controller or @RestController");
+		} else if (handler instanceof HandlerMethod) {
+			HandlerMethod handlerMethod = (HandlerMethod) handler;
+			int beginIndex = handlerMethod.toString().lastIndexOf(".") + 1;
+			log.info("\t > handler = {}", handlerMethod.toString().substring(beginIndex));
+			
+			Class<?> controller = handlerMethod.getBeanType();
+			if (controller.isAnnotationPresent(Controller.class)) {
+				log.info("\t > annotated with @Controller");
+			} else if (controller.isAnnotationPresent(RestController.class)) {
+				log.info("\t > annotated with @RestController");
+			}
+		} else {
+			log.info("\t > handler = {}", handler.getClass().getSimpleName());
+		}
 		
 		return null;
 	}
