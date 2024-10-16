@@ -36,6 +36,7 @@ import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 import com.codingjoa.exception.ExceptionResolver;
 import com.codingjoa.interceptor.PasswordResetKeyInterceptor;
 import com.codingjoa.interceptor.TopMenuInterceptor;
+import com.codingjoa.interceptor.test.TestAopInterceptor;
 import com.codingjoa.resolver.BoardCriteriaArgumentResolver;
 import com.codingjoa.resolver.CommentCriteriaArgumentResolver;
 import com.codingjoa.service.CategoryService;
@@ -130,6 +131,8 @@ public class ServletConfig implements WebMvcConfigurer {
 //		registry.addInterceptor(new TestRestApiInterceptor())
 //				.addPathPatterns("/test/rest-api/**")
 //				.excludePathPatterns("/test/rest-api");
+		registry.addInterceptor(new TestAopInterceptor())
+				.addPathPatterns("/test/aop/exception/interceptor");
 	}
 
 	@Override

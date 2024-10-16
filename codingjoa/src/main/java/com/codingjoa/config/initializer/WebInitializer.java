@@ -30,6 +30,7 @@ import com.codingjoa.config.RedisConfig;
 import com.codingjoa.config.SecurityConfig;
 import com.codingjoa.config.ServletConfig;
 import com.codingjoa.filter.LogFilter;
+import com.codingjoa.filter.test.TestAopFilter;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -87,6 +88,7 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
 		super.onStartup(servletContext);
 		registerCharacterEncodingFilter(servletContext);
 		//registerLogFilter(servletContext);
+		registerTestAopFilter(servletContext);
 	}
 	
 	/*
@@ -142,6 +144,14 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
 		
 		EnumSet<DispatcherType> dispatcherTypes = EnumSet.of(DispatcherType.REQUEST, DispatcherType.ASYNC, DispatcherType.ERROR);
 		filterRegistration.addMappingForUrlPatterns(dispatcherTypes, false, "/*");
+	}
+
+	private void registerTestAopFilter(ServletContext servletContext) {
+		log.info("## registerTestAopFilter");
+		TestAopFilter testAopFilter = new TestAopFilter();
+		FilterRegistration.Dynamic filterRegistration = servletContext.addFilter("TestAopFilter", testAopFilter);
+		EnumSet<DispatcherType> dispatcherTypes = EnumSet.of(DispatcherType.REQUEST, DispatcherType.ASYNC, DispatcherType.ERROR);
+		filterRegistration.addMappingForUrlPatterns(dispatcherTypes, false, "/test/aop/exception/filter");
 	}
 	
 }

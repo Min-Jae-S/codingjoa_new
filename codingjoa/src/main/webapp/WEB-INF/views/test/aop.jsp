@@ -43,6 +43,11 @@
 		<button class="btn btn-warning btn-lg" onclick="triggerRuntimeException()">RuntimeException</button>
 	</div>
 	<div class="test mt-5 mb-5 px-5">
+		<button class="btn btn-warning btn-lg" onclick="triggerExceptionInFilter()">Ex in filter</button>
+		<button class="btn btn-warning btn-lg" onclick="triggerExceptionInInterceptor()">Ex in interceptor</button>
+		<button class="btn btn-warning btn-lg" onclick="triggerExceptionInController()">Ex in controller</button>
+	</div>
+	<div class="test mt-5 mb-5 px-5">
 		<button class="btn btn-primary btn-lg btn-fixed" onclick="test1()">test1</button>
 	</div>
 </div>
@@ -69,6 +74,54 @@
 		$.ajax({
 			type : "GET",
 			url : "${contextPath}/test/aop/exception",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log(JSON.stringify(result, null, 2));
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				parseError(jqXHR);
+			}
+		});
+	}
+	
+	function triggerExceptionInFilter() {
+		console.log("## triggerExceptionInFilter");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/aop/exception/filter",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log(JSON.stringify(result, null, 2));
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				parseError(jqXHR);
+			}
+		});
+	}
+	
+	function triggerExceptionInInterceptor() {
+		console.log("## triggerExceptionInInterceptor");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/exception/interceptor",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log(JSON.stringify(result, null, 2));
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				parseError(jqXHR);
+			}
+		});
+	}
+	
+	function triggerExceptionInController() {
+		console.log("## triggerExceptionInController");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/exception/controller",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
