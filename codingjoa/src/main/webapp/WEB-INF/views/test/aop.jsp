@@ -40,7 +40,8 @@
 	<p>aop.jsp</p>
 	<div class="test mt-5 mb-5 px-5">
 		<button class="btn btn-warning btn-lg" onclick="triggerNoHandlerFoundException()">NoHandlerFoundException</button>
-		<button class="btn btn-warning btn-lg" onclick="triggerRuntimeException()">RuntimeException</button>
+		<button class="btn btn-warning btn-lg btn-fixed" onclick="triggerExceptionByMvc()">Ex by Mvc</button>
+		<button class="btn btn-warning btn-lg btn-fixed" onclick="triggerExceptionByAjax()">Ex by Ajax</button>
 	</div>
 	<div class="test mt-5 mb-5 px-5">
 		<button class="btn btn-primary btn-lg btn-fixed" onclick="triggerExceptionInFilter()">Ex in filter</button>
@@ -68,12 +69,17 @@
 			}
 		});
 	}
+	
+	function triggerExceptionByMvc() {
+		console.log("## triggerExceptionByMvc");
+		location.href = "${contextPath}/test/aop/exception";
+	}
 
-	function triggerRuntimeException() {
-		console.log("## triggerRuntimeException");
+	function triggerExceptionByAjax() {
+		console.log("## triggerRuntimeExceptionByAjax");
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/aop/exception",
+			url : "${contextPath}/test/api/aop/exception",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
@@ -89,7 +95,7 @@
 		console.log("## triggerExceptionInFilter");
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/aop/exception/filter",
+			url : "${contextPath}/test/api/aop/exception/filter",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
@@ -105,7 +111,7 @@
 		console.log("## triggerExceptionInInterceptor");
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/aop/exception/interceptor",
+			url : "${contextPath}/test/api/aop/exception/interceptor",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
@@ -121,7 +127,7 @@
 		console.log("## triggerExceptionInController");
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/aop/exception/controller",
+			url : "${contextPath}/test/api/aop/exception/controller",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
@@ -137,7 +143,7 @@
 		console.log("## test1");
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/aop/test1",
+			url : "${contextPath}/test/api/aop/test1",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));

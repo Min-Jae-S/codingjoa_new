@@ -24,7 +24,7 @@ public class ExceptionResolver implements HandlerExceptionResolver {
 		log.info("## {}", this.getClass().getSimpleName());
 		log.info("\t > request-line = {}", HttpUtils.getHttpRequestLine(request));
 		log.info("\t > x-requested-with = {}", request.getHeader("x-requested-with"));
-		log.info("\t > triggered exception = {}; {}", ex.getClass().getSimpleName(), ex.getMessage());
+		log.info("\t > triggered exception = {}: {}", ex.getClass().getSimpleName(), ex.getMessage());
 
 		if (handler == null) {
 			log.info("\t > handler = {}", handler);
@@ -36,9 +36,9 @@ public class ExceptionResolver implements HandlerExceptionResolver {
 			
 			Class<?> controller = handlerMethod.getBeanType();
 			if (controller.isAnnotationPresent(Controller.class)) {
-				log.info("\t > annotated with @Controller");
+				log.info("\t > controller = @Controller");
 			} else if (controller.isAnnotationPresent(RestController.class)) {
-				log.info("\t > annotated with @RestController");
+				log.info("\t > controller = @RestController");
 			}
 		} else {
 			log.info("\t > handler = {}", handler.getClass().getSimpleName());
