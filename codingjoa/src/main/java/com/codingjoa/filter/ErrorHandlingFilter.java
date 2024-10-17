@@ -1,37 +1,82 @@
 package com.codingjoa.filter;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
+
+import com.codingjoa.dto.ErrorResponse;
 import com.codingjoa.util.HttpUtils;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class ErrorHandlingFilter implements Filter {
 	
+	private static final String FORWARD_URL = "/error";
+	private ObjectMapper objectMapper;
+	
 	@Override
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+	public void init(FilterConfig filterConfig) throws ServletException {
+		log.info("## {}.init", filterConfig.getFilterName());
+		WebApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(filterConfig.getServletContext());
+		log.info("\t > context = {}", context);
+        if (context != null) {
+            objectMapper = context.getBean(ObjectMapper.class);
+        }
+	}
+
+	@Override
+	public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain chain)
 			throws IOException, ServletException {
-		HttpServletRequest httpSevletRequest = (HttpServletRequest) request;
-		log.info("\t > request-line = {}", HttpUtils.getHttpRequestLine(httpSevletRequest));
-		log.info("\t > x-requested-with = {}", httpSevletRequest.getHeader("x-requested-with"));
+		log.info("## {}.doFilter", this.getClass().getSimpleName());
+		HttpServletRequest request = (HttpServletRequest) servletRequest;
+		HttpServletResponse response = (HttpServletResponse) servletResponse;
+		log.info("\t > request-line = {}", HttpUtils.getHttpRequestLine(request));
+		log.info("\t > x-requested-with = {}", request.getHeader("x-requested-with"));
 		
 		try {
-			chain.doFilter(request, response);
+			chain.doFilter(servletRequest, servletResponse);
 		} catch (Exception e) {
+			log.info("## {}: {}", e.getClass().getSimpleName(), e.getMessage());
 			
+			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			response.setCharacterEncoding(StandardCharsets.UTF_8.name());
+			
+			ErrorResponse errorResponse = ErrorResponse.builder()
+					.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.messageByCode("error.Server")
+					.build();
+			
+			if (isAjaxRequest(request)) {
+				log.info("\t > respond with errorResponse in JSON format");
+				String jsonResponse = objectMapper.writeValueAsString(errorResponse);
+				response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+				response.getWriter().write(jsonResponse);
+				response.getWriter().close();
+			} else {
+				log.info("\t > forward to '{}'", FORWARD_URL);
+				request.setAttribute("errorResponse", errorResponse);
+				request.getRequestDispatcher(FORWARD_URL).forward(request, response);
+			}
 		}
 	}
 	
-	private boolean isAjaxRequest(HttpServletRequest httpSevletRequest) {
-		return "XMLHttpRequest".equals(httpSevletRequest.getHeader("x-requested-with"));
+	private boolean isAjaxRequest(HttpServletRequest request) {
+		return "XMLHttpRequest".equals(request.getHeader("x-requested-with"));
 	}
 	
 }

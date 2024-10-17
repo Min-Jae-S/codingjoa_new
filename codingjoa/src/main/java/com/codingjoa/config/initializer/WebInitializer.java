@@ -104,7 +104,6 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
 	@Override
 	protected void customizeRegistration(Dynamic registration) {
 		log.info("## customizeRegistration");
-		
 		String tempDir = "D:\\Dev\\upload\\temp";
 		File tmpFolder = new File(tempDir);
 		if (!tmpFolder.exists()) {

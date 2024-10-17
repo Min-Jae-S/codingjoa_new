@@ -42,21 +42,21 @@ public class LogFilter implements Filter {
 	}
 
 	@Override
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+	public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain chain)
 			throws IOException, ServletException {
-		HttpServletRequest httpSevletRequest = (HttpServletRequest) request;
-		HttpServletResponse httpServletResponse = (HttpServletResponse) response;
+		HttpServletRequest httpSevletRequest = (HttpServletRequest) servletRequest;
+		HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
 		String requestURI = httpSevletRequest.getRequestURI();
 		UUID uuid = UUID.randomUUID();
 		
 		if (isExcludePattern(requestURI)) {
 			log.info("## '{}' is excludePattern", requestURI);
-			chain.doFilter(request, response);
+			chain.doFilter(servletRequest, servletResponse);
 		} else {
 			log.info("## '{}' is includePattern.", requestURI);
 			try {
 				logRequestDetails(httpSevletRequest, httpServletResponse, uuid);
-				chain.doFilter(request, response);
+				chain.doFilter(servletRequest, servletResponse);
 			} catch (Exception e) {
 				log.info("## catch Exception");
 				log.info("\t > exception = {}", e.getClass().getSimpleName());
