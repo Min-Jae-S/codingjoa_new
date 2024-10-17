@@ -21,21 +21,21 @@ public class TestAopRestController {
 	}
 
 	@GetMapping("/exception/controller")
-	public void triggerExceptionInController() {
+	public ResponseEntity<Object> triggerExceptionInController() {
 		log.info("## triggerExceptionInController");
 		throw new RuntimeException();
 	}
 	
 	@GetMapping("/exception/interceptor")
-	public void triggerExceptionInInterceptor() {
+	public ResponseEntity<Object> triggerExceptionInInterceptor() {
 		log.info("## triggerExceptionInInterceptor");
-		throw new RuntimeException();
+		return ResponseEntity.ok(SuccessResponse.builder().message("exception in interceptor").build());
 	}
 	
 	@GetMapping("/exception/filter")
-	public void triggerExceptionInFilter() {
+	public ResponseEntity<Object> triggerExceptionInFilter() {
 		log.info("## triggerExceptionInFilter");
-		throw new RuntimeException();
+		return ResponseEntity.ok(SuccessResponse.builder().message("exception in filter").build());
 	}
 	
 	@GetMapping("/test1")

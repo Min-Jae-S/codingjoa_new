@@ -24,15 +24,15 @@ public class TestAopController {
 	}
 	
 	@GetMapping("/exception/interceptor")
-	public void triggerExceptionInInterceptor() {
+	public String triggerExceptionInInterceptor() {
 		log.info("## triggerExceptionInInterceptor");
-		throw new RuntimeException();
+		return "test-home";
 	}
 	
 	@GetMapping("/exception/filter")
-	public void triggerExceptionInFilter() {
+	public String triggerExceptionInFilter() {
 		log.info("## triggerExceptionInFilter");
-		throw new RuntimeException();
+		return "test-home";
 	}
 	
 }

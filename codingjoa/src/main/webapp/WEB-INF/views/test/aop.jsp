@@ -32,6 +32,10 @@
 	.btn-fixed {
 		width: 183px;
 	}
+	
+	.btn-lg-fixed {
+		width: 280px;
+	}
 </style>
 </head>
 <body>
@@ -39,21 +43,21 @@
 <div class="container my-5">
 	<p>aop.jsp</p>
 	<div class="test mt-5 mb-5 px-5">
-		<button class="btn btn-warning btn-lg" onclick="triggerNoHandlerFoundException()">NoHandlerFoundException</button>
-		<button class="btn btn-warning btn-lg btn-fixed" onclick="triggerExceptionByMvc()">Ex by mvc</button>
-		<button class="btn btn-warning btn-lg btn-fixed" onclick="triggerExceptionByAjax()">Ex by ajax</button>
+		<button class="btn btn-warning btn-lg btn-lg-fixed" onclick="triggerNoHandlerFoundException()">NoHandlerFoundException</button>
+		<button class="btn btn-warning btn-lg btn-lg-fixed" onclick="triggerExceptionByMvc()">MVC exception</button>
+		<button class="btn btn-warning btn-lg btn-lg-fixed" onclick="triggerExceptionByAjax()">AJAX exception</button>
 	</div>
-	<h4 class="px-5">- by mvc</h4>
+	<h4 class="px-5">@ MVC Exception</h4>
 	<div class="test mb-5 px-5">
-		<button class="btn btn-primary btn-lg btn-fixed" onclick="triggerExceptionInControllerByMvc()">Ex in controller</button>
-		<button class="btn btn-primary btn-lg btn-fixed" onclick="triggerExceptionInInterceptorByMvc()">Ex in interceptor</button>
-		<button class="btn btn-primary btn-lg btn-fixed" onclick="triggerExceptionInFilterByMvc()">Ex in filter</button>
+		<button class="btn btn-primary btn-lg btn-lg-fixed" onclick="triggerControllerExceptionByMvc()">controller exception</button>
+		<button class="btn btn-primary btn-lg btn-lg-fixed" onclick="triggerInterceptorExceptionByMvc()">interceptor exception</button>
+		<button class="btn btn-primary btn-lg btn-lg-fixed" onclick="triggerFilterExceptionByMvc()">filter exception</button>
 	</div>
-	<h4 class="px-5">- by ajax</h4>
+	<h4 class="px-5">@ AJAX Exception</h4>
 	<div class="test mb-5 px-5">
-		<button class="btn btn-primary btn-lg btn-fixed" onclick="triggerExceptionInControllerByAjax()">Ex in controller</button>
-		<button class="btn btn-primary btn-lg btn-fixed" onclick="triggerExceptionInInterceptorByAjax()">Ex in interceptor</button>
-		<button class="btn btn-primary btn-lg btn-fixed" onclick="triggerExceptionInFilterByAjax()">Ex in filter</button>
+		<button class="btn btn-primary btn-lg btn-lg-fixed" onclick="triggerControllerExceptionByAjax()">controller exception</button>
+		<button class="btn btn-primary btn-lg btn-lg-fixed" onclick="triggerInterceptorExceptionByAjax()">interceptor exception</button>
+		<button class="btn btn-primary btn-lg btn-lg-fixed" onclick="triggerFilterExceptionByAjax()">filter exception</button>
 	</div>
 	<h4 class="invisible">invisible</h4>
 	<div class="test mb-5 px-5">
@@ -79,12 +83,11 @@
 	}
 	
 	function triggerExceptionByMvc() {
-		console.log("## triggerExceptionByMvc");
 		location.href = "${contextPath}/test/aop/exception";
 	}
 
 	function triggerExceptionByAjax() {
-		console.log("## triggerRuntimeExceptionByAjax");
+		console.log("## triggerExceptionByAjax");
 		$.ajax({
 			type : "GET",
 			url : "${contextPath}/test/api/aop/exception",
@@ -99,22 +102,19 @@
 		});
 	}
 	
-	function triggerExceptionInControllerByMvc() {
-		alert("## triggerExceptionInControllerByMvc");
+	function triggerControllerExceptionByMvc() {
 		location.href = "${contextPath}/test/aop/exception/controller";
 	}
 
-	function triggerExceptionInInterceptorByMvc() {
-		alert("## triggerExceptionInInterceptorByMvc");
+	function triggerInterceptorExceptionByMvc() {
 		location.href = "${contextPath}/test/aop/exception/interceptor";
 	}
 	
-	function triggerExceptionInFilterByMvc() {
-		alert("## triggerExceptionInFilterByMvc");
+	function triggerFilterExceptionByMvc() {
 		location.href = "${contextPath}/test/aop/exception/filter";
 	}
 	
-	function triggerExceptionInControllerByAjax() {
+	function triggerControllerExceptionByAjax() {
 		console.log("## triggerExceptionInControllerByAjax");
 		$.ajax({
 			type : "GET",
@@ -130,7 +130,7 @@
 		});
 	}
 	
-	function triggerExceptionInInterceptorByAjax() {
+	function triggerInterceptorExceptionByAjax() {
 		console.log("## triggerExceptionInInterceptorByAjax");
 		$.ajax({
 			type : "GET",
@@ -146,7 +146,7 @@
 		});
 	}
 	
-	function triggerExceptionInFilterByAjax() {
+	function triggerFilterExceptionByAjax() {
 		console.log("## triggerExceptionInFilterByAjax");
 		$.ajax({
 			type : "GET",
