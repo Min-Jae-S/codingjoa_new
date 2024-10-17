@@ -22,12 +22,11 @@ public class ErrorController {
 		log.info("\t > request-line = {}", HttpUtils.getHttpRequestLine(request));
 		
 		ErrorResponse errorResponse = (ErrorResponse) request.getAttribute("errorResponse");
+		log.info("\t > errorResponse = {}", errorResponse);
+		
 		if (errorResponse == null) {
 			return "redirect:/";
 		}
-		
-		log.info("\t > status = {}", errorResponse.getStatus());
-		log.info("\t > message = {}", errorResponse.getMessage());
 		
 		return "error/error";
 	}

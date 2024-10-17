@@ -35,7 +35,6 @@ public class TestAopInterceptor implements HandlerInterceptor {
 			log.info("\t > handler = {}", handler.getClass().getSimpleName());
 		}
 		
-		
 		throw new RuntimeException();
 	}
 }

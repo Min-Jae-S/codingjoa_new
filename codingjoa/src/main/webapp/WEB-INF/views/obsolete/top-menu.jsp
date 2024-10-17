@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
+<%-- <c:set var="principal" value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal}" /> --%>
 
 <!-- navbar -->
 <nav class="navbar navbar-custom navbar-expand-md">
@@ -29,15 +30,6 @@
 				</li>
 			</ul>
 			<ul class="navbar-nav ml-auto">
-				<sec:authentication property="principal" var="principal"/>
-				<c:if test="${empty principal}">
-					<li class="nav-item mx-2 mt-1">
-						<a href="${contextPath}/login?continue=${loginCurrentUrl}" class="nav-link">로그인</a>
-					</li>
-					<li class="nav-item mx-2 mt-1">
-						<a href="${contextPath}/member/join" class="nav-link">회원가입</a>
-					</li>
-				</c:if>
 				<sec:authorize access="isAnonymous()">
 					<li class="nav-item mx-2 mt-1">
 						<a href="${contextPath}/login?continue=${loginCurrentUrl}" class="nav-link">로그인</a>
@@ -47,6 +39,7 @@
 					</li>
 				</sec:authorize>
 				<sec:authorize access="isAuthenticated()">
+					<sec:authentication property="principal" var="principal"/>
 					<li class="nav-item mx-2">
 						<c:choose>
 							<c:when test="${not empty principal.imageUrl}">
