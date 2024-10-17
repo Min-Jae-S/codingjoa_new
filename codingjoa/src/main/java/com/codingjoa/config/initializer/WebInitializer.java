@@ -29,6 +29,7 @@ import com.codingjoa.config.QuartzConfig;
 import com.codingjoa.config.RedisConfig;
 import com.codingjoa.config.SecurityConfig;
 import com.codingjoa.config.ServletConfig;
+import com.codingjoa.filter.ErrorHandlingFilter;
 import com.codingjoa.filter.LogFilter;
 import com.codingjoa.filter.test.TestAopFilter;
 
@@ -88,6 +89,7 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
 		super.onStartup(servletContext);
 		registerCharacterEncodingFilter(servletContext);
 		//registerLogFilter(servletContext);
+		registerErrorHandlingFilter(servletContext);
 		registerTestAopFilter(servletContext);
 	}
 	
@@ -125,8 +127,7 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
 	
 	private void registerCharacterEncodingFilter(ServletContext servletContext) {
 		log.info("## registerCharacterEncodingFilter");
-		CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter();
-		FilterRegistration.Dynamic filterRegistration = servletContext.addFilter("CharacterEncodingFilter", characterEncodingFilter);
+		FilterRegistration.Dynamic filterRegistration = servletContext.addFilter("CharacterEncodingFilter", new CharacterEncodingFilter());
 		filterRegistration.setInitParameter("encoding", "UTF-8");
 		filterRegistration.setInitParameter("forceEncoding", "true");
 
@@ -138,8 +139,7 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
 	@SuppressWarnings("unused")
 	private void registerLogFilter(ServletContext servletContext) {
 		log.info("## registerLogFilter");
-		LogFilter logFilter = new LogFilter();
-		FilterRegistration.Dynamic filterRegistration = servletContext.addFilter("LogFilter", logFilter);
+		FilterRegistration.Dynamic filterRegistration = servletContext.addFilter("LogFilter", new LogFilter());
 		filterRegistration.setInitParameter("excludePatterns", "/resources/, /upload/");
 		
 		EnumSet<DispatcherType> dispatcherTypes = EnumSet.of(DispatcherType.REQUEST, DispatcherType.ASYNC, DispatcherType.ERROR);
@@ -148,10 +148,15 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
 
 	private void registerTestAopFilter(ServletContext servletContext) {
 		log.info("## registerTestAopFilter");
-		TestAopFilter testAopFilter = new TestAopFilter();
-		FilterRegistration.Dynamic filterRegistration = servletContext.addFilter("TestAopFilter", testAopFilter);
+		FilterRegistration.Dynamic filterRegistration = servletContext.addFilter("TestAopFilter", new TestAopFilter());
 		EnumSet<DispatcherType> dispatcherTypes = EnumSet.of(DispatcherType.REQUEST, DispatcherType.ASYNC, DispatcherType.ERROR);
 		filterRegistration.addMappingForUrlPatterns(dispatcherTypes, false, "/test/api/aop/exception/filter", "/test/aop/exception/filter");
+	}
+
+	private void registerErrorHandlingFilter(ServletContext servletContext) {
+		log.info("## registerErrorHandlingFilter");
+		FilterRegistration.Dynamic filterRegistration = servletContext.addFilter("ErrorHandlingFilter", new ErrorHandlingFilter());
+		filterRegistration.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, "/*");
 	}
 	
 }

@@ -41,8 +41,8 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter { // Use
 			throws AuthenticationException, IOException, ServletException {
 		log.info("## {}.attemptAuthentication", this.getClass().getSimpleName());
 		
-		// check ajax and POST 
-
+		// check ajax and POST
+		
 		LoginDto loginDto = objectMapper.readValue(request.getReader(), LoginDto.class);
 		log.info("\t > loginDto = {}", loginDto);
 		
@@ -51,6 +51,10 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter { // Use
 		
 		if (!StringUtils.hasText(memberEmail)) {
 			throw new LoginRequireFieldException(MessageUtils.getMessage("error.LoginRequireEmail"));	
+		}
+		
+		if (memberEmail.equals("test")) {
+			throw new RuntimeException();
 		}
 		
 		if (!StringUtils.hasText(memberPassword)) {
