@@ -26,7 +26,7 @@ public class ErrorHandlingFilter implements Filter {
 		try {
 			chain.doFilter(request, response);
 		} catch (Exception e) {
-			// ...
+			
 		}
 	}
 	

@@ -24,7 +24,6 @@ public class TestAopRestController {
 	public ResponseEntity<Object> triggerExceptionInController() {
 		log.info("## triggerExceptionInController");
 		throw new RuntimeException();
-		
 	}
 	
 	@GetMapping("/exception/interceptor")
