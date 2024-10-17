@@ -32,7 +32,6 @@ public class ErrorHandlingFilter implements Filter {
 				
 			}
 		}
-		
 	}
 	
 	private boolean isAjaxRequest(HttpServletRequest httpSevletRequest) {
