@@ -26,13 +26,13 @@ public class TestAopController {
 	@GetMapping("/exception/interceptor")
 	public String triggerExceptionInInterceptor() {
 		log.info("## triggerExceptionInInterceptor");
-		return "test-home";
+		return "home";
 	}
 	
 	@GetMapping("/exception/filter")
 	public String triggerExceptionInFilter() {
 		log.info("## triggerExceptionInFilter");
-		return "test-home";
+		return "home";
 	}
 	
 }

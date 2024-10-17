@@ -53,10 +53,6 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter { // Use
 			throw new LoginRequireFieldException(MessageUtils.getMessage("error.LoginRequireEmail"));	
 		}
 		
-		if (memberEmail.equals("test")) {
-			throw new RuntimeException();
-		}
-		
 		if (!StringUtils.hasText(memberPassword)) {
 			throw new LoginRequireFieldException(MessageUtils.getMessage("error.LoginRequirePassword"));
 		}

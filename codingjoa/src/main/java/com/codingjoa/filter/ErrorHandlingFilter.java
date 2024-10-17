@@ -34,9 +34,11 @@ public class ErrorHandlingFilter implements Filter {
 		log.info("## {}.init", filterConfig.getFilterName());
 		WebApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(filterConfig.getServletContext());
 		log.info("\t > context = {}", context);
+		
         if (context != null) {
-            objectMapper = context.getBean(ObjectMapper.class);
-            log.info("\t > objectMapper = {}", objectMapper);
+        	objectMapper = context.getBean(ObjectMapper.class);
+        } else {
+        	objectMapper = new ObjectMapper();
         }
 	}
 
@@ -50,10 +52,9 @@ public class ErrorHandlingFilter implements Filter {
 			chain.doFilter(servletRequest, servletResponse);
 		} catch (Exception e) {
 			log.info("## {}.doFilter", this.getClass().getSimpleName());
-			log.info("\t > dispatcherType = {}", servletRequest.getDispatcherType());
 			log.info("\t > request-line = {}", HttpUtils.getHttpRequestLine(request));
 			log.info("\t > x-requested-with = {}", request.getHeader("x-requested-with"));
-			log.info("\t > exception = {}: {}", e.getClass().getSimpleName(), e.getMessage());
+			log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
 			
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			response.setCharacterEncoding(StandardCharsets.UTF_8.name());

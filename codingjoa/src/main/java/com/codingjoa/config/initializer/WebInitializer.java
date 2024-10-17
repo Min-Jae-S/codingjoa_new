@@ -88,7 +88,6 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
 		log.info("## onStartup");
 		super.onStartup(servletContext);
 		registerCharacterEncodingFilter(servletContext);
-		//registerLogFilter(servletContext);
 		registerErrorHandlingFilter(servletContext);
 		registerTestAopFilter(servletContext);
 	}
@@ -144,18 +143,18 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
 		EnumSet<DispatcherType> dispatcherTypes = EnumSet.of(DispatcherType.REQUEST, DispatcherType.ASYNC, DispatcherType.ERROR);
 		filterRegistration.addMappingForUrlPatterns(dispatcherTypes, false, "/*");
 	}
+	
+	private void registerErrorHandlingFilter(ServletContext servletContext) {
+		log.info("## registerErrorHandlingFilter");
+		FilterRegistration.Dynamic filterRegistration = servletContext.addFilter("ErrorHandlingFilter", new ErrorHandlingFilter());
+		filterRegistration.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, "/*");
+	}
 
 	private void registerTestAopFilter(ServletContext servletContext) {
 		log.info("## registerTestAopFilter");
 		FilterRegistration.Dynamic filterRegistration = servletContext.addFilter("TestAopFilter", new TestAopFilter());
 		EnumSet<DispatcherType> dispatcherTypes = EnumSet.of(DispatcherType.REQUEST, DispatcherType.ASYNC, DispatcherType.ERROR);
 		filterRegistration.addMappingForUrlPatterns(dispatcherTypes, false, "/test/api/aop/exception/filter", "/test/aop/exception/filter");
-	}
-
-	private void registerErrorHandlingFilter(ServletContext servletContext) {
-		log.info("## registerErrorHandlingFilter");
-		FilterRegistration.Dynamic filterRegistration = servletContext.addFilter("ErrorHandlingFilter", new ErrorHandlingFilter());
-		filterRegistration.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, "/*");
 	}
 	
 }
