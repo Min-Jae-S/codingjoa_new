@@ -139,7 +139,7 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
 	private void registerLogFilter(ServletContext servletContext) {
 		log.info("## registerLogFilter");
 		FilterRegistration.Dynamic filterRegistration = servletContext.addFilter("LogFilter", new LogFilter());
-		filterRegistration.setInitParameter("excludePatterns", "/resources/, /upload/");
+		filterRegistration.setInitParameter("excludePatterns", "/resources/, /member/images/, /board/images/");
 		
 		EnumSet<DispatcherType> dispatcherTypes = EnumSet.of(DispatcherType.REQUEST, DispatcherType.ASYNC, DispatcherType.ERROR);
 		filterRegistration.addMappingForUrlPatterns(dispatcherTypes, false, "/*");

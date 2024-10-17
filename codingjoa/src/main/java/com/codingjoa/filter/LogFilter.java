@@ -28,7 +28,6 @@ public class LogFilter implements Filter {
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
 		log.info("## {}.init", filterConfig.getFilterName());
-
 		String excludePatterns = filterConfig.getInitParameter("excludePatterns");
 		log.info("\t > initParamter excludePatterns = '{}'", excludePatterns);
 		
@@ -44,9 +43,9 @@ public class LogFilter implements Filter {
 	@Override
 	public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain chain)
 			throws IOException, ServletException {
-		HttpServletRequest httpSevletRequest = (HttpServletRequest) servletRequest;
-		HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
-		String requestURI = httpSevletRequest.getRequestURI();
+		HttpServletRequest request = (HttpServletRequest) servletRequest;
+		HttpServletResponse response = (HttpServletResponse) servletResponse;
+		String requestURI = request.getRequestURI();
 		UUID uuid = UUID.randomUUID();
 		
 		if (isExcludePattern(requestURI)) {
@@ -55,15 +54,15 @@ public class LogFilter implements Filter {
 		} else {
 			log.info("## '{}' is includePattern.", requestURI);
 			try {
-				logRequestDetails(httpSevletRequest, httpServletResponse, uuid);
+				logRequestDetails(request, response, uuid);
 				chain.doFilter(servletRequest, servletResponse);
 			} catch (Exception e) {
-				log.info("## catch Exception");
+				log.info("## catch exception");
 				log.info("\t > exception = {}", e.getClass().getSimpleName());
 				//log.info("\t > message = {}", e.getMessage());
 				//throw e;
 			} finally {
-				logResponseDetails(httpSevletRequest, httpServletResponse, uuid);
+				logResponseDetails(request, response, uuid);
 			}
 		}
 	}
