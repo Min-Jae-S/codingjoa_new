@@ -17,7 +17,6 @@ public class ExceptionHandlerAspect {
 	@Around("execution(* com.example..*(..)) && @within(org.springframework.web.bind.annotation.ControllerAdvice)")
 	public Object routeExceptionHandler(ProceedingJoinPoint joinPoint) throws Throwable {
 		log.info("## {}.routeExceptionHandler", this.getClass().getSimpleName());
-		
 		HttpServletRequest request = null;
 		for (Object arg : joinPoint.getArgs()) {
 			log.info("\t > arg = {}", arg);
