@@ -37,6 +37,10 @@ public class HttpUtils {
 	}
 	
 	public static String getHttpRequestLine(HttpServletRequest request) {
+		if (request == null) {
+			return null;
+		}
+		
 		StringBuffer requestMethod = new StringBuffer(request.getMethod());
 		String fullUri = getFullURI(request);
 		return requestMethod.append(" '").append(fullUri).append("'").toString();
