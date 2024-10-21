@@ -79,8 +79,7 @@
 <script src="${contextPath}/resources/js/render.js"></script>
 <script>
 	$(function() {
-		let timer; 
-		let delay = 200;
+		let timer, delay = 200;
 		let $dropdowns = $("li.category div.dropdown-menu");
 		
 		$("li.category").on("mouseenter", function() {
