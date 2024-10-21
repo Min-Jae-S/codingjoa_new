@@ -21,6 +21,8 @@ public class ExceptionHandlerAspect {
 			+ "@within(org.springframework.web.bind.annotation.RestControllerAdvice)")
 	public Object routeExceptionHandler(ProceedingJoinPoint joinPoint) throws Throwable {
 		log.info("## {}.routeExceptionHandler", this.getClass().getSimpleName());
+		log.info("\t > joinPoint = {}", joinPoint);
+		
 		HttpServletRequest request = null;
 		for (Object arg : joinPoint.getArgs()) {
 			log.info("\t > arg = {}", (arg == null) ? null : arg.getClass().getSimpleName());
@@ -34,10 +36,10 @@ public class ExceptionHandlerAspect {
 		
 		if (request != null) {
 			if (isAjaxRequest(request)) {
-				log.info("\t > handling exception via ExceptionRestHandler");
+				log.info("\t > exception will be handled by ExceptionRestHandler");
 				return joinPoint.proceed();
 			} else {
-				log.info("\t > handling exception via ExceptionMvcHandler");
+				log.info("\t > exception will be handled by ExceptionMvcHandler");
 				return joinPoint.proceed();
 			}
 		}

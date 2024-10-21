@@ -33,8 +33,6 @@ public class ErrorHandlingFilter implements Filter {
 	public void init(FilterConfig filterConfig) throws ServletException {
 		log.info("## {}.init", filterConfig.getFilterName());
 		WebApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(filterConfig.getServletContext());
-		log.info("\t > context = {}", context);
-		
         if (context != null) {
         	objectMapper = context.getBean(ObjectMapper.class);
         } else {
@@ -53,7 +51,6 @@ public class ErrorHandlingFilter implements Filter {
 		} catch (Exception e) {
 			log.info("## {}.doFilter", this.getClass().getSimpleName());
 			log.info("\t > request-line = {}", HttpUtils.getHttpRequestLine(request));
-			log.info("\t > x-requested-with = {}", request.getHeader("x-requested-with"));
 			log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
 			
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
