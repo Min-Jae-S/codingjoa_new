@@ -67,7 +67,7 @@
 			<version>${org.aspectj-version}</version>
 		</dependency>
 		
-		<!-- aop -->
+		<!-- aspectJ util -->
 		<dependency>
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjweaver</artifactId>

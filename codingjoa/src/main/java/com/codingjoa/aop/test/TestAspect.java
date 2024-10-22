@@ -16,20 +16,22 @@ public class TestAspect {
 	
 	@Before("execution(* com.codingjoa.controller.test.*Controller.*(..))")
 	public void beforeController() throws Throwable {
+		System.out.println("## beforeController");
 		log.info("## {}.beforeController", this.getClass().getSimpleName());
 	}
 
-	@Around("@annotation(com.codingjoa.annotation.AopTest)")
+	@Around("@annotation(com.codingjoa.annotation.AspectTest)")
 	public void arroundAnnotation(ProceedingJoinPoint joinPoint) throws Throwable {
 		log.info("## {}.arroundAnnotation", this.getClass().getSimpleName());
+		log.info("\t > joinPoint = {}", joinPoint);
 	}
 	
-	@Before("@annotation(com.codingjoa.annotation.AopTest)")
+	@Before("@annotation(com.codingjoa.annotation.AspectTest)")
 	public void beforeAnnotation() throws Throwable {
 		log.info("## {}.beforeAnnotation", this.getClass().getSimpleName());
 	}
 	
-	@After("@annotation(com.codingjoa.annotation.AopTest)")
+	@After("@annotation(com.codingjoa.annotation.AspectTest)")
 	public void afterAnnotation() throws Throwable {
 		log.info("## {}.afterAnnotation", this.getClass().getSimpleName());
 	}
