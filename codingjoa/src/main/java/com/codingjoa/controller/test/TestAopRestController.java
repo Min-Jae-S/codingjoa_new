@@ -5,11 +5,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.codingjoa.annotation.AopTest;
 import com.codingjoa.dto.SuccessResponse;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@AopTest
 @RequestMapping("/test/api/aop")
 @RestController
 public class TestAopRestController {

@@ -51,7 +51,6 @@ import lombok.extern.slf4j.Slf4j;
 @ComponentScan("com.codingjoa.controller") 
 @ComponentScan("com.codingjoa.resolver")
 @ComponentScan("com.codingjoa.exception")
-@ComponentScan("com.codingjoa.aop")
 @RequiredArgsConstructor
 @EnableWebMvc 
 @Configuration

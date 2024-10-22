@@ -389,7 +389,7 @@
 		    <version>1.0.1</version>
 		</dependency> -->
 		
-		<!-- Jsoup Java HTML Parser -->
+		<!-- jsoup (java HTML parser) -->
 		<!-- https://mvnrepository.com/artifact/org.jsoup/jsoup -->
 		<dependency>
 		    <groupId>org.jsoup</groupId>
@@ -397,7 +397,7 @@
 		    <version>1.15.3</version>
 		</dependency>
 		
-		<!-- Quartz Scheduler -->
+		<!-- quartz scheduler -->
 		<!-- https://mvnrepository.com/artifact/org.quartz-scheduler/quartz -->
 		<dependency>
 		    <groupId>org.quartz-scheduler</groupId>
@@ -412,11 +412,18 @@
 		    <version>2.3.2</version>
 		</dependency>
 		 
-		<!-- Quartz-Spring -->
+		<!-- quartz-spring -->
 		<dependency>
 		    <groupId>org.springframework</groupId>
 		    <artifactId>spring-context-support</artifactId>
 		    <version>${org.springframework-version}</version>
+		</dependency>
+		
+		<!-- aop -->
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<version>1.9.6</version>
 		</dependency>
 		
 	</dependencies>
