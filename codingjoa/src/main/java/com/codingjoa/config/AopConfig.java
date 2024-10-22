@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 @ComponentScan("com.codingjoa.aop")
-@EnableAspectJAutoProxy
+@EnableAspectJAutoProxy//(proxyTargetClass = true)
 @Configuration
 public class AopConfig {
 	
