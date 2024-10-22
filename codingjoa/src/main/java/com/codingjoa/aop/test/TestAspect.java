@@ -14,23 +14,23 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class TestAspect {
 	
-	@Around("execution(* com.codingjoa..*(..))")
-	public void test(ProceedingJoinPoint joinPoint) throws Throwable {
-		log.info("## {}.test", this.getClass().getSimpleName());
-	}
+//	@Around("execution(* com.codingjoa..*(..))")
+//	public void test(ProceedingJoinPoint joinPoint) throws Throwable {
+//		log.info("## {}.test", this.getClass().getSimpleName());
+//	}
 
-	@Around("@annotation(AopTest)")
+	@Around("@annotation(com.codingjoa.annotation.AopTest)")
 	public void arroundAnnotation(ProceedingJoinPoint joinPoint) throws Throwable {
 		log.info("## {}.withAnnotation", this.getClass().getSimpleName());
 	}
 	
-	@Before("@annotation(AopTest)")
-	public void beforeAnnotation(ProceedingJoinPoint joinPoint) throws Throwable {
+	@Before("@annotation(com.codingjoa.annotation.AopTest)")
+	public void beforeAnnotation() throws Throwable {
 		log.info("## {}.withAnnotation", this.getClass().getSimpleName());
 	}
 	
-	@After("@annotation(AopTest)")
-	public void afterAnnotation(ProceedingJoinPoint joinPoint) throws Throwable {
+	@After("@annotation(com.codingjoa.annotation.AopTest)")
+	public void afterAnnotation() throws Throwable {
 		log.info("## {}.afterAnnotation", this.getClass().getSimpleName());
 	}
 	
