@@ -40,6 +40,7 @@ public class TestAopRestController {
 		return ResponseEntity.ok(SuccessResponse.builder().message("exception in filter").build());
 	}
 	
+	@AopTest
 	@GetMapping("/test1")
 	public ResponseEntity<Object> test1() {
 		log.info("## test1");
