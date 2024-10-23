@@ -20,6 +20,12 @@ public class TestAspect {
 		log.info("## {}.beforeController", this.getClass().getSimpleName());
 	}
 
+	@Around("execution(* com.codingjoa.service.test.TestProxyService.*(..))")
+	public void aroundService(ProceedingJoinPoint joinPoint) throws Throwable {
+		System.out.println("## aroundService");
+		log.info("## {}.aroundService", this.getClass().getSimpleName());
+	}
+
 	@Around("@annotation(com.codingjoa.annotation.AspectTest)")
 	public void arroundAnnotation(ProceedingJoinPoint joinPoint) throws Throwable {
 		log.info("## {}.arroundAnnotation", this.getClass().getSimpleName());
