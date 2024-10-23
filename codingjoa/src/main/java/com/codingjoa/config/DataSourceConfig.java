@@ -16,7 +16,7 @@ import com.zaxxer.hikari.HikariDataSource;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-@EnableTransactionManagement
+@EnableTransactionManagement//(proxyTargetClass = true)
 @Configuration
 public class DataSourceConfig {
 	
