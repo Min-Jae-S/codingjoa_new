@@ -1,5 +1,6 @@
 package com.codingjoa.controller.test;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
 import org.springframework.aop.support.AopUtils;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @SuppressWarnings("unused")
 @Slf4j
+//@AspectTest
 @RequestMapping("/test/api/aop")
 @RestController
 public class TestAopRestController {
@@ -96,6 +99,9 @@ public class TestAopRestController {
 	@GetMapping("/test2")
 	public ResponseEntity<Object> test2() {
 		log.info("## test2");
+		log.info("\t > testProxyService = {}", testProxyService.getClass().getName());
+		log.info("\t > testProxyService, isAopProxy = {}", AopUtils.isAopProxy(testProxyService));
+		testProxyService.test();
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 	

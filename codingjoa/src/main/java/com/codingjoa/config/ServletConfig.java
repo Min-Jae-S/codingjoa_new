@@ -192,7 +192,7 @@ public class ServletConfig implements WebMvcConfigurer {
 		
 		/* 
 		 * Spring internally uses a library that can generate class-based proxies, 
-		 * allowing the creation of proxies even for classes that don't implement interfaces. 
+		 * allowing the creation of proxies for classes that don't implement interfaces. 
 		 * Hence, in general cases, Spring is capable of creating proxies and 
 		 * enabling method-level validation even without explicitly setting setProxyTargetClass(true).
 		 * However, there are certain scenarios where the generation of interface-based proxies is limited.
