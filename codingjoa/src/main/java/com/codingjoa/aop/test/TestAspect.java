@@ -1,22 +1,19 @@
 package com.codingjoa.aop.test;
 
-import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.After;
-import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.stereotype.Component;
 
 import lombok.extern.slf4j.Slf4j;
 
-@SuppressWarnings("unused")
+//@SuppressWarnings("unused")
 @Slf4j
 @Aspect
 @Component
 public class TestAspect {
 	
 	@Before("@annotation(com.codingjoa.annotation.AspectTest)")
-	//@Before("execution(* com.codingjoa.controller.test.TestAopRestController.*.*(..))")
+	//@Before("execution(* com.codingjoa.controller.test.*.*(..))")
 	//@Before("execution(* com.codingjoa.controller.test.*Controller.*.*(..))")
 	public void beforeController() throws Throwable {
 		log.info("## {}.beforeController", this.getClass().getSimpleName());

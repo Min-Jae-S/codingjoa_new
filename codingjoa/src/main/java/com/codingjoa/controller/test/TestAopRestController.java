@@ -26,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @SuppressWarnings("unused")
 @Slf4j
-//@AspectTest
+@AspectTest
 @RequestMapping("/test/api/aop")
 @RestController
 public class TestAopRestController {
@@ -99,8 +99,6 @@ public class TestAopRestController {
 	@GetMapping("/test2")
 	public ResponseEntity<Object> test2() {
 		log.info("## test2");
-		log.info("\t > testProxyService = {}", testProxyService.getClass().getName());
-		log.info("\t > testProxyService, isAopProxy = {}", AopUtils.isAopProxy(testProxyService));
 		testProxyService.test();
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
