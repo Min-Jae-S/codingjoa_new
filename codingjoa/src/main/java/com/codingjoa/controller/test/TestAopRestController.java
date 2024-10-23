@@ -15,6 +15,7 @@ import com.codingjoa.dto.SuccessResponse;
 import com.codingjoa.service.MemberService;
 import com.codingjoa.service.impl.EmailServiceImpl;
 import com.codingjoa.service.impl.MemberServiceImpl;
+import com.codingjoa.service.test.TestProxyService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -27,9 +28,12 @@ public class TestAopRestController {
 	@Autowired
 	private ApplicationContext context;
 	
-//	@Autowired
-//	private MemberService memberService;
-
+	@Autowired
+	private MemberService memberService;
+	
+	@Autowired
+	private TestProxyService testProxyService;
+	
 //	@Autowired
 //	private MemberServiceImpl memberServiceImpl;
 
@@ -39,7 +43,9 @@ public class TestAopRestController {
 	@ModelAttribute
 	public void loggingBeforeMethod() {
 		log.info("## loggingBeforeMethod");
-		log.info("\t > isAopProxy, TestAopRestController.class = {}", AopUtils.isAopProxy(this.getClass()));
+		log.info("\t > isAopProxy, this from inner controller= {}", AopUtils.isAopProxy(this));
+		TestAopRestController controller = context.getBean(TestAopRestController.class);
+		log.info("\t > isAopProxy, this from context = {}", AopUtils.isAopProxy(controller));
 	}
 	
 	@GetMapping("/exception")
@@ -72,10 +78,17 @@ public class TestAopRestController {
 		log.info("## test1");
 		TestAspect testAspect = context.getBean(TestAspect.class);
 		log.info("\t > aspect = {}", testAspect);
-		log.info("\t > isAopProxy, TestAspect.class = {}", AopUtils.isAopProxy(testAspect.getClass()));
-		//log.info("\t > isAopProxy, MemberService.class = {}", AopUtils.isAopProxy(memberService.getClass()));
-		//log.info("\t > isAopProxy, MemberServiceImpl.class = {}", AopUtils.isAopProxy(memberServiceImpl.getClass()));
-		log.info("\t > isAopProxy, EmailServiceImpl.class = {}", AopUtils.isAopProxy(emailServiceImpl.getClass()));
+		log.info("\t > isAopProxy, testAspect = {}", AopUtils.isAopProxy(testAspect));
+		
+		log.info("\t > isAopProxy, memberService = {}", AopUtils.isAopProxy(memberService));
+		log.info("\t > isJdkDynamicProxy, memberService = {}", AopUtils.isJdkDynamicProxy(memberService));
+		log.info("\t > isCglibProxy, memberService = {}", AopUtils.isCglibProxy(memberService));
+		
+		log.info("\t > isAopProxy, testProxyService = {}", AopUtils.isAopProxy(testProxyService));
+		log.info("\t > isJdkDynamicProxy, testProxyService = {}", AopUtils.isJdkDynamicProxy(testProxyService));
+		log.info("\t > isCglibProxy, testProxyService = {}", AopUtils.isCglibProxy(testProxyService));
+		
+		//log.info("\t > isAopProxy, emailServiceImpl = {}", AopUtils.isAopProxy(emailServiceImpl));
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 
