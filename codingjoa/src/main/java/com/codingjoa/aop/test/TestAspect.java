@@ -16,12 +16,12 @@ public class TestAspect {
 	
 	@Before("@annotation(com.codingjoa.annotation.AnnoTest)")
 	public void annotation() throws Throwable {
-		log.info("## @annotation", this.getClass().getSimpleName());
+		log.info("## {}.@annotation", this.getClass().getSimpleName());
 	}
 
 	@Before("@within(com.codingjoa.annotation.AnnoTest)")
 	public void within() throws Throwable {
-		log.info("## @within", this.getClass().getSimpleName());
+		log.info("## {}.@within", this.getClass().getSimpleName());
 	}
 
 //	@Before("@within(com.codingjoa.annotation.AnnoTest) || @annotation(com.codingjoa.annotation.AnnoTest)")

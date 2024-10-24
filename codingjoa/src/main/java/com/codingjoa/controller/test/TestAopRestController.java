@@ -20,6 +20,8 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 public class TestAopRestController {
 	
+	private final String regex = "\\.(?=[^.]+$)";
+	
 	@Autowired
 	private TestAopRestController self;
 
@@ -59,22 +61,22 @@ public class TestAopRestController {
 	@GetMapping("/test1")
 	public ResponseEntity<Object> test1() {
 		log.info("## test1");
-		log.info("\t > testAopRestController = {}", self.getClass().getName());
+		log.info("\t > testAopRestController = {}", self.getClass().getName().split(regex, 2)[1]);
 		log.info("\t\t - isAopProxy = {}", AopUtils.isAopProxy(self));
 		log.info("\t\t - isJdkDynamicProxy = {}", AopUtils.isJdkDynamicProxy(self));
 		log.info("\t\t - isCglibProxy = {}", AopUtils.isCglibProxy(self));
 		
-		log.info("\t > testProxyService = {}", testProxyService.getClass().getName());
+		log.info("\t > testProxyService = {}", testProxyService.getClass().getName().split(regex, 2)[1]);
 		log.info("\t\t - isAopProxy = {}", AopUtils.isAopProxy(testProxyService));
 		log.info("\t\t - isJdkDynamicProxy = {}", AopUtils.isJdkDynamicProxy(testProxyService));
 		log.info("\t\t - isCglibProxy = {}", AopUtils.isCglibProxy(testProxyService));
 
-		log.info("\t > memberService = {}", memberService.getClass().getName());
+		log.info("\t > memberService = {}", memberService.getClass().getName().split(regex, 2)[1]);
 		log.info("\t\t - isAopProxy = {}", AopUtils.isAopProxy(memberService));
 		log.info("\t\t - isJdkDynamicProxy = {}", AopUtils.isJdkDynamicProxy(memberService));
 		log.info("\t\t - isCglibProxy = {}", AopUtils.isCglibProxy(memberService));
 		
-		log.info("\t > emailService = {}", emailService.getClass().getName());
+		log.info("\t > emailService = {}", emailService.getClass().getName().split(regex, 2)[1]);
 		log.info("\t\t - isAopProxy = {}", AopUtils.isAopProxy(emailService));
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
@@ -84,11 +86,14 @@ public class TestAopRestController {
 	@GetMapping("/test2")
 	public ResponseEntity<Object> test2() {
 		log.info("## test2");
-		log.info("\t > testAopRestController = {}, isAopPrxoy = {}", self.getClass().getName(), AopUtils.isAopProxy(self));
-		log.info("\t > testProxyService = {}, isAopPrxoy = {}", 
-				testProxyService.getClass().getName(), AopUtils.isAopProxy(testProxyService));
+		log.info("\t > testAopRestController = {}", self.getClass().getName().split(regex, 2)[1]);
+		log.info("\t > testAopRestController, isAopProxy = {}", AopUtils.isAopProxy(self));
+		log.info("\t > testProxyService = {}", testProxyService.getClass().getName().split(regex, 2)[1]);
+		log.info("\t > testProxyService, isAopProxy = {}", AopUtils.isAopProxy(testProxyService));
 		testProxyService.test();
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
+	
+	
 	
 }
