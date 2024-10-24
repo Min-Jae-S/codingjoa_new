@@ -13,12 +13,12 @@ import lombok.extern.slf4j.Slf4j;
 public class TestAspect {
 	
 	@Before("@within(com.codingjoa.annotation.AnnoTest) || @annotation(com.codingjoa.annotation.AnnoTest)")
-	public void test1() throws Throwable {
+	public void withinOrAnnotation() throws Throwable {
 		log.info("## @within || @annotation", this.getClass().getSimpleName());
 	}
 
 	@Before("@within(com.codingjoa.annotation.AnnoTest)")
-	public void test2() throws Throwable {
+	public void within() throws Throwable {
 		log.info("## @within", this.getClass().getSimpleName());
 	}
 	

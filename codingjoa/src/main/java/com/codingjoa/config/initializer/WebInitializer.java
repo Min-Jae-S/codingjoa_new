@@ -1,7 +1,10 @@
 package com.codingjoa.config.initializer;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.EnumSet;
+import java.util.List;
 
 import javax.servlet.DispatcherType;
 import javax.servlet.FilterRegistration;
@@ -72,8 +75,19 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
 	@Override
 	protected ApplicationContextInitializer<?>[] getRootApplicationContextInitializers() {
 		log.info("## getRootApplicationContextInitializers");
-		//ApplicationContextInitializer<?>[] existingInitializers = super.getRootApplicationContextInitializers(); // null
-		return new ApplicationContextInitializer<?>[] { new PropertiesApplicationContextInitializer() };
+		
+		List<ApplicationContextInitializer<?>> initializers = new ArrayList<>();
+		ApplicationContextInitializer<?>[] existingInitializers = super.getRootApplicationContextInitializers();
+		log.info("\t > existingInitializers = {}", (Object[]) existingInitializers);
+		
+		if (existingInitializers != null) {
+			initializers.addAll(Arrays.asList(existingInitializers));
+		}
+		
+		initializers.add(new PropertiesApplicationContextInitializer());
+		log.info("\t > initializers = {}", initializers);
+		
+		return initializers.toArray(new ApplicationContextInitializer[0]);
 	}
 	
 	@Override
@@ -82,6 +96,8 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
 		DispatcherServlet dispatcherServlet = (DispatcherServlet) super.createDispatcherServlet(servletAppContext);
 		dispatcherServlet.setThrowExceptionIfNoHandlerFound(true);
 		dispatcherServlet.setEnableLoggingRequestDetails(true);
+		log.info("\t > servletInfo = {}", dispatcherServlet.getServletInfo());
+		log.info("\t > contextConfigLocation = {}", dispatcherServlet.getContextConfigLocation());
 		return dispatcherServlet;
 	}
 	

@@ -7,7 +7,6 @@ import javax.validation.Validator;
 
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.core.Ordered;
@@ -48,9 +47,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@ComponentScan("com.codingjoa.controller") 
-@ComponentScan("com.codingjoa.resolver")
-@ComponentScan("com.codingjoa.exception")
 @RequiredArgsConstructor
 @EnableWebMvc 
 @Configuration
