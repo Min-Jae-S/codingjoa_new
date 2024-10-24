@@ -21,7 +21,6 @@ import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.FrameworkServlet;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
-import com.codingjoa.config.AopConfig;
 import com.codingjoa.config.AppConfig;
 import com.codingjoa.config.BatchConfig;
 import com.codingjoa.config.BatchJobConfig;
@@ -55,8 +54,7 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
 				QuartzConfig.class,
 				BatchConfig.class,
 				BatchJobConfig.class,
-				OAuth2Config.class,
-				AopConfig.class
+				OAuth2Config.class
 		};
 	}
 
@@ -78,8 +76,6 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
 		
 		List<ApplicationContextInitializer<?>> initializers = new ArrayList<>();
 		ApplicationContextInitializer<?>[] existingInitializers = super.getRootApplicationContextInitializers();
-		log.info("\t > existingInitializers = {}", (Object[]) existingInitializers);
-		
 		if (existingInitializers != null) {
 			initializers.addAll(Arrays.asList(existingInitializers));
 		}
@@ -96,8 +92,6 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
 		DispatcherServlet dispatcherServlet = (DispatcherServlet) super.createDispatcherServlet(servletAppContext);
 		dispatcherServlet.setThrowExceptionIfNoHandlerFound(true);
 		dispatcherServlet.setEnableLoggingRequestDetails(true);
-		log.info("\t > servletInfo = {}", dispatcherServlet.getServletInfo());
-		log.info("\t > contextConfigLocation = {}", dispatcherServlet.getContextConfigLocation());
 		return dispatcherServlet;
 	}
 	
