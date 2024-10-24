@@ -19,7 +19,6 @@ import com.codingjoa.service.test.TestProxyService;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@AnnoTest
 @RequestMapping("/test/api/aop")
 @RestController
 public class TestAopRestController {
@@ -88,6 +87,7 @@ public class TestAopRestController {
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 
+	@AnnoTest
 	@GetMapping("/test2")
 	public ResponseEntity<Object> test2() {
 		log.info("## test2");

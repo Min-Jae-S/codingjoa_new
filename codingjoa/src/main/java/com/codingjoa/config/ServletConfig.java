@@ -48,6 +48,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+@SuppressWarnings("unused")
 @Slf4j
 @ComponentScan("com.codingjoa.controller") 
 @ComponentScan("com.codingjoa.resolver")

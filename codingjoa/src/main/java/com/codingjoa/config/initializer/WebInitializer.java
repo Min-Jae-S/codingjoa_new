@@ -21,6 +21,7 @@ import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.FrameworkServlet;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
+import com.codingjoa.config.AopConfig;
 import com.codingjoa.config.AppConfig;
 import com.codingjoa.config.BatchConfig;
 import com.codingjoa.config.BatchJobConfig;
@@ -54,7 +55,8 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
 				QuartzConfig.class,
 				BatchConfig.class,
 				BatchJobConfig.class,
-				OAuth2Config.class
+				OAuth2Config.class,
+				AopConfig.class
 		};
 	}
 
