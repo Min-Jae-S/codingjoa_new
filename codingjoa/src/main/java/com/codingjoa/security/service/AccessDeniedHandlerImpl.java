@@ -22,6 +22,7 @@ import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.stereotype.Component;
 
 import com.codingjoa.dto.ErrorResponse;
+import com.codingjoa.util.AjaxUtils;
 import com.codingjoa.util.FormatUtils;
 import com.codingjoa.util.HttpUtils;
 import com.codingjoa.util.UriUtils;
@@ -60,7 +61,7 @@ public class AccessDeniedHandlerImpl implements AccessDeniedHandler {
 				.messageByCode("error.Forbidden")
 				.build();
 		
-		if (isAjaxRequest(request)) {
+		if (AjaxUtils.isAjaxRequest(request)) {
 			log.info("\t > respond with errorResponse in JSON format");
 			String jsonResponse = objectMapper.writeValueAsString(errorResponse);
 			response.setContentType(MediaType.APPLICATION_JSON_VALUE);
@@ -77,10 +78,6 @@ public class AccessDeniedHandlerImpl implements AccessDeniedHandler {
 			request.getRequestDispatcher("/WEB-INF/views/feedback.jsp").forward(request, response);
 			//redirectStrategy.sendRedirect(request, response, "/");
 		}
-	}
-	
-	private boolean isAjaxRequest(HttpServletRequest request) {
-		return "XMLHttpRequest".equals(request.getHeader("x-requested-with"));
 	}
 	
 }

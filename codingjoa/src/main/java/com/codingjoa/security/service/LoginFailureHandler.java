@@ -46,7 +46,7 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
 		 * 	- not matched rawPassword, encPassword
 		 */
 		
-		String message;
+		String message = null;
 		if (e instanceof LoginRequireFieldException || e instanceof UsernameNotFoundException
 				|| e instanceof BadCredentialsException) {
 			log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());

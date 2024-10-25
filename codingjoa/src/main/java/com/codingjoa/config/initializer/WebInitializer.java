@@ -75,7 +75,6 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
 	@Override
 	protected ApplicationContextInitializer<?>[] getRootApplicationContextInitializers() {
 		log.info("## getRootApplicationContextInitializers");
-		
 		List<ApplicationContextInitializer<?>> initializers = new ArrayList<>();
 		ApplicationContextInitializer<?>[] existingInitializers = super.getRootApplicationContextInitializers();
 		if (existingInitializers != null) {
@@ -83,7 +82,7 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
 		}
 		
 		initializers.add(new PropertiesApplicationContextInitializer());
-		log.info("\t > initializers = {}", initializers);
+		initializers.forEach(initializer -> log.info("\t > {}", initializer));
 		
 		return initializers.toArray(new ApplicationContextInitializer[0]);
 	}

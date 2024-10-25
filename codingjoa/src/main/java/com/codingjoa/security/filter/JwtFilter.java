@@ -38,7 +38,7 @@ public class JwtFilter extends OncePerRequestFilter {
 			log.info("\t > valid JWT, obtain authenticaion from jwt(claims)");
 			Authentication authentication = jwtProvider.getAuthentication(jwt); // UsernamePasswordAuthenticationToken
 
-			log.info("\t > temporarily store authenticaion in the security context");
+			log.info("\t > temporarily store authenticaion in the SecurityContext");
 			SecurityContextHolder.getContext().setAuthentication(authentication);
 		}
 		

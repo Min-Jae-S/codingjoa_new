@@ -52,7 +52,7 @@ import lombok.extern.slf4j.Slf4j;
 public class ExceptionRestHandler {
 	
 	@ExceptionHandler(Exception.class)
-	protected ResponseEntity<Object> handleEx(Exception e) {
+	protected ResponseEntity<Object> handleEx(Exception e, HttpServletRequest request) {
 		log.info("## {}.handleEx", this.getClass().getSimpleName());
 		log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
 		//e.printStackTrace();
@@ -81,7 +81,7 @@ public class ExceptionRestHandler {
 	}
 	
 	@ExceptionHandler(HttpMessageNotReadableException.class)
-	protected ResponseEntity<Object> handleHttpMessageNotReadableEx(HttpMessageNotReadableException e) {
+	protected ResponseEntity<Object> handleHttpMessageNotReadableEx(HttpMessageNotReadableException e, HttpServletRequest request) {
 		log.info("## {}.handleHttpMessageNotReadableEx", this.getClass().getSimpleName());
 		log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
 		
@@ -95,7 +95,7 @@ public class ExceptionRestHandler {
 	}
 	
 	@ExceptionHandler(MethodArgumentNotValidException.class)
-	protected ResponseEntity<Object> handleMethodArgumentNotValidEx(MethodArgumentNotValidException e) {
+	protected ResponseEntity<Object> handleMethodArgumentNotValidEx(MethodArgumentNotValidException e, HttpServletRequest request) {
 		log.info("## {}.handleMethodArgumentNotValidEx", this.getClass().getSimpleName());
 		log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
 		
@@ -113,7 +113,7 @@ public class ExceptionRestHandler {
 	}
 	
 	@ExceptionHandler(ConstraintViolationException.class)
-	protected ResponseEntity<Object> handleConstraintViolationEx(ConstraintViolationException e) {
+	protected ResponseEntity<Object> handleConstraintViolationEx(ConstraintViolationException e, HttpServletRequest request) {
 		log.info("## {}.handleConstraintViolationEx", this.getClass().getSimpleName());
 		log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
 		
@@ -134,7 +134,7 @@ public class ExceptionRestHandler {
 		MissingPathVariableException.class,			// api/comments/
 		MethodArgumentTypeMismatchException.class,	// api/comments/aa
 	})
-	protected ResponseEntity<Object> handleInvalidFormatEx(Exception e) {
+	protected ResponseEntity<Object> handleInvalidFormatEx(Exception e, HttpServletRequest request) {
 		log.info("## {}.handleInvalidFormatEx", this.getClass().getSimpleName());
 		log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
 
@@ -148,7 +148,7 @@ public class ExceptionRestHandler {
 	}
 	
 	@ExceptionHandler(MaxUploadSizeExceededException.class)
-	protected ResponseEntity<Object> handleMaxUploadSizeExceededEx(MaxUploadSizeExceededException e) {
+	protected ResponseEntity<Object> handleMaxUploadSizeExceededEx(MaxUploadSizeExceededException e, HttpServletRequest request) {
 		log.info("## {}.handleMaxUploadSizeExceededEx", this.getClass().getSimpleName());
 		log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
 		
@@ -162,7 +162,7 @@ public class ExceptionRestHandler {
 	}
 	
 	@ExceptionHandler(ExpectedException.class)
-	protected ResponseEntity<Object> handleExpectedEx(ExpectedException e) {
+	protected ResponseEntity<Object> handleExpectedEx(ExpectedException e, HttpServletRequest request) {
 		log.info("## {}.handleExpectedEx", this.getClass().getSimpleName());
 		log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
 		log.info("\t > errorCode = {}, errorField = {}", e.getErrorCode(), e.getErrorField());
@@ -183,7 +183,7 @@ public class ExceptionRestHandler {
 	}
 	
 	@ExceptionHandler(TestException.class)
-	protected ResponseEntity<Object> handleTestEx(TestException e) {
+	protected ResponseEntity<Object> handleTestEx(TestException e, HttpServletRequest request) {
 		log.info("## {}.handleTestEx", this.getClass().getSimpleName());
 		log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
 		log.info("\t > errorCode = {}, errorField = {}", e.getErrorCode(), e.getErrorField());

@@ -16,6 +16,7 @@ import org.springframework.util.StringUtils;
 
 import com.codingjoa.security.dto.LoginDto;
 import com.codingjoa.security.exception.LoginRequireFieldException;
+import com.codingjoa.util.AjaxUtils;
 import com.codingjoa.util.FormatUtils;
 import com.codingjoa.util.MessageUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -41,7 +42,10 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter { // Use
 			throws AuthenticationException, IOException, ServletException {
 		log.info("## {}.attemptAuthentication", this.getClass().getSimpleName());
 		
-		// check ajax and POST
+		if (!AjaxUtils.isAjaxRequest(request) || !"POST".equals(request.getMethod())) {
+			log.info("\t > invalid login request");
+			// ...
+		}
 		
 		LoginDto loginDto = objectMapper.readValue(request.getReader(), LoginDto.class);
 		log.info("\t > loginDto = {}", loginDto);

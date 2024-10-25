@@ -5,7 +5,10 @@ import javax.servlet.http.HttpServletRequest;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
+
+import com.codingjoa.util.AjaxUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -14,10 +17,17 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class ExceptionHandlerAspect {
 	
-	@Around("execution(* com.codingjoa.exception.*.*(..)) && @target(org.springframework.web.bind.annotation.ControllerAdvice)")
+	@Pointcut("execution(* com.codingjoa.exception.*.*(..))")
+	public void inExceptionHandlerLayer() {}
+	
+	@Pointcut("@within(org.springframework.web.bind.annotation.ControllerAdvice) || "
+			+ "@within(org.springframework.web.bind.annotation.RestControllerAdvice)")
+	public void withinControllerAdviceAnnotations() {}
+	
+	@Around("inExceptionHandlerLayer() && withinControllerAdviceAnnotations()")
 	public Object routeExceptionHandler(ProceedingJoinPoint joinPoint) throws Throwable {
 		log.info("## {}.routeExceptionHandler", this.getClass().getSimpleName());
-		log.info("\t > signature = {}", joinPoint.getSignature());
+		log.info("\t > target = {}", joinPoint.getTarget().getClass().getSimpleName());
 		
 		HttpServletRequest request = null;
 		for (Object arg : joinPoint.getArgs()) {
@@ -27,20 +37,17 @@ public class ExceptionHandlerAspect {
 			}
 		}
 		
-		if (request != null) {
-			if (isAjaxRequest(request)) {
-				log.info("\t > ajax request, exception should be handled by ExceptionRestHandler");
-				return joinPoint.proceed();
-			} else {
-				log.info("\t > not ajax request, exception should be handled by ExceptionMvcHandler");
-				return joinPoint.proceed();
-			}
+		if (request == null) {
+			log.info("\t > no HttpServletRequest instance in the arguments");
+			// throw exception..
 		}
 		
-		return joinPoint.proceed();
-	}
-	
-	private boolean isAjaxRequest(HttpServletRequest request) {
-		return "XMLHttpRequest".equals(request.getHeader("x-requested-with"));
+		if (AjaxUtils.isAjaxRequest(request)) {
+			log.info("\t > ajax request detected, handling via ExceptionRestHandler");
+			return joinPoint.proceed();
+		} else {
+			log.info("\t > non-ajax request detected, handling via ExceptionMvcHandler");
+			return joinPoint.proceed();
+		}
 	}
 }

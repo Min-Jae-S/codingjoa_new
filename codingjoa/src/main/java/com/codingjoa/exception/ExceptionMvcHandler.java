@@ -85,8 +85,7 @@ public class ExceptionMvcHandler {
 	}
 	
 	@ExceptionHandler(ConstraintViolationException.class) // /board/?boardCategoryCode=11
-	protected String handleConstraintViolationEx(ConstraintViolationException e, 
-			HttpServletRequest request) {
+	protected String handleConstraintViolationEx(ConstraintViolationException e, HttpServletRequest request) {
 		log.info("## {}.handleConstraintViolationEx", this.getClass().getSimpleName());
 		log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
 		

@@ -18,6 +18,7 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.codingjoa.dto.ErrorResponse;
+import com.codingjoa.util.AjaxUtils;
 import com.codingjoa.util.HttpUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -61,7 +62,7 @@ public class ErrorHandlingFilter implements Filter {
 					.messageByCode("error.Server")
 					.build();
 			
-			if (isAjaxRequest(request)) {
+			if (AjaxUtils.isAjaxRequest(request)) {
 				log.info("\t > respond with errorResponse in JSON format");
 				String jsonResponse = objectMapper.writeValueAsString(errorResponse);
 				response.setContentType(MediaType.APPLICATION_JSON_VALUE);
@@ -73,10 +74,6 @@ public class ErrorHandlingFilter implements Filter {
 				request.getRequestDispatcher(FORWARD_URL).forward(request, response);
 			}
 		}
-	}
-	
-	private boolean isAjaxRequest(HttpServletRequest request) {
-		return "XMLHttpRequest".equals(request.getHeader("x-requested-with"));
 	}
 	
 }
