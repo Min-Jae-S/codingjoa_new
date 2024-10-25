@@ -34,7 +34,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.BeanNameViewResolver;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
-import com.codingjoa.exception.ExceptionResolver;
 import com.codingjoa.interceptor.PasswordResetKeyInterceptor;
 import com.codingjoa.interceptor.TopMenuInterceptor;
 import com.codingjoa.interceptor.test.TestAopInterceptor;
@@ -48,7 +47,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-@SuppressWarnings("unused")
 @Slf4j
 @ComponentScan("com.codingjoa.controller") 
 @ComponentScan("com.codingjoa.resolver")
@@ -64,7 +62,7 @@ public class ServletConfig implements WebMvcConfigurer {
 	private final RedisService redisService;
 	private final BoardCriteriaArgumentResolver boardCriteriaArgumentResolver;
 	private final CommentCriteriaArgumentResolver commentCriteriaArgumentResolver;
-	private final ExceptionResolver exceptionResolver;
+	private final HandlerExceptionResolver exceptionResolver; // ExceptionResolver --> HandlerExceptionResolver (issue at proxy)
 	private final MessageSource messageSource;
 	private final ObjectMapper objectMapper;
 	

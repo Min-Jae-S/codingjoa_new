@@ -24,21 +24,18 @@ public class ExceptionResolver implements HandlerExceptionResolver {
 		log.info("## {}", this.getClass().getSimpleName());
 		log.info("\t > request-line = {}", HttpUtils.getHttpRequestLine(request));
 		log.info("\t > x-requested-with = {}", request.getHeader("x-requested-with"));
-		log.info("\t > {}: {}", ex.getClass().getSimpleName(), ex.getMessage());
+		log.info("\t > triggered ex = {}: {}", ex.getClass().getSimpleName(), ex.getMessage());
 
 		if (handler == null) {
-			log.info("\t > handler = {}", handler);
-			log.info("\t > handler hasn't been resolved, can't check for @Controller or @RestController");
+			log.info("\t > handler = {}, handler hasn't been resolved", handler);
 		} else if (handler instanceof HandlerMethod) {
 			HandlerMethod handlerMethod = (HandlerMethod) handler;
 			int beginIndex = handlerMethod.toString().lastIndexOf(".") + 1;
-			log.info("\t > handler = {}", handlerMethod.toString().substring(beginIndex));
-			
 			Class<?> controller = handlerMethod.getBeanType();
 			if (controller.isAnnotationPresent(Controller.class)) {
-				log.info("\t > controller = @Controller");
+				log.info("\t > handler = @Controller, {}", handlerMethod.toString().substring(beginIndex));
 			} else if (controller.isAnnotationPresent(RestController.class)) {
-				log.info("\t > controller = @RestController");
+				log.info("\t > handler = @RestController, {}", handlerMethod.toString().substring(beginIndex));
 			}
 		} else {
 			log.info("\t > handler = {}", handler.getClass().getSimpleName());

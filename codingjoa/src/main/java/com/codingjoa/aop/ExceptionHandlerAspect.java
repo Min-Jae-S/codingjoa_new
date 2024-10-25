@@ -14,11 +14,10 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class ExceptionHandlerAspect {
 	
-	@Around("execution(* com.codingjoa.exception.*.*(..)) && @within(org.springframework.web.bind.annotation.ControllerAdvice)")
+	@Around("execution(* com.codingjoa.exception.*.*(..)) && @target(org.springframework.web.bind.annotation.ControllerAdvice)")
 	public Object routeExceptionHandler(ProceedingJoinPoint joinPoint) throws Throwable {
 		log.info("## {}.routeExceptionHandler", this.getClass().getSimpleName());
-		log.info("\t > joinPoint = {}", joinPoint);
-		log.info("\t > joinPoint signature = {}", joinPoint.getSignature());
+		log.info("\t > signature = {}", joinPoint.getSignature());
 		
 		HttpServletRequest request = null;
 		for (Object arg : joinPoint.getArgs()) {
@@ -30,10 +29,10 @@ public class ExceptionHandlerAspect {
 		
 		if (request != null) {
 			if (isAjaxRequest(request)) {
-				log.info("\t > ajax request, ex should be handled by ExceptionRestHandler");
+				log.info("\t > ajax request, exception should be handled by ExceptionRestHandler");
 				return joinPoint.proceed();
 			} else {
-				log.info("\t > not ajax request, ex should be handled by ExceptionMvcHandler");
+				log.info("\t > not ajax request, exception should be handled by ExceptionMvcHandler");
 				return joinPoint.proceed();
 			}
 		}
