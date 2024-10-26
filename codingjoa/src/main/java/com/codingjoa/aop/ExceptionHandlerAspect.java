@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 
@@ -23,6 +24,14 @@ public class ExceptionHandlerAspect {
 	@Pointcut("@within(org.springframework.web.bind.annotation.ControllerAdvice) || "
 			+ "@within(org.springframework.web.bind.annotation.RestControllerAdvice)")
 	public void withinControllerAdviceAnnotations() {}
+
+	@Pointcut("@annotation(org.springframework.web.bind.annotation.ExceptionHandler)")
+	public void anootationExceptionHandler() {}
+	
+	@Before("anootationExceptionHandler()")
+	public void beforeExceptionHandler() {
+		log.info("# {}.beforeExceptionHandler", this.getClass().getSimpleName());
+	}
 	
 	@Around("inExceptionHandlerLayer() && withinControllerAdviceAnnotations()")
 	public Object routeExceptionHandler(ProceedingJoinPoint joinPoint) throws Throwable {
