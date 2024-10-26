@@ -93,7 +93,11 @@ public class TestAopRestController {
 		testProxyService.test();
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
-	
-	
+
+	@GetMapping("/test3")
+	public ResponseEntity<Object> test3() {
+		log.info("## test3");
+		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
+	}
 	
 }

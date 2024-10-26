@@ -61,6 +61,7 @@
 	<div class="test mb-5 px-5">
 		<button class="btn btn-primary btn-lg btn-fixed" onclick="test1()">test1</button>
 		<button class="btn btn-primary btn-lg btn-fixed" onclick="test2()">test2</button>
+		<button class="btn btn-primary btn-lg btn-fixed" onclick="test3()">test3</button>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
@@ -182,6 +183,22 @@
 		$.ajax({
 			type : "GET",
 			url : "${contextPath}/test/api/aop/test2",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log(JSON.stringify(result, null, 2));
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				parseError(jqXHR);
+			}
+		});
+	}
+
+	function test3() {
+		console.log("## test3");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/api/aop/test3",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
