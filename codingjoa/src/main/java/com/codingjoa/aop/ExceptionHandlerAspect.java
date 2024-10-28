@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 public class ExceptionHandlerAspect {
 	
 	@Pointcut("execution(* com.codingjoa.exception.*.*(..))")
-	public void inExceptionHandlerLayer() {}
+	public void inExceptionHandlerPackage() {}
 	
 	@Pointcut("@within(org.springframework.web.bind.annotation.ControllerAdvice) || "
 			+ "@within(org.springframework.web.bind.annotation.RestControllerAdvice)")
@@ -33,7 +33,7 @@ public class ExceptionHandlerAspect {
 		log.info("# {}.beforeExceptionHandler", this.getClass().getSimpleName());
 	}
 	
-	@Around("inExceptionHandlerLayer() && withinControllerAdviceAnnotations()")
+	@Around("inExceptionHandlerPackage() && withinControllerAdviceAnnotations()")
 	public Object routeExceptionHandler(ProceedingJoinPoint joinPoint) throws Throwable {
 		log.info("## {}.routeExceptionHandler", this.getClass().getSimpleName());
 		log.info("\t > target = {}", joinPoint.getTarget().getClass().getSimpleName());
