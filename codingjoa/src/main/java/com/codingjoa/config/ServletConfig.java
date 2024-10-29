@@ -62,7 +62,7 @@ public class ServletConfig implements WebMvcConfigurer {
 	private final RedisService redisService;
 	private final BoardCriteriaArgumentResolver boardCriteriaArgumentResolver;
 	private final CommentCriteriaArgumentResolver commentCriteriaArgumentResolver;
-	private final HandlerExceptionResolver exceptionResolver; // ExceptionResolver --> HandlerExceptionResolver (issue at proxy)
+	//private final HandlerExceptionResolver exceptionResolver; // ExceptionResolver --> HandlerExceptionResolver (issue at proxy)
 	private final MessageSource messageSource;
 	private final ObjectMapper objectMapper;
 	
@@ -140,7 +140,6 @@ public class ServletConfig implements WebMvcConfigurer {
 	public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
 		log.info("## extendMessageConverters");
 		converters.stream().forEach(converter -> { 
-			log.info("\t > {}", converter.getClass().getSimpleName());
 			if (converter instanceof StringHttpMessageConverter) {
 				// StringHttpMessageConverter defaults to ISO-8859-1
 				((StringHttpMessageConverter) converter).setDefaultCharset(StandardCharsets.UTF_8);
@@ -154,8 +153,8 @@ public class ServletConfig implements WebMvcConfigurer {
 	public void extendHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
 		log.info("## extendHandlerExceptionResolvers");
 		WebMvcConfigurer.super.extendHandlerExceptionResolvers(resolvers);
-		resolvers.add(0, exceptionResolver);
-		resolvers.forEach(resolver -> log.info("\t > {}", resolver.getClass().getSimpleName()));
+		//resolvers.add(0, exceptionResolver);
+		resolvers.forEach(resolver -> log.info("\t > {}", resolver.getClass().getName()));
 	}
 	
 	@Override

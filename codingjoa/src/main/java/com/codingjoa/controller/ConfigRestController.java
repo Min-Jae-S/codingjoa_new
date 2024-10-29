@@ -11,6 +11,7 @@ import javax.servlet.FilterRegistration;
 import javax.servlet.ServletContext;
 import javax.validation.Validator;
 
+import org.springframework.aop.framework.AopProxyUtils;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.web.FilterChainProxy;
@@ -260,10 +261,17 @@ public class ConfigRestController {
 	public ResponseEntity<Object> getExceptionResolvers() {
 		log.info("## getExceptionResolvers");
 		Map<String, HandlerExceptionResolver> exceptionResolverMap = webApplicationContext.getBeansOfType(HandlerExceptionResolver.class);
+		HandlerExceptionResolverComposite composite = null;
+		
 		log.info("\t > ExceptionResolvers from HandlerExceptionResolver.class");
-		exceptionResolverMap.forEach((key, resolver) -> log.info("\t\t - {}", resolver.getClass().getName()));
-
-		HandlerExceptionResolverComposite composite = webApplicationContext.getBean(HandlerExceptionResolverComposite.class);
+		for (HandlerExceptionResolver resolver : exceptionResolverMap.values()) {
+			Object target = AopProxyUtils.getSingletonTarget(resolver);
+			log.info("\t\t - {}", target.getClass().getName());
+			if (target instanceof HandlerExceptionResolverComposite) {
+				composite = (HandlerExceptionResolverComposite) target;
+			}
+		}
+		
 		List<String> exceptionResolvers = composite.getExceptionResolvers()
 				.stream()
 				.map(resolver -> resolver.getClass().getName())

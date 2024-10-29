@@ -33,7 +33,7 @@ public class ExceptionResolverAspect {
 	@Pointcut("@annotation(org.springframework.web.bind.annotation.ExceptionHandler)")
 	public void annotationExceptionHandler() {}
 
-	@Pointcut("@execution(* org.springframework.web.servlet.HandlerExceptionResolver.resolveException(..))")
+	@Pointcut("execution(* org.springframework.web.servlet.HandlerExceptionResolver.resolveException(..))")
 	public void resolveExceptionMehtod() {}
 	
 	/*
