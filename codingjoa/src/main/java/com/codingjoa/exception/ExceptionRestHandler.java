@@ -3,12 +3,14 @@ package com.codingjoa.exception;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolationException;
 
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingPathVariableException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
@@ -43,10 +45,9 @@ import lombok.extern.slf4j.Slf4j;
  * 
  */
 
-//@Order(Ordered.HIGHEST_PRECEDENCE)
-//@RestControllerAdvice (annotations = ResponseBody.class)
 @Slf4j
-@RestControllerAdvice
+@Order(0)
+@RestControllerAdvice(annotations = ResponseBody.class)
 public class ExceptionRestHandler {
 	
 	@ExceptionHandler(Exception.class)
