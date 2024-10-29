@@ -1,11 +1,18 @@
 package com.codingjoa.controller.test;
 
+import java.util.Map;
+
+import org.springframework.aop.framework.AopProxyUtils;
 import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.servlet.HandlerExceptionResolver;
+import org.springframework.web.servlet.handler.HandlerExceptionResolverComposite;
+import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver;
 
 import com.codingjoa.annotation.AnnoTest;
 import com.codingjoa.dto.SuccessResponse;
@@ -34,6 +41,9 @@ public class TestAopRestController {
 	@Autowired
 	private EmailServiceImpl emailService;
 	
+	@Autowired
+	private WebApplicationContext context;
+	
 	@GetMapping("/exception")
 	public void triggerExceptionByAjax() {
 		log.info("## triggerExceptionByAjax");
@@ -55,6 +65,27 @@ public class TestAopRestController {
 	@GetMapping("/exception/filter")
 	public ResponseEntity<Object> triggerExceptionInFilter() {
 		log.info("## triggerExceptionInFilter");
+		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
+	}
+	
+	@GetMapping("/exception-handlers")
+	public ResponseEntity<Object> getExceptionHandlers() {
+		log.info("## getExceptionHandlers");
+		ExceptionHandlerExceptionResolver exceptionResolver = null;
+		Map<String, HandlerExceptionResolver> exceptionResolverMap = context.getBeansOfType(HandlerExceptionResolver.class);
+		for (HandlerExceptionResolver obj : exceptionResolverMap.values()) {
+			Object target = AopProxyUtils.getSingletonTarget(obj);
+			if (target instanceof HandlerExceptionResolverComposite) {
+				HandlerExceptionResolverComposite composite = (HandlerExceptionResolverComposite) target;
+				for (HandlerExceptionResolver resolver : composite.getExceptionResolvers()) {
+					if (resolver instanceof ExceptionHandlerExceptionResolver) {
+						exceptionResolver = (ExceptionHandlerExceptionResolver) resolver;
+						log.info("\t > exceptionResolver = {}", exceptionResolver);
+					}
+				}
+			}
+		}
+		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 	
@@ -97,12 +128,6 @@ public class TestAopRestController {
 	@GetMapping("/test3")
 	public ResponseEntity<Object> test3() {
 		log.info("## test3");
-		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
-	}
-
-	@GetMapping("/test4")
-	public ResponseEntity<Object> test4() {
-		log.info("## test4");
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 	
