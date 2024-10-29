@@ -20,6 +20,7 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
+import org.springframework.web.method.support.HandlerMethodArgumentResolverComposite;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.HandlerExceptionResolver;
@@ -31,6 +32,7 @@ import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver;
 import org.springframework.web.servlet.view.BeanNameViewResolver;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
@@ -154,7 +156,15 @@ public class ServletConfig implements WebMvcConfigurer {
 		log.info("## extendHandlerExceptionResolvers");
 		WebMvcConfigurer.super.extendHandlerExceptionResolvers(resolvers);
 		//resolvers.add(0, exceptionResolver);
-		resolvers.forEach(resolver -> log.info("\t > {}", resolver.getClass().getName()));
+		resolvers.forEach(resolver -> {
+			log.info("\t > {}", resolver.getClass().getName());
+			if (resolver instanceof ExceptionHandlerExceptionResolver) {
+				ExceptionHandlerExceptionResolver handlerExceptionResolver = (ExceptionHandlerExceptionResolver) resolver;
+				HandlerMethodArgumentResolverComposite composite = handlerExceptionResolver.getArgumentResolvers();
+				List<HandlerMethodArgumentResolver> argumentResolvers = composite.getResolvers();
+				log.info("\t\t - {}", argumentResolvers.getClass().getName());
+			}
+		});
 	}
 	
 	@Override
