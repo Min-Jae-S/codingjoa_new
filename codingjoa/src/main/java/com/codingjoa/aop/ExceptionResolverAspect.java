@@ -41,7 +41,13 @@ public class ExceptionResolverAspect {
 	public void annotationExceptionHandler() {}
 
 	@Pointcut("execution(* org.springframework.web.servlet.HandlerExceptionResolver.resolveException(..))")
-	public void resolveExceptionMehtod() {}
+	public void resolveExceptionByHandlerExceptionResolver() {}
+
+	@Pointcut("execution(* org.springframework.web.servlet.handler.HandlerExceptionResolverComposite.resolveException(..))")
+	public void resolveExceptionByHandlerExceptionResolverComposite() {}
+
+	@Pointcut("execution(* org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver.resolveException(..))")
+	public void resolveExceptionByExceptionHandlerExceptionResolver() {}
 	
 	/*
 	public class HandlerExceptionResolverComposite implements HandlerExceptionResolver, Ordered {
@@ -68,7 +74,9 @@ public class ExceptionResolverAspect {
 	}
 	*/
 	
-	@Around("resolveExceptionMehtod()")
+	//@Around("resolveExceptionByHandlerExceptionResolver()")
+	//@Around("resolveExceptionByHandlerExceptionResolverComposite()")
+	@Around("resolveExceptionByExceptionHandlerExceptionResolver()")
 	public Object resolveWithDynamicResolver(ProceedingJoinPoint joinPoint) throws Throwable {
 		log.info("## {}.resolveWithDynamicResolver", this.getClass().getSimpleName());
 		log.info("\t > target = {}", joinPoint.getTarget().getClass().getSimpleName());

@@ -161,8 +161,8 @@ public class ServletConfig implements WebMvcConfigurer {
 			if (resolver instanceof ExceptionHandlerExceptionResolver) {
 				ExceptionHandlerExceptionResolver handlerExceptionResolver = (ExceptionHandlerExceptionResolver) resolver;
 				HandlerMethodArgumentResolverComposite composite = handlerExceptionResolver.getArgumentResolvers();
-				List<HandlerMethodArgumentResolver> argumentResolvers = composite.getResolvers();
-				log.info("\t\t - {}", argumentResolvers.getClass().getName());
+				composite.getResolvers().forEach(argumentResolver -> 
+					log.info("\t\t - {}", argumentResolver.getClass().getSimpleName()));
 			}
 		});
 	}
