@@ -51,9 +51,10 @@ public class ExceptionHandlerAspect {
 	@Pointcut("@within(org.springframework.web.bind.annotation.ControllerAdvice) || "
 			+ "@within(org.springframework.web.bind.annotation.RestControllerAdvice)")
 	public void withinControllerAdviceAnnotations() {}
-
-	@Pointcut("execution(* org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver.doResolveHandlerMethodException(..))")
-	public void resolveExceptionHandlerPointcut() {}
+	
+	//@Pointcut("execution(* org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver.doResolveHandlerMethodException(..))")
+	@Pointcut("execution(* org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver.resolveException(..))")
+	public void excpetionResolutionPointcut() {}
 	
 	/*
 	public class ExceptionHandlerExceptionResolver extends AbstractHandlerMethodExceptionResolver
@@ -74,8 +75,8 @@ public class ExceptionHandlerAspect {
 	}
 	*/
 	
-	@Around("resolveExceptionHandlerPointcut()")
-	public Object arroundExceptionHanlderResolution(ProceedingJoinPoint joinPoint) throws Throwable {
+	@Around("excpetionResolutionPointcut()")
+	public Object arroundExceptionResolution(ProceedingJoinPoint joinPoint) throws Throwable {
 		log.info("## {}.arroundExceptionHanlderResolution", this.getClass().getSimpleName());
 		log.info("\t > target = {}", joinPoint.getTarget().getClass().getSimpleName());
 		

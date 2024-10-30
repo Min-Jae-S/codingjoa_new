@@ -73,22 +73,27 @@ public class TestAopRestController {
 		log.info("## getExceptionHandler");
 		ExceptionHandlerExceptionResolver exceptionResolver = null;
 		Map<String, HandlerExceptionResolver> exceptionResolverMap = context.getBeansOfType(HandlerExceptionResolver.class);
-		for (HandlerExceptionResolver obj : exceptionResolverMap.values()) {
+		for (Map.Entry<String, HandlerExceptionResolver> map : exceptionResolverMap.entrySet()) {
+			String key = map.getKey();
+			HandlerExceptionResolver obj = map.getValue(); 
+			log.info("\t > {}: {} [ isProxy = {} ]", key, obj.getClass().getSimpleName(), AopUtils.isAopProxy(obj));
 			Object target = AopProxyUtils.getSingletonTarget(obj);
 			if (target instanceof HandlerExceptionResolverComposite) {
 				HandlerExceptionResolverComposite composite = (HandlerExceptionResolverComposite) target;
 				for (HandlerExceptionResolver resolver : composite.getExceptionResolvers()) {
 					if (resolver instanceof ExceptionHandlerExceptionResolver) {
 						exceptionResolver = (ExceptionHandlerExceptionResolver) resolver;
-						log.info("\t > exceptionResolver = {}", exceptionResolver.getClass().getName());
+						log.info("\t > exceptionResolver = {}", exceptionResolver);
 					}
 				}
 			}
 		}
 		
-		log.info("\t > argumentResolvers = {}", exceptionResolver.getArgumentResolvers());
-		log.info("\t > returnValueHandlers = {}", exceptionResolver.getReturnValueHandlers());
-		log.info("\t > exceptionHandlerAdviceCache = {}", exceptionResolver.getExceptionHandlerAdviceCache());
+		if (exceptionResolver != null) {
+			log.info("\t > argumentResolvers = {}", exceptionResolver.getArgumentResolvers());
+			log.info("\t > returnValueHandlers = {}", exceptionResolver.getReturnValueHandlers());
+			log.info("\t > exceptionHandlerAdviceCache = {}", exceptionResolver.getExceptionHandlerAdviceCache());
+		}
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
