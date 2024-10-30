@@ -20,7 +20,6 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
-import org.springframework.web.method.support.HandlerMethodArgumentResolverComposite;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.HandlerExceptionResolver;
@@ -157,12 +156,10 @@ public class ServletConfig implements WebMvcConfigurer {
 		WebMvcConfigurer.super.extendHandlerExceptionResolvers(resolvers);
 		//resolvers.add(0, exceptionResolver);
 		resolvers.forEach(resolver -> {
-			log.info("\t > {}", resolver.getClass().getName());
+			log.info("\t > {}", resolver.getClass().getSimpleName());
 			if (resolver instanceof ExceptionHandlerExceptionResolver) {
 				ExceptionHandlerExceptionResolver handlerExceptionResolver = (ExceptionHandlerExceptionResolver) resolver;
-				HandlerMethodArgumentResolverComposite composite = handlerExceptionResolver.getArgumentResolvers();
-				composite.getResolvers().forEach(argumentResolver -> 
-					log.info("\t\t - {}", argumentResolver.getClass().getSimpleName()));
+				log.info("\t\t - {}", handlerExceptionResolver.getApplicationContext());
 			}
 		});
 	}

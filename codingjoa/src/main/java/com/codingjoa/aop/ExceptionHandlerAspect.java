@@ -52,9 +52,30 @@ public class ExceptionHandlerAspect {
 			+ "@within(org.springframework.web.bind.annotation.RestControllerAdvice)")
 	public void withinControllerAdviceAnnotations() {}
 	
+	//@Pointcut("execution(* org.springframework.web.servlet.handler.HandlerExceptionResolverComposite.resolveException(..))")
 	//@Pointcut("execution(* org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver.doResolveHandlerMethodException(..))")
 	@Pointcut("execution(* org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver.resolveException(..))")
 	public void excpetionResolutionPointcut() {}
+	
+	/*
+	public class HandlerExceptionResolverComposite implements HandlerExceptionResolver, Ordered {
+		@Override
+		@Nullable
+		public ModelAndView resolveException(
+				HttpServletRequest request, HttpServletResponse response, @Nullable Object handler, Exception ex) {
+			
+			if (this.resolvers != null) {
+				for (HandlerExceptionResolver handlerExceptionResolver : this.resolvers) {
+					ModelAndView mav = handlerExceptionResolver.resolveException(request, response, handler, ex);
+					if (mav != null) {
+						return mav;
+					}
+				}
+			}
+			return null;
+		}
+	}
+	*/
 	
 	/*
 	public class ExceptionHandlerExceptionResolver extends AbstractHandlerMethodExceptionResolver

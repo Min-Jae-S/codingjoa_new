@@ -75,16 +75,21 @@ public class TestAopRestController {
 		Map<String, HandlerExceptionResolver> exceptionResolverMap = context.getBeansOfType(HandlerExceptionResolver.class);
 		for (Map.Entry<String, HandlerExceptionResolver> map : exceptionResolverMap.entrySet()) {
 			HandlerExceptionResolver obj = map.getValue();
-			log.info("\t > {} (isAopProxy = {})", obj.getClass().getSimpleName(), AopUtils.isAopProxy(obj));
-			
-			if (AopUtils.isAopProxy(obj)) {
+			boolean isPrxoy = AopUtils.isAopProxy(obj);
+			if (isPrxoy) {
 				obj = (HandlerExceptionResolver) AopProxyUtils.getSingletonTarget(obj);
 			}
+			log.info("\t > {} (isProxy = {})", obj.getClass().getSimpleName(), isPrxoy);
 			
 			if (obj instanceof HandlerExceptionResolverComposite) {
 				HandlerExceptionResolverComposite composite = (HandlerExceptionResolverComposite) obj;
 				for (HandlerExceptionResolver resolver : composite.getExceptionResolvers()) {
-					log.info("\t\t - {} (isAopProxy = {})", resolver.getClass().getSimpleName(), AopUtils.isAopProxy(resolver));
+					boolean isResolverPrxoy = AopUtils.isAopProxy(obj);
+					if (isResolverPrxoy) {
+						resolver = (HandlerExceptionResolver) AopProxyUtils.getSingletonTarget(resolver);
+					}
+					log.info("\t\t - {} (isProxy = {})", resolver.getClass().getSimpleName(), isResolverPrxoy);
+					
 					if (resolver instanceof ExceptionHandlerExceptionResolver) {
 						exceptionResolver = (ExceptionHandlerExceptionResolver) resolver;
 						//log.info("\t > exceptionResolver = {}", exceptionResolver);
