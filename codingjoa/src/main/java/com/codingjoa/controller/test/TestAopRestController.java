@@ -74,25 +74,28 @@ public class TestAopRestController {
 		ExceptionHandlerExceptionResolver exceptionResolver = null;
 		Map<String, HandlerExceptionResolver> exceptionResolverMap = context.getBeansOfType(HandlerExceptionResolver.class);
 		for (Map.Entry<String, HandlerExceptionResolver> map : exceptionResolverMap.entrySet()) {
-			String key = map.getKey();
-			HandlerExceptionResolver obj = map.getValue(); 
-			log.info("\t > {}: {} [ isProxy = {} ]", key, obj.getClass().getSimpleName(), AopUtils.isAopProxy(obj));
-			Object target = AopProxyUtils.getSingletonTarget(obj);
-			if (target instanceof HandlerExceptionResolverComposite) {
-				HandlerExceptionResolverComposite composite = (HandlerExceptionResolverComposite) target;
+			HandlerExceptionResolver obj = map.getValue();
+			log.info("\t > {} (isAopProxy = {})", obj.getClass().getSimpleName(), AopUtils.isAopProxy(obj));
+			
+			if (AopUtils.isAopProxy(obj)) {
+				obj = (HandlerExceptionResolver) AopProxyUtils.getSingletonTarget(obj);
+			}
+			
+			if (obj instanceof HandlerExceptionResolverComposite) {
+				HandlerExceptionResolverComposite composite = (HandlerExceptionResolverComposite) obj;
 				for (HandlerExceptionResolver resolver : composite.getExceptionResolvers()) {
+					log.info("\t\t - {} (isAopProxy = {})", resolver.getClass().getSimpleName(), AopUtils.isAopProxy(resolver));
 					if (resolver instanceof ExceptionHandlerExceptionResolver) {
 						exceptionResolver = (ExceptionHandlerExceptionResolver) resolver;
-						log.info("\t > exceptionResolver = {}", exceptionResolver);
+						//log.info("\t > exceptionResolver = {}", exceptionResolver);
 					}
 				}
 			}
 		}
 		
 		if (exceptionResolver != null) {
-			log.info("\t > argumentResolvers = {}", exceptionResolver.getArgumentResolvers());
-			log.info("\t > returnValueHandlers = {}", exceptionResolver.getReturnValueHandlers());
-			log.info("\t > exceptionHandlerAdviceCache = {}", exceptionResolver.getExceptionHandlerAdviceCache());
+			log.info("\t > exceptionHandlerAdviceCache = {}", 
+					exceptionResolver.getExceptionHandlerAdviceCache().keySet());
 		}
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
