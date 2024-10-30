@@ -59,7 +59,7 @@
 	</div>
 	<h4 class="invisible">invisible</h4>
 	<div class="test mb-5 px-5">
-		<button class="btn btn-warning btn-lg btn-fixed" onclick="getExceptionHandlers()">ExHandlers</button>
+		<button class="btn btn-warning btn-lg btn-fixed" onclick="getExceptionHandler()">ExHandler</button>
 		<button class="btn btn-primary btn-lg btn-fixed" onclick="test1()">test1</button>
 		<button class="btn btn-primary btn-lg btn-fixed" onclick="test2()">test2</button>
 		<button class="btn btn-primary btn-lg btn-fixed" onclick="test3()">test3</button>
@@ -163,11 +163,11 @@
 		location.href = "${contextPath}/test/aop/exception/filter";
 	}
 	
-	function getExceptionHandlers() {
-		console.log("## getExceptionHandlers");
+	function getExceptionHandler() {
+		console.log("## getExceptionHandler");
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/api/aop/exception-handlers",
+			url : "${contextPath}/test/api/aop/exception-handler",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));

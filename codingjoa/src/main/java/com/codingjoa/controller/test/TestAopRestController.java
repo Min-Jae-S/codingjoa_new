@@ -68,9 +68,9 @@ public class TestAopRestController {
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 	
-	@GetMapping("/exception-handlers")
-	public ResponseEntity<Object> getExceptionHandlers() {
-		log.info("## getExceptionHandlers");
+	@GetMapping("/exception-handler")
+	public ResponseEntity<Object> getExceptionHandler() {
+		log.info("## getExceptionHandler");
 		ExceptionHandlerExceptionResolver exceptionResolver = null;
 		Map<String, HandlerExceptionResolver> exceptionResolverMap = context.getBeansOfType(HandlerExceptionResolver.class);
 		for (HandlerExceptionResolver obj : exceptionResolverMap.values()) {
@@ -80,11 +80,15 @@ public class TestAopRestController {
 				for (HandlerExceptionResolver resolver : composite.getExceptionResolvers()) {
 					if (resolver instanceof ExceptionHandlerExceptionResolver) {
 						exceptionResolver = (ExceptionHandlerExceptionResolver) resolver;
-						log.info("\t > exceptionResolver = {}", exceptionResolver);
+						log.info("\t > exceptionResolver = {}", exceptionResolver.getClass().getName());
 					}
 				}
 			}
 		}
+		
+		log.info("\t > argumentResolvers = {}", exceptionResolver.getArgumentResolvers());
+		log.info("\t > returnValueHandlers = {}", exceptionResolver.getReturnValueHandlers());
+		log.info("\t > exceptionHandlerAdviceCache = {}", exceptionResolver.getExceptionHandlerAdviceCache());
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
