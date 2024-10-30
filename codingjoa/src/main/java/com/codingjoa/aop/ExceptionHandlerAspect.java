@@ -56,6 +56,9 @@ public class ExceptionHandlerAspect {
 	//@Pointcut("execution(* org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver.doResolveHandlerMethodException(..))")
 	@Pointcut("execution(* org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver.resolveException(..))")
 	public void excpetionResolutionPointcut() {}
+
+	@Pointcut("execution(* org.springframework.web.method.annotation.ExceptionHandlerMethodResolver.resolveMethod(..))")
+	public void methodResolutionPointcut() {}
 	
 	/*
 	public class HandlerExceptionResolverComposite implements HandlerExceptionResolver, Ordered {
@@ -96,9 +99,10 @@ public class ExceptionHandlerAspect {
 	}
 	*/
 	
-	@Around("excpetionResolutionPointcut()")
-	public Object arroundExceptionResolution(ProceedingJoinPoint joinPoint) throws Throwable {
-		log.info("## {}.arroundExceptionHanlderResolution", this.getClass().getSimpleName());
+	//@Around("excpetionResolutionPointcut()")
+	@Around("methodResolutionPointcut()")
+	public Object arroundResolution(ProceedingJoinPoint joinPoint) throws Throwable {
+		log.info("## {}.arroundResolution", this.getClass().getSimpleName());
 		log.info("\t > target = {}", joinPoint.getTarget().getClass().getSimpleName());
 		
 		HttpServletRequest request = null;
