@@ -151,4 +151,10 @@ public class TestAopRestController {
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 	
+	@GetMapping("/test4")
+	public ResponseEntity<Object> test4() {
+		log.info("## test4");
+		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
+	}
+	
 }
