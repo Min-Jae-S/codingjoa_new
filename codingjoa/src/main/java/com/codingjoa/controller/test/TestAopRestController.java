@@ -137,10 +137,10 @@ public class TestAopRestController {
 	@GetMapping("/test2")
 	public ResponseEntity<Object> test2() {
 		log.info("## test2");
-		log.info("\t > testAopRestController = {}", self.getClass().getName().split(regex, 2)[1]);
-		log.info("\t > testAopRestController, isAopProxy = {}", AopUtils.isAopProxy(self));
-		log.info("\t > testProxyService = {}", testProxyService.getClass().getName().split(regex, 2)[1]);
-		log.info("\t > testProxyService, isAopProxy = {}", AopUtils.isAopProxy(testProxyService));
+		log.info("\t > testAopRestController = {}, isAopProxy = {}", 
+				self.getClass().getName().split(regex, 2)[1], AopUtils.isAopProxy(self));
+		log.info("\t > testProxyService = {}, isAopProxy = {}", 
+				testProxyService.getClass().getName().split(regex, 2)[1], AopUtils.isAopProxy(testProxyService));
 		testProxyService.test();
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
@@ -148,12 +148,6 @@ public class TestAopRestController {
 	@GetMapping("/test3")
 	public ResponseEntity<Object> test3() {
 		log.info("## test3");
-		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
-	}
-	
-	@GetMapping("/test4")
-	public ResponseEntity<Object> test4() {
-		log.info("## test4");
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 	

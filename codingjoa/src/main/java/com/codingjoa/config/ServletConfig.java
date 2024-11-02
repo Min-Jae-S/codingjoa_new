@@ -218,7 +218,6 @@ public class ServletConfig implements WebMvcConfigurer {
 	 * @@ https://docs.jboss.org/hibernate/validator/5.1/reference/en-US/html/chapter-message-interpolation.html#section-resource-bundle-locator
 	 * @@ https://stackoverflow.com/questions/11225023/messageinterpolator-in-spring
 	 * @@ https://stackoverflow.com/questions/3587317/autowiring-a-service-into-a-validator 
-	 * 
 	 * In Spring, you need to obtain ValidatorFactory (or Validatoritself) via LocalValidatorFactoryBean 
 	 * instead of Validation.buildDefaultValidatorFactory(), as described in the reference.
 	 */

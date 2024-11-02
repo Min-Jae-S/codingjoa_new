@@ -97,8 +97,8 @@ public class ExceptionHandlerAspect {
 	}
 	*/
 	
-	@Around("excpetionResolutionPointcut()")
-	//@Around("methodResolutionPointcut()")
+	//@Around("excpetionResolutionPointcut()")
+	@Around("methodResolutionPointcut()")
 	public Object arroundResolution(ProceedingJoinPoint joinPoint) throws Throwable {
 		log.info("## {}.arroundResolution", this.getClass().getSimpleName());
 		log.info("\t > target = {}", joinPoint.getTarget().getClass().getSimpleName());

@@ -42,8 +42,6 @@ public class TestAspect {
 //	}
 	
 //	@Before("@annotation(com.codingjoa.annotation.AspecAnnoTesttTest)")
-//	//@Before("execution(* com.codingjoa.controller.test.*.*(..))")
-//	//@Before("execution(* com.codingjoa.controller.test.*Controller.*.*(..))")
 //	public void beforeController() throws Throwable {
 //		log.info("## {}.beforeController", this.getClass().getSimpleName());
 //	}
