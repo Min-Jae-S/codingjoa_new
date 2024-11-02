@@ -101,8 +101,8 @@ public class TestAopRestController {
 		if (exceptionResolver != null) {
 			log.info("\t > exceptionHandlerAdviceCache");
 			exceptionResolver.getExceptionHandlerAdviceCache().forEach((key, methodResolver) -> {
-				log.info("\t\t - {}: {} (isProxy = {})", 
-						key, methodResolver.getClass().getSimpleName(), AopUtils.isAopProxy(methodResolver));
+				log.info("\t\t - {}: {} (isProxy = {})", key, methodResolver.getClass().getSimpleName(),
+						AopUtils.isAopProxy(methodResolver));
 			});
 		}
 		
