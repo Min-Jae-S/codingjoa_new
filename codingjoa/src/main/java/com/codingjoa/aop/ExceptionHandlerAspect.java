@@ -56,6 +56,7 @@ public class ExceptionHandlerAspect {
 	@Pointcut("execution(* org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver.resolveException(..))")
 	public void excpetionResolutionPointcut() {}
 
+	// filter for selecting @ExceptionHandler methods 
 	@Pointcut("execution(* org.springframework.web.method.annotation.ExceptionHandlerMethodResolver.resolveMethod(..))")
 	public void methodResolutionPointcut() {}
 	

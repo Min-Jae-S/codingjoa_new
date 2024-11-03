@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.method.annotation.ExceptionHandlerMethodResolver;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.handler.HandlerExceptionResolverComposite;
 import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver;
@@ -43,6 +44,9 @@ public class TestAopRestController {
 	
 	@Autowired
 	private WebApplicationContext context;
+	
+	@Autowired(required = false)
+	private ExceptionHandlerMethodResolver exceptionHandlerMethodResolver;
 	
 	@GetMapping("/exception")
 	public void triggerExceptionByAjax() {
@@ -145,4 +149,15 @@ public class TestAopRestController {
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 
+	@GetMapping("/test3")
+	public ResponseEntity<Object> test3() {
+		log.info("## test3");
+		log.info("\t > exceptionHandlerMethodResolver from @autowired = {}", exceptionHandlerMethodResolver);
+		
+		Map<String, ExceptionHandlerMethodResolver> map = context.getBeansOfType(ExceptionHandlerMethodResolver.class);
+		log.info("\t > exceptionHandlerMethodResolver from context = {}", map.keySet());
+		
+		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
+	}
+	
 }
