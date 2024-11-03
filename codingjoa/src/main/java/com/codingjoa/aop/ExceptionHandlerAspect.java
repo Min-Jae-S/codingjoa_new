@@ -53,7 +53,6 @@ public class ExceptionHandlerAspect {
 	public void withinControllerAdviceAnnotations() {}
 	
 	//@Pointcut("execution(* org.springframework.web.servlet.handler.HandlerExceptionResolverComposite.resolveException(..))")
-	//@Pointcut("execution(* org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver.doResolveHandlerMethodException(..))")
 	@Pointcut("execution(* org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver.resolveException(..))")
 	public void excpetionResolutionPointcut() {}
 
