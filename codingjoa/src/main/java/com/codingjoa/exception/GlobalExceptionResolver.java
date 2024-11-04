@@ -23,19 +23,13 @@ public class GlobalExceptionResolver implements HandlerExceptionResolver {
 		log.info("\t > request-line = {}", HttpUtils.getHttpRequestLine(request));
 
 		if (handler == null) {
-			log.info("\t > handler = {}", handler);
+			log.info("\t > handler is null");
 		} else if (handler instanceof HandlerMethod) {
 			HandlerMethod handlerMethod = (HandlerMethod) handler;
 			int beginIndex = handlerMethod.toString().lastIndexOf(".") + 1;
 			log.info("\t > handler = {}", handlerMethod.toString().substring(beginIndex));
-//			Class<?> controller = handlerMethod.getBeanType();
-//			if (controller.isAnnotationPresent(Controller.class)) {
-//				log.info("\t > handler = @Controller, {}", handlerMethod.toString().substring(beginIndex));
-//			} else if (controller.isAnnotationPresent(RestController.class)) {
-//				log.info("\t > handler = @RestController, {}", handlerMethod.toString().substring(beginIndex));
-//			}
 		} else {
-			log.info("\t > handler = {}", handler.getClass().getSimpleName());
+			log.info("\t > handler is not instance of HandlerMethod");
 		}
 		
 		return null;

@@ -63,7 +63,7 @@ public class ServletConfig implements WebMvcConfigurer {
 	private final RedisService redisService;
 	private final BoardCriteriaArgumentResolver boardCriteriaArgumentResolver;
 	private final CommentCriteriaArgumentResolver commentCriteriaArgumentResolver;
-	//private final HandlerExceptionResolver exceptionResolver; // ExceptionResolver --> HandlerExceptionResolver (issue at proxy)
+	private final HandlerExceptionResolver globalExceptionResolver; // GlobalExceptionResolver --> HandlerExceptionResolver (issue at proxy)
 	private final MessageSource messageSource;
 	private final ObjectMapper objectMapper;
 	
@@ -154,7 +154,7 @@ public class ServletConfig implements WebMvcConfigurer {
 	public void extendHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
 		log.info("## extendHandlerExceptionResolvers");
 		WebMvcConfigurer.super.extendHandlerExceptionResolvers(resolvers);
-		//resolvers.add(0, exceptionResolver);
+		resolvers.add(0, globalExceptionResolver);
 		resolvers.forEach(resolver -> {
 			log.info("\t > {}", resolver.getClass().getSimpleName());
 			if (resolver instanceof ExceptionHandlerExceptionResolver) {

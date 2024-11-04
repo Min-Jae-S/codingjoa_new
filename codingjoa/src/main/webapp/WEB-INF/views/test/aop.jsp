@@ -43,7 +43,10 @@
 <div class="container my-5">
 	<p>aop.jsp</p>
 	<div class="test mt-5 mb-5 px-5">
-		<button class="btn btn-warning btn-lg btn-lg-fixed" onclick="triggerNoHandlerFoundException()">NoHandlerFoundException<br>(AJAX)</button>
+		<button class="btn btn-warning btn-lg" onclick="triggerNoHandlerFoundException()">NoHandlerFoundException<br>(AJAX)</button>
+		<button class="btn btn-warning btn-lg" onclick="triggerHttpRequestMethodNotSupportedException()">HttpRequestMethodNotSupportedException<br>(AJAX)</button>
+	</div>
+	<div class="test mt-5 mb-5 px-5">
 		<button class="btn btn-warning btn-lg btn-lg-fixed" onclick="triggerExceptionByAjax()">RuntimeException<br>(AJAX)</button>
 		<button class="btn btn-warning btn-lg btn-lg-fixed" onclick="triggerExceptionByMvc()">RuntimeException<br>(MVC)</button>
 	</div>
@@ -72,6 +75,22 @@
 		$.ajax({
 			type : "GET",
 			url : "${contextPath}/test/aop/aa",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log(JSON.stringify(result, null, 2));
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				parseError(jqXHR);
+			}
+		});
+	}
+
+	function triggerHttpRequestMethodNotSupportedException() {
+		console.log("## triggerHttpRequestMethodNotSupportedException");
+		$.ajax({
+			type : "POST",
+			url : "${contextPath}/test/api/aop/exception",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
