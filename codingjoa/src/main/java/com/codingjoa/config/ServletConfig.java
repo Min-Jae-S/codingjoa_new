@@ -31,10 +31,10 @@ import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver;
 import org.springframework.web.servlet.view.BeanNameViewResolver;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
+import com.codingjoa.exception.GlobalExceptionResolver;
 import com.codingjoa.interceptor.PasswordResetKeyInterceptor;
 import com.codingjoa.interceptor.TopMenuInterceptor;
 import com.codingjoa.interceptor.test.TestAopInterceptor;
@@ -63,7 +63,7 @@ public class ServletConfig implements WebMvcConfigurer {
 	private final RedisService redisService;
 	private final BoardCriteriaArgumentResolver boardCriteriaArgumentResolver;
 	private final CommentCriteriaArgumentResolver commentCriteriaArgumentResolver;
-	private final HandlerExceptionResolver globalExceptionResolver; // GlobalExceptionResolver --> HandlerExceptionResolver (issue at proxy)
+	private final GlobalExceptionResolver globalExceptionResolver; // GlobalExceptionResolver --> HandlerExceptionResolver (issue at proxy)
 	private final MessageSource messageSource;
 	private final ObjectMapper objectMapper;
 	
@@ -157,10 +157,10 @@ public class ServletConfig implements WebMvcConfigurer {
 		resolvers.add(0, globalExceptionResolver);
 		resolvers.forEach(resolver -> {
 			log.info("\t > {}", resolver.getClass().getSimpleName());
-			if (resolver instanceof ExceptionHandlerExceptionResolver) {
-				ExceptionHandlerExceptionResolver handlerExceptionResolver = (ExceptionHandlerExceptionResolver) resolver;
-				log.info("\t\t - {}", handlerExceptionResolver.getApplicationContext());
-			}
+//			if (resolver instanceof ExceptionHandlerExceptionResolver) {
+//				ExceptionHandlerExceptionResolver handlerExceptionResolver = (ExceptionHandlerExceptionResolver) resolver;
+//				log.info("\t\t - {}", handlerExceptionResolver.getApplicationContext().getDisplayName());
+//			}
 		});
 	}
 	

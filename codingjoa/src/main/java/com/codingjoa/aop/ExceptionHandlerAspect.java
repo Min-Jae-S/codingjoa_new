@@ -101,15 +101,18 @@ public class ExceptionHandlerAspect {
 	
 	//@Around("methodResolutionInMethodResolver()") 						// ExceptionHandlerMethodResolver.resolveMethod(..)
 	//@Around("excpetionResolutionInExceptionHandlerExceptionResolver()") 	// ExceptionHandlerExceptionResolver.resolveException(..)
-	@Around("excpetionResolutionInComposite()")								// HandlerExceptionResolverComposite.resolveException(..)
+	//@Around("excpetionResolutionInComposite()")							// HandlerExceptionResolverComposite.resolveException(..)
+	@Around("execution(* org.springframework.web.servlet.handler.HandlerExceptionResolverComposite.resolveException(..))")
 	public Object arroundResolution(ProceedingJoinPoint joinPoint) throws Throwable {
 		log.info("## {}.arroundResolution", this.getClass().getSimpleName());
 		log.info("\t > target = {}", joinPoint.getTarget().getClass().getSimpleName());
 		
 		HttpServletRequest request = null;
 		Object[] args = joinPoint.getArgs(); // HttpServletRequest, HttpServletResponse, HandlerMethod, Exception
+		
 		for (int i = 0; i < args.length; i++) {
-			log.info("\t > arg[{}] = {}", i, args[i].getClass().getSimpleName());
+			Object obj = args[i];
+			log.info("\t > arg[{}] = {}", i, obj);
 			if (args[i] instanceof HttpServletRequest) {
 				request = (HttpServletRequest) args[i];
 			}
