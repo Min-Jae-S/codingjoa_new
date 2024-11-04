@@ -52,13 +52,15 @@ public class ExceptionHandlerAspect {
 			+ "@within(org.springframework.web.bind.annotation.RestControllerAdvice)")
 	public void withinControllerAdviceAnnotations() {}
 	
-	//@Pointcut("execution(* org.springframework.web.servlet.handler.HandlerExceptionResolverComposite.resolveException(..))")
+	@Pointcut("execution(* org.springframework.web.servlet.handler.HandlerExceptionResolverComposite.resolveException(..))")
+	public void excpetionResolutionInComposite() {}
+	
 	@Pointcut("execution(* org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver.resolveException(..))")
-	public void excpetionResolutionPointcut() {}
+	public void excpetionResolutionInExceptionHandlerExceptionResolver() {}
 
 	// filter for selecting @ExceptionHandler methods 
 	@Pointcut("execution(* org.springframework.web.method.annotation.ExceptionHandlerMethodResolver.resolveMethod(..))")
-	public void methodResolutionPointcut() {}
+	public void methodResolutionInMethodResolver() {}
 	
 	/*
 	public class HandlerExceptionResolverComposite implements HandlerExceptionResolver, Ordered {
@@ -97,8 +99,9 @@ public class ExceptionHandlerAspect {
 	}
 	*/
 	
-	//@Around("excpetionResolutionPointcut()")
-	@Around("methodResolutionPointcut()")
+	//@Around("methodResolutionInMethodResolver()") 						// ExceptionHandlerMethodResolver.resolveMethod(..)
+	//@Around("excpetionResolutionInExceptionHandlerExceptionResolver()") 	// ExceptionHandlerExceptionResolver.resolveException(..)
+	@Around("excpetionResolutionInComposite()")								// HandlerExceptionResolverComposite.resolveException(..)
 	public Object arroundResolution(ProceedingJoinPoint joinPoint) throws Throwable {
 		log.info("## {}.arroundResolution", this.getClass().getSimpleName());
 		log.info("\t > target = {}", joinPoint.getTarget().getClass().getSimpleName());
