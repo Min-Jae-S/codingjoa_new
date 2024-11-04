@@ -1,34 +1,13 @@
 package com.codingjoa.aop;
 
-import java.util.List;
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
-import org.springframework.core.Ordered;
-import org.springframework.http.HttpStatus;
-import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.request.ServletWebRequest;
-import org.springframework.web.method.HandlerMethod;
-import org.springframework.web.method.support.ModelAndViewContainer;
-import org.springframework.web.servlet.HandlerExceptionResolver;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.View;
-import org.springframework.web.servlet.handler.AbstractHandlerMethodExceptionResolver;
-import org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.servlet.support.RequestContextUtils;
 
 import com.codingjoa.util.AjaxUtils;
 
@@ -101,28 +80,24 @@ public class ExceptionHandlerAspect {
 	
 	//@Around("methodResolutionInMethodResolver()") 						// ExceptionHandlerMethodResolver.resolveMethod(..)
 	//@Around("excpetionResolutionInExceptionHandlerExceptionResolver()") 	// ExceptionHandlerExceptionResolver.resolveException(..)
-	//@Around("excpetionResolutionInComposite()")							// HandlerExceptionResolverComposite.resolveException(..)
-	@Around("execution(* org.springframework.web.servlet.handler.HandlerExceptionResolverComposite.resolveException(..))")
+	@Around("excpetionResolutionInComposite()")							// HandlerExceptionResolverComposite.resolveException(..)
 	public Object arroundResolution(ProceedingJoinPoint joinPoint) throws Throwable {
 		log.info("## {}.arroundResolution", this.getClass().getSimpleName());
 		log.info("\t > target = {}", joinPoint.getTarget().getClass().getSimpleName());
 		
 		HttpServletRequest request = null;
 		Object[] args = joinPoint.getArgs(); // HttpServletRequest, HttpServletResponse, HandlerMethod, Exception
-		
 		for (int i = 0; i < args.length; i++) {
-			Object obj = args[i];
-			log.info("\t > arg[{}] = {}", i, obj);
-			if (args[i] instanceof HttpServletRequest) {
-				request = (HttpServletRequest) args[i];
+			Object arg = args[i];
+			log.info("\t > arg[{}] = {}", i, arg == null ? null : arg.getClass().getSimpleName());
+			if (arg instanceof HttpServletRequest) {
+				request = (HttpServletRequest) arg;
 			}
 		}
 		
 		if (request == null) {
-			log.info("\t > no HttpServletRequest instance in arguments");
-		}
-		
-		if (AjaxUtils.isAjaxRequest(request)) {
+			log.info("\t > no HttpServletRequest instance in arguments"); // throw ex? throwable?
+		} else if (AjaxUtils.isAjaxRequest(request)) {
 			log.info("\t > ajax request detected, handling via ExceptionRestHandler");
 		} else {
 			log.info("\t > non-ajax request detected, handling via ExceptionMvcHandler");
