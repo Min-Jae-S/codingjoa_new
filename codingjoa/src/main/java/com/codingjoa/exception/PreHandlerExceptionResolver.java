@@ -34,13 +34,13 @@ public class PreHandlerExceptionResolver implements HandlerExceptionResolver {
 		log.info("## {}", this.getClass().getSimpleName());
 		log.info("\t > request-line = {}", HttpUtils.getHttpRequestLine(request));
 		log.info("\t > handler = {}", handler != null ? handler.getClass().getSimpleName() : null);
-		log.info("\t > {}: {}", ex.getClass().getSimpleName(), ex.getMessage());
 		
 		if (handler != null) {
 			log.info("\t > delegate exception handling to the ExceptionHandlerExceptionResolver");
 			return null;
 		}
 		
+		log.info("\t > {}: {}", ex.getClass().getSimpleName(), ex.getMessage());
 		response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 		response.setCharacterEncoding(StandardCharsets.UTF_8.name());
 		
@@ -51,16 +51,14 @@ public class PreHandlerExceptionResolver implements HandlerExceptionResolver {
 				log.info("\t > respond with errorResponse in JSON format");
 				ErrorResponse errorResponse = builder.messageByCode("error.NotFoundResource").build();
 				String jsonResponse = objectMapper.writeValueAsString(errorResponse);
-				
 				response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 				response.getWriter().write(jsonResponse);
 				response.getWriter().close();
 				return new ModelAndView();
 			} else {
 				ErrorResponse errorResponse = builder.messageByCode("error.NotFoundPage").build();
-				request.setAttribute("errorResponse", errorResponse);
-				
 				log.info("\t > forward to '{}'", FORWARD_URL);
+				request.setAttribute("errorResponse", errorResponse);
 				return new ModelAndView("forward:" + FORWARD_URL);
 			}
 		} catch (Exception e) {

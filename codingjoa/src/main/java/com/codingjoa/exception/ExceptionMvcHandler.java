@@ -34,9 +34,10 @@ public class ExceptionMvcHandler {
 				.status(HttpStatus.BAD_REQUEST)
 				.messageByCode("error.Global") // error.Unknown --> error.Global
 				.build();
-		request.setAttribute("errorResponse", errorResponse);
 		
 		log.info("\t > forward to '{}'", FORWARD_URL);
+		request.setAttribute("errorResponse", errorResponse);
+		
 		return "forward:" + FORWARD_URL;
 	}
 	
@@ -49,9 +50,10 @@ public class ExceptionMvcHandler {
 				.status(HttpStatus.NOT_FOUND)
 				.messageByCode("error.NotFoundPage")
 				.build();
-		request.setAttribute("errorResponse", errorResponse);
 		
 		log.info("\t > forward to '{}'", FORWARD_URL);
+		request.setAttribute("errorResponse", errorResponse);
+		
 		return "forward:" + FORWARD_URL;
 	}
 	
@@ -68,7 +70,6 @@ public class ExceptionMvcHandler {
 				.status(HttpStatus.UNPROCESSABLE_ENTITY)
 				.bindingResult(e.getBindingResult())
 				.build();
-		request.setAttribute("errorResponse", errorResponse);
 
 //		if (isAjaxRequest(request)) {
 //			ErrorResponse response = ErrorResponse.create().bindingResult(e.getBindingResult());
@@ -81,6 +82,8 @@ public class ExceptionMvcHandler {
 //		throw new ModelAndViewDefiningException(mav);
 		
 		log.info("\t > forward to '{}'", FORWARD_URL);
+		request.setAttribute("errorResponse", errorResponse);
+		
 		return "forward:" + FORWARD_URL;
 	}
 	
@@ -97,9 +100,10 @@ public class ExceptionMvcHandler {
 				.status(HttpStatus.UNPROCESSABLE_ENTITY)
 				.message(e.getMessage())
 				.build();
-		request.setAttribute("errorResponse", errorResponse);
 		
 		log.info("\t > forward to '{}'", FORWARD_URL);
+		request.setAttribute("errorResponse", errorResponse);
+		
 		return "forward:" + FORWARD_URL;
 	}
 	
@@ -115,9 +119,10 @@ public class ExceptionMvcHandler {
 				.status(HttpStatus.BAD_REQUEST)
 				.messageByCode("error.InvalidFormat")
 				.build();
-		request.setAttribute("errorResponse", errorResponse);
 		
 		log.info("\t > forward to '{}'", FORWARD_URL);
+		request.setAttribute("errorResponse", errorResponse);
+		
 		return "forward:" + FORWARD_URL;
 	}
 
@@ -137,9 +142,10 @@ public class ExceptionMvcHandler {
 					.build();
 			builder.details(errorDetails);
 		}
+
+		log.info("\t > forward to '{}'", FORWARD_URL);
 		request.setAttribute("errorResponse", builder.build());
 		
-		log.info("\t > forward to '{}'", FORWARD_URL);
 		return "forward:" + FORWARD_URL;
 	}
 	
@@ -159,9 +165,10 @@ public class ExceptionMvcHandler {
 					.build();
 			builder.details(errorDetails);
 		}
-		request.setAttribute("errorResponse", builder.build());
 		
 		log.info("\t > forward to '{}'", FORWARD_URL);
+		request.setAttribute("errorResponse", builder.build());
+		
 		return "forward:" + FORWARD_URL;
 	}
 	

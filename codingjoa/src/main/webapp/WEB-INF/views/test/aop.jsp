@@ -26,19 +26,19 @@
 	
 	div.test {
 		display: flex;
-		justify-content: space-between;
-	}
-	
-	div.gap {
 		column-gap: 30px !important;
+	}
+
+	div.test button {
+		flex-grow: 1;
 	}
 	
 	.btn-fixed {
-		width: 183px;
+		width: 190px !important;
 	}
 	
 	.btn-lg-fixed {
-		width: 280px;
+		width: 280px !important;
 	}
 </style>
 </head>
@@ -46,32 +46,32 @@
 <c:import url="/WEB-INF/views/include/top-menu.jsp"/>
 <div class="container my-5">
 	<p>aop.jsp</p>
-	<div class="test mt-5 mb-5 px-5">
+	<div class="test mt-5 mb-3 px-5">
 		<button class="btn btn-warning" onclick="triggerNoHandlerFoundExceptionByAjax()">NoHandlerFoundException<br>(AJAX)</button>
 		<button class="btn btn-warning" onclick="triggerHttpRequestMethodNotSupportedExceptionByAjax()">HttpRequestMethodNotSupportedException<br>(AJAX)</button>
 		<button class="btn btn-warning" onclick="triggerRuntimeExceptionByAjax()">RuntimeException<br>(AJAX)</button>
 	</div>
-	<div class="test mt-5 mb-5 px-5">
+	<div class="test mb-5 px-5">
 		<button class="btn btn-warning" onclick="triggerNoHandlerFoundExceptionByMvc()">NoHandlerFoundException<br>(MVC)</button>
 		<button class="btn btn-warning" onclick="triggerHttpRequestMethodNotSupportedExceptionByMvc()">HttpRequestMethodNotSupportedException<br>(MVC)</button>
 		<button class="btn btn-warning" onclick="triggerRuntimeExceptionByMvc()">RuntimeException<br>(MVC)</button>
 	</div>
-	<div class="test gap mb-5 px-5">
-		<button class="btn btn-primary btn-lg btn-lg-fixed" onclick="triggerControllerExceptionByAjax()">controller exception<br>(AJAX)</button>
-		<button class="btn btn-primary btn-lg btn-lg-fixed" onclick="triggerInterceptorExceptionByAjax()">interceptor exception<br>(AJAX)</button>
-		<button class="btn btn-primary btn-lg btn-lg-fixed" onclick="triggerFilterExceptionByAjax()">filter exception<br>(AJAX)</button>
+	<div class="test mb-3 px-5">
+		<button class="btn btn-primary btn-lg" onclick="triggerControllerExceptionByAjax()">controller exception<br>(AJAX)</button>
+		<button class="btn btn-primary btn-lg" onclick="triggerInterceptorExceptionByAjax()">interceptor exception<br>(AJAX)</button>
+		<button class="btn btn-primary btn-lg" onclick="triggerFilterExceptionByAjax()">filter exception<br>(AJAX)</button>
 	</div>
-	<div class="test gap mb-5 px-5">
-		<button class="btn btn-primary btn-lg btn-lg-fixed" onclick="triggerControllerExceptionByMvc()">controller exception<br>(MVC)</button>
-		<button class="btn btn-primary btn-lg btn-lg-fixed" onclick="triggerInterceptorExceptionByMvc()">interceptor exception<br>(MVC)</button>
-		<button class="btn btn-primary btn-lg btn-lg-fixed" onclick="triggerFilterExceptionByMvc()">filter exception<br>(MVC)</button>
+	<div class="test mb-5 px-5">
+		<button class="btn btn-primary btn-lg" onclick="triggerControllerExceptionByMvc()">controller exception<br>(MVC)</button>
+		<button class="btn btn-primary btn-lg" onclick="triggerInterceptorExceptionByMvc()">interceptor exception<br>(MVC)</button>
+		<button class="btn btn-primary btn-lg" onclick="triggerFilterExceptionByMvc()">filter exception<br>(MVC)</button>
 	</div>
-	<h4 class="invisible">invisible</h4>
-	<div class="test gap mb-5 px-5">
-		<button class="btn btn-warning btn-lg btn-fixed" onclick="getExceptionHandler()">ExHandler</button>
-		<button class="btn btn-primary btn-lg btn-fixed" onclick="test1()">test1</button>
-		<button class="btn btn-primary btn-lg btn-fixed" onclick="test2()">test2</button>
-		<button class="btn btn-primary btn-lg btn-fixed" onclick="test3()">test3</button>
+	<h6 class="invisible">invisible</h6>
+	<div class="test mb-5 px-5">
+		<button class="btn btn-warning btn-lg" onclick="getExceptionHandler()">ExHandler</button>
+		<button class="btn btn-primary btn-lg" onclick="test1()">test1</button>
+		<button class="btn btn-primary btn-lg" onclick="test2()">test2</button>
+		<button class="btn btn-primary btn-lg" onclick="test3()">test3</button>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
@@ -124,12 +124,18 @@
 		});
 	}
 	
-	function triggerNoHandlerFoundExceptionByAjax() {
+	function triggerNoHandlerFoundExceptionByMvc() {
 		location.href = "${contextPath}/test/aop/aa";
 	}
 
 	function triggerHttpRequestMethodNotSupportedExceptionByMvc() {
-		
+		let $form = $('<form></form>');
+		$form.attr("method", "POST");
+		$form.attr("action", "${contextPath}/test/aop/aa");
+        
+        $(document.body).append($form);
+        $form.submit();
+        $form.remove();
 	}
 	
 	function triggerRuntimeExceptionByMvc() {

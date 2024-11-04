@@ -79,20 +79,20 @@ public class TestAopRestController {
 		Map<String, HandlerExceptionResolver> exceptionResolverMap = context.getBeansOfType(HandlerExceptionResolver.class);
 		for (Map.Entry<String, HandlerExceptionResolver> map : exceptionResolverMap.entrySet()) {
 			HandlerExceptionResolver obj = map.getValue();
-			boolean isPrxoy = AopUtils.isAopProxy(obj);
-			if (isPrxoy) {
+			boolean isAopProxy = AopUtils.isAopProxy(obj);
+			if (isAopProxy) {
 				obj = (HandlerExceptionResolver) AopProxyUtils.getSingletonTarget(obj);
 			}
-			log.info("\t > {} (isProxy = {})", obj.getClass().getSimpleName(), isPrxoy);
+			log.info("\t > {} (isAopProxy = {})", obj.getClass().getSimpleName(), isAopProxy);
 			
 			if (obj instanceof HandlerExceptionResolverComposite) {
 				HandlerExceptionResolverComposite composite = (HandlerExceptionResolverComposite) obj;
 				for (HandlerExceptionResolver resolver : composite.getExceptionResolvers()) {
-					boolean isResolverPrxoy = AopUtils.isAopProxy(obj);
-					if (isResolverPrxoy) {
+					boolean isResolverAopPrxoy = AopUtils.isAopProxy(obj);
+					if (isResolverAopPrxoy) {
 						resolver = (HandlerExceptionResolver) AopProxyUtils.getSingletonTarget(resolver);
 					}
-					log.info("\t\t - {} (isProxy = {})", resolver.getClass().getSimpleName(), isResolverPrxoy);
+					log.info("\t\t - {} (isAopProxy = {})", resolver.getClass().getSimpleName(), isResolverAopPrxoy);
 					
 					if (resolver instanceof ExceptionHandlerExceptionResolver) {
 						exceptionResolver = (ExceptionHandlerExceptionResolver) resolver;
@@ -105,11 +105,10 @@ public class TestAopRestController {
 		if (exceptionResolver != null) {
 			log.info("\t > exceptionHandlerAdviceCache");
 			exceptionResolver.getExceptionHandlerAdviceCache().forEach((key, methodResolver) -> {
-				log.info("\t\t - {}: {} (isProxy = {})", key, methodResolver.getClass().getSimpleName(),
+				log.info("\t\t - {}: {} (isAopProxy = {})", key, methodResolver.getClass().getSimpleName(),
 						AopUtils.isAopProxy(methodResolver));
 			});
 		}
-		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 	
@@ -133,7 +132,6 @@ public class TestAopRestController {
 		
 		log.info("\t > emailService = {}", emailService.getClass().getName().split(regex, 2)[1]);
 		log.info("\t\t - isAopProxy = {}", AopUtils.isAopProxy(emailService));
-		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 
@@ -141,10 +139,10 @@ public class TestAopRestController {
 	@GetMapping("/test2")
 	public ResponseEntity<Object> test2() {
 		log.info("## test2");
-		log.info("\t > testAopRestController = {}, isAopProxy = {}", 
-				self.getClass().getName().split(regex, 2)[1], AopUtils.isAopProxy(self));
-		log.info("\t > testProxyService = {}, isAopProxy = {}", 
-				testProxyService.getClass().getName().split(regex, 2)[1], AopUtils.isAopProxy(testProxyService));
+		log.info("\t > testAopRestController = {},", self.getClass().getName().split(regex, 2)[1]);
+		log.info("\t > testAopRestController isAopProxy = {}", AopUtils.isAopProxy(self));
+		log.info("\t > testProxyService = {}", testProxyService.getClass().getName().split(regex, 2)[1]);
+		log.info("\t > testProxyService isAopProxy = {}", AopUtils.isAopProxy(testProxyService));
 		testProxyService.test();
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
@@ -152,11 +150,9 @@ public class TestAopRestController {
 	@GetMapping("/test3")
 	public ResponseEntity<Object> test3() {
 		log.info("## test3");
-		log.info("\t > exceptionHandlerMethodResolver from @autowired = {}", exceptionHandlerMethodResolver);
-		
 		Map<String, ExceptionHandlerMethodResolver> map = context.getBeansOfType(ExceptionHandlerMethodResolver.class);
-		log.info("\t > exceptionHandlerMethodResolver from context = {}", map.keySet());
-		
+		log.info("\t > exceptionHandlerMethodResolver from context = {}", map);
+		log.info("\t > exceptionHandlerMethodResolver from @autowired = {}", exceptionHandlerMethodResolver);
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 	
