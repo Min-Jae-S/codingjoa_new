@@ -153,7 +153,7 @@ public class ServletConfig implements WebMvcConfigurer {
 	@Override
 	public void extendHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
 		log.info("## extendHandlerExceptionResolvers");
-		WebMvcConfigurer.super.extendHandlerExceptionResolvers(resolvers);
+		//WebMvcConfigurer.super.extendHandlerExceptionResolvers(resolvers);
 		resolvers.add(0, preHandlerExceptionResolver);
 		resolvers.forEach(resolver -> {
 			log.info("\t > {}", resolver.getClass().getSimpleName());

@@ -3,7 +3,6 @@ package com.codingjoa.aop;
 import javax.servlet.http.HttpServletRequest;
 
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
@@ -80,7 +79,7 @@ public class ExceptionHandlerAspect {
 	
 	//@Around("methodResolutionInMethodResolver()") 						// ExceptionHandlerMethodResolver.resolveMethod(..)
 	//@Around("excpetionResolutionInExceptionHandlerExceptionResolver()") 	// ExceptionHandlerExceptionResolver.resolveException(..)
-	@Around("excpetionResolutionInComposite()")							// HandlerExceptionResolverComposite.resolveException(..)
+	//@Around("excpetionResolutionInComposite()")							// HandlerExceptionResolverComposite.resolveException(..)
 	public Object arroundResolution(ProceedingJoinPoint joinPoint) throws Throwable {
 		log.info("## {}.arroundResolution", this.getClass().getSimpleName());
 		log.info("\t > target = {}", joinPoint.getTarget().getClass().getSimpleName());
