@@ -5,7 +5,6 @@ import java.nio.charset.StandardCharsets;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -34,9 +33,11 @@ public class PreHandlerExceptionResolver implements HandlerExceptionResolver {
 			Exception ex) {
 		log.info("## {}", this.getClass().getSimpleName());
 		log.info("\t > request-line = {}", HttpUtils.getHttpRequestLine(request));
-		log.info("\t > accept = {}", request.getHeader(HttpHeaders.ACCEPT));
+		log.info("\t > handler = {}", handler != null ? handler.getClass().getSimpleName() : null);
+		log.info("\t > {}: {}", ex.getClass().getSimpleName(), ex.getMessage());
 		
 		if (handler != null) {
+			log.info("\t > delegate exception handling to the ExceptionHandlerExceptionResolver");
 			return null;
 		}
 		
@@ -50,6 +51,7 @@ public class PreHandlerExceptionResolver implements HandlerExceptionResolver {
 				log.info("\t > respond with errorResponse in JSON format");
 				ErrorResponse errorResponse = builder.messageByCode("error.NotFoundResource").build();
 				String jsonResponse = objectMapper.writeValueAsString(errorResponse);
+				
 				response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 				response.getWriter().write(jsonResponse);
 				response.getWriter().close();
