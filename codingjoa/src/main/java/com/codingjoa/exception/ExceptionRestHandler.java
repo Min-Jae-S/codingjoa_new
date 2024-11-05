@@ -116,9 +116,7 @@ public class ExceptionRestHandler {
 		log.info("## {}.handleConstraintViolationEx", this.getClass().getSimpleName());
 		log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
 		
-		e.getConstraintViolations().forEach(violation -> {
-			log.info("> invalid value = {}", violation.getInvalidValue());
-		});
+		e.getConstraintViolations().forEach(violation -> log.info("> invalid value = {}", violation.getInvalidValue()));
 
 		ErrorResponse errorResponse = ErrorResponse.builder()
 				.status(HttpStatus.UNPROCESSABLE_ENTITY)

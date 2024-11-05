@@ -13,14 +13,13 @@ import com.codingjoa.util.AjaxUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+@SuppressWarnings("unused")
 @Slf4j
 @Aspect
 @RequiredArgsConstructor
 @Component
 public class ExceptionHandlerAspect {
 	
-	@SuppressWarnings("unused")
-	//private final ApplicationContext context;
 	private final WebApplicationContext context;
 	
 	@Pointcut("execution(* com.codingjoa.exception.*.*(..))")
