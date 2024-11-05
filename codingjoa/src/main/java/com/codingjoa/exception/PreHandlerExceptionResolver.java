@@ -39,17 +39,17 @@ public class PreHandlerExceptionResolver implements HandlerExceptionResolver {
 			log.info("\t > delegate exception handling to the ExceptionHandlerExceptionResolver");
 			return null;
 		}
-		
 		log.info("\t > {}: {}", ex.getClass().getSimpleName(), ex.getMessage());
-		response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-		response.setCharacterEncoding(StandardCharsets.UTF_8.name());
-		
-		ErrorResponseBuilder builder = ErrorResponse.builder().status(HttpStatus.NOT_FOUND);
 		
 		try {
+			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+			response.setCharacterEncoding(StandardCharsets.UTF_8.name());
+			ErrorResponseBuilder builder = ErrorResponse.builder().status(HttpStatus.NOT_FOUND);
+			
 			if (AjaxUtils.isAjaxRequest(request)) {
-				log.info("\t > respond with errorResponse in JSON format");
 				ErrorResponse errorResponse = builder.messageByCode("error.NotFoundResource").build();
+
+				log.info("\t > respond with errorResponse in JSON format");
 				String jsonResponse = objectMapper.writeValueAsString(errorResponse);
 				response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 				response.getWriter().write(jsonResponse);
@@ -57,6 +57,7 @@ public class PreHandlerExceptionResolver implements HandlerExceptionResolver {
 				return new ModelAndView();
 			} else {
 				ErrorResponse errorResponse = builder.messageByCode("error.NotFoundPage").build();
+				
 				log.info("\t > forward to '{}'", FORWARD_URL);
 				request.setAttribute("errorResponse", errorResponse);
 				return new ModelAndView("forward:" + FORWARD_URL);
