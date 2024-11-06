@@ -1,15 +1,18 @@
 package com.codingjoa.aop;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.WebApplicationContext;
-
-import com.codingjoa.util.AjaxUtils;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -79,41 +82,19 @@ public class ExceptionHandlerAspect {
 	
 	//@Around("methodResolutionInMethodResolver()") 						// ExceptionHandlerMethodResolver.resolveMethod(..)
 	//@Around("excpetionResolutionInExceptionHandlerExceptionResolver()") 	// ExceptionHandlerExceptionResolver.resolveException(..)
-	@Around("excpetionResolutionInComposite()")							// HandlerExceptionResolverComposite.resolveException(..)
+	@Around("excpetionResolutionInComposite()")								// HandlerExceptionResolverComposite.resolveException(..)
 	public Object arroundResolution(ProceedingJoinPoint joinPoint) throws Throwable {
 		log.info("## {}.arroundResolution", this.getClass().getSimpleName());
 		log.info("\t > target = {}", joinPoint.getTarget().getClass().getSimpleName());
 		
-		HttpServletRequest request = null;
-		Object[] args = joinPoint.getArgs(); // HttpServletRequest, HttpServletResponse, HandlerMethod, Exception
-		for (int i = 0; i < args.length; i++) {
-			Object arg = args[i];
-			log.info("\t > arg[{}] = {}", i, arg == null ? null : arg.getClass().getSimpleName());
-			if (arg instanceof HttpServletRequest) {
-				request = (HttpServletRequest) arg;
-			}
-		}
-		
-		if (request == null) {
-			log.info("\t > no HttpServletRequest instance in arguments"); // throw ex? throwable?
-		} else if (AjaxUtils.isAjaxRequest(request)) {
-			log.info("\t > ajax request detected, handling via ExceptionRestHandler");
-		} else {
-			log.info("\t > non-ajax request detected, handling via ExceptionMvcHandler");
-		}
-		
-		return joinPoint.proceed();
-	}
-	
-	/*
-	@Around("resolveExceptionMehtod()")
-	public Object resolveWithDynamicResolver(ProceedingJoinPoint joinPoint) throws Throwable {
-		log.info("## {}.resolveWithDynamicResolver", this.getClass().getSimpleName());
-		log.info("\t > context = {}", context);
-		log.info("\t > target = {}", joinPoint.getTarget().getClass().getSimpleName());
+		MethodSignature signature = (MethodSignature) joinPoint.getSignature();
+		List<String> parameterTypes = Arrays.stream(signature.getParameterTypes())
+				.map(parameterType -> parameterType.getSimpleName())
+				.collect(Collectors.toList());
+		log.info("\t > parameterTypes = {}", parameterTypes);
 		
 		HttpServletRequest request = null;
-		for (Object arg : joinPoint.getArgs()) {
+		for (Object arg : joinPoint.getArgs()) { // HttpServletRequest, HttpServletResponse, Object(handler), Exception
 			if (arg instanceof HttpServletRequest) {
 				request = (HttpServletRequest) arg;
 				break;
@@ -121,17 +102,9 @@ public class ExceptionHandlerAspect {
 		}
 		
 		if (request == null) {
-			log.info("\t > no HttpServletRequest instance in the arguments");
-			// throw exception..
-		}
-		
-		if (AjaxUtils.isAjaxRequest(request)) {
-			log.info("\t > ajax request detected, handling via ExceptionRestHandler");
-		} else {
-			log.info("\t > non-ajax request detected, handling via ExceptionMvcHandler");
-		}
+			log.info("\t > no HttpServletRequest instance in arguments");
+		} 
 		
 		return joinPoint.proceed();
 	}
-	*/
 }
