@@ -107,10 +107,10 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
 	
 	/*
 	 * @@ MultipartConfigElement(String location, long maxFileSize, long maxRequestSize, int fileSizeThreshold)
-	 * 		location 		 	: 임시폴더 경로, null로 설정시 tomcat이 설정한 임시폴더로 지정
-	 * 		maxFileSize		 	: 업로드 하는 파일의 최대 용량(byte 단위)
-	 * 		maxRequestSize	 	: 파일 데이터를 포함한 전체 요청 용량
-	 * 		fileSizeThreshold 	: 파일 임계값
+	 * 		- location 		 		: 임시폴더 경로, null로 설정시 tomcat이 설정한 임시폴더로 지정
+	 * 		- maxFileSize		 	: 업로드 하는 파일의 최대 용량(byte 단위)
+	 * 		- maxRequestSize	 	: 파일 데이터를 포함한 전체 요청 용량
+	 * 		- fileSizeThreshold 	: 파일 임계값
 	 */
 
 	@Override
@@ -152,9 +152,7 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
 		log.info("## registerLogFilter");
 		FilterRegistration.Dynamic filterRegistration = servletContext.addFilter("LogFilter", new LogFilter());
 		filterRegistration.setInitParameter("excludePatterns", "/resources/, /member/images/, /board/images/");
-		
-		EnumSet<DispatcherType> dispatcherTypes = EnumSet.of(DispatcherType.REQUEST, DispatcherType.ASYNC, DispatcherType.ERROR);
-		filterRegistration.addMappingForUrlPatterns(dispatcherTypes, false, "/*");
+		filterRegistration.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, "/*");
 	}
 	
 	private void registerErrorHandlingFilter(ServletContext servletContext) {
