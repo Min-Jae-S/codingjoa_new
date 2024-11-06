@@ -48,14 +48,13 @@ public class ErrorHandlingFilter implements Filter {
 			throws IOException, ServletException {
 		HttpServletRequest request = (HttpServletRequest) servletRequest;
 		HttpServletResponse response = (HttpServletResponse) servletResponse;
-		log.info("## {}.doFilter", this.getClass().getSimpleName());
-		log.info("\t > request-line = {}", HttpUtils.getHttpRequestLine(request));
-		log.info("\t > dispatcherType = {}", request.getDispatcherType());
 		
 		try {
 			chain.doFilter(servletRequest, servletResponse);
 		} catch (Exception e) {
-			log.info("## catches exception", this.getClass().getSimpleName());
+			log.info("## {}.doFilter", this.getClass().getSimpleName());
+			log.info("\t > request-line = {}", HttpUtils.getHttpRequestLine(request));
+			log.info("\t > dispatcherType = {}", request.getDispatcherType());
 			log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
 			
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

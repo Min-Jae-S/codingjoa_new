@@ -89,7 +89,7 @@ public class ServletConfig implements WebMvcConfigurer {
 		jsonView.setEncoding(JsonEncoding.UTF8);
         return jsonView;
     }
-
+	
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		WebMvcConfigurer.super.addResourceHandlers(registry);
@@ -229,5 +229,5 @@ public class ServletConfig implements WebMvcConfigurer {
 		//factoryBean.getValidationPropertyMap().put("hibernate.validator.fail_fast", "true");
 		return factoryBean;
 	}
-	
+
 }

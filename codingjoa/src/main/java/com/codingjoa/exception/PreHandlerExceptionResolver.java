@@ -39,9 +39,10 @@ public class PreHandlerExceptionResolver implements HandlerExceptionResolver {
 			log.info("\t > delegate exception handling to the ExceptionHandlerExceptionResolver");
 			return null;
 		}
-		log.info("\t > {}: {}", ex.getClass().getSimpleName(), ex.getMessage());
 		
 		try {
+			log.info("\t > {}: {}", ex.getClass().getSimpleName(), ex.getMessage());
+			
 			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 			response.setCharacterEncoding(StandardCharsets.UTF_8.name());
 			ErrorResponseBuilder builder = ErrorResponse.builder().status(HttpStatus.NOT_FOUND);
