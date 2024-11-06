@@ -55,9 +55,7 @@ public class ErrorHandlingFilter implements Filter {
 		try {
 			chain.doFilter(servletRequest, servletResponse);
 		} catch (Exception e) {
-			log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
-			log.info("## {}.doFilter", this.getClass().getSimpleName());
-			log.info("\t > request-line = {}", HttpUtils.getHttpRequestLine(request));
+			log.info("## catches exception", this.getClass().getSimpleName());
 			log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
 			
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

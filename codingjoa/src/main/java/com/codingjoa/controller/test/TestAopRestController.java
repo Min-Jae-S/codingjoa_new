@@ -1,6 +1,9 @@
 package com.codingjoa.controller.test;
 
+import java.io.IOException;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.aop.framework.AopProxyUtils;
 import org.springframework.aop.support.AopUtils;
@@ -153,6 +156,13 @@ public class TestAopRestController {
 		Map<String, ExceptionHandlerMethodResolver> map = context.getBeansOfType(ExceptionHandlerMethodResolver.class);
 		log.info("\t > exceptionHandlerMethodResolver from context = {}", map);
 		log.info("\t > exceptionHandlerMethodResolver from @autowired = {}", exceptionHandlerMethodResolver);
+		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
+	}
+
+	@GetMapping("/test4")
+	public ResponseEntity<Object> test4(HttpServletResponse response) throws IOException {
+		log.info("## test4");
+		response.sendError(HttpServletResponse.SC_BAD_GATEWAY);
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 	

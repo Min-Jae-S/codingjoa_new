@@ -34,5 +34,11 @@ public class TestAopController {
 		log.info("## triggerExceptionInFilter");
 		return "home";
 	}
+
+	@GetMapping("/test5")
+	public String test5() {
+		log.info("## test5");
+		return "nonExistingView";
+	}
 	
 }
