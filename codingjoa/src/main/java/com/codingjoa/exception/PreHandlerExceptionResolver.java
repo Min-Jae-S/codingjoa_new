@@ -38,8 +38,6 @@ public class PreHandlerExceptionResolver implements HandlerExceptionResolver {
 		log.info("## {}", this.getClass().getSimpleName());
 		log.info("\t > request-line = {}", HttpUtils.getHttpRequestLine(request));
 		
-		log.info("\t > handler = {}", handler != null ? handler.getClass().getSimpleName() : null);
-		
 		if (handler != null) {
 			log.info("\t > handler = {}", handler.getClass().getSimpleName());
 			if (handler instanceof HandlerMethod) {
@@ -47,6 +45,7 @@ public class PreHandlerExceptionResolver implements HandlerExceptionResolver {
 				Method method = handlerMethod.getMethod();
 				log.info("\t > method = {}", method);
 			}
+			
 			log.info("\t > delegate exception handling to the ExceptionHandlerExceptionResolver");
 			return null;
 		} else {
