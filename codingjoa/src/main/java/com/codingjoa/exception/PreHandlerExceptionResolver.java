@@ -1,5 +1,6 @@
 package com.codingjoa.exception;
 
+import java.lang.reflect.Method;
 import java.nio.charset.StandardCharsets;
 
 import javax.servlet.http.HttpServletRequest;
@@ -8,9 +9,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
+import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 import com.codingjoa.dto.ErrorResponse;
 import com.codingjoa.dto.ErrorResponse.ErrorResponseBuilder;
@@ -36,11 +37,20 @@ public class PreHandlerExceptionResolver implements HandlerExceptionResolver {
 			Exception ex) {
 		log.info("## {}", this.getClass().getSimpleName());
 		log.info("\t > request-line = {}", HttpUtils.getHttpRequestLine(request));
+		
 		log.info("\t > handler = {}", handler != null ? handler.getClass().getSimpleName() : null);
 		
 		if (handler != null) {
+			log.info("\t > handler = {}", handler.getClass().getSimpleName());
+			if (handler instanceof HandlerMethod) {
+				HandlerMethod handlerMethod = (HandlerMethod) handler;
+				Method method = handlerMethod.getMethod();
+				log.info("\t > method = {}", method);
+			}
 			log.info("\t > delegate exception handling to the ExceptionHandlerExceptionResolver");
 			return null;
+		} else {
+			log.info("\t > handler = {}", handler);
 		}
 		
 		try {

@@ -144,9 +144,6 @@
 		location.href = "${contextPath}/test/aop/exception";
 	}
 	
-	/********************************************************************/
-	/********************************************************************/
-	
 	function triggerControllerExceptionByAjax() {
 		console.log("## triggerExceptionInControllerByAjax");
 		$.ajax({
