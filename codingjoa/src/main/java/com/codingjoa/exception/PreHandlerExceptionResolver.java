@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
@@ -22,13 +23,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+@SuppressWarnings("unused")
 @Slf4j
 @RequiredArgsConstructor
 @Component
 public class PreHandlerExceptionResolver implements HandlerExceptionResolver {
 	
-	private static final String FORWARD_URL = "/error"; 
+	private static final String FORWARD_URL = "/error";
 	private final ObjectMapper objectMapper;
+	private final WebApplicationContext context;
 	//private final RequestMappingHandlerMapping handlerMapping;
 
 	@Override
@@ -49,12 +52,12 @@ public class PreHandlerExceptionResolver implements HandlerExceptionResolver {
 			
 			log.info("\t > delegate exception handling to the ExceptionHandlerExceptionResolver");
 			return null;
-		} else {
-			log.info("\t > handler = {}", handler);
-		}
+		} 
+		
+		log.info("\t > handler = null");
+		log.info("\t > {}: {}", ex.getClass().getSimpleName(), ex.getMessage());
 		
 		try {
-			log.info("\t > {}: {}", ex.getClass().getSimpleName(), ex.getMessage());
 			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 			response.setCharacterEncoding(StandardCharsets.UTF_8.name());
 			ErrorResponseBuilder builder = ErrorResponse.builder().status(HttpStatus.NOT_FOUND);

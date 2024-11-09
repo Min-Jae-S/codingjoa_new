@@ -102,9 +102,7 @@ public class ExceptionHandlerAspect {
 			}
 		}
 		
-		if (request == null) {
-			log.info("\t > no HttpServletRequest instance in arguments");
-		} 
+		log.info("\t > request = {}", request);
 		
 		return joinPoint.proceed();
 	}
