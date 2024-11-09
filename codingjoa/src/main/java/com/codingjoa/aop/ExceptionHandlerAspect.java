@@ -94,7 +94,8 @@ public class ExceptionHandlerAspect {
 		log.info("\t > parameterTypes = {}", parameterTypes);
 		
 		HttpServletRequest request = null;
-		for (Object arg : joinPoint.getArgs()) { // HttpServletRequest, HttpServletResponse, Object(handler), Exception
+		for (Object arg : joinPoint.getArgs()) {
+			// HttpServletRequest, HttpServletResponse, Object(handler), Exception
 			if (arg instanceof HttpServletRequest) {
 				request = (HttpServletRequest) arg;
 				break;

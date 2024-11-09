@@ -22,7 +22,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-@SuppressWarnings("unused")
 @Slf4j
 @RequiredArgsConstructor
 @Component
@@ -44,6 +43,8 @@ public class PreHandlerExceptionResolver implements HandlerExceptionResolver {
 				HandlerMethod handlerMethod = (HandlerMethod) handler;
 				Method method = handlerMethod.getMethod();
 				log.info("\t > method = {}", method);
+				log.info("\t > paramterTypes = {}", method.getParameterTypes());
+				log.info("\t > returnType = {}", method.getReturnType());
 			}
 			
 			log.info("\t > delegate exception handling to the ExceptionHandlerExceptionResolver");
