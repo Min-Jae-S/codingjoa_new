@@ -1,9 +1,12 @@
 package com.codingjoa.exception;
 
 import java.lang.reflect.Method;
+import java.util.Map;
 
 import org.springframework.stereotype.Component;
+import org.springframework.web.method.ControllerAdviceBean;
 import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.method.annotation.ExceptionHandlerMethodResolver;
 import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver;
 import org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod;
 
@@ -27,8 +30,16 @@ public class ExceptionHandlerExceptionResolverImpl extends ExceptionHandlerExcep
 		ServletInvocableHandlerMethod invocableHandlerMethod = super.getExceptionHandlerMethod(handlerMethod, exception);
 		log.info("\t > resolved from handerMethod = {}", invocableHandlerMethod.getResolvedFromHandlerMethod());
 		
+		Map<ControllerAdviceBean, ExceptionHandlerMethodResolver> exceptionHandlerAdvices = getExceptionHandlerAdviceCache();
+		log.info("\t > exceptionHandlerAdvices = {}", exceptionHandlerAdvices);
+		
+		if (exceptionHandlerAdvices != null) {
+			exceptionHandlerAdvices.forEach((key, methodResolver) -> {
+				log.info("\t\t - {}: {} ", key, methodResolver.getClass().getSimpleName());
+			});
+		}
+		
 		return invocableHandlerMethod;
 	}
-
 	
 }
