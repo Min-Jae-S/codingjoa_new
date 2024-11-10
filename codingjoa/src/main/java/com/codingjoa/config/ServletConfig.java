@@ -34,7 +34,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.BeanNameViewResolver;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
-import com.codingjoa.exception.PreHandlerExceptionResolver;
 import com.codingjoa.interceptor.PasswordResetKeyInterceptor;
 import com.codingjoa.interceptor.TopMenuInterceptor;
 import com.codingjoa.interceptor.test.TestAopInterceptor;
@@ -63,7 +62,8 @@ public class ServletConfig implements WebMvcConfigurer {
 	private final RedisService redisService;
 	private final BoardCriteriaArgumentResolver boardCriteriaArgumentResolver;
 	private final CommentCriteriaArgumentResolver commentCriteriaArgumentResolver;
-	private final PreHandlerExceptionResolver preHandlerExceptionResolver; // instance class --> interface (issue at proxy)
+	//private final PreHandlerExceptionResolver preHandlerExceptionResolver; // instance class --> interface (issue at proxy)
+	private final HandlerExceptionResolver handlerExceptionResolver; 
 	private final MessageSource messageSource;
 	private final ObjectMapper objectMapper;
 	
@@ -154,7 +154,8 @@ public class ServletConfig implements WebMvcConfigurer {
 	public void extendHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
 		log.info("## extendHandlerExceptionResolvers");
 		//WebMvcConfigurer.super.extendHandlerExceptionResolvers(resolvers);
-		resolvers.add(0, preHandlerExceptionResolver);
+		//resolvers.add(0, preHandlerExceptionResolver);
+		resolvers.add(0, handlerExceptionResolver);
 		resolvers.forEach(resolver -> {
 			log.info("\t > {}", resolver.getClass().getSimpleName());
 //			if (resolver instanceof ExceptionHandlerExceptionResolver) {
