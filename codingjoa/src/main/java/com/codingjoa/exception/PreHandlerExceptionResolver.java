@@ -46,6 +46,7 @@ public class PreHandlerExceptionResolver implements HandlerExceptionResolver {
 				HandlerMethod handlerMethod = (HandlerMethod) handler;
 				Method method = handlerMethod.getMethod();
 				log.info("\t > method = {}", method);
+				log.info("\t > method name = {}", method.getName());
 				log.info("\t > paramterTypes = {}", method.getParameterTypes());
 				log.info("\t > returnType = {}", method.getReturnType());
 			}
