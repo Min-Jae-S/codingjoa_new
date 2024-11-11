@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.validation.Validator;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -51,7 +52,7 @@ import lombok.extern.slf4j.Slf4j;
 @ComponentScan("com.codingjoa.controller") 
 @ComponentScan("com.codingjoa.resolver")
 @ComponentScan("com.codingjoa.exception")
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 @EnableAspectJAutoProxy
 @EnableWebMvc 
 @Configuration
@@ -67,20 +68,20 @@ public class ServletConfig implements WebMvcConfigurer {
 	private final MessageSource messageSource;
 	private final ObjectMapper objectMapper;
 	
-//	public ServletConfig(Environment env, CategoryService categoryService, RedisService redisService,
-//			BoardCriteriaArgumentResolver boardCriteriaArgumentResolver,
-//			CommentCriteriaArgumentResolver commentCriteriaArgumentResolver,
-//			@Qualifier("exceptionHandlerExceptionResolverImpl") HandlerExceptionResolver handlerExceptionResolver,
-//			MessageSource messageSource, ObjectMapper objectMapper) {
-//		this.env = env;
-//		this.categoryService = categoryService;
-//		this.redisService = redisService;
-//		this.boardCriteriaArgumentResolver = boardCriteriaArgumentResolver;
-//		this.commentCriteriaArgumentResolver = commentCriteriaArgumentResolver;
-//		this.handlerExceptionResolver = handlerExceptionResolver;
-//		this.messageSource = messageSource;
-//		this.objectMapper = objectMapper;
-//	}
+	public ServletConfig(Environment env, CategoryService categoryService, RedisService redisService,
+			BoardCriteriaArgumentResolver boardCriteriaArgumentResolver,
+			CommentCriteriaArgumentResolver commentCriteriaArgumentResolver,
+			@Qualifier("exceptionHandlerExceptionResolverImpl") HandlerExceptionResolver handlerExceptionResolver,
+			MessageSource messageSource, ObjectMapper objectMapper) {
+		this.env = env;
+		this.categoryService = categoryService;
+		this.redisService = redisService;
+		this.boardCriteriaArgumentResolver = boardCriteriaArgumentResolver;
+		this.commentCriteriaArgumentResolver = commentCriteriaArgumentResolver;
+		this.handlerExceptionResolver = handlerExceptionResolver;
+		this.messageSource = messageSource;
+		this.objectMapper = objectMapper;
+	}
 	
 	@Override
 	public void configureViewResolvers(ViewResolverRegistry registry) {
