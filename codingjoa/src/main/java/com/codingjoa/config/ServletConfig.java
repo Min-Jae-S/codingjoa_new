@@ -91,6 +91,11 @@ public class ServletConfig implements WebMvcConfigurer {
         return jsonView;
     }
 	
+	@Bean
+	public HandlerExceptionResolver enhancedExceptionHandlerExceptionResolver() {
+		return new EnhancedExceptionHandlerExceptionResolver();
+	}
+	
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		WebMvcConfigurer.super.addResourceHandlers(registry);
@@ -159,13 +164,9 @@ public class ServletConfig implements WebMvcConfigurer {
 			log.info("\t > {}", resolver.getClass().getSimpleName());
 			if (resolver instanceof ExceptionHandlerExceptionResolver) {
 				int index = resolvers.indexOf(resolver);
-				//resolvers.add(index, new EnhancedExceptionHandlerExceptionResolver(resolver));
+				resolvers.add(index, enhancedExceptionHandlerExceptionResolver());
 			}
-				
 		}
-		//resolvers.add(0, enhancedExceptionHandlerExceptionResolver);
-		//resolvers.add(0, new EnhancedExceptionHandlerExceptionResolver());
-		//resolvers.forEach(resolver -> log.info("\t > {}", resolver.getClass().getSimpleName()));
 	}
 	
 	
