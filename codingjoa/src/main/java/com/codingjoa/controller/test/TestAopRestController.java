@@ -19,6 +19,7 @@ import org.springframework.web.servlet.handler.HandlerExceptionResolverComposite
 import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver;
 
 import com.codingjoa.annotation.AnnoTest;
+import com.codingjoa.demo.ExpectedException;
 import com.codingjoa.dto.SuccessResponse;
 import com.codingjoa.service.MemberService;
 import com.codingjoa.service.impl.EmailServiceImpl;
@@ -54,13 +55,13 @@ public class TestAopRestController {
 	@GetMapping("/exception")
 	public void triggerExceptionByAjax() {
 		log.info("## triggerExceptionByAjax");
-		throw new RuntimeException();
+		throw new ExpectedException("exception by ajax");
 	}
 
 	@GetMapping("/exception/controller")
 	public ResponseEntity<Object> triggerExceptionInController() {
 		log.info("## triggerExceptionInController");
-		throw new RuntimeException();
+		throw new ExpectedException("exceptin in controller by ajax");
 	}
 	
 	@GetMapping("/exception/interceptor")

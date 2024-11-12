@@ -4,6 +4,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.codingjoa.exception.ExpectedException;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -14,13 +16,13 @@ public class TestAopController {
 	@GetMapping("/exception")
 	public void triggerExceptionByMvc() {
 		log.info("## triggerExceptionByMvc");
-		throw new RuntimeException();
+		throw new ExpectedException("exception by mvc");
 	}
 	
 	@GetMapping("/exception/controller")
 	public void triggerExceptionInController() {
 		log.info("## triggerExceptionInController");
-		throw new RuntimeException();
+		throw new ExpectedException("exception in controller by mvc");
 	}
 	
 	@GetMapping("/exception/interceptor")

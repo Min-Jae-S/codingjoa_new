@@ -40,15 +40,15 @@ public class EnhancedExceptionHandlerExceptionResolver extends ExceptionHandlerE
 		log.info("\t > exceptionHandlerAdvices = {}", exceptionHandlerAdvices);
 		
 		if (exceptionHandlerAdvices != null) {
-			exceptionHandlerAdvices.forEach((key, methodResolver) -> {
-				log.info("\t\t - key = {} value = {} ", key, methodResolver);
-			});
+			exceptionHandlerAdvices.forEach((key, methodResolver) -> log.info("\t\t - {}, {} ", key, methodResolver));
 		}
+		
+		log.info("\t > resolvers = {}", getArgumentResolvers().getResolvers());
+		log.info("\t > retrunValueHandlers = {}", getReturnValueHandlers().getHandlers());
 		
 		return exceptionHandlerMethod;
 	}
 	
-	@SuppressWarnings("unused")
 	private HttpServletRequest getCurrentHttpRequest() {
 		ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
 		return (attributes != null) ? attributes.getRequest() : null;
