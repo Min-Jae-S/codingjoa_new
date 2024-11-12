@@ -38,14 +38,11 @@ import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 import com.codingjoa.interceptor.PasswordResetKeyInterceptor;
 import com.codingjoa.interceptor.TopMenuInterceptor;
 import com.codingjoa.interceptor.test.TestAopInterceptor;
-import com.codingjoa.resolver.BoardCriteriaArgumentResolver;
-import com.codingjoa.resolver.CommentCriteriaArgumentResolver;
 import com.codingjoa.service.CategoryService;
 import com.codingjoa.service.RedisService;
 import com.fasterxml.jackson.core.JsonEncoding;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -61,16 +58,16 @@ public class ServletConfig implements WebMvcConfigurer {
 	private final Environment env;
 	private final CategoryService categoryService;
 	private final RedisService redisService;
-	private final BoardCriteriaArgumentResolver boardCriteriaArgumentResolver;
-	private final CommentCriteriaArgumentResolver commentCriteriaArgumentResolver;
+	private final HandlerMethodArgumentResolver boardCriteriaArgumentResolver;
+	private final HandlerMethodArgumentResolver commentCriteriaArgumentResolver;
 	//private final HandlerExceptionResolver preHandlerExceptionResolver; // instance class --> interface (issue at proxy)
 	private final HandlerExceptionResolver handlerExceptionResolver; 
 	private final MessageSource messageSource;
 	private final ObjectMapper objectMapper;
 	
 	public ServletConfig(Environment env, CategoryService categoryService, RedisService redisService,
-			BoardCriteriaArgumentResolver boardCriteriaArgumentResolver,
-			CommentCriteriaArgumentResolver commentCriteriaArgumentResolver,
+			@Qualifier("boardCriteriaArgumentResolver") HandlerMethodArgumentResolver boardCriteriaArgumentResolver,
+			@Qualifier("commentCriteriaArgumentResolver") HandlerMethodArgumentResolver commentCriteriaArgumentResolver,
 			@Qualifier("exceptionHandlerExceptionResolverImpl") HandlerExceptionResolver handlerExceptionResolver,
 			MessageSource messageSource, ObjectMapper objectMapper) {
 		this.env = env;
