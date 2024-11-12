@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.validation.Validator;
 
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -35,20 +34,25 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.BeanNameViewResolver;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
+import com.codingjoa.exception.EnhancedExceptionHandlerExceptionResolver;
 import com.codingjoa.interceptor.PasswordResetKeyInterceptor;
 import com.codingjoa.interceptor.TopMenuInterceptor;
 import com.codingjoa.interceptor.test.TestAopInterceptor;
+import com.codingjoa.resolver.BoardCriteriaArgumentResolver;
+import com.codingjoa.resolver.CommentCriteriaArgumentResolver;
 import com.codingjoa.service.CategoryService;
 import com.codingjoa.service.RedisService;
 import com.fasterxml.jackson.core.JsonEncoding;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @ComponentScan("com.codingjoa.controller") 
 @ComponentScan("com.codingjoa.resolver")
 @ComponentScan("com.codingjoa.exception")
+@RequiredArgsConstructor
 @EnableAspectJAutoProxy
 @EnableWebMvc 
 @Configuration
@@ -57,27 +61,12 @@ public class ServletConfig implements WebMvcConfigurer {
 	private final Environment env;
 	private final CategoryService categoryService;
 	private final RedisService redisService;
-	private final HandlerMethodArgumentResolver boardCriteriaArgumentResolver;
-	private final HandlerMethodArgumentResolver commentCriteriaArgumentResolver;
+	private final BoardCriteriaArgumentResolver boardCriteriaArgumentResolver;
+	private final CommentCriteriaArgumentResolver commentCriteriaArgumentResolver;
 	//private final HandlerExceptionResolver preHandlerExceptionResolver; // instance class --> interface (issue at proxy, AOP)
-	private final HandlerExceptionResolver handlerExceptionResolver; 
+	private final EnhancedExceptionHandlerExceptionResolver enhancedExceptionHandlerExceptionResolver; 
 	private final MessageSource messageSource;
 	private final ObjectMapper objectMapper;
-	
-	public ServletConfig(Environment env, CategoryService categoryService, RedisService redisService,
-			@Qualifier("boardCriteriaArgumentResolver") HandlerMethodArgumentResolver boardCriteriaArgumentResolver,
-			@Qualifier("commentCriteriaArgumentResolver") HandlerMethodArgumentResolver commentCriteriaArgumentResolver,
-			@Qualifier("enhancedExceptionHandlerExceptionResolver") HandlerExceptionResolver handlerExceptionResolver,
-			MessageSource messageSource, ObjectMapper objectMapper) {
-		this.env = env;
-		this.categoryService = categoryService;
-		this.redisService = redisService;
-		this.boardCriteriaArgumentResolver = boardCriteriaArgumentResolver;
-		this.commentCriteriaArgumentResolver = commentCriteriaArgumentResolver;
-		this.handlerExceptionResolver = handlerExceptionResolver;
-		this.messageSource = messageSource;
-		this.objectMapper = objectMapper;
-	}
 	
 	@Override
 	public void configureViewResolvers(ViewResolverRegistry registry) {
@@ -165,7 +154,8 @@ public class ServletConfig implements WebMvcConfigurer {
 	@Override
 	public void extendHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
 		log.info("## extendHandlerExceptionResolvers");
-		resolvers.add(0, handlerExceptionResolver);
+		WebMvcConfigurer.super.extendHandlerExceptionResolvers(resolvers);
+		resolvers.add(0, enhancedExceptionHandlerExceptionResolver);
 		resolvers.forEach(resolver -> log.info("\t > {}", resolver.getClass().getSimpleName()));
 	}
 	

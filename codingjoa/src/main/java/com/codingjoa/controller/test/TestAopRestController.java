@@ -19,7 +19,7 @@ import org.springframework.web.servlet.handler.HandlerExceptionResolverComposite
 import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver;
 
 import com.codingjoa.annotation.AnnoTest;
-import com.codingjoa.demo.ExpectedException;
+import com.codingjoa.exception.ExpectedException;
 import com.codingjoa.dto.SuccessResponse;
 import com.codingjoa.service.MemberService;
 import com.codingjoa.service.impl.EmailServiceImpl;
