@@ -31,9 +31,11 @@ import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver;
 import org.springframework.web.servlet.view.BeanNameViewResolver;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
+import com.codingjoa.exception.EnhancedExceptionHandlerExceptionResolver;
 import com.codingjoa.interceptor.PasswordResetKeyInterceptor;
 import com.codingjoa.interceptor.TopMenuInterceptor;
 import com.codingjoa.interceptor.test.TestAopInterceptor;
@@ -63,7 +65,6 @@ public class ServletConfig implements WebMvcConfigurer {
 	private final BoardCriteriaArgumentResolver boardCriteriaArgumentResolver;
 	private final CommentCriteriaArgumentResolver commentCriteriaArgumentResolver;
 	//private final HandlerExceptionResolver preHandlerExceptionResolver; // instance class --> interface (issue at proxy, AOP)
-	private final HandlerExceptionResolver enhancedExceptionHandlerExceptionResolver; 
 	private final MessageSource messageSource;
 	private final ObjectMapper objectMapper;
 	
@@ -154,9 +155,17 @@ public class ServletConfig implements WebMvcConfigurer {
 	public void extendHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
 		log.info("## extendHandlerExceptionResolvers");
 		WebMvcConfigurer.super.extendHandlerExceptionResolvers(resolvers);
-		resolvers.add(0, enhancedExceptionHandlerExceptionResolver);
+		for (HandlerExceptionResolver resolver : resolvers) {
+			log.info("\t > {}", resolver.getClass().getSimpleName());
+			if (resolver instanceof ExceptionHandlerExceptionResolver) {
+				int index = resolvers.indexOf(resolver);
+				//resolvers.add(index, new EnhancedExceptionHandlerExceptionResolver(resolver));
+			}
+				
+		}
+		//resolvers.add(0, enhancedExceptionHandlerExceptionResolver);
 		//resolvers.add(0, new EnhancedExceptionHandlerExceptionResolver());
-		resolvers.forEach(resolver -> log.info("\t > {}", resolver.getClass().getSimpleName()));
+		//resolvers.forEach(resolver -> log.info("\t > {}", resolver.getClass().getSimpleName()));
 	}
 	
 	
