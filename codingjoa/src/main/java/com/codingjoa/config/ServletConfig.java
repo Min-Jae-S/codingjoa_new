@@ -159,6 +159,7 @@ public class ServletConfig implements WebMvcConfigurer {
 		resolvers.forEach(resolver -> log.info("\t > {}", resolver.getClass().getSimpleName()));
 	}
 	
+	
 	@Override
 	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
 		WebMvcConfigurer.super.addArgumentResolvers(resolvers);

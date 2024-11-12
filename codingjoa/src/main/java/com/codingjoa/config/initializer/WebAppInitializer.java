@@ -136,6 +136,8 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
 		registration.setMultipartConfig(config);
 	}
 	
+	
+	
 	private void registerCharacterEncodingFilter(ServletContext servletContext) {
 		log.info("## registerCharacterEncodingFilter");
 		FilterRegistration.Dynamic filterRegistration = servletContext.addFilter("CharacterEncodingFilter", new CharacterEncodingFilter());
