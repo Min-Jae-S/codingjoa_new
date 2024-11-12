@@ -14,7 +14,6 @@ import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExc
 import org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod;
 
 import com.codingjoa.util.AjaxUtils;
-import com.codingjoa.util.HttpUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
