@@ -49,7 +49,6 @@ import lombok.extern.slf4j.Slf4j;
 @ComponentScan("com.codingjoa.controller") 
 @ComponentScan("com.codingjoa.resolver")
 @ComponentScan("com.codingjoa.exception")
-//@RequiredArgsConstructor
 @EnableAspectJAutoProxy
 @EnableWebMvc 
 @Configuration
@@ -60,7 +59,7 @@ public class ServletConfig implements WebMvcConfigurer {
 	private final RedisService redisService;
 	private final HandlerMethodArgumentResolver boardCriteriaArgumentResolver;
 	private final HandlerMethodArgumentResolver commentCriteriaArgumentResolver;
-	//private final HandlerExceptionResolver preHandlerExceptionResolver; // instance class --> interface (issue at proxy)
+	//private final HandlerExceptionResolver preHandlerExceptionResolver; // instance class --> interface (issue at proxy, AOP)
 	private final HandlerExceptionResolver handlerExceptionResolver; 
 	private final MessageSource messageSource;
 	private final ObjectMapper objectMapper;
@@ -68,7 +67,7 @@ public class ServletConfig implements WebMvcConfigurer {
 	public ServletConfig(Environment env, CategoryService categoryService, RedisService redisService,
 			@Qualifier("boardCriteriaArgumentResolver") HandlerMethodArgumentResolver boardCriteriaArgumentResolver,
 			@Qualifier("commentCriteriaArgumentResolver") HandlerMethodArgumentResolver commentCriteriaArgumentResolver,
-			@Qualifier("exceptionHandlerExceptionResolverImpl") HandlerExceptionResolver handlerExceptionResolver,
+			@Qualifier("enhancedExceptionHandlerExceptionResolver") HandlerExceptionResolver handlerExceptionResolver,
 			MessageSource messageSource, ObjectMapper objectMapper) {
 		this.env = env;
 		this.categoryService = categoryService;
@@ -166,16 +165,8 @@ public class ServletConfig implements WebMvcConfigurer {
 	@Override
 	public void extendHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
 		log.info("## extendHandlerExceptionResolvers");
-		//WebMvcConfigurer.super.extendHandlerExceptionResolvers(resolvers);
-		//resolvers.add(0, preHandlerExceptionResolver);
 		resolvers.add(0, handlerExceptionResolver);
-		resolvers.forEach(resolver -> {
-			log.info("\t > {}", resolver.getClass().getSimpleName());
-//			if (resolver instanceof ExceptionHandlerExceptionResolver) {
-//				ExceptionHandlerExceptionResolver handlerExceptionResolver = (ExceptionHandlerExceptionResolver) resolver;
-//				log.info("\t\t - {}", handlerExceptionResolver.getApplicationContext().getDisplayName());
-//			}
-		});
+		resolvers.forEach(resolver -> log.info("\t > {}", resolver.getClass().getSimpleName()));
 	}
 	
 	@Override
