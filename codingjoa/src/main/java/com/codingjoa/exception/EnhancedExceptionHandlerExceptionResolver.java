@@ -12,16 +12,15 @@ public class EnhancedExceptionHandlerExceptionResolver extends ExceptionHandlerE
 	@Override
 	protected ServletInvocableHandlerMethod getExceptionHandlerMethod(HandlerMethod handlerMethod,
 			Exception exception) {
-		log.info("## {}.getExceptionHandlerMethod", this.getClass().getSigners());
+		log.info("## {}.getExceptionHandlerMethod", this.getClass().getSimpleName());
 		log.info("\t > handlerMethod = {}", handlerMethod);
 		return super.getExceptionHandlerMethod(handlerMethod, exception);
 	}
 	
 	@Override
 	public void afterPropertiesSet() {
-		log.info("## {}.afterPropertiesSet", this.getClass().getSigners());
+		log.info("## {}.afterPropertiesSet", this.getClass().getSimpleName());
 		super.afterPropertiesSet();
 	}
-	
 	
 }
