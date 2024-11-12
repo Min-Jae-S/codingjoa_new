@@ -6,16 +6,15 @@ import lombok.Getter;
 @Getter
 public class ExpectedException extends RuntimeException {
 
-	private final String errorField;
 	private final String errorCode;
-	
-	public ExpectedException(String errorCode) {
-		this.errorField = null;
-		this.errorCode = errorCode;
-	}
+	private final String errorField;
 	
 	public ExpectedException(String errorField, String errorCode) {
-		this.errorField = errorField;
 		this.errorCode = errorCode;
+		this.errorField = errorField;
 	}
+	public ExpectedException(String errorCode) {
+		this(errorCode, null);
+	}
+	
 }

@@ -21,7 +21,6 @@ import com.codingjoa.dto.ErrorDetails;
 import com.codingjoa.dto.ErrorResponse;
 import com.codingjoa.dto.ErrorResponse.ErrorResponseBuilder;
 import com.codingjoa.test.TestResponse;
-import com.codingjoa.test.TestResponse.TestResponseBuilder;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -183,21 +182,14 @@ public class ExceptionRestHandler {
 	protected ResponseEntity<Object> handleTestEx(TestException e, HttpServletRequest request) {
 		log.info("## {}.handleTestEx", this.getClass().getSimpleName());
 		log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
-		log.info("\t > errorCode = {}, errorField = {}", e.getErrorCode(), e.getErrorField());
 		
-		TestResponseBuilder builder = TestResponse.builder().status(HttpStatus.BAD_REQUEST);
-		if (e.getErrorField() == null) { 
-			builder.messageByCode(e.getErrorCode());
-		} else { 
-			ErrorDetails errorDetails = ErrorDetails.builder()
-					.field(e.getErrorField())
-					.messageByCode(e.getErrorCode())
-					.build();
-			builder.details(errorDetails);
-		}
+		TestResponse errorResponse = TestResponse.builder()
+				.status(HttpStatus.BAD_REQUEST)
+				.message(e.getErrorMessage())
+				.build();
 		
 		log.info("\t > respond with errorResponse in JSON format");
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(builder.build());
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
 	}
 	
 }

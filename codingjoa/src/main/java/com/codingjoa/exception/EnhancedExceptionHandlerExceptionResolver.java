@@ -2,6 +2,7 @@ package com.codingjoa.exception;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.method.HandlerMethod;
@@ -13,13 +14,13 @@ import com.codingjoa.util.AjaxUtils;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@Component
 public class EnhancedExceptionHandlerExceptionResolver extends ExceptionHandlerExceptionResolver {
 	
 	@Override
 	protected ServletInvocableHandlerMethod getExceptionHandlerMethod(HandlerMethod handlerMethod,
 			Exception exception) {
 		log.info("## {}.getExceptionHandlerMethod", this.getClass().getSimpleName());
-		log.info("\t > hasHandlerMappings = {}", hasHandlerMappings());
 		
 		HttpServletRequest request = getCurrentHttpRequest();
 		log.info("\t > request = {}", request);

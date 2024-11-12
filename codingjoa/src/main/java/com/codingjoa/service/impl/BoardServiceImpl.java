@@ -66,7 +66,7 @@ public class BoardServiceImpl implements BoardService {
 		log.info("\t > find boardDetailsMap = {}", boardDetailsMap);
 		
 		if (boardDetailsMap == null) {
-			throw new ExpectedException("error.NotFoundBoard");
+			throw new ExpectedException("error.NotFoundBoard", null);
 		}
 		
 		return BoardDetailsDto.from(boardDetailsMap);
