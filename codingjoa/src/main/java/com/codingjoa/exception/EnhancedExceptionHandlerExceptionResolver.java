@@ -2,6 +2,7 @@ package com.codingjoa.exception;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -14,6 +15,7 @@ import com.codingjoa.util.AjaxUtils;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@DependsOn
 @Component
 public class EnhancedExceptionHandlerExceptionResolver extends ExceptionHandlerExceptionResolver {
 	

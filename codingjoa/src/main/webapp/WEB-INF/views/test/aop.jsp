@@ -49,12 +49,12 @@
 	<div class="test mt-5 mb-3 px-5">
 		<button class="btn btn-warning" onclick="triggerNoHandlerFoundExceptionByAjax()">NoHandlerFoundException<br>(AJAX)</button>
 		<button class="btn btn-warning" onclick="triggerHttpRequestMethodNotSupportedExceptionByAjax()">HttpRequestMethodNotSupportedException<br>(AJAX)</button>
-		<button class="btn btn-warning" onclick="triggerExpectedExcetpionByAjax()">ExpectedExcetpion<br>(AJAX)</button>
+		<button class="btn btn-warning" onclick="triggerExpectedExceptionByAjax()">ExpectedException<br>(AJAX)</button>
 	</div>
 	<div class="test mb-5 px-5">
 		<button class="btn btn-warning" onclick="triggerNoHandlerFoundExceptionByMvc()">NoHandlerFoundException<br>(MVC)</button>
 		<button class="btn btn-warning" onclick="triggerHttpRequestMethodNotSupportedExceptionByMvc()">HttpRequestMethodNotSupportedException<br>(MVC)</button>
-		<button class="btn btn-warning" onclick="triggerExpectedExcetpionByMvc()">ExpectedExcetpion<br>(MVC)</button>
+		<button class="btn btn-warning" onclick="triggerExpectedExceptionByMvc()">ExpectedException<br>(MVC)</button>
 	</div>
 	<div class="test mb-3 px-5">
 		<button class="btn btn-primary btn-lg" onclick="triggerControllerExceptionByAjax()">controller exception<br>(AJAX)</button>
@@ -140,7 +140,7 @@
         $form.remove();
 	}
 	
-	function triggerExpectedExcetpionByMvc() {
+	function triggerExpectedExceptionByMvc() {
 		location.href = "${contextPath}/test/aop/exception";
 	}
 	

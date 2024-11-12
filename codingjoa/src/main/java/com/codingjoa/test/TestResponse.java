@@ -1,7 +1,6 @@
 package com.codingjoa.test;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -10,7 +9,6 @@ import org.springframework.validation.BindingResult;
 
 import com.codingjoa.dto.ErrorDetails;
 import com.codingjoa.util.MessageUtils;
-import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Getter;
 import lombok.ToString;
@@ -19,15 +17,15 @@ import lombok.ToString;
 @Getter
 public class TestResponse {
 	
-	private HttpStatus status;
+	private int status;
 	private String message;
 	private List<ErrorDetails> details;
-	
-	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
 	private LocalDateTime timestamp;
 	
 	private TestResponse() {
-		this.details = new ArrayList<ErrorDetails>();
+		this.status = HttpStatus.BAD_REQUEST.value();
+		this.message = null;
+		this.details = null;
 		this.timestamp =  LocalDateTime.now();
 	}
 	
@@ -44,7 +42,7 @@ public class TestResponse {
 		}
 		
 		public TestResponseBuilder status(HttpStatus httpStatus) {
-			testResponse.status = httpStatus;
+			testResponse.status = httpStatus.value();
 			return this;
 		}
 

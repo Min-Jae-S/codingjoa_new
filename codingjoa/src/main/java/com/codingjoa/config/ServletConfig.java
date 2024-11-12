@@ -34,7 +34,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.BeanNameViewResolver;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
-import com.codingjoa.exception.EnhancedExceptionHandlerExceptionResolver;
 import com.codingjoa.interceptor.PasswordResetKeyInterceptor;
 import com.codingjoa.interceptor.TopMenuInterceptor;
 import com.codingjoa.interceptor.test.TestAopInterceptor;
@@ -64,7 +63,7 @@ public class ServletConfig implements WebMvcConfigurer {
 	private final BoardCriteriaArgumentResolver boardCriteriaArgumentResolver;
 	private final CommentCriteriaArgumentResolver commentCriteriaArgumentResolver;
 	//private final HandlerExceptionResolver preHandlerExceptionResolver; // instance class --> interface (issue at proxy, AOP)
-	private final EnhancedExceptionHandlerExceptionResolver enhancedExceptionHandlerExceptionResolver; 
+	private final HandlerExceptionResolver enhancedExceptionHandlerExceptionResolver; 
 	private final MessageSource messageSource;
 	private final ObjectMapper objectMapper;
 	
@@ -156,6 +155,7 @@ public class ServletConfig implements WebMvcConfigurer {
 		log.info("## extendHandlerExceptionResolvers");
 		WebMvcConfigurer.super.extendHandlerExceptionResolvers(resolvers);
 		resolvers.add(0, enhancedExceptionHandlerExceptionResolver);
+		//resolvers.add(0, new EnhancedExceptionHandlerExceptionResolver());
 		resolvers.forEach(resolver -> log.info("\t > {}", resolver.getClass().getSimpleName()));
 	}
 	
