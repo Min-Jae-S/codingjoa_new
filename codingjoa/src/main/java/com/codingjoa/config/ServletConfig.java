@@ -35,7 +35,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExc
 import org.springframework.web.servlet.view.BeanNameViewResolver;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
-import com.codingjoa.exception.EnhancedExceptionHandlerExceptionResolver;
+import com.codingjoa.exception.AdaptedExceptionHandlerExceptionResolver;
 import com.codingjoa.interceptor.PasswordResetKeyInterceptor;
 import com.codingjoa.interceptor.TopMenuInterceptor;
 import com.codingjoa.interceptor.test.TestAopInterceptor;
@@ -154,15 +154,19 @@ public class ServletConfig implements WebMvcConfigurer {
 	@Override
 	public void extendHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
 		log.info("## extendHandlerExceptionResolvers");
-		EnhancedExceptionHandlerExceptionResolver enhancedResolver = null;
+		AdaptedExceptionHandlerExceptionResolver adaptedResolver = null;
 		for (HandlerExceptionResolver resolver : resolvers) {
 			if (resolver instanceof ExceptionHandlerExceptionResolver) {
-				enhancedResolver = new EnhancedExceptionHandlerExceptionResolver((ExceptionHandlerExceptionResolver) resolver);
-				enhancedResolver.afterPropertiesSet();
+				adaptedResolver = new AdaptedExceptionHandlerExceptionResolver((ExceptionHandlerExceptionResolver) resolver);
+				adaptedResolver.afterPropertiesSet();
+				break;
 			}
 		}
 		
-		resolvers.add(0, enhancedResolver);
+		if (adaptedResolver != null) {
+			resolvers.add(0, adaptedResolver);
+		}
+		
 		resolvers.forEach(resolver -> log.info("\t > {}", resolver.getClass().getSimpleName()));
 	}
 	
