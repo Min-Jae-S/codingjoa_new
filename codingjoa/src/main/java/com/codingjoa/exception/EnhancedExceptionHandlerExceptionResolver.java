@@ -11,20 +11,27 @@ import org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHan
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class DelegatingExceptionHandlerExceptionResolver extends ExceptionHandlerExceptionResolver {
-
-	private final ExceptionHandlerExceptionResolver delegate;
+public class EnhancedExceptionHandlerExceptionResolver extends ExceptionHandlerExceptionResolver {
 	
-	public DelegatingExceptionHandlerExceptionResolver(ExceptionHandlerExceptionResolver delegate) {
-		this.delegate = delegate;
+	private final ExceptionHandlerExceptionResolver baseResolver;
+	
+	public EnhancedExceptionHandlerExceptionResolver(ExceptionHandlerExceptionResolver baseResolver) {
+		this.baseResolver = baseResolver;
+	}
+	
+	@Override
+	public void afterPropertiesSet() {
+		log.info("## {}.afterPropertiesSet", this.getClass().getSimpleName());
+		this.setApplicationContext(baseResolver.getApplicationContext());
+		this.setMessageConverters(baseResolver.getMessageConverters());
+		super.afterPropertiesSet();
 	}
 
 	@Override
 	public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler,
 			Exception ex) {
 		log.info("## {}.resolveException", this.getClass().getSimpleName());
-		log.info("\t > delegate to the {} for exception resolution", delegate.getClass().getSimpleName());
-		return delegate.resolveException(request, response, handler, ex);
+		return super.resolveException(request, response, handler, ex);
 	}
 
 	@Override
@@ -35,9 +42,9 @@ public class DelegatingExceptionHandlerExceptionResolver extends ExceptionHandle
 		
 		ServletInvocableHandlerMethod invocableHandlerMethod = super.getExceptionHandlerMethod(handlerMethod, exception);
 		log.info("\t > invocableHandlerMethod = {}", invocableHandlerMethod);
+		log.info("\t > exceptionHandlerAdviceCache = {}", super.getExceptionHandlerAdviceCache());
 		
 		return invocableHandlerMethod;
 	}
-
 	
 }
