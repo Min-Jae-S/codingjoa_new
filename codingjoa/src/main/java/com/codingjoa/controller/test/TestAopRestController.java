@@ -52,6 +52,9 @@ public class TestAopRestController {
 	@Autowired(required = false)
 	private ExceptionHandlerMethodResolver exceptionHandlerMethodResolver;
 	
+	@Autowired
+	private HandlerExceptionResolverComposite composite;
+
 	@GetMapping("/exception")
 	public void triggerExceptionByAjax() {
 		log.info("## triggerExceptionByAjax");
@@ -163,7 +166,13 @@ public class TestAopRestController {
 	@GetMapping("/test4")
 	public ResponseEntity<Object> test4(HttpServletResponse response) throws IOException {
 		log.info("## test4");
-		response.sendError(HttpServletResponse.SC_BAD_GATEWAY);
+		//response.sendError(HttpServletResponse.SC_BAD_GATEWAY);
+		for (HandlerExceptionResolver obj : composite.getExceptionResolvers()) {
+			if (obj instanceof ExceptionHandlerExceptionResolver) {
+				ExceptionHandlerExceptionResolver resolver = (ExceptionHandlerExceptionResolver) obj;
+				log.info("\t > {}", resolver.getMessageConverters());
+			}
+		}
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 	

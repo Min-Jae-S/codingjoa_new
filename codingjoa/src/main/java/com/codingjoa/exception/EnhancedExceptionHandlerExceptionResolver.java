@@ -1,26 +1,29 @@
 package com.codingjoa.exception;
 
-import org.springframework.web.method.HandlerMethod;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.web.servlet.HandlerExceptionResolver;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver;
-import org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod;
 
 import lombok.extern.slf4j.Slf4j;
 
+@SuppressWarnings("unused")
 @Slf4j
-public class EnhancedExceptionHandlerExceptionResolver extends ExceptionHandlerExceptionResolver {
+public class EnhancedExceptionHandlerExceptionResolver implements HandlerExceptionResolver {
+
+	private final ExceptionHandlerExceptionResolver delegate;
+	
+	public EnhancedExceptionHandlerExceptionResolver(ExceptionHandlerExceptionResolver delegate) {
+		this.delegate = delegate;
+	}
 
 	@Override
-	protected ServletInvocableHandlerMethod getExceptionHandlerMethod(HandlerMethod handlerMethod,
-			Exception exception) {
-		log.info("## {}.getExceptionHandlerMethod", this.getClass().getSimpleName());
-		log.info("\t > handlerMethod = {}", handlerMethod);
-		return super.getExceptionHandlerMethod(handlerMethod, exception);
-	}
-	
-	@Override
-	public void afterPropertiesSet() {
-		log.info("## {}.afterPropertiesSet", this.getClass().getSimpleName());
-		super.afterPropertiesSet();
+	public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler,
+			Exception ex) {
+		log.info("\t > {}.resolveException", this.getClass().getSimpleName());
+		return null;
 	}
 	
 }

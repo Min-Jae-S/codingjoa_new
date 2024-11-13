@@ -31,6 +31,7 @@ import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver;
 import org.springframework.web.servlet.view.BeanNameViewResolver;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
@@ -89,11 +90,6 @@ public class ServletConfig implements WebMvcConfigurer {
 		jsonView.setEncoding(JsonEncoding.UTF8);
         return jsonView;
     }
-	
-	@Bean
-	public HandlerExceptionResolver enhancedExceptionHandlerExceptionResolver() {
-		return new EnhancedExceptionHandlerExceptionResolver();
-	}
 	
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -158,11 +154,16 @@ public class ServletConfig implements WebMvcConfigurer {
 	@Override
 	public void extendHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
 		log.info("## extendHandlerExceptionResolvers");
-		WebMvcConfigurer.super.extendHandlerExceptionResolvers(resolvers);
-		resolvers.add(0, enhancedExceptionHandlerExceptionResolver());
-		resolvers.forEach(resolver -> log.info("\t > {}", resolver.getClass().getSimpleName()));
+		HandlerExceptionResolver newResolver = null;
+		for (HandlerExceptionResolver resolver : resolvers) {
+			if (resolver instanceof ExceptionHandlerExceptionResolver) {
+				newResolver = new EnhancedExceptionHandlerExceptionResolver((ExceptionHandlerExceptionResolver) resolver);
+			}
+		}
+		
+		resolvers.add(0, newResolver);
+		resolvers.forEach(resolver -> log.info("\t > {}", resolver.getClass().getName()));
 	}
-	
 	
 	@Override
 	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
