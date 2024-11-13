@@ -28,15 +28,14 @@ import lombok.extern.slf4j.Slf4j;
 public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
 	
 	private final MemberService memberService;
+	private final OAuth2UserService<OAuth2UserRequest, OAuth2User> delegate = new DefaultOAuth2UserService();
 	
 	@Override
 	public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
 		log.info("## {}.loadUser", this.getClass().getSimpleName());
 		log.info("\t > request for userInfo");
 		
-		OAuth2UserService<OAuth2UserRequest, OAuth2User> delegate = new DefaultOAuth2UserService();
 		log.info("\t > delegate to the {} for loading a user", delegate.getClass().getSimpleName());
-		
 		OAuth2User loadedOAuth2User = delegate.loadUser(userRequest);
 		Map<String, Object> attributes = loadedOAuth2User.getAttributes();
 		log.info("\t > received userInfo {}", FormatUtils.formatPrettyJson(attributes));

@@ -3,15 +3,15 @@ package com.codingjoa.exception;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.web.servlet.HandlerExceptionResolver;
+import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver;
+import org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod;
 
 import lombok.extern.slf4j.Slf4j;
 
-@SuppressWarnings("unused")
 @Slf4j
-public class DelegatingExceptionHandlerExceptionResolver implements HandlerExceptionResolver {
+public class DelegatingExceptionHandlerExceptionResolver extends ExceptionHandlerExceptionResolver {
 
 	private final ExceptionHandlerExceptionResolver delegate;
 	
@@ -22,8 +22,22 @@ public class DelegatingExceptionHandlerExceptionResolver implements HandlerExcep
 	@Override
 	public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler,
 			Exception ex) {
-		log.info("\t > {}.resolveException", this.getClass().getSimpleName());
-		return null;
+		log.info("## {}.resolveException", this.getClass().getSimpleName());
+		log.info("\t > delegate to the {} for exception resolution", delegate.getClass().getSimpleName());
+		return delegate.resolveException(request, response, handler, ex);
 	}
+
+	@Override
+	protected ServletInvocableHandlerMethod getExceptionHandlerMethod(HandlerMethod handlerMethod,
+			Exception exception) {
+		log.info("## {}.getExceptionHandlerMethod", this.getClass().getSimpleName());
+		log.info("\t > handlerMethod = {}", handlerMethod);
+		
+		ServletInvocableHandlerMethod invocableHandlerMethod = super.getExceptionHandlerMethod(handlerMethod, exception);
+		log.info("\t > invocableHandlerMethod = {}", invocableHandlerMethod);
+		
+		return invocableHandlerMethod;
+	}
+
 	
 }
