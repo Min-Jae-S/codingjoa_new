@@ -53,7 +53,7 @@ public class TestAopRestController {
 	private ExceptionHandlerMethodResolver exceptionHandlerMethodResolver;
 	
 	@Autowired
-	private HandlerExceptionResolverComposite composite;
+	private HandlerExceptionResolver composite;
 
 	@GetMapping("/exception")
 	public void triggerExceptionByAjax() {
@@ -167,7 +167,7 @@ public class TestAopRestController {
 	public ResponseEntity<Object> test4(HttpServletResponse response) throws IOException {
 		log.info("## test4");
 		//response.sendError(HttpServletResponse.SC_BAD_GATEWAY);
-		for (HandlerExceptionResolver obj : composite.getExceptionResolvers()) {
+		for (HandlerExceptionResolver obj : ((HandlerExceptionResolverComposite)composite).getExceptionResolvers()) {
 			if (obj instanceof ExceptionHandlerExceptionResolver) {
 				ExceptionHandlerExceptionResolver resolver = (ExceptionHandlerExceptionResolver) obj;
 				log.info("\t > {}", resolver.getMessageConverters());

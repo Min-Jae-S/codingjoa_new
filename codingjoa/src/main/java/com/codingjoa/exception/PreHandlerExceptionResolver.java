@@ -26,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 @SuppressWarnings("unused")
 @Slf4j
 @RequiredArgsConstructor
-@Component
+//@Component
 public class PreHandlerExceptionResolver implements HandlerExceptionResolver {
 	
 	private static final String FORWARD_URL = "/error";

@@ -11,11 +11,11 @@ import lombok.extern.slf4j.Slf4j;
 
 @SuppressWarnings("unused")
 @Slf4j
-public class EnhancedExceptionHandlerExceptionResolver implements HandlerExceptionResolver {
+public class DelegatingExceptionHandlerExceptionResolver implements HandlerExceptionResolver {
 
 	private final ExceptionHandlerExceptionResolver delegate;
 	
-	public EnhancedExceptionHandlerExceptionResolver(ExceptionHandlerExceptionResolver delegate) {
+	public DelegatingExceptionHandlerExceptionResolver(ExceptionHandlerExceptionResolver delegate) {
 		this.delegate = delegate;
 	}
 

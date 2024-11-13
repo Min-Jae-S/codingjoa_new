@@ -35,7 +35,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExc
 import org.springframework.web.servlet.view.BeanNameViewResolver;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
-import com.codingjoa.exception.EnhancedExceptionHandlerExceptionResolver;
+import com.codingjoa.exception.DelegatingExceptionHandlerExceptionResolver;
 import com.codingjoa.interceptor.PasswordResetKeyInterceptor;
 import com.codingjoa.interceptor.TopMenuInterceptor;
 import com.codingjoa.interceptor.test.TestAopInterceptor;
@@ -157,12 +157,12 @@ public class ServletConfig implements WebMvcConfigurer {
 		HandlerExceptionResolver newResolver = null;
 		for (HandlerExceptionResolver resolver : resolvers) {
 			if (resolver instanceof ExceptionHandlerExceptionResolver) {
-				newResolver = new EnhancedExceptionHandlerExceptionResolver((ExceptionHandlerExceptionResolver) resolver);
+				newResolver = new DelegatingExceptionHandlerExceptionResolver((ExceptionHandlerExceptionResolver) resolver);
 			}
 		}
 		
 		resolvers.add(0, newResolver);
-		resolvers.forEach(resolver -> log.info("\t > {}", resolver.getClass().getName()));
+		resolvers.forEach(resolver -> log.info("\t > {}", resolver.getClass().getSimpleName()));
 	}
 	
 	@Override
