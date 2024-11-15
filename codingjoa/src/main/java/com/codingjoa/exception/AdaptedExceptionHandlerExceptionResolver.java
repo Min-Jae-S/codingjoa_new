@@ -49,6 +49,8 @@ public class AdaptedExceptionHandlerExceptionResolver extends ExceptionHandlerEx
 		
 		if (handlerMethod == null) {
 			HttpServletRequest request = getCurrentHttpRequest();
+			log.info("\t > request = {}", request);
+			
 			if (request == null) {
 				return null;
 			}
