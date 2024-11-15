@@ -87,6 +87,7 @@ public class TestAopRestController {
 			if (isAopProxy) {
 				obj = (HandlerExceptionResolver) AopProxyUtils.getSingletonTarget(obj);
 			}
+			
 			log.info("\t > {} (isAopProxy = {})", obj.getClass().getSimpleName(), isAopProxy);
 			
 			if (obj instanceof HandlerExceptionResolverComposite) {
@@ -96,6 +97,7 @@ public class TestAopRestController {
 					if (isResolverAopPrxoy) {
 						resolver = (HandlerExceptionResolver) AopProxyUtils.getSingletonTarget(resolver);
 					}
+					
 					log.info("\t\t - {} (isAopProxy = {})", resolver.getClass().getSimpleName(), isResolverAopPrxoy);
 					
 					if (resolver instanceof ExceptionHandlerExceptionResolver) {
