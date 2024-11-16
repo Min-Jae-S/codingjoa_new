@@ -73,7 +73,7 @@
 		<button class="btn btn-primary btn-lg" onclick="test2()">test2</button>
 		<button class="btn btn-primary btn-lg" onclick="test3()">test3</button>
 		<button class="btn btn-primary btn-lg" onclick="test4()">test4</button>
-		<button class="btn btn-primary btn-lg" onclick="test5()">test5</button>
+		<button class="btn btn-primary btn-lg" onclick="location.href='${contextPath}/test/aop/test5'">test5</button>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
@@ -134,7 +134,6 @@
 		let $form = $('<form></form>');
 		$form.attr("method", "POST");
 		$form.attr("action", "${contextPath}/test/aop/aa");
-        
         $(document.body).append($form);
         $form.submit();
         $form.remove();
@@ -283,10 +282,7 @@
 			}
 		});
 	}
-
-	function test5() {
-		location.href = "${contextPath}/test/aop/test5";
-	}
+	
 </script>
 </body>
 </html>

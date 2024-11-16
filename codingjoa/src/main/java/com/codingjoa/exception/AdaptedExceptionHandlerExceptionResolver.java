@@ -34,10 +34,8 @@ public class AdaptedExceptionHandlerExceptionResolver extends ExceptionHandlerEx
 			Exception exception) {
 		log.info("## {}.getExceptionHandlerMethod", this.getClass().getSimpleName());
 		log.info("\t > handlerMethod = {}", handlerMethod);
-
-		ServletInvocableHandlerMethod invocableHandlerMethod = super.getExceptionHandlerMethod(handlerMethod, exception);
-		log.info("\t > invocableHandlerMethod from super = {}", invocableHandlerMethod);
-		log.info("\t > exceptionHandlerAdviceCache super = {}", super.getExceptionHandlerAdviceCache());
+		log.info("\t > invocableHandlerMethod from super = {}", super.getExceptionHandlerMethod(handlerMethod, exception));
+		log.info("\t > exceptionHandlerAdviceCache from super = {}", super.getExceptionHandlerAdviceCache().keySet());
 
 		if (handlerMethod == null) {
 			HttpServletRequest request = getCurrentHttpRequest();
@@ -48,11 +46,13 @@ public class AdaptedExceptionHandlerExceptionResolver extends ExceptionHandlerEx
 			}
 
 			boolean isAjaxRequest = AjaxUtils.isAjaxRequest(request);
+			log.info("\t > isAjaxRequest = {}", isAjaxRequest);
 
-			for (Map.Entry<ControllerAdviceBean, ExceptionHandlerMethodResolver> entry : getExceptionHandlerAdviceCache()
-					.entrySet()) {
+			for (Map.Entry<ControllerAdviceBean, ExceptionHandlerMethodResolver> entry : getExceptionHandlerAdviceCache().entrySet()) {
 				ControllerAdviceBean advice = entry.getKey();
 				boolean isRestControllerAdvice = advice.getBeanType().isAnnotationPresent(RestControllerAdvice.class);
+				log.info("\t > advice = {}, isRestControllerAdvice = {}", advice, isRestControllerAdvice);
+				
 				if (isAjaxRequest == isRestControllerAdvice) {
 					ExceptionHandlerMethodResolver resolver = entry.getValue();
 					Method method = resolver.resolveMethod(exception);
@@ -63,14 +63,14 @@ public class AdaptedExceptionHandlerExceptionResolver extends ExceptionHandlerEx
 			}
 		}
 
-		return invocableHandlerMethod;
+		return super.getExceptionHandlerMethod(handlerMethod, exception);
 	}
 
 	@Override
 	public void afterPropertiesSet() {
 		this.setApplicationContext(baseResolver.getApplicationContext());
 		this.setMessageConverters(baseResolver.getMessageConverters());
-		// WebMvcConfigurationSupport#addDefaultHandlerExceptionResolvers
+		// WebMvcConfigurationSupport.addDefaultHandlerExceptionResolvers()
 		this.setResponseBodyAdvice(Collections.singletonList(new JsonViewResponseBodyAdvice()));
 		super.afterPropertiesSet();
 	}
