@@ -81,6 +81,7 @@ public class TestAopRestController {
 		log.info("## getExceptionHandler");
 		ExceptionHandlerExceptionResolver exceptionResolver = null;
 		Map<String, HandlerExceptionResolver> exceptionResolverMap = context.getBeansOfType(HandlerExceptionResolver.class);
+		
 		for (Map.Entry<String, HandlerExceptionResolver> map : exceptionResolverMap.entrySet()) {
 			HandlerExceptionResolver obj = map.getValue();
 			boolean isAopProxy = AopUtils.isAopProxy(obj);
@@ -165,7 +166,7 @@ public class TestAopRestController {
 	@GetMapping("/test4")
 	public ResponseEntity<Object> test4(HttpServletResponse response) throws IOException {
 		log.info("## test4");
-		//response.sendError(HttpServletResponse.SC_BAD_GATEWAY);
+		response.sendError(HttpServletResponse.SC_BAD_GATEWAY);
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 	

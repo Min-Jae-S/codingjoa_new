@@ -64,7 +64,8 @@ public class ServletConfig implements WebMvcConfigurer {
 	private final RedisService redisService;
 	private final BoardCriteriaArgumentResolver boardCriteriaArgumentResolver;
 	private final CommentCriteriaArgumentResolver commentCriteriaArgumentResolver;
-	//private final HandlerExceptionResolver preHandlerExceptionResolver; // instance class --> interface (issue at proxy, AOP)
+	// instance class --> interface (issue at proxy, AOP)
+	//private final HandlerExceptionResolver preHandlerExceptionResolver;
 	private final MessageSource messageSource;
 	private final ObjectMapper objectMapper;
 	
