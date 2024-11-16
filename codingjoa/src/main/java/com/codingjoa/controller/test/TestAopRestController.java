@@ -103,7 +103,7 @@ public class TestAopRestController {
 					
 					if (resolver instanceof ExceptionHandlerExceptionResolver) {
 						exceptionResolver = (ExceptionHandlerExceptionResolver) resolver;
-						//log.info("\t > exceptionResolver = {}", exceptionResolver);
+						log.info("\t > exceptionResolver = {}", exceptionResolver);
 					}
 				}
 			}
@@ -112,8 +112,8 @@ public class TestAopRestController {
 		if (exceptionResolver != null) {
 			log.info("\t > exceptionHandlerAdviceCache");
 			exceptionResolver.getExceptionHandlerAdviceCache().forEach((key, methodResolver) -> {
-				log.info("\t\t - {}: {} (isAopProxy = {})", key, methodResolver.getClass().getSimpleName(),
-						AopUtils.isAopProxy(methodResolver));
+				log.info("\t\t - {}: {} (isAopProxy = {})", 
+						key, methodResolver.getClass().getSimpleName(), AopUtils.isAopProxy(methodResolver));
 			});
 		}
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());

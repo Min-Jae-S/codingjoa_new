@@ -64,10 +64,11 @@ public class ServletConfig implements WebMvcConfigurer {
 	private final RedisService redisService;
 	private final BoardCriteriaArgumentResolver boardCriteriaArgumentResolver;
 	private final CommentCriteriaArgumentResolver commentCriteriaArgumentResolver;
-	// instance class --> interface (issue at proxy, AOP)
-	//private final HandlerExceptionResolver preHandlerExceptionResolver;
 	private final MessageSource messageSource;
 	private final ObjectMapper objectMapper;
+
+	// instance class --> interface (issue at proxy, AOP)
+	//private final HandlerExceptionResolver preHandlerExceptionResolver;
 	
 	@Override
 	public void configureViewResolvers(ViewResolverRegistry registry) {
@@ -158,7 +159,8 @@ public class ServletConfig implements WebMvcConfigurer {
 		AdaptedExceptionHandlerExceptionResolver adaptedResolver = null;
 		for (HandlerExceptionResolver resolver : resolvers) {
 			if (resolver instanceof ExceptionHandlerExceptionResolver) {
-				adaptedResolver = new AdaptedExceptionHandlerExceptionResolver((ExceptionHandlerExceptionResolver) resolver);
+				ExceptionHandlerExceptionResolver baseResolver = (ExceptionHandlerExceptionResolver) resolver;
+				adaptedResolver = new AdaptedExceptionHandlerExceptionResolver(baseResolver);
 				adaptedResolver.afterPropertiesSet();
 				break;
 			}
