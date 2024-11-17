@@ -35,7 +35,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExc
 import org.springframework.web.servlet.view.BeanNameViewResolver;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
-import com.codingjoa.exception.AdaptedExceptionHandlerExceptionResolver;
+import com.codingjoa.exception.PreExceptionHandlerExceptionResolver;
 import com.codingjoa.interceptor.PasswordResetKeyInterceptor;
 import com.codingjoa.interceptor.TopMenuInterceptor;
 import com.codingjoa.interceptor.test.TestAopInterceptor;
@@ -156,18 +156,18 @@ public class ServletConfig implements WebMvcConfigurer {
 	@Override
 	public void extendHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
 		log.info("## extendHandlerExceptionResolvers");
-		AdaptedExceptionHandlerExceptionResolver adaptedResolver = null;
+		PreExceptionHandlerExceptionResolver preResolver = null;
 		for (HandlerExceptionResolver resolver : resolvers) {
 			if (resolver instanceof ExceptionHandlerExceptionResolver) {
 				ExceptionHandlerExceptionResolver baseResolver = (ExceptionHandlerExceptionResolver) resolver;
-				adaptedResolver = new AdaptedExceptionHandlerExceptionResolver(baseResolver);
-				adaptedResolver.afterPropertiesSet();
+				preResolver = new PreExceptionHandlerExceptionResolver(baseResolver);
+				preResolver.afterPropertiesSet();
 				break;
 			}
 		}
 		
-		if (adaptedResolver != null) {
-			resolvers.add(0, adaptedResolver);
+		if (preResolver != null) {
+			resolvers.add(0, preResolver);
 		}
 		
 		resolvers.forEach(resolver -> log.info("\t > {}", resolver.getClass().getSimpleName()));
@@ -188,10 +188,11 @@ public class ServletConfig implements WebMvcConfigurer {
 	}
 	
 	/* 
+	 * #mvcValidator, LocalValidatorFactoryBean, @Qualifier("localValidator")
+	 * 
 	 * Classes that implement the BeanPostProcessor interface are instantiated on startup, 
 	 * as part of the special startup phase of the ApplicationContext, before any other beans.
 	 * Enable @Valid validation exception handler for @PathVariable, @RequestParam and @RequestHeader.
-	 * mvcValidator, LocalValidatorFactoryBean, @Qualifier("localValidator")
 	 */
 	
 	@Bean
@@ -209,8 +210,8 @@ public class ServletConfig implements WebMvcConfigurer {
 		/* 
 		 * Spring internally uses a library that can generate class-based proxies, 
 		 * allowing the creation of proxies for classes that don't implement interfaces. 
-		 * Hence, in general cases, Spring is capable of creating proxies and 
-		 * enabling method-level validation even without explicitly setting setProxyTargetClass(true).
+		 * Hence, in general cases, Spring is capable of creating proxies and enabling method-level validation 
+		 * even without explicitly setting setProxyTargetClass(true).
 		 * However, there are certain scenarios where the generation of interface-based proxies is limited.
 		 * For example, it is not possible to create an interface-based proxy for classes 
 		 * that are declared as final, or for methods that are final or private.
@@ -224,9 +225,10 @@ public class ServletConfig implements WebMvcConfigurer {
 	}
 
 	/*
-	 * @@ https://docs.jboss.org/hibernate/validator/5.1/reference/en-US/html/chapter-message-interpolation.html#section-resource-bundle-locator
-	 * @@ https://stackoverflow.com/questions/11225023/messageinterpolator-in-spring
-	 * @@ https://stackoverflow.com/questions/3587317/autowiring-a-service-into-a-validator 
+	 * # https://docs.jboss.org/hibernate/validator/5.1/reference/en-US/html/chapter-message-interpolation.html#section-resource-bundle-locator
+	 * # https://stackoverflow.com/questions/11225023/messageinterpolator-in-spring
+	 * # https://stackoverflow.com/questions/3587317/autowiring-a-service-into-a-validator 
+	 * 
 	 * In Spring, you need to obtain ValidatorFactory (or Validatoritself) via LocalValidatorFactoryBean 
 	 * instead of Validation.buildDefaultValidatorFactory(), as described in the reference.
 	 */

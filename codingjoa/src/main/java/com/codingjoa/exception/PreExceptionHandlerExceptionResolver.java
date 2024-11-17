@@ -21,11 +21,11 @@ import com.codingjoa.util.AjaxUtils;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class AdaptedExceptionHandlerExceptionResolver extends ExceptionHandlerExceptionResolver {
+public class PreExceptionHandlerExceptionResolver extends ExceptionHandlerExceptionResolver {
 
 	private final ExceptionHandlerExceptionResolver baseResolver;
 
-	public AdaptedExceptionHandlerExceptionResolver(ExceptionHandlerExceptionResolver baseResolver) {
+	public PreExceptionHandlerExceptionResolver(ExceptionHandlerExceptionResolver baseResolver) {
 		this.baseResolver = baseResolver;
 	}
 
