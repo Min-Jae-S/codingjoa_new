@@ -63,7 +63,7 @@ public class PreExceptionHandlerExceptionResolver extends ExceptionHandlerExcept
 			}
 		}
 
-		return super.getExceptionHandlerMethod(handlerMethod, exception);
+		return null;
 	}
 
 	@Override

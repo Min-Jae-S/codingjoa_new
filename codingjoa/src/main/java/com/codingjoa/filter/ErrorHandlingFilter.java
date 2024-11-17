@@ -6,7 +6,6 @@ import java.nio.charset.StandardCharsets;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -25,7 +24,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.extern.slf4j.Slf4j;
 
-@SuppressWarnings("unused")
 @Slf4j
 public class ErrorHandlingFilter implements Filter {
 	
@@ -54,7 +52,7 @@ public class ErrorHandlingFilter implements Filter {
 		} catch (Exception e) {
 			log.info("## {}.doFilter", this.getClass().getSimpleName());
 			log.info("\t > request-line = {}", HttpUtils.getHttpRequestLine(request));
-			log.info("\t > dispatcherType = {}", request.getDispatcherType());
+			//log.info("\t > dispatcherType = {}", request.getDispatcherType());
 			log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
 			
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
