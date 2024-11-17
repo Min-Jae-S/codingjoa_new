@@ -1,4 +1,4 @@
-package com.codingjoa.aop.test;
+package com.codingjoa.aop;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
