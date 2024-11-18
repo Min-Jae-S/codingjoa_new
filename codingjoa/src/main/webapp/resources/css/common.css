@@ -1,8 +1,9 @@
 @charset "UTF-8";
 
-body {
+html, body {
 	/* padding-top: 56px; 
 	padding-bottom: 56px; */
+	height: 100%;
 }
 
 .home-container {
@@ -11,7 +12,7 @@ body {
 } 
 
 .error-container {
-	margin-top: 10rem;
+	margin-top: 13.5rem;
 }
 
 .login-container {

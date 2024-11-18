@@ -4,6 +4,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.codingjoa.exception.TestException;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -39,6 +41,12 @@ public class TestAopController {
 	public String test5() {
 		log.info("## test5");
 		return "nonExistingView";
+	}
+
+	@GetMapping("/test6")
+	public String test6() {
+		log.info("## test6");
+		throw new TestException("testException");
 	}
 	
 }
