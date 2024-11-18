@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -13,7 +12,6 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.method.ControllerAdviceBean;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.method.annotation.ExceptionHandlerMethodResolver;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver;
 import org.springframework.web.servlet.mvc.method.annotation.JsonViewResponseBodyAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod;
@@ -32,38 +30,24 @@ public class PreExceptionHandlerExceptionResolver extends ExceptionHandlerExcept
 	}
 	
 	@Override
-	protected ModelAndView doResolveHandlerMethodException(HttpServletRequest request, HttpServletResponse response,
-			HandlerMethod handlerMethod, Exception exception) {
-		log.info("## {}.doResolveHandlerMethodException", this.getClass().getSimpleName());
-		log.info("\t > handlerMethod = {}", handlerMethod);
-		log.info("\t > exceptionHandlerAdviceCache from super = {}", super.getExceptionHandlerAdviceCache().keySet());
-		
-		log.info("\t > invocableHandlerMethod from super = {}", super.getExceptionHandlerMethod(handlerMethod, exception));
-		log.info("\t > invocableHandlerMethod from current = {}", getExceptionHandlerMethod(handlerMethod, exception));
-		
-		return super.doResolveHandlerMethodException(request, response, handlerMethod, exception);
-	}
-
-	@Override
 	protected ServletInvocableHandlerMethod getExceptionHandlerMethod(HandlerMethod handlerMethod,
 			Exception exception) {
 		log.info("## {}.getExceptionHandlerMethod", this.getClass().getSimpleName());
+		log.info("\t > handlerMethod = {}", handlerMethod);
+		//log.info("\t > exceptionHandlerAdviceCache = {}", super.getExceptionHandlerAdviceCache().keySet());
 		
 		if (handlerMethod == null) {
 			HttpServletRequest request = getCurrentHttpRequest();
-			log.info("\t > request = {}", request);
-
 			if (request == null) {
 				return null;
 			}
 
 			boolean isAjaxRequest = AjaxUtils.isAjaxRequest(request);
-			log.info("\t > isAjaxRequest = {}", isAjaxRequest);
-
+			
 			for (Map.Entry<ControllerAdviceBean, ExceptionHandlerMethodResolver> entry : getExceptionHandlerAdviceCache().entrySet()) {
 				ControllerAdviceBean advice = entry.getKey();
 				boolean isRestControllerAdvice = advice.getBeanType().isAnnotationPresent(RestControllerAdvice.class);
-				log.info("\t > advice = {}, isRestControllerAdvice = {}", advice, isRestControllerAdvice);
+				log.info("\t > isAjaxRequest = {}, isRestControllerAdvice = {}, advice = {}", isAjaxRequest, isRestControllerAdvice, advice);
 				
 				if (isAjaxRequest == isRestControllerAdvice) {
 					ExceptionHandlerMethodResolver resolver = entry.getValue();
