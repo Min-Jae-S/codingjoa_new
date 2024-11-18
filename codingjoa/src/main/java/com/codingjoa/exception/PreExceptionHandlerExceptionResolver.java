@@ -33,7 +33,7 @@ public class PreExceptionHandlerExceptionResolver extends ExceptionHandlerExcept
 	protected ServletInvocableHandlerMethod getExceptionHandlerMethod(HandlerMethod handlerMethod,
 			Exception exception) {
 		log.info("## {}.getExceptionHandlerMethod", this.getClass().getSimpleName());
-		log.info("\t > handlerMethod = {}", handlerMethod);
+		log.info("\t > handlerMethod = {}", handlerMethod == null ? null : handlerMethod.getMethod().getName());
 		//log.info("\t > exceptionHandlerAdviceCache = {}", super.getExceptionHandlerAdviceCache().keySet());
 		
 		if (handlerMethod == null) {
