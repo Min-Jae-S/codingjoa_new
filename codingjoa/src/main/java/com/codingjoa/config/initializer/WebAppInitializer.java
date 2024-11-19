@@ -16,6 +16,7 @@ import javax.servlet.ServletRegistration.Dynamic;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.util.unit.DataSize;
 import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.FrameworkServlet;
@@ -33,8 +34,10 @@ import com.codingjoa.config.QuartzConfig;
 import com.codingjoa.config.RedisConfig;
 import com.codingjoa.config.SecurityConfig;
 import com.codingjoa.config.ServletConfig;
+import com.codingjoa.filter.ErrorHandlingFilter;
 import com.codingjoa.filter.LogFilter;
 import com.codingjoa.filter.test.TestAopFilter;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -100,7 +103,7 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
 		log.info("## onStartup");
 		super.onStartup(servletContext);
 		registerCharacterEncodingFilter(servletContext);
-		//registerErrorHandlingFilter(servletContext);
+		registerErrorHandlingFilter(servletContext);
 		registerTestAopFilter(servletContext);
 	}
 	
@@ -156,11 +159,14 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
 		filterRegistration.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, "/*");
 	}
 	
-//	private void registerErrorHandlingFilter(ServletContext servletContext) {
-//		log.info("## registerErrorHandlingFilter");
-//		FilterRegistration.Dynamic filterRegistration = servletContext.addFilter("ErrorHandlingFilter", new ErrorHandlingFilter());
-//		filterRegistration.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, "/*");
-//	}
+	private void registerErrorHandlingFilter(ServletContext servletContext) {
+		log.info("## registerErrorHandlingFilter");
+		WebApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(servletContext);
+		ObjectMapper objectMapper = context.getBean(ObjectMapper.class);
+		FilterRegistration.Dynamic filterRegistration = 
+				servletContext.addFilter("ErrorHandlingFilter", new ErrorHandlingFilter(objectMapper));
+		filterRegistration.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, "/*");
+	}
 
 	private void registerTestAopFilter(ServletContext servletContext) {
 		log.info("## registerTestAopFilter");
