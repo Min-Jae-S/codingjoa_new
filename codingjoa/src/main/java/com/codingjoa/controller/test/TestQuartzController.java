@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.codingjoa.config.QuartzConfig;
-import com.codingjoa.quartz.service.SchedulerService;
+import com.codingjoa.obsolete.quartz.QuartzTestConfig;
+import com.codingjoa.obsolete.quartz.SchedulerService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -33,12 +33,12 @@ public class TestQuartzController {
 	private SchedulerService schedulerService;
 	
 	@Autowired
-	private QuartzConfig quartzConfig;
+	private QuartzTestConfig quartzTestConfig;
 	
 	@GetMapping("/quartz/config")
 	public ResponseEntity<Object> config() throws SchedulerException {
 		log.info("## quartz config");
-		quartzConfig.printQuartzConfig();
+		quartzTestConfig.printQuartzConfig();
 		return ResponseEntity.ok("success");
 	}
 

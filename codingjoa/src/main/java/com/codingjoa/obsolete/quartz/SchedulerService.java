@@ -1,4 +1,4 @@
-package com.codingjoa.quartz.service;
+package com.codingjoa.obsolete.quartz;
 
 import java.util.Set;
 

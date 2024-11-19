@@ -35,7 +35,7 @@ public class TestBatchController {
 	 * @ ApplicationContext.getBeansOfType -> BeanFactoryUtils.beansOfTypeIncludingAncestors
 	 * @ context.getBeansOfType (can't find bean from parent context - rootContext)
 	 * 
-	 * https://github.com/spring-projects/spring-framework/issues/15553
+	 * # https://github.com/spring-projects/spring-framework/issues/15553
 	 * Calling ApplicationContext.getBeansOfType(Class) intentionally does not consider the parent hierarchy (see the java doc). 
 	 * You can use the BeanFactoryUtils class if you want to search the full hierarchy.
 	 * 

@@ -173,5 +173,11 @@ public class TestViewController {
 		log.info("## aop main");
 		return "test/aop";
 	}
+
+	@GetMapping("/quartz2")
+	public String quartz2() {
+		log.info("## quartz2 main");
+		return "test/quartz2";
+	}
 	
 }
