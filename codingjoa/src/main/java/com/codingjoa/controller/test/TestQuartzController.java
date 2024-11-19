@@ -26,13 +26,13 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 public class TestQuartzController {
 	
-	@Autowired
+	@Autowired(required = false)
 	private Scheduler scheduler;
 	
-	@Autowired
+	@Autowired(required = false)
 	private SchedulerService schedulerService;
 	
-	@Autowired
+	@Autowired(required = false)
 	private QuartzTestConfig quartzTestConfig;
 	
 	@GetMapping("/quartz/config")

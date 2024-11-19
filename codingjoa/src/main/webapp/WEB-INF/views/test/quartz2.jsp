@@ -26,19 +26,11 @@
 	
 	div.test {
 		display: flex;
-		column-gap: 30px !important;
+		column-gap: 30px;
 	}
-
+	
 	div.test button {
-		flex-grow: 1;
-	}
-	
-	.btn-fixed {
-		max-width: 190px !important;
-	}
-	
-	.btn-lg-fixed {
-		max-width: 280px !important;
+		width: 183px;
 	}
 </style>
 </head>
@@ -46,9 +38,11 @@
 <c:import url="/WEB-INF/views/include/top-menu.jsp"/>
 <div class="container my-5">
 	<p>quartz2.jsp</p>
-	<div class="test mt-5 mb-3 px-5">
-		<button class="btn btn-warning btn-lg">test1</button>
-		<button class="btn btn-warning btn-lg">test2</button>
+	<div class="test mt-5 mb-5 px-5">
+		<button class="btn btn-primary btn-lg" onclick="test1()">test1</button>
+		<button class="btn btn-primary btn-lg" onclick="test2()">test2</button>
+		<button class="btn btn-primary btn-lg">test3</button>
+		<button class="btn btn-primary btn-lg">test4</button>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>

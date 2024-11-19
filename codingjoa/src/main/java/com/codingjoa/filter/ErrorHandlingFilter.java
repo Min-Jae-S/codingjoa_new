@@ -28,7 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 public class ErrorHandlingFilter extends OncePerRequestFilter {
 	
 	private static final String FORWARD_URL = "/error";
-	private ObjectMapper objectMapper;
+	private final ObjectMapper objectMapper;
 	
 	public ErrorHandlingFilter() {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:ss:mm");
@@ -70,5 +70,4 @@ public class ErrorHandlingFilter extends OncePerRequestFilter {
 			}
 		}
 	}
-	
 }

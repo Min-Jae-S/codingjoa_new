@@ -1,4 +1,4 @@
-package com.codingjoa.filter.test;
+package com.codingjoa.filter;
 
 import java.io.IOException;
 
