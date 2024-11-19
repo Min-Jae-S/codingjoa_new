@@ -7,24 +7,17 @@ import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.WebApplicationContext;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-@SuppressWarnings("unused")
 @Slf4j
 @Aspect
-@RequiredArgsConstructor
 @Component
 public class ExceptionHandlerAspect {
-	
-	private final WebApplicationContext context;
 	
 	@Pointcut("execution(* com.codingjoa.exception.*.*(..))")
 	public void inExceptionHandlerPackage() {}
@@ -82,7 +75,7 @@ public class ExceptionHandlerAspect {
 	
 	//@Around("methodResolutionInMethodResolver()") 						// ExceptionHandlerMethodResolver.resolveMethod(..)
 	//@Around("excpetionResolutionInExceptionHandlerExceptionResolver()") 	// ExceptionHandlerExceptionResolver.resolveException(..)
-	//@Around("excpetionResolutionInComposite()")								// HandlerExceptionResolverComposite.resolveException(..)
+	//@Around("excpetionResolutionInComposite()")							// HandlerExceptionResolverComposite.resolveException(..)
 	public Object arroundResolution(ProceedingJoinPoint joinPoint) throws Throwable {
 		log.info("## {}.arroundResolution", this.getClass().getSimpleName());
 		log.info("\t > target = {}", joinPoint.getTarget().getClass().getSimpleName());

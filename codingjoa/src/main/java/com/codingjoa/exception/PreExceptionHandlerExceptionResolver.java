@@ -34,24 +34,21 @@ public class PreExceptionHandlerExceptionResolver extends ExceptionHandlerExcept
 	@Override
 	protected ModelAndView doResolveHandlerMethodException(HttpServletRequest request, HttpServletResponse response,
 			HandlerMethod handlerMethod, Exception exception) {
-		log.info("## {}.doResolveHandlerMethodEx", this.getClass().getSimpleName());
+		log.info("## {}", this.getClass().getSimpleName());
 		log.info("\t > handlerMethod = {}", handlerMethod);
 		
 		if (handlerMethod == null) {
-			log.info("\t > exception will be handled by current resolver");
+			log.info("\t > exception will be handled by current resolver: {}", this.getClass().getSimpleName());
 			return super.doResolveHandlerMethodException(request, response, handlerMethod, exception);
 		}
 		
-		log.info("\t > passing control to the next resolver");
+		log.info("\t > passing control to the next resolver: {}", baseResolver.getClass().getSimpleName());
 		return null;
 	}
 
 	@Override
 	protected ServletInvocableHandlerMethod getExceptionHandlerMethod(HandlerMethod handlerMethod,
 			Exception exception) {
-		log.info("## {}.getExceptionHandlerMethod", this.getClass().getSimpleName());
-		//log.info("\t > exceptionHandlerAdviceCache = {}", super.getExceptionHandlerAdviceCache().keySet());
-		
 		HttpServletRequest request = getCurrentHttpRequest();
 		if (request == null) {
 			return null;
@@ -62,9 +59,8 @@ public class PreExceptionHandlerExceptionResolver extends ExceptionHandlerExcept
 		for (Map.Entry<ControllerAdviceBean, ExceptionHandlerMethodResolver> entry : getExceptionHandlerAdviceCache().entrySet()) {
 			ControllerAdviceBean advice = entry.getKey();
 			boolean isRestControllerAdvice = advice.getBeanType().isAnnotationPresent(RestControllerAdvice.class);
-			log.info("\t > [{}] isRestControllerAdvice = {}, isAjaxRequest = {}", advice, isRestControllerAdvice, isAjaxRequest); 
-			
 			if (isAjaxRequest == isRestControllerAdvice) {
+				log.info("\t > ajax: {}, matched advice: {}", isAjaxRequest, advice);
 				ExceptionHandlerMethodResolver resolver = entry.getValue();
 				Method method = resolver.resolveMethod(exception);
 				if (method != null) {

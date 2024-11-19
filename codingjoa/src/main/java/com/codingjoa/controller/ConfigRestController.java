@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.HandlerAdapter;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -166,6 +167,9 @@ public class ConfigRestController {
 	@GetMapping("/argument-resolvers")
 	public ResponseEntity<Object> getArgumentResolvers() {
 		log.info("## getArgumentResolvers");
+		Map<String, HandlerMethodArgumentResolver> map = webApplicationContext.getBeansOfType(HandlerMethodArgumentResolver.class);
+		log.info("\t > {}", map.keySet());
+		
 		RequestMappingHandlerAdapter handlerAdapter = webApplicationContext.getBean(RequestMappingHandlerAdapter.class);
 		List<String> argumentResolvers = handlerAdapter.getArgumentResolvers()
 				.stream()

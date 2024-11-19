@@ -5,6 +5,9 @@ import java.util.List;
 
 import javax.validation.Validator;
 
+import org.springframework.aop.framework.AopProxyUtils;
+import org.springframework.aop.support.AopUtils;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -188,7 +191,7 @@ public class ServletConfig implements WebMvcConfigurer {
 	}
 	
 	/* 
-	 * #mvcValidator, LocalValidatorFactoryBean, @Qualifier("localValidator")
+	 * #mvcValidator, LocalValidatorFactoryBean - @Qualifier("localValidator")
 	 * 
 	 * Classes that implement the BeanPostProcessor interface are instantiated on startup, 
 	 * as part of the special startup phase of the ApplicationContext, before any other beans.
@@ -196,10 +199,11 @@ public class ServletConfig implements WebMvcConfigurer {
 	 */
 	
 	@Bean
-	public static MethodValidationPostProcessor methodValidationPostProcessor(@Lazy Validator validator) {
+	public static MethodValidationPostProcessor methodValidationPostProcessor(@Lazy @Qualifier("localValidator") Validator validator) {
 		log.info("## methodValidationPostProcessor");
 		//log.info("\t > validator = {}", validator);
-		//log.info("\t > proxy validator ? {}", AopUtils.isAopProxy(validator));
+		log.info("\t > isAopProxy = {}", AopUtils.isAopProxy(validator));
+		log.info("\t > target class = {}", AopProxyUtils.ultimateTargetClass(validator));
 		
 		MethodValidationPostProcessor processor = new MethodValidationPostProcessor();
 		processor.setValidator(validator);
@@ -234,7 +238,7 @@ public class ServletConfig implements WebMvcConfigurer {
 	 */
 	
 	@Bean
-	public LocalValidatorFactoryBean validator() {
+	public LocalValidatorFactoryBean localValidator() {
 		LocalValidatorFactoryBean factoryBean = new LocalValidatorFactoryBean();
 		factoryBean.setValidationMessageSource(messageSource);
 		//factoryBean.getValidationPropertyMap().put("hibernate.validator.fail_fast", "true");
