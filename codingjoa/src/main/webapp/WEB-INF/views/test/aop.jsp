@@ -51,7 +51,7 @@
 		<button class="btn btn-warning btn-lg" onclick="triggerHttpRequestMethodNotSupportedExceptionByAjax()">HttpRequestMethodNotSupportedEx<br>(AJAX)</button>
 		<button class="btn btn-warning btn-lg" onclick="triggerExpectedExceptionByAjax()">ExpectedEx<br>(AJAX)</button>
 	</div>
-	<div class="test mb-5 px-5">
+	<div class="test mb-3 px-5">
 		<button class="btn btn-warning btn-lg" onclick="triggerNoHandlerFoundExceptionByMvc()">NoHandlerFoundEx<br>(MVC)</button>
 		<button class="btn btn-warning btn-lg" onclick="triggerHttpRequestMethodNotSupportedExceptionByMvc()">HttpRequestMethodNotSupportedEx<br>(MVC)</button>
 		<button class="btn btn-warning btn-lg" onclick="triggerExpectedExceptionByMvc()">ExpectedEx<br>(MVC)</button>
@@ -66,7 +66,6 @@
 		<button class="btn btn-primary btn-lg" onclick="triggerInterceptorExceptionByMvc()">interceptor exception<br>(MVC)</button>
 		<button class="btn btn-primary btn-lg" onclick="triggerFilterExceptionByMvc()">filter exception<br>(MVC)</button>
 	</div>
-	<h6 class="invisible">invisible</h6>
 	<div class="test mb-3 px-5">
 		<button class="btn btn-warning btn-lg btn-lg-fixed" onclick="getExceptionHandler()">ExHandler</button>
 	</div>
@@ -74,9 +73,9 @@
 		<button class="btn btn-primary btn-lg" onclick="test1()">test1</button>
 		<button class="btn btn-primary btn-lg" onclick="test2()">test2</button>
 		<button class="btn btn-primary btn-lg" onclick="test3()">test3</button>
-		<button class="btn btn-primary btn-lg" onclick="test4()">test4</button>
-		<button class="btn btn-primary btn-lg" onclick="location.href='${contextPath}/test/aop/test5'">test5 (noView)</button>
-		<button class="btn btn-primary btn-lg" onclick="location.href='${contextPath}/test/aop/test6'">test6 (testEx)</button>
+		<button class="btn btn-primary btn-lg" onclick="test4()">test4<br>(response.sendError)</button>
+		<button class="btn btn-primary btn-lg" onclick="location.href='${contextPath}/test/aop/test5'">test5<br>(noView)</button>
+		<button class="btn btn-primary btn-lg" onclick="location.href='${contextPath}/test/aop/test6'">test6<br>(testEx)</button>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>

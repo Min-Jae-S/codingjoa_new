@@ -33,7 +33,6 @@ import com.codingjoa.config.QuartzConfig;
 import com.codingjoa.config.RedisConfig;
 import com.codingjoa.config.SecurityConfig;
 import com.codingjoa.config.ServletConfig;
-import com.codingjoa.filter.ErrorHandlingFilter;
 import com.codingjoa.filter.LogFilter;
 import com.codingjoa.filter.test.TestAopFilter;
 
@@ -101,7 +100,7 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
 		log.info("## onStartup");
 		super.onStartup(servletContext);
 		registerCharacterEncodingFilter(servletContext);
-		registerErrorHandlingFilter(servletContext);
+		//registerErrorHandlingFilter(servletContext);
 		registerTestAopFilter(servletContext);
 	}
 	
@@ -157,11 +156,11 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
 		filterRegistration.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, "/*");
 	}
 	
-	private void registerErrorHandlingFilter(ServletContext servletContext) {
-		log.info("## registerErrorHandlingFilter");
-		FilterRegistration.Dynamic filterRegistration = servletContext.addFilter("ErrorHandlingFilter", new ErrorHandlingFilter());
-		filterRegistration.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, "/*");
-	}
+//	private void registerErrorHandlingFilter(ServletContext servletContext) {
+//		log.info("## registerErrorHandlingFilter");
+//		FilterRegistration.Dynamic filterRegistration = servletContext.addFilter("ErrorHandlingFilter", new ErrorHandlingFilter());
+//		filterRegistration.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, "/*");
+//	}
 
 	private void registerTestAopFilter(ServletContext servletContext) {
 		log.info("## registerTestAopFilter");
