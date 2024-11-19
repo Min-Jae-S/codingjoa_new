@@ -26,10 +26,10 @@ public class ErrorController {
 		Object obj = request.getAttribute("errorResponse");
 		
 		if (obj instanceof ErrorResponse) {
-			log.info("\t > handled errorResponse from exceptionHandler");
+			log.info("\t > errorResponse from exceptionHandler");
 			errorResponse = (ErrorResponse) obj;
 		} else {
-			log.info("\t > unhandled errorResponse from exceptionHandler, create default errorResponse");
+			log.info("\t > no errorResponse from exceptionHandler, create default errorResponse");
 			errorResponse = ErrorResponse.builder()
 					.status(HttpStatus.BAD_REQUEST)
 					.messageByCode("error.Global")
