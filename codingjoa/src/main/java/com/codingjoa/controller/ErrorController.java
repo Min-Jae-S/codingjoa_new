@@ -26,7 +26,6 @@ public class ErrorController {
 		Object obj = request.getAttribute("errorResponse");
 		
 		if (obj instanceof ErrorResponse) {
-			log.info("\t > errorResponse from exceptionHandler");
 			errorResponse = (ErrorResponse) obj;
 		} else {
 			log.info("\t > no errorResponse from exceptionHandler, create default errorResponse");

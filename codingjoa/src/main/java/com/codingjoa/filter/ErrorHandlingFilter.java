@@ -2,6 +2,8 @@ package com.codingjoa.filter;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -10,11 +12,15 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.codingjoa.converter.NullToEmptyStringSerializer;
 import com.codingjoa.dto.ErrorResponse;
 import com.codingjoa.util.AjaxUtils;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -24,8 +30,14 @@ public class ErrorHandlingFilter extends OncePerRequestFilter {
 	private static final String FORWARD_URL = "/error";
 	private ObjectMapper objectMapper;
 	
-	public ErrorHandlingFilter(ObjectMapper objectMapper) {
-		this.objectMapper = objectMapper;
+	public ErrorHandlingFilter() {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:ss:mm");
+		this.objectMapper =  Jackson2ObjectMapperBuilder
+				.json()
+				.serializerByType(LocalDateTime.class, new LocalDateTimeSerializer(formatter))
+				.featuresToEnable(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES)
+				.build();
+		objectMapper.getSerializerProvider().setNullValueSerializer(new NullToEmptyStringSerializer());
 	}
 	
 	@Override

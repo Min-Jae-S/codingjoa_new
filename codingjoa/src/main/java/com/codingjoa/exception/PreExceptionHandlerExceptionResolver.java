@@ -38,11 +38,11 @@ public class PreExceptionHandlerExceptionResolver extends ExceptionHandlerExcept
 		log.info("\t > handlerMethod = {}", handlerMethod);
 		
 		if (handlerMethod == null) {
-			log.info("\t > handlerMethod is null, exception will be handled by current resolver");
+			log.info("\t > exception will be handled by current resolver");
 			return super.doResolveHandlerMethodException(request, response, handlerMethod, exception);
 		}
 		
-		log.info("\t > handlerMethod is not null, passing control to the next resolver");
+		log.info("\t > passing control to the next resolver");
 		return null;
 	}
 
