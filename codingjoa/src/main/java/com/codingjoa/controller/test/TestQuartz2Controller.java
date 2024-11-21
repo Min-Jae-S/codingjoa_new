@@ -1,7 +1,9 @@
 package com.codingjoa.controller.test;
 
+import org.quartz.Job;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerFactory;
+import org.quartz.spi.JobFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +11,7 @@ import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.WebApplicationContext;
 
 import com.codingjoa.dto.SuccessResponse;
 
@@ -21,22 +24,25 @@ import lombok.extern.slf4j.Slf4j;
 public class TestQuartz2Controller {
 	
 	@Autowired
-	private ApplicationContext context;
+	private WebApplicationContext context;
 	
 	@Autowired(required = false)
-	private SchedulerFactoryBean factory;
+	private SchedulerFactoryBean schedulerFactory;
 
 	@Autowired(required = false)
 	private Scheduler scheduler;
 
+	@Autowired(required = false)
+	private JobFactory jobFactory;
+	
 	@GetMapping("/test1")
 	public ResponseEntity<Object> test1() {
 		log.info("## test1");
-		log.info("\t > factory from autowired = {}", factory);
-		log.info("\t > scheduler from autowired = {}", scheduler);
-		
-		log.info("\t > factory from context = {}", context.getBeansOfType(SchedulerFactoryBean.class));
-		log.info("\t > scheduler from context = {}", context.getBeansOfType(Scheduler.class));
+		log.info("\t > schedulerFactory = {}", schedulerFactory);
+		log.info("\t > scheduler = {}", scheduler);
+		log.info("\t > matches injected scheduler and from factory = {}", schedulerFactory.getObject().equals(scheduler));
+		log.info("\t > jobFactory = {}", jobFactory);
+		log.info("\t > jobs from context = {}", context.getBeansOfType(Job.class).values());
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 
