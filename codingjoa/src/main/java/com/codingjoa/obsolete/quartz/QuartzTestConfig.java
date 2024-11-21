@@ -69,7 +69,8 @@ public class QuartzTestConfig {
 	
 	@Bean
 	public SpringBeanJobFactory jobFactory() {
-		return new SpringBeanJobFactory();
+		SpringBeanJobFactory jobFactory = new SpringBeanJobFactory();
+		return jobFactory;
 	}
 
 	/*

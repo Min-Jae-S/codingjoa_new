@@ -38,11 +38,11 @@ public class TestQuartz2Controller {
 	@GetMapping("/test1")
 	public ResponseEntity<Object> test1() {
 		log.info("## test1");
-		log.info("\t > schedulerFactory = {}", schedulerFactory);
-		log.info("\t > scheduler = {}", scheduler);
+		log.info("\t > schedulerFactory = {}", (schedulerFactory != null) ? schedulerFactory.getClass().getSimpleName() : null);
+		log.info("\t > scheduler = {}", (scheduler != null) ? scheduler.getClass().getSimpleName() : null);
 		log.info("\t > matches injected scheduler and from factory = {}", schedulerFactory.getObject().equals(scheduler));
 		log.info("\t > jobFactory = {}", jobFactory);
-		log.info("\t > jobs from context = {}", context.getBeansOfType(Job.class).values());
+		log.info("\t > jobs from context = {}", context.getBeansOfType(Job.class));
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 
