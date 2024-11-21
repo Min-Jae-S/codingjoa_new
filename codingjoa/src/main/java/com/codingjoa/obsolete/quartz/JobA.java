@@ -19,4 +19,5 @@ public class JobA extends QuartzJobBean {
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
 		log.info("## {}, repeated task performed on: {}", this.getClass().getSimpleName(), LocalDateTime.now().format(dtf));
 	}
+	
 }

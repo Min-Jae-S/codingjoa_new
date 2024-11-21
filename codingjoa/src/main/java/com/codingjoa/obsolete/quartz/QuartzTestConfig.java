@@ -28,12 +28,17 @@ public class QuartzTestConfig {
 	
 	/*	
 	 * ## Quartz
-	 * 	> enable in-memory job scheduler
-	 * 	> clustering using database
-	 * 	> Job, Trigger
-	 * 	> JobDetails, JobDataMap, JobListener, TriggerListener
-	 * 	> start (scheduleJob, resumeJob, triggerJob, addJob)
-	 * 	> stop (interrupt, unscheduleJob, pauseJob, deleteJob)
+	 * 		- enable in-memory job scheduler
+	 * 		- clustering using database
+	 * 		- Job, Trigger
+	 * 		- JobDetails, JobDataMap, JobListener, TriggerListener
+	 * 		- start (scheduleJob, resumeJob, triggerJob, addJob)
+	 * 		- stop (interrupt, unscheduleJob, pauseJob, deleteJob)
+	 * 
+	 *	## Scheduler
+	 * 		- manage multiple jobs and execute them based on triggers. The scheduler controls the execution time and frequency of jobs, 
+	 * 		  and can pause or resume jobs as needed
+	 * 		- additionally, the scheduler tracks the execution status of jobs and handles follow-up tasks after job completion
 	 */
 	
 	//private final JobListener jobListener;
