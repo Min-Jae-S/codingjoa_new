@@ -12,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Component
-public class TestJob implements Job {
+public class SampleJob implements Job {
 	
 	@Autowired
 	private SchedulerService schedulerService;
