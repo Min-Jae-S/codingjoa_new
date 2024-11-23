@@ -24,17 +24,17 @@ public class QuartzConfig {
 
 	@Bean
 	public SchedulerFactoryBean schedulerFactory(ApplicationContext applicationContext) {
+		SchedulerFactoryBean schedulerFactory = new SchedulerFactoryBean();
+
 		AutowiringJobFactory jobFactory = new AutowiringJobFactory();
 		jobFactory.setApplicationContext(applicationContext);
-
-		SchedulerFactoryBean schedulerFactory = new SchedulerFactoryBean();
-		schedulerFactory.setJobFactory(jobFactory);
 		
+		schedulerFactory.setJobFactory(jobFactory);
 		return schedulerFactory;
 	}
 	
 	@Bean
-	public JobDetail sampleJobDetail() {
+	public JobDetail sampleJob() {
 		return JobBuilder.newJob(SampleJob.class)
 				.withIdentity("sampleJob", "sampleJobs")
 				.storeDurably()
@@ -42,10 +42,10 @@ public class QuartzConfig {
 	}
 	
 	@Bean
-	public Trigger trigger1(@Qualifier("sampleJobDetail") JobDetail job) {
+	public Trigger sampleTrigger(@Qualifier("sampleJob") JobDetail job) {
 		return TriggerBuilder.newTrigger()
 				.forJob(job)
-				.withIdentity("trigger1", "sampleTriggers")
+				.withIdentity("sampleTrigger", "sampleTriggers")
 				.withSchedule(SimpleScheduleBuilder.repeatSecondlyForever(10))
 				.build();
 	}
