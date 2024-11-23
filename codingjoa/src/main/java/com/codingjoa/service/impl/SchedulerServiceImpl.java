@@ -12,6 +12,7 @@ public class SchedulerServiceImpl implements SchedulerService {
 
 	@Override
 	public void execute() {
-		log.info("## execute");
+		log.info("## {}.execute", this.getClass().getSimpleName());
 	}
+	
 }

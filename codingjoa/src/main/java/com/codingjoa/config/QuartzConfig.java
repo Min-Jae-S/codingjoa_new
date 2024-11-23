@@ -23,12 +23,15 @@ import lombok.RequiredArgsConstructor;
 public class QuartzConfig {
 
 	@Bean
-	public SchedulerFactoryBean schedulerFactory(ApplicationContext applicationContext) {
+	public SchedulerFactoryBean schedulerFactory(ApplicationContext applicationContext, 
+			@Qualifier("sampleJob") JobDetail jobDetail, @Qualifier("sampleTrigger") Trigger trigger) {
 		SchedulerFactoryBean schedulerFactory = new SchedulerFactoryBean();
 
 		AutowiringSpringBeanJobFactory jobFactory = new AutowiringSpringBeanJobFactory();
 		jobFactory.setApplicationContext(applicationContext);
 		schedulerFactory.setJobFactory(jobFactory);
+		schedulerFactory.setJobDetails(jobDetail);
+		schedulerFactory.setTriggers(trigger);
 		schedulerFactory.setAutoStartup(false);
 		
 		return schedulerFactory;
@@ -43,9 +46,9 @@ public class QuartzConfig {
 	}
 	
 	@Bean
-	public Trigger sampleTrigger(@Qualifier("sampleJob") JobDetail job) {
+	public Trigger sampleTrigger(@Qualifier("sampleJob") JobDetail jobDetail) {
 		return TriggerBuilder.newTrigger()
-				.forJob(job)
+				.forJob(jobDetail)
 				.withIdentity("sampleTrigger", "sampleTriggers")
 				.withSchedule(SimpleScheduleBuilder.repeatSecondlyForever(10))
 				.build();

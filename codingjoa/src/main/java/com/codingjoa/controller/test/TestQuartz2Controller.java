@@ -38,13 +38,13 @@ public class TestQuartz2Controller {
 	public ResponseEntity<Object> test1() throws SchedulerException {
 		log.info("## test1");
 		log.info("\t > schedulerFactory = {}", schedulerFactory.getClass().getSimpleName());
-		log.info("\t > schedulerFactory isRunning = {}", schedulerFactory.isRunning());
-		log.info("\t > schedulerFactory isAutoStartup = {}", schedulerFactory.isAutoStartup());
+		log.info("\t   - isRunning = {}", schedulerFactory.isRunning());
+		log.info("\t   - isAutoStartup = {}", schedulerFactory.isAutoStartup());
 		
 		log.info("\t > scheduler = {}", scheduler.getClass().getSimpleName());
-		log.info("\t > scheduler isStarted = {}", scheduler.isStarted());
-		log.info("\t > scheduler isInStandbyMode = {}", scheduler.isInStandbyMode());
-		log.info("\t > scheduler isShutdown = {}", scheduler.isShutdown());
+		log.info("\t   - isStarted = {}", scheduler.isStarted());
+		log.info("\t   - isInStandbyMode = {}", scheduler.isInStandbyMode());
+		log.info("\t   - isShutdown = {}", scheduler.isShutdown());
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
@@ -65,9 +65,9 @@ public class TestQuartz2Controller {
 	@GetMapping("/test3")
 	public ResponseEntity<Object> test3() {
 		log.info("## test3");
-		log.info("\t > shutdown scheduler");
+		log.info("\t > pause scheduler");
 		try {
-			scheduler.shutdown();
+			scheduler.standby();
 		} catch (SchedulerException e) {
 			log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
 		}
