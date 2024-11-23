@@ -17,6 +17,7 @@ import com.codingjoa.quartz.SampleJob;
 
 import lombok.RequiredArgsConstructor;
 
+@SuppressWarnings("unused")
 @ComponentScan("com.codingjoa.quartz")
 @RequiredArgsConstructor
 @Configuration
@@ -27,9 +28,9 @@ public class QuartzConfig {
 			@Qualifier("sampleJob") JobDetail jobDetail, @Qualifier("sampleTrigger") Trigger trigger) {
 		SchedulerFactoryBean schedulerFactory = new SchedulerFactoryBean();
 
-		AutowiringSpringBeanJobFactory jobFactory = new AutowiringSpringBeanJobFactory();
-		jobFactory.setApplicationContext(applicationContext);
-		schedulerFactory.setJobFactory(jobFactory);
+//		AutowiringSpringBeanJobFactory jobFactory = new AutowiringSpringBeanJobFactory();
+//		jobFactory.setApplicationContext(applicationContext);
+//		schedulerFactory.setJobFactory(jobFactory);
 		schedulerFactory.setJobDetails(jobDetail);
 		schedulerFactory.setTriggers(trigger);
 		schedulerFactory.setAutoStartup(false);

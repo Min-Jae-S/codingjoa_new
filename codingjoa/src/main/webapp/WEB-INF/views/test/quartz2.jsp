@@ -39,19 +39,19 @@
 <div class="container my-5">
 	<p>quartz2.jsp</p>
 	<div class="test mt-5 mb-5 px-5">
-		<button class="btn btn-primary btn-lg" onclick="test1()">test1</button>
-		<button class="btn btn-primary btn-lg" onclick="test2()">test2</button>
-		<button class="btn btn-primary btn-lg" onclick="test3()">test3</button>
-		<button class="btn btn-primary btn-lg">test4</button>
+		<button class="btn btn-primary btn-lg" onclick="config()">config</button>
+		<button class="btn btn-primary btn-lg" onclick="start()">start</button>
+		<button class="btn btn-primary btn-lg" onclick="standby()">standby</button>
+		<button class="btn btn-primary btn-lg" onclick="shutdown()">shutdown</button>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 <script>
-	function test1() {
-		console.log("## test1");
+	function config() {
+		console.log("## config");
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/quartz2/test1",
+			url : "${contextPath}/test/quartz2/config",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
@@ -63,11 +63,11 @@
 		});
 	}
 
-	function test2() {
-		console.log("## test2");
+	function start() {
+		console.log("## start");
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/quartz2/test2",
+			url : "${contextPath}/test/quartz2/start",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
@@ -79,11 +79,27 @@
 		});
 	}
 
-	function test3() {
-		console.log("## test3");
+	function standby() {
+		console.log("## standby");
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/quartz2/test3",
+			url : "${contextPath}/test/quartz2/standby",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log(JSON.stringify(result, null, 2));
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				parseError(jqXHR);
+			}
+		});
+	}
+
+	function shutdown() {
+		console.log("## shutdown");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/quartz2/shutdown",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));

@@ -34,9 +34,9 @@ public class TestQuartz2Controller {
 	@Autowired
 	private Scheduler scheduler;
 
-	@GetMapping("/test1")
-	public ResponseEntity<Object> test1() throws SchedulerException {
-		log.info("## test1");
+	@GetMapping("/config")
+	public ResponseEntity<Object> config() throws SchedulerException {
+		log.info("## config");
 		log.info("\t > schedulerFactory = {}", schedulerFactory.getClass().getSimpleName());
 		log.info("\t   - isRunning = {}", schedulerFactory.isRunning());
 		log.info("\t   - isAutoStartup = {}", schedulerFactory.isAutoStartup());
@@ -49,28 +49,24 @@ public class TestQuartz2Controller {
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 
-	@GetMapping("/test2")
-	public ResponseEntity<Object> test2() {
-		log.info("## test2");
-		log.info("\t > start scheduler");
-		try {
-			scheduler.start();
-		} catch (SchedulerException e) {
-			log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
-		}
-		
+	@GetMapping("/start")
+	public ResponseEntity<Object> start() throws SchedulerException  {
+		log.info("## start");
+		scheduler.start();
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 
-	@GetMapping("/test3")
-	public ResponseEntity<Object> test3() {
-		log.info("## test3");
-		log.info("\t > pause scheduler");
-		try {
-			scheduler.standby();
-		} catch (SchedulerException e) {
-			log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
-		}
+	@GetMapping("/standby")
+	public ResponseEntity<Object> standby() throws SchedulerException {
+		log.info("## standby");
+		scheduler.standby();
+		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
+	}
+
+	@GetMapping("/shutdown")
+	public ResponseEntity<Object> shutdown() throws SchedulerException {
+		log.info("## shutdown");
+		scheduler.shutdown();
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 }
