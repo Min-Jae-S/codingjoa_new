@@ -12,7 +12,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 
-import com.codingjoa.quartz.AutowiringJobFactory;
+import com.codingjoa.quartz.AutowiringSpringBeanJobFactory;
 import com.codingjoa.quartz.SampleJob;
 
 import lombok.RequiredArgsConstructor;
@@ -26,7 +26,7 @@ public class QuartzConfig {
 	public SchedulerFactoryBean schedulerFactory(ApplicationContext applicationContext) {
 		SchedulerFactoryBean schedulerFactory = new SchedulerFactoryBean();
 
-		AutowiringJobFactory jobFactory = new AutowiringJobFactory();
+		AutowiringSpringBeanJobFactory jobFactory = new AutowiringSpringBeanJobFactory();
 		jobFactory.setApplicationContext(applicationContext);
 		
 		schedulerFactory.setJobFactory(jobFactory);
