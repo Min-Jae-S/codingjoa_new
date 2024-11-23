@@ -39,6 +39,9 @@
 	<logger name="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping" level="DEBUG"/>
 	<logger name="org.springframework.beans.factory.support.DefaultListableBeanFactory" level="INFO"/>
 	
+	<!-- Quartz -->
+	<logger name="org.springframework.scheduling.quartz.SchedulerFactoryBean" level="DEBUG"/>
+	
 	<!-- OAuth2 -->
 	<logger name="org.springframework.security.web.DefaultRedirectStrategy" level="DEBUG"/>
 	<logger name="org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter" level="DEBUG"/>

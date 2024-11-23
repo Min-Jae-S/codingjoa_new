@@ -28,8 +28,9 @@ public class QuartzConfig {
 
 		AutowiringSpringBeanJobFactory jobFactory = new AutowiringSpringBeanJobFactory();
 		jobFactory.setApplicationContext(applicationContext);
-		
 		schedulerFactory.setJobFactory(jobFactory);
+		schedulerFactory.setAutoStartup(false);
+		
 		return schedulerFactory;
 	}
 	

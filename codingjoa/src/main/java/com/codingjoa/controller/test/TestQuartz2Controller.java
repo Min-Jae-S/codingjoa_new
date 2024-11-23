@@ -2,6 +2,8 @@ package com.codingjoa.controller.test;
 
 import org.quartz.Job;
 import org.quartz.Scheduler;
+import org.quartz.SchedulerContext;
+import org.quartz.SchedulerException;
 import org.quartz.SchedulerFactory;
 import org.quartz.spi.JobFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,35 +28,49 @@ public class TestQuartz2Controller {
 	@Autowired
 	private WebApplicationContext context;
 	
-	@Autowired(required = false)
+	@Autowired
 	private SchedulerFactoryBean schedulerFactory;
 
-	@Autowired(required = false)
+	@Autowired
 	private Scheduler scheduler;
 
-	@Autowired(required = false)
-	private JobFactory jobFactory;
-	
 	@GetMapping("/test1")
-	public ResponseEntity<Object> test1() {
+	public ResponseEntity<Object> test1() throws SchedulerException {
 		log.info("## test1");
-		log.info("\t > schedulerFactory = {}", (schedulerFactory != null) ? schedulerFactory.getClass().getSimpleName() : null);
-		log.info("\t > scheduler = {}", (scheduler != null) ? scheduler.getClass().getSimpleName() : null);
-		log.info("\t > matches injected scheduler and from factory = {}", schedulerFactory.getObject().equals(scheduler));
-		log.info("\t > jobFactory = {}", jobFactory);
-		log.info("\t > jobs from context = {}", context.getBeansOfType(Job.class));
+		log.info("\t > schedulerFactory = {}", schedulerFactory.getClass().getSimpleName());
+		log.info("\t > schedulerFactory isRunning = {}", schedulerFactory.isRunning());
+		log.info("\t > schedulerFactory isAutoStartup = {}", schedulerFactory.isAutoStartup());
+		
+		log.info("\t > scheduler = {}", scheduler.getClass().getSimpleName());
+		log.info("\t > scheduler isStarted = {}", scheduler.isStarted());
+		log.info("\t > scheduler isInStandbyMode = {}", scheduler.isInStandbyMode());
+		log.info("\t > scheduler isShutdown = {}", scheduler.isShutdown());
+		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 
 	@GetMapping("/test2")
 	public ResponseEntity<Object> test2() {
 		log.info("## test2");
+		log.info("\t > start scheduler");
+		try {
+			scheduler.start();
+		} catch (SchedulerException e) {
+			log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
+		}
+		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 
 	@GetMapping("/test3")
 	public ResponseEntity<Object> test3() {
 		log.info("## test3");
+		log.info("\t > shutdown scheduler");
+		try {
+			scheduler.shutdown();
+		} catch (SchedulerException e) {
+			log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
+		}
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 }
