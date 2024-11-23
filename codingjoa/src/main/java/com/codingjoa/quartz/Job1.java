@@ -11,7 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RequiredArgsConstructor
-public class SampleJob implements Job {
+public class Job1 implements Job {
 	
 	private final SchedulerService schedulerService;
 

@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 
 import com.codingjoa.quartz.AutowiringSpringBeanJobFactory;
-import com.codingjoa.quartz.SampleJob;
+import com.codingjoa.quartz.Job1;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,11 +25,12 @@ public class QuartzConfig {
 
 	@Bean
 	public SchedulerFactoryBean schedulerFactory(ApplicationContext applicationContext, 
-			@Qualifier("sampleJob") JobDetail jobDetail, @Qualifier("sampleTrigger") Trigger trigger) {
+			JobDetail jobDetail, Trigger trigger) {
 		SchedulerFactoryBean schedulerFactory = new SchedulerFactoryBean();
 
 		AutowiringSpringBeanJobFactory jobFactory = new AutowiringSpringBeanJobFactory();
 		jobFactory.setApplicationContext(applicationContext);
+
 		schedulerFactory.setJobFactory(jobFactory);
 		schedulerFactory.setJobDetails(jobDetail);
 		schedulerFactory.setTriggers(trigger);
@@ -39,18 +40,18 @@ public class QuartzConfig {
 	}
 	
 	@Bean
-	public JobDetail sampleJob() {
-		return JobBuilder.newJob(SampleJob.class)
-				.withIdentity("sampleJob", "sampleJobs")
+	public JobDetail job1() {
+		return JobBuilder.newJob(Job1.class)
+				.withIdentity("job1", "sampleJobs")
 				.storeDurably()
 				.build();
 	}
 	
 	@Bean
-	public Trigger sampleTrigger() {
+	public Trigger trigger1() {
 		return TriggerBuilder.newTrigger()
-				.forJob(sampleJob())
-				.withIdentity("sampleTrigger", "sampleTriggers")
+				.forJob(job1())
+				.withIdentity("trigger1", "sampleTriggers")
 				.withSchedule(SimpleScheduleBuilder.repeatSecondlyForever(10))
 				.build();
 	}

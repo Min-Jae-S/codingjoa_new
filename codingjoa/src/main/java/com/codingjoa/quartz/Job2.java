@@ -8,7 +8,7 @@ import com.codingjoa.obsolete.quartz.QuartzJob;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class SampleQuartzJob extends QuartzJob {
+public class Job2 extends QuartzJob {
 
 	@Override
 	protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
