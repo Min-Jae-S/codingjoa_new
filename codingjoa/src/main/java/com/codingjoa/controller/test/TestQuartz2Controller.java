@@ -50,7 +50,7 @@ public class TestQuartz2Controller {
 	}
 
 	@GetMapping("/start")
-	public ResponseEntity<Object> start() throws SchedulerException  {
+	public ResponseEntity<Object> start() throws SchedulerException {
 		log.info("## start");
 		scheduler.start();
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());

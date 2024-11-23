@@ -39,7 +39,7 @@
 <div class="container my-5">
 	<p>quartz2.jsp</p>
 	<div class="test mt-5 mb-5 px-5">
-		<button class="btn btn-primary btn-lg" onclick="config()">config</button>
+		<button class="btn btn-warning btn-lg" onclick="config()">config</button>
 		<button class="btn btn-primary btn-lg" onclick="start()">start</button>
 		<button class="btn btn-primary btn-lg" onclick="standby()">standby</button>
 		<button class="btn btn-primary btn-lg" onclick="shutdown()">shutdown</button>

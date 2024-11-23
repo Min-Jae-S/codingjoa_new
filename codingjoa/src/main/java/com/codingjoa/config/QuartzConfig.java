@@ -28,9 +28,9 @@ public class QuartzConfig {
 			@Qualifier("sampleJob") JobDetail jobDetail, @Qualifier("sampleTrigger") Trigger trigger) {
 		SchedulerFactoryBean schedulerFactory = new SchedulerFactoryBean();
 
-//		AutowiringSpringBeanJobFactory jobFactory = new AutowiringSpringBeanJobFactory();
-//		jobFactory.setApplicationContext(applicationContext);
-//		schedulerFactory.setJobFactory(jobFactory);
+		AutowiringSpringBeanJobFactory jobFactory = new AutowiringSpringBeanJobFactory();
+		jobFactory.setApplicationContext(applicationContext);
+		schedulerFactory.setJobFactory(jobFactory);
 		schedulerFactory.setJobDetails(jobDetail);
 		schedulerFactory.setTriggers(trigger);
 		schedulerFactory.setAutoStartup(false);
@@ -47,9 +47,9 @@ public class QuartzConfig {
 	}
 	
 	@Bean
-	public Trigger sampleTrigger(@Qualifier("sampleJob") JobDetail jobDetail) {
+	public Trigger sampleTrigger() {
 		return TriggerBuilder.newTrigger()
-				.forJob(jobDetail)
+				.forJob(sampleJob())
 				.withIdentity("sampleTrigger", "sampleTriggers")
 				.withSchedule(SimpleScheduleBuilder.repeatSecondlyForever(10))
 				.build();
