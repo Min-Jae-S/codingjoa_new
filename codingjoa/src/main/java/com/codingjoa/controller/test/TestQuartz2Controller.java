@@ -1,32 +1,22 @@
 package com.codingjoa.controller.test;
 
-import org.quartz.Job;
 import org.quartz.Scheduler;
-import org.quartz.SchedulerContext;
 import org.quartz.SchedulerException;
-import org.quartz.SchedulerFactory;
-import org.quartz.spi.JobFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.context.WebApplicationContext;
 
 import com.codingjoa.dto.SuccessResponse;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@SuppressWarnings("unused")
 @RequestMapping("/test/quartz2")
 @RestController
 public class TestQuartz2Controller {
-	
-	@Autowired
-	private WebApplicationContext context;
 	
 	@Autowired
 	private SchedulerFactoryBean schedulerFactory;

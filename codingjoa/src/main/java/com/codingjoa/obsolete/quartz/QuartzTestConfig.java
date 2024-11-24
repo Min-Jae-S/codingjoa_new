@@ -67,24 +67,19 @@ public class QuartzTestConfig {
 		return scheduler;
 	}
 	
-	@Bean
-	public SpringBeanJobFactory jobFactory() {
-		SpringBeanJobFactory jobFactory = new SpringBeanJobFactory();
-		return jobFactory;
-	}
-
 	/*
 	 * for working annotation @Autowired in job classes
 	 * custom job factory of spring with DI support for @Autowired
 	 */
 	
-//	@Bean
-//	public SpringBeanJobFactory jobFactory() {
-//		log.info("## AutowiringSpringBeanJobFactory");
+	@Bean
+	public SpringBeanJobFactory jobFactory() {
+		log.info("## AutowiringSpringBeanJobFactory");
 //		AutowiringSpringBeanJobFactory jobFactory = new AutowiringSpringBeanJobFactory();
 //	    jobFactory.setApplicationContext(applicationContext);
-//	    return jobFactory;
-//	}
+	    SpringBeanJobFactory jobFactory = new SpringBeanJobFactory();
+	    return jobFactory;
+	}
 	
 //	@Bean
 //	public Properties quartzProperties() {
