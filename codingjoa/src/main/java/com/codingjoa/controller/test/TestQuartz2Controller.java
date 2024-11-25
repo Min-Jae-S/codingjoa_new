@@ -1,11 +1,17 @@
 package com.codingjoa.controller.test;
 
+import java.util.List;
+import java.util.Set;
+
 import javax.annotation.Resource;
 
 import org.quartz.JobDetail;
+import org.quartz.JobKey;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.Trigger;
+import org.quartz.TriggerKey;
+import org.quartz.impl.matchers.GroupMatcher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
@@ -34,6 +40,12 @@ public class TestQuartz2Controller {
 	@Autowired
 	private Scheduler scheduler;
 	
+	@Resource(name = "jobDetailA")
+	private JobDetail jobDetailA;
+
+	@Resource(name = "jobDetailB")
+	private JobDetail jobDetailB;
+	
 	@Resource(name = "triggerA")
 	private Trigger triggerA;
 	
@@ -52,34 +64,60 @@ public class TestQuartz2Controller {
 		log.info("\t   - isInStandbyMode = {}", scheduler.isInStandbyMode());
 		log.info("\t   - isShutdown = {}", scheduler.isShutdown());
 		
-		log.info("\t > triggerA = {}", triggerA);
-		log.info("\t > triggerB = {}", triggerB);
+		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
+	}
+
+	@GetMapping("/current-jobs")
+	public ResponseEntity<Object> currentJobs() throws SchedulerException {
+		log.info("## currentJobs");
+		Set<JobKey> jobKeys = scheduler.getJobKeys(GroupMatcher.anyJobGroup());
+		if (jobKeys.isEmpty()) {
+			log.info("\t > no scheduled jobs");
+		} else {
+			for (JobKey jobKey : jobKeys) {
+				log.info("\t > job = {}", jobKey);
+				for (Trigger trigger : scheduler.getTriggersOfJob(jobKey)) {
+					TriggerKey triggerKey = trigger.getKey();
+					log.info("\t    - trigger = {}", triggerKey);
+					log.info("\t    - state = {}", scheduler.getTriggerState(triggerKey));
+					log.info("\t    - previous = {}", trigger.getPreviousFireTime());
+					log.info("\t    - next = {}", trigger.getNextFireTime());
+				}
+			}
+		}
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 
-	@GetMapping("/current")
-	public ResponseEntity<Object> current() throws SchedulerException {
-		log.info("## current");
-		log.info("\t > currently executing jobs = {}", scheduler.getCurrentlyExecutingJobs());
+	@GetMapping("/clear")
+	public ResponseEntity<Object> clear() throws SchedulerException {
+		log.info("## clear");
+		log.info("\t > before clearing, scheduled jobs = {}", scheduler.getJobKeys(GroupMatcher.anyJobGroup()));
+		scheduler.clear();
+		log.info("\t > after clearing, scheduled jobs = {}", scheduler.getJobKeys(GroupMatcher.anyJobGroup()));
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 
-	@GetMapping("/start/{jobType}")
-	public ResponseEntity<Object> start(@PathVariable String jobType) throws SchedulerException {
+	@GetMapping("/start")
+	public ResponseEntity<Object> start() throws SchedulerException {
 		log.info("## start");
-		log.info("\t > jobType = {}", jobType);
+		scheduler.start();
+		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
+	}
+	
+	@GetMapping("/schedule/{jobType}")
+	public ResponseEntity<Object> schedule(@PathVariable String jobType) throws SchedulerException {
+		log.info("## schedule");
+		scheduler.clear();
 		
 		if ("a".equals(jobType)) {
-			scheduler.scheduleJob(triggerA);
+			scheduler.scheduleJob(jobDetailA, triggerA);
 		} else if ("b".equals(jobType)) {
-			scheduler.scheduleJob(triggerB);
+			scheduler.scheduleJob(jobDetailB, triggerB);
 		} else {
 			log.info("\t > invalid job type: {}", jobType);
 			throw new SchedulerException();
 		}
-		
-		scheduler.start();
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 
