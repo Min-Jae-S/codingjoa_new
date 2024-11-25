@@ -98,9 +98,7 @@
 
 	function start() {
 		console.log("## start");
-		let jobType = $("input[name='job']").val();
-		console.log("jobType = %s", jobType);
-		return;
+		let jobType = $("input[name='job']:checked").val();
 		
 		$.ajax({
 			type : "GET",

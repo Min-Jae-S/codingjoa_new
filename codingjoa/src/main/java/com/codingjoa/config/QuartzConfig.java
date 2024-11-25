@@ -26,9 +26,9 @@ public class QuartzConfig {
 		jobFactory.setApplicationContext(applicationContext);
 		
 		schedulerFactory.setJobFactory(jobFactory);
+		schedulerFactory.setAutoStartup(false);
 		//schedulerFactory.setJobDetails(jobDetail);
 		//schedulerFactory.setTriggers(trigger);
-		schedulerFactory.setAutoStartup(false);
 		
 		return schedulerFactory;
 	}

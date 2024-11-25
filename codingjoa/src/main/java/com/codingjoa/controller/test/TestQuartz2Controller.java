@@ -52,6 +52,9 @@ public class TestQuartz2Controller {
 		log.info("\t   - isInStandbyMode = {}", scheduler.isInStandbyMode());
 		log.info("\t   - isShutdown = {}", scheduler.isShutdown());
 		
+		log.info("\t > triggerA = {}", triggerA);
+		log.info("\t > triggerB = {}", triggerB);
+		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 
@@ -65,6 +68,8 @@ public class TestQuartz2Controller {
 	@GetMapping("/start/{jobType}")
 	public ResponseEntity<Object> start(@PathVariable String jobType) throws SchedulerException {
 		log.info("## start");
+		log.info("\t > jobType = {}", jobType);
+		
 		if ("a".equals(jobType)) {
 			scheduler.scheduleJob(triggerA);
 		} else if ("b".equals(jobType)) {
