@@ -11,11 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.codingjoa.dto.SuccessResponse;
-import com.codingjoa.quartz.Job1;
-import com.codingjoa.quartz.Job2;
 
 import lombok.extern.slf4j.Slf4j;
 
+@SuppressWarnings("unused")
 @Slf4j
 @RequestMapping("/test/quartz2")
 @RestController
@@ -30,12 +29,6 @@ public class TestQuartz2Controller {
 	@Autowired
 	private Scheduler scheduler;
 	
-	@Autowired(required = false)
-	private Job1 job1;
-	
-	@Autowired(required = false)
-	private Job2 job2;
-
 	@GetMapping("/config")
 	public ResponseEntity<Object> config() throws SchedulerException {
 		log.info("## config");
@@ -47,9 +40,6 @@ public class TestQuartz2Controller {
 		log.info("\t   - isStarted = {}", scheduler.isStarted());
 		log.info("\t   - isInStandbyMode = {}", scheduler.isInStandbyMode());
 		log.info("\t   - isShutdown = {}", scheduler.isShutdown());
-		
-		log.info("\t > job1 (Job impl) = {}", job1);
-		log.info("\t > job2 (QuartzJobBean impl) = {}", job2);
 
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}

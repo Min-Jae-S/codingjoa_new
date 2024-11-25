@@ -25,19 +25,16 @@ import lombok.RequiredArgsConstructor;
 public class QuartzConfig {
 
 	@Bean
-	public SchedulerFactoryBean schedulerFactory(ApplicationContext applicationContext, 
-			JobDetail jobDetail, Trigger trigger) {
+	public SchedulerFactoryBean schedulerFactory(ApplicationContext applicationContext) {
 		SchedulerFactoryBean schedulerFactory = new SchedulerFactoryBean();
 
-//		AutowiringSpringBeanJobFactory jobFactory = new AutowiringSpringBeanJobFactory();
-//		jobFactory.setApplicationContext(applicationContext);
-		
+		//AutowiringSpringBeanJobFactory jobFactory = new AutowiringSpringBeanJobFactory();
 		SpringBeanJobFactory jobFactory = new SpringBeanJobFactory();
 		jobFactory.setApplicationContext(applicationContext);
-
+		
 		schedulerFactory.setJobFactory(jobFactory);
-		schedulerFactory.setJobDetails(jobDetail);
-		schedulerFactory.setTriggers(trigger);
+		//schedulerFactory.setJobDetails(jobDetail);
+		//schedulerFactory.setTriggers(trigger);
 		schedulerFactory.setAutoStartup(false);
 		
 		return schedulerFactory;
@@ -60,21 +57,21 @@ public class QuartzConfig {
 				.build();
 	}
 
-//	@Bean
-//	public JobDetail jobDetail2() {
-//		return JobBuilder.newJob(Job2.class)
-//				.withIdentity("jobDetail2", "sampleJobs")
-//				.storeDurably()
-//				.build();
-//	}
-//	
-//	@Bean
-//	public Trigger trigger2() {
-//		return TriggerBuilder.newTrigger()
-//				.forJob(jobDetail2())
-//				.withIdentity("trigger2", "sampleTriggers")
-//				.withSchedule(SimpleScheduleBuilder.repeatSecondlyForever(10))
-//				.build();
-//	}
+	@Bean
+	public JobDetail jobDetail2() {
+		return JobBuilder.newJob(Job2.class)
+				.withIdentity("jobDetail2", "sampleJobs")
+				.storeDurably()
+				.build();
+	}
+	
+	@Bean
+	public Trigger trigger2() {
+		return TriggerBuilder.newTrigger()
+				.forJob(jobDetail2())
+				.withIdentity("trigger2", "sampleTriggers")
+				.withSchedule(SimpleScheduleBuilder.repeatSecondlyForever(10))
+				.build();
+	}
 	
 }
