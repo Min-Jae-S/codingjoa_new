@@ -19,7 +19,6 @@ import lombok.RequiredArgsConstructor;
 
 @SuppressWarnings("unused")
 @ComponentScan("com.codingjoa.quartz")
-@RequiredArgsConstructor
 @Configuration
 public class QuartzConfig {
 
@@ -34,7 +33,7 @@ public class QuartzConfig {
 		schedulerFactory.setJobFactory(jobFactory);
 		schedulerFactory.setJobDetails(jobDetail);
 		schedulerFactory.setTriggers(trigger);
-		schedulerFactory.setAutoStartup(false);
+		//schedulerFactory.setAutoStartup(false); // true
 		
 		return schedulerFactory;
 	}

@@ -48,6 +48,13 @@
 			</exclusions>
 		</dependency>
 		
+		<!-- spring context support (using at mail-support, quartz) -->
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-context-support</artifactId>
+		    <version>${org.springframework-version}</version>
+		</dependency>
+		
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
@@ -321,13 +328,6 @@
 			<version>1.5.6</version>
 		</dependency>
 		
-		<!-- mail support -->
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-context-support</artifactId>
-			<version>${org.springframework-version}</version>
-		</dependency>
-		
 		<!-- thymeleaf(template) -->
 		<dependency>
 			<groupId>org.thymeleaf</groupId>
@@ -404,7 +404,7 @@
 		    <version>1.15.3</version>
 		</dependency>
 		
-		<!-- quartz scheduler -->
+		<!-- spring quartz -->
 		<!-- https://mvnrepository.com/artifact/org.quartz-scheduler/quartz -->
 		<dependency>
 		    <groupId>org.quartz-scheduler</groupId>
@@ -412,6 +412,7 @@
 		    <version>2.3.2</version>
 		</dependency>
 		
+		<!-- spring quartz job -->
 		<!-- https://mvnrepository.com/artifact/org.quartz-scheduler/quartz-jobs --> 
 		<dependency>
 		    <groupId>org.quartz-scheduler</groupId>
@@ -419,13 +420,6 @@
 		    <version>2.3.2</version>
 		</dependency>
 		 
-		<!-- quartz-spring -->
-		<dependency>
-		    <groupId>org.springframework</groupId>
-		    <artifactId>spring-context-support</artifactId>
-		    <version>${org.springframework-version}</version>
-		</dependency>
-		
 	</dependencies>
 	<build>
 		<plugins>

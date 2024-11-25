@@ -1,5 +1,6 @@
 package com.codingjoa.controller.test;
 
+import org.quartz.Job;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,8 +9,11 @@ import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.WebApplicationContext;
 
 import com.codingjoa.dto.SuccessResponse;
+import com.codingjoa.quartz.Job1;
+import com.codingjoa.quartz.Job2;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -17,6 +21,9 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/test/quartz2")
 @RestController
 public class TestQuartz2Controller {
+	
+	@Autowired
+	private WebApplicationContext context;
 	
 	@Autowired
 	private SchedulerFactoryBean schedulerFactory;
@@ -35,6 +42,10 @@ public class TestQuartz2Controller {
 		log.info("\t   - isStarted = {}", scheduler.isStarted());
 		log.info("\t   - isInStandbyMode = {}", scheduler.isInStandbyMode());
 		log.info("\t   - isShutdown = {}", scheduler.isShutdown());
+		
+		log.info("\t > job = {}", context.getBeansOfType(Job.class));
+		log.info("\t > Job impl = {}", context.getBean(Job1.class));
+		log.info("\t > QuartzJob impl = {}", context.getBean(Job2.class));
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
