@@ -30,6 +30,12 @@ public class TestQuartz2Controller {
 
 	@Autowired
 	private Scheduler scheduler;
+	
+	@Autowired
+	private Job1 job1;
+	
+	@Autowired
+	private Job2 job2;
 
 	@GetMapping("/config")
 	public ResponseEntity<Object> config() throws SchedulerException {
@@ -43,9 +49,9 @@ public class TestQuartz2Controller {
 		log.info("\t   - isInStandbyMode = {}", scheduler.isInStandbyMode());
 		log.info("\t   - isShutdown = {}", scheduler.isShutdown());
 		
-		log.info("\t > job = {}", context.getBeansOfType(Job.class));
-		log.info("\t > Job impl = {}", context.getBean(Job1.class));
-		log.info("\t > QuartzJob impl = {}", context.getBean(Job2.class));
+		log.info("\t > jobs = {}", context.getBeansOfType(Job.class));
+		log.info("\t > job1 (Job impl) = {}", job1);
+		log.info("\t > job2 (QuartzJobBean impl) = {}", job2);
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
