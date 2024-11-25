@@ -40,7 +40,24 @@
 	<p>quartz2.jsp</p>
 	<div class="test mt-5 mb-5 px-5">
 		<button class="btn btn-warning btn-lg" onclick="config()">config</button>
-		<button class="btn btn-primary btn-lg" onclick="start()">start</button>
+		<button class="btn btn-warning btn-lg" onclick="current()">executing jobs</button>
+	</div>
+	<div class="test mt-5 mb-5 px-5">
+		<div class="d-flex flex-column">
+			<button class="btn btn-primary btn-lg px-1 mb-2" onclick="start()">
+				<span>start</span>
+			</button>
+			<div class="commit-or-rollback px-3 d-flex justify-content-around">
+				<div class="form-check form-check-inline mr-0">
+				  <input class="form-check-input" type="radio" name="job" id="jobA" value="a" checked>
+				  <label class="form-check-label" for="jobA">JobA</label>
+				</div>
+				<div class="form-check form-check-inline mr-0">
+				  <input class="form-check-input" type="radio" name="job" id="jobB" value="b">
+				  <label class="form-check-label" for="jobB">JobB</label>
+				</div>
+			</div>
+		</div>
 		<button class="btn btn-primary btn-lg" onclick="standby()">standby</button>
 		<button class="btn btn-primary btn-lg" onclick="shutdown()">shutdown</button>
 	</div>
@@ -63,11 +80,31 @@
 		});
 	}
 
-	function start() {
-		console.log("## start");
+	function current() {
+		console.log("## current");
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/quartz2/start",
+			url : "${contextPath}/test/quartz2/current",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log(JSON.stringify(result, null, 2));
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				parseError(jqXHR);
+			}
+		});
+	}
+
+	function start() {
+		console.log("## start");
+		let jobType = $("input[name='job']").val();
+		console.log("jobType = %s", jobType);
+		return;
+		
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/quartz2/start/" + jobType,
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
