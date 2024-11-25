@@ -1,6 +1,5 @@
 package com.codingjoa.controller.test;
 
-import org.quartz.Job;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,10 +30,10 @@ public class TestQuartz2Controller {
 	@Autowired
 	private Scheduler scheduler;
 	
-	@Autowired
+	@Autowired(required = false)
 	private Job1 job1;
 	
-	@Autowired
+	@Autowired(required = false)
 	private Job2 job2;
 
 	@GetMapping("/config")
@@ -49,10 +48,9 @@ public class TestQuartz2Controller {
 		log.info("\t   - isInStandbyMode = {}", scheduler.isInStandbyMode());
 		log.info("\t   - isShutdown = {}", scheduler.isShutdown());
 		
-		log.info("\t > jobs = {}", context.getBeansOfType(Job.class));
 		log.info("\t > job1 (Job impl) = {}", job1);
 		log.info("\t > job2 (QuartzJobBean impl) = {}", job2);
-		
+
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 
