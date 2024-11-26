@@ -13,6 +13,7 @@ import org.quartz.Trigger;
 import org.quartz.TriggerKey;
 import org.quartz.impl.matchers.GroupMatcher;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,16 +41,20 @@ public class TestQuartz2Controller {
 	@Autowired
 	private Scheduler scheduler;
 	
-	@Resource(name = "jobDetailA")
+	@Qualifier("jobDetailA")
+	@Autowired
 	private JobDetail jobDetailA;
 
-	@Resource(name = "jobDetailB")
+	@Qualifier("jobDetailB")
+	@Autowired
 	private JobDetail jobDetailB;
 	
-	@Resource(name = "triggerA")
+	@Qualifier("triggerA")
+	@Autowired
 	private Trigger triggerA;
 	
-	@Resource(name = "triggerB")
+	@Qualifier("triggerB")
+	@Autowired
 	private Trigger triggerB;
 	
 	@GetMapping("/config")
@@ -73,16 +78,16 @@ public class TestQuartz2Controller {
 		Set<JobKey> jobKeys = scheduler.getJobKeys(GroupMatcher.anyJobGroup());
 		if (jobKeys.isEmpty()) {
 			log.info("\t > no scheduled jobs");
-		} else {
-			for (JobKey jobKey : jobKeys) {
-				log.info("\t > job = {}", jobKey);
-				for (Trigger trigger : scheduler.getTriggersOfJob(jobKey)) {
-					TriggerKey triggerKey = trigger.getKey();
-					log.info("\t    - trigger = {}", triggerKey);
-					log.info("\t    - state = {}", scheduler.getTriggerState(triggerKey));
-					log.info("\t    - previous = {}", trigger.getPreviousFireTime());
-					log.info("\t    - next = {}", trigger.getNextFireTime());
-				}
+		}
+		
+		for (JobKey jobKey : jobKeys) {
+			log.info("\t > {}", jobKey);
+			for (Trigger trigger : scheduler.getTriggersOfJob(jobKey)) {
+				TriggerKey triggerKey = trigger.getKey();
+				log.info("\t    - trigger = {}", triggerKey);
+				log.info("\t    - state = {}", scheduler.getTriggerState(triggerKey));
+				log.info("\t    - previous = {}", trigger.getPreviousFireTime());
+				log.info("\t    - next = {}", trigger.getNextFireTime());
 			}
 		}
 		
