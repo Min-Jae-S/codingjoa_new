@@ -26,7 +26,7 @@ public class QuartzConfig {
 		jobFactory.setApplicationContext(applicationContext);
 		
 		schedulerFactory.setJobFactory(jobFactory);
-		schedulerFactory.setAutoStartup(false);
+		schedulerFactory.setAutoStartup(true);
 		//schedulerFactory.setJobDetails(jobDetail);
 		//schedulerFactory.setTriggers(trigger);
 		
@@ -36,7 +36,7 @@ public class QuartzConfig {
 	@Bean
 	public JobDetail jobDetailA() {
 		return JobBuilder.newJob(JobA.class)
-				.withIdentity("jobDetail1", "sampleJobs")
+				.withIdentity("jobA", "myJobs")
 				.storeDurably()
 				.build();
 	}
@@ -45,7 +45,7 @@ public class QuartzConfig {
 	public Trigger triggerA() {
 		return TriggerBuilder.newTrigger()
 				.forJob(jobDetailA())
-				.withIdentity("triggerA", "sampleTriggers")
+				.withIdentity("triggerA", "myTriggers")
 				.withSchedule(SimpleScheduleBuilder.repeatSecondlyForever(10))
 				.build();
 	}
@@ -53,7 +53,7 @@ public class QuartzConfig {
 	@Bean
 	public JobDetail jobDetailB() {
 		return JobBuilder.newJob(JobB.class)
-				.withIdentity("jobDetailB", "sampleJobs")
+				.withIdentity("jobB", "myJobs")
 				.storeDurably()
 				.build();
 	}
@@ -62,7 +62,7 @@ public class QuartzConfig {
 	public Trigger triggerB() {
 		return TriggerBuilder.newTrigger()
 				.forJob(jobDetailB())
-				.withIdentity("triggerB", "sampleTriggers")
+				.withIdentity("triggerB", "myTriggers")
 				.withSchedule(SimpleScheduleBuilder.repeatSecondlyForever(10))
 				.build();
 	}

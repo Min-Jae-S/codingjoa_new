@@ -18,6 +18,7 @@ public class JobA implements Job {
 	@Override
 	public void execute(JobExecutionContext context) throws JobExecutionException {
 		log.info("## {}.executeInternal", this.getClass().getSimpleName());
+		log.info("\t > dataMap = {}", context.getMergedJobDataMap());
 		schedulerService.execute();
 	}
 	
