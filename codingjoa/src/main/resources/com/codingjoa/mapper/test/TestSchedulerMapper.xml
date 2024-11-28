@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.codingjoa.mapper.test.TestSchedulerMapper">
+<!-- 
+    idx     NUMBER,
+    id      VARCHAR2(100)   NOT NULL,
+    pw      VARCHAR2(100)   NOT NULL,
+    CONSTRAINT pk_test5 PRIMARY KEY(idx)
+-->
+	<insert id="insert">
+
+	</insert>
+	
+</mapper>

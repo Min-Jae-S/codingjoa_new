@@ -106,7 +106,11 @@ public class TestQuartz2Controller {
 	@GetMapping("/start")
 	public ResponseEntity<Object> start() throws SchedulerException {
 		log.info("## start");
-		scheduler.start();
+		if (!scheduler.isStarted()) {
+			scheduler.start();
+		} else {
+			log.info("\t > scheduler is already started");
+		}
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 	

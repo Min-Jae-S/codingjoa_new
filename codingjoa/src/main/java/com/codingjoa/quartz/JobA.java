@@ -20,6 +20,7 @@ public class JobA implements Job {
 		log.info("## {}.executeInternal", this.getClass().getSimpleName());
 		log.info("\t > dataMap = {}", context.getMergedJobDataMap());
 		schedulerService.execute();
+		schedulerService.insert();
 	}
 	
 }

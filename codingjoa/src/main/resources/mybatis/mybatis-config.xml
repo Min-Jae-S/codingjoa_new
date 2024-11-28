@@ -54,6 +54,7 @@
 		<!-- test -->
 		<typeAlias type="com.codingjoa.test.TestVo" alias="testVo"/>
 		<typeAlias type="com.codingjoa.test.TestApiResponseData" alias="testApiResponseData"/>
+		<typeAlias type="com.codingjoa.test.TestSchedulerData" alias="testSchedulerData"/>
 		
 		<!-- <typeAlias type="com.codingjoa.mybatis.ClobTypeHandler" alias="clobTypeHandler"/> -->
 	</typeAliases>

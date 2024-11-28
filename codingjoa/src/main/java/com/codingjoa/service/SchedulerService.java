@@ -4,4 +4,6 @@ public interface SchedulerService {
 	
 	void execute();
 	
+	void insert();
+	
 }
