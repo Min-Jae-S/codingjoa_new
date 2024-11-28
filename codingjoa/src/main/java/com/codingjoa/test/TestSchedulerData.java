@@ -8,6 +8,6 @@ import lombok.Data;
 public class TestSchedulerData {
 
 	private String id;
-	private String pw;
+	private String timestamp;
 	
 }

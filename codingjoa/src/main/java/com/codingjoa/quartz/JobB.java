@@ -18,7 +18,7 @@ public class JobB extends QuartzJobBean {
 	@Override
 	protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
 		log.info("## {}.executeInternal", this.getClass().getSimpleName());
-		log.info("\t > dataMap = {}", context.getMergedJobDataMap());
+		//log.info("\t > dataMap = {}", context.getMergedJobDataMap());
 		schedulerService.execute();
 	}
 	
