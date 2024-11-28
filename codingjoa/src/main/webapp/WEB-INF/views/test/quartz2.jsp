@@ -47,7 +47,7 @@
 	<div class="test mt-5 mb-5 px-5">
 		<div class="d-flex flex-column">
 			<button class="btn btn-primary btn-lg px-1 mb-2" onclick="schedule()">
-				<span>schedule</span>
+				<span>schedule job</span>
 			</button>
 			<div class="px-3 d-flex justify-content-around">
 				<div class="form-check form-check-inline mr-0">

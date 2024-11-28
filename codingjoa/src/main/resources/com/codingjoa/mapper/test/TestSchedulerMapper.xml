@@ -4,17 +4,20 @@
 <!-- 
     idx             NUMBER,
     id              VARCHAR2(100)   NOT NULL,
+    job_name		VARCHAR2(20)	NOT NULL,
     timestamp       VARCHAR2(100)   NOT NULL,
     CONSTRAINT pk_test5 PRIMARY KEY(idx)
 -->
 	<insert id="insert">
 		INSERT INTO test5 (
 			idx,
-			id, 
+			id,
+			job_name, 
 			timestamp
 		) VALUES (
 			seq_test5.NEXTVAL, 
-			#{id}
+			#{id},
+			#{jobName},
 			#{timestamp}
 		)
 	</insert>

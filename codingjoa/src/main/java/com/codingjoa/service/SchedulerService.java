@@ -4,6 +4,8 @@ public interface SchedulerService {
 	
 	void execute();
 	
-	void insert();
+	void insert(String jobName);
+	
+	void insertOnException(String jobName);
 	
 }

@@ -117,7 +117,6 @@ public class TestQuartz2Controller {
 	@GetMapping("/schedule/{jobType}")
 	public ResponseEntity<Object> schedule(@PathVariable String jobType) throws SchedulerException {
 		log.info("## schedule");
-		scheduler.clear();
 		
 		if ("a".equals(jobType)) {
 			scheduler.scheduleJob(jobDetailA, triggerA);
@@ -127,6 +126,11 @@ public class TestQuartz2Controller {
 			log.info("\t > invalid job type: {}", jobType);
 			throw new SchedulerException();
 		}
+		
+		if (!scheduler.isStarted()) {
+			scheduler.start();
+		}
+		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 

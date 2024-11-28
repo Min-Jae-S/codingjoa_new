@@ -30,22 +30,41 @@ public class SchedulerServiceImpl implements SchedulerService {
 
 	@Transactional
 	@Override
-	public void insert() {
+	public void insert(String jobName) {
 		log.info("## {}.insert", this.getClass().getSimpleName());
 		log.info("\t > transaction active = {}", TransactionSynchronizationManager.isActualTransactionActive());
 		
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-		String timestamp = LocalDateTime.now().format(formatter);
-		String id = "smj" + RandomStringUtils.randomNumeric(4);
-		
-		TestSchedulerData sampleData = TestSchedulerData.builder()
-				.id(id)
-				.timestamp(timestamp)
-				.build();
+		TestSchedulerData sampleData = createSampleData(jobName);
 		log.info("\t > sampleData = {}", sampleData);
 		
 		int result = testSchedulerMapper.insert(sampleData);
 		log.info("\t > result = {}", result);
+	}
+	
+	@Transactional
+	@Override
+	public void insertOnException(String jobName) {
+		log.info("## {}.insertOnException", this.getClass().getSimpleName());
+		log.info("\t > transaction active = {}", TransactionSynchronizationManager.isActualTransactionActive());
+		
+		TestSchedulerData sampleData = createSampleData(jobName);
+		log.info("\t > sampleData = {}", sampleData);
+		
+		int result = testSchedulerMapper.insert(sampleData);
+		log.info("\t > result = {}", result);
+		
+		log.info("\t > thorw runtime exception");
+		throw new RuntimeException("insertOnException");
+	}
+	
+	private TestSchedulerData createSampleData(String jobName) {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		String timestamp = LocalDateTime.now().format(formatter);
+		return TestSchedulerData.builder()
+				.id("smj" + RandomStringUtils.randomNumeric(4))
+				.jobName(jobName)
+				.timestamp(timestamp)
+				.build();
 	}
 	
 }
