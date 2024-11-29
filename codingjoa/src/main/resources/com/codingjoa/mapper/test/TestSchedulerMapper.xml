@@ -22,4 +22,8 @@
 		)
 	</insert>
 	
+	<select id="findSampleData" resultType="testSchedulerData">
+	
+	</select>
+	
 </mapper>

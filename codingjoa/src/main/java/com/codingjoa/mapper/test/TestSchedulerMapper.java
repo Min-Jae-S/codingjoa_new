@@ -1,5 +1,7 @@
 package com.codingjoa.mapper.test;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import com.codingjoa.test.TestSchedulerData;
@@ -8,5 +10,7 @@ import com.codingjoa.test.TestSchedulerData;
 public interface TestSchedulerMapper {
 	
 	int insert(TestSchedulerData testSchedulerData);
+	
+	List<TestSchedulerData> findSampleData();
 	
 }

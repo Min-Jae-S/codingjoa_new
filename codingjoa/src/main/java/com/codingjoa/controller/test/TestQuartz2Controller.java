@@ -115,8 +115,8 @@ public class TestQuartz2Controller {
 	}
 	
 	@GetMapping("/schedule/{jobType}")
-	public ResponseEntity<Object> schedule(@PathVariable String jobType) throws SchedulerException {
-		log.info("## schedule");
+	public ResponseEntity<Object> scheduleJob(@PathVariable String jobType) throws SchedulerException {
+		log.info("## scheduleJob");
 		
 		if ("a".equals(jobType)) {
 			scheduler.scheduleJob(jobDetailA, triggerA);

@@ -2,6 +2,7 @@ package com.codingjoa.service.impl;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Service;
@@ -65,6 +66,11 @@ public class SchedulerServiceImpl implements SchedulerService {
 				.jobName(jobName)
 				.timestamp(timestamp)
 				.build();
+	}
+
+	@Override
+	public List<TestSchedulerData> getSampleData() {
+		return null;
 	}
 	
 }

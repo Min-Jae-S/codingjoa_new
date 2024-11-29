@@ -31,10 +31,12 @@ public class JobB extends QuartzJobBean {
 				.map(boardImage -> boardImage.getBoardImageIdx())
 				.sorted()
 				.collect(Collectors.toList());
+		
 		List<Integer> tempMemberImageIndexs = imageMapper.findTempMemberImages().stream()
 				.map(memberImage -> memberImage.getMemberImageIdx())
 				.sorted()
 				.collect(Collectors.toList());
+		
 		log.info("\t > tempBoardImages = {}, tempMemberImages = {}", tempBoardImageIndexs, tempMemberImageIndexs);
 	}
 }

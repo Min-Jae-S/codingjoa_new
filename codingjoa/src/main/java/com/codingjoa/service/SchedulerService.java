@@ -1,5 +1,9 @@
 package com.codingjoa.service;
 
+import java.util.List;
+
+import com.codingjoa.test.TestSchedulerData;
+
 public interface SchedulerService {
 	
 	void execute();
@@ -7,5 +11,7 @@ public interface SchedulerService {
 	void insert(String jobName);
 	
 	void insertOnException(String jobName);
+	
+	List<TestSchedulerData> getSampleData();
 	
 }
