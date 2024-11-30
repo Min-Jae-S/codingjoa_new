@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -120,10 +121,30 @@ public class TestQuartz2Controller {
 	}
 
 	@GetMapping("/sample-data")
-	public ResponseEntity<Object> getSampleData() throws SchedulerException {
+	public ResponseEntity<Object> getSampleData() {
 		log.info("## getSampleData");
 		List<TestSchedulerData> samapleData = schedulerService.getSampleData();
-		log.info("\t > sampleData = {}", samapleData);
+		samapleData.forEach(testSchedulerData -> {
+			log.info("\t > id = {}, jobName = {}, timestamp = {}", 
+					testSchedulerData.getId(), testSchedulerData.getJobName(), testSchedulerData.getTimestamp());
+		});
+		
+		SuccessResponse response = SuccessResponse.builder()
+				.data(samapleData)
+				.message("success")
+				.build();
+		
+		return ResponseEntity.ok(SuccessResponse.builder().data(response).build());
+	}
+
+	@DeleteMapping("/sample-data")
+	public ResponseEntity<Object> deleteSampleData() {
+		log.info("## deleteSampleData");
+		List<TestSchedulerData> samapleData = schedulerService.getSampleData();
+		samapleData.forEach(testSchedulerData -> {
+			log.info("\t > id = {}, jobName = {}, timestamp = {}", 
+					testSchedulerData.getId(), testSchedulerData.getJobName(), testSchedulerData.getTimestamp());
+		});
 		
 		SuccessResponse response = SuccessResponse.builder()
 				.data(samapleData)

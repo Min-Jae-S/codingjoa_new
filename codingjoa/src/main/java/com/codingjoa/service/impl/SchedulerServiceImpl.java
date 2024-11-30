@@ -38,7 +38,7 @@ public class SchedulerServiceImpl implements SchedulerService {
 		TestSchedulerData sampleData = createSampleData(jobName);
 		log.info("\t > sampleData = {}", sampleData);
 		
-		int result = testSchedulerMapper.insert(sampleData);
+		int result = testSchedulerMapper.insertSampleData(sampleData);
 		log.info("\t > result = {}", result);
 	}
 	
@@ -51,7 +51,7 @@ public class SchedulerServiceImpl implements SchedulerService {
 		TestSchedulerData sampleData = createSampleData(jobName);
 		log.info("\t > sampleData = {}", sampleData);
 		
-		int result = testSchedulerMapper.insert(sampleData);
+		int result = testSchedulerMapper.insertSampleData(sampleData);
 		log.info("\t > result = {}", result);
 		
 		log.info("\t > thorw runtime exception");
@@ -71,6 +71,12 @@ public class SchedulerServiceImpl implements SchedulerService {
 	@Override
 	public List<TestSchedulerData> getSampleData() {
 		return testSchedulerMapper.findSampleData();
+	}
+
+	@Override
+	public void deleteSampleData() {
+		int result = testSchedulerMapper.deleteSampleData();
+		log.info("\t > result = {}", result);
 	}
 	
 }

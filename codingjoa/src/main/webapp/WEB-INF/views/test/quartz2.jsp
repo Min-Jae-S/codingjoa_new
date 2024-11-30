@@ -151,6 +151,22 @@
 		});
 	}
 
+	function deleteSampleData() {
+		console.log("## deleteSampleData");
+		$.ajax({
+			type : "DELETE",
+			url : "${contextPath}/test/quartz2/sample-data",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log(JSON.stringify(result, null, 2));
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				parseError(jqXHR);
+			}
+		});
+	}
+
 	function schedule() {
 		console.log("## schedule");
 		let jobType = $("input[name='job']:checked").val();

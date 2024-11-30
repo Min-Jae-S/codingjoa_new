@@ -14,4 +14,6 @@ public interface SchedulerService {
 	
 	List<TestSchedulerData> getSampleData();
 	
+	void deleteSampleData();
+	
 }
