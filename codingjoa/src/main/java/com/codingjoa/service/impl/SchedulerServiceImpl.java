@@ -70,7 +70,7 @@ public class SchedulerServiceImpl implements SchedulerService {
 
 	@Override
 	public List<TestSchedulerData> getSampleData() {
-		return null;
+		return testSchedulerMapper.findSampleData();
 	}
 	
 }

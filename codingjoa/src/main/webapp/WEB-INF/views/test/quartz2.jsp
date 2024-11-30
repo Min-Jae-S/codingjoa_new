@@ -43,6 +43,7 @@
 		<button class="btn btn-warning btn-lg" onclick="currentJobs()">current jobs</button>
 		<button class="btn btn-warning btn-lg" onclick="clearScheduler()">clear</button>
 		<button class="btn btn-warning btn-lg" onclick="start()">start</button>
+		<button class="btn btn-warning btn-lg" onclick="getSampleData(()">sample</button>
 	</div>
 	<div class="test mt-5 mb-5 px-5">
 		<div class="d-flex flex-column">
@@ -123,6 +124,22 @@
 		$.ajax({
 			type : "GET",
 			url : "${contextPath}/test/quartz2/start",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log(JSON.stringify(result, null, 2));
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				parseError(jqXHR);
+			}
+		});
+	}
+	
+	function getSampleData() {
+		console.log("## getSampleData");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/quartz2/sample-data",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));

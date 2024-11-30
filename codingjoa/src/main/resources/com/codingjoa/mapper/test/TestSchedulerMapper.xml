@@ -23,7 +23,7 @@
 	</insert>
 	
 	<select id="findSampleData" resultType="testSchedulerData">
-	
+		SELECT * FROM test5
 	</select>
 	
 </mapper>

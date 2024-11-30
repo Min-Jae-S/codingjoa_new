@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.codingjoa.dto.SuccessResponse;
+import com.codingjoa.service.SchedulerService;
+import com.codingjoa.test.TestSchedulerData;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -56,6 +58,9 @@ public class TestQuartz2Controller {
 	@Qualifier("triggerB")
 	@Autowired
 	private Trigger triggerB;
+	
+	@Autowired
+	private SchedulerService schedulerService;
 	
 	@GetMapping("/config")
 	public ResponseEntity<Object> config() throws SchedulerException {
@@ -112,6 +117,20 @@ public class TestQuartz2Controller {
 			log.info("\t > scheduler is already started");
 		}
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
+	}
+
+	@GetMapping("/sample-data")
+	public ResponseEntity<Object> getSampleData() throws SchedulerException {
+		log.info("## getSampleData");
+		List<TestSchedulerData> samapleData = schedulerService.getSampleData();
+		log.info("\t > sampleData = {}", samapleData);
+		
+		SuccessResponse response = SuccessResponse.builder()
+				.data(samapleData)
+				.message("success")
+				.build();
+		
+		return ResponseEntity.ok(SuccessResponse.builder().data(response).build());
 	}
 	
 	@GetMapping("/schedule/{jobType}")
