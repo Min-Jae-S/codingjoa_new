@@ -157,7 +157,6 @@ public class TestQuartz2Controller {
 	@GetMapping("/schedule/{jobType}")
 	public ResponseEntity<Object> scheduleJob(@PathVariable String jobType) throws SchedulerException {
 		log.info("## scheduleJob");
-		
 		if ("a".equals(jobType)) {
 			scheduler.scheduleJob(jobDetailA, triggerA);
 		} else if ("b".equals(jobType)) {
@@ -177,7 +176,6 @@ public class TestQuartz2Controller {
 	@GetMapping("/standby")
 	public ResponseEntity<Object> standby() throws SchedulerException {
 		log.info("## standby");
-		
 		if (!scheduler.isInStandbyMode()) {
 			scheduler.standby();
 		}
@@ -188,7 +186,6 @@ public class TestQuartz2Controller {
 	@GetMapping("/shutdown")
 	public ResponseEntity<Object> shutdown() throws SchedulerException {
 		log.info("## shutdown");
-		
 		if (!scheduler.isShutdown()) {
 			scheduler.shutdown();
 		}
