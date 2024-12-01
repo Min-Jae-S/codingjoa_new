@@ -177,14 +177,21 @@ public class TestQuartz2Controller {
 	@GetMapping("/standby")
 	public ResponseEntity<Object> standby() throws SchedulerException {
 		log.info("## standby");
-		scheduler.standby();
+		
+		if (!scheduler.isInStandbyMode()) {
+			scheduler.standby();
+		}
+		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 
 	@GetMapping("/shutdown")
 	public ResponseEntity<Object> shutdown() throws SchedulerException {
 		log.info("## shutdown");
-		scheduler.shutdown();
+		
+		if (!scheduler.isShutdown()) {
+			scheduler.shutdown();
+		}
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 }

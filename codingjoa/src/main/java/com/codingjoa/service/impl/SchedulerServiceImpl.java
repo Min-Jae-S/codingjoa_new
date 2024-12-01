@@ -68,13 +68,20 @@ public class SchedulerServiceImpl implements SchedulerService {
 				.build();
 	}
 
+	@Transactional(readOnly = true)
 	@Override
 	public List<TestSchedulerData> getSampleData() {
+		log.info("## {}.getSampleData", this.getClass().getSimpleName());
+		log.info("\t > transaction active = {}", TransactionSynchronizationManager.isActualTransactionActive());
 		return testSchedulerMapper.findSampleData();
 	}
 
+	@Transactional
 	@Override
 	public void deleteSampleData() {
+		log.info("## {}.deleteSampleData", this.getClass().getSimpleName());
+		log.info("\t > transaction active = {}", TransactionSynchronizationManager.isActualTransactionActive());
+		
 		int result = testSchedulerMapper.deleteSampleData();
 		log.info("\t > result = {}", result);
 	}
