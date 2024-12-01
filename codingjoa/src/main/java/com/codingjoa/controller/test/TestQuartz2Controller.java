@@ -5,11 +5,14 @@ import java.util.Set;
 
 import javax.annotation.Resource;
 
+import org.quartz.JobBuilder;
 import org.quartz.JobDetail;
 import org.quartz.JobKey;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
+import org.quartz.SimpleScheduleBuilder;
 import org.quartz.Trigger;
+import org.quartz.TriggerBuilder;
 import org.quartz.TriggerKey;
 import org.quartz.impl.matchers.GroupMatcher;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.codingjoa.dto.SuccessResponse;
+import com.codingjoa.quartz.JobC;
 import com.codingjoa.service.SchedulerService;
 import com.codingjoa.test.TestSchedulerData;
 
@@ -198,9 +202,23 @@ public class TestQuartz2Controller {
 	}
 
 	@GetMapping("/test1")
-	public ResponseEntity<Object> test1(@RequestParam String id) {
+	public ResponseEntity<Object> test1(@RequestParam String id) throws SchedulerException {
 		log.info("## test1");
 		log.info("\t > id = {}", id);
+		
+		JobDetail job = JobBuilder.newJob(JobC.class)
+				.withIdentity("jobC", "myJobs")
+				.usingJobData("id", id)
+				.storeDurably()
+				.build();
+		
+		Trigger trigger = TriggerBuilder.newTrigger()
+				.forJob(job)
+				.withIdentity("triggerB", "myTriggers")
+				.withSchedule(SimpleScheduleBuilder.repeatSecondlyForever(10))
+				.build();
+		
+		scheduler.scheduleJob(job, trigger);
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
