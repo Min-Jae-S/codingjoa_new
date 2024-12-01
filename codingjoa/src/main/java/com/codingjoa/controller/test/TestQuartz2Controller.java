@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -59,6 +60,10 @@ public class TestQuartz2Controller {
 	@Qualifier("triggerB")
 	@Autowired
 	private Trigger triggerB;
+
+	@Qualifier("triggerC")
+	@Autowired
+	private Trigger triggerC;
 	
 	@Autowired
 	private SchedulerService schedulerService;
@@ -191,4 +196,13 @@ public class TestQuartz2Controller {
 		}
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
+
+	@GetMapping("/test1")
+	public ResponseEntity<Object> test1(@RequestParam String id) {
+		log.info("## test1");
+		log.info("\t > id = {}", id);
+		
+		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
+	}
+
 }

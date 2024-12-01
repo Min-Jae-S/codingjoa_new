@@ -34,12 +34,27 @@ public class SchedulerServiceImpl implements SchedulerService {
 	@Transactional
 	@Override
 	public void insert(String jobName) {
-		log.info("## {}.insert", this.getClass().getSimpleName());
+		log.info("## {}.insert(String)", this.getClass().getSimpleName());
 		log.info("\t > transaction active = {}", TransactionSynchronizationManager.isActualTransactionActive());
 		log.info("\t > transaciton isolation level = {}", TransactionSynchronizationManager.getCurrentTransactionIsolationLevel());
 		log.info("\t > transaciton name = {}", TransactionSynchronizationManager.getCurrentTransactionName());
 		
 		TestSchedulerData sampleData = createSampleData(jobName);
+		log.info("\t > sampleData = {}", sampleData);
+		
+		int result = testSchedulerMapper.insertSampleData(sampleData);
+		log.info("\t > result = {}", result);
+	}
+	
+	@Transactional
+	@Override
+	public void insert(String jobName, String id) {
+		log.info("## {}.insert(String, String)", this.getClass().getSimpleName());
+		log.info("\t > transaction active = {}", TransactionSynchronizationManager.isActualTransactionActive());
+		log.info("\t > transaciton isolation level = {}", TransactionSynchronizationManager.getCurrentTransactionIsolationLevel());
+		log.info("\t > transaciton name = {}", TransactionSynchronizationManager.getCurrentTransactionName());
+		
+		TestSchedulerData sampleData = createSampleData(jobName, id);
 		log.info("\t > sampleData = {}", sampleData);
 		
 		int result = testSchedulerMapper.insertSampleData(sampleData);
@@ -74,6 +89,16 @@ public class SchedulerServiceImpl implements SchedulerService {
 				.build();
 	}
 
+	private TestSchedulerData createSampleData(String jobName, String id) {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		String timestamp = LocalDateTime.now().format(formatter);
+		return TestSchedulerData.builder()
+				.id(id)
+				.jobName(jobName)
+				.timestamp(timestamp)
+				.build();
+	}
+
 	@Transactional(readOnly = true)
 	@Override
 	public List<TestSchedulerData> getSampleData() {
@@ -95,5 +120,7 @@ public class SchedulerServiceImpl implements SchedulerService {
 		int result = testSchedulerMapper.deleteSampleData();
 		log.info("\t > result = {}", result);
 	}
+
+	
 	
 }

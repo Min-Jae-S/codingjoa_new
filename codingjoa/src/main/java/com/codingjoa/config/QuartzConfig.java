@@ -66,5 +66,13 @@ public class QuartzConfig {
 				.withSchedule(SimpleScheduleBuilder.repeatSecondlyForever(10))
 				.build();
 	}
+
+	@Bean
+	public Trigger triggerC() {
+		return TriggerBuilder.newTrigger()
+				.withIdentity("triggerC", "myTriggers")
+				.withSchedule(SimpleScheduleBuilder.repeatSecondlyForever(10))
+				.build();
+	}
 	
 }
