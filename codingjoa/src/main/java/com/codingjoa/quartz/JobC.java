@@ -22,7 +22,7 @@ public class JobC implements Job {
 		String jobName = context.getJobDetail().getKey().getName();
 		log.info("\t > jobName = {}", jobName);
 		
-		String id = (String) context.getMergedJobDataMap().get("id");
+		String id = context.getMergedJobDataMap().getString("id");
 		log.info("\t > id = {}", id);
 		
 		schedulerService.insert(jobName, id);

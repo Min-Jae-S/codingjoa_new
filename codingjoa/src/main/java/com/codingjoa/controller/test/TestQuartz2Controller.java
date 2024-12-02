@@ -1,6 +1,7 @@
 package com.codingjoa.controller.test;
 
-import java.util.ArrayList;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -31,7 +32,6 @@ import com.codingjoa.quartz.JobC;
 import com.codingjoa.service.SchedulerService;
 import com.codingjoa.test.TestSchedulerData;
 
-import io.jsonwebtoken.lang.Collections;
 import lombok.extern.slf4j.Slf4j;
 
 @SuppressWarnings("unused")
@@ -91,25 +91,29 @@ public class TestQuartz2Controller {
 			log.info("\t > no scheduled jobs");
 		}
 		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		for (JobKey jobKey : jobKeys) {
 			log.info("\t > {}", jobKey);
 			for (Trigger trigger : scheduler.getTriggersOfJob(jobKey)) {
 				TriggerKey triggerKey = trigger.getKey();
 				log.info("\t    - trigger = {}", triggerKey);
 				log.info("\t    - state = {}", scheduler.getTriggerState(triggerKey));
-				log.info("\t    - previous = {}", trigger.getPreviousFireTime());
-				log.info("\t    - next = {}", trigger.getNextFireTime());
+				
+				Date previousFireTime = trigger.getPreviousFireTime();
+				Date nextFireTime = trigger.getNextFireTime();
+				log.info("\t    - previous = {}", sdf.format(previousFireTime));
+				log.info("\t    - next = {}", sdf.format(nextFireTime));
 			}
 		}
 		
 		SuccessResponse response = SuccessResponse.builder()
-				.data(new ArrayList<>(jobKeys))
+				.data(jobKeys)
 				.message("success")
 				.build();
 		
 		return ResponseEntity.ok(response);
 	}
-
+	
 	@GetMapping("/clear")
 	public ResponseEntity<Object> clear() throws SchedulerException {
 		log.info("## clear");
