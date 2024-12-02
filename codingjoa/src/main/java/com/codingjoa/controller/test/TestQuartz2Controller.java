@@ -236,7 +236,6 @@ public class TestQuartz2Controller {
 //				.build();
 //		
 //		scheduler.scheduleJob(alarmJob, alarmTrigger);
-		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 

@@ -71,17 +71,17 @@
 	</div>
 	<div class="test mt-5 mb-5 px-5">
 		<div class="input-group mb-3">
-  			<div class="input-group-prepend">
+  			<input type="text" class="form-control" id="test1Input"/>
+  			<div class="input-group-append">
     			<button class="btn btn-primary btn-lg" type="button" onclick="test1()">test1</button>
   			</div>
-  			<input type="text" class="form-control" id="test1Input"/>
 		</div>
 	</div>
 	<form id="alarmForm">
 	<div class="test mt-5 mb-5 px-5">
-		<button type="submit" class="btn btn-primary btn-lg">schedule alarm</button>
-		<input class="form-control w-25" type="time" name="time">
 		<input class="form-control w-50" type="text" name="message">
+		<input class="form-control w-25" type="time" name="time">
+		<button type="submit" class="btn btn-primary btn-lg">schedule alarm</button>
 		<button type="reset" class="btn btn-secondary btn-lg">reset</button>
 	</div>
 	</form>
