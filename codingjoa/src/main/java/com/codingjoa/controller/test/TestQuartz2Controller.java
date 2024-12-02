@@ -3,8 +3,6 @@ package com.codingjoa.controller.test;
 import java.util.List;
 import java.util.Set;
 
-import javax.annotation.Resource;
-
 import org.quartz.JobBuilder;
 import org.quartz.JobDetail;
 import org.quartz.JobKey;
@@ -31,7 +29,6 @@ import com.codingjoa.dto.SuccessResponse;
 import com.codingjoa.quartz.JobC;
 import com.codingjoa.service.SchedulerService;
 import com.codingjoa.test.TestSchedulerData;
-import com.codingjoa.util.FormatUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -126,30 +123,30 @@ public class TestQuartz2Controller {
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 
-	@GetMapping("/sample-data")
-	public ResponseEntity<Object> getSampleData() {
-		log.info("## getSampleData");
-		List<TestSchedulerData> samapleData = schedulerService.getSampleData();
-		samapleData.forEach(testSchedulerData -> log.info("\t > {}", testSchedulerData));
+	@GetMapping("/samples")
+	public ResponseEntity<Object> getSamples() {
+		log.info("## getSamples");
+		List<TestSchedulerData> samples = schedulerService.getSamples();
+		samples.forEach(testSchedulerData -> log.info("\t > {}", testSchedulerData));
 		
 		SuccessResponse response = SuccessResponse.builder()
-				.data(samapleData)
+				.data(samples)
 				.message("success")
 				.build();
 		
 		return ResponseEntity.ok(response);
 	}
 
-	@DeleteMapping("/sample-data")
-	public ResponseEntity<Object> deleteSampleData() {
-		log.info("## deleteSampleData");
-		schedulerService.deleteSampleData();
+	@DeleteMapping("/samples")
+	public ResponseEntity<Object> deleteSamples() {
+		log.info("## deleteSamples");
+		schedulerService.deleteSamples();
 		
-		List<TestSchedulerData> samapleData = schedulerService.getSampleData();
-		samapleData.forEach(testSchedulerData -> log.info("\t > {}", testSchedulerData));
+		List<TestSchedulerData> samples = schedulerService.getSamples();
+		samples.forEach(testSchedulerData -> log.info("\t > {}", testSchedulerData));
 		
 		SuccessResponse response = SuccessResponse.builder()
-				.data(samapleData)
+				.data(samples)
 				.message("success")
 				.build();
 		
@@ -197,7 +194,7 @@ public class TestQuartz2Controller {
 	@GetMapping("/test1")
 	public ResponseEntity<Object> test1(@RequestParam String id) throws SchedulerException {
 		log.info("## test1");
-		log.info("\t > id = {}", FormatUtils.formatString(id));
+		log.info("\t > id = {}", id);
 		
 		JobDetail job = JobBuilder.newJob(JobC.class)
 				.withIdentity("jobC", "myJobs")

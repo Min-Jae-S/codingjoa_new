@@ -26,5 +26,4 @@ public class TestSchedulerData {
 		return "idx=" + idx + ", id=" + id + ", jobName=" + jobName + ", timestamp=" + timestamp;
 	}
 	
-	
 }

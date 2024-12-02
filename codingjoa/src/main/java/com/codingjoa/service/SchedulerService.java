@@ -14,8 +14,8 @@ public interface SchedulerService {
 	
 	void insertOnException(String jobName);
 	
-	List<TestSchedulerData> getSampleData();
+	List<TestSchedulerData> getSamples();
 	
-	void deleteSampleData();
+	void deleteSamples();
 	
 }

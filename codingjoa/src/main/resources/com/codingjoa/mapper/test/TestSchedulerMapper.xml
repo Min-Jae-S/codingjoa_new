@@ -8,7 +8,7 @@
     timestamp       VARCHAR2(100)   NOT NULL,
     CONSTRAINT pk_test5 PRIMARY KEY(idx)
 -->
-	<insert id="insertSampleData">
+	<insert id="insertSample">
 		INSERT INTO test5 (
 			idx,
 			id,
@@ -22,12 +22,12 @@
 		)
 	</insert>
 	
-	<select id="findSampleData" resultType="testSchedulerData">
-		SELECT * FROM test5
+	<select id="findSamples" resultType="testSchedulerData">
+		SELECT * FROM test5 ORDER BY idx DESC
 	</select>
 	
-	<delete id="deleteSampleData">
-		DELETE * FROM test5
+	<delete id="deleteSamples">
+		DELETE FROM test5
 	</delete>
 	
 </mapper>

@@ -39,10 +39,10 @@ public class SchedulerServiceImpl implements SchedulerService {
 				TransactionSynchronizationManager.isActualTransactionActive(), 
 				TransactionSynchronizationManager.getCurrentTransactionIsolationLevel());
 		
-		TestSchedulerData sampleData = createSampleData(jobName);
-		log.info("\t > sampleData = {}", sampleData);
+		TestSchedulerData sample = createSample(jobName);
+		log.info("\t > sample = {}", sample);
 		
-		int result = testSchedulerMapper.insertSampleData(sampleData);
+		int result = testSchedulerMapper.insertSample(sample);
 		log.info("\t > result = {}", result);
 	}
 	
@@ -54,10 +54,10 @@ public class SchedulerServiceImpl implements SchedulerService {
 				TransactionSynchronizationManager.isActualTransactionActive(), 
 				TransactionSynchronizationManager.getCurrentTransactionIsolationLevel());
 		
-		TestSchedulerData sampleData = createSampleData(jobName, id);
-		log.info("\t > sampleData = {}", sampleData);
+		TestSchedulerData sample = createSample(jobName, id);
+		log.info("\t > sample = {}", sample);
 		
-		int result = testSchedulerMapper.insertSampleData(sampleData);
+		int result = testSchedulerMapper.insertSample(sample);
 		log.info("\t > result = {}", result);
 	}
 	
@@ -69,17 +69,17 @@ public class SchedulerServiceImpl implements SchedulerService {
 				TransactionSynchronizationManager.isActualTransactionActive(), 
 				TransactionSynchronizationManager.getCurrentTransactionIsolationLevel());
 		
-		TestSchedulerData sampleData = createSampleData(jobName);
-		log.info("\t > sampleData = {}", sampleData);
+		TestSchedulerData sample = createSample(jobName);
+		log.info("\t > sample = {}", sample);
 		
-		int result = testSchedulerMapper.insertSampleData(sampleData);
+		int result = testSchedulerMapper.insertSample(sample);
 		log.info("\t > result = {}", result);
 		
 		log.info("\t > thorw runtime exception");
 		throw new RuntimeException("insertOnException");
 	}
 	
-	private TestSchedulerData createSampleData(String jobName) {
+	private TestSchedulerData createSample(String jobName) {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 		String timestamp = LocalDateTime.now().format(formatter);
 		return TestSchedulerData.builder()
@@ -89,7 +89,7 @@ public class SchedulerServiceImpl implements SchedulerService {
 				.build();
 	}
 
-	private TestSchedulerData createSampleData(String jobName, String id) {
+	private TestSchedulerData createSample(String jobName, String id) {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 		String timestamp = LocalDateTime.now().format(formatter);
 		return TestSchedulerData.builder()
@@ -101,26 +101,24 @@ public class SchedulerServiceImpl implements SchedulerService {
 
 	@Transactional(readOnly = true)
 	@Override
-	public List<TestSchedulerData> getSampleData() {
-		log.info("## {}.getSampleData", this.getClass().getSimpleName());
+	public List<TestSchedulerData> getSamples() {
+		log.info("## {}.getSamples", this.getClass().getSimpleName());
 		log.info("\t > transaction info (active = {}, isolation level = {})", 
 				TransactionSynchronizationManager.isActualTransactionActive(), 
 				TransactionSynchronizationManager.getCurrentTransactionIsolationLevel());
-		return testSchedulerMapper.findSampleData();
+		return testSchedulerMapper.findSamples();
 	}
 
 	@Transactional
 	@Override
-	public void deleteSampleData() {
-		log.info("## {}.deleteSampleData", this.getClass().getSimpleName());
+	public void deleteSamples() {
+		log.info("## {}.deleteSamples", this.getClass().getSimpleName());
 		log.info("\t > transaction info (active = {}, isolation level = {})", 
 				TransactionSynchronizationManager.isActualTransactionActive(), 
 				TransactionSynchronizationManager.getCurrentTransactionIsolationLevel());
 		
-		int result = testSchedulerMapper.deleteSampleData();
+		int result = testSchedulerMapper.deleteSamples();
 		log.info("\t > result = {}", result);
 	}
-
-	
 	
 }

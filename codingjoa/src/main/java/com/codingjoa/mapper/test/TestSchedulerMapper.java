@@ -9,10 +9,10 @@ import com.codingjoa.test.TestSchedulerData;
 @Mapper
 public interface TestSchedulerMapper {
 	
-	int insertSampleData(TestSchedulerData testSchedulerData);
+	int insertSample(TestSchedulerData sample);
 	
-	List<TestSchedulerData> findSampleData();
+	List<TestSchedulerData> findSamples();
 	
-	int deleteSampleData();
+	int deleteSamples();
 	
 }

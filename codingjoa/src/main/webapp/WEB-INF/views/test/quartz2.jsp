@@ -41,8 +41,8 @@
 	<div class="test mt-5 mb-5 px-5">
 		<button class="btn btn-warning btn-lg" onclick="config()">config</button>
 		<button class="btn btn-warning btn-lg" onclick="currentJobs()">current jobs</button>
-		<button class="btn btn-warning btn-lg" onclick="getSampleData()">get samples</button>
-		<button class="btn btn-warning btn-lg" onclick="deleteSampleData()">delete samples</button>
+		<button class="btn btn-warning btn-lg" onclick="getSample()">get samples</button>
+		<button class="btn btn-warning btn-lg" onclick="deleteSamples()">delete samples</button>
 	</div>
 	<div class="test mt-5 mb-5 px-5">
 		<button class="btn btn-warning btn-lg" onclick="start()">start</button>
@@ -52,7 +52,7 @@
 	</div>
 	<div class="test mt-5 mb-5 px-5">
 		<div class="d-flex flex-column">
-			<button class="btn btn-primary btn-lg px-1 mb-2" onclick="schedule()">
+			<button class="btn btn-primary btn-lg px-1 mb-2" onclick="scheduleJob()">
 				<span>schedule job</span>
 			</button>
 			<div class="px-3 d-flex justify-content-around">
@@ -143,11 +143,11 @@
 		});
 	}
 	
-	function getSampleData() {
-		console.log("## getSampleData");
+	function getSamples() {
+		console.log("## getSamples");
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/quartz2/sample-data",
+			url : "${contextPath}/test/quartz2/samples",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
@@ -159,11 +159,11 @@
 		});
 	}
 
-	function deleteSampleData() {
-		console.log("## deleteSampleData");
+	function deleteSamples() {
+		console.log("## deleteSamples");
 		$.ajax({
 			type : "DELETE",
-			url : "${contextPath}/test/quartz2/sample-data",
+			url : "${contextPath}/test/quartz2/samples",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
@@ -175,9 +175,13 @@
 		});
 	}
 
-	function schedule() {
-		console.log("## schedule");
+	function scheduleJob() {
+		console.log("## scheduleJob");
 		let jobType = $("input[name='job']:checked").val();
+		if (jobType == null || jobType == "") {
+			alert("job을 선택하세요.");
+			return;
+		}
 		
 		$.ajax({
 			type : "GET",
@@ -232,7 +236,7 @@
 		
 		// id == null --> id === "undefined"
 		if (id == null || id == "") {
-			alert("id를 입력하세요");
+			alert("id를 입력하세요.");
 			return;
 		}
 		
