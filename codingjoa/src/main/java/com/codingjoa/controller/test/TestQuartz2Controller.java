@@ -22,12 +22,16 @@ import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.codingjoa.dto.SuccessResponse;
+import com.codingjoa.quartz.AlarmDto;
+import com.codingjoa.quartz.AlarmJob;
 import com.codingjoa.quartz.JobC;
 import com.codingjoa.service.SchedulerService;
 import com.codingjoa.test.TestSchedulerData;
@@ -211,6 +215,27 @@ public class TestQuartz2Controller {
 				.build();
 		
 		scheduler.scheduleJob(job, trigger);
+		
+		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
+	}
+
+	@PostMapping("/alarm")
+	public ResponseEntity<Object> scheduleAlarm(@RequestBody AlarmDto alarmDto) throws SchedulerException {
+		log.info("## scheduleAlarm");
+		log.info("\t > alramDto = {}", alarmDto);
+		
+		JobDetail alarmJob = JobBuilder.newJob(AlarmJob.class)
+				.withIdentity("alarmJob", "myJobs")
+				.usingJobData("message", alarmDto.getMessage())
+				.storeDurably()
+				.build();
+		
+		Trigger alarmTrigger = TriggerBuilder.newTrigger()
+				.forJob(alarmJob)
+				.withIdentity("alarmTrigger", "myTriggers")
+				.build();
+		
+		scheduler.scheduleJob(alarmJob, alarmTrigger);
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}

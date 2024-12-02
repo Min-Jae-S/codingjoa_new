@@ -18,4 +18,6 @@ public interface SchedulerService {
 	
 	void deleteSamples();
 	
+	void sendAlarmMessage(String message);
+	
 }

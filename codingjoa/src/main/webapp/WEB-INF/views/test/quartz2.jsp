@@ -75,6 +75,9 @@
   			<input type="text" class="form-control" id="test1Input">
 		</div>
 	</div>
+	<div class="test mt-5 mb-5 px-5">
+		<button class="btn btn-primary btn-lg" onclick="scheduleAlarm()">schedule alarm</button>
+	</div>
 	
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
@@ -243,6 +246,22 @@
 		$.ajax({
 			type : "GET",
 			url : "${contextPath}/test/quartz2/test1?id=" + id,
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log(JSON.stringify(result, null, 2));
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				parseError(jqXHR);
+			}
+		});
+	}
+
+	function scheduleAlarm() {
+		console.log("## scheduleAlarm");
+		$.ajax({
+			type : "POST",
+			url : "${contextPath}/test/quartz2/alarm",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));

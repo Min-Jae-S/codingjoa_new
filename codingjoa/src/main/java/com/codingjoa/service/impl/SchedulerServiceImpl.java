@@ -127,4 +127,9 @@ public class SchedulerServiceImpl implements SchedulerService {
 		testSchedulerMapper.deleteSamples();
 	}
 	
+	@Override
+	public void sendAlarmMessage(String message) {
+		log.info("## {}.sendAlarmMessage", this.getClass().getSimpleName());
+	}
+	
 }

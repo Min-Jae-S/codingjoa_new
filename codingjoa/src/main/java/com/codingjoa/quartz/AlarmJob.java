@@ -11,18 +11,18 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RequiredArgsConstructor
-public class JobA implements Job {
+public class AlarmJob implements Job {
 	
 	private final SchedulerService schedulerService;
-
+	
 	@Override
 	public void execute(JobExecutionContext context) throws JobExecutionException {
 		log.info("## {}.execute", this.getClass().getSimpleName());
 		
-		String jobName = context.getJobDetail().getKey().getName();
-		log.info("\t > jobName = {}", jobName);
+		String message = context.getMergedJobDataMap().getString("message");
+		log.info("\t > message = {}", message);
 		
-		schedulerService.insert(jobName);
+		schedulerService.sendAlarmMessage(message);
 	}
 	
 }

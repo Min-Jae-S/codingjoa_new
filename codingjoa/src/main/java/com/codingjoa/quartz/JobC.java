@@ -17,7 +17,7 @@ public class JobC implements Job {
 
 	@Override
 	public void execute(JobExecutionContext context) throws JobExecutionException {
-		log.info("## {}.executeInternal", this.getClass().getSimpleName());
+		log.info("## {}.execute", this.getClass().getSimpleName());
 		
 		String jobName = context.getJobDetail().getKey().getName();
 		log.info("\t > jobName = {}", jobName);
