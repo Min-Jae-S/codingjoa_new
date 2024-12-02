@@ -31,6 +31,7 @@ import com.codingjoa.dto.SuccessResponse;
 import com.codingjoa.quartz.JobC;
 import com.codingjoa.service.SchedulerService;
 import com.codingjoa.test.TestSchedulerData;
+import com.codingjoa.util.FormatUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -129,34 +130,30 @@ public class TestQuartz2Controller {
 	public ResponseEntity<Object> getSampleData() {
 		log.info("## getSampleData");
 		List<TestSchedulerData> samapleData = schedulerService.getSampleData();
-		samapleData.forEach(testSchedulerData -> {
-			log.info("\t > id = {}, jobName = {}, timestamp = {}", 
-					testSchedulerData.getId(), testSchedulerData.getJobName(), testSchedulerData.getTimestamp());
-		});
+		samapleData.forEach(testSchedulerData -> log.info("\t > {}", testSchedulerData));
 		
 		SuccessResponse response = SuccessResponse.builder()
 				.data(samapleData)
 				.message("success")
 				.build();
 		
-		return ResponseEntity.ok(SuccessResponse.builder().data(response).build());
+		return ResponseEntity.ok(response);
 	}
 
 	@DeleteMapping("/sample-data")
 	public ResponseEntity<Object> deleteSampleData() {
 		log.info("## deleteSampleData");
+		schedulerService.deleteSampleData();
+		
 		List<TestSchedulerData> samapleData = schedulerService.getSampleData();
-		samapleData.forEach(testSchedulerData -> {
-			log.info("\t > id = {}, jobName = {}, timestamp = {}", 
-					testSchedulerData.getId(), testSchedulerData.getJobName(), testSchedulerData.getTimestamp());
-		});
+		samapleData.forEach(testSchedulerData -> log.info("\t > {}", testSchedulerData));
 		
 		SuccessResponse response = SuccessResponse.builder()
 				.data(samapleData)
 				.message("success")
 				.build();
 		
-		return ResponseEntity.ok(SuccessResponse.builder().data(response).build());
+		return ResponseEntity.ok(response);
 	}
 	
 	@GetMapping("/schedule/{jobType}")
@@ -200,7 +197,7 @@ public class TestQuartz2Controller {
 	@GetMapping("/test1")
 	public ResponseEntity<Object> test1(@RequestParam String id) throws SchedulerException {
 		log.info("## test1");
-		log.info("\t > id = {}", id);
+		log.info("\t > id = {}", FormatUtils.formatString(id));
 		
 		JobDetail job = JobBuilder.newJob(JobC.class)
 				.withIdentity("jobC", "myJobs")

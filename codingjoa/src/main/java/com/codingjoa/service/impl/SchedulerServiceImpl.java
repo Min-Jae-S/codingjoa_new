@@ -26,18 +26,18 @@ public class SchedulerServiceImpl implements SchedulerService {
 	@Override
 	public void execute() {
 		log.info("## {}.execute", this.getClass().getSimpleName());
-		log.info("\t > transaction active = {}", TransactionSynchronizationManager.isActualTransactionActive());
-		log.info("\t > transaciton isolation level = {}", TransactionSynchronizationManager.getCurrentTransactionIsolationLevel());
-		log.info("\t > transaciton name = {}", TransactionSynchronizationManager.getCurrentTransactionName());
+		log.info("\t > transaction info (active = {}, isolation level = {})", 
+				TransactionSynchronizationManager.isActualTransactionActive(), 
+				TransactionSynchronizationManager.getCurrentTransactionIsolationLevel());
 	}
 
 	@Transactional
 	@Override
 	public void insert(String jobName) {
 		log.info("## {}.insert(String)", this.getClass().getSimpleName());
-		log.info("\t > transaction active = {}", TransactionSynchronizationManager.isActualTransactionActive());
-		log.info("\t > transaciton isolation level = {}", TransactionSynchronizationManager.getCurrentTransactionIsolationLevel());
-		log.info("\t > transaciton name = {}", TransactionSynchronizationManager.getCurrentTransactionName());
+		log.info("\t > transaction info (active = {}, isolation level = {})", 
+				TransactionSynchronizationManager.isActualTransactionActive(), 
+				TransactionSynchronizationManager.getCurrentTransactionIsolationLevel());
 		
 		TestSchedulerData sampleData = createSampleData(jobName);
 		log.info("\t > sampleData = {}", sampleData);
@@ -50,9 +50,9 @@ public class SchedulerServiceImpl implements SchedulerService {
 	@Override
 	public void insert(String jobName, String id) {
 		log.info("## {}.insert(String, String)", this.getClass().getSimpleName());
-		log.info("\t > transaction active = {}", TransactionSynchronizationManager.isActualTransactionActive());
-		log.info("\t > transaciton isolation level = {}", TransactionSynchronizationManager.getCurrentTransactionIsolationLevel());
-		log.info("\t > transaciton name = {}", TransactionSynchronizationManager.getCurrentTransactionName());
+		log.info("\t > transaction info (active = {}, isolation level = {})", 
+				TransactionSynchronizationManager.isActualTransactionActive(), 
+				TransactionSynchronizationManager.getCurrentTransactionIsolationLevel());
 		
 		TestSchedulerData sampleData = createSampleData(jobName, id);
 		log.info("\t > sampleData = {}", sampleData);
@@ -65,9 +65,9 @@ public class SchedulerServiceImpl implements SchedulerService {
 	@Override
 	public void insertOnException(String jobName) {
 		log.info("## {}.insertOnException", this.getClass().getSimpleName());
-		log.info("\t > transaction active = {}", TransactionSynchronizationManager.isActualTransactionActive());
-		log.info("\t > transaciton isolation level = {}", TransactionSynchronizationManager.getCurrentTransactionIsolationLevel());
-		log.info("\t > transaciton name = {}", TransactionSynchronizationManager.getCurrentTransactionName());
+		log.info("\t > transaction info (active = {}, isolation level = {})", 
+				TransactionSynchronizationManager.isActualTransactionActive(), 
+				TransactionSynchronizationManager.getCurrentTransactionIsolationLevel());
 		
 		TestSchedulerData sampleData = createSampleData(jobName);
 		log.info("\t > sampleData = {}", sampleData);
@@ -103,9 +103,9 @@ public class SchedulerServiceImpl implements SchedulerService {
 	@Override
 	public List<TestSchedulerData> getSampleData() {
 		log.info("## {}.getSampleData", this.getClass().getSimpleName());
-		log.info("\t > transaction active = {}", TransactionSynchronizationManager.isActualTransactionActive());
-		log.info("\t > transaciton isolation level = {}", TransactionSynchronizationManager.getCurrentTransactionIsolationLevel());
-		log.info("\t > transaciton name = {}", TransactionSynchronizationManager.getCurrentTransactionName());
+		log.info("\t > transaction info (active = {}, isolation level = {})", 
+				TransactionSynchronizationManager.isActualTransactionActive(), 
+				TransactionSynchronizationManager.getCurrentTransactionIsolationLevel());
 		return testSchedulerMapper.findSampleData();
 	}
 
@@ -113,9 +113,9 @@ public class SchedulerServiceImpl implements SchedulerService {
 	@Override
 	public void deleteSampleData() {
 		log.info("## {}.deleteSampleData", this.getClass().getSimpleName());
-		log.info("\t > transaction active = {}", TransactionSynchronizationManager.isActualTransactionActive());
-		log.info("\t > transaciton isolation level = {}", TransactionSynchronizationManager.getCurrentTransactionIsolationLevel());
-		log.info("\t > transaciton name = {}", TransactionSynchronizationManager.getCurrentTransactionName());
+		log.info("\t > transaction info (active = {}, isolation level = {})", 
+				TransactionSynchronizationManager.isActualTransactionActive(), 
+				TransactionSynchronizationManager.getCurrentTransactionIsolationLevel());
 		
 		int result = testSchedulerMapper.deleteSampleData();
 		log.info("\t > result = {}", result);

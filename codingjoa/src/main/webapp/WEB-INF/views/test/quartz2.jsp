@@ -41,12 +41,14 @@
 	<div class="test mt-5 mb-5 px-5">
 		<button class="btn btn-warning btn-lg" onclick="config()">config</button>
 		<button class="btn btn-warning btn-lg" onclick="currentJobs()">current jobs</button>
-		<button class="btn btn-warning btn-lg" onclick="clearScheduler()">clear</button>
-		<button class="btn btn-warning btn-lg" onclick="start()">start</button>
-	</div>
-	<div class="test mt-5 mb-5 px-5">
 		<button class="btn btn-warning btn-lg" onclick="getSampleData()">get samples</button>
 		<button class="btn btn-warning btn-lg" onclick="deleteSampleData()">delete samples</button>
+	</div>
+	<div class="test mt-5 mb-5 px-5">
+		<button class="btn btn-warning btn-lg" onclick="start()">start</button>
+		<button class="btn btn-warning btn-lg" onclick="standby()">stop (standby)</button>
+		<button class="btn btn-warning btn-lg" onclick="shutdown()">shutdown</button>
+		<button class="btn btn-warning btn-lg" onclick="clearScheduler()">clear</button>
 	</div>
 	<div class="test mt-5 mb-5 px-5">
 		<div class="d-flex flex-column">
@@ -64,13 +66,16 @@
 				</div>
 			</div>
 		</div>
-		<div>
-			<button class="btn btn-primary btn-lg" onclick="standby()">standby</button>
-		</div>
-		<div>
-			<button class="btn btn-primary btn-lg" onclick="shutdown()">shutdown</button>
+	</div>
+	<div class="test mt-5 mb-5 px-5">
+		<div class="input-group mb-3">
+  			<div class="input-group-prepend">
+    			<button class="btn btn-primary btn-lg" type="button" onclick="test1()">test1</button>
+  			</div>
+  			<input type="text" class="form-control" id="test1Input">
 		</div>
 	</div>
+	
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 <script>
@@ -209,6 +214,31 @@
 		$.ajax({
 			type : "GET",
 			url : "${contextPath}/test/quartz2/shutdown",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log(JSON.stringify(result, null, 2));
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				parseError(jqXHR);
+			}
+		});
+	}
+
+	function test1() {
+		console.log("## test1");
+		let id = $("#test1").val();
+		console.log("> id = %s", id);
+		
+		// id == null --> id === "undefined"
+		if (id == null || id == "") {
+			alert("id를 입력하세요");
+			return;
+		}
+		
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/quartz2/test1?id=" + id,
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));

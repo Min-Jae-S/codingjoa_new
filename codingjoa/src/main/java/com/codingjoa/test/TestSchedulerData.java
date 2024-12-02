@@ -20,6 +20,11 @@ public class TestSchedulerData {
 		this.jobName = jobName;
 		this.timestamp = timestamp;
 	}
+
+	@Override
+	public String toString() {
+		return "idx=" + idx + ", id=" + id + ", jobName=" + jobName + ", timestamp=" + timestamp;
+	}
 	
 	
 }
