@@ -224,18 +224,18 @@ public class TestQuartz2Controller {
 		log.info("## scheduleAlarm");
 		log.info("\t > alramDto = {}", alarmDto);
 		
-		JobDetail alarmJob = JobBuilder.newJob(AlarmJob.class)
-				.withIdentity("alarmJob", "myJobs")
-				.usingJobData("message", alarmDto.getMessage())
-				.storeDurably()
-				.build();
-		
-		Trigger alarmTrigger = TriggerBuilder.newTrigger()
-				.forJob(alarmJob)
-				.withIdentity("alarmTrigger", "myTriggers")
-				.build();
-		
-		scheduler.scheduleJob(alarmJob, alarmTrigger);
+//		JobDetail alarmJob = JobBuilder.newJob(AlarmJob.class)
+//				.withIdentity("alarmJob", "myJobs")
+//				.usingJobData("message", alarmDto.getMessage())
+//				.storeDurably()
+//				.build();
+//		
+//		Trigger alarmTrigger = TriggerBuilder.newTrigger()
+//				.forJob(alarmJob)
+//				.withIdentity("alarmTrigger", "myTriggers")
+//				.build();
+//		
+//		scheduler.scheduleJob(alarmJob, alarmTrigger);
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}

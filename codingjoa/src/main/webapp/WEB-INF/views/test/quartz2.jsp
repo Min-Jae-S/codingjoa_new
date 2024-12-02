@@ -10,8 +10,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
 <link rel="stylesheet" href="${contextPath}/resources/css/common.css">
+<!-- <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css"> -->
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="${contextPath}/resources/js/jquery.serialize.js"></script>
+<!-- <script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script> -->
 <script src="${contextPath}/resources/js/handle-errors.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
@@ -72,16 +74,44 @@
   			<div class="input-group-prepend">
     			<button class="btn btn-primary btn-lg" type="button" onclick="test1()">test1</button>
   			</div>
-  			<input type="text" class="form-control" id="test1Input">
+  			<input type="text" class="form-control" id="test1Input"/>
 		</div>
 	</div>
+	<form id="alarmForm">
 	<div class="test mt-5 mb-5 px-5">
-		<button class="btn btn-primary btn-lg" onclick="scheduleAlarm()">schedule alarm</button>
+		<button type="submit" class="btn btn-primary btn-lg">schedule alarm</button>
+		<input class="form-control w-25" type="time" name="time">
+		<input class="form-control w-50" type="text" name="message">
+		<button type="reset" class="btn btn-secondary btn-lg">reset</button>
 	</div>
+	</form>
 	
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 <script>
+	$(function() {
+		$("#alarmForm").on("submit", function(e) {
+			e.preventDefault();
+			let form = $("#alarmForm").serializeObject();
+			
+			$.ajax({
+				type : "POST",
+				url : "${contextPath}/test/quartz2/alarm",
+				data : JSON.stringify(form),
+				contentType : "application/json; charset=utf-8",
+				dataType : "json", 
+				success : function(result) {
+					console.log("%c> SUCCESS", "color:green");
+					console.log(JSON.stringify(result, null, 2));
+				},
+				error : function(jqXHR) {
+					console.log("%c> ERROR", "color:red");
+					parseError(jqXHR);
+				}
+			});
+		});
+	});
+	
 	function config() {
 		console.log("## config");
 		$.ajax({
