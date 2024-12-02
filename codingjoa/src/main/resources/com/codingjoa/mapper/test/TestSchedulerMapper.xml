@@ -28,6 +28,6 @@
 	
 	<delete id="deleteSampleData">
 		DELETE * FROM test5
-	</select>
+	</delete>
 	
 </mapper>

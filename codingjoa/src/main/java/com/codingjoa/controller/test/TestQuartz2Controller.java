@@ -65,10 +65,6 @@ public class TestQuartz2Controller {
 	@Autowired
 	private Trigger triggerB;
 
-	@Qualifier("triggerC")
-	@Autowired
-	private Trigger triggerC;
-	
 	@Autowired
 	private SchedulerService schedulerService;
 	
@@ -214,7 +210,7 @@ public class TestQuartz2Controller {
 		
 		Trigger trigger = TriggerBuilder.newTrigger()
 				.forJob(job)
-				.withIdentity("triggerB", "myTriggers")
+				.withIdentity("triggerC", "myTriggers")
 				.withSchedule(SimpleScheduleBuilder.repeatSecondlyForever(10))
 				.build();
 		
