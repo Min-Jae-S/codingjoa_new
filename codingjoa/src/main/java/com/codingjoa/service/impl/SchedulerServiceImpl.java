@@ -40,10 +40,9 @@ public class SchedulerServiceImpl implements SchedulerService {
 				TransactionSynchronizationManager.getCurrentTransactionIsolationLevel());
 		
 		TestSchedulerData sample = createSample(jobName);
-		log.info("\t > sample = {}", sample);
+		log.info("\t > {}", sample);
 		
-		int result = testSchedulerMapper.insertSample(sample);
-		log.info("\t > result = {}", result);
+		testSchedulerMapper.insertSample(sample);
 	}
 	
 	@Transactional
@@ -55,10 +54,9 @@ public class SchedulerServiceImpl implements SchedulerService {
 				TransactionSynchronizationManager.getCurrentTransactionIsolationLevel());
 		
 		TestSchedulerData sample = createSample(jobName, id);
-		log.info("\t > sample = {}", sample);
+		log.info("\t > {}", sample);
 		
-		int result = testSchedulerMapper.insertSample(sample);
-		log.info("\t > result = {}", result);
+		testSchedulerMapper.insertSample(sample);
 	}
 	
 	@Transactional
@@ -70,12 +68,12 @@ public class SchedulerServiceImpl implements SchedulerService {
 				TransactionSynchronizationManager.getCurrentTransactionIsolationLevel());
 		
 		TestSchedulerData sample = createSample(jobName);
-		log.info("\t > sample = {}", sample);
+		log.info("\t > {}", sample);
 		
 		int result = testSchedulerMapper.insertSample(sample);
 		log.info("\t > result = {}", result);
 		
-		log.info("\t > thorw runtime exception");
+		log.info("\t > throw runtime exception");
 		throw new RuntimeException("insertOnException");
 	}
 	
@@ -106,7 +104,16 @@ public class SchedulerServiceImpl implements SchedulerService {
 		log.info("\t > transaction info (active = {}, isolation level = {})", 
 				TransactionSynchronizationManager.isActualTransactionActive(), 
 				TransactionSynchronizationManager.getCurrentTransactionIsolationLevel());
-		return testSchedulerMapper.findSamples();
+		
+		List<TestSchedulerData> samples = testSchedulerMapper.findSamples();
+		samples.stream()
+			.findAny()
+			.ifPresentOrElse(
+				sample -> log.info("\t > {}", sample), 
+				() -> log.info("\t > no samples")
+			);
+		
+		return samples;
 	}
 
 	@Transactional
@@ -116,9 +123,8 @@ public class SchedulerServiceImpl implements SchedulerService {
 		log.info("\t > transaction info (active = {}, isolation level = {})", 
 				TransactionSynchronizationManager.isActualTransactionActive(), 
 				TransactionSynchronizationManager.getCurrentTransactionIsolationLevel());
-		
-		int result = testSchedulerMapper.deleteSamples();
-		log.info("\t > result = {}", result);
+
+		testSchedulerMapper.deleteSamples();
 	}
 	
 }

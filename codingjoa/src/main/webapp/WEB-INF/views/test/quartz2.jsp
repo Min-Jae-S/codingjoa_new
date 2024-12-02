@@ -41,7 +41,7 @@
 	<div class="test mt-5 mb-5 px-5">
 		<button class="btn btn-warning btn-lg" onclick="config()">config</button>
 		<button class="btn btn-warning btn-lg" onclick="currentJobs()">current jobs</button>
-		<button class="btn btn-warning btn-lg" onclick="getSample()">get samples</button>
+		<button class="btn btn-warning btn-lg" onclick="getSamples()">get samples</button>
 		<button class="btn btn-warning btn-lg" onclick="deleteSamples()">delete samples</button>
 	</div>
 	<div class="test mt-5 mb-5 px-5">
@@ -231,7 +231,7 @@
 
 	function test1() {
 		console.log("## test1");
-		let id = $("#test1").val();
+		let id = $("#test1Input").val();
 		console.log("> id = %s", id);
 		
 		// id == null --> id === "undefined"

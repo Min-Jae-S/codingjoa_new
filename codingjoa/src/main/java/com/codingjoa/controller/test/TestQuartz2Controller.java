@@ -1,5 +1,6 @@
 package com.codingjoa.controller.test;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -30,6 +31,7 @@ import com.codingjoa.quartz.JobC;
 import com.codingjoa.service.SchedulerService;
 import com.codingjoa.test.TestSchedulerData;
 
+import io.jsonwebtoken.lang.Collections;
 import lombok.extern.slf4j.Slf4j;
 
 @SuppressWarnings("unused")
@@ -100,7 +102,12 @@ public class TestQuartz2Controller {
 			}
 		}
 		
-		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
+		SuccessResponse response = SuccessResponse.builder()
+				.data(new ArrayList<>(jobKeys))
+				.message("success")
+				.build();
+		
+		return ResponseEntity.ok(response);
 	}
 
 	@GetMapping("/clear")
@@ -127,7 +134,6 @@ public class TestQuartz2Controller {
 	public ResponseEntity<Object> getSamples() {
 		log.info("## getSamples");
 		List<TestSchedulerData> samples = schedulerService.getSamples();
-		samples.forEach(testSchedulerData -> log.info("\t > {}", testSchedulerData));
 		
 		SuccessResponse response = SuccessResponse.builder()
 				.data(samples)
@@ -142,15 +148,7 @@ public class TestQuartz2Controller {
 		log.info("## deleteSamples");
 		schedulerService.deleteSamples();
 		
-		List<TestSchedulerData> samples = schedulerService.getSamples();
-		samples.forEach(testSchedulerData -> log.info("\t > {}", testSchedulerData));
-		
-		SuccessResponse response = SuccessResponse.builder()
-				.data(samples)
-				.message("success")
-				.build();
-		
-		return ResponseEntity.ok(response);
+		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 	
 	@GetMapping("/schedule/{jobType}")
