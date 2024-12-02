@@ -45,8 +45,8 @@
 		<button class="btn btn-warning btn-lg" onclick="start()">start</button>
 	</div>
 	<div class="test mt-5 mb-5 px-5">
-		<button class="btn btn-warning btn-lg" onclick="getSampleData(()">get samples</button>
-		<button class="btn btn-warning btn-lg" onclick="deleteSampleData(()">delete samples</button>
+		<button class="btn btn-warning btn-lg" onclick="getSampleData()">get samples</button>
+		<button class="btn btn-warning btn-lg" onclick="deleteSampleData()">delete samples</button>
 	</div>
 	<div class="test mt-5 mb-5 px-5">
 		<div class="d-flex flex-column">
