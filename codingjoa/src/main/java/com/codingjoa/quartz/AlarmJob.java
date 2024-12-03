@@ -27,7 +27,7 @@ public class AlarmJob implements Job {
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Date nextFireTime = context.getTrigger().getNextFireTime();
-		log.info("\t > next fire time = {}", sdf.format(nextFireTime));
+		log.info("\t > alarm will be triggered at {}", sdf.format(nextFireTime));
 		
 		schedulerService.sendAlarmMessage(message);
 	}
