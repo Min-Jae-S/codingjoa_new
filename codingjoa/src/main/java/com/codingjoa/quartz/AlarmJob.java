@@ -1,5 +1,8 @@
 package com.codingjoa.quartz;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -21,6 +24,10 @@ public class AlarmJob implements Job {
 		
 		String message = context.getMergedJobDataMap().getString("message");
 		log.info("\t > message = {}", message);
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date nextFireTime = context.getTrigger().getNextFireTime();
+		log.info("\t > next fire time = {}", sdf.format(nextFireTime));
 		
 		schedulerService.sendAlarmMessage(message);
 	}

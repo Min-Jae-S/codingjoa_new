@@ -1,10 +1,13 @@
 package com.codingjoa.controller.test;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
+import org.quartz.CronExpression;
+import org.quartz.CronScheduleBuilder;
 import org.quartz.JobBuilder;
 import org.quartz.JobDetail;
 import org.quartz.JobKey;
@@ -224,19 +227,32 @@ public class TestQuartz2Controller {
 		log.info("## scheduleAlarm");
 		log.info("\t > alramDto = {}", alarmDto);
 		
-//		JobDetail alarmJob = JobBuilder.newJob(AlarmJob.class)
-//				.withIdentity("alarmJob", "myJobs")
-//				.usingJobData("message", alarmDto.getMessage())
-//				.storeDurably()
-//				.build();
-//		
-//		Trigger alarmTrigger = TriggerBuilder.newTrigger()
-//				.forJob(alarmJob)
-//				.withIdentity("alarmTrigger", "myTriggers")
-//				.build();
-//		
-//		scheduler.scheduleJob(alarmJob, alarmTrigger);
+		JobDetail alarmJob = JobBuilder.newJob(AlarmJob.class)
+				.withIdentity("alarmJob", "myJobs")
+				.usingJobData("message", alarmDto.getMessage())
+				.storeDurably()
+				.build();
+		
+		String cronExpression = generateCronExpression(alarmDto.getTime());
+		Trigger alarmTrigger = TriggerBuilder.newTrigger()
+				.forJob(alarmJob)
+				.withIdentity("alarmTrigger", "myTriggers")
+				.withSchedule(CronScheduleBuilder.cronSchedule(cronExpression))
+				.build();
+		
+		scheduler.scheduleJob(alarmJob, alarmTrigger);
+		if (!scheduler.isStarted()) {
+			scheduler.start();
+		}
+		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
+	}
+	
+	private String generateCronExpression(LocalTime localTime) {
+		int hour = localTime.getHour();
+		int minute = localTime.getMinute();
+		
+		return String.format("0 %d %d * * ?", minute, hour);
 	}
 
 }
