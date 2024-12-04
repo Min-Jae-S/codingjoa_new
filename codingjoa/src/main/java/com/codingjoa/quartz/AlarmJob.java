@@ -18,10 +18,7 @@ public class AlarmJob implements Job {
 	@Override
 	public void execute(JobExecutionContext context) throws JobExecutionException {
 		log.info("## {}.execute", this.getClass().getSimpleName());
-		
 		String message = context.getMergedJobDataMap().getString("alarmMessage");
-		log.info("\t > alarm message = {}", message);
-		
 		schedulerService.sendAlarmMessage(message);
 	}
 	

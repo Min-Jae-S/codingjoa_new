@@ -21,6 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class SchedulerServiceImpl implements SchedulerService {
 	
+	private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 	private final TestSchedulerMapper testSchedulerMapper;
 	
 	@Override
@@ -78,7 +79,6 @@ public class SchedulerServiceImpl implements SchedulerService {
 	}
 	
 	private TestSchedulerData createSample(String jobName) {
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 		String timestamp = LocalDateTime.now().format(formatter);
 		return TestSchedulerData.builder()
 				.id("smj" + RandomStringUtils.randomNumeric(4))
@@ -88,7 +88,6 @@ public class SchedulerServiceImpl implements SchedulerService {
 	}
 
 	private TestSchedulerData createSample(String jobName, String id) {
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 		String timestamp = LocalDateTime.now().format(formatter);
 		return TestSchedulerData.builder()
 				.id(id)

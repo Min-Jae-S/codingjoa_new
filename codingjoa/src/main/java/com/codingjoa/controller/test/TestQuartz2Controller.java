@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-import org.quartz.CronExpression;
 import org.quartz.CronScheduleBuilder;
 import org.quartz.JobBuilder;
 import org.quartz.JobDetail;
@@ -46,6 +45,8 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/test/quartz2")
 @RestController
 public class TestQuartz2Controller {
+	
+	private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 	
 	@Autowired
 	private WebApplicationContext context;
@@ -98,7 +99,6 @@ public class TestQuartz2Controller {
 			log.info("\t > no scheduled jobs");
 		}
 		
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		for (JobKey jobKey : jobKeys) {
 			log.info("\t > {}", jobKey);
 			for (Trigger trigger : scheduler.getTriggersOfJob(jobKey)) {
@@ -243,13 +243,14 @@ public class TestQuartz2Controller {
 				.withSchedule(CronScheduleBuilder.cronSchedule(cronExpression))
 				.build();
 		
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		Date nextFireTime = alarmTrigger.getNextFireTime();
-		String formattedNext = (nextFireTime != null) ? sdf.format(nextFireTime) : "N/A";
-		log.info("\t > alarm will be triggered at {}", formattedNext);
+		scheduler.scheduleJob(alarmJob, Set.of(alarmTrigger), true); // replace=true
+		if (!scheduler.isStarted()) {
+			scheduler.start();
+		}
 		
-		scheduler.scheduleJob(alarmJob, alarmTrigger);
-		scheduler.start();
+		Date nextFireTime = alarmTrigger.getNextFireTime();
+		String formattedNext= (nextFireTime != null) ? sdf.format(nextFireTime) : "N/A";
+		log.info("\t > nextFireTime = {}", formattedNext);
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}

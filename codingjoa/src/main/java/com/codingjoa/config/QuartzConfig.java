@@ -27,7 +27,10 @@ public class QuartzConfig {
 		
 		schedulerFactory.setJobFactory(jobFactory);
 		schedulerFactory.setAutoStartup(true);
+		
+		// only applies under specific conditions and may not always work when creating Jobs dynamically.
 		schedulerFactory.setOverwriteExistingJobs(true);
+		
 		//schedulerFactory.setJobDetails(jobDetail);
 		//schedulerFactory.setTriggers(trigger);
 		
