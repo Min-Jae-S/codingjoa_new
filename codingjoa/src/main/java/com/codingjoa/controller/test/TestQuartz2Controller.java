@@ -108,8 +108,11 @@ public class TestQuartz2Controller {
 				
 				Date previousFireTime = trigger.getPreviousFireTime();
 				Date nextFireTime = trigger.getNextFireTime();
-				log.info("\t    - previous = {}", sdf.format(previousFireTime));
-				log.info("\t    - next = {}", sdf.format(nextFireTime));
+				
+				String formattedPrevious = (previousFireTime != null) ? sdf.format(previousFireTime) : "N/A";
+				String formattedNext = (nextFireTime != null) ? sdf.format(nextFireTime) : "N/A";
+				log.info("\t    - previous = {}", formattedPrevious);
+				log.info("\t    - next = {}", formattedNext);
 			}
 		}
 		
@@ -229,21 +232,24 @@ public class TestQuartz2Controller {
 		
 		JobDetail alarmJob = JobBuilder.newJob(AlarmJob.class)
 				.withIdentity("alarmJob", "myJobs")
-				.usingJobData("message", alarmDto.getMessage())
+				.usingJobData("alarmMessage", alarmDto.getAlarmMessage())
 				.storeDurably()
 				.build();
 		
-		String cronExpression = generateCronExpression(alarmDto.getTime());
+		String cronExpression = generateCronExpression(alarmDto.getAlarmTime());
 		Trigger alarmTrigger = TriggerBuilder.newTrigger()
 				.forJob(alarmJob)
 				.withIdentity("alarmTrigger", "myTriggers")
 				.withSchedule(CronScheduleBuilder.cronSchedule(cronExpression))
 				.build();
 		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date nextFireTime = alarmTrigger.getNextFireTime();
+		String formattedNext = (nextFireTime != null) ? sdf.format(nextFireTime) : "N/A";
+		log.info("\t > alarm will be triggered at {}", formattedNext);
+		
 		scheduler.scheduleJob(alarmJob, alarmTrigger);
-		if (!scheduler.isStarted()) {
-			scheduler.start();
-		}
+		scheduler.start();
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}

@@ -79,8 +79,8 @@
 	</div>
 	<form id="alarmForm">
 	<div class="test mt-5 mb-5 px-5">
-		<input class="form-control w-50" type="text" name="message">
-		<input class="form-control w-25" type="time" name="time">
+		<input class="form-control w-50" type="text" name="alarmMessage">
+		<input class="form-control w-25" type="time" name="alarmTime">
 		<button type="submit" class="btn btn-primary btn-lg">schedule alarm</button>
 		<button type="reset" class="btn btn-secondary btn-lg">reset</button>
 	</div>
@@ -92,23 +92,7 @@
 	$(function() {
 		$("#alarmForm").on("submit", function(e) {
 			e.preventDefault();
-			let form = $("#alarmForm").serializeObject();
-			
-			$.ajax({
-				type : "POST",
-				url : "${contextPath}/test/quartz2/alarm",
-				data : JSON.stringify(form),
-				contentType : "application/json; charset=utf-8",
-				dataType : "json", 
-				success : function(result) {
-					console.log("%c> SUCCESS", "color:green");
-					console.log(JSON.stringify(result, null, 2));
-				},
-				error : function(jqXHR) {
-					console.log("%c> ERROR", "color:red");
-					parseError(jqXHR);
-				}
-			});
+			scheduleAlarm();
 		});
 	});
 	
@@ -289,9 +273,15 @@
 
 	function scheduleAlarm() {
 		console.log("## scheduleAlarm");
+		let alarm = $("#alarmForm").serializeObject();
+		console.log(alarm);
+		
 		$.ajax({
 			type : "POST",
 			url : "${contextPath}/test/quartz2/alarm",
+			data : JSON.stringify(alarm),
+			contentType : "application/json; charset=utf-8",
+			dataType : "json",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
