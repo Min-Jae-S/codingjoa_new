@@ -73,6 +73,7 @@
 		};
 		
 		$("#btn1").on("click", function() {
+			console.log("## btn1 click");
 			//console.log("socket readyState = %s (CONNECTING:0, OPEN:1, CLOSING:2, CLOSED:3)", socket.readyState);
 			socket.send("현재 시각에 대해서 알려줘");
 		});

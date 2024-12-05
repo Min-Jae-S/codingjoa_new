@@ -1,4 +1,4 @@
-package com.codingjoa.websocket;
+package com.codingjoa.websocket.test;
 
 import java.util.Map;
 
@@ -10,7 +10,7 @@ import org.springframework.web.socket.server.HandshakeInterceptor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class WebSocketInterceptor implements HandshakeInterceptor {
+public class WebSocketTestInterceptor implements HandshakeInterceptor {
 
 	@Override
 	public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler,

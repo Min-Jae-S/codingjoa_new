@@ -1,7 +1,8 @@
-package com.codingjoa.websocket;
+package com.codingjoa.websocket.test;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
+import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
@@ -15,15 +16,15 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor
 @Component
-public class WebSocketHandler extends TextWebSocketHandler {
+public class WebSocketTestHandler extends TextWebSocketHandler {
 	
 	private final ObjectMapper objectMapper;
 	
 	@Override
-	public void handleMessage(WebSocketSession session, WebSocketMessage<?> message) throws Exception {
-		log.info("## {}.handleMessage", this.getClass().getSimpleName());
-		log.info("\t > message = {}", message.getPayload());
-		super.handleMessage(session, message);
+	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
+		log.info("## {}.handleTextMessage", this.getClass().getSimpleName());
+		log.info("\t > payload = {}", message.getPayload());
+		super.handleTextMessage(session, message);
 	}
 
 	@Override
