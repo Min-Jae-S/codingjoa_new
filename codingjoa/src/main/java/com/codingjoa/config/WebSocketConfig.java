@@ -7,6 +7,8 @@ import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
 
+import com.codingjoa.websocket.WebSocketInterceptor;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -23,6 +25,7 @@ public class WebSocketConfig implements WebSocketConfigurer {
 	public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
 		log.info("## registerWebSocketHandlers");
 		registry.addHandler(webSocketHandler, "/ws")
+				.addInterceptors(new WebSocketInterceptor())
 				.setAllowedOrigins("*");
 	}
 
