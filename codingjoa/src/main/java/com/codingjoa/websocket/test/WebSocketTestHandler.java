@@ -1,5 +1,10 @@
 package com.codingjoa.websocket.test;
 
+import java.util.Collections;
+import java.util.Map.Entry;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
@@ -18,6 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class WebSocketTestHandler extends TextWebSocketHandler {
 	
+	private final Set<WebSocketSession> participants = ConcurrentHashMap.newKeySet(); // thread-safe
 	private final ObjectMapper objectMapper;
 	
 	@Override
@@ -30,13 +36,19 @@ public class WebSocketTestHandler extends TextWebSocketHandler {
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 		log.info("## {}.afterConnectionEstablished", this.getClass().getSimpleName());
-		super.afterConnectionEstablished(session);
+		log.info("\t > webSocketSession = {}", session);
+		
+		for (Entry<String, Object> entry : session.getAttributes().entrySet()) {
+			log.info("\t > key = {}, value = {}", entry.getKey(), entry.getValue());
+		}
+		
+		participants.add(session);
 	}
 
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
 		log.info("## {}.afterConnectionClosed", this.getClass().getSimpleName());
-		super.afterConnectionClosed(session, status);
+		participants.remove(session);
 	}
 
 	
