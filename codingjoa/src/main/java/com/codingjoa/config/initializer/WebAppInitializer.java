@@ -33,6 +33,7 @@ import com.codingjoa.config.QuartzConfig;
 import com.codingjoa.config.RedisConfig;
 import com.codingjoa.config.SecurityConfig;
 import com.codingjoa.config.ServletConfig;
+import com.codingjoa.config.WebSocketConfig;
 import com.codingjoa.filter.ErrorHandlingFilter;
 import com.codingjoa.filter.LogFilter;
 import com.codingjoa.filter.TestAopFilter;
@@ -63,7 +64,7 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
 	@Override
 	protected Class<?>[] getServletConfigClasses() {
 		log.info("## getServletConfigClasses");
-		return new Class[] { ServletConfig.class };
+		return new Class[] { ServletConfig.class, WebSocketConfig.class };  
 	}
 
 	@Override

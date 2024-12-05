@@ -419,6 +419,20 @@
 		    <artifactId>quartz-jobs</artifactId>
 		    <version>2.3.2</version>
 		</dependency>
+		
+		<!-- websocket -->
+		<dependency>
+    		<groupId>org.springframework</groupId>
+    		<artifactId>spring-websocket</artifactId>
+    		<version>${org.springframework-version}</version>
+		</dependency>
+		
+		<!-- websocket, MessageBrokerRegistry -->
+		<dependency>
+    		<groupId>org.springframework</groupId>
+    		<artifactId>spring-messaging</artifactId>
+    		<version>${org.springframework-version}</version>
+		</dependency>
 		 
 	</dependencies>
 	<build>

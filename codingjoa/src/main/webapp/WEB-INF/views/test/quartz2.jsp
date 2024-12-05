@@ -28,7 +28,8 @@
 	
 	div.test {
 		display: flex;
-		column-gap: 30px;
+		/* justify-content: space-between; */
+		column-gap: 35px;
 	}
 	
 	div.test button {
@@ -40,19 +41,19 @@
 <c:import url="/WEB-INF/views/include/top-menu.jsp"/>
 <div class="container my-5">
 	<p>quartz2.jsp</p>
-	<div class="test mt-5 mb-5 px-5">
+	<div class="test mt-5 mb-4 px-5">
 		<button class="btn btn-warning btn-lg" onclick="config()">config</button>
 		<button class="btn btn-warning btn-lg" onclick="currentJobs()">current jobs</button>
 		<button class="btn btn-warning btn-lg" onclick="getSamples()">get samples</button>
 		<button class="btn btn-warning btn-lg" onclick="deleteSamples()">delete samples</button>
 	</div>
-	<div class="test mt-5 mb-5 px-5">
+	<div class="test mb-4 px-5">
 		<button class="btn btn-warning btn-lg" onclick="start()">start</button>
 		<button class="btn btn-warning btn-lg" onclick="standby()">stop (standby)</button>
 		<button class="btn btn-warning btn-lg" onclick="shutdown()">shutdown</button>
 		<button class="btn btn-warning btn-lg" onclick="clearScheduler()">clear</button>
 	</div>
-	<div class="test mt-5 mb-5 px-5">
+	<div class="test mb-5 px-5">
 		<div class="d-flex flex-column">
 			<button class="btn btn-primary btn-lg px-1 mb-2" onclick="scheduleJob()">
 				<span>schedule job</span>
@@ -68,9 +69,7 @@
 				</div>
 			</div>
 		</div>
-	</div>
-	<div class="test mt-5 mb-5 px-5">
-		<div class="input-group mb-3">
+		<div class="input-group mb-3" style="height:100%;">
   			<input type="text" class="form-control" id="test1Input"/>
   			<div class="input-group-append">
     			<button class="btn btn-primary btn-lg" type="button" onclick="test1()">test1</button>
@@ -78,9 +77,9 @@
 		</div>
 	</div>
 	<form id="alarmForm">
-	<div class="test mt-5 mb-5 px-5">
-		<input class="form-control w-50" type="text" name="alarmMessage">
+	<div class="test mb-3 px-5">
 		<input class="form-control w-25" type="time" name="alarmTime">
+		<input class="form-control" type="text" name="alarmMessage">
 		<button type="submit" class="btn btn-primary btn-lg">schedule alarm</button>
 		<button type="reset" class="btn btn-secondary btn-lg">reset</button>
 	</div>
@@ -275,6 +274,16 @@
 		console.log("## scheduleAlarm");
 		let alarm = $("#alarmForm").serializeObject();
 		console.log(alarm);
+		
+		if (alarm.alarmTime == null || alarm.alarmTime == "") {
+			alert("알람시각을 정해주세요.");
+			return;
+		}
+
+		if (alarm.alarmMessage == null || alarm.alarmMessage == "") {
+			alert("알람메시지를 입력해주세요.");
+			return;
+		}
 		
 		$.ajax({
 			type : "POST",

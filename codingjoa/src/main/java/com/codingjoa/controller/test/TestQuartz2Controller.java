@@ -236,7 +236,7 @@ public class TestQuartz2Controller {
 				.storeDurably()
 				.build();
 		
-		String cronExpression = generateCronExpression(alarmDto.getAlarmTime());
+		String cronExpression = createCronExpression(alarmDto.getAlarmTime());
 		Trigger alarmTrigger = TriggerBuilder.newTrigger()
 				.forJob(alarmJob)
 				.withIdentity("alarmTrigger", "myTriggers")
@@ -244,10 +244,7 @@ public class TestQuartz2Controller {
 				.build();
 		
 		scheduler.scheduleJob(alarmJob, Set.of(alarmTrigger), true); // replace=true
-		if (!scheduler.isStarted()) {
-			scheduler.start();
-		}
-		
+	
 		Date nextFireTime = alarmTrigger.getNextFireTime();
 		String formattedNext= (nextFireTime != null) ? sdf.format(nextFireTime) : "N/A";
 		log.info("\t > nextFireTime = {}", formattedNext);
@@ -255,11 +252,8 @@ public class TestQuartz2Controller {
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 	
-	private String generateCronExpression(LocalTime localTime) {
-		int hour = localTime.getHour();
-		int minute = localTime.getMinute();
-		
-		return String.format("0 %d %d * * ?", minute, hour);
+	private String createCronExpression(LocalTime localTime) {
+		return String.format("0 %d %d * * ?", localTime.getMinute(), localTime.getHour());
 	}
 
 }
