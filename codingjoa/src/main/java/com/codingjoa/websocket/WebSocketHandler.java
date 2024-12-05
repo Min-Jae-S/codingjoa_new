@@ -21,7 +21,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
 	
 	@Override
 	public void handleMessage(WebSocketSession session, WebSocketMessage<?> message) throws Exception {
-		log.info("## {}.afterConnectionEstablished", this.getClass().getSimpleName());
+		log.info("## {}.handleMessage", this.getClass().getSimpleName());
 		super.handleMessage(session, message);
 	}
 

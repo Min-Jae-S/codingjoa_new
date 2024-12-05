@@ -42,30 +42,40 @@
 <div class="container my-5">
 	<p>ws.jsp</p>
 	<div class="test mt-5 mb-4 px-5">
-		<button class="btn btn-primary btn-lg" onclick="test1()">test</button>
+		<button class="btn btn-primary btn-lg" id="btn1">test1</button>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 <script>
 	$(function() {
-		// ...
-	});
-	
-	function test1() {
-		console.log("## test1");
-		$.ajax({
-			type : "GET",
-			url : "${contextPath}/test/ws/test1",
-			success : function(result) {
-				console.log("%c> SUCCESS", "color:green");
-				console.log(JSON.stringify(result, null, 2));
-			},
-			error : function(jqXHR) {
-				console.log("%c> ERROR", "color:red");
-				parseError(jqXHR);
-			}
+		const protocol = "ws";
+		const host = window.location.host;
+		const socketUrl = protocol + "://" + host + "${contextPath}/test/ws";
+		console.log("## socketUrl = %s", socketUrl);
+		
+		const socket = new WebSocket(socketUrl);
+		//console.log(socket);
+		
+		socket.onopen = function(e) {
+			console.log("## websockect connected");
+			console.log(e);
+		};
+		
+		socket.onclose = function(e) {
+			console.log("## websockect closed");
+			console.log(e);
+		};
+		
+		socket.onmessage = function(msg) {
+			console.log("## data from server : " + msg);
+		};
+		
+		$("#btn1").on("click", function() {
+			console.log("## btn1 click");
+			socket.send("test1");
 		});
-	}
+	});
+
 </script>
 </body>
 </html>
