@@ -10,10 +10,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
 <link rel="stylesheet" href="${contextPath}/resources/css/common.css">
-<!-- <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css"> -->
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="${contextPath}/resources/js/jquery.serialize.js"></script>
-<!-- <script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script> -->
 <script src="${contextPath}/resources/js/handle-errors.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
@@ -48,31 +46,35 @@
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 <script>
 	$(function() {
-		const protocol = "ws";
 		const host = window.location.host;
-		const socketUrl = protocol + "://" + host + "${contextPath}/test/ws";
+		const socketUrl = "ws://" + host + "${contextPath}/test/ws/socket";
 		console.log("## socketUrl = %s", socketUrl);
-		
+
 		const socket = new WebSocket(socketUrl);
-		//console.log(socket);
 		
 		socket.onopen = function(e) {
-			console.log("## websockect connected");
+			console.log("## websocket connected");
 			console.log(e);
 		};
 		
 		socket.onclose = function(e) {
-			console.log("## websockect closed");
+			console.log("## websocket closed");
 			console.log(e);
 		};
 		
-		socket.onmessage = function(msg) {
-			console.log("## data from server : " + msg);
+		socket.onmessage = function(result) {
+			console.log("## websocket received response");
+			consoel.log(result);
+		};
+
+		socket.onerror = function(error) {
+			console.log("## websocket error");
+			console.log(error);
 		};
 		
 		$("#btn1").on("click", function() {
-			console.log("## btn1 click");
-			socket.send("test1");
+			//console.log("socket readyState = %s (CONNECTING:0, OPEN:1, CLOSING:2, CLOSED:3)", socket.readyState);
+			socket.send("현재 시각에 대해서 알려줘");
 		});
 	});
 

@@ -30,7 +30,7 @@ public class JwtFilter extends OncePerRequestFilter {
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 		log.info("## {}", this.getClass().getSimpleName());
-		log.info("\t > request-line = {}", HttpUtils.getHttpRequestLine(request));
+		log.info("\t > request-line = {}", HttpUtils.getRequestLine(request));
 
 		String jwt = resolveJwt(request);
 		

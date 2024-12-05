@@ -20,7 +20,7 @@ public class ErrorController {
 	@RequestMapping
 	public String error(HttpServletRequest request, Model model) {
 		log.info("## error");
-		log.info("\t > request-line = {}", HttpUtils.getHttpRequestLine(request));
+		log.info("\t > request-line = {}", HttpUtils.getRequestLine(request));
 
 		ErrorResponse errorResponse = null;
 		Object obj = request.getAttribute("errorResponse");

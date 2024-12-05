@@ -22,6 +22,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
 	@Override
 	public void handleMessage(WebSocketSession session, WebSocketMessage<?> message) throws Exception {
 		log.info("## {}.handleMessage", this.getClass().getSimpleName());
+		log.info("\t > message = {}", message.getPayload());
 		super.handleMessage(session, message);
 	}
 

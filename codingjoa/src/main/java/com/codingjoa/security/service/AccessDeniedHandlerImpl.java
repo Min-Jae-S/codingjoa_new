@@ -50,7 +50,7 @@ public class AccessDeniedHandlerImpl implements AccessDeniedHandler {
 	public void handle(HttpServletRequest request, HttpServletResponse response,
 			AccessDeniedException accessDeniedException) throws IOException, ServletException {
 		log.info("## {}", this.getClass().getSimpleName());
-		log.info("\t > request-line = {}", HttpUtils.getHttpRequestLine(request));
+		log.info("\t > request-line = {}", HttpUtils.getRequestLine(request));
 		log.info("\t > {}: {}", accessDeniedException.getClass().getSimpleName(), accessDeniedException.getMessage());
 		
 		response.setStatus(HttpServletResponse.SC_FORBIDDEN);

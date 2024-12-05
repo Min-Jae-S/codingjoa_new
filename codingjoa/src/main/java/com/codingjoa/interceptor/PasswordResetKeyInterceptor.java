@@ -32,7 +32,7 @@ public class PasswordResetKeyInterceptor implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		log.info("## {}", this.getClass().getSimpleName());
-		log.info("\t > request-line = {}", HttpUtils.getHttpRequestLine(request));
+		log.info("\t > request-line = {}", HttpUtils.getRequestLine(request));
 		
 		String key = request.getParameter("key");
 		if (!isPasswordResetKey(key)) {

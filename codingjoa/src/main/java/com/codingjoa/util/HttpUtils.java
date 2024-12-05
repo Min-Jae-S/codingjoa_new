@@ -36,7 +36,7 @@ public class HttpUtils {
 	    }
 	}
 	
-	public static String getHttpRequestLine(HttpServletRequest request) {
+	public static String getRequestLine(HttpServletRequest request) {
 		if (request == null) {
 			return null;
 		}

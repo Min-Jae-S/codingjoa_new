@@ -34,7 +34,7 @@ public class JwtMathcerFilter extends OncePerRequestFilter {
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 		log.info("## {}", this.getClass().getSimpleName());
-		log.info("\t > request-line = {}", HttpUtils.getHttpRequestLine(request));
+		log.info("\t > request-line = {}", HttpUtils.getRequestLine(request));
 		
 		String jwt = resolveJwt(request);
 		
@@ -55,9 +55,9 @@ public class JwtMathcerFilter extends OncePerRequestFilter {
 		boolean matchesIncludePattern = includeMatchers.stream().anyMatch(matcher -> matcher.matches(request));
 		
 		if (matchesIncludePattern) {
-			log.info("\t > enter into {} : {}", this.getClass().getSimpleName(), HttpUtils.getHttpRequestLine(request));
+			log.info("\t > enter into {} : {}", this.getClass().getSimpleName(), HttpUtils.getRequestLine(request));
 		} else {
-			log.info("\t > no enter into {} : {}", this.getClass().getSimpleName(), HttpUtils.getHttpRequestLine(request));
+			log.info("\t > no enter into {} : {}", this.getClass().getSimpleName(), HttpUtils.getRequestLine(request));
 		}
 		
 		return !matchesIncludePattern;
