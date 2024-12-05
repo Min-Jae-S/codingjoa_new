@@ -179,5 +179,11 @@ public class TestViewController {
 		log.info("## quartz2 main");
 		return "test/quartz2";
 	}
+
+	@GetMapping("/ws")
+	public String ws() {
+		log.info("## ws main");
+		return "test/ws";
+	}
 	
 }

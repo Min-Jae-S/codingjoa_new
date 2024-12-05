@@ -11,12 +11,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+@SuppressWarnings("unused")
 @Slf4j
 @RequiredArgsConstructor
 @Component
 public class WebSocketHandler extends TextWebSocketHandler {
 	
-	@SuppressWarnings("unused")
 	private final ObjectMapper objectMapper;
 	
 	@Override

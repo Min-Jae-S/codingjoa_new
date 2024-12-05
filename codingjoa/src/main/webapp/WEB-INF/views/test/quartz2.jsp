@@ -84,7 +84,6 @@
 		<button type="reset" class="btn btn-secondary btn-lg">reset</button>
 	</div>
 	</form>
-	
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 <script>
