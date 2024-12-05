@@ -64,7 +64,7 @@
 		
 		socket.onmessage = function(result) {
 			console.log("## websocket received response");
-			consoel.log(result);
+			console.log(result.data);
 		};
 
 		socket.onerror = function(error) {
