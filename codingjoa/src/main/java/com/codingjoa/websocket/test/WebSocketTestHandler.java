@@ -1,5 +1,6 @@
 package com.codingjoa.websocket.test;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -53,6 +54,18 @@ public class WebSocketTestHandler extends TextWebSocketHandler {
 		
 		for (WebSocketSession webSocketSession : participants) {
 			webSocketSession.sendMessage(new TextMessage(json));
+		}
+	}
+	
+	public void sendNoticiation() throws Exception {
+		log.info("## sendNoticiation");
+		log.info("\t > current participants = {}", getCurrrentParticipants());
+		
+		String message = "notification";
+		for (WebSocketSession session : participants) {
+			if (session.isOpen()) {
+				session.sendMessage(new TextMessage(message));
+			}
 		}
 	}
 
