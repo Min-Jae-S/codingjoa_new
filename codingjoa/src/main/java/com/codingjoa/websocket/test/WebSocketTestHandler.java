@@ -57,14 +57,17 @@ public class WebSocketTestHandler extends TextWebSocketHandler {
 		}
 	}
 	
-	public void sendNoticiation() throws Exception {
+	public void sendNoticiation(String message) {
 		log.info("## sendNoticiation");
 		log.info("\t > current participants = {}", getCurrrentParticipants());
 		
-		String message = "notification";
 		for (WebSocketSession session : participants) {
 			if (session.isOpen()) {
-				session.sendMessage(new TextMessage(message));
+				try {
+					session.sendMessage(new TextMessage(message));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}
