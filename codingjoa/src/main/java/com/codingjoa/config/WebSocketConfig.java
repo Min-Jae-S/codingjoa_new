@@ -11,9 +11,7 @@ import com.codingjoa.websocket.test.WebSocketTestHandler;
 import com.codingjoa.websocket.test.WebSocketTestInterceptor;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @RequiredArgsConstructor
 @ComponentScan("com.codingjoa.websocket")
 @EnableWebSocket
@@ -25,7 +23,6 @@ public class WebSocketConfig implements WebSocketConfigurer {
 
 	@Override
 	public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-		log.info("## registerWebSocketHandlers");
 		registry.addHandler(testHandler, "/test/ws/socket")
 				.addInterceptors(new WebSocketTestInterceptor())
 				.setAllowedOrigins("*");
