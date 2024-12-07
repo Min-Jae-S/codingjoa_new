@@ -32,5 +32,5 @@ public class WebSocketConfig implements WebSocketConfigurer {
 		registry.addHandler(notificationHandler, "/ws")
 				.setAllowedOrigins("*");
 	}
-
+	
 }
