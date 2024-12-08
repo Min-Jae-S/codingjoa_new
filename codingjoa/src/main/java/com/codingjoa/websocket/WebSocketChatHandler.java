@@ -29,8 +29,8 @@ public class WebSocketChatHandler extends TextWebSocketHandler {
 		sessions.add(session);
 		
 		for (WebSocketSession webSocketSession : sessions) {
-			String notification = String.format("%s 님이 입장하였습니다.", session.getId());
-			webSocketSession.sendMessage(new TextMessage(notification));
+			String alert = String.format("%s 님이 입장하였습니다.", session.getId());
+			webSocketSession.sendMessage(new TextMessage(alert));
 		}
 	}
 	
@@ -40,15 +40,17 @@ public class WebSocketChatHandler extends TextWebSocketHandler {
 		sessions.remove(session);
 		
 		for (WebSocketSession webSocketSession : sessions) {
-			String notification = String.format("%s 님이 퇴장하였습니다.", session.getId());
-			webSocketSession.sendMessage(new TextMessage(notification));
+			String alert = String.format("%s 님이 퇴장하였습니다.", session.getId());
+			webSocketSession.sendMessage(new TextMessage(alert));
 		}
 	}
 	
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
 		log.info("## {}.handleTextMessage", this.getClass().getSimpleName());
-		log.info("\t > payload = {}", message.getPayload());
+		
+		ChatDto chat = objectMapper.readValue(message.getPayload(), ChatDto.class);
+		log.info("\t > chat = {}", chat);
 	}
 
 	
