@@ -6,7 +6,7 @@ import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
 
-import com.codingjoa.websocket.WebSocketNotificationHandler;
+import com.codingjoa.websocket.WebSocketChatHandler;
 import com.codingjoa.websocket.test.WebSocketTestHandler;
 import com.codingjoa.websocket.test.WebSocketTestInterceptor;
 
@@ -19,14 +19,14 @@ import lombok.RequiredArgsConstructor;
 public class WebSocketConfig implements WebSocketConfigurer {
 	
 	private final WebSocketTestHandler testHandler;
-	private final WebSocketNotificationHandler notificationHandler;
+	private final WebSocketChatHandler chatHandler;
 
 	@Override
 	public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
 		registry.addHandler(testHandler, "/test/ws/socket")
 				.addInterceptors(new WebSocketTestInterceptor())
 				.setAllowedOrigins("*");
-		registry.addHandler(notificationHandler, "/ws")
+		registry.addHandler(chatHandler, "/ws")
 				.setAllowedOrigins("*");
 	}
 	

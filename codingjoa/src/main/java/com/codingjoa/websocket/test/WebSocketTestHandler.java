@@ -27,12 +27,6 @@ public class WebSocketTestHandler extends TextWebSocketHandler {
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 		log.info("## {}.afterConnectionEstablished", this.getClass().getSimpleName());
 		sessions.add(session);
-		
-		for (WebSocketSession webSocketSession : sessions) {
-			String greeting = String.format("%s 님이 입장하셨습니다.", session.getId());
-			webSocketSession.sendMessage(new TextMessage(greeting));
-		}
-		
 		log.info("\t > current sessions = {}", getCurrrentSessions());
 		log.info("\t > my session id = {}", session.getId());
 	}
