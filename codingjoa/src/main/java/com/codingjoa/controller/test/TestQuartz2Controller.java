@@ -147,8 +147,8 @@ public class TestQuartz2Controller {
 	@GetMapping("/samples")
 	public ResponseEntity<Object> getSamples() {
 		log.info("## getSamples");
-		List<TestSchedulerData> samples = schedulerService.getSamples();
 		
+		List<TestSchedulerData> samples = schedulerService.getSamples();
 		SuccessResponse response = SuccessResponse.builder()
 				.data(samples)
 				.message("success")
@@ -187,6 +187,7 @@ public class TestQuartz2Controller {
 	@GetMapping("/standby")
 	public ResponseEntity<Object> standby() throws SchedulerException {
 		log.info("## standby");
+		
 		if (!scheduler.isInStandbyMode()) {
 			scheduler.standby();
 		}
@@ -197,9 +198,11 @@ public class TestQuartz2Controller {
 	@GetMapping("/shutdown")
 	public ResponseEntity<Object> shutdown() throws SchedulerException {
 		log.info("## shutdown");
+		
 		if (!scheduler.isShutdown()) {
 			scheduler.shutdown();
 		}
+		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 
@@ -237,6 +240,8 @@ public class TestQuartz2Controller {
 				.build();
 		
 		String cronExpression = createCronExpression(alarmDto.getAlarmTime());
+		log.info("\t > cronExpression = {}", cronExpression);
+		
 		Trigger alarmTrigger = TriggerBuilder.newTrigger()
 				.forJob(alarmJob)
 				.withIdentity("alarmTrigger", "myTriggers")
@@ -246,8 +251,7 @@ public class TestQuartz2Controller {
 		scheduler.scheduleJob(alarmJob, Set.of(alarmTrigger), true); // replace=true
 	
 		Date nextFireTime = alarmTrigger.getNextFireTime();
-		String formattedNext= (nextFireTime != null) ? sdf.format(nextFireTime) : "N/A";
-		log.info("\t > nextFireTime = {}", formattedNext);
+		log.info("\t > nextFireTime = {}", (nextFireTime != null) ? sdf.format(nextFireTime) : "N/A");
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
