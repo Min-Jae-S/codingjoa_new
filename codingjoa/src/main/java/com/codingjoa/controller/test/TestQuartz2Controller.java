@@ -38,6 +38,7 @@ import com.codingjoa.quartz.AlarmJob;
 import com.codingjoa.quartz.JobC;
 import com.codingjoa.service.SchedulerService;
 import com.codingjoa.test.TestSchedulerData;
+import com.codingjoa.websocket.test.WebSocketTestHandler;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -76,6 +77,9 @@ public class TestQuartz2Controller {
 
 	@Autowired
 	private SchedulerService schedulerService;
+
+	@Autowired
+	private WebSocketTestHandler webSocketTestHandler;
 	
 	@GetMapping("/config")
 	public ResponseEntity<Object> config() throws SchedulerException {
@@ -234,6 +238,7 @@ public class TestQuartz2Controller {
 		
 		JobDataMap jobData = new JobDataMap();
 		jobData.put("alarmDto", alarmDto);
+		jobData.put("handler", webSocketTestHandler);
 		
 		JobDetail alarmJob = JobBuilder.newJob(AlarmJob.class)
 				.withIdentity("alarmJob", "myJobs")

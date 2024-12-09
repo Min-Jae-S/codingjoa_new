@@ -5,10 +5,10 @@ import org.quartz.JobDetail;
 import org.quartz.SimpleScheduleBuilder;
 import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
-import org.springframework.web.context.WebApplicationContext;
 
 import com.codingjoa.quartz.AutowiringSpringBeanJobFactory;
 import com.codingjoa.quartz.JobA;
@@ -18,12 +18,12 @@ import com.codingjoa.quartz.JobB;
 public class QuartzConfig {
 
 	@Bean
-	public SchedulerFactoryBean schedulerFactory(WebApplicationContext webApplicationContext) {
+	public SchedulerFactoryBean schedulerFactory(ApplicationContext applicationContext) {
 		SchedulerFactoryBean schedulerFactory = new SchedulerFactoryBean();
 
 		AutowiringSpringBeanJobFactory jobFactory = new AutowiringSpringBeanJobFactory();
 		//SpringBeanJobFactory jobFactory = new SpringBeanJobFactory();
-		jobFactory.setApplicationContext(webApplicationContext);
+		jobFactory.setApplicationContext(applicationContext);
 		
 		schedulerFactory.setJobFactory(jobFactory);
 		schedulerFactory.setAutoStartup(true);
