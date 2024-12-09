@@ -1,7 +1,6 @@
 package com.codingjoa.quartz;
 
 import org.quartz.spi.TriggerFiredBundle;
-import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.scheduling.quartz.SpringBeanJobFactory;
@@ -19,21 +18,23 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class AutowiringSpringBeanJobFactory extends SpringBeanJobFactory implements ApplicationContextAware {
 	
-	private transient AutowireCapableBeanFactory beanFactory;
+	private ApplicationContext applicationContext;
 
 	@Override
-	public void setApplicationContext(ApplicationContext context) {
-		super.setApplicationContext(context);
-		beanFactory = context.getAutowireCapableBeanFactory();
+	public void setApplicationContext(ApplicationContext applicationContext) {
+		super.setApplicationContext(applicationContext);
+		this.applicationContext = applicationContext;
 	}
 
 	@Override
 	protected Object createJobInstance(TriggerFiredBundle bundle) throws Exception {
 		log.info("## {}.createJobInstance", this.getClass().getSimpleName());
+		log.info("\t > applicationContext = {}", applicationContext);
+		
 		Object jobInstance = super.createJobInstance(bundle);
 		log.info("\t > jobInstance = {}", jobInstance);
 		
-		beanFactory.autowireBean(jobInstance);
+		applicationContext.getAutowireCapableBeanFactory().autowireBean(jobInstance);
 		return jobInstance;
 	}
 }

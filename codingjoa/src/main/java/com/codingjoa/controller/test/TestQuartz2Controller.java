@@ -138,9 +138,11 @@ public class TestQuartz2Controller {
 	public ResponseEntity<Object> start() throws SchedulerException {
 		log.info("## start");
 		if (!scheduler.isStarted()) {
+			log.info("\t > start scheduler");
 			scheduler.start();
 		} else {
-			log.info("\t > scheduler is already started");
+			log.info("\t > resume all");
+			scheduler.resumeAll();
 		}
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
@@ -179,31 +181,27 @@ public class TestQuartz2Controller {
 		}
 		
 		if (!scheduler.isStarted()) {
+			log.info("\t > start scheduler");
 			scheduler.start();
+		} else {
+			log.info("\t > resume all");
+			scheduler.resumeAll();
 		}
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 
-	@GetMapping("/standby")
-	public ResponseEntity<Object> standby() throws SchedulerException {
-		log.info("## standby");
-		
-		if (!scheduler.isInStandbyMode()) {
-			scheduler.standby();
-		}
-		
+	@GetMapping("/pause")
+	public ResponseEntity<Object> pause() throws SchedulerException {
+		log.info("## pause");
+		scheduler.pauseAll();
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 
 	@GetMapping("/shutdown")
 	public ResponseEntity<Object> shutdown() throws SchedulerException {
 		log.info("## shutdown");
-		
-		if (!scheduler.isShutdown()) {
-			scheduler.shutdown();
-		}
-		
+		scheduler.shutdown();
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 

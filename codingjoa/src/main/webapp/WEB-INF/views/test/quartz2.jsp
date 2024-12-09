@@ -49,7 +49,7 @@
 	</div>
 	<div class="test mb-5 px-5">
 		<button class="btn btn-warning btn-lg" onclick="start()">start</button>
-		<button class="btn btn-warning btn-lg" onclick="standby()">stop (standby)</button>
+		<button class="btn btn-warning btn-lg" onclick="pause()">pause</button>
 		<button class="btn btn-warning btn-lg" onclick="shutdown()">shutdown</button>
 		<button class="btn btn-warning btn-lg" onclick="clearScheduler()">clear</button>
 	</div>
@@ -197,11 +197,11 @@
 		});
 	}
 
-	function standby() {
-		console.log("## standby");
+	function pause() {
+		console.log("## pause");
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/quartz2/standby",
+			url : "${contextPath}/test/quartz2/pause",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
