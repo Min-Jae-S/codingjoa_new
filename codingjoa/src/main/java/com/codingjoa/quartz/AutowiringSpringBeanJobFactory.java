@@ -19,24 +19,21 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class AutowiringSpringBeanJobFactory extends SpringBeanJobFactory implements ApplicationContextAware {
 	
-	private ApplicationContext applicationContext;
+	private transient AutowireCapableBeanFactory beanFactory;
 
 	@Override
-	public void setApplicationContext(ApplicationContext applicationContext) {
-		super.setApplicationContext(applicationContext);
-		this.applicationContext = applicationContext;
+	public void setApplicationContext(ApplicationContext context) {
+		super.setApplicationContext(context);
+		beanFactory = context.getAutowireCapableBeanFactory();
 	}
 
 	@Override
 	protected Object createJobInstance(TriggerFiredBundle bundle) throws Exception {
 		log.info("## {}.createJobInstance", this.getClass().getSimpleName());
-		
 		Object jobInstance = super.createJobInstance(bundle);
 		log.info("\t > jobInstance = {}", jobInstance);
 		
-		AutowireCapableBeanFactory beanFactory = applicationContext.getAutowireCapableBeanFactory();
 		beanFactory.autowireBean(jobInstance);
-		
 		return jobInstance;
 	}
 }
