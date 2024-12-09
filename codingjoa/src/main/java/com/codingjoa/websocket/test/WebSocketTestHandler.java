@@ -10,6 +10,7 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
+import com.codingjoa.quartz.AlarmDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -28,7 +29,7 @@ public class WebSocketTestHandler extends TextWebSocketHandler {
 		log.info("## {}.afterConnectionEstablished", this.getClass().getSimpleName());
 		sessions.add(session);
 		log.info("\t > current sessions = {}", getCurrrentSessions());
-		log.info("\t > my session id = {}", session.getId());
+		log.info("\t > session id = {}, pricipal = {}", session.getId(), session.getPrincipal());
 	}
 	
 	@Override
@@ -36,12 +37,13 @@ public class WebSocketTestHandler extends TextWebSocketHandler {
 		log.info("## {}.afterConnectionClosed", this.getClass().getSimpleName());
 		sessions.remove(session);
 		log.info("\t > current sessions = {}", getCurrrentSessions());
-		log.info("\t > my session id = {}", session.getId());
+		log.info("\t > session id = {}, pricipal = {}", session.getId(), session.getPrincipal());
 	}
 	
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
 		log.info("## {}.handleTextMessage", this.getClass().getSimpleName());
+		log.info("\t > session id = {}, pricipal = {}", session.getId(), session.getPrincipal());
 
 		TestWebSocketReponse response = TestWebSocketReponse.builder()
 				.id(session.getId())
@@ -56,18 +58,17 @@ public class WebSocketTestHandler extends TextWebSocketHandler {
 		}
 	}
 	
-	public void sendNoticiation(String message) {
+	public void sendNoticiation(AlarmDto alarmDto) {
 		log.info("## sendNoticiation");
-		log.info("\t > current sessions = {}", getCurrrentSessions());
-		
-		for (WebSocketSession session : sessions) {
-			if (session.isOpen()) {
-				try {
-					session.sendMessage(new TextMessage(message));
-				} catch (Exception e) {
-					e.printStackTrace();
+		try {
+			String json = objectMapper.writeValueAsString(alarmDto);
+			for (WebSocketSession session : sessions) {
+				if (session.isOpen()) {
+					session.sendMessage(new TextMessage(json));
 				}
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 

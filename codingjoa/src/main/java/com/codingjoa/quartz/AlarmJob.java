@@ -18,8 +18,8 @@ public class AlarmJob implements Job {
 	@Override
 	public void execute(JobExecutionContext context) throws JobExecutionException {
 		log.info("## {}.execute", this.getClass().getSimpleName());
-		String message = context.getMergedJobDataMap().getString("alarmMessage");
-		webSocketTestHandler.sendNoticiation(message);
+		AlarmDto alarmDto = (AlarmDto) context.getMergedJobDataMap().get("alarmDto");
+		webSocketTestHandler.sendNoticiation(alarmDto);
 	}
 	
 }

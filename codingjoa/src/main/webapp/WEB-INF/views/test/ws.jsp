@@ -41,6 +41,7 @@
 	<p>ws.jsp</p>
 	<div class="test mt-5 mb-4 px-5">
 		<button class="btn btn-primary btn-lg" id="btn1">test1</button>
+		<button class="btn btn-primary btn-lg" id="btn2">test2</button>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
@@ -64,7 +65,8 @@
 		
 		socket.onmessage = function(result) {
 			console.log("## websocket received response");
-			console.log(result.data);
+			//console.log(result.data);
+			console.log(result);
 		};
 
 		socket.onerror = function(error) {
@@ -75,7 +77,17 @@
 		$("#btn1").on("click", function() {
 			console.log("## btn1 click");
 			//console.log("socket readyState = %s (CONNECTING:0, OPEN:1, CLOSING:2, CLOSED:3)", socket.readyState);
-			socket.send("현재 시각에 대해서 알려줘");
+			socket.send("TEST1");
+		});
+
+		$("#btn2").on("click", function() {
+			console.log("## btn2 click");
+			
+			let chat = {
+				"content" : "TEST2"	
+			};
+			
+			socket.send(JSON.stringify(chat));
 		});
 	});
 

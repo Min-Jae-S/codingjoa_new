@@ -8,6 +8,7 @@ import java.util.Set;
 
 import org.quartz.CronScheduleBuilder;
 import org.quartz.JobBuilder;
+import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
 import org.quartz.JobKey;
 import org.quartz.Scheduler;
@@ -233,9 +234,12 @@ public class TestQuartz2Controller {
 		log.info("## scheduleAlarm");
 		log.info("\t > alramDto = {}", alarmDto);
 		
+		JobDataMap jobData = new JobDataMap();
+		jobData.put("alarmDto", alarmDto);
+		
 		JobDetail alarmJob = JobBuilder.newJob(AlarmJob.class)
 				.withIdentity("alarmJob", "myJobs")
-				.usingJobData("alarmMessage", alarmDto.getAlarmMessage())
+				.usingJobData(jobData)
 				.storeDurably()
 				.build();
 		
