@@ -23,7 +23,7 @@ public final class AutowiringSpringBeanJobFactory extends SpringBeanJobFactory i
 
 	@Override
 	public void setApplicationContext(ApplicationContext applicationContext) {
-		//super.setApplicationContext(applicationContext);
+		super.setApplicationContext(applicationContext);
 		this.applicationContext = applicationContext;
 	}
 

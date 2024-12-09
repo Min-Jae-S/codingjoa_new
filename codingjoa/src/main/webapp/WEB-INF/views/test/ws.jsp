@@ -40,12 +40,14 @@
 <div class="container my-5">
 	<p>ws.jsp</p>
 	<div class="test mt-5 mb-5 px-5">
+		<input class="form-control" type="text" name="from" placeholder="from">
+		<input class="form-control" type="text" name="content" placeholder="content">
 		<button class="btn btn-primary btn-lg" id="btn1">test1</button>
 	</div>
 	<form id="alarmForm">
 	<div class="test mb-3 px-5">
 		<input class="form-control w-25" type="time" name="alarmTime">
-		<input class="form-control" type="text" name="alarmMessage">
+		<input class="form-control" type="text" name="alarmMessage" placeholder="alarm message">
 		<button type="submit" class="btn btn-primary btn-lg">schedule alarm</button>
 		<button type="reset" class="btn btn-secondary btn-lg">reset</button>
 	</div>
@@ -73,7 +75,8 @@
 		socket.onmessage = function(result) {
 			console.log("## websocket received response");
 			//console.log(result.data);
-			console.log(JSON.stringify(result.data, null, 2));
+			let obj = JSON.parse(result.data);
+			console.log(JSON.stringify(obj, null, 2));
 		};
 
 		socket.onerror = function(error) {
@@ -86,8 +89,8 @@
 			//console.log("socket readyState = %s (CONNECTING:0, OPEN:1, CLOSING:2, CLOSED:3)", socket.readyState);
 			
 			let obj = {
-				"from" : "admin",
-				"content" : "test1"		
+				"from" : $("input[name='from']").val(),
+				"content" : $("input[name='content']").val()
 			};
 			
 			socket.send(JSON.stringify(obj));

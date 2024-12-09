@@ -249,13 +249,14 @@ public class TestQuartz2Controller {
 		Trigger alarmTrigger = TriggerBuilder.newTrigger()
 				.forJob(alarmJob)
 				.withIdentity("alarmTrigger", "myTriggers")
-				.withSchedule(CronScheduleBuilder.cronSchedule(cronExpression))
+				//.withSchedule(CronScheduleBuilder.cronSchedule(cronExpression))
+				.withSchedule(SimpleScheduleBuilder.repeatSecondlyForever(10))
 				.build();
 		
 		scheduler.scheduleJob(alarmJob, Set.of(alarmTrigger), true); // replace=true
 	
-		Date nextFireTime = alarmTrigger.getNextFireTime();
-		log.info("\t > nextFireTime = {}", (nextFireTime != null) ? sdf.format(nextFireTime) : "N/A");
+		//Date nextFireTime = alarmTrigger.getNextFireTime();
+		//log.info("\t > nextFireTime = {}", (nextFireTime != null) ? sdf.format(nextFireTime) : "N/A");
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
