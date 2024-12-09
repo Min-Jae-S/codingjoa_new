@@ -41,13 +41,13 @@
 <c:import url="/WEB-INF/views/include/top-menu.jsp"/>
 <div class="container my-5">
 	<p>quartz2.jsp</p>
-	<div class="test mt-5 mb-4 px-5">
+	<div class="test mt-5 mb-5 px-5">
 		<button class="btn btn-warning btn-lg" onclick="config()">config</button>
 		<button class="btn btn-warning btn-lg" onclick="currentJobs()">current jobs</button>
 		<button class="btn btn-warning btn-lg" onclick="getSamples()">get samples</button>
 		<button class="btn btn-warning btn-lg" onclick="deleteSamples()">delete samples</button>
 	</div>
-	<div class="test mb-4 px-5">
+	<div class="test mb-5 px-5">
 		<button class="btn btn-warning btn-lg" onclick="start()">start</button>
 		<button class="btn btn-warning btn-lg" onclick="standby()">stop (standby)</button>
 		<button class="btn btn-warning btn-lg" onclick="shutdown()">shutdown</button>
@@ -76,24 +76,9 @@
   			</div>
 		</div>
 	</div>
-	<form id="alarmForm">
-	<div class="test mb-3 px-5">
-		<input class="form-control w-25" type="time" name="alarmTime">
-		<input class="form-control" type="text" name="alarmMessage">
-		<button type="submit" class="btn btn-primary btn-lg">schedule alarm</button>
-		<button type="reset" class="btn btn-secondary btn-lg">reset</button>
-	</div>
-	</form>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 <script>
-	$(function() {
-		$("#alarmForm").on("submit", function(e) {
-			e.preventDefault();
-			scheduleAlarm();
-		});
-	});
-	
 	function config() {
 		console.log("## config");
 		$.ajax({
@@ -258,38 +243,6 @@
 		$.ajax({
 			type : "GET",
 			url : "${contextPath}/test/quartz2/test1?id=" + id,
-			success : function(result) {
-				console.log("%c> SUCCESS", "color:green");
-				console.log(JSON.stringify(result, null, 2));
-			},
-			error : function(jqXHR) {
-				console.log("%c> ERROR", "color:red");
-				parseError(jqXHR);
-			}
-		});
-	}
-
-	function scheduleAlarm() {
-		console.log("## scheduleAlarm");
-		let alarm = $("#alarmForm").serializeObject();
-		console.log(alarm);
-		
-		if (alarm.alarmTime == null || alarm.alarmTime == "") {
-			alert("알람시각을 정해주세요.");
-			return;
-		}
-
-		if (alarm.alarmMessage == null || alarm.alarmMessage == "") {
-			alert("알람메시지를 입력해주세요.");
-			return;
-		}
-		
-		$.ajax({
-			type : "POST",
-			url : "${contextPath}/test/quartz2/alarm",
-			data : JSON.stringify(alarm),
-			contentType : "application/json; charset=utf-8",
-			dataType : "json",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));

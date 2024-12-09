@@ -11,13 +11,15 @@ import lombok.NoArgsConstructor;
 public class TestWebSocketReponse {
 
 	private String id;
-	private String chatMessage;
+	private String from;
+	private String content;
 	private LocalDateTime timestamp = LocalDateTime.now();
 	
 	@Builder
-	private TestWebSocketReponse(String id, String chatMessage) {
+	private TestWebSocketReponse(String id, String from, String content) {
 		this.id = id;
-		this.chatMessage = chatMessage;
+		this.from = from;
+		this.content = content;
 	}
 	
 }

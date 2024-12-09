@@ -43,16 +43,18 @@ public class WebSocketTestHandler extends TextWebSocketHandler {
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
 		log.info("## {}.handleTextMessage", this.getClass().getSimpleName());
-		log.info("\t > session id = {}, pricipal = {}", session.getId(), session.getPrincipal());
-
+ 
+		TestWebSocketRequest request = objectMapper.readValue(message.getPayload(), TestWebSocketRequest.class);
+		log.info("\t > request = {}", request);
+		
 		TestWebSocketReponse response = TestWebSocketReponse.builder()
 				.id(session.getId())
-				.chatMessage(message.getPayload())
+				.from(request.getFrom())
+				.content(request.getContent())
 				.build();
 		log.info("\t > response = {}", response);
 		
 		String responseJson = objectMapper.writeValueAsString(response);
-		
 		for (WebSocketSession webSocketSession : sessions) {
 			webSocketSession.sendMessage(new TextMessage(responseJson));
 		}

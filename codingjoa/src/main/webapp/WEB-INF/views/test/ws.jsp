@@ -39,10 +39,17 @@
 <c:import url="/WEB-INF/views/include/top-menu.jsp"/>
 <div class="container my-5">
 	<p>ws.jsp</p>
-	<div class="test mt-5 mb-4 px-5">
+	<div class="test mt-5 mb-5 px-5">
 		<button class="btn btn-primary btn-lg" id="btn1">test1</button>
-		<button class="btn btn-primary btn-lg" id="btn2">test2</button>
 	</div>
+	<form id="alarmForm">
+	<div class="test mb-3 px-5">
+		<input class="form-control w-25" type="time" name="alarmTime">
+		<input class="form-control" type="text" name="alarmMessage">
+		<button type="submit" class="btn btn-primary btn-lg">schedule alarm</button>
+		<button type="reset" class="btn btn-secondary btn-lg">reset</button>
+	</div>
+	</form>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 <script>
@@ -66,7 +73,7 @@
 		socket.onmessage = function(result) {
 			console.log("## websocket received response");
 			//console.log(result.data);
-			console.log(result);
+			console.log(JSON.stringify(result.data, null, 2));
 		};
 
 		socket.onerror = function(error) {
@@ -77,20 +84,53 @@
 		$("#btn1").on("click", function() {
 			console.log("## btn1 click");
 			//console.log("socket readyState = %s (CONNECTING:0, OPEN:1, CLOSING:2, CLOSED:3)", socket.readyState);
-			socket.send("TEST1");
-		});
-
-		$("#btn2").on("click", function() {
-			console.log("## btn2 click");
 			
-			let chat = {
-				"content" : "TEST2"	
+			let obj = {
+				"from" : "admin",
+				"content" : "test1"		
 			};
 			
-			socket.send(JSON.stringify(chat));
+			socket.send(JSON.stringify(obj));
 		});
+		
+		$("#alarmForm").on("submit", function(e) {
+			e.preventDefault();
+			scheduleAlarm();
+		});
+	
 	});
+	
+	function scheduleAlarm() {
+		console.log("## scheduleAlarm");
+		let alarm = $("#alarmForm").serializeObject();
+		console.log(alarm);
+		
+		if (alarm.alarmTime == null || alarm.alarmTime == "") {
+			alert("알람시각을 정해주세요.");
+			return;
+		}
 
+		if (alarm.alarmMessage == null || alarm.alarmMessage == "") {
+			alert("알람메시지를 입력해주세요.");
+			return;
+		}
+		
+		$.ajax({
+			type : "POST",
+			url : "${contextPath}/test/quartz2/alarm",
+			data : JSON.stringify(alarm),
+			contentType : "application/json; charset=utf-8",
+			dataType : "json",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log(JSON.stringify(result, null, 2));
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				parseError(jqXHR);
+			}
+		});
+	}
 </script>
 </body>
 </html>
