@@ -75,8 +75,9 @@
 		socket.onmessage = function(result) {
 			console.log("## websocket received response");
 			//console.log(result.data);
-			let obj = JSON.parse(result.data);
-			console.log(JSON.stringify(obj, null, 2));
+			let data = JSON.parse(result.data);
+			console.log(JSON.stringify(data, null, 2));
+			alert(data.alarmMessage);
 		};
 
 		socket.onerror = function(error) {

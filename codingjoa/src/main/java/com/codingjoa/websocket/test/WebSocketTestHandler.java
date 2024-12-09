@@ -29,7 +29,8 @@ public class WebSocketTestHandler extends TextWebSocketHandler {
 		log.info("## {}.afterConnectionEstablished", this.getClass().getSimpleName());
 		sessions.add(session);
 		log.info("\t > current sessions = {}", getCurrrentSessions());
-		log.info("\t > session id = {}, pricipal = {}", session.getId(), session.getPrincipal());
+		log.info("\t > session-id = {}", session.getId());
+		log.info("\t > pricipal = {}", session.getPrincipal());
 	}
 	
 	@Override
@@ -37,7 +38,6 @@ public class WebSocketTestHandler extends TextWebSocketHandler {
 		log.info("## {}.afterConnectionClosed", this.getClass().getSimpleName());
 		sessions.remove(session);
 		log.info("\t > current sessions = {}", getCurrrentSessions());
-		log.info("\t > session id = {}, pricipal = {}", session.getId(), session.getPrincipal());
 	}
 	
 	@Override
@@ -60,8 +60,8 @@ public class WebSocketTestHandler extends TextWebSocketHandler {
 		}
 	}
 	
-	public void sendAlarmNoticiation(AlarmDto alarmDto) {
-		log.info("## sendAlarmNoticiation");
+	public void sendAlarmNotification(AlarmDto alarmDto) {
+		log.info("## sendAlarmNotification");
 		try {
 			String json = objectMapper.writeValueAsString(alarmDto);
 			for (WebSocketSession session : sessions) {

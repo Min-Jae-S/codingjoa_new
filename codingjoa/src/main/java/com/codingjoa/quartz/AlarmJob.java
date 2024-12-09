@@ -16,8 +16,7 @@ public class AlarmJob implements Job {
 		log.info("## {}.execute", this.getClass().getSimpleName());
 		WebSocketTestHandler handler = (WebSocketTestHandler) context.getMergedJobDataMap().get("handler");
 		AlarmDto alarmDto = (AlarmDto) context.getMergedJobDataMap().get("alarmDto");
-		
-		handler.sendAlarmNoticiation(alarmDto);
+		handler.sendAlarmNotification(alarmDto);
 	}
 	
 }
