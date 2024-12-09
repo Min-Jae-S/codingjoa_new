@@ -2,6 +2,7 @@ package com.codingjoa.config;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 import org.modelmapper.ModelMapper;
@@ -24,6 +25,7 @@ import com.codingjoa.util.MessageUtils;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 
 @ComponentScan("com.codingjoa.service") // @TransactionEventListener
 @Configuration
@@ -31,10 +33,13 @@ public class AppConfig {
 	
 	@Bean // thread-safe
 	public ObjectMapper objectMapper() { 
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:ss:mm"); // DateTimeFormatter.ISO_LOCAL_DATE_TIME
+		// DateTimeFormatter.ISO_LOCAL_DATE_TIME
+		DateTimeFormatter localDateTimeformatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:ss:mm"); 
+		DateTimeFormatter localTimeformatter = DateTimeFormatter.ofPattern("HH:ss"); 
 		ObjectMapper objectMapper = Jackson2ObjectMapperBuilder
 				.json()
-				.serializerByType(LocalDateTime.class, new LocalDateTimeSerializer(formatter))
+				.serializerByType(LocalDateTime.class, new LocalDateTimeSerializer(localDateTimeformatter))
+				.serializerByType(LocalTime.class, new LocalTimeSerializer(localTimeformatter))
 				.featuresToEnable(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES) // writeComment - CommentDto(commentBoardIdx)
 				// When serializing a Map, Jackson uses MapSerializer. 
 				// By default, MapSerializer does not transform the keys of the Map, so PropertyNamingStrategy is not applied.

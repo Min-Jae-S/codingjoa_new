@@ -237,8 +237,8 @@ public class TestQuartz2Controller {
 		log.info("\t > alramDto = {}", alarmDto);
 		
 		JobDataMap jobData = new JobDataMap();
-		jobData.put("alarmDto", alarmDto);
 		jobData.put("handler", webSocketTestHandler);
+		jobData.put("alarmDto", alarmDto);
 		
 		JobDetail alarmJob = JobBuilder.newJob(AlarmJob.class)
 				.withIdentity("alarmJob", "myJobs")
@@ -247,19 +247,17 @@ public class TestQuartz2Controller {
 				.build();
 		
 		String cronExpression = createCronExpression(alarmDto.getAlarmTime());
-		log.info("\t > cronExpression = {}", cronExpression);
 		
 		Trigger alarmTrigger = TriggerBuilder.newTrigger()
 				.forJob(alarmJob)
 				.withIdentity("alarmTrigger", "myTriggers")
-				//.withSchedule(CronScheduleBuilder.cronSchedule(cronExpression))
-				.withSchedule(SimpleScheduleBuilder.repeatSecondlyForever(10))
+				.withSchedule(CronScheduleBuilder.cronSchedule(cronExpression))
 				.build();
 		
 		scheduler.scheduleJob(alarmJob, Set.of(alarmTrigger), true); // replace=true
 	
-		//Date nextFireTime = alarmTrigger.getNextFireTime();
-		//log.info("\t > nextFireTime = {}", (nextFireTime != null) ? sdf.format(nextFireTime) : "N/A");
+		Date nextFireTime = alarmTrigger.getNextFireTime();
+		log.info("\t > nextFireTime = {}", (nextFireTime != null) ? sdf.format(nextFireTime) : "N/A");
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}

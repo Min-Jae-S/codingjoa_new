@@ -60,8 +60,8 @@ public class WebSocketTestHandler extends TextWebSocketHandler {
 		}
 	}
 	
-	public void sendNoticiation(AlarmDto alarmDto) {
-		log.info("## sendNoticiation");
+	public void sendAlarmNoticiation(AlarmDto alarmDto) {
+		log.info("## sendAlarmNoticiation");
 		try {
 			String json = objectMapper.writeValueAsString(alarmDto);
 			for (WebSocketSession session : sessions) {
