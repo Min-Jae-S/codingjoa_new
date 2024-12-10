@@ -28,7 +28,6 @@ public class WebSocketTestHandler extends TextWebSocketHandler {
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 		log.info("## {}.afterConnectionEstablished", this.getClass().getSimpleName());
 		sessions.add(session);
-		
 		log.info("\t > current sessions = {}", getCurrrentSessions());
 		log.info("\t > session-id = {}", session.getId());
 		log.info("\t > pricipal = {}", session.getPrincipal());
@@ -56,6 +55,7 @@ public class WebSocketTestHandler extends TextWebSocketHandler {
 		log.info("\t > response = {}", response);
 		
 		String responseJson = objectMapper.writeValueAsString(response);
+		
 		for (WebSocketSession webSocketSession : sessions) {
 			webSocketSession.sendMessage(new TextMessage(responseJson));
 		}

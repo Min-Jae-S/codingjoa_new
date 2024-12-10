@@ -6,6 +6,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
+import javax.annotation.Resource;
+
 import org.quartz.CronScheduleBuilder;
 import org.quartz.JobBuilder;
 import org.quartz.JobDataMap;
@@ -59,20 +61,16 @@ public class TestQuartz2Controller {
 	@Autowired
 	private Scheduler scheduler;
 	
-	@Qualifier("jobDetailA")
-	@Autowired
+	@Resource(name = "jobDetailA")
 	private JobDetail jobDetailA;
 
-	@Qualifier("jobDetailB")
-	@Autowired
+	@Resource(name = "jobDetailB")
 	private JobDetail jobDetailB;
 	
-	@Qualifier("triggerA")
-	@Autowired
+	@Resource(name = "triggerA")
 	private Trigger triggerA;
 	
-	@Qualifier("triggerB")
-	@Autowired
+	@Resource(name = "triggerB")
 	private Trigger triggerB;
 
 	@Autowired
@@ -132,9 +130,7 @@ public class TestQuartz2Controller {
 	@GetMapping("/clear")
 	public ResponseEntity<Object> clear() throws SchedulerException {
 		log.info("## clear");
-		log.info("\t > before clearing, scheduled jobs = {}", scheduler.getJobKeys(GroupMatcher.anyJobGroup()));
 		scheduler.clear();
-		log.info("\t > after clearing, scheduled jobs = {}", scheduler.getJobKeys(GroupMatcher.anyJobGroup()));
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 
@@ -145,7 +141,7 @@ public class TestQuartz2Controller {
 			log.info("\t > start scheduler");
 			scheduler.start();
 		} else {
-			log.info("\t > resume all");
+			log.info("\t > resume scheduler");
 			scheduler.resumeAll();
 		}
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
@@ -188,7 +184,7 @@ public class TestQuartz2Controller {
 			log.info("\t > start scheduler");
 			scheduler.start();
 		} else {
-			log.info("\t > resume all");
+			log.info("\t > resume scheduler");
 			scheduler.resumeAll();
 		}
 		
@@ -247,7 +243,6 @@ public class TestQuartz2Controller {
 				.build();
 		
 		String cronExpression = createCronExpression(alarmDto.getAlarmTime());
-		
 		Trigger alarmTrigger = TriggerBuilder.newTrigger()
 				.forJob(alarmJob)
 				.withIdentity("alarmTrigger", "myTriggers")
