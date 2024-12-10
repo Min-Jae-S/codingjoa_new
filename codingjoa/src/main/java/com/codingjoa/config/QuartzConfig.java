@@ -9,8 +9,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
+import org.springframework.scheduling.quartz.SpringBeanJobFactory;
 
-import com.codingjoa.quartz.AutowiringSpringBeanJobFactory;
 import com.codingjoa.quartz.JobA;
 import com.codingjoa.quartz.JobB;
 
@@ -21,8 +21,8 @@ public class QuartzConfig {
 	public SchedulerFactoryBean schedulerFactory(ApplicationContext applicationContext) {
 		SchedulerFactoryBean schedulerFactory = new SchedulerFactoryBean();
 
-		AutowiringSpringBeanJobFactory jobFactory = new AutowiringSpringBeanJobFactory();
-		//SpringBeanJobFactory jobFactory = new SpringBeanJobFactory();
+		//AutowiringSpringBeanJobFactory jobFactory = new AutowiringSpringBeanJobFactory();
+		SpringBeanJobFactory jobFactory = new SpringBeanJobFactory();
 		jobFactory.setApplicationContext(applicationContext);
 		
 		schedulerFactory.setJobFactory(jobFactory);
