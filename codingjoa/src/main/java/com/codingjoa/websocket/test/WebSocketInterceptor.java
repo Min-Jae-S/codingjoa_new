@@ -11,19 +11,19 @@ import lombok.extern.slf4j.Slf4j;
 
 @SuppressWarnings("unused")
 @Slf4j
-public class WebSocketTestInterceptor implements HandshakeInterceptor {
+public class WebSocketInterceptor implements HandshakeInterceptor {
 
 	@Override
 	public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler,
 			Map<String, Object> attributes) throws Exception {
-		//log.info("## {}.beforeHandshake", this.getClass().getSimpleName());
+		log.info("## {}.beforeHandshake", this.getClass().getSimpleName());
 		return true;
 	}
 
 	@Override
 	public void afterHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler,
 			Exception exception) {
-		//log.info("## {}.afterHandshake", this.getClass().getSimpleName());
+		log.info("## {}.afterHandshake", this.getClass().getSimpleName());
 	}
 
 }

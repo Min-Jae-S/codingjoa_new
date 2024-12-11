@@ -40,19 +40,18 @@
 <div class="container my-5">
 	<p>ws.jsp</p>
 	<div class="test mt-5 mb-5 px-5">
-		<input class="form-control" type="text" name="from" placeholder="from">
 		<input class="form-control" type="text" name="content" placeholder="content">
-		<button class="btn btn-primary btn-lg" id="btn1">test1</button>
+		<button class="btn btn-primary btn-lg" type="button" id="sendBtn">send message</button>
 	</div>
 	<form id="alarmForm">
-	<div class="test mb-3 px-5">
-		<input class="form-control w-25" type="time" name="alarmTime">
-		<input class="form-control" type="text" name="alarmMessage" placeholder="alarm message">
+	<div class="test mb-5 px-5">
+		<input class="form-control w-25" type="time" name="time">
+		<input class="form-control" type="text" name="message" placeholder="alarm message">
 		<button type="submit" class="btn btn-primary btn-lg">schedule alarm</button>
 		<button type="reset" class="btn btn-secondary btn-lg">reset</button>
 	</div>
-	<div class="test mb-3 px-5">
-		<button type="submit" class="btn btn-primary btn-lg">stomp test</button>
+	<div class="test mb-5 px-5">
+		<button type="button" class="btn btn-primary btn-lg">stomp test</button>
 	</div>
 	</form>
 </div>
@@ -80,7 +79,7 @@
 			//console.log(result.data);
 			let data = JSON.parse(result.data);
 			console.log(JSON.stringify(data, null, 2));
-			alert(data.alarmMessage);
+			alert(data.message);
 		};
 
 		socket.onerror = function(error) {
@@ -88,16 +87,14 @@
 			console.log(error);
 		};
 		
-		$("#btn1").on("click", function() {
-			console.log("## btn1 click");
-			//console.log("socket readyState = %s (CONNECTING:0, OPEN:1, CLOSING:2, CLOSED:3)", socket.readyState);
-			
-			let obj = {
-				"from" : $("input[name='from']").val(),
+		$("#sendBtn").on("click", function() {
+			console.log("## sendBtn click");
+			let message = {
+				"type" : "chat",
 				"content" : $("input[name='content']").val()
 			};
 			
-			socket.send(JSON.stringify(obj));
+			socket.send(JSON.stringify(message));
 		});
 		
 		$("#alarmForm").on("submit", function(e) {

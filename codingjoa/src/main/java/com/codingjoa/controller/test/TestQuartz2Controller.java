@@ -40,7 +40,7 @@ import com.codingjoa.quartz.AlarmJob;
 import com.codingjoa.quartz.JobC;
 import com.codingjoa.service.SchedulerService;
 import com.codingjoa.test.TestSchedulerData;
-import com.codingjoa.websocket.test.WebSocketTestHandler;
+import com.codingjoa.websocket.test.WebSocketHandler;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -77,7 +77,7 @@ public class TestQuartz2Controller {
 	private SchedulerService schedulerService;
 
 	@Autowired
-	private WebSocketTestHandler webSocketTestHandler;
+	private WebSocketHandler webSocketTestHandler;
 	
 	@GetMapping("/config")
 	public ResponseEntity<Object> config() throws SchedulerException {
@@ -242,7 +242,7 @@ public class TestQuartz2Controller {
 				.storeDurably()
 				.build();
 		
-		String cronExpression = createCronExpression(alarmDto.getAlarmTime());
+		String cronExpression = createCronExpression(alarmDto.getTime());
 		Trigger alarmTrigger = TriggerBuilder.newTrigger()
 				.forJob(alarmJob)
 				.withIdentity("alarmTrigger", "myTriggers")
@@ -252,7 +252,7 @@ public class TestQuartz2Controller {
 		scheduler.scheduleJob(alarmJob, Set.of(alarmTrigger), true); // replace=true
 	
 		Date nextFireTime = alarmTrigger.getNextFireTime();
-		log.info("\t > nextFireTime = {}", (nextFireTime != null) ? sdf.format(nextFireTime) : "N/A");
+		log.info("\t > next fire time = {}", (nextFireTime != null) ? sdf.format(nextFireTime) : "N/A");
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
