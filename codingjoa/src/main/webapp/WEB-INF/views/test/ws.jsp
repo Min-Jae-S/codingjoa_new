@@ -51,6 +51,9 @@
 		<button type="submit" class="btn btn-primary btn-lg">schedule alarm</button>
 		<button type="reset" class="btn btn-secondary btn-lg">reset</button>
 	</div>
+	<div class="test mb-3 px-5">
+		<button type="submit" class="btn btn-primary btn-lg">stomp test</button>
+	</div>
 	</form>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>

@@ -15,7 +15,7 @@ public class WebSocketController {
 
 	private final SimpMessagingTemplate template;
 	
-	@MessageMapping("/ws/broker")
+	@MessageMapping("/ws/stomp/test")
 	public void test() {
 		
 	}
