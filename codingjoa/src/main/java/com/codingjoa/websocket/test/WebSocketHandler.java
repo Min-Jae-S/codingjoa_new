@@ -35,7 +35,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
 		Message message = Message.builder()
 				.type("new")
 				.sender(sessionId)
-				.content(String.format(sessionId, "%s 님이 입장하였습니다."))
+				.content(String.format("%s 님이 입장하였습니다.", sessionId))
 				.build();
 		log.info("\t > message = {}", message);
 		
@@ -68,7 +68,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
 		Message message = Message.builder()
 				.type("close")
 				.sender(sessionId)
-				.content(String.format(sessionId, "%s 님이 퇴장하였습니다."))
+				.content(String.format("%s 님이 퇴장하였습니다.", sessionId))
 				.build();
 		log.info("\t > message = {}", message);
 		

@@ -24,7 +24,7 @@
 		padding-top: 20px;
 	}
 	
-	div.test {
+	div.test, div.input {
 		display: flex;
 		/* justify-content: space-between; */
 		column-gap: 35px;
@@ -33,20 +33,33 @@
 	div.test button {
 		width: 183px;
 	}
+	
+	input::-webkit-input-placeholder {
+    	font-size: 1rem !important;
+	}
+}
 </style>
 </head>
 <body>
 <c:import url="/WEB-INF/views/include/top-menu.jsp"/>
 <div class="container my-5">
 	<p>ws.jsp</p>
+	<form id="messageForm">
 	<div class="test mt-5 mb-5 px-5">
-		<input class="form-control" type="text" name="content" placeholder="content">
-		<button class="btn btn-primary btn-lg" type="button" id="sendBtn">send message</button>
+		<div class="input w-50">
+			<input class="form-control" type="text" name="content" placeholder="message">
+			<input class="form-control" type="hidden" name="type" value="chat">
+		</div>
+		<button type="submit" class="btn btn-primary btn-lg">send message</button>
+		<button type="reset" class="btn btn-secondary btn-lg">reset</button>
 	</div>
+	</form>
 	<form id="alarmForm">
 	<div class="test mb-5 px-5">
-		<input class="form-control w-25" type="time" name="time">
-		<input class="form-control" type="text" name="message" placeholder="alarm message">
+		<div class="input w-50">
+			<input class="form-control w-50" type="time" name="time">
+			<input class="form-control" type="text" name="content" placeholder="alarm message">
+		</div>
 		<button type="submit" class="btn btn-primary btn-lg">schedule alarm</button>
 		<button type="reset" class="btn btn-secondary btn-lg">reset</button>
 	</div>
@@ -54,15 +67,27 @@
 		<button type="button" class="btn btn-primary btn-lg">stomp test</button>
 	</div>
 	</form>
+	<div class="alert alert-primary mx-5 d-none">
+		<!-- web-socket message -->
+	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 <script>
+	const host = window.location.host;
+	const socketUrl = "ws://" + host + "${contextPath}/ws/test";
+	const socket = new WebSocket(socketUrl);
+	console.log("## socketUrl = %s", socketUrl);
+	
 	$(function() {
-		const host = window.location.host;
-		const socketUrl = "ws://" + host + "${contextPath}/ws/test";
-		console.log("## socketUrl = %s", socketUrl);
-
-		const socket = new WebSocket(socketUrl);
+		$("#messageForm").on("submit", function(e) {
+			e.preventDefault();
+			sendMessage();
+		});
+		
+		$("#alarmForm").on("submit", function(e) {
+			e.preventDefault();
+			scheduleAlarm();
+		});
 		
 		socket.onopen = function(e) {
 			console.log("## websocket connected");
@@ -79,7 +104,13 @@
 			//console.log(result.data);
 			let data = JSON.parse(result.data);
 			console.log(JSON.stringify(data, null, 2));
-			alert(data.message);
+			
+			let alertMessage = data.content;
+			if (alertMessage == null || alertMessage == "") {
+				alertMessage = "no message";
+			}
+			
+			$(".alert").html(alertMessage).removeClass("d-none");
 		};
 
 		socket.onerror = function(error) {
@@ -87,54 +118,46 @@
 			console.log(error);
 		};
 		
-		$("#sendBtn").on("click", function() {
-			console.log("## sendBtn click");
-			let message = {
-				"type" : "chat",
-				"content" : $("input[name='content']").val()
-			};
+		function sendMessage() {
+			console.log("## sendMessage");
+			let message = $("#messageForm").serializeObject();
+			console.log(message);
 			
 			socket.send(JSON.stringify(message));
-		});
-		
-		$("#alarmForm").on("submit", function(e) {
-			e.preventDefault();
-			scheduleAlarm();
-		});
-	
-	});
-	
-	function scheduleAlarm() {
-		console.log("## scheduleAlarm");
-		let alarm = $("#alarmForm").serializeObject();
-		console.log(alarm);
-		
-		if (alarm.alarmTime == null || alarm.alarmTime == "") {
-			alert("알람시각을 정해주세요.");
-			return;
-		}
-
-		if (alarm.alarmMessage == null || alarm.alarmMessage == "") {
-			alert("알람메시지를 입력해주세요.");
-			return;
 		}
 		
-		$.ajax({
-			type : "POST",
-			url : "${contextPath}/test/quartz2/alarm",
-			data : JSON.stringify(alarm),
-			contentType : "application/json; charset=utf-8",
-			dataType : "json",
-			success : function(result) {
-				console.log("%c> SUCCESS", "color:green");
-				console.log(JSON.stringify(result, null, 2));
-			},
-			error : function(jqXHR) {
-				console.log("%c> ERROR", "color:red");
-				parseError(jqXHR);
+		function scheduleAlarm() {
+			console.log("## scheduleAlarm");
+			let alarm = $("#alarmForm").serializeObject();
+			console.log(alarm);
+			
+			if (alarm.time == null || alarm.time == "") {
+				alert("알람시각을 정해주세요.");
+				return;
 			}
-		});
-	}
+
+			if (alarm.content == null || alarm.content == "") {
+				alert("알람메시지를 입력해주세요.");
+				return;
+			}
+			
+			$.ajax({
+				type : "POST",
+				url : "${contextPath}/test/quartz2/alarm",
+				data : JSON.stringify(alarm),
+				contentType : "application/json; charset=utf-8",
+				dataType : "json",
+				success : function(result) {
+					console.log("%c> SUCCESS", "color:green");
+					console.log(JSON.stringify(result, null, 2));
+				},
+				error : function(jqXHR) {
+					console.log("%c> ERROR", "color:red");
+					parseError(jqXHR);
+				}
+			});
+		}
+	});
 </script>
 </body>
 </html>

@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 public class AlarmDto {
 	
-	private String message;
+	private String content;
 	private LocalTime time;
 	
 }
