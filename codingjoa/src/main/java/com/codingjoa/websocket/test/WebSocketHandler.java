@@ -42,20 +42,14 @@ public class WebSocketHandler extends TextWebSocketHandler {
 		
 		String json = objectMapper.writeValueAsString(message);
 		sessions.values().forEach(s -> {
-			try {
-				s.sendMessage(new TextMessage(json));
-			} catch (IOException e) {
-				e.printStackTrace();
+			// no need to send the connection info to oneself, so it will be sent to all other sessions except for oneself
+			if (!s.getId().equals(sessionId)) {
+				try {
+					s.sendMessage(new TextMessage(json));
+				} catch (IOException e) {
+					log.info("\t > [{}] {}: {}", s.getId(), e.getClass().getSimpleName(), e.getMessage());
+				}
 			}
-			
-//			// no need to send the connection info to oneself, so it will be sent to all other sessions except for oneself
-//			if (!s.getId().equals(sessionId)) {
-//				try {
-//					s.sendMessage(new TextMessage(json));
-//				} catch (IOException e) {
-//					log.info("\t > [{}] {}: {}", s.getId(), e.getClass().getSimpleName(), e.getMessage());
-//				}
-//			}
 		});
 	}
 	
@@ -71,14 +65,17 @@ public class WebSocketHandler extends TextWebSocketHandler {
 				.sender(sessionId)
 				.senderNickname(getSenderNickname(session))
 				.build();
+		message.setSenderNickname(sessionId);
 		log.info("\t > message = {}", message);
 		
 		String json = objectMapper.writeValueAsString(message);
 		sessions.values().forEach(s -> {
-			try {
-				s.sendMessage(new TextMessage(json));
-			} catch (IOException e) {
-				e.printStackTrace();
+			if (!s.getId().equals(sessionId)) {
+				try {
+					s.sendMessage(new TextMessage(json));
+				} catch (IOException e) {
+					log.info("\t > [{}] {}: {}", s.getId(), e.getClass().getSimpleName(), e.getMessage());
+				}
 			}
 		});
 	}
@@ -86,25 +83,27 @@ public class WebSocketHandler extends TextWebSocketHandler {
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage textMessage) throws Exception {
 		log.info("## {}.handleTextMessage", this.getClass().getSimpleName());
- 
 		Message message = objectMapper.readValue(textMessage.getPayload(), Message.class);
-		message.setSender(session.getId());
+
+		String sessionId = session.getId();
+		message.setSender(sessionId);
 		message.setSenderNickname(getSenderNickname(session));
 		log.info("\t > message = {}", message);
 		
 		String json = objectMapper.writeValueAsString(message);
 		sessions.values().forEach(s -> {
-			try {
-				s.sendMessage(new TextMessage(json));
-			} catch (IOException e) {
-				e.printStackTrace();
+			if (!s.getId().equals(sessionId)) {
+				try {
+					s.sendMessage(new TextMessage(json));
+				} catch (IOException e) {
+					log.info("\t > [{}] {}: {}", s.getId(), e.getClass().getSimpleName(), e.getMessage());
+				}
 			}
 		});
 	}
 	
 	public void sendAlarm(AlarmDto alarmDto) throws Exception {
 		log.info("## sendAlarm");
-		
 		String json = objectMapper.writeValueAsString(alarmDto);
 		sessions.values().forEach(s -> {
 			try {
@@ -118,7 +117,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
 	private String getSenderNickname(WebSocketSession session) {
 		Principal principal = session.getPrincipal();
 		log.info("\t > principal = {}", principal);
-		return (principal == null) ? "익명" : principal.getClass().getSimpleName();
+		return (principal == null) ? null : principal.getClass().getSimpleName();
 	}
 
 }

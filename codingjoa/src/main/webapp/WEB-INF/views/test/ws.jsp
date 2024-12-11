@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>    
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html>
@@ -26,8 +27,8 @@
 	
 	div.test, div.input {
 		display: flex;
-		/* justify-content: space-between; */
-		column-gap: 35px;
+		justify-content: space-between;
+		/* column-gap: 35px; */
 	}
 	
 	div.test button {
@@ -35,7 +36,7 @@
 	}
 	
 	input::-webkit-input-placeholder {
-    	font-size: 1rem !important;
+    	font-size: 1.25rem !important;
 	}
 	
 	div.chat-container {
@@ -47,6 +48,19 @@
 		display: flex;
 		flex-direction: column;
 	}
+	
+	.other-chat {
+		background-color: #fff;
+   	 	border: 1px solid rgba(0, 0, 0, .125);
+   	 	border-radius: 5px;
+	}
+	
+	.my-chat {
+		background-color: #fff3cd;
+   	 	border-color: #ffeeba;
+   	 	border-radius: 5px;
+   	 	margin-left: auto
+	}
 }
 </style>
 </head>
@@ -54,36 +68,35 @@
 <c:import url="/WEB-INF/views/include/top-menu.jsp"/>
 <div class="container my-5">
 	<p>ws.jsp</p>
-	<form id="messageForm">
-	<div class="test mt-5 mb-5 px-5">
-		<div class="input w-50">
-			<input class="form-control" type="text" name="content" placeholder="message">
-			<input class="form-control" type="hidden" name="type" value="chat">
-		</div>
-		<button type="submit" class="btn btn-primary btn-lg">send message</button>
-		<button type="reset" class="btn btn-secondary btn-lg">reset</button>
-	</div>
-	</form>
 	<form id="alarmForm">
-	<div class="test mb-5 px-5">
-		<div class="input w-50">
-			<input class="form-control w-50" type="time" name="time">
-			<input class="form-control" type="text" name="content" placeholder="alarm message">
-		</div>
+	<div class="test mb-3 px-5">
+		<input class="form-control w-25" type="time" name="time">
+		<input class="form-control w-25" type="text" name="content" placeholder="alarm message">
 		<button type="submit" class="btn btn-primary btn-lg">schedule alarm</button>
 		<button type="reset" class="btn btn-secondary btn-lg">reset</button>
 	</div>
+	</form>
 	<div class="test mb-5 px-5">
 		<button type="button" class="btn btn-primary btn-lg">stomp test</button>
 	</div>
+	<form id="chatForm">
+	<div class="test mt-5 mb-3 px-5">
+		<div class="input w-75">
+			<sec:authentication property="principal" var="principal"/>
+			<sec:authorize access="isAnonymous()">
+				<input class="form-control" type="hidden" name="senderNickname" value="">
+			</sec:authorize>
+			<sec:authorize access="isAuthenticated()">
+				<input class="form-control" type="hidden" name="senderNickname" value="${principal.nickname}">
+			</sec:authorize>
+			<input class="form-control" type="hidden" name="type" value="chat">
+			<input class="form-control" type="text" name="content" placeholder="message">
+		</div>
+		<button type="submit" class="btn btn-primary btn-lg">send message</button>
+	</div>
 	</form>
 	<div class="chat-container px-5">
-		<div class="alert alert-secondary"><span class="font-weight-bold">민짜이</span>님이 입장하셨습니다.</div>
-		<div class="alert alert-warning w-25 chat">
-			<span class="font-weight-bold mb-3">민짜이</span>
-			<span>안녕하세요</span>
-		</div>
-		<div class="alert alert-warning w-25 chat">반갑습니다.</div>
+		<!-- chat -->
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
@@ -94,9 +107,17 @@
 		const socket = new WebSocket(socketUrl);
 		console.log("## socketUrl = %s", socketUrl);
 		
-		$("#messageForm").on("submit", function(e) {
+		$("#chatForm").on("submit", function(e) {
 			e.preventDefault();
-			sendMessage();
+			let message = $(this).serializeObject();
+			//console.log(message);
+			
+			let chatHtml = createChatHtml(message);
+			let $chatHtml = $(chatHtml);
+			$chatHtml.addClass("my-chat");
+			$(".chat-container").append($chatHtml);
+			
+			socket.send(JSON.stringify(message));
 		});
 		
 		$("#alarmForm").on("submit", function(e) {
@@ -123,9 +144,12 @@
 			if (type == "push") {
 				alert(data.content);
 			} else if (type == "chat") {
-				$(".chat").append(createChatHtml(data));
+				let chatHtml = createChatHtml(data);
+				let $chatHtml = $(chatHtml);
+				$chatHtml.addClass("other-chat");
+				$(".chat-container").append($chatHtml);
 			} else { // enter, left
-				$(".chat").append(createChatNotificationHtml(data));
+				$(".chat-container").append(createChatNotificationHtml(data));
 			}
 		};
 
@@ -133,14 +157,6 @@
 			console.log("## websocket error");
 			console.log(error);
 		};
-		
-		function sendMessage() {
-			console.log("## sendMessage");
-			let message = $("#messageForm").serializeObject();
-			console.log(message);
-			
-			socket.send(JSON.stringify(message));
-		}
 		
 		function scheduleAlarm() {
 			console.log("## scheduleAlarm");
@@ -181,7 +197,7 @@
 	
 	function createChatNotificationHtml(data) {
 		let html = '<div class="alert alert-secondary">';
-		html += '<span class="font-weight-bold">' + data.senderNickname + "</span>";
+		html += '<span class="font-weight-bold">' + (isEmpty(data.senderNickname) ? "익명" : data.senderNickname) + "</span>";
 		if (data.type == "enter") {
 			html += ' 님이 입장하였습니다.';
 		} else if (data.type == "exit"){
@@ -192,7 +208,11 @@
 	}
 	
 	function createChatHtml(data) {
-		
+		let html = '<div class="alert w-25 chat">';
+		html += '<span class="font-weight-bold mb-2">' + (isEmpty(data.senderNickname) ? "익명" : data.senderNickname) + '</span>';
+		html += '<span>' + (data.content.trim() == "" ? '&nbsp' : data.content)+ '</span>';
+		html += '</div>';
+		return html;
 	}
 </script>
 </body>
