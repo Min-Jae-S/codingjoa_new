@@ -34,6 +34,7 @@ import com.codingjoa.config.RedisConfig;
 import com.codingjoa.config.SecurityConfig;
 import com.codingjoa.config.ServletConfig;
 import com.codingjoa.config.WebSocketConfig;
+import com.codingjoa.config.WebSocketMessageBrokerConfig;
 import com.codingjoa.filter.ErrorHandlingFilter;
 import com.codingjoa.filter.LogFilter;
 import com.codingjoa.filter.TestAopFilter;
@@ -57,7 +58,8 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
 				BatchConfig.class,
 				BatchJobConfig.class,
 				OAuth2Config.class,
-				AopConfig.class
+				AopConfig.class,
+				WebSocketMessageBrokerConfig.class
 		};
 	}
 

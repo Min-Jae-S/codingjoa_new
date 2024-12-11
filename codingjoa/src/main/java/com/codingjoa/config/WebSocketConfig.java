@@ -23,10 +23,10 @@ public class WebSocketConfig implements WebSocketConfigurer {
 
 	@Override
 	public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-		registry.addHandler(testHandler, "/test/ws/socket")
+		registry.addHandler(testHandler, "/ws/test")
 				.addInterceptors(new WebSocketTestInterceptor())
 				.setAllowedOrigins("*");
-		registry.addHandler(chatHandler, "/ws")
+		registry.addHandler(chatHandler, "/ws/chat")
 				.setAllowedOrigins("*");
 	}
 	

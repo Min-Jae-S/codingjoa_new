@@ -57,7 +57,7 @@
 <script>
 	$(function() {
 		const host = window.location.host;
-		const socketUrl = "ws://" + host + "${contextPath}/test/ws/socket";
+		const socketUrl = "ws://" + host + "${contextPath}/ws/test";
 		console.log("## socketUrl = %s", socketUrl);
 
 		const socket = new WebSocket(socketUrl);
