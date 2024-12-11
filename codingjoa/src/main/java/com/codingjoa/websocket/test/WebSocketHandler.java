@@ -1,6 +1,7 @@
 package com.codingjoa.websocket.test;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -33,9 +34,9 @@ public class WebSocketHandler extends TextWebSocketHandler {
 		sessions.put(sessionId, session);
 		
 		Message message = Message.builder()
-				.type("new")
+				.type("enter")
 				.sender(sessionId)
-				.content(String.format("%s 님이 입장하였습니다.", sessionId))
+				.senderNickname(getSenderNickname(session))
 				.build();
 		log.info("\t > message = {}", message);
 		
@@ -66,9 +67,9 @@ public class WebSocketHandler extends TextWebSocketHandler {
 		sessions.remove(sessionId);
 		
 		Message message = Message.builder()
-				.type("close")
+				.type("exit")
 				.sender(sessionId)
-				.content(String.format("%s 님이 퇴장하였습니다.", sessionId))
+				.senderNickname(getSenderNickname(session))
 				.build();
 		log.info("\t > message = {}", message);
 		
@@ -88,6 +89,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
  
 		Message message = objectMapper.readValue(textMessage.getPayload(), Message.class);
 		message.setSender(session.getId());
+		message.setSenderNickname(getSenderNickname(session));
 		log.info("\t > message = {}", message);
 		
 		String json = objectMapper.writeValueAsString(message);
@@ -111,6 +113,12 @@ public class WebSocketHandler extends TextWebSocketHandler {
 				e.printStackTrace();
 			}
 		});
+	}
+	
+	private String getSenderNickname(WebSocketSession session) {
+		Principal principal = session.getPrincipal();
+		log.info("\t > principal = {}", principal);
+		return (principal == null) ? "익명" : principal.getClass().getSimpleName();
 	}
 
 }

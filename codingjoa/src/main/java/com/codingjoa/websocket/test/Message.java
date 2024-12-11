@@ -14,6 +14,7 @@ public class Message {
 	
 	private String type;
 	private String sender;
+	private String senderNickname;
 	private Object content;
 	private LocalDateTime timestamp = LocalDateTime.now();
 	
@@ -21,10 +22,15 @@ public class Message {
 		this.sender = sender;
 	}
 
+	public void setSenderNickname(String senderNickname) {
+		this.senderNickname = senderNickname;
+	}
+
 	@Builder
-	public Message(String type, String sender, Object content) {
+	public Message(String type, String sender, String senderNickname, Object content) {
 		this.type = type;
 		this.sender = sender;
+		this.senderNickname = senderNickname;
 		this.content = content;
 	}
 	

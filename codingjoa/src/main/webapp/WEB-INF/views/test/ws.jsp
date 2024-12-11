@@ -37,6 +37,16 @@
 	input::-webkit-input-placeholder {
     	font-size: 1rem !important;
 	}
+	
+	div.chat-container {
+		display: flex;
+		flex-direction: column;
+	}
+	
+	div.chat {
+		display: flex;
+		flex-direction: column;
+	}
 }
 </style>
 </head>
@@ -67,18 +77,23 @@
 		<button type="button" class="btn btn-primary btn-lg">stomp test</button>
 	</div>
 	</form>
-	<div class="alert alert-primary mx-5 d-none">
-		<!-- web-socket message -->
+	<div class="chat-container px-5">
+		<div class="alert alert-secondary"><span class="font-weight-bold">민짜이</span>님이 입장하셨습니다.</div>
+		<div class="alert alert-warning w-25 chat">
+			<span class="font-weight-bold mb-3">민짜이</span>
+			<span>안녕하세요</span>
+		</div>
+		<div class="alert alert-warning w-25 chat">반갑습니다.</div>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 <script>
-	const host = window.location.host;
-	const socketUrl = "ws://" + host + "${contextPath}/ws/test";
-	const socket = new WebSocket(socketUrl);
-	console.log("## socketUrl = %s", socketUrl);
-	
 	$(function() {
+		const host = window.location.host;
+		const socketUrl = "ws://" + host + "${contextPath}/ws/test";
+		const socket = new WebSocket(socketUrl);
+		console.log("## socketUrl = %s", socketUrl);
+		
 		$("#messageForm").on("submit", function(e) {
 			e.preventDefault();
 			sendMessage();
@@ -101,16 +116,17 @@
 		
 		socket.onmessage = function(result) {
 			console.log("## websocket received response");
-			//console.log(result.data);
 			let data = JSON.parse(result.data);
 			console.log(JSON.stringify(data, null, 2));
 			
-			let alertMessage = data.content;
-			if (alertMessage == null || alertMessage == "") {
-				alertMessage = "no message";
+			let type = data.type;
+			if (type == "push") {
+				alert(data.content);
+			} else if (type == "chat") {
+				$(".chat").append(createChatHtml(data));
+			} else { // enter, left
+				$(".chat").append(createChatNotificationHtml(data));
 			}
-			
-			$(".alert").html(alertMessage).removeClass("d-none");
 		};
 
 		socket.onerror = function(error) {
@@ -131,12 +147,12 @@
 			let alarm = $("#alarmForm").serializeObject();
 			console.log(alarm);
 			
-			if (alarm.time == null || alarm.time == "") {
+			if (isEmpty(alarm.time)) {
 				alert("알람시각을 정해주세요.");
 				return;
 			}
 
-			if (alarm.content == null || alarm.content == "") {
+			if (isEmpty(alarm.content)) {
 				alert("알람메시지를 입력해주세요.");
 				return;
 			}
@@ -158,6 +174,26 @@
 			});
 		}
 	});
+	
+	function isEmpty(obj) {
+		return (obj == null || obj == "");
+	}
+	
+	function createChatNotificationHtml(data) {
+		let html = '<div class="alert alert-secondary">';
+		html += '<span class="font-weight-bold">' + data.senderNickname + "</span>";
+		if (data.type == "enter") {
+			html += ' 님이 입장하였습니다.';
+		} else if (data.type == "exit"){
+			html += ' 님이 퇴장하였습니다.';
+		}
+		html += '</div>';
+		return html;
+	}
+	
+	function createChatHtml(data) {
+		
+	}
 </script>
 </body>
 </html>
