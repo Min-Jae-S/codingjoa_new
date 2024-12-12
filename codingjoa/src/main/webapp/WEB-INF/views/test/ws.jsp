@@ -105,7 +105,6 @@
 		const host = window.location.host;
 		const socketUrl = "ws://" + host + "${contextPath}/ws/test";
 		const socket = new WebSocket(socketUrl);
-		console.log("## socketUrl = %s", socketUrl);
 		
 		$("#chatForm").on("submit", function(e) {
 			e.preventDefault();
@@ -200,7 +199,7 @@
 		html += '<span class="font-weight-bold">' + (isEmpty(data.senderNickname) ? "익명" : data.senderNickname) + "</span>";
 		if (data.type == "enter") {
 			html += ' 님이 입장하였습니다.';
-		} else if (data.type == "exit"){
+		} else if (data.type == "exit") {
 			html += ' 님이 퇴장하였습니다.';
 		}
 		html += '</div>';
