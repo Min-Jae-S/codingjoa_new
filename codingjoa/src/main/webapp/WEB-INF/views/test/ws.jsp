@@ -136,7 +136,7 @@
 		};
 		
 		socket.onmessage = function(result) {
-			console.log("## websocket received response");
+			console.log("## websocket response");
 			let data = JSON.parse(result.data);
 			console.log(JSON.stringify(data, null, 2));
 			
@@ -148,7 +148,7 @@
 				let $chatHtml = $(chatHtml);
 				$chatHtml.addClass("other-chat");
 				$(".chat-container").append($chatHtml);
-			} else { // enter, left
+			} else { // enter, exit
 				$(".chat-container").append(createChatNotificationHtml(data));
 			}
 		};

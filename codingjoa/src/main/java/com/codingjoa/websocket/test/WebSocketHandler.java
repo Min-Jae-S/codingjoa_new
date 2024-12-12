@@ -41,13 +41,14 @@ public class WebSocketHandler extends TextWebSocketHandler {
 		log.info("\t > message = {}", message);
 		
 		String json = objectMapper.writeValueAsString(message);
+		
 		sessions.values().forEach(s -> {
 			// no need to send the connection info to oneself, so it will be sent to all other sessions except for oneself
 			if (!s.getId().equals(sessionId)) {
 				try {
 					s.sendMessage(new TextMessage(json));
 				} catch (IOException e) {
-					log.info("\t > [{}] {}: {}", s.getId(), e.getClass().getSimpleName(), e.getMessage());
+					// throw e
 				}
 			}
 		});
@@ -65,16 +66,16 @@ public class WebSocketHandler extends TextWebSocketHandler {
 				.sender(sessionId)
 				.senderNickname(getSenderNickname(session))
 				.build();
-		message.setSenderNickname(sessionId);
 		log.info("\t > message = {}", message);
 		
 		String json = objectMapper.writeValueAsString(message);
+		
 		sessions.values().forEach(s -> {
 			if (!s.getId().equals(sessionId)) {
 				try {
 					s.sendMessage(new TextMessage(json));
 				} catch (IOException e) {
-					log.info("\t > [{}] {}: {}", s.getId(), e.getClass().getSimpleName(), e.getMessage());
+					// throw e
 				}
 			}
 		});
@@ -91,12 +92,13 @@ public class WebSocketHandler extends TextWebSocketHandler {
 		log.info("\t > message = {}", message);
 		
 		String json = objectMapper.writeValueAsString(message);
+		
 		sessions.values().forEach(s -> {
 			if (!s.getId().equals(sessionId)) {
 				try {
 					s.sendMessage(new TextMessage(json));
 				} catch (IOException e) {
-					log.info("\t > [{}] {}: {}", s.getId(), e.getClass().getSimpleName(), e.getMessage());
+					// throw e
 				}
 			}
 		});
@@ -105,6 +107,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
 	public void sendAlarm(AlarmDto alarmDto) throws Exception {
 		log.info("## sendAlarm");
 		String json = objectMapper.writeValueAsString(alarmDto);
+		
 		sessions.values().forEach(s -> {
 			try {
 				s.sendMessage(new TextMessage(json));
