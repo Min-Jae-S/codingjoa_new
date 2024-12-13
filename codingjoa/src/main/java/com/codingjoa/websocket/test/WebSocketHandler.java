@@ -12,6 +12,7 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import com.codingjoa.quartz.AlarmDto;
+import com.codingjoa.security.dto.PrincipalDetails;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -119,8 +120,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
 	
 	private String getSenderNickname(WebSocketSession session) {
 		Principal principal = session.getPrincipal();
-		log.info("\t > principal = {}", principal);
-		return (principal == null) ? null : principal.getClass().getSimpleName();
+		return (principal == null) ? null : ((PrincipalDetails) principal).getNickname();
 	}
 
 }
