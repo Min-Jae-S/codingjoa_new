@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>    
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html>
@@ -49,17 +48,19 @@
 		flex-direction: column;
 	}
 	
-	.other-chat {
+	div.other-chat {
 		background-color: #fff;
    	 	border: 1px solid rgba(0, 0, 0, .125);
    	 	border-radius: 5px;
+   	 	max-width: 50%;
 	}
 	
-	.my-chat {
+	div.my-chat {
 		background-color: #fff3cd;
    	 	border-color: #ffeeba;
    	 	border-radius: 5px;
-   	 	margin-left: auto
+   	 	margin-left: auto;
+   	 	max-width: 50%;
 	}
 }
 </style>
@@ -72,29 +73,22 @@
 	<div class="test mb-3 px-5">
 		<input class="form-control w-25" type="time" name="time">
 		<input class="form-control w-25" type="text" name="content" placeholder="alarm message">
-		<button type="submit" class="btn btn-primary btn-lg">schedule alarm</button>
+		<button type="submit" class="btn btn-primary btn-lg" id="scheduleAlarmBtn" disabled>schedule alarm</button>
 		<button type="reset" class="btn btn-secondary btn-lg">reset</button>
 	</div>
 	</form>
 	<div class="test mb-5 px-5">
 		<button type="button" class="btn btn-primary btn-lg">stomp test</button>
 	</div>
+	</form>
 	<form id="chatForm">
-	<div class="test mt-5 mb-3 px-5">
+	<div class="test mt-3 px-5">
 		<div class="input w-75">
-			<sec:authentication property="principal" var="principal"/>
-			<sec:authorize access="isAnonymous()">
-				<input class="form-control" type="hidden" name="senderNickname" value="">
-			</sec:authorize>
-			<sec:authorize access="isAuthenticated()">
-				<input class="form-control" type="hidden" name="senderNickname" value="${principal.nickname}">
-			</sec:authorize>
 			<input class="form-control" type="hidden" name="type" value="chat">
 			<input class="form-control" type="text" name="content" placeholder="message">
 		</div>
-		<button type="submit" class="btn btn-primary btn-lg">send message</button>
+		<button type="submit" class="btn btn-primary btn-lg" id="sendMessageBtn" disabled>send</button>
 	</div>
-	</form>
 	<div class="chat-container px-5">
 		<!-- chat -->
 	</div>
@@ -109,33 +103,47 @@
 		$("#chatForm").on("submit", function(e) {
 			e.preventDefault();
 			let message = $(this).serializeObject();
+			$(".chat-container").append(createMyChatHtml(message));
 			//console.log(message);
 			
-			let chatHtml = createChatHtml(message);
-			let $chatHtml = $(chatHtml);
-			$chatHtml.addClass("my-chat");
-			$(".chat-container").append($chatHtml);
-			
 			socket.send(JSON.stringify(message));
+		});
+
+		$("#chatForm input[name='content']").on("input", function() {
+			let inputValue = $(this).val().trim();
+			$("#sendMessageBtn").prop("disabled", isEmpty(inputValue));
 		});
 		
 		$("#alarmForm").on("submit", function(e) {
 			e.preventDefault();
 			scheduleAlarm();
 		});
+
+		$("#alarmForm input").on("input", function() {
+			let anyEmpty = $("#alarmForm input").toArray().some(input => {
+				let inputValue = $(input).val().trim();
+				return isEmpty(inputValue);
+			});
+			
+			$("#scheduleAlarmBtn").prop("disabled", anyEmpty);
+		});
+		
+		$("#alarmForm").on("reset", function() {
+			$("#scheduleAlarmBtn").prop("disabled", true);
+		});
 		
 		socket.onopen = function(e) {
-			console.log("## websocket connected");
+			console.log("## websocket is connected");
 			console.log(e);
 		};
 		
 		socket.onclose = function(e) {
-			console.log("## websocket closed");
+			console.log("## websocket connection closed");
 			console.log(e);
 		};
 		
 		socket.onmessage = function(result) {
-			console.log("## websocket response");
+			console.log("## websocket received data");
 			let data = JSON.parse(result.data);
 			console.log(JSON.stringify(data, null, 2));
 			
@@ -143,10 +151,7 @@
 			if (type == "push") {
 				alert(data.content);
 			} else if (type == "chat") {
-				let chatHtml = createChatHtml(data);
-				let $chatHtml = $(chatHtml);
-				$chatHtml.addClass("other-chat");
-				$(".chat-container").append($chatHtml);
+				$(".chat-container").append(createOtherChatHtml(data));
 			} else { // enter, exit
 				$(".chat-container").append(createChatNotificationHtml(data));
 			}
@@ -195,7 +200,7 @@
 	}
 	
 	function createChatNotificationHtml(data) {
-		let html = '<div class="alert alert-secondary">';
+		let html = '<div class="alert alert-secondary text-center">';
 		html += '<span class="font-weight-bold">' + (isEmpty(data.senderNickname) ? "익명" : data.senderNickname) + "</span>";
 		if (data.type == "enter") {
 			html += ' 님이 입장하였습니다.';
@@ -206,10 +211,17 @@
 		return html;
 	}
 	
-	function createChatHtml(data) {
-		let html = '<div class="alert w-25 chat">';
+	function createMyChatHtml(data) {
+		let html = '<div class="alert chat my-chat">';
+		html += '<span>' + data.content + '</span>';
+		html += '</div>';
+		return html;
+	}
+	
+	function createOtherChatHtml(data) {
+		let html = '<div class="alert chat other-chat">';
 		html += '<span class="font-weight-bold mb-2">' + (isEmpty(data.senderNickname) ? "익명" : data.senderNickname) + '</span>';
-		html += '<span>' + (data.content.trim() == "" ? '&nbsp' : data.content)+ '</span>';
+		html += '<span>' + data.content + '</span>';
 		html += '</div>';
 		return html;
 	}

@@ -5,6 +5,7 @@ import java.security.Principal;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
@@ -39,7 +40,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
 				.sender(sessionId)
 				.senderNickname(getSenderNickname(session))
 				.build();
-		log.info("\t > message = {}", message);
+		log.info("\t > {}", message);
 		
 		String json = objectMapper.writeValueAsString(message);
 		
@@ -67,7 +68,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
 				.sender(sessionId)
 				.senderNickname(getSenderNickname(session))
 				.build();
-		log.info("\t > message = {}", message);
+		log.info("\t > {}", message);
 		
 		String json = objectMapper.writeValueAsString(message);
 		
@@ -90,7 +91,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
 		String sessionId = session.getId();
 		message.setSender(sessionId);
 		message.setSenderNickname(getSenderNickname(session));
-		log.info("\t > message = {}", message);
+		log.info("\t > {}", message);
 		
 		String json = objectMapper.writeValueAsString(message);
 		
@@ -120,7 +121,19 @@ public class WebSocketHandler extends TextWebSocketHandler {
 	
 	private String getSenderNickname(WebSocketSession session) {
 		Principal principal = session.getPrincipal();
-		return (principal == null) ? null : ((PrincipalDetails) principal).getNickname();
+		if (principal instanceof Authentication) {
+			Authentication authentication = (Authentication) principal;
+			PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
+			return principalDetails.getNickname();
+		}
+		
+		return null;
+	}
+
+	@Override
+	public void handleTransportError(WebSocketSession session, Throwable exception) throws Exception {
+		log.info("## {}.handleTransportError", this.getClass().getSimpleName());
+		super.handleTransportError(session, exception);
 	}
 
 }

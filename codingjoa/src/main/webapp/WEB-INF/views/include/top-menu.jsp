@@ -25,6 +25,7 @@
 						<button class="dropdown-item" type="button" onclick="location.href='${contextPath}/member/account'">/member/account</button>
 						<button class="dropdown-item" type="button" onclick="location.href='${contextPath}/admin'">/admin</button>
 						<button class="dropdown-item" type="button" onclick="adminApi('${contextPath}/api/admin')">/api/admin</button>
+						<button class="dropdown-item" type="button" onclick="location.href='${contextPath}/test/ws'">/test/ws</button>
 					</div>
 				</li>
 			</ul>
