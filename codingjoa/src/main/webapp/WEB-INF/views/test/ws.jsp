@@ -182,40 +182,7 @@
 				return;
 			}
 			
-			socket = new WebSocket(socketUrl);
-			
-			socket.onopen = function(e) {
-				console.log("## websocket is connected");
-				console.log(e);
-				$("div.chat-room").removeClass("d-none");
-			};
-			
-			socket.onclose = function(e) {
-				console.log("## websocket connection is closed");
-				console.log(e);
-				$("div.chat-room").addClass("d-none");
-				$("div.chat-container").empty();
-			};
-			
-			socket.onmessage = function(result) {
-				console.log("## websocket received data");
-				let data = JSON.parse(result.data);
-				console.log(JSON.stringify(data, null, 2));
-				
-				let type = data.type;
-				if (type == "push") {
-					alert(data.content);
-				} else if (type == "chat") {
-					$(".chat-container").append(createOtherChatHtml(data));
-				} else { // enter, exit
-					$(".chat-container").append(createChatNotificationHtml(data));
-				}
-			};
-
-			socket.onerror = function(error) {
-				console.log("## websocket error");
-				console.log(error);
-			};
+			connectWebSocket();
 		});
 
 		$("#exitChatBtn").on("click", function() {
@@ -224,38 +191,76 @@
 			}
 		});
 		
-		function scheduleAlarm() {
-			console.log("## scheduleAlarm");
-			let alarm = $("#alarmForm").serializeObject();
-			console.log(alarm);
-			
-			if (isEmpty(alarm.time)) {
-				alert("알람시각을 정해주세요.");
-				return;
-			}
-
-			if (isEmpty(alarm.content)) {
-				alert("알람메시지를 입력해주세요.");
-				return;
-			}
-			
-			$.ajax({
-				type : "POST",
-				url : "${contextPath}/test/quartz2/alarm",
-				data : JSON.stringify(alarm),
-				contentType : "application/json; charset=utf-8",
-				dataType : "json",
-				success : function(result) {
-					console.log("%c> SUCCESS", "color:green");
-					console.log(JSON.stringify(result, null, 2));
-				},
-				error : function(jqXHR) {
-					console.log("%c> ERROR", "color:red");
-					parseError(jqXHR);
-				}
-			});
-		}
 	});
+	
+	function connectWebSocket() {
+		socket = new WebSocket(socketUrl);
+		
+		socket.onopen = function(e) {
+			console.log("## websocket is connected");
+			console.log(e);
+			$("div.chat-room").removeClass("d-none");
+		};
+		
+		socket.onclose = function(e) {
+			console.log("## websocket connection is closed");
+			console.log(e);
+			$("div.chat-room").addClass("d-none");
+			$("div.chat-container").empty();
+		};
+		
+		socket.onmessage = function(result) {
+			console.log("## websocket received data");
+			let data = JSON.parse(result.data);
+			console.log(JSON.stringify(data, null, 2));
+			
+			let type = data.type;
+			if (type == "push") {
+				alert(data.content);
+			} else if (type == "chat") {
+				$(".chat-container").append(createOtherChatHtml(data));
+			} else { // enter, exit
+				$(".chat-container").append(createChatNotificationHtml(data));
+			}
+		};
+
+		socket.onerror = function(error) {
+			console.log("## websocket error");
+			console.log(error);
+		};
+	}
+	
+	function scheduleAlarm() {
+		console.log("## scheduleAlarm");
+		let alarm = $("#alarmForm").serializeObject();
+		console.log(alarm);
+		
+		if (isEmpty(alarm.time)) {
+			alert("알람시각을 정해주세요.");
+			return;
+		}
+
+		if (isEmpty(alarm.content)) {
+			alert("알람메시지를 입력해주세요.");
+			return;
+		}
+		
+		$.ajax({
+			type : "POST",
+			url : "${contextPath}/test/quartz2/alarm",
+			data : JSON.stringify(alarm),
+			contentType : "application/json; charset=utf-8",
+			dataType : "json",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log(JSON.stringify(result, null, 2));
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				parseError(jqXHR);
+			}
+		});
+	}
 	
 	function isEmpty(obj) {
 		return (obj == null || obj == "");
