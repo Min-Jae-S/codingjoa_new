@@ -26,11 +26,15 @@
 	
 	div.test, div.input {
 		display: flex;
-		justify-content: space-between;
+		justify-content:space-between
 		/* column-gap: 35px; */
 	}
 	
 	div.test button {
+		width: 183px;
+	}
+	
+	button.test-btn {
 		width: 183px;
 	}
 	
@@ -71,7 +75,7 @@
 <div class="container my-5">
 	<p>ws.jsp</p>
 	<form id="alarmForm">
-	<div class="test mb-3 px-5">
+	<div class="test mb-4 px-5">
 		<input class="form-control w-25" type="time" name="time">
 		<input class="form-control w-25" type="text" name="content" placeholder="alarm message">
 		<button type="submit" class="btn btn-primary btn-lg" id="scheduleAlarmBtn" disabled>schedule alarm</button>
@@ -81,12 +85,16 @@
 	<div class="test mb-5 px-5">
 		<button type="button" class="btn btn-primary btn-lg">stomp test</button>
 	</div>
+	<div class="mb-4 px-5">
+		<button type="button" class="btn btn-warning btn-lg test-btn mr-4" id="enterChatBtn">enter</button>
+		<button type="button" class="btn btn-secondary btn-lg test-btn" id="exitChatBtn">exit</button>
+	</div>
 	
-	<div class="card text-center mx-5">
+	<div class="card chat-room mx-5 d-none">
 		<div class="card-body chat-container p-5">
 			<!-- chat -->
 		</div>
-		<div class="card-footer">
+		<div class="card-footer py-4 px-5">
 			<form id="chatForm">
 				<div class="test">
 					<div class="input w-75">
@@ -104,6 +112,8 @@
 	$(function() {
 		const host = window.location.host;
 		const socketUrl = "ws://" + host + "${contextPath}/ws/test";
+		let socket;
+		
 		const socket = new WebSocket(socketUrl);
 		
 		$("#chatForm").on("submit", function(e) {
@@ -139,35 +149,47 @@
 			$("#scheduleAlarmBtn").prop("disabled", true);
 		});
 		
-		socket.onopen = function(e) {
-			console.log("## websocket is connected");
-			console.log(e);
-		};
-		
-		socket.onclose = function(e) {
-			console.log("## websocket connection closed");
-			console.log(e);
-		};
-		
-		socket.onmessage = function(result) {
-			console.log("## websocket received data");
-			let data = JSON.parse(result.data);
-			console.log(JSON.stringify(data, null, 2));
+		$("#enterChatBtn").on("click", function() {
+			socket = new WebSocket(socketUrl);
 			
-			let type = data.type;
-			if (type == "push") {
-				alert(data.content);
-			} else if (type == "chat") {
-				$(".chat-container").append(createOtherChatHtml(data));
-			} else { // enter, exit
-				$(".chat-container").append(createChatNotificationHtml(data));
-			}
-		};
+			socket.onopen = function(e) {
+				console.log("## websocket is connected");
+				console.log(e);
+				$("div.chat-room").removeClass("d-none");
+			};
+			
+			socket.onclose = function(e) {
+				console.log("## websocket connection closed");
+				console.log(e);
+				$("div.chat-room").addClass("d-none");
+			};
+			
+			socket.onmessage = function(result) {
+				console.log("## websocket received data");
+				let data = JSON.parse(result.data);
+				console.log(JSON.stringify(data, null, 2));
+				
+				let type = data.type;
+				if (type == "push") {
+					alert(data.content);
+				} else if (type == "chat") {
+					$(".chat-container").append(createOtherChatHtml(data));
+				} else { // enter, exit
+					$(".chat-container").append(createChatNotificationHtml(data));
+				}
+			};
 
-		socket.onerror = function(error) {
-			console.log("## websocket error");
-			console.log(error);
-		};
+			socket.onerror = function(error) {
+				console.log("## websocket error");
+				console.log(error);
+			};
+		});
+
+		$("#exitChatBtn").on("click", function() {
+			if (socket && socket.readyState === WebSocket.OPEN) {
+				socket.close();
+			}
+		});
 		
 		function scheduleAlarm() {
 			console.log("## scheduleAlarm");
