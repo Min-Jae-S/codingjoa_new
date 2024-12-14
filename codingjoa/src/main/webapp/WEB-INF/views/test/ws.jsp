@@ -41,6 +41,7 @@
 	div.chat-container {
 		display: flex;
 		flex-direction: column;
+		height: 350px;
 	}
 	
 	div.chat {
@@ -80,17 +81,22 @@
 	<div class="test mb-5 px-5">
 		<button type="button" class="btn btn-primary btn-lg">stomp test</button>
 	</div>
-	</form>
-	<form id="chatForm">
-	<div class="test mt-3 px-5">
-		<div class="input w-75">
-			<input class="form-control" type="hidden" name="type" value="chat">
-			<input class="form-control" type="text" name="content" placeholder="message">
+	
+	<div class="card text-center mx-5">
+		<div class="card-body chat-container p-5">
+			<!-- chat -->
 		</div>
-		<button type="submit" class="btn btn-primary btn-lg" id="sendMessageBtn" disabled>send</button>
-	</div>
-	<div class="chat-container px-5">
-		<!-- chat -->
+		<div class="card-footer">
+			<form id="chatForm">
+				<div class="test">
+					<div class="input w-75">
+						<input class="form-control" type="hidden" name="type" value="chat">
+						<input class="form-control" type="text" name="content" placeholder="message">
+					</div>
+					<button type="submit" class="btn btn-primary btn-lg" id="sendMessageBtn" disabled>send</button>
+				</div>
+			</form>
+		</div>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
@@ -107,6 +113,7 @@
 			//console.log(message);
 			
 			socket.send(JSON.stringify(message));
+			$(this).reset();
 		});
 
 		$("#chatForm input[name='content']").on("input", function() {
