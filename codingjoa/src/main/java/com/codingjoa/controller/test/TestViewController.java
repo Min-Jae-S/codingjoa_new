@@ -191,5 +191,11 @@ public class TestViewController {
 		log.info("## stomp main");
 		return "test/stomp";
 	}
+
+	@GetMapping("/sse")
+	public String sse() {
+		log.info("## sse main");
+		return "test/sse";
+	}
 	
 }
