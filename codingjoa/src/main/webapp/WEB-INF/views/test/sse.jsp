@@ -49,14 +49,37 @@
 <div class="container my-5">
 	<p>sse.jsp</p>
 	<div class="test mb-5 px-5">
-		<button type="button" class="btn btn-primary btn-lg test-btn mr-4">stream</button>
+		<button type="button" class="btn btn-primary btn-lg test-btn mr-4" id="streamBtn">stream</button>
 		<button type="button" class="btn btn-primary btn-lg test-btn mr-4">subscribe</button>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 <script>
+	const url = "${contextPath}/sse/stream";
+	let eventSource;
+	
 	$(function() {
-		// ...
+		
+		$("#streamBtn").on("click", function() {
+			eventSource = new EventSource(url);
+			
+			eventSource.onopen = (event) => {
+				console.log("## event connection");
+				console.log(event);
+			}
+			
+			eventSource.onmessage = (event) => {
+				console.log("## event recieved");
+				console.log(event);
+				//console.log(event.data);
+			};
+			
+			eventSource.onerror = (error) => {
+				console.log("## event error");
+				console.log(error);
+				eventSource.close();
+			};
+		});
 	});
 </script>
 </body>

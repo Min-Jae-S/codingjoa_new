@@ -109,10 +109,11 @@
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 <script>
+	const host = window.location.host;
+	const socketUrl = "ws://" + host + "${contextPath}/ws/test";
+	let socket;
+	
 	$(function() {
-		const host = window.location.host;
-		const socketUrl = "ws://" + host + "${contextPath}/ws/test";
-		let socket;
 		
 		$("#chatForm").on("submit", function(e) {
 			e.preventDefault();
