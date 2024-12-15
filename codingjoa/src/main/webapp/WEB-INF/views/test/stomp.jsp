@@ -49,8 +49,7 @@
 <div class="container my-5">
 	<p>stomp.jsp</p>
 	<div class="test mb-5 px-5">
-		<button type="button" class="btn btn-primary btn-lg test-btn mr-4">stomp test</button>
-		<button type="button" class="btn btn-primary btn-lg test-btn" id="socketInfoBtn">socket info</button>
+		<button type="button" class="btn btn-primary btn-lg test-btn mr-4">test</button>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>

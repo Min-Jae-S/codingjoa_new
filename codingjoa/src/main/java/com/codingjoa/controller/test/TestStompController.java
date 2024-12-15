@@ -1,4 +1,4 @@
-package com.codingjoa.controller;
+package com.codingjoa.controller.test;
 
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -11,13 +11,12 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor
 @Controller
-public class WebSocketStompController {
-
+public class TestStompController {
+	
 	private final SimpMessagingTemplate template;
 	
 	@MessageMapping("/ws/stomp/test")
 	public void test() {
 		log.info("## test");
 	}
-	
 }

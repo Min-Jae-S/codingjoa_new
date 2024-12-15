@@ -78,20 +78,17 @@
 <div class="container my-5">
 	<p>ws.jsp</p>
 	<form id="alarmForm">
-	<div class="test mb-4 px-5">
+	<div class="test mb-5 px-5">
 		<input class="form-control w-25" type="time" name="time">
 		<input class="form-control w-25" type="text" name="content" placeholder="alarm message">
 		<button type="submit" class="btn btn-primary btn-lg" id="scheduleAlarmBtn" disabled>schedule alarm</button>
 		<button type="reset" class="btn btn-secondary btn-lg">reset</button>
 	</div>
 	</form>
-	<div class="mb-5 px-5">
-		<button type="button" class="btn btn-primary btn-lg test-btn mr-4">stomp test</button>
-		<button type="button" class="btn btn-primary btn-lg test-btn" id="socketInfoBtn">socket info</button>
-	</div>
 	<div class="mb-4 px-5">
 		<button type="button" class="btn btn-warning btn-lg test-btn mr-4" id="enterChatBtn">enter</button>
-		<button type="button" class="btn btn-secondary btn-lg test-btn" id="exitChatBtn">exit</button>
+		<button type="button" class="btn btn-secondary btn-lg test-btn mr-4" id="exitChatBtn">exit</button>
+		<button type="button" class="btn btn-primary btn-lg test-btn" id="socketInfoBtn">socket info</button>
 	</div>
 	<div class="card chat-room mx-5 d-none">
 		<div class="card-body chat-container p-5">
@@ -155,6 +152,20 @@
 			$("#scheduleAlarmBtn").prop("disabled", true);
 		});
 		
+		$("#enterChatBtn").on("click", function() {
+			if (socket && socket.readyState === WebSocket.OPEN) {
+				return;
+			}
+			
+			connectWebSocket();
+		});
+
+		$("#exitChatBtn").on("click", function() {
+			if (socket && socket.readyState === WebSocket.OPEN) {
+				socket.close();
+			}
+		});
+		
 		$("#socketInfoBtn").on("click", function() {
 			let status;
 			if (socket) {
@@ -175,20 +186,6 @@
 			}
 			
 			console.log("## socket status = %s", status); 
-		});
-		
-		$("#enterChatBtn").on("click", function() {
-			if (socket && socket.readyState === WebSocket.OPEN) {
-				return;
-			}
-			
-			connectWebSocket();
-		});
-
-		$("#exitChatBtn").on("click", function() {
-			if (socket && socket.readyState === WebSocket.OPEN) {
-				socket.close();
-			}
 		});
 		
 	});
