@@ -13,6 +13,7 @@
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="${contextPath}/resources/js/jquery.serialize.js"></script>
 <script src="${contextPath}/resources/js/handle-errors.js"></script>
+<script src="${contextPath}/resources/js/plugin/ws/stomp.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
 <script src="https://kit.fontawesome.com/c503d71f81.js"></script>
@@ -49,18 +50,43 @@
 <div class="container my-5">
 	<p>stomp.jsp</p>
 	<div class="test mb-5 px-5">
-		<button type="button" class="btn btn-primary btn-lg test-btn mr-4">connect</button>
+		<button type="button" class="btn btn-primary btn-lg test-btn mr-4" id="connectBtn">connect</button>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 <script>
 	const host = window.location.host;
-	const socketUrl = "ws://" + host + "${contextPath}/ws-stomp";
-	let socket;
+	const url = "ws://" + host + "${contextPath}/ws-stomp";
+	const headers = { /* ... */ };
+	let stompClient = null;
 
 	$(function() {
-		// ...
+		$("#connectBtn").on("click", function() {
+			connect();
+		});
+
+		$("#connectBtn").on("click", function() {
+			disconnect();
+		});
 	});
+	
+	function connect() {
+		let socket = new WebSocket(url);
+		//console.log(socket); // 0(connecting), 1(open), 2(closing), 3(closed)
+		
+		stompClient = Stomp.over(socket);
+		console.log(stompClient);
+		
+		stompClient.connect(headers, function(frame) { // connect(headers, callback)
+			console.log(frame);
+		});
+	}
+
+	function disconnect() {
+		if (stompClient != null) {
+			stompClient.disconnect();
+		}
+	}
 </script>
 </body>
 </html>

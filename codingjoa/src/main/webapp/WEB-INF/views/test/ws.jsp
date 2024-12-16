@@ -114,8 +114,8 @@
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 <script>
 	const host = window.location.host;
-	const socketUrl = "ws://" + host + "${contextPath}/ws";
-	let socket;
+	const url = "ws://" + host + "${contextPath}/ws";
+	let socket = null;
 	
 	$(function() {
 		$("#chatForm").on("submit", function(e) {
@@ -157,17 +157,11 @@
 		});
 		
 		$("#enterChatBtn").on("click", function() {
-			if (socket && socket.readyState === WebSocket.OPEN) {
-				return;
-			}
-			
-			connectWebSocket();
+			connect();
 		});
 
 		$("#exitChatBtn").on("click", function() {
-			if (socket && socket.readyState === WebSocket.OPEN) {
-				socket.close();
-			}
+			disconnect();
 		});
 		
 		$("#socketInfoBtn").on("click", function() {
@@ -197,8 +191,12 @@
 		
 	});
 	
-	function connectWebSocket() {
-		socket = new WebSocket(socketUrl);
+	function connect() {
+		if (socket && socket.readyState === WebSocket.OPEN) {
+			return;
+		}
+		
+		socket = new WebSocket(url);
 		
 		socket.onopen = function(e) {
 			console.log("## websocket is connected");
@@ -233,6 +231,12 @@
 			console.log("## websocket error");
 			console.log(error);
 		};
+	}
+	
+	function disconnect() {
+		if (socket && socket.readyState === WebSocket.OPEN) {
+			socket.close();
+		}
 	}
 	
 	function scheduleAlarm() {
