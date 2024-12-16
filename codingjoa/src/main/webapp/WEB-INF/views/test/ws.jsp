@@ -114,11 +114,10 @@
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 <script>
 	const host = window.location.host;
-	const socketUrl = "ws://" + host + "${contextPath}/ws/test";
+	const socketUrl = "ws://" + host + "${contextPath}/ws";
 	let socket;
 	
 	$(function() {
-		
 		$("#chatForm").on("submit", function(e) {
 			e.preventDefault();
 			let message = $(this).serializeObject();

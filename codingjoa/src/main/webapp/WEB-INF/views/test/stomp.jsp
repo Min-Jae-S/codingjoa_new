@@ -49,11 +49,15 @@
 <div class="container my-5">
 	<p>stomp.jsp</p>
 	<div class="test mb-5 px-5">
-		<button type="button" class="btn btn-primary btn-lg test-btn mr-4">test</button>
+		<button type="button" class="btn btn-primary btn-lg test-btn mr-4">connect</button>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 <script>
+	const host = window.location.host;
+	const socketUrl = "ws://" + host + "${contextPath}/ws-stomp";
+	let socket;
+
 	$(function() {
 		// ...
 	});
