@@ -14,7 +14,7 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import com.codingjoa.quartz.AlarmDto;
 import com.codingjoa.security.dto.PrincipalDetails;
-import com.codingjoa.websocket.test.Chat.ChatType;
+import com.codingjoa.websocket.test.ChatMessage.ChatType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -36,14 +36,14 @@ public class WebSocketHandler extends TextWebSocketHandler {
 		String sessionId = session.getId();
 		sessions.put(sessionId, session);
 		
-		Chat chat = Chat.builder()
+		ChatMessage chatMessage = ChatMessage.builder()
 				.type(ChatType.ENTER)
 				.sender(sessionId)
 				.senderNickname(getSenderNickname(session))
 				.build();
-		log.info("\t > {}", chat);
+		log.info("\t > {}", chatMessage);
 		
-		String json = objectMapper.writeValueAsString(chat);
+		String json = objectMapper.writeValueAsString(chatMessage);
 		
 		sessions.values().forEach(s -> {
 			// no need to send the connection info to oneself, so it will be sent to all other sessions except for oneself
@@ -64,14 +64,14 @@ public class WebSocketHandler extends TextWebSocketHandler {
 		String sessionId = session.getId();
 		sessions.remove(sessionId);
 		
-		Chat chat = Chat.builder()
+		ChatMessage chatMessage = ChatMessage.builder()
 				.type(ChatType.EXIT)
 				.sender(sessionId)
 				.senderNickname(getSenderNickname(session))
 				.build();
-		log.info("\t > {}", chat);
+		log.info("\t > {}", chatMessage);
 		
-		String json = objectMapper.writeValueAsString(chat);
+		String json = objectMapper.writeValueAsString(chatMessage);
 		
 		sessions.values().forEach(s -> {
 			if (!s.getId().equals(sessionId)) {
@@ -87,14 +87,14 @@ public class WebSocketHandler extends TextWebSocketHandler {
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage textMessage) throws Exception {
 		log.info("## {}.handleTextMessage", this.getClass().getSimpleName());
-		Chat chat = objectMapper.readValue(textMessage.getPayload(), Chat.class);
+		ChatMessage chatMessage = objectMapper.readValue(textMessage.getPayload(), ChatMessage.class);
 
 		String sessionId = session.getId();
-		chat.setSender(sessionId);
-		chat.setSenderNickname(getSenderNickname(session));
-		log.info("\t > {}", chat);
+		chatMessage.setSender(sessionId);
+		chatMessage.setSenderNickname(getSenderNickname(session));
+		log.info("\t > {}", chatMessage);
 		
-		String json = objectMapper.writeValueAsString(chat);
+		String json = objectMapper.writeValueAsString(chatMessage);
 		
 		sessions.values().forEach(s -> {
 			if (!s.getId().equals(sessionId)) {

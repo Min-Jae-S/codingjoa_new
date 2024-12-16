@@ -19,7 +19,7 @@ public class WebSocketStompConfig implements WebSocketMessageBrokerConfigurer {
 	@Override
 	public void configureMessageBroker(MessageBrokerRegistry registry) {
 		registry.enableSimpleBroker("/queue", "/topic");	// to message broker, queue(1:1), topic(1:N)
-		registry.setApplicationDestinationPrefixes("/app"); // to @MessageMapping(handler)
+		registry.setApplicationDestinationPrefixes("/send"); // to @MessageMapping(handler)
 	}
 	
 

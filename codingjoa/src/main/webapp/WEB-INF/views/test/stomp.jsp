@@ -58,7 +58,7 @@
 	const host = window.location.host;
 	const url = "ws://" + host + "${contextPath}/ws-stomp";
 	const headers = { /* ... */ };
-	let stompClient = null;
+	let client = null;
 
 	$(function() {
 		$("#connectBtn").on("click", function() {
@@ -74,17 +74,24 @@
 		let socket = new WebSocket(url);
 		//console.log(socket); // 0(connecting), 1(open), 2(closing), 3(closed)
 		
-		stompClient = Stomp.over(socket);
-		console.log(stompClient);
+		client = Stomp.over(socket);
+		console.log(client);
 		
-		stompClient.connect(headers, function(frame) { // connect(headers, callback)
+		client.connect(headers, function(frame) { // connect(headers, callback)
 			console.log(frame);
+			client.subscribe("${contextPath}/topic", function(result) {
+				console.log(result);
+			});
 		});
 	}
 
+	function send(roomNumber, message) { // message (json)
+		client.send("${contextPath}/send/" + roomNumber , { /* headers */ }, message);
+	}
+	
 	function disconnect() {
-		if (stompClient != null) {
-			stompClient.disconnect();
+		if (client != null) {
+			client.disconnect();
 		}
 	}
 </script>
