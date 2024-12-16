@@ -124,7 +124,9 @@
 			$(".chat-container").append(createMyChatHtml(message));
 			//console.log(message);
 			
-			socket.send(JSON.stringify(message));
+			let json = JSON.stringify(message);
+			socket.send(json);
+			
 			$(this).trigger("reset");
 			$(this).find("input[name='content']").focus();
 		});
@@ -213,17 +215,15 @@
 		
 		socket.onmessage = function(result) {
 			console.log("## websocket received data");
-			let data = JSON.parse(result.data);
-			console.log(JSON.stringify(data, null, 2));
+			let chatMessage = JSON.parse(result.data);
+			console.log(JSON.stringify(chatMessage, null, 2));
 			
-			let type = data.type;
-			if (type == "PUSH") {
-				alert(data.content);
-			} else if (type == "TALK") {
-				$(".chat-container").append(createOtherChatHtml(data));
+			if (chatMessage.type == "PUSH") {
+				alert(chatMessage.content);
+			} else if (chatMessage.type == "TALK") {
+				$(".chat-container").append(createOtherChatHtml(chatMessage));
 			} else {
-				// ENTER, EXIT
-				$(".chat-container").append(createChatNotificationHtml(data));
+				$(".chat-container").append(createChatNotificationHtml(chatMessage)); // ENTER, EXIT
 			}
 		};
 
@@ -275,31 +275,31 @@
 		return (obj == null || obj == "");
 	}
 	
-	function createChatNotificationHtml(data) {
+	function createChatNotificationHtml(chatMessage) {
 		let html = '<div class="alert alert-secondary text-center">';
-		let senderNickname = isEmpty(data.senderNickname) ? "익명" : data.senderNickname;
+		let senderNickname = isEmpty(chatMessage.senderNickname) ? "익명" : chatMessage.senderNickname;
 		html += '<span class="font-weight-bold">' + senderNickname + "</span>";
-		if (data.type == "ENTER") {
+		if (chatMessage.type == "ENTER") {
 			html += ' 님이 입장하였습니다.';
-		} else if (data.type == "EXIT") {
+		} else if (chatMessage.type == "EXIT") {
 			html += ' 님이 퇴장하였습니다.';
 		}
 		html += '</div>';
 		return html;
 	}
 	
-	function createMyChatHtml(data) {
+	function createMyChatHtml(chatMessage) {
 		let html = '<div class="alert chat my-chat">';
-		html += '<span>' + data.content + '</span>';
+		html += '<span>' + chatMessage.content + '</span>';
 		html += '</div>';
 		return html;
 	}
 	
-	function createOtherChatHtml(data) {
+	function createOtherChatHtml(chatMessage) {
 		let html = '<div class="alert chat other-chat">';
-		let senderNickname = isEmpty(data.senderNickname) ? "익명" : data.senderNickname;
+		let senderNickname = isEmpty(chatMessage.senderNickname) ? "익명" : chatMessage.senderNickname;
 		html += '<span class="font-weight-bold mb-2">' + senderNickname + '</span>';
-		html += '<span>' + data.content + '</span>';
+		html += '<span>' + chatMessage.content + '</span>';
 		html += '</div>';
 		return html;
 	}
