@@ -10,9 +10,13 @@ import lombok.ToString;
 @ToString
 @Getter
 @NoArgsConstructor
-public class Message {
+public class Chat {
 	
-	private String type;
+	public enum ChatType {
+		ENTER, EXIT, TALK, PUSH
+	}
+	
+	private ChatType type;
 	private String sender;
 	private String senderNickname;
 	private Object content;
@@ -27,7 +31,7 @@ public class Message {
 	}
 
 	@Builder
-	public Message(String type, String sender, String senderNickname, Object content) {
+	public Chat(ChatType type, String sender, String senderNickname, Object content) {
 		this.type = type;
 		this.sender = sender;
 		this.senderNickname = senderNickname;

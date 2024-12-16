@@ -58,7 +58,7 @@
 		background-color: #fff;
    	 	border: 1px solid rgba(0, 0, 0, .125);
    	 	border-radius: 5px;
-   	 	max-width: 50%;
+   	 	max-width: 45%;
    	 	margin-bottom: 1.25rem;
 	}
 	
@@ -67,8 +67,12 @@
    	 	border-color: #ffeeba;
    	 	border-radius: 5px;
    	 	margin-left: auto;
-   	 	max-width: 50%;
+   	 	max-width: 45%;
    	 	margin-bottom: 1.25rem;
+	}
+	
+	.w-70 {
+		width: 70%;
 	}
 }
 </style>
@@ -97,8 +101,8 @@
 		<div class="card-footer py-4 px-5">
 			<form id="chatForm">
 				<div class="test">
-					<div class="input w-75">
-						<input class="form-control" type="hidden" name="type" value="chat">
+					<div class="input w-70">
+						<input class="form-control" type="hidden" name="type" value="talk">
 						<input class="form-control" type="text" name="content" placeholder="message">
 					</div>
 					<button type="submit" class="btn btn-primary btn-lg" id="sendMessageBtn" disabled>send</button>
@@ -168,25 +172,28 @@
 		});
 		
 		$("#socketInfoBtn").on("click", function() {
-			let status;
+			let status, state;
+			
 			if (socket) {
 				// 0(connecting), 1(open), 2(closing), 3(closed)
-				if (socket.readyState === WebSocket.CONNETING) { 
+				state = socket.readyState;
+				if (state === WebSocket.CONNETING) { 
 					status = "connecting";
-				} else if (socket.readyState === WebSocket.OPEN) {
+				} else if (state === WebSocket.OPEN) {
 					status = "open";
-				} else if (socket.readyState === WebSocket.CLOING) {
+				} else if (state === WebSocket.CLOING) {
 					status = "closing";
-				} else if (socket.readyState === WebSocket.CLOSED) {
+				} else if (state === WebSocket.CLOSED) {
 					status = "closed";
 				} else {
 					status = "unknown";
 				}
 			} else {
-				status = "no socket"
+				status = "no socket";
+				state = "N/A";
 			}
 			
-			console.log("## socket status = %s", status); 
+			console.log("## socket status = %s, %s", status, state); 
 		});
 		
 	});
@@ -213,11 +220,12 @@
 			console.log(JSON.stringify(data, null, 2));
 			
 			let type = data.type;
-			if (type == "push") {
+			if (type == "PUSH") {
 				alert(data.content);
-			} else if (type == "chat") {
+			} else if (type == "TALK") {
 				$(".chat-container").append(createOtherChatHtml(data));
-			} else { // enter, exit
+			} else {
+				// ENTER, EXIT
 				$(".chat-container").append(createChatNotificationHtml(data));
 			}
 		};
@@ -266,10 +274,11 @@
 	
 	function createChatNotificationHtml(data) {
 		let html = '<div class="alert alert-secondary text-center">';
-		html += '<span class="font-weight-bold">' + (isEmpty(data.senderNickname) ? "익명" : data.senderNickname) + "</span>";
-		if (data.type == "enter") {
+		let senderNickname = isEmpty(data.senderNickname) ? "익명" : data.senderNickname;
+		html += '<span class="font-weight-bold">' + senderNickname + "</span>";
+		if (data.type == "ENTER") {
 			html += ' 님이 입장하였습니다.';
-		} else if (data.type == "exit") {
+		} else if (data.type == "EXIT") {
 			html += ' 님이 퇴장하였습니다.';
 		}
 		html += '</div>';
@@ -285,7 +294,8 @@
 	
 	function createOtherChatHtml(data) {
 		let html = '<div class="alert chat other-chat">';
-		html += '<span class="font-weight-bold mb-2">' + (isEmpty(data.senderNickname) ? "익명" : data.senderNickname) + '</span>';
+		let senderNickname = isEmpty(data.senderNickname) ? "익명" : data.senderNickname;
+		html += '<span class="font-weight-bold mb-2">' + senderNickname + '</span>';
 		html += '<span>' + data.content + '</span>';
 		html += '</div>';
 		return html;
