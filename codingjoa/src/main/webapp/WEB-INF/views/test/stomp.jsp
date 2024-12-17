@@ -31,11 +31,7 @@
 		/* column-gap: 35px; */
 	}
 	
-	div.test button {
-		width: 183px;
-	}
-	
-	button.test-btn {
+	div.test button, button.test-btn {
 		width: 183px;
 	}
 	
@@ -82,11 +78,11 @@
 <c:import url="/WEB-INF/views/include/top-menu.jsp"/>
 <div class="container my-5">
 	<p>stomp.jsp</p>
-	<div class="test mb-5 px-5">
+	<div class="mb-5 px-5">
 		<button type="button" class="btn btn-warning btn-lg test-btn mr-4" id="connectBtn">connect</button>
 		<button type="button" class="btn btn-secondary btn-lg test-btn mr-4" id="disconnectBtn">disconnect</button>
 	</div>
-	<div class="test mb-5 px-5">
+	<div class="mb-5 px-5">
 		<button type="button" class="btn btn-warning btn-lg test-btn mr-4" id="enterBtn">enter</button>
 		<button type="button" class="btn btn-secondary btn-lg test-btn mr-4" id="exitBtn">exit</button>
 	</div>
@@ -112,7 +108,7 @@
 	const host = window.location.host;
 	const url = "ws://" + host + "${contextPath}/ws-stomp";
 	const headers = { /* ... */ };
-	let client = null;
+	let stompClient = null;
 
 	$(function() {
 		$("#connectBtn").on("click", function() {
@@ -141,7 +137,7 @@
 			
 			// send message
 			let json = JSON.stringify(message);
-			client.send("${contextPath}/send/5", headers, json);
+			stompClient.send("${contextPath}/send/5", headers, json);
 			
 			$(this).trigger("reset");
 			$(this).find("input[name='content']").focus();
@@ -149,15 +145,19 @@
 	});
 	
 	function connect() {
+		if (stompClient && stompClient.connected) {
+			return;
+		}
+		
 		let socket = new WebSocket(url);
-		//console.log(socket); // 0(connecting), 1(open), 2(closing), 3(closed)
+		stompClient = Stomp.over(socket);
+		stompClient.debug = false;
 		
-		client = Stomp.over(socket);
-		console.log(client);
-		
-		client.connect(headers, function(frame) { // connect(headers, callback)
+		let onconnect = (frame) => {
+			console.log("## STOMP client connected");
 			console.log(frame);
-			client.subscribe("${contextPath}/topic", function(result) {
+			
+			stompClient.subscribe("${contextPath}/topic", function(result) {
 				console.log(result);
 				
 				let chatMessage = JSON.parse(result.data); 
@@ -170,14 +170,19 @@
 				} else {
 					$(".chat-container").append(createChatNotificationHtml(chatMessage)); // ENTER, EXIT
 				}
-				
 			});
-		});
+		};
+		
+		let onerror = (error) => {
+			console.log("## STOMP client connection failed");
+		};
+		
+		stompClient.connect(headers, onconnect, onerror);
 	}
 
 	function disconnect() {
-		if (client != null) {
-			client.disconnect();
+		if (stompClient != null) {
+			stompClient.disconnect();
 		}
 	}
 	

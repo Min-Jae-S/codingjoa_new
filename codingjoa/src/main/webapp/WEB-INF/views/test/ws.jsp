@@ -30,11 +30,7 @@
 		/* column-gap: 35px; */
 	}
 	
-	div.test button {
-		width: 183px;
-	}
-	
-	button.test-btn {
+	div.test button, button.test-btn {
 		width: 183px;
 	}
 	
