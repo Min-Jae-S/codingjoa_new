@@ -22,17 +22,17 @@ public class TestStompController {
 	
 	private final SimpMessagingTemplate template;
 	
-	@MessageMapping("/{roomNumber}") // /send/5
-	@SendTo("/topic")
+	@MessageMapping("/{roomNumber}")
+	//@SendTo("/topic")
 	public ChatMessage test(@DestinationVariable Long rommNumber, ChatMessage chatMessage, 
 			@AuthenticationPrincipal PrincipalDetails principal, WebSocketSession session) {
 		log.info("## test");
 		log.info("\t > {}", chatMessage);
 		log.info("\t > session = {}", session);
 		
-		String senderNick = (principal != null) ? principal.getNickname() : null;
+		String senderNickname = (principal != null) ? principal.getNickname() : null;
 		chatMessage.setSender(session.getId());
-		chatMessage.setSenderNickname(senderNick);
+		chatMessage.setSenderNickname(senderNickname);
 		log.info("\t > {}", chatMessage);
 		
 		return chatMessage;

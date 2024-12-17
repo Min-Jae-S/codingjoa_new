@@ -137,10 +137,21 @@
 			
 			// send message
 			let json = JSON.stringify(message);
-			stompClient.send("${contextPath}/send/5", headers, json);
+			let url = "${contextPath}/send/5";
+			console.log("## url = %s", url);
+			stompClient.send(url, headers, json);
 			
 			$(this).trigger("reset");
 			$(this).find("input[name='content']").focus();
+		});
+		
+		$("#chatForm input[name='content']").on("input", function() {
+			let inputValue = $(this).val().trim();
+			$("#chatForm").find("button[type='submit']").prop("disabled", isEmpty(inputValue));
+		});
+		
+		$("#chatForm").on("reset", function() {
+			$("#chatForm").find("button[type='submit']").prop("disabled", true);
 		});
 	});
 	
