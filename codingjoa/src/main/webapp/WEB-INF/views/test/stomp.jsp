@@ -110,7 +110,9 @@
 	const url = "ws://" + host + "${contextPath}/ws-stomp";
 	const headers = { /* ... */ };
 	const roomId = 5;
+	let socket = null;
 	let stompClient = null;
+	let messageQueue = [];
 
 	$(function() {
 		$("#connectBtn").on("click", function() {
@@ -126,12 +128,7 @@
 		});
 
 		$("#enterBtn").on("click", function() {
-			if (stompClient && stompClient.connected) {
-				console.log("## STOMP client already connected");
-			} else {
-				connect();
-			}
-			
+			connect();
 			$("div.chat-room").removeClass("d-none");
 		});
 
@@ -146,11 +143,12 @@
 			let message = $(this).serializeObject();
 			$(".chat-container").append(createMyChatHtml(message));
 			
-			// send message
-			console.log("## send message");
-			let json = JSON.stringify(message);
-			stompClient.send("${contextPath}/pub/room/" + roomId, headers, json);
-			//stompClient.send("/pub/room/" + roomId, headers, json);
+			if (stompClient && stompClient.connected) {
+				sendMessage(message);
+			} else {
+				messageQueue.push(message);
+				connect();
+			}
 			
 			$(this).trigger("reset");
 			$(this).find("input[name='content']").focus();
@@ -167,16 +165,24 @@
 	});
 	
 	function connect() {
-		let socket = new WebSocket(url);
-		stompClient = Stomp.over(socket);
-		stompClient.debug = false;
+		if (stompClient && stompClient.connected) {
+			console.log("## STOMP client already connected");
+			return;
+		}
 		
-		let onconnect = (frame) => {
+		socket = new WebSocket(url);
+		
+		socket.onclose = function() {
+			console.log("## WebSocket closed");
+			stompClient = null;
+		};
+		
+		stompClient = Stomp.over(socket);
+		//stompClient.debug = false;
+		
+		stompClient.connect(headers, function(frame) {
 			console.log("## STOMP client connected");
-			console.log(frame);
-			
-			stompClient.subscribe("${contextPath}/sub/room/" + roomId, function(result) {
-			//stompClient.subscribe("/sub/room/" + roomId, function(result) {
+			stompClient.subscribe("${contextPath}/sub/room/" + roomId, function(result) { // "/sub/room/5"
 				console.log("## received message");
 				console.log(result);
 				
@@ -191,30 +197,35 @@
 					$(".chat-container").append(createChatNotificationHtml(chatMessage)); // ENTER, EXIT
 				}
 			});
-		};
-		
-		let onerror = (error) => {
+			
+			while (messageQueue.length > 0) {
+		 		let queuedMessage = messageQueue.shift();
+		 		sendMessage(queuedMessage);
+		 	}
+		}, function(error) {
 			console.log("## STOMP client connection failed");
-		};
-		
-		stompClient.connect(headers, onconnect, onerror);
+		});
 	}
 
 	function disconnect() {
-		if (!stompClient || !stompClient.connected) {
-			console.log("## STOMP client already disconnected");
+		if (stompClient && stompClient.connected) {
+			stompClient.disconnect(function() {
+				console.log("## STOMP client disconnected");
+	            stompClient = null;
+			});
+		} else {
+			console.log("## STOMP client was not connected");
 		}
-		
-		stompClient.disconnect();
-		console.log("## STOMP client disconnected");
 	}
 	
 	function info() {
-		if (stompClient) {
-			console.log(stompClient.subscriptions);
-		} else {
-			console.log(stompClient);
-		}
+		console.log(stompClient);
+	}
+	
+	function sendMessage(message) {
+		console.log("## send message");
+		let json = JSON.stringify(message);
+		stompClient.send("${contextPath}/pub/room/" + roomId, headers, json);
 	}
 	
 	function isEmpty(obj) {

@@ -1,5 +1,7 @@
 package com.codingjoa.websocket.test;
 
+import java.nio.charset.StandardCharsets;
+
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
@@ -13,7 +15,7 @@ public class StompChannelInterceptor implements ChannelInterceptor {
 	@Override
 	public boolean preReceive(MessageChannel channel) {
 		log.info("## {}.preReceive", this.getClass().getSimpleName());
-		return ChannelInterceptor.super.preReceive(channel);
+		return true;
 	}
 	
 	@Override
@@ -24,6 +26,13 @@ public class StompChannelInterceptor implements ChannelInterceptor {
 		StompHeaderAccessor accessor = StompHeaderAccessor.wrap(message);
 		log.info("\t > command = {}", accessor.getCommand());
 		log.info("\t > destination = {}", accessor.getDestination());
+		
+		Object payload = message.getPayload();
+		if (payload instanceof byte[]) {
+			byte[] bytes = (byte[]) payload;
+			String decoded = new String(bytes, StandardCharsets.UTF_8);
+			log.info("\t > payload = {}", decoded);
+		}
 		
 		return message;
 	}
