@@ -165,24 +165,21 @@
 	});
 	
 	function connect() {
+		console.log("## connect");
+		console.log(stompClient);
+		
 		if (stompClient && stompClient.connected) {
 			console.log("## STOMP client already connected");
 			return;
 		}
 		
 		socket = new WebSocket(url);
-		
-		socket.onclose = function() {
-			console.log("## WebSocket closed");
-			stompClient = null;
-		};
-		
 		stompClient = Stomp.over(socket);
-		//stompClient.debug = false;
+		stompClient.debug = false;
 		
 		stompClient.connect(headers, function(frame) {
 			console.log("## STOMP client connected");
-			stompClient.subscribe("${contextPath}/sub/room/" + roomId, function(result) { // "/sub/room/5"
+			stompClient.subscribe("/sub/room/" + roomId, function(result) { // "/sub/room/5"
 				console.log("## received message");
 				console.log(result);
 				
@@ -208,10 +205,15 @@
 	}
 
 	function disconnect() {
-		if (stompClient && stompClient.connected) {
+		console.log("## diconnectBtn clicked");
+		console.log(stompClient);
+		
+		if (stompClient) {
 			stompClient.disconnect(function() {
 				console.log("## STOMP client disconnected");
 	            stompClient = null;
+				socket = null;
+	            console.log("## socket = %s, stompClient = %s", socket, stompClient);
 			});
 		} else {
 			console.log("## STOMP client was not connected");
@@ -219,13 +221,14 @@
 	}
 	
 	function info() {
+		console.log(socket);
 		console.log(stompClient);
 	}
 	
 	function sendMessage(message) {
 		console.log("## send message");
 		let json = JSON.stringify(message);
-		stompClient.send("${contextPath}/pub/room/" + roomId, headers, json);
+		stompClient.send("/pub/room/" + roomId, headers, json);
 	}
 	
 	function isEmpty(obj) {

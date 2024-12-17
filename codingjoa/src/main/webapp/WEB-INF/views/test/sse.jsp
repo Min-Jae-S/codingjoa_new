@@ -59,7 +59,6 @@
 	let eventSource;
 	
 	$(function() {
-		
 		$("#streamBtn").on("click", function() {
 			eventSource = new EventSource(url);
 			
