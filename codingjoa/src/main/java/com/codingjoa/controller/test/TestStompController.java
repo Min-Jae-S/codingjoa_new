@@ -14,15 +14,15 @@ import com.codingjoa.websocket.test.ChatMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-@SuppressWarnings("unused")
 @Slf4j
 @RequiredArgsConstructor
 @Controller
 public class TestStompController {
 	
+	@SuppressWarnings("unused")
 	private final SimpMessagingTemplate template;
 	
-	@MessageMapping("/{roomId}")
+	@MessageMapping("/{roomId}") // /send/5
 	@SendTo("/room/{roomId}")
 	public ChatMessage chat(@DestinationVariable Long roomId, ChatMessage chatMessage, 
 			@AuthenticationPrincipal PrincipalDetails principal, WebSocketSession session) {

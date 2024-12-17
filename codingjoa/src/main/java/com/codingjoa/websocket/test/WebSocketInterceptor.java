@@ -9,7 +9,6 @@ import org.springframework.web.socket.server.HandshakeInterceptor;
 
 import lombok.extern.slf4j.Slf4j;
 
-@SuppressWarnings("unused")
 @Slf4j
 public class WebSocketInterceptor implements HandshakeInterceptor {
 

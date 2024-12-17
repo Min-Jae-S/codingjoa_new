@@ -79,7 +79,7 @@
 <div class="container my-5">
 	<p>stomp.jsp</p>
 	<div class="mb-5 px-5">
-		<button type="button" class="btn btn-warning btn-lg test-btn mr-4" id="connectBtn">connect</button>
+		<button type="button" class="btn btn-warning btn-lg test-btn mr-4" id="connectBtn">connect (new)</button>
 		<button type="button" class="btn btn-secondary btn-lg test-btn mr-4" id="disconnectBtn">disconnect</button>
 		<button type="button" class="btn btn-info btn-lg test-btn mr-4" id="infoBtn">info</button>
 	</div>
@@ -126,6 +126,11 @@
 		});
 
 		$("#enterBtn").on("click", function() {
+			if (stompClient && stompClient.connected) {
+				console.log("## STOMP client already connected");
+				return;
+			}
+			
 			connect();
 			$("div.chat-room").removeClass("d-none");
 		});
@@ -144,6 +149,7 @@
 			// send message
 			let json = JSON.stringify(message);
 			stompClient.send("${contextPath}/send/" + roomId, headers, json);
+			//stompClient.send("/send/" + roomId, headers, json);
 			
 			$(this).trigger("reset");
 			$(this).find("input[name='content']").focus();
@@ -160,11 +166,6 @@
 	});
 	
 	function connect() {
-		if (stompClient && stompClient.connected) {
-			console.log("## STOMP client already connected");
-			return;
-		}
-		
 		let socket = new WebSocket(url);
 		stompClient = Stomp.over(socket);
 		//stompClient.debug = false;
@@ -174,6 +175,7 @@
 			console.log(frame);
 			
 			stompClient.subscribe("${contextPath}/room/" + roomId, function(result) {
+			//stompClient.subscribe("/room/" + roomId, function(result) {
 				console.log("## subscribe result");
 				console.log(result);
 				
