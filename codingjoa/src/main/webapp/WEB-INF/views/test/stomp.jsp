@@ -151,7 +151,7 @@
 		
 		let socket = new WebSocket(url);
 		stompClient = Stomp.over(socket);
-		stompClient.debug = false;
+		//stompClient.debug = true;
 		
 		let onconnect = (frame) => {
 			console.log("## STOMP client connected");
@@ -181,9 +181,12 @@
 	}
 
 	function disconnect() {
-		if (stompClient != null) {
-			stompClient.disconnect();
+		if (!stompClient || !stompClient.connected) {
+			console.log("## STOMP client already disconnected");
 		}
+		
+		stompClient.disconnect();
+		console.log("## STOMP client already disconnected");
 	}
 	
 	function isEmpty(obj) {
