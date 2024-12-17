@@ -22,11 +22,11 @@ public class TestStompController {
 	
 	private final SimpMessagingTemplate template;
 	
-	@MessageMapping("/{roomNumber}")
-	//@SendTo("/topic")
-	public ChatMessage test(@DestinationVariable Long rommNumber, ChatMessage chatMessage, 
+	@MessageMapping("/{roomId}")
+	@SendTo("/room/{roomId}")
+	public ChatMessage chat(@DestinationVariable Long roomId, ChatMessage chatMessage, 
 			@AuthenticationPrincipal PrincipalDetails principal, WebSocketSession session) {
-		log.info("## test");
+		log.info("## chat");
 		log.info("\t > {}", chatMessage);
 		log.info("\t > session = {}", session);
 		

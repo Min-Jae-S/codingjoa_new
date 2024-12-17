@@ -81,6 +81,7 @@
 	<div class="mb-5 px-5">
 		<button type="button" class="btn btn-warning btn-lg test-btn mr-4" id="connectBtn">connect</button>
 		<button type="button" class="btn btn-secondary btn-lg test-btn mr-4" id="disconnectBtn">disconnect</button>
+		<button type="button" class="btn btn-info btn-lg test-btn mr-4" id="infoBtn">info</button>
 	</div>
 	<div class="mb-5 px-5">
 		<button type="button" class="btn btn-warning btn-lg test-btn mr-4" id="enterBtn">enter</button>
@@ -108,6 +109,7 @@
 	const host = window.location.host;
 	const url = "ws://" + host + "${contextPath}/ws-stomp";
 	const headers = { /* ... */ };
+	const roomId = 5;
 	let stompClient = null;
 
 	$(function() {
@@ -117,6 +119,10 @@
 
 		$("#disconnectBtn").on("click", function() {
 			disconnect();
+		});
+
+		$("#infoBtn").on("click", function() {
+			info();
 		});
 
 		$("#enterBtn").on("click", function() {
@@ -137,9 +143,7 @@
 			
 			// send message
 			let json = JSON.stringify(message);
-			let url = "${contextPath}/send/5";
-			console.log("## url = %s", url);
-			stompClient.send(url, headers, json);
+			stompClient.send("${contextPath}/send/" + roomId, headers, json);
 			
 			$(this).trigger("reset");
 			$(this).find("input[name='content']").focus();
@@ -157,21 +161,23 @@
 	
 	function connect() {
 		if (stompClient && stompClient.connected) {
+			console.log("## STOMP client already connected");
 			return;
 		}
 		
 		let socket = new WebSocket(url);
 		stompClient = Stomp.over(socket);
-		//stompClient.debug = true;
+		//stompClient.debug = false;
 		
 		let onconnect = (frame) => {
 			console.log("## STOMP client connected");
 			console.log(frame);
 			
-			stompClient.subscribe("${contextPath}/topic", function(result) {
+			stompClient.subscribe("${contextPath}/room/" + roomId, function(result) {
+				console.log("## subscribe result");
 				console.log(result);
 				
-				let chatMessage = JSON.parse(result.data); 
+				let chatMessage = JSON.parse(result.body); 
 				console.log(JSON.stringify(chatMessage, null, 2));
 				
 				if (chatMessage.type == "PUSH") {
@@ -197,7 +203,15 @@
 		}
 		
 		stompClient.disconnect();
-		console.log("## STOMP client already disconnected");
+		console.log("## STOMP client disconnected");
+	}
+	
+	function info() {
+		if (stompClient) {
+			console.log(stompClient.subscriptions);
+		} else {
+			console.log(stompClient);
+		}
 	}
 	
 	function isEmpty(obj) {
