@@ -59,14 +59,17 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
 				BatchJobConfig.class,
 				OAuth2Config.class,
 				AopConfig.class,
-				WebSocketStompConfig.class
 		};
 	}
 
 	@Override
 	protected Class<?>[] getServletConfigClasses() {
 		log.info("## getServletConfigClasses");
-		return new Class[] { ServletConfig.class, WebSocketConfig.class };  
+		return new Class[] { 
+				ServletConfig.class, 
+				WebSocketConfig.class,
+				WebSocketStompConfig.class
+		};  
 	}
 
 	@Override

@@ -22,13 +22,13 @@ public class WebSocketStompConfig implements WebSocketMessageBrokerConfigurer {
 	@Override
 	public void configureMessageBroker(MessageBrokerRegistry registry) {
 		//registry.enableSimpleBroker("/queue", "/topic");		// to message broker, queue(1:1), topic(1:N)
-		registry.enableSimpleBroker("/room");
-		registry.setApplicationDestinationPrefixes("/send"); 	// to @MessageMapping(handler)
+		registry.enableSimpleBroker("/sub");
+		registry.setApplicationDestinationPrefixes("/pub"); 	// to @MessageMapping(handler)
 	}
 
 	@Override
 	public void configureClientInboundChannel(ChannelRegistration registration) {
 		registration.interceptors(new StompChannelInterceptor());
 	}
-	
+
 }

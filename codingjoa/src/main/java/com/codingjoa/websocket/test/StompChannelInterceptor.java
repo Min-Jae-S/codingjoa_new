@@ -25,7 +25,7 @@ public class StompChannelInterceptor implements ChannelInterceptor {
 		log.info("\t > command = {}", accessor.getCommand());
 		log.info("\t > destination = {}", accessor.getDestination());
 		
-		return ChannelInterceptor.super.preSend(message, channel);
+		return message;
 	}
 	
 }

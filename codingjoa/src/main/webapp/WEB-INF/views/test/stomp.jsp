@@ -128,10 +128,10 @@
 		$("#enterBtn").on("click", function() {
 			if (stompClient && stompClient.connected) {
 				console.log("## STOMP client already connected");
-				return;
+			} else {
+				connect();
 			}
 			
-			connect();
 			$("div.chat-room").removeClass("d-none");
 		});
 
@@ -147,9 +147,10 @@
 			$(".chat-container").append(createMyChatHtml(message));
 			
 			// send message
+			console.log("## send message");
 			let json = JSON.stringify(message);
-			stompClient.send("${contextPath}/send/" + roomId, headers, json);
-			//stompClient.send("/send/" + roomId, headers, json);
+			stompClient.send("${contextPath}/pub/room/" + roomId, headers, json);
+			//stompClient.send("/pub/room/" + roomId, headers, json);
 			
 			$(this).trigger("reset");
 			$(this).find("input[name='content']").focus();
@@ -168,15 +169,15 @@
 	function connect() {
 		let socket = new WebSocket(url);
 		stompClient = Stomp.over(socket);
-		//stompClient.debug = false;
+		stompClient.debug = false;
 		
 		let onconnect = (frame) => {
 			console.log("## STOMP client connected");
 			console.log(frame);
 			
-			stompClient.subscribe("${contextPath}/room/" + roomId, function(result) {
-			//stompClient.subscribe("/room/" + roomId, function(result) {
-				console.log("## subscribe result");
+			stompClient.subscribe("${contextPath}/sub/room/" + roomId, function(result) {
+			//stompClient.subscribe("/sub/room/" + roomId, function(result) {
+				console.log("## received message");
 				console.log(result);
 				
 				let chatMessage = JSON.parse(result.body); 
