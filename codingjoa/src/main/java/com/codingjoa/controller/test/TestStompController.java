@@ -7,6 +7,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.socket.WebSocketSession;
@@ -26,11 +27,20 @@ public class TestStompController {
 	
 	@MessageMapping("/news")
 	public void news(@Payload String message, Principal principal) {
-		log.info("## greetings");
+		log.info("## news");
 		log.info("\t > message = {}", message);
 		log.info("\t > principal = {}", principal);
 		
-		template.convertAndSend("/sub/news", message);
+		String nickname = null;
+		if (principal instanceof Authentication) {
+			Authentication authentication = (Authentication) principal;
+			PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
+			nickname = principalDetails.getNickname();
+		} else {
+			nickname = "익명";
+		}
+		
+		template.convertAndSend("/sub/news", String.format("%s님의 제보입니다: %s", nickname, message));
 	}
 
 	@MessageMapping("/room/{roomId}")

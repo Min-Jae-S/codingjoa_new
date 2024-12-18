@@ -82,6 +82,7 @@
 		<button type="button" class="btn btn-warning btn-lg test-btn mr-4" id="connectBtn">connect (new)</button>
 		<button type="button" class="btn btn-secondary btn-lg test-btn mr-4" id="disconnectBtn">disconnect</button>
 		<button type="button" class="btn btn-info btn-lg test-btn mr-4" id="infoBtn">info</button>
+		<button type="button" class="btn btn-info btn-lg test-btn mr-4" id="newsBtn">news</button>
 	</div>
 	<div class="mb-5 px-5">
 		<button type="button" class="btn btn-warning btn-lg test-btn mr-4" id="enterBtn">enter</button>
@@ -125,6 +126,22 @@
 
 		$("#infoBtn").on("click", function() {
 			info();
+		});
+
+		$("#newsBtn").on("click", function() {
+			if (!socket) {
+				socket = new WebSocket(url);
+			}
+			
+			let client = Stomp.over(socket);
+			
+			client.connect(headers, function(frame) {
+				client.subscribe("/sub/news", function(result) { 
+					console.log(result);
+				});
+				
+				client.send("/pub/news", headers, "긴급 속보입니다.");
+			});
 		});
 
 		$("#enterBtn").on("click", function() {
