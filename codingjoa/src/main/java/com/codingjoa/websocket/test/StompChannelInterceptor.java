@@ -38,7 +38,7 @@ public class StompChannelInterceptor implements ChannelInterceptor {
 		log.info("\t > command = {}, destination = {}", command, accessor.getDestination());
 		log.info("\t > {}", message);
 		
-		if (command == StompCommand.MESSAGE) {
+		if (command == StompCommand.SEND) {
 			Object payload = message.getPayload();
 			if (payload instanceof byte[]) {
 				byte[] bytes = (byte[]) payload;
@@ -46,7 +46,7 @@ public class StompChannelInterceptor implements ChannelInterceptor {
 					log.info("\t > payload = {}", objectMapper.readValue(bytes, Map.class));
 				} catch (IOException e) {
 					String decoded = new String(bytes, StandardCharsets.UTF_8);
-					log.info("\t > failed to parse JSON, payload = {}", decoded);
+					log.info("\t > payload = {}", decoded);
 				}
 			}
 		}

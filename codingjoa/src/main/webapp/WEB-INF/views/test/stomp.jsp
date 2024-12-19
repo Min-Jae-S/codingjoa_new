@@ -115,7 +115,7 @@
 	const roomId = 5;
 	let stompClient = null;
 	let newsClient = null;
-	let headers = { /* ... */ };
+	let headers = { };
 	let messageQueue = [];
 
 	$(function() {
@@ -148,11 +148,10 @@
 			newsClient.debug = false;
 			
 			newsClient.connect(headers, function(frame) {
-				console.log("## news client connected");
+				console.log("## newsClient connection callback");
 				
 				newsClient.subscribe("/sub/news", function(frame) { 
-					console.log("## received message = %s", frame.body);
-					console.log(frame);
+					console.log("## newsClient received message = %s", frame.body);
 				});
 				
 				newsClient.send("/pub/news", headers, news); //  { "content-type" : "text/plain;charset=utf-8" }
@@ -182,10 +181,10 @@
 			$(".chat-container").append(createMyChatHtml(message));
 			
 			if (stompClient && stompClient.connected) {
-				console.log("## stomp client is connected, so send message");
+				console.log("## stompClient is connected, so send message");
 				sendMessage(message);
 			} else {
-				console.log("## no stomp client or stomp client is not connected");
+				console.log("## no stompClient or stompClient is not connected");
 				messageQueue.push(message);
 				connect();
 				
@@ -212,25 +211,25 @@
 	function connect() {
 		console.log("## connect");
 		if (stompClient && stompClient.connected) {
-			console.log("\t > STOMP client already connected");
+			console.log("\t > stompClient already connected");
 			return;
 		}
 		
 		let socket = new WebSocket(url);
-		console.log("\t > ws ready state = %s", getReadyState(socket));
+		console.log("\t > ws readyState = %s", getReadyState(socket));
 		
 		stompClient = Stomp.over(socket);
 		stompClient.debug = false;
-		console.log("\t > stomp client connected = %s", stompClient.connected);
+		console.log("\t > stompClient connected = %s", stompClient.connected);
 		
 		stompClient.connect(headers, function(frame) {
-			console.log("## STOMP client connection callback");
-			console.log("\t > ws ready state = %s", getReadyState(socket));
-			console.log("\t > stomp client connected = %s", stompClient.connected);
+			console.log("## stompClient connection callback");
+			console.log("\t > ws readyState = %s", getReadyState(socket));
+			console.log("\t > stompClient connected = %s", stompClient.connected);
 			
-			stompClient.subscribe("/sub/room/" + roomId, function(result) { // "/sub/room/5"
-				console.log("## recieved message");
-				let chatMessage = JSON.parse(result.body); 
+			stompClient.subscribe("/sub/room/" + roomId, function(frame) { // "/sub/room/5"
+				console.log("## stompClient recieved message");
+				let chatMessage = JSON.parse(frame.body); 
 				console.log(JSON.stringify(chatMessage, null, 2));
 				
 				if (chatMessage.type == "PUSH") {
@@ -242,41 +241,42 @@
 				}
 			});
 		}, function(error) {
-			console.log("## STOMP client connection failed");
+			console.log("## stompClient connection failed");
 		});
 	}
 
 	function disconnect() {
 		if (stompClient) {
-			stompClient.disconnect(function() {
-				console.log("## STOMP client disconnected");
+			stompClient.disconnect(function(frame) {
+				console.log("## stompClient disconnection callback");
+				console.log(frame);
 			});
 		} else {
-			console.log("## STOMP client was not connected");
+			console.log("## stompClient was not connected");
 		}
 	}
 	
 	function info() {
 		console.log("## stompClient");
 		if (stompClient) {
-			console.log("\t > ws ready state = %s", getReadyState(stompClient.ws));
-			console.log("\t > stomp client connected = %s", stompClient.connected);
+			console.log("\t > ws readyState = %s", getReadyState(stompClient.ws));
+			console.log("\t > stompClient connected = %s", stompClient.connected);
 		} else {
-			console.log("\t > no stomp client");
+			console.log("\t > no stompClient");
 		}
 		
 		console.log("## newsClient");
 		if (newsClient) {
-			console.log("\t > news client connected = %s", newsClient.connected);
+			console.log("\t > newsClient connected = %s", newsClient.connected);
 		} else {
-			console.log("\t > no news client");
+			console.log("\t > no newsClient");
 		}
 	}
 	
 	function sendMessage(message) {
 		console.log("## send message");
 		let json = JSON.stringify(message);
-		stompClient.send("/pub/room/" + roomId, headers , json); // { "content-type" : "application/json;charset=utf-8" }
+		stompClient.send("/pub/room/" + roomId, headers, json); // { "content-type" : "application/json;charset=utf-8" }
 	}
 	
 	function isEmpty(obj) {
