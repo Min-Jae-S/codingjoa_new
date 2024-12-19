@@ -78,7 +78,7 @@
 <c:import url="/WEB-INF/views/include/top-menu.jsp"/>
 <div class="container my-5">
 	<p>stomp.jsp</p>
-	<div class="mb-5 px-5">
+	<div class="my-5 px-5">
 		<button type="button" class="btn btn-warning btn-lg test-btn mr-4" id="connectBtn">connect (new)</button>
 		<button type="button" class="btn btn-secondary btn-lg test-btn mr-4" id="disconnectBtn">disconnect</button>
 		<button type="button" class="btn btn-info btn-lg test-btn mr-4" id="infoBtn">info</button>
@@ -237,7 +237,7 @@
 		 	}
 			
 		}, function(error) {
-			console.log("## stompClient connection failed");
+			console.log("## stompClient connection failure callback");
 		});
 		
 	}
@@ -248,7 +248,7 @@
 			return;
 		}
 		
-		if (!stompClient.conneted) {
+		if (!stompClient.connected) {
 			console.log("## stompClient already disconnected");
 			return;
 		}
