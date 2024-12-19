@@ -243,14 +243,19 @@
 	}
 
 	function disconnect() {
-		if (stompClient) {
-			stompClient.disconnect(function(frame) {
-				console.log("## stompClient disconnection callback");
-				console.log(frame);
-			});
-		} else {
-			console.log("## stompClient was not connected");
+		if (!stompClient) {
+			console.log("## no stompClient");
+			return;
 		}
+		
+		if (!stompClient.conneted) {
+			console.log("## stompClient already disconnected");
+			return;
+		}
+		
+		stompClient.disconnect(() => {
+			console.log("## stompClient disconnected");
+		});
 	}
 	
 	function info() {

@@ -31,7 +31,7 @@ public class OutboundChannelInterceptor implements ChannelInterceptor {
 	
 	@Override
 	public Message<?> preSend(Message<?> message, MessageChannel channel) {
-		log.info("## {}.preSend", this.getClass().getSimpleName());
+		log.info("## {}", this.getClass().getSimpleName());
 		
 		StompHeaderAccessor accessor = StompHeaderAccessor.wrap(message);
 		StompCommand command = accessor.getCommand();
