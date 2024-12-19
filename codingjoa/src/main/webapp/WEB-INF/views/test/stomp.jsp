@@ -83,9 +83,9 @@
 		<button type="button" class="btn btn-secondary btn-lg test-btn mr-4" id="disconnectBtn">disconnect</button>
 		<button type="button" class="btn btn-info btn-lg test-btn mr-4" id="infoBtn">info</button>
 	</div>
-	<div class="mb-5 px-5">
+	<div class="mb-5 px-5 d-flex">
 		<button type="button" class="btn btn-primary btn-lg test-btn mr-4" id="newsBtn">news</button>
-		<input class="form-control" type="text" name="news" placeholder="news">
+		<input class="form-control w-70" type="text" name="news" placeholder="news">
 	</div>
 	<div class="mb-5 px-5">
 		<button type="button" class="btn btn-warning btn-lg test-btn mr-4" id="enterBtn">enter</button>
@@ -135,12 +135,12 @@
 		$("#newsBtn").on("click", function() {
 			let news = $("input[name='news']").val().trim();
 			if (isEmpty(news)) {
-				alert("news를 입력하세요");
+				alert("뉴스를 입력하세요.");
 				return;
 			}
 			
 			if (newsClient && newsClient.connected) {
-				client.send("/pub/news", headers, news);
+				newsClient.send("/pub/news", headers, news);
 				return;
 			}
 			
@@ -150,11 +150,17 @@
 			
 			newsClient.connect(headers, function(frame) {
 				newsClient.subscribe("/sub/news", function(result) { 
-					console.log("## subscription result : %s", result.body);
+					console.log("## news subscription result: %s", result.body);
 				});
 				
 				newsClient.send("/pub/news", headers, news);
 			});
+		});
+		
+		$("input[name='news']").on("keydown", function(e) {
+			if (e.keyCode == 13) {
+				$("#newsBtn").trigger("click");
+			}
 		});
 
 		$("#enterBtn").on("click", function() {
