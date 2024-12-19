@@ -35,7 +35,7 @@ public class StompChannelInterceptor implements ChannelInterceptor {
 		
 		StompHeaderAccessor accessor = StompHeaderAccessor.wrap(message);
 		StompCommand command = accessor.getCommand();
-		log.info("\t > {}, destination = {}", command, accessor.getDestination());
+		log.info("\t > command = {}, destination = {}", command, accessor.getDestination());
 		log.info("\t > {}", message);
 		
 		if (command == StompCommand.MESSAGE) {

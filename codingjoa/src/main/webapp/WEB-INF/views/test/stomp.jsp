@@ -112,10 +112,10 @@
 <script>
 	const host = window.location.host;
 	const url = "ws://" + host + "${contextPath}/ws-stomp";
-	const headers = { /* ... */ };
 	const roomId = 5;
 	let stompClient = null;
 	let newsClient = null;
+	let headers = { /* ... */ };
 	let messageQueue = [];
 
 	$(function() {
@@ -139,7 +139,7 @@
 			}
 			
 			if (newsClient && newsClient.connected) {
-				newsClient.send("/pub/news", headers, news);
+				newsClient.send("/pub/news", headers, news); // { "content-type" : "text/plain;charset=utf-8" }
 				return;
 			}
 			
@@ -149,13 +149,13 @@
 			
 			newsClient.connect(headers, function(frame) {
 				console.log("## news client connected");
-				console.log(frame);
 				
-				newsClient.subscribe("/sub/news", function(result) { 
-					console.log("## news subscription result: %s", result.body);
+				newsClient.subscribe("/sub/news", function(frame) { 
+					console.log("## received message = %s", frame.body);
+					console.log(frame);
 				});
 				
-				newsClient.send("/pub/news", headers, news);
+				newsClient.send("/pub/news", headers, news); //  { "content-type" : "text/plain;charset=utf-8" }
 			});
 		});
 		
@@ -229,7 +229,7 @@
 			console.log("\t > stomp client connected = %s", stompClient.connected);
 			
 			stompClient.subscribe("/sub/room/" + roomId, function(result) { // "/sub/room/5"
-				console.log("## subscription message");
+				console.log("## recieved message");
 				let chatMessage = JSON.parse(result.body); 
 				console.log(JSON.stringify(chatMessage, null, 2));
 				
@@ -265,14 +265,18 @@
 			console.log("\t > no stomp client");
 		}
 		
-		//console.log("## newsClient");
-		//console.log(newsClient);
+		console.log("## newsClient");
+		if (newsClient) {
+			console.log("\t > news client connected = %s", newsClient.connected);
+		} else {
+			console.log("\t > no news client");
+		}
 	}
 	
 	function sendMessage(message) {
 		console.log("## send message");
 		let json = JSON.stringify(message);
-		stompClient.send("/pub/room/" + roomId, headers, json);
+		stompClient.send("/pub/room/" + roomId, headers , json); // { "content-type" : "application/json;charset=utf-8" }
 	}
 	
 	function isEmpty(obj) {

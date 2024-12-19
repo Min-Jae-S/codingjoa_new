@@ -16,7 +16,9 @@ import com.codingjoa.websocket.test.StompChannelInterceptor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RequiredArgsConstructor
 @EnableWebSocketMessageBroker
 @Configuration
@@ -46,11 +48,14 @@ public class WebSocketStompConfig implements WebSocketMessageBrokerConfigurer {
 	// https://stackoverflow.com/questions/41604828/how-to-use-and-customize-messageconversionspring-websocket-client
 	@Override
 	public boolean configureMessageConverters(List<MessageConverter> messageConverters) {
+		log.info("## configureMessageConverters");
+		messageConverters.add(new StringMessageConverter());
+
 		MappingJackson2MessageConverter jsonConverter = new MappingJackson2MessageConverter();
 		jsonConverter.setObjectMapper(objectMapper);
 		messageConverters.add(jsonConverter);
-		messageConverters.add(new StringMessageConverter());
 		
+		messageConverters.forEach(converter -> log.info("\t > {}", converter.getClass().getSimpleName()));
 		return true;
 	}
 
