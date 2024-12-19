@@ -12,7 +12,8 @@ import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBr
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 
-import com.codingjoa.websocket.test.StompChannelInterceptor;
+import com.codingjoa.websocket.test.InboundChannelInterceptor;
+import com.codingjoa.websocket.test.OutboundChannelInterceptor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -41,7 +42,12 @@ public class WebSocketStompConfig implements WebSocketMessageBrokerConfigurer {
 
 	@Override
 	public void configureClientInboundChannel(ChannelRegistration registration) {
-		registration.interceptors(new StompChannelInterceptor(objectMapper));
+		registration.interceptors(new InboundChannelInterceptor(objectMapper));
+	}
+	
+	@Override
+	public void configureClientOutboundChannel(ChannelRegistration registration) {
+		registration.interceptors(new OutboundChannelInterceptor(objectMapper));
 	}
 
 	// CompositeMessageConverter

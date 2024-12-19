@@ -15,11 +15,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class StompChannelInterceptor implements ChannelInterceptor {
+public class InboundChannelInterceptor implements ChannelInterceptor {
 	
 	private final ObjectMapper objectMapper;
 	
-	public StompChannelInterceptor(ObjectMapper objectMapper) {
+	public InboundChannelInterceptor(ObjectMapper objectMapper) {
 		this.objectMapper = objectMapper;
 	}
 

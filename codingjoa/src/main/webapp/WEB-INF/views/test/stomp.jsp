@@ -187,11 +187,6 @@
 				console.log("## no stompClient or stompClient is not connected");
 				messageQueue.push(message);
 				connect();
-				
-				while (messageQueue.length > 0) {
-			 		let queuedMessage = messageQueue.shift();
-			 		sendMessage(queuedMessage);
-			 	}
 			}
 			
 			$(this).trigger("reset");
@@ -216,16 +211,11 @@
 		}
 		
 		let socket = new WebSocket(url);
-		console.log("\t > ws readyState = %s", getReadyState(socket));
-		
 		stompClient = Stomp.over(socket);
 		stompClient.debug = false;
-		console.log("\t > stompClient connected = %s", stompClient.connected);
 		
 		stompClient.connect(headers, function(frame) {
 			console.log("## stompClient connection callback");
-			console.log("\t > ws readyState = %s", getReadyState(socket));
-			console.log("\t > stompClient connected = %s", stompClient.connected);
 			
 			stompClient.subscribe("/sub/room/" + roomId, function(frame) { // "/sub/room/5"
 				console.log("## stompClient recieved message");
@@ -240,9 +230,16 @@
 					$(".chat-container").append(createChatNotificationHtml(chatMessage)); // ENTER, EXIT
 				}
 			});
+			
+			while (messageQueue.length > 0) {
+		 		let queuedMessage = messageQueue.shift();
+		 		sendMessage(queuedMessage);
+		 	}
+			
 		}, function(error) {
 			console.log("## stompClient connection failed");
 		});
+		
 	}
 
 	function disconnect() {
