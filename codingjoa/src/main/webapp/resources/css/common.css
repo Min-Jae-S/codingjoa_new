@@ -3,7 +3,7 @@
 html, body {
 	/* padding-top: 56px; 
 	padding-bottom: 56px; */
-	height: 100%;
+	min-height: 100%;
 }
 
 .home-container {

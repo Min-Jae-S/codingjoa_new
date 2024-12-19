@@ -91,7 +91,7 @@
 		<button type="button" class="btn btn-warning btn-lg test-btn mr-4" id="enterBtn">enter</button>
 		<button type="button" class="btn btn-secondary btn-lg test-btn mr-4" id="exitBtn">exit</button>
 	</div>
-	<div class="card chat-room mx-5 d-none">
+	<div class="card chat-room mx-5 mb-5 d-none">
 		<div class="card-body chat-container p-5">
 			<!-- chat -->
 		</div>
@@ -114,7 +114,6 @@
 	const url = "ws://" + host + "${contextPath}/ws-stomp";
 	const headers = { /* ... */ };
 	const roomId = 5;
-	let socket = null;
 	let stompClient = null;
 	let newsClient = null;
 	let messageQueue = [];
@@ -149,6 +148,9 @@
 			newsClient.debug = false;
 			
 			newsClient.connect(headers, function(frame) {
+				console.log("## news client connected");
+				console.log(frame);
+				
 				newsClient.subscribe("/sub/news", function(result) { 
 					console.log("## news subscription result: %s", result.body);
 				});
@@ -180,8 +182,10 @@
 			$(".chat-container").append(createMyChatHtml(message));
 			
 			if (stompClient && stompClient.connected) {
+				console.log("## stomp client is connected, so send message");
 				sendMessage(message);
 			} else {
+				console.log("## no stomp client or stomp client is not connected");
 				messageQueue.push(message);
 				connect();
 				
@@ -206,22 +210,21 @@
 	});
 	
 	function connect() {
-		console.log("## connect");
-		console.log(stompClient);
-		
 		if (stompClient && stompClient.connected) {
 			console.log("## STOMP client already connected");
 			return;
 		}
 		
-		socket = new WebSocket(url);
+		let socket = new WebSocket(url);
 		stompClient = Stomp.over(socket);
 		stompClient.debug = false;
 		
 		stompClient.connect(headers, function(frame) {
 			console.log("## STOMP client connected");
+			console.log(frame);
+			
 			stompClient.subscribe("/sub/room/" + roomId, function(result) { // "/sub/room/5"
-				console.log("## received message");
+				console.log("## subscription message");
 				console.log(result);
 				
 				let chatMessage = JSON.parse(result.body); 
@@ -241,15 +244,9 @@
 	}
 
 	function disconnect() {
-		console.log("## diconnectBtn clicked");
-		console.log(stompClient);
-		
 		if (stompClient) {
 			stompClient.disconnect(function() {
 				console.log("## STOMP client disconnected");
-	            stompClient = null;
-				socket = null;
-	            console.log("## socket = %s, stompClient = %s", socket, stompClient);
 			});
 		} else {
 			console.log("## STOMP client was not connected");
@@ -257,8 +254,10 @@
 	}
 	
 	function info() {
-		console.log(socket);
+		console.log("## stompClient");
 		console.log(stompClient);
+		console.log("## newsClient");
+		console.log(newsClient);
 	}
 	
 	function sendMessage(message) {

@@ -39,10 +39,8 @@ public class StompChannelInterceptor implements ChannelInterceptor {
 			try {
 				log.info("\t > payload = {}", objectMapper.readValue(bytes, Map.class));
 			} catch (IOException e) {
-				log.info("\t > failed to parse JSON: {}", e.getMessage());
-				
 				String decoded = new String(bytes, StandardCharsets.UTF_8);
-				log.info("\t > payload = '{}'", decoded);
+				log.info("\t > failed to parse JSON, payload = {}", decoded);
 			}
 		}
 		
