@@ -163,28 +163,7 @@
 		});
 		
 		$("#socketInfoBtn").on("click", function() {
-			let status, state;
-			
-			if (socket) {
-				// 0(connecting), 1(open), 2(closing), 3(closed)
-				state = socket.readyState;
-				if (state === WebSocket.CONNETING) { 
-					status = "connecting";
-				} else if (state === WebSocket.OPEN) {
-					status = "open";
-				} else if (state === WebSocket.CLOING) {
-					status = "closing";
-				} else if (state === WebSocket.CLOSED) {
-					status = "closed";
-				} else {
-					status = "unknown";
-				}
-			} else {
-				status = "no socket";
-				state = "N/A";
-			}
-			
-			console.log("## socket status = %s, %s", status, state); 
+			console.log("## socket status = %s", getReadyState(socket)); 
 		});
 		
 	});
@@ -298,6 +277,25 @@
 		html += '<span>' + chatMessage.content + '</span>';
 		html += '</div>';
 		return html;
+	}
+	
+	function getReadyState(socket) {
+		if (!socket) {
+			return "no socket";
+		}
+		
+		// 0(connecting), 1(open), 2(closing), 3(closed)
+		if (socket.readyState === WebSocket.CONNECTING) { 
+			return "connecting";
+		} else if (socket.readyState === WebSocket.OPEN) {
+			return "open";
+		} else if (socket.readyState === WebSocket.CLOING) {
+			return "closing";
+		} else if (socket.readyState === WebSocket.CLOSED) {
+			return "closed";
+		} else {
+			return "unknown";
+		}
 	}
 </script>
 </body>

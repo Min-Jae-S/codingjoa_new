@@ -210,23 +210,26 @@
 	});
 	
 	function connect() {
+		console.log("## connect");
 		if (stompClient && stompClient.connected) {
-			console.log("## STOMP client already connected");
+			console.log("\t > STOMP client already connected");
 			return;
 		}
 		
 		let socket = new WebSocket(url);
+		console.log("\t > ws ready state = %s", getReadyState(socket));
+		
 		stompClient = Stomp.over(socket);
 		stompClient.debug = false;
+		console.log("\t > stomp client connected = %s", stompClient.connected);
 		
 		stompClient.connect(headers, function(frame) {
-			console.log("## STOMP client connected");
-			console.log(frame);
+			console.log("## STOMP client connection callback");
+			console.log("\t > ws ready state = %s", getReadyState(socket));
+			console.log("\t > stomp client connected = %s", stompClient.connected);
 			
 			stompClient.subscribe("/sub/room/" + roomId, function(result) { // "/sub/room/5"
 				console.log("## subscription message");
-				console.log(result);
-				
 				let chatMessage = JSON.parse(result.body); 
 				console.log(JSON.stringify(chatMessage, null, 2));
 				
@@ -255,9 +258,15 @@
 	
 	function info() {
 		console.log("## stompClient");
-		console.log(stompClient);
-		console.log("## newsClient");
-		console.log(newsClient);
+		if (stompClient) {
+			console.log("\t > ws ready state = %s", getReadyState(stompClient.ws));
+			console.log("\t > stomp client connected = %s", stompClient.connected);
+		} else {
+			console.log("\t > no stomp client");
+		}
+		
+		//console.log("## newsClient");
+		//console.log(newsClient);
 	}
 	
 	function sendMessage(message) {
@@ -268,6 +277,25 @@
 	
 	function isEmpty(obj) {
 		return (obj == null || obj == "");
+	}
+	
+	function getReadyState(socket) {
+		if (!socket) {
+			return "no socket";
+		}
+		
+		// 0(connecting), 1(open), 2(closing), 3(closed)
+		if (socket.readyState === WebSocket.CONNECTING) { 
+			return "connecting";
+		} else if (socket.readyState === WebSocket.OPEN) {
+			return "open";
+		} else if (socket.readyState === WebSocket.CLOING) {
+			return "closing";
+		} else if (socket.readyState === WebSocket.CLOSED) {
+			return "closed";
+		} else {
+			return "unknown";
+		}
 	}
 	
 	function createChatNotificationHtml(chatMessage) {
