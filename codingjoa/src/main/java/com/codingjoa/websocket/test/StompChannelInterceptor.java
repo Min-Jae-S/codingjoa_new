@@ -1,5 +1,6 @@
 package com.codingjoa.websocket.test;
 
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
@@ -8,7 +9,6 @@ import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.ChannelInterceptor;
 
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.extern.slf4j.Slf4j;
@@ -38,11 +38,9 @@ public class StompChannelInterceptor implements ChannelInterceptor {
 			byte[] bytes = (byte[]) payload;
 			try {
 				log.info("\t > payload = {}", objectMapper.readValue(bytes, Map.class));
-			} catch (JsonParseException e) {
+			} catch (IOException e) {
 				String decoded = new String(bytes, StandardCharsets.UTF_8);
 				log.info("\t > payload = {}", decoded);
-			} catch (Exception e) {
-				e.printStackTrace();
 			}
 		}
 		

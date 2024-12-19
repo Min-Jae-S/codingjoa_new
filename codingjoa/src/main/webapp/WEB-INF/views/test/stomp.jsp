@@ -84,9 +84,12 @@
 		<button type="button" class="btn btn-info btn-lg test-btn mr-4" id="infoBtn">info</button>
 	</div>
 	<div class="mb-5 px-5">
+		<button type="button" class="btn btn-primary btn-lg test-btn mr-4" id="newsBtn">news</button>
+		<input class="form-control" type="text" name="news" placeholder="news">
+	</div>
+	<div class="mb-5 px-5">
 		<button type="button" class="btn btn-warning btn-lg test-btn mr-4" id="enterBtn">enter</button>
 		<button type="button" class="btn btn-secondary btn-lg test-btn mr-4" id="exitBtn">exit</button>
-		<button type="button" class="btn btn-primary btn-lg test-btn mr-4" id="newsBtn">news</button>
 	</div>
 	<div class="card chat-room mx-5 d-none">
 		<div class="card-body chat-container p-5">
@@ -130,20 +133,27 @@
 		});
 
 		$("#newsBtn").on("click", function() {
+			let news = $("input[name='news']").val().trim();
+			if (isEmpty(news)) {
+				alert("news를 입력하세요");
+				return;
+			}
+			
 			if (newsClient && newsClient.connected) {
-				client.send("/pub/news", headers, "긴급 속보입니다.");
+				client.send("/pub/news", headers, news);
 				return;
 			}
 			
 			let	socket = new WebSocket(url);
 			newsClient = Stomp.over(socket);
+			newsClient.debug = false;
 			
 			newsClient.connect(headers, function(frame) {
 				newsClient.subscribe("/sub/news", function(result) { 
-					console.log(result);
+					console.log("## subscription result : %s", result.body);
 				});
 				
-				newsClient.send("/pub/news", headers, "긴급 속보입니다.");
+				newsClient.send("/pub/news", headers, news);
 			});
 		});
 
