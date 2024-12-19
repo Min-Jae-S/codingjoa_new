@@ -113,6 +113,7 @@
 	const roomId = 5;
 	let socket = null;
 	let stompClient = null;
+	let newsClient = null;
 	let messageQueue = [];
 
 	$(function() {
@@ -129,11 +130,13 @@
 		});
 
 		$("#newsBtn").on("click", function() {
-			if (!socket) {
-				socket = new WebSocket(url);
+			if (newsClient && newClient.connected) {
+				client.send("/pub/news", headers, "긴급 속보입니다.");
+				return;
 			}
 			
-			let client = Stomp.over(socket);
+			let	socket = new WebSocket(url);
+			newsClient = Stomp.over(socket);
 			
 			client.connect(headers, function(frame) {
 				client.subscribe("/sub/news", function(result) { 
@@ -165,6 +168,11 @@
 			} else {
 				messageQueue.push(message);
 				connect();
+				
+				while (messageQueue.length > 0) {
+			 		let queuedMessage = messageQueue.shift();
+			 		sendMessage(queuedMessage);
+			 	}
 			}
 			
 			$(this).trigger("reset");
@@ -211,11 +219,6 @@
 					$(".chat-container").append(createChatNotificationHtml(chatMessage)); // ENTER, EXIT
 				}
 			});
-			
-			while (messageQueue.length > 0) {
-		 		let queuedMessage = messageQueue.shift();
-		 		sendMessage(queuedMessage);
-		 	}
 		}, function(error) {
 			console.log("## STOMP client connection failed");
 		});
