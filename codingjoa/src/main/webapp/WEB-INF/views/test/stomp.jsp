@@ -82,11 +82,11 @@
 		<button type="button" class="btn btn-warning btn-lg test-btn mr-4" id="connectBtn">connect (new)</button>
 		<button type="button" class="btn btn-secondary btn-lg test-btn mr-4" id="disconnectBtn">disconnect</button>
 		<button type="button" class="btn btn-info btn-lg test-btn mr-4" id="infoBtn">info</button>
-		<button type="button" class="btn btn-info btn-lg test-btn mr-4" id="newsBtn">news</button>
 	</div>
 	<div class="mb-5 px-5">
 		<button type="button" class="btn btn-warning btn-lg test-btn mr-4" id="enterBtn">enter</button>
 		<button type="button" class="btn btn-secondary btn-lg test-btn mr-4" id="exitBtn">exit</button>
+		<button type="button" class="btn btn-primary btn-lg test-btn mr-4" id="newsBtn">news</button>
 	</div>
 	<div class="card chat-room mx-5 d-none">
 		<div class="card-body chat-container p-5">
@@ -130,7 +130,7 @@
 		});
 
 		$("#newsBtn").on("click", function() {
-			if (newsClient && newClient.connected) {
+			if (newsClient && newsClient.connected) {
 				client.send("/pub/news", headers, "긴급 속보입니다.");
 				return;
 			}
@@ -138,12 +138,12 @@
 			let	socket = new WebSocket(url);
 			newsClient = Stomp.over(socket);
 			
-			client.connect(headers, function(frame) {
-				client.subscribe("/sub/news", function(result) { 
+			newsClient.connect(headers, function(frame) {
+				newsClient.subscribe("/sub/news", function(result) { 
 					console.log(result);
 				});
 				
-				client.send("/pub/news", headers, "긴급 속보입니다.");
+				newsClient.send("/pub/news", headers, "긴급 속보입니다.");
 			});
 		});
 
