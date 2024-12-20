@@ -180,14 +180,16 @@
 			let message = $(this).serializeObject();
 			$(".chat-container").append(createMyChatHtml(message));
 			
-			if (stompClient && stompClient.connected) {
+			/* if (stompClient && stompClient.connected) {
 				console.log("## stompClient is connected, so send message");
 				sendMessage(message);
 			} else {
 				console.log("## no stompClient or stompClient is not connected");
 				messageQueue.push(message);
 				connect();
-			}
+			} */
+			
+			sendMessage(message);
 			
 			$(this).trigger("reset");
 			$(this).find("input[name='content']").focus();

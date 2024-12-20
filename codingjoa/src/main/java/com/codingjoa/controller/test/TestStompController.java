@@ -29,14 +29,7 @@ public class TestStompController {
 		log.info("\t > message = {}", message);
 		log.info("\t > principal = {}", principal);
 		
-		String nickname = null;
-		if (principal instanceof Authentication) {
-			Authentication authentication = (Authentication) principal;
-			PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
-			nickname = principalDetails.getNickname();
-		} else {
-			nickname = "익명";
-		}
+		String nickname = (getNickname(principal) == null) ? "익명" : getNickname(principal);
 		
 		template.convertAndSend("/sub/news", String.format("%s님의 제보입니다: %s", nickname, message));
 	}
@@ -49,17 +42,22 @@ public class TestStompController {
 		//log.info("\t > session = {}", session);
 		log.info("\t > principal = {}", principal);
 		
-		String nickname = null;
-		if (principal instanceof Authentication) {
-			Authentication authentication = (Authentication) principal;
-			PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
-			nickname = principalDetails.getNickname();
-		} 
+		String nickname = getNickname(principal);
 		
 		//chatMessage.setSender(session.getId());
 		chatMessage.setSenderNickname(nickname);
 		
 		return chatMessage;
+	}
+	
+	private String getNickname(Principal principal) {
+		if (principal instanceof Authentication) {
+			Authentication authentication = (Authentication) principal;
+			PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
+			return principalDetails.getNickname();
+		} 
+		
+		return null;
 	}
 	
 }
