@@ -3,6 +3,7 @@ package com.codingjoa.controller.test;
 import java.security.Principal;
 
 import org.springframework.messaging.handler.annotation.DestinationVariable;
+import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -24,9 +25,10 @@ public class TestStompController {
 	private final SimpMessagingTemplate template;
 	
 	@MessageMapping("/news")
-	public void news(@Payload String message, Principal principal) {
+	public void news(@Payload String message, @Header("simpSessionId") String senderSessionId, Principal principal) {
 		log.info("## news");
 		log.info("\t > message = {}", message);
+		log.info("\t > sendSessionId = {}", senderSessionId);
 		log.info("\t > principal = {}", principal);
 		
 		String nickname = (getNickname(principal) == null) ? "익명" : getNickname(principal);
@@ -36,7 +38,7 @@ public class TestStompController {
 
 	@MessageMapping("/room/{roomId}")
 	@SendTo("/sub/room/{roomId}")
-	public ChatMessage chat(@DestinationVariable Long roomId, ChatMessage chatMessage, Principal principal) {
+	public ChatMessage chat(@DestinationVariable Long roomId, @Payload ChatMessage chatMessage, Principal principal) {
 		log.info("## chat");
 		log.info("\t > chatMessage = {}", chatMessage);
 		//log.info("\t > session = {}", session);
