@@ -43,7 +43,12 @@ public class OutboundChannelInterceptor implements ChannelInterceptor {
 			if (payload instanceof byte[]) {
 				byte[] bytes = (byte[]) payload;
 				try {
-					log.info("\t > payload = {}", objectMapper.readValue(bytes, Map.class));
+					ChatMessage chatMessage = objectMapper.readValue(bytes, ChatMessage.class);
+					log.info("\t > payload = {}", chatMessage);
+					
+					if (accessor.getSessionId().equals(chatMessage.getSender())) {
+						return null;
+					}
 				} catch (IOException e) {
 					String decoded = new String(bytes, StandardCharsets.UTF_8);
 					log.info("\t > payload = {}", decoded);
