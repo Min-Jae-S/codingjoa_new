@@ -28,11 +28,11 @@ public class TestStompController {
 	public void news(@Payload String message, @Header("simpSessionId") String senderSessionId, Principal principal) {
 		log.info("## news");
 		log.info("\t > message = {}", message);
-		log.info("\t > sendSessionId = {}", senderSessionId);
+		log.info("\t > senderSessionId = {}", senderSessionId);
 		log.info("\t > principal = {}", principal);
 
 		String nickname = (getNickname(principal) == null) ? "익명" : getNickname(principal);
-		String payload = String.format("%s님의 제보입니다: %s", nickname, message);
+		String payload = String.format("'%s' 님의 제보입니다: %s", nickname, message);
 
 		template.convertAndSend("/sub/news", payload);
 	}
@@ -44,7 +44,7 @@ public class TestStompController {
 		log.info("## chat");
 		log.info("\t > roomId = {}", roomId);
 		log.info("\t > chatMessage = {}", chatMessage);
-		log.info("\t > sendSessionId = {}", senderSessionId);
+		log.info("\t > senderSessionId = {}", senderSessionId);
 		log.info("\t > principal = {}", principal);
 		
 		String nickname = getNickname(principal);

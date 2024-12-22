@@ -2,7 +2,6 @@ package com.codingjoa.websocket.test;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.Map;
 
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
@@ -46,7 +45,11 @@ public class OutboundChannelInterceptor implements ChannelInterceptor {
 					ChatMessage chatMessage = objectMapper.readValue(bytes, ChatMessage.class);
 					log.info("\t > payload = {}", chatMessage);
 					
-					if (accessor.getSessionId().equals(chatMessage.getSender())) {
+					String senderSessionId = chatMessage.getSender();
+					String receiverSessionId = accessor.getSessionId();
+					
+					if (receiverSessionId.equals(senderSessionId)) {
+						log.info("\t > sender == reciever");
 						return null;
 					}
 				} catch (IOException e) {

@@ -41,12 +41,13 @@ public class WebSocketHandler extends TextWebSocketHandler {
 				.sender(sessionId)
 				.senderNickname(getSenderNickname(session))
 				.build();
-		log.info("\t > {}", chatMessage);
+		log.info("\t > chatMessage = {}", chatMessage);
 		
 		String json = objectMapper.writeValueAsString(chatMessage);
 		
 		sessions.values().forEach(s -> {
-			// no need to send the connection info to oneself, so it will be sent to all other sessions except for oneself
+			// no need to send the connection info to oneself, 
+			// so it will be sent to all other sessions except for oneself
 			if (!s.getId().equals(sessionId)) {
 				try {
 					s.sendMessage(new TextMessage(json));
@@ -69,7 +70,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
 				.sender(sessionId)
 				.senderNickname(getSenderNickname(session))
 				.build();
-		log.info("\t > {}", chatMessage);
+		log.info("\t > chatMessage = {}", chatMessage);
 		
 		String json = objectMapper.writeValueAsString(chatMessage);
 		
@@ -92,7 +93,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
 		String sessionId = session.getId();
 		chatMessage.setSender(sessionId);
 		chatMessage.setSenderNickname(getSenderNickname(session));
-		log.info("\t > {}", chatMessage);
+		log.info("\t > chatMessage = {}", chatMessage);
 		
 		String json = objectMapper.writeValueAsString(chatMessage);
 		
