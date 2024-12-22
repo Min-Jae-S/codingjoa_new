@@ -239,7 +239,7 @@
 		 	}
 			
 		}, function(error) {
-			console.log("## stompClient connection failure callback");
+			console.log("## stompClient connection error callback");
 		});
 		
 	}
@@ -251,7 +251,7 @@
 		}
 		
 		if (!stompClient.connected) {
-			console.log("## stompClient already disconnected");
+			console.log("## stompClient not connected");
 			return;
 		}
 		

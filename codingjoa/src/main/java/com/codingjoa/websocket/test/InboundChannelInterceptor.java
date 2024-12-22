@@ -24,12 +24,6 @@ public class InboundChannelInterceptor implements ChannelInterceptor {
 	}
 
 	@Override
-	public boolean preReceive(MessageChannel channel) {
-		log.info("## {}.preReceive", this.getClass().getSimpleName());
-		return true;
-	}
-	
-	@Override
 	public Message<?> preSend(Message<?> message, MessageChannel channel) {
 		log.info("## {}", this.getClass().getSimpleName());
 		
