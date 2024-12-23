@@ -29,8 +29,13 @@ public class InboundChannelInterceptor implements ChannelInterceptor {
 		
 		StompHeaderAccessor accessor = StompHeaderAccessor.wrap(message);
 		StompCommand command = accessor.getCommand();
-		log.info("\t > command = {}, destination = {}", command, accessor.getDestination());
-		log.info("\t > {}", message);
+		String ack = accessor.getAck();
+		String nack = accessor.getNack();
+		log.info("\t > command = {}, ack = {}, nack = {}", command, ack, nack);
+		
+		String destination = accessor.getDestination();
+		log.info("\t > destination = {}", destination);
+		//log.info("\t > {}", message);
 		
 		if (command == StompCommand.SEND) {
 			Object payload = message.getPayload();
