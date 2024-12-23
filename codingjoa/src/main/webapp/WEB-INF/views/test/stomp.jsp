@@ -149,10 +149,15 @@
 			
 			newsClient.connect(headers, function(frame) {
 				console.log("## newsClient connection callback");
+				console.log(frame);
 				
-				newsClient.subscribe("/sub/news", function(frame) { 
+				let subscriptionUrl = "/sub/news";
+				console.log("## newsClient subscribe: %s", subscriptionUrl);
+				
+				let subscription = newsClient.subscribe(subscriptionUrl, function(frame) { 
 					console.log("## newsClient received message = %s", frame.body);
 				});
+				console.log(subscription);
 				
 				newsClient.send("/pub/news", headers, news); //  { "content-type" : "text/plain;charset=utf-8" }
 			});
@@ -218,8 +223,12 @@
 		
 		stompClient.connect(headers, function(frame) {
 			console.log("## stompClient connection callback");
+			console.log(frame);
 			
-			stompClient.subscribe("/sub/room/" + roomId, function(frame) { // "/sub/room/5"
+			let subscriptionUrl = "/sub/room/" + roomId;
+			console.log("## stompClient subscribe: %s", subscriptionUrl);
+			
+			let subscription = stompClient.subscribe(subscriptionUrl, function(frame) { // "/sub/room/5"
 				console.log("## stompClient recieved message");
 				let chatMessage = JSON.parse(frame.body); 
 				console.log(JSON.stringify(chatMessage, null, 2));
@@ -232,18 +241,18 @@
 					$(".chat-container").append(createChatNotificationHtml(chatMessage)); // ENTER, EXIT
 				}
 			});
+			console.log(subscription);
 			
 			while (messageQueue.length > 0) {
 		 		let queuedMessage = messageQueue.shift();
 		 		sendMessage(queuedMessage);
 		 	}
-			
 		}, function(error) {
 			console.log("## stompClient connection error callback");
 		});
 		
 	}
-
+	
 	function disconnect() {
 		if (!stompClient) {
 			console.log("## no stompClient");
