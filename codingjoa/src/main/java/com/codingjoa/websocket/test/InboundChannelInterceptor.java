@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
+import org.springframework.messaging.simp.SimpMessageType;
 import org.springframework.messaging.simp.stomp.StompCommand;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.ChannelInterceptor;
@@ -28,27 +29,30 @@ public class InboundChannelInterceptor implements ChannelInterceptor {
 		log.info("## {}", this.getClass().getSimpleName());
 		
 		StompHeaderAccessor accessor = StompHeaderAccessor.wrap(message);
+		SimpMessageType messageType = accessor.getMessageType();
 		StompCommand command = accessor.getCommand();
-		String ack = accessor.getAck();
-		String nack = accessor.getNack();
-		log.info("\t > command = {}, ack = {}, nack = {}", command, ack, nack);
-		
-		String destination = accessor.getDestination();
-		log.info("\t > destination = {}", destination);
-		//log.info("\t > {}", message);
-		
-		if (command == StompCommand.SEND) {
-			Object payload = message.getPayload();
-			if (payload instanceof byte[]) {
-				byte[] bytes = (byte[]) payload;
-				try {
-					log.info("\t > payload = {}", objectMapper.readValue(bytes, Map.class));
-				} catch (IOException e) {
-					String decoded = new String(bytes, StandardCharsets.UTF_8);
-					log.info("\t > payload = {}", decoded);
+		log.info("\t > simpMessageType: {}", messageType);
+
+		if (command != null) {
+			log.info("\t > STOMP command: {}", command);
+			
+			if (command == StompCommand.SEND) {
+				Object payload = message.getPayload();
+				if (payload instanceof byte[]) {
+					byte[] bytes = (byte[]) payload;
+					try {
+						log.info("\t > payload = {}", objectMapper.readValue(bytes, Map.class));
+					} catch (IOException e) {
+						String decoded = new String(bytes, StandardCharsets.UTF_8);
+						log.info("\t > payload = {}", decoded);
+					}
 				}
 			}
 		}
+		
+		//String destination = accessor.getDestination();
+		//log.info("\t > destination = {}", destination);
+		//log.info("\t > {}", message);
 		
 		return message;
 	}
