@@ -235,6 +235,8 @@
 			
 			let subscription = stompClient.subscribe(subscriptionUrl, function(frame) { // "/sub/room/5"
 				console.log("## stompClient recieved message");
+				console.log(frame);
+				
 				let chatMessage = JSON.parse(frame.body); 
 				console.log(JSON.stringify(chatMessage, null, 2));
 				

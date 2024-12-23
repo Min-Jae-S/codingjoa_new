@@ -24,17 +24,17 @@ public class OutboundChannelInterceptor implements ChannelInterceptor {
 	
 	@Override
 	public Message<?> preSend(Message<?> message, MessageChannel messageChannel) {
-		log.info("## {}", this.getClass().getSimpleName());
-
+		//log.info("## {}", this.getClass().getSimpleName());
 		//ExecutorSubscribableChannel channel = (ExecutorSubscribableChannel) messageChannel;
 		//log.info("\t > subscribers = {}", channel.getSubscribers());
 		
 		StompHeaderAccessor accessor = StompHeaderAccessor.wrap(message);
 		MessageHeaders headers = accessor.getMessageHeaders();
-		try {
-			log.info("{}", FormatUtils.formatPrettyJson(headers));
-		} catch (Exception e) {
-			log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
+		String headerJson = FormatUtils.formatPrettyJson(headers);
+		if (headerJson != null) {
+			log.info("## {} {}", this.getClass().getSimpleName(), headerJson);
+		} else {
+			log.info("## {}", this.getClass().getSimpleName());
 			headers.keySet().forEach(key -> log.info("\t > {}: {}", key, headers.get(key)));
 		}
 		
