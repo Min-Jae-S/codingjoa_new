@@ -1,11 +1,6 @@
 package com.codingjoa.config;
 
-import java.util.List;
-
 import org.springframework.context.annotation.Configuration;
-import org.springframework.messaging.converter.MappingJackson2MessageConverter;
-import org.springframework.messaging.converter.MessageConverter;
-import org.springframework.messaging.converter.StringMessageConverter;
 import org.springframework.messaging.simp.config.ChannelRegistration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
@@ -19,6 +14,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+@SuppressWarnings("unused")
 @Slf4j
 @RequiredArgsConstructor
 @EnableWebSocketMessageBroker
@@ -52,17 +48,17 @@ public class WebSocketStompConfig implements WebSocketMessageBrokerConfigurer {
 
 	// CompositeMessageConverter
 	// https://stackoverflow.com/questions/41604828/how-to-use-and-customize-messageconversionspring-websocket-client
-	@Override
-	public boolean configureMessageConverters(List<MessageConverter> messageConverters) {
-		log.info("## configureMessageConverters");
-		messageConverters.add(new StringMessageConverter());
-
-		MappingJackson2MessageConverter jsonConverter = new MappingJackson2MessageConverter();
-		jsonConverter.setObjectMapper(objectMapper);
-		messageConverters.add(jsonConverter);
-		messageConverters.forEach(converter -> log.info("\t > {}", converter.getClass().getSimpleName()));
-		
-		return true;
-	}
+//	@Override
+//	public boolean configureMessageConverters(List<MessageConverter> messageConverters) {
+//		log.info("## configureMessageConverters");
+//		messageConverters.add(new StringMessageConverter());
+//
+//		MappingJackson2MessageConverter jsonConverter = new MappingJackson2MessageConverter();
+//		jsonConverter.setObjectMapper(objectMapper);
+//		messageConverters.add(jsonConverter);
+//		messageConverters.forEach(converter -> log.info("\t > {}", converter.getClass().getSimpleName()));
+//		
+//		return true;
+//	}
 
 }

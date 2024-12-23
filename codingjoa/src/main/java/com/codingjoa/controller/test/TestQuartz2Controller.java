@@ -76,7 +76,7 @@ public class TestQuartz2Controller {
 	@Autowired
 	private SchedulerService schedulerService;
 
-	@Autowired
+	@Autowired(required = false)
 	private WebSocketHandler webSocketTestHandler;
 	
 	@GetMapping("/config")

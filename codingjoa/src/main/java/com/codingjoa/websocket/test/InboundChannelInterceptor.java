@@ -11,6 +11,7 @@ import org.springframework.messaging.simp.SimpMessageType;
 import org.springframework.messaging.simp.stomp.StompCommand;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.ChannelInterceptor;
+import org.springframework.messaging.support.ExecutorSubscribableChannel;
 
 import com.codingjoa.util.FormatUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -28,13 +29,20 @@ public class InboundChannelInterceptor implements ChannelInterceptor {
 	}
 	
 	@Override
-	public Message<?> preSend(Message<?> message, MessageChannel channel) {
-		//log.info("## {}", this.getClass().getSimpleName());
+	public Message<?> preSend(Message<?> message, MessageChannel messageChannel) {
+		log.info("## {}", this.getClass().getSimpleName());
+
+		//ExecutorSubscribableChannel channel = (ExecutorSubscribableChannel) messageChannel;
+		//log.info("\t > subscribers = {}", channel.getSubscribers());
 		
 		StompHeaderAccessor accessor = StompHeaderAccessor.wrap(message);
 		MessageHeaders headers = accessor.getMessageHeaders();
-		log.info("## {} {}", this.getClass().getSimpleName(), FormatUtils.formatPrettyJson(headers));
-		log.info("\t > channel = {}", channel.getClass().getSimpleName());
+		try {
+			log.info("{}", FormatUtils.formatPrettyJson(headers));
+		} catch (Exception e) {
+			log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
+			headers.keySet().forEach(key -> log.info("\t > {}: {}", key, headers.get(key)));
+		}
 		
 		// inbound: CONNECT, SUBSCRIBE, SEND, DISCONNECT
 //		SimpMessageType messageType = accessor.getMessageType();
@@ -67,7 +75,16 @@ public class InboundChannelInterceptor implements ChannelInterceptor {
 	
 	@Override
 	public void afterSendCompletion(Message<?> message, MessageChannel channel, boolean sent, Exception ex) {
-		log.info("## {}.afterSendCompletion, sent = {}", this.getClass().getSimpleName(), sent);
+		if (!sent || ex != null) {
+			log.info("## {}.afterSendCompletion", this.getClass().getSimpleName());
+			if (ex != null) {
+				log.info("\t > {}: {}", ex.getClass().getSimpleName(), ex.getMessage());
+			}
+			
+			if (!sent) {
+				log.info("\t > not sent");
+			}
+		}
 	}
 	
 }

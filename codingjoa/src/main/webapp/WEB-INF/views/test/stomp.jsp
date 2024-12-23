@@ -121,6 +121,7 @@
 	$(function() {
 		$("#connectBtn").on("click", function() {
 			connect();
+
 		});
 
 		$("#disconnectBtn").on("click", function() {
@@ -146,6 +147,9 @@
 			let	socket = new WebSocket(url);
 			newsClient = Stomp.over(socket);
 			newsClient.debug = false;
+			
+			console.log("\t > ws readyState = %s", getReadyState(socket));
+			console.log("\t > stompClient connected = %s", stompClient.connected);
 			
 			newsClient.connect(headers, function(frame) {
 				console.log("## newsClient connection callback");
@@ -185,16 +189,14 @@
 			let message = $(this).serializeObject();
 			$(".chat-container").append(createMyChatHtml(message));
 			
-			/* if (stompClient && stompClient.connected) {
+			if (stompClient && stompClient.connected) {
 				console.log("## stompClient is connected, so send message");
 				sendMessage(message);
 			} else {
 				console.log("## no stompClient or stompClient is not connected");
 				messageQueue.push(message);
 				connect();
-			} */
-			
-			sendMessage(message);
+			}
 			
 			$(this).trigger("reset");
 			$(this).find("input[name='content']").focus();
@@ -220,6 +222,9 @@
 		let socket = new WebSocket(url);
 		stompClient = Stomp.over(socket);
 		stompClient.debug = false;
+		
+		console.log("\t > ws readyState = %s", getReadyState(socket));
+		console.log("\t > stompClient connected = %s", stompClient.connected);
 		
 		stompClient.connect(headers, function(frame) {
 			console.log("## stompClient connection callback");
@@ -266,11 +271,16 @@
 		
 		stompClient.disconnect(() => {
 			console.log("## stompClient disconnected");
+			if (stompClient) {
+				console.log("\t > stompClient connected = %s", stompClient.connected);
+			} else {
+				console.log("\t > no stompClient");
+			}
 		});
 	}
 	
 	function info() {
-		console.log("## stompClient");
+		console.log("## stompClient info");
 		if (stompClient) {
 			console.log("\t > ws readyState = %s", getReadyState(stompClient.ws));
 			console.log("\t > stompClient connected = %s", stompClient.connected);
@@ -278,7 +288,7 @@
 			console.log("\t > no stompClient");
 		}
 		
-		console.log("## newsClient");
+		console.log("## newsClient info");
 		if (newsClient) {
 			console.log("\t > newsClient connected = %s", newsClient.connected);
 		} else {
@@ -297,21 +307,21 @@
 	}
 	
 	function getReadyState(socket) {
-		if (!socket) {
-			return "no socket";
+		if (socket == null) {
+			return "NO SOCKET";
 		}
 		
 		// 0(connecting), 1(open), 2(closing), 3(closed)
 		if (socket.readyState === WebSocket.CONNECTING) { 
-			return "connecting";
+			return "CONNECTING";
 		} else if (socket.readyState === WebSocket.OPEN) {
-			return "open";
-		} else if (socket.readyState === WebSocket.CLOING) {
-			return "closing";
+			return "OPEN";
+		} else if (socket.readyState === WebSocket.CLOSING) {
+			return "CLOSING";
 		} else if (socket.readyState === WebSocket.CLOSED) {
-			return "closed";
+			return "CLOSED";
 		} else {
-			return "unknown";
+			return "UNKNOWN";
 		}
 	}
 	
