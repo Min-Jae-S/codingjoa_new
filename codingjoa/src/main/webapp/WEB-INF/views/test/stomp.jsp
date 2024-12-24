@@ -120,7 +120,6 @@
 	$(function() {
 		$("#connectBtn").on("click", function() {
 			connect();
-
 		});
 
 		$("#disconnectBtn").on("click", function() {
@@ -151,10 +150,8 @@
 				console.log("## newsClient connection callback");
 				//console.log(frame);
 				
-				let subscriptionUrl = "/sub/news";
-				console.log("## newsClient subscribe: %s", subscriptionUrl);
-				
-				let subscription = newsClient.subscribe(subscriptionUrl, function(frame) { 
+				console.log("## newsClient subscribe");
+				let subscription = newsClient.subscribe("/sub/news", function(frame) { 
 					console.log("## newsClient received message = %s", frame.body);
 				});
 				//console.log(subscription);
@@ -221,14 +218,12 @@
 		
 		stompClient.connect({ }, function(frame) {
 			console.log("## stompClient connection callback");
-			//console.log(frame);
+			console.log(frame);
 			
-			let subscriptionUrl = "/sub/room/" + roomId;
-			console.log("## stompClient subscribe: %s", subscriptionUrl);
-			
-			let subscription = stompClient.subscribe(subscriptionUrl, function(frame) { // "/sub/room/5"
-				console.log("## stompClient recieved message");
-				//console.log(frame);
+			console.log("## stompClient subscribe");
+			let subscription = stompClient.subscribe("/sub/room/" + roomId, function(frame) { // "/sub/room/5"
+				console.log("## stompClient received message");
+				console.log(frame);
 				
 				let chatMessage = JSON.parse(frame.body); 
 				console.log(JSON.stringify(chatMessage, null, 2));
@@ -338,8 +333,8 @@
 	
 	function createChatNotificationHtml(chatMessage) {
 		let html = '<div class="alert alert-secondary text-center">';
-		let senderNickname = isEmpty(chatMessage.senderNickname) ? "익명" : chatMessage.senderNickname;
-		html += '<span class="font-weight-bold">' + senderNickname + "</span>";
+		let sender = isEmpty(chatMessage.sender) ? "익명" : chatMessage.sender;
+		html += '<span class="font-weight-bold">' + sender + "</span>";
 		if (chatMessage.type == "ENTER") {
 			html += ' 님이 입장하였습니다.';
 		} else if (data.type == "EXIT") {
@@ -358,8 +353,8 @@
 	
 	function createOtherChatHtml(chatMessage) {
 		let html = '<div class="alert chat other-chat">';
-		let senderNickname = isEmpty(chatMessage.senderNickname) ? "익명" : chatMessage.senderNickname;
-		html += '<span class="font-weight-bold mb-2">' + senderNickname + '</span>';
+		let sender = isEmpty(chatMessage.sender) ? "익명" : chatMessage.sender;
+		html += '<span class="font-weight-bold mb-2">' + sender + '</span>';
 		html += '<span>' + chatMessage.content + '</span>';
 		html += '</div>';
 		return html;

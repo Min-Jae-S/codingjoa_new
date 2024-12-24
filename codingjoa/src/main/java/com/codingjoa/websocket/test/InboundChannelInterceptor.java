@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
+import org.springframework.messaging.MessageHeaders;
 import org.springframework.messaging.simp.SimpMessageType;
 import org.springframework.messaging.simp.stomp.StompCommand;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
@@ -33,7 +34,8 @@ public class InboundChannelInterceptor implements ChannelInterceptor {
 		StompHeaderAccessor accessor = StompHeaderAccessor.wrap(message);
 		SimpMessageType messageType = accessor.getMessageType();
 		StompCommand command = accessor.getCommand();
-		log.info("\t > messageType: {}, command: {}", messageType, command);
+		MessageHeaders headers = accessor.getMessageHeaders();
+		log.info("\t > messageType: {}, command: {} {}", messageType, command, FormatUtils.formatPrettyJson(headers));
 		
 		// inbound: CONNECT, SUBSCRIBE, SEND, DISCONNECT
 		if (command == StompCommand.SEND) {
@@ -42,10 +44,10 @@ public class InboundChannelInterceptor implements ChannelInterceptor {
 				byte[] bytes = (byte[]) payload;
 				try {
 					Map map = objectMapper.readValue(bytes, Map.class);
-					log.info("{}", FormatUtils.formatPrettyJson(map));
+					log.info("\t > payload: {}", FormatUtils.formatPrettyJson(map));
 				} catch (IOException e) {
 					String decoded = new String(bytes, StandardCharsets.UTF_8);
-					log.info("\t > payload = {}", decoded);
+					log.info("\t > payload: {}", decoded);
 				}
 			}
 		}

@@ -31,8 +31,8 @@ public class TestStompController {
 		log.info("\t > senderSessionId = {}", senderSessionId);
 		log.info("\t > principal = {}", principal);
 
-		String nickname = (getNickname(principal) == null) ? "익명" : getNickname(principal);
-		String payload = String.format("'%s' 님의 제보입니다: %s", nickname, message);
+		String sender = getSender(principal);
+		String payload = String.format("'%s' 님의 제보입니다: %s", "".equals(sender) ? "익명" : sender, message);
 
 		template.convertAndSend("/sub/news", payload);
 	}
@@ -42,26 +42,24 @@ public class TestStompController {
 	public ChatMessage chat(@DestinationVariable Long roomId, @Payload ChatMessage chatMessage, 
 			@Header("simpSessionId") String senderSessionId, Principal principal) {
 		log.info("## chat");
-		log.info("\t > roomId = {}", roomId);
-		log.info("\t > chatMessage = {}", chatMessage);
 		log.info("\t > senderSessionId = {}", senderSessionId);
 		log.info("\t > principal = {}", principal);
 		
-		String nickname = getNickname(principal);
-		chatMessage.setSender(senderSessionId);
-		chatMessage.setSenderNickname(nickname);
+		String sender = getSender(principal);
+		chatMessage.setSender(sender);
+		chatMessage.setSenderSessionId(senderSessionId);
 		
 		return chatMessage;
 	}
 
-	private String getNickname(Principal principal) {
+	private String getSender(Principal principal) {
 		if (principal instanceof Authentication) {
 			Authentication authentication = (Authentication) principal;
 			PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
 			return principalDetails.getNickname();
 		} 
 		
-		return null;
+		return "";
 	}
 	
 }

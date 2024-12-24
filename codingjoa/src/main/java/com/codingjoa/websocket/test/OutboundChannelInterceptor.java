@@ -32,30 +32,33 @@ public class OutboundChannelInterceptor implements ChannelInterceptor {
 		StompHeaderAccessor accessor = StompHeaderAccessor.wrap(message);
 		SimpMessageType messageType = accessor.getMessageType();
 		StompCommand command = accessor.getCommand();
-		log.info("\t > messageType: {}, command: {}", messageType, command);
-		
 		MessageHeaders headers = accessor.getMessageHeaders();
 		
 		// outbound: CONNECT_ACK, DISCONNECT_ACK, MESSAGE, ERROR
 		if (messageType == SimpMessageType.MESSAGE) {
+			log.info("\t > messageType: {}, command: {}", messageType, command);
 			Object payload = message.getPayload();
 			if (payload instanceof byte[]) {
 				byte[] bytes = (byte[]) payload;
 				try {
 					ChatMessage chatMessage = objectMapper.readValue(bytes, ChatMessage.class);
-					log.info("{}", FormatUtils.formatPrettyJson(chatMessage));
+					log.info("\t > payload: {}", FormatUtils.formatPrettyJson(chatMessage));
 					
-//					String senderSessionId = chatMessage.getSender();
-//					String receiverSessionId = accessor.getSessionId();
-//					if (receiverSessionId.equals(senderSessionId)) {
-//						log.info("\t > sender and reciever are identical");
-//						return null;
-//					}
+					String senderSessionId = chatMessage.getSender();
+					String recieverSessionId = accessor.getSessionId();
+					log.info("\t > sender sessionId: {}", senderSessionId);
+					log.info("\t > reciever sessionId: {}", recieverSessionId);
+					
+					if (recieverSessionId.equals(senderSessionId)) {
+						log.info("\t > sender and reciever are identical");
+					}
 				} catch (Exception e) {
 					String decoded = new String(bytes, StandardCharsets.UTF_8);
-					log.info("\t > payload = {}", decoded);
+					log.info("\t > payload: {}", decoded);
 				}
 			}
+		} else {
+			log.info("\t > messageType: {}, command: {} {}", messageType, command, FormatUtils.formatPrettyJson(headers));
 		}
 		
 		return message;

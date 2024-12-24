@@ -38,8 +38,8 @@ public class WebSocketHandler extends TextWebSocketHandler {
 		
 		ChatMessage chatMessage = ChatMessage.builder()
 				.type(ChatType.ENTER)
-				.sender(sessionId)
-				.senderNickname(getSenderNickname(session))
+				.senderSessionId(sessionId)
+				.sender(getSender(session))
 				.build();
 		log.info("\t > chatMessage = {}", chatMessage);
 		
@@ -67,8 +67,8 @@ public class WebSocketHandler extends TextWebSocketHandler {
 		
 		ChatMessage chatMessage = ChatMessage.builder()
 				.type(ChatType.EXIT)
-				.sender(sessionId)
-				.senderNickname(getSenderNickname(session))
+				.senderSessionId(sessionId)
+				.sender(getSender(session))
 				.build();
 		log.info("\t > chatMessage = {}", chatMessage);
 		
@@ -91,8 +91,8 @@ public class WebSocketHandler extends TextWebSocketHandler {
 		ChatMessage chatMessage = objectMapper.readValue(textMessage.getPayload(), ChatMessage.class);
 
 		String sessionId = session.getId();
-		chatMessage.setSender(sessionId);
-		chatMessage.setSenderNickname(getSenderNickname(session));
+		chatMessage.setSenderSessionId(sessionId);
+		chatMessage.setSender(getSender(session));
 		log.info("\t > chatMessage = {}", chatMessage);
 		
 		String json = objectMapper.writeValueAsString(chatMessage);
@@ -121,7 +121,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
 		});
 	}
 	
-	private String getSenderNickname(WebSocketSession session) {
+	private String getSender(WebSocketSession session) {
 		Principal principal = session.getPrincipal();
 		if (principal instanceof Authentication) {
 			Authentication authentication = (Authentication) principal;
@@ -129,7 +129,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
 			return principalDetails.getNickname();
 		}
 		
-		return null;
+		return "";
 	}
 
 	@Override

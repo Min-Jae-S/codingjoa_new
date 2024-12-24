@@ -163,7 +163,7 @@
 		});
 		
 		$("#socketInfoBtn").on("click", function() {
-			console.log("## socket status = %s", getReadyState(socket)); 
+			console.log("## ws status = %s", getReadyState(socket)); 
 		});
 		
 	});
@@ -176,20 +176,20 @@
 		socket = new WebSocket(url);
 		
 		socket.onopen = function(e) {
-			console.log("## websocket is connected");
+			console.log("## ws is connected");
 			console.log(e);
 			$("div.chat-room").removeClass("d-none");
 		};
 		
 		socket.onclose = function(e) {
-			console.log("## websocket connection is closed");
+			console.log("## ws connection is closed");
 			console.log(e);
 			$("div.chat-room").addClass("d-none");
 			$("div.chat-container").empty();
 		};
 		
 		socket.onmessage = function(result) {
-			console.log("## websocket received data");
+			console.log("## ws received message");
 			let chatMessage = JSON.parse(result.data);
 			console.log(JSON.stringify(chatMessage, null, 2));
 			
@@ -203,7 +203,7 @@
 		};
 
 		socket.onerror = function(error) {
-			console.log("## websocket error");
+			console.log("## ws error");
 			console.log(error);
 		};
 	}
@@ -252,8 +252,8 @@
 	
 	function createChatNotificationHtml(chatMessage) {
 		let html = '<div class="alert alert-secondary text-center">';
-		let senderNickname = isEmpty(chatMessage.senderNickname) ? "익명" : chatMessage.senderNickname;
-		html += '<span class="font-weight-bold">' + senderNickname + "</span>";
+		let sender = isEmpty(chatMessage.sender) ? "익명" : chatMessage.sender;
+		html += '<span class="font-weight-bold">' + sender + "</span>";
 		if (chatMessage.type == "ENTER") {
 			html += ' 님이 입장하였습니다.';
 		} else if (chatMessage.type == "EXIT") {
@@ -272,29 +272,29 @@
 	
 	function createOtherChatHtml(chatMessage) {
 		let html = '<div class="alert chat other-chat">';
-		let senderNickname = isEmpty(chatMessage.senderNickname) ? "익명" : chatMessage.senderNickname;
-		html += '<span class="font-weight-bold mb-2">' + senderNickname + '</span>';
+		let sender = isEmpty(chatMessage.sender) ? "익명" : chatMessage.sender;
+		html += '<span class="font-weight-bold mb-2">' + sender + '</span>';
 		html += '<span>' + chatMessage.content + '</span>';
 		html += '</div>';
 		return html;
 	}
 	
 	function getReadyState(socket) {
-		if (!socket) {
-			return "no socket";
+		if (socket == null) {
+			return "NO SOCKET";
 		}
 		
 		// 0(connecting), 1(open), 2(closing), 3(closed)
 		if (socket.readyState === WebSocket.CONNECTING) { 
-			return "connecting";
+			return "CONNECTING";
 		} else if (socket.readyState === WebSocket.OPEN) {
-			return "open";
-		} else if (socket.readyState === WebSocket.CLOING) {
-			return "closing";
+			return "OPEN";
+		} else if (socket.readyState === WebSocket.CLOSING) {
+			return "CLOSING";
 		} else if (socket.readyState === WebSocket.CLOSED) {
-			return "closed";
+			return "CLOSED";
 		} else {
-			return "unknown";
+			return "UNKNOWN";
 		}
 	}
 </script>
