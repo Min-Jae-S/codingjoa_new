@@ -6,7 +6,7 @@ import java.util.Map;
 
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
-import org.springframework.messaging.MessageHeaders;
+import org.springframework.messaging.simp.SimpMessageType;
 import org.springframework.messaging.simp.stomp.StompCommand;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.ChannelInterceptor;
@@ -16,6 +16,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.extern.slf4j.Slf4j;
 
+@SuppressWarnings("rawtypes")
 @Slf4j
 public class InboundChannelInterceptor implements ChannelInterceptor {
 
@@ -27,27 +28,21 @@ public class InboundChannelInterceptor implements ChannelInterceptor {
 	
 	@Override
 	public Message<?> preSend(Message<?> message, MessageChannel messageChannel) {
-		//log.info("## {}", this.getClass().getSimpleName());
-		//ExecutorSubscribableChannel channel = (ExecutorSubscribableChannel) messageChannel;
-		//log.info("\t > subscribers = {}", channel.getSubscribers());
+		log.info("## {}", this.getClass().getSimpleName());
 		
 		StompHeaderAccessor accessor = StompHeaderAccessor.wrap(message);
-		MessageHeaders headers = accessor.getMessageHeaders();
-		String headerJson = FormatUtils.formatPrettyJson(headers);
-		if (headerJson != null) {
-			log.info("## {} {}", this.getClass().getSimpleName(), headerJson);
-		} else {
-			log.info("## {}", this.getClass().getSimpleName());
-			headers.keySet().forEach(key -> log.info("\t > {}: {}", key, headers.get(key)));
-		}
+		SimpMessageType messageType = accessor.getMessageType();
+		StompCommand command = accessor.getCommand();
+		log.info("\t > messageType: {}, command: {}", messageType, command);
 		
 		// inbound: CONNECT, SUBSCRIBE, SEND, DISCONNECT
-		if (accessor.getCommand() == StompCommand.SEND) {
+		if (command == StompCommand.SEND) {
 			Object payload = message.getPayload();
 			if (payload instanceof byte[]) {
 				byte[] bytes = (byte[]) payload;
 				try {
-					log.info("\t > payload = {}", objectMapper.readValue(bytes, Map.class));
+					Map map = objectMapper.readValue(bytes, Map.class);
+					log.info("{}", FormatUtils.formatPrettyJson(map));
 				} catch (IOException e) {
 					String decoded = new String(bytes, StandardCharsets.UTF_8);
 					log.info("\t > payload = {}", decoded);
@@ -57,6 +52,39 @@ public class InboundChannelInterceptor implements ChannelInterceptor {
 		
 		return message;
 	}
+	
+//	@Override
+//	public Message<?> preSend(Message<?> message, MessageChannel messageChannel) {
+//		//log.info("## {}", this.getClass().getSimpleName());
+//		//ExecutorSubscribableChannel channel = (ExecutorSubscribableChannel) messageChannel;
+//		//log.info("\t > subscribers = {}", channel.getSubscribers());
+//		
+//		StompHeaderAccessor accessor = StompHeaderAccessor.wrap(message);
+//		MessageHeaders headers = accessor.getMessageHeaders();
+//		String headerJson = FormatUtils.formatPrettyJson(headers);
+//		if (headerJson != null) {
+//			log.info("## {} {}", this.getClass().getSimpleName(), headerJson);
+//		} else {
+//			log.info("## {}", this.getClass().getSimpleName());
+//			headers.keySet().forEach(key -> log.info("\t > {}: {}", key, headers.get(key)));
+//		}
+//		
+//		// inbound: CONNECT, SUBSCRIBE, SEND, DISCONNECT
+//		if (accessor.getCommand() == StompCommand.SEND) {
+//			Object payload = message.getPayload();
+//			if (payload instanceof byte[]) {
+//				byte[] bytes = (byte[]) payload;
+//				try {
+//					log.info("\t > payload = {}", objectMapper.readValue(bytes, Map.class));
+//				} catch (IOException e) {
+//					String decoded = new String(bytes, StandardCharsets.UTF_8);
+//					log.info("\t > payload = {}", decoded);
+//				}
+//			}
+//		}
+//		
+//		return message;
+//	}
 	
 	@Override
 	public void afterSendCompletion(Message<?> message, MessageChannel channel, boolean sent, Exception ex) {

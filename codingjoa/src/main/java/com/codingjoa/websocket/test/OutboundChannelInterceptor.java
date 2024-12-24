@@ -6,6 +6,7 @@ import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.MessageHeaders;
 import org.springframework.messaging.simp.SimpMessageType;
+import org.springframework.messaging.simp.stomp.StompCommand;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.ChannelInterceptor;
 
@@ -26,21 +27,23 @@ public class OutboundChannelInterceptor implements ChannelInterceptor {
 
 	@Override
 	public Message<?> preSend(Message<?> message, MessageChannel messageChannel) {
-		//log.info("## {}", this.getClass().getSimpleName());
+		log.info("## {}", this.getClass().getSimpleName());
+		
 		StompHeaderAccessor accessor = StompHeaderAccessor.wrap(message);
+		SimpMessageType messageType = accessor.getMessageType();
+		StompCommand command = accessor.getCommand();
+		log.info("\t > messageType: {}, command: {}", messageType, command);
+		
 		MessageHeaders headers = accessor.getMessageHeaders();
 		
 		// outbound: CONNECT_ACK, DISCONNECT_ACK, MESSAGE, ERROR
-		if (accessor.getMessageType() ==  SimpMessageType.MESSAGE) {
-			log.info("## {}", this.getClass().getSimpleName());
-			headers.keySet().forEach(key -> log.info("\t > {}: {}", key, headers.get(key)));
-			
+		if (messageType == SimpMessageType.MESSAGE) {
 			Object payload = message.getPayload();
 			if (payload instanceof byte[]) {
 				byte[] bytes = (byte[]) payload;
 				try {
 					ChatMessage chatMessage = objectMapper.readValue(bytes, ChatMessage.class);
-					log.info("\t > payload {}", FormatUtils.formatPrettyJson(chatMessage));
+					log.info("{}", FormatUtils.formatPrettyJson(chatMessage));
 					
 //					String senderSessionId = chatMessage.getSender();
 //					String receiverSessionId = accessor.getSessionId();
@@ -53,9 +56,6 @@ public class OutboundChannelInterceptor implements ChannelInterceptor {
 					log.info("\t > payload = {}", decoded);
 				}
 			}
-		} else {
-			String headerJson = FormatUtils.formatPrettyJson(headers);
-			log.info("## {} {}", this.getClass().getSimpleName());
 		}
 		
 		return message;

@@ -147,12 +147,9 @@
 			newsClient = Stomp.over(socket);
 			newsClient.debug = false;
 			
-			console.log("\t > ws readyState = %s", getReadyState(socket));
-			console.log("\t > stompClient connected = %s", stompClient.connected);
-			
 			newsClient.connect({ }, function(frame) {
 				console.log("## newsClient connection callback");
-				console.log(frame);
+				//console.log(frame);
 				
 				let subscriptionUrl = "/sub/news";
 				console.log("## newsClient subscribe: %s", subscriptionUrl);
@@ -160,7 +157,7 @@
 				let subscription = newsClient.subscribe(subscriptionUrl, function(frame) { 
 					console.log("## newsClient received message = %s", frame.body);
 				});
-				console.log(subscription);
+				//console.log(subscription);
 				
 				newsClient.send("/pub/news", { }, news); //  { "content-type" : "text/plain;charset=utf-8" }
 			});
@@ -189,10 +186,10 @@
 			$(".chat-container").append(createMyChatHtml(message));
 			
 			if (stompClient && stompClient.connected) {
-				console.log("## stompClient is connected, so send message");
+				console.log("## stompClient is connected, sending the message immediately");
 				sendMessage(message);
 			} else {
-				console.log("## no stompClient or stompClient is not connected");
+				console.log("## stompClient is not connected, queuing the message and attempting to reconnect");
 				messageQueue.push(message);
 				connect();
 			}
@@ -222,19 +219,16 @@
 		stompClient = Stomp.over(socket);
 		stompClient.debug = null;
 		
-		console.log("\t > ws readyState = %s", getReadyState(socket));
-		console.log("\t > stompClient connected = %s", stompClient.connected);
-		
 		stompClient.connect({ }, function(frame) {
 			console.log("## stompClient connection callback");
-			console.log(frame);
+			//console.log(frame);
 			
 			let subscriptionUrl = "/sub/room/" + roomId;
 			console.log("## stompClient subscribe: %s", subscriptionUrl);
 			
 			let subscription = stompClient.subscribe(subscriptionUrl, function(frame) { // "/sub/room/5"
 				console.log("## stompClient recieved message");
-				console.log(frame);
+				//console.log(frame);
 				
 				let chatMessage = JSON.parse(frame.body); 
 				console.log(JSON.stringify(chatMessage, null, 2));
@@ -247,11 +241,16 @@
 					$(".chat-container").append(createChatNotificationHtml(chatMessage)); // ENTER, EXIT
 				}
 			});
-			console.log(subscription);
+			//console.log(subscription);
 			
+			if (messageQueue.length == 0) {
+				return;
+			}
+			
+			console.log("## messageQueue");
 			while (messageQueue.length > 0) {
 		 		let queuedMessage = messageQueue.shift();
-		 		log.info("\t > queuedMessage = %s", queuedMessage);
+		 		console.log(JSON.stringify(queuedMessage, null, 2));
 		 		sendMessage(queuedMessage);
 		 	}
 		}, function(error) {
@@ -289,6 +288,15 @@
 			console.log("\t > stompClient connected = %s", stompClient.connected);
 		} else {
 			console.log("\t > no stompClient");
+		}
+		
+		console.log("## messageQueue info");
+		if (messageQueue.length > 0) {
+			messageQueue.foreach((message, index) => {
+				console.log(message);
+			});
+		} else {
+			console.log("\t > no messageQueue");
 		}
 		
 		console.log("## newsClient info");
