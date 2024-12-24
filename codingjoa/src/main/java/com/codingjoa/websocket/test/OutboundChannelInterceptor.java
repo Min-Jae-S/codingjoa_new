@@ -2,6 +2,7 @@ package com.codingjoa.websocket.test;
 
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
+import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessageType;
 import org.springframework.messaging.simp.stomp.StompCommand;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
@@ -72,7 +73,7 @@ public class OutboundChannelInterceptor implements ChannelInterceptor {
 		
 		return message;
 	}
-
+	
 	@Override
 	public void afterSendCompletion(Message<?> message, MessageChannel channel, boolean sent, Exception ex) {
 		if (!sent || ex != null) {

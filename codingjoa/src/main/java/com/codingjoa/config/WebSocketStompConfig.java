@@ -3,7 +3,6 @@ package com.codingjoa.config;
 import java.util.List;
 
 import org.springframework.context.annotation.Configuration;
-import org.springframework.messaging.Message;
 import org.springframework.messaging.converter.MappingJackson2MessageConverter;
 import org.springframework.messaging.converter.MessageConverter;
 import org.springframework.messaging.converter.StringMessageConverter;
@@ -58,25 +57,14 @@ public class WebSocketStompConfig implements WebSocketMessageBrokerConfigurer {
 		log.info("## configureMessageConverters");
 		messageConverters.add(new StringMessageConverter());
 
-//		MappingJackson2MessageConverter jsonConverter = new MappingJackson2MessageConverter();
+		MappingJackson2MessageConverter jsonConverter = new MappingJackson2MessageConverter();
+		jsonConverter.setObjectMapper(objectMapper);
+		messageConverters.add(jsonConverter);
+		
+//		MappingJackson2MessageConverter jsonConverter = new StompMessageConverter();
 //		jsonConverter.setObjectMapper(objectMapper);
 //		messageConverters.add(jsonConverter);
 		
-		MappingJackson2MessageConverter jsonConverter = new MappingJackson2MessageConverter() {
-			
-			@Override
-			protected Object convertFromInternal(Message<?> message, Class<?> targetClass, Object conversionHint) {
-				log.info("## {}.convertFromInternal");
-				log.info("\t > message = {}", message);
-				log.info("\t > targetClass = {}", targetClass);
-				log.info("\t > conversionHint = {}", conversionHint);
-				//StompHeaderAccessor accessor = StompHeaderAccessor.wrap(message);
-				return super.convertFromInternal(message, targetClass, conversionHint);
-			}
-		};
-		
-		jsonConverter.setObjectMapper(objectMapper);
-		messageConverters.add(jsonConverter);
 		messageConverters.forEach(converter -> log.info("\t > {}", converter.getClass().getSimpleName()));
 		
 		return true;
