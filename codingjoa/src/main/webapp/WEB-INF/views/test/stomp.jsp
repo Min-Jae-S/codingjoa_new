@@ -115,7 +115,6 @@
 	const roomId = 5;
 	let stompClient = null;
 	let newsClient = null;
-	let headers = { };
 	let messageQueue = [];
 
 	$(function() {
@@ -140,7 +139,7 @@
 			}
 			
 			if (newsClient && newsClient.connected) {
-				newsClient.send("/pub/news", headers, news); // { "content-type" : "text/plain;charset=utf-8" }
+				newsClient.send("/pub/news", { }, news); // { "content-type" : "text/plain;charset=utf-8" }
 				return;
 			}
 			
@@ -151,7 +150,7 @@
 			console.log("\t > ws readyState = %s", getReadyState(socket));
 			console.log("\t > stompClient connected = %s", stompClient.connected);
 			
-			newsClient.connect(headers, function(frame) {
+			newsClient.connect({ }, function(frame) {
 				console.log("## newsClient connection callback");
 				console.log(frame);
 				
@@ -163,7 +162,7 @@
 				});
 				console.log(subscription);
 				
-				newsClient.send("/pub/news", headers, news); //  { "content-type" : "text/plain;charset=utf-8" }
+				newsClient.send("/pub/news", { }, news); //  { "content-type" : "text/plain;charset=utf-8" }
 			});
 		});
 		
@@ -221,12 +220,12 @@
 		
 		let socket = new WebSocket(url);
 		stompClient = Stomp.over(socket);
-		stompClient.debug = false;
+		stompClient.debug = null;
 		
 		console.log("\t > ws readyState = %s", getReadyState(socket));
 		console.log("\t > stompClient connected = %s", stompClient.connected);
 		
-		stompClient.connect(headers, function(frame) {
+		stompClient.connect({ }, function(frame) {
 			console.log("## stompClient connection callback");
 			console.log(frame);
 			
@@ -257,7 +256,7 @@
 		 	}
 		}, function(error) {
 			console.log("## stompClient connection error callback");
-			console.log(error);
+			console.log("\t > %s", error);
 		});
 		
 	}
@@ -303,7 +302,7 @@
 	function sendMessage(message) {
 		console.log("## send message");
 		let json = JSON.stringify(message);
-		stompClient.send("/pub/room/" + roomId, headers, json); // { "content-type" : "application/json;charset=utf-8" }
+		stompClient.send("/pub/room/" + roomId, { }, json); // { "content-type" : "application/json;charset=utf-8" }
 	}
 	
 	function isEmpty(obj) {

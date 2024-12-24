@@ -31,6 +31,7 @@ public class InboundChannelInterceptor implements ChannelInterceptor {
 	@Override
 	public Message<?> preSend(Message<?> message, MessageChannel messageChannel) {
 		//log.info("## {}", this.getClass().getSimpleName());
+		
 		//ExecutorSubscribableChannel channel = (ExecutorSubscribableChannel) messageChannel;
 		//log.info("\t > subscribers = {}", channel.getSubscribers());
 		
@@ -45,30 +46,18 @@ public class InboundChannelInterceptor implements ChannelInterceptor {
 		}
 		
 		// inbound: CONNECT, SUBSCRIBE, SEND, DISCONNECT
-//		SimpMessageType messageType = accessor.getMessageType();
-//		log.info("\t > simpMessageType: {}", messageType);
-
-//		StompCommand command = accessor.getCommand();
-//		if (command != null) {
-//			log.info("\t > STOMP command: {}", command);
-//			
-//			if (command == StompCommand.SEND) {
-//				Object payload = message.getPayload();
-//				if (payload instanceof byte[]) {
-//					byte[] bytes = (byte[]) payload;
-//					try {
-//						log.info("\t > payload = {}", objectMapper.readValue(bytes, Map.class));
-//					} catch (IOException e) {
-//						String decoded = new String(bytes, StandardCharsets.UTF_8);
-//						log.info("\t > payload = {}", decoded);
-//					}
-//				}
-//			}
-//		}
-		
-		//String destination = accessor.getDestination();
-		//log.info("\t > destination = {}", destination);
-		//log.info("\t > {}", message);
+		if (accessor.getCommand() == StompCommand.SEND) {
+			Object payload = message.getPayload();
+			if (payload instanceof byte[]) {
+				byte[] bytes = (byte[]) payload;
+				try {
+					log.info("\t > payload = {}", objectMapper.readValue(bytes, Map.class));
+				} catch (IOException e) {
+					String decoded = new String(bytes, StandardCharsets.UTF_8);
+					log.info("\t > payload = {}", decoded);
+				}
+			}
+		}
 		
 		return message;
 	}
@@ -78,7 +67,7 @@ public class InboundChannelInterceptor implements ChannelInterceptor {
 		if (!sent || ex != null) {
 			log.info("## {}.afterSendCompletion", this.getClass().getSimpleName());
 			if (ex != null) {
-				log.info("\t > {}: {}", ex.getClass().getSimpleName(), ex.getMessage());
+				log.info("\t > {} : {}", ex.getClass().getSimpleName(), ex.getMessage());
 			}
 			
 			if (!sent) {

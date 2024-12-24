@@ -3,6 +3,7 @@ package com.codingjoa.websocket.test;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.MessageHeaders;
+import org.springframework.messaging.simp.SimpMessageType;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.ChannelInterceptor;
 import org.springframework.messaging.support.ExecutorSubscribableChannel;
@@ -21,26 +22,30 @@ public class OutboundChannelInterceptor implements ChannelInterceptor {
 	public OutboundChannelInterceptor(ObjectMapper objectMapper) {
 		this.objectMapper = objectMapper;
 	}
-	
+
 	@Override
 	public Message<?> preSend(Message<?> message, MessageChannel messageChannel) {
-		log.info("## {}", this.getClass().getSimpleName());
+		log.info("## {}.preSend", this.getClass().getSimpleName());
+		
 		//ExecutorSubscribableChannel channel = (ExecutorSubscribableChannel) messageChannel;
 		//log.info("\t > subscribers = {}", channel.getSubscribers());
 		
 		StompHeaderAccessor accessor = StompHeaderAccessor.wrap(message);
 		MessageHeaders headers = accessor.getMessageHeaders();
-		headers.keySet().forEach(key -> log.info("\t > {}: {}", key, headers.get(key)));
-
-//		String headerJson = FormatUtils.formatPrettyJson(headers);
-//		if (headerJson != null) {
-//			log.info("## {} {}", this.getClass().getSimpleName(), headerJson);
-//		} else {
-//			log.info("## {}", this.getClass().getSimpleName());
-//			headers.keySet().forEach(key -> log.info("\t > {}: {}", key, headers.get(key)));
-//		}
+		String headerJson = FormatUtils.formatPrettyJson(headers);
+		if (headerJson != null) {
+			log.info("## {} {}", this.getClass().getSimpleName(), headerJson);
+		} else {
+			log.info("## {}", this.getClass().getSimpleName());
+			headers.keySet().forEach(key -> log.info("\t > {}: {}", key, headers.get(key)));
+		}
 		
 		// outbound: CONNECT_ACK, DISCONNECT_ACK, MESSAGE, ERROR
+		if (accessor.getMessageType() ==  SimpMessageType.MESSAGE) {
+			Object payload = message.getPayload();
+			log.info("\t > payload = {}", payload);
+		}
+		
 //		SimpMessageType messageType = accessor.getMessageType();
 //		log.info("\t > simpMessageType: {}", messageType);
 //
@@ -69,11 +74,6 @@ public class OutboundChannelInterceptor implements ChannelInterceptor {
 //				}
 //			}
 //		}
-		
-		//String destination = accessor.getDestination();
-		//log.info("\t > destination = {}", destination);
-		//log.info("\t > {}", message);
-		
 		return message;
 	}
 
@@ -82,7 +82,7 @@ public class OutboundChannelInterceptor implements ChannelInterceptor {
 		if (!sent || ex != null) {
 			log.info("## {}.afterSendCompletion", this.getClass().getSimpleName());
 			if (ex != null) {
-				log.info("\t > {}: {}", ex.getClass().getSimpleName(), ex.getMessage());
+				log.info("\t > {} : {}", ex.getClass().getSimpleName(), ex.getMessage());
 			}
 			
 			if (!sent) {
