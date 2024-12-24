@@ -3,7 +3,6 @@ package com.codingjoa.websocket.test;
 import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -26,8 +25,6 @@ public class ChatMessage {
 	
 	private ChatType type;
 	private String sender;
-	
-	@JsonIgnore
 	private String senderSessionId;
 	private Boolean sessionMatched;
 	private Object content;

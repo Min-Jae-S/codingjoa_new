@@ -55,7 +55,8 @@ public class WebSocketStompConfig implements WebSocketMessageBrokerConfigurer {
 	@Override
 	public boolean configureMessageConverters(List<MessageConverter> messageConverters) {
 		log.info("## configureMessageConverters");
-		messageConverters.add(new StringMessageConverter());
+		MessageConverter stringConverter = new StringMessageConverter();
+		messageConverters.add(stringConverter);
 
 		MappingJackson2MessageConverter jsonConverter = new MappingJackson2MessageConverter();
 		jsonConverter.setObjectMapper(objectMapper);

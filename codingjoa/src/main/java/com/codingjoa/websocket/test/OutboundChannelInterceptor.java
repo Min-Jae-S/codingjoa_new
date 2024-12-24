@@ -1,5 +1,7 @@
 package com.codingjoa.websocket.test;
 
+import java.nio.charset.StandardCharsets;
+
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
@@ -7,8 +9,11 @@ import org.springframework.messaging.simp.SimpMessageType;
 import org.springframework.messaging.simp.stomp.StompCommand;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.ChannelInterceptor;
+import org.springframework.messaging.support.MessageBuilder;
 
+import com.codingjoa.util.FormatUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -33,43 +38,29 @@ public class OutboundChannelInterceptor implements ChannelInterceptor {
 		StompCommand command = accessor.getCommand();
 		log.info("\t > messageType: {}, command: {}", messageType, command);
 		
-		Object payload = message.getPayload();
-		if (payload instanceof ChatMessage) {
-			log.info("\t > payload is instanceof ChatMessage");
-			ChatMessage chatMessage = (ChatMessage) payload;
-			log.info("\t > chatMessage = {}", chatMessage);
-		} else {
-			log.info("\t > payload is not instanceof ChatMessage");
-		}
-		
-		/*
 		// outbound: CONNECT_ACK, DISCONNECT_ACK, MESSAGE, ERROR
 		if (messageType == SimpMessageType.MESSAGE) {
 			Object payload = message.getPayload();
 			if (payload instanceof byte[]) {
 				try {
 					ChatMessage chatMessage = objectMapper.readValue((byte[]) payload, ChatMessage.class);
+					
 					String senderSessionId = chatMessage.getSender();
 					String receiverSessionId = accessor.getSessionId();
-					log.info("\t > sender sessionId: {}", senderSessionId);
-					log.info("\t > receiver sessionId: {}", receiverSessionId);
+					chatMessage.setSessionMatched(receiverSessionId.equals(senderSessionId));
 					
-					if (receiverSessionId.equals(senderSessionId)) {
-						log.info("\t > sender and receiver are the same session");
-						chatMessage.setSessionMatched(true);
-					} else {
-						log.info("\t > sender and receiver are the different session");
-						chatMessage.setSessionMatched(false);
-					}
+					ObjectWriter writer = objectMapper.writerFor(ChatMessage.class)
+							.withoutAttribute("senderSessionId");
+					byte[] modifiedPayload = writer.writeValueAsBytes(chatMessage);
+					log.info("\t > modified payload: {}", FormatUtils.formatPrettyJson(chatMessage));
 					
-					log.info("\t > payload: {}", FormatUtils.formatPrettyJson(chatMessage));
+					return MessageBuilder.createMessage(modifiedPayload, accessor.getMessageHeaders());
 				} catch (Exception e) {
-					String decoded = new String(bytes, StandardCharsets.UTF_8);
-					log.info("\t > payload: {}", decoded);
+					String decodedPayload = new String((byte[]) payload, StandardCharsets.UTF_8);
+					log.info("\t > payload: {}", decodedPayload);
 				}
 			}
 		}
-		*/
 		
 		return message;
 	}
