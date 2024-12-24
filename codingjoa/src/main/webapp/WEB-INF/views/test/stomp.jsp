@@ -252,10 +252,12 @@
 			
 			while (messageQueue.length > 0) {
 		 		let queuedMessage = messageQueue.shift();
+		 		log.info("\t > queuedMessage = %s", queuedMessage);
 		 		sendMessage(queuedMessage);
 		 	}
 		}, function(error) {
 			console.log("## stompClient connection error callback");
+			console.log(error);
 		});
 		
 	}

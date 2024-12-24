@@ -24,19 +24,21 @@ public class OutboundChannelInterceptor implements ChannelInterceptor {
 	
 	@Override
 	public Message<?> preSend(Message<?> message, MessageChannel messageChannel) {
-		//log.info("## {}", this.getClass().getSimpleName());
+		log.info("## {}", this.getClass().getSimpleName());
 		//ExecutorSubscribableChannel channel = (ExecutorSubscribableChannel) messageChannel;
 		//log.info("\t > subscribers = {}", channel.getSubscribers());
 		
 		StompHeaderAccessor accessor = StompHeaderAccessor.wrap(message);
 		MessageHeaders headers = accessor.getMessageHeaders();
-		String headerJson = FormatUtils.formatPrettyJson(headers);
-		if (headerJson != null) {
-			log.info("## {} {}", this.getClass().getSimpleName(), headerJson);
-		} else {
-			log.info("## {}", this.getClass().getSimpleName());
-			headers.keySet().forEach(key -> log.info("\t > {}: {}", key, headers.get(key)));
-		}
+		headers.keySet().forEach(key -> log.info("\t > {}: {}", key, headers.get(key)));
+
+//		String headerJson = FormatUtils.formatPrettyJson(headers);
+//		if (headerJson != null) {
+//			log.info("## {} {}", this.getClass().getSimpleName(), headerJson);
+//		} else {
+//			log.info("## {}", this.getClass().getSimpleName());
+//			headers.keySet().forEach(key -> log.info("\t > {}: {}", key, headers.get(key)));
+//		}
 		
 		// outbound: CONNECT_ACK, DISCONNECT_ACK, MESSAGE, ERROR
 //		SimpMessageType messageType = accessor.getMessageType();
