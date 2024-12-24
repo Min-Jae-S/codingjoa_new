@@ -14,6 +14,7 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import com.codingjoa.quartz.AlarmDto;
 import com.codingjoa.security.dto.PrincipalDetails;
+import com.codingjoa.util.FormatUtils;
 import com.codingjoa.websocket.test.ChatMessage.ChatType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -41,7 +42,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
 				.senderSessionId(sessionId)
 				.sender(getSender(session))
 				.build();
-		log.info("\t > chatMessage = {}", chatMessage);
+		log.info("\t > payload: {}", FormatUtils.formatPrettyJson(chatMessage));
 		
 		String json = objectMapper.writeValueAsString(chatMessage);
 		
@@ -70,7 +71,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
 				.senderSessionId(sessionId)
 				.sender(getSender(session))
 				.build();
-		log.info("\t > chatMessage = {}", chatMessage);
+		log.info("\t > payload: {}", FormatUtils.formatPrettyJson(chatMessage));
 		
 		String json = objectMapper.writeValueAsString(chatMessage);
 		
@@ -83,6 +84,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
 				}
 			}
 		});
+
 	}
 	
 	@Override
@@ -93,7 +95,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
 		String sessionId = session.getId();
 		chatMessage.setSenderSessionId(sessionId);
 		chatMessage.setSender(getSender(session));
-		log.info("\t > chatMessage = {}", chatMessage);
+		log.info("\t > payload: {}", FormatUtils.formatPrettyJson(chatMessage));
 		
 		String json = objectMapper.writeValueAsString(chatMessage);
 		

@@ -29,6 +29,7 @@ public class ChatMessage {
 	
 	@JsonIgnore
 	private String senderSessionId;
+	private Boolean sessionMatched;
 	private Object content;
 	private LocalDateTime timestamp = LocalDateTime.now();
 	
@@ -39,12 +40,17 @@ public class ChatMessage {
 	public void setSenderSessionId(String senderSessionId) {
 		this.senderSessionId = senderSessionId;
 	}
+	
+	public void setSessionMatched(Boolean sessionMatched) {
+		this.sessionMatched = sessionMatched;
+	}
 
 	@Builder
-	public ChatMessage(ChatType type, String sender, String senderSessionId, Object content) {
+	public ChatMessage(ChatType type, String sender, String senderSessionId, Boolean sessionMatched, Object content) {
 		this.type = type;
 		this.sender = sender;
 		this.senderSessionId = senderSessionId;
+		this.sessionMatched = sessionMatched;
 		this.content = content;
 	}
 	

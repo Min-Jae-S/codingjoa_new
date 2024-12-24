@@ -231,7 +231,9 @@
 				if (chatMessage.type == "PUSH") {
 					alert(chatMessage.content);
 				} else if (chatMessage.type == "TALK") {
-					$(".chat-container").append(createOtherChatHtml(chatMessage));
+					if (!chatMessage.sessionMatched) {
+						$(".chat-container").append(createOtherChatHtml(chatMessage));
+					}
 				} else {
 					$(".chat-container").append(createChatNotificationHtml(chatMessage)); // ENTER, EXIT
 				}
@@ -279,7 +281,8 @@
 	function info() {
 		console.log("## stompClient info");
 		if (stompClient) {
-			console.log("\t > ws readyState = %s", getReadyState(stompClient.ws));
+			console.log(stompClient);
+			console.log("\t > stompClient.ws readyState = %s", getReadyState(stompClient.ws));
 			console.log("\t > stompClient connected = %s", stompClient.connected);
 		} else {
 			console.log("\t > no stompClient");
@@ -296,6 +299,8 @@
 		
 		console.log("## newsClient info");
 		if (newsClient) {
+			console.log(newsClient);
+			console.log("\t > newsClient.ws readyState = %s", getReadyState(newsClient.ws));
 			console.log("\t > newsClient connected = %s", newsClient.connected);
 		} else {
 			console.log("\t > no newsClient");

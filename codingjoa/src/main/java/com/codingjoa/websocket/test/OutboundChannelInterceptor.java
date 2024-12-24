@@ -4,7 +4,6 @@ import java.nio.charset.StandardCharsets;
 
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
-import org.springframework.messaging.MessageHeaders;
 import org.springframework.messaging.simp.SimpMessageType;
 import org.springframework.messaging.simp.stomp.StompCommand;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
@@ -15,7 +14,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.extern.slf4j.Slf4j;
 
-@SuppressWarnings("unused")
 @Slf4j
 public class OutboundChannelInterceptor implements ChannelInterceptor {
 	
@@ -32,33 +30,34 @@ public class OutboundChannelInterceptor implements ChannelInterceptor {
 		StompHeaderAccessor accessor = StompHeaderAccessor.wrap(message);
 		SimpMessageType messageType = accessor.getMessageType();
 		StompCommand command = accessor.getCommand();
-		MessageHeaders headers = accessor.getMessageHeaders();
+		log.info("\t > messageType: {}, command: {}", messageType, command);
 		
 		// outbound: CONNECT_ACK, DISCONNECT_ACK, MESSAGE, ERROR
 		if (messageType == SimpMessageType.MESSAGE) {
-			log.info("\t > messageType: {}, command: {}", messageType, command);
 			Object payload = message.getPayload();
 			if (payload instanceof byte[]) {
 				byte[] bytes = (byte[]) payload;
 				try {
 					ChatMessage chatMessage = objectMapper.readValue(bytes, ChatMessage.class);
-					log.info("\t > payload: {}", FormatUtils.formatPrettyJson(chatMessage));
-					
 					String senderSessionId = chatMessage.getSender();
-					String recieverSessionId = accessor.getSessionId();
+					String receiverSessionId = accessor.getSessionId();
 					log.info("\t > sender sessionId: {}", senderSessionId);
-					log.info("\t > reciever sessionId: {}", recieverSessionId);
+					log.info("\t > receiver sessionId: {}", receiverSessionId);
 					
-					if (recieverSessionId.equals(senderSessionId)) {
-						log.info("\t > sender and reciever are identical");
+					if (receiverSessionId.equals(senderSessionId)) {
+						log.info("\t > sender and receiver are the same session");
+						chatMessage.setSessionMatched(true);
+					} else {
+						log.info("\t > sender and receiver are the different session");
+						chatMessage.setSessionMatched(false);
 					}
+					
+					log.info("\t > payload: {}", FormatUtils.formatPrettyJson(chatMessage));
 				} catch (Exception e) {
 					String decoded = new String(bytes, StandardCharsets.UTF_8);
 					log.info("\t > payload: {}", decoded);
 				}
 			}
-		} else {
-			log.info("\t > messageType: {}, command: {} {}", messageType, command, FormatUtils.formatPrettyJson(headers));
 		}
 		
 		return message;

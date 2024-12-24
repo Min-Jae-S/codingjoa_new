@@ -27,9 +27,9 @@ public class TestStompController {
 	@MessageMapping("/news")
 	public void news(@Payload String message, @Header("simpSessionId") String senderSessionId, Principal principal) {
 		log.info("## news");
-		log.info("\t > message = {}", message);
 		log.info("\t > senderSessionId = {}", senderSessionId);
 		log.info("\t > principal = {}", principal);
+		log.info("\t > message = {}", message);
 
 		String sender = getSender(principal);
 		String payload = String.format("'%s' 님의 제보입니다: %s", "".equals(sender) ? "익명" : sender, message);
@@ -48,6 +48,7 @@ public class TestStompController {
 		String sender = getSender(principal);
 		chatMessage.setSender(sender);
 		chatMessage.setSenderSessionId(senderSessionId);
+		log.info("\t > resolved chatMessage = {}", chatMessage);
 		
 		return chatMessage;
 	}

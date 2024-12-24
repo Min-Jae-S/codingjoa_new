@@ -34,11 +34,12 @@ public class InboundChannelInterceptor implements ChannelInterceptor {
 		StompHeaderAccessor accessor = StompHeaderAccessor.wrap(message);
 		SimpMessageType messageType = accessor.getMessageType();
 		StompCommand command = accessor.getCommand();
-		MessageHeaders headers = accessor.getMessageHeaders();
-		log.info("\t > messageType: {}, command: {} {}", messageType, command, FormatUtils.formatPrettyJson(headers));
 		
 		// inbound: CONNECT, SUBSCRIBE, SEND, DISCONNECT
 		if (command == StompCommand.SEND) {
+			MessageHeaders headers = accessor.getMessageHeaders();
+			log.info("\t > messageType: {}, command: {} {}", messageType, command, FormatUtils.formatPrettyJson(headers));
+			
 			Object payload = message.getPayload();
 			if (payload instanceof byte[]) {
 				byte[] bytes = (byte[]) payload;
@@ -50,6 +51,8 @@ public class InboundChannelInterceptor implements ChannelInterceptor {
 					log.info("\t > payload: {}", decoded);
 				}
 			}
+		} else {
+			log.info("\t > messageType: {}, command: {} {}", messageType, command);
 		}
 		
 		return message;
