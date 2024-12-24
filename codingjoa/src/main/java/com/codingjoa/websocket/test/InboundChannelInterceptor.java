@@ -19,7 +19,9 @@ import lombok.extern.slf4j.Slf4j;
 
 @SuppressWarnings("rawtypes")
 @Slf4j
-public class InboundChannelInterceptor implements ChannelInterceptor {
+public class InboundChannelInterceptor implements ChannelInterceptor { 
+
+	// inbound: preReceive, preSend, postSend, afterSendCompletion
 
 	private final ObjectMapper objectMapper;
 	
@@ -42,17 +44,16 @@ public class InboundChannelInterceptor implements ChannelInterceptor {
 			
 			Object payload = message.getPayload();
 			if (payload instanceof byte[]) {
-				byte[] bytes = (byte[]) payload;
 				try {
-					Map map = objectMapper.readValue(bytes, Map.class);
+					Map map = objectMapper.readValue((byte[]) payload, Map.class);
 					log.info("\t > payload: {}", FormatUtils.formatPrettyJson(map));
 				} catch (IOException e) {
-					String decoded = new String(bytes, StandardCharsets.UTF_8);
+					String decoded = new String((byte[]) payload, StandardCharsets.UTF_8);
 					log.info("\t > payload: {}", decoded);
 				}
 			}
 		} else {
-			log.info("\t > messageType: {}, command: {} {}", messageType, command);
+			log.info("\t > messageType: {}, command: {}", messageType, command);
 		}
 		
 		return message;

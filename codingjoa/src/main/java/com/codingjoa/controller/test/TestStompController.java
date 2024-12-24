@@ -2,11 +2,13 @@ package com.codingjoa.controller.test;
 
 import java.security.Principal;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -25,14 +27,14 @@ public class TestStompController {
 	private final SimpMessagingTemplate template;
 	
 	@MessageMapping("/news")
-	public void news(@Payload String message, @Header("simpSessionId") String senderSessionId, Principal principal) {
+	public void news(@Payload String message, SimpMessageHeaderAccessor accessor, Principal principal) {
 		log.info("## news");
-		log.info("\t > senderSessionId = {}", senderSessionId);
+		log.info("\t > senderSessionId = {}", accessor.getSessionId());
 		log.info("\t > principal = {}", principal);
 		log.info("\t > message = {}", message);
 
 		String sender = getSender(principal);
-		String payload = String.format("'%s' 님의 제보입니다: %s", "".equals(sender) ? "익명" : sender, message);
+		String payload = String.format("'%s' 님의 제보입니다: %s", StringUtils.isBlank(sender) ? "익명" : sender, message);
 
 		template.convertAndSend("/sub/news", payload);
 	}

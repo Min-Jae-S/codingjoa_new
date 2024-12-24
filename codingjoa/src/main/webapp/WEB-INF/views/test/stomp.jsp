@@ -219,6 +219,7 @@
 		stompClient.connect({ }, function(frame) {
 			console.log("## stompClient connection callback");
 			console.log(frame);
+			console.log("\t > connected with sessionId: " + frame.headers['session-id']);
 			
 			console.log("## stompClient subscribe");
 			let subscription = stompClient.subscribe("/sub/room/" + roomId, function(frame) { // "/sub/room/5"

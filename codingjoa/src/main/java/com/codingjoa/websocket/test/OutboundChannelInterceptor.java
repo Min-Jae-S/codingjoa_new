@@ -1,7 +1,5 @@
 package com.codingjoa.websocket.test;
 
-import java.nio.charset.StandardCharsets;
-
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.simp.SimpMessageType;
@@ -9,36 +7,47 @@ import org.springframework.messaging.simp.stomp.StompCommand;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.ChannelInterceptor;
 
-import com.codingjoa.util.FormatUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.extern.slf4j.Slf4j;
 
+@SuppressWarnings("unused")
 @Slf4j
 public class OutboundChannelInterceptor implements ChannelInterceptor {
+	
+	// outbound: preSend, postSend, afterSendCompletion
 	
 	private final ObjectMapper objectMapper;
 	
 	public OutboundChannelInterceptor(ObjectMapper objectMapper) {
 		this.objectMapper = objectMapper;
 	}
-
+	
 	@Override
 	public Message<?> preSend(Message<?> message, MessageChannel messageChannel) {
-		log.info("## {}", this.getClass().getSimpleName());
+		log.info("## {}.preSend", this.getClass().getSimpleName());
 		
 		StompHeaderAccessor accessor = StompHeaderAccessor.wrap(message);
 		SimpMessageType messageType = accessor.getMessageType();
 		StompCommand command = accessor.getCommand();
 		log.info("\t > messageType: {}, command: {}", messageType, command);
 		
+		Object payload = message.getPayload();
+		if (payload instanceof ChatMessage) {
+			log.info("\t > payload is instanceof ChatMessage");
+			ChatMessage chatMessage = (ChatMessage) payload;
+			log.info("\t > chatMessage = {}", chatMessage);
+		} else {
+			log.info("\t > payload is not instanceof ChatMessage");
+		}
+		
+		/*
 		// outbound: CONNECT_ACK, DISCONNECT_ACK, MESSAGE, ERROR
 		if (messageType == SimpMessageType.MESSAGE) {
 			Object payload = message.getPayload();
 			if (payload instanceof byte[]) {
-				byte[] bytes = (byte[]) payload;
 				try {
-					ChatMessage chatMessage = objectMapper.readValue(bytes, ChatMessage.class);
+					ChatMessage chatMessage = objectMapper.readValue((byte[]) payload, ChatMessage.class);
 					String senderSessionId = chatMessage.getSender();
 					String receiverSessionId = accessor.getSessionId();
 					log.info("\t > sender sessionId: {}", senderSessionId);
@@ -59,6 +68,7 @@ public class OutboundChannelInterceptor implements ChannelInterceptor {
 				}
 			}
 		}
+		*/
 		
 		return message;
 	}
