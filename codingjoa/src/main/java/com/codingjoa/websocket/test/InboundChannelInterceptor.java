@@ -7,18 +7,15 @@ import java.util.Map;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.MessageHeaders;
-import org.springframework.messaging.simp.SimpMessageType;
 import org.springframework.messaging.simp.stomp.StompCommand;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.ChannelInterceptor;
-import org.springframework.messaging.support.ExecutorSubscribableChannel;
 
 import com.codingjoa.util.FormatUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.extern.slf4j.Slf4j;
 
-@SuppressWarnings("unused")
 @Slf4j
 public class InboundChannelInterceptor implements ChannelInterceptor {
 
@@ -31,7 +28,6 @@ public class InboundChannelInterceptor implements ChannelInterceptor {
 	@Override
 	public Message<?> preSend(Message<?> message, MessageChannel messageChannel) {
 		//log.info("## {}", this.getClass().getSimpleName());
-		
 		//ExecutorSubscribableChannel channel = (ExecutorSubscribableChannel) messageChannel;
 		//log.info("\t > subscribers = {}", channel.getSubscribers());
 		

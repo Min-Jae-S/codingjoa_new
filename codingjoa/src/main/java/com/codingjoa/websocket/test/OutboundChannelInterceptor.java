@@ -1,12 +1,13 @@
 package com.codingjoa.websocket.test;
 
+import java.nio.charset.StandardCharsets;
+
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.MessageHeaders;
 import org.springframework.messaging.simp.SimpMessageType;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.ChannelInterceptor;
-import org.springframework.messaging.support.ExecutorSubscribableChannel;
 
 import com.codingjoa.util.FormatUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -25,55 +26,38 @@ public class OutboundChannelInterceptor implements ChannelInterceptor {
 
 	@Override
 	public Message<?> preSend(Message<?> message, MessageChannel messageChannel) {
-		log.info("## {}.preSend", this.getClass().getSimpleName());
-		
-		//ExecutorSubscribableChannel channel = (ExecutorSubscribableChannel) messageChannel;
-		//log.info("\t > subscribers = {}", channel.getSubscribers());
-		
+		//log.info("## {}", this.getClass().getSimpleName());
 		StompHeaderAccessor accessor = StompHeaderAccessor.wrap(message);
 		MessageHeaders headers = accessor.getMessageHeaders();
-		String headerJson = FormatUtils.formatPrettyJson(headers);
-		if (headerJson != null) {
-			log.info("## {} {}", this.getClass().getSimpleName(), headerJson);
-		} else {
-			log.info("## {}", this.getClass().getSimpleName());
-			headers.keySet().forEach(key -> log.info("\t > {}: {}", key, headers.get(key)));
-		}
 		
 		// outbound: CONNECT_ACK, DISCONNECT_ACK, MESSAGE, ERROR
 		if (accessor.getMessageType() ==  SimpMessageType.MESSAGE) {
+			log.info("## {}", this.getClass().getSimpleName());
+			headers.keySet().forEach(key -> log.info("\t > {}: {}", key, headers.get(key)));
+			
 			Object payload = message.getPayload();
-			log.info("\t > payload = {}", payload);
+			if (payload instanceof byte[]) {
+				byte[] bytes = (byte[]) payload;
+				try {
+					ChatMessage chatMessage = objectMapper.readValue(bytes, ChatMessage.class);
+					log.info("\t > payload {}", FormatUtils.formatPrettyJson(chatMessage));
+					
+//					String senderSessionId = chatMessage.getSender();
+//					String receiverSessionId = accessor.getSessionId();
+//					if (receiverSessionId.equals(senderSessionId)) {
+//						log.info("\t > sender and reciever are identical");
+//						return null;
+//					}
+				} catch (Exception e) {
+					String decoded = new String(bytes, StandardCharsets.UTF_8);
+					log.info("\t > payload = {}", decoded);
+				}
+			}
+		} else {
+			String headerJson = FormatUtils.formatPrettyJson(headers);
+			log.info("## {} {}", this.getClass().getSimpleName());
 		}
 		
-//		SimpMessageType messageType = accessor.getMessageType();
-//		log.info("\t > simpMessageType: {}", messageType);
-//
-//		StompCommand command = accessor.getCommand();
-//		if (command != null) {
-//			log.info("\t > STOMP command: {}", command);
-//			
-//			if (command == StompCommand.SEND) {
-//				Object payload = message.getPayload();
-//				if (payload instanceof byte[]) {
-//					byte[] bytes = (byte[]) payload;
-//					try {
-//						ChatMessage chatMessage = objectMapper.readValue(bytes, ChatMessage.class);
-//						log.info("\t > payload = {}", chatMessage);
-//						
-//						String senderSessionId = chatMessage.getSender();
-//						String receiverSessionId = accessor.getSessionId();
-//						if (receiverSessionId.equals(senderSessionId)) {
-//							log.info("\t > sender and reciever are identical");
-//							return null;
-//						}
-//					} catch (IOException e) {
-//						String decoded = new String(bytes, StandardCharsets.UTF_8);
-//						log.info("\t > payload = {}", decoded);
-//					}
-//				}
-//			}
-//		}
 		return message;
 	}
 
