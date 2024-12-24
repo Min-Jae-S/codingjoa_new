@@ -43,17 +43,22 @@ public class OutboundChannelInterceptor implements ChannelInterceptor {
 			Object payload = message.getPayload();
 			if (payload instanceof byte[]) {
 				try {
+					// deserialize the payload into ChatMessage
 					ChatMessage chatMessage = objectMapper.readValue((byte[]) payload, ChatMessage.class);
 					
+					// determine if sender and receiver sessionId match
 					String senderSessionId = chatMessage.getSender();
 					String receiverSessionId = accessor.getSessionId();
 					chatMessage.setSessionMatched(receiverSessionId.equals(senderSessionId));
 					
-					ObjectWriter writer = objectMapper.writerFor(ChatMessage.class)
-							.withoutAttribute("senderSessionId");
+					// exclude the sensitive field from serialization
+					ObjectWriter writer = objectMapper.writerFor(ChatMessage.class).withoutAttribute("senderSessionId");
+					
+					// serialize the modified message excluding the "senderSessionId"
 					byte[] modifiedPayload = writer.writeValueAsBytes(chatMessage);
 					log.info("\t > modified payload: {}", FormatUtils.formatPrettyJson(chatMessage));
 					
+					// return the modified message with the updated payload
 					return MessageBuilder.createMessage(modifiedPayload, accessor.getMessageHeaders());
 				} catch (Exception e) {
 					String decodedPayload = new String((byte[]) payload, StandardCharsets.UTF_8);
