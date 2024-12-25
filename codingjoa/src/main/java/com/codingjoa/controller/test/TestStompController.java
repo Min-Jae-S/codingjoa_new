@@ -43,14 +43,14 @@ public class TestStompController {
 	@SendTo("/sub/room/{roomId}")
 	public ChatMessage chat(@DestinationVariable Long roomId, @Payload ChatMessage chatMessage, 
 			@Header("simpSessionId") String senderSessionId, Principal principal) {
-		log.info("## chat");
+		log.info("## chat, roomId = {}", roomId);
 		log.info("\t > senderSessionId = {}", senderSessionId);
 		log.info("\t > principal = {}", principal);
 		
 		String sender = getSender(principal);
 		chatMessage.setSender(sender);
 		chatMessage.setSenderSessionId(senderSessionId);
-		log.info("\t > resolved chatMessage = {}", chatMessage);
+		log.info("\t > modified chatMessage = {}", chatMessage);
 		
 		return chatMessage;
 	}
