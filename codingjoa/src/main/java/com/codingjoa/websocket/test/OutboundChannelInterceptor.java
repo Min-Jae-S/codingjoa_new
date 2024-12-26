@@ -10,7 +10,6 @@ import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.ChannelInterceptor;
 import org.springframework.messaging.support.MessageBuilder;
 
-import com.codingjoa.util.FormatUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
@@ -56,10 +55,7 @@ public class OutboundChannelInterceptor implements ChannelInterceptor {
 						    .addFilter("ChatMessageFilter", SimpleBeanPropertyFilter.serializeAllExcept("senderSessionId"));
 					ObjectWriter writer = objectMapper.writerFor(ChatMessage.class).with(filterProvider);
 					
-					String json = writer.writeValueAsString(chatMessage);
-					log.info("\t > serialized json: {}", FormatUtils.formatPrettyJson(json));
-					
-					byte[] modifiedPayload = json.getBytes(StandardCharsets.UTF_8);
+					byte[] modifiedPayload = writer.writeValueAsBytes(chatMessage);
 					log.info("\t > original payload: {}", new String(originalPayload, StandardCharsets.UTF_8));
 					log.info("\t > modified payload: {}", new String(modifiedPayload, StandardCharsets.UTF_8));
 					

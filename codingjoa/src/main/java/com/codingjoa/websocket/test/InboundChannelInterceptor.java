@@ -40,7 +40,7 @@ public class InboundChannelInterceptor implements ChannelInterceptor {
 		
 		// inbound: CONNECT, SUBSCRIBE, SEND, DISCONNECT
 		if (command == StompCommand.SEND) {
-			MessageHeaders headers = accessor.getMessageHeaders();
+			MessageHeaders headers = message.getHeaders();
 			log.info("\t > headers: {}", FormatUtils.formatPrettyJson(headers));
 			
 			Object payload = message.getPayload();
