@@ -1,6 +1,7 @@
 package com.codingjoa.util;
 
 import java.lang.reflect.Field;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -64,6 +65,8 @@ public class FormatUtils {
     		String json;
     		if (obj instanceof String) {
     			json = (String) obj;
+    		} else if (obj instanceof byte[]) {
+    			json = new String((byte[]) obj, StandardCharsets.UTF_8);
     		} else {
     			json = objectMapper.writeValueAsString(obj);
     		}
