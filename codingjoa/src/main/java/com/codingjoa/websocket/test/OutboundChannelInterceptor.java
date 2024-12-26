@@ -4,7 +4,7 @@ import java.nio.charset.StandardCharsets;
 
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
-import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
+import org.springframework.messaging.MessageHeaders;
 import org.springframework.messaging.simp.SimpMessageType;
 import org.springframework.messaging.simp.stomp.StompCommand;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
@@ -14,6 +14,8 @@ import org.springframework.messaging.support.MessageBuilder;
 import com.codingjoa.util.FormatUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
+import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -47,19 +49,27 @@ public class OutboundChannelInterceptor implements ChannelInterceptor {
 					ChatMessage chatMessage = objectMapper.readValue((byte[]) payload, ChatMessage.class);
 					
 					// determine if sender and receiver sessionId match
-					String senderSessionId = chatMessage.getSender();
+					String senderSessionId = chatMessage.getSenderSessionId();
 					String receiverSessionId = accessor.getSessionId();
 					chatMessage.setSessionMatched(receiverSessionId.equals(senderSessionId));
 					
-					// exclude the sensitive field from serialization
-					ObjectWriter writer = objectMapper.writerFor(ChatMessage.class).withoutAttribute("senderSessionId");
-					
 					// serialize the modified message excluding the "senderSessionId"
-					byte[] modifiedPayload = writer.writeValueAsBytes(chatMessage);
-					log.info("\t > modified payload: {}", FormatUtils.formatPrettyJson(chatMessage));
+					SimpleFilterProvider filters = new SimpleFilterProvider()
+						    .addFilter("ChatMessageFilter", SimpleBeanPropertyFilter.serializeAllExcept("senderSessionId"));
+					ObjectWriter writer = objectMapper.writer(filters);
 					
-					// return the modified message with the updated payload
+					String json = writer.writeValueAsString(chatMessage);
+					log.info("\t > serialized json: {}", FormatUtils.formatPrettyJson(json));
+					
+					byte[] modifiedPayload = json.getBytes(StandardCharsets.UTF_8);
+					log.info("\t > modified payload: {}", new String(modifiedPayload, StandardCharsets.UTF_8));
+					
+					//log.info("\t > headers");
+					//accessor.getMessageHeaders().forEach((key, value) -> log.info("\t\t - {}: {}", key, value));
+					
+					// return the modified message with the modified payload
 					return MessageBuilder.createMessage(modifiedPayload, accessor.getMessageHeaders());
+					//return message;
 				} catch (Exception e) {
 					String decodedPayload = new String((byte[]) payload, StandardCharsets.UTF_8);
 					log.info("\t > payload: {}", decodedPayload);
@@ -70,6 +80,17 @@ public class OutboundChannelInterceptor implements ChannelInterceptor {
 		return message;
 	}
 	
+	
+	
+	@Override
+	public void postSend(Message<?> message, MessageChannel channel, boolean sent) {
+		if (!sent) {
+			log.info("## {}.postSend, sent = {}", this.getClass().getSimpleName(), sent);
+		}
+		
+		ChannelInterceptor.super.postSend(message, channel, sent);
+	}
+
 	@Override
 	public void afterSendCompletion(Message<?> message, MessageChannel channel, boolean sent, Exception ex) {
 		if (!sent || ex != null) {

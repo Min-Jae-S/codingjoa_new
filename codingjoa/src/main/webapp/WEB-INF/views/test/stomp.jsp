@@ -183,10 +183,10 @@
 			$(".chat-container").append(createMyChatHtml(message));
 			
 			if (stompClient && stompClient.connected) {
-				console.log("## stompClient is connected, sending the message immediately");
+				console.log("## stompClient connected, sending the message immediately");
 				sendMessage(message);
 			} else {
-				console.log("## stompClient is not connected, queuing the message and attempting to reconnect");
+				console.log("## stompClient disconnected, queuing the message and attempting to connect");
 				messageQueue.push(message);
 				connect();
 			}
@@ -269,9 +269,13 @@
 		}
 		
 		stompClient.disconnect(() => {
-			console.log("## stompClient disconnected");
+			console.log("## stompClient disconnection callback");
 			if (stompClient) {
-				console.log("\t > stompClient connected = %s", stompClient.connected);
+				if (stompClient.connected) {
+					console.log("\t > stompClient connected");
+				} else {
+					console.log("\t > stompClient disconnected");
+				}
 			} else {
 				console.log("\t > no stompClient");
 			}
