@@ -3,14 +3,12 @@ package com.codingjoa.websocket.test;
 import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonFilter;
 
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-@JsonFilter("ChatMessageFilter")
 @ToString
 @Getter
 @NoArgsConstructor
