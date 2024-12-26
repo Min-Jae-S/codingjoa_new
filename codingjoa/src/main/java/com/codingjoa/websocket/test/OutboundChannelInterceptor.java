@@ -4,13 +4,10 @@ import java.nio.charset.StandardCharsets;
 
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
-import org.springframework.messaging.MessageHandler;
-import org.springframework.messaging.MessageHeaders;
 import org.springframework.messaging.simp.SimpMessageType;
 import org.springframework.messaging.simp.stomp.StompCommand;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.ChannelInterceptor;
-import org.springframework.messaging.support.ExecutorSubscribableChannel;
 import org.springframework.messaging.support.MessageBuilder;
 
 import com.codingjoa.util.FormatUtils;
@@ -21,7 +18,6 @@ import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 
 import lombok.extern.slf4j.Slf4j;
 
-@SuppressWarnings("unused")
 @Slf4j
 public class OutboundChannelInterceptor implements ChannelInterceptor {
 	
@@ -33,7 +29,6 @@ public class OutboundChannelInterceptor implements ChannelInterceptor {
 		this.objectMapper = objectMapper;
 	}
 	
-	@SuppressWarnings("static-access")
 	@Override
 	public Message<?> preSend(Message<?> message, MessageChannel messageChannel) {
 		log.info("## {}", this.getClass().getSimpleName());
@@ -45,11 +40,11 @@ public class OutboundChannelInterceptor implements ChannelInterceptor {
 		
 		// outbound: CONNECT_ACK, DISCONNECT_ACK, MESSAGE, ERROR
 		if (messageType == SimpMessageType.MESSAGE) {
-			Object payload = message.getPayload();
-			if (payload instanceof byte[]) {
+			if (message.getPayload() instanceof byte[]) {
+				byte[] originalPayload = (byte[]) message.getPayload();
 				try {
 					// deserialize the payload into ChatMessage
-					ChatMessage chatMessage = objectMapper.readValue((byte[]) payload, ChatMessage.class);
+					ChatMessage chatMessage = objectMapper.readValue(originalPayload, ChatMessage.class);
 					
 					// determine if sender and receiver sessionId match
 					String senderSessionId = chatMessage.getSenderSessionId();
@@ -58,46 +53,26 @@ public class OutboundChannelInterceptor implements ChannelInterceptor {
 					
 					// serialize the modified message excluding the "senderSessionId"
 					SimpleFilterProvider filterProvider = new SimpleFilterProvider()
-						    .addFilter("ChatMessageFilter", SimpleBeanPropertyFilter.filterOutAllExcept("senderSessionId"));
-					ObjectWriter writer = objectMapper.writer(filterProvider);
+						    .addFilter("ChatMessageFilter", SimpleBeanPropertyFilter.serializeAllExcept("senderSessionId"));
+					ObjectWriter writer = objectMapper.writerFor(ChatMessage.class).with(filterProvider);
 					
 					String json = writer.writeValueAsString(chatMessage);
 					log.info("\t > serialized json: {}", FormatUtils.formatPrettyJson(json));
 					
 					byte[] modifiedPayload = json.getBytes(StandardCharsets.UTF_8);
+					log.info("\t > original payload: {}", new String(originalPayload, StandardCharsets.UTF_8));
 					log.info("\t > modified payload: {}", new String(modifiedPayload, StandardCharsets.UTF_8));
 					
-					//log.info("\t > headers");
-					//accessor.getMessageHeaders().forEach((key, value) -> log.info("\t\t - {}: {}", key, value));
-					return MessageBuilder.fromMessage(message).build();
-					
-					// return the modified message with the modified payload
-					//return MessageBuilder.createMessage(modifiedPayload, accessor.getMessageHeaders());
-					//return message;
+					// return the message with the modified payload
+					return MessageBuilder.createMessage(modifiedPayload, message.getHeaders());
 				} catch (Exception e) {
-					String decodedPayload = new String((byte[]) payload, StandardCharsets.UTF_8);
+					String decodedPayload = new String(originalPayload, StandardCharsets.UTF_8);
 					log.info("\t > payload: {}", decodedPayload);
 				}
 			}
 		}
 		
 		return message;
-	}
-	
-	
-	
-	@Override
-	public void postSend(Message<?> message, MessageChannel channel, boolean sent) {
-		log.info("## {}.postSend, sent = {}", this.getClass().getSimpleName(), sent);
-		StompHeaderAccessor accessor = StompHeaderAccessor.wrap(message);
-	}
-
-	@Override
-	public void afterSendCompletion(Message<?> message, MessageChannel channel, boolean sent, Exception ex) {
-		log.info("## {}.afterSendCompletion, sent = {}", this.getClass().getSimpleName(), sent);
-		if (ex != null) {
-			log.info("\t > {} : {}", ex.getClass().getSimpleName(), ex.getMessage());
-		}
 	}
 	
 }
