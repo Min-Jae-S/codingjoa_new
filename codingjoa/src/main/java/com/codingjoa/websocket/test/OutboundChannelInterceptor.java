@@ -50,19 +50,20 @@ public class OutboundChannelInterceptor implements ChannelInterceptor {
 					String senderSessionId = chatMessage.getSenderSessionId();
 					String receiverSessionId = accessor.getSessionId();
 					chatMessage.setSessionMatched(receiverSessionId.equals(senderSessionId));
+					log.info("\t > {}", chatMessage);
 					
 					// serialize the modified message excluding the "senderSessionId"
-					SimpleFilterProvider filterProvider = new SimpleFilterProvider()
-						    .addFilter("ChatMessageFilter", SimpleBeanPropertyFilter.serializeAllExcept("senderSessionId"));
-					ObjectWriter writer = objectMapper.writerFor(ChatMessage.class).with(filterProvider);
+					SimpleFilterProvider filterProvider = new SimpleFilterProvider();
+					filterProvider.addFilter("chatMessageFilter", SimpleBeanPropertyFilter.serializeAllExcept("senderSessionId"));
+					ObjectWriter writer = objectMapper.writer(filterProvider);
 					
 					byte[] modifiedPayload = writer.writeValueAsBytes(chatMessage);
-					log.info("\t > original payload: {}", FormatUtils.formatPrettyJson(originalPayload));
 					log.info("\t > modified payload: {}", FormatUtils.formatPrettyJson(modifiedPayload));
 					
 					// return the message with the modified payload
 					return MessageBuilder.createMessage(modifiedPayload, message.getHeaders());
 				} catch (Exception e) {
+					log.info("\t > {} : {}", e.getClass().getSimpleName(), e.getMessage());
 					String decodedPayload = new String(originalPayload, StandardCharsets.UTF_8);
 					log.info("\t > payload: {}", decodedPayload);
 				}
