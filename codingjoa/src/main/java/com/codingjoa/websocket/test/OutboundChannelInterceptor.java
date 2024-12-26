@@ -4,11 +4,13 @@ import java.nio.charset.StandardCharsets;
 
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
+import org.springframework.messaging.MessageHandler;
 import org.springframework.messaging.MessageHeaders;
 import org.springframework.messaging.simp.SimpMessageType;
 import org.springframework.messaging.simp.stomp.StompCommand;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.ChannelInterceptor;
+import org.springframework.messaging.support.ExecutorSubscribableChannel;
 import org.springframework.messaging.support.MessageBuilder;
 
 import com.codingjoa.util.FormatUtils;
@@ -31,6 +33,7 @@ public class OutboundChannelInterceptor implements ChannelInterceptor {
 		this.objectMapper = objectMapper;
 	}
 	
+	@SuppressWarnings("static-access")
 	@Override
 	public Message<?> preSend(Message<?> message, MessageChannel messageChannel) {
 		log.info("## {}", this.getClass().getSimpleName());
@@ -54,9 +57,9 @@ public class OutboundChannelInterceptor implements ChannelInterceptor {
 					chatMessage.setSessionMatched(receiverSessionId.equals(senderSessionId));
 					
 					// serialize the modified message excluding the "senderSessionId"
-					SimpleFilterProvider filters = new SimpleFilterProvider()
-						    .addFilter("ChatMessageFilter", SimpleBeanPropertyFilter.serializeAllExcept("senderSessionId"));
-					ObjectWriter writer = objectMapper.writer(filters);
+					SimpleFilterProvider filterProvider = new SimpleFilterProvider()
+						    .addFilter("ChatMessageFilter", SimpleBeanPropertyFilter.filterOutAllExcept("senderSessionId"));
+					ObjectWriter writer = objectMapper.writer(filterProvider);
 					
 					String json = writer.writeValueAsString(chatMessage);
 					log.info("\t > serialized json: {}", FormatUtils.formatPrettyJson(json));
@@ -66,9 +69,10 @@ public class OutboundChannelInterceptor implements ChannelInterceptor {
 					
 					//log.info("\t > headers");
 					//accessor.getMessageHeaders().forEach((key, value) -> log.info("\t\t - {}: {}", key, value));
+					return MessageBuilder.fromMessage(message).build();
 					
 					// return the modified message with the modified payload
-					return MessageBuilder.createMessage(modifiedPayload, accessor.getMessageHeaders());
+					//return MessageBuilder.createMessage(modifiedPayload, accessor.getMessageHeaders());
 					//return message;
 				} catch (Exception e) {
 					String decodedPayload = new String((byte[]) payload, StandardCharsets.UTF_8);
@@ -84,24 +88,15 @@ public class OutboundChannelInterceptor implements ChannelInterceptor {
 	
 	@Override
 	public void postSend(Message<?> message, MessageChannel channel, boolean sent) {
-		if (!sent) {
-			log.info("## {}.postSend, sent = {}", this.getClass().getSimpleName(), sent);
-		}
-		
-		ChannelInterceptor.super.postSend(message, channel, sent);
+		log.info("## {}.postSend, sent = {}", this.getClass().getSimpleName(), sent);
+		StompHeaderAccessor accessor = StompHeaderAccessor.wrap(message);
 	}
 
 	@Override
 	public void afterSendCompletion(Message<?> message, MessageChannel channel, boolean sent, Exception ex) {
-		if (!sent || ex != null) {
-			log.info("## {}.afterSendCompletion", this.getClass().getSimpleName());
-			if (ex != null) {
-				log.info("\t > {} : {}", ex.getClass().getSimpleName(), ex.getMessage());
-			}
-			
-			if (!sent) {
-				log.info("\t > not sent");
-			}
+		log.info("## {}.afterSendCompletion, sent = {}", this.getClass().getSimpleName(), sent);
+		if (ex != null) {
+			log.info("\t > {} : {}", ex.getClass().getSimpleName(), ex.getMessage());
 		}
 	}
 	
