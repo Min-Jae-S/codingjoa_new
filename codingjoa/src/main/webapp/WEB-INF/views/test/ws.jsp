@@ -117,8 +117,9 @@
 		$("#chatForm").on("submit", function(e) {
 			e.preventDefault();
 			let message = $(this).serializeObject();
+			console.log(message);
+
 			$(".chat-container").append(createMyChatHtml(message));
-			//console.log(message);
 			
 			let json = JSON.stringify(message);
 			socket.send(json);
@@ -250,10 +251,13 @@
 		return (obj == null || obj == "");
 	}
 	
+	function createChatHtml(chatMessage) {
+		// ...
+	}
+	
 	function createChatNotificationHtml(chatMessage) {
 		let html = '<div class="alert alert-secondary text-center">';
-		let sender = isEmpty(chatMessage.sender) ? "익명" : chatMessage.sender;
-		html += '<span class="font-weight-bold">' + sender + "</span>";
+		html += '<span class="font-weight-bold">' + chatMessage.sender + "</span>";
 		if (chatMessage.type == "ENTER") {
 			html += ' 님이 입장하였습니다.';
 		} else if (chatMessage.type == "EXIT") {
@@ -272,8 +276,7 @@
 	
 	function createOtherChatHtml(chatMessage) {
 		let html = '<div class="alert chat other-chat">';
-		let sender = isEmpty(chatMessage.sender) ? "익명" : chatMessage.sender;
-		html += '<span class="font-weight-bold mb-2">' + sender + '</span>';
+		html += '<span class="font-weight-bold mb-2">' + chatMessage.sender + '</span>';
 		html += '<span>' + chatMessage.content + '</span>';
 		html += '</div>';
 		return html;

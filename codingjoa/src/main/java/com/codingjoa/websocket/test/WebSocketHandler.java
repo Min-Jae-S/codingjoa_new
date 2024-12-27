@@ -5,6 +5,7 @@ import java.security.Principal;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
@@ -14,47 +15,44 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import com.codingjoa.quartz.AlarmDto;
 import com.codingjoa.security.dto.PrincipalDetails;
-import com.codingjoa.util.FormatUtils;
 import com.codingjoa.websocket.test.ChatMessage.ChatType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@RequiredArgsConstructor
 @Component
 public class WebSocketHandler extends TextWebSocketHandler {
 	
 	//private final Set<WebSocketSession> sessions = ConcurrentHashMap.newKeySet(); // thread-safe
 	private final Map<String, WebSocketSession> sessions = new ConcurrentHashMap<>();
-	private final ObjectMapper objectMapper;
+	private final ObjectMapper localMapper;
+	
+	public WebSocketHandler(ObjectMapper objectMapper) {
+		// serialize the object excluding the "senderSessionId"
+		this.localMapper = objectMapper.copy().addMixIn(ChatMessage.class, ChatMessageMixIn.class);
+	}
 	
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 		log.info("## {}.afterConnectionEstablished", this.getClass().getSimpleName());
 		
-		String sessionId = session.getId();
-		sessions.put(sessionId, session);
+		String senderSessionId = session.getId();
+		sessions.put(senderSessionId, session);
 		
 		ChatMessage chatMessage = ChatMessage.builder()
 				.type(ChatType.ENTER)
-				.senderSessionId(sessionId)
 				.sender(getSender(session))
 				.build();
-		log.info("\t > payload: {}", FormatUtils.formatPrettyJson(chatMessage));
-		
-		String json = objectMapper.writeValueAsString(chatMessage);
 		
 		sessions.values().forEach(s -> {
-			// no need to send the connection info to oneself, 
-			// so it will be sent to all other sessions except for oneself
-			if (!s.getId().equals(sessionId)) {
-				try {
-					s.sendMessage(new TextMessage(json));
-				} catch (IOException e) {
-					// throw e
-				}
+			String receiverSessionId = s.getId();
+			chatMessage.setSessionMatched(receiverSessionId.equals(senderSessionId));
+			try {
+				String json = localMapper.writeValueAsString(chatMessage);
+				s.sendMessage(new TextMessage(json));
+			} catch (Exception e) {
+				// throw e
 			}
 		});
 	}
@@ -63,56 +61,48 @@ public class WebSocketHandler extends TextWebSocketHandler {
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
 		log.info("## {}.afterConnectionClosed", this.getClass().getSimpleName());
 		
-		String sessionId = session.getId();
-		sessions.remove(sessionId);
+		String senderSessionId = session.getId();
+		sessions.remove(senderSessionId);
 		
 		ChatMessage chatMessage = ChatMessage.builder()
 				.type(ChatType.EXIT)
-				.senderSessionId(sessionId)
 				.sender(getSender(session))
 				.build();
-		log.info("\t > payload: {}", FormatUtils.formatPrettyJson(chatMessage));
-		
-		String json = objectMapper.writeValueAsString(chatMessage);
 		
 		sessions.values().forEach(s -> {
-			if (!s.getId().equals(sessionId)) {
-				try {
-					s.sendMessage(new TextMessage(json));
-				} catch (IOException e) {
-					// throw e
-				}
+			String receiverSessionId = s.getId();
+			chatMessage.setSessionMatched(receiverSessionId.equals(senderSessionId));
+			try {
+				String json = localMapper.writeValueAsString(chatMessage);
+				s.sendMessage(new TextMessage(json));
+			} catch (Exception e) {
+				// throw e
 			}
 		});
-
 	}
 	
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage textMessage) throws Exception {
 		log.info("## {}.handleTextMessage", this.getClass().getSimpleName());
-		ChatMessage chatMessage = objectMapper.readValue(textMessage.getPayload(), ChatMessage.class);
-
-		String sessionId = session.getId();
-		chatMessage.setSenderSessionId(sessionId);
+		ChatMessage chatMessage = localMapper.readValue(textMessage.getPayload(), ChatMessage.class);
 		chatMessage.setSender(getSender(session));
-		log.info("\t > payload: {}", FormatUtils.formatPrettyJson(chatMessage));
 		
-		String json = objectMapper.writeValueAsString(chatMessage);
-		
+		String senderSessionId = session.getId();
 		sessions.values().forEach(s -> {
-			if (!s.getId().equals(sessionId)) {
-				try {
-					s.sendMessage(new TextMessage(json));
-				} catch (IOException e) {
-					// throw e
-				}
+			String receiverSessionId = s.getId();
+			chatMessage.setSessionMatched(receiverSessionId.equals(senderSessionId));
+			try {
+				String json = localMapper.writeValueAsString(chatMessage);
+				s.sendMessage(new TextMessage(json));
+			} catch (Exception e) {
+				// throw e
 			}
 		});
 	}
 	
 	public void sendAlarm(AlarmDto alarmDto) throws Exception {
 		log.info("## sendAlarm");
-		String json = objectMapper.writeValueAsString(alarmDto);
+		String json = localMapper.writeValueAsString(alarmDto);
 		
 		sessions.values().forEach(s -> {
 			try {
@@ -131,7 +121,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
 			return principalDetails.getNickname();
 		}
 		
-		return "";
+		return "익명" + RandomStringUtils.randomNumeric(6);
 	}
 
 	@Override

@@ -340,13 +340,16 @@
 		}
 	}
 	
+	function createChatHtml(chatMessage) {
+		// ...
+	}
+	
 	function createChatNotificationHtml(chatMessage) {
 		let html = '<div class="alert alert-secondary text-center">';
-		let sender = isEmpty(chatMessage.sender) ? "익명" : chatMessage.sender;
-		html += '<span class="font-weight-bold">' + sender + "</span>";
+		html += '<span class="font-weight-bold">' + chatMessage.sender + "</span>";
 		if (chatMessage.type == "ENTER") {
 			html += ' 님이 입장하였습니다.';
-		} else if (data.type == "EXIT") {
+		} else if (chatMessage.type == "EXIT") {
 			html += ' 님이 퇴장하였습니다.';
 		}
 		html += '</div>';
@@ -362,8 +365,7 @@
 	
 	function createOtherChatHtml(chatMessage) {
 		let html = '<div class="alert chat other-chat">';
-		let sender = isEmpty(chatMessage.sender) ? "익명" : chatMessage.sender;
-		html += '<span class="font-weight-bold mb-2">' + sender + '</span>';
+		html += '<span class="font-weight-bold mb-2">' + chatMessage.sender + '</span>';
 		html += '<span>' + chatMessage.content + '</span>';
 		html += '</div>';
 		return html;

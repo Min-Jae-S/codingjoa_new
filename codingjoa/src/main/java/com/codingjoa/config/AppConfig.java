@@ -36,8 +36,8 @@ public class AppConfig {
 	@Bean // thread-safe
 	public ObjectMapper objectMapper() { 
 		// DateTimeFormatter.ISO_LOCAL_DATE_TIME
-		DateTimeFormatter localDateTimeformatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:ss:mm"); 
-		DateTimeFormatter localTimeformatter = DateTimeFormatter.ofPattern("HH:ss"); 
+		DateTimeFormatter localDateTimeformatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"); 
+		DateTimeFormatter localTimeformatter = DateTimeFormatter.ofPattern("HH:mm"); 
 		ObjectMapper objectMapper = Jackson2ObjectMapperBuilder
 				.json()
 				.serializerByType(LocalDateTime.class, new LocalDateTimeSerializer(localDateTimeformatter))

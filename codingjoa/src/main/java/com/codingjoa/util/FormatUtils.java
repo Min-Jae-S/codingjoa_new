@@ -26,8 +26,8 @@ public class FormatUtils {
 	
 	// initialize objectMapper
     static {
-    	DateTimeFormatter localDateTimeformatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:ss:mm"); 
-		DateTimeFormatter localTimeformatter = DateTimeFormatter.ofPattern("HH:ss"); 
+    	DateTimeFormatter localDateTimeformatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"); 
+		DateTimeFormatter localTimeformatter = DateTimeFormatter.ofPattern("HH:mm"); 
     	objectMapper.registerModule(new SimpleModule()
     		.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(localDateTimeformatter))
     		.addSerializer(LocalTime.class, new LocalTimeSerializer(localTimeformatter))

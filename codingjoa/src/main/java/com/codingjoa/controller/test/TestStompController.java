@@ -2,7 +2,7 @@ package com.codingjoa.controller.test;
 
 import java.security.Principal;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -33,8 +33,8 @@ public class TestStompController {
 		log.info("\t > principal = {}", principal);
 		log.info("\t > message = {}", message);
 
-		String sender = getSender(principal);
-		String payload = String.format("'%s' 님의 제보입니다: %s", StringUtils.isBlank(sender) ? "익명" : sender, message);
+		String payload = String.format("'%s' 님의 제보입니다: %s", getSender(principal), message);
+		log.info("\t > payload = {}", payload);
 
 		template.convertAndSend("/sub/news", payload);
 	}
@@ -43,12 +43,11 @@ public class TestStompController {
 	@SendTo("/sub/room/{roomId}")
 	public ChatMessage chat(@DestinationVariable Long roomId, @Payload ChatMessage chatMessage, 
 			@Header("simpSessionId") String senderSessionId, Principal principal) {
-		log.info("## chat, roomId = {}", roomId);
+		log.info("## chat");
 		log.info("\t > senderSessionId = {}", senderSessionId);
 		log.info("\t > principal = {}", principal);
 		
-		String sender = getSender(principal);
-		chatMessage.setSender(sender);
+		chatMessage.setSender(getSender(principal));
 		chatMessage.setSenderSessionId(senderSessionId);
 		log.info("\t > modified chatMessage = {}", chatMessage);
 		
@@ -62,7 +61,7 @@ public class TestStompController {
 			return principalDetails.getNickname();
 		} 
 		
-		return "";
+		return "익명" + RandomStringUtils.randomNumeric(6);
 	}
 	
 }
