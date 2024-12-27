@@ -66,5 +66,4 @@ public class WebSocketStompConfig implements WebSocketMessageBrokerConfigurer {
 		return true;
 	}
 
-
 }

@@ -43,12 +43,14 @@ public class ChatMessage {
 	}
 
 	@Builder
-	public ChatMessage(ChatType type, String sender, String senderSessionId, Boolean sessionMatched, Object content) {
+	public ChatMessage(ChatType type, String sender, String senderSessionId, Boolean sessionMatched, Object content,
+			LocalDateTime timestamp) {
 		this.type = type;
 		this.sender = sender;
 		this.senderSessionId = senderSessionId;
 		this.sessionMatched = sessionMatched;
 		this.content = content;
+		this.timestamp = timestamp;
 	}
 	
 }

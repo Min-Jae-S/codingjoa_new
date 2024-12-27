@@ -1,8 +1,7 @@
 package com.codingjoa.websocket.test;
 
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-
-import javax.annotation.PostConstruct;
 
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
@@ -13,6 +12,7 @@ import org.springframework.messaging.support.ChannelInterceptor;
 import org.springframework.messaging.support.MessageBuilder;
 
 import com.codingjoa.util.FormatUtils;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.extern.slf4j.Slf4j;
@@ -25,12 +25,8 @@ public class OutboundChannelInterceptor implements ChannelInterceptor {
 	private final ObjectMapper localMapper;
 	
 	public OutboundChannelInterceptor(ObjectMapper objectMapper) {
-		this.localMapper = objectMapper.copy();
-	}
-	
-	@PostConstruct
-	public void configureObjectMapper() {
-		localMapper.addMixIn(ChatMessage.class, ChatMessageMixIn.class);
+		// serialize the object excluding the "senderSessionId"
+		this.localMapper = objectMapper.copy().addMixIn(ChatMessage.class, ChatMessageMixIn.class);
 	}
 	
 	@Override
@@ -54,18 +50,16 @@ public class OutboundChannelInterceptor implements ChannelInterceptor {
 					String senderSessionId = chatMessage.getSenderSessionId();
 					String receiverSessionId = accessor.getSessionId();
 					chatMessage.setSessionMatched(receiverSessionId.equals(senderSessionId));
-					log.info("\t > final chatMessage = {}", chatMessage);
 					
-					// serialize the modified message excluding the "senderSessionId"
 					byte[] modifiedPayload = localMapper.writeValueAsBytes(chatMessage);
 					log.info("\t > modified payload: {}", FormatUtils.formatPrettyJson(modifiedPayload));
 					
 					// return the message with the modified payload
 					return MessageBuilder.createMessage(modifiedPayload, message.getHeaders());
-				} catch (Exception e) {
+				} catch (JsonProcessingException e) {
+					log.info("\t > payload: {}", new String(originalPayload, StandardCharsets.UTF_8));
+				} catch (IOException e) {
 					log.info("\t > {} : {}", e.getClass().getSimpleName(), e.getMessage());
-					String decodedPayload = new String(originalPayload, StandardCharsets.UTF_8);
-					log.info("\t > payload: {}", decodedPayload);
 				}
 			}
 		}

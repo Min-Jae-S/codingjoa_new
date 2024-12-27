@@ -12,11 +12,14 @@ import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.ChannelInterceptor;
 
 import com.codingjoa.util.FormatUtils;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.extern.slf4j.Slf4j;
 
-@SuppressWarnings("rawtypes")
+@SuppressWarnings("unused")
 @Slf4j
 public class InboundChannelInterceptor implements ChannelInterceptor { 
 
@@ -43,11 +46,12 @@ public class InboundChannelInterceptor implements ChannelInterceptor {
 			if (message.getPayload() instanceof byte[]) {
 				byte[] payload = (byte[]) message.getPayload();
 				try {
-					Map map = objectMapper.readValue(payload, Map.class);
-					log.info("\t > payload: {}", FormatUtils.formatPrettyJson(map));
+					ChatMessage chatMessage = objectMapper.readValue(payload, ChatMessage.class);
+					log.info("\t > payload: {}", FormatUtils.formatPrettyJson(chatMessage));
+				} catch (JsonProcessingException e) {
+					log.info("\t > payload: {}", new String(payload, StandardCharsets.UTF_8));
 				} catch (IOException e) {
-					String decoded = new String(payload, StandardCharsets.UTF_8);
-					log.info("\t > payload: {}", decoded);
+					log.info("\t > {} : {}", e.getClass().getSimpleName(), e.getMessage());
 				}
 			}
 		}

@@ -1,9 +1,9 @@
 package com.codingjoa.websocket.test;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public abstract class ChatMessageMixIn {
 	
-	@JsonIgnore
-    private String senderSessionId;
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+	private String senderSessionId;
 }
