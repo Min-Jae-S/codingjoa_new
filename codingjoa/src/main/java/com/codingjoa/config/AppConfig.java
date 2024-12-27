@@ -12,6 +12,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
@@ -31,6 +32,7 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 @Configuration
 public class AppConfig {
 	
+	@Primary
 	@Bean // thread-safe
 	public ObjectMapper objectMapper() { 
 		// DateTimeFormatter.ISO_LOCAL_DATE_TIME

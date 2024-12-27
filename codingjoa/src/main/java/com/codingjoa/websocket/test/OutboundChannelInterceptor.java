@@ -2,6 +2,8 @@ package com.codingjoa.websocket.test;
 
 import java.nio.charset.StandardCharsets;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.simp.SimpMessageType;
@@ -12,9 +14,6 @@ import org.springframework.messaging.support.MessageBuilder;
 
 import com.codingjoa.util.FormatUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
-import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
-import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -23,10 +22,15 @@ public class OutboundChannelInterceptor implements ChannelInterceptor {
 	
 	// outbound: preSend, postSend, afterSendCompletion
 	
-	private final ObjectMapper objectMapper;
+	private final ObjectMapper localMapper;
 	
 	public OutboundChannelInterceptor(ObjectMapper objectMapper) {
-		this.objectMapper = objectMapper;
+		this.localMapper = objectMapper.copy();
+	}
+	
+	@PostConstruct
+	public void configureObjectMapper() {
+		localMapper.addMixIn(ChatMessage.class, ChatMessageMixIn.class);
 	}
 	
 	@Override
@@ -44,20 +48,16 @@ public class OutboundChannelInterceptor implements ChannelInterceptor {
 				byte[] originalPayload = (byte[]) message.getPayload();
 				try {
 					// deserialize the payload into ChatMessage
-					ChatMessage chatMessage = objectMapper.readValue(originalPayload, ChatMessage.class);
+					ChatMessage chatMessage = localMapper.readValue(originalPayload, ChatMessage.class);
 					
 					// determine if sender and receiver sessionId match
 					String senderSessionId = chatMessage.getSenderSessionId();
 					String receiverSessionId = accessor.getSessionId();
 					chatMessage.setSessionMatched(receiverSessionId.equals(senderSessionId));
-					log.info("\t > {}", chatMessage);
+					log.info("\t > final chatMessage = {}", chatMessage);
 					
 					// serialize the modified message excluding the "senderSessionId"
-					SimpleFilterProvider filterProvider = new SimpleFilterProvider();
-					filterProvider.addFilter("chatMessageFilter", SimpleBeanPropertyFilter.serializeAllExcept("senderSessionId"));
-					ObjectWriter writer = objectMapper.writer(filterProvider);
-					
-					byte[] modifiedPayload = writer.writeValueAsBytes(chatMessage);
+					byte[] modifiedPayload = localMapper.writeValueAsBytes(chatMessage);
 					log.info("\t > modified payload: {}", FormatUtils.formatPrettyJson(modifiedPayload));
 					
 					// return the message with the modified payload
