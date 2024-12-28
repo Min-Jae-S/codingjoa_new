@@ -119,7 +119,8 @@
 			let message = $(this).serializeObject();
 			console.log(message);
 
-			$(".chat-container").append(createMyChatHtml(message));
+			let myChatHtml = createMyChatHtml(message);
+			$(".chat-container").append(myChatHtml);
 			
 			let json = JSON.stringify(message);
 			socket.send(json);
@@ -191,15 +192,14 @@
 		
 		socket.onmessage = function(result) {
 			console.log("## ws received message");
-			let chatMessage = JSON.parse(result.data);
+			let message = JSON.parse(result.data);
 			console.log(JSON.stringify(chatMessage, null, 2));
 			
-			if (chatMessage.type == "PUSH") {
-				alert(chatMessage.content);
-			} else if (chatMessage.type == "TALK") {
-				$(".chat-container").append(createOtherChatHtml(chatMessage));
-			} else {
-				$(".chat-container").append(createChatNotificationHtml(chatMessage)); // ENTER, EXIT
+			if (message.type == "PUSH") {
+				alert(message.content);
+			} else { // ENTER, EXIT, TALK
+				let chatHtml = createChatHtml(message);
+				$(".chat-container").append(chatHtml);
 			}
 		};
 
@@ -251,34 +251,33 @@
 		return (obj == null || obj == "");
 	}
 	
-	function createChatHtml(chatMessage) {
-		// ...
-	}
-	
-	function createChatNotificationHtml(chatMessage) {
-		let html = '<div class="alert alert-secondary text-center">';
-		html += '<span class="font-weight-bold">' + chatMessage.sender + "</span>";
-		if (chatMessage.type == "ENTER") {
-			html += ' 님이 입장하였습니다.';
-		} else if (chatMessage.type == "EXIT") {
-			html += ' 님이 퇴장하였습니다.';
-		}
-		html += '</div>';
-		return html;
-	}
-	
-	function createMyChatHtml(chatMessage) {
+	function createMyChatHtml(message) {
 		let html = '<div class="alert chat my-chat">';
-		html += '<span>' + chatMessage.content + '</span>';
+		html += '<span>' + message.content + '</span>';
 		html += '</div>';
 		return html;
 	}
 	
-	function createOtherChatHtml(chatMessage) {
-		let html = '<div class="alert chat other-chat">';
-		html += '<span class="font-weight-bold mb-2">' + chatMessage.sender + '</span>';
-		html += '<span>' + chatMessage.content + '</span>';
-		html += '</div>';
+	function createChatHtml(message) {
+		let html;
+		if (message.type == "TALK") {
+			html += '<div class="alert chat other-chat">';
+			html += '<span class="font-weight-bold mb-2">' + message.sender + '</span>';
+			html += '<span>' + message.content + '</span>';
+			html += '</div>';
+		} else {
+			html = '<div class="alert alert-secondary text-center">';
+			html += '<span class="font-weight-bold">' + message.sender + "</span>";
+			
+			if (message.type == "ENTER") {
+				html += ' 님이 입장하였습니다.';
+			} else if (message.type == "EXIT") {
+				html += ' 님이 퇴장하였습니다.';
+			}
+			
+			html += '</div>';
+		}
+		
 		return html;
 	}
 	

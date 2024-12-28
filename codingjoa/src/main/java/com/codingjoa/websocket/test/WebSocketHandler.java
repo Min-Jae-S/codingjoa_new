@@ -36,15 +36,17 @@ public class WebSocketHandler extends TextWebSocketHandler {
 		String senderSessionId = session.getId();
 		sessions.put(senderSessionId, session);
 		
-		ChatMessage chatMessage = ChatMessage.builder()
+		WebSocketMessage message = WebSocketMessage.builder()
+				.type(ChatType.ENTER)
 				.sender(getSender(session))
 				.build();
 		
 		sessions.values().forEach(s -> {
 			String receiverSessionId = s.getId();
-			chatMessage.setSessionMatched(receiverSessionId.equals(senderSessionId));
+			message.setSessionMatched(receiverSessionId.equals(senderSessionId));
+			
 			try {
-				String json = objectMapper.writeValueAsString(chatMessage);
+				String json = objectMapper.writeValueAsString(message);
 				s.sendMessage(new TextMessage(json));
 			} catch (Exception e) {
 				// throw e
@@ -59,15 +61,16 @@ public class WebSocketHandler extends TextWebSocketHandler {
 		String senderSessionId = session.getId();
 		sessions.remove(senderSessionId);
 		
-		ChatMessage chatMessage = ChatMessage.builder()
+		WebSocketMessage message = WebSocketMessage.builder()
+				.type(ChatType.EXIT)
 				.sender(getSender(session))
 				.build();
 		
 		sessions.values().forEach(s -> {
 			String receiverSessionId = s.getId();
-			chatMessage.setSessionMatched(receiverSessionId.equals(senderSessionId));
+			message.setSessionMatched(receiverSessionId.equals(senderSessionId));
 			try {
-				String json = objectMapper.writeValueAsString(chatMessage);
+				String json = objectMapper.writeValueAsString(message);
 				s.sendMessage(new TextMessage(json));
 			} catch (Exception e) {
 				// throw e
@@ -82,6 +85,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
 		chatMessage.setSender(getSender(session));
 		
 		String senderSessionId = session.getId();
+		
 		sessions.values().forEach(s -> {
 			String receiverSessionId = s.getId();
 			chatMessage.setSessionMatched(receiverSessionId.equals(senderSessionId));

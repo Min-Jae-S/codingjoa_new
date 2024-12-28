@@ -2,8 +2,6 @@ package com.codingjoa.websocket.test;
 
 import java.time.LocalDateTime;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,15 +11,6 @@ import lombok.ToString;
 @Getter
 @NoArgsConstructor
 public class StompMessage {
-	
-	public enum ChatType {
-		ENTER, EXIT, TALK, PUSH;
-		
-		@JsonCreator
-		public static ChatType from(String s) {
-			return ChatType.valueOf(s.toUpperCase());
-		}
-	}
 	
 	private ChatType type;
 	private String sender;

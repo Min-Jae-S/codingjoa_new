@@ -12,6 +12,7 @@ import lombok.ToString;
 @NoArgsConstructor
 public class WebSocketMessage {
 	
+	private ChatType type;
 	private String sender;
 	private boolean sessionMatched;
 	private Object content;
@@ -26,7 +27,8 @@ public class WebSocketMessage {
 	}
 
 	@Builder
-	public WebSocketMessage(String sender, boolean sessionMatched, Object content, LocalDateTime timestamp) {
+	public WebSocketMessage(ChatType type, String sender, boolean sessionMatched, Object content, LocalDateTime timestamp) {
+		this.type = type;
 		this.sender = sender;
 		this.sessionMatched = sessionMatched;
 		this.content = content;
