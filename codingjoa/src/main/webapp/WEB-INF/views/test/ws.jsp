@@ -261,10 +261,12 @@
 	function createChatHtml(message) {
 		let html;
 		if (message.type == "TALK") {
-			html += '<div class="alert chat other-chat">';
-			html += '<span class="font-weight-bold mb-2">' + message.sender + '</span>';
-			html += '<span>' + message.content + '</span>';
-			html += '</div>';
+			if (message.sessionMatched)) {
+				html += '<div class="alert chat other-chat">';
+				html += '<span class="font-weight-bold mb-2">' + message.sender + '</span>';
+				html += '<span>' + message.content + '</span>';
+				html += '</div>';
+			}
 		} else {
 			html = '<div class="alert alert-secondary text-center">';
 			html += '<span class="font-weight-bold">' + message.sender + "</span>";

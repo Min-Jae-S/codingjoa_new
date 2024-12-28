@@ -180,7 +180,10 @@
 		$("#chatForm").on("submit", function(e) {
 			e.preventDefault();
 			let message = $(this).serializeObject();
-			$(".chat-container").append(createMyChatHtml(message));
+			console.log(message);
+
+			let myChatHtml = createMyChatHtml(message);
+			$(".chat-container").append(myChatHtml);
 			
 			if (stompClient && stompClient.connected) {
 				console.log("## stompClient connected, sending the message immediately");
@@ -225,17 +228,14 @@
 				console.log("## stompClient received message");
 				console.log(frame);
 				
-				let chatMessage = JSON.parse(frame.body); 
-				console.log(JSON.stringify(chatMessage, null, 2));
+				let message = JSON.parse(frame.body); 
+				console.log(JSON.stringify(message, null, 2));
 				
-				if (chatMessage.type == "PUSH") {
-					alert(chatMessage.content);
-				} else if (chatMessage.type == "TALK") {
-					if (!chatMessage.sessionMatched) {
-						$(".chat-container").append(createOtherChatHtml(chatMessage));
-					}
-				} else {
-					$(".chat-container").append(createChatNotificationHtml(chatMessage)); // ENTER, EXIT
+				if (message.type == "PUSH") {
+					alert(message.content);
+				} else { // ENTER, EXIT, TALK
+					let chatHtml = createChatHtml(message);
+					$(".chat-container").append(chatHtml);
 				}
 			});
 			//console.log(subscription);
@@ -340,36 +340,38 @@
 		}
 	}
 	
-	function createChatHtml(chatMessage) {
-		// ...
-	}
-	
-	function createChatNotificationHtml(chatMessage) {
-		let html = '<div class="alert alert-secondary text-center">';
-		html += '<span class="font-weight-bold">' + chatMessage.sender + "</span>";
-		if (chatMessage.type == "ENTER") {
-			html += ' 님이 입장하였습니다.';
-		} else if (chatMessage.type == "EXIT") {
-			html += ' 님이 퇴장하였습니다.';
-		}
-		html += '</div>';
-		return html;
-	}
-	
-	function createMyChatHtml(chatMessage) {
+	function createMyChatHtml(message) {
 		let html = '<div class="alert chat my-chat">';
-		html += '<span>' + chatMessage.content + '</span>';
+		html += '<span>' + message.content + '</span>';
 		html += '</div>';
 		return html;
 	}
 	
-	function createOtherChatHtml(chatMessage) {
-		let html = '<div class="alert chat other-chat">';
-		html += '<span class="font-weight-bold mb-2">' + chatMessage.sender + '</span>';
-		html += '<span>' + chatMessage.content + '</span>';
-		html += '</div>';
+	function createChatHtml(message) {
+		let html;
+		if (message.type == "TALK") {
+			if (message.sessionMatched)) {
+				html += '<div class="alert chat other-chat">';
+				html += '<span class="font-weight-bold mb-2">' + message.sender + '</span>';
+				html += '<span>' + message.content + '</span>';
+				html += '</div>';
+			}
+		} else {
+			html = '<div class="alert alert-secondary text-center">';
+			html += '<span class="font-weight-bold">' + message.sender + "</span>";
+			
+			if (message.type == "ENTER") {
+				html += ' 님이 입장하였습니다.';
+			} else if (message.type == "EXIT") {
+				html += ' 님이 퇴장하였습니다.';
+			}
+			
+			html += '</div>';
+		}
+		
 		return html;
 	}
+
 </script>
 </body>
 </html>
