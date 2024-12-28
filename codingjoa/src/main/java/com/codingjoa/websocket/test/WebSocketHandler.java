@@ -15,23 +15,19 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import com.codingjoa.quartz.AlarmDto;
 import com.codingjoa.security.dto.PrincipalDetails;
-import com.codingjoa.websocket.test.ChatMessage.ChatType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@RequiredArgsConstructor
 @Component
 public class WebSocketHandler extends TextWebSocketHandler {
 	
 	//private final Set<WebSocketSession> sessions = ConcurrentHashMap.newKeySet(); // thread-safe
 	private final Map<String, WebSocketSession> sessions = new ConcurrentHashMap<>();
-	private final ObjectMapper localMapper;
-	
-	public WebSocketHandler(ObjectMapper objectMapper) {
-		// serialize the object excluding the "senderSessionId"
-		this.localMapper = objectMapper.copy().addMixIn(ChatMessage.class, ChatMessageMixIn.class);
-	}
+	private final ObjectMapper objectMapper;
 	
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
@@ -41,7 +37,6 @@ public class WebSocketHandler extends TextWebSocketHandler {
 		sessions.put(senderSessionId, session);
 		
 		ChatMessage chatMessage = ChatMessage.builder()
-				.type(ChatType.ENTER)
 				.sender(getSender(session))
 				.build();
 		
@@ -49,7 +44,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
 			String receiverSessionId = s.getId();
 			chatMessage.setSessionMatched(receiverSessionId.equals(senderSessionId));
 			try {
-				String json = localMapper.writeValueAsString(chatMessage);
+				String json = objectMapper.writeValueAsString(chatMessage);
 				s.sendMessage(new TextMessage(json));
 			} catch (Exception e) {
 				// throw e
@@ -65,7 +60,6 @@ public class WebSocketHandler extends TextWebSocketHandler {
 		sessions.remove(senderSessionId);
 		
 		ChatMessage chatMessage = ChatMessage.builder()
-				.type(ChatType.EXIT)
 				.sender(getSender(session))
 				.build();
 		
@@ -73,7 +67,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
 			String receiverSessionId = s.getId();
 			chatMessage.setSessionMatched(receiverSessionId.equals(senderSessionId));
 			try {
-				String json = localMapper.writeValueAsString(chatMessage);
+				String json = objectMapper.writeValueAsString(chatMessage);
 				s.sendMessage(new TextMessage(json));
 			} catch (Exception e) {
 				// throw e
@@ -84,7 +78,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage textMessage) throws Exception {
 		log.info("## {}.handleTextMessage", this.getClass().getSimpleName());
-		ChatMessage chatMessage = localMapper.readValue(textMessage.getPayload(), ChatMessage.class);
+		ChatMessage chatMessage = objectMapper.readValue(textMessage.getPayload(), ChatMessage.class);
 		chatMessage.setSender(getSender(session));
 		
 		String senderSessionId = session.getId();
@@ -92,7 +86,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
 			String receiverSessionId = s.getId();
 			chatMessage.setSessionMatched(receiverSessionId.equals(senderSessionId));
 			try {
-				String json = localMapper.writeValueAsString(chatMessage);
+				String json = objectMapper.writeValueAsString(chatMessage);
 				s.sendMessage(new TextMessage(json));
 			} catch (Exception e) {
 				// throw e
@@ -102,7 +96,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
 	
 	public void sendAlarm(AlarmDto alarmDto) throws Exception {
 		log.info("## sendAlarm");
-		String json = localMapper.writeValueAsString(alarmDto);
+		String json = objectMapper.writeValueAsString(alarmDto);
 		
 		sessions.values().forEach(s -> {
 			try {
