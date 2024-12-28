@@ -26,7 +26,7 @@ public class OutboundChannelInterceptor implements ChannelInterceptor {
 	
 	public OutboundChannelInterceptor(ObjectMapper objectMapper) {
 		// serialize the object excluding the "senderSessionId"
-		this.localMapper = objectMapper.copy().addMixIn(ChatMessage.class, ChatMessageMixIn.class);
+		this.localMapper = objectMapper.copy().addMixIn(StompMessage.class, StompMessageMixIn.class);
 	}
 	
 	@Override
@@ -44,14 +44,14 @@ public class OutboundChannelInterceptor implements ChannelInterceptor {
 				byte[] originalPayload = (byte[]) message.getPayload();
 				try {
 					// deserialize the payload into ChatMessage
-					ChatMessage chatMessage = localMapper.readValue(originalPayload, ChatMessage.class);
+					StompMessage stompMessage = localMapper.readValue(originalPayload, StompMessage.class);
 					
 					// determine if sender and receiver sessionId match
-					String senderSessionId = chatMessage.getSenderSessionId();
+					String senderSessionId = stompMessage.getSenderSessionId();
 					String receiverSessionId = accessor.getSessionId();
-					chatMessage.setSessionMatched(receiverSessionId.equals(senderSessionId));
+					stompMessage.setSessionMatched(receiverSessionId.equals(senderSessionId));
 					
-					byte[] modifiedPayload = localMapper.writeValueAsBytes(chatMessage);
+					byte[] modifiedPayload = localMapper.writeValueAsBytes(stompMessage);
 					log.info("\t > modified payload: {}", FormatUtils.formatPrettyJson(modifiedPayload));
 					
 					// return the message with the modified payload

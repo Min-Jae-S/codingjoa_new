@@ -14,7 +14,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 
 import com.codingjoa.security.dto.PrincipalDetails;
-import com.codingjoa.websocket.test.ChatMessage;
+import com.codingjoa.websocket.test.StompMessage;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -41,17 +41,17 @@ public class TestStompController {
 
 	@MessageMapping("/room/{roomId}")
 	@SendTo("/sub/room/{roomId}")
-	public ChatMessage chat(@DestinationVariable Long roomId, @Payload ChatMessage chatMessage, 
+	public StompMessage chat(@DestinationVariable Long roomId, @Payload StompMessage stompMessage, 
 			@Header("simpSessionId") String senderSessionId, Principal principal) {
 		log.info("## chat");
 		log.info("\t > senderSessionId = {}", senderSessionId);
 		log.info("\t > principal = {}", principal);
 		
-		chatMessage.setSender(getSender(principal));
-		chatMessage.setSenderSessionId(senderSessionId);
-		log.info("\t > modified chatMessage = {}", chatMessage);
+		stompMessage.setSender(getSender(principal));
+		stompMessage.setSenderSessionId(senderSessionId);
+		log.info("\t > modified message = {}", stompMessage);
 		
-		return chatMessage;
+		return stompMessage;
 	}
 
 	private String getSender(Principal principal) {

@@ -81,16 +81,16 @@ public class WebSocketHandler extends TextWebSocketHandler {
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage textMessage) throws Exception {
 		log.info("## {}.handleTextMessage", this.getClass().getSimpleName());
-		ChatMessage chatMessage = objectMapper.readValue(textMessage.getPayload(), ChatMessage.class);
-		chatMessage.setSender(getSender(session));
+		WebSocketMessage message = objectMapper.readValue(textMessage.getPayload(), WebSocketMessage.class);
+		message.setSender(getSender(session));
 		
 		String senderSessionId = session.getId();
 		
 		sessions.values().forEach(s -> {
 			String receiverSessionId = s.getId();
-			chatMessage.setSessionMatched(receiverSessionId.equals(senderSessionId));
+			message.setSessionMatched(receiverSessionId.equals(senderSessionId));
 			try {
-				String json = objectMapper.writeValueAsString(chatMessage);
+				String json = objectMapper.writeValueAsString(message);
 				s.sendMessage(new TextMessage(json));
 			} catch (Exception e) {
 				// throw e
