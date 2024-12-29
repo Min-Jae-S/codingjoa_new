@@ -49,9 +49,11 @@ public class OutboundChannelInterceptor implements ChannelInterceptor {
 					// determine if sender and receiver sessionId match
 					String senderSessionId = stompMessage.getSenderSessionId();
 					String receiverSessionId = accessor.getSessionId();
-					stompMessage.setSessionMatched(receiverSessionId.equals(senderSessionId));
+					StompMessage modifiedMessage = stompMessage.toBuilder()
+							.sessionMatched((receiverSessionId.equals(senderSessionId)))
+							.build();
 					
-					byte[] modifiedPayload = localMapper.writeValueAsBytes(stompMessage);
+					byte[] modifiedPayload = localMapper.writeValueAsBytes(modifiedMessage);
 					log.info("\t > modified payload: {}", FormatUtils.formatPrettyJson(modifiedPayload));
 					
 					// return the message with the modified payload

@@ -358,12 +358,12 @@
 			}
 		} else {
 			html = '<div class="alert alert-secondary text-center">';
-			html += '<span class="font-weight-bold">' + message.sender + "</span>";
+			html += '<span class="font-weight-bold mr-2">' + message.sender + "</span>";
 			
 			if (message.type == "ENTER") {
-				html += ' 님이 입장하였습니다.';
+				html += '님이 입장하였습니다.';
 			} else if (message.type == "EXIT") {
-				html += ' 님이 퇴장하였습니다.';
+				html += '님이 퇴장하였습니다.';
 			}
 			
 			html += '</div>';

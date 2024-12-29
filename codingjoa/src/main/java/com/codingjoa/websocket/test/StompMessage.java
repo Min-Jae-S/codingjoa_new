@@ -18,20 +18,8 @@ public class StompMessage {
 	private Boolean sessionMatched;
 	private Object content;
 	private LocalDateTime timestamp = LocalDateTime.now();
-	
-	public void setSender(String sender) {
-		this.sender = sender;
-	}
 
-	public void setSenderSessionId(String senderSessionId) {
-		this.senderSessionId = senderSessionId;
-	}
-	
-	public void setSessionMatched(Boolean sessionMatched) {
-		this.sessionMatched = sessionMatched;
-	}
-
-	@Builder
+	@Builder(toBuilder = true)
 	public StompMessage(ChatType type, String sender, String senderSessionId, Boolean sessionMatched, Object content,
 			LocalDateTime timestamp) {
 		this.type = type;

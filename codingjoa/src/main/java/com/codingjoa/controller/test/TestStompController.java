@@ -38,7 +38,7 @@ public class TestStompController {
 
 		template.convertAndSend("/sub/news", payload);
 	}
-
+	
 	@MessageMapping("/room/{roomId}")
 	@SendTo("/sub/room/{roomId}")
 	public StompMessage chat(@DestinationVariable Long roomId, @Payload StompMessage stompMessage, 
@@ -47,13 +47,23 @@ public class TestStompController {
 		log.info("\t > senderSessionId = {}", senderSessionId);
 		log.info("\t > principal = {}", principal);
 		
-		stompMessage.setSender(getSender(principal));
-		stompMessage.setSenderSessionId(senderSessionId);
-		log.info("\t > modified message = {}", stompMessage);
-		
-		return stompMessage;
+		return stompMessage.toBuilder()
+				.sender(getSender(principal))
+				.senderSessionId(senderSessionId)
+				.build();
 	}
-
+	
+	@MessageMapping("/room/enter")
+	public void enter(@Payload StompMessage stompMessage, @Header("simpSessionId") String senderSessionId,
+			Principal principal) {
+		log.info("## enter");
+//		return stompMessage.toBuilder()
+//				.sender(getSender(principal))
+//				.senderSessionId(senderSessionId)
+//				.content("님이 입장하였습니다.")
+//				.build();
+	}
+	
 	private String getSender(Principal principal) {
 		if (principal instanceof Authentication) {
 			Authentication authentication = (Authentication) principal;
