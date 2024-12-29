@@ -39,6 +39,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
 		WebSocketMessage message = WebSocketMessage.builder()
 				.type(ChatType.ENTER)
 				.sender(getSender(session))
+				.content("님이 입장하였습니다.")
 				.build();
 		
 		sessions.values().forEach(s -> {
@@ -64,6 +65,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
 		WebSocketMessage message = WebSocketMessage.builder()
 				.type(ChatType.EXIT)
 				.sender(getSender(session))
+				.content("님이 퇴장하였습니다.")
 				.build();
 		
 		sessions.values().forEach(s -> {
