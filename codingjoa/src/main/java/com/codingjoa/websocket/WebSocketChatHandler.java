@@ -14,6 +14,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+@SuppressWarnings("unused")
 @Slf4j
 @RequiredArgsConstructor
 @Component
@@ -22,35 +23,35 @@ public class WebSocketChatHandler extends TextWebSocketHandler {
 	private final Set<WebSocketSession> sessions = ConcurrentHashMap.newKeySet(); // thread-safe
 	private final ObjectMapper objectMapper;
 	
-	@Override
-	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-		log.info("## {}.afterConnectionEstablished", this.getClass().getSimpleName());
-		sessions.add(session);
-		
-		for (WebSocketSession webSocketSession : sessions) {
-			String alert = String.format("%s 님이 입장하였습니다.", session.getId());
-			webSocketSession.sendMessage(new TextMessage(alert));
-		}
-	}
-	
-	@Override
-	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-		log.info("## {}.afterConnectionClosed", this.getClass().getSimpleName());
-		sessions.remove(session);
-		
-		for (WebSocketSession webSocketSession : sessions) {
-			String alert = String.format("%s 님이 퇴장하였습니다.", session.getId());
-			webSocketSession.sendMessage(new TextMessage(alert));
-		}
-	}
-	
-	@Override
-	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-		log.info("## {}.handleTextMessage", this.getClass().getSimpleName());
-		
-		ChatDto chat = objectMapper.readValue(message.getPayload(), ChatDto.class);
-		log.info("\t > chat = {}", chat);
-	}
+//	@Override
+//	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
+//		log.info("## {}.afterConnectionEstablished", this.getClass().getSimpleName());
+//		sessions.add(session);
+//		
+//		for (WebSocketSession webSocketSession : sessions) {
+//			String alert = String.format("%s 님이 입장하였습니다.", session.getId());
+//			webSocketSession.sendMessage(new TextMessage(alert));
+//		}
+//	}
+//	
+//	@Override
+//	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
+//		log.info("## {}.afterConnectionClosed", this.getClass().getSimpleName());
+//		sessions.remove(session);
+//		
+//		for (WebSocketSession webSocketSession : sessions) {
+//			String alert = String.format("%s 님이 퇴장하였습니다.", session.getId());
+//			webSocketSession.sendMessage(new TextMessage(alert));
+//		}
+//	}
+//	
+//	@Override
+//	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
+//		log.info("## {}.handleTextMessage", this.getClass().getSimpleName());
+//		
+//		ChatDto chat = objectMapper.readValue(message.getPayload(), ChatDto.class);
+//		log.info("\t > chat = {}", chat);
+//	}
 
 	
 }
