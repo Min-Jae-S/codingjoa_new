@@ -10,7 +10,7 @@ import org.springframework.web.socket.server.HandshakeInterceptor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class WebSocketInterceptor implements HandshakeInterceptor {
+public class WebSocketHandShakeInterceptor implements HandshakeInterceptor {
 
 	@Override
 	public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler,

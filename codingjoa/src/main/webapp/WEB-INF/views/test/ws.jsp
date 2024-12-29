@@ -178,13 +178,13 @@
 		socket = new WebSocket(url);
 		
 		socket.onopen = function(e) {
-			console.log("## ws is connected");
+			console.log("## ws connected");
 			console.log(e);
 			$("div.chat-room").removeClass("d-none");
 		};
 		
 		socket.onclose = function(e) {
-			console.log("## ws connection is closed");
+			console.log("## ws connection closed");
 			console.log(e);
 			$("div.chat-room").addClass("d-none");
 			$("div.chat-container").empty();
