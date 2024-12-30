@@ -2,9 +2,7 @@ package com.codingjoa.controller.test;
 
 import java.security.Principal;
 
-import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
-import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -34,7 +32,7 @@ public class TestStompController {
 		log.info("\t > principal = {}", principal);
 		log.info("\t > message = {}", message);
 
-		String payload = String.format("'%s' 님의 제보입니다: %s", getSender(principal), message);
+		String payload = String.format("'%s' 님의 제보입니다: %s", getSender(principal, accessor), message);
 		log.info("\t > payload = {}", payload);
 
 		template.convertAndSend("/sub/news", payload);
@@ -43,49 +41,47 @@ public class TestStompController {
 	@MessageMapping("/chat/room/{roomId}")
 	@SendTo("/sub/room/{roomId}")
 	public StompMessage chat(@DestinationVariable Long roomId, @Payload StompMessage stompMessage, 
-			@Header("simpSessionId") String senderSessionId, Principal principal) {
+			/*@Header("simpSessionId") String senderSessionId,*/ SimpMessageHeaderAccessor accessor, Principal principal) {
 		log.info("## chat, roomId = {}", roomId);
 		return stompMessage.toBuilder()
 				.type(ChatType.TALK)
-				.sender(getSender(principal))
-				.senderSessionId(senderSessionId)
+				.sender(getSender(principal, accessor))
+				.senderSessionId(accessor.getSessionId())
 				.build();
 	}
 	
 	@MessageMapping("/enter/room/{roomId}")
 	@SendTo("/sub/room/{roomId}")
-	public StompMessage enter(@DestinationVariable Long roomId, @Header("simpSessionId") String senderSessionId, 
-			Principal principal) {
+	public StompMessage enter(@DestinationVariable Long roomId, SimpMessageHeaderAccessor accessor, Principal principal) {
 		log.info("## enter, roomId = {}", roomId);
 		return StompMessage.builder()
 				.type(ChatType.ENTER)
-				.sender(getSender(principal))
-				.senderSessionId(senderSessionId)
+				.sender(getSender(principal, accessor))
+				.senderSessionId(accessor.getSessionId())
 				.content("님이 입장하였습니다.")
 				.build();
 	}
 
 	@MessageMapping("/exit/room/{roomId}")
 	@SendTo("/sub/room/{roomId}")
-	public StompMessage exit(@DestinationVariable Long roomId, @Header("simpSessionId") String senderSessionId, 
-			Principal principal) {
+	public StompMessage exit(@DestinationVariable Long roomId, SimpMessageHeaderAccessor accessor, Principal principal) {
 		log.info("## exit, roomId = {}", roomId);
 		return StompMessage.builder()
 				.type(ChatType.EXIT)
-				.sender(getSender(principal))
-				.senderSessionId(senderSessionId)
+				.sender(getSender(principal, accessor))
+				.senderSessionId(accessor.getSessionId())
 				.content("님이 퇴장하였습니다.")
 				.build();
 	}
 	
-	private String getSender(Principal principal) {
+	private String getSender(Principal principal, SimpMessageHeaderAccessor accessor) {
 		if (principal instanceof Authentication) {
 			Authentication authentication = (Authentication) principal;
 			PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
 			return principalDetails.getNickname();
-		} 
+		}
 		
-		return "익명" + RandomStringUtils.randomNumeric(4);
+		return (String) accessor.getSessionAttributes().get("anonymousId");
 	}
 	
 }

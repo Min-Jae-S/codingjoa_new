@@ -2,7 +2,9 @@ package com.codingjoa.websocket.test;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.security.Principal;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.simp.stomp.StompCommand;
@@ -31,11 +33,12 @@ public class InboundChannelInterceptor implements ChannelInterceptor {
 		log.info("## {}", this.getClass().getSimpleName());
 		
 		StompHeaderAccessor accessor = StompHeaderAccessor.wrap(message);
+		StompCommand command = accessor.getCommand();
 		log.info("\t > messageType: {}, command: {}", accessor.getMessageType(), accessor.getCommand());
+		log.info("\t > headers: {}", FormatUtils.formatPrettyJson(message.getHeaders()));
 		
 		// inbound: CONNECT, SUBSCRIBE, SEND, DISCONNECT
-		if (accessor.getCommand() == StompCommand.SEND) {
-			//log.info("\t > headers: {}", FormatUtils.formatPrettyJson(message.getHeaders()));
+		if (StompCommand.SEND.equals(command)) {
 			if (message.getPayload() instanceof byte[]) {
 				byte[] payload = (byte[]) message.getPayload();
 				try {
@@ -46,6 +49,14 @@ public class InboundChannelInterceptor implements ChannelInterceptor {
 				} catch (IOException e) {
 					log.info("\t > {} : {}", e.getClass().getSimpleName(), e.getMessage());
 				}
+			}
+		} else if (StompCommand.CONNECT.equals(command)) {
+			Principal principal = accessor.getUser();
+			log.info("\t > principal = {}", (principal != null) ? principal.getClass().getSimpleName() : null);
+			
+			if (principal == null) {
+				String anonymousId = "익명" + RandomStringUtils.randomNumeric(4);
+				accessor.getSessionAttributes().put("anonymousId", anonymousId);
 			}
 		}
 		

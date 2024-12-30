@@ -1,7 +1,9 @@
 package com.codingjoa.websocket.test;
 
+import java.security.Principal;
 import java.util.Map;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.web.socket.WebSocketHandler;
@@ -16,6 +18,19 @@ public class WebSocketHandShakeInterceptor implements HandshakeInterceptor {
 	public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler,
 			Map<String, Object> attributes) throws Exception {
 		log.info("## {}.beforeHandshake", this.getClass().getSimpleName());
+		
+		Principal principal = request.getPrincipal();
+		log.info("\t > principal = {}", (principal != null) ? principal.getClass().getSimpleName() : null);
+		
+		if (principal == null) {
+			String anonymousId = "익명" + RandomStringUtils.randomNumeric(4);
+			attributes.put("anonymousId", anonymousId);
+		}
+		
+		log.info("\t > attributes");
+		attributes.forEach((key, value) -> {
+			log.info("\t\t - {}: {}", key, value);
+		});
 		return true;
 	}
 

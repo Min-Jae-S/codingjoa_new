@@ -179,8 +179,6 @@
 		$("#chatForm").on("submit", function(e) {
 			e.preventDefault();
 			let message = $(this).serializeObject();
-			console.log(message);
-
 			$(".chat-container").append(createMyChatHtml(message));
 			
 			if (stompClient && stompClient.connected) {
@@ -218,12 +216,12 @@
 		
 		stompClient.connect({ }, function(frame) {
 			console.log("## stompClient connection callback");
-			console.log(frame);
+			//console.log(frame);
 			
 			console.log("## stompClient subscribe");
 			let subscription = stompClient.subscribe("/sub/room/" + roomId, function(frame) { // "/sub/room/5"
 				console.log("## stompClient received message");
-				console.log(frame);
+				//console.log(frame);
 				
 				let message = JSON.parse(frame.body); 
 				console.log(JSON.stringify(message, null, 2));
@@ -235,7 +233,7 @@
 					$(".chat-container").append(chatHtml);
 				}
 			});
-			console.log(subscription);
+			console.log("\t > subcription id = %s", subscription.id);
 			
 			console.log("## send enter message");
 			stompClient.send("/pub/enter/room/" + roomId, { }, '');

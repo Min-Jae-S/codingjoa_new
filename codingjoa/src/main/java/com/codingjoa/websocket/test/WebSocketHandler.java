@@ -5,7 +5,6 @@ import java.security.Principal;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
@@ -119,7 +118,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
 			return principalDetails.getNickname();
 		}
 		
-		return "익명" + RandomStringUtils.randomNumeric(4);
+		return (String) session.getAttributes().get("anonymousId");
 	}
 
 	@Override
