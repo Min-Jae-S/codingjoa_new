@@ -121,7 +121,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
 			return principalDetails.getNickname();
 		}
 		
-		return "익명" + RandomStringUtils.randomNumeric(6);
+		return "익명" + RandomStringUtils.randomNumeric(4);
 	}
 
 	@Override

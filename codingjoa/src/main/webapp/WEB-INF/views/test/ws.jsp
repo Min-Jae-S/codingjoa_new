@@ -252,16 +252,17 @@
 	}
 	
 	function createMyChatHtml(message) {
-		let html = '<div class="alert chat my-chat">';
+		let html = '';
+		html += '<div class="alert chat my-chat">';
 		html += '<span>' + message.content + '</span>';
 		html += '</div>';
 		return html;
 	}
 	
 	function createChatHtml(message) {
-		let html;
+		let html = '';
 		if (message.type == "TALK") {
-			if (message.sessionMatched)) {
+			if (!message.sessionMatched) {
 				html += '<div class="alert chat other-chat">';
 				html += '<span class="font-weight-bold mb-2">' + message.sender + '</span>';
 				html += '<span>' + message.content + '</span>';

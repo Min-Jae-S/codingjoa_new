@@ -182,8 +182,7 @@
 			let message = $(this).serializeObject();
 			console.log(message);
 
-			let myChatHtml = createMyChatHtml(message);
-			$(".chat-container").append(myChatHtml);
+			$(".chat-container").append(createMyChatHtml(message));
 			
 			if (stompClient && stompClient.connected) {
 				console.log("## stompClient connected, sending the message immediately");
@@ -298,7 +297,7 @@
 				console.log(message);
 			});
 		} else {
-			console.log("\t > no messageQueue");
+			console.log("\t > messageQueue empty");
 		}
 		
 		console.log("## newsClient info");
@@ -341,16 +340,17 @@
 	}
 	
 	function createMyChatHtml(message) {
-		let html = '<div class="alert chat my-chat">';
+		let html = '';
+		html += '<div class="alert chat my-chat">';
 		html += '<span>' + message.content + '</span>';
 		html += '</div>';
 		return html;
 	}
 	
 	function createChatHtml(message) {
-		let html;
+		let html = '';
 		if (message.type == "TALK") {
-			if (message.sessionMatched)) {
+			if (!message.sessionMatched) {
 				html += '<div class="alert chat other-chat">';
 				html += '<span class="font-weight-bold mb-2">' + message.sender + '</span>';
 				html += '<span>' + message.content + '</span>';
