@@ -15,6 +15,7 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import com.codingjoa.quartz.AlarmDto;
 import com.codingjoa.security.dto.PrincipalDetails;
+import com.codingjoa.util.FormatUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -41,6 +42,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
 				.sender(getSender(session))
 				.content("님이 입장하였습니다.")
 				.build();
+		log.info("\t > {}", FormatUtils.formatPrettyJson(message));
 		
 		sessions.values().forEach(s -> {
 			String receiverSessionId = s.getId();
@@ -67,6 +69,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
 				.sender(getSender(session))
 				.content("님이 퇴장하였습니다.")
 				.build();
+		log.info("\t > {}", FormatUtils.formatPrettyJson(message));
 		
 		sessions.values().forEach(s -> {
 			String receiverSessionId = s.getId();
@@ -85,6 +88,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
 		log.info("## {}.handleTextMessage", this.getClass().getSimpleName());
 		WebSocketMessage message = objectMapper.readValue(textMessage.getPayload(), WebSocketMessage.class);
 		message.setSender(getSender(session));
+		log.info("\t > {}", FormatUtils.formatPrettyJson(message));
 		
 		String senderSessionId = session.getId();
 		

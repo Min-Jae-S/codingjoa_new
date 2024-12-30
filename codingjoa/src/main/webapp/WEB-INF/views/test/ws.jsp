@@ -193,7 +193,7 @@
 		socket.onmessage = function(result) {
 			console.log("## ws received message");
 			let message = JSON.parse(result.data);
-			console.log(JSON.stringify(chatMessage, null, 2));
+			console.log(JSON.stringify(message, null, 2));
 			
 			if (message.type == "PUSH") {
 				alert(message.content);
@@ -270,7 +270,7 @@
 			}
 		} else {
 			html = '<div class="alert alert-secondary text-center">';
-			html += '<span class="font-weight-bold mr-2">' + message.sender + '</span>' + message.content;
+			html += '<span class="font-weight-bold mr-1">' + message.sender + '</span>' + message.content;
 			html += '</div>';
 		}
 		

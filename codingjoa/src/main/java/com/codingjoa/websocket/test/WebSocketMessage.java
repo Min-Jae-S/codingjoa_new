@@ -16,7 +16,7 @@ public class WebSocketMessage {
 	private String sender;
 	private boolean sessionMatched;
 	private Object content;
-	private LocalDateTime timestamp = LocalDateTime.now();
+	private LocalDateTime timestamp;
 	
 	public void setSender(String sender) {
 		this.sender = sender;
@@ -32,7 +32,7 @@ public class WebSocketMessage {
 		this.sender = sender;
 		this.sessionMatched = sessionMatched;
 		this.content = content;
-		this.timestamp = timestamp;
+		this.timestamp = timestamp != null ? timestamp : LocalDateTime.now();
 	}
 	
 }
