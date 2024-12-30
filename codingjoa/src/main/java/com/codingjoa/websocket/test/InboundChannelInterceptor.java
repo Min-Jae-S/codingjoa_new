@@ -35,7 +35,7 @@ public class InboundChannelInterceptor implements ChannelInterceptor {
 		StompHeaderAccessor accessor = StompHeaderAccessor.wrap(message);
 		StompCommand command = accessor.getCommand();
 		log.info("\t > messageType: {}, command: {}", accessor.getMessageType(), accessor.getCommand());
-		log.info("\t > headers: {}", FormatUtils.formatPrettyJson(message.getHeaders()));
+		//log.info("\t > headers: {}", FormatUtils.formatPrettyJson(message.getHeaders()));
 		
 		// inbound: CONNECT, SUBSCRIBE, SEND, DISCONNECT
 		if (StompCommand.SEND.equals(command)) {
@@ -52,11 +52,12 @@ public class InboundChannelInterceptor implements ChannelInterceptor {
 			}
 		} else if (StompCommand.CONNECT.equals(command)) {
 			Principal principal = accessor.getUser();
-			log.info("\t > principal = {}", (principal != null) ? principal.getClass().getSimpleName() : null);
-			
 			if (principal == null) {
 				String anonymousId = "익명" + RandomStringUtils.randomNumeric(4);
 				accessor.getSessionAttributes().put("anonymousId", anonymousId);
+				log.info("\t > principal = {}, assigned anonymousId: {}", principal, anonymousId);
+			} else {
+				log.info("\t > principal = {}, authenticated user: {}", principal.getClass().getSimpleName(), principal.getName());
 			}
 		}
 		

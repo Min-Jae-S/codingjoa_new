@@ -41,6 +41,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
 				.content("님이 입장하였습니다.")
 				.build();
 
+		log.info("\t > send enter message to sessions");
 		sessions.forEach((receiverId, s) -> {
 			message.setSessionMatched(receiverId.equals(senderId));
 			try {
@@ -57,12 +58,15 @@ public class WebSocketHandler extends TextWebSocketHandler {
 		log.info("## {}.afterConnectionClosed", this.getClass().getSimpleName());
 		
 		String senderId = session.getId();
+		sessions.remove(senderId);
+		
 		WebSocketMessage message = WebSocketMessage.builder()
 				.type(ChatType.EXIT)
 				.sender(getSender(session))
 				.content("님이 퇴장하였습니다.")
 				.build();
 		
+		log.info("\t > send exit message to sessions");
 		sessions.forEach((receiverId, s) -> {
 			message.setSessionMatched(receiverId.equals(senderId));
 			try {
@@ -72,8 +76,6 @@ public class WebSocketHandler extends TextWebSocketHandler {
 				// throw e
 			}
 		});
-		
-		sessions.remove(senderId);
 	}
 	
 	@Override

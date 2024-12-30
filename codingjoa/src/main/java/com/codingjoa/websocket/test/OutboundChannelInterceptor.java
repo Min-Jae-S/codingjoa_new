@@ -6,6 +6,7 @@ import java.nio.charset.StandardCharsets;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.simp.SimpMessageType;
+import org.springframework.messaging.simp.stomp.StompCommand;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.ChannelInterceptor;
 import org.springframework.messaging.support.MessageBuilder;
@@ -34,10 +35,12 @@ public class OutboundChannelInterceptor implements ChannelInterceptor {
 		//ExecutorSubscribableChannel channel = (ExecutorSubscribableChannel) messageChannel;
 		
 		StompHeaderAccessor accessor = StompHeaderAccessor.wrap(message);
-		log.info("\t > messageType: {}, command: {}", accessor.getMessageType(), accessor.getCommand());
+		SimpMessageType messageType = accessor.getMessageType();
+		StompCommand command = accessor.getCommand();
+		log.info("\t > messageType: {}, command: {}", messageType, command);
 		
 		// outbound: CONNECT_ACK, DISCONNECT_ACK, MESSAGE, ERROR
-		if (accessor.getMessageType() == SimpMessageType.MESSAGE) {
+		if (SimpMessageType.MESSAGE.equals(messageType)) {
 			if (message.getPayload() instanceof byte[]) {
 				byte[] originalPayload = (byte[]) message.getPayload();
 				try {

@@ -20,17 +20,14 @@ public class WebSocketHandShakeInterceptor implements HandshakeInterceptor {
 		log.info("## {}.beforeHandshake", this.getClass().getSimpleName());
 		
 		Principal principal = request.getPrincipal();
-		log.info("\t > principal = {}", (principal != null) ? principal.getClass().getSimpleName() : null);
-		
 		if (principal == null) {
 			String anonymousId = "익명" + RandomStringUtils.randomNumeric(4);
 			attributes.put("anonymousId", anonymousId);
+			log.info("\t > principal = {}, assigned anonymousId: {}", principal, anonymousId);
+		} else {
+			log.info("\t > principal = {}, authenticated user: {}", principal.getClass().getSimpleName(), principal.getName());
 		}
 		
-		log.info("\t > attributes");
-		attributes.forEach((key, value) -> {
-			log.info("\t\t - {}: {}", key, value);
-		});
 		return true;
 	}
 
