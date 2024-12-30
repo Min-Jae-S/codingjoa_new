@@ -99,7 +99,6 @@
 			<form id="chatForm">
 				<div class="test">
 					<div class="input w-70">
-						<input class="form-control" type="hidden" name="type" value="talk">
 						<input class="form-control" type="text" name="content" placeholder="message">
 					</div>
 					<button type="submit" class="btn btn-primary btn-lg" id="sendMessageBtn" disabled>send</button>
@@ -222,9 +221,6 @@
 			console.log("## stompClient connection callback");
 			console.log(frame);
 			
-			console.log("## send enter message");
-			stompClient.send("/pub/enter/room/" + roomId, { }, '');
-			
 			console.log("## stompClient subscribe");
 			let subscription = stompClient.subscribe("/sub/room/" + roomId, function(frame) { // "/sub/room/5"
 				console.log("## stompClient received message");
@@ -241,6 +237,9 @@
 				}
 			});
 			//console.log(subscription);
+			
+			console.log("## send enter message");
+			stompClient.send("/pub/enter/room/" + roomId, { }, '');
 			
 			if (messageQueue.length == 0) {
 				return;
