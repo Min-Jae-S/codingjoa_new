@@ -17,17 +17,15 @@ public class StompMessage {
 	private String senderSessionId;
 	private Boolean sessionMatched;
 	private Object content;
-	private LocalDateTime timestamp;
+	private LocalDateTime timestamp = LocalDateTime.now();
 
 	@Builder(toBuilder = true)
-	public StompMessage(ChatType type, String sender, String senderSessionId, Boolean sessionMatched, Object content,
-			LocalDateTime timestamp) {
+	public StompMessage(ChatType type, String sender, String senderSessionId, Boolean sessionMatched, Object content) {
 		this.type = type;
 		this.sender = sender;
 		this.senderSessionId = senderSessionId;
 		this.sessionMatched = sessionMatched;
 		this.content = content;
-		this.timestamp = timestamp != null ? timestamp : LocalDateTime.now();
 	}
 	
 }

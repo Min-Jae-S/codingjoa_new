@@ -14,25 +14,24 @@ public class WebSocketMessage {
 	
 	private ChatType type;
 	private String sender;
-	private boolean sessionMatched;
+	private Boolean sessionMatched;
 	private Object content;
-	private LocalDateTime timestamp;
+	private LocalDateTime timestamp = LocalDateTime.now();
 	
 	public void setSender(String sender) {
 		this.sender = sender;
 	}
 	
-	public void setSessionMatched(boolean sessionMatched) {
+	public void setSessionMatched(Boolean sessionMatched) {
 		this.sessionMatched = sessionMatched;
 	}
 
 	@Builder
-	public WebSocketMessage(ChatType type, String sender, boolean sessionMatched, Object content, LocalDateTime timestamp) {
+	public WebSocketMessage(ChatType type, String sender, Boolean sessionMatched, Object content) {
 		this.type = type;
 		this.sender = sender;
 		this.sessionMatched = sessionMatched;
 		this.content = content;
-		this.timestamp = timestamp != null ? timestamp : LocalDateTime.now();
 	}
 	
 }

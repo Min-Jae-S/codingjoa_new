@@ -349,16 +349,18 @@
 	
 	function createChatHtml(message) {
 		let html = '';
+		if (message.sessionMatched) {
+			return html;
+		}
+		
 		if (message.type == "TALK") {
-			if (!message.sessionMatched) {
-				html += '<div class="alert chat other-chat">';
-				html += '<span class="font-weight-bold mb-2">' + message.sender + '</span>';
-				html += '<span>' + message.content + '</span>';
-				html += '</div>';
-			}
+			html += '<div class="alert chat other-chat">';
+			html += '<span class="font-weight-bold mb-2">' + message.sender + '</span>';
+			html += '<span>' + message.content + '</span>';
+			html += '</div>';
 		} else {
-			html = '<div class="alert alert-secondary text-center">';
-			html += '<span class="font-weight-bold mr-2">' + message.sender + "</span>" + message.content;
+			html += '<div class="alert alert-secondary text-center">';
+			html += '<span class="font-weight-bold mr-1">' + message.sender + '</span>' + message.content;
 			html += '</div>';
 		}
 		
