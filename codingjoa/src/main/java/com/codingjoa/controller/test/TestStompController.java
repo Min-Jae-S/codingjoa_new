@@ -54,26 +54,22 @@ public class TestStompController {
 	
 	@MessageMapping("/enter/room/{roomId}")
 	@SendTo("/sub/room/{roomId}")
-	public StompMessage enter(@DestinationVariable Long roomId, @Header("simpSessionId") String senderSessionId,
-			Principal principal) {
+	public StompMessage enter(@DestinationVariable Long roomId, Principal principal) {
 		log.info("## enter, roomId = {}", roomId);
 		return StompMessage.builder()
 				.type(ChatType.ENTER)
 				.sender(getSender(principal))
-				.senderSessionId(senderSessionId)
 				.content("님이 입장하였습니다.")
 				.build();
 	}
 
 	@MessageMapping("/exit/room/{roomId}")
 	@SendTo("/sub/room/{roomId}")
-	public StompMessage exit(@DestinationVariable Long roomId, @Header("simpSessionId") String senderSessionId, 
-			Principal principal) {
+	public StompMessage exit(@DestinationVariable Long roomId, Principal principal) {
 		log.info("## exit, roomId = {}", roomId);
 		return StompMessage.builder()
 				.type(ChatType.EXIT)
 				.sender(getSender(principal))
-				.senderSessionId(senderSessionId)
 				.content("님이 퇴장하였습니다.")
 				.build();
 	}

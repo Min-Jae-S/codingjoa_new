@@ -33,6 +33,7 @@ public class OutboundChannelInterceptor implements ChannelInterceptor {
 		log.info("## {}", this.getClass().getSimpleName());
 		//ExecutorSubscribableChannel channel = (ExecutorSubscribableChannel) messageChannel;
 		
+		StompMessage modifiedMessage = null;
 		StompHeaderAccessor accessor = StompHeaderAccessor.wrap(message);
 		log.info("\t > messageType: {}, command: {}", accessor.getMessageType(), accessor.getCommand());
 		
@@ -46,11 +47,15 @@ public class OutboundChannelInterceptor implements ChannelInterceptor {
 					log.info("\t > chatType = {}", stompMessage.getType());
 					
 					// determine if sender and receiver sessionId match
-					String senderSessionId = stompMessage.getSenderSessionId();
-					String receiverSessionId = accessor.getSessionId();
-					StompMessage modifiedMessage = stompMessage.toBuilder()
-							.sessionMatched((receiverSessionId.equals(senderSessionId)))
-							.build();
+					if (stompMessage.getType() == ChatType.TALK) {
+						String senderSessionId = stompMessage.getSenderSessionId();
+						String receiverSessionId = accessor.getSessionId();
+						modifiedMessage = stompMessage.toBuilder()
+								.sessionMatched((receiverSessionId.equals(senderSessionId)))
+								.build();
+					} else {
+						modifiedMessage = stompMessage;
+					}
 					
 					byte[] modifiedPayload = localMapper.writeValueAsBytes(modifiedMessage);
 					log.info("\t > modified payload: {}", FormatUtils.formatPrettyJson(modifiedPayload));
