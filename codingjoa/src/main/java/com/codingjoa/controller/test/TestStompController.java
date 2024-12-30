@@ -10,7 +10,6 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.messaging.simp.annotation.SubscribeMapping;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 
@@ -46,20 +45,11 @@ public class TestStompController {
 	public StompMessage chat(@DestinationVariable Long roomId, @Payload StompMessage stompMessage, 
 			@Header("simpSessionId") String senderSessionId, Principal principal) {
 		log.info("## chat, roomId = {}", roomId);
-		log.info("\t > senderSessionId = {}", senderSessionId);
-		log.info("\t > principal = {}", principal);
-		
 		return stompMessage.toBuilder()
 				.type(ChatType.TALK)
 				.sender(getSender(principal))
 				.senderSessionId(senderSessionId)
 				.build();
-	}
-	
-	@SubscribeMapping("/sub/room/{roomId}")
-	public String subscription(@DestinationVariable Long roomId) {
-		log.info("## subscription, roomId = {}", roomId);
-		return "success";
 	}
 	
 	@MessageMapping("/enter/room/{roomId}")

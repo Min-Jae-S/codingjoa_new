@@ -207,9 +207,8 @@
 	});
 	
 	function connect() {
-		console.log("## connect");
 		if (stompClient && stompClient.connected) {
-			console.log("\t > stompClient already connected");
+			console.log("## stompClient already connected");
 			return;
 		}
 		
@@ -236,7 +235,7 @@
 					$(".chat-container").append(chatHtml);
 				}
 			});
-			//console.log(subscription);
+			console.log(subscription);
 			
 			console.log("## send enter message");
 			stompClient.send("/pub/enter/room/" + roomId, { }, '');
@@ -245,7 +244,7 @@
 				return;
 			}
 			
-			console.log("## messageQueue");
+			console.log("## send queued message");
 			while (messageQueue.length > 0) {
 		 		let queuedMessage = messageQueue.shift();
 		 		console.log(JSON.stringify(queuedMessage, null, 2));
@@ -269,18 +268,11 @@
 			return;
 		}
 		
-		stompClient.disconnect(() => {
-			console.log("## stompClient disconnection callback");
-			if (stompClient) {
-				if (stompClient.connected) {
-					console.log("\t > stompClient connected");
-				} else {
-					console.log("\t > stompClient disconnected");
-				}
-			} else {
-				console.log("\t > no stompClient");
-			}
-		});
+		console.log("## send exit message");
+		stompClient.send("/pub/exit/room/" + roomId, { }, '');
+		
+		console.log("## disconnect stompClient");
+		stompClient.disconnect();
 	}
 	
 	function info() {
