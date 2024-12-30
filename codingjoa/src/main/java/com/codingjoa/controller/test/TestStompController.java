@@ -14,6 +14,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 
 import com.codingjoa.security.dto.PrincipalDetails;
+import com.codingjoa.websocket.test.ChatType;
 import com.codingjoa.websocket.test.StompMessage;
 
 import lombok.RequiredArgsConstructor;
@@ -39,11 +40,11 @@ public class TestStompController {
 		template.convertAndSend("/sub/news", payload);
 	}
 	
-	@MessageMapping("/room/{roomId}")
+	@MessageMapping("/chat/room/{roomId}")
 	@SendTo("/sub/room/{roomId}")
 	public StompMessage chat(@DestinationVariable Long roomId, @Payload StompMessage stompMessage, 
 			@Header("simpSessionId") String senderSessionId, Principal principal) {
-		log.info("## chat");
+		log.info("## chat, roomId = {}", roomId);
 		log.info("\t > senderSessionId = {}", senderSessionId);
 		log.info("\t > principal = {}", principal);
 		
@@ -53,15 +54,28 @@ public class TestStompController {
 				.build();
 	}
 	
-	@MessageMapping("/room/enter")
-	public void enter(@Payload StompMessage stompMessage, @Header("simpSessionId") String senderSessionId,
-			Principal principal) {
-		log.info("## enter");
-//		return stompMessage.toBuilder()
-//				.sender(getSender(principal))
-//				.senderSessionId(senderSessionId)
-//				.content("님이 입장하였습니다.")
-//				.build();
+	@MessageMapping("/enter/room/{roomId}")
+	@SendTo("/sub/room/{roomId}")
+	public StompMessage enter(@DestinationVariable Long roomId, Principal principal) {
+		log.info("## enter, roomId = {}", roomId);
+		return StompMessage.builder()
+				.type(ChatType.ENTER)
+				.sender(getSender(principal))
+				.sessionMatched(false)
+				.content("님이 입장하였습니다.")
+				.build();
+	}
+
+	@MessageMapping("/exit/room/{roomId}")
+	@SendTo("/sub/room/{roomId}")
+	public StompMessage exit(@DestinationVariable Long roomId, Principal principal) {
+		log.info("## exit, roomId = {}", roomId);
+		return StompMessage.builder()
+				.type(ChatType.ENTER)
+				.sender(getSender(principal))
+				.sessionMatched(false)
+				.content("님이 퇴장하였습니다.")
+				.build();
 	}
 	
 	private String getSender(Principal principal) {

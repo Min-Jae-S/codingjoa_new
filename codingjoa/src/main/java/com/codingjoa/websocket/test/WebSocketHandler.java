@@ -34,48 +34,44 @@ public class WebSocketHandler extends TextWebSocketHandler {
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 		log.info("## {}.afterConnectionEstablished", this.getClass().getSimpleName());
 		
-		String senderSessionId = session.getId();
-		sessions.put(senderSessionId, session);
-		
 		WebSocketMessage message = WebSocketMessage.builder()
 				.type(ChatType.ENTER)
 				.sender(getSender(session))
+				.sessionMatched(false)
 				.content("님이 입장하였습니다.")
 				.build();
-		log.info("\t > {}", FormatUtils.formatPrettyJson(message));
+		
+		String json = objectMapper.writeValueAsString(message);
+		log.info("\t > {}", FormatUtils.formatPrettyJson(json));
 		
 		sessions.values().forEach(s -> {
-			String receiverSessionId = s.getId();
-			message.setSessionMatched(receiverSessionId.equals(senderSessionId));
-			
 			try {
-				String json = objectMapper.writeValueAsString(message);
 				s.sendMessage(new TextMessage(json));
 			} catch (Exception e) {
 				// throw e
 			}
 		});
+		
+		sessions.put(session.getId(), session);
 	}
 	
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
 		log.info("## {}.afterConnectionClosed", this.getClass().getSimpleName());
-		
-		String senderSessionId = session.getId();
-		sessions.remove(senderSessionId);
+		sessions.remove(session.getId());
 		
 		WebSocketMessage message = WebSocketMessage.builder()
 				.type(ChatType.EXIT)
 				.sender(getSender(session))
 				.content("님이 퇴장하였습니다.")
+				.sessionMatched(false)
 				.build();
-		log.info("\t > {}", FormatUtils.formatPrettyJson(message));
+		
+		String json = objectMapper.writeValueAsString(message);
+		log.info("\t > {}", FormatUtils.formatPrettyJson(json));
 		
 		sessions.values().forEach(s -> {
-			String receiverSessionId = s.getId();
-			message.setSessionMatched(receiverSessionId.equals(senderSessionId));
 			try {
-				String json = objectMapper.writeValueAsString(message);
 				s.sendMessage(new TextMessage(json));
 			} catch (Exception e) {
 				// throw e

@@ -32,6 +32,7 @@ public class OutboundChannelInterceptor implements ChannelInterceptor {
 	@Override
 	public Message<?> preSend(Message<?> message, MessageChannel messageChannel) {
 		log.info("## {}", this.getClass().getSimpleName());
+		log.info("\t > channel = {}", messageChannel.getClass().getSimpleName());
 		
 		StompHeaderAccessor accessor = StompHeaderAccessor.wrap(message);
 		SimpMessageType messageType = accessor.getMessageType();
@@ -45,19 +46,22 @@ public class OutboundChannelInterceptor implements ChannelInterceptor {
 				try {
 					// deserialize the payload into ChatMessage
 					StompMessage stompMessage = localMapper.readValue(originalPayload, StompMessage.class);
+					log.info("\t > chatType = {}", stompMessage.getType());
 					
-					// determine if sender and receiver sessionId match
-					String senderSessionId = stompMessage.getSenderSessionId();
-					String receiverSessionId = accessor.getSessionId();
-					StompMessage modifiedMessage = stompMessage.toBuilder()
-							.sessionMatched((receiverSessionId.equals(senderSessionId)))
-							.build();
-					
-					byte[] modifiedPayload = localMapper.writeValueAsBytes(modifiedMessage);
-					log.info("\t > modified payload: {}", FormatUtils.formatPrettyJson(modifiedPayload));
-					
-					// return the message with the modified payload
-					return MessageBuilder.createMessage(modifiedPayload, message.getHeaders());
+					if (stompMessage.getType() == ChatType.TALK) {
+						// determine if sender and receiver sessionId match
+						String senderSessionId = stompMessage.getSenderSessionId();
+						String receiverSessionId = accessor.getSessionId();
+						StompMessage modifiedMessage = stompMessage.toBuilder()
+								.sessionMatched((receiverSessionId.equals(senderSessionId)))
+								.build();
+						
+						byte[] modifiedPayload = localMapper.writeValueAsBytes(modifiedMessage);
+						log.info("\t > modified payload: {}", FormatUtils.formatPrettyJson(modifiedPayload));
+						
+						// return the message with the modified payload
+						return MessageBuilder.createMessage(modifiedPayload, message.getHeaders());
+					}
 				} catch (JsonProcessingException e) {
 					log.info("\t > payload: {}", new String(originalPayload, StandardCharsets.UTF_8));
 				} catch (IOException e) {

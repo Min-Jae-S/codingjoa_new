@@ -144,7 +144,7 @@
 			
 			let	socket = new WebSocket(url);
 			newsClient = Stomp.over(socket);
-			newsClient.debug = false;
+			newsClient.debug = null;
 			
 			newsClient.connect({ }, function(frame) {
 				console.log("## newsClient connection callback");
@@ -185,7 +185,7 @@
 			$(".chat-container").append(createMyChatHtml(message));
 			
 			if (stompClient && stompClient.connected) {
-				console.log("## stompClient connected, sending the message immediately");
+				console.log("## stompClient already connected, sending the message immediately");
 				sendMessage(message);
 			} else {
 				console.log("## stompClient disconnected, queuing the message and attempting to connect");
@@ -221,6 +221,9 @@
 		stompClient.connect({ }, function(frame) {
 			console.log("## stompClient connection callback");
 			console.log(frame);
+			
+			console.log("## send enter message");
+			stompClient.send("/pub/enter/room/" + roomId, { }, '');
 			
 			console.log("## stompClient subscribe");
 			let subscription = stompClient.subscribe("/sub/room/" + roomId, function(frame) { // "/sub/room/5"
@@ -311,9 +314,9 @@
 	}
 	
 	function sendMessage(message) {
-		console.log("## send message");
+		console.log("## send chat message");
 		let json = JSON.stringify(message);
-		stompClient.send("/pub/room/" + roomId, { }, json); // { "content-type" : "application/json;charset=utf-8" }
+		stompClient.send("/pub/chat/room/" + roomId, { }, json); // { "content-type" : "application/json;charset=utf-8" }
 	}
 	
 	function isEmpty(obj) {
