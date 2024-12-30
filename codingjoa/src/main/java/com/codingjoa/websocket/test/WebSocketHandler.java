@@ -15,7 +15,6 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import com.codingjoa.quartz.AlarmDto;
 import com.codingjoa.security.dto.PrincipalDetails;
-import com.codingjoa.util.FormatUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -34,65 +33,64 @@ public class WebSocketHandler extends TextWebSocketHandler {
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 		log.info("## {}.afterConnectionEstablished", this.getClass().getSimpleName());
 		
+		String senderId = session.getId();
+		sessions.put(senderId, session);
+		
 		WebSocketMessage message = WebSocketMessage.builder()
 				.type(ChatType.ENTER)
 				.sender(getSender(session))
-				.sessionMatched(false)
 				.content("님이 입장하였습니다.")
 				.build();
-		
-		String json = objectMapper.writeValueAsString(message);
-		log.info("\t > {}", FormatUtils.formatPrettyJson(json));
-		
-		sessions.values().forEach(s -> {
+
+		sessions.forEach((receiverId, s) -> {
+			message.setSessionMatched(receiverId.equals(senderId));
 			try {
+				String json = objectMapper.writeValueAsString(message);
 				s.sendMessage(new TextMessage(json));
 			} catch (Exception e) {
 				// throw e
 			}
 		});
-		
-		sessions.put(session.getId(), session);
 	}
 	
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
 		log.info("## {}.afterConnectionClosed", this.getClass().getSimpleName());
-		sessions.remove(session.getId());
 		
+		String senderId = session.getId();
 		WebSocketMessage message = WebSocketMessage.builder()
 				.type(ChatType.EXIT)
 				.sender(getSender(session))
 				.content("님이 퇴장하였습니다.")
-				.sessionMatched(false)
 				.build();
 		
-		String json = objectMapper.writeValueAsString(message);
-		log.info("\t > {}", FormatUtils.formatPrettyJson(json));
-		
-		sessions.values().forEach(s -> {
+		sessions.forEach((receiverId, s) -> {
+			message.setSessionMatched(receiverId.equals(senderId));
 			try {
+				String json = objectMapper.writeValueAsString(message);
 				s.sendMessage(new TextMessage(json));
 			} catch (Exception e) {
 				// throw e
 			}
 		});
+		
+		sessions.remove(senderId);
 	}
 	
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage textMessage) throws Exception {
 		log.info("## {}.handleTextMessage", this.getClass().getSimpleName());
+		String senderId = session.getId();
 		WebSocketMessage message = objectMapper.readValue(textMessage.getPayload(), WebSocketMessage.class);
-		message.setSender(getSender(session));
-		log.info("\t > {}", FormatUtils.formatPrettyJson(message));
+		WebSocketMessage modifiedMessage = message.toBuilder()
+				.type(ChatType.TALK)
+				.sender(getSender(session))
+				.build();
 		
-		String senderSessionId = session.getId();
-		
-		sessions.values().forEach(s -> {
-			String receiverSessionId = s.getId();
-			message.setSessionMatched(receiverSessionId.equals(senderSessionId));
+		sessions.forEach((receiverId, s) -> {
+			modifiedMessage.setSessionMatched(receiverId.equals(senderId));
 			try {
-				String json = objectMapper.writeValueAsString(message);
+				String json = objectMapper.writeValueAsString(modifiedMessage);
 				s.sendMessage(new TextMessage(json));
 			} catch (Exception e) {
 				// throw e

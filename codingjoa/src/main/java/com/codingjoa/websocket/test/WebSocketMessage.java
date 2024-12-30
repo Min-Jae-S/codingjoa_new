@@ -18,15 +18,11 @@ public class WebSocketMessage {
 	private Object content;
 	private LocalDateTime timestamp = LocalDateTime.now();
 	
-	public void setSender(String sender) {
-		this.sender = sender;
-	}
-	
 	public void setSessionMatched(Boolean sessionMatched) {
 		this.sessionMatched = sessionMatched;
 	}
 
-	@Builder
+	@Builder(toBuilder = true)
 	public WebSocketMessage(ChatType type, String sender, Boolean sessionMatched, Object content) {
 		this.type = type;
 		this.sender = sender;
