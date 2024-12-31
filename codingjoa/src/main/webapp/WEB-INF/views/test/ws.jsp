@@ -50,21 +50,26 @@
 		flex-direction: column;
 	}
 	
-	div.other-chat {
-		background-color: #fff;
-   	 	border: 1px solid rgba(0, 0, 0, .125);
-   	 	border-radius: 5px;
-   	 	max-width: 45%;
-   	 	margin-bottom: 1.25rem;
+	div.chat-alert {
+		border-radius: 10px !important;
+		margin-bottom: 1.35rem !important;
 	}
 	
-	div.my-chat {
+	div.chat-others {
+		background-color: #fff;
+   	 	border: 1px solid rgba(0, 0, 0, .125);
+   	 	border-radius: 10px;
+   	 	max-width: 45%;
+   	 	margin-bottom: 1.35rem;
+	}
+	
+	div.chat-mine {
 		background-color: #fff3cd;
    	 	border-color: #ffeeba;
-   	 	border-radius: 5px;
+   	 	border-radius: 10px;
    	 	margin-left: auto;
    	 	max-width: 45%;
-   	 	margin-bottom: 1.25rem;
+   	 	margin-bottom: 1.35rem;
 	}
 	
 	.w-70 {
@@ -252,7 +257,7 @@
 	
 	function createMyChatHtml(message) {
 		let html = '';
-		html += '<div class="alert chat my-chat">';
+		html += '<div class="alert chat chat-mine">';
 		html += '<span>' + message.content + '</span>';
 		html += '</div>';
 		return html;
@@ -262,13 +267,14 @@
 		let html = '';
 		if (message.type == "TALK") {
 			if (!message.sessionMatched) {
-				html += '<div class="alert chat other-chat">';
+				html += '<div class="alert chat chat-others">';
 				html += '<span class="font-weight-bold mb-2">' + message.sender + '</span>';
 				html += '<span>' + message.content + '</span>';
 				html += '</div>';
 			}
 		} else {
-			html += '<div class="alert alert-secondary text-center">';
+			html += '<div class="alert alert-secondary text-center chat-alert ">';
+			let sender = message.sessionMatched ? message.sender + '(나)' : message.sender;
 			html += '<span class="font-weight-bold mr-1">' + message.sender + '</span>' + message.content;
 			html += '</div>';
 		}

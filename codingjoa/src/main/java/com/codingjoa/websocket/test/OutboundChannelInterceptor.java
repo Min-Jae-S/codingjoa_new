@@ -9,6 +9,7 @@ import org.springframework.messaging.simp.SimpMessageType;
 import org.springframework.messaging.simp.stomp.StompCommand;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.ChannelInterceptor;
+import org.springframework.messaging.support.ExecutorSubscribableChannel;
 import org.springframework.messaging.support.MessageBuilder;
 
 import com.codingjoa.util.FormatUtils;
@@ -32,7 +33,8 @@ public class OutboundChannelInterceptor implements ChannelInterceptor {
 	@Override
 	public Message<?> preSend(Message<?> message, MessageChannel messageChannel) {
 		log.info("## {}", this.getClass().getSimpleName());
-		//ExecutorSubscribableChannel channel = (ExecutorSubscribableChannel) messageChannel;
+		ExecutorSubscribableChannel channel = (ExecutorSubscribableChannel) messageChannel;
+		log.info("\t > subscribers = {}", channel.getSubscribers());
 		
 		StompHeaderAccessor accessor = StompHeaderAccessor.wrap(message);
 		SimpMessageType messageType = accessor.getMessageType();

@@ -11,6 +11,7 @@ import org.springframework.messaging.simp.stomp.StompCommand;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.ChannelInterceptor;
 
+import com.codingjoa.security.dto.PrincipalDetails;
 import com.codingjoa.util.FormatUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -57,7 +58,8 @@ public class InboundChannelInterceptor implements ChannelInterceptor {
 				accessor.getSessionAttributes().put("anonymousId", anonymousId);
 				log.info("\t > principal = {}, assigned anonymousId: {}", principal, anonymousId);
 			} else {
-				log.info("\t > principal = {}, authenticated user: {}", principal.getClass().getSimpleName(), principal.getName());
+				log.info("\t > principal = {}, authenticated user: {}", 
+						principal.getClass().getSimpleName(), ((PrincipalDetails) principal).getNickname());
 			}
 		}
 		

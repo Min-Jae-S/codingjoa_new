@@ -9,6 +9,8 @@ import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.server.HandshakeInterceptor;
 
+import com.codingjoa.security.dto.PrincipalDetails;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -25,7 +27,8 @@ public class WebSocketHandShakeInterceptor implements HandshakeInterceptor {
 			attributes.put("anonymousId", anonymousId);
 			log.info("\t > principal = {}, assigned anonymousId: {}", principal, anonymousId);
 		} else {
-			log.info("\t > principal = {}, authenticated user: {}", principal.getClass().getSimpleName(), principal.getName());
+			log.info("\t > principal = {}, authenticated user: {}", 
+					principal.getClass().getSimpleName(), ((PrincipalDetails) principal).getNickname());
 		}
 		
 		return true;

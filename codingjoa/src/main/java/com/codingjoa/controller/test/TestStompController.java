@@ -8,7 +8,6 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 
 import com.codingjoa.security.dto.PrincipalDetails;
@@ -75,10 +74,8 @@ public class TestStompController {
 	}
 	
 	private String getSender(Principal principal, SimpMessageHeaderAccessor accessor) {
-		if (principal instanceof Authentication) {
-			Authentication authentication = (Authentication) principal;
-			PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
-			return principalDetails.getNickname();
+		if (principal instanceof PrincipalDetails) {
+			return ((PrincipalDetails) principal).getNickname();
 		}
 		
 		return (String) accessor.getSessionAttributes().get("anonymousId");
