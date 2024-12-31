@@ -90,7 +90,7 @@
 	</div>
 	<div class="mb-5 px-5 d-flex">
 		<button type="button" class="btn btn-primary btn-lg test-btn mr-4" id="broadcastBtn">broadcast</button>
-		<input class="form-control w-70" type="text" name="broadcast" placeholder="broadcast">
+		<input class="form-control w-70" type="text" name="broadcast">
 	</div>
 	<div class="mb-5 px-5">
 		<button type="button" class="btn btn-warning btn-lg test-btn mr-4" id="enterBtn">enter</button>
@@ -142,7 +142,7 @@
 			}
 			
 			if (broadcastClient && broadcastClient.connected) {
-				newsClient.send("/pub/broadcast", { }, broadcast); // { "content-type" : "text/plain;charset=utf-8" }
+				broadcastClient.send("/pub/broadcast", { }, broadcast); // { "content-type" : "application/json;charset=utf-8" }
 				return;
 			}
 			
@@ -159,23 +159,26 @@
 					console.log("## broadcastClient received message");
 					console.log(frame);
 					
-					let message = JSON.parse(frame.body); 
-					console.log(JSON.stringify(message, null, 2));
-					
-					if (message.type == "BROADCAST") {
+					try {
+						let message = JSON.parse(frame.body); 
+						console.log(JSON.stringify(message, null, 2));
+						
 						let sender = message.sessionMatched ? message.sender + '(나)' : message.sender;
-						alert(sender + " 님의 broadcast:\n" + message.content);
+						alert(sender + " 님의 broadcast: " + message.content);
+					} catch(e) {
+						console.log(e);
+						alert(frame.boady);
 					}
 				});
 				//console.log(subscription);
 				
-				newsClient.send("/pub/broadcast", { }, broadcast); //  { "content-type" : "text/plain;charset=utf-8" }
+				broadcastClient.send("/pub/broadcast", { }, broadcast); //  { "content-type" : "application/json;charset=utf-8" }
 			});
 		});
 		
-		$("input[name='broadcastClient']").on("keydown", function(e) {
+		$("input[name='broadcast']").on("keydown", function(e) {
 			if (e.keyCode == 13) {
-				$("#broadcastClientBtn").trigger("click");
+				$("#broadcastBtn").trigger("click");
 			}
 		});
 
@@ -239,12 +242,8 @@
 				let message = JSON.parse(frame.body); 
 				console.log(JSON.stringify(message, null, 2));
 				
-				if (message.type == "PUSH") {
-					alert(message.content);
-				} else { // ENTER, EXIT, TALK
-					let chatHtml = createChatHtml(message);
-					$(".chat-container").append(chatHtml);
-				}
+				let chatHtml = createChatHtml(message);
+				$(".chat-container").append(chatHtml);
 			});
 			console.log("\t > subcription id = %s", subscription.id);
 			
@@ -305,13 +304,13 @@
 			console.log("\t > messageQueue empty");
 		}
 		
-		console.log("## newsClient info");
-		if (newsClient) {
-			console.log(newsClient);
-			console.log("\t > newsClient.ws readyState = %s", getReadyState(newsClient.ws));
-			console.log("\t > newsClient connected = %s", newsClient.connected);
+		console.log("## broadcastClient info");
+		if (broadcastClient) {
+			console.log(broadcastClient);
+			console.log("\t > broadcastClient.ws readyState = %s", getReadyState(broadcastClient.ws));
+			console.log("\t > broadcastClient connected = %s", broadcastClient.connected);
 		} else {
-			console.log("\t > no newsClient");
+			console.log("\t > no broadcastClient");
 		}
 	}
 	
@@ -361,13 +360,11 @@
 				html += '<span>' + message.content + '</span>';
 				html += '</div>';
 			}
-		} else if(message.type == "ENTER" || message.type == "EXIT") {
+		} else { // ENTER, EXIT
 			html += '<div class="alert alert-secondary text-center chat-alert">';
 			let sender = message.sessionMatched ? message.sender + '(나)' : message.sender;
 			html += '<span class="font-weight-bold mr-1">' + sender + '</span>' + message.content;
 			html += '</div>';
-		} else {
-			console.log("## invalid message type: %s", meesage.type);
 		}
 		
 		return html;

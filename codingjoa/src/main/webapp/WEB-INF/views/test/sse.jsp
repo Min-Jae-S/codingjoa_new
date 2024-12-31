@@ -49,6 +49,7 @@
 <div class="container my-5">
 	<p>sse.jsp</p>
 	<div class="test mb-5 px-5">
+		<button type="button" class="btn btn-primary btn-lg test-btn mr-4" id="test1Btn">test1</button>
 		<button type="button" class="btn btn-primary btn-lg test-btn mr-4" id="streamBtn">stream</button>
 		<button type="button" class="btn btn-primary btn-lg test-btn mr-4">subscribe</button>
 	</div>
@@ -59,6 +60,22 @@
 	let eventSource;
 	
 	$(function() {
+		$("#test1Btn").on("click", function() {
+			console.log("## test1");
+			$.ajax({
+				type : "GET",
+				url : "${contextPath}/test/sse/test1",
+				success : function(result) {
+					console.log("%c> SUCCESS", "color:green");
+					console.log(JSON.stringify(result, null, 2));
+				},
+				error : function(jqXHR) {
+					console.log("%c> ERROR", "color:red");
+					parseError(jqXHR);
+				}
+			});
+		});
+		
 		$("#streamBtn").on("click", function() {
 			eventSource = new EventSource(url);
 			

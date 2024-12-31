@@ -199,12 +199,8 @@
 			let message = JSON.parse(result.data);
 			console.log(JSON.stringify(message, null, 2));
 			
-			if (message.type == "PUSH") {
-				alert(message.content);
-			} else { // ENTER, EXIT, TALK
-				let chatHtml = createChatHtml(message);
-				$(".chat-container").append(chatHtml);
-			}
+			let chatHtml = createChatHtml(message);
+			$(".chat-container").append(chatHtml);
 		};
 
 		socket.onerror = function(error) {
@@ -272,7 +268,7 @@
 				html += '<span>' + message.content + '</span>';
 				html += '</div>';
 			}
-		} else {
+		} else { // ENTER, EXIT
 			html += '<div class="alert alert-secondary text-center chat-alert ">';
 			let sender = message.sessionMatched ? message.sender + '(나)' : message.sender;
 			html += '<span class="font-weight-bold mr-1">' + message.sender + '</span>' + message.content;

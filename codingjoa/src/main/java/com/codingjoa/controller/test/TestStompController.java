@@ -30,12 +30,17 @@ public class TestStompController {
 		log.info("## broadcast");
 		log.info("\t > message = {}", message);
 		
-		StompMessage payload = StompMessage.builder()
-				.type(ChatType.BROADCAST)
-				.sender(getSender(principal, accessor))
-				.senderSessionId(accessor.getSessionId())
-				.build();
-
+		String sender = getSender(principal, accessor);
+		
+//		StompMessage payload = StompMessage.builder()
+//				.type(ChatType.BROADCAST)
+//				.sender(sender)
+//				.senderSessionId(accessor.getSessionId())
+//				.content(message)
+//				.build();
+//		template.convertAndSend("/sub/broadcast", payload);
+		
+		String payload = String.format("%s 님의 broadcast: %s", sender, message);
 		template.convertAndSend("/sub/broadcast", payload);
 	}
 	
