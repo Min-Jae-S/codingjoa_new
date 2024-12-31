@@ -10,6 +10,7 @@ import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.simp.stomp.StompCommand;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.ChannelInterceptor;
+import org.springframework.security.core.Authentication;
 
 import com.codingjoa.security.dto.PrincipalDetails;
 import com.codingjoa.util.FormatUtils;
@@ -53,13 +54,15 @@ public class InboundChannelInterceptor implements ChannelInterceptor {
 			}
 		} else if (StompCommand.CONNECT.equals(command)) {
 			Principal principal = accessor.getUser();
-			if (principal == null) {
+			if (principal instanceof Authentication) {
+				Authentication authentication = (Authentication) principal;
+				PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
+				log.info("\t > principal = {} authenticated user: {}", 
+						principal.getClass().getSimpleName(), principalDetails.getNickname());
+			} else {
 				String anonymousId = "익명" + RandomStringUtils.randomNumeric(4);
 				accessor.getSessionAttributes().put("anonymousId", anonymousId);
 				log.info("\t > principal = {}, assigned anonymousId: {}", principal, anonymousId);
-			} else {
-				log.info("\t > principal = {}, authenticated user: {}", 
-						principal.getClass().getSimpleName(), ((PrincipalDetails) principal).getNickname());
 			}
 		}
 		

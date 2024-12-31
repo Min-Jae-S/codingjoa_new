@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.server.HandshakeInterceptor;
 
@@ -22,13 +23,15 @@ public class WebSocketHandShakeInterceptor implements HandshakeInterceptor {
 		log.info("## {}.beforeHandshake", this.getClass().getSimpleName());
 		
 		Principal principal = request.getPrincipal();
-		if (principal == null) {
+		if (principal instanceof Authentication) {
+			Authentication authentication = (Authentication) principal;
+			PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
+			log.info("\t > principal = {} authenticated user: {}", 
+					principal.getClass().getSimpleName(), principalDetails.getNickname());
+		} else {
 			String anonymousId = "익명" + RandomStringUtils.randomNumeric(4);
 			attributes.put("anonymousId", anonymousId);
 			log.info("\t > principal = {}, assigned anonymousId: {}", principal, anonymousId);
-		} else {
-			log.info("\t > principal = {}, authenticated user: {}", 
-					principal.getClass().getSimpleName(), ((PrincipalDetails) principal).getNickname());
 		}
 		
 		return true;

@@ -5,6 +5,7 @@ import java.security.Principal;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
@@ -113,11 +114,11 @@ public class WebSocketHandler extends TextWebSocketHandler {
 	
 	private String getSender(WebSocketSession session) {
 		Principal principal = session.getPrincipal();
-//		if (principal instanceof Authentication) {
-//			Authentication authentication = (Authentication) principal;
-//			PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
-//			return principalDetails.getNickname();
-//		}
+		if (principal instanceof Authentication) {
+			Authentication authentication = (Authentication) principal;
+			PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
+			return principalDetails.getNickname();
+		}
 		
 		if (principal instanceof PrincipalDetails) {
 			 return ((PrincipalDetails) principal).getNickname();

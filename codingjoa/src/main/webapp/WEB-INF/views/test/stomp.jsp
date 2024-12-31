@@ -187,7 +187,6 @@
 			$(".chat-container").append(createMyChatHtml(message));
 			
 			if (stompClient && stompClient.connected) {
-				console.log("## stompClient already connected, sending the message immediately");
 				sendMessage(message);
 			} else {
 				console.log("## stompClient disconnected, queuing the message and attempting to connect");
