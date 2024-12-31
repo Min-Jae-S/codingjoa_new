@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 
 public enum ChatType {
 	
-	ENTER, EXIT, TALK, PUSH;
+	BROADCAST, ENTER, EXIT, TALK;
 	
 	@JsonCreator
 	public static ChatType from(String s) {

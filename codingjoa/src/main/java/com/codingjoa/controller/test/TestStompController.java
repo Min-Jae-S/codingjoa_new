@@ -28,12 +28,13 @@ public class TestStompController {
 	@MessageMapping("/news")
 	public void news(@Payload String message, SimpMessageHeaderAccessor accessor, Principal principal) {
 		log.info("## news");
-		log.info("\t > senderSessionId = {}", accessor.getSessionId());
-		log.info("\t > principal = {}", principal);
 		log.info("\t > message = {}", message);
-
-		String payload = String.format("'%s' 님의 제보입니다: %s", getSender(principal, accessor), message);
-		log.info("\t > payload = {}", payload);
+		
+		StompMessage payload = StompMessage.builder()
+				.type(ChatType.BROADCAST)
+				.sender(getSender(principal, accessor))
+				.senderSessionId(accessor.getSessionId())
+				.build();
 
 		template.convertAndSend("/sub/news", payload);
 	}

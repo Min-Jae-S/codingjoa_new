@@ -156,7 +156,11 @@
 				
 				console.log("## newsClient subscribe");
 				let subscription = newsClient.subscribe("/sub/news", function(frame) { 
-					console.log("## newsClient received message = %s", frame.body);
+					console.log("## newsClient received message");
+					console.log(frame);
+					
+					let message = JSON.parse(frame.body); 
+					console.log(JSON.stringify(message, null, 2));
 				});
 				//console.log(subscription);
 				
