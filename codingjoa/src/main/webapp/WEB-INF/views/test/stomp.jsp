@@ -89,8 +89,8 @@
 		<button type="button" class="btn btn-info btn-lg test-btn mr-4" id="infoBtn">info</button>
 	</div>
 	<div class="mb-5 px-5 d-flex">
-		<button type="button" class="btn btn-primary btn-lg test-btn mr-4" id="newsBtn">news</button>
-		<input class="form-control w-70" type="text" name="news" placeholder="news">
+		<button type="button" class="btn btn-primary btn-lg test-btn mr-4" id="broadcastBtn">broadcast</button>
+		<input class="form-control w-70" type="text" name="broadcast" placeholder="broadcast">
 	</div>
 	<div class="mb-5 px-5">
 		<button type="button" class="btn btn-warning btn-lg test-btn mr-4" id="enterBtn">enter</button>
@@ -118,7 +118,7 @@
 	const url = "ws://" + host + "${contextPath}/ws-stomp";
 	const roomId = 5;
 	let stompClient = null;
-	let newsClient = null;
+	let broadcastClient = null;
 	let messageQueue = [];
 
 	$(function() {
@@ -134,43 +134,48 @@
 			info();
 		});
 
-		$("#newsBtn").on("click", function() {
-			let news = $("input[name='news']").val().trim();
-			if (isEmpty(news)) {
-				alert("뉴스를 입력하세요.");
+		$("#broadcastBtn").on("click", function() {
+			let broadcast = $("input[name='broadcast']").val().trim();
+			if (isEmpty(broadcast)) {
+				alert("내용을 입력하세요.");
 				return;
 			}
 			
-			if (newsClient && newsClient.connected) {
-				newsClient.send("/pub/news", { }, news); // { "content-type" : "text/plain;charset=utf-8" }
+			if (broadcastClient && broadcastClient.connected) {
+				newsClient.send("/pub/broadcast", { }, broadcast); // { "content-type" : "text/plain;charset=utf-8" }
 				return;
 			}
 			
 			let	socket = new WebSocket(url);
-			newsClient = Stomp.over(socket);
-			newsClient.debug = null;
+			broadcastClient = Stomp.over(socket);
+			broadcastClient.debug = null;
 			
-			newsClient.connect({ }, function(frame) {
-				console.log("## newsClient connection callback");
+			broadcastClient.connect({ }, function(frame) {
+				console.log("## broadcastClient connection callback");
 				//console.log(frame);
 				
-				console.log("## newsClient subscribe");
-				let subscription = newsClient.subscribe("/sub/news", function(frame) { 
-					console.log("## newsClient received message");
+				console.log("## broadcastClient subscribe");
+				let subscription = broadcastClient.subscribe("/sub/broadcast", function(frame) { 
+					console.log("## broadcastClient received message");
 					console.log(frame);
 					
 					let message = JSON.parse(frame.body); 
 					console.log(JSON.stringify(message, null, 2));
+					
+					if (message.type == "BROADCAST") {
+						let sender = message.sessionMatched ? message.sender + '(나)' : message.sender;
+						alert(sender + " 님의 broadcast:\n" + message.content);
+					}
 				});
 				//console.log(subscription);
 				
-				newsClient.send("/pub/news", { }, news); //  { "content-type" : "text/plain;charset=utf-8" }
+				newsClient.send("/pub/broadcast", { }, broadcast); //  { "content-type" : "text/plain;charset=utf-8" }
 			});
 		});
 		
-		$("input[name='news']").on("keydown", function(e) {
+		$("input[name='broadcastClient']").on("keydown", function(e) {
 			if (e.keyCode == 13) {
-				$("#newsBtn").trigger("click");
+				$("#broadcastClientBtn").trigger("click");
 			}
 		});
 
@@ -356,11 +361,13 @@
 				html += '<span>' + message.content + '</span>';
 				html += '</div>';
 			}
-		} else {
+		} else if(message.type == "ENTER" || message.type == "EXIT") {
 			html += '<div class="alert alert-secondary text-center chat-alert">';
 			let sender = message.sessionMatched ? message.sender + '(나)' : message.sender;
 			html += '<span class="font-weight-bold mr-1">' + sender + '</span>' + message.content;
 			html += '</div>';
+		} else {
+			console.log("## invalid message type: %s", meesage.type);
 		}
 		
 		return html;

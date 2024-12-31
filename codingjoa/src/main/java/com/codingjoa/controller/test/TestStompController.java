@@ -25,9 +25,9 @@ public class TestStompController {
 	
 	private final SimpMessagingTemplate template;
 	
-	@MessageMapping("/news")
-	public void news(@Payload String message, SimpMessageHeaderAccessor accessor, Principal principal) {
-		log.info("## news");
+	@MessageMapping("/broadcast")
+	public void broadcast(@Payload String message, SimpMessageHeaderAccessor accessor, Principal principal) {
+		log.info("## broadcast");
 		log.info("\t > message = {}", message);
 		
 		StompMessage payload = StompMessage.builder()
@@ -36,7 +36,7 @@ public class TestStompController {
 				.senderSessionId(accessor.getSessionId())
 				.build();
 
-		template.convertAndSend("/sub/news", payload);
+		template.convertAndSend("/sub/broadcast", payload);
 	}
 	
 	@MessageMapping("/chat/room/{roomId}")
