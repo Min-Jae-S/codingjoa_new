@@ -157,17 +157,16 @@
 				console.log("## broadcastClient subscribe");
 				let subscription = broadcastClient.subscribe("/sub/broadcast", function(frame) { 
 					console.log("## broadcastClient received message");
-					console.log(frame);
-					
+					//console.log(frame);
+
 					try {
 						let message = JSON.parse(frame.body); 
 						console.log(JSON.stringify(message, null, 2));
 						
 						let sender = message.sessionMatched ? message.sender + '(나)' : message.sender;
-						alert(sender + " 님의 broadcast: " + message.content);
+						alert("[broadcast] " + sender + ": " + message.content);
 					} catch(e) {
-						console.log(e);
-						alert(frame.boady);
+						alert(frame.body);
 					}
 				});
 				//console.log(subscription);

@@ -31,7 +31,6 @@ public class TestStompController {
 		log.info("\t > message = {}", message);
 		
 		String sender = getSender(principal, accessor);
-		
 //		StompMessage payload = StompMessage.builder()
 //				.type(ChatType.BROADCAST)
 //				.sender(sender)
@@ -40,7 +39,7 @@ public class TestStompController {
 //				.build();
 //		template.convertAndSend("/sub/broadcast", payload);
 		
-		String payload = String.format("%s 님의 broadcast: %s", sender, message);
+		String payload = String.format("[broadcast] %s: %s", sender, message);
 		template.convertAndSend("/sub/broadcast", payload);
 	}
 	
