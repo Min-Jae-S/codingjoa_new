@@ -1,7 +1,6 @@
 package com.codingjoa.controller;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -12,6 +11,7 @@ import javax.servlet.ServletContext;
 import javax.validation.Validator;
 
 import org.springframework.aop.framework.AopProxyUtils;
+import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.web.FilterChainProxy;
@@ -47,12 +47,12 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 public class ConfigRestController {
 	
-	private final WebApplicationContext webApplicationContext; // ApplicationContext + getServletContext()
+	private final WebApplicationContext context; // ApplicationContext + getServletContext()
 
 	@GetMapping("/filters")
 	public ResponseEntity<Object> getFilters() {
 		log.info("## getFilters");
-//		FilterChainProxy filterChainProxy = webApplicationContext.getBean(FilterChainProxy.class);
+//		FilterChainProxy filterChainProxy = context.getBean(FilterChainProxy.class);
 //		List<String> filters = filterChainProxy.getFilterChains()
 //			.stream()
 //			.filter(filterChain -> filterChain instanceof SecurityFilterChain)
@@ -61,23 +61,20 @@ public class ConfigRestController {
 //			.map(filter -> filter.getClass().getName())
 //			.collect(Collectors.toList());
 		
-		ServletContext servletContext = webApplicationContext.getServletContext();
-		Map<String, ? extends FilterRegistration> registrationMap = servletContext.getFilterRegistrations();
+		ServletContext servletContext = context.getServletContext();
+		Map<String, ? extends FilterRegistration> map = servletContext.getFilterRegistrations();
 		List<Object> filters = new ArrayList<>();
-		for (String filterName : registrationMap.keySet()) {
+		for (String filterName : map.keySet()) {
 			log.info("\t > {}", filterName);
 			try {
-				FilterChainProxy filterChainProxy = (FilterChainProxy) webApplicationContext.getBean(filterName);
+				FilterChainProxy filterChainProxy = (FilterChainProxy) context.getBean(filterName);
 				List<SecurityFilterChain> filterChains = filterChainProxy.getFilterChains();
 				List<String> securityFilters = filterChains.stream()
 						.flatMap(filterChain -> filterChain.getFilters().stream())
 						.map(filter -> filter.getClass().getName())
 						.collect(Collectors.toList());
 				filters.add(Map.of(filterName, securityFilters));
-				securityFilters.forEach(filter -> {
-					int beginIndex = filter.lastIndexOf(".") + 1;
-					log.info("\t\t - {}", filter.substring(beginIndex));
-				});
+				securityFilters.forEach(filter -> log.info("\t\t - {}", filter.substring(filter.lastIndexOf(".") + 1)));
 			} catch (NoSuchBeanDefinitionException e) {
 				filters.add(filterName);
 			}
@@ -89,10 +86,11 @@ public class ConfigRestController {
 	@GetMapping("/handler-mappings")
 	public ResponseEntity<Object> getHandlerMappings() {
 		log.info("## getHandlerMappings");
-		Map<String, HandlerMapping> handlerMappingMap = webApplicationContext.getBeansOfType(HandlerMapping.class);
+		Map<String, HandlerMapping> handlerMappingMap = context.getBeansOfType(HandlerMapping.class);
 		handlerMappingMap.forEach((key, mapping) -> log.info("\t > {}: {}", key, mapping));
 		
 		List<Object> handlerMappings = new ArrayList<>();
+		
 		for (HandlerMapping handlerMapping : handlerMappingMap.values()) {
 			String handlerMappingName =  handlerMapping.getClass().getName();
 			if (handlerMapping instanceof RequestMappingHandlerMapping) {
@@ -138,11 +136,10 @@ public class ConfigRestController {
 	@GetMapping("/interceptors")
 	public ResponseEntity<Object> getInterceptors() {
 		log.info("## getInterceptors");
-		Map<String, HandlerInterceptor> handlerInterceptorMap = webApplicationContext.getBeansOfType(HandlerInterceptor.class);
-		handlerInterceptorMap.forEach((key, interceptor) -> 
-			log.info("\t > {}: {}", key, interceptor.getClass().getName()));
+		Map<String, HandlerInterceptor> map = context.getBeansOfType(HandlerInterceptor.class);
+		map.forEach((key, interceptor) -> log.info("\t > {}: {}", key, interceptor.getClass().getName()));
 		
-		List<String> interceptors = handlerInterceptorMap.values()
+		List<String> interceptors = map.values()
 				.stream()
 				.map(interceptor -> interceptor.getClass().getName())
 				.collect(Collectors.toList());
@@ -153,10 +150,10 @@ public class ConfigRestController {
 	@GetMapping("/handler-adapters")
 	public ResponseEntity<Object> getHandlerAdapters() {
 		log.info("## getHandlerAdapters");
-		Map<String, HandlerAdapter> handlerAdapterMap = webApplicationContext.getBeansOfType(HandlerAdapter.class);
-		handlerAdapterMap.forEach((key, adapter) -> log.info("\t > {}: {}", key, adapter.getClass().getName()));
+		Map<String, HandlerAdapter> map = context.getBeansOfType(HandlerAdapter.class);
+		map.forEach((key, adapter) -> log.info("\t > {}: {}", key, adapter.getClass().getName()));
 		
-		List<String> handlerAdapters = handlerAdapterMap.values()
+		List<String> handlerAdapters = map.values()
 				.stream()
 				.map(adapter -> adapter.getClass().getName())
 				.collect(Collectors.toList());
@@ -167,19 +164,18 @@ public class ConfigRestController {
 	@GetMapping("/argument-resolvers")
 	public ResponseEntity<Object> getArgumentResolvers() {
 		log.info("## getArgumentResolvers");
-		Map<String, HandlerMethodArgumentResolver> map = webApplicationContext.getBeansOfType(HandlerMethodArgumentResolver.class);
+		Map<String, HandlerMethodArgumentResolver> map = context.getBeansOfType(HandlerMethodArgumentResolver.class);
 		log.info("\t > {}", map.keySet());
 		
-		RequestMappingHandlerAdapter handlerAdapter = webApplicationContext.getBean(RequestMappingHandlerAdapter.class);
+		RequestMappingHandlerAdapter handlerAdapter = context.getBean(RequestMappingHandlerAdapter.class);
 		List<String> argumentResolvers = handlerAdapter.getArgumentResolvers()
 				.stream()
-				.map(resolver -> resolver.getClass().getName())
+				.map(resolver -> {
+					String className = resolver.getClass().getName();
+					log.info("\t\t - {}", className.substring(className.lastIndexOf(".") + 1));
+					return className;
+				})
 				.collect(Collectors.toList());
-		
-		argumentResolvers.forEach(resolver -> { 
-			int beiginIndex = resolver.lastIndexOf(".") + 1;
-			log.info("\t > {}", resolver.substring(beiginIndex));
-		});
 		
 		return ResponseEntity.ok(SuccessResponse.builder().data(argumentResolvers).build());
 	}
@@ -187,10 +183,10 @@ public class ConfigRestController {
 	@GetMapping("/validators")
 	public ResponseEntity<Object> getValidators() {
 		log.info("## getValidators");
-		Map<String, Validator> validatorMap = webApplicationContext.getBeansOfType(Validator.class);
-		validatorMap.forEach((key, validator) -> log.info("\t > {}: {}", key, validator));
+		Map<String, Validator> validators = context.getBeansOfType(Validator.class);
+		validators.forEach((key, validator) -> log.info("\t > {}: {}", key, validator));
 		
-		return ResponseEntity.ok(SuccessResponse.builder().data(Collections.emptyList()).build());
+		return ResponseEntity.ok(SuccessResponse.builder().data(List.of(validators)).build());
 	}
 
 	@GetMapping("/return-value-handlers")
@@ -200,18 +196,17 @@ public class ConfigRestController {
 //				webApplicationContext.getBean(HandlerMethodReturnValueHandlerComposite.class);
 //		composite.getHandlers().forEach(handler -> log.info("\t > return value handler = {}", handler.getClass()));
 
-		RequestMappingHandlerAdapter handlerAdapter = webApplicationContext.getBean(RequestMappingHandlerAdapter.class);
-		List<String> returnValueHandlers = handlerAdapter.getReturnValueHandlers()
+		RequestMappingHandlerAdapter handlerAdapter = context.getBean(RequestMappingHandlerAdapter.class);
+		List<String> handlers = handlerAdapter.getReturnValueHandlers()
 				.stream()
-				.map(handler -> handler.getClass().getName())
+				.map(handler -> {
+					String className = handler.getClass().getName();
+					log.info("\t\t - {}", className.substring(className.lastIndexOf(".") + 1));
+					return className;
+				})
 				.collect(Collectors.toList());
 		
-		returnValueHandlers.forEach(handler -> {
-			int beginIndex = handler.lastIndexOf(".") + 1;
-			log.info("\t > {}", handler.substring(beginIndex));
-		});
-		
-		return ResponseEntity.ok(SuccessResponse.builder().data(returnValueHandlers).build());
+		return ResponseEntity.ok(SuccessResponse.builder().data(handlers).build());
 	}
 
 	@GetMapping("/view-resolvers")
@@ -224,11 +219,12 @@ public class ConfigRestController {
 //				.map(resolver -> resolver.getClass().getName())
 //				.collect(Collectors.toList());
 		
-		Map<String, ViewResolver> viewResolverMap = webApplicationContext.getBeansOfType(ViewResolver.class);
-		viewResolverMap.forEach((key, resolver) -> log.info("\t > {}: {}", key, resolver.getClass().getName()));
+		Map<String, ViewResolver> map = context.getBeansOfType(ViewResolver.class);
+		map.forEach((key, resolver) -> log.info("\t > {}: {}", key, resolver.getClass().getName()));
 		
 		List<String> viewResolvers = new ArrayList<>();
-		for (ViewResolver viewResolver : viewResolverMap.values()) {
+		
+		for (ViewResolver viewResolver : map.values()) {
 			if (viewResolver instanceof ViewResolverComposite) {
 				ViewResolverComposite composite = (ViewResolverComposite) viewResolver;
 				List<String> compositeResovlers = composite.getViewResolvers()
@@ -247,16 +243,15 @@ public class ConfigRestController {
 	@GetMapping("/message-converters")
 	public ResponseEntity<Object> getMessageConverters() {
 		log.info("## getMessageConverters");
-		RequestMappingHandlerAdapter handlerAdapter = webApplicationContext.getBean(RequestMappingHandlerAdapter.class);
+		RequestMappingHandlerAdapter handlerAdapter = context.getBean(RequestMappingHandlerAdapter.class);
 		List<String> messageConverters = handlerAdapter.getMessageConverters()
 				.stream()
-				.map(converter -> converter.getClass().getName())
+				.map(converter -> {
+					String className = converter.getClass().getName();
+					log.info("\t\t - {}", className.substring(className.lastIndexOf(".") + 1));
+					return className;
+				})
 				.collect(Collectors.toList());
-		
-		messageConverters.forEach(converter -> {
-			int beginIndex = converter.lastIndexOf(".") + 1;
-			log.info("\t > {}", converter.substring(beginIndex));
-		});
 		
 		return ResponseEntity.ok(SuccessResponse.builder().data(messageConverters).build());
 	}
@@ -264,28 +259,32 @@ public class ConfigRestController {
 	@GetMapping("/exception-resolvers")
 	public ResponseEntity<Object> getExceptionResolvers() {
 		log.info("## getExceptionResolvers");
-		Map<String, HandlerExceptionResolver> exceptionResolverMap = webApplicationContext.getBeansOfType(HandlerExceptionResolver.class);
+		Map<String, HandlerExceptionResolver> map = context.getBeansOfType(HandlerExceptionResolver.class);
 		HandlerExceptionResolverComposite composite = null;
 		
-		log.info("\t > ExceptionResolvers from HandlerExceptionResolver.class");
-		for (HandlerExceptionResolver resolver : exceptionResolverMap.values()) {
-			Object target = AopProxyUtils.getSingletonTarget(resolver);
+		log.info("\t > resolvers from HandlerExceptionResolver");
+		for (HandlerExceptionResolver resolver : map.values()) {
+			Object target = AopUtils.isAopProxy(resolver) ? AopProxyUtils.getSingletonTarget(resolver) : resolver;
 			log.info("\t\t - {}", target.getClass().getName());
+			
 			if (target instanceof HandlerExceptionResolverComposite) {
-				composite = (HandlerExceptionResolverComposite) target;
+				composite = (HandlerExceptionResolverComposite) resolver;
 			}
 		}
 		
-		List<String> exceptionResolvers = composite.getExceptionResolvers()
-				.stream()
-				.map(resolver -> resolver.getClass().getName())
-				.collect(Collectors.toList());
-		
-		log.info("\t > ExceptionResolvers from HandlerExceptionResolverComposite.class");
-		exceptionResolvers.forEach(resolver -> {
-			int beginIndex = resolver.lastIndexOf(".") + 1;
-			log.info("\t\t - {}", resolver.substring(beginIndex));
-		});
+		log.info("\t > resolvers from HandlerExceptionResolverComposite");
+		List<String> exceptionResolvers = new ArrayList<>();
+
+		if (composite != null) {
+			exceptionResolvers = composite.getExceptionResolvers()
+					.stream()
+					.map(resolver -> {
+						String className = resolver.getClass().getName();
+						log.info("\t\t - {}", className.substring(className.lastIndexOf(".") + 1));
+						return className;
+					})
+					.collect(Collectors.toList());
+		}
 		
 		return ResponseEntity.ok(SuccessResponse.builder().data(exceptionResolvers).build());
 	}
@@ -293,10 +292,15 @@ public class ConfigRestController {
 	@GetMapping("/object-mappers")
 	public ResponseEntity<Object> getObjectMappers() {
 		log.info("## getObjectMappers");
-		Map<String, ObjectMapper> objectMapperMap = webApplicationContext.getBeansOfType(ObjectMapper.class);
-		objectMapperMap.forEach((key, resolver) -> log.info("\t > {}: {}", key, resolver.getClass().getName()));
+		Map<String, ObjectMapper> map = context.getBeansOfType(ObjectMapper.class);
+		Map<String, String> mappers = map.entrySet().stream()
+				.peek(entry -> log.info("\t > {}: {}", entry.getKey(), entry.getValue()))
+				.collect(Collectors.toMap(
+						entry -> entry.getKey(), 
+						entry -> entry.getValue().getClass().getSimpleName()
+				));
 		
-		return ResponseEntity.ok(SuccessResponse.builder().data(Collections.emptyList()).build());
+		return ResponseEntity.ok(SuccessResponse.builder().data(List.of(mappers)).build());
 	}
 	
 }

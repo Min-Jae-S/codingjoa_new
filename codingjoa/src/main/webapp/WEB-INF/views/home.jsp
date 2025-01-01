@@ -120,16 +120,8 @@
 			
 			let url = $(this).attr("href");
 			getConfig(url, function(result) {
-				let message = result.message;
-				if (message != "") {
-					alert(message);
-				}
-				
-				let list = result.data;
-				if (list.length != 0) {
-					let configHtml = createConfigHtml(list);
-					$("#configBody").html(configHtml);
-				}
+				let configHtml = createConfigHtml(result.data);
+				$("#configBody").html(configHtml);
 			});
 		});
 	});
@@ -151,9 +143,9 @@
 		});
 	}
 	
-	function createConfigHtml(list) {
+	function createConfigHtml(data) {
 		let html = "";
-		$.each(list, function(index, item) {
+		$.each(data, function(index, item) {
 			if (typeof item == "string") {
 				html += "<p class='card-text'>";
 				html += "<i class='fa-solid fa-asterisk mr-2'></i>" + item + "</p>";
