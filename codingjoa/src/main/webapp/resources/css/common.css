@@ -83,26 +83,37 @@ li.nav-item {
 	font-weight: bold;
 }
 
+.nav-memeber-profile {
+	display: flex;
+	align-items: center;
+}
+
 .nav-member-image {
-	width: 38px;
-	height: 38px;
+	width: 43px;
+	height: 43px;
 	border: 1px solid #dee2e6 !important;
 	border-radius: 0.5rem;
+	margin-right: 0.9rem;
 }
 
 .dropdown-menu {
 	background-clip: border-box;
-	border-radius: 0;
+	/* border-radius: 0; */
+	border-radius: 0 0 0.5rem 0.5rem;
 	margin: 0;
 	padding: 0;
+	text-align: center;
+	left: 50%;
+	transform: translateX(-50%);
 }
 
 .navbar-nav button.dropdown-item {
 	padding: 0.25rem 1rem;
-	font-size: 14px;
+	font-size: 0.95rem;
 	color: grey;
 	font-weight: 400;
 	background-color: transparent;
+	height: 35px;
 }
 
 .navbar-nav button.dropdown-item:first-child {

@@ -26,7 +26,7 @@
 	
 	div.test, div.input {
 		display: flex;
-		column-gap: 35px;
+		column-gap: 25px;
 	}
 	
 	div.test button {
@@ -48,7 +48,9 @@
 <div class="container my-5">
 	<p>sse.jsp</p>
 	<div class="test mb-5 px-5">
-		<button type="button" class="btn btn-primary btn-lg test-btn mr-4" id="test1Btn">test1</button>
+		<button type="button" class="btn btn-secondary btn-lg test-btn mr-4" id="test1Btn">test1</button>
+	</div>
+	<div class="test mb-5 px-5">
 		<button type="button" class="btn btn-primary btn-lg test-btn mr-4" id="streamBtn">stream</button>
 		<button type="button" class="btn btn-primary btn-lg test-btn mr-4">subscribe</button>
 	</div>

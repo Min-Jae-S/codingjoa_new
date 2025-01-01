@@ -10,7 +10,7 @@
 		<div class="collapse navbar-collapse">
 			<ul class="navbar-nav mr-auto">
 				<c:forEach var="parentCategory" items="${parentCategoryList}">
-					<li class="nav-item dropdown category mx-2 mt-1" data-category="${parentCategory.categoryCode}" data-path="${parentCategory.categoryPath}">
+					<li class="nav-item dropdown category mx-2" data-category="${parentCategory.categoryCode}" data-path="${parentCategory.categoryPath}">
 						<a href="${contextPath}${parentCategory.categoryPath}" class="nav-link">
 							<c:out value="${parentCategory.categoryName}"/>
 						</a>
@@ -19,7 +19,7 @@
 						</div>
 					</li>
 				</c:forEach>
-				<li class="nav-item dropdown test mx-2 mt-1">
+				<li class="nav-item dropdown test mx-2">
 					<a href="#" class="nav-link">TEST</a>
 					<div class="dropdown-menu">
 						<button class="dropdown-item" type="button" onclick="location.href='${contextPath}/member/account'">/member/account</button>
@@ -49,17 +49,19 @@
 				</sec:authorize>
 				<sec:authorize access="isAuthenticated()">
 					<li class="nav-item mx-2">
-						<c:choose>
-							<c:when test="${not empty principal.imageUrl}">
-								<img class="nav-member-image mr-1" id="navMemberImage" src="${principal.imageUrl}">
-							</c:when>
-							<c:otherwise>
-								<img class="nav-member-image mr-1" id="navMemberImage" src="${contextPath}/resources/images/img_profile.png">
-							</c:otherwise>
-						</c:choose>
-						<span class="nav-link font-weight-bold text-body" id="navMemberNickname">
-							<c:out value="${principal.nickname}"/>
-						</span>
+						<a href="${contextPath}/member/account" class="nav-link nav-memeber-profile">
+							<c:choose>
+								<c:when test="${not empty principal.imageUrl}">
+									<img class="nav-member-image" id="navMemberImage" src="${principal.imageUrl}">
+								</c:when>
+								<c:otherwise>
+									<img class="nav-member-image"" id="navMemberImage" src="${contextPath}/resources/images/img_profile.png">
+								</c:otherwise>
+							</c:choose>
+							<span class="font-weight-bold text-body" id="navMemberNickname">
+								<c:out value="${principal.nickname}"/>
+							</span>
+						</a>
 					</li>
 					<li class="nav-item">
 						<span class="nav-link" style="pointer-events: none;">|</span>
