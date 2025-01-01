@@ -48,6 +48,7 @@ import lombok.extern.slf4j.Slf4j;
 public class ConfigRestController {
 	
 	private final WebApplicationContext context; // ApplicationContext + getServletContext()
+	private final ObjectMapper objectMapper;
 
 	@GetMapping("/filters")
 	public ResponseEntity<Object> getFilters() {
@@ -165,8 +166,9 @@ public class ConfigRestController {
 	public ResponseEntity<Object> getArgumentResolvers() {
 		log.info("## getArgumentResolvers");
 		Map<String, HandlerMethodArgumentResolver> map = context.getBeansOfType(HandlerMethodArgumentResolver.class);
-		log.info("\t > {}", map.keySet());
+		log.info("\t > {}", map);
 		
+		log.info("\t > resolvers from RequestMappingHandlerAdapter");
 		RequestMappingHandlerAdapter handlerAdapter = context.getBean(RequestMappingHandlerAdapter.class);
 		List<String> argumentResolvers = handlerAdapter.getArgumentResolvers()
 				.stream()
@@ -183,10 +185,18 @@ public class ConfigRestController {
 	@GetMapping("/validators")
 	public ResponseEntity<Object> getValidators() {
 		log.info("## getValidators");
-		Map<String, Validator> validators = context.getBeansOfType(Validator.class);
-		validators.forEach((key, validator) -> log.info("\t > {}: {}", key, validator));
+		Map<String, Validator> map = context.getBeansOfType(Validator.class);
+		Map<String, String> validators = map.entrySet().stream()
+				.peek(entry -> {
+					String className = entry.getValue().getClass().getName();
+					log.info("\t > {}: {}", entry.getKey(), className.substring(className.lastIndexOf(".") + 1));
+				})
+				.collect(Collectors.toMap(
+						entry -> entry.getKey(), 
+						entry -> entry.getValue().getClass().getName()
+				));
 		
-		return ResponseEntity.ok(SuccessResponse.builder().data(List.of(validators)).build());
+		return ResponseEntity.ok(SuccessResponse.builder().data(validators).build());
 	}
 
 	@GetMapping("/return-value-handlers")
@@ -292,15 +302,22 @@ public class ConfigRestController {
 	@GetMapping("/object-mappers")
 	public ResponseEntity<Object> getObjectMappers() {
 		log.info("## getObjectMappers");
+		log.info("\t > objectMapper = {}", objectMapper);
+		
 		Map<String, ObjectMapper> map = context.getBeansOfType(ObjectMapper.class);
+		log.info("\t > map = {}", map == null ? null : map.values());
+
 		Map<String, String> mappers = map.entrySet().stream()
-				.peek(entry -> log.info("\t > {}: {}", entry.getKey(), entry.getValue()))
+				.peek(entry -> {
+					String className = entry.getValue().getClass().getName();
+					log.info("\t > {}: {}", entry.getKey(), className.substring(className.lastIndexOf(".") + 1));
+				})
 				.collect(Collectors.toMap(
 						entry -> entry.getKey(), 
-						entry -> entry.getValue().getClass().getSimpleName()
+						entry -> entry.getValue().getClass().getName()
 				));
 		
-		return ResponseEntity.ok(SuccessResponse.builder().data(List.of(mappers)).build());
+		return ResponseEntity.ok(SuccessResponse.builder().data(mappers).build());
 	}
 	
 }

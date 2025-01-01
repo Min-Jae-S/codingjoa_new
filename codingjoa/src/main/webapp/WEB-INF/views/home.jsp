@@ -145,21 +145,30 @@
 	
 	function createConfigHtml(data) {
 		let html = "";
-		$.each(data, function(index, item) {
-			if (typeof item == "string") {
-				html += "<p class='card-text'>";
-				html += "<i class='fa-solid fa-asterisk mr-2'></i>" + item + "</p>";
-			} else {
-				$.each(item, function(key, value) {
+		if (data instanceof Array) { // Array.isArray()
+			$.each(data, function(index, item) {
+				if (typeof item == "string") {
 					html += "<p class='card-text'>";
-					html += "<i class='fa-solid fa-asterisk mr-2'></i>" +  key + "</p>";
-					$.each(value, function(index, item) {
+					html += "<i class='fa-solid fa-asterisk mr-2'></i>" + item + "</p>";
+				} else {
+					$.each(item, function(key, value) {
 						html += "<p class='card-text'>";
-						html += "<i class='fa-solid fa-caret-right ml-4 mr-2'></i>" + item + "</p>";
+						html += "<i class='fa-solid fa-asterisk mr-2'></i>" +  key + "</p>";
+						$.each(value, function(index, item) {
+							html += "<p class='card-text'>";
+							html += "<i class='fa-solid fa-caret-right ml-4 mr-2'></i>" + item + "</p>";
+						});
 					});
-				});
-			}
-		});
+				}
+			});	
+		} else {
+			$.each(data, function(key, value) {
+				html += "<p class='card-text'>";
+				html += "<i class='fa-solid fa-asterisk mr-2'></i>" +  key + "</p>";
+				html += "<p class='card-text'>";
+				html += "<i class='fa-solid fa-caret-right ml-4 mr-2'></i>" + value + "</p>";
+			});
+		} 
 		
 		return html;
 	}
