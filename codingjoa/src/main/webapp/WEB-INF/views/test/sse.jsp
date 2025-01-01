@@ -26,8 +26,7 @@
 	
 	div.test, div.input {
 		display: flex;
-		justify-content:space-between
-		/* column-gap: 35px; */
+		column-gap: 35px;
 	}
 	
 	div.test button {
