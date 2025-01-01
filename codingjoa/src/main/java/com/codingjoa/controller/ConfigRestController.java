@@ -304,6 +304,9 @@ public class ConfigRestController {
 		log.info("## getObjectMappers");
 		log.info("\t > objectMapper = {}", objectMapper);
 		
+		ObjectMapper bean = context.getBean(ObjectMapper.class);
+		log.info("\t > objectMapper bean = {}", bean);
+		
 		Map<String, ObjectMapper> map = context.getBeansOfType(ObjectMapper.class);
 		log.info("\t > map = {}", map == null ? null : map.values());
 
