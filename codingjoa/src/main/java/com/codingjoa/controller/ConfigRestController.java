@@ -1,6 +1,7 @@
 package com.codingjoa.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -15,6 +16,7 @@ import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
+import org.springframework.context.ApplicationContext;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.web.FilterChainProxy;
 import org.springframework.security.web.SecurityFilterChain;
@@ -50,7 +52,6 @@ import lombok.extern.slf4j.Slf4j;
 public class ConfigRestController {
 	
 	private final WebApplicationContext context; // ApplicationContext + getServletContext()
-	private final ObjectMapper objectMapper;
 
 	@GetMapping("/filters")
 	public ResponseEntity<Object> getFilters() {
@@ -304,14 +305,12 @@ public class ConfigRestController {
 	@GetMapping("/object-mappers")
 	public ResponseEntity<Object> getObjectMappers() {
 		log.info("## getObjectMappers");
-		log.info("\t > objectMapper = {}", objectMapper);
 		
-		ObjectMapper bean = context.getBean(ObjectMapper.class);
-		log.info("\t > objectMapper bean = {}", bean);
-		log.info("\t > is aop? {}", AopUtils.isAopProxy(objectMapper));
-		
-		Map<String, ObjectMapper> map = context.getBeansOfType(ObjectMapper.class);
-		log.info("\t > map = {}", map == null ? null : map.values());
+		Map<String, ObjectMapper> map = new HashMap<>();
+		ApplicationContext applicationContext = context.getParent();
+		if (applicationContext != null) {
+			map = applicationContext.getBeansOfType(ObjectMapper.class);
+		}
 
 		Map<String, String> mappers = map.entrySet().stream()
 				.peek(entry -> {
@@ -330,16 +329,40 @@ public class ConfigRestController {
 	public ResponseEntity<Object> getBeans() {
 		log.info("## getBeans");
 		DefaultListableBeanFactory beanFactory = (DefaultListableBeanFactory) context.getAutowireCapableBeanFactory();
+		List<String> userDefinedBeans = new ArrayList<>();
+		List<String> springInternalBeans = new ArrayList<>();
+		
+		ApplicationContext appContext = context.getParent();
+		log.info("\t > parent context = {}", appContext);
+		log.info("\t > parent beanFactory = {}", context.getParentBeanFactory().getClass());
+		
+		if (appContext != null) {
+			String[] beanNames = appContext.getBeanDefinitionNames();
+			for (String beanName : beanNames) {
+				log.info("\t\t - {}", beanName);
+			}
+		}
 		
 		String[] beanNames = context.getBeanDefinitionNames();
 		for (String beanName : beanNames) {
 			BeanDefinition beanDefinition = beanFactory.getBeanDefinition(beanName);
-			log.info("\t > beanName: {}, role: {}", beanName, getRoleDescription(beanDefinition.getRole()));
+			if (beanDefinition.getRole() == BeanDefinition.ROLE_APPLICATION) {
+				userDefinedBeans.add(beanName);
+			} else if (beanDefinition.getRole() == BeanDefinition.ROLE_INFRASTRUCTURE) {
+				springInternalBeans.add(beanName);
+			}
 		}
+		
+		log.info("\t > servletContext, BeanDefinition.ROLE_APPLICATION");
+		userDefinedBeans.forEach(s -> log.info("\t\t - {}", s));
+
+		log.info("\t > servletContext, BeanDefinition.ROLE_INFRASTRUCTURE");
+		springInternalBeans.forEach(s -> log.info("\t\t - {}", s));
 		
 		return ResponseEntity.ok(SuccessResponse.builder().build());
 	}
 	
+	@SuppressWarnings("unused")
 	private String getRoleDescription(int role) {
 		switch (role) {
 		case BeanDefinition.ROLE_APPLICATION: 		// user-defined bean (0)

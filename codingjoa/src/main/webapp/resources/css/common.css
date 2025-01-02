@@ -16,7 +16,7 @@ html, body {
 }
 
 .login-container {
-	margin-top: 7rem;
+	margin-top: 8rem;
 	margin-bottom: 8rem;
 }
 
@@ -27,8 +27,8 @@ html, body {
 .reset-password-container,
 .find-account-container,
 .find-password-container {
-	margin-top: 7rem;
-	margin-bottom: 7rem;
+	margin-top: 8rem;
+	margin-bottom: 8rem;
 }
 
 .board-container {

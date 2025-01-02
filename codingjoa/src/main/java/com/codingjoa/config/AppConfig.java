@@ -55,6 +55,11 @@ public class AppConfig {
 	}
 	
 	@Bean
+	public ObjectMapper subObjectMapper() {
+		return new ObjectMapper();
+	}
+	
+	@Bean
 	public MessageSource messageSource() {
 		ReloadableResourceBundleMessageSource source = new ReloadableResourceBundleMessageSource();
 		source.setDefaultEncoding("UTF-8");
