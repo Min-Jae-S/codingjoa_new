@@ -44,11 +44,8 @@ public class TestSseController {
 		Object principal = null;
 		if (authentication != null) {
 			principal = authentication.getPrincipal();
-			if (authentication instanceof UsernamePasswordAuthenticationToken) {
-				log.info("\t > principal: {}", FormatUtils.formatPrettyJson(principal));
-			} else if ( authentication instanceof AnonymousAuthenticationToken) {
-				log.info("\t > principal: {}", principal);
-			}
+			String json = FormatUtils.formatPrettyJson(principal);
+			log.info("\t > principal: {}", json != null ? json : principal);
 		}
 		
 		return ResponseEntity.ok(SuccessResponse.builder().data(principal).build());
@@ -58,7 +55,7 @@ public class TestSseController {
 	public ResponseEntity<Object> test2() {
 		log.info("## test2");
 		SuccessResponse response = SuccessResponse.builder().build();
-		log.info("\t > response = {}", response);
+		log.info("\t > response: {}", FormatUtils.formatPrettyJson(response));
 		
 		return ResponseEntity.ok(response);
 	}

@@ -111,7 +111,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers(HttpMethod.POST, "/api/boards/*/likes", "/api/comments/*/likes").authenticated()
 				.antMatchers("/api/comments", "/comments/", "/api/comments/*").authenticated()
 				.antMatchers(HttpMethod.POST, "/api/board/image").authenticated()
-				.antMatchers("/admin/**", "/api/admin/**").hasAnyRole("ADMIN")
+				.antMatchers("/admin/**", "/api/admin/**").hasRole("ADMIN")
 				.anyRequest().permitAll()
 				.and()
 			.oauth2Login()

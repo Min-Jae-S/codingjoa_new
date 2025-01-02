@@ -78,7 +78,7 @@ public class FormatUtils {
     		JsonNode jsonNode = objectMapper.readTree(json);
     		return System.lineSeparator() + objectMapper.writeValueAsString(jsonNode);
     	} catch(Exception e) {
-    		log.error("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
+    		//log.error("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
     		return null;
     	}
     }

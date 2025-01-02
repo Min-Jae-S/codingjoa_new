@@ -16,7 +16,6 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.stereotype.Component;
 
 import com.codingjoa.dto.SuccessResponse;
-import com.codingjoa.security.dto.PrincipalDetails;
 import com.codingjoa.util.CookieUtils;
 import com.codingjoa.util.FormatUtils;
 import com.codingjoa.util.UriUtils;
@@ -39,9 +38,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
 		log.info("## {}", this.getClass().getSimpleName());
-		
-		PrincipalDetails principal = (PrincipalDetails) authentication.getPrincipal();
-		log.info("\t > principal: {}", FormatUtils.formatPrettyJson(principal));
+		log.info("\t > principal: {}", FormatUtils.formatPrettyJson(authentication.getPrincipal()));
 		
 		log.info("\t > create JWT and issue it as a cookie");
 		String jwt = jwtProvider.createJwt(authentication, request);
