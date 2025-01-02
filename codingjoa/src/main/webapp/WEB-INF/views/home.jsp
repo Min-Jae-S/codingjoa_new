@@ -83,6 +83,9 @@
 					<li class="nav-item">
 						<a class="nav-link" href="${contextPath}/config/object-mappers">ObjectMapper</a>
 					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="${contextPath}/config/beans">Beans</a>
+					</li>
 				</ul>
 			</div>
 			<div class="card-body" id="configBody">

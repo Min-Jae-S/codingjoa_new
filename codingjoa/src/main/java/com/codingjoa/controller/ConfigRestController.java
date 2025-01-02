@@ -13,6 +13,8 @@ import javax.validation.Validator;
 import org.springframework.aop.framework.AopProxyUtils;
 import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.web.FilterChainProxy;
 import org.springframework.security.web.SecurityFilterChain;
@@ -306,6 +308,7 @@ public class ConfigRestController {
 		
 		ObjectMapper bean = context.getBean(ObjectMapper.class);
 		log.info("\t > objectMapper bean = {}", bean);
+		log.info("\t > is aop? {}", AopUtils.isAopProxy(objectMapper));
 		
 		Map<String, ObjectMapper> map = context.getBeansOfType(ObjectMapper.class);
 		log.info("\t > map = {}", map == null ? null : map.values());
@@ -321,6 +324,33 @@ public class ConfigRestController {
 				));
 		
 		return ResponseEntity.ok(SuccessResponse.builder().data(mappers).build());
+	}
+	
+	@GetMapping("/beans")
+	public ResponseEntity<Object> getBeans() {
+		log.info("## getBeans");
+		DefaultListableBeanFactory beanFactory = (DefaultListableBeanFactory) context.getAutowireCapableBeanFactory();
+		
+		String[] beanNames = context.getBeanDefinitionNames();
+		for (String beanName : beanNames) {
+			BeanDefinition beanDefinition = beanFactory.getBeanDefinition(beanName);
+			log.info("\t > beanName: {}, role: {}", beanName, getRoleDescription(beanDefinition.getRole()));
+		}
+		
+		return ResponseEntity.ok(SuccessResponse.builder().build());
+	}
+	
+	private String getRoleDescription(int role) {
+		switch (role) {
+		case BeanDefinition.ROLE_APPLICATION: 		// user-defined bean (0)
+			return "ROLE_APPLICATION";
+		case BeanDefinition.ROLE_SUPPORT: 			// support bean (1)
+			return "ROLE_SUPPORT";
+		case BeanDefinition.ROLE_INFRASTRUCTURE: 	// spring-internal bean (2)
+			return "ROLE_INFRASTRUCTURE";
+		default:
+			return "UNKNOWN";
+		}
 	}
 	
 }
