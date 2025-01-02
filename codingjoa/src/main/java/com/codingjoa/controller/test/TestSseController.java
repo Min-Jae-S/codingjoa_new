@@ -15,15 +15,21 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import com.codingjoa.dto.SuccessResponse;
+import com.codingjoa.util.FormatUtils;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+@SuppressWarnings("unused")
 @Slf4j
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/test/sse")
 public class TestSseController {
 
 	private final List<SseEmitter> emitters = new CopyOnWriteArrayList<>();
+	private final ObjectMapper objectMapper;
 	
 	@GetMapping("/test1")
 	public ResponseEntity<Object> test1() {
@@ -32,17 +38,23 @@ public class TestSseController {
 		String authenticationName = authentication.getClass().getSimpleName();
 		log.info("\t > authentication = {}", authenticationName);
 		
-		try {
+		if (authentication != null) {
 			Object principal = authentication.getPrincipal();
-			log.info("\t > principal = {}", principal);
-			log.info("\t > principal.toString() = {}", principal.toString());
-		} catch (Exception e) {
-			log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
+			log.info("\t > principal: {}", FormatUtils.formatPrettyJson(principal));
 		}
 		
 		SuccessResponse response = SuccessResponse.builder()
 				.data(authenticationName)
 				.build();
+		
+		return ResponseEntity.ok(response);
+	}
+	
+	@GetMapping("/test2")
+	public ResponseEntity<Object> test2() {
+		log.info("## test2");
+		SuccessResponse response = SuccessResponse.builder().build();
+		log.info("\t > response = {}", response);
 		
 		return ResponseEntity.ok(response);
 	}

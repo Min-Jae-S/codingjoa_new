@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.codingjoa.converter.NullToEmptyStringSerializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -31,6 +32,8 @@ public class FormatUtils {
     		.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(localDateTimeformatter))
     		.addSerializer(LocalTime.class, new LocalTimeSerializer(localTimeformatter))
     	);
+    	
+    	objectMapper.getSerializerProvider().setNullValueSerializer(new NullToEmptyStringSerializer());
     	
     	// enable pretty-printing
     	objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
@@ -58,7 +61,6 @@ public class FormatUtils {
 	
 	public static String formatPrettyJson(Object obj) {
     	if (obj == null) {
-    		log.info("\t > obj is null");
     		return null;
     	}
     	
@@ -76,7 +78,6 @@ public class FormatUtils {
     		return System.lineSeparator() + objectMapper.writeValueAsString(jsonNode);
     	} catch(Exception e) {
     		log.error("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
-    		e.printStackTrace();
     		return null;
     	}
     }

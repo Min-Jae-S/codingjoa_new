@@ -49,6 +49,7 @@
 	<p>sse.jsp</p>
 	<div class="test mb-5 px-5">
 		<button type="button" class="btn btn-secondary btn-lg test-btn mr-4" id="test1Btn">test1</button>
+		<button type="button" class="btn btn-secondary btn-lg test-btn mr-4" id="test2Btn">test2</button>
 	</div>
 	<div class="test mb-5 px-5">
 		<button type="button" class="btn btn-primary btn-lg test-btn mr-4" id="streamBtn">stream</button>
@@ -66,6 +67,22 @@
 			$.ajax({
 				type : "GET",
 				url : "${contextPath}/test/sse/test1",
+				success : function(result) {
+					console.log("%c> SUCCESS", "color:green");
+					console.log(JSON.stringify(result, null, 2));
+				},
+				error : function(jqXHR) {
+					console.log("%c> ERROR", "color:red");
+					parseError(jqXHR);
+				}
+			});
+		});
+
+		$("#test2Btn").on("click", function() {
+			console.log("## test2");
+			$.ajax({
+				type : "GET",
+				url : "${contextPath}/test/sse/test2",
 				success : function(result) {
 					console.log("%c> SUCCESS", "color:green");
 					console.log(JSON.stringify(result, null, 2));
