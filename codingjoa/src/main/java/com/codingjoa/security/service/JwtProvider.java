@@ -18,6 +18,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.codingjoa.security.dto.PrincipalDetails;
+import com.codingjoa.util.FormatUtils;
 import com.codingjoa.util.NumberUtils;
 
 import io.jsonwebtoken.Claims;
@@ -67,12 +68,12 @@ public class JwtProvider {
 	// check comment: to fully leverage the advantages of using JWT, it's preferable to avoid database access during the verification process.
 	public Authentication getAuthentication(String jwt) {
 		Claims claims = parseJwt(jwt).getBody();
-		//log.info("\t > parsed claims {}", FormatUtils.formatPrettyJson(claims));
+		log.info("\t > parsed claims: {}", FormatUtils.formatPrettyJson(claims));
 		
-		PrincipalDetails pincipal = PrincipalDetails.from(claims);
-		//log.info("\t > pincipal = {}", pincipal);
+		PrincipalDetails principal = PrincipalDetails.from(claims);
+		log.info("\t > principal from claims: {}", FormatUtils.formatPrettyJson(principal));
 		
-		return new UsernamePasswordAuthenticationToken(pincipal, null, pincipal.getAuthorities());
+		return new UsernamePasswordAuthenticationToken(principal, null, principal.getAuthorities());
 	}
 	
 	/*
@@ -126,7 +127,7 @@ public class JwtProvider {
 				.setIssuedAt(now)
 				.setExpiration(exp);
 		
-		// authentication (UsernamePasswordAuthenticationToken, OAuth2AuthenticationToken)
+		// authentication - UsernamePasswordAuthenticationToken, OAuth2AuthenticationToken
 		PrincipalDetails principal = (PrincipalDetails) authentication.getPrincipal();
 		
 		List<GrantedAuthority> authorities = (List<GrantedAuthority>) principal.getAuthorities();

@@ -32,13 +32,21 @@ public class TestSseController {
 		String authenticationName = authentication.getClass().getSimpleName();
 		log.info("\t > authentication = {}", authenticationName);
 		
+		try {
+			Object principal = authentication.getPrincipal();
+			log.info("\t > principal = {}", principal);
+			log.info("\t > principal.toString() = {}", principal.toString());
+		} catch (Exception e) {
+			log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
+		}
+		
 		SuccessResponse response = SuccessResponse.builder()
 				.data(authenticationName)
 				.build();
 		
 		return ResponseEntity.ok(response);
 	}
-	
+
 	@GetMapping("/stream")
 	public SseEmitter stream() {
 		SseEmitter emitter = new SseEmitter();

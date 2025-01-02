@@ -18,7 +18,6 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 
 import lombok.extern.slf4j.Slf4j;
 
-@SuppressWarnings("unused")
 @Slf4j
 public class FormatUtils {
 	
@@ -59,6 +58,7 @@ public class FormatUtils {
 	
 	public static String formatPrettyJson(Object obj) {
     	if (obj == null) {
+    		log.info("\t > obj is null");
     		return null;
     	}
     	
@@ -75,7 +75,8 @@ public class FormatUtils {
     		JsonNode jsonNode = objectMapper.readTree(json);
     		return System.lineSeparator() + objectMapper.writeValueAsString(jsonNode);
     	} catch(Exception e) {
-    		//log.error("\t > {}", e.getClass().getSimpleName());
+    		log.error("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
+    		e.printStackTrace();
     		return null;
     	}
     }

@@ -40,10 +40,8 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 			Authentication authentication) throws IOException, ServletException {
 		log.info("## {}", this.getClass().getSimpleName());
 		
-		if (authentication.getPrincipal() instanceof PrincipalDetails) {
-			PrincipalDetails principal = (PrincipalDetails) authentication.getPrincipal();
-			log.info("\t > principal info: {}", FormatUtils.formatPrettyJson(principal));
-		}
+		PrincipalDetails principal = (PrincipalDetails) authentication.getPrincipal();
+		log.info("\t > principal: {}", FormatUtils.formatPrettyJson(principal));
 		
 		log.info("\t > create JWT and issue it as a cookie");
 		String jwt = jwtProvider.createJwt(authentication, request);
