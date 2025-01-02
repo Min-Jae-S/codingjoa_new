@@ -10,6 +10,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import io.jsonwebtoken.Claims;
 import lombok.Builder;
 import lombok.Getter;
@@ -57,32 +59,38 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 	public String getPassword() {
 		return this.password;
 	}
-
+	
+	@JsonIgnore
 	@Override
 	public boolean isAccountNonExpired() {
 		return true;
 	}
-
+	
+	@JsonIgnore
 	@Override
 	public boolean isAccountNonLocked() {
 		return true;
 	}
-
+	
+	@JsonIgnore
 	@Override
 	public boolean isCredentialsNonExpired() {
 		return true;
 	}
-
+	
+	@JsonIgnore
 	@Override
 	public boolean isEnabled() {
 		return true;
 	}
 	
+	@JsonIgnore
 	@Override
 	public Map<String, Object> getAttributes() {
 		return this.attributes;
 	}
 
+	@JsonIgnore
 	@Override
 	public String getName() {
 		return this.getAttributes().get(this.nameAttributeKey).toString();

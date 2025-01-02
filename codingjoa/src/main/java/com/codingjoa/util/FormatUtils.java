@@ -19,6 +19,7 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 
 import lombok.extern.slf4j.Slf4j;
 
+@SuppressWarnings("unused")
 @Slf4j
 public class FormatUtils {
 	
@@ -33,7 +34,7 @@ public class FormatUtils {
     		.addSerializer(LocalTime.class, new LocalTimeSerializer(localTimeformatter))
     	);
     	
-    	objectMapper.getSerializerProvider().setNullValueSerializer(new NullToEmptyStringSerializer());
+    	//objectMapper.getSerializerProvider().setNullValueSerializer(new NullToEmptyStringSerializer());
     	
     	// enable pretty-printing
     	objectMapper.enable(SerializationFeature.INDENT_OUTPUT);

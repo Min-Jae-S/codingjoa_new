@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import com.codingjoa.dto.SuccessResponse;
+import com.codingjoa.security.dto.PrincipalDetails;
 import com.codingjoa.util.FormatUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -38,16 +41,17 @@ public class TestSseController {
 		String authenticationName = authentication.getClass().getSimpleName();
 		log.info("\t > authentication = {}", authenticationName);
 		
+		Object principal = null;
 		if (authentication != null) {
-			Object principal = authentication.getPrincipal();
-			log.info("\t > principal: {}", FormatUtils.formatPrettyJson(principal));
+			principal = authentication.getPrincipal();
+			if (authentication instanceof UsernamePasswordAuthenticationToken) {
+				log.info("\t > principal: {}", FormatUtils.formatPrettyJson(principal));
+			} else if ( authentication instanceof AnonymousAuthenticationToken) {
+				log.info("\t > principal: {}", principal);
+			}
 		}
 		
-		SuccessResponse response = SuccessResponse.builder()
-				.data(authenticationName)
-				.build();
-		
-		return ResponseEntity.ok(response);
+		return ResponseEntity.ok(SuccessResponse.builder().data(principal).build());
 	}
 	
 	@GetMapping("/test2")
