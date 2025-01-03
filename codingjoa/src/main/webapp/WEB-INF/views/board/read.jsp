@@ -21,7 +21,7 @@
 <script src="${contextPath}/resources/js/comment.js"></script>
 <script src="${contextPath}/resources/js/likes.js"></script>
 <script src="${contextPath}/resources/js/handle-errors.js"></script>
-<script src="${contextPath}/resources/js/render.js"></script>
+<script src="${contextPath}/resources/js/html-creator.js"></script>
 <!-- ckeditor -->
 <script src="${contextPath}/resources/ckeditor5/plugins/ckeditor-plugins.js"></script>
 <script src="${contextPath}/resources/ckeditor5/build/ckeditor.js"></script>
@@ -390,7 +390,7 @@
 
 <div class="container board-container" onselectstart="return false" ondragstart="return false">
 	<div class="read-wrap">
-		<div class="card">
+		<div class="card rounded-md">
 			<div class="header-group">
 				<div class="category dropright mb-2">
 					<a class="board-category" href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}">

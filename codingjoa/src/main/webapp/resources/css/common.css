@@ -8,7 +8,7 @@ html, body {
 
 .home-container {
 	margin-top: 8rem;
-	margin-bottom: 4rem;
+	margin-bottom: 8rem;
 } 
 
 .error-container {
@@ -34,6 +34,11 @@ html, body {
 .board-container {
 	margin-top: 6rem;
 	margin-bottom: 8rem;
+}
+
+.admin-container {
+	margin-top: 8rem;
+	margin-bottom: 4rem;
 }
 
 input::placeholder, input::-webkit-input-placeholder {
@@ -130,4 +135,8 @@ li.nav-item {
 
 .w-40 {
 	width: 40% !important;	
+}
+
+.rounded-md {
+	border-radius: 0.5rem;
 }

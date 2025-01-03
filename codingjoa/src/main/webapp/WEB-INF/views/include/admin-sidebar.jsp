@@ -60,7 +60,6 @@
 							</c:choose>
 							<span class="font-weight-bold text-body" id="navMemberNickname">
 								<c:out value="${principal.nickname}"/>
-								<sec:authorize access="hasRole('ROLE_ADMIN')">(관리자)</sec:authorize>
 							</span>
 						</a>
 					</li>
@@ -80,7 +79,7 @@
 </nav>
 
 <script src="${contextPath}/resources/js/category.js"></script>
-<script src="${contextPath}/resources/js/html-creator.js"></script>
+<script src="${contextPath}/resources/js/render.js"></script>
 <script>
 	$(function() {
 		let timer, delay = 200;

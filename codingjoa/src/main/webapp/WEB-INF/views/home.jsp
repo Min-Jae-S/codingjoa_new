@@ -89,9 +89,7 @@
 				</ul>
 			</div>
 			<div class="card-body" id="configBody">
-				<!-- <h5 class="card-title">Special title treatment</h5>
-				<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-				<a href="#" class="btn btn-primary">Go somewhere</a> -->
+				<!-- cofing info -->
 			</div>
 		</div>
 	</div>
@@ -101,50 +99,29 @@
 
 <script>
 	$(function() {
-		/* let url = $("#configHeader a.active").attr("href");
-		getConfig(url, function(result) {
-			let message = result.message;
-			if (message != "") {
-				alert(message);
-			}
-			
-			let list = result.data;
-			if (list != null && list.length != 0) {
-				let configHtml = makeConfigHtml(list);
-				$("#configBody").html(configHtml);
-			}
-		}); */
-		
 		$("#configHeader a").on("click", function (e) {
 			e.preventDefault();
 			$("#configBody").empty();
 			$("#configHeader a").removeClass("active");
 			$(this).addClass("active");
 			
-			let url = $(this).attr("href");
-			getConfig(url, function(result) {
-				let configHtml = createConfigHtml(result.data);
-				$("#configBody").html(configHtml);
+			$.ajax({
+				type : "GET",
+				url : $(this).attr("href"),
+				dataType : "json",
+				success : function(result) {
+					console.log(JSON.stringify(result, null, 2));
+					let configHtml = createConfigHtml(result.data);
+					$("#configBody").html(configHtml);
+				},
+				error : function(jqXHR) {
+					console.log(JSON.stringify(jqXHR, null, 2));
+					let errorResponse = JSON.parse(jqXHR.responseText);
+					alert(errorResponse.errorMessage);
+				}
 			});
 		});
 	});
-	
-	function getConfig(url, callback) {
-		$.ajax({
-			type : "GET",
-			url : url,
-			dataType : "json",
-			success : function(result) {
-				console.log(JSON.stringify(result, null, 2));
-				callback(result);
-			},
-			error : function(jqXHR) {
-				console.log(JSON.stringify(jqXHR, null, 2));
-				let errorResponse = JSON.parse(jqXHR.responseText);
-				alert(errorResponse.errorMessage);
-			}
-		});
-	}
 	
 	function createConfigHtml(data) {
 		let html = "";

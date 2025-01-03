@@ -23,7 +23,7 @@ function createPagedCommentHtml(pagedComment) {
 		return html;
 	}
 	
-	html += "<ul class='list-group list-group-flush'>";
+	html += "<ul class='list-group list-group-flush rounded-md'>";
 	$.each(pagedComment, function(i, commentDetails) {
 		if (commentDetails == "") {
 			html += "<li class='list-group-item deleted-comment'>";
