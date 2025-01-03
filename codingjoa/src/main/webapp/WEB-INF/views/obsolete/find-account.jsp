@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Codingjoa | 계정 찾기</title>
+<title>계정 찾기 | Codingjoa</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
@@ -114,11 +114,11 @@
 			}
 		});
 		
-		$("input").on("focus", function() {
+		$("#memberEmail").on("focus", function() {
 			$(this).closest("dd").css("border-bottom", "1px solid #868e96");
 		});
 	
-		$("input").on("blur", function() {
+		$("#memberEmail").on("blur", function() {
 			$(this).closest("dd").css("border-bottom", "1px solid #dee2e6");
 		});
 	});

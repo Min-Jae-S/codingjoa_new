@@ -45,13 +45,12 @@
 		display: inline-block;
 	}
 
-	.link-li+.link-li::before {
+	/* .link-li+.link-li::before {
 		content: "|";
 		margin-right: 10px;
 		margin-left: 10px;
-		/*color: #adb5bd;*/
 		color: grey;
-	}
+	} */
 	
 	.login-wrap {
 		width: 500px;
@@ -135,9 +134,9 @@
 				<div class="info-member">
 					<a class="link-join" href="${contextPath}/member/join">회원가입</a>
 					<ul class="link-ul">
-						<li class="link-li">
+						<%-- <li class="link-li">
 							<a href="${contextPath}/member/findAccount">계정 찾기</a>
-						</li>
+						</li> --%>
 						<li class="link-li">
 							<a href="${contextPath}/member/findPassword">비밀번호 찾기</a>
 						</li>

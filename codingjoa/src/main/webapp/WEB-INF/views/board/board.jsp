@@ -110,7 +110,7 @@
         		</form:select>
 			</form:form>
 		</div>
-		<div class="pt-3 mb-3">
+		<div class="pt-4 mb-3">
 			<table class="table">
 				<thead>
 					<tr>
