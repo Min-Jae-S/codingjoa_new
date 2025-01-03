@@ -114,11 +114,11 @@
 			}
 		});
 		
-		$("input").on("focus", function() {
+		$("#memberId, #memberEmail").on("focus", function() {
 			$(this).closest("dd").css("border-bottom", "1px solid #868e96");
 		});
 	
-		$("input").on("blur", function() {
+		$("#memberId, #memberEmail").on("blur", function() {
 			$(this).closest("dd").css("border-bottom", "1px solid #dee2e6");
 		});
 	});

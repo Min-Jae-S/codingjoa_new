@@ -84,6 +84,15 @@
 		width: 820px;
 		margin: 0 auto;
 	}
+	
+	.board-link {
+		color: black;
+	}
+	
+	.board-link:hover {
+		color: inherit;
+		text-decoration: none;
+	}
 </style>
 </head>
 <body>
@@ -92,11 +101,15 @@
 
 <div class="container board-container">
 	<div class="board-wrap">
-		<h4 class="font-weight-bold mb-4"><c:out value="${category.categoryName}"/></h4>
+		<h4 class="font-weight-bold mb-4">
+			<a href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}" class="board-link">
+				<c:out value="${category.categoryName}"/>
+			</a>
+		</h4>
 		<div class="pt-3">
         	<form:form class="form-inline" action="${contextPath}/board/" method="GET" modelAttribute="boardCri">
         		<input type="hidden" name="boardCategoryCode" value="${category.categoryCode}">
-			  	<form:select path="type" class="custom-select custom-select-sm mr-2">
+			  	<form:select path="type" class="custom-select custom-select-sm mr-3">
 			  		<form:options items="${typeGroup}"/>
 			  	</form:select>
 				<div class="input-group">

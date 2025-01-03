@@ -16,12 +16,14 @@
 </style>
 </head>
 <body>
-<c:import url="/WEB-INF/views/include/top-menu.jsp"/>
+
+<%-- <c:import url="/WEB-INF/views/include/top-menu.jsp"/> --%>
 
 <div class="container admin-container">
 	<h1>ADMIN HOME</h1>
 </div>
 
-<c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
+<%-- <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/> --%>
+
 </body>
 </html>

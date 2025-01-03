@@ -77,18 +77,19 @@ li.nav-item {
 
 .navbar-custom .navbar-brand {
 	color: black;
+	font-size: 1.5rem;
 }
 
 .navbar-custom .navbar-nav .nav-link {
-	color: grey;
+	color: #525661;
+	border-radius: 0.6rem;
 }
 
-.navbar-custom .navbar-nav .nav-link:hover {
-	color: black;
-	font-weight: bold;
+.navbar-custom .navbar-nav .nav-link:hover:not(.nav-member-profile) {
+	background-color: #f1f3f5;
 }
 
-.nav-memeber-profile {
+.nav-member-profile {
 	display: flex;
 	align-items: center;
 }
@@ -115,10 +116,14 @@ li.nav-item {
 .navbar-nav button.dropdown-item {
 	padding: 0.25rem 1rem;
 	font-size: 0.95rem;
-	color: grey;
+	color: #525661;
 	font-weight: 400;
 	background-color: transparent;
 	height: 35px;
+}
+
+.navbar-nav button.dropdown-item:hover {
+	background-color: #f1f3f5;
 }
 
 .navbar-nav button.dropdown-item:first-child {

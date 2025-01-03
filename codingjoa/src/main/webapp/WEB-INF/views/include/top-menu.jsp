@@ -33,23 +33,23 @@
 				<sec:authentication property="principal" var="principal"/>
 				<c:if test="${empty principal}">
 					<li class="nav-item mx-2 mt-1">
-						<a href="${contextPath}/login?continue=${loginCurrentUrl}" class="nav-link">로그인</a>
+						<a href="${contextPath}/login?continue=${loginCurrentUrl}" class="nav-link rounded-md">로그인</a>
 					</li>
 					<li class="nav-item mx-2 mt-1">
-						<a href="${contextPath}/member/join" class="nav-link">회원가입</a>
+						<a href="${contextPath}/member/join" class="nav-link rounded-md">회원가입</a>
 					</li>
 				</c:if>
 				<sec:authorize access="isAnonymous()">
 					<li class="nav-item mx-2 mt-1">
-						<a href="${contextPath}/login?continue=${loginCurrentUrl}" class="nav-link">로그인</a>
+						<a href="${contextPath}/login?continue=${loginCurrentUrl}" class="nav-link rounded-md">로그인</a>
 					</li>
 					<li class="nav-item mx-2 mt-1">
-						<a href="${contextPath}/member/join" class="nav-link">회원가입</a>
+						<a href="${contextPath}/member/join" class="nav-link rounded-md">회원가입</a>
 					</li>
 				</sec:authorize>
 				<sec:authorize access="isAuthenticated()">
 					<li class="nav-item mx-2">
-						<a href="${contextPath}/member/account" class="nav-link nav-memeber-profile">
+						<a href="${contextPath}/member/account" class="nav-link nav-member-profile">
 							<c:choose>
 								<c:when test="${not empty principal.imageUrl}">
 									<img class="nav-member-image" id="navMemberImage" src="${principal.imageUrl}">
@@ -60,18 +60,22 @@
 							</c:choose>
 							<span class="font-weight-bold text-body" id="navMemberNickname">
 								<c:out value="${principal.nickname}"/>
-								<sec:authorize access="hasRole('ROLE_ADMIN')">(관리자)</sec:authorize>
 							</span>
 						</a>
 					</li>
 					<li class="nav-item">
 						<span class="nav-link" style="pointer-events: none;">|</span>
 					</li>
+					<sec:authorize access="hasRole('ROLE_ADMIN')">
+						<li class="nav-item mx-2">
+							<a href="${contextPath}/admin" class="nav-link rounded-md">관리자 페이지</a>
+						</li>
+					</sec:authorize>
 					<li class="nav-item mx-2">
-						<a href="${contextPath}/member/account" class="nav-link">계정 관리</a>
+						<a href="${contextPath}/member/account" class="nav-link rounded-md">계정 관리</a>
 					</li>
 					<li class="nav-item mx-2">
-						<a href="${contextPath}/logout?continue=${logoutCurrentUrl}" class="nav-link">로그아웃</a>
+						<a href="${contextPath}/logout?continue=${logoutCurrentUrl}" class="nav-link rounded-md">로그아웃</a>
 					</li>
 				</sec:authorize>
 			</ul>
@@ -88,7 +92,6 @@
 		
 		$("li.category").on("mouseenter", function() {
 			clearTimeout(timer);
-			$(this).find("a").css("color", "black").css("font-weight", "bold");
 			
 			let category = $(this).data("category");
 			let $dropdown = $(this).find("div.dropdown-menu");
@@ -105,17 +108,9 @@
 		
 		$("li.category").on("mouseleave", function() {
 			clearTimeout(timer);
-			$(this).find("a").css("color", "grey").css("font-weight", "400");
 			$dropdowns.removeClass("show").empty();
 		});
 
-		$(document).on("mouseenter", "li.category button.dropdown-item", function() {
-			$(this).css("color", "black").css("font-weight", "bold");
-		});
-
-		$(document).on("mouseleave", "li.category button.dropdown-item", function() {
-			$(this).css("color", "grey").css("font-weight", "400");
-		});
 		
 		$(document).on("click", "li.category button.dropdown-item", function() {
 			let parentPath = $(this).closest("li.dropdown").data("path");
@@ -123,22 +118,13 @@
 		});
 		
 		$("li.test").on("mouseenter", function() {
-			$(this).find("a").css("color", "black").css("font-weight", "bold");
 			$(this).find("div.dropdown-menu").addClass("show");
 		});
 
 		$("li.test").on("mouseleave", function() {
-			$(this).find("a").css("color", "grey").css("font-weight", "400");
 			$(this).find("div.dropdown-menu").removeClass("show");
 		});
 		
-		$("li.test button.dropdown-item").on("mouseenter", function() {
-			$(this).css("color", "black").css("font-weight", "bold");
-		});
-
-		$("li.test button.dropdown-item").on("mouseleave", function() {
-			$(this).css("color", "grey").css("font-weight", "400");
-		});
 	});
 	
 	function adminApi(url) {
