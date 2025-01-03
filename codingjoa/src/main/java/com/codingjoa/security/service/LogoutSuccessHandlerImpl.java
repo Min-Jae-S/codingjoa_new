@@ -22,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
 	
+	private static final String FORWARD_PATH = "/WEB-INF/views/router/alert-and-redirect.jsp";
 	private final RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 	
 	@Override
@@ -33,8 +34,9 @@ public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
 		request.setAttribute("continueUrl", UriUtils.resolveContinueUrl(continueUrl, request));
 		request.setAttribute("message", MessageUtils.getMessage("success.Logout"));
 		
-		log.info("\t > forward to feedback.jsp");
-		request.getRequestDispatcher("/WEB-INF/views/feedback.jsp").forward(request, response);
+		log.info("\t > forward to 'alert-and-redirect.jsp'");
+		request.getRequestDispatcher(FORWARD_PATH).forward(request, response);
+		
 		//redirectStrategy.sendRedirect(request, response, continueUrl);
 	}
 

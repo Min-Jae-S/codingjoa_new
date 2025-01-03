@@ -20,6 +20,8 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class OAuth2LoginFailureHandler implements AuthenticationFailureHandler {
 
+	private static final String FORWARD_PATH = "/WEB-INF/views/router/alert-and-redirect.jsp";
+	
 	@Override
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException exception) throws IOException, ServletException {
@@ -38,7 +40,7 @@ public class OAuth2LoginFailureHandler implements AuthenticationFailureHandler {
 		request.setAttribute("message", message);
 		request.setAttribute("continueUrl", UriUtils.buildLoginUrl(request, ""));
 		
-		log.info("\t > forward to 'feedback.jsp'");
-		request.getRequestDispatcher("/WEB-INF/views/feedback.jsp").forward(request, response);
+		log.info("\t > forward to 'alert-and-redirect.jsp'");
+		request.getRequestDispatcher(FORWARD_PATH).forward(request, response);
 	}
 }

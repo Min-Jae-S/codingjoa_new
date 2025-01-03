@@ -32,13 +32,15 @@ import lombok.extern.slf4j.Slf4j;
  * 	as necessary to commence the authentication process.
  */
 
+@SuppressWarnings("unused")
 @Slf4j
 @RequiredArgsConstructor
 @Component
 public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 
-	private final ObjectMapper objectMapper;
+	private static final String FORWARD_PATH = "/WEB-INF/views/router/alert-and-redirect.jsp";
 	private final RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+	private final ObjectMapper objectMapper;
 	
 	@Override
 	public void commence(HttpServletRequest request, HttpServletResponse response,
@@ -76,12 +78,13 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 			response.getWriter().write(jsonResponse);
 			response.getWriter().close();
 		} else {
-			redirectStrategy.sendRedirect(request, response, UriUtils.buildLoginUrl(request));
-			//request.setAttribute("message", errorResponse.getMessage());
-			//request.setAttribute("continueUrl", UriUtils.buildLoginUrl(request));
+			request.setAttribute("message", errorResponse.getMessage());
+			request.setAttribute("continueUrl", UriUtils.buildLoginUrl(request));
 
-			//log.info("\t > forward to 'feedback.jsp'");
-			//request.getRequestDispatcher("/WEB-INF/views/feedback.jsp").forward(request, response);
+			log.info("\t > forward to 'alert-and-redirect.jsp'");
+			request.getRequestDispatcher(FORWARD_PATH).forward(request, response);
+
+			//redirectStrategy.sendRedirect(request, response, UriUtils.buildLoginUrl(request));
 		}
 	}
 }

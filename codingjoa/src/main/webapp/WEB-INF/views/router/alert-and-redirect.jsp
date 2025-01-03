@@ -9,5 +9,6 @@
 	if (message != "") {
 		alert(message);
 	}
+	
 	location.href = continueUrl;
 </script>

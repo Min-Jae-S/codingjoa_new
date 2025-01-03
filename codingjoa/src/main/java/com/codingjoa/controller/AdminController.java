@@ -11,7 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 public class AdminController {
 
-	@GetMapping("/")
+	@GetMapping
 	public String adminHome() {
 		log.info("## adminHome");
 		return "admin/admin-home";

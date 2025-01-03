@@ -71,7 +71,7 @@ public class JwtProvider {
 		log.info("\t > parsed claims: {}", FormatUtils.formatPrettyJson(claims));
 		
 		PrincipalDetails principal = PrincipalDetails.from(claims);
-		log.info("\t > principal from claims: {}", FormatUtils.formatPrettyJson(principal));
+		log.info("\t > principal from claims = {}", principal);
 		
 		return new UsernamePasswordAuthenticationToken(principal, null, principal.getAuthorities());
 	}

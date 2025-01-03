@@ -29,6 +29,7 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 
 	private static final String JWT_COOKIE = "ACCESS_TOKEN";
 	private static final long COOKIE_EXPIRE_SECONDS = Duration.ofHours(6L).getSeconds();
+	private static final String FORWARD_PATH = "/WEB-INF/views/router/alert-and-redirect.jsp";
 	private final RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 	private final JwtProvider jwtProvider;
 	
@@ -48,8 +49,8 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 		request.setAttribute("continueUrl", UriUtils.resolveContinueUrl(continueUrl, request));
 		request.setAttribute("message", MessageUtils.getMessage("success.Login"));
 		
-		log.info("\t > forward to 'feedback.jsp'");
-		request.getRequestDispatcher("/WEB-INF/views/feedback.jsp").forward(request, response);
+		log.info("\t > forward to 'alert-and-redirect.jsp'");
+		request.getRequestDispatcher(FORWARD_PATH).forward(request, response);
 		//redirectStrategy.sendRedirect(request, response, continueUrl);
 	}
 }

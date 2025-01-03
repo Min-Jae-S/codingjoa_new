@@ -24,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 public class MainController {
 	
-	@GetMapping("/")
+	@GetMapping
 	public String home() {
 		log.info("## home");
 		return "home";
@@ -36,12 +36,6 @@ public class MainController {
 		log.info("\t > continueUrl = {}", FormatUtils.formatString(continueUrl));
 		model.addAttribute("continueUrl", continueUrl);
 		return "login";
-	}
-	
-	@GetMapping
-	public String admin() {
-		log.info("## adminHome");
-		return "admin-home";
 	}
 	
 	@ResponseBody

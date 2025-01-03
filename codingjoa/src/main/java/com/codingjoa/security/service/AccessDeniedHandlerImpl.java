@@ -42,9 +42,10 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Component
 public class AccessDeniedHandlerImpl implements AccessDeniedHandler {
-	
-	private final ObjectMapper objectMapper;
+
+	private static final String FORWARD_PATH = "/WEB-INF/views/router/alert-and-redirect.jsp";
 	private final RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+	private final ObjectMapper objectMapper;
 
 	@Override
 	public void handle(HttpServletRequest request, HttpServletResponse response,
@@ -74,8 +75,8 @@ public class AccessDeniedHandlerImpl implements AccessDeniedHandler {
 			request.setAttribute("continueUrl", UriUtils.resolveContinueUrl(referer, request));
 			request.setAttribute("message", errorResponse.getMessage());
 			
-			log.info("\t > forward to 'feedback.jsp'");
-			request.getRequestDispatcher("/WEB-INF/views/feedback.jsp").forward(request, response);
+			log.info("\t > forward to 'alert-and-redirect.jsp'");
+			request.getRequestDispatcher(FORWARD_PATH).forward(request, response);
 			//redirectStrategy.sendRedirect(request, response, "/");
 		}
 	}
