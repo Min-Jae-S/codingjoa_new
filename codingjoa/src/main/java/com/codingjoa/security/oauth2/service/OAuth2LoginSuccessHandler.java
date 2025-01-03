@@ -37,6 +37,7 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
 		log.info("## {}", this.getClass().getSimpleName());
+		log.info("\t > principal = {}", authentication.getPrincipal());
 		
 		log.info("\t > create JWT and issue it as a cookie");
 		String jwt = jwtProvider.createJwt(authentication, request);
@@ -51,6 +52,7 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 		
 		log.info("\t > forward to 'alert-and-redirect.jsp'");
 		request.getRequestDispatcher(FORWARD_PATH).forward(request, response);
+		
 		//redirectStrategy.sendRedirect(request, response, continueUrl);
 	}
 }

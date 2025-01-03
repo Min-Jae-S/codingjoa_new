@@ -77,6 +77,7 @@ public class AccessDeniedHandlerImpl implements AccessDeniedHandler {
 			
 			log.info("\t > forward to 'alert-and-redirect.jsp'");
 			request.getRequestDispatcher(FORWARD_PATH).forward(request, response);
+			
 			//redirectStrategy.sendRedirect(request, response, "/");
 		}
 	}

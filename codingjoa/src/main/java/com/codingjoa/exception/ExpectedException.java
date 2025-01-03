@@ -13,6 +13,7 @@ public class ExpectedException extends RuntimeException {
 		this.errorCode = errorCode;
 		this.errorField = errorField;
 	}
+	
 	public ExpectedException(String errorCode) {
 		this(errorCode, null);
 	}

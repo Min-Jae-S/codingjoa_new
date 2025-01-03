@@ -38,7 +38,7 @@ public class PreExceptionHandlerExceptionResolver extends ExceptionHandlerExcept
 		log.info("\t > handlerMethod = {}", handlerMethod);
 		
 		if (handlerMethod == null) {
-			log.info("\t > exception will be handled by current resolver: {}", this.getClass().getSimpleName());
+			log.info("\t > exception will be handled by this resolver: {}", this.getClass().getSimpleName());
 			return super.doResolveHandlerMethodException(request, response, handlerMethod, exception);
 		}
 		
