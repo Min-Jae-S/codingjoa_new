@@ -4,11 +4,11 @@
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 
 <!-- navbar -->
-<nav class="navbar navbar-custom navbar-expand-md">
+<nav class="navbar navbar-custom navbar-expand-sm">
 	<div class="container-fluid px-5">
 		<a class="navbar-brand font-weight-bold" href="${contextPath}">Codingjoa</a>
 		<div class="collapse navbar-collapse">
-			<ul class="navbar-nav mr-auto">
+			<ul class="navbar-nav">
 				<c:forEach var="parentCategory" items="${parentCategoryList}">
 					<li class="nav-item dropdown category mx-2" data-category="${parentCategory.categoryCode}" data-path="${parentCategory.categoryPath}">
 						<a href="${contextPath}${parentCategory.categoryPath}" class="nav-link">
@@ -33,7 +33,7 @@
 				<sec:authentication property="principal" var="principal"/>
 				<c:if test="${empty principal}">
 					<li class="nav-item mx-2 mt-1">
-						<a href="${contextPath}/login?continue=${loginCurrentUrl}" class="nav-link rounded-md">로그인</a>
+						<a href="${contextPath}/login?continue=${loginCurrentUrl}" class="nav-link">로그인</a>
 					</li>
 					<li class="nav-item mx-2 mt-1">
 						<a href="${contextPath}/member/join" class="nav-link rounded-md">회원가입</a>
@@ -41,10 +41,10 @@
 				</c:if>
 				<sec:authorize access="isAnonymous()">
 					<li class="nav-item mx-2 mt-1">
-						<a href="${contextPath}/login?continue=${loginCurrentUrl}" class="nav-link rounded-md">로그인</a>
+						<a href="${contextPath}/login?continue=${loginCurrentUrl}" class="nav-link">로그인</a>
 					</li>
 					<li class="nav-item mx-2 mt-1">
-						<a href="${contextPath}/member/join" class="nav-link rounded-md">회원가입</a>
+						<a href="${contextPath}/member/join" class="nav-link">회원가입</a>
 					</li>
 				</sec:authorize>
 				<sec:authorize access="isAuthenticated()">
@@ -68,14 +68,14 @@
 					</li>
 					<sec:authorize access="hasRole('ROLE_ADMIN')">
 						<li class="nav-item mx-2">
-							<a href="${contextPath}/admin" class="nav-link rounded-md">관리자 페이지</a>
+							<a href="${contextPath}/admin" class="nav-link">관리자 페이지</a>
 						</li>
 					</sec:authorize>
 					<li class="nav-item mx-2">
-						<a href="${contextPath}/member/account" class="nav-link rounded-md">계정 관리</a>
+						<a href="${contextPath}/member/account" class="nav-link">계정 관리</a>
 					</li>
 					<li class="nav-item mx-2">
-						<a href="${contextPath}/logout?continue=${logoutCurrentUrl}" class="nav-link rounded-md">로그아웃</a>
+						<a href="${contextPath}/logout?continue=${logoutCurrentUrl}" class="nav-link">로그아웃</a>
 					</li>
 				</sec:authorize>
 			</ul>

@@ -6,6 +6,10 @@ html, body {
 	min-height: 100%;
 }
 
+html {
+    zoom: 0.85;
+}
+
 .main-container {
 	margin-top: 8rem;
 	margin-bottom: 8rem;
@@ -56,14 +60,14 @@ input::placeholder, input::-webkit-input-placeholder {
 }
 
 .navbar-custom {
-	position: sticky;
 	top: 0;
 	border-bottom: 1px solid #dedede !important;
-	background-color: white;
-	z-index: 999;
+	background-color: white; /* sticky이므로 불투명 하게 하기 */
+	/* z-index: 999; */
 	padding-top: 0;
 	padding-bottom: 0;
 	height: 60px;
+	position: sticky;
 }
 
 div.container-fluid, div.collapse, ul.navbar-nav {
@@ -78,6 +82,10 @@ li.nav-item {
 .navbar-custom .navbar-brand {
 	color: black;
 	font-size: 1.5rem;
+}
+
+.navbar-custom .navbar-nav {
+	flex-shrink: 0;
 }
 
 .navbar-custom .navbar-nav .nav-link {
