@@ -25,9 +25,9 @@ import lombok.extern.slf4j.Slf4j;
 public class MainController {
 	
 	@GetMapping
-	public String home() {
-		log.info("## home");
-		return "home";
+	public String main() {
+		log.info("## main");
+		return "main";
 	}
 
 	@GetMapping("/login") 

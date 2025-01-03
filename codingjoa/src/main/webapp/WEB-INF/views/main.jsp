@@ -45,7 +45,7 @@
 
 <c:import url="/WEB-INF/views/include/top-menu.jsp"/>
 
-<div class="container home-container">
+<div class="container main-container">
 	<div class="home-wrap">
 		<div class="card">
 			<div class="card-header" id="configHeader">
