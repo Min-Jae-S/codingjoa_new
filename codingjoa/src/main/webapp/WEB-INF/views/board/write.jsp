@@ -23,21 +23,13 @@
 <script src="${contextPath}/resources/js/attrchange.js"></script>
 <script src="${contextPath}/resources/js/attrchange_ext.js"></script>
 <style>
-	/* .custom-select, input#boardTitle.form-control {
-		font-size: 0.9rem;
-	}
-	
-	.form-group button {
-		font-size: 0.9rem;
-	} */
-	
 	input::placeholder {
 		font-size: 1rem !important
 	}
 	
 	span.error {
 		display: inline-block;
-		padding-top: 7px;
+		padding: .5rem;
 	}
 	
 	.ck-toolbar {
@@ -46,8 +38,8 @@
 	
 	.ck-editor__editable {
 		min-height: 350px;
-		padding-left: 1em !important;
-		padding-right: 1em !important;
+		padding-left: 1rem !important;
+		padding-right: 1rem !important;
 		border-radius: 0 0 .75rem .75rem !important;
 	}
 
@@ -57,10 +49,6 @@
 	
 	.ck-button__label {
 		font-size: 1rem !important;
-	}
-	
-	.ck-placeholder {
-		/* font-size: 0.9rem; */
 	}
 	
 	.write-wrap {

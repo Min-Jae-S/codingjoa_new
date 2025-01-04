@@ -138,6 +138,7 @@ function createCommentHtml(commentDetails) {
 }*/
 
 function createEditCommentHtml(commentDetails) {
+	console.log("## createEditCommentHtml");
 	let html = "";
 	html += "<div class='comment-thum'>";
 	if (commentDetails.commentWriterImageUrl == "") {
@@ -162,11 +163,11 @@ function createEditCommentHtml(commentDetails) {
 	html += "<div class='comment-edit-wrap'>";
 	html += "<form>"
 	html += "<div class='input-group'>";
-	html += "<div class='comment-edit form-control'>";
+	html += "<div class='comment-edit form-control rounded-md'>";
 	html += "<textarea name='commentContent' rows='1'>" + commentDetails.commentContent + "</textarea>";
 	html += "<div class='mt-2'>";
-	html += "<button class='btn btn-sm btn-outline-primary' type='submit'>수정</button>";
-	html += "<button class='btn btn-sm btn-outline-secondary ml-2' type='button'>취소</button>";
+	html += "<button class='btn btn-sm btn-outline-primary rounded-md' type='button'>수정</button>";
+	html += "<button class='btn btn-sm btn-outline-secondary ml-2 rounded-md' type='button'>취소</button>";
 	html += "</div>";		
 	html += "</div>";			
 	html += "</div>";	

@@ -107,20 +107,6 @@
 		gap: 1.5rem;
 	}
 	
-	
-/* 	.comment-createdat {
-		font-size: 13px;
-		color: #979797;
-	}
-	
-	.comment-createdat::before {
-		content: "(";
-	}
-
-	.comment-createdat::after {
-		content: ")";
-	} */
-	
 	.comment-input {
 		margin: 0;
 		padding: 1.3rem 1.3rem 1rem 1.3rem;
@@ -230,22 +216,6 @@
 		align-items: center;
 		gap: 0.5rem;
 	}
-	
-	/* .comment-area {
-		display: flex;
-	}  */
-	
-	/* .comment-area .comment-area-header {
-		display: flex;
-		width: 90% !important;
-		flex-direction: column;
-	} */
-	
-	/* .comment-area .comment-area-footer {
-		display: flex;
-		flex-direction: column;
-		margin-left: auto;
-	} */
 	
 	.comment-utils-btn {
 		box-shadow: none !important;
@@ -443,7 +413,7 @@
 						<div class="comment-write-wrap">
 							<form>
 								<div class="input-group">
-									<div class="comment-input form-control">
+									<div class="comment-input form-control rounded-md">
 										<sec:authorize access="isAuthenticated()">
 											<p class="font-weight-bold mb-2">
 												<sec:authentication property="principal.nickname"/>

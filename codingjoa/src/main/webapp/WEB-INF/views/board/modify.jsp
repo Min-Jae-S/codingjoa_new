@@ -21,36 +21,32 @@
 <script src="${contextPath}/resources/ckeditor5/build/ckeditor.js"></script>
 <script src="${contextPath}/resources/js/editor.js"></script>
 <style>
-	/* .custom-select, input#boardTitle.form-control {
-		font-size: 0.9rem;
-	}
-	
-	.form-group button {
-		font-size: 0.9rem;
-	} */
-	
 	input::placeholder {
-		font-size: 1rem;
+		font-size: 1rem !important
 	}
 	
 	span.error {
 		display: inline-block;
-		padding-top: 7px;
+		padding: .5rem;
 	}
 	
-	.ck-editor__editable[role="textbox"] {
+	.ck-toolbar {
+		border-radius: .75rem .75rem 0 0 !important;
+	}
+	
+	.ck-editor__editable {
 		min-height: 350px;
-		/* font-size: 0.9rem; */
-		padding-left: 0.75rem;
-		padding-right: 0.75rem;
+		padding-left: 1rem !important;
+		padding-right: 1rem !important;
+		border-radius: 0 0 .75rem .75rem !important;
 	}
 	
-	.ck-editor__editable[role="textbox"] p {
-		margin: 0;
+	.ck-editor__editable p {
+		margin-bottom: .5rem;
 	}
 	
-	.ck-placeholder {
-		/* font-size: 0.9rem; */
+	.ck-button__label {
+		font-size: 1rem !important;
 	}
 	
 	.modify-wrap {
@@ -69,22 +65,22 @@
 		<div class="pt-4 border-top border-dark">
 			<form:form action="${contextPath}/board/modify" method="POST" modelAttribute="modifyBoardDto">
 				<form:hidden path="boardIdx"/>
-				<div class="form-row">
-					<div class="form-group col-md-8">
-						<form:select class="custom-select" path="boardCategoryCode">
+				<div class="d-flex justify-content-between mb-3">
+					<div class="w-75">
+						<form:select class="custom-select rounded-md" path="boardCategoryCode">
 							<form:options items="${boardCategoryList}" itemValue="categoryCode" itemLabel="categoryName"/>
 						</form:select>
 						<form:errors path="boardCategoryCode" cssClass="error"/>
 					</div>
-					<div class="form-group col-md-2">
-						<form:button class="btn btn-primary btn-block" id="modifyBtn">수정</form:button>
+					<div class="w-10">
+						<form:button class="btn btn-primary btn-block rounded-md" id="modifyBtn">수정</form:button>
 					</div>
-					<div class="form-group col-md-2">
-						<button type="button" class="btn btn-secondary btn-block" id="resetBtn">취소</button>
+					<div class="w-10">
+						<button type="button" class="btn btn-secondary btn-block rounded-md" id="resetBtn">취소</button>
 					</div>
 				</div>
 				<div class="form-group">
-					<form:input path="boardTitle" class="form-control" placeholder="제목을 입력하세요."/>
+					<form:input path="boardTitle" class="form-control rounded-md" placeholder="제목을 입력하세요."/>
 					<form:errors path="boardTitle" class="error"/>
 				</div>
 				<div class="form-group">
