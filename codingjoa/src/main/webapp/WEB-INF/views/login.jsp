@@ -53,12 +53,8 @@
 	} */
 	
 	.login-wrap {
-		width: 500px;
+		min-width: 500px;
 		margin: 0 auto;
-	}
-	
-	.login-wrap .card {
-		border-radius: 16px;
 	}
 	
 	.social-login {
@@ -114,7 +110,7 @@
 
 <div class="container login-container">
 	<div class="login-wrap">
-		<div class="card">
+		<div class="card rounded-xl">
 			<div class="card-body p-5">
 				<form id="loginForm">
 					<div class="id_pw_wrap">

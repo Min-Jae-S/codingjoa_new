@@ -24,6 +24,8 @@
 	
 	#configBody {
 		padding: 2.5rem;
+		height: 450px;
+		overflow-y: auto;
 	}
 	
 	#configBody p {
@@ -35,8 +37,8 @@
 		margin-bottom: 0;
 	}
 	
-	.home-wrap {
-		width: 920px;
+	.main-wrap {
+		min-width: 920px;
 		margin: 0 auto;
 	}
 </style>
@@ -46,8 +48,8 @@
 <c:import url="/WEB-INF/views/include/top-menu.jsp"/>
 
 <div class="container main-container">
-	<div class="home-wrap">
-		<div class="card">
+	<div class="main-wrap">
+		<div class="card rounded-md">
 			<div class="card-header" id="configHeader">
 				<ul class="nav nav-tabs card-header-tabs">
 					<li class="nav-item">

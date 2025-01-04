@@ -1,42 +1,47 @@
 @charset "UTF-8";
 
 html {
-    zoom: 0.85;
+    zoom: 0.8;
 }
 
 html, body {
-	height: 100%;
-	overflow-x: hidden;
-	margin: 0;
-	padding: 0;
+    height: 100%;   
+    margin: 0;   
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+}
+
+.container {
+	flex-grow: 1;
 }
 
 .main-container {
 	margin-top: 8rem;
 	margin-bottom: 8rem;
+	display: flex;
+	align-items: center;
 }
 
 .error-container {
 	margin-top: 13.5rem;
 }
 
-.login-container,
-.join-container,
-.account-container,
-.find-password-container {
+.login-container, .join-container, .account-container, .find-password-container {
 	margin-top: 7rem;
 	margin-bottom: 7rem;
-	height: 100%;
+	display: flex;
+	align-items: center;
 }
 
 .board-container {
 	margin-top: 6rem;
-	margin-bottom: 8rem;
+	margin-bottom: 6rem;
 }
 
 .admin-container {
 	margin-top: 8rem;
-	margin-bottom: 4rem;
+	margin-bottom: 8rem;
 }
 
 input::placeholder, 
@@ -61,7 +66,7 @@ input::-webkit-input-placeholder {
 	z-index: 999;
 	padding-top: 0;
 	padding-bottom: 0;
-	height: 60px;
+	min-height: 60px;
 	position: sticky;
 }
 
@@ -153,4 +158,12 @@ li.nav-item {
 
 .rounded-md {
 	border-radius: 0.5rem;
+}
+
+.rounded-xl {
+	border-radius: 1rem;
+}
+
+footer {
+	border-top: 1px solid #dedede !important;
 }

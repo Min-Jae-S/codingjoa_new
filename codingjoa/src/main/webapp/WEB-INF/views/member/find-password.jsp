@@ -55,7 +55,7 @@
 	}
 	
 	.find-password-wrap {
-		width: 540px;
+		min-width: 540px;
 		margin: 0 auto;
 	}
 </style>

@@ -26,17 +26,12 @@
 		padding-top: 7px;
 	}
 	
-	.join-container .card-body {
-		padding: 2.5rem;
-	}
-	
 	.join-wrap {
-		width: 620px;
+		min-width: 620px;
 		margin: 0 auto;
 	}
 	
 	.join-wrap .card {
-		border-radius: 16px;
 		margin-top: 2rem;
 	}
 </style>
@@ -50,8 +45,8 @@
 		<div class="border-bottom border-dark">
 			<h4 class="font-weight-bold">회원 가입</h4>
 		</div>
-		<div class="card">
-			<div class="card-body">
+		<div class="card rounded-xl">
+			<div class="card-body p-5">
 				<form:form action="${contextPath}/member/join" method="POST" modelAttribute="joinDto">
 					<div class="form-group mb-4">
 						<form:label path="memberEmail" class="font-weight-bold">이메일</form:label>

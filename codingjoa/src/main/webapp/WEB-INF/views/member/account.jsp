@@ -140,7 +140,7 @@
 	}
 	
 	.account-wrap {
-		width: 620px;
+		min-width: 620px;
 		margin: 0 auto;
 	}
 	
