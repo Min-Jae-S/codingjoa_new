@@ -37,6 +37,10 @@
 		margin-bottom: 0;
 	}
 	
+	.card-header-tabs {
+		margin: 0;
+	}
+	
 	.main-wrap {
 		min-width: 920px;
 		margin: 0 auto;

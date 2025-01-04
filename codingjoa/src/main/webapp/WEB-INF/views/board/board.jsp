@@ -79,7 +79,7 @@
 	}
 	
 	.board-wrap {
-		width: 820px;
+		min-width: 820px;
 		margin: 0 auto;
 	}
 	
@@ -107,16 +107,16 @@
 		<div class="pt-3">
         	<form:form class="form-inline" action="${contextPath}/board/" method="GET" modelAttribute="boardCri">
         		<input type="hidden" name="boardCategoryCode" value="${category.categoryCode}">
-			  	<form:select path="type" class="custom-select custom-select-sm mr-3">
+			  	<form:select path="type" class="custom-select custom-select-sm mr-3 rounded-md">
 			  		<form:options items="${typeGroup}"/>
 			  	</form:select>
 				<div class="input-group">
-					<form:input path="keyword" class="form-control form-control-sm" placeholder="검색어를 입력해주세요"/>
+					<form:input path="keyword" class="form-control form-control-sm rounded-md" placeholder="검색어를 입력해주세요"/>
 				  	<div class="input-group-append">
-				  		<form:button class="btn btn-outline-secondary btn-sm">검색</form:button>
+				  		<form:button class="btn btn-outline-secondary btn-sm rounded-md">검색</form:button>
 				  	</div>
         		</div>
-        		<form:select path="recordCnt" class="custom-select custom-select-sm ml-auto">
+        		<form:select path="recordCnt" class="custom-select custom-select-sm ml-auto rounded-md">
 					<form:options items="${recordCntGroup}"/>
         		</form:select>
 			</form:form>
@@ -177,7 +177,8 @@
 			</table>
 		</div>
 		<div class="mb-3" style="height:38px;">
-			<a class="btn btn-primary" href="${contextPath}/board/write?boardCategoryCode=${category.categoryCode}">글쓰기</a>
+			<a class="btn btn-primary rounded-md" 
+				href="${contextPath}/board/write?boardCategoryCode=${category.categoryCode}">글쓰기</a>
 		</div>
 		<c:if test="${not empty pagination}">
 			<div class="pt-3">

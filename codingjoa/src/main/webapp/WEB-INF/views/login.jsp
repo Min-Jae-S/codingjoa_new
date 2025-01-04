@@ -116,15 +116,15 @@
 					<div class="id_pw_wrap">
 						<div class="form-group mb-4">
 							<label class="font-weight-bold" for="memberEmail" >이메일</label>
-							<input class="form-control" type="text" name="memberEmail" id="memberEmail" placeholder="이메일 입력"/>
+							<input class="form-control rounded-md" type="text" name="memberEmail" id="memberEmail" placeholder="이메일 입력"/>
 						</div>
 						<div class="form-group mb-4">
 							<label class="font-weight-bold" for="memberPassword">비밀번호</label>
-							<input class="form-control" type="password" name="memberPassword" id="memberPassword" placeholder="비밀번호 입력" autocomplete="off"/>
+							<input class="form-control rounded-md" type="password" name="memberPassword" id="memberPassword" placeholder="비밀번호 입력" autocomplete="off"/>
 						</div>
 					</div>
 					<div class="form-group pt-4 mb-4">
-						<button type="submit" class="btn btn-primary btn-block">로그인</button>
+						<button type="submit" class="btn btn-primary btn-block rounded-md">로그인</button>
 					</div>
 				</form>
 				<div class="info-member">

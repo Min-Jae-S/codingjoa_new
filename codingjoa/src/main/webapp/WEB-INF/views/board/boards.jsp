@@ -65,7 +65,7 @@
 	}
 	
 	.boards-wrap {
-		width: 820px;
+		min-width: 820px;
 		margin: 0 auto;
 	}
 </style>
@@ -74,7 +74,7 @@
 
 <c:import url="/WEB-INF/views/include/top-menu.jsp"/>
 
-<div class="container board-container">
+<div class="container boards-container">
 	<div class="boards-wrap">
 		<c:forEach var="board" items="${boardList}" varStatus="status">
 			<h4 class="font-weight-bold"><c:out value="${boardCategoryList[status.index].categoryName}"/></h4>
@@ -133,7 +133,8 @@
 					</tbody>
 				</table>
 				<c:if test="${not empty board}">
-					<a class="btn btn-primary" href="${contextPath}/board/?boardCategoryCode=${boardCategoryList[status.index].categoryCode}">
+					<a class="btn btn-primary rounded-md" 
+						href="${contextPath}/board/?boardCategoryCode=${boardCategoryList[status.index].categoryCode}">
 						게시글 더보기
 					</a>
 				</c:if>

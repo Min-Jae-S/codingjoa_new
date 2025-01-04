@@ -32,7 +32,7 @@
 	} */
 	
 	input::placeholder {
-		font-size: 1rem;
+		font-size: 1rem !important
 	}
 	
 	span.error {
@@ -40,15 +40,23 @@
 		padding-top: 7px;
 	}
 	
-	.ck-editor__editable[role="textbox"] {
+	.ck-toolbar {
+		border-radius: .75rem .75rem 0 0 !important;
+	}
+	
+	.ck-editor__editable {
 		min-height: 350px;
-		/* font-size: 0.9rem; */
-		padding-left: 0.75rem;
-		padding-right: 0.75rem;
+		padding-left: 1em !important;
+		padding-right: 1em !important;
+		border-radius: 0 0 .75rem .75rem !important;
 	}
 
-	.ck-editor__editable[role="textbox"] p {
-		margin-bottom: 5px;
+	.ck-editor__editable p {
+		margin-bottom: .5em;
+	}
+	
+	.ck-button__label {
+		font-size: 1rem !important;
 	}
 	
 	.ck-placeholder {
@@ -56,7 +64,7 @@
 	}
 	
 	.write-wrap {
-		width: 820px;
+		min-width: 820px;
 		margin: 0 auto;
 	}
 </style>
@@ -70,22 +78,22 @@
 		<h4 class="font-weight-bold mb-3">게시판 글쓰기</h4>
 		<div class="pt-4 border-top border-dark">
 			<form:form action="${contextPath}/board/write" method="POST" modelAttribute="writeBoardDto">
-				<div class="form-row">
-					<div class="form-group col-md-8">
-						<form:select class="custom-select" path="boardCategoryCode">
+				<div class="d-flex justify-content-between mb-3">
+					<div class="w-75">
+						<form:select class="custom-select rounded-md" path="boardCategoryCode">
 							<form:options items="${boardCategoryList}" itemValue="categoryCode" itemLabel="categoryName"/>
 						</form:select>
 						<form:errors path="boardCategoryCode" cssClass="error"/>
 					</div>
-					<div class="form-group col-md-2">
-						<form:button class="btn btn-primary btn-block" id="writeBoardBtn">등록</form:button>
+					<div class="w-10">
+						<form:button class="btn btn-primary btn-block rounded-md" id="writeBoardBtn">등록</form:button>
 					</div>
-					<div class="form-group col-md-2">
-						<button type="reset" class="btn btn-secondary btn-block" id="resetBoardBtn">취소</button>
+					<div class="w-10">
+						<button type="reset" class="btn btn-secondary btn-block rounded-md" id="resetBoardBtn">취소</button>
 					</div>
 				</div>
 				<div class="form-group">
-					<form:input path="boardTitle" class="form-control" placeholder="제목을 입력하세요."/>
+					<form:input path="boardTitle" class="form-control rounded-md" placeholder="제목을 입력하세요."/>
 					<form:errors path="boardTitle" class="error"/>
 				</div>
 				<div class="form-group">

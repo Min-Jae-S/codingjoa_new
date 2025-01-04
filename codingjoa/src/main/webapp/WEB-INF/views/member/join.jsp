@@ -51,13 +51,13 @@
 					<div class="form-group mb-4">
 						<form:label path="memberEmail" class="font-weight-bold">이메일</form:label>
 						<div class="input-group mb-3">
-							<form:input path="memberEmail" class="form-control" placeholder="이메일 입력"/>
+							<form:input path="memberEmail" class="form-control rounded-md" placeholder="이메일 입력"/>
 							<div class="input-group-append">
-								<button type="button" class="btn btn-outline-secondary btn-sm" id="sendAuthCodeBtn">인증코드 받기</button>
+								<button type="button" class="btn btn-outline-secondary btn-sm rounded-md" id="sendAuthCodeBtn">인증코드 받기</button>
 							</div>
 						</div>
 						<div class="input-group">
-							<form:input path="authCode" class="form-control" placeholder="인증코드를 입력하세요."/>
+							<form:input path="authCode" class="form-control rounded-md" placeholder="인증코드를 입력하세요."/>
 						</div>
 						<form:errors path="memberEmail" cssClass="error"/>
 						<form:errors path="authCode" cssClass="error"/>
@@ -65,21 +65,21 @@
 					<div class="form-group mb-4">
 						<form:label path="memberNickname" class="font-weight-bold">닉네임</form:label>
 						<div class="input-group">
-							<form:input path="memberNickname" class="form-control" placeholder="닉네임 입력"/>
+							<form:input path="memberNickname" class="form-control rounded-md" placeholder="닉네임 입력"/>
 						</div>
 						<form:errors path="memberNickname" cssClass="error"/>
 					</div>
 					<div class="form-group mb-4">
 						<form:label path="memberPassword" class="font-weight-bold">비밀번호</form:label>
 						<div class="input-group">
-							<form:password path="memberPassword" class="form-control" placeholder="비밀번호 입력" showPassword="true"/>
+							<form:password path="memberPassword" class="form-control rounded-md" placeholder="비밀번호 입력" showPassword="true"/>
 						</div>
 						<form:errors path="memberPassword" cssClass="error"/>
 					</div>
 					<div class="form-group mb-4">
 						<form:label path="confirmPassword" class="font-weight-bold">비밀번호 확인</form:label>
 						<div class="input-group">
-							<form:password path="confirmPassword" class="form-control" placeholder="비밀번호 확인 입력" showPassword="true"/>
+							<form:password path="confirmPassword" class="form-control rounded-md" placeholder="비밀번호 확인 입력" showPassword="true"/>
 						</div>
 						<form:errors path="confirmPassword" cssClass="error"/>
 					</div>
@@ -95,7 +95,7 @@
 						</label>
 					</div>
 					<div class="form-group pt-4">
-						<form:button class="btn btn-primary btn-block mb-4" id="joinBtn" disabled="true">회원가입</form:button>
+						<form:button class="btn btn-primary btn-block rounded-md mb-4" id="joinBtn" disabled="true">회원가입</form:button>
 					</div>
 				</form:form>
 				<p class="text-center small mb-0">

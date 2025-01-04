@@ -320,7 +320,7 @@
 	*/
 	
 	.read-wrap {
-		width: 820px;
+		min-width: 820px;
 		margin: 0 auto;
 	}
 </style>
@@ -452,7 +452,7 @@
 										<textarea name="commentContent" rows="1" placeholder="댓글을 남겨보세요"></textarea>
 										<input type="hidden" name="boardIdx" value="${boardDetails.boardIdx}">
 										<div class="mt-2">
-											<button class="btn btn-sm btn-outline-secondary" type="submit">등록</button>
+											<button class="btn btn-outline-secondary rounded-md" type="submit">등록</button>
 										</div>
 									</div>
 								</div>
@@ -467,7 +467,7 @@
 					</div>
 				</div>
 				<div class="comment-group-footer mt-4">
-					<a class="btn btn-secondary" href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}&
+					<a class="btn btn-secondary rounded-md" href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}&
 						${boardCri.queryString}">목록
 					</a>
 					<div class="comment-pagination">

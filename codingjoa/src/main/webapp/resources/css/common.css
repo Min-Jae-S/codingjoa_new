@@ -1,7 +1,7 @@
 @charset "UTF-8";
 
 html {
-    zoom: 0.8;
+    zoom: 0.85;
 }
 
 html, body {
@@ -34,9 +34,11 @@ html, body {
 	align-items: center;
 }
 
-.board-container {
+.boards-container, .board-container {
 	margin-top: 6rem;
 	margin-bottom: 6rem;
+	display: flex;
+	align-items: center;
 }
 
 .admin-container {
@@ -115,7 +117,7 @@ li.nav-item {
 	margin-right: 0.9rem;
 }
 
-.dropdown-menu {
+.navbar-nav .dropdown-menu {
 	background-clip: border-box;
 	/* border-radius: 0; */
 	border-radius: 0 0 0.5rem 0.5rem;
@@ -150,6 +152,10 @@ li.nav-item {
 
 .navbar-nav button.dropdown-item:focus {
 	outline: 0;
+}
+
+.w-10 {
+	width: 10% !important;	
 }
 
 .w-40 {

@@ -54,7 +54,7 @@
 	}
 	
 	.modify-wrap {
-		width: 820px;
+		min-width: 820px;
 		margin: 0 auto;
 	}
 </style>
