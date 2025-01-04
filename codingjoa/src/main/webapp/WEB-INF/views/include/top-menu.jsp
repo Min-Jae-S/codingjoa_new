@@ -75,7 +75,7 @@
 					</li>
 					<sec:authorize access="hasRole('ROLE_ADMIN')">
 						<li class="nav-item mx-2">
-							<a href="${contextPath}/admin" class="nav-link">관리자 페이지</a>
+							<a href="${contextPath}/admin" class="nav-link">관리자 모드</a>
 						</li>
 					</sec:authorize>
 					<li class="nav-item mx-2">

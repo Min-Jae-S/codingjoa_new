@@ -92,7 +92,7 @@ li.nav-item {
 }
 
 .navbar-custom .navbar-nav .nav-link:hover:not(.nav-member-profile) {
-	background-color: #f1f3f5;
+	background-color: #e9ecef;
 }
 
 .nav-member-profile {
@@ -130,7 +130,7 @@ li.nav-item {
 }
 
 .navbar-nav button.dropdown-item:hover {
-	background-color: #f1f3f5;
+	background-color: #e9ecef;
 }
 
 .navbar-nav button.dropdown-item:first-child {

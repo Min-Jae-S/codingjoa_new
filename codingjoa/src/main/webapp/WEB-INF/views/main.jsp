@@ -15,11 +15,11 @@
 <script src="https://kit.fontawesome.com/c503d71f81.js"></script>
 <style>
 	#configHeader a {
-	    color: #9e9e9e;
+	    color: #495057;
 	}
 
 	#configHeader a.active {
-	    color: #495057;
+	    font-weight: bold;
 	}
 	
 	#configBody {
