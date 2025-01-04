@@ -37,8 +37,8 @@ html, body {
 .boards-container, .board-container {
 	margin-top: 6rem;
 	margin-bottom: 6rem;
-	display: flex;
-	align-items: center;
+	/* display: flex;
+	align-items: center; */
 }
 
 .admin-container {

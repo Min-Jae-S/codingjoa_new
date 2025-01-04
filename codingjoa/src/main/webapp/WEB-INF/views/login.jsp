@@ -44,13 +44,6 @@
 	.link-ul li {
 		display: inline-block;
 	}
-
-	/* .link-li+.link-li::before {
-		content: "|";
-		margin-right: 10px;
-		margin-left: 10px;
-		color: grey;
-	} */
 	
 	.login-wrap {
 		min-width: 500px;
@@ -92,16 +85,6 @@
 		width: 52px;
 		height: 52px;
 	}
-	
-	/* .social-login-btn {
-		width: 52px;
-		height: 52px;
-		border-radius: 8px;
-		border: none;
-		background-color: transparent;
-		background-size: contain;
-		background-repeat: no-repeat;
-	} */
 </style>
 </head>
 <body>
@@ -116,11 +99,11 @@
 					<div class="id_pw_wrap">
 						<div class="form-group mb-4">
 							<label class="font-weight-bold" for="memberEmail" >이메일</label>
-							<input class="form-control rounded-md" type="text" name="memberEmail" id="memberEmail" placeholder="이메일 입력"/>
+							<input class="form-control rounded-md" type="text" name="memberEmail" id="memberEmail" placeholder="이메일을 입력해주세요"/>
 						</div>
 						<div class="form-group mb-4">
 							<label class="font-weight-bold" for="memberPassword">비밀번호</label>
-							<input class="form-control rounded-md" type="password" name="memberPassword" id="memberPassword" placeholder="비밀번호 입력" autocomplete="off"/>
+							<input class="form-control rounded-md" type="password" name="memberPassword" id="memberPassword" placeholder="비밀번호를 입력해주세요" autocomplete="off"/>
 						</div>
 					</div>
 					<div class="form-group pt-4 mb-4">
@@ -130,9 +113,6 @@
 				<div class="info-member">
 					<a class="link-join" href="${contextPath}/member/join">회원가입</a>
 					<ul class="link-ul">
-						<%-- <li class="link-li">
-							<a href="${contextPath}/member/findAccount">계정 찾기</a>
-						</li> --%>
 						<li class="link-li">
 							<a href="${contextPath}/member/findPassword">비밀번호 찾기</a>
 						</li>

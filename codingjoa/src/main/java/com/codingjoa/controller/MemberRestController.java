@@ -190,7 +190,7 @@ public class MemberRestController {
 	public ResponseEntity<Object> updateAgree(@RequestBody AgreeDto agreeDto, 
 			@AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## updateAgree");
-		log.info("\t > agreeDto= {}", agreeDto);
+		log.info("\t > agreeDto = {}", agreeDto);
 		memberService.updateAgree(agreeDto, principal.getIdx());
 		
 		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.UpdateAgree").build());

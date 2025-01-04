@@ -71,8 +71,8 @@
 				<h5 class="font-weight-bold">비밀번호 찾기</h5>
 				<div class="pt-3 border-top border-dark">
 					<p class="title">
-						<span>코딩조아(Codingjoa) 계정의 아이디와 등록한 이메일을 입력해주세요.</span><br/>
-						<span>입력하신 정보와 일치하는 계정이 있다면 비밀번호 재설정을 위한 링크가 이메일을 통해 전송됩니다.</span><br/>
+						<span>코딩조아(Codingjoa)에 가입한 이메일을 입력해주세요.</span><br/>
+						<span>일치하는 계정이 있다면 비밀번호 재설정 링크가 전송됩니다.</span><br/>
 					</p>
 					<dl class="form-group mb-5">
 						<dt><i class="fa-solid fa-check mr-2"></i>아이디</dt>
@@ -83,11 +83,11 @@
 					<dl class="form-group mb-5">
 						<dt><i class="fa-solid fa-check mr-2"></i>이메일</dt>
 						<dd class="input-group" id="editEmail">
-							<input type="text" id="memberEmail" name="memberEmail" placeholder="이메일 입력"/>
+							<input type="text" id="memberEmail" name="memberEmail" placeholder="이메일을 입력 하세요"/>
 						</dd>
 					</dl>
 					<div class="pt-3">
-						<button type="button" class="btn btn-primary btn-block rounded-md" id="findPasswordBtn">확인</button>
+						<button type="button" class="btn btn-primary btn-block rounded-md" id="findPasswordBtn">비밀번호 재설정 메일 보내기</button>
 					</div>
 				</div>
 			</div>

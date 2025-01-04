@@ -51,13 +51,13 @@
 					<div class="form-group mb-4">
 						<form:label path="memberEmail" class="font-weight-bold">이메일</form:label>
 						<div class="input-group mb-3">
-							<form:input path="memberEmail" class="form-control rounded-md" placeholder="이메일 입력"/>
+							<form:input path="memberEmail" class="form-control rounded-md" placeholder="이메일을 입력해주세요"/>
 							<div class="input-group-append">
 								<button type="button" class="btn btn-outline-secondary btn-sm rounded-md" id="sendAuthCodeBtn">인증코드 받기</button>
 							</div>
 						</div>
 						<div class="input-group">
-							<form:input path="authCode" class="form-control rounded-md" placeholder="인증코드를 입력하세요."/>
+							<form:input path="authCode" class="form-control rounded-md" placeholder="인증코드를 입력해주세요"/>
 						</div>
 						<form:errors path="memberEmail" cssClass="error"/>
 						<form:errors path="authCode" cssClass="error"/>
@@ -65,33 +65,33 @@
 					<div class="form-group mb-4">
 						<form:label path="memberNickname" class="font-weight-bold">닉네임</form:label>
 						<div class="input-group">
-							<form:input path="memberNickname" class="form-control rounded-md" placeholder="닉네임 입력"/>
+							<form:input path="memberNickname" class="form-control rounded-md" placeholder="닉네임을 입력해주세요"/>
 						</div>
 						<form:errors path="memberNickname" cssClass="error"/>
 					</div>
 					<div class="form-group mb-4">
 						<form:label path="memberPassword" class="font-weight-bold">비밀번호</form:label>
 						<div class="input-group">
-							<form:password path="memberPassword" class="form-control rounded-md" placeholder="비밀번호 입력" showPassword="true"/>
+							<form:password path="memberPassword" class="form-control rounded-md" placeholder="비밀번호를 입력해주세요" showPassword="true"/>
 						</div>
 						<form:errors path="memberPassword" cssClass="error"/>
 					</div>
 					<div class="form-group mb-4">
 						<form:label path="confirmPassword" class="font-weight-bold">비밀번호 확인</form:label>
 						<div class="input-group">
-							<form:password path="confirmPassword" class="form-control rounded-md" placeholder="비밀번호 확인 입력" showPassword="true"/>
+							<form:password path="confirmPassword" class="form-control rounded-md" placeholder="비밀번호 확인을 입력해주세요" showPassword="true"/>
 						</div>
 						<form:errors path="confirmPassword" cssClass="error"/>
 					</div>
 					<div class="form-check small mb-1">
 						<label class="form-check-label">
-							<form:checkbox class="form-check-input" path="memberAgree"/> 이메일 광고 수신에 동의합니다. (선택)
+							<form:checkbox class="form-check-input" path="memberAgree"/> 마케팅 활용 및 광고 수신 동의 (선택)
 						</label>
 					</div>
 					<div class="form-check small mb-1">
 						<label class="form-check-label">
 							<input class="form-check-input" type="checkbox" id="agreeJoinCheck">
-							<a href="#">이용약관</a> 및 <a href="#">개인정보 처리방침</a>에 동의합니다.
+							<a href="#">이용약관</a> 및 <a href="#">개인정보 처리방침</a> 동의
 						</label>
 					</div>
 					<div class="form-group pt-4">

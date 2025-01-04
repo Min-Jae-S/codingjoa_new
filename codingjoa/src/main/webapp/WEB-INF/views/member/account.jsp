@@ -189,7 +189,7 @@
 						<div class="form-wrap d-none">
 							<form id="nicknameForm">
 								<dd class="input-group">
-									<input type="text" id="memberNickname" name="memberNickname" placeholder="닉네임을 입력해주세요."/>
+									<input type="text" id="memberNickname" name="memberNickname" placeholder="닉네임을 입력해주세요"/>
 									<div>
 										<button type="submit" class="btn btn-outline-primary btn-sm">확인</button>
 										<button type="reset" class="btn btn-outline-secondary btn-sm">취소</button>
@@ -216,7 +216,7 @@
 					<div class="form-wrap d-none">
 						<form id="emailForm">
 							<dd class="input-group">
-								<input type="text" id="memberEmail" name="memberEmail" placeholder="이메일을 입력해주세요."/>
+								<input type="text" id="memberEmail" name="memberEmail" placeholder="이메일을 입력해주세요"/>
 								<div>
 									<button type="button" class="btn btn-warning btn-sm" id="sendAuthCodeBtn">인증코드 받기</button>
 									<button type="submit" class="btn btn-outline-primary btn-sm">확인</button>
@@ -224,7 +224,7 @@
 								</div>
 							</dd>
 							<dd class="input-group" id="editAuthCode">
-								<input type="text" id="authCode" name="authCode" placeholder="인증코드를 입력해주세요."/>
+								<input type="text" id="authCode" name="authCode" placeholder="인증코드를 입력해주세요"/>
 							</dd>
 						</form>
 					</div>
@@ -236,7 +236,7 @@
 					<div class="show-wrap">
 						<dd class="input-group" id="showZipcode">
 							<div>
-								<span class="inner-text">주소를 등록해주세요.</span>
+								<span class="inner-text">주소를 등록해주세요</span>
 							</div>
 							<button type="button" class="btn btn-outline-primary btn-sm">등록</button>
 						</dd>
@@ -254,7 +254,7 @@
 					<div class="form-wrap d-none">
 						<form id="addrForm">
 							<dd class="input-group">
-								<input type="text" id="memberZipcode" name="memberZipcode" placeholder="우편번호를 등록해주세요." readonly/>
+								<input type="text" id="memberZipcode" name="memberZipcode" placeholder="우편번호를 등록해주세요" readonly/>
 								<div>
 									<button type="button" class="btn btn-warning btn-sm" id="searchAddrBtn">주소 찾기</button>
 									<button type="submit" class="btn btn-outline-primary btn-sm">확인</button>
@@ -262,10 +262,10 @@
 								</div>
 							</dd>
 							<dd class="input-group">
-								<input type="text" id="memberAddr" name="memberAddr" placeholder="기본주소를 등록해주세요." readonly/>
+								<input type="text" id="memberAddr" name="memberAddr" placeholder="기본주소를 등록해주세요" readonly/>
 							</dd>
 							<dd class="input-group">
-								<input type="text" id="memberAddrDetail" name="memberAddrDetail" placeholder="상세주소를 등록해주세요."/>
+								<input type="text" id="memberAddrDetail" name="memberAddrDetail" placeholder="상세주소를 등록해주세요"/>
 							</dd>
 						</form>
 					</div>
@@ -279,7 +279,7 @@
 							<div class="form-check form-check-inline mr-0">
 								<label class="form-check-label label-disabled">
 									<input type="checkbox" class="form-check-input" disabled/>
-									<span class="inner-text">이메일 광고 수신에 동의합니다.</span>
+									<span class="inner-text">이메일 광고 수신에 동의합니다</span>
 								</label>
 							</div>
 							<button type="button" class="btn btn-outline-primary btn-sm">수정</button>
@@ -291,7 +291,7 @@
 								<div class="form-check form-check-inline">
 									<label class="form-check-label">
 										<input type="checkbox" class="form-check-input" id="memberAgree" name="memberAgree"/>
-										<span class="inner-text">이메일 광고 수신에 동의합니다.</span>
+										<span class="inner-text">이메일 광고 수신에 동의합니다</span>
 									</label>
 								</div>
 								<div>
@@ -312,7 +312,7 @@
 					<div class="show-wrap">
 						<dd class="input-group" id="showPassword">
 							<div>
-								<span class="inner-text">비밀번호를 등록해주세요.</span>
+								<span class="inner-text">비밀번호를 등록해주세요</span>
 							</div>
 							<button class="btn btn-outline-primary btn-sm">등록</button>
 						</dd>
@@ -320,14 +320,14 @@
 					<div class="form-wrap d-none">
 						<form id="passwordSaveForm">
 							<dd class="input-group">
-								<input type="password" id="newPassword" name="newPassword" placeholder="새로운 비밀번호를 입력해주세요."/>
+								<input type="password" id="newPassword" name="newPassword" placeholder="새로운 비밀번호를 입력해주세요"/>
 								<div>
 									<button class="btn btn-outline-primary btn-sm" type="submit">확인</button>
 									<button class="btn btn-outline-secondary btn-sm" type="reset">취소</button>
 								</div>
 							</dd>
 							<dd class="input-group">
-								<input type="password" id="confirmPassword" name="confirmPassword" placeholder="확인 비밀번호를 입력해주세요."/>
+								<input type="password" id="confirmPassword" name="confirmPassword" placeholder="확인 비밀번호를 입력해주세요"/>
 							</dd>
 						</form>
 					</div>
@@ -623,17 +623,17 @@
     	html += '<div class="form-wrap d-none">';
     	html += '<form id="passwordChangeForm">';
     	html += '<dd class="input-group">';
-    	html += '<input type="password" id="currentPassword" name="currentPassword" placeholder="현재 비밀번호를 입력해주세요."/>';
+    	html += '<input type="password" id="currentPassword" name="currentPassword" placeholder="현재 비밀번호를 입력해주세요"/>';
     	html += '<div>';
     	html += '<button class="btn btn-outline-primary btn-sm" type="submit">확인</button>';
     	html += '<button class="btn btn-outline-secondary btn-sm" type="reset">취소</button>';
     	html += '</div>';
     	html += '</dd>';
     	html += '<dd class="input-group">';
-    	html += '<input type="password" id="newPassword" name="newPassword" placeholder="새로운 비밀번호를 입력해주세요."/>';
+    	html += '<input type="password" id="newPassword" name="newPassword" placeholder="새로운 비밀번호를 입력해주세요"/>';
     	html += '</dd>';
     	html += '<dd class="input-group">';
-    	html += '<input type="password" id="confirmPassword" name="confirmPassword" placeholder="확인 비밀번호를 입력해주세요."/>';
+    	html += '<input type="password" id="confirmPassword" name="confirmPassword" placeholder="확인 비밀번호를 입력해주세요"/>';
     	html += '</dd>';
     	html += '</form>';
     	html += '</div>';
