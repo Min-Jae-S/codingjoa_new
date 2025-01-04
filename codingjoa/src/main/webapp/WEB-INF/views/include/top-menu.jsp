@@ -6,7 +6,9 @@
 <!-- navbar -->
 <nav class="navbar navbar-custom navbar-expand-sm">
 	<div class="container-fluid px-5">
-		<a class="navbar-brand font-weight-bold" href="${contextPath}">Codingjoa</a>
+		<div class="logo-wrap">
+			<a class="navbar-brand" href="${contextPath}">Codingjoa</a>
+		</div>
 		<div class="collapse navbar-collapse">
 			<ul class="navbar-nav">
 				<c:forEach var="parentCategory" items="${parentCategoryList}">
@@ -16,6 +18,11 @@
 						</a>
 						<div class="dropdown-menu">
 							<!-- categories -->
+							<!-- 
+							<button class="dropdown-item" type="button" data-path="/?boardCategoryCode=4">공지 게시판</button>
+							<button class="dropdown-item" type="button" data-path="/?boardCategoryCode=5">질문 게시판</button>
+							<button class="dropdown-item" type="button" data-path="/?boardCategoryCode=6">자유 게시판</button> 
+							-->
 						</div>
 					</li>
 				</c:forEach>

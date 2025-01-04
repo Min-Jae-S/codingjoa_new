@@ -19,20 +19,12 @@ html {
 	margin-top: 13.5rem;
 }
 
-.login-container {
-	margin-top: 8rem;
-	margin-bottom: 8rem;
-}
-
+.login-container,
 .join-container,
 .account-container,
-.check-password-container,
-.update-password-container,
-.reset-password-container,
-.find-account-container,
 .find-password-container {
-	margin-top: 8rem;
-	margin-bottom: 8rem;
+	margin-top: 7rem;
+	margin-bottom: 7rem;
 }
 
 .board-container {
@@ -45,8 +37,9 @@ html {
 	margin-bottom: 4rem;
 }
 
-input::placeholder, input::-webkit-input-placeholder {
-	font-size: 14px !important;
+input::placeholder, 
+input::-webkit-input-placeholder {
+	font-size: .875rem !important;
 }
 
 .error {
@@ -62,26 +55,31 @@ input::placeholder, input::-webkit-input-placeholder {
 .navbar-custom {
 	top: 0;
 	border-bottom: 1px solid #dedede !important;
-	background-color: white; /* sticky이므로 불투명 하게 하기 */
-	/* z-index: 999; */
+	background-color: white; /* because it's sticky, it turns translucent while scrolling down */
+	z-index: 999;
 	padding-top: 0;
 	padding-bottom: 0;
 	height: 60px;
 	position: sticky;
 }
 
-div.container-fluid, div.collapse, ul.navbar-nav {
+div.container-fluid, div.collapse, ul.navbar-nav, div.logo-wrap {
 	height: 100%;
+}
+
+div.logo-wrap {
+	display: flex;
+	align-items: center;
+}
+
+div.logo-wrap .navbar-brand {
+	color: black;
+	font-weight: bold;
 }
 
 li.nav-item {
 	display: flex;
 	align-items: center;
-}
-
-.navbar-custom .navbar-brand {
-	color: black;
-	font-size: 1.5rem;
 }
 
 .navbar-custom .navbar-nav {
@@ -128,6 +126,7 @@ li.nav-item {
 	font-weight: 400;
 	background-color: transparent;
 	height: 35px;
+	z-index: 1000;
 }
 
 .navbar-nav button.dropdown-item:hover {
