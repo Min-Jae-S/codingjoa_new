@@ -23,6 +23,11 @@
 <script src="${contextPath}/resources/js/attrchange.js"></script>
 <script src="${contextPath}/resources/js/attrchange_ext.js"></script>
 <style>
+	.write-wrap {
+		min-width: 820px;
+		margin: 0 auto;
+	}
+	
 	input::placeholder {
 		font-size: 1rem !important
 	}
@@ -51,10 +56,10 @@
 		font-size: 1rem !important;
 	}
 	
-	.write-wrap {
-		min-width: 820px;
-		margin: 0 auto;
+	.ck-tooltip {
+    	display: none !important;
 	}
+}
 </style>
 </head>
 <body>
@@ -112,6 +117,7 @@
 				let boardContent = editor.getData();
 				$("#boardContent").val(boardContent);
 			});
+			//editor.ui.view.toolbar.items.map( item => console.log(item) );
 			writeEditor = editor;
 		})
 		.catch(error => {

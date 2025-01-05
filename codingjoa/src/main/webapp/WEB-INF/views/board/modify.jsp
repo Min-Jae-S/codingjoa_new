@@ -21,6 +21,11 @@
 <script src="${contextPath}/resources/ckeditor5/build/ckeditor.js"></script>
 <script src="${contextPath}/resources/js/editor.js"></script>
 <style>
+	.modify-wrap {
+		min-width: 820px;
+		margin: 0 auto;
+	}
+
 	input::placeholder {
 		font-size: 1rem !important
 	}
@@ -49,9 +54,8 @@
 		font-size: 1rem !important;
 	}
 	
-	.modify-wrap {
-		min-width: 820px;
-		margin: 0 auto;
+	.ck-tooltip {
+    	display: none !important;
 	}
 </style>
 </head>

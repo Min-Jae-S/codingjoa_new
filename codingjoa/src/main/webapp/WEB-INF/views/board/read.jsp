@@ -26,6 +26,11 @@
 <script src="${contextPath}/resources/ckeditor5/plugins/ckeditor-plugins.js"></script>
 <script src="${contextPath}/resources/ckeditor5/build/ckeditor.js"></script>
 <style>
+	.read-wrap {
+		min-width: 820px;
+		margin: 0 auto;
+	}
+
 	.card {
 		padding: 2.25rem;
 	}
@@ -295,11 +300,6 @@
 		display: none;
 	} 
 	*/
-	
-	.read-wrap {
-		min-width: 820px;
-		margin: 0 auto;
-	}
 </style>
 
 <!-- test css -->	
