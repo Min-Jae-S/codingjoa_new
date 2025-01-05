@@ -60,7 +60,11 @@
 	
 	.board-utils-btn {
 		box-shadow: none !important;
-		padding-top: 0;
+		padding-top: 0 !important;
+		padding-bottom: 0 !important;;
+		margin: 0 !important;;
+		vertical-align: top !important;;
+		border: none !important;
 	}
 	
 	.board-utils .dropdown-item,
@@ -365,12 +369,12 @@
 	<div class="read-wrap">
 		<div class="card rounded-md">
 			<div class="header-group">
-				<div class="board-utils mb-2">
+				<div class="board-utils mb-3">
 					<a class="board-category" href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}">
 						<c:out value="${category.categoryName}"/>
 					</a>
 					<div class="dropright ml-auto">
-						<button class="btn board-utils-btn" data-toggle="dropdown" data-offset="0,10" ${boardDetails.boardWriter ? '' : 'disabled'}>
+						<button class="board-utils-btn btn" data-toggle="dropdown" data-offset="0,10" ${boardDetails.boardWriter ? '' : 'disabled'}>
 							<i class="fa-solid fa-ellipsis-vertical"></i>
 						</button>
 						<div class="dropdown-menu">
@@ -384,23 +388,6 @@
 					     </div>
 					</div>
 				</div>
-				<%-- <div class="category dropright mb-2">
-					<a class="board-category" href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}">
-						<c:out value="${category.categoryName}"/>
-					</a>
-					<button class="board-utils-btn btn" data-toggle="dropdown" data-offset="0,10" ${boardDetails.boardWriter ? '' : 'disabled'}>
-						<i class="fa-solid fa-ellipsis-vertical"></i>
-					</button>
-					<div class="dropdown-menu">
-						<h6 class="dropdown-header">게시글 관리</h6>
-						<a class="dropdown-item" href="${contextPath}/board/modify?boardIdx=${boardDetails.boardIdx}">
-							수정하기
-						</a>
-				      	<a class="dropdown-item" href="${contextPath}/board/delete?boardIdx=${boardDetails.boardIdx}" id="deleteBoardLink">
-				      		삭제하기
-				     	</a>
-				     </div>
-				</div> --%>
 				<h3 class="title mb-4"><c:out value="${boardDetails.boardTitle}"/></h3>
 				<div class="board-info">
 					<div class="board-info-left">
