@@ -99,11 +99,11 @@
 
 <div class="container board-container">
 	<div class="board-wrap">
-		<h4 class="font-weight-bold mb-4">
+		<h3 class="font-weight-bold mb-4">
 			<a href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}" class="board-link">
 				<c:out value="${category.categoryName}"/>
 			</a>
-		</h4>
+		</h3>
 		<div class="pt-3">
         	<form:form class="form-inline" action="${contextPath}/board/" method="GET" modelAttribute="boardCri">
         		<input type="hidden" name="boardCategoryCode" value="${category.categoryCode}">

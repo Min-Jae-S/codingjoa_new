@@ -41,26 +41,29 @@
 	.comment-group { 
 		border-top: 1px solid rgba(0,0,0,.125);
 	}
+	
+	.board-utils {
+		display: flex;
+	}
 
 	.board-category {
 		color: #007bff;
 		font-weight: bold;
-		font-size: 0.9rem;
+		font-size: 1rem;
 		text-decoration: none !important;
 	}
 	
 	.board-category:after {
-		content: ">";
-		margin-left: 0.25rem;
+		content: ">>";
+		margin-right: 0.1rem;
 	}
 	
 	.board-utils-btn {
-		float: right;
 		box-shadow: none !important;
 		padding-top: 0;
 	}
 	
-	.category .dropdown-item,
+	.board-utils .dropdown-item,
 	.comment-area-header .dropdown-item {
 		font-size: 0.875rem;
 	}
@@ -70,13 +73,13 @@
 		font-weight: bold;
 	}
 	
-	.category .dropdown-menu,
+	.board-utils .dropdown-menu,
 	.comment-area-header .dropdown-menu {
 		padding-top :0;
 		padding-bottom: 0;
 	}
 
-	.category .dropdown-header,
+	.board-utils .dropdown-header,
 	.comment-area-header .dropdown-header {
 		color: black; 
 		font-weight: bold;
@@ -362,7 +365,26 @@
 	<div class="read-wrap">
 		<div class="card rounded-md">
 			<div class="header-group">
-				<div class="category dropright mb-2">
+				<div class="board-utils mb-2">
+					<a class="board-category" href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}">
+						<c:out value="${category.categoryName}"/>
+					</a>
+					<div class="dropright ml-auto">
+						<button class="btn board-utils-btn" data-toggle="dropdown" data-offset="0,10" ${boardDetails.boardWriter ? '' : 'disabled'}>
+							<i class="fa-solid fa-ellipsis-vertical"></i>
+						</button>
+						<div class="dropdown-menu">
+							<h6 class="dropdown-header">게시글 관리</h6>
+							<a class="dropdown-item" href="${contextPath}/board/modify?boardIdx=${boardDetails.boardIdx}">
+								수정하기
+							</a>
+					      	<a class="dropdown-item" href="${contextPath}/board/delete?boardIdx=${boardDetails.boardIdx}" id="deleteBoardLink">
+					      		삭제하기
+					     	</a>
+					     </div>
+					</div>
+				</div>
+				<%-- <div class="category dropright mb-2">
 					<a class="board-category" href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}">
 						<c:out value="${category.categoryName}"/>
 					</a>
@@ -378,7 +400,7 @@
 				      		삭제하기
 				     	</a>
 				     </div>
-				</div>
+				</div> --%>
 				<h3 class="title mb-4"><c:out value="${boardDetails.boardTitle}"/></h3>
 				<div class="board-info">
 					<div class="board-info-left">
