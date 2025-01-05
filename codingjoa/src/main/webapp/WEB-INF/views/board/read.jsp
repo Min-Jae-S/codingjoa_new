@@ -59,8 +59,11 @@
 	}
 	
 	.board-category:after {
-		content: ">>";
-		margin-right: 0.1rem;
+		content: "》";
+	}
+	
+	.board-category:hover {
+		color: #007bff;
 	}
 	
 	.board-utils-btn {
@@ -72,9 +75,18 @@
 		border: none !important;
 	}
 	
-	.board-utils .dropdown-item,
-	.comment-area-header .dropdown-item {
+	.dropright .dropdown-item {
 		font-size: 0.875rem;
+		padding: .25rem 1.5rem !important;
+	}
+
+	/* :first-child and :nth-child(1) do not function */
+	.dropright .dropdown-item:first-of-type {
+		margin-top: 0.25rem;
+	}
+	
+	.dropright .dropdown-item:last-of-type {
+		margin-bottom: 0.25rem;
 	}
 	
 	.title {
@@ -86,6 +98,7 @@
 	.comment-area-header .dropdown-menu {
 		padding-top :0;
 		padding-bottom: 0;
+		text-align: center;
 	}
 
 	.board-utils .dropdown-header,
@@ -93,6 +106,7 @@
 		color: black; 
 		font-weight: bold;
 		border-bottom: 1px solid #e9ecef;
+		text-align: center;
 	}
 	
 	.board-info {
@@ -232,9 +246,9 @@
 	.comment-utils-btn {
 		box-shadow: none !important;
 		padding-top: 0 !important;
-		padding-bottom: 0 !important;;
-		margin: 0 !important;;
-		vertical-align: top !important;;
+		padding-bottom: 0 !important;
+		margin: 0 !important;
+		vertical-align: top !important;
 		border: none !important;
 	}
 	
@@ -278,8 +292,7 @@
 	
 	/* https://stackoverflow.com/questions/54272325/how-to-style-ckeditor-content-for-read-only-display */
 	/* These styles hide weird "things" in CKeditor Viewer (read only mode) */
-	/* 
-	.ckeditor-viewer .ck.ck-editor__editable.ck-blurred .ck-widget.ck-widget_selected, 
+	/* .ckeditor-viewer .ck.ck-editor__editable.ck-blurred .ck-widget.ck-widget_selected, 
 	.ck.ck-editor__editable.ck-blurred .ck-widget.ck-widget_selected:hover {
 		outline-width: 0;
 	}
@@ -298,8 +311,7 @@
 		width: 0;
 		height: 0;
 		display: none;
-	} 
-	*/
+	} */
 </style>
 
 <!-- test css -->	

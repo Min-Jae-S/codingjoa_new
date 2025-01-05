@@ -17,6 +17,11 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://kit.fontawesome.com/c503d71f81.js"></script>
 <style>
+	.board-wrap {
+		min-width: 820px;
+		margin: 0 auto;
+	}
+	
 	.table {
 		border-spacing: 0px;
 		border-collapse: separate;
@@ -44,24 +49,6 @@
 		display: flex;
 	}
 	
-	/*
-	.input-group input::placeholder {
-		font-size: 0.8rem;
-	}
-	
-	.input-group input[type="text"] {
-		font-size: 0.8rem;
-	}
-	
-	.input-group-append .btn-sm {
-		font-size: 0.8rem;
-	}
-	
-	.no-board {
-		font-size: 0.8rem;
-	}
-	*/
-	
 	.board_title, .board_title:hover {
 		color: black;
 	}
@@ -78,17 +65,12 @@
 		content: ")";
 	}
 	
-	.board-wrap {
-		min-width: 820px;
-		margin: 0 auto;
-	}
-	
 	.board-link {
 		color: black;
 	}
 	
 	.board-link:hover {
-		color: inherit;
+		color: black;
 		text-decoration: none;
 	}
 </style>
