@@ -7,8 +7,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.security.web.util.UrlUtils;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -16,13 +14,11 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import lombok.extern.slf4j.Slf4j;
 
-@SuppressWarnings("unused")
 @Slf4j
 public class UriUtils {
 	
-	private static final List<RequestMatcher> excludeMatchers = List.of(
-			new AntPathRequestMatcher("/login"), new AntPathRequestMatcher("/error"));
-
+	private static final List<String> excludePatterns = List.of("/login/", "/error");
+	
 	// TopMenuInterceptor 
 	public static String buildCurrentUrl(HttpServletRequest request) {
 		String currentUrl = UrlUtils.buildFullRequestUrl(request);
@@ -52,26 +48,26 @@ public class UriUtils {
 	// LoginSuccessHandler, OAuth2LoginSuccessHandler, LogoutSuccessHandlerImpl, AccessDeniedHandlerImpl
 	public static String resolveContinueUrl(String url, HttpServletRequest request) {
 		String continueUrl;
-		if (isAuthorizedUrl(url, request)) {
+		if (isAllowedUrl(url, request)) {
 			continueUrl = url;
-			log.info("\t > authorized URL provided, using this URL: {}", FormatUtils.formatString(continueUrl));
+			log.info("\t > allowed URL provided, using this URL: {}", FormatUtils.formatString(continueUrl));
 		} else {
 			continueUrl = ServletUriComponentsBuilder.fromContextPath(request)
 					.path("/")
 					.build()
 					.toUriString();
-			log.info("\t > missing or unauthorized URL provided, using default URL: {}", FormatUtils.formatString(continueUrl));
+			log.info("\t > missing or denied URL provided, using default URL: {}", FormatUtils.formatString(continueUrl));
 		}
 		
 		return continueUrl;
 	}
 	
-	private static boolean isAuthorizedUrl(String url, HttpServletRequest request) {
-		return StringUtils.hasText(url) && isValidPattern(url, request);
+	private static boolean isAllowedUrl(String url, HttpServletRequest request) {
+		return StringUtils.hasText(url) && isAllowedPattern(url, request);
 	}
 	
-	private static boolean isValidPattern(String url, HttpServletRequest request) {
-		log.info("## isValidPattern");
+	private static boolean isAllowedPattern(String url, HttpServletRequest request) {
+		log.info("## isAllowedPattern");
 		log.info("\t > url = {}", url);
 		
 		String contextPattern = ServletUriComponentsBuilder.fromContextPath(request)
@@ -80,17 +76,13 @@ public class UriUtils {
 				.toUriString();
 		log.info("\t > contextPattern = {}", contextPattern);
 		
-		boolean isContextPattern = new AntPathMatcher().match(contextPattern, url);
-		log.info("\t > isContextPattern = {}", isContextPattern);
+		AntPathMatcher matcher = new AntPathMatcher();
+		boolean isContextPattern = matcher.match(contextPattern, url);
+		if (!isContextPattern) {
+			return false;
+		}
 		
-//		if (!isContextPattern) {
-//			return false;
-//		}
-//		
-//		boolean isExcludedUrl = EXCLUDE_PATTERNS.stream().anyMatch(pattern -> pathMatcher.match(pattern, url));
-//		log.info("\t > isExcludedUrl = {}", isExcludedUrl);
-		
-		return isContextPattern;
+		return !excludePatterns.stream().anyMatch(pattern ->  matcher.match(pattern, url));
 	}
 	
 	private static String encode(String url, Charset charset) {
