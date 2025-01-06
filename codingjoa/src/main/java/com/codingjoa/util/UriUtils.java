@@ -2,6 +2,7 @@ package com.codingjoa.util;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -15,6 +16,8 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class UriUtils {
+	
+	private static final List<String> EXCLUDE_PATTERNS = List.of("/login/**", "/error/**");
 
 	// TopMenuInterceptor 
 	public static String buildCurrentUrl(HttpServletRequest request) {
@@ -68,7 +71,15 @@ public class UriUtils {
 				.path("/**")
 				.build(false)
 				.toUriString();
-		return new AntPathMatcher().match(contextPattern, url);
+		
+		AntPathMatcher pathMatcher = new AntPathMatcher();
+
+		boolean contextMatched = pathMatcher.match(contextPattern, url);
+		if (!contextMatched) {
+			return false;
+		}
+		
+		return EXCLUDE_PATTERNS.stream().anyMatch(pattern -> pathMatcher.match(pattern, url));
 	}
 	
 	private static String encode(String url, Charset charset) {

@@ -18,7 +18,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.codingjoa.security.dto.PrincipalDetails;
-import com.codingjoa.util.FormatUtils;
 import com.codingjoa.util.NumberUtils;
 
 import io.jsonwebtoken.Claims;
@@ -68,7 +67,7 @@ public class JwtProvider {
 	// check comment: to fully leverage the advantages of using JWT, it's preferable to avoid database access during the verification process.
 	public Authentication getAuthentication(String jwt) {
 		Claims claims = parseJwt(jwt).getBody();
-		log.info("\t > parsed claims: {}", FormatUtils.formatPrettyJson(claims));
+		//log.info("\t > parsed claims: {}", FormatUtils.formatPrettyJson(claims));
 		
 		PrincipalDetails principal = PrincipalDetails.from(claims);
 		log.info("\t > principal from claims = {}", principal);

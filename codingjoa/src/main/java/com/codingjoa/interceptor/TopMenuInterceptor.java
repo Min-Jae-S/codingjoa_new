@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -24,11 +23,10 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class TopMenuInterceptor implements HandlerInterceptor {
 
-	private static final String FORWARD_URL_PREFIX = "forward:";
-	private static final String REDIRECT_URL_PREFIX = "redirect:";
+	private static final String FORWARD_PREFIX = "forward:";
+	private static final String REDIRECT_PREFIX = "redirect:";
 	private static final String JSON_VIEW = "jsonView";
-	private final AntPathRequestMatcher loginMatcher = new AntPathRequestMatcher("/login", "GET");
-	private final AntPathRequestMatcher errorMatcher = new AntPathRequestMatcher("/error", "GET");
+	private static final List<String> EXCLUDE_PATTERNS = List.of("/login/**", "/error/**");
 	private final CategoryService categoryService;
 	
 	/*
@@ -54,18 +52,8 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 			return;
 		}
 		
-		if (viewName.startsWith(FORWARD_URL_PREFIX)) {
-			log.info("\t > not find top menu - FORWARD_URL_PREFIX");
-			return;	
-		}
-		
-		if (viewName.startsWith(REDIRECT_URL_PREFIX)) 	{
-			log.info("\t > not find top menu - REDIRECT_URL_PREFIX");
-			return;
-		}
-		
-		if (viewName.equals(JSON_VIEW)) {
-			log.info("\t > not find top menu - JSON_VIEW");
+		if (viewName.startsWith(FORWARD_PREFIX) || viewName.startsWith(REDIRECT_PREFIX) || viewName.equals(JSON_VIEW)) {
+			log.info("\t > not find top menu - {}", viewName);
 			return;
 		}
 		
@@ -73,8 +61,8 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 		modelAndView.addObject("parentCategoryList", parentCategoryList);
 		
 		String currentUrl = UriUtils.buildCurrentUrl(request);
+
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		
 		if (authentication instanceof UsernamePasswordAuthenticationToken) {
 			modelAndView.addObject("logoutCurrentUrl", currentUrl);
 			log.info("\t > set logoutCurrentUrl to the current request URL: {}", FormatUtils.formatString(currentUrl));
@@ -82,16 +70,19 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 			return;
 		}
 		
-		if (!loginMatcher.matches(request) && !errorMatcher.matches(request)) {
+		if (isExcludedUrl(request)) {
+			modelAndView.addObject("loginCurrentUrl", "");
+			log.info("\t > matched excludePatterns, set loginCurrentUrl to an empty string");
+		} else {
 			modelAndView.addObject("loginCurrentUrl", currentUrl);
-			log.info("\t > no match for loginPattern or errorPattern");
 			log.info("\t > set loginCurrentUrl to the current request URL: {}", FormatUtils.formatString(currentUrl));
- 		} else {
- 			modelAndView.addObject("loginCurrentUrl", "");
- 			log.info("\t > matched loginPattern or errorPattern, set loginCurrentUrl to an empty string");
 		}
 		
 		log.info("\t > added model attrs = {}", modelAndView.getModel().keySet());
 	}
+	
+	private boolean isExcludedUrl(HttpServletRequest request) {
+        return EXCLUDE_PATTERNS.stream().anyMatch(pattern -> request.getRequestURI().matches(pattern));
+    }
 	
 }

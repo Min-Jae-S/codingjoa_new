@@ -38,33 +38,33 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 		log.info("\t > delegate to the {} for loading a user", delegate.getClass().getSimpleName());
 		OAuth2User loadedOAuth2User = delegate.loadUser(userRequest);
 		Map<String, Object> attributes = loadedOAuth2User.getAttributes();
-		log.info("\t > received userInfo {}", FormatUtils.formatPrettyJson(attributes));
+		log.info("\t > received userInfo: {}", FormatUtils.formatPrettyJson(attributes));
 		
 		String registrationId = userRequest.getClientRegistration().getRegistrationId();
 		String attributeKeyName = userRequest.getClientRegistration()
 				.getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
 		
 		OAuth2Attributes oAuth2Attributes = OAuth2Attributes.of(registrationId, attributeKeyName, attributes);
-		log.info("\t > created oAuth2Attributes {}", FormatUtils.formatPrettyJson(oAuth2Attributes));
+		log.info("\t > created oAuth2Attributes: {}", FormatUtils.formatPrettyJson(oAuth2Attributes));
 		
 		String email = oAuth2Attributes.getEmail();
-		PrincipalDetails principalDetails = memberService.getUserDetailsByEmail(email);
-		log.info("\t > principalDetails = {}", principalDetails);
+		PrincipalDetails principal = memberService.getUserDetailsByEmail(email);
+		log.info("\t > principal = {}", principal);
 		
-		if (principalDetails == null) {
+		if (principal == null) {
 			log.info("\t > register new member using OAuth2 account");
 			// to apply spring transaction, move save logic to "memberService"
 			memberService.saveOAuth2Member(oAuth2Attributes);
-			principalDetails = memberService.getUserDetailsByEmail(email);
-		} else if (principalDetails.getProvider().equals("local")) {
+			principal = memberService.getUserDetailsByEmail(email);
+		} else if (principal.getProvider().equals("local")) {
 			log.info("\t > connect existing member with OAuth2 account");
-			memberService.connectOAuth2Member(oAuth2Attributes, principalDetails.getIdx());
-			principalDetails = memberService.getUserDetailsByEmail(email);
+			memberService.connectOAuth2Member(oAuth2Attributes, principal.getIdx());
+			principal = memberService.getUserDetailsByEmail(email);
 		} else {
 			log.info("\t > proceed with login using already registered member");
 		}
 		
-		return PrincipalDetails.from(principalDetails, attributes, attributeKeyName);
+		return PrincipalDetails.from(principal, attributes, attributeKeyName);
 	}
 	
 	@SuppressWarnings("unused")
