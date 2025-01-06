@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -26,8 +28,9 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 	private static final String FORWARD_PREFIX = "forward:";
 	private static final String REDIRECT_PREFIX = "redirect:";
 	private static final String JSON_VIEW = "jsonView";
-	private static final List<String> EXCLUDE_PATTERNS = List.of("/login/**", "/error/**");
 	private final CategoryService categoryService;
+	private final List<RequestMatcher> excludeMatchers = List.of(new AntPathRequestMatcher("/login"),
+			new AntPathRequestMatcher("/error"));
 	
 	/*
 	 * If there is no mapped handler or if the mapping information cannot be found, the preHandle method is not called 
@@ -70,7 +73,7 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 			return;
 		}
 		
-		if (isExcludedUrl(request)) {
+		if (isExcludedPattern(request)) {
 			modelAndView.addObject("loginCurrentUrl", "");
 			log.info("\t > matched excludePatterns, set loginCurrentUrl to an empty string");
 		} else {
@@ -81,8 +84,12 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 		log.info("\t > added model attrs = {}", modelAndView.getModel().keySet());
 	}
 	
-	private boolean isExcludedUrl(HttpServletRequest request) {
-        return EXCLUDE_PATTERNS.stream().anyMatch(pattern -> request.getRequestURI().matches(pattern));
+	private boolean isExcludedPattern(HttpServletRequest request) {
+		log.info("## isExcludedPattern");
+        boolean isExcludedPattern = excludeMatchers.stream().anyMatch(matcher -> matcher.matches(request));
+        log.info("\t > isExcludedPattern = {}", isExcludedPattern);
+        
+        return isExcludedPattern;
     }
 	
 }

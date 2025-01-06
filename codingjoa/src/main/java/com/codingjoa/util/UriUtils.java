@@ -7,6 +7,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.security.web.util.UrlUtils;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -14,10 +16,12 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import lombok.extern.slf4j.Slf4j;
 
+@SuppressWarnings("unused")
 @Slf4j
 public class UriUtils {
 	
-	private static final List<String> EXCLUDE_PATTERNS = List.of("/login/**", "/error/**");
+	private static final List<RequestMatcher> excludeMatchers = List.of(new AntPathRequestMatcher("/login"),
+			new AntPathRequestMatcher("/error"));
 
 	// TopMenuInterceptor 
 	public static String buildCurrentUrl(HttpServletRequest request) {
@@ -63,23 +67,30 @@ public class UriUtils {
 	}
 	
 	private static boolean isAuthorizedUrl(String url, HttpServletRequest request) {
-		return StringUtils.hasText(url) && isUrlMatchingPattern(url, request);
+		return StringUtils.hasText(url) && isValidPattern(url, request);
 	}
 	
-	private static boolean isUrlMatchingPattern(String url, HttpServletRequest request) {
+	private static boolean isValidPattern(String url, HttpServletRequest request) {
+		log.info("## isValidPattern");
 		String contextPattern = ServletUriComponentsBuilder.fromContextPath(request)
 				.path("/**")
 				.build(false)
 				.toUriString();
+		log.info("\t > contextPattern = {}", contextPattern);
 		
 		AntPathMatcher pathMatcher = new AntPathMatcher();
 
-		boolean contextMatched = pathMatcher.match(contextPattern, url);
-		if (!contextMatched) {
-			return false;
-		}
+		boolean isContextPattern = pathMatcher.match(contextPattern, url);
+		log.info("\t > isContextPattern = {}", isContextPattern);
 		
-		return EXCLUDE_PATTERNS.stream().anyMatch(pattern -> pathMatcher.match(pattern, url));
+//		if (!isContextPattern) {
+//			return false;
+//		}
+//		
+//		boolean isExcludedUrl = EXCLUDE_PATTERNS.stream().anyMatch(pattern -> pathMatcher.match(pattern, url));
+//		log.info("\t > isExcludedUrl = {}", isExcludedUrl);
+		
+		return isContextPattern;
 	}
 	
 	private static String encode(String url, Charset charset) {
