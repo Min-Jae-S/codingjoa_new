@@ -29,8 +29,8 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 	private static final String REDIRECT_PREFIX = "redirect:";
 	private static final String JSON_VIEW = "jsonView";
 	private final CategoryService categoryService;
-	private final List<RequestMatcher> excludeMatchers = List.of(new AntPathRequestMatcher("/login"),
-			new AntPathRequestMatcher("/error"));
+	private final List<RequestMatcher> excludeMatchers = List.of(
+			new AntPathRequestMatcher("/login", "GET"), new AntPathRequestMatcher("/error", "GET"));
 	
 	/*
 	 * If there is no mapped handler or if the mapping information cannot be found, the preHandle method is not called 
@@ -85,11 +85,7 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 	}
 	
 	private boolean isExcludedPattern(HttpServletRequest request) {
-		log.info("## isExcludedPattern");
-        boolean isExcludedPattern = excludeMatchers.stream().anyMatch(matcher -> matcher.matches(request));
-        log.info("\t > isExcludedPattern = {}", isExcludedPattern);
-        
-        return isExcludedPattern;
+        return excludeMatchers.stream().anyMatch(matcher -> matcher.matches(request));
     }
 	
 }

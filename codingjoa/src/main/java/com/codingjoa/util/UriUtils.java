@@ -20,8 +20,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class UriUtils {
 	
-	private static final List<RequestMatcher> excludeMatchers = List.of(new AntPathRequestMatcher("/login"),
-			new AntPathRequestMatcher("/error"));
+	private static final List<RequestMatcher> excludeMatchers = List.of(
+			new AntPathRequestMatcher("/login"), new AntPathRequestMatcher("/error"));
 
 	// TopMenuInterceptor 
 	public static String buildCurrentUrl(HttpServletRequest request) {
@@ -72,15 +72,15 @@ public class UriUtils {
 	
 	private static boolean isValidPattern(String url, HttpServletRequest request) {
 		log.info("## isValidPattern");
+		log.info("\t > url = {}", url);
+		
 		String contextPattern = ServletUriComponentsBuilder.fromContextPath(request)
 				.path("/**")
 				.build(false)
 				.toUriString();
 		log.info("\t > contextPattern = {}", contextPattern);
 		
-		AntPathMatcher pathMatcher = new AntPathMatcher();
-
-		boolean isContextPattern = pathMatcher.match(contextPattern, url);
+		boolean isContextPattern = new AntPathMatcher().match(contextPattern, url);
 		log.info("\t > isContextPattern = {}", isContextPattern);
 		
 //		if (!isContextPattern) {
