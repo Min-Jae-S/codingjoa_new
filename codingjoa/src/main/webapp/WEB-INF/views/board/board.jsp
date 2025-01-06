@@ -89,16 +89,16 @@
 		<div class="pt-3">
         	<form:form class="form-inline" action="${contextPath}/board/" method="GET" modelAttribute="boardCri">
         		<input type="hidden" name="boardCategoryCode" value="${category.categoryCode}">
-			  	<form:select path="type" class="custom-select custom-select-sm mr-3 rounded-md">
+			  	<form:select path="type" class="custom-select mr-3 rounded-md">
 			  		<form:options items="${typeGroup}"/>
 			  	</form:select>
 				<div class="input-group">
-					<form:input path="keyword" class="form-control form-control-sm rounded-md" placeholder="검색어를 입력해주세요"/>
+					<form:input path="keyword" class="form-control rounded-md" placeholder="검색어를 입력해주세요"/>
 				  	<div class="input-group-append">
-				  		<form:button class="btn btn-outline-secondary btn-sm rounded-md">검색</form:button>
+				  		<form:button class="btn btn-outline-secondary rounded-md">검색</form:button>
 				  	</div>
         		</div>
-        		<form:select path="recordCnt" class="custom-select custom-select-sm ml-auto rounded-md">
+        		<form:select path="recordCnt" class="custom-select rounded-md ml-auto">
 					<form:options items="${recordCntGroup}"/>
         		</form:select>
 			</form:form>

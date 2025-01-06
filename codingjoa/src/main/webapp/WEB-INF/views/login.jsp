@@ -19,14 +19,14 @@
 <style>
 	.info-member {
 		overflow: hidden;
-		font-size: 85%;
+		font-size: 90%;
     	font-weight: 400;
     	margin-bottom: 3rem;
 	}
 	
 	.info-member a {
 		text-decoration-line: none;
-		/*color: #495057;*/
+		/* color: #495057; */
 		color: grey;
 	}
 
@@ -61,10 +61,12 @@
     	bottom: -8px;
     	margin: 0;
     	width: 100%;
+    	border: 0;
+    	border-top: 1px solid rgba(0, 0, 0, .125);
 	}
 	
 	.social-login-title {
-		font-size: 85%;
+		font-size: 90%;
     	font-weight: 400;
     	color: grey;
     	z-index: 1;
