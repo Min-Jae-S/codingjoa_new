@@ -72,7 +72,6 @@ public class AccessDeniedHandlerImpl implements AccessDeniedHandler {
 			String referer = request.getHeader(HttpHeaders.REFERER);
 			log.info("\t > referer = {}", referer);
 			
-			
 			request.setAttribute("continueUrl", UriUtils.resolveContinueUrl(referer, request));
 			request.setAttribute("message", errorResponse.getMessage());
 			

@@ -67,18 +67,18 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (authentication instanceof UsernamePasswordAuthenticationToken) {
-			modelAndView.addObject("logoutCurrentUrl", currentUrl);
-			log.info("\t > set logoutCurrentUrl to the current request URL: {}", FormatUtils.formatString(currentUrl));
+			modelAndView.addObject("logoutContinueUrl", currentUrl);
+			log.info("\t > set logoutContinueUrl to the current request URL: {}", FormatUtils.formatString(currentUrl));
 			log.info("\t > added model attrs = {}", modelAndView.getModel().keySet());
 			return;
 		}
 		
 		if (isExcludedPattern(request)) {
-			modelAndView.addObject("loginCurrentUrl", "");
+			modelAndView.addObject("loginContinueUrl", "");
 			log.info("\t > matched excludePatterns, set loginCurrentUrl to an empty string");
 		} else {
-			modelAndView.addObject("loginCurrentUrl", currentUrl);
-			log.info("\t > set loginCurrentUrl to the current request URL: {}", FormatUtils.formatString(currentUrl));
+			modelAndView.addObject("loginContinueUrl", currentUrl);
+			log.info("\t > set loginContinueUrl to the current request URL: {}", FormatUtils.formatString(currentUrl));
 		}
 		
 		log.info("\t > added model attrs = {}", modelAndView.getModel().keySet());

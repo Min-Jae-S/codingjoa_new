@@ -40,7 +40,7 @@
 				<sec:authentication property="principal" var="principal"/>
 				<c:if test="${empty principal}">
 					<li class="nav-item mx-2 mt-1">
-						<a href="${contextPath}/login?continue=${loginCurrentUrl}" class="nav-link">로그인</a>
+						<a href="${contextPath}/login?continue=${loginContinueUrl}" class="nav-link">로그인</a>
 					</li>
 					<li class="nav-item mx-2 mt-1">
 						<a href="${contextPath}/member/join" class="nav-link rounded-md">회원가입</a>
@@ -48,7 +48,7 @@
 				</c:if>
 				<sec:authorize access="isAnonymous()">
 					<li class="nav-item mx-2 mt-1">
-						<a href="${contextPath}/login?continue=${loginCurrentUrl}" class="nav-link">로그인</a>
+						<a href="${contextPath}/login?continue=${loginContinueUrl}" class="nav-link">로그인</a>
 					</li>
 					<li class="nav-item mx-2 mt-1">
 						<a href="${contextPath}/member/join" class="nav-link">회원가입</a>
@@ -82,7 +82,7 @@
 						<a href="${contextPath}/member/account" class="nav-link">계정 관리</a>
 					</li>
 					<li class="nav-item mx-2">
-						<a href="${contextPath}/logout?continue=${logoutCurrentUrl}" class="nav-link">로그아웃</a>
+						<a href="${contextPath}/logout?continue=${logoutContiueUrl}" class="nav-link">로그아웃</a>
 					</li>
 				</sec:authorize>
 			</ul>
