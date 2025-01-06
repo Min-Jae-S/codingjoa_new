@@ -23,7 +23,7 @@ function createPagedCommentHtml(pagedComment) {
 		return html;
 	}
 	
-	html += "<ul class='list-group list-group-flush rounded-md'>";
+	html += "<ul class='list-group list-group-flush'>";
 	$.each(pagedComment, function(i, commentDetails) {
 		if (commentDetails == "") {
 			html += "<li class='list-group-item deleted-comment'>";
@@ -163,11 +163,11 @@ function createEditCommentHtml(commentDetails) {
 	html += "<div class='comment-edit-wrap'>";
 	html += "<form>"
 	html += "<div class='input-group'>";
-	html += "<div class='comment-edit form-control rounded-md'>";
+	html += "<div class='comment-edit form-control'>";
 	html += "<textarea name='commentContent' rows='1'>" + commentDetails.commentContent + "</textarea>";
 	html += "<div class='mt-2'>";
-	html += "<button class='btn btn-sm btn-outline-primary rounded-md' type='button'>수정</button>";
-	html += "<button class='btn btn-sm btn-outline-secondary ml-2 rounded-md' type='button'>취소</button>";
+	html += "<button type='submit' class='btn btn-sm btn-outline-primary'>수정</button>";
+	html += "<button type='button' class='btn btn-sm btn-outline-secondary ml-2'>취소</button>";
 	html += "</div>";		
 	html += "</div>";			
 	html += "</div>";	

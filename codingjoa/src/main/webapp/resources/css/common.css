@@ -49,6 +49,22 @@ html, body {
 input::placeholder, 
 input::-webkit-input-placeholder {
 	font-size: .875rem !important;
+	color: #868e96; 
+}
+
+input:focus::placeholder, 
+input:focus::-webkit-input-placeholder {
+	color: #adb5bd;
+}
+
+textarea::placeholder, 
+textarea::-webkit-input-placeholde {
+	color: #868e96; 
+}
+
+textarea:focus::placeholder, 
+textarea:focus::-webkit-input-placeholde {
+	color: #adb5bd; 
 }
 
 .error {

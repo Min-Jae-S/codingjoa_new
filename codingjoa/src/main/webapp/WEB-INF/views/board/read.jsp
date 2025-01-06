@@ -137,12 +137,19 @@
 		margin: 0;
 		padding: 1.3rem 1.3rem 1rem 1.3rem;
 		height: 100%;
+		border-radius: 0.5rem;
 	}
 
 	.comment-edit {
 		margin: 0;
 		padding: 1rem;
 		height: 100%;
+		border-radius: 0.5rem;
+	}
+	
+	.comment-input button,
+	.comment-edit button {
+		border-radius: 0.5rem;
 	}
 	
 	.comment-input textarea, 
@@ -172,17 +179,13 @@
 		outline: none; 
 	}
 	
-	.comment-input textarea::placeholder { 
-		color: #868e96; 
-	}
-	
-	.comment-input textarea:focus::placeholder { 
-		color: #ced4da; 
-	}
-	
 	.comment-cnt-wrap {
 		font-size: 1.3rem;
 		font-weight: bold;
+	}
+	
+	.comment-list ul {
+		border-radius: 0.5rem;
 	}
 	
 	.comment-list li {
@@ -434,7 +437,7 @@
 						<div class="comment-write-wrap">
 							<form>
 								<div class="input-group">
-									<div class="comment-input form-control rounded-md">
+									<div class="comment-input form-control">
 										<sec:authorize access="isAuthenticated()">
 											<p class="font-weight-bold mb-2">
 												<sec:authentication property="principal.nickname"/>
@@ -443,7 +446,7 @@
 										<textarea name="commentContent" rows="1" placeholder="댓글을 남겨보세요"></textarea>
 										<input type="hidden" name="boardIdx" value="${boardDetails.boardIdx}">
 										<div class="mt-2">
-											<button class="btn btn-outline-secondary rounded-md" type="submit">등록</button>
+											<button class="btn btn-sm btn-outline-secondary" type="submit">등록</button>
 										</div>
 									</div>
 								</div>
