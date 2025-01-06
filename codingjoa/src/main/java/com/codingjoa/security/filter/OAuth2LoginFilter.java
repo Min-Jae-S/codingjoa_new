@@ -78,9 +78,9 @@ public class OAuth2LoginFilter extends AbstractAuthenticationProcessingFilter { 
 			throw new OAuth2AuthenticationException(oAuth2Error);
 		}
 		
-		String registrationId = authorizationRequest.getAttribute(OAuth2ParameterNames.REGISTRATION_ID);
-		log.info("\t > registrationId = {}", registrationId);
+		authorizationRequest.getAttributes().forEach((key, value) -> log.info("\t > {}: {}", key, value));
 		
+		String registrationId = authorizationRequest.getAttribute(OAuth2ParameterNames.REGISTRATION_ID);
 		ClientRegistration clientRegistration = clientRegistrationRepository.findByRegistrationId(registrationId);
 		if (clientRegistration == null) {
 			OAuth2Error oAuth2Error = new OAuth2Error(CLIENT_REGISTRATION_NOT_FOUND_ERROR_CODE);

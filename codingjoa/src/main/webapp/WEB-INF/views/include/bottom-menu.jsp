@@ -5,7 +5,7 @@
 		<div class="d-flex align-items-center justify-content-between">
 			<div class="text-muted">Copyright © Codingjoa 2025</div>
 			<div>
-				<a href="#">Privacy Policy</a> · <a href="#">Terms &amp;Conditions</a>
+				<a href="#">Privacy Policy</a> · <a href="#">Terms &amp; Conditions</a>
 			</div>
 		</div>
 	</div>
