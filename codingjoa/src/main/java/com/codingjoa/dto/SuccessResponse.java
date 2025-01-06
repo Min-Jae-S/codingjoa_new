@@ -29,6 +29,10 @@ public class SuccessResponse {
 	public static SuccessResponseBuilder builder() {
 		return new SuccessResponseBuilder();
 	}
+	
+	public SuccessResponseBuilder toBuilder() {
+		return new SuccessResponseBuilder(this);
+	}
 
 	@ToString
 	public static class SuccessResponseBuilder {
@@ -38,6 +42,11 @@ public class SuccessResponse {
 			//this.successResponse = new SuccessResponse(HttpStatus.OK.value(), "", null, LocalDateTime.now());
 			//this.successResponse = new SuccessResponse(HttpStatus.OK.value(), null, null, LocalDateTime.now());
 			this.successResponse = new SuccessResponse(HttpStatus.OK.value(), "success", null, LocalDateTime.now());
+		}
+		
+		private SuccessResponseBuilder(SuccessResponse successResponse) {
+			this.successResponse = new SuccessResponse(successResponse.status, successResponse.message,
+					successResponse.data, successResponse.timestamp);
 		}
 		
 		public SuccessResponseBuilder status(HttpStatus httpStatus) {

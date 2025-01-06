@@ -33,6 +33,10 @@ public class ErrorResponse {
 		return new ErrorResponseBuilder();
 	}
 
+	public ErrorResponseBuilder toBuilder() {
+		return new ErrorResponseBuilder(this);
+	}
+
 	@ToString
 	public static class ErrorResponseBuilder {
 		private ErrorResponse errorResponse;
@@ -41,6 +45,11 @@ public class ErrorResponse {
 			//this.errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST.value(), "", null, LocalDateTime.now());
 			//this.errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST.value(), null, null, LocalDateTime.now());
 			this.errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST.value(), "error", null, LocalDateTime.now());
+		}
+		
+		private ErrorResponseBuilder(ErrorResponse errorResponse) {
+			this.errorResponse = new ErrorResponse(errorResponse.status, errorResponse.message,
+					errorResponse.details, errorResponse.timestamp);
 		}
 		
 		public ErrorResponseBuilder status(HttpStatus httpStatus) {
