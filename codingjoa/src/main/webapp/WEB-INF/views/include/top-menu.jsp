@@ -33,7 +33,8 @@
 						<button class="dropdown-item" type="button" onclick="location.href='${contextPath}/member/account'">account</button>
 						<button class="dropdown-item" type="button" onclick="location.href='${contextPath}/error'">error</button>
 						<button class="dropdown-item" type="button" onclick="location.href='${contextPath}/admin'">admin</button>
-						<button class="dropdown-item" type="button" onclick="adminApi('${contextPath}/api/admin')">/api/admin</button>
+						<button class="dropdown-item" type="button" onclick="adminApi()">/api/admin</button>
+						<button class="dropdown-item" type="button" onclick="savedRequestApi()">/api/saved-request</button>
 						<button class="dropdown-item" type="button" onclick="location.href='${contextPath}/test/ws'">/test/ws</button>
 					</div>
 				</li>
@@ -64,7 +65,8 @@
 									<img class="nav-member-image" id="navMemberImage" src="${principal.imageUrl}">
 								</c:when>
 								<c:otherwise>
-									<img class="nav-member-image"" id="navMemberImage" src="${contextPath}/resources/images/img_profile.png">
+									<img class="nav-member-image"" id="navMemberImage" 
+										src="${contextPath}/resources/images/img_profile.png">
 								</c:otherwise>
 							</c:choose>
 							<span class="font-weight-bold text-body" id="navMemberNickname">
@@ -136,8 +138,27 @@
 		
 	});
 	
-	function adminApi(url) {
+	function adminApi() {
 		console.log("## adminApi");
+		
+		let url = "${contextPath}/api/admin";
+		console.log("> URL = '%s'", url);
+		
+		$.getJSON(url, function(result) {
+			console.log("%c> SUCCESS", "color:green");
+			console.log(JSON.stringify(result, null, 2));
+		})
+		.fail(function(jqXHR, textStatus, error) {
+			console.log("%c> ERROR", "color:red");
+			let errorResponse = JSON.parse(jqXHR.responseText);
+			console.log(JSON.stringify(errorResponse, null, 2));
+		});
+	}
+
+	function savedRequestApi() {
+		console.log("## savedRequestApi");
+		
+		let url = "${contextPath}/api/saved-request";
 		console.log("> URL = '%s'", url);
 		
 		$.getJSON(url, function(result) {

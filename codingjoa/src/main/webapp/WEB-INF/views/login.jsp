@@ -21,13 +21,12 @@
 		overflow: hidden;
 		font-size: 90%;
     	font-weight: 400;
-    	margin-bottom: 3rem;
+    	margin-bottom: 2.2rem;
 	}
 	
 	.info-member a {
 		text-decoration-line: none;
-		/* color: #495057; */
-		color: grey;
+		color: #495057;
 	}
 
 	.link-join {
@@ -68,7 +67,8 @@
 	.social-login-title {
 		font-size: 90%;
     	font-weight: 400;
-    	color: grey;
+    	/* color: #495057; */
+    	color: #6c757d; /* .text-muted */
     	z-index: 1;
     	background-color: white;
     	line-height: 16px;
@@ -108,7 +108,7 @@
 							<input class="form-control rounded-md" type="password" name="memberPassword" id="memberPassword" placeholder="비밀번호를 입력해주세요" autocomplete="off"/>
 						</div>
 					</div>
-					<div class="form-group pt-4 mb-4">
+					<div class="form-group pt-3 mb-3">
 						<button type="submit" class="btn btn-primary btn-block rounded-md">로그인</button>
 					</div>
 				</form>
