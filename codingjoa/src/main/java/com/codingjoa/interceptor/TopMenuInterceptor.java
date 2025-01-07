@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -64,21 +65,16 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 		modelAndView.addObject("parentCategoryList", parentCategoryList);
 		
 		String currentUrl = UriUtils.buildCurrentUrl(request);
+		log.info("\t > currentUrl = {}", currentUrl);
 		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		if (authentication instanceof UsernamePasswordAuthenticationToken) {
+		if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {
+			String loginContinueUrl = isDisallowedPath(request) ? "" : currentUrl;
+			modelAndView.addObject("loginContinueUrl", loginContinueUrl);
+			log.info("\t > set loginContinueUrl: {}", FormatUtils.formatString(loginContinueUrl));
+		} else if (authentication instanceof UsernamePasswordAuthenticationToken) {
 			modelAndView.addObject("logoutContinueUrl", currentUrl);
-			log.info("\t > set logoutContinueUrl to the current request URL: {}", FormatUtils.formatString(currentUrl));
-			log.info("\t > added model attrs = {}", modelAndView.getModel().keySet());
-			return;
-		}
-		
-		if (isDisallowedPath(request)) {
-			modelAndView.addObject("loginContinueUrl", "");
-			log.info("\t > set loginCurrentUrl to an empty string");
-		} else {
-			modelAndView.addObject("loginContinueUrl", currentUrl);
-			log.info("\t > set loginContinueUrl to the current request URL: {}", FormatUtils.formatString(currentUrl));
+			log.info("\t > set logoutContinueUrl: {}", FormatUtils.formatString(currentUrl));
 		}
 		
 		log.info("\t > added model attrs = {}", modelAndView.getModel().keySet());
