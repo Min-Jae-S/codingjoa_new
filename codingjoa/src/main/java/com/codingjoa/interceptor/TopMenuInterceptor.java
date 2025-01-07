@@ -29,7 +29,7 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 	private static final String REDIRECT_PREFIX = "redirect:";
 	private static final String JSON_VIEW = "jsonView";
 	private final CategoryService categoryService;
-	private final List<RequestMatcher> excludeMatchers = 
+	private final List<RequestMatcher> disallowedMatchers = 
 			List.of(new AntPathRequestMatcher("/login"), new AntPathRequestMatcher("/error"));
 	
 	/*
@@ -73,9 +73,9 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 			return;
 		}
 		
-		if (isExcludedPattern(request)) {
+		if (isDisallowedPath(request)) {
 			modelAndView.addObject("loginContinueUrl", "");
-			log.info("\t > matched excludePatterns, set loginCurrentUrl to an empty string");
+			log.info("\t > set loginCurrentUrl to an empty string");
 		} else {
 			modelAndView.addObject("loginContinueUrl", currentUrl);
 			log.info("\t > set loginContinueUrl to the current request URL: {}", FormatUtils.formatString(currentUrl));
@@ -84,8 +84,8 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 		log.info("\t > added model attrs = {}", modelAndView.getModel().keySet());
 	}
 	
-	private boolean isExcludedPattern(HttpServletRequest request) {
-        return excludeMatchers.stream().anyMatch(matcher -> matcher.matches(request));
+	private boolean isDisallowedPath(HttpServletRequest request) {
+        return disallowedMatchers.stream().anyMatch(matcher -> matcher.matches(request));
     }
 	
 }

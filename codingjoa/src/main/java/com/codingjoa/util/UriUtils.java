@@ -17,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class UriUtils {
 	
-	private static final List<String> excludePatterns = List.of("/login/", "/error");
+	private static final List<String> disallowedPaths = List.of("/login/**", "/error");
 	
 	// TopMenuInterceptor 
 	public static String buildCurrentUrl(HttpServletRequest request) {
@@ -47,6 +47,9 @@ public class UriUtils {
 	
 	// LoginSuccessHandler, OAuth2LoginSuccessHandler, LogoutSuccessHandlerImpl, AccessDeniedHandlerImpl
 	public static String resolveContinueUrl(String url, HttpServletRequest request) {
+		log.info("## resolveContinueUrl");
+		log.info("\t > url = {}", url);
+		
 		String continueUrl;
 		if (isAllowedUrl(url, request)) {
 			continueUrl = url;
@@ -63,26 +66,29 @@ public class UriUtils {
 	}
 	
 	private static boolean isAllowedUrl(String url, HttpServletRequest request) {
-		return StringUtils.hasText(url) && isAllowedPattern(url, request);
+		return StringUtils.hasText(url) && isAllowedPath(url, request);
 	}
 	
-	private static boolean isAllowedPattern(String url, HttpServletRequest request) {
-		log.info("## isAllowedPattern");
-		log.info("\t > url = {}", url);
-		
+	private static boolean isAllowedPath(String url, HttpServletRequest request) {
+		AntPathMatcher matcher = new AntPathMatcher();
+
+		// http://localhost:8888/codingjoa
 		String contextPattern = ServletUriComponentsBuilder.fromContextPath(request)
 				.path("/**")
 				.build(false)
 				.toUriString();
-		log.info("\t > contextPattern = {}", contextPattern);
 		
-		AntPathMatcher matcher = new AntPathMatcher();
-		boolean isContextPattern = matcher.match(contextPattern, url);
-		if (!isContextPattern) {
+		if (!matcher.match(contextPattern, url)) {
 			return false;
 		}
 		
-		return !excludePatterns.stream().anyMatch(pattern ->  matcher.match(pattern, url));
+		return disallowedPaths.stream().noneMatch(path -> { 
+			String disallowedPattern = ServletUriComponentsBuilder.fromContextPath(request)
+					.path(path)
+					.build(false)
+					.toUriString();
+			return matcher.match(disallowedPattern, url);
+		});
 	}
 	
 	private static String encode(String url, Charset charset) {
