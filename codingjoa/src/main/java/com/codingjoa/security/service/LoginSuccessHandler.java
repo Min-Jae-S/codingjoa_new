@@ -44,10 +44,12 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 		CookieUtils.addCookie(request, response, JWT_COOKIE, jwt, COOKIE_EXPIRE_SECONDS);
 
 		String continueUrl = (String) authentication.getDetails();
+		continueUrl = UriUtils.resolveContinueUrl(continueUrl, request);
+		
 		SuccessResponse successResponse = SuccessResponse.builder()
 				.status(HttpStatus.OK)
 				.messageByCode("success.Login")
-				.data(UriUtils.resolveContinueUrl(continueUrl, request))
+				.data(continueUrl)
 				.build();
 		
 		response.setStatus(HttpServletResponse.SC_OK);

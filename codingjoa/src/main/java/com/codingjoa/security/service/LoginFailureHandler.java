@@ -46,14 +46,13 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
 		 * 	- not matched rawPassword, encPassword
 		 */
 		
-		String message = null;
+		String message = MessageUtils.getMessage("error.Login");
+		
 		if (e instanceof LoginRequireFieldException || e instanceof UsernameNotFoundException
 				|| e instanceof BadCredentialsException) {
 			log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
 			message = e.getMessage();
 			//message = StringUtils.removeEnd(message.replaceAll("\\.(\\s)*", ".<br>"), "<br>");
-		} else {
-			message = MessageUtils.getMessage("error.Login");
 		}
 		
 		ErrorResponse errorResponse = ErrorResponse.builder()

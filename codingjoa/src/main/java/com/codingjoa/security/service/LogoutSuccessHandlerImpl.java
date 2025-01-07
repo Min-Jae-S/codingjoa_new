@@ -31,7 +31,8 @@ public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
 		log.info("## {}", this.getClass().getSimpleName());
 		
 		String continueUrl = request.getParameter("continue");
-		request.setAttribute("continueUrl", UriUtils.resolveContinueUrl(continueUrl, request));
+		continueUrl = UriUtils.resolveContinueUrl(continueUrl, request);
+		request.setAttribute("continueUrl", continueUrl);
 		request.setAttribute("message", MessageUtils.getMessage("success.Logout"));
 		
 		log.info("\t > forward to 'alert-and-redirect.jsp'");

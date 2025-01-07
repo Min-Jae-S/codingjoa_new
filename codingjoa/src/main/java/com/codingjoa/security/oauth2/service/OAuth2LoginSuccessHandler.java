@@ -47,7 +47,8 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 		// option2 : directly redirect to continueUrl using redirectStrategy
 		
 		String continueUrl = (String) authentication.getDetails();
-		request.setAttribute("continueUrl", UriUtils.resolveContinueUrl(continueUrl, request));
+		continueUrl = UriUtils.resolveContinueUrl(continueUrl, request);
+		request.setAttribute("continueUrl", continueUrl);
 		request.setAttribute("message", MessageUtils.getMessage("success.Login"));
 		
 		log.info("\t > forward to 'alert-and-redirect.jsp'");
