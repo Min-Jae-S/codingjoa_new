@@ -18,7 +18,7 @@
 <script src="https://kit.fontawesome.com/c503d71f81.js"></script>
 <style>
 	.table-container {
-		padding-top: 1rem;
+		padding-top: .5rem;
 	}
 	
 	.table-container:not(:last-child) {

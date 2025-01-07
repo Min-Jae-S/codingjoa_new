@@ -68,8 +68,10 @@
 	<div class="find-password-wrap">
 		<div class="card rounded-xl">
 			<div class="card-body p-5">
-				<h5 class="font-weight-bold">비밀번호 찾기</h5>
-				<div class="pt-3 border-top border-dark">
+				<div class="border-bottom border-dark pb-2">
+					<h4 class="font-weight-bold">비밀번호 찾기</h4>
+				</div>
+				<div class="pt-3">
 					<p class="title">
 						<span>코딩조아(Codingjoa)에 가입한 이메일을 입력해주세요.</span><br/>
 						<span>일치하는 계정이 있다면 비밀번호 재설정 링크가 전송됩니다.</span><br/>

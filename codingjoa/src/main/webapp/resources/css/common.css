@@ -58,12 +58,12 @@ input:focus::-webkit-input-placeholder {
 }
 
 textarea::placeholder, 
-textarea::-webkit-input-placeholde {
+textarea::-webkit-input-placeholder {
 	color: #868e96; 
 }
 
 textarea:focus::placeholder, 
-textarea:focus::-webkit-input-placeholde {
+textarea:focus::-webkit-input-placeholder {
 	color: #adb5bd; 
 }
 

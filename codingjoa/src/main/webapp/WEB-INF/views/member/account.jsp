@@ -96,7 +96,8 @@
 		margin-left: 5px;
 	}
 	
-	input[name="memberZipcode"], input[name="memberAddr"] {
+	input[name="memberZipcode"], 
+	input[name="memberAddr"] {
 		cursor: pointer;
 	}
 	
@@ -158,8 +159,8 @@
 
 <div class="container account-container">
 	<div class="account-wrap">
-		<div class="border-bottom border-dark">
-			<h4 class="font-weight-bold">계정 관리</h4>
+		<div class="border-bottom border-dark pb-2">
+			<h3 class="font-weight-bold">계정 관리</h3>
 		</div>
 		<div class="profile-wrap">
 			<h5 class="mb-3 font-weight-bold">계정 정보</h5>
@@ -236,7 +237,7 @@
 					<div class="show-wrap">
 						<dd class="input-group" id="showZipcode">
 							<div>
-								<span class="inner-text">주소를 등록해주세요</span>
+								<span class="inner-text text-danger">* 주소를 등록해주세요</span>
 							</div>
 							<button type="button" class="btn btn-outline-primary btn-sm">등록</button>
 						</dd>
@@ -312,7 +313,7 @@
 					<div class="show-wrap">
 						<dd class="input-group" id="showPassword">
 							<div>
-								<span class="inner-text">비밀번호를 등록해주세요</span>
+								<span class="inner-text text-danger">* 비밀번호를 등록해주세요</span>
 							</div>
 							<button class="btn btn-outline-primary btn-sm">등록</button>
 						</dd>
@@ -549,9 +550,17 @@
 			});
 		});
 		
-		$(document).on("click", "#searchAddrBtn, #memberZipcode, #memberAddr", function() {
+		$("#searchAddrBtn, #memberZipcode, #memberAddr").on("click", function() {
 			execPostcode();
 		});
+		
+		$("#memberZipcode, #memberAddr").on("focus", function(e) {
+			$(this).blur();
+		});
+		
+		/* $(document).on("click", "#searchAddrBtn, #memberZipcode, #memberAddr", function() {
+			execPostcode();
+		}); */
 		
 		$(document).on("click", "dd[id^='show'] button", function() {
 			let $dl = $(this).closest("dl");
@@ -567,6 +576,7 @@
 			$dl.find("div.form-wrap").addClass("d-none");
 			//$dl.find("div.show-wrap, div.form-wrap").toggleClass("d-none");
 		});
+				
 	});
 	
     function execPostcode() {

@@ -42,8 +42,8 @@
 
 <div class="container join-container">
 	<div class="join-wrap">
-		<div class="border-bottom border-dark">
-			<h4 class="font-weight-bold">회원 가입</h4>
+		<div class="border-bottom border-dark pb-2">
+			<h3 class="font-weight-bold">회원 가입</h3>
 		</div>
 		<div class="card rounded-xl">
 			<div class="card-body p-5">
