@@ -1,6 +1,5 @@
 package com.codingjoa.util;
 
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
@@ -17,12 +16,13 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class UriUtils {
 	
-	private static final List<String> disallowedPaths = List.of("/login/**", "/error");
+	// '/login' will be allowed, '/login/callback' will be disallowed
+	private static final List<String> disallowedPaths = List.of("/login/*/**", "/error/**"); 
 	
 	// TopMenuInterceptor 
 	public static String buildCurrentUrl(HttpServletRequest request) {
 		String currentUrl = UrlUtils.buildFullRequestUrl(request);
-		return encode(currentUrl, StandardCharsets.UTF_8);
+		return encode(currentUrl);
 	}
 	
 	// AuthenticationEntryPointImpl
@@ -47,19 +47,16 @@ public class UriUtils {
 	
 	// LoginSuccessHandler, OAuth2LoginSuccessHandler, LogoutSuccessHandlerImpl, AccessDeniedHandlerImpl
 	public static String resolveContinueUrl(String url, HttpServletRequest request) {
-		log.info("## resolveContinueUrl");
-		log.info("\t > url = {}", url);
-		
 		String continueUrl;
 		if (isAllowedUrl(url, request)) {
 			continueUrl = url;
-			log.info("\t > allowed URL provided, using this URL: {}", FormatUtils.formatString(continueUrl));
+			log.info("\t > allowed URL, using this URL: {}", FormatUtils.formatString(continueUrl));
 		} else {
 			continueUrl = ServletUriComponentsBuilder.fromContextPath(request)
 					.path("/")
 					.build()
 					.toUriString();
-			log.info("\t > missing or disallowed URL provided, using default URL: {}", FormatUtils.formatString(continueUrl));
+			log.info("\t > missing or disallowed URL, using default URL: {}", FormatUtils.formatString(continueUrl));
 		}
 		
 		return continueUrl;
@@ -71,29 +68,32 @@ public class UriUtils {
 	
 	private static boolean isAllowedPath(String url, HttpServletRequest request) {
 		AntPathMatcher matcher = new AntPathMatcher();
-
-		// http://localhost:8888/codingjoa
-		String contextPattern = ServletUriComponentsBuilder.fromContextPath(request)
+		
+		// http://localhost:8888/codingjoa/**
+		String contextPattern = ServletUriComponentsBuilder.fromContextPath(request) 
 				.path("/**")
 				.build(false)
 				.toUriString();
-		log.info("\t > contextPattern = {}", contextPattern);
 		
 		if (!matcher.match(contextPattern, url)) {
 			return false;
 		}
 		
 		return disallowedPaths.stream().noneMatch(path -> { 
+			// http://localhost:8888/codingjoa/login/*/**, http://localhost:8888/codingjoa/error/**
 			String disallowedPattern = ServletUriComponentsBuilder.fromContextPath(request)
 					.path(path)
 					.build(false)
 					.toUriString();
-			log.info("\t > disallowedPattern = {}", disallowedPattern);
 			return matcher.match(disallowedPattern, url);
 		});
 	}
 	
-	private static String encode(String url, Charset charset) {
-		return org.springframework.web.util.UriUtils.encode(url, charset);
+	public static String encode(String url) {
+		return org.springframework.web.util.UriUtils.encode(url, StandardCharsets.UTF_8);
+	}
+
+	public static String decode(String url) {
+		return org.springframework.web.util.UriUtils.decode(url, StandardCharsets.UTF_8);
 	}
 }

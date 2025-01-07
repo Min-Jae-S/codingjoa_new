@@ -16,7 +16,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.codingjoa.entity.Category;
 import com.codingjoa.service.CategoryService;
-import com.codingjoa.util.FormatUtils;
 import com.codingjoa.util.UriUtils;
 
 import lombok.RequiredArgsConstructor;
@@ -65,16 +64,17 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 		modelAndView.addObject("parentCategoryList", parentCategoryList);
 		
 		String currentUrl = UriUtils.buildCurrentUrl(request);
-		log.info("\t > currentUrl = {}", currentUrl);
+		log.info("\t > currentUrl: {}", UriUtils.decode(currentUrl));
 		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {
 			String loginContinueUrl = isDisallowedPath(request) ? "" : currentUrl;
 			modelAndView.addObject("loginContinueUrl", loginContinueUrl);
-			log.info("\t > set loginContinueUrl: {}", FormatUtils.formatString(loginContinueUrl));
+			log.info("\t > loginContinueUrl: {}", UriUtils.decode(loginContinueUrl));
+			
 		} else if (authentication instanceof UsernamePasswordAuthenticationToken) {
 			modelAndView.addObject("logoutContinueUrl", currentUrl);
-			log.info("\t > set logoutContinueUrl: {}", FormatUtils.formatString(currentUrl));
+			log.info("\t > logoutContinueUrl: {}", UriUtils.decode(currentUrl));
 		}
 		
 		log.info("\t > added model attrs = {}", modelAndView.getModel().keySet());

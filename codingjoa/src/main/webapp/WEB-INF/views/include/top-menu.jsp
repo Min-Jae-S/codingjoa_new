@@ -31,7 +31,7 @@
 					<div class="dropdown-menu">
 						<button class="dropdown-item" type="button" onclick="location.href='${contextPath}/login'">login</button>
 						<button class="dropdown-item" type="button" onclick="location.href='${contextPath}/member/account'">account</button>
-						<button class="dropdown-item" type="button" onclick="location.href='${contextPath}/error">error</button>
+						<button class="dropdown-item" type="button" onclick="location.href='${contextPath}/error'">error</button>
 						<button class="dropdown-item" type="button" onclick="location.href='${contextPath}/admin'">admin</button>
 						<button class="dropdown-item" type="button" onclick="adminApi('${contextPath}/api/admin')">/api/admin</button>
 						<button class="dropdown-item" type="button" onclick="location.href='${contextPath}/test/ws'">/test/ws</button>
@@ -84,7 +84,7 @@
 						<a href="${contextPath}/member/account" class="nav-link">계정 관리</a>
 					</li>
 					<li class="nav-item mx-2">
-						<a href="${contextPath}/logout?continue=${logoutContiueUrl}" class="nav-link">로그아웃</a>
+						<a href="${contextPath}/logout?continue=${logoutContinueUrl}" class="nav-link">로그아웃</a>
 					</li>
 				</sec:authorize>
 			</ul>
