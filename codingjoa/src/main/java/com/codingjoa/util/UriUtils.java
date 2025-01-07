@@ -59,7 +59,7 @@ public class UriUtils {
 					.path("/")
 					.build()
 					.toUriString();
-			log.info("\t > missing or denied URL provided, using default URL: {}", FormatUtils.formatString(continueUrl));
+			log.info("\t > missing or disallowed URL provided, using default URL: {}", FormatUtils.formatString(continueUrl));
 		}
 		
 		return continueUrl;
@@ -77,6 +77,7 @@ public class UriUtils {
 				.path("/**")
 				.build(false)
 				.toUriString();
+		log.info("\t > contextPattern = {}", contextPattern);
 		
 		if (!matcher.match(contextPattern, url)) {
 			return false;
@@ -87,6 +88,7 @@ public class UriUtils {
 					.path(path)
 					.build(false)
 					.toUriString();
+			log.info("\t > disallowedPattern = {}", disallowedPattern);
 			return matcher.match(disallowedPattern, url);
 		});
 	}

@@ -64,7 +64,7 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 		modelAndView.addObject("parentCategoryList", parentCategoryList);
 		
 		String currentUrl = UriUtils.buildCurrentUrl(request);
-
+		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (authentication instanceof UsernamePasswordAuthenticationToken) {
 			modelAndView.addObject("logoutContinueUrl", currentUrl);
