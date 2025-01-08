@@ -41,19 +41,17 @@ public class MainController {
 	public ResponseEntity<Object> getSavedRequest(HttpServletRequest request, HttpServletResponse response) {
 		log.info("## getSavedRequest");
 		
-		String redirectUrl = getRedirectURL(request, response);
+		RequestCache requestCache = new HttpSessionRequestCache();
+		SavedRequest savedRequest = requestCache.getRequest(request, response); // DefaultSavedRequest 
+		log.info("\t > savedRequest = {}", savedRequest);
+		
+		String redirectUrl = (savedRequest == null) ? request.getContextPath() : savedRequest.getRedirectUrl();
 		log.info("\t > redirectUrl = {}", FormatUtils.formatString(redirectUrl));
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
 				.message("success")
 				.data(redirectUrl)
 				.build());
-	}
-	
-	private String getRedirectURL(HttpServletRequest request, HttpServletResponse response) {
-		RequestCache requestCache = new HttpSessionRequestCache();
-		SavedRequest savedRequest = requestCache.getRequest(request, response); // DefaultSavedRequest 
-		return (savedRequest == null) ? request.getContextPath() : savedRequest.getRedirectUrl();
 	}
 	
 }
