@@ -28,6 +28,8 @@
 					<a href="#" class="nav-link">TEST</a>
 					<div class="dropdown-menu">
 						<button class="dropdown-item" type="button" onclick="location.href='${contextPath}/login'">login</button>
+						<button class="dropdown-item" type="button" onclick="loginApi()">/api/login</button>
+						<button class="dropdown-item" type="button" onclick="location.href='${contextPath}/logout'">logout</button>
 						<button class="dropdown-item" type="button" onclick="location.href='${contextPath}/member/account'">account</button>
 						<button class="dropdown-item" type="button" onclick="location.href='${contextPath}/error'">error</button>
 						<button class="dropdown-item" type="button" onclick="location.href='${contextPath}/admin'">admin</button>
@@ -168,5 +170,18 @@
 			let errorResponse = JSON.parse(jqXHR.responseText);
 			console.log(JSON.stringify(errorResponse, null, 2));
 		});
+	}
+	
+	function loginApi() {
+		const $form = $("<form>", {
+            method: "POST",
+            action: "${contextPath}/api/login"
+        });
+		
+		//$form.append($('<input>', { type: 'hidden', name: 'username', value: 'user123' }));
+		
+		// login:195 Form submission canceled because the form is not connected
+		$form.appendTo(document.body).submit();
+		$form.remove();
 	}
 </script>
