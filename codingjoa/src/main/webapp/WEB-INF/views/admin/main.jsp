@@ -8,8 +8,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" rel="stylesheet">
-<link href="${contextPath}/resources/css/common.css" rel="stylesheet" >
 <link href="${contextPath}/resources/sb/css/styles.css" rel="stylesheet">
+<link href="${contextPath}/resources/css/common.css" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
@@ -64,9 +64,9 @@
 		</ul>
 	</nav>
 	
-	<!-- Layout Sidenav -->
+	<!-- Sidenav -->
 	<div id="layoutSidenav">
-		<!-- Layout Sidenav_nav -->
+		<!-- Sidenav_nav -->
 		<div id="layoutSidenav_nav">
 			<nav class="sb-sidenav accordion sb-sidenav-light" id="sidenavAccordion">
 				<div class="sb-sidenav-menu">
@@ -163,9 +163,9 @@
 					<div class="small">Logged in as:</div> Start Bootstrap
 				</div>
 			</nav>
-		</div>
+		</div> <!-- /Sidenav_nav -->
 		
-		<!-- Layout Sidenav_conent -->
+		<!-- Sidenav_conent -->
 		<div id="layoutSidenav_content">
 			<main>
 				<div class="container-fluid px-4">
@@ -183,7 +183,7 @@
 					</div>
 				</div>
 			</main>
-			<footer class="py-4 bg-light mt-auto">
+			<footer class="bg-light mt-auto">
 				<div class="container-fluid px-4">
 					<div class="d-flex align-items-center justify-content-between small">
 						<div class="text-muted">Copyright © Your Website 2023</div>
@@ -193,7 +193,17 @@
 					</div>
 				</div>
 			</footer>
+		</div> <!-- /Sidenav_conent -->
+	</div> <!-- /Sidenav -->
+	<!-- <footer class="py-4 bg-light mt-auto">
+		<div class="container-fluid px-4">
+			<div class="d-flex align-items-center justify-content-between small">
+				<div class="text-muted">Copyright © Your Website 2023</div>
+				<div>
+					<a href="#">Privacy Policy</a> · <a href="#">Terms &amp; Conditions</a>
+				</div>
+			</div>
 		</div>
-	</div>
+	</footer> -->
 </body>
 </html>
