@@ -44,6 +44,7 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter { // Use
 		log.info("## {}.attemptAuthentication", this.getClass().getSimpleName());
 		
 		if (!AjaxUtils.isAjaxRequest(request)) {
+			log.info("\t > invalid request");
 			throw new AuthenticationServiceException("invalid request");
 		}
 		
@@ -52,6 +53,7 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter { // Use
 			loginDto = objectMapper.readValue(request.getReader(), LoginDto.class);
 			log.info("\t > loginDto = {}", loginDto);
 		} catch (IOException e) {
+			log.info("\t > invalid json format");
 			log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
 			throw new AuthenticationServiceException("invalid json format");
 		}

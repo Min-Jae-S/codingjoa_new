@@ -14,9 +14,22 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://kit.fontawesome.com/c503d71f81.js"></script>
 <style>
+	.main-wrap {
+		width: 820px;
+		min-width: 820px;
+		margin: 0 auto;
+	}
+
 	#configHeader a {
 	    color: #495057;
+	    font-size: 0.9rem;
+	    padding: .4rem .8rem;
 	}
+	
+	#configHeader a:hover:not(.active) {
+		border-color: transparent;
+	}
+
 
 	#configHeader a.active {
 	    font-weight: bold;
@@ -24,7 +37,7 @@
 	
 	#configBody {
 		padding: 2.5rem;
-		height: 450px;
+		height: 350px;
 		overflow-y: auto;
 	}
 	
@@ -40,11 +53,6 @@
 	.card-header-tabs {
 		margin: 0;
 	}
-	
-	.main-wrap {
-		min-width: 920px;
-		margin: 0 auto;
-	}
 </style>
 </head>
 <body>
@@ -53,7 +61,7 @@
 
 <div class="container main-container">
 	<div class="main-wrap">
-		<div class="card rounded-md">
+		<div class="card rounded-md" id="configContainer">
 			<div class="card-header" id="configHeader">
 				<ul class="nav nav-tabs card-header-tabs">
 					<li class="nav-item">

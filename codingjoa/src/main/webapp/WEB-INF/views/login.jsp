@@ -17,6 +17,11 @@
 <script src="${contextPath}/resources/js/authentication.js"></script>
 <script src="${contextPath}/resources/js/handle-errors.js"></script>
 <style>
+	.login-wrap {
+		min-width: 500px;
+		margin: 0 auto;
+	}
+	
 	.info-member {
 		overflow: hidden;
 		font-size: 90%;
@@ -42,11 +47,6 @@
 	
 	.link-ul li {
 		display: inline-block;
-	}
-	
-	.login-wrap {
-		min-width: 500px;
-		margin: 0 auto;
 	}
 	
 	.social-login {

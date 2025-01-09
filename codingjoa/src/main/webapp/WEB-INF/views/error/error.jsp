@@ -16,43 +16,58 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
 </head>
 <style>
+	.error-wrap {
+		margin: 0 auto;
+		padding-bottom: 4rem;
+	}
+	
+	.error-code {
+		color: #dc3545 !important;
+		font-weight: bold;
+		font-size: 9.5rem;
+	}
+
 	.error-field::before {
-		content: "[ "
+		content: "( "
 	}
 
 	.error-field::after {
-		content: " ]"
+		content: " )"
 	}
 </style>
 <body>
 
 <c:import url="/WEB-INF/views/include/top-menu.jsp"/>
 
-<div class="error-container">
-	<p class="font-weight-bold text-center text-danger mb-4" style="font-size: 120px;">
-		<c:out value="${errorResponse.status}"/>
-	</p>
-	<div class="text-center px-5">
-		<c:choose>
-			<c:when test="${fn:length(errorResponse.details) > 0}">
-				<c:forEach items="${errorResponse.details}" var="errorDetails">
+<div class="container error-container">
+	<div class="error-wrap">
+		<div class="text-center">
+			<h3 class="error-code">
+				<span><c:out value="${errorResponse.status}"/></span>
+			</h3>
+		</div>
+		<div class="text-center px-5">
+			<c:choose>
+				<c:when test="${fn:length(errorResponse.details) > 0}">
+					<c:forEach items="${errorResponse.details}" var="errorDetails">
+						<h3 class="font-weight-bold">
+							<span class="error-field"><c:out value="${errorDetails.field}"/></span>
+							<span><c:out value="${errorDetails.message}"/></span>
+						</h3>
+					</c:forEach>
+				</c:when>
+				<c:when test="${fn:length(errorResponse.details) == 0}">
 					<h3 class="font-weight-bold">
-						<span class="error-field"><c:out value="${errorDetails.field}"/></span>
-						<span><c:out value="${errorDetails.message}"/></span>
+						<span><c:out value="${errorResponse.message}"/></span>
 					</h3>
-				</c:forEach>
-			</c:when>
-			<c:when test="${fn:length(errorResponse.details) == 0}">
-				<h3 class="font-weight-bold">
-					<span><c:out value="${errorResponse.message}"/></span>
-				</h3>
-			</c:when>
-			<c:otherwise>
-				<h3 class="font-weight-bold">
-					<span>오류가 발생하였습니다.</span>
-				</h3>
-			</c:otherwise>
-		</c:choose>
+				</c:when>
+				<c:otherwise>
+					<h3 class="font-weight-bold">
+						<span>오류가 발생하였습니다.</span>
+					</h3>
+				</c:otherwise>
+			</c:choose>
+		</div>
 	</div>
 </div>
 
