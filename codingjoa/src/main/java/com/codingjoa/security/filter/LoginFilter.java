@@ -44,7 +44,7 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter { // Use
 		log.info("## {}.attemptAuthentication", this.getClass().getSimpleName());
 		
 		if (!AjaxUtils.isAjaxRequest(request)) {
-			throw new AuthenticationServiceException("invalid request; no AJAX request");
+			throw new AuthenticationServiceException("invalid request");
 		}
 		
 		LoginDto loginDto;
@@ -52,14 +52,15 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter { // Use
 			loginDto = objectMapper.readValue(request.getReader(), LoginDto.class);
 			log.info("\t > loginDto = {}", loginDto);
 		} catch (IOException e) {
-			throw new AuthenticationServiceException("invalid json format; " + e.getMessage());
+			log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
+			throw new AuthenticationServiceException("invalid json format");
 		}
 		
 		String memberEmail = loginDto.getMemberEmail();
 		String memberPassword = loginDto.getMemberPassword();
 		
 		if (!StringUtils.hasText(memberEmail)) {
-			throw new LoginRequireFieldException(MessageUtils.getMessage("error.LoginRequireEmail"));	
+			throw new LoginRequireFieldException(MessageUtils.getMessage("error.LoginRequireEmail"));
 		}
 		
 		if (!StringUtils.hasText(memberPassword)) {

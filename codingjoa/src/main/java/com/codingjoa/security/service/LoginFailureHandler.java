@@ -2,6 +2,7 @@ package com.codingjoa.security.service;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Set;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -32,6 +33,8 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
 
 	private static final String FORWARD_PATH = "/WEB-INF/views/router/alert-and-redirect.jsp";
 	private final ObjectMapper objectMapper;
+	Set<Class<?>> handledExceptions = 
+			Set.of(LoginRequireFieldException.class, UsernameNotFoundException.class, BadCredentialsException.class);
 	
 	@Override
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
@@ -55,9 +58,7 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
 		
 		String message = MessageUtils.getMessage("error.Login");
 		
-		if (e instanceof LoginRequireFieldException || e instanceof UsernameNotFoundException
-				|| e instanceof BadCredentialsException) {
-			log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
+		if (handledExceptions.contains(e.getClass())) {
 			message = e.getMessage();
 			//message = StringUtils.removeEnd(message.replaceAll("\\.(\\s)*", ".<br>"), "<br>");
 		}

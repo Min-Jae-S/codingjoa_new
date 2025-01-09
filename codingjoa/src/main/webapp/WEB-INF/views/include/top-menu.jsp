@@ -194,7 +194,7 @@
 		
 		$.ajax({
 			type : "POST",
-			url : url,
+			url : "${contextPath}/api/login",
 			data : JSON.stringify(obj),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
