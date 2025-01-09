@@ -24,7 +24,7 @@
 </div>
 </body> -->
 <body class="sb-nav-fixed">
-	<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+	<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark px-5">
 		<!-- Navbar Brand-->
 		<a class="navbar-brand ps-3" href="${contextPath}">Codingjoa</a>
 		
@@ -159,9 +159,6 @@
 						</a>
 					</div>
 				</div>
-				<div class="sb-sidenav-footer">
-					<div class="small">Logged in as:</div> Start Bootstrap
-				</div>
 			</nav>
 		</div> <!-- /Sidenav_nav -->
 		
@@ -183,7 +180,7 @@
 					</div>
 				</div>
 			</main>
-			<footer class="bg-light mt-auto">
+			<footer class="bg-light">
 				<div class="container-fluid px-4">
 					<div class="d-flex align-items-center justify-content-between small">
 						<div class="text-muted">Copyright © Your Website 2023</div>
@@ -195,7 +192,7 @@
 			</footer>
 		</div> <!-- /Sidenav_conent -->
 	</div> <!-- /Sidenav -->
-	<!-- <footer class="py-4 bg-light mt-auto">
+	<!-- <footer class="bg-light">
 		<div class="container-fluid px-4">
 			<div class="d-flex align-items-center justify-content-between small">
 				<div class="text-muted">Copyright © Your Website 2023</div>

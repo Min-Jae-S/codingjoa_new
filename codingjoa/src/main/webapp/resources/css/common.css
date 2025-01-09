@@ -1,7 +1,7 @@
 @charset "UTF-8";
 
 html {
-    zoom: 0.85;
+    zoom: 0.8;
 }
 
 html, body {
@@ -14,16 +14,19 @@ html, body {
 
 .container {
 	flex-grow: 1;
+	/* min-height: calc(100% - 56px - 56px); */
 }
 
 .join-container, .account-container, .find-password-container {
-	margin-top: 7rem;
-	margin-bottom: 7rem;
+	margin-top: 6rem;
+	margin-bottom: 6rem;
 	display: flex;
 	align-items: center;
 }
 
 .main-container, .login-container, .error-container {
+	margin-top: 2rem;
+	margin-bottom: 2rem;
 	display: flex;
 	align-items: center;
 }
@@ -76,8 +79,7 @@ textarea:focus::-webkit-input-placeholder {
 	border-bottom: 1px solid #dedede !important;
 	background-color: white; /* because it's sticky, it turns translucent while scrolling down */
 	z-index: 999;
-	padding-top: 0;
-	padding-bottom: 0;
+	padding: 0;
 	min-height: 56px;
 	position: sticky;
 }
@@ -193,14 +195,14 @@ footer {
 }
 
 #layoutSidenav {
-	height: 100% !important;
+	/* height: 100% !important; */
+	min-height: calc(100% - 56px);
 }
 
 #layoutSidenav_nav {
 	height: 100% !important;
 }
 
-#layoutSidenav_nav .sb-sidenav-footer {
-	border-top: 1px solid #dedede !important;
-	height: 56px;
-} 
+#layoutSidenav_nav .sb-sidenav-menu {
+	border-right: 1px solid #dedede !important;
+}
