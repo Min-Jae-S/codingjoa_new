@@ -28,7 +28,8 @@
 					<a href="#" class="nav-link">TEST</a>
 					<div class="dropdown-menu">
 						<button class="dropdown-item" type="button" onclick="location.href='${contextPath}/login'">login</button>
-						<button class="dropdown-item" type="button" onclick="loginApi()">/api/login</button>
+						<button class="dropdown-item" type="button" onclick="mvcLogin()">mvc login</button>
+						<button class="dropdown-item" type="button" onclick="invalidLogin()">invalid login</button>
 						<button class="dropdown-item" type="button" onclick="location.href='${contextPath}/logout'">logout</button>
 						<button class="dropdown-item" type="button" onclick="location.href='${contextPath}/member/account'">account</button>
 						<button class="dropdown-item" type="button" onclick="location.href='${contextPath}/error'">error</button>
@@ -172,7 +173,7 @@
 		});
 	}
 	
-	function loginApi() {
+	function mvcLogin() {
 		const $form = $("<form>", {
             method: "POST",
             action: "${contextPath}/api/login"
@@ -183,5 +184,29 @@
 		// login:195 Form submission canceled because the form is not connected
 		$form.appendTo(document.body).submit();
 		$form.remove();
+	}
+
+	function invalidLogin() {
+		let obj = {
+			"param1" : "aa",
+			"param2" : "bb"
+		};
+		
+		$.ajax({
+			type : "POST",
+			url : url,
+			data : JSON.stringify(obj),
+			contentType : "application/json; charset=utf-8",
+			dataType : "json",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log(JSON.stringify(result, null, 2));
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				let errorResponse = JSON.parse(jqXHR.responseText);
+				console.log(JSON.stringify(errorResponse, null, 2));
+			}
+		});
 	}
 </script>

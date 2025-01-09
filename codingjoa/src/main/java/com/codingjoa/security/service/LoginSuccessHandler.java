@@ -56,8 +56,9 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 		response.setCharacterEncoding(StandardCharsets.UTF_8.name());
         
-		log.info("\t > respond with successResponse in JSON format");
 		String jsonResponse = objectMapper.writeValueAsString(successResponse);
+
+		log.info("\t > respond with successResponse in JSON format");
 		response.getWriter().write(jsonResponse);
 		response.getWriter().close();
 	}

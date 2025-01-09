@@ -1,6 +1,7 @@
 package com.codingjoa.security.oauth2.service;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -37,6 +38,8 @@ public class OAuth2LoginFailureHandler implements AuthenticationFailureHandler {
 		}
 		
 		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+		response.setCharacterEncoding(StandardCharsets.UTF_8.name());
+		
 		request.setAttribute("continueUrl", UriUtils.buildLoginUrl(request, ""));
 		request.setAttribute("message", message);
 		

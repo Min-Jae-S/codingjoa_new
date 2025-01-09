@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -39,16 +40,20 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter { // Use
 	
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
-			throws AuthenticationException, IOException, ServletException {
+			throws AuthenticationException {
 		log.info("## {}.attemptAuthentication", this.getClass().getSimpleName());
 		
-		if (!AjaxUtils.isAjaxRequest(request) || !"POST".equals(request.getMethod())) {
-			log.info("\t > invalid login request");
-			// ...
+		if (!AjaxUtils.isAjaxRequest(request)) {
+			throw new AuthenticationServiceException("invalid request; no AJAX request");
 		}
 		
-		LoginDto loginDto = objectMapper.readValue(request.getReader(), LoginDto.class);
-		log.info("\t > loginDto = {}", loginDto);
+		LoginDto loginDto;
+		try {
+			loginDto = objectMapper.readValue(request.getReader(), LoginDto.class);
+			log.info("\t > loginDto = {}", loginDto);
+		} catch (IOException e) {
+			throw new AuthenticationServiceException("invalid json format; " + e.getMessage());
+		}
 		
 		String memberEmail = loginDto.getMemberEmail();
 		String memberPassword = loginDto.getMemberPassword();

@@ -42,6 +42,20 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 	private final RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 	private final ObjectMapper objectMapper;
 	
+	/*
+	 * https://0taeng.tistory.com/30
+	 * https://mohwaproject.tistory.com/entry/Ajax-%EC%A0%84%EC%86%A1-%EA%B5%AC%EB%B6%84%ED%95%98%EA%B8%B0
+	 * 
+	 * 1. header: x-requested-with(key) --> XMLHttpRequest(value) 
+	 * 		- x: Non-standard
+	 * 		- jQuery나 대중성 있는 라이브러리들이 ajax 전송시 기본으로 추가하여 전송
+	 * 
+	 * 2. custom header
+	 * 		beforeSend: function(xmlHttpRequest) {
+	 * 			xmlHttpRequest.setRequestHeader("AJAX", "true")
+	 * 		}
+	 */
+	
 	@Override
 	public void commence(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException authException) throws IOException, ServletException {
@@ -51,20 +65,6 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 		
 		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 		response.setCharacterEncoding(StandardCharsets.UTF_8.name());
-		
-		/*
-		 * https://0taeng.tistory.com/30
-		 * https://mohwaproject.tistory.com/entry/Ajax-%EC%A0%84%EC%86%A1-%EA%B5%AC%EB%B6%84%ED%95%98%EA%B8%B0
-		 * 
-		 * 1. header: x-requested-with(key) --> XMLHttpRequest(value) 
-		 * 		- x: Non-standard
-		 * 		- jQuery나 대중성 있는 라이브러리들이 ajax 전송시 기본으로 추가하여 전송
-		 * 
-		 * 2. custom header
-		 * 		beforeSend: function(xmlHttpRequest) {
-		 * 			xmlHttpRequest.setRequestHeader("AJAX", "true")
-		 * 		}
-		 */
 		
 		ErrorResponse errorResponse = ErrorResponse.builder()
 				.status(HttpStatus.UNAUTHORIZED)
@@ -84,6 +84,7 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 //			log.info("\t > forward to 'alert-and-redirect.jsp'");
 //			request.getRequestDispatcher(FORWARD_PATH).forward(request, response);
 
+			log.info("\t > redirect to login page");
 			redirectStrategy.sendRedirect(request, response, UriUtils.buildLoginUrl(request));
 		}
 	}
