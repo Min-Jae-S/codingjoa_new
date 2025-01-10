@@ -21,7 +21,9 @@
 <body class="sb-nav-fixed">
 	<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark px-5">
 		<!-- Navbar Brand-->
-		<a class="navbar-brand ps-3" href="${contextPath}">Codingjoa</a>
+		<div class="logo-wrap">
+			<a class="navbar-brand" href="${contextPath}">Codingjoa</a>
+		</div>
 		
 		<!-- Sidebar Toggle-->
 		<button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!">
