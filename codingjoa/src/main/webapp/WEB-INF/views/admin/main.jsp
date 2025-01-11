@@ -34,7 +34,7 @@
 		<!-- Navbar Search-->
 		<form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
 			<div class="input-group">
-				<input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch">
+				<input class="form-control" type="text" placeholder="Search for...">
 				<button class="btn btn-primary" id="btnNavbarSearch" type="button">
 					<i class="fas fa-search"></i>
 				</button>
@@ -66,20 +66,14 @@
 					<div class="nav">
 						<div class="sb-sidenav-menu-heading">Core</div>
 						<a class="nav-link" href="index.html">
-							<div class="sb-nav-link-icon">
-								<i class="fas fa-tachometer-alt"></i>
-							</div>
+							<div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
 							<span>Dashboard</span>
 						</a>
 						<div class="sb-sidenav-menu-heading">Interface</div>
 						<a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
-							<div class="sb-nav-link-icon">
-								<i class="fas fa-columns"></i>
-							</div>
+							<div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
 							<span>Layouts</span>
-							<div class="sb-sidenav-collapse-arrow">
-								<i class="fas fa-angle-down"></i>
-							</div>
+							<div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
 						</a>
 						<div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
 							<nav class="sb-sidenav-menu-nested nav">
@@ -88,20 +82,14 @@
 							</nav>
 						</div>
 						<a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
-							<div class="sb-nav-link-icon">
-								<i class="fas fa-book-open"></i>
-							</div>
+							<div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
 							<span>Pages</span>
-							<div class="sb-sidenav-collapse-arrow">
-								<i class="fas fa-angle-down"></i>
-							</div>
+							<div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
 						</a>
 						<div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
 							<nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
 								<a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth"> Authentication
-									<div class="sb-sidenav-collapse-arrow">
-										<i class="fas fa-angle-down"></i>
-									</div>
+									<div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
 								</a>
 								<div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
 									<nav class="sb-sidenav-menu-nested nav">
@@ -111,9 +99,7 @@
 									</nav>
 								</div>
 								<a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseError" aria-expanded="false" aria-controls="pagesCollapseError"> Error
-									<div class="sb-sidenav-collapse-arrow">
-										<i class="fas fa-angle-down"></i>
-									</div>
+									<div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
 								</a>
 								<div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
 									<nav class="sb-sidenav-menu-nested nav">
@@ -126,19 +112,14 @@
 						</div>
 						<div class="sb-sidenav-menu-heading">Addons</div>
 						<a class="nav-link" href="charts.html">
-							<div class="sb-nav-link-icon">
-								<i class="fas fa-chart-area"></i>
-							</div>
+							<div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
 							<span>Charts</span>
 						</a> 
 						<a class="nav-link" href="tables.html">
-							<div class="sb-nav-link-icon">
-								<i class="fas fa-table"></i>
-							</div>
+							<div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
 							<span>Tables</span> 
 						</a>
 					</div>
-					
 				</div>
 			</nav>
 		</div> <!-- /Sidenav_nav -->
