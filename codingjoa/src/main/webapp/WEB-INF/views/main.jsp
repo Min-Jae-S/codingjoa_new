@@ -15,29 +15,29 @@
 <script src="https://kit.fontawesome.com/c503d71f81.js"></script>
 <style>
 	.main-wrap {
-		width: 820px;
-		min-width: 820px;
+		width: 860px;
+		min-width: 860px;
 		margin: 0 auto;
 	}
 
 	#configHeader a {
-	    color: #495057;
-	    font-size: 0.9rem;
+	    color: #6c757d;
+	    /* color: #868e96; */
+	    font-size: .95rem;
 	    padding: .4rem .8rem;
+	}
+	
+	#configHeader a.active {
+	    color: black;
 	}
 	
 	#configHeader a:hover:not(.active) {
 		border-color: transparent;
 	}
-
-
-	#configHeader a.active {
-	    font-weight: bold;
-	}
 	
 	#configBody {
 		padding: 2.5rem;
-		height: 350px;
+		height: 380px;
 		overflow-y: auto;
 	}
 	

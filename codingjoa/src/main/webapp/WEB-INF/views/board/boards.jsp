@@ -10,13 +10,19 @@
 <title>게시판 | Codingjoa</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
-<link rel="stylesheet" href="${contextPath}/resources/css/common.css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" rel="stylesheet" >
+<link href="${contextPath}/resources/css/common.css" rel="stylesheet" >
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://kit.fontawesome.com/c503d71f81.js"></script>
 <style>
+	.boards-wrap {
+		width: 760px;
+		min-width: 620px;
+		margin: 0 auto;
+	}
+
 	.table-container {
 		padding-top: .5rem;
 	}
@@ -62,11 +68,6 @@
 
 	.comment-cnt:after {
 		content: ")";
-	}
-	
-	.boards-wrap {
-		min-width: 820px;
-		margin: 0 auto;
 	}
 </style>
 </head>
