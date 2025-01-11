@@ -135,27 +135,15 @@
 					</ol>
 					<div class="card mb-4">
 						<div class="card-body">
-							This page is an example of using the light side navigation option. By appending the <code>.sb-sidenav-light</code>
-							class to the <code>.sb-sidenav</code> class, the side navigation will take on a light color scheme. 
+							This page is an example of using the light side navigation option. 
+							By appending the <code>.sb-sidenav-light</code> class to the <code>.sb-sidenav</code> class, 
+							the side navigation will take on a light color scheme. 
 							The <code>.sb-sidenav-dark</code> is also available for a darker option.
 						</div>
 					</div>
 				</div>
 			</main>
-			
-			<!-- footer -->
 			<c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
-			<!-- <footer class="bg-light">
-				<div class="container-fluid px-4">
-					<div class="d-flex align-items-center justify-content-between small">
-						<div class="text-muted">Copyright © Your Website 2023</div>
-						<div>
-							<a href="#">Privacy Policy</a> · <a href="#">Terms &amp; Conditions</a>
-						</div>
-					</div>
-				</div>
-			</footer> -->
-			
 		</div> <!-- /Sidenav_conent -->
 	</div> <!-- /Sidenav -->
 </body>

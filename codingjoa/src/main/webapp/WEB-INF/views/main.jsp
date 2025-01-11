@@ -21,18 +21,17 @@
 	}
 
 	#configHeader a {
-	    color: #6c757d;
-	    /* color: #868e96; */
+	    color: #525661;;
 	    font-size: .95rem;
 	    padding: .4rem .8rem;
 	}
 	
-	#configHeader a.active {
-	    color: black;
-	}
-	
 	#configHeader a:hover:not(.active) {
 		border-color: transparent;
+	}
+	
+	#configHeader a:hover {
+		color: black
 	}
 	
 	#configBody {

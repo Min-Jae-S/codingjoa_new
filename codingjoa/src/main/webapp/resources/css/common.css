@@ -113,8 +113,7 @@ li.nav-item {
 }
 
 .navbar-custom .navbar-nav .nav-link {
-	/* color: #525661; */
-	color: #6c757d;
+	color: #525661;
 	border-radius: 0.6rem;
 }
 
@@ -151,8 +150,7 @@ li.nav-item {
 .navbar-nav .dropdown-item {
 	padding: 0.25rem 1rem;
 	font-size: 0.9rem;
-	/* color: #525661; */
-	color: #6c757d;
+	color: #525661;
 	font-weight: 400;
 	background-color: transparent;
 	height: 35px;
@@ -196,6 +194,7 @@ footer {
 	min-height: 56px;
 	display: flex;
 	align-items: center;
+	color: #525661;
 }
 
 #layoutSidenav {
@@ -227,5 +226,14 @@ footer {
 
 #sidebarToggle:focus {
 	box-shadow: none;
+}
+
+.sb-sidenav-light .sb-sidenav-menu .nav-link {
+	color: #525661;
+}
+
+.sb-sidenav-light .sb-sidenav-menu .nav-link:hover {
+	color: black;
+	font-weight: 500;
 }
 
