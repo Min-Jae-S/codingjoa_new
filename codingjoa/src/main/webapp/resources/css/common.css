@@ -99,8 +99,8 @@ textarea:focus::-webkit-input-placeholder {
 .navbar-custom .navbar-brand {
 	color: black;
 	font-weight: bold;
-	padding: .5rem .5rem;
 	margin: 0;
+	padding: .5rem;
 }
 
 li.nav-item {
@@ -214,9 +214,18 @@ footer {
 .sb-topnav div.logo-wrap {
 	display: flex;
 	align-items: center;
+	height: 100%;
 }
 
 .sb-topnav .navbar-brand {
 	color: #fff;
 	font-weight: bold;
+	margin: 0;
+	padding: 0.5rem;
+	width: calc(225px - 3rem); /* sb-topnav (px-5, 3rem) */
 }
+
+#sidebarToggle:focus {
+	box-shadow: none;
+}
+
