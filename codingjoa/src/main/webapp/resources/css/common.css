@@ -244,5 +244,12 @@ footer {
 
 .sb-sidenav-light .sb-sidenav-menu .sb-nav-link-icon {
 	margin-left: 0.5rem;
-	margin-right: 0.85rem !important;	
+	margin-right: 0.85rem !important;
+	font-size: 1rem;	
+	
+}
+
+.sb-sidenav-light .sb-sidenav-menu .sb-nav-link-icon i::before {
+	display: inline-block;
+	width: 11.5px;
 }
