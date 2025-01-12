@@ -56,14 +56,14 @@
 					<div class="nav">
 						<div class="sb-sidenav-menu-heading">Users</div>
 						<a class="nav-link" href="index.html">
-							<div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+							<div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt fa-fw"></i></div>
 							<span>사용자 관리</span>
 						</a>
 						<div class="sb-sidenav-menu-heading">Contents</div>
 						<a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
-							<div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+							<div class="sb-nav-link-icon"><i class="fas fa-columns fa-fw"></i></div>
 							<span>콘텐츠 관리</span>
-							<div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+							<div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down fa-fw"></i></div>
 						</a>
 						<div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
 							<nav class="sb-sidenav-menu-nested nav">
@@ -72,14 +72,14 @@
 							</nav>
 						</div>
 						<a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
-							<div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+							<div class="sb-nav-link-icon"><i class="fas fa-book-open fa-fw""></i></div>
 							<span>공지사항 관리</span>
-							<div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+							<div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down fa-fw"></i></div>
 						</a>
 						<div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
 							<nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
 								<a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth"> Authentication
-									<div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+									<div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down fa-fw"></i></div>
 								</a>
 								<div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
 									<nav class="sb-sidenav-menu-nested nav">
@@ -102,11 +102,11 @@
 						</div>
 						<div class="sb-sidenav-menu-heading">Analystics</div>
 						<a class="nav-link" href="charts.html">
-							<div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+							<div class="sb-nav-link-icon"><i class="fas fa-chart-area fa-fw"></i></div>
 							<span>Charts</span>
 						</a> 
 						<a class="nav-link" href="tables.html">
-							<div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+							<div class="sb-nav-link-icon"><i class="fas fa-table fa-fw"></i></div>
 							<span>Tables</span> 
 						</a>
 					</div>

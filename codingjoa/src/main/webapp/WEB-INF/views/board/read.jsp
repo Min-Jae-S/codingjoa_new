@@ -11,8 +11,9 @@
 <title><c:out value="${boardDetails.boardTitle}"/> | Codingjoa</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
-<link rel="stylesheet" href="${contextPath}/resources/css/common.css">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" rel="stylesheet" >
+<link href="${contextPath}/resources/css/common.css" rel="stylesheet" >
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="${contextPath}/resources/js/jquery.serialize.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
@@ -22,7 +23,6 @@
 <script src="${contextPath}/resources/js/likes.js"></script>
 <script src="${contextPath}/resources/js/handle-errors.js"></script>
 <script src="${contextPath}/resources/js/html-creator.js"></script>
-<!-- ckeditor -->
 <script src="${contextPath}/resources/ckeditor5/plugins/ckeditor-plugins.js"></script>
 <script src="${contextPath}/resources/ckeditor5/build/ckeditor.js"></script>
 <style>
@@ -58,9 +58,9 @@
 		text-decoration: none !important;
 	}
 	
-	.board-category:after {
+	/* .board-category:after {
 		content: "》";
-	}
+	} */
 	
 	.board-category:hover {
 		color: #007bff;
@@ -386,7 +386,7 @@
 			<div class="header-group">
 				<div class="board-utils mb-3">
 					<a class="board-category" href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}">
-						<c:out value="${category.categoryName}"/>
+						<c:out value="${category.categoryName}"/><i class="fa-solid fa-angle-right fa-fw"></i>
 					</a>
 					<div class="dropright ml-auto">
 						<button class="board-utils-btn btn" data-toggle="dropdown" data-offset="0,10" ${boardDetails.boardWriter ? '' : 'disabled'}>
