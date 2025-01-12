@@ -14,7 +14,7 @@ public class AdminController {
 	@GetMapping
 	public String main() {
 		log.info("## main");
-		return "admin/main";
+		return "admin/admin-main";
 	}
 	
 }

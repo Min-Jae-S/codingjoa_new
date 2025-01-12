@@ -31,18 +31,8 @@
 			<i class="fas fa-bars"></i>
 		</button>
 		
-		<!-- Navbar Search-->
-		<form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
-			<div class="input-group">
-				<input class="form-control" type="text" placeholder="Search for...">
-				<button class="btn btn-primary" id="btnNavbarSearch" type="button">
-					<i class="fas fa-search"></i>
-				</button>
-			</div>
-		</form>
-		
 		<!-- Navbar-->
-		<ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+		<ul class="navbar-nav ms-auto me-3"> <!-- ms-md-0 me-lg-4 -->
 			<li class="nav-item dropdown">
 			<a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 				<i class="fas fa-user fa-fw"></i>
@@ -64,15 +54,15 @@
 			<nav class="sb-sidenav accordion sb-sidenav-light" id="sidenavAccordion">
 				<div class="sb-sidenav-menu">
 					<div class="nav">
-						<div class="sb-sidenav-menu-heading">Core</div>
+						<div class="sb-sidenav-menu-heading">Users</div>
 						<a class="nav-link" href="index.html">
 							<div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-							<span>Dashboard</span>
+							<span>사용자 관리</span>
 						</a>
-						<div class="sb-sidenav-menu-heading">Interface</div>
+						<div class="sb-sidenav-menu-heading">Contents</div>
 						<a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
 							<div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
-							<span>Layouts</span>
+							<span>콘텐츠 관리</span>
 							<div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
 						</a>
 						<div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
@@ -83,7 +73,7 @@
 						</div>
 						<a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
 							<div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
-							<span>Pages</span>
+							<span>공지사항 관리</span>
 							<div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
 						</a>
 						<div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
@@ -110,7 +100,7 @@
 								</div>
 							</nav>
 						</div>
-						<div class="sb-sidenav-menu-heading">Addons</div>
+						<div class="sb-sidenav-menu-heading">Analystics</div>
 						<a class="nav-link" href="charts.html">
 							<div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
 							<span>Charts</span>
