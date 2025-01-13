@@ -121,10 +121,11 @@ li.nav-item {
 }
 
 .navbar-custom .navbar-nav .nav-item.active {
-	box-shadow: inset 0 -1px 0 0 #212529;
-	transition-property: box-shadow;
-	transition-duration: 0.2s;
-	transition-timing-function: ease-out;
+	box-shadow: inset 0 -2px 0 0 #212529;
+	transition: box-shadow 0.2s ease;
+	/* transition-property: box-shadow;
+	transition-duration: 0.1s;
+	transition-timing-function: ease; */
 }
 
 .navbar-custom .navbar-nav .nav-item.active .nav-link {
@@ -175,7 +176,16 @@ li.nav-item {
 	text-align: center;
 	left: 50%;
 	transform: translateX(-50%);
+	/* transform: translateX(-50%) scaleY(0);
+  	transform-origin: top;
+  	opacity: 0;
+ 	transition: transform 0.5s ease, opacity 0.5s ease; */
 }
+
+/* .navbar-nav .dropdown-menu.show {
+	transform: translateX(-50%) scaleY(1);
+  	opacity: 1;
+} */
 
 .navbar-nav .dropdown-item {
 	padding: 0.25rem 1rem;
@@ -277,4 +287,8 @@ footer {
 	margin-right: 0.65rem !important;
 	font-size: 1rem;	
 	
+}
+
+.sb-topnav .dropdown-menu {
+	top: calc(100% + /* */ );
 }

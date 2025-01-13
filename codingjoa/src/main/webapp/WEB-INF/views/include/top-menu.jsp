@@ -99,15 +99,16 @@
 <script src="${contextPath}/resources/js/html-creator.js"></script>
 <script>
 	$(function() {
-		let timer, delay = 200;
+		let timer; 
+		let delay = 200; // 0.2s
 		let $dropdowns = $("li.category div.dropdown-menu");
 		
 		$("li.category").on("mouseenter", function() {
 			clearTimeout(timer);
-			$(this).addClass("active");
-			
+		$(this).addClass("active");
 			let category = $(this).data("category");
 			let $dropdown = $(this).find("div.dropdown-menu");
+			
 			timer = setTimeout(function() {
 				categoryService.getCategoryListByParent(category, function(result) {
 					let categoryList = result.data;
