@@ -12,7 +12,7 @@
 		<div class="collapse navbar-collapse">
 			<ul class="navbar-nav">
 				<c:forEach var="parentCategory" items="${parentCategoryList}">
-					<li class="nav-item dropdown category mx-2" data-category="${parentCategory.categoryCode}" data-path="${parentCategory.categoryPath}">
+					<li class="nav-item dropdown category" data-category="${parentCategory.categoryCode}" data-path="${parentCategory.categoryPath}">
 						<a href="${contextPath}${parentCategory.categoryPath}" class="nav-link">
 							<c:out value="${parentCategory.categoryName}"/>
 						</a>
@@ -24,7 +24,7 @@
 						</div>
 					</li>
 				</c:forEach>
-				<li class="nav-item dropdown test mx-2">
+				<li class="nav-item dropdown test">
 					<a href="#" class="nav-link">TEST</a>
 					<div class="dropdown-menu">
 						<button class="dropdown-item" type="button" onclick="location.href='${contextPath}/login'">login</button>
@@ -43,23 +43,23 @@
 			<ul class="navbar-nav ml-auto">
 				<sec:authentication property="principal" var="principal"/>
 				<c:if test="${empty principal}">
-					<li class="nav-item mx-2">
+					<li class="nav-item">
 						<a href="${contextPath}/login?continue=${loginContinueUrl}" class="nav-link">로그인</a>
 					</li>
-					<li class="nav-item mx-2">
-						<a href="${contextPath}/member/join" class="nav-link rounded-md">회원가입</a>
+					<li class="nav-item">
+						<a href="${contextPath}/member/join" class="nav-link">회원가입</a>
 					</li>
 				</c:if>
 				<sec:authorize access="isAnonymous()">
-					<li class="nav-item mx-2">
+					<li class="nav-item">
 						<a href="${contextPath}/login?continue=${loginContinueUrl}" class="nav-link">로그인</a>
 					</li>
-					<li class="nav-item mx-2">
+					<li class="nav-item">
 						<a href="${contextPath}/member/join" class="nav-link">회원가입</a>
 					</li>
 				</sec:authorize>
 				<sec:authorize access="isAuthenticated()">
-					<li class="nav-item mx-2">
+					<li class="nav-item">
 						<a href="${contextPath}/member/account" class="nav-link nav-member-profile">
 							<c:choose>
 								<c:when test="${not empty principal.imageUrl}">
@@ -76,17 +76,17 @@
 						</a>
 					</li>
 					<li class="nav-item">
-						<span class="nav-link" style="pointer-events: none;">|</span>
+						<span class="nav-link vertical-divider"></span>
 					</li>
 					<sec:authorize access="hasRole('ROLE_ADMIN')">
-						<li class="nav-item mx-2">
+						<li class="nav-item">
 							<a href="${contextPath}/admin" class="nav-link">관리자 모드</a>
 						</li>
 					</sec:authorize>
-					<li class="nav-item mx-2">
+					<li class="nav-item">
 						<a href="${contextPath}/member/account" class="nav-link">계정 관리</a>
 					</li>
-					<li class="nav-item ml-2">
+					<li class="nav-item">
 						<a href="${contextPath}/logout?continue=${logoutContinueUrl}" class="nav-link">로그아웃</a>
 					</li>
 				</sec:authorize>
