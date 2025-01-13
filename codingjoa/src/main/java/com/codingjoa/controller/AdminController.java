@@ -10,11 +10,17 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/admin")
 @Controller
 public class AdminController {
-
+	
 	@GetMapping
 	public String main() {
 		log.info("## main");
 		return "admin/admin-main";
+	}
+	
+	@GetMapping("/index")
+	public String index() {
+		log.info("## main");
+		return "admin/index";
 	}
 	
 }
