@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -37,22 +39,28 @@
 		
 		<!-- Navbar-->
 		<ul class="navbar-nav ms-auto me-3"> <!-- ms-md-0 me-lg-4 -->
+			<sec:authentication property="principal" var="principal"/>
 			<li class="nav-item dropdown">
 			<a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown">
 				<i class="fas fa-user fa-fw"></i>
 			</a>
 				<ul class="dropdown-menu dropdown-menu-end">
 					<li>
-						<a class="dropdown-item" href="#!">내 정보</a>
-					</li>
-					<li>
-						<a class="dropdown-item" href="#!">Activity Log</a>
-					</li>
+						<div class="dropdown-item">
+							<img class="nav-member-image" src="${principal.imageUrl}">
+							<span class="font-weight-bold text-body">
+								<c:out value="${principal.nickname}"/>
+							</span>
+						</div>
+					</li>			
 					<li>
 						<hr class="dropdown-divider">
 					</li>
 					<li>
-						<a class="dropdown-item" href="#!">로그아웃</a>
+						<a href="${contextPath}/member/account" class="dropdown-item">계정 관리</a>
+					</li>
+					<li>
+						<a href="${contextPath}/logout?continue=${logoutContinueUrl}" class="dropdown-item">로그아웃</a>
 					</li>
 				</ul>
 			</li>

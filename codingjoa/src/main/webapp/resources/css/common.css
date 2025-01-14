@@ -92,6 +92,7 @@ textarea:focus::-webkit-input-placeholder {
 .navbar-custom div.logo-wrap {
 	display: flex;
 	align-items: center;
+	justify-content: center;
 	height: 100%;
 	margin-right: 4rem;
 }
@@ -103,13 +104,14 @@ textarea:focus::-webkit-input-placeholder {
 	padding: .5rem;
 }
 
-li.nav-item {
-	display: flex;
-	align-items: center;
-}
-
 .navbar-custom .navbar-nav {
 	flex-shrink: 0;
+}
+
+.navbar-custom .navbar-nav .nav-item {
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
 .navbar-custom .navbar-nav .nav-item.category:not(:last-of-type) {
@@ -117,7 +119,7 @@ li.nav-item {
 }
 
 .navbar-custom .navbar-nav .nav-item:not(:last-of-type) {
-	margin-right: 0.5rem; <!-- mr-2 -->
+	margin-right: 0.5rem; /* mr-2 */
 }
 
 .navbar-custom .navbar-nav .nav-item.active {
@@ -159,12 +161,12 @@ li.nav-item {
 	padding-bottom: 0;
 }
 
-.nav-member-image {
+.navbar-custom .nav-member-image {
 	width: 40px;
 	height: 40px;
+	margin-right: 12px;
 	border: 1px solid #dee2e6 !important;
-	border-radius: 0.5rem;
-	margin-right: 0.9rem;
+	border-radius: 50%;
 }
 
 .navbar-nav .dropdown-menu {
@@ -202,16 +204,16 @@ li.nav-item {
 	background-color: #e9ecef;
 }
 
-.navbar-nav .dropdown-item:first-of-type {
+.navbar-nav .dropdown-item:focus {
+	outline: 0;
+}
+
+.navbar-custom .navbar-nav .dropdown-item:first-of-type {
 	margin-top: 0.25rem;
 }
 
-.navbar-nav .dropdown-item:last-of-type {
+.navbar-custom .navbar-nav .dropdown-item:last-of-type {
 	margin-bottom: 0.25rem;
-}
-
-.navbar-nav .dropdown-item:focus {
-	outline: 0;
 }
 
 .w-10 {
@@ -291,6 +293,7 @@ footer {
 
 .sb-topnav .dropdown-menu {
 	top: calc(100% + 0.5rem);
+	width: 270px;
 	left: auto;
 	transform: none;
 }
@@ -301,4 +304,21 @@ footer {
 
 .sb-topnav .dropdown-item {
 	justify-content: flex-start;
+	margin: 12px 0 8px;
+	padding: 8px 20px;
+	height: auto;
 }
+
+.sb-topnav div.dropdown-item:hover {
+	background-color: transparent;
+}
+
+.sb-topnav .nav-member-image {
+	width: 50px;
+	height: 50px;
+	margin-right: 12px;
+	border-radius: 50%;
+	border: 1px solid #dee2e6 !important;
+}
+
+
