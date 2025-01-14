@@ -189,11 +189,11 @@ li.nav-item {
 
 .navbar-nav .dropdown-item {
 	padding: 0.25rem 1rem;
-	font-size: 0.9rem;
 	color: #525661;
 	font-weight: 400;
+	font-size: 0.95rem;
 	background-color: transparent;
-	height: 35px;
+	height: 40px;
 	z-index: 1000;
 }
 
@@ -290,5 +290,9 @@ footer {
 }
 
 .sb-topnav .dropdown-menu {
-	top: calc(100% + /* */ );
+	top: calc(100% + 0.5rem);
+}
+
+.sb-topnav .dropdown-divider {
+	margin: 0;
 }

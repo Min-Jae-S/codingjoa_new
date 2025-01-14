@@ -42,10 +42,18 @@
 				<i class="fas fa-user fa-fw"></i>
 			</a>
 				<ul class="dropdown-menu dropdown-menu-end">
-					<li><a class="dropdown-item" href="#!">Settings</a></li>
-					<li><a class="dropdown-item" href="#!">Activity Log</a></li>
-					<li><hr class="dropdown-divider"></li>
-					<li><a class="dropdown-item" href="#!">Logout</a></li>
+					<li>
+						<a class="dropdown-item" href="#!">내 정보</a>
+					</li>
+					<li>
+						<a class="dropdown-item" href="#!">Activity Log</a>
+					</li>
+					<li>
+						<hr class="dropdown-divider">
+					</li>
+					<li>
+						<a class="dropdown-item" href="#!">로그아웃</a>
+					</li>
 				</ul>
 			</li>
 		</ul>
