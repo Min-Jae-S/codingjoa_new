@@ -173,7 +173,6 @@ li.nav-item {
 	border-radius: 0 0 0.5rem 0.5rem;
 	margin: 0;
 	padding: 0;
-	text-align: center;
 	left: 50%;
 	transform: translateX(-50%);
 	/* transform: translateX(-50%) scaleY(0);
@@ -194,7 +193,9 @@ li.nav-item {
 	font-size: 0.95rem;
 	background-color: transparent;
 	height: 40px;
-	z-index: 1000;
+	display: flex;
+	align-items: center;
+    justify-content: center;
 }
 
 .navbar-nav .dropdown-item:hover {
@@ -286,13 +287,18 @@ footer {
 	margin-left: 0.5rem;
 	margin-right: 0.65rem !important;
 	font-size: 1rem;	
-	
 }
 
 .sb-topnav .dropdown-menu {
 	top: calc(100% + 0.5rem);
+	left: auto;
+	transform: none;
 }
 
 .sb-topnav .dropdown-divider {
 	margin: 0;
+}
+
+.sb-topnav .dropdown-item {
+	justify-content: flex-start;
 }

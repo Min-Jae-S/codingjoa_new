@@ -105,7 +105,7 @@
 		
 		$("li.category").on("mouseenter", function() {
 			clearTimeout(timer);
-		$(this).addClass("active");
+			$(this).addClass("active");
 			let category = $(this).data("category");
 			let $dropdown = $(this).find("div.dropdown-menu");
 			
@@ -123,7 +123,7 @@
 		$("li.category").on("mouseleave", function() {
 			clearTimeout(timer);
 			$(this).removeClass("active");
-			//$dropdowns.removeClass("show").empty();
+			$dropdowns.removeClass("show").empty();
 		});
 
 		
@@ -139,7 +139,7 @@
 
 		$("li.test").on("mouseleave", function() {
 			$(this).removeClass("active");
-			//$(this).find("div.dropdown-menu").removeClass("show");
+			$(this).find("div.dropdown-menu").removeClass("show");
 		});
 		
 	});
