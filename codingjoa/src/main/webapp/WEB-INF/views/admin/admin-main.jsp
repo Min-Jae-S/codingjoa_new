@@ -12,6 +12,8 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="${contextPath}/resources/sb/css/styles.css" rel="stylesheet">
 <link href="${contextPath}/resources/css/common.css" rel="stylesheet">
+<link href="${contextPath}/resources/fontawesome/css/all.css" rel="stylesheet">
+<script src="${contextPath}/resources/fontawesome/js/all.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <!-- data-toggle, data-target -->
 <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script> --> 
@@ -19,7 +21,6 @@
 
 <!-- data-bs-toggle, data-bs-target -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://kit.fontawesome.com/c503d71f81.js"></script>
 <script src="${contextPath}/resources/sb/js/scripts.js"></script>
 <script src="${contextPath}/resources/sb/js/datatables.js"></script>
 <style>
