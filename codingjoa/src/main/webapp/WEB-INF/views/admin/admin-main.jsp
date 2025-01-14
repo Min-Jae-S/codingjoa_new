@@ -42,25 +42,34 @@
 			<sec:authentication property="principal" var="principal"/>
 			<li class="nav-item dropdown">
 			<a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown">
-				<i class="fas fa-user fa-fw"></i>
+				<i class="fas fa-user-large fa-fw"></i>
 			</a>
 				<ul class="dropdown-menu dropdown-menu-end">
 					<li>
 						<div class="dropdown-item">
 							<img class="nav-member-image" src="${principal.imageUrl}">
-							<span class="font-weight-bold text-body">
-								<c:out value="${principal.nickname}"/>
-							</span>
+							<div>
+								<span class="font-weight-bold text-body">
+									<c:out value="${principal.email}"/>
+								</span></br>
+								<span class="font-weight-bold text-muted">
+									<c:out value="${principal.nickname}"/>
+								</span>
+							</div>
 						</div>
 					</li>			
 					<li>
 						<hr class="dropdown-divider">
 					</li>
-					<li>
-						<a href="${contextPath}/member/account" class="dropdown-item">계정 관리</a>
+					<li class="pt-2">
+						<a href="${contextPath}/member/account" class="dropdown-item">
+							<i class="fa-solid fa-user-large fa-fw"></i>계정 관리
+						</a>
 					</li>
-					<li>
-						<a href="${contextPath}/logout?continue=${logoutContinueUrl}" class="dropdown-item">로그아웃</a>
+					<li class="pb-2">
+						<a href="${contextPath}/logout?continue=${logoutContinueUrl}" class="dropdown-item">
+							<i class="fa-solid fa-arrow-right-from-bracket fa-fw"></i>로그아웃
+						</a>
 					</li>
 				</ul>
 			</li>

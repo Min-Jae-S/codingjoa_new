@@ -12,6 +12,10 @@ html, body {
     overflow-x: hidden;
 }
 
+html * {
+    font-family: Pretendard, -apple-system, BlinkMacSystemFont, Apple SD Gothic Neo, Malgun Gothic, 맑은 고딕, helvetica, sans-serif !important;
+}
+
 .container {
 	flex-grow: 1;
 	/* min-height: calc(100% - 56px - 56px); */
@@ -201,7 +205,7 @@ textarea:focus::-webkit-input-placeholder {
 }
 
 .navbar-nav .dropdown-item:hover {
-	background-color: #e9ecef;
+	background-color: hsla(221, 8%, 60%, .1);
 }
 
 .navbar-nav .dropdown-item:focus {
@@ -304,13 +308,29 @@ footer {
 
 .sb-topnav .dropdown-item {
 	justify-content: flex-start;
-	margin: 12px 0 8px;
-	padding: 8px 20px;
 	height: auto;
+	font-size: 1rem;
+}
+
+.sb-topnav div.dropdown-item {
+	margin-top: 12px;
+	margin-bottom: 12px;
+	padding: 8px 20px;
 }
 
 .sb-topnav div.dropdown-item:hover {
 	background-color: transparent;
+}
+
+.sb-topnav a.dropdown-item {
+	height: 48px;
+	padding-top: 0;
+	padding-bottom: 0;
+}
+
+.sb-topnav a.dropdown-item i {
+	font-size: 1.25rem;
+	margin-right: 15px;
 }
 
 .sb-topnav .nav-member-image {
